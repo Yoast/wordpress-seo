@@ -32,7 +32,8 @@
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.10",
+    "@babel/cli": "^7.24.1",
+    "@babel/core": "^7.24.4",
     "@yoast/babel-preset": "^1.1.1",
     "@yoast/jest-preset": "^1.0.1",
     "babel-plugin-styled-components": "^2.0.6",
@@ -42,6 +43,7 @@
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.34.1",
     "jest": "^27.5.1",
+    "jest-environment-jsdom": "^27.5.1",
     "jest-styled-components": "^7.0.8",
     "react-test-renderer": "^18.2.0"
   },
