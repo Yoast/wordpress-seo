@@ -25,21 +25,10 @@ overrides:
   - files:
       - "packages/*/tests/**/*.js"
       - "packages/*/spec/**/*.js"
-      # Temporary exclusion:
-      - "packages/components/a11y/tests/**/*.js"
     env:
       jest: true
     rules:
       no-restricted-imports: "off"
-  - files:
-      - "packages/components/**/*.js"
-    rules:
-      react/jsx-no-bind: 1
-      react/require-default-props: 1
-      react/default-props-match-prop-types: 1
-      react/no-unused-prop-types: 1
-      require-jsdoc: 1
-      import/no-unresolved: [ "error", { ignore: [ "^@yoast/(helpers|style-guide)" ] } ]
   - files:
       - "packages/social-metadata-forms/**/*.js"
     rules:
