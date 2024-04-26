@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { noop } from "lodash";
 
-import { SvgIcon, IconButtonToggle, IconCTAEditButton, BetaBadge } from "@yoast/components";
+import { SvgIcon, IconButtonToggle, IconCTAEditButton, BetaBadge, Button } from "@yoast/components";
 import { strings } from "@yoast/helpers";
 
 const { stripTagsFromHtmlString } = strings;
@@ -137,6 +137,14 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 					ariaLabel={ props.ariaLabelEdit }
 				/>
 			}
+			{ props.hasAIButton && props.isPremium &&
+				<Button
+					className={ props.AIButtonClassName }
+					// onClick={ props.onButtonClickEdit }
+					// id={ props.buttonIdEdit }
+					icon="robot"
+					ariaLabel={ props.ariaLabelEdit }
+				> Use AI</Button>}
 		</AnalysisResultBase>
 	);
 };
@@ -147,6 +155,7 @@ AnalysisResult.propTypes = {
 	bulletColor: PropTypes.string.isRequired,
 	hasMarksButton: PropTypes.bool.isRequired,
 	hasEditButton: PropTypes.bool,
+	hasAIButton: PropTypes.bool,
 	buttonIdMarks: PropTypes.string.isRequired,
 	buttonIdEdit: PropTypes.string,
 	pressed: PropTypes.bool.isRequired,
@@ -177,6 +186,7 @@ AnalysisResult.defaultProps = {
 	editButtonClassName: "",
 	hasBetaBadgeLabel: false,
 	hasEditButton: false,
+	hasAIButton: false,
 	buttonIdEdit: "",
 	ariaLabelEdit: "",
 	onButtonClickEdit: noop,
