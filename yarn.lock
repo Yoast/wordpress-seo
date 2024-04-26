@@ -11111,6 +11111,11 @@ __metadata:
   resolution: "@yoast/browserslist-config@workspace:packages/browserslist-config"
   dependencies:
     browserslist: "npm:^4.7.3"
+    eslint: "npm:^8.57.0"
+    eslint-config-yoast: "npm:^6.0.0"
+    eslint-plugin-import: "npm:^2.29.1"
+    eslint-plugin-jsx-a11y: "npm:^6.8.0"
+    eslint-plugin-react: "npm:^7.34.1"
     jest: "npm:^29.7.0"
   languageName: unknown
   linkType: soft
