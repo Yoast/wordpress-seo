@@ -76,21 +76,21 @@ class Primary_Term_Builder {
 		$term_id = $this->meta->get_value( 'primary_' . $taxonomy, $post_id );
 
 		$term_selected = ! empty( $term_id );
-		$primary_term  = $this->repository->find_by_post_id_and_taxonomy( $post_id, $taxonomy, $term_selected );
+		$primary_term_indexable  = $this->repository->find_by_post_id_and_taxonomy( $post_id, $taxonomy, $term_selected );
 
 		// Removes the indexable when no term found.
 		if ( ! $term_selected ) {
-			if ( $primary_term ) {
-				$primary_term->delete();
+			if ( $primary_term_indexable ) {
+				$primary_term_indexable->delete();
 			}
 
 			return;
 		}
 
-		$primary_term->term_id  = $term_id;
-		$primary_term->post_id  = $post_id;
-		$primary_term->taxonomy = $taxonomy;
-		$primary_term->blog_id  = \get_current_blog_id();
-		$primary_term->save();
+		$primary_term_indexable->term_id  = $term_id;
+		$primary_term_indexable->post_id  = $post_id;
+		$primary_term_indexable->taxonomy = $taxonomy;
+		$primary_term_indexable->blog_id  = \get_current_blog_id();
+		$primary_term_indexable->save();
 	}
 }
