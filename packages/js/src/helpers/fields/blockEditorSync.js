@@ -1,5 +1,5 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
-import { debounce, pickBy, reduce } from "lodash";
+import { debounce, reduce, mapKeys } from "lodash";
 import { createWatcher, createCollectorFromObject } from "../../helpers/create-watcher";
 import { STORES, META_FIELDS, SYNC_TIME, POST_META_KEY_PREFIX } from "../../shared-admin/constants";
 import { getPrimaryTerms } from "./primaryTaxonomiesFieldsStore";
@@ -11,7 +11,7 @@ import { transformMetaValue } from "./transform-meta-value";
  */
 const createUpdater = () => {
 	const { editPost } = dispatch( STORES.wp.editor );
-	const { getCurrentPost } = select( STORES.wp.core );
+	const { getCurrentPost } = select( STORES.wp.editor );
 	const { getEditedEntityRecord } = select( "core" );
 
 	/**
@@ -27,7 +27,18 @@ const createUpdater = () => {
 		}
 
 		const metadata = getEditedEntityRecord( "postType", currentPost.type, currentPost.id ).meta;
-		const changedData = pickBy( data, ( value, key ) => transformMetaValue( key, value ) !== metadata[ POST_META_KEY_PREFIX + key ] );
+
+		const changedData = reduce( data, ( acc, value, key ) => {
+			const fieldKey = key.replace( POST_META_KEY_PREFIX, "" );
+			const transformedValue = transformMetaValue( fieldKey, value );
+			const transformMetadataValue = transformMetaValue( fieldKey, metadata[ key ] );
+
+			if ( transformedValue !== transformMetadataValue ) {
+				acc[ key ] = transformedValue;
+			}
+			return acc;
+		}, data );
+
 		if ( changedData ) {
 			editPost( {
 				meta: changedData,
@@ -41,10 +52,10 @@ const createUpdater = () => {
  * @returns {function} The un-subscriber.
  */
 export const blockEditorSync = () => {
-	const primaryTaxonomiesGetters = getPrimaryTerms();
+	const primaryTaxonomiesGetters = mapKeys( getPrimaryTerms(), ( value, key ) => POST_META_KEY_PREFIX + key );
 
 	const getters = reduce( META_FIELDS, ( acc, value ) => {
-		acc[ value.key ] = select( STORES.editor )[ value.get ];
+		acc[ POST_META_KEY_PREFIX + value.key ] = select( STORES.editor )[ value.get ];
 		return acc;
 	}, {} );
 
