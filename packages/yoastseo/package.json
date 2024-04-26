@@ -29,8 +29,7 @@
     "build:js": "babel src --copy-files --source-maps --out-dir build",
     "build:types": "tsc",
     "clean": "rm -rf build",
-    "pretest": "grunt get-premium-configuration",
-    "test": "jest",
+    "test": "grunt get-premium-configuration && jest",
     "lint": "eslint src spec --max-warnings 10"
   },
   "engines": {
