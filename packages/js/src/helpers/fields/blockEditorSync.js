@@ -1,5 +1,5 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
-import { debounce, pickBy, mapKeys, reduce } from "lodash";
+import { debounce, pickBy, reduce } from "lodash";
 import { createWatcher, createCollectorFromObject } from "../../helpers/create-watcher";
 import { STORES, META_FIELDS, SYNC_TIME, POST_META_KEY_PREFIX } from "../../shared-admin/constants";
 import { getPrimaryTerms } from "./primaryTaxonomiesFieldsStore";
@@ -27,10 +27,7 @@ const createUpdater = () => {
 		}
 
 		const metadata = getEditedEntityRecord( "postType", currentPost.type, currentPost.id ).meta;
-		console.log( metadata );
 		const changedData = pickBy( data, ( value, key ) => transformMetaValue( key, value ) !== metadata[ POST_META_KEY_PREFIX + key ] );
-		console.log( { changedData } );
-
 		if ( changedData ) {
 			editPost( {
 				meta: changedData,

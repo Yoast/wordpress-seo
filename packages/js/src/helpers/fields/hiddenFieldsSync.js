@@ -24,7 +24,6 @@ export const createUpdater = () => {
 			const field = document.getElementById( prefix + key );
 			const tranformedValue = transformMetaValue( key, value );
 			if ( field && field.value !== tranformedValue ) {
-				console.log( field.value, value, key, tranformedValue )
 				field.value = tranformedValue;
 			}
 		} );
@@ -39,7 +38,7 @@ export const hiddenFieldsSync = () => {
 	const primaryTaxonomiesGetters = getPrimaryTerms();
 
 	const getters = reduce( META_FIELDS, ( acc, value ) => {
-		// check if value.get is a function in select( STORES.editor ) store 
+		// check if value.get is a function in select( STORES.editor ) store
 		if ( typeof select( STORES.editor )[ value.get ] === "function" ) {
 			acc[ value.key ] = select( STORES.editor )[ value.get ];
 		}
@@ -51,7 +50,7 @@ export const hiddenFieldsSync = () => {
 			...getters,
 			...primaryTaxonomiesGetters,
 			// Slug is added for elementor editor.
-			slug: select( STORES.editor ).getSnippetEditorSlug
+			slug: select( STORES.editor ).getSnippetEditorSlug,
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORES.editor );
