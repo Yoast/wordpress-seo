@@ -26,7 +26,7 @@ import InvalidTypeError from "../errors/invalidType";
 import MissingArgumentError from "../errors/missingArgument";
 import includesAny from "../helpers/includesAny";
 import { configureShortlinker } from "../helpers/shortlinker";
-import RelatedKeywordTaxonomyAssessor from "yoastseo/src/scoring/assessors/relatedKeywordTaxonomyAssessor";
+import RelatedKeywordTaxonomyAssessor from "../scoring/assessors/relatedKeywordTaxonomyAssessor";
 import Scheduler from "./scheduler";
 import Transporter from "./transporter";
 import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
