@@ -1,6 +1,6 @@
 const { Paper, App, interpreters, languageProcessing, assessments, helpers, assessors } = require( "yoastseo" );
 const express = require( "express" );
-const {  SEOAssessor, ContentAssessor, RelatedKeywordAssessor, InclusiveLanguageAssessor } = assessors;
+const { SEOAssessor, ContentAssessor, RelatedKeywordAssessor, InclusiveLanguageAssessor } = assessors;
 
 // Premium assessments
 const keyphraseDistribution = languageProcessing.researches.keyphraseDistribution;
