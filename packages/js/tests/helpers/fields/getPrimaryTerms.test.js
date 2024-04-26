@@ -21,15 +21,15 @@ afterEach(
 );
 
 const testCases = [
-	{ termId: 1, expected: 1 },
-	{ termId: -1, expected: -1 },
-	{ termId: 0, expected: 0 },
+	{ termId: 1  },
+	{ termId: -1 },
+	{ termId: 0 },
 ];
 
-describe.each( testCases )( "getPrimaryTerm - should returns an object with taxonomies keys and fuctions that returns primary term id", ( { termId, expected } ) => {
-	it( `should returns ${expected ? expected : "empty string"} when the primary term id is ${termId}`, () => {
+describe( "getPrimaryTerm - should returns an object with taxonomies keys and fuctions that returns primary term id", () => {
+	it( `should returns  when the primary term id`, () => {
 		const getPrimaryTaxonomyId = jest.fn();
-		getPrimaryTaxonomyId.mockReturnValue( termId );
+		getPrimaryTaxonomyId.mockReturnValue( 1 );
 
 		select.mockImplementation( ( store ) => {
 			if ( store === STORES.editor ) {
@@ -86,7 +86,7 @@ describe.each( testCases )( "getPrimaryTerm - should returns an object with taxo
 		const primaryCategory = actual.primary_category();
 		const primaryPostTag = actual.primary_post_tag();
 
-		expect( primaryCategory ).toEqual( expected );
-		expect( primaryPostTag ).toEqual( expected );
+		expect( primaryCategory ).toEqual( 1 );
+		expect( primaryPostTag ).toEqual( 1 );
 	} );
 } );

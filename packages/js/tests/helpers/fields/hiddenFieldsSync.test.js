@@ -1,6 +1,6 @@
 import { hiddenFieldsSync } from "../../../src/helpers/fields/hiddenFieldsSync";
 import { createCollectorFromObject, createWatcher } from "../../../src/helpers/create-watcher";
-import { mapKeys, debounce } from "lodash";
+import { reduce, debounce } from "lodash";
 import { subscribe, select } from "@wordpress/data";
 
 jest.mock( "@wordpress/data", () => ( {
@@ -13,7 +13,7 @@ jest.mock( "lodash", () => ( {
 	get: jest.fn( ()=> true ),
 	pickBy: jest.fn( () => {} ),
 	forEach: jest.fn(),
-	mapKeys: jest.fn( ()=>{
+	reduce: jest.fn( ()=>{
 		return { test: "test" };
 	} ),
 } ) );
@@ -34,7 +34,7 @@ describe( "hiddenFieldsSync", () => {
 		expect( subscribe ).toHaveBeenCalled();
 		expect( debounce ).toHaveBeenCalled();
 		expect( createWatcher ).toHaveBeenCalled();
-		expect( mapKeys ).toHaveBeenCalledTimes( 2 );
+		expect( reduce ).toHaveBeenCalledTimes( 2 );
 		expect( createCollectorFromObject ).toHaveBeenCalledWith( { test: "test" } );
 	} );
 } );
