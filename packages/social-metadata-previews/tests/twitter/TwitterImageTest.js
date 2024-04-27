@@ -21,11 +21,11 @@ describe( "TwitterImage Component", () => {
 					width: 600,
 				},
 				status: "loaded",
-			}
+			},
 		);
 
 		renderer.create(
-			<TwitterImage src={ imageUrl } isLarge={ true } />
+			<TwitterImage src={ imageUrl } isLarge={ true } />,
 		);
 
 		expect( determineImageProperties.handleImage ).toBeCalledWith( imageUrl, "Twitter", true );

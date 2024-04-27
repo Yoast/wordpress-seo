@@ -20,7 +20,7 @@ describe( "FacebookImage Component", () => {
 		} ) );
 
 		renderer.create(
-			<FacebookImage src={ imageUrl } />
+			<FacebookImage src={ imageUrl } />,
 		);
 
 		expect( determineImageProperties.handleImage ).toBeCalledWith( imageUrl, "Facebook" );

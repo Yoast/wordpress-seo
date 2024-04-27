@@ -30,10 +30,6 @@ overrides:
     rules:
       no-restricted-imports: "off"
   - files:
-      - "packages/social-metadata-previews/**/*.js"
-    rules:
-      import/no-unresolved: [ "error", { ignore: [ "^@yoast/(components|replacement-variable-editor|social-metadata-forms|style-guide)" ] } ]
-  - files:
       - "packages/**/tests/**/*Test.js"
     rules:
       no-console: 0
