@@ -1,9 +1,9 @@
 {
   "npmClient": "yarn",
-  "useWorkspaces": true,
   "version": "independent",
   "includeMergedTags": true,
   "ignoreChanges": [
     "packages/js/**"
-  ]
+  ],
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }
