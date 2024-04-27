@@ -5,6 +5,11 @@
  * Usage:
  * $ node config/scripts/sync-wp-dependencies.js [packageFolder1] [packageFolder2] ...
  * If no packageFolders are specified, all packages will be updated.
+ * If no semver modifier is specified, exact match will be used.
+ * Options:
+ *  --caret           Use caret (^) as semver modifier
+ *  --tilde           Use tilde (~) as semver modifier
+ *  --exact           Use no semver modifier
  *
  * What does it do?
  * Steps:
@@ -103,6 +108,12 @@ const packageFolderDisallowList = [
 	"postcss-preset",
 	"tailwindcss-preset",
 ];
+
+const SEMVER_MODIFIERS = {
+	exact: "",
+	caret: "^",
+	tilde: "~",
+};
 
 /**
  * Gets the lowest supported WordPress version.
@@ -207,26 +218,28 @@ const filterDependencies = ( dependencies, allowList ) => {
  * Gets the dependencies with the wanted versions.
  * @param {string[]} dependencies The dependencies we want to update.
  * @param {Object|Object<string,string>} listedVersions The versions of the dependencies we want to update.
+ * @param {string} [semverModifier] The semver modifier to use. Defaults to exact. See SEMVER_MODIFIERS.
  * @returns {string[]} The dependencies with the wanted versions.
  */
-const getDependenciesWithWantedVersions = ( dependencies, listedVersions ) => {
-	return dependencies.map( ( dependency ) => ( `${ dependency }@${ listedVersions[ dependency ] }` ) );
+const getDependenciesWithWantedVersions = ( dependencies, listedVersions, semverModifier = "" ) => {
+	return dependencies.map( ( dependency ) => ( `${ dependency }@${ semverModifier }${ listedVersions[ dependency ] }` ) );
 };
 
 /**
  * Syncs the dependencies for the specified package.
  * @param {string} packageFolder The package to sync the dependencies for.
  * @param {Object|Object<string,string>} wpDependencies The WordPress dependencies to sync with.
+ * @param {string} [semverModifier] The semver modifier to use. Defaults to exact. See SEMVER_MODIFIERS.
  * @returns {Promise<boolean>} A promise that resolves when the dependencies are synced.
  */
-const syncPackageDependenciesFor = async( packageFolder, wpDependencies ) => {
+const syncPackageDependenciesFor = async( packageFolder, wpDependencies, semverModifier ) => {
 	const packageJson = getPackageJsonForPackage( packageFolder );
 	let dependenciesToUpdate = Object.keys( getDependenciesFromPackageJson( packageJson ) );
 	// Filter out the dependencies we don't care about.
 	dependenciesToUpdate = filterDependencies( dependenciesToUpdate, wpPackagesAllowList );
 	// Filter out the dependencies that are unknown to WordPress.
 	dependenciesToUpdate = filterDependencies( dependenciesToUpdate, Object.keys( wpDependencies ) );
-	const dependenciesWithWantedVersions = getDependenciesWithWantedVersions( dependenciesToUpdate, wpDependencies );
+	const dependenciesWithWantedVersions = getDependenciesWithWantedVersions( dependenciesToUpdate, wpDependencies, semverModifier );
 
 	if ( dependenciesWithWantedVersions.length === 0 ) {
 		console.log( "=============================================" );
@@ -246,17 +259,14 @@ const syncPackageDependenciesFor = async( packageFolder, wpDependencies ) => {
 };
 
 /**
- * Gets the package folders from the process arguments.
+ * Filters the requested package folders.
  * Defaults to all packages if no arguments are provided.
  * Filters out folders that we don't want, or that don't have a package.json.
+ * @param {string[]} requestedPackages The requested packages.
  * @returns {string[]} Valid package folders.
  */
-const getPackageFoldersFromArguments = () => {
-	let packages = process.argv.slice( 2 );
-	if ( packages.length === 0 ) {
-		packages = readdirSync( "./packages" );
-	}
-
+const filterPackageFolders = ( requestedPackages = [] ) => {
+	const packages = requestedPackages.length === 0 ? readdirSync( "./packages" ) : requestedPackages;
 	return packages.filter( ( packageFolder ) => (
 		// Ignore folders that are not packages that run inside a WordPress environment.
 		! packageFolderDisallowList.includes( packageFolder ) &&
@@ -266,11 +276,52 @@ const getPackageFoldersFromArguments = () => {
 };
 
 /**
+ * Gets the semver modifier from the arguments.
+ * @param {string[]} args The arguments.
+ * @returns {string} The semver modifier.
+ */
+const getSemverModifierFromArguments = ( args ) => {
+	if ( args.includes( "--caret" ) ) {
+		return SEMVER_MODIFIERS.caret;
+	}
+	if ( args.includes( "--tilde" ) ) {
+		return SEMVER_MODIFIERS.tilde;
+	}
+
+	return SEMVER_MODIFIERS.exact;
+};
+
+/**
+ * Parses the arguments and returns commands.
+ * @param {string[]} args The arguments to parse.
+ * @returns {Object} The commands.
+ */
+const parseArguments = ( args ) => {
+	if ( args.includes( "--help" ) ) {
+		console.log( "Usage: node sync-wp-dependencies.js [packageFolder1] [packageFolder2] ..." );
+		console.log( "If no packageFolders are specified, all packages will be updated." );
+		console.log( "If no semver modifier is specified, exact match will be used." );
+		console.log( "Options:" );
+		console.log( "  --caret           Use caret (^) as semver modifier" );
+		console.log( "  --tilde           Use tilde (~) as semver modifier" );
+		console.log( "  --exact           Use no semver modifier" );
+		// eslint-disable-next-line no-process-exit
+		process.exit( 0 );
+	}
+
+	return {
+		packageFolders: filterPackageFolders( args.filter( ( arg ) => ! arg.startsWith( "--" ) ) ),
+		semverModifier: getSemverModifierFromArguments( args ),
+	};
+};
+
+/**
  * Syncs the WordPress dependencies for the specified packages (in command).
+ * @param {string[]} packageFolders The package folders to sync the dependencies for.
+ * @param {string} semverModifier The semver modifier to use. Defaults to exact. See SEMVER_MODIFIERS.
  * @returns {Promise<void>} A promise that resolves when the dependencies are synced.
  */
-const syncPackageDependencies = async() => {
-	const packageFolders = getPackageFoldersFromArguments();
+const syncPackageDependencies = async( { packageFolders, semverModifier } ) => {
 	if ( packageFolders.length === 0 ) {
 		console.error( "No valid package folders found" );
 		return;
@@ -283,7 +334,7 @@ const syncPackageDependencies = async() => {
 
 	const result = {};
 	for ( const packageFolder of packageFolders ) {
-		result[ packageFolder ] = await syncPackageDependenciesFor( packageFolder, wpDependencies );
+		result[ packageFolder ] = await syncPackageDependenciesFor( packageFolder, wpDependencies, semverModifier );
 	}
 
 	console.log( "=============================================" );
@@ -298,4 +349,4 @@ const syncPackageDependencies = async() => {
 	}
 };
 
-syncPackageDependencies();
+syncPackageDependencies( parseArguments( process.argv.slice( 2 ) ) );
