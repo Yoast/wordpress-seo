@@ -81,7 +81,7 @@ module.exports = function( grunt ) {
 			if ( ! issueResponse.ok ) {
 				grunt.log.warn(
 					`An issue could not be created. The GitHub API returned: ${ issueResponseData.message }\n\n` +
-					finalMessage
+					finalMessage,
 				);
 				return done();
 			}
@@ -91,13 +91,13 @@ module.exports = function( grunt ) {
 			if ( ! issueResponseData.milestone ) {
 				grunt.log.warn(
 					`The milestone could not be attached! (${ versionString })\n\n` +
-					finalMessage
+					finalMessage,
 				);
 				return done();
 			}
 
 			grunt.log.warn( finalMessage );
 			return done();
-		}
+		},
 	);
 };

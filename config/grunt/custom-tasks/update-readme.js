@@ -24,7 +24,7 @@ module.exports = function( grunt ) {
 			const releaseInChangelog = /[=] \d+\.\d+(\.\d+)? =/g;
 			const allReleasesInChangelog = changelog.match( releaseInChangelog );
 			const changelogVersions = allReleasesInChangelog.map(
-				element => parseVersion( element.slice( 2, element.length - 2 ) )
+				element => parseVersion( element.slice( 2, element.length - 2 ) ),
 			);
 
 			// Check if the current version already exists in the changelog.
@@ -35,7 +35,7 @@ module.exports = function( grunt ) {
 						versionNumber.minor === version.minor &&
 						versionNumber.patch === version.patch
 					);
-				} )
+				} ),
 			);
 
 			// Only if the current version is not in the changelog yet, and is not a patch, we remove old changelog entries.
@@ -50,13 +50,13 @@ module.exports = function( grunt ) {
 					const lowestVersion = `${lowestMajor}.${lowestMinor}`;
 					cleanedChangelog = changelog.replace(
 						new RegExp( "= " + lowestVersion + "(.|\\n)*= Earlier versions =" ),
-						"= Earlier versions ="
+						"= Earlier versions =",
 					);
 				} else {
 					// If there are multiple major versions in the changelog, remove all entries from the oldest major version.
 					cleanedChangelog = changelog.replace(
 						new RegExp( "= " + lowestMajor + "(.|\\n)*= Earlier versions =" ),
-						"= Earlier versions ="
+						"= Earlier versions =",
 					);
 				}
 
@@ -125,6 +125,6 @@ module.exports = function( grunt ) {
 			} );
 
 			grunt.task.run( "gitstatus:checkChangelog" );
-		}
+		},
 	);
 };

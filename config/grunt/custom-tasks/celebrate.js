@@ -11,6 +11,6 @@ module.exports = function( grunt ) {
 		function() {
 			grunt.log.writeln( "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉" );
 			grunt.log.writeln( "You should now merge the " + grunt.config.data.branchForRC + " branch back to trunk." );
-		}
+		},
 	);
 };
