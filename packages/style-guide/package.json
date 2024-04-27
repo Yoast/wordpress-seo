@@ -21,8 +21,8 @@
     "clean": "rm -rf build"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.10",
-    "@babel/core": "^7.17.10",
+    "@babel/cli": "^7.24.1",
+    "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.16.11",
     "@yoast/browserslist-config": "^1.2.3",
     "@yoast/helpers": "^0.17.0-alpha.0",

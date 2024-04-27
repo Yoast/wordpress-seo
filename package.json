@@ -33,7 +33,7 @@
     "sync:wp-deps": "node config/scripts/sync-wp-dependencies.js"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.5",
+    "@babel/core": "^7.24.4",
     "@slack/webhook": "^5.0.2",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/forms": "^0.5.2",
@@ -59,8 +59,6 @@
     "grunt-git": "^1.0.14",
     "grunt-prompt": "^1.3.3",
     "grunt-shell": "^3.0.1",
-    "jest": "^27.5.1",
-    "jest-styled-components": "^7.0.3",
     "lerna": "^6.4.1",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.5.1",

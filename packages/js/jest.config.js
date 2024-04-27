@@ -9,8 +9,10 @@ module.exports = {
 		"/tests/decorator/__mocks__/@wordpress/rich-text/index.js",
 		"/tests/test-utils.js",
 	],
-	// https://testing-library.com/docs/react-testing-library/setup#jest-27
-	testEnvironment: "jest-environment-jsdom",
+	testEnvironment: "jsdom",
+	testEnvironmentOptions: {
+		url: "http://localhost",
+	},
 	moduleNameMapper: {
 		"\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
 		"\\.(svg)$": "<rootDir>/tests/__mocks__/svgMock.js",
@@ -35,5 +37,4 @@ module.exports = {
 		"clover",
 		"text-summary",
 	],
-	testURL: "http://localhost/",
 };

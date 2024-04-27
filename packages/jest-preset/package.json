@@ -6,11 +6,12 @@
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "dependencies": {
-    "@wordpress/jest-preset-default": "^8.0.1",
-    "babel-jest": "^27.5.1"
+    "@wordpress/jest-preset-default": "^11.27.0",
+    "babel-jest": "^29.7.0"
   },
   "peerDependencies": {
-    "@babel/core": "^7.17.2",
-    "jest": "^27.5.1"
+    "@babel/core": "^7.24.4",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
   }
 }
