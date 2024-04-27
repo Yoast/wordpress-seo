@@ -7,7 +7,7 @@ exports[`DataModel should render with only the required props 1`] = `
 >
   <li
     style={
-      Object {
+      {
         "--yoast-width": "60%",
       }
     }

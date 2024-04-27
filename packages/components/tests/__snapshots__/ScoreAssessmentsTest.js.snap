@@ -59,8 +59,8 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
     <span
       className="c2 c4 score-assessments__item-text"
       dangerouslySetInnerHTML={
-        Object {
-          "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
+        {
+          "__html": "<a href="http://google.com">Posts with a <strong>bad</strong> SEO score</a>:",
         }
       }
     />
@@ -74,8 +74,8 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
     <span
       className="c2 c4 score-assessments__item-text"
       dangerouslySetInnerHTML={
-        Object {
-          "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
+        {
+          "__html": "<a href="http://google.com">Posts with an <strong>OK</strong> SEO score</a>:",
         }
       }
     />
@@ -142,8 +142,8 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
     <span
       className="c2 c4 score-assessments__item-text"
       dangerouslySetInnerHTML={
-        Object {
-          "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
+        {
+          "__html": "<a href="http://google.com">Posts with a <strong>bad</strong> SEO score</a>:",
         }
       }
     />
@@ -157,8 +157,8 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
     <span
       className="c2 c4 score-assessments__item-text"
       dangerouslySetInnerHTML={
-        Object {
-          "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
+        {
+          "__html": "<a href="http://google.com">Posts with an <strong>OK</strong> SEO score</a>:",
         }
       }
     />
@@ -225,8 +225,8 @@ exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
     <span
       className="c2 c4 score-assessments__item-text"
       dangerouslySetInnerHTML={
-        Object {
-          "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
+        {
+          "__html": "<a href="http://google.com">Posts with a <strong>bad</strong> SEO score</a>:",
         }
       }
     />
@@ -240,8 +240,8 @@ exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
     <span
       className="c2 c4 score-assessments__item-text"
       dangerouslySetInnerHTML={
-        Object {
-          "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
+        {
+          "__html": "<a href="http://google.com">Posts with an <strong>OK</strong> SEO score</a>:",
         }
       }
     />

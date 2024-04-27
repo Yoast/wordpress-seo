@@ -262,7 +262,7 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
       <div
         className="c10"
         dangerouslySetInnerHTML={
-          Object {
+          {
             "__html": "Do you know the essential first step of good SEO? It’s keyword research. In this training, 
 you’ll learn how to research and select the keywords that will guide searchers to your pages.",
           }

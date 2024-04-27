@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The CardDetails component matches the snapshot when given specific props 1`] = `
-Array [
+[
   .c1 ul {
   list-style-type: none;
   margin: 0;
@@ -37,7 +37,7 @@ Array [
     <div
       className="c1"
       dangerouslySetInnerHTML={
-        Object {
+        {
           "__html": "Do you know the essential first step of good SEO? It’s keyword research. In this training, 
 you’ll learn how to research and select the keywords that will guide searchers to your pages.",
         }
@@ -137,7 +137,7 @@ you’ll learn how to research and select the keywords that will guide searchers
 `;
 
 exports[`The empty CardDetails component matches the snapshot 1`] = `
-Array [
+[
   .c1 ul {
   list-style-type: none;
   margin: 0;
@@ -173,7 +173,7 @@ Array [
     <div
       className="c1"
       dangerouslySetInnerHTML={
-        Object {
+        {
           "__html": "",
         }
       }
