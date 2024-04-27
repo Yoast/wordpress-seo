@@ -47,7 +47,6 @@
     "@babel/preset-env": "^7.24.4",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^15.0.5",
-    "@testing-library/react-hooks": "^8.0.1",
     "@yoast/browserslist-config": "^1.2.3",
     "babel-plugin-styled-components": "^2.1.4",
     "eslint": "^8.57.0",
