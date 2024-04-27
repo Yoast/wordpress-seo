@@ -11304,8 +11304,10 @@ __metadata:
     babel-plugin-transform-object-rest-spread: "npm:^6.26.0"
     babel-preset-react: "npm:^6.24.1"
     browserslist: "npm:^4.7.3"
-    json: "npm:^11.0.0"
     styled-components: "npm:^5.3.6"
+  peerDependencies:
+    react: ^18.0.2
+    react-dom: ^18.0.2
   languageName: unknown
   linkType: soft
 
@@ -25494,15 +25496,6 @@ __metadata:
   bin:
     json5: lib/cli.js
   checksum: 10c0/5a04eed94810fa55c5ea138b2f7a5c12b97c3750bc63d11e511dcecbfef758003861522a070c2272764ee0f4e3e323862f386945aeb5b85b87ee43f084ba586c
-  languageName: node
-  linkType: hard
-
-"json@npm:^11.0.0":
-  version: 11.0.0
-  resolution: "json@npm:11.0.0"
-  bin:
-    json: lib/json.js
-  checksum: 10c0/330eea4d69902f775b5babd65848383e066765a9d9d9536e80dd369af89bfe3728408f1287c0ba40f5d90ead391542836ed010a8ed0c8169396b4aac3847a5bf
   languageName: node
   linkType: hard
 
