@@ -30,7 +30,7 @@
     "build:types": "tsc",
     "clean": "rm -rf build",
     "test": "grunt get-premium-configuration && jest",
-    "lint": "eslint src spec --max-warnings 10"
+    "lint": "eslint . --max-warnings 8"
   },
   "engines": {
     "node": ">=8.0.0"
