@@ -21745,14 +21745,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"grunt-git@npm:^1.0.14":
-  version: 1.0.14
-  resolution: "grunt-git@npm:1.0.14"
+"grunt-git@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "grunt-git@npm:1.1.1"
   dependencies:
     flopmang: "npm:^1.0.0"
   peerDependencies:
-    grunt: ~1.0.1
-  checksum: 10c0/2699cc3463b6096395c45d83af1191c9c58530c5a0aa51a9cf85f7999c96a1207eade70fc52e18ea614e332b113143a95d1062bcbc853274ec836d4c6fec782e
+    grunt: ^1.4.0
+  checksum: 10c0/3af36a014c213abf46c3d3de418e8a5b298049be9c50157c774f42165896a2f9a6ffaad86a7cf29067ccc046a956849a64e570d7208f694bcac6f20067208a9e
   languageName: node
   linkType: hard
 
@@ -38623,8 +38623,9 @@ __metadata:
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.34.1"
+    grunt: "npm:^1.6.1"
     grunt-contrib-clean: "npm:^2.0.1"
-    grunt-git: "npm:^1.0.14"
+    grunt-git: "npm:^1.1.1"
     grunt-prompt: "npm:^1.3.3"
     grunt-shell: "npm:^3.0.1"
     lerna: "npm:^8.1.2"
