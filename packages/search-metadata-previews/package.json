@@ -55,6 +55,10 @@
     "eslint-plugin-react": "^7.34.1",
     "jest-styled-components": "^7.0.3"
   },
+  "peerDependencies": {
+    "@draft-js-plugins/mention": "^5.0.0",
+    "draft-js": "^0.11.7"
+  },
   "publishConfig": {
     "access": "public"
   }
