@@ -20,13 +20,11 @@ module.exports = {
 		"find-with-regex": "<rootDir>/node_modules/find-with-regex/lib/index.js",
 		"^lodash-es$": "lodash",
 		"^lodash-es/(.*)$": "lodash/$1",
-		"@yoast/ui-library": "<rootDir>/../ui-library/src",
+		"@wordpress/i18n": [
+			"<rootDir>node_modules/@wordpress/i18n",
+			"<rootDir>/../../node_modules/@wordpress/i18n",
+		],
 	},
-	moduleDirectories: [
-		"<rootDir>/node_modules",
-		"<rootDir>/../../node_modules",
-		"node_modules",
-	],
 	collectCoverageFrom: [
 		"src/**/*.{js,jsx,ts,tsx}",
 	],
