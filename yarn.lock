@@ -11182,6 +11182,8 @@ __metadata:
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.34.1"
+    jest: "npm:^29.7.0"
+    jest-environment-jsdom: "npm:^29.7.0"
     jest-styled-components: "npm:^7.0.3"
     lodash: "npm:^4.17.11"
     prop-types: "npm:^15.7.2"
