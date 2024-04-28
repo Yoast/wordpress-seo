@@ -98,7 +98,6 @@ jobs:
           node --version
           yarn --version
           grunt --version
-          yarn run jest --version
 
       - name: Build all packages
         run: yarn run build --ignore "@yoast/wordpress-seo"
@@ -194,7 +193,6 @@ jobs:
           node --version
           yarn --version
           grunt --version
-          yarn run jest --version
 
       - name: Build all packages
         if: ${{ steps.checks-run.outputs.should == 'true' }}
