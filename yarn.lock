@@ -11452,7 +11452,6 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-helmet: "npm:^6.1.0"
     react-hotkeys-hook: "npm:^4.0.5"
-    react-intl: "npm:^2.4.0"
     react-redux: "npm:^8.1.3"
     react-router-dom: "npm:^6.26.2"
     react-select: "npm:^3.1.0"
@@ -23274,33 +23273,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"intl-format-cache@npm:^2.0.5":
-  version: 2.2.9
-  resolution: "intl-format-cache@npm:2.2.9"
-  checksum: 10c0/2b294e187e20fd6456df60046ae0893e5ba3155e180ed9bc43cc50bddab38062430e45c2f43c389c42c43ccb835f230a0eaceedc96626e533c23beec652bb2d0
-  languageName: node
-  linkType: hard
-
-"intl-messageformat-parser@npm:1.4.0":
-  version: 1.4.0
-  resolution: "intl-messageformat-parser@npm:1.4.0"
-  checksum: 10c0/b599eadc9afbb7fac9a967f90a5acee61363c4558e1a792d4053dd5361e2d829bda580f553d1757f207837b97bd44edb1a37f90b48cd06d8545f737bcd3f639f
-  languageName: node
-  linkType: hard
-
 "intl-messageformat-parser@npm:^1.8.1":
   version: 1.8.1
   resolution: "intl-messageformat-parser@npm:1.8.1"
   checksum: 10c0/41d5e018d5226ebb77695985367639f302b69c609730268ec945e627c5756b7d19a220e392f7257159d0fea257ba46c44460815581d87992c321276a7a2252ed
-  languageName: node
-  linkType: hard
-
-"intl-messageformat@npm:^2.0.0, intl-messageformat@npm:^2.1.0":
-  version: 2.2.0
-  resolution: "intl-messageformat@npm:2.2.0"
-  dependencies:
-    intl-messageformat-parser: "npm:1.4.0"
-  checksum: 10c0/b8024207ca77f1bcac5302f16d3b42a4faed7afe716d2422c2fc67b9000112dea1854073544712d536229c52e241a9c943cf5921791bb63302185c5f3df89b78
   languageName: node
   linkType: hard
 
@@ -23310,15 +23286,6 @@ __metadata:
   dependencies:
     intl-messageformat-parser: "npm:^1.8.1"
   checksum: 10c0/ae0545f31d0d52939de9307d74f109a31e2367bdc43ec839a8920dc69ddcd2a1795b93d5f3dd7d9086b1c6b15bc824b9c71e82a2598dbeb8989dffdc4b7aa9fe
-  languageName: node
-  linkType: hard
-
-"intl-relativeformat@npm:^2.1.0":
-  version: 2.2.0
-  resolution: "intl-relativeformat@npm:2.2.0"
-  dependencies:
-    intl-messageformat: "npm:^2.0.0"
-  checksum: 10c0/610290d59366bcedd85626141eb719b8ee37aac02b54d93964f9b55bf45e2bc022fc7877667763056a2a0cd2e7b173d9a02adf0141869b2942ca2395af40cc1e
   languageName: node
   linkType: hard
 
@@ -23332,7 +23299,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"invariant@npm:^2.1.1, invariant@npm:^2.2.4":
+"invariant@npm:^2.2.4":
   version: 2.2.4
   resolution: "invariant@npm:2.2.4"
   dependencies:
@@ -32227,22 +32194,6 @@ __metadata:
   peerDependencies:
     react: ^0.14.9 || ^15.3.0 || ^16.0.0-rc || ^16.0
   checksum: 10c0/e60611ef36589d5ad6ce190f4bb77935835da95f6cbd384abaa3fdb689ebe7b9b65592292a8150140ce5401529cacf92ce43b59911817e64f7f276238cd44315
-  languageName: node
-  linkType: hard
-
-"react-intl@npm:^2.4.0":
-  version: 2.9.0
-  resolution: "react-intl@npm:2.9.0"
-  dependencies:
-    hoist-non-react-statics: "npm:^3.3.0"
-    intl-format-cache: "npm:^2.0.5"
-    intl-messageformat: "npm:^2.1.0"
-    intl-relativeformat: "npm:^2.1.0"
-    invariant: "npm:^2.1.1"
-  peerDependencies:
-    prop-types: ^15.5.4
-    react: ^0.14.9 || ^15.0.0 || ^16.0.0
-  checksum: 10c0/95840a22e0ac703012622d0d1b178188f562b98399669b3ab059c098facd91ca7ff0f4a89b1b08b6e792f3e36d9fcd0673c0c8e59e1564b0f0ee46b24be659fe
   languageName: node
   linkType: hard
 
