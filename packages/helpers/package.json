@@ -27,6 +27,7 @@
     "prop-types": "^15.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-is": "^18.2.0",
     "styled-components": "^5.3.6",
     "tokenizer2": "^2.0.1",
     "whatwg-fetch": "1.1.1",

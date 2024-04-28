@@ -32,6 +32,7 @@
     "prop-types": "^15.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-is": "^18.2.0",
     "react-modal": "^3.16.1",
     "react-select": "^3.1.0",
     "react-tabs": "^2.3.0",
