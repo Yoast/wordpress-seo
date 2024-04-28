@@ -11447,7 +11447,6 @@ __metadata:
     raf: "npm:^3.4.1"
     react: "npm:^18.2.0"
     react-animate-height: "npm:^2.0.23"
-    react-aria-live: "npm:^2.0.5"
     react-chartjs-2: "npm:^5.2.0"
     react-dom: "npm:^18.2.0"
     react-helmet: "npm:^6.1.0"
@@ -31965,17 +31964,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-aria-live@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "react-aria-live@npm:2.0.5"
-  dependencies:
-    uuid: "npm:^3.2.1"
-  peerDependencies:
-    react: ^16.3.x
-  checksum: 10c0/cdbf71a61282ff38945fb524de6de9f00302fa5f047ed19b7a5ff87b325680b97043b0b07e00f4fa0217db7a46a1c130030876728e11d5440b84d007c7b97168
-  languageName: node
-  linkType: hard
-
 "react-autosize-textarea@npm:^7.1.0":
   version: 7.1.0
   resolution: "react-autosize-textarea@npm:7.1.0"
@@ -37783,7 +37771,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^3.0.1, uuid@npm:^3.2.1, uuid@npm:^3.3.2":
+"uuid@npm:^3.0.1, uuid@npm:^3.3.2":
   version: 3.4.0
   resolution: "uuid@npm:3.4.0"
   bin:

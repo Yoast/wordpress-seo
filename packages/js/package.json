@@ -56,7 +56,6 @@
     "moment-duration-format": "^2.2.2",
     "prop-types": "^15.5.10",
     "react-animate-height": "^2.0.23",
-    "react-aria-live": "^2.0.5",
     "react-chartjs-2": "^5.2.0",
     "react-helmet": "^6.1.0",
     "react-hotkeys-hook": "^4.0.5",
