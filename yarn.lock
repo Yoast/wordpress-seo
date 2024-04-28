@@ -10994,7 +10994,7 @@ __metadata:
     raf: "npm:^3.4.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
-    react-modal: "npm:^3.8.1"
+    react-modal: "npm:^3.16.1"
     react-select: "npm:^3.1.0"
     react-tabs: "npm:^2.3.0"
     react-test-renderer: "npm:^18.2.0"
@@ -32288,18 +32288,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-modal@npm:^3.8.1":
-  version: 3.12.1
-  resolution: "react-modal@npm:3.12.1"
+"react-modal@npm:^3.16.1, react-modal@npm:^3.8.1":
+  version: 3.16.1
+  resolution: "react-modal@npm:3.16.1"
   dependencies:
     exenv: "npm:^1.2.0"
-    prop-types: "npm:^15.5.10"
+    prop-types: "npm:^15.7.2"
     react-lifecycles-compat: "npm:^3.0.0"
     warning: "npm:^4.0.3"
   peerDependencies:
-    react: ^0.14.0 || ^15.0.0 || ^16 || ^17
-    react-dom: ^0.14.0 || ^15.0.0 || ^16 || ^17
-  checksum: 10c0/62502c9068f4b8a10f775634c41cb16ba6aa110402b08731c9bccf9785ee6452ab031a3f90d2ad8a567112707c4b8e5a80c39c7d9bdb7da094a50987a8c00f12
+    react: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18
+    react-dom: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18
+  checksum: 10c0/7b56e2c505b2b924736c471a34754a4211df40ac2d6fb0949cf095aea5e65d3326bd9f111fa7898acf40afa54f526809ad8aa47e02b8328663d11422568dc7b1
   languageName: node
   linkType: hard
 

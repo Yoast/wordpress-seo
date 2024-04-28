@@ -29,7 +29,6 @@ const SearchAppearanceModal = () => {
 		<EditorModal
 			title={ __( "Search appearance", "wordpress-seo" ) }
 			id="yoast-search-appearance-modal"
-			shouldCloseOnClickOutside={ false }
 			SuffixHeroIcon={ <StyledHeroIcon className="yst-text-slate-500" { ...svgAriaProps } /> }
 		>
 			{ isElementorEditor === true && <ElementorSnippetEditor showCloseButton={ false } hasPaperStyle={ false } /> }
