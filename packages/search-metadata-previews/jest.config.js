@@ -5,8 +5,6 @@ const config = {
 	],
 	setupFilesAfterEnv: [ "<rootDir>/tests/setupTests.js" ],
 	moduleNameMapper: {
-		"^lodash-es$": "lodash",
-		"^lodash-es/(.*)$": "lodash/$1",
 		"\\.css$": "<rootDir>/tests/CSSStub.js",
 	},
 	collectCoverageFrom: [
