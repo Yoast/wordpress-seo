@@ -16,7 +16,7 @@
     "@wordpress/a11y": "^2.15.1",
     "@wordpress/api-fetch": "^6.13.0",
     "@wordpress/block-editor": "^5.3.1",
-    "@wordpress/blocks": "^11.1.2",
+    "@wordpress/blocks": "^12.28.6",
     "@wordpress/components": "^25.8.14",
     "@wordpress/compose": "^3.25.3",
     "@wordpress/data": "^4.10.0",
