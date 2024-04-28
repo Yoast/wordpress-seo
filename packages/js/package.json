@@ -54,8 +54,10 @@
     "moment": "^2.29.4",
     "moment-duration-format": "^2.2.2",
     "prop-types": "^15.5.10",
+    "react": "^18.2.0",
     "react-animate-height": "^2.0.23",
     "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-hotkeys-hook": "^4.0.5",
     "react-is": "^18.2.0",
@@ -87,8 +89,6 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-styled-components": "^7.2.0",
     "raf": "^3.4.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-test-renderer": "^18.2.0"
   }
 }
