@@ -68,6 +68,8 @@ class ContentAnalysis extends React.Component {
 					isPremium={ this.props.isPremium }
 					onResultChange={ this.props.onResultChange }
 					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+					aiButtonClassName={ this.props.aiButtonClassName }
+					renderAIButton={ this.props.renderAIButton }
 					renderHighlightingUpsell={ this.props.renderHighlightingUpsell }
 				/>
 			</StyledCollapsible>
@@ -156,6 +158,8 @@ ContentAnalysis.propTypes = {
 	onResultChange: PropTypes.func,
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
+	renderAIButton: PropTypes.func,
+	aiButtonClassName: PropTypes.string,
 };
 
 ContentAnalysis.defaultProps = {
@@ -178,6 +182,8 @@ ContentAnalysis.defaultProps = {
 	onResultChange: () => {},
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: () => {},
+	renderAIButton: () => {},
+	aiButtonClassName: "",
 };
 
 export default ContentAnalysis;

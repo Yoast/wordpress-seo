@@ -137,14 +137,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 					ariaLabel={ props.ariaLabelEdit }
 				/>
 			}
-			{ props.hasAIButton && props.isPremium &&
-				<Button
-					className={ props.AIButtonClassName }
-					// onClick={ props.onButtonClickEdit }
-					// id={ props.buttonIdEdit }
-					icon="robot"
-					ariaLabel={ props.ariaLabelEdit }
-				> Use AI</Button>}
+			{ props.isPremium && props.hasAIFixes && props.renderAIButton( props.aiButtonClassName ) }
 		</AnalysisResultBase>
 	);
 };
@@ -156,6 +149,7 @@ AnalysisResult.propTypes = {
 	hasMarksButton: PropTypes.bool.isRequired,
 	hasEditButton: PropTypes.bool,
 	hasAIButton: PropTypes.bool,
+	hasAIFixes: PropTypes.bool,
 	buttonIdMarks: PropTypes.string.isRequired,
 	buttonIdEdit: PropTypes.string,
 	pressed: PropTypes.bool.isRequired,
@@ -177,6 +171,8 @@ AnalysisResult.propTypes = {
 	] ),
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
+	renderAIButton: PropTypes.func,
+	aiButtonClassName: PropTypes.string,
 };
 
 AnalysisResult.defaultProps = {
@@ -184,9 +180,10 @@ AnalysisResult.defaultProps = {
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
 	editButtonClassName: "",
+	aiButtonClassName: "",
 	hasBetaBadgeLabel: false,
 	hasEditButton: false,
-	hasAIButton: false,
+	hasAIFixes: false,
 	buttonIdEdit: "",
 	ariaLabelEdit: "",
 	onButtonClickEdit: noop,
@@ -196,6 +193,7 @@ AnalysisResult.defaultProps = {
 	marker: noop,
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: noop,
+	renderAIButton: noop,
 };
 
 export default AnalysisResult;

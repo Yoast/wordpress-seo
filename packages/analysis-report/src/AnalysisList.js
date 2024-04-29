@@ -93,6 +93,7 @@ export default function AnalysisList( props ) {
 				bulletColor={ color }
 				hasMarksButton={ result.hasMarks }
 				hasEditButton={ result.hasJumps }
+				hasAIFixes={ result.hasAIFixes }
 				ariaLabelMarks={ ariaLabelMarks }
 				ariaLabelEdit={ ariaLabelEdit }
 				pressed={ isMarkButtonPressed }
@@ -103,12 +104,14 @@ export default function AnalysisList( props ) {
 				onButtonClickEdit={ () => props.onEditButtonClick( result.id ) }
 				marksButtonClassName={ props.marksButtonClassName }
 				editButtonClassName={ props.editButtonClassName }
+				aiButtonClassName={ props.aiButtonClassName }
 				marksButtonStatus={ props.marksButtonStatus }
 				hasBetaBadgeLabel={ result.hasBetaBadge }
 				isPremium={ props.isPremium }
 				onResultChange={ props.onResultChange }
 				markButtonFactory={ props.markButtonFactory }
 				shouldUpsellHighlighting={ props.shouldUpsellHighlighting }
+				renderAIButton={ props.renderAIButton }
 				renderHighlightingUpsell={ props.renderHighlightingUpsell }
 			/>;
 		} ) }
@@ -128,6 +131,8 @@ AnalysisList.propTypes = {
 	onResultChange: PropTypes.func,
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
+	renderAIButton: PropTypes.func,
+	aiButtonClassName: PropTypes.string,
 };
 
 AnalysisList.defaultProps = {
@@ -141,4 +146,6 @@ AnalysisList.defaultProps = {
 	onResultChange: noop,
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: noop,
+	renderAIButton: noop,
+	aiButtonClassName: "",
 };

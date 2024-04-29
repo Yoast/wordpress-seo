@@ -20,6 +20,9 @@ import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
+import { Button } from "@yoast/ui-library";
+import isBlockEditor from "../../helpers/isBlockEditor";
+import noop from "lodash/noop";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -189,6 +192,14 @@ class SeoAnalysis extends Component {
 		];
 	}
 
+	renderAIButton( className ) {
+		return <Button
+			className={ className }
+			// onClick={ props.onButtonClickEdit }
+			// id={ props.buttonIdEdit }
+		> Use AI</Button>;
+	}
+
 	/**
 	 * Renders the SEO Analysis component.
 	 *
@@ -243,10 +254,12 @@ class SeoAnalysis extends Component {
 												upsellResults={ upsellResults }
 												marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 												editButtonClassName="yoast-tooltip yoast-tooltip-w"
+												aiButtonClassName="yoast-tooltip yoast-tooltip-w"
 												marksButtonStatus={ this.props.marksButtonStatus }
 												location={ location }
 												shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 												highlightingUpsellLink={ highlightingUpsellLink }
+												renderAIButton={ isBlockEditor() ? this.renderAIButton : noop }
 											/>
 										</Collapsible>
 										{ this.renderTabIcon( location, score.className ) }
