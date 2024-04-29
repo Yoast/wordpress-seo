@@ -265,7 +265,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 						[
 							'parent' => self::MENU_IDENTIFIER,
 							'id'     => 'wpseo-frontend-inspector',
-							'href'   => $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-frontend-inspector' ),
+							'href'   => esc_url( $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-frontend-inspector' ) ),
 							'title'  => __( 'Front-end SEO inspector', 'wordpress-seo' ) . new Premium_Badge_Presenter( 'wpseo-frontend-inspector-badge' ),
 							'meta'   => [
 								'tabindex' => '0',
