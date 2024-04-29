@@ -368,7 +368,6 @@ class Results extends Component {
 					onResultChange={ this.handleResultsChange }
 					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 					renderAIButton={ this.props.renderAIButton }
-					aiButtonClassName={ this.props.aiButtonClassName }
 					renderHighlightingUpsell={ this.renderHighlightingUpsell }
 					markButtonFactory={ this.createMarkButton }
 				/>
@@ -399,7 +398,6 @@ Results.propTypes = {
 	shortcodesForParsing: PropTypes.array,
 	shouldUpsellHighlighting: PropTypes.bool,
 	highlightingUpsellLink: PropTypes.string,
-	aiButtonClassName: PropTypes.string,
 	renderAIButton: PropTypes.func,
 };
 
@@ -417,7 +415,6 @@ Results.defaultProps = {
 	shortcodesForParsing: [],
 	shouldUpsellHighlighting: false,
 	highlightingUpsellLink: "",
-	aiButtonClassName: "",
 	renderAIButton: () => {},
 };
 

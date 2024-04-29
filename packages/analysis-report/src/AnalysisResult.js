@@ -137,7 +137,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 					ariaLabel={ props.ariaLabelEdit }
 				/>
 			}
-			{ props.isPremium && props.hasAIFixes && props.renderAIButton( props.aiButtonClassName ) }
+			{ props.isPremium && props.hasAIFixes && props.renderAIButton() }
 		</AnalysisResultBase>
 	);
 };
@@ -172,7 +172,6 @@ AnalysisResult.propTypes = {
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
 	renderAIButton: PropTypes.func,
-	aiButtonClassName: PropTypes.string,
 };
 
 AnalysisResult.defaultProps = {
@@ -180,7 +179,6 @@ AnalysisResult.defaultProps = {
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
 	editButtonClassName: "",
-	aiButtonClassName: "",
 	hasBetaBadgeLabel: false,
 	hasEditButton: false,
 	hasAIFixes: false,

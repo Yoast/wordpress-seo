@@ -104,7 +104,6 @@ export default function AnalysisList( props ) {
 				onButtonClickEdit={ () => props.onEditButtonClick( result.id ) }
 				marksButtonClassName={ props.marksButtonClassName }
 				editButtonClassName={ props.editButtonClassName }
-				aiButtonClassName={ props.aiButtonClassName }
 				marksButtonStatus={ props.marksButtonStatus }
 				hasBetaBadgeLabel={ result.hasBetaBadge }
 				isPremium={ props.isPremium }
@@ -132,7 +131,6 @@ AnalysisList.propTypes = {
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
 	renderAIButton: PropTypes.func,
-	aiButtonClassName: PropTypes.string,
 };
 
 AnalysisList.defaultProps = {
@@ -147,5 +145,4 @@ AnalysisList.defaultProps = {
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: noop,
 	renderAIButton: noop,
-	aiButtonClassName: "",
 };
