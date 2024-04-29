@@ -322,7 +322,7 @@ Release date: 2024-04-30
 #### Enhancements
 
 * Adds a helpful error message in the Yoast sidebar/metabox in case of plugin or theme conflicts. Now when an unknown error occurs, the error is caught and an error message is shown. Before, the error would lead to a blank sidebar/metabox, or to an entire blank page.
-* Improves performance on the users' metadata, most visible in the author sitemap creation.
+* Improves performance when it comes to storing user metadata, most visible at the point of author sitemap creation.
 * Improves the keyphrase detection in SEO title for Arabic and Hebrew. For example, when the keyphrase is \"باندا حمراء\" and the SEO title starts with \"الباندا الحمراء\", we now recognize this as an exact match and give a good result for the _keyphrase in SEO title_ assessment.
 
 #### Bugfixes
