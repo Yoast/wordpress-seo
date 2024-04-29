@@ -126,7 +126,7 @@ PostDataCollector.prototype.getText = function() {
  * @returns {string} The title.
  */
 PostDataCollector.prototype.getTitle = function() {
-	return document.getElementById( "title" ) && document.getElementById( "title" ).value || "";
+	return ( document.getElementById( "title" ) && document.getElementById( "title" ).value ) || "";
 };
 
 /**

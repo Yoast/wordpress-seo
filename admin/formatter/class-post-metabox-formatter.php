@@ -89,6 +89,12 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
 				'metadata'                    => $this->get_post_meta_data(),
 				'schemaDefaults'              => $this->get_schema_defaults( $this->post->post_type ),
+				'post'                        => [
+					'id'     => $this->post->ID,
+					'type'   => $this->post->post_type,
+					'slug'   => $this->post->post_name,
+					'status' => $this->post->post_status,
+				],
 			];
 
 			$values = ( $values_to_set + $values );

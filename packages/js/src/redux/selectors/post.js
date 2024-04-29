@@ -11,3 +11,9 @@ export const getPostId = ( state ) => get( state, "post.id", null );
  * @returns {string} Is post or term.
  */
 export const getIsPost = ( state ) => get( state, "post.isPost", null );
+
+/**
+ * @param {Ojbect} state The current Redux state.
+ * @returns {string} Is post or term.
+ */
+export const getPostType = ( state ) => get( state, "post.type", null );

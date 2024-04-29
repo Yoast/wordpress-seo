@@ -34,10 +34,8 @@ import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
 import {
-	getDataFromCollector,
 	getDataFromStore,
 	getDataWithoutTemplates,
-	getDataWithTemplates,
 	getTemplatesFromL10n,
 } from "../analysis/snippetEditor";
 import CustomAnalysisData from "../analysis/CustomAnalysisData";
@@ -513,12 +511,9 @@ export default function initPostScraper( $, store, editorData ) {
 		}
 
 		// Initialize the snippet editor data.
-		let snippetEditorData = getDataFromCollector( postDataCollector );
-		const snippetEditorTemplates = getTemplatesFromL10n( wpseoScriptData.metabox );
-		snippetEditorData = getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
-		// Set the initial snippet editor data.
-		store.dispatch( updateData( snippetEditorData ) );
+		const snippetEditorTemplates = getTemplatesFromL10n( wpseoScriptData.metabox );
+		const snippetEditorData = store.getState().snippetEditor.data;
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = store.getState().focusKeyword;

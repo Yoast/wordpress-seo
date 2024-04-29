@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+import { trim } from "lodash";
 
 /**
  * Prepare value to be saved in hidden field.
@@ -30,6 +31,8 @@ export const transformMetaValue = ( key, value ) => {
 			return value ? "1" : "0";
 		case key === "meta-robots-adv":
 			return Array.isArray( value ) ? value.join() : value;
+		case key === "title":
+			return trim( value );
 		default:
 			return value;
 	}
