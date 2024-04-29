@@ -6,6 +6,7 @@ use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Ancestor_Watcher;
@@ -85,6 +86,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->indexable_repository           = Mockery::mock( Indexable_Repository::class );
 		$this->indexable_hierarchy_builder    = Mockery::mock( Indexable_Hierarchy_Builder::class );
 		$this->indexable_hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
+		$this->indexable_helper               = Mockery::mock( Indexable_Helper::class );
 		$this->permalink_helper               = Mockery::mock( Permalink_Helper::class );
 		$this->post_type_helper               = Mockery::mock( Post_Type_Helper::class );
 
@@ -92,6 +94,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 			$this->indexable_repository,
 			$this->indexable_hierarchy_builder,
 			$this->indexable_hierarchy_repository,
+			$this->indexable_helper,
 			$this->permalink_helper,
 			$this->post_type_helper
 		);
@@ -200,7 +203,6 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 		$child_indexable            = Mockery::mock( Indexable_Mock::class );
 		$child_indexable->permalink = 'https://example.org/old-child-permalink';
-		$child_indexable->expects( 'save' )->once();
 
 		$this->indexable_hierarchy_builder->expects( 'build' )->with( $child_indexable );
 
@@ -220,6 +222,10 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 			->expects( 'find_by_ids' )
 			->with( [ 1 ] )
 			->andReturn( [ $child_indexable ] );
+
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->once();
 
 		$this->assertTrue( $this->instance->reset_children( $indexable, $indexable_before ) );
 	}
@@ -245,7 +251,6 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$child_indexable->object_type = 'term';
 		$child_indexable->permalink   = 'https://example.org/old-child-permalink';
 		$child_indexable->object_id   = 23;
-		$child_indexable->expects( 'save' )->once();
 
 		$this->indexable_hierarchy_repository
 			->expects( 'find_children' )
@@ -304,6 +309,10 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 			->andReturn( [ $additional_indexable ] );
 
 		$this->set_expectations_for_update_hierarchy_and_permalink( $indexable_term_1, $indexable_term_2, $additional_indexable );
+
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->once();
 
 		$this->assertTrue( $this->instance->reset_children( $indexable, $indexable_before ) );
 		$this->assertSame( 'https://example.org/permalink', $indexable_term_1->permalink );
@@ -444,7 +453,9 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 				->with( $indexable )
 				->andReturn( 'https://example.org/permalink' );
 
-			$indexable->expects( 'save' );
+			$this->indexable_helper
+				->expects( 'save_indexable' )
+				->once();
 		}
 	}
 }
