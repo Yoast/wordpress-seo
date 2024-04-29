@@ -20,9 +20,10 @@ import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
-import { Button } from "@yoast/ui-library";
+import { Button, Tooltip } from "@yoast/ui-library";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import noop from "lodash/noop";
+import { useCallback, useState } from "@wordpress/element";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -192,12 +193,41 @@ class SeoAnalysis extends Component {
 		];
 	}
 
-	renderAIButton( className ) {
-		return <Button
-			className={ className }
-			// onClick={ props.onButtonClickEdit }
-			// id={ props.buttonIdEdit }
-		> Use AI</Button>;
+	renderAIButton( buttonName, children ) {
+		const [ isVisible, setIsVisible ] = useState( false );
+		const handleMouseEnter = useCallback(
+			() => setIsVisible( true ),
+			[ setIsVisible ]
+		);
+		const handleMouseLeave = useCallback(
+			() => setIsVisible( false ),
+			[ setIsVisible ]
+		);
+
+		return (
+			<>
+				<Button
+					type="button"
+					variant="secondary"
+					size="small"
+					className="yst-inline-block yst-ml-2"
+					// aria-describedby={ Tooltip.id }
+					// onMouseEnter={ handleMouseEnter }
+					// onMouseLeave={ handleMouseLeave }
+				>
+				{ buttonName = "Use AI" }
+				{/* { isVisible && ( */}
+					{/* <Tooltip
+						id={ Tooltip.id }
+						className="yst-text-xs"
+						position="right"
+					>
+						{ children = "I'm the AI tooltip" }
+					</Tooltip> */}
+				{/* ) } */}
+				</Button>
+			</>
+		)
 	}
 
 	/**
@@ -254,7 +284,6 @@ class SeoAnalysis extends Component {
 												upsellResults={ upsellResults }
 												marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 												editButtonClassName="yoast-tooltip yoast-tooltip-w"
-												aiButtonClassName="yoast-tooltip yoast-tooltip-w"
 												marksButtonStatus={ this.props.marksButtonStatus }
 												location={ location }
 												shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
