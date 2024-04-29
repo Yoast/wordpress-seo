@@ -331,6 +331,7 @@ class WPSEO_Meta {
 						},
 						'type'              => 'string',
 						'single'            => true,
+						'default'           => $field_def['default_value'],
 					]
 				);
 

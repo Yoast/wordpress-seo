@@ -23,7 +23,7 @@ export const createUpdater = () => {
 		forEach( data, ( value, key ) => {
 			const field = document.getElementById( prefix + key );
 			const transformedValue = transformMetaValue( key, value );
-			if ( field && field.value !== transformedValue && ( transformedValue && field.value !== "0" ) ) {
+			if ( field && field.value !== transformedValue ) {
 				field.value = transformedValue;
 			}
 		} );

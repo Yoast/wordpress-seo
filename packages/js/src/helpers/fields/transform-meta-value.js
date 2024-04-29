@@ -30,9 +30,6 @@ export const transformMetaValue = ( key, value ) => {
 			return value ? "1" : "0";
 		case key === "meta-robots-adv":
 			return Array.isArray( value ) ? value.join() : value;
-		case value === "0":
-		case ! value:
-			return "";
 		default:
 			return value;
 	}
