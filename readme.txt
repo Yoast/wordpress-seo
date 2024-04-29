@@ -319,6 +319,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-04-30
 
+Yoast SEO 22.6 is out today! This release brings many performance and quality-of-life fixes to improve your favorite SEO plugin. Plus, we’re asking you to update your PHP versions. Find out what’s new in [this post](https://yoa.st/release-30-4-24)!
+
 #### Enhancements
 
 * Adds a helpful error message in the Yoast sidebar/metabox in case of plugin or theme conflicts. Now when an unknown error occurs, the error is caught and an error message is shown. Before, the error would lead to a blank sidebar/metabox, or to an entire blank page.
