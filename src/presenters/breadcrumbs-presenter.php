@@ -75,7 +75,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 
 		$prefix = $this->helpers->options->get( 'breadcrumbs-prefix' );
 		if ( $prefix !== '' ) {
-			$output = "\t" . $prefix . "\n" . $output;
+			$output = "\t" . \esc_attr( $prefix ) . "\n" . $output;
 		}
 
 		return $output;
@@ -237,7 +237,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	protected function get_separator() {
 		if ( ! $this->separator ) {
-			$this->separator = \apply_filters( 'wpseo_breadcrumb_separator', $this->helpers->options->get( 'breadcrumbs-sep' ) );
+			$this->separator = \esc_attr( \apply_filters( 'wpseo_breadcrumb_separator', $this->helpers->options->get( 'breadcrumbs-sep' ) ) );
 			$this->separator = ' ' . $this->separator . ' ';
 		}
 
