@@ -77,7 +77,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   align-self: center;
 }
 
-.c9 >:first-child {
+.c9 > :first-child {
   overflow: hidden;
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
@@ -248,7 +248,7 @@ exports[`HelpTextWrapper matches the snapshot when the help text button is focus
   margin-top: 0;
 }
 
-.c9 >:first-child {
+.c9 > :first-child {
   overflow: hidden;
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;

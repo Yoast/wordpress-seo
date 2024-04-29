@@ -155,6 +155,8 @@ class Indexation extends Component {
 						firstTime: false,
 					} );
 				} );
+
+				url = false;
 			}
 		}
 	}
@@ -168,6 +170,10 @@ class Indexation extends Component {
 		for ( const endpoint of Object.keys( this.settings.restApi.indexing_endpoints ) ) {
 			await this.doIndexing( endpoint );
 		}
+
+		// Wait until the next cycle, to make sure the state is updated before checking it.
+		await new Promise( resolve => setTimeout( resolve, 0 ) );
+
 		/*
 		 * Set the indexing process as completed only when there is no error
 		 * and the user has not stopped the process manually.

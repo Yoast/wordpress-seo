@@ -64,7 +64,7 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 		it( "successfully calls the close method", async() => {
 			render( <SEMrushRelatedKeyphrasesModal { ...props } keyphrase="yoast seo" isLoggedIn={ true } whichModalOpen="metabox" /> );
 
-			const closeModalButton = screen.getByLabelText( "Close dialog" );
+			const closeModalButton = screen.getByLabelText( "Close" );
 			fireEvent.click( closeModalButton );
 
 			expect( props.onClose ).toHaveBeenCalled();

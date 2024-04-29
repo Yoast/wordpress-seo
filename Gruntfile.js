@@ -1,7 +1,5 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const timeGrunt = require( "time-grunt" );
 const path = require( "path" );
-// eslint-disable-next-line import/no-extraneous-dependencies
 const loadGruntConfig = require( "load-grunt-config" );
 const { flattenVersionForFile } = require( "./config/webpack/paths" );
 require( "dotenv" ).config();

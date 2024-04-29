@@ -62,7 +62,7 @@ const state = {
 };
 
 // FACEBOOK
-describe( selectors.getFacebookTitle, () => {
+describe( "selectors.getFacebookTitle", () => {
 	it( "selects the facebook title from the state", () => {
 		const actual = selectors.getFacebookTitle( state );
 
@@ -72,7 +72,7 @@ describe( selectors.getFacebookTitle, () => {
 	} );
 } );
 
-describe( selectors.getFacebookDescription, () => {
+describe( "selectors.getFacebookDescription", () => {
 	it( "selects the facebook description from the state", () => {
 		const actual = selectors.getFacebookDescription( state );
 
@@ -82,7 +82,7 @@ describe( selectors.getFacebookDescription, () => {
 	} );
 } );
 
-describe( selectors.getFacebookImageUrl, () => {
+describe( "selectors.getFacebookImageUrl", () => {
 	it( "selects the facebook image URL from the state", () => {
 		const actual = selectors.getFacebookImageUrl( state );
 
@@ -92,7 +92,7 @@ describe( selectors.getFacebookImageUrl, () => {
 	} );
 } );
 
-describe( selectors.getFacebookImageType, () => {
+describe( "selectors.getFacebookImageType", () => {
 	it( "selects the facebook image Type from the state", () => {
 		const actual = selectors.getFacebookImageType( state );
 
@@ -104,7 +104,7 @@ describe( selectors.getFacebookImageType, () => {
 
 
 // TWITTER
-describe( selectors.getTwitterTitle, () => {
+describe( "selectors.getTwitterTitle", () => {
 	it( "selects the twitter title from the state", () => {
 		const actual = selectors.getTwitterTitle( state );
 
@@ -114,7 +114,7 @@ describe( selectors.getTwitterTitle, () => {
 	} );
 } );
 
-describe( selectors.getTwitterDescription, () => {
+describe( "selectors.getTwitterDescription", () => {
 	it( "selects the twitter description from the state", () => {
 		const actual = selectors.getTwitterDescription( state );
 
@@ -124,7 +124,7 @@ describe( selectors.getTwitterDescription, () => {
 	} );
 } );
 
-describe( selectors.getTwitterImageUrl, () => {
+describe( "selectors.getTwitterImageUrl", () => {
 	it( "selects the twitter image URL from the state", () => {
 		const actual = selectors.getTwitterImageUrl( state );
 
@@ -134,7 +134,7 @@ describe( selectors.getTwitterImageUrl, () => {
 	} );
 } );
 
-describe( selectors.getTwitterImageType, () => {
+describe( "selectors.getTwitterImageType", () => {
 	it( "selects the twitter image Type from the state", () => {
 		const actual = selectors.getTwitterImageType( state );
 

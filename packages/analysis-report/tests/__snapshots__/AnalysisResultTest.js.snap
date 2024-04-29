@@ -100,7 +100,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   >
     <span
       dangerouslySetInnerHTML={
-        Object {
+        {
           "__html": "You're doing great!",
         }
       }
@@ -220,7 +220,7 @@ exports[`the AnalysisResult component with a activated premium matches the snaps
     </span>
     <span
       dangerouslySetInnerHTML={
-        Object {
+        {
           "__html": "This is beta!",
         }
       }
@@ -313,7 +313,7 @@ exports[`the AnalysisResult component with a beta badge label matches the snapsh
     </span>
     <span
       dangerouslySetInnerHTML={
-        Object {
+        {
           "__html": "This is beta!",
         }
       }
@@ -422,7 +422,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   >
     <span
       dangerouslySetInnerHTML={
-        Object {
+        {
           "__html": "You're doing great!",
         }
       }
@@ -512,7 +512,7 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
   >
     <span
       dangerouslySetInnerHTML={
-        Object {
+        {
           "__html": "You're doing great!",
         }
       }
@@ -621,7 +621,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   >
     <span
       dangerouslySetInnerHTML={
-        Object {
+        {
           "__html": "You're doing <b>great!</b>",
         }
       }
@@ -711,7 +711,7 @@ exports[`the AnalysisResult component with suppressed text matches the snapshot 
   >
     <span
       dangerouslySetInnerHTML={
-        Object {
+        {
           "__html": "You're doing great!",
         }
       }

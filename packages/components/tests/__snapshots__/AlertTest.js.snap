@@ -179,11 +179,11 @@ exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
     className="c4 c5 c6 c7 c8 c9"
     onClick={
       [MockFunction] {
-        "calls": Array [
-          Array [],
+        "calls": [
+          [],
         ],
-        "results": Array [
-          Object {
+        "results": [
+          {
             "type": "return",
             "value": undefined,
           },

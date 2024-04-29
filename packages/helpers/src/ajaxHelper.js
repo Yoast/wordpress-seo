@@ -96,7 +96,7 @@ const parseHeaders = ( type, config ) => {
  */
 const overwriteObjectWithDefaultValues = ( target, defaults ) => {
 	for ( const key in defaults ) {
-		if ( defaults.hasOwnProperty( key ) ) {
+		if ( Object.prototype.hasOwnProperty.call( defaults,  key ) ) {
 			if ( typeof target[ key ] === "undefined" || target[ key ] === "" ) {
 				target[ key ] = defaults[ key ];
 			}

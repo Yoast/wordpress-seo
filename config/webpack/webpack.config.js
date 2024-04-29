@@ -29,7 +29,7 @@ module.exports = [
 			},
 			combinedOutputFile: root + "src/generated/assets/plugin.php",
 			cssExtractFileName: "../../../css/dist/plugin-" + pluginVersionSlug + ".css",
-		}
+		},
 	),
 	baseConfig(
 		{
@@ -45,7 +45,7 @@ module.exports = [
 			},
 			combinedOutputFile: root + "src/generated/assets/externals.php",
 			cssExtractFileName: "../../../css/dist/monorepo-" + pluginVersionSlug + ".css",
-		}
+		},
 	),
 	baseConfig(
 		{
@@ -62,6 +62,6 @@ module.exports = [
 			},
 			combinedOutputFile: root + "src/generated/assets/languages.php",
 			cssExtractFileName: "../../../css/dist/languages-" + pluginVersionSlug + ".css",
-		}
+		},
 	),
 ];

@@ -7,13 +7,11 @@ export default compose( [
 		const {
 			getSEMrushModalOpen,
 			getSEMrushLoginStatus,
-			getIsElementorEditor,
 		} = select( "yoast-seo/editor" );
 
 		return {
 			whichModalOpen: getSEMrushModalOpen(),
 			isLoggedIn: getSEMrushLoginStatus(),
-			shouldCloseOnClickOutside: ! getIsElementorEditor(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

@@ -13,7 +13,7 @@ module.exports = function( grunt ) {
 	 function setVersion( file, pattern, version ) {
 		const contents = grunt.file.read( file ).replace(
 			pattern,
-			version
+			version,
 		);
 
 		grunt.file.write( file, contents );
@@ -74,6 +74,6 @@ module.exports = function( grunt ) {
 			}
 
 			return done();
-		}
+		},
 	);
 };

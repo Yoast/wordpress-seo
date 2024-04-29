@@ -89,6 +89,6 @@ module.exports = function( grunt ) {
 			const tagUrl = `https://github.com/${ process.env.GITHUB_REPOSITORY }/releases/tag/${ releaseData.tag_name }`;
 			grunt.config.set( "rc.github.url", tagUrl );
 			done();
-		}
+		},
 	);
 };

@@ -6,3 +6,4 @@ export { default as useRouterScrollRestore } from "./use-router-scroll-restore";
 export { default as useSelectSettings } from "./use-select-settings";
 export { default as useDocumentTitle } from "./use-document-title";
 export { default as useNewContentTypeNotification } from "./use-new-content-type-notification";
+export { useSpokenMessage } from "./use-spoken-message";

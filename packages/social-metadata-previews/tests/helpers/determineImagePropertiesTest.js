@@ -178,7 +178,7 @@ describe( "determineImageProperties", () => {
 		const imageProperties = await determineImageProperties(
 			"https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg",
 			"Twitter",
-			true
+			true,
 		);
 
 		const expected = { mode: "landscape", width: 506, height: 265 };
@@ -191,7 +191,7 @@ describe( "determineImageProperties", () => {
 		const imageProperties = await determineImageProperties(
 			"https://yoast.com/app/uploads/2008/04/WordPress_SEO_definitive_guide_FI-250x131.png",
 			"Twitter",
-			false
+			false,
 		);
 
 		const expected = { mode: "square", width: 239, height: 125 };
@@ -204,7 +204,7 @@ describe( "determineImageProperties", () => {
 		const imageProperties = await determineImageProperties(
 			"https://i1.wp.com/2016.europe.wordcamp.org/files/2016/04/Joost-Marieke.jpg?w=403&h=605&ssl=1",
 			"Twitter",
-			true
+			true,
 		);
 
 		const expected = { mode: "landscape", width: 506, height: 760 };
@@ -217,7 +217,7 @@ describe( "determineImageProperties", () => {
 		const imageProperties = await determineImageProperties(
 			"https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png",
 			"Twitter",
-			false
+			false,
 		);
 
 		const expected = { mode: "square", width: 125, height: 140 };
@@ -230,7 +230,7 @@ describe( "determineImageProperties", () => {
 		const imageProperties = await determineImageProperties(
 			"https://yoast.com/app/uploads/sites/5/2016/09/yoast-logo-icon-512x512.png",
 			"Twitter",
-			true
+			true,
 		);
 
 		const expected = { mode: "landscape", width: 506, height: 506 };
@@ -243,7 +243,7 @@ describe( "determineImageProperties", () => {
 		const imageProperties = await determineImageProperties(
 			"https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png",
 			"Twitter",
-			false
+			false,
 		);
 
 		const expected = { mode: "square", width: 125, height: 125 };
@@ -256,7 +256,7 @@ describe( "determineImageProperties", () => {
 		const imageProperties = await determineImageProperties(
 			"https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png",
 			"Twitter",
-			false
+			false,
 		);
 
 		const expected = { mode: "square", width: 244, height: 125 };
@@ -268,7 +268,7 @@ describe( "determineImageProperties", () => {
 
 		const imageProperties = await determineImageProperties(
 			"https://yoast.com/app/uploads/2015/06/How_to_choose_keywords_FI.png",
-			"Facebook"
+			"Facebook",
 		);
 
 		const expected = { mode: "landscape", width: 527, height: 276 };
@@ -280,7 +280,7 @@ describe( "determineImageProperties", () => {
 
 		const imageProperties = await determineImageProperties(
 			"https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png",
-			"Facebook"
+			"Facebook",
 		);
 
 		const expected = { mode: "portrait", width: 212, height: 237 };
@@ -292,7 +292,7 @@ describe( "determineImageProperties", () => {
 
 		const imageProperties = await determineImageProperties(
 			"https://yoast.com/app/uploads/2018/09/avatar_user_1_1537774226.png",
-			"Facebook"
+			"Facebook",
 		);
 
 		const expected = { mode: "square", width: 158, height: 158 };

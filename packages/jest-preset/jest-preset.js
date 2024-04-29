@@ -16,7 +16,6 @@ module.exports = {
 		"**/test/*.[jt]s",
 		"**/?(*.)test.[jt]s",
 	],
-	transformIgnorePatterns: [ "/node_modules/(?!@yoast|yoastseo|lodash-es).+\\.js$" ],
 	testEnvironment: "jsdom",
 	testPathIgnorePatterns: [ "<rootDir>/node_modules/", "<rootDir>/vendor/" ],
 	timers: "fake",

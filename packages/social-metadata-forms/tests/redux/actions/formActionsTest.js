@@ -35,7 +35,7 @@ describe( setSocialPreviewDescription, () => {
 
 		const actual = setSocialPreviewDescription(
 			"This is a great descripton for my facebook post.",
-			"facebook"
+			"facebook",
 		);
 
 		expect( actual ).toEqual( expected );

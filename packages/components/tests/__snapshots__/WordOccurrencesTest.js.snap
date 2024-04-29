@@ -14,7 +14,7 @@ exports[`WordOccurrences renders WordOccurrences as list items 1`] = `
   >
     <li
       style={
-        Object {
+        {
           "--yoast-width": "100%",
         }
       }
@@ -31,7 +31,7 @@ exports[`WordOccurrences renders WordOccurrences as list items 1`] = `
     </li>
     <li
       style={
-        Object {
+        {
           "--yoast-width": "61.53846153846154%",
         }
       }
@@ -48,7 +48,7 @@ exports[`WordOccurrences renders WordOccurrences as list items 1`] = `
     </li>
     <li
       style={
-        Object {
+        {
           "--yoast-width": "46.15384615384615%",
         }
       }
@@ -78,7 +78,7 @@ exports[`WordOccurrences renders correctly without before and after elements 1`]
   >
     <li
       style={
-        Object {
+        {
           "--yoast-width": "100%",
         }
       }
@@ -95,7 +95,7 @@ exports[`WordOccurrences renders correctly without before and after elements 1`]
     </li>
     <li
       style={
-        Object {
+        {
           "--yoast-width": "61.53846153846154%",
         }
       }
@@ -112,7 +112,7 @@ exports[`WordOccurrences renders correctly without before and after elements 1`]
     </li>
     <li
       style={
-        Object {
+        {
           "--yoast-width": "46.15384615384615%",
         }
       }

@@ -23,28 +23,6 @@ exports[`Search modal should open 1`] = `
         data-headlessui-state="open"
         id="headlessui-dialog-panel-:r1:"
       >
-        <div>
-          <div
-            aria-live="assertive"
-            role="log"
-            style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
-          />
-          <div
-            aria-live="assertive"
-            role="log"
-            style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
-          />
-          <div
-            aria-live="polite"
-            role="log"
-            style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
-          />
-          <div
-            aria-live="polite"
-            role="log"
-            style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
-          />
-        </div>
         <div
           class="yst--m-6"
           data-headlessui-state=""

@@ -6,7 +6,7 @@ const {
  * Yoast dependencies, declared as such in the package.json.
  */
 const { dependencies } = require( "../../packages/js/package" );
-const legacyYoastPackages = [ "yoast-components", "yoastseo" ];
+const legacyYoastPackages = [ "yoastseo" ];
 const additionalPackages = [
 	"draft-js",
 	"styled-components",
@@ -25,7 +25,7 @@ const yoastPackages = Object.keys( dependencies ).filter(
 	( packageName ) =>
 		packageName.startsWith( YOAST_PACKAGE_NAMESPACE ) ||
 		legacyYoastPackages.includes( packageName ) ||
-		additionalPackages.includes( packageName )
+		additionalPackages.includes( packageName ),
 );
 
 /**
@@ -37,9 +37,6 @@ const yoastExternals = yoastPackages.reduce( ( memo, packageName ) => {
 	switch ( useablePackageName ) {
 		case "components":
 			useablePackageName = "components-new";
-			break;
-		case "yoast-components":
-			useablePackageName = "components";
 			break;
 		case "yoastseo":
 			useablePackageName = "analysis";

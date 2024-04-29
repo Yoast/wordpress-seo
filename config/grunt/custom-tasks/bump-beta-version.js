@@ -103,6 +103,6 @@ module.exports = function( grunt ) {
 				grunt.config( "gitpush.versionBump.options", { remote: "origin", upstream: true, branch: grunt.config.data.branchForRC } );
 				grunt.task.run( "gitpush:versionBump" );
 			}
-		}
+		},
 	);
 };

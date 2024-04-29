@@ -24,7 +24,6 @@ const StyledHeroIcon = styled( LightBulbIcon )`
  * @returns {JSX.Element} The element.
  */
 const InsightsModal = ( { location } ) => {
-	const isElementorEditor = useSelect( select => select( "yoast-seo/editor" ).getIsElementorEditor(), [] );
 	const isFleschReadingEaseAvailable = useSelect( select => select( "yoast-seo/editor" ).isFleschReadingEaseAvailable(), [] );
 
 	const svgAriaProps = useSvgAria();
@@ -33,7 +32,6 @@ const InsightsModal = ( { location } ) => {
 		<EditorModal
 			title={ __( "Insights", "wordpress-seo" ) }
 			id={ `yoast-insights-modal-${ location }` }
-			shouldCloseOnClickOutside={ ! isElementorEditor }
 			showChangesWarning={ false }
 			SuffixHeroIcon={ <StyledHeroIcon className="yst-text-slate-500" { ...svgAriaProps } /> }
 		>

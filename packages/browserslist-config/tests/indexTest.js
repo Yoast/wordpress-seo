@@ -1,5 +1,5 @@
 const browserslist = require( "browserslist" );
-const config = require( "../src" );
+const config = require( "../" );
 
 it( "should export an array", () => {
 	expect( Array.isArray( config ) ).toBe( true );

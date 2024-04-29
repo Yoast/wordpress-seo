@@ -7,11 +7,11 @@ import { Code, Modal, Title, useNavigationContext, useSvgAria, useToggleState } 
 import classNames from "classnames";
 import { debounce, first, groupBy, includes, isEmpty, map, max, reduce, split, trim, values } from "lodash";
 import PropTypes from "prop-types";
-import { LiveAnnouncer, LiveMessage } from "react-aria-live";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useNavigate } from "react-router-dom";
 import { safeToLocaleLower } from "../helpers";
 import { useParsedUserAgent, useSelectSettings } from "../hooks";
+import { SpokenMessage } from "./spoken-message";
 
 const POST_TYPE_OR_TAXONOMY_BREADCRUMB_SETTING_REGEXP = new RegExp( /^input-wpseo_titles-(post_types|taxonomy)-(?<name>\S+)-(maintax|ptparent)$/is );
 
@@ -233,9 +233,7 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 			aria-label={ __( "Search", "wordpress-seo" ) }
 		>
 			<Modal.Panel hasCloseButton={ false }>
-				<LiveAnnouncer>
-					{ a11yMessage && <LiveMessage message={ a11yMessage } aria-live="polite" /> }
-				</LiveAnnouncer>
+				<SpokenMessage message={ a11yMessage } aria-live="polite" />
 				<Combobox as="div" className="yst--m-6" onChange={ handleNavigate }>
 					<div className="yst-relative">
 						<SearchIcon

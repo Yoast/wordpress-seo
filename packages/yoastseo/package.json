@@ -17,7 +17,8 @@
     "directory": "packages/yoastseo"
   },
   "files": [
-    "build/**/*",
+    "build",
+    "!*.map",
     "vendor",
     "images"
   ],
@@ -26,19 +27,17 @@
     "build": "yarn clean && yarn build:js",
     "build:js": "babel src --copy-files --source-maps --out-dir build",
     "clean": "rm -rf build",
-    "pretest": "grunt get-premium-configuration",
-    "test": "jest",
-    "lint": "eslint src spec --max-warnings 10",
-    "prepublishOnly": "yarn build"
+    "test": "grunt get-premium-configuration && jest",
+    "lint": "eslint . --max-warnings 8"
   },
   "engines": {
     "node": ">=8.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.23.9",
-    "@babel/core": "^7.24.0",
-    "@babel/eslint-parser": "^7.23.10",
-    "@babel/preset-env": "^7.24.0",
+    "@babel/cli": "^7.24.1",
+    "@babel/core": "^7.24.4",
+    "@babel/eslint-parser": "^7.24.1",
+    "@babel/preset-env": "^7.24.4",
     "@stylistic/eslint-plugin": "^1.6.3",
     "@yoast/browserslist-config": "^1.2.3",
     "blob-polyfill": "^7.0.20220408",

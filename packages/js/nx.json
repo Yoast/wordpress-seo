@@ -1,0 +1,10 @@
+{
+  "targets": {
+    "build": {
+      "outputs": [
+        "{workspaceRoot}/js/dist",
+        "{workspaceRoot}/css/dist"
+      ]
+    }
+  }
+}

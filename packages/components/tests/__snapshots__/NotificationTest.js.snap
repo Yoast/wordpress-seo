@@ -127,8 +127,8 @@ exports[`the Notification with props matches the snapshot 1`] = `
       <p
         className="prova"
         dangerouslySetInnerHTML={
-          Object {
-            "__html": "Get started with our <a href=\\"#blabla\\">Configuration Wizard!</a>",
+          {
+            "__html": "Get started with our <a href="#blabla">Configuration Wizard!</a>",
           }
         }
       />
@@ -223,7 +223,7 @@ exports[`the Notification without props matches the snapshot 1`] = `
       <p
         className="prova"
         dangerouslySetInnerHTML={
-          Object {
+          {
             "__html": undefined,
           }
         }

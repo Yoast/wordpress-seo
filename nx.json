@@ -1,0 +1,44 @@
+{
+  "targetDefaults": {
+    "test": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "build": {
+      "outputs": [
+        "{projectRoot}/build"
+      ],
+      "cache": true
+    },
+    "build:js": {
+      "outputs": [
+        "{projectRoot}/build"
+      ],
+      "cache": true
+    },
+    "build:css": {
+      "outputs": [
+        "{projectRoot}/build"
+      ],
+      "cache": true
+    },
+    "build:json": {
+      "outputs": [
+        "{projectRoot}/build"
+      ],
+      "cache": true
+    }
+  },
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "namedInputs": {
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
+    "sharedGlobals": [ ],
+    "production": [
+      "default"
+    ]
+  }
+}

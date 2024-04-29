@@ -6,9 +6,6 @@ module.exports = {
 		"^.+\\.jsx?$": "babel-jest",
 		"^.+\\.html$": "jest-html-loader",
 	},
-	transformIgnorePatterns: [
-		"<rootDir>/node_modules/(?!lodash-es/.*)",
-	],
 	testMatch: [
 		"**/spec/**/*.js",
 	],
@@ -17,8 +14,6 @@ module.exports = {
 		"node_modules",
 	],
 	moduleNameMapper: {
-		"^lodash-es$": "lodash",
-		"^lodash-es/(.*)$": "lodash/$1",
 		// Without the next line, `import ... from "yoastseo"` statements would load from the build directory. In the
 		// tests we always want to test the source.
 		"^yoastseo$": "<rootDir>/src/index.js",

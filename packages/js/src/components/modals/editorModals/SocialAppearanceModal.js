@@ -43,7 +43,6 @@ const SocialAppearanceModal = ( props ) => {
 			/* translators: Social media appearance refers to a preview of how a page will be represented on social media. */
 			title={ __( "Social media appearance", "wordpress-seo" ) }
 			id="yoast-social-appearance-modal"
-			shouldCloseOnClickOutside={ false }
 			SuffixHeroIcon={ <StyledHeroIcon className="yst-text-slate-500" { ...svgAriaProps } /> }
 		>
 			{ useOpenGraphData &&

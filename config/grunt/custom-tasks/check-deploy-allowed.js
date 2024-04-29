@@ -17,7 +17,7 @@ module.exports = function( grunt ) {
 			if ( stableVersion === null ) {
 				grunt.fail.fatal(
 					"The Stable tag for plugin: " + grunt.config.data.pluginSlug + " could not be retrieved from api.wordpress.org\n" +
-					"The release process has been stopped."
+					"The release process has been stopped.",
 				);
 			}
 			grunt.verbose.writeln( "WordPress API stable tag version: " + stableVersion + " for plugin: " + grunt.config.data.pluginSlug );
@@ -31,10 +31,10 @@ module.exports = function( grunt ) {
 				grunt.fail.fatal(
 					"The Stable tag specified in the readme.txt file is not set to the stable tag currently on WordPress: " + stableVersion + ". " +
 					"Therefore, you cannot deploy with this readme.txt file.\n" +
-					"The release process has been stopped."
+					"The release process has been stopped.",
 				);
 			}
 			done();
-		}
+		},
 	);
 };

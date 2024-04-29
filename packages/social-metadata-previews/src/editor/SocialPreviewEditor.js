@@ -65,7 +65,7 @@ class SocialPreviewEditor extends Component {
 		}
 		this.setState(
 			{ activeField: field },
-			() => this.setEditorFocus( field )
+			() => this.setEditorFocus( field ),
 		);
 	}
 

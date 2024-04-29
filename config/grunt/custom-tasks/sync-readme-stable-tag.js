@@ -13,7 +13,7 @@ module.exports = function( grunt ) {
 	function setVersion( file, pattern, version ) {
 		const contents = grunt.file.read( file ).replace(
 			pattern,
-			version
+			version,
 		);
 
 		grunt.file.write( file, contents );
@@ -43,7 +43,7 @@ module.exports = function( grunt ) {
 			if ( stableVersion === null ) {
 				grunt.fail.fatal(
 					"The Stable tag for plugin: " + grunt.config.data.pluginSlug + " could not be retrieved from api.wordpress.org\n" +
-					"The release process has been stopped."
+					"The release process has been stopped.",
 				);
 			}
 
@@ -57,6 +57,6 @@ module.exports = function( grunt ) {
 			}
 
 			return done();
-		}
+		},
 	);
 };

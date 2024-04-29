@@ -105,6 +105,6 @@ module.exports = function( grunt ) {
 			grunt.task.run( "gitcheckout:newBranch" );
 
 			grunt.log.ok( "Switched to the " + branchForRC + " branch." );
-		}
+		},
 	);
 };

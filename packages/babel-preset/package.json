@@ -10,7 +10,6 @@
   },
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
-  "private": false,
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.17.12",
     "@babel/plugin-transform-class-properties": "^7.22.5",
