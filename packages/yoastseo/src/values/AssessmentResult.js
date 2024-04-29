@@ -60,8 +60,8 @@ var AssessmentResult = function( values ) {
 		this.setEditFieldName( values.editFieldName );
 	}
 
-	if ( ! isUndefined( values.hasAIFixes ) ) {
-		this.sethasAIFixes( values.hasAIFixes );
+	if ( ! isUndefined( values._hasAIFixes ) ) {
+		this.setHasAIFixes( values._hasAIFixes );
 	}
 };
 
@@ -329,7 +329,7 @@ AssessmentResult.parse = function( serialized ) {
 		marks: serialized.marks.map( mark => Mark.parse( mark ) ),
 		_hasBetaBadge: serialized._hasBetaBadge,
 		_hasJumps: serialized._hasJumps,
-		_hasAIFixes: this._hasAIFixes,
+		_hasAIFixes: serialized._hasAIFixes,
 		editFieldName: serialized.editFieldName,
 	} );
 	result.setIdentifier( serialized.identifier );
