@@ -71,7 +71,6 @@ jobs:
           - 'search-metadata-previews'
           - 'social-metadata-forms'
           - 'social-metadata-previews'
-          - 'yoast-components'
 
     name: "TestJS - ${{ matrix.package }} (full)"
 
