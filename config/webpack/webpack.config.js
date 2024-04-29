@@ -1,6 +1,7 @@
 // External dependencies
+const CopyWebpackPlugin = require( "copy-webpack-plugin" );
 const { readdirSync } = require( "fs" );
-const { join } = require( "path" );
+const { join, resolve } = require( "path" );
 
 // Variables
 const root = join( __dirname, "../../" );
@@ -29,6 +30,17 @@ module.exports = [
 			},
 			combinedOutputFile: root + "src/generated/assets/plugin.php",
 			cssExtractFileName: "../../../css/dist/plugin-" + pluginVersionSlug + ".css",
+			plugins: [
+				new CopyWebpackPlugin( {
+					patterns: [
+						{
+							from: "**/block.json",
+							context: "packages/js/src",
+							to: resolve( "blocks" ),
+						},
+					],
+				} ),
+			],
 		}
 	),
 	baseConfig(
