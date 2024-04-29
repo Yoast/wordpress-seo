@@ -384,7 +384,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$admin_bar_menu_args = [
 			'id'    => self::MENU_IDENTIFIER,
 			'title' => $title . $score . $counter . $notification_popup,
-			'href'  => $settings_url,
+			'href'  => esc_url( $settings_url ),
 			'meta'  => [ 'tabindex' => ! empty( $settings_url ) ? false : '0' ],
 		];
 		$wp_admin_bar->add_menu( $admin_bar_menu_args );
@@ -394,7 +394,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'parent' => self::MENU_IDENTIFIER,
 				'id'     => 'wpseo-notifications',
 				'title'  => __( 'Notifications', 'wordpress-seo' ) . $counter,
-				'href'   => $settings_url,
+				'href'   => esc_url( $settings_url ),
 				'meta'   => [ 'tabindex' => ! empty( $settings_url ) ? false : '0' ],
 			];
 			$wp_admin_bar->add_menu( $admin_bar_menu_args );
@@ -545,7 +545,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		];
 
 		if ( current_user_can( Support_Integration::CAPABILITY ) ) {
-			$menu_args['href'] = admin_url( 'admin.php?page=' . Support_Integration::PAGE );
+			$menu_args['href'] = esc_url( admin_url( 'admin.php?page=' . Support_Integration::PAGE ) );
 			$wp_admin_bar->add_menu( $menu_args );
 
 			return;
@@ -600,7 +600,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				// Circumvent an issue in the WP admin bar API in order to pass `data` attributes. See https://core.trac.wordpress.org/ticket/38636.
 				'title'  => sprintf(
 					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" style="padding:0;">%2$s &raquo; %3$s</a>',
-					$this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium' ),
+					esc_url( $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium' ) ),
 					__( 'Get Yoast SEO Premium', 'wordpress-seo' ),
 					$sale_percentage
 				),
@@ -653,7 +653,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'parent' => self::SETTINGS_SUBMENU_IDENTIFIER,
 				'id'     => $id,
 				'title'  => $submenu_page[2],
-				'href'   => admin_url( 'admin.php?page=' . rawurlencode( $submenu_page[4] ) ),
+				'href'   => esc_url( admin_url( 'admin.php?page=' . rawurlencode( $submenu_page[4] ) ) ),
 			];
 			$wp_admin_bar->add_menu( $menu_args );
 		}
@@ -696,7 +696,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'parent' => self::NETWORK_SETTINGS_SUBMENU_IDENTIFIER,
 				'id'     => $id,
 				'title'  => $submenu_page[2],
-				'href'   => network_admin_url( 'admin.php?page=' . rawurlencode( $submenu_page[4] ) ),
+				'href'   => esc_url( network_admin_url( 'admin.php?page=' . rawurlencode( $submenu_page[4] ) ) ),
 			];
 			$wp_admin_bar->add_menu( $menu_args );
 		}
@@ -917,7 +917,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'parent' => $parent_id,
 				'id'     => $menu_item['id'],
 				'title'  => $menu_item['title'],
-				'href'   => $menu_item['href'],
+				'href'   => esc_url( $menu_item['href'] ),
 				'meta'   => [ 'target' => '_blank' ],
 			];
 			$wp_admin_bar->add_menu( $menu_args );
