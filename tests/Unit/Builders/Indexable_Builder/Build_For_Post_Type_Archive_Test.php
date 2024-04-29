@@ -60,7 +60,6 @@ final class Build_For_Post_Type_Archive_Test extends Abstract_Indexable_Builder_
 			->with( 'post', $this->indexable )
 			->andReturn( $this->indexable );
 
-		// Saving is outside the scope of this test.
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $this->indexable );
 	}
 }
