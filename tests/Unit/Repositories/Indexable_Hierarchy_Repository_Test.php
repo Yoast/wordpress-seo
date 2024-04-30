@@ -7,6 +7,7 @@ use Mockery;
 use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Hierarchy_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -37,13 +38,21 @@ final class Indexable_Hierarchy_Repository_Test extends TestCase {
 	protected $builder;
 
 	/**
+	 * Represents the indexable helper.
+	 *
+	 * @var Mockery\Mock|Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = Mockery::mock( Indexable_Hierarchy_Repository::class )->makePartial();
-		$this->builder  = Mockery::mock( Indexable_Hierarchy_Builder::class );
+		$this->instance         = Mockery::mock( Indexable_Hierarchy_Repository::class )->makePartial();
+		$this->builder          = Mockery::mock( Indexable_Hierarchy_Builder::class );
+		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
 	}
 
 	/**
@@ -59,6 +68,22 @@ final class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$this->assertInstanceOf(
 			Indexable_Hierarchy_Builder::class,
 			$this->getPropertyValue( $this->instance, 'builder' )
+		);
+	}
+
+	/**
+	 * Tests setting the helper object.
+	 *
+	 * @covers ::set_helper
+	 *
+	 * @return void
+	 */
+	public function test_set_helper() {
+		$this->instance->set_helper( $this->indexable_helper );
+
+		$this->assertInstanceOf(
+			Indexable_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexable_helper' )
 		);
 	}
 
@@ -201,6 +226,8 @@ final class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_add_ancestor() {
+		$this->instance->set_helper( $this->indexable_helper );
+
 		$hierarchy               = Mockery::mock( Indexable_Hierarchy_Mock::class );
 		$hierarchy->indexable_id = 1;
 		$hierarchy->ancestor_id  = 2;
@@ -208,8 +235,6 @@ final class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$hierarchy->blog_id      = 1;
 
 		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
-
-		$hierarchy->expects( 'save' )->once()->andReturn( true );
 
 		$orm_object = Mockery::mock( ORM::class )->makePartial();
 
@@ -225,6 +250,11 @@ final class Indexable_Hierarchy_Repository_Test extends TestCase {
 			)
 			->andReturn( $hierarchy );
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
+
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->once()
+			->andReturnTrue();
 
 		$this->assertTrue( $this->instance->add_ancestor( 1, 2, 1 ) );
 	}
