@@ -125,6 +125,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 				{ props.hasBetaBadgeLabel && <BetaBadge /> }
 				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( props.text, ALLOWED_TAGS ) } } />
 			</AnalysisResultText>
+			<div className="yst-grid yst-grid-rows-2 yst-grid-flow-col yst-gap-1">
 			{ marksButton }
 			{ props.renderHighlightingUpsell( isOpen, closeModal ) }
 			{
@@ -138,6 +139,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 				/>
 			}
 			{ props.hasAIFixes && props.renderAIButton( props.isPremium )  }
+			</div>
 		</AnalysisResultBase>
 	);
 };

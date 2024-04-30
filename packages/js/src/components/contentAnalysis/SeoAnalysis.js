@@ -25,6 +25,7 @@ import isBlockEditor from "../../helpers/isBlockEditor";
 import noop from "lodash/noop";
 import { useCallback, useState } from "@wordpress/element";
 import { ModalContent } from "../../ai-generator/components/modal-content";
+import { SparklesIcon } from "@heroicons/react/outline";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -34,7 +35,7 @@ const AnalysisHeader = styled.span`
 `;
 
 
-const AIButtonWithTooltip = ( { buttonName, children, isPremium } ) => {
+const AIButtonWithTooltip = ( { children, isPremium } ) => {
 	const [ isVisible, setIsVisible ] = useState( false );
 	const handleMouseEnter = useCallback(
 		() => setIsVisible( true ),
@@ -49,6 +50,8 @@ const AIButtonWithTooltip = ( { buttonName, children, isPremium } ) => {
 	const handleClick = useCallback( () => { isPremium ? addActions() :
 		setIsModalOpenTrue();
 	}, [ setIsModalOpenTrue ] );
+	const [ isPressed, setIsPressed ] = useState( false );
+	const handlePress = useCallback( () => setIsPressed( ! isPressed ), [ isPressed, setIsPressed ] );
 
 	return (
 		<>
@@ -56,14 +59,15 @@ const AIButtonWithTooltip = ( { buttonName, children, isPremium } ) => {
 				type="button"
 				variant="secondary"
 				size="small"
-				className="yst-inline-block yst-ml-2"
+				className="yst-flex yst-justify-center"
+				style={ isPressed ? {style: {backgroundColor: '#a4286a'}} : {} }
 				aria-describedby={ Tooltip.id }
 				onMouseEnter={ handleMouseEnter }
 				onMouseLeave={ handleMouseLeave }
 				onClick={ handleClick }
 			>
-			{ buttonName }
-			{ isVisible && (
+				<SparklesIcon/>
+			{/* { isVisible && (
 				<Tooltip
 					id={ Tooltip.id }
 					className="yst-text-xs"
@@ -71,7 +75,7 @@ const AIButtonWithTooltip = ( { buttonName, children, isPremium } ) => {
 				>
 					{ children }
 				</Tooltip>
-			) }
+			) } */}
 			</Button>
 			<AIModal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } >
 				<ModalContent> I am the AI modal </ModalContent>
