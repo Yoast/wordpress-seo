@@ -87,6 +87,10 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'wincherIntegrationActive'    => 0,
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
 				'metadata'                    => $this->get_term_metadata(),
+				'entity'                      => [
+					'id'         => $this->term->term_id,
+					'entityType' => 'term',
+				],
 			];
 		}
 

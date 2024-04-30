@@ -17,10 +17,10 @@ const initialState = {
 	primaryTaxonomies,
 	schemaTab,
 	post: {
-		isPost: get( window, "wpseoScriptData.metabox.post", false ),
-		id: Number( get( window, "wpseoScriptData.metabox.post.id", null ) ),
-		type: get( window, "wpseoScriptData.metabox.post.type", "" ),
-		status: get( window, "wpseoScriptData.metabox.post.status", "" ),
+		isPost: get( window, "wpseoScriptData.metabox.entity.entityType", false ) === "post",
+		id: Number( get( window, "wpseoScriptData.metabox.entity.id", null ) ),
+		type: get( window, "wpseoScriptData.metabox.entity.type", "" ),
+		status: get( window, "wpseoScriptData.metabox.entity.status", "" ),
 	},
 	analysis,
 	insights: {
