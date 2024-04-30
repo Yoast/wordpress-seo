@@ -21,6 +21,8 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import KeywordUpsell from "../modals/KeywordUpsell";
+import { ErrorBoundary } from "@yoast/ui-library";
+import { SidebarErrorFallback } from "../sidebar-error-fallback";
 
 /* eslint-disable complexity */
 /**
@@ -41,74 +43,76 @@ export default function SidebarFill( { settings } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
-				<SidebarItem key="warning" renderPriority={ 1 }>
-					<Warning />
-					<div style={ { margin: "0 16px" } }>
-						{ FirstEligibleNotification && <FirstEligibleNotification /> }
-					</div>
-				</SidebarItem>
-				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
-					<KeywordInput
-						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
-					/>
-				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo" renderPriority={ 10 }>
-					<Fragment>
-						<SeoAnalysis
-							shouldUpsell={ settings.shouldUpsell }
-							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+				<ErrorBoundary FallbackComponent={ SidebarErrorFallback }>
+					<SidebarItem key="warning" renderPriority={ 1 }>
+						<Warning />
+						<div style={ { margin: "0 16px" } }>
+							{ FirstEligibleNotification && <FirstEligibleNotification /> }
+						</div>
+					</SidebarItem>
+					{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
+						<KeywordInput
+							isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 						/>
-						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="sidebar" /> }
-					</Fragment>
-				</SidebarItem> }
-				{ settings.isContentAnalysisActive && <SidebarItem key="readability" renderPriority={ 20 }>
-					<ReadabilityAnalysis
-						shouldUpsell={ settings.shouldUpsell }
-					/>
-				</SidebarItem> }
-				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem key="inclusive-language-analysis" renderPriority={ 21 }>
-					<InclusiveLanguageAnalysis />
-				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
-					{ settings.shouldUpsell && <KeywordUpsell /> }
-				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive && <SidebarItem renderPriority={ 23 }>
-					<WincherSEOPerformanceModal
-						location="sidebar"
-					/>
-				</SidebarItem> }
-				{ settings.shouldUpsell && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 25 }>
-					<InternalLinkingSuggestionsUpsell />
-				</SidebarItem> }
-				<SidebarItem key="search-appearance" renderPriority={ 26 }>
-					<SearchAppearanceModal />
-				</SidebarItem>
-				{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-appearance" renderPriority={ 27 }>
-					<SocialAppearanceModal
-						useOpenGraphData={ settings.useOpenGraphData }
-						useTwitterData={ settings.useTwitterData }
-					/>
-				</SidebarItem> }
-				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 28 }>
-					<SidebarCollapsible
-						title={ __( "Schema", "wordpress-seo" ) }
-					>
-						<SchemaTabContainer />
-					</SidebarCollapsible>
-				</SidebarItem> }
-				{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 29 }>
-					<SidebarCollapsible
-						title={ __( "Advanced", "wordpress-seo" ) }
-					>
-						<AdvancedSettings />
-					</SidebarCollapsible>
-				</SidebarItem> }
-				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
-					<CollapsibleCornerstone />
-				</SidebarItem> }
-				{ settings.isInsightsEnabled && <SidebarItem renderPriority={ 32 }>
-					<InsightsModal location="sidebar" />
-				</SidebarItem> }
+					</SidebarItem> }
+					{ settings.isKeywordAnalysisActive && <SidebarItem key="seo" renderPriority={ 10 }>
+						<Fragment>
+							<SeoAnalysis
+								shouldUpsell={ settings.shouldUpsell }
+								shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+							/>
+							{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="sidebar" /> }
+						</Fragment>
+					</SidebarItem> }
+					{ settings.isContentAnalysisActive && <SidebarItem key="readability" renderPriority={ 20 }>
+						<ReadabilityAnalysis
+							shouldUpsell={ settings.shouldUpsell }
+						/>
+					</SidebarItem> }
+					{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem key="inclusive-language-analysis" renderPriority={ 21 }>
+						<InclusiveLanguageAnalysis />
+					</SidebarItem> }
+					{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
+						{ settings.shouldUpsell && <KeywordUpsell /> }
+					</SidebarItem> }
+					{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive && <SidebarItem renderPriority={ 23 }>
+						<WincherSEOPerformanceModal
+							location="sidebar"
+						/>
+					</SidebarItem> }
+					{ settings.shouldUpsell && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 25 }>
+						<InternalLinkingSuggestionsUpsell />
+					</SidebarItem> }
+					<SidebarItem key="search-appearance" renderPriority={ 26 }>
+						<SearchAppearanceModal />
+					</SidebarItem>
+					{ ( settings.useOpenGraphData || settings.useTwitterData ) && <SidebarItem key="social-appearance" renderPriority={ 27 }>
+						<SocialAppearanceModal
+							useOpenGraphData={ settings.useOpenGraphData }
+							useTwitterData={ settings.useTwitterData }
+						/>
+					</SidebarItem> }
+					{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 28 }>
+						<SidebarCollapsible
+							title={ __( "Schema", "wordpress-seo" ) }
+						>
+							<SchemaTabContainer />
+						</SidebarCollapsible>
+					</SidebarItem> }
+					{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 29 }>
+						<SidebarCollapsible
+							title={ __( "Advanced", "wordpress-seo" ) }
+						>
+							<AdvancedSettings />
+						</SidebarCollapsible>
+					</SidebarItem> }
+					{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
+						<CollapsibleCornerstone />
+					</SidebarItem> }
+					{ settings.isInsightsEnabled && <SidebarItem renderPriority={ 32 }>
+						<InsightsModal location="sidebar" />
+					</SidebarItem> }
+				</ErrorBoundary>
 			</Fill>
 		</Fragment>
 	);

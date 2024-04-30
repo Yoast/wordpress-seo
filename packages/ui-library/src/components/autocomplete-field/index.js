@@ -54,7 +54,6 @@ const AutocompleteField = forwardRef( ( {
 AutocompleteField.displayName = "AutocompleteField";
 AutocompleteField.propTypes = {
 	id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	description: PropTypes.node,
 	validation: PropTypes.shape( {
