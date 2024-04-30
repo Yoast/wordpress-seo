@@ -1,4 +1,4 @@
-import { get } from "lodash-es";
+import { get } from "lodash";
 import parseSynonyms from "../../../helpers/sanitize/parseSynonyms";
 import getContentWords from "../helpers/getContentWords";
 import createWordForms from "../helpers/internal/createWordForms";

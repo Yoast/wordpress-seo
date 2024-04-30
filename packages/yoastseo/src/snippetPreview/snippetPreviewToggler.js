@@ -1,4 +1,4 @@
-import { forEach } from "lodash-es";
+import { forEach } from "lodash";
 import domManipulation from "../helpers/domManipulation.js";
 
 var previewModes = {

@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash-es";
+import { isEmpty } from "lodash";
 import { canBeChildOfParagraph as excludeFromAnalysis } from "./alwaysFilterElements";
 
 /**

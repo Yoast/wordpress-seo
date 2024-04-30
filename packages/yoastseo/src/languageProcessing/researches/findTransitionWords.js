@@ -4,7 +4,7 @@ import { normalizeSingle as normalizeSingleQuotes } from "../helpers/sanitize/qu
 import { isWordInSentence as matchWordInSentence } from "../helpers/word/matchWordInSentence.js";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
 
-import { flattenDeep } from "lodash-es";
+import { flattenDeep } from "lodash";
 import { filterShortcodesFromHTML } from "../helpers";
 
 let regexFromDoubleArray = null;

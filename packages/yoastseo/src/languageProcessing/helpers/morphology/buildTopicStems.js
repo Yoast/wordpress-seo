@@ -2,7 +2,7 @@ import getWords from "../word/getWords.js";
 import { normalizeSingle } from "../sanitize/quotes";
 import { WORD_BOUNDARY_WITH_HYPHEN, WORD_BOUNDARY_WITHOUT_HYPHEN } from "../../../config/wordBoundariesWithoutPunctuation";
 
-import { isUndefined, escapeRegExp, memoize } from "lodash-es";
+import { isUndefined, escapeRegExp, memoize } from "lodash";
 import isDoubleQuoted from "../match/isDoubleQuoted";
 
 /**

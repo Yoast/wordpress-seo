@@ -68,7 +68,6 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "styled-components": "^5.3.6",
-    "yoast-components": "^5.24.0",
     "yoastseo": "^1.91.1",
     "yup": "^0.32.11"
   },

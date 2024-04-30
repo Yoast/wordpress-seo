@@ -1,4 +1,4 @@
-import { filter, flatten, map, merge, partition, sortBy } from "lodash-es";
+import { filter, flatten, map, merge, partition, sortBy } from "lodash";
 import { _n, __, sprintf } from "@wordpress/i18n";
 
 import marker from "../../../markers/addMark";

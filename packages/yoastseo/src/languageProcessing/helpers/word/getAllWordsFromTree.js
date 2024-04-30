@@ -1,5 +1,5 @@
 import getSentencesFromTree from "../sentence/getSentencesFromTree";
-import { flatMap } from "lodash-es";
+import { flatMap } from "lodash";
 import removePunctuation from "../sanitize/removePunctuation";
 
 /**

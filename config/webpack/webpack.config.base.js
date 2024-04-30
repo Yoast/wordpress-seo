@@ -10,7 +10,7 @@ const { yoastExternals } = require( "./externals" );
 
 let analyzerPort = 8888;
 
-module.exports = function( { entry, output, combinedOutputFile, cssExtractFileName } ) {
+module.exports = function( { entry, output, combinedOutputFile, cssExtractFileName, plugins = [] } ) {
 	return {
 		...defaultConfig,
 		optimization: {
@@ -95,6 +95,7 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 				// Copied from WP config: Inject the `SCRIPT_DEBUG` global, used for development features flagging.
 				SCRIPT_DEBUG: process.env.NODE_ENV !== "production",
 			} ),
+			...plugins,
 		].filter( Boolean ),
 	};
 };

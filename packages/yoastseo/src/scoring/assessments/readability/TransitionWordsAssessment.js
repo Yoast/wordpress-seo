@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { map, merge } from "lodash-es";
+import { map, merge } from "lodash";
 
 import formatNumber from "../../../helpers/formatNumber";
 import { inRangeStartInclusive as inRange } from "../../helpers/assessments/inRange";

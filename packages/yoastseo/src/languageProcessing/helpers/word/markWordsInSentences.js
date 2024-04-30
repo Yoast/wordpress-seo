@@ -2,7 +2,7 @@ import matchWords from "../match/matchTextWithArray";
 import arrayToRegex from "../regex/createRegexFromArray";
 import addMark from "../../../markers/addMarkSingleWord";
 import Mark from "../../../values/Mark";
-import { escapeRegExp } from "lodash-es";
+import { escapeRegExp } from "lodash";
 import getAnchorsFromText from "../link/getAnchorsFromText";
 import { SINGLE_QUOTES_ARRAY, SINGLE_QUOTES_REGEX } from "../sanitize/quotes";
 

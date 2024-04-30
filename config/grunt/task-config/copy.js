@@ -28,6 +28,7 @@ module.exports = {
 					"packages/js/images/**",
 					"inc/**",
 					"<%= paths.jsDist %>/**/*.js",
+					"blocks/**",
 					"languages/**",
 					"src/**",
 					"lib/**",
