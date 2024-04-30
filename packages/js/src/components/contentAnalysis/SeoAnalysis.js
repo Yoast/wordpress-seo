@@ -20,10 +20,11 @@ import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
-import { Button, Tooltip } from "@yoast/ui-library";
+import { Button, Modal as AIModal, Tooltip, useToggleState } from "@yoast/ui-library";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import noop from "lodash/noop";
 import { useCallback, useState } from "@wordpress/element";
+import { ModalContent } from "../../ai-generator/components/modal-content";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -31,6 +32,53 @@ const AnalysisHeader = styled.span`
 	margin: 1.5em 0 1em;
 	display: block;
 `;
+
+
+const AIButtonWithTooltip = ( { buttonName, children, isPremium } ) => {
+	const [ isVisible, setIsVisible ] = useState( false );
+	const handleMouseEnter = useCallback(
+		() => setIsVisible( true ),
+		[ setIsVisible ]
+	);
+	const handleMouseLeave = useCallback(
+		() => setIsVisible( false ),
+		[ setIsVisible ]
+	);
+	const addActions = () => { alert( "I am the AI modal" ); };
+	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
+	const handleClick = useCallback( () => { isPremium ? addActions() :
+		setIsModalOpenTrue();
+	}, [ setIsModalOpenTrue ] );
+
+	return (
+		<>
+			<Button
+				type="button"
+				variant="secondary"
+				size="small"
+				className="yst-inline-block yst-ml-2"
+				aria-describedby={ Tooltip.id }
+				onMouseEnter={ handleMouseEnter }
+				onMouseLeave={ handleMouseLeave }
+				onClick={ handleClick }
+			>
+			{ buttonName }
+			{ isVisible && (
+				<Tooltip
+					id={ Tooltip.id }
+					className="yst-text-xs"
+					position="right"
+				>
+					{ children }
+				</Tooltip>
+			) }
+			</Button>
+			<AIModal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } >
+				<ModalContent> I am the AI modal </ModalContent>
+			</AIModal>
+		</>
+	);
+};
 
 /**
  * Redux container for the seo analysis.
@@ -193,41 +241,16 @@ class SeoAnalysis extends Component {
 		];
 	}
 
-	renderAIButton( buttonName, children ) {
-		const [ isVisible, setIsVisible ] = useState( false );
-		const handleMouseEnter = useCallback(
-			() => setIsVisible( true ),
-			[ setIsVisible ]
-		);
-		const handleMouseLeave = useCallback(
-			() => setIsVisible( false ),
-			[ setIsVisible ]
-		);
+	renderAIButton( isPremium ) {
 
 		return (
 			<>
-				<Button
-					type="button"
-					variant="secondary"
-					size="small"
-					className="yst-inline-block yst-ml-2"
-					// aria-describedby={ Tooltip.id }
-					// onMouseEnter={ handleMouseEnter }
-					// onMouseLeave={ handleMouseLeave }
-				>
-				{ buttonName = "Use AI" }
-				{/* { isVisible && ( */}
-					{/* <Tooltip
-						id={ Tooltip.id }
-						className="yst-text-xs"
-						position="right"
-					>
-						{ children = "I'm the AI tooltip" }
-					</Tooltip> */}
-				{/* ) } */}
-				</Button>
+				<AIButtonWithTooltip buttonName={ __( "Use AI", "wordpress-seo" ) } isPremium={ isPremium }>
+					{ "I'm the AI tooltip" }
+				</AIButtonWithTooltip>
+
 			</>
-		)
+		);
 	}
 
 	/**
