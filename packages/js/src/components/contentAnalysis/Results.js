@@ -367,7 +367,7 @@ class Results extends Component {
 					resultCategoryLabels={ labels }
 					onResultChange={ this.handleResultsChange }
 					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
-					renderAIButton={ this.props.renderAIButton }
+					renderAIFixesButton={ this.props.renderAIFixesButton }
 					renderHighlightingUpsell={ this.renderHighlightingUpsell }
 					markButtonFactory={ this.createMarkButton }
 				/>
@@ -398,7 +398,7 @@ Results.propTypes = {
 	shortcodesForParsing: PropTypes.array,
 	shouldUpsellHighlighting: PropTypes.bool,
 	highlightingUpsellLink: PropTypes.string,
-	renderAIButton: PropTypes.func,
+	renderAIFixesButton: PropTypes.func,
 };
 
 Results.defaultProps = {
@@ -415,7 +415,7 @@ Results.defaultProps = {
 	shortcodesForParsing: [],
 	shouldUpsellHighlighting: false,
 	highlightingUpsellLink: "",
-	renderAIButton: () => {},
+	renderAIFixesButton: () => {},
 };
 
 export default Results;

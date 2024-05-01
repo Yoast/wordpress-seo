@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { noop } from "lodash";
 
-import { SvgIcon, IconButtonToggle, IconCTAEditButton, BetaBadge, Button } from "@yoast/components";
+import { SvgIcon, IconButtonToggle, IconCTAEditButton, BetaBadge } from "@yoast/components";
+
 import { strings } from "@yoast/helpers";
 
 const { stripTagsFromHtmlString } = strings;
@@ -73,6 +74,7 @@ const createMarkButton = ( {
 	/>;
 };
 
+
 /**
  * Returns an AnalysisResult component.
  *
@@ -126,19 +128,19 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( props.text, ALLOWED_TAGS ) } } />
 			</AnalysisResultText>
 			<div className="yst-grid yst-grid-rows-2 yst-grid-flow-col yst-gap-1">
-			{ marksButton }
-			{ props.renderHighlightingUpsell( isOpen, closeModal ) }
-			{
-				props.hasEditButton && props.isPremium &&
-				<IconCTAEditButton
-					className={ props.editButtonClassName }
-					onClick={ props.onButtonClickEdit }
-					id={ props.buttonIdEdit }
-					icon="edit"
-					ariaLabel={ props.ariaLabelEdit }
-				/>
-			}
-			{ props.hasAIFixes && props.renderAIButton( props.isPremium )  }
+				{ marksButton }
+				{ props.renderHighlightingUpsell( isOpen, closeModal ) }
+				{
+					props.hasEditButton && props.isPremium &&
+					<IconCTAEditButton
+						className={ props.editButtonClassName }
+						onClick={ props.onButtonClickEdit }
+						id={ props.buttonIdEdit }
+						icon="edit"
+						ariaLabel={ props.ariaLabelEdit }
+					/>
+				}
+				{ props.hasAIFixes && props.renderAIFixesButton( { id: props.id, isPressed: props.isPressed, isPremium: props.isPremium } )  }
 			</div>
 		</AnalysisResultBase>
 	);
@@ -173,7 +175,7 @@ AnalysisResult.propTypes = {
 	] ),
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
-	renderAIButton: PropTypes.func,
+	renderAIFixesButton: PropTypes.func,
 };
 
 AnalysisResult.defaultProps = {
@@ -193,7 +195,7 @@ AnalysisResult.defaultProps = {
 	marker: noop,
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: noop,
-	renderAIButton: noop,
+	renderAIFixesButton: noop,
 };
 
 export default AnalysisResult;

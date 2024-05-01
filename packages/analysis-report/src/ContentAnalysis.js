@@ -65,10 +65,10 @@ class ContentAnalysis extends React.Component {
 					markButtonFactory={ this.props.markButtonFactory }
 					onMarksButtonClick={ this.props.onMarkButtonClick }
 					onEditButtonClick={ this.props.onEditButtonClick }
+					renderAIFixesButton={ this.props.renderAIFixesButton }
 					isPremium={ this.props.isPremium }
 					onResultChange={ this.props.onResultChange }
 					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
-					renderAIButton={ this.props.renderAIButton }
 					renderHighlightingUpsell={ this.props.renderHighlightingUpsell }
 				/>
 			</StyledCollapsible>
@@ -157,7 +157,7 @@ ContentAnalysis.propTypes = {
 	onResultChange: PropTypes.func,
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
-	renderAIButton: PropTypes.func,
+	renderAIFixesButton: PropTypes.func,
 };
 
 ContentAnalysis.defaultProps = {
@@ -180,7 +180,7 @@ ContentAnalysis.defaultProps = {
 	onResultChange: () => {},
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: () => {},
-	renderAIButton: () => {},
+	renderAIFixesButton: () => {},
 };
 
 export default ContentAnalysis;

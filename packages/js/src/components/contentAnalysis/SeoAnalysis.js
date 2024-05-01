@@ -1,6 +1,6 @@
 /* global wpseoAdminL10n */
 import { withSelect } from "@wordpress/data";
-import { Component, Fragment } from "@wordpress/element";
+import { Component, Fragment, useCallback, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { LocationConsumer, RootContext } from "@yoast/externals/contexts";
@@ -23,9 +23,10 @@ import { getIconForScore } from "./mapResults";
 import { Button, Modal as AIModal, Tooltip, useToggleState } from "@yoast/ui-library";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import noop from "lodash/noop";
-import { useCallback, useState } from "@wordpress/element";
 import { ModalContent } from "../../ai-generator/components/modal-content";
 import { SparklesIcon } from "@heroicons/react/outline";
+import { addAction } from "@wordpress/hooks";
+import { AIFixesButton } from "@yoast/components";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -45,10 +46,13 @@ const AIButtonWithTooltip = ( { children, isPremium } ) => {
 		() => setIsVisible( false ),
 		[ setIsVisible ]
 	);
-	const addActions = () => { alert( "I am the AI modal" ); };
+	const addActions = () => {
+		alert( "I am the AI modal" );
+	};
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const handleClick = useCallback( () => { isPremium ? addActions() :
-		setIsModalOpenTrue();
+	const handleClick = useCallback( () => {
+		isPremium ? addActions()
+			: setIsModalOpenTrue();
 	}, [ setIsModalOpenTrue ] );
 	const [ isPressed, setIsPressed ] = useState( false );
 	const handlePress = useCallback( () => setIsPressed( ! isPressed ), [ isPressed, setIsPressed ] );
@@ -60,14 +64,14 @@ const AIButtonWithTooltip = ( { children, isPremium } ) => {
 				variant="secondary"
 				size="small"
 				className="yst-flex yst-justify-center"
-				style={ isPressed ? {style: {backgroundColor: '#a4286a'}} : {} }
+				style={ isPressed ? { style: { backgroundColor: "#a4286a" } } : {} }
 				aria-describedby={ Tooltip.id }
 				onMouseEnter={ handleMouseEnter }
 				onMouseLeave={ handleMouseLeave }
 				onClick={ handleClick }
 			>
-				<SparklesIcon/>
-			{/* { isVisible && (
+				<SparklesIcon />
+				{ /* { isVisible && (
 				<Tooltip
 					id={ Tooltip.id }
 					className="yst-text-xs"
@@ -75,13 +79,30 @@ const AIButtonWithTooltip = ( { children, isPremium } ) => {
 				>
 					{ children }
 				</Tooltip>
-			) } */}
+			) } */ }
 			</Button>
-			<AIModal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } >
+			<AIModal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse }>
 				<ModalContent> I am the AI modal </ModalContent>
 			</AIModal>
 		</>
 	);
+};
+
+const AIFixesModal = ( { isPremium, id } ) => {
+	const [ isModalOpen, setIsModalOpen ] = useState( false );
+
+	const closeModal = useCallback( () => setIsModalOpen( false ), [] );
+	const openModal = useCallback( () => setIsModalOpen( true ), [] );
+
+	if ( isPremium ) {
+		addAction( "yoast.ai.fixAssessments", id );
+	} else {
+		openModal();
+	}
+
+	return isModalOpen && <AIModal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ closeModal }>
+		<ModalContent> I am the AI modal </ModalContent>
+	</AIModal>;
 };
 
 /**
@@ -245,17 +266,27 @@ class SeoAnalysis extends Component {
 		];
 	}
 
-	renderAIButton( isPremium ) {
+	onAIFixesButtonClick( isPremium, id ) {
+		return <AIFixesModal isPremium={ isPremium } id={ id } />;
+	}
 
+	renderAIFixesButton = ( {
+		id,
+		isPressed,
+		isPremium,
+	} ) => {
+		const onClick = () => this.onAIFixesButtonClick( isPremium, id );
+		const aiFixesId = id + "AIFixes";
+		const ariaLabel = __( "Fix this assessment result with AI", "wordpress-seo" );
 		return (
 			<>
-				<AIButtonWithTooltip buttonName={ __( "Use AI", "wordpress-seo" ) } isPremium={ isPremium }>
-					{ "I'm the AI tooltip" }
-				</AIButtonWithTooltip>
-
+				<AIFixesButton onClick={ onClick } ariaLabel={  ariaLabel } id={ aiFixesId } className={ "yoast-tooltip yoast-tooltip-w" } isPressed={ isPressed }>
+					<SparklesIcon />
+				</AIFixesButton>
 			</>
 		);
-	}
+	};
+
 
 	/**
 	 * Renders the SEO Analysis component.
@@ -315,7 +346,7 @@ class SeoAnalysis extends Component {
 												location={ location }
 												shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 												highlightingUpsellLink={ highlightingUpsellLink }
-												renderAIButton={ isBlockEditor() ? this.renderAIButton : noop }
+												renderAIFixesButton={ isBlockEditor() ? this.renderAIFixesButton : noop }
 											/>
 										</Collapsible>
 										{ this.renderTabIcon( location, score.className ) }
