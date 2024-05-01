@@ -67,7 +67,7 @@ const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 	const dateCharacters = getDate().length;
 	const separatorCharacters = 3;
 	const newMentions = [];
-	if ( !isProduct && fieldId === "yoast-google-preview-description-metabox"  || fieldId === "yoast-google-preview-description-modal" ) {
+	if ( ! isProduct && fieldId === "yoast-google-preview-description-metabox"  || fieldId === "yoast-google-preview-description-modal" ) {
 		newMentions.push(
 			<Fill
 				name={ `yoast.replacementVariableEditor.additionalMentions.${fieldId}` }
