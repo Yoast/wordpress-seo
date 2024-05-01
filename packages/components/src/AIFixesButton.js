@@ -1,15 +1,11 @@
 import React from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
 
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
-import SvgIcon from "./SvgIcon";
-
 import IconButtonBase from "./IconButtonBase";
-
 
 /**
  * Returns the ChangingIconButton component.
@@ -18,19 +14,10 @@ import IconButtonBase from "./IconButtonBase";
  *
  * @returns {ReactElement} ChangingIconButton component.
  */
-const ChangingIconButton = function( props ) {
-	const buttonsAreDisabled = props.marksButtonStatus === "disabled";
-
-	let iconColor;
-	if ( buttonsAreDisabled ) {
-		iconColor = props.disabledIconColor;
-	} else {
-		iconColor = props.pressed ? props.pressedIconColor : props.unpressedIconColor;
-	}
-
+const AIFixesButton = function( props ) {
 	return (
 		<IconButtonBase
-			disabled={ buttonsAreDisabled }
+			disabled={ false }
 			type="button"
 			onClick={ props.onClick }
 			pressed={ props.pressed }
@@ -41,21 +28,15 @@ const ChangingIconButton = function( props ) {
 			id={ props.id }
 			aria-label={ props.ariaLabel }
 			aria-pressed={ props.pressed }
-			unpressedIconColor={ buttonsAreDisabled ? props.disabledIconColor : props.unpressedIconColor }
+			unpressedIconColor={ props.unpressedIconColor }
 			pressedIconColor={ props.pressedIconColor }
 			hoverBorderColor={ props.hoverBorderColor }
 			className={ props.className }
-		>
-			<SvgIcon
-				icon={ props.icon }
-				color={ iconColor }
-				size="18px"
-			/>
-		</IconButtonBase>
+		/>
 	);
 };
 
-ChangingIconButton.propTypes = {
+AIFixesButton.propTypes = {
 	id: PropTypes.string.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
 	onClick: PropTypes.func.isRequired,
@@ -68,12 +49,11 @@ ChangingIconButton.propTypes = {
 	icon: PropTypes.string.isRequired,
 	pressed: PropTypes.bool.isRequired,
 	hoverBorderColor: PropTypes.string,
-	marksButtonStatus: PropTypes.string,
 	disabledIconColor: PropTypes.string,
 	className: PropTypes.string,
 };
 
-ChangingIconButton.defaultProps = {
+AIFixesButton.defaultProps = {
 	unpressedBoxShadowColor: colors.$color_button_border,
 	pressedBoxShadowColor: colors.$color_purple,
 	pressedBackground: colors.$color_pink_dark,
@@ -81,8 +61,7 @@ ChangingIconButton.defaultProps = {
 	pressedIconColor: colors.$color_white,
 	unpressedIconColor: colors.$color_button_text,
 	hoverBorderColor: colors.$color_white,
-	marksButtonStatus: "enabled",
 	disabledIconColor: colors.$color_grey,
 };
 
-export default ChangingIconButton;
+export default AIFixesButton;
