@@ -63,10 +63,11 @@ MentionsWithTooltip.propTypes = {
 const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 	const isRtl = get( window, "wpseoScriptData.metabox.isRtl", false );
 	const getDate = select( "yoast-seo/editor" ).getDateFromSettings;
+	const isProduct = select( "yoast-seo/editor" ).getIsProduct();
 	const dateCharacters = getDate().length;
 	const separatorCharacters = 3;
 	const newMentions = [];
-	if ( fieldId === "yoast-google-preview-description-metabox"  || fieldId === "yoast-google-preview-description-modal" ) {
+	if ( !isProduct && fieldId === "yoast-google-preview-description-metabox"  || fieldId === "yoast-google-preview-description-modal" ) {
 		newMentions.push(
 			<Fill
 				name={ `yoast.replacementVariableEditor.additionalMentions.${fieldId}` }
