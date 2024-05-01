@@ -32,7 +32,9 @@ const AIFixesButton = function( props ) {
 			pressedIconColor={ props.pressedIconColor }
 			hoverBorderColor={ props.hoverBorderColor }
 			className={ props.className }
-		/>
+		>
+			{ props.children }
+		</IconButtonBase>
 	);
 };
 
