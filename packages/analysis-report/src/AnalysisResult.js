@@ -3,9 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { noop } from "lodash";
-
 import { SvgIcon, IconButtonToggle, IconCTAEditButton, BetaBadge } from "@yoast/components";
-
 import { strings } from "@yoast/helpers";
 
 const { stripTagsFromHtmlString } = strings;
@@ -74,7 +72,6 @@ const createMarkButton = ( {
 	/>;
 };
 
-
 /**
  * Returns an AnalysisResult component.
  *
@@ -127,7 +124,8 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 				{ props.hasBetaBadgeLabel && <BetaBadge /> }
 				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( props.text, ALLOWED_TAGS ) } } />
 			</AnalysisResultText>
-			<div className="yst-grid yst-grid-rows-2 yst-grid-flow-col yst-gap-1">
+			{ /* We can't use Tailwind in this package so the div should be styled with styled.components css lybrary */ }
+			<div className="yst-root yst-grid yst-grid-rows-3 yst-grid-flow-row yst-gap-2">
 				{ marksButton }
 				{ props.renderHighlightingUpsell( isOpen, closeModal ) }
 				{
