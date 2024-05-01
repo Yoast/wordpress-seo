@@ -20,7 +20,7 @@ import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
-import { Button, Modal as AIModal, Tooltip, useToggleState } from "@yoast/ui-library";
+import { Root, Button, Modal as AIModal, Tooltip, useToggleState } from "@yoast/ui-library";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import noop from "lodash/noop";
 import { useCallback, useState } from "@wordpress/element";
@@ -54,33 +54,34 @@ const AIButtonWithTooltip = ( { children, isPremium } ) => {
 	const handlePress = useCallback( () => setIsPressed( ! isPressed ), [ isPressed, setIsPressed ] );
 
 	return (
-		<>
+		<Root>
+			{ /* We will not be using Button and Tooltip components from the UI library as they have different styling than the design */}
 			<Button
 				type="button"
 				variant="secondary"
 				size="small"
-				className="yst-flex yst-justify-center"
+				className="yst-relative yst-flex yst-justify-center "
 				style={ isPressed ? {style: {backgroundColor: '#a4286a'}} : {} }
 				aria-describedby={ Tooltip.id }
 				onMouseEnter={ handleMouseEnter }
 				onMouseLeave={ handleMouseLeave }
 				onClick={ handleClick }
 			>
-				<SparklesIcon/>
-			{/* { isVisible && (
+				{ <SparklesIcon/> }
+			{ isVisible && (
 				<Tooltip
 					id={ Tooltip.id }
 					className="yst-text-xs"
-					position="right"
+					position="left"
 				>
 					{ children }
 				</Tooltip>
-			) } */}
+			) }
 			</Button>
 			<AIModal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } >
 				<ModalContent> I am the AI modal </ModalContent>
 			</AIModal>
-		</>
+		</Root>
 	);
 };
 
@@ -249,10 +250,9 @@ class SeoAnalysis extends Component {
 
 		return (
 			<>
-				<AIButtonWithTooltip buttonName={ __( "Use AI", "wordpress-seo" ) } isPremium={ isPremium }>
+				<AIButtonWithTooltip isPremium={ isPremium }>
 					{ "I'm the AI tooltip" }
 				</AIButtonWithTooltip>
-
 			</>
 		);
 	}
