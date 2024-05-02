@@ -191,7 +191,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 *
 	 * @param array<WP_Taxonomy> $taxonomies The taxonomies that should be mapped.
 	 *
-	 * @return array<string> The mapped taxonomies.
+	 * @return array<string,array<string,string|int|array<int|string>>> The mapped taxonomies.
 	 */
 	protected function get_mapped_taxonomies_for_js( $taxonomies ) {
 		return array_map( [ $this, 'map_taxonomies_for_js' ], $taxonomies );
