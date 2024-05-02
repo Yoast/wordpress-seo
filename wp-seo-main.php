@@ -363,9 +363,6 @@ function wpseo_init() {
 		require_once WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php';
 	}
 
-	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
-	new WPSEO_Customizer();
-
 	$integrations   = [];
 	$integrations[] = new WPSEO_Slug_Change_Watcher();
 
