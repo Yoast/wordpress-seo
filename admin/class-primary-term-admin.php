@@ -16,10 +16,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_filter( 'wpseo_content_meta_section_content', [ $this, 'add_input_fields' ] );
-
 		add_action( 'admin_footer', [ $this, 'wp_footer' ], 10 );
-
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 	}
 
@@ -42,11 +39,15 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	/**
 	 * Adds hidden fields for primary taxonomies.
 	 *
+	 * @deprecated 22.8
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $content The metabox content.
 	 *
 	 * @return string The HTML content.
 	 */
 	public function add_input_fields( $content ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 22.8' );
 		$taxonomies = $this->get_primary_term_taxonomies();
 
 		foreach ( $taxonomies as $taxonomy ) {
@@ -59,11 +60,15 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	/**
 	 * Generates the HTML for a hidden field for a primary taxonomy.
 	 *
+	 * @deprecated 22.8
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $taxonomy_name The taxonomy's slug.
 	 *
 	 * @return string The HTML for a hidden primary taxonomy field.
 	 */
 	protected function primary_term_field( $taxonomy_name ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 22.8' );
 		return sprintf(
 			'<input class="yoast-wpseo-primary-term" type="hidden" id="%1$s" name="%2$s" value="%3$s" />',
 			esc_attr( $this->generate_field_id( $taxonomy_name ) ),
@@ -75,22 +80,30 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	/**
 	 * Generates an id for a primary taxonomy's hidden field.
 	 *
+	 * @deprecated 22.8
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $taxonomy_name The taxonomy's slug.
 	 *
 	 * @return string The field id.
 	 */
 	protected function generate_field_id( $taxonomy_name ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 22.8' );
 		return WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy_name;
 	}
 
 	/**
 	 * Generates a name for a primary taxonomy's hidden field.
 	 *
+	 * @deprecated 22.8
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $taxonomy_name The taxonomy's slug.
 	 *
 	 * @return string The field id.
 	 */
 	protected function generate_field_name( $taxonomy_name ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 22.8' );
 		return WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy_name . '_term';
 	}
 
@@ -200,7 +213,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 *
 	 * @param stdClass $taxonomy The taxonomy to map.
 	 *
-	 * @return array<string,string|int|array<int|string>> The mapped taxonomy.
+	 * @return array<string|int|array<int|string>> The mapped taxonomy.
 	 */
 	private function map_taxonomies_for_js( $taxonomy ) {
 		$primary_term = $this->get_primary_term( $taxonomy->name );
@@ -230,7 +243,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 			'name'          => $taxonomy->name,
 			'primary'       => $primary_term,
 			'singularLabel' => $taxonomy->labels->singular_name,
-			'fieldId'       => $this->generate_field_id( $taxonomy->name ),
+			'fieldId'       => WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name,
 			'restBase'      => ( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name,
 			'terms'         => $mapped_terms_for_js,
 		];
