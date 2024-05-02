@@ -1,10 +1,10 @@
 # YoastSEO.js
 
-Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
+YoastSEO.js is a text analysis and assessment library in JavaScript.
+This library is used in the Yoast SEO plugin for WordPress to analyze and assess the content of a post or page.
+This library can generate metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 
 ![Screenshot of the assessment of the given text](images/assessments.png)
-
-Also included is a preview of the Google search results which can be assessed using the library.
 
 ## Documentation
 * A list of all the [assessors](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/ASSESSORS%20OVERVIEW.md)
@@ -18,9 +18,7 @@ Also included is a preview of the Google search results which can be assessed us
 * Information on the design decisions within the package can be found [here](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/DESIGN%20DECISIONS.md).
 * Information on how morphology works in `yoastseo` package can be found [here](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/MORPHOLOGY.md).
 
-
 ## Installation
-
 You can install YoastSEO.js using npm:
 
 ```bash
@@ -37,12 +35,23 @@ yarn add yoastseo
 
 You can either use YoastSEO.js using the web worker API or use the internal components directly.
 
+### Internal components
+
+Example here.
+
+See `apps/content-analysis-api` (link) for an example of how to use the internal components.
+
+### Web Worker API
+
 Because a web worker must be a separate script in the browser you first need to create a script for inside the web worker:
 
 ```js
 import { AnalysisWebWorker } from "yoastseo";
+// Can we get rid of the circular dependency when exposing the getResearcher function?
+const EnglishReseacher = require("yoastseo/build/languageProcessing/languages/en/Researcher.js");
 
-const worker = new AnalysisWebWorker( self );
+const worker = new AnalysisWebWorker( self, EnglishReseacher );
+// Any custom registration should be done here (or send messages via postMessage to the wrapper).
 worker.register();
 ```
 
@@ -58,10 +67,7 @@ const url = "https://my-site-url.com/path-to-webworker-script.js"
 const worker = new AnalysisWorkerWrapper( createWorker( url ) );
 
 worker.initialize( {
-    locale: "en_US",
-    contentAnalysisActive: true,
-    keywordAnalysisActive: true,
-    logLevel: "ERROR",
+    logLevel: "TRACE", // Optional, see https://github.com/pimterry/loglevel#documentation
 } ).then( () => {
     // The worker has been configured, we can now analyze a Paper.
     const paper = new Paper( "Text to analyze", {
