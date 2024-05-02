@@ -79,7 +79,6 @@ final class Crawl_Settings_Integration_Test extends TestCase {
 	public function test_register_hooks() {
 		Monkey\Functions\stubTranslationFunctions();
 
-		Monkey\Actions\has( 'wpseo_settings_tab_crawl_cleanup_internal', [ $this->instance, 'add_crawl_settings_tab_content' ] );
 		Monkey\Actions\has( 'wpseo_settings_tab_crawl_cleanup_network', [ $this->instance, 'add_crawl_settings_tab_content_network' ] );
 		Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] );
 
@@ -127,20 +126,5 @@ final class Crawl_Settings_Integration_Test extends TestCase {
 			[ false, 'page is set but not equal to wpseo_dashboard', 0 ],
 			[ true, 'wpseo_dashboard', 1 ],
 		];
-	}
-
-	/**
-	 * Tests the add_crawl_settings_tab_content method.
-	 *
-	 * @covers ::add_crawl_settings_tab_content
-	 *
-	 * @return void
-	 */
-	public function add_crawl_settings_tab_content() {
-
-		Monkey\Functions\expect( '_deprecated_function' )
-			->once();
-
-		$this->instance->add_crawl_settings_tab_content();
 	}
 }
