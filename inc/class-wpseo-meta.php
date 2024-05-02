@@ -302,19 +302,6 @@ class WPSEO_Meta {
 		}
 		unset( $extra_fields );
 
-		// register meta data for taxonomies.
-		self::$meta_fields['primary_terms'] = [];
-
-		$taxonomies = get_taxonomies( [ 'hierarchical' => true ], 'names' );
-		foreach ( $taxonomies as $taxonomy_name ) {
-			self::$meta_fields['primary_terms'][ 'primary_' . $taxonomy_name ] = [
-				'type'          => 'hidden',
-				'title'         => '',
-				'default_value' => '',
-				'description'   => '',
-			];
-		}
-
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 
