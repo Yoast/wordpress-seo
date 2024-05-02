@@ -2,23 +2,14 @@
 
 namespace Yoast\WP\SEO\Initializers;
 
-use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 
 /**
  * Add primary term meta field.
  */
 class Primary_Term_Metadata implements Initializer_Interface {
 
-	/**
-	 * Returns the conditionals based in which this loadable should be active.
-	 *
-	 * @return array<Post_Conditional>
-	 */
-	public static function get_conditionals() {
-		return [
-			Post_Conditional::class,
-		];
-	}
+    use No_Conditionals;
 
 	/**
 	 * Initializes the integration.
@@ -32,7 +23,43 @@ class Primary_Term_Metadata implements Initializer_Interface {
 		 * Called by WPSEO_Meta to add extra meta fields to the ones defined there.
 		 */
 		\add_filter( 'add_extra_wpseo_meta_fields', [ $this, 'add_meta_field' ] );
+        $taxonomies = $this->get_hierarchical_taxonomies_names();
+        foreach ( $taxonomies as $taxonomy_name ) {
+            \add_filter( 'wpseo_sanitize_post_meta_primary_' . $taxonomy_name, [ $this, 'sanitize_primary_term' ], 10, 4 );
+        }
+
 	}
+
+    /**
+     * Get the hierarchical taxonomies.
+     * 
+     * @return array<WP_Taxonomy> The hierarchical taxonomies.
+     */
+    private function get_hierarchical_taxonomies_names() {
+        return get_taxonomies( [ 'hierarchical' => true ], 'names' );
+    }
+
+    /**
+     * Sanitize the primary term.
+     * 
+     * @param mixed $value The value to sanitize.
+     * @param array<string> $field_def The field definition.
+     * @param string $meta_key The meta key.
+     * @param int $post_id The post ID.
+     * 
+     * @return mixed The sanitized value.
+     */
+    public function sanitize_primary_term( $clean, $meta_value, $field_def, $meta_key ) {
+        $clean = '';
+        if( strpos( $meta_key, WPSEO_Meta::$meta_prefix . 'primary_' ) === 0 ){
+            $int = WPSEO_Utils::validate_int( $meta_value );
+            if ( $int !== false && $int > 0 ) {
+                $clean = strval( $int );
+            }
+        }
+        return $clean;
+    }
+
 
 	/**
 	 * Adds the primary term to general tab.
@@ -43,16 +70,9 @@ class Primary_Term_Metadata implements Initializer_Interface {
 	 */
 	public function add_meta_field( $fields ) {
 
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
-		if ( ! isset( $_GET['post'] ) || ! \is_numeric( $_GET['post'] ) ) {
-			return $fields;
-		}
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We casting to integer.
-		$post_id = (int) $_GET['post'];
-
-		$taxonomies = \YoastSEO()->helpers->primary_term->get_primary_term_taxonomies( $post_id );
-		foreach ( $taxonomies as $taxonomy ) {
-			$fields['general'][ 'primary_' . $taxonomy->name ] = [
+		$taxonomies = get_taxonomies( [ 'hierarchical' => true ], 'names' );
+		foreach ( $taxonomies as $taxonomy_name ) {
+			$fields['primary_terms'][ 'primary_' . $taxonomy_name ] = [
 				'type'          => 'hidden',
 				'title'         => '',
 				'default_value' => '',
