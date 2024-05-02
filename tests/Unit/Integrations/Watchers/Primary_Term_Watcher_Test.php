@@ -192,12 +192,6 @@ final class Primary_Term_Watcher_Test extends TestCase {
 			->expects( 'is_multisite_and_switched' )
 			->andReturnFalse();
 
-		$this->primary_term
-			->expects( 'get_primary_term_taxonomies' )
-			->once()
-			->with( $post_id )
-			->andReturn( [ (object) [ 'name' => 'category' ] ] );
-
 		$this->primary_term_builder
 			->expects( 'build' )
 			->with( $post_id );
