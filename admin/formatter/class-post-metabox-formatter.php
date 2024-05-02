@@ -364,8 +364,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 
 		$schema_defaults['pageType'] = WPSEO_Options::get( 'schema-page-type-' . $post_type );
 
-		$article_helper = new Article_Helper();
-		if ( $article_helper->is_article_post_type( $post_type ) ) {
+		if ( YoastSEO()->helpers->schema->article->is_article_post_type( $post_type ) ) {
 			$default_schema_article_type = WPSEO_Options::get( 'schema-article-type-' . $post_type );
 
 			/** This filter is documented in inc/options/class-wpseo-option-titles.php */
