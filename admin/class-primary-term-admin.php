@@ -18,6 +18,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	public function register_hooks() {
 		add_action( 'admin_footer', [ $this, 'wp_footer' ], 10 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		add_filter( 'wpseo_metabox_entries_general', [ $this, 'add_input_fields' ], 10, 2 );
 	}
 
 	/**
@@ -38,73 +39,18 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Adds hidden fields for primary taxonomies.
+	 * Post type parameter is not used, but is provided by the filter.
 	 *
-	 * @deprecated 22.8
-	 * @codeCoverageIgnore
+	 * @param array<array<string>> $field_defs The fields defs for general group.
 	 *
-	 * @param string $content The metabox content.
-	 *
-	 * @return string The HTML content.
+	 * @return array<array<string>> The new general group fields defs.
 	 */
-	public function add_input_fields( $content ) {
-		_deprecated_function( __METHOD__, 'Yoast SEO 22.8' );
+	public function add_input_fields( $field_defs ) {
 		$taxonomies = $this->get_primary_term_taxonomies();
-
 		foreach ( $taxonomies as $taxonomy ) {
-			$content .= $this->primary_term_field( $taxonomy->name );
-			$content .= wp_nonce_field( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce', false, false );
+			$field_defs[ 'primary_' . $taxonomy->name ] = WPSEO_Meta::$meta_fields['primary_terms'][ 'primary_' . $taxonomy->name ];
 		}
-		return $content;
-	}
-
-	/**
-	 * Generates the HTML for a hidden field for a primary taxonomy.
-	 *
-	 * @deprecated 22.8
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $taxonomy_name The taxonomy's slug.
-	 *
-	 * @return string The HTML for a hidden primary taxonomy field.
-	 */
-	protected function primary_term_field( $taxonomy_name ) {
-		_deprecated_function( __METHOD__, 'Yoast SEO 22.8' );
-		return sprintf(
-			'<input class="yoast-wpseo-primary-term" type="hidden" id="%1$s" name="%2$s" value="%3$s" />',
-			esc_attr( $this->generate_field_id( $taxonomy_name ) ),
-			esc_attr( $this->generate_field_name( $taxonomy_name ) ),
-			esc_attr( $this->get_primary_term( $taxonomy_name ) )
-		);
-	}
-
-	/**
-	 * Generates an id for a primary taxonomy's hidden field.
-	 *
-	 * @deprecated 22.8
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $taxonomy_name The taxonomy's slug.
-	 *
-	 * @return string The field id.
-	 */
-	protected function generate_field_id( $taxonomy_name ) {
-		_deprecated_function( __METHOD__, 'Yoast SEO 22.8' );
-		return WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy_name;
-	}
-
-	/**
-	 * Generates a name for a primary taxonomy's hidden field.
-	 *
-	 * @deprecated 22.8
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $taxonomy_name The taxonomy's slug.
-	 *
-	 * @return string The field id.
-	 */
-	protected function generate_field_name( $taxonomy_name ) {
-		_deprecated_function( __METHOD__, 'Yoast SEO 22.8' );
-		return WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy_name . '_term';
+		return $field_defs;
 	}
 
 	/**
