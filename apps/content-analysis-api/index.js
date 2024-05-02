@@ -65,7 +65,7 @@ app.use( express.json() );
 
 app.get( "/analyze", ( request, response ) => {
 	// Fetch the Researcher and set the morphology data for the given language (yes, this is a bit hacky)
-	const language = request.body.locale || "en";
+	const language = request.body.locale || "default";
 	const dataVersion = MORPHOLOGY_VERSIONS[ language ];
 	// eslint-disable-next-line global-require
 	const { "default": Researcher } = require( `yoastseo/build/languageProcessing/languages/${language}/Researcher` );
