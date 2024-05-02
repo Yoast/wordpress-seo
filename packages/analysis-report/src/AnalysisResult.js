@@ -22,7 +22,7 @@ const AnalysisResultBase = styled.li`
 	min-height: 24px;
 	padding: 0;
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	position: relative;
 `;
 

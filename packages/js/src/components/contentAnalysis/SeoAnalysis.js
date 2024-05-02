@@ -35,21 +35,23 @@ const AnalysisHeader = styled.span`
 	display: block;
 `;
 
-const AIFixesModal = ( { isPremium, id } ) => {
-	const [ isModalOpen, setIsModalOpen ] = useState( false );
+const AIFixesModal = ( ) => {
+	// const [ isModalOpen, setIsModalOpen ] = useState( false );
 
-	const closeModal = useCallback( () => setIsModalOpen( false ), [] );
-	const openModal = useCallback( () => setIsModalOpen( true ), [] );
+	// const closeModal = useCallback( () => setIsModalOpen( false ), [] );
+	// const openModal = useCallback( () => setIsModalOpen( true ), [] );
 
-	if ( isPremium ) {
-		addAction( "yoast.ai.fixAssessments", id );
-	} else {
-		openModal();
-	}
+	// if ( isPremium ) {
+	// 	addAction( "yoast.ai.fixAssessments", id );
+	// } else {
+	// 	openModal();
+	// }
 
-	return isModalOpen && <AIModal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ closeModal }>
-		<ModalContent> I am the AI modal </ModalContent>
-	</AIModal>;
+	return (
+		<AIModal className="yst-introduction-modal" >
+			<ModalContent> I am the AI modal </ModalContent>
+		</AIModal>
+	);
 };
 
 /**
@@ -229,16 +231,16 @@ class SeoAnalysis extends Component {
 			alert( "I am the AI modal" );
 		};
 		const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-		const handleClick = useCallback( () => {
-			isPremium ? addActions()
-				: setIsModalOpenTrue();
+		const handleClick = useCallback( () => { isPremium ? addActions() :
+			setIsModalOpenTrue();
 		}, [ setIsModalOpenTrue ] );
 		// 	const [ isPressed, setIsPressed ] = useState( false );
 		// 	const handlePress = useCallback( () => setIsPressed( ! isPressed ), [ isPressed, setIsPressed ] );
 		return (
 			<>
 				<AIFixesButton
-						onClick={ onClick }
+						isPremium={ isPremium }
+						onClick={ handleClick }
 						ariaLabel={  ariaLabel }
 						id={ aiFixesId }
 						className={ "yoast-tooltip yoast-tooltip-w" }
@@ -246,6 +248,7 @@ class SeoAnalysis extends Component {
 					>
 					<SparklesIcon style={{ width: "70%", height: "70%", color: "#555" }} />
 				</AIFixesButton>
+				<AIFixesModal isOpen={ isModalOpen } onClose={ setIsModalOpenFalse }/>
 			</>
 		);
 	};
