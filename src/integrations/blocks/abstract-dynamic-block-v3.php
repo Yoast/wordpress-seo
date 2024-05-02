@@ -31,14 +31,20 @@ abstract class Dynamic_Block_V3 implements Integration_Interface {
 	protected $base_path;
 
 	/**
-	 * {@inheritDoc}
+	 *  Returns the conditionals based on which this loadable should be active.
+	 *
+	 * @return array<string>
 	 */
 	public static function get_conditionals() {
 		return [];
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'init', [ $this, 'register_block' ], 11 );
@@ -51,7 +57,7 @@ abstract class Dynamic_Block_V3 implements Integration_Interface {
 	 */
 	public function register_block() {
 		\register_block_type(
-			 $this->base_path . $this->block_name . '/block.json',
+			$this->base_path . $this->block_name . '/block.json',
 			[
 				'editor_script'   => $this->script,
 				'render_callback' => [ $this, 'present' ],
@@ -69,7 +75,7 @@ abstract class Dynamic_Block_V3 implements Integration_Interface {
 	 * Presents the block output. This is abstract because in the loop we need to be able to build the data for the
 	 * presenter in the last moment.
 	 *
-	 * @param array $attributes The block attributes.
+	 * @param array<string, bool|string|int|array> $attributes The block attributes.
 	 *
 	 * @return string The block output.
 	 */

@@ -91,7 +91,7 @@ class Breadcrumbs_Block extends Dynamic_Block_V3 {
 	/**
 	 * Presents the breadcrumbs output for the current page or the available post_id.
 	 *
-	 * @param array $attributes The block attributes.
+	 * @param array<string, bool|string|int|array> $attributes The block attributes.
 	 *
 	 * @return string The block output.
 	 */
