@@ -10,8 +10,8 @@ const IconButtonBase = styled.button`
 	border: 1px solid ${ colors.$color_button_border };
 	background-color: ${ props => props.pressed ? props.pressedBackground : props.unpressedBackground };
 	box-shadow: ${ props => props.pressed
-	? `inset 0 2px 0 ${ rgba( props.pressedBoxShadowColor, 0.7 ) }`
-	: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
+		? `inset 0 2px 0 ${ rgba( props.pressedBoxShadowColor, 0.7 ) }`
+		: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
 	border-radius: 3px;
 	cursor: pointer;
 	padding: 0;

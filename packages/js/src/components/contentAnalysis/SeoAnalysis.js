@@ -20,7 +20,7 @@ import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
-import { Root, Button, Modal as AIModal, Tooltip, useToggleState } from "@yoast/ui-library";
+import { Modal as AIModal, useToggleState } from "@yoast/ui-library";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import noop from "lodash/noop";
 import { ModalContent } from "../../ai-generator/components/modal-content";
@@ -34,60 +34,6 @@ const AnalysisHeader = styled.span`
 	margin: 1.5em 0 1em;
 	display: block;
 `;
-
-
-const AIButtonWithTooltip = ( { children, isPremium } ) => {
-	const [ isVisible, setIsVisible ] = useState( false );
-	const handleMouseEnter = useCallback(
-		() => setIsVisible( true ),
-		[ setIsVisible ]
-	);
-	const handleMouseLeave = useCallback(
-		() => setIsVisible( false ),
-		[ setIsVisible ]
-	);
-	const addActions = () => {
-		alert( "I am the AI modal" );
-	};
-	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const handleClick = useCallback( () => {
-		isPremium ? addActions()
-			: setIsModalOpenTrue();
-	}, [ setIsModalOpenTrue ] );
-	const [ isPressed, setIsPressed ] = useState( false );
-	const handlePress = useCallback( () => setIsPressed( ! isPressed ), [ isPressed, setIsPressed ] );
-
-	return (
-		<Root>
-			{ /* We will not be using Button and Tooltip components from the UI library as they have different styling than the design */}
-			<Button
-				type="button"
-				variant="secondary"
-				size="small"
-				className="yst-relative yst-flex yst-justify-center "
-				style={ isPressed ? {style: {backgroundColor: '#a4286a'}} : {} }
-				aria-describedby={ Tooltip.id }
-				onMouseEnter={ handleMouseEnter }
-				onMouseLeave={ handleMouseLeave }
-				onClick={ handleClick }
-			>
-				{ <SparklesIcon/> }
-			{ isVisible && (
-				<Tooltip
-					id={ Tooltip.id }
-					className="yst-text-xs"
-					position="left"
-				>
-					{ children }
-				</Tooltip>
-			) }
-			</Button>
-			<AIModal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse }>
-				<ModalContent> I am the AI modal </ModalContent>
-			</AIModal>
-		</Root>
-	);
-};
 
 const AIFixesModal = ( { isPremium, id } ) => {
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
@@ -279,10 +225,26 @@ class SeoAnalysis extends Component {
 		const onClick = () => this.onAIFixesButtonClick( isPremium, id );
 		const aiFixesId = id + "AIFixes";
 		const ariaLabel = __( "Fix this assessment result with AI", "wordpress-seo" );
+		const addActions = () => {
+			alert( "I am the AI modal" );
+		};
+		const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
+		const handleClick = useCallback( () => {
+			isPremium ? addActions()
+				: setIsModalOpenTrue();
+		}, [ setIsModalOpenTrue ] );
+		// 	const [ isPressed, setIsPressed ] = useState( false );
+		// 	const handlePress = useCallback( () => setIsPressed( ! isPressed ), [ isPressed, setIsPressed ] );
 		return (
 			<>
-				<AIFixesButton onClick={ onClick } ariaLabel={  ariaLabel } id={ aiFixesId } className={ "yoast-tooltip yoast-tooltip-w" } isPressed={ isPressed }>
-					<SparklesIcon />
+				<AIFixesButton
+						onClick={ onClick }
+						ariaLabel={  ariaLabel }
+						id={ aiFixesId }
+						className={ "yoast-tooltip yoast-tooltip-w" }
+						isPressed={ isPressed }
+					>
+					<SparklesIcon style={{ width: "70%", height: "70%", color: "#555" }} />
 				</AIFixesButton>
 			</>
 		);

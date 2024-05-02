@@ -39,16 +39,16 @@ const AIFixesButton = function( props ) {
 };
 
 AIFixesButton.propTypes = {
+	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
-	onClick: PropTypes.func.isRequired,
+	onClick: PropTypes.func,
 	unpressedBoxShadowColor: PropTypes.string,
 	pressedBoxShadowColor: PropTypes.string,
 	pressedBackground: PropTypes.string,
 	unpressedBackground: PropTypes.string,
 	pressedIconColor: PropTypes.string,
 	unpressedIconColor: PropTypes.string,
-	icon: PropTypes.string.isRequired,
 	pressed: PropTypes.bool.isRequired,
 	hoverBorderColor: PropTypes.string,
 	disabledIconColor: PropTypes.string,

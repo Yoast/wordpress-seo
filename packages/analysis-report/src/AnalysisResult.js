@@ -10,12 +10,19 @@ const { stripTagsFromHtmlString } = strings;
 
 const ALLOWED_TAGS = [ "a", "b", "strong", "em", "i" ];
 
+const ContainerResultButtons = styled.div`
+	display : grid;
+	grid-template-rows: repeat(2, minmax(0, 1fr));
+	grid-auto-flow: row;
+	gap: 0.5rem;
+`;
+
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
 	min-height: 24px;
 	padding: 0;
 	display: flex;
-	align-items: flex-start;
+	align-items: center;
 	position: relative;
 `;
 
@@ -124,8 +131,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 				{ props.hasBetaBadgeLabel && <BetaBadge /> }
 				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( props.text, ALLOWED_TAGS ) } } />
 			</AnalysisResultText>
-			{ /* We can't use Tailwind in this package so the div should be styled with styled.components css lybrary */ }
-			<div className="yst-root yst-grid yst-grid-rows-3 yst-grid-flow-row yst-gap-2">
+			<ContainerResultButtons>
 				{ marksButton }
 				{ props.renderHighlightingUpsell( isOpen, closeModal ) }
 				{
@@ -139,7 +145,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 					/>
 				}
 				{ props.hasAIFixes && props.renderAIFixesButton( { id: props.id, isPressed: props.isPressed, isPremium: props.isPremium } )  }
-			</div>
+			</ContainerResultButtons>
 		</AnalysisResultBase>
 	);
 };
