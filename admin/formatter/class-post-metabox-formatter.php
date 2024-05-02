@@ -37,10 +37,9 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Constructor.
 	 *
-	 * @param WP_Post                $post      Post object.
-	 * @param array<string|int|bool> $options   Title options to use.
-	 *
-	 * @param string                 $structure The permalink to follow.
+	 * @param WP_Post|array $post      Post object.
+	 * @param array         $options   Title options to use.
+	 * @param string        $structure The permalink to follow.
 	 */
 	public function __construct( $post, array $options, $structure ) {
 		$this->post      = $post;
@@ -61,7 +60,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Returns the translated values.
 	 *
-	 * @return array<string|int|array<string|int>>
+	 * @return array
 	 */
 	public function get_values() {
 
@@ -87,7 +86,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'social_description_template' => $this->get_social_description_template(),
 				'social_image_template'       => $this->get_social_image_template(),
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
-				'metadata'                    => $this->get_post_meta_data(),
+				'metadata'                    => $this->get_post_metadata(),
 				'schemaDefaults'              => $this->get_schema_defaults( $this->post->post_type ),
 				'entity'                      => [
 					'id'         => $this->post->ID,
@@ -104,7 +103,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		/**
 		 * Filter: 'wpseo_post_edit_values' - Allows changing the values Yoast SEO uses inside the post editor.
 		 *
-		 * @param array<string|int|array<string|int>> $values The key-value map Yoast SEO uses inside the post editor.
+		 * @param array   $values The key-value map Yoast SEO uses inside the post editor.
 		 * @param WP_Post $post                 The post opened in the editor.
 		 */
 		return apply_filters( 'wpseo_post_edit_values', $values, $this->post );
@@ -168,7 +167,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Counts the number of given keywords used for other posts other than the given post_id.
 	 *
-	 * @return array<string|array<int>> The keyword and the associated posts that use it.
+	 * @return array The keyword and the associated posts that use it.
 	 */
 	private function get_focus_keyword_usage() {
 		$keyword = WPSEO_Meta::get_value( 'focuskw', $this->post->ID );
@@ -186,8 +185,8 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves the post types for the given post IDs.
 	 *
-	 * @param array<string|array<int>> $post_ids_per_keyword An associative array with keywords as keys and an array of post ids where those keywords are used.
-	 * @return array<string> The post types for the given post IDs.
+	 * @param array $post_ids_per_keyword An associative array with keywords as keys and an array of post ids where those keywords are used.
+	 * @return array The post types for the given post IDs.
 	 */
 	private function get_post_types_for_all_ids( $post_ids_per_keyword ) {
 
@@ -204,7 +203,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 *
 	 * @param string $keyword The keyword to check the usage of.
 	 *
-	 * @return array<int> The post IDs which use the passed keyword.
+	 * @return array The post IDs which use the passed keyword.
 	 */
 	protected function get_keyword_usage_for_current_post( $keyword ) {
 		return WPSEO_Meta::keyword_usage( $keyword, $this->post->ID );
@@ -333,9 +332,9 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 *
 	 * @return array<string>
 	 */
-	protected function get_post_meta_data() {
+	private function get_post_metadata() {
 		$post_type = $this->post->post_type;
-		$meta_data = [];
+		$metadata  = [];
 
 		$metadata_groups = YoastSEO()->classes->get( Metadata_Groups::class );
 
@@ -344,11 +343,11 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		foreach ( $groups as $group ) {
 			$fields = WPSEO_Meta::get_meta_field_defs( $group, $post_type );
 			foreach ( $fields as $key => $meta_field ) {
-				$meta_data[ $key ] = WPSEO_Meta::get_value( $key, $this->post->ID );
+				$metadata[ $key ] = WPSEO_Meta::get_value( $key, $this->post->ID );
 			}
 		}
 
-		return $meta_data;
+		return $metadata;
 	}
 
 	/**

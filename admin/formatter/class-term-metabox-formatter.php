@@ -34,7 +34,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Array with the WPSEO_Titles options.
 	 *
-	 * @var array<string|int|bool>
+	 * @var array
 	 */
 	protected $options;
 
@@ -63,7 +63,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Returns the translated values.
 	 *
-	 * @return array<string|int|array<string|int>>
+	 * @return array
 	 */
 	public function get_values() {
 		$values = [];
@@ -102,7 +102,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 *
 	 * @return array<string>
 	 */
-	protected function get_term_metadata() {
+	private function get_term_metadata() {
 		$metadata          = [];
 		$fields_presenter  = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
 		$field_definitions = new WPSEO_Taxonomy_Fields();
@@ -168,7 +168,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Counting the number of given keyword used for other term than given term_id.
 	 *
-	 * @return array<string,array<int>>
+	 * @return array
 	 */
 	private function get_focus_keyword_usage() {
 		$focuskw = WPSEO_Taxonomy_Meta::get_term_meta( $this->term, $this->term->taxonomy, 'focuskw' );

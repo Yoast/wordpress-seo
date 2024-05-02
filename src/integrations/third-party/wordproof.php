@@ -61,7 +61,7 @@ class Wordproof implements Integration_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @return array<object>
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [
@@ -162,8 +162,8 @@ class Wordproof implements Integration_Interface {
 	/**
 	 * Return the Yoast post meta key for the SDK to determine if the post should be timestamped.
 	 *
-	 * @param array<string> $meta_keys The array containing meta keys that should be used.
-	 * @return array<string>
+	 * @param array $meta_keys The array containing meta keys that should be used.
+	 * @return array
 	 */
 	public function add_post_meta_key( $meta_keys ) {
 		return [ $this->post_meta_key ];
@@ -172,8 +172,8 @@ class Wordproof implements Integration_Interface {
 	/**
 	 * Return an empty array to disable automatically timestamping selected post types.
 	 *
-	 * @param array<string> $post_types The array containing post types that should be automatically timestamped.
-	 * @return array<null> Empty array.
+	 * @param array $post_types The array containing post types that should be automatically timestamped.
+	 * @return array Empty array.
 	 */
 	public function wordproof_timestamp_post_types( $post_types ) {
 		return [];

@@ -73,7 +73,7 @@ class WPSEO_Meta {
 	 *   in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin) as they are only needed there.
 	 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!}}
 	 *
-	 * @var array<string,array<string,array<string|bool>>>
+	 * @var array
 	 *            Array format:
 	 *                (required)       'type'          => (string) field type. i.e. text / textarea / checkbox /
 	 *                                                    radio / select / multiselect / upload etc.
@@ -240,7 +240,7 @@ class WPSEO_Meta {
 	 *         ['subset']    => (string) primary index
 	 *         ['key']       => (string) internal key
 	 *
-	 * @var array<string,array<string>>
+	 * @var array
 	 */
 	public static $fields_index = [];
 
@@ -248,7 +248,7 @@ class WPSEO_Meta {
 	 * Helper property - array containing only the defaults in the format:
 	 * [full meta key including prefix]    => (string) default value
 	 *
-	 * @var array<string>
+	 * @var array
 	 */
 	public static $defaults = [];
 
@@ -383,7 +383,7 @@ class WPSEO_Meta {
 	 * @param string $tab       Tab for which to retrieve the field definitions.
 	 * @param string $post_type Post type of the current post.
 	 *
-	 * @return array<array<array<string|int>>> Array containing the meta box field definitions.
+	 * @return array Array containing the meta box field definitions.
 	 */
 	public static function get_meta_field_defs( $tab, $post_type = 'post' ) {
 		if ( ! isset( self::$meta_fields[ $tab ] ) ) {
@@ -460,8 +460,8 @@ class WPSEO_Meta {
 	/**
 	 * Validate the post meta values.
 	 *
-	 * @param string|int|bool $meta_value The new value.
-	 * @param string          $meta_key   The full meta key (including prefix).
+	 * @param mixed  $meta_value The new value.
+	 * @param string $meta_key   The full meta key (including prefix).
 	 *
 	 * @return string Validated meta value.
 	 */
@@ -1040,7 +1040,7 @@ class WPSEO_Meta {
 	 * @param string $keyword The keyword to be counted.
 	 * @param int    $post_id The id of the post to which the keyword belongs.
 	 *
-	 * @return array<int>
+	 * @return array
 	 */
 	public static function keyword_usage( $keyword, $post_id ) {
 
@@ -1090,9 +1090,9 @@ class WPSEO_Meta {
 	/**
 	 * Returns the post types for the given post ids.
 	 *
-	 * @param array<int> $post_ids The post ids to get the post types for.
+	 * @param array $post_ids The post ids to get the post types for.
 	 *
-	 * @return array<string> The post types.
+	 * @return array The post types.
 	 */
 	public static function post_types_for_ids( $post_ids ) {
 
