@@ -189,7 +189,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	/**
 	 * Creates a map of taxonomies for localization.
 	 *
-	 * @param array<WP_Taxonomy> $taxonomies The taxononmies that should be mapped.
+	 * @param array<WP_Taxonomy> $taxonomies The taxonomies that should be mapped.
 	 *
 	 * @return array<string> The mapped taxonomies.
 	 */
