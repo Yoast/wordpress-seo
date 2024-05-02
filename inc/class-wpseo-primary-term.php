@@ -60,7 +60,7 @@ class WPSEO_Primary_Term {
 	/**
 	 * Sets the new primary term ID.
 	 *
-	 * @param string|int $new_primary_term New primary term ID.
+	 * @param int $new_primary_term New primary term ID.
 	 *
 	 * @return void
 	 */
