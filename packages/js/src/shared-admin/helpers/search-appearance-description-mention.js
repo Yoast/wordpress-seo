@@ -9,8 +9,8 @@ import { select } from "@wordpress/data";
 
 /**
  * Renders a badge with tooltip for mentions.
- * @param {JSX.node[]} mentionsName The name of the mentions.
- * @param {JSX.node[]} children The children of the tooltip.
+ * @param {string} mentionsName The name of the mentions.
+ * @param {JSX.node} children The children of the tooltip.
  * @returns {JSX.Element} The badge with a tooltip.
  */
 const MentionsWithTooltip = ( { mentionsName, children } ) => {
@@ -64,10 +64,11 @@ const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 	const isRtl = get( window, "wpseoScriptData.metabox.isRtl", false );
 	const getDate = select( "yoast-seo/editor" ).getDateFromSettings;
 	const isProduct = select( "yoast-seo/editor" ).getIsProduct();
+	const isPreviewField = fieldId === "yoast-google-preview-description-metabox" || fieldId === "yoast-google-preview-description-modal";
 	const dateCharacters = getDate().length;
 	const separatorCharacters = 3;
 	const newMentions = [];
-	if ( ! isProduct && fieldId === "yoast-google-preview-description-metabox"  || fieldId === "yoast-google-preview-description-modal" ) {
+	if ( ! isProduct && isPreviewField ) {
 		newMentions.push(
 			<Fill
 				name={ `yoast.replacementVariableEditor.additionalMentions.${fieldId}` }
@@ -75,15 +76,13 @@ const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 				<Root context={ { isRtl } }>
 					<MentionsWithTooltip mentionsName={ __( "Date", "wordpress-seo" ) }>
 						{ sprintf(
-						/* translators:
-						%s expands to the amount of chararacters */
+							/* translators: %s expands to the amount of characters */
 							_n( "The 'Date' variable is fixed and adds %s character to the length of your meta description.", "The 'Date' variable is fixed and adds %s characters to the length of your meta description.", dateCharacters, "wordpress-seo" ), dateCharacters ) }
 					</MentionsWithTooltip>
 					<span className="yst-p-1" />
 					<MentionsWithTooltip mentionsName={ __( "Separator", "wordpress-seo" ) }>
 						{ sprintf(
-						/* translators:
-						%s expands to the amount of chararacters */
+							/* translators: %s expands to the amount of characters */
 							_n( "The 'Separator' variable is fixed and adds %s character to the length of your meta description.", "The 'Separator' variable is fixed and adds %s characters to the length of your meta description.", separatorCharacters, "wordpress-seo" ), separatorCharacters ) }
 					</MentionsWithTooltip>
 				</Root>
