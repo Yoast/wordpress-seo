@@ -1,4 +1,4 @@
-import { dispatch } from "@wordpress/data";
+import { dispatch, select } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
 import initializeWordProofForElementorEditor from "../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/elementorEditor";
 import initializeAiGenerator from "./ai-generator/initialize";
@@ -14,6 +14,7 @@ import initElementorEditorIntegration from "./initializers/elementor-editor-inte
 import initializeInsights from "./insights/initializer";
 import initElementorWatcher from "./watchers/elementorWatcher";
 import { hiddenFieldsSync } from "./helpers/fields";
+import { STORES } from "./shared-admin/constants";
 
 /* eslint-disable complexity */
 /**
@@ -79,7 +80,9 @@ function initialize() {
 
 	const AI_IGNORED_POST_TYPES = [ "attachment", "product" ];
 
-	if ( window.wpseoScriptData.postType && ! AI_IGNORED_POST_TYPES.includes( window.wpseoScriptData.postType ) ) {
+	const currentPostType = select( STORES.editor ).getPostType();
+
+	if ( currentPostType && ! AI_IGNORED_POST_TYPES.includes( currentPostType ) ) {
 		// Initialize the AI Generator upsell.
 		initializeAiGenerator();
 	}

@@ -10,12 +10,12 @@ function getDefaultState() {
 		contentLocale: get( window, "wpseoScriptData.metabox.contentLocale", "" ),
 		isBlockEditor: get( window, "wpseoScriptData.isBlockEditor", "0" ) === "1",
 		isElementorEditor: get( window, "wpseoScriptData.isElementorEditor", "0" ) === "1",
-		isPost: get( window, "wpseoScriptData", {} ).hasOwnProperty( "isPost" ),
-		isTerm: get( window, "wpseoScriptData", {} ).hasOwnProperty( "isTerm" ),
+		isPost: get( window, "wpseoScriptData.metabox.entity.entityType", false ) === "post",
+		isTerm: get( window, "wpseoScriptData.metabox.entity.entityType", false ) === "term",
 		noIndex: get( window, "wpseoAdminL10n.noIndex", "0" ) === "1",
 		postTypeNameSingular: get( window, "wpseoAdminL10n.postTypeNameSingular", "" ),
 		postTypeNamePlural: get( window, "wpseoAdminL10n.postTypeNamePlural", "" ),
-		postStatus: get( window, "wpseoScriptData.postStatus", "" ),
+		postStatus: get( window, "wpseoScriptData.metabox.entity.status", "" ),
 	};
 }
 

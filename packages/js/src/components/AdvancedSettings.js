@@ -6,13 +6,14 @@ import { join } from "@yoast/helpers";
 import PropTypes from "prop-types";
 import { LocationConsumer } from "@yoast/externals/contexts";
 import WordProofTimestampToggle from "./WordProofTimestampToggle";
+import { get } from "lodash";
 
 /**
  * Boolean that tells whether the current object refers to a post or a taxonomy.
  *
  * @returns {Boolean} Whether this is a post or not.
  */
-const isPost = () => !! window.wpseoScriptData.isPost;
+const isPost = () => get( window, "wpseoScriptData.metabox.entity.entityType", false ) === "post";
 
 /**
  * The values that are used for the noIndex field differ for posts and taxonomies. This function returns an array of

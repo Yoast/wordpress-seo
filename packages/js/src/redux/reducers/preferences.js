@@ -29,7 +29,7 @@ function getDefaultState() {
 		isSEMrushIntegrationActive: isSEMrushIntegrationActive(),
 		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ),
 		displayAdvancedTab: displayAdvancedTab,
-		displaySchemaSettings: displayAdvancedTab && !! window.wpseoScriptData.isPost,
+		displaySchemaSettings: displayAdvancedTab && window.wpseoScriptData.metabox.entity.entityType === "post",
 		displaySchemaSettingsFooter: window.wpseoScriptData.metabox.schema.displayFooter,
 		useOpenGraphData: window.wpseoScriptData.metabox.showSocial.facebook,
 		useTwitterData: window.wpseoScriptData.metabox.showSocial.twitter,
