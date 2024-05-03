@@ -35,22 +35,15 @@ yarn add yoastseo
 
 You can either use YoastSEO.js using the web worker API or use the internal components directly.
 
-### Internal components
-
-Example here.
-
-See `apps/content-analysis-api` (link) for an example of how to use the internal components.
-
 ### Web Worker API
 
 Because a web worker must be a separate script in the browser you first need to create a script for inside the web worker:
 
 ```js
 import { AnalysisWebWorker } from "yoastseo";
-// Can we get rid of the circular dependency when exposing the getResearcher function?
-const EnglishReseacher = require("yoastseo/build/languageProcessing/languages/en/Researcher.js");
+import EnglishResearcher from "yoastseo/build/languageProcessing/languages/en/Researcher";
 
-const worker = new AnalysisWebWorker( self, EnglishReseacher );
+const worker = new AnalysisWebWorker( self, new EnglishResearcher() );
 // Any custom registration should be done here (or send messages via postMessage to the wrapper).
 worker.register();
 ```
@@ -84,6 +77,9 @@ worker.initialize( {
 } );
 ```
 
+There is a basic example in the `apps/content-analysis-webworker` folder, which also contains a basic setup with Webpack.
+There is also a more involved example in the `apps/content-analysis` folder, which has a basic React implementation.
+
 ### Usage of internal components
 
 If you want to have a more bare-bones API, or are in an environment without access to Web Worker you can use the internal objects:
@@ -98,6 +94,8 @@ const researcher = new AbstractResearcher( paper );
 
 console.log( researcher.getResearch( "wordCountInText" ) );
 ```
+
+There is a basic example of this in the `apps/content-analysis-api` folder.
 
 **Note: This is currently a synchronous API, but will become an asynchronous API in the future.**
 

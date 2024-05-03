@@ -1,0 +1,15 @@
+{
+  "name": "content-analysis-webworker",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "yarn --cwd node_modules/yoastseo build",
+    "build": "webpack && cp index.html dist/index.html"
+  },
+  "dependencies": {
+    "yoastseo": "link:../../packages/yoastseo"
+  },
+  "devDependencies": {
+    "webpack": "^5.91.0"
+  }
+}
