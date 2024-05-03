@@ -114,6 +114,11 @@ export const META_FIELDS = {
 		get: "getSnippetEditorDescription",
 		set: "updateData",
 	},
+	seoDescriptionTerm: {
+		key: "desc",
+		get: "getSnippetEditorDescription",
+		set: "updateData",
+	},
 	readingTime: {
 		key: "estimated-reading-time-minutes",
 		get: "getEstimatedReadingTime",
