@@ -5,6 +5,7 @@
  * @package WPSEO\Admin\Formatter
  */
 use Yoast\WP\SEO\Editors\Framework\Metadata_Groups;
+
 /**
  * This class provides data for the term metabox by return its values for localization.
  */
