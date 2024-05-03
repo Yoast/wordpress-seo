@@ -13,7 +13,7 @@ export const snippetEditorInitialState = {
 	data: {
 		title: title || titleTemplate,
 		description: description || descriptionTemplate,
-		slug: get( window, "wpseoScriptData.metabox.post.slug", "" ),
+		slug: get( window, "wpseoScriptData.metabox.entity.slug", "" ),
 	},
 	wordsToHighlight: [],
 	replacementVariables: getDefaultReplacementVariables(),
