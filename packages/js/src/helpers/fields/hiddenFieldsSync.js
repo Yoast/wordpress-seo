@@ -49,8 +49,8 @@ export const hiddenFieldsSync = () => {
 		createCollectorFromObject( {
 			...getters,
 			...primaryTaxonomiesGetters,
-			// Slug is added for elementor editor.
-			slug: select( STORES.editor ).getSnippetEditorSlug,
+			// Slug is added for elementor editor, used only when hidden field for slug exist.
+			slug: select( STORES.editor ).getEditorDataSlug,
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORES.editor );
