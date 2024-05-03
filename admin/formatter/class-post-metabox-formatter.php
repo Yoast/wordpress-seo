@@ -7,7 +7,7 @@
 
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Editors\Framework\Metadata_Groups;
-use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
+
 /**
  * This class provides data for the post metabox by return its values for localization.
  */
