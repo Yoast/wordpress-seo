@@ -136,9 +136,6 @@ export default compose( [
 					case "mode":
 						switchMode( value );
 						break;
-					case "slug":
-						updateData( { slug: value } );
-						break;
 					default:
 						updateData( {
 							[ key ]: value,
