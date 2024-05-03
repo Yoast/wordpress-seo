@@ -93,7 +93,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 					'type'       => $this->post->post_type,
 					'slug'       => $this->post->post_name,
 					'status'     => $this->post->post_status,
-					'entityType' => 'post',
+					'entityType' => 'post', // Entity type either post or term.
 				],
 			];
 
