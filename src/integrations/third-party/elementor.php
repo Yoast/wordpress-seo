@@ -463,12 +463,9 @@ class Elementor implements Integration_Interface {
 			'media'                     => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'                   => $this->get_metabox_script_data(),
 			'userLanguageCode'          => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-			'isPost'                    => true,
 			'isBlockEditor'             => WP_Screen::get()->is_block_editor(),
 			'isElementorEditor'         => true,
 			'isWooCommerceActive'       => $woocommerce_conditional->is_met(),
-			'postStatus'                => \get_post_status( $post_id ),
-			'postType'                  => \get_post_type( $post_id ),
 			'analysis'                  => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,

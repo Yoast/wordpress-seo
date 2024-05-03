@@ -914,11 +914,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'media'                      => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'                    => $this->get_metabox_script_data(),
 			'userLanguageCode'           => WPSEO_Language_Utils::get_language( get_user_locale() ),
-			'isPost'                     => true,
 			'isBlockEditor'              => $is_block_editor,
-			'postId'                     => $post_id,
-			'postStatus'                 => get_post_status( $post_id ),
-			'postType'                   => get_post_type( $post_id ),
 			'usedKeywordsNonce'          => wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 			'analysis'                   => [
 				'plugins' => $plugins_script_data,
