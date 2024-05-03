@@ -186,9 +186,7 @@ TermDataCollector.prototype.setDataFromSnippet = function( value, type ) {
  * @returns {void}
  */
 TermDataCollector.prototype.saveSnippetData = function( data ) {
-	this.setDataFromSnippet( data.title, "snippet_title" );
 	this.setDataFromSnippet( data.urlPath, "snippet_cite" );
-	this.setDataFromSnippet( data.metaDesc, "snippet_meta" );
 };
 
 /**

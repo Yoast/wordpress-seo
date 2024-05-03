@@ -177,12 +177,12 @@ PostDataCollector.prototype.getSnippetTitle = function() {
 };
 
 /**
- * Returns the SnippetMeta from the DOM.
+ * Returns the SnippetMeta from the Store.
  *
  * @returns {string} The snippet meta.
  */
 PostDataCollector.prototype.getSnippetMeta = function() {
-	return get( window, "wpseoScriptData.metabox.metadata.metadesc", "" );
+	return select( STORES.editor ).getSnippetEditorDescription();
 };
 
 /**
@@ -275,11 +275,6 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
  */
 PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 	switch ( type ) {
-		case "snippet_meta":
-			if ( document.getElementById( "yoast_wpseo_metadesc" ) ) {
-				document.getElementById( "yoast_wpseo_metadesc" ).value = value;
-			}
-			break;
 		case "snippet_cite":
 
 			/*
@@ -301,11 +296,6 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 				document.getElementById( "editable-post-name-full" ).textContent = value;
 			}
 			break;
-		case "snippet_title":
-			if ( document.getElementById( "yoast_wpseo_title" ) ) {
-				document.getElementById( "yoast_wpseo_title" ).value = value;
-			}
-			break;
 		default:
 			break;
 	}
@@ -322,9 +312,7 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
  * @returns {void}
  */
 PostDataCollector.prototype.saveSnippetData = function( data ) {
-	this.setDataFromSnippet( data.title, "snippet_title" );
 	this.setDataFromSnippet( data.urlPath, "snippet_cite" );
-	this.setDataFromSnippet( data.metaDesc, "snippet_meta" );
 };
 
 /**

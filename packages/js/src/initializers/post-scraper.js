@@ -35,8 +35,6 @@ import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
 import {
 	getDataFromStore,
-	getDataWithoutTemplates,
-	getTemplatesFromL10n,
 } from "../analysis/snippetEditor";
 import CustomAnalysisData from "../analysis/CustomAnalysisData";
 import getApplyMarks from "../analysis/getApplyMarks";
@@ -45,20 +43,25 @@ import handleWorkerError from "../analysis/handleWorkerError";
 import initializeUsedKeywords from "./used-keywords-assessment";
 
 // Redux dependencies.
-import { actions } from "@yoast/externals/redux";
+import { actions, selectors } from "@yoast/externals/redux";
 
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
 
 const {
-	setFocusKeyword,
 	setMarkerStatus,
 	updateData,
-	setCornerstoneContent,
 	refreshSnippetEditor,
 	setReadabilityResults,
 	setSeoResultsForKeyword,
 } = actions;
+
+const {
+	getScoreForFocusKeyword,
+	getReadabilityScore,
+	getInclusiveLanguageScore,
+	getSnippetEditorData,
+} = selectors;
 
 // Plugin class prototypes (not the instances) are being used by other plugins from the window.
 window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
@@ -133,7 +136,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeKeywordAnalysis( activePublishBox ) {
-		const savedKeywordScore = get( window, "wpseoScriptData.metabox.metadata.linkdex", 0 );
+		const savedKeywordScore = getScoreForFocusKeyword( store.getState() );
 
 		const indicator = getIndicatorForScore( savedKeywordScore );
 
@@ -151,7 +154,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeContentAnalysis( activePublishBox ) {
-		const savedContentScore = get( window, "wpseoScriptData.metabox.metadata.content_score", 0 );
+		const savedContentScore = getReadabilityScore( store.getState() );
 
 		const indicator = getIndicatorForScore( savedContentScore );
 
@@ -168,7 +171,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeInclusiveLanguageAnalysis( activePublishBox ) {
-		const savedContentScore = get( window, "wpseoScriptData.metabox.metadata.inclusive_language_score", 0 );
+		const savedContentScore = getInclusiveLanguageScore( store.getState() );
 
 		const indicator = getIndicatorForScore( savedContentScore );
 
@@ -254,10 +257,6 @@ export default function initPostScraper( $, store, editorData ) {
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			const focusKeyPhrase = get( window, "wpseoScriptData.metabox.metadata.focuskw", "" );
-			store.dispatch( setFocusKeyword( focusKeyPhrase ) );
-
-
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
 				const keyword = store.getState().focusKeyword;
@@ -511,55 +510,34 @@ export default function initPostScraper( $, store, editorData ) {
 		}
 
 		// Initialize the snippet editor data.
-
-		const snippetEditorTemplates = getTemplatesFromL10n( wpseoScriptData.metabox );
-		const snippetEditorData = store.getState().snippetEditor.data;
+		const snippetEditorData = getSnippetEditorData( store.getState() );
 
 		// Save the keyword, in order to compare it to store changes.
-		let focusKeyword = store.getState().focusKeyword;
+		const focusKeyword = store.getState().focusKeyword;
 		requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
 		const refreshApp = debounce( () => {
 			app.refresh();
 		}, 50 );
 
-		let previousCornerstoneValue = null;
+		const previousCornerstoneValue = null;
 		store.subscribe( () => {
 			// Verify whether the focusKeyword changed. If so, trigger refresh:
 			const newFocusKeyword = store.getState().focusKeyword;
 
 			if ( focusKeyword !== newFocusKeyword ) {
-				focusKeyword = newFocusKeyword;
-				requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
-
-				setFocusKeyword( focusKeyword );
-
+				requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, newFocusKeyword );
 				refreshApp();
 			}
 
 			const data = getDataFromStore( store );
-			const dataWithoutTemplates = getDataWithoutTemplates( data, snippetEditorTemplates );
-
-
-			if ( snippetEditorData.title !== data.title ) {
-				postDataCollector.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
-			}
-
-			if ( snippetEditorData.slug !== data.slug ) {
-				postDataCollector.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
-			}
 
 			if ( snippetEditorData.description !== data.description ) {
-				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
 				refreshApp();
 			}
 
 			const currentState = store.getState();
 
 			if ( previousCornerstoneValue !== currentState.isCornerstone ) {
-				previousCornerstoneValue = currentState.isCornerstone;
-
-				store.dispatch( setCornerstoneContent( currentState.isCornerstone ) );
-
 				app.changeAssessorOptions( {
 					useCornerstone: currentState.isCornerstone,
 				} );
