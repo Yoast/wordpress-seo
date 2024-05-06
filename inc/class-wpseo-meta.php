@@ -325,13 +325,16 @@ class WPSEO_Meta {
 					self::$meta_prefix . $key,
 					[
 						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
-						'show_in_rest'      => self::get_show_in_rest_args( $field_def['type'] ),
-						'auth_callback'     => static function () {
-							return current_user_can( 'edit_posts' );
-						},
+						'show_in_rest'      => isset( $field_def['type'] ) ? [
+							'schema' => [
+								'type'    => 'string',
+								'context' => [ 'edit' ],
+							],
+						] : false,
+						'auth_callback'     => [ self, 'auth_callback' ],
 						'type'              => 'string',
 						'single'            => true,
-						'default'           => $field_def['default_value'],
+						'default'           => ( $field_def['default_value'] ?? '' ),
 					]
 				);
 
@@ -360,21 +363,12 @@ class WPSEO_Meta {
 	}
 
 	/**
-	 * Get show_in_rest args for a meta field.
+	 * Call back function for auth_callback in register_meta.
 	 *
-	 * @param string|null $type The type of the field.
-	 * @return bool|array<array<string>|string> $args The show_in_rest args.
+	 * @return bool
 	 */
-	public static function get_show_in_rest_args( $type ) {
-		if ( ! $type ) {
-			return false;
-		}
-		return [
-			'schema' => [
-				'type'    => 'string',
-				'context' => [ 'edit' ],
-			],
-		];
+	public function auth_callback() {
+		return current_user_can( 'edit_posts' );
 	}
 
 	/**
