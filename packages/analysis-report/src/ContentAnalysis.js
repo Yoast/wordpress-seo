@@ -37,7 +37,7 @@ const StyledCollapsible = styled( Collapsible )`
  */
 class ContentAnalysis extends React.Component {
 	/**
-	 * Renders a Collapsible component with a liset of Analysis results.
+	 * Renders a Collapsible component with a list of Analysis results.
 	 *
 	 * @param {string} title        The title of the collapsible section.
 	 * @param {number} headingLevel Heading level: 1 for h1, 2 for h2, etc.
