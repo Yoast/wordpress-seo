@@ -531,6 +531,10 @@ export default function initPostScraper( $, store, editorData ) {
 
 			const data = getDataFromStore( store );
 
+			if ( snippetEditorData.slug !== data.slug ) {
+				postDataCollector.setDataFromSnippet( data.slug, "snippet_cite" );
+			}
+
 			if ( snippetEditorData.description !== data.description ) {
 				refreshApp();
 			}
