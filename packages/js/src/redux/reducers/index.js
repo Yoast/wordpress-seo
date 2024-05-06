@@ -8,6 +8,7 @@ import {
 	wistiaEmbedPermissionReducer,
 } from "../../shared-admin/store";
 import analysis from "../reducers/contentAnalysis";
+import activeAIButton from "./activeAIButton";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
 import analysisData from "./analysisData";
@@ -39,6 +40,7 @@ import WincherRequest from "./WincherRequest";
 import WincherSEOPerformance from "./WincherSEOPerformance";
 
 export default {
+	activeAIButton,
 	activeMarker,
 	advancedSettings,
 	analysis,
