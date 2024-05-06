@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { select, subscribe } from "@wordpress/data";
 import { debounce, forEach, reduce } from "lodash";
-import { createWatcher, createCollectorFromObject } from "../../helpers/create-watcher";
+import { createWatcher, createCollectorFromObject } from "../create-watcher";
 import { STORES, HIDDEN_INPUT_ID_PREFIX, SYNC_TIME, META_FIELDS } from "../../shared-admin/constants";
 import { getPrimaryTerms } from "./primaryTaxonomiesFieldsStore";
 import { transformMetaValue } from "./transform-meta-value";
