@@ -56,7 +56,10 @@ export const blockEditorSync = () => {
 	const primaryTaxonomiesGetters = mapKeys( getPrimaryTerms(), ( value, key ) => POST_META_KEY_PREFIX + key );
 
 	const getters = reduce( META_FIELDS, ( acc, value ) => {
-		acc[ POST_META_KEY_PREFIX + value.key ] = select( STORES.editor )[ value.get ];
+		// check if value.get is a function in select( STORES.editor ) store
+		if ( typeof select( STORES.editor )[ value.get ] === "function" ) {
+			acc[ POST_META_KEY_PREFIX + value.key ] = select( STORES.editor )[ value.get ];
+		}
 		return acc;
 	}, {} );
 
