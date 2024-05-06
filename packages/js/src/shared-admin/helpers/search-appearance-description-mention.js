@@ -80,10 +80,10 @@ const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 							_n( "The 'Date' variable is fixed and adds %s character to the length of your meta description.", "The 'Date' variable is fixed and adds %s characters to the length of your meta description.", dateCharacters, "wordpress-seo" ), dateCharacters ) }
 					</MentionsWithTooltip>
 					&nbsp;
-					<MentionsWithTooltip mentionsName={ __( "Separator", "wordpress-seo" ) }>
+					<MentionsWithTooltip mentionsName={ "—" }>
 						{ sprintf(
 							/* translators: %s expands to the amount of characters */
-							_n( "The 'Separator' variable is fixed and adds %s character to the length of your meta description.", "The 'Separator' variable is fixed and adds %s characters to the length of your meta description.", separatorCharacters, "wordpress-seo" ), separatorCharacters ) }
+							_n( "The em dash (—) is fixed and adds %s character to the length of your meta description.", "The em dash (—) is fixed and adds %s characters to the length of your meta description.", separatorCharacters, "wordpress-seo" ), separatorCharacters ) }
 					</MentionsWithTooltip>
 					&nbsp;
 				</Root>
