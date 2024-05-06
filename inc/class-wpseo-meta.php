@@ -331,7 +331,7 @@ class WPSEO_Meta {
 								'context' => [ 'edit' ],
 							],
 						] : false,
-						'auth_callback'     => [ self, 'auth_callback' ],
+						'auth_callback'     => [ self::class, 'auth_callback' ],
 						'type'              => 'string',
 						'single'            => true,
 						'default'           => ( $field_def['default_value'] ?? '' ),
