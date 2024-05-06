@@ -31,8 +31,6 @@ import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import {
 	getDataFromStore,
-	getDataWithoutTemplates,
-	getTemplatesFromL10n,
 } from "../analysis/snippetEditor";
 import TermDataCollector from "../analysis/TermDataCollector";
 import CustomAnalysisData from "../analysis/CustomAnalysisData";
@@ -415,7 +413,6 @@ export default function initTermScraper( $, store, editorData ) {
 		initializeCornerstoneContentAnalysis( app );
 
 		const snippetEditorData = getSnippetEditorData( store.getState() );
-		const snippetEditorTemplates = getTemplatesFromL10n( wpseoScriptData.metabox );
 
 		let focusKeyword = store.getState().focusKeyword;
 		requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, window.YoastSEO.store, focusKeyword );
@@ -436,10 +433,9 @@ export default function initTermScraper( $, store, editorData ) {
 			}
 
 			const data = getDataFromStore( store );
-			const dataWithoutTemplates = getDataWithoutTemplates( data, snippetEditorTemplates );
 
 			if ( snippetEditorData.slug !== data.slug ) {
-				termScraper.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
+				termScraper.setDataFromSnippet( data.slug, "snippet_cite" );
 			}
 
 			if ( snippetEditorData.description !== data.description ) {
