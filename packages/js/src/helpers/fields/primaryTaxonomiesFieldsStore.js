@@ -1,4 +1,4 @@
-import { get, reduce } from "lodash";
+import { reduce } from "lodash";
 import { select } from "@wordpress/data";
 import { STORES } from "../../shared-admin/constants";
 
@@ -8,7 +8,7 @@ import { STORES } from "../../shared-admin/constants";
  * @returns {object} An object with taxonomies keys and their primary term id.
  */
 export const getPrimaryTerms = () => {
-	const primaryTerms = get( window, "wpseoPrimaryCategoryL10n.taxonomies", {} );
+	const primaryTerms = select( STORES.editor ).getPostTaxonomies();
 	return reduce( primaryTerms, ( acc, value, key ) => {
 		acc[ `primary_${key}` ] = () => select( STORES.editor ).getPrimaryTaxonomyId( key );
 		return acc;

@@ -5,6 +5,7 @@ import primaryTaxonomies from "./primaryTaxonomies";
 import { schemaInitialState as schemaTab } from "./schemaTab";
 import { snippetEditorInitialState as snippetEditor } from "./snippetEditor";
 import { analysisInitialState as analysis } from "./analysis";
+import { postInitialState as post } from "./post";
 
 const initialState = {
 	facebookEditor: facebookInitialState,
@@ -16,12 +17,7 @@ const initialState = {
 	isCornerstone: get( window, "wpseoScriptData.metabox.metadata.is_cornerstone", 0 ) === "1",
 	primaryTaxonomies,
 	schemaTab,
-	post: {
-		isPost: get( window, "wpseoScriptData.metabox.entity.entityType", false ) === "post",
-		id: Number( get( window, "wpseoScriptData.metabox.entity.id", null ) ),
-		type: get( window, "wpseoScriptData.metabox.entity.type", "" ),
-		status: get( window, "wpseoScriptData.metabox.entity.status", "" ),
-	},
+	post,
 	analysis,
 	insights: {
 		estimatedReadingTime: Number( get( window, "wpseoScriptData.metabox.metadata.estimated-reading-time-minutes", 0 ) ),
