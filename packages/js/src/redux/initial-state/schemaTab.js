@@ -5,5 +5,5 @@ export const schemaInitialState = {
 	defaultPageType: get( window, "wpseoScriptData.metabox.schemaDefaults.pageType", "" ),
 	articleType: get( window, "wpseoScriptData.metabox.metadata.schema_article_type", "" ),
 	defaultArticleType: get( window, "wpseoScriptData.metabox.schemaDefaults.articleType", "" ),
-	showArticleTypeInput: get( window, "wpseoScriptData.metabox.metadata.schema_article_type", false ) !== false,
+	showArticleType: get( window, "wpseoScriptData.metabox.metadata.schema_article_type", false ) !== false,
 };

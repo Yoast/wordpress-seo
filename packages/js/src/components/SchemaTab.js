@@ -171,7 +171,7 @@ const Content = ( props ) => {
 	const woocommerceUpsellText = __( "Want your products stand out in search results with rich results like price, reviews and more?", "wordpress-seo" );
 	const isProduct = useSelect( ( select ) => select( STORES.editor ).getIsProduct(), [] );
 	const isWooSeoActive = useSelect( select => select( STORES.editor ).getIsWooSeoActive(), [] );
-	const showArticleTypeInput = useSelect( select => select( STORES.editor ).getShowArticleTypeInput(), [] );
+	const showArticleType = useSelect( select => select( STORES.editor ).getShowArticleType(), [] );
 	const disablePageTypeSelect = isProduct && isWooSeoActive;
 
 	const handleOptionChange = useCallback(
@@ -204,7 +204,7 @@ const Content = ( props ) => {
 				selected={ disablePageTypeSelect ? "ItemPage" : props.schemaPageTypeSelected }
 				disabled={ disablePageTypeSelect }
 			/>
-			{ showArticleTypeInput && <Select
+			{ showArticleType && <Select
 				id={ join( [ "yoast-schema-article-type", props.location ] ) }
 				options={ schemaArticleTypeOptions }
 				label={ __( "Article type", "wordpress-seo" ) }

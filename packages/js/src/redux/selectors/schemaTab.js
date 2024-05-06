@@ -43,4 +43,4 @@ export const getArticleType = state => get( state, "schemaTab.articleType", "" )
  *
  * @returns {boolean} Whether the Article Type input should be hidden.
  */
-export const getShowArticleTypeInput = state => get( state, "schemaTab.showArticleTypeInput", false );
+export const getShowArticleType = state => get( state, "schemaTab.showArticleType", false );
