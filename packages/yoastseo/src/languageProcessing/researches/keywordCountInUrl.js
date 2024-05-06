@@ -1,7 +1,7 @@
 /** @module researches/keywordCountInSlug */
 import parseSlug from "../helpers/url/parseSlug";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
-import { cloneDeep } from "lodash-es";
+import { cloneDeep } from "lodash";
 
 /**
  * Matches the keyword in the slug. Replaces all dashes and underscores with whitespaces and uses whitespace as word boundary.

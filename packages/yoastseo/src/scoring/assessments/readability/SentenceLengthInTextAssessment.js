@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { map, merge } from "lodash-es";
+import { map, merge } from "lodash";
 
 import Assessment from "../assessment";
 import getTooLongSentences from "../../helpers/assessments/checkForTooLongSentences";

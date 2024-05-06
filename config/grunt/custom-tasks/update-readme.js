@@ -1,6 +1,6 @@
 const getUserInput = require( "../lib/get-user-input" );
 const parseVersion = require( "../lib/parse-version" );
-const _isEmpty = require( "lodash/isEmpty" );
+const { isEmpty } = require( "lodash" );
 
 /**
  * A task to remove old changelog entries and add new ones in readme.txt.
@@ -12,6 +12,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask(
 		"update-readme",
 		"Prompts the user for the changelog entries and updates the readme.txt",
+		// eslint-disable-next-line max-statements
 		function() {
 			const done = this.async();
 
@@ -27,7 +28,7 @@ module.exports = function( grunt ) {
 			);
 
 			// Check if the current version already exists in the changelog.
-			const containsCurrentVersion = ! _isEmpty(
+			const containsCurrentVersion = ! isEmpty(
 				changelogVersions.filter( version => {
 					return (
 						versionNumber.major === version.major &&

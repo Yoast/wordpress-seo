@@ -43,6 +43,7 @@ final class Enhanced_Data_Presenter_Test extends TestCase {
 		parent::set_up();
 
 		$this->stubTranslationFunctions();
+		$this->stubEscapeFunctions();
 
 		$this->instance                       = new Enhanced_Data_Presenter();
 		$this->instance->presentation         = Mockery::mock( Indexable_Presentation::class );

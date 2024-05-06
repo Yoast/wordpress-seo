@@ -108,7 +108,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The Open Graph specific presenters that should be output on error pages.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected $open_graph_error_presenters = [
 		'Open_Graph\Locale',
@@ -119,7 +119,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The Twitter card specific presenters.
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $twitter_card_presenters = [
 		'Twitter\Card',
@@ -133,7 +133,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The Slack specific presenters.
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $slack_presenters = [
 		'Slack\Enhanced_Data',
@@ -142,7 +142,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The Webmaster verification specific presenters.
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $webmaster_verification_presenters = [
 		'Webmaster\Baidu',
@@ -155,7 +155,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Presenters that are only needed on singular pages.
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $singular_presenters = [
 		'Meta_Author',
@@ -170,7 +170,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The presenters we want to be last in our output.
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $closing_presenters = [
 		'Schema',
@@ -193,7 +193,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array The conditionals.
+	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
@@ -284,8 +284,8 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Filters the next and prev links in the query loop block.
 	 *
-	 * @param string $html  The HTML output.
-	 * @param array  $block The block.
+	 * @param string                   $html  The HTML output.
+	 * @param array<string|array|null> $block The block.
 	 * @return string The filtered HTML output.
 	 */
 	public function query_loop_next_prev( $html, $block ) {
@@ -321,7 +321,7 @@ class Front_End_Integration implements Integration_Interface {
 			return $link;
 		}
 
-		if ( $rel === 'next' || $rel === 'prev' ) {
+		if ( ( $rel === 'next' || $rel === 'prev' ) && ( ! \is_null( $this->$rel ) ) ) {
 			// Reconstruct url if it's relative.
 			if ( \class_exists( WP_HTML_Tag_Processor::class ) ) {
 				$processor = new WP_HTML_Tag_Processor( $this->$rel );
@@ -340,9 +340,9 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Filters our robots presenter, but only when wp_robots is attached to the wp_head action.
 	 *
-	 * @param array $presenters The presenters for current page.
+	 * @param array<string> $presenters The presenters for current page.
 	 *
-	 * @return array The filtered presenters.
+	 * @return array<string> The filtered presenters.
 	 */
 	public function filter_robots_presenter( $presenters ) {
 		if ( ! \function_exists( 'wp_robots' ) ) {

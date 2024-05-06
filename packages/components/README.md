@@ -10,7 +10,7 @@ The Yoast/Components package is not pre-build. So if you would like to include `
 ### Loading Javascript.
 
 1. Install the package by running `yarn add @yoast/components`.
-2. Include Yoast/components into the babel-loader of your `webpack.config`. This will look something like this: `include: [ paths.appSrc, /node_modules[/\\](yoast-components|@yoast)[/\\].*/ ]`
+2. Include Yoast/components into the babel-loader of your `webpack.config`. This will look something like this: `include: [ paths.appSrc, /node_modules[/\\](@yoast)[/\\].*/ ]`
 3. It can be that you will need presets for the `babel-loader`. These are: `presets: [ "@babel/preset-env", "@babel/preset-react" ]`
 
 	Note that you will also need to install these presets. Run `yarn add --dev @babel/preset-env @babel/preset-react`

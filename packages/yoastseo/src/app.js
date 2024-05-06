@@ -1,5 +1,5 @@
 import { setLocaleData } from "@wordpress/i18n";
-import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject, isUndefined, merge, noop, throttle } from "lodash-es";
+import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject, isUndefined, merge, noop, throttle } from "lodash";
 import MissingArgument from "./errors/missingArgument";
 import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
