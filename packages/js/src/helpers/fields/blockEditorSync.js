@@ -1,6 +1,6 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
 import { debounce, reduce, mapKeys, forEach } from "lodash";
-import { createWatcher, createCollectorFromObject } from "../../helpers/create-watcher";
+import { createWatcher, createCollectorFromObject } from "../create-watcher";
 import { STORES, META_FIELDS, SYNC_TIME, POST_META_KEY_PREFIX } from "../../shared-admin/constants";
 import { getPrimaryTerms } from "./primaryTaxonomiesFieldsStore";
 import { transformMetaValue } from "./transform-meta-value";
