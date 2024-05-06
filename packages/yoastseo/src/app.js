@@ -1,7 +1,7 @@
 import { setLocaleData } from "@wordpress/i18n";
 import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject, isUndefined, merge, noop, throttle } from "lodash";
 import MissingArgument from "./errors/missingArgument";
-import { measureTextWidth } from "./helpers/createMeasurementElement.js";
+import { measureTextWidth } from "./helpers";
 
 import removeHtmlBlocks from "./languageProcessing/helpers/html/htmlParser.js";
 import Pluggable from "./pluggable.js";
@@ -71,7 +71,6 @@ var defaults = {
 	marker: noop,
 	keywordAnalysisActive: true,
 	contentAnalysisActive: true,
-	hasSnippetPreview: false,
 	debounceRefresh: true,
 };
 
@@ -275,10 +274,7 @@ App.prototype.changeAssessorOptions = function( assessorOptions ) {
  */
 App.prototype.getSeoAssessor = function() {
 	const { useCornerStone } = this._assessorOptions;
-
-	const assessor = useCornerStone ? this.cornerStoneSeoAssessor : this.defaultSeoAssessor;
-
-	return assessor;
+	return useCornerStone ? this.cornerStoneSeoAssessor : this.defaultSeoAssessor;
 };
 
 /**
