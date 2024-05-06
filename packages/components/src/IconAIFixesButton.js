@@ -8,11 +8,11 @@ import { colors } from "@yoast/style-guide";
 import IconButtonBase from "./IconButtonBase";
 
 /**
- * Returns the ChangingIconButton component.
+ * Returns the IconAIFixesButton component.
  *
  * @param {Object} props Component props.
  *
- * @returns {ReactElement} ChangingIconButton component.
+ * @returns {ReactElement} IconAIFixesButton component.
  */
 const IconAIFixesButton = function( props ) {
 	const className = props.pressed ? "" : props.className;

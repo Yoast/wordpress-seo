@@ -20,13 +20,10 @@ const ContentAnalysisContainer = styled.div`
 const StyledCollapsible = styled( Collapsible )`
 	margin-bottom: 8px;
 
-	button:first-child svg {
-		margin: -2px 8px 0 -2px; // Compensate icon size set to 18px.
-	}
-
 	${ StyledIconsButton } {
 		padding: 8px 0;
 		color: ${ colors.$color_blue }
+		margin: -2px 8px 0 -2px;
 	}
 `;
 
