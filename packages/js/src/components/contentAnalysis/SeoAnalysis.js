@@ -1,6 +1,6 @@
 /* global wpseoAdminL10n */
 import { withSelect } from "@wordpress/data";
-import { Component, Fragment, useCallback, useState } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { LocationConsumer, RootContext } from "@yoast/externals/contexts";
@@ -20,13 +20,9 @@ import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
-import { Modal as AIModal, useToggleState } from "@yoast/ui-library";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import noop from "lodash/noop";
-import { ModalContent } from "../../ai-generator/components/modal-content";
-import { SparklesIcon } from "@heroicons/react/outline";
-import { addAction } from "@wordpress/hooks";
-import { AIFixesButton } from "@yoast/components";
+import AIAssessmentFixesButton from "../../ai-assessment-fixes/components/AIAssessmentFixesButton";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -34,25 +30,6 @@ const AnalysisHeader = styled.span`
 	margin: 1.5em 0 1em;
 	display: block;
 `;
-
-const AIFixesModal = ( ) => {
-	// const [ isModalOpen, setIsModalOpen ] = useState( false );
-
-	// const closeModal = useCallback( () => setIsModalOpen( false ), [] );
-	// const openModal = useCallback( () => setIsModalOpen( true ), [] );
-
-	// if ( isPremium ) {
-	// 	addAction( "yoast.ai.fixAssessments", id );
-	// } else {
-	// 	openModal();
-	// }
-
-	return (
-		<AIModal className="yst-introduction-modal" >
-			<ModalContent> I am the AI modal </ModalContent>
-		</AIModal>
-	);
-};
 
 /**
  * Redux container for the seo analysis.
@@ -215,41 +192,26 @@ class SeoAnalysis extends Component {
 		];
 	}
 
-	onAIFixesButtonClick( isPremium, id ) {
-		return <AIFixesModal isPremium={ isPremium } id={ id } />;
-	}
 
+	/**
+	 * Renders the AI Fixes button.
+	 *
+	 * @param {string} id The assessment ID for which the AI fixes should be applied to.
+	 * @param {boolean} isPressed Whether the AI Assessment fixes button is pressed or not.
+	 * @param {boolean} isPremium Whether the premium add-on is active or not.
+	 * @returns {JSX.Element} The AI Assessment Fixes button.
+	 */
 	renderAIFixesButton = ( {
 		id,
 		isPressed,
 		isPremium,
 	} ) => {
-		const onClick = () => this.onAIFixesButtonClick( isPremium, id );
-		const aiFixesId = id + "AIFixes";
-		const ariaLabel = __( "Fix this assessment result with AI", "wordpress-seo" );
-		const addActions = () => {
-			alert( "I am the AI modal" );
-		};
-		const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-		const handleClick = useCallback( () => { isPremium ? addActions() :
-			setIsModalOpenTrue();
-		}, [ setIsModalOpenTrue ] );
-		// 	const [ isPressed, setIsPressed ] = useState( false );
-		// 	const handlePress = useCallback( () => setIsPressed( ! isPressed ), [ isPressed, setIsPressed ] );
 		return (
-			<>
-				<AIFixesButton
-						isPremium={ isPremium }
-						onClick={ handleClick }
-						ariaLabel={  ariaLabel }
-						id={ aiFixesId }
-						className={ "yoast-tooltip yoast-tooltip-w" }
-						isPressed={ isPressed }
-					>
-					<SparklesIcon style={{ width: "70%", height: "70%", color: "#555" }} />
-				</AIFixesButton>
-				<AIFixesModal isOpen={ isModalOpen } onClose={ setIsModalOpenFalse }/>
-			</>
+			<AIAssessmentFixesButton
+				id={ id }
+				isPressed={ isPressed }
+				isPremium={ isPremium }
+			/>
 		);
 	};
 
