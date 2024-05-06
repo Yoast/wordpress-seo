@@ -1,6 +1,4 @@
 /* eslint-disable complexity */
-import { trim } from "lodash";
-
 /**
  * Prepare value to be saved in hidden field.
  *
@@ -10,29 +8,31 @@ import { trim } from "lodash";
  * @returns {string} The value to be saved.
  */
 export const transformMetaValue = ( key, value ) => {
+	const integerKeys = [
+		"open_graph-image-id",
+		"twitter-image-id",
+		"content_score",
+		"linkdex",
+		"inclusive_language_score",
+		"estimated-reading-time-minutes",
+	];
+	const booleanKeys = [ "is_cornerstone", "wordproof_timestamp" ];
+
+	const arrayKeys = [
+		"meta-robots-adv",
+	];
+
 	switch ( true ) {
-		case key === "content_score":
-		case key === "linkdex":
-		case key === "inclusive_language_score":
-		case key === "estimated-reading-time-minutes":
+		case integerKeys.includes( key ):
+		case key.startsWith( "primary_" ):
 			if ( value && value >= 0 ) {
 				return String( value );
 			}
 			return "0";
-		case key.startsWith( "primary_" ):
-		case key === "open_graph-image-id":
-		case key === "twitter-image-id":
-			if ( value > 0 ) {
-				return String( value );
-			}
-			return "";
-		case key === "is_cornerstone":
-		case key === "wordproof_timestamp":
+		case booleanKeys.includes( key ):
 			return value ? "1" : "0";
-		case key === "meta-robots-adv":
+		case arrayKeys.includes( key ):
 			return Array.isArray( value ) ? value.join() : value;
-		case key === "title":
-			return trim( value );
 		default:
 			return value;
 	}
