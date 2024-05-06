@@ -21,12 +21,6 @@ export const createCollector = ( ...getters ) => () => getters.map( getData => g
  * @returns {function} The watcher.
  */
 export const createWatcher = ( getData, onChange ) => {
-	// Bail if getData is not a function.
-	if ( typeof getData !== "function" ) {
-		console.error( "Getter is not a function." );
-		return;
-	}
-
 	// Save the current data for comparison.
 	let previous = getData();
 
@@ -57,11 +51,6 @@ export const createWatcher = ( getData, onChange ) => {
 export const createCollectorFromObject = ( getters ) => () => reduce(
 	getters,
 	( result, getData, key ) => {
-		// Bail if getData is not a function.
-		if ( typeof getData !== "function" ) {
-			console.error( `${key} getter is not a function.` );
-			return;
-		}
 		result[ key ] = getData();
 		return result;
 	},
