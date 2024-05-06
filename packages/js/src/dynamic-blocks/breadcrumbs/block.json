@@ -14,7 +14,11 @@
     "site structure"
   ],
   "textdomain": "wordpress-seo",
-  "attributes": {},
+  "attributes": {
+    "className": {
+      "type": "string"
+    }
+  },
   "example": {
     "attributes": {}
   }
