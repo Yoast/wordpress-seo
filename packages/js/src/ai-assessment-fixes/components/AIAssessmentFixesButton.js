@@ -1,64 +1,87 @@
-import { __ } from "@wordpress/i18n";
-import { useCallback, useRef, useState } from "@wordpress/element";
-import { doAction } from "@wordpress/hooks";
-import { AIFixesButton } from "@yoast/components";
 import { SparklesIcon } from "@heroicons/react/outline";
 import PropTypes from "prop-types";
-import { Modal } from "@yoast/ui-library";
+import { __ } from "@wordpress/i18n";
+import { useCallback, useRef } from "@wordpress/element";
+import { doAction } from "@wordpress/hooks";
+import { useSelect, useDispatch } from "@wordpress/data";
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
+import { IconAIFixesButton } from "@yoast/components";
+import { Modal, useToggleState } from "@yoast/ui-library";
+
+/* Internal dependencies */
 import { ModalContent } from "../../ai-generator/components/modal-content";
 
 /**
  * The AI Assessment Fixes button component.
  *
  * @param {string} id The assessment ID for which the AI fixes should be applied to.
- * @param {boolean} isPressed Whether the AI Assessment fixes button is pressed or not.
  * @param {boolean} isPremium Whether the premium add-on is active or not.
  * @returns {JSX.Element} The AI Assessment Fixes button.
  */
-const AIAssessmentFixesButton = ( { id, isPressed, isPremium } ) => {
+const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const aiFixesId = id + "AIFixes";
-	const ariaLabel = __( "Fix this result with AI", "wordpress-seo" );
-	const [ isModalOpen, setIsModalOpen ] = useState( false );
+	const ariaLabel = __( "Fix with AI", "wordpress-seo" );
+	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
+	const [ isButtonPressed, , , setIsButtonPressedTrue, setIsButtonPressedFalse ] = useToggleState( false );
+	const activeAIButtonId = useSelect( select => select( "yoast-seo/editor" ).getActiveAIFixesButton(), [] );
+	const { setActiveAIFixesButton } = useDispatch( "yoast-seo/editor" );
+	const focusElementRef = useRef( null );
 
-	const closeModal = useCallback( () => setIsModalOpen( false ), [] );
-	const openModal = useCallback( () => setIsModalOpen( true ), [] );
+	/**
+	 * Handles the button press state.
+	 * @returns {void}
+	 */
+	const handlePressedButton = () => {
+		// If the current pressed button id is the same as the active AI button id,
+		// we want to a). set the active AI button to null and b). set the button to not pressed.
+		if ( aiFixesId === activeAIButtonId ) {
+			setIsButtonPressedFalse();
+			setActiveAIFixesButton( null );
+		} else {
+			setIsButtonPressedTrue();
+			setActiveAIFixesButton( aiFixesId );
+		}
+	};
 
 	const handleClick = useCallback( () => {
 		if ( isPremium ) {
-			doAction( "yoast.ai.fixAssessments", id );
+			doAction( "yoast.ai.fixAssessments", aiFixesId );
 		} else {
-			openModal();
+			setIsModalOpenTrue();
 		}
-	}, [] );
-	const focusElementRef = useRef( null );
+		handlePressedButton();
+	}, [ handlePressedButton, setIsModalOpenTrue ] );
+
+	// This color selection when the button is pressed/unpressed is in line with the design of the highlighting button.
+	const iconColor = isButtonPressed ? colors.$color_white : colors.$color_button_text;
 
 	return (
 		<>
-			<AIFixesButton
+			<IconAIFixesButton
 				onClick={ handleClick }
 				ariaLabel={ ariaLabel }
 				id={ aiFixesId }
 				className={ "yoast-tooltip yoast-tooltip-w" }
-				isPressed={ isPressed }
+				pressed={ isButtonPressed }
 			>
-				<SparklesIcon style={ { width: "70%", height: "70%", color: "#555" } } />
+				<SparklesIcon style={ { width: "70%", height: "70%", color: iconColor } } />
 				{
 					// We put the logic for the Upsell component in place.
 					// The Modal below is only a placeholder/mock. When we have the design for the real upsell, the modal should be replaced.
-					isModalOpen && <Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ closeModal } initialFocus={ focusElementRef }>
+					isModalOpen && <Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
 						<Modal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl yst-introduction-modal-panel">
-							<ModalContent onClose={ closeModal } focusElementRef={ focusElementRef } />
+							<ModalContent onClose={ setIsModalOpenFalse } focusElementRef={ focusElementRef } />
 						</Modal.Panel>
 					</Modal>
 				}
-			</AIFixesButton>
+			</IconAIFixesButton>
 		</>
 	);
 };
 
 AIAssessmentFixesButton.propTypes = {
 	id: PropTypes.string.isRequired,
-	isPressed: PropTypes.bool.isRequired,
 	isPremium: PropTypes.bool,
 };
 
