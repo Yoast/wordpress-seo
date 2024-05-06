@@ -10,7 +10,7 @@ const INITIAL_STATE = null;
  *
  * @returns {Object} The state.
  */
-function activeMarker( state = INITIAL_STATE, action ) {
+function activeAIButton( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
 		case SET_ACTIVE_AI_FIXES_BUTTON:
 			// Create a toggle effect so that the AI fixes button can be turned off.
@@ -20,4 +20,4 @@ function activeMarker( state = INITIAL_STATE, action ) {
 	}
 }
 
-export default activeMarker;
+export default activeAIButton;
