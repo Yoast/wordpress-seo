@@ -14,7 +14,8 @@ import IconButtonBase from "./IconButtonBase";
  *
  * @returns {ReactElement} ChangingIconButton component.
  */
-const AIFixesButton = function( props ) {
+const IconAIFixesButton = function( props ) {
+	const className = props.pressed ? "" : props.className;
 	return (
 		<IconButtonBase
 			disabled={ false }
@@ -31,14 +32,14 @@ const AIFixesButton = function( props ) {
 			unpressedIconColor={ props.unpressedIconColor }
 			pressedIconColor={ props.pressedIconColor }
 			hoverBorderColor={ props.hoverBorderColor }
-			className={ props.className }
+			className={ className }
 		>
 			{ props.children }
 		</IconButtonBase>
 	);
 };
 
-AIFixesButton.propTypes = {
+IconAIFixesButton.propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
@@ -55,7 +56,7 @@ AIFixesButton.propTypes = {
 	className: PropTypes.string,
 };
 
-AIFixesButton.defaultProps = {
+IconAIFixesButton.defaultProps = {
 	unpressedBoxShadowColor: colors.$color_button_border,
 	pressedBoxShadowColor: colors.$color_purple,
 	pressedBackground: colors.$color_pink_dark,
@@ -66,4 +67,4 @@ AIFixesButton.defaultProps = {
 	disabledIconColor: colors.$color_grey,
 };
 
-export default AIFixesButton;
+export default IconAIFixesButton;

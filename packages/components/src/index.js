@@ -49,7 +49,7 @@ export {
 	wrapInHeading,
 } from "./Collapsible";
 
-export { default as AIFixesButton } from "./AIFixesButton";
+export { default as IconAIFixesButton } from "./IconAIFixesButton";
 export { default as Alert } from "./Alert";
 export { default as ArticleList } from "./ArticleList";
 export { default as Card, FullHeightCard } from "./Card";
