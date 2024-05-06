@@ -11,15 +11,15 @@ import { transformMetaValue } from "./transform-meta-value";
  * @returns {function} The updater.
  */
 export const createUpdater = () => {
+	const isPost = select( STORES.editor ).getIsPost();
+	const prefix = isPost ? HIDDEN_INPUT_ID_PREFIX.post : HIDDEN_INPUT_ID_PREFIX.term;
+
 	/**
 	 * Syncs the data to the WP entity record.
 	 * @param {Object} data The collected data.
 	 * @returns {void}
 	 */
 	return ( data ) => {
-		const isPost = select( STORES.editor ).getIsPost();
-		const prefix = isPost ? HIDDEN_INPUT_ID_PREFIX.post : HIDDEN_INPUT_ID_PREFIX.term;
-
 		forEach( data, ( value, key ) => {
 			const field = document.getElementById( prefix + key );
 			const transformedValue = transformMetaValue( key, value );
