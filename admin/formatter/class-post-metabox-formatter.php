@@ -62,9 +62,6 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	public function get_values() {
 
 		$values = [
-			'search_url'          => $this->search_url(),
-			'post_edit_url'       => $this->edit_url(),
-			'base_url'            => $this->base_url_for_js(),
 			'metaDescriptionDate' => '',
 		];
 
@@ -104,52 +101,6 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	protected function get_image_url() {
 		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $this->post->ID );
-	}
-
-	/**
-	 * Returns the url to search for keyword for the post.
-	 *
-	 * @return string
-	 */
-	private function search_url() {
-		return admin_url( 'edit.php?seo_kw_filter={keyword}' );
-	}
-
-	/**
-	 * Returns the url to edit the taxonomy.
-	 *
-	 * @return string
-	 */
-	private function edit_url() {
-		return admin_url( 'post.php?post={id}&action=edit' );
-	}
-
-	/**
-	 * Returns a base URL for use in the JS, takes permalink structure into account.
-	 *
-	 * @return string
-	 */
-	private function base_url_for_js() {
-		global $pagenow;
-
-		// The default base is the home_url.
-		$base_url = home_url( '/', null );
-
-		if ( $pagenow === 'post-new.php' ) {
-			return $base_url;
-		}
-
-		// If %postname% is the last tag, just strip it and use that as a base.
-		if ( preg_match( '#%postname%/?$#', $this->permalink ) === 1 ) {
-			$base_url = preg_replace( '#%postname%/?$#', '', $this->permalink );
-		}
-
-		// If %pagename% is the last tag, just strip it and use that as a base.
-		if ( preg_match( '#%pagename%/?$#', $this->permalink ) === 1 ) {
-			$base_url = preg_replace( '#%pagename%/?$#', '', $this->permalink );
-		}
-
-		return $base_url;
 	}
 
 	/**
