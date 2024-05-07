@@ -322,7 +322,6 @@ Release date: 2024-05-14
 #### Enhancements
 
 * Converts the Yoast _How-to_ and _FAQ_ blocks to use the Blocks V3 API.
-*  Improves how the How-To and the FAQ block can be moved and managed in the block editor.
 * Introduces a `date` and a `separator` snippet variable to the meta description text field, to make clear that both the date and a separator are automatically added to the character count of the meta description. Hovering over the variables reveals a tooltip with more explanation.
 
 #### Bugfixes
