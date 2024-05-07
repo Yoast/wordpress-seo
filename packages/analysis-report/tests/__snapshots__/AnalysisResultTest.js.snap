@@ -9,7 +9,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   flex: none;
 }
 
-.c5 {
+.c6 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -17,7 +17,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   flex: none;
 }
 
-.c4 {
+.c5 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -41,15 +41,22 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   height: 23px;
 }
 
-.c4:hover {
+.c5:hover {
   border-color: #fff;
 }
 
-.c4:disabled {
+.c5:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
   cursor: default;
+}
+
+.c4 {
+  display: grid;
+  grid-template-rows: repeat(1,minmax(0,1fr));
+  grid-auto-flow: row;
+  gap: 6px;
 }
 
 .c0 {
@@ -106,30 +113,34 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
       }
     />
   </p>
-  <button
-    aria-label="SEOResult"
-    aria-pressed={true}
+  <div
     className="c4"
-    disabled={false}
-    id="Result button"
-    onClick={[Function]}
-    type="button"
   >
-    <svg
-      aria-hidden={true}
-      className="c5 yoast-svg-icon yoast-svg-icon-eye"
-      fill="#fff"
-      focusable="false"
-      role="img"
-      size="18px"
-      viewBox="0 0 1792 1792"
-      xmlns="http://www.w3.org/2000/svg"
+    <button
+      aria-label="SEOResult"
+      aria-pressed={true}
+      className="c5"
+      disabled={false}
+      id="Result button"
+      onClick={[Function]}
+      type="button"
     >
-      <path
-        d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-      />
-    </svg>
-  </button>
+      <svg
+        aria-hidden={true}
+        className="c6 yoast-svg-icon yoast-svg-icon-eye"
+        fill="#fff"
+        focusable="false"
+        role="img"
+        size="18px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+        />
+      </svg>
+    </button>
+  </div>
 </li>
 `;
 
@@ -142,7 +153,7 @@ exports[`the AnalysisResult component with a activated premium matches the snaps
   flex: none;
 }
 
-.c5 {
+.c6 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -150,21 +161,39 @@ exports[`the AnalysisResult component with a activated premium matches the snaps
   flex: none;
 }
 
-.c4 {
+.c5 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   box-sizing: border-box;
   min-width: 32px;
-  display: inline-block;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
   box-shadow: #ccc;
   border-radius: 3px;
   cursor: pointer;
   padding: 0;
-  height: "24px";
+  height: 24px;
 }
 
-.c4:hover {
+.c5:hover {
   border-color: #fff;
+}
+
+.c4 {
+  display: grid;
+  grid-template-rows: repeat(1,minmax(0,1fr));
+  grid-auto-flow: row;
+  gap: 6px;
 }
 
 .c0 {
@@ -226,28 +255,32 @@ exports[`the AnalysisResult component with a activated premium matches the snaps
       }
     />
   </p>
-  <button
-    aria-label="SEOResultEdit"
+  <div
     className="c4"
-    id="Result button edit"
-    onClick={[Function]}
-    type="button"
   >
-    <svg
-      aria-hidden={true}
-      className="c5 yoast-svg-icon yoast-svg-icon-edit"
-      fill="#555"
-      focusable="false"
-      role="img"
-      size="18px"
-      viewBox="0 0 1792 1792"
-      xmlns="http://www.w3.org/2000/svg"
+    <button
+      aria-label="SEOResultEdit"
+      className="c5"
+      id="Result button edit"
+      onClick={[Function]}
+      type="button"
     >
-      <path
-        d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
-      />
-    </svg>
-  </button>
+      <svg
+        aria-hidden={true}
+        className="c6 yoast-svg-icon yoast-svg-icon-edit"
+        fill="#555"
+        focusable="false"
+        role="img"
+        size="18px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+        />
+      </svg>
+    </button>
+  </div>
 </li>
 `;
 
@@ -260,6 +293,13 @@ exports[`the AnalysisResult component with a beta badge label matches the snapsh
   flex: none;
 }
 
+.c4 {
+  display: grid;
+  grid-template-rows: repeat(1,minmax(0,1fr));
+  grid-auto-flow: row;
+  gap: 6px;
+}
+
 .c0 {
   min-height: 24px;
   padding: 0;
@@ -319,6 +359,9 @@ exports[`the AnalysisResult component with a beta badge label matches the snapsh
       }
     />
   </p>
+  <div
+    className="c4"
+  />
 </li>
 `;
 
@@ -331,7 +374,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   flex: none;
 }
 
-.c5 {
+.c6 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -339,7 +382,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   flex: none;
 }
 
-.c4 {
+.c5 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -363,15 +406,22 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   height: 23px;
 }
 
-.c4:hover {
+.c5:hover {
   border-color: #fff;
 }
 
-.c4:disabled {
+.c5:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
   cursor: default;
+}
+
+.c4 {
+  display: grid;
+  grid-template-rows: repeat(1,minmax(0,1fr));
+  grid-auto-flow: row;
+  gap: 6px;
 }
 
 .c0 {
@@ -428,30 +478,34 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
       }
     />
   </p>
-  <button
-    aria-label="SEOResult"
-    aria-pressed={true}
+  <div
     className="c4"
-    disabled={true}
-    id="Result button"
-    onClick={[Function]}
-    type="button"
   >
-    <svg
-      aria-hidden={true}
-      className="c5 yoast-svg-icon yoast-svg-icon-eye"
-      fill="#ddd"
-      focusable="false"
-      role="img"
-      size="18px"
-      viewBox="0 0 1792 1792"
-      xmlns="http://www.w3.org/2000/svg"
+    <button
+      aria-label="SEOResult"
+      aria-pressed={true}
+      className="c5"
+      disabled={true}
+      id="Result button"
+      onClick={[Function]}
+      type="button"
     >
-      <path
-        d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-      />
-    </svg>
-  </button>
+      <svg
+        aria-hidden={true}
+        className="c6 yoast-svg-icon yoast-svg-icon-eye"
+        fill="#ddd"
+        focusable="false"
+        role="img"
+        size="18px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+        />
+      </svg>
+    </button>
+  </div>
 </li>
 `;
 
@@ -464,6 +518,13 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
   flex: none;
 }
 
+.c4 {
+  display: grid;
+  grid-template-rows: repeat(1,minmax(0,1fr));
+  grid-auto-flow: row;
+  gap: 6px;
+}
+
 .c0 {
   min-height: 24px;
   padding: 0;
@@ -518,6 +579,9 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
       }
     />
   </p>
+  <div
+    className="c4"
+  />
 </li>
 `;
 
@@ -530,7 +594,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   flex: none;
 }
 
-.c5 {
+.c6 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -538,7 +602,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   flex: none;
 }
 
-.c4 {
+.c5 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -562,15 +626,22 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   height: 23px;
 }
 
-.c4:hover {
+.c5:hover {
   border-color: #fff;
 }
 
-.c4:disabled {
+.c5:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
   cursor: default;
+}
+
+.c4 {
+  display: grid;
+  grid-template-rows: repeat(1,minmax(0,1fr));
+  grid-auto-flow: row;
+  gap: 6px;
 }
 
 .c0 {
@@ -627,30 +698,34 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
       }
     />
   </p>
-  <button
-    aria-label="SEOResult"
-    aria-pressed={true}
+  <div
     className="c4"
-    disabled={false}
-    id="Result button"
-    onClick={[Function]}
-    type="button"
   >
-    <svg
-      aria-hidden={true}
-      className="c5 yoast-svg-icon yoast-svg-icon-eye"
-      fill="#fff"
-      focusable="false"
-      role="img"
-      size="18px"
-      viewBox="0 0 1792 1792"
-      xmlns="http://www.w3.org/2000/svg"
+    <button
+      aria-label="SEOResult"
+      aria-pressed={true}
+      className="c5"
+      disabled={false}
+      id="Result button"
+      onClick={[Function]}
+      type="button"
     >
-      <path
-        d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-      />
-    </svg>
-  </button>
+      <svg
+        aria-hidden={true}
+        className="c6 yoast-svg-icon yoast-svg-icon-eye"
+        fill="#fff"
+        focusable="false"
+        role="img"
+        size="18px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+        />
+      </svg>
+    </button>
+  </div>
 </li>
 `;
 
@@ -661,6 +736,13 @@ exports[`the AnalysisResult component with suppressed text matches the snapshot 
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
+}
+
+.c4 {
+  display: grid;
+  grid-template-rows: repeat(1,minmax(0,1fr));
+  grid-auto-flow: row;
+  gap: 6px;
 }
 
 .c0 {
@@ -717,5 +799,8 @@ exports[`the AnalysisResult component with suppressed text matches the snapshot 
       }
     />
   </p>
+  <div
+    className="c4"
+  />
 </li>
 `;
