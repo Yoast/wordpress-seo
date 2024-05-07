@@ -6,57 +6,21 @@ jest.mock( "@wordpress/data", () => ( {
 	select: jest.fn(),
 } ) );
 
-let windowSpy;
-
-beforeEach(
-	() => {
-		windowSpy = jest.spyOn( global, "window", "get" );
-	}
-);
-
-afterEach(
-	() => {
-	  windowSpy.mockRestore();
-	}
-);
-
 describe( "getPrimaryTerm - should returns an object with taxonomies keys and fuctions that returns primary term id", () => {
 	it( "should return primary id from the primary term getter", () => {
-		const getPrimaryTaxonomyId = jest.fn();
-		getPrimaryTaxonomyId.mockReturnValue( 1 );
+		const getPrimaryTaxonomyId = jest.fn( () => 1 );
+		const getPrimaryTaxonomies = jest.fn( () => {
+			return { category: 1 };
+		} );
 
 		select.mockImplementation( ( store ) => {
 			if ( store === STORES.editor ) {
 				return {
 					getPrimaryTaxonomyId,
+					getPrimaryTaxonomies,
 				};
 			}
 		} );
-
-		windowSpy.mockImplementation(
-			() => (
-				{
-					wpseoPrimaryCategoryL10n: {
-						taxonomies: {
-							category: {
-								title: "Category",
-								name: "category",
-								primary: 1,
-								singularLabel: "Category",
-								fieldId: "yoast_wpseo_primary_category",
-								restBase: "categories",
-								terms: [
-									{
-										id: 1,
-										name: "Uncategorized",
-									},
-								],
-							},
-						},
-					},
-				}
-			)
-		);
 
 		const actual = getPrimaryTerms();
 		expect( actual ).toHaveProperty( "primary_category" );

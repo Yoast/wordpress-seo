@@ -27,6 +27,8 @@ describe( "hiddenFieldsSync", () => {
 	it( "should subscribe to changes, debounce, create watcher and createCollectorFromObject", () => {
 		select.mockImplementation( () => ( {
 			getIsPost: jest.fn( () => "1" ),
+			getPrimaryTaxonomyId: jest.fn(),
+			getPrimaryTaxonomies: jest.fn(),
 		} ) );
 
 		hiddenFieldsSync();
