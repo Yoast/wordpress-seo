@@ -1,7 +1,7 @@
 import get from "lodash/get";
 import { facebookInitialState, twitterInitialState } from "./socialAppearance";
 import { advancedSettingsInitialState as advancedSettings } from "./advancedSettings";
-import primaryTaxonomies from "./primaryTaxonomies";
+import { primaryTaxonomies } from "./primaryTaxonomies";
 import { schemaInitialState as schemaTab } from "./schemaTab";
 import { snippetEditorInitialState as snippetEditor } from "./snippetEditor";
 import { analysisInitialState as analysis } from "./analysis";

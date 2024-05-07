@@ -8,7 +8,7 @@ import { STORES } from "../../shared-admin/constants";
  * @returns {object} An object with taxonomies keys and their primary term id.
  */
 export const getPrimaryTerms = () => {
-	const primaryTerms = select( STORES.editor ).getPostTaxonomies();
+	const primaryTerms = select( STORES.editor ).getPrimaryTaxonomies();
 	return reduce( primaryTerms, ( acc, value, key ) => {
 		acc[ `primary_${key}` ] = () => select( STORES.editor ).getPrimaryTaxonomyId( key );
 		return acc;
