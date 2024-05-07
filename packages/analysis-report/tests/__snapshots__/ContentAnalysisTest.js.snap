@@ -225,7 +225,8 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
 
 .c2 .c9 {
   padding: 8px 0;
-  color: #0066cd margin:-2px 8px 0 -2px;
+  color: #0066cd;
+  margin: -2px 8px 0 -2px;
 }
 
 .c3 {
@@ -994,7 +995,8 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 
 .c2 .c9 {
   padding: 8px 0;
-  color: #0066cd margin:-2px 8px 0 -2px;
+  color: #0066cd;
+  margin: -2px 8px 0 -2px;
 }
 
 .c3 {
@@ -1728,7 +1730,8 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 
 .c2 .c9 {
   padding: 8px 0;
-  color: #0066cd margin:-2px 8px 0 -2px;
+  color: #0066cd;
+  margin: -2px 8px 0 -2px;
 }
 
 .c3 {
@@ -2447,7 +2450,8 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 
 .c2 .c9 {
   padding: 8px 0;
-  color: #0066cd margin:-2px 8px 0 -2px;
+  color: #0066cd;
+  margin: -2px 8px 0 -2px;
 }
 
 .c3 {
@@ -3224,7 +3228,8 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
 
 .c2 .c9 {
   padding: 8px 0;
-  color: #0066cd margin:-2px 8px 0 -2px;
+  color: #0066cd;
+  margin: -2px 8px 0 -2px;
 }
 
 .c3 {
@@ -4025,7 +4030,8 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 
 .c2 .c9 {
   padding: 8px 0;
-  color: #0066cd margin:-2px 8px 0 -2px;
+  color: #0066cd;
+  margin: -2px 8px 0 -2px;
 }
 
 .c3 {
@@ -4794,7 +4800,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 
 .c2 .c9 {
   padding: 8px 0;
-  color: #0066cd margin:-2px 8px 0 -2px;
+  color: #0066cd;
+  margin: -2px 8px 0 -2px;
 }
 
 .c3 {
@@ -5360,7 +5367,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 
 .c2 .c9 {
   padding: 8px 0;
-  color: #0066cd margin:-2px 8px 0 -2px;
+  color: #0066cd;
+  margin: -2px 8px 0 -2px;
 }
 
 .c3 {
@@ -5926,7 +5934,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 
 .c2 .c9 {
   padding: 8px 0;
-  color: #0066cd margin:-2px 8px 0 -2px;
+  color: #0066cd;
+  margin: -2px 8px 0 -2px;
 }
 
 .c3 {
@@ -6581,7 +6590,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 
 .c2 .c9 {
   padding: 8px 0;
-  color: #0066cd margin:-2px 8px 0 -2px;
+  color: #0066cd;
+  margin: -2px 8px 0 -2px;
 }
 
 .c3 {
