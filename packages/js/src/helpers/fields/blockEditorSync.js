@@ -11,7 +11,7 @@ import { transformMetaValue } from "./transform-meta-value";
  */
 const createUpdater = () => {
 	const { editPost } = dispatch( STORES.wp.editor );
-	const { getEditedEntityRecord } = select( "core" );
+	const { getEditedEntityRecord } = select( STORES.wp.core );
 	const currentPost = select( STORES.wp.editor ).getCurrentPost();
 
 	/**
