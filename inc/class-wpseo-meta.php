@@ -367,7 +367,7 @@ class WPSEO_Meta {
 	 *
 	 * @return bool
 	 */
-	public function auth_callback() {
+	public static function auth_callback() {
 		return current_user_can( 'edit_posts' );
 	}
 
