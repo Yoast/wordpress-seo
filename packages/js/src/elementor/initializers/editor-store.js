@@ -3,7 +3,7 @@ import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { get, pickBy } from "lodash";
 import * as controls from "../../redux/controls";
 import * as analysisSelectors from "../redux/selectors/analysis";
-import initialState from "../../redux/initial-state";
+import { initialState } from "../../redux/initial-state";
 
 /**
  * Populates the store.

@@ -1,4 +1,4 @@
-import get from "lodash/get";
+import { get } from "lodash";
 import { facebookInitialState, twitterInitialState } from "./socialAppearance";
 import { advancedSettingsInitialState as advancedSettings } from "./advancedSettings";
 import { primaryTaxonomies } from "./primaryTaxonomies";
@@ -7,7 +7,7 @@ import { snippetEditorInitialState as snippetEditor } from "./snippetEditor";
 import { analysisInitialState as analysis } from "./analysis";
 import { postInitialState as post } from "./post";
 
-const initialState = {
+export const initialState = {
 	facebookEditor: facebookInitialState,
 	twitterEditor: twitterInitialState,
 	advancedSettings,
@@ -24,5 +24,3 @@ const initialState = {
 		textLength: {},
 	},
 };
-
-export default initialState;
