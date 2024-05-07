@@ -66,7 +66,7 @@ const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 	const isProduct = select( "yoast-seo/editor" ).getIsProduct();
 	const isPreviewField = fieldId === "yoast-google-preview-description-metabox" || fieldId === "yoast-google-preview-description-modal";
 	const dateCharacters = getDate().length;
-	const separatorCharacters = 3;
+	const emDashCharacters = 3;
 	const newMentions = [];
 	if ( ! isProduct && isPreviewField ) {
 		newMentions.push(
@@ -83,7 +83,7 @@ const filterReplacementVariableEditorMentions = ( mentions, { fieldId } ) => {
 					<MentionsWithTooltip mentionsName={ "—" }>
 						{ sprintf(
 							/* translators: %s expands to the amount of characters */
-							_n( "The em dash (—) is fixed and adds %s character to the length of your meta description.", "The em dash (—) is fixed and adds %s characters to the length of your meta description.", separatorCharacters, "wordpress-seo" ), separatorCharacters ) }
+							_n( "The em dash (—) is fixed and adds %s character to the length of your meta description.", "The em dash (—) is fixed and adds %s characters to the length of your meta description.", emDashCharacters, "wordpress-seo" ), emDashCharacters ) }
 					</MentionsWithTooltip>
 					&nbsp;
 				</Root>
