@@ -12,7 +12,7 @@ import IconButtonBase from "./IconButtonBase";
  *
  * @param {Object} props Component props.
  *
- * @returns {ReactElement} IconAIFixesButton component.
+ * @returns {JSX.Element} IconAIFixesButton component.
  */
 const IconAIFixesButton = function( props ) {
 	const className = props.pressed ? "" : props.className;
@@ -52,7 +52,6 @@ IconAIFixesButton.propTypes = {
 	unpressedIconColor: PropTypes.string,
 	pressed: PropTypes.bool.isRequired,
 	hoverBorderColor: PropTypes.string,
-	disabledIconColor: PropTypes.string,
 	className: PropTypes.string,
 };
 
@@ -64,7 +63,6 @@ IconAIFixesButton.defaultProps = {
 	pressedIconColor: colors.$color_white,
 	unpressedIconColor: colors.$color_button_text,
 	hoverBorderColor: colors.$color_white,
-	disabledIconColor: colors.$color_grey,
 };
 
 export default IconAIFixesButton;
