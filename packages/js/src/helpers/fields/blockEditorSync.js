@@ -20,11 +20,11 @@ const createUpdater = () => {
 	 * @returns {void}
 	 */
 	return ( data ) => {
-		if ( ! ( "meta" in currentPost ) || ! data ) {
+		const metadata = getEditedEntityRecord( "postType", currentPost.type, currentPost.id ).meta;
+
+		if ( ! metadata || ! data ) {
 			return;
 		}
-
-		const metadata = getEditedEntityRecord( "postType", currentPost.type, currentPost.id ).meta;
 
 		const changedData = {};
 
