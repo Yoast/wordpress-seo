@@ -1,4 +1,4 @@
-import { SET_POST_ID } from "../actions/postId";
+import { SET_POST_ID } from "../actions/post";
 
 /**
  * A reducer for the post ID.
@@ -11,7 +11,7 @@ import { SET_POST_ID } from "../actions/postId";
 const post = ( state = false, action ) => {
 	switch ( action.type ) {
 		case SET_POST_ID:
-			return { id: action.payload };
+			return { ...state, id: action.payload };
 		default: return state;
 	}
 };
