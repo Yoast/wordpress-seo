@@ -47,13 +47,17 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const handleClick = useCallback( () => {
 		if ( isPremium ) {
 			doAction( "yoast.ai.fixAssessments", aiFixesId );
+			// Only handle the pressed button state in Premium.
+			handlePressedButton();
 		} else {
 			setIsModalOpenTrue();
 		}
-		handlePressedButton();
+		// handlePressedButton();
 	}, [ handlePressedButton, setIsModalOpenTrue ] );
 
 	// This color selection when the button is pressed/unpressed is in line with the design of the highlighting button.
+	// In Premium: when the button is pressed, the icon color is white. When the button is unpressed, the color is grey.
+	// In Free: the icon color is always grey.
 	const iconColor = isButtonPressed ? colors.$color_white : colors.$color_button_text;
 
 	return (
@@ -63,6 +67,8 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				ariaLabel={ ariaLabel }
 				id={ aiFixesId }
 				className={ "yoast-tooltip yoast-tooltip-w" }
+				// We don't want to change the background color of the button when it's pressed in Free.
+				// This is because clicking on the button will open the modal, and the button will not be in a pressed state.
 				pressed={ isButtonPressed }
 			>
 				<SparklesIcon style={ { width: "70%", height: "70%", color: iconColor } } />
