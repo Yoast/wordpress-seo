@@ -352,6 +352,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected function render_hidden_fields() {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
 
+		/**
+		 * The metadata groups.
+		 *
+		 * @var Metadata_Groups $metadata_groups The metadata groups.
+		 */
 		$metadata_groups = YoastSEO()->classes->get( Metadata_Groups::class );
 
 		$groups = $metadata_groups->get_post_metadata_groups();

@@ -509,6 +509,11 @@ class Elementor implements Integration_Interface {
 
 		\wp_nonce_field( 'wpseo_elementor_save', '_wpseo_elementor_nonce' );
 
+		/**
+		 * The metadata groups.
+		 *
+		 * @var Metadata_Groups $metadata_groups The metadata groups.
+		 */
 		$metadata_groups = \YoastSEO()->classes->get( Metadata_Groups::class );
 
 		$groups = $metadata_groups->get_post_metadata_groups();

@@ -110,6 +110,11 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		$field_definitions = new WPSEO_Taxonomy_Fields();
 		$meta_prefix       = 'wpseo_';
 
+		/**
+		 * The metadata groups.
+		 *
+		 * @var Metadata_Groups $metadata_groups The metadata groups.
+		 */
 		$metadata_groups = YoastSEO()->classes->get( Metadata_Groups::class );
 
 		$groups = $metadata_groups->get_term_metadata_groups();

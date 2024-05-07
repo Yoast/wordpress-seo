@@ -336,6 +336,11 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		$post_type = $this->post->post_type;
 		$metadata  = [];
 
+		/**
+		 * The metadata groups.
+		 *
+		 * @var Metadata_Groups $metadata_groups The metadata groups.
+		 */
 		$metadata_groups = YoastSEO()->classes->get( Metadata_Groups::class );
 
 		$groups = $metadata_groups->get_post_metadata_groups();

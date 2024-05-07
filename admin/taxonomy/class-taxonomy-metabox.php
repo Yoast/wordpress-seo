@@ -98,6 +98,11 @@ class WPSEO_Taxonomy_Metabox {
 		$fields_presenter  = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
 		$field_definitions = new WPSEO_Taxonomy_Fields();
 
+		/**
+		 * The metadata groups.
+		 *
+		 * @var Metadata_Groups $metadata_groups The metadata groups.
+		 */
 		$metadata_groups = YoastSEO()->classes->get( Metadata_Groups::class );
 
 		$groups = $metadata_groups->get_term_metadata_groups();
