@@ -24,8 +24,6 @@ import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanc
 import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import KeywordUpsell from "../../../components/modals/KeywordUpsell";
-import { ErrorBoundary } from "@yoast/ui-library";
-import { ElementorErrorFallback } from "../elementor-error-fallback";
 
 /* eslint-disable complexity */
 /**
