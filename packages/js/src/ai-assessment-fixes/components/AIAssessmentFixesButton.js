@@ -15,11 +15,13 @@ import { ModalContent } from "../../ai-generator/components/modal-content";
 /**
  * The AI Assessment Fixes button component.
  *
+ * @param {boolean} hasAIFixes Whether the assessment has AI fixes or not.
  * @param {string} id The assessment ID for which the AI fixes should be applied to.
  * @param {boolean} isPremium Whether the premium add-on is active or not.
+ *
  * @returns {JSX.Element} The AI Assessment Fixes button.
  */
-const AIAssessmentFixesButton = ( { id, isPremium } ) => {
+const AIAssessmentFixesButton = ( { hasAIFixes, id, isPremium } ) => {
 	const aiFixesId = id + "AIFixes";
 	const ariaLabel = __( "Fix with AI", "wordpress-seo" );
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
@@ -60,7 +62,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	// In Free: the icon color is always grey.
 	const iconColor = isButtonPressed ? colors.$color_white : colors.$color_button_text;
 
-	return (
+	return hasAIFixes && (
 		<>
 			<IconAIFixesButton
 				onClick={ handleClick }
@@ -87,11 +89,13 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 };
 
 AIAssessmentFixesButton.propTypes = {
+	hasAIFixes: PropTypes.bool,
 	id: PropTypes.string.isRequired,
 	isPremium: PropTypes.bool,
 };
 
 AIAssessmentFixesButton.defaultProps = {
+	hasAIFixes: false,
 	isPremium: false,
 };
 
