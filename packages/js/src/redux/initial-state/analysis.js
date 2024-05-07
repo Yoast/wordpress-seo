@@ -3,7 +3,7 @@ import { get } from "lodash";
 export const analysisInitialState = {
 	seo: {
 		results: [],
-	    overallScore: Number( get( window, "wpseoScriptData.metabox.metadata.linkdex", 0 ) ),
+		overallScore: Number( get( window, "wpseoScriptData.metabox.metadata.linkdex", 0 ) ),
 	},
 	readability: {
 		results: [],
