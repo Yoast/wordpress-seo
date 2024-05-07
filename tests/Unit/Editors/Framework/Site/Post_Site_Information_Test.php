@@ -90,13 +90,15 @@ final class Post_Site_Information_Test extends TestCase {
 		$this->alert_dismissal_action = Mockery::mock( Alert_Dismissal_Action::class );
 
 		$this->instance = new Post_Site_Information( $this->promotion_manager, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action );
+		$this->instance->set_permalink( 'perma' );
+		$this->set_mocks();
 	}
 
 	/**
-	 * Tests the get_site_information.
+	 * Tests the get_legacy_site_information.
 	 *
 	 * @covers ::__construct
-	 * @covers ::get_site_information
+	 * @covers ::get_legacy_site_information
 	 * @covers ::search_url
 	 * @covers ::base_url_for_js
 	 * @covers ::edit_url
@@ -104,9 +106,7 @@ final class Post_Site_Information_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_site_information() {
-		$this->instance->set_permalink( 'perma' );
-		$this->set_mocks();
+	public function test_legacy_site_information() {
 		$expected = [
 			'metabox'                    => [
 				'search_url'    => 'https://example.org',
@@ -134,6 +134,54 @@ final class Post_Site_Information_Test extends TestCase {
 			],
 			'pluginUrl'                  => '/location',
 			'wistiaEmbedPermission'      => true,
+
+		];
+
+		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
+		Monkey\Functions\expect( 'home_url' )->andReturn( 'https://example.org' );
+
+		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
+	}
+
+	/**
+	 * Tests the get_site_information.
+	 *
+	 * @covers ::__construct
+	 * @covers ::get_site_information
+	 * @covers ::search_url
+	 * @covers ::base_url_for_js
+	 * @covers ::edit_url
+	 * @covers ::set_permalink
+	 *
+	 * @return void
+	 */
+	public function test_site_information() {
+		$expected = [
+			'search_url'                     => 'https://example.org',
+			'post_edit_url'                  => 'https://example.org',
+			'base_url'                       => 'https://example.org',
+
+			'dismissedAlerts'                => [
+				'the alert',
+			],
+			'currentPromotions'              => [
+				'the promotion',
+				'another one',
+			],
+			'webinarIntroBlockEditorUrl'     => 'https://expl.c',
+			'blackFridayBlockEditorUrl'      => '',
+			'linkParams'                     => [
+				'param',
+				'param2',
+			],
+			'pluginUrl'                      => '/location',
+			'wistiaEmbedPermission'          => true,
+			'site_name'                      => 'examepl.com',
+			'contentLocale'                  => 'nl_NL',
+			'userLocale'                     => 'nl_NL',
+			'isRtl'                          => false,
+			'isPremium'                      => true,
+			'siteIconUrl'                    => 'https://example.org',
 
 		];
 

@@ -1200,7 +1200,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * @return mixed|string
+	 * Gets the permalink.
+	 *
+	 * @return string
 	 */
 	public function get_permalink() {
 		$permalink = '';

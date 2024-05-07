@@ -30,16 +30,31 @@ class Post_Site_Information extends Base_Site_Information {
 	 *
 	 * @return array<string|string,string[]>
 	 */
-	public function get_site_information(): array {
+	public function get_legacy_site_information(): array {
 		$data = [
 			'metabox' => [
-				'search_url'          => $this->search_url(),
-				'post_edit_url'       => $this->edit_url(),
-				'base_url'            => $this->base_url_for_js(),
+				'search_url'    => $this->search_url(),
+				'post_edit_url' => $this->edit_url(),
+				'base_url'      => $this->base_url_for_js(),
 			],
 		];
 
-		return \array_merge_recursive( $data, parent::get_site_information() );
+		return \array_merge_recursive( $data, parent::get_legacy_site_information() );
+	}
+
+	/**
+	 * Returns post specific site information together with the generic site information.
+	 *
+	 * @return array<string|string,string[]>
+	 */
+	public function get_site_information(): array {
+		$data = [
+			'search_url'    => $this->search_url(),
+			'post_edit_url' => $this->edit_url(),
+			'base_url'      => $this->base_url_for_js(),
+		];
+
+		return \array_merge( $data, parent::get_site_information() );
 	}
 
 	/**

@@ -100,7 +100,19 @@ final class Term_Site_Information_Test extends TestCase {
 		$this->product_helper         = Mockery::mock( Product_Helper::class );
 		$this->alert_dismissal_action = Mockery::mock( Alert_Dismissal_Action::class );
 
-		$this->instance = new Term_Site_Information( $this->options_helper, $this->promotion_manager, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action );
+		$this->instance      = new Term_Site_Information( $this->options_helper, $this->promotion_manager, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action );
+		$taxonomy            = Mockery::mock( WP_Taxonomy::class )->makePartial();
+		$taxonomy->rewrite   = false;
+		$mock_term           = Mockery::mock( WP_Term::class )->makePartial();
+		$mock_term->taxonomy = 'tax';
+		$mock_term->term_id  = 1;
+
+		Monkey\Functions\expect( 'get_taxonomy' )->andReturn( $taxonomy );
+
+		$this->instance->set_term( $mock_term );
+		$this->options_helper->expects( 'get' )->with( 'stripcategorybase', false )->andReturnFalse();
+
+		$this->set_mocks();
 	}
 
 	/**
@@ -116,18 +128,54 @@ final class Term_Site_Information_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_site_information() {
-		$taxonomy            = Mockery::mock( WP_Taxonomy::class )->makePartial();
-		$taxonomy->rewrite   = false;
-		$mock_term           = Mockery::mock( WP_Term::class )->makePartial();
-		$mock_term->taxonomy = 'tax';
-		$mock_term->term_id  = 1;
+		$expected = [
+			'search_url'                     => 'https://example.org',
+			'post_edit_url'                  => 'https://example.org',
+			'base_url'                       => 'https://example.org',
 
-		Monkey\Functions\expect( 'get_taxonomy' )->andReturn( $taxonomy );
+			'dismissedAlerts'                => [
+				'the alert',
+			],
+			'currentPromotions'              => [
+				'the promotion',
+				'another one',
+			],
+			'webinarIntroBlockEditorUrl'     => 'https://expl.c',
+			'blackFridayBlockEditorUrl'      => '',
+			'linkParams'                     => [
+				'param',
+				'param2',
+			],
+			'pluginUrl'                      => '/location',
+			'wistiaEmbedPermission'          => true,
+			'site_name'                      => 'examepl.com',
+			'contentLocale'                  => 'nl_NL',
+			'userLocale'                     => 'nl_NL',
+			'isRtl'                          => false,
+			'isPremium'                      => true,
+			'siteIconUrl'                    => 'https://example.org',
+		];
 
-		$this->instance->set_term( $mock_term );
-		$this->options_helper->expects( 'get' )->with( 'stripcategorybase', false )->andReturnFalse();
+		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
+		Monkey\Functions\expect( 'home_url' )->andReturn( 'https://example.org' );
 
-		$this->set_mocks();
+		$this->assertSame( $expected, $this->instance->get_site_information() );
+	}
+
+	/**
+	 * Tests the get_legacy_site_information.
+	 *
+	 * @covers ::__construct
+	 * @covers ::get_legacy_site_information
+	 * @covers ::search_url
+	 * @covers ::base_url_for_js
+	 * @covers ::edit_url
+	 * @covers ::set_term
+	 *
+	 * @return void
+	 */
+	public function test_legacy_site_information() {
+
 		$expected = [
 			'metabox'                    => [
 				'search_url'    => 'https://example.org',
@@ -161,6 +209,6 @@ final class Term_Site_Information_Test extends TestCase {
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
 		Monkey\Functions\expect( 'home_url' )->andReturn( 'https://example.org' );
 
-		$this->assertSame( $expected, $this->instance->get_site_information() );
+		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
 	}
 }
