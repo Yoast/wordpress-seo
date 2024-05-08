@@ -1,4 +1,5 @@
 /* External dependencies */
+import { useBlockProps } from "@wordpress/block-editor";
 import { registerBlockType } from "@wordpress/blocks";
 
 /* Internal dependencies */
@@ -17,12 +18,16 @@ registerBlockType( block, {
 	 * @returns {Component} The editor component.
 	 */
 	edit: ( { attributes, setAttributes, className } ) => {
+		const blockProps = useBlockProps();
+
 		// Because setAttributes is quite slow right after a block has been added we fake having a single step.
 		if ( ! attributes.steps || attributes.steps.length === 0 ) {
 			attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), name: [], text: [] } ];
 		}
 
-		return <HowTo { ...{ attributes, setAttributes, className } } />;
+		return <div { ...blockProps }>
+			<HowTo { ...{ attributes, setAttributes, className } } />
+		</div>;
 	},
 
 	/**

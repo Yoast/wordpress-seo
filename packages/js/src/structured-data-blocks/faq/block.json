@@ -1,7 +1,7 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "version": "22.4",
+  "version": "22.7",
   "name": "yoast/faq-block",
   "title": "Yoast FAQ",
   "description": "List your Frequently Asked Questions in an SEO-friendly way.",

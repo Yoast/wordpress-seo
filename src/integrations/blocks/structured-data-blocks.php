@@ -102,18 +102,6 @@ class Structured_Data_Blocks implements Integration_Interface {
 	}
 
 	/**
-	 * Enqueue Gutenberg block assets for backend editor.
-	 *
-	 * @deprecated 22.8
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function enqueue_block_editor_assets() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 22.8' );
-	}
-
-	/**
 	 * Optimizes images in the FAQ blocks.
 	 *
 	 * @param array  $attributes The attributes.
@@ -419,5 +407,19 @@ class Structured_Data_Blocks implements Integration_Interface {
 		else {
 			$this->used_caches[ $post_id ] = $images;
 		}
+	}
+
+	/* DEPRECATED METHODS */
+
+	/**
+	 * Enqueue Gutenberg block assets for backend editor.
+	 *
+	 * @deprecated 22.7
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function enqueue_block_editor_assets() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 22.7' );
 	}
 }

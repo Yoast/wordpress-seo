@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '22.7-RC1' );
+define( 'WPSEO_VERSION', '22.7-RC6' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -362,9 +362,6 @@ function wpseo_init() {
 	if ( ! wp_doing_ajax() ) {
 		require_once WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php';
 	}
-
-	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
-	new WPSEO_Customizer();
 
 	$integrations   = [];
 	$integrations[] = new WPSEO_Slug_Change_Watcher();
