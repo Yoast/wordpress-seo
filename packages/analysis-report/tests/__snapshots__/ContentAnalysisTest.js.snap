@@ -183,6 +183,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
 
 .c16 {
   min-height: 24px;
+  margin-bottom: 12px;
   padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -953,6 +954,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 
 .c16 {
   min-height: 24px;
+  margin-bottom: 12px;
   padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1688,6 +1690,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 
 .c16 {
   min-height: 24px;
+  margin-bottom: 12px;
   padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -2408,6 +2411,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 
 .c16 {
   min-height: 24px;
+  margin-bottom: 12px;
   padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -3178,6 +3182,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
 
 .c16 {
   min-height: 24px;
+  margin-bottom: 12px;
   padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -3988,6 +3993,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 
 .c16 {
   min-height: 24px;
+  margin-bottom: 12px;
   padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -4758,6 +4764,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 
 .c16 {
   min-height: 24px;
+  margin-bottom: 12px;
   padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -5325,6 +5332,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 
 .c16 {
   min-height: 24px;
+  margin-bottom: 12px;
   padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -5892,6 +5900,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 
 .c16 {
   min-height: 24px;
+  margin-bottom: 12px;
   padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -6548,6 +6557,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 
 .c16 {
   min-height: 24px;
+  margin-bottom: 12px;
   padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
