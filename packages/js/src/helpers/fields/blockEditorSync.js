@@ -11,8 +11,8 @@ import { transformMetaValue } from "./transform-meta-value";
  */
 const createUpdater = () => {
 	const { editPost } = dispatch( STORES.wp.editor );
+	const { getCurrentPost } = select( STORES.wp.editor );
 	const { getEditedEntityRecord } = select( STORES.wp.core );
-	const currentPost = select( STORES.wp.editor ).getCurrentPost();
 
 	/**
 	 * Syncs the data to the WP entity record.
@@ -20,7 +20,8 @@ const createUpdater = () => {
 	 * @returns {void}
 	 */
 	return ( data ) => {
-		const metadata = getEditedEntityRecord( "postType", currentPost.type, currentPost.id ).meta;
+		const { type, id } = getCurrentPost();
+		const metadata = getEditedEntityRecord( "postType", type, id ).meta;
 
 		if ( ! metadata || ! data ) {
 			return;
