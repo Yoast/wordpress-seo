@@ -5,7 +5,7 @@ import { STORES } from "../../shared-admin/constants";
 /**
  * Retrieves primary terms from store methods.
  *
- * @returns {object} An object with taxonomies keys and their primary term id.
+ * @returns {Object} An object with taxonomies keys and their primary term id.
  */
 export const getPrimaryTerms = () => {
 	const primaryTerms = select( STORES.editor ).getPrimaryTaxonomies();
