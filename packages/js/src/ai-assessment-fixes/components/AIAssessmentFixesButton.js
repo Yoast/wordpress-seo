@@ -18,10 +18,11 @@ import { ModalContent } from "../../ai-generator/components/modal-content";
  * @param {boolean} hasAIFixes Whether the assessment has AI fixes or not.
  * @param {string} id The assessment ID for which the AI fixes should be applied to.
  * @param {boolean} isPremium Whether the premium add-on is active or not.
+ * @param {boolean} isBlockEditor Whether the block editor is active or not.
  *
  * @returns {JSX.Element} The AI Assessment Fixes button.
  */
-const AIAssessmentFixesButton = ( { hasAIFixes, id, isPremium } ) => {
+const AIAssessmentFixesButton = ( { hasAIFixes, id, isPremium, isBlockEditor } ) => {
 	const aiFixesId = id + "AIFixes";
 	const ariaLabel = __( "Fix with AI", "wordpress-seo" );
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
@@ -54,7 +55,6 @@ const AIAssessmentFixesButton = ( { hasAIFixes, id, isPremium } ) => {
 		} else {
 			setIsModalOpenTrue();
 		}
-		// handlePressedButton();
 	}, [ handlePressedButton, setIsModalOpenTrue ] );
 
 	// This color selection when the button is pressed/unpressed is in line with the design of the highlighting button.
@@ -62,7 +62,7 @@ const AIAssessmentFixesButton = ( { hasAIFixes, id, isPremium } ) => {
 	// In Free: the icon color is always grey.
 	const iconColor = isButtonPressed ? colors.$color_white : colors.$color_button_text;
 
-	return hasAIFixes && (
+	return isBlockEditor && hasAIFixes && (
 		<>
 			<IconAIFixesButton
 				onClick={ handleClick }
@@ -92,11 +92,13 @@ AIAssessmentFixesButton.propTypes = {
 	hasAIFixes: PropTypes.bool,
 	id: PropTypes.string.isRequired,
 	isPremium: PropTypes.bool,
+	isBlockEditor: PropTypes.bool,
 };
 
 AIAssessmentFixesButton.defaultProps = {
 	hasAIFixes: false,
 	isPremium: false,
+	isBlockEditor: false,
 };
 
 export default AIAssessmentFixesButton;

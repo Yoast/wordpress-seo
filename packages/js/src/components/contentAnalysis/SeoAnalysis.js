@@ -21,7 +21,6 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
 import isBlockEditor from "../../helpers/isBlockEditor";
-import noop from "lodash/noop";
 import AIAssessmentFixesButton from "../../ai-assessment-fixes/components/AIAssessmentFixesButton";
 
 const AnalysisHeader = styled.span`
@@ -204,7 +203,7 @@ class SeoAnalysis extends Component {
 	 */
 	renderAIFixesButton = ( hasAIFixes, id, isPremium ) => {
 		return (
-			<AIAssessmentFixesButton hasAIFixes={ hasAIFixes } id={ id } isPremium={ isPremium } />
+			<AIAssessmentFixesButton hasAIFixes={ hasAIFixes } id={ id } isPremium={ isPremium } isBlockEditor={ isBlockEditor() } />
 		);
 	};
 
@@ -267,7 +266,7 @@ class SeoAnalysis extends Component {
 												location={ location }
 												shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 												highlightingUpsellLink={ highlightingUpsellLink }
-												renderAIFixesButton={ isBlockEditor() ? this.renderAIFixesButton : noop }
+												renderAIFixesButton={ this.renderAIFixesButton }
 											/>
 										</Collapsible>
 										{ this.renderTabIcon( location, score.className ) }
