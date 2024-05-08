@@ -21,6 +21,7 @@ const ContainerResultButtons = styled.div`
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
 	min-height: 24px;
+	margin-bottom: 12px;
 	padding: 0;
 	display: flex;
 	align-items: flex-start;
