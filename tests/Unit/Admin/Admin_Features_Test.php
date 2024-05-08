@@ -9,6 +9,7 @@ use WP_User;
 use WPSEO_Admin;
 use WPSEO_Primary_Term_Admin;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
@@ -101,7 +102,7 @@ final class Admin_Features_Test extends TestCase {
 		$class_instance = $this->get_admin_with_expectations();
 
 		$admin_features = [
-			'primary_category'         => new WPSEO_Primary_Term_Admin(),
+			'primary_category'         => new WPSEO_Primary_Term_Admin( new Primary_Term_Helper() ),
 			'dashboard_widget'         => new Yoast_Dashboard_Widget(),
 			'wincher_dashboard_widget' => new Wincher_Dashboard_Widget(),
 		];

@@ -5,10 +5,28 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
+
 /**
  * Adds the UI to change the primary term for a post.
  */
 class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
+
+	/**
+	 * Primary term helper
+	 *
+	 * @var Primary_Term_Helper
+	 */
+	protected $primary_term_helper;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param Primary_Term_Helper $primary_term_helper Primary term helper.
+	 */
+	public function __construct( Primary_Term_Helper $primary_term_helper ) {
+		$this->primary_term_helper = $primary_term_helper;
+	}
 
 	/**
 	 * Register hooks.
@@ -19,6 +37,50 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		add_action( 'admin_footer', [ $this, 'wp_footer' ], 10 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		add_filter( 'wpseo_metabox_entries_general', [ $this, 'add_input_fields' ], 10, 2 );
+		add_action( 'registered_taxonomy', [ $this, 'register_primary_term_metadata' ], 10, 3 );
+	}
+
+	/**
+	 * Register the primary term metadata.
+	 *
+	 * @param string $taxonomy    The taxonomy name.
+	 * @param string $object_type The object type.
+	 * @param array  $args        The taxonomy arguments.
+	 *
+	 * @return void
+	 */
+	public function register_primary_term_metadata( $taxonomy, $object_type, $args ) {
+		if ( ! $args['hierarchical'] ) {
+			return;
+		}
+
+		WPSEO_Meta::$meta_fields['primary_terms'][ 'primary_' . $taxonomy ] = [
+			'type'          => 'hidden',
+			'default_value' => '',
+		];
+
+		WPSEO_Meta::register_meta( 'primary_' . $taxonomy, 'hidden', '' );
+		add_filter( 'wpseo_sanitize_post_meta_primary_' . $taxonomy, [ $this, 'sanitize_primary_term' ], 10, 4 );
+	}
+
+	/**
+	 * Sanitize the primary term.
+	 *
+	 * @param int|string    $clean      The clean value to sanitize.
+	 * @param int|string    $meta_value The meta value.
+	 * @param array<string> $field_def  The field definition.
+	 * @param string        $meta_key   The meta key.
+	 *
+	 * @return string The sanitized value.
+	 */
+	public function sanitize_primary_term( $clean, $meta_value, $field_def, $meta_key ) {
+		if ( strpos( $meta_key, WPSEO_Meta::$meta_prefix . 'primary_' ) === 0 ) {
+			$int = WPSEO_Utils::validate_int( $meta_value );
+			if ( $int !== false && $int > 0 ) {
+				return strval( $int );
+			}
+		}
+		return $clean;
 	}
 
 	/**
@@ -48,7 +110,10 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	public function add_input_fields( $field_defs ) {
 		$taxonomies = $this->get_primary_term_taxonomies();
 		foreach ( $taxonomies as $taxonomy ) {
-			$field_defs[ 'primary_' . $taxonomy->name ] = WPSEO_Meta::$meta_fields['primary_terms'][ 'primary_' . $taxonomy->name ];
+			$field_defs[ 'primary_' . $taxonomy->name ] = [
+				'type'          => 'hidden',
+				'default_value' => '',
+			];
 		}
 		return $field_defs;
 	}
@@ -127,7 +192,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 			return $taxonomies;
 		}
 
-		$taxonomies = YoastSEO()->helpers->primary_term->get_primary_term_taxonomies( $post_id );
+		$taxonomies = $this->primary_term_helper->get_primary_term_taxonomies( $post_id );
 
 		wp_cache_set( 'primary_term_taxonomies_' . $post_id, $taxonomies, 'wpseo' );
 
