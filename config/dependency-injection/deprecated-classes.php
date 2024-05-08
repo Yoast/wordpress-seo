@@ -33,15 +33,6 @@ use Yoast\WP\SEO\Routes\Indexables_Page_Route;
 use Yoast\WP\SEO\Schema_Templates\Assets\Icons;
 
 $deprecated_classes = [
-	Social_Templates_Integration::class         => '20.3',
-	Indexables_Page_Integration::class          => '20.4',
-	Indexables_Page_Route::class                => '20.4',
-	Indexables_Page_Action::class               => '20.4',
-	Indexables_Page_Helper::class               => '20.4',
-	Indexables_Page_Conditional::class          => '20.4',
-	Schema_Blocks_Conditional::class            => '20.5',
-	Schema_Blocks::class                        => '20.5',
-	Icons::class                                => '20.5',
 	Old_Premium_Integration::class              => '20.10',
 	Wincher::class                              => '21.6',
 	Wordproof_Integration_Toggle::class         => '21.6',
