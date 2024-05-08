@@ -176,8 +176,8 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
 
 .c20 {
   display: grid;
-  grid-template-rows: repeat(1,minmax(0,1fr));
-  grid-auto-flow: row;
+  grid-template-rows: 1fr;
+  max-width: 32px;
   gap: 6px;
 }
 
@@ -947,8 +947,8 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 
 .c20 {
   display: grid;
-  grid-template-rows: repeat(1,minmax(0,1fr));
-  grid-auto-flow: row;
+  grid-template-rows: 1fr;
+  max-width: 32px;
   gap: 6px;
 }
 
@@ -1683,8 +1683,8 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 
 .c20 {
   display: grid;
-  grid-template-rows: repeat(1,minmax(0,1fr));
-  grid-auto-flow: row;
+  grid-template-rows: 1fr;
+  max-width: 32px;
   gap: 6px;
 }
 
@@ -2404,8 +2404,8 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 
 .c20 {
   display: grid;
-  grid-template-rows: repeat(1,minmax(0,1fr));
-  grid-auto-flow: row;
+  grid-template-rows: 1fr;
+  max-width: 32px;
   gap: 6px;
 }
 
@@ -3175,8 +3175,8 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
 
 .c20 {
   display: grid;
-  grid-template-rows: repeat(1,minmax(0,1fr));
-  grid-auto-flow: row;
+  grid-template-rows: 1fr;
+  max-width: 32px;
   gap: 6px;
 }
 
@@ -3986,8 +3986,8 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 
 .c20 {
   display: grid;
-  grid-template-rows: repeat(1,minmax(0,1fr));
-  grid-auto-flow: row;
+  grid-template-rows: 1fr;
+  max-width: 32px;
   gap: 6px;
 }
 
@@ -4757,8 +4757,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 
 .c20 {
   display: grid;
-  grid-template-rows: repeat(1,minmax(0,1fr));
-  grid-auto-flow: row;
+  grid-template-rows: 1fr;
+  max-width: 32px;
   gap: 6px;
 }
 
@@ -5325,8 +5325,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 
 .c20 {
   display: grid;
-  grid-template-rows: repeat(1,minmax(0,1fr));
-  grid-auto-flow: row;
+  grid-template-rows: 1fr;
+  max-width: 32px;
   gap: 6px;
 }
 
@@ -5893,8 +5893,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 
 .c20 {
   display: grid;
-  grid-template-rows: repeat(1,minmax(0,1fr));
-  grid-auto-flow: row;
+  grid-template-rows: 1fr;
+  max-width: 32px;
   gap: 6px;
 }
 
@@ -6550,8 +6550,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 
 .c20 {
   display: grid;
-  grid-template-rows: repeat(1,minmax(0,1fr));
-  grid-auto-flow: row;
+  grid-template-rows: 1fr;
+  max-width: 32px;
   gap: 6px;
 }
 
