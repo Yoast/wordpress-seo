@@ -146,7 +146,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 						ariaLabel={ props.ariaLabelEdit }
 					/>
 				}
-				{ props.renderAIFixesButton( props.hasAIFixes, props.id, props.isPremium ) }
+				{ props.renderAIFixesButton( props.hasAIFixes, props.id ) }
 			</ContainerResultButtons>
 		</AnalysisResultBase>
 	);

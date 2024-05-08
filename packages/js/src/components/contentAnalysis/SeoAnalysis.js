@@ -197,11 +197,12 @@ class SeoAnalysis extends Component {
 	 *
 	 * @param {boolean} hasAIFixes Whether the assessment has AI fixes or not.
 	 * @param {string} id The assessment ID for which the AI fixes should be applied to.
-	 * @param {boolean} isPremium Whether the premium add-on is active or not.
 	 *
 	 * @returns {JSX.Element} The AI Assessment Fixes button.
 	 */
-	renderAIFixesButton = ( hasAIFixes, id, isPremium ) => {
+	renderAIFixesButton = ( hasAIFixes, id ) => {
+		const isPremium = getL10nObject().isPremium;
+
 		return (
 			<AIAssessmentFixesButton hasAIFixes={ hasAIFixes } id={ id } isPremium={ isPremium } isBlockEditor={ isBlockEditor() } />
 		);
