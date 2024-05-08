@@ -53,7 +53,7 @@ class Primary_Term_Metadata implements Initializer_Interface {
 		if ( \strpos( $meta_key, WPSEO_Meta::$meta_prefix . 'primary_' ) === 0 ) {
 			$int = WPSEO_Utils::validate_int( $meta_value );
 			if ( $int !== false && $int > 0 ) {
-				$clean = \strval( $int );
+				return \strval( $int );
 			}
 		}
 		return $clean;
