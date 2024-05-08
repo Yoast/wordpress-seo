@@ -15,7 +15,7 @@ const ContainerResultButtons = styled.div`
 	grid-template-rows: 1fr;
 	// The max-width of the buttons set to 32px.
 	max-width: 32px;
-	// This is the same gap between assessment result list items.
+	// This gap value is half the gap value between assessment result list items, which is 12px.
 	gap: 6px;
 `;
 
