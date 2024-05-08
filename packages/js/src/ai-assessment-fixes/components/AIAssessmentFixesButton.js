@@ -26,7 +26,6 @@ const AIAssessmentFixesButton = ( { hasAIFixes, id, isPremium, isBlockEditor } )
 	const aiFixesId = id + "AIFixes";
 	const ariaLabel = __( "Fix with AI", "wordpress-seo" );
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const [ isButtonPressed, , , setIsButtonPressedTrue, setIsButtonPressedFalse ] = useToggleState( false );
 	const activeAIButtonId = useSelect( select => select( "yoast-seo/editor" ).getActiveAIFixesButton(), [] );
 	const { setActiveAIFixesButton } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
@@ -37,12 +36,10 @@ const AIAssessmentFixesButton = ( { hasAIFixes, id, isPremium, isBlockEditor } )
 	 */
 	const handlePressedButton = () => {
 		// If the current pressed button id is the same as the active AI button id,
-		// we want to a). set the active AI button to null and b). set the button to not pressed.
+		// we want to set the active AI button to null.
 		if ( aiFixesId === activeAIButtonId ) {
-			setIsButtonPressedFalse();
 			setActiveAIFixesButton( null );
 		} else {
-			setIsButtonPressedTrue();
 			setActiveAIFixesButton( aiFixesId );
 		}
 	};
@@ -57,6 +54,8 @@ const AIAssessmentFixesButton = ( { hasAIFixes, id, isPremium, isBlockEditor } )
 		}
 	}, [ handlePressedButton, setIsModalOpenTrue ] );
 
+	// The button is pressed when the active AI button id is the same as the current button id.
+	const isButtonPressed = activeAIButtonId === aiFixesId;
 	// This color selection when the button is pressed/unpressed is in line with the design of the highlighting button.
 	// In Premium: when the button is pressed, the icon color is white. When the button is unpressed, the color is grey.
 	// In Free: the icon color is always grey.
