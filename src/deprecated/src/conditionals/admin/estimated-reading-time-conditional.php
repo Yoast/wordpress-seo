@@ -24,7 +24,7 @@ class Estimated_Reading_Time_Conditional implements Conditional {
 	 *
 	 * @deprecated 22.8
 	 * @codeCoverageIgnore
-	 * 
+	 *
 	 * @param Post_Conditional $post_conditional The post conditional.
 	 */
 	public function __construct( Post_Conditional $post_conditional ) {

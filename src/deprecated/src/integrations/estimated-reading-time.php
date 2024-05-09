@@ -17,7 +17,7 @@ class Estimated_Reading_Time implements Integration_Interface {
 	 *
 	 * @deprecated 22.8
 	 * @codeCoverageIgnore
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function get_conditionals() {
@@ -29,7 +29,7 @@ class Estimated_Reading_Time implements Integration_Interface {
 	 * Initializes the integration.
 	 *
 	 * This is the place to register hooks and filters.
-	 * 
+	 *
 	 * @deprecated 22.8
 	 * @codeCoverageIgnore
 	 *
