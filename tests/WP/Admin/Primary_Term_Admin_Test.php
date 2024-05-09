@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\WP\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Primary_Term_Admin;
+use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -25,9 +26,10 @@ final class Primary_Term_Admin_Test extends TestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
-
+		$primary_term_helper  = new Primary_Term_Helper();
 		$this->class_instance = $this->getMockBuilder( WPSEO_Primary_Term_Admin::class )
 			->setMethods( [ 'get_primary_term_taxonomies', 'include_js_templates', 'save_primary_term', 'get_primary_term' ] )
+			->setConstructorArgs( [ $primary_term_helper ] )
 			->getMock();
 	}
 
