@@ -42,7 +42,8 @@ abstract class Dynamic_Block_V3 implements Integration_Interface {
 	/**
 	 * Initializes the integration.
 	 *
-	 * This is the place to register hooks and filters.
+	 * Integrations hooking on `init` need to have a priority of 11 or higher to
+	 * ensure that they run, as priority 10 is used by the loader to load the integrations.
 	 *
 	 * @return void
 	 */
