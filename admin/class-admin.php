@@ -5,8 +5,8 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
+use Yoast\WP\SEO\Integrations\Settings_Integration;
 
 /**
  * Class that holds most of the admin functionality for Yoast SEO.

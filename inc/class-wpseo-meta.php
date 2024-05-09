@@ -339,17 +339,19 @@ class WPSEO_Meta {
 	 * @return void
 	 */
 	public static function register_meta( $key, $field_type, $default_value ) {
+		$rest_schema = [
+			'schema' => [
+				'type'    => 'string',
+				'context' => [ 'edit' ],
+			],
+		];
+
 		register_meta(
 			'post',
 			self::$meta_prefix . $key,
 			[
 				'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
-				'show_in_rest'      => isset( $field_type ) ? [
-					'schema' => [
-						'type'    => 'string',
-						'context' => [ 'edit' ],
-					],
-				] : false,
+				'show_in_rest'      => isset( $field_type ) ? $rest_schema : false,
 				'auth_callback'     => [ self::class, 'auth_callback' ],
 				'type'              => 'string',
 				'single'            => true,
