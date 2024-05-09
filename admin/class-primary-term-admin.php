@@ -37,7 +37,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		add_action( 'admin_footer', [ $this, 'wp_footer' ], 10 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		add_filter( 'wpseo_metabox_entries_general', [ $this, 'add_input_fields' ], 10, 2 );
-		add_action( 'registered_taxonomy', [ $this, 'register_primary_term_metadata' ], 10, 3 );
+		add_action( 'registered_taxonomy', [ $this, 'register_primary_term_meta' ], 10, 3 );
 	}
 
 	/**
@@ -49,15 +49,10 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	public function register_primary_term_metadata( $taxonomy, $object_type, $args ) {
+	public function register_primary_term_meta( $taxonomy, $object_type, $args ) {
 		if ( ! $args['hierarchical'] ) {
 			return;
 		}
-
-		WPSEO_Meta::$meta_fields['primary_terms'][ 'primary_' . $taxonomy ] = [
-			'type'          => 'hidden',
-			'default_value' => '',
-		];
 
 		WPSEO_Meta::register_meta( 'primary_' . $taxonomy, 'hidden', '' );
 		add_filter( 'wpseo_sanitize_post_meta_primary_' . $taxonomy, [ $this, 'sanitize_primary_term' ], 10, 4 );
