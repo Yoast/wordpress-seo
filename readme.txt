@@ -319,6 +319,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-05-14
 
+Yoast SEO 22.7 converts selected blocks to the Blocks V3 API and brings multiple bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-14-5-24).
+
 #### Enhancements
 
 * Converts the Yoast _How-to_ and _FAQ_ blocks to use the Blocks V3 API.
