@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder;
 
+use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Models\SEO_Links;
@@ -42,6 +43,9 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 
 		$model       = new SEO_Links_Mock();
 		$model->type = SEO_Links::TYPE_INTERNAL_IMAGE;
+
+		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
+		Filters\expectApplied( 'wpseo_should_save_indexable' )->with( true, $indexable )->andReturnFirstArg();
 
 		Functions\stubs(
 			[
@@ -118,6 +122,9 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 		$model                 = new SEO_Links_Mock();
 		$model->type           = SEO_Links::TYPE_INTERNAL_IMAGE;
 		$model->target_post_id = 2;
+
+		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
+		Filters\expectApplied( 'wpseo_should_save_indexable' )->with( true, $indexable )->andReturnFirstArg();
 
 		// Executed in build->create_links->create_internal_link.
 		Functions\stubs(
@@ -198,6 +205,9 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 		$model->height         = null;
 		$model->width          = null;
 
+		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
+		Filters\expectApplied( 'wpseo_should_save_indexable' )->with( true, $indexable )->andReturnFirstArg();
+
 		// Executed in build->create_links->create_internal_link.
 		Functions\stubs(
 			[
@@ -260,6 +270,9 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 		$model                 = new SEO_Links_Mock();
 		$model->type           = SEO_Links::TYPE_INTERNAL_IMAGE;
 		$model->target_post_id = 3;
+
+		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
+		Filters\expectApplied( 'wpseo_should_save_indexable' )->with( true, $indexable )->andReturnFirstArg();
 
 		Functions\stubs(
 			[
@@ -338,6 +351,9 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 		$model                 = new SEO_Links_Mock();
 		$model->type           = SEO_Links::TYPE_INTERNAL_IMAGE;
 		$model->target_post_id = 2;
+
+		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
+		Filters\expectApplied( 'wpseo_should_save_indexable' )->with( true, $indexable )->andReturnFirstArg();
 
 		Functions\stubs(
 			[
