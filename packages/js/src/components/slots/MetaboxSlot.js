@@ -1,6 +1,8 @@
 import { Slot } from "@wordpress/components";
 import sortComponentsByRenderPriority from "../../helpers/sortComponentsByRenderPriority";
 import TopLevelProviders from "../TopLevelProviders";
+import { ErrorBoundary } from "@yoast/ui-library";
+import { MetaboxErrorFallback } from "../metabox-error-fallback";
 
 /**
  * Renders the metabox portal.
@@ -16,11 +18,13 @@ export default function MetaboxSlot( { theme } ) {
 			theme={ theme }
 			location={ "metabox" }
 		>
-			<Slot name="YoastMetabox">
-				{ ( fills ) => {
-					return sortComponentsByRenderPriority( fills );
-				} }
-			</Slot>
+			<ErrorBoundary FallbackComponent={ MetaboxErrorFallback }>
+				<Slot name="YoastMetabox">
+					{ ( fills ) => {
+						return sortComponentsByRenderPriority( fills );
+					} }
+				</Slot>
+			</ErrorBoundary>
 		</TopLevelProviders>
 	);
 }
