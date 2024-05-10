@@ -149,12 +149,6 @@ class WPSEO_Meta {
 				'default_value' => 'false',
 				'description'   => '',
 			],
-			'estimated-reading-time-minutes' => [
-				'type'          => 'hidden',
-				'title'         => 'estimated-reading-time-minutes',
-				'default_value' => '0',
-				'description'   => '',
-			],
 		],
 		'advanced' => [
 			'meta-robots-noindex'  => [
