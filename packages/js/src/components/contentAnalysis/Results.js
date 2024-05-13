@@ -140,6 +140,11 @@ class Results extends Component {
 		// To see a difference between keyphrases: Prepend the keyword key when applicable.
 		const markerId = this.props.keywordKey.length > 0 ? `${this.props.keywordKey}:${id}` : id;
 
+		// If AI Fixes button is active while the Mark button is click, set the active AI Fixes button ID to null.
+		if ( this.props.activeAIFixesButton ) {
+			this.props.setActiveAIFixesButton( null );
+		}
+
 		// If marker button is clicked while active, disable markers.
 		if ( markerId === this.props.activeMarker ) {
 			this.deactivateMarker();
@@ -384,7 +389,9 @@ Results.propTypes = {
 	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled", "hidden" ] ),
 	setActiveMarker: PropTypes.func.isRequired,
 	setMarkerPauseStatus: PropTypes.func.isRequired,
+	setActiveAIFixesButton: PropTypes.func.isRequired,
 	activeMarker: PropTypes.string,
+	activeAIFixesButton: PropTypes.string,
 	keywordKey: PropTypes.string,
 	location: PropTypes.string,
 	isPremium: PropTypes.bool,
@@ -408,6 +415,7 @@ Results.defaultProps = {
 	marksButtonClassName: "",
 	editButtonClassName: "",
 	activeMarker: null,
+	activeAIFixesButton: null,
 	keywordKey: "",
 	location: "",
 	isPremium: false,
