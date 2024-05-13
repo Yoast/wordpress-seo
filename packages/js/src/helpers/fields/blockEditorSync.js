@@ -32,9 +32,7 @@ const createUpdater = () => {
 		forEach( data, ( value, key ) => {
 			const fieldKey = key.replace( POST_META_KEY_PREFIX, "" );
 			const transformedValue = transformMetaValue( fieldKey, value );
-			const transformMetadataValue = transformMetaValue( fieldKey, metadata[ key ] );
-
-			if ( transformedValue !== transformMetadataValue ) {
+			if ( transformedValue !== metadata[ key ] ) {
 				changedData[ key ] = transformedValue;
 			}
 		} );
