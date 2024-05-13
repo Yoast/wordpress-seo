@@ -38,7 +38,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   border-radius: 3px;
   cursor: pointer;
   padding: 0;
-  height: 23px;
+  height: 24px;
 }
 
 .c5:hover {
@@ -406,7 +406,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   border-radius: 3px;
   cursor: pointer;
   padding: 0;
-  height: 23px;
+  height: 24px;
 }
 
 .c5:hover {
@@ -628,7 +628,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   border-radius: 3px;
   cursor: pointer;
   padding: 0;
-  height: 23px;
+  height: 24px;
 }
 
 .c5:hover {
