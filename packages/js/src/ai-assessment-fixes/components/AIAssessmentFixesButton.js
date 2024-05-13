@@ -35,8 +35,8 @@ const AIAssessmentFixesButton = ( { hasAIFixes, id, isPremium, isBlockEditor } )
 	 * @returns {void}
 	 */
 	const handlePressedButton = () => {
-		// If the current pressed button id is the same as the active AI button id,
-		// we want to set the active AI button to null.
+		/* If the current pressed button ID is the same as the active AI button id,
+		we want to set the active AI button to null. Otherwise, update the active AI button ID. */
 		if ( aiFixesId === activeAIButtonId ) {
 			setActiveAIFixesButton( null );
 		} else {
@@ -47,7 +47,9 @@ const AIAssessmentFixesButton = ( { hasAIFixes, id, isPremium, isBlockEditor } )
 	const handleClick = useCallback( () => {
 		if ( isPremium ) {
 			doAction( "yoast.ai.fixAssessments", aiFixesId );
-			// Only handle the pressed button state in Premium.
+			/* Only handle the pressed button state in Premium.
+			We don't want to change the background color of the button and other styling when it's pressed in Free.
+			This is because clicking on the button in Free will open the modal, and the button will not be in a pressed state. */
 			handlePressedButton();
 		} else {
 			setIsModalOpenTrue();
@@ -56,9 +58,9 @@ const AIAssessmentFixesButton = ( { hasAIFixes, id, isPremium, isBlockEditor } )
 
 	// The button is pressed when the active AI button id is the same as the current button id.
 	const isButtonPressed = activeAIButtonId === aiFixesId;
-	// This color selection when the button is pressed/unpressed is in line with the design of the highlighting button.
-	// In Premium: when the button is pressed, the icon color is white. When the button is unpressed, the color is grey.
-	// In Free: the icon color is always grey.
+	/* This color selection when the button is pressed/unpressed is in line with the design of the highlighting button.
+	In Premium: when the button is pressed, the icon color is white. When the button is unpressed, the color is grey.
+	In Free: the icon color is always grey. */
 	const iconColor = isButtonPressed ? colors.$color_white : colors.$color_button_text;
 
 	return isBlockEditor && hasAIFixes && (

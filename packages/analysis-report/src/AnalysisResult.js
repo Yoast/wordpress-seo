@@ -13,7 +13,6 @@ const ALLOWED_TAGS = [ "a", "b", "strong", "em", "i" ];
 const ContainerResultButtons = styled.div`
 	display: grid;
 	grid-template-rows: 1fr;
-	// The max-width of the buttons set to 32px.
 	max-width: 32px;
 	// This gap value is half the gap value between assessment result list items, which is 12px.
 	gap: 6px;
