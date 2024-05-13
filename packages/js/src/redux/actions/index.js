@@ -38,4 +38,4 @@ export * from "./WincherModal";
 export * from "./WincherRequest";
 export * from "./WincherSEOPerformance";
 export * from "./isPremium";
-export * from "./post";
+export * from "./postId";

@@ -91,7 +91,6 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'entity'                      => [
 					'id'         => $this->term->term_id,
 					'slug'       => $this->term->slug,
-					'entityType' => 'term',
 				],
 			];
 		}
