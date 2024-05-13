@@ -1,9 +1,7 @@
 /* eslint-disable complexity */
-import { select } from "@wordpress/data";
-import { STORES } from "../../shared-admin/constants";
 
 /**
- * Prepare value to be saved in hidden field.
+ * Prepare value to be saved as a string.
  *
  * @param {string} key The key of the value.
  * @param {string} value The value to be saved.
@@ -23,7 +21,7 @@ export const transformMetaValue = ( key, value ) => {
 		case "wordproof_timestamp":
 			return value ? "1" : "0";
 		case "meta-robots-adv":
-			return Array.isArray( value ) ? value : "";
+			return Array.isArray( value ) ? value.join() : "";
 	}
 
 	if ( key.startsWith( "primary_" ) ) {
