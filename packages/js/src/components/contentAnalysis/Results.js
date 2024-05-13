@@ -140,7 +140,7 @@ class Results extends Component {
 		// To see a difference between keyphrases: Prepend the keyword key when applicable.
 		const markerId = this.props.keywordKey.length > 0 ? `${this.props.keywordKey}:${id}` : id;
 
-		// If AI Fixes button is active while the Mark button is click, set the active AI Fixes button ID to null.
+		// If AI Fixes button is active while the Mark button is clicked, set the active AI Fixes button ID to null.
 		if ( this.props.activeAIFixesButton ) {
 			this.props.setActiveAIFixesButton( null );
 		}
