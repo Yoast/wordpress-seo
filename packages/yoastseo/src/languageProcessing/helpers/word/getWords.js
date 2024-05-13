@@ -1,6 +1,6 @@
 /** @module stringProcessing/countWords */
 import sanitizeString from "../sanitize/sanitizeString";
-import { filter, flatMap } from "lodash-es";
+import { filter, flatMap } from "lodash";
 import removePunctuation, { punctuationRegexString } from "../sanitize/removePunctuation.js";
 
 const punctuationRegex = new RegExp( `([${punctuationRegexString}])`, "g" );

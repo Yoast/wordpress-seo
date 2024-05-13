@@ -1,4 +1,4 @@
-import { filter, includes, isEmpty } from "lodash-es";
+import { filter, includes, isEmpty } from "lodash";
 import getWords from "../helpers/word/getWords";
 import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
 import { WORD_BOUNDARY_WITH_HYPHEN } from "../../config/wordBoundariesWithoutPunctuation";

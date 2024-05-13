@@ -4,7 +4,7 @@ import AssessmentResult from "../values/AssessmentResult.js";
 import { showTrace } from "../helpers/errors.js";
 
 import { __, sprintf } from "@wordpress/i18n";
-import { filter, find, findIndex, isFunction, isUndefined, map } from "lodash-es";
+import { filter, find, findIndex, isFunction, isUndefined, map } from "lodash";
 import LanguageProcessor from "../parse/language/LanguageProcessor";
 import { build } from "../parse/build";
 

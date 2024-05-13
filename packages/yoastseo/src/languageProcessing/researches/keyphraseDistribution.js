@@ -1,4 +1,4 @@
-import { flattenDeep, max, uniq as unique, zipWith } from "lodash-es";
+import { flattenDeep, max, uniq as unique, zipWith } from "lodash";
 import { findWordFormsInString } from "../helpers/match/findKeywordFormsInString";
 import { markWordsInSentences } from "../helpers/word/markWordsInSentences";
 import getSentences from "../helpers/sentence/getSentences";

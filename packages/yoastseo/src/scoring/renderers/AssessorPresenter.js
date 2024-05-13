@@ -1,6 +1,4 @@
-import { __ } from "@wordpress/i18n";
-import { difference, forEach, isNumber, isObject, isUndefined } from "lodash-es";
-import { assessmentPresenterResult as template } from "../../snippetPreview/templates.js";
+import { difference, forEach, isNumber, isObject, isUndefined } from "lodash";
 import scoreToRating from "../interpreters/scoreToRating.js";
 import createConfig from "../../config/presenter.js";
 
@@ -336,26 +334,11 @@ class AssessorPresenter {
 
 	/**
 	 * Renders out the individual ratings.
+	 * Here, this method is set to noop. In `post-scraper.js` and `term-scraper.js` where this method is called, it is overridden with noop as well.
 	 *
 	 * @returns {void}
 	 */
-	renderIndividualRatings() {
-		const outputTarget = document.getElementById( this.output );
-		const scores = this.getIndividualRatings();
-
-		outputTarget.innerHTML = template( {
-			scores: scores,
-			i18n: {
-				disabledMarkText: __( "Marks are disabled in current view", "wordpress-seo" ),
-				markInText: __( "Mark this result in the text", "wordpress-seo" ),
-				removeMarksInText: __( "Remove marks in the text", "wordpress-seo" ),
-			},
-			activeMarker: this._activeMarker,
-			markerButtonsDisabled: this._disableMarkerButtons,
-		} );
-
-		this.bindMarkButtons( scores );
-	}
+	renderIndividualRatings() {}
 
 	/**
 	 * Renders out the overall rating.

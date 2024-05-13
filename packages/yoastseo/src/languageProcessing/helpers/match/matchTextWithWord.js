@@ -6,7 +6,7 @@ import removePunctuation from "../sanitize/removePunctuation.js";
 import { unifyAllSpaces as unifyWhitespace } from "../sanitize/unifyWhitespace.js";
 import matchStringWithTransliteration from "./matchTextWithTransliteration.js";
 import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
-import { map } from "lodash-es";
+import { map } from "lodash";
 
 /**
  * Returns the number of matches in a given string

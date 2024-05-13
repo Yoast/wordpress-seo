@@ -1,4 +1,4 @@
-import { defaults, isUndefined } from "lodash-es";
+import { defaults, isUndefined } from "lodash";
 
 const defaultProperties = { original: "", marked: "", fieldsToMark: [] };
 

@@ -1,4 +1,4 @@
-import { map, sum } from "lodash-es";
+import { map, sum } from "lodash";
 import Assessor from "./assessor.js";
 import ParagraphTooLong from "./assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "./assessments/readability/SentenceLengthInTextAssessment.js";

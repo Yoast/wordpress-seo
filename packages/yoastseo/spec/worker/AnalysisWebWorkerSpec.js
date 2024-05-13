@@ -1,5 +1,5 @@
 // External dependencies
-import { forEach, isArray, isNumber, isObject } from "lodash-es";
+import { forEach, isArray, isNumber, isObject } from "lodash";
 import { getLogger } from "loglevel";
 
 // Internal dependencies

@@ -1,4 +1,4 @@
-import { take } from "lodash-es";
+import { take } from "lodash";
 import {
 	collapseProminentWordsOnStem,
 	filterProminentWords,

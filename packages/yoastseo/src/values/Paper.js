@@ -1,4 +1,4 @@
-import { defaults, isEmpty, isEqual, isNil } from "lodash-es";
+import { defaults, isEmpty, isEqual, isNil } from "lodash";
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.

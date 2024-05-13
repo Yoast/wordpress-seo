@@ -10,35 +10,11 @@ const { yoastExternals } = require( "./externals" );
 
 let analyzerPort = 8888;
 
-module.exports = function( { entry, output, combinedOutputFile, cssExtractFileName } ) {
-	const exclude = /node_modules[/\\](?!(yoast-components|gutenberg|yoastseo|@wordpress|@yoast|parse5|chart.js)[/\\]).*/;
-	// The index of the babel-loader rule.
-	let ruleIndex = 0;
-	if ( process.env.NODE_ENV !== "production" ) {
-		ruleIndex = 1;
-		defaultConfig.module.rules[ 0 ].exclude = [ exclude ];
-	}
-	defaultConfig.module.rules[ ruleIndex ].exclude = exclude;
-	// Parse5 currently has problem with parsing source map: https://github.com/inikulin/parse5/issues/831.
-	defaultConfig.module.rules.push( {
-		enforce: "pre",
-		test: /\.js$/,
-		use: [
-			{
-				loader: "source-map-loader",
-				options: {
-					filterSourceMappingUrl: ( url, resourcePath ) => {
-						return ! /parse5/i.test( resourcePath );
-					},
-				},
-			},
-		],
-	} );
-
+module.exports = function( { entry, output, combinedOutputFile, cssExtractFileName, plugins = [] } ) {
 	return {
 		...defaultConfig,
-		devtool: process.env.environment === "development" ? "cheap-module-eval-source-map" : false,
 		optimization: {
+			...defaultConfig.optimization,
 			usedExports: process.env.NODE_ENV === "production",
 		},
 		entry,
@@ -119,6 +95,7 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 				// Copied from WP config: Inject the `SCRIPT_DEBUG` global, used for development features flagging.
 				SCRIPT_DEBUG: process.env.NODE_ENV !== "production",
 			} ),
+			...plugins,
 		].filter( Boolean ),
 	};
 };

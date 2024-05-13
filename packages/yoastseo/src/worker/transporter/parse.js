@@ -1,4 +1,4 @@
-import { isArray, isObject, mapValues } from "lodash-es";
+import { isArray, isObject, mapValues } from "lodash";
 
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";

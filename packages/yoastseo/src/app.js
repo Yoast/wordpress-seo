@@ -1,5 +1,5 @@
 import { setLocaleData } from "@wordpress/i18n";
-import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject, isString, isUndefined, merge, noop, throttle } from "lodash-es";
+import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject, isUndefined, merge, noop, throttle } from "lodash";
 import MissingArgument from "./errors/missingArgument";
 import { measureTextWidth } from "./helpers";
 
@@ -11,17 +11,16 @@ import CornerstoneSEOAssessor from "./scoring/cornerstone/seoAssessor.js";
 import AssessorPresenter from "./scoring/renderers/AssessorPresenter.js";
 
 import SEOAssessor from "./scoring/seoAssessor.js";
-import SnippetPreview from "./snippetPreview/snippetPreview.js";
 import Paper from "./values/Paper.js";
 
-var inputDebounceDelay = 800;
+const inputDebounceDelay = 800;
 
 /**
  * Default config for YoastSEO.js
  *
  * @type {Object}
  */
-var defaults = {
+const defaults = {
 	callbacks: {
 		bindElementEvents: noop,
 		updateSnippetValues: noop,
@@ -72,39 +71,8 @@ var defaults = {
 	marker: noop,
 	keywordAnalysisActive: true,
 	contentAnalysisActive: true,
-	hasSnippetPreview: true,
 	debounceRefresh: true,
 };
-
-/**
- * Creates a default snippet preview, this can be used if no snippet preview has been passed.
- *
- * @private
- * @this App
- *
- * @returns {SnippetPreview} The SnippetPreview object.
- */
-function createDefaultSnippetPreview() {
-	var targetElement = document.getElementById( this.config.targets.snippet );
-
-	return new SnippetPreview( {
-		analyzerApp: this,
-		targetElement: targetElement,
-		callbacks: {
-			saveSnippetData: this.config.callbacks.saveSnippetData,
-		},
-	} );
-}
-
-/**
- * Returns whether or not the given argument is a valid SnippetPreview object.
- *
- * @param   {*}         snippetPreview  The 'object' to check against.
- * @returns {boolean}                   Whether or not it's a valid SnippetPreview object.
- */
-function isValidSnippetPreview( snippetPreview ) {
-	return ! isUndefined( snippetPreview ) && Object.prototype.isPrototypeOf.call( SnippetPreview.prototype,  snippetPreview );
-}
 
 /**
  * Check arguments passed to the App to check if all necessary arguments are set.
@@ -120,15 +88,6 @@ function verifyArguments( args ) {
 
 	if ( ! isObject( args.targets ) ) {
 		throw new MissingArgument( "`targets` is a required App argument, `targets` is not an object." );
-	}
-
-	// The args.targets.snippet argument is only required if not SnippetPreview object has been passed.
-	if (
-		args.hasSnippetPreview &&
-		! isValidSnippetPreview( args.snippetPreview ) &&
-		! isString( args.targets.snippet ) ) {
-		throw new MissingArgument( "A snippet preview is required. When no SnippetPreview object isn't passed to " +
-			"the App, the `targets.snippet` is a required App argument. `targets.snippet` is not a string." );
 	}
 }
 
@@ -227,7 +186,6 @@ function verifyArguments( args ) {
  * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
  * @param {Function} args.marker The marker to use to apply the list of marks retrieved from an assessment.
  *
- * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
  * @param {boolean} [args.debouncedRefresh] Whether or not to debounce the
  *                                          refresh function. Defaults to true.
  * @param {Researcher} args.researcher The Researcher object to be used.
@@ -271,24 +229,10 @@ class App {
 			this.showLoadingDialog();
 		}
 
-		if ( isValidSnippetPreview( args.snippetPreview ) ) {
-			this.snippetPreview = args.snippetPreview;
-
-			/* Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
-			 dependency issue. In the future this should be solved by the snippet preview not having a reference to the
-			 app.*/
-			if ( this.snippetPreview.refObj !== this ) {
-				this.snippetPreview.refObj = this;
-			}
-		} else if ( args.hasSnippetPreview ) {
-			this.snippetPreview = createDefaultSnippetPreview.call( this );
-		}
-
 		this._assessorOptions = {
 			useCornerStone: false,
 		};
 
-		this.initSnippetPreview();
 		this.initAssessorPresenters();
 	}
 
@@ -423,13 +367,13 @@ class App {
 	 * @returns {Object}    sampleText  The extended sample text.
 	 */
 	extendSampleText( sampleText ) {
-		var defaultSampleText = defaults.sampleText;
+		const defaultSampleText = defaults.sampleText;
 
 		if ( isUndefined( sampleText ) ) {
 			return defaultSampleText;
 		}
 
-		for ( var key in sampleText ) {
+		for ( const key in sampleText ) {
 			if ( isUndefined( sampleText[ key ] ) ) {
 				sampleText[ key ] = defaultSampleText[ key ];
 			}
@@ -472,15 +416,6 @@ class App {
 			} );
 		}
 
-		if ( this.hasSnippetPreview() ) {
-			// Gets the data FOR the analyzer
-			var data = this.snippetPreview.getAnalyzerData();
-
-			this.rawData.metaTitle = data.title;
-			this.rawData.url = data.url;
-			this.rawData.meta = data.metaDesc;
-		}
-
 		if ( this.pluggable.loaded ) {
 			this.rawData.metaTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.metaTitle );
 			this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
@@ -518,29 +453,6 @@ class App {
 	}
 
 	/**
-	 * Determines whether or not this app has a snippet preview.
-	 *
-	 * @returns {boolean} Whether or not this app has a snippet preview.
-	 */
-	hasSnippetPreview() {
-		return this.snippetPreview !== null && ! isUndefined( this.snippetPreview );
-	}
-
-	/**
-	 * Initializes the snippet preview for this App.
-	 *
-	 * @returns {void}
-	 */
-	initSnippetPreview() {
-		if ( this.hasSnippetPreview() ) {
-			this.snippetPreview.renderTemplate();
-			this.snippetPreview.callRegisteredEventBinder();
-			this.snippetPreview.bindEvents();
-			this.snippetPreview.init();
-		}
-	}
-
-	/**
 	 * Initializes the assessor presenters for content and SEO.
 	 *
 	 * @returns {void}
@@ -564,29 +476,6 @@ class App {
 				},
 				assessor: this.contentAssessor,
 			} );
-		}
-	}
-
-	/**
-	 * Binds the refresh function to the input of the targetElement on the page.
-	 *
-	 * @returns {void}
-	 */
-	bindInputEvent() {
-		for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
-			var elem = document.getElementById( this.config.elementTarget[ i ] );
-			elem.addEventListener( "input", this.refresh.bind( this ) );
-		}
-	}
-
-	/**
-	 * Runs the rerender function of the snippetPreview if that object is defined.
-	 *
-	 * @returns {void}
-	 */
-	reloadSnippetText() {
-		if ( this.hasSnippetPreview() ) {
-			this.snippetPreview.reRender();
 		}
 	}
 
@@ -630,19 +519,13 @@ class App {
 
 		this.analyzerData = this.modifyData( this.rawData );
 
-		if ( this.hasSnippetPreview() ) {
-			this.snippetPreview.refresh();
-		}
 
 		let text = this.analyzerData.text;
 
 		// Insert HTML stripping code
 		text = removeHtmlBlocks( text );
 
-		let titleWidth = this.analyzerData.titleWidth;
-		if ( this.hasSnippetPreview() ) {
-			titleWidth = this.snippetPreview.getTitleWidth();
-		}
+		const titleWidth = this.analyzerData.titleWidth;
 
 		// Create a paper object for the Researcher
 		this.paper = new Paper( text, {
@@ -666,10 +549,6 @@ class App {
 
 		if ( this.config.dynamicDelay ) {
 			this.endTime();
-		}
-
-		if ( this.hasSnippetPreview() ) {
-			this.snippetPreview.reRender();
 		}
 	}
 
@@ -745,10 +624,10 @@ class App {
 	 * @returns {void}
 	 */
 	showLoadingDialog() {
-		var outputElement = document.getElementById( this.defaultOutputElement );
+		const outputElement = document.getElementById( this.defaultOutputElement );
 
 		if ( this.defaultOutputElement !== "" && ! isEmpty( outputElement ) ) {
-			var dialogDiv = document.createElement( "div" );
+			const dialogDiv = document.createElement( "div" );
 			dialogDiv.className = "YoastSEO_msg";
 			dialogDiv.id = "YoastSEO-plugin-loading";
 			document.getElementById( this.defaultOutputElement ).appendChild( dialogDiv );
@@ -762,13 +641,13 @@ class App {
 	 * @returns {void}
 	 */
 	updateLoadingDialog( plugins ) {
-		var outputElement = document.getElementById( this.defaultOutputElement );
+		const outputElement = document.getElementById( this.defaultOutputElement );
 
 		if ( this.defaultOutputElement === "" || isEmpty( outputElement ) ) {
 			return;
 		}
 
-		var dialog = document.getElementById( "YoastSEO-plugin-loading" );
+		const dialog = document.getElementById( "YoastSEO-plugin-loading" );
 		dialog.textContent = "";
 
 		forEach( plugins, function( plugin, pluginName ) {
@@ -785,8 +664,8 @@ class App {
 	 * @returns {void}
 	 */
 	removeLoadingDialog() {
-		var outputElement = document.getElementById( this.defaultOutputElement );
-		var loadingDialog = document.getElementById( "YoastSEO-plugin-loading" );
+		const outputElement = document.getElementById( this.defaultOutputElement );
+		const loadingDialog = document.getElementById( "YoastSEO-plugin-loading" );
 
 		if ( ( this.defaultOutputElement !== "" && ! isEmpty( outputElement ) ) && ! isEmpty( loadingDialog ) ) {
 			document.getElementById( this.defaultOutputElement ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
@@ -924,19 +803,6 @@ class App {
 	 */
 	registerTest() {
 		console.error( "This function is deprecated, please use registerAssessment" );
-	}
-
-	/**
-	 * Creates the elements for the snippetPreview
-	 *
-	 * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
-	 * an argument instead.
-	 *
-	 * @returns {void}
-	 */
-	createSnippetPreview() {
-		this.snippetPreview = createDefaultSnippetPreview.call( this );
-		this.initSnippetPreview();
 	}
 
 	/**

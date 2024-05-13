@@ -11,7 +11,12 @@ describe( "the meta description length research", function() {
 		expect( result ).toBe( 44 );
 	} );
 
-	it( "returns the length (0) of the description", function() {
+	it( "returns the length of the description when the meta description is empty", function() {
+		const result = metaDescriptionLength( "9 September 2021", "" );
+		expect( result ).toBe( 19 );
+	} );
+
+	it( "returns the length of the description when both fields are empty", function() {
 		const result = metaDescriptionLength( "", "" );
 		expect( result ).toBe( 0 );
 	} );
