@@ -22,6 +22,7 @@ jest.mock( "@wordpress/data", () => {
  */
 const mockSelect = ( activeAIButton ) => useSelect.mockImplementation( select => select( () => ( {
 	getActiveAIFixesButton: () => activeAIButton,
+	getActiveMarker: () => null,
 } ) ) );
 
 describe( "AIAssessmentFixesButton", () => {
