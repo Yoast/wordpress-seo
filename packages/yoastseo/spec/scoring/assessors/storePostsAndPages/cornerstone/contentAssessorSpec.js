@@ -1,15 +1,15 @@
 import { forEach } from "lodash";
-import DefaultResearcher from "../../../../../src/languageProcessing/languages/_default/Researcher";
-import EnglishResearcher from "../../../../../src/languageProcessing/languages/en/Researcher";
-import DutchResearcher from "../../../../../src/languageProcessing/languages/nl/Researcher";
-import wordComplexity from "../../../../../src/languageProcessing/researches/wordComplexity";
-import WordComplexityAssessment from "../../../../../src/scoring/assessments/readability/WordComplexityAssessment";
+import DefaultResearcher from "../../../../../src/languageProcessing/languages/_default/Researcher.js";
+import EnglishResearcher from "../../../../../src/languageProcessing/languages/en/Researcher.js";
+import DutchResearcher from "../../../../../src/languageProcessing/languages/nl/Researcher.js";
+import wordComplexity from "../../../../../src/languageProcessing/researches/wordComplexity.js";
+import WordComplexityAssessment from "../../../../../src/scoring/assessments/readability/WordComplexityAssessment.js";
 
-import ContentAssessor from "../../../../../src/scoring/assessors/storePostsAndPages/cornerstone/contentAssessor";
-import AssessmentResult from "../../../../../src/values/AssessmentResult";
-import Paper from "../../../../../src/values/Paper";
-import getWordComplexityConfig from "../../../../../src/helpers/getWordComplexityConfig";
-import getWordComplexityHelper from "../../../../../src/helpers/getWordComplexityHelper";
+import ContentAssessor from "../../../../../src/scoring/assessors/storePostsAndPages/cornerstone/contentAssessor.js";
+import AssessmentResult from "../../../../../src/values/AssessmentResult.js";
+import Paper from "../../../../../src/values/Paper.js";
+import getWordComplexityConfig from "../../../../../src/helpers/getWordComplexityConfig.js";
+import getWordComplexityHelper from "../../../../../src/helpers/getWordComplexityHelper.js";
 
 describe( "A test for content assessor for English", function() {
 	let contentAssessor, results, researcher, paper;

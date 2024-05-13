@@ -1,6 +1,6 @@
-import Paper from "../../../src/values/Paper";
-import InclusiveLanguageAssessor from "../../../src/scoring/assessors/inclusiveLanguageAssessor";
-import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
+import Paper from "../../../src/values/Paper.js";
+import InclusiveLanguageAssessor from "../../../src/scoring/assessors/inclusiveLanguageAssessor.js";
+import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher.js";
 
 // Note that the order of the testing suites is important because, "Jest executes all describe handlers before it executes any of the actual tests."
 // Source: https://jestjs.io/docs/setup-teardown

@@ -1,8 +1,8 @@
-import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
+import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher.js";
 import Assessor from "../../../src/scoring/assessors/assessor.js";
 import Paper from "../../../src/values/Paper.js";
 import AssessmentResult from "../../../src/values/AssessmentResult.js";
-import MissingArgument from "../../../src/errors/missingArgument";
+import MissingArgument from "../../../src/errors/missingArgument.js";
 
 global.window = {};
 

@@ -1,7 +1,7 @@
-import DefaultResearcher from "../../../../../src/languageProcessing/languages/_default/Researcher";
-import EnglishResearcher from "../../../../../src/languageProcessing/languages/en/Researcher";
-import ContentAssessor from "../../../../../src/scoring/assessors/productPages/cornerstone/contentAssessor";
-import Paper from "../../../../../src/values/Paper";
+import DefaultResearcher from "../../../../../src/languageProcessing/languages/_default/Researcher.js";
+import EnglishResearcher from "../../../../../src/languageProcessing/languages/en/Researcher.js";
+import ContentAssessor from "../../../../../src/scoring/assessors/productPages/cornerstone/contentAssessor.js";
+import Paper from "../../../../../src/values/Paper.js";
 
 const options = {
 	subheadingUrlTitle: "https://yoast.com/1",

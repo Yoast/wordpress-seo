@@ -1,7 +1,7 @@
-import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
-import Assessor from "../../../../src/scoring/assessors/storePostsAndPages/relatedKeywordAssessor";
-import Paper from "../../../../src/values/Paper";
-import { checkUrls, checkAssessmentAvailability } from "../../../specHelpers/scoring/relatedKeyphraseAssessorTests";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher.js";
+import Assessor from "../../../../src/scoring/assessors/storePostsAndPages/relatedKeywordAssessor.js";
+import Paper from "../../../../src/values/Paper.js";
+import { checkUrls, checkAssessmentAvailability } from "../../../specHelpers/scoring/relatedKeyphraseAssessorTests.js";
 
 const mockPaper = new Paper( "" );
 const assessor = new Assessor( new EnglishResearcher( mockPaper ) );

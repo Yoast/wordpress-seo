@@ -1,5 +1,5 @@
-import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
-import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher.js";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher.js";
 import ContentAssessor from "../../../../src/scoring/assessors/productPages/contentAssessor.js";
 import Paper from "../../../../src/values/Paper.js";
 

@@ -3,14 +3,14 @@ import ContentAssessor from "../../../../src/scoring/assessors/storePostsAndPage
 import AssessmentResult from "../../../../src/values/AssessmentResult.js";
 import Paper from "../../../../src/values/Paper.js";
 
-import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher.js";
 import DutchResearcher from "../../../../src/languageProcessing/languages/nl/Researcher";
-import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
-import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
-import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher.js";
+import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment.js";
+import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity.js";
 
-import getWordComplexityConfig from "../../../../src/helpers/getWordComplexityConfig";
-import getWordComplexityHelper from "../../../../src/helpers/getWordComplexityHelper";
+import getWordComplexityConfig from "../../../../src/helpers/getWordComplexityConfig.js";
+import getWordComplexityHelper from "../../../../src/helpers/getWordComplexityHelper.js";
 
 describe( "A content assessor for English", function() {
 	let results, contentAssessor, researcher, paper;
