@@ -6,7 +6,7 @@ const INITIAL_STATE = null;
  * A reducer for the active AI fixes button.
  *
  * @param {Object} state The current state of the object.
- * @param {Object} action The received action .
+ * @param {Object} action The received action.
  *
  * @returns {Object} The state.
  */

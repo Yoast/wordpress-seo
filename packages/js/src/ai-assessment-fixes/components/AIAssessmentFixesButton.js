@@ -15,10 +15,10 @@ import { ModalContent } from "../../ai-generator/components/modal-content";
 /**
  * The AI Assessment Fixes button component.
  *
- * @param {boolean} hasAIFixes Whether the assessment has AI fixes or not.
+ * @param {boolean} hasAIFixes Whether the assessment has AI fixes.
  * @param {string} id The assessment ID for which the AI fixes should be applied to.
- * @param {boolean} isPremium Whether the premium add-on is active or not.
- * @param {boolean} isBlockEditor Whether the block editor is active or not.
+ * @param {boolean} isPremium Whether the premium add-on is active.
+ * @param {boolean} isBlockEditor Whether the block editor is active.
  *
  * @returns {JSX.Element} The AI Assessment Fixes button.
  */

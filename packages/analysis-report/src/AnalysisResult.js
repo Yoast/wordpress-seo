@@ -11,7 +11,7 @@ const { stripTagsFromHtmlString } = strings;
 const ALLOWED_TAGS = [ "a", "b", "strong", "em", "i" ];
 
 const ContainerResultButtons = styled.div`
-	display : grid;
+	display: grid;
 	grid-template-rows: 1fr;
 	// The max-width of the buttons set to 32px.
 	max-width: 32px;

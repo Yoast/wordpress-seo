@@ -23,7 +23,7 @@ const StyledCollapsible = styled( Collapsible )`
 	${ StyledIconsButton } {
 		padding: 8px 0;
 		color: ${ colors.$color_blue };
-		margin: -2px 8px 0 -2px;
+		margin: -2px 8px 0 -2px; // Compensate icon size set to 18px.
 	}
 `;
 
