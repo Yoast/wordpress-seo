@@ -3,16 +3,16 @@ import { forEach, isArray, isNumber, isObject } from "lodash";
 import { getLogger } from "loglevel";
 
 // Internal dependencies
-import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
+import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker.js";
 import { createShortlink } from "../../src/helpers/shortlinker";
-import Assessment from "../../src/scoring/assessments/assessment";
-import SEOAssessor from "../../src/scoring/assessors/seoAssessor";
-import contentAssessor from "../../src/scoring/assessors/contentAssessor";
+import Assessment from "../../src/scoring/assessments/assessment.js";
+import SEOAssessor from "../../src/scoring/assessors/seoAssessor.js";
+import ContentAssessor from "../../src/scoring/assessors/contentAssessor.js";
 import { SEOScoreAggregator } from "../../src/scoring/scoreAggregators";
 import { TreeResearcher } from "../../src/parsedPaper/research";
-import AssessmentResult from "../../src/values/AssessmentResult";
-import Paper from "../../src/values/Paper";
-import InvalidTypeError from "../../src/errors/invalidType";
+import AssessmentResult from "../../src/values/AssessmentResult.js";
+import Paper from "../../src/values/Paper.js";
+import InvalidTypeError from "../../src/errors/invalidType.js";
 import { StructuredNode } from "../../src/parsedPaper/structure/tree";
 
 
@@ -20,11 +20,11 @@ import { StructuredNode } from "../../src/parsedPaper/structure/tree";
 import testTexts from "../fullTextTests/testTexts";
 
 // Test helpers
-import TestResearch from "../specHelpers/tree/TestResearch";
-import getMorphologyData from "../specHelpers/getMorphologyData";
-import TestAssessment from "../specHelpers/tree/TestAssessment";
+import TestResearch from "../specHelpers/tree/TestResearch.js";
+import getMorphologyData from "../specHelpers/getMorphologyData.js";
+import TestAssessment from "../specHelpers/tree/TestAssessment.js";
 
-import EnglishResearcher from "../../src/languageProcessing/languages/en/Researcher";
+import EnglishResearcher from "../../src/languageProcessing/languages/en/Researcher.js";
 let researcher = new EnglishResearcher();
 const morphologyData = getMorphologyData( "en" );
 
@@ -1348,7 +1348,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType and sets the custom SEO assessor if available", () => {
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the SEO assessor for the content assessor.
-			worker._CustomSEOAssessorClasses.type1 = contentAssessor;
+			worker._CustomSEOAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Custom assessor used.
 			expect( assessor.type ).toBe( "contentAssessor" );
@@ -1357,7 +1357,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType but returns the default SEO assessor if no matching custom assessor is available", () => {
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the SEO assessor for the content assessor.
-			worker._CustomSEOAssessorClasses.type2 = contentAssessor;
+			worker._CustomSEOAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "SEOAssessor" );
@@ -1366,7 +1366,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType but returns the default SEO assessor if no custom analysis type is set", () => {
 			worker._configuration.customAnalysisType = "";
 			// Swapping the SEO assessor for the content assessor.
-			worker._CustomSEOAssessorClasses.type2 = contentAssessor;
+			worker._CustomSEOAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "SEOAssessor" );
@@ -1376,7 +1376,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the cornerstone SEO assessor for the content assessor.
-			worker._CustomCornerstoneSEOAssessorClasses.type1 = contentAssessor;
+			worker._CustomCornerstoneSEOAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Custom assessor used.
 			expect( assessor.type ).toBe( "contentAssessor" );
@@ -1386,7 +1386,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the cornerstone SEO assessor for the content assessor.
-			worker._CustomCornerstoneSEOAssessorClasses.type2 = contentAssessor;
+			worker._CustomCornerstoneSEOAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
@@ -1396,7 +1396,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "";
 			// Swapping the cornerstone SEO assessor for the content assessor.
-			worker._CustomCornerstoneSEOAssessorClasses.type1 = contentAssessor;
+			worker._CustomCornerstoneSEOAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
@@ -1423,7 +1423,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType and sets the custom related keyword assessor if available", () => {
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the related keyword assessor for the content assessor.
-			worker._CustomRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			worker._CustomRelatedKeywordAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Custom assessor used.
 			expect( assessor.type ).toBe( "contentAssessor" );
@@ -1432,7 +1432,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType but returns the default related keyword assessor if no matching custom assessor is available", () => {
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the related keyword assessor for the content assessor.
-			worker._CustomRelatedKeywordAssessorClasses.type2 = contentAssessor;
+			worker._CustomRelatedKeywordAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "relatedKeywordAssessor" );
@@ -1441,7 +1441,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType but returns the default related keyword assessor if no custom analysis type is set", () => {
 			worker._configuration.customAnalysisType = "";
 			// Swapping the related keyword assessor for the content assessor.
-			worker._CustomRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			worker._CustomRelatedKeywordAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "relatedKeywordAssessor" );
@@ -1451,7 +1451,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the cornerstone related keyword assessor for the content assessor.
-			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Custom assessor used.
 			expect( assessor.type ).toBe( "contentAssessor" );
@@ -1461,7 +1461,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the cornerstone related keyword assessor for the content assessor.
-			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type2 = contentAssessor;
+			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneRelatedKeywordAssessor" );
@@ -1471,7 +1471,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "";
 			// Swapping the cornerstone related keyword assessor for the content assessor.
-			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneRelatedKeywordAssessor" );
