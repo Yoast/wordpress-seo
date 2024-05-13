@@ -8,6 +8,7 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { colors } from "@yoast/style-guide";
 import { IconAIFixesButton } from "@yoast/components";
 import { Modal, useToggleState } from "@yoast/ui-library";
+import { Paper } from "yoastseo";
 
 /* Internal dependencies */
 import { ModalContent } from "../../ai-generator/components/modal-content";
@@ -25,7 +26,8 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const ariaLabel = __( "Fix with AI", "wordpress-seo" );
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
 	const activeAIButtonId = useSelect( select => select( "yoast-seo/editor" ).getActiveAIFixesButton(), [] );
-	const { setActiveAIFixesButton } = useDispatch( "yoast-seo/editor" );
+	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
+	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
 
 	/**
@@ -33,6 +35,14 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	 * @returns {void}
 	 */
 	const handlePressedButton = () => {
+		// If there is an active marker when the AI fixes button is clicked, remove it.
+		if ( activeMarker ) {
+			setActiveMarker( null );
+			setMarkerPauseStatus( false );
+			// Remove highlighting from the editor.
+			window.YoastSEO.analysis.applyMarks( new Paper( "", {} ), [] );
+		}
+
 		/* If the current pressed button ID is the same as the active AI button id,
 		we want to set the active AI button to null. Otherwise, update the active AI button ID. */
 		if ( aiFixesId === activeAIButtonId ) {
