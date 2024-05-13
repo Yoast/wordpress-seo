@@ -39,7 +39,7 @@ exports[`the pressed IconAIFixesButton matches the snapshot 1`] = `
 <button
   aria-label="Fix with AI"
   aria-pressed={true}
-  className="c0"
+  className="c0 yoast-tooltip yoast-tooltip-w"
   disabled={false}
   id="keyphraseInIntroductionAIFixes"
   onClick={[Function]}
