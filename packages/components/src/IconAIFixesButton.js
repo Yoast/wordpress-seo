@@ -15,7 +15,6 @@ import IconButtonBase from "./IconButtonBase";
  * @returns {JSX.Element} IconAIFixesButton component.
  */
 const IconAIFixesButton = function( props ) {
-	const className = props.pressed ? "" : props.className;
 	return (
 		<IconButtonBase
 			disabled={ false }
@@ -32,7 +31,7 @@ const IconAIFixesButton = function( props ) {
 			unpressedIconColor={ props.unpressedIconColor }
 			pressedIconColor={ props.pressedIconColor }
 			hoverBorderColor={ props.hoverBorderColor }
-			className={ className }
+			className={ props.className }
 		>
 			{ props.children }
 		</IconButtonBase>

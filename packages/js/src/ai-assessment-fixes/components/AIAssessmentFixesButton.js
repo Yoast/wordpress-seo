@@ -15,14 +15,12 @@ import { ModalContent } from "../../ai-generator/components/modal-content";
 /**
  * The AI Assessment Fixes button component.
  *
- * @param {boolean} hasAIFixes Whether the assessment has AI fixes.
  * @param {string} id The assessment ID for which the AI fixes should be applied to.
  * @param {boolean} isPremium Whether the premium add-on is active.
- * @param {boolean} isBlockEditor Whether the block editor is active.
  *
  * @returns {JSX.Element} The AI Assessment Fixes button.
  */
-const AIAssessmentFixesButton = ( { hasAIFixes, id, isPremium, isBlockEditor } ) => {
+const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const aiFixesId = id + "AIFixes";
 	const ariaLabel = __( "Fix with AI", "wordpress-seo" );
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
@@ -62,16 +60,16 @@ const AIAssessmentFixesButton = ( { hasAIFixes, id, isPremium, isBlockEditor } )
 	In Premium: when the button is pressed, the icon color is white. When the button is unpressed, the color is grey.
 	In Free: the icon color is always grey. */
 	const iconColor = isButtonPressed ? colors.$color_white : colors.$color_button_text;
+	// Don't show the tooltip when the button is pressed.
+	const className = isButtonPressed ? "" : "yoast-tooltip yoast-tooltip-w";
 
-	return isBlockEditor && hasAIFixes && (
+	return (
 		<>
 			<IconAIFixesButton
 				onClick={ handleClick }
 				ariaLabel={ ariaLabel }
 				id={ aiFixesId }
-				className={ "yoast-tooltip yoast-tooltip-w" }
-				// We don't want to change the background color of the button when it's pressed in Free.
-				// This is because clicking on the button will open the modal, and the button will not be in a pressed state.
+				className={ className }
 				pressed={ isButtonPressed }
 			>
 				<SparklesIcon style={ { width: "70%", height: "70%", color: iconColor } } />
@@ -90,16 +88,12 @@ const AIAssessmentFixesButton = ( { hasAIFixes, id, isPremium, isBlockEditor } )
 };
 
 AIAssessmentFixesButton.propTypes = {
-	hasAIFixes: PropTypes.bool,
 	id: PropTypes.string.isRequired,
 	isPremium: PropTypes.bool,
-	isBlockEditor: PropTypes.bool,
 };
 
 AIAssessmentFixesButton.defaultProps = {
-	hasAIFixes: false,
 	isPremium: false,
-	isBlockEditor: false,
 };
 
 export default AIAssessmentFixesButton;

@@ -203,8 +203,8 @@ class SeoAnalysis extends Component {
 	renderAIFixesButton = ( hasAIFixes, id ) => {
 		const isPremium = getL10nObject().isPremium;
 
-		return (
-			<AIAssessmentFixesButton hasAIFixes={ hasAIFixes } id={ id } isPremium={ isPremium } isBlockEditor={ isBlockEditor() } />
+		return hasAIFixes && isBlockEditor() && (
+			<AIAssessmentFixesButton id={ id } isPremium={ isPremium } />
 		);
 	};
 
