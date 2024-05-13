@@ -10,7 +10,7 @@ const { stripTagsFromHtmlString } = strings;
 
 const ALLOWED_TAGS = [ "a", "b", "strong", "em", "i" ];
 
-const ContainerResultButtons = styled.div`
+const ResultButtonsContainer = styled.div`
 	display: grid;
 	grid-template-rows: 1fr;
 	max-width: 32px;
@@ -133,7 +133,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 				{ props.hasBetaBadgeLabel && <BetaBadge /> }
 				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( props.text, ALLOWED_TAGS ) } } />
 			</AnalysisResultText>
-			<ContainerResultButtons>
+			<ResultButtonsContainer>
 				{ marksButton }
 				{ props.renderHighlightingUpsell( isOpen, closeModal ) }
 				{
@@ -147,7 +147,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 					/>
 				}
 				{ props.renderAIFixesButton( props.hasAIFixes, props.id ) }
-			</ContainerResultButtons>
+			</ResultButtonsContainer>
 		</AnalysisResultBase>
 	);
 };
