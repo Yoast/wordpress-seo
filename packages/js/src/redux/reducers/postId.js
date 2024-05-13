@@ -1,4 +1,4 @@
-import { SET_POST_ID } from "../actions/post";
+import { SET_POST_ID } from "../actions/postId";
 
 /**
  * A reducer for the post ID.
