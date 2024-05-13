@@ -21,12 +21,12 @@ export const META_FIELDS = {
 	},
 	facebookTitle: {
 		key: "opengraph-title",
-		get: "getFacebookTitleWithoutTemplate",
+		get: "getCustomFacebookTitle",
 		set: "setFacebookPreviewTitle",
 	},
 	facebookDescription: {
 		key: "opengraph-description",
-		get: "getFacebookDescriptionWithoutTemplate",
+		get: "getCustomFacebookDescription",
 		set: "setFacebookPreviewDescription",
 	},
 	facebookImageUrl: {
@@ -41,12 +41,12 @@ export const META_FIELDS = {
 	},
 	twitterTitle: {
 		key: "twitter-title",
-		get: "getTwitterTitleWithoutTemplate",
+		get: "getCustomTwitterTitle",
 		set: "setTwitterPreviewTitle",
 	},
 	twitterDescription: {
 		key: "twitter-description",
-		get: "getTwitterDescriptionWithoutTemplate",
+		get: "getCustomTwitterDescription",
 		set: "setTwitterPreviewDescription",
 	},
 	twitterImageUrl: {
@@ -106,12 +106,12 @@ export const META_FIELDS = {
 	},
 	seoTitle: {
 		key: "title",
-		get: "getSnippetEditorTitle",
+		get: "getCustomSnippetEditorTitle",
 		set: "updateData",
 	},
 	seoDescription: {
 		key: "metadesc",
-		get: "getSnippetEditorDescription",
+		get: "getCustomSnippetEditorDescription",
 		set: "updateData",
 	},
 	seoDescriptionTerm: {

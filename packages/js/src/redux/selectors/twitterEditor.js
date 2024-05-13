@@ -2,7 +2,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { get } from "lodash";
 import { getDescription, getSeoTitle } from "./analysis";
 import { getEditorDataExcerptWithFallback } from "./editorData";
-import { getFacebookDescription, getFacebookTitle, getSocialDescriptionWithoutTemplate, getSocialTitleWithoutTemplate } from "./facebookEditor";
+import { getFacebookDescription, getFacebookTitle, getCustomSocialDescription, getCustomSocialTitle } from "./facebookEditor";
 import {
 	getReplacedExcerpt,
 	getSeoDescriptionTemplate,
@@ -30,7 +30,7 @@ export const getTwitterTitle = state => get( state, "twitterEditor.title", "" );
  */
 export const getTwitterTitleWithoutTemplate = state => {
 	const title = getTwitterTitle( state );
-	return getSocialTitleWithoutTemplate( title );
+	return getCustomSocialTitle( title );
 };
 
 /**
@@ -52,7 +52,7 @@ export const getTwitterDescription = state => get( state, "twitterEditor.descrip
  */
 export const getTwitterDescriptionWithoutTemplate = state => {
 	const description = getTwitterDescription( state );
-	return getSocialDescriptionWithoutTemplate( description );
+	return getCustomSocialDescription( description );
 };
 
 /**

@@ -16,7 +16,7 @@ import {
  * @param {string} value The value to be saved.
  * @returns {string} The value to be saved.
  */
-export const getSocialTitleWithoutTemplate = ( value ) => {
+export const getCustomSocialTitle = ( value ) => {
 	if ( value.trim() === getSocialTitleTemplate().trim() ) {
 		return "";
 	}
@@ -28,7 +28,7 @@ export const getSocialTitleWithoutTemplate = ( value ) => {
  * @param {string} value The value to be saved.
  * @returns {string} The value to be saved.
  */
-export const getSocialDescriptionWithoutTemplate = ( value ) => {
+export const getCustomSocialDescription = ( value ) => {
 	if ( value.trim() === getSocialDescriptionTemplate().trim() ) {
 		return "";
 	}
@@ -51,9 +51,9 @@ export const getFacebookTitle = state => get( state, "facebookEditor.title", "" 
  *
  * @returns {String} Facebook title.
  */
-export const getFacebookTitleWithoutTemplate = state => {
+export const getCustomFacebookTitle = state => {
 	const title = getFacebookTitle( state );
-	return getSocialTitleWithoutTemplate( title );
+	return getCustomSocialTitle( title );
 };
 
 /**
@@ -72,9 +72,9 @@ export const getFacebookDescription = state => get( state, "facebookEditor.descr
  *
  * @returns {String} Facebook description.
  */
-export const getFacebookDescriptionWithoutTemplate = state => {
+export const getCustomFacebookDescription = state => {
 	const description = getFacebookDescription( state );
-	return getSocialDescriptionWithoutTemplate( description );
+	return getCustomSocialDescription( description );
 };
 
 
