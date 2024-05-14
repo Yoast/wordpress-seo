@@ -304,7 +304,7 @@ class WPSEO_Meta {
 
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
-				self::register_meta( $key, $field_def['type'], $field_def['default_value'] );
+				self::register_meta( $key, $field_def['type'], ( $field_def['default_value'] ?? '' ) );
 
 				// Set the $fields_index property for efficiency.
 				self::$fields_index[ self::$meta_prefix . $key ] = [
@@ -355,7 +355,7 @@ class WPSEO_Meta {
 				'auth_callback'     => [ self::class, 'auth_callback' ],
 				'type'              => 'string',
 				'single'            => true,
-				'default'           => ( $default_value ?? '' ),
+				'default'           => $default_value,
 			]
 		);
 	}

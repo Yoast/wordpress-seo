@@ -17,7 +17,14 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 *
 	 * @var Primary_Term_Helper
 	 */
-	protected $primary_term_helper;
+	private $primary_term_helper;
+
+	/**
+	 * Registered primary taxonomies.
+	 *
+	 * @var array<string>
+	 */
+	private $registered_primary_taxonomies = [];
 
 	/**
 	 * Constructor.
@@ -37,7 +44,20 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		add_action( 'admin_footer', [ $this, 'wp_footer' ], 10 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		add_filter( 'wpseo_metabox_entries_general', [ $this, 'add_input_fields' ], 10, 2 );
-		add_action( 'registered_taxonomy', [ $this, 'register_primary_term_meta' ], 10, 3 );
+		add_action( 'registered_taxonomy', [ $this, 'register_meta_for_registered_taxonomy' ], 10, 3 );
+		add_action( 'rest_api_init', [ $this, 'register_meta_for_filtered_taxonomies' ] );
+	}
+
+	/**
+	 * Register primary term meta for taxonomies that are added through the 'wpseo_primary_term_taxonomies' filter.
+	 *
+	 * @return void
+	 */
+	public function register_meta_for_filtered_taxonomies() {
+		$taxonomies = $this->get_primary_term_taxonomies();
+		foreach ( $taxonomies as $taxonomy ) {
+			$this->register_primary_term_meta( $taxonomy->name );
+		}
 	}
 
 	/**
@@ -49,13 +69,11 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	public function register_primary_term_meta( $taxonomy, $object_type, $args ) {
+	public function register_meta_for_registered_taxonomy( $taxonomy, $object_type, $args ) {
 		if ( ! $args['hierarchical'] ) {
 			return;
 		}
-
-		WPSEO_Meta::register_meta( 'primary_' . $taxonomy, 'hidden', '' );
-		add_filter( 'wpseo_sanitize_post_meta_primary_' . $taxonomy, [ $this, 'sanitize_primary_term' ], 10, 4 );
+		$this->register_primary_term_meta( $taxonomy );
 	}
 
 	/**
@@ -105,11 +123,14 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	public function add_input_fields( $field_defs ) {
 		$taxonomies = $this->get_primary_term_taxonomies();
 		foreach ( $taxonomies as $taxonomy ) {
-			$field_defs[ 'primary_' . $taxonomy->name ] = [
-				'type'          => 'hidden',
-				'default_value' => '',
-			];
+			if ( in_array( $taxonomy->name, $this->registered_primary_taxonomies ) ) {
+				$field_defs[ 'primary_' . $taxonomy->name ] = [
+					'type'          => 'hidden',
+					'default_value' => '',
+				];
+			}
 		}
+
 		return $field_defs;
 	}
 
@@ -255,14 +276,19 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		];
 	}
 
-	/**
-	 * Returns whether or not a taxonomy is hierarchical.
-	 *
-	 * @param stdClass $taxonomy Taxonomy object.
-	 *
-	 * @return bool
-	 */
-	private function filter_hierarchical_taxonomies( $taxonomy ) {
-		return (bool) $taxonomy->hierarchical;
+		/**
+		 * Register primary term meta.
+		 *
+		 * @param string $taxonomy The taxonomy name.
+		 *
+		 * @return void
+		 */
+	private function register_primary_term_meta( $taxonomy ) {
+		if ( in_array( $taxonomy, $this->registered_primary_taxonomies ) ) {
+			return;
+		}
+		WPSEO_Meta::register_meta( 'primary_' . $taxonomy, 'hidden', '' );
+		add_filter( 'wpseo_sanitize_post_meta_primary_' . $taxonomy, [ $this, 'sanitize_primary_term' ], 10, 4 );
+		$this->registered_primary_taxonomies[] = $taxonomy;
 	}
 }
