@@ -1,5 +1,5 @@
 import wordCount from "../word/countWords.js";
-import { forEach } from "lodash-es";
+import { forEach } from "lodash";
 import { stripFullTags as stripHTMLTags } from "../sanitize/stripHTMLTags.js";
 
 /**

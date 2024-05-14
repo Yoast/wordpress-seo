@@ -26,8 +26,6 @@ This monorepo includes reusable packages:
   - A combination of style constants and functions that can be used to conform to the Yoast corporate identity.
 - [eslint-config-yoast](eslint)
   - ESLint configuration for Yoast projects.
-- [yoast-components](yoast-components) *[deprecated. replaced by [@yoast/components](packages/components)]*
-  - All-purpose React components.
 - [yoastseo](yoastseo) *[Replaces [YoastSEO.js](https://github.com/yoast//yoastseo.js)]*
   - Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 

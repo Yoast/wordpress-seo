@@ -1,6 +1,6 @@
 import getSubheadingTexts from "../helpers/html/getSubheadingTexts";
 import countWords from "../helpers/word/countWords";
-import { forEach } from "lodash-es";
+import { forEach } from "lodash";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
 import { filterShortcodesFromHTML } from "../helpers";
 

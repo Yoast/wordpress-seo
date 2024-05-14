@@ -1,4 +1,4 @@
-import { flatten } from "lodash-es";
+import { flatten } from "lodash";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
 import matchStringWithRegex from "../helpers/regex/matchStringWithRegex";
 import sanitizeString from "../helpers/sanitize/sanitizeString";
