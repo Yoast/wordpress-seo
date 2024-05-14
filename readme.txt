@@ -315,6 +315,24 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 22.8 =
+
+Release date: 2024-05-28
+
+#### Enhancements
+
+* Converts the Yoast _Breadcrumbs_ block to use the Blocks V3 API.
+
+#### Bugfixes
+
+* Fixes a bug where a \"Failed to retrieve media\" error could prevent selecting a different image or removing the current selection.
+* Fixes a bug where some Yoast SEO settings could not be imported correctly.
+
+#### Other
+
+*  Deprecates the `WPSEO_Customizer` class.
+* Removes the Yoast SEO Breadcrumbs panel from the Customizer to improve compatibility with block-based themes. Users can always change the options for the breadcrumbs under Yoast SEO > Settings > Advanced > Breadcrumbs.
+
 = 22.7 =
 
 Release date: 2024-05-14
@@ -338,29 +356,6 @@ Yoast SEO 22.7 converts selected blocks to the Blocks V3 API and brings multiple
 * Properly escapes tags in the Enhanced Slack Sharing presenter to prevent incorrect rendering and unwanted, potentially malicious behavior. Props to @rob006.
 * Removes the `yoast-components-package` script.
 * Sets the minimum supported WordPress version to 6.4.
-
-= 22.6 =
-
-Release date: 2024-04-30
-
-Yoast SEO 22.6 is out today! This release brings many performance and quality-of-life fixes to improve your favorite SEO plugin. Plus, we’re asking you to update your PHP versions. Find out what’s new in [this post](https://yoa.st/release-30-4-24)!
-
-#### Enhancements
-
-* Adds a helpful error message in the Yoast sidebar/metabox in case of plugin or theme conflicts. Now when an unknown error occurs, the error is caught and an error message is shown. Before, the error would lead to a blank sidebar/metabox, or to an entire blank page.
-* Improves performance when it comes to storing user metadata, most visible at the point of author sitemap creation.
-* Improves the keyphrase detection in SEO title for Arabic and Hebrew. For example, when the keyphrase is \"باندا حمراء\" and the SEO title starts with \"الباندا الحمراء\", we now recognize this as an exact match and give a good result for the _keyphrase in SEO title_ assessment.
-
-#### Bugfixes
-
-* Fixes a bug where a PHP notice in the settings would influence the styling of some of our inputs.
-* Fixes a bug where the inserted variables in the search appearance would not show correctly when using Elementor.
-* Fixes a bug where there would be a fatal error when deleting post meta in PHP 8.1 and higher. Props to @izzygld.
-* Fixes a security issue where URLs were not correctly escaped in the Yoast admin bar menu.
-
-#### Other
-
-* Introduces a notice on the WordPress dashboard and the Yoast SEO dashboard to let users know we are dropping support for PHP < 7.4 starting November 1st, 2024.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
