@@ -3,11 +3,11 @@ import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/r
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../../src/helpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
-import CornerStoneContentAssessor from "../../../../src/scoring/assessors/cornerstone/contentAssessor";
-import ProductCornerstoneContentAssessor from "../../../../src/scoring/assessors/productPages/cornerstone/contentAssessor";
+import CornerStoneContentAssessor from "../../../../src/scoring/assessors/cornerstone/contentAssessor.js";
+import ProductCornerstoneContentAssessor from "../../../../src/scoring/assessors/productPages/cornerstone/contentAssessor.js";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher.js";
-import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
-import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher.js";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
 import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/subheadingsTooLong.js";
 
 const subheadingDistributionTooLong = new SubheadingDistributionTooLong();

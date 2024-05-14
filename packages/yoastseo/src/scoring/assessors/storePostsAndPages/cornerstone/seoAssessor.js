@@ -1,24 +1,24 @@
 import { inherits } from "util";
 
-import Assessor from "../../assessor";
-import SeoAssessor from "../../seoAssessor";
-import IntroductionKeywordAssessment from "../../../assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "../../../assessments/seo/KeyphraseLengthAssessment";
-import KeyphraseDensityAssessment from "../../../assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "../../../assessments/seo/MetaDescriptionKeywordAssessment";
-import MetaDescriptionLengthAssessment from "../../../assessments/seo/MetaDescriptionLengthAssessment";
-import SubheadingsKeywordAssessment from "../../../assessments/seo/SubHeadingsKeywordAssessment";
-import TextCompetingLinksAssessment from "../../../assessments/seo/TextCompetingLinksAssessment";
-import ImageKeyphraseAssessment from "../../../assessments/seo/KeyphraseInImageTextAssessment";
-import ImageCountAssessment from "../../../assessments/seo/ImageCountAssessment";
-import TextLengthAssessment from "../../../assessments/seo/TextLengthAssessment";
-import OutboundLinksAssessment from "../../../assessments/seo/OutboundLinksAssessment";
-import KeyphraseInSEOTitleAssessment from "../../../assessments/seo/KeyphraseInSEOTitleAssessment";
-import InternalLinksAssessment from "../../../assessments/seo/InternalLinksAssessment";
-import PageTitleWidthAssessment from "../../../assessments/seo/PageTitleWidthAssessment";
-import SlugKeywordAssessment from "../../../assessments/seo/UrlKeywordAssessment";
-import FunctionWordsInKeyphraseAssessment from "../../../assessments/seo/FunctionWordsInKeyphraseAssessment";
-import SingleH1Assessment from "../../../assessments/seo/SingleH1Assessment";
+import Assessor from "../../assessor.js";
+import SeoAssessor from "../../seoAssessor.js";
+import IntroductionKeywordAssessment from "../../../assessments/seo/IntroductionKeywordAssessment.js";
+import KeyphraseLengthAssessment from "../../../assessments/seo/KeyphraseLengthAssessment.js";
+import KeyphraseDensityAssessment from "../../../assessments/seo/KeywordDensityAssessment.js";
+import MetaDescriptionKeywordAssessment from "../../../assessments/seo/MetaDescriptionKeywordAssessment.js";
+import MetaDescriptionLengthAssessment from "../../../assessments/seo/MetaDescriptionLengthAssessment.js";
+import SubheadingsKeywordAssessment from "../../../assessments/seo/SubHeadingsKeywordAssessment.js";
+import TextCompetingLinksAssessment from "../../../assessments/seo/TextCompetingLinksAssessment.js";
+import ImageKeyphraseAssessment from "../../../assessments/seo/KeyphraseInImageTextAssessment.js";
+import ImageCountAssessment from "../../../assessments/seo/ImageCountAssessment.js";
+import TextLengthAssessment from "../../../assessments/seo/TextLengthAssessment.js";
+import OutboundLinksAssessment from "../../../assessments/seo/OutboundLinksAssessment.js";
+import KeyphraseInSEOTitleAssessment from "../../../assessments/seo/KeyphraseInSEOTitleAssessment.js";
+import InternalLinksAssessment from "../../../assessments/seo/InternalLinksAssessment.js";
+import PageTitleWidthAssessment from "../../../assessments/seo/PageTitleWidthAssessment.js";
+import SlugKeywordAssessment from "../../../assessments/seo/UrlKeywordAssessment.js";
+import FunctionWordsInKeyphraseAssessment from "../../../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
+import SingleH1Assessment from "../../../assessments/seo/SingleH1Assessment.js";
 
 import { createAnchorOpeningTag } from "../../../../helpers";
 

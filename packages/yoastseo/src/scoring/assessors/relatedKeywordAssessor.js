@@ -7,7 +7,7 @@ import KeyphraseDensityAssessment from "../assessments/seo/KeywordDensityAssessm
 import MetaDescriptionKeyword from "../assessments/seo/MetaDescriptionKeywordAssessment.js";
 import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
 import TextCompetingLinks from "../assessments/seo/TextCompetingLinksAssessment.js";
-import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
 
 /**
  * Creates the Assessor

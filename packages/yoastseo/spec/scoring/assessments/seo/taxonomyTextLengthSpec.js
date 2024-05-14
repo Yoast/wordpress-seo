@@ -1,8 +1,8 @@
 import Paper from "../../../../src/values/Paper.js";
-import { getTextLengthAssessment } from "../../../../src/scoring/assessors/taxonomyAssessor";
-import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
-import assessmentConfigJapanese from "../../../../src/languageProcessing/languages/ja/config/textLength";
-import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import { getTextLengthAssessment } from "../../../../src/scoring/assessors/taxonomyAssessor.js";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
+import assessmentConfigJapanese from "../../../../src/languageProcessing/languages/ja/config/textLength.js";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher.js";
 
 describe( "A TextLengthAssessment for a taxonomy page in Japanese", function() {
 	let assessment;

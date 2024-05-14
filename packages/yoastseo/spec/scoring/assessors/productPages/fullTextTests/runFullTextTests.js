@@ -1,45 +1,45 @@
 import { createAnchorOpeningTag, getLanguagesWithWordComplexity } from "../../../../../src/helpers";
-import getLanguage from "../../../../../src/languageProcessing/helpers/language/getLanguage";
-import getResearcher from "../../../../specHelpers/getResearcher";
-import getMorphologyData from "../../../../specHelpers/getMorphologyData";
-import wordComplexity from "../../../../../src/languageProcessing/researches/wordComplexity";
-import getWordComplexityConfig from "../../../../../src/helpers/getWordComplexityConfig";
-import getWordComplexityHelper from "../../../../../src/helpers/getWordComplexityHelper";
-import keyphraseDistribution from "../../../../../src/languageProcessing/researches/keyphraseDistribution";
-import buildTree from "../../../../specHelpers/parse/buildTree";
+import getLanguage from "../../../../../src/languageProcessing/helpers/language/getLanguage.js";
+import getResearcher from "../../../../specHelpers/getResearcher.js";
+import getMorphologyData from "../../../../specHelpers/getMorphologyData.js";
+import wordComplexity from "../../../../../src/languageProcessing/researches/wordComplexity.js";
+import getWordComplexityConfig from "../../../../../src/helpers/getWordComplexityConfig.js";
+import getWordComplexityHelper from "../../../../../src/helpers/getWordComplexityHelper.js";
+import keyphraseDistribution from "../../../../../src/languageProcessing/researches/keyphraseDistribution.js";
+import buildTree from "../../../../specHelpers/parse/buildTree.js";
 
 // Import SEO assessments.
-import IntroductionKeywordAssessment from "../../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "../../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "../../../../../src/scoring/assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "../../../../../src/scoring/assessments/seo/MetaDescriptionKeywordAssessment";
-import MetaDescriptionLengthAssessment from "../../../../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment";
-import SubHeadingsKeywordAssessment from "../../../../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment";
-import TextCompetingLinksAssessment from "../../../../../src/scoring/assessments/seo/TextCompetingLinksAssessment";
-import TextLengthAssessment from "../../../../../src/scoring/assessments/seo/TextLengthAssessment";
-import KeyphraseInSEOTitleAssessment from "../../../../../src/scoring/assessments/seo/KeyphraseInSEOTitleAssessment";
-import TitleWidthAssessment from "../../../../../src/scoring/assessments/seo/PageTitleWidthAssessment";
-import SlugKeywordAssessment from "../../../../../src/scoring/assessments/seo/UrlKeywordAssessment";
-import FunctionWordsInKeyphrase from "../../../../../src/scoring/assessments/seo/FunctionWordsInKeyphraseAssessment";
-import SingleH1Assessment from "../../../../../src/scoring/assessments/seo/SingleH1Assessment";
-import ImageKeyphraseAssessment from "../../../../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
-import ImageCountAssessment from "../../../../../src/scoring/assessments/seo/ImageCountAssessment";
-import ImageAltTags from "../../../../../src/scoring/assessments/seo/ImageAltTagsAssessment";
-import KeyphraseDistribution from "../../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
-import ProductIdentifiersAssessment from "../../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
-import ProductSKUAssessment from "../../../../../src/scoring/assessments/seo/ProductSKUAssessment";
+import IntroductionKeywordAssessment from "../../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment.js";
+import KeyphraseLengthAssessment from "../../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment.js";
+import KeywordDensityAssessment from "../../../../../src/scoring/assessments/seo/KeywordDensityAssessment.js";
+import MetaDescriptionKeywordAssessment from "../../../../../src/scoring/assessments/seo/MetaDescriptionKeywordAssessment.js";
+import MetaDescriptionLengthAssessment from "../../../../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment.js";
+import SubHeadingsKeywordAssessment from "../../../../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment.js";
+import TextCompetingLinksAssessment from "../../../../../src/scoring/assessments/seo/TextCompetingLinksAssessment.js";
+import TextLengthAssessment from "../../../../../src/scoring/assessments/seo/TextLengthAssessment.js";
+import KeyphraseInSEOTitleAssessment from "../../../../../src/scoring/assessments/seo/KeyphraseInSEOTitleAssessment.js";
+import TitleWidthAssessment from "../../../../../src/scoring/assessments/seo/PageTitleWidthAssessment.js";
+import SlugKeywordAssessment from "../../../../../src/scoring/assessments/seo/UrlKeywordAssessment.js";
+import FunctionWordsInKeyphrase from "../../../../../src/scoring/assessments/seo/FunctionWordsInKeyphraseAssessment.js";
+import SingleH1Assessment from "../../../../../src/scoring/assessments/seo/SingleH1Assessment.js";
+import ImageKeyphraseAssessment from "../../../../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment.js";
+import ImageCountAssessment from "../../../../../src/scoring/assessments/seo/ImageCountAssessment.js";
+import ImageAltTags from "../../../../../src/scoring/assessments/seo/ImageAltTagsAssessment.js";
+import KeyphraseDistribution from "../../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment.js";
+import ProductIdentifiersAssessment from "../../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment.js";
+import ProductSKUAssessment from "../../../../../src/scoring/assessments/seo/ProductSKUAssessment.js";
 
 // Import Readability assessments
 import SubheadingDistributionTooLongAssessment
-	from "../../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
-import ParagraphTooLongAssessment from "../../../../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
+	from "../../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment.js";
+import ParagraphTooLongAssessment from "../../../../../src/scoring/assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInTextAssessment
-	from "../../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
-import TransitionWordsAssessment from "../../../../../src/scoring/assessments/readability/TransitionWordsAssessment";
-import PassiveVoiceAssessment from "../../../../../src/scoring/assessments/readability/PassiveVoiceAssessment";
-import TextPresenceAssessment from "../../../../../src/scoring/assessments/readability/TextPresenceAssessment";
-import ListAssessment from "../../../../../src/scoring/assessments/readability/ListAssessment";
-import WordComplexityAssessment from "../../../../../src/scoring/assessments/readability/WordComplexityAssessment";
+	from "../../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment.js";
+import TransitionWordsAssessment from "../../../../../src/scoring/assessments/readability/TransitionWordsAssessment.js";
+import PassiveVoiceAssessment from "../../../../../src/scoring/assessments/readability/PassiveVoiceAssessment.js";
+import TextPresenceAssessment from "../../../../../src/scoring/assessments/readability/TextPresenceAssessment.js";
+import ListAssessment from "../../../../../src/scoring/assessments/readability/ListAssessment.js";
+import WordComplexityAssessment from "../../../../../src/scoring/assessments/readability/WordComplexityAssessment.js";
 
 // Import test papers.
 import testPapers from "./testTexts";

@@ -1,7 +1,7 @@
-import wordComplexityHelperGerman from "../languageProcessing/languages/de/helpers/checkIfWordIsComplex";
-import wordComplexityHelperEnglish from "../languageProcessing/languages/en/helpers/checkIfWordIsComplex";
-import wordComplexityHelperSpanish from "../languageProcessing/languages/es/helpers/checkIfWordIsComplex";
-import wordComplexityHelperFrench from "../languageProcessing/languages/fr/helpers/checkIfWordIsComplex";
+import wordComplexityHelperGerman from "../languageProcessing/languages/de/helpers/checkIfWordIsComplex.js";
+import wordComplexityHelperEnglish from "../languageProcessing/languages/en/helpers/checkIfWordIsComplex.js";
+import wordComplexityHelperSpanish from "../languageProcessing/languages/es/helpers/checkIfWordIsComplex.js";
+import wordComplexityHelperFrench from "../languageProcessing/languages/fr/helpers/checkIfWordIsComplex.js";
 
 /**
  * Gets the word complexity assessment helper.

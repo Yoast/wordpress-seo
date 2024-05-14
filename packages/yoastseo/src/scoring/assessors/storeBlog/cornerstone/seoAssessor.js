@@ -1,14 +1,14 @@
 import { inherits } from "util";
 
-import Assessor from "../../assessor";
-import SeoAssessor from "../../seoAssessor";
-import KeyphraseLengthAssessment from "../../../assessments/seo/KeyphraseLengthAssessment";
-import MetaDescriptionKeywordAssessment from "../../../assessments/seo/MetaDescriptionKeywordAssessment";
-import MetaDescriptionLengthAssessment from "../../../assessments/seo/MetaDescriptionLengthAssessment";
-import KeyphraseInSEOTitleAssessment from "../../../assessments/seo/KeyphraseInSEOTitleAssessment";
-import PageTitleWidthAssessment from "../../../assessments/seo/PageTitleWidthAssessment";
-import SlugKeywordAssessment from "../../../assessments/seo/UrlKeywordAssessment";
-import FunctionWordsInKeyphraseAssessment from "../../../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import Assessor from "../../assessor.js";
+import SeoAssessor from "../../seoAssessor.js";
+import KeyphraseLengthAssessment from "../../../assessments/seo/KeyphraseLengthAssessment.js";
+import MetaDescriptionKeywordAssessment from "../../../assessments/seo/MetaDescriptionKeywordAssessment.js";
+import MetaDescriptionLengthAssessment from "../../../assessments/seo/MetaDescriptionLengthAssessment.js";
+import KeyphraseInSEOTitleAssessment from "../../../assessments/seo/KeyphraseInSEOTitleAssessment.js";
+import PageTitleWidthAssessment from "../../../assessments/seo/PageTitleWidthAssessment.js";
+import SlugKeywordAssessment from "../../../assessments/seo/UrlKeywordAssessment.js";
+import FunctionWordsInKeyphraseAssessment from "../../../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
 
 import { createAnchorOpeningTag } from "../../../../helpers";
 

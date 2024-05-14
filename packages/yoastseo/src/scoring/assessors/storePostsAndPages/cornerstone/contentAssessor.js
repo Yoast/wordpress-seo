@@ -1,14 +1,14 @@
 import { inherits } from "util";
 
-import Assessor from "../../assessor";
-import ContentAssessor from "../../contentAssessor";
-import SubheadingDistributionTooLongAssessment from "../../../assessments/readability/SubheadingDistributionTooLongAssessment";
-import ParagraphTooLongAssessment from "../../../assessments/readability/ParagraphTooLongAssessment";
-import SentenceLengthInTextAssessment from "../../../assessments/readability/SentenceLengthInTextAssessment";
-import TransitionWordsAssessment from "../../../assessments/readability/TransitionWordsAssessment";
-import PassiveVoiceAssessment from "../../../assessments/readability/PassiveVoiceAssessment";
-import TextPresenceAssessment from "../../../assessments/readability/TextPresenceAssessment";
-import SentenceBeginningsAssessment from "../../../assessments/readability/SentenceBeginningsAssessment";
+import Assessor from "../../assessor.js";
+import ContentAssessor from "../../contentAssessor.js";
+import SubheadingDistributionTooLongAssessment from "../../../assessments/readability/SubheadingDistributionTooLongAssessment.js";
+import ParagraphTooLongAssessment from "../../../assessments/readability/ParagraphTooLongAssessment.js";
+import SentenceLengthInTextAssessment from "../../../assessments/readability/SentenceLengthInTextAssessment.js";
+import TransitionWordsAssessment from "../../../assessments/readability/TransitionWordsAssessment.js";
+import PassiveVoiceAssessment from "../../../assessments/readability/PassiveVoiceAssessment.js";
+import TextPresenceAssessment from "../../../assessments/readability/TextPresenceAssessment.js";
+import SentenceBeginningsAssessment from "../../../assessments/readability/SentenceBeginningsAssessment.js";
 import { createAnchorOpeningTag } from "../../../../helpers";
 
 /**

@@ -1,11 +1,10 @@
 import { inherits } from "util";
-
-import IntroductionKeywordAssessment from "../assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
-import KeyphraseDensityAssessment from "../assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
-import Assessor from "./assessor";
-import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import Assessor from "./assessor.js";
+import IntroductionKeywordAssessment from "../assessments/seo/IntroductionKeywordAssessment.js";
+import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment.js";
+import KeyphraseDensityAssessment from "../assessments/seo/KeywordDensityAssessment.js";
+import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment.js";
+import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
 
 /**
  * Creates the Assessor used for taxonomy pages.

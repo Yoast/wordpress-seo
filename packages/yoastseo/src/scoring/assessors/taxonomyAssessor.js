@@ -1,17 +1,16 @@
 import { inherits } from "util";
-
-import IntroductionKeywordAssessment from "../assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
-import KeyphraseDensityAssessment from "../assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
-import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitleAssessment";
-import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
-import Assessor from "./assessor";
-import MetaDescriptionLengthAssessment from "../assessments/seo/MetaDescriptionLengthAssessment";
-import TextLengthAssessment from "../assessments/seo/TextLengthAssessment";
-import PageTitleWidthAssessment from "../assessments/seo/PageTitleWidthAssessment";
-import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
-import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
+import Assessor from "./assessor.js";
+import IntroductionKeywordAssessment from "../assessments/seo/IntroductionKeywordAssessment.js";
+import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment.js";
+import KeyphraseDensityAssessment from "../assessments/seo/KeywordDensityAssessment.js";
+import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment.js";
+import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitleAssessment.js";
+import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment.js";
+import MetaDescriptionLengthAssessment from "../assessments/seo/MetaDescriptionLengthAssessment.js";
+import TextLengthAssessment from "../assessments/seo/TextLengthAssessment.js";
+import PageTitleWidthAssessment from "../assessments/seo/PageTitleWidthAssessment.js";
+import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
+import SingleH1Assessment from "../assessments/seo/SingleH1Assessment.js";
 import { createAnchorOpeningTag } from "../../helpers";
 
 /**

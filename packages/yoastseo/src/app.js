@@ -1,17 +1,18 @@
 import { setLocaleData } from "@wordpress/i18n";
 import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject, isUndefined, merge, noop, throttle } from "lodash";
-import MissingArgument from "./errors/missingArgument";
-import { measureTextWidth } from "./helpers";
 
-import removeHtmlBlocks from "./languageProcessing/helpers/html/htmlParser.js";
+import AssessorPresenter from "./scoring/renderers/AssessorPresenter.js";
+import { measureTextWidth } from "./helpers";
+import MissingArgument from "./errors/missingArgument.js";
+import Paper from "./values/Paper.js";
 import Pluggable from "./pluggable.js";
+import removeHtmlBlocks from "./languageProcessing/helpers/html/htmlParser.js";
+
+// Assessors.
 import ContentAssessor from "./scoring/assessors/contentAssessor.js";
 import CornerstoneContentAssessor from "./scoring/assessors/cornerstone/contentAssessor.js";
 import CornerstoneSEOAssessor from "./scoring/assessors/cornerstone/seoAssessor.js";
-import AssessorPresenter from "./scoring/renderers/AssessorPresenter.js";
-
 import SEOAssessor from "./scoring/assessors/seoAssessor.js";
-import Paper from "./values/Paper.js";
 
 var inputDebounceDelay = 800;
 

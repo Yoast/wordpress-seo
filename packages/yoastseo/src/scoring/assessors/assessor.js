@@ -1,12 +1,14 @@
-import MissingArgument from "../../errors/missingArgument";
-import removeDuplicateMarks from "../../markers/removeDuplicateMarks";
-import AssessmentResult from "../../values/AssessmentResult.js";
-import { showTrace } from "../../helpers/errors.js";
-
+// External dependencies.
 import { __, sprintf } from "@wordpress/i18n";
 import { filter, find, findIndex, isFunction, isUndefined, map } from "lodash";
-import LanguageProcessor from "../../parse/language/LanguageProcessor";
+
+// Internal dependencies.
+import AssessmentResult from "../../values/AssessmentResult.js";
 import { build } from "../../parse/build";
+import LanguageProcessor from "../../parse/language/LanguageProcessor.js";
+import MissingArgument from "../../errors/missingArgument.js";
+import removeDuplicateMarks from "../../markers/removeDuplicateMarks.js";
+import { showTrace } from "../../helpers/errors.js";
 
 // The maximum score of individual assessment is 9. This is why we set the "score rating" here to 9.
 const ScoreRating = 9;

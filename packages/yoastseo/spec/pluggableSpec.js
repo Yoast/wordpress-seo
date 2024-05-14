@@ -1,6 +1,6 @@
-import DefaultResearcher from "../src/languageProcessing/languages/_default/Researcher";
-import Pluggable from "../src/pluggable";
-import InvalidTypeError from "../src/errors/invalidType";
+import DefaultResearcher from "../src/languageProcessing/languages/_default/Researcher.js";
+import Pluggable from "../src/pluggable.js";
+import InvalidTypeError from "../src/errors/invalidType.js";
 import Assessor from "../src/scoring/assessors/assessor.js";
 
 describe( "the pluggable interface", function() {

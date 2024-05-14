@@ -1,3 +1,4 @@
+import { map, sum } from "lodash";
 import Assessor from "./assessor.js";
 import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "../assessments/readability/SentenceLengthInTextAssessment.js";
@@ -6,15 +7,13 @@ import TransitionWords from "../assessments/readability/TransitionWordsAssessmen
 import PassiveVoice from "../assessments/readability/PassiveVoiceAssessment.js";
 import SentenceBeginnings from "../assessments/readability/SentenceBeginningsAssessment.js";
 import TextPresence from "../assessments/readability/TextPresenceAssessment.js";
+import scoreToRating from "../interpreters/scoreToRating.js";
+
 
 /*
 	Temporarily disabled:
 	var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
  */
-
-import scoreToRating from "../interpreters/scoreToRating";
-
-import { map, sum } from "lodash";
 
 /**
  * Creates the Assessor

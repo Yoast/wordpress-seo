@@ -1,6 +1,6 @@
-import Assessor from "./assessor";
+import Assessor from "./assessor.js";
 import inclusiveLanguageAssessmentsConfigs from "../assessments/inclusiveLanguage/configuration";
-import InclusiveLanguageAssessment from "../assessments/inclusiveLanguage/InclusiveLanguageAssessment";
+import InclusiveLanguageAssessment from "../assessments/inclusiveLanguage/InclusiveLanguageAssessment.js";
 
 /**
  * Default options for the Inclusive language assessor.

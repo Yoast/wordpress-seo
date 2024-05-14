@@ -1,13 +1,13 @@
 import { inherits } from "util";
 
-import Assessor from "../../assessor";
-import IntroductionKeywordAssessment from "../../../assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "../../../assessments/seo/KeyphraseLengthAssessment";
-import KeyphraseDensityAssessment from "../../../assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "../../../assessments/seo/MetaDescriptionKeywordAssessment";
-import TextCompetingLinksAssessment from "../../../assessments/seo/TextCompetingLinksAssessment";
-import FunctionWordsInKeyphraseAssessment from "../../../assessments/seo/FunctionWordsInKeyphraseAssessment";
-import ImageKeyphraseAssessment from "../../../assessments/seo/KeyphraseInImageTextAssessment";
+import Assessor from "../../assessor.js";
+import IntroductionKeywordAssessment from "../../../assessments/seo/IntroductionKeywordAssessment.js";
+import KeyphraseLengthAssessment from "../../../assessments/seo/KeyphraseLengthAssessment.js";
+import KeyphraseDensityAssessment from "../../../assessments/seo/KeywordDensityAssessment.js";
+import MetaDescriptionKeywordAssessment from "../../../assessments/seo/MetaDescriptionKeywordAssessment.js";
+import TextCompetingLinksAssessment from "../../../assessments/seo/TextCompetingLinksAssessment.js";
+import FunctionWordsInKeyphraseAssessment from "../../../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
+import ImageKeyphraseAssessment from "../../../assessments/seo/KeyphraseInImageTextAssessment.js";
 import { createAnchorOpeningTag } from "../../../../helpers";
 
 /**

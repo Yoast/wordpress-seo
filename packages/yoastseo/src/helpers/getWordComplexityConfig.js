@@ -1,7 +1,7 @@
-import wordComplexityConfigEnglish from "../languageProcessing/languages/en/config/wordComplexity";
-import wordComplexityConfigGerman from "../languageProcessing/languages/de/config/wordComplexity";
-import wordComplexityConfigSpanish from "../languageProcessing/languages/es/config/wordComplexity";
-import wordComplexityConfigFrench from "../languageProcessing/languages/fr/config/wordComplexity";
+import wordComplexityConfigEnglish from "../languageProcessing/languages/en/config/wordComplexity.js";
+import wordComplexityConfigGerman from "../languageProcessing/languages/de/config/wordComplexity.js";
+import wordComplexityConfigSpanish from "../languageProcessing/languages/es/config/wordComplexity.js";
+import wordComplexityConfigFrench from "../languageProcessing/languages/fr/config/wordComplexity.js";
 
 /**
  * Gets the word complexity assessment's config.
