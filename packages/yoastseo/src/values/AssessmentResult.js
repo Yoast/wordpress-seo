@@ -278,9 +278,9 @@ AssessmentResult.prototype.setEditFieldName = function( editFieldName ) {
 };
 
 /**
- * Sets the value of _hasAIFixes to determine if the result has a beta badge.
+ * Sets the value of _hasAIFixes to determine if the result has AI fixes.
  *
- * @param {boolean} hasAIFixes Whether this result has a beta badge.
+ * @param {boolean} hasAIFixes Whether this result has AI fixes.
  * @returns {void}
  */
 AssessmentResult.prototype.setHasAIFixes = function( hasAIFixes ) {
@@ -288,9 +288,9 @@ AssessmentResult.prototype.setHasAIFixes = function( hasAIFixes ) {
 };
 
 /**
- * Returns the value of _hasAIFixes to determine if the result has a beta badge.
+ * Returns the value of _hasAIFixes to determine if the result has AI fixes.
  *
- * @returns {bool} Whether this result has a beta badge.
+ * @returns {bool} Whether this result has AI fixes.
  */
 AssessmentResult.prototype.hasAIFixes = function() {
 	return this._hasAIFixes;
