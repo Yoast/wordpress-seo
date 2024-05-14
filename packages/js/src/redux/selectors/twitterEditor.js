@@ -22,13 +22,13 @@ import {
 export const getTwitterTitle = state => get( state, "twitterEditor.title", "" );
 
 /**
- * Gets the X title from the state.
+ * Gets the X title that is custom for the current post.
  *
  * @param {object} state The state.
  *
  * @returns {string} X title.
  */
-export const getTwitterTitleWithoutTemplate = state => {
+export const getCustomTwitterTitle = state => {
 	const title = getTwitterTitle( state );
 	return getCustomSocialTitle( title );
 };
@@ -44,13 +44,13 @@ export const getTwitterDescription = state => get( state, "twitterEditor.descrip
 
 
 /**
- * Gets the X description from the state.
+ * Gets the X description that is custom for the current post.
  *
  * @param {object} state The state.
  *
  * @returns {string} X description.
  */
-export const getTwitterDescriptionWithoutTemplate = state => {
+export const getCustomTwitterDescription = state => {
 	const description = getTwitterDescription( state );
 	return getCustomSocialDescription( description );
 };
