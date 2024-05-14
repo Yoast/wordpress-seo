@@ -191,7 +191,6 @@ class SeoAnalysis extends Component {
 		];
 	}
 
-
 	/**
 	 * Renders the AI Assessment Fixes button.
 	 *
@@ -203,11 +202,11 @@ class SeoAnalysis extends Component {
 	renderAIFixesButton = ( hasAIFixes, id ) => {
 		const isPremium = getL10nObject().isPremium;
 
-		return hasAIFixes && isBlockEditor() && (
+		// The reason of adding the check if Elementor is active or not is because `isBlockEditor` method also returns `true` for Elementor.
+		return hasAIFixes && isBlockEditor() && ! this.props.isElementor && (
 			<AIAssessmentFixesButton id={ id } isPremium={ isPremium } />
 		);
 	};
-
 
 	/**
 	 * Renders the SEO Analysis component.
@@ -290,6 +289,7 @@ SeoAnalysis.propTypes = {
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
 	shouldUpsellHighlighting: PropTypes.bool,
+	isElementor: PropTypes.bool,
 };
 
 SeoAnalysis.defaultProps = {
@@ -300,6 +300,7 @@ SeoAnalysis.defaultProps = {
 	shouldUpsellWordFormRecognition: false,
 	overallScore: null,
 	shouldUpsellHighlighting: false,
+	isElementor: false,
 };
 
 export default withSelect( ( select, ownProps ) => {
@@ -307,6 +308,7 @@ export default withSelect( ( select, ownProps ) => {
 		getFocusKeyphrase,
 		getMarksButtonStatus,
 		getResultsForKeyword,
+		getIsElementorEditor,
 	} = select( "yoast-seo/editor" );
 
 	const keyword = getFocusKeyphrase();
@@ -315,5 +317,6 @@ export default withSelect( ( select, ownProps ) => {
 		...getResultsForKeyword( keyword ),
 		marksButtonStatus: ownProps.hideMarksButtons ? "disabled" : getMarksButtonStatus(),
 		keyword,
+		isElementor: getIsElementorEditor(),
 	};
 } )( SeoAnalysis );
