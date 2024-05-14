@@ -103,7 +103,7 @@ export const getFacebookImageSrc = state => get( state, "facebookEditor.image.sr
  *
  * @param {Object} state The state.
  *
- * @returns {integer} Facebook image id.
+ * @returns {number} Facebook image id.
  */
 export const getFacebookImageId = state => get( state, "facebookEditor.image.id", "" );
 

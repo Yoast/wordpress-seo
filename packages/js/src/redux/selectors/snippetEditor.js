@@ -40,7 +40,7 @@ export const getSnippetEditorMode = state => get( state, "snippetEditor.mode", "
 export const getSnippetEditorTitle = state => get( state, "snippetEditor.data.title", "" );
 
 /**
- * Gets the snippet editor title without templates.
+ * Gets the snippet editor custom title for the current post.
  *
  * @param {Object} state The state object.
  *
@@ -71,11 +71,11 @@ export const getSnippetEditorTitleWithTemplate = state => get( state, "snippetEd
 export const getSnippetEditorDescription = state => get( state, "snippetEditor.data.description", "" );
 
 /**
- * Gets the snippet editor Description without templates.
+ * Gets the snippet editor custom description for the current post.
  *
  * @param {Object} state The state object.
  *
- * @returns {string} The snippet editor Description.
+ * @returns {string} The snippet editor custom description.
  */
 export const getCustomSnippetEditorDescription = state => {
 	const description = getSnippetEditorDescription( state );

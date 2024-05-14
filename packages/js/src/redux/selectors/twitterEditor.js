@@ -87,7 +87,7 @@ export const getTwitterImageSrc = state => get( state, "twitterEditor.image.src"
  *
  * @param {Object} state The state.
  *
- * @returns {integer} Twitter image id.
+ * @returns {number} Twitter image id.
  */
 export const getTwitterImageId = state => get( state, "twitterEditor.image.id", "" );
 
