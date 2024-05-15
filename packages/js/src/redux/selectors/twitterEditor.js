@@ -78,7 +78,7 @@ export const getTwitterImageType = state => get( state, "settings.socialPreviews
  *
  * @param {Object} state The state.
  *
- * @returns {String} Twitter image src.
+ * @returns {number|string} Twitter image src.
  */
 export const getTwitterImageSrc = state => get( state, "twitterEditor.image.src", "" );
 
