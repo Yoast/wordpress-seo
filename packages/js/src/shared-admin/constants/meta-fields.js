@@ -9,6 +9,11 @@ export const META_FIELDS = {
 		get: "getNoIndex",
 		set: "setNoIndex",
 	},
+	robotsNoIndexTerm: {
+		key: "noindex",
+		get: "getNoIndex",
+		set: "setNoIndex",
+	},
 	robotsNoFollow: {
 		key: "meta-robots-nofollow",
 		get: "getNoFollow",
