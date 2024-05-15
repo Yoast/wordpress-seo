@@ -1,6 +1,6 @@
 import isPhrasingContent from "./isPhrasingContent";
 import { Paragraph } from "../../structure";
-import { isEmpty } from "lodash-es";
+import { isEmpty } from "lodash";
 import SourceCodeLocation from "../../structure/SourceCodeLocation";
 
 /**

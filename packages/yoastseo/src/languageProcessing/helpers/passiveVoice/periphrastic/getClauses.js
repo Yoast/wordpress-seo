@@ -5,7 +5,7 @@ import getWordIndices from "./getIndicesWithRegex.js";
 import includesIndex from "../../word/includesIndex";
 import followsIndex from "../../word/followsIndex";
 
-import { forEach, isUndefined, map } from "lodash-es";
+import { forEach, isUndefined, map } from "lodash";
 
 /**
  * Gets stop characters to determine sentence breakers.

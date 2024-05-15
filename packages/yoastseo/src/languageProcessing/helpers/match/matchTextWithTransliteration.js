@@ -1,4 +1,4 @@
-import { map } from "lodash-es";
+import { map } from "lodash";
 import addWordBoundary from "../word/addWordboundary.js";
 import stripSpaces from "../sanitize/stripSpaces.js";
 import transliterate from "../transliterate/transliterate.js";

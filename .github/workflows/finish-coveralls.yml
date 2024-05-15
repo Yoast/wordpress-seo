@@ -105,5 +105,5 @@ jobs:
           COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
           github-token: ${{ secrets.COVERALLS_TOKEN }}
-          carryforward: "unit-php-7.2,unit-php-8.3,php-7.2-wp-6.3,php-7.2-wp-6.3-ms,php-8.3-wp-trunk,php-8.3-wp-trunk-ms,package-analysis-report,package-browserslist-config,package-components,package-feature-flag,package-helpers,package-js,package-replacement-variable-editor,package-search-metadata-previews,package-social-metadata-forms,package-social-metadata-previews,package-yoast-components,package-yoastseo"
+          carryforward: "unit-php-7.2,unit-php-8.3,php-7.2-wp-6.3,php-7.2-wp-6.3-ms,php-8.3-wp-trunk,php-8.3-wp-trunk-ms,package-analysis-report,package-browserslist-config,package-components,package-feature-flag,package-helpers,package-js,package-replacement-variable-editor,package-search-metadata-previews,package-social-metadata-forms,package-social-metadata-previews,package-yoastseo"
           parallel-finished: true

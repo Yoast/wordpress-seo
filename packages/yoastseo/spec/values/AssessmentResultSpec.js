@@ -1,5 +1,5 @@
 import AssessmentResult from "../../src/values/AssessmentResult.js";
-import { noop } from "lodash-es";
+import { noop } from "lodash";
 
 describe( "a result of an assessment", function() {
 	it( "should receive a text and a score in the constructor", function() {

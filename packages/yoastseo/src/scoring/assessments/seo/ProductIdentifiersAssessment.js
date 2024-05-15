@@ -1,4 +1,4 @@
-import { merge } from "lodash-es";
+import { merge } from "lodash";
 import { __, sprintf } from "@wordpress/i18n";
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";

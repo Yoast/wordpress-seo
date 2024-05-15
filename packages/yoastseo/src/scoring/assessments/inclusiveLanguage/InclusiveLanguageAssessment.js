@@ -1,5 +1,5 @@
 import { sprintf } from "@wordpress/i18n";
-import { isString } from "lodash-es";
+import { isString } from "lodash";
 
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";

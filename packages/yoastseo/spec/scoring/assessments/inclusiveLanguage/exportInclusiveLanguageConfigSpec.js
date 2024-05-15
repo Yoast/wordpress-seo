@@ -1,5 +1,5 @@
 import { sprintf } from "@wordpress/i18n";
-import { last } from "lodash-es";
+import { last } from "lodash";
 
 import inclusiveLanguageAssessmentsConfigs from "../../../../src/scoring/assessments/inclusiveLanguage/configuration";
 import { SCORES } from "../../../../src/scoring/assessments/inclusiveLanguage/configuration/scores";

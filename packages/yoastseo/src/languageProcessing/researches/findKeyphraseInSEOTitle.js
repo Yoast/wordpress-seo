@@ -1,4 +1,4 @@
-import { escapeRegExp, filter, includes, isEmpty, uniq } from "lodash-es";
+import { escapeRegExp, filter, includes, isEmpty, uniq } from "lodash";
 
 import wordMatch from "../helpers/match/matchTextWithWord.js";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";

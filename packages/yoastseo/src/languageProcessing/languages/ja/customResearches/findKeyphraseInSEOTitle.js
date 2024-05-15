@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash-es";
+import { isEmpty } from "lodash";
 import { findWordFormsInString } from "../../../helpers/match/findKeywordFormsInString";
 import wordMatch from "../../../helpers/match/matchTextWithArray";
 import processExactMatchRequest from "../../../helpers/match/processExactMatchRequest";

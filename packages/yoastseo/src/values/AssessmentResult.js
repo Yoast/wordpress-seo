@@ -1,4 +1,4 @@
-import { isArray, isNumber, isUndefined } from "lodash-es";
+import { isArray, isNumber, isUndefined } from "lodash";
 
 import Mark from "./Mark";
 
