@@ -15,7 +15,7 @@ export const transformMetaValue = ( key, value ) => {
 		case "inclusive_language_score":
 		case "estimated-reading-time-minutes":
 			return ( value && value >= 0 ) ? String( value ) : "0";
-		case "open_graph-image-id":
+		case "opengraph-image-id":
 		case "twitter-image-id":
 			return ( value && value > 0 ) ? String( value ) : "";
 		case "is_cornerstone":
