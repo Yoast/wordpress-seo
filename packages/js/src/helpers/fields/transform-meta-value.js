@@ -14,9 +14,10 @@ export const transformMetaValue = ( key, value ) => {
 		case "linkdex":
 		case "inclusive_language_score":
 		case "estimated-reading-time-minutes":
+			return ( value && value >= 0 ) ? String( value ) : "0";
 		case "open_graph-image-id":
 		case "twitter-image-id":
-			return ( value && value >= 0 ) ? String( value ) : "0";
+			return ( value && value > 0 ) ? String( value ) : "";
 		case "is_cornerstone":
 		case "wordproof_timestamp":
 			return value ? "1" : "0";
