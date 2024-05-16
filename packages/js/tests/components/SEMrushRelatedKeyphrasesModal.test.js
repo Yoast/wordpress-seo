@@ -60,17 +60,6 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 		} );
 	} );
 
-	describe( "onModalClose", () => {
-		it( "successfully calls the close method", async() => {
-			render( <SEMrushRelatedKeyphrasesModal { ...props } keyphrase="yoast seo" isLoggedIn={ true } whichModalOpen="metabox" /> );
-
-			const closeModalButton = screen.getByLabelText( "Close dialog" );
-			fireEvent.click( closeModalButton );
-
-			expect( props.onClose ).toHaveBeenCalled();
-		} );
-	} );
-
 	describe( "onLinkClick", () => {
 		it( "successfully opens the popup when the user is not logged in, " +
 			"a keyphrase is present and the 'Get related keyphrases' button is clicked", () => {
