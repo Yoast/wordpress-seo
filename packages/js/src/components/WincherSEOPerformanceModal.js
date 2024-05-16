@@ -13,7 +13,6 @@ import { MetaboxButton } from "./MetaboxButton";
 import { ModalContainer } from "./modals/Container";
 import Modal from "./modals/Modal";
 import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
-import { isCloseEvent } from "./modals/editorModals/EditorModal.js";
 import SidebarButton from "./SidebarButton";
 import WincherSEOPerformance from "../containers/WincherSEOPerformance";
 
@@ -31,7 +30,7 @@ const StyledHeroIcon = styled( ChartBarIcon )`
  *
  * @returns {void}
  */
-export function openModal( props ) {
+function openModal( props ) {
 	const { keyphrases, onNoKeyphraseSet, onOpen, location } = props;
 
 	if ( ! keyphrases.length ) {
@@ -52,22 +51,6 @@ export function openModal( props ) {
 }
 
 /**
- * Handles the close event for the modal.
- *
- * @param {Object} props The props to use.
- * @param {Event} event The event passed to the closeModal.
- *
- * @returns {void}
- */
-export function closeModal( props, event ) {
-	if ( ! isCloseEvent( event ) ) {
-		return;
-	}
-
-	props.onClose();
-}
-
-/**
  * The WincherSEOPerformanceModal modal.
  *
  * @param {Object} props The props to use.
@@ -81,10 +64,6 @@ export default function WincherSEOPerformanceModal( props ) {
 		openModal( props );
 	}, [ openModal, props ] );
 
-	const onModalClose = useCallback( ( event ) => {
-		closeModal( props, event );
-	}, [ closeModal, props ] );
-
 	const title = __( "Track SEO performance", "wordpress-seo" );
 
 	const svgAriaProps = useSvgAria();
@@ -94,7 +73,7 @@ export default function WincherSEOPerformanceModal( props ) {
 			{ whichModalOpen === location &&
 			<Modal
 				title={ title }
-				onRequestClose={ onModalClose }
+				onRequestClose={ props.onClose }
 				icon={ <YoastIcon /> }
 				additionalClassName="yoast-wincher-seo-performance-modal yoast-gutenberg-modal__no-padding"
 				shouldCloseOnClickOutside={ shouldCloseOnClickOutside }
@@ -140,6 +119,10 @@ WincherSEOPerformanceModal.propTypes = {
 		"postpublish",
 	] ),
 	shouldCloseOnClickOutside: PropTypes.bool,
+	keyphrases: PropTypes.array.isRequired,
+	onNoKeyphraseSet: PropTypes.func.isRequired,
+	onOpen: PropTypes.func.isRequired,
+	onClose: PropTypes.func.isRequired,
 };
 
 WincherSEOPerformanceModal.defaultProps = {

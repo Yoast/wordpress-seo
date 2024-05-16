@@ -327,6 +327,7 @@ Release date: 2024-05-28
 #### Bugfixes
 
 * Fixes a bug where a \"Failed to retrieve media\" error could prevent selecting a different image or removing the current selection.
+* Fixes a bug where our modals would not open when visiting our sidebar in Elementor for the second time.
 * Fixes a bug where some Yoast SEO settings could not be imported correctly.
 * Fixes a bug where the character count of the meta description field would not include the automatically added date and separator when no additional content was provided.
 
