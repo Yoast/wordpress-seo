@@ -621,7 +621,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 */
 	render() {
 		const { MentionSuggestions } = this.pluginList.mentionsPlugin;
-		const { onFocus, onBlur, ariaLabelledBy, placeholder, theme, isDisabled, fieldId, wrapperClassName } = this.props;
+		const { onFocus, onBlur, ariaLabelledBy, placeholder, theme, isDisabled, fieldId } = this.props;
 		const { editorState, suggestions, isSuggestionsOpen } = this.state;
 
 		return (
@@ -650,7 +650,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					fieldId
 				) }
 
-				<MentionSuggestionsStyleWrapper className={ wrapperClassName }>
+				<MentionSuggestionsStyleWrapper>
 					<MentionSuggestions
 						onSearchChange={ this.onSearchChange }
 						suggestions={ suggestions }
@@ -676,7 +676,6 @@ ReplacementVariableEditorStandalone.propTypes = {
 	placeholder: PropTypes.string,
 	fieldId: PropTypes.string.isRequired,
 	isDisabled: PropTypes.bool,
-	wrapperClassName: PropTypes.string.isRequired,
 };
 
 ReplacementVariableEditorStandalone.defaultProps = {
