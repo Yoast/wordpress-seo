@@ -5,6 +5,9 @@
  * @package WPSEO\Admin\Formatter
  */
 
+use Yoast\WP\SEO\Config\Schema_Types;
+use Yoast\WP\SEO\Editors\Framework\Metadata_Groups;
+
 /**
  * This class provides data for the post metabox by return its values for localization.
  */
@@ -83,6 +86,12 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'social_description_template' => $this->get_social_description_template(),
 				'social_image_template'       => $this->get_social_image_template(),
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
+				'metadata'                    => $this->get_post_metadata(),
+				'schemaDefaults'              => $this->get_schema_defaults( $this->post->post_type ),
+				'entity'                      => [
+					'id'         => $this->post->ID,
+					'slug'       => $this->post->post_name,
+				],
 			];
 
 			$values = ( $values_to_set + $values );
@@ -92,7 +101,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		 * Filter: 'wpseo_post_edit_values' - Allows changing the values Yoast SEO uses inside the post editor.
 		 *
 		 * @param array   $values The key-value map Yoast SEO uses inside the post editor.
-		 * @param WP_Post $post   The post opened in the editor.
+		 * @param WP_Post $post The post opened in the editor.
 		 */
 		return apply_filters( 'wpseo_post_edit_values', $values, $this->post );
 	}
@@ -313,5 +322,62 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	protected function is_insights_enabled() {
 		return WPSEO_Options::get( 'enable_metabox_insights', false );
+	}
+
+	/**
+	 * Get post meta data.
+	 *
+	 * @return array<string>
+	 */
+	private function get_post_metadata() {
+		$post_type = $this->post->post_type;
+		$metadata  = [];
+
+		/**
+		 * The metadata groups.
+		 *
+		 * @var Metadata_Groups $metadata_groups The metadata groups.
+		 */
+		$metadata_groups = YoastSEO()->classes->get( Metadata_Groups::class );
+
+		$groups = $metadata_groups->get_post_metadata_groups();
+
+		foreach ( $groups as $group ) {
+			$fields = WPSEO_Meta::get_meta_field_defs( $group, $post_type );
+			foreach ( $fields as $key => $meta_field ) {
+				$metadata[ $key ] = WPSEO_Meta::get_value( $key, $this->post->ID );
+			}
+		}
+
+		return $metadata;
+	}
+
+	/**
+	 * Get schema defaults.
+	 *
+	 * @param string $post_type The post type.
+	 * @return array<string> The schema defaults.
+	 */
+	private function get_schema_defaults( $post_type ) {
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && WPSEO_Options::get( 'disableadvanced_meta' ) ) {
+			return [];
+		}
+		$schema_defaults = [];
+
+		$schema_defaults['pageType'] = WPSEO_Options::get( 'schema-page-type-' . $post_type );
+
+		if ( YoastSEO()->helpers->schema->article->is_article_post_type( $post_type ) ) {
+			$default_schema_article_type = WPSEO_Options::get( 'schema-article-type-' . $post_type );
+
+			/** This filter is documented in inc/options/class-wpseo-option-titles.php */
+			$allowed_article_types = apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES );
+
+			if ( ! array_key_exists( $default_schema_article_type, $allowed_article_types ) ) {
+				$default_schema_article_type = WPSEO_Options::get_default( 'wpseo_titles', 'schema-article-type-' . $post_type );
+			}
+
+			$schema_defaults['articleType'] = $default_schema_article_type;
+		}
+		return $schema_defaults;
 	}
 }

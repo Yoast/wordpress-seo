@@ -86,7 +86,6 @@ export default compose( [
 			setTwitterPreviewTitle,
 			setTwitterPreviewDescription,
 			clearTwitterPreviewImage,
-			loadTwitterPreviewData,
 			findCustomFields,
 		} = dispatch( "yoast-seo/editor" );
 
@@ -97,7 +96,6 @@ export default compose( [
 			onRemoveImageClick:	clearTwitterPreviewImage,
 			onDescriptionChange: setTwitterPreviewDescription,
 			onTitleChange: setTwitterPreviewTitle,
-			onLoad: loadTwitterPreviewData,
 			onReplacementVariableSearchChange: getMemoizedFindCustomFields( postId, findCustomFields ),
 		};
 	} ),

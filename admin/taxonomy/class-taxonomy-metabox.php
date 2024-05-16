@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Editors\Framework\Metadata_Groups;
+
 /**
  * This class generates the metabox on the edit term page.
  */
@@ -96,13 +98,18 @@ class WPSEO_Taxonomy_Metabox {
 		$fields_presenter  = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
 		$field_definitions = new WPSEO_Taxonomy_Fields();
 
-		echo $fields_presenter->html( $field_definitions->get( 'content' ) );
-		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
-			echo $fields_presenter->html( $field_definitions->get( 'settings' ) );
-		}
+		/**
+		 * The metadata groups.
+		 *
+		 * @var Metadata_Groups $metadata_groups The metadata groups.
+		 */
+		$metadata_groups = YoastSEO()->classes->get( Metadata_Groups::class );
 
-		if ( $this->is_social_enabled ) {
-			echo $fields_presenter->html( $field_definitions->get( 'social' ) );
+		$groups = $metadata_groups->get_term_metadata_groups();
+
+		foreach ( $groups as $group ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
+			echo $fields_presenter->html( $field_definitions->get( $group ) );
 		}
 	}
 

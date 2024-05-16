@@ -2,8 +2,8 @@ import { combineReducers, registerStore } from "@wordpress/data";
 import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { get, pickBy } from "lodash";
 import * as controls from "../../redux/controls";
-import * as snippetEditorActions from "../redux/actions/snippetEditor";
 import * as analysisSelectors from "../redux/selectors/analysis";
+import { initialState } from "../../redux/initial-state";
 
 /**
  * Populates the store.
@@ -13,10 +13,6 @@ import * as analysisSelectors from "../redux/selectors/analysis";
  * @returns {void}
  */
 const populateStore = store => {
-	// Initialize the cornerstone content.
-	store.dispatch( actions.loadCornerstoneContent() );
-	// Initialize the focus keyphrase.
-	store.dispatch( actions.loadFocusKeyword() );
 	// Show marker buttons.
 	store.dispatch( actions.setMarkerStatus( window.wpseoScriptData.metabox.elementorMarkerStatus ) );
 
@@ -39,11 +35,11 @@ const populateStore = store => {
 
 	// Initialize the Social Preview data depending on which platform should be present
 	const { facebook: showFacebook, twitter: showTwitter } = window.wpseoScriptData.metabox.showSocial;
-	if ( showFacebook ) {
-		store.dispatch( actions.loadFacebookPreviewData() );
+	if ( ! showFacebook ) {
+		delete initialState.facebookEditor;
 	}
-	if ( showTwitter ) {
-		store.dispatch( actions.loadTwitterPreviewData() );
+	if ( ! showTwitter ) {
+		delete initialState.twitterEditor;
 	}
 
 	store.dispatch( actions.setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode ) );
@@ -77,10 +73,9 @@ export default function initEditorStore() {
 		},
 		actions: pickBy( {
 			...actions,
-			// Add or override actions that are specific for Elementor.
-			...snippetEditorActions,
 		}, x => typeof x === "function" ),
 		controls,
+		initialState,
 	} );
 
 	populateStore( store );

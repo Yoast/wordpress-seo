@@ -10,7 +10,7 @@ const INITIAL_STATE = {};
  *
  * @returns {string} The state.
  */
-function focusKeywordReducer( state = INITIAL_STATE, action ) {
+function primaryTaxonomyReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
 		case SET_PRIMARY_TAXONOMY:
 			return {
@@ -22,4 +22,4 @@ function focusKeywordReducer( state = INITIAL_STATE, action ) {
 	}
 }
 
-export default focusKeywordReducer;
+export default primaryTaxonomyReducer;

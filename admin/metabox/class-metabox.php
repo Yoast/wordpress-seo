@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Active_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
+use Yoast\WP\SEO\Editors\Framework\Metadata_Groups;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
@@ -208,12 +209,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<a href="https://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html" target="_blank" rel="noopener">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
-		/* translators: %s expands to the post type name. */
-		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['title']        = __( 'Timestamp this %s', 'wordpress-seo' );
-		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['description']  = __( 'Use WordProof to timestamp this page to comply with legal regulations and join the fight for a more transparant and accountable internet.', 'wordpress-seo' );
-		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['options']['0'] = __( 'Off', 'wordpress-seo' );
-		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['options']['1'] = __( 'On', 'wordpress-seo' );
-		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['type']         = 'hidden';
 
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['title']       = __( '301 Redirect', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
@@ -357,20 +352,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected function render_hidden_fields() {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
+		/**
+		 * The metadata groups.
+		 *
+		 * @var Metadata_Groups $metadata_groups The metadata groups.
+		 */
+		$metadata_groups = YoastSEO()->classes->get( Metadata_Groups::class );
 
-		if ( $this->is_advanced_metadata_enabled ) {
+		$groups = $metadata_groups->get_post_metadata_groups();
+
+		foreach ( $groups as $group ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'advanced' );
-		}
-
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema', $this->get_metabox_post()->post_type );
-
-		if ( $this->social_is_enabled ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
+			echo new Meta_Fields_Presenter( $this->get_metabox_post(), $group, $this->get_metabox_post()->post_type );
 		}
 
 		/**

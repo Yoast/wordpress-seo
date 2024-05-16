@@ -1,5 +1,5 @@
 /* global wpseoAdminL10n */
-import { Fragment, useEffect } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, MultiSelect, RadioButtonGroup, Select, TextInput } from "@yoast/components";
 import { join } from "@yoast/helpers";
@@ -282,21 +282,11 @@ const AdvancedSettings = ( props ) => {
 		onBreadcrumbsTitleChange,
 		onCanonicalChange,
 		onWordProofTimestampChange,
-		onLoad,
-		isLoading,
 		editorContext,
 		isBreadcrumbsDisabled,
 		isPrivateBlog,
 		isWordProofIntegrationActive,
 	} = props;
-
-	useEffect( () => {
-		setTimeout( () => {
-			if ( isLoading ) {
-				onLoad();
-			}
-		} );
-	} );
 
 	const noIndexProps = {
 		noIndex,
@@ -330,10 +320,6 @@ const AdvancedSettings = ( props ) => {
 		postTypeName: editorContext.postTypeNameSingular,
 	};
 
-	if ( isLoading ) {
-		return null;
-	}
-
 	return (
 		<Fragment>
 			<MetaRobotsNoIndex { ...noIndexProps } />
@@ -355,8 +341,6 @@ AdvancedSettings.propTypes = {
 	onNoIndexChange: PropTypes.func.isRequired,
 	onCanonicalChange: PropTypes.func.isRequired,
 	onWordProofTimestampChange: PropTypes.func,
-	onLoad: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 	editorContext: PropTypes.object.isRequired,
 	isBreadcrumbsDisabled: PropTypes.bool.isRequired,
 	isPrivateBlog: PropTypes.bool,

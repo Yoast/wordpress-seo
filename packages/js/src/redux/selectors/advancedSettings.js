@@ -53,11 +53,3 @@ export const getCanonical = state => get( state, "advancedSettings.canonical", "
  * @returns {Boolean} WordProof timestamp value.
  */
 export const getWordProofTimestamp = state => get( state, "advancedSettings.wordproofTimestamp", false );
-
-/** Gets the Twitter image src from the state.
- *
- * @param {Object} state The state.
- *
- * @returns {String} Twitter image src.
- */
-export const getIsLoading = state => get( state, "advancedSettings.isLoading", true );

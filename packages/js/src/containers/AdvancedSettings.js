@@ -14,7 +14,6 @@ export default compose( [
 			getBreadcrumbsTitle,
 			getCanonical,
 			getWordProofTimestamp,
-			getIsLoading,
 			getEditorContext,
 			getPreferences,
 		} = select( "yoast-seo/editor" );
@@ -28,7 +27,6 @@ export default compose( [
 			breadcrumbsTitle: getBreadcrumbsTitle(),
 			canonical: getCanonical(),
 			wordproofTimestamp: getWordProofTimestamp(),
-			isLoading: getIsLoading(),
 			editorContext: getEditorContext(),
 			isBreadcrumbsDisabled,
 			isPrivateBlog,
@@ -44,7 +42,6 @@ export default compose( [
 			setBreadcrumbsTitle,
 			setCanonical,
 			setWordProofTimestamp,
-			loadAdvancedSettingsData,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -54,7 +51,6 @@ export default compose( [
 			onBreadcrumbsTitleChange: setBreadcrumbsTitle,
 			onCanonicalChange: setCanonical,
 			onWordProofTimestampChange: setWordProofTimestamp,
-			onLoad: loadAdvancedSettingsData,
 		};
 	} ),
 ] )( AdvancedSettings );

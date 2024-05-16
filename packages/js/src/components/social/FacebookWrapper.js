@@ -21,9 +21,6 @@ const FacebookWrapper = ( props ) => {
 	}, [ setActiveMetaTabId ] );
 
 	useEffect( () => {
-		// Load on the next cycle because the editor inits asynchronously, and we need to load the data after the component is fully loaded.
-		setTimeout( props.onLoad );
-
 		// Add event listener for meta section tab change.
 		window.addEventListener( "YoastSEO:metaTabChange", handleMetaTabChange );
 
@@ -47,7 +44,6 @@ const FacebookWrapper = ( props ) => {
 
 FacebookWrapper.propTypes = {
 	isPremium: PropTypes.bool.isRequired,
-	onLoad: PropTypes.func.isRequired,
 	location: PropTypes.string.isRequired,
 };
 

@@ -149,6 +149,10 @@ class WPSEO_Meta {
 				'default_value' => 'false',
 				'description'   => '',
 			],
+			'estimated-reading-time-minutes' => [
+				'type'          => 'hidden',
+				'default_value' => '0',
+			],
 		],
 		'advanced' => [
 			'meta-robots-noindex'  => [
@@ -290,7 +294,7 @@ class WPSEO_Meta {
 
 		/**
 		 * Allow add-on plugins to register their meta fields for management by this class.
-		 * Calls to add_filter() must be made before plugins_loaded prio 14.
+		 * Calls to add_filter() must be made before plugins_loaded priority 14. You could implement the Initializer_Interface (but the Integration_Interface is too late).
 		 */
 		$extra_fields = apply_filters( 'add_extra_wpseo_meta_fields', [] );
 		if ( is_array( $extra_fields ) ) {
@@ -298,13 +302,38 @@ class WPSEO_Meta {
 		}
 		unset( $extra_fields );
 
+		// register meta data for taxonomies.
+		self::$meta_fields['primary_terms'] = [];
+
+		$taxonomies = get_taxonomies( [ 'hierarchical' => true ], 'names' );
+		foreach ( $taxonomies as $taxonomy_name ) {
+			self::$meta_fields['primary_terms'][ 'primary_' . $taxonomy_name ] = [
+				'type'          => 'hidden',
+				'title'         => '',
+				'default_value' => '',
+				'description'   => '',
+			];
+		}
+
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
-					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ]
+					[
+						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
+						'show_in_rest'      => isset( $field_def['type'] ) ? [
+							'schema' => [
+								'type'    => 'string',
+								'context' => [ 'edit' ],
+							],
+						] : false,
+						'auth_callback'     => [ self::class, 'auth_callback' ],
+						'type'              => 'string',
+						'single'            => true,
+						'default'           => ( $field_def['default_value'] ?? '' ),
+					]
 				);
 
 				// Set the $fields_index property for efficiency.
@@ -329,6 +358,15 @@ class WPSEO_Meta {
 
 		add_filter( 'update_post_metadata', [ self::class, 'remove_meta_if_default' ], 10, 5 );
 		add_filter( 'add_post_metadata', [ self::class, 'dont_save_meta_if_default' ], 10, 4 );
+	}
+
+	/**
+	 * Call back function for auth_callback in register_meta.
+	 *
+	 * @return bool
+	 */
+	public static function auth_callback() {
+		return current_user_can( 'edit_posts' );
 	}
 
 	/**
@@ -392,25 +430,10 @@ class WPSEO_Meta {
 				if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && WPSEO_Options::get( 'disableadvanced_meta' ) ) {
 					return [];
 				}
-
-				$field_defs['schema_page_type']['default'] = WPSEO_Options::get( 'schema-page-type-' . $post_type );
-
 				$article_helper = new Article_Helper();
-				if ( $article_helper->is_article_post_type( $post_type ) ) {
-					$default_schema_article_type = WPSEO_Options::get( 'schema-article-type-' . $post_type );
-
-					/** This filter is documented in inc/options/class-wpseo-option-titles.php */
-					$allowed_article_types = apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES );
-
-					if ( ! array_key_exists( $default_schema_article_type, $allowed_article_types ) ) {
-						$default_schema_article_type = WPSEO_Options::get_default( 'wpseo_titles', 'schema-article-type-' . $post_type );
-					}
-					$field_defs['schema_article_type']['default'] = $default_schema_article_type;
-				}
-				else {
+				if ( ! $article_helper->is_article_post_type( $post_type ) ) {
 					unset( $field_defs['schema_article_type'] );
 				}
-
 				break;
 		}
 
@@ -439,10 +462,22 @@ class WPSEO_Meta {
 		$clean     = self::$defaults[ $meta_key ];
 
 		switch ( true ) {
+			case ( $meta_key === self::$meta_prefix . 'inclusive_language_score' ):
+			case ( $meta_key === self::$meta_prefix . 'content_score' ):
+			case ( $meta_key === self::$meta_prefix . 'estimated-reading-time-minutes' ):
 			case ( $meta_key === self::$meta_prefix . 'linkdex' ):
 				$int = WPSEO_Utils::validate_int( $meta_value );
 				if ( $int !== false && $int >= 0 ) {
 					$clean = strval( $int ); // Convert to string to make sure default check works.
+				}
+				break;
+			// Ids are always integers that are greater then 0.
+			case ( $meta_key === self::$meta_prefix . 'opengraph-image-id' ):
+			case ( $meta_key === self::$meta_prefix . 'twitter-image-id' ):
+			case ( strpos( $meta_key, self::$meta_prefix . 'primary_' ) === 0 ):
+				$int = WPSEO_Utils::validate_int( $meta_value );
+				if ( $int !== false && $int > 0 ) {
+					$clean = strval( $int );
 				}
 				break;
 

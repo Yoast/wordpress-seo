@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* global wpseoScriptData */
 
 /* External dependencies */
@@ -15,6 +16,8 @@ import * as tmceHelper from "../lib/tinymce";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import isContentAnalysisActive from "./isContentAnalysisActive";
+
+import { STORES } from "../shared-admin/constants";
 
 const { tmceId } = tmceHelper;
 const $ = jQuery;
@@ -75,14 +78,13 @@ PostDataCollector.prototype.getData = function() {
 };
 
 /**
- * Returns the keyword from the DOM.
+ * Returns the keyword from the Store.
  *
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	var val = document.getElementById( "yoast_wpseo_focuskw" ) && document.getElementById( "yoast_wpseo_focuskw" ).value || "";
-
-	return val;
+	const keyword = select( STORES.editor ).getFocusKeyphrase();
+	return keyword;
 };
 
 /**
@@ -101,12 +103,12 @@ PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
 };
 
 /**
- * Returns the Meta from the DOM.
+ * Returns the Meta from the Store.
  *
  * @returns {string} The meta description.
  */
 PostDataCollector.prototype.getMeta = function() {
-	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
+	return select( STORES.editor ).getDescription();
 };
 
 /**
@@ -124,7 +126,7 @@ PostDataCollector.prototype.getText = function() {
  * @returns {string} The title.
  */
 PostDataCollector.prototype.getTitle = function() {
-	return document.getElementById( "title" ) && document.getElementById( "title" ).value || "";
+	return ( document.getElementById( "title" ) && document.getElementById( "title" ).value ) || "";
 };
 
 /**
@@ -171,7 +173,7 @@ PostDataCollector.prototype.getExcerpt = function() {
  * @returns {string} The snippet title.
  */
 PostDataCollector.prototype.getSnippetTitle = function() {
-	return document.getElementById( "yoast_wpseo_title" ) && document.getElementById( "yoast_wpseo_title" ).value || "";
+	return get( window, "wpseoScriptData.metabox.metadata.title", "" );
 };
 
 /**
@@ -180,7 +182,7 @@ PostDataCollector.prototype.getSnippetTitle = function() {
  * @returns {string} The snippet meta.
  */
 PostDataCollector.prototype.getSnippetMeta = function() {
-	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
+	return get( window, "wpseoScriptData.metabox.metadata.metadesc", "" );
 };
 
 /**
@@ -274,7 +276,9 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
 PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 	switch ( type ) {
 		case "snippet_meta":
-			document.getElementById( "yoast_wpseo_metadesc" ).value = value;
+			if ( document.getElementById( "yoast_wpseo_metadesc" ) ) {
+				document.getElementById( "yoast_wpseo_metadesc" ).value = value;
+			}
 			break;
 		case "snippet_cite":
 
@@ -298,7 +302,9 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 			}
 			break;
 		case "snippet_title":
-			document.getElementById( "yoast_wpseo_title" ).value = value;
+			if ( document.getElementById( "yoast_wpseo_title" ) ) {
+				document.getElementById( "yoast_wpseo_title" ).value = value;
+			}
 			break;
 		default:
 			break;
@@ -341,7 +347,7 @@ PostDataCollector.prototype.bindElementEvents = function( refreshAnalysis ) {
  * @returns {void}
  */
 PostDataCollector.prototype.changeElementEventBinder = function( refreshAnalysis ) {
-	var elems = [ "#yoast-wpseo-primary-category", '.categorychecklist input[name="post_category[]"]' ];
+	var elems = [ "#yoast-primary-category-picker", '.categorychecklist input[name="post_category[]"]' ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		$( elems[ i ] ).on( "change", refreshAnalysis );
 	}
@@ -380,7 +386,7 @@ PostDataCollector.prototype.saveScores = function( score, keyword ) {
 
 	publishBox.updateScore( "content", indicator.className );
 
-	document.getElementById( "yoast_wpseo_linkdex" ).value = score;
+	// Score is updated to the hidden field though the sync function.
 
 	if ( "" === keyword ) {
 		indicator.className = "na";
@@ -414,7 +420,7 @@ PostDataCollector.prototype.saveContentScore = function( score ) {
 		updateAdminBar( indicator );
 	}
 
-	$( "#yoast_wpseo_content_score" ).val( score );
+	// Score is updated to the hidden field though the sync function.
 };
 
 /**
@@ -433,7 +439,7 @@ PostDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
 		updateAdminBar( indicator );
 	}
 
-	$( "#yoast_wpseo_inclusive_language_score" ).val( score );
+	// Score is updated to the hidden field though the sync function.
 };
 
 

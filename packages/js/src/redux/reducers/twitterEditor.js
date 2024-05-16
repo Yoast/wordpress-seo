@@ -1,4 +1,4 @@
-import { CLEAR_TWITTER_IMAGE, LOAD_TWITTER_PREVIEW, SET_TWITTER_DESCRIPTION, SET_TWITTER_IMAGE, SET_TWITTER_TITLE } from "../actions/twitterEditor";
+import { CLEAR_TWITTER_IMAGE, SET_TWITTER_DESCRIPTION, SET_TWITTER_IMAGE, SET_TWITTER_TITLE } from "../actions/twitterEditor";
 
 /**
  * Initial state
@@ -26,13 +26,6 @@ const initialState = {
  */
 const twitterReducer = ( state = initialState, action ) => {
 	switch ( action.type ) {
-		case LOAD_TWITTER_PREVIEW:
-			return {
-				...state,
-				title: action.title,
-				description: action.description,
-				image: { id: action.id, url: action.imageUrl },
-			};
 		case SET_TWITTER_TITLE:
 			return { ...state, title: action.title };
 		case SET_TWITTER_DESCRIPTION :
@@ -61,7 +54,5 @@ const twitterReducer = ( state = initialState, action ) => {
 			return state;
 	}
 };
-
-/* eslint-enable complexity */
 
 export default twitterReducer;

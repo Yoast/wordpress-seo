@@ -40,6 +40,19 @@ export const getSnippetEditorMode = state => get( state, "snippetEditor.mode", "
 export const getSnippetEditorTitle = state => get( state, "snippetEditor.data.title", "" );
 
 /**
+ * Gets the snippet editor custom title for the current post.
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {string} The snippet editor title.
+ */
+export const getCustomSnippetEditorTitle = state => {
+	const title = getSnippetEditorTitle( state );
+	const templates = getSnippetEditorTemplates( state );
+	return title.trim() === templates.title.trim() ? "" : title;
+};
+
+/**
  * Gets the snippet editor title and the template. Falls back to the title template.
  *
  * @param {Object} state The state object.
@@ -56,6 +69,19 @@ export const getSnippetEditorTitleWithTemplate = state => get( state, "snippetEd
  * @returns {string} The snippet editor description.
  */
 export const getSnippetEditorDescription = state => get( state, "snippetEditor.data.description", "" );
+
+/**
+ * Gets the snippet editor custom description for the current post.
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {string} The snippet editor custom description.
+ */
+export const getCustomSnippetEditorDescription = state => {
+	const description = getSnippetEditorDescription( state );
+	const templates = getSnippetEditorTemplates( state );
+	return description.trim() === templates.description.trim() ? "" : description;
+};
 
 /**
  * Gets the snippet editor and the template. If description is empty, falls back to template.
@@ -98,15 +124,6 @@ export const getSnippetEditorData = state => get( state, "snippetEditor.data", {
  * @returns {string} The snippet editor words to highlight.
  */
 export const getSnippetEditorWordsToHighlight = state => get( state, "snippetEditor.wordsToHighlight", [] );
-
-/**
- * Gets the snippet editor is loading.
- *
- * @param {Object} state The state.
- *
- * @returns {String} Whether the snippet editor is loading.
- */
-export const getSnippetEditorIsLoading = state => get( state, "snippetEditor.isLoading", true );
 
 /**
  * Gets the snippet editor preview image URL.

@@ -78,14 +78,12 @@ export default compose( [
 			setFacebookPreviewTitle,
 			setFacebookPreviewDescription,
 			clearFacebookPreviewImage,
-			loadFacebookPreviewData,
 		} = dispatch( "yoast-seo/editor" );
 		return {
 			onSelectImageClick: selectMedia,
 			onRemoveImageClick: clearFacebookPreviewImage,
 			onDescriptionChange: setFacebookPreviewDescription,
 			onTitleChange: setFacebookPreviewTitle,
-			onLoad: loadFacebookPreviewData,
 		};
 	} ),
 

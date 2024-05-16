@@ -9,6 +9,7 @@ import initTermScraper from "./initializers/term-scraper";
 import initializeInsights from "./insights/initializer";
 import { termsTmceId } from "./lib/tinymce";
 import initializeAiGenerator from "./ai-generator/initialize";
+import { hiddenFieldsSync, hasHiddenFields } from "./helpers/fields";
 
 domReady( () => {
 	// Backwards compatibility globals.
@@ -22,6 +23,11 @@ domReady( () => {
 
 	// Initialize the editor store.
 	const store = initEditorStore();
+
+	// Initialize the hidden fields sync.
+	if ( hasHiddenFields() ) {
+		hiddenFieldsSync();
+	}
 
 	// Initialize the editor integration
 	window.yoast.initEditorIntegration( store );
