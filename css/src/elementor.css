@@ -200,53 +200,73 @@
 }
 
 /* Introduction message */
-#yoast-introduction {
+
+.elementor-right-click-introduction {
 	position: absolute !important;
-	top: 5px!important;
-	left: 41px!important;
 	z-index: 1;
 	background-color: #fff;
-	border-radius: 3px;
 	box-shadow: var(--yoast-shadow-default);
 	text-align: left;
 	padding: 20px;
 }
 
-#yoast-introduction::before {
+#yoast-introduction {
+	top: 5px!important;
+	left: 41px!important;
+	border-radius: 3px;
+}
+
+#yoast-introduction-editor-v2 {
+	border: solid 1px black;
+    border-radius: 8px;
+}
+
+.elementor-right-click-introduction::before {
 	content: "";
 	position: absolute;
+	border: solid transparent;
+}
+
+#yoast-introduction::before {
 	left: -12px;
 	top: 8px;
-	border: solid transparent;
-	border-width: 7px 5px;
 	border-bottom-color: #fff;
+	border-width: 7px 5px;
 	transform: rotate(-90deg);
 }
 
-#yoast-introduction > div {
+#yoast-introduction-editor-v2::before {
+	content: "";
+	position: absolute;
+	left: 48%;
+    top: -20px;
+	border-width: 10px 8px;
+	border-bottom-color: black;
+}
+
+.elementor-right-click-introduction > div {
 	color: var(--yoast-color-default);
 }
 
-#yoast-introduction > .dialog-header {
+.elementor-right-click-introduction > .dialog-header {
 	font-weight: var(--yoast-font-weight-bold);
 	line-height: 1.3;
 }
 
-#yoast-introduction > .dialog-message {
+.elementor-right-click-introduction > .dialog-message {
 	margin-top: 0.5em;
 }
 
-#yoast-introduction > .dialog-buttons-wrapper {
+.elementor-right-click-introduction > .dialog-buttons-wrapper {
 	display: flex;
 	justify-content: flex-end;
 	margin-top: 12px;
 }
 
-#yoast-introduction .dialog-button {
+#yoast-introduction .dialog-button, #yoast-introduction-editor-v2 .dialog-button {
 	background-color: var(--yoast-color-primary);
 	padding: 7px 17px;
 	font-size: 12px;
-	text-transform: capitalize;
 }
 
 /* All hover effects */

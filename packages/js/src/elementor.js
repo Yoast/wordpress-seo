@@ -5,6 +5,7 @@ import initializeAiGenerator from "./ai-generator/initialize";
 import initEditorStore from "./elementor/initializers/editor-store";
 import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlightFocusKeyphraseForms";
 import initializeIntroduction from "./elementor/initializers/introduction";
+import initializeIntroductionEditorV2 from "./elementor/initializers/introduction-editor-v2";
 import { applyModifications, pluginReady, pluginReloaded, registerModification, registerPlugin } from "./initializers/pluggable";
 import initializeUsedKeywords from "./elementor/initializers/used-keywords-assessment";
 import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
@@ -65,7 +66,7 @@ function initialize() {
 	initHighlightFocusKeyphraseForms( window.YoastSEO.analysis.worker.runResearch );
 
 	// Initialize the introduction.
-	initializeIntroduction();
+	elementorFrontend.config.experimentalFeatures.editor_v2 ? initializeIntroductionEditorV2() : initializeIntroduction();
 
 	// Initialize the editor integration.
 	initElementorEditorIntegration();
