@@ -1,6 +1,6 @@
 import { createAnchorOpeningTag, getLanguagesWithWordComplexity } from "../../../../src/helpers";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
-import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
+import getResearcher from "../../../../src/helpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
 import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
 import getWordComplexityConfig from "../../../specHelpers/getWordComplexityConfig";

@@ -17,6 +17,7 @@ import Paper from "./values/Paper";
 import AssessmentResult from "./values/AssessmentResult";
 import Assessment from "./scoring/assessments/assessment";
 import { DIFFICULTY } from "./languageProcessing/researches/getFleschReadingScore";
+import getResearcher from "./helpers/getResearcher";
 
 import Factory from "./helpers/factory";
 
@@ -51,6 +52,7 @@ export {
 	DIFFICULTY,
 
 	Factory,
+	getResearcher,
 };
 
 /*
