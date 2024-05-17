@@ -20,29 +20,39 @@ export default function initializeIntroductionEditorV2() {
 			headerMessage: __( "Yoast SEO for Elementor", "wordpress-seo" ),
 			message: __( "Get started with Yoast SEO's content analysis for Elementor!", "wordpress-seo" ),
 			position: {
-				my: 'center top',
-				at: 'center bottom+20',
-				of: document.querySelector("button[value='document-settings']"),
-				using: function(coords, feedback) {
-
+				my: "center top",
+				at: "center bottom+20",
+				of: document.querySelector( "button[value='document-settings']" ),
+				/**
+				 * Moves the position of our introduction modal depending on the screen size.
+				 *
+				 * @param {Object} coords The initial position of our introduction modal.
+				 * @param {Object} feedback The feedback about the position and dimensions of both elements, our introduction and the target element.
+				 *
+				 * @returns {void}
+				 */
+				using: function( coords, feedback ) {
 					// For horizontal alignment of our arrow:
-					// Align the arrow with the target element, in all screen sizes. This takes care of the cases where the introduction has been pushed to the left to fit the viewport. 
-					this.style.setProperty('--yoast-elementor-introduction-arrow', feedback.target.left - feedback.element.left + 8 + 'px'); // This should always calculate the middle of the target element. We add 8px to account for the target element width itself. 
+					// Align the arrow with the target element, in all screen sizes.
+					// This takes care of the cases where the introduction has been pushed to the left to fit the viewport.
+					// This should always calculate the middle of the target element. We add 8px to account for the target element width itself.
+					this.style.setProperty( "--yoast-elementor-introduction-arrow", feedback.target.left - feedback.element.left + 8 + "px" );
 
 					// For vertical alignment of our introduction modal:
-					// If the height of the Elementor header is greater than the position of our modal (minus the height of its arrow), we need to push the modal down.
-					const elementorHeader = feedback.target.element.closest("#elementor-editor-wrapper-v2 header");
+					// If the height of the Elementor header is greater than the position of our modal (minus the height of its arrow),
+					// we need to push the modal down.
+					const elementorHeader = feedback.target.element.closest( "#elementor-editor-wrapper-v2 header" );
 
 					if ( elementorHeader && elementorHeader.offsetHeight > ( coords.top - 12 ) ) {
-						this.style.top = elementorHeader.offsetHeight + 20 + 'px';
-					} else if ( isObject(elementorHeader) && elementorHeader[0].offsetHeight > ( coords.top - 12 ) ) {
-						this.style.top = elementorHeader[0].offsetHeight + 12 + 'px';
+						this.style.top = elementorHeader.offsetHeight + 20 + "px";
+					} else if ( isObject( elementorHeader ) && elementorHeader[ 0 ].offsetHeight > ( coords.top - 12 ) ) {
+						this.style.top = elementorHeader[ 0 ].offsetHeight + 12 + "px";
 					} else {
-						this.style.top = coords.top + 'px';
+						this.style.top = coords.top + "px";
 					}
 
 					// Now, we have to just return also the originally calculated height.
-					this.style.left = coords.left + 'px';
+					this.style.left = coords.left + "px";
 				},
 				autoRefresh: true,
 			},

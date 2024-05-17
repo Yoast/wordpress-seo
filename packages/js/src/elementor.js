@@ -65,7 +65,11 @@ function initialize() {
 	initHighlightFocusKeyphraseForms( window.YoastSEO.analysis.worker.runResearch );
 
 	// Initialize the introduction.
-	elementorFrontend.config.experimentalFeatures.editor_v2 ? initializeIntroductionEditorV2() : initializeIntroduction();
+	if ( window.elementorFrontend.config.experimentalFeatures.editor_v2 ) {
+		initializeIntroductionEditorV2();
+	} else {
+		initializeIntroduction();
+	}
 
 	// Initialize the editor integration.
 	initElementorEditorIntegration();
