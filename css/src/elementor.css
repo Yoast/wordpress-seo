@@ -238,7 +238,7 @@
 #yoast-introduction-editor-v2::before {
 	content: "";
 	position: absolute;
-	left: 48%;
+	left: var(--yoast-elementor-introduction-arrow, 28%);
     top: -20px;
 	border-width: 10px 8px;
 	border-bottom-color: black;
