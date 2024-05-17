@@ -29,7 +29,7 @@ export { default as ChildrenLimiter } from "./components/children-limiter";
 export { default as FeatureUpsell } from "./components/feature-upsell";
 export { default as FileImport } from "./components/file-import";
 export { default as Modal } from "./components/modal";
-export { default as Notifications } from "./components/notifications";
+export { default as Notifications, useNotificationsContext } from "./components/notifications";
 export { default as Pagination } from "./components/pagination";
 export { default as RadioGroup } from "./components/radio-group";
 export { default as Root } from "./components/root";
@@ -38,6 +38,7 @@ export { default as SidebarNavigation, useNavigationContext } from "./components
 export { default as TagField } from "./components/tag-field";
 export { default as TextField } from "./components/text-field";
 export { default as TextareaField } from "./components/textarea-field";
+export { default as Toaster } from "./components/toaster";
 export { default as ToggleField } from "./components/toggle-field";
 
 export * from "./hooks";
