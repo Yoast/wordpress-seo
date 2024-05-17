@@ -149,19 +149,31 @@ class Feed_Improvements implements Integration_Interface {
 		switch ( $class ) {
 			// Post type archive feeds.
 			case 'WP_Post_Type':
-				$url = $this->meta->for_post_type_archive( $queried_object->name )->canonical;
+				$meta = $this->meta->for_post_type_archive( $queried_object->name );
+				if ( $meta ) {
+					$url = $meta->canonical;
+				}
 				break;
 			// Post comment feeds.
 			case 'WP_Post':
-				$url = $this->meta->for_post( $queried_object->ID )->canonical;
+				$meta = $this->meta->for_post( $queried_object->ID );
+				if ( $meta ) {
+					$url = $meta->canonical;
+				}
 				break;
 			// Term feeds.
 			case 'WP_Term':
-				$url = $this->meta->for_term( $queried_object->term_id )->canonical;
+				$meta = $this->meta->for_term( $queried_object->term_id );
+				if ( $meta ) {
+					$url = $meta->canonical;
+				}
 				break;
 			// Author feeds.
 			case 'WP_User':
-				$url = $this->meta->for_author( $queried_object->ID )->canonical;
+				$meta = $this->meta->for_author( $queried_object->ID );
+				if ( $meta ) {
+					$url = $meta->canonical;
+				}
 				break;
 			// This would be NULL on the home page and on date archive feeds.
 			case null:
