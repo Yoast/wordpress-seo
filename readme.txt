@@ -322,19 +322,17 @@ Release date: 2024-05-28
 #### Enhancements
 
 * Converts the Yoast _Breadcrumbs_ block to use the Blocks V3 API.
-* Introduces a `date` and a `separator` snippet variable to the meta description text field, to make clear that both the date and a separator are automatically added to the character count of the meta description. Hovering over the variables reveals a tooltip with more explanation.
 
 #### Bugfixes
 
 * Fixes a bug where a \"Failed to retrieve media\" error could prevent selecting a different image or removing the current selection.
 * Fixes a bug where our modals would not open when visiting our sidebar in Elementor for the second time.
 * Fixes a bug where some Yoast SEO settings could not be imported correctly.
-* Fixes a bug where the character count of the meta description field would not include the automatically added date and separator when no additional content was provided.
 
 #### Other
 
-*  Deprecates the `WPSEO_Customizer` class.
-* Removes the fixed date and a separator snippet variable from the meta description text field.
+* Deprecates the `WPSEO_Customizer` class.
+* Removes the fixed date and separator snippet variables from the meta description text field.
 * Removes the Yoast SEO Breadcrumbs panel from the Customizer to improve compatibility with block-based themes. Users can always change the options for the breadcrumbs under Yoast SEO > Settings > Advanced > Breadcrumbs.
 
 = 22.7 =
