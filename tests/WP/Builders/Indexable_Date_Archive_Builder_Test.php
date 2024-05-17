@@ -4,8 +4,6 @@ namespace Yoast\WP\SEO\Tests\WP\Builders;
 
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Date_Archive_Builder;
-use Yoast\WP\SEO\Builders\Indexable_Post_Type_Archive_Builder;
-use Yoast\WP\SEO\Exceptions\Indexable\Post_Type_Not_Built_Exception;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
@@ -55,8 +53,7 @@ final class Indexable_Date_Archive_Builder_Test extends TestCase {
 		$this->assertEquals( \YoastSEO()->helpers->options->get( 'title-archive-wpseo' ), $result->title, 'The title is not correct.' );
 		$this->assertEquals( \YoastSEO()->helpers->options->get( 'metadesc-archive-wpseo' ), $result->description, 'The description is not correct.' );
 		$this->assertEquals( null, $result->permalink, 'permalink is not correct.' );
-		$this->assertEquals( \YoastSEO()->helpers->options->get( 'noindex-archive-wpseo' ), $result->is_robots_noindex, "noindex-ptarchive-wpseo is not correct." );
+		$this->assertEquals( \YoastSEO()->helpers->options->get( 'noindex-archive-wpseo' ), $result->is_robots_noindex, 'noindex-ptarchive-wpseo is not correct.' );
 		$this->assertEquals( \get_current_blog_id(), $result->blog_id, 'The blog id is not correct.' );
 	}
-
 }
