@@ -201,7 +201,7 @@
 
 /* Introduction message */
 
-.elementor-right-click-introduction {
+.yoast-elementor-introduction {
 	position: absolute !important;
 	z-index: 1;
 	background-color: #fff;
@@ -221,7 +221,7 @@
 	border-radius: 8px;
 }
 
-.elementor-right-click-introduction::before {
+.yoast-elementor-introduction::before {
 	content: "";
 	position: absolute;
 	border: solid transparent;
@@ -242,20 +242,20 @@
 	border-bottom-color: black;
 }
 
-.elementor-right-click-introduction > div {
+.yoast-elementor-introduction > div {
 	color: var(--yoast-color-default);
 }
 
-.elementor-right-click-introduction > .dialog-header {
+.yoast-elementor-introduction > .dialog-header {
 	font-weight: var(--yoast-font-weight-bold);
 	line-height: 1.3;
 }
 
-.elementor-right-click-introduction > .dialog-message {
+.yoast-elementor-introduction > .dialog-message {
 	margin-top: 0.5em;
 }
 
-.elementor-right-click-introduction > .dialog-buttons-wrapper {
+.yoast-elementor-introduction > .dialog-buttons-wrapper {
 	display: flex;
 	justify-content: flex-end;
 	margin-top: 12px;

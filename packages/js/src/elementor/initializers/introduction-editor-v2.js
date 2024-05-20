@@ -16,7 +16,7 @@ export default function initializeIntroductionEditorV2() {
 		introductionKey: "yoast-introduction-editor-v2",
 		dialogOptions: {
 			id: "yoast-introduction-editor-v2",
-			className: "elementor-right-click-introduction",
+			className: "elementor-right-click-introduction yoast-elementor-introduction",
 			headerMessage: __( "Yoast SEO for Elementor", "wordpress-seo" ),
 			message: __( "Get started with Yoast SEO's content analysis for Elementor!", "wordpress-seo" ),
 			position: {
