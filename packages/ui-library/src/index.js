@@ -18,6 +18,7 @@ export { default as TagInput } from "./elements/tag-input";
 export { default as TextInput } from "./elements/text-input";
 export { default as Textarea } from "./elements/textarea";
 export { default as Title } from "./elements/title";
+export { default as Toaster } from "./elements/toaster";
 export { default as Toggle } from "./elements/toggle";
 export { default as Tooltip } from "./elements/tooltip";
 export { ValidationIcon, ValidationInput, ValidationMessage } from "./elements/validation";
@@ -38,7 +39,6 @@ export { default as SidebarNavigation, useNavigationContext } from "./components
 export { default as TagField } from "./components/tag-field";
 export { default as TextField } from "./components/text-field";
 export { default as TextareaField } from "./components/textarea-field";
-export { default as Toaster } from "./components/toaster";
 export { default as ToggleField } from "./components/toggle-field";
 
 export * from "./hooks";

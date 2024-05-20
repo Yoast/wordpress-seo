@@ -2,30 +2,12 @@
 import { Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import { isArray, keys, noop } from "lodash";
+import { isArray, noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { useCallback, useEffect } from "react";
 
-export const toasterClassNameMap = {
-	variant: {
-		info: "yst-notification--info",
-		warning: "yst-notification--warning",
-		success: "yst-notification--success",
-		error: "yst-notification--error",
-	},
-	position: {
-		"bottom-center": "yst-translate-y-full",
-		"bottom-left": "yst-translate-y-full",
-		"top-center": "yst--translate-y-full",
-	},
-	size: {
-		"default": "",
-		large: "yst-toaster--large",
-	},
-};
-
 /**
- * @param {string} title The message title.
+ * @param {string} title The toaster title.
  * @returns {JSX.Element} The title.
  */
 const Title = ( {
@@ -41,7 +23,7 @@ Title.propTypes = {
 };
 
 /**
- * @param {string} description The message description.
+ * @param {string} description The toaster description.
  * @returns {JSX.Element} The description.
  */
 const Description = ( {
@@ -81,25 +63,24 @@ Content.propTypes = {
 /**
  * @param {Object} props The props object.
  * @param {JSX.node} children The children.
+ * @param {string} id The toaster ID.
+ * @param {string} [className] Additional classes.
  * @param {Function} [onDismiss] Function to trigger on dismissal.
  * @param {number|null} [autoDismiss] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
  * @param {string} dismissScreenReaderLabel Screen reader label for dismiss button.
  * @param {boolean} isVisible Whether the notification is visible.
  * @param {Function} setIsVisible Function to set the visibility of the notification.
- * @param {string} position The position to render the toaster.
  * @returns {JSX.Element} The Toaster component.
  */
 const Toaster = ( {
 	children,
 	id,
-	variant = "info",
-	size = "default",
+	className = "",
 	onDismiss = noop,
 	autoDismiss = null,
 	dismissScreenReaderLabel,
 	isVisible,
 	setIsVisible,
-	position,
 } ) => {
 	const handleDismiss = useCallback( () => {
 		// Disable visibility on dismiss to trigger transition.
@@ -126,15 +107,14 @@ const Toaster = ( {
 		<Transition
 			show={ isVisible }
 			enter={ "yst-transition yst-ease-in-out yst-duration-150" }
-			enterFrom={ classNames( "yst-opacity-0", toasterClassNameMap.position[ position ] ) }
+			enterFrom={ "yst-opacity-0 yst-translate-y-full" }
 			enterTo="yst-translate-y-0"
 			leave={ "yst-transition yst-ease-in-out yst-duration-150" }
 			leaveFrom="yst-translate-y-0"
-			leaveTo={ classNames( "yst-opacity-0", toasterClassNameMap.position[ position ] ) }
+			leaveTo={ "yst-opacity-0 yst-translate-y-full" }
 			className={ classNames(
 				"yst-toaster",
-				toasterClassNameMap.size[ size ],
-				toasterClassNameMap.variant[ variant ],
+				className,
 			) }
 			role="alert"
 		>
@@ -160,14 +140,12 @@ const Toaster = ( {
 Toaster.propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
-	variant: PropTypes.oneOf( keys( toasterClassNameMap.variant ) ),
-	size: PropTypes.oneOf( keys( toasterClassNameMap.size ) ),
+	className: PropTypes.string,
 	onDismiss: PropTypes.func,
 	autoDismiss: PropTypes.number,
 	dismissScreenReaderLabel: PropTypes.string.isRequired,
 	isVisible: PropTypes.bool.isRequired,
 	setIsVisible: PropTypes.func.isRequired,
-	position: PropTypes.oneOf( keys( toasterClassNameMap.position ) ),
 };
 
 Toaster.Title = Title;
