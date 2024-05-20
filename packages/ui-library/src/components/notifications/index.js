@@ -4,7 +4,7 @@ import { keys, noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useState } from "react";
 import { ValidationIcon } from "../../elements/validation";
-import Toaster, { toasterClassNameMap } from "../toaster";
+import Toaster from "../../elements/toaster";
 const NotificationsContext = createContext( { position: "bottom-left" } );
 
 /**
@@ -12,10 +12,24 @@ const NotificationsContext = createContext( { position: "bottom-left" } );
  */
 export const useNotificationsContext = () => useContext( NotificationsContext );
 
+const notificationClassNameMap  = {
+	variant: {
+		info: "yst-notification--info",
+		warning: "yst-notification--warning",
+		success: "yst-notification--success",
+		error: "yst-notification--error",
+	},
+	size: {
+		"default": "",
+		large: "yst-notification--large",
+	},
+};
+
 /**
  * @param {Object} props The props object.
  * @param {JSX.node} children The children.
  * @param {string} [variant] The message variant. Either success or error.
+ * @param {string} [size] The message size. Either default or large.
  * @param {string} [title] The message title.
  * @param {string|string[]} [description] The message description.
  * @param {Function} [onDismiss] Function to trigger on dismissal.
@@ -34,20 +48,21 @@ const Notification = ( {
 	autoDismiss = null,
 	dismissScreenReaderLabel,
 } ) => {
-	const { position } = useNotificationsContext();
 	const [ isVisible, setIsVisible ] = useState( false );
 
 	return (
 		<Toaster
 			id={ id }
-			variant={ variant }
+			className={ classNames(
+				notificationClassNameMap.variant[ variant ],
+				notificationClassNameMap.size[ size ],
+			) }
 			size={ size }
 			onDismiss={ onDismiss }
 			autoDismiss={ autoDismiss }
 			dismissScreenReaderLabel={ dismissScreenReaderLabel }
 			isVisible={ isVisible }
 			setIsVisible={ setIsVisible }
-			position={ position }
 		>
 			<div className="yst-flex-shrink-0">
 				<ValidationIcon variant={ variant } className="yst-notification__icon" />
@@ -60,13 +75,13 @@ const Notification = ( {
 			</Toaster.Content>
 		</Toaster>
 	);
-}
+};
 
 Notification.propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
-	variant: PropTypes.oneOf( keys( toasterClassNameMap.variant ) ),
-	size: PropTypes.oneOf( keys( toasterClassNameMap.size ) ),
+	variant: PropTypes.oneOf( keys( notificationClassNameMap.variant ) ),
+	size: PropTypes.oneOf( keys( notificationClassNameMap.size ) ),
 	title: PropTypes.string,
 	description: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
 	onDismiss: PropTypes.func,
