@@ -114,8 +114,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 		$indexable->object_type = 'post';
 		$indexable->permalink   = 'https://site.com/page';
 
-		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
-		Functions\expect( 'apply_filters' )->once()->with( 'wpseo_should_save_indexable', true, $indexable )->andReturn( true );
+		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
 		$this->post_helper->expects( 'get_post' )->once()->with( 2 )->andReturn( 'post' );
 		Functions\expect( 'setup_postdata' )->once()->with( 'post' );
 		Functions\expect( 'apply_filters' )->once()->with( 'the_content', $content )->andReturn( $content );
@@ -260,8 +259,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 		$target_indexable->language    = 'nl';
 		$target_indexable->region      = 'NL';
 
-		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
-		Filters\expectApplied( 'wpseo_should_save_indexable' )->with( true, $indexable )->andReturnFirstArg();
+		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
 		$this->post_helper->expects( 'get_post' )->once()->with( 2 )->andReturn( 'post' );
 		Functions\expect( 'setup_postdata' )->once()->with( 'post' );
 		Filters\expectApplied( 'the_content' )->with( $content )->andReturnFirstArg();
@@ -376,8 +374,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 		$indexable->object_type = 'page';
 		$indexable->permalink   = 'https://site.com/page';
 
-		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
-		Filters\expectApplied( 'wpseo_should_save_indexable' )->with( true, $indexable )->andReturnFirstArg();
+		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
 
 		$this->seo_links_repository
 			->expects( 'find_all_by_indexable_id' )
@@ -408,7 +405,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 		$indexable->object_type = 'page';
 		$indexable->permalink   = 'https://site.com/page';
 
-		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
+		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
 		Functions\expect( 'apply_filters' )->andReturn( true );
 
 		$this->seo_links_repository

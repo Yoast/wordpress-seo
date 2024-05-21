@@ -179,6 +179,28 @@ class Indexable_Helper {
 	}
 
 	/**
+	 * Determines whether indexing the specific indexable is appropriate at this time.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return bool Whether indexing the specific indexable is appropriate at this time.
+	 */
+	public function should_index_indexable( $indexable ) {
+		$intend_to_save = $this->should_index_indexables();
+
+		/**
+		 * Filter: 'wpseo_should_save_indexable' - Allow developers to enable / disable
+		 * saving the indexable when the indexable is updated. Warning: overriding
+		 * the intended action may cause problems when moving from a staging to a
+		 * production environment because indexable permalinks may get set incorrectly.
+		 *
+		 * @param bool      $intend_to_save True if YoastSEO intends to save the indexable.
+		 * @param Indexable $indexable      The indexable to be saved.
+		 */
+		return \apply_filters( 'wpseo_should_save_indexable', $intend_to_save, $indexable );
+	}
+
+	/**
 	 * Determines whether indexing indexables is appropriate at this time.
 	 *
 	 * @return bool Whether the indexables should be indexed.
@@ -274,20 +296,7 @@ class Indexable_Helper {
 	 * @return bool True if default value.
 	 */
 	public function save_indexable( $indexable, $indexable_before = null ) {
-		$intend_to_save = $this->should_index_indexables();
-
-		/**
-		 * Filter: 'wpseo_should_save_indexable' - Allow developers to enable / disable
-		 * saving the indexable when the indexable is updated. Warning: overriding
-		 * the intended action may cause problems when moving from a staging to a
-		 * production environment because indexable permalinks may get set incorrectly.
-		 *
-		 * @param bool      $intend_to_save True if YoastSEO intends to save the indexable.
-		 * @param Indexable $indexable      The indexable to be saved.
-		 */
-		$intend_to_save = \apply_filters( 'wpseo_should_save_indexable', $intend_to_save, $indexable );
-
-		if ( ! $intend_to_save ) {
+		if ( ! $this->should_index_indexable( $indexable ) ) {
 			return $indexable;
 		}
 
