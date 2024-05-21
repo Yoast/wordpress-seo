@@ -48,6 +48,7 @@ const Notification = ( {
 	autoDismiss = null,
 	dismissScreenReaderLabel,
 } ) => {
+	const { position } = useNotificationsContext();
 	const [ isVisible, setIsVisible ] = useState( false );
 
 	return (
@@ -57,6 +58,7 @@ const Notification = ( {
 				notificationClassNameMap.variant[ variant ],
 				notificationClassNameMap.size[ size ],
 			) }
+			position={ position }
 			size={ size }
 			onDismiss={ onDismiss }
 			autoDismiss={ autoDismiss }
@@ -73,6 +75,9 @@ const Notification = ( {
 					description && ( <Toaster.Description description={ description } /> )
 				) }
 			</Toaster.Content>
+			{ onDismiss && (
+				<Toaster.Close dismissScreenReaderLabel={ dismissScreenReaderLabel } />
+			) }
 		</Toaster>
 	);
 };
