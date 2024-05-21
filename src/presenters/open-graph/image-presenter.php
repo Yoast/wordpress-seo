@@ -20,7 +20,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Image tags that we output for each image.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected static $image_tags = [
 		'width'  => 'width',
@@ -68,7 +68,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Gets the raw value of a presentation.
 	 *
-	 * @return array The raw value.
+	 * @return array<string,int> The raw value.
 	 */
 	public function get() {
 		$images = [];
@@ -88,9 +88,9 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the image content through the `wpseo_opengraph_image` filter.
 	 *
-	 * @param array $image The image.
+	 * @param array<string,int> $image The image.
 	 *
-	 * @return array The filtered image.
+	 * @return array<string,int> The filtered image.
 	 */
 	protected function filter( $image ) {
 		/**
@@ -104,7 +104,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 			$image['url'] = $image_url;
 		}
 
-		$image_type = $image['type'] ?? null;
+		$image_type = ( $image['type'] ?? null );
 		/**
 		 * Filter: 'wpseo_opengraph_image_type' - Allow changing the Open Graph image type.
 		 *
@@ -116,7 +116,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 			$image['type'] = $image_type;
 		}
 
-		$image_width = $image['width'] ?? null;
+		$image_width = ( $image['width'] ?? null );
 		/**
 		 * Filter: 'wpseo_opengraph_image_width' - Allow changing the Open Graph image width.
 		 *
@@ -128,7 +128,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 			$image['width'] = $image_width;
 		}
 
-		$image_height = $image['height'] ?? null;
+		$image_height = ( $image['height'] ?? null );
 		/**
 		 * Filter: 'wpseo_opengraph_image_height' - Allow changing the Open Graph image height.
 		 *
