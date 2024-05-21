@@ -66,20 +66,22 @@ const Notification = ( {
 			isVisible={ isVisible }
 			setIsVisible={ setIsVisible }
 		>
-			<div className="yst-flex-shrink-0">
-				<ValidationIcon variant={ variant } className="yst-notification__icon" />
-			</div>
-			<Toaster.Content>
-				{ title && <Toaster.Title title={ title } /> }
-				{ children || (
-					description && ( <Toaster.Description description={ description } /> )
+			<div className="yst-flex yst-items-start yst-gap-3">
+				<div className="yst-flex-shrink-0">
+					<ValidationIcon variant={ variant } className="yst-notification__icon" />
+				</div>
+				<Toaster.Content>
+					{ title && <Toaster.Title title={ title } /> }
+					{ children || (
+						description && ( <Toaster.Description description={ description } /> )
+					)}
+				</Toaster.Content>
+				{onDismiss && (
+					<Toaster.Close dismissScreenReaderLabel={ dismissScreenReaderLabel } />
 				) }
-			</Toaster.Content>
-			{ onDismiss && (
-				<Toaster.Close dismissScreenReaderLabel={ dismissScreenReaderLabel } />
-			) }
+			</div>
 		</Toaster>
-	);
+);
 };
 
 Notification.propTypes = {
