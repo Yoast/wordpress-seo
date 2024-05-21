@@ -119,18 +119,7 @@ class Indexable_Link_Builder {
 	 * @return SEO_Links[] The created SEO links.
 	 */
 	public function build( $indexable, $content ) {
-		$intend_to_save = $this->indexable_helper->should_index_indexables();
-
-		/**
-		 * Filter: 'wpseo_should_save_indexable' - Allow developers to enable / disable
-		 * saving the indexable when the indexable is updated. Warning: overriding
-		 * the intended action may cause problems when moving from a staging to a
-		 * production environment because indexable permalinks may get set incorrectly.
-		 *
-		 * @param bool      $intend_to_save True if YoastSEO intends to save the indexable.
-		 * @param Indexable $indexable      The indexable to be saved.
-		 */
-		if ( ! \apply_filters( 'wpseo_should_save_indexable', $intend_to_save, $indexable ) ) {
+		if ( ! $this->indexable_helper->should_index_indexable( $indexable ) ) {
 			return [];
 		}
 
