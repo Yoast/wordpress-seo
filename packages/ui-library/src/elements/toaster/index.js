@@ -155,9 +155,7 @@ const Toaster = ( {
 				) }
 				role="alert"
 			>
-				<div className="yst-flex yst-items-start yst-gap-3">
-					{ children }
-				</div>
+				{ children }
 			</Transition>
 		</ToasterContext.Provider>
 	);
