@@ -99,9 +99,9 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		 * @param string                 $image_url    The URL of the Open Graph image.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		$image_url = \trim( \apply_filters( 'wpseo_opengraph_image', $image['url'], $this->presentation ) );
+		$image_url = \apply_filters( 'wpseo_opengraph_image', $image['url'], $this->presentation );
 		if ( ! empty( $image_url ) && \is_string( $image_url ) ) {
-			$image['url'] = $image_url;
+			$image['url'] = \trim( $image_url );
 		}
 
 		$image_type = ( $image['type'] ?? null );
@@ -111,9 +111,9 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		 * @param string                 $image_type   The type of the Open Graph image.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		$image_type = \trim( \apply_filters( 'wpseo_opengraph_image_type', $image_type, $this->presentation ) );
+		$image_type = \apply_filters( 'wpseo_opengraph_image_type', $image_type, $this->presentation );
 		if ( ! empty( $image_type ) && \is_string( $image_type ) ) {
-			$image['type'] = $image_type;
+			$image['type'] = \trim( $image_type );
 		}
 
 		$image_width = ( $image['width'] ?? null );
