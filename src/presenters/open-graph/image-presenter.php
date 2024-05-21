@@ -104,7 +104,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 			$image['url'] = \trim( $image_url );
 		}
 
-		$image_type = ( $image['type'] ?? null );
+		$image_type = ( $image['type'] ?? '' );
 		/**
 		 * Filter: 'wpseo_opengraph_image_type' - Allow changing the Open Graph image type.
 		 *
@@ -116,7 +116,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 			$image['type'] = \trim( $image_type );
 		}
 
-		$image_width = ( $image['width'] ?? null );
+		$image_width = ( $image['width'] ?? '' );
 		/**
 		 * Filter: 'wpseo_opengraph_image_width' - Allow changing the Open Graph image width.
 		 *
@@ -128,7 +128,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 			$image['width'] = $image_width;
 		}
 
-		$image_height = ( $image['height'] ?? null );
+		$image_height = ( $image['height'] ?? '' );
 		/**
 		 * Filter: 'wpseo_opengraph_image_height' - Allow changing the Open Graph image height.
 		 *
