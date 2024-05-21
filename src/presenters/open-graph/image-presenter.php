@@ -120,11 +120,11 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_opengraph_image_width' - Allow changing the Open Graph image width.
 		 *
-		 * @param string                 $image_width  The width of the Open Graph image.
+		 * @param int                    $image_width  The width of the Open Graph image.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		$image_width = (int) \apply_filters( 'wpseo_opengraph_image_width', $image_width, $this->presentation );
-		if ( ! empty( $image_width ) && \is_numeric( $image_width ) && $image_width > 0 ) {
+		if ( ! empty( $image_width ) && $image_width > 0 ) {
 			$image['width'] = $image_width;
 		}
 
@@ -132,11 +132,11 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_opengraph_image_height' - Allow changing the Open Graph image height.
 		 *
-		 * @param string                 $image_height The height of the Open Graph image.
+		 * @param int                    $image_height The height of the Open Graph image.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		$image_height = (int) \apply_filters( 'wpseo_opengraph_image_height', $image_height, $this->presentation );
-		if ( ! empty( $image_height ) && \is_numeric( $image_height ) && $image_height > 0 ) {
+		if ( ! empty( $image_height ) && $image_height > 0 ) {
 			$image['height'] = $image_height;
 		}
 
