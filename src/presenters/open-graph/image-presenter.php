@@ -23,9 +23,9 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 * @var array
 	 */
 	protected static $image_tags = [
-		'width'     => 'width',
-		'height'    => 'height',
-		'type'      => 'type',
+		'width'  => 'width',
+		'height' => 'height',
+		'type'   => 'type',
 	];
 
 	/**
@@ -100,46 +100,44 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		$image_url = \trim( \apply_filters( 'wpseo_opengraph_image', $image['url'], $this->presentation ) );
-		if ( ! empty( $image_url ) ) {
+		if ( ! empty( $image_url ) && \is_string( $image_url ) ) {
 			$image['url'] = $image_url;
 		}
 
-		if ( isset( $image['type'] ) ) {
-			/**
-			 * Filter: 'wpseo_opengraph_image_type' - Allow changing the Open Graph image type.
-			 *
-			 * @param string                 $image_url    The type of the Open Graph image.
-			 * @param Indexable_Presentation $presentation The presentation of an indexable.
-			 */
-			$image_type = \trim( \apply_filters( 'wpseo_opengraph_image_type', $image['type'], $this->presentation ) );
-			if ( ! empty( $image_type ) ) {
-				$image['type'] = $image_type;
-			}
+		$image_type = $image['type'] ?? null;
+		/**
+		 * Filter: 'wpseo_opengraph_image_type' - Allow changing the Open Graph image type.
+		 *
+		 * @param string                 $image_type   The type of the Open Graph image.
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 */
+		$image_type = \trim( \apply_filters( 'wpseo_opengraph_image_type', $image_type, $this->presentation ) );
+		if ( ! empty( $image_type ) && \is_string( $image_type ) ) {
+			$image['type'] = $image_type;
 		}
 
-		if ( isset( $image['width'] ) ) {
-			/**
-			 * Filter: 'wpseo_opengraph_image_width' - Allow changing the Open Graph image width.
-			 *
-			 * @param string                 $image_url    The width of the Open Graph image.
-			 * @param Indexable_Presentation $presentation The presentation of an indexable.
-			 */
-			$image_width = (int) \apply_filters( 'wpseo_opengraph_image_width', $image['width'], $this->presentation );
-			if ( ! empty( $image_width ) && $image_width > 0 ) {
-				$image['width'] = $image_width;
-			}
+		$image_width = $image['width'] ?? null;
+		/**
+		 * Filter: 'wpseo_opengraph_image_width' - Allow changing the Open Graph image width.
+		 *
+		 * @param string                 $image_width  The width of the Open Graph image.
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 */
+		$image_width = (int) \apply_filters( 'wpseo_opengraph_image_width', $image_width, $this->presentation );
+		if ( ! empty( $image_width ) && \is_numeric( $image_width ) && $image_width > 0 ) {
+			$image['width'] = $image_width;
 		}
-		if ( isset( $image['height'] ) ) {
-			/**
-			 * Filter: 'wpseo_opengraph_image_height' - Allow changing the Open Graph image height.
-			 *
-			 * @param string                 $image_url    The height of the Open Graph image.
-			 * @param Indexable_Presentation $presentation The presentation of an indexable.
-			 */
-			$image_height = (int) \apply_filters( 'wpseo_opengraph_image_height', $image['height'], $this->presentation );
-			if ( ! empty( $image_height ) && $image_height > 0 ) {
-				$image['height'] = $image_height;
-			}
+
+		$image_height = $image['height'] ?? null;
+		/**
+		 * Filter: 'wpseo_opengraph_image_height' - Allow changing the Open Graph image height.
+		 *
+		 * @param string                 $image_height The height of the Open Graph image.
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 */
+		$image_height = (int) \apply_filters( 'wpseo_opengraph_image_height', $image_height, $this->presentation );
+		if ( ! empty( $image_height ) && \is_numeric( $image_height ) && $image_height > 0 ) {
+			$image['height'] = $image_height;
 		}
 
 		return $image;
