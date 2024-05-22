@@ -64,6 +64,13 @@ class Breadcrumbs_Block extends Dynamic_Block_V3 {
 	private $request_helper;
 
 	/**
+	 * The wrapper element.
+	 *
+	 * @var string
+	 */
+	private $wrapper_element;
+
+	/**
 	 * Siblings_Block constructor.
 	 *
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer     The context.
@@ -133,6 +140,24 @@ class Breadcrumbs_Block extends Dynamic_Block_V3 {
 			$class_name .= ' ' . \esc_attr( $attributes['className'] );
 		}
 
-		return '<div class="' . $class_name . '">' . $presenter->present() . '</div>';
+		return '<' . $this->get_wrapper_element() . ' class="' . $class_name . '">' . $presenter->present() . '</' . $this->get_wrapper_element() . '>';
+	}
+
+	/**
+	 * Retrieves the crumb element name.
+	 *
+	 * @return string The element to use.
+	 */
+	protected function get_wrapper_element() {
+		if ( ! $this->wrapper_element ) {
+			$this->wrapper_element = \esc_attr( \apply_filters( 'wpseo_breadcrumb_wrapper_element', 'div' ) );
+			$this->wrapper_element = \tag_escape( $this->wrapper_element );
+
+			if ( ! \is_string( $this->wrapper_element ) || $this->wrapper_element === '' ) {
+				$this->wrapper_element = 'div';
+			}
+		}
+
+		return $this->wrapper_element;
 	}
 }
