@@ -14,12 +14,13 @@ import { initShortcodePlugin } from "../analysis/plugins/shortcode-plugin";
 import refreshAnalysis, { initializationDone } from "../analysis/refreshAnalysis";
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
 import { collectData } from "../initializers/analysis";
-import initEditorStore from "../initializers/editor-store";
 import { pluginReady, pluginReloaded, registerModification, registerPlugin as registerPluggablePlugin } from "../initializers/pluggable";
 import initializeUsedKeywords from "../initializers/used-keywords-assessment";
+import { STORES } from "../shared-admin/constants";
+import { initializeStore } from "./store";
+import { initializeSync } from "./sync";
 
 const PLUGIN_NAME = "yoast-seo-for-woocommerce-products";
-const STORE_NAME = "yoast-seo/editor";
 
 const customAnalysisData = new CustomAnalysisData();
 
@@ -28,7 +29,11 @@ domReady( () => {
 	window.YoastSEO = window.YoastSEO || {};
 
 	// Initialize the editor store.
-	window.YoastSEO.store = initEditorStore();
+	window.YoastSEO.store = initializeStore();
+
+	// Keep our store in sync with the post metadata.
+	const productId = select( STORES.editor ).getPostId();
+	initializeSync( productId );
 
 	// Initialize the analysis.
 	window.YoastSEO.app = window.YoastSEO.app || {};
@@ -77,7 +82,7 @@ domReady( () => {
 
 	// Start the analysis worker.
 	window.YoastSEO.analysis.worker.initialize( getAnalysisConfiguration( {
-		useCornerstone: select( STORE_NAME ).isCornerstoneContent(),
+		useCornerstone: select( STORES.editor ).isCornerstoneContent(),
 	} ) )
 		.then( () => {
 			jQuery( window ).trigger( "YoastSEO:ready" );

@@ -55,7 +55,9 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set title( value ) {
-		FacebookFields.titleElement.value = value;
+		if ( FacebookFields.titleElement ) {
+			FacebookFields.titleElement.value = value;
+		}
 	}
 
 	/**
@@ -66,7 +68,9 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set description( value ) {
-		FacebookFields.descriptionElement.value = value;
+		if ( FacebookFields.descriptionElement ) {
+			FacebookFields.descriptionElement.value = value;
+		}
 	}
 
 	/**
@@ -86,7 +90,9 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set imageId( value ) {
-		FacebookFields.imageIdElement.value = value;
+		if ( FacebookFields.imageIdElement ) {
+			FacebookFields.imageIdElement.value = value;
+		}
 	}
 
 	/**
@@ -106,7 +112,9 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set imageUrl( value ) {
-		FacebookFields.imageUrlElement.value = value;
+		if ( FacebookFields.imageUrlElement ) {
+			FacebookFields.imageUrlElement.value = value;
+		}
 	}
 
 	/**

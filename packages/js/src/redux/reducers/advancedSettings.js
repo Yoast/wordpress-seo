@@ -13,8 +13,8 @@ import {
  * Initial state
  */
 const initialState = {
-	noIndex: "",
-	noFollow: "",
+	noIndex: "0",
+	noFollow: "0",
 	advanced: [],
 	breadcrumbsTitle: "",
 	canonical: "",

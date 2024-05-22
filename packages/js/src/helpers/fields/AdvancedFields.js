@@ -73,7 +73,9 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set noIndex( value ) {
-		AdvancedFields.noIndexElement.value = value;
+		if ( AdvancedFields.noIndexElement ) {
+			AdvancedFields.noIndexElement.value = value;
+		}
 	}
 
 	/**
@@ -93,7 +95,9 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set noFollow( value ) {
-		AdvancedFields.noFollowElement.value = value;
+		if ( AdvancedFields.noFollowElement ) {
+			AdvancedFields.noFollowElement.value = value;
+		}
 	}
 
 	/**
@@ -113,7 +117,9 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set advanced( value ) {
-		AdvancedFields.advancedElement.value = value;
+		if ( AdvancedFields.advancedElement ) {
+			AdvancedFields.advancedElement.value = value;
+		}
 	}
 
 	/**
@@ -133,7 +139,9 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set breadcrumbsTitle( value ) {
-		AdvancedFields.breadcrumbsTitleElement.value = value;
+		if ( AdvancedFields.breadcrumbsTitleElement ) {
+			AdvancedFields.breadcrumbsTitleElement.value = value;
+		}
 	}
 
 	/**
@@ -153,7 +161,9 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set canonical( value ) {
-		AdvancedFields.canonicalElement.value = value;
+		if ( AdvancedFields.canonicalElement ) {
+			AdvancedFields.canonicalElement.value = value;
+		}
 	}
 
 	/**
@@ -173,6 +183,8 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set wordproofTimestamp( value ) {
-		AdvancedFields.wordproofTimestampElement.value = value ? "1" : "0";
+		if ( AdvancedFields.wordproofTimestampElement ) {
+			AdvancedFields.wordproofTimestampElement.value = value ? "1" : "0";
+		}
 	}
 }
