@@ -155,19 +155,18 @@ jobs:
             multisite: false
             coverage: false
 
-          - php_version: "8.1"
-            wp_version: "latest"
+          - php_version: '8.1'
+            wp_version: '6.5'
             multisite: true
             coverage: false
 
-          - php_version: "8.2"
-            wp_version: "6.5"
+          - php_version: '8.2'
+            wp_version: '6.4'
             multisite: true
             coverage: false
 
-          # WP 6.4 is the earliest version which supports PHP 8.3.
           - php_version: '8.3'
-            wp_version: 'trunk'
+            wp_version: 'latest'
             multisite: true
             coverage: true
 
