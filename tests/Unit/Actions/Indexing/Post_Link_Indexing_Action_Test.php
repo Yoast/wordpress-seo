@@ -287,6 +287,7 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 
 			$this->indexable_helper
 				->expects( 'save_indexable' )
+				->with( $indexable )
 				->once();
 
 			$this->link_builder->expects( 'build' )->with( $indexable, $post->post_content );
@@ -364,6 +365,7 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $indexable )
 			->times( 3 );
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( $indexable );

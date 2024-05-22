@@ -260,6 +260,7 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $indexable_mock )
 			->once();
 
 		$this->instance
@@ -360,6 +361,7 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $indexable_mock )
 			->once();
 
 		$this->instance
@@ -420,6 +422,7 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $author_indexable )
 			->once();
 
 		$this->post->expects( 'update_has_public_posts_on_attachments' )->once()->with( 33, null )->andReturnTrue();
@@ -516,6 +519,7 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $author_indexable )
 			->once();
 
 		$this->post->expects( 'update_has_public_posts_on_attachments' )
@@ -559,6 +563,7 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $indexable )
 			->once();
 
 		$this->instance->update_relations( $post );

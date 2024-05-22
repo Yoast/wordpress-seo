@@ -254,6 +254,7 @@ final class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$this->indexable_helper
 			->expects( 'save_indexable' )
 			->once()
+			->with( $hierarchy )
 			->andReturnTrue();
 
 		$this->assertTrue( $this->instance->add_ancestor( 1, 2, 1 ) );

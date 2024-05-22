@@ -129,6 +129,7 @@ final class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $indexable_mock )
 			->once();
 
 		$this->assertTrue( $this->instance->check_option( false, [ 'title-ptarchive-my-post-type' => 'baz' ] ) );
@@ -177,6 +178,7 @@ final class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $indexable_mock )
 			->once();
 
 		$this->assertTrue( $this->instance->check_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'baz' ] ) );
@@ -213,6 +215,7 @@ final class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $indexable_mock )
 			->once();
 
 		$this->assertTrue( $this->instance->check_option( [], [ 'title-ptarchive-my-post-type' => 'baz' ] ) );
@@ -266,7 +269,13 @@ final class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
-			->times( 2 );
+			->with( $indexable_mock )
+			->once();
+
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->with( $other_indexable_mock )
+			->once();
 
 		$this->assertTrue( $this->instance->check_option( [ 'title-ptarchive-my-post-type' => 'baz' ], [ 'title-ptarchive-other-post-type' => 'baz' ] ) );
 	}
@@ -329,6 +338,7 @@ final class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $indexable_mock )
 			->once();
 
 		$this->instance->build_indexable( 'my-post-type' );
