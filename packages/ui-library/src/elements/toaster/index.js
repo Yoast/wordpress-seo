@@ -18,18 +18,21 @@ const toasterClassNameMap = {
 
 /**
  * @param {JSX.node} children The children.
+ * @param {string} [className] The additional class names.
  * @returns {JSX.Element} The content.
  */
 const Content = ( {
 	children,
+	className = "",
 } ) => {
-	return <div className="yst-w-0 yst-flex-1">
+	return <div className={ classNames("yst-w-0 yst-flex-1", className ) }>
 		{ children }
 	</div>;
 };
 
 Content.propTypes = {
 	children: PropTypes.node.isRequired,
+	className: PropTypes.string,
 };
 
 /**
@@ -60,40 +63,46 @@ Close.propTypes = {
 
 /**
  * @param {string} description The toaster description.
+ * @param {string} [className] The additional class names.
  * @returns {JSX.Element} The description.
  */
 const Description = ( {
 	description,
+	className = "",
 } ) => {
 	return isArray( description ) ? (
-		<ul className="yst-list-disc yst-ml-4">
+		<ul className={ classNames( "yst-list-disc yst-ml-4", className ) }>
 			{ description.map( ( text, index ) => (
 				<li className="yst-pt-1" key={ `${ text }-${ index }` }>{ text }</li>
 			) ) }
 		</ul>
 	) : (
-		<p>{ description }</p>
+		<p className={ className }>{ description }</p>
 	);
 };
 
 Description.propTypes = {
 	description: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
+	className: PropTypes.string,
 };
 
 /**
  * @param {string} title The toaster title.
+ * @param {string} [className] The additional class names.
  * @returns {JSX.Element} The title.
  */
 const Title = ( {
 	title,
+	className = "",
 } ) => {
-	return <p className="yst-text-sm yst-font-medium yst-text-slate-800">
+	return <p className={ classNames( "yst-text-sm yst-font-medium yst-text-slate-800", className ) }>
 		{ title }
 	</p>;
 };
 
 Title.propTypes = {
 	title: PropTypes.string.isRequired,
+	className: PropTypes.string,
 };
 
 /**
