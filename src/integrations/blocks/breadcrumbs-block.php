@@ -161,7 +161,7 @@ class Breadcrumbs_Block extends Dynamic_Block_V3 {
 			}
 		}
 
-		return '<' . $this->get_wrapper_element() . ' class="' . sanitize_html_class( $class_name, $default_class_name ) . '"' . $added_attributes_output . '>' . $presenter->present() . '</' . $this->get_wrapper_element() . '>';
+		return '<' . $this->get_wrapper_element() . ' class="' . esc_attr( $class_name ) . '"' . $added_attributes_output . '>' . $presenter->present() . '</' . $this->get_wrapper_element() . '>';
 	}
 
 	/**
