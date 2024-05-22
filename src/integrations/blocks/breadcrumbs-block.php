@@ -135,19 +135,40 @@ class Breadcrumbs_Block extends Dynamic_Block_V3 {
 		$presenter->replace_vars = $this->replace_vars;
 		$presenter->helpers      = $this->helpers;
 		$default_class_name      = 'yoast-breadcrumbs';
+		/**
+		 * Filter: 'wpseo_breadcrumb_wrapper_classname' - Allow changing the HTML output of the Yoast SEO breadcrumbs wrapper classname.
+		 *
+		 * @param string  $class_name   The classname of the wrapper (default "yoast-breadcrumbs").
+		 * @author Geoffrey Crofte
+		 */
 		$class_name              = \apply_filters( 'wpseo_breadcrumb_wrapper_classname', $default_class_name );
+		/**
+		 * Filter: 'wpseo_breadcrumb_wrapper_attributes' - Allow adding attributes to the HTML output of the Yoast SEO breadcrumbs wrapper.
+		 *
+		 * @param array   $added_attributes   The added attributes using an array of this type: `array('aria-label' => __('Breadcrumbs') )`
+		 * @author Geoffrey Crofte (geoffreycrofte.com)
+		 */
+		$added_attributes        = \apply_filters( 'wpseo_breadcrumb_wrapper_attributes', array() );
+		$added_attributes_output = '';
 
 		if ( ! empty( $attributes['className'] ) ) {
 			$class_name .= ' ' . \esc_attr( $attributes['className'] );
 		}
 
-		return '<' . $this->get_wrapper_element() . ' class="' . sanitize_html_class( $class_name, $default_class_name ) . '">' . $presenter->present() . '</' . $this->get_wrapper_element() . '>';
+		if ( ! empty( $added_attributes ) && is_array( $added_attributes ) ) {
+			foreach ($added_attributes as $attr_name => $attr_value) {
+				$added_attributes_output .= ' ' . esc_attr( $attr_name ) . '="' . esc_attr( $attr_value ) . '"'; 
+			}
+		}
+
+		return '<' . $this->get_wrapper_element() . ' class="' . sanitize_html_class( $class_name, $default_class_name ) . '"' . $added_attributes_output . '>' . $presenter->present() . '</' . $this->get_wrapper_element() . '>';
 	}
 
 	/**
-	 * Retrieves the crumb element name.
+	 * Retrieves the breadcrumb global wrapper element name.
 	 *
 	 * @return string The element to use.
+	 * @author Geoffrey Crofte (geoffreycrofte.com)
 	 */
 	protected function get_wrapper_element() {
 		if ( ! $this->wrapper_element ) {
