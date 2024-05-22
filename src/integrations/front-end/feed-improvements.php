@@ -99,11 +99,13 @@ class Feed_Improvements implements Integration_Interface {
 	 * @return void
 	 */
 	public function send_canonical_header( $for_comments ) {
+
 		if ( $for_comments || \headers_sent() ) {
 			return;
 		}
+
 		$url = $this->get_url_for_queried_object( $this->meta->for_home_page()->canonical );
-		if ( ! empty( $url ) && $url !== $this->meta->for_home_page()->canonical ) {
+		if ( ! empty( $url ) ) {
 			\header( \sprintf( 'Link: <%s>; rel="canonical"', $url ), false );
 		}
 	}
