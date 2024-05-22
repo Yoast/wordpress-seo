@@ -143,42 +143,35 @@ class Feed_Improvements implements Integration_Interface {
 		$queried_object = \get_queried_object();
 		// Don't call get_class with null. This gives a warning.
 		$class = ( $queried_object !== null ) ? \get_class( $queried_object ) : null;
+		$meta  = false;
 
 		switch ( $class ) {
 			// Post type archive feeds.
 			case 'WP_Post_Type':
 				$meta = $this->meta->for_post_type_archive( $queried_object->name );
-				if ( $meta ) {
-					$url = $meta->canonical;
-				}
 				break;
 			// Post comment feeds.
 			case 'WP_Post':
 				$meta = $this->meta->for_post( $queried_object->ID );
-				if ( $meta ) {
-					$url = $meta->canonical;
-				}
 				break;
 			// Term feeds.
 			case 'WP_Term':
 				$meta = $this->meta->for_term( $queried_object->term_id );
-				if ( $meta ) {
-					$url = $meta->canonical;
-				}
 				break;
 			// Author feeds.
 			case 'WP_User':
 				$meta = $this->meta->for_author( $queried_object->ID );
-				if ( $meta ) {
-					$url = $meta->canonical;
-				}
 				break;
 			// This would be NULL on the home page and on date archive feeds.
 			case null:
-				$url = $this->meta->for_home_page()->canonical;
+				$meta = $this->meta->for_home_page();
 				break;
 			default:
 				break;
+		}
+
+		if ( $meta ) {
+			return $meta->canonical;
 		}
 
 		return $url;
