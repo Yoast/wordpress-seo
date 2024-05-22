@@ -134,13 +134,14 @@ class Breadcrumbs_Block extends Dynamic_Block_V3 {
 		$presenter->presentation = $presentation;
 		$presenter->replace_vars = $this->replace_vars;
 		$presenter->helpers      = $this->helpers;
-		$class_name              = 'yoast-breadcrumbs';
+		$default_class_name      = 'yoast-breadcrumbs';
+		$class_name              = \apply_filters( 'wpseo_breadcrumb_wrapper_classname', $default_class_name );
 
 		if ( ! empty( $attributes['className'] ) ) {
 			$class_name .= ' ' . \esc_attr( $attributes['className'] );
 		}
 
-		return '<' . $this->get_wrapper_element() . ' class="' . $class_name . '">' . $presenter->present() . '</' . $this->get_wrapper_element() . '>';
+		return '<' . $this->get_wrapper_element() . ' class="' . sanitize_html_class( $class_name, $default_class_name ) . '">' . $presenter->present() . '</' . $this->get_wrapper_element() . '>';
 	}
 
 	/**
