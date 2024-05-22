@@ -217,6 +217,7 @@ final class Indexable_Term_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $indexable )
 			->once();
 
 		$this->instance->build_indexable( 1 );
@@ -381,6 +382,7 @@ final class Indexable_Term_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $indexable )
 			->once();
 
 		$this->instance->build_indexable( 1 );

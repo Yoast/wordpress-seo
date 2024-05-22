@@ -225,6 +225,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $child_indexable )
 			->once();
 
 		$this->assertTrue( $this->instance->reset_children( $indexable, $indexable_before ) );
@@ -312,6 +313,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $child_indexable )
 			->once();
 
 		$this->assertTrue( $this->instance->reset_children( $indexable, $indexable_before ) );
@@ -455,6 +457,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 			$this->indexable_helper
 				->expects( 'save_indexable' )
+				->with( $indexable )
 				->once();
 		}
 	}

@@ -172,6 +172,7 @@ final class Indexable_Author_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $indexable_mock )
 			->once();
 
 		$this->instance->build_indexable( $id );
@@ -208,6 +209,7 @@ final class Indexable_Author_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'save_indexable' )
+			->with( $indexable_mock )
 			->once();
 
 		$this->instance->build_indexable( $id );
