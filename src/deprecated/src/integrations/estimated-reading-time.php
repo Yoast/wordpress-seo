@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
-use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
-
 /**
  * Estimated reading time class.
  *
@@ -22,7 +20,7 @@ class Estimated_Reading_Time implements Integration_Interface {
 	 */
 	public static function get_conditionals() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 22.8' );
-		return [ Estimated_Reading_Time_Conditional::class ];
+		return [];
 	}
 
 	/**

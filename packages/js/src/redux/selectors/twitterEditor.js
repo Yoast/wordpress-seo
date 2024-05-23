@@ -2,7 +2,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { get } from "lodash";
 import { getDescription, getSeoTitle } from "./analysis";
 import { getEditorDataExcerptWithFallback } from "./editorData";
-import { getFacebookDescription, getFacebookTitle, getSocialDescriptionWithoutTemplate, getSocialTitleWithoutTemplate } from "./facebookEditor";
+import { getFacebookDescription, getFacebookTitle, getCustomSocialDescription, getCustomSocialTitle } from "./facebookEditor";
 import {
 	getReplacedExcerpt,
 	getSeoDescriptionTemplate,
@@ -22,15 +22,15 @@ import {
 export const getTwitterTitle = state => get( state, "twitterEditor.title", "" );
 
 /**
- * Gets the X title from the state.
+ * Gets the X title that is custom for the current post.
  *
  * @param {object} state The state.
  *
  * @returns {string} X title.
  */
-export const getTwitterTitleWithoutTemplate = state => {
+export const getCustomTwitterTitle = state => {
 	const title = getTwitterTitle( state );
-	return getSocialTitleWithoutTemplate( title );
+	return getCustomSocialTitle( title );
 };
 
 /**
@@ -44,15 +44,15 @@ export const getTwitterDescription = state => get( state, "twitterEditor.descrip
 
 
 /**
- * Gets the X description from the state.
+ * Gets the X description that is custom for the current post.
  *
  * @param {object} state The state.
  *
  * @returns {string} X description.
  */
-export const getTwitterDescriptionWithoutTemplate = state => {
+export const getCustomTwitterDescription = state => {
 	const description = getTwitterDescription( state );
-	return getSocialDescriptionWithoutTemplate( description );
+	return getCustomSocialDescription( description );
 };
 
 /**
@@ -78,7 +78,7 @@ export const getTwitterImageType = state => get( state, "settings.socialPreviews
  *
  * @param {Object} state The state.
  *
- * @returns {String} Twitter image src.
+ * @returns {number|string} Twitter image src.
  */
 export const getTwitterImageSrc = state => get( state, "twitterEditor.image.src", "" );
 
@@ -87,7 +87,7 @@ export const getTwitterImageSrc = state => get( state, "twitterEditor.image.src"
  *
  * @param {Object} state The state.
  *
- * @returns {integer} Twitter image id.
+ * @returns {number} Twitter image id.
  */
 export const getTwitterImageId = state => get( state, "twitterEditor.image.id", "" );
 

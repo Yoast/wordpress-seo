@@ -28,7 +28,7 @@ export const setFacebookPreviewDescription = ( description ) => {
 /**
  * An action creator for setting the socialPreview image.
  *
- * @param {String} image The image object.
+ * @param {Object} image The image object.
  *
  * @returns {object} The action object.
  */

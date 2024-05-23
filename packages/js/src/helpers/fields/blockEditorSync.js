@@ -32,9 +32,7 @@ const createUpdater = () => {
 		forEach( data, ( value, key ) => {
 			const fieldKey = key.replace( POST_META_KEY_PREFIX, "" );
 			const transformedValue = transformMetaValue( fieldKey, value );
-			const transformMetadataValue = transformMetaValue( fieldKey, metadata[ key ] );
-
-			if ( transformedValue !== transformMetadataValue ) {
+			if ( transformedValue !== metadata[ key ] ) {
 				changedData[ key ] = transformedValue;
 			}
 		} );
@@ -68,5 +66,5 @@ export const blockEditorSync = () => {
 			...primaryTaxonomiesGetters,
 		} ),
 		createUpdater()
-	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORES.editor );
+	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max, leading: true } ), STORES.editor );
 };

@@ -1,4 +1,4 @@
-import { dispatch } from "@wordpress/data";
+import { dispatch, select } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
 import initializeWordProofForElementorEditor from "../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/elementorEditor";
 import initializeAiGenerator from "./ai-generator/initialize";
@@ -14,6 +14,7 @@ import initElementorEditorIntegration from "./initializers/elementor-editor-inte
 import initializeInsights from "./insights/initializer";
 import initElementorWatcher from "./watchers/elementorWatcher";
 import { hiddenFieldsSync } from "./helpers/fields";
+import { registerSearchAppearanceDescriptionMention } from "./shared-admin/helpers/search-appearance-description-mention";
 
 /* eslint-disable complexity */
 /**
@@ -83,6 +84,9 @@ function initialize() {
 		// Initialize the AI Generator upsell.
 		initializeAiGenerator();
 	}
+
+	// Initialize the mentions.
+	registerSearchAppearanceDescriptionMention( select( "yoast-seo/editor" ).getDateFromSettings );
 
 	// Offer an action after our load.
 	doAction( "yoast.elementor.loaded" );

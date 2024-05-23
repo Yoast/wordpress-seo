@@ -23,7 +23,7 @@ import focusKeyword from "./focusKeyword";
 import isPremium from "./isPremium";
 import marksButtonStatus from "./markerButtons";
 import isMarkerPaused from "./markerPauseStatus";
-import post from "./post";
+import postId from "./postId";
 import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
 import schemaTab from "./schemaTab";
@@ -57,7 +57,7 @@ export default {
 	isPremium,
 	[ LINK_PARAMS_NAME ]: linkParamsReducer,
 	[ PLUGIN_URL_NAME ]: pluginUrlReducer,
-	post,
+	postId,
 	marksButtonStatus,
 	preferences,
 	primaryTaxonomies,

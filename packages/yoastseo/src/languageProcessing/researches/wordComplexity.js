@@ -1,4 +1,4 @@
-import { flatMap, get } from "lodash-es";
+import { flatMap, get } from "lodash";
 
 import getSentences from "../helpers/sentence/getSentences";
 import getWords from "../helpers/word/getWords";

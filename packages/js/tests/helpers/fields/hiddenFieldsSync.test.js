@@ -26,7 +26,7 @@ jest.mock( "../../../src/helpers/create-watcher", () => ( {
 describe( "hiddenFieldsSync", () => {
 	it( "should subscribe to changes, debounce, create watcher and createCollectorFromObject", () => {
 		select.mockImplementation( () => ( {
-			getIsPost: jest.fn( () => "1" ),
+			getIsTerm: jest.fn( () => false ),
 			getPrimaryTaxonomyId: jest.fn(),
 			getPrimaryTaxonomies: jest.fn(),
 		} ) );

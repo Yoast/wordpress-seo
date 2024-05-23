@@ -118,7 +118,7 @@ export function getMarkButtonStatus( state ) {
  * @returns {number} The seo score.
  */
 export function getScoreForFocusKeyword( state ) {
-	return get( getSeoResults( state ), "overallScore", 0 );
+	return get( getResultsForFocusKeyword( state ), "overallScore", 0 );
 }
 
 /**

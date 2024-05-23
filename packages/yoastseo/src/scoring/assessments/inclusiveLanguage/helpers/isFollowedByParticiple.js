@@ -1,4 +1,4 @@
-import { includes, isNull } from "lodash-es";
+import { includes, isNull } from "lodash";
 
 import irregularParticiples from  "../../../../languageProcessing/languages/en/config/internal/passiveVoiceIrregulars";
 

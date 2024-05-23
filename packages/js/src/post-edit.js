@@ -12,6 +12,7 @@ import initTabs from "./initializers/metabox-tabs";
 import initPostScraper from "./initializers/post-scraper";
 import initPrimaryCategory from "./initializers/primary-category";
 import initializeInsights from "./insights/initializer";
+import { registerSearchAppearanceDescriptionMention } from "./shared-admin/helpers/search-appearance-description-mention";
 import { hiddenFieldsSync, hasHiddenFields } from "./helpers/fields";
 
 // Backwards compatibility globals.
@@ -69,4 +70,7 @@ domReady( () => {
 		// Initialize the AI Generator upsell.
 		initializeAiGenerator();
 	}
+
+	// Initialize the mentions.
+	registerSearchAppearanceDescriptionMention();
 } );

@@ -12,27 +12,29 @@ import {
 } from "./fallbacks";
 
 /**
- * Prepare twitter title to be saved in hidden field.
- * @param {string} value The value to be saved.
- * @returns {string} The value to be saved.
+ * Get the custom social title for the current post.
+ *
+ * @param {string} title The title to be saved.
+ * @returns {string} The title to be saved.
  */
-export const getSocialTitleWithoutTemplate = ( value ) => {
-	if ( value.trim() === getSocialTitleTemplate().trim() ) {
+export const getCustomSocialTitle = ( title ) => {
+	if ( title.trim() === getSocialTitleTemplate().trim() ) {
 		return "";
 	}
-	return value;
+	return title;
 };
 
 /**
- * Prepare twitter and facebook description to be saved in hidden field.
- * @param {string} value The value to be saved.
- * @returns {string} The value to be saved.
+ * Get the custom social description for the current post.
+ *
+ * @param {string} description The description to be saved.
+ * @returns {string} The descriptione to be saved.
  */
-export const getSocialDescriptionWithoutTemplate = ( value ) => {
-	if ( value.trim() === getSocialDescriptionTemplate().trim() ) {
+export const getCustomSocialDescription = ( description ) => {
+	if ( description.trim() === getSocialDescriptionTemplate().trim() ) {
 		return "";
 	}
-	return value;
+	return description;
 };
 
 /**
@@ -45,15 +47,15 @@ export const getSocialDescriptionWithoutTemplate = ( value ) => {
 export const getFacebookTitle = state => get( state, "facebookEditor.title", "" );
 
 /**
- * Gets the facebook title from the state.
+ * Gets the facebook title that is custom for the current post.
  *
  * @param {Object} state The state.
  *
  * @returns {String} Facebook title.
  */
-export const getFacebookTitleWithoutTemplate = state => {
+export const getCustomFacebookTitle = state => {
 	const title = getFacebookTitle( state );
-	return getSocialTitleWithoutTemplate( title );
+	return getCustomSocialTitle( title );
 };
 
 /**
@@ -66,15 +68,15 @@ export const getFacebookTitleWithoutTemplate = state => {
 export const getFacebookDescription = state => get( state, "facebookEditor.description", "" );
 
 /**
- * Gets the facebook description from the state.
+ * Gets the facebook description that is custom to the current post.
  *
  * @param {Object} state The state.
  *
  * @returns {String} Facebook description.
  */
-export const getFacebookDescriptionWithoutTemplate = state => {
+export const getCustomFacebookDescription = state => {
 	const description = getFacebookDescription( state );
-	return getSocialDescriptionWithoutTemplate( description );
+	return getCustomSocialDescription( description );
 };
 
 
@@ -101,7 +103,7 @@ export const getFacebookImageSrc = state => get( state, "facebookEditor.image.sr
  *
  * @param {Object} state The state.
  *
- * @returns {integer} Facebook image id.
+ * @returns {number|string} Facebook image id.
  */
 export const getFacebookImageId = state => get( state, "facebookEditor.image.id", "" );
 
