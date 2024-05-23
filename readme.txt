@@ -325,6 +325,8 @@ Release date: 2024-05-28
 
 #### Bugfixes
 
+* Fixes a bug preventing multiple _FAQ_ blocks from being added to a post/page.
+* Fixes a bug where a class was missing in the output of the _FAQ_ and _How-To_ blocks.
 * Fixes a bug where a \"Failed to retrieve media\" error could prevent selecting a different image or removing the current selection.
 * Fixes a bug where our modals would not open when visiting our sidebar in Elementor for the second time.
 * Fixes a bug where some Yoast SEO settings could not be imported correctly.
