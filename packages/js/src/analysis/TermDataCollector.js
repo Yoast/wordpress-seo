@@ -176,20 +176,6 @@ TermDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 };
 
 /**
- * Saves the data passed from the snippet editor.
- *
- * @param {Object} data          Object with data value.
- * @param {string} data.title    The title.
- * @param {string} data.urlPath  The url.
- * @param {string} data.metaDesc The meta description.
- *
- * @returns {void}
- */
-TermDataCollector.prototype.saveSnippetData = function( data ) {
-	this.setDataFromSnippet( data.urlPath, "snippet_cite" );
-};
-
-/**
  * Binds TermDataCollector events to elements.
  *
  * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
