@@ -1,6 +1,6 @@
 import { findAllInTree, innerText } from "../traverse";
 import SourceCodeLocation from "./SourceCodeLocation";
-import { isEmpty } from "lodash-es";
+import { isEmpty } from "lodash";
 
 /**
  * A node in the tree.

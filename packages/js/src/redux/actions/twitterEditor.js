@@ -28,7 +28,7 @@ export const setTwitterPreviewDescription = ( description ) => {
 /**
  * An action creator for setting the socialPreview image.
  *
- * @param {String} image The image object.
+ * @param {Object} image The image object.
  *
  * @returns {Object} The action object.
  */

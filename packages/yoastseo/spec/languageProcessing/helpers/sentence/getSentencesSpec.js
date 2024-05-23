@@ -15,7 +15,7 @@ import {
 	listParagraphsAndSentencesProcessed,
 } from "../sanitize/mergeListItemsSpec";
 
-import { forEach } from "lodash-es";
+import { forEach } from "lodash";
 
 /**
  * Helper to test sentence detection.

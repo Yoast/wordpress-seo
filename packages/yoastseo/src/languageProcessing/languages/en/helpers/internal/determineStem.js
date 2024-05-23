@@ -1,4 +1,4 @@
-import { isUndefined, flatten } from "lodash-es";
+import { isUndefined, flatten } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { buildFormRule, createRulesFromArrays } = languageProcessing;
 

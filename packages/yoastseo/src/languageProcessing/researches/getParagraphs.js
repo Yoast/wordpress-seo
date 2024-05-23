@@ -1,4 +1,4 @@
-import { reject } from "lodash-es";
+import { reject } from "lodash";
 
 /**
  * Returns all paragraphs in a given Paper.

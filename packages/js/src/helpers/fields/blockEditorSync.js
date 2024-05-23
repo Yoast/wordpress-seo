@@ -66,5 +66,5 @@ export const blockEditorSync = () => {
 			...primaryTaxonomiesGetters,
 		} ),
 		createUpdater()
-	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max } ), STORES.editor );
+	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max, leading: true } ), STORES.editor );
 };

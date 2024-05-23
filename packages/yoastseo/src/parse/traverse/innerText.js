@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash-es";
+import { isEmpty } from "lodash";
 
 /**
  * Gathers the text content of the given node.

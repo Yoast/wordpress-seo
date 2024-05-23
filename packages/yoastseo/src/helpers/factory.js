@@ -3,7 +3,7 @@
  *
  * @returns {void}
  */
-import { isUndefined } from "lodash-es";
+import { isUndefined } from "lodash";
 
 /**
  * Factory prototype.

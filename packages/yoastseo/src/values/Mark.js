@@ -1,4 +1,4 @@
-import { defaults, isUndefined } from "lodash-es";
+import { defaults, isUndefined } from "lodash";
 
 /**
  * Represents a place where highlighting should be applied.

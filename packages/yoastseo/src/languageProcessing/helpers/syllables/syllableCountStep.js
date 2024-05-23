@@ -1,4 +1,4 @@
-import { isUndefined } from "lodash-es";
+import { isUndefined } from "lodash";
 
 import arrayToRegex from "../regex/createRegexFromArray.js";
 
