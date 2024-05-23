@@ -407,8 +407,6 @@ export default function initTermScraper( $, store, editorData ) {
 			disableYoastSEORenderers( app );
 		};
 
-		// Initialize the snippet editor data.
-
 		initializeCornerstoneContentAnalysis( app );
 
 		const snippetEditorData = getSnippetEditorData( store.getState() );
