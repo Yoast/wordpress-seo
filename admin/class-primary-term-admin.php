@@ -79,7 +79,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	/**
 	 * Sanitize the primary term.
 	 *
-	 * @param mixed  $clean      The clean value to sanitize.
+	 * @param string $clean      The clean value to sanitize.
 	 * @param mixed  $meta_value The meta value.
 	 * @param array  $field_def  The field definition.
 	 * @param string $meta_key   The meta key.
