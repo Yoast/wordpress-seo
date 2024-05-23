@@ -245,7 +245,7 @@ export default function initTermScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeCornerstoneContentAnalysis( yoastSeoApp ) {
-		const isCornerstone = isCornerstoneContent( store );
+		const isCornerstone = isCornerstoneContent( store.getState() );
 
 		yoastSeoApp.changeAssessorOptions( {
 			useCornerstone: isCornerstone,
