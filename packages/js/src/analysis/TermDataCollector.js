@@ -161,14 +161,8 @@ TermDataCollector.prototype.getBaseUrl = function() {
  */
 TermDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 	switch ( type ) {
-		case "snippet_meta":
-			document.getElementById( "hidden_wpseo_desc" ).value = value;
-			break;
 		case "snippet_cite":
 			document.getElementById( "slug" ).value = value;
-			break;
-		case "snippet_title":
-			document.getElementById( "hidden_wpseo_title" ).value = value;
 			break;
 		default:
 			break;
