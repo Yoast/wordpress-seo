@@ -17,8 +17,6 @@ import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import isContentAnalysisActive from "./isContentAnalysisActive";
 
-import { STORES } from "../shared-admin/constants";
-
 const { tmceId } = tmceHelper;
 const $ = jQuery;
 /**
@@ -83,7 +81,7 @@ PostDataCollector.prototype.getData = function() {
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	const keyword = select( STORES.editor ).getFocusKeyphrase();
+	const keyword = this._store.getState().focusKeyword;
 	return keyword;
 };
 
@@ -108,7 +106,7 @@ PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
  * @returns {string} The meta description.
  */
 PostDataCollector.prototype.getMeta = function() {
-	return select( STORES.editor ).getDescription();
+	return this._store.getState().snippetEditor.data.description;
 };
 
 /**
@@ -121,12 +119,12 @@ PostDataCollector.prototype.getText = function() {
 };
 
 /**
- * Returns the Title from the DOM.
+ * Returns the Title from the Store.
  *
  * @returns {string} The title.
  */
 PostDataCollector.prototype.getTitle = function() {
-	return ( document.getElementById( "title" ) && document.getElementById( "title" ).value ) || "";
+	return this._store.getState().snippetEditor.data.title;
 };
 
 /**
@@ -173,7 +171,7 @@ PostDataCollector.prototype.getExcerpt = function() {
  * @returns {string} The snippet title.
  */
 PostDataCollector.prototype.getSnippetTitle = function() {
-	return get( window, "wpseoScriptData.metabox.metadata.title", "" );
+	return this._store.getState().snippetEditor.data.title;
 };
 
 /**
@@ -182,7 +180,7 @@ PostDataCollector.prototype.getSnippetTitle = function() {
  * @returns {string} The snippet meta.
  */
 PostDataCollector.prototype.getSnippetMeta = function() {
-	return select( STORES.editor ).getSnippetEditorDescription();
+	return this._store.getState().snippetEditor.data.description;
 };
 
 /**
@@ -276,7 +274,6 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
 PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 	switch ( type ) {
 		case "snippet_cite":
-
 			/*
 			 * WordPress leaves the post name empty to signify that it should be generated from the title once the
 			 * post is saved. So when we receive an auto generated slug from WordPress we should be
