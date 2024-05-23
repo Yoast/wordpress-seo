@@ -6,33 +6,14 @@ import { isArray, noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { createContext, useCallback, useContext, useEffect } from "react";
 
-const ToasterContext = createContext( { onDismiss: noop } );
+const ToasterContext = createContext( { handleDismiss: () => { console.log("test") } } );
 
-const toasterClassNameMap = {
+export const toasterClassNameMap = {
 	position: {
 		"bottom-center": "yst-translate-y-full",
 		"bottom-left": "yst-translate-y-full",
 		"top-center": "yst--translate-y-full",
 	},
-};
-
-/**
- * @param {JSX.node} children The children.
- * @param {string} [className] The additional class names.
- * @returns {JSX.Element} The content.
- */
-const Content = ( {
-	children,
-	className = "",
-} ) => {
-	return <div className={ classNames("yst-w-0 yst-flex-1", className ) }>
-		{ children }
-	</div>;
-};
-
-Content.propTypes = {
-	children: PropTypes.node.isRequired,
-	className: PropTypes.string,
 };
 
 /**
@@ -43,6 +24,7 @@ const Close = ( {
 	dismissScreenReaderLabel,
 } ) => {
 	const { handleDismiss } = useContext( ToasterContext );
+	console.log(handleDismiss)
 	return (
 		<div className="yst-flex-shrink-0 yst-flex">
 			<button
@@ -176,12 +158,11 @@ Toaster.propTypes = {
 	className: PropTypes.string,
 	position: PropTypes.string,
 	onDismiss: PropTypes.func,
-	autoDismiss: PropTypes.number,
+	autoDismiss: PropTypes.oneOfType( [ PropTypes.number, null ] ),
 	isVisible: PropTypes.bool.isRequired,
 	setIsVisible: PropTypes.func.isRequired,
 };
 
-Toaster.Content = Content;
 Toaster.Close = Close;
 Toaster.Description = Description;
 Toaster.Title = Title;
