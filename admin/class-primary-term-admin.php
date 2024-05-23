@@ -79,10 +79,10 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	/**
 	 * Sanitize the primary term.
 	 *
-	 * @param int|string    $clean      The clean value to sanitize.
-	 * @param int|string    $meta_value The meta value.
-	 * @param array<string> $field_def  The field definition.
-	 * @param string        $meta_key   The meta key.
+	 * @param mixed  $clean      The clean value to sanitize.
+	 * @param mixed  $meta_value The meta value.
+	 * @param array  $field_def  The field definition.
+	 * @param string $meta_key   The meta key.
 	 *
 	 * @return string The sanitized value.
 	 */
@@ -116,14 +116,14 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 * Adds hidden fields for primary taxonomies.
 	 * Post type parameter is not used, but is provided by the filter.
 	 *
-	 * @param array<array<string>> $field_defs The fields defs for general group.
+	 * @param array $field_defs The fields defs for general group.
 	 *
-	 * @return array<array<string>> The new general group fields defs.
+	 * @return array The new general group fields defs.
 	 */
 	public function add_input_fields( $field_defs ) {
 		$taxonomies = $this->get_primary_term_taxonomies();
 		foreach ( $taxonomies as $taxonomy ) {
-			if ( in_array( $taxonomy->name, $this->registered_primary_taxonomies ) ) {
+			if ( in_array( $taxonomy->name, $this->registered_primary_taxonomies, true ) ) {
 				$field_defs[ 'primary_' . $taxonomy->name ] = [
 					'type'          => 'hidden',
 					'default_value' => '',
@@ -284,7 +284,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		 * @return void
 		 */
 	private function register_primary_term_meta( $taxonomy ) {
-		if ( in_array( $taxonomy, $this->registered_primary_taxonomies ) ) {
+		if ( in_array( $taxonomy, $this->registered_primary_taxonomies, true ) ) {
 			return;
 		}
 		WPSEO_Meta::register_meta( 'primary_' . $taxonomy, 'hidden', '' );
