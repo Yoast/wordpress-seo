@@ -12,7 +12,7 @@ const NotificationsContext = createContext( { position: "bottom-left" } );
  */
 export const useNotificationsContext = () => useContext( NotificationsContext );
 
-const notificationClassNameMap  = {
+export const notificationClassNameMap  = {
 	variant: {
 		info: "yst-notification--info",
 		warning: "yst-notification--warning",
@@ -55,13 +55,14 @@ const Notification = ( {
 		<Toaster
 			id={ id }
 			className={ classNames(
+				"yst-notification",
 				notificationClassNameMap.variant[ variant ],
 				notificationClassNameMap.size[ size ],
 			) }
 			position={ position }
 			size={ size }
 			onDismiss={ onDismiss }
-			autoDismiss={ autoDismiss }
+			autoDismiss={ null }
 			dismissScreenReaderLabel={ dismissScreenReaderLabel }
 			isVisible={ isVisible }
 			setIsVisible={ setIsVisible }
@@ -70,12 +71,12 @@ const Notification = ( {
 				<div className="yst-flex-shrink-0">
 					<ValidationIcon variant={ variant } className="yst-notification__icon" />
 				</div>
-				<Toaster.Content>
-					{ title && <Toaster.Title title={ title } /> }
-					{ children || (
-						description && ( <Toaster.Description description={ description } /> )
+				<div className="yst-w-0 yst-flex-1">
+					{title && <Toaster.Title title={title}/>}
+					{children || (
+						description && ( <Toaster.Description description={description}/> )
 					)}
-				</Toaster.Content>
+				</div>
 				{onDismiss && (
 					<Toaster.Close dismissScreenReaderLabel={ dismissScreenReaderLabel } />
 				) }
@@ -92,7 +93,7 @@ Notification.propTypes = {
 	title: PropTypes.string,
 	description: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
 	onDismiss: PropTypes.func,
-	autoDismiss: PropTypes.number,
+	autoDismiss: PropTypes.oneOfType( [ PropTypes.number, null ] ),
 	dismissScreenReaderLabel: PropTypes.string.isRequired,
 };
 
