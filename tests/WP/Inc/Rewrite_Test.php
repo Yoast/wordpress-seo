@@ -138,6 +138,8 @@ final class Rewrite_Test extends TestCase {
 	 * Tests if the rewrite rules are as expected. Has different expectations for multisite.
 	 *
 	 * @covers WPSEO_Rewrite::category_rewrite_rules
+	 * @covers WPSEO_Rewrite::add_category_rewrites
+	 * @covers WPSEO_Rewrite::convert_encoded_to_upper
 	 *
 	 * @return void
 	 */
