@@ -170,9 +170,9 @@ class WPSEO_Rewrite {
 		$rewrite_name = $blog_prefix . '(' . $category_name . ')';
 
 		global $wp_rewrite;
-		$feed_regex = '(' . implode('|', $wp_rewrite->feeds) . ')';
+		$feed_regex = '(' . implode( '|', $wp_rewrite->feeds ) . ')';
 
-		$rewrites[ $rewrite_name . '/(?:feed/)?' . $feed_regex . '/?$' ]    = 'index.php?category_name=$matches[1]&feed=$matches[2]';
+		$rewrites[ $rewrite_name . '/(?:feed/)?' . $feed_regex . '/?$' ]         = 'index.php?category_name=$matches[1]&feed=$matches[2]';
 		$rewrites[ $rewrite_name . '/' . $pagination_base . '/?([0-9]{1,})/?$' ] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
 		$rewrites[ $rewrite_name . '/?$' ]                                       = 'index.php?category_name=$matches[1]';
 
