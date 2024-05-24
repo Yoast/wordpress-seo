@@ -24,7 +24,6 @@ const Close = ( {
 	dismissScreenReaderLabel,
 } ) => {
 	const { handleDismiss } = useContext( ToasterContext );
-	console.log(handleDismiss)
 	return (
 		<div className="yst-flex-shrink-0 yst-flex">
 			<button
