@@ -61,7 +61,7 @@ export const withTitle = {
 		children: (
 			<>
 				<Toaster.Title title="Cool title" />
-				<p>This is some content</p>
+				<p>Hello everyone!</p>
 			</>
 		),
 	},
@@ -94,7 +94,7 @@ export const withClose = {
 				<div className="yst-flex yst-flex-row-reverse">
 					<Toaster.Close dismissScreenReaderLabel="Dismiss" />
 				</div>
-				<p>Hello!</p>
+				<p>Hello everyone!</p>
 			</>
 		),
 	},
