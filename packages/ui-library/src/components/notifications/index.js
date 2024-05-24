@@ -72,17 +72,17 @@ const Notification = ( {
 					<ValidationIcon variant={ variant } className="yst-notification__icon" />
 				</div>
 				<div className="yst-w-0 yst-flex-1">
-					{title && <Toaster.Title title={title}/>}
-					{children || (
-						description && ( <Toaster.Description description={description}/> )
-					)}
+					{ title && <Toaster.Title title={ title } /> }
+					{ children || (
+						description && ( <Toaster.Description description={ description } /> )
+					) }
 				</div>
-				{onDismiss && (
+				{ onDismiss && (
 					<Toaster.Close dismissScreenReaderLabel={ dismissScreenReaderLabel } />
 				) }
 			</div>
 		</Toaster>
-);
+	);
 };
 
 Notification.propTypes = {

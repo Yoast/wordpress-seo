@@ -32,7 +32,7 @@ const Template = ( { isVisible: initialVisible, setIsVisible: _, position, child
 					{ ...props }
 					isVisible={ isVisible }
 					setIsVisible={ openToaster }
-                    onDismiss={ toggleToaster }
+					onDismiss={ toggleToaster }
 					position={ position }
 					id={ "toaster" }
 				>

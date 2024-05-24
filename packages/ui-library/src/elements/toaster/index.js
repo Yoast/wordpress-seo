@@ -6,7 +6,7 @@ import { isArray, noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { createContext, useCallback, useContext, useEffect } from "react";
 
-const ToasterContext = createContext( { handleDismiss: () => { console.log("test") } } );
+const ToasterContext = createContext( { handleDismiss: noop } );
 
 export const toasterClassNameMap = {
 	position: {
