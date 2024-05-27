@@ -2,6 +2,9 @@
   "name": "@yoast/feature-flag",
   "version": "0.5.2",
   "main": "build/index.js",
+  "files": [
+    "build/index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/yoast/javascript",
@@ -15,8 +18,7 @@
     "build:js": "babel src --out-dir build",
     "clean": "rm -rf build",
     "test": "jest",
-    "lint": "eslint ./src ./tests --max-warnings=0",
-    "prepublishOnly": "yarn build"
+    "lint": "eslint ./src ./tests --max-warnings=0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",

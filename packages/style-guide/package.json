@@ -3,6 +3,10 @@
   "version": "0.13.0",
   "description": "Yoast style guide.",
   "main": "build/index.js",
+  "files": [
+    "build",
+    "!*.map"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/wordpress-seo",
@@ -15,8 +19,7 @@
     "build": "yarn clean && yarn build:js && yarn build:json",
     "build:js": "babel src --out-dir build",
     "build:json": "cp src/*.json build/",
-    "clean": "rm -rf build",
-    "prepublishOnly": "yarn build"
+    "clean": "rm -rf build"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",

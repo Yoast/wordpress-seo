@@ -17,7 +17,8 @@
     "directory": "packages/yoastseo"
   },
   "files": [
-    "build/**/*",
+    "build",
+    "!*.map",
     "vendor",
     "images"
   ],
@@ -28,8 +29,7 @@
     "clean": "rm -rf build",
     "pretest": "grunt get-premium-configuration",
     "test": "jest",
-    "lint": "eslint src spec --max-warnings 10",
-    "prepublishOnly": "yarn build"
+    "lint": "eslint src spec --max-warnings 10"
   },
   "engines": {
     "node": ">=8.0.0"

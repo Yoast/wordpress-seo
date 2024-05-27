@@ -3,6 +3,10 @@
   "version": "1.17.0",
   "private": false,
   "main": "build/index.js",
+  "files": [
+    "build",
+    "!*.map"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
@@ -15,8 +19,7 @@
     "build:js": "babel src --out-dir build",
     "clean": "rm -rf build",
     "test": "jest",
-    "lint": "eslint . --max-warnings=0",
-    "prepublishOnly": "yarn build"
+    "lint": "eslint . --max-warnings=0"
   },
   "publishConfig": {
     "access": "public"

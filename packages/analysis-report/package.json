@@ -2,6 +2,10 @@
   "name": "@yoast/analysis-report",
   "version": "1.21.0",
   "main": "build/index.js",
+  "files": [
+    "build",
+    "!*.map"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/yoast/javascript",
@@ -12,8 +16,7 @@
     "build:js": "babel src --out-dir build",
     "clean": "rm -rf build",
     "test": "jest",
-    "lint": "eslint . --max-warnings=2",
-    "prepublishOnly": "yarn clean && cp -R src build && cp package.json build/package.json && json -I -f build/package.json -e \"this.main='index.js'\" && cp babel.config.js build/babel.config.js"
+    "lint": "eslint . --max-warnings=2"
   },
   "author": "Team Yoast",
   "license": "GPL-3.0",

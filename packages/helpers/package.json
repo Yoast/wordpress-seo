@@ -3,6 +3,10 @@
   "version": "0.16.0",
   "description": "All Yoast helper functions.",
   "main": "build/index.js",
+  "files": [
+    "build",
+    "!*.map"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
@@ -13,8 +17,7 @@
     "build:js": "babel src --out-dir build",
     "clean": "rm -rf build",
     "test": "jest",
-    "lint": "eslint . --max-warnings=0",
-    "prepublishOnly": "yarn build"
+    "lint": "eslint . --max-warnings=0"
   },
   "author": "Yoast",
   "license": "GPL-3.0",
