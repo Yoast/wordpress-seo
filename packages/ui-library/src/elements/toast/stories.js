@@ -1,7 +1,7 @@
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { useCallback, useState } from "react";
-import Toaster  from ".";
+import Toast  from ".";
 import Button from "../../elements/button";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { description, component, close, title } from "./docs";
@@ -16,33 +16,33 @@ const positionClassNameMap = {
 };
 const Template = ( { isVisible: initialVisible, setIsVisible: _, position, children, ...props } ) => {
 	const [ isVisible, setIsVisible ] = useState( initialVisible );
-	const toggleToaster = useCallback( () => setIsVisible( ! isVisible ), [ isVisible ] );
-	const openToaster = useCallback( () => setIsVisible( true ), [] );
+	const toggleToast = useCallback( () => setIsVisible( ! isVisible ), [ isVisible ] );
+	const openToast = useCallback( () => setIsVisible( true ), [] );
 
 	return (
 		<>
-			<Button onClick={ toggleToaster }>Toggle Toaster</Button>
+			<Button onClick={ toggleToast }>Toggle toast</Button>
 			<aside
 				className={ classNames(
 					"yst-notifications",
 					positionClassNameMap.position[ position ],
 				) }
 			>
-				<Toaster
+				<Toast
 					{ ...props }
 					isVisible={ isVisible }
-					setIsVisible={ openToaster }
-					onDismiss={ toggleToaster }
+					setIsVisible={ openToast }
+					onDismiss={ toggleToast }
 					position={ position }
-					id={ "toaster" }
+					id={ "toast" }
 				>
 					{ children }
-				</Toaster>
+				</Toast>
 			</aside>
 		</>
 	);
 };
-Template.displayName = "Toaster";
+Template.displayName = "Toast";
 Template.propTypes = {
 	isVisible: PropTypes.bool,
 	setIsVisible: PropTypes.func,
@@ -60,7 +60,7 @@ export const withTitle = {
 	args: {
 		children: (
 			<>
-				<Toaster.Title title="Cool title" />
+				<Toast.Title title="Cool title" />
 				<p>Hello everyone!</p>
 			</>
 		),
@@ -76,7 +76,7 @@ export const withDescription = {
 	args: {
 		children: (
 			<>
-				<Toaster.Description description={ [ "Bullet 1", "Bullet 2", "Bullet 3" ] } />
+				<Toast.Description description={ [ "Bullet 1", "Bullet 2", "Bullet 3" ] } />
 			</>
 		),
 	},
@@ -92,7 +92,7 @@ export const withClose = {
 		children: (
 			<>
 				<div className="yst-flex yst-flex-row-reverse">
-					<Toaster.Close dismissScreenReaderLabel="Dismiss" />
+					<Toast.Close dismissScreenReaderLabel="Dismiss" />
 				</div>
 				<p>Hello everyone!</p>
 			</>
@@ -105,7 +105,7 @@ export const withClose = {
 };
 
 export default {
-	title: "1) Elements/Toaster",
+	title: "1) Elements/Toast",
 	component: Template,
 	argTypes: {
 		children: {
@@ -114,7 +114,7 @@ export default {
 			table: { type: { summary: "node" } },
 		},
 		id: { control: "text" },
-		autoDismiss: { type: "number", description: "Milliseconds for the toaster to disappear." },
+		autoDismiss: { type: "number", description: "Milliseconds for the toast to disappear." },
 		isVisible: {
 			control: { disable: true },
 			type: { required: true },
@@ -141,7 +141,7 @@ export default {
 		position: {
 			options: [ "bottom-center", "bottom-left", "top-center" ],
 			type: "select",
-			description: "The position of the toaster.",
+			description: "The position of the toast.",
 			table: {
 				defaultValue: { summary: "bottom-left" },
 			},
@@ -150,7 +150,7 @@ export default {
 	args: {
 		isVisible: true,
 		setIsVisible: noop,
-		id: "toaster",
+		id: "toast",
 		children: "Hello everyone!",
 		position: "bottom-left",
 	},

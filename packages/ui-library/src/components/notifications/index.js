@@ -4,7 +4,7 @@ import { keys, noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useState } from "react";
 import { ValidationIcon } from "../../elements/validation";
-import Toaster from "../../elements/toaster";
+import Toast from "../../elements/toast";
 const NotificationsContext = createContext( { position: "bottom-left" } );
 
 /**
@@ -52,7 +52,7 @@ const Notification = ( {
 	const [ isVisible, setIsVisible ] = useState( false );
 
 	return (
-		<Toaster
+		<Toast
 			id={ id }
 			className={ classNames(
 				"yst-notification",
@@ -72,16 +72,16 @@ const Notification = ( {
 					<ValidationIcon variant={ variant } className="yst-notification__icon" />
 				</div>
 				<div className="yst-w-0 yst-flex-1">
-					{ title && <Toaster.Title title={ title } /> }
+					{ title && <Toast.Title title={ title } /> }
 					{ children || (
-						description && ( <Toaster.Description description={ description } /> )
+						description && ( <Toast.Description description={ description } /> )
 					) }
 				</div>
 				{ onDismiss && (
-					<Toaster.Close dismissScreenReaderLabel={ dismissScreenReaderLabel } />
+					<Toast.Close dismissScreenReaderLabel={ dismissScreenReaderLabel } />
 				) }
 			</div>
-		</Toaster>
+		</Toast>
 	);
 };
 

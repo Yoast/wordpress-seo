@@ -6,9 +6,9 @@ import { isArray, noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { createContext, useCallback, useContext, useEffect } from "react";
 
-const ToasterContext = createContext( { handleDismiss: noop } );
+const ToastContext = createContext( { handleDismiss: noop } );
 
-export const toasterClassNameMap = {
+export const toastClassNameMap = {
 	position: {
 		"bottom-center": "yst-translate-y-full",
 		"bottom-left": "yst-translate-y-full",
@@ -23,7 +23,7 @@ export const toasterClassNameMap = {
 const Close = ( {
 	dismissScreenReaderLabel,
 } ) => {
-	const { handleDismiss } = useContext( ToasterContext );
+	const { handleDismiss } = useContext( ToastContext );
 	return (
 		<div className="yst-flex-shrink-0 yst-flex">
 			<button
@@ -43,7 +43,7 @@ Close.propTypes = {
 };
 
 /**
- * @param {string|string[]} description The toaster description.
+ * @param {string|string[]} description The toast description.
  * @param {string} [className] The additional class names.
  * @returns {JSX.Element} The description.
  */
@@ -68,7 +68,7 @@ Description.propTypes = {
 };
 
 /**
- * @param {string} title The toaster title.
+ * @param {string} title The toast title.
  * @param {string} [className] The additional class names.
  * @returns {JSX.Element} The title.
  */
@@ -89,16 +89,16 @@ Title.propTypes = {
 /**
  * @param {Object} props The props object.
  * @param {JSX.node} children The children.
- * @param {string} id The toaster ID.
+ * @param {string} id The toast ID.
  * @param {string} [className] The additional class names.
- * @param {string} position The toaster position.
+ * @param {string} position The toast position.
  * @param {Function} [onDismiss] Function to trigger on dismissal.
  * @param {number|null} [autoDismiss] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
  * @param {boolean} isVisible Whether the notification is visible.
  * @param {Function} setIsVisible Function to set the visibility of the notification.
- * @returns {JSX.Element} The Toaster component.
+ * @returns {JSX.Element} The toast component.
  */
-const Toaster = ( {
+const Toast = ( {
 	children,
 	id,
 	className = "",
@@ -130,28 +130,28 @@ const Toaster = ( {
 		return () => clearTimeout( timeout );
 	}, [] );
 	return (
-		<ToasterContext.Provider value={ { handleDismiss } }>
+		<ToastContext.Provider value={ { handleDismiss } }>
 			<Transition
 				show={ isVisible }
 				enter={ "yst-transition yst-ease-in-out yst-duration-150" }
-				enterFrom={ classNames( "yst-opacity-0", toasterClassNameMap.position[ position ] ) }
+				enterFrom={ classNames( "yst-opacity-0", toastClassNameMap.position[ position ] ) }
 				enterTo="yst-translate-y-0"
 				leave={ "yst-transition yst-ease-in-out yst-duration-150" }
 				leaveFrom="yst-translate-y-0"
-				leaveTo={ classNames( "yst-opacity-0", toasterClassNameMap.position[ position ] ) }
+				leaveTo={ classNames( "yst-opacity-0", toastClassNameMap.position[ position ] ) }
 				className={ classNames(
-					"yst-toaster",
+					"yst-toast",
 					className,
 				) }
 				role="alert"
 			>
 				{ children }
 			</Transition>
-		</ToasterContext.Provider>
+		</ToastContext.Provider>
 	);
 };
 
-Toaster.propTypes = {
+Toast.propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	className: PropTypes.string,
@@ -162,8 +162,8 @@ Toaster.propTypes = {
 	setIsVisible: PropTypes.func.isRequired,
 };
 
-Toaster.Close = Close;
-Toaster.Description = Description;
-Toaster.Title = Title;
+Toast.Close = Close;
+Toast.Description = Description;
+Toast.Title = Title;
 
-export default Toaster;
+export default Toast;
