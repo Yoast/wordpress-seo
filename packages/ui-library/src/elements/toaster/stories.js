@@ -1,7 +1,7 @@
 import { noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { createContext, useCallback, useContext, useState } from "react";
-import Toaster, { toasterClassNameMap } from ".";
+import React, { useCallback, useState } from "react";
+import Toaster  from ".";
 import Button from "../../elements/button";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { description, component, close, title } from "./docs";
@@ -100,7 +100,7 @@ export const withClose = {
 	},
 	parameters: {
 		controls: { disable: false },
-		docs: { description: { story: description } },
+		docs: { description: { story: close } },
 	},
 };
 
@@ -114,8 +114,7 @@ export default {
 			table: { type: { summary: "node" } },
 		},
 		id: { control: "text" },
-		autoDismiss: { type: "number", description: "Milliseconds for Notification to disappear." },
-
+		autoDismiss: { type: "number", description: "Milliseconds for the toaster to disappear." },
 		isVisible: {
 			control: { disable: true },
 			type: { required: true },
@@ -142,7 +141,7 @@ export default {
 		position: {
 			options: [ "bottom-center", "bottom-left", "top-center" ],
 			type: "select",
-			description: "The position of the notification. Notifications prop.",
+			description: "The position of the toaster.",
 			table: {
 				defaultValue: { summary: "bottom-left" },
 			},
