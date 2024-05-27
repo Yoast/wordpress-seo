@@ -20,13 +20,6 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	private $primary_term_helper;
 
 	/**
-	 * Registered primary taxonomies.
-	 *
-	 * @var array<string>
-	 */
-	private $registered_primary_taxonomies = [];
-
-	/**
 	 * Constructor.
 	 *
 	 * @param Primary_Term_Helper $primary_term_helper Primary term helper.
@@ -66,19 +59,20 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 * Adds hidden fields for primary taxonomies.
 	 * Post type parameter is not used, but is provided by the filter.
 	 *
+	 * phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification
+	 *
 	 * @param array $field_defs The fields defs for general group.
 	 *
+	 * phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 	 * @return array The new general group fields defs.
 	 */
 	public function add_input_fields( $field_defs ) {
 		$taxonomies = $this->get_primary_term_taxonomies();
 		foreach ( $taxonomies as $taxonomy ) {
-			if ( in_array( $taxonomy->name, $this->registered_primary_taxonomies, true ) ) {
-				$field_defs[ 'primary_' . $taxonomy->name ] = [
-					'type'          => 'hidden',
-					'default_value' => '',
-				];
-			}
+			$field_defs[ 'primary_' . $taxonomy->name ] = [
+				'type'          => 'hidden',
+				'default_value' => '',
+			];
 		}
 
 		return $field_defs;
