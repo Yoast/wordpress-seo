@@ -57,8 +57,8 @@ const createUpdater = () => {
 						changedData[ `${POST_META_KEY_PREFIX}primary_terms` ] = {};
 					}
 					changedData[ `${POST_META_KEY_PREFIX}primary_terms` ][ key ] = transformedValue;
-				} 
-			});
+				}
+			} );
 		}
 
 		if ( changedData ) {
