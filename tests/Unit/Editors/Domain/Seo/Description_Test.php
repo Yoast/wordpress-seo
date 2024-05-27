@@ -2,7 +2,7 @@
 // @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Tests\Unit\Editors\Domain\Seo;
 
-use Yoast\WP\SEO\Editors\Domain\Seo\Meta_Description;
+use Yoast\WP\SEO\Editors\Domain\Seo\Description;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -10,14 +10,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group editors
  *
- * @coversDefaultClass \Yoast\WP\SEO\Editors\Domain\Seo\Meta_Description
+ * @coversDefaultClass \Yoast\WP\SEO\Editors\Domain\Seo\Description
  */
-final class Meta_Description_Test extends TestCase {
+final class Description_Test extends TestCase {
 
 	/**
-	 * The Meta_Description.
+	 * The Description.
 	 *
-	 * @var Meta_Description
+	 * @var Description
 	 */
 	private $instance;
 
@@ -28,7 +28,7 @@ final class Meta_Description_Test extends TestCase {
 	 */
 	protected function set_up(): void {
 		parent::set_up();
-		$this->instance = new Meta_Description( '01-01-1970', 'a-template' );
+		$this->instance = new Description( '01-01-1970', 'a-template' );
 	}
 
 	/**
@@ -41,8 +41,8 @@ final class Meta_Description_Test extends TestCase {
 	public function test_to_array(): void {
 		$this->assertSame(
 			[
-				'meta_description_template' => 'a-template',
-				'meta_description_date'     => '01-01-1970',
+				'description_template' => 'a-template',
+				'description_date'     => '01-01-1970',
 			],
 			$this->instance->to_array()
 		);

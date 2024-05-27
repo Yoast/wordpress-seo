@@ -37,7 +37,7 @@ class Keyphrase_Data_Provider extends Abstract_Post_Seo_Data_Provider implements
 	 */
 	public function get_focus_keyphrase_usage(): array {
 		$keyphrase = $this->meta_helper->get_value( 'focuskw', $this->post->ID );
-		$usage   = [ $keyphrase => $this->get_keyphrase_usage_for_current_post( $keyphrase ) ];
+		$usage     = [ $keyphrase => $this->get_keyphrase_usage_for_current_post( $keyphrase ) ];
 
 		/**
 		 * Allows enhancing the array of posts' that share their focus Keyphrase with the post's related Keyphrase.

@@ -3,16 +3,16 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Editors\Framework\Seo\Posts;
 
-use Yoast\WP\SEO\Editors\Domain\Seo\Meta_Description;
+use Yoast\WP\SEO\Editors\Domain\Seo\Description;
 use Yoast\WP\SEO\Editors\Domain\Seo\Seo_Plugin_Data_Interface;
-use Yoast\WP\SEO\Editors\Framework\Seo\Meta_Description_Data_Provider_Interface;
+use Yoast\WP\SEO\Editors\Framework\Seo\Description_Data_Provider_Interface;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Describes if the meta description SEO data.
+ * Describes if the description SEO data.
  */
-class Meta_Description_Data_Provider extends Abstract_Post_Seo_Data_Provider implements Meta_Description_Data_Provider_Interface {
+class Description_Data_Provider extends Abstract_Post_Seo_Data_Provider implements Description_Data_Provider_Interface {
 
 	/**
 	 * The date helper.
@@ -40,11 +40,11 @@ class Meta_Description_Data_Provider extends Abstract_Post_Seo_Data_Provider imp
 	}
 
 	/**
-	 * Retrieves the meta description template.
+	 * Retrieves the description template.
 	 *
-	 * @return string The meta description template.
+	 * @return string The description template.
 	 */
-	public function get_meta_description_template(): string {
+	public function get_description_template(): string {
 		return $this->get_template( 'metadesc' );
 	}
 
@@ -53,7 +53,7 @@ class Meta_Description_Data_Provider extends Abstract_Post_Seo_Data_Provider imp
 	 *
 	 * @return string
 	 */
-	public function get_meta_description_date(): string {
+	public function get_description_date(): string {
 		return $this->date_helper->format_translated( $this->post->post_date, 'M j, Y' );
 	}
 
@@ -75,11 +75,11 @@ class Meta_Description_Data_Provider extends Abstract_Post_Seo_Data_Provider imp
 	}
 
 	/**
-	 * Method to return the Meta_Description domain object with SEO data.
+	 * Method to return the Description domain object with SEO data.
 	 *
 	 * @return Seo_Plugin_Data_Interface The specific seo data.
 	 */
 	public function get_data(): Seo_Plugin_Data_Interface {
-		return new Meta_Description( $this->get_meta_description_date(), $this->get_meta_description_template() );
+		return new Description( $this->get_description_date(), $this->get_description_template() );
 	}
 }

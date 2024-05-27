@@ -2,7 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Editors\Framework\Seo;
 
-interface Meta_Title_Data_Provider_Interface {
+interface Title_Data_Provider_Interface {
 
 	/**
 	 * Retrieves the title template.

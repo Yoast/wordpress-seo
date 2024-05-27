@@ -3,13 +3,13 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Editors\Framework\Seo\Terms;
 
-use Yoast\WP\SEO\Editors\Domain\Seo\Meta_Title;
 use Yoast\WP\SEO\Editors\Domain\Seo\Seo_Plugin_Data_Interface;
-use Yoast\WP\SEO\Editors\Framework\Seo\Meta_Title_Data_Provider_Interface;
+use Yoast\WP\SEO\Editors\Domain\Seo\Title;
+use Yoast\WP\SEO\Editors\Framework\Seo\Title_Data_Provider_Interface;
 /**
- * Describes if the meta title SEO data.
+ * Describes if the title SEO data.
  */
-class Meta_Title_Data_Provider extends Abstract_Term_Seo_Data_Provider implements Meta_Title_Data_Provider_Interface {
+class Title_Data_Provider extends Abstract_Term_Seo_Data_Provider implements Title_Data_Provider_Interface {
 
 	/**
 	 * Retrieves the title template.
@@ -31,11 +31,11 @@ class Meta_Title_Data_Provider extends Abstract_Term_Seo_Data_Provider implement
 	}
 
 	/**
-	 * Method to return the Meta_Title domain object with SEO data.
+	 * Method to return the Title domain object with SEO data.
 	 *
 	 * @return Seo_Plugin_Data_Interface The specific seo data.
 	 */
 	public function get_data(): Seo_Plugin_Data_Interface {
-		return new Meta_Title( $this->get_title_template(), $this->get_title_template( false ) );
+		return new Title( $this->get_title_template(), $this->get_title_template( false ) );
 	}
 }

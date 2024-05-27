@@ -2,22 +2,22 @@
 // @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Tests\Unit\Editors\Domain\Seo;
 
-use Yoast\WP\SEO\Editors\Domain\Seo\Meta_Title;
+use Yoast\WP\SEO\Editors\Domain\Seo\Title;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Meta_Title_Test
+ * Class Title_Test
  *
  * @group editors
  *
- * @coversDefaultClass \Yoast\WP\SEO\Editors\Domain\Seo\Meta_Title
+ * @coversDefaultClass \Yoast\WP\SEO\Editors\Domain\Seo\Title
  */
-final class Meta_Title_Test extends TestCase {
+final class Title_Test extends TestCase {
 
 	/**
-	 * The Meta_Title.
+	 * The Title.
 	 *
-	 * @var Meta_Title
+	 * @var Title
 	 */
 	private $instance;
 
@@ -28,7 +28,7 @@ final class Meta_Title_Test extends TestCase {
 	 */
 	protected function set_up(): void {
 		parent::set_up();
-		$this->instance = new Meta_Title( 'a-title', 'a-fb-title' );
+		$this->instance = new Title( 'a-title', 'a-fb-title' );
 	}
 
 	/**
