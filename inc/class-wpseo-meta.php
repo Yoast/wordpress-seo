@@ -304,7 +304,24 @@ class WPSEO_Meta {
 
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
-				self::register_meta( $key, $field_def['type'], ( $field_def['default_value'] ?? '' ) );
+
+				register_meta(
+					'post',
+					self::$meta_prefix . $key,
+					[
+						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
+						'show_in_rest'      => isset( $field_def['type'] ) ? [
+							'schema' => [
+								'type'    => 'string',
+								'context' => [ 'edit' ],
+							],
+						] : false,
+						'auth_callback'     => [ self::class, 'auth_callback' ],
+						'type'              => 'string',
+						'single'            => true,
+						'default'           => ( $field_def['default_value'] ?? '' ),
+					]
+				);
 
 				// Set the $fields_index property for efficiency.
 				self::$fields_index[ self::$meta_prefix . $key ] = [
@@ -328,36 +345,6 @@ class WPSEO_Meta {
 
 		add_filter( 'update_post_metadata', [ self::class, 'remove_meta_if_default' ], 10, 5 );
 		add_filter( 'add_post_metadata', [ self::class, 'dont_save_meta_if_default' ], 10, 4 );
-	}
-
-	/**
-	 * Register metadata.
-	 *
-	 * @param string $key           The key of the metadata.
-	 * @param string $field_type    The type of the field.
-	 * @param string $default_value The default value of the field.
-	 * @return void
-	 */
-	public static function register_meta( $key, $field_type, $default_value ) {
-		$rest_schema = [
-			'schema' => [
-				'type'    => 'string',
-				'context' => [ 'edit' ],
-			],
-		];
-
-		register_meta(
-			'post',
-			self::$meta_prefix . $key,
-			[
-				'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
-				'show_in_rest'      => isset( $field_type ) ? $rest_schema : false,
-				'auth_callback'     => [ self::class, 'auth_callback' ],
-				'type'              => 'string',
-				'single'            => true,
-				'default'           => $default_value,
-			]
-		);
 	}
 
 	/**
