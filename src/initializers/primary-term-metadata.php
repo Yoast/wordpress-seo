@@ -38,7 +38,7 @@ class Primary_Term_Metadata implements Initializer_Interface {
 	 * @return void
 	 */
 	public function initialize() {
-		\add_action( 'rest_api_init', [ $this, 'register_primary_terms' ] );
+		\add_action( 'rest_api_init', [ $this, 'register_primary_terms_field' ] );
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Primary_Term_Metadata implements Initializer_Interface {
 	 *
 	 * @return void
 	 */
-	public function register_primary_terms() {
+	public function register_primary_terms_field() {
 
 		\register_rest_field(
 			'post',
@@ -110,13 +110,15 @@ class Primary_Term_Metadata implements Initializer_Interface {
 	/**
 	 * Sanitize primary terms.
 	 *
-	 * @param array<string,string> $value The value to sanitize.
+	 * @param array<string,string> $primary_terms The value to sanitize.
 	 *
 	 * @return array<string,string> The sanitized value.
 	 */
-	public function sanitize_primary_terms( $value ) {
-		$primary_terms = $value;
-		$clean         = [];
+	public function sanitize_primary_terms( $primary_terms ) {
+		if ( ! \is_array( $primary_terms ) ) {
+			return [];
+		}
+		$clean = [];
 		foreach ( $primary_terms as $taxonomy => $term_id ) {
 			$int                = WPSEO_Utils::validate_int( $term_id );
 			$clean[ $taxonomy ] = ( $int !== false && $int > 0 ) ? \strval( $int ) : '';
