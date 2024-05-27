@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-namespace Yoast\WP\SEO\Editors\Application\seo;
+namespace Yoast\WP\SEO\Editors\Application\Seo;
 
 use WP_Term;
 use Yoast\WP\SEO\Editors\Framework\Seo\Terms\Abstract_Term_Seo_Data_Provider;
@@ -42,7 +42,7 @@ class Term_Seo_Information_Repository {
 	 *
 	 * @return void
 	 */
-	public function set_term( WP_Term $term ) {
+	public function set_term( WP_Term $term ): void {
 		$this->term = $term;
 	}
 
@@ -51,12 +51,13 @@ class Term_Seo_Information_Repository {
 	 *
 	 * @return array<string> The specific seo data.
 	 */
-	public function get_seo_data() {
+	public function get_seo_data(): array {
 		$array = [];
 		foreach ( $this->seo_data_providers as $data_provider ) {
 			$data_provider->set_term( $this->term );
 			$array = \array_merge( $array, $data_provider->get_data()->to_legacy_array() );
 		}
+
 		return $array;
 	}
 }

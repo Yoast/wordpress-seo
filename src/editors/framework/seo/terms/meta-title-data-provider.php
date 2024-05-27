@@ -18,7 +18,7 @@ class Meta_Title_Data_Provider extends Abstract_Term_Seo_Data_Provider implement
 	 *
 	 * @return string The title template.
 	 */
-	public function get_title_template( $fallback = true ): string {
+	public function get_title_template( bool $fallback = true ): string {
 		$title = $this->get_template( 'title' );
 
 		if ( $title === '' && $fallback === true ) {

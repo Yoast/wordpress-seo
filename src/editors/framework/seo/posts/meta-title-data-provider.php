@@ -36,7 +36,7 @@ class Meta_Title_Data_Provider extends Abstract_Post_Seo_Data_Provider implement
 	 *
 	 * @return string The title template.
 	 */
-	public function get_title_template( $fallback = true ): string {
+	public function get_title_template( bool $fallback = true ): string {
 		$title = $this->get_template( 'title' );
 
 		if ( $title === '' && $fallback === true ) {
@@ -53,7 +53,7 @@ class Meta_Title_Data_Provider extends Abstract_Post_Seo_Data_Provider implement
 	 *
 	 * @return string
 	 */
-	private function get_template( $template_option_name ): string {
+	private function get_template( string $template_option_name ): string {
 		$needed_option = $template_option_name . '-' . $this->post->post_type;
 
 		if ( $this->options_helper->get( $needed_option, '' ) !== '' ) {

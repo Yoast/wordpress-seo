@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-namespace Yoast\WP\SEO\Editors\Application\seo;
+namespace Yoast\WP\SEO\Editors\Application\Seo;
 
 use WP_Post;
 use Yoast\WP\SEO\Editors\Framework\Seo\Posts\Abstract_Post_Seo_Data_Provider;
@@ -36,7 +36,7 @@ class Post_Seo_Information_Repository {
 	}
 
 	/**
-	 * The term.
+	 * The post.
 	 *
 	 * @param WP_Post $post The post.
 	 *
@@ -51,7 +51,7 @@ class Post_Seo_Information_Repository {
 	 *
 	 * @return array<string> The specific seo data.
 	 */
-	public function get_seo_data() {
+	public function get_seo_data(): array {
 		$array = [];
 		foreach ( $this->seo_data_providers as $data_provider ) {
 			$data_provider->set_post( $this->post );

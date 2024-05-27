@@ -7,7 +7,7 @@ interface Meta_Title_Data_Provider_Interface {
 	/**
 	 * Retrieves the title template.
 	 *
-	 * @param bool $fallback Whether to return the hardcoded fallback if the template value is empty.
+	 * @param bool $fallback Whether to return the hardcoded fallback if the template value is empty. Default true.
 	 *
 	 * @return string The title template.
 	 */

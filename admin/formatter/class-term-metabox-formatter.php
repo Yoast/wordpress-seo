@@ -5,7 +5,7 @@
  * @package WPSEO\Admin\Formatter
  */
 
-use Yoast\WP\SEO\Editors\Application\seo\Term_Seo_Information_Repository;
+use Yoast\WP\SEO\Editors\Application\Seo\Term_Seo_Information_Repository;
 
 /**
  * This class provides data for the term metabox by return its values for localization.

@@ -64,7 +64,7 @@ class Meta_Description_Data_Provider extends Abstract_Post_Seo_Data_Provider imp
 	 *
 	 * @return string
 	 */
-	private function get_template( $template_option_name ): string {
+	private function get_template( string $template_option_name ): string {
 		$needed_option = $template_option_name . '-' . $this->post->post_type;
 
 		if ( $this->options_helper->get( $needed_option, '' ) !== '' ) {

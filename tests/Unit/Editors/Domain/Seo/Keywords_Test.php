@@ -2,7 +2,7 @@
 // @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Tests\Unit\Editors\Domain\Seo;
 
-use Yoast\WP\SEO\Editors\Domain\Seo\Keywords;
+use Yoast\WP\SEO\Editors\Domain\Seo\Keyphrase;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -10,14 +10,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group editors
  *
- * @coversDefaultClass \Yoast\WP\SEO\Editors\Domain\Seo\Keywords
+ * @coversDefaultClass \Yoast\WP\SEO\Editors\Domain\Seo\Keyphrase
  */
-final class Keywords_Test extends TestCase {
+final class Keyphrase_Test extends TestCase {
 
 	/**
-	 * The Keyword SEO data.
+	 * The Keyphrase SEO data.
 	 *
-	 * @var Keywords
+	 * @var Keyphrase
 	 */
 	private $instance;
 
@@ -28,7 +28,7 @@ final class Keywords_Test extends TestCase {
 	 */
 	protected function set_up(): void {
 		parent::set_up();
-		$this->instance = new Keywords( [ 'post' => 1 ], [ 'post' => 2 ] );
+		$this->instance = new Keyphrase( [ 'post' => 1 ], [ 'post' => 2 ] );
 	}
 
 	/**
@@ -41,8 +41,8 @@ final class Keywords_Test extends TestCase {
 	public function test_to_array(): void {
 		$this->assertSame(
 			[
-				'keyword_usage'          => [ 'post' => 1 ],
-				'keyword_usage_per_type' => [ 'post' => 2 ],
+				'keyphrase_usage'          => [ 'post' => 1 ],
+				'keyphrase_usage_per_type' => [ 'post' => 2 ],
 			],
 			$this->instance->to_array()
 		);
