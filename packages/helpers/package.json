@@ -1,6 +1,6 @@
 {
   "name": "@yoast/helpers",
-  "version": "0.16.0",
+  "version": "0.17.0-alpha.0",
   "description": "All Yoast helper functions.",
   "main": "build/index.js",
   "files": [

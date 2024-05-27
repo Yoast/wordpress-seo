@@ -1,6 +1,6 @@
 {
   "name": "@yoast/replacement-variable-editor",
-  "version": "1.17.0",
+  "version": "2.0.0-alpha.0",
   "private": false,
   "main": "build/index.js",
   "files": [
@@ -30,9 +30,9 @@
     "@wordpress/components": "^20.0.0",
     "@wordpress/hooks": "^2.12.3",
     "@wordpress/i18n": "^1.2.3",
-    "@yoast/components": "^2.19.0",
-    "@yoast/helpers": "^0.16.0",
-    "@yoast/style-guide": "^0.13.0",
+    "@yoast/components": "^3.0.0-alpha.0",
+    "@yoast/helpers": "^0.17.0-alpha.0",
+    "@yoast/style-guide": "^0.14.0-alpha.0",
     "classnames": "^2.3.2",
     "draft-js-single-line-plugin": "^2.0.5",
     "lodash": "^4.17.11",

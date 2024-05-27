@@ -1,6 +1,6 @@
 {
   "name": "@yoast/search-metadata-previews",
-  "version": "2.24.1",
+  "version": "3.0.0-alpha.0",
   "private": false,
   "main": "build/index.js",
   "files": [
@@ -24,10 +24,10 @@
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^2.19.0",
-    "@yoast/helpers": "^0.16.0",
-    "@yoast/replacement-variable-editor": "^1.17.0",
-    "@yoast/style-guide": "^0.13.0",
+    "@yoast/components": "^3.0.0-alpha.0",
+    "@yoast/helpers": "^0.17.0-alpha.0",
+    "@yoast/replacement-variable-editor": "^2.0.0-alpha.0",
+    "@yoast/style-guide": "^0.14.0-alpha.0",
     "interpolate-components": "^1.1.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
@@ -35,7 +35,7 @@
     "react-dom": "^18.2.0",
     "react-transition-group": "^2.7.1",
     "styled-components": "^5.3.6",
-    "yoastseo": "^1.91.2"
+    "yoastseo": "^2.0.0-alpha.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",
