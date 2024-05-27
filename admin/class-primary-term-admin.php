@@ -44,56 +44,6 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		add_action( 'admin_footer', [ $this, 'wp_footer' ], 10 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		add_filter( 'wpseo_metabox_entries_general', [ $this, 'add_input_fields' ], 10, 2 );
-		add_action( 'registered_taxonomy', [ $this, 'register_meta_for_registered_taxonomy' ], 10, 3 );
-		add_action( 'rest_api_init', [ $this, 'register_meta_for_filtered_taxonomies' ] );
-	}
-
-	/**
-	 * Register primary term meta for taxonomies that are added through the 'wpseo_primary_term_taxonomies' filter.
-	 *
-	 * @return void
-	 */
-	public function register_meta_for_filtered_taxonomies() {
-		$taxonomies = $this->get_primary_term_taxonomies();
-		foreach ( $taxonomies as $taxonomy ) {
-			$this->register_primary_term_meta( $taxonomy->name );
-		}
-	}
-
-	/**
-	 * Register the primary term metadata.
-	 *
-	 * @param string $taxonomy    The taxonomy name.
-	 * @param string $object_type The object type.
-	 * @param array  $args        The taxonomy arguments.
-	 *
-	 * @return void
-	 */
-	public function register_meta_for_registered_taxonomy( $taxonomy, $object_type, $args ) {
-		if ( ! $args['hierarchical'] ) {
-			return;
-		}
-		$this->register_primary_term_meta( $taxonomy );
-	}
-
-	/**
-	 * Sanitize the primary term.
-	 *
-	 * @param string $clean      The clean value to sanitize.
-	 * @param mixed  $meta_value The meta value.
-	 * @param array  $field_def  The field definition.
-	 * @param string $meta_key   The meta key.
-	 *
-	 * @return string The sanitized value.
-	 */
-	public function sanitize_primary_term( $clean, $meta_value, $field_def, $meta_key ) {
-		if ( strpos( $meta_key, WPSEO_Meta::$meta_prefix . 'primary_' ) === 0 ) {
-			$int = WPSEO_Utils::validate_int( $meta_value );
-			if ( $int !== false && $int > 0 ) {
-				return strval( $int );
-			}
-		}
-		return $clean;
 	}
 
 	/**
@@ -274,21 +224,5 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 			'restBase'      => ( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name,
 			'terms'         => $mapped_terms_for_js,
 		];
-	}
-
-		/**
-		 * Register primary term meta.
-		 *
-		 * @param string $taxonomy The taxonomy name.
-		 *
-		 * @return void
-		 */
-	private function register_primary_term_meta( $taxonomy ) {
-		if ( in_array( $taxonomy, $this->registered_primary_taxonomies, true ) ) {
-			return;
-		}
-		WPSEO_Meta::register_meta( 'primary_' . $taxonomy, 'hidden', '' );
-		add_filter( 'wpseo_sanitize_post_meta_primary_' . $taxonomy, [ $this, 'sanitize_primary_term' ], 10, 4 );
-		$this->registered_primary_taxonomies[] = $taxonomy;
 	}
 }
