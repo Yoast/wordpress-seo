@@ -474,7 +474,7 @@ class WPSEO_Meta {
 			// Ids are always integers that are greater then 0.
 			case ( $meta_key === self::$meta_prefix . 'opengraph-image-id' ):
 			case ( $meta_key === self::$meta_prefix . 'twitter-image-id' ):
-			case ( strpos( $meta_key, WPSEO_Meta::$meta_prefix . 'primary_' ) === 0 ):
+			case ( strpos( $meta_key, self::$meta_prefix . 'primary_' ) === 0 ):
 				$int = WPSEO_Utils::validate_int( $meta_value );
 				if ( $int !== false && $int > 0 ) {
 					$clean = strval( $int );
