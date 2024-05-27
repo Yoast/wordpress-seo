@@ -43,7 +43,7 @@ Close.propTypes = {
 };
 
 /**
- * @param {string} description The toaster description.
+ * @param {string|string[]} description The toaster description.
  * @param {string} [className] The additional class names.
  * @returns {JSX.Element} The description.
  */
