@@ -104,8 +104,12 @@ class Feed_Improvements implements Integration_Interface {
 			return;
 		}
 
+		$queried_object = \get_queried_object();
+		// Don't call get_class with null. This gives a warning.
+		$class = ( $queried_object !== null ) ? \get_class( $queried_object ) : null;
+
 		$url = $this->get_url_for_queried_object( $this->meta->for_home_page()->canonical );
-		if ( ! empty( $url ) ) {
+		if ( ( ! empty( $url ) && $url !== $this->meta->for_home_page()->canonical ) || $class === null ) {
 			\header( \sprintf( 'Link: <%s>; rel="canonical"', $url ), false );
 		}
 	}
