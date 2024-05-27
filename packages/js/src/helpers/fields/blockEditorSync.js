@@ -35,12 +35,12 @@ const createUpdater = () => {
 
 		forEach( data, ( value, key ) => {
 			const fieldKey = key.replace( POST_META_KEY_PREFIX, "" );
-			if( fieldKey === "primary_terms" ) {
+			if ( fieldKey === "primary_terms" ) {
 				return;
 			}
 			const transformedValue = transformMetaValue( fieldKey, value );
 			if ( transformedValue !== postData.meta[ key ] ) {
-				if( ! changedData.meta ){
+				if ( ! changedData.meta ) {
 					changedData.meta = {};
 				}
 				changedData.meta[ key ] = transformedValue;
@@ -48,19 +48,17 @@ const createUpdater = () => {
 		} );
 
 		const primaryTerms = data[ `${POST_META_KEY_PREFIX}primary_terms` ];
-		
-		if( primaryTerms ) {
+		if ( primaryTerms ) {
 			forEach( primaryTerms, ( value, key ) => {
 				const fieldKey = `primary_${key}`;
 				const transformedValue = transformMetaValue( fieldKey, value );
 				if ( transformedValue !== postData[ `${POST_META_KEY_PREFIX}primary_terms` ][ key ] ) {
-					if( ! changedData[ `${POST_META_KEY_PREFIX}primary_terms` ] ){
+					if ( ! changedData[ `${POST_META_KEY_PREFIX}primary_terms` ] ) {
 						changedData[ `${POST_META_KEY_PREFIX}primary_terms` ] = {};
 					}
-					changedData[ `${POST_META_KEY_PREFIX}primary_terms` ][key] = transformedValue;
-				}
-			} );
-		
+					changedData[ `${POST_META_KEY_PREFIX}primary_terms` ][ key ] = transformedValue;
+				} 
+			});
 		}
 
 		if ( changedData ) {
