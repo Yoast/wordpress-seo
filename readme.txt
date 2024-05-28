@@ -317,7 +317,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 22.9 =
 
-Release date: 2024-06-11
+Release date: 2024-06-18
 
 #### Enhancements
 
