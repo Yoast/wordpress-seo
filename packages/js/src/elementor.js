@@ -15,7 +15,6 @@ import initElementorEditorIntegration from "./initializers/elementor-editor-inte
 import initializeInsights from "./insights/initializer";
 import initElementorWatcher from "./watchers/elementorWatcher";
 import { hiddenFieldsSync } from "./helpers/fields";
-import { registerSearchAppearanceDescriptionMention } from "./shared-admin/helpers/search-appearance-description-mention";
 
 /* eslint-disable complexity */
 /**
