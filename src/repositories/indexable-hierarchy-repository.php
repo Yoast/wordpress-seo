@@ -74,6 +74,10 @@ class Indexable_Hierarchy_Repository {
 	 * @return bool Whether or not the ancestor was added successfully.
 	 */
 	public function add_ancestor( $indexable_id, $ancestor_id, $depth ) {
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			return false;
+		}
+
 		$hierarchy = $this->query()->create(
 			[
 				'indexable_id' => $indexable_id,
@@ -83,7 +87,7 @@ class Indexable_Hierarchy_Repository {
 			]
 		);
 
-		return $this->indexable_helper->save_indexable( $hierarchy );
+		return $hierarchy->save();
 	}
 
 	/**

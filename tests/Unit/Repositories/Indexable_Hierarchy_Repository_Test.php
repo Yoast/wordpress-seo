@@ -228,6 +228,11 @@ final class Indexable_Hierarchy_Repository_Test extends TestCase {
 	public function test_add_ancestor() {
 		$this->instance->set_helper( $this->indexable_helper );
 
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->andReturnTrue();
+
 		$hierarchy               = Mockery::mock( Indexable_Hierarchy_Mock::class );
 		$hierarchy->indexable_id = 1;
 		$hierarchy->ancestor_id  = 2;
@@ -237,6 +242,8 @@ final class Indexable_Hierarchy_Repository_Test extends TestCase {
 		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 
 		$orm_object = Mockery::mock( ORM::class )->makePartial();
+
+		$hierarchy->expects( 'save' )->once()->andReturn( true );
 
 		$orm_object
 			->expects( 'create' )
@@ -250,12 +257,6 @@ final class Indexable_Hierarchy_Repository_Test extends TestCase {
 			)
 			->andReturn( $hierarchy );
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
-
-		$this->indexable_helper
-			->expects( 'save_indexable' )
-			->once()
-			->with( $hierarchy )
-			->andReturnTrue();
 
 		$this->assertTrue( $this->instance->add_ancestor( 1, 2, 1 ) );
 	}
