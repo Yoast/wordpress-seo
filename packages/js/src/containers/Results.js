@@ -8,23 +8,27 @@ export default compose( [
 			getActiveMarker,
 			getIsPremium,
 			getShortcodesForParsing,
+			getActiveAIFixesButton,
 		} = select( "yoast-seo/editor" );
 
 		return {
 			activeMarker: getActiveMarker(),
 			isPremium: getIsPremium(),
 			shortcodesForParsing: getShortcodesForParsing(),
+			activeAIFixesButton: getActiveAIFixesButton(),
 		};
 	} ),
 	withDispatch( dispatch => {
 		const {
 			setActiveMarker,
 			setMarkerPauseStatus,
+			setActiveAIFixesButton,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
 			setActiveMarker,
 			setMarkerPauseStatus,
+			setActiveAIFixesButton,
 		};
 	} ),
 ] )( Results );

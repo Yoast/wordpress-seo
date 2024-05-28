@@ -6,6 +6,17 @@ import Factory from "../../../../src/helpers/factory";
 const matchKeywordAssessment = new SubheadingsKeywordAssessment();
 
 describe( "An assessment for matching keywords in subheadings", () => {
+	it( "returns `hasAIFixes` to be true when the result is BAD", function() {
+		const mockPaper = new Paper();
+		const assessment = matchKeywordAssessment.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( { count: 1, matches: 0, percentReflectingTopic: 0 } )
+		);
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.hasAIFixes() ).toBeTruthy();
+	} );
+
 	it( "returns a bad score and appropriate feedback when none of the subheadings contain the keyphrase: no matches.", function() {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(

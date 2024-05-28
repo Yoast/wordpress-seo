@@ -19,13 +19,9 @@
             @apply yst-top-8 yst-items-center;
         }
 
-        .yst-notification {
-            @apply yst-w-80 yst-max-w-full yst-overflow-y-auto yst-p-4 yst-bg-white yst-shadow-lg yst-rounded-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 yst-z-20 yst-pointer-events-auto;
-        }
-
-        .yst-notification--large {
-            @apply yst-w-96;
-        }
+		.yst-notification--large {
+			@apply yst-w-96;
+		}
 
         .yst-notification__icon {
             @apply yst-w-5 yst-h-5;

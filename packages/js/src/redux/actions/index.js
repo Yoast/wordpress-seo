@@ -5,6 +5,7 @@ export const { setPluginUrl } = pluginUrlActions;
 export const { setWistiaEmbedPermission, setWistiaEmbedPermissionValue } = wistiaEmbedPermissionActions;
 export * from "../../insights/redux/actions";
 export * from "./activeMarker";
+export * from "./activeAIButton";
 export * from "./advancedSettings";
 export * from "./analysis";
 export * from "./checklist";
