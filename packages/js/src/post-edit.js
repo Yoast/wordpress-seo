@@ -70,7 +70,4 @@ domReady( () => {
 		// Initialize the AI Generator upsell.
 		initializeAiGenerator();
 	}
-
-	// Initialize the mentions.
-	registerSearchAppearanceDescriptionMention();
 } );

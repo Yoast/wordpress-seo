@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.5
-Stable tag: 22.7
+Stable tag: 22.8
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -319,19 +319,25 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-05-28
 
+Yoast SEO 22.8 brings enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-28-5-24).
+
 #### Enhancements
 
 * Converts the Yoast _Breadcrumbs_ block to use the Blocks V3 API.
 
 #### Bugfixes
 
-* Fixes a bug where a \"Failed to retrieve media\" error could prevent selecting a different image or removing the current selection.
+* Fixes a bug preventing multiple _FAQ_ blocks from being added to a post/page.
+* Fixes a bug where a class was missing in the output of the _FAQ_ and _How-To_ blocks.
+* Fixes a bug where a "Failed to retrieve media" error could prevent selecting a different image or removing the current selection.
+* Fixes a bug where our modals would not open when visiting our sidebar in Elementor for the second time.
 * Fixes a bug where some Yoast SEO settings could not be imported correctly.
 
 #### Other
 
-*  Deprecates the `WPSEO_Customizer` class.
+* Removes the fixed date and separator snippet variables from the meta description text field.
 * Removes the Yoast SEO Breadcrumbs panel from the Customizer to improve compatibility with block-based themes. Users can always change the options for the breadcrumbs under Yoast SEO > Settings > Advanced > Breadcrumbs.
+* Deprecates the `WPSEO_Customizer` class.
 
 = 22.7 =
 
