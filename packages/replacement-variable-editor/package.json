@@ -12,7 +12,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "build": "yarn clean && yarn build:js",
-    "build:js": "babel src --out-dir build",
+    "build:js": "webpack",
     "clean": "rm -rf build",
     "test": "jest",
     "lint": "eslint . --max-warnings=0",
@@ -32,6 +32,8 @@
     "@yoast/style-guide": "^0.13.0",
     "classnames": "^2.3.2",
     "draft-js-single-line-plugin": "^2.0.5",
+    "@draft-js-plugins/mention": "^5.0.0",
+    "draft-js": "^0.11.7",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react": "^18.2.0",
@@ -55,9 +57,5 @@
     "eslint-plugin-react": "^7.34.1",
     "jest-styled-components": "^7.0.3",
     "react-test-renderer": "^18.2.0"
-  },
-  "peerDependencies": {
-    "@draft-js-plugins/mention": "^5.0.0",
-    "draft-js": "^0.11.7"
   }
 }
