@@ -41,10 +41,9 @@ const getComplexWords = function( currentSentence, researcher ) {
 	const allWords = getWords( currentSentence );
 	// Filters out function words because function words are not complex.
 	// Words are converted to lowercase before processing to avoid excluding function words that start with a capital letter.
-	const wordsWithoutFunctionWords = allWords.filter( word => ! ( checkIfWordIsFunction ? checkIfWordIsFunction( word ) : functionWords.includes( word ) ) );
 	// Filters out keyphrases because they are allowed to be complex.
 	// Words are converted to lowercase before processing to avoid excluding function words that start with a capital letter.
-	const words = wordsWithoutFunctionWords.filter( word => ! ( findKeywordFormInString ? findKeywordFormInString( word ) : keywordForms.includes( word ) ) );
+	const words = allWords.filter( word => ! ( checkIfWordIsFunction ? checkIfWordIsFunction( word ) : functionWords.includes( word ) ) || findKeywordFormInString ? findKeywordFormInString( word ) : keywordForms.includes( word ) )
 	const result = {
 		complexWords: [],
 		sentence: currentSentence,
