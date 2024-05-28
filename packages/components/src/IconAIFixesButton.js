@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
-import IconButtonBase from "./IconButtonBase";
+import AIFixesButtonBase from "./AIFixesButtonBase";
 
 /**
  * Returns the IconAIFixesButton component.
@@ -16,7 +16,7 @@ import IconButtonBase from "./IconButtonBase";
  */
 const IconAIFixesButton = function( props ) {
 	return (
-		<IconButtonBase
+		<AIFixesButtonBase
 			disabled={ false }
 			type="button"
 			onClick={ props.onClick }
@@ -34,7 +34,7 @@ const IconAIFixesButton = function( props ) {
 			className={ props.className }
 		>
 			{ props.children }
-		</IconButtonBase>
+		</AIFixesButtonBase>
 	);
 };
 
