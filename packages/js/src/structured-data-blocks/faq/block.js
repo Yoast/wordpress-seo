@@ -40,9 +40,10 @@ registerBlockType( block, {
 	 * @returns {Component} The display component.
 	 */
 	save: ( { attributes } ) => {
-		return <Faq.Content { ...attributes } />;
+		const blockProps = useBlockProps.save( attributes );
+
+		return <Faq.Content { ...blockProps } />;
 	},
-	/* eslint-enable react/display-name */
 
 	deprecated: [
 		{

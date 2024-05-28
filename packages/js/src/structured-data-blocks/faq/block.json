@@ -14,9 +14,6 @@
     "SEO",
     "Structured Data"
   ],
-  "supports": {
-    "multiple": false
-  },
   "textdomain": "wordpress-seo",
   "attributes": {
     "questions": {

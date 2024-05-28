@@ -227,6 +227,12 @@
 		<exclude-pattern>/inc/wpseo-functions-deprecated\.php$</exclude-pattern>
 	</rule>
 
+	<!-- Ignore unused variables in deprecated functionality. -->
+	<rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable">
+		<exclude-pattern>/src/deprecated/*</exclude-pattern>
+		<exclude-pattern>/inc/wpseo-functions-deprecated\.php$</exclude-pattern>
+	</rule>
+
 	<!-- Exclude deprecated code from select sniffs regarding naming conventions.
 		 These classes are still available to prevent BC-breaks and renaming them would
 		 create a BC-break. -->

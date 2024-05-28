@@ -165,21 +165,6 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Adds content to the Crawl Cleanup tab.
-	 *
-	 * @deprecated 20.4
-	 * @codeCoverageIgnore
-	 *
-	 * @param Yoast_Form $yform The yoast form object.
-	 *
-	 * @return void
-	 */
-	public function add_crawl_settings_tab_content( $yform ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
-		$this->add_crawl_settings( $yform );
-	}
-
-	/**
 	 * Adds content to the Crawl Cleanup network tab.
 	 *
 	 * @param Yoast_Form $yform The yoast form object.

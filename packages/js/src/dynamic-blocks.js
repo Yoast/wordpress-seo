@@ -1,6 +1,10 @@
+/* External dependencies */
+import { useBlockProps } from "@wordpress/block-editor";
 import { registerBlockType } from "@wordpress/blocks";
-import { __ } from "@wordpress/i18n";
 import ServerSideRender from "@wordpress/server-side-render";
+
+/* Internal dependencies */
+import block from "./dynamic-blocks/breadcrumbs/block.json";
 
 /**
  * Registers the dynamic blocks.
@@ -8,33 +12,23 @@ import ServerSideRender from "@wordpress/server-side-render";
  * @returns {void}
  */
 const registerDynamicBlocks = () => {
-	/* eslint-disable react/display-name */
-	registerBlockType( "yoast-seo/breadcrumbs", {
-		title: __( "Yoast Breadcrumbs", "wordpress-seo" ),
-		icon: "admin-links",
-		category: "yoast-internal-linking-blocks",
-		description: __( "Adds the Yoast SEO breadcrumbs to your template or content.", "wordpress-seo" ),
-		keywords: [
-			__( "seo", "wordpress-seo" ),
-			__( "breadcrumbs", "wordpress-seo" ),
-			__( "internal linking", "wordpress-seo" ),
-			__( "site structure", "wordpress-seo" ),
-		],
-		example: {
-			attributes: {},
-		},
+	registerBlockType( block, {
 		/**
 		 * Renders the block in the editor.
 		 *
 		 * @param {object} props The Props.
 		 * @returns {wp.Element} The component.
 		 */
-		edit: function( props ) {
+		edit: ( props ) => {
+			const blockProps = useBlockProps();
+
 			return (
-				<ServerSideRender
-					block="yoast-seo/breadcrumbs"
-					attributes={ props.attributes }
-				/>
+				<div { ...blockProps }>
+					<ServerSideRender
+						block="yoast-seo/breadcrumbs"
+						attributes={ props.attributes }
+					/>
+				</div>
 			);
 		},
 		/**
@@ -42,12 +36,10 @@ const registerDynamicBlocks = () => {
 		 *
 		 * @returns {null} Nothing.
 		 */
-		save: function() {
+		save: () => {
 			return null;
 		},
 	} );
-
-	/* eslint-enable react/display-name */
 };
 
 registerDynamicBlocks();

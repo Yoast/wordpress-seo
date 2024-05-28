@@ -12,7 +12,6 @@ import { NewButton, ButtonStyledLink } from "@yoast/components";
 import { ModalContainer } from "./modals/Container";
 import Modal from "./modals/Modal";
 import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
-import { isCloseEvent } from "./modals/editorModals/EditorModal.js";
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
@@ -29,7 +28,6 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 		super( props );
 
 		this.onModalOpen      = this.onModalOpen.bind( this );
-		this.onModalClose     = this.onModalClose.bind( this );
 		this.onLinkClick      = this.onLinkClick.bind( this );
 		this.listenToMessages = this.listenToMessages.bind( this );
 	}
@@ -46,21 +44,6 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 		}
 
 		this.props.onOpen( this.props.location );
-	}
-
-	/**
-	 * Handles the close event for the modal.
-	 *
-	 * @param {Event} event The event passed to the onRequestClose.
-	 *
-	 * @returns {void}
-	 */
-	onModalClose( event ) {
-		if ( ! isCloseEvent( event ) ) {
-			return;
-		}
-
-		this.props.onClose();
 	}
 
 	/**
@@ -171,7 +154,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	 * @returns {wp.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
-		const { keyphrase, location, whichModalOpen, isLoggedIn, shouldCloseOnClickOutside } = this.props;
+		const { keyphrase, location, whichModalOpen, isLoggedIn, shouldCloseOnClickOutside, onClose } = this.props;
 
 		return (
 			<Fragment>
@@ -187,7 +170,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 				{ keyphrase && whichModalOpen === location &&
 					<Modal
 						title={ __( "Related keyphrases", "wordpress-seo" ) }
-						onRequestClose={ this.onModalClose }
+						onRequestClose={ onClose }
 						icon={ <YoastIcon /> }
 						additionalClassName="yoast-related-keyphrases-modal"
 						shouldCloseOnClickOutside={ shouldCloseOnClickOutside }
