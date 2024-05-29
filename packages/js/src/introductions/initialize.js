@@ -30,7 +30,7 @@ domReady( () => {
 		isRtl: Boolean( get( window, `${ DATA_NAME }.isRtl`, false ) ),
 	};
 	const initialComponents = {
-		"ai-fix-assessments": Content,
+		"ai-fix-assessments-upsell": Content,
 	};
 
 	const root = document.createElement( "div" );

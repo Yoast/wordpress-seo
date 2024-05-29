@@ -17,7 +17,7 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 
 	use User_Allowed_Trait;
 
-	public const ID = 'ai-fix-assessments';
+	public const ID = 'ai-fix-assessments-upsell';
 
 	/**
 	 * Holds the options helper.
