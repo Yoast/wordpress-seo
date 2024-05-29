@@ -1,1 +1,1 @@
-The Toast component is a general-purpose toast element which can be used to implement custom notifications.
+The Toast element is a versatile toast component that can be used to implement custom notifications.
