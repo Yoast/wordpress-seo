@@ -1,13 +1,17 @@
 import { dispatch } from "@wordpress/data";
+import domReady from "@wordpress/dom-ready";
+import { createPortal, useState } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
 import { __, sprintf } from "@wordpress/i18n";
-import { StyleSheetManager } from "styled-components";
+import { Root } from "@yoast/externals/contexts";
 import { debounce } from "lodash";
-import { registerElementorDataHookAfter } from "../helpers/elementorHook";
-import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
-import { Root } from "@yoast/externals/contexts";
+import { registerElementorDataHookAfter } from "../helpers/elementorHook";
+import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
+import { useMutationObserver } from "../hooks/use-mutation-observer";
+
+const TAB_ID = "yoast-elementor-react-tab";
 
 // Keep track of unsaved SEO setting changes.
 let hasUnsavedSeoChanges = false;
@@ -188,7 +192,7 @@ function detectChange( input ) {
  * @returns {void}
  */
 function sendFormData( form ) {
-	// Assume the save will be succesful, to prevent a flashing warning due to the post status listener.
+	// Assume the save will be successful, to prevent a flashing warning due to the post status listener.
 	hasUnsavedSeoChanges = false;
 
 	const data = jQuery( form ).serializeArray().reduce( ( result, { name, value } ) => {
@@ -222,25 +226,76 @@ function sendFormData( form ) {
 }
 
 /**
+ * Renders the content in a portal if the element exists.
+ *
+ * The portal is created once the element is detected.
+ * The portal is removed once the element is removed.
+ *
+ * @param {string} id The ID of the element to render in.
+ * @param {JSX.node} children The content.
+ *
+ * @returns {JSX.node|null} The rendered content or null.
+ */
+const RenderInPortalIfElementExists = ( { id, children } ) => {
+	const [ render, setRender ] = useState( null );
+
+	useMutationObserver( document.body, () => {
+		const el = document.getElementById( id );
+		if ( el ) {
+			if ( render === null ) {
+				setRender( createPortal( children, el ) );
+			}
+		} else if ( render !== null ) {
+			setRender( null );
+		}
+	} );
+
+	return render;
+};
+
+/**
  * Renders the Yoast tab React content.
  * @returns {void}
  */
-function renderYoastTabReactContent() {
-	const elementorSidebarContext = { locationContext: "elementor-sidebar" };
+const renderYoastTabReactContent = () => {
+	// Get the current tab/controls.
+	const root = document.getElementById( "elementor-panel-page-settings-controls" );
+	if ( ! root ) {
+		return;
+	}
 
-	setTimeout( () => {
-		renderReactRoot( "elementor-panel-page-settings-controls", (
-			<Root context={ elementorSidebarContext }>
-				<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
-					<div className="yoast yoast-elementor-panel__fills">
-						<ElementorSlot />
-						<ElementorFill />
-					</div>
-				</StyleSheetManager>
-			</Root>
-		) );
-	}, 200 );
-}
+	// Hide the Elementor control, we just fill the full contents of the tab.
+	const control = root.getElementsByClassName( "elementor-control" )?.[ 0 ];
+	if ( control ) {
+		control.style.display = "none";
+	}
+
+	// Create our Yoast tab inside, being picked up by the MutationObserver of RenderInPortalIfElementExists.
+	const element = document.createElement( "div" );
+	element.id = TAB_ID;
+	element.className = "yoast yoast-elementor-panel__fills";
+	root.appendChild( element );
+};
+
+/**
+ * Renders the Yoast React root.
+ * @returns {void}
+ */
+const renderYoastReactRoot = () => {
+	const elementorSidebarContext = { locationContext: "elementor-sidebar" };
+	const root = document.createElement( "div" );
+	root.id = "yoast-elementor-react-root";
+	document.body.appendChild( root );
+
+	renderReactRoot( root.id, (
+		<Root context={ elementorSidebarContext }>
+			<RenderInPortalIfElementExists id={ TAB_ID }>
+				<ElementorSlot />
+				<ElementorFill />
+			</RenderInPortalIfElementExists>
+		</Root>
+	) );
+};
 
 /**
  * Initializes the Yoast elementor editor integration.
@@ -252,19 +307,20 @@ export default function initElementEditorIntegration() {
 	window.YoastSEO = window.YoastSEO || {};
 	window.YoastSEO._registerReactComponent = registerReactComponent;
 
+	domReady( renderYoastReactRoot );
 	initializePostStatusListener();
 
 	// Hook into the save.
 	const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
 	registerElementorDataHookAfter( "document/save/save", "yoast-seo-save", () => {
-		/*
-		* Do not save our data to a revision.
-		*
-		* WordPress saves the metadata to the post parent, not the revision. See `update_post_meta`.
-		* Most likely this is because saving a revision on a published post will unpublish in WordPress itself.
-		* But Elementor does not unpublish your post when you save a draft.
-		* This would result in Yoast SEO data being live while saving a draft.
-		*/
+		/**
+		 * Do not save our data to a revision.
+		 *
+		 * WordPress saves the metadata to the post parent, not the revision. See `update_post_meta`.
+		 * Most likely this is because saving a revision on a published post will unpublish in WordPress itself.
+		 * But Elementor does not unpublish your post when you save a draft.
+		 * This would result in Yoast SEO data being live while saving a draft.
+		 */
 		if ( window.elementor.config.document.id === window.elementor.config.document.revisions.current_id ) {
 			handleSave();
 		}
