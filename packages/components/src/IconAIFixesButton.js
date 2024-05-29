@@ -7,6 +7,11 @@ import { colors } from "@yoast/style-guide";
 /* Internal dependencies */
 import AIFixesButtonBase from "./AIFixesButtonBase";
 
+// const gradientEffect = {
+// 	defaultState: `linear-gradient( to bottom right, #A61E69, #3B82F6 )`,
+// 	hoverState: `linear-gradient( to bottom right, #A61E69, #3B82F6 )`,
+// 	pressedState: `linear-gradient( to bottom right, #A61E69 , #3B82F6 )`
+// };
 /**
  * Returns the IconAIFixesButton component.
  *
