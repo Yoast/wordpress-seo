@@ -66,7 +66,7 @@ export const withTitle = {
 		),
 	},
 	parameters: {
-		controls: { disable: false },
+		controls: { disable: true },
 		docs: { description: { story: title } },
 	},
 };
@@ -81,7 +81,7 @@ export const withDescription = {
 		),
 	},
 	parameters: {
-		controls: { disable: false },
+		controls: { disable: true },
 		docs: { description: { story: description } },
 	},
 };
@@ -99,7 +99,7 @@ export const withClose = {
 		),
 	},
 	parameters: {
-		controls: { disable: false },
+		controls: { disable: true },
 		docs: { description: { story: close } },
 	},
 };
