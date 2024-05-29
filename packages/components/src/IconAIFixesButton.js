@@ -7,11 +7,6 @@ import { colors } from "@yoast/style-guide";
 /* Internal dependencies */
 import AIFixesButtonBase from "./AIFixesButtonBase";
 
-// const gradientEffect = {
-// 	defaultState: `linear-gradient( to bottom right, #A61E69, #3B82F6 )`,
-// 	hoverState: `linear-gradient( to bottom right, #A61E69, #3B82F6 )`,
-// 	pressedState: `linear-gradient( to bottom right, #A61E69 , #3B82F6 )`
-// };
 /**
  * Returns the IconAIFixesButton component.
  *
@@ -27,13 +22,13 @@ const IconAIFixesButton = function( props ) {
 			onClick={ props.onClick }
 			pressed={ props.pressed }
 			unpressedBoxShadowColor={ props.unpressedBoxShadowColor }
-			pressedBoxShadowColor={ props.pressedBoxShadowColor }
-			pressedBackground={ props.pressedBackground }
+			// pressedBoxShadowColor={ props.pressedBoxShadowColor }
+			// pressedBackground={ props.pressedBackground }
 			unpressedBackground={ props.unpressedBackground }
 			id={ props.id }
 			aria-label={ props.ariaLabel }
 			aria-pressed={ props.pressed }
-			unpressedIconColor={ props.unpressedIconColor }
+			// unpressedIconColor={ props.unpressedIconColor }
 			pressedIconColor={ props.pressedIconColor }
 			hoverBorderColor={ props.hoverBorderColor }
 			className={ props.className }
@@ -49,11 +44,11 @@ IconAIFixesButton.propTypes = {
 	ariaLabel: PropTypes.string.isRequired,
 	onClick: PropTypes.func,
 	unpressedBoxShadowColor: PropTypes.string,
-	pressedBoxShadowColor: PropTypes.string,
-	pressedBackground: PropTypes.string,
+	// pressedBoxShadowColor: PropTypes.string,
+	// pressedBackground: PropTypes.string,
 	unpressedBackground: PropTypes.string,
 	pressedIconColor: PropTypes.string,
-	unpressedIconColor: PropTypes.string,
+	// unpressedIconColor: PropTypes.string,
 	pressed: PropTypes.bool.isRequired,
 	hoverBorderColor: PropTypes.string,
 	className: PropTypes.string,
@@ -61,11 +56,11 @@ IconAIFixesButton.propTypes = {
 
 IconAIFixesButton.defaultProps = {
 	unpressedBoxShadowColor: colors.$color_button_border,
-	pressedBoxShadowColor: colors.$color_purple,
-	pressedBackground: colors.$color_pink_dark,
+	// pressedBoxShadowColor: colors.$color_purple,
+	// pressedBackground: colors.$color_pink_dark,
 	unpressedBackground: colors.$color_button,
 	pressedIconColor: colors.$color_white,
-	unpressedIconColor: colors.$color_button_text,
+	// unpressedIconColor: gradientEffect.pressedState,
 	hoverBorderColor: colors.$color_white,
 };
 
