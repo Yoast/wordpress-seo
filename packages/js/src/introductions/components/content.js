@@ -1,6 +1,6 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
-import { AiFixAssesments } from "../../shared-admin/components";
+import { AiFixAssesmentsUpsell } from "../../shared-admin/components";
 import { STORE_NAME_INTRODUCTIONS } from "../constants";
 
 /**
@@ -23,7 +23,7 @@ export const Content = () => {
 	const wistiaEmbedPermission = useMemo( () => ( { value, status, set } ), [ value, status, set ] );
 
 	return (
-		<AiFixAssesments
+		<AiFixAssesmentsUpsell
 			learnMoreLink={ learnMoreLink }
 			upsellLink={ upsellLink }
 			thumbnail={ thumbnail }
