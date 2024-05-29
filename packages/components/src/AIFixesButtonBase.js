@@ -2,28 +2,31 @@ import styled from "styled-components";
 import { colors, rgba } from "@yoast/style-guide";
 import IconButtonBase from "./IconButtonBase";
 
-const yoastPrimary50 = '#CD82AB';
-const yoastPrimary100 = '#A61E69';
-const yoastPrimary500 = '#A61E69';
-const blue50 = '#EFF6FF';
-const blue100 = '#93C5FD';
-const blue500 = '#3B82F6';
-const direction = 'to bottom right';
+const yoastPrimary50 = "#CD82AB";
+const yoastPrimary100 = "#A61E69";
+const yoastPrimary500 = "#A61E69";
+const blue50 = "#EFF6FF";
+const blue100 = "#93C5FD";
+const blue500 = "#3B82F6";
+const direction = "to bottom right";
 
 const gradientEffect = {
-	defaultState: `linear-gradient(${direction}, ${yoastPrimary50}, ${blue50})`,
+	defaultState: `linear-gradient(${direction}, ${yoastPrimary50}, ${blue100})`,
 	hoverState: `linear-gradient(${direction}, ${yoastPrimary100}, ${blue100})`,
 	pressedState: `linear-gradient(${direction}, ${yoastPrimary500}, ${blue500})`
 };
 
-const AIFixesButtonBase = styled(IconButtonBase)`
-	border: 1px solid ${ gradientEffect.defaultState };
-	border-image: ${ gradientEffect.defaultState } 1;
-	background-color: ${ props => props.pressed ? props.pressedBackground : props.unpressedBackground };
+const testColors = { fuchsia500: "#d946ef", teal500: "#14b8a6" };
+
+const AIFixesButtonBase = styled(IconButtonBase)` /* linear-gradient not working in styled-components */
+	overflow: hidden;
+	border: 1px solid transparent;
+	border-image: ${ gradientEffect.defaultState } 1; /* the border-radius is not applied to the border-image */
+	background-color: ${ props => props.pressed ? gradientEffect.pressedState : props.unpressedBackground };
 	box-shadow: ${ props => props.pressed
-		? `inset 0 2px 0 ${ rgba( props.pressedBoxShadowColor, 0.7 ) }`
+		? `inset 0 2px 0 ${ gradientEffect.pressedState }`
 		: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
-	&:hover {
+	&&:hover {
 		border-color: ${ props => props.hoverBorderColor };
 		}
 	&:disabled {
