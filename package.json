@@ -32,7 +32,7 @@
     "build": "lerna run build",
     "build:css": "postcss css/dist/*.css --verbose --replace",
     "webpack-analyze-bundle": "wp-scripts build --config config/webpack/webpack.config.js --webpack-bundle-analyzer",
-    "start": "wp-scripts start --config config/webpack/webpack.config.js --webpack-src-dir=packages/**/src",
+    "start": "wp-scripts start --config config/webpack/webpack.config.js --webpack-src-dir=packages/js/src",
     "sync:wp-deps": "node config/scripts/sync-wp-dependencies.js"
   },
   "dependencies": {},
@@ -75,7 +75,7 @@
     "webpack-bundle-analyzer": "^4.9.1"
   },
   "yoast": {
-    "pluginVersion": "22.8-RC1"
+    "pluginVersion": "22.9-RC1"
   },
   "version": "0.0.0"
 }
