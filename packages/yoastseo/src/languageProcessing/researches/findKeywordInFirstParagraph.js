@@ -1,8 +1,10 @@
 /** @module analyses/findKeywordInFirstParagraph */
+import { isEmpty } from "lodash";
 
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
+import getParagraphs from "./getParagraphs.js";
+import { elementHasName } from "../../parse/build/private/filterHelpers.js";
 
-import { isEmpty } from "lodash";
 
 /**
  * Checks if the introductory paragraph contains keyphrase or synonyms.
@@ -24,7 +26,10 @@ import { isEmpty } from "lodash";
  * the paragraph, whether a keyphrase or a synonym phrase was matched.
  */
 export default function( paper, researcher ) {
-	const firstParagraph = researcher.getResearch( "getParagraphs" )[ 0 ];
+	const nodesToExclude = [
+		elementHasName( "figcaption" ),
+	];
+	const firstParagraph = getParagraphs( paper, nodesToExclude )[ 0 ];
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const locale = paper.getLocale();
@@ -33,6 +38,7 @@ export default function( paper, researcher ) {
 		foundInOneSentence: false,
 		foundInParagraph: false,
 		keyphraseOrSynonym: "",
+		introduction: firstParagraph,
 	};
 
 	if ( isEmpty( firstParagraph ) ) {
