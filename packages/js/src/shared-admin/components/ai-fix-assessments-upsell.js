@@ -18,7 +18,7 @@ import { OutboundLink, VideoFlow } from ".";
  * @param {string|JSX.Element } bundleNote The bundle note.
  * @returns {JSX.Element} The element.
  */
-export const AiFixAssesmentsUpsell = ( {
+export const AiFixAssessmentsUpsell = ( {
 	learnMoreLink,
 	thumbnail,
 	wistiaEmbedPermission,
@@ -108,7 +108,7 @@ export const AiFixAssesmentsUpsell = ( {
 		</div>
 	);
 };
-AiFixAssesmentsUpsell.propTypes = {
+AiFixAssessmentsUpsell.propTypes = {
 	learnMoreLink: PropTypes.string.isRequired,
 	upsellLink: PropTypes.string.isRequired,
 	thumbnail: PropTypes.shape( {
@@ -131,7 +131,7 @@ AiFixAssesmentsUpsell.propTypes = {
 	] ),
 };
 
-AiFixAssesmentsUpsell.defaultProps = {
+AiFixAssessmentsUpsell.defaultProps = {
 	title: __( "Use AI to fix assesments!", "wordpress-seo" ),
 	upsellLabel: sprintf(
 		/* translators: %1$s expands to Yoast SEO Premium. */

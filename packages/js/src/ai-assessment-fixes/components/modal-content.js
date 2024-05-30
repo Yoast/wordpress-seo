@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
-import { AiFixAssesmentsUpsell } from "../../shared-admin/components";
+import { AiFixAssessmentsUpsell } from "../../shared-admin/components";
 import { __, sprintf } from "@wordpress/i18n";
 
 const STORE = "yoast-seo/editor";
@@ -38,7 +38,7 @@ export const ModalContent = () => {
 
 
 	return (
-		<AiFixAssesmentsUpsell
+		<AiFixAssessmentsUpsell
 			learnMoreLink={ learnMoreLink }
 			thumbnail={ thumbnail }
 			wistiaEmbedPermission={ wistiaEmbedPermission }
