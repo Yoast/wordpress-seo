@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
-import AIFixesButtonBase from "./AIFixesButtonBase";
+import AIFixesButton from "./ai-fixes-button/AIFixesButton";
 
 /**
  * Returns the IconAIFixesButton component.
@@ -14,27 +14,27 @@ import AIFixesButtonBase from "./AIFixesButtonBase";
  *
  * @returns {JSX.Element} IconAIFixesButton component.
  */
-const IconAIFixesButton = function( props ) {
+const IconAIFixesButton = function (props) {
 	return (
-		<AIFixesButtonBase
-			disabled={ false }
+		<AIFixesButton
+			disabled={false}
 			type="button"
-			onClick={ props.onClick }
-			pressed={ props.pressed }
-			unpressedBoxShadowColor={ props.unpressedBoxShadowColor }
+			onClick={props.onClick}
+			pressed={props.pressed}
+			// unpressedBoxShadowColor={props.unpressedBoxShadowColor}
 			// pressedBoxShadowColor={ props.pressedBoxShadowColor }
 			// pressedBackground={ props.pressedBackground }
-			unpressedBackground={ props.unpressedBackground }
-			id={ props.id }
-			aria-label={ props.ariaLabel }
-			aria-pressed={ props.pressed }
+			// unpressedBackground={props.unpressedBackground}
+			id={props.id}
+			aria-label={props.ariaLabel}
+			aria-pressed={props.pressed}
 			// unpressedIconColor={ props.unpressedIconColor }
-			pressedIconColor={ props.pressedIconColor }
-			hoverBorderColor={ props.hoverBorderColor }
-			className={ props.className }
+			// pressedIconColor={props.pressedIconColor}
+			// hoverBorderColor={props.hoverBorderColor}
+			className={props.className}
 		>
-			{ props.children }
-		</AIFixesButtonBase>
+			{props.children}
+		</AIFixesButton>
 	);
 };
 
@@ -43,25 +43,25 @@ IconAIFixesButton.propTypes = {
 	id: PropTypes.string.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
 	onClick: PropTypes.func,
-	unpressedBoxShadowColor: PropTypes.string,
+	// unpressedBoxShadowColor: PropTypes.string,
 	// pressedBoxShadowColor: PropTypes.string,
 	// pressedBackground: PropTypes.string,
-	unpressedBackground: PropTypes.string,
-	pressedIconColor: PropTypes.string,
+	// unpressedBackground: PropTypes.string,
+	// pressedIconColor: PropTypes.string,
 	// unpressedIconColor: PropTypes.string,
 	pressed: PropTypes.bool.isRequired,
-	hoverBorderColor: PropTypes.string,
+	// hoverBorderColor: PropTypes.string,
 	className: PropTypes.string,
 };
 
 IconAIFixesButton.defaultProps = {
-	unpressedBoxShadowColor: colors.$color_button_border,
+	// unpressedBoxShadowColor: colors.$color_button_border,
 	// pressedBoxShadowColor: colors.$color_purple,
 	// pressedBackground: colors.$color_pink_dark,
-	unpressedBackground: colors.$color_button,
-	pressedIconColor: colors.$color_white,
+	// unpressedBackground: colors.$color_button,
+	// pressedIconColor: colors.$color_white,
 	// unpressedIconColor: gradientEffect.pressedState,
-	hoverBorderColor: colors.$color_white,
+	// hoverBorderColor: colors.$color_white,
 };
 
 export default IconAIFixesButton;

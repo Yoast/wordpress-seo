@@ -1,0 +1,25 @@
+.yoast_AI-fixes-button {
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	min-width: 32px;
+	display: inline-flex;
+	border: 2px solid green;
+	background: linear-gradient( to bottom right, #FAF3F7, #EFF6FF );
+	color: linear-gradient( to bottom right, #A61E69, #3B82F6 );
+	/* box-shadow: ; */
+	border-radius: 3px;
+	cursor: pointer;
+	padding: 0;
+	height: 24px;
+
+	/* &:hover {
+		border-color: ;
+	}
+	&:disabled {
+		background-color: ;
+		box-shadow: none;
+		border: none;
+		cursor: default;
+	} */
+}
