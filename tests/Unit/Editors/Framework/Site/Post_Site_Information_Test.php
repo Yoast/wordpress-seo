@@ -108,6 +108,15 @@ final class Post_Site_Information_Test extends TestCase {
 	 */
 	public function test_legacy_site_information() {
 		$expected = [
+			'dismissedAlerts'            => [
+				'the alert',
+			],
+			'currentPromotions'          => [
+				'the promotion',
+				'another one',
+			],
+			'webinarIntroBlockEditorUrl' => 'https://expl.c',
+			'blackFridayBlockEditorUrl'  => '',
 			'metabox'                    => [
 				'search_url'    => 'https://example.org',
 				'post_edit_url' => 'https://example.org',
@@ -119,15 +128,6 @@ final class Post_Site_Information_Test extends TestCase {
 				'isPremium'     => true,
 				'siteIconUrl'   => 'https://example.org',
 			],
-			'dismissedAlerts'            => [
-				'the alert',
-			],
-			'currentPromotions'          => [
-				'the promotion',
-				'another one',
-			],
-			'webinarIntroBlockEditorUrl' => 'https://expl.c',
-			'blackFridayBlockEditorUrl'  => '',
 			'linkParams'                 => [
 				'param',
 				'param2',
@@ -157,9 +157,6 @@ final class Post_Site_Information_Test extends TestCase {
 	 */
 	public function test_site_information() {
 		$expected = [
-			'search_url'                     => 'https://example.org',
-			'post_edit_url'                  => 'https://example.org',
-			'base_url'                       => 'https://example.org',
 
 			'dismissedAlerts'                => [
 				'the alert',
@@ -170,6 +167,10 @@ final class Post_Site_Information_Test extends TestCase {
 			],
 			'webinarIntroBlockEditorUrl'     => 'https://expl.c',
 			'blackFridayBlockEditorUrl'      => '',
+			'search_url'                     => 'https://example.org',
+			'post_edit_url'                  => 'https://example.org',
+			'base_url'                       => 'https://example.org',
+
 			'linkParams'                     => [
 				'param',
 				'param2',

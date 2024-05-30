@@ -31,7 +31,14 @@ class Post_Site_Information extends Base_Site_Information {
 	 * @return array<string|string,string[]>
 	 */
 	public function get_legacy_site_information(): array {
+		$dismissed_alerts = $this->alert_dismissal_action->all_dismissed();
+
 		$data = [
+			'dismissedAlerts'            => $dismissed_alerts,
+			'currentPromotions'          => $this->promotion_manager->get_current_promotions(),
+			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
+			'blackFridayBlockEditorUrl'  => ( $this->promotion_manager->is( 'black-friday-2023-checklist' ) ) ? $this->short_link_helper->get( 'https://yoa.st/black-friday-checklist' ) : '',
+
 			'metabox' => [
 				'search_url'    => $this->search_url(),
 				'post_edit_url' => $this->edit_url(),
@@ -48,7 +55,13 @@ class Post_Site_Information extends Base_Site_Information {
 	 * @return array<string|string,string[]>
 	 */
 	public function get_site_information(): array {
+		$dismissed_alerts = $this->alert_dismissal_action->all_dismissed();
+
 		$data = [
+			'dismissedAlerts'            => $dismissed_alerts,
+			'currentPromotions'          => $this->promotion_manager->get_current_promotions(),
+			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
+			'blackFridayBlockEditorUrl'  => ( $this->promotion_manager->is( 'black-friday-2023-checklist' ) ) ? $this->short_link_helper->get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'search_url'    => $this->search_url(),
 			'post_edit_url' => $this->edit_url(),
 			'base_url'      => $this->base_url_for_js(),

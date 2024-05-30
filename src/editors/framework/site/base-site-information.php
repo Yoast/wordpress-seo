@@ -14,28 +14,28 @@ use Yoast\WP\SEO\Surfaces\Meta_Surface;
 /**
  * The Base_Site_Information class.
  */
-abstract class Base_Site_Information implements Site_Information_Interface {
+abstract class Base_Site_Information {
 
 	/**
 	 * The alert dismissal action.
 	 *
 	 * @var Alert_Dismissal_Action $alert_dismissal_action
 	 */
-	private $alert_dismissal_action;
+	protected $alert_dismissal_action;
 
 	/**
 	 * The promotion manager.
 	 *
 	 * @var Promotion_Manager $promotion_manager
 	 */
-	private $promotion_manager;
+	protected $promotion_manager;
 
 	/**
 	 * The short link helper.
 	 *
 	 * @var Short_Link_Helper $shortlink_helper
 	 */
-	private $short_link_helper;
+	protected $short_link_helper;
 
 	/**
 	 * The wistia embed permission repository.
@@ -92,13 +92,7 @@ abstract class Base_Site_Information implements Site_Information_Interface {
 	 * @return array<string|string,string[]>
 	 */
 	public function get_site_information(): array {
-		$dismissed_alerts = $this->alert_dismissal_action->all_dismissed();
-
 		return [
-			'dismissedAlerts'            => $dismissed_alerts,
-			'currentPromotions'          => $this->promotion_manager->get_current_promotions(),
-			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'blackFridayBlockEditorUrl'  => ( $this->promotion_manager->is( 'black-friday-2023-checklist' ) ) ? $this->short_link_helper->get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'linkParams'                 => $this->short_link_helper->get_query_params(),
 			'pluginUrl'                  => \plugins_url( '', \WPSEO_FILE ),
 			'wistiaEmbedPermission'      => $this->wistia_embed_permission_repository->get_value_for_user( \get_current_user_id() ),
@@ -118,17 +112,11 @@ abstract class Base_Site_Information implements Site_Information_Interface {
 	 * @return array<string|string,string[]>
 	 */
 	public function get_legacy_site_information(): array {
-		$dismissed_alerts = $this->alert_dismissal_action->all_dismissed();
 
 		return [
-			'dismissedAlerts'            => $dismissed_alerts,
-			'currentPromotions'          => $this->promotion_manager->get_current_promotions(),
-			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'blackFridayBlockEditorUrl'  => ( $this->promotion_manager->is( 'black-friday-2023-checklist' ) ) ? $this->short_link_helper->get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'linkParams'                 => $this->short_link_helper->get_query_params(),
 			'pluginUrl'                  => \plugins_url( '', \WPSEO_FILE ),
 			'wistiaEmbedPermission'      => $this->wistia_embed_permission_repository->get_value_for_user( \get_current_user_id() ),
-
 			'metabox'                    => [
 				'site_name'     => $this->meta->for_current_page()->site_name,
 				'contentLocale' => \get_locale(),

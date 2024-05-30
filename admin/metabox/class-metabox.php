@@ -939,8 +939,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 * @var $repo Website_Information_Repository
 		 */
 		$repo = YoastSEO()->classes->get( Website_Information_Repository::class );
-		$repo->get_post_site_information()->set_permalink( $this->get_permalink() );
-		$script_data = array_merge_recursive( $repo->get_post_site_information()->get_site_information(), $script_data );
+		$site_information = $repo->get_post_site_information();
+		$site_information->set_permalink( $this->get_permalink() );
+		$script_data = array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );
 
@@ -1204,7 +1205,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @return string
 	 */
-	public function get_permalink() {
+	protected function get_permalink() {
 		$permalink = '';
 
 		if ( is_object( $this->get_metabox_post() ) ) {
