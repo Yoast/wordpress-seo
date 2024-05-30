@@ -25,11 +25,11 @@ const Close = ( {
 } ) => {
 	const { handleDismiss } = useContext( ToastContext );
 	return (
-		<div className="yst-flex-shrink-0 yst-flex">
+		<div className="yst-flex-shrink-0 yst-flex yst-self-start">
 			<button
 				type="button"
 				onClick={ handleDismiss }
-				className="yst-bg-white yst-rounded-md yst-inline-flex yst-text-slate-400 hover:yst-text-slate-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
+				className="yst-bg-transparent yst-rounded-md yst-inline-flex yst-text-slate-400 hover:yst-text-slate-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
 			>
 				<span className="yst-sr-only">{ dismissScreenReaderLabel }</span>
 				<XIcon className="yst-h-5 yst-w-5" />
