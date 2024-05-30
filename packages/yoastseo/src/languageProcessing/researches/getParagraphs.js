@@ -8,8 +8,7 @@ import { reject } from "lodash";
  * @returns {Paragraph[]} All paragraphs in the paper.
  */
 export default function( paper ) {
-	const tree = paper.getTree();
-	let paragraphs = tree.findAll( node => node.name === "p" );
+	let paragraphs = paper.getTree().findAll( node => node.name === "p" );
 
 	// Remove empty paragraphs without sentences and paragraphs only consisting of links.
 	paragraphs = reject( paragraphs, paragraph => paragraph.sentences.length === 0 );
