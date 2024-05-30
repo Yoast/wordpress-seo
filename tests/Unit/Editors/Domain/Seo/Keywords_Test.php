@@ -6,7 +6,7 @@ use Yoast\WP\SEO\Editors\Domain\Seo\Keyphrase;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Keywords_Test
+ * Class Keyphrase_Test.
  *
  * @group editors
  *

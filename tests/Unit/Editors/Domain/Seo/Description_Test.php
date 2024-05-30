@@ -6,7 +6,7 @@ use Yoast\WP\SEO\Editors\Domain\Seo\Description;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Keywords_Test
+ * Class Description_Test.
  *
  * @group editors
  *

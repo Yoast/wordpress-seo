@@ -39,6 +39,16 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	}
 
 	/**
+	 * Determines whether the social templates should be used.
+	 *
+	 * @deprecated 21.1
+	 * @codeCoverageIgnore
+	 */
+	public function use_social_templates() {
+		_deprecated_function( __METHOD__, 'Yoast SEO 21.1' );
+	}
+
+	/**
 	 * Returns the translated values.
 	 *
 	 * @return array
@@ -59,7 +69,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 			$repo->set_post( $this->post );
 
 			$values_to_set = [
-				'isInsightsEnabled'           => $this->is_insights_enabled(),
+				'isInsightsEnabled' => $this->is_insights_enabled(),
 			];
 
 			$values = ( $values_to_set + $values );
