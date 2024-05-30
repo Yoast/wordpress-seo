@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Introductions\Application;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Introductions\Application\User_Allowed_Trait;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 
@@ -33,15 +34,24 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 	 */
 	private $user_helper;
 
+    /**
+	 * Holds the product helper.
+	 *
+	 * @var Product_Helper
+	 */
+	private $product_helper;
+
 	/**
 	 * Constructs the introduction.
 	 *
 	 * @param Options_Helper $options_helper The options helper.
 	 * @param User_Helper    $user_helper    The user helper.
+     * @param Product_Helper $product_helper The product helper.
 	 */
-	public function __construct( Options_Helper $options_helper, User_Helper $user_helper ) {
+	public function __construct( Options_Helper $options_helper, User_Helper $user_helper, Product_Helper $product_helper ) {
 		$this->options_helper = $options_helper;
 		$this->user_helper    = $user_helper;
+        $this->product_helper = $product_helper;
 	}
 
 	/**
@@ -79,6 +89,11 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 	 * @return bool Whether this introduction should show.
 	 */
 	public function should_show(): bool {
+
+        if ( $this->product_helper->is_premium() ) {
+			return false;
+		}
+
 		// Get the current user ID, if no user is logged in we bail as this is needed for the next checks.
 		$current_user_id = $this->user_helper->get_current_user_id();
 		if ( $current_user_id === 0 ) {
