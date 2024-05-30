@@ -27,6 +27,21 @@ const paragraphWithExactParagraphMatchEN = "<p>" + sentenceWithExactMatchOfSomeK
 	sentenceWithSomeKeywordsEN + sentenceWithoutKeywordsEN + "/<p>";
 const paragraphWithoutMatchEN = "<p>" + sentenceWithoutKeywordsEN + sentenceWithoutKeywordsEN + sentenceWithoutKeywordsEN + "/<p>";
 
+describe( "a test for excluded elements", function() {
+	it( "should not recognize image captions as the introduction if it occurs at the beginning of the post", function() {
+		// The keyphrase is 'tortie cat', where it is added to the image caption. The first paragraph after the image doesn't contain the keyphrase.
+		// Hence, this test should return that the keyphrase was not found in the first paragraph.
+		const paper = new Paper( "\"[caption id=\"attachment_1205\" align=\"alignnone\" width=\"300\"]<img class=\"size-medium wp-image-1205\" src=\"https://basic.wordpress.test/wp-content/uploads/2024/05/cat-5579221_640-300x200.jpg\" alt=\"\" width=\"300\" height=\"200\" /> A great tortie cat.[/caption]<p> </p><p id=\"mntl-sc-block_18-0\" class=\"comp mntl-sc-block lifestyle-sc-block-html mntl-sc-block-html text-passage u-how-to-title-align\">In the early 2000's, researchers at the National Institutes of Health discovered that the genetic mutations that cause cats to have black coats may offer them some protection from diseases. In fact, the mutations affect the same genes that offer HIV resistance to some humans.</p>",
+			{ keyword: "tortie cat" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+		const result = firstParagraph( paper, researcher );
+
+		expect( result.foundInParagraph ).toBeFalsy();
+	} );
+} );
+
 describe( "checks for the content words from the keyphrase in the first paragraph (English)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
 		const paper = new Paper( paragraphWithSentenceMatchEN, { keyword: keyphraseEN } );
