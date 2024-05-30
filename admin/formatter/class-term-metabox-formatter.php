@@ -82,7 +82,6 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
 			];
 
-			/** @var Term_Seo_Information_Repository $repo */
 			$repo = YoastSEO()->classes->get( Term_Seo_Information_Repository::class );
 			$repo->set_term( $this->term );
 			$values = ( $repo->get_seo_data() + $values );
