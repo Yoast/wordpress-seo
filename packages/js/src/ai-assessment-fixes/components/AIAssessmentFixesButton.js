@@ -82,7 +82,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				className={ className }
 				pressed={ isButtonPressed }
 			>
-				<SparklesIcon style={ { width: "70%", height: "70%", color: iconColor } } />
+				<SparklesIcon style={ { width: "70%", height: "70%", color: "transparent" } } />
 				{
 					// We put the logic for the Upsell component in place.
 					// The Modal below is only a placeholder/mock. When we have the design for the real upsell, the modal should be replaced.
@@ -95,7 +95,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			</IconAIFixesButton>
 		</>
 	);
-};
+};P
 
 AIAssessmentFixesButton.propTypes = {
 	id: PropTypes.string.isRequired,

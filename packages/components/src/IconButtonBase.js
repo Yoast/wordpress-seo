@@ -8,7 +8,8 @@ const IconButtonBase = styled.button`
 	min-width: 32px;
 	display: inline-flex;
 	border: 1px solid ${ colors.$color_button_border };
-	background-color: ${ props => props.pressed ? props.pressedBackground : props.unpressedBackground };
+	border-image: linear-gradient(to bottom right, #CD82AB, #93C5FD);
+	background-image: ${ props => props.pressed ? props.pressedBackground : props.unpressedBackground };
 	box-shadow: ${ props => props.pressed
 		? `inset 0 2px 0 ${ rgba( props.pressedBoxShadowColor, 0.7 ) }`
 		: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };

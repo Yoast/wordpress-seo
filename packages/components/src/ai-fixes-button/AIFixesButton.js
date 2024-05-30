@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { colors, rgba } from "@yoast/style-guide";
 import IconButtonBase from "../IconButtonBase";
-
+import { SparklesIcon } from "@heroicons/react/outline";
 
 const yoastPrimary50 = "#FAF3F7";
 const yoastPrimary100 = "#F3E5ED";
@@ -24,28 +24,28 @@ const gradientEffect = {
 
 const testColors = { fuchsia500: "#d946ef", teal500: "#14b8a6" };
 
-// const AIFixesButton = styled(IconButtonBase)` /* linear-gradient not working in styled-components */
-// 	overflow: hidden;
-// 	border: 1px solid transparent;
-// 	border-image: ${ gradientEffect.defaultStateBorder } 1; /* the border-radius is not applied to the border-image */
-// 	background-color: ${ props => props.pressed ? gradientEffect.pressedStateBackground : props.unpressedBackground };
-// 	box-shadow: ${ props => props.pressed
-// 		? `inset 0 2px 0 ${ gradientEffect.pressedStateBorder }`
-// 		: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
-// 	&&:hover {
-// 		border-color: ${ props => props.hoverBorderColor };
-// 		}
-// 	&:disabled {
-// 		background-color: ${ props => props.unpressedBackground };
-// `;
+const AIFixesButton = styled(IconButtonBase)` /* linear-gradient not working in styled-components */
+	overflow: hidden;
+	border: 1px solid transparent;
+	background-image: ${ gradientEffect.defaultStateBorder } 1; /* the border-radius is not applied to the border-image */
+	background-color: ${ props => props.pressed ? gradientEffect.pressedStateBackground : props.unpressedBackground };
+	box-shadow: ${ props => props.pressed
+		? `inset 0 2px 0 ${ gradientEffect.pressedStateBorder }`
+		: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
+	&&:hover {
+		border-color: ${ props => props.hoverBorderColor };
+		}
+	&:disabled {
+		background-color: ${ props => props.unpressedBackground };
+`;
 
-const AIFixesButton = function (props) {
-	return (
-		<button
-			className="yoast_AI-fixes-button">
-			Test
-		</button>
-	);
-};
+// const AIFixesButton = function (props) {
+// 	return (
+// 		<button
+// 			className="yoast_AI-fixes-button">
+// 			<SparklesIcon style={ { width: "70%", height: "70%" } } />
+// 		</button>
+// 	);
+// };
 
 export default AIFixesButton;
