@@ -2,8 +2,8 @@
 import { isEmpty } from "lodash";
 
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
-import getParagraphs from "./getParagraphs.js";
-import { elementHasName } from "../../parse/build/private/filterHelpers.js";
+import { getParentNode } from "../helpers/sentence/getSentencesFromTree";
+import { createShortcodeTagsRegex } from "../helpers";
 
 
 /**
@@ -26,10 +26,19 @@ import { elementHasName } from "../../parse/build/private/filterHelpers.js";
  * the paragraph, whether a keyphrase or a synonym phrase was matched.
  */
 export default function( paper, researcher ) {
-	const nodesToExclude = [
-		elementHasName( "figcaption" ),
-	];
-	const firstParagraph = getParagraphs( paper, nodesToExclude )[ 0 ];
+	let paragraphs = researcher.getResearch( "getParagraphs" );
+	// Filter captions from non-Classic editors.
+	paragraphs = paragraphs.filter( paragraph => {
+		const parentNode = getParentNode( paper, paragraph );
+		return ! ( paragraph.isImplicit && parentNode && parentNode.name === "figcaption" );
+	} );
+	// Filter captions from Classic editor.
+	paragraphs = paragraphs.filter( paragraph => {
+		return ! ( paragraph.isImplicit && paragraph.childNodes && paragraph.childNodes[ 0 ] &&
+			createShortcodeTagsRegex( [ "caption" ] ).test( paragraph.childNodes[ 0 ].value ) );
+	} );
+	 const firstParagraph = paragraphs[ 0 ];
+
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const locale = paper.getLocale();
