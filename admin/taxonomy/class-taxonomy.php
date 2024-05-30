@@ -199,7 +199,7 @@ class WPSEO_Taxonomy {
 			 *
 			 * @var $repo Website_Information_Repository
 			 */
-			$repo = YoastSEO()->classes->get( Website_Information_Repository::class );
+			$repo             = YoastSEO()->classes->get( Website_Information_Repository::class );
 			$term_information = $repo->get_term_site_information();
 			$term_information->set_term( get_term_by( 'id', $tag_id, $this::get_taxonomy() ) );
 			$script_data = array_merge_recursive( $term_information->get_site_information(), $script_data );

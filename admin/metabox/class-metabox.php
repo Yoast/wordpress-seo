@@ -938,7 +938,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 *
 		 * @var $repo Website_Information_Repository
 		 */
-		$repo = YoastSEO()->classes->get( Website_Information_Repository::class );
+		$repo             = YoastSEO()->classes->get( Website_Information_Repository::class );
 		$site_information = $repo->get_post_site_information();
 		$site_information->set_permalink( $this->get_permalink() );
 		$script_data = array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );

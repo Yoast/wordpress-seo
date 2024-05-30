@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Editors\Framework\Site;
 
 use Exception;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
-use Yoast\WP\SEO\Editors\Domain\Site\Site_Information_Interface;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
