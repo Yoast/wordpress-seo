@@ -83,6 +83,9 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	 * @return bool
 	 */
 	public function should_show() {
+
+		return false;
+		
 		if ( $this->product_helper->is_premium() ) {
 			return false;
 		}
