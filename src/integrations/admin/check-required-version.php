@@ -73,7 +73,7 @@ class Check_Required_Version implements Integration_Interface {
 
 			return new WP_Error(
 				'incompatible_yoast_seo_required_version',
-				\__( 'The package could not be installed.', 'wordpress-seo' ),
+				\__( 'The package could not be installed because it\'s not supported by the currently installed Yoast SEO version.', 'wordpress-seo' ),
 				$error
 			);
 		}
