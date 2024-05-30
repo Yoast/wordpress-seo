@@ -1,7 +1,7 @@
 /* eslint-disable max-statements */
 
 import wordComplexity from "../../../src/languageProcessing/researches/wordComplexity.js";
-import keywordForms from "../../../src/languageProcessing/researches/wordComplexity.js";
+import keyphraseForms from "../../../src/languageProcessing/researches/wordComplexity.js";
 import Paper from "../../../src/values/Paper";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
@@ -185,7 +185,7 @@ describe( "test with different language specific helper and config", () => {
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigEnglish );
 		researcher.addResearchData( "morphology", premiumDataEn );
-		keywordForms = [ "paradigm", "paradigms" ];
+		keyphraseForms = [ "paradigm", "paradigms" ];
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
@@ -195,7 +195,7 @@ describe( "test with different language specific helper and config", () => {
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperSpanish );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigSpanish );
 		researcher.addResearchData( "morphology", premiumDataEs );
-		keywordForms = [ "nueva computadora", "nuevas computadoras" ];
+		keyphraseForms = [ "nueva computadora", "nuevas computadoras" ];
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
