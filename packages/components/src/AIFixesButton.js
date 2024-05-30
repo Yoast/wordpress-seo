@@ -25,9 +25,10 @@ const gradientEffect = {
 const AIFixesButtonBase = styled(IconButtonBase)`
 	overflow: hidden;
 	border: 1px solid transparent;
-	border-image: linear-gradient(${direction}, ${yoastPrimary300}, ${blue300}) 1;
+	background: linear-gradient(white, white) padding-box,
+		linear-gradient(to bottom right, #CD82AB, #93C5FD) border-box;
 	background-image: ${props => props.pressed ? gradientEffect.pressedState : props.unpressedBackground};
-	
+
 	&:hover {
 		border-color: ${props => props.hoverBorderColor};
 		}
