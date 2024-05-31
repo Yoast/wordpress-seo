@@ -203,7 +203,8 @@ class SeoAnalysis extends Component {
 		const isPremium = getL10nObject().isPremium;
 
 		// The reason of adding the check if Elementor is active or not is because `isBlockEditor` method also returns `true` for Elementor.
-		return hasAIFixes && isBlockEditor() && ! this.props.isElementor && (
+		// The reason of adding the check if the Elementor editor is active, is to stop showing the buttons in the in-between screen.
+		return hasAIFixes && isBlockEditor() && ! this.props.isElementor && ! document.body.classList.contains( "elementor-editor-active" ) && (
 			<AIAssessmentFixesButton id={ id } isPremium={ isPremium } />
 		);
 	};
