@@ -11,7 +11,6 @@ import { OutboundLink, VideoFlow } from ".";
  * @param {Object} thumbnail The thumbnail: img props.
  * @param {Object} wistiaEmbedPermission The value, status and set for the Wistia embed permission.
  * @param {string} upsellLink The upsell link.
- * @param {boolean} isProductCopy Whether the upsell is for a product.
  * @param {string} title The title.
  * @param {string} upsellLabel The upsell label.
  * @param {string} newToText The new to text.
