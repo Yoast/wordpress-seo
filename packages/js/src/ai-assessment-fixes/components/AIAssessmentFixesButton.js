@@ -17,9 +17,9 @@ import { ModalContent } from "../../ai-generator/components/modal-content";
 const SparklesIcon = () => {
 	return (
 	<>
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="1.5" style={{ width: "70%", height: "70%" }}>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="1.5" style={{ width: "90%",height:"90%" }}>
 			<defs>
-				<linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%" fill="transparent">
+				<linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
 					<stop offset="0%" style= {{ stopColor:"#A61E69", stopOpacity:1 }} />
 					<stop offset="100%" style= {{ stopColor:"#3B82F6", topOpacity:1 }} />
 				</linearGradient>

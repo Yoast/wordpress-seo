@@ -27,18 +27,20 @@ const AIFixesButtonBase = styled(IconButtonBase)`
 	border: 1px solid transparent;
 	background: linear-gradient(white, white) padding-box,
 		linear-gradient(to bottom right, #CD82AB, #93C5FD) border-box;
-	background-image: ${props => props.pressed ? gradientEffect.pressedState : props.unpressedBackground};
+	/* background-image is used to set the background color of the button. */
+	background-image: ${props => props.pressed ? gradientEffect.pressedStateBackground : gradientEffect.defaultStateBackground};
 
 	svg {
 		transform: scaleX(-1);
+		path {
+			fill: ${props => props.pressed ? props.pressedIconColor : gradientEffect.pressedStateBackground};
+		}
 	}
 
 	&:hover {
-		border-color: ${props => props.hoverBorderColor};
-		}
-
-	&:disabled {
-		background-color: ${props => props.unpressedBackground};
+		border-image: ${props => props.hoverBorderColor};
+		background-image: ${props => props.pressed ? gradientEffect.pressedStateBackground : gradientEffect.hoverStateBackground};
+	}
 `;
 
 export default AIFixesButtonBase;
