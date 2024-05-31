@@ -20,7 +20,7 @@ export const ModalContent = () => {
 			/* translators: %1$s expands to Yoast SEO Premium. */
 			__( "Unlock with %1$s", "wordpress-seo" ),
 			"Yoast SEO Premium"
-		)
+		),
 
 	};
 

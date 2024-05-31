@@ -61,19 +61,18 @@ export const AiFixAssessmentsUpsell = ( {
 				</h3>
 				<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
 					{ createInterpolateElement(
-							sprintf(
-								/* translators: %1$s and %2$s are anchor tags; %3$s is the arrow icon. */
-								__(
-									"Let AI fix assesments. %1$sLearn more%2$s%3$s",
-									"wordpress-seo"
-								),
-								"<a>",
-								"<ArrowNarrowRightIcon />",
-								"</a>"
+						sprintf(
+							/* translators: %1$s and %2$s are anchor tags; %3$s is the arrow icon. */
+							__(
+								"Let AI fix assesments. %1$sLearn more%2$s%3$s",
+								"wordpress-seo"
 							),
-							learnMoreLinkStructure
-						)
-					}
+							"<a>",
+							"<ArrowNarrowRightIcon />",
+							"</a>"
+						),
+						learnMoreLinkStructure
+					  ) }
 				</div>
 			</div>
 			<div className="yst-w-full yst-flex yst-mt-10">
@@ -124,7 +123,6 @@ AiFixAssessmentsUpsell.propTypes = {
 	title: PropTypes.string,
 	upsellLabel: PropTypes.string,
 	newToText: PropTypes.string,
-	isProductCopy: PropTypes.bool,
 	bundleNote: PropTypes.oneOfType( [
 		PropTypes.string,
 		PropTypes.element,
@@ -143,6 +141,5 @@ AiFixAssessmentsUpsell.defaultProps = {
 		__( "New in %1$s", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	),
-	isProductCopy: false,
 	bundleNote: "",
 };
