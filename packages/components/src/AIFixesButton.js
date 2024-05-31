@@ -40,7 +40,7 @@ const AIFixesButtonBase = styled(IconButtonBase)`
 	&:hover {
 		border-color: none;
 		border-image: ${props => props.hoverBorderColor};
-		background-image: ${props => props.pressed ? gradientEffect.pressedStateBackground : props.hoverBackgroundColor };
+		background-image: ${props => props.pressed ? gradientEffect.pressedStateBackground : props.hoverStateBackground}; };
 	}
 `;
 
