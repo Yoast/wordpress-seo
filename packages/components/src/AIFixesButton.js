@@ -28,7 +28,7 @@ const AIFixesButtonBase = styled(IconButtonBase)`
 	background: linear-gradient(white, white) padding-box,
 		linear-gradient(to bottom right, #CD82AB, #93C5FD) border-box;
 	/* background-image is used to set the background color of the button. */
-	background-image: ${props => props.pressed ? gradientEffect.pressedStateBackground : gradientEffect.defaultStateBackground};
+	background-image: ${props => props.pressed ? gradientEffect.pressedStateBackground : props.pressedStateBackground};
 
 	svg {
 		transform: scaleX(-1);
@@ -38,8 +38,9 @@ const AIFixesButtonBase = styled(IconButtonBase)`
 	}
 
 	&:hover {
+		border-color: none;
 		border-image: ${props => props.hoverBorderColor};
-		background-image: ${props => props.pressed ? gradientEffect.pressedStateBackground : gradientEffect.hoverStateBackground};
+		background-image: ${props => props.pressed ? gradientEffect.pressedStateBackground : props.hoverBackgroundColor };
 	}
 `;
 
