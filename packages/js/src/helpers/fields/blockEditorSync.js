@@ -1,9 +1,13 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
-import { debounce, reduce, mapKeys, forEach } from "lodash";
+import { debounce, reduce, forEach } from "lodash";
 import { createWatcher, createCollectorFromObject } from "../create-watcher";
 import { STORES, META_FIELDS, SYNC_TIME, POST_META_KEY_PREFIX } from "../../shared-admin/constants";
-import { getPrimaryTerms } from "./primaryTaxonomiesFieldsStore";
 import { transformMetaValue } from "./transform-meta-value";
+
+META_FIELDS.primaryTerms = 	{
+	key: "primary_terms",
+	get: "getPrimaryTaxonomies",
+};
 
 /**
  * Creates an updater.
@@ -21,9 +25,9 @@ const createUpdater = () => {
 	 */
 	return ( data ) => {
 		const { type, id } = getCurrentPost();
-		const metadata = getEditedEntityRecord( "postType", type, id ).meta;
+		const postData = getEditedEntityRecord( "postType", type, id );
 
-		if ( ! metadata || ! data ) {
+		if ( ! postData.meta || ! data ) {
 			return;
 		}
 
@@ -31,16 +35,34 @@ const createUpdater = () => {
 
 		forEach( data, ( value, key ) => {
 			const fieldKey = key.replace( POST_META_KEY_PREFIX, "" );
+			if ( fieldKey === "primary_terms" ) {
+				return;
+			}
 			const transformedValue = transformMetaValue( fieldKey, value );
-			if ( transformedValue !== metadata[ key ] ) {
-				changedData[ key ] = transformedValue;
+			if ( transformedValue !== postData.meta[ key ] ) {
+				if ( ! changedData.meta ) {
+					changedData.meta = {};
+				}
+				changedData.meta[ key ] = transformedValue;
 			}
 		} );
 
-		if ( changedData ) {
-			editPost( {
-				meta: changedData,
+		const primaryTerms = data[ `${POST_META_KEY_PREFIX}primary_terms` ];
+		if ( primaryTerms ) {
+			forEach( primaryTerms, ( value, key ) => {
+				const fieldKey = `primary_${key}`;
+				const transformedValue = transformMetaValue( fieldKey, value );
+				if ( transformedValue !== postData[ `${POST_META_KEY_PREFIX}primary_terms` ][ key ] ) {
+					if ( ! changedData[ `${POST_META_KEY_PREFIX}primary_terms` ] ) {
+						changedData[ `${POST_META_KEY_PREFIX}primary_terms` ] = {};
+					}
+					changedData[ `${POST_META_KEY_PREFIX}primary_terms` ][ key ] = transformedValue;
+				}
 			} );
+		}
+
+		if ( changedData ) {
+			editPost( changedData );
 		}
 	};
 };
@@ -50,8 +72,6 @@ const createUpdater = () => {
  * @returns {function} The un-subscriber.
  */
 export const blockEditorSync = () => {
-	const primaryTaxonomiesGetters = mapKeys( getPrimaryTerms(), ( value, key ) => POST_META_KEY_PREFIX + key );
-
 	const getters = reduce( META_FIELDS, ( acc, value ) => {
 		// check if value.get is a function in select( STORES.editor ) store
 		if ( typeof select( STORES.editor )[ value.get ] === "function" ) {
@@ -63,7 +83,6 @@ export const blockEditorSync = () => {
 	return subscribe( debounce( createWatcher(
 		createCollectorFromObject( {
 			...getters,
-			...primaryTaxonomiesGetters,
 		} ),
 		createUpdater()
 	), SYNC_TIME.wait, { maxWait: SYNC_TIME.max, leading: true } ), STORES.editor );

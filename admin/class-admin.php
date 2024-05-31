@@ -5,6 +5,7 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 
 /**
@@ -89,7 +90,7 @@ class WPSEO_Admin {
 		];
 
 		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
-			$this->admin_features['primary_category'] = new WPSEO_Primary_Term_Admin();
+			$this->admin_features['primary_category'] = new WPSEO_Primary_Term_Admin( new Primary_Term_Helper() );
 		}
 
 		$integrations[] = new WPSEO_Yoast_Columns();

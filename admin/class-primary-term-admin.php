@@ -5,10 +5,28 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
+
 /**
  * Adds the UI to change the primary term for a post.
  */
 class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
+
+	/**
+	 * Primary term helper
+	 *
+	 * @var Primary_Term_Helper
+	 */
+	private $primary_term_helper;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param Primary_Term_Helper $primary_term_helper Primary term helper.
+	 */
+	public function __construct( Primary_Term_Helper $primary_term_helper ) {
+		$this->primary_term_helper = $primary_term_helper;
+	}
 
 	/**
 	 * Register hooks.
@@ -168,7 +186,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 			return $taxonomies;
 		}
 
-		$taxonomies = YoastSEO()->helpers->primary_term->get_primary_term_taxonomies( $post_id );
+		$taxonomies = $this->primary_term_helper->get_primary_term_taxonomies( $post_id );
 
 		wp_cache_set( 'primary_term_taxonomies_' . $post_id, $taxonomies, 'wpseo' );
 
@@ -189,7 +207,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 *
 	 * @param array<WP_Taxonomy> $taxonomies The taxonomies that should be mapped.
 	 *
-	 * @return array<string,array<string,string|int|array<int|string>>> The mapped taxonomies.
+	 * @return array<string,array<string|int|array<int|string>>> The mapped taxonomies.
 	 */
 	protected function get_mapped_taxonomies_for_js( $taxonomies ) {
 		return array_map( [ $this, 'map_taxonomies_for_js' ], $taxonomies );
@@ -200,7 +218,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 *
 	 * @param stdClass $taxonomy The taxonomy to map.
 	 *
-	 * @return array<string,string|int|array<int|string>> The mapped taxonomy.
+	 * @return array<string|int|array<int|string>> The mapped taxonomy.
 	 */
 	private function map_taxonomies_for_js( $taxonomy ) {
 		$primary_term = $this->get_primary_term( $taxonomy->name );
@@ -230,20 +248,9 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 			'name'          => $taxonomy->name,
 			'primary'       => $primary_term,
 			'singularLabel' => $taxonomy->labels->singular_name,
-			'fieldId'       => $this->generate_field_id( $taxonomy->name ),
+			'fieldId'       => WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name,
 			'restBase'      => ( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name,
 			'terms'         => $mapped_terms_for_js,
 		];
-	}
-
-	/**
-	 * Returns whether or not a taxonomy is hierarchical.
-	 *
-	 * @param stdClass $taxonomy Taxonomy object.
-	 *
-	 * @return bool
-	 */
-	private function filter_hierarchical_taxonomies( $taxonomy ) {
-		return (bool) $taxonomy->hierarchical;
 	}
 }
