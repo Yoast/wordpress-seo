@@ -3,11 +3,10 @@
 
 namespace Yoast\WP\SEO\Introductions\Application;
 
+use Introduction_Interface;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
-use Yoast\WP\SEO\Introductions\Application\User_Allowed_Trait;
-use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
+use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
  * Represents the introduction for the AI fix assessments feature.
@@ -34,7 +33,7 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 	 */
 	private $user_helper;
 
-    /**
+	/**
 	 * Holds the product helper.
 	 *
 	 * @var Product_Helper
@@ -46,12 +45,12 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 	 *
 	 * @param Options_Helper $options_helper The options helper.
 	 * @param User_Helper    $user_helper    The user helper.
-     * @param Product_Helper $product_helper The product helper.
+	 * @param Product_Helper $product_helper The product helper.
 	 */
 	public function __construct( Options_Helper $options_helper, User_Helper $user_helper, Product_Helper $product_helper ) {
 		$this->options_helper = $options_helper;
 		$this->user_helper    = $user_helper;
-        $this->product_helper = $product_helper;
+		$this->product_helper = $product_helper;
 	}
 
 	/**
@@ -90,7 +89,7 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 	 */
 	public function should_show(): bool {
 
-        if ( $this->product_helper->is_premium() ) {
+		if ( $this->product_helper->is_premium() ) {
 			return false;
 		}
 
