@@ -27,7 +27,7 @@ test( "the pressed IconAIFixesButton matches the snapshot", () => {
 			id="keyphraseInIntroductionAIFixes"
 			ariaLabel="Fix with AI"
 			pressed={ true }
-			disabled={ false}
+			disabled={ false }
 			onClick={ () => {} }
 			className={ "yoast-tooltip yoast-tooltip-w" }
 		/>
