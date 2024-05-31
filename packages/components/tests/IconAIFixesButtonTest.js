@@ -10,6 +10,7 @@ test( "the unpressed IconAIFixesButton matches the snapshot", () => {
 			id="keyphraseDensityAIFixes"
 			ariaLabel="Fix with AI"
 			pressed={ false }
+			disabled={ true }
 			onClick={ () => {} }
 			className={ "yoast-tooltip yoast-tooltip-w" }
 		/>
@@ -26,6 +27,7 @@ test( "the pressed IconAIFixesButton matches the snapshot", () => {
 			id="keyphraseInIntroductionAIFixes"
 			ariaLabel="Fix with AI"
 			pressed={ true }
+			disabled={ false}
 			onClick={ () => {} }
 			className={ "yoast-tooltip yoast-tooltip-w" }
 		/>
