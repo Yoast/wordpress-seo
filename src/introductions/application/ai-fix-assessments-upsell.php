@@ -3,28 +3,18 @@
 
 namespace Yoast\WP\SEO\Introductions\Application;
 
-use Introduction_Interface;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 
 /**
  * Represents the introduction for the AI fix assessments feature.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 
 	use User_Allowed_Trait;
 
 	public const ID = 'ai-fix-assessments-upsell';
-
-	/**
-	 * Holds the options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options_helper;
 
 	/**
 	 * Holds the user helper.
@@ -43,12 +33,10 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 	/**
 	 * Constructs the introduction.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
 	 * @param User_Helper    $user_helper    The user helper.
 	 * @param Product_Helper $product_helper The product helper.
 	 */
-	public function __construct( Options_Helper $options_helper, User_Helper $user_helper, Product_Helper $product_helper ) {
-		$this->options_helper = $options_helper;
+	public function __construct( User_Helper $user_helper, Product_Helper $product_helper ) {
 		$this->user_helper    = $user_helper;
 		$this->product_helper = $product_helper;
 	}
