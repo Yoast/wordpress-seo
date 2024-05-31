@@ -262,12 +262,15 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
+		// This may be the type of sitemap that's being requested or the value "1" for the root sitemap.
 		$type = get_query_var( 'sitemap' );
 
+		// example.com/sitemap-.xml is not a valid request.
 		if ( empty( $type ) ) {
 			return;
 		}
 
+		// We don't use "page" numbers for the first (or 0th) page in a sitemap.
 		if ( get_query_var( 'sitemap_n' ) === '1' || get_query_var( 'sitemap_n' ) === '0' ) {
 			wp_safe_redirect( home_url( "/$type-sitemap.xml" ), 301, 'Yoast SEO' );
 			exit;
