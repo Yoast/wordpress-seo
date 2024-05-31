@@ -1,6 +1,6 @@
 /* global wp, _, wpseoPrimaryCategoryL10n */
 /* External dependencies */
-import { dispatch } from "@wordpress/data";
+import { dispatch, select } from "@wordpress/data";
 import { Component } from "@wordpress/element";
 import {
 	get,
@@ -43,10 +43,13 @@ export default function initPrimaryCategory( $ ) {
 	 * @returns {string} The value of the primary term.
 	 */
 	function getPrimaryTerm( taxonomyName ) {
-		var primaryTermInput;
+		const store = select( "yoast-seo/editor" );
+		if ( store ) {
+			return store.getPrimaryTaxonomyId( taxonomyName );
+		}
 
-		primaryTermInput = $( "#yoast-wpseo-primary-" + taxonomyName );
-		return primaryTermInput.val();
+		const primaryTermInput = $( "#yoast_wpseo_primary_" + taxonomyName );
+		return primaryTermInput ? primaryTermInput.val() : "";
 	}
 
 	/**
@@ -76,13 +79,10 @@ export default function initPrimaryCategory( $ ) {
 	 * @returns {void}
 	 */
 	function setPrimaryTerm( taxonomyName, termId ) {
-		const primaryTermInput = $( "#yoast-wpseo-primary-" + taxonomyName );
-		primaryTermInput.val( termId ).trigger( "change" );
-
 		const yoastEditor = dispatch( "yoast-seo/editor" );
 		if ( yoastEditor ) {
 			const termIdInt = parseInt( termId, 10 );
-			yoastEditor.setPrimaryTaxonomyId( taxonomyName, termIdInt );
+			yoastEditor.setPrimaryTaxonomyId( taxonomyName, termId );
 			// If the taxonomy is category update the replacement variable.
 			if ( taxonomyName === "category" ) {
 				yoastEditor.updateReplacementVariable(

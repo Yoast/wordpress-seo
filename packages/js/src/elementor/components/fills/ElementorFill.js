@@ -1,6 +1,6 @@
 // External dependencies.
 import { Fill } from "@wordpress/components";
-import { Fragment, useEffect } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import PropTypes from "prop-types";
@@ -35,21 +35,9 @@ import KeywordUpsell from "../../../components/modals/KeywordUpsell";
  *
  * @constructor
  */
-export default function ElementorFill( { isLoading, onLoad, settings } ) {
+export default function ElementorFill( { settings } ) {
 	const webinarIntroUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
 	const FirstEligibleNotification = useFirstEligibleNotification( { webinarIntroUrl } );
-
-	useEffect( () => {
-		setTimeout( () => {
-			if ( isLoading ) {
-				onLoad();
-			}
-		} );
-	} );
-
-	if ( isLoading ) {
-		return null;
-	}
 
 	return (
 		<>
@@ -134,8 +122,6 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 }
 
 ElementorFill.propTypes = {
-	isLoading: PropTypes.bool.isRequired,
-	onLoad: PropTypes.func.isRequired,
 	settings: PropTypes.object.isRequired,
 };
 /* eslint-enable complexity */

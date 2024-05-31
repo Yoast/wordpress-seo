@@ -11,7 +11,7 @@
 class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 
 	/**
-	 * Constructor.
+	 * Register hooks.
 	 *
 	 * @return void
 	 */
@@ -80,7 +80,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 * @return string The field id.
 	 */
 	protected function generate_field_id( $taxonomy_name ) {
-		return 'yoast-wpseo-primary-' . $taxonomy_name;
+		return WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy_name;
 	}
 
 	/**
@@ -156,7 +156,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 * Returns all the taxonomies for which the primary term selection is enabled.
 	 *
 	 * @param int|null $post_id Default current post ID.
-	 * @return array
+	 * @return array<WP_Taxonomy> The primary term taxonomies.
 	 */
 	protected function get_primary_term_taxonomies( $post_id = null ) {
 		if ( $post_id === null ) {
@@ -168,7 +168,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 			return $taxonomies;
 		}
 
-		$taxonomies = $this->generate_primary_term_taxonomies( $post_id );
+		$taxonomies = YoastSEO()->helpers->primary_term->get_primary_term_taxonomies( $post_id );
 
 		wp_cache_set( 'primary_term_taxonomies_' . $post_id, $taxonomies, 'wpseo' );
 
@@ -185,36 +185,11 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Generates the primary term taxonomies.
-	 *
-	 * @param int $post_id ID of the post.
-	 *
-	 * @return array
-	 */
-	protected function generate_primary_term_taxonomies( $post_id ) {
-		$post_type      = get_post_type( $post_id );
-		$all_taxonomies = get_object_taxonomies( $post_type, 'objects' );
-		$all_taxonomies = array_filter( $all_taxonomies, [ $this, 'filter_hierarchical_taxonomies' ] );
-
-		/**
-		 * Filters which taxonomies for which the user can choose the primary term.
-		 *
-		 * @param array  $taxonomies     An array of taxonomy objects that are primary_term enabled.
-		 * @param string $post_type      The post type for which to filter the taxonomies.
-		 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
-		 *                               enabled.
-		 */
-		$taxonomies = (array) apply_filters( 'wpseo_primary_term_taxonomies', $all_taxonomies, $post_type, $all_taxonomies );
-
-		return $taxonomies;
-	}
-
-	/**
 	 * Creates a map of taxonomies for localization.
 	 *
-	 * @param array $taxonomies The taxononmies that should be mapped.
+	 * @param array<WP_Taxonomy> $taxonomies The taxonomies that should be mapped.
 	 *
-	 * @return array The mapped taxonomies.
+	 * @return array<string,array<string,string|int|array<int|string>>> The mapped taxonomies.
 	 */
 	protected function get_mapped_taxonomies_for_js( $taxonomies ) {
 		return array_map( [ $this, 'map_taxonomies_for_js' ], $taxonomies );
@@ -225,7 +200,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 *
 	 * @param stdClass $taxonomy The taxonomy to map.
 	 *
-	 * @return array The mapped taxonomy.
+	 * @return array<string,string|int|array<int|string>> The mapped taxonomy.
 	 */
 	private function map_taxonomies_for_js( $taxonomy ) {
 		$primary_term = $this->get_primary_term( $taxonomy->name );

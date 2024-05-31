@@ -183,7 +183,6 @@ function verifyArguments( args ) {
  *                                                                                  by the analyzer.
  * @param {YoastSEO.App~updatedKeywordsResults} args.callback.updatedKeywordsResults Called when the content score has been
  *                                                                                   determined by the assessor.
- * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
  * @param {Function} args.marker The marker to use to apply the list of marks retrieved from an assessment.
  *
  * @param {boolean} [args.debouncedRefresh] Whether or not to debounce the

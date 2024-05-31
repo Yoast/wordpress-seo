@@ -2,6 +2,7 @@ import { combineReducers, registerStore } from "@wordpress/data";
 import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { get, pickBy } from "lodash";
 import * as controls from "../redux/controls";
+import { initialState } from "../redux/initial-state";
 
 /**
  * Populates the store.
@@ -37,7 +38,6 @@ const populateStore = store => {
 	store.dispatch( actions.setDismissedAlerts( get( window, "wpseoScriptData.dismissedAlerts", {} ) ) );
 	store.dispatch( actions.setCurrentPromotions( get( window, "wpseoScriptData.currentPromotions", [] ) ) );
 	store.dispatch( actions.setIsPremium( Boolean( get( window, "wpseoScriptData.metabox.isPremium", false ) ) ) );
-	store.dispatch( actions.setPostId( Number( get( window, "wpseoScriptData.postId", null ) ) ) );
 
 	store.dispatch( actions.setLinkParams( get( window, "wpseoScriptData.linkParams", {} ) ) );
 	store.dispatch( actions.setPluginUrl( get( window, "wpseoScriptData.pluginUrl", "" ) ) );
@@ -55,6 +55,7 @@ export default function initEditorStore() {
 		selectors,
 		actions: pickBy( actions, x => typeof x === "function" ),
 		controls,
+		initialState,
 	} );
 
 	populateStore( store );

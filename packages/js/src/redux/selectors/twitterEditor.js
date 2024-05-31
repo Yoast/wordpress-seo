@@ -2,7 +2,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { get } from "lodash";
 import { getDescription, getSeoTitle } from "./analysis";
 import { getEditorDataExcerptWithFallback } from "./editorData";
-import { getFacebookDescription, getFacebookTitle } from "./facebookEditor";
+import { getFacebookDescription, getFacebookTitle, getCustomSocialDescription, getCustomSocialTitle } from "./facebookEditor";
 import {
 	getReplacedExcerpt,
 	getSeoDescriptionTemplate,
@@ -22,6 +22,18 @@ import {
 export const getTwitterTitle = state => get( state, "twitterEditor.title", "" );
 
 /**
+ * Gets the X title that is custom for the current post.
+ *
+ * @param {object} state The state.
+ *
+ * @returns {string} X title.
+ */
+export const getCustomTwitterTitle = state => {
+	const title = getTwitterTitle( state );
+	return getCustomSocialTitle( title );
+};
+
+/**
  * Gets the twitter description from the state.
  *
  * @param {Object} state The state.
@@ -29,6 +41,19 @@ export const getTwitterTitle = state => get( state, "twitterEditor.title", "" );
  * @returns {String} Twitter description.
  */
 export const getTwitterDescription = state => get( state, "twitterEditor.description", "" );
+
+
+/**
+ * Gets the X description that is custom for the current post.
+ *
+ * @param {object} state The state.
+ *
+ * @returns {string} X description.
+ */
+export const getCustomTwitterDescription = state => {
+	const description = getTwitterDescription( state );
+	return getCustomSocialDescription( description );
+};
 
 /**
  * Gets the twitter image URL from the state.
@@ -53,9 +78,18 @@ export const getTwitterImageType = state => get( state, "settings.socialPreviews
  *
  * @param {Object} state The state.
  *
- * @returns {String} Twitter image src.
+ * @returns {number|string} Twitter image src.
  */
 export const getTwitterImageSrc = state => get( state, "twitterEditor.image.src", "" );
+
+/**
+ * Gets the twitter image id from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {number} Twitter image id.
+ */
+export const getTwitterImageId = state => get( state, "twitterEditor.image.id", "" );
 
 /**
  * Gets the Twitter alt text from the state.

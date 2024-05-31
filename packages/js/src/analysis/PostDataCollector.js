@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* global wpseoScriptData */
 
 /* External dependencies */
@@ -75,14 +76,13 @@ PostDataCollector.prototype.getData = function() {
 };
 
 /**
- * Returns the keyword from the DOM.
+ * Returns the keyword from the Store.
  *
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	var val = document.getElementById( "yoast_wpseo_focuskw" ) && document.getElementById( "yoast_wpseo_focuskw" ).value || "";
-
-	return val;
+	const keyword = this._store.getState().focusKeyword;
+	return keyword;
 };
 
 /**
@@ -101,12 +101,12 @@ PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
 };
 
 /**
- * Returns the Meta from the DOM.
+ * Returns the Meta from the Store.
  *
  * @returns {string} The meta description.
  */
 PostDataCollector.prototype.getMeta = function() {
-	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
+	return this._store.getState().snippetEditor.data.description;
 };
 
 /**
@@ -119,12 +119,12 @@ PostDataCollector.prototype.getText = function() {
 };
 
 /**
- * Returns the Title from the DOM.
+ * Returns the Title from the Store.
  *
  * @returns {string} The title.
  */
 PostDataCollector.prototype.getTitle = function() {
-	return document.getElementById( "title" ) && document.getElementById( "title" ).value || "";
+	return this._store.getState().snippetEditor.data.title;
 };
 
 /**
@@ -171,16 +171,16 @@ PostDataCollector.prototype.getExcerpt = function() {
  * @returns {string} The snippet title.
  */
 PostDataCollector.prototype.getSnippetTitle = function() {
-	return document.getElementById( "yoast_wpseo_title" ) && document.getElementById( "yoast_wpseo_title" ).value || "";
+	return this._store.getState().snippetEditor.data.title;
 };
 
 /**
- * Returns the SnippetMeta from the DOM.
+ * Returns the SnippetMeta from the Store.
  *
  * @returns {string} The snippet meta.
  */
 PostDataCollector.prototype.getSnippetMeta = function() {
-	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
+	return this._store.getState().snippetEditor.data.description;
 };
 
 /**
@@ -273,11 +273,7 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
  */
 PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 	switch ( type ) {
-		case "snippet_meta":
-			document.getElementById( "yoast_wpseo_metadesc" ).value = value;
-			break;
 		case "snippet_cite":
-
 			/*
 			 * WordPress leaves the post name empty to signify that it should be generated from the title once the
 			 * post is saved. So when we receive an auto generated slug from WordPress we should be
@@ -297,28 +293,9 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 				document.getElementById( "editable-post-name-full" ).textContent = value;
 			}
 			break;
-		case "snippet_title":
-			document.getElementById( "yoast_wpseo_title" ).value = value;
-			break;
 		default:
 			break;
 	}
-};
-
-/**
- * The data passed from the snippet editor.
- *
- * @param {Object} data          Object with data value.
- * @param {string} data.title    The title.
- * @param {string} data.urlPath  The url.
- * @param {string} data.metaDesc The meta description.
- *
- * @returns {void}
- */
-PostDataCollector.prototype.saveSnippetData = function( data ) {
-	this.setDataFromSnippet( data.title, "snippet_title" );
-	this.setDataFromSnippet( data.urlPath, "snippet_cite" );
-	this.setDataFromSnippet( data.metaDesc, "snippet_meta" );
 };
 
 /**
@@ -341,7 +318,7 @@ PostDataCollector.prototype.bindElementEvents = function( refreshAnalysis ) {
  * @returns {void}
  */
 PostDataCollector.prototype.changeElementEventBinder = function( refreshAnalysis ) {
-	var elems = [ "#yoast-wpseo-primary-category", '.categorychecklist input[name="post_category[]"]' ];
+	var elems = [ "#yoast-primary-category-picker", '.categorychecklist input[name="post_category[]"]' ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		$( elems[ i ] ).on( "change", refreshAnalysis );
 	}
@@ -380,7 +357,7 @@ PostDataCollector.prototype.saveScores = function( score, keyword ) {
 
 	publishBox.updateScore( "content", indicator.className );
 
-	document.getElementById( "yoast_wpseo_linkdex" ).value = score;
+	// Score is updated to the hidden field though the sync function.
 
 	if ( "" === keyword ) {
 		indicator.className = "na";
@@ -414,7 +391,7 @@ PostDataCollector.prototype.saveContentScore = function( score ) {
 		updateAdminBar( indicator );
 	}
 
-	$( "#yoast_wpseo_content_score" ).val( score );
+	// Score is updated to the hidden field though the sync function.
 };
 
 /**
@@ -433,7 +410,7 @@ PostDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
 		updateAdminBar( indicator );
 	}
 
-	$( "#yoast_wpseo_inclusive_language_score" ).val( score );
+	// Score is updated to the hidden field though the sync function.
 };
 
 

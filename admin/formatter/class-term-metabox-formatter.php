@@ -4,6 +4,7 @@
  *
  * @package WPSEO\Admin\Formatter
  */
+use Yoast\WP\SEO\Editors\Framework\Metadata_Groups;
 
 /**
  * This class provides data for the term metabox by return its values for localization.
@@ -86,10 +87,44 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'social_image_template'       => $this->get_social_image_template(),
 				'wincherIntegrationActive'    => 0,
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
+				'metadata'                    => $this->get_term_metadata(),
+				'entity'                      => [
+					'id'         => $this->term->term_id,
+					'slug'       => $this->term->slug,
+				],
 			];
 		}
 
 		return $values;
+	}
+
+	/**
+	 * Returns the metadata for the term.
+	 *
+	 * @return array<string>
+	 */
+	private function get_term_metadata() {
+		$metadata          = [];
+		$fields_presenter  = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
+		$field_definitions = new WPSEO_Taxonomy_Fields();
+		$meta_prefix       = 'wpseo_';
+
+		/**
+		 * The metadata groups.
+		 *
+		 * @var Metadata_Groups $metadata_groups The metadata groups.
+		 */
+		$metadata_groups = YoastSEO()->classes->get( Metadata_Groups::class );
+
+		$groups = $metadata_groups->get_term_metadata_groups();
+
+		foreach ( $groups as $group ) {
+			foreach ( $field_definitions->get( $group ) as $key => $field ) {
+				$metadata[ $key ] = $fields_presenter->get_field_value( $meta_prefix . $key );
+			}
+		}
+
+		return $metadata;
 	}
 
 	/**

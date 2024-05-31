@@ -1,6 +1,5 @@
 import { compose } from "@wordpress/compose";
 import { select as wpSelect, withSelect, withDispatch } from "@wordpress/data";
-import { useEffect } from "@wordpress/element";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
@@ -69,19 +68,7 @@ const mapEditorDataToPreview = ( data, context ) => {
  *
  * @returns {wp.Element} The component.
  */
-const SnippetEditorWrapper = ( {  isLoading, onLoad, location, ...restProps } ) => {
-	useEffect( () => {
-		setTimeout( () => {
-			if ( isLoading ) {
-				onLoad();
-			}
-		} );
-	} );
-
-	if ( isLoading ) {
-		return null;
-	}
-
+const SnippetEditorWrapper = ( { location, ...restProps } ) => {
 	return (
 		<SnippetPreviewSection
 			icon="eye"
@@ -99,8 +86,6 @@ const SnippetEditorWrapper = ( {  isLoading, onLoad, location, ...restProps } ) 
 };
 
 SnippetEditorWrapper.propTypes = {
-	isLoading: PropTypes.bool.isRequired,
-	onLoad: PropTypes.func.isRequired,
 	hasPaperStyle: PropTypes.bool.isRequired,
 	location: PropTypes.string.isRequired,
 };
@@ -115,7 +100,6 @@ export default compose( [
 			getRecommendedReplaceVars,
 			getSiteIconUrlFromSettings,
 			getSnippetEditorData,
-			getSnippetEditorIsLoading,
 			getSnippetEditorMode,
 			getSnippetEditorWordsToHighlight,
 			isCornerstoneContent,
@@ -128,7 +112,6 @@ export default compose( [
 			data: getSnippetEditorData(),
 			date: getDateFromSettings(),
 			faviconSrc: getSiteIconUrlFromSettings(),
-			isLoading: getSnippetEditorIsLoading(),
 			keyword: getFocusKeyphrase(),
 			mobileImageSrc: getEditorDataImageUrl(),
 			mode: getSnippetEditorMode(),
@@ -145,7 +128,6 @@ export default compose( [
 			updateData,
 			switchMode,
 			updateAnalysisData,
-			loadSnippetEditorData,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -153,9 +135,6 @@ export default compose( [
 				switch ( key ) {
 					case "mode":
 						switchMode( value );
-						break;
-					case "slug":
-						updateData( { slug: value } );
 						break;
 					default:
 						updateData( {
@@ -165,7 +144,6 @@ export default compose( [
 				}
 			},
 			onChangeAnalysisData: updateAnalysisData,
-			onLoad: loadSnippetEditorData,
 		};
 	} ),
 	withLocation(),

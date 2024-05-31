@@ -14,6 +14,7 @@ import initAnalysis, { collectData } from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 import initializeInsights from "./insights/initializer";
 import initElementorWatcher from "./watchers/elementorWatcher";
+import { hiddenFieldsSync } from "./helpers/fields";
 
 /* eslint-disable complexity */
 /**
@@ -25,6 +26,9 @@ function initialize() {
 	// Initialize the editor store and set it on the window.
 	window.YoastSEO = window.YoastSEO || {};
 	window.YoastSEO.store = initEditorStore();
+
+	// Initialize the hidden fields sync if there are hidden fields.
+	hiddenFieldsSync();
 
 	// Initialize the editor data watcher.
 	initElementorWatcher();

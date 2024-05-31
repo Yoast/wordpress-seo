@@ -21,6 +21,7 @@ use WPSEO_Utils;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
+use Yoast\WP\SEO\Editors\Framework\Metadata_Groups;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -109,6 +110,13 @@ class Elementor implements Integration_Interface {
 	protected $promotion_manager;
 
 	/**
+	 * Holds the metadata groups.
+	 *
+	 * @var Metadata_Groups
+	 */
+	protected $metadata_groups;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
@@ -124,17 +132,20 @@ class Elementor implements Integration_Interface {
 	 * @param Options_Helper            $options           The options helper.
 	 * @param Capability_Helper         $capability        The capability helper.
 	 * @param Promotion_Manager         $promotion_manager The promotion manager.
+	 * @param Metadata_Groups           $metadata_groups   The metadata groups.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Options_Helper $options,
 		Capability_Helper $capability,
-		Promotion_Manager $promotion_manager
+		Promotion_Manager $promotion_manager,
+		Metadata_Groups $metadata_groups
 	) {
 		$this->asset_manager     = $asset_manager;
 		$this->options           = $options;
 		$this->capability        = $capability;
 		$this->promotion_manager = $promotion_manager;
+		$this->metadata_groups   = $metadata_groups;
 
 		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
@@ -507,20 +518,12 @@ class Elementor implements Integration_Interface {
 		);
 
 		\wp_nonce_field( 'wpseo_elementor_save', '_wpseo_elementor_nonce' );
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
-		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
 
-		if ( $this->is_advanced_metadata_enabled ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'advanced' );
-		}
+		$groups = $this->metadata_groups->get_post_metadata_groups();
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
-		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema', $this->get_metabox_post()->post_type );
-
-		if ( $this->social_is_enabled ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
+		foreach ( $groups as $group ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
+			echo new Meta_Fields_Presenter( $this->get_metabox_post(), $group, $this->get_metabox_post()->post_type );
 		}
 
 		\printf(

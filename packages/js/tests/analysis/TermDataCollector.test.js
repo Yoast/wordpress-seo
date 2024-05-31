@@ -38,23 +38,10 @@ describe( "a test for collecting data from a term", () => {
 		expect( termDataCollector.getSnippetTitle() ).toBe( "title" );
 	} );
 
-	it( "sets the data from the snippet to the hidden input field: 'hidden_wpseo_desc'", () => {
-		document.body.innerHTML = '<input type="hidden" id="hidden_wpseo_desc" value="description" />';
-
-		termDataCollector.setDataFromSnippet( "new description", "snippet_meta" );
-		expect( document.getElementById( "hidden_wpseo_desc" ).value ).toBe( "new description" );
-	} );
-
 	it( "sets the data from the snippet to the hidden input field: 'slug'", () => {
 		document.body.innerHTML = '<input type="hidden" id="slug" value="slug" />';
 		termDataCollector.setDataFromSnippet( "new slug", "snippet_cite" );
 		expect( document.getElementById( "slug" ).value ).toBe( "new slug" );
-	} );
-
-	it( "sets the data from the snippet to the hidden input field: 'hidden_wpseo_title'", () => {
-		document.body.innerHTML = '<input type="hidden" id="hidden_wpseo_title" value="title" />';
-		termDataCollector.setDataFromSnippet( "new title", "snippet_title" );
-		expect( document.getElementById( "hidden_wpseo_title" ).value ).toBe( "new title" );
 	} );
 
 	it( "getKeyword: the element's value is not empty", () => {

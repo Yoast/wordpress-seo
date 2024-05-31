@@ -161,34 +161,12 @@ TermDataCollector.prototype.getBaseUrl = function() {
  */
 TermDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 	switch ( type ) {
-		case "snippet_meta":
-			document.getElementById( "hidden_wpseo_desc" ).value = value;
-			break;
 		case "snippet_cite":
 			document.getElementById( "slug" ).value = value;
-			break;
-		case "snippet_title":
-			document.getElementById( "hidden_wpseo_title" ).value = value;
 			break;
 		default:
 			break;
 	}
-};
-
-/**
- * Saves the data passed from the snippet editor.
- *
- * @param {Object} data          Object with data value.
- * @param {string} data.title    The title.
- * @param {string} data.urlPath  The url.
- * @param {string} data.metaDesc The meta description.
- *
- * @returns {void}
- */
-TermDataCollector.prototype.saveSnippetData = function( data ) {
-	this.setDataFromSnippet( data.title, "snippet_title" );
-	this.setDataFromSnippet( data.urlPath, "snippet_cite" );
-	this.setDataFromSnippet( data.metaDesc, "snippet_meta" );
 };
 
 /**
