@@ -49,6 +49,7 @@ const IconAIFixesButton = function (props) {
 			aria-pressed={props.pressed}
 			unpressedIconColor={ props.unpressedIconColor }
 			pressedIconColor={props.pressedIconColor}
+			hoverBackgroundColor={props.hoverBackgroundColor}
 			hoverBorderColor={props.hoverBorderColor}
 			className={props.className}
 		>
@@ -70,17 +71,19 @@ IconAIFixesButton.propTypes = {
 	unpressedIconColor: PropTypes.string,
 	pressed: PropTypes.bool.isRequired,
 	hoverBorderColor: PropTypes.string,
+	hoverBackgroundColor: PropTypes.string,
 	className: PropTypes.string,
 };
 
 IconAIFixesButton.defaultProps = {
 	unpressedBoxShadowColor: colors.$color_button_border,
 	pressedBoxShadowColor: colors.$color_purple,
-	pressedBackground: "linear- gradient(to bottom right, #A61E69, #3B82F6) ",
+	pressedBackground: "linear- gradient(to bottom right, #A61E69, #3B82F6)",
 	unpressedBackground: "linear-gradient(to bottom right, #FAF3F7, #EFF6FF)",
 	pressedIconColor: colors.$color_white,
 	unpressedIconColor: colors.$color_button_text,
 	hoverBorderColor: colors.$color_white,
+	hoverBackgroundColor: "linear-gradient(to bottom right, #F3E5ED, #DBEAFE)",
 };
 
 export default IconAIFixesButton;

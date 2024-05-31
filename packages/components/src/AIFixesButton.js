@@ -29,9 +29,14 @@ const AIFixesButtonBase = styled(IconButtonBase)`
 		linear-gradient(to bottom right, #CD82AB, #93C5FD) border-box;
 	background-image: ${props => props.pressed ? gradientEffect.pressedState : props.unpressedBackground};
 
+	svg {
+		transform: scaleX(-1);
+	}
+
 	&:hover {
 		border-color: ${props => props.hoverBorderColor};
 		}
+
 	&:disabled {
 		background-color: ${props => props.unpressedBackground};
 `;
