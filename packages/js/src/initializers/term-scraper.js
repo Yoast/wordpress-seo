@@ -1,3 +1,5 @@
+/* eslint-disable max-statements */
+/* eslint-disable complexity */
 /* global wpseoScriptData */
 
 // External dependencies.
@@ -28,11 +30,7 @@ import getTranslations from "../analysis/getTranslations";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import {
-	getDataFromCollector,
 	getDataFromStore,
-	getDataWithoutTemplates,
-	getDataWithTemplates,
-	getTemplatesFromL10n,
 } from "../analysis/snippetEditor";
 import TermDataCollector from "../analysis/TermDataCollector";
 import CustomAnalysisData from "../analysis/CustomAnalysisData";
@@ -40,14 +38,17 @@ import getApplyMarks from "../analysis/getApplyMarks";
 import { refreshDelay } from "../analysis/constants";
 import handleWorkerError from "../analysis/handleWorkerError";
 import initializeUsedKeywords from "./used-keywords-assessment";
-import { actions } from "@yoast/externals/redux";
+import { actions, selectors } from "@yoast/externals/redux";
 import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
+
+const {
+	isCornerstoneContent,
+	getSnippetEditorData,
+} = selectors;
 
 const {
 	refreshSnippetEditor,
 	updateData,
-	setFocusKeyword,
-	setCornerstoneContent,
 	setMarkerStatus,
 	setReadabilityResults,
 	setSeoResultsForKeyword,
@@ -244,11 +245,8 @@ export default function initTermScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeCornerstoneContentAnalysis( yoastSeoApp ) {
-		const cornerstoneField = document.getElementById( "hidden_wpseo_is_cornerstone" );
+		const isCornerstone = isCornerstoneContent( store.getState() );
 
-		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
-		let isCornerstone = cornerstoneField.value === "1";
-		store.dispatch( setCornerstoneContent( isCornerstone ) );
 		yoastSeoApp.changeAssessorOptions( {
 			useCornerstone: isCornerstone,
 		} );
@@ -257,11 +255,8 @@ export default function initTermScraper( $, store, editorData ) {
 			const state = store.getState();
 
 			if ( state.isCornerstone !== isCornerstone ) {
-				isCornerstone = state.isCornerstone;
-				cornerstoneField.value = isCornerstone ? "1" : "0";
-
 				yoastSeoApp.changeAssessorOptions( {
-					useCornerstone: isCornerstone,
+					useCornerstone: state.isCornerstone,
 				} );
 			}
 		} );
@@ -295,8 +290,6 @@ export default function initTermScraper( $, store, editorData ) {
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			store.dispatch( setFocusKeyword( termScraper.getKeyword() ) );
-
 			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
 			args.callbacks.updatedKeywordsResults = function( results ) {
 				const keyword = store.getState().focusKeyword;
@@ -414,14 +407,9 @@ export default function initTermScraper( $, store, editorData ) {
 			disableYoastSEORenderers( app );
 		};
 
-		// Initialize the snippet editor data.
-		let snippetEditorData = getDataFromCollector( termScraper );
 		initializeCornerstoneContentAnalysis( app );
-		const snippetEditorTemplates = getTemplatesFromL10n( wpseoScriptData.metabox );
-		snippetEditorData = getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
-		// Set the initial snippet editor data.
-		store.dispatch( updateData( snippetEditorData ) );
+		const snippetEditorData = getSnippetEditorData( store.getState() );
 
 		let focusKeyword = store.getState().focusKeyword;
 		requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, window.YoastSEO.store, focusKeyword );
@@ -437,26 +425,17 @@ export default function initTermScraper( $, store, editorData ) {
 
 			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
-
 				requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, window.YoastSEO.store, focusKeyword );
-
-				document.getElementById( "hidden_wpseo_focuskw" ).value = focusKeyword;
 				refreshApp();
 			}
 
 			const data = getDataFromStore( store );
-			const dataWithoutTemplates = getDataWithoutTemplates( data, snippetEditorTemplates );
-
-			if ( snippetEditorData.title !== data.title ) {
-				termScraper.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
-			}
 
 			if ( snippetEditorData.slug !== data.slug ) {
-				termScraper.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
+				termScraper.setDataFromSnippet( data.slug, "snippet_cite" );
 			}
 
 			if ( snippetEditorData.description !== data.description ) {
-				termScraper.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
 				refreshApp();
 			}
 

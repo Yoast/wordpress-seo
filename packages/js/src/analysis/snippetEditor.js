@@ -6,21 +6,6 @@ import {
 } from "lodash";
 
 /**
- * Gets the snippet editor data from a data collector.
- *
- * @param {PostDataCollector|TermDataCollector} collector The collector to get the data from.
- *
- * @returns {Object} The snippet editor data object.
- */
-export function getDataFromCollector( collector ) {
-	return {
-		title: collector.getSnippetTitle(),
-		slug: collector.getSnippetCite(),
-		description: collector.getSnippetMeta(),
-	};
-}
-
-/**
  * Gets the snippet editor data from the redux store.
  *
  * @param {Object} store The redux store to get the data from.
