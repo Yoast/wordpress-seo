@@ -1,7 +1,6 @@
 /* eslint-disable max-statements */
 
 import wordComplexity from "../../../src/languageProcessing/researches/wordComplexity.js";
-import keyphraseForms from "../../../src/languageProcessing/researches/wordComplexity.js";
 import Paper from "../../../src/values/Paper";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
@@ -178,24 +177,21 @@ describe( "test with different language specific helper and config", () => {
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 	} );
 
-	it( "uses returns an empty array and 0% " +
-		"when there are only function words and keyphrases in the text.", () => {
-		let paper = new Paper( "The paradigm is hard to understand" );
+	it( "returns an empty array and 0% when there are only function words and keyphrases in the text.", () => {
+		let paper = new Paper( "These new paradigms are hard to understand.", { keyword: "paradigm" } );
 		let researcher = new EnglishResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigEnglish );
 		researcher.addResearchData( "morphology", premiumDataEn );
-		keyphraseForms = [ "paradigm", "paradigms" ];
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 
-		paper = new Paper( "Tiene usted una nueva computadora." );
+		paper = new Paper( "Contamos con lo más nuevo en computadoras.", { keyword: "nueva computadora" } );
 		researcher = new SpanishResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperSpanish );
 		researcher.addConfig( "wordComplexity", wordComplexityConfigSpanish );
 		researcher.addResearchData( "morphology", premiumDataEs );
-		keyphraseForms = [ "nueva computadora", "nuevas computadoras" ];
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );

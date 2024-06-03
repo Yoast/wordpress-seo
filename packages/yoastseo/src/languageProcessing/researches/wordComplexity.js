@@ -3,7 +3,8 @@ import { flatMap, get } from "lodash";
 import getSentences from "../helpers/sentence/getSentences";
 import getWords from "../helpers/word/getWords";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../helpers/sanitize/filterShortcodesFromTree";
+import { filterShortcodesFromHTML } from "../helpers";
+import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
 
 /**
  * An object containing the results of the complex words research for a single sentence.
@@ -36,41 +37,18 @@ const getComplexWords = function( currentSentence, researcher ) {
 	const checkIfWordIsFunction = researcher.getHelper( "checkIfWordIsFunction" );
 	const premiumData = get( researcher.getData( "morphology" ), language, false );
 
-	const allWords = getWords( currentSentence );
+	// Retrieve all words from the sentence.
+	let words = getWords( currentSentence );
+
+	// Filters out keyphrase forms and synonyms because we consider them not to be complex.
+	const topicForms = researcher.getResearch( "morphology" );
+	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
+	const foundTopicForms = findTopicFormsInString( topicForms, currentSentence, true, researcher.paper.getLocale(), matchWordCustomHelper );
+	words = words.filter( word => ! foundTopicForms.matches.includes( word ) );
 
 	// Filters out function words because function words are not complex.
 	// Words are converted to lowercase before processing to avoid excluding function words that start with a capital letter.
-	const words = allWords.filter( word => ! ( checkIfWordIsFunction ? checkIfWordIsFunction( word ) : functionWords.includes( word ) ) );
-
-	/**
-	 * Matches forms of words in the keyphrase against the complex words.
-	 *
-	 * @param {Object}      topicForms       The object with word forms of all (content) words from the keyphrase and eventually synonyms,
-	 * comes in a shape {
-	 *                     keyphraseForms: [[ form1, form2, ... ], [ form1, form2, ... ]],
-	 *                     synonymsForms: [
-	 *                          [[ form1, form2, ... ], [ form1, form2, ... ]],
-	 *                          [[ form1, form2, ... ], [ form1, form2, ... ]],
-	 *                          [[ form1, form2, ... ], [ form1, form2, ... ]],
-	 *                     ],
-	 *                  }
-	 * @param {string}      text                    The string to match the word forms against.
-	 * @param {boolean}     useSynonyms             Whether to use synonyms as if it was keyphrase or not (depends on the assessment).
-	 * @param {string}      locale                  The locale of the paper.
-	 * @param {function}    matchWordCustomHelper   The language-specific helper function to match word in text.
-	 *
-	 * @returns {array} Words with the keyphrases filtered out if a full match was found with the keyword.
-	 */
-	const findTopicFormsInString = function (topicForms, text, useSynonyms, locale, matchWordCustomHelper) {
-		// First check if the keyword is found in the text
-		const matchedTopicForms = ( findTopicFormsInString )( topicForms, text, useSynonyms, locale, matchWordCustomHelper );
-
-		// If a full match found with the keyword form, filter out keyphrase forms because they are allowed to be complex.
-		if (result.percentWordMatches === 100) ( topicForms.keyphraseForms )
-		{
-			return words.filter( word => ! ( findTopicFormsInString ? findTopicFormsInString( topicForms, text, useSynonyms, locale, matchWordCustomHelper ) : matchedTopicForms.includes( word ) ) );
-		}
-	}
+	words = words.filter( word => ! ( checkIfWordIsFunction ? checkIfWordIsFunction( word ) : functionWords.includes( word ) ) );
 
 	const result = {
 		complexWords: [],
