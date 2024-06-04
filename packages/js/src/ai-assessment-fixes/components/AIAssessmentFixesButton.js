@@ -15,9 +15,6 @@ import { ModalContent } from "../../ai-generator/components/modal-content";
 
 /**
  * The AI Assessment Fixes button icon.
- *
- * @param {string} id The ID for which the gradient effect will be applied to the icon.
- *
  * @returns {JSX.Element} The AI Assessment Fixes button icon.
  */
 const SparklesIcon = () => {
