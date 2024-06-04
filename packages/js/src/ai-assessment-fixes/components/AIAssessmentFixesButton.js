@@ -13,20 +13,28 @@ import { Paper } from "yoastseo";
 /* Internal dependencies */
 import { ModalContent } from "../../ai-generator/components/modal-content";
 
-const SparklesIcon = () => {
+const SparklesIcon = ( { pressed } ) => {
 	return (
-	<>
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="1.5" style={{ width: "90%",height:"90%" }}>
-			<defs>
-				<linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-					<stop offset="0%" style= {{ stopColor:"#A61E69", stopOpacity:1 }} />
-					<stop offset="100%" style= {{ stopColor:"#3B82F6", topOpacity:1 }} />
-				</linearGradient>
-			</defs>
-			<path fill="url(#gradient)" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
-		</svg>
-	</>
-)};
+		<>
+			<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path
+					d="M3.33284 2V4.66667M1.99951 3.33333H4.66618M3.99951 11.3333V14M2.66618 12.6667H5.33284M8.66618 2L10.19 6.57143L13.9995 8L10.19 9.42857L8.66618 14L7.14237 9.42857L3.33284 8L7.14237 6.57143L8.66618 2Z"
+					stroke={ pressed ? "white" : "url(#paint0_linear_1208_188)" } strokeWidth="1.33333" strokeLinecap="round"
+					strokeLinejoin="round"
+				/>
+				<defs>
+					<linearGradient
+						id="paint0_linear_1208_188" x1="0" y1="0" x2="16" y2="16"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stopColor="#A61E69" />
+						<stop offset="1" stopColor="#3B82F6" />
+					</linearGradient>
+				</defs>
+			</svg>
+		</>
+	);
+};
 
 /**
  * The AI Assessment Fixes button component.
@@ -81,10 +89,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 
 	// The button is pressed when the active AI button id is the same as the current button id.
 	const isButtonPressed = activeAIButtonId === aiFixesId;
-	/* This color selection when the button is pressed/unpressed is in line with the design of the highlighting button.
-	In Premium: when the button is pressed, the icon color is white. When the button is unpressed, the color is grey.
-	In Free: the icon color is always grey. */
-	const iconColor = isButtonPressed ? colors.$color_white : colors.$color_button_text;
+
 	// Don't show the tooltip when the button is pressed.
 	const className = isButtonPressed ? "" : "yoast-tooltip yoast-tooltip-w";
 
@@ -97,7 +102,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				className={ className }
 				pressed={ isButtonPressed }
 			>
-				<SparklesIcon style={ { color: iconColor } }/>
+				<SparklesIcon pressed={ isButtonPressed } />
 				{
 					// We put the logic for the Upsell component in place.
 					// The Modal below is only a placeholder/mock. When we have the design for the real upsell, the modal should be replaced.

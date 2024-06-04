@@ -11,37 +11,29 @@ const blue50 = "#EFF6FF";
 const blue100 = "#DBEAFE";
 const blue300 = "#93C5FD";
 const blue500 = "#3B82F6";
+const yoastPrimary400 = "#B94986";
 const direction = "to bottom right";
 
 const gradientEffect = {
 	defaultStateBackground: `linear-gradient(${direction}, ${yoastPrimary50}, ${blue50})`,
-	defaultStateBorder: `linear-gradient(${direction}, ${yoastPrimary300}, ${blue300})`,
+	defaultStateBorder: `linear-gradient(${direction}, ${yoastPrimary300}, ${blue300}) 1`,
 	hoverStateBackground: `linear-gradient(${direction}, ${yoastPrimary100}, ${blue100})`,
-	hoverStateBorder: `linear-gradient(${direction}, ${yoastPrimary300}, ${blue300})`,
 	pressedStateBackground: `linear-gradient(${direction}, ${yoastPrimary500}, ${blue500})`,
-	pressedStateBorder: `none`,
 };
 
 const AIFixesButtonBase = styled(IconButtonBase)`
 	overflow: hidden;
-	border: 1px solid transparent;
-	background: linear-gradient(white, white) padding-box,
-		linear-gradient(to bottom right, #CD82AB, #93C5FD) border-box;
-	/* background-image is used to set the background color of the button. */
-	background-image: ${props => props.pressed ? gradientEffect.pressedStateBackground : props.pressedStateBackground};
+	border: ${props => props.pressed ? 'none' : '1px solid transparent'};
+	border-image: ${props => props.pressed ? 'none' : gradientEffect.defaultStateBorder};
 
-	svg {
-		transform: scaleX(-1);
-		path {
-			fill: ${props => props.pressed ? props.pressedIconColor : gradientEffect.pressedStateBackground};
-		}
-	}
-
+	background-image: ${props => props.pressed ? gradientEffect.pressedStateBackground : gradientEffect.defaultStateBackground} !important;
 	&:hover {
-		border-color: none;
-		border-image: ${props => props.hoverBorderColor};
-		background-image: ${props => props.pressed ? gradientEffect.pressedStateBackground : props.hoverStateBackground}; };
+		background-image:  ${props => props.pressed ? gradientEffect.pressedStateBackground : gradientEffect.hoverStateBackground} !important;
 	}
+
+	box-shadow: ${ props => props.pressed
+		? `inset 0 -2px 0 ${ yoastPrimary400 }`
+		: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
 `;
 
 export default AIFixesButtonBase;
