@@ -32,8 +32,8 @@ const AIFixesButtonBase = styled(IconButtonBase)`
 	}
 
 	box-shadow: ${ props => props.pressed
-		? `inset 0 -2px 0 ${ yoastPrimary400 }`
-		: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
+	? `inset 0 -2px 0 ${ yoastPrimary400 }`
+	: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
 `;
 
 export default AIFixesButtonBase;
