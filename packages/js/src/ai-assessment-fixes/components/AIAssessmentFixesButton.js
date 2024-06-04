@@ -13,6 +13,13 @@ import { Paper } from "yoastseo";
 /* Internal dependencies */
 import { ModalContent } from "../../ai-generator/components/modal-content";
 
+/**
+ * The AI Assessment Fixes button icon.
+ *
+ * @param {string} id The ID for which the gradient effect will be applied to the icon.
+ *
+ * @returns {JSX.Element} The AI Assessment Fixes button icon.
+ */
 const SparklesIcon = () => {
 	return (
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="1.5" style={ { width: "90%", height: "90%" } }>
