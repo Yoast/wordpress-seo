@@ -159,7 +159,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 |Red	|3	|< 50 characters	|**Not enough content**: **please add some content to enable a good analysis**.|
 
 ### 9) Word complexity (only in Premium)
-**What it does**: Checks whether the text contains complex words
+**What it does**: Checks whether the text contains complex words that are not in the keyphrase
 
 **When applies**: When the (sanitized) text has more than 50 characters
 
