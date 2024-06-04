@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { rgba } from "@yoast/style-guide";
 import IconButtonBase from "./IconButtonBase";
-import { SparklesIcon } from "@heroicons/react/outline";
 
 const yoastPrimary50 = "#FAF3F7";
 const yoastPrimary100 = "#F3E5ED";
@@ -21,19 +20,20 @@ const gradientEffect = {
 	pressedStateBackground: `linear-gradient(${direction}, ${yoastPrimary500}, ${blue500})`,
 };
 
-const AIFixesButtonBase = styled(IconButtonBase)`
+const AIFixesButtonBase = styled( IconButtonBase )`
 	overflow: hidden;
-	border: ${props => props.pressed ? 'none' : '1px solid transparent'};
-	border-image: ${props => props.pressed ? 'none' : gradientEffect.defaultStateBorder};
+	border: ${ props => props.pressed
+		? "none" : "1px solid transparent" };
+	border-image: ${ props => props.pressed ? "none" : gradientEffect.defaultStateBorder };
+	background-image: ${ props => props.pressed ? gradientEffect.pressedStateBackground : gradientEffect.defaultStateBackground } !important;
 
-	background-image: ${props => props.pressed ? gradientEffect.pressedStateBackground : gradientEffect.defaultStateBackground} !important;
 	&:hover {
-		background-image:  ${props => props.pressed ? gradientEffect.pressedStateBackground : gradientEffect.hoverStateBackground} !important;
+		background-image:  ${ props => props.pressed ? gradientEffect.pressedStateBackground : gradientEffect.hoverStateBackground } !important;
 	}
 
 	box-shadow: ${ props => props.pressed
-	? `inset 0 -2px 0 ${ yoastPrimary400 }`
-	: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
+		? `inset 0 -2px 0 ${ yoastPrimary400 }`
+		: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
 `;
 
 export default AIFixesButtonBase;

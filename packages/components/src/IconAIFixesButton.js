@@ -14,26 +14,26 @@ import AIFixesButton from "./AIFixesButton";
  *
  * @returns {JSX.Element} IconAIFixesButton component.
  */
-const IconAIFixesButton = function (props) {
+const IconAIFixesButton = function( props ) {
 	return (
 		<AIFixesButton
-			disabled={false}
+			disabled={ false }
 			type="button"
-			onClick={props.onClick}
-			pressed={props.pressed}
-			unpressedBoxShadowColor={props.unpressedBoxShadowColor}
+			onClick={ props.onClick }
+			pressed={ props.pressed }
+			unpressedBoxShadowColor={ props.unpressedBoxShadowColor }
 			pressedBoxShadowColor={ props.pressedBoxShadowColor }
 			pressedBackground={ props.pressedBackground }
-			unpressedBackground={props.unpressedBackground}
-			id={props.id}
-			aria-label={props.ariaLabel}
-			aria-pressed={props.pressed}
-			pressedIconColor={props.pressedIconColor}
-			hoverBackgroundColor={props.hoverBackgroundColor}
-			unpressedBorderColor={props.hoverBorderColor}
-			className={props.className}
+			unpressedBackground={ props.unpressedBackground }
+			id={ props.id }
+			aria-label={ props.ariaLabel }
+			aria-pressed={ props.pressed }
+			pressedIconColor={ props.pressedIconColor }
+			hoverBackgroundColor={ props.hoverBackgroundColor }
+			unpressedBorderColor={ props.unpressedBorderColor }
+			className={ props.className }
 		>
-			{props.children}
+			{ props.children }
 		</AIFixesButton>
 	);
 };
