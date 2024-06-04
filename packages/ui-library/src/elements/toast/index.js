@@ -22,10 +22,11 @@ export const toastClassNameMap = {
  */
 const Close = ( {
 	dismissScreenReaderLabel,
+	className = "",
 } ) => {
 	const { handleDismiss } = useContext( ToastContext );
 	return (
-		<div className="yst-flex-shrink-0 yst-flex">
+		<div className={ classNames( "yst-flex-shrink-0 yst-flex yst-self-start", className ) } >
 			<button
 				type="button"
 				onClick={ handleDismiss }
@@ -40,6 +41,7 @@ const Close = ( {
 
 Close.propTypes = {
 	dismissScreenReaderLabel: PropTypes.string.isRequired,
+	classNames: PropTypes.string,
 };
 
 /**
