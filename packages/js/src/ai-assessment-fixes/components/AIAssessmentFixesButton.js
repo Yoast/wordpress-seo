@@ -5,7 +5,6 @@ import { doAction } from "@wordpress/hooks";
 import { useSelect, useDispatch } from "@wordpress/data";
 
 /* Yoast dependencies */
-import { colors } from "@yoast/style-guide";
 import { IconAIFixesButton } from "@yoast/components";
 import { Modal, useToggleState } from "@yoast/ui-library";
 import { Paper } from "yoastseo";
@@ -13,6 +12,11 @@ import { Paper } from "yoastseo";
 /* Internal dependencies */
 import { ModalContent } from "../../ai-generator/components/modal-content";
 
+/**
+ * The AI Assessment Fixes button icon.
+ * @param {boolean} pressed Whether the button is pressed.
+ * @returns {JSX.Element} The AI Assessment Fixes button icon.
+ */
 const SparklesIcon = ( { pressed } ) => {
 	return (
 		<>
