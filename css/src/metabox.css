@@ -69,15 +69,26 @@
   padding: 16px;
 }
 
+.wpseo-metabox .postbox-header {
+  border-bottom: 1px solid #ddd;
+}
+
+.wpseo-metabox .inside {
+  background-color: #f1f5f9;
+  display: flex;
+  justify-content: center;
+  padding: 32px !important;
+}
+
 .wpseo-metabox-content {
   max-width: 800px;
-  padding-top: 16px;
+  background-color: #f1f5f9;
 }
 
 .wpseo-metabox-menu {
   max-width: 600px;
   padding: 0;
-  background-color: #fff;
+  background-color: #f1f5f9;
 }
 
 .wpseo-metabox-menu ul {
