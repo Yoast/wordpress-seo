@@ -321,13 +321,17 @@ Release date: 2024-06-18
 
 #### Enhancements
 
-* Adds additional filter options for the `og:image` meta tags.
 * Helps guide Elementor users to Yoast when they have the new editor top bar activated.
+* Adds additional filter options for the `og:image` meta tags.
 * Improves compatibility with custom RSS feeds. Props to @gsusI.
 
 #### Bugfixes
 
 * Fixes a bug where a PHP notice would be thrown on RSS feeds when a canonical URL can not be created for its parent page.
+
+#### Others
+
+* Changes the copy in the admin sidebar from `Premium` to `Upgrades`.
 
 = 22.8 =
 
