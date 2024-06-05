@@ -58,16 +58,12 @@ class WPSEO_Metabox_Formatter {
 			'search_url'                         => '',
 			'post_edit_url'                      => '',
 			'base_url'                           => '',
-			'contentTab'                         => __( 'Readability', 'wordpress-seo' ),
-			'keywordTab'                         => __( 'Keyphrase:', 'wordpress-seo' ),
-			'removeKeyword'                      => __( 'Remove keyphrase', 'wordpress-seo' ),
 			'contentLocale'                      => get_locale(),
 			'userLocale'                         => get_user_locale(),
 			'translations'                       => $this->get_translations(),
 			'keyword_usage'                      => [],
 			'title_template'                     => '',
 			'metadesc_template'                  => '',
-			'intl'                               => $this->get_content_analysis_component_translations(),
 			'isRtl'                              => is_rtl(),
 			'isPremium'                          => YoastSEO()->helpers->product->is_premium(),
 			'siteIconUrl'                        => get_site_icon_url(),
@@ -181,7 +177,6 @@ class WPSEO_Metabox_Formatter {
 			 * @param bool $showMarkers Should the markers being enabled. Default = true.
 			 */
 			'show_markers'                       => apply_filters( 'wpseo_enable_assessment_markers', true ),
-			'analysisHeadingTitle'               => __( 'Analysis', 'wordpress-seo' ),
 			'zapierIntegrationActive'            => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
 			'zapierConnectedStatus'              => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
 			'wordproofIntegrationActive'         => YoastSEO()->helpers->wordproof->is_active() ? 1 : 0,
@@ -199,28 +194,6 @@ class WPSEO_Metabox_Formatter {
 
 		$enabled_features = $enabled_features_repo->get_enabled_features()->parse_to_legacy_array();
 		return array_merge( $defaults, $enabled_features );
-	}
-
-	/**
-	 * Returns required yoast-component translations.
-	 *
-	 * @return string[]
-	 */
-	private function get_content_analysis_component_translations() {
-		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
-		return [
-			'locale'                                         => get_user_locale(),
-			'content-analysis.errors'                        => __( 'Errors', 'wordpress-seo' ),
-			'content-analysis.problems'                      => __( 'Problems', 'wordpress-seo' ),
-			'content-analysis.improvements'                  => __( 'Improvements', 'wordpress-seo' ),
-			'content-analysis.considerations'                => __( 'Considerations', 'wordpress-seo' ),
-			'content-analysis.good'                          => __( 'Good results', 'wordpress-seo' ),
-			'content-analysis.highlight'                     => __( 'Highlight this result in the text', 'wordpress-seo' ),
-			'content-analysis.nohighlight'                   => __( 'Remove highlight from the text', 'wordpress-seo' ),
-			'content-analysis.disabledButton'                => __( 'Marks are disabled in current view', 'wordpress-seo' ),
-			/* translators: Hidden accessibility text. */
-			'a11yNotice.opensInNewTab'                       => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
-		];
 	}
 
 	/**
