@@ -11,7 +11,7 @@ import { Modal, useToggleState } from "@yoast/ui-library";
 import { Paper } from "yoastseo";
 
 /* Internal dependencies */
-import { ModalContent } from "../../ai-generator/components/modal-content";
+import { ModalContent } from "./modal-content";
 
 /**
  * The AI Assessment Fixes button component.
