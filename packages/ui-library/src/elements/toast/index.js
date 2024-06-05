@@ -18,14 +18,16 @@ export const toastClassNameMap = {
 
 /**
  * @param {string} dismissScreenReaderLabel The screen reader label for the dismiss button.
+ * @param {string} [className] The additional class name.
  * @returns {JSX.Element} The close button.
  */
 const Close = ( {
 	dismissScreenReaderLabel,
+	className = "",
 } ) => {
 	const { handleDismiss } = useContext( ToastContext );
 	return (
-		<div className="yst-flex-shrink-0 yst-flex">
+		<div className={ classNames( "yst-flex-shrink-0 yst-flex yst-self-start", className ) }>
 			<button
 				type="button"
 				onClick={ handleDismiss }
@@ -40,11 +42,12 @@ const Close = ( {
 
 Close.propTypes = {
 	dismissScreenReaderLabel: PropTypes.string.isRequired,
+	className: PropTypes.string,
 };
 
 /**
  * @param {string|string[]} description The toast description.
- * @param {string} [className] The additional class names.
+ * @param {string} [className] The additional class name.
  * @returns {JSX.Element} The description.
  */
 const Description = ( {
@@ -69,7 +72,7 @@ Description.propTypes = {
 
 /**
  * @param {string} title The toast title.
- * @param {string} [className] The additional class names.
+ * @param {string} [className] The additional class name.
  * @returns {JSX.Element} The title.
  */
 const Title = ( {
@@ -90,7 +93,7 @@ Title.propTypes = {
  * @param {Object} props The props object.
  * @param {JSX.node} children The children.
  * @param {string} id The toast ID.
- * @param {string} [className] The additional class names.
+ * @param {string} [className] The additional class name.
  * @param {string} position The toast position.
  * @param {Function} [onDismiss] Function to trigger on dismissal.
  * @param {number|null} [autoDismiss] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
