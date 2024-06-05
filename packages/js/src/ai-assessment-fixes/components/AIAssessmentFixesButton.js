@@ -105,7 +105,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				id={ aiFixesId }
 				className={ className }
 				pressed={ isButtonPressed }
-				disabled={ isButtonDisabled }
 			>
 				<SparklesIcon pressed={ isButtonPressed } />
 				{
