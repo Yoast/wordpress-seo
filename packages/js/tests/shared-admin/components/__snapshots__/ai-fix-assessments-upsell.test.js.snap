@@ -45,7 +45,7 @@ exports[`AiFixAssessmentsUpsell renders the component correctly 1`] = `
       <div
         class="yst-mt-2 yst-text-slate-600 yst-text-sm"
       >
-        Let AI fix assesments. 
+        Let AI fix assessments. 
         <a
           class="yst-link yst-link--primary yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
           href="https://example.com/learn-more"

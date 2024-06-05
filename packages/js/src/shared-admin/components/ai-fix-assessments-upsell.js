@@ -63,7 +63,7 @@ export const AiFixAssessmentsUpsell = ( {
 						sprintf(
 							/* translators: %1$s and %2$s are anchor tags; %3$s is the arrow icon. */
 							__(
-								"Let AI fix assesments. %1$sLearn more%2$s%3$s",
+								"Let AI fix assessments. %1$sLearn more%2$s%3$s",
 								"wordpress-seo"
 							),
 							"<a>",
@@ -129,7 +129,7 @@ AiFixAssessmentsUpsell.propTypes = {
 };
 
 AiFixAssessmentsUpsell.defaultProps = {
-	title: __( "Use AI to fix assesments!", "wordpress-seo" ),
+	title: __( "Use AI to fix assessments!", "wordpress-seo" ),
 	upsellLabel: sprintf(
 		/* translators: %1$s expands to Yoast SEO Premium. */
 		__( "Unlock with %1$s", "wordpress-seo" ),

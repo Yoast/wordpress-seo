@@ -10,18 +10,17 @@ const STORE = "yoast-seo/editor";
  * @returns {JSX.Element} The element.
  */
 export const ModalContent = () => {
-	const learnMoreLink = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-fix-assesments-learn-more" ), [] );
-	const upsellLinkPremium = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-fix-assesments-upsell" ), [] );
+	const learnMoreLink = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-fix-assessments-learn-more" ), [] );
+	const upsellLinkPremium = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-fix-assessments-upsell" ), [] );
 
 	const postModalprops = {
 		upsellLink: upsellLinkPremium,
-		title: __( "Fix assesments with AI!", "wordpress-seo" ),
+		title: __( "Fix assessments with AI!", "wordpress-seo" ),
 		upsellLabel: sprintf(
 			/* translators: %1$s expands to Yoast SEO Premium. */
 			__( "Unlock with %1$s", "wordpress-seo" ),
 			"Yoast SEO Premium"
 		),
-
 	};
 
 	const imageLink = useSelect( select => select( STORE ).selectImageLink( "ai-generator-preview.png" ), [] );
