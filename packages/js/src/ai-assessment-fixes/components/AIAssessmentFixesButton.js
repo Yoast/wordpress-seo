@@ -66,6 +66,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 
 	// The button is pressed when the active AI button id is the same as the current button id.
 	const isButtonPressed = activeAIButtonId === aiFixesId;
+	const isButtonDisabled = activeAIButtonId !== null && ! isButtonPressed;
 	/* This color selection when the button is pressed/unpressed is in line with the design of the highlighting button.
 	In Premium: when the button is pressed, the icon color is white. When the button is unpressed, the color is grey.
 	In Free: the icon color is always grey. */
@@ -81,6 +82,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				id={ aiFixesId }
 				className={ className }
 				pressed={ isButtonPressed }
+				disabled={ isButtonDisabled }
 			>
 				<SparklesIcon style={ { width: "70%", height: "70%", color: iconColor } } />
 				{

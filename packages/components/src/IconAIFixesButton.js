@@ -17,7 +17,7 @@ import IconButtonBase from "./IconButtonBase";
 const IconAIFixesButton = function( props ) {
 	return (
 		<IconButtonBase
-			disabled={ false }
+			disabled={ props.disabled }
 			type="button"
 			onClick={ props.onClick }
 			pressed={ props.pressed }
@@ -39,6 +39,7 @@ const IconAIFixesButton = function( props ) {
 };
 
 IconAIFixesButton.propTypes = {
+	disabled: PropTypes.bool,
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
@@ -55,6 +56,7 @@ IconAIFixesButton.propTypes = {
 };
 
 IconAIFixesButton.defaultProps = {
+	disabled: false,
 	unpressedBoxShadowColor: colors.$color_button_border,
 	pressedBoxShadowColor: colors.$color_purple,
 	pressedBackground: colors.$color_pink_dark,
