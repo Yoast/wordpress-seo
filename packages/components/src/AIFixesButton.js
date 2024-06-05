@@ -25,19 +25,18 @@ const AIFixesButtonBase = styled( IconButtonBase )`
 	overflow: hidden;
 	border: ${ props => props.pressed ? "none" : "1px solid transparent" };
 	border-image: ${ props => props.pressed ? "none" : gradientEffect.defaultStateBorder };
+	clip-path: inset(0 round 3px);
 	background-image: ${ props => props.pressed
 		? gradientEffect.pressedStateBackground
 		: gradientEffect.defaultStateBackground } !important;
-
+	box-shadow: ${ props => props.pressed
+		? `inset 0 -2px 0 ${ yoastPrimary400 }`
+		: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
 	&:hover {
 		background-image:  ${ props => props.pressed
 			? gradientEffect.pressedStateBackground
 			: gradientEffect.hoverStateBackground } !important;
 	}
-
-	box-shadow: ${ props => props.pressed
-		? `inset 0 -2px 0 ${ yoastPrimary400 }`
-		: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
 `;
 
 export default AIFixesButtonBase;
