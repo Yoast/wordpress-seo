@@ -17,7 +17,7 @@ import AIFixesButton from "./AIFixesButton";
 const IconAIFixesButton = function( props ) {
 	return (
 		<AIFixesButton
-			disabled={ false }
+			disabled={ props.disabled }
 			type="button"
 			onClick={ props.onClick }
 			pressed={ props.pressed }

@@ -23,7 +23,6 @@ export const toastClassNameMap = {
  */
 const Close = ( {
 	dismissScreenReaderLabel,
-	className = "",
 } ) => {
 	const { handleDismiss } = useContext( ToastContext );
 	return (

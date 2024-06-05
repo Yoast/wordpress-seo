@@ -34,8 +34,8 @@ const AIFixesButtonBase = styled( IconButtonBase )`
 		: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
 	&:hover {
 		background-image:  ${ props => props.pressed
-			? gradientEffect.pressedStateBackground
-			: gradientEffect.hoverStateBackground } !important;
+		? gradientEffect.pressedStateBackground
+		: gradientEffect.hoverStateBackground } !important;
 	}
 `;
 
