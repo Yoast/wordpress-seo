@@ -39,6 +39,7 @@ const IconAIFixesButton = function( props ) {
 };
 
 IconAIFixesButton.propTypes = {
+	disabled: PropTypes.bool,
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
@@ -55,6 +56,7 @@ IconAIFixesButton.propTypes = {
 };
 
 IconAIFixesButton.defaultProps = {
+	disabled: false,
 	unpressedBoxShadowColor: colors.$color_button_border,
 	pressedBoxShadowColor: colors.$color_purple,
 	pressedBackground: "linear- gradient(to bottom right, #A61E69, #3B82F6)",

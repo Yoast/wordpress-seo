@@ -10,7 +10,7 @@ import { Modal, useToggleState } from "@yoast/ui-library";
 import { Paper } from "yoastseo";
 
 /* Internal dependencies */
-import { ModalContent } from "../../ai-generator/components/modal-content";
+import { ModalContent } from "./modal-content";
 
 /**
  * The AI Assessment Fixes button icon.
@@ -105,6 +105,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				id={ aiFixesId }
 				className={ className }
 				pressed={ isButtonPressed }
+				disabled={ isButtonDisabled }
 			>
 				<SparklesIcon pressed={ isButtonPressed } />
 				{
