@@ -41,7 +41,6 @@ const Close = ( {
 
 Close.propTypes = {
 	dismissScreenReaderLabel: PropTypes.string.isRequired,
-	className: PropTypes.string,
 };
 
 /**
