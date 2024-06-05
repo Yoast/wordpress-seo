@@ -48,13 +48,13 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	/**
 	 * Returns the ID.
 	 *
-	 * @deprecated 22.9
+	 * @deprecated 23.0
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_id() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 22.9' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.0' );
 		return 'ai-generate-titles-and-descriptions-upsell';
 	}
 
@@ -75,26 +75,26 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	/**
 	 * Returns the requested pagination priority. Lower means earlier.
 	 *
-	 * @deprecated 22.9
+	 * @deprecated 23.0
 	 * @codeCoverageIgnore
 	 *
 	 * @return int
 	 */
 	public function get_priority() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 22.9' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.0' );
 		return 10;
 	}
 
 	/**
 	 * Returns whether this introduction should show.
 	 *
-	 * @deprecated 22.9
+	 * @deprecated 23.0
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */
 	public function should_show() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 22.9' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.0' );
 		// Outdated feature introduction.
 		return false;
 	}
