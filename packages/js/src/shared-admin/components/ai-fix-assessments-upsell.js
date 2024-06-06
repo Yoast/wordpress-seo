@@ -5,16 +5,14 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { OutboundLink, VideoFlow } from ".";
+import { ReactComponent as YoastLogo } from "../../../images/yoast-seo-simple-logo.svg";
 
 /**
  * @param {string} learnMoreLink The learn more link.
  * @param {Object} thumbnail The thumbnail: img props.
  * @param {Object} wistiaEmbedPermission The value, status and set for the Wistia embed permission.
  * @param {string} upsellLink The upsell link.
- * @param {string} title The title.
  * @param {string} upsellLabel The upsell label.
- * @param {string} newToText The new to text.
- * @param {string|JSX.Element } bundleNote The bundle note.
  * @returns {JSX.Element} The element.
  */
 export const AiFixAssessmentsUpsell = ( {
@@ -22,10 +20,7 @@ export const AiFixAssessmentsUpsell = ( {
 	thumbnail,
 	wistiaEmbedPermission,
 	upsellLink,
-	title,
 	upsellLabel,
-	newToText,
-	bundleNote,
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
@@ -47,23 +42,24 @@ export const AiFixAssessmentsUpsell = ( {
 					thumbnail={ thumbnail }
 					wistiaEmbedPermission={ wistiaEmbedPermission }
 				/>
-				<Badge className="yst-absolute yst-top-0 yst-right-2 yst-mt-2 yst-ml-2" variant="info">Beta</Badge>
+				<Badge className="yst-absolute yst-right-2 yst-text-center yst-justify-center yst-w-14" variant="info" style={ { top: "-8px" } }>Trial</Badge>
 			</div>
 			<div className="yst-mt-6 yst-text-xs yst-font-medium">
-				<span className="yst-introduction-modal-uppercase">
-					{ newToText }
+				<span className="yst-introduction-modal-uppercase yst-flex yst-gap-2 yst-items-center">
+					<YoastLogo width="17px" fill="#A61E69"/>
+					Yoast SEO Premium
 				</span>
 			</div>
 			<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
 				<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
-					{ title }
+					{ __( "Optimize your SEO content with Yoast AI", "wordpress-seo" ) }
 				</h3>
 				<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
 					{ createInterpolateElement(
 						sprintf(
 							/* translators: %1$s and %2$s are anchor tags; %3$s is the arrow icon. */
 							__(
-								"Let AI fix assessments. %1$sLearn more%2$s%3$s",
+								"Tired of editing your content to get good scores? Upgrade to access our AI features. Receive recommendations to optimize your content with just one click. %1$sLearn more%2$s%3$s",
 								"wordpress-seo"
 							),
 							"<a>",
@@ -74,7 +70,7 @@ export const AiFixAssessmentsUpsell = ( {
 					  ) }
 				</div>
 			</div>
-			<div className="yst-w-full yst-flex yst-mt-10">
+			<div className="yst-w-full yst-flex yst-mt-6">
 				<Button
 					as="a"
 					className="yst-grow"
@@ -94,7 +90,6 @@ export const AiFixAssessmentsUpsell = ( {
 					</span>
 				</Button>
 			</div>
-			{ bundleNote }
 			<Button
 				as="a"
 				className="yst-mt-4"
@@ -119,26 +114,13 @@ AiFixAssessmentsUpsell.propTypes = {
 		status: PropTypes.string.isRequired,
 		set: PropTypes.func.isRequired,
 	} ).isRequired,
-	title: PropTypes.string,
 	upsellLabel: PropTypes.string,
-	newToText: PropTypes.string,
-	bundleNote: PropTypes.oneOfType( [
-		PropTypes.string,
-		PropTypes.element,
-	] ),
 };
 
 AiFixAssessmentsUpsell.defaultProps = {
-	title: __( "Use AI to fix assessments!", "wordpress-seo" ),
 	upsellLabel: sprintf(
 		/* translators: %1$s expands to Yoast SEO Premium. */
 		__( "Unlock with %1$s", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	),
-	newToText: sprintf(
-		/* translators: %1$s expands to Yoast SEO Premium. */
-		__( "New in %1$s", "wordpress-seo" ),
-		"Yoast SEO Premium"
-	),
-	bundleNote: "",
 };
