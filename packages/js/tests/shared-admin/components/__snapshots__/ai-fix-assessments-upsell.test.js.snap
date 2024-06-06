@@ -3,7 +3,7 @@
 exports[`AiFixAssessmentsUpsell renders the component correctly 1`] = `
 <div>
   <div
-    class="yst-flex yst-flex-col yst-items-center yst-p-10"
+    class="yst-px-10 yst-pt-10 yst-introduction-gradient yst-text-center"
   >
     <div
       class="yst-relative yst-w-full"
@@ -20,22 +20,28 @@ exports[`AiFixAssessmentsUpsell renders the component correctly 1`] = `
         </div>
       </div>
       <span
-        class="yst-badge yst-badge--info yst-absolute yst-right-2 yst-text-center yst-justify-center yst-w-14"
+        class="yst-badge yst-badge--info yst-absolute yst-right-0 yst-mr-4 yst-text-center yst-justify-center"
         style="top: -8px;"
       >
         Trial
       </span>
     </div>
     <div
-      class="yst-mt-6 yst-text-xs yst-font-medium"
+      class="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center"
     >
       <span
         class="yst-introduction-modal-uppercase yst-flex yst-gap-2 yst-items-center"
       >
-        test-svg-stub
+        <span
+          class="yst-logo-icon"
+        />
         Yoast SEO Premium
       </span>
     </div>
+  </div>
+  <div
+    class="yst-px-10 yst-pb-10 yst-flex yst-flex-col yst-items-center"
+  >
     <div
       class="yst-mt-4 yst-mx-1.5 yst-text-center"
     >
