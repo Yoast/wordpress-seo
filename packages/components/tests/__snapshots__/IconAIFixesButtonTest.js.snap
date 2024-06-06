@@ -17,7 +17,7 @@ exports[`the pressed IconAIFixesButton matches the snapshot 1`] = `
   display: -ms-inline-flexbox;
   display: inline-flex;
   border: 1px solid #ccc;
-  background-color: #a4286a;
+  background-color: linear- gradient(to bottom right,#A61E69,#3B82F6);
   box-shadow: inset 0 2px 0 rgba( 93,35,122,0.7 );
   border-radius: 3px;
   cursor: pointer;
@@ -25,21 +25,31 @@ exports[`the pressed IconAIFixesButton matches the snapshot 1`] = `
   height: 24px;
 }
 
-.c0:hover {
-  border-color: #fff;
-}
-
 .c0:disabled {
-  background-color: #f7f7f7;
+  background-color: linear-gradient(to bottom right,#FAF3F7,#EFF6FF);
   box-shadow: none;
   border: none;
   cursor: default;
 }
 
+.c1 {
+  overflow: hidden;
+  border: none;
+  border-image: none;
+  -webkit-clip-path: inset(0 round 3px);
+  clip-path: inset(0 round 3px);
+  background-image: linear-gradient(to bottom right,#A61E69,#3B82F6) !important;
+  box-shadow: inset 0 -2px 0 #B94986;
+}
+
+.c1:hover {
+  background-image: linear-gradient(to bottom right,#A61E69,#3B82F6) !important;
+}
+
 <button
   aria-label="Fix with AI"
   aria-pressed={true}
-  className="c0 yoast-tooltip yoast-tooltip-w"
+  className="c0 c1 yoast-tooltip yoast-tooltip-w"
   disabled={false}
   id="keyphraseInIntroductionAIFixes"
   onClick={[Function]}
@@ -64,7 +74,7 @@ exports[`the unpressed IconAIFixesButton matches the snapshot 1`] = `
   display: -ms-inline-flexbox;
   display: inline-flex;
   border: 1px solid #ccc;
-  background-color: #f7f7f7;
+  background-color: linear-gradient(to bottom right,#FAF3F7,#EFF6FF);
   box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
   border-radius: 3px;
   cursor: pointer;
@@ -72,21 +82,31 @@ exports[`the unpressed IconAIFixesButton matches the snapshot 1`] = `
   height: 24px;
 }
 
-.c0:hover {
-  border-color: #fff;
-}
-
 .c0:disabled {
-  background-color: #f7f7f7;
+  background-color: linear-gradient(to bottom right,#FAF3F7,#EFF6FF);
   box-shadow: none;
   border: none;
   cursor: default;
 }
 
+.c1 {
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-image: linear-gradient(to bottom right,#CD82AB,#93C5FD) 1;
+  -webkit-clip-path: inset(0 round 3px);
+  clip-path: inset(0 round 3px);
+  background-image: linear-gradient(to bottom right,#FAF3F7,#EFF6FF) !important;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+}
+
+.c1:hover {
+  background-image: linear-gradient(to bottom right,#F3E5ED,#DBEAFE) !important;
+}
+
 <button
   aria-label="Fix with AI"
   aria-pressed={false}
-  className="c0 yoast-tooltip yoast-tooltip-w"
+  className="c0 c1 yoast-tooltip yoast-tooltip-w"
   disabled={true}
   id="keyphraseDensityAIFixes"
   onClick={[Function]}
