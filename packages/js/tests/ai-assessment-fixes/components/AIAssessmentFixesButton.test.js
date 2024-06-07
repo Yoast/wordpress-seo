@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "../../test-utils";
 import { useSelect } from "@wordpress/data";
 
-import AIAssessmentFixesButton from "../../../src/ai-assessment-fixes/components/AIAssessmentFixesButton";
+import AIAssessmentFixesButton from "../../../src/ai-assessment-fixes/components/ai-assessment-fixes-button";
 
 jest.mock( "@wordpress/data", () => {
 	return {
