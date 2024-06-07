@@ -159,7 +159,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 |Red	|3	|< 50 characters	|**Not enough content**: **please add some content to enable a good analysis**.|
 
 ### 9) Word complexity (only in Premium)
-**What it does**: Checks whether the text contains complex words that are not in the keyphrase
+**What it does**: Checks whether the text contains complex words. Word forms from the keyphrase are excluded.
 
 **When applies**: When the (sanitized) text has more than 50 characters
 
@@ -169,10 +169,10 @@ Below is a detailed overview of how scores for the readability assessments are c
 
 **Call to action URL**: https://yoa.st/4lt (link placement is in bold in the feedback strings)
 
-|Traffic light	|Score|	Criterion| 	Feedback                                                                                                                                        |
-|-------|------	|----- |--------------------------------------------------------------------------------------------------------------------------------------------------|
-|Orange	(cornerstone: red) |6 (cornerstone: 3) |	If the complex words are more than 10% in the text | **Word complexity**: X% of the words in your text are considered complex. **Try to use shorter and more familiar words to improve readability**. |
-|Green	|9 |	If the complex words are less than 10% in the text              | **Word complexity**: You are not using too many complex words, which makes your text easy to read. Good job!                                     |
+| Traffic light             | Score              | Criterion                                          | Feedback                                                                                                                                         |
+|---------------------------|--------------------|----------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| Orange (cornerstone: red) | 6 (cornerstone: 3) | If the complex words are more than 10% in the text | **Word complexity**: X% of the words in your text are considered complex. **Try to use shorter and more familiar words to improve readability**. |
+| Green                     | 9                  | If the complex words are less than 10% in the text | **Word complexity**: You are not using too many complex words, which makes your text easy to read. Good job!                                     |
 
 ### 10) Text alignment (only in Premium)
 **What it does**: Checks whether there is an over-use of center-alignment in the text.
