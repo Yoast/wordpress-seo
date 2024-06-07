@@ -20,6 +20,7 @@ export * from "./new-badge";
 export * from "./premium-badge";
 export * from "./beta-badge";
 
+
 // Referenced index.js explicitly due to case-sensitive path conflicts.
 export * from "./toggle/index.js";
 
@@ -62,6 +63,7 @@ export { default as ErrorBoundary } from "./ErrorBoundary";
 export { default as Heading } from "./Heading";
 export { default as HelpText } from "./HelpText";
 export { default as Icon } from "./Icon";
+export { default as AIFixesButton } from "./AIFixesButton";
 export { default as IconButtonBase } from "./IconButtonBase";
 export { default as IconButtonToggle } from "./IconButtonToggle.js";
 export { default as IconCTAEditButton } from "./IconCTAEditButton.js";
