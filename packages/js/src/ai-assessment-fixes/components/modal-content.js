@@ -23,7 +23,7 @@ export const ModalContent = () => {
 		),
 	};
 
-	const imageLink = useSelect( select => select( STORE ).selectImageLink( "ai-generator-preview.png" ), [] );
+	const imageLink = useSelect( select => select( STORE ).selectImageLink( "ai-fix-assessments-thumbnail.png" ), [] );
 	const thumbnail = useMemo( () => ( {
 		src: imageLink,
 		width: "432",
