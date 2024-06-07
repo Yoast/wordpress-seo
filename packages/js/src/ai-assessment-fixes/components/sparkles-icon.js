@@ -1,9 +1,11 @@
+import propTypes from "prop-types";
+
 /**
  * The AI Assessment Fixes button icon.
  * @param {boolean} pressed Whether the button is pressed.
  * @returns {JSX.Element} The AI Assessment Fixes button icon.
  */
-export const SparklesIcon = ( { pressed } ) => {
+export const SparklesIcon = ( { pressed = false } ) => {
 	return (
 		<>
 			<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -26,3 +28,6 @@ export const SparklesIcon = ( { pressed } ) => {
 	);
 };
 
+SparklesIcon.propTypes = {
+	pressed: propTypes.bool,
+};
