@@ -3,7 +3,8 @@ import { flatMap, get } from "lodash";
 import getSentences from "../helpers/sentence/getSentences";
 import getWords from "../helpers/word/getWords";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../helpers/sanitize/filterShortcodesFromTree";
+import { filterShortcodesFromHTML } from "../helpers";
+import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
 
 /**
  * An object containing the results of the complex words research for a single sentence.
@@ -36,10 +37,19 @@ const getComplexWords = function( currentSentence, researcher ) {
 	const checkIfWordIsFunction = researcher.getHelper( "checkIfWordIsFunction" );
 	const premiumData = get( researcher.getData( "morphology" ), language, false );
 
-	const allWords = getWords( currentSentence );
+	// Retrieve all words from the sentence.
+	let words = getWords( currentSentence );
+
+	// Filters out keyphrase forms (but not synonyms) because we consider them not to be complex.
+	const topicForms = researcher.getResearch( "morphology" );
+	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
+	const foundTopicForms = findTopicFormsInString( topicForms, currentSentence, false, researcher.paper.getLocale(), matchWordCustomHelper );
+	words = words.filter( word => ! foundTopicForms.matches.includes( word ) );
+
 	// Filters out function words because function words are not complex.
 	// Words are converted to lowercase before processing to avoid excluding function words that start with a capital letter.
-	const words = allWords.filter( word => ! ( checkIfWordIsFunction ? checkIfWordIsFunction( word ) : functionWords.includes( word ) ) );
+	words = words.filter( word => ! ( checkIfWordIsFunction ? checkIfWordIsFunction( word ) : functionWords.includes( word ) ) );
+
 	const result = {
 		complexWords: [],
 		sentence: currentSentence,
