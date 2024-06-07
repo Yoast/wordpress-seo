@@ -40,7 +40,7 @@ const getComplexWords = function( currentSentence, researcher ) {
 	// Retrieve all words from the sentence.
 	let words = getWords( currentSentence );
 
-	// Filters out keyphrase forms and synonyms because we consider them not to be complex.
+	// Filters out keyphrase forms (but not synonyms) because we consider them not to be complex.
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const foundTopicForms = findTopicFormsInString( topicForms, currentSentence, false, researcher.paper.getLocale(), matchWordCustomHelper );
