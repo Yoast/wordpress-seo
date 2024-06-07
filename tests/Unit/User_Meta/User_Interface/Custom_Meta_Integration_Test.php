@@ -179,5 +179,27 @@ final class Custom_Meta_Integration_Test extends TestCase {
 			'times_update_custom_meta' => 1,
 			'times_delete_custom_meta' => 1,
 		];
+
+		yield 'User gives no value for a custom meta that can be empty, while giving a non-empty value for a custom meta that can not be empty' => [
+			'custom_meta'              => [
+				new Author_Metadesc(),
+				new Noindex_Author(),
+			],
+			'metadesc_value'           => null,
+			'noindex_value'            => 'no',
+			'times_update_custom_meta' => 1,
+			'times_delete_custom_meta' => 0,
+		];
+
+		yield 'User gives no value for a custom meta that can not be empty, while giving a non-empty value for a custom meta that can be empty' => [
+			'custom_meta'              => [
+				new Author_Metadesc(),
+				new Noindex_Author(),
+			],
+			'metadesc_value'           => 'no',
+			'noindex_value'            => null,
+			'times_update_custom_meta' => 1,
+			'times_delete_custom_meta' => 0,
+		];
 	}
 }

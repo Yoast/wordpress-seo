@@ -3,12 +3,29 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\User_Meta\Framework\Custom_Meta;
 
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\User_Meta\Domain\Custom_Meta_Interface;
 
 /**
  * The Author_Metadesc custom meta.
  */
 class Author_Metadesc implements Custom_Meta_Interface {
+
+	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
+	 * The constructor.
+	 *
+	 * @param Options_Helper $options_helper The options helper.
+	 */
+	public function __construct( Options_Helper $options_helper ) {
+		$this->options_helper = $options_helper;
+	}
 
 	/**
 	 * Returns the db key of the Author_Metadesc custom meta.
@@ -26,6 +43,15 @@ class Author_Metadesc implements Custom_Meta_Interface {
 	 */
 	public function get_field_id(): string {
 		return 'wpseo_author_metadesc';
+	}
+
+	/**
+	 * Returns whether the respective global setting is enabled.
+	 *
+	 * @return bool Whether the respective global setting is enabled.
+	 */
+	public function is_setting_enabled(): bool {
+		return ( ! $this->options_helper->get( 'disable-author' ) );
 	}
 
 	/**
