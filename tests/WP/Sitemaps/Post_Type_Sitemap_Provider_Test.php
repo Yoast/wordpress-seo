@@ -313,10 +313,15 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_regular_post() {
-		$this->factory->post->create();
+		$post_id = $this->factory->post->create();
 
-		// Expect the created post to be in the sitemap list.
-		$this->assertCount( 1, self::$class_instance->get_sitemap_links( 'post', 100, 0 ) );
+		$expected_urls = [
+			\trailingslashit( \home_url() ),
+			\get_permalink( $post_id ),
+		];
+		$actual_urls   = \wp_list_pluck( self::$class_instance->get_sitemap_links( 'post', 100, 1 ), 'loc' );
+
+		$this->assertSame( $expected_urls, $actual_urls );
 	}
 
 	/**
@@ -333,11 +338,12 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 				'post_password' => 'secret',
 			]
 		);
+		$this->factory->post->create();
 
 		// Expect the protected post should not be added.
 		$this->assertCount(
-			0,
-			self::$class_instance->get_sitemap_links( 'post', 100, 0 ),
+			1,
+			self::$class_instance->get_sitemap_links( 'post', 100, 1 ),
 			'Password protected posts should not be in the sitemap'
 		);
 	}
@@ -369,7 +375,7 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 		);
 
 		// Expect the attchment to be in the list.
-		$this->assertCount( 1, self::$class_instance->get_sitemap_links( 'attachment', 100, 0 ) );
+		$this->assertCount( 1, self::$class_instance->get_sitemap_links( 'attachment', 100, 1 ) );
 	}
 
 	/**
@@ -384,7 +390,6 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 	public function test_password_protected_post_parent_attachment() {
 		// Enable attachments in the sitemap.
 		WPSEO_Options::set( 'disable-attachment', false );
-
 		// Create password protected post.
 		$post_id = $this->factory->post->create(
 			[
@@ -401,7 +406,7 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 		);
 
 		// Expect the attachment not to be added to the list.
-		$this->assertCount( 0, self::$class_instance->get_sitemap_links( 'attachment', 100, 0 ) );
+		$this->assertCount( 1, self::$class_instance->get_sitemap_links( 'attachment', 100, 1 ) );
 	}
 
 	/**
