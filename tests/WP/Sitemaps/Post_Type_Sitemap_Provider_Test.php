@@ -333,20 +333,32 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_password_protected_post() {
-		// Create password protected post.
-		$this->factory->post->create(
-			[
-				'post_password' => 'secret',
-			]
-		);
-		$this->factory->post->create();
+		// Create a public and password protected post.
+		$public_post_id = $this->factory->post->create();
+		$this->factory->post->create( [ 'post_password' => 'secret' ] );
 
-		// Expect the protected post should not be added.
-		$this->assertCount(
-			1,
-			self::$class_instance->get_sitemap_links( 'post', 100, 1 ),
-			'Password protected posts should not be in the sitemap'
-		);
+		$expected_urls = [
+			\trailingslashit( \home_url() ),
+			\get_permalink( $public_post_id ),
+		];
+		$actual_urls   = \wp_list_pluck( self::$class_instance->get_sitemap_links( 'post', 100, 1 ), 'loc' );
+
+		$this->assertSame( $expected_urls, $actual_urls );
+	}
+
+	/**
+	 * Tests to make sure that there is no sitemap if all posts are password protected.
+	 *
+	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
+	 */
+	public function test_only_password_protected_posts() {
+		// Create password protected post.
+		$this->factory->post->create( [ 'post_password' => 'secret' ] );
+
+		$this->expectException( OutOfBoundsException::class );
+		self::$class_instance->get_sitemap_links( 'post', 100, 1 );
 	}
 
 	/**
