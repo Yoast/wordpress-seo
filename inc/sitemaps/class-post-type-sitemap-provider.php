@@ -124,15 +124,18 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
-		$page_boundaries = $this->get_page_boundaries( $post_type, $current_page, $max_entries );
-
-		// If total post type count is lower than the offset, an invalid page is requested.
-		if ( $page_boundaries['start'] > $page_boundaries['end'] ) {
-			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
+		if ( $current_page === 1 ) {
+			$links = $this->get_first_links( $post_type );
 		}
 
-		if ( $current_page === 1 ) {
-			$links = array_merge( $links, $this->get_first_links( $post_type ) );
+		// Even if we don't have posts for the page, we might have some first-page links to show.
+		try {
+			$page_boundaries = $this->get_page_boundaries( $post_type, $current_page, $max_entries );
+		} catch ( OutOfBoundsException $e ) {
+			if ( count( $links ) > 0 ) {
+				return $links;
+			}
+			throw $e;
 		}
 
 		$posts_to_exclude = $this->get_excluded_posts( $type );
@@ -759,7 +762,37 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return bool
 	 */
 	private function pagination_is_malformed( $stored_pagination ): bool {
-		return ! isset( $stored_pagination['min_post_id'], $stored_pagination['max_post_id'], $stored_pagination['total_number_of_posts'], $stored_pagination['max_entries_per_page'] );
+		return (
+			! isset(
+				$stored_pagination['min_post_id'],
+				$stored_pagination['max_post_id'],
+				$stored_pagination['total_number_of_posts'],
+				$stored_pagination['max_entries_per_page'],
+				$stored_pagination['map']
+			)
+			|| $this->map_is_malformed( $stored_pagination['map'] )
+		);
+	}
+
+	/**
+	 * Checks the structure of the pagination map.
+	 * A map is malformed when it is not an array or when it contains pages with a start ID higher than the end ID.
+	 *
+	 * @param array{start: int, end: int} $map The map.
+	 *
+	 * @return bool
+	 */
+	private function map_is_malformed( $map ): bool {
+		if ( ! is_array( $map ) ) {
+			return true;
+		}
+		foreach ( $map as $page ) {
+			if ( ! isset( $page['start'], $page['end'] ) || $page['end'] < $page['start'] ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
