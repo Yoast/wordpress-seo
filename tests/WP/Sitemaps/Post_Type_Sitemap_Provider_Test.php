@@ -356,9 +356,12 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 	public function test_only_password_protected_posts() {
 		// Create password protected post.
 		$this->factory->post->create( [ 'post_password' => 'secret' ] );
+		$this->factory->post->create( [ 'post_password' => 'secret' ] );
+		$this->factory->post->create( [ 'post_password' => 'secret' ] );
 
 		$this->expectException( OutOfBoundsException::class );
-		self::$class_instance->get_sitemap_links( 'post', 100, 1 );
+
+		self::$class_instance->get_sitemap_links( 'post', 1, 2 );
 	}
 
 	/**
