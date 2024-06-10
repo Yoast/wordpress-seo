@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\WP\Sitemaps;
 
+use OutOfBoundsException;
 use WPSEO_Options;
 use WPSEO_Post_Type_Sitemap_Provider;
 use WPSEO_Sitemaps;
@@ -390,8 +391,15 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 	public function test_password_protected_post_parent_attachment() {
 		// Enable attachments in the sitemap.
 		WPSEO_Options::set( 'disable-attachment', false );
+		$public_post_id       = $this->factory->post->create();
+		$public_attachment_id = $this->factory->post->create(
+			[
+				'post_type'   => 'attachment',
+				'post_parent' => $public_post_id,
+			]
+		);
 		// Create password protected post.
-		$post_id = $this->factory->post->create(
+		$password_protected_post_id = $this->factory->post->create(
 			[
 				'post_password' => 'secret',
 			]
@@ -399,14 +407,48 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 
 		$this->factory->post->create(
 			[
-				'post_parent' => $post_id,
+				'post_parent' => $password_protected_post_id,
 				'post_type'   => 'attachment',
 				'post_status' => 'inherit',
 			]
 		);
 
+		$expected_urls = [
+			\get_permalink( $public_attachment_id ),
+		];
+		$actual_urls   = \wp_list_pluck( self::$class_instance->get_sitemap_links( 'attachment', 100, 1 ), 'loc' );
+
 		// Expect the attachment not to be added to the list.
-		$this->assertCount( 1, self::$class_instance->get_sitemap_links( 'attachment', 100, 1 ) );
+		$this->assertSame( $expected_urls, $actual_urls );
+	}
+
+	/**
+	 * Tests to make sure that there is no attachment sitemap if all attachments are part of password protected posts.
+	 *
+	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
+	 */
+	public function test_only_password_protected_post_parent_attachments() {
+		// Enable attachments in the sitemap.
+		WPSEO_Options::set( 'disable-attachment', false );
+		// Create password protected post.
+		$password_protected_post_id = $this->factory->post->create(
+			[
+				'post_password' => 'secret',
+			]
+		);
+
+		$this->factory->post->create(
+			[
+				'post_parent' => $password_protected_post_id,
+				'post_type'   => 'attachment',
+				'post_status' => 'inherit',
+			]
+		);
+
+		$this->expectException( OutOfBoundsException::class );
+		self::$class_instance->get_sitemap_links( 'attachment', 100, 1 );
 	}
 
 	/**
