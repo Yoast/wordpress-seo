@@ -2,11 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use ReflectionClass;
-use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Plugin_Inactive_Conditional;
-use Yoast\WP\SEO\Conditionals\User_Can_Publish_Posts_And_Pages_Conditional;
-
 /**
  * A helper object for WordProof integration.
  *
@@ -82,20 +77,7 @@ class Wordproof_Helper {
 	public function integration_is_disabled( $return_conditional = false ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 22.10' );
 
-		$conditionals = [ new Non_Multisite_Conditional(), new Wordproof_Plugin_Inactive_Conditional() ];
-
-		foreach ( $conditionals as $conditional ) {
-			if ( ! $conditional->is_met() ) {
-
-				if ( $return_conditional === true ) {
-					return ( new ReflectionClass( $conditional ) )->getShortName();
-				}
-
-				return true;
-			}
-		}
-
-		return false;
+		return true;
 	}
 
 	/**
@@ -109,11 +91,7 @@ class Wordproof_Helper {
 	public function integration_is_active() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 22.10' );
 
-		if ( $this->integration_is_disabled() ) {
-			return false;
-		}
-
-		return $this->options->get( 'wordproof_integration_active', true );
+		return false;
 	}
 
 	/**
@@ -127,18 +105,6 @@ class Wordproof_Helper {
 	public function is_active() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 22.10' );
 
-		$is_wordproof_active = $this->integration_is_active();
-
-		if ( ! $is_wordproof_active ) {
-			return false;
-		}
-
-		$user_can_publish = ( new User_Can_Publish_Posts_And_Pages_Conditional() )->is_met();
-
-		if ( ! $user_can_publish ) {
-			return false;
-		}
-
-		return ( $this->current_page->current_post_is_privacy_policy() || $this->woocommerce->current_post_is_terms_and_conditions_page() );
+		return false;
 	}
 }
