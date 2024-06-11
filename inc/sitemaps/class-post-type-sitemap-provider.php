@@ -424,6 +424,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$post_ids[] = $sanitized_post->ID;
 		}
 
+		// We'll need meta values for individual posts, so let's prime the cache with a single query instead of one per post.
 		update_meta_cache( 'post', $post_ids );
 
 		return $posts;
