@@ -304,9 +304,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return array
 	 */
 	protected function get_first_links( $post_type ) {
-
-		$links       = [];
-		$archive_url = false;
+		$links = [];
 
 		if ( $post_type === 'page' ) {
 
@@ -332,7 +330,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			/**
 			 * Filter images to be included for the term in XML sitemap.
 			 *
-			 * @param array  $images Array of image items.
+			 * @param array $images Array of image items.
+			 *
 			 * @return array $image_list Array of image items.
 			 */
 			$image_list = apply_filters( 'wpseo_sitemap_urlimages_front_page', $images );
@@ -342,30 +341,29 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$links[] = $front_page;
 		}
-		elseif ( $post_type !== 'page' ) {
+		else {
 			/**
 			 * Filter the URL Yoast SEO uses in the XML sitemap for this post type archive.
 			 *
 			 * @param string $archive_url The URL of this archive
 			 * @param string $post_type   The post type this archive is for.
 			 */
-			$archive_url = apply_filters(
+			$archive_url = (string) apply_filters(
 				'wpseo_sitemap_post_type_archive_link',
 				$this->get_post_type_archive_link( $post_type ),
 				$post_type
 			);
-		}
 
-		if ( $archive_url ) {
+			if ( $archive_url !== '' ) {
+				$links[] = [
+					'loc' => $archive_url,
+					'mod' => WPSEO_Sitemaps::get_last_modified_gmt( $post_type ),
 
-			$links[] = [
-				'loc' => $archive_url,
-				'mod' => WPSEO_Sitemaps::get_last_modified_gmt( $post_type ),
-
-				// Deprecated, kept for backwards data compat. R.
-				'chf' => 'daily',
-				'pri' => 1,
-			];
+					// Deprecated, kept for backwards data compat. R.
+					'chf' => 'daily',
+					'pri' => 1,
+				];
+			}
 		}
 
 		/**
