@@ -23,9 +23,7 @@ const gradientEffect = {
 
 const AIFixesButtonBase = styled( IconButtonBase )`
 	overflow: hidden;
-	border: ${ props => props.pressed ? "none" : "1px solid transparent" };
-	border-image: ${ props => props.pressed ? "none" : gradientEffect.defaultStateBorder };
-	clip-path: inset(0 round 3px);
+	border: ${ props => props.pressed ? "none" : "1px solid #c7d2fe" }; /*indigo-200*/
 	background-image: ${ props => props.pressed
 		? gradientEffect.pressedStateBackground
 		: gradientEffect.defaultStateBackground } !important;
