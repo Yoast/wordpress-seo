@@ -257,7 +257,7 @@ describe( "Tests for the keyphrase density assessment for languages with morphol
 		expect( result.getScore() ).toBe( -10 );
 		expect( result.hasAIFixes() ).toBeFalsy();
 	} );
-	it( "returns `hasAIFixes` to be true when there is not enough occurrence in the text", function() {
+	it( "returns `hasAIFixes` to be true when there is not enough keyphrase occurrence in the text", function() {
 		const paper = new Paper( nonkeyword.repeat( 968 ) + keyword.repeat( 2 ), { keyword: "keyword", locale: "en_EN" } );
 		const researcher = new EnglishResearcher( paper );
 		buildTree( paper, researcher );
