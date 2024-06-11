@@ -23,7 +23,7 @@ final class Activation_Cleanup_Integration_Test extends TestCase {
 	/**
 	 * Represents the indexable helper.
 	 *
-	 * @var Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Indexable_Helper
+	 * @var Mockery\MockInterface|Indexable_Helper
 	 */
 	protected $indexable_helper;
 
@@ -49,9 +49,9 @@ final class Activation_Cleanup_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options_helper = Mockery::mock( Options_Helper::class );
+		$this->options_helper   = Mockery::mock( Options_Helper::class );
 		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
-		$this->instance       = new Activation_Cleanup_Integration( $this->options_helper, $this->indexable_helper );
+		$this->instance         = new Activation_Cleanup_Integration( $this->options_helper, $this->indexable_helper );
 	}
 
 	/**

@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use Closure;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 
 /**
@@ -26,6 +27,13 @@ class Cleanup_Integration implements Integration_Interface {
 	public const START_HOOK = 'wpseo_start_cleanup_indexables';
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * The cleanup repository.
 	 *
 	 * @var Indexable_Cleanup_Repository
@@ -37,8 +45,12 @@ class Cleanup_Integration implements Integration_Interface {
 	 *
 	 * @param Indexable_Cleanup_Repository $cleanup_repository The cleanup repository.
 	 */
-	public function __construct( Indexable_Cleanup_Repository $cleanup_repository ) {
+	public function __construct(
+		Indexable_Cleanup_Repository $cleanup_repository,
+		Indexable_Helper $indexable_helper
+	) {
 		$this->cleanup_repository = $cleanup_repository;
+		$this->indexable_helper   = $indexable_helper;
 	}
 
 	/**
@@ -70,6 +82,10 @@ class Cleanup_Integration implements Integration_Interface {
 	 */
 	public function run_cleanup() {
 		$this->reset_cleanup();
+
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			return;
+		}
 
 		$cleanups = $this->get_cleanup_tasks();
 		$limit    = $this->get_limit();
@@ -263,6 +279,12 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function run_cleanup_cron() {
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			$this->reset_cleanup();
+
+			return;
+		}
+
 		$current_task_name = \get_option( self::CURRENT_TASK_OPTION );
 
 		if ( $current_task_name === false ) {

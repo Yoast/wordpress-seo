@@ -18,7 +18,7 @@ class Activation_Cleanup_Integration implements Integration_Interface {
 	/**
 	 * The indexable helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Indexable_Helper
+	 * @var Indexable_Helper
 	 */
 	protected $indexable_helper;
 
@@ -59,7 +59,7 @@ class Activation_Cleanup_Integration implements Integration_Interface {
 	public function register_cleanup_routine() {
 		$first_activated_on = $this->options_helper->get( 'first_activated_on', false );
 
-		if (! $this->indexable_helper->should_index_indexables() ) {
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
 			return;
 		}
 		if ( ! $first_activated_on || \time() > ( $first_activated_on + ( \MINUTE_IN_SECONDS * 5 ) ) ) {
