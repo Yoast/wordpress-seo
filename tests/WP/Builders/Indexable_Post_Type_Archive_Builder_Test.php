@@ -39,6 +39,19 @@ final class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Remove the custom post type after each test.
+	 *
+	 * @return void
+	 */
+	public function tear_down() {
+		// Remove possibly set post type.
+		\unregister_post_type( 'my-custom-post-type' );
+		\unregister_post_type( 'my-private-post-type' );
+
+		parent::tear_down();
+	}
+
+	/**
 	 * Tests the build method's happy path.
 	 *
 	 * @covers ::build

@@ -162,6 +162,7 @@ final class Sitemaps_Test extends TestCase {
 		$this->factory->post->create( $post_args );
 
 		$this->assertEquals( $newest_date, WPSEO_Sitemaps::get_last_modified_gmt( [ 'yoast' ] ) );
+		\unregister_post_type( 'yoast' );
 	}
 
 	/**
