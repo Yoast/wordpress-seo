@@ -849,27 +849,38 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @param string $post_type   The post type to get index links for.
 	 * @param int    $max_entries The maximum number of links that should be visible on a page.
 	 *
-	 * @return array
+	 * @return array{loc: string, lastmod: string}
 	 */
 	protected function get_index_links_for_post_type( string $post_type, int $max_entries ): array {
 		$index_links    = [];
 		$pagination_map = $this->get_pagination_map( $post_type, $max_entries );
 
-		foreach ( $pagination_map as $page_number => $page_boundaries ) {
-			$raw_post_data = $this->get_raw_post_data( $post_type, $max_entries, $page_boundaries['start'], $page_boundaries['end'] );
-
-			$last_mod_gmt = array_reduce(
-				$raw_post_data,
-				static function ( $carry, $post ) {
-					return max( $post->post_modified_gmt, $carry );
-				},
-				$raw_post_data[0]->post_modified_gmt
-			);
-
+		// Ensure a first page, so we can check for first links.
+		$pages = array_unique( array_merge( [ 1 ], array_keys( $pagination_map ) ) );
+		foreach ( $pages as $page_number ) {
 			$page_link_suffix = ( $page_number > 1 ) ? $page_number : '';
+			$last_mod_gmt     = null;
+			$raw_post_data    = null;
+			if ( isset( $pagination_map[ $page_number ] ) ) {
+				$page_boundaries = $pagination_map[ $page_number ];
+				$raw_post_data = $this->get_raw_post_data( $post_type, $max_entries, $page_boundaries['start'], $page_boundaries['end'] );
+
+				$last_mod_gmt = array_reduce(
+					$raw_post_data,
+					static function ( $carry, $post ) {
+						return max( $post->post_modified_gmt, $carry );
+					},
+					$raw_post_data[0]->post_modified_gmt
+				);
+			}
 
 			if ( $page_number === 1 ) {
-				$first_links  = $this->get_first_links( $post_type );
+				$first_links = $this->get_first_links( $post_type );
+
+				if ( ! $first_links && ! $raw_post_data ) {
+					continue;
+				}
+
 				$last_mod_gmt = array_reduce(
 					$first_links,
 					static function ( $carry, $link ) {

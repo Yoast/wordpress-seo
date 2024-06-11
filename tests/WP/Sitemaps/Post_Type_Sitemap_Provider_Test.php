@@ -51,8 +51,29 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_index_links_no_entries() {
+		\add_filter( 'wpseo_sitemap_exclude_post_type', '__return_true' );
 		$index_links = self::$class_instance->get_index_links( 1 );
 		$this->assertEquals( [], $index_links );
+	}
+
+	/**
+	 * Any post type that has links on the first page of the sitemap should be included in the index.
+	 *
+	 * @covers ::get_index_links
+	 *
+	 * @return void
+	 */
+	public function test_get_index_links_no_posts() {
+		$index_links = \wp_list_pluck( self::$class_instance->get_index_links( 1 ), 'loc' );
+		$this->assertSame( \wp_count_posts( 'post' )->publish, 0 );
+		$this->assertSame( \wp_count_posts( 'page' )->publish, 0 );
+		$this->assertEquals(
+			[
+				'http://example.org/post-sitemap.xml',
+				'http://example.org/page-sitemap.xml',
+			],
+			$index_links
+		);
 	}
 
 	/**
