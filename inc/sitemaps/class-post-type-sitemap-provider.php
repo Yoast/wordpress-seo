@@ -257,46 +257,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Get count of posts for post type.
-	 *
-	 * @param string $post_type Post type to retrieve count for.
-	 *
-	 * @return int
-	 */
-	protected function get_post_type_count( $post_type ) {
-
-		global $wpdb;
-
-		/**
-		 * Filter JOIN query part for type count of post type.
-		 *
-		 * @param string $join      SQL part, defaults to empty string.
-		 * @param string $post_type Post type name.
-		 */
-		$join_filter = apply_filters( 'wpseo_typecount_join', '', $post_type );
-
-		/**
-		 * Filter WHERE query part for type count of post type.
-		 *
-		 * @param string $where     SQL part, defaults to empty string.
-		 * @param string $post_type Post type name.
-		 */
-		$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
-
-		$where = $this->get_sql_where_clause( $post_type );
-
-		$sql = "
-			SELECT COUNT({$wpdb->posts}.ID)
-			FROM {$wpdb->posts}
-			{$join_filter}
-			{$where}
-				{$where_filter}
-		";
-
-		return (int) $wpdb->get_var( $sql );
-	}
-
-	/**
 	 * Produces set of links to prepend at start of first sitemap page.
 	 *
 	 * @param string $post_type Post type to produce links for.
