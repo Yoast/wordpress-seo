@@ -248,13 +248,22 @@ describe( "Tests for the keyphrase density assessment for languages with morphol
 			"The keyphrase was found 32 times. That's more than the recommended maximum of 29 times for a text of this length. " +
 			"<a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
 	} );
-	it( "returns `hasAIFixes` to be true when the result is BAD", function() {
+	it( "returns `hasAIFixes` to be false when the keyphrase is overused", function() {
 		const paper = new Paper( nonkeyword.repeat( 968 ) + keyword.repeat( 32 ), { keyword: "keyword", locale: "en_EN" } );
 		const researcher = new EnglishResearcher( paper );
 		buildTree( paper, researcher );
 
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( -10 );
+		expect( result.hasAIFixes() ).toBeFalsy();
+	} );
+	it( "returns `hasAIFixes` to be true when there is not enough occurrence in the text", function() {
+		const paper = new Paper( nonkeyword.repeat( 968 ) + keyword.repeat( 2 ), { keyword: "keyword", locale: "en_EN" } );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+
+		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( 4 );
 		expect( result.hasAIFixes() ).toBeTruthy();
 	} );
 } );
