@@ -541,6 +541,43 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
+	 * Gets the first id of the post of all pages.
+	 *
+	 * @param string $post_type        The post type to retrieve posts for.
+	 * @param int    $entries_per_page The maximum number of posts per page.
+	 * @param int    $starting_post_id The lowest post ID to get the pages for.
+	 *
+	 * @return string[]
+	 */
+	protected function get_raw_page_data( $post_type, $entries_per_page, $starting_post_id ) {
+		global $wpdb;
+
+		$where = $this->get_sql_where_clause( $post_type );
+
+		/*
+		 * Optimized query per this thread:
+		 * {@link http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion}.
+		 * Also see {@link http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/}.
+		 */
+		$sql = "
+			SELECT l.ID as first_id_on_page
+			FROM (
+				SELECT {$wpdb->posts}.ID
+				FROM ( SELECT @rownum:=-1 ) as init
+				JOIN {$wpdb->posts} USE INDEX (`type_status_date`)
+				{$where}
+				AND {$wpdb->posts}.ID >= %d
+				ORDER BY {$wpdb->posts}.ID ASC
+			)
+			o JOIN {$wpdb->posts} l ON l.ID = o.ID
+			WHERE (@rownum:=@rownum+1) %% %d = 0
+		";
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.DirectQuery -- Can't do this with WP queries. Caching is done on the sitemap level.
+		return $wpdb->get_col( $wpdb->prepare( $sql, $starting_post_id, $entries_per_page ) );
+		// phpcs:enable
+	}
+
+	/**
 	 * Constructs an SQL where clause for a given post type.
 	 *
 	 * @param string $post_type Post type slug.
@@ -729,26 +766,17 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return array<int, array{start: int, end: int}>
 	 */
 	private function create_map( $post_type, $max_entries_per_page, $min_post_id, $max_post_id, $starting_page = 1 ) {
-		$map                        = [];
-		$current_page_id            = max( $starting_page, 1 );
-		$current_page_start_post_id = $min_post_id;
+		$map             = [];
+		$current_page_id = max( $starting_page, 1 );
 
-		while ( $current_page_start_post_id <= $max_post_id ) {
-			$raw_post_data = $this->get_raw_post_data( $post_type, $max_entries_per_page, $current_page_start_post_id );
-
-			// No more posts left.
-			if ( count( $raw_post_data ) === 0 ) {
-				break;
-			}
-
-			$last_post                = $raw_post_data[ ( count( $raw_post_data ) - 1 ) ];
-			$current_page_end_post_id = (int) $last_post->ID;
-			$map[ $current_page_id ]  = [
-				'start' => $current_page_start_post_id,
-				'end'   => $current_page_end_post_id,
+		$page_starting_ids = $this->get_raw_page_data( $post_type, $max_entries_per_page, $min_post_id );
+		foreach ( $page_starting_ids as $index => $page_starting_id ) {
+			$next_page_starting_id   = isset( $page_starting_ids[ ( $index + 1 ) ] ) ? ( $page_starting_ids[ ( $index + 1 ) ] ) : null;
+			$map[ $current_page_id ] = [
+				'start' => (int) $page_starting_id,
+				'end'   => $next_page_starting_id ? ( $next_page_starting_id - 1 ) : $max_post_id,
 			];
 			++$current_page_id;
-			$current_page_start_post_id = ( $current_page_end_post_id + 1 );
 		}
 
 		return $map;
