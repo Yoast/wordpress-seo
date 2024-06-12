@@ -256,7 +256,7 @@ class Indexable_Post_Builder {
 		}
 
 		// The attachment should have a post parent.
-		if ( empty( $indexable->post_parent ) ) {
+		if ( empty( $indexable->post_parent ) || $indexable->post_parent === $indexable->object_id ) {
 			return false;
 		}
 
