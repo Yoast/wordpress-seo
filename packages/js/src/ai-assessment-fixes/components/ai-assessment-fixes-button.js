@@ -87,7 +87,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				onMouseEnter={ handleMouseEnter }
 				onMouseLeave={ handleMouseLeave }
 				id={ aiFixesId }
-				className={ buttonClass }
+				className={ `ai-button ${buttonClass}` }
 				pressed={ isButtonPressed }
 			>
 				<SparklesIcon pressed={ isButtonPressed } />

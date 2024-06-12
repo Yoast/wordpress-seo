@@ -29,7 +29,7 @@ describe( "AIAssessmentFixesButton", () => {
 	test( "should find the correct aria-label in the document", () => {
 		render( <AIAssessmentFixesButton id="keyphraseDensity" isPremium={ false } /> );
 
-		const labelText = document.querySelector( 'button[aria-label="Fix with AI"]' );
+		const labelText = document.querySelector( 'button[aria-label="Optimize with AI"]' );
 		expect( labelText ).toBeInTheDocument();
 	} );
 
@@ -39,11 +39,11 @@ describe( "AIAssessmentFixesButton", () => {
 		expect( button ).toBeInTheDocument();
 	} );
 
-	test( "should find the button with tooltip when the button is NOT pressed", () => {
+	test( "should find the button without tooltip when the button is NOT hovered", () => {
 		render( <AIAssessmentFixesButton id="keyphraseDensity" isPremium={ true }  /> );
 
-		const buttonWithTooltip = document.getElementsByClassName( "yoast-tooltip yoast-tooltip-w" );
-		expect( buttonWithTooltip ).toHaveLength( 1 );
+		const buttonWithOutTooltip = document.getElementsByClassName( "ai-button" );
+		expect( buttonWithOutTooltip ).toHaveLength( 1 );
 	} );
 
 	test( "should find the button without tooltip when the button is pressed", () => {
