@@ -29,7 +29,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
-	const [buttonClass, setButtonClass] = useState( "" );
+	const [ buttonClass, setButtonClass ] = useState( "" );
 
 	/**
 	 * Handles the button press state.
@@ -108,7 +108,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 AIAssessmentFixesButton.propTypes = {
 	id: PropTypes.string.isRequired,
 	isPremium: PropTypes.bool,
-	className: PropTypes.string,
 };
 
 AIAssessmentFixesButton.defaultProps = {
