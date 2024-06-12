@@ -44,6 +44,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 * The constructor.
 	 *
 	 * @param Indexable_Cleanup_Repository $cleanup_repository The cleanup repository.
+	 * @param Indexable_Helper             $indexable_helper   The indexable helper.
 	 */
 	public function __construct(
 		Indexable_Cleanup_Repository $cleanup_repository,
@@ -69,7 +70,7 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array The array of conditionals.
+	 * @return array<string> The array of conditionals.
 	 */
 	public static function get_conditionals() {
 		return [];
