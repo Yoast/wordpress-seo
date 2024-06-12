@@ -1,12 +1,10 @@
-import { inherits } from "util";
-
+import Assessor from "./assessor";
 import IntroductionKeywordAssessment from "./assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./assessments/seo/KeyphraseLengthAssessment";
 import KeyphraseDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./assessments/seo/MetaDescriptionKeywordAssessment";
 import KeyphraseInSEOTitleAssessment from "./assessments/seo/KeyphraseInSEOTitleAssessment";
 import SlugKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
-import Assessor from "./assessor";
 import MetaDescriptionLengthAssessment from "./assessments/seo/MetaDescriptionLengthAssessment";
 import TextLengthAssessment from "./assessments/seo/TextLengthAssessment";
 import PageTitleWidthAssessment from "./assessments/seo/PageTitleWidthAssessment";
@@ -19,7 +17,7 @@ import { createAnchorOpeningTag } from "../helpers";
  *
  * @returns {TextLengthAssessment} The text length assessment (with taxonomy configuration) to use.
  */
-export const getTextLengthAssessment = function() {
+export const getTextLengthAssessment = () => {
 	// Export so it can be used in tests.
 	return new TextLengthAssessment( {
 		recommendedMinimum: 30,
@@ -32,37 +30,36 @@ export const getTextLengthAssessment = function() {
 };
 
 /**
- * Creates the Assessor used for taxonomy pages.
- *
- * @param {Researcher} researcher   The researcher used for the analysis.
- * @param {Object?} options         The options for this assessor.
- * @constructor
+ * The TaxonomyAssessor is used for the assessment of terms.
  */
-const TaxonomyAssessor = function( researcher, options ) {
-	Assessor.call( this, researcher, options );
-	this.type = "taxonomyAssessor";
+export default class TaxonomyAssessor extends Assessor {
+	/**
+	 * Creates a new TaxonomyAssessor instance.
+	 * @param {Researcher}	researcher	The researcher to use.
+	 * @param {Object}		[options]	The assessor options.
+	 */
+	constructor( researcher, options ) {
+		super( researcher, options );
+		this.type = "taxonomyAssessor";
 
-	this._assessments = [
-		new IntroductionKeywordAssessment(),
-		new KeyphraseLengthAssessment(),
-		new KeyphraseDensityAssessment(),
-		new MetaDescriptionKeywordAssessment(),
-		new MetaDescriptionLengthAssessment(),
-		getTextLengthAssessment(),
-		new KeyphraseInSEOTitleAssessment(),
-		new PageTitleWidthAssessment(
-			{
-				scores: {
-					widthTooShort: 9,
-				},
-			}, true
-		),
-		new SlugKeywordAssessment(),
-		new FunctionWordsInKeyphrase(),
-		new SingleH1Assessment(),
-	];
-};
-
-inherits( TaxonomyAssessor, Assessor );
-
-export default TaxonomyAssessor;
+		this._assessments = [
+			new IntroductionKeywordAssessment(),
+			new KeyphraseLengthAssessment(),
+			new KeyphraseDensityAssessment(),
+			new MetaDescriptionKeywordAssessment(),
+			new MetaDescriptionLengthAssessment(),
+			getTextLengthAssessment(),
+			new KeyphraseInSEOTitleAssessment(),
+			new PageTitleWidthAssessment(
+				{
+					scores: {
+						widthTooShort: 9,
+					},
+				}, true
+			),
+			new SlugKeywordAssessment(),
+			new FunctionWordsInKeyphrase(),
+			new SingleH1Assessment(),
+		];
+	}
+}

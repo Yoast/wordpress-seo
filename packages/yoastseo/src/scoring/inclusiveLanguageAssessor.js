@@ -13,14 +13,13 @@ const defaultOptions = {
 };
 
 /**
- * An assessor that assesses a paper for potentially non-inclusive language.
+ * The InclusiveLanguageAssessor assesses a paper for potentially non-inclusive language.
  */
-class InclusiveLanguageAssessor extends Assessor {
+export default class InclusiveLanguageAssessor extends Assessor {
 	/**
-	 * Creates a new inclusive language assessor.
-	 *
-	 * @param {Researcher}  	researcher 		The researcher to use.
-	 * @param {Object}      	[options] 		The assessor options.
+	 * Creates a new InclusiveLanguageAssessor instance.
+	 * @param {Researcher}	researcher	The researcher to use.
+	 * @param {Object}		[options]	The assessor options.
 	 */
 	constructor( researcher, options = {} ) {
 		super( researcher, options );
@@ -63,5 +62,3 @@ class InclusiveLanguageAssessor extends Assessor {
 		return 90;
 	}
 }
-
-export default InclusiveLanguageAssessor;
