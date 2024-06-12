@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { useCallback, useRef } from "@wordpress/element";
+import { useCallback, useRef, useState } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
 import { useSelect, useDispatch } from "@wordpress/data";
 
@@ -23,12 +23,13 @@ import { SparklesIcon } from "./sparkles-icon";
  */
 const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const aiFixesId = id + "AIFixes";
-	const ariaLabel = __( "Fix with AI", "wordpress-seo" );
+	const ariaLabel = __( "Optimize with AI", "wordpress-seo" );
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
 	const activeAIButtonId = useSelect( select => select( "yoast-seo/editor" ).getActiveAIFixesButton(), [] );
 	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
+	const [ buttonClass, setButtonClass ] = useState( "" );
 
 	/**
 	 * Handles the button press state.
@@ -50,6 +51,9 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		} else {
 			setActiveAIFixesButton( aiFixesId );
 		}
+
+		// Dismiss the tooltip when the button is pressed.
+		setButtonClass( "" );
 	};
 
 	const handleClick = useCallback( () => {
@@ -67,16 +71,26 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	// The button is pressed when the active AI button id is the same as the current button id.
 	const isButtonPressed = activeAIButtonId === aiFixesId;
 
-	// Don't show the tooltip when the button is pressed.
-	const className = isButtonPressed ? "" : "yoast-tooltip yoast-tooltip-w";
+	// Add tooltip classes on mouse enter and remove them on mouse leave.
+	const handleMouseEnter = useCallback( () => {
+		// Add tooltip classes on mouse enter
+		setButtonClass( "yoast-tooltip yoast-tooltip-w" );
+	}, [] );
+
+	const handleMouseLeave = useCallback( () => {
+		// Remove tooltip classes on mouse leave
+		setButtonClass( "" );
+	}, [] );
 
 	return (
 		<>
 			<IconAIFixesButton
 				onClick={ handleClick }
 				ariaLabel={ ariaLabel }
+				onMouseEnter={ handleMouseEnter }
+				onMouseLeave={ handleMouseLeave }
 				id={ aiFixesId }
-				className={ className }
+				className={ `ai-button ${buttonClass}` }
 				pressed={ isButtonPressed }
 			>
 				<SparklesIcon pressed={ isButtonPressed } />
