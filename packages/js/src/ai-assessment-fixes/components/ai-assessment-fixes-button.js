@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { useCallback, useRef } from "@wordpress/element";
+import { useCallback, useRef, useState } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
 import { useSelect, useDispatch } from "@wordpress/data";
-import React, { useState } from 'react';
 
 /* Yoast dependencies */
 import { IconAIFixesButton } from "@yoast/components";
@@ -22,7 +21,7 @@ import { SparklesIcon } from "./sparkles-icon";
  *
  * @returns {JSX.Element} The AI Assessment Fixes button.
  */
-const AIAssessmentFixesButton = ({ id, isPremium, className } ) => {
+const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const aiFixesId = id + "AIFixes";
 	const ariaLabel = __( "Optimize with AI", "wordpress-seo" );
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
@@ -30,7 +29,7 @@ const AIAssessmentFixesButton = ({ id, isPremium, className } ) => {
 	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
-	const [ buttonClass, setButtonClass ] = useState('');
+	const [buttonClass, setButtonClass] = useState( "" );
 
 	/**
 	 * Handles the button press state.
