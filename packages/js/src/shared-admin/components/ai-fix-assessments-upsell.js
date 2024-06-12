@@ -11,10 +11,7 @@ import { OutboundLink, VideoFlow } from ".";
  * @param {Object} thumbnail The thumbnail: img props.
  * @param {Object} wistiaEmbedPermission The value, status and set for the Wistia embed permission.
  * @param {string} upsellLink The upsell link.
- * @param {string} title The title.
  * @param {string} upsellLabel The upsell label.
- * @param {string} newToText The new to text.
- * @param {string|JSX.Element } bundleNote The bundle note.
  * @returns {JSX.Element} The element.
  */
 export const AiFixAssessmentsUpsell = ( {
@@ -22,10 +19,7 @@ export const AiFixAssessmentsUpsell = ( {
 	thumbnail,
 	wistiaEmbedPermission,
 	upsellLink,
-	title,
 	upsellLabel,
-	newToText,
-	bundleNote,
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
@@ -40,70 +34,76 @@ export const AiFixAssessmentsUpsell = ( {
 	};
 
 	return (
-		<div className="yst-flex yst-flex-col yst-items-center yst-p-10">
-			<div className="yst-relative yst-w-full">
-				<VideoFlow
-					videoId="vmrahpfjxp"
-					thumbnail={ thumbnail }
-					wistiaEmbedPermission={ wistiaEmbedPermission }
-				/>
-				<Badge className="yst-absolute yst-top-0 yst-right-2 yst-mt-2 yst-ml-2" variant="info">Beta</Badge>
-			</div>
-			<div className="yst-mt-6 yst-text-xs yst-font-medium">
-				<span className="yst-introduction-modal-uppercase">
-					{ newToText }
-				</span>
-			</div>
-			<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
-				<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
-					{ title }
-				</h3>
-				<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
-					{ createInterpolateElement(
-						sprintf(
-							/* translators: %1$s and %2$s are anchor tags; %3$s is the arrow icon. */
-							__(
-								"Let AI fix assessments. %1$sLearn more%2$s%3$s",
-								"wordpress-seo"
-							),
-							"<a>",
-							"<ArrowNarrowRightIcon />",
-							"</a>"
-						),
-						learnMoreLinkStructure
-					  ) }
+		<>
+			<div className="yst-px-10 yst-pt-10 yst-introduction-gradient yst-text-center">
+				<div className="yst-relative yst-w-full">
+					<VideoFlow
+						videoId="vmrahpfjxp"
+						thumbnail={ thumbnail }
+						wistiaEmbedPermission={ wistiaEmbedPermission }
+					/>
+					<Badge className="yst-absolute yst-right-0 yst-mr-4 yst-text-center yst-justify-center" variant="info" style={ { top: "-8px" } }>
+						{ __( "Trial", "wordpress-seo-premium" ) }
+					</Badge>
+				</div>
+				<div className="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center">
+					<span className="yst-introduction-modal-uppercase yst-flex yst-gap-2 yst-items-center">
+						<span className="yst-logo-icon" />
+						Yoast SEO Premium
+					</span>
 				</div>
 			</div>
-			<div className="yst-w-full yst-flex yst-mt-10">
+			<div className="yst-px-10 yst-pb-10 yst-flex yst-flex-col yst-items-center">
+				<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
+					<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
+						{ __( "Optimize your SEO content with Yoast AI", "wordpress-seo" ) }
+					</h3>
+					<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
+						{ createInterpolateElement(
+							sprintf(
+								/* translators: %1$s and %2$s are anchor tags; %3$s is the arrow icon. */
+								__(
+									"Tired of editing your content to get good scores? Upgrade to access our AI features. Receive recommendations to optimize your content with just one click. %1$sLearn more%2$s%3$s",
+									"wordpress-seo"
+								),
+								"<a>",
+								"<ArrowNarrowRightIcon />",
+								"</a>"
+							),
+							learnMoreLinkStructure
+						) }
+					</div>
+				</div>
+				<div className="yst-w-full yst-flex yst-mt-6">
+					<Button
+						as="a"
+						className="yst-grow"
+						size="extra-large"
+						variant="upsell"
+						href={ upsellLink }
+						target="_blank"
+						ref={ initialFocus }
+					>
+						<LockOpenIcon className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5" />
+						{ upsellLabel }
+						<span className="yst-sr-only">
+							{
+								/* translators: Hidden accessibility text. */
+								__( "(Opens in a new browser tab)", "wordpress-seo" )
+							}
+						</span>
+					</Button>
+				</div>
 				<Button
 					as="a"
-					className="yst-grow"
-					size="extra-large"
-					variant="upsell"
-					href={ upsellLink }
-					target="_blank"
-					ref={ initialFocus }
+					className="yst-mt-4"
+					variant="tertiary"
+					onClick={ onClose }
 				>
-					<LockOpenIcon className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5" />
-					{ upsellLabel }
-					<span className="yst-sr-only">
-						{
-							/* translators: Hidden accessibility text. */
-							__( "(Opens in a new browser tab)", "wordpress-seo" )
-						}
-					</span>
+					{ __( "Close", "wordpress-seo" ) }
 				</Button>
 			</div>
-			{ bundleNote }
-			<Button
-				as="a"
-				className="yst-mt-4"
-				variant="tertiary"
-				onClick={ onClose }
-			>
-				{ __( "Close", "wordpress-seo" ) }
-			</Button>
-		</div>
+		</>
 	);
 };
 AiFixAssessmentsUpsell.propTypes = {
@@ -119,26 +119,13 @@ AiFixAssessmentsUpsell.propTypes = {
 		status: PropTypes.string.isRequired,
 		set: PropTypes.func.isRequired,
 	} ).isRequired,
-	title: PropTypes.string,
 	upsellLabel: PropTypes.string,
-	newToText: PropTypes.string,
-	bundleNote: PropTypes.oneOfType( [
-		PropTypes.string,
-		PropTypes.element,
-	] ),
 };
 
 AiFixAssessmentsUpsell.defaultProps = {
-	title: __( "Use AI to fix assessments!", "wordpress-seo" ),
 	upsellLabel: sprintf(
 		/* translators: %1$s expands to Yoast SEO Premium. */
 		__( "Unlock with %1$s", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	),
-	newToText: sprintf(
-		/* translators: %1$s expands to Yoast SEO Premium. */
-		__( "New in %1$s", "wordpress-seo" ),
-		"Yoast SEO Premium"
-	),
-	bundleNote: "",
 };
