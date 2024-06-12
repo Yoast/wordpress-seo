@@ -21,6 +21,8 @@ const IconAIFixesButton = function( props ) {
 			type="button"
 			onClick={ props.onClick }
 			pressed={ props.pressed }
+			onMouseEnter={ props.onMouseEnter }
+			onMouseLeave={ props.onMouseLeave }
 			unpressedBoxShadowColor={ props.unpressedBoxShadowColor }
 			pressedBoxShadowColor={ props.pressedBoxShadowColor }
 			pressedBackground={ props.pressedBackground }
@@ -42,6 +44,8 @@ IconAIFixesButton.propTypes = {
 	id: PropTypes.string.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
 	onClick: PropTypes.func,
+	onMouseEnter: PropTypes.func,
+	onMouseLeave: PropTypes.func,
 	unpressedBoxShadowColor: PropTypes.string,
 	pressedBoxShadowColor: PropTypes.string,
 	pressedBackground: PropTypes.string,

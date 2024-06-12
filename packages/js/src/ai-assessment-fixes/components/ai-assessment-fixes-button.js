@@ -3,6 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { useCallback, useRef } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
 import { useSelect, useDispatch } from "@wordpress/data";
+import React, { useState } from 'react';
 
 /* Yoast dependencies */
 import { IconAIFixesButton } from "@yoast/components";
@@ -21,7 +22,7 @@ import { SparklesIcon } from "./sparkles-icon";
  *
  * @returns {JSX.Element} The AI Assessment Fixes button.
  */
-const AIAssessmentFixesButton = ( { id, isPremium } ) => {
+const AIAssessmentFixesButton = ({ id, isPremium, className } ) => {
 	const aiFixesId = id + "AIFixes";
 	const ariaLabel = __( "Optimize with AI", "wordpress-seo" );
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
@@ -29,6 +30,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
+	const [ buttonClass, setButtonClass ] = useState('');
 
 	/**
 	 * Handles the button press state.
@@ -67,16 +69,26 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	// The button is pressed when the active AI button id is the same as the current button id.
 	const isButtonPressed = activeAIButtonId === aiFixesId;
 
-	// Don't show the tooltip when the button is pressed.
-	const className = isButtonPressed ? "" : "yoast-tooltip yoast-tooltip-w";
+	// Add tooltip classes on mouse enter and remove them on mouse leave.
+	const handleMouseEnter = useCallback( () => {
+		// Add tooltip classes on mouse enter
+		setButtonClass( "yoast-tooltip yoast-tooltip-w" );
+	}, [] );
+
+	const handleMouseLeave = useCallback( () => {
+		// Remove tooltip classes on mouse leave
+		setButtonClass( "" );
+	}, [] );
 
 	return (
 		<>
 			<IconAIFixesButton
 				onClick={ handleClick }
 				ariaLabel={ ariaLabel }
+				onMouseEnter={ handleMouseEnter }
+				onMouseLeave={ handleMouseLeave }
 				id={ aiFixesId }
-				className={ className }
+				className={ buttonClass }
 				pressed={ isButtonPressed }
 			>
 				<SparklesIcon pressed={ isButtonPressed } />
@@ -97,6 +109,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 AIAssessmentFixesButton.propTypes = {
 	id: PropTypes.string.isRequired,
 	isPremium: PropTypes.bool,
+	className: PropTypes.string,
 };
 
 AIAssessmentFixesButton.defaultProps = {
