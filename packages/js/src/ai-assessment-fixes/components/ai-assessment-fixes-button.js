@@ -51,6 +51,9 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		} else {
 			setActiveAIFixesButton( aiFixesId );
 		}
+
+		// Dismiss the tooltip when the button is pressed.
+		setButtonClass( "" );
 	};
 
 	const handleClick = useCallback( () => {
