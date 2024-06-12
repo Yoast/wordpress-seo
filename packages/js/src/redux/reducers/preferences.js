@@ -8,7 +8,6 @@ import isSEMrushIntegrationActive from "../../analysis/isSEMrushIntegrationActiv
 import isZapierIntegrationActive from "../../analysis/isZapierIntegrationActive";
 import isZapierConnected from "../../analysis/isZapierConnected";
 import isWincherIntegrationActive from "../../analysis/isWincherIntegrationActive";
-import isWordProofIntegrationActive from "../../analysis/isWordProofIntegrationActive";
 
 /**
  * Gets the default state.
@@ -36,7 +35,6 @@ function getDefaultState() {
 		isZapierIntegrationActive: isZapierIntegrationActive(),
 		isZapierConnected: isZapierConnected(),
 		isWincherIntegrationActive: isWincherIntegrationActive(),
-		isWordProofIntegrationActive: isWordProofIntegrationActive(),
 		isInsightsEnabled: get( window, "wpseoScriptData.metabox.isInsightsEnabled", false ),
 		isNewsEnabled: ! ! window.wpseoAdminL10n.news_seo_is_active,
 	};
