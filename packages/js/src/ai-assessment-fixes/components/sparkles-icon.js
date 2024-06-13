@@ -6,7 +6,7 @@ import "./sparkles-icon.css";
  * @param {boolean} pressed Whether the button is pressed.
  * @returns {JSX.Element} The AI Assessment Fixes button icon.
  */
-export const SparklesIcon = ( { pressed = false } ) => {
+export const SparklesIcon = ({ pressed = false }) => {
 	const gradientStroke = `url( "#paint0_linear_1208_188" )`;
 	return (
 		<>

@@ -93,7 +93,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				className={ `ai-button ${buttonClass}` }
 				pressed={ isButtonPressed }
 			>
-				<SparklesIcon pressed={ isButtonPressed } />
+				<SparklesIcon pressed={ isButtonPressed }/>
 				{
 					// We put the logic for the Upsell component in place.
 					// The Modal below is only a placeholder/mock. When we have the design for the real upsell, the modal should be replaced.
