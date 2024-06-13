@@ -19,8 +19,8 @@ export const SparklesIcon = ( { pressed = false } ) => {
 						id="paint0_linear_1208_188" x1="0" y1="0" x2="16" y2="16"
 						gradientUnits="userSpaceOnUse"
 					>
-						<stop stopColor="#A61E69" />
-						<stop offset="1" stopColor="#3B82F6" />
+						<stop offset="0%" stopColor="#A61E69" />
+						<stop offset="100%" stopColor="#3B82F6" />
 					</linearGradient>
 				</defs>
 			</svg>
