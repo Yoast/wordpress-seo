@@ -21,6 +21,8 @@ const IconAIFixesButton = function( props ) {
 			type="button"
 			onClick={ props.onClick }
 			pressed={ props.pressed }
+			onMouseEnter={ props.onMouseEnter }
+			onMouseLeave={ props.onMouseLeave }
 			unpressedBoxShadowColor={ props.unpressedBoxShadowColor }
 			pressedBoxShadowColor={ props.pressedBoxShadowColor }
 			pressedBackground={ props.pressedBackground }
@@ -29,8 +31,6 @@ const IconAIFixesButton = function( props ) {
 			aria-label={ props.ariaLabel }
 			aria-pressed={ props.pressed }
 			pressedIconColor={ props.pressedIconColor }
-			hoverBackgroundColor={ props.hoverBackgroundColor }
-			unpressedBorderColor={ props.unpressedBorderColor }
 			className={ props.className }
 		>
 			{ props.children }
@@ -44,14 +44,14 @@ IconAIFixesButton.propTypes = {
 	id: PropTypes.string.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
 	onClick: PropTypes.func,
+	onMouseEnter: PropTypes.func,
+	onMouseLeave: PropTypes.func,
 	unpressedBoxShadowColor: PropTypes.string,
 	pressedBoxShadowColor: PropTypes.string,
 	pressedBackground: PropTypes.string,
 	unpressedBackground: PropTypes.string,
 	pressedIconColor: PropTypes.string,
 	pressed: PropTypes.bool.isRequired,
-	unpressedBorderColor: PropTypes.string,
-	hoverBackgroundColor: PropTypes.string,
 	className: PropTypes.string,
 };
 
@@ -62,8 +62,9 @@ IconAIFixesButton.defaultProps = {
 	pressedBackground: "linear- gradient(to bottom right, #A61E69, #3B82F6)",
 	unpressedBackground: "linear-gradient(to bottom right, #FAF3F7, #EFF6FF)",
 	pressedIconColor: colors.$color_white,
-	unpressedBorderColor: "linear-gradient(to bottom right, #CD82AB, #93C5FD)",
-	hoverBackgroundColor: "linear-gradient(to bottom right, #F3E5ED, #DBEAFE)",
+	onClick: () => {},
+	onMouseEnter: () => {},
+	onMouseLeave: () => {},
 };
 
 export default IconAIFixesButton;
