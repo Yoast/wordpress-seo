@@ -85,6 +85,7 @@ class Cleanup_Integration implements Integration_Interface {
 		$this->reset_cleanup();
 
 		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			\wp_unschedule_hook( self::START_HOOK );
 			return;
 		}
 
