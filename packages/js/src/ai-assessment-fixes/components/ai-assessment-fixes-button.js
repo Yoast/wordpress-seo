@@ -11,9 +11,7 @@ import { Paper } from "yoastseo";
 
 /* Internal dependencies */
 import { ModalContent } from "./modal-content";
-// import { SparklesIcon } from "./sparkles-icon";
-import SparklesIcon from "./sparkles-icon.svg";
-//import IconWithConditionalStyle from './SparklesIcon';
+import { SparklesIcon } from "./sparkles-icon";
 
 /**
  * The AI Assessment Fixes button component.
@@ -95,13 +93,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				className={ `ai-button ${buttonClass}` }
 				pressed={ isButtonPressed }
 			>
-				{/* <SparklesIcon pressed={ isButtonPressed } /> */}
-				{/* <SparklesIcon pressed={isButtonPressed} /> */}
-				<div>
-					<SparklesIcon pressed = { isButtonPressed }
-					style={{ stroke: isButtonPressed ? "white": "url (#paint0_linear_1208_18" }}
-				/>
-				</div>
+				<SparklesIcon pressed={ isButtonPressed } />
 				{
 					// We put the logic for the Upsell component in place.
 					// The Modal below is only a placeholder/mock. When we have the design for the real upsell, the modal should be replaced.
