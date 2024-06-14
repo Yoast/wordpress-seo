@@ -35,11 +35,6 @@ const AIFixesButtonBase = styled( IconButtonBase )`
 		? gradientEffect.pressedStateBackground
 		: gradientEffect.hoverStateBackground } !important;
 	}
-
-	@supports ((border-image: ${gradientEffect.defaultStateBorder}) and (border-radius: 3px)) {
-		border: ${props => props.pressed ? "none" : "1px solid transparent"};
-		border-image: ${props => props.pressed ? "none" : gradientEffect.defaultStateBorder};
-	}
 `;
 
 export default AIFixesButtonBase;
