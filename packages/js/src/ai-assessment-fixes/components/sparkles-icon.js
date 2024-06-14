@@ -7,7 +7,8 @@ import "./sparkles-icon.css";
  * @returns {JSX.Element} The AI Assessment Fixes button icon.
  */
 export const SparklesIcon = ({ pressed = false }) => {
-	const gradientStroke = `url( "#paint0_linear_1208_188" )`;
+	const gradientId = `gradient-${Math.random().toString(36).substr(2, 9)}`;
+
 	return (
 		<>
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" >
@@ -15,12 +16,12 @@ export const SparklesIcon = ({ pressed = false }) => {
 					d="M3.33284 2V4.66667M1.99951 3.33333H4.66618M3.99951 11.3333V14M2.66618 12.6667H5.33284M8.66618 2L10.19 6.57143L13.9995 8L10.19 9.42857L8.66618 14L7.14237 9.42857L3.33284 8L7.14237 6.57143L8.66618 2Z"
 					strokeLinecap="round"
 					strokeLinejoin="round"
-					stroke={ pressed ? "white" : gradientStroke }
+					stroke={ pressed ? "white" : `url(#${gradientId})` }
 					strokeWidth="1.33333"
 				/>
 				<defs>
 					<linearGradient
-						id="paint0_linear_1208_188" x1="0" y1="0" x2="16" y2="16"
+						id={gradientId} x1="0" y1="0" x2="16" y2="16"
 						gradientUnits="userSpaceOnUse"
 					>
 						<stop offset="0%" stopColor="#A61E69" />
