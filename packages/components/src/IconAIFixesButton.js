@@ -62,6 +62,9 @@ IconAIFixesButton.defaultProps = {
 	pressedBackground: "linear- gradient(to bottom right, #A61E69, #3B82F6)",
 	unpressedBackground: "linear-gradient(to bottom right, #FAF3F7, #EFF6FF)",
 	pressedIconColor: colors.$color_white,
+	onClick: () => {},
+	onMouseEnter: () => {},
+	onMouseLeave: () => {},
 };
 
 export default IconAIFixesButton;
