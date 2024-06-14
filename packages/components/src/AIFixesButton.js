@@ -6,9 +6,9 @@ const yoastPrimary50 = "#FAF3F7";
 const yoastPrimary100 = "#F3E5ED";
 const yoastPrimary400 = "#B94986";
 const yoastPrimary500 = "#A61E69";
-const yoastIndigo50 = "EEF2FF";
-const yoastIndigo100 = "E0E7FF";
-const yoastIndigo500 = "6366F1";
+const yoastIndigo50 = "#EEF2FF";
+const yoastIndigo100 = "#E0E7FF";
+const yoastIndigo500 = "#6366F1";
 
 const direction = "to bottom right";
 
