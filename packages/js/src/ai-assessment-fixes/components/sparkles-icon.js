@@ -20,7 +20,7 @@ export const SparklesIcon = ( { pressed = false } ) => {
 				/>
 				<defs>
 					<linearGradient
-						id="paint0_linear_1538_754" x1="1.99951" y1="2.96991" x2="15.3308" y2="4.69764"
+						id={ gradientId } x1="1.99951" y1="2.96991" x2="15.3308" y2="4.69764"
 						gradientUnits="userSpaceOnUse"
 					>
 						<stop offset="0%" stopColor="#A61E69" />
