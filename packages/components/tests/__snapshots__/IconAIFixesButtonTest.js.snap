@@ -43,6 +43,13 @@ exports[`the pressed IconAIFixesButton matches the snapshot 1`] = `
   background-image: linear-gradient(to bottom right,#A61E69,#6366F1) !important;
 }
 
+@supports ((border-image:linear-gradient(to bottom right,#CD82AB,#A5B4FC) 1) and (border-radius:3px)) {
+  .c1 {
+    border: none;
+    border-image: none;
+  }
+}
+
 <button
   aria-label="Fix with AI"
   aria-pressed={true}
@@ -97,6 +104,13 @@ exports[`the unpressed IconAIFixesButton matches the snapshot 1`] = `
 
 .c1:hover {
   background-image: linear-gradient(to bottom right,#F3E5ED,#E0E7FF) !important;
+}
+
+@supports ((border-image:linear-gradient(to bottom right,#CD82AB,#A5B4FC) 1) and (border-radius:3px)) {
+  .c1 {
+    border: 1px solid transparent;
+    border-image: linear-gradient(to bottom right,#CD82AB,#A5B4FC) 1;
+  }
 }
 
 <button

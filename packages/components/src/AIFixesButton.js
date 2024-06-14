@@ -4,23 +4,26 @@ import IconButtonBase from "./IconButtonBase";
 
 const yoastPrimary50 = "#FAF3F7";
 const yoastPrimary100 = "#F3E5ED";
+const yoastPrimary300 = "#CD82AB";
 const yoastPrimary400 = "#B94986";
 const yoastPrimary500 = "#A61E69";
 const yoastIndigo50 = "#EEF2FF";
 const yoastIndigo100 = "#E0E7FF";
+const yoastIndigo300 = "#A5B4FC";
 const yoastIndigo500 = "#6366F1";
 
 const direction = "to bottom right";
 
 const gradientEffect = {
 	defaultStateBackground: `linear-gradient(${direction}, ${yoastPrimary50}, ${yoastIndigo50})`,
+	defaultStateBorder: `linear-gradient(${direction}, ${yoastPrimary300}, ${yoastIndigo300}) 1`,
 	hoverStateBackground: `linear-gradient(${direction}, ${yoastPrimary100}, ${yoastIndigo100})`,
 	pressedStateBackground: `linear-gradient(${direction}, ${yoastPrimary500}, ${yoastIndigo500})`,
 };
 
 const AIFixesButtonBase = styled( IconButtonBase )`
 	overflow: hidden;
-	border: ${ props => props.pressed ? "none" : "1px solid #A5B4FC" }; /*indigo-300*/
+	border: ${ props => props.pressed ? "none" : `1px solid ${yoastIndigo300}` }; /*indigo-300*/
 	background-image: ${ props => props.pressed
 		? gradientEffect.pressedStateBackground
 		: gradientEffect.defaultStateBackground } !important;
@@ -31,6 +34,11 @@ const AIFixesButtonBase = styled( IconButtonBase )`
 		background-image:  ${ props => props.pressed
 		? gradientEffect.pressedStateBackground
 		: gradientEffect.hoverStateBackground } !important;
+	}
+
+	@supports ((border-image: ${gradientEffect.defaultStateBorder}) and (border-radius: 3px)) {
+		border: ${props => props.pressed ? "none" : "1px solid transparent"};
+		border-image: ${props => props.pressed ? "none" : gradientEffect.defaultStateBorder};
 	}
 `;
 
