@@ -319,6 +319,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-06-18
 
+Yoast SEO 22.9 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-18-6-24).
+
 #### Enhancements
 
 * Helps guide Elementor users to Yoast when they have the new editor top bar activated.
