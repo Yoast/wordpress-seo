@@ -30,7 +30,7 @@ exports[`SparklesIcon should render the SparklesIcon component when pressed is f
         />
         <stop
           offset="1"
-          stop-color="#3B82F6"
+          stop-color="#6366F1"
         />
       </lineargradient>
     </defs>
@@ -68,7 +68,7 @@ exports[`SparklesIcon should render the SparklesIcon component when pressed is t
         />
         <stop
           offset="1"
-          stop-color="#3B82F6"
+          stop-color="#6366F1"
         />
       </lineargradient>
     </defs>
