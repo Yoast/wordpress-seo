@@ -18,12 +18,18 @@ jest.mock( "@wordpress/data", () => {
 /**
  * Mock the useSelect function.
  * @param {string} activeAIButton The active AI button ID.
+ * @param {string} editorMode The editor mode.
+ * @param {object[]} blocks The blocks.
  * @returns {function} The mock.
  */
-const mockSelect = ( activeAIButton ) => useSelect.mockImplementation( select => select( () => ( {
-	getActiveAIFixesButton: () => activeAIButton,
-	getActiveMarker: () => null,
-} ) ) );
+const mockSelect = ( activeAIButton, editorMode = "visual", blocks = [] ) =>
+	useSelect.mockImplementation( select => select( () => ( {
+		getActiveAIFixesButton: () => activeAIButton,
+		getActiveMarker: () => null,
+		getBlocks: () => blocks,
+		getBlockMode: ( clientId ) => clientId === "htmlTest" ? "html" : "visual",
+		getEditorMode: () => editorMode,
+	} ) ) );
 
 describe( "AIAssessmentFixesButton", () => {
 	test( "should find the correct aria-label in the document", () => {
@@ -55,6 +61,29 @@ describe( "AIAssessmentFixesButton", () => {
 
 		const buttonWithTooltip = document.getElementsByClassName( "yoast-tooltip yoast-tooltip-w" );
 		expect( buttonWithTooltip ).toHaveLength( 0 );
+	} );
+
+	test( "should be enabled under the default circumstances", () => {
+		render( <AIAssessmentFixesButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button.disabled ).toBeFalsy();
+	} );
+
+	test( "should be disabled in HTML editing mode", () => {
+		mockSelect( "keyphraseDensityAIFixes", "html", [ { clientId: "test" } ] );
+		render( <AIAssessmentFixesButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button.disabled ).toBeTruthy();
+	} );
+
+	test( "should be disabled when one of the blocks is in HTML editing mode", () => {
+		mockSelect( "keyphraseDensityAIFixes", "visual", [ { clientId: "test" }, { clientId: "htmlTest" } ] );
+		render( <AIAssessmentFixesButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button.disabled ).toBeTruthy();
 	} );
 } );
 

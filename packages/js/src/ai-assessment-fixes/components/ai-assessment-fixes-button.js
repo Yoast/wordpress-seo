@@ -12,6 +12,7 @@ import { Paper } from "yoastseo";
 /* Internal dependencies */
 import { ModalContent } from "./modal-content";
 import { SparklesIcon } from "./sparkles-icon";
+import { getAllBlocks } from "../../helpers/getAllBlocks";
 
 /**
  * The AI Assessment Fixes button component.
@@ -30,6 +31,14 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
+
+	// Only enable the button when the editor is in visual mode and all blocks are in visual mode.
+	const allVisual = useSelect( ( select ) => {
+		const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
+		return blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
+	}, [] );
+	const editorMode = useSelect( select => select( "core/edit-post" ).getEditorMode(), [] );
+	const isEnabled = editorMode === "visual" && allVisual;
 
 	/**
 	 * Handles the button press state.
@@ -92,6 +101,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				id={ aiFixesId }
 				className={ `ai-button ${buttonClass}` }
 				pressed={ isButtonPressed }
+				disabled={ ! isEnabled }
 			>
 				<SparklesIcon pressed={ isButtonPressed } />
 				{
