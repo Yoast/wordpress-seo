@@ -56,7 +56,13 @@ export const AiFixAssessmentsUpsell = ( {
 			<div className="yst-px-10 yst-pb-10 yst-flex yst-flex-col yst-items-center">
 				<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
 					<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
-						{ __( "Optimize your SEO content with Yoast AI", "wordpress-seo" ) }
+						{ 
+						/* translators: %s: Yoast AI */
+						sprintf(
+							__( "Optimize your SEO content with %s", "wordpress-seo" ),
+							"Yoast AI"
+						)
+						}
 					</h3>
 					<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
 						{ createInterpolateElement(
