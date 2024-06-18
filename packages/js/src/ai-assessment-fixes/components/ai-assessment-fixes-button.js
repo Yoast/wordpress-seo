@@ -82,6 +82,9 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		setButtonClass( "" );
 	}, [] );
 
+	// Generate a unique gradient ID for the SparklesIcon component.
+	const gradientId = `gradient-${ Math.random().toString( 36 ).substring( 2, 9 ) }`;
+
 	return (
 		<>
 			<IconAIFixesButton
@@ -93,7 +96,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				className={ `ai-button ${buttonClass}` }
 				pressed={ isButtonPressed }
 			>
-				<SparklesIcon pressed={ isButtonPressed } />
+				<SparklesIcon pressed={ isButtonPressed } gradientId={ gradientId } />
 				{
 					// We put the logic for the Upsell component in place.
 					// The Modal below is only a placeholder/mock. When we have the design for the real upsell, the modal should be replaced.
