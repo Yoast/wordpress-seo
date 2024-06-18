@@ -3,6 +3,7 @@ import propTypes from "prop-types";
 /**
  * The AI Assessment Fixes button icon.
  * @param {boolean} pressed Whether the button is pressed.
+ * @param {string} gradientId The gradient ID for the icon.
  * @returns {JSX.Element} The AI Assessment Fixes button icon.
  */
 export const SparklesIcon = ( { pressed = false, gradientId } ) => {
