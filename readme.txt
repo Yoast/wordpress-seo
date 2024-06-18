@@ -329,8 +329,8 @@ Release date: 2024-07-02
 
 #### Other
 
-* Deprecates the following classes: `Wordproof`, `Wordproof_App_Config`, `Wordproof_Helper`, `Wordproof_Integration_Active_Conditional`, `Wordproof_Plugin_Inactive_Conditional`,  `Wordproof_Translations`.
 * Deprecates the Wordproof feature.
+* Deprecates the following classes: `Wordproof`, `Wordproof_App_Config`, `Wordproof_Helper`, `Wordproof_Integration_Active_Conditional`, `Wordproof_Plugin_Inactive_Conditional`,  `Wordproof_Translations`.
 
 = 22.9 =
 
