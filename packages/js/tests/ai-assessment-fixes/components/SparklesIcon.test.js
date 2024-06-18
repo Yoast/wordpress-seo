@@ -15,7 +15,7 @@ const testCases = [
 
 describe.each( testCases )( "SparklesIcon", ( { name, pressed } ) => {
 	test( `should render the SparklesIcon component when ${name}`, () => {
-		const { container } = render( <SparklesIcon pressed={ pressed } gradientId={ "gradient-0kdmaht" }/> );
+		const { container } = render( <SparklesIcon pressed={ pressed } gradientId={ "gradient-0kdmaht" } /> );
 
 		expect( container ).toMatchSnapshot();
 	} );
