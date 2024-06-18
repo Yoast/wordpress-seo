@@ -118,7 +118,8 @@ class KeyphraseDensityAssessment extends Assessment {
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
 		assessmentResult.setHasMarks( this._keyphraseCount.count > 0 );
-		if ( calculatedScore.score < 9 ) {
+		// Only shows the AI button when there is not enough keyphrase density.
+		if ( calculatedScore.score === this._config.scores.underMinimum ) {
 			assessmentResult.setHasAIFixes( true );
 		}
 		return assessmentResult;

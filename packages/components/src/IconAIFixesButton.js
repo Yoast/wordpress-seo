@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
-import IconButtonBase from "./IconButtonBase";
+import AIFixesButton from "./AIFixesButton";
 
 /**
  * Returns the IconAIFixesButton component.
@@ -16,11 +16,13 @@ import IconButtonBase from "./IconButtonBase";
  */
 const IconAIFixesButton = function( props ) {
 	return (
-		<IconButtonBase
+		<AIFixesButton
 			disabled={ props.disabled }
 			type="button"
 			onClick={ props.onClick }
 			pressed={ props.pressed }
+			onMouseEnter={ props.onMouseEnter }
+			onMouseLeave={ props.onMouseLeave }
 			unpressedBoxShadowColor={ props.unpressedBoxShadowColor }
 			pressedBoxShadowColor={ props.pressedBoxShadowColor }
 			pressedBackground={ props.pressedBackground }
@@ -28,13 +30,11 @@ const IconAIFixesButton = function( props ) {
 			id={ props.id }
 			aria-label={ props.ariaLabel }
 			aria-pressed={ props.pressed }
-			unpressedIconColor={ props.unpressedIconColor }
 			pressedIconColor={ props.pressedIconColor }
-			hoverBorderColor={ props.hoverBorderColor }
 			className={ props.className }
 		>
 			{ props.children }
-		</IconButtonBase>
+		</AIFixesButton>
 	);
 };
 
@@ -44,14 +44,14 @@ IconAIFixesButton.propTypes = {
 	id: PropTypes.string.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
 	onClick: PropTypes.func,
+	onMouseEnter: PropTypes.func,
+	onMouseLeave: PropTypes.func,
 	unpressedBoxShadowColor: PropTypes.string,
 	pressedBoxShadowColor: PropTypes.string,
 	pressedBackground: PropTypes.string,
 	unpressedBackground: PropTypes.string,
 	pressedIconColor: PropTypes.string,
-	unpressedIconColor: PropTypes.string,
 	pressed: PropTypes.bool.isRequired,
-	hoverBorderColor: PropTypes.string,
 	className: PropTypes.string,
 };
 
@@ -59,11 +59,12 @@ IconAIFixesButton.defaultProps = {
 	disabled: false,
 	unpressedBoxShadowColor: colors.$color_button_border,
 	pressedBoxShadowColor: colors.$color_purple,
-	pressedBackground: colors.$color_pink_dark,
-	unpressedBackground: colors.$color_button,
+	pressedBackground: "linear- gradient(to bottom right, #A61E69, #3B82F6)",
+	unpressedBackground: "linear-gradient(to bottom right, #FAF3F7, #EFF6FF)",
 	pressedIconColor: colors.$color_white,
-	unpressedIconColor: colors.$color_button_text,
-	hoverBorderColor: colors.$color_white,
+	onClick: () => {},
+	onMouseEnter: () => {},
+	onMouseLeave: () => {},
 };
 
 export default IconAIFixesButton;

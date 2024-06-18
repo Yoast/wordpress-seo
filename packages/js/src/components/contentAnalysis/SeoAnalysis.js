@@ -21,7 +21,7 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
 import isBlockEditor from "../../helpers/isBlockEditor";
-import AIAssessmentFixesButton from "../../ai-assessment-fixes/components/AIAssessmentFixesButton";
+import AIAssessmentFixesButton from "../../ai-assessment-fixes/components/ai-assessment-fixes-button";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
