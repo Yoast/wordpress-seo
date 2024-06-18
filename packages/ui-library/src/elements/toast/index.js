@@ -158,7 +158,7 @@ Toast.propTypes = {
 	className: PropTypes.string,
 	position: PropTypes.string,
 	onDismiss: PropTypes.func,
-	autoDismiss: PropTypes.oneOfType( [ PropTypes.number, null ] ),
+	autoDismiss: PropTypes.number,
 	isVisible: PropTypes.bool.isRequired,
 	setIsVisible: PropTypes.func.isRequired,
 };
