@@ -43,7 +43,7 @@ export const AiFixAssessmentsUpsell = ( {
 						wistiaEmbedPermission={ wistiaEmbedPermission }
 					/>
 					<Badge className="yst-absolute yst-right-0 yst-mr-4 yst-text-center yst-justify-center" variant="info" style={ { top: "-8px" } }>
-						{ __( "Trial", "wordpress-seo-premium" ) }
+						{ __( "Beta", "wordpress-seo-premium" ) }
 					</Badge>
 				</div>
 				<div className="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center">
