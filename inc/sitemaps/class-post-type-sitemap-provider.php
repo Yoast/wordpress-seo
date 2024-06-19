@@ -808,8 +808,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		foreach ( $page_starting_ids as $index => $page_starting_id ) {
 			$next_page_starting_id   = isset( $page_starting_ids[ ( $index + 1 ) ] ) ? ( $page_starting_ids[ ( $index + 1 ) ] ) : null;
 			$map[ $current_page_id ] = [
-				'start' => (int) $page_starting_id,
-				'end'   => $next_page_starting_id ? ( $next_page_starting_id - 1 ) : $max_post_id,
+				'start' => ( $current_page_id === $page_starting_id ) ? $min_post_id : (int) $page_starting_id,
+				'end'   => ( $next_page_starting_id ) ? ( $next_page_starting_id - 1 ) : $max_post_id,
 			];
 			++$current_page_id;
 		}
