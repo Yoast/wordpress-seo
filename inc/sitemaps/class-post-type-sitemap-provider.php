@@ -495,6 +495,46 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
+	 * Gets aggregated data for all pages in a pagination map for a post type.
+	 * Empty pages won't show up in the results.
+	 * Posts with IDs that aren't covered by the pagination map will be added to page 1.
+	 *
+	 * @param array<int, array{start: int, end: int}> $pagination_map The pagination map to use for grouping results.
+	 * @param string                                  $post_type      The post type to get the aggregates for.
+	 *
+	 * @return array{page: int, last_mod_gmt: string}[] An array of aggregates with page. Page numbers start at 1.
+	 */
+	private function get_page_aggregates( $pagination_map, string $post_type ) {
+		global $wpdb;
+
+		if ( empty( $pagination_map ) ) {
+			return [];
+		}
+
+		$where_clause = $this->get_sql_where_clause( $post_type );
+		$cases        = [];
+		$replacements = [];
+		foreach ( $pagination_map as $page_number => $page ) {
+			$cases[] = 'WHEN ID >= %d AND ID <= %d THEN %d';
+			array_push( $replacements, $page['start'], $page['end'], $page_number );
+		}
+
+		$query = $wpdb->prepare(
+			'SELECT
+				CASE ' . implode( ' ', $cases ) . " ELSE 1 END as page,
+				MAX(post_modified_gmt) as last_mod_gmt,
+				COUNT(ID) as count
+		 	FROM {$wpdb->posts}
+				{$where_clause}
+			GROUP by page
+			ORDER BY page ASC",
+			...$replacements
+		);
+
+		return (array) $wpdb->get_results( $query, OBJECT_K );
+	}
+
+	/**
 	 * Gets the first id of the post of all pages.
 	 *
 	 * @param string $post_type        The post type to retrieve posts for.
@@ -855,44 +895,33 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	protected function get_index_links_for_post_type( string $post_type, int $max_entries ): array {
 		$index_links    = [];
 		$pagination_map = $this->get_pagination_map( $post_type, $max_entries );
+		$pages          = $this->get_page_aggregates( $pagination_map, $post_type );
 
-		// Ensure a first page, so we can check for first links.
-		$pages = array_unique( array_merge( [ 1 ], array_keys( $pagination_map ) ) );
-		foreach ( $pages as $page_number ) {
-			$page_link_suffix = ( $page_number > 1 ) ? $page_number : '';
-			$last_mod_gmt     = null;
-			$raw_post_data    = null;
-			if ( isset( $pagination_map[ $page_number ] ) ) {
-				$page_boundaries = $pagination_map[ $page_number ];
-				$raw_post_data = $this->get_raw_post_data( $post_type, $max_entries, $page_boundaries['start'], $page_boundaries['end'] );
-
-				$last_mod_gmt = array_reduce(
-					$raw_post_data,
-					static function ( $carry, $post ) {
-						return max( $post->post_modified_gmt, $carry );
-					},
-					$raw_post_data[0]->post_modified_gmt
-				);
+		// If there's no pages with posts, check for any "first links" to create a page 1 with.
+		if ( empty( $pages ) ) {
+			$first_links = $this->get_first_links( $post_type );
+			if ( ! $first_links ) {
+				return $index_links;
 			}
 
+			$last_mod_gmt = array_reduce( $first_links, [ $this, 'reduce_most_recent_last_mod_for_links' ], ( $first_links[0]['mod'] ?? null ) );
+
+			$index_links[] = [
+				'loc'     => WPSEO_Sitemaps_Router::get_base_url( $post_type . '-sitemap.xml' ),
+				'lastmod' => $last_mod_gmt,
+			];
+		}
+
+		foreach ( $pages as $page_number => $page ) {
+			$page_link_suffix = ( $page_number > 1 ) ? $page_number : '';
+			$last_mod_gmt     = $page->last_mod_gmt;
 			if ( $page_number === 1 ) {
 				$first_links = $this->get_first_links( $post_type );
-
-				if ( ! $first_links && ! $raw_post_data ) {
+				if ( ! $first_links && ! $last_mod_gmt ) {
 					continue;
 				}
 
-				$last_mod_gmt = array_reduce(
-					$first_links,
-					static function ( $carry, $link ) {
-						if ( ! isset( $link['mod'] ) ) {
-							return $carry;
-						}
-
-						return max( $link['mod'], $carry );
-					},
-					$last_mod_gmt
-				);
+				$last_mod_gmt = array_reduce( $first_links, [ $this, 'reduce_most_recent_last_mod_for_links' ], $last_mod_gmt );
 			}
 
 			$index_links[] = [
@@ -902,6 +931,23 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return $index_links;
+	}
+
+	/**
+	 * Returns the most recent last modified date for a set of links.
+	 * Intended to be used with array_reduce.
+	 *
+	 * @param string                              $carry The string representation most recent last modified date. e.g. '2021-02-03 01:02:03'.
+	 * @param array{loc: string, lastmod: string} $link  The link to compare to the carry.
+	 *
+	 * @return string The most recent last modified date.
+	 */
+	private function reduce_most_recent_last_mod_for_links( $carry, $link ) {
+		if ( ! isset( $link['mod'] ) ) {
+			return $carry;
+		}
+
+		return max( $link['mod'], $carry );
 	}
 
 	/**
