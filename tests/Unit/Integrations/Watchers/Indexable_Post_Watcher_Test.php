@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
@@ -55,7 +56,7 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 	/**
 	 * The link builder.
 	 *
-	 * @var Indexable_Link_Builder
+	 * @var Mockery\MockInterface|Indexable_Link_Builder
 	 */
 	protected $link_builder;
 
@@ -65,6 +66,13 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 	 * @var Mockery\MockInterface|Author_Archive_Helper
 	 */
 	private $author_archive;
+
+	/**
+	 * The indexable helper mock.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	private $indexable_helper;
 
 	/**
 	 * Represents the class we are testing.
@@ -100,6 +108,7 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
 		$this->link_builder         = Mockery::mock( Indexable_Link_Builder::class );
 		$this->author_archive       = Mockery::mock( Author_Archive_Helper::class );
+		$this->indexable_helper     = Mockery::mock( Indexable_Helper::class );
 		$this->post                 = Mockery::mock( Post_Helper::class );
 		$this->logger               = Mockery::mock( Logger::class );
 		$this->instance             = Mockery::mock(
@@ -110,6 +119,7 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 				$this->hierarchy_repository,
 				$this->link_builder,
 				$this->author_archive,
+				$this->indexable_helper,
 				$this->post,
 				$this->logger,
 			]
@@ -219,10 +229,6 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 
 		$indexable_mock = Mockery::mock( Indexable_Mock::class );
 
-		$indexable_mock
-			->expects( 'save' )
-			->once();
-
 		$this->repository
 			->expects( 'find_by_id_and_type' )
 			->once()
@@ -251,6 +257,11 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'build' )
 			->once()
 			->with( $indexable_mock, $post_content );
+
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->with( $indexable_mock )
+			->once();
 
 		$this->instance
 			->expects( 'update_has_public_posts' )
@@ -328,7 +339,6 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 		];
 
 		$indexable_mock = Mockery::mock( Indexable_Mock::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $post_id, 'post', false )->andReturn( false );
 		$this->builder->expects( 'build_for_id_and_type' )->once()->with( $post_id, 'post', false )->andReturn( $indexable_mock );
@@ -348,6 +358,11 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'get_public_post_statuses' )
 			->once()
 			->andReturn( [ 'publish' ] );
+
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->with( $indexable_mock )
+			->once();
 
 		$this->instance
 			->expects( 'update_has_public_posts' )
@@ -404,7 +419,11 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 			->with( 11 )
 			->once()
 			->andReturn( true );
-		$author_indexable->expects( 'save' )->once();
+
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->with( $author_indexable )
+			->once();
 
 		$this->post->expects( 'update_has_public_posts_on_attachments' )->once()->with( 33, null )->andReturnTrue();
 
@@ -490,8 +509,6 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 		$author_indexable            = Mockery::mock( Indexable_Mock::class );
 		$author_indexable->object_id = 11;
 
-		$author_indexable->expects( 'save' );
-
 		$this->repository->expects( 'find_by_id_and_type' )
 			->with( 11, 'user' )
 			->once()
@@ -499,6 +516,12 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 		$this->author_archive->expects( 'author_has_public_posts' )
 			->with( 11 )
 			->andReturnFalse();
+
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->with( $author_indexable )
+			->once();
+
 		$this->post->expects( 'update_has_public_posts_on_attachments' )
 			->once()
 			->with( 33, null )
@@ -531,13 +554,17 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 
 		$indexable                       = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_last_modified = '1234-12-12 00:00:00';
-		$indexable->expects( 'save' )->once();
 
 		$this->instance
 			->expects( 'get_related_indexables' )
 			->once()
 			->with( $post )
 			->andReturn( [ $indexable ] );
+
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->with( $indexable )
+			->once();
 
 		$this->instance->update_relations( $post );
 

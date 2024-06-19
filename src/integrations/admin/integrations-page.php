@@ -171,8 +171,6 @@ class Integrations_Page implements Integration_Interface {
 				'allow_algolia_integration'          => $this->options_helper->get( 'allow_algolia_integration_active', true ),
 				'wincher_integration_active'         => $this->options_helper->get( 'wincher_integration_active', true ),
 				'allow_wincher_integration'          => null,
-				'wordproof_integration_active'       => $this->options_helper->get( 'wordproof_integration_active', true ),
-				'allow_wordproof_integration'        => null,
 				'elementor_integration_active'       => $elementor_conditional->is_met(),
 				'jetpack_integration_active'         => $jetpack_conditional->is_met(),
 				'woocommerce_seo_installed'          => $woocommerce_seo_installed,
