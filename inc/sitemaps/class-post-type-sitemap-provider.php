@@ -795,6 +795,16 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$current_page_id = max( $starting_page, 1 );
 
 		$page_starting_ids = $this->get_raw_page_data( $post_type, $max_entries_per_page, $min_post_id );
+		// If there's no data, we'll create a single page that would encompass all posts in case they would become visible in the sitemap.
+		if ( empty( $page_starting_ids ) ) {
+			return [
+				$current_page_id => [
+					'start' => $min_post_id,
+					'end'   => $max_post_id,
+				],
+			];
+		}
+
 		foreach ( $page_starting_ids as $index => $page_starting_id ) {
 			$next_page_starting_id   = isset( $page_starting_ids[ ( $index + 1 ) ] ) ? ( $page_starting_ids[ ( $index + 1 ) ] ) : null;
 			$map[ $current_page_id ] = [
