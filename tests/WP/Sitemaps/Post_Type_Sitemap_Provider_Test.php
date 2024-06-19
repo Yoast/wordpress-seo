@@ -123,12 +123,10 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_index_links_empty_bucket() {
-
 		$this->factory->post->create();
 		$this->excluded_posts = [ $this->factory->post->create() ]; // Remove this post.
 		$this->factory->post->create();
 
-		\add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'exclude_post' ] );
 		\add_filter( 'wpseo_sitemap_entries_per_page', [ $this, 'return_one' ] );
 
 		// Fetch the global sitemap.
@@ -137,8 +135,14 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 		// Set the page to the second one, which should not contain an entry, but should exist.
 		\set_query_var( 'sitemap_n', '2' );
 
-		// Load the sitemap.
+		// Load the sitemap to generate and store the pagination map.
 		$sitemaps = new Sitemaps_Double();
+		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
+
+		$this->expectOutputContains( \get_permalink( $this->excluded_posts[0] ) );
+
+		// Now exclude the only post on page 2.
+		\add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'exclude_post' ] );
 		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
 
 		// Expect an empty list to be output.
