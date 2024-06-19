@@ -545,8 +545,33 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_raw_page_data( $post_type, $entries_per_page, $starting_post_id ) {
 		global $wpdb;
-
 		$where = $this->get_sql_where_clause( $post_type );
+
+		// Run a different query for MySQL 8.0 and up. It's ever so slightly faster than the 5.7 alternative and doesn't produce a warning.
+		// It is, however, not compatible with mysql < 8.0.
+		if ( version_compare( $wpdb->db_version(), '8.0', '>=' ) ) {
+			return $wpdb->get_col(
+				$wpdb->prepare(
+					"
+						WITH pages AS (SELECT ROW_NUMBER() OVER (ORDER BY %i.ID) AS n, %i.ID as first_id_on_page
+						FROM %i USE INDEX ( `type_status_date` )
+						{$where}
+							AND %i.ID >= %d
+						ORDER BY %i.ID ASC)
+						SELECT first_id_on_page
+						FROM `pages`
+						WHERE MOD(n-1, %d) = 0
+					",
+					$wpdb->posts,
+					$wpdb->posts,
+					$wpdb->posts,
+					$wpdb->posts,
+					$starting_post_id,
+					$wpdb->posts,
+					$entries_per_page
+				)
+			);
+		}
 
 		/*
 		 * Optimized query per this thread:
@@ -566,6 +591,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			o JOIN {$wpdb->posts} l ON l.ID = o.ID
 			WHERE (@rownum:=@rownum+1) %% %d = 0
 		";
+
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.DirectQuery -- Can't do this with WP queries. Caching is done on the sitemap level.
 		return $wpdb->get_col( $wpdb->prepare( $sql, $starting_post_id, $entries_per_page ) );
 		// phpcs:enable
