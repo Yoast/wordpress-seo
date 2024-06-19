@@ -487,8 +487,10 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 			]
 		);
 
-		$this->expectException( OutOfBoundsException::class );
-		self::$class_instance->get_sitemap_links( 'attachment', 100, 1 );
+		$actual_urls = \wp_list_pluck( self::$class_instance->get_sitemap_links( 'attachment', 100, 1 ), 'loc' );
+
+		// Expect the attachment not to be added to the list.
+		$this->assertCount( 0, $actual_urls );
 	}
 
 	/**
