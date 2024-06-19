@@ -138,8 +138,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			throw $e;
 		}
 
-		$posts_to_exclude = $this->get_excluded_posts( $type );
-		$start_post_id    = $page_boundaries['start'];
+		$start_post_id = $page_boundaries['start'];
 		while ( $start_post_id <= $page_boundaries['end'] ) {
 			$posts = $this->get_posts( $post_type, $max_entries, $start_post_id, $page_boundaries['end'] );
 			if ( empty( $posts ) ) {
@@ -150,10 +149,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$start_post_id = ( $last_id + 1 );
 
 			foreach ( $posts as $post ) {
-				if ( in_array( $post->ID, $posts_to_exclude, true ) ) {
-					continue;
-				}
-
 				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
 					continue;
 				}
@@ -546,6 +541,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	protected function get_sql_where_clause( $post_type ) {
 
 		global $wpdb;
+		$posts_to_exclude = $this->get_excluded_posts( $post_type );
 
 		$join          = '';
 		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
@@ -566,7 +562,11 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				AND {$wpdb->posts}.post_date != '0000-00-00 00:00:00'
 		";
 
-		return $wpdb->prepare( $where_clause, $post_type );
+		if ( count( $posts_to_exclude ) > 0 ) {
+				$where_clause .= "AND {$wpdb->posts}.ID NOT IN (" . implode( ', ', array_fill( 0, count( $posts_to_exclude ), '%d' ) ) . ')';
+		}
+
+		return $wpdb->prepare( $where_clause, $post_type, ...$posts_to_exclude );
 	}
 
 	/**
