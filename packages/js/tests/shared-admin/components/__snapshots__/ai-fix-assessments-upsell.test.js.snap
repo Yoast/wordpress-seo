@@ -23,7 +23,7 @@ exports[`AiFixAssessmentsUpsell renders the component correctly 1`] = `
         class="yst-badge yst-badge--info yst-absolute yst-right-0 yst-mr-4 yst-text-center yst-justify-center"
         style="top: -8px;"
       >
-        Trial
+        Beta
       </span>
     </div>
     <div
