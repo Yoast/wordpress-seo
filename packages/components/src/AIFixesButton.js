@@ -7,23 +7,23 @@ const yoastPrimary100 = "#F3E5ED";
 const yoastPrimary300 = "#CD82AB";
 const yoastPrimary400 = "#B94986";
 const yoastPrimary500 = "#A61E69";
-const blue50 = "#EFF6FF";
-const blue100 = "#DBEAFE";
-const blue300 = "#93C5FD";
-const blue500 = "#3B82F6";
+const yoastIndigo50 = "#EEF2FF";
+const yoastIndigo100 = "#E0E7FF";
+const yoastIndigo300 = "#A5B4FC";
+const yoastIndigo500 = "#6366F1";
 
 const direction = "to bottom right";
 
 const gradientEffect = {
-	defaultStateBackground: `linear-gradient(${direction}, ${yoastPrimary50}, ${blue50})`,
-	defaultStateBorder: `linear-gradient(${direction}, ${yoastPrimary300}, ${blue300}) 1`,
-	hoverStateBackground: `linear-gradient(${direction}, ${yoastPrimary100}, ${blue100})`,
-	pressedStateBackground: `linear-gradient(${direction}, ${yoastPrimary500}, ${blue500})`,
+	defaultStateBackground: `linear-gradient(${direction}, ${yoastPrimary50}, ${yoastIndigo50})`,
+	defaultStateBorder: `linear-gradient(${direction}, ${yoastPrimary300}, ${yoastIndigo300}) 1`,
+	hoverStateBackground: `linear-gradient(${direction}, ${yoastPrimary100}, ${yoastIndigo100})`,
+	pressedStateBackground: `linear-gradient(${direction}, ${yoastPrimary500}, ${yoastIndigo500})`,
 };
 
 const AIFixesButtonBase = styled( IconButtonBase )`
 	overflow: hidden;
-	border: ${ props => props.pressed ? "none" : "1px solid #A5B4FC" }; /*indigo-300*/
+	border: ${ props => props.pressed ? "none" : `1px solid ${yoastIndigo300}` }; /*indigo-300*/
 	background-image: ${ props => props.pressed
 		? gradientEffect.pressedStateBackground
 		: gradientEffect.defaultStateBackground } !important;
