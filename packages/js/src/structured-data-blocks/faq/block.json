@@ -40,5 +40,11 @@
     }
   },
   "editorScript": "yoast-seo-faq-block",
-  "editorStyle": "yoast-seo-structured-data-blocks"
+  "editorStyle": "yoast-seo-structured-data-blocks",
+  "supports": {
+    "interactivity": true
+  },
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScriptModule": "file:./view.js"
 }
