@@ -30,29 +30,31 @@ class Import_Cursor_Helper {
 	 *
 	 * @param string $cursor_id     The cursor id.
 	 * @param mixed  $default_value The default value if no cursor has been set yet.
+	 * @param string $option_name   The option name to store the cursor in.
 	 *
 	 * @return int The stored cursor value.
 	 */
-	public function get_cursor( $cursor_id, $default_value = 0 ) {
-		$import_cursors = $this->options->get( 'import_cursors', [] );
+	public function get_cursor( $cursor_id, $default_value = 0, $option_name = 'import_cursors' ) {
+		$cursors = $this->options->get( $option_name, [] );
 
-		return ( isset( $import_cursors[ $cursor_id ] ) ) ? $import_cursors[ $cursor_id ] : $default_value;
+		return ( isset( $cursors[ $cursor_id ] ) ) ? $cursors[ $cursor_id ] : $default_value;
 	}
 
 	/**
 	 * Stores the current cursor value.
 	 *
 	 * @param string $cursor_id        The cursor id.
-	 * @param int    $last_imported_id The id of the lastly imported entry.
+	 * @param int    $last_processed_id The id of the lastly imported entry.
+	 * @param string $option_name      The option name to store the cursor in.
 	 *
 	 * @return void
 	 */
-	public function set_cursor( $cursor_id, $last_imported_id ) {
-		$current_cursors = $this->options->get( 'import_cursors', [] );
+	public function set_cursor($cursor_id, $last_processed_id, $option_name = 'import_cursors' ) {
+		$current_cursors = $this->options->get( $option_name, [] );
 
-		if ( ! isset( $current_cursors[ $cursor_id ] ) || $current_cursors[ $cursor_id ] < $last_imported_id ) {
-			$current_cursors[ $cursor_id ] = $last_imported_id;
-			$this->options->set( 'import_cursors', $current_cursors );
+		if ( ! isset( $current_cursors[ $cursor_id ] ) || $current_cursors[ $cursor_id ] < $last_processed_id ) {
+			$current_cursors[ $cursor_id ] = $last_processed_id;
+			$this->options->set( $option_name, $current_cursors );
 		}
 	}
 }

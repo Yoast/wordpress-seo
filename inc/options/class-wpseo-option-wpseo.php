@@ -142,6 +142,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'new_post_types'                           => [],
 		'new_taxonomies'                           => [],
 		'show_new_content_type_notification'       => false,
+		'migration_cursors'				  => [],
 	];
 
 	/**
@@ -416,6 +417,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'last_known_public_taxonomies':
 				case 'new_post_types':
 				case 'new_taxonomies':
+				case 'migration_cursors':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
@@ -447,6 +449,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 				case 'import_cursors':
 				case 'importing_completed':
+				case 'migration_cursors':
 					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
