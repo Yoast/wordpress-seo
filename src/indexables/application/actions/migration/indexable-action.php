@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Indexables\Application\Actions\Migration;
 
-use WP_CLI\Utils;
 use WPSEO_Utils;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
@@ -37,14 +36,13 @@ class Indexable_Action implements Migration_Interface {
 	 * @param string $old_url The old URL.
 	 * @param string $new_url The new URL.
 	 *
-	 * @return Indexable[] The created indexables.
+	 * @return int The number of migrated indexables.
 	 */
-	public function migrate( $old_url, $new_url ): void {
+	public function migrate( $old_url, $new_url ): int {
 		global $wpdb;
 
 		$last_migrated_id = $this->cursor_helper->get_cursor( $this->get_table(), 0, self::MIGRATION_CURSOR );
 		$rows             = $this->get_replace_query( $this->get_limit() );
-		$progress         = Utils\make_progress_bar( 'Migrating ' . 'Indexables', \count( $rows ) );
 		foreach ( $rows as $indexable_row ) {
 			$indexable_row['permalink']      = \str_replace( $old_url, $new_url, $indexable_row['permalink'] );
 			$indexable_row['permalink_hash'] = \strlen( $indexable_row['permalink'] ) . ':' . \md5( $indexable_row['permalink'] );
@@ -76,15 +74,15 @@ class Indexable_Action implements Migration_Interface {
 					$indexable_row['id'],
 				]
 			);
-			$progress->tick( 1 );
 			$result = $wpdb->query( $query );
 
 			if ( $result ) {
 				$last_migrated_id = $indexable_row['id'];
 			}
 		}
-		$progress->finish();
 		$this->cursor_helper->set_cursor( $this->get_table(), $last_migrated_id, self::MIGRATION_CURSOR );
+
+		return \count( $rows );
 	}
 
 	/**
@@ -98,7 +96,7 @@ class Indexable_Action implements Migration_Interface {
 		 *
 		 * @param int $limit The maximum number of posts indexed.
 		 */
-		$limit = \apply_filters( 'wpseo_indexable_migration_limit', 1 );
+		$limit = \apply_filters( 'wpseo_indexable_migration_limit', 25 );
 
 		if ( ! \is_int( $limit ) || $limit < 1 ) {
 			$limit = 25;
@@ -145,6 +143,26 @@ class Indexable_Action implements Migration_Interface {
 		);
 
 		return $wpdb->get_results( $prepared_query, ARRAY_A );
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	}
+
+	/**
+	 * Returns how many rows need to be migrated.
+	 *
+	 * @return int The number of rows to be migrated.
+	 */
+	public function get_total_unmigrated(): int {
+		global $wpdb;
+		$count_query = $wpdb->prepare(
+			"SELECT count(*) FROM %i",
+			[ $this->get_table() ]
+		);
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		return $wpdb->get_col( $count_query )[0];
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 }

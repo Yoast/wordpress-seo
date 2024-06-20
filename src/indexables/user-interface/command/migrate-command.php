@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Indexables\User_Interface\Command;
 
+use WP_CLI\Utils;
 use Yoast\WP\SEO\Commands\Command_Interface;
 use Yoast\WP\SEO\Indexables\Application\Actions\Migration\Indexable_Action;
 use Yoast\WP\SEO\Main;
@@ -51,6 +52,18 @@ class Migrate_Command implements Command_Interface {
 		if ( ! isset( $assoc_args['old-url'] ) || ! isset( $assoc_args['new-url'] )  ) {
 			return;
 		}
-		$this->indexable_action->migrate( $assoc_args['old-url'], $assoc_args['new-url'] );
+		
+		$total = $this->indexable_action->get_total_unmigrated();
+		if ( $total > 0 ) {
+			$limit    = $this->indexable_action->get_limit();
+			$progress = Utils\make_progress_bar( 'Migrating indexables', $total );
+			do {
+				$indexables = $this->indexable_action->migrate( $assoc_args['old-url'], $assoc_args['new-url'] );
+				$progress->tick( $indexables );
+				\usleep( $interval );
+				Utils\wp_clear_object_cache();
+			} while ( $indexables >= $limit );
+			$progress->finish();
+		}
 	}
 }

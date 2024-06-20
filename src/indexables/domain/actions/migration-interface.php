@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\Indexables\Domain\Actions;
  */
 interface Migration_Interface  {
 
-	public function migrate( $old_url, $new_url ): void;
+	public function migrate( $old_url, $new_url ): int;
 
 	public function get_limit( ): int;
 
