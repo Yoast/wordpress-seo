@@ -12,4 +12,6 @@ interface Migration_Interface  {
 	public function get_limit( ): int;
 
 	public function get_table(): string;
+
+	public function get_name(): string;
 }
