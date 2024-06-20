@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong, Yoast.NamingConventions.NamespaceName.MaxExceeded -- We want to follow the directory structure.
 namespace Yoast\WP\SEO\Indexables\Application\Actions\Migration;
 
 use Yoast\WP\Lib\Model;
@@ -12,6 +13,10 @@ use Yoast\WP\SEO\Models\SEO_Links;
  * The indexable action class.
  */
 class Link_Action implements Migration_Interface {
+	/**
+	 * The migration cursor option name.
+	 */
+	private const MIGRATION_CURSOR = 'migration_cursors';
 
 	/**
 	 * The transient cache key.
@@ -20,10 +25,10 @@ class Link_Action implements Migration_Interface {
 	 */
 	private $cursor_helper;
 
-	private const MIGRATION_CURSOR = 'migration_cursors';
-
 	/**
-	 * @param Import_Cursor_Helper $cursor_helper
+	 * The constructor.
+	 *
+	 * @param Import_Cursor_Helper $cursor_helper The Cursor helper.
 	 */
 	public function __construct( Import_Cursor_Helper $cursor_helper ) {
 		$this->cursor_helper = $cursor_helper;
@@ -37,27 +42,30 @@ class Link_Action implements Migration_Interface {
 	 *
 	 * @return int The number of migrated indexables.
 	 */
-	public function migrate( $old_url, $new_url ): int {
+	public function migrate( string $old_url, string $new_url ): int {
 		global $wpdb;
 
 		$last_migrated_id = $this->cursor_helper->get_cursor( $this->get_table(), 0, self::MIGRATION_CURSOR );
 		$rows             = $this->get_replace_query( $this->get_limit() );
 		foreach ( $rows as $link_row ) {
-			$link_row['url']      = \str_replace( $old_url, $new_url, $link_row['url'] );
-			$query = $wpdb->prepare(
-				"
+			$link_row['url'] = \str_replace( $old_url, $new_url, $link_row['url'] );
+			//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+			//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+			$result = $wpdb->query(
+				$wpdb->prepare(
+					'
 				UPDATE %i
 				SET %i.url = %s
-				WHERE %i.id = %d",
-				[
-					$this->get_table(),
-					$this->get_table(),
-					$link_row['url'],
-					$this->get_table(),
-					$link_row['id'],
-				]
+				WHERE %i.id = %d',
+					[
+						$this->get_table(),
+						$this->get_table(),
+						$link_row['url'],
+						$this->get_table(),
+						$link_row['id'],
+					]
+				)
 			);
-			$result = $wpdb->query( $query );
 
 			if ( $result ) {
 				$last_migrated_id = $link_row['id'];
@@ -88,12 +96,21 @@ class Link_Action implements Migration_Interface {
 		return $limit;
 	}
 
+	/**
+	 * The table name of the object to migrate.
+	 *
+	 * @return string
+	 */
 	public function get_table(): string {
 		return Model::get_table_name( 'SEO_Links' );
 	}
 
-	public function get_name(): string
-	{
+	/**
+	 * The name to display in the CLI.
+	 *
+	 * @return string
+	 */
+	public function get_name(): string {
 		return 'links';
 	}
 
@@ -124,14 +141,15 @@ class Link_Action implements Migration_Interface {
 			$limit_statement = ' LIMIT %d';
 		}
 
-
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
-		$prepared_query = $wpdb->prepare(
-			"SELECT id, url FROM  %i WHERE id > %d AND type in (%s, %s) ORDER BY id{$limit_statement}",
-			$replacements
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+		return $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT id, url FROM  %i WHERE id > %d AND type in (%s, %s) ORDER BY id{$limit_statement}",
+				$replacements
+			),
+			\ARRAY_A
 		);
-
-		return $wpdb->get_results( $prepared_query, ARRAY_A );
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 
@@ -143,7 +161,7 @@ class Link_Action implements Migration_Interface {
 	public function get_total_unmigrated(): int {
 		global $wpdb;
 		$count_query = $wpdb->prepare(
-			"SELECT count(*) FROM %i",
+			'SELECT count(*) FROM %i',
 			[ $this->get_table() ]
 		);
 		// phpcs:enable

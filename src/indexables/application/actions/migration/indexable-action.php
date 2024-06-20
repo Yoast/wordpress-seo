@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong, Yoast.NamingConventions.NamespaceName.MaxExceeded -- We want to follow the directory structure.
 namespace Yoast\WP\SEO\Indexables\Application\Actions\Migration;
 
 use WPSEO_Utils;
@@ -12,18 +13,22 @@ use Yoast\WP\SEO\Indexables\Domain\Actions\Migration_Interface;
  * The indexable action class.
  */
 class Indexable_Action implements Migration_Interface {
+	/**
+	 * The migration cursor option name.
+	 */
+	private const MIGRATION_CURSOR = 'migration_cursors';
 
 	/**
-	 * The transient cache key.
+	 * The Import_Cursor_Helper.
 	 *
 	 * @var Import_Cursor_Helper
 	 */
 	private $cursor_helper;
 
-	private const MIGRATION_CURSOR = 'migration_cursors';
-
 	/**
-	 * @param Import_Cursor_Helper $cursor_helper
+	 * The constructor.
+	 *
+	 * @param Import_Cursor_Helper $cursor_helper The Cursor helper.
 	 */
 	public function __construct( Import_Cursor_Helper $cursor_helper ) {
 		$this->cursor_helper = $cursor_helper;
@@ -52,28 +57,30 @@ class Indexable_Action implements Migration_Interface {
 				$indexable_row['open_graph_image'] = \str_replace( $old_url, $new_url, $indexable_row['open_graph_image'] );
 			}
 			if ( $indexable_row['open_graph_image_meta'] !== null ) {
-				$unpacked_open_graph_image_meta = json_decode($indexable_row['open_graph_image_meta']);
-				$unpacked_open_graph_image_meta->url = \str_replace( $old_url, $new_url, $unpacked_open_graph_image_meta->url );
-				$indexable_row['open_graph_image_meta'] = WPSEO_Utils::format_json_encode($unpacked_open_graph_image_meta);
+				$unpacked_open_graph_image_meta         = \json_decode( $indexable_row['open_graph_image_meta'] );
+				$unpacked_open_graph_image_meta->url    = \str_replace( $old_url, $new_url, $unpacked_open_graph_image_meta->url );
+				$indexable_row['open_graph_image_meta'] = WPSEO_Utils::format_json_encode( $unpacked_open_graph_image_meta );
 			}
-
-			$query = $wpdb->prepare(
-				"
+			//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+			//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+			$result = $wpdb->query(
+				$wpdb->prepare(
+					'
 				UPDATE %i
 				SET %i.permalink = %s,
 					%i.permalink_hash = %s
-				WHERE %i.id = %d",
-				[
-					$this->get_table(),
-					$this->get_table(),
-					$indexable_row['permalink'],
-					$this->get_table(),
-					$indexable_row['permalink_hash'],
-					$this->get_table(),
-					$indexable_row['id'],
-				]
+				WHERE %i.id = %d',
+					[
+						$this->get_table(),
+						$this->get_table(),
+						$indexable_row['permalink'],
+						$this->get_table(),
+						$indexable_row['permalink_hash'],
+						$this->get_table(),
+						$indexable_row['id'],
+					]
+				)
 			);
-			$result = $wpdb->query( $query );
 
 			if ( $result ) {
 				$last_migrated_id = $indexable_row['id'];
@@ -104,12 +111,21 @@ class Indexable_Action implements Migration_Interface {
 		return $limit;
 	}
 
+	/**
+	 * The table name of the object to migrate.
+	 *
+	 * @return string
+	 */
 	public function get_table(): string {
 		return Model::get_table_name( 'Indexable' );
 	}
 
-	public function get_name(): string
-	{
+	/**
+	 * The name to display in the CLI.
+	 *
+	 * @return string
+	 */
+	public function get_name(): string {
 		return 'indexables';
 	}
 
@@ -141,13 +157,14 @@ class Indexable_Action implements Migration_Interface {
 		}
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
-		$prepared_query = $wpdb->prepare(
-			"SELECT id, permalink, permalink_hash,twitter_image,open_graph_image,open_graph_image_meta FROM {$table_name} WHERE id > %d ORDER BY id{$limit_statement}",
-			$replacements
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+		return $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT id, permalink, permalink_hash,twitter_image,open_graph_image,open_graph_image_meta FROM {$table_name} WHERE id > %d ORDER BY id{$limit_statement}",
+				$replacements
+			),
+			\ARRAY_A
 		);
-
-		return $wpdb->get_results( $prepared_query, ARRAY_A );
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 
 	/**
@@ -158,7 +175,7 @@ class Indexable_Action implements Migration_Interface {
 	public function get_total_unmigrated(): int {
 		global $wpdb;
 		$count_query = $wpdb->prepare(
-			"SELECT count(*) FROM %i",
+			'SELECT count(*) FROM %i',
 			[ $this->get_table() ]
 		);
 		// phpcs:enable

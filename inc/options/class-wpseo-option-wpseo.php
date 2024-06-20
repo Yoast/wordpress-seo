@@ -142,7 +142,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'new_post_types'                           => [],
 		'new_taxonomies'                           => [],
 		'show_new_content_type_notification'       => false,
-		'migration_cursors'				  => [],
+		'migration_cursors'                        => [],
 	];
 
 	/**
