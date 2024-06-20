@@ -5,12 +5,11 @@ namespace Yoast\WP\SEO\Indexables\Application\Actions\Migration;
 use WPSEO_Utils;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
-use Yoast\WP\SEO\Models\Indexable;
-
 use Yoast\WP\SEO\Indexables\Domain\Actions\Migration_Interface;
 
+
 /**
- * The indexable action class..
+ * The indexable action class.
  */
 class Indexable_Action implements Migration_Interface {
 
@@ -107,6 +106,11 @@ class Indexable_Action implements Migration_Interface {
 
 	public function get_table(): string {
 		return Model::get_table_name( 'Indexable' );
+	}
+
+	public function get_name(): string
+	{
+		return 'indexables';
 	}
 
 	/**
