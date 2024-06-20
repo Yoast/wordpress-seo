@@ -32,6 +32,14 @@ class Migrate_Command implements Command_Interface {
 	/**
 	 * Indexes all your content to ensure the best performance.
 	 *
+	 * ## OPTIONS
+	 *
+	 * [--old-url]
+	 * : The old URL we want to migrate from.
+	 *
+	 * [--new-url]
+	 * : The new URL we want to migrate to.
+	 *
 	 * @when after_wp_load
 	 *
 	 * @param array|null $args       The arguments.
@@ -40,6 +48,9 @@ class Migrate_Command implements Command_Interface {
 	 * @return void
 	 */
 	public function migrate( $args = null, $assoc_args = null ) {
-		$this->indexable_action->migrate();
+		if ( ! isset( $assoc_args['old-url'] ) || ! isset( $assoc_args['new-url'] )  ) {
+			return;
+		}
+		$this->indexable_action->migrate( $assoc_args['old-url'], $assoc_args['new-url'] );
 	}
 }

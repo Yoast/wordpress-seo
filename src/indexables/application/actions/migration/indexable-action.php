@@ -32,12 +32,43 @@ class Indexable_Action implements Migration_Interface {
 	/**
 	 * Creates indexables for unindexed posts.
 	 *
+	 * @param string $old_url The old URL.
+	 * @param string $new_url The new URL.
+	 *
 	 * @return Indexable[] The created indexables.
 	 */
-	public function migrate(): void {
-		foreach (  $this->get_replace_query( $this->get_limit() )  as $indexable_row ) {
-			echo "test";
+	public function migrate( $old_url, $new_url ): void {
+		global $wpdb;
+
+		$last_migrated_id = $this->cursor_helper->get_cursor( $this->get_table() );
+
+		foreach ( $this->get_replace_query( $this->get_limit() ) as $indexable_row ) {
+			$indexable_row['permalink'] = \str_replace( $old_url, $new_url, $indexable_row['permalink'] );
+			$indexable_row['permalink_hash'] = \strlen( $indexable_row['permalink'] ) . ':' . \md5( $indexable_row['permalink'] );
+
+			// $migration_query = $wpdb->prepare(
+			// 	"UPDATE {$table_name} SET permalink=%s, permalink_hash=%s FROM  WHERE id > %d ORDER BY id{$limit_statement}",
+			// 	$replacements
+			// );
+
+			$query = $wpdb->prepare(
+				"
+				UPDATE %i
+				SET %i.permalink = %s,
+					%i.permalink_hash = %s
+				WHERE %i.id = %d",
+				[ $this->get_table(), $this->get_table(), $indexable_row['permalink'], $this->get_table(), $indexable_row['permalink_hash'], $this->get_table(), $indexable_row['id'] ]
+			);
+
+			$result = $wpdb->query( $query );
+
+			if ( $result ) {
+				$last_migrated_id = $indexable_row['id'];
+			}
+
 		}
+
+		$this->cursor_helper->set_cursor( $this->get_table(), $last_migrated_id );
 	}
 
 	/**
