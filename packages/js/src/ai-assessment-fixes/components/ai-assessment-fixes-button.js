@@ -5,13 +5,12 @@ import { doAction } from "@wordpress/hooks";
 import { useSelect, useDispatch } from "@wordpress/data";
 
 /* Yoast dependencies */
-import { IconAIFixesButton } from "@yoast/components";
+import { IconAIFixesButton, SparklesIcon } from "@yoast/components";
 import { Modal, useToggleState } from "@yoast/ui-library";
 import { Paper } from "yoastseo";
 
 /* Internal dependencies */
 import { ModalContent } from "./modal-content";
-import { SparklesIcon } from "./sparkles-icon";
 
 /**
  * The AI Assessment Fixes button component.
