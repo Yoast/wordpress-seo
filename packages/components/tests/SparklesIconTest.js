@@ -1,5 +1,6 @@
-import { render } from "../../test-utils";
-import { SparklesIcon } from "../../../src/ai-assessment-fixes/components/sparkles-icon";
+import React from "react";
+import renderer from "react-test-renderer";
+import { SparklesIcon } from "../src/SparklesIcon";
 
 const testCases = [
 	{
@@ -14,13 +15,14 @@ const testCases = [
 
 describe.each( testCases )( "SparklesIcon", ( { name, pressed } ) => {
 	test( `should render the SparklesIcon component when ${name}`, () => {
-
 		// Mock Math.random to return a constant value for the gradient id.
-		jest.spyOn(global.Math, 'random').mockReturnValue("000kdmaht");
+		jest.spyOn( global.Math, "random" ).mockReturnValue( "000kdmaht" );
 
-		const { container } = render( <SparklesIcon pressed={ pressed } /> );
-
-		expect( container ).toMatchSnapshot();
+		const component = renderer.create(
+			<SparklesIcon pressed={ pressed } />
+		);
+		const tree = component.toJSON();
+		expect( tree ).toMatchSnapshot();
 
 		// Clean up the mock to ensure tests are completely isolated.
 		global.Math.random.mockRestore();
