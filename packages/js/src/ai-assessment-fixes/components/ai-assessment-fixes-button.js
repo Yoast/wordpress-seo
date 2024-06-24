@@ -33,12 +33,15 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const [ buttonClass, setButtonClass ] = useState( "" );
 
 	// Only enable the button when the editor is in visual mode and all blocks are in visual mode.
-	const allVisual = useSelect( ( select ) => {
+	const isEnabled = useSelect( ( select ) => {
+		const editorMode = select( "core/edit-post" ).getEditorMode();
+		if ( editorMode !== "visual" ) {
+			return false;
+		}
+
 		const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
 		return blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
 	}, [] );
-	const editorMode = useSelect( select => select( "core/edit-post" ).getEditorMode(), [] );
-	const isEnabled = editorMode === "visual" && allVisual;
 
 	/**
 	 * Handles the button press state.
