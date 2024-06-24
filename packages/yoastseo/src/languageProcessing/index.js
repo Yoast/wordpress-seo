@@ -38,27 +38,6 @@ import { findWordFormsInString } from "./helpers/match/findKeywordFormsInString"
 import { collectMarkingsInSentence, markWordsInSentences } from "./helpers/word/markWordsInSentences";
 import * as helpers from "./helpers";
 import * as researches from "./researches";
-import wordComplexityHelperEnglish from "./languages/en/helpers/checkIfWordIsComplex";
-import wordComplexityHelperGerman from "./languages/de/helpers/checkIfWordIsComplex";
-import wordComplexityHelperSpanish from "./languages/es/helpers/checkIfWordIsComplex";
-import wordComplexityHelperFrench from "./languages/fr/helpers/checkIfWordIsComplex";
-import wordComplexityConfigEnglish from "./languages/en/config/wordComplexity";
-import wordComplexityConfigGerman from "./languages/de/config/wordComplexity";
-import wordComplexityConfigSpanish from "./languages/es/config/wordComplexity";
-import wordComplexityConfigFrench from "./languages/fr/config/wordComplexity";
-
-const languageHelpers = {
-	wordComplexityHelperEnglish,
-	wordComplexityHelperGerman,
-	wordComplexityHelperSpanish,
-	wordComplexityHelperFrench,
-};
-const languageConfigs = {
-	wordComplexityConfigEnglish,
-	wordComplexityConfigGerman,
-	wordComplexityConfigSpanish,
-	wordComplexityConfigFrench,
-};
 
 export {
 	AbstractResearcher,
@@ -104,6 +83,4 @@ export {
 	markWordsInSentences,
 	helpers,
 	researches,
-	languageHelpers,
-	languageConfigs,
 };

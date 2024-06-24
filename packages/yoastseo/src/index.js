@@ -7,11 +7,12 @@ import * as interpreters from "./scoring/interpreters";
 import * as config from "./config";
 import * as languageProcessing from "./languageProcessing";
 import * as values from "./values";
+import * as assessors from "./scoring/assessors";
 import App from "./app";
-import Assessor from "./scoring/assessor";
-import ContentAssessor from "./scoring/contentAssessor";
-import SeoAssessor from "./scoring/seoAssessor";
-import TaxonomyAssessor from "./scoring/taxonomyAssessor";
+import Assessor from "./scoring/assessors/assessor";
+import ContentAssessor from "./scoring/assessors/contentAssessor";
+import SeoAssessor from "./scoring/assessors/seoAssessor";
+import TaxonomyAssessor from "./scoring/assessors/taxonomyAssessor";
 import Pluggable from "./pluggable";
 import Paper from "./values/Paper";
 import AssessmentResult from "./values/AssessmentResult";
@@ -40,6 +41,7 @@ export {
 	createWorker,
 
 	assessments,
+	assessors,
 	bundledPlugins,
 	config,
 	helpers,
