@@ -12,6 +12,7 @@ import { Paper } from "yoastseo";
 /* Internal dependencies */
 import { ModalContent } from "./modal-content";
 import { SparklesIcon } from "./sparkles-icon";
+import { getAllBlocks } from "../../helpers/getAllBlocks";
 import { ReactComponent as LockClosed } from "../../../images/lock-closed.svg";
 
 /**
@@ -31,6 +32,17 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
+
+	// Only enable the button when the editor is in visual mode and all blocks are in visual mode.
+	const isEnabled = useSelect( ( select ) => {
+		const editorMode = select( "core/edit-post" ).getEditorMode();
+		if ( editorMode !== "visual" ) {
+			return false;
+		}
+
+		const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
+		return blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
+	}, [] );
 
 	/**
 	 * Handles the button press state.
@@ -96,6 +108,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				id={ aiFixesId }
 				className={ `ai-button ${buttonClass}` }
 				pressed={ isButtonPressed }
+				disabled={ ! isEnabled }
 			>
 				{ ! isPremium &&  <LockClosed className="yst-fixes-button__lock-icon" /> }
 				<SparklesIcon pressed={ isButtonPressed } gradientId={ gradientId } />
