@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { useCallback, useRef, useState } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
-import { useSelect, useDispatch } from "@wordpress/data";
+import {useSelect, useDispatch, select} from "@wordpress/data";
 
 /* Yoast dependencies */
 import { IconAIFixesButton } from "@yoast/components";
@@ -12,6 +12,8 @@ import { Paper } from "yoastseo";
 /* Internal dependencies */
 import { ModalContent } from "./modal-content";
 import { SparklesIcon } from "./sparkles-icon";
+import { ReactComponent as LockClosed } from "../../../images/lock-closed.svg";
+import {STORE_NAME} from "../../components/trustpilot-review-notification/constants";
 
 /**
  * The AI Assessment Fixes button component.
@@ -96,6 +98,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				className={ `ai-button ${buttonClass}` }
 				pressed={ isButtonPressed }
 			>
+				{ !isPremium &&  <LockClosed className="yst-fixes-button__lock-icon"/> }
 				<SparklesIcon pressed={ isButtonPressed } gradientId={ gradientId } />
 				{
 					// We put the logic for the Upsell component in place.
