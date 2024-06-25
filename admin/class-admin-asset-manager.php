@@ -582,6 +582,10 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
+				'name' => 'ai-fix-assessments',
+				'src'  => 'ai-fix-assessments-' . $flat_version,
+			],
+			[
 				'name' => 'introductions',
 				'src'  => 'introductions-' . $flat_version,
 				'deps' => [ self::PREFIX . 'tailwind' ],
