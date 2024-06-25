@@ -50,6 +50,7 @@ export {
 	wrapInHeading,
 } from "./Collapsible";
 
+export { SparklesIcon } from "./SparklesIcon";
 export { default as IconAIFixesButton } from "./IconAIFixesButton";
 export { default as Alert } from "./Alert";
 export { default as ArticleList } from "./ArticleList";
