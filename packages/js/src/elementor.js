@@ -1,19 +1,17 @@
-import { dispatch, select } from "@wordpress/data";
+import { dispatch } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
-import initializeWordProofForElementorEditor from "../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/elementorEditor";
 import initializeAiGenerator from "./ai-generator/initialize";
 import initEditorStore from "./elementor/initializers/editor-store";
 import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlightFocusKeyphraseForms";
 import initializeIntroduction from "./elementor/initializers/introduction";
+import initializeIntroductionEditorV2 from "./elementor/initializers/introduction-editor-v2";
 import { applyModifications, pluginReady, pluginReloaded, registerModification, registerPlugin } from "./initializers/pluggable";
 import initializeUsedKeywords from "./elementor/initializers/used-keywords-assessment";
 import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
-import { isWordProofIntegrationActive } from "./helpers/wordproof";
 import initAnalysis, { collectData } from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 import initializeInsights from "./insights/initializer";
 import initElementorWatcher from "./watchers/elementorWatcher";
-import { registerSearchAppearanceDescriptionMention } from "./shared-admin/helpers/search-appearance-description-mention";
 
 /* eslint-disable complexity */
 /**
@@ -65,14 +63,14 @@ function initialize() {
 	initHighlightFocusKeyphraseForms( window.YoastSEO.analysis.worker.runResearch );
 
 	// Initialize the introduction.
-	initializeIntroduction();
+	if ( window.elementorFrontend.config.experimentalFeatures.editor_v2 ) {
+		initializeIntroductionEditorV2();
+	} else {
+		initializeIntroduction();
+	}
 
 	// Initialize the editor integration.
 	initElementorEditorIntegration();
-
-	if ( isWordProofIntegrationActive() ) {
-		initializeWordProofForElementorEditor();
-	}
 
 	const AI_IGNORED_POST_TYPES = [ "attachment", "product" ];
 
@@ -80,9 +78,6 @@ function initialize() {
 		// Initialize the AI Generator upsell.
 		initializeAiGenerator();
 	}
-
-	// Initialize the mentions.
-	registerSearchAppearanceDescriptionMention( select( "yoast-seo/editor" ).getDateFromSettings );
 
 	// Offer an action after our load.
 	doAction( "yoast.elementor.loaded" );

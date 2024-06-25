@@ -49,29 +49,6 @@ overrides:
     rules:
       import/no-unresolved: [ "error", { ignore: [ "^@yoast/(components|replacement-variable-editor|social-metadata-forms|style-guide)" ] } ]
   - files:
-      - "packages/yoast-components/**/*.js"
-    rules:
-      complexity: [ 1, 6 ]
-      # A wrapping label is not necessary when there already is an htmlFor attribute.
-      jsx-a11y/label-has-for: [ "error", { required: "id" } ]
-      require-jsdoc: 1
-      react/button-has-type: 1
-      react/default-props-match-prop-types: 1
-      react/no-unused-prop-types: 1
-      react/no-access-state-in-setstate: 1
-      react/no-unused-state: 1
-      react/no-deprecated: 0
-      react/jsx-no-bind: 1
-      react/jsx-no-target-blank: 1
-      react/require-default-props: 1
-      react/forbid-foreign-prop-types: 1
-      import/no-duplicates: 0
-      import/named: 0
-      import/no-extraneous-dependencies: 0
-      import/no-unresolved: [ "error", { ignore: [ "^@yoast/(analysis-report|components|helpers|replacement-variable-editor|search-metadata-previews|style-guide)" ] } ]
-    env:
-      jest: true
-  - files:
       - "packages/**/tests/**/*Test.js"
     rules:
       no-console: 0

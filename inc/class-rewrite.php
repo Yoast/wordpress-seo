@@ -169,7 +169,10 @@ class WPSEO_Rewrite {
 	protected function add_category_rewrites( $rewrites, $category_name, $blog_prefix, $pagination_base ) {
 		$rewrite_name = $blog_prefix . '(' . $category_name . ')';
 
-		$rewrites[ $rewrite_name . '/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' ]    = 'index.php?category_name=$matches[1]&feed=$matches[2]';
+		global $wp_rewrite;
+		$feed_regex = '(' . implode( '|', $wp_rewrite->feeds ) . ')';
+
+		$rewrites[ $rewrite_name . '/(?:feed/)?' . $feed_regex . '/?$' ]         = 'index.php?category_name=$matches[1]&feed=$matches[2]';
 		$rewrites[ $rewrite_name . '/' . $pagination_base . '/?([0-9]{1,})/?$' ] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
 		$rewrites[ $rewrite_name . '/?$' ]                                       = 'index.php?category_name=$matches[1]';
 

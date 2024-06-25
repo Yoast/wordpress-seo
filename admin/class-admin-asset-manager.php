@@ -8,6 +8,7 @@
 /**
  * This class registers all the necessary styles and scripts.
  *
+ * Also has methods for the enqueing of scripts and styles.
  * It automatically adds a prefix to the handle.
  */
 class WPSEO_Admin_Asset_Manager {
@@ -360,7 +361,7 @@ class WPSEO_Admin_Asset_Manager {
 				'wp-components',
 				'wp-element',
 				'wp-i18n',
-				self::PREFIX . 'yoast-components',
+				self::PREFIX . 'components-new-package',
 				self::PREFIX . 'externals-components',
 			],
 			'version' => $scripts['installation-success']['version'],
@@ -401,7 +402,7 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'analysis',
 				self::PREFIX . 'react-select',
-				self::PREFIX . 'yoast-components',
+				self::PREFIX . 'components-new-package',
 			],
 			'version' => $scripts['workouts']['version'],
 		];
@@ -502,7 +503,6 @@ class WPSEO_Admin_Asset_Manager {
 			'helpers'                     => 'helpers-package',
 			'jed'                         => 'jed-package',
 			'chart.js'                    => 'chart.js-package',
-			'legacy-components'           => 'components-package',
 			'network-admin-script'        => 'network-admin',
 			'redux'                       => 'redux-package',
 			'replacement-variable-editor' => 'replacement-variable-editor-package',
@@ -571,14 +571,6 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'admin-css',
 					self::PREFIX . 'tailwind',
 					'wp-components',
-					self::PREFIX . 'additional-mentions',
-				],
-			],
-			[
-				'name' => 'additional-mentions',
-				'src'  => 'additional-mentions-' . $flat_version,
-				'deps' => [
-					self::PREFIX . 'tailwind',
 				],
 			],
 			[
@@ -635,7 +627,11 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'structured-data-blocks',
 				'src'  => 'structured-data-blocks-' . $flat_version,
-				'deps' => [ 'wp-edit-blocks' ],
+				'deps' => [
+					'dashicons',
+					'forms',
+					'wp-edit-blocks',
+				],
 			],
 			[
 				'name' => 'elementor',
@@ -648,10 +644,7 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'new-settings',
 				'src'  => 'new-settings-' . $flat_version,
-				'deps' => [
-					self::PREFIX . 'tailwind',
-					self::PREFIX . 'additional-mentions',
-				],
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
 				'name' => 'black-friday-banner',

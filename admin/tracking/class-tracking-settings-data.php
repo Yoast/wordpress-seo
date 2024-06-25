@@ -226,7 +226,6 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'search_cleanup_patterns',
 		'search_character_limit',
 		'redirect_search_pretty_urls',
-		'wordproof_integration_active',
 		'indexables_overview_state',
 		'deny_search_crawling',
 		'deny_wp_json_crawling',

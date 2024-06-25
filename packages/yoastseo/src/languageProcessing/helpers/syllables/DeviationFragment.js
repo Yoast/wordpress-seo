@@ -1,4 +1,4 @@
-import { isUndefined, pick } from "lodash-es";
+import { isUndefined, pick } from "lodash";
 
 /**
  * Represents a partial deviation when counting syllables

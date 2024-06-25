@@ -1,4 +1,4 @@
-import { difference, forEach, isNumber, isObject, isUndefined } from "lodash-es";
+import { difference, forEach, isNumber, isObject, isUndefined } from "lodash";
 import scoreToRating from "../interpreters/scoreToRating.js";
 import createConfig from "../../config/presenter.js";
 

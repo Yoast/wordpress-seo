@@ -14,6 +14,7 @@
 @import "../src/elements/text-input/style.css";
 @import "../src/elements/textarea/style.css";
 @import "../src/elements/title/style.css";
+@import "../src/elements/toast/style.css";
 @import "../src/elements/toggle/style.css";
 @import "../src/elements/tooltip/style.css";
 @import "../src/elements/file-input/style.css";

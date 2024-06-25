@@ -13,7 +13,6 @@ import ContentAssessor from "./scoring/contentAssessor";
 import SeoAssessor from "./scoring/seoAssessor";
 import TaxonomyAssessor from "./scoring/taxonomyAssessor";
 import Pluggable from "./pluggable";
-import SnippetPreview from "./snippetPreview/snippetPreview";
 import Paper from "./values/Paper";
 import AssessmentResult from "./values/AssessmentResult";
 import Assessment from "./scoring/assessments/assessment";
@@ -31,7 +30,6 @@ export {
 	SeoAssessor,
 	TaxonomyAssessor,
 	Pluggable,
-	SnippetPreview,
 
 	Paper,
 	AssessmentResult,
@@ -65,7 +63,6 @@ export default {
 	ContentAssessor,
 	TaxonomyAssessor,
 	Pluggable,
-	SnippetPreview,
 
 	Paper,
 	AssessmentResult,

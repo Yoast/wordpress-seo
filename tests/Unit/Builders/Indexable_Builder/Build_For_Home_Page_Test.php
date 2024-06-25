@@ -56,7 +56,6 @@ final class Build_For_Home_Page_Test extends Abstract_Indexable_Builder_TestCase
 			->with( $this->indexable )
 			->andReturn( $this->indexable );
 
-		// Saving is outside the scope of this test.
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $this->indexable );
 	}
 }

@@ -1,5 +1,5 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { merge, inRange } from "lodash-es";
+import { merge, inRange } from "lodash";
 
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers";

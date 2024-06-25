@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { escape, merge } from "lodash-es";
+import { escape, merge } from "lodash";
 import getLanguage from "../../../languageProcessing/helpers/language/getLanguage";
 
 import Assessment from "../assessment";

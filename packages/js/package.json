@@ -30,7 +30,6 @@
     "@wordpress/rich-text": "^3.25.3",
     "@wordpress/server-side-render": "^1.21.1",
     "@wordpress/url": "^3.17.0",
-    "@wordproof/uikit": "1.0.41",
     "@yoast/analysis-report": "^1.21.0",
     "@yoast/components": "^2.19.0",
     "@yoast/feature-flag": "^0.5.2",
@@ -68,7 +67,6 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "styled-components": "^5.3.6",
-    "yoast-components": "^5.24.0",
     "yoastseo": "^1.91.1",
     "yup": "^0.32.11"
   },

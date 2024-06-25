@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.5
-Stable tag: 22.5
+Stable tag: 22.9
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -315,49 +315,42 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 22.6 =
+= 23.0 =
 
-Release date: 2024-04-30
-
-#### Enhancements
-
-* Adds helpful error messages in case of plugin/theme conflicts in the Yoast sidebars and metabox, avoiding leaving them or, in the worst case, the entire page blank.
-* Improves performance on the users' metadata, most visible in the author sitemap creation.
-* Improves the keyphrase detection in SEO title for Arabic and Hebrew. For example, when the keyphrase is \"باندا حمراء\" and the SEO title starts with \"الباندا الحمراء\", we now recognize this as an exact match and give a good result for the _keyphrase in SEO title_ assessment.
-
-#### Bugfixes
-
-* Fixes a bug where a PHP notice in the settings would influence the styling of some of our inputs.
-* Fixes a bug where the inserted variables in the search appearance would not show correctly when using Elementor.
-* Fixes a bug where there would be a fatal error when deleting post meta in PHP 8.1 and higher. Props to @izzygld.
-
-#### Other
-
-* Introduces a notice on the WordPress dashboard and the Yoast SEO dashboard to let users know we are dropping support for PHP < 7.4 starting November 1st, 2024.
-
-= 22.5 =
-
-Release date: 2024-04-16
-
-Yoast SEO 22.5 brings general maintenance updates across the plugin, improved guidance around best practice for taxonomies and a more effortless user experience overall. For more details about the release check out [the release post for 22.5](https://yoa.st/release-16-4-24).
+Release date: 2024-07-02
 
 #### Enhancements
 
-* Prevents image formats other than JPG, GIF, PNG and WEBP to be used for the `twitter:image` meta tag.
-* Recalibrates the recommended length of the text on taxonomy pages for the _text length_ assessment.
+* Removes a redundant database write query, when saving a post.
 
 #### Bugfixes
 
-* Fixes an incompatibility with `ES_WP_Query` library used by the WordPress VIP Enterprise Search.
+* Fixes a bug where unnecessary data was written in the Yoast database when on non-production sites (or when the relevant `Yoast\WP\SEO\should_index_indexables` filter was used to disable such a behavior)
 
 #### Other
 
-* Renames all user-facing `Twitter` references to `X`, including the X profile's `sameAs` schema output URL.
-* Adds an "AI for SEO" course card to the Academy page.
-* Removes the link to the now-retired Google Mobile-Friendly Test from the admin bar menu.
-* Renames the `leiCode` fields to `LEI code` in the plugin's settings.
-* Resolves a typo in the list of German transition words. Props to [magnusmartin85](https://github.com/magnusmartin85).
-* Deprecates unused method `is_image_url_valid`.
+* Deprecates the Wordproof feature.
+* Deprecates the following classes: `Wordproof`, `Wordproof_App_Config`, `Wordproof_Helper`, `Wordproof_Integration_Active_Conditional`, `Wordproof_Plugin_Inactive_Conditional`,  `Wordproof_Translations`.
+
+= 22.9 =
+
+Release date: 2024-06-18
+
+Yoast SEO 22.9 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-18-6-24).
+
+#### Enhancements
+
+* Helps guide Elementor users to Yoast when they have the new editor top bar activated.
+* Adds additional filter options for the `og:image` meta tags.
+* Improves compatibility with custom RSS feeds. Props to @gsusI.
+
+#### Bugfixes
+
+* Fixes a bug where a PHP notice would be thrown on RSS feeds when a canonical URL can not be created for its parent page.
+
+#### Others
+
+* Changes the copy in the admin sidebar from `Premium` to `Upgrades`.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

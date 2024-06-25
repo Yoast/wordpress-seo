@@ -1,4 +1,4 @@
-import { filter, map } from "lodash-es";
+import { filter, map } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { sanitizeString, removePunctuation } = languageProcessing;
 import TinySegmenter from "tiny-segmenter";
