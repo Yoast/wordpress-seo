@@ -325,7 +325,7 @@ Release date: 2024-07-02
 
 #### Bugfixes
 
-* Fixes a bug where unnecessary data was written in the Yoast database when on non-production sites (or when the relevant `Yoast\WP\SEO\should_index_indexables` filter was used to disable such a behavior)
+* Fixes a bug where unnecessary data was written in the Yoast database on non-production sites (or when the relevant `Yoast\WP\SEO\should_index_indexables` filter was used to disable such a behavior).
 
 #### Other
 
