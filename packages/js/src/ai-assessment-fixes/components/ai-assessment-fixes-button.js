@@ -13,6 +13,7 @@ import { Paper } from "yoastseo";
 import { ModalContent } from "./modal-content";
 import { SparklesIcon } from "./sparkles-icon";
 import { getAllBlocks } from "../../helpers/getAllBlocks";
+import { ReactComponent as LockClosed } from "../../../images/lock-closed.svg";
 
 /**
  * The AI Assessment Fixes button component.
@@ -109,6 +110,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				pressed={ isButtonPressed }
 				disabled={ ! isEnabled }
 			>
+				{ ! isPremium &&  <LockClosed className="yst-fixes-button__lock-icon" /> }
 				<SparklesIcon pressed={ isButtonPressed } gradientId={ gradientId } />
 				{
 					// We put the logic for the Upsell component in place.
