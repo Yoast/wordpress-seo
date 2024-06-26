@@ -59,9 +59,12 @@ class Indexable_Author_Archive_Watcher implements Integration_Interface {
 	 *
 	 * When author archives are disabled, they can never be indexed.
 	 *
-	 * @param array<string,int,bool> $old_value The old `wpseo_titles` option value.
-	 * @param array<string,int,bool> $new_value The new `wpseo_titles` option value.
+	 * @phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification
 	 *
+	 * @param array $old_value The old `wpseo_titles` option value.
+	 * @param array $new_value The new `wpseo_titles` option value.
+	 *
+	 * @phpcs:enable
 	 * @return void
 	 */
 	public function reschedule_indexable_cleanup_when_author_archives_are_disabled( $old_value, $new_value ) {

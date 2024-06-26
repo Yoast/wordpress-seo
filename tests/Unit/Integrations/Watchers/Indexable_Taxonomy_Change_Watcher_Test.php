@@ -28,7 +28,7 @@ use Yoast_Notification_Center;
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Taxonomy_Change_Watcher
  * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_Taxonomy_Change_Watcher
  *
- * @phpcs  :disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 final class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 

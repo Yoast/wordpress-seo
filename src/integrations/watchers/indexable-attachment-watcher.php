@@ -90,9 +90,12 @@ class Indexable_Attachment_Watcher implements Integration_Interface {
 	 * either it cleans up attachment indexables when it has been toggled to true,
 	 * or it starts displaying a notification for the user to start a new SEO optimization.
 	 *
-	 * @param array<string,int,bool> $old_value The old value of the wpseo_titles option.
-	 * @param array<string,int,bool> $new_value The new value of the wpseo_titles option.
+	 * @phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification
 	 *
+	 * @param array $old_value The old value of the wpseo_titles option.
+	 * @param array $new_value The new value of the wpseo_titles option.
+	 *
+	 * @phpcs:enable
 	 * @return void
 	 */
 	public function check_option( $old_value, $new_value ) {
