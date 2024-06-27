@@ -31,6 +31,7 @@ export const AiFixAssessmentsUpsell = ( {
 			variant="primary"
 		/>,
 		ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />,
+		br: <br />,
 	};
 
 	return (
@@ -67,11 +68,12 @@ export const AiFixAssessmentsUpsell = ( {
 					<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
 						{ createInterpolateElement(
 							sprintf(
-								/* translators: %1$s and %2$s are anchor tags; %3$s is the arrow icon. */
+								/* translators: %1$s is a break tag; %2$s and %3$s are anchor tags; %4$s is the arrow icon. */
 								__(
-									"Tired of editing your content to get good scores? Upgrade to access our AI features. Receive recommendations to optimize your content with just one click. %1$sLearn more%2$s%3$s",
+									"Make content editing a breeze! Optimize your SEO content with quick, actionable suggestions at the click of a button.%1$s%2$sLearn more%3$s%4$s",
 									"wordpress-seo"
 								),
+								"<br/>",
 								"<a>",
 								"<ArrowNarrowRightIcon />",
 								"</a>"
