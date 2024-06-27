@@ -179,9 +179,7 @@ final class Activation_Cleanup_Integration_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->options_helper->expects( 'get' )
-			->once()
-			->with( 'first_activated_on', false )
-			->andReturn( \time() );
+			->never();
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
 			->never()
