@@ -5,13 +5,12 @@ import { doAction } from "@wordpress/hooks";
 import { useSelect, useDispatch } from "@wordpress/data";
 
 /* Yoast dependencies */
-import { IconAIFixesButton } from "@yoast/components";
+import { IconAIFixesButton, SparklesIcon } from "@yoast/components";
 import { Modal, useToggleState } from "@yoast/ui-library";
 import { Paper } from "yoastseo";
 
 /* Internal dependencies */
 import { ModalContent } from "./modal-content";
-import { SparklesIcon } from "./sparkles-icon";
 import { getAllBlocks } from "../../helpers/getAllBlocks";
 import { ReactComponent as LockClosed } from "../../../images/lock-closed.svg";
 
@@ -95,9 +94,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		setButtonClass( "" );
 	}, [] );
 
-	// Generate a unique gradient ID for the SparklesIcon component.
-	const gradientId = `gradient-${ Math.random().toString( 36 ).substring( 2, 9 ) }`;
-
 	return (
 		<>
 			<IconAIFixesButton
@@ -111,7 +107,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				disabled={ ! isEnabled }
 			>
 				{ ! isPremium &&  <LockClosed className="yst-fixes-button__lock-icon" /> }
-				<SparklesIcon pressed={ isButtonPressed } gradientId={ gradientId } />
+				<SparklesIcon pressed={ isButtonPressed } />
 				{
 					// We put the logic for the Upsell component in place.
 					// The Modal below is only a placeholder/mock. When we have the design for the real upsell, the modal should be replaced.
