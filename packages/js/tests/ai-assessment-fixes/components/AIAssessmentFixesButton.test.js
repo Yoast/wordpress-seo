@@ -26,6 +26,7 @@ const mockSelect = ( activeAIButton, editorMode = "visual", blocks = [] ) =>
 	useSelect.mockImplementation( select => select( () => ( {
 		getActiveAIFixesButton: () => activeAIButton,
 		getActiveMarker: () => null,
+		getDisabledAIFixesButtons: () => [ "keyphraseDistributionAIFixes" ],
 		getBlocks: () => blocks,
 		getBlockMode: ( clientId ) => clientId === "htmlTest" ? "html" : "visual",
 		getEditorMode: () => editorMode,
@@ -68,6 +69,13 @@ describe( "AIAssessmentFixesButton", () => {
 		const button = screen.getByRole( "button" );
 		expect( button ).toBeInTheDocument();
 		expect( button.disabled ).toBeFalsy();
+	} );
+
+	test( "should be disabled when listed in the disabled buttons", () => {
+		render( <AIAssessmentFixesButton id="keyphraseDistribution" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button.disabled ).toBeTruthy();
 	} );
 
 	test( "should be disabled in HTML editing mode", () => {
