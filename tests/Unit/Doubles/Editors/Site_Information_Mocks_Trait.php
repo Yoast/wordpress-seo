@@ -12,9 +12,6 @@ trait Site_Information_Mocks_Trait {
 	 * @return void
 	 */
 	public function set_mocks() {
-		$dismissed_alerts        = [ 'the alert' ];
-		$promotions              = [ 'the promotion', 'another one' ];
-		$short_link              = 'https://expl.c';
 		$query_params            = [ 'param', 'param2' ];
 		$plugin_url              = '/location';
 		$meta_surface            = new stdClass();
@@ -28,10 +25,6 @@ trait Site_Information_Mocks_Trait {
 		Monkey\Functions\expect( 'is_rtl' )->andReturnFalse();
 		Monkey\Functions\expect( 'get_site_icon_url' )->andReturn( 'https://example.org' );
 
-		$this->alert_dismissal_action->expects( 'all_dismissed' )->andReturn( $dismissed_alerts );
-		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( $promotions );
-		$this->promotion_manager->expects( 'is' )->andReturnFalse();
-		$this->short_link_helper->expects( 'get' )->andReturn( $short_link );
 		$this->short_link_helper->expects( 'get_query_params' )->andReturn( $query_params );
 		$this->wistia_embed_repo->expects( 'get_value_for_user' )->with( 1 )->andReturnTrue();
 		$this->meta_surface->expects( 'for_current_page' )->andReturn( $meta_surface );

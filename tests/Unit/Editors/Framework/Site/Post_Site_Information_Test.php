@@ -140,6 +140,11 @@ final class Post_Site_Information_Test extends TestCase {
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
 		Monkey\Functions\expect( 'home_url' )->andReturn( 'https://example.org' );
 
+		$this->alert_dismissal_action->expects( 'all_dismissed' )->andReturn( [ 'the alert' ] );
+		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );
+		$this->promotion_manager->expects( 'is' )->andReturnFalse();
+		$this->short_link_helper->expects( 'get' )->andReturn( 'https://expl.c' );
+
 		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
 	}
 
@@ -188,6 +193,11 @@ final class Post_Site_Information_Test extends TestCase {
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
 		Monkey\Functions\expect( 'home_url' )->andReturn( 'https://example.org' );
+
+		$this->alert_dismissal_action->expects( 'all_dismissed' )->andReturn( [ 'the alert' ] );
+		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );
+		$this->promotion_manager->expects( 'is' )->andReturnFalse();
+		$this->short_link_helper->expects( 'get' )->andReturn( 'https://expl.c' );
 
 		$this->assertSame( $expected, $this->instance->get_site_information() );
 	}

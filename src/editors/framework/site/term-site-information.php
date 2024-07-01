@@ -4,12 +4,10 @@ namespace Yoast\WP\SEO\Editors\Framework\Site;
 
 use WP_Taxonomy;
 use WP_Term;
-use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
-use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
 /**
@@ -22,7 +20,7 @@ class Term_Site_Information extends Base_Site_Information {
 	 *
 	 * @var Options_Helper
 	 */
-	protected $options_helper;
+	private $options_helper;
 
 	/**
 	 * The taxonomy.
@@ -42,23 +40,20 @@ class Term_Site_Information extends Base_Site_Information {
 	 * The constructor.
 	 *
 	 * @param Options_Helper                     $options_helper                     The options helper.
-	 * @param Promotion_Manager                  $promotion_manager                  The promotion manager.
 	 * @param Short_Link_Helper                  $short_link_helper                  The short link helper.
-	 * @param Wistia_Embed_Permission_Repository $wistia_embed_permission_repository The wistia embed permission repository.
+	 * @param Wistia_Embed_Permission_Repository $wistia_embed_permission_repository The wistia embed permission
+	 *                                                                               repository.
 	 * @param Meta_Surface                       $meta                               The meta surface.
 	 * @param Product_Helper                     $product_helper                     The product helper.
-	 * @param Alert_Dismissal_Action             $alert_dismissal_action             The alert dismissal action.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
-		Promotion_Manager $promotion_manager,
 		Short_Link_Helper $short_link_helper,
 		Wistia_Embed_Permission_Repository $wistia_embed_permission_repository,
 		Meta_Surface $meta,
-		Product_Helper $product_helper,
-		Alert_Dismissal_Action $alert_dismissal_action
+		Product_Helper $product_helper
 	) {
-		parent::__construct( $promotion_manager, $short_link_helper, $wistia_embed_permission_repository, $meta, $product_helper, $alert_dismissal_action );
+		parent::__construct( $short_link_helper, $wistia_embed_permission_repository, $meta, $product_helper );
 		$this->options_helper = $options_helper;
 	}
 

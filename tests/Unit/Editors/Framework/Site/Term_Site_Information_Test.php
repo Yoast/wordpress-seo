@@ -7,13 +7,11 @@ use Brain\Monkey;
 use Mockery;
 use WP_Taxonomy;
 use WP_Term;
-use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Editors\Framework\Site\Term_Site_Information;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
-use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Editors\Site_Information_Mocks_Trait;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -34,21 +32,7 @@ final class Term_Site_Information_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
-	protected $options_helper;
-
-	/**
-	 * Holds the Alert_Dismissal_Action instance.
-	 *
-	 * @var Mockery\MockInterface|Alert_Dismissal_Action
-	 */
-	protected $alert_dismissal_action;
-
-	/**
-	 * Holds the Promotion_Manager instance.
-	 *
-	 * @var Mockery\MockInterface|Promotion_Manager
-	 */
-	private $promotion_manager;
+	private $options_helper;
 
 	/**
 	 * Holds the Short_Link_Helper instance.
@@ -93,14 +77,12 @@ final class Term_Site_Information_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 		$this->options_helper         = Mockery::mock( Options_Helper::class );
-		$this->promotion_manager      = Mockery::mock( Promotion_Manager::class );
 		$this->short_link_helper      = Mockery::mock( Short_Link_Helper::class );
 		$this->wistia_embed_repo      = Mockery::mock( Wistia_Embed_Permission_Repository::class );
 		$this->meta_surface           = Mockery::mock( Meta_Surface::class );
 		$this->product_helper         = Mockery::mock( Product_Helper::class );
-		$this->alert_dismissal_action = Mockery::mock( Alert_Dismissal_Action::class );
 
-		$this->instance      = new Term_Site_Information( $this->options_helper, $this->promotion_manager, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action );
+		$this->instance      = new Term_Site_Information( $this->options_helper, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper );
 		$taxonomy            = Mockery::mock( WP_Taxonomy::class )->makePartial();
 		$taxonomy->rewrite   = false;
 		$mock_term           = Mockery::mock( WP_Term::class )->makePartial();
@@ -133,15 +115,6 @@ final class Term_Site_Information_Test extends TestCase {
 			'post_edit_url'                  => 'https://example.org',
 			'base_url'                       => 'https://example.org',
 
-			'dismissedAlerts'                => [
-				'the alert',
-			],
-			'currentPromotions'              => [
-				'the promotion',
-				'another one',
-			],
-			'webinarIntroBlockEditorUrl'     => 'https://expl.c',
-			'blackFridayBlockEditorUrl'      => '',
 			'linkParams'                     => [
 				'param',
 				'param2',
@@ -188,15 +161,6 @@ final class Term_Site_Information_Test extends TestCase {
 				'isPremium'     => true,
 				'siteIconUrl'   => 'https://example.org',
 			],
-			'dismissedAlerts'            => [
-				'the alert',
-			],
-			'currentPromotions'          => [
-				'the promotion',
-				'another one',
-			],
-			'webinarIntroBlockEditorUrl' => 'https://expl.c',
-			'blackFridayBlockEditorUrl'  => '',
 			'linkParams'                 => [
 				'param',
 				'param2',

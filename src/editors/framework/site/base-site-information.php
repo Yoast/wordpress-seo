@@ -3,31 +3,15 @@
 namespace Yoast\WP\SEO\Editors\Framework\Site;
 
 use Exception;
-use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
-use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
 /**
  * The Base_Site_Information class.
  */
 abstract class Base_Site_Information {
-
-	/**
-	 * The alert dismissal action.
-	 *
-	 * @var Alert_Dismissal_Action $alert_dismissal_action
-	 */
-	protected $alert_dismissal_action;
-
-	/**
-	 * The promotion manager.
-	 *
-	 * @var Promotion_Manager $promotion_manager
-	 */
-	protected $promotion_manager;
 
 	/**
 	 * The short link helper.
@@ -41,47 +25,41 @@ abstract class Base_Site_Information {
 	 *
 	 * @var Wistia_Embed_Permission_Repository $wistia_embed_permission_repository
 	 */
-	private $wistia_embed_permission_repository;
+	protected $wistia_embed_permission_repository;
 
 	/**
 	 * The meta surface.
 	 *
 	 * @var Meta_Surface $meta
 	 */
-	private $meta;
+	protected $meta;
 
 	/**
 	 * The product helper.
 	 *
 	 * @var Product_Helper $product_helper
 	 */
-	private $product_helper;
+	protected $product_helper;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param Promotion_Manager                  $promotion_manager                  The promotion manager.
 	 * @param Short_Link_Helper                  $short_link_helper                  The short link helper.
 	 * @param Wistia_Embed_Permission_Repository $wistia_embed_permission_repository The wistia embed permission
 	 *                                                                               repository.
 	 * @param Meta_Surface                       $meta                               The meta surface.
 	 * @param Product_Helper                     $product_helper                     The product helper.
-	 * @param Alert_Dismissal_Action             $alert_dismissal_action             The alert dismissal action.
 	 */
 	public function __construct(
-		Promotion_Manager $promotion_manager,
 		Short_Link_Helper $short_link_helper,
 		Wistia_Embed_Permission_Repository $wistia_embed_permission_repository,
 		Meta_Surface $meta,
-		Product_Helper $product_helper,
-		Alert_Dismissal_Action $alert_dismissal_action
+		Product_Helper $product_helper
 	) {
-		$this->promotion_manager                  = $promotion_manager;
 		$this->short_link_helper                  = $short_link_helper;
 		$this->wistia_embed_permission_repository = $wistia_embed_permission_repository;
 		$this->meta                               = $meta;
 		$this->product_helper                     = $product_helper;
-		$this->alert_dismissal_action             = $alert_dismissal_action;
 	}
 
 	/**
@@ -92,15 +70,15 @@ abstract class Base_Site_Information {
 	 */
 	public function get_site_information(): array {
 		return [
-			'linkParams'                 => $this->short_link_helper->get_query_params(),
-			'pluginUrl'                  => \plugins_url( '', \WPSEO_FILE ),
-			'wistiaEmbedPermission'      => $this->wistia_embed_permission_repository->get_value_for_user( \get_current_user_id() ),
-			'site_name'                  => $this->meta->for_current_page()->site_name,
-			'contentLocale'              => \get_locale(),
-			'userLocale'                 => \get_user_locale(),
-			'isRtl'                      => \is_rtl(),
-			'isPremium'                  => $this->product_helper->is_premium(),
-			'siteIconUrl'                => \get_site_icon_url(),
+			'linkParams'            => $this->short_link_helper->get_query_params(),
+			'pluginUrl'             => \plugins_url( '', \WPSEO_FILE ),
+			'wistiaEmbedPermission' => $this->wistia_embed_permission_repository->get_value_for_user( \get_current_user_id() ),
+			'site_name'             => $this->meta->for_current_page()->site_name,
+			'contentLocale'         => \get_locale(),
+			'userLocale'            => \get_user_locale(),
+			'isRtl'                 => \is_rtl(),
+			'isPremium'             => $this->product_helper->is_premium(),
+			'siteIconUrl'           => \get_site_icon_url(),
 		];
 	}
 
@@ -111,12 +89,11 @@ abstract class Base_Site_Information {
 	 * @return array<string|string,string[]>
 	 */
 	public function get_legacy_site_information(): array {
-
 		return [
-			'linkParams'                 => $this->short_link_helper->get_query_params(),
-			'pluginUrl'                  => \plugins_url( '', \WPSEO_FILE ),
-			'wistiaEmbedPermission'      => $this->wistia_embed_permission_repository->get_value_for_user( \get_current_user_id() ),
-			'metabox'                    => [
+			'linkParams'            => $this->short_link_helper->get_query_params(),
+			'pluginUrl'             => \plugins_url( '', \WPSEO_FILE ),
+			'wistiaEmbedPermission' => $this->wistia_embed_permission_repository->get_value_for_user( \get_current_user_id() ),
+			'metabox'               => [
 				'site_name'     => $this->meta->for_current_page()->site_name,
 				'contentLocale' => \get_locale(),
 				'userLocale'    => \get_user_locale(),
