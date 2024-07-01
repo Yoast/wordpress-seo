@@ -76,11 +76,11 @@ final class Term_Site_Information_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-		$this->options_helper         = Mockery::mock( Options_Helper::class );
-		$this->short_link_helper      = Mockery::mock( Short_Link_Helper::class );
-		$this->wistia_embed_repo      = Mockery::mock( Wistia_Embed_Permission_Repository::class );
-		$this->meta_surface           = Mockery::mock( Meta_Surface::class );
-		$this->product_helper         = Mockery::mock( Product_Helper::class );
+		$this->options_helper    = Mockery::mock( Options_Helper::class );
+		$this->short_link_helper = Mockery::mock( Short_Link_Helper::class );
+		$this->wistia_embed_repo = Mockery::mock( Wistia_Embed_Permission_Repository::class );
+		$this->meta_surface      = Mockery::mock( Meta_Surface::class );
+		$this->product_helper    = Mockery::mock( Product_Helper::class );
 
 		$this->instance      = new Term_Site_Information( $this->options_helper, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper );
 		$taxonomy            = Mockery::mock( WP_Taxonomy::class )->makePartial();
@@ -111,22 +111,21 @@ final class Term_Site_Information_Test extends TestCase {
 	 */
 	public function test_site_information() {
 		$expected = [
-			'search_url'                     => 'https://example.org',
-			'post_edit_url'                  => 'https://example.org',
-			'base_url'                       => 'https://example.org',
-
-			'linkParams'                     => [
+			'search_url'            => 'https://example.org',
+			'post_edit_url'         => 'https://example.org',
+			'base_url'              => 'https://example.org',
+			'linkParams'            => [
 				'param',
 				'param2',
 			],
-			'pluginUrl'                      => '/location',
-			'wistiaEmbedPermission'          => true,
-			'site_name'                      => 'examepl.com',
-			'contentLocale'                  => 'nl_NL',
-			'userLocale'                     => 'nl_NL',
-			'isRtl'                          => false,
-			'isPremium'                      => true,
-			'siteIconUrl'                    => 'https://example.org',
+			'pluginUrl'             => '/location',
+			'wistiaEmbedPermission' => true,
+			'site_name'             => 'examepl.com',
+			'contentLocale'         => 'nl_NL',
+			'userLocale'            => 'nl_NL',
+			'isRtl'                 => false,
+			'isPremium'             => true,
+			'siteIconUrl'           => 'https://example.org',
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
@@ -150,7 +149,7 @@ final class Term_Site_Information_Test extends TestCase {
 	public function test_legacy_site_information() {
 
 		$expected = [
-			'metabox'                    => [
+			'metabox'               => [
 				'search_url'    => 'https://example.org',
 				'post_edit_url' => 'https://example.org',
 				'base_url'      => 'https://example.org',
@@ -161,12 +160,12 @@ final class Term_Site_Information_Test extends TestCase {
 				'isPremium'     => true,
 				'siteIconUrl'   => 'https://example.org',
 			],
-			'linkParams'                 => [
+			'linkParams'            => [
 				'param',
 				'param2',
 			],
-			'pluginUrl'                  => '/location',
-			'wistiaEmbedPermission'      => true,
+			'pluginUrl'             => '/location',
+			'wistiaEmbedPermission' => true,
 
 		];
 

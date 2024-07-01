@@ -85,8 +85,7 @@ class Post_Site_Information extends Base_Site_Information {
 			'currentPromotions'          => $this->promotion_manager->get_current_promotions(),
 			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
 			'blackFridayBlockEditorUrl'  => ( $this->promotion_manager->is( 'black-friday-2023-checklist' ) ) ? $this->short_link_helper->get( 'https://yoa.st/black-friday-checklist' ) : '',
-
-			'metabox' => [
+			'metabox'                    => [
 				'search_url'    => $this->search_url(),
 				'post_edit_url' => $this->edit_url(),
 				'base_url'      => $this->base_url_for_js(),
