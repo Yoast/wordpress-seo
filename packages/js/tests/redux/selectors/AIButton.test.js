@@ -1,15 +1,17 @@
-import { getActiveAIFixesButton } from "../../../src/redux/selectors";
+import { getActiveAIFixesButton, getDisabledAIFixesButtons } from "../../../src/redux/selectors";
 
-const testState = {
-	AIButton: {
-		activeAIButton: "keyphraseInSubheadingAIFixes",
-	},
-};
+describe( "AIButton", () => {
+	const state = {
+		AIButton: {
+			activeAIButton: "keyphraseInSubheadingAIFixes",
+			disabledAIButtons: [ "keyphraseDensityAIFixes" ],
+		},
+	};
 
-describe( "getActiveAIFixesButton", () => {
 	it( "returns the id of the active AI Assessment Fixes button", () => {
-		const actual = getActiveAIFixesButton( testState );
-
-		expect( actual ).toEqual( "keyphraseInSubheadingAIFixes" );
+		expect( getActiveAIFixesButton( state ) ).toEqual( "keyphraseInSubheadingAIFixes" );
+	} );
+	it( "returns the ids of the disabled AI Assessment Fixes buttons", () => {
+		expect( getDisabledAIFixesButtons( state ) ).toEqual( [ "keyphraseDensityAIFixes" ] );
 	} );
 } );

@@ -15,7 +15,7 @@ export function setActiveAIFixesButton( activeAIButton ) {
 
 /**
  * Updates the disabled AI buttons.
- * @param {string} disabledAIButtons The disabled AI buttons.
+ * @param {string[]} disabledAIButtons The disabled AI buttons.
  * @returns {Object} An action for redux.
  */
 export function setDisabledAIFixesButtons( disabledAIButtons ) {
