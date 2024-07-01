@@ -73,9 +73,6 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus keyphrase doubles.
 		if ( is_object( $this->term ) && property_exists( $this->term, 'taxonomy' ) ) {
 			$values = [
-				'search_url'                  => $this->search_url(),
-				'post_edit_url'               => $this->edit_url(),
-				'base_url'                    => $this->base_url_for_js(),
 				'taxonomy'                    => $this->term->taxonomy,
 				'semrushIntegrationActive'    => 0,
 				'wincherIntegrationActive'    => 0,
@@ -88,41 +85,6 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		}
 
 		return $values;
-	}
-
-	/**
-	 * Returns the url to search for keyword for the taxonomy.
-	 *
-	 * @return string
-	 */
-	private function search_url() {
-		return admin_url( 'edit-tags.php?taxonomy=' . $this->term->taxonomy . '&seo_kw_filter={keyword}' );
-	}
-
-	/**
-	 * Returns the url to edit the taxonomy.
-	 *
-	 * @return string
-	 */
-	private function edit_url() {
-		return admin_url( 'term.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' );
-	}
-
-	/**
-	 * Returns a base URL for use in the JS, takes permalink structure into account.
-	 *
-	 * @return string
-	 */
-	private function base_url_for_js() {
-
-		$base_url = home_url( '/', null );
-		if ( ! WPSEO_Options::get( 'stripcategorybase', false ) ) {
-			if ( $this->taxonomy->rewrite ) {
-				$base_url = trailingslashit( $base_url . $this->taxonomy->rewrite['slug'] );
-			}
-		}
-
-		return $base_url;
 	}
 
 	/**
