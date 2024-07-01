@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.5
-Stable tag: 22.6
+Stable tag: 22.9
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -315,49 +315,42 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 22.7 =
+= 23.0 =
 
-Release date: 2024-05-14
-
-#### Enhancements
-
-* Converts the Yoast _How-to_ and _FAQ_ blocks to use the Blocks V3 API.
-* Introduces a `date` and a `separator` snippet variable to the meta description text field, to make clear that both the date and a separator are automatically added to the character count of the meta description. Hovering over the variables reveals a tooltip with more explanation.
-
-#### Bugfixes
-
-* Fixes a bug where a PHP deprecation error would be thrown when trying to convert a relative URL to an absolute one, with the provided value being `null`.
-* Fixes a bug where the character count of the meta description field would not include the automatically added date and separator when no additional content was provided.
-
-#### Other
-
-* Deprecates `\Yoast\WP\SEO\Integrations\Blocks\Structured_Data_Blocks::enqueue_block_editor_assets()`.
-* Properly escapes tags in the Enhanced Slack Sharing presenter to prevent incorrect rendering and unwanted, potentially malicious behavior. Props to @rob006.
-* Removes the `yoast-components-package` script.
-* Sets the minimum supported WordPress version to 6.4.
-
-= 22.6 =
-
-Release date: 2024-04-30
-
-Yoast SEO 22.6 is out today! This release brings many performance and quality-of-life fixes to improve your favorite SEO plugin. Plus, we’re asking you to update your PHP versions. Find out what’s new in [this post](https://yoa.st/release-30-4-24)!
+Release date: 2024-07-02
 
 #### Enhancements
 
-* Adds a helpful error message in the Yoast sidebar/metabox in case of plugin or theme conflicts. Now when an unknown error occurs, the error is caught and an error message is shown. Before, the error would lead to a blank sidebar/metabox, or to an entire blank page.
-* Improves performance when it comes to storing user metadata, most visible at the point of author sitemap creation.
-* Improves the keyphrase detection in SEO title for Arabic and Hebrew. For example, when the keyphrase is \"باندا حمراء\" and the SEO title starts with \"الباندا الحمراء\", we now recognize this as an exact match and give a good result for the _keyphrase in SEO title_ assessment.
+* Removes a redundant database write query, when saving a post.
 
 #### Bugfixes
 
-* Fixes a bug where a PHP notice in the settings would influence the styling of some of our inputs.
-* Fixes a bug where the inserted variables in the search appearance would not show correctly when using Elementor.
-* Fixes a bug where there would be a fatal error when deleting post meta in PHP 8.1 and higher. Props to @izzygld.
-* Fixes a security issue where URLs were not correctly escaped in the Yoast admin bar menu.
+* Fixes a bug where unnecessary data was written in the Yoast database when on non-production sites (or when the relevant `Yoast\WP\SEO\should_index_indexables` filter was used to disable such a behavior)
 
 #### Other
 
-* Introduces a notice on the WordPress dashboard and the Yoast SEO dashboard to let users know we are dropping support for PHP < 7.4 starting November 1st, 2024.
+* Deprecates the Wordproof feature.
+* Deprecates the following classes: `Wordproof`, `Wordproof_App_Config`, `Wordproof_Helper`, `Wordproof_Integration_Active_Conditional`, `Wordproof_Plugin_Inactive_Conditional`,  `Wordproof_Translations`.
+
+= 22.9 =
+
+Release date: 2024-06-18
+
+Yoast SEO 22.9 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-18-6-24).
+
+#### Enhancements
+
+* Helps guide Elementor users to Yoast when they have the new editor top bar activated.
+* Adds additional filter options for the `og:image` meta tags.
+* Improves compatibility with custom RSS feeds. Props to @gsusI.
+
+#### Bugfixes
+
+* Fixes a bug where a PHP notice would be thrown on RSS feeds when a canonical URL can not be created for its parent page.
+
+#### Others
+
+* Changes the copy in the admin sidebar from `Premium` to `Upgrades`.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

@@ -104,6 +104,10 @@ final class Post_Site_Information_Test extends TestCase {
 	 */
 	public function test_legacy_site_information() {
 		$expected = [
+			'dismissedAlerts'            => false,
+			'currentPromotions'          => [],
+			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
+			'blackFridayBlockEditorUrl'  => '',
 			'metabox'                    =>
 				[
 					'search_url'    => 'http://example.org/wp-admin/edit.php?seo_kw_filter={keyword}',
@@ -116,10 +120,6 @@ final class Post_Site_Information_Test extends TestCase {
 					'isPremium'     => false,
 					'siteIconUrl'   => '',
 				],
-			'dismissedAlerts'            => false,
-			'currentPromotions'          => [],
-			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'blackFridayBlockEditorUrl'  => '',
 			'linkParams'                 => $this->short_link_helper->get_query_params(),
 			'pluginUrl'                  => 'http://example.org/wp-content/plugins/wordpress-seo',
 			'wistiaEmbedPermission'      => true,
@@ -142,13 +142,13 @@ final class Post_Site_Information_Test extends TestCase {
 	 */
 	public function test_site_information() {
 		$expected = [
-			'search_url'                 => 'http://example.org/wp-admin/edit.php?seo_kw_filter={keyword}',
-			'post_edit_url'              => 'http://example.org/wp-admin/post.php?post={id}&action=edit',
-			'base_url'                   => 'http://example.org/',
 			'dismissedAlerts'            => false,
 			'currentPromotions'          => [],
 			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
 			'blackFridayBlockEditorUrl'  => '',
+			'search_url'                 => 'http://example.org/wp-admin/edit.php?seo_kw_filter={keyword}',
+			'post_edit_url'              => 'http://example.org/wp-admin/post.php?post={id}&action=edit',
+			'base_url'                   => 'http://example.org/',
 			'linkParams'                 => $this->short_link_helper->get_query_params(),
 			'pluginUrl'                  => 'http://example.org/wp-content/plugins/wordpress-seo',
 			'wistiaEmbedPermission'      => true,

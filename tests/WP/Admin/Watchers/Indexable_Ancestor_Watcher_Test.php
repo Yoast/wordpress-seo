@@ -6,6 +6,7 @@ use Mockery;
 use WP_Post;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
@@ -46,6 +47,13 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 	private $indexable_hierarchy_repository;
 
 	/**
+	 * Represents the Indexable_Helper.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Represents the Permalink_Helper.
 	 *
 	 * @var Mockery\MockInterface|Permalink_Helper
@@ -77,6 +85,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->indexable_repository           = Mockery::mock( Indexable_Repository::class );
 		$this->indexable_hierarchy_builder    = Mockery::mock( Indexable_Hierarchy_Builder::class );
 		$this->indexable_hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
+		$this->indexable_helper               = Mockery::mock( Indexable_Helper::class );
 		$this->permalink_helper               = Mockery::mock( Permalink_Helper::class );
 		$this->post_type_helper               = Mockery::mock( Post_Type_Helper::class );
 
@@ -84,6 +93,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 			$this->indexable_repository,
 			$this->indexable_hierarchy_builder,
 			$this->indexable_hierarchy_repository,
+			$this->indexable_helper,
 			$this->permalink_helper,
 			$this->post_type_helper
 		);
