@@ -55,8 +55,7 @@ final class Build_For_Date_Archive_Test extends Abstract_Indexable_Builder_TestC
 			->with( $this->indexable )
 			->andReturn( $this->indexable );
 
-		// Saving is outside the scope of this test.
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $this->indexable );
 
 		$this->assertSame( $this->indexable, $this->instance->build_for_date_archive( $this->indexable ) );
 	}
@@ -77,7 +76,6 @@ final class Build_For_Date_Archive_Test extends Abstract_Indexable_Builder_TestC
 			->with( $this->indexable )
 			->andReturn( $this->indexable );
 
-		// Saving is outside the scope of this test.
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $this->indexable );
 	}
 }

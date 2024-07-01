@@ -284,7 +284,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 
 			if ( $this->indexable_helper->check_if_default_indexable( $indexable, $check_defaults_fields ) ) {
 				$indexable = $this->map( $indexable, $aioseo_indexable );
-				$indexable->save();
+				$this->indexable_helper->save_indexable( $indexable );
 
 				// To ensure that indexables can be rebuild after a reset, we have to store the data in the postmeta table too.
 				$this->indexable_to_postmeta->map_to_postmeta( $indexable );

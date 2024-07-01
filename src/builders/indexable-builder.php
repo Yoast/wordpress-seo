@@ -268,49 +268,6 @@ class Indexable_Builder {
 	}
 
 	/**
-	 * Saves and returns an indexable (on production environments only).
-	 *
-	 * @param Indexable      $indexable        The indexable.
-	 * @param Indexable|null $indexable_before The indexable before possible changes.
-	 *
-	 * @return Indexable The indexable.
-	 */
-	protected function save_indexable( $indexable, $indexable_before = null ) {
-		$intend_to_save = $this->indexable_helper->should_index_indexables();
-
-		/**
-		 * Filter: 'wpseo_should_save_indexable' - Allow developers to enable / disable
-		 * saving the indexable when the indexable is updated. Warning: overriding
-		 * the intended action may cause problems when moving from a staging to a
-		 * production environment because indexable permalinks may get set incorrectly.
-		 *
-		 * @param bool      $intend_to_save True if YoastSEO intends to save the indexable.
-		 * @param Indexable $indexable      The indexable to be saved.
-		 */
-		$intend_to_save = \apply_filters( 'wpseo_should_save_indexable', $intend_to_save, $indexable );
-
-		if ( ! $intend_to_save ) {
-			return $indexable;
-		}
-
-		// Save the indexable before running the WordPress hook.
-		$indexable->save();
-
-		if ( $indexable_before ) {
-			/**
-			 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
-			 * when the indexable is updated.
-			 *
-			 * @param Indexable $indexable        The saved indexable.
-			 * @param Indexable $indexable_before The indexable before saving.
-			 */
-			\do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
-		}
-
-		return $indexable;
-	}
-
-	/**
 	 * Build and author indexable from an author id if it does not exist yet, or if the author indexable needs to be upgraded.
 	 *
 	 * @param int $author_id The author id.
@@ -372,7 +329,7 @@ class Indexable_Builder {
 					$indexable = $this->post_builder->build( $indexable->object_id, $indexable );
 
 					// Save indexable, to make sure it can be queried when building related objects like the author indexable and hierarchy.
-					$indexable = $this->save_indexable( $indexable, $indexable_before );
+					$indexable = $this->indexable_helper->save_indexable( $indexable, $indexable_before );
 
 					// For attachments, we have to make sure to patch any potentially previously cleaned up SEO links.
 					if ( \is_a( $indexable, Indexable::class ) && $indexable->object_sub_type === 'attachment' ) {
@@ -398,7 +355,7 @@ class Indexable_Builder {
 					$indexable = $this->term_builder->build( $indexable->object_id, $indexable );
 
 					// Save indexable, to make sure it can be queried when building hierarchy.
-					$indexable = $this->save_indexable( $indexable, $indexable_before );
+					$indexable = $this->indexable_helper->save_indexable( $indexable, $indexable_before );
 
 					$this->hierarchy_builder->build( $indexable );
 
@@ -422,7 +379,7 @@ class Indexable_Builder {
 					break;
 			}
 
-			return $this->save_indexable( $indexable, $indexable_before );
+			return $this->indexable_helper->save_indexable( $indexable, $indexable_before );
 		}
 		catch ( Source_Exception $exception ) {
 			if ( ! $this->is_type_with_no_id( $indexable->object_type ) && ( ! isset( $indexable->object_id ) || \is_null( $indexable->object_id ) ) ) {
@@ -449,7 +406,7 @@ class Indexable_Builder {
 			// Make sure that the indexing process doesn't get stuck in a loop on this broken indexable.
 			$indexable = $this->version_manager->set_latest( $indexable );
 
-			return $this->save_indexable( $indexable, $indexable_before );
+			return $this->indexable_helper->save_indexable( $indexable, $indexable_before );
 		}
 		catch ( Not_Built_Exception $exception ) {
 			return false;

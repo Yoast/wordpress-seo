@@ -19,7 +19,7 @@ final class Indexable_Builder_Double extends Indexable_Builder {
 	 * @return Indexable The indexable.
 	 */
 	public function exposed_save_indexable( $indexable, $indexable_before = null ) {
-		return $this->save_indexable( $indexable, $indexable_before );
+		return $this->indexable_helper->save_indexable( $indexable, $indexable_before );
 	}
 
 	/**

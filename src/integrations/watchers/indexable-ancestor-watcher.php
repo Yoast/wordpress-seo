@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -40,6 +41,13 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	protected $indexable_hierarchy_repository;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Represents the permalink helper.
 	 *
 	 * @var Permalink_Helper
@@ -59,6 +67,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 * @param Indexable_Repository           $indexable_repository           The indexable repository.
 	 * @param Indexable_Hierarchy_Builder    $indexable_hierarchy_builder    The indexable hierarchy builder.
 	 * @param Indexable_Hierarchy_Repository $indexable_hierarchy_repository The indexable hierarchy repository.
+	 * @param Indexable_Helper               $indexable_helper               The indexable helper.
 	 * @param Permalink_Helper               $permalink_helper               The permalink helper.
 	 * @param Post_Type_Helper               $post_type_helper               The post type helper.
 	 */
@@ -66,12 +75,14 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		Indexable_Repository $indexable_repository,
 		Indexable_Hierarchy_Builder $indexable_hierarchy_builder,
 		Indexable_Hierarchy_Repository $indexable_hierarchy_repository,
+		Indexable_Helper $indexable_helper,
 		Permalink_Helper $permalink_helper,
 		Post_Type_Helper $post_type_helper
 	) {
 		$this->indexable_repository           = $indexable_repository;
 		$this->indexable_hierarchy_builder    = $indexable_hierarchy_builder;
 		$this->indexable_hierarchy_repository = $indexable_hierarchy_repository;
+		$this->indexable_helper               = $indexable_helper;
 		$this->permalink_helper               = $permalink_helper;
 		$this->post_type_helper               = $post_type_helper;
 	}
@@ -177,7 +188,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 			$this->indexable_hierarchy_builder->build( $indexable );
 
 			$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
-			$indexable->save();
+			$this->indexable_helper->save_indexable( $indexable );
 		}
 	}
 

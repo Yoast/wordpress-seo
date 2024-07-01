@@ -6,6 +6,7 @@ use DOMDocument;
 use WP_HTML_Tag_Processor;
 use WPSEO_Image_Utils;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
@@ -41,6 +42,13 @@ class Indexable_Link_Builder {
 	protected $image_helper;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * The post helper.
 	 *
 	 * @var Post_Helper
@@ -68,17 +76,20 @@ class Indexable_Link_Builder {
 	 * @param Url_Helper           $url_helper           The URL helper.
 	 * @param Post_Helper          $post_helper          The post helper.
 	 * @param Options_Helper       $options_helper       The options helper.
+	 * @param Indexable_Helper     $indexable_helper     The indexable helper.
 	 */
 	public function __construct(
 		SEO_Links_Repository $seo_links_repository,
 		Url_Helper $url_helper,
 		Post_Helper $post_helper,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		Indexable_Helper $indexable_helper
 	) {
 		$this->seo_links_repository = $seo_links_repository;
 		$this->url_helper           = $url_helper;
 		$this->post_helper          = $post_helper;
 		$this->options_helper       = $options_helper;
+		$this->indexable_helper     = $indexable_helper;
 	}
 
 	/**
@@ -108,6 +119,10 @@ class Indexable_Link_Builder {
 	 * @return SEO_Links[] The created SEO links.
 	 */
 	public function build( $indexable, $content ) {
+		if ( ! $this->indexable_helper->should_index_indexable( $indexable ) ) {
+			return [];
+		}
+
 		global $post;
 		if ( $indexable->object_type === 'post' ) {
 			$post_backup = $post;

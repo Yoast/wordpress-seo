@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Builders\Primary_Term_Builder;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Models\Primary_Term;
@@ -38,6 +39,13 @@ final class Primary_Term_Builder_Test extends TestCase {
 	private $repository;
 
 	/**
+	 * Holds the indexable helper.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Holds the primary term helper.
 	 *
 	 * @var Mockery\MockInterface|Primary_Term_Helper
@@ -59,12 +67,18 @@ final class Primary_Term_Builder_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->repository   = Mockery::mock( Primary_Term_Repository::class );
-		$this->primary_term = Mockery::mock( Primary_Term_Helper::class );
-		$this->meta         = Mockery::mock( Meta_Helper::class );
-		$this->instance     = Mockery::mock(
+		$this->repository       = Mockery::mock( Primary_Term_Repository::class );
+		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
+		$this->primary_term     = Mockery::mock( Primary_Term_Helper::class );
+		$this->meta             = Mockery::mock( Meta_Helper::class );
+		$this->instance         = Mockery::mock(
 			Primary_Term_Builder_Double::class,
-			[ $this->repository, $this->primary_term, $this->meta ]
+			[
+				$this->repository,
+				$this->indexable_helper,
+				$this->primary_term,
+				$this->meta,
+			]
 		)
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
@@ -80,6 +94,7 @@ final class Primary_Term_Builder_Test extends TestCase {
 	public function test_successfully_creates_primary_term_builder() {
 		$primary_term_builder = new Primary_Term_Builder(
 			$this->repository,
+			$this->indexable_helper,
 			$this->primary_term,
 			$this->meta
 		);
@@ -87,6 +102,11 @@ final class Primary_Term_Builder_Test extends TestCase {
 		$this->assertInstanceOf(
 			Primary_Term_Repository::class,
 			$this->getPropertyValue( $primary_term_builder, 'repository' )
+		);
+
+		$this->assertInstanceOf(
+			Indexable_Helper::class,
+			$this->getPropertyValue( $primary_term_builder, 'indexable_helper' )
 		);
 
 		$this->assertInstanceOf(
@@ -168,7 +188,6 @@ final class Primary_Term_Builder_Test extends TestCase {
 	 */
 	public function test_save_primary_term() {
 		$primary_term = Mockery::mock( Primary_Term_Mock::class );
-		$primary_term->expects( 'save' )->once();
 
 		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 
@@ -182,6 +201,10 @@ final class Primary_Term_Builder_Test extends TestCase {
 			->expects( 'get_value' )
 			->with( 'primary_category', 1 )
 			->andReturn( 1337 );
+
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->once();
 
 		$this->instance->save_primary_term( 1, 'category' );
 
@@ -200,7 +223,6 @@ final class Primary_Term_Builder_Test extends TestCase {
 	 */
 	public function test_save_primary_term_of_custom_taxonomy() {
 		$primary_term = Mockery::mock( Primary_Term_Mock::class );
-		$primary_term->expects( 'save' )->once();
 
 		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 
@@ -214,6 +236,10 @@ final class Primary_Term_Builder_Test extends TestCase {
 			->expects( 'get_value' )
 			->with( 'primary_custom', 1 )
 			->andReturn( 1337 );
+
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->once();
 
 		$this->instance->save_primary_term( 1, 'custom' );
 

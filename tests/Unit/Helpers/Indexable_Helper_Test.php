@@ -337,4 +337,185 @@ final class Indexable_Helper_Test extends TestCase {
 			[ 'schema_article_type', 'irrelevant', false ], // Checking for fields that don't have an explicit default will always return false.
 		];
 	}
+
+	/**
+	 * Tests should_index_indexable method.
+	 *
+	 * @dataProvider provider_should_index_indexable
+	 * @covers ::should_index_indexable
+	 * @covers ::should_index_indexables
+	 *
+	 * @param bool $is_production_mode      Whether is production mode.
+	 * @param bool $should_index_indexables Whether indexables should be created.
+	 * @param bool $should_save_indexable   What the "wpseo_should_save_indexable" filter returns.
+	 * @param bool $expected_result         If indexable should be indexed.
+	 *
+	 * @return void
+	 */
+	public function test_should_index_indexable( $is_production_mode, $should_index_indexables, $should_save_indexable, $expected_result ) {
+		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		$this->environment_helper
+			->expects( 'is_production_mode' )
+			->andReturn( $is_production_mode );
+
+		// In order to test not having an overriding "Yoast\WP\SEO\should_index_indexables" filter.
+		if ( $should_index_indexables === null ) {
+			$should_index_indexables = $is_production_mode;
+		}
+		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\should_index_indexables' )
+			->once()
+			->with( $is_production_mode )
+			->andReturn( $should_index_indexables );
+
+		// In order to test not having an overriding "wpseo_should_save_indexable" filter.
+		if ( $should_save_indexable === null ) {
+			$should_save_indexable = $should_index_indexables;
+		}
+		Monkey\Filters\expectApplied( 'wpseo_should_save_indexable' )
+			->once()
+			->with( $should_index_indexables, $indexable )
+			->andReturn( $should_save_indexable );
+
+		$result = $this->instance->should_index_indexable( $indexable );
+		$this->assertSame( $expected_result, $result );
+	}
+
+	/**
+	 * Data provider for test_should_index_indexable.
+	 *
+	 * @return array<bool>
+	 */
+	public static function provider_should_index_indexable() {
+		yield 'Not production and no overriding filters' => [
+			'is_production_mode'      => false,
+			'should_index_indexables' => null,
+			'should_save_indexable'   => null,
+			'expected_result'         => false,
+		];
+		yield 'Not production, but with an overriding filter allowing general indexing' => [
+			'is_production_mode'      => false,
+			'should_index_indexables' => true,
+			'should_save_indexable'   => null,
+			'expected_result'         => true,
+		];
+		yield 'Not production, but with an overriding filter disallowing general indexing' => [
+			'is_production_mode'      => false,
+			'should_index_indexables' => false,
+			'should_save_indexable'   => null,
+			'expected_result'         => false,
+		];
+		yield 'Not production, but with an overriding filter allowing indexing of that specific indexable' => [
+			'is_production_mode'      => false,
+			'should_index_indexables' => null,
+			'should_save_indexable'   => true,
+			'expected_result'         => true,
+		];
+		yield 'Not production, but with an overriding filter disallowing general indexing, but with an overriding filter allowing indexing of that specific indexable' => [
+			'is_production_mode'      => false,
+			'should_index_indexables' => false,
+			'should_save_indexable'   => true,
+			'expected_result'         => true,
+		];
+		yield 'Production and no overriding filters' => [
+			'is_production_mode'      => true,
+			'should_index_indexables' => null,
+			'should_save_indexable'   => null,
+			'expected_result'         => true,
+		];
+		yield 'Production, but with an overriding filter disallowing general indexing' => [
+			'is_production_mode'      => true,
+			'should_index_indexables' => false,
+			'should_save_indexable'   => null,
+			'expected_result'         => false,
+		];
+		yield 'Production, with an overriding filter disallowing general indexing, but with an overriding filter allowing indexing of that specific indexable' => [
+			'is_production_mode'      => true,
+			'should_index_indexables' => false,
+			'should_save_indexable'   => true,
+			'expected_result'         => true,
+		];
+		yield 'Production, with an overriding filter allowing general indexing, but with an overriding filter disallowing indexing of that specific indexable' => [
+			'is_production_mode'      => true,
+			'should_index_indexables' => true,
+			'should_save_indexable'   => false,
+			'expected_result'         => false,
+		];
+	}
+
+	/**
+	 * Tests save_indexable method.
+	 *
+	 * @dataProvider provider_save_indexable
+	 * @covers ::save_indexable
+	 * @covers ::should_index_indexable
+	 * @covers ::should_index_indexables
+	 *
+	 * @param bool      $should_save      Whether the indexable should be saved.
+	 * @param Indexable $indexable_before The indexable how it was before all this.
+	 * @param int       $save_times       Times that indexable will be saved.
+	 * @param int       $action_times     Times that the "wpseo_save_indexable" action will be run.
+	 *
+	 * @return void
+	 */
+	public function test_save_indexable( $should_save, $indexable_before, $save_times, $action_times ) {
+		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		$this->environment_helper
+			->expects( 'is_production_mode' )
+			->andReturn( true );
+
+		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\should_index_indexables' )
+			->once()
+			->andReturn( true );
+
+		Monkey\Filters\expectApplied( 'wpseo_should_save_indexable' )
+			->once( $action_times )
+			->andReturn( $should_save );
+
+		$indexable
+			->expects( 'save' )
+			->times( $save_times );
+
+		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
+			->times( $action_times )
+			->with( $indexable, $indexable_before );
+
+		$result = $this->instance->save_indexable( $indexable, $indexable_before );
+		$this->assertSame( $result, $indexable );
+	}
+
+	/**
+	 * Data provider for test_save_indexable.
+	 *
+	 * @return array<bool, Indexable, int>
+	 */
+	public static function provider_save_indexable() {
+		$indexable_before = Mockery::mock( Indexable_Mock::class );
+
+		yield 'Indexable should be saved and there is no past iteration of the indexable passed' => [
+			'should_save'      => true,
+			'indexable_before' => null,
+			'save_times'       => 1,
+			'action_times'     => 0,
+		];
+		yield 'Indexable should not be saved and there is no past iteration of the indexable passed' => [
+			'should_save'      => false,
+			'indexable_before' => null,
+			'save_times'       => 0,
+			'action_times'     => 0,
+		];
+		yield 'Indexable should be saved and there is a past iteration of the indexable passed' => [
+			'should_save'      => true,
+			'indexable_before' => $indexable_before,
+			'save_times'       => 1,
+			'action_times'     => 1,
+		];
+		yield 'Indexable should not be saved and there is a past iteration of the indexable passed' => [
+			'should_save'      => false,
+			'indexable_before' => $indexable_before,
+			'save_times'       => 0,
+			'action_times'     => 0,
+		];
+	}
 }
