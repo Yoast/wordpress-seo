@@ -1,7 +1,9 @@
-import { getActiveAIFixesButton } from "../../../src/redux/selectors/activeAIButton";
+import { getActiveAIFixesButton } from "../../../src/redux/selectors";
 
 const testState = {
-	activeAIButton: "keyphraseInSubheadingAIFixes",
+	AIButton: {
+		activeAIButton: "keyphraseInSubheadingAIFixes",
+	},
 };
 
 describe( "getActiveAIFixesButton", () => {

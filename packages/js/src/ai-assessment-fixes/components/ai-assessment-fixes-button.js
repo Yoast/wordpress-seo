@@ -24,7 +24,7 @@ import { ReactComponent as LockClosed } from "../../../images/lock-closed.svg";
  */
 const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const aiFixesId = id + "AIFixes";
-	const ariaLabel = __( "Optimize with AI", "wordpress-seo" );
+	let ariaLabel = __( "Optimize with AI", "wordpress-seo" );
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
 	const activeAIButtonId = useSelect( select => select( "yoast-seo/editor" ).getActiveAIFixesButton(), [] );
 	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
@@ -32,8 +32,17 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const focusElementRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
 
-	// Only enable the button when the editor is in visual mode and all blocks are in visual mode.
+	// Enable the button when:
+	// (1) the AI button is not disabled.
+	// (2) the editor is in visual mode.
+	// (3) all blocks are in visual mode.
 	const isEnabled = useSelect( ( select ) => {
+		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
+		if ( disabledAIButtons.includes( aiFixesId ) ) {
+			ariaLabel = __( "Your text is too long for the AI model to process.", "wordpress-seo" );
+			return false;
+		}
+
 		const editorMode = select( "core/edit-post" ).getEditorMode();
 		if ( editorMode !== "visual" ) {
 			return false;
