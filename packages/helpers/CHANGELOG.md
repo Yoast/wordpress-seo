@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## Future Release
+### Non user facing
+* Now published as a transpiled package.
+
 ## 0.16.0 March 15th, 2021
 ### Bugfixes
 * Fixes a bug where the `wicked-good-xpath` package would be missing because it was set as a development dependency.

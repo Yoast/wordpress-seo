@@ -35,6 +35,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Fixes a bug where the results of the SEO analysis of the focus keyphrase were removed when more than two related keyphrases were analyzed.
 
 ### Non user facing
+* Now published as a transpiled package.
 * Fixes a bug where an invalid browser field in package.json would cause Vite to throw an error when building.
 * Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
 * Adds a feature-flag for Farsi support.

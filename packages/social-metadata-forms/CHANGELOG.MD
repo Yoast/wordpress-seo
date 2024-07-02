@@ -6,6 +6,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ## Future Release
 ### Non user facing
+* Now published as a transpiled package.
 * Adds an `imageAltText` prop to the `SocialMetadataPreviewForm` component.
 
 

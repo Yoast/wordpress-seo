@@ -10,14 +10,15 @@
   ],
   "main": "build/index.js",
   "license": "GPL-3.0",
-  "version": "1.91.2",
+  "version": "2.0.0-alpha.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/wordpress-seo.git",
     "directory": "packages/yoastseo"
   },
   "files": [
-    "build/**/*",
+    "build",
+    "!*.map",
     "vendor",
     "images"
   ],
@@ -28,8 +29,7 @@
     "clean": "rm -rf build",
     "pretest": "grunt get-premium-configuration",
     "test": "jest",
-    "lint": "eslint src spec --max-warnings 10",
-    "prepublishOnly": "yarn build"
+    "lint": "eslint src spec --max-warnings 10"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "@wordpress/i18n": "^4.46.0",
-    "@yoast/feature-flag": "^0.5.2",
+    "@yoast/feature-flag": "^0.6.0-alpha.0",
     "htmlparser2": "^3.9.2",
     "lodash": "^4.17.21",
     "loglevel": "^1.8.1",

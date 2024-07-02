@@ -8,6 +8,9 @@ We follow [Semantic Versioning](http://semver.org/).
 * The Facebook and Twitter Preview now uses image instead of a background image.
 * Export the variables TWITTER_IMAGE_SIZES, FACEBOOK_IMAGE_SIZES and  determineFacebookImageMode.
 
+### Non user facing
+* Now published as a transpiled package.
+
 
 ## 1.15.0 April 1st, 2021
 ### Enhancements

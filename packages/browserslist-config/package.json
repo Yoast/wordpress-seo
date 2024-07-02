@@ -11,14 +11,16 @@
   "homepage": "https://github.com/Yoast/javascript#readme",
   "license": "GPL-3.0",
   "private": false,
-  "main": "src/index.js",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "test": "jest",
-    "lint": "eslint . --max-warnings=0",
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \\\"this.main='index.js'\\\""
+    "lint": "eslint . --max-warnings=0"
   },
   "bugs": {
     "url": "https://github.com/Yoast/javascript/issues"
