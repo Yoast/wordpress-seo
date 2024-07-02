@@ -315,6 +315,15 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 23.1 =
+
+Release date: 2024-07-16
+
+#### Enhancements
+
+* Disabled an unneeded cleanup cronjob when indexables are disabled.
+* Removes unnecessary query when indexables are disabled.
+
 = 23.0 =
 
 Release date: 2024-07-02
@@ -333,26 +342,6 @@ Yoast SEO 23.0 brings more enhancements and bugfixes. [Find more information abo
 
 * Deprecates the Wordproof feature.
 * Deprecates the following classes: `Wordproof`, `Wordproof_App_Config`, `Wordproof_Helper`, `Wordproof_Integration_Active_Conditional`, `Wordproof_Plugin_Inactive_Conditional`,  `Wordproof_Translations`.
-
-= 22.9 =
-
-Release date: 2024-06-18
-
-Yoast SEO 22.9 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-18-6-24).
-
-#### Enhancements
-
-* Helps guide Elementor users to Yoast when they have the new editor top bar activated.
-* Adds additional filter options for the `og:image` meta tags.
-* Improves compatibility with custom RSS feeds. Props to @gsusI.
-
-#### Bugfixes
-
-* Fixes a bug where a PHP notice would be thrown on RSS feeds when a canonical URL can not be created for its parent page.
-
-#### Others
-
-* Changes the copy in the admin sidebar from `Premium` to `Upgrades`.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
