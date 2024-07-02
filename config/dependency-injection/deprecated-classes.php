@@ -19,23 +19,26 @@
  */
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Yoast\WP\SEO\Actions\Indexables_Page_Action;
-use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
-use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
-use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexables_Page_Integration;
+use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Integration_Active_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Plugin_Inactive_Conditional;
+use Yoast\WP\SEO\Config\Wordproof_App_Config;
+use Yoast\WP\SEO\Config\Wordproof_Translations;
+use Yoast\WP\SEO\Helpers\Wordproof_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Old_Premium_Integration;
-use Yoast\WP\SEO\Integrations\Admin\Social_Templates_Integration;
-use Yoast\WP\SEO\Integrations\Schema_Blocks;
 use Yoast\WP\SEO\Integrations\Third_Party\Wincher;
+use Yoast\WP\SEO\Integrations\Third_Party\Wordproof;
 use Yoast\WP\SEO\Integrations\Third_Party\Wordproof_Integration_Toggle;
-use Yoast\WP\SEO\Routes\Indexables_Page_Route;
-use Yoast\WP\SEO\Schema_Templates\Assets\Icons;
 
 $deprecated_classes = [
-	Old_Premium_Integration::class              => '20.10',
-	Wincher::class                              => '21.6',
-	Wordproof_Integration_Toggle::class         => '21.6',
+	Old_Premium_Integration::class                  => '20.10',
+	Wincher::class                                  => '21.6',
+	Wordproof_Integration_Toggle::class             => '21.6',
+	Wordproof::class                                => '22.10',
+	Wordproof_Integration_Active_Conditional::class => '22.10',
+	Wordproof_Plugin_Inactive_Conditional::class    => '22.10',
+	Wordproof_App_Config::class                     => '22.10',
+	Wordproof_Translations::class                   => '22.10',
+	Wordproof_Helper::class                         => '22.10',
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {

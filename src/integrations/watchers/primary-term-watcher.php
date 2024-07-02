@@ -149,13 +149,13 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 */
 	public function delete_primary_terms( $post_id ) {
 		foreach ( $this->primary_term->get_primary_term_taxonomies( $post_id ) as $taxonomy ) {
-			$primary_term = $this->repository->find_by_post_id_and_taxonomy( $post_id, $taxonomy->name, false );
+			$primary_term_indexable = $this->repository->find_by_post_id_and_taxonomy( $post_id, $taxonomy->name, false );
 
-			if ( ! $primary_term ) {
+			if ( ! $primary_term_indexable ) {
 				continue;
 			}
 
-			$primary_term->delete();
+			$primary_term_indexable->delete();
 		}
 	}
 }

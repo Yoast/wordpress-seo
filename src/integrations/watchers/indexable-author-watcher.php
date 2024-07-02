@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -27,6 +28,13 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	protected $builder;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array
@@ -38,12 +46,18 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	/**
 	 * Indexable_Author_Watcher constructor.
 	 *
-	 * @param Indexable_Repository $repository The repository to use.
-	 * @param Indexable_Builder    $builder    The builder to use.
+	 * @param Indexable_Repository $repository       The repository to use.
+	 * @param Indexable_Helper     $indexable_helper The indexable helper.
+	 * @param Indexable_Builder    $builder          The builder to use.
 	 */
-	public function __construct( Indexable_Repository $repository, Indexable_Builder $builder ) {
-		$this->repository = $repository;
-		$this->builder    = $builder;
+	public function __construct(
+		Indexable_Repository $repository,
+		Indexable_Helper $indexable_helper,
+		Indexable_Builder $builder
+	) {
+		$this->repository       = $repository;
+		$this->indexable_helper = $indexable_helper;
+		$this->builder          = $builder;
 	}
 
 	/**
@@ -90,7 +104,7 @@ class Indexable_Author_Watcher implements Integration_Interface {
 
 		if ( $indexable ) {
 			$indexable->object_last_modified = \max( $indexable->object_last_modified, \current_time( 'mysql' ) );
-			$indexable->save();
+			$this->indexable_helper->save_indexable( $indexable );
 		}
 	}
 

@@ -36,7 +36,6 @@
 		"psr/log": "^1.0",
 		"symfony/config": "^3.4",
 		"symfony/dependency-injection": "^3.4",
-		"wordproof/wordpress-sdk": "1.3.5",
 		"yoast/wp-test-utils": "^1.2",
 		"yoast/yoastcs": "^3.1.0"
 	},
@@ -92,7 +91,7 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=2523",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=2514",
 			"@putenv YOASTCS_THRESHOLD_WARNINGS=253",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
@@ -135,8 +134,7 @@
 		],
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
-			"composer prefix-symfony",
-			"composer prefix-wordproof"
+			"composer prefix-symfony"
 		],
 		"prefix-oauth2-client": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/deprecation-contracts --config=config/php-scoper/deprecation-contracts.inc.php --force --quiet",
@@ -146,9 +144,6 @@
 		],
 		"prefix-symfony": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/dependency-injection --config=config/php-scoper/dependency-injection.inc.php --force --quiet"
-		],
-		"prefix-wordproof": [
-			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/wordproof/wordpress-sdk --config=config/php-scoper/wordproof.inc.php --force --quiet"
 		],
 		"compile-di": [
 			"rm -f ./src/generated/container.php",
