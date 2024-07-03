@@ -24,32 +24,44 @@ import { ReactComponent as LockClosed } from "../../../images/lock-closed.svg";
  */
 const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const aiFixesId = id + "AIFixes";
-	let ariaLabel = __( "Optimize with AI", "wordpress-seo" );
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
 	const activeAIButtonId = useSelect( select => select( "yoast-seo/editor" ).getActiveAIFixesButton(), [] );
 	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
-	const [ buttonClass, setButtonClass ] = useState( "" );
+	const [ tooltipClass, setTooltipClass ] = useState( "" );
+
+	const defaultLabel = __( "Optimize with AI", "wordpress-seo" );
+	const tooLongLabel = __( "Your text is too long for the AI model to process.", "wordpress-seo" );
+	const htmlLabel = __( "Please switch to the visual editor to use AI.", "wordpress-seo" );
 
 	// Enable the button when:
 	// (1) the AI button is not disabled.
 	// (2) the editor is in visual mode.
 	// (3) all blocks are in visual mode.
-	const isEnabled = useSelect( ( select ) => {
+	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
 		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
 		if ( disabledAIButtons.includes( aiFixesId ) ) {
-			ariaLabel = __( "Your text is too long for the AI model to process.", "wordpress-seo" );
-			return false;
+			return {
+				isEnabled: false,
+				ariaLabel: tooLongLabel,
+			};
 		}
 
 		const editorMode = select( "core/edit-post" ).getEditorMode();
 		if ( editorMode !== "visual" ) {
-			return false;
+			return {
+				isEnabled: false,
+				ariaLabel: htmlLabel,
+			};
 		}
 
 		const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
-		return blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
+		const allVisual = blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
+		return {
+			isEnabled: allVisual,
+			ariaLabel: allVisual ? defaultLabel : htmlLabel,
+		};
 	}, [] );
 
 	/**
@@ -74,7 +86,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		}
 
 		// Dismiss the tooltip when the button is pressed.
-		setButtonClass( "" );
+		setTooltipClass( "" );
 	};
 
 	const handleClick = useCallback( () => {
@@ -94,26 +106,28 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 
 	// Add tooltip classes on mouse enter and remove them on mouse leave.
 	const handleMouseEnter = useCallback( () => {
-		// Add tooltip classes on mouse enter
-		setButtonClass( "yoast-tooltip yoast-tooltip-w" );
-	}, [] );
+		const direction = isEnabled ? "yoast-tooltip-w" : "yoast-tooltip-nw";
+		setTooltipClass( `yoast-tooltip ${ direction }` );
+	}, [ isEnabled ] );
 
 	const handleMouseLeave = useCallback( () => {
-		// Remove tooltip classes on mouse leave
-		setButtonClass( "" );
+		setTooltipClass( "" );
 	}, [] );
 
 	return (
-		<>
+		<div
+			aria-label={ ariaLabel }
+			className={ tooltipClass }
+			onMouseEnter={ handleMouseEnter }
+			onMouseLeave={ handleMouseLeave }
+		>
 			<IconAIFixesButton
-				onClick={ handleClick }
-				ariaLabel={ ariaLabel }
-				onMouseEnter={ handleMouseEnter }
-				onMouseLeave={ handleMouseLeave }
 				id={ aiFixesId }
-				className={ `ai-button ${buttonClass}` }
-				pressed={ isButtonPressed }
+				ariaLabel={ ariaLabel }
+				className={ "ai-button" }
 				disabled={ ! isEnabled }
+				onClick={ handleClick }
+				pressed={ isButtonPressed }
 			>
 				{ ! isPremium &&  <LockClosed className="yst-fixes-button__lock-icon" /> }
 				<SparklesIcon pressed={ isButtonPressed } />
@@ -127,7 +141,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 					</Modal>
 				}
 			</IconAIFixesButton>
-		</>
+		</div>
 	);
 };
 
