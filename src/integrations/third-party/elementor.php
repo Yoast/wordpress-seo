@@ -18,14 +18,12 @@ use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Utils;
-use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
@@ -129,13 +127,11 @@ class Elementor implements Integration_Interface {
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Options_Helper $options,
-		Capability_Helper $capability,
-		Promotion_Manager $promotion_manager
+		Capability_Helper $capability
 	) {
 		$this->asset_manager     = $asset_manager;
 		$this->options           = $options;
 		$this->capability        = $capability;
-		$this->promotion_manager = $promotion_manager;
 
 		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
@@ -455,8 +451,6 @@ class Elementor implements Integration_Interface {
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
-		$alert_dismissal_action  = \YoastSEO()->classes->get( Alert_Dismissal_Action::class );
-		$dismissed_alerts        = $alert_dismissal_action->all_dismissed();
 		$woocommerce_conditional = new WooCommerce_Conditional();
 		$permalink               = $this->get_permalink();
 
@@ -474,13 +468,8 @@ class Elementor implements Integration_Interface {
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'dismissedAlerts'           => $dismissed_alerts,
 			'webinarIntroElementorUrl'  => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
-			'currentPromotions'         => $this->promotion_manager->get_current_promotions(),
 			'usedKeywordsNonce'         => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
-			'linkParams'                => WPSEO_Shortlinker::get_query_params(),
-			'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),
-			'wistiaEmbedPermission'     => \YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( \get_current_user_id() ),
 		];
 
 		/**
