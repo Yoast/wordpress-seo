@@ -5,10 +5,10 @@
  * {@internal As this file is just (temporarily) put in place to warn extending
  * plugins about the class name changes, it is exempt from select CS standards.}
  *
- * @package Yoast\WP\SEO
- *
  * @since      23.2
  * @deprecated 23.2
+ *
+ * @codeCoverageIgnore
  *
  * @phpcs:disable Generic.Files.OneObjectStructurePerFile.MultipleFound
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound
