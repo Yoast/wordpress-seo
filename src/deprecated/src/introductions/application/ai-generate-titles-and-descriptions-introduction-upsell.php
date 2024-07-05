@@ -1,6 +1,6 @@
 <?php
 /**
- * Graceful deprecation of various classes which were renamed.
+ * Graceful deprecation of the Ai_Generate_Titles_And_Descriptions_Introduction_Upsell class.
  *
  * {@internal As this file is just (temporarily) put in place to warn extending
  * plugins about the class name changes, it is exempt from select CS standards.}
