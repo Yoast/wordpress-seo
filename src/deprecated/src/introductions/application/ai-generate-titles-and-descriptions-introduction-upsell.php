@@ -5,7 +5,6 @@
  * {@internal As this file is just (temporarily) put in place to warn extending
  * plugins about the class name changes, it is exempt from select CS standards.}
  *
- * @since      23.2
  * @deprecated 23.2
  *
  * @codeCoverageIgnore
