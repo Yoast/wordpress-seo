@@ -22,26 +22,26 @@ import { ReactComponent as LockClosed } from "../../../images/lock-closed.svg";
  *
  * @returns {JSX.Element} The AI Assessment Fixes button.
  */
-const AIAssessmentFixesButton = ( { id, isPremium } ) => {
+const AIAssessmentFixesButton = ({ id, isPremium }) => {
 	const aiFixesId = id + "AIFixes";
-	const ariaLabel = __( "Optimize with AI", "wordpress-seo" );
-	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const activeAIButtonId = useSelect( select => select( "yoast-seo/editor" ).getActiveAIFixesButton(), [] );
-	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
-	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus } = useDispatch( "yoast-seo/editor" );
-	const focusElementRef = useRef( null );
-	const [ buttonClass, setButtonClass ] = useState( "" );
+	const ariaLabel = __("Optimize with AI", "wordpress-seo");
+	const [isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse] = useToggleState(false);
+	const activeAIButtonId = useSelect(select => select("yoast-seo/editor").getActiveAIFixesButton(), []);
+	const activeMarker = useSelect(select => select("yoast-seo/editor").getActiveMarker(), []);
+	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus } = useDispatch("yoast-seo/editor");
+	const focusElementRef = useRef(null);
+	const [buttonClass, setButtonClass] = useState("");
 
 	// Only enable the button when the editor is in visual mode and all blocks are in visual mode.
-	const isEnabled = useSelect( ( select ) => {
-		const editorMode = select( "core/edit-post" ).getEditorMode();
-		if ( editorMode !== "visual" ) {
+	const isEnabled = useSelect((select) => {
+		const editorMode = select("core/edit-post").getEditorMode();
+		if (editorMode !== "visual") {
 			return false;
 		}
 
-		const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
-		return blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
-	}, [] );
+		const blocks = getAllBlocks(select("core/block-editor").getBlocks());
+		return blocks.every(block => select("core/block-editor").getBlockMode(block.clientId) === "visual");
+	}, []);
 
 	/**
 	 * Handles the button press state.
@@ -49,28 +49,28 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	 */
 	const handlePressedButton = () => {
 		// If there is an active marker when the AI fixes button is clicked, remove it.
-		if ( activeMarker ) {
-			setActiveMarker( null );
-			setMarkerPauseStatus( false );
+		if (activeMarker) {
+			setActiveMarker(null);
+			setMarkerPauseStatus(false);
 			// Remove highlighting from the editor.
-			window.YoastSEO.analysis.applyMarks( new Paper( "", {} ), [] );
+			window.YoastSEO.analysis.applyMarks(new Paper("", {}), []);
 		}
 
 		/* If the current pressed button ID is the same as the active AI button id,
 		we want to set the active AI button to null. Otherwise, update the active AI button ID. */
-		if ( aiFixesId === activeAIButtonId ) {
-			setActiveAIFixesButton( null );
+		if (aiFixesId === activeAIButtonId) {
+			setActiveAIFixesButton(null);
 		} else {
-			setActiveAIFixesButton( aiFixesId );
+			setActiveAIFixesButton(aiFixesId);
 		}
 
 		// Dismiss the tooltip when the button is pressed.
-		setButtonClass( "" );
+		setButtonClass("");
 	};
 
-	const handleClick = useCallback( () => {
-		if ( isPremium ) {
-			doAction( "yoast.ai.fixAssessments", aiFixesId );
+	const handleClick = useCallback(() => {
+		if (isPremium) {
+			doAction("yoast.ai.fixAssessments", aiFixesId);
 			/* Only handle the pressed button state in Premium.
 			We don't want to change the background color of the button and other styling when it's pressed in Free.
 			This is because clicking on the button in Free will open the modal, and the button will not be in a pressed state. */
@@ -78,42 +78,42 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		} else {
 			setIsModalOpenTrue();
 		}
-	}, [ handlePressedButton, setIsModalOpenTrue ] );
+	}, [handlePressedButton, setIsModalOpenTrue]);
 
 	// The button is pressed when the active AI button id is the same as the current button id.
 	const isButtonPressed = activeAIButtonId === aiFixesId;
 
 	// Add tooltip classes on mouse enter and remove them on mouse leave.
-	const handleMouseEnter = useCallback( () => {
+	const handleMouseEnter = useCallback(() => {
 		// Add tooltip classes on mouse enter
-		setButtonClass( "yoast-tooltip yoast-tooltip-w" );
-	}, [] );
+		setButtonClass("yoast-tooltip yoast-tooltip-w");
+	}, []);
 
-	const handleMouseLeave = useCallback( () => {
+	const handleMouseLeave = useCallback(() => {
 		// Remove tooltip classes on mouse leave
-		setButtonClass( "" );
-	}, [] );
+		setButtonClass("");
+	}, []);
 
 	return (
 		<>
 			<IconAIFixesButton
-				onClick={ handleClick }
-				ariaLabel={ ariaLabel }
-				onMouseEnter={ handleMouseEnter }
-				onMouseLeave={ handleMouseLeave }
-				id={ aiFixesId }
-				className={ `ai-button ${buttonClass}` }
-				pressed={ isButtonPressed }
-				disabled={ ! isEnabled }
+				onClick={handleClick}
+				ariaLabel={ariaLabel}
+				onPointerEnter={handleMouseEnter}
+				onPointerLeave={handleMouseLeave}
+				id={aiFixesId}
+				className={`ai-button ${buttonClass}`}
+				pressed={isButtonPressed}
+				// disabled={!isEnabled}
 			>
-				{ ! isPremium &&  <LockClosed className="yst-fixes-button__lock-icon" /> }
-				<SparklesIcon pressed={ isButtonPressed } />
+				{!isPremium && <LockClosed className="yst-fixes-button__lock-icon" />}
+				<SparklesIcon pressed={isButtonPressed} />
 				{
 					// We put the logic for the Upsell component in place.
 					// The Modal below is only a placeholder/mock. When we have the design for the real upsell, the modal should be replaced.
-					isModalOpen && <Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
+					isModalOpen && <Modal className="yst-introduction-modal" isOpen={isModalOpen} onClose={setIsModalOpenFalse} initialFocus={focusElementRef}>
 						<Modal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl yst-introduction-modal-panel">
-							<ModalContent onClose={ setIsModalOpenFalse } focusElementRef={ focusElementRef } />
+							<ModalContent onClose={setIsModalOpenFalse} focusElementRef={focusElementRef} />
 						</Modal.Panel>
 					</Modal>
 				}
