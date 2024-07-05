@@ -18,7 +18,12 @@
  * @var $container \Symfony\Component\DependencyInjection\ContainerBuilder
  */
 
-$renamed_classes = [];
+use Yoast\WP\SEO\Introductions\Application\Ai_Fix_Assessments_Upsell;
+use Yoast\WP\SEO\Introductions\Application\Ai_Generate_Titles_And_Descriptions_Introduction_Upsell;
+
+$renamed_classes = [
+	Ai_Generate_Titles_And_Descriptions_Introduction_Upsell::class => [ Ai_Fix_Assessments_Upsell::class, '23.1' ],
+];
 
 foreach ( $renamed_classes as $original_class => $replacement ) {
 	list( $renamed_class, $version ) = $replacement;

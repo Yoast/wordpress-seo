@@ -1,17 +1,33 @@
 <?php
+/**
+ * Graceful deprecation of various classes which were renamed.
+ *
+ * {@internal As this file is just (temporarily) put in place to warn extending
+ * plugins about the class name changes, it is exempt from select CS standards.}
+ *
+ * @package Yoast\WP\SEO
+ *
+ * @since      23.1
+ * @deprecated 23.1
+ *
+ * @phpcs:disable Generic.Files.OneObjectStructurePerFile.MultipleFound
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound
+ * @phpcs:disable Yoast.Commenting.CodeCoverageIgnoreDeprecated
+ * @phpcs:disable Yoast.Commenting.FileComment.Unnecessary
+ * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
+ */
 
 namespace Yoast\WP\SEO\Introductions\Application;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
-use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 
 /**
  * Represents the introduction for the AI generate titles and introduction upsell.
  *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ * @deprecated 23.1 Use {@see \Yoast\WP\SEO\Introductions\Application\Ai_Fix_Assessments_Upsell} instead.
  */
-class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introduction_Interface {
+class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell extends Ai_Fix_Assessments_Upsell {
 
 	use Current_Page_Trait;
 	use User_Allowed_Trait;
@@ -34,6 +50,8 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	/**
 	 * Constructs the introduction.
 	 *
+	 * @deprecated 23.1
+	 *
 	 * @param Product_Helper $product_helper The product helper.
 	 * @param Options_Helper $options_helper The options' helper.
 	 */
@@ -48,7 +66,7 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	/**
 	 * Returns the ID.
 	 *
-	 * @deprecated 23.0
+	 * @deprecated 23.1
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
@@ -75,7 +93,7 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	/**
 	 * Returns the requested pagination priority. Lower means earlier.
 	 *
-	 * @deprecated 23.0
+	 * @deprecated 23.1
 	 * @codeCoverageIgnore
 	 *
 	 * @return int
@@ -88,7 +106,7 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	/**
 	 * Returns whether this introduction should show.
 	 *
-	 * @deprecated 23.0
+	 * @deprecated 23.1
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool
