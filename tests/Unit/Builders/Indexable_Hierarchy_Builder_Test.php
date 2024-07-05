@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Meta;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
@@ -27,6 +28,13 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @package Yoast\Tests\Builders
  */
 final class Indexable_Hierarchy_Builder_Test extends TestCase {
+
+	/**
+	 * Holds the Indexable_Helper instance.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	private $indexable_helper;
 
 	/**
 	 * Holds the Indexable_Hierarchy_Repository instance.
@@ -83,12 +91,14 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->options                        = Mockery::mock( Options_Helper::class );
 		$this->indexable_repository           = Mockery::mock( Indexable_Repository::class );
 		$this->post                           = Mockery::mock( Post_Helper::class );
+		$this->indexable_helper               = Mockery::mock( Indexable_Helper::class );
 
 		$this->instance = new Indexable_Hierarchy_Builder(
 			$this->indexable_hierarchy_repository,
 			$this->primary_term_repository,
 			$this->options,
-			$this->post
+			$this->post,
+			$this->indexable_helper
 		);
 		$this->instance->set_indexable_repository( $this->indexable_repository );
 	}
@@ -112,7 +122,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$indexable->object_type   = 'post';
 		$indexable->object_id     = 1;
 		$indexable->has_ancestors = true;
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( '0' );
 		$this->post->expects( 'get_post' )
@@ -145,7 +155,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 	public function test_no_parents_and_has_ancestors_set_to_false() {
 		$indexable                = $this->get_indexable( 1, 'post' );
 		$indexable->has_ancestors = false;
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		$this->indexable_hierarchy_repository
 			->expects( 'clear_ancestors' )
 			->once();
@@ -187,7 +197,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$indexable->object_type   = 'post';
 		$indexable->object_id     = 1;
 		$indexable->has_ancestors = true;
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->post->expects( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_type' => 'post' ] );
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 0, 0 );
@@ -229,7 +239,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( '0' );
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'post' )->andReturn( $parent_indexable );
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		$this->post->expects( 'get_post' )
 			->once()
 			->with( 1 )
@@ -271,7 +281,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$indexable                   = $this->get_indexable( 1, 'post' );
 		$parent_indexable            = $this->get_indexable( 0, 'post' );
 		$parent_indexable->object_id = 2;
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		$this->indexable_hierarchy_repository
 			->expects( 'clear_ancestors' )
 			->with( 1 )
@@ -334,7 +344,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$parent_indexable = $this->get_indexable( 2, 'post' );
 
 		$parent_indexable->post_status = 'unindexed';
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		$this->indexable_hierarchy_repository
 			->expects( 'clear_ancestors' )
 			->with( 1 )
@@ -389,7 +399,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 	public function test_post_parents_with_parent_already_added() {
 		$indexable        = $this->get_indexable( 1, 'post' );
 		$parent_indexable = $this->get_indexable( 2, 'post' );
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		$this->indexable_hierarchy_repository
 			->expects( 'clear_ancestors' )
 			->with( 1 )
@@ -446,7 +456,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 */
 	public function test_post_parents_having_the_parent_is_the_main_object() {
 		$indexable = $this->get_indexable( 1, 'post' );
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		$this->indexable_hierarchy_repository
 			->expects( 'clear_ancestors' )
 			->with( 1 )
@@ -531,7 +541,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturn( $primary_term );
 
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
@@ -576,7 +586,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$parent_indexable              = $this->get_indexable( 2, 'term' );
 		$parent_indexable->post_status = 'unindexed';
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		Monkey\Functions\expect( 'get_term' )
 			->once()
 			->with( 2 )
@@ -690,7 +700,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'parent'   => 0,
 				]
 			);
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 3, 2 );
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
@@ -747,7 +757,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$parent_indexable->object_type   = 'term';
 		$parent_indexable->object_id     = 2;
 		$parent_indexable->has_ancestors = true;
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		Monkey\Functions\expect( 'get_the_terms' )
 			->with( 1, 'tag' )
 			->andReturn(
@@ -825,7 +835,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 				]
 			);
 		Monkey\Functions\expect( 'get_post_meta' )->with( 1, WPSEO_Meta::$meta_prefix . 'primary_term', true )->andReturn( '' );
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 
 		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturnFalse();
@@ -868,7 +878,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$indexable->object_type   = 'post';
 		$indexable->object_id     = 1;
 		$indexable->has_ancestors = true;
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		Monkey\Functions\expect( 'get_the_terms' )->with( 1, 'tag' )->andReturn();
 		Monkey\Functions\expect( 'get_term' )
 			->with( 2 )
@@ -978,7 +988,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 				]
 			);
 		Monkey\Functions\expect( 'get_post_meta' )->with( 1, WPSEO_Meta::$meta_prefix . 'primary_term', true )->andReturn( '' );
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 4, 2 );
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 3, 1 );
@@ -1031,7 +1041,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$parent_indexable->object_type   = 'term';
 		$parent_indexable->object_id     = 2;
 		$parent_indexable->has_ancestors = true;
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		Monkey\Functions\expect( 'get_term' )
 			->once()
 			->with( 1 )
@@ -1080,7 +1090,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$indexable                     = $this->get_indexable( 1, 'term' );
 		$parent_indexable              = $this->get_indexable( 2, 'term' );
 		$parent_indexable->post_status = 'unindexed';
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		Monkey\Functions\expect( 'get_term' )
 			->once()
 			->with( 1 )
@@ -1135,7 +1145,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 */
 	public function test_term_with_ancestor_is_the_main_object() {
 		$indexable = $this->get_indexable( 1, 'term' );
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		Monkey\Functions\expect( 'get_term' )
 			->once()
 			->with( 1 )
@@ -1192,6 +1202,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$indexable        = $this->get_indexable( 1, 'term' );
 		$parent_indexable = $this->get_indexable( 2, 'term' );
 
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		Monkey\Functions\expect( 'get_term' )
 			->once()
 			->with( 1 )
@@ -1279,7 +1290,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$parent_indexable->object_type   = 'term';
 		$parent_indexable->object_id     = 3;
 		$parent_indexable->has_ancestors = true;
-
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		$this->indexable_hierarchy_repository
 			->expects( 'clear_ancestors' )
 			->with( 1 )

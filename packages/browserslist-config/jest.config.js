@@ -5,7 +5,7 @@ const config = {
 		"**/*Test.[jt]s",
 	],
 	collectCoverageFrom: [
-		"src/**/*.{js,jsx,ts,tsx}",
+		"index.js",
 	],
 	coverageReporters: [
 		"json",

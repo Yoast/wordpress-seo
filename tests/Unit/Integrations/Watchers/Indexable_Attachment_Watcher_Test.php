@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Attachment_Cleanup_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Attachment_Watcher;
@@ -47,6 +48,13 @@ final class Indexable_Attachment_Watcher_Test extends TestCase {
 	protected $notification_center;
 
 	/**
+	 * The indexable helper mock.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * The Indexable_Attachment_Watcher instance.
 	 *
 	 * @var Indexable_Attachment_Watcher
@@ -64,11 +72,13 @@ final class Indexable_Attachment_Watcher_Test extends TestCase {
 		$this->indexing_helper     = Mockery::mock( Indexing_Helper::class );
 		$this->attachment_cleanup  = Mockery::mock( Attachment_Cleanup_Helper::class );
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
+		$this->indexable_helper    = Mockery::mock( Indexable_Helper::class );
 
 		$this->instance = new Indexable_Attachment_Watcher(
 			$this->indexing_helper,
 			$this->attachment_cleanup,
-			$this->notification_center
+			$this->notification_center,
+			$this->indexable_helper
 		);
 	}
 
@@ -100,7 +110,7 @@ final class Indexable_Attachment_Watcher_Test extends TestCase {
 	/**
 	 * Data provider for test_check_option.
 	 *
-	 * @return array
+	 * @return array<string,string|int|array<string>|null>
 	 */
 	public static function check_option_provider() {
 		return [
@@ -240,6 +250,16 @@ final class Indexable_Attachment_Watcher_Test extends TestCase {
 			->times( $attachment_cleanup_times )
 			->andReturn( $wp_next_scheduled );
 
+		if ( $wp_next_scheduled ) {
+			$this->indexable_helper->expects( 'should_index_indexables' )
+				->times( 1 )
+				->andReturnTrue();
+		}
+		else {
+			$this->indexable_helper->expects( 'should_index_indexables' )
+				->times( $schedule_event_times )
+				->andReturnTrue();
+		}
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->with( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK )
 			->times( $schedule_event_times );

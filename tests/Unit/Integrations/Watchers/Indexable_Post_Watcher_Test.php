@@ -425,6 +425,12 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 			->with( $author_indexable )
 			->once();
 
+		$this->indexable_helper
+			->expects( 'should_index_indexable' )
+			->with( $author_indexable )
+			->andReturnTrue()
+			->once();
+
 		$this->post->expects( 'update_has_public_posts_on_attachments' )->once()->with( 33, null )->andReturnTrue();
 
 		$this->instance->update_has_public_posts( $post_indexable );
@@ -521,6 +527,12 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'save_indexable' )
 			->with( $author_indexable )
 			->once();
+
+		$this->indexable_helper
+			->expects( 'should_index_indexable' )
+			->with( $author_indexable )
+			->once()
+			->andReturnTrue();
 
 		$this->post->expects( 'update_has_public_posts_on_attachments' )
 			->once()
