@@ -7,8 +7,8 @@
  *
  * @package Yoast\WP\SEO
  *
- * @since      23.1
- * @deprecated 23.1
+ * @since      23.2
+ * @deprecated 23.2
  *
  * @phpcs:disable Generic.Files.OneObjectStructurePerFile.MultipleFound
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound
@@ -25,7 +25,7 @@ use Yoast\WP\SEO\Helpers\Product_Helper;
 /**
  * Represents the introduction for the AI generate titles and introduction upsell.
  *
- * @deprecated 23.1 Use {@see \Yoast\WP\SEO\Introductions\Application\Ai_Fix_Assessments_Upsell} instead.
+ * @deprecated 23.2 Use {@see \Yoast\WP\SEO\Introductions\Application\Ai_Fix_Assessments_Upsell} instead.
  */
 class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell extends Ai_Fix_Assessments_Upsell {
 
@@ -50,7 +50,7 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell extends Ai_Fix_Ass
 	/**
 	 * Constructs the introduction.
 	 *
-	 * @deprecated 23.1
+	 * @deprecated 23.2
 	 *
 	 * @param Product_Helper $product_helper The product helper.
 	 * @param Options_Helper $options_helper The options' helper.
@@ -66,13 +66,13 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell extends Ai_Fix_Ass
 	/**
 	 * Returns the ID.
 	 *
-	 * @deprecated 23.1
+	 * @deprecated 23.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_id() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 23.0' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.2' );
 		return 'ai-generate-titles-and-descriptions-upsell';
 	}
 
@@ -93,26 +93,26 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell extends Ai_Fix_Ass
 	/**
 	 * Returns the requested pagination priority. Lower means earlier.
 	 *
-	 * @deprecated 23.1
+	 * @deprecated 23.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return int
 	 */
 	public function get_priority() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 23.0' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.2' );
 		return 10;
 	}
 
 	/**
 	 * Returns whether this introduction should show.
 	 *
-	 * @deprecated 23.1
+	 * @deprecated 23.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */
 	public function should_show() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 23.0' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.2' );
 		// Outdated feature introduction.
 		return false;
 	}

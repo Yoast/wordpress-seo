@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Introductions\Application\Ai_Fix_Assessments_Upsell;
 use Yoast\WP\SEO\Introductions\Application\Ai_Generate_Titles_And_Descriptions_Introduction_Upsell;
 
 $renamed_classes = [
-	Ai_Generate_Titles_And_Descriptions_Introduction_Upsell::class => [ Ai_Fix_Assessments_Upsell::class, '23.1' ],
+	Ai_Generate_Titles_And_Descriptions_Introduction_Upsell::class => [ Ai_Fix_Assessments_Upsell::class, '23.2' ],
 ];
 
 foreach ( $renamed_classes as $original_class => $replacement ) {
