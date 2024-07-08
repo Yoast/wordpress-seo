@@ -73,7 +73,7 @@
   border-bottom: 1px solid #ddd;
 }
 
-.wpseo-metabox .inside {
+.edit-post-meta-boxes-area__container .wpseo-metabox .inside {
   background-color: #f1f5f9;
   display: flex;
   justify-content: center;
@@ -82,13 +82,16 @@
 
 .wpseo-metabox-content {
   max-width: 800px;
-  background-color: #f1f5f9;
+}
+
+form#post .wpseo-metabox .wpseo-metabox-content,
+.wpseo-taxonomy-metabox-postbox .wpseo-metabox-content {
+  padding-top: 16px;
 }
 
 .wpseo-metabox-menu {
   max-width: 600px;
   padding: 0;
-  background-color: #f1f5f9;
 }
 
 .wpseo-metabox-menu ul {
