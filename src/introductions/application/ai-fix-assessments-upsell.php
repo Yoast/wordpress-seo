@@ -46,7 +46,7 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 	 *
 	 * @return string The ID.
 	 */
-	public function get_id(): string {
+	public function get_id() {
 		return self::ID;
 	}
 
@@ -55,7 +55,7 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 	 *
 	 * @return string The name.
 	 */
-	public function get_name(): string {
+	public function get_name() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO Premium 21.6', 'Please use get_id() instead' );
 
 		return self::ID;
@@ -66,7 +66,7 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 	 *
 	 * @return int The priority.
 	 */
-	public function get_priority(): int {
+	public function get_priority() {
 		return 10;
 	}
 
@@ -75,7 +75,7 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 	 *
 	 * @return bool Whether this introduction should show.
 	 */
-	public function should_show(): bool {
+	public function should_show() {
 
 		if ( $this->product_helper->is_premium() ) {
 			return false;
