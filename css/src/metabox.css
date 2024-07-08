@@ -43,6 +43,7 @@
   max-width: 600px;
   width: 100%;
   height: auto;
+  min-height: 100%;
   vertical-align: top;
   border: 1px solid rgba( 0,0,0,0.2 );
 }
@@ -68,28 +69,38 @@
   padding: 16px;
 }
 
-.wpseo-metabox .postbox-header {
-  border-bottom: 1px solid #ddd;
-}
-
-.edit-post-meta-boxes-area__container .wpseo-metabox .inside {
-  background-color: #f1f5f9;
-  display: flex;
-  justify-content: center;
-  padding: 32px !important;
-}
-
-.edit-post-meta-boxes-area__container .wpseo-metabox.closed .inside {
-  display: none;
-}
-
 .wpseo-metabox-content {
   max-width: 800px;
+  padding-top: 16px;
 }
 
-form#post .wpseo-metabox .wpseo-metabox-content,
-.wpseo-taxonomy-metabox-postbox .wpseo-metabox-content {
-  padding-top: 16px;
+/* Target only the block-editor. */
+.edit-post-meta-boxes-area__container {
+  .wpseo-metabox {
+    .postbox-header {
+      border-bottom: 1px solid #ddd;
+    }
+
+    .inside {
+      background-color: #f1f5f9;
+    }
+
+    .wpseo-metabox-content {
+      max-width: none;
+      padding-top: 32px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+    }
+
+    .wpseo-metabox-menu, .wpseo-meta-section {
+      margin: 0 auto;
+    }
+
+    .wpseo-meta-section.active {
+      display: block;
+    }
+  }
 }
 
 .wpseo-metabox-menu {
