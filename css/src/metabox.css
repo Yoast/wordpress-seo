@@ -79,6 +79,10 @@
   padding: 32px !important;
 }
 
+.edit-post-meta-boxes-area__container .wpseo-metabox.closed .inside {
+  display: none;
+}
+
 .wpseo-metabox-content {
   max-width: 800px;
 }
