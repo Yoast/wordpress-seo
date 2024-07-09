@@ -33,7 +33,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 
 	const defaultLabel = __( "Optimize with AI", "wordpress-seo" );
 	const tooLongLabel = __( "Your text is too long for the AI model to process.", "wordpress-seo" );
-	const htmlLabel = __( "Please switch to the visual editor to use AI.", "wordpress-seo" );
+	const htmlLabel = __( "Please switch to the visual editor to optimize with AI.", "wordpress-seo" );
 
 	// Enable the button when:
 	// (1) the AI button is not disabled.
@@ -107,7 +107,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	// Add tooltip classes on mouse enter and remove them on mouse leave.
 	const handleMouseEnter = useCallback( () => {
 		const direction = isEnabled ? "yoast-tooltip-w" : "yoast-tooltip-nw";
-		setButtonClass( `yoast-tooltip ${ direction }` );
+		setButtonClass( `yoast-tooltip yoast-tooltip-multiline ${ direction }` );
 	}, [ isEnabled ] );
 
 	const handleMouseLeave = useCallback( () => {

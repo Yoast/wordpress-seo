@@ -72,6 +72,7 @@ describe( "AIAssessmentFixesButton", () => {
 		const button = screen.getByRole( "button" );
 		expect( button ).toBeInTheDocument();
 		expect( button ).toBeEnabled();
+		expect( button ).toHaveAttribute( "aria-label", "Optimize with AI" );
 	} );
 
 	test( "should be disabled when listed in the disabled buttons", () => {
@@ -89,7 +90,7 @@ describe( "AIAssessmentFixesButton", () => {
 		const button = screen.getByRole( "button" );
 		expect( button ).toBeInTheDocument();
 		expect( button ).toBeDisabled();
-		expect( button ).toHaveAttribute( "aria-label", "Please switch to the visual editor to use AI." );
+		expect( button ).toHaveAttribute( "aria-label", "Please switch to the visual editor to optimize with AI." );
 	} );
 
 	test( "should be disabled when one of the blocks is in HTML editing mode", () => {
@@ -98,7 +99,7 @@ describe( "AIAssessmentFixesButton", () => {
 		const button = screen.getByRole( "button" );
 		expect( button ).toBeInTheDocument();
 		expect( button ).toBeDisabled();
-		expect( button ).toHaveAttribute( "aria-label", "Please switch to the visual editor to use AI." );
+		expect( button ).toHaveAttribute( "aria-label", "Please switch to the visual editor to optimize with AI." );
 	} );
 } );
 
