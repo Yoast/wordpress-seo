@@ -56,7 +56,7 @@ IconAIFixesButton.propTypes = {
 };
 
 IconAIFixesButton.defaultProps = {
-	disabled: true,
+	disabled: false,
 	unpressedBoxShadowColor: colors.$color_button_border,
 	pressedBoxShadowColor: colors.$color_purple,
 	pressedBackground: "linear- gradient(to bottom right, #A61E69, #3B82F6)",
