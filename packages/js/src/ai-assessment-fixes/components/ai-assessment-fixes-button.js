@@ -24,7 +24,6 @@ import { ReactComponent as LockClosed } from "../../../images/lock-closed.svg";
  */
 const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const aiFixesId = id + "AIFixes";
-	const ariaLabel = __( "Optimize with AI", "wordpress-seo" );
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
 	const activeAIButtonId = useSelect( select => select( "yoast-seo/editor" ).getActiveAIFixesButton(), [] );
 	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
@@ -32,15 +31,37 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const focusElementRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
 
-	// Only enable the button when the editor is in visual mode and all blocks are in visual mode.
-	const isEnabled = useSelect( ( select ) => {
+	const defaultLabel = __( "Optimize with AI", "wordpress-seo" );
+	const tooLongLabel = __( "Your text is too long for the AI model to process.", "wordpress-seo" );
+	const htmlLabel = __( "Please switch to the visual editor to optimize with AI.", "wordpress-seo" );
+
+	// Enable the button when:
+	// (1) the AI button is not disabled.
+	// (2) the editor is in visual mode.
+	// (3) all blocks are in visual mode.
+	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
+		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
+		if ( disabledAIButtons.includes( aiFixesId ) ) {
+			return {
+				isEnabled: false,
+				ariaLabel: tooLongLabel,
+			};
+		}
+
 		const editorMode = select( "core/edit-post" ).getEditorMode();
 		if ( editorMode !== "visual" ) {
-			return false;
+			return {
+				isEnabled: false,
+				ariaLabel: htmlLabel,
+			};
 		}
 
 		const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
-		return blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
+		const allVisual = blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
+		return {
+			isEnabled: allVisual,
+			ariaLabel: allVisual ? defaultLabel : htmlLabel,
+		};
 	}, [] );
 
 	/**
@@ -85,9 +106,9 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 
 	// Add tooltip classes on mouse enter and remove them on mouse leave.
 	const handleMouseEnter = useCallback( () => {
-		// Add tooltip classes on mouse enter
-		setButtonClass( "yoast-tooltip yoast-tooltip-w" );
-	}, [] );
+		const direction = isEnabled ? "yoast-tooltip-w" : "yoast-tooltip-nw";
+		setButtonClass( `yoast-tooltip yoast-tooltip-multiline ${ direction }` );
+	}, [ isEnabled ] );
 
 	const handleMouseLeave = useCallback( () => {
 		// Remove tooltip classes on mouse leave
@@ -95,30 +116,28 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	}, [] );
 
 	return (
-		<>
-			<IconAIFixesButton
-				onClick={ handleClick }
-				ariaLabel={ ariaLabel }
-				onMouseEnter={ handleMouseEnter }
-				onMouseLeave={ handleMouseLeave }
-				id={ aiFixesId }
-				className={ `ai-button ${buttonClass}` }
-				pressed={ isButtonPressed }
-				disabled={ ! isEnabled }
-			>
-				{ ! isPremium &&  <LockClosed className="yst-fixes-button__lock-icon" /> }
-				<SparklesIcon pressed={ isButtonPressed } />
-				{
-					// We put the logic for the Upsell component in place.
-					// The Modal below is only a placeholder/mock. When we have the design for the real upsell, the modal should be replaced.
-					isModalOpen && <Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
-						<Modal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl yst-introduction-modal-panel">
-							<ModalContent onClose={ setIsModalOpenFalse } focusElementRef={ focusElementRef } />
-						</Modal.Panel>
-					</Modal>
-				}
-			</IconAIFixesButton>
-		</>
+		<IconAIFixesButton
+			onClick={ handleClick }
+			ariaLabel={ ariaLabel }
+			onPointerEnter={ handleMouseEnter }
+			onPointerLeave={ handleMouseLeave }
+			id={ aiFixesId }
+			className={ `ai-button ${buttonClass}` }
+			pressed={ isButtonPressed }
+			disabled={ ! isEnabled }
+		>
+			{ ! isPremium && <LockClosed className="yst-fixes-button__lock-icon" /> }
+			<SparklesIcon pressed={ isButtonPressed } />
+			{
+				// We put the logic for the Upsell component in place.
+				// The Modal below is only a placeholder/mock. When we have the design for the real upsell, the modal should be replaced.
+				isModalOpen && <Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
+					<Modal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl yst-introduction-modal-panel">
+						<ModalContent onClose={ setIsModalOpenFalse } focusElementRef={ focusElementRef } />
+					</Modal.Panel>
+				</Modal>
+			}
+		</IconAIFixesButton>
 	);
 };
 

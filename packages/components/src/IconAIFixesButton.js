@@ -21,8 +21,8 @@ const IconAIFixesButton = function( props ) {
 			type="button"
 			onClick={ props.onClick }
 			pressed={ props.pressed }
-			onMouseEnter={ props.onMouseEnter }
-			onMouseLeave={ props.onMouseLeave }
+			onPointerEnter={ props.onPointerEnter }
+			onPointerLeave={ props.onPointerLeave }
 			unpressedBoxShadowColor={ props.unpressedBoxShadowColor }
 			pressedBoxShadowColor={ props.pressedBoxShadowColor }
 			pressedBackground={ props.pressedBackground }
@@ -44,8 +44,8 @@ IconAIFixesButton.propTypes = {
 	id: PropTypes.string.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
 	onClick: PropTypes.func,
-	onMouseEnter: PropTypes.func,
-	onMouseLeave: PropTypes.func,
+	onPointerEnter: PropTypes.func,
+	onPointerLeave: PropTypes.func,
 	unpressedBoxShadowColor: PropTypes.string,
 	pressedBoxShadowColor: PropTypes.string,
 	pressedBackground: PropTypes.string,
@@ -63,8 +63,8 @@ IconAIFixesButton.defaultProps = {
 	unpressedBackground: "linear-gradient(to bottom right, #FAF3F7, #EFF6FF)",
 	pressedIconColor: colors.$color_white,
 	onClick: () => {},
-	onMouseEnter: () => {},
-	onMouseLeave: () => {},
+	onPointerEnter: () => {},
+	onPointerLeave: () => {},
 };
 
 export default IconAIFixesButton;
