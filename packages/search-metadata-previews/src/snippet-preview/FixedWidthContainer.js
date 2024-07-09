@@ -58,6 +58,7 @@ export default class FixedWidthContainer extends Component {
 
 		this.state = {
 			showScrollHint: false,
+			isMobileUserAgent: window.navigator.userAgent.includes( "Mobi" ),
 		};
 
 		this.setContainerRef = this.setContainerRef.bind( this );
@@ -130,7 +131,10 @@ export default class FixedWidthContainer extends Component {
 			{ this.state.showScrollHint &&
 				<ScrollHintContainer>
 					<ScrollHint>
-						{ __( "Scroll to see the preview content.", "wordpress-seo" ) }
+						{ this.state.isMobileUserAgent
+							? __( "Drag to view the full preview.", "wordpress-seo" )
+							: __( "Scroll to see the preview content.", "wordpress-seo" )
+						}
 					</ScrollHint>
 				</ScrollHintContainer>
 			}
