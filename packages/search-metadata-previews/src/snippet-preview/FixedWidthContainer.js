@@ -30,7 +30,7 @@ const ScrollHint = styled.div`
 		display: inline-block;
 		margin-right: 10px;
 		font-size: 20px;
-		line-height: inherit;
+		line-height: 20px;
 		vertical-align: text-top;
 		content: "\\21c4";
 		box-sizing: border-box;
