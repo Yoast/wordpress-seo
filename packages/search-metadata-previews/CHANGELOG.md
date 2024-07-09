@@ -12,6 +12,9 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Bugfixes
 * Passes different config when initializing `MetadescriptionLengthAssessment` in `SnippetEditor.js` depending on whether the cornerstone content is active or not.
 
+### Non user facing
+* Now published as a transpiled package.
+
 ## 2.24.1 March 2nd, 2023
 ### Bugfixes
 * Fixes a security issue.

@@ -53,20 +53,11 @@ class WPSEO_Metabox_Formatter {
 
 		$defaults = [
 			'author_name'                        => get_the_author_meta( 'display_name' ),
-			'site_name'                          => YoastSEO()->meta->for_current_page()->site_name,
 			'sitewide_social_image'              => WPSEO_Options::get( 'og_default_image' ),
-			'search_url'                         => '',
-			'post_edit_url'                      => '',
-			'base_url'                           => '',
-			'contentLocale'                      => get_locale(),
-			'userLocale'                         => get_user_locale(),
 			'translations'                       => $this->get_translations(),
 			'keyword_usage'                      => [],
 			'title_template'                     => '',
 			'metadesc_template'                  => '',
-			'isRtl'                              => is_rtl(),
-			'isPremium'                          => YoastSEO()->helpers->product->is_premium(),
-			'siteIconUrl'                        => get_site_icon_url(),
 			'showSocial'                         => [
 				'facebook' => WPSEO_Options::get( 'opengraph', false ),
 				'twitter'  => WPSEO_Options::get( 'twitter', false ),
