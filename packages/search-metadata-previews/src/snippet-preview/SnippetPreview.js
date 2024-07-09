@@ -266,8 +266,8 @@ const MobilePartContainer = styled.div`
 `;
 
 const SiteName = styled.div`
-	line-height: 18x; 
-	font-size: 14px; 
+	line-height: 18x;
+	font-size: 14px;
 	color: black;
 	max-width: ${ props => props.screenMode === MODE_DESKTOP ? "100%" : MOBILE_SITENAME_LIMIT };
 	overflow: hidden;
@@ -891,9 +891,10 @@ export default class SnippetPreview extends PureComponent {
 		 */
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return (
-			<section>
+			<section className="yoast-snippet-preview-section">
 				<Container
 					id="yoast-snippet-preview-container"
+					className="yoast-snippet-preview-container"
 					/*
 					 * MobileContainer doesn't use the width prop: avoid to
 					 * render an invalid `width` HTML attribute on the DOM node.
