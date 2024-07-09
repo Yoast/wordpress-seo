@@ -112,12 +112,13 @@ export default class FixedWidthContainer extends Component {
 	render() {
 		const { width, padding, children, className, id } = this.props;
 
+		const klass = className || id;
 		const innerWidth = width - 2 * padding;
 
-		return <React.Fragment>
+		return <div className={ `${ klass }__wrapper` }>
 			<FixedWidth
 				id={ id }
-				className={ className }
+				className={ klass }
 				widthValue={ width }
 				paddingValue={ padding }
 				ref={ this.setContainerRef }
@@ -138,7 +139,7 @@ export default class FixedWidthContainer extends Component {
 					</ScrollHint>
 				</ScrollHintContainer>
 			}
-		</React.Fragment>;
+		</div>;
 	}
 }
 
