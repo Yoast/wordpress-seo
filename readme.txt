@@ -321,8 +321,12 @@ Release date: 2024-07-16
 
 #### Enhancements
 
-* Disabled an unneeded cleanup cronjob when indexables are disabled.
-* Removes unnecessary query when indexables are disabled.
+* Disables an unneeded cleanup cron job when indexables are disabled.
+* Removes an unnecessary query when indexables are disabled.
+
+#### Other
+
+* Sets the \"WordPress tested up to\" version to 6.6.
 
 = 23.0 =
 
