@@ -58,7 +58,7 @@ export default class FixedWidthContainer extends Component {
 
 		this.state = {
 			showScrollHint: false,
-			isMobileUserAgent: window.navigator.userAgent.includes( "Mobi" ),
+			isMobileUserAgent: false,
 		};
 
 		this.setContainerRef = this.setContainerRef.bind( this );
@@ -94,6 +94,7 @@ export default class FixedWidthContainer extends Component {
 
 		this.setState( {
 			showScrollHint: width < this.props.width,
+			isMobileUserAgent: window?.navigator?.userAgent?.includes( "Mobi" ),
 		} );
 	}
 
