@@ -19,7 +19,7 @@ const Inner = styled.div`
 
 const ScrollHintContainer = styled.div`
 	text-align: center;
-	margin: 1em 0 0.5rem;
+	margin: 1rem 0 0.5rem;
 `;
 
 const ScrollHint = styled.div`
