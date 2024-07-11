@@ -90,10 +90,8 @@ export default class FixedWidthContainer extends Component {
 	 * @returns {void}
 	 */
 	determineSize() {
-		const width = this._container.offsetWidth;
-
 		this.setState( {
-			showScrollHint: width < this.props.width,
+			showScrollHint: this._container?.offsetWidth !== this._container?.scrollWidth,
 			isMobileUserAgent: window?.navigator?.userAgent?.includes( "Mobi" ),
 		} );
 	}
