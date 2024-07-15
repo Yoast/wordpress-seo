@@ -8,6 +8,11 @@ import React, { createContext, useCallback, useContext, useEffect } from "react"
 
 const ToastContext = createContext( { handleDismiss: noop } );
 
+/**
+ * @returns {Object} The toast context.
+ */
+export const useToastContext = () => useContext( ToastContext );
+
 export const toastClassNameMap = {
 	position: {
 		"bottom-center": "yst-translate-y-full",
@@ -23,7 +28,7 @@ export const toastClassNameMap = {
 const Close = ( {
 	dismissScreenReaderLabel,
 } ) => {
-	const { handleDismiss } = useContext( ToastContext );
+	const { handleDismiss } = useToastContext();
 	return (
 		<div className="yst-flex-shrink-0 yst-flex">
 			<button

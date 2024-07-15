@@ -18,7 +18,7 @@ export { default as TagInput } from "./elements/tag-input";
 export { default as TextInput } from "./elements/text-input";
 export { default as Textarea } from "./elements/textarea";
 export { default as Title } from "./elements/title";
-export { default as Toast } from "./elements/toast";
+export { default as Toast, useToastContext } from "./elements/toast";
 export { default as Toggle } from "./elements/toggle";
 export { default as Tooltip } from "./elements/tooltip";
 export { ValidationIcon, ValidationInput, ValidationMessage } from "./elements/validation";
