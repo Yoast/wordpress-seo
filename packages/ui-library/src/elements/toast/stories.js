@@ -1,10 +1,10 @@
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
-import Toast  from ".";
+import Toast, { useToastContext } from ".";
 import Button from "../../elements/button";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
-import { description, component, close, title } from "./docs";
+import { description, component, close, title, useToastContext as useToastContextDocs } from "./docs";
 import classNames from "classnames";
 import { useToggleState } from "../../hooks";
 
@@ -105,6 +105,32 @@ export const withClose = {
 	},
 };
 
+const ConfirmButton = () => {
+	const { handleDismiss } = useToastContext();
+
+	return <Button size="small" onClick={ handleDismiss }>Confirm</Button>;
+};
+
+export const useToastContextHook = {
+	name: "useToastContext",
+	args: {
+		children: (
+			<div className="yst-flex">
+				<div className="yst-flex-1">
+					<p>Hello everyone!</p>
+				</div>
+				<div>
+					<ConfirmButton />
+				</div>
+			</div>
+		),
+	},
+	parameters: {
+		controls: { disable: true },
+		docs: { description: { story: useToastContextDocs } },
+	},
+};
+
 export default {
 	title: "1) Elements/Toast",
 	component: Template,
@@ -160,7 +186,7 @@ export default {
 			description: {
 				component,
 			},
-			page: () => <InteractiveDocsPage stories={ [ withTitle, withDescription, withClose ] } />,
+			page: () => <InteractiveDocsPage stories={ [ withTitle, withDescription, withClose, useToastContextHook ] } />,
 		},
 	},
 	decorators: [
