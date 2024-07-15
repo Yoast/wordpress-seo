@@ -4,7 +4,7 @@ a different kind of action.
 
 With help of the `handleDismiss` callback, the `Toast.Close` subcomponent could be replaced with below `ConfirmButton`.
 
-```jsx
+```jsx dark
 import { Button, useToastContext } from "@yoast/ui-library";
 
 const ConfirmButton = () => {
