@@ -90,12 +90,14 @@ export const withClose = {
 	name: "With close button",
 	args: {
 		children: (
-			<>
-				<div className="yst-flex yst-flex-row-reverse">
+			<div className="yst-flex">
+				<div className="yst-flex-1">
+					<p>Hello everyone!</p>
+				</div>
+				<div>
 					<Toast.Close dismissScreenReaderLabel="Dismiss" />
 				</div>
-				<p>Hello everyone!</p>
-			</>
+			</div>
 		),
 	},
 	parameters: {
