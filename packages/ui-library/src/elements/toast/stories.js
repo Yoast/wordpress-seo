@@ -4,8 +4,9 @@ import React from "react";
 import Toast, { useToastContext } from ".";
 import Button from "../../elements/button";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
-import { description, component, close, title, useToastContext as useToastContextDocs } from "./docs";
+import { description, component, close, title, useToastContext as useToastContextDocs, complexLayout } from "./docs";
 import classNames from "classnames";
+import { ValidationIcon } from "../validation";
 import { useToggleState } from "../../hooks";
 
 const positionClassNameMap = {
@@ -131,6 +132,48 @@ export const useToastContextHook = {
 	},
 };
 
+const DismissButton = () => {
+	const { handleDismiss } = useToastContext();
+	return <Button size="small" variant="tertiary" onClick={ handleDismiss }>Dismiss</Button>;
+};
+
+export const asComplexLayout = {
+	name: "Complex layout",
+	args: {
+		children: (
+			<>
+				<div className="yst-flex yst-gap-3">
+					<div className="yst-flex-shrink-0">
+						<ValidationIcon className="yst-w-5 yst-h-5" />
+					</div>
+					<div className="yst-flex-1">
+						<Toast.Title title="Perform an action?" />
+						<p>An optional action can be performed. Please confirm this action. Otherwise, feel free to dismiss this suggestion.</p>
+					</div>
+					<div>
+						<Toast.Close dismissScreenReaderLabel="Dismiss" />
+					</div>
+				</div>
+				<div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
+					<DismissButton />
+					<ConfirmButton />
+				</div>
+			</>
+		),
+	},
+	parameters: {
+		controls: { disable: true },
+		docs: { description: { story: complexLayout } },
+	},
+	decorators: [
+		( Story ) => (
+			<div className="yst-min-h-[21rem]">
+				<Story />
+			</div>
+		),
+	],
+};
+
 export default {
 	title: "1) Elements/Toast",
 	component: Template,
@@ -186,7 +229,7 @@ export default {
 			description: {
 				component,
 			},
-			page: () => <InteractiveDocsPage stories={ [ withTitle, withDescription, withClose, useToastContextHook ] } />,
+			page: () => <InteractiveDocsPage stories={ [ withTitle, withDescription, withClose, useToastContextHook, asComplexLayout ] } />,
 		},
 	},
 	decorators: [
