@@ -111,13 +111,13 @@ export default class FixedWidthContainer extends Component {
 	render() {
 		const { width, padding, children, className, id } = this.props;
 
-		const klass = className || id;
+		const classNameOrId = className || id;
 		const innerWidth = width - 2 * padding;
 
-		return <div className={ `${ klass }__wrapper` }>
+		return <div className={ `${ classNameOrId }__wrapper` }>
 			<FixedWidth
 				id={ id }
-				className={ klass }
+				className={ classNameOrId }
 				widthValue={ width }
 				paddingValue={ padding }
 				ref={ this.setContainerRef }
