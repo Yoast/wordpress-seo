@@ -1,11 +1,12 @@
 import { noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { useCallback, useState } from "react";
+import React from "react";
 import Toast  from ".";
 import Button from "../../elements/button";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { description, component, close, title } from "./docs";
 import classNames from "classnames";
+import { useToggleState } from "../../hooks";
 
 const positionClassNameMap = {
 	position: {
@@ -15,9 +16,7 @@ const positionClassNameMap = {
 	},
 };
 const Template = ( { isVisible: initialVisible, setIsVisible: _, position, children, ...props } ) => {
-	const [ isVisible, setIsVisible ] = useState( initialVisible );
-	const toggleToast = useCallback( () => setIsVisible( ! isVisible ), [ isVisible ] );
-	const openToast = useCallback( () => setIsVisible( true ), [] );
+	const [ isVisible, toggleToast, , openToast ] = useToggleState( initialVisible );
 
 	return (
 		<>
