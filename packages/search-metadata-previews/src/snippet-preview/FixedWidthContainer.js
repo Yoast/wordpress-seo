@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import debounce from "lodash/debounce";
 import { __ } from "@wordpress/i18n";
 
+const isMobileUserAgentRegExp = /mobi/i;
+
 const FixedWidth = styled.div`
 	overflow: auto;
 	width: ${ ( props ) => props.widthValue }px;
@@ -92,7 +94,7 @@ export default class FixedWidthContainer extends Component {
 	determineSize() {
 		this.setState( {
 			showScrollHint: this._container?.offsetWidth !== this._container?.scrollWidth,
-			isMobileUserAgent: window?.navigator?.userAgent?.includes( "Mobi" ),
+			isMobileUserAgent: isMobileUserAgentRegExp.test( window?.navigator?.userAgent ),
 		} );
 	}
 
