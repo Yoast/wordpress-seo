@@ -159,7 +159,7 @@ export default {
 			description: {
 				component,
 			},
-			page: () => <InteractiveDocsPage stories={ [ withClose, withDescription, withTitle ] } />,
+			page: () => <InteractiveDocsPage stories={ [ withTitle, withDescription, withClose ] } />,
 		},
 	},
 	decorators: [
