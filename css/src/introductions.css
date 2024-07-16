@@ -1,3 +1,6 @@
+@import url(../src/icons.css);
+@import url(../../packages/components/src/base/colors.css);
+
 .yst-root {
 	.yst-introduction-modal .yst-modal__close-button {
 		@apply
@@ -9,8 +12,22 @@
 	.yst-introduction-modal-panel {
         background-image: linear-gradient(180deg, rgba(166, 30, 105, 0.25) 10%, rgba(255, 255, 255, 0.25) 50%);
 	}
-	.yst-introduction-modal-uppercase{
+
+	.yst-introduction-gradient {
+		background: linear-gradient(180deg, rgba(166, 30, 105, 0.25) 10%, rgba(255, 255, 255, 0) 80%);
+	}
+	.yst-introduction-modal-uppercase {
 		letter-spacing: 0.8px;
 		@apply yst-uppercase yst-text-slate-500;
+	}
+	
+	.yst-logo-icon {
+		background-color: var(--yoast-color-primary);
+		mask-image: var(--yoast-svg-icon-yoast);
+		-webkit-mask-image: var(--yoast-svg-icon-yoast);
+		mask-size: 100% 100%;
+		-webkit-mask-size: 100% 100%;
+		width: 17px;
+		height: 17px;
 	}
 }
