@@ -317,22 +317,19 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 23.2 =
 
-Release date: 2024-07-30
+Release date: 2024-08-06
 
 #### Enhancements
 
-* Disables an unneeded cleanup cron job when indexables are disabled.
 * Excludes image captions from the _keyphrase in introduction_ assessment: image captions at the beginning of a post will not be treated as an introduction anymore.
-* Removes an unnecessary query when indexables are disabled.
 
 #### Other
 
 * Deprecates the `Ai_Generate_Titles_And_Descriptions_Introduction_Upsell` class.
-* Sets the \"WordPress tested up to\" version to 6.6.
 
 = 23.1 =
 
-Release date: 2024-07-16
+Release date: 2024-07-23
 
 #### Enhancements
 
