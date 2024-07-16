@@ -36,11 +36,20 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const htmlLabel = __( "Please switch to the visual editor to optimize with AI.", "wordpress-seo" );
 
 	// Enable the button when:
-	// (1) the AI button is not disabled.
-	// (2) the editor is in visual mode.
-	// (3) all blocks are in visual mode.
+	// (1) other AI buttons are not pressed.
+	// (2) the AI button is not disabled.
+	// (3) the editor is in visual mode.
+	// (4) all blocks are in visual mode.
 	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
 		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
+		const activeAIButtonId = select( "yoast-seo/editor" ).getActiveAIFixesButton();
+		const isButtonPressed = activeAIButtonId === aiFixesId;
+		if( activeAIButtonId !== null && ! isButtonPressed ){
+			return {
+				isEnabled: false,
+				ariaLabel: defaultLabel,
+			};
+		}
 		if ( disabledAIButtons.includes( aiFixesId ) ) {
 			return {
 				isEnabled: false,
