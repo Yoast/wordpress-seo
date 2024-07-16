@@ -50,6 +50,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				ariaLabel: defaultLabel,
 			};
 		}
+		
 		if ( disabledAIButtons.includes( aiFixesId ) ) {
 			return {
 				isEnabled: false,
