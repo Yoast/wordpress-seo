@@ -35,6 +35,9 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const tooLongLabel = __( "Your text is too long for the AI model to process.", "wordpress-seo" );
 	const htmlLabel = __( "Please switch to the visual editor to optimize with AI.", "wordpress-seo" );
 
+	// The button is pressed when the active AI button id is the same as the current button id.
+	const isButtonPressed = activeAIButtonId === aiFixesId;
+
 	// Enable the button when:
 	// (1) other AI buttons are not pressed.
 	// (2) the AI button is not disabled.
@@ -42,8 +45,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	// (4) all blocks are in visual mode.
 	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
 		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
-		const activeAIButtonId = select( "yoast-seo/editor" ).getActiveAIFixesButton();
-		const isButtonPressed = activeAIButtonId === aiFixesId;
 		if ( activeAIButtonId !== null && ! isButtonPressed ) {
 			return {
 				isEnabled: false,
@@ -72,7 +73,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			isEnabled: allVisual,
 			ariaLabel: allVisual ? defaultLabel : htmlLabel,
 		};
-	}, [] );
+	}, [ isButtonPressed, activeAIButtonId ] );
 
 	/**
 	 * Handles the button press state.
@@ -110,9 +111,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			setIsModalOpenTrue();
 		}
 	}, [ handlePressedButton, setIsModalOpenTrue ] );
-
-	// The button is pressed when the active AI button id is the same as the current button id.
-	const isButtonPressed = activeAIButtonId === aiFixesId;
 
 	// Add tooltip classes on mouse enter and remove them on mouse leave.
 	const handleMouseEnter = useCallback( () => {
