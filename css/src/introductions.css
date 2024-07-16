@@ -9,9 +9,6 @@
 		focus:yst-outline-none
 		focus:yst-ring-offset-0;
 	}
-	.yst-introduction-modal-panel {
-        background-image: linear-gradient(180deg, rgba(166, 30, 105, 0.25) 10%, rgba(255, 255, 255, 0.25) 50%);
-	}
 
 	.yst-introduction-gradient {
 		background: linear-gradient(180deg, rgba(166, 30, 105, 0.25) 10%, rgba(255, 255, 255, 0) 80%);
