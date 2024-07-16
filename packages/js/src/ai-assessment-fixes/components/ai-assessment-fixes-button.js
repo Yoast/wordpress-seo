@@ -44,13 +44,13 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
 		const activeAIButtonId = select( "yoast-seo/editor" ).getActiveAIFixesButton();
 		const isButtonPressed = activeAIButtonId === aiFixesId;
-		if( activeAIButtonId !== null && ! isButtonPressed ){
+		if ( activeAIButtonId !== null && ! isButtonPressed ) {
 			return {
 				isEnabled: false,
 				ariaLabel: defaultLabel,
 			};
 		}
-		
+
 		if ( disabledAIButtons.includes( aiFixesId ) ) {
 			return {
 				isEnabled: false,
