@@ -48,7 +48,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		if ( activeAIButtonId !== null && ! isButtonPressed ) {
 			return {
 				isEnabled: false,
-				ariaLabel: defaultLabel,
+				ariaLabel: null,
 			};
 		}
 
@@ -114,8 +114,10 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 
 	// Add tooltip classes on mouse enter and remove them on mouse leave.
 	const handleMouseEnter = useCallback( () => {
-		const direction = isEnabled ? "yoast-tooltip-w" : "yoast-tooltip-nw";
-		setButtonClass( `yoast-tooltip yoast-tooltip-multiline ${ direction }` );
+		if( ariaLabel ){
+			const direction = isEnabled ? "yoast-tooltip-w" : "yoast-tooltip-nw";
+			setButtonClass( `yoast-tooltip yoast-tooltip-multiline ${ direction }` );
+		}
 	}, [ isEnabled ] );
 
 	const handleMouseLeave = useCallback( () => {
