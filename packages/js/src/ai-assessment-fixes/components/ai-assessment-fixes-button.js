@@ -118,7 +118,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			const direction = isEnabled ? "yoast-tooltip-w" : "yoast-tooltip-nw";
 			setButtonClass( `yoast-tooltip yoast-tooltip-multiline ${ direction }` );
 		}
-	}, [ isEnabled ] );
+	}, [ isEnabled, ariaLabel ] );
 
 	const handleMouseLeave = useCallback( () => {
 		// Remove tooltip classes on mouse leave
