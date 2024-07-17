@@ -35,12 +35,23 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const tooLongLabel = __( "Your text is too long for the AI model to process.", "wordpress-seo" );
 	const htmlLabel = __( "Please switch to the visual editor to optimize with AI.", "wordpress-seo" );
 
+	// The button is pressed when the active AI button id is the same as the current button id.
+	const isButtonPressed = activeAIButtonId === aiFixesId;
+
 	// Enable the button when:
-	// (1) the AI button is not disabled.
-	// (2) the editor is in visual mode.
-	// (3) all blocks are in visual mode.
+	// (1) other AI buttons are not pressed.
+	// (2) the AI button is not disabled.
+	// (3) the editor is in visual mode.
+	// (4) all blocks are in visual mode.
 	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
 		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
+		if ( activeAIButtonId !== null && ! isButtonPressed ) {
+			return {
+				isEnabled: false,
+				ariaLabel: null,
+			};
+		}
+
 		if ( disabledAIButtons.includes( aiFixesId ) ) {
 			return {
 				isEnabled: false,
@@ -62,7 +73,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			isEnabled: allVisual,
 			ariaLabel: allVisual ? defaultLabel : htmlLabel,
 		};
-	}, [] );
+	}, [ isButtonPressed, activeAIButtonId ] );
 
 	/**
 	 * Handles the button press state.
@@ -101,14 +112,13 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		}
 	}, [ handlePressedButton, setIsModalOpenTrue ] );
 
-	// The button is pressed when the active AI button id is the same as the current button id.
-	const isButtonPressed = activeAIButtonId === aiFixesId;
-
 	// Add tooltip classes on mouse enter and remove them on mouse leave.
 	const handleMouseEnter = useCallback( () => {
-		const direction = isEnabled ? "yoast-tooltip-w" : "yoast-tooltip-nw";
-		setButtonClass( `yoast-tooltip yoast-tooltip-multiline ${ direction }` );
-	}, [ isEnabled ] );
+		if ( ariaLabel ) {
+			const direction = isEnabled ? "yoast-tooltip-w" : "yoast-tooltip-nw";
+			setButtonClass( `yoast-tooltip yoast-tooltip-multiline ${ direction }` );
+		}
+	}, [ isEnabled, ariaLabel ] );
 
 	const handleMouseLeave = useCallback( () => {
 		// Remove tooltip classes on mouse leave
