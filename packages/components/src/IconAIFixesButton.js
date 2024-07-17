@@ -42,7 +42,7 @@ IconAIFixesButton.propTypes = {
 	disabled: PropTypes.bool,
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
-	ariaLabel: PropTypes.string.isRequired,
+	ariaLabel: PropTypes.string,
 	onClick: PropTypes.func,
 	onPointerEnter: PropTypes.func,
 	onPointerLeave: PropTypes.func,
