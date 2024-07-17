@@ -114,7 +114,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 
 	// Add tooltip classes on mouse enter and remove them on mouse leave.
 	const handleMouseEnter = useCallback( () => {
-		if( ariaLabel ){
+		if ( ariaLabel ) {
 			const direction = isEnabled ? "yoast-tooltip-w" : "yoast-tooltip-nw";
 			setButtonClass( `yoast-tooltip yoast-tooltip-multiline ${ direction }` );
 		}
