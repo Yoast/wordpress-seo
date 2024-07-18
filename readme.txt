@@ -328,7 +328,6 @@ Release date: 2024-08-06
 #### Other
 
 * Deprecates the `Ai_Generate_Titles_And_Descriptions_Introduction_Upsell` class.
-* Fix gradient background for AI title and description generator introduction modal.
 * Sets the \"WordPress tested up to\" version to 6.6.
 
 = 23.1 =
