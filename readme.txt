@@ -321,11 +321,15 @@ Release date: 2024-08-06
 
 #### Enhancements
 
+* Disables an unneeded cleanup cron job when indexables are disabled.
 * Excludes image captions from the _keyphrase in introduction_ assessment: image captions at the beginning of a post will not be treated as an introduction anymore.
+* Removes an unnecessary query when indexables are disabled.
 
 #### Other
 
 * Deprecates the `Ai_Generate_Titles_And_Descriptions_Introduction_Upsell` class.
+* Fix gradient background for AI title and description generator introduction modal.
+* Sets the \"WordPress tested up to\" version to 6.6.
 
 = 23.1 =
 
