@@ -280,7 +280,7 @@ Release date: 2024-07-16
 
 #### Other
 
-* Sets the \"WordPress tested up to\" version to 6.6.
+* Sets the _WordPress tested up to_ version to 6.6.
 
 = 23.0 =
 
