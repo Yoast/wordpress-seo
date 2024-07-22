@@ -271,7 +271,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 23.1 =
 
-Release date: 2024-07-16
+Release date: 2024-07-23
+
+Yoast SEO 23.1 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-23-7-24).
 
 #### Enhancements
 
