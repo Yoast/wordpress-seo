@@ -18,13 +18,12 @@ use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Utils;
-use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
+use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
@@ -120,21 +119,18 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager     The asset manager.
-	 * @param Options_Helper            $options           The options helper.
-	 * @param Capability_Helper         $capability        The capability helper.
-	 * @param Promotion_Manager         $promotion_manager The promotion manager.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
+	 * @param Options_Helper            $options       The options helper.
+	 * @param Capability_Helper         $capability    The capability helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Options_Helper $options,
-		Capability_Helper $capability,
-		Promotion_Manager $promotion_manager
+		Capability_Helper $capability
 	) {
-		$this->asset_manager     = $asset_manager;
-		$this->options           = $options;
-		$this->capability        = $capability;
-		$this->promotion_manager = $promotion_manager;
+		$this->asset_manager = $asset_manager;
+		$this->options       = $options;
+		$this->capability    = $capability;
 
 		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
@@ -454,13 +450,12 @@ class Elementor implements Integration_Interface {
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
-		$alert_dismissal_action  = \YoastSEO()->classes->get( Alert_Dismissal_Action::class );
-		$dismissed_alerts        = $alert_dismissal_action->all_dismissed();
 		$woocommerce_conditional = new WooCommerce_Conditional();
+		$permalink               = $this->get_permalink();
 
 		$script_data = [
 			'media'                     => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
-			'metabox'                   => $this->get_metabox_script_data(),
+			'metabox'                   => $this->get_metabox_script_data( $permalink ),
 			'userLanguageCode'          => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'                    => true,
 			'isBlockEditor'             => WP_Screen::get()->is_block_editor(),
@@ -472,14 +467,19 @@ class Elementor implements Integration_Interface {
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'dismissedAlerts'           => $dismissed_alerts,
 			'webinarIntroElementorUrl'  => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
-			'currentPromotions'         => $this->promotion_manager->get_current_promotions(),
 			'usedKeywordsNonce'         => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
-			'linkParams'                => WPSEO_Shortlinker::get_query_params(),
-			'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),
-			'wistiaEmbedPermission'     => \YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( \get_current_user_id() ),
 		];
+
+		/**
+		 * The website information repository.
+		 *
+		 * @var $repo Website_Information_Repository
+		 */
+		$repo             = \YoastSEO()->classes->get( Website_Information_Repository::class );
+		$site_information = $repo->get_post_site_information();
+		$site_information->set_permalink( $permalink );
+		$script_data = \array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
 
 		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
 			$this->asset_manager->enqueue_style( 'featured-image' );
@@ -597,16 +597,11 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Passes variables to js for use with the post-scraper.
 	 *
+	 * @param string $permalink The permalink.
+	 *
 	 * @return array
 	 */
-	protected function get_metabox_script_data() {
-		$permalink = '';
-
-		if ( \is_object( $this->get_metabox_post() ) ) {
-			$permalink = \get_sample_permalink( $this->get_metabox_post()->ID );
-			$permalink = $permalink[0];
-		}
-
+	protected function get_metabox_script_data( $permalink ) {
 		$post_formatter = new WPSEO_Metabox_Formatter(
 			new WPSEO_Post_Metabox_Formatter( $this->get_metabox_post(), [], $permalink )
 		);
@@ -622,6 +617,22 @@ class Elementor implements Integration_Interface {
 		$values['elementorMarkerStatus'] = $this->is_highlighting_available() ? 'enabled' : 'hidden';
 
 		return $values;
+	}
+
+	/**
+	 * Gets the permalink.
+	 *
+	 * @return string
+	 */
+	protected function get_permalink(): string {
+		$permalink = '';
+
+		if ( \is_object( $this->get_metabox_post() ) ) {
+			$permalink = \get_sample_permalink( $this->get_metabox_post()->ID );
+			$permalink = $permalink[0];
+		}
+
+		return $permalink;
 	}
 
 	/**

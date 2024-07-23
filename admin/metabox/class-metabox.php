@@ -5,14 +5,12 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Active_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
-use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
+use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
-use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
  * This class generates the metabox on the edit post / page as well as contains all page analysis functionality.
@@ -279,12 +277,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array<string,string|array<string|int|bool>|bool|int>
 	 */
 	public function get_metabox_script_data() {
-		$permalink = '';
-
-		if ( is_object( $this->get_metabox_post() ) ) {
-			$permalink = get_sample_permalink( $this->get_metabox_post()->ID );
-			$permalink = $permalink[0];
-		}
+		$permalink = $this->get_permalink();
 
 		$post_formatter = new WPSEO_Metabox_Formatter(
 			new WPSEO_Post_Metabox_Formatter( $this->get_metabox_post(), [], $permalink )
@@ -907,8 +900,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 		];
 
-		$alert_dismissal_action            = YoastSEO()->classes->get( Alert_Dismissal_Action::class );
-		$dismissed_alerts                  = $alert_dismissal_action->all_dismissed();
 		$woocommerce_conditional           = new WooCommerce_Conditional();
 		$woocommerce_active                = $woocommerce_conditional->is_met();
 		$wpseo_plugin_availability_checker = new WPSEO_Plugin_Availability();
@@ -930,19 +921,22 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'dismissedAlerts'            => $dismissed_alerts,
-			'currentPromotions'          => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
-			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'blackFridayBlockEditorUrl'  => ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-checklist' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
 			'isWooCommerceSeoActive'     => $woocommerce_seo_active,
 			'isWooCommerceActive'        => $woocommerce_active,
 			'woocommerceUpsell'          => get_post_type( $post_id ) === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
-			'linkParams'                 => WPSEO_Shortlinker::get_query_params(),
-			'pluginUrl'                  => plugins_url( '', WPSEO_FILE ),
-			'wistiaEmbedPermission'      => YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( get_current_user_id() ),
 		];
+
+		/**
+		 * The website information repository.
+		 *
+		 * @var $repo Website_Information_Repository
+		 */
+		$repo             = YoastSEO()->classes->get( Website_Information_Repository::class );
+		$site_information = $repo->get_post_site_information();
+		$site_information->set_permalink( $this->get_permalink() );
+		$script_data = array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );
@@ -1200,5 +1194,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	protected function get_product_title() {
 		return YoastSEO()->helpers->product->get_product_name();
+	}
+
+	/**
+	 * Gets the permalink.
+	 *
+	 * @return string
+	 */
+	protected function get_permalink() {
+		$permalink = '';
+
+		if ( is_object( $this->get_metabox_post() ) ) {
+			$permalink = get_sample_permalink( $this->get_metabox_post()->ID );
+			$permalink = $permalink[0];
+		}
+
+		return $permalink;
 	}
 }
