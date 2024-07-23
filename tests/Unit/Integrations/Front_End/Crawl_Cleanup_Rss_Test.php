@@ -74,8 +74,8 @@ final class Crawl_Cleanup_Rss_Test extends TestCase {
 
 		$this->instance->register_hooks();
 
-		$this->assertNotFalse( Monkey\Actions\has( 'feed_links_show_posts_feed', '__return_false' ) );
-		$this->assertNotFalse( Monkey\Actions\has( 'feed_links_show_comments_feed', '__return_false' ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'feed_links_show_posts_feed', '__return_false' ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'feed_links_show_comments_feed', '__return_false' ) );
 		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'maybe_disable_feeds' ] ) );
 		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'maybe_redirect_feeds' ] ) );
 	}
@@ -108,7 +108,7 @@ final class Crawl_Cleanup_Rss_Test extends TestCase {
 				->andReturn( $value );
 		}
 
-		Monkey\Functions\expect( 'remove_action' )
+		Monkey\Functions\expect( 'add_filter' )
 			->times( $expected_times );
 
 		$this->instance->maybe_disable_feeds();
