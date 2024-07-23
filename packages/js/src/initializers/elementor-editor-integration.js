@@ -3,6 +3,7 @@ import domReady from "@wordpress/dom-ready";
 import { doAction } from "@wordpress/hooks";
 import { __, sprintf } from "@wordpress/i18n";
 import { debounce } from "lodash";
+import { addPanelMenuItem } from "../elementor/initializers/add-panel-menu-item";
 import { renderYoastReactRoot, renderYoastTabReactContent } from "../elementor/initializers/render-sidebar";
 import { registerElementorDataHookAfter } from "../helpers/elementorHook";
 import { registerReactComponent } from "../helpers/reactRoot";
@@ -248,25 +249,8 @@ export default function initElementEditorIntegration() {
 		}
 	} );
 
-	// Register with the menu.
-	const menu = window.elementor.modules.layouts.panel.pages.menu.Menu;
-	menu.addItem( {
-		name: "yoast",
-		icon: "yoast yoast-element-menu-icon",
-		title: "Yoast SEO",
-		type: "page",
-		callback: () => {
-			try {
-				window.$e.route( "panel/page-settings/yoast-tab" );
-			} catch ( error ) {
-				// The yoast tab is only available if the page settings has been visited.
-				window.$e.route( "panel/page-settings/settings" );
-				window.$e.route( "panel/page-settings/yoast-tab" );
-			}
-			// Start rendering the Yoast tab React content.
-			renderYoastTabReactContent();
-		},
-	}, "more" );
+	// Note: this menu seems to no longer be reachable in the editor V2.
+	addPanelMenuItem();
 
 	/*
 	 * Listen for Yoast tab activation from within settings panel to start rendering the Yoast tab React content.
