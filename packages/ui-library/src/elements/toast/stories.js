@@ -1,11 +1,13 @@
 import { noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { useCallback, useState } from "react";
-import Toast  from ".";
+import React from "react";
+import Toast, { useToastContext } from ".";
 import Button from "../../elements/button";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
-import { description, component, close, title } from "./docs";
+import { description, component, close, title, useToastContext as useToastContextDocs, complexLayout } from "./docs";
 import classNames from "classnames";
+import { ValidationIcon } from "../validation";
+import { useToggleState } from "../../hooks";
 
 const positionClassNameMap = {
 	position: {
@@ -15,9 +17,7 @@ const positionClassNameMap = {
 	},
 };
 const Template = ( { isVisible: initialVisible, setIsVisible: _, position, children, ...props } ) => {
-	const [ isVisible, setIsVisible ] = useState( initialVisible );
-	const toggleToast = useCallback( () => setIsVisible( ! isVisible ), [ isVisible ] );
-	const openToast = useCallback( () => setIsVisible( true ), [] );
+	const [ isVisible, toggleToast, , openToast ] = useToggleState( initialVisible );
 
 	return (
 		<>
@@ -90,18 +90,88 @@ export const withClose = {
 	name: "With close button",
 	args: {
 		children: (
-			<>
-				<div className="yst-flex yst-flex-row-reverse">
+			<div className="yst-flex">
+				<div className="yst-flex-1">
+					<p>Hello everyone!</p>
+				</div>
+				<div>
 					<Toast.Close dismissScreenReaderLabel="Dismiss" />
 				</div>
-				<p>Hello everyone!</p>
-			</>
+			</div>
 		),
 	},
 	parameters: {
 		controls: { disable: true },
 		docs: { description: { story: close } },
 	},
+};
+
+const ConfirmButton = () => {
+	const { handleDismiss } = useToastContext();
+
+	return <Button size="small" onClick={ handleDismiss }>Confirm</Button>;
+};
+
+export const useToastContextHook = {
+	name: "useToastContext",
+	args: {
+		children: (
+			<div className="yst-flex">
+				<div className="yst-flex-1">
+					<p>Hello everyone!</p>
+				</div>
+				<div>
+					<ConfirmButton />
+				</div>
+			</div>
+		),
+	},
+	parameters: {
+		controls: { disable: true },
+		docs: { description: { story: useToastContextDocs } },
+	},
+};
+
+const DismissButton = () => {
+	const { handleDismiss } = useToastContext();
+	return <Button size="small" variant="tertiary" onClick={ handleDismiss }>Dismiss</Button>;
+};
+
+export const asComplexLayout = {
+	name: "Complex layout",
+	args: {
+		children: (
+			<>
+				<div className="yst-flex yst-gap-3">
+					<div className="yst-flex-shrink-0">
+						<ValidationIcon className="yst-w-5 yst-h-5" />
+					</div>
+					<div className="yst-flex-1">
+						<Toast.Title title="Perform an action?" />
+						<p>An optional action can be performed. Please confirm this action. Otherwise, feel free to dismiss this suggestion.</p>
+					</div>
+					<div>
+						<Toast.Close dismissScreenReaderLabel="Dismiss" />
+					</div>
+				</div>
+				<div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
+					<DismissButton />
+					<ConfirmButton />
+				</div>
+			</>
+		),
+	},
+	parameters: {
+		controls: { disable: true },
+		docs: { description: { story: complexLayout } },
+	},
+	decorators: [
+		( Story ) => (
+			<div className="yst-min-h-[21rem]">
+				<Story />
+			</div>
+		),
+	],
 };
 
 export default {
@@ -159,7 +229,7 @@ export default {
 			description: {
 				component,
 			},
-			page: () => <InteractiveDocsPage stories={ [ withClose, withDescription, withTitle ] } />,
+			page: () => <InteractiveDocsPage stories={ [ withTitle, withDescription, withClose, useToastContextHook, asComplexLayout ] } />,
 		},
 	},
 	decorators: [
