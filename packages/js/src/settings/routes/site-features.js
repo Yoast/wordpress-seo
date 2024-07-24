@@ -241,7 +241,7 @@ const SiteFeatures = () => {
 								isPremiumLink="https://yoa.st/get-ai-generator"
 								title={ "Yoast AI" }
 							>
-								<p>{ __( "The AI features help you create better content by providing optimization suggestions that you can apply as you wish", "wordpress-seo" ) }</p>
+								<p>{ __( "The AI features help you create better content by providing optimization suggestions that you can apply as you wish.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-ai-generator" link="https://yoa.st/ai-generator-feature" ariaLabel={ __( "AI title & description generator", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
