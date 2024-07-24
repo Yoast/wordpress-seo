@@ -54,7 +54,7 @@ export const AiFixAssessmentsUpsell = ( {
 					</span>
 				</div>
 			</div>
-			<div className="yst-px-10 yst-pb-10 yst-flex yst-flex-col yst-items-center">
+			<div className="yst-px-10 yst-pb-4 yst-flex yst-flex-col yst-items-center">
 				<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
 					<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
 						{
