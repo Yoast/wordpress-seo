@@ -136,7 +136,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			pressed={ isButtonPressed }
 			disabled={ ! isEnabled }
 		>
-			{ ! isPremium && <LockClosedIcon className="yst-fixes-button__lock-icon" /> }
+			{ ! isPremium && <LockClosedIcon className="yst-fixes-button__lock-icon" color="#78350F"/> }
 			<SparklesIcon pressed={ isButtonPressed } />
 			{
 				// We put the logic for the Upsell component in place.
