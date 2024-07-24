@@ -160,7 +160,6 @@ class Elementor implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_elementor_hooks() {
-
 		if ( $this->get_metabox_post() === null || ! $this->display_metabox( $this->get_metabox_post()->post_type ) ) {
 			return;
 		}
@@ -579,6 +578,14 @@ class Elementor implements Integration_Interface {
 			$post = (int) \wp_unslash( $_GET['post'] );
 		}
 
+		// Elementor requests document data via AJAX, we need to check for the post ID to know if our metabox is enabled.
+		if ( empty( $post ) && \wp_doing_ajax() ) {
+			$post = $this->get_requested_document_id();
+			if ( $post < 1 ) {
+				$post = null;
+			}
+		}
+
 		if ( ! empty( $post ) ) {
 			$this->post = \get_post( $post );
 
@@ -592,6 +599,41 @@ class Elementor implements Integration_Interface {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Retrieves the requested document ID from the POST request.
+	 *
+	 * Copied from the Elementor_Edit_Conditional class.
+	 *
+	 * @return int The requested document ID or 0 if not found.
+	 */
+	private function get_requested_document_id(): int {
+		$invalid_id = 0;
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
+		if ( ! ( isset( $_POST['actions'] ) && \is_string( $_POST['actions'] ) ) ) {
+			return $invalid_id;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, we are only strictly comparing.
+		$actions = \json_decode( \wp_unslash( $_POST['actions'] ), true );
+		if ( ! \is_array( $actions ) ) {
+			return $invalid_id;
+		}
+
+		$key = \key( $actions );
+
+		// There are multiple action types here. We need to be active when requesting a document config.
+		if ( ! ( isset( $actions[ $key ]['action'] ) && $actions[ $key ]['action'] === 'get_document_config' ) ) {
+			return $invalid_id;
+		}
+
+		if ( isset( $actions[ $key ]['data']['id'] ) && \is_numeric( $actions[ $key ]['data']['id'] ) ) {
+			return (int) $actions[ $key ]['data']['id'];
+		}
+
+		return $invalid_id;
 	}
 
 	/**
