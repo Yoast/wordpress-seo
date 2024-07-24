@@ -1,10 +1,10 @@
 import { dispatch, select } from "@wordpress/data";
 import { cleanForSlug } from "@wordpress/url";
 import { debounce, get } from "lodash";
-import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
-import { registerElementorUIHookAfter, registerElementorUIHookBefore } from "../helpers/elementorHook";
 import { markers, Paper } from "yoastseo";
-import { refreshDelay } from "../analysis/constants";
+import { refreshDelay } from "../../analysis/constants";
+import firstImageUrlInContent from "../../helpers/firstImageUrlInContent";
+import { registerElementorUIHookAfter, registerElementorUIHookBefore } from "../helpers/hooks";
 
 const editorData = {
 	content: "",
@@ -47,6 +47,7 @@ function removeMarks() {
 		}
 	} );
 }
+
 /**
  * Gets the post content.
  *

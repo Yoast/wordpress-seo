@@ -3,10 +3,10 @@ import domReady from "@wordpress/dom-ready";
 import { doAction } from "@wordpress/hooks";
 import { __, sprintf } from "@wordpress/i18n";
 import { debounce } from "lodash";
-import { addPanelMenuItem } from "../elementor/initializers/add-panel-menu-item";
-import { renderYoastReactRoot, renderYoastTabReactContent } from "../elementor/initializers/render-sidebar";
-import { registerElementorDataHookAfter } from "../helpers/elementorHook";
-import { registerReactComponent } from "../helpers/reactRoot";
+import { registerReactComponent } from "../../helpers/reactRoot";
+import { registerElementorDataHookAfter } from "../helpers/hooks";
+import { addPanelMenuItem } from "./add-panel-menu-item";
+import { renderYoastReactRoot, renderYoastTabReactContent } from "./render-sidebar";
 
 // Keep track of unsaved SEO setting changes.
 let hasUnsavedSeoChanges = false;
@@ -195,6 +195,7 @@ function sendFormData( form ) {
 
 		return result;
 	}, {} );
+	console.log( "sendFormData", data );
 
 	jQuery.post( form.getAttribute( "action" ), data, ( { success, data: responseData }, status, xhr ) => {
 		if ( ! success ) {
@@ -232,6 +233,19 @@ export default function initElementEditorIntegration() {
 
 	domReady( renderYoastReactRoot );
 	initializePostStatusListener();
+
+	if ( window?.elementorV2 ) {
+		const postId = parseInt( document.getElementById( "post_ID" )?.value, 10 );
+		const hostDocumentListener = () => {
+			const { activeId, hostId } = window.elementorV2.store.__getState().documents;
+			console.log( "STORE", { activeId, hostId } );
+			if ( hostId !== postId ) {
+				console.warn( "Host document changed!", hostId, postId );
+			}
+		};
+		// Ignoring the unsubscribe function, as we don't need it.
+		window.elementorV2.store?.__subscribe?.( hostDocumentListener );
+	}
 
 	// Hook into the save.
 	const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
