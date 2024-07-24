@@ -30,7 +30,7 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array The conditionals.
+	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
@@ -60,25 +60,25 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 	 * @return void
 	 */
 	public function maybe_disable_feeds() {
-		if ( \is_singular() && $this->is_true( 'remove_feed_post_comments' ) ) {
+		if ( $this->is_true( 'remove_feed_post_comments' ) ) {
 			\add_filter( 'feed_links_extra_show_post_comments_feed', '__return_false' );
 		}
-		if ( \is_author() && $this->is_true( 'remove_feed_authors' ) ) {
+		if ( $this->is_true( 'remove_feed_authors' ) ) {
 			\add_filter( 'feed_links_extra_show_author_feed', '__return_false' );
 		}
-		if ( \is_category() && $this->is_true( 'remove_feed_categories' ) ) {
+		if ( $this->is_true( 'remove_feed_categories' ) ) {
 			\add_filter( 'feed_links_extra_show_category_feed', '__return_false' );
 		}
-		if ( \is_tag() && $this->is_true( 'remove_feed_tags' ) ) {
+		if ( $this->is_true( 'remove_feed_tags' ) ) {
 			\add_filter( 'feed_links_extra_show_tag_feed', '__return_false' );
 		}
-		if ( \is_tax() && $this->is_true( 'remove_feed_custom_taxonomies' ) ) {
+		if ( $this->is_true( 'remove_feed_custom_taxonomies' ) ) {
 			\add_filter( 'feed_links_extra_show_tax_feed', '__return_false' );
 		}
-		if ( \is_post_type_archive() && $this->is_true( 'remove_feed_post_types' ) ) {
+		if ( $this->is_true( 'remove_feed_post_types' ) ) {
 			\add_filter( 'feed_links_extra_show_post_type_archive_feed', '__return_false' );
 		}
-		if ( \is_search() && $this->is_true( 'remove_feed_search' ) ) {
+		if ( $this->is_true( 'remove_feed_search' ) ) {
 			\add_filter( 'feed_links_extra_show_search_feed', '__return_false' );
 		}
 	}
