@@ -277,6 +277,10 @@ Release date: 2024-08-06
 
 * Excludes image captions from the _keyphrase in introduction_ assessment: image captions at the beginning of a post will not be treated as an introduction anymore.
 
+#### Bugfixes
+
+* Fixes a bug where the `wpseo_posts_for_related_keywords` filter would not work anymore since it was accidentally renamed.
+
 #### Other
 
 * Deprecates the `Ai_Generate_Titles_And_Descriptions_Introduction_Upsell` class.
