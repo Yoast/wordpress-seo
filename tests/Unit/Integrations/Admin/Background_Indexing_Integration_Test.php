@@ -142,14 +142,6 @@ final class Background_Indexing_Integration_Test extends TestCase {
 		$this->get_request_conditional               = Mockery::mock( Get_Request_Conditional::class );
 		$this->wp_cron_enabled_conditional           = Mockery::mock( WP_CRON_Enabled_Conditional::class );
 
-		$indexation_actions = [
-			$this->post_indexation,
-			$this->term_indexation,
-			$this->post_type_archive_indexation,
-			$this->general_indexation,
-			$this->post_link_indexing_action,
-			$this->term_link_indexing_action,
-		];
 		// This is a partial mock, so we can get test the registering of the shutdown hook.
 		$this->instance = Mockery::mock(
 			Background_Indexing_Integration::class,
@@ -160,7 +152,12 @@ final class Background_Indexing_Integration_Test extends TestCase {
 				$this->yoast_admin_and_dashboard_conditional,
 				$this->get_request_conditional,
 				$this->wp_cron_enabled_conditional,
-				...$indexation_actions,
+				$this->post_indexation,
+				$this->term_indexation,
+				$this->post_type_archive_indexation,
+				$this->general_indexation,
+				$this->post_link_indexing_action,
+				$this->term_link_indexing_action,
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 

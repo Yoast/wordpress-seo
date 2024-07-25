@@ -86,7 +86,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		Yoast_Admin_And_Dashboard_Conditional $yoast_admin_and_dashboard_conditional,
 		Get_Request_Conditional $get_request_conditional,
 		WP_CRON_Enabled_Conditional $wp_cron_enabled_conditional,
-		Indexation_Action_Interface ...$indexing_actions,
+		Indexation_Action_Interface ...$indexing_actions
 	) {
 		$this->indexing_actions                      = $indexing_actions;
 		$this->complete_indexation_action            = $complete_indexation_action;
