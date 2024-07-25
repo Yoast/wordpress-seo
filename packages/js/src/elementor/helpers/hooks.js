@@ -42,11 +42,12 @@ class ElementorUIHook extends $e.modules.hookUI.Base {
 	/**
 	 * This function is called when the hook is fired.
 	 *
+	 * @param {*} args The arguments passed to the hook.
+	 *
 	 * @returns {*} The callback result.
 	 */
-	apply() {
-		// Give some milliseconds to ensure the UI has been updated.
-		return this.callback();
+	apply( ...args ) {
+		return this.callback( ...args );
 	}
 }
 
@@ -92,16 +93,17 @@ class ElementorDataHook extends $e.modules.hookData.Base {
 	/**
 	 * This function is called when the hook is fired.
 	 *
+	 * @param {*} args The arguments passed to the hook.
+	 *
 	 * @returns {*} The callback result.
 	 */
-	apply() {
-		// Give some milliseconds to ensure the UI has been updated.
-		return this.callback();
+	apply( ...args ) {
+		return this.callback( ...args );
 	}
 }
 
 /**
- * Initializes the Elementor UI hooks and registers them.
+ * Initializes the Elementor UI after hooks and registers them.
  *
  * @param {string}   hook     The hook to register to.
  * @param {string}   id       The id to register our callback behind.
@@ -128,7 +130,7 @@ export function registerElementorUIHookBefore( hook, id, callback ) {
 }
 
 /**
- * Initializes the Elementor Data hooks and registers them.
+ * Initializes the Elementor Data after hooks and registers them.
  *
  * @param {string}   hook     The hook to register to.
  * @param {string}   id       The id to register our callback behind.
