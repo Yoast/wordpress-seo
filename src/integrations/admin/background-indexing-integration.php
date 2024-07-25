@@ -96,6 +96,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		$this->get_request_conditional               = $get_request_conditional;
 		$this->wp_cron_enabled_conditional           = $wp_cron_enabled_conditional;
 	}
+
 	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
