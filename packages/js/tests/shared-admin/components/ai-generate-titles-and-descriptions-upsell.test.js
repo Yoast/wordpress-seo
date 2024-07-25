@@ -18,8 +18,18 @@ describe( "AiGenerateTitlesAndDescriptionsUpsell", () => {
 		upsellLabel: "Test Upsell Label",
 	};
 
-	it( "renders the component correctly", () => {
+	it( "renders the component correctly for default props", () => {
 		const { container } = render( <AiGenerateTitlesAndDescriptionsUpsell { ...props } /> );
+		expect( container ).toMatchSnapshot();
+	} );
+
+    it( "renders the component correctly for custom props", () => {
+		
+        const { container } = render( <AiGenerateTitlesAndDescriptionsUpsell { ...props }
+            title="Custom title"
+            newToText="Custon new to text"
+            bundleNote="Custom bundle note"
+            isProductCopy={ true } /> );
 		expect( container ).toMatchSnapshot();
 	} );
 } );
