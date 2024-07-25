@@ -157,11 +157,7 @@ AiGenerateTitlesAndDescriptionsUpsell.defaultProps = {
 		__( "Unlock with %1$s", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	),
-	newToText: sprintf(
-		/* translators: %1$s expands to Yoast SEO Premium. */
-		__( "New in %1$s", "wordpress-seo" ),
-		"Yoast SEO Premium"
-	),
+	newToText: "Yoast SEO Premium",
 	isProductCopy: false,
 	bundleNote: "",
 };
