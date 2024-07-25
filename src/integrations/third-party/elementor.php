@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use Elementor\Controls_Manager;
-use Elementor\Core\DocumentTypes\PageBase;
 use WP_Post;
 use WP_Screen;
 use WPSEO_Admin_Asset_Manager;
@@ -32,11 +30,6 @@ use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
  * Integrates the Yoast SEO metabox in the Elementor editor.
  */
 class Elementor implements Integration_Interface {
-
-	/**
-	 * The identifier for the elementor tab.
-	 */
-	public const YOAST_TAB = 'yoast-tab';
 
 	/**
 	 * Represents the post.
@@ -176,15 +169,6 @@ class Elementor implements Integration_Interface {
 		}
 
 		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'init' ] );
-
-		// We are too late for elementor/init. We should see if we can be on time, or else this workaround works (we do always get the "else" though).
-		if ( ! \did_action( 'elementor/init' ) ) {
-			\add_action( 'elementor/init', [ $this, 'add_yoast_panel_tab' ] );
-		}
-		else {
-			$this->add_yoast_panel_tab();
-		}
-		\add_action( 'elementor/documents/register_controls', [ $this, 'register_document_controls' ] );
 	}
 
 	/**
@@ -196,40 +180,6 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->register_assets();
 		$this->enqueue();
 		$this->render_hidden_fields();
-	}
-
-	/**
-	 * Register a panel tab slug, in order to allow adding controls to this tab.
-	 *
-	 * @return void
-	 */
-	public function add_yoast_panel_tab() {
-		Controls_Manager::add_tab( $this::YOAST_TAB, 'Yoast SEO' );
-	}
-
-	/**
-	 * Register additional document controls.
-	 *
-	 * @param PageBase $document The PageBase document.
-	 *
-	 * @return void
-	 */
-	public function register_document_controls( $document ) {
-		// PageBase is the base class for documents like `post` `page` and etc.
-		if ( ! $document instanceof PageBase || ! $document::get_property( 'has_elements' ) ) {
-			return;
-		}
-
-		// This is needed to get the tab to appear, but will be overwritten in the JavaScript.
-		$document->start_controls_section(
-			'yoast_temporary_section',
-			[
-				'label' => 'Yoast SEO',
-				'tab'   => self::YOAST_TAB,
-			]
-		);
-
-		$document->end_controls_section();
 	}
 
 	// Below is mostly copied from `class-metabox.php`. That constructor has side-effects we do not need.
