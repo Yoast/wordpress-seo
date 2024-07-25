@@ -19,76 +19,51 @@ class Elementor_Edit_Conditional implements Conditional {
 		global $pagenow;
 
 		// Editing a post/page in Elementor.
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
-		if ( $pagenow === 'post.php' && isset( $_GET['action'] ) && \is_string( $_GET['action'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, we are only strictly comparing.
-			if ( \wp_unslash( $_GET['action'] ) === 'elementor' ) {
-				return true;
-			}
+		if ( $pagenow === 'post.php' && $this->is_elementor_get_action() ) {
+			return true;
 		}
 
-		if ( ! \wp_doing_ajax() ) {
+		// Request for us saving a post/page in Elementor (submits our form via AJAX).
+		return \wp_doing_ajax() && $this->is_yoast_save_post_action();
+	}
+
+	/**
+	 * Checks if the current request' GET action is 'elementor'.
+	 *
+	 * @return bool True when the GET action is 'elementor'.
+	 */
+	private function is_elementor_get_action(): bool {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( ! isset( $_GET['action'] ) ) {
 			return false;
 		}
 
-		$action = $this->get_post_action();
-		switch ( $action ) {
-			// Elementor editor AJAX request.
-			case 'elementor_ajax':
-				return $this->get_requested_document_id() > 0;
-			// Request for us saving a post/page in Elementor (submits our form via AJAX).
-			case 'wpseo_elementor_save':
-				return true;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( ! \is_string( $_GET['action'] ) ) {
+			return false;
 		}
 
-		return false;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, we are only strictly comparing.
+		return \wp_unslash( $_GET['action'] ) === 'elementor';
 	}
 
 	/**
-	 * Retrieves the action from the POST request.
+	 * Checks if the current request' POST action is 'wpseo_elementor_save'.
 	 *
-	 * @return string The action or an empty string if not found.
+	 * @return bool True when the POST action is 'wpseo_elementor_save'.
 	 */
-	private function get_post_action(): string {
+	private function is_yoast_save_post_action(): bool {
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
-		if ( isset( $_POST['action'] ) && \is_string( $_POST['action'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, we are only strictly comparing.
-			return (string) \wp_unslash( $_POST['action'] );
+		if ( ! isset( $_POST['action'] ) ) {
+			return false;
 		}
 
-		return '';
-	}
-
-	/**
-	 * Retrieves the requested document ID from the POST request.
-	 *
-	 * @return int The requested document ID or 0 if not found.
-	 */
-	private function get_requested_document_id(): int {
-		$invalid_id = 0;
-
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
-		if ( ! ( isset( $_POST['actions'] ) && \is_string( $_POST['actions'] ) ) ) {
-			return $invalid_id;
+		if ( ! \is_string( $_POST['action'] ) ) {
+			return false;
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, we are only strictly comparing.
-		$actions = \json_decode( \wp_unslash( $_POST['actions'] ), true );
-		if ( ! \is_array( $actions ) ) {
-			return $invalid_id;
-		}
-
-		$key = \key( $actions );
-
-		// There are multiple action types here. We need to be active when requesting a document config.
-		if ( ! ( isset( $actions[ $key ]['action'] ) && $actions[ $key ]['action'] === 'get_document_config' ) ) {
-			return $invalid_id;
-		}
-
-		if ( isset( $actions[ $key ]['data']['id'] ) && \is_numeric( $actions[ $key ]['data']['id'] ) ) {
-			return (int) $actions[ $key ]['data']['id'];
-		}
-
-		return $invalid_id;
+		return \wp_unslash( $_POST['action'] ) === 'wpseo_elementor_save';
 	}
 }
