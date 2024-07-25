@@ -23,13 +23,14 @@ describe( "AiGenerateTitlesAndDescriptionsUpsell", () => {
 		expect( container ).toMatchSnapshot();
 	} );
 
-    it( "renders the component correctly for custom props", () => {
-		
-        const { container } = render( <AiGenerateTitlesAndDescriptionsUpsell { ...props }
-            title="Custom title"
-            newToText="Custon new to text"
-            bundleNote="Custom bundle note"
-            isProductCopy={ true } /> );
+	it( "renders the component correctly for custom props", () => {
+		const { container } = render( <AiGenerateTitlesAndDescriptionsUpsell
+			{ ...props }
+			title="Custom title"
+			newToText="Custon new to text"
+			bundleNote="Custom bundle note"
+			isProductCopy={ true }
+		/> );
 		expect( container ).toMatchSnapshot();
 	} );
 } );
