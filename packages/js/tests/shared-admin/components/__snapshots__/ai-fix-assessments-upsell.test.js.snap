@@ -40,7 +40,7 @@ exports[`AiFixAssessmentsUpsell renders the component correctly 1`] = `
     </div>
   </div>
   <div
-    class="yst-px-10 yst-pb-10 yst-flex yst-flex-col yst-items-center"
+    class="yst-px-10 yst-pb-4 yst-flex yst-flex-col yst-items-center"
   >
     <div
       class="yst-mt-4 yst-mx-1.5 yst-text-center"
