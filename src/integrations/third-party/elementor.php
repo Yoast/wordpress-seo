@@ -21,6 +21,7 @@ use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
+use Yoast\WP\SEO\Elementor\Infrastructure\Request_Post;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -64,6 +65,13 @@ class Elementor implements Integration_Interface {
 	 * @var Capability_Helper
 	 */
 	protected $capability;
+
+	/**
+	 * Holds the Request_Post.
+	 *
+	 * @var Request_Post
+	 */
+	private $request_post;
 
 	/**
 	 * Holds whether the socials are enabled.
@@ -122,15 +130,18 @@ class Elementor implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
 	 * @param Options_Helper            $options       The options helper.
 	 * @param Capability_Helper         $capability    The capability helper.
+	 * @param Request_Post              $request_post  The Request_Post.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Options_Helper $options,
-		Capability_Helper $capability
+		Capability_Helper $capability,
+		Request_Post $request_post
 	) {
 		$this->asset_manager = $asset_manager;
 		$this->options       = $options;
 		$this->capability    = $capability;
+		$this->request_post  = $request_post;
 
 		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
@@ -571,34 +582,9 @@ class Elementor implements Integration_Interface {
 			return $this->post;
 		}
 
-		$post = null;
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
-		if ( isset( $_GET['post'] ) && \is_numeric( $_GET['post'] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
-			$post = (int) \wp_unslash( $_GET['post'] );
-		}
+		$this->post = $this->request_post->get_post();
 
-		// Elementor requests document data via AJAX, we need to check for the post ID to know if our metabox is enabled.
-		if ( empty( $post ) && \wp_doing_ajax() ) {
-			$post = $this->get_requested_document_id();
-			if ( $post < 1 ) {
-				$post = null;
-			}
-		}
-
-		if ( ! empty( $post ) ) {
-			$this->post = \get_post( $post );
-
-			return $this->post;
-		}
-
-		if ( isset( $GLOBALS['post'] ) ) {
-			$this->post = $GLOBALS['post'];
-
-			return $this->post;
-		}
-
-		return null;
+		return $this->post;
 	}
 
 	/**
