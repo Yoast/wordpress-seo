@@ -62,6 +62,13 @@ class Background_Indexing_Integration implements Integration_Interface {
 	private $wp_cron_enabled_conditional;
 
 	/**
+	 * The indexable helper
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Shutdown_Indexing_Integration constructor.
 	 *
 	 * @param Indexable_Indexing_Complete_Action    $complete_indexation_action            The complete indexing action.
@@ -89,14 +96,6 @@ class Background_Indexing_Integration implements Integration_Interface {
 		$this->get_request_conditional               = $get_request_conditional;
 		$this->wp_cron_enabled_conditional           = $wp_cron_enabled_conditional;
 	}
-
-	/**
-	 * The indexable helper
-	 *
-	 * @var Indexable_Helper
-	 */
-	private $indexable_helper;
-
 	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
