@@ -201,10 +201,8 @@ class SeoAnalysis extends Component {
 	 */
 	renderAIFixesButton = ( hasAIFixes, id ) => {
 		const isPremium = getL10nObject().isPremium;
-
 		const isAiFeatureEnabled = select( "yoast-seo/editor" ).getPreference( "isAiFeatureActive", false );
-		
-		if( ! isAiFeatureEnabled ) {
+		if ( ! isAiFeatureEnabled && isPremium ) {
 			return;
 		}
 		// The reason of adding the check if Elementor is active or not is because `isBlockEditor` method also returns `true` for Elementor.
