@@ -1,5 +1,5 @@
 /* global wpseoAdminL10n */
-import { withSelect } from "@wordpress/data";
+import { withSelect, select } from "@wordpress/data";
 import { Component, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
@@ -202,6 +202,11 @@ class SeoAnalysis extends Component {
 	renderAIFixesButton = ( hasAIFixes, id ) => {
 		const isPremium = getL10nObject().isPremium;
 
+		const isAiFeatureEnabled = select( "yoast-seo/editor" ).getPreference( "isAiFeatureActive", false );
+		
+		if( ! isAiFeatureEnabled ) {
+			return;
+		}
 		// The reason of adding the check if Elementor is active or not is because `isBlockEditor` method also returns `true` for Elementor.
 		// The reason of adding the check if the Elementor editor is active, is to stop showing the buttons in the in-between screen.
 		return hasAIFixes && isBlockEditor() && ! this.props.isElementor && ! document.body.classList.contains( "elementor-editor-active" ) && (
