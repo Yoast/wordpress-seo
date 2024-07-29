@@ -1,6 +1,6 @@
 {
   "name": "@yoast/analysis-report",
-  "version": "1.21.0",
+  "version": "2.0.0-alpha.0",
   "main": "build/index.js",
   "files": [
     "build",
@@ -20,17 +20,16 @@
   },
   "author": "Team Yoast",
   "license": "GPL-3.0",
-  "private": true,
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^3.0.0-alpha.0",
+    "@yoast/components": "^3.0.0-alpha.1",
     "@yoast/helpers": "^0.17.0-alpha.0",
     "@yoast/style-guide": "^0.14.0-alpha.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
-    "styled-components": "^5.3.6",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
