@@ -39,7 +39,7 @@ export const AiFixAssessmentsUpsell = ( {
 			<div className="yst-px-10 yst-pt-10 yst-introduction-gradient yst-text-center">
 				<div className="yst-relative yst-w-full">
 					<VideoFlow
-						videoId="vmrahpfjxp"
+						videoId="vun9z1dpfh"
 						thumbnail={ thumbnail }
 						wistiaEmbedPermission={ wistiaEmbedPermission }
 					/>
