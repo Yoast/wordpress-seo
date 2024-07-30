@@ -15,7 +15,7 @@ exports[`AiFixAssessmentsUpsell renders the component correctly 1`] = `
           class="yst-absolute yst-w-full yst-h-full yst-top-0 yst-left-0"
         >
           <div
-            class="wistia_embed wistia_async_vmrahpfjxp videoFoam=true"
+            class="wistia_embed wistia_async_vun9z1dpfh videoFoam=true"
           />
         </div>
       </div>
@@ -40,7 +40,7 @@ exports[`AiFixAssessmentsUpsell renders the component correctly 1`] = `
     </div>
   </div>
   <div
-    class="yst-px-10 yst-pb-10 yst-flex yst-flex-col yst-items-center"
+    class="yst-px-10 yst-pb-4 yst-flex yst-flex-col yst-items-center"
   >
     <div
       class="yst-mt-4 yst-mx-1.5 yst-text-center"

@@ -54,11 +54,12 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 				</div>
 				<div className="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center">
 					<span className="yst-introduction-modal-uppercase yst-flex yst-gap-2 yst-items-center">
+						<span className="yst-logo-icon" />
 						{ newToText }
 					</span>
 				</div>
 			</div>
-			<div className="yst-px-10 yst-pb-10 yst-flex yst-flex-col yst-items-center">
+			<div className="yst-px-10 yst-pb-4 yst-flex yst-flex-col yst-items-center">
 				<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
 					<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
 						{ title }
@@ -157,11 +158,7 @@ AiGenerateTitlesAndDescriptionsUpsell.defaultProps = {
 		__( "Unlock with %1$s", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	),
-	newToText: sprintf(
-		/* translators: %1$s expands to Yoast SEO Premium. */
-		__( "New in %1$s", "wordpress-seo" ),
-		"Yoast SEO Premium"
-	),
+	newToText: "Yoast SEO Premium",
 	isProductCopy: false,
 	bundleNote: "",
 };
