@@ -253,7 +253,7 @@ class WPSEO_Plugin_Availability {
 	 * @deprecated 23.3
 	 * @codeCoverageIgnore
 	 */
-	public function get_plugin( $plugin ) {
+	public function get_plugin( $plugin ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- needed for BC reasons
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
 
 		return [];
@@ -269,7 +269,7 @@ class WPSEO_Plugin_Availability {
 	 * @deprecated 23.3
 	 * @codeCoverageIgnore
 	 */
-	public function get_version( $plugin ) {
+	public function get_version( $plugin ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- needed for BC reasons
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
 
 		return '0';
@@ -299,7 +299,7 @@ class WPSEO_Plugin_Availability {
 	 * @deprecated 23.3
 	 * @codeCoverageIgnore
 	 */
-	public function get_dependency_names( $plugin ) {
+	public function get_dependency_names( $plugin ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- needed for BC reasons
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
 
 		return [];
