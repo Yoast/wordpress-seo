@@ -75,8 +75,6 @@
 }
 
 .yoast-elementor-panel__fills {
-	margin-top: 10px;
-	padding: 5px 5px 0 5px;
 	color: var(--yoast-color-dark);
 	background-color: var(--yoast-color-white);
 	-webkit-font-smoothing: subpixel-antialiased;
