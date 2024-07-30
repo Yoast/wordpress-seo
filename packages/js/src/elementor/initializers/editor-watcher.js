@@ -1,3 +1,4 @@
+/* global elementor, YoastSEO */
 import { dispatch, select } from "@wordpress/data";
 import { cleanForSlug } from "@wordpress/url";
 import { debounce, get } from "lodash";
@@ -5,6 +6,7 @@ import { markers, Paper } from "yoastseo";
 import { refreshDelay } from "../../analysis/constants";
 import firstImageUrlInContent from "../../helpers/firstImageUrlInContent";
 import { registerElementorUIHookAfter, registerElementorUIHookBefore } from "../helpers/hooks";
+import { isFormId, isFormIdEqualToDocumentId } from "../helpers/is-form-id";
 
 const editorData = {
 	content: "",
@@ -31,8 +33,7 @@ function widgetHasMarks( widget ) {
  * @returns {jQuery[]} Elementor widget containers.
  */
 function getWidgetContainers() {
-	const currentDocument = window.elementor.documents.getCurrent();
-	return currentDocument.$element.find( ".elementor-widget-container" );
+	return elementor.documents.getCurrent().$element.find( ".elementor-widget-container" );
 }
 
 /**
@@ -77,7 +78,7 @@ function getContent( editorDocument ) {
  * @returns {string} The image URL.
  */
 function getImageUrl( content ) {
-	const featuredImage = window.elementor.settings.page.model.get( "post_featured_image" );
+	const featuredImage = elementor.settings.page.model.get( "post_featured_image" );
 	const url = get( featuredImage, "url", "" );
 
 	if ( url === "" ) {
@@ -99,10 +100,10 @@ function getEditorData( editorDocument ) {
 
 	return {
 		content,
-		title: window.elementor.settings.page.model.get( "post_title" ),
-		excerpt: window.elementor.settings.page.model.get( "post_excerpt" ) || "",
+		title: elementor.settings.page.model.get( "post_title" ),
+		excerpt: elementor.settings.page.model.get( "post_excerpt" ) || "",
 		imageUrl: getImageUrl( content ),
-		status: window.elementor.settings.page.model.get( "post_status" ),
+		status: elementor.settings.page.model.get( "post_status" ),
 	};
 }
 
@@ -113,7 +114,7 @@ function getEditorData( editorDocument ) {
  * @returns {void}
  */
 function handleEditorChange() {
-	const currentDocument = window.elementor.documents.getCurrent();
+	const currentDocument = elementor.documents.getCurrent();
 
 	// Quit early if the change was caused by switching out of the wp-post/page document.
 	// This can happen when users go to Site Settings, for example.
@@ -167,7 +168,7 @@ function resetMarks() {
 	dispatch( "yoast-seo/editor" ).setActiveMarker( null );
 	dispatch( "yoast-seo/editor" ).setMarkerPauseStatus( false );
 
-	window.YoastSEO.analysis.applyMarks( new Paper( "", {} ), [] );
+	YoastSEO.analysis.applyMarks( new Paper( "", {} ), [] );
 }
 
 const debouncedHandleEditorChange = debounce( handleEditorChange, refreshDelay );
@@ -179,7 +180,7 @@ const debouncedHandleEditorChange = debounce( handleEditorChange, refreshDelay )
  */
 function observeChanges() {
 	const observer = new MutationObserver( debouncedHandleEditorChange );
-	observer.observe( window.document, { attributes: true, childList: true, subtree: true, characterData: true } );
+	observer.observe( document, { attributes: true, childList: true, subtree: true, characterData: true } );
 }
 
 /**
@@ -189,14 +190,14 @@ function observeChanges() {
  */
 export default function initialize() {
 	// This hook will fire 500ms after a widget is edited -- this allows Elementor to set the cursor at the end of the widget.
-	registerElementorUIHookBefore( "panel/editor/open", "yoast-seo-reset-marks-edit", debounce( resetMarks, refreshDelay ) );
+	registerElementorUIHookBefore( "panel/editor/open", "yoast-seo/marks/reset-on-edit", debounce( resetMarks, refreshDelay ), isFormIdEqualToDocumentId );
 	// This hook will fire just before the document is saved.
-	registerElementorUIHookBefore( "document/save/save", "yoast-seo-reset-marks-save", resetMarks );
+	registerElementorUIHookBefore( "document/save/save", "yoast-seo/marks/reset-on-save", resetMarks, ( { document } ) => isFormId( document?.id || elementor.documents.getCurrent().id ) );
 
 	// This hook will fire when the Elementor preview becomes available.
-	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo-content-scraper-initial", debouncedHandleEditorChange );
-	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo-content-scraper", debounce( observeChanges, refreshDelay ) );
+	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo/content-scraper/initial", debouncedHandleEditorChange, isFormIdEqualToDocumentId );
+	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo/content-scraper", debounce( observeChanges, refreshDelay ), isFormIdEqualToDocumentId );
 
 	// This hook will fire when the contents of the editor are modified.
-	registerElementorUIHookAfter( "document/save/set-is-modified", "yoast-seo-content-scraper-on-modified", debouncedHandleEditorChange );
+	registerElementorUIHookAfter( "document/save/set-is-modified", "yoast-seo/content-scraper/on-modified", debouncedHandleEditorChange, ( { document } ) => isFormId( document?.id || elementor.documents.getCurrent().id ) );
 }
