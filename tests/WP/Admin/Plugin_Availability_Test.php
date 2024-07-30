@@ -33,7 +33,6 @@ final class Plugin_Availability_Test extends TestCase {
 		self::$class_instance = $plugin_availability;
 	}
 
-
 	/**
 	 * Tests whether or not plugins are available.
 	 *

@@ -135,13 +135,13 @@ final class Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 	public function is_active( $plugin ) {
 		return $plugin === 'test-plugin-with-dependency/test-plugin-with-dependency.php';
 	}
+
 	/**
 	 * Helper function for integration tests.
 	 *
 	 * @param string $plugin The plugin to search for.
 	 *
-	 * @return array The plugin properties.
-	 *
+	 * @return array<string> The plugin properties.
 	 */
 	public function get_plugin( $plugin ) {
 		if ( ! isset( $this->plugins[ $plugin ] ) ) {
