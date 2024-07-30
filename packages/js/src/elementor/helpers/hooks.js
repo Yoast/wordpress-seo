@@ -22,7 +22,7 @@ class ElementorUIHook extends $e.modules.hookUI.Base {
 	 */
 	constructor( hook, id, callback, conditions = returnTrue ) {
 		super();
-		this.hook = hook;
+		this.command = hook;
 		this.id = id;
 		this.callback = callback;
 		this.conditions = conditions;
@@ -34,7 +34,7 @@ class ElementorUIHook extends $e.modules.hookUI.Base {
 	 * @returns {string} The hook to register to.
 	 */
 	getCommand() {
-		return this.hook;
+		return this.command;
 	}
 
 	/**
@@ -86,7 +86,7 @@ class ElementorDataHook extends $e.modules.hookData.Base {
 	 */
 	constructor( hook, id, callback, conditions = returnTrue ) {
 		super();
-		this.hook = hook;
+		this.command = hook;
 		this.id = id;
 		this.callback = callback;
 		this.conditions = conditions.bind( this );
@@ -98,7 +98,7 @@ class ElementorDataHook extends $e.modules.hookData.Base {
 	 * @returns {string} The hook to register to.
 	 */
 	getCommand() {
-		return this.hook;
+		return this.command;
 	}
 
 	/**
