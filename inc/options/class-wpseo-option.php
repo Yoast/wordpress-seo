@@ -310,12 +310,12 @@ abstract class WPSEO_Option {
 
 			$meta = sanitize_text_field( $meta );
 			if ( $meta !== '' ) {
-				$regex   = '`^[A-Fa-f0-9_-]+$`';
+				$regex = '`^[A-Fa-f0-9_-]+$`';
 
 				switch ( $key ) {
 					case 'googleverify':
 					case 'baiduverify':
-						$regex   = '`^[A-Za-z0-9_-]+$`';
+						$regex = '`^[A-Za-z0-9_-]+$`';
 						break;
 
 					case 'msverify':
