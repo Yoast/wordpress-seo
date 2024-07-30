@@ -6,12 +6,12 @@ use WP_Post;
 use WP_Post_Type;
 use WP_Taxonomy;
 use WP_User;
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Editor_Specific_Replace_Vars;
 use WPSEO_Admin_Recommended_Replace_Vars;
 use WPSEO_Option_Titles;
 use WPSEO_Options;
-use WPSEO_Plugin_Availability;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Sitemaps_Router;
@@ -454,9 +454,8 @@ class Settings_Integration implements Integration_Interface {
 		$page_on_front            = \get_option( 'page_on_front' );
 		$page_for_posts           = \get_option( 'page_for_posts' );
 
-		$wpseo_plugin_availability_checker = new WPSEO_Plugin_Availability();
-		$woocommerce_seo_file              = 'wpseo-woocommerce/wpseo-woocommerce.php';
-		$woocommerce_seo_active            = $wpseo_plugin_availability_checker->is_active( $woocommerce_seo_file );
+		$addon_manager          = new WPSEO_Addon_Manager();
+		$woocommerce_seo_active = \is_plugin_active( $addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) );
 
 		if ( empty( $page_on_front ) ) {
 			$page_on_front = $page_for_posts;
