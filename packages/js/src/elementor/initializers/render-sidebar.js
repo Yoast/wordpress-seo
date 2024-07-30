@@ -4,7 +4,7 @@ import { RenderInPortalIfElementExists } from "../components/render-in-portal-if
 import ElementorSlot from "../components/slots/ElementorSlot";
 import ElementorFill from "../containers/ElementorFill";
 
-const YOAST_TAB_ID = "yoast-elementor-react-tab";
+const REACT_ELEMENT_ID = "yoast-elementor-react-tab";
 
 /**
  * Renders the Yoast tab React content.
@@ -15,7 +15,7 @@ const YOAST_TAB_ID = "yoast-elementor-react-tab";
  */
 export const renderYoastTabReactContent = () => {
 	// Safety check, already rendered.
-	if ( document.getElementById( YOAST_TAB_ID ) ) {
+	if ( document.getElementById( REACT_ELEMENT_ID ) ) {
 		return;
 	}
 
@@ -26,14 +26,14 @@ export const renderYoastTabReactContent = () => {
 	}
 
 	// Hide the Elementor control, we just fill the full contents of the tab.
-	const control = root.getElementsByClassName( "elementor-control" )?.[ 0 ];
+	const control = root.querySelector( ".elementor-control-yoast-seo-section" );
 	if ( control ) {
 		control.style.display = "none";
 	}
 
 	// Create our Yoast tab inside, being picked up by the MutationObserver of RenderInPortalIfElementExists.
 	const element = document.createElement( "div" );
-	element.id = YOAST_TAB_ID;
+	element.id = REACT_ELEMENT_ID;
 	element.className = "yoast yoast-elementor-panel__fills";
 	root.appendChild( element );
 };
@@ -50,7 +50,7 @@ export const renderYoastReactRoot = () => {
 
 	renderReactRoot( root.id, (
 		<Root context={ elementorSidebarContext }>
-			<RenderInPortalIfElementExists id={ YOAST_TAB_ID }>
+			<RenderInPortalIfElementExists id={ REACT_ELEMENT_ID }>
 				<ElementorSlot />
 				<ElementorFill />
 			</RenderInPortalIfElementExists>

@@ -4,7 +4,7 @@ import initializeAiGenerator from "../ai-generator/initialize";
 import initAnalysis, { collectData } from "../initializers/analysis";
 import { applyModifications, pluginReady, pluginReloaded, registerModification, registerPlugin } from "../initializers/pluggable";
 import initializeInsights from "../insights/initializer";
-import initElementorEditorIntegration from "./initializers/editor-integration";
+import { initializeElementEditorIntegration } from "./initializers/editor-integration";
 import initEditorStore from "./initializers/editor-store";
 import initElementorWatcher from "./initializers/editor-watcher";
 import initHighlightFocusKeyphraseForms from "./initializers/highlightFocusKeyphraseForms";
@@ -70,7 +70,7 @@ function initialize() {
 	}
 
 	// Initialize the editor integration.
-	initElementorEditorIntegration();
+	initializeElementEditorIntegration();
 
 	const AI_IGNORED_POST_TYPES = [ "attachment", "product" ];
 

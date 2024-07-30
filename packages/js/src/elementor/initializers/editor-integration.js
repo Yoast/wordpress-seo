@@ -1,73 +1,22 @@
+/* global $e, elementor, YoastSEO */
 import { dispatch } from "@wordpress/data";
-import domReady from "@wordpress/dom-ready";
 import { doAction } from "@wordpress/hooks";
-import { __, sprintf } from "@wordpress/i18n";
-import { debounce } from "lodash";
+import { debounce, throttle } from "lodash";
 import { registerReactComponent } from "../../helpers/reactRoot";
-import { registerElementorDataHookAfter } from "../helpers/hooks";
-import { addPanelMenuItem } from "./add-panel-menu-item";
-import { renderYoastReactRoot, renderYoastTabReactContent } from "./render-sidebar";
+import { registerElementorDataHookAfter, registerElementorUIHookAfter, registerElementorUIHookBefore } from "../helpers/hooks";
+import { isFormId } from "../helpers/is-form-id";
+import { isRelevantChange } from "../helpers/is-relevant-change";
+import { updateSaveAsDraftWarning } from "../helpers/update-save-as-draft-warning";
+import { initializeFormWatcher } from "./form-watcher";
+import { initializePostStatusWatcher } from "./post-status-watcher";
+import { renderYoastReactRoot } from "./render-sidebar";
+import { initializeTab } from "./tab";
 
 // Keep track of unsaved SEO setting changes.
 let hasUnsavedSeoChanges = false;
-let yoastInputs;
 
 /**
- * Activates the Elementor save button.
- *
- * @returns {void}
- */
-function activateSaveButton() {
-	window.$e.internal( "document/save/set-is-modified", { status: true } );
-}
-
-/**
- * Copies the current value to the oldValue.
- *
- * @param {HTMLElement} input The input element.
- *
- * @returns {void}
- */
-function storeValueAsOldValue( input ) {
-	input.oldValue = input.value;
-}
-
-/**
- * Copies the current value to the oldValue for all Yoast inputs.
- *
- * @returns {void}
- */
-function storeAllValuesAsOldValues() {
-	yoastInputs.forEach( input => storeValueAsOldValue( input ) );
-}
-
-/**
- * Updates the save warning message.
- *
- * @returns {void}
- */
-function updateSaveAsDraftWarning() {
-	let message;
-
-	if ( hasUnsavedSeoChanges ) {
-		/* Translators: %1$s translates to the Post Label in singular form */
-		message = sprintf( __(
-			// eslint-disable-next-line max-len
-			"Unfortunately we cannot save changes to your SEO settings while you are working on a draft of an already-published %1$s. If you want to save your SEO changes, make sure to click 'Update', or wait to make your SEO changes until you are ready to update the %1$s.",
-			"wordpress-seo"
-		), window.wpseoAdminL10n.postTypeNameSingular.toLowerCase() );
-	}
-
-	// Don't show the warning for drafts.
-	if ( window.elementor.settings.page.model.get( "post_status" ) === "draft" ) {
-		message = "";
-	}
-
-	dispatch( "yoast-seo/editor" ).setWarningMessage( message );
-}
-
-/**
- * Wraps the updateSaveAsDraftWarning in a trailing debounce.
+ * Wraps the callback in a trailing debounce.
  *
  * We have our save AFTER Elementor's save.
  * Therefore, the post status is changed before our SEO settings.
@@ -77,179 +26,106 @@ function updateSaveAsDraftWarning() {
 const debouncedUpdateSaveAsDraftWarning = debounce( updateSaveAsDraftWarning, 500, { trailing: true } );
 
 /**
- * Initializes the post status change listener.
- *
- * @returns {void}
- */
-function initializePostStatusListener() {
-	window.elementor.settings.page.model.on( "change", model => {
-		if ( model.changed && model.changed.post_status ) {
-			// The post status has changed: update our warning.
-			debouncedUpdateSaveAsDraftWarning();
-		}
-	} );
-}
-
-/**
- * Checks if field is in the skip list.
- *
- * @param {HTMLElement} input The input.
- *
- * @returns {boolean} true if input is field that should be skipped.
- */
-function isSkipField( input ) {
-	// SEO fields that  do not require a new save.
-	const skipFields = [
-		"yoast_wpseo_linkdex",
-		"yoast_wpseo_content_score",
-		"yoast_wpseo_inclusive_language_score",
-		"yoast_wpseo_words_for_linking",
-		"yoast_wpseo_estimated-reading-time-minutes",
-	];
-
-	return skipFields.includes( input.name );
-}
-
-/**
- * Checks if field is keyword field.
- *
- * @param {string} name the input name.
- *
- * @returns {boolean} true if input is keyword field.
- */
-function isKeywordField( name ) {
-	const keywordsFields = [
-		"yoast_wpseo_focuskeywords",
-		"hidden_wpseo_focuskeywords",
-	];
-
-	return keywordsFields.includes( name );
-}
-
-/**
- * Detects if keyword field value is not changed.
- *
- * @param {string} oldValue the input old value.
- * @param {string} newValue the input new value.
- *
- * @returns {boolean} true if keyword field value is not changed.
- */
-function isKeywordValueUnchanged( oldValue, newValue ) {
-	if ( newValue === oldValue ) {
-		return true;
-	}
-
-	if ( newValue === "" || oldValue === "" ) {
-		return false;
-	}
-
-	const newValueJson = JSON.parse( newValue );
-	const oldValueJson = JSON.parse( oldValue );
-
-	if ( newValueJson.length !== oldValueJson.length ) {
-		return false;
-	}
-
-	// Check only input value and skip calculated.
-	return newValueJson.every( ( v, index ) => v.keyword === oldValueJson[ index ].keyword );
-}
-
-/**
- * Activates the save button if a change is detected.
- *
- * @param {HTMLElement} input The input.
- *
- * @returns {void}
- */
-function detectChange( input ) {
-	if ( isSkipField( input ) ) {
-		return;
-	}
-
-	if ( isKeywordField( input.name ) && isKeywordValueUnchanged( input.oldValue, input.value ) ) {
-		return;
-	}
-
-	if ( input.value !== input.oldValue ) {
-		hasUnsavedSeoChanges = true;
-		debouncedUpdateSaveAsDraftWarning();
-		activateSaveButton();
-		storeValueAsOldValue( input );
-	}
-}
-
-
-/**
  * Saves the form via AJAX action.
  *
  * @param {HTMLElement} form The form to submit.
  *
- * @returns {void}
+ * @returns {Promise<Object>} The promise that resolves with the response.
  */
-function sendFormData( form ) {
-	// Assume the save will be successful, to prevent a flashing warning due to the post status listener.
-	hasUnsavedSeoChanges = false;
-
-	const data = jQuery( form ).serializeArray().reduce( ( result, { name, value } ) => {
+const sendFormData = ( form ) => new Promise( ( resolve ) => {
+	const formData = jQuery( form ).serializeArray().reduce( ( result, { name, value } ) => {
 		result[ name ] = value;
 
 		return result;
 	}, {} );
-	console.log( "sendFormData", data );
 
-	jQuery.post( form.getAttribute( "action" ), data, ( { success, data: responseData }, status, xhr ) => {
-		if ( ! success ) {
-			// Revert false assumption, see above.
-			hasUnsavedSeoChanges = true;
-
-			// Something went wrong while saving.
-			return;
-		}
-
-		doAction( "yoast.elementor.save.success", xhr );
-
-		// Update the slug in our store if WP changed it.
-		if ( responseData.slug && responseData.slug !== data.slug ) {
-			dispatch( "yoast-seo/editor" ).updateData( { slug: responseData.slug } );
-		}
-
-		// Save the current SEO values as old values because we just saved them.
-		storeAllValuesAsOldValues();
-
-		// Update the save as draft warning.
-		debouncedUpdateSaveAsDraftWarning();
+	jQuery.post( form.getAttribute( "action" ), formData, ( { success, data }, xhr ) => {
+		resolve( { success, formData, data, xhr } );
 	} );
-}
+} );
 
 /**
  * Initializes the Yoast elementor editor integration.
  *
  * @returns {void}
  */
-export default function initElementEditorIntegration() {
+export const initializeElementEditorIntegration = () => {
+	const form = document.getElementById( "yoast-form" );
+	if ( ! form ) {
+		console.error( "Yoast form not found!" );
+		return;
+	}
+
 	// Expose registerReactComponent as an alternative to registerPlugin.
 	window.YoastSEO = window.YoastSEO || {};
 	window.YoastSEO._registerReactComponent = registerReactComponent;
 
-	domReady( renderYoastReactRoot );
-	initializePostStatusListener();
+	// The Yoast root should stay in the DOM, regardless of the tab being active.
+	renderYoastReactRoot();
+	// This also activates watchers to possibly re-register the tab.
+	initializeTab();
 
-	if ( window?.elementorV2 ) {
-		const postId = parseInt( document.getElementById( "post_ID" )?.value, 10 );
-		const hostDocumentListener = () => {
-			const { activeId, hostId } = window.elementorV2.store.__getState().documents;
-			console.log( "STORE", { activeId, hostId } );
-			if ( hostId !== postId ) {
-				console.warn( "Host document changed!", hostId, postId );
-			}
-		};
-		// Ignoring the unsubscribe function, as we don't need it.
-		window.elementorV2.store?.__subscribe?.( hostDocumentListener );
-	}
+	initializePostStatusWatcher( () => debouncedUpdateSaveAsDraftWarning( hasUnsavedSeoChanges ) );
 
-	// Hook into the save.
-	const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
-	registerElementorDataHookAfter( "document/save/save", "yoast-seo-save", () => {
+	const formWatcher = initializeFormWatcher( form );
+	formWatcher.subscribe( ( changes ) => {
+		if ( ! changes.some( change => isRelevantChange( change.name, change.value, change.previousValue ) ) ) {
+			return;
+		}
+
+		hasUnsavedSeoChanges = true;
+		debouncedUpdateSaveAsDraftWarning( hasUnsavedSeoChanges );
+
+		// Activates the Elementor save button.
+		$e.internal( "document/save/set-is-modified", { status: true } );
+	} );
+	formWatcher.start();
+
+	/**
+	 * Handles what should happen when closing a document.
+	 *
+	 * @param {number} id The document ID.
+	 * @param {string} [mode] The mode in which the document is closed.
+	 *
+	 * @returns {void}
+	 */
+	const handleCloseDocument = ( { mode } ) => {
+		// Stop watching our Form immediately, as to not respond to possible discard changes.
+		formWatcher.stop();
+
+		// If the user is discarding the changes, restore the data snapshots.
+		if ( mode === "discard" ) {
+			YoastSEO.store._restoreSnapshot();
+			formWatcher.restoreSnapshot();
+			hasUnsavedSeoChanges = false;
+			// Skip the debounce to include the change before the freeze.
+			updateSaveAsDraftWarning( hasUnsavedSeoChanges );
+		}
+
+		// Disable our integration for the form document.
+		YoastSEO.store._freeze( true );
+	};
+
+	/**
+	 * Handles saving the document.
+	 *
+	 * @param {Object} document The Elementor document.
+	 *
+	 * @returns {Promise<void>} The promise that resolves when the save is done.
+	 */
+	const handleSaveDocument = async( { document } ) => {
+		/**
+		 * Ensure we only save to the (HTML) form document.
+		 *
+		 * Elementor allows you to switch between documents.
+		 * For now, only support saving the form document.
+		 *
+		 * Note: this is a safety check. The condition should have been checked by the hook itself.
+		 */
+		if ( ! isFormId( document.id ) ) {
+			return;
+		}
+
 		/**
 		 * Do not save our data to a revision.
 		 *
@@ -258,32 +134,64 @@ export default function initElementEditorIntegration() {
 		 * But Elementor does not unpublish your post when you save a draft.
 		 * This would result in Yoast SEO data being live while saving a draft.
 		 */
-		if ( window.elementor.config.document.id === window.elementor.config.document.revisions.current_id ) {
-			handleSave();
+		if ( document.id !== elementor.config.document.revisions.current_id ) {
+			return;
 		}
-	} );
 
-	// Note: this menu seems to no longer be reachable in the editor V2.
-	addPanelMenuItem();
+		// Assume the save will be successful, to prevent a flashing warning due to the post status listener.
+		hasUnsavedSeoChanges = false;
 
-	/*
-	 * Listen for Yoast tab activation from within settings panel to start rendering the Yoast tab React content.
-	 * Note the `.not` in the selector, this is to prevent rendering the React content multiple times.
-	 */
-	jQuery( document )
-		.on( "click", "[data-tab=\"yoast-tab\"]:not(.elementor-active)", renderYoastTabReactContent )
-		.on( "keyup", "[data-tab=\"yoast-tab\"]:not(.elementor-active)", ( event ) => {
-			const ENTER_KEY = 13;
-			const SPACE_KEY = 32;
+		const { success, formData, data, xhr } = await sendFormData( form );
+		if ( ! success ) {
+			// Revert false assumption, see above.
+			hasUnsavedSeoChanges = true;
+			return;
+		}
 
-			if ( ENTER_KEY === event.keyCode || SPACE_KEY === event.keyCode ) {
-				event.currentTarget.click();
-			}
-		} );
+		// Notify other plugins that the save was successful.
+		doAction( "yoast.elementor.save.success", xhr );
 
-	yoastInputs = document.querySelectorAll( "input[name^='yoast']" );
-	storeAllValuesAsOldValues();
+		// Update the slug in our store if WP changed it.
+		if ( data.slug && data.slug !== formData.slug ) {
+			dispatch( "yoast-seo/editor" ).updateData( { slug: data.slug } );
+		}
 
-	setInterval( () => yoastInputs.forEach( detectChange ), 500 );
-}
+		// Update the save as draft warning. Note: skipping the debounce to include it in the snapshot.
+		updateSaveAsDraftWarning( hasUnsavedSeoChanges );
 
+		// Take a snapshot, to restore from here when discarding.
+		YoastSEO.store._takeSnapshot();
+		formWatcher.takeSnapshot();
+	};
+
+	registerElementorUIHookBefore(
+		"editor/documents/open",
+		"yoast-seo/document/open",
+		() => {
+			// Enable our integration for the form document.
+			YoastSEO.store._freeze( false );
+			formWatcher.start();
+		},
+		( { id } ) => isFormId( id )
+	);
+	registerElementorUIHookAfter(
+		"editor/documents/close",
+		"yoast-seo/document/close",
+		// Throttling to prevent multiple calls in a row to the handler, which does happen otherwise.
+		throttle( handleCloseDocument, 500, { leading: true, trailing: false } ),
+		( { id } ) => isFormId( id )
+	);
+
+	registerElementorDataHookAfter(
+		"document/save/save",
+		"yoast-seo/document/save",
+		handleSaveDocument,
+		( { document } ) => isFormId( document?.id || elementor.documents.getCurrent().id )
+	);
+
+	// Start of with a snapshot, for the discard functionality. Delay to give some time to our watchers and analysis.
+	setTimeout( () => {
+		YoastSEO.store._takeSnapshot();
+		formWatcher.takeSnapshot();
+	}, 2000 );
+};
