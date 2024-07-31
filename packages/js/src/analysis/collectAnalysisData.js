@@ -3,6 +3,7 @@ import {
 	cloneDeep,
 	merge,
 } from "lodash";
+import { serialize } from "@wordpress/blocks";
 
 import measureTextWidth from "../helpers/measureTextWidth";
 import getContentLocale from "./getContentLocale";
@@ -39,6 +40,13 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	if ( blockEditorDataModule ) {
 		blocks = blockEditorDataModule.getBlocks() || [];
 		blocks = blocks.filter( block => block.isValid );
+		const newBlocks = [];
+		blocks.forEach( block => {
+			const serializedBlock = serialize( block, { isInnerBlocks: false } );
+			block.blockLength = serializedBlock.length;
+			newBlocks.push( block );
+		} );
+		blocks = newBlocks;
 	}
 
 	// Make a data structure for the paper data.
