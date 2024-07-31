@@ -36,7 +36,7 @@ const getAllBlocks = ( paper ) => {
  *
  * @returns {void}
  */
-function updateBlocksOffset( blocks, text ) {
+export function updateBlocksOffset( blocks, text ) {
 	if ( blocks.length === 0 ) {
 		return;
 	}
