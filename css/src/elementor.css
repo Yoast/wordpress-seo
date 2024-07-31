@@ -44,8 +44,7 @@
 	font-weight: 400;
 }
 
-.elementor-panel .elementor-tab-control-yoast-seo-tab a:before,
-.elementor-panel .elementor-tab-control-yoast-seo-tab span:before,
+.elementor-tab-control-yoast-seo-tab span:before,
 .yoast-element-menu-icon:before {
 	mask-image: var(--yoast-svg-icon-yoast);
 	-webkit-mask-image: var(--yoast-svg-icon-yoast);
@@ -54,14 +53,8 @@
 	height: 16px;
 	width: 16px;
 	margin: 0 auto;
-
-	/*
-	Content should contain some text, because that's how Elementor spaces their nav.
-	Set color to transparent because we don't wan't to see the before's text.
-	*/
-	content: ".";
-	color: transparent;
-	background-color: #6d7882;
+	content: " ";
+	background-color: currentColor;
 }
 
 .yoast-element-menu-icon {
@@ -71,7 +64,6 @@
 .yoast-element-menu-icon:before {
 	height: 19px;
 	width: 19px;
-	background-color: #a4afb7;
 }
 
 .yoast-elementor-panel__fills {
