@@ -405,14 +405,9 @@ function wpseo_admin_init() {
 
 /* ***************************** BOOTSTRAP / HOOK INTO WP *************************** */
 $spl_autoload_exists = function_exists( 'spl_autoload_register' );
-$filter_exists       = function_exists( 'filter_input' );
 
 if ( ! $spl_autoload_exists ) {
 	add_action( 'admin_init', 'yoast_wpseo_missing_spl', 1 );
-}
-
-if ( ! $filter_exists ) {
-	add_action( 'admin_init', 'yoast_wpseo_missing_filter', 1 );
 }
 
 if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
