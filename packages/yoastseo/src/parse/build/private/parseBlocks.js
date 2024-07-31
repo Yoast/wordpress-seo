@@ -1,3 +1,4 @@
+import { isUndefined } from "lodash";
 const blockTokenizer = /<!--\s+wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/g;
 
 /**
@@ -39,20 +40,32 @@ function updateBlocksOffset( blocks, text ) {
 	if ( blocks.length === 0 ) {
 		return;
 	}
-	blocks.forEach( currentBlock => {
+	blocks.forEach( ( currentBlock, index ) => {
 		const matches = blockTokenizer.exec( text );
-
-		if ( null === matches ) {
-			return;
+		if ( currentBlock.name === "core/freeform" ) {
+			const previousBlock = blocks[ index - 1 ];
+			if ( previousBlock ) {
+				const previousBlockEndOffset = previousBlock.endOffset;
+				const startedAt = previousBlockEndOffset + 2;
+				currentBlock.startOffset = startedAt;
+				currentBlock.endOffset = startedAt + currentBlock.blockLength;
+				currentBlock.contentOffset = startedAt;
+			} else {
+				currentBlock.startOffset = 0;
+				currentBlock.endOffset = 0 + currentBlock.blockLength;
+				currentBlock.contentOffset = 0;
+			}
+		} else {
+			if ( null === matches ) {
+				return;
+			}
+			const [ match ] = matches;
+			const startedAt = matches.index;
+			const length = match.length;
+			currentBlock.startOffset = startedAt;
+			currentBlock.endOffset = startedAt + currentBlock.blockLength;
+			currentBlock.contentOffset = startedAt + length + 1;
 		}
-
-		const [ match ] = matches;
-
-		const startedAt = matches.index;
-		const length = match.length;
-
-		currentBlock.startOffset = startedAt;
-		currentBlock.contentOffset = startedAt + length + 1;
 
 		if ( currentBlock.innerBlocks && currentBlock.innerBlocks.length > 0 ) {
 			updateBlocksOffset( currentBlock.innerBlocks, text );
@@ -77,7 +90,7 @@ function updateClientIdAndAttrIdForSubtree( rootNode, blocks, clientId ) {
 	}
 
 	let currentClientId = clientId;
-	if ( rootNode.sourceCodeLocation && rootNode.sourceCodeLocation.startOffset ) {
+	if ( rootNode.sourceCodeLocation && ! isUndefined( rootNode.sourceCodeLocation.startOffset ) ) {
 		const foundBlock = blocks.find( block => block.contentOffset === rootNode.sourceCodeLocation.startOffset );
 		if ( foundBlock ) {
 			currentClientId = foundBlock.clientId;
