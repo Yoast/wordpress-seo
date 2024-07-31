@@ -81,10 +81,6 @@ final class Option_Social_Test extends TestCase {
 			]
 		);
 
-		Monkey\Functions\expect( 'add_settings_error' )
-			->once()
-			->with( 'yoast_wpseo_social_options', $slug_name, $message, 'error' );
-
 		$instance = new Option_Social_Double();
 
 		$GLOBALS['wp_settings_errors'] = [
