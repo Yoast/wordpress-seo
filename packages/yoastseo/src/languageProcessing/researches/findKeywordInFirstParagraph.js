@@ -1,5 +1,5 @@
 /** @module analyses/findKeywordInFirstParagraph */
-import { isEmpty } from "lodash";
+import { inRange, isEmpty } from "lodash";
 
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
 import { getParentNode } from "../helpers/sentence/getSentencesFromTree";
@@ -42,12 +42,16 @@ export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const locale = paper.getLocale();
+	const { startOffset } = firstParagraph.sourceCodeLocation;
 
+	const mappedBlocks = paper._attributes.wpBlocks;
+	const filteredIntroductionBlock = mappedBlocks.filter( block => inRange( startOffset, block.startOffset, block.endOffset ) )[ 0 ];
 	const result = {
 		foundInOneSentence: false,
 		foundInParagraph: false,
 		keyphraseOrSynonym: "",
 		introduction: firstParagraph,
+		parentBlock: filteredIntroductionBlock || null,
 	};
 
 	if ( isEmpty( firstParagraph ) ) {
