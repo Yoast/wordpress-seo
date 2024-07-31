@@ -45,7 +45,7 @@ export default function( paper, researcher ) {
 	const { startOffset } = firstParagraph.sourceCodeLocation;
 
 	const mappedBlocks = paper._attributes.wpBlocks;
-	const filteredIntroductionBlock = mappedBlocks.filter( block => inRange( startOffset, block.startOffset, block.endOffset ) )[ 0 ];
+	const filteredIntroductionBlock = mappedBlocks && mappedBlocks.filter( block => inRange( startOffset, block.startOffset, block.endOffset ) )[ 0 ];
 	const result = {
 		foundInOneSentence: false,
 		foundInParagraph: false,
