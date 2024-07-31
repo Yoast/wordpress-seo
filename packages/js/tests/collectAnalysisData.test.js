@@ -1,4 +1,5 @@
-import collectAnalysisData from "../src/analysis/collectAnalysisData";
+import { serialize } from "@wordpress/blocks";
+import collectAnalysisData, { mapGutenbergBlocks } from "../src/analysis/collectAnalysisData";
 import gutenbergBlocks from "./__test-data__/gutenbergBlocksTestData";
 
 const originalWindow = { ...window };
@@ -128,5 +129,49 @@ describe( "collectAnalysisData", () => {
 		collectAnalysisData( edit, store, customData, pluggable );
 
 		expect( pluggable._applyModifications ).not.toBeCalled();
+	} );
+} );
+
+jest.mock( "@wordpress/blocks", () => ( {
+	serialize: jest.fn(),
+} ) );
+
+describe( "mapGutenbergBlocks", () => {
+	it( "should return an empty array if input blocks array is empty", () => {
+		const blocks = [];
+		const result = mapGutenbergBlocks( blocks );
+		expect( result ).toEqual( [] );
+	} );
+
+	it( "should filter out invalid blocks", () => {
+		const blocks = [
+			{ isValid: true, innerBlocks: [] },
+			{ isValid: false, innerBlocks: [] },
+		];
+		const result = mapGutenbergBlocks( blocks );
+		expect( result ).toHaveLength( 0 );
+	} );
+
+	it( "should calculate blockLength for each block", () => {
+		const blocks = [
+			{ isValid: true, innerBlocks: [] },
+		];
+		const mockSerializedBlock = "serialized block";
+		serialize.mockImplementation( jest.fn().mockReturnValue( mockSerializedBlock ) );
+		const result = mapGutenbergBlocks( blocks );
+		expect( result[ 0 ].blockLength ).toEqual( mockSerializedBlock.length );
+	} );
+
+	it( "should recursively map inner blocks", () => {
+		const blocks = [
+			{
+				isValid: true,
+				innerBlocks: [
+					{ isValid: true, innerBlocks: [] },
+				],
+			},
+		];
+		const result = mapGutenbergBlocks( blocks );
+		expect( result[ 0 ].innerBlocks[ 0 ] ).toHaveProperty( "blockLength" );
 	} );
 } );
