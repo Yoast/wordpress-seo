@@ -26,7 +26,7 @@ const mockSelect = ( activeAIButton, editorMode = "visual", blocks = [] ) =>
 	useSelect.mockImplementation( select => select( () => ( {
 		getActiveAIFixesButton: () => activeAIButton,
 		getActiveMarker: () => null,
-		getDisabledAIFixesButtons: () => [ "keyphraseDistributionAIFixes" ],
+		getDisabledAIFixesButtons: () => ( { keyphraseDistributionAIFixes: "Your text is too long." } ),
 		getBlocks: () => blocks,
 		getBlockMode: ( clientId ) => clientId === "htmlTest" ? "html" : "visual",
 		getEditorMode: () => editorMode,
@@ -81,7 +81,7 @@ describe( "AIAssessmentFixesButton", () => {
 		const button = screen.getByRole( "button" );
 		expect( button ).toBeInTheDocument();
 		expect( button ).toBeDisabled();
-		expect( button ).toHaveAttribute( "aria-label", "Your text is too long for the AI model to process." );
+		expect( button ).toHaveAttribute( "aria-label", "Your text is too long." );
 	} );
 
 	test( "should be disabled in HTML editing mode", () => {

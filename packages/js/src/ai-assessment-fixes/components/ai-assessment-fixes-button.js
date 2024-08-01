@@ -32,7 +32,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const [ buttonClass, setButtonClass ] = useState( "" );
 
 	const defaultLabel = __( "Optimize with AI", "wordpress-seo" );
-	const tooLongLabel = __( "Your text is too long for the AI model to process.", "wordpress-seo" );
 	const htmlLabel = __( "Please switch to the visual editor to optimize with AI.", "wordpress-seo" );
 
 	// The button is pressed when the active AI button id is the same as the current button id.
@@ -44,7 +43,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	// (3) the editor is in visual mode.
 	// (4) all blocks are in visual mode.
 	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
-		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
 		if ( activeAIButtonId !== null && ! isButtonPressed ) {
 			return {
 				isEnabled: false,
@@ -52,10 +50,11 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			};
 		}
 
-		if ( disabledAIButtons.includes( aiFixesId ) ) {
+		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
+		if ( Object.keys( disabledAIButtons ).includes( aiFixesId ) ) {
 			return {
 				isEnabled: false,
-				ariaLabel: tooLongLabel,
+				ariaLabel: disabledAIButtons[ aiFixesId ],
 			};
 		}
 
