@@ -10,6 +10,6 @@ export const getActiveAIFixesButton = state => get( state, "AIButton.activeAIBut
 /**
  * Returns the disabled AI Fixes buttons.
  * @param {object} state The state.
- * @returns {string[]} The disabled buttons.
+ * @returns {object} The disabled buttons along with their reasons.
  */
-export const getDisabledAIFixesButtons = state => get( state, "AIButton.disabledAIButtons", [] );
+export const getDisabledAIFixesButtons = state => get( state, "AIButton.disabledAIButtons", {} );
