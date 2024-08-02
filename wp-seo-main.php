@@ -534,25 +534,25 @@ function yoast_wpseo_missing_autoload_notice() {
  * Throw an error if the filter extension is disabled (prevent white screens) and self-deactivate plugin.
  *
  * @since 2.0
+ * @deprecated 23.3
+ * @codeCoverageIgnore
  *
  * @return void
  */
 function yoast_wpseo_missing_filter() {
-	if ( is_admin() ) {
-		add_action( 'admin_notices', 'yoast_wpseo_missing_filter_notice' );
-
-		yoast_wpseo_self_deactivate();
-	}
+	_deprecated_function( __FUNCTION__, 'Yoast SEO 23.3' );
 }
 
 /**
  * Returns the notice in case of missing filter extension.
  *
+ * @deprecated 23.3
+ * @codeCoverageIgnore
+ *
  * @return void
  */
 function yoast_wpseo_missing_filter_notice() {
-	$message = esc_html__( 'The filter extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
-	yoast_wpseo_activation_failed_notice( $message );
+	_deprecated_function( __FUNCTION__, 'Yoast SEO 23.3' );
 }
 
 /**
