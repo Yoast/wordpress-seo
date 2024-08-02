@@ -114,12 +114,14 @@ class Yoast_Input_Validation {
 	 *
 	 * @since 12.1
 	 *
-	 * @return void
 	 * @deprecated 23.3
 	 * @codeCoverageIgnore
+	 
+	 * @return array An associative array of error descriptions.
 	 */
 	public static function get_error_descriptions() {
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
+		return [];
 	}
 
 	/**
@@ -227,7 +229,7 @@ class Yoast_Input_Validation {
 	 * @return string The submitted invalid input field value.
 	 *
 	 * @deprecated 23.3
-	 *  @codeCoverageIgnore
+	 * @codeCoverageIgnore
 	 */
 	public static function get_dirty_value( $error_code ) {  // @phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable, Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Needed for BC.
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
