@@ -17,7 +17,7 @@ class Yoast_Input_Validation {
 	 *
 	 * @since 12.1
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	private static $error_descriptions = [];
 
@@ -97,7 +97,7 @@ class Yoast_Input_Validation {
 	 *
 	 * @since 12.1
 	 *
-	 * @param array $descriptions An associative array of error descriptions.
+	 * @param array<string, string> $descriptions An associative array of error descriptions.
 	 *                            For each entry, the key must be the setting variable.
 	 *
 	 * @return void
@@ -116,8 +116,8 @@ class Yoast_Input_Validation {
 	 *
 	 * @deprecated 23.3
 	 * @codeCoverageIgnore
-	 
-	 * @return array An associative array of error descriptions.
+	 *
+	 * @return array<string, string> An associative array of error descriptions.
 	 */
 	public static function get_error_descriptions() {
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
