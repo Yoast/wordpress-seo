@@ -42,7 +42,7 @@ export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const locale = paper.getLocale();
-	const { startOffset } = firstParagraph.sourceCodeLocation;
+	const startOffset = firstParagraph && firstParagraph.sourceCodeLocation.startOffset;
 
 	const mappedBlocks = paper._attributes.wpBlocks;
 	const filteredIntroductionBlock = mappedBlocks && mappedBlocks.filter( block => inRange( startOffset, block.startOffset, block.endOffset ) )[ 0 ];
