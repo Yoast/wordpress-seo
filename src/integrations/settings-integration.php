@@ -261,14 +261,14 @@ class Settings_Integration implements Integration_Interface {
 			$post_action = '';
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
 			if ( isset( $_POST['action'] ) && \is_string( $_POST['action'] ) ) {
-				// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
-				$post_action = \sanitize_text_field( \wp_unslash( $_POST['action'] ) );
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information.
+				$post_action = \wp_unslash( $_POST['action'] );
 			}
 			$option_page = '';
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
 			if ( isset( $_POST['option_page'] ) && \is_string( $_POST['option_page'] ) ) {
-				// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
-				$option_page = \sanitize_text_field( \wp_unslash( $_POST['option_page'] ) );
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information.
+				$option_page = \wp_unslash( $_POST['option_page'] );
 			}
 
 			if ( $post_action === 'update' && $option_page === self::PAGE ) {
