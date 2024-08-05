@@ -273,6 +273,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-08-06
 
+Yoast SEO 23.2 brings more enhancements and bugfixes. [Find more information about Yoast SEO 23.2 here](https://yoa.st/release-6-8-24).
+
 #### Enhancements
 
 * Excludes image captions from the _keyphrase in introduction_ assessment: image captions at the beginning of a post will not be treated as an introduction anymore.
