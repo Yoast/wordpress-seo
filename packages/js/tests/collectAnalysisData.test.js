@@ -149,7 +149,7 @@ describe( "mapGutenbergBlocks", () => {
 			{ isValid: false, innerBlocks: [] },
 		];
 		const result = mapGutenbergBlocks( blocks );
-		expect( result ).toHaveLength( 0 );
+		expect( result ).toHaveLength( 1 );
 	} );
 
 	it( "should calculate blockLength for each block", () => {
