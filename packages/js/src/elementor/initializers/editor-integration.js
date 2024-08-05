@@ -104,6 +104,9 @@ export const initializeElementEditorIntegration = () => {
 
 		// Disable our integration for the form document.
 		YoastSEO.store._freeze( true );
+
+		// Notify other plugins the document is no longer relevant.
+		doAction( "yoast.elementor.toggleFreeze", { isFreeze: true, isDiscard: mode === "discard" } );
 	};
 
 	/**
@@ -148,9 +151,6 @@ export const initializeElementEditorIntegration = () => {
 			return;
 		}
 
-		// Notify other plugins that the save was successful.
-		doAction( "yoast.elementor.save.success", xhr );
-
 		// Update the slug in our store if WP changed it.
 		if ( data.slug && data.slug !== formData.slug ) {
 			dispatch( "yoast-seo/editor" ).updateData( { slug: data.slug } );
@@ -158,6 +158,9 @@ export const initializeElementEditorIntegration = () => {
 
 		// Update the save as draft warning. Note: skipping the debounce to include it in the snapshot.
 		updateSaveAsDraftWarning( hasUnsavedSeoChanges );
+
+		// Notify other plugins that the save was successful.
+		doAction( "yoast.elementor.save.success", xhr );
 
 		// Take a snapshot, to restore from here when discarding.
 		YoastSEO.store._takeSnapshot();
@@ -171,6 +174,9 @@ export const initializeElementEditorIntegration = () => {
 			// Enable our integration for the form document.
 			YoastSEO.store._freeze( false );
 			formWatcher.start();
+
+			// Notify other plugins the document is relevant once more.
+			doAction( "yoast.elementor.toggleFreeze", { isFreeze: false, isDiscard: false } );
 		},
 		( { id } ) => isFormId( id )
 	);
