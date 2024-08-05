@@ -1,5 +1,15 @@
-import { createPortal, useState } from "@wordpress/element";
+import { createPortal, useCallback, useRef, useState } from "@wordpress/element";
 import { useMutationObserver } from "../../hooks/use-mutation-observer";
+
+/**
+ * @param {JSX.node} children The children.
+ * @param {?HTMLElement} element The element or null.
+ * @param {string} id The ID of the element.
+ * @returns {?JSX.Element} The rendered content or null.
+ */
+const getRenderContent = ( children, element, id ) => {
+	return element === null ? null : createPortal( children, element, id );
+};
 
 /**
  * Renders the content in a portal if the element exists.
@@ -13,18 +23,19 @@ import { useMutationObserver } from "../../hooks/use-mutation-observer";
  * @returns {JSX.node|null} The rendered content or null.
  */
 export const RenderInPortalIfElementExists = ( { id, children } ) => {
-	const [ render, setRender ] = useState( null );
+	const element = useRef( document.getElementById( id ) );
+	// Use state to prevent creating a new portal on every render.
+	const [ render, setRender ] = useState( () => getRenderContent( children, element.current, id ) );
 
-	useMutationObserver( document.body, () => {
+	const checkDocument = useCallback( () => {
 		const el = document.getElementById( id );
-		if ( el ) {
-			if ( render === null ) {
-				setRender( createPortal( children, el ) );
-			}
-		} else if ( render !== null ) {
-			setRender( null );
+		if ( el !== element.current ) {
+			element.current = el;
+			setRender( getRenderContent( children, el, id ) );
 		}
-	} );
+	}, [ id, children ] );
+
+	useMutationObserver( document.body, checkDocument );
 
 	return render;
 };
