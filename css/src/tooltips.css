@@ -72,7 +72,6 @@ button.yoast-tooltip {
 	animation-name: yoast-tooltip-appear;
 	animation-duration: 0.1s;
 	animation-timing-function: ease-in;
-	animation-delay: 0.4s;
 
 	animation-fill-mode: forwards;
 }

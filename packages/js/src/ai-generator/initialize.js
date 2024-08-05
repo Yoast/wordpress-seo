@@ -32,7 +32,7 @@ const AiGeneratorUpsell = ( { fieldId } ) => {
 				{ __( "Use AI", "wordpress-seo" ) }
 			</button>
 			<Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
-				<Modal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl yst-introduction-modal-panel">
+				<Modal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl">
 					<ModalContent onClose={ setIsModalOpenFalse } focusElementRef={ focusElementRef } />
 				</Modal.Panel>
 			</Modal>

@@ -1,6 +1,6 @@
 import matchStringWithRegex from "./regex/matchStringWithRegex";
 import { normalize } from "./sanitize/quotes";
-import { filterShortcodesFromHTML } from "./sanitize/filterShortcodesFromTree";
+import { createShortcodeTagsRegex, filterShortcodesFromHTML } from "./sanitize/filterShortcodesFromTree";
 import removeHtmlBlocks from "./html/htmlParser";
 
 export {
@@ -8,4 +8,5 @@ export {
 	normalize,
 	removeHtmlBlocks,
 	filterShortcodesFromHTML,
+	createShortcodeTagsRegex,
 };

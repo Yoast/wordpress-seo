@@ -93,7 +93,7 @@ Notification.propTypes = {
 	title: PropTypes.string,
 	description: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
 	onDismiss: PropTypes.func,
-	autoDismiss: PropTypes.oneOfType( [ PropTypes.number, null ] ),
+	autoDismiss: PropTypes.number,
 	dismissScreenReaderLabel: PropTypes.string.isRequired,
 };
 

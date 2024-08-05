@@ -1,0 +1,14 @@
+.yst-fixes-button__lock-icon {
+	position: absolute;
+	top: -6px;
+	right: -6px;
+	background-color: #FDE68A;
+	border-radius: 50%;
+	width: 14px;
+	height: 14px;
+	padding: 1px 2px;
+}
+
+.ai-button:disabled {
+	pointer-events: auto;
+}

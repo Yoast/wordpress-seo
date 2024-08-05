@@ -37,6 +37,7 @@ function getDefaultState() {
 		isWincherIntegrationActive: isWincherIntegrationActive(),
 		isInsightsEnabled: get( window, "wpseoScriptData.metabox.isInsightsEnabled", false ),
 		isNewsEnabled: ! ! window.wpseoAdminL10n.news_seo_is_active,
+		isAiFeatureActive: Boolean( window.wpseoAdminL10n.isAiFeatureActive ),
 	};
 }
 

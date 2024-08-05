@@ -177,6 +177,26 @@ describe( "test with different language specific helper and config", () => {
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 	} );
 
+	it( "returns an empty array and 0% when there are only function words and keyphrases in the text.", () => {
+		let paper = new Paper( "These new paradigms are hard to understand.", { keyword: "paradigm" } );
+		let researcher = new EnglishResearcher( paper );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
+		researcher.addConfig( "wordComplexity", wordComplexityConfigEnglish );
+		researcher.addResearchData( "morphology", premiumDataEn );
+
+		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
+
+		paper = new Paper( "Contamos con lo más nuevo en computadoras.", { keyword: "nueva computadora" } );
+		researcher = new SpanishResearcher( paper );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperSpanish );
+		researcher.addConfig( "wordComplexity", wordComplexityConfigSpanish );
+		researcher.addResearchData( "morphology", premiumDataEs );
+
+		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
+	} );
+
 	it( "should not recognize German function words to be complex, no matter whether they are capitalized or not", () => {
 		// eslint-disable-next-line max-len
 		const paper = new Paper( "Nach der von Erzbischof Hinkmar von Reims gebildeten Legende hat gegen Ende des 5. Wahrscheinlichkeit verhältnismäßig." );

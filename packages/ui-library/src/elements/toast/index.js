@@ -18,6 +18,7 @@ export const toastClassNameMap = {
 
 /**
  * @param {string} dismissScreenReaderLabel The screen reader label for the dismiss button.
+ * @param {string} [className] The additional class name.
  * @returns {JSX.Element} The close button.
  */
 const Close = ( {
@@ -25,11 +26,11 @@ const Close = ( {
 } ) => {
 	const { handleDismiss } = useContext( ToastContext );
 	return (
-		<div className="yst-flex-shrink-0 yst-flex">
+		<div className="yst-flex-shrink-0 yst-flex yst-self-start">
 			<button
 				type="button"
 				onClick={ handleDismiss }
-				className="yst-bg-white yst-rounded-md yst-inline-flex yst-text-slate-400 hover:yst-text-slate-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
+				className="yst-bg-transparent yst-rounded-md yst-inline-flex yst-text-slate-400 hover:yst-text-slate-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
 			>
 				<span className="yst-sr-only">{ dismissScreenReaderLabel }</span>
 				<XIcon className="yst-h-5 yst-w-5" />
@@ -44,7 +45,7 @@ Close.propTypes = {
 
 /**
  * @param {string|string[]} description The toast description.
- * @param {string} [className] The additional class names.
+ * @param {string} [className] The additional class name.
  * @returns {JSX.Element} The description.
  */
 const Description = ( {
@@ -69,7 +70,7 @@ Description.propTypes = {
 
 /**
  * @param {string} title The toast title.
- * @param {string} [className] The additional class names.
+ * @param {string} [className] The additional class name.
  * @returns {JSX.Element} The title.
  */
 const Title = ( {
@@ -90,7 +91,7 @@ Title.propTypes = {
  * @param {Object} props The props object.
  * @param {JSX.node} children The children.
  * @param {string} id The toast ID.
- * @param {string} [className] The additional class names.
+ * @param {string} [className] The additional class name.
  * @param {string} position The toast position.
  * @param {Function} [onDismiss] Function to trigger on dismissal.
  * @param {number|null} [autoDismiss] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
@@ -157,7 +158,7 @@ Toast.propTypes = {
 	className: PropTypes.string,
 	position: PropTypes.string,
 	onDismiss: PropTypes.func,
-	autoDismiss: PropTypes.oneOfType( [ PropTypes.number, null ] ),
+	autoDismiss: PropTypes.number,
 	isVisible: PropTypes.bool.isRequired,
 	setIsVisible: PropTypes.func.isRequired,
 };

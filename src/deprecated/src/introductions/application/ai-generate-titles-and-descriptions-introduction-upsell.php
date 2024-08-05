@@ -1,17 +1,32 @@
 <?php
+/**
+ * Graceful deprecation of the Ai_Generate_Titles_And_Descriptions_Introduction_Upsell class.
+ *
+ * {@internal As this file is just (temporarily) put in place to warn extending
+ * plugins about the class name changes, it is exempt from select CS standards.}
+ *
+ * @deprecated 23.2
+ *
+ * @codeCoverageIgnore
+ *
+ * @phpcs:disable Generic.Files.OneObjectStructurePerFile.MultipleFound
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound
+ * @phpcs:disable Yoast.Commenting.CodeCoverageIgnoreDeprecated
+ * @phpcs:disable Yoast.Commenting.FileComment.Unnecessary
+ * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
+ */
 
 namespace Yoast\WP\SEO\Introductions\Application;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
-use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 
 /**
  * Represents the introduction for the AI generate titles and introduction upsell.
  *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ * @deprecated 23.2 Use {@see \Yoast\WP\SEO\Introductions\Application\Ai_Fix_Assessments_Upsell} instead.
  */
-class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introduction_Interface {
+class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell extends Ai_Fix_Assessments_Upsell {
 
 	use Current_Page_Trait;
 	use User_Allowed_Trait;
@@ -34,6 +49,8 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	/**
 	 * Constructs the introduction.
 	 *
+	 * @deprecated 23.2
+	 *
 	 * @param Product_Helper $product_helper The product helper.
 	 * @param Options_Helper $options_helper The options' helper.
 	 */
@@ -48,9 +65,13 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	/**
 	 * Returns the ID.
 	 *
+	 * @deprecated 23.2
+	 * @codeCoverageIgnore
+	 *
 	 * @return string
 	 */
 	public function get_id() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.2' );
 		return 'ai-generate-titles-and-descriptions-upsell';
 	}
 
@@ -71,31 +92,27 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell implements Introdu
 	/**
 	 * Returns the requested pagination priority. Lower means earlier.
 	 *
+	 * @deprecated 23.2
+	 * @codeCoverageIgnore
+	 *
 	 * @return int
 	 */
 	public function get_priority() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.2' );
 		return 10;
 	}
 
 	/**
 	 * Returns whether this introduction should show.
 	 *
+	 * @deprecated 23.2
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool
 	 */
 	public function should_show() {
-		if ( $this->product_helper->is_premium() ) {
-			return false;
-		}
-
-		if ( $this->options_helper->get( 'previous_version', '' ) === '' ) {
-			// The current installation is a new one (not upgraded yet).
-			return false;
-		}
-
-		if ( ! $this->is_user_allowed( [ 'edit_posts' ] ) ) {
-			return false;
-		}
-
-		return true;
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.2' );
+		// Outdated feature introduction.
+		return false;
 	}
 }

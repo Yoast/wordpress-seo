@@ -20,13 +20,10 @@ const ContentAnalysisContainer = styled.div`
 const StyledCollapsible = styled( Collapsible )`
 	margin-bottom: 8px;
 
-	button:first-child svg {
-		margin: -2px 8px 0 -2px; // Compensate icon size set to 18px.
-	}
-
 	${ StyledIconsButton } {
 		padding: 8px 0;
-		color: ${ colors.$color_blue }
+		color: ${ colors.$color_blue };
+		margin: -2px 8px 0 -2px; // Compensate icon size set to 18px.
 	}
 `;
 
@@ -37,7 +34,7 @@ const StyledCollapsible = styled( Collapsible )`
  */
 class ContentAnalysis extends React.Component {
 	/**
-	 * Renders a Collapsible component with a liset of Analysis results.
+	 * Renders a Collapsible component with a list of Analysis results.
 	 *
 	 * @param {string} title        The title of the collapsible section.
 	 * @param {number} headingLevel Heading level: 1 for h1, 2 for h2, etc.
@@ -65,6 +62,7 @@ class ContentAnalysis extends React.Component {
 					markButtonFactory={ this.props.markButtonFactory }
 					onMarksButtonClick={ this.props.onMarkButtonClick }
 					onEditButtonClick={ this.props.onEditButtonClick }
+					renderAIFixesButton={ this.props.renderAIFixesButton }
 					isPremium={ this.props.isPremium }
 					onResultChange={ this.props.onResultChange }
 					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
@@ -156,6 +154,7 @@ ContentAnalysis.propTypes = {
 	onResultChange: PropTypes.func,
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
+	renderAIFixesButton: PropTypes.func,
 };
 
 ContentAnalysis.defaultProps = {
@@ -178,6 +177,7 @@ ContentAnalysis.defaultProps = {
 	onResultChange: () => {},
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: () => {},
+	renderAIFixesButton: () => {},
 };
 
 export default ContentAnalysis;

@@ -45,7 +45,7 @@ class Keyphrase_Data_Provider extends Abstract_Post_Seo_Data_Provider implements
 		 * @param array<string> $usage   The array of posts' ids that share their focus Keyphrase with the post.
 		 * @param int           $post_id The id of the post we're finding the usage of related Keyphrase for.
 		 */
-		return \apply_filters( 'wpseo_posts_for_related_Keyphrase', $usage, $this->post->ID );
+		return \apply_filters( 'wpseo_posts_for_related_keywords', $usage, $this->post->ID );
 	}
 
 	/**
