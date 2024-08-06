@@ -53,7 +53,7 @@ export const initializeFormWatcher = ( form, debounceDelay = 500 ) => {
 
 		if ( changes.length > 0 ) {
 			// Notify all subscribers.
-			forEach( callbacks, callback => callback( changes ) );
+			forEach( callbacks, ( onChange ) => onChange( changes ) );
 		}
 	};
 
@@ -62,13 +62,13 @@ export const initializeFormWatcher = ( form, debounceDelay = 500 ) => {
 	/**
 	 * Adds a callback.
 	 *
-	 * @param {function} callback The callback to call when a change is detected.
+	 * @param {function} onChange The callback to call when a change is detected.
 	 *
 	 * @returns {function} The unsubscribe function.
 	 */
-	const subscribe = ( callback ) => {
+	const subscribe = ( onChange ) => {
 		const id = uniqueId( "yoast-form-listener" );
-		callbacks[ id ] = callback;
+		callbacks[ id ] = onChange;
 
 		return () => delete callbacks[ id ];
 	};

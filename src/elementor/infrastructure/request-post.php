@@ -19,7 +19,7 @@ class Request_Post {
 	}
 
 	/**
-	 * Retrieves the WP_Post, applicable to the current request.
+	 * Retrieves the post ID, applicable to the current request.
 	 *
 	 * @return int|null The post ID.
 	 */
@@ -115,20 +115,20 @@ class Request_Post {
 			return null;
 		}
 
-		\reset( $actions );
-		$key = \key( $actions );
-		if ( $key === null ) {
+		// Elementor sends everything in a `document-{ID}` format.
+		$action = \array_shift( $actions );
+		if ( $action === null ) {
 			return null;
 		}
 
 		// There are multiple action types. We only care about the "get_document_config" one.
-		if ( ! ( isset( $actions[ $key ]['action'] ) && $actions[ $key ]['action'] === 'get_document_config' ) ) {
+		if ( ! ( isset( $action['action'] ) && $action['action'] === 'get_document_config' ) ) {
 			return null;
 		}
 
 		// Return the ID from the data, if it is set and numeric.
-		if ( isset( $actions[ $key ]['data']['id'] ) && \is_numeric( $actions[ $key ]['data']['id'] ) ) {
-			return (int) $actions[ $key ]['data']['id'];
+		if ( isset( $action['data']['id'] ) && \is_numeric( $action['data']['id'] ) ) {
+			return (int) $action['data']['id'];
 		}
 
 		return null;
