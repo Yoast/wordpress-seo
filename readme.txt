@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.6
-Stable tag: 23.1
+Stable tag: 23.2
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -272,6 +272,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 23.2 =
 
 Release date: 2024-08-06
+
+Yoast SEO 23.2 brings more enhancements and bugfixes. [Find more information about Yoast SEO 23.2 here](https://yoa.st/release-6-8-24).
 
 #### Enhancements
 
