@@ -269,6 +269,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 23.3 =
+
+Release date: 2024-08-20
+
+#### Bugfixes
+
+* Fixes a bug where the Yoast tab would disappear when opening and closing the Site Settings in Elementor.
+
 = 23.2 =
 
 Release date: 2024-08-06
@@ -286,21 +294,6 @@ Yoast SEO 23.2 brings more enhancements and bugfixes. [Find more information abo
 #### Other
 
 * Deprecates the `Ai_Generate_Titles_And_Descriptions_Introduction_Upsell` class.
-
-= 23.1 =
-
-Release date: 2024-07-23
-
-Yoast SEO 23.1 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-23-7-24).
-
-#### Enhancements
-
-* Disables an unneeded cleanup cron job when indexables are disabled.
-* Removes an unnecessary query when indexables are disabled.
-
-#### Other
-
-* Sets the _WordPress tested up to_ version to 6.6.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
