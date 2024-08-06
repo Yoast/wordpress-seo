@@ -221,11 +221,12 @@ class WPSEO_Plugin_Availability {
 	 *
 	 * @return bool Whether or not the plugin is active.
 	 *
-	 * @deprecated 23.3
+	 * @deprecated 23.4
 	 * @codeCoverageIgnore
 	 */
 	public function is_active( $plugin ) {
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.4', 'is_plugin_active' );
+
 		return is_plugin_active( $plugin );
 	}
 
@@ -234,13 +235,13 @@ class WPSEO_Plugin_Availability {
 	 *
 	 * @return array Array containing the information about the plugins.
 	 *
-	 * @deprecated 23.3
-	 *  @codeCoverageIgnore
+	 * @deprecated 23.4
+	 * @codeCoverageIgnore
 	 */
 	public function get_plugins() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.4', 'WPSEO_Addon_Manager::get_addon_filenames' );
 
-		return [];
+		return $this->plugins;
 	}
 
 	/**
@@ -250,13 +251,16 @@ class WPSEO_Plugin_Availability {
 	 *
 	 * @return array The plugin properties.
 	 *
-	 * @deprecated 23.3
+	 * @deprecated 23.4
 	 * @codeCoverageIgnore
 	 */
 	public function get_plugin( $plugin ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- needed for BC reasons
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.4', 'WPSEO_Addon_Manager::get_plugin_file' );
+		if ( ! isset( $this->plugins[ $plugin ] ) ) {
+			return [];
+		}
 
-		return [];
+		return $this->plugins[ $plugin ];
 	}
 
 	/**
@@ -266,13 +270,16 @@ class WPSEO_Plugin_Availability {
 	 *
 	 * @return string The version associated with the plugin.
 	 *
-	 * @deprecated 23.3
+	 * @deprecated 23.4
 	 * @codeCoverageIgnore
 	 */
 	public function get_version( $plugin ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- needed for BC reasons
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.4', 'WPSEO_Addon_Manager::get_installed_addons_versions' );
+		if ( ! isset( $plugin['version'] ) ) {
+			return '';
+		}
 
-		return '0';
+		return $plugin['version'];
 	}
 
 	/**
@@ -296,13 +303,16 @@ class WPSEO_Plugin_Availability {
 	 * @param array $plugin The plugin to get the dependency names from.
 	 *
 	 * @return array Array containing the names of the associated dependencies.
-	 * @deprecated 23.3
+	 * @deprecated 23.4
 	 * @codeCoverageIgnore
 	 */
 	public function get_dependency_names( $plugin ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- needed for BC reasons
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.4' );
+		if ( ! $this->has_dependencies( $plugin ) ) {
+			return [];
+		}
 
-		return [];
+		return array_keys( $plugin['_dependencies'] );
 	}
 
 	/**
@@ -312,11 +322,11 @@ class WPSEO_Plugin_Availability {
 	 *
 	 * @return bool Whether or not the plugin is a Premium product.
 	 *
-	 * @deprecated 23.3
+	 * @deprecated 23.4
 	 * @codeCoverageIgnore
 	 */
 	public function is_premium( $plugin ) {
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.4' );
 
 		return isset( $plugin['premium'] ) && $plugin['premium'] === true;
 	}
@@ -326,13 +336,19 @@ class WPSEO_Plugin_Availability {
 	 *
 	 * @return array The installed plugins.
 	 *
-	 * @deprecated 23.3
+	 * @deprecated 23.4
 	 * @codeCoverageIgnore
 	 */
 	public function get_installed_plugins() {
+
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.4', 'WPSEO_Addon_Manager::get_installed_addons_versions' );
 		$installed = [];
 
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
+		foreach ( $this->plugins as $plugin_key => $plugin ) {
+			if ( $this->is_installed( $plugin ) ) {
+				$installed[ $plugin_key ] = $plugin;
+			}
+		}
 
 		return $installed;
 	}

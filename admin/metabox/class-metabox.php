@@ -903,8 +903,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$woocommerce_conditional = new WooCommerce_Conditional();
 		$woocommerce_active      = $woocommerce_conditional->is_met();
-		$woocommerce_seo_file    = 'wpseo-woocommerce/wpseo-woocommerce.php';
-		$woocommerce_seo_active  = is_plugin_active( $woocommerce_seo_file );
+		$addon_manager           = new WPSEO_Addon_Manager();
+		$woocommerce_seo_active  = is_plugin_active( $addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) );
 
 		$script_data = [
 			// @todo replace this translation with JavaScript translations.
