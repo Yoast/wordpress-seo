@@ -46,6 +46,7 @@ function mapResult( result, key = "" ) {
 		markerId: key.length > 0 ? `${key}:${id}` : id,
 		hasBetaBadge: result.hasBetaBadge(),
 		hasJumps: result.hasJumps(),
+		hasAIFixes: result.hasAIFixes(),
 		editFieldName: result.editFieldName,
 	};
 

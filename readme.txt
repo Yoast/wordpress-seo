@@ -269,6 +269,24 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 23.2 =
+
+Release date: 2024-08-06
+
+Yoast SEO 23.2 brings more enhancements and bugfixes. [Find more information about Yoast SEO 23.2 here](https://yoa.st/release-6-8-24).
+
+#### Enhancements
+
+* Excludes image captions from the _keyphrase in introduction_ assessment: image captions at the beginning of a post will not be treated as an introduction anymore.
+
+#### Bugfixes
+
+* Fixes a bug where the `wpseo_posts_for_related_keywords` filter would not work anymore since it was accidentally renamed.
+
+#### Other
+
+* Deprecates the `Ai_Generate_Titles_And_Descriptions_Introduction_Upsell` class.
+
 = 23.1 =
 
 Release date: 2024-07-23
@@ -283,25 +301,6 @@ Yoast SEO 23.1 brings more enhancements and bugfixes. [Find more information abo
 #### Other
 
 * Sets the _WordPress tested up to_ version to 6.6.
-
-= 23.0 =
-
-Release date: 2024-07-02
-
-Yoast SEO 23.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-2-7-24).
-
-#### Enhancements
-
-* Removes a redundant database write query, when saving a post.
-
-#### Bugfixes
-
-* Fixes a bug where unnecessary data was written in the Yoast database on non-production sites (or when the relevant `Yoast\WP\SEO\should_index_indexables` filter was used to disable such a behavior).
-
-#### Other
-
-* Deprecates the Wordproof feature.
-* Deprecates the following classes: `Wordproof`, `Wordproof_App_Config`, `Wordproof_Helper`, `Wordproof_Integration_Active_Conditional`, `Wordproof_Plugin_Inactive_Conditional`,  `Wordproof_Translations`.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

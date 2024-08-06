@@ -8,6 +8,20 @@ import Mark from "../../../../src/values/Mark.js";
 const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
 
 describe( "An assessment to check the keyphrase distribution in the text", function() {
+	it( "returns `hasAIFixes` to be true when the result is not good", function() {
+		const mockPaper = new Paper( "a string", { keyword: "keyword" } );
+		const assessment = keyphraseDistributionAssessment.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( {
+				keyphraseDistributionScore: 100,
+				sentencesToHighlight: [],
+			} )
+		);
+
+		expect( assessment.getScore() ).toEqual( 0 );
+		expect( assessment.hasAIFixes() ).toBeTruthy();
+	} );
+
 	it( "returns a 'consideration' score when no keyword occurs", function() {
 		const mockPaper = new Paper( "a string", { keyword: "keyword" } );
 		const assessment = keyphraseDistributionAssessment.getResult(

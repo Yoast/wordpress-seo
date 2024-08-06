@@ -10,6 +10,7 @@ import {
 import analysis from "../reducers/contentAnalysis";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
+import AIButton from "./AIButton";
 import analysisData from "./analysisData";
 import checklist from "./checklist";
 import currentPromotions from "./currentPromotions";
@@ -41,6 +42,7 @@ import WincherSEOPerformance from "./WincherSEOPerformance";
 export default {
 	activeMarker,
 	advancedSettings,
+	AIButton,
 	analysis,
 	analysisData,
 	checklist,

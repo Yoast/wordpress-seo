@@ -9,6 +9,7 @@ export const {
 	selectWistiaEmbedPermissionError,
 } = wistiaEmbedPermissionSelectors;
 export * from "../../insights/redux/selectors";
+export * from "./AIButton";
 export * from "./advancedSettings";
 export * from "./analysis";
 export * from "./cornerstoneContent";
