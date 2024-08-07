@@ -45,9 +45,9 @@ const sendFormData = ( form ) => new Promise( ( resolve ) => {
 		return result;
 	}, {} );
 
-	jQuery.post( form.getAttribute( "action" ), formData, ( { success, data }, status, xhr ) => {
-		resolve( { success, formData, data, xhr } );
-	} );
+	jQuery.post( form.getAttribute( "action" ), formData )
+		.done( ( { success, data }, status, xhr ) => resolve( { success, formData, data, xhr } ) )
+		.fail( ( xhr ) => resolve( { success: false, formData, xhr } ) );
 } );
 
 /**
@@ -127,10 +127,12 @@ export const initializeElementEditorIntegration = () => {
 			doAction( "yoast.elementor.toggleFreeze", { isFreeze: true, isDiscard: mode === "discard" } );
 
 			removeAction( "yoast.elementor.save.success", "yoast/yoast-seo/finishClosingDocument" );
+			removeAction( "yoast.elementor.save.failure", "yoast/yoast-seo/finishClosingDocument" );
 		};
 
 		if ( isSaving ) {
 			addAction( "yoast.elementor.save.success", "yoast/yoast-seo/finishClosingDocument", finishClosingDocument );
+			addAction( "yoast.elementor.save.failure", "yoast/yoast-seo/finishClosingDocument", finishClosingDocument );
 			return;
 		}
 		finishClosingDocument();
@@ -177,6 +179,8 @@ export const initializeElementEditorIntegration = () => {
 		if ( ! success ) {
 			// Revert false assumption, see above.
 			hasUnsavedSeoChanges = true;
+			isSaving = false;
+			doAction( "yoast.elementor.save.failure" );
 			return;
 		}
 
