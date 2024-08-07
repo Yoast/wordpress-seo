@@ -39,7 +39,7 @@ const sendFormData = ( form ) => new Promise( ( resolve ) => {
 		return result;
 	}, {} );
 
-	jQuery.post( form.getAttribute( "action" ), formData, ( { success, data }, xhr ) => {
+	jQuery.post( form.getAttribute( "action" ), formData, ( { success, data }, status, xhr ) => {
 		resolve( { success, formData, data, xhr } );
 	} );
 } );
