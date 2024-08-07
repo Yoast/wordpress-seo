@@ -30,7 +30,10 @@ Empower search engines to fully understand your website using our Schema.org str
 
 Yoast SEO offers comprehensive analysis tools that help elevate your content's SEO and readability. Get powerful insights and actionable recommendations to craft helpful content that resonates with readers and search engines.
 
-PREMIUM Ready to take your content strategy up a notch? Our Yoast AI features generate meta descriptions and titles for your pages, blog posts and social posts using our social preview tool. Great! Even better, when you also have [Yoast WooCommerce SEO](https://yoa.st/3rh), you can recieve suggestions for product SEO titles and descriptions too! The best part, if you don't like the 5 suggestions, you can generate five more at a click. 
+**Premium Yoast AI features** Get suggestions for your titles and descriptions at the click of a button. The [Yoast AI features] (https://yoa.st/51c) save you time and optimize for higher click-through-rates.
+
+* Yoast AI Generate enables users to generate meta descriptions and titles for your pages, blog posts and social posts. Great! Even better, when you also have [Yoast WooCommerce SEO](https://yoa.st/3rh), you can recieve suggestions for product SEO titles and descriptions too! The best part, if you don't like the 5 suggestions, you can generate five more at a click. 
+* Yoast AI Optimize helps you optimize existing content for search engines. Optimize three of the assessments in the Yoast SEO Analysis; Keyphrase in introduction, Keyphrase distribution and Keyphrase density, with easy dismiss or apply options.
 
 
 #### QUICK AND EASY SETUP TO GET YOU STARTED
@@ -83,7 +86,7 @@ Unlock the full potential of your content with Yoast SEO's **state-of-the-art co
 
 * Are you using Elementor to build your website? No worries because **Yoast SEO integrates with Elementor**. Take advantage of all Yoast SEO's benefits within your favorite website builder!
 
-* **Yoast SEO Premium has advanced AI features**, helping you write titles and meta descriptions at the touch of a button thanks to generative AI.
+* **Advanced AI features in Yoast SEO Premium**, write titles and meta descriptions at a click of a button and receive suggested edits to your content to take it over the 'SEO' finish line.
 
 #### KEEP YOUR SITE IN PERFECT SHAPE
 
@@ -128,6 +131,8 @@ If you're looking for a structured learning path, our [Yoast SEO academy](https:
 ### THE PREMIUM ADVANTAGE
 
 Not only do you get many additional benefits by upgrading to [Yoast SEO Premium](https://yoa.st/1v8), but you'll also get 24/7 personalized support that takes away your worry.
+
+* Unlock our [AI features] (https://yoa.st/51c); Yoast AI Optimize and Yoast AI Generate. Perfect for marketing professionals, freelance writers, and content strategists, Yoast AI features enable customers of all technical levels to apply SEO best practice to their content at the click of a button.
 
 * Optimize for up to five keyword synonyms by adding variants. Add up to four related synonyms of your keyword to expand your possibilities. You get the full SEO analysis for each.
 
