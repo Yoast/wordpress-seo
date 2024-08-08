@@ -34,6 +34,7 @@ class Primary_Category_Conditional implements Conditional {
 	 *          post edit, new post admin page or additional admin pages, allowed by filter.
 	 */
 	public function is_met() {
+
 		if ( ! \is_admin() ) {
 			return true;
 		}
@@ -44,6 +45,6 @@ class Primary_Category_Conditional implements Conditional {
 		 * @param array $admin_pages List of additional admin pages.
 		 */
 		$additional_pages = \apply_filters( 'wpseo_primary_category_admin_pages', [] );
-		return \in_array( $this->current_page->get_current_admin_page(), \array_merge( [ 'edit.php', 'post.php', 'post-new.php' ], $additional_pages ), true );
+		return \in_array( $this->current_page->get_current_admin_page(), \array_merge( [ 'edit.php', 'post.php', 'post-new.php', 'admin-ajax.php' ], $additional_pages ), true );
 	}
 }
