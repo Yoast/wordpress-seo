@@ -1,6 +1,6 @@
 /* global $e, elementor, YoastSEO */
 import { dispatch } from "@wordpress/data";
-import { doAction } from "@wordpress/hooks";
+import { addAction, doAction, removeAction } from "@wordpress/hooks";
 import { debounce, throttle } from "lodash";
 import { registerReactComponent } from "../../helpers/reactRoot";
 import { registerElementorDataHookAfter, registerElementorUIHookAfter, registerElementorUIHookBefore } from "../helpers/hooks";
@@ -14,6 +14,12 @@ import { initializeTab } from "./tab";
 
 // Keep track of unsaved SEO setting changes.
 let hasUnsavedSeoChanges = false;
+
+/**
+ * The save takes longer than the closing of the document, due to the async nature of the save.
+ * This flag is used to prevent freezing the store before the save is done.
+ */
+let isSaving = false;
 
 /**
  * Wraps the callback in a trailing debounce.
@@ -39,9 +45,9 @@ const sendFormData = ( form ) => new Promise( ( resolve ) => {
 		return result;
 	}, {} );
 
-	jQuery.post( form.getAttribute( "action" ), formData, ( { success, data }, xhr ) => {
-		resolve( { success, formData, data, xhr } );
-	} );
+	jQuery.post( form.getAttribute( "action" ), formData )
+		.done( ( { success, data }, status, xhr ) => resolve( { success, formData, data, xhr } ) )
+		.fail( ( xhr ) => resolve( { success: false, formData, xhr } ) );
 } );
 
 /**
@@ -102,11 +108,34 @@ export const initializeElementEditorIntegration = () => {
 			updateSaveAsDraftWarning( hasUnsavedSeoChanges );
 		}
 
-		// Disable our integration for the form document.
-		YoastSEO.store._freeze( true );
+		/**
+		 * Runs the final actions we want to do when the user closes a document.
+		 *
+		 * 1. Freeze the store.
+		 * 2. Notify other plugins the document is no longer relevant.
+		 * 3. Remove the action to prevent multiple calls.
+		 *
+		 * This function is called after the save is done. As to not freeze the store while saving!
+		 *
+		 * @returns {void}
+		 */
+		const finishClosingDocument = () => {
+			// Disable our integration for the form document.
+			YoastSEO.store._freeze( true );
 
-		// Notify other plugins the document is no longer relevant.
-		doAction( "yoast.elementor.toggleFreeze", { isFreeze: true, isDiscard: mode === "discard" } );
+			// Notify other plugins the document is no longer relevant.
+			doAction( "yoast.elementor.toggleFreeze", { isFreeze: true, isDiscard: mode === "discard" } );
+
+			removeAction( "yoast.elementor.save.success", "yoast/yoast-seo/finishClosingDocument" );
+			removeAction( "yoast.elementor.save.failure", "yoast/yoast-seo/finishClosingDocument" );
+		};
+
+		if ( isSaving ) {
+			addAction( "yoast.elementor.save.success", "yoast/yoast-seo/finishClosingDocument", finishClosingDocument );
+			addAction( "yoast.elementor.save.failure", "yoast/yoast-seo/finishClosingDocument", finishClosingDocument );
+			return;
+		}
+		finishClosingDocument();
 	};
 
 	/**
@@ -117,6 +146,8 @@ export const initializeElementEditorIntegration = () => {
 	 * @returns {Promise<void>} The promise that resolves when the save is done.
 	 */
 	const handleSaveDocument = async( { document } ) => {
+		isSaving = true;
+
 		/**
 		 * Ensure we only save to the (HTML) form document.
 		 *
@@ -148,6 +179,8 @@ export const initializeElementEditorIntegration = () => {
 		if ( ! success ) {
 			// Revert false assumption, see above.
 			hasUnsavedSeoChanges = true;
+			isSaving = false;
+			doAction( "yoast.elementor.save.failure" );
 			return;
 		}
 
@@ -165,6 +198,8 @@ export const initializeElementEditorIntegration = () => {
 		// Take a snapshot, to restore from here when discarding.
 		YoastSEO.store._takeSnapshot();
 		formWatcher.takeSnapshot();
+
+		isSaving = false;
 	};
 
 	registerElementorUIHookBefore(
