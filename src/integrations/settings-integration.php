@@ -258,10 +258,18 @@ class Settings_Integration implements Integration_Interface {
 
 		// Are we saving the settings?
 		if ( $this->current_page_helper->get_current_admin_page() === 'options.php' ) {
-			// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged -- This deprecation will be addressed later.
-			$post_action = \filter_input( \INPUT_POST, 'action', @\FILTER_SANITIZE_STRING );
-			$option_page = \filter_input( \INPUT_POST, 'option_page', @\FILTER_SANITIZE_STRING );
-			// phpcs:enable
+			$post_action = '';
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
+			if ( isset( $_POST['action'] ) && \is_string( $_POST['action'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information.
+				$post_action = \wp_unslash( $_POST['action'] );
+			}
+			$option_page = '';
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
+			if ( isset( $_POST['option_page'] ) && \is_string( $_POST['option_page'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information.
+				$option_page = \wp_unslash( $_POST['option_page'] );
+			}
 
 			if ( $post_action === 'update' && $option_page === self::PAGE ) {
 				\add_action( 'admin_init', [ $this, 'register_setting' ] );

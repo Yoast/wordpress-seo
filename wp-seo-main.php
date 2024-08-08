@@ -405,17 +405,12 @@ function wpseo_admin_init() {
 
 /* ***************************** BOOTSTRAP / HOOK INTO WP *************************** */
 $spl_autoload_exists = function_exists( 'spl_autoload_register' );
-$filter_exists       = function_exists( 'filter_input' );
 
 if ( ! $spl_autoload_exists ) {
 	add_action( 'admin_init', 'yoast_wpseo_missing_spl', 1 );
 }
 
-if ( ! $filter_exists ) {
-	add_action( 'admin_init', 'yoast_wpseo_missing_filter', 1 );
-}
-
-if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
+if ( ! wp_installing() && ( $spl_autoload_exists ) ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
 	add_action( 'setup_theme', [ 'Yoast_Dynamic_Rewrites', 'instance' ], 1 );
 	add_action( 'rest_api_init', 'wpseo_init_rest_api' );
@@ -539,25 +534,25 @@ function yoast_wpseo_missing_autoload_notice() {
  * Throw an error if the filter extension is disabled (prevent white screens) and self-deactivate plugin.
  *
  * @since 2.0
+ * @deprecated 23.3
+ * @codeCoverageIgnore
  *
  * @return void
  */
 function yoast_wpseo_missing_filter() {
-	if ( is_admin() ) {
-		add_action( 'admin_notices', 'yoast_wpseo_missing_filter_notice' );
-
-		yoast_wpseo_self_deactivate();
-	}
+	_deprecated_function( __FUNCTION__, 'Yoast SEO 23.3' );
 }
 
 /**
  * Returns the notice in case of missing filter extension.
  *
+ * @deprecated 23.3
+ * @codeCoverageIgnore
+ *
  * @return void
  */
 function yoast_wpseo_missing_filter_notice() {
-	$message = esc_html__( 'The filter extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
-	yoast_wpseo_activation_failed_notice( $message );
+	_deprecated_function( __FUNCTION__, 'Yoast SEO 23.3' );
 }
 
 /**
