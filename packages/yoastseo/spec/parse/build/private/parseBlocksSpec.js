@@ -1,9 +1,12 @@
-import parseBlocks from "../../../../src/parse/build/private/parseBlocks";
+import parseBlocks, { updateBlocksOffset } from "../../../../src/parse/build/private/parseBlocks";
 import Paper from "../../../../src/values/Paper";
 import adapt from "../../../../src/parse/build/private/adapt";
 import { parseFragment } from "parse5";
 
 describe( "The parseBlocks function", () => {
+	beforeEach( () => {
+		jest.clearAllMocks();
+	} );
 	it( "should return undefined when parsing an undefined node block", () => {
 		const paper = new Paper( "" );
 
@@ -358,5 +361,103 @@ describe( "The parseBlocks function", () => {
 
 		expect( strongNode.attributeId ).toBeUndefined();
 		expect( strongNode.isFirstSection ).toBeUndefined();
+	} );
+} );
+
+describe( "A test for updateBlocksOffset function", () => {
+	beforeEach( () => {
+		jest.clearAllMocks();
+	} );
+	it( "should return early if blocks array is empty", () => {
+		const blocks = [];
+		const text = "Some text";
+		const result = updateBlocksOffset( blocks, text );
+		expect( result ).toBeUndefined();
+	} );
+
+	it( "should update offsets for classic (core/freeform) block: the classic block occurs at 0 index of the blocks array", () => {
+		const blocks = [
+			{
+				name: "core/freeform",
+				blockLength: 10,
+			},
+		];
+		const text = "Some text";
+		updateBlocksOffset( blocks, text );
+		expect( blocks[ 0 ].startOffset ).toEqual( 0 );
+		expect( blocks[ 0 ].endOffset ).toEqual( 10 );
+		expect( blocks[ 0 ].contentOffset ).toEqual( 0 );
+	} );
+
+	it( "should update offsets for classic (core/freeform) block: the classic block occurs at 1 index of the block array", () => {
+		const blocks = [
+			{ name: "core/quote", blockLength: 40, endOffset: 40 },
+			{
+				name: "core/freeform",
+				blockLength: 10,
+			},
+		];
+		const text = "Some text";
+		updateBlocksOffset( blocks, text );
+		expect( blocks[ 1 ].startOffset ).toEqual( 42 );
+		expect( blocks[ 1 ].contentOffset ).toEqual( 42 );
+		expect( blocks[ 1 ].endOffset ).toEqual( 52 );
+	} );
+
+	it( "should update offsets for non-classic block", () => {
+		const blocks = [
+			{
+				name: "core/paragraph",
+				blockLength: 54,
+			},
+		];
+		const text = "<!-- wp:paragraph -->Some text<!-- /wp:paragraph -->";
+		updateBlocksOffset( blocks, text );
+		expect( blocks[ 0 ].startOffset ).toEqual( 0 );
+		expect( blocks[ 0 ].endOffset ).toEqual( 54 );
+		expect( blocks[ 0 ].contentOffset ).toEqual( 22 );
+	} );
+
+	it( "should update offsets for inner blocks", () => {
+		const blocks = [
+			{
+				name: "core/columns",
+				innerBlocks: [
+					{
+						name: "core/column",
+						blockLength: 100,
+						innerBlocks: [
+							{ name: "core/paragraph", innerBlocks: [], blockLength: 50 },
+						],
+					},
+					{
+						name: "core/column",
+						blockLength: 100,
+						innerBlocks: [
+							{ name: "core/paragraph", innerBlocks: [], blockLength: 50 },
+						],
+					},
+				],
+				blockLength: 341,
+			},
+		];
+		const text = "<!-- wp:columns -->\n" +
+			"<div class=\"wp-block-columns\"><!-- wp:column -->\n" +
+			"<div class=\"wp-block-column\"><!-- wp:paragraph -->\n" +
+			"<p>Test</p>\n" +
+			"<!-- /wp:paragraph --></div>\n" +
+			"<!-- /wp:column -->\n" +
+			"\n" +
+			"<!-- wp:column -->\n" +
+			"<div class=\"wp-block-column\"><!-- wp:paragraph -->\n" +
+			"<p>Test 2</p>\n" +
+			"<!-- /wp:paragraph --></div>\n" +
+			"<!-- /wp:column --></div>\n" +
+			"<!-- /wp:columns -->";
+
+		updateBlocksOffset( blocks, text );
+		expect( blocks[ 0 ].innerBlocks[ 0 ].startOffset ).toBeTruthy();
+		expect( blocks[ 0 ].innerBlocks[ 0 ].contentOffset ).toBeTruthy();
+		expect( blocks[ 0 ].innerBlocks[ 0 ].endOffset ).toBeTruthy();
 	} );
 } );
