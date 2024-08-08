@@ -5,31 +5,29 @@ import { __, setLocaleData, sprintf } from "@wordpress/i18n";
 import { forEach, has, includes, isEmpty, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash";
 import { getLogger } from "loglevel";
 
-// YoastSEO.js dependencies.
-import SEOAssessor from "../scoring/seoAssessor";
-import ContentAssessor from "../scoring/contentAssessor";
-import TaxonomyAssessor from "../scoring/taxonomyAssessor";
-
-import Paper from "../values/Paper";
-import AssessmentResult from "../values/AssessmentResult";
-import RelatedKeywordAssessor from "../scoring/relatedKeywordAssessor";
-import InclusiveLanguageAssessor from "../scoring/inclusiveLanguageAssessor";
-
-import { build } from "../parse/build";
-import LanguageProcessor from "../parse/language/LanguageProcessor";
-
 // Internal dependencies.
-import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
-import CornerstoneRelatedKeywordAssessor from "../scoring/cornerstone/relatedKeywordAssessor";
-import CornerstoneSEOAssessor from "../scoring/cornerstone/seoAssessor";
-import InvalidTypeError from "../errors/invalidType";
-import MissingArgumentError from "../errors/missingArgument";
-import includesAny from "../helpers/includesAny";
+import AssessmentResult from "../values/AssessmentResult.js";
+import { build } from "../parse/build";
 import { configureShortlinker } from "../helpers/shortlinker";
-import RelatedKeywordTaxonomyAssessor from "../scoring/relatedKeywordTaxonomyAssessor";
+import InvalidTypeError from "../errors/invalidType.js";
+import includesAny from "../helpers/includesAny.js";
+import LanguageProcessor from "../parse/language/LanguageProcessor.js";
+import MissingArgumentError from "../errors/missingArgument.js";
+import Paper from "../values/Paper.js";
 import Scheduler from "./scheduler";
 import Transporter from "./transporter";
-import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
+import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction.js";
+
+// Assessor classes.
+import ContentAssessor from "../scoring/assessors/contentAssessor.js";
+import CornerstoneContentAssessor from "../scoring/assessors/cornerstone/contentAssessor.js";
+import CornerstoneRelatedKeywordAssessor from "../scoring/assessors/cornerstone/relatedKeywordAssessor.js";
+import CornerstoneSEOAssessor from "../scoring/assessors/cornerstone/seoAssessor.js";
+import InclusiveLanguageAssessor from "../scoring/assessors/inclusiveLanguageAssessor.js";
+import RelatedKeywordAssessor from "../scoring/assessors/relatedKeywordAssessor.js";
+import RelatedKeywordTaxonomyAssessor from "../scoring/assessors/relatedKeywordTaxonomyAssessor.js";
+import SEOAssessor from "../scoring/assessors/seoAssessor.js";
+import TaxonomyAssessor from "../scoring/assessors/taxonomyAssessor.js";
 
 // Tree assessor functionality.
 import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../scoring/scoreAggregators";

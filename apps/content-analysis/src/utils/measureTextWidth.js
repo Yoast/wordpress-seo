@@ -1,7 +1,7 @@
 const elementId = "yoast-measurement-element";
 
 /**
- * Creates an hidden element with the purpose to calculate the sizes of elements and adds these elements to the body.
+ * Creates a hidden element with the purpose to calculate the sizes of elements and adds these elements to the body.
  *
  * @returns {HTMLElement} The created hidden element.
  */
