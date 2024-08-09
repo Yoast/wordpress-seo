@@ -1,0 +1,13 @@
+{
+    "name": "content-analysis-api",
+    "version": "0.1.0",
+    "main": "index.js",
+    "scripts": {
+        "postinstall": "yarn --cwd node_modules/yoastseo build",
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "express": "^4.19.2",
+        "yoastseo": "link:../../packages/yoastseo"
+    }
+}

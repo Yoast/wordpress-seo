@@ -123,7 +123,7 @@ final class Front_End_Integration_Test extends TestCase {
 	/**
 	 * Data provider for the test_adjacent_rel_url test.
 	 *
-	 * @return array
+	 * @return array<array<string>>
 	 */
 	public static function data_provider_adjacent_rel_url() {
 		return [
@@ -154,6 +154,13 @@ final class Front_End_Integration_Test extends TestCase {
 				'prev'     => '<a href="/?query-1-page=2">Prev</a>',
 				'next'     => '<a href="/?query-1-page=4">Next</a>',
 				'expected' => 'https://example.org/?query-1-page=2',
+			],
+			'prev link is null' => [
+				'link'     => 'https://example.org/',
+				'rel'      => 'prev',
+				'prev'     => null,
+				'next'     => '<a href="/?query-1-page=4">Next</a>',
+				'expected' => 'https://example.org/',
 			],
 			'full url' => [
 				'link'     => 'https://example.org/?query-1-page=2',

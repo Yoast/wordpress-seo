@@ -1,4 +1,4 @@
-import { forEach, isObject, isString, isUndefined, reduce } from "lodash-es";
+import { forEach, isObject, isString, isUndefined, reduce } from "lodash";
 import InvalidTypeError from "./errors/invalidType";
 
 /**

@@ -95,7 +95,7 @@ function InstallationSuccessPage() {
 					<a
 						id="installation-success-skip-link"
 						className="yst-bottom-12 yst-right-0 yst-mr-5 yst-self-end yst-text-base md:yst-absolute"
-						href={ "/wp-admin/admin.php?page=wpseo_dashboard" }
+						href={ window.wpseoInstallationSuccess.dashboardUrl }
 						data-hiive-event-name="clicked_skip_button | installation successful screen"
 					>
 						{

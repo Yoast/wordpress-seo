@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -60,6 +61,13 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	private $author_archive;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Holds the Post_Helper instance.
 	 *
 	 * @var Post_Helper
@@ -76,7 +84,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array
+	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -90,6 +98,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository to use.
 	 * @param Indexable_Link_Builder         $link_builder         The link builder.
 	 * @param Author_Archive_Helper          $author_archive       The author archive helper.
+	 * @param Indexable_Helper               $indexable_helper     The indexable helper.
 	 * @param Post_Helper                    $post                 The post helper.
 	 * @param Logger                         $logger               The logger.
 	 */
@@ -99,6 +108,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		Indexable_Hierarchy_Repository $hierarchy_repository,
 		Indexable_Link_Builder $link_builder,
 		Author_Archive_Helper $author_archive,
+		Indexable_Helper $indexable_helper,
 		Post_Helper $post,
 		Logger $logger
 	) {
@@ -107,6 +117,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		$this->hierarchy_repository = $hierarchy_repository;
 		$this->link_builder         = $link_builder;
 		$this->author_archive       = $author_archive;
+		$this->indexable_helper     = $indexable_helper;
 		$this->post                 = $post;
 		$this->logger               = $logger;
 	}
@@ -172,8 +183,6 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		}
 
 		$this->update_relations( $post );
-
-		$indexable->save();
 	}
 
 	/**
@@ -208,7 +217,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			if ( $post && $indexable && \in_array( $post->post_status, $this->post->get_public_post_statuses(), true ) ) {
 				$this->link_builder->build( $indexable, $post->post_content );
 				// Save indexable to persist the updated link count.
-				$indexable->save();
+				$this->indexable_helper->save_indexable( $indexable );
 				$this->updated_indexable( $indexable, $post );
 			}
 		} catch ( Exception $exception ) {
@@ -229,9 +238,11 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			$author_indexable = $this->repository->find_by_id_and_type( $indexable->author_id, 'user' );
 			if ( $author_indexable ) {
 				$author_indexable->has_public_posts = $this->author_archive->author_has_public_posts( $author_indexable->object_id );
-				$author_indexable->save();
+				$this->indexable_helper->save_indexable( $author_indexable );
 
-				$this->reschedule_cleanup_if_author_has_no_posts( $author_indexable );
+				if ( $this->indexable_helper->should_index_indexable( $author_indexable ) ) {
+					$this->reschedule_cleanup_if_author_has_no_posts( $author_indexable );
+				}
 			}
 		} catch ( Exception $exception ) {
 			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );
@@ -273,7 +284,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			// Ignore everything that is not an actual indexable.
 			if ( \is_a( $indexable, Indexable::class ) ) {
 				$indexable->object_last_modified = \max( $indexable->object_last_modified, $post->post_modified_gmt );
-				$indexable->save();
+				$this->indexable_helper->save_indexable( $indexable );
 			}
 		}
 	}

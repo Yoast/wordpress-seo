@@ -15,11 +15,7 @@ module.exports = {
 	},
 	plugins: [
 		"@babel",
-		"jest",
 	],
-	env: {
-		"jest/globals": true,
-	},
 	rules: {
 		"no-prototype-builtins": 0,
 		"comma-dangle": [
@@ -42,8 +38,6 @@ module.exports = {
 					// Because `main` in `package.json` points to the `build/index.js` (in the UI library), which is not present before building.
 					// As we are dealing with our source, not the actual NPM download, due to the monorepo setup.
 					"^@yoast/(ui-library|schema-blocks|style-guide|components|helpers|search-metadata-previews|social-metadata-forms|replacement-variable-editor|analysis-report|feature-flag)$",
-					// In a similar fashion as the above. Ignore the PHP dependency for WordProof, or we have to install the PHP dependencies.
-					"vendor_prefixed/wordproof",
 					"^@wordpress/(annotations|api|edit-post|sanitize)$",
 					"^jquery$",
 					"yoastseo",
@@ -100,6 +94,9 @@ module.exports = {
 		},
 		{
 			files: [ "tests/**/*.js" ],
+			env: {
+				jest: true,
+			},
 			rules: {
 				"no-restricted-imports": 0,
 				"no-undefined": 0,

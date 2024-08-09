@@ -1,5 +1,5 @@
 import AssessmentResult from "../../src/values/AssessmentResult.js";
-import { noop } from "lodash-es";
+import { noop } from "lodash";
 
 describe( "a result of an assessment", function() {
 	it( "should receive a text and a score in the constructor", function() {
@@ -22,6 +22,7 @@ describe( "creating a new empty assessmentResult", function() {
 		expect( assessmentResult.getText() ).toBe( "" );
 		expect( assessmentResult.hasBetaBadge() ).toBe( false );
 		expect( assessmentResult.hasJumps() ).toBe( false );
+		expect( assessmentResult.hasAIFixes() ).toBe( false );
 		expect( assessmentResult.hasEditFieldName() ).toBe( false );
 		expect( assessmentResult.getEditFieldName() ).toBe( "" );
 	} );
@@ -124,6 +125,22 @@ describe( "AssessmentResult", function() {
 			result.setHasJumps( true );
 
 			expect( result.hasJumps() ).toBe( true );
+		} );
+	} );
+
+	describe( "setHasAIFixes", function() {
+		it( "defaults to false", function() {
+			const result = new AssessmentResult();
+
+			expect( result.hasAIFixes() ).toBe( false );
+		} );
+
+		it( "sets the value to true", function() {
+			const result = new AssessmentResult();
+
+			result.setHasAIFixes( true );
+
+			expect( result.hasAIFixes() ).toBe( true );
 		} );
 	} );
 } );

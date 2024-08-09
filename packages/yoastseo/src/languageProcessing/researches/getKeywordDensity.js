@@ -14,7 +14,7 @@ export default function getKeyphraseDensity( paper, researcher ) {
 
 	// If there is a custom getWords helper, use its output for countWords.
 	if ( getWordsCustomHelper ) {
-		wordCount =  getWordsCustomHelper( paper.getText() ).length;
+		wordCount = getWordsCustomHelper( paper.getText() ).length;
 	} else {
 		wordCount = getAllWordsFromTree( paper ).length;
 	}

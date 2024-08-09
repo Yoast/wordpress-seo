@@ -1,8 +1,10 @@
 /** @module analyses/findKeywordInFirstParagraph */
+import { isEmpty } from "lodash";
 
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
+import { getParentNode } from "../helpers/sentence/getSentencesFromTree";
+import { createShortcodeTagsRegex } from "../helpers";
 
-import { isEmpty } from "lodash-es";
 
 /**
  * Checks if the introductory paragraph contains keyphrase or synonyms.
@@ -24,7 +26,19 @@ import { isEmpty } from "lodash-es";
  * the paragraph, whether a keyphrase or a synonym phrase was matched.
  */
 export default function( paper, researcher ) {
-	const firstParagraph = researcher.getResearch( "getParagraphs" )[ 0 ];
+	let paragraphs = researcher.getResearch( "getParagraphs" );
+	// Filter captions from non-Classic editors.
+	paragraphs = paragraphs.filter( paragraph => {
+		const parentNode = getParentNode( paper, paragraph );
+		return ! ( paragraph.isImplicit && parentNode && parentNode.name === "figcaption" );
+	} );
+	// Filter captions from Classic editor.
+	paragraphs = paragraphs.filter( paragraph => {
+		return ! ( paragraph.isImplicit && paragraph.childNodes && paragraph.childNodes[ 0 ] &&
+			createShortcodeTagsRegex( [ "caption" ] ).test( paragraph.childNodes[ 0 ].value ) );
+	} );
+	 const firstParagraph = paragraphs[ 0 ];
+
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const locale = paper.getLocale();
@@ -33,6 +47,7 @@ export default function( paper, researcher ) {
 		foundInOneSentence: false,
 		foundInParagraph: false,
 		keyphraseOrSynonym: "",
+		introduction: firstParagraph,
 	};
 
 	if ( isEmpty( firstParagraph ) ) {

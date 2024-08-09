@@ -20,6 +20,8 @@ import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
+import isBlockEditor from "../../helpers/isBlockEditor";
+import AIAssessmentFixesButton from "../../ai-assessment-fixes/components/ai-assessment-fixes-button";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -190,6 +192,24 @@ class SeoAnalysis extends Component {
 	}
 
 	/**
+	 * Renders the AI Assessment Fixes button.
+	 *
+	 * @param {boolean} hasAIFixes Whether the assessment has AI fixes or not.
+	 * @param {string} id The assessment ID for which the AI fixes should be applied to.
+	 *
+	 * @returns {JSX.Element} The AI Assessment Fixes button.
+	 */
+	renderAIFixesButton = ( hasAIFixes, id ) => {
+		const isPremium = getL10nObject().isPremium;
+
+		// The reason of adding the check if Elementor is active or not is because `isBlockEditor` method also returns `true` for Elementor.
+		// The reason of adding the check if the Elementor editor is active, is to stop showing the buttons in the in-between screen.
+		return hasAIFixes && isBlockEditor() && ! this.props.isElementor && ! document.body.classList.contains( "elementor-editor-active" ) && (
+			<AIAssessmentFixesButton id={ id } isPremium={ isPremium } />
+		);
+	};
+
+	/**
 	 * Renders the SEO Analysis component.
 	 *
 	 * @returns {wp.Element} The SEO Analysis component.
@@ -247,6 +267,7 @@ class SeoAnalysis extends Component {
 												location={ location }
 												shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 												highlightingUpsellLink={ highlightingUpsellLink }
+												renderAIFixesButton={ this.renderAIFixesButton }
 											/>
 										</Collapsible>
 										{ this.renderTabIcon( location, score.className ) }
@@ -269,6 +290,7 @@ SeoAnalysis.propTypes = {
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
 	shouldUpsellHighlighting: PropTypes.bool,
+	isElementor: PropTypes.bool,
 };
 
 SeoAnalysis.defaultProps = {
@@ -279,6 +301,7 @@ SeoAnalysis.defaultProps = {
 	shouldUpsellWordFormRecognition: false,
 	overallScore: null,
 	shouldUpsellHighlighting: false,
+	isElementor: false,
 };
 
 export default withSelect( ( select, ownProps ) => {
@@ -286,6 +309,7 @@ export default withSelect( ( select, ownProps ) => {
 		getFocusKeyphrase,
 		getMarksButtonStatus,
 		getResultsForKeyword,
+		getIsElementorEditor,
 	} = select( "yoast-seo/editor" );
 
 	const keyword = getFocusKeyphrase();
@@ -294,5 +318,6 @@ export default withSelect( ( select, ownProps ) => {
 		...getResultsForKeyword( keyword ),
 		marksButtonStatus: ownProps.hideMarksButtons ? "disabled" : getMarksButtonStatus(),
 		keyword,
+		isElementor: getIsElementorEditor(),
 	};
 } )( SeoAnalysis );

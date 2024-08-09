@@ -6,3 +6,4 @@ export { OutboundLink } from "./outbound-link";
 export { PremiumUpsellCard } from "./premium-upsell-card";
 export { RecommendationsSidebar } from "./recommendations-sidebar";
 export { VideoFlow } from "./video-flow";
+export { AiFixAssessmentsUpsell } from "./ai-fix-assessments-upsell";

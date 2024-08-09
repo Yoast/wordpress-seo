@@ -5,7 +5,7 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
+use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 
 /**
@@ -192,10 +192,18 @@ class WPSEO_Taxonomy {
 				'postId'                => $tag_id,
 				'termType'              => $this->get_taxonomy(),
 				'usedKeywordsNonce'     => wp_create_nonce( 'wpseo-keyword-usage' ),
-				'linkParams'            => WPSEO_Shortlinker::get_query_params(),
-				'pluginUrl'             => plugins_url( '', WPSEO_FILE ),
-				'wistiaEmbedPermission' => YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( get_current_user_id() ),
 			];
+
+			/**
+			 * The website information repository.
+			 *
+			 * @var $repo Website_Information_Repository
+			 */
+			$repo             = YoastSEO()->classes->get( Website_Information_Repository::class );
+			$term_information = $repo->get_term_site_information();
+			$term_information->set_term( get_term_by( 'id', $tag_id, $this::get_taxonomy() ) );
+			$script_data = array_merge_recursive( $term_information->get_legacy_site_information(), $script_data );
+
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
 			$asset_manager->enqueue_user_language_script();
 		}

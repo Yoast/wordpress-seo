@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Builders;
 use WP_Post;
 use WP_Term;
 use WPSEO_Meta;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -20,9 +21,9 @@ use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 class Indexable_Hierarchy_Builder {
 
 	/**
-	 * Holds a list of indexables where the ancestors are saved for.
+	 * Holds a list of indexable ids where the ancestors are saved for.
 	 *
-	 * @var array
+	 * @var array<int>
 	 */
 	protected $saved_ancestors = [];
 
@@ -62,23 +63,33 @@ class Indexable_Hierarchy_Builder {
 	private $post;
 
 	/**
+	 * Holds the Indexable_Helper instance.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Indexable_Author_Builder constructor.
 	 *
 	 * @param Indexable_Hierarchy_Repository $indexable_hierarchy_repository The indexable hierarchy repository.
 	 * @param Primary_Term_Repository        $primary_term_repository        The primary term repository.
 	 * @param Options_Helper                 $options                        The options helper.
 	 * @param Post_Helper                    $post                           The post helper.
+	 * @param Indexable_Helper               $indexable_helper               The indexable helper.
 	 */
 	public function __construct(
 		Indexable_Hierarchy_Repository $indexable_hierarchy_repository,
 		Primary_Term_Repository $primary_term_repository,
 		Options_Helper $options,
-		Post_Helper $post
+		Post_Helper $post,
+		Indexable_Helper $indexable_helper
 	) {
 		$this->indexable_hierarchy_repository = $indexable_hierarchy_repository;
 		$this->primary_term_repository        = $primary_term_repository;
 		$this->options                        = $options;
 		$this->post                           = $post;
+		$this->indexable_helper               = $indexable_helper;
 	}
 
 	/**
@@ -106,8 +117,11 @@ class Indexable_Hierarchy_Builder {
 			return $indexable;
 		}
 
-		$this->indexable_hierarchy_repository->clear_ancestors( $indexable->id );
+		if ( ! $this->indexable_helper->should_index_indexable( $indexable ) ) {
+			return $indexable;
+		}
 
+		$this->indexable_hierarchy_repository->clear_ancestors( $indexable->id );
 		$indexable_id = $this->get_indexable_id( $indexable );
 		$ancestors    = [];
 		if ( $indexable->object_type === 'post' ) {
@@ -265,7 +279,7 @@ class Indexable_Hierarchy_Builder {
 	/**
 	 * Find the deepest term in an array of term objects.
 	 *
-	 * @param array $terms Terms set.
+	 * @param array<WP_Term> $terms Terms set.
 	 *
 	 * @return int The deepest term ID.
 	 */

@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use Closure;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 
 /**
@@ -26,6 +27,13 @@ class Cleanup_Integration implements Integration_Interface {
 	public const START_HOOK = 'wpseo_start_cleanup_indexables';
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * The cleanup repository.
 	 *
 	 * @var Indexable_Cleanup_Repository
@@ -36,9 +44,14 @@ class Cleanup_Integration implements Integration_Interface {
 	 * The constructor.
 	 *
 	 * @param Indexable_Cleanup_Repository $cleanup_repository The cleanup repository.
+	 * @param Indexable_Helper             $indexable_helper   The indexable helper.
 	 */
-	public function __construct( Indexable_Cleanup_Repository $cleanup_repository ) {
+	public function __construct(
+		Indexable_Cleanup_Repository $cleanup_repository,
+		Indexable_Helper $indexable_helper
+	) {
 		$this->cleanup_repository = $cleanup_repository;
+		$this->indexable_helper   = $indexable_helper;
 	}
 
 	/**
@@ -57,7 +70,7 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array The array of conditionals.
+	 * @return array<string> The array of conditionals.
 	 */
 	public static function get_conditionals() {
 		return [];
@@ -70,6 +83,11 @@ class Cleanup_Integration implements Integration_Interface {
 	 */
 	public function run_cleanup() {
 		$this->reset_cleanup();
+
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			\wp_unschedule_hook( self::START_HOOK );
+			return;
+		}
 
 		$cleanups = $this->get_cleanup_tasks();
 		$limit    = $this->get_limit();
@@ -243,14 +261,15 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * Starts the cleanup cron job.
 	 *
-	 * @param string $task_name The task name of the next cleanup task to run.
+	 * @param string $task_name     The task name of the next cleanup task to run.
+	 * @param int    $schedule_time The time in seconds to wait before running the first cron job. Default is 1 hour.
 	 *
 	 * @return void
 	 */
-	public function start_cron_job( $task_name ) {
+	public function start_cron_job( $task_name, $schedule_time = 3600 ) {
 		\update_option( self::CURRENT_TASK_OPTION, $task_name );
 		\wp_schedule_event(
-			( \time() + \HOUR_IN_SECONDS ),
+			( \time() + $schedule_time ),
 			'hourly',
 			self::CRON_HOOK
 		);
@@ -262,6 +281,12 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function run_cleanup_cron() {
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			$this->reset_cleanup();
+
+			return;
+		}
+
 		$current_task_name = \get_option( self::CURRENT_TASK_OPTION );
 
 		if ( $current_task_name === false ) {

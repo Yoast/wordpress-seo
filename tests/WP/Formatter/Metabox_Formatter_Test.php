@@ -33,8 +33,6 @@ final class Metabox_Formatter_Test extends TestCase {
 
 		$result = $class_instance->get_values();
 
-		$this->assertEquals( 'Readability', $result['contentTab'] );
-		$this->assertTrue( \array_key_exists( 'contentLocale', $result ) );
 		$this->assertTrue( \array_key_exists( 'translations', $result ) );
 		$this->assertTrue( \is_array( $result['translations'] ) );
 	}

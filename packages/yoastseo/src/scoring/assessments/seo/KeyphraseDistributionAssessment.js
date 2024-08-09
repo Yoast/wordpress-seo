@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { merge } from "lodash-es";
+import { merge } from "lodash";
 
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
@@ -73,7 +73,9 @@ class KeyphraseDistributionAssessment extends Assessment {
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 		assessmentResult.setHasMarks( calculatedResult.hasMarks );
-
+		if ( calculatedResult.score < 9 ) {
+			assessmentResult.setHasAIFixes( true );
+		}
 		return assessmentResult;
 	}
 

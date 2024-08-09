@@ -79,7 +79,7 @@ final class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder
 			->with( $author_indexable->object_id, $author_indexable )
 			->andReturn( $author_indexable );
 
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $author_indexable );
 
 		$this->instance->exposed_maybe_build_author_indexable( $author_id );
 	}
@@ -122,7 +122,7 @@ final class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder
 			->with( $author_indexable->object_id, $author_indexable )
 			->andReturn( $author_indexable );
 
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $author_indexable );
 
 		$this->instance->exposed_maybe_build_author_indexable( $author_id );
 	}

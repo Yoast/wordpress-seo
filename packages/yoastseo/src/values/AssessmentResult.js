@@ -1,4 +1,4 @@
-import { isArray, isNumber, isUndefined } from "lodash-es";
+import { isArray, isNumber, isUndefined } from "lodash";
 
 import Mark from "./Mark";
 
@@ -21,6 +21,7 @@ var emptyMarker = function() {
 var AssessmentResult = function( values ) {
 	this._hasScore = false;
 	this._identifier = "";
+	this._hasAIFixes = false;
 	this._hasMarks = false;
 	this._hasJumps = false;
 	this._hasEditFieldName = false;
@@ -57,6 +58,10 @@ var AssessmentResult = function( values ) {
 
 	if ( ! isUndefined( values.editFieldName ) ) {
 		this.setEditFieldName( values.editFieldName );
+	}
+
+	if ( ! isUndefined( values._hasAIFixes ) ) {
+		this.setHasAIFixes( values._hasAIFixes );
 	}
 };
 
@@ -273,6 +278,25 @@ AssessmentResult.prototype.setEditFieldName = function( editFieldName ) {
 };
 
 /**
+ * Sets the value of _hasAIFixes to determine if the result has AI fixes.
+ *
+ * @param {boolean} hasAIFixes Whether this result has AI fixes.
+ * @returns {void}
+ */
+AssessmentResult.prototype.setHasAIFixes = function( hasAIFixes ) {
+	this._hasAIFixes = hasAIFixes;
+};
+
+/**
+ * Returns the value of _hasAIFixes to determine if the result has AI fixes.
+ *
+ * @returns {bool} Whether this result has AI fixes.
+ */
+AssessmentResult.prototype.hasAIFixes = function() {
+	return this._hasAIFixes;
+};
+
+/**
  * Serializes the AssessmentResult instance to an object.
  *
  * @returns {Object} The serialized AssessmentResult.
@@ -286,6 +310,7 @@ AssessmentResult.prototype.serialize = function() {
 		marks: this.marks.map( mark => mark.serialize() ),
 		_hasBetaBadge: this._hasBetaBadge,
 		_hasJumps: this._hasJumps,
+		_hasAIFixes: this._hasAIFixes,
 		editFieldName: this.editFieldName,
 	};
 };
@@ -304,6 +329,7 @@ AssessmentResult.parse = function( serialized ) {
 		marks: serialized.marks.map( mark => Mark.parse( mark ) ),
 		_hasBetaBadge: serialized._hasBetaBadge,
 		_hasJumps: serialized._hasJumps,
+		_hasAIFixes: serialized._hasAIFixes,
 		editFieldName: serialized.editFieldName,
 	} );
 	result.setIdentifier( serialized.identifier );

@@ -119,7 +119,12 @@ final class Image_Presenter_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_filter() {
-		$image = [ 'url' => 'https://example.com/image.jpg' ];
+		$image = [
+			'url'    => 'https://example.com/image.jpg',
+			'width'  => '100',
+			'height' => '150',
+			'type'   => 'jpg',
+		];
 
 		$this->presentation->open_graph_images = [ $image ];
 
@@ -128,7 +133,32 @@ final class Image_Presenter_Test extends TestCase {
 			->with( 'https://example.com/image.jpg', $this->presentation )
 			->andReturn( 'https://example.com/filtered_image.jpg' );
 
-		$this->assertEquals( [ [ 'url' => 'https://example.com/filtered_image.jpg' ] ], $this->instance->get() );
+		Monkey\Filters\expectApplied( 'wpseo_opengraph_image_width' )
+			->once()
+			->with( '100', $this->presentation )
+			->andReturn( '110' );
+
+		Monkey\Filters\expectApplied( 'wpseo_opengraph_image_height' )
+			->once()
+			->with( '150', $this->presentation )
+			->andReturn( '160' );
+
+		Monkey\Filters\expectApplied( 'wpseo_opengraph_image_type' )
+			->once()
+			->with( 'jpg', $this->presentation )
+			->andReturn( 'png' );
+
+		$this->assertEquals(
+			[
+				[
+					'url'    => 'https://example.com/filtered_image.jpg',
+					'width'  => '110',
+					'height' => '160',
+					'type'   => 'png',
+				],
+			],
+			$this->instance->get()
+		);
 	}
 
 	/**

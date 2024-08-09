@@ -1,4 +1,4 @@
-import { take } from "lodash-es";
+import { take } from "lodash";
 import countWords from "../helpers/word/countWords";
 import {
 	collapseProminentWordsOnStem,

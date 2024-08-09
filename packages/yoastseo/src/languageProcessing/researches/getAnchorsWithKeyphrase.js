@@ -1,4 +1,4 @@
-import { flatten, uniq } from "lodash-es";
+import { flatten, uniq } from "lodash";
 import filterWordsFromArray from "../helpers/word/filterWordsFromArray";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
 import getWords from "../helpers/word/getWords";

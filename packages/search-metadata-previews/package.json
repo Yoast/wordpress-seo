@@ -1,8 +1,12 @@
 {
   "name": "@yoast/search-metadata-previews",
-  "version": "2.24.1",
+  "version": "3.0.0-alpha.0",
   "private": false,
   "main": "build/index.js",
+  "files": [
+    "build",
+    "!*.map"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
@@ -13,18 +17,18 @@
   "scripts": {
     "build": "yarn clean && yarn build:js",
     "build:js": "babel src --out-dir build",
+    "watch": "yarn build:js --watch",
     "clean": "rm -rf build",
     "test": "jest",
-    "lint": "eslint . --max-warnings=7",
-    "prepublishOnly": "yarn build"
+    "lint": "eslint . --max-warnings=7"
   },
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^2.19.0",
-    "@yoast/helpers": "^0.16.0",
-    "@yoast/replacement-variable-editor": "^1.17.0",
-    "@yoast/style-guide": "^0.13.0",
+    "@yoast/components": "^3.0.0-alpha.1",
+    "@yoast/helpers": "^0.17.0-alpha.0",
+    "@yoast/replacement-variable-editor": "^2.0.0-alpha.0",
+    "@yoast/style-guide": "^0.14.0-alpha.0",
     "interpolate-components": "^1.1.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
@@ -32,7 +36,7 @@
     "react-dom": "^18.2.0",
     "react-transition-group": "^2.7.1",
     "styled-components": "^5.3.6",
-    "yoastseo": "^1.91.2"
+    "yoastseo": "^2.0.0-alpha.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",
@@ -45,12 +49,16 @@
     "@yoast/browserslist-config": "^1.2.3",
     "babel-plugin-styled-components": "^2.0.6",
     "browserslist": "^4.7.3",
-    "eslint": "^7.32.0",
+    "eslint": "^8.57.0",
     "eslint-config-yoast": "^6.0.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.34.1",
     "jest-styled-components": "^7.0.3"
+  },
+  "peerDependencies": {
+    "@draft-js-plugins/mention": "^5.0.0",
+    "draft-js": "^0.11.7"
   },
   "publishConfig": {
     "access": "public"

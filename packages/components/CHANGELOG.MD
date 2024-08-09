@@ -5,10 +5,16 @@ All notable changes to this project will be documented in this file. Releases wi
 We follow [Semantic Versioning](http://semver.org/).
 
 ## Future Release
+### Enhancements
+* Adds component `SparklesIcon`. [#21449](https://github.com/Yoast/wordpress-seo/pull/21449)
+* Adds component `IconButtonBase`. [#21348](https://github.com/Yoast/wordpress-seo/pull/21348)
+* Adds component `IconAIFixesButton`. [#21348](https://github.com/Yoast/wordpress-seo/pull/21348)
+
 ### Other
 * Adds a way to change the link in the `WordOccurenceInsights` component.
 
 ### Non user facing
+* Now published as a transpiled package.
 * Changes the `imageAltText` prop from the `ImageSelect` component to no longer be required.
 
 

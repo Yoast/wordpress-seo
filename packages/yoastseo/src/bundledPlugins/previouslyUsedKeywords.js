@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { isUndefined } from "lodash-es";
+import { isUndefined } from "lodash";
 
 import MissingArgument from "../errors/missingArgument";
 import { createAnchorOpeningTag } from "../helpers/shortlinker";
@@ -90,7 +90,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 			text: sprintf(
 				/* translators:
 				%1$s expands to a link to an article on yoast.com,
-				%2$s expands to an anchor tag. */
+				%2$s expands to an anchor end tag. */
 				__( "%1$sPreviously used keyphrase%2$s: You've not used this keyphrase before, very good.", "wordpress-seo" ),
 				this.urlTitle,
 				"</a>"
@@ -101,17 +101,16 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 	if ( count === 1 ) {
 		url = `<a href='${this.postUrl.replace( "{id}", id )}' target='_blank'>`;
 		return {
-			/* translators: %1$s and %2$s expand to an admin link where the keyword is already used. %3$s and %4$s
-			expand to links on yoast.com, %4$s expands to the anchor end tag. */
+			/* translators: %1$s expands to an admin link where the keyphrase is already used,
+			 %2$s expands to the anchor end tag, %3$s and %4$s expand to links on yoast.com. */
 			text: sprintf( __(
-				"%3$sPreviously used keyphrase%5$s: You've used this keyphrase %1$sonce before%2$s. %4$sDo not use your keyphrase more than once%5$s.",
+				"%3$sPreviously used keyphrase%2$s: You've used this keyphrase %1$sonce before%2$s. %4$sDo not use your keyphrase more than once%2$s.",
 				"wordpress-seo"
 			),
 			url,
 			"</a>",
 			this.urlTitle,
-			this.urlCallToAction,
-			"</a>"
+			this.urlCallToAction
 			),
 			score: 6,
 		};
@@ -125,19 +124,16 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 		}
 
 		return {
-			/* translators: %1$s and $3$s expand to the admin search page for the keyword, %2$d expands to the number
-			of times this keyword has been used before, %4$s and %5$s expand to links to yoast.com, %6$s expands to
-			the anchor end tag */
+			/* translators: %1$s expands to a link to the admin search page for the keyphrase,
+			 %2$s expands to the anchor end tag, %3$s and %4$s expand to links to yoast.com */
 			text: sprintf( __(
-				"%4$sPreviously used keyphrase%6$s: You've used this keyphrase %1$s multiple times before%3$s. %5$sDo not use your keyphrase more than once%6$s.",
+				"%3$sPreviously used keyphrase%2$s: You've used this keyphrase %1$smultiple times before%2$s. %4$sDo not use your keyphrase more than once%2$s.",
 				"wordpress-seo"
 			),
 			url,
-			count,
 			"</a>",
 			this.urlTitle,
-			this.urlCallToAction,
-			"</a>"
+			this.urlCallToAction
 			),
 			score: 1,
 		};
@@ -158,7 +154,7 @@ PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper
 
 	if ( ! isUndefined( this.usedKeywords[ keyword ] ) && this.usedKeywords[ keyword ].length > 0 ) {
 		count = this.usedKeywords[ keyword ].length;
-		if ( this.usedKeywordsPostTypes ) {
+		if ( keyword in this.usedKeywordsPostTypes ) {
 			postTypeToDisplay = this.usedKeywordsPostTypes[ keyword ][ 0 ];
 		}
 		id = this.usedKeywords[ keyword ][ 0 ];

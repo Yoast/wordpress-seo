@@ -1,4 +1,4 @@
-import { isFunction, isObject } from "lodash-es";
+import { isFunction, isObject } from "lodash";
 import { getLogger } from "loglevel";
 import wrapTryCatchAroundAction from "../../src/worker/wrapTryCatchAroundAction";
 

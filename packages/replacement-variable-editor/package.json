@@ -1,8 +1,12 @@
 {
   "name": "@yoast/replacement-variable-editor",
-  "version": "1.17.0",
+  "version": "2.0.0-alpha.0",
   "private": false,
   "main": "build/index.js",
+  "files": [
+    "build",
+    "!*.map"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
@@ -15,8 +19,7 @@
     "build:js": "babel src --out-dir build",
     "clean": "rm -rf build",
     "test": "jest",
-    "lint": "eslint . --max-warnings=0",
-    "prepublishOnly": "yarn build"
+    "lint": "eslint . --max-warnings=0"
   },
   "publishConfig": {
     "access": "public"
@@ -27,9 +30,9 @@
     "@wordpress/components": "^20.0.0",
     "@wordpress/hooks": "^2.12.3",
     "@wordpress/i18n": "^1.2.3",
-    "@yoast/components": "^2.19.0",
-    "@yoast/helpers": "^0.16.0",
-    "@yoast/style-guide": "^0.13.0",
+    "@yoast/components": "^3.0.0-alpha.1",
+    "@yoast/helpers": "^0.17.0-alpha.0",
+    "@yoast/style-guide": "^0.14.0-alpha.0",
     "classnames": "^2.3.2",
     "draft-js-single-line-plugin": "^2.0.5",
     "lodash": "^4.17.11",
@@ -48,11 +51,11 @@
     "@testing-library/react-hooks": "^8.0.1",
     "@yoast/browserslist-config": "^1.2.3",
     "babel-plugin-styled-components": "^2.0.6",
-    "eslint": "^7.32.0",
+    "eslint": "^8.57.0",
     "eslint-config-yoast": "^6.0.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.34.1",
     "jest-styled-components": "^7.0.3",
     "react-test-renderer": "^18.2.0"
   },

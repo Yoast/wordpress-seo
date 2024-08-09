@@ -2,7 +2,7 @@
 // External dependencies.
 import { enableFeatures } from "@yoast/feature-flag";
 import { __, setLocaleData, sprintf } from "@wordpress/i18n";
-import { forEach, has, includes, isEmpty, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash-es";
+import { forEach, has, includes, isEmpty, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash";
 import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.

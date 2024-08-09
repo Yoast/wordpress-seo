@@ -19,8 +19,6 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases";
-import { isWordProofIntegrationActive } from "../../helpers/wordproof";
-import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../modals/KeywordUpsell";
 import { BlackFridayProductEditorChecklistPromotion } from "../BlackFridayProductEditorChecklistPromotion";
@@ -35,7 +33,7 @@ const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( B
 /**
  * Creates the Metabox component.
  *
- * @param {Object} settings 				The feature toggles.
+ * @param {Object} settings The feature toggles.
  *
  * @returns {wp.Element} The Metabox component.
  */
@@ -47,7 +45,6 @@ export default function MetaboxFill( { settings } ) {
 
 	return (
 		<>
-			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
 			<Fill name="YoastMetabox">
 				<SidebarItem
 					key="warning"
