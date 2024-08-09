@@ -7,6 +7,8 @@
  * @uses object $user
  */
 
+_deprecated_file( __FILE__, 'Yoast SEO 9.5' );
+
 /* translators: %1$s expands to Yoast SEO */
 $wpseo_up_settings_header    = sprintf( __( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
 $wpseo_no_index_author_label = sprintf(

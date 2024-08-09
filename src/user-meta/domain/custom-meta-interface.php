@@ -27,4 +27,13 @@ interface Custom_Meta_Interface {
 	 * @return bool
 	 */
 	public function is_empty_allowed(): bool;
+
+	/**
+	 * Renders the custom meta's field in the user form.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return void
+	 */
+	public function render_field( $user_id ): void;
 }

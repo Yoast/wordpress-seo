@@ -48,6 +48,9 @@ class Custom_Meta_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks(): void {
+		\add_action( 'show_user_profile', [ $this, 'user_profile' ] );
+		\add_action( 'edit_user_profile', [ $this, 'user_profile' ] );
+
 		\add_action( 'personal_options_update', [ $this, 'process_user_option_update' ] );
 		\add_action( 'edit_user_profile_update', [ $this, 'process_user_option_update' ] );
 	}
@@ -81,5 +84,31 @@ class Custom_Meta_Integration implements Integration_Interface {
 
 			\delete_user_meta( $user_id, $meta->get_key() );
 		}
+	}
+
+	/**
+	 * Adds the inputs needed for SEO values to the User Profile page.
+	 *
+	 * @param WP_User $user User instance to output for.
+	 *
+	 * @return void
+	 */
+	public function user_profile( $user ) {
+		\wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
+
+		echo '<div class="yoast yoast-settings">';
+		/* translators: %1$s expands to Yoast SEO */
+		echo '<h2 id="wordpress-seo">' . \esc_html( \sprintf( \__( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' ) ) . '</h2>';
+
+		foreach ( $this->custom_meta_collector->get_custom_meta() as $meta ) {
+			if ( ! $meta->is_setting_enabled() ) {
+				continue;
+			}
+
+			$meta->render_field( $user->ID );
+		}
+
+		\do_action( 'wpseo_render_user_profile', $user );
+		echo '</div>';
 	}
 }

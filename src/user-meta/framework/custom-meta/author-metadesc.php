@@ -62,4 +62,25 @@ class Author_Metadesc implements Custom_Meta_Interface {
 	public function is_empty_allowed(): bool {
 		return true;
 	}
+
+	/**
+	 * Renders the custom meta's field in the user form.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return void
+	 */
+	public function render_field( $user_id ): void {
+		echo '<label for="' . \esc_attr( $this->get_field_id() ) . '">'
+			. \esc_html__( 'Meta description to use for Author page', 'wordpress-seo' )
+		. '</label>';
+		echo '<textarea
+			rows="5"
+			cols="30"
+			id="' . \esc_attr( $this->get_field_id() ) . '"
+			class="yoast-settings__textarea yoast-settings__textarea--medium"
+			name="' . \esc_attr( $this->get_field_id() ) . '">'
+				. \esc_textarea( \get_the_author_meta( 'wpseo_metadesc', $user_id ) )
+		. '</textarea><br>';
+	}
 }

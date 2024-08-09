@@ -62,4 +62,25 @@ class Noindex_Author implements Custom_Meta_Interface {
 	public function is_empty_allowed(): bool {
 		return false;
 	}
+
+	/**
+	 * Renders the custom meta's field in the user form.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return void
+	 */
+	public function render_field( $user_id ): void {
+		echo '<input
+			class="yoast-settings__checkbox double"
+			type="checkbox"
+			id="' . \esc_attr( $this->get_field_id() ) . '"
+			name="' . \esc_attr( $this->get_field_id() ) . '"
+			value="on" '
+			. \checked( \get_the_author_meta( 'wpseo_noindex_author', $user_id ), 'on', false )
+		. '/>';
+		echo '<label class="yoast-label-strong" for="' . \esc_attr( $this->get_field_id() ) . '">'
+			. \esc_html__( 'Do not allow search engines to show this author\'s archives in search results', 'wordpress-seo' )
+		. '</label><br>';
+	}
 }

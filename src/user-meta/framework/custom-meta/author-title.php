@@ -62,4 +62,23 @@ class Author_Title implements Custom_Meta_Interface {
 	public function is_empty_allowed(): bool {
 		return true;
 	}
+
+	/**
+	 * Renders the custom meta's field in the user form.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return void
+	 */
+	public function render_field( $user_id ): void {
+		echo '<label for="' . \esc_attr( $this->get_field_id() ) . '">'
+			. \esc_html__( 'Title to use for Author page', 'wordpress-seo' )
+		. '</label>';
+		echo '<input
+			class="yoast-settings__text regular-text"
+			type="text" id="' . \esc_attr( $this->get_field_id() ) . '"
+			name="' . \esc_attr( $this->get_field_id() ) . '"
+			value="' . \esc_attr( \get_the_author_meta( 'wpseo_title', $user_id ) )
+		. '"/><br>';
+	}
 }
