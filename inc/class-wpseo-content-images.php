@@ -30,17 +30,91 @@ class WPSEO_Content_Images {
 	 * @return array An array of image URLs.
 	 */
 	public function get_images_from_content( $content ) {
+
+
 		if ( ! is_string( $content ) ) {
 			return [];
 		}
 
+		$content_images2 = $this->gather_images_wp( $content);
 		$content_images = $this->get_img_tags_from_content( $content );
-		$images         = array_map( [ $this, 'get_img_tag_source' ], $content_images );
-		$images         = array_filter( $images );
-		$images         = array_unique( $images );
-		$images         = array_values( $images ); // Reset the array keys.
+
+		$images = array_map( [ $this, 'get_img_tag_source' ], $content_images );
+		$images = array_filter( $images );
+		$images = array_unique( $images );
+		$images = array_values( $images ); // Reset the array keys.
+		var_dump( $content_images2 );
+		var_dump( $images );
+		die;
+		return $images;
+	}
+	/**
+	 * Gathers all images from content with WP's WP_HTML_Tag_Processor() and returns them along with their IDs, if
+	 * possible.
+	 *
+	 * @param string $content The content.
+	 *
+	 * @return int[] An associated array of image IDs, keyed by their URL.
+	 */
+	protected function gather_images_wp( $content ) {
+		$processor = new WP_HTML_Tag_Processor( $content );
+		$images    = [];
+
+		$query = [
+			'tag_name' => 'img',
+		];
+
+		/**
+		 * Filter 'wpseo_image_attribute_containing_id' - Allows filtering what attribute will be used to extract image IDs from.
+		 *
+		 * Defaults to "class", which is where WP natively stores the image IDs, in a `wp-image-<ID>` format.
+		 *
+		 * @api string The attribute to be used to extract image IDs from.
+		 */
+		$attribute = \apply_filters( 'wpseo_image_attribute_containing_id', 'class' );
+
+		while ( $processor->next_tag( $query ) ) {
+			$src     = \htmlentities( $processor->get_attribute( 'src' ), ( \ENT_QUOTES | \ENT_SUBSTITUTE | \ENT_HTML401 ), \get_bloginfo( 'charset' ) );
+			$classes = $processor->get_attribute( $attribute );
+			$id      = $this->extract_id_of_classes( $classes );
+
+			$images[ $src ] = $id;
+		}
 
 		return $images;
+	}
+	/**
+	 * Extracts image ID out of the image's classes.
+	 *
+	 * @param string $classes The classes assigned to the image.
+	 *
+	 * @return int The ID that's extracted from the classes.
+	 */
+	protected function extract_id_of_classes( $classes ) {
+		if ( ! $classes ) {
+			return 0;
+		}
+
+		/**
+		 * Filter 'wpseo_extract_id_pattern' - Allows filtering the regex patern to be used to extract image IDs from class/attribute names.
+		 *
+		 * Defaults to the pattern that extracts image IDs from core's `wp-image-<ID>` native format in image classes.
+		 *
+		 * @api string The regex pattern to be used to extract image IDs from class names. Empty string if the whole class/attribute should be returned.
+		 */
+		$pattern = \apply_filters( 'wpseo_extract_id_pattern', '/(?<!\S)wp-image-(\d+)(?!\S)/i' );
+
+		if ( $pattern === '' ) {
+			return (int) $classes;
+		}
+
+		$matches = [];
+
+		if ( \preg_match( $pattern, $classes, $matches ) ) {
+			return (int) $matches[1];
+		}
+
+		return 0;
 	}
 
 	/**

@@ -378,6 +378,8 @@ class Indexable_Post_Builder {
 		}
 
 		$content_image = $this->image->get_post_content_image( $indexable->object_id );
+		\var_dump( $content_image );
+		die;
 		if ( $content_image ) {
 			return [
 				'image'  => $content_image,
