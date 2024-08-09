@@ -100,7 +100,7 @@ class Custom_Meta_Integration implements Integration_Interface {
 		/* translators: %1$s expands to Yoast SEO */
 		echo '<h2 id="wordpress-seo">' . \esc_html( \sprintf( \__( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' ) ) . '</h2>';
 
-		foreach ( $this->custom_meta_collector->get_custom_meta() as $meta ) {
+		foreach ( $this->custom_meta_collector->get_sorted_custom_meta() as $meta ) {
 			if ( ! $meta->is_setting_enabled() ) {
 				continue;
 			}

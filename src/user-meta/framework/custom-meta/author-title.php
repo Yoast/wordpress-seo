@@ -28,6 +28,15 @@ class Author_Title implements Custom_Meta_Interface {
 	}
 
 	/**
+	 * Returns the position where the custom meta's form field should be rendered at.
+	 *
+	 * @return int The position where the custom meta's form field should be rendered at.
+	 */
+	public function get_render_position(): int {
+		return 1;
+	}
+
+	/**
 	 * Returns the db key of the Author_Title custom meta.
 	 *
 	 * @return string The db key of the Author_Title custom meta.
