@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Can_Edit_Users_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Edit_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\User_Meta\Application\Custom_Meta_Collector;
 use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Author_Metadesc;
@@ -107,15 +108,19 @@ final class Custom_Meta_Integration_Test extends TestCase {
 	 * @dataProvider provider_process_user_option_update
 	 * @covers ::process_user_option_update
 	 *
-	 * @param array<Custom_Meta_Interface> $custom_meta              The custom meta.
-	 * @param string|null                  $metadesc_value           The value for the metadesc.
-	 * @param string|null                  $noindex_value            The value for the noindex.
-	 * @param int                          $times_update_custom_meta Times that we update the custom meta.
-	 * @param int                          $times_delete_custom_meta Times that we delete the custom meta.
+	 * @param string|null $metadesc_value           The value for the metadesc.
+	 * @param string|null $noindex_value            The value for the noindex.
+	 * @param int         $times_update_custom_meta Times that we update the custom meta.
+	 * @param int         $times_delete_custom_meta Times that we delete the custom meta.
 	 *
 	 * @return void
 	 */
-	public function test_process_user_option_update( $custom_meta, $metadesc_value, $noindex_value, $times_update_custom_meta, $times_delete_custom_meta ) {
+	public function test_process_user_option_update( $metadesc_value, $noindex_value, $times_update_custom_meta, $times_delete_custom_meta ) {
+		$option_helper = Mockery::mock( Options_Helper::class );
+		$custom_meta   = [
+			new Author_Metadesc( $option_helper ),
+			new Noindex_Author( $option_helper ),
+		];
 
 		Monkey\Functions\expect( 'update_user_meta' )
 			->once();
@@ -128,6 +133,12 @@ final class Custom_Meta_Integration_Test extends TestCase {
 			->expects( 'get_custom_meta' )
 			->once()
 			->andReturn( $custom_meta );
+
+		$option_helper
+			->expects( 'get' )
+			->with( 'disable-author' )
+			->twice()
+			->andReturn( false );
 
 		$_POST['wpseo_author_metadesc'] = $metadesc_value;
 		$_POST['wpseo_noindex_author']  = $noindex_value;
@@ -148,10 +159,6 @@ final class Custom_Meta_Integration_Test extends TestCase {
 	 */
 	public static function provider_process_user_option_update() {
 		yield 'User gives non-empty values for all custom meta' => [
-			'custom_meta'              => [
-				new Author_Metadesc(),
-				new Noindex_Author(),
-			],
 			'metadesc_value'           => 'no',
 			'noindex_value'            => 'no',
 			'times_update_custom_meta' => 2,
@@ -159,10 +166,6 @@ final class Custom_Meta_Integration_Test extends TestCase {
 		];
 
 		yield 'User gives non-empty values for all custom meta that need value but empty value for meta that can be empty' => [
-			'custom_meta'              => [
-				new Author_Metadesc(),
-				new Noindex_Author(),
-			],
 			'metadesc_value'           => '',
 			'noindex_value'            => 'no',
 			'times_update_custom_meta' => 2,
@@ -170,10 +173,6 @@ final class Custom_Meta_Integration_Test extends TestCase {
 		];
 
 		yield 'User gives empty values for all custom meta' => [
-			'custom_meta'              => [
-				new Author_Metadesc(),
-				new Noindex_Author(),
-			],
 			'metadesc_value'           => '',
 			'noindex_value'            => '',
 			'times_update_custom_meta' => 1,
@@ -181,25 +180,17 @@ final class Custom_Meta_Integration_Test extends TestCase {
 		];
 
 		yield 'User gives no value for a custom meta that can be empty, while giving a non-empty value for a custom meta that can not be empty' => [
-			'custom_meta'              => [
-				new Author_Metadesc(),
-				new Noindex_Author(),
-			],
 			'metadesc_value'           => null,
 			'noindex_value'            => 'no',
-			'times_update_custom_meta' => 1,
+			'times_update_custom_meta' => 2,
 			'times_delete_custom_meta' => 0,
 		];
 
 		yield 'User gives no value for a custom meta that can not be empty, while giving a non-empty value for a custom meta that can be empty' => [
-			'custom_meta'              => [
-				new Author_Metadesc(),
-				new Noindex_Author(),
-			],
 			'metadesc_value'           => 'no',
 			'noindex_value'            => null,
 			'times_update_custom_meta' => 1,
-			'times_delete_custom_meta' => 0,
+			'times_delete_custom_meta' => 1,
 		];
 	}
 }
