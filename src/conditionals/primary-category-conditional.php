@@ -40,6 +40,7 @@ class Primary_Category_Conditional implements Conditional {
 		}
 
 		$current_page = $this->current_page->get_current_admin_page();
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
 		if ( $current_page === 'admin-ajax.php' && isset( $_POST['action'] ) && $_POST['action'] === 'wp-link-ajax' ) {
 			return true;
 		}
