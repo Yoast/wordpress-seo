@@ -929,3 +929,11 @@ body.folded .wpseo-admin-submit-fixed {
 	line-height: normal;
 }
 /*# sourceMappingURL=admin-global.css.map */
+
+.interface-complementary-area__fill:has(.yoast-seo-sidebar-container) {
+	width:480px !important;
+
+	.interface-complementary-area {
+		width: 100% !important;
+	}
+}

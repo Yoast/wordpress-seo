@@ -151,6 +151,7 @@ function registerFills( store ) {
 			<PluginSidebar
 				name="seo-sidebar"
 				title={ pluginTitle }
+				className="yoast-seo-sidebar-container"
 			>
 				<Root context={ blockSidebarContext }>
 					<SidebarSlot store={ store } theme={ theme } />
