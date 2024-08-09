@@ -8,6 +8,13 @@ namespace Yoast\WP\SEO\User_Meta\Domain;
 interface Custom_Meta_Interface {
 
 	/**
+	 * Returns the position where the custom meta's form field should be rendered at.
+	 *
+	 * @return int.
+	 */
+	public function get_render_position(): int;
+
+	/**
 	 * Returns the db key of the custom meta.
 	 *
 	 * @return string
@@ -27,4 +34,13 @@ interface Custom_Meta_Interface {
 	 * @return bool
 	 */
 	public function is_empty_allowed(): bool;
+
+	/**
+	 * Renders the custom meta's field in the user form.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return void
+	 */
+	public function render_field( $user_id ): void;
 }

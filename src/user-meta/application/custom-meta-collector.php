@@ -37,6 +37,23 @@ class Custom_Meta_Collector {
 	}
 
 	/**
+	 * Returns all the custom meta, sorted by rendering position.
+	 *
+	 * @return array<Custom_Meta_Interface> All the custom meta, sorted by rendering position.
+	 */
+	public function get_sorted_custom_meta(): array {
+		$custom_meta = $this->get_custom_meta();
+		$sorted_meta = [];
+
+		foreach ( $custom_meta as $meta ) {
+			$sorted_meta[ ( $meta->get_render_position() - 1 ) ] = $meta;
+		}
+
+		\ksort( $sorted_meta );
+		return $sorted_meta;
+	}
+
+	/**
 	 * Returns the custom meta that can't be empty.
 	 *
 	 * @return array<string> The custom meta that can't be empty.

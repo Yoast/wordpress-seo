@@ -2,6 +2,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\User_Meta\Framework\Custom_Meta;
 
+use Mockery;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Noindex_Author;
 
@@ -22,13 +24,22 @@ final class Noindex_Author_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * Set up the test.
 	 *
 	 * @return void
 	 */
 	protected function set_up(): void {
 		parent::set_up();
-		$this->instance = new Noindex_Author();
+
+		$this->options_helper = Mockery::mock( Options_Helper::class );
+		$this->instance       = new Noindex_Author( $this->options_helper );
 	}
 
 	/**
