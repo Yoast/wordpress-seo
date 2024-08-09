@@ -39,12 +39,17 @@ class Primary_Category_Conditional implements Conditional {
 			return true;
 		}
 
+		$current_page = $this->current_page->get_current_admin_page();
+		if ( $current_page === 'admin-ajax.php' && isset( $_POST['action'] ) && $_POST['action'] === 'wp-link-ajax' ) {
+			return true;
+		}
+
 		/**
 		 * Filter: Adds the possibility to use primary category at additional admin pages.
 		 *
 		 * @param array $admin_pages List of additional admin pages.
 		 */
 		$additional_pages = \apply_filters( 'wpseo_primary_category_admin_pages', [] );
-		return \in_array( $this->current_page->get_current_admin_page(), \array_merge( [ 'edit.php', 'post.php', 'post-new.php', 'admin-ajax.php' ], $additional_pages ), true );
+		return \in_array( $current_page, \array_merge( [ 'edit.php', 'post.php', 'post-new.php' ], $additional_pages ), true );
 	}
 }
