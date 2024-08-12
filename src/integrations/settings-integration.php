@@ -60,7 +60,6 @@ class Settings_Integration implements Integration_Interface {
 			'myyoast-oauth',
 			'semrush_tokens',
 			'custom_taxonomy_slugs',
-			'zapier_subscription',
 			'import_cursors',
 			'workouts_data',
 			'configuration_finished_steps',
