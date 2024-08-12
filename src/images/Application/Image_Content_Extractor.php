@@ -23,7 +23,6 @@ class Image_Content_Extractor {
 		 * @since 21.1
 		 */
 		$should_not_parse_content = \apply_filters( 'wpseo_force_creating_and_using_attachment_indexables', false );
-
 		/**
 		 * Filter 'wpseo_force_skip_image_content_parsing' - Filters if we should force skip scanning the content to parse images.
 		 * This filter can be used if the regex gives a faster result than scanning the code.
@@ -40,6 +39,7 @@ class Image_Content_Extractor {
 		if ( ! $should_not_parse_content && \class_exists( DOMDocument::class ) ) {
 			return $this->gather_images_DOMDocument( $content );
 		}
+
 
 		if ( \strpos( $content, 'src' ) === false ) {
 			// Nothing to do.
@@ -82,7 +82,6 @@ class Image_Content_Extractor {
 		 * @api string The attribute to be used to extract image IDs from.
 		 */
 		$attribute = \apply_filters( 'wpseo_image_attribute_containing_id', 'class' );
-
 		while ( $processor->next_tag( $query ) ) {
 			$src     = \htmlentities( $processor->get_attribute( 'src' ), ( \ENT_QUOTES | \ENT_SUBSTITUTE | \ENT_HTML401 ), \get_bloginfo( 'charset' ) );
 			$classes = $processor->get_attribute( $attribute );

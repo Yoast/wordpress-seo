@@ -377,11 +377,19 @@ class Indexable_Post_Builder {
 			];
 		}
 
-		$content_image = $this->image->get_post_content_image( $indexable->object_id );
+		$content_image = $this->image->get_post_content_image_id( $indexable->object_id );
 
+		if ( $content_image !== "" ) {
+			return [
+				'image_id' => $content_image,
+				'source'   => 'first-content-image',
+			];
+		}
+
+		$content_image = $this->image->get_post_content_image( $indexable->object_id );
 		if ( $content_image ) {
 			return [
-				'image_id'  => $content_image,
+				'image'  => $content_image,
 				'source' => 'first-content-image',
 			];
 		}
