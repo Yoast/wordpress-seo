@@ -6,6 +6,9 @@ use Yoast\WP\SEO\Conditionals\No_Conditionals;
 
 /**
  * Class to manage the integration with Yoast Duplicate Post.
+ *
+ * @deprecated 23.3
+ * @codeCoverageIgnore
  */
 class Duplicate_Post_Integration implements Integration_Interface {
 
@@ -16,10 +19,13 @@ class Duplicate_Post_Integration implements Integration_Interface {
 	 *
 	 * This is the place to register hooks and filters.
 	 *
+	 * @deprecated 23.3
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_filter( 'duplicate_post_excludelist_filter', [ $this, 'exclude_zapier_meta' ] );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
 	}
 
 	/**
@@ -30,7 +36,8 @@ class Duplicate_Post_Integration implements Integration_Interface {
 	 * @return array The updated excludelist.
 	 */
 	public function exclude_zapier_meta( $meta_excludelist ) {
-		$meta_excludelist[] = 'zapier_trigger_sent';
-		return $meta_excludelist;
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
+
+		return [];
 	}
 }
