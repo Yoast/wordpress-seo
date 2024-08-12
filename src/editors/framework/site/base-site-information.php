@@ -70,6 +70,7 @@ abstract class Base_Site_Information {
 	 */
 	public function get_site_information(): array {
 		return [
+			'adminUrl'              => \admin_url( 'admin.php' ),
 			'linkParams'            => $this->short_link_helper->get_query_params(),
 			'pluginUrl'             => \plugins_url( '', \WPSEO_FILE ),
 			'wistiaEmbedPermission' => $this->wistia_embed_permission_repository->get_value_for_user( \get_current_user_id() ),
@@ -90,6 +91,7 @@ abstract class Base_Site_Information {
 	 */
 	public function get_legacy_site_information(): array {
 		return [
+			'adminUrl'              => \admin_url( 'admin.php' ),
 			'linkParams'            => $this->short_link_helper->get_query_params(),
 			'pluginUrl'             => \plugins_url( '', \WPSEO_FILE ),
 			'wistiaEmbedPermission' => $this->wistia_embed_permission_repository->get_value_for_user( \get_current_user_id() ),

@@ -901,11 +901,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 		];
 
-		$woocommerce_conditional           = new WooCommerce_Conditional();
-		$woocommerce_active                = $woocommerce_conditional->is_met();
-		$wpseo_plugin_availability_checker = new WPSEO_Plugin_Availability();
-		$woocommerce_seo_file              = 'wpseo-woocommerce/wpseo-woocommerce.php';
-		$woocommerce_seo_active            = $wpseo_plugin_availability_checker->is_active( $woocommerce_seo_file );
+		$woocommerce_conditional = new WooCommerce_Conditional();
+		$woocommerce_active      = $woocommerce_conditional->is_met();
+		$addon_manager           = new WPSEO_Addon_Manager();
+		$woocommerce_seo_active  = is_plugin_active( $addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) );
 
 		$script_data = [
 			// @todo replace this translation with JavaScript translations.
