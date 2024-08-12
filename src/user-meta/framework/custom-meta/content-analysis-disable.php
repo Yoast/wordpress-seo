@@ -80,7 +80,9 @@ class Content_Analysis_Disable implements Custom_Meta_Interface {
 	 * @return void
 	 */
 	public function render_field( $user_id ): void {
-		echo '<input
+		echo '
+
+		<input
 			class="yoast-settings__checkbox double"
 			type="checkbox"
 			id="' . \esc_attr( $this->get_field_id() ) . '"
@@ -89,10 +91,16 @@ class Content_Analysis_Disable implements Custom_Meta_Interface {
 			value="on" '
 			. \checked( \get_the_author_meta( 'wpseo_content_analysis_disable', $user_id ), 'on', false )
 		. '/>';
-		echo '<label class="yoast-label-strong" for="' . \esc_attr( $this->get_field_id() ) . '">'
+
+		echo '
+
+		<label class="yoast-label-strong" for="' . \esc_attr( $this->get_field_id() ) . '">'
 			. \esc_html__( 'Disable readability analysis', 'wordpress-seo' )
 		. '</label><br>';
-		echo '<p class="description" id="wpseo_content_analysis_disable_desc">'
+
+		echo '
+
+		<p class="description" id="wpseo_content_analysis_disable_desc">'
 			. \esc_html__( 'Removes the readability analysis section from the metabox and disables all readability-related suggestions.', 'wordpress-seo' )
 		. '</p>';
 	}

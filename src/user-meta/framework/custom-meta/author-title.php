@@ -80,10 +80,15 @@ class Author_Title implements Custom_Meta_Interface {
 	 * @return void
 	 */
 	public function render_field( $user_id ): void {
-		echo '<label for="' . \esc_attr( $this->get_field_id() ) . '">'
+		echo '
+
+		<label for="' . \esc_attr( $this->get_field_id() ) . '">'
 			. \esc_html__( 'Title to use for Author page', 'wordpress-seo' )
 		. '</label>';
-		echo '<input
+
+		echo '
+
+		<input
 			class="yoast-settings__text regular-text"
 			type="text" id="' . \esc_attr( $this->get_field_id() ) . '"
 			name="' . \esc_attr( $this->get_field_id() ) . '"

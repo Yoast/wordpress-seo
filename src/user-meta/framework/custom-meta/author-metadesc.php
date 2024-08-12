@@ -80,10 +80,15 @@ class Author_Metadesc implements Custom_Meta_Interface {
 	 * @return void
 	 */
 	public function render_field( $user_id ): void {
-		echo '<label for="' . \esc_attr( $this->get_field_id() ) . '">'
+		echo '
+
+		<label for="' . \esc_attr( $this->get_field_id() ) . '">'
 			. \esc_html__( 'Meta description to use for Author page', 'wordpress-seo' )
 		. '</label>';
-		echo '<textarea
+
+		echo '
+
+		<textarea
 			rows="5"
 			cols="30"
 			id="' . \esc_attr( $this->get_field_id() ) . '"
