@@ -40,8 +40,9 @@ class Image_Helper {
 	 * @var SEO_Links_Repository
 	 */
 	protected $seo_links_repository;
+
 	/**
-	 * @var \Yoast\WP\SEO\Images\Application\Image_Content_Extractor
+	 * @var Image_Content_Extractor
 	 */
 	protected $image_content_extractor;
 
@@ -437,8 +438,9 @@ class Image_Helper {
 		$content = \str_replace( ']]>', ']]&gt;', $content );
 		$images  = $this->image_content_extractor->gather_images( $content );
 
-		return array_shift( $images );
+		return \array_shift( $images );
 	}
+
 	/**
 	 * Retrieves the first usable content image for a post.
 	 *

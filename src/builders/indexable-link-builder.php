@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-
 use WPSEO_Image_Utils;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
@@ -71,6 +70,7 @@ class Indexable_Link_Builder {
 
 	/**
 	 * Class that finds all images in a content string and extracts them.
+	 *
 	 * @var Image_Content_Extractor
 	 */
 	private $image_content_extractor;
@@ -92,12 +92,12 @@ class Indexable_Link_Builder {
 		Indexable_Helper $indexable_helper,
 		Image_Content_Extractor $image_content_extractor
 	) {
-		$this->seo_links_repository = $seo_links_repository;
-		$this->url_helper           = $url_helper;
-		$this->post_helper          = $post_helper;
-		$this->options_helper       = $options_helper;
-		$this->indexable_helper     = $indexable_helper;
-		$this->image_content_extractor         = $image_content_extractor;
+		$this->seo_links_repository    = $seo_links_repository;
+		$this->url_helper              = $url_helper;
+		$this->post_helper             = $post_helper;
+		$this->options_helper          = $options_helper;
+		$this->indexable_helper        = $indexable_helper;
+		$this->image_content_extractor = $image_content_extractor;
 	}
 
 	/**

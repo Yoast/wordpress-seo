@@ -6,6 +6,7 @@ use DOMDocument;
 use WP_HTML_Tag_Processor;
 
 class Image_Content_Extractor {
+
 	/**
 	 * Gathers all images from content.
 	 *
@@ -39,7 +40,6 @@ class Image_Content_Extractor {
 		if ( ! $should_not_parse_content && \class_exists( DOMDocument::class ) ) {
 			return $this->gather_images_DOMDocument( $content );
 		}
-
 
 		if ( \strpos( $content, 'src' ) === false ) {
 			// Nothing to do.
