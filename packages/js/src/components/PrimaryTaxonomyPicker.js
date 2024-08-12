@@ -3,6 +3,7 @@ import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { sprintf, __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
+import { ExternalLink } from "@wordpress/components";
 import { addQueryArgs } from "@wordpress/url";
 import styled from "styled-components";
 import { difference, noop } from "lodash";
@@ -222,6 +223,7 @@ class PrimaryTaxonomyPicker extends Component {
 		const {
 			primaryTaxonomyId,
 			taxonomy,
+			learnMoreLink,
 		} = this.props;
 
 		if ( this.state.selectedTerms.length < 2 ) {
@@ -250,6 +252,12 @@ class PrimaryTaxonomyPicker extends Component {
 					id={ fieldId }
 					terms={ this.state.selectedTerms }
 				/>
+				<ExternalLink href={ learnMoreLink }>
+					{ __( "Learn more", "wordpress-seo" ) }
+					<span className="screen-reader-text">
+						{ __( "Learn more about the primary category.", "wordpress-seo" ) }
+					</span>
+				</ExternalLink>
 			</PrimaryTaxonomyPickerField>
 		);
 	}
@@ -266,6 +274,7 @@ PrimaryTaxonomyPicker.propTypes = {
 		restBase: PropTypes.string,
 		singularLabel: PropTypes.string,
 	} ),
+	learnMoreLink: PropTypes.string.isRequired,
 };
 
 PrimaryTaxonomyPicker.defaultProps = {
