@@ -108,6 +108,7 @@ final class Custom_Meta_Integration_Test extends TestCase {
 	 * @dataProvider provider_process_user_option_update
 	 * @covers ::process_user_option_update
 	 *
+	 * @param bool[]      $setting_disabled         Whether the setting is disabled.
 	 * @param string|null $metadesc_value           The value for the metadesc.
 	 * @param string|null $noindex_value            The value for the noindex.
 	 * @param int         $times_update_custom_meta Times that we update the custom meta.
@@ -115,7 +116,7 @@ final class Custom_Meta_Integration_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_process_user_option_update( $metadesc_value, $noindex_value, $times_update_custom_meta, $times_delete_custom_meta ) {
+	public function test_process_user_option_update( $setting_disabled, $metadesc_value, $noindex_value, $times_update_custom_meta, $times_delete_custom_meta ) {
 		$option_helper = Mockery::mock( Options_Helper::class );
 		$custom_meta   = [
 			new Author_Metadesc( $option_helper ),
@@ -138,7 +139,7 @@ final class Custom_Meta_Integration_Test extends TestCase {
 			->expects( 'get' )
 			->with( 'disable-author' )
 			->twice()
-			->andReturn( false );
+			->andReturn( ...$setting_disabled );
 
 		$_POST['wpseo_author_metadesc'] = $metadesc_value;
 		$_POST['wpseo_noindex_author']  = $noindex_value;
@@ -159,6 +160,7 @@ final class Custom_Meta_Integration_Test extends TestCase {
 	 */
 	public static function provider_process_user_option_update() {
 		yield 'User gives non-empty values for all custom meta' => [
+			'setting_disabled'         => [ false, false ],
 			'metadesc_value'           => 'no',
 			'noindex_value'            => 'no',
 			'times_update_custom_meta' => 2,
@@ -166,6 +168,7 @@ final class Custom_Meta_Integration_Test extends TestCase {
 		];
 
 		yield 'User gives non-empty values for all custom meta that need value but empty value for meta that can be empty' => [
+			'setting_disabled'         => [ false, false ],
 			'metadesc_value'           => '',
 			'noindex_value'            => 'no',
 			'times_update_custom_meta' => 2,
@@ -173,6 +176,7 @@ final class Custom_Meta_Integration_Test extends TestCase {
 		];
 
 		yield 'User gives empty values for all custom meta' => [
+			'setting_disabled'         => [ false, false ],
 			'metadesc_value'           => '',
 			'noindex_value'            => '',
 			'times_update_custom_meta' => 1,
@@ -180,6 +184,7 @@ final class Custom_Meta_Integration_Test extends TestCase {
 		];
 
 		yield 'User gives no value for a custom meta that can be empty, while giving a non-empty value for a custom meta that can not be empty' => [
+			'setting_disabled'         => [ false, false ],
 			'metadesc_value'           => null,
 			'noindex_value'            => 'no',
 			'times_update_custom_meta' => 2,
@@ -187,10 +192,27 @@ final class Custom_Meta_Integration_Test extends TestCase {
 		];
 
 		yield 'User gives no value for a custom meta that can not be empty, while giving a non-empty value for a custom meta that can be empty' => [
+			'setting_disabled'         => [ false, false ],
 			'metadesc_value'           => 'no',
 			'noindex_value'            => null,
 			'times_update_custom_meta' => 1,
 			'times_delete_custom_meta' => 1,
+		];
+
+		yield 'User gives non-empty values for settings that are disabledd' => [
+			'setting_disabled'         => [ true, true ],
+			'metadesc_value'           => 'no',
+			'noindex_value'            => 'no',
+			'times_update_custom_meta' => 0,
+			'times_delete_custom_meta' => 0,
+		];
+
+		yield 'User gives empty values for settings that are disabledd' => [
+			'setting_disabled'         => [ true, true ],
+			'metadesc_value'           => '',
+			'noindex_value'            => '',
+			'times_update_custom_meta' => 0,
+			'times_delete_custom_meta' => 0,
 		];
 	}
 }
