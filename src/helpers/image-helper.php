@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Image_Utils;
+use Yoast\WP\SEO\Images\Application\Image_Content_Extractor;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
@@ -39,6 +40,10 @@ class Image_Helper {
 	 * @var SEO_Links_Repository
 	 */
 	protected $seo_links_repository;
+	/**
+	 * @var \Yoast\WP\SEO\Images\Application\Image_Content_Extractor
+	 */
+	protected $image_content_extractor;
 
 	/**
 	 * The options helper.
@@ -66,12 +71,14 @@ class Image_Helper {
 		Indexable_Repository $indexable_repository,
 		SEO_Links_Repository $seo_links_repository,
 		Options_Helper $options,
-		Url_Helper $url_helper
+		Url_Helper $url_helper,
+		Image_Content_Extractor $image_content_extractor
 	) {
-		$this->indexable_repository = $indexable_repository;
-		$this->seo_links_repository = $seo_links_repository;
-		$this->options_helper       = $options;
-		$this->url_helper           = $url_helper;
+		$this->indexable_repository    = $indexable_repository;
+		$this->seo_links_repository    = $seo_links_repository;
+		$this->options_helper          = $options;
+		$this->url_helper              = $url_helper;
+		$this->image_content_extractor = $image_content_extractor;
 	}
 
 	/**
@@ -366,7 +373,8 @@ class Image_Helper {
 	}
 
 	/**
-	 * Based on and image ID return array with the best variation of that image. If it's not saved to the DB,  save it to an option.
+	 * Based on and image ID return array with the best variation of that image. If it's not saved to the DB,  save it
+	 * to an option.
 	 *
 	 * @param string $setting The setting name. Should be company or person.
 	 *
@@ -399,7 +407,20 @@ class Image_Helper {
 	 * @return string|null
 	 */
 	protected function get_first_usable_content_image_for_post( $post_id ) {
-		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
+		global $post;
+		$post_backup = $post;
+		$post        = \get_post( $post_id );
+
+		\setup_postdata( $post );
+		$content = \apply_filters( 'the_content', $post->post_content );
+		\wp_reset_postdata();
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
+		$post = $post_backup;
+
+		$content = \str_replace( ']]>', ']]&gt;', $content );
+		$images  = $this->image_content_extractor->gather_images( $content );
+
+		return array_shift( $images );
 	}
 
 	/**
