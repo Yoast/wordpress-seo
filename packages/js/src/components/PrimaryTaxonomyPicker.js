@@ -234,19 +234,14 @@ class PrimaryTaxonomyPicker extends Component {
 
 		return (
 			<PrimaryTaxonomyPickerField className="components-base-control__field">
-				<label
-					htmlFor={ fieldId }
-					className="components-base-control__label"
-				>
-					{
+				<TaxonomyPicker
+					label={
 						sprintf(
 							/* translators: %s expands to the taxonomy name. */
 							__( "Select the primary %s", "wordpress-seo" ),
 							taxonomy.singularLabel.toLowerCase()
 						)
 					}
-				</label>
-				<TaxonomyPicker
 					value={ primaryTaxonomyId }
 					onChange={ this.onChange }
 					id={ fieldId }
