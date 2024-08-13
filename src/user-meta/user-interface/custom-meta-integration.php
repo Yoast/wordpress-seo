@@ -97,13 +97,13 @@ class Custom_Meta_Integration implements Integration_Interface {
 		\wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
 
 		/* translators: %1$s expands to Yoast SEO */
-		$wpseo_up_settings_header = \sprintf( \__( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
+		$yoast_user_settings_header = \sprintf( \__( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
 
 		echo '
 
 		<div class="yoast yoast-settings">
 			
-			<h2 id="wordpress-seo">' . \esc_html( $wpseo_up_settings_header ) . '</h2>';
+			<h2 id="wordpress-seo">' . \esc_html( $yoast_user_settings_header ) . '</h2>';
 
 		foreach ( $this->custom_meta_collector->get_sorted_custom_meta() as $meta ) {
 			if ( ! $meta->is_setting_enabled() ) {
