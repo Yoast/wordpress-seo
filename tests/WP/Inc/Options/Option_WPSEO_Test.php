@@ -40,9 +40,9 @@ final class Option_WPSEO_Test extends TestCase {
 	public function test_verify_features_against_network() {
 		$this->skipWithoutMultisite();
 
-		$options                               = WPSEO_Options::get_option( 'wpseo' );
-		$expected                              = \array_fill_keys( $this->feature_vars, true );
-		$expected['ryte_indexability']         = false;
+		$options                       = WPSEO_Options::get_option( 'wpseo' );
+		$expected                      = \array_fill_keys( $this->feature_vars, true );
+		$expected['ryte_indexability'] = false;
 		$this->assertEqualSets( $expected, \array_intersect_key( $options, $expected ) );
 
 		// Ensure the variables are disabled via the network.
