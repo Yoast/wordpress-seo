@@ -55,6 +55,17 @@ class Author_Title implements Custom_Meta_Interface {
 	}
 
 	/**
+	 * Returns the meta value.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return string The meta value.
+	 */
+	public function get_value( $user_id ): string {
+		return \get_the_author_meta( $this->get_key(), $user_id );
+	}
+
+	/**
 	 * Returns whether the respective global setting is enabled.
 	 *
 	 * @return bool Whether the respective global setting is enabled.
@@ -92,7 +103,7 @@ class Author_Title implements Custom_Meta_Interface {
 			class="yoast-settings__text regular-text"
 			type="text" id="' . \esc_attr( $this->get_field_id() ) . '"
 			name="' . \esc_attr( $this->get_field_id() ) . '"
-			value="' . \esc_attr( \get_the_author_meta( 'wpseo_title', $user_id ) )
+			value="' . \esc_attr( $this->get_value( $user_id ) )
 		. '"/><br>';
 	}
 }

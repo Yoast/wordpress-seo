@@ -124,6 +124,7 @@ final class Author_Title_Test extends TestCase {
 	 * Tests rendering the form field.
 	 *
 	 * @covers ::render_field
+	 * @covers ::get_value
 	 *
 	 * @return void
 	 */

@@ -55,6 +55,17 @@ class Author_Metadesc implements Custom_Meta_Interface {
 	}
 
 	/**
+	 * Returns the meta value.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return string The meta value.
+	 */
+	public function get_value( $user_id ): string {
+		return \get_the_author_meta( $this->get_key(), $user_id );
+	}
+
+	/**
 	 * Returns whether the respective global setting is enabled.
 	 *
 	 * @return bool Whether the respective global setting is enabled.
@@ -94,7 +105,7 @@ class Author_Metadesc implements Custom_Meta_Interface {
 			id="' . \esc_attr( $this->get_field_id() ) . '"
 			class="yoast-settings__textarea yoast-settings__textarea--medium"
 			name="' . \esc_attr( $this->get_field_id() ) . '">'
-				. \esc_textarea( \get_the_author_meta( 'wpseo_metadesc', $user_id ) )
+				. \esc_textarea( $this->get_value( $user_id ) )
 		. '</textarea><br>';
 	}
 }

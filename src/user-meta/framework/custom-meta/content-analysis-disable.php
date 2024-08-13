@@ -55,6 +55,17 @@ class Content_Analysis_Disable implements Custom_Meta_Interface {
 	}
 
 	/**
+	 * Returns the meta value.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return string The meta value.
+	 */
+	public function get_value( $user_id ): string {
+		return \get_the_author_meta( $this->get_key(), $user_id );
+	}
+
+	/**
 	 * Returns whether the respective global setting is enabled.
 	 *
 	 * @return bool Whether the respective global setting is enabled.
@@ -89,7 +100,7 @@ class Content_Analysis_Disable implements Custom_Meta_Interface {
 			name="' . \esc_attr( $this->get_field_id() ) . '"
 			aria-describedby="wpseo_content_analysis_disable_desc"
 			value="on" '
-			. \checked( \get_the_author_meta( 'wpseo_content_analysis_disable', $user_id ), 'on', false )
+			. \checked( $this->get_value( $user_id ), 'on', false )
 		. '/>';
 
 		echo '

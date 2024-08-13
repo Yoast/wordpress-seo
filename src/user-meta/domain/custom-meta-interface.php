@@ -29,6 +29,22 @@ interface Custom_Meta_Interface {
 	public function get_field_id(): string;
 
 	/**
+	 * Returns the meta value.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return string
+	 */
+	public function get_value( $user_id ): string;
+
+	/**
+	 * Returns whether the respective global setting is enabled.
+	 *
+	 * @return string
+	 */
+	public function is_setting_enabled(): bool;
+
+	/**
 	 * Returns whether the custom meta is allowed to be empty.
 	 *
 	 * @return bool
