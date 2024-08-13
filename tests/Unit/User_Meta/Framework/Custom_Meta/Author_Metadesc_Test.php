@@ -64,14 +64,14 @@ final class Author_Metadesc_Test extends TestCase {
 	 *
 	 * @covers ::get_key
 	 * @covers ::get_field_id
-	 * @covers ::get_render_position
+	 * @covers ::get_render_priority
 	 *
 	 * @return void
 	 */
 	public function test_getters() {
 		$this->assertSame( 'wpseo_metadesc', $this->instance->get_key() );
 		$this->assertSame( 'wpseo_author_metadesc', $this->instance->get_field_id() );
-		$this->assertSame( 2, $this->instance->get_render_position() );
+		$this->assertSame( 200, $this->instance->get_render_priority() );
 	}
 
 	/**

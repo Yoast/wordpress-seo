@@ -8,11 +8,11 @@ namespace Yoast\WP\SEO\User_Meta\Domain;
 interface Custom_Meta_Interface {
 
 	/**
-	 * Returns the position where the custom meta's form field should be rendered at.
+	 * Returns the priority which the custom meta's form field should be rendered with.
 	 *
 	 * @return int.
 	 */
-	public function get_render_position(): int;
+	public function get_render_priority(): int;
 
 	/**
 	 * Returns the db key of the custom meta.

@@ -28,12 +28,12 @@ class Noindex_Author implements Custom_Meta_Interface {
 	}
 
 	/**
-	 * Returns the position where the custom meta's form field should be rendered at.
+	 * Returns the priority which the custom meta's form field should be rendered with.
 	 *
-	 * @return int The position where the custom meta's form field should be rendered at.
+	 * @return int The priority which the custom meta's form field should be rendered with.
 	 */
-	public function get_render_position(): int {
-		return 3;
+	public function get_render_priority(): int {
+		return 300;
 	}
 
 	/**

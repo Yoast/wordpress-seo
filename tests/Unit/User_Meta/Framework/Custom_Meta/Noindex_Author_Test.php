@@ -64,14 +64,14 @@ final class Noindex_Author_Test extends TestCase {
 	 *
 	 * @covers ::get_key
 	 * @covers ::get_field_id
-	 * @covers ::get_render_position
+	 * @covers ::get_render_priority
 	 *
 	 * @return void
 	 */
 	public function test_getters() {
 		$this->assertSame( 'wpseo_noindex_author', $this->instance->get_key() );
 		$this->assertSame( 'wpseo_noindex_author', $this->instance->get_field_id() );
-		$this->assertSame( 3, $this->instance->get_render_position() );
+		$this->assertSame( 300, $this->instance->get_render_priority() );
 	}
 
 	/**

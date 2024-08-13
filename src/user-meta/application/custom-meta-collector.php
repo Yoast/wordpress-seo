@@ -37,20 +37,21 @@ class Custom_Meta_Collector {
 	}
 
 	/**
-	 * Returns all the custom meta, sorted by rendering position.
+	 * Returns all the custom meta, sorted by rendering priority.
 	 *
-	 * @return array<Custom_Meta_Interface> All the custom meta, sorted by rendering position.
+	 * @return array<Custom_Meta_Interface> All the custom meta, sorted by rendering priority.
 	 */
 	public function get_sorted_custom_meta(): array {
 		$custom_meta = $this->get_custom_meta();
-		$sorted_meta = [];
 
-		foreach ( $custom_meta as $meta ) {
-			$sorted_meta[ ( $meta->get_render_position() - 1 ) ] = $meta;
-		}
+		\usort(
+			$custom_meta,
+			static function ( Custom_Meta_Interface $a, Custom_Meta_Interface $b ) {
+				return ( $a->get_render_priority() <=> $b->get_render_priority() );
+			}
+		);
 
-		\ksort( $sorted_meta );
-		return $sorted_meta;
+		return $custom_meta;
 	}
 
 	/**

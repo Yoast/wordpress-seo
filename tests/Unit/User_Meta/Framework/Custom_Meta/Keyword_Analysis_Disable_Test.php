@@ -64,14 +64,14 @@ final class Keyword_Analysis_Disable_Test extends TestCase {
 	 *
 	 * @covers ::get_key
 	 * @covers ::get_field_id
-	 * @covers ::get_render_position
+	 * @covers ::get_render_priority
 	 *
 	 * @return void
 	 */
 	public function test_getters() {
 		$this->assertSame( 'wpseo_keyword_analysis_disable', $this->instance->get_key() );
 		$this->assertSame( 'wpseo_keyword_analysis_disable', $this->instance->get_field_id() );
-		$this->assertSame( 4, $this->instance->get_render_position() );
+		$this->assertSame( 400, $this->instance->get_render_priority() );
 	}
 
 	/**
