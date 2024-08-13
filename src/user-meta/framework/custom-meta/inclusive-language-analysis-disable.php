@@ -98,7 +98,7 @@ class Inclusive_Language_Analysis_Disable implements Custom_Meta_Interface {
 			type="checkbox"
 			id="' . \esc_attr( $this->get_field_id() ) . '"
 			name="' . \esc_attr( $this->get_field_id() ) . '"
-			aria-describedby="wpseo_inclusive_language_analysis_disable_desc"
+			aria-describedby="' . \esc_attr( $this->get_field_id() ) . '_desc"
 			value="on" '
 			. \checked( $this->get_value( $user_id ), 'on', false )
 		. '/>';
@@ -111,7 +111,7 @@ class Inclusive_Language_Analysis_Disable implements Custom_Meta_Interface {
 
 		echo '
 
-		<p class="description" id="wpseo_inclusive_language_analysis_disable_desc">'
+		<p class="description" id="' . \esc_attr( $this->get_field_id() ) . '_desc">'
 			. \esc_html__( 'Removes the inclusive language analysis section from the metabox and disables all inclusive language-related suggestions.', 'wordpress-seo' )
 		. '</p>';
 	}
