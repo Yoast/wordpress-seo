@@ -1,4 +1,4 @@
-/* global ajaxurl, ClipboardJS */
+/* global ajaxurl */
 
 import { __ } from "@wordpress/i18n";
 import { debounce } from "lodash";
