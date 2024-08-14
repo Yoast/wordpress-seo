@@ -77,7 +77,7 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   align-self: center;
 }
 
-.c5 {
+.c6 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -89,7 +89,7 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   width: 600px;
 }
 
-.c6 {
+.c5 {
   background-color: #fff;
   font-family: arial,sans-serif;
   box-sizing: border-box;
@@ -339,106 +339,112 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
         Desktop result
       </label>
     </fieldset>
-    <section>
+    <section
+      class="yoast-snippet-preview-section"
+    >
       <div
-        class="c5 c6"
-        id="yoast-snippet-preview-container"
+        class="c5 yoast-snippet-preview-container__wrapper"
       >
         <div
-          class="c7"
+          class="c6 c5 yoast-snippet-preview-container"
+          id="yoast-snippet-preview-container"
         >
           <div
-            class="SnippetPreview__DesktopPartContainer-sc-1hxg8jo-20"
+            class="c7"
           >
-            <span
-              class="screen-reader-text"
-              style="clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;"
-            >
-              Url preview:
-            </span>
             <div
-              class="c8"
+              class="SnippetPreview__DesktopPartContainer-sc-1hxg8jo-20"
             >
+              <span
+                class="screen-reader-text"
+                style="clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;"
+              >
+                Url preview:
+              </span>
               <div
-                class="c8 c9"
+                class="c8"
               >
                 <div
-                  class="c10"
-                >
-                  <img
-                    alt=""
-                    class="c11"
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
-                  />
-                </div>
-                <span
-                  class="c12"
+                  class="c8 c9"
                 >
                   <div
-                    class="c13"
+                    class="c10"
                   >
-                    Test site name
+                    <img
+                      alt=""
+                      class="c11"
+                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
+                    />
                   </div>
                   <span
-                    class="c14"
+                    class="c12"
                   >
-                    example.org
-                  </span>
-                  <span
-                    class="c15"
-                  >
-                     › test-slug
-                  </span>
-                  <span
-                    class="c16"
-                  >
-                    <svg
-                      fill="#4d5156"
-                      style="width: 18px;"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <div
+                      class="c13"
                     >
-                      <path
-                        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                      />
-                    </svg>
+                      Test site name
+                    </div>
+                    <span
+                      class="c14"
+                    >
+                      example.org
+                    </span>
+                    <span
+                      class="c15"
+                    >
+                       › test-slug
+                    </span>
+                    <span
+                      class="c16"
+                    >
+                      <svg
+                        fill="#4d5156"
+                        style="width: 18px;"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                        />
+                      </svg>
+                    </span>
                   </span>
-                </span>
+                </div>
               </div>
-            </div>
-            <span
-              class="screen-reader-text"
-              style="clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;"
-            >
-              SEO title preview:
-            </span>
-            <div
-              class="c17"
-            >
-              <div
-                class="c18 c19"
+              <span
+                class="screen-reader-text"
+                style="clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;"
               >
-                <span
-                  class="c20"
+                SEO title preview:
+              </span>
+              <div
+                class="c17"
+              >
+                <div
+                  class="c18 c19"
                 >
-                  Test title
-                </span>
+                  <span
+                    class="c20"
+                  >
+                    Test title
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            class="SnippetPreview__DesktopPartContainer-sc-1hxg8jo-20"
-          >
-            <span
-              class="screen-reader-text"
-              style="clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;"
-            >
-              Meta description preview:
-            </span>
             <div
-              class="c21"
+              class="SnippetPreview__DesktopPartContainer-sc-1hxg8jo-20"
             >
-              Test description, %%replacement_variable%%
+              <span
+                class="screen-reader-text"
+                style="clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;"
+              >
+                Meta description preview:
+              </span>
+              <div
+                class="c21"
+              >
+                Test description, %%replacement_variable%%
+              </div>
             </div>
           </div>
         </div>
@@ -809,9 +815,11 @@ exports[`SnippetEditor Mobile mode 1`] = `
         Desktop result
       </label>
     </fieldset>
-    <section>
+    <section
+      class="yoast-snippet-preview-section"
+    >
       <div
-        class="c5"
+        class="c5 yoast-snippet-preview-container"
         id="yoast-snippet-preview-container"
       >
         <div
