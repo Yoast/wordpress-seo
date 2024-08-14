@@ -1,5 +1,6 @@
-import { linkParamsSelectors, pluginUrlSelectors, wistiaEmbedPermissionSelectors } from "../../shared-admin/store";
+import { adminUrlSelectors, linkParamsSelectors, pluginUrlSelectors, wistiaEmbedPermissionSelectors } from "../../shared-admin/store";
 
+export const { selectAdminUrl, selectAdminLink } = adminUrlSelectors;
 export const { selectLinkParams, selectLinkParam, selectLink } = linkParamsSelectors;
 export const { selectPluginUrl, selectImageLink } = pluginUrlSelectors;
 export const {

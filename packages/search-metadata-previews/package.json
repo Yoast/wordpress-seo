@@ -17,6 +17,7 @@
   "scripts": {
     "build": "yarn clean && yarn build:js",
     "build:js": "babel src --out-dir build",
+    "watch": "yarn build:js --watch",
     "clean": "rm -rf build",
     "test": "jest",
     "lint": "eslint . --max-warnings=7"

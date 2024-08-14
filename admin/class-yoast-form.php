@@ -427,7 +427,6 @@ class Yoast_Form {
 
 		$aria_attributes = Yoast_Input_Validation::get_the_aria_invalid_attribute( $variable );
 
-		Yoast_Input_Validation::set_error_descriptions();
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $variable );
 
 		$disabled_attribute = $this->get_disabled_attribute( $variable, $attr );
@@ -467,9 +466,7 @@ class Yoast_Form {
 			]
 		);
 
-		$aria_attributes = Yoast_Input_Validation::get_the_aria_invalid_attribute( $variable );
-
-		Yoast_Input_Validation::set_error_descriptions();
+		$aria_attributes  = Yoast_Input_Validation::get_the_aria_invalid_attribute( $variable );
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $variable );
 
 		$disabled_attribute = $this->get_disabled_attribute( $variable, $attr );
@@ -520,10 +517,7 @@ class Yoast_Form {
 		}
 		echo '</div>';
 
-		$has_input_error = Yoast_Input_Validation::yoast_form_control_has_error( $variable );
-		$aria_attributes = Yoast_Input_Validation::get_the_aria_invalid_attribute( $variable );
-
-		Yoast_Input_Validation::set_error_descriptions();
+		$aria_attributes  = Yoast_Input_Validation::get_the_aria_invalid_attribute( $variable );
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $variable );
 
 		// phpcs:disable WordPress.Security.EscapeOutput -- Reason: output is properly escaped or hardcoded.
