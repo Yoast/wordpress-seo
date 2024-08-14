@@ -1,58 +1,37 @@
-/* External dependencies */
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { unescape } from "lodash";
+import { SelectControl } from "@wordpress/components";
 import { useCallback } from "@wordpress/element";
-
-const SelectContainer = styled.div`
-	padding-top: 6px;
-`;
+import { unescape } from "lodash";
+import PropTypes from "prop-types";
 
 /**
  * A select box for selecting a taxonomy.
  *
- * @param {Object} props The component's props.
+ * @param {string} id The ID of the select.
+ * @param {number} value The selected term.
+ * @param {{id: number, name: string}[]} terms The terms to choose from.
+ * @param {string} label The label for the select.
+ * @param {Function} onChange The function to call when the selected term changes.
  *
- * @returns {wp.Element} The rendered TaxonomyPicker component.
+ * @returns {JSX.Element} The rendered TaxonomyPicker component.
  */
-const TaxonomyPicker = ( props ) => {
-	const {
-		value,
-		id,
-		terms,
-		onChange,
-	} = props;
-
-	const handleChange = useCallback( ( e ) => {
-		onChange( parseInt( e.target.value, 10 ) );
+const TaxonomyPicker = ( { id, value, terms, label, onChange } ) => {
+	const handleChange = useCallback( ( newValue ) => {
+		onChange( parseInt( newValue, 10 ) );
 	}, [ onChange ] );
 
-	// Disable reason: UI needs to be re-designed.
-	/* eslint-disable jsx-a11y/no-onchange */
 	return (
-		<SelectContainer>
-			<select
-				className="components-select-control__input"
-				id={ id }
-				value={ value }
-				onChange={ handleChange }
-			>
-				{
-					terms.map( term => {
-						return (
-							<option
-								key={ term.id }
-								value={ term.id }
-							>
-								{ unescape( term.name ) }
-							</option>
-						);
-					} )
-				}
-			</select>
-		</SelectContainer>
+		<SelectControl
+			__next40pxDefaultSize={ true }
+			id={ id }
+			label={ label }
+			value={ value }
+			onChange={ handleChange }
+			options={ terms.map( term => ( {
+				label: unescape( term.name ),
+				value: term.id,
+			} ) ) }
+		/>
 	);
-	/* eslint-enable jsx-a11y/no-onchange */
 };
 
 TaxonomyPicker.propTypes = {
@@ -62,6 +41,7 @@ TaxonomyPicker.propTypes = {
 	} ) ),
 	onChange: PropTypes.func.isRequired,
 	id: PropTypes.string,
+	label: PropTypes.string,
 	value: PropTypes.number,
 };
 
