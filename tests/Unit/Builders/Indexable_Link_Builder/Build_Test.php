@@ -36,9 +36,6 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				',
 				SEO_Links::TYPE_EXTERNAL,
 				false,
-				false,
-				false,
-				false,
 				[],
 			],
 			[
@@ -48,9 +45,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				',
 				SEO_Links::TYPE_EXTERNAL_IMAGE,
 				true,
-				false,
-				false,
-				true,
+
 				[
 					'https://link.com/newly-added-in-post'     => 1,
 					'https://link.com/already-existed-in-post' => 2,
@@ -63,9 +58,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				',
 				SEO_Links::TYPE_EXTERNAL_IMAGE,
 				true,
-				true,
-				false,
-				false,
+
 				[
 					'https://link.com/newly-added-in-post'     => 1,
 					'https://link.com/already-existed-in-post' => 2,
@@ -78,9 +71,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				',
 				SEO_Links::TYPE_EXTERNAL_IMAGE,
 				true,
-				false,
-				true,
-				true,
+
 				[
 					'https://link.com/newly-added-in-post'     => 1,
 					'https://link.com/already-existed-in-post' => 2,
@@ -93,9 +84,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				',
 				SEO_Links::TYPE_EXTERNAL_IMAGE,
 				true,
-				false,
-				true,
-				true,
+
 				[
 					'https://link.com/newly-added-in-post'     => 1,
 					'https://link.com/already-existed-in-post' => 2,
@@ -115,17 +104,14 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @dataProvider build_provider
 	 *
-	 * @param string        $content              The content.
-	 * @param string        $link_type            The link type.
-	 * @param bool          $is_image             Whether the link is an image.
-	 * @param bool          $ignore_content_scan  Whether content scanning should be ignored.
-	 * @param bool          $should_content_regex Whether the image id should be extracted with a regex.
-	 * @param bool          $should_doc_scan      Whether the doc document should be used.
-	 * @param array<string> $images               The images that are in the content.
+	 * @param string        $content   The content.
+	 * @param string        $link_type The link type.
+	 * @param bool          $is_image  Whether the link is an image.
+	 * @param array<string> $images    The images that are in the content.
 	 *
 	 * @return void
 	 */
-	public function test_build( $content, $link_type, $is_image, $ignore_content_scan, $should_content_regex, $should_doc_scan, $images ) {
+	public function test_build( $content, $link_type, $is_image, $images ) {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->id          = 1;
 		$indexable->object_id   = 2;

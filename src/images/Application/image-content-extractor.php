@@ -36,11 +36,13 @@ class Image_Content_Extractor {
 		 * @since 21.1
 		 */
 		$should_not_parse_content = \apply_filters( 'wpseo_force_skip_image_content_parsing', $should_not_parse_content );
+
 		if ( ! $should_not_parse_content && \class_exists( WP_HTML_Tag_Processor::class ) ) {
 			return $this->gather_images_wp( $content );
 		}
 
 		if ( ! $should_not_parse_content && \class_exists( DOMDocument::class ) ) {
+
 			return $this->gather_images_DOMDocument( $content );
 		}
 
@@ -124,7 +126,8 @@ class Image_Content_Extractor {
 		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
 			$src     = \htmlentities( $img->getAttribute( 'src' ), ( \ENT_QUOTES | \ENT_SUBSTITUTE | \ENT_HTML401 ), $charset );
 			$classes = $img->getAttribute( $attribute );
-			$id      = $this->extract_id_of_classes( $classes );
+
+			$id = $this->extract_id_of_classes( $classes );
 
 			$images[ $src ] = $id;
 		}
@@ -160,6 +163,7 @@ class Image_Content_Extractor {
 		$matches = [];
 
 		if ( \preg_match( $pattern, $classes, $matches ) ) {
+
 			return (int) $matches[1];
 		}
 
