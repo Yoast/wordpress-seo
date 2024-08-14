@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\WP\Helpers;
 
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Images\Application\Image_Content_Extractor;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 use Yoast\WP\SEO\Tests\WP\TestCase;
@@ -30,7 +31,7 @@ final class Get_Attachment_By_Url_Image_Helper_Test extends TestCase {
 	 */
 	public function set_up(): void {
 		parent::set_up();
-		$this->instance = new Image_Helper( \YoastSEO()->classes->get( Indexable_Repository::class ), \YoastSEO()->classes->get( SEO_Links_Repository::class ), \YoastSEO()->helpers->options, \YoastSEO()->helpers->url );
+		$this->instance = new Image_Helper( \YoastSEO()->classes->get( Indexable_Repository::class ), \YoastSEO()->classes->get( SEO_Links_Repository::class ), \YoastSEO()->helpers->options, \YoastSEO()->helpers->url,\YoastSEO()->classes->get( Image_Content_Extractor::class ), );
 		\YoastSEO()->helpers->options->set( 'disable-attachment', true );
 
 		global $wpdb;
