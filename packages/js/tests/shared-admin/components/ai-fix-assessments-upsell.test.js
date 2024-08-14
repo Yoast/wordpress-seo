@@ -15,10 +15,7 @@ describe( "AiFixAssessmentsUpsell", () => {
 			set: jest.fn(),
 		},
 		upsellLink: "https://example.com/upsell",
-		title: "Test Title",
 		upsellLabel: "Test Upsell Label",
-		newToText: "Test New To Text",
-		bundleNote: "Test Bundle Note",
 	};
 
 	it( "renders the component correctly", () => {

@@ -2,7 +2,7 @@ import { SET_ACTIVE_AI_FIXES_BUTTON, SET_DISABLED_AI_FIXES_BUTTONS } from "../ac
 
 const INITIAL_STATE = {
 	activeAIButton: null,
-	disabledAIButtons: [],
+	disabledAIButtons: {},
 };
 
 /**
