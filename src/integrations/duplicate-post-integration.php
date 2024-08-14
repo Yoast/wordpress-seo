@@ -19,7 +19,7 @@ class Duplicate_Post_Integration implements Integration_Interface {
 	 *
 	 * This is the place to register hooks and filters.
 	 *
-	 * @deprecated 23.3
+	 * @deprecated 23.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
