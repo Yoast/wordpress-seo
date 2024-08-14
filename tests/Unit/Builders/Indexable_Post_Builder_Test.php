@@ -620,11 +620,73 @@ final class Indexable_Post_Builder_Test extends TestCase {
 			->with( 123 )
 			->andReturn( $image_meta );
 
+		$this->image->allows( 'get_post_content_image_id' )
+			->with( 123 )
+			->andReturn( '' );
+
 		$actual = $this->instance->find_alternative_image( $this->indexable );
 
 		$expected = [
 			'image'  => $image_meta,
 			'source' => 'first-content-image',
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests find_alternative_image_id when a image is set on the post,
+	 * but not a featured image.
+	 *
+	 * @covers ::find_alternative_image
+	 *
+	 * @return void
+	 */
+	public function test_find_alternative_image_id_from_post_content() {
+		$this->indexable      = Mockery::mock( Indexable::class );
+		$this->indexable->orm = Mockery::mock( ORM::class );
+
+		$this->indexable->orm->allows( 'get' )
+			->with( 'object_sub_type' )
+			->andReturn( 'post' );
+
+		$this->indexable->orm->allows( 'get' )
+			->with( 'object_id' )
+			->andReturn( 123 );
+
+		$this->image->allows( 'get_featured_image_id' )
+			->with( 123 )
+			->andReturn( false );
+
+		$this->image->allows( 'get_gallery_image' )
+			->with( 123 )
+			->andReturn( false );
+
+		$image_meta = [
+			'width'  => 640,
+			'height' => 480,
+			'url'    => 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg',
+			'path'   => '/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg',
+			'size'   => 'full',
+			'id'     => 13,
+			'alt'    => '',
+			'pixels' => 307200,
+			'type'   => 'image/jpeg',
+		];
+
+		$this->image->allows( 'get_post_content_image' )
+			->with( 123 )
+			->andReturn( $image_meta );
+
+		$this->image->allows( 'get_post_content_image_id' )
+			->with( 123 )
+			->andReturn( 13 );
+
+		$actual = $this->instance->find_alternative_image( $this->indexable );
+
+		$expected = [
+			'image_id' => $image_meta['id'],
+			'source'   => 'first-content-image',
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -661,7 +723,9 @@ final class Indexable_Post_Builder_Test extends TestCase {
 		$this->image->allows( 'get_post_content_image' )
 			->with( 123 )
 			->andReturn( false );
-
+		$this->image->allows( 'get_post_content_image_id' )
+			->with( 123 )
+			->andReturn( '' );
 		$this->assertFalse( $this->instance->find_alternative_image( $this->indexable ) );
 	}
 

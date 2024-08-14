@@ -100,15 +100,15 @@ abstract class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->seo_links_repository = Mockery::mock( SEO_Links_Repository::class );
-		$this->url_helper           = Mockery::mock( Url_Helper::class );
-		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
-		$this->image_helper         = Mockery::mock( Image_Helper::class );
-		$this->post_helper          = Mockery::mock( Post_Helper::class );
-		$this->options_helper       = Mockery::mock( Options_Helper::class );
-		$this->indexable_helper     = Mockery::mock( Indexable_Helper::class );
+		$this->seo_links_repository    = Mockery::mock( SEO_Links_Repository::class );
+		$this->url_helper              = Mockery::mock( Url_Helper::class );
+		$this->indexable_repository    = Mockery::mock( Indexable_Repository::class );
+		$this->image_helper            = Mockery::mock( Image_Helper::class );
+		$this->post_helper             = Mockery::mock( Post_Helper::class );
+		$this->options_helper          = Mockery::mock( Options_Helper::class );
+		$this->indexable_helper        = Mockery::mock( Indexable_Helper::class );
+		$this->image_content_extractor = Mockery::mock( Image_Content_Extractor::class );
 
-		$this->image_content_extractor                     = Mockery::mock( Image_Content_Extractor::class );
 		$this->instance = new Indexable_Link_Builder(
 			$this->seo_links_repository,
 			$this->url_helper,

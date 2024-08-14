@@ -5,6 +5,9 @@ namespace Yoast\WP\SEO\Images\Application;
 use DOMDocument;
 use WP_HTML_Tag_Processor;
 
+/**
+ * The image content extractor.
+ */
 class Image_Content_Extractor {
 
 	/**

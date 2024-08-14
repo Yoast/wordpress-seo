@@ -42,6 +42,8 @@ class Image_Helper {
 	protected $seo_links_repository;
 
 	/**
+	 * The image content extractor.
+	 *
 	 * @var Image_Content_Extractor
 	 */
 	protected $image_content_extractor;
@@ -63,10 +65,11 @@ class Image_Helper {
 	/**
 	 * Image_Helper constructor.
 	 *
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
-	 * @param SEO_Links_Repository $seo_links_repository The SEO Links repository.
-	 * @param Options_Helper       $options              The options helper.
-	 * @param Url_Helper           $url_helper           The URL helper.
+	 * @param Indexable_Repository    $indexable_repository    The indexable repository.
+	 * @param SEO_Links_Repository    $seo_links_repository    The SEO Links repository.
+	 * @param Options_Helper          $options                 The options helper.
+	 * @param Url_Helper              $url_helper              The URL helper.
+	 * @param Image_Content_Extractor $image_content_extractor The image content extractor.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
@@ -425,6 +428,7 @@ class Image_Helper {
 	 * @return string|null
 	 */
 	protected function get_first_usable_content_image_id_for_post( $post_id ) {
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
 		global $post;
 		$post_backup = $post;
 		$post        = \get_post( $post_id );

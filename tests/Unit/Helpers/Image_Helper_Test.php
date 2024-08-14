@@ -65,6 +65,7 @@ final class Image_Helper_Test extends TestCase {
 	 * @var Mockery\MockInterface|Url_Helper
 	 */
 	protected $url_helper;
+
 	/**
 	 *  The Image content extractor instance.
 	 *
@@ -88,9 +89,9 @@ final class Image_Helper_Test extends TestCase {
 		$this->indexable_seo_links_repository = Mockery::mock( SEO_Links_Repository::class );
 		$this->options_helper                 = Mockery::mock( Options_Helper::class );
 		$this->url_helper                     = Mockery::mock( Url_Helper::class );
-		$this->image_content_extractor                     = Mockery::mock( Image_Content_Extractor::class );
+		$this->image_content_extractor        = Mockery::mock( Image_Content_Extractor::class );
 
-		$this->actual_instance = new Image_Helper( $this->indexable_repository, $this->indexable_seo_links_repository, $this->options_helper, $this->url_helper,$this->image_content_extractor );
+		$this->actual_instance = new Image_Helper( $this->indexable_repository, $this->indexable_seo_links_repository, $this->options_helper, $this->url_helper, $this->image_content_extractor );
 	}
 
 	/**
