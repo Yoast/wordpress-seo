@@ -128,6 +128,8 @@ final class Post_Site_Information_Test extends TestCase {
 				'isPremium'     => true,
 				'siteIconUrl'   => 'https://example.org',
 			],
+
+			'adminUrl'                   => 'https://example.org',
 			'linkParams'                 => [
 				'param',
 				'param2',
@@ -176,6 +178,7 @@ final class Post_Site_Information_Test extends TestCase {
 			'post_edit_url'                  => 'https://example.org',
 			'base_url'                       => 'https://example.org',
 
+			'adminUrl'                       => 'https://example.org',
 			'linkParams'                     => [
 				'param',
 				'param2',

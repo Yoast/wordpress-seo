@@ -42,8 +42,8 @@
   display: none;
   max-width: 600px;
   width: 100%;
-  min-height: 100%;
   height: auto;
+  min-height: 100%;
   vertical-align: top;
   border: 1px solid rgba( 0,0,0,0.2 );
 }
@@ -74,10 +74,38 @@
   padding-top: 16px;
 }
 
+/* Target only the block-editor. */
+.edit-post-meta-boxes-area__container {
+  .wpseo-metabox {
+    .postbox-header {
+      border-bottom: 1px solid #ddd;
+    }
+
+    .inside {
+      background-color: #f1f5f9;
+    }
+
+    .wpseo-metabox-content {
+      max-width: none;
+      padding-top: 32px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+    }
+
+    .wpseo-metabox-menu, .wpseo-meta-section {
+      margin: 0 auto;
+    }
+
+    .wpseo-meta-section.active {
+      display: block;
+    }
+  }
+}
+
 .wpseo-metabox-menu {
   max-width: 600px;
   padding: 0;
-  background-color: #fff;
 }
 
 .wpseo-metabox-menu ul {

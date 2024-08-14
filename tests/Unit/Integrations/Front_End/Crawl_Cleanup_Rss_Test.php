@@ -74,8 +74,8 @@ final class Crawl_Cleanup_Rss_Test extends TestCase {
 
 		$this->instance->register_hooks();
 
-		$this->assertNotFalse( Monkey\Actions\has( 'feed_links_show_posts_feed', '__return_false' ) );
-		$this->assertNotFalse( Monkey\Actions\has( 'feed_links_show_comments_feed', '__return_false' ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'feed_links_show_posts_feed', '__return_false' ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'feed_links_show_comments_feed', '__return_false' ) );
 		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'maybe_disable_feeds' ] ) );
 		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'maybe_redirect_feeds' ] ) );
 	}
@@ -86,20 +86,12 @@ final class Crawl_Cleanup_Rss_Test extends TestCase {
 	 * @covers ::maybe_disable_feeds
 	 * @dataProvider maybe_disable_feeds_dataprovider
 	 *
-	 * @param array $types          Flags identifying the type of feed.
-	 * @param array $options        Values set for the different options.
-	 * @param int   $expected_times Number of times (0 or 1) the removal of the feed function is expected.
+	 * @param array<string, array<string, bool>> $options        Values set for the different options.
+	 * @param int                                $expected_times Number of times (0 or 1) the removal of the feed function is expected.
 	 *
 	 * @return void
 	 */
-	public function test_maybe_disable_feeds( $types, $options, $expected_times ) {
-
-		foreach ( $types as $type => $value ) {
-			Monkey\Functions\expect( $type )
-				->atMost()
-				->once()
-				->andReturn( $value );
-		}
+	public function test_maybe_disable_feeds( $options, $expected_times ) {
 
 		foreach ( $options as $option => $value ) {
 			$this->options_helper
@@ -108,7 +100,7 @@ final class Crawl_Cleanup_Rss_Test extends TestCase {
 				->andReturn( $value );
 		}
 
-		Monkey\Functions\expect( 'remove_action' )
+		Monkey\Functions\expect( 'add_filter' )
 			->times( $expected_times );
 
 		$this->instance->maybe_disable_feeds();
@@ -117,20 +109,11 @@ final class Crawl_Cleanup_Rss_Test extends TestCase {
 	/**
 	 * A data provider for the tests of the maybe_disable_feeds function.
 	 *
-	 * @return array[]
+	 * @return array<string, array<string, bool>>
 	 */
 	public static function maybe_disable_feeds_dataprovider() {
 		return [
-			'singular, feed enabled' => [
-				'types'           => [
-					'is_singular'          => true,
-					'is_author'            => false,
-					'is_category'          => false,
-					'is_tag'               => false,
-					'is_tax'               => false,
-					'is_post_type_archive' => false,
-					'is_search'            => false,
-				],
+			'feeds enabled' => [
 				'options'         => [
 					'remove_feed_post_comments'     => false,
 					'remove_feed_authors'           => false,
@@ -142,16 +125,7 @@ final class Crawl_Cleanup_Rss_Test extends TestCase {
 				],
 				'expected_times'  => 0,
 			],
-			'singular, feed disabled' => [
-				'types'          => [
-					'is_singular'          => true,
-					'is_author'            => false,
-					'is_category'          => false,
-					'is_tag'               => false,
-					'is_tax'               => false,
-					'is_post_type_archive' => false,
-					'is_search'            => false,
-				],
+			'post comments feed disabled' => [
 				'options'        => [
 					'remove_feed_post_comments'     => true,
 					'remove_feed_authors'           => false,
@@ -163,45 +137,75 @@ final class Crawl_Cleanup_Rss_Test extends TestCase {
 				],
 				'expected_times' => 1,
 			],
-			'author, feed enabled' => [
-				'types'          => [
-					'is_singular'          => false,
-					'is_author'            => true,
-					'is_category'          => false,
-					'is_tag'               => false,
-					'is_tax'               => false,
-					'is_post_type_archive' => false,
-					'is_search'            => false,
-				],
+			'author feed disabled' => [
 				'options'        => [
-					'remove_feed_post_comments'     => true,
-					'remove_feed_authors'           => false,
-					'remove_feed_categories'        => false,
-					'remove_feed_tags'              => false,
-					'remove_feed_custom_taxonomies' => false,
-					'remove_feed_post_types'        => false,
-					'remove_feed_search'            => false,
-				],
-				'expected_times' => 0,
-			],
-			'author, feed disabled' => [
-				'types'          => [
-					'is_singular'          => false,
-					'is_author'            => true,
-					'is_category'          => false,
-					'is_tag'               => false,
-					'is_tax'               => false,
-					'is_post_type_archive' => false,
-					'is_search'            => false,
-				],
-				'options'        => [
-					'remove_feed_post_comments'     => true,
+					'remove_feed_post_comments'     => false,
 					'remove_feed_authors'           => true,
 					'remove_feed_categories'        => false,
 					'remove_feed_tags'              => false,
 					'remove_feed_custom_taxonomies' => false,
 					'remove_feed_post_types'        => false,
 					'remove_feed_search'            => false,
+				],
+				'expected_times' => 1,
+			],
+			'category feed disabled' => [
+				'options'        => [
+					'remove_feed_post_comments'     => false,
+					'remove_feed_authors'           => false,
+					'remove_feed_categories'        => true,
+					'remove_feed_tags'              => false,
+					'remove_feed_custom_taxonomies' => false,
+					'remove_feed_post_types'        => false,
+					'remove_feed_search'            => false,
+				],
+				'expected_times' => 1,
+			],
+			'tag, feed disabled' => [
+				'options'        => [
+					'remove_feed_post_comments'     => false,
+					'remove_feed_authors'           => false,
+					'remove_feed_categories'        => false,
+					'remove_feed_tags'              => true,
+					'remove_feed_custom_taxonomies' => false,
+					'remove_feed_post_types'        => false,
+					'remove_feed_search'            => false,
+				],
+				'expected_times' => 1,
+			],
+			'taxonomy, feed disabled' => [
+				'options'        => [
+					'remove_feed_post_comments'     => false,
+					'remove_feed_authors'           => false,
+					'remove_feed_categories'        => false,
+					'remove_feed_tags'              => false,
+					'remove_feed_custom_taxonomies' => true,
+					'remove_feed_post_types'        => false,
+					'remove_feed_search'            => false,
+				],
+				'expected_times' => 1,
+			],
+			'post type, feed disabled' => [
+				'options'        => [
+					'remove_feed_post_comments'     => false,
+					'remove_feed_authors'           => false,
+					'remove_feed_categories'        => false,
+					'remove_feed_tags'              => false,
+					'remove_feed_custom_taxonomies' => false,
+					'remove_feed_post_types'        => true,
+					'remove_feed_search'            => false,
+				],
+				'expected_times' => 1,
+			],
+			'search, feed disabled' => [
+				'options'        => [
+					'remove_feed_post_comments'     => false,
+					'remove_feed_authors'           => false,
+					'remove_feed_categories'        => false,
+					'remove_feed_tags'              => false,
+					'remove_feed_custom_taxonomies' => false,
+					'remove_feed_post_types'        => false,
+					'remove_feed_search'            => true,
 				],
 				'expected_times' => 1,
 			],

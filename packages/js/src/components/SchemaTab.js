@@ -106,14 +106,15 @@ const footerText = ( postTypeName ) => sprintf(
  * Interpolates the footerText string with an actual link component.
  *
  * @param {string} postTypeName  The name of the current post type.
+ * @param {string} href          The href for the link.
  *
  * @returns {string} A link to the Search Appearance settings.
  */
-const footerWithLink = ( postTypeName ) => interpolateComponents(
+const footerWithLink = ( postTypeName, href ) => interpolateComponents(
 	{
 		mixedString: footerText( postTypeName ),
 		// eslint-disable-next-line jsx-a11y/anchor-has-content
-		components: { link: <a href="/wp-admin/admin.php?page=wpseo_page_settings" target="_blank" /> },
+		components: { link: <a href={ href } target="_blank" rel="noreferrer" /> },
 	}
 );
 
@@ -172,6 +173,7 @@ const Content = ( props ) => {
 	const woocommerceUpsellText = __( "Want your products stand out in search results with rich results like price, reviews and more?", "wordpress-seo" );
 	const isProduct = useSelect( ( select ) => select( STORE ).getIsProduct(), [] );
 	const isWooSeoActive = useSelect( select => select( STORE ).getIsWooSeoActive(), [] );
+	const settingsLink = useSelect( select => select( STORE ).selectAdminLink( "?page=wpseo_page_settings" ), [] );
 
 	const disablePageTypeSelect = isProduct && isWooSeoActive;
 
@@ -217,7 +219,7 @@ const Content = ( props ) => {
 				location={ props.location }
 				show={ ! props.isNewsEnabled && isNewsArticleType( focusedArticleType, props.defaultArticleType ) }
 			/>
-			{ props.displayFooter && ! disablePageTypeSelect && <p>{ footerWithLink( props.postTypeName ) }</p> }
+			{ props.displayFooter && ! disablePageTypeSelect && <p>{ footerWithLink( props.postTypeName, settingsLink ) }</p> }
 			{ disablePageTypeSelect && <p>
 				{ sprintf(
 					/* translators: %1$s expands to Yoast WooCommerce SEO. */
