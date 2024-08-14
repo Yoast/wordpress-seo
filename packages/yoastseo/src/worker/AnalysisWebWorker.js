@@ -952,6 +952,10 @@ export default class AnalysisWebWorker {
 			return true;
 		}
 
+		if ( this._paper.getKeyword() !== paper.getKeyword() ) {
+			return true;
+		}
+
 		return this._paper.getLocale() !== paper.getLocale();
 	}
 

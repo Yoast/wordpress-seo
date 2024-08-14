@@ -4,7 +4,7 @@ import AIButton from "../../../src/redux/reducers/AIButton";
 describe( "AIButton", () => {
 	const state = {
 		activeAIButton: null,
-		disabledAIButtons: [],
+		disabledAIButtons: {},
 	};
 
 	it( "should set the active AI fixes button on receiving the SET_ACTIVE_AI_FIXES_BUTTON action", () => {
@@ -14,7 +14,7 @@ describe( "AIButton", () => {
 		};
 		const expected = {
 			activeAIButton: "keyphraseDensityAIFixes",
-			disabledAIButtons: [],
+			disabledAIButtons: {},
 		};
 
 		// eslint-disable-next-line new-cap
@@ -23,11 +23,11 @@ describe( "AIButton", () => {
 	it( "should set the disabled AI fixes buttons on receiving the SET_DISABLED_AI_FIXES_BUTTONS action", () => {
 		const action = {
 			type: SET_DISABLED_AI_FIXES_BUTTONS,
-			disabledAIButtons: [ "keyphraseDensityAIFixes", "keyphraseDistributionAIFixes" ],
+			disabledAIButtons: { keyphraseDensityAIFixes: "too short", keyphraseDistributionAIFixes: "too long" },
 		};
 		const expected = {
 			activeAIButton: null,
-			disabledAIButtons: [ "keyphraseDensityAIFixes", "keyphraseDistributionAIFixes" ],
+			disabledAIButtons: { keyphraseDensityAIFixes: "too short", keyphraseDistributionAIFixes: "too long" },
 		};
 
 		// eslint-disable-next-line new-cap

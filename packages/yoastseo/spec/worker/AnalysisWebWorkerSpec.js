@@ -1786,6 +1786,12 @@ describe( "AnalysisWebWorker", () => {
 			worker._paper = new Paper( "This is the content." );
 			expect( worker.shouldReadabilityUpdate( paper ) ).toBe( false );
 		} );
+
+		test( "returns true when the keyphrase is different", () => {
+			const paper = new Paper( "This is the content.", { keyword: "cats" } );
+			worker._paper = new Paper( "This is the content.", { keyword: "dogs" } );
+			expect( worker.shouldReadabilityUpdate( paper ) ).toBe( true );
+		} );
 	} );
 
 	describe( "shouldSeoUpdate", () => {

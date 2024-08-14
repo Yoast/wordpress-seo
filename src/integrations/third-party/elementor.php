@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use Elementor\Controls_Manager;
-use Elementor\Core\DocumentTypes\PageBase;
 use WP_Post;
 use WP_Screen;
 use WPSEO_Admin_Asset_Manager;
@@ -21,6 +19,7 @@ use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
+use Yoast\WP\SEO\Elementor\Infrastructure\Request_Post;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -31,11 +30,6 @@ use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
  * Integrates the Yoast SEO metabox in the Elementor editor.
  */
 class Elementor implements Integration_Interface {
-
-	/**
-	 * The identifier for the elementor tab.
-	 */
-	public const YOAST_TAB = 'yoast-tab';
 
 	/**
 	 * Represents the post.
@@ -64,6 +58,13 @@ class Elementor implements Integration_Interface {
 	 * @var Capability_Helper
 	 */
 	protected $capability;
+
+	/**
+	 * Holds the Request_Post.
+	 *
+	 * @var Request_Post
+	 */
+	private $request_post;
 
 	/**
 	 * Holds whether the socials are enabled.
@@ -122,15 +123,18 @@ class Elementor implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
 	 * @param Options_Helper            $options       The options helper.
 	 * @param Capability_Helper         $capability    The capability helper.
+	 * @param Request_Post              $request_post  The Request_Post.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Options_Helper $options,
-		Capability_Helper $capability
+		Capability_Helper $capability,
+		Request_Post $request_post
 	) {
 		$this->asset_manager = $asset_manager;
 		$this->options       = $options;
 		$this->capability    = $capability;
+		$this->request_post  = $request_post;
 
 		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
@@ -160,21 +164,11 @@ class Elementor implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_elementor_hooks() {
-
 		if ( $this->get_metabox_post() === null || ! $this->display_metabox( $this->get_metabox_post()->post_type ) ) {
 			return;
 		}
 
 		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'init' ] );
-
-		// We are too late for elementor/init. We should see if we can be on time, or else this workaround works (we do always get the "else" though).
-		if ( ! \did_action( 'elementor/init' ) ) {
-			\add_action( 'elementor/init', [ $this, 'add_yoast_panel_tab' ] );
-		}
-		else {
-			$this->add_yoast_panel_tab();
-		}
-		\add_action( 'elementor/documents/register_controls', [ $this, 'register_document_controls' ] );
 	}
 
 	/**
@@ -186,40 +180,6 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->register_assets();
 		$this->enqueue();
 		$this->render_hidden_fields();
-	}
-
-	/**
-	 * Register a panel tab slug, in order to allow adding controls to this tab.
-	 *
-	 * @return void
-	 */
-	public function add_yoast_panel_tab() {
-		Controls_Manager::add_tab( $this::YOAST_TAB, 'Yoast SEO' );
-	}
-
-	/**
-	 * Register additional document controls.
-	 *
-	 * @param PageBase $document The PageBase document.
-	 *
-	 * @return void
-	 */
-	public function register_document_controls( $document ) {
-		// PageBase is the base class for documents like `post` `page` and etc.
-		if ( ! $document instanceof PageBase || ! $document::get_property( 'has_elements' ) ) {
-			return;
-		}
-
-		// This is needed to get the tab to appear, but will be overwritten in the JavaScript.
-		$document->start_controls_section(
-			'yoast_temporary_section',
-			[
-				'label' => 'Yoast SEO',
-				'tab'   => self::YOAST_TAB,
-			]
-		);
-
-		$document->end_controls_section();
 	}
 
 	// Below is mostly copied from `class-metabox.php`. That constructor has side-effects we do not need.
@@ -572,26 +532,9 @@ class Elementor implements Integration_Interface {
 			return $this->post;
 		}
 
-		$post = null;
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
-		if ( isset( $_GET['post'] ) && \is_numeric( $_GET['post'] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
-			$post = (int) \wp_unslash( $_GET['post'] );
-		}
+		$this->post = $this->request_post->get_post();
 
-		if ( ! empty( $post ) ) {
-			$this->post = \get_post( $post );
-
-			return $this->post;
-		}
-
-		if ( isset( $GLOBALS['post'] ) ) {
-			$this->post = $GLOBALS['post'];
-
-			return $this->post;
-		}
-
-		return null;
+		return $this->post;
 	}
 
 	/**
