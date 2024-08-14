@@ -36,7 +36,7 @@ class Duplicate_Post_Integration implements Integration_Interface {
 	 * @return array The updated excludelist.
 	 */
 	public function exclude_zapier_meta( $meta_excludelist ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.4' );
 
 		return $meta_excludelist;
 	}
