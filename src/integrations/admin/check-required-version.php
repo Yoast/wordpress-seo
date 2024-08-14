@@ -23,7 +23,6 @@ class Check_Required_Version implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'upgrader_source_selection', [ $this, 'check_required_version' ] );
-		\add_filter( 'extra_plugin_headers', [ $this, 'add_requires_yoast_seo_header' ] );
 		\add_filter( 'install_plugin_overwrite_comparison', [ $this, 'update_comparison_table' ], 10, 3 );
 	}
 
@@ -79,18 +78,6 @@ class Check_Required_Version implements Integration_Interface {
 		}
 
 		return $source;
-	}
-
-	/**
-	 * Add the `Requires Yoast SEO` header to the list of headers.
-	 *
-	 * @param array<string> $headers The headers.
-	 *
-	 * @return array<string> The updated headers.
-	 */
-	public function add_requires_yoast_seo_header( $headers ) {
-		$headers[] = 'Requires Yoast SEO';
-		return $headers;
 	}
 
 	/**
