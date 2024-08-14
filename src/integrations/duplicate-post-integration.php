@@ -25,7 +25,7 @@ class Duplicate_Post_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.4' );
 	}
 
 	/**
