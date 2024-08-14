@@ -72,6 +72,9 @@ class WPSEO_Admin_User_Profile {
 	/**
 	 * Add the inputs needed for SEO values to the User Profile page.
 	 *
+	 * @deprecated 23.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param WP_User $user User instance to output for.
 	 *
 	 * @return void
