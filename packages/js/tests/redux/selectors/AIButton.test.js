@@ -4,7 +4,7 @@ describe( "AIButton", () => {
 	const state = {
 		AIButton: {
 			activeAIButton: "keyphraseInSubheadingAIFixes",
-			disabledAIButtons: [ "keyphraseDensityAIFixes" ],
+			disabledAIButtons: { keyphraseDensityAIFixes: "Your text is too long." },
 		},
 	};
 
@@ -12,6 +12,6 @@ describe( "AIButton", () => {
 		expect( getActiveAIFixesButton( state ) ).toEqual( "keyphraseInSubheadingAIFixes" );
 	} );
 	it( "returns the ids of the disabled AI Assessment Fixes buttons", () => {
-		expect( getDisabledAIFixesButtons( state ) ).toEqual( [ "keyphraseDensityAIFixes" ] );
+		expect( getDisabledAIFixesButtons( state ) ).toEqual( { keyphraseDensityAIFixes: "Your text is too long." } );
 	} );
 } );
