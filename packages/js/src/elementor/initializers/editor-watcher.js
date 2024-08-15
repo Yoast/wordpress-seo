@@ -179,7 +179,11 @@ const debouncedHandleEditorChange = debounce( handleEditorChange, refreshDelay )
  * @returns {void}
  */
 function observeChanges() {
-	const observer = new MutationObserver( debouncedHandleEditorChange );
+	const observer = new MutationObserver( () => {
+		if ( isFormIdEqualToDocumentId() ) {
+			debouncedHandleEditorChange();
+		}
+	} );
 	observer.observe( document, { attributes: true, childList: true, subtree: true, characterData: true } );
 }
 
