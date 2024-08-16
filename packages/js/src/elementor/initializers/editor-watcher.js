@@ -115,6 +115,9 @@ function getEditorData( editorDocument ) {
  */
 function handleEditorChange() {
 	const currentDocument = elementor.documents.getCurrent();
+	if( ! currentDocument.$element ) {
+		return;
+	}
 
 	// Quit early if the change was caused by switching out of the wp-post/page document.
 	// This can happen when users go to Site Settings, for example.
