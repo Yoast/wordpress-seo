@@ -44,7 +44,7 @@ $deprecated_classes = [
 	Wordproof_Helper::class                                        => '22.10',
 	Ai_Generate_Titles_And_Descriptions_Introduction_Upsell::class => '23.2',
 	Disable_Concatenate_Scripts_Integration::class                 => '23.2',
-  Duplicate_Post_Integration::class                              => '23.4',
+	Duplicate_Post_Integration::class                              => '23.4',
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {
