@@ -14,4 +14,4 @@ export const isFormId = ( id ) => getFormPostId() === id;
 /**
  * @returns {boolean} True if the form ID is equal to the current document ID.
  */
-export const isFormIdEqualToDocumentId = () => isFormId( elementor.documents.getCurrent().id );
+export const isFormIdEqualToDocumentId = () => isFormId( elementor.documents.getCurrent()?.id );
