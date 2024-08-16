@@ -31,6 +31,9 @@ class Duplicate_Post_Integration implements Integration_Interface {
 	/**
 	 * Filters out the Zapier meta when you copy a post with Yoast Duplicate Post.
 	 *
+	 * @deprecated 23.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param array $meta_excludelist The current excludelist of meta fields.
 	 *
 	 * @return array The updated excludelist.
