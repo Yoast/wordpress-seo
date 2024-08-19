@@ -101,6 +101,7 @@ describe( "serialize", () => {
 			customData: { hasGlobalIdentifier: true, hasVariants: true },
 			textTitle: "The title of the text",
 			writingDirection: "LTR",
+			wpBlocks: [],
 		} );
 	} );
 
