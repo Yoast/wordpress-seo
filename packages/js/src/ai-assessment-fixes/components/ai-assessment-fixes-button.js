@@ -88,9 +88,12 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		}
 
 		/* If the current pressed button ID is the same as the active AI button id,
-		we want to set the active AI button to null. Otherwise, update the active AI button ID. */
+		we want to set the active AI button to null and enable back the highlighting button that was disabled
+		when the AI button was pressed the first time. Otherwise, update the active AI button ID. */
 		if ( aiFixesId === activeAIButtonId ) {
 			setActiveAIFixesButton( null );
+			// Enable the highlighting button when the AI button is not pressed.
+			setMarkerStatus( "enabled" );
 		} else {
 			setActiveAIFixesButton( aiFixesId );
 			/*
