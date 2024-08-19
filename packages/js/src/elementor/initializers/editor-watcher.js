@@ -115,7 +115,7 @@ function getEditorData( editorDocument ) {
  */
 function handleEditorChange() {
 	const currentDocument = elementor.documents.getCurrent();
-	if( ! currentDocument.$element ) {
+	if ( ! currentDocument.$element ) {
 		return;
 	}
 
