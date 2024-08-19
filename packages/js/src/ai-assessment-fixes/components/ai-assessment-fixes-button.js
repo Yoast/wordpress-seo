@@ -146,8 +146,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			{ ! isPremium && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
 			<SparklesIcon pressed={ isButtonPressed } />
 			{
-				// We put the logic for the Upsell component in place.
-				// The Modal below is only a placeholder/mock. When we have the design for the real upsell, the modal should be replaced.
 				isModalOpen && <Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
 					<Modal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl yst-introduction-modal-panel">
 						<ModalContent onClose={ setIsModalOpenFalse } focusElementRef={ focusElementRef } />
