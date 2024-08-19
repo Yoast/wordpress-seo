@@ -27,7 +27,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
 	const activeAIButtonId = useSelect( select => select( "yoast-seo/editor" ).getActiveAIFixesButton(), [] );
 	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
-	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus } = useDispatch( "yoast-seo/editor" );
+	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
 
