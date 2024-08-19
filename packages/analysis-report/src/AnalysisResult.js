@@ -26,7 +26,7 @@ const AnalysisResultBase = styled.li`
 	display: flex;
 	align-items: flex-start;
 	position: relative;
-	column-gap: 12px;
+	gap: 12px;
 `;
 
 const ScoreIcon = styled( SvgIcon )`

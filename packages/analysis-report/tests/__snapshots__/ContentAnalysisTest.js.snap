@@ -194,8 +194,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
-  -webkit-column-gap: 12px;
-  column-gap: 12px;
+  gap: 12px;
 }
 
 .c18 {
@@ -967,8 +966,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
-  -webkit-column-gap: 12px;
-  column-gap: 12px;
+  gap: 12px;
 }
 
 .c18 {
@@ -1705,8 +1703,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
-  -webkit-column-gap: 12px;
-  column-gap: 12px;
+  gap: 12px;
 }
 
 .c18 {
@@ -2428,8 +2425,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
-  -webkit-column-gap: 12px;
-  column-gap: 12px;
+  gap: 12px;
 }
 
 .c18 {
@@ -3201,8 +3197,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
-  -webkit-column-gap: 12px;
-  column-gap: 12px;
+  gap: 12px;
 }
 
 .c18 {
@@ -4014,8 +4009,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
-  -webkit-column-gap: 12px;
-  column-gap: 12px;
+  gap: 12px;
 }
 
 .c18 {
@@ -4787,8 +4781,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
-  -webkit-column-gap: 12px;
-  column-gap: 12px;
+  gap: 12px;
 }
 
 .c18 {
@@ -5357,8 +5350,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
-  -webkit-column-gap: 12px;
-  column-gap: 12px;
+  gap: 12px;
 }
 
 .c18 {
@@ -5927,8 +5919,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
-  -webkit-column-gap: 12px;
-  column-gap: 12px;
+  gap: 12px;
 }
 
 .c18 {
@@ -6586,8 +6577,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
-  -webkit-column-gap: 12px;
-  column-gap: 12px;
+  gap: 12px;
 }
 
 .c18 {
