@@ -79,9 +79,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'tag_base_url'                             => '',
 		'custom_taxonomy_slugs'                    => [],
 		'enable_enhanced_slack_sharing'            => true,
-		'zapier_integration_active'                => false,
-		'zapier_subscription'                      => [],
-		'zapier_api_key'                           => '',
 		'enable_metabox_insights'                  => true,
 		'enable_link_suggestions'                  => true,
 		'algolia_integration_active'               => false,
@@ -326,7 +323,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'semrush_country_code':
 				case 'license_server_version':
 				case 'home_url':
-				case 'zapier_api_key':
 				case 'index_now_key':
 				case 'wincher_website_id':
 				case 'clean_permalinks_extra_variables':
@@ -403,7 +399,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'myyoast_oauth':
 				case 'semrush_tokens':
 				case 'custom_taxonomy_slugs':
-				case 'zapier_subscription':
 				case 'wincher_tokens':
 				case 'workouts_data':
 				case 'configuration_finished_steps':
@@ -552,7 +547,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'tracking'                           => false,
 			'enable_enhanced_slack_sharing'      => false,
 			'semrush_integration_active'         => false,
-			'zapier_integration_active'          => false,
 			'wincher_integration_active'         => false,
 			'remove_feed_global'                 => false,
 			'remove_feed_global_comments'        => false,

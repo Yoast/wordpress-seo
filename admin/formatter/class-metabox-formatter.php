@@ -168,8 +168,6 @@ class WPSEO_Metabox_Formatter {
 			 * @param bool $showMarkers Should the markers being enabled. Default = true.
 			 */
 			'show_markers'                       => apply_filters( 'wpseo_enable_assessment_markers', true ),
-			'zapierIntegrationActive'            => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
-			'zapierConnectedStatus'              => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
 			'getJetpackBoostPrePublishLink'      => WPSEO_Shortlinker::get( 'https://yoa.st/jetpack-boost-get-prepublish?domain=' . $host ),
 			'upgradeJetpackBoostPrePublishLink'  => WPSEO_Shortlinker::get( 'https://yoa.st/jetpack-boost-upgrade-prepublish?domain=' . $host ),
 			'woocommerceUpsellSchemaLink'        => WPSEO_Shortlinker::get( 'https://yoa.st/product-schema-metabox' ),

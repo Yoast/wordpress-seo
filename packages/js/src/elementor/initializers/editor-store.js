@@ -2,6 +2,8 @@ import { combineReducers, registerStore } from "@wordpress/data";
 import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { get, pickBy } from "lodash";
 import * as controls from "../../redux/controls";
+import { createFreezeReducer } from "../../redux/utils/create-freeze-reducer";
+import { createSnapshotReducer } from "../../redux/utils/create-snapshot-reducer";
 import * as snippetEditorActions from "../redux/actions/snippetEditor";
 import * as analysisSelectors from "../redux/selectors/analysis";
 
@@ -57,6 +59,7 @@ const populateStore = store => {
 
 	store.dispatch( actions.setIsPremium( Boolean( get( window, "wpseoScriptData.metabox.isPremium", false ) ) ) );
 
+	store.dispatch( actions.setAdminUrl( get( window, "wpseoScriptData.adminUrl", "" ) ) );
 	store.dispatch( actions.setLinkParams( get( window, "wpseoScriptData.linkParams", {} ) ) );
 	store.dispatch( actions.setPluginUrl( get( window, "wpseoScriptData.pluginUrl", "" ) ) );
 	store.dispatch( actions.setWistiaEmbedPermissionValue( get( window, "wpseoScriptData.wistiaEmbedPermission", false ) === "1" ) );
@@ -68,8 +71,11 @@ const populateStore = store => {
  * @returns {object} The Yoast SEO editor store.
  */
 export default function initEditorStore() {
+	const { snapshotReducer, takeSnapshot, restoreSnapshot } = createSnapshotReducer( combineReducers( reducers ) );
+	const { freezeReducer, toggleFreeze } = createFreezeReducer( snapshotReducer );
+
 	const store = registerStore( "yoast-seo/editor", {
-		reducer: combineReducers( reducers ),
+		reducer: freezeReducer,
 		selectors: {
 			...selectors,
 			// Add or override selectors that are specific for Elementor.
@@ -84,6 +90,10 @@ export default function initEditorStore() {
 	} );
 
 	populateStore( store );
+
+	store._freeze = toggleFreeze.bind( null, store.getState );
+	store._takeSnapshot = takeSnapshot.bind( null, store.getState, store.dispatch );
+	store._restoreSnapshot = restoreSnapshot.bind( null, store.dispatch );
 
 	return store;
 }

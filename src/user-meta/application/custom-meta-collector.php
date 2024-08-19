@@ -37,6 +37,24 @@ class Custom_Meta_Collector {
 	}
 
 	/**
+	 * Returns all the custom meta, sorted by rendering priority.
+	 *
+	 * @return array<Custom_Meta_Interface> All the custom meta, sorted by rendering priority.
+	 */
+	public function get_sorted_custom_meta(): array {
+		$custom_meta = $this->get_custom_meta();
+
+		\usort(
+			$custom_meta,
+			static function ( Custom_Meta_Interface $a, Custom_Meta_Interface $b ) {
+				return ( $a->get_render_priority() <=> $b->get_render_priority() );
+			}
+		);
+
+		return $custom_meta;
+	}
+
+	/**
 	 * Returns the custom meta that can't be empty.
 	 *
 	 * @return array<string> The custom meta that can't be empty.
