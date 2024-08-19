@@ -93,6 +93,11 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			setActiveAIFixesButton( null );
 		} else {
 			setActiveAIFixesButton( aiFixesId );
+			/*
+			Disable the highlighting button when the AI button is pressed.
+			This is because clicking on the highlighting button will remove the AI suggestion from the editor.
+			 */
+			setMarkerStatus( "disabled" );
 		}
 
 		// Dismiss the tooltip when the button is pressed.
