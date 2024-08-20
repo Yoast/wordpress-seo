@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^3.0.0-alpha.0",
+    "@yoast/components": "^3.0.0-alpha.1",
     "@yoast/helpers": "^0.17.0-alpha.0",
     "@yoast/replacement-variable-editor": "^2.0.0-alpha.0",
     "@yoast/style-guide": "^0.14.0-alpha.0",

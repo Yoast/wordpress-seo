@@ -30,7 +30,7 @@
     "@wordpress/components": "^20.0.0",
     "@wordpress/hooks": "^2.12.3",
     "@wordpress/i18n": "^1.2.3",
-    "@yoast/components": "^3.0.0-alpha.0",
+    "@yoast/components": "^3.0.0-alpha.1",
     "@yoast/helpers": "^0.17.0-alpha.0",
     "@yoast/style-guide": "^0.14.0-alpha.0",
     "classnames": "^2.3.2",
