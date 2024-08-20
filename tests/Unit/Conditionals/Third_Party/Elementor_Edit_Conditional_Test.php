@@ -37,27 +37,19 @@ final class Elementor_Edit_Conditional_Test extends TestCase {
 	/**
 	 * Tests that the condition is not met when the Elementor plugin is not active.
 	 *
-	 * @dataProvider is_met_data_provider
+	 * @dataProvider is_met_dataprovider
 	 *
 	 * @covers ::is_met
-	 * @covers ::is_elementor_get_action
-	 * @covers ::is_yoast_save_post_action
 	 *
-	 * @param string $pagenow_new  The value of global pagenow.
-	 * @param mixed  $get_action   The value of action in $_GET['action'].
-	 * @param mixed  $post_action  The value of action in $_POST['action'].
-	 * @param bool   $doing_ajax   What wp_doing_ajax should return.
-	 * @param bool   $return_value The expected return value.
+	 * @param string    $pagenow_new  The value of global pagenow.
+	 * @param mixed     $get_action   The value of action in $_GET['action'].
+	 * @param mixed     $post_action  The value of action in $_POST['action'].
+	 * @param bool|null $doing_ajax   What wp_doing_ajax should return, if false it should not be called.
+	 * @param bool      $return_value The expected return value.
 	 *
 	 * @return void
 	 */
-	public function test_is_met(
-		string $pagenow_new,
-		$get_action,
-		$post_action,
-		bool $doing_ajax,
-		bool $return_value
-	) {
+	public function test_is_met( $pagenow_new, $get_action, $post_action, $doing_ajax, $return_value ) {
 		global $pagenow;
 
 		$pagenow = $pagenow_new;
@@ -65,81 +57,77 @@ final class Elementor_Edit_Conditional_Test extends TestCase {
 		$_GET['action']  = $get_action;
 		$_POST['action'] = $post_action;
 
-		Monkey\Functions\when( 'wp_doing_ajax' )->justReturn( $doing_ajax );
+		if ( $doing_ajax !== null ) {
+			Monkey\Functions\expect( 'wp_doing_ajax' )
+				->andReturn( $doing_ajax );
+		}
 
-		$this->assertSame( $return_value, $this->instance->is_met() );
+		self::assertEquals( $return_value, $this->instance->is_met() );
 	}
 
 	/**
-	 * Provides test data for test_is_met.
+	 * Data provider for test_is_met.
 	 *
-	 * @return array<string,array<string,string|bool|int|null>> The data for test_is_met.
+	 * @return array[] The data for test_is_met.
 	 */
-	public static function is_met_data_provider(): array {
+	public static function is_met_dataprovider() {
+		$action_in_get          = [
+			'pagenow_new'   => 'post.php',
+			'get_action'    => 'elementor',
+			'post_action'   => null,
+			'wp_doing_ajax' => null,
+			'return_value'  => true,
+		];
+		$action_in_post         = [
+			'pagenow_new'   => 'post.php',
+			'get_action'    => null,
+			'post_action'   => 'wpseo_elementor_save',
+			'wp_doing_ajax' => true,
+			'return_value'  => true,
+		];
+		$not_doing_ajax         = [
+			'pagenow_new'   => 'post.php',
+			'get_action'    => null,
+			'post_action'   => 'wpseo_elementor_save',
+			'wp_doing_ajax' => false,
+			'return_value'  => false,
+		];
+		$wrong_get_action       = [
+			'pagenow_new'   => 'post.php',
+			'get_action'    => 'wrong',
+			'post_action'   => null,
+			'wp_doing_ajax' => null,
+			'return_value'  => false,
+		];
+		$wrong_post_action      = [
+			'pagenow_new'   => 'post.php',
+			'get_action'    => null,
+			'post_action'   => 'wrong',
+			'wp_doing_ajax' => true,
+			'return_value'  => false,
+		];
+		$wrong_get_action_type  = [
+			'pagenow_new'   => 'post.php',
+			'get_action'    => 13,
+			'post_action'   => null,
+			'wp_doing_ajax' => null,
+			'return_value'  => false,
+		];
+		$wrong_post_action_type = [
+			'pagenow_new'   => 'post.php',
+			'get_action'    => null,
+			'post_action'   => 13,
+			'wp_doing_ajax' => null,
+			'return_value'  => false,
+		];
 		return [
-			'Action in GET'          => [
-				'pagenow_new'  => 'post.php',
-				'get_action'   => 'elementor',
-				'post_action'  => null,
-				'doing_ajax'   => false,
-				'return_value' => true,
-			],
-			'Action in POST'         => [
-				'pagenow_new'  => 'index.php',
-				'get_action'   => null,
-				'post_action'  => 'wpseo_elementor_save',
-				'doing_ajax'   => true,
-				'return_value' => true,
-			],
-			'Not doing AJAX'         => [
-				'pagenow_new'  => 'index.php',
-				'get_action'   => null,
-				'post_action'  => 'wpseo_elementor_save',
-				'doing_ajax'   => false,
-				'return_value' => false,
-			],
-			'No GET action'          => [
-				'pagenow_new'  => 'post.php',
-				'get_action'   => null,
-				'post_action'  => null,
-				'doing_ajax'   => false,
-				'return_value' => false,
-			],
-			'No POST action'         => [
-				'pagenow_new'  => 'index.php',
-				'get_action'   => null,
-				'post_action'  => null,
-				'doing_ajax'   => true,
-				'return_value' => false,
-			],
-			'Wrong GET action'       => [
-				'pagenow_new'  => 'post.php',
-				'get_action'   => 'wrong',
-				'post_action'  => null,
-				'doing_ajax'   => false,
-				'return_value' => false,
-			],
-			'Wrong POST action'      => [
-				'pagenow_new'  => 'index.php',
-				'get_action'   => null,
-				'post_action'  => 'wrong',
-				'doing_ajax'   => true,
-				'return_value' => false,
-			],
-			'Wrong GET action type'  => [
-				'pagenow_new'  => 'post.php',
-				'get_action'   => 13,
-				'post_action'  => null,
-				'doing_ajax'   => false,
-				'return_value' => false,
-			],
-			'Wrong POST action type' => [
-				'pagenow_new'  => 'index.php',
-				'get_action'   => null,
-				'post_action'  => 13,
-				'doing_ajax'   => true,
-				'return_value' => false,
-			],
+			'Action in GET'          => $action_in_get,
+			'Action in POST'         => $action_in_post,
+			'Not doing AJAX'         => $not_doing_ajax,
+			'Wrong GET action'       => $wrong_get_action,
+			'Wrong POST action'      => $wrong_post_action,
+			'Wrong GET action type'  => $wrong_get_action_type,
+			'Wrong POST action type' => $wrong_post_action_type,
 		];
 	}
 }

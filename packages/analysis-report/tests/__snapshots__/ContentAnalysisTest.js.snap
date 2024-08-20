@@ -194,14 +194,15 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
+  gap: 12px;
 }
 
 .c18 {
-  margin: 3px 11px 0 0;
+  margin: 3px 0 0 0;
 }
 
 .c19 {
-  margin: 0 16px 0 0;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -965,14 +966,15 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
+  gap: 12px;
 }
 
 .c18 {
-  margin: 3px 11px 0 0;
+  margin: 3px 0 0 0;
 }
 
 .c19 {
-  margin: 0 16px 0 0;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -1701,14 +1703,15 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
+  gap: 12px;
 }
 
 .c18 {
-  margin: 3px 11px 0 0;
+  margin: 3px 0 0 0;
 }
 
 .c19 {
-  margin: 0 16px 0 0;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -2422,14 +2425,15 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
+  gap: 12px;
 }
 
 .c18 {
-  margin: 3px 11px 0 0;
+  margin: 3px 0 0 0;
 }
 
 .c19 {
-  margin: 0 16px 0 0;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -3193,14 +3197,15 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
+  gap: 12px;
 }
 
 .c18 {
-  margin: 3px 11px 0 0;
+  margin: 3px 0 0 0;
 }
 
 .c19 {
-  margin: 0 16px 0 0;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -3208,7 +3213,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
 }
 
 .c22 {
-  margin: 0 16px 0 0;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -4004,14 +4009,15 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
+  gap: 12px;
 }
 
 .c18 {
-  margin: 3px 11px 0 0;
+  margin: 3px 0 0 0;
 }
 
 .c19 {
-  margin: 0 16px 0 0;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -4775,14 +4781,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
+  gap: 12px;
 }
 
 .c18 {
-  margin: 3px 11px 0 0;
+  margin: 3px 0 0 0;
 }
 
 .c19 {
-  margin: 0 16px 0 0;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -5343,14 +5350,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
+  gap: 12px;
 }
 
 .c18 {
-  margin: 3px 11px 0 0;
+  margin: 3px 0 0 0;
 }
 
 .c19 {
-  margin: 0 16px 0 0;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -5911,14 +5919,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
+  gap: 12px;
 }
 
 .c18 {
-  margin: 3px 11px 0 0;
+  margin: 3px 0 0 0;
 }
 
 .c19 {
-  margin: 0 16px 0 0;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -6568,14 +6577,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   -ms-flex-align: flex-start;
   align-items: flex-start;
   position: relative;
+  gap: 12px;
 }
 
 .c18 {
-  margin: 3px 11px 0 0;
+  margin: 3px 0 0 0;
 }
 
 .c19 {
-  margin: 0 16px 0 0;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
