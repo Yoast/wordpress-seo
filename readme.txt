@@ -274,6 +274,30 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 23.4 =
+
+Release date: 2024-09-03
+
+#### Enhancements
+
+* Adds _так_ to the words recognized by the _transition words_ assessment in Russian. Props to @pavelmai83.
+* Improves the schema output by following the specification for the _SearchAction_ more strictly.
+* Re-enables the script concatenation that was disabled to prevent a bug with WordPress 5.5.
+
+#### Bugfixes
+
+* Fixes a bug where the first tag instead of the primary tag would be shown in a permalink when adding a link in the Classic editor.
+* Fixes a bug where the Yoast user settings would be wiped out after a user profile update when the respective global settings were disabled.
+* Fixes a bug where two admin links would not be resolvable when using a custom admin URL.
+
+#### Other
+
+* Adds a learn more link to the primary category picker.
+* Deprecates some functions in the `Yoast_Input_Validation` class.
+* Deprecates the `Disable_Concatenate_Scripts_Integration` class.
+* Deprecates the `Duplicate_Post_Integration` class.
+* Deprecates the `WPSEO_Admin_User_Profile::user_profile()` method and the `admin/views/user-profile.php` file.
+
 = 23.3 =
 
 Release date: 2024-08-20
@@ -283,24 +307,6 @@ Yoast SEO 23.3 brings more enhancements and bugfixes. [Find more information abo
 #### Other
 
 * This release only contains non-user-facing maintenance changes.
-
-= 23.2 =
-
-Release date: 2024-08-06
-
-Yoast SEO 23.2 brings more enhancements and bugfixes. [Find more information about Yoast SEO 23.2 here](https://yoa.st/release-6-8-24).
-
-#### Enhancements
-
-* Excludes image captions from the _keyphrase in introduction_ assessment: image captions at the beginning of a post will not be treated as an introduction anymore.
-
-#### Bugfixes
-
-* Fixes a bug where the `wpseo_posts_for_related_keywords` filter would not work anymore since it was accidentally renamed.
-
-#### Other
-
-* Deprecates the `Ai_Generate_Titles_And_Descriptions_Introduction_Upsell` class.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
