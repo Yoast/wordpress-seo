@@ -27,7 +27,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
 	const activeAIButtonId = useSelect( select => select( "yoast-seo/editor" ).getActiveAIFixesButton(), [] );
 	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
-	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus } = useDispatch( "yoast-seo/editor" );
+	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
 
@@ -88,11 +88,19 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		}
 
 		/* If the current pressed button ID is the same as the active AI button id,
-		we want to set the active AI button to null. Otherwise, update the active AI button ID. */
+		we want to set the active AI button to null and enable back the highlighting button that was disabled
+		when the AI button was pressed the first time. Otherwise, update the active AI button ID. */
 		if ( aiFixesId === activeAIButtonId ) {
 			setActiveAIFixesButton( null );
+			// Enable the highlighting button when the AI button is not pressed.
+			setMarkerStatus( "enabled" );
 		} else {
 			setActiveAIFixesButton( aiFixesId );
+			/*
+			Disable the highlighting button when the AI button is pressed.
+			This is because clicking on the highlighting button will remove the AI suggestion from the editor.
+			 */
+			setMarkerStatus( "disabled" );
 		}
 
 		// Dismiss the tooltip when the button is pressed.
@@ -138,8 +146,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			{ ! isPremium && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
 			<SparklesIcon pressed={ isButtonPressed } />
 			{
-				// We put the logic for the Upsell component in place.
-				// The Modal below is only a placeholder/mock. When we have the design for the real upsell, the modal should be replaced.
 				isModalOpen && <Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
 					<Modal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl yst-introduction-modal-panel">
 						<ModalContent onClose={ setIsModalOpenFalse } focusElementRef={ focusElementRef } />
