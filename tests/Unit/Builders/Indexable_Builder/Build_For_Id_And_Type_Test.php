@@ -63,7 +63,6 @@ final class Build_For_Id_And_Type_Test extends Abstract_Indexable_Builder_TestCa
 
 		$this->expect_maybe_build_author_indexable();
 
-		// Saving is outside the scope of this test.
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $this->indexable );
 	}
 }

@@ -19,8 +19,6 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases";
-import { isWordProofIntegrationActive } from "../../helpers/wordproof";
-import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../modals/KeywordUpsell";
 import { BlackFridayProductEditorChecklistPromotion } from "../BlackFridayProductEditorChecklistPromotion";
@@ -28,9 +26,6 @@ import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
 
-import { MetaboxErrorFallback } from "../metabox-error-fallback";
-
-import { ErrorBoundary } from "@yoast/ui-library";
 const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 
@@ -50,87 +45,84 @@ export default function MetaboxFill( { settings } ) {
 
 	return (
 		<>
-			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
 			<Fill name="YoastMetabox">
-				<ErrorBoundary FallbackComponent={ MetaboxErrorFallback }>
-					<SidebarItem
-						key="warning"
-						renderPriority={ 1 }
+				<SidebarItem
+					key="warning"
+					renderPriority={ 1 }
+				>
+					<Warning />
+				</SidebarItem>
+				<SidebarItem
+					key="time-constrained-notification"
+					renderPriority={ 2 }
+				>
+					{ shouldShowWooCommerceChecklistPromo && <BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck /> }
+					<BlackFridayPromotionWithMetaboxWarningsCheck image={ null } hasIcon={ false } location={ "metabox" } />
+				</SidebarItem>
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
+					<KeywordInput
+						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
+					/>
+					{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
+						<SEMrushRelatedKeyphrases />
+					</Fill> }
+				</SidebarItem> }
+				<SidebarItem key="search-appearance" renderPriority={ 9 }>
+					<MetaboxCollapsible
+						id={ "yoast-snippet-editor-metabox" }
+						title={ __( "Search appearance", "wordpress-seo" ) } initialIsOpen={ true }
 					>
-						<Warning />
-					</SidebarItem>
-					<SidebarItem
-						key="time-constrained-notification"
-						renderPriority={ 2 }
-					>
-						{ shouldShowWooCommerceChecklistPromo && <BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck /> }
-						<BlackFridayPromotionWithMetaboxWarningsCheck image={ null } hasIcon={ false } location={ "metabox" } />
-					</SidebarItem>
-					{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
-						<KeywordInput
-							isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
-						/>
-						{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
-							<SEMrushRelatedKeyphrases />
-						</Fill> }
-					</SidebarItem> }
-					<SidebarItem key="search-appearance" renderPriority={ 9 }>
-						<MetaboxCollapsible
-							id={ "yoast-snippet-editor-metabox" }
-							title={ __( "Search appearance", "wordpress-seo" ) } initialIsOpen={ true }
-						>
-							<SnippetEditor hasPaperStyle={ false } />
-						</MetaboxCollapsible>
-					</SidebarItem>
-					{ settings.isContentAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
-						<ReadabilityAnalysis
+						<SnippetEditor hasPaperStyle={ false } />
+					</MetaboxCollapsible>
+				</SidebarItem>
+				{ settings.isContentAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
+					<ReadabilityAnalysis
+						shouldUpsell={ settings.shouldUpsell }
+					/>
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo-analysis" renderPriority={ 20 }>
+					<Fragment>
+						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
+							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 						/>
-					</SidebarItem> }
-					{ settings.isKeywordAnalysisActive && <SidebarItem key="seo-analysis" renderPriority={ 20 }>
-						<Fragment>
-							<SeoAnalysis
-								shouldUpsell={ settings.shouldUpsell }
-								shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-							/>
-							{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="metabox" /> }
-						</Fragment>
-					</SidebarItem> }
-					{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem key="inclusive-language-analysis" renderPriority={ 21 }>
-						<InclusiveLanguageAnalysis />
-					</SidebarItem> }
-					{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
-						{ settings.shouldUpsell && <KeywordUpsell /> }
-					</SidebarItem> }
-					{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
-						<SidebarItem key="wincher-seo-performance" renderPriority={ 23 }>
-							<WincherSEOPerformanceModal location="metabox" />
-						</SidebarItem>
-					}
-					{ settings.shouldUpsell && ! isTerm && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 25 }>
-						<InternalLinkingSuggestionsUpsell />
-					</SidebarItem> }
-					{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
-						<CollapsibleCornerstone />
-					</SidebarItem> }
-					{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 40 }>
-						<MetaboxCollapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
-							<AdvancedSettings />
-						</MetaboxCollapsible>
-					</SidebarItem> }
-					{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 50 }>
-						<SchemaTabContainer />
-					</SidebarItem> }
-					<SidebarItem
-						key="social"
-						renderPriority={ -1 }
-					>
-						<SocialMetadataPortal target="wpseo-section-social" />
+						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="metabox" /> }
+					</Fragment>
+				</SidebarItem> }
+				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem key="inclusive-language-analysis" renderPriority={ 21 }>
+					<InclusiveLanguageAnalysis />
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
+					{ settings.shouldUpsell && <KeywordUpsell /> }
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
+					<SidebarItem key="wincher-seo-performance" renderPriority={ 23 }>
+						<WincherSEOPerformanceModal location="metabox" />
 					</SidebarItem>
-					{ settings.isInsightsEnabled && <SidebarItem key="insights" renderPriority={ 52 }>
-						<InsightsCollapsible location="metabox" />
-					</SidebarItem> }
-				</ErrorBoundary>
+				}
+				{ settings.shouldUpsell && ! isTerm && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 25 }>
+					<InternalLinkingSuggestionsUpsell />
+				</SidebarItem> }
+				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
+					<CollapsibleCornerstone />
+				</SidebarItem> }
+				{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 40 }>
+					<MetaboxCollapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
+						<AdvancedSettings />
+					</MetaboxCollapsible>
+				</SidebarItem> }
+				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 50 }>
+					<SchemaTabContainer />
+				</SidebarItem> }
+				<SidebarItem
+					key="social"
+					renderPriority={ -1 }
+				>
+					<SocialMetadataPortal target="wpseo-section-social" />
+				</SidebarItem>
+				{ settings.isInsightsEnabled && <SidebarItem key="insights" renderPriority={ 52 }>
+					<InsightsCollapsible location="metabox" />
+				</SidebarItem> }
 			</Fill>
 		</>
 	);

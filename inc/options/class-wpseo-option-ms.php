@@ -100,7 +100,6 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}tracking"                           => true,
 			"{$allow_prefix}enable_enhanced_slack_sharing"      => true,
 			"{$allow_prefix}semrush_integration_active"         => true,
-			"{$allow_prefix}zapier_integration_active"          => true,
 			"{$allow_prefix}wincher_integration_active"         => false,
 			"{$allow_prefix}remove_feed_global"                 => true,
 			"{$allow_prefix}remove_feed_global_comments"        => true,
@@ -128,7 +127,6 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}search_cleanup_emoji"               => true,
 			"{$allow_prefix}search_cleanup_patterns"            => true,
 			"{$allow_prefix}redirect_search_pretty_urls"        => true,
-			"{$allow_prefix}wordproof_integration_active"       => false,
 			"{$allow_prefix}algolia_integration_active"         => true,
 		];
 

@@ -1,49 +1,56 @@
 {
-	"name": "@yoast/social-metadata-forms",
-	"version": "1.17.0",
-	"main": "build/index.js",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/Yoast/javascript.git",
-		"directory": "packages/social-metadata-forms"
-	},
-	"author": "Team Yoast",
-	"license": "GPL-3.0",
-	"private": false,
-	"scripts": {
-		"build": "yarn clean && yarn build:js",
-		"build:js": "babel src --out-dir build",
-		"clean": "rm -rf build",
-		"prepublishOnly": "yarn build",
-		"test": "jest",
-		"lint": "eslint . --max-warnings=0"
-	},
-	"publishConfig": {
-		"access": "public"
-	},
-	"dependencies": {
-		"@wordpress/i18n": "^1.1.0",
-		"@yoast/components": "^2.19.0",
-		"@yoast/helpers": "^0.16.0",
-		"@yoast/replacement-variable-editor": "^1.17.0",
-		"@yoast/style-guide": "^0.13.0",
-		"lodash": "^4.17.11",
-		"prop-types": "^15.6.0",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0",
-		"redux": "^3.7.2",
-		"styled-components": "^5.3.6"
-	},
-	"devDependencies": {
-		"@babel/cli": "^7.17.10",
-		"@babel/core": "^7.17.10",
-		"@babel/plugin-transform-react-jsx": "^7.17.3",
-		"@babel/preset-env": "^7.16.11",
-		"@yoast/browserslist-config": "^1.2.3",
-		"babel-plugin-styled-components": "^2.0.6",
-		"browserslist": "^4.7.3",
-		"jest-styled-components": "^7.0.3",
-		"raf": "^3.4.1",
-		"react-test-renderer": "^18.2.0"
-	}
+  "name": "@yoast/social-metadata-forms",
+  "version": "2.0.0-alpha.0",
+  "main": "build/index.js",
+  "files": [
+    "build",
+    "!*.map"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/social-metadata-forms"
+  },
+  "author": "Team Yoast",
+  "license": "GPL-3.0",
+  "private": false,
+  "scripts": {
+    "build": "yarn clean && yarn build:js",
+    "build:js": "babel src --out-dir build",
+    "clean": "rm -rf build",
+    "test": "jest",
+    "lint": "eslint . --max-warnings=0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@wordpress/i18n": "^1.1.0",
+    "@yoast/components": "^3.0.0-alpha.1",
+    "@yoast/helpers": "^0.17.0-alpha.0",
+    "@yoast/replacement-variable-editor": "^2.0.0-alpha.0",
+    "@yoast/style-guide": "^0.14.0-alpha.0",
+    "lodash": "^4.17.11",
+    "prop-types": "^15.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "redux": "^3.7.2",
+    "styled-components": "^5.3.6"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/plugin-transform-react-jsx": "^7.17.3",
+    "@babel/preset-env": "^7.16.11",
+    "@yoast/browserslist-config": "^1.2.3",
+    "babel-plugin-styled-components": "^2.0.6",
+    "browserslist": "^4.7.3",
+    "jest-styled-components": "^7.0.3",
+    "raf": "^3.4.1",
+    "react-test-renderer": "^18.2.0"
+  },
+  "peerDependencies": {
+    "@draft-js-plugins/mention": "^5.0.0",
+    "draft-js": "^0.11.7"
+  }
 }

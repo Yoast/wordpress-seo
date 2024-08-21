@@ -15,9 +15,6 @@ class WPSEO_Admin_User_Profile {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		add_action( 'show_user_profile', [ $this, 'user_profile' ] );
-		add_action( 'edit_user_profile', [ $this, 'user_profile' ] );
-
 		add_action( 'update_user_meta', [ $this, 'clear_author_sitemap_cache' ], 10, 3 );
 	}
 
@@ -75,11 +72,15 @@ class WPSEO_Admin_User_Profile {
 	/**
 	 * Add the inputs needed for SEO values to the User Profile page.
 	 *
+	 * @deprecated 23.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param WP_User $user User instance to output for.
 	 *
 	 * @return void
 	 */
 	public function user_profile( $user ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.4' );
 		wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
 
 		require_once WPSEO_PATH . 'admin/views/user-profile.php';

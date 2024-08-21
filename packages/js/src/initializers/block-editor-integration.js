@@ -14,7 +14,6 @@ import { registerFormatType } from "@wordpress/rich-text";
 import { Root } from "@yoast/externals/contexts";
 import { actions } from "@yoast/externals/redux";
 import { get } from "lodash";
-import initializeWordProofForBlockEditor from "../../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/blockEditor";
 import getL10nObject from "../analysis/getL10nObject";
 import YoastIcon from "../components/PluginIcon";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
@@ -26,7 +25,6 @@ import PrePublish from "../containers/PrePublish";
 import SidebarFill from "../containers/SidebarFill";
 import WincherPostPublish from "../containers/WincherPostPublish";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
-import { isWordProofIntegrationActive } from "../helpers/wordproof";
 import { link } from "../inline-links/edit-link";
 
 /**
@@ -222,8 +220,4 @@ export default function initBlockEditorIntegration( store ) {
 	registerFills( store );
 	registerFormats();
 	initializeAnnotations( store );
-
-	if ( isWordProofIntegrationActive() ) {
-		initializeWordProofForBlockEditor();
-	}
 }
