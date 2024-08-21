@@ -280,7 +280,7 @@ Release date: 2024-09-03
 
 #### Enhancements
 
-* Adds support for discarding the changes when switching to a post, using the Top bar feature.
+* Adds support for discarding the changes when switching to a post, using the Top bar feature in Elementor.
 * Adds _так_ to the words recognized by the _transition words_ assessment in Russian. Props to @pavelmai83.
 * Improves the schema output by following the specification for the _SearchAction_ more strictly.
 * Re-enables the script concatenation that was disabled to prevent a bug with WordPress 5.5.
