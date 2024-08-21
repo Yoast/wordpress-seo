@@ -12,7 +12,7 @@ class Plugin_Headers implements Initializer_Interface {
 	use No_Conditionals;
 
 	/**
-	 * Hooks into WooCommerce.
+	 * Hooks into the list of the plugin headers.
 	 *
 	 * @return void
 	 */
