@@ -761,22 +761,6 @@ class Yoast_Form {
 				' readonly="readonly"',
 				' /> ';
 			echo '<input',
-				' id="wpseo_', $var_esc, '_button"', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
-				' class="wpseo_image_upload_button button"',
-				' type="button"',
-				' value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '"',
-				' data-target-id="', esc_attr( $id_field_id ), '"',
-				// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded.
-				$disabled_attribute,
-				' /> ';
-			echo '<input',
-				' class="wpseo_image_remove_button button"',
-				' type="button"',
-				' value="', esc_attr__( 'Clear Image', 'wordpress-seo' ), '"',
-				// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded.
-				$disabled_attribute,
-				' />';
-			echo '<input',
 				' type="hidden"',
 				' id="', esc_attr( $id_field_id ), '"',
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.

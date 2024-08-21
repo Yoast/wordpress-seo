@@ -214,10 +214,6 @@ final class Taxonomy_Fields_Presenter_Test extends TestCase {
 			'<input id="wpseo_fieldname" type="text" size="36" name="wpseo_fieldname" value="" readonly="readonly" />',
 			$output
 		);
-		$this->assertStringContainsString(
-			'<input id="wpseo_fieldname_button" class="wpseo_image_upload_button button" data-target="wpseo_fieldname" data-target-id="hidden_wpseo_fieldname-id" type="button" value="Upload Image" />',
-			$output
-		);
 	}
 
 	/**
