@@ -284,6 +284,7 @@ Release date: 2024-09-03
 * Adds _так_ to the words recognized by the _transition words_ assessment in Russian. Props to @pavelmai83.
 * Improves the schema output by following the specification for the _SearchAction_ more strictly.
 * Re-enables the script concatenation that was disabled to prevent a bug with WordPress 5.5.
+* Improves the look of the Yoast SEO metabox in the block editor by centering it and making it stand out more by using a background color.
 
 #### Bugfixes
 
