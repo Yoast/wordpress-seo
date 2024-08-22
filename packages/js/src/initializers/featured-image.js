@@ -1,5 +1,4 @@
 /* global wp */
-/* global wpseoScriptData */
 /* global YoastSEO */
 /* jshint -W097 */
 /* jshint -W003 */
@@ -110,7 +109,7 @@ export default function initFeaturedImageIntegration( $ ) {
 	 */
 	function checkFeaturedImage( featuredImage ) {
 		var attachment = featuredImage.state().get( "selection" ).first().toJSON();
-		const featuredImageNotice = __( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' );
+		const featuredImageNotice = __( "SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.", "wordpress-seo" );
 
 		if ( attachment.width < 200 || attachment.height < 200 ) {
 			// Show warning to user and do not add image to OG
