@@ -414,7 +414,6 @@ class Elementor implements Integration_Interface {
 		$permalink               = $this->get_permalink();
 
 		$script_data = [
-			'media'                     => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'                   => $this->get_metabox_script_data( $permalink ),
 			'userLanguageCode'          => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'                    => true,
