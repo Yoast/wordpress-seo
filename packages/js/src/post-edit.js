@@ -41,8 +41,8 @@ domReady( () => {
 	// Initialize the post scraper.
 	initPostScraper( jQuery, store, editorData );
 
-	// Initialize the featured image integration.
-	if ( window.wpseoScriptData && typeof window.wpseoScriptData.featuredImage !== "undefined" ) {
+	// Initialize the featured image integration for classic editor and block editor only.
+	if ( ! window.wpseoScriptData?.isElementorEditor ) {
 		initFeaturedImageIntegration( jQuery );
 	}
 
