@@ -18,7 +18,7 @@ export const SparklesIcon = ( { pressed = false, className = "" } ) => {
 			strokeLinecap="round"
 			strokeLinejoin="round"
 			stroke={ pressed ? "white" : `url(#${gradientId})` }
-			strokeWidth="1.33333"
+			strokeWidth="1.4"
 		/>
 		<defs>
 			<linearGradient
