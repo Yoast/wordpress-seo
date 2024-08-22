@@ -189,11 +189,13 @@ export default function initFeaturedImageIntegration( $ ) {
 	let previousImageData;
 	subscribe( () => {
 		const featuredImageId = select( "core/editor" ).getEditedPostAttribute( "featured_media" );
+
 		if ( ! isValidMediaId( featuredImageId ) ) {
 			return;
 		}
 
 		imageData = select( "core" ).getMedia( featuredImageId );
+
 		if ( typeof imageData === "undefined" ) {
 			return;
 		}
