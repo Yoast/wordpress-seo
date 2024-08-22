@@ -721,6 +721,8 @@ class Yoast_Form {
 	 * Media input.
 	 *
 	 * @since 2.0
+	 * @deprecated 23.5
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $variable Option name.
 	 * @param string $label    Label message.
@@ -729,6 +731,9 @@ class Yoast_Form {
 	 * @return void
 	 */
 	public function media_input( $variable, $label, $attr = [] ) {
+
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.5', 'Yoast_Form::media_input' );
+
 		$val      = $this->get_field_value( $variable, '' );
 		$id_value = $this->get_field_value( $variable . '_id', '' );
 
@@ -748,8 +753,6 @@ class Yoast_Form {
 		);
 
 		$id_field_id = 'wpseo_' . $var_esc . '_id';
-
-		$disabled_attribute = $this->get_disabled_attribute( $variable, $attr );
 
 		echo '<span>';
 			echo '<input',
