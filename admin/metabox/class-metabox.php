@@ -938,7 +938,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$site_information->set_permalink( $this->get_permalink() );
 		$script_data = array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
 
-		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
+		if ( ! $is_block_editor && post_type_supports( get_post_type(), 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );
 		}
 
