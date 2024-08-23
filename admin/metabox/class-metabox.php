@@ -500,6 +500,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Adds a line in the meta box.
+	 * 
+	 * @deprecated 23.5
+	 * @codeCoverageIgnore
 	 *
 	 * @todo [JRF] Check if $class is added appropriately everywhere.
 	 *
@@ -509,6 +512,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	public function do_meta_box( $meta_field_def, $key = '' ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.5', 'WPSEO_Metabox::do_meta_box' );
+		
 		$content      = '';
 		$esc_form_key = esc_attr( WPSEO_Meta::$form_prefix . $key );
 		$meta_value   = WPSEO_Meta::get_value( $key, $this->get_metabox_post()->ID );
