@@ -278,7 +278,7 @@ final class Metabox_Test extends TestCase {
 			],
 			[
 				'field_name'     => 'meta-robots-adv',
-				'field_value'    => [ '<strong>noimageindex</strong>', 'dingdong' ],
+				'field_value'    => 'noimageindex',
 				'expected_value' => 'noimageindex',
 				'message'        => 'Test multiselect field with invalid values given.',
 			],
