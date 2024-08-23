@@ -69,15 +69,10 @@ class WPSEO_Meta {
 	 * Meta box field definitions for the meta box form.
 	 *
 	 * {@internal
-	 * - Titles, help texts, description text and option labels are added via a translate_meta_boxes() method
-	 *   in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin) as they are only needed there.
 	 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!}}
 	 *
 	 * @var array
 	 *            Array format:
-	 *                (required)       'type'          => (string) field type. i.e. text / textarea / checkbox /
-	 *                                                    radio / select / multiselect / upload etc.
-	 *                (required)       'title'         => (string) table row title.
 	 *                (recommended)    'default_value' => (string|array) default value for the field.
 	 *                                                    IMPORTANT:
 	 *                                                    - if the field has options, the default has to be the
@@ -91,125 +86,72 @@ class WPSEO_Meta {
 	 *                                                    fields, required if that's the field type.
 	 *                                                    key = (string) value which will be saved to db.
 	 *                                                    value = (string) text label for the option.
-	 *                (optional)        'autocomplete' => (bool) whether autocomplete is on for text fields,
-	 *                                                    defaults to true.
-	 *                (optional)        'class'        => (string) classname(s) to add to the actual <input> tag.
-	 *                (optional)        'description'  => (string) description to show underneath the field.
-	 *                (optional)        'expl'         => (string) label for a checkbox.
-	 *                (optional)        'help'         => (string) help text to show on mouse over ? image.
-	 *                (optional)        'rows'         => (int) number of rows for a textarea, defaults to 3.
-	 *                (optional)        'placeholder'  => (string) Currently only used by add-on plugins.
 	 *                (optional)        'serialized'   => (bool) whether the value is expected to be serialized,
 	 *                                                     i.e. an array or object, defaults to false.
 	 *                                                     Currently only used by add-on plugins.
 	 */
 	public static $meta_fields = [
 		'general'  => [
-			'focuskw' => [
-				'type'  => 'hidden',
-				'title' => '',
-			],
-			'title' => [
-				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
+			'focuskw'                  => [],
+			'title'                    => [
 				'default_value' => '',
-				'description'   => '', // Translation added later.
-				'help'          => '', // Translation added later.
 			],
-			'metadesc' => [
-				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
+			'metadesc'                 => [
 				'default_value' => '',
-				'class'         => 'metadesc',
-				'rows'          => 2,
-				'description'   => '', // Translation added later.
-				'help'          => '', // Translation added later.
 			],
-			'linkdex' => [
-				'type'          => 'hidden',
-				'title'         => 'linkdex',
+			'linkdex'                  => [
 				'default_value' => '0',
-				'description'   => '',
 			],
-			'content_score' => [
-				'type'          => 'hidden',
-				'title'         => 'content_score',
+			'content_score'            => [
 				'default_value' => '0',
-				'description'   => '',
 			],
 			'inclusive_language_score' => [
-				'type'          => 'hidden',
-				'title'         => 'inclusive_language_score',
 				'default_value' => '0',
-				'description'   => '',
 			],
-			'is_cornerstone' => [
-				'type'          => 'hidden',
-				'title'         => 'is_cornerstone',
+			'is_cornerstone'           => [
 				'default_value' => 'false',
-				'description'   => '',
 			],
 		],
 		'advanced' => [
 			'meta-robots-noindex'  => [
-				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '0', // = post-type default.
 				'options'       => [
-					'0' => '', // Post type default - translation added later.
-					'2' => '', // Index - translation added later.
-					'1' => '', // No-index - translation added later.
+					'0' => '',
+					'2' => '',
+					'1' => '',
 				],
 			],
 			'meta-robots-nofollow' => [
-				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '0', // = follow.
 				'options'       => [
-					'0' => '', // Follow - translation added later.
-					'1' => '', // No-follow - translation added later.
+					'0' => '', // Follow.
+					'1' => '', // No-follow .
 				],
 			],
 			'meta-robots-adv'      => [
-				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // Translation added later.
 				'options'       => [
-					'noimageindex' => '', // Translation added later.
-					'noarchive'    => '', // Translation added later.
-					'nosnippet'    => '', // Translation added later.
+					'noimageindex' => '',
+					'noarchive'    => '',
+					'nosnippet'    => '',
 				],
 			],
 			'bctitle'              => [
-				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // Translation added later.
 			],
 			'canonical'            => [
-				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // Translation added later.
 			],
 			'redirect'             => [
-				'type'          => 'url',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // Translation added later.
 			],
 		],
 		'social'   => [],
 		'schema'   => [
 			'schema_page_type'    => [
-				'type'    => 'hidden',
-				'title'   => '',
 				'options' => Schema_Types::PAGE_TYPES,
 			],
 			'schema_article_type' => [
-				'type'          => 'hidden',
-				'title'         => '',
 				'hide_on_pages' => true,
 				'options'       => Schema_Types::ARTICLE_TYPES,
 			],
@@ -217,7 +159,6 @@ class WPSEO_Meta {
 		/* Fields we should validate & save, but not show on any form. */
 		'non_form' => [
 			'linkdex' => [
-				'type'          => null,
 				'default_value' => '0',
 			],
 		],
@@ -258,10 +199,10 @@ class WPSEO_Meta {
 	 * @var array
 	 */
 	private static $social_fields = [
-		'title'       => 'hidden',
-		'description' => 'hidden',
-		'image'       => 'hidden',
-		'image-id'    => 'hidden',
+		'title',
+		'description',
+		'image',
+		'image-id',
 	];
 
 	/**
@@ -272,17 +213,14 @@ class WPSEO_Meta {
 	public static function init() {
 		foreach ( self::$social_networks as $option => $network ) {
 			if ( WPSEO_Options::get( $option, false ) === true ) {
-				foreach ( self::$social_fields as $box => $type ) {
-					self::$meta_fields['social'][ $network . '-' . $box ] = [
-						'type'          => $type,
-						'title'         => '', // Translation added later.
+				foreach ( self::$social_fields as $key ) {
+					self::$meta_fields['social'][ $network . '-' . $key ] = [
 						'default_value' => '',
-						'description'   => '', // Translation added later.
 					];
 				}
 			}
 		}
-		unset( $option, $network, $box, $type );
+		unset( $option, $network, $key );
 
 		/**
 		 * Allow add-on plugins to register their meta fields for management by this class.
@@ -367,13 +305,6 @@ class WPSEO_Meta {
 					return [];
 				}
 
-				/* Adjust the no-index text strings based on the post type. */
-				$post_type_object = get_post_type_object( $post_type );
-
-				$field_defs['meta-robots-noindex']['title']        = sprintf( $field_defs['meta-robots-noindex']['title'], $post_type_object->labels->singular_name );
-				$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( WPSEO_Options::get( 'noindex-' . $post_type, false ) === true ) ? $field_defs['meta-robots-noindex']['options']['1'] : $field_defs['meta-robots-noindex']['options']['2'] ), $post_type_object->label );
-				$field_defs['meta-robots-nofollow']['title']       = sprintf( $field_defs['meta-robots-nofollow']['title'], $post_type_object->labels->singular_name );
-
 				/* Don't show the breadcrumb title field if breadcrumbs aren't enabled. */
 				if ( WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
 					unset( $field_defs['bctitle'] );
@@ -434,33 +365,22 @@ class WPSEO_Meta {
 		$field_def = self::$meta_fields[ self::$fields_index[ $meta_key ]['subset'] ][ self::$fields_index[ $meta_key ]['key'] ];
 		$clean     = self::$defaults[ $meta_key ];
 
-		switch ( true ) {
-			case ( $meta_key === self::$meta_prefix . 'linkdex' ):
+		$key = str_replace( self::$meta_prefix, '', $meta_key );
+
+		switch ( $key ) {
+			case 'linkdex':
 				$int = WPSEO_Utils::validate_int( $meta_value );
 				if ( $int !== false && $int >= 0 ) {
 					$clean = strval( $int ); // Convert to string to make sure default check works.
 				}
 				break;
 
-			case ( $field_def['type'] === 'checkbox' ):
-				// Only allow value if it's one of the predefined options.
-				if ( in_array( $meta_value, [ 'on', 'off' ], true ) ) {
-					$clean = $meta_value;
-				}
-				break;
-
-			case ( $field_def['type'] === 'select' || $field_def['type'] === 'radio' ):
-				// Only allow value if it's one of the predefined options.
-				if ( isset( $field_def['options'][ $meta_value ] ) ) {
-					$clean = $meta_value;
-				}
-				break;
-
-			case ( $field_def['type'] === 'hidden' && $meta_key === self::$meta_prefix . 'meta-robots-adv' ):
+			case 'meta-robots-adv':
 				$clean = self::validate_meta_robots_adv( $meta_value );
 				break;
 
-			case ( $field_def['type'] === 'url' || $meta_key === self::$meta_prefix . 'canonical' ):
+			case 'redirect':
+			case 'canonical':
 				// Validate as url(-part).
 				$url = WPSEO_Utils::sanitize_url( $meta_value );
 				if ( $url !== '' ) {
@@ -468,7 +388,8 @@ class WPSEO_Meta {
 				}
 				break;
 
-			case ( $field_def['type'] === 'upload' && in_array( $meta_key, [ self::$meta_prefix . 'opengraph-image', self::$meta_prefix . 'twitter-image' ], true ) ):
+			case 'opengraph-image':
+			case 'twitter-image':
 				// Validate as url.
 				$url = WPSEO_Utils::sanitize_url( $meta_value, [ 'http', 'https', 'ftp', 'ftps' ] );
 				if ( $url !== '' ) {
@@ -476,8 +397,10 @@ class WPSEO_Meta {
 				}
 				break;
 
-			case ( $field_def['type'] === 'hidden' && $meta_key === self::$meta_prefix . 'is_cornerstone' ):
-				$clean = $meta_value;
+			case 'is_cornerstone':
+				if ( in_array( $meta_value, [ '1', '0' ], true ) ) {
+					$clean = $meta_value;
+				}
 
 				/*
 				 * This used to be a checkbox, then became a hidden input.
@@ -488,27 +411,16 @@ class WPSEO_Meta {
 				}
 				break;
 
-			case ( $field_def['type'] === 'hidden' && isset( $field_def['options'] ) ):
+			case 'meta-robots-noindex':
+			case 'meta-robots-nofollow':
+			case 'schema_page_type':
+			case 'schema_article_type':
 				// Only allow value if it's one of the predefined options.
 				if ( isset( $field_def['options'][ $meta_value ] ) ) {
 					$clean = $meta_value;
 				}
 				break;
 
-			case ( $field_def['type'] === 'textarea' ):
-				if ( is_string( $meta_value ) ) {
-					// Remove line breaks and tabs.
-					// @todo [JRF => Yoast] Verify that line breaks and the likes aren't allowed/recommended in meta header fields.
-					$meta_value = str_replace( [ "\n", "\r", "\t", '  ' ], ' ', $meta_value );
-					$clean      = WPSEO_Utils::sanitize_text_field( trim( $meta_value ) );
-				}
-				break;
-
-			case ( $field_def['type'] === 'multiselect' ):
-				$clean = $meta_value;
-				break;
-
-			case ( $field_def['type'] === 'text' ):
 			default:
 				if ( is_string( $meta_value ) ) {
 					$clean = WPSEO_Utils::sanitize_text_field( trim( $meta_value ) );
