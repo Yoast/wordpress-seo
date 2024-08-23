@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use Plugin_Upgrader;
 use WP_Error;
 use WP_Upgrader;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\Check_Required_Version_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -16,8 +16,6 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  */
 class Check_Required_Version implements Integration_Interface {
 
-	use No_Conditionals;
-
 	/**
 	 * Initializes the integration.
 	 *
@@ -26,6 +24,15 @@ class Check_Required_Version implements Integration_Interface {
 	public function register_hooks() {
 		\add_filter( 'upgrader_source_selection', [ $this, 'check_required_version' ], 10, 3 );
 		\add_filter( 'install_plugin_overwrite_comparison', [ $this, 'update_comparison_table' ], 10, 3 );
+	}
+
+	/**
+	 * Returns the conditionals based on which this loadable should be active.
+	 *
+	 * @return string[] The conditionals based on which this loadable should be active.
+	 */
+	public static function get_conditionals() {
+		return [ Check_Required_Version_Conditional::class ];
 	}
 
 	/**
