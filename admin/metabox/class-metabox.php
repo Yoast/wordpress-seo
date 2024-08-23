@@ -748,30 +748,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$data       = null;
 			$field_name = WPSEO_Meta::$form_prefix . $key;
 
-			if ( $meta_box['type'] === 'checkbox' ) {
-				$data = isset( $_POST[ $field_name ] ) ? 'on' : 'off';
-			}
-			else {
-				if ( isset( $_POST[ $field_name ] ) ) {
-					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We're preparing to do just that.
-					$data = wp_unslash( $_POST[ $field_name ] );
+			if ( isset( $_POST[ $field_name ] ) ) {
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We're preparing to do just that.
+				$data = wp_unslash( $_POST[ $field_name ] );
 
-					// For multi-select.
-					if ( is_array( $data ) ) {
-						$data = array_map( [ 'WPSEO_Utils', 'sanitize_text_field' ], $data );
-					}
-
-					if ( is_string( $data ) ) {
-						$data = ( $key !== 'canonical' ) ? WPSEO_Utils::sanitize_text_field( $data ) : WPSEO_Utils::sanitize_url( $data );
-					}
+				// For multi-select.
+				if ( is_array( $data ) ) {
+					$data = array_map( [ 'WPSEO_Utils', 'sanitize_text_field' ], $data );
 				}
 
-				// Reset options when no entry is present with multiselect - only applies to `meta-robots-adv` currently.
-				if ( ! isset( $_POST[ $field_name ] ) && ( $meta_box['type'] === 'multiselect' ) ) {
-					$data = [];
+				if ( is_string( $data ) ) {
+					$data = ( $key !== 'canonical' ) ? WPSEO_Utils::sanitize_text_field( $data ) : WPSEO_Utils::sanitize_url( $data );
 				}
 			}
-
+			
 			if ( $data !== null ) {
 				WPSEO_Meta::set_value( $key, $data, $post_id );
 			}
