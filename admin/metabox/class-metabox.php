@@ -81,7 +81,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'wp_insert_post', [ $this, 'save_postdata' ] );
 		add_action( 'edit_attachment', [ $this, 'save_postdata' ] );
 		add_action( 'add_attachment', [ $this, 'save_postdata' ] );
-		add_action( 'admin_init', [ $this, 'translate_meta_boxes' ] );
 
 		$this->editor = new WPSEO_Metabox_Editor();
 		$this->editor->register_hooks();
@@ -168,9 +167,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * IMPORTANT: if you want to add a new string (option) somewhere, make sure you add that array key to
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 *
+	 * @deprecated 23.5
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public static function translate_meta_boxes() {
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.5' );
+
 		WPSEO_Meta::$meta_fields['general']['title']['title']    = __( 'SEO title', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
 
@@ -210,7 +214,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['title']       = __( '301 Redirect', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
 
-		do_action( 'wpseo_tab_translate' );
+		do_action_deprecated( 'wpseo_tab_translate', [], 'Yoast SEO 23.5', '', 'WPSEO_Metabox::translate_meta_boxes is deprecated.' );
 	}
 
 	/**
