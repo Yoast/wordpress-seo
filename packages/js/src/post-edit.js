@@ -4,7 +4,6 @@ import jQuery from "jquery";
 import { noop } from "lodash";
 import initializeAiGenerator from "./ai-generator/initialize";
 import initAdmin from "./initializers/admin";
-import initAdminMedia from "./initializers/admin-media";
 import initEditorStore from "./initializers/editor-store";
 import initFeaturedImageIntegration from "./initializers/featured-image";
 import initTabs from "./initializers/metabox-tabs";
@@ -45,9 +44,6 @@ domReady( () => {
 	if ( window.wpseoScriptData && typeof window.wpseoScriptData.featuredImage !== "undefined" ) {
 		initFeaturedImageIntegration( jQuery );
 	}
-
-	// Initialize the media library for our social settings.
-	initAdminMedia( jQuery );
 
 	// Initialize global admin scripts.
 	initAdmin( jQuery );
