@@ -54,7 +54,6 @@ class WPSEO_Metabox_Formatter {
 		$defaults = [
 			'author_name'                        => get_the_author_meta( 'display_name' ),
 			'sitewide_social_image'              => WPSEO_Options::get( 'og_default_image' ),
-			'translations'                       => $this->get_translations(),
 			'keyword_usage'                      => [],
 			'title_template'                     => '',
 			'metadesc_template'                  => '',
@@ -182,25 +181,5 @@ class WPSEO_Metabox_Formatter {
 
 		$enabled_features = $enabled_features_repo->get_enabled_features()->parse_to_legacy_array();
 		return array_merge( $defaults, $enabled_features );
-	}
-
-	/**
-	 * Returns Jed compatible YoastSEO.js translations.
-	 *
-	 * @return string[]
-	 */
-	private function get_translations() {
-		$locale = get_user_locale();
-
-		$file = WPSEO_PATH . 'languages/wordpress-seo-' . $locale . '.json';
-		if ( file_exists( $file ) ) {
-			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
-			$file = file_get_contents( $file );
-			if ( is_string( $file ) && $file !== '' ) {
-				return json_decode( $file, true );
-			}
-		}
-
-		return [];
 	}
 }
