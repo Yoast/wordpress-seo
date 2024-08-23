@@ -2,7 +2,9 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use Plugin_Upgrader;
 use WP_Error;
+use WP_Upgrader;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -22,7 +24,7 @@ class Check_Required_Version implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'upgrader_source_selection', [ $this, 'check_required_version' ] );
+		\add_filter( 'upgrader_source_selection', [ $this, 'check_required_version' ], 10, 3 );
 		\add_filter( 'install_plugin_overwrite_comparison', [ $this, 'update_comparison_table' ], 10, 3 );
 	}
 
@@ -31,12 +33,19 @@ class Check_Required_Version implements Integration_Interface {
 	 *
 	 * The code is partly inspired by Plugin_Upgrader::check_package() in wp-admin/includes/class-plugin-upgrader.php.
 	 *
-	 * @param string $source File source location.
+	 * @param string      $source        File source location.
+	 * @param string      $remote_source Remote file source location.
+	 * @param WP_Upgrader $upgrader      WP_Upgrader instance.
 	 *
 	 * @return string|WP_Error The source location or a WP_Error object if the required version is not installed.
 	 */
-	public function check_required_version( $source ) {
+	public function check_required_version( $source, $remote_source = null, $upgrader = null ) {
 		global $wp_filesystem;
+
+		// Bail out early if we are not installing/upgrading a plugin.
+		if ( ! $upgrader instanceof Plugin_Upgrader ) {
+			return $source;
+		}
 
 		$info = [];
 
@@ -60,14 +69,14 @@ class Check_Required_Version implements Integration_Interface {
 			}
 		}
 
-		$requires_yoast_seo = ( $info['Requires Yoast SEO'] ?? null );
+		$requires_yoast_seo = ! empty( $info['Requires Yoast SEO'] ) ? $info['Requires Yoast SEO'] : null;
 
 		if ( ! $this->check_requirement( $requires_yoast_seo ) ) {
 			$error = \sprintf(
 				/* translators: 1: Current Yoast SEO version, 2: Version required by the uploaded plugin. */
 				\__( 'The Yoast SEO version on your site is %1$s, however the uploaded plugin requires %2$s.', 'wordpress-seo' ),
 				\WPSEO_VERSION,
-				$requires_yoast_seo
+				\esc_html( $requires_yoast_seo )
 			);
 
 			return new WP_Error(
@@ -90,15 +99,15 @@ class Check_Required_Version implements Integration_Interface {
 	 * @return string The updated comparison table.
 	 */
 	public function update_comparison_table( $table, $current_plugin_data, $new_plugin_data ) {
-		$requires_yoast_seo_current = ( $current_plugin_data['Requires Yoast SEO'] ?? null );
-		$requires_yoast_seo_new     = ( $new_plugin_data['Requires Yoast SEO'] ?? null );
+		$requires_yoast_seo_current = ! empty( $current_plugin_data['Requires Yoast SEO'] ) ? $current_plugin_data['Requires Yoast SEO'] : false;
+		$requires_yoast_seo_new     = ! empty( $new_plugin_data['Requires Yoast SEO'] ) ? $new_plugin_data['Requires Yoast SEO'] : false;
 
-		if ( $requires_yoast_seo_current || $requires_yoast_seo_new ) {
+		if ( $requires_yoast_seo_current !== false || $requires_yoast_seo_new !== false ) {
 			$new_row = \sprintf(
 				'<tr><td class="name-label">%1$s</td><td>%2$s</td><td>%3$s</td></tr>',
 				\__( 'Required Yoast SEO version', 'wordpress-seo' ),
-				( $requires_yoast_seo_current ?? '-' ),
-				( $requires_yoast_seo_new ?? '-' )
+				( $requires_yoast_seo_current !== false ) ? \esc_html( $requires_yoast_seo_current ) : '-',
+				( $requires_yoast_seo_new !== false ) ? \esc_html( $requires_yoast_seo_new ) : '-'
 			);
 
 			$table = \str_replace( '</tbody>', $new_row . '</tbody>', $table );
