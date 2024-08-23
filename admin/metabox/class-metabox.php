@@ -173,7 +173,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return void
 	 */
 	public static function translate_meta_boxes() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.5', 'WPSEO_Metabox::translate_meta_boxes' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.5' );
 
 		WPSEO_Meta::$meta_fields['general']['title']['title']    = __( 'SEO title', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );

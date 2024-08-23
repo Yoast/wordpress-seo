@@ -732,7 +732,7 @@ class Yoast_Form {
 	 */
 	public function media_input( $variable, $label, $attr = [] ) {
 
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.5', 'Yoast_Form::media_input' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.5' );
 
 		$val      = $this->get_field_value( $variable, '' );
 		$id_value = $this->get_field_value( $variable . '_id', '' );
