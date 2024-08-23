@@ -154,6 +154,10 @@ class Indexable_Link_Builder {
 			return [];
 		}
 
+		if ( ! empty( $images ) && $indexable->open_graph_image_source === 'first-content-image' ) {
+			$this->update_first_content_image( $indexable, $images );
+		}
+
 		$links = $this->create_links( $indexable, $links, $images );
 
 		$this->update_related_indexables( $indexable, $links );
@@ -577,6 +581,26 @@ class Indexable_Link_Builder {
 
 		foreach ( $counts as $count ) {
 			$this->indexable_repository->update_incoming_link_count( $count['target_indexable_id'], $count['incoming'] );
+		}
+	}
+
+	/**
+	 * Updates the image ids when the indexable images are marked as first content image.
+	 *
+	 * @param Indexable         $indexable The indexable to change.
+	 * @param array<string|int> $images    The image array.
+	 *
+	 * @return void
+	 */
+	public function update_first_content_image( Indexable $indexable, array $images ): void {
+		$current_first_content_image = $indexable->open_graph_image;
+
+		$first_content_image_url = \key( $images );
+		$first_content_image_id  = \current( $images );
+
+		if ( $current_first_content_image === $first_content_image_url ) {
+			$indexable->open_graph_image_id = $first_content_image_id;
+			$indexable->twitter_image_id    = $first_content_image_id;
 		}
 	}
 }
