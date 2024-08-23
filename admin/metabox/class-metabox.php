@@ -756,10 +756,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				if ( is_array( $data ) ) {
 					$data = array_map( [ 'WPSEO_Utils', 'sanitize_text_field' ], $data );
 				}
-
-				if ( is_string( $data ) ) {
-					$data = ( $key !== 'canonical' ) ? WPSEO_Utils::sanitize_text_field( $data ) : WPSEO_Utils::sanitize_url( $data );
-				}
 			}
 			
 			if ( $data !== null ) {
