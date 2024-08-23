@@ -169,12 +169,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @deprecated 23.5
 	 * @codeCoverageIgnore
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function translate_meta_boxes() {
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.5', 'WPSEO_Metabox::translate_meta_boxes' );
-		
+
 		WPSEO_Meta::$meta_fields['general']['title']['title']    = __( 'SEO title', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
 
@@ -214,7 +214,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['title']       = __( '301 Redirect', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
 
-		do_action_deprecated( 'wpseo_tab_translate', [] ,'Yoast SEO 23.5', '' , 'WPSEO_Metabox::translate_meta_boxes is deprecated.' );
+		do_action_deprecated( 'wpseo_tab_translate', [], 'Yoast SEO 23.5', '', 'WPSEO_Metabox::translate_meta_boxes is deprecated.' );
 	}
 
 	/**
