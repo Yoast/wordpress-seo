@@ -34,7 +34,7 @@ export default function( paper, researcher ) {
 	} );
 	// Filter captions from Classic editor.
 	paragraphs = paragraphs.filter( paragraph => {
-		return ! ( paragraph.isImplicit && paragraph.childNodes && paragraph.childNodes[ 0 ] &&
+		return ! ( paragraph.childNodes && paragraph.childNodes[ 0 ] &&
 			createShortcodeTagsRegex( [ "caption" ] ).test( paragraph.childNodes[ 0 ].value ) );
 	} );
 	 const firstParagraph = paragraphs[ 0 ];
