@@ -915,13 +915,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$site_information->set_permalink( $this->get_permalink() );
 		$script_data = array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
 
-		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
+		if ( ! $is_block_editor && post_type_supports( get_post_type(), 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );
-
-			// @todo replace this translation with JavaScript translations.
-			$script_data['featuredImage'] = [
-				'featured_image_notice' => __( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
-			];
 		}
 
 		$asset_manager->localize_script( $post_edit_handle, 'wpseoScriptData', $script_data );

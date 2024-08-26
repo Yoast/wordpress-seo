@@ -440,14 +440,6 @@ class Elementor implements Integration_Interface {
 		$site_information->set_permalink( $permalink );
 		$script_data = \array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
 
-		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
-			$this->asset_manager->enqueue_style( 'featured-image' );
-
-			$script_data['featuredImage'] = [
-				'featured_image_notice' => \__( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
-			];
-		}
-
 		$this->asset_manager->localize_script( 'elementor', 'wpseoScriptData', $script_data );
 		$this->asset_manager->enqueue_user_language_script();
 	}
