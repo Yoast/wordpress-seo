@@ -416,8 +416,8 @@ class WPSEO_Utils {
 	 * @return void
 	 */
 	public static function clear_cache() {
-		if ( function_exists( 'w3tc_pgcache_flush' ) ) {
-			w3tc_pgcache_flush();
+		if ( function_exists( 'w3tc_flush_posts' ) ) {
+			w3tc_flush_posts();
 		}
 		elseif ( function_exists( 'wp_cache_clear_cache' ) ) {
 			wp_cache_clear_cache();

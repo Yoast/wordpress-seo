@@ -1,4 +1,4 @@
-import { potentiallyHarmful, potentiallyHarmfulUnless, harmfulNonInclusive } from "./feedbackStrings";
+import { potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
 import { isNotPrecededByException } from "../helpers/isPrecededByException";
 import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
@@ -11,13 +11,6 @@ import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
  * "Or, if possible, be specific about the group you are referring to (e.g. %3$s)."
  */
 const specificAgeGroup = "Or, if possible, be specific about the group you are referring to (e.g. %3$s).";
-/*
- * Used to suggest an alternative for 'senile'.
- *
- * "Consider using an alternative, such as a specific characteristic or experience if it is known (e.g. <i>has Alzheimer's</i>)."
- */
-const characteristicIfKnown = "Consider using an alternative, such as a specific characteristic or experience if it is known" +
-	" (e.g. <i>has Alzheimer's</i>).";
 
 const ageAssessments = [
 	{
@@ -51,9 +44,9 @@ const ageAssessments = [
 	{
 		identifier: "senile",
 		nonInclusivePhrases: [ "senile" ],
-		inclusiveAlternatives: "",
+		inclusiveAlternatives: "a specific characteristic or experience if it is known (e.g. <i>has Alzheimer's</i>)",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: [ harmfulNonInclusive, characteristicIfKnown ].join( " " ),
+		feedbackFormat: potentiallyHarmful,
 	},
 	{
 		identifier: "senility",

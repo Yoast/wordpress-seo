@@ -2,6 +2,7 @@ import {
 	potentiallyHarmful,
 	potentiallyHarmfulUnless,
 	harmfulPotentiallyNonInclusive,
+	harmfulNonInclusive,
 	alternative,
 } from "./feedbackStrings";
 import { isPrecededByException, isNotPrecededByException } from "../helpers/isPrecededByException";
@@ -38,14 +39,6 @@ const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using 
  */
 const medicalCondition = harmfulPotentiallyNonInclusive +
 	" Unless you are referencing the specific medical condition, consider using another alternative to describe the trait or behavior, such as %2$s.";
-/*
- * Used for the term 'special needs'.
- *
- * "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as %2$s when referring to someone's needs,
- * or %3$s when referring to a person."
- */
-const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
-	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
 const disabilityAssessments = [
 	{
@@ -191,7 +184,8 @@ const disabilityAssessments = [
 		nonInclusivePhrases: [ "special needs" ],
 		inclusiveAlternatives: [ "<i>functional needs, support needs</i>", "<i>disabled, person with a disability</i>" ],
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulTwoAlternatives,
+		feedbackFormat: [ harmfulNonInclusive, "Consider using an alternative, such as %2$s when referring to someone's" +
+		" needs, or %3$s when referring to a person." ].join( " " ),
 	},
 	{
 		identifier: "hardOfHearing",
