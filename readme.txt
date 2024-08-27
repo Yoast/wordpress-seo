@@ -284,10 +284,10 @@ Release date: 2024-09-03
 * Adds _так_ to the words recognized by the _transition words_ assessment in Russian. Props to @pavelmai83.
 * Improves the schema output by following the specification for the _SearchAction_ more strictly.
 * Re-enables the script concatenation that was disabled to prevent a bug with WordPress 5.5.
-* Improves the look of the Yoast SEO metabox in the block editor by centering it and making it stand out more by using a background color.
 
 #### Bugfixes
 
+* Fixes a bug where an image caption inside a classic block would be considered the introduction when using the _keyphrase in introduction_ assessment in the default editor.
 * Fixes a bug where the first tag instead of the primary tag would be shown in a permalink when adding a link in the Classic editor.
 * Fixes a bug where the Yoast tab would disappear when opening and closing the Site Settings in Elementor.
 * Fixes a bug where the Yoast user settings would be wiped out after a user profile update when the respective global settings were disabled.
