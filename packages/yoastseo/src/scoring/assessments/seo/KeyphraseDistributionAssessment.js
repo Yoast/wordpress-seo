@@ -1,4 +1,3 @@
-import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
 
 import Assessment from "../assessment";
@@ -26,6 +25,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @param {number} [config.scores.consideration]    The score to return if there are no keyword occurrences.
 	 * @param {string} [config.urlTitle]                The URL to the article about this assessment.
 	 * @param {string} [config.urlCallToAction]         The URL to the help article for this assessment.
+	 * @param {function} [config.getResultText]         The function that returns the result text.
 	 *
 	 * @returns {void}
 	 */
@@ -87,22 +87,18 @@ class KeyphraseDistributionAssessment extends Assessment {
 	calculateResult() {
 		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
 		const hasMarks = this._keyphraseDistribution.sentencesToHighlight.length > 0;
+		const {
+			good: goodResultText,
+			okay: okayResultText,
+			bad: badResultText,
+			consideration: considerationResultText,
+		} = this.getFeedbackStrings();
 
 		if ( distributionScore === 100 ) {
 			return {
 				score: this._config.scores.consideration,
 				hasMarks: hasMarks,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
-					%3$s expands to the anchor end tag */
-					__(
-						"%1$sKeyphrase distribution%3$s: %2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s.",
-						"wordpress-seo-premium"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
+				resultText: considerationResultText,
 			};
 		}
 
@@ -110,17 +106,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				hasMarks: hasMarks,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
-					%3$s expands to the anchor end tag */
-					__(
-						"%1$sKeyphrase distribution%3$s: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
-						"wordpress-seo-premium"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
+				resultText: badResultText,
 			};
 		}
 
@@ -130,33 +116,33 @@ class KeyphraseDistributionAssessment extends Assessment {
 			return {
 				score: this._config.scores.okay,
 				hasMarks: hasMarks,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
-					%3$s expands to the anchor end tag */
-					__(
-						"%1$sKeyphrase distribution%3$s: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
-						"wordpress-seo-premium"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
+				resultText: okayResultText,
 			};
 		}
 
 		return {
 			score: this._config.scores.good,
 			hasMarks: hasMarks,
-			resultText: sprintf(
-				/* translators: %1$s expands to links to Yoast.com articles, %2$s expands to the anchor end tag */
-				__(
-					"%1$sKeyphrase distribution%2$s: Good job!",
-					"wordpress-seo-premium"
-				),
-				this._config.urlTitle,
-				"</a>"
-			),
+			resultText: goodResultText,
 		};
+	}
+
+	/**
+	 * Gets the feedback strings for the keyphrase distribution assessment.
+	 *
+	 * @returns {{good: string, okay: string, bad: string, consideration}} The feedback strings.
+	 */
+	getFeedbackStrings() {
+		if ( ! this._config.getResultText ) {
+			return {
+				good: "%1$sKeyphrase distribution%2$s: Good job!",
+				okay: "%1$sKeyphrase distribution%3$s: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
+				bad: "%1$sKeyphrase distribution%3$s: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
+				consideration: "%1$sKeyphrase distribution%3$s: %2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s.",
+			};
+		}
+
+		return this._config.getResultText()( { urlTitle: this._config.urlTitle, urlCallToAction: this._config.urlCallToAction } );
 	}
 
 	/**
