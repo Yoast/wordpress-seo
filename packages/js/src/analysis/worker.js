@@ -1,15 +1,10 @@
 // External dependencies.
-import {
-	get,
-	isUndefined,
-	merge,
-} from "lodash";
+import { get, merge } from "lodash";
 import { AnalysisWorkerWrapper, createWorker } from "yoastseo";
 
 // Internal dependencies.
 import getContentLocale from "./getContentLocale";
 import getDefaultQueryParams from "./getDefaultQueryParams";
-import getTranslations from "./getTranslations";
 import isContentAnalysisActive from "./isContentAnalysisActive";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import isInclusiveLanguageAnalysisActive from "./isInclusiveLanguageAnalysisActive";
@@ -75,7 +70,7 @@ export function createAnalysisWorker() {
  * @returns {Object} The analysis configuration.
  */
 export function getAnalysisConfiguration( customConfiguration = {} ) {
-	let configuration = {
+	const configuration = {
 		locale: getContentLocale(),
 		contentAnalysisActive: isContentAnalysisActive(),
 		keywordAnalysisActive: isKeywordAnalysisActive(),
@@ -85,12 +80,5 @@ export function getAnalysisConfiguration( customConfiguration = {} ) {
 		enabledFeatures: enabledFeatures(),
 	};
 
-	configuration = merge( configuration, customConfiguration );
-
-	const translations = getTranslations();
-	if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
-		configuration.translations = translations;
-	}
-
-	return configuration;
+	return merge( configuration, customConfiguration );
 }

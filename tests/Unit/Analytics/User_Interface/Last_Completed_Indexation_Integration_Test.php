@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Analytics\User_Interface;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Analytics\User_Interface\Last_Completed_Indexation_Integration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -67,6 +68,14 @@ final class Last_Completed_Indexation_Integration_Test extends TestCase {
 		$this->options_helper_mock->expects()->get( 'last_known_no_unindexed', [] );
 		$this->options_helper_mock->expects()->set( 'last_known_no_unindexed', [ 'name' => \time() ] );
 
+		Monkey\Functions\expect( 'remove_action' )
+			->with( 'update_option_wpseo', [ 'WPSEO_Utils', 'clear_cache' ] )
+			->once();
+
+		Monkey\Functions\expect( 'add_action' )
+			->with( 'update_option_wpseo', [ 'WPSEO_Utils', 'clear_cache' ] )
+			->once();
+
 		$this->sut->maybe_set_indexables_unindexed_calculated( 'name', 0 );
 	}
 
@@ -79,6 +88,14 @@ final class Last_Completed_Indexation_Integration_Test extends TestCase {
 	 */
 	public function test_maybe_set_indexables_unindexed_calculated_with_many_indexables(): void {
 		$this->options_helper_mock->expects( 'set' )->never();
+
+		Monkey\Functions\expect( 'remove_action' )
+			->with( 'update_option_wpseo', [ 'WPSEO_Utils', 'clear_cache' ] )
+			->never();
+
+		Monkey\Functions\expect( 'add_action' )
+			->with( 'update_option_wpseo', [ 'WPSEO_Utils', 'clear_cache' ] )
+			->never();
 
 		$this->sut->maybe_set_indexables_unindexed_calculated( 'name', 100000 );
 	}
