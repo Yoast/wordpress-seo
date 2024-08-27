@@ -68,6 +68,25 @@ describe( "a test for excluded elements", function() {
 		} );
 		expect( firstParagraph( paper, researcher ).introduction.childNodes[ 0 ].value ).toEqual( "Some other text." );
 	} );
+	it( "should not recognize image captions as the introduction if it occurs at the beginning of the post (block editor: classic block)", function() {
+		// The keyphrase is 'the highland cow Braunvieh', where it is added to the image caption. The first paragraph after the image doesn't contain the keyphrase.
+		// Hence, this test should return that the keyphrase was not found in the first paragraph.
+		const paper = new Paper( "<p>[caption id=\"attachment_1425\" align=\"alignnone\" width=\"300\"]<img class=\"size-medium wp-image-1425\"" +
+			" src=\"https://basic.wordpress.test\" alt=\"\" width=\"300\" height=\"213\"> Braunvieh: the highland cow[/caption]</p>" +
+			"\n<p>The <b>Braunvieh</b> (German, \"brown cattle\") or <b>Swiss Brown</b> is a breed or group of breeds of domestic cattle originating in Switzerland" +
+			" and distributed throughout the Alpine region.</p>",
+		{ keyword: "the highland cow Braunvieh" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+		expect( firstParagraph( paper, researcher ).introduction.sentences[ 0 ].text ).toEqual( "The Braunvieh (German, \"brown cattle\") or Swiss Brown is a breed or group of breeds of domestic cattle originating in Switzerland and distributed throughout the Alpine region." );
+	} );
 } );
 
 describe( "checks for the content words from the keyphrase in the first paragraph (English)", function() {
