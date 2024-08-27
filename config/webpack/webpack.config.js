@@ -45,13 +45,10 @@ module.exports = [
 	),
 	baseConfig(
 		{
-			entry: {
-				...yoastPackages.reduce( ( memo, packageName ) => {
-					memo[ yoastExternals[ packageName ] ] = "./node_modules/" + packageName;
-					return memo;
-				}, {} ),
-				analysis: "./packages/js/src/externals/analysis.js",
-			},
+			entry: yoastPackages.reduce( ( memo, packageName ) => {
+				memo[ yoastExternals[ packageName ] ] = "./node_modules/" + packageName;
+				return memo;
+			}, {} ),
 			output: {
 				path: paths.jsDist + "/externals",
 				filename: outputFilename,
