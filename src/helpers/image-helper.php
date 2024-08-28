@@ -150,7 +150,7 @@ class Image_Helper {
 	}
 
 	/**
-	 * Gets the image ic from the content.
+	 * Gets the image url from the content.
 	 *
 	 * @param int $post_id The post id to extract the images from.
 	 *
