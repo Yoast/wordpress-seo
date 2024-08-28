@@ -1,4 +1,3 @@
-import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
 
 import Assessment from "../assessment";
@@ -14,6 +13,12 @@ export default class TextTitleAssessment extends Assessment {
 	 * Constructs a text title assessment.
 	 *
 	 * @param {object} config The config to use for the assessment.
+	 * @param {object} config.scores The scores to use for the assessment.
+	 * @param {number} config.scores.good The score to return if the text has a title.
+	 * @param {number} config.scores.bad The score to return if the text does not have a title.
+	 * @param {string} config.urlTitle The URL to the article about this assessment.
+	 * @param {string} config.urlCallToAction The URL to the help article for this assessment.
+	 * @param {function} config.callbacks.getResultText The function that returns the result text.
 	 *
 	 * @returns {void}
 	 */
@@ -72,38 +77,42 @@ export default class TextTitleAssessment extends Assessment {
 	 * @returns {{resultText: string, score}} Result object with score and text.
 	 */
 	calculateResult( textTitleData ) {
+		const { good: goodResultText, bad: badResultText } = this.getFeedbackStrings();
 		// GOOD result when the text has a title.
 		if ( textTitleData ) {
 			return {
 				score: this._config.scores.good,
-				resultText: sprintf(
-					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
-					__(
-						"%1$sTitle%2$s: Your page has a title. Well done!",
-						"wordpress-seo-premium"
-					),
-					this._config.urlTitle,
-					"</a>"
-				),
+				resultText: goodResultText,
 			};
 		}
 
 		// BAD if the text is missing a title.
 		return {
 			score: this._config.scores.bad,
-			resultText: sprintf(
-				/**
-				 * translators:
-				 * %1$s and %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag.
-				 */
-				__(
-					"%1$sTitle%3$s: Your page does not have a title yet. %2$sAdd one%3$s!",
-					"wordpress-seo-premium"
-				),
-				this._config.urlTitle,
-				this._config.urlCallToAction,
-				"</a>"
-			),
+			resultText: badResultText,
 		};
+	}
+
+	/**
+	 * Gets the feedback strings for the text title assessment.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultText`.
+	 * The callback function should return an object with the following properties:
+	 * - good: string
+	 * - bad: string
+	 *
+	 * @returns {{good: string, bad: string}} The feedback strings.
+	 */
+	getFeedbackStrings() {
+		if ( ! this._config.callbacks.getResultText ) {
+			return {
+				good: "%1$sTitle%2$s: Your page has a title. Well done!",
+				bad: "%1$sTitle%3$s: Your page does not have a title yet. %2$sAdd one%3$s!",
+			};
+		}
+
+		return this._config.callbacks.getResultText( {
+			urlTitle: this._config.urlTitle,
+			urlCallToAction: this._config.urlCallToAction,
+		} );
 	}
 }

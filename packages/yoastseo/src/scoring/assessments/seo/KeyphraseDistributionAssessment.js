@@ -129,14 +129,14 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 	/**
 	 * Gets the feedback strings for the keyphrase distribution assessment.
-	 * Please note if you want to override the default feedback strings, you can use the `config.callbacks.getResultText` function.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultText`.
 	 * The callback function should return an object with the following properties:
 	 * - good: string
 	 * - okay: string
 	 * - bad: string
 	 * - consideration: string
 	 *
-	 * @returns {{good: string, okay: string, bad: string, consideration}} The feedback strings.
+	 * @returns {{good: string, okay: string, bad: string, consideration: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
 		if ( ! this._config.callbacks.getResultText ) {

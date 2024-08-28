@@ -89,7 +89,7 @@ export default class WordComplexityAssessment extends Assessment {
 
 	/**
 	 * Gets the feedback strings for the word complexity assessment.
-	 * Please note if you want to override the default feedback strings, you can use the `config.callbacks.getResultText` function.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultText`.
 	 * The callback function should return an object with the following properties:
 	 * - acceptableAmount: string
 	 * - goodAmount: string
@@ -106,9 +106,9 @@ export default class WordComplexityAssessment extends Assessment {
 		const complexWordsPercentage = this._wordComplexity.percentage;
 
 		return this._config.callbacks.getResultText( {
-			complexWordsPercentage,
 			urlTitle: this._config.urlTitle,
 			urlCallToAction: this._config.urlCallToAction,
+			complexWordsPercentage,
 		} );
 	}
 
