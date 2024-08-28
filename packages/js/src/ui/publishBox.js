@@ -1,6 +1,7 @@
 /* global wpseoScriptData */
 import { get } from "lodash";
 import { __ } from "@wordpress/i18n";
+import { select } from "@wordpress/data";
 
 var scoreDescriptionClass = "score-text";
 var imageScoreClass = "image yoast-logo svg";
@@ -20,6 +21,8 @@ function createSEOScoreLabel( scoreType, status, labels = null ) {
 		return get( labels, status, "" );
 	}
 
+	const isPremium = select( "yoast-seo/editor" ).getIsPremium();
+
 	const statusTranslatation = {
 		na: __( 'Not available', 'wordpress-seo' ),
 		bad:__( 'Needs improvement', 'wordpress-seo' ),
@@ -29,17 +32,17 @@ function createSEOScoreLabel( scoreType, status, labels = null ) {
 
 	const translations = {
 		keyword: {
-			label: __( 'SEO', 'wordpress-seo' ),
+			label: isPremium ? __( "Premium SEO analysis:", "wordpress-seo" ) : __( "SEO analysis:", "wordpress-seo" ),
 			anchor: "yoast-seo-analysis-collapsible-metabox",
 			status: statusTranslatation,
 		},
 		content: {
-			label: __( 'Readability', 'wordpress-seo' ),
+			label: __( 'Readability analysis:', 'wordpress-seo' ),
 			anchor: "yoast-readability-analysis-collapsible-metabox",
 			status: statusTranslatation,
 		},
 		'inclusive-language': {
-			label: __( 'Inclusive language', 'wordpress-seo' ),
+			label: __( 'Inclusive language:', 'wordpress-seo' ),
 			anchor: "yoast-inclusive-language-analysis-collapsible-metabox",
 			status: {
 				...statusTranslatation,
@@ -52,7 +55,7 @@ function createSEOScoreLabel( scoreType, status, labels = null ) {
 		return "";
 	}
 
-	return `<a href="#${translations[scoreType]?.anchor}">${translations[scoreType]?.label}</a>: <strong>${ translations[scoreType]?.status[status] }</strong>`;
+	return `<a href="#${translations[scoreType]?.anchor}">${translations[scoreType]?.label}</a> <strong>${ translations[scoreType]?.status[status] }</strong>`;
 }
 
 /**
