@@ -167,23 +167,6 @@ class Image_Helper {
 	 *
 	 * @return string The image url or an empty string when not found.
 	 */
-	public function get_post_content_image_id( $post_id ) {
-		$image_url = $this->get_first_usable_content_image_id_for_post( $post_id );
-
-		if ( $image_url === null ) {
-			return '';
-		}
-
-		return $image_url;
-	}
-
-	/**
-	 * Gets the image ic from the content.
-	 *
-	 * @param int $post_id The post id to extract the images from.
-	 *
-	 * @return string The image url or an empty string when not found.
-	 */
 	public function get_post_content_image( $post_id ) {
 		$image_url = $this->get_first_usable_content_image_for_post( $post_id );
 
@@ -416,33 +399,6 @@ class Image_Helper {
 		}
 
 		return $image_meta;
-	}
-
-	/**
-	 * Retrieves the first usable content image_id for a post.
-	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
-	 * @param int $post_id The post id to extract the images from.
-	 *
-	 * @return string|null
-	 */
-	protected function get_first_usable_content_image_id_for_post( $post_id ) {
-		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
-		global $post;
-		$post_backup = $post;
-		$post        = \get_post( $post_id );
-
-		\setup_postdata( $post );
-		$content = \apply_filters( 'the_content', $post->post_content );
-		\wp_reset_postdata();
-		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
-		$post = $post_backup;
-
-		$content = \str_replace( ']]>', ']]&gt;', $content );
-		$images  = $this->image_content_extractor->gather_images( $content );
-
-		return \array_shift( $images );
 	}
 
 	/**
