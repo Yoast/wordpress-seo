@@ -24,10 +24,10 @@ function createSEOScoreLabel( scoreType, status, labels = null ) {
 	const isPremium = select( "yoast-seo/editor" ).getIsPremium();
 
 	const statusTranslatation = {
-		na: __( 'Not available', 'wordpress-seo' ),
-		bad:__( 'Needs improvement', 'wordpress-seo' ),
-		ok: __( 'OK', 'wordpress-seo' ),
-		good: __( 'Good', 'wordpress-seo' ),
+		na: __( "Not available", "wordpress-seo" ),
+		bad: __( "Needs improvement", "wordpress-seo" ),
+		ok: __( "OK", "wordpress-seo" ),
+		good: __( "Good", "wordpress-seo" ),
 	};
 
 	const translations = {
@@ -37,25 +37,25 @@ function createSEOScoreLabel( scoreType, status, labels = null ) {
 			status: statusTranslatation,
 		},
 		content: {
-			label: __( 'Readability analysis:', 'wordpress-seo' ),
+			label: __( "Readability analysis:", "wordpress-seo" ),
 			anchor: "yoast-readability-analysis-collapsible-metabox",
 			status: statusTranslatation,
 		},
-		'inclusive-language': {
-			label: __( 'Inclusive language:', 'wordpress-seo' ),
+		"inclusive-language": {
+			label: __( "Inclusive language:", "wordpress-seo" ),
 			anchor: "yoast-inclusive-language-analysis-collapsible-metabox",
 			status: {
 				...statusTranslatation,
-				ok: __( 'Potentially non-inclusive', 'wordpress-seo' ),
+				ok: __( "Potentially non-inclusive", "wordpress-seo" ),
 			},
 		},
 	};
 
-	if( ! translations?.[scoreType]?.status?.[status] ) {
+	if ( ! translations?.[ scoreType ]?.status?.[ status ] ) {
 		return "";
 	}
 
-	return `<a href="#${translations[scoreType]?.anchor}">${translations[scoreType]?.label}</a> <strong>${ translations[scoreType]?.status[status] }</strong>`;
+	return `<a href="#${translations[ scoreType ]?.anchor}">${translations[ scoreType ]?.label}</a> <strong>${ translations[ scoreType ]?.status[ status ] }</strong>`;
 }
 
 /**
