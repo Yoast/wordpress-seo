@@ -154,7 +154,7 @@ class Indexable_Link_Builder {
 			return [];
 		}
 
-		if ( ! empty( $images ) && $indexable->open_graph_image_source === 'first-content-image' ) {
+		if ( ! empty( $images ) && ( $indexable->open_graph_image_source === 'first-content-image' || $indexable->twitter_image_source === 'first-content-image' ) ) {
 			$this->update_first_content_image( $indexable, $images );
 		}
 
@@ -599,8 +599,12 @@ class Indexable_Link_Builder {
 		$first_content_image_id  = \current( $images );
 
 		if ( $current_first_content_image === $first_content_image_url ) {
-			$indexable->open_graph_image_id = $first_content_image_id;
-			$indexable->twitter_image_id    = $first_content_image_id;
+			if ( $indexable->open_graph_image_source === 'first-content-image' ) {
+				$indexable->open_graph_image_id = $first_content_image_id;
+			}
+			if ( $indexable->twitter_image_source === 'first-content-image' ) {
+				$indexable->twitter_image_id = $first_content_image_id;
+			}
 		}
 	}
 }
