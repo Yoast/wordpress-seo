@@ -25,7 +25,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @param {number} [config.scores.consideration]    The score to return if there are no keyword occurrences.
 	 * @param {string} [config.urlTitle]                The URL to the article about this assessment.
 	 * @param {string} [config.urlCallToAction]         The URL to the help article for this assessment.
-	 * @param {function} [config.getResultText]         The function that returns the result text.
+	 * @param {function} [config.callbacks.getResultText]         The function that returns the result text.
 	 *
 	 * @returns {void}
 	 */
@@ -129,11 +129,17 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 	/**
 	 * Gets the feedback strings for the keyphrase distribution assessment.
+	 * Please note if you want to override the default feedback strings, you can use the `config.callbacks.getResultText` function.
+	 * The callback function should return an object with the following properties:
+	 * - good: string
+	 * - okay: string
+	 * - bad: string
+	 * - consideration: string
 	 *
 	 * @returns {{good: string, okay: string, bad: string, consideration}} The feedback strings.
 	 */
 	getFeedbackStrings() {
-		if ( ! this._config.getResultText ) {
+		if ( ! this._config.callbacks.getResultText ) {
 			return {
 				good: "%1$sKeyphrase distribution%2$s: Good job!",
 				okay: "%1$sKeyphrase distribution%3$s: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
@@ -142,7 +148,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 			};
 		}
 
-		return this._config.getResultText()( { urlTitle: this._config.urlTitle, urlCallToAction: this._config.urlCallToAction } );
+		return this._config.callbacks.getResultText( { urlTitle: this._config.urlTitle, urlCallToAction: this._config.urlCallToAction } );
 	}
 
 	/**

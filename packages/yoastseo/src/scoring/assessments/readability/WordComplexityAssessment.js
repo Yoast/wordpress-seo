@@ -19,7 +19,7 @@ export default class WordComplexityAssessment extends Assessment {
 	 * @param {number} [config.scores.goodAmount]       The score to return if the text has a good amount of complex words.
 	 * @param {string} [config.urlTitle]                The URL to the article about this assessment.
 	 * @param {string} [config.urlCallToAction]         The URL to the help article for this assessment.
-	 * @param {function} [config.getResultText]         The function that returns the result text.
+	 * @param {function} [config.callbacks.getResultText]         The function that returns the result text.
 	 *
 	 * @returns {void}
 	 */
@@ -89,11 +89,15 @@ export default class WordComplexityAssessment extends Assessment {
 
 	/**
 	 * Gets the feedback strings for the word complexity assessment.
+	 * Please note if you want to override the default feedback strings, you can use the `config.callbacks.getResultText` function.
+	 * The callback function should return an object with the following properties:
+	 * - acceptableAmount: string
+	 * - goodAmount: string
 	 *
 	 * @returns {{acceptableAmount: string, goodAmount: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
-		if ( ! this._config.getResultText ) {
+		if ( ! this._config.callbacks.getResultText ) {
 			return {
 				acceptableAmount: "%1$sWord complexity%4$s: %2$s of the words in your text are considered complex. %3$sTry to use shorter and more familiar words to improve readability%4$s.",
 				goodAmount: "%1$sWord complexity%4$s: You are not using too many complex words, which makes your text easy to read. Good job!",
@@ -101,7 +105,7 @@ export default class WordComplexityAssessment extends Assessment {
 		}
 		const complexWordsPercentage = this._wordComplexity.percentage;
 
-		return this._config.getResultText()( {
+		return this._config.callbacks.getResultText( {
 			complexWordsPercentage,
 			urlTitle: this._config.urlTitle,
 			urlCallToAction: this._config.urlCallToAction,
