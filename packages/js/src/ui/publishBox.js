@@ -23,7 +23,7 @@ function createSEOScoreLabel( scoreType, status, labels = null ) {
 
 	const isPremium = select( "yoast-seo/editor" ).getIsPremium();
 
-	const statusTranslatation = {
+	const statusTranslation = {
 		na: __( "Not available", "wordpress-seo" ),
 		bad: __( "Needs improvement", "wordpress-seo" ),
 		ok: __( "OK", "wordpress-seo" ),
@@ -34,18 +34,18 @@ function createSEOScoreLabel( scoreType, status, labels = null ) {
 		keyword: {
 			label: isPremium ? __( "Premium SEO analysis:", "wordpress-seo" ) : __( "SEO analysis:", "wordpress-seo" ),
 			anchor: "yoast-seo-analysis-collapsible-metabox",
-			status: statusTranslatation,
+			status: statusTranslation,
 		},
 		content: {
 			label: __( "Readability analysis:", "wordpress-seo" ),
 			anchor: "yoast-readability-analysis-collapsible-metabox",
-			status: statusTranslatation,
+			status: statusTranslation,
 		},
 		"inclusive-language": {
 			label: __( "Inclusive language:", "wordpress-seo" ),
 			anchor: "yoast-inclusive-language-analysis-collapsible-metabox",
 			status: {
-				...statusTranslatation,
+				...statusTranslation,
 				ok: __( "Potentially non-inclusive", "wordpress-seo" ),
 			},
 		},
