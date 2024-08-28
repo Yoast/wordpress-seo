@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Image_Utils;
-use Yoast\WP\SEO\Images\Application\Image_Content_Extractor;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
@@ -42,13 +41,6 @@ class Image_Helper {
 	protected $seo_links_repository;
 
 	/**
-	 * The image content extractor.
-	 *
-	 * @var Image_Content_Extractor
-	 */
-	protected $image_content_extractor;
-
-	/**
 	 * The options helper.
 	 *
 	 * @var Options_Helper
@@ -65,24 +57,21 @@ class Image_Helper {
 	/**
 	 * Image_Helper constructor.
 	 *
-	 * @param Indexable_Repository    $indexable_repository    The indexable repository.
-	 * @param SEO_Links_Repository    $seo_links_repository    The SEO Links repository.
-	 * @param Options_Helper          $options                 The options helper.
-	 * @param Url_Helper              $url_helper              The URL helper.
-	 * @param Image_Content_Extractor $image_content_extractor The image content extractor.
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 * @param SEO_Links_Repository $seo_links_repository The SEO Links repository.
+	 * @param Options_Helper       $options              The options helper.
+	 * @param Url_Helper           $url_helper           The URL helper.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		SEO_Links_Repository $seo_links_repository,
 		Options_Helper $options,
-		Url_Helper $url_helper,
-		Image_Content_Extractor $image_content_extractor
+		Url_Helper $url_helper
 	) {
-		$this->indexable_repository    = $indexable_repository;
-		$this->seo_links_repository    = $seo_links_repository;
-		$this->options_helper          = $options;
-		$this->url_helper              = $url_helper;
-		$this->image_content_extractor = $image_content_extractor;
+		$this->indexable_repository = $indexable_repository;
+		$this->seo_links_repository = $seo_links_repository;
+		$this->options_helper       = $options;
+		$this->url_helper           = $url_helper;
 	}
 
 	/**
