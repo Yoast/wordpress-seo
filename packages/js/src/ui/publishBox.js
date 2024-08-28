@@ -1,5 +1,6 @@
 /* global wpseoScriptData */
 import { get } from "lodash";
+import { __ } from "@wordpress/i18n";
 
 var scoreDescriptionClass = "score-text";
 var imageScoreClass = "image yoast-logo svg";
@@ -18,7 +19,40 @@ function createSEOScoreLabel( scoreType, status, labels = null ) {
 	if ( labels !== null ) {
 		return get( labels, status, "" );
 	}
-	return get( wpseoScriptData, `metabox.publish_box.labels.${ scoreType }.${ status }`, "" );
+
+	const statusTranslatation = {
+		na: __( 'Not available', 'wordpress-seo' ),
+		bad:__( 'Needs improvement', 'wordpress-seo' ),
+		ok: __( 'OK', 'wordpress-seo' ),
+		good: __( 'Good', 'wordpress-seo' ),
+	};
+
+	const translations = {
+		keyword: {
+			label: __( 'SEO', 'wordpress-seo' ),
+			anchor: "yoast-seo-analysis-collapsible-metabox",
+			status: statusTranslatation,
+		},
+		content: {
+			label: __( 'Readability', 'wordpress-seo' ),
+			anchor: "yoast-readability-analysis-collapsible-metabox",
+			status: statusTranslatation,
+		},
+		'inclusive-language': {
+			label: __( 'Inclusive language', 'wordpress-seo' ),
+			anchor: "yoast-inclusive-language-analysis-collapsible-metabox",
+			status: {
+				...statusTranslatation,
+				ok: __( 'Potentially non-inclusive', 'wordpress-seo' ),
+			},
+		},
+	};
+
+	if( ! translations?.[scoreType]?.status?.[status] ) {
+		return "";
+	}
+
+	return `<a href="#${translations[scoreType]?.anchor}">${translations[scoreType]?.label}</a>: <strong>${ translations[scoreType]?.status[status] }</strong>`;
 }
 
 /**
