@@ -16,7 +16,7 @@ var $ = jQuery;
  *
  * @returns {String} A string with label and description with correct text decoration.
  */
-function createSEOScoreLabel( scoreType, status, labels = null ) {
+export function createSEOScoreLabel( scoreType, status, labels = null ) {
 	if ( labels !== null ) {
 		return get( labels, status, "" );
 	}
