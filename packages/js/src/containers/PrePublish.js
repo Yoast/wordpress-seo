@@ -22,7 +22,6 @@ export function mapSelectToProps( select ) {
 	const checklist = [];
 
 	maybeAddFocusKeyphraseCheck( checklist, yoastStore );
-	
 	maybeAddSEOCheck( checklist, yoastStore );
 	maybeAddReadabilityCheck( checklist, yoastStore );
 	maybeAddInclusiveLanguageCheck( checklist, yoastStore );
