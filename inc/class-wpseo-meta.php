@@ -70,6 +70,8 @@ class WPSEO_Meta {
 	 *
 	 * {@internal
 	 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!}}
+	 * - The properties for the field translations and configuration (all the properties except 'default_value', 'options') 
+	 *   are not used anymore because the fields rendered hidden by the Meta_Fields_Presenter and otherwise the fields are configured on the client side.
 	 *
 	 * @var array
 	 *            Array format:
@@ -77,11 +79,7 @@ class WPSEO_Meta {
 	 *                                                    IMPORTANT:
 	 *                                                    - if the field has options, the default has to be the
 	 *                                                      key of one of the options.
-	 *                                                    - if the field is a text field, the default **has** to be
-	 *                                                      an empty string as otherwise the user can't save
-	 *                                                      an empty value/delete the meta value.
-	 *                                                    - if the field is a checkbox, the only valid values
-	 *                                                      are 'on' or 'off'.
+	 *                                                    - default will be an empty string.
 	 *                (semi-required)   'options'      => (array) options for used with (multi-)select and radio
 	 *                                                    fields, required if that's the field type.
 	 *                                                    key = (string) value which will be saved to db.
@@ -93,12 +91,8 @@ class WPSEO_Meta {
 	public static $meta_fields = [
 		'general'  => [
 			'focuskw'                  => [],
-			'title'                    => [
-				'default_value' => '',
-			],
-			'metadesc'                 => [
-				'default_value' => '',
-			],
+			'title'                    => [],
+			'metadesc'                 => [],
 			'linkdex'                  => [
 				'default_value' => '0',
 			],
@@ -129,22 +123,15 @@ class WPSEO_Meta {
 				],
 			],
 			'meta-robots-adv'      => [
-				'default_value' => '',
 				'options'       => [
 					'noimageindex' => '',
 					'noarchive'    => '',
 					'nosnippet'    => '',
 				],
 			],
-			'bctitle'              => [
-				'default_value' => '',
-			],
-			'canonical'            => [
-				'default_value' => '',
-			],
-			'redirect'             => [
-				'default_value' => '',
-			],
+			'bctitle'              => [],
+			'canonical'            => [],
+			'redirect'             => [],
 		],
 		'social'   => [],
 		'schema'   => [
