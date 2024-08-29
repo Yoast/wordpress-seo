@@ -165,7 +165,6 @@ class WPSEO_Taxonomy {
 				'analysis'              => [
 					'plugins' => [
 						'replaceVars' => [
-							'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
 							'replace_vars'             => $this->get_replace_vars(),
 							'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 							'scope'                    => $this->determine_scope(),
@@ -316,7 +315,6 @@ class WPSEO_Taxonomy {
 	 */
 	public function localize_replace_vars_script() {
 		return [
-			'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'             => $this->get_replace_vars(),
 			'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 			'scope'                    => $this->determine_scope(),
