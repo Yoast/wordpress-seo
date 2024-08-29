@@ -3,6 +3,7 @@ import {
 	orangeUnlessSomeoneWants,
 	alternative,
 	avoidDerogatory,
+	avoidHarmful,
 } from "./feedbackStrings/generalFeedbackStrings";
 import { orangeUnlessMedicalCondition } from "./feedbackStrings/disabilityAssessmentStrings";
 import { isPrecededByException, isNotPrecededByException } from "../helpers/isPrecededByException";
@@ -23,14 +24,6 @@ import {
 	shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
 } from "./disabilityRulesData";
 import { sprintf } from "@wordpress/i18n";
-/*
- * Used for the term 'special needs'.
- *
- * "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as %2$s when referring to someone's needs,
- * or %3$s when referring to a person."
- */
-const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
-	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
 const disabilityAssessments = [
 	{
@@ -176,7 +169,8 @@ const disabilityAssessments = [
 		nonInclusivePhrases: [ "special needs" ],
 		inclusiveAlternatives: [ "<i>functional needs, support needs</i>", "<i>disabled, person with a disability</i>" ],
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulTwoAlternatives,
+		feedbackFormat: [ avoidHarmful, "Consider using an alternative, such as %2$s when referring to someone's" +
+		" needs, or %3$s when referring to a person." ].join( " " ),
 	},
 	{
 		identifier: "hardOfHearing",

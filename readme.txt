@@ -287,6 +287,7 @@ Release date: 2024-09-03
 
 #### Bugfixes
 
+* Fixes a bug where an image caption inside a classic block would be considered the introduction when using the _keyphrase in introduction_ assessment in the default editor.
 * Fixes a bug where the first tag instead of the primary tag would be shown in a permalink when adding a link in the Classic editor.
 * Fixes a bug where the Yoast tab would disappear when opening and closing the Site Settings in Elementor.
 * Fixes a bug where the Yoast user settings would be wiped out after a user profile update when the respective global settings were disabled.

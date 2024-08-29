@@ -54,7 +54,6 @@ class WPSEO_Metabox_Formatter {
 		$defaults = [
 			'author_name'                        => get_the_author_meta( 'display_name' ),
 			'sitewide_social_image'              => WPSEO_Options::get( 'og_default_image' ),
-			'translations'                       => $this->get_translations(),
 			'keyword_usage'                      => [],
 			'title_template'                     => '',
 			'metadesc_template'                  => '',
@@ -68,100 +67,6 @@ class WPSEO_Metabox_Formatter {
 				'articleTypeOptions' => $schema_types->get_article_type_options(),
 			],
 			'twitterCardType'                    => 'summary_large_image',
-			'publish_box'                        => [
-				'labels' => [
-					'keyword'            => [
-						'na'   => sprintf(
-							/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the SEO score. */
-							__( '%1$sSEO%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-seo-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'Not available', 'wordpress-seo' ) . '</strong>'
-						),
-						'bad'  => sprintf(
-							/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the SEO score. */
-							__( '%1$sSEO%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-seo-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'Needs improvement', 'wordpress-seo' ) . '</strong>'
-						),
-						'ok'   => sprintf(
-							/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the SEO score. */
-							__( '%1$sSEO%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-seo-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'OK', 'wordpress-seo' ) . '</strong>'
-						),
-						'good' => sprintf(
-							/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the SEO score. */
-							__( '%1$sSEO%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-seo-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
-						),
-					],
-					'content'            => [
-						'na'   => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the readability score. */
-							__( '%1$sReadability%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-readability-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'Not available', 'wordpress-seo' ) . '</strong>'
-						),
-						'bad'  => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the readability score. */
-							__( '%1$sReadability%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-readability-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'Needs improvement', 'wordpress-seo' ) . '</strong>'
-						),
-						'ok'   => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the readability score. */
-							__( '%1$sReadability%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-readability-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'OK', 'wordpress-seo' ) . '</strong>'
-						),
-						'good' => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the readability score. */
-							__( '%1$sReadability%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-readability-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
-						),
-					],
-					'inclusive-language' => [
-						'na'   => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the inclusive language score. */
-							__( '%1$sInclusive language%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-inclusive-language-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'Not available', 'wordpress-seo' ) . '</strong>'
-						),
-						'bad'  => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the inclusive language score. */
-							__( '%1$sInclusive language%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-inclusive-language-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'Needs improvement', 'wordpress-seo' ) . '</strong>'
-						),
-						'ok'   => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the inclusive language score. */
-							__( '%1$sInclusive language%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-inclusive-language-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'Potentially non-inclusive', 'wordpress-seo' ) . '</strong>'
-						),
-						'good' => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the inclusive language score. */
-							__( '%1$sInclusive language%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-inclusive-language-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
-						),
-					],
-				],
-			],
 			/**
 			 * Filter to determine if the markers should be enabled or not.
 			 *
@@ -182,25 +87,5 @@ class WPSEO_Metabox_Formatter {
 
 		$enabled_features = $enabled_features_repo->get_enabled_features()->parse_to_legacy_array();
 		return array_merge( $defaults, $enabled_features );
-	}
-
-	/**
-	 * Returns Jed compatible YoastSEO.js translations.
-	 *
-	 * @return string[]
-	 */
-	private function get_translations() {
-		$locale = get_user_locale();
-
-		$file = WPSEO_PATH . 'languages/wordpress-seo-' . $locale . '.json';
-		if ( file_exists( $file ) ) {
-			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
-			$file = file_get_contents( $file );
-			if ( is_string( $file ) && $file !== '' ) {
-				return json_decode( $file, true );
-			}
-		}
-
-		return [];
 	}
 }
