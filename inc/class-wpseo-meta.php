@@ -90,9 +90,15 @@ class WPSEO_Meta {
 	 */
 	public static $meta_fields = [
 		'general'  => [
-			'focuskw'                  => [],
-			'title'                    => [],
-			'metadesc'                 => [],
+			'focuskw'                  => [
+				'default_value' => '',
+			],
+			'title'                    => [
+				'default_value' => '',
+			],
+			'metadesc'                 => [
+				'default_value' => '',
+			],
 			'linkdex'                  => [
 				'default_value' => '0',
 			],
@@ -123,22 +129,31 @@ class WPSEO_Meta {
 				],
 			],
 			'meta-robots-adv'      => [
-				'options' => [
+				'default_value' => '',
+				'options'       => [
 					'noimageindex' => '',
 					'noarchive'    => '',
 					'nosnippet'    => '',
 				],
 			],
-			'bctitle'              => [],
-			'canonical'            => [],
-			'redirect'             => [],
+			'bctitle'              => [
+				'default_value' => '',
+			],
+			'canonical'            => [
+				'default_value' => '',
+			],
+			'redirect'             => [
+				'default_value' => '',
+			],
 		],
 		'social'   => [],
 		'schema'   => [
 			'schema_page_type'    => [
-				'options' => Schema_Types::PAGE_TYPES,
+				'default_value' => '',
+				'options'       => Schema_Types::PAGE_TYPES,
 			],
 			'schema_article_type' => [
+				'default_value' => '',
 				'hide_on_pages' => true,
 				'options'       => Schema_Types::ARTICLE_TYPES,
 			],
@@ -201,7 +216,9 @@ class WPSEO_Meta {
 		foreach ( self::$social_networks as $option => $network ) {
 			if ( WPSEO_Options::get( $option, false ) === true ) {
 				foreach ( self::$social_fields as $key ) {
-					self::$meta_fields['social'][ $network . '-' . $key ] = [];
+					self::$meta_fields['social'][ $network . '-' . $key ] = [
+						'default_value' => '',
+					];
 				}
 			}
 		}
@@ -410,7 +427,6 @@ class WPSEO_Meta {
 				if ( is_string( $meta_value ) ) {
 					$clean = WPSEO_Utils::sanitize_text_field( trim( $meta_value ) );
 				}
-
 				break;
 		}
 
