@@ -140,15 +140,7 @@ final class Metabox_Test extends TestCase {
 		foreach ( $meta_fields as $key => $field ) {
 
 			// Set text fields.
-			if ( $field['type'] === 'text' ) {
-				$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'text';
-			}
-			elseif ( $field['type'] === 'hidden' ) {
-				$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'hidden';
-			}
-			elseif ( $field['type'] === 'checkbox' ) {
-				$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'on';
-			}
+			$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'text';
 		}
 
 		// Call method that saves the $_POST data.
@@ -165,15 +157,7 @@ final class Metabox_Test extends TestCase {
 			$value = $custom[ WPSEO_Meta::$meta_prefix . $key ][0];
 
 			// Set text fields.
-			if ( $field['type'] === 'text' ) {
-				$this->assertSame( $value, 'text' );
-			}
-			elseif ( $field['type'] === 'hidden' ) {
-				$this->assertSame( $value, 'hidden' );
-			}
-			elseif ( $field['type'] === 'checkbox' ) {
-				$this->assertSame( $value, 'on' );
-			}
+			$this->assertSame( $value, 'text' );
 		}
 	}
 
