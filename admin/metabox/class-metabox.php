@@ -500,7 +500,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Adds a line in the meta box.
-	 * 
+	 *
 	 * @deprecated 23.5
 	 * @codeCoverageIgnore
 	 *
@@ -513,7 +513,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function do_meta_box( $meta_field_def, $key = '' ) {
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.5', 'WPSEO_Metabox::do_meta_box' );
-		
+
 		$content      = '';
 		$esc_form_key = esc_attr( WPSEO_Meta::$form_prefix . $key );
 		$meta_value   = WPSEO_Meta::get_value( $key, $this->get_metabox_post()->ID );
@@ -752,7 +752,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We're preparing to do just that.
 				$data = wp_unslash( $_POST[ $field_name ] );
 			}
-			
+
 			if ( $data !== null ) {
 				WPSEO_Meta::set_value( $key, $data, $post_id );
 			}

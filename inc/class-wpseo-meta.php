@@ -70,7 +70,7 @@ class WPSEO_Meta {
 	 *
 	 * {@internal
 	 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!}}
-	 * - The properties for the field translations and configuration (all the properties except 'default_value', 'options') 
+	 * - The properties for the field translations and configuration (all the properties except 'default_value', 'options')
 	 *   are not used anymore because the fields rendered hidden by the Meta_Fields_Presenter and otherwise the fields are configured on the client side.
 	 *
 	 * @var array
@@ -123,7 +123,7 @@ class WPSEO_Meta {
 				],
 			],
 			'meta-robots-adv'      => [
-				'options'       => [
+				'options' => [
 					'noimageindex' => '',
 					'noarchive'    => '',
 					'nosnippet'    => '',
