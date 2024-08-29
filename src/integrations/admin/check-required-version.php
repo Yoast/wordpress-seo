@@ -76,7 +76,7 @@ class Check_Required_Version implements Integration_Interface {
 			}
 		}
 
-		$requires_yoast_seo = ! empty( $info['Requires Yoast SEO'] ) ? $info['Requires Yoast SEO'] : null;
+		$requires_yoast_seo = ! empty( $info['Requires Yoast SEO'] ) ? $info['Requires Yoast SEO'] : false;
 
 		if ( ! $this->check_requirement( $requires_yoast_seo ) ) {
 			$error = \sprintf(
@@ -126,12 +126,12 @@ class Check_Required_Version implements Integration_Interface {
 	/**
 	 * Check whether the required Yoast SEO version is installed.
 	 *
-	 * @param string $required_version The required version.
+	 * @param string|bool $required_version The required version.
 	 *
 	 * @return bool Whether the required version is installed, or no version is required.
 	 */
 	private function check_requirement( $required_version ) {
-		if ( ! $required_version ) {
+		if ( $required_version === false ) {
 			return true;
 		}
 
