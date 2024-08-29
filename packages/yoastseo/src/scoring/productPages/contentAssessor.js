@@ -10,7 +10,6 @@ const {
 	TransitionWordsAssessment,
 	PassiveVoiceAssessment,
 	TextPresenceAssessment,
-	ListAssessment,
 } = assessments.readability;
 
 /**
@@ -56,10 +55,6 @@ const ProductContentAssessor = function( researcher, options ) {
 		new TextPresenceAssessment( {
 			urlTitle: createAnchorOpeningTag( options.textPresenceUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.textPresenceCTAUrl ),
-		} ),
-		new ListAssessment( {
-			urlTitle: createAnchorOpeningTag( options.listsUrlTitle ),
-			urlCallToAction: createAnchorOpeningTag( options.listsCTAUrl ),
 		} ),
 	];
 };
