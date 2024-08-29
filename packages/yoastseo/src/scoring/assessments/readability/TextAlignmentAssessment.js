@@ -149,7 +149,10 @@ export default class TextAlignmentAssessment extends Assessment {
 	getFeedbackStrings() {
 		if ( ! this._config.callbacks.getResultText ) {
 			return {
+				// %1$s is the `urlTitle`, %2$s is the `urlCallToAction`, %3$s expands to the anchor end tag `</a>`, %4$s expands to the number of the long center-aligned sections in the text */
+				// Singular RTL: "%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it right-aligned%3$s.",
 				rightToLeft: "%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. %2$sWe recommend making them right-aligned%3$s.",
+				// Singular LTR: "%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it left-aligned%3$s.",
 				leftToRight: "%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. %2$sWe recommend making them left-aligned%3$s.",
 			};
 		}
