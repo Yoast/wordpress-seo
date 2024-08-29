@@ -1,16 +1,11 @@
-import { potentiallyHarmful, potentiallyHarmfulUnless, harmfulNonInclusive } from "./feedbackStrings";
+import { redHarmful, orangeUnlessSomeoneWants, avoidHarmful } from "./feedbackStrings/generalFeedbackStrings";
+import { specificAgeGroup } from "./feedbackStrings/ageAssessmentStrings";
 import { isNotPrecededByException } from "../helpers/isPrecededByException";
 import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 
-/*
- * The last sentence of strings for the non-inclusive terms for 'older people/person'.
- *
- * "Or, if possible, be specific about the group you are referring to (e.g. %3$s)."
- */
-const specificAgeGroup = "Or, if possible, be specific about the group you are referring to (e.g. %3$s).";
 /*
  * Used to suggest an alternative for 'senile'.
  *
@@ -25,49 +20,49 @@ const ageAssessments = [
 		nonInclusivePhrases: [ "senior citizen" ],
 		inclusiveAlternatives: [ "<i>older person, older citizen</i>", "<i>person older than 70</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
+		feedbackFormat: [ orangeUnlessSomeoneWants, specificAgeGroup ].join( " " ),
 	},
 	{
 		identifier: "seniorCitizens",
 		nonInclusivePhrases: [ "senior citizens" ],
 		inclusiveAlternatives: [ "<i>older people, older citizens</i>", "<i>people older than 70</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
+		feedbackFormat: [ orangeUnlessSomeoneWants, specificAgeGroup ].join( " " ),
 	},
 	{
 		identifier: "agingDependants",
 		nonInclusivePhrases: [ "aging dependants" ],
 		inclusiveAlternatives: [ "<i>older people</i>", "<i>people older than 70</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
+		feedbackFormat: [ orangeUnlessSomeoneWants, specificAgeGroup ].join( " " ),
 	},
 	{
 		identifier: "elderly",
 		nonInclusivePhrases: [ "elderly" ],
 		inclusiveAlternatives: [ "<i>older people</i>", "<i>people older than 70</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
+		feedbackFormat: [ orangeUnlessSomeoneWants, specificAgeGroup ].join( " " ),
 	},
 	{
 		identifier: "senile",
 		nonInclusivePhrases: [ "senile" ],
 		inclusiveAlternatives: "",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: [ harmfulNonInclusive, characteristicIfKnown ].join( " " ),
+		feedbackFormat: [ avoidHarmful, characteristicIfKnown ].join( " " ),
 	},
 	{
 		identifier: "senility",
 		nonInclusivePhrases: [ "senility" ],
 		inclusiveAlternatives: "<i>dementia</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "seniors",
 		nonInclusivePhrases: [ "seniors" ],
 		inclusiveAlternatives: [ "<i>older people</i>", "<i>people older than 70</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
+		feedbackFormat: [ orangeUnlessSomeoneWants, specificAgeGroup ].join( " " ),
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, [ "high school", "college", "graduating", "juniors and" ] ) )
@@ -79,7 +74,7 @@ const ageAssessments = [
 		nonInclusivePhrases: [ "the aged" ],
 		inclusiveAlternatives: [ "<i>older people</i>", "<i>people older than 70</i>" ],
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmful, specificAgeGroup ].join( " " ),
+		feedbackFormat: [ redHarmful, specificAgeGroup ].join( " " ),
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
