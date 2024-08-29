@@ -593,18 +593,17 @@ class Indexable_Link_Builder {
 	 * @return void
 	 */
 	public function update_first_content_image( Indexable $indexable, array $images ): void {
-		$current_first_content_image = $indexable->open_graph_image;
+		$current_open_graph_image = $indexable->open_graph_image;
+		$current_twitter_image    = $indexable->twitter_image;
 
 		$first_content_image_url = \key( $images );
 		$first_content_image_id  = \current( $images );
 
-		if ( $current_first_content_image === $first_content_image_url ) {
-			if ( $indexable->open_graph_image_source === 'first-content-image' ) {
-				$indexable->open_graph_image_id = $first_content_image_id;
-			}
-			if ( $indexable->twitter_image_source === 'first-content-image' ) {
-				$indexable->twitter_image_id = $first_content_image_id;
-			}
+		if ( $indexable->open_graph_image_source === 'first-content-image' && $current_open_graph_image === $first_content_image_url ) {
+			$indexable->open_graph_image_id = $first_content_image_id;
+		}
+		if ( $indexable->twitter_image_source === 'first-content-image' && $current_twitter_image === $first_content_image_url ) {
+			$indexable->twitter_image_id = $first_content_image_id;
 		}
 	}
 }
