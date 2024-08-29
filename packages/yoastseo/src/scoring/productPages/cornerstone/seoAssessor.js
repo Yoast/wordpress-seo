@@ -14,7 +14,6 @@ const {
 	SlugKeywordAssessment,
 	MetaDescriptionLengthAssessment,
 	SubheadingsKeywordAssessment,
-	ImageAltTagsAssessment,
 	ImageKeyphraseAssessment,
 	ImageCountAssessment,
 	TextLengthAssessment,
@@ -22,7 +21,6 @@ const {
 	FunctionWordsInKeyphraseAssessment,
 	SingleH1Assessment,
 	ProductIdentifiersAssessment,
-	ProductSKUAssessment,
 } = assessments.seo;
 
 /**
@@ -135,22 +133,11 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
 		} ),
-		new ImageAltTagsAssessment( {
-			urlTitle: createAnchorOpeningTag( options.imageAltTagsUrlTitle ),
-			urlCallToAction: createAnchorOpeningTag( options.imageAltTagsCTAUrl ),
-		} ),
 		new ProductIdentifiersAssessment( {
 			urlTitle: createAnchorOpeningTag( options.productIdentifierUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.productIdentifierCTAUrl ),
 			assessVariants: options.assessVariants,
 			productIdentifierOrBarcode: options.productIdentifierOrBarcode,
-			shouldShowEditButton: options.shouldShowEditButtons,
-		} ),
-		new ProductSKUAssessment( {
-			urlTitle: createAnchorOpeningTag( options.productSKUUrlTitle ),
-			urlCallToAction: createAnchorOpeningTag( options.productSKUCTAUrl ),
-			assessVariants: options.assessVariants,
-			addSKULocation: options.addSKULocation,
 			shouldShowEditButton: options.shouldShowEditButtons,
 		} ),
 	];

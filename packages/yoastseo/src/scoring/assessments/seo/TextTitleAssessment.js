@@ -29,12 +29,14 @@ export default class TextTitleAssessment extends Assessment {
 				good: 9,
 				bad: -10000,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/4nh" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4ni" ),
+			urlTitle: "https://yoa.st/4nh",
+			urlCallToAction: "https://yoa.st/4ni",
 		};
 
 		this.identifier = "textTitleAssessment";
 		this._config = merge( defaultConfig, config );
+		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
+		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
 	}
 
 	/**
