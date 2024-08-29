@@ -201,9 +201,7 @@ class WPSEO_Meta {
 		foreach ( self::$social_networks as $option => $network ) {
 			if ( WPSEO_Options::get( $option, false ) === true ) {
 				foreach ( self::$social_fields as $key ) {
-					self::$meta_fields['social'][ $network . '-' . $key ] = [
-						'default_value' => '',
-					];
+					self::$meta_fields['social'][ $network . '-' . $key ] = [];
 				}
 			}
 		}
