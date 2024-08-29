@@ -512,7 +512,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	public function do_meta_box( $meta_field_def, $key = '' ) {
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.5', 'WPSEO_Metabox::do_meta_box' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.5' );
 
 		$content      = '';
 		$esc_form_key = esc_attr( WPSEO_Meta::$form_prefix . $key );
