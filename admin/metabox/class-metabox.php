@@ -745,7 +745,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				continue;
 			}
 
-			$data       = null;
 			$field_name = WPSEO_Meta::$form_prefix . $key;
 
 			if ( isset( $_POST[ $field_name ] ) && is_string( $_POST[ $field_name ] ) ) {
@@ -754,10 +753,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				// See: 'wpseo_metabox_entries_' . $tab.
 
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We're preparing to do just that.
-				$data = WPSEO_Utils::sanitize_text_field( wp_unslash( $_POST[ $field_name ] ) );
-			}
+				$data = wp_unslash( $_POST[ $field_name ] );
 
-			if ( $data !== null ) {
+				if ( ! in_array( $key, [ 'canonical', 'redirect' ], true ) ) {
+					$data = WPSEO_Utils::sanitize_text_field( $data );
+				}
 				WPSEO_Meta::set_value( $key, $data, $post_id );
 			}
 		}
