@@ -149,11 +149,9 @@ class WPSEO_Meta {
 		'social'   => [],
 		'schema'   => [
 			'schema_page_type'    => [
-				'default_value' => '',
 				'options'       => Schema_Types::PAGE_TYPES,
 			],
 			'schema_article_type' => [
-				'default_value' => '',
 				'hide_on_pages' => true,
 				'options'       => Schema_Types::ARTICLE_TYPES,
 			],
@@ -161,6 +159,7 @@ class WPSEO_Meta {
 		/* Fields we should validate & save, but not show on any form. */
 		'non_form' => [
 			'linkdex' => [
+				'type'          => null,
 				'default_value' => '0',
 			],
 		],
@@ -371,6 +370,8 @@ class WPSEO_Meta {
 
 		switch ( $key ) {
 			case 'linkdex':
+			case 'content_score':
+			case 'inclusive_language_score':
 				$int = WPSEO_Utils::validate_int( $meta_value );
 				if ( $int !== false && $int >= 0 ) {
 					$clean = strval( $int ); // Convert to string to make sure default check works.
