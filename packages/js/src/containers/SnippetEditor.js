@@ -1,5 +1,5 @@
 import { compose } from "@wordpress/compose";
-import { withDispatch, withSelect } from "@wordpress/data";
+import { withDispatch, withSelect, useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { LocationConsumer } from "@yoast/externals/contexts";
@@ -8,7 +8,6 @@ import { applyReplaceUsingPlugin } from "../helpers/replacementVariableHelpers";
 import getMemoizedFindCustomFields from "../helpers/getMemoizedFindCustomFields";
 import WooCommerceUpsell from "../components/WooCommerceUpsell";
 import { get } from "lodash";
-import { useSelect } from "@wordpress/data";
 
 /**
  * Process the snippet editor form data before it's being displayed in the snippet preview.

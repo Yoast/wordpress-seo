@@ -39,8 +39,8 @@ const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
 	const host = window.location.host;
 	const isJetpackBoostActive = get( window, "wpseoScriptData.isJetpackBoostActive", "" ) === "1";
 	const isJetpackBoostNotPremium = get( window, "wpseoScriptData.isJetpackBoostNotPremium", "" ) === "1";
-	const getJetpackBoostPrePublishLink =  useSelect( select => select( store ).selectLink( `https://yoa.st/jetpack-boost-get-prepublish?domain=${host}` , []) );
-	const upgradeJetpackBoostPrePublishLink = useSelect( select => select( store ).selectLink( `https://yoa.st/jetpack-boost-upgrade-prepublish?domain=${host}` , []) );
+	const getJetpackBoostPrePublishLink =  useSelect( select => select( store ).selectLink( `https://yoa.st/jetpack-boost-get-prepublish?domain=${host}`, [] ) );
+	const upgradeJetpackBoostPrePublishLink = useSelect( select => select( store ).selectLink( `https://yoa.st/jetpack-boost-upgrade-prepublish?domain=${host}`, [] ) );
 
 	const isPremium = useSelect( select => select( store ).getIsPremium() );
 	if ( isPremium || isAlertDismissed || ! isJetpackBoostNotPremium ) {
