@@ -1,13 +1,11 @@
-/* External dependencies */
-import { Component } from "@wordpress/element";
-import PropTypes from "prop-types";
-import { sprintf, __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
+import { ExternalLink } from "@wordpress/components";
+import { Component } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
-import styled from "styled-components";
 import { difference, noop } from "lodash";
-
-/* Internal dependencies */
+import PropTypes from "prop-types";
+import styled from "styled-components";
 import TaxonomyPicker from "./TaxonomyPicker";
 
 const PrimaryTaxonomyPickerField = styled.div`
@@ -91,7 +89,7 @@ class PrimaryTaxonomyPicker extends Component {
 			/**
 			 * If the selected term is no longer available, set the primary term id to
 			 * the first term, and to -1 if no term is available.
- 			 */
+			 */
 			this.onChange( selectedTerms.length ? selectedTerms[ 0 ].id : -1 );
 		}
 	}
@@ -222,6 +220,7 @@ class PrimaryTaxonomyPicker extends Component {
 		const {
 			primaryTaxonomyId,
 			taxonomy,
+			learnMoreLink,
 		} = this.props;
 
 		if ( this.state.selectedTerms.length < 2 ) {
@@ -232,24 +231,25 @@ class PrimaryTaxonomyPicker extends Component {
 
 		return (
 			<PrimaryTaxonomyPickerField className="components-base-control__field">
-				<label
-					htmlFor={ fieldId }
-					className="components-base-control__label"
-				>
-					{
+				<TaxonomyPicker
+					label={
 						sprintf(
 							/* translators: %s expands to the taxonomy name. */
 							__( "Select the primary %s", "wordpress-seo" ),
 							taxonomy.singularLabel.toLowerCase()
 						)
 					}
-				</label>
-				<TaxonomyPicker
 					value={ primaryTaxonomyId }
 					onChange={ this.onChange }
 					id={ fieldId }
 					terms={ this.state.selectedTerms }
 				/>
+				<ExternalLink href={ learnMoreLink }>
+					{ __( "Learn more", "wordpress-seo" ) }
+					<span className="screen-reader-text">
+						{ __( "Learn more about the primary category.", "wordpress-seo" ) }
+					</span>
+				</ExternalLink>
 			</PrimaryTaxonomyPickerField>
 		);
 	}
@@ -266,6 +266,7 @@ PrimaryTaxonomyPicker.propTypes = {
 		restBase: PropTypes.string,
 		singularLabel: PropTypes.string,
 	} ),
+	learnMoreLink: PropTypes.string.isRequired,
 };
 
 PrimaryTaxonomyPicker.defaultProps = {

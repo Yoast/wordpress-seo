@@ -8,6 +8,11 @@ import React, { createContext, useCallback, useContext, useEffect, forwardRef } 
 
 const ToastContext = createContext( { handleDismiss: noop } );
 
+/**
+ * @returns {Object} The toast context.
+ */
+export const useToastContext = () => useContext( ToastContext );
+
 export const toastClassNameMap = {
 	position: {
 		"bottom-center": "yst-translate-y-full",

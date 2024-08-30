@@ -146,18 +146,18 @@ final class Background_Indexing_Integration_Test extends TestCase {
 		$this->instance = Mockery::mock(
 			Background_Indexing_Integration::class,
 			[
-				$this->post_indexation,
-				$this->term_indexation,
-				$this->post_type_archive_indexation,
-				$this->general_indexation,
 				$this->complete_indexation_action,
-				$this->post_link_indexing_action,
-				$this->term_link_indexing_action,
 				$this->indexing_helper,
 				$this->indexable_helper,
 				$this->yoast_admin_and_dashboard_conditional,
 				$this->get_request_conditional,
 				$this->wp_cron_enabled_conditional,
+				$this->post_indexation,
+				$this->term_indexation,
+				$this->post_type_archive_indexation,
+				$this->general_indexation,
+				$this->post_link_indexing_action,
+				$this->term_link_indexing_action,
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
@@ -188,22 +188,7 @@ final class Background_Indexing_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_constructor() {
-		$this->assertInstanceOf(
-			Indexable_Post_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'post_indexation' )
-		);
-		$this->assertInstanceOf(
-			Indexable_Term_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'term_indexation' )
-		);
-		$this->assertInstanceOf(
-			Indexable_Post_Type_Archive_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'post_type_archive_indexation' )
-		);
-		$this->assertInstanceOf(
-			Indexable_General_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'general_indexation' )
-		);
+
 		$this->assertInstanceOf(
 			Indexable_Indexing_Complete_Action::class,
 			$this->getPropertyValue( $this->instance, 'complete_indexation_action' )

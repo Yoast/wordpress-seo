@@ -12,7 +12,7 @@ import { Paper } from "yoastseo";
 /* Internal dependencies */
 import { ModalContent } from "./modal-content";
 import { getAllBlocks } from "../../helpers/getAllBlocks";
-import { ReactComponent as LockClosed } from "../../../images/lock-closed.svg";
+import { LockClosedIcon } from "@heroicons/react/solid";
 
 /**
  * The AI Assessment Fixes button component.
@@ -24,24 +24,55 @@ import { ReactComponent as LockClosed } from "../../../images/lock-closed.svg";
  */
 const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const aiFixesId = id + "AIFixes";
-	const ariaLabel = __( "Optimize with AI", "wordpress-seo" );
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
 	const activeAIButtonId = useSelect( select => select( "yoast-seo/editor" ).getActiveAIFixesButton(), [] );
 	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
-	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus } = useDispatch( "yoast-seo/editor" );
+	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
 
-	// Only enable the button when the editor is in visual mode and all blocks are in visual mode.
-	const isEnabled = useSelect( ( select ) => {
+	const defaultLabel = __( "Optimize with AI", "wordpress-seo" );
+	const htmlLabel = __( "Please switch to the visual editor to optimize with AI.", "wordpress-seo" );
+
+	// The button is pressed when the active AI button id is the same as the current button id.
+	const isButtonPressed = activeAIButtonId === aiFixesId;
+
+	// Enable the button when:
+	// (1) other AI buttons are not pressed.
+	// (2) the AI button is not disabled.
+	// (3) the editor is in visual mode.
+	// (4) all blocks are in visual mode.
+	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
+		if ( activeAIButtonId !== null && ! isButtonPressed ) {
+			return {
+				isEnabled: false,
+				ariaLabel: null,
+			};
+		}
+
+		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
+		if ( Object.keys( disabledAIButtons ).includes( aiFixesId ) ) {
+			return {
+				isEnabled: false,
+				ariaLabel: disabledAIButtons[ aiFixesId ],
+			};
+		}
+
 		const editorMode = select( "core/edit-post" ).getEditorMode();
 		if ( editorMode !== "visual" ) {
-			return false;
+			return {
+				isEnabled: false,
+				ariaLabel: htmlLabel,
+			};
 		}
 
 		const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
-		return blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
-	}, [] );
+		const allVisual = blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
+		return {
+			isEnabled: allVisual,
+			ariaLabel: allVisual ? defaultLabel : htmlLabel,
+		};
+	}, [ isButtonPressed, activeAIButtonId ] );
 
 	/**
 	 * Handles the button press state.
@@ -57,11 +88,19 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		}
 
 		/* If the current pressed button ID is the same as the active AI button id,
-		we want to set the active AI button to null. Otherwise, update the active AI button ID. */
+		we want to set the active AI button to null and enable back the highlighting button that was disabled
+		when the AI button was pressed the first time. Otherwise, update the active AI button ID. */
 		if ( aiFixesId === activeAIButtonId ) {
 			setActiveAIFixesButton( null );
+			// Enable the highlighting button when the AI button is not pressed.
+			setMarkerStatus( "enabled" );
 		} else {
 			setActiveAIFixesButton( aiFixesId );
+			/*
+			Disable the highlighting button when the AI button is pressed.
+			This is because clicking on the highlighting button will remove the AI suggestion from the editor.
+			 */
+			setMarkerStatus( "disabled" );
 		}
 
 		// Dismiss the tooltip when the button is pressed.
@@ -80,14 +119,13 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		}
 	}, [ handlePressedButton, setIsModalOpenTrue ] );
 
-	// The button is pressed when the active AI button id is the same as the current button id.
-	const isButtonPressed = activeAIButtonId === aiFixesId;
-
 	// Add tooltip classes on mouse enter and remove them on mouse leave.
 	const handleMouseEnter = useCallback( () => {
-		// Add tooltip classes on mouse enter
-		setButtonClass( "yoast-tooltip yoast-tooltip-w" );
-	}, [] );
+		if ( ariaLabel ) {
+			const direction = isEnabled ? "yoast-tooltip-w" : "yoast-tooltip-nw";
+			setButtonClass( `yoast-tooltip yoast-tooltip-multiline ${ direction }` );
+		}
+	}, [ isEnabled, ariaLabel ] );
 
 	const handleMouseLeave = useCallback( () => {
 		// Remove tooltip classes on mouse leave
@@ -95,30 +133,26 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	}, [] );
 
 	return (
-		<>
-			<IconAIFixesButton
-				onClick={ handleClick }
-				ariaLabel={ ariaLabel }
-				onMouseEnter={ handleMouseEnter }
-				onMouseLeave={ handleMouseLeave }
-				id={ aiFixesId }
-				className={ `ai-button ${buttonClass}` }
-				pressed={ isButtonPressed }
-				disabled={ ! isEnabled }
-			>
-				{ ! isPremium &&  <LockClosed className="yst-fixes-button__lock-icon" /> }
-				<SparklesIcon pressed={ isButtonPressed } />
-				{
-					// We put the logic for the Upsell component in place.
-					// The Modal below is only a placeholder/mock. When we have the design for the real upsell, the modal should be replaced.
-					isModalOpen && <Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
-						<Modal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl yst-introduction-modal-panel">
-							<ModalContent onClose={ setIsModalOpenFalse } focusElementRef={ focusElementRef } />
-						</Modal.Panel>
-					</Modal>
-				}
-			</IconAIFixesButton>
-		</>
+		<IconAIFixesButton
+			onClick={ handleClick }
+			ariaLabel={ ariaLabel }
+			onPointerEnter={ handleMouseEnter }
+			onPointerLeave={ handleMouseLeave }
+			id={ aiFixesId }
+			className={ `ai-button ${buttonClass}` }
+			pressed={ isButtonPressed }
+			disabled={ ! isEnabled }
+		>
+			{ ! isPremium && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
+			<SparklesIcon pressed={ isButtonPressed } />
+			{
+				isModalOpen && <Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
+					<Modal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl yst-introduction-modal-panel">
+						<ModalContent onClose={ setIsModalOpenFalse } focusElementRef={ focusElementRef } />
+					</Modal.Panel>
+				</Modal>
+			}
+		</IconAIFixesButton>
 	);
 };
 

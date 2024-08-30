@@ -5,14 +5,12 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Active_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
-use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
+use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
-use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
  * This class generates the metabox on the edit post / page as well as contains all page analysis functionality.
@@ -83,7 +81,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'wp_insert_post', [ $this, 'save_postdata' ] );
 		add_action( 'edit_attachment', [ $this, 'save_postdata' ] );
 		add_action( 'add_attachment', [ $this, 'save_postdata' ] );
-		add_action( 'admin_init', [ $this, 'translate_meta_boxes' ] );
 
 		$this->editor = new WPSEO_Metabox_Editor();
 		$this->editor->register_hooks();
@@ -170,9 +167,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * IMPORTANT: if you want to add a new string (option) somewhere, make sure you add that array key to
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 *
+	 * @deprecated 23.5
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public static function translate_meta_boxes() {
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.5' );
+
 		WPSEO_Meta::$meta_fields['general']['title']['title']    = __( 'SEO title', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
 
@@ -212,7 +214,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['title']       = __( '301 Redirect', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
 
-		do_action( 'wpseo_tab_translate' );
+		do_action_deprecated( 'wpseo_tab_translate', [], 'Yoast SEO 23.5', '', 'WPSEO_Metabox::translate_meta_boxes is deprecated.' );
 	}
 
 	/**
@@ -279,12 +281,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array<string,string|array<string|int|bool>|bool|int>
 	 */
 	public function get_metabox_script_data() {
-		$permalink = '';
-
-		if ( is_object( $this->get_metabox_post() ) ) {
-			$permalink = get_sample_permalink( $this->get_metabox_post()->ID );
-			$permalink = $permalink[0];
-		}
+		$permalink = $this->get_permalink();
 
 		$post_formatter = new WPSEO_Metabox_Formatter(
 			new WPSEO_Post_Metabox_Formatter( $this->get_metabox_post(), [], $permalink )
@@ -630,31 +627,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					unset( $val, $option, $checked );
 				}
 				break;
-
-			case 'upload':
-				$content .= '<input'
-					. ' id="' . $esc_form_key . '"'
-					. ' type="text"'
-					. ' size="36"'
-					. ' class="' . $class . '"'
-					. ' name="' . $esc_form_key . '"'
-					. ' value="' . esc_attr( $meta_value ) . '"' . $aria_describedby
-					. ' readonly="readonly"'
-					. ' /> ';
-				$content .= '<input'
-					. ' id="' . esc_attr( $esc_form_key ) . '_button"'
-					. ' class="wpseo_image_upload_button button"'
-					. ' data-target="' . esc_attr( $esc_form_key ) . '"'
-					. ' data-target-id="' . esc_attr( $esc_form_key ) . '-id"'
-					. ' type="button"'
-					. ' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"'
-					. ' /> ';
-				$content .= '<input'
-					. ' class="wpseo_image_remove_button button"'
-					. ' type="button"'
-					. ' value="' . esc_attr__( 'Clear Image', 'wordpress-seo' ) . '"'
-					. ' />';
-				break;
 		}
 
 		$html = '';
@@ -888,7 +860,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$plugins_script_data = [
 			'replaceVars' => [
-				'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
 				'replace_vars'             => $this->get_replace_vars(),
 				'hidden_replace_vars'      => $this->get_hidden_replace_vars(),
 				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
@@ -908,17 +879,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 		];
 
-		$alert_dismissal_action            = YoastSEO()->classes->get( Alert_Dismissal_Action::class );
-		$dismissed_alerts                  = $alert_dismissal_action->all_dismissed();
-		$woocommerce_conditional           = new WooCommerce_Conditional();
-		$woocommerce_active                = $woocommerce_conditional->is_met();
-		$wpseo_plugin_availability_checker = new WPSEO_Plugin_Availability();
-		$woocommerce_seo_file              = 'wpseo-woocommerce/wpseo-woocommerce.php';
-		$woocommerce_seo_active            = $wpseo_plugin_availability_checker->is_active( $woocommerce_seo_file );
+		$woocommerce_conditional = new WooCommerce_Conditional();
+		$woocommerce_active      = $woocommerce_conditional->is_met();
+		$addon_manager           = new WPSEO_Addon_Manager();
+		$woocommerce_seo_active  = is_plugin_active( $addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) );
 
 		$script_data = [
-			// @todo replace this translation with JavaScript translations.
-			'media'                      => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'                    => $this->get_metabox_script_data(),
 			'userLanguageCode'           => WPSEO_Language_Utils::get_language( get_user_locale() ),
 			'isPost'                     => true,
@@ -931,27 +897,25 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'dismissedAlerts'            => $dismissed_alerts,
-			'currentPromotions'          => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
-			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'blackFridayBlockEditorUrl'  => ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-checklist' ) ) ? WPSEO_Shortlinker::get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
 			'isWooCommerceSeoActive'     => $woocommerce_seo_active,
 			'isWooCommerceActive'        => $woocommerce_active,
 			'woocommerceUpsell'          => get_post_type( $post_id ) === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
-			'linkParams'                 => WPSEO_Shortlinker::get_query_params(),
-			'pluginUrl'                  => plugins_url( '', WPSEO_FILE ),
-			'wistiaEmbedPermission'      => YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( get_current_user_id() ),
 		];
 
-		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
-			$asset_manager->enqueue_style( 'featured-image' );
+		/**
+		 * The website information repository.
+		 *
+		 * @var $repo Website_Information_Repository
+		 */
+		$repo             = YoastSEO()->classes->get( Website_Information_Repository::class );
+		$site_information = $repo->get_post_site_information();
+		$site_information->set_permalink( $this->get_permalink() );
+		$script_data = array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
 
-			// @todo replace this translation with JavaScript translations.
-			$script_data['featuredImage'] = [
-				'featured_image_notice' => __( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
-			];
+		if ( ! $is_block_editor && post_type_supports( get_post_type(), 'thumbnail' ) ) {
+			$asset_manager->enqueue_style( 'featured-image' );
 		}
 
 		$asset_manager->localize_script( $post_edit_handle, 'wpseoScriptData', $script_data );
@@ -1201,5 +1165,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	protected function get_product_title() {
 		return YoastSEO()->helpers->product->get_product_name();
+	}
+
+	/**
+	 * Gets the permalink.
+	 *
+	 * @return string
+	 */
+	protected function get_permalink() {
+		$permalink = '';
+
+		if ( is_object( $this->get_metabox_post() ) ) {
+			$permalink = get_sample_permalink( $this->get_metabox_post()->ID );
+			$permalink = $permalink[0];
+		}
+
+		return $permalink;
 	}
 }

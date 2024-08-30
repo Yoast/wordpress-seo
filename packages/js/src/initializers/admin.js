@@ -1,4 +1,4 @@
-/* global ajaxurl, ClipboardJS */
+/* global ajaxurl */
 
 import { __ } from "@wordpress/i18n";
 import { debounce } from "lodash";
@@ -193,32 +193,7 @@ export default function initAdmin( jQuery ) {
 	}
 
 	/**
-	 * Initializes the Copy to clipboard button for the Zapier API Key.
-	 *
-	 * @returns {void}
-	 */
-	function initCopyZapierKeyToClipboard() {
-		if ( typeof ClipboardJS !== "undefined" ) {
-			const copyZapierKeyToClipboard = new ClipboardJS( "#copy-zapier-api-key" );
-
-			/**
-			 * Copies the Zapier API Key to the clipboard.
-			 *
-			 * @param {MouseEvent} event The click event on the Copy button.
-			 *
-			 * @return {void}
-			 */
-			copyZapierKeyToClipboard.on( "success", function( event ) {
-				// Clear the selection and move focus back to the trigger.
-				event.clearSelection();
-				// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680
-				jQuery( event.trigger ).trigger( "focus" );
-			} );
-		}
-	}
-
-	/**
-	 * Checks wether or not the confirmation dialog should be displayed upom switching tab.
+	 * Checks whether or not the confirmation dialog should be displayed upon switching tab.
 	 *
 	 * @param {object} target The clicked tab.
 	 *
@@ -303,14 +278,6 @@ export default function initAdmin( jQuery ) {
 		// Toggle the Format-based archives section.
 		jQuery( "#disable-post_format" ).on( "change", function() {
 			jQuery( "#post_format-titles-metas" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
-		} ).trigger( "change" );
-
-		// Toggle the Zapier connection section.
-		jQuery( "#zapier_integration_active input[type='radio']" ).on( "change", function() {
-			// The value on is enabled, off is disabled.
-			if ( jQuery( this ).is( ":checked" ) ) {
-				jQuery( "#zapier-connection" ).toggle( jQuery( this ).val() === "on" );
-			}
 		} ).trigger( "change" );
 
 		// Handle the settings pages tabs.
@@ -411,6 +378,5 @@ export default function initAdmin( jQuery ) {
 		initXmlSitemapsWarning();
 		// Should be called after the initial active tab has been set.
 		setFixedSubmitButtonVisibility();
-		initCopyZapierKeyToClipboard();
 	} );
 }

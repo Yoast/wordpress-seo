@@ -50,8 +50,8 @@ exports[`the pressed IconAIFixesButton matches the snapshot 1`] = `
   disabled={false}
   id="keyphraseInIntroductionAIFixes"
   onClick={[Function]}
-  onMouseEnter={[Function]}
-  onMouseLeave={[Function]}
+  onPointerEnter={[Function]}
+  onPointerLeave={[Function]}
   type="button"
 />
 `;
@@ -106,8 +106,8 @@ exports[`the unpressed IconAIFixesButton matches the snapshot 1`] = `
   disabled={true}
   id="keyphraseDensityAIFixes"
   onClick={[Function]}
-  onMouseEnter={[Function]}
-  onMouseLeave={[Function]}
+  onPointerEnter={[Function]}
+  onPointerLeave={[Function]}
   type="button"
 />
 `;

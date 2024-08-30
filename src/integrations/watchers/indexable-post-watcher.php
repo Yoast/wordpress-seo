@@ -84,7 +84,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array
+	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -240,7 +240,9 @@ class Indexable_Post_Watcher implements Integration_Interface {
 				$author_indexable->has_public_posts = $this->author_archive->author_has_public_posts( $author_indexable->object_id );
 				$this->indexable_helper->save_indexable( $author_indexable );
 
-				$this->reschedule_cleanup_if_author_has_no_posts( $author_indexable );
+				if ( $this->indexable_helper->should_index_indexable( $author_indexable ) ) {
+					$this->reschedule_cleanup_if_author_has_no_posts( $author_indexable );
+				}
 			}
 		} catch ( Exception $exception ) {
 			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );

@@ -198,35 +198,6 @@ final class Taxonomy_Fields_Presenter_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_display_fields_upload() {
-		$output = $this->class_instance->html(
-			[
-				'fieldname' => [
-					'label'       => 'test field',
-					'type'        => 'upload',
-					'description' => '',
-					'options'     => '',
-				],
-			]
-		);
-
-		$this->assertStringContainsString(
-			'<input id="wpseo_fieldname" type="text" size="36" name="wpseo_fieldname" value="" readonly="readonly" />',
-			$output
-		);
-		$this->assertStringContainsString(
-			'<input id="wpseo_fieldname_button" class="wpseo_image_upload_button button" data-target="wpseo_fieldname" data-target-id="hidden_wpseo_fieldname-id" type="button" value="Upload Image" />',
-			$output
-		);
-	}
-
-	/**
-	 * Test the result of the display_fields, with one field given. The given field is a select.
-	 *
-	 * @covers WPSEO_Taxonomy_Fields_Presenter::html
-	 *
-	 * @return void
-	 */
 	public function test_display_fields_with_description() {
 		$output = $this->class_instance->html(
 			[
