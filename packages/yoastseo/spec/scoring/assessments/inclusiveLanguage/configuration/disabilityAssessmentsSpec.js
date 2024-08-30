@@ -570,8 +570,8 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "lamer",
 				text: "It is a lamer excuse compared to the previous one.",
 				expectedFeedback: "Be careful when using <i>lame</i> as it is potentially harmful. Unless you are " +
-					"referring to an object, considering using an alternative. For example, <i>boring, lousy, " +
-					"unimpressive, sad, corny</i>. If referring to someone's disability, use an alternative such " +
+					"referring to an object, considering using an alternative. For example, <i>more boring, lousier, " +
+					"more unimpressive, sadder, cornier</i>. If referring to someone's disability, use an alternative such " +
 					"as <i>person with a disability, person who has difficulty with walking</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
@@ -579,8 +579,8 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "lamest",
 				text: "This is the lamest excuse by far!",
 				expectedFeedback: "Be careful when using <i>lame</i> as it is potentially harmful. Unless you are " +
-					"referring to an object, considering using an alternative. For example, <i>boring, lousy, " +
-					"unimpressive, sad, corny</i>. If referring to someone's disability, use an alternative such " +
+					"referring to an object, considering using an alternative. For example, <i>most boring, lousiest," +
+					" most unimpressive, saddest, corniest</i>. If referring to someone's disability, use an alternative such " +
 					"as <i>person with a disability, person who has difficulty with walking</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
