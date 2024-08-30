@@ -109,7 +109,7 @@ class WPSEO_Meta {
 				'default_value' => '0',
 			],
 			'is_cornerstone'           => [
-				'default_value' => 'false',
+				'default_value' => '0',
 			],
 		],
 		'advanced' => [
@@ -400,16 +400,15 @@ class WPSEO_Meta {
 				break;
 
 			case 'is_cornerstone':
-				if ( in_array( $meta_value, [ '1', '0' ], true ) ) {
-					$clean = $meta_value;
-				}
-
 				/*
 				 * This used to be a checkbox, then became a hidden input.
 				 * To make sure the value remains consistent, we cast 'true' to '1'.
 				 */
-				if ( $meta_value === 'true' ) {
+				if ( in_array( $meta_value, [ '1', 'true' ], true ) ) {
 					$clean = '1';
+				}
+				if ( in_array( $meta_value, [ '0', 'false' ], true ) ) {
+					$clean = '0';
 				}
 				break;
 
