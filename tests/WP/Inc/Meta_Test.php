@@ -317,4 +317,171 @@ final class Meta_Test extends TestCase {
 			],
 		];
 	}
+
+	/**
+	 * Data provider for testing the sanitize post meta function.
+	 *
+	 * @return array<string,array<string>>
+	 */
+	public function provider_meta_data() {
+		return [
+			'should accept default value for linkex metadata'      => [
+				'meta_value' => '0',
+				'meta_key'   => '_yoast_wpseo_linkdex',
+				'expected'   => '0',
+			],
+			'should accept 50 for linkex metadata'                 => [
+				'meta_value' => '50',
+				'meta_key'   => '_yoast_wpseo_linkdex',
+				'expected'   => '50',
+			],
+			'should accept 100 for linkex metadata'                => [
+				'meta_value' => '100',
+				'meta_key'   => '_yoast_wpseo_linkdex',
+				'expected'   => '100',
+			],
+			'should accept -1 for linkex metadata'                 => [
+				'meta_value' => '-1',
+				'meta_key'   => '_yoast_wpseo_linkdex',
+				'expected'   => '0',
+			],
+			'should not accept not a number for linkex metadata'   => [
+				'meta_value' => 'not a number',
+				'meta_key'   => '_yoast_wpseo_linkdex',
+				'expected'   => '0',
+			],
+			'should accept noarchive value for meta-robots-adv metadata' => [
+				'meta_value' => 'noarchive',
+				'meta_key'   => '_yoast_wpseo_meta-robots-adv',
+				'expected'   => 'noarchive',
+			],
+			'should accept nosnippet,noimageindex value for meta-robots-adv metadata' => [
+				'meta_value' => 'nosnippet,noimageindex',
+				'meta_key'   => '_yoast_wpseo_meta-robots-adv',
+				'expected'   => 'nosnippet,noimageindex',
+			],
+			'should not accept invalid value for meta-robots-adv metadata' => [
+				'meta_value' => 'invalid',
+				'meta_key'   => '_yoast_wpseo_meta-robots-adv',
+				'expected'   => '',
+			],
+			'should accept url for canonical metadata'             => [
+				'meta_value' => 'https://example.com',
+				'meta_key'   => '_yoast_wpseo_canonical',
+				'expected'   => 'https://example.com',
+			],
+			'should not accept invalid url for canonical metadata' => [
+				'meta_value' => 'not a url',
+				'meta_key'   => '_yoast_wpseo_canonical',
+				'expected'   => '',
+			],
+			'should accept url for opengraph-image metadata'       => [
+				'meta_value' => 'https://example.com/image.jpg',
+				'meta_key'   => '_yoast_wpseo_opengraph-image',
+				'expected'   => 'https://example.com/image.jpg',
+			],
+			'should not accept invalid url for opengraph-image metadata' => [
+				'meta_value' => 'not a url',
+				'meta_key'   => '_yoast_wpseo_opengraph-image',
+				'expected'   => '',
+			],
+			'should accept url for twitter-image metadata'         => [
+				'meta_value' => 'https://example.com/image.jpg',
+				'meta_key'   => '_yoast_wpseo_twitter-image',
+				'expected'   => 'https://example.com/image.jpg',
+			],
+			'should accept 1 for is_cornerstone metadata'          => [
+				'meta_value' => '1',
+				'meta_key'   => '_yoast_wpseo_is_cornerstone',
+				'expected'   => '1',
+			],
+			'should accept 0 for is_cornerstone metadata'          => [
+				'meta_value' => '0',
+				'meta_key'   => '_yoast_wpseo_is_cornerstone',
+				'expected'   => '0',
+			],
+			'should accept true for is_cornerstone metadata'       => [
+				'meta_value' => 'true',
+				'meta_key'   => '_yoast_wpseo_is_cornerstone',
+				'expected'   => '1',
+			],
+			'should accept false for is_cornerstone metadata'      => [
+				'meta_value' => 'false',
+				'meta_key'   => '_yoast_wpseo_is_cornerstone',
+				'expected'   => '0',
+			],
+			'should accept 1 for meta-robots-noindex metadata'     => [
+				'meta_value' => '1',
+				'meta_key'   => '_yoast_wpseo_meta-robots-noindex',
+				'expected'   => '1',
+			],
+			'should accept 0 for meta-robots-noindex metadata'     => [
+				'meta_value' => '0',
+				'meta_key'   => '_yoast_wpseo_meta-robots-noindex',
+				'expected'   => '0',
+			],
+			'should not accept invalid value for meta-robots-noindex metadata' => [
+				'meta_value' => 'invalid',
+				'meta_key'   => '_yoast_wpseo_meta-robots-noindex',
+				'expected'   => '0',
+			],
+			'should accept valid value for schema_page_type metadata' => [
+				'meta_value' => 'AboutPage',
+				'meta_key'   => '_yoast_wpseo_schema_page_type',
+				'expected'   => 'AboutPage',
+			],
+			'should not accept invalid value for schema_page_type metadata' => [
+				'meta_value' => 'InvalidType',
+				'meta_key'   => '_yoast_wpseo_schema_page_type',
+				'expected'   => '',
+			],
+			'should accept simple text'                            => [
+				'meta_value' => 'test value',
+				'meta_key'   => '_yoast_wpseo_title',
+				'expected'   => 'test value',
+			],
+			'should not accept xss' => [
+				'meta_value' => '<script>alert("XSS");</script>',
+				'meta_key'   => '_yoast_wpseo_title',
+				'expected'   => '',
+			],
+			'should not accept xss an image' => [
+				'meta_value' => '<img src=x onerror=alert("XSS")>',
+				'meta_key'   => '_yoast_wpseo_metadesc',
+				'expected'   => '',
+			],
+			'should not accept comment' => [
+				'meta_value' => '<!--Comment-->',
+				'meta_key'   => '_yoast_wpseo_title',
+				'expected'   => '',
+			],
+			'should not accept style' => [
+				'meta_value' => '<style>body{display:none}</style>',
+				'meta_key'   => '_yoast_wpseo_metadesc',
+				'expected'   => '',
+			],
+			'should accept multi line text' => [
+				'meta_value' => "Multi\nLine\rText",
+				'meta_key'   => '_yoast_wpseo_title',
+				'expected'   => 'Multi Line Text',
+			],
+		];
+	}
+
+	/**
+	 * Test the sanitize post meta function.
+	 *
+	 * @dataProvider provider_meta_data
+	 *
+	 * @covers WPSEO_Meta::sanitize_post_meta
+	 *
+	 * @param string $meta_value The meta value to sanitize.
+	 * @param string $meta_key   The meta key to sanitize.
+	 * @param string $expected   The expected value.
+	 *
+	 * @return void
+	 */
+	public function test_sanitize_post_meta( $meta_value, $meta_key, $expected ) {
+		$this->assertEquals( $expected, WPSEO_Meta::sanitize_post_meta( $meta_value, $meta_key ) );
+	}
 }
