@@ -748,9 +748,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$data       = null;
 			$field_name = WPSEO_Meta::$form_prefix . $key;
 
-			if ( isset( $_POST[ $field_name ] ) ) {
+			if ( isset( $_POST[ $field_name ] ) && is_string( $_POST[ $field_name ] ) ) {
+				// We are sanitizing the text field here even though it will be sanitized by the sanitize_post_meta function.
+				// That is because there are filters that can add fields but not neccessarily register them with the sanitize_post_meta function.
+				// See: 'wpseo_metabox_entries_' . $tab.
+
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We're preparing to do just that.
-				$data = wp_unslash( $_POST[ $field_name ] );
+				$data = WPSEO_Utils::sanitize_text_field( wp_unslash( $_POST[ $field_name ] ) );
 			}
 
 			if ( $data !== null ) {
