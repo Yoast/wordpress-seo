@@ -278,6 +278,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-09-03
 
+Yoast SEO 23.4 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-3-9-24).
+
 #### Enhancements
 
 * Adds support for discarding the changes when switching to a post, using the Top bar feature in Elementor.
