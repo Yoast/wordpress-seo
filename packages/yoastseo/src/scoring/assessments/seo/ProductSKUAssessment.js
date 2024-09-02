@@ -18,7 +18,7 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @param {string} [config.urlTitle] The URL to the article about this assessment.
 	 * @param {string} [config.urlCallToAction] The URL to the help article for this assessment.
 	 * @param {boolean} [config.assessVariants] Whether to assess variants.
-	 * @param {boolean} [config.addSKULocation] Whether to add the SKU location to the assessment result.
+	 * @param {boolean} [config.shouldShowEditButton] Whether to show edit button.
 	 * @param {string} [config.editFieldName] The name of the field to edit.
 	 * @param {function} [config.callbacks.getResultTexts] The function that returns the result texts.
 	 *
@@ -34,8 +34,8 @@ export default class ProductSKUAssessment extends Assessment {
 			},
 			urlTitle: "https://yoa.st/4lw",
 			urlCallToAction: "https://yoa.st/4lx",
-			assessVariants: true,
-			addSKULocation: false,
+			assessVariants: false,
+			shouldShowEditButton: false,
 			editFieldName: "SKU",
 		};
 
