@@ -16,7 +16,6 @@ import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssess
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment.js";
 import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment.js";
 import ImageCountAssessment from "../../assessments/seo/ImageCountAssessment.js";
-import ProductIdentifiersAssessment from "../../assessments/seo/ProductIdentifiersAssessment.js";
 
 import { createAnchorOpeningTag } from "../../../helpers";
 
@@ -110,13 +109,6 @@ const ProductSEOAssessor = function( researcher, options ) {
 		new ImageKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
-		} ),
-		new ProductIdentifiersAssessment( {
-			urlTitle: createAnchorOpeningTag( options.productIdentifierUrlTitle ),
-			urlCallToAction: createAnchorOpeningTag( options.productIdentifierCTAUrl ),
-			assessVariants: options.assessVariants,
-			productIdentifierOrBarcode: options.productIdentifierOrBarcode,
-			shouldShowEditButton: options.shouldShowEditButtons,
 		} ),
 	];
 };
