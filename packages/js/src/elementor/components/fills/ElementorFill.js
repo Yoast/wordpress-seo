@@ -1,8 +1,8 @@
 // External dependencies.
 import { Fill } from "@wordpress/components";
 import { Fragment, useEffect } from "@wordpress/element";
+import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
-import { get } from "lodash";
 import PropTypes from "prop-types";
 import { InternalLinkingSuggestionsUpsell } from "../../../components/modals/InternalLinkingSuggestionsUpsell";
 
@@ -34,7 +34,7 @@ import KeywordUpsell from "../../../components/modals/KeywordUpsell";
  * @constructor
  */
 export default function ElementorFill( { isLoading, onLoad, settings } ) {
-	const webinarIntroUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
+	const webinarIntroUrl = useSelect( select => select( "yoast-seo/editor" ).selectLink( "https://yoa.st/webinar-intro-elementor" ), [] );
 	const FirstEligibleNotification = useFirstEligibleNotification( { webinarIntroUrl } );
 
 	useEffect( () => {

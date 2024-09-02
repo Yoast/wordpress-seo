@@ -425,7 +425,6 @@ class Elementor implements Integration_Interface {
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'webinarIntroElementorUrl'  => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
 			'usedKeywordsNonce'         => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 		];
 
