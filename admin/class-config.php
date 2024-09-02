@@ -101,7 +101,6 @@ class WPSEO_Admin_Pages {
 			'isWooCommerceActive'            => $woocommerce_conditional->is_met(),
 			'currentPromotions'              => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 			'webinarIntroSettingsUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-settings' ),
-			'webinarIntroFirstTimeConfigUrl' => $this->get_webinar_shortlink(),
 			'linkParams'                     => WPSEO_Shortlinker::get_query_params(),
 			'pluginUrl'                      => plugins_url( '', WPSEO_FILE ),
 		];
@@ -139,18 +138,5 @@ class WPSEO_Admin_Pages {
 		if ( $tool === 'bulk-editor' ) {
 			$this->asset_manager->enqueue_script( 'bulk-editor' );
 		}
-	}
-
-	/**
-	 * Returns the appropriate shortlink for the Webinar.
-	 *
-	 * @return string The shortlink for the Webinar.
-	 */
-	private function get_webinar_shortlink() {
-		if ( YoastSEO()->helpers->product->is_premium() ) {
-			return WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-first-time-config-premium' );
-		}
-
-		return WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-first-time-config' );
 	}
 }

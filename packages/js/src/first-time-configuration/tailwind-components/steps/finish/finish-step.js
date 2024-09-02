@@ -1,7 +1,8 @@
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { __, sprintf } from "@wordpress/i18n";
-import { get } from "lodash";
+import { useSelect } from "@wordpress/data";
 import { ReactComponent as ConfigurationFinishImage } from "../../../../../images/indexables_2_left_bubble_optm.svg";
+import { addQueryArgs } from "@wordpress/url";
 import { Button, Link } from "@yoast/ui-library";
 
 /**
@@ -22,7 +23,10 @@ function goToSEODashboard( event ) {
  * @returns {WPElement} The Finish step.
  */
 export default function FinishStep() {
-	const webinarIntroFirstTimeConfigUrl = get( window, "wpseoScriptData.webinarIntroFirstTimeConfigUrl", "https://yoa.st/webinar-intro-first-time-config" );
+	const linkParams = useSelect( select => select( "yoast-seo/settings" ).selectLinkParams(), [] );
+	const isPremium = useSelect( select => select( "yoast-seo/settings" ).getIsPremium(), [] );
+	const url = isPremium ? "https://yoa.st/webinar-intro-first-time-config-premium" : "https://yoa.st/webinar-intro-first-time-config";
+	const webinarIntroFirstTimeConfigUrl = addQueryArgs( url, linkParams );
 
 	return (
 		<div className="yst-flex yst-flex-row yst-justify-between yst-items-center yst--mt-4">
