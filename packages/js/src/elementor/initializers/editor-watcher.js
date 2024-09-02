@@ -119,6 +119,11 @@ function handleEditorChange() {
 		return;
 	}
 
+	// Don't update the editor data when the form ID is not equal to the document ID.
+	if ( ! isFormIdEqualToDocumentId() ) {
+		return;
+	}
+
 	// Quit early if the change was caused by switching out of the wp-post/page document.
 	// This can happen when users go to Site Settings, for example.
 	if ( ! [ "wp-post", "wp-page" ].includes( currentDocument.config.type ) ) {
