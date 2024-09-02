@@ -1,4 +1,4 @@
-import { merge } from "lodash";
+import { mapValues, merge } from "lodash";
 
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
@@ -20,7 +20,7 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @param {boolean} [config.assessVariants] Whether to assess variants.
 	 * @param {boolean} [config.addSKULocation] Whether to add the SKU location to the assessment result.
 	 * @param {string} [config.editFieldName] The name of the field to edit.
-	 * @param {function} [config.callbacks.getResultText] The function that returns the result text.
+	 * @param {function} [config.callbacks.getResultTexts] The function that returns the result texts.
 	 *
 	 * @returns {void}
 	 */
@@ -36,6 +36,7 @@ export default class ProductSKUAssessment extends Assessment {
 			urlCallToAction: "https://yoa.st/4lx",
 			assessVariants: true,
 			addSKULocation: false,
+			editFieldName: "SKU",
 		};
 
 		this.identifier = "productSKU";
@@ -66,7 +67,7 @@ export default class ProductSKUAssessment extends Assessment {
 		if ( assessmentResult.getScore() < 9 && this._config.shouldShowEditButton ) {
 			assessmentResult.setHasJumps( true );
 			// Provide `this._config.editFieldName` when initialize this assessment with the value "SKU". We recommend to provide the string as a translation string.
-			assessmentResult.setEditFieldName( this._config.editFieldName || "SKU" );
+			assessmentResult.setEditFieldName( this._config.editFieldName );
 		}
 
 		return assessmentResult;
@@ -148,7 +149,7 @@ export default class ProductSKUAssessment extends Assessment {
 
 	/**
 	 * Gets the feedback strings for the assessment.
-	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultText`.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
 	 * The callback function should return an object with the following properties:
 	 * - good: {withoutVariants: string, withVariants: string}
 	 * - okay: {withoutVariants: string, withVariants: string}
@@ -156,20 +157,29 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @returns {{good: {withoutVariants: string, withVariants: string}, okay: {withoutVariants: string, withVariants: string}}} The feedback strings.
 	 */
 	getFeedbackStrings() {
-		if ( ! this._config.callbacks.getResultText ) {
-			return {
+		if ( ! this._config.callbacks.getResultTexts ) {
+			const defaultResultTexts = {
 				good: {
-					withoutVariants: "%1$sSKU%2$s: Your product has a SKU. Good job!",
-					withVariants: "%1$sSKU%2$s: All your product variants have a SKU. Good job!",
+					withoutVariants: "%1$sSKU%3$s: Your product has a SKU. Good job!",
+					withVariants: "%1$sSKU%3$s: All your product variants have a SKU. Good job!",
 				},
 				okay: {
 					withoutVariants: "%1$sSKU%3$s: Your product is missing a SKU. %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
 					withVariants: "%1$sSKU%3$s: Not all your product variants have a SKU. You can add a SKU via the \"Variations\" tab in the Product data box. %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
 				},
 			};
+			defaultResultTexts.good = mapValues(
+				defaultResultTexts.good,
+				( resultText ) => this.formatResultText( resultText, this._config.urlTitle, this._config.urlCallToAction )
+			);
+			defaultResultTexts.okay = mapValues(
+				defaultResultTexts.okay,
+				( resultText ) => this.formatResultText( resultText, this._config.urlTitle, this._config.urlCallToAction )
+			);
+			return defaultResultTexts;
 		}
 
-		return this._config.callbacks.getResultText( {
+		return this._config.callbacks.getResultTexts( {
 			urlTitle: this._config.urlTitle,
 			urlCallToAction: this._config.urlCallToAction,
 		} );

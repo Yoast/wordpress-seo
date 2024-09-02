@@ -1,4 +1,4 @@
-import { merge } from "lodash";
+import { mapValues, merge } from "lodash";
 
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
@@ -25,7 +25,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @param {number} [config.scores.consideration]    The score to return if there are no keyword occurrences.
 	 * @param {string} [config.urlTitle]                The URL to the article about this assessment.
 	 * @param {string} [config.urlCallToAction]         The URL to the help article for this assessment.
-	 * @param {function} [config.callbacks.getResultText]         The function that returns the result text.
+	 * @param {function} [config.callbacks.getResultTexts]         The function that returns the result texts.
 	 *
 	 * @returns {void}
 	 */
@@ -129,7 +129,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 	/**
 	 * Gets the feedback strings for the keyphrase distribution assessment.
-	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultText`.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
 	 * The callback function should return an object with the following properties:
 	 * - good: string
 	 * - okay: string
@@ -139,16 +139,20 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @returns {{good: string, okay: string, bad: string, consideration: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
-		if ( ! this._config.callbacks.getResultText ) {
-			return {
-				good: "%1$sKeyphrase distribution%2$s: Good job!",
+		if ( ! this._config.callbacks.getResultTexts ) {
+			const defaultResultTexts = {
+				good: "%1$sKeyphrase distribution%3$s: Good job!",
 				okay: "%1$sKeyphrase distribution%3$s: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
 				bad: "%1$sKeyphrase distribution%3$s: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
 				consideration: "%1$sKeyphrase distribution%3$s: %2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s.",
 			};
+			return mapValues(
+				defaultResultTexts,
+				( resultText ) => this.formatResultText( resultText, this._config.urlTitle, this._config.urlCallToAction )
+			);
 		}
 
-		return this._config.callbacks.getResultText( { urlTitle: this._config.urlTitle, urlCallToAction: this._config.urlCallToAction } );
+		return this._config.callbacks.getResultTexts( { urlTitle: this._config.urlTitle, urlCallToAction: this._config.urlCallToAction } );
 	}
 
 	/**

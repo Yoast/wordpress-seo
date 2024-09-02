@@ -1,4 +1,4 @@
-import { merge } from "lodash";
+import { mapValues, merge } from "lodash";
 
 import Assessment from "../assessment";
 import Mark from "../../../values/Mark";
@@ -19,7 +19,7 @@ export default class WordComplexityAssessment extends Assessment {
 	 * @param {number} [config.scores.goodAmount]       The score to return if the text has a good amount of complex words.
 	 * @param {string} [config.urlTitle]                The URL to the article about this assessment.
 	 * @param {string} [config.urlCallToAction]         The URL to the help article for this assessment.
-	 * @param {function} [config.callbacks.getResultText]         The function that returns the result text.
+	 * @param {function} [config.callbacks.getResultTexts]         The function that returns the result texts.
 	 *
 	 * @returns {void}
 	 */
@@ -89,7 +89,7 @@ export default class WordComplexityAssessment extends Assessment {
 
 	/**
 	 * Gets the feedback strings for the word complexity assessment.
-	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultText`.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
 	 * The callback function should return an object with the following properties:
 	 * - acceptableAmount: string
 	 * - goodAmount: string
@@ -97,15 +97,19 @@ export default class WordComplexityAssessment extends Assessment {
 	 * @returns {{acceptableAmount: string, goodAmount: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
-		if ( ! this._config.callbacks.getResultText ) {
-			return {
-				acceptableAmount: "%1$sWord complexity%4$s: %2$s of the words in your text are considered complex. %3$sTry to use shorter and more familiar words to improve readability%4$s.",
-				goodAmount: "%1$sWord complexity%4$s: You are not using too many complex words, which makes your text easy to read. Good job!",
+		if ( ! this._config.callbacks.getResultTexts ) {
+			const defaultResultTexts = {
+				acceptableAmount: "%1$sWord complexity%3$s: Some words in your text are considered complex. %2$sTry to use shorter and more familiar words to improve readability%3$s.",
+				goodAmount: "%1$sWord complexity%3$s: You are not using too many complex words, which makes your text easy to read. Good job!",
 			};
+			return mapValues(
+				defaultResultTexts,
+				( resultText ) => this.formatResultText( resultText, this._config.urlTitle, this._config.urlCallToAction )
+			);
 		}
 		const complexWordsPercentage = this._wordComplexity.percentage;
 
-		return this._config.callbacks.getResultText( {
+		return this._config.callbacks.getResultTexts( {
 			urlTitle: this._config.urlTitle,
 			urlCallToAction: this._config.urlCallToAction,
 			complexWordsPercentage,

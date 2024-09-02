@@ -1,4 +1,4 @@
-import { merge } from "lodash";
+import { mapValues, merge } from "lodash";
 
 import Assessment from "../assessment";
 import Mark from "../../../values/Mark";
@@ -19,7 +19,7 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @param {string} [config.urlCallToAction] The URL to the help article for this assessment.
 	 * @param {object} [config.scores] The scores to use for the assessment.
 	 * @param {number} [config.scores.bad] The score to return if the text has an over-use of center-alignment.
-	 * @param {function} [config.callbacks.getResultText] The function that returns the result text.
+	 * @param {function} [config.callbacks.getResultTexts] The function that returns the result texts.
 	 *
 	 * @returns {void}
 	 */
@@ -137,27 +137,33 @@ export default class TextAlignmentAssessment extends Assessment {
 
 	/**
 	 * Returns the feedback strings for the assessment.
-	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultText`.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
 	 * This callback function should return an object with the following properties:
 	 * - rightToLeft: string
 	 * - leftToRight: string
 	 * The singular strings are used when there is only one long center-aligned text, the plural strings are used when there are multiple.
 	 * rightToLeft is for the feedback string that is shown when the writing direction is right-to-left.
 	 * leftToRight is for the feedback string that is shown when the writing direction is left-to-right.
+	 *
 	 * @returns {{leftToRight: string, rightToLeft: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
-		if ( ! this._config.callbacks.getResultText ) {
-			return {
-				// %1$s is the `urlTitle`, %2$s is the `urlCallToAction`, %3$s expands to the anchor end tag `</a>`, %4$s expands to the number of the long center-aligned sections in the text */
-				// Singular RTL: "%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it right-aligned%3$s.",
-				rightToLeft: "%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. %2$sWe recommend making them right-aligned%3$s.",
-				// Singular LTR: "%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it left-aligned%3$s.",
-				leftToRight: "%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. %2$sWe recommend making them left-aligned%3$s.",
+		if ( ! this._config.callbacks.getResultTexts ) {
+			const defaultResultTexts = {
+				rightToLeft: "%1$sAlignment%3$s: There are long sections of center-aligned text. %2$sWe recommend making them right-aligned%3$s.",
+				leftToRight: "%1$sAlignment%3$s: There are long sections of center-aligned text. %2$sWe recommend making them left-aligned%3$s.",
 			};
+			if ( this.numberOfLongCenterAlignedTexts === 1 ) {
+				defaultResultTexts.rightToLeft = "%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it right-aligned%3$s.";
+				defaultResultTexts.leftToRight = "%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it left-aligned%3$s.";
+			}
+			return mapValues(
+				defaultResultTexts,
+				( resultText ) => this.formatResultText( resultText, this._config.urlTitle, this._config.urlCallToAction )
+			);
 		}
 
-		return this._config.callbacks.getResultText( {
+		return this._config.callbacks.getResultTexts( {
 			urlTitle: this._config.urlTitle,
 			urlCallToAction: this._config.urlCallToAction,
 			numberOfLongCenterAlignedTexts: this.numberOfLongCenterAlignedTexts,

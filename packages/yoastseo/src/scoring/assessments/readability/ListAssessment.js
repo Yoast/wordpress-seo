@@ -1,4 +1,4 @@
-import { merge } from "lodash";
+import { mapValues, merge } from "lodash";
 
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
@@ -18,7 +18,7 @@ export default class ListAssessment extends Assessment {
 	 * @param {object} [config.scores] The scores to use for the assessment.
 	 * @param {number} [config.scores.bad] The score to return if the text has no list.
 	 * @param {number} [config.scores.good] The score to return if the text has a list.
-	 * @param {function} [config.callbacks.getResultText] The function that returns the result text.
+	 * @param {function} [config.callbacks.getResultTexts] The function that returns the result texts.
 	 *
 	 * @returns {void}
 	 */
@@ -111,7 +111,7 @@ export default class ListAssessment extends Assessment {
 
 	/**
 	 * Gets the feedback strings for the assessment.
-	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultText`.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
 	 * The callback function should return an object with the following properties:
 	 * - good: string
 	 * - bad: string
@@ -119,14 +119,18 @@ export default class ListAssessment extends Assessment {
 	 * @returns {{good: string, bad: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
-		if ( ! this._config.callbacks.getResultText ) {
-			return {
-				good: "%1$sLists%2$s: There is at least one list on this page. Great!",
+		if ( ! this._config.callbacks.getResultTexts ) {
+			const defaultResultTexts = {
+				good: "%1$sLists%3$s: There is at least one list on this page. Great!",
 				bad: "%1$sLists%3$s: No lists appear on this page. %2$sAdd at least one ordered or unordered list%3$s!",
 			};
+			return mapValues(
+				defaultResultTexts,
+				( resultText ) => this.formatResultText( resultText, this._config.urlTitle, this._config.urlCallToAction )
+			);
 		}
 
-		return this._config.callbacks.getResultText( {
+		return this._config.callbacks.getResultTexts( {
 			urlTitle: this._config.urlTitle,
 			urlCallToAction: this._config.urlCallToAction,
 		} );

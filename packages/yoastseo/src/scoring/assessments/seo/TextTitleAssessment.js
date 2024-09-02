@@ -1,4 +1,4 @@
-import { merge } from "lodash";
+import { mapValues, merge } from "lodash";
 
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
@@ -18,7 +18,7 @@ export default class TextTitleAssessment extends Assessment {
 	 * @param {number} config.scores.bad The score to return if the text does not have a title.
 	 * @param {string} config.urlTitle The URL to the article about this assessment.
 	 * @param {string} config.urlCallToAction The URL to the help article for this assessment.
-	 * @param {function} config.callbacks.getResultText The function that returns the result text.
+	 * @param {function} config.callbacks.getResultTexts The function that returns the result texts.
 	 *
 	 * @returns {void}
 	 */
@@ -57,7 +57,7 @@ export default class TextTitleAssessment extends Assessment {
 	/**
 	 * Gets the title from the Paper and based on this returns an assessment result with score.
 	 *
-	 * @param {Paper}      paper      The paper to use for the assessment.
+	 * @param {Paper} paper The paper to use for the assessment.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -97,7 +97,7 @@ export default class TextTitleAssessment extends Assessment {
 
 	/**
 	 * Gets the feedback strings for the text title assessment.
-	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultText`.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
 	 * The callback function should return an object with the following properties:
 	 * - good: string
 	 * - bad: string
@@ -105,14 +105,18 @@ export default class TextTitleAssessment extends Assessment {
 	 * @returns {{good: string, bad: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
-		if ( ! this._config.callbacks.getResultText ) {
-			return {
+		if ( ! this._config.callbacks.getResultTexts ) {
+			const defaultResultTexts = {
 				good: "%1$sTitle%2$s: Your page has a title. Well done!",
 				bad: "%1$sTitle%3$s: Your page does not have a title yet. %2$sAdd one%3$s!",
 			};
+			return mapValues(
+				defaultResultTexts,
+				( resultText ) => this.formatResultText( resultText, this._config.urlTitle, this._config.urlCallToAction )
+			);
 		}
 
-		return this._config.callbacks.getResultText( {
+		return this._config.callbacks.getResultTexts( {
 			urlTitle: this._config.urlTitle,
 			urlCallToAction: this._config.urlCallToAction,
 		} );

@@ -1,4 +1,4 @@
-import { merge } from "lodash";
+import { mapValues, merge } from "lodash";
 
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
@@ -16,7 +16,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 * @param {number}  [config.scores.good]  The score to return if all images have alt tags.
 	 * @param {string}  [config.urlTitle]     The URL to the article about this assessment.
 	 * @param {string}  [config.urlCallToAction]  The URL to the help article for this assessment.
-	 * @param {function}  [config.callbacks.getResultText]  The function that returns the result text.
+	 * @param {function}  [config.callbacks.getResultTexts]  The function that returns the result texts.
 	 *
 	 * @returns {void}
 	 */
@@ -108,7 +108,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 
 	/**
 	 * Returns the feedback strings for the assessment.
-	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultText`.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
 	 * This callback function should return an object with the following properties:
 	 * - good: string
 	 * - noneHasAltBad: string
@@ -117,16 +117,22 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 * @returns {{good: string, noneHasAltBad: string, someHaveAltBad: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
-		if ( ! this._config.callbacks.getResultText ) {
-			return {
-				good: "%1$sImage alt tags%2$s: All images have alt attributes. Good job!",
+		if ( ! this._config.callbacks.getResultTexts ) {
+			const defaultResultTexts = {
+				good: "%1$sImage alt tags%3$s: All images have alt attributes. Good job!",
 				noneHasAltBad: "%1$sImage alt tags%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
-				// Singular: "%3$sImage alt tags%5$s: %1$d image out of %2$d doesn't have alt attributes. %4$sAdd alt attributes to your images%5$s!"
-				someHaveAltBad: "%3$sImage alt tags%5$s: %1$d images out of %2$d don't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
+				someHaveAltBad: "%1$sImage alt tags%3$s: Some images don't have alt attributes. %2$sAdd alt attributes to your images%3$s!",
 			};
+			if ( this.imageCount === 1 ) {
+				defaultResultTexts.someHaveAltBad = "%1$sImage alt tags%3$s: One image doesn't have alt attributes. %2$sAdd alt attributes to your images%2$s!";
+			}
+			return mapValues(
+				defaultResultTexts,
+				( resultText ) => this.formatResultText( resultText, this._config.urlTitle, this._config.urlCallToAction )
+			);
 		}
 
-		return this._config.callbacks.getResultText( {
+		return this._config.callbacks.getResultTexts( {
 			urlTitle: this._config.urlTitle,
 			urlCallToAction: this._config.urlCallToAction,
 			numberOfImagesWithoutAlt: this.altTagsProperties.noAlt,
