@@ -40,8 +40,6 @@ export default class ProductIdentifiersAssessment extends Assessment {
 
 		this.identifier = "productIdentifier";
 		this._config = merge( defaultConfig, config );
-		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
-		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
 	}
 
 	/**
@@ -154,6 +152,11 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * @returns {{good: {withoutVariants: string, withVariants: string}, okay: {withoutVariants: string, withVariants: string}}} The feedback strings.
 	 */
 	getFeedbackStrings() {
+		// `urlTitleAnchorOpeningTag` represents the anchor opening tag with the URL to the article about this assessment.
+		const urlTitleAnchorOpeningTag = createAnchorOpeningTag( this._config.urlTitle );
+		// `urlActionAnchorOpeningTag` represents the anchor opening tag with the URL for the call to action.
+		const urlActionAnchorOpeningTag = createAnchorOpeningTag( this._config.urlCallToAction );
+
 		if ( ! this._config.callbacks.getResultTexts ) {
 			const defaultResultTexts = {
 				good: {
@@ -167,18 +170,18 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			};
 			defaultResultTexts.good = mapValues(
 				defaultResultTexts.good,
-				( resultText ) => this.formatResultText( resultText, this._config.urlTitle, this._config.urlCallToAction )
+				( resultText ) => this.formatResultText( resultText, urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag )
 			);
 			defaultResultTexts.okay = mapValues(
 				defaultResultTexts.okay,
-				( resultText ) => this.formatResultText( resultText, this._config.urlTitle, this._config.urlCallToAction )
+				( resultText ) => this.formatResultText( resultText, urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag )
 			);
 			return defaultResultTexts;
 		}
 
 		return this._config.callbacks.getResultTexts( {
-			urlTitle: this._config.urlTitle,
-			urlCallToAction: this._config.urlCallToAction,
+			urlTitleAnchorOpeningTag,
+			urlActionAnchorOpeningTag,
 		} );
 	}
 }

@@ -27,8 +27,8 @@ export default class TextAlignmentAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/assessment-alignment" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/assessment-alignment-cta" ),
+			urlTitle: "https://yoa.st/assessment-alignment",
+			urlCallToAction: "https://yoa.st/assessment-alignment-cta",
 			scores: {
 				bad: 2,
 			},
@@ -148,6 +148,11 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @returns {{leftToRight: string, rightToLeft: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
+		// `urlTitleAnchorOpeningTag` represents the anchor opening tag with the URL to the article about this assessment.
+		const urlTitleAnchorOpeningTag = createAnchorOpeningTag( this._config.urlTitle );
+		// `urlActionAnchorOpeningTag` represents the anchor opening tag with the URL for the call to action.
+		const urlActionAnchorOpeningTag = createAnchorOpeningTag( this._config.urlCallToAction );
+
 		if ( ! this._config.callbacks.getResultTexts ) {
 			const defaultResultTexts = {
 				rightToLeft: "%1$sAlignment%3$s: There are long sections of center-aligned text. %2$sWe recommend making them right-aligned%3$s.",
@@ -159,13 +164,13 @@ export default class TextAlignmentAssessment extends Assessment {
 			}
 			return mapValues(
 				defaultResultTexts,
-				( resultText ) => this.formatResultText( resultText, this._config.urlTitle, this._config.urlCallToAction )
+				( resultText ) => this.formatResultText( resultText, urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag )
 			);
 		}
 
 		return this._config.callbacks.getResultTexts( {
-			urlTitle: this._config.urlTitle,
-			urlCallToAction: this._config.urlCallToAction,
+			urlTitleAnchorOpeningTag,
+			urlActionAnchorOpeningTag,
 			numberOfLongCenterAlignedTexts: this.numberOfLongCenterAlignedTexts,
 		} );
 	}

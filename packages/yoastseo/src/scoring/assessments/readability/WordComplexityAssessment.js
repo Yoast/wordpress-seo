@@ -37,10 +37,6 @@ export default class WordComplexityAssessment extends Assessment {
 
 		this.identifier = "wordComplexity";
 		this._config = merge( defaultConfig, config );
-
-		// Creates an anchor opening tag for the shortlinks.
-		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
-		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
 	}
 
 	/**
@@ -97,6 +93,11 @@ export default class WordComplexityAssessment extends Assessment {
 	 * @returns {{acceptableAmount: string, goodAmount: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
+		// `urlTitleAnchorOpeningTag` represents the anchor opening tag with the URL to the article about this assessment.
+		const urlTitleAnchorOpeningTag = createAnchorOpeningTag( this._config.urlTitle );
+		// `urlActionAnchorOpeningTag` represents the anchor opening tag with the URL for the call to action.
+		const urlActionAnchorOpeningTag = createAnchorOpeningTag( this._config.urlCallToAction );
+
 		if ( ! this._config.callbacks.getResultTexts ) {
 			const defaultResultTexts = {
 				acceptableAmount: "%1$sWord complexity%3$s: Some words in your text are considered complex. %2$sTry to use shorter and more familiar words to improve readability%3$s.",
@@ -104,14 +105,14 @@ export default class WordComplexityAssessment extends Assessment {
 			};
 			return mapValues(
 				defaultResultTexts,
-				( resultText ) => this.formatResultText( resultText, this._config.urlTitle, this._config.urlCallToAction )
+				( resultText ) => this.formatResultText( resultText, urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag )
 			);
 		}
 		const complexWordsPercentage = this._wordComplexity.percentage;
 
 		return this._config.callbacks.getResultTexts( {
-			urlTitle: this._config.urlTitle,
-			urlCallToAction: this._config.urlCallToAction,
+			urlTitleAnchorOpeningTag,
+			urlActionAnchorOpeningTag,
 			complexWordsPercentage,
 		} );
 	}

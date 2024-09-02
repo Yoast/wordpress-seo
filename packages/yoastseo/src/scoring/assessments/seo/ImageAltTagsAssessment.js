@@ -34,9 +34,6 @@ export default class ImageAltTagsAssessment extends Assessment {
 
 		this.identifier = "imageAltTags";
 		this._config = merge( defaultConfig, config );
-
-		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
-		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
 	}
 
 	/**
@@ -117,6 +114,11 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 * @returns {{good: string, noneHasAltBad: string, someHaveAltBad: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
+		// `urlTitleAnchorOpeningTag` represents the anchor opening tag with the URL to the article about this assessment.
+		const urlTitleAnchorOpeningTag = createAnchorOpeningTag( this._config.urlTitle );
+		// `urlActionAnchorOpeningTag` represents the anchor opening tag with the URL for the call to action.
+		const urlActionAnchorOpeningTag = createAnchorOpeningTag( this._config.urlCallToAction );
+
 		if ( ! this._config.callbacks.getResultTexts ) {
 			const defaultResultTexts = {
 				good: "%1$sImage alt tags%3$s: All images have alt attributes. Good job!",
@@ -128,13 +130,13 @@ export default class ImageAltTagsAssessment extends Assessment {
 			}
 			return mapValues(
 				defaultResultTexts,
-				( resultText ) => this.formatResultText( resultText, this._config.urlTitle, this._config.urlCallToAction )
+				( resultText ) => this.formatResultText( resultText, urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag )
 			);
 		}
 
 		return this._config.callbacks.getResultTexts( {
-			urlTitle: this._config.urlTitle,
-			urlCallToAction: this._config.urlCallToAction,
+			urlTitleAnchorOpeningTag,
+			urlActionAnchorOpeningTag,
 			numberOfImagesWithoutAlt: this.altTagsProperties.noAlt,
 			totalNumberOfImages: this.imageCount,
 		} );
