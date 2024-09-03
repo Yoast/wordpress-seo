@@ -10,9 +10,9 @@ import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
 /**
  * The relatedKeywordAssessor class is used for the related keyword analysis.
  */
-export default class relatedKeywordAssessor extends Assessor {
+export default class RelatedKeywordAssessor extends Assessor {
 	/**
-	 * Creates a new relatedKeywordAssessor instance.
+	 * Creates a new RelatedKeywordAssessor instance.
 	 * @param {Researcher}	researcher	The researcher to use.
 	 * @param {Object}		[options]	The assessor options.
 	 */

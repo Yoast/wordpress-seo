@@ -1,9 +1,9 @@
 import SEOAssessor from "../seoAssessor";
-import MetaDescriptionLength from "../../assessments/seo/MetaDescriptionLengthAssessment";
-import ImageKeyphrase from "../../assessments/seo/KeyphraseInImageTextAssessment";
-import TextLength from "../../assessments/seo/TextLengthAssessment";
-import OutboundLinks from "../../assessments/seo/OutboundLinksAssessment";
-import TitleWidth from "../../assessments/seo/PageTitleWidthAssessment";
+import MetaDescriptionLengthAssessment from "../../assessments/seo/MetaDescriptionLengthAssessment";
+import KeyphraseInImagesAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment";
+import TextLengthAssessment from "../../assessments/seo/TextLengthAssessment";
+import OutboundLinksAssessment from "../../assessments/seo/OutboundLinksAssessment";
+import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssessment";
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
 
 /**
@@ -19,23 +19,23 @@ export default class CornerstoneSEOAssessor extends SEOAssessor {
 		super( researcher, options );
 		this.type = "cornerstoneSEOAssessor";
 
-		this.addAssessment( "metaDescriptionLength", new MetaDescriptionLength( {
+		this.addAssessment( "metaDescriptionLength", new MetaDescriptionLengthAssessment( {
 			scores: { tooLong: 3, tooShort: 3 },
 		} ) );
-		this.addAssessment( "imageKeyphrase", new ImageKeyphrase( {
+		this.addAssessment( "imageKeyphrase", new KeyphraseInImagesAssessment( {
 			scores: { withAltNonKeyword: 3, withAlt: 3, noAlt: 3 },
 		} ) );
-		this.addAssessment( "textLength", new TextLength( {
+		this.addAssessment( "textLength", new TextLengthAssessment( {
 			recommendedMinimum: 900,
 			slightlyBelowMinimum: 400,
 			belowMinimum: 300,
 			scores: { belowMinimum: -20, farBelowMinimum: -20 },
 			cornerstoneContent: true,
 		} ) );
-		this.addAssessment( "externalLinks", new OutboundLinks( {
+		this.addAssessment( "externalLinks", new OutboundLinksAssessment( {
 			scores: { noLinks: 3 },
 		} ) );
-		this.addAssessment( "titleWidth", new TitleWidth( {
+		this.addAssessment( "titleWidth", new PageTitleWidthAssessment( {
 			scores: { widthTooShort: 9 },
 		}, true ) );
 		this.addAssessment( "slugKeyword", new SlugKeywordAssessment( {
