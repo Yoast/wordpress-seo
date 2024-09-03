@@ -77,7 +77,6 @@ class WPSEO_Meta {
 	 *            Array format:
 	 *                (required)       'type'          => (string) field type. i.e. text / textarea / checkbox /
 	 *                                                    radio / select / multiselect / upload etc.
-	 *                (required)       'title'         => (string) table row title.
 	 *                (recommended)    'default_value' => (string|array) default value for the field.
 	 *                                                    IMPORTANT:
 	 *                                                    - if the field has options, the default has to be the
@@ -94,11 +93,7 @@ class WPSEO_Meta {
 	 *                (optional)        'autocomplete' => (bool) whether autocomplete is on for text fields,
 	 *                                                    defaults to true.
 	 *                (optional)        'class'        => (string) classname(s) to add to the actual <input> tag.
-	 *                (optional)        'description'  => (string) description to show underneath the field.
-	 *                (optional)        'expl'         => (string) label for a checkbox.
-	 *                (optional)        'help'         => (string) help text to show on mouse over ? image.
 	 *                (optional)        'rows'         => (int) number of rows for a textarea, defaults to 3.
-	 *                (optional)        'placeholder'  => (string) Currently only used by add-on plugins.
 	 *                (optional)        'serialized'   => (bool) whether the value is expected to be serialized,
 	 *                                                     i.e. an array or object, defaults to false.
 	 *                                                     Currently only used by add-on plugins.
