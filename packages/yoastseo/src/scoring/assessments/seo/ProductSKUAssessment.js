@@ -20,6 +20,7 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @param {boolean} [config.assessVariants] Whether to assess variants.
 	 * @param {boolean} [config.shouldShowEditButton] Whether to show edit button.
 	 * @param {string} [config.editFieldName] The name of the field to edit.
+	 * @param {object} [config.callbacks] The callbacks to use for the assessment.
 	 * @param {function} [config.callbacks.getResultTexts] The function that returns the result texts.
 	 *
 	 * @returns {void}
@@ -37,6 +38,7 @@ export default class ProductSKUAssessment extends Assessment {
 			assessVariants: false,
 			shouldShowEditButton: false,
 			editFieldName: "SKU",
+			callbacks: {},
 		};
 
 		this.identifier = "productSKU";

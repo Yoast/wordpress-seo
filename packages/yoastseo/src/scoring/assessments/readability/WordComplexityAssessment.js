@@ -19,6 +19,7 @@ export default class WordComplexityAssessment extends Assessment {
 	 * @param {number} [config.scores.goodAmount]       The score to return if the text has a good amount of complex words.
 	 * @param {string} [config.urlTitle]                The URL to the article about this assessment.
 	 * @param {string} [config.urlCallToAction]         The URL to the help article for this assessment.
+	 * @param {object} [config.callbacks] The callbacks to use for the assessment.
 	 * @param {function} [config.callbacks.getResultTexts]         The function that returns the result texts.
 	 *
 	 * @returns {void}
@@ -33,6 +34,7 @@ export default class WordComplexityAssessment extends Assessment {
 			},
 			urlTitle: "https://yoa.st/4ls",
 			urlCallToAction: "https://yoa.st/4lt",
+			callbacks: {},
 		};
 
 		this.identifier = "wordComplexity";

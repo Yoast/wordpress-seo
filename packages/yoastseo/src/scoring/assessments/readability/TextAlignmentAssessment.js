@@ -19,6 +19,7 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @param {string} [config.urlCallToAction] The URL to the help article for this assessment.
 	 * @param {object} [config.scores] The scores to use for the assessment.
 	 * @param {number} [config.scores.bad] The score to return if the text has an over-use of center-alignment.
+	 * @param {object} [config.callbacks] The callbacks to use for the assessment.
 	 * @param {function} [config.callbacks.getResultTexts] The function that returns the result texts.
 	 *
 	 * @returns {void}
@@ -32,6 +33,7 @@ export default class TextAlignmentAssessment extends Assessment {
 			scores: {
 				bad: 2,
 			},
+			callbacks: {},
 		};
 
 		this._config = merge( defaultConfig, config );

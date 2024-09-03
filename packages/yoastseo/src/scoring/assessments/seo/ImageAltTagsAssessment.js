@@ -16,6 +16,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 * @param {number}  [config.scores.good]  The score to return if all images have alt tags.
 	 * @param {string}  [config.urlTitle]     The URL to the article about this assessment.
 	 * @param {string}  [config.urlCallToAction]  The URL to the help article for this assessment.
+	 * @param {object} [config.callbacks] The callbacks to use for the assessment.
 	 * @param {function}  [config.callbacks.getResultTexts]  The function that returns the result texts.
 	 *
 	 * @returns {void}
@@ -30,6 +31,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 			},
 			urlTitle: "",
 			urlCallToAction: "",
+			callbacks: {},
 		};
 
 		this.identifier = "imageAltTags";

@@ -19,6 +19,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * @param {boolean} [config.assessVariants] Whether to assess variants.
 	 * @param {boolean} [config.shouldShowEditButton] Whether to show edit button.
 	 * @param {string} [config.editFieldName] The name of the field to edit.
+	 * @param {function} [config.callbacks] The callbacks to use for the assessment.
 	 * @param {function} [config.callbacks.getResultTexts] The function that returns the result texts.
 	 *
 	 * @returns {void}
@@ -36,6 +37,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			assessVariants: false,
 			shouldShowEditButton: false,
 			editFieldName: "Product identifiers",
+			callbacks: {},
 		};
 
 		this.identifier = "productIdentifier";

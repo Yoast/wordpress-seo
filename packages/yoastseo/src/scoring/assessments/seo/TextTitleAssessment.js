@@ -13,12 +13,13 @@ export default class TextTitleAssessment extends Assessment {
 	 * Constructs a text title assessment.
 	 *
 	 * @param {object} config The config to use for the assessment.
-	 * @param {object} config.scores The scores to use for the assessment.
-	 * @param {number} config.scores.good The score to return if the text has a title.
-	 * @param {number} config.scores.bad The score to return if the text does not have a title.
-	 * @param {string} config.urlTitle The URL to the article about this assessment.
-	 * @param {string} config.urlCallToAction The URL to the help article for this assessment.
-	 * @param {function} config.callbacks.getResultTexts The function that returns the result texts.
+	 * @param {object} [config.scores] The scores to use for the assessment.
+	 * @param {number} [config.scores.good] The score to return if the text has a title.
+	 * @param {number} [config.scores.bad] The score to return if the text doesn't have a title.
+	 * @param {string} [config.urlTitle] The URL to the article about this assessment.
+	 * @param {string} [config.urlCallToAction] The URL to the help article for this assessment.
+	 * @param {object} [config.callbacks] The callbacks to use for the assessment.
+	 * @param {function} [config.callbacks.getResultTexts] The function that returns the result texts.
 	 *
 	 * @returns {void}
 	 */
@@ -31,6 +32,7 @@ export default class TextTitleAssessment extends Assessment {
 			},
 			urlTitle: "https://yoa.st/4nh",
 			urlCallToAction: "https://yoa.st/4ni",
+			callbacks: {},
 		};
 
 		this.identifier = "textTitleAssessment";

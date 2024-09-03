@@ -18,6 +18,7 @@ export default class ListAssessment extends Assessment {
 	 * @param {object} [config.scores] The scores to use for the assessment.
 	 * @param {number} [config.scores.bad] The score to return if the text has no list.
 	 * @param {number} [config.scores.good] The score to return if the text has a list.
+	 * @param {object} [config.callbacks] The callbacks to use for the assessment.
 	 * @param {function} [config.callbacks.getResultTexts] The function that returns the result texts.
 	 *
 	 * @returns {void}
@@ -32,6 +33,7 @@ export default class ListAssessment extends Assessment {
 				bad: 3,
 				good: 9,
 			},
+			callbacks: {},
 		};
 
 		this._config = merge( defaultConfig, config );
