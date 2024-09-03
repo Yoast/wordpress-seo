@@ -166,7 +166,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 					withVariants: "%1$sProduct identifier%3$s: All your product variants have an identifier. Good job!",
 				},
 				okay: {
-					withoutVariants: "%1$Product identifier%3$s: Your product is missing an identifier (like a GTIN code). %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
+					withoutVariants: "%1$sProduct identifier%3$s: Your product is missing an identifier (like a GTIN code). %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
 					withVariants: "%1$sProduct identifier%3$s: Not all your product variants have an identifier. %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
 				},
 			};

@@ -121,14 +121,16 @@ export default class ImageAltTagsAssessment extends Assessment {
 		// `urlActionAnchorOpeningTag` represents the anchor opening tag with the URL for the call to action.
 		const urlActionAnchorOpeningTag = createAnchorOpeningTag( this._config.urlCallToAction );
 
+		const numberOfImagesWithoutAlt = this.altTagsProperties.noAlt;
+
 		if ( ! this._config.callbacks.getResultTexts ) {
 			const defaultResultTexts = {
 				good: "%1$sImage alt tags%3$s: All images have alt attributes. Good job!",
 				noneHasAltBad: "%1$sImage alt tags%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
 				someHaveAltBad: "%1$sImage alt tags%3$s: Some images don't have alt attributes. %2$sAdd alt attributes to your images%3$s!",
 			};
-			if ( this.imageCount === 1 ) {
-				defaultResultTexts.someHaveAltBad = "%1$sImage alt tags%3$s: One image doesn't have alt attributes. %2$sAdd alt attributes to your images%2$s!";
+			if ( numberOfImagesWithoutAlt === 1 ) {
+				defaultResultTexts.someHaveAltBad = "%1$sImage alt tags%3$s: One image doesn't have alt attributes. %2$sAdd alt attributes to your images%3$s!";
 			}
 			return mapValues(
 				defaultResultTexts,
@@ -139,7 +141,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 		return this._config.callbacks.getResultTexts( {
 			urlTitleAnchorOpeningTag,
 			urlActionAnchorOpeningTag,
-			numberOfImagesWithoutAlt: this.altTagsProperties.noAlt,
+			numberOfImagesWithoutAlt,
 			totalNumberOfImages: this.imageCount,
 		} );
 	}
