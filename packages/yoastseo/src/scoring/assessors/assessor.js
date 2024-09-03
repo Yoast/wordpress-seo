@@ -47,7 +47,7 @@ class Assessor {
 
 	/**
 	 * Gets all available assessments.
-	 * @returns {object} assessment
+	 * @returns {Assessment[]} assessment
 	 */
 	getAvailableAssessments() {
 		return this._assessments;
@@ -56,7 +56,7 @@ class Assessor {
 	/**
 	 * Checks whether the Assessment is applicable.
 	 *
-	 * @param {Object} assessment The Assessment object that needs to be checked.
+	 * @param {Assessment} assessment The Assessment object that needs to be checked.
 	 * @param {Paper} paper The Paper object to check against.
 	 * @param {Researcher} [researcher] The Researcher object containing additional information.
 	 * @returns {boolean} Whether or not the Assessment is applicable.
@@ -72,7 +72,7 @@ class Assessor {
 	/**
 	 * Determines whether an assessment has a marker.
 	 *
-	 * @param {Object} assessment The assessment to check for.
+	 * @param {Assessment} assessment The assessment to check for.
 	 * @returns {boolean} Whether or not the assessment has a marker.
 	 */
 	hasMarker( assessment ) {
@@ -100,7 +100,7 @@ class Assessor {
 	/**
 	 * Returns the marker for a given assessment, composes the specific marker with the assessment getMarks function.
 	 *
-	 * @param {Object} assessment The assessment for which we are retrieving the composed marker.
+	 * @param {Assessment} assessment The assessment for which we are retrieving the composed marker.
 	 * @param {Paper} paper The paper to retrieve the marker for.
 	 * @param {Researcher} researcher The researcher for the paper.
 	 * @returns {Function} A function that can mark the given paper according to the given assessment.
@@ -166,7 +166,7 @@ class Assessor {
 	 *
 	 * @param {Paper} paper The paper to pass to the assessment.
 	 * @param {Researcher} researcher The researcher to pass to the assessment.
-	 * @param {Object} assessment The assessment to execute.
+	 * @param {Assessment} assessment The assessment to execute.
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	executeAssessment( paper, researcher, assessment ) {
@@ -205,7 +205,7 @@ class Assessor {
 	/**
 	 * Filters out all assessment results that have no score and no text.
 	 *
-	 * @returns {Array<AssessmentResult>} The array with all the valid assessments.
+	 * @returns {AssessmentResult[]} The array with all the valid assessments.
 	 */
 	getValidResults() {
 		return filter( this.results, function( result ) {
@@ -216,7 +216,7 @@ class Assessor {
 	/**
 	 * Returns if an assessmentResult is valid.
 	 *
-	 * @param {object} assessmentResult The assessmentResult to validate.
+	 * @param {AssessmentResult} assessmentResult The assessmentResult to validate.
 	 * @returns {boolean} whether or not the result is valid.
 	 */
 	isValidResult( assessmentResult ) {
@@ -241,7 +241,7 @@ class Assessor {
 	 * Register an assessment to add it to the internal assessments object.
 	 *
 	 * @param {string} name The name of the assessment.
-	 * @param {object} assessment The object containing function to run as an assessment and it's requirements.
+	 * @param {Assessment} assessment The object containing function to run as an assessment and it's requirements.
 	 * @returns {boolean} Whether registering the assessment was successful.
 	 */
 	addAssessment( name, assessment ) {
@@ -288,7 +288,7 @@ class Assessor {
 	/**
 	 * Checks which of the available assessments are applicable and returns an array with applicable assessments.
 	 *
-	 * @returns {Array} The array with applicable assessments.
+	 * @returns {Assessment[]} The array with applicable assessments.
 	 */
 	getApplicableAssessments() {
 		const availableAssessments = this.getAvailableAssessments();
