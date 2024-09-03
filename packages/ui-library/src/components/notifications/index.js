@@ -1,30 +1,23 @@
 /* eslint-disable complexity */
-import { Transition } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import { isArray, keys, noop } from "lodash";
+import { keys, noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { ValidationIcon } from "../../elements/validation";
-
+import Toast from "../../elements/toast";
 const NotificationsContext = createContext( { position: "bottom-left" } );
 
 /**
  * @returns {Object} Value of the notifications context.
  */
-const useNotificationsContext = () => useContext( NotificationsContext );
+export const useNotificationsContext = () => useContext( NotificationsContext );
 
-export const notificationClassNameMap = {
+export const notificationClassNameMap  = {
 	variant: {
 		info: "yst-notification--info",
 		warning: "yst-notification--warning",
 		success: "yst-notification--success",
 		error: "yst-notification--error",
-	},
-	position: {
-		"bottom-center": "yst-translate-y-full",
-		"bottom-left": "yst-translate-y-full",
-		"top-center": "yst--translate-y-full",
 	},
 	size: {
 		"default": "",
@@ -36,6 +29,7 @@ export const notificationClassNameMap = {
  * @param {Object} props The props object.
  * @param {JSX.node} children The children.
  * @param {string} [variant] The message variant. Either success or error.
+ * @param {string} [size] The message size. Either default or large.
  * @param {string} [title] The message title.
  * @param {string|string[]} [description] The message description.
  * @param {Function} [onDismiss] Function to trigger on dismissal.
@@ -57,81 +51,37 @@ const Notification = ( {
 	const { position } = useNotificationsContext();
 	const [ isVisible, setIsVisible ] = useState( false );
 
-	const handleDismiss = useCallback( () => {
-		// Disable visibility on dismiss to trigger transition.
-		setIsVisible( false );
-		// Then remove the actual notification after the transition is done.
-		setTimeout( () => {
-			onDismiss( id );
-		}, 150 );
-	}, [ onDismiss, id ] );
-
-	useEffect( () => {
-		// Enable visibility on mount to trigger transition.
-		setIsVisible( true );
-		// Maybe start auto dismiss timer.
-		let timeout;
-		if ( autoDismiss ) {
-			timeout = setTimeout( () => {
-				handleDismiss();
-			}, autoDismiss );
-		}
-		// Cleanup auto dismiss timeout on unmount.
-		return () => clearTimeout( timeout );
-	}, [] );
-
 	return (
-		<Transition
-			show={ isVisible }
-			enter={ "yst-transition yst-ease-in-out yst-duration-150" }
-			enterFrom={ classNames( "yst-opacity-0", notificationClassNameMap.position[ position ] ) }
-			enterTo="yst-translate-y-0"
-			leave={ "yst-transition yst-ease-in-out yst-duration-150" }
-			leaveFrom="yst-translate-y-0"
-			leaveTo={ classNames( "yst-opacity-0", notificationClassNameMap.position[ position ] ) }
+		<Toast
+			id={ id }
 			className={ classNames(
 				"yst-notification",
 				notificationClassNameMap.variant[ variant ],
 				notificationClassNameMap.size[ size ],
 			) }
-			role="alert"
+			position={ position }
+			size={ size }
+			onDismiss={ onDismiss }
+			autoDismiss={ autoDismiss }
+			dismissScreenReaderLabel={ dismissScreenReaderLabel }
+			isVisible={ isVisible }
+			setIsVisible={ setIsVisible }
 		>
 			<div className="yst-flex yst-items-start yst-gap-3">
 				<div className="yst-flex-shrink-0">
 					<ValidationIcon variant={ variant } className="yst-notification__icon" />
 				</div>
 				<div className="yst-w-0 yst-flex-1">
-					{ title && (
-						<p className="yst-text-sm yst-font-medium yst-text-slate-800">
-							{ title }
-						</p>
-					) }
+					{ title && <Toast.Title title={ title } /> }
 					{ children || (
-						description && ( isArray( description ) ? (
-							<ul className="yst-list-disc yst-ml-4">
-								{ description.map( ( text, index ) => (
-									<li className="yst-pt-1" key={ `${ text }-${ index }` }>{ text }</li>
-								) ) }
-							</ul>
-						) : (
-							<p>{ description }</p>
-						) )
+						description && ( <Toast.Description description={ description } /> )
 					) }
 				</div>
 				{ onDismiss && (
-					<div className="yst-flex-shrink-0 yst-flex">
-						<button
-							type="button"
-							onClick={ handleDismiss }
-							className="yst-bg-white yst-rounded-md yst-inline-flex yst-text-slate-400 hover:yst-text-slate-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
-						>
-							<span className="yst-sr-only">{ dismissScreenReaderLabel }</span>
-							<XIcon className="yst-h-5 yst-w-5" />
-						</button>
-					</div>
+					<Toast.Close dismissScreenReaderLabel={ dismissScreenReaderLabel } />
 				) }
 			</div>
-		</Transition>
+		</Toast>
 	);
 };
 

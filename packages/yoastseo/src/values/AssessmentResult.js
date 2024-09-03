@@ -21,6 +21,7 @@ class AssessmentResult {
 	constructor( values ) {
 		this._hasScore = false;
 		this._identifier = "";
+		this._hasAIFixes = false;
 		this._hasMarks = false;
 		this._hasJumps = false;
 		this._hasEditFieldName = false;
@@ -57,6 +58,10 @@ class AssessmentResult {
 
 		if ( ! isUndefined( values.editFieldName ) ) {
 			this.setEditFieldName( values.editFieldName );
+		}
+
+		if ( ! isUndefined( values._hasAIFixes ) ) {
+			this.setHasAIFixes( values._hasAIFixes );
 		}
 	}
 
@@ -273,6 +278,25 @@ class AssessmentResult {
 	}
 
 	/**
+	 * Sets the value of _hasAIFixes to determine if the result has AI fixes.
+	 *
+	 * @param {boolean} hasAIFixes Whether this result has AI fixes.
+	 * @returns {void}
+	 */
+	setHasAIFixes( hasAIFixes ) {
+		this._hasAIFixes = hasAIFixes;
+	}
+
+	/**
+	 * Returns the value of _hasAIFixes to determine if the result has AI fixes.
+	 *
+	 * @returns {bool} Whether this result has AI fixes.
+	 */
+	hasAIFixes() {
+		return this._hasAIFixes;
+	}
+
+	/**
 	 * Serializes the AssessmentResult instance to an object.
 	 *
 	 * @returns {Object} The serialized AssessmentResult.
@@ -286,6 +310,7 @@ class AssessmentResult {
 			marks: this.marks.map( mark => mark.serialize() ),
 			_hasBetaBadge: this._hasBetaBadge,
 			_hasJumps: this._hasJumps,
+			_hasAIFixes: this._hasAIFixes,
 			editFieldName: this.editFieldName,
 		};
 	}
@@ -304,7 +329,7 @@ class AssessmentResult {
 			marks: serialized.marks.map( mark => Mark.parse( mark ) ),
 			_hasBetaBadge: serialized._hasBetaBadge,
 			_hasJumps: serialized._hasJumps,
-			editFieldName: serialized.editFieldName,
+			_hasAIFixes: serialized._hasAIFixes, editFieldName: serialized.editFieldName,
 		} );
 		result.setIdentifier( serialized.identifier );
 

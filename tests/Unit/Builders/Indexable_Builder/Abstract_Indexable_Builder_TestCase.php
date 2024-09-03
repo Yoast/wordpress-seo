@@ -198,6 +198,20 @@ abstract class Abstract_Indexable_Builder_TestCase extends TestCase {
 	}
 
 	/**
+	 * Expectation in save_indexable.
+	 *
+	 * @param Indexable_Mock $indexable The indexable to expect.
+	 *
+	 * @return void
+	 */
+	public function expect_save_indexable( $indexable ) {
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->once()
+			->andReturn( $indexable );
+	}
+
+	/**
 	 * Expectations for ensure_indexable method.
 	 *
 	 * @param array          $defaults         The defaults to expect.

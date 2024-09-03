@@ -24,7 +24,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"dynamic-blocks": `${ sourceDirectory }/dynamic-blocks.js`,
 	"edit-page": `${ sourceDirectory }/edit-page.js`,
 	"editor-modules": `${ sourceDirectory }/editor-modules.js`,
-	elementor: `${ sourceDirectory }/elementor.js`,
+	elementor: `${ sourceDirectory }/elementor/initialize.js`,
 	"externals-components": `${ sourceDirectory }/externals/components.js`,
 	"externals-contexts": `${ sourceDirectory }/externals/contexts.js`,
 	"externals-redux": `${ sourceDirectory }/externals/redux.js`,
@@ -51,7 +51,6 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"used-keywords-assessment": `${ sourceDirectory }/used-keywords-assessment.js`,
 	"react-select": `${ sourceDirectory }/externals/react-select.js`,
 	workouts: `${ sourceDirectory }/workouts.js`,
-	"wordproof-uikit": `${ sourceDirectory }/wordproof-uikit.js`,
 	"frontend-inspector-resources": `${ sourceDirectory }/frontend-inspector-resources.js`,
 } );
 

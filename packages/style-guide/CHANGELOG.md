@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
 
+## Future Release
+### Non user facing
+* Now published as a transpiled package.
+
 ## 0.5.0 September 30th, 2019
 ### Added
 * Adds new status colors: error, info, success, warning.

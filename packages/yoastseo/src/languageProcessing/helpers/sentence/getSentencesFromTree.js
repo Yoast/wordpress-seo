@@ -14,7 +14,7 @@ function getStartOffset( node ) {
  * @param {Node} 	node 	The current node.
  * @returns {Node} The parent node.
  */
-function getParentNode( paper, node ) {
+export function getParentNode( paper, node ) {
 	// Includes a fallback so that if a parent node cannot be found for an implicit paragraph, we use the current node as the parent node.
 	return paper.getTree().findAll( treeNode => treeNode.childNodes && treeNode.childNodes.includes( node ) )[ 0 ] || node;
 }

@@ -27,7 +27,6 @@ import refreshAnalysis, { initializationDone } from "../analysis/refreshAnalysis
 import collectAnalysisData from "../analysis/collectAnalysisData";
 import PostDataCollector from "../analysis/PostDataCollector";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
-import getTranslations from "../analysis/getTranslations";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
@@ -275,10 +274,6 @@ export default function initPostScraper( $, store, editorData ) {
 
 		titleElement = $( "#title" );
 
-		const translations = getTranslations();
-		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
-			args.translations = translations;
-		}
 		return args;
 	}
 

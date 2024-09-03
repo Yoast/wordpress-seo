@@ -128,7 +128,11 @@ final class Website_Test extends TestCase {
 						'@type'       => 'EntryPoint',
 						'urlTemplate' => 'https://example.com/?s={search_term_string}',
 					],
-					'query-input' => 'required name=search_term_string',
+					'query-input' => [
+						'@type'          => 'PropertyValueSpecification',
+						'valueRequired'  => true,
+						'valueName'      => 'search_term_string',
+					],
 				],
 			],
 			'inLanguage'      => 'language',

@@ -427,7 +427,6 @@ class Yoast_Form {
 
 		$aria_attributes = Yoast_Input_Validation::get_the_aria_invalid_attribute( $variable );
 
-		Yoast_Input_Validation::set_error_descriptions();
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $variable );
 
 		$disabled_attribute = $this->get_disabled_attribute( $variable, $attr );
@@ -467,9 +466,7 @@ class Yoast_Form {
 			]
 		);
 
-		$aria_attributes = Yoast_Input_Validation::get_the_aria_invalid_attribute( $variable );
-
-		Yoast_Input_Validation::set_error_descriptions();
+		$aria_attributes  = Yoast_Input_Validation::get_the_aria_invalid_attribute( $variable );
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $variable );
 
 		$disabled_attribute = $this->get_disabled_attribute( $variable, $attr );
@@ -520,10 +517,7 @@ class Yoast_Form {
 		}
 		echo '</div>';
 
-		$has_input_error = Yoast_Input_Validation::yoast_form_control_has_error( $variable );
-		$aria_attributes = Yoast_Input_Validation::get_the_aria_invalid_attribute( $variable );
-
-		Yoast_Input_Validation::set_error_descriptions();
+		$aria_attributes  = Yoast_Input_Validation::get_the_aria_invalid_attribute( $variable );
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $variable );
 
 		// phpcs:disable WordPress.Security.EscapeOutput -- Reason: output is properly escaped or hardcoded.
@@ -727,6 +721,8 @@ class Yoast_Form {
 	 * Media input.
 	 *
 	 * @since 2.0
+	 * @deprecated 23.5
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $variable Option name.
 	 * @param string $label    Label message.
@@ -735,6 +731,9 @@ class Yoast_Form {
 	 * @return void
 	 */
 	public function media_input( $variable, $label, $attr = [] ) {
+
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.5' );
+
 		$val      = $this->get_field_value( $variable, '' );
 		$id_value = $this->get_field_value( $variable . '_id', '' );
 
@@ -755,8 +754,6 @@ class Yoast_Form {
 
 		$id_field_id = 'wpseo_' . $var_esc . '_id';
 
-		$disabled_attribute = $this->get_disabled_attribute( $variable, $attr );
-
 		echo '<span>';
 			echo '<input',
 				' class="textinput"',
@@ -766,22 +763,6 @@ class Yoast_Form {
 				' value="', esc_attr( $val ), '"',
 				' readonly="readonly"',
 				' /> ';
-			echo '<input',
-				' id="wpseo_', $var_esc, '_button"', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
-				' class="wpseo_image_upload_button button"',
-				' type="button"',
-				' value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '"',
-				' data-target-id="', esc_attr( $id_field_id ), '"',
-				// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded.
-				$disabled_attribute,
-				' /> ';
-			echo '<input',
-				' class="wpseo_image_remove_button button"',
-				' type="button"',
-				' value="', esc_attr__( 'Clear Image', 'wordpress-seo' ), '"',
-				// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded.
-				$disabled_attribute,
-				' />';
 			echo '<input',
 				' type="hidden"',
 				' id="', esc_attr( $id_field_id ), '"',

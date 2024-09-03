@@ -2,22 +2,15 @@ import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import {
-	potentiallyHarmful,
-	potentiallyHarmfulUnless,
-	harmfulNonInclusive,
-	harmfulPotentiallyNonInclusive,
-	potentiallyHarmfulUnlessAnimalsObjects,
-} from "./feedbackStrings";
-
-/*
- * Used for culturally appropriative terms, such as 'tribe' or 'spirit animal'.
- *
- * "Be careful when using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as %2$s instead, unless you are referring to
- * the culture in which this term originated."
- */
-const potentiallyHarmfulUnlessCulture = "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
-										"Consider using an alternative, such as %2$s instead, unless you are referring to the culture " +
-										"in which this term originated.";
+	redHarmful,
+	orangeUnlessSomeoneWants,
+	avoidHarmful,
+	beCarefulHarmful,
+	orangeUnlessAnimalsObjects,
+} from "./feedbackStrings/generalFeedbackStrings";
+import {
+	orangeUnlessCultureOfOrigin,
+} from "./feedbackStrings/cultureAssessmentStrings";
 
 const cultureAssessments = [
 	{
@@ -25,7 +18,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "First World" ],
 		inclusiveAlternatives: "the specific name for the region or country",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 		caseSensitive: true,
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "War", "war", "Assembly", "assembly" ] ) ),
@@ -35,7 +28,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "Third World" ],
 		inclusiveAlternatives: "the specific name for the region or country",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 		caseSensitive: true,
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "War", "war", "Quarterly", "quarterly", "country" ] ) ),
@@ -47,9 +40,9 @@ const cultureAssessments = [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		/*
 		 * Replace 'the culture in which this term originated' with 'a culture that uses this term' in the 'unless you are
-		 * referring to...' part of the potentiallyHarmfulUnlessCulture string.
+		 * referring to...' part of the orangeUnlessCultureOfOrigin string.
 		 */
-		feedbackFormat: potentiallyHarmfulUnlessCulture.slice( 0, -42 ) + "a culture that uses this term.",
+		feedbackFormat: orangeUnlessCultureOfOrigin.slice( 0, -42 ) + "a culture that uses this term.",
 	},
 	{
 		identifier: "tribes",
@@ -58,16 +51,16 @@ const cultureAssessments = [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		/*
 		 * Replace 'the culture in which this term originated' with 'a culture that uses this term' in the 'unless you are
-		 * referring to...' part of the potentiallyHarmfulUnlessCulture string.
+		 * referring to...' part of the orangeUnlessCultureOfOrigin string.
 		 */
-		feedbackFormat: potentiallyHarmfulUnlessCulture.slice( 0, -42 ) + "a culture that uses this term.",
+		feedbackFormat: orangeUnlessCultureOfOrigin.slice( 0, -42 ) + "a culture that uses this term.",
 	},
 	{
 		identifier: "exotic",
 		nonInclusivePhrases: [ "exotic" ],
 		inclusiveAlternatives: "<i>unfamiliar, foreign, peculiar, fascinating, alluring, bizarre, non-native, introduced</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: harmfulPotentiallyNonInclusive + " Unless you are referring to animals, " +
+		feedbackFormat: beCarefulHarmful + " Unless you are referring to animals, " +
 			"consider using an alternative, such as %2$s.",
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
@@ -79,42 +72,42 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "sherpa" ],
 		inclusiveAlternatives: "<i>commander, coach, mastermind, coach, mentor</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnlessCulture,
+		feedbackFormat: orangeUnlessCultureOfOrigin,
 	},
 	{
 		identifier: "guru",
 		nonInclusivePhrases: [ "guru" ],
 		inclusiveAlternatives: "<i>mentor, doyen, coach, mastermind, virtuoso, expert</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnlessCulture,
+		feedbackFormat: orangeUnlessCultureOfOrigin,
 	},
 	{
 		identifier: "gurus",
 		nonInclusivePhrases: [ "gurus" ],
 		inclusiveAlternatives: "<i>mentors, doyens, coaches, masterminds, virtuosos, experts</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnlessCulture,
+		feedbackFormat: orangeUnlessCultureOfOrigin,
 	},
 	{
 		identifier: "nonWhite",
 		nonInclusivePhrases: [ "non-white" ],
 		inclusiveAlternatives: "<i>people of color, POC, BIPOC</i> or specifying the racial groups mentioned",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "oriental",
 		nonInclusivePhrases: [ "oriental" ],
 		inclusiveAlternatives: "<i>Asian</i>. When possible, be more specific (e.g. <i>East Asian</i>)",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnlessAnimalsObjects,
+		feedbackFormat: orangeUnlessAnimalsObjects,
 	},
 	{
 		identifier: "asianAmerican",
 		nonInclusivePhrases: [ "Asian-American" ],
 		inclusiveAlternatives: "<i>Asian American</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 		caseSensitive: true,
 	},
 	{
@@ -122,7 +115,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "Asian-Americans" ],
 		inclusiveAlternatives: "<i>Asian Americans</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 		caseSensitive: true,
 	},
 	{
@@ -130,7 +123,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "African-American" ],
 		inclusiveAlternatives: "<i>African American, Black, American of African descent</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 		caseSensitive: true,
 	},
 	{
@@ -138,7 +131,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "African-Americans" ],
 		inclusiveAlternatives: "<i>African Americans, Black, Americans of African descent</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 		caseSensitive: true,
 	},
 	{
@@ -146,7 +139,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "the White race" ],
 		inclusiveAlternatives: "",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: harmfulNonInclusive,
+		feedbackFormat: avoidHarmful,
 		caseSensitive: true,
 	},
 	{
@@ -154,91 +147,91 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "whitelist" ],
 		inclusiveAlternatives: "<i>allowlist</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "whitelists",
 		nonInclusivePhrases: [ "whitelists" ],
 		inclusiveAlternatives: "<i>allowlists</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "whitelisting",
 		nonInclusivePhrases: [ "whitelisting" ],
 		inclusiveAlternatives: "<i>allowlisting</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "whitelisted",
 		nonInclusivePhrases: [ "whitelisted" ],
 		inclusiveAlternatives: "<i>allowlisted</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "blacklist",
 		nonInclusivePhrases: [ "blacklist" ],
 		inclusiveAlternatives: "<i>blocklist, denylist, faillist, redlist</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "blacklists",
 		nonInclusivePhrases: [ "blacklists" ],
 		inclusiveAlternatives: "<i>blocklists, denylists, faillists, redlists</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "blacklisting",
 		nonInclusivePhrases: [ "blacklisting" ],
 		inclusiveAlternatives: "<i>blocklisting, denylisting, faillisting, redlisting</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "blacklisted",
 		nonInclusivePhrases: [ "blacklisted" ],
 		inclusiveAlternatives: "<i>blocklisted, denylisted, faillisted, redlisted</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "gyp",
 		nonInclusivePhrases: [ "gyp" ],
 		inclusiveAlternatives: "<i>fraud, cheat, swindle, rip-off</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "gyps",
 		nonInclusivePhrases: [ "gyps" ],
 		inclusiveAlternatives: "<i>frauds, cheats, swindles, rips off, rip-offs</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "gypped",
 		nonInclusivePhrases: [ "gypped" ],
 		inclusiveAlternatives: "<i>cheated, swindled, ripped off</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "gypping",
 		nonInclusivePhrases: [ "gypping" ],
 		inclusiveAlternatives: "<i>cheating, swindling, ripping off</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "gypsy",
 		nonInclusivePhrases: [ "gypsy", "gipsy" ],
 		inclusiveAlternatives: [ "<i>Rom, Roma person, Romani, Romani person</i>", "<i>traveler, wanderer, free-spirited</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnless, "If you are referring to a lifestyle rather than the ethnic group or " +
+		feedbackFormat: [ orangeUnlessSomeoneWants, "If you are referring to a lifestyle rather than the ethnic group or " +
 		"their music, consider using an alternative such as %3$s." ].join( " " ),
 	},
 	{
@@ -246,7 +239,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "gypsies", "gipsies" ],
 		inclusiveAlternatives: [ "<i>Roma, Romani, Romani people</i>", "<i>travelers, wanderers, free-spirited</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnless, "If you are referring to a lifestyle rather than the ethnic group or " +
+		feedbackFormat: [ orangeUnlessSomeoneWants, "If you are referring to a lifestyle rather than the ethnic group or " +
 		"their music, consider using an alternative such as %3$s." ].join( " " ),
 	},
 	{
@@ -254,28 +247,28 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "eskimo", "eskimos" ],
 		inclusiveAlternatives: "the specific name of the Indigenous community (for example, <i>Inuit</i>)",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnless,
+		feedbackFormat: orangeUnlessSomeoneWants,
 	},
 	{
 		identifier: "coloredPerson",
 		nonInclusivePhrases: [ "colored person" ],
 		inclusiveAlternatives: "<i>person of color, POC, BIPOC</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "coloredPeople",
 		nonInclusivePhrases: [ "colored people" ],
 		inclusiveAlternatives: "<i>people of color, POC, BIPOC</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "americanIndians",
 		nonInclusivePhrases: [ "American Indian", "American Indians" ],
 		inclusiveAlternatives: "<i>Native American(s), Indigenous peoples of America</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnless,
+		feedbackFormat: orangeUnlessSomeoneWants,
 		caseSensitive: true,
 	},
 	{
@@ -283,77 +276,77 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "mulatto", "mulattos", "mulattoes" ],
 		inclusiveAlternatives: "<i>mixed, biracial, multiracial</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "savage",
 		nonInclusivePhrases: [ "savage" ],
 		inclusiveAlternatives: "<i>severe, dreadful, untamed, brutal, fearless, fierce, brilliant, amazing</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "civilized",
 		nonInclusivePhrases: [ "civilized" ],
 		inclusiveAlternatives: "<i>proper, well-mannered, enlightened, respectful</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "primitive",
 		nonInclusivePhrases: [ "primitive" ],
 		inclusiveAlternatives: "<i>early, rudimentary</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "powWow",
 		nonInclusivePhrases: [ "pow-wow" ],
 		inclusiveAlternatives: "<i>chat, brief conversation, brainstorm, huddle</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnlessCulture,
+		feedbackFormat: orangeUnlessCultureOfOrigin,
 	},
 	{
 		identifier: "lowManOnTheTotemPole",
 		nonInclusivePhrases: [ "low man on the totem pole" ],
 		inclusiveAlternatives: "<i>person of lower rank, junior-level</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "spiritAnimal",
 		nonInclusivePhrases: [ "spirit animal" ],
 		inclusiveAlternatives: "<i>inspiration, hero, icon, idol</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnlessCulture,
+		feedbackFormat: orangeUnlessCultureOfOrigin,
 	},
 	{
 		identifier: "firstWorldCountries",
 		nonInclusivePhrases: [ "first world countries" ],
 		inclusiveAlternatives: "the specific name for the regions or countries",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "firstWorldHyphen",
 		nonInclusivePhrases: [ "first-world" ],
 		inclusiveAlternatives: "the specific name for the region or country",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "third-worldCountry",
 		nonInclusivePhrases: [ "third-world country" ],
 		inclusiveAlternatives: "<i>low-income country, developing country</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "third-worldCountry",
 		nonInclusivePhrases: [ "third world country" ],
 		inclusiveAlternatives: "<i>low-income country, developing country</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "underdevelopedCountry",

@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Editors\Application\Integrations;
 
 use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
-use Yoast\WP\SEO\Editors\Framework\Analysis_Feature_Interface;
 
 /**
  * The repository to get all enabled integrations.
@@ -16,7 +15,7 @@ class Integration_Information_Repository {
 	/**
 	 * All plugin integrations.
 	 *
-	 * @var Analysis_Feature_Interface[] $plugin_integrations
+	 * @var Integration_Data_Provider_Interface[] $plugin_integrations
 	 */
 	private $plugin_integrations;
 

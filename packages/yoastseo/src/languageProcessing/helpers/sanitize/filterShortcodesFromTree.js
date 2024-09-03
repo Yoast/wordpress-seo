@@ -4,7 +4,7 @@
  * @param {string[]} shortcodeTags The tags of the shortcodes to filter.
  * @returns {RegExp} The regex to recognize the shortcodes.
  */
-const createShortcodeTagsRegex = shortcodeTags => {
+export const createShortcodeTagsRegex = shortcodeTags => {
 	const shortcodeTagsRegexString = `\\[\\/?(${ shortcodeTags.join( "|" ) })[^\\]]*\\]`;
 	return new RegExp( shortcodeTagsRegexString, "g" );
 };

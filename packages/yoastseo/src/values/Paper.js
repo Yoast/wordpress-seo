@@ -18,6 +18,7 @@ const defaultAttributes = {
 	customData: {},
 	textTitle: "",
 	writingDirection: "LTR",
+	wpBlocks: [],
 };
 
 /**

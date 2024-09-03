@@ -84,7 +84,19 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 			" Your keyphrase or its synonyms do not appear in the first paragraph. <a href='https://yoa.st/33f' target='_blank'>Make sure" +
 			" the topic is clear immediately</a>." );
 	} );
+	it( "returns `hasAIFixes` to be true when the result is BAD", function() {
+		const paper = new Paper( "Some text with some keyword. A keyphrase comes here.",
+			{ keyword: "ponies", synonyms: "doggies" } );
+		const researcher = Factory.buildMockResearcher( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+		const assessment = new IntroductionKeywordAssessment().getResult( paper, researcher );
 
+		expect( assessment.getScore() ).toBe( 3 );
+		expect( assessment.hasAIFixes() ).toBeTruthy();
+	} );
 	it( "returns no score if no keyword is defined", function() {
 		const isApplicableResult = new IntroductionKeywordAssessment().isApplicable( new Paper( "some text" ) );
 		expect( isApplicableResult ).toBe( false );

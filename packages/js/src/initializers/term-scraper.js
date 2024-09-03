@@ -24,7 +24,6 @@ import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/work
 import refreshAnalysis, { initializationDone } from "../analysis/refreshAnalysis";
 import collectAnalysisData from "../analysis/collectAnalysisData";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
-import getTranslations from "../analysis/getTranslations";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import {
@@ -273,7 +272,7 @@ export default function initTermScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeTermAnalysis() {
-		var args, termScraper, translations;
+		var args, termScraper;
 
 		insertTinyMCE();
 
@@ -314,11 +313,6 @@ export default function initTermScraper( $, store, editorData ) {
 				store.dispatch( setReadabilityResults( results ) );
 				store.dispatch( refreshSnippetEditor() );
 			};
-		}
-
-		translations = getTranslations();
-		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
-			args.translations = translations;
 		}
 
 		app = new App( args );
