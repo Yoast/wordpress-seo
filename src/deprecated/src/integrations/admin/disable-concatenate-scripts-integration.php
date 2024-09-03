@@ -7,6 +7,9 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Disable_Concatenate_Scripts_Integration class.
+ *
+ * @deprecated 23.2
+ * @codeCoverageIgnore
  */
 class Disable_Concatenate_Scripts_Integration implements Integration_Interface {
 
@@ -16,6 +19,8 @@ class Disable_Concatenate_Scripts_Integration implements Integration_Interface {
 	 * In this case: when on an admin page.
 	 *
 	 * @return array The conditionals.
+	 *
+	 * @deprecated 23.2
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -25,9 +30,10 @@ class Disable_Concatenate_Scripts_Integration implements Integration_Interface {
 	 * Registers an action to disable script concatenation.
 	 *
 	 * @return void
+	 * @deprecated 23.2
 	 */
 	public function register_hooks() {
-		\add_action( 'wp_print_scripts', [ $this, 'disable_concatenate_scripts' ] );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.2' );
 	}
 
 	/**
@@ -38,8 +44,6 @@ class Disable_Concatenate_Scripts_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function disable_concatenate_scripts() {
-		global $concatenate_scripts;
-
-		$concatenate_scripts = false;
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.2' );
 	}
 }

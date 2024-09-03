@@ -1,5 +1,6 @@
-import { linkParamsActions, pluginUrlActions, wistiaEmbedPermissionActions } from "../../shared-admin/store";
+import { adminUrlActions, linkParamsActions, pluginUrlActions, wistiaEmbedPermissionActions } from "../../shared-admin/store";
 
+export const { setAdminUrl } = adminUrlActions;
 export const { setLinkParams } = linkParamsActions;
 export const { setPluginUrl } = pluginUrlActions;
 export const { setWistiaEmbedPermission, setWistiaEmbedPermissionValue } = wistiaEmbedPermissionActions;
