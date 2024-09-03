@@ -27,7 +27,7 @@ export function getPostOrPageString( state ) {
  *
  * @param {Object} state The state.
  *
- * @returns {string} Whether you're editing a produc.
+ * @returns {string} Whether you're editing a product.
  */
 export function getIsProduct( state ) {
 	return get( state, "editorContext.postTypeNameSingular" ) === "Product";

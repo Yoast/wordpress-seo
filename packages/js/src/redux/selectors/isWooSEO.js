@@ -1,17 +1,10 @@
 import { get } from "lodash";
-
-/**
- * Determines whether the WooCommerce SEO addon is not active in a product page.
- *
- * @returns {Boolean}       Whether the plugin is WooCommerce SEO or not.
- */
-export const getIsWooSeoUpsell = () => get( window, "wpseoScriptData.woocommerceUpsell", false );
-
+import { getIsProduct } from "./editorContext";
 
 /**
  * Determines whether the WooCommerce SEO addon is active.
  *
- * @returns {Boolean}       Whether the plugin is WooCommerce SEO or not.
+ * @returns {Boolean} Whether the plugin is WooCommerce SEO or not.
  */
 export const getIsWooSeoActive = () => Boolean( get( window, "wpseoScriptData.isWooCommerceSeoActive", false ) );
 
@@ -21,3 +14,17 @@ export const getIsWooSeoActive = () => Boolean( get( window, "wpseoScriptData.is
  * @returns {boolean} True if WooCommerce is active.
  */
 export const getIsWooCommerceActive = () => Boolean( get( window, "wpseoScriptData.isWooCommerceActive", false ) );
+
+/**
+ * Determines whether the WooCommerce SEO addon is not active in a product page.
+ *
+ * @param {Object} state The state.
+ * @returns {Boolean} Whether the plugin is WooCommerce SEO or not.
+ */
+export const getIsWooSeoUpsell = ( state ) => {
+	const isWooSeoActive = getIsWooSeoActive();
+	const isWooCommerceActive = getIsWooCommerceActive();
+	const isProductPage = getIsProduct( state );
+
+	return ! isWooSeoActive && isWooCommerceActive && isProductPage;
+};

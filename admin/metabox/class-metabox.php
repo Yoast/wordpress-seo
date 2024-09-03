@@ -901,7 +901,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
 			'isWooCommerceSeoActive'     => $woocommerce_seo_active,
 			'isWooCommerceActive'        => $woocommerce_active,
-			'woocommerceUpsell'          => get_post_type( $post_id ) === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
 		];
 
 		/**
