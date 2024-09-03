@@ -212,7 +212,7 @@ export const getAnnotationsForHowTo = ( attributeWithAnnotationSupport, block, m
  */
 const getBlockHtml = ( block, richTextIdentifier ) => {
 	const richTextData = block.attributes[ richTextIdentifier ];
-	return typeof richTextData === "string" ? richTextData : richTextData.toString();
+	return typeof richTextData === "string" ? richTextData : (richTextData || '').toString();
 };
 
 /**
