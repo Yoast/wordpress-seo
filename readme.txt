@@ -281,7 +281,7 @@ Release date: 2024-09-17
 #### Enhancements
 
 * Improves our integration with cache plugins by preventing flushing their cache when not needed.
-* Relocate publish box translations for analysis results in classic editor and match the translations with block editor.
+* Improves analysis score feedback labels in the publish sections.
 
 #### Bugfixes
 
