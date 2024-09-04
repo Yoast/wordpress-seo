@@ -1,3 +1,4 @@
+import { sprintf, _n } from "@wordpress/i18n";
 import Mark from "../../../../src/values/Mark";
 import Paper from "../../../../src/values/Paper.js";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
@@ -61,7 +62,7 @@ describe( "tests assessment results in languages written from left to right (LTR
 
 		expect( assessmentResult.getScore() ).toBe( 2 );
 		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>:" +
-			" There are 2 long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
+			" There are long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
 			"We recommend making them left-aligned</a>." );
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
@@ -86,7 +87,7 @@ describe( "tests assessment results in languages written from left to right (LTR
 
 		expect( assessmentResult.getScore() ).toBe( 2 );
 		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>:" +
-			" There are 2 long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
+			" There are long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
 			"We recommend making them left-aligned</a>." );
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
@@ -111,7 +112,7 @@ describe( "tests assessment results in languages written from left to right (LTR
 
 		expect( assessmentResult.getScore() ).toBe( 2 );
 		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>:" +
-			" There are 2 long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
+			" There are long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
 			"We recommend making them left-aligned</a>." );
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
@@ -190,7 +191,7 @@ describe( "tests the feedback strings of the assessment run for languages writte
 
 		expect( assessmentResult.getScore() ).toBe( 2 );
 		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: " +
-			"There are 2 long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
+			"There are long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
 			"We recommend making them right-aligned</a>." );
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperRTL, researcher ) ).toEqual( [
@@ -205,6 +206,84 @@ describe( "tests the feedback strings of the assessment run for languages writte
 				fieldsToMark: "heading",
 			} ),
 		] );
+	} );
+} );
+
+describe( "tests for retrieving the feedback strings.", function() {
+	it( "returns the default strings when no custom `getResultTexts` callback is provided.", function() {
+		const assessment = new TextAlignmentAssessment();
+		expect( assessment.getFeedbackStrings() ).toEqual( {
+			leftToRight: "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: There are long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>We recommend making them left-aligned</a>.",
+			rightToLeft: "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: There are long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>We recommend making them right-aligned</a>.",
+		} );
+	} );
+	it( "returns the default strings when no custom `getResultTexts` callback is provided: there is one long section of center-aligned text", function() {
+		const assessment = new TextAlignmentAssessment();
+		const mockPaperLTR = new Paper( "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>" );
+		const mockResearcher = new EnglishResearcher( mockPaperLTR );
+		mockResearcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
+
+		assessment.getResult( mockPaperLTR, mockResearcher );
+
+		expect( assessment.getFeedbackStrings() ).toEqual( {
+			leftToRight: "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: There is a long section of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>We recommend making it left-aligned</a>.",
+			rightToLeft: "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: There is a long section of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>We recommend making it right-aligned</a>.",
+		} );
+	} );
+	it( "overrides the default strings when a custom `getResultTexts` callback is provided", function() {
+		/**
+		 * Returns the result texts for the Text alignment assessment.
+		 * @param {Object} config The configuration object that contains data needed to generate the result text.
+		 * @param {string} config.urlTitleAnchorOpeningTag The anchor opening tag to the article about this assessment.
+		 * @param {string} config.urlActionAnchorOpeningTag The anchor opening tag to the call to action URL to the help article of this assessment.
+		 * @param {number} config.numberOfLongCenterAlignedTexts The number of long center-aligned texts found in the text.
+		 *
+		 * @returns {{rightToLeft: string, leftToRight: string}} The object that contains the result texts as a translation string.
+		 */
+		const getResultTexts = ( { urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag, numberOfLongCenterAlignedTexts } ) => {
+			return {
+				rightToLeft: sprintf(
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
+					%4$s expands to the number of the long center-aligned sections in the text */
+					_n(
+						"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it right-aligned%3$s.",
+						"%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. %2$sWe recommend making them right-aligned%3$s.",
+						numberOfLongCenterAlignedTexts,
+						"wordpress-seo-premium"
+					),
+					urlTitleAnchorOpeningTag,
+					urlActionAnchorOpeningTag,
+					"</a>",
+					numberOfLongCenterAlignedTexts
+				),
+				leftToRight: sprintf(
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
+						%4$s expands to the number of the long center-aligned sections in the text */
+					_n(
+						"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it left-aligned%3$s.",
+						"%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. %2$sWe recommend making them left-aligned%3$s.",
+						numberOfLongCenterAlignedTexts,
+						"wordpress-seo-premium"
+					),
+					urlTitleAnchorOpeningTag,
+					urlActionAnchorOpeningTag,
+					"</a>",
+					numberOfLongCenterAlignedTexts
+				),
+			};
+		};
+		const assessment = new TextAlignmentAssessment( { callbacks: { getResultTexts } } );
+		const mockPaperLTR = new Paper( "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>" +
+			"<p class=\"has-text-align-center\">This is another paragraph with a bit more than fifty characters.</p>" );
+		const mockResearcher = new EnglishResearcher( mockPaperLTR );
+		mockResearcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
+
+		assessment.getResult( mockPaperLTR, mockResearcher );
+
+		expect( assessment.getFeedbackStrings() ).toEqual( {
+			leftToRight: "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: There are 2 long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>We recommend making them left-aligned</a>.",
+			rightToLeft: "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: There are 2 long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>We recommend making them right-aligned</a>.",
+		} );
 	} );
 } );
 
