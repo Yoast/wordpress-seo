@@ -98,7 +98,6 @@ class WPSEO_Admin_Pages {
 			'dismissedAlerts'                => $dismissed_alerts,
 			'isRtl'                          => is_rtl(),
 			'isPremium'                      => YoastSEO()->helpers->product->is_premium(),
-			'isWooCommerceActive'            => $woocommerce_conditional->is_met(),
 			'currentPromotions'              => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 			'webinarIntroSettingsUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-settings' ),
 			'webinarIntroFirstTimeConfigUrl' => $this->get_webinar_shortlink(),
