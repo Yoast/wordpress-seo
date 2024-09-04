@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Editors\Framework\Site;
 
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
@@ -36,6 +37,13 @@ class Post_Site_Information extends Base_Site_Information {
 	private $promotion_manager;
 
 	/**
+	 * The WooCommerce conditional.
+	 *
+	 * @var WooCommerce_Conditional $woocommerce_conditional
+	 */
+	protected $woocommerce_conditional;
+
+	/**
 	 * Constructs the class.
 	 *
 	 * @param Promotion_Manager                  $promotion_manager                  The promotion manager.
@@ -45,6 +53,7 @@ class Post_Site_Information extends Base_Site_Information {
 	 * @param Meta_Surface                       $meta                               The meta surface.
 	 * @param Product_Helper                     $product_helper                     The product helper.
 	 * @param Alert_Dismissal_Action             $alert_dismissal_action             The alert dismissal action.
+	 * @param WooCommerce_Conditional            $woocommerce_conditional            The WooCommerce conditional.
 	 *
 	 * @return void
 	 */
@@ -54,11 +63,13 @@ class Post_Site_Information extends Base_Site_Information {
 		Wistia_Embed_Permission_Repository $wistia_embed_permission_repository,
 		Meta_Surface $meta,
 		Product_Helper $product_helper,
-		Alert_Dismissal_Action $alert_dismissal_action
+		Alert_Dismissal_Action $alert_dismissal_action,
+		WooCommerce_Conditional $woocommerce_conditional
 	) {
 		parent::__construct( $short_link_helper, $wistia_embed_permission_repository, $meta, $product_helper );
-		$this->promotion_manager      = $promotion_manager;
-		$this->alert_dismissal_action = $alert_dismissal_action;
+		$this->promotion_manager       = $promotion_manager;
+		$this->alert_dismissal_action  = $alert_dismissal_action;
+		$this->woocommerce_conditional = $woocommerce_conditional;
 	}
 
 	/**
@@ -85,6 +96,8 @@ class Post_Site_Information extends Base_Site_Information {
 			'currentPromotions'          => $this->promotion_manager->get_current_promotions(),
 			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
 			'blackFridayBlockEditorUrl'  => ( $this->promotion_manager->is( 'black-friday-2023-checklist' ) ) ? $this->short_link_helper->get( 'https://yoa.st/black-friday-checklist' ) : '',
+			'search_url'                 => $this->search_url(),
+			'isWooCommerceActive'        => $this->woocommerce_conditional->is_met(),
 			'metabox'                    => [
 				'search_url'    => $this->search_url(),
 				'post_edit_url' => $this->edit_url(),
@@ -111,6 +124,7 @@ class Post_Site_Information extends Base_Site_Information {
 			'search_url'                 => $this->search_url(),
 			'post_edit_url'              => $this->edit_url(),
 			'base_url'                   => $this->base_url_for_js(),
+			'isWooCommerceActive'        => $this->woocommerce_conditional->is_met(),
 		];
 
 		return \array_merge( $data, parent::get_site_information() );
