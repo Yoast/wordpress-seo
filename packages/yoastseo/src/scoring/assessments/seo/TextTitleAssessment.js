@@ -112,7 +112,7 @@ export default class TextTitleAssessment extends Assessment {
 
 		if ( ! this._config.callbacks.getResultTexts ) {
 			const defaultResultTexts = {
-				good: "%1$sTitle%2$s: Your page has a title. Well done!",
+				good: "%1$sTitle%3$s: Your page has a title. Well done!",
 				bad: "%1$sTitle%3$s: Your page does not have a title yet. %2$sAdd one%3$s!",
 			};
 			return mapValues(
