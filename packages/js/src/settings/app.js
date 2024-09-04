@@ -165,7 +165,7 @@ const PremiumUpsellList = () => {
 	const premiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const promotions = useSelectSettings( "selectPreference", [], "promotions", [] );
-	const isBlackFriday = promotions.includes( "black-friday-2023-promotion" );
+	const isBlackFriday = promotions.includes( "black-friday-2024-promotion" );
 
 	return (
 		<Paper as="div" className="xl:yst-max-w-3xl">
