@@ -634,7 +634,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$html = '';
 		if ( $content === '' ) {
-			$content = apply_filters( 'wpseo_do_meta_box_field_' . $key, $content, $meta_value, $esc_form_key, $meta_field_def, $key );
+			$content = apply_filters_deprecated( 'wpseo_do_meta_box_field_' . $key, [ $content, $meta_value, $esc_form_key, $meta_field_def, $key ], 'Yoast SEO 23.5', '', 'do_meta_box is deprecated' );
 		}
 
 		if ( $content !== '' ) {
