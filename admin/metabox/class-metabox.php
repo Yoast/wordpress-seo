@@ -501,6 +501,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Adds a line in the meta box.
 	 *
+	 * @deprecated 23.5
+	 * @codeCoverageIgnore
+	 *
 	 * @todo [JRF] Check if $class is added appropriately everywhere.
 	 *
 	 * @param string[] $meta_field_def Contains the vars based on which output is generated.
@@ -509,6 +512,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	public function do_meta_box( $meta_field_def, $key = '' ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.5' );
+
 		$content      = '';
 		$esc_form_key = esc_attr( WPSEO_Meta::$form_prefix . $key );
 		$meta_value   = WPSEO_Meta::get_value( $key, $this->get_metabox_post()->ID );
@@ -740,34 +745,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				continue;
 			}
 
-			$data       = null;
 			$field_name = WPSEO_Meta::$form_prefix . $key;
 
-			if ( $meta_box['type'] === 'checkbox' ) {
-				$data = isset( $_POST[ $field_name ] ) ? 'on' : 'off';
-			}
-			else {
-				if ( isset( $_POST[ $field_name ] ) ) {
-					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We're preparing to do just that.
-					$data = wp_unslash( $_POST[ $field_name ] );
+			if ( isset( $_POST[ $field_name ] ) && is_string( $_POST[ $field_name ] ) ) {
+				// We are sanitizing the text field here even though it will be sanitized by the sanitize_post_meta function.
+				// That is because there are filters that can add fields but not neccessarily register them with the sanitize_post_meta function.
+				// See: 'wpseo_metabox_entries_' . $tab.
 
-					// For multi-select.
-					if ( is_array( $data ) ) {
-						$data = array_map( [ 'WPSEO_Utils', 'sanitize_text_field' ], $data );
-					}
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We're preparing to do just that.
+				$data = wp_unslash( $_POST[ $field_name ] );
 
-					if ( is_string( $data ) ) {
-						$data = ( $key !== 'canonical' ) ? WPSEO_Utils::sanitize_text_field( $data ) : WPSEO_Utils::sanitize_url( $data );
-					}
+				if ( ! in_array( $key, [ 'canonical', 'redirect' ], true ) ) {
+					$data = WPSEO_Utils::sanitize_text_field( $data );
 				}
-
-				// Reset options when no entry is present with multiselect - only applies to `meta-robots-adv` currently.
-				if ( ! isset( $_POST[ $field_name ] ) && ( $meta_box['type'] === 'multiselect' ) ) {
-					$data = [];
-				}
-			}
-
-			if ( $data !== null ) {
 				WPSEO_Meta::set_value( $key, $data, $post_id );
 			}
 		}

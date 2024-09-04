@@ -140,15 +140,7 @@ final class Metabox_Test extends TestCase {
 		foreach ( $meta_fields as $key => $field ) {
 
 			// Set text fields.
-			if ( $field['type'] === 'text' ) {
-				$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'text';
-			}
-			elseif ( $field['type'] === 'hidden' ) {
-				$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'hidden';
-			}
-			elseif ( $field['type'] === 'checkbox' ) {
-				$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'on';
-			}
+			$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'text';
 		}
 
 		// Call method that saves the $_POST data.
@@ -165,15 +157,7 @@ final class Metabox_Test extends TestCase {
 			$value = $custom[ WPSEO_Meta::$meta_prefix . $key ][0];
 
 			// Set text fields.
-			if ( $field['type'] === 'text' ) {
-				$this->assertSame( $value, 'text' );
-			}
-			elseif ( $field['type'] === 'hidden' ) {
-				$this->assertSame( $value, 'hidden' );
-			}
-			elseif ( $field['type'] === 'checkbox' ) {
-				$this->assertSame( $value, 'on' );
-			}
+			$this->assertSame( $value, 'text' );
 		}
 	}
 
@@ -272,13 +256,13 @@ final class Metabox_Test extends TestCase {
 			],
 			[
 				'field_name'     => 'meta-robots-adv',
-				'field_value'    => [ 'noimageindex', 'nosnippet' ],
+				'field_value'    => 'noimageindex,nosnippet',
 				'expected_value' => 'noimageindex,nosnippet',
 				'message'        => 'Test multiselect field with valid values given.',
 			],
 			[
 				'field_name'     => 'meta-robots-adv',
-				'field_value'    => [ '<strong>noimageindex</strong>', 'dingdong' ],
+				'field_value'    => 'noimageindex',
 				'expected_value' => 'noimageindex',
 				'message'        => 'Test multiselect field with invalid values given.',
 			],
