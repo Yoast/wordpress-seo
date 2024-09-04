@@ -47,7 +47,6 @@ export const BlackFridayPromotion = ( {
 			alertKey="black-friday-2024-promotion"
 			store={ store }
 			title={ title }
-			image={ null }
 			{ ...props }
 		>
 			<span className="yoast-bf-sale-badge">{ __( "Black Friday", "wordpress-seo" ) } </span>
