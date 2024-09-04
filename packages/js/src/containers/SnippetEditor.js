@@ -7,7 +7,6 @@ import SnippetPreviewSection from "../components/SnippetPreviewSection";
 import { applyReplaceUsingPlugin } from "../helpers/replacementVariableHelpers";
 import getMemoizedFindCustomFields from "../helpers/getMemoizedFindCustomFields";
 import WooCommerceUpsell from "../components/WooCommerceUpsell";
-import { get } from "lodash";
 
 /**
  * Process the snippet editor form data before it's being displayed in the snippet preview.

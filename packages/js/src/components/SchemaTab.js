@@ -6,7 +6,6 @@ import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import WooCommerceUpsell from "./WooCommerceUpsell";
-import { get } from "lodash";
 import { useSelect } from "@wordpress/data";
 
 const NewsLandingPageLink = makeOutboundLink();
