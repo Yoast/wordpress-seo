@@ -41,7 +41,7 @@ class Post_Site_Information extends Base_Site_Information {
 	 *
 	 * @var WooCommerce_Conditional $woocommerce_conditional
 	 */
-	protected $woocommerce_conditional;
+	private $woocommerce_conditional;
 
 	/**
 	 * Constructs the class.
