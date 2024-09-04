@@ -126,7 +126,7 @@ final class Post_Site_Information_Test extends TestCase {
 			],
 			'webinarIntroBlockEditorUrl' => 'https://expl.c',
 			'blackFridayBlockEditorUrl'  => '',
-			'isWooCommerceActive'        => '',
+			'isWooCommerceActive'        => false,
 			'metabox'                    => [
 				'search_url'    => 'https://example.org',
 				'post_edit_url' => 'https://example.org',
@@ -155,7 +155,7 @@ final class Post_Site_Information_Test extends TestCase {
 		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );
 		$this->promotion_manager->expects( 'is' )->andReturnFalse();
 		$this->short_link_helper->expects( 'get' )->andReturn( 'https://expl.c' );
-		$this->woocommerce_conditional->expects( 'is_met' )->andReturn( '' );
+		$this->woocommerce_conditional->expects( 'is_met' )->andReturn( false );
 
 		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
 	}
@@ -187,7 +187,7 @@ final class Post_Site_Information_Test extends TestCase {
 			'search_url'                     => 'https://example.org',
 			'post_edit_url'                  => 'https://example.org',
 			'base_url'                       => 'https://example.org',
-			'isWooCommerceActive'            => '1',
+			'isWooCommerceActive'            => true,
 			'adminUrl'                       => 'https://example.org',
 			'linkParams'                     => [
 				'param',
@@ -211,7 +211,7 @@ final class Post_Site_Information_Test extends TestCase {
 		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );
 		$this->promotion_manager->expects( 'is' )->andReturnFalse();
 		$this->short_link_helper->expects( 'get' )->andReturn( 'https://expl.c' );
-		$this->woocommerce_conditional->expects( 'is_met' )->andReturn( '1' );
+		$this->woocommerce_conditional->expects( 'is_met' )->andReturn( true );
 
 		$this->assertSame( $expected, $this->instance->get_site_information() );
 	}
