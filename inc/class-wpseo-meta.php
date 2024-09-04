@@ -136,7 +136,7 @@ class WPSEO_Meta {
 				'type'          => 'hidden',
 				'default_value' => '0', // = post-type default.
 				'options'       => [
-					'0' => '', // Post type defaul.
+					'0' => '', // Post type default.
 					'2' => '', // Index.
 					'1' => '', // No-index.
 				],
