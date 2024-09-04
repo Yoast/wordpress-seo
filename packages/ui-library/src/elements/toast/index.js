@@ -97,6 +97,7 @@ Title.propTypes = {
  * @param {Object} props The props object.
  * @param {JSX.node} children The children.
  * @param {string} id The toast ID.
+ * @param {string} role The toast role.
  * @param {string} [className] The additional class name.
  * @param {string} position The toast position.
  * @param {Function} [onDismiss] Function to trigger on dismissal.
@@ -108,6 +109,7 @@ Title.propTypes = {
 const Toast = ( {
 	children,
 	id,
+	role,
 	className = "",
 	position = "bottom-left",
 	onDismiss = noop,
@@ -150,7 +152,7 @@ const Toast = ( {
 					"yst-toast",
 					className,
 				) }
-				role="alert"
+				role= { role }
 			>
 				{ children }
 			</Transition>
@@ -161,6 +163,7 @@ const Toast = ( {
 Toast.propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
+	role: PropTypes.string,
 	className: PropTypes.string,
 	position: PropTypes.string,
 	onDismiss: PropTypes.func,
