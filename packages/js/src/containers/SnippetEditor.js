@@ -51,7 +51,7 @@ export const mapEditorDataToPreview = function( data, context ) {
  */
 const SnippetEditorWrapper = ( props ) => {
 	const woocommerceUpsellLink = useSelect( select => select( "yoast-seo/editor" ).selectLink( "https://yoa.st/product-google-preview-metabox" ), [] );
-	const woocommerceUpsell = get( window, "wpseoScriptData.woocommerceUpsell", "" );
+	const woocommerceUpsell = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsWooSeoUpsell(), [] );
 	const woocommerceUpsellText = __( "Want an enhanced Google preview of how your WooCommerce products look in the search results?", "wordpress-seo" );
 
 	return <LocationConsumer>
