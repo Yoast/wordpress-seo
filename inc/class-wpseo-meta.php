@@ -116,7 +116,6 @@ class WPSEO_Meta {
 			],
 			'linkdex' => [
 				'type'          => 'hidden',
-				'title'         => 'linkdex',
 				'default_value' => '0',
 			],
 			'content_score' => [
