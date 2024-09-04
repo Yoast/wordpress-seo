@@ -1,5 +1,5 @@
 import { compose } from "@wordpress/compose";
-import { withDispatch, withSelect } from "@wordpress/data";
+import { withDispatch, withSelect, useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { LocationConsumer } from "@yoast/externals/contexts";
@@ -51,7 +51,7 @@ export const mapEditorDataToPreview = function( data, context ) {
  */
 const SnippetEditorWrapper = ( props ) => {
 	const woocommerceUpsellLink = get( window, "wpseoScriptData.metabox.woocommerceUpsellGooglePreviewLink", "" );
-	const woocommerceUpsell = get( window, "wpseoScriptData.woocommerceUpsell", "" );
+	const woocommerceUpsell = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsWooSeoUpsell(), [] );
 	const woocommerceUpsellText = __( "Want an enhanced Google preview of how your WooCommerce products look in the search results?", "wordpress-seo" );
 
 	return <LocationConsumer>
