@@ -54,10 +54,11 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						<?php endif; ?>
 						<h2 class="yoast-get-premium-title">
 							<?php
-							if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ){
+							if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
 								/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. */
 								\printf( \esc_html__( '%1$sAll annual plans incl.%2$s', 'wordpress-seo' ), '<span>', '</span>' );
-							}else {
+							}
+							else {
 								/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
 								\printf( \esc_html__( '%1$sGet%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast SEO Premium' );
 							}
@@ -65,9 +66,10 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						</h2>
 						<p>
 							<?php
-							if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ){
+							if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
 								echo \esc_html__( 'If you were thinking about upgrading, now\'s the time! 30% OFF ends 3rd Dec 11am (CET)', 'wordpress-seo' );
-							}else {
+							}
+							else {
 								echo \esc_html__( 'Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support, and much, much more!', 'wordpress-seo' );
 							}
 							?>

@@ -112,7 +112,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		echo '<div class="' . esc_attr( $class ) . '">';
 
 		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
-			$bf_label   = esc_html__( '30% OFF | Code: BF2024', 'wordpress-seo' );
+			$bf_label = esc_html__( '30% OFF | Code: BF2024', 'wordpress-seo' );
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped above.
 			echo "<div class='black-friday-container'><span>$bf_label</span></div>";
 		}
