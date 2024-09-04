@@ -88,8 +88,8 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
 
-		$alert_dismissal_action  = YoastSEO()->classes->get( Alert_Dismissal_Action::class );
-		$dismissed_alerts        = $alert_dismissal_action->all_dismissed();
+		$alert_dismissal_action = YoastSEO()->classes->get( Alert_Dismissal_Action::class );
+		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
 
 		$script_data = [
 			'userLanguageCode'               => WPSEO_Language_Utils::get_language( get_user_locale() ),
