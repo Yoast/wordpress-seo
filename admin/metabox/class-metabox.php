@@ -501,7 +501,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Adds a line in the meta box.
 	 *
-	 * @todo [JRF] Check if $class is added appropriately everywhere.
+	 * @deprecated 23.5
+	 * @codeCoverageIgnore
 	 *
 	 * @param string[] $meta_field_def Contains the vars based on which output is generated.
 	 * @param string   $key            Internal key (without prefix).
@@ -509,6 +510,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	public function do_meta_box( $meta_field_def, $key = '' ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.5' );
+
 		$content      = '';
 		$esc_form_key = esc_attr( WPSEO_Meta::$form_prefix . $key );
 		$meta_value   = WPSEO_Meta::get_value( $key, $this->get_metabox_post()->ID );
@@ -631,7 +634,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$html = '';
 		if ( $content === '' ) {
-			$content = apply_filters( 'wpseo_do_meta_box_field_' . $key, $content, $meta_value, $esc_form_key, $meta_field_def, $key );
+			$content = apply_filters_deprecated( 'wpseo_do_meta_box_field_' . $key, [ $content, $meta_value, $esc_form_key, $meta_field_def, $key ], 'Yoast SEO 23.5', '', 'do_meta_box is deprecated' );
 		}
 
 		if ( $content !== '' ) {
