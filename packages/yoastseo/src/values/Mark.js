@@ -213,6 +213,7 @@ class Mark {
 		};
 	}
 
+	/* eslint-disable complexity */
 	/**
 	 * Checks if the mark object is valid for position-based highlighting.
 	 * @returns {void}
@@ -233,6 +234,7 @@ class Mark {
 			throw new Error( "A mark object should either have start and end defined or start and end undefined." );
 		}
 	}
+	/* eslint-enable complexity */
 
 	/**
 	 * Checks if a mark has position information available.
