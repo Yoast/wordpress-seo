@@ -169,9 +169,8 @@ const PremiumUpsellList = () => {
 
 	return (
 		<Paper as="div" className="xl:yst-max-w-3xl">
-			{ isBlackFriday && <div className="yst-rounded-t-lg yst-h-9 yst-flex yst-justify-between yst-items-center yst-bg-black yst-text-amber-300 yst-px-4 yst-text-lg yst-border-b yst-border-amber-300 yst-border-solid yst-font-semibold">
-				<div>{ __( "BLACK FRIDAY", "wordpress-seo" ) }</div>
-				<div>{ __( "30% OFF", "wordpress-seo" ) }</div>
+			{ isBlackFriday && <div className="yst-rounded-t-lg yst-h-9 yst-flex yst-items-center yst-bg-black yst-text-amber-300 yst-px-4 yst-text-lg yst-border-b yst-border-amber-300 yst-border-solid yst-font-semibold">
+				<div>{ __( "30% OFF | Code: BF2024", "wordpress-seo" ) }</div>
 			</div> }
 			<div className="yst-p-6 yst-flex yst-flex-col">
 				<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
