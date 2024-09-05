@@ -57,8 +57,8 @@ class Post_Site_Information extends Base_Site_Information {
 		Alert_Dismissal_Action $alert_dismissal_action
 	) {
 		parent::__construct( $short_link_helper, $wistia_embed_permission_repository, $meta, $product_helper );
-		$this->promotion_manager       = $promotion_manager;
-		$this->alert_dismissal_action  = $alert_dismissal_action;
+		$this->promotion_manager      = $promotion_manager;
+		$this->alert_dismissal_action = $alert_dismissal_action;
 	}
 
 	/**

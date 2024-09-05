@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\WP\Editors\Framework\Site;
 
 use Mockery;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
-use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Editors\Framework\Site\Post_Site_Information;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
@@ -66,13 +65,6 @@ final class Post_Site_Information_Test extends TestCase {
 	private $product_helper;
 
 	/**
-	 * The WooCommerce conditional.
-	 *
-	 * @var WooCommerce_Conditional $woocommerce_conditional
-	 */
-	protected $woocommerce_conditional;
-
-	/**
 	 * The Post_Site_Information container.
 	 *
 	 * @var Post_Site_Information
@@ -90,12 +82,11 @@ final class Post_Site_Information_Test extends TestCase {
 		$this->short_link_helper = \YoastSEO()->helpers->short_link;
 		$this->wistia_embed_repo = Mockery::mock( Wistia_Embed_Permission_Repository::class );
 		$this->wistia_embed_repo->expects( 'get_value_for_user' )->with( 0 )->andReturnTrue();
-		$this->meta_surface            = \YoastSEO()->meta;
-		$this->product_helper          = \YoastSEO()->helpers->product;
-		$this->alert_dismissal_action  = \YoastSEO()->classes->get( Alert_Dismissal_Action::class );
-		$this->woocommerce_conditional = \YoastSEO()->classes->get( WooCommerce_Conditional::class );
+		$this->meta_surface           = \YoastSEO()->meta;
+		$this->product_helper         = \YoastSEO()->helpers->product;
+		$this->alert_dismissal_action = \YoastSEO()->classes->get( Alert_Dismissal_Action::class );
 
-		$this->instance = new Post_Site_Information( $this->promotion_manager, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action, $this->woocommerce_conditional );
+		$this->instance = new Post_Site_Information( $this->promotion_manager, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action );
 		$this->instance->set_permalink( 'perma' );
 	}
 
@@ -117,7 +108,6 @@ final class Post_Site_Information_Test extends TestCase {
 			'currentPromotions'          => [],
 			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
 			'blackFridayBlockEditorUrl'  => '',
-			'isWooCommerceActive'        => false,
 			'metabox'                    =>
 				[
 					'search_url'    => 'http://example.org/wp-admin/edit.php?seo_kw_filter={keyword}',
@@ -160,7 +150,6 @@ final class Post_Site_Information_Test extends TestCase {
 			'search_url'                 => 'http://example.org/wp-admin/edit.php?seo_kw_filter={keyword}',
 			'post_edit_url'              => 'http://example.org/wp-admin/post.php?post={id}&action=edit',
 			'base_url'                   => 'http://example.org/',
-			'isWooCommerceActive'        => false,
 			'adminUrl'                   => 'http://example.org/wp-admin/admin.php',
 			'linkParams'                 => $this->short_link_helper->get_query_params(),
 			'pluginUrl'                  => 'http://example.org/wp-content/plugins/wordpress-seo',
