@@ -7,7 +7,7 @@ import { createAnchorOpeningTag } from "../../../../helpers";
  */
 export default class CollectionCornerstoneSEOAssessor extends CollectionSEOAssessor {
 	/**
-	 * Creates a new CollectionCornerstoneRelatedKeywordAssessor instance.
+	 * Creates a new CollectionCornerstoneSEOAssessor instance.
 	 * @param {Researcher}	researcher	The researcher to use.
 	 * @param {Object}		[options]	The assessor options.
 	 */
