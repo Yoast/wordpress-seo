@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Editors\Framework\Site;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
-use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Editors\Framework\Site\Post_Site_Information;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
@@ -70,13 +69,6 @@ final class Post_Site_Information_Test extends TestCase {
 	private $product_helper;
 
 	/**
-	 * The WooCommerce conditional.
-	 *
-	 * @var WooCommerce_Conditional $woocommerce_conditional
-	 */
-	protected $woocommerce_conditional;
-
-	/**
 	 * The Post_Site_Information container.
 	 *
 	 * @var Post_Site_Information
@@ -90,15 +82,14 @@ final class Post_Site_Information_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-		$this->promotion_manager       = Mockery::mock( Promotion_Manager::class );
-		$this->short_link_helper       = Mockery::mock( Short_Link_Helper::class );
-		$this->wistia_embed_repo       = Mockery::mock( Wistia_Embed_Permission_Repository::class );
-		$this->meta_surface            = Mockery::mock( Meta_Surface::class );
-		$this->product_helper          = Mockery::mock( Product_Helper::class );
-		$this->alert_dismissal_action  = Mockery::mock( Alert_Dismissal_Action::class );
-		$this->woocommerce_conditional = Mockery::mock( WooCommerce_Conditional::class );
+		$this->promotion_manager      = Mockery::mock( Promotion_Manager::class );
+		$this->short_link_helper      = Mockery::mock( Short_Link_Helper::class );
+		$this->wistia_embed_repo      = Mockery::mock( Wistia_Embed_Permission_Repository::class );
+		$this->meta_surface           = Mockery::mock( Meta_Surface::class );
+		$this->product_helper         = Mockery::mock( Product_Helper::class );
+		$this->alert_dismissal_action = Mockery::mock( Alert_Dismissal_Action::class );
 
-		$this->instance = new Post_Site_Information( $this->promotion_manager, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action, $this->woocommerce_conditional );
+		$this->instance = new Post_Site_Information( $this->promotion_manager, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action );
 		$this->instance->set_permalink( 'perma' );
 		$this->set_mocks();
 	}
@@ -126,7 +117,6 @@ final class Post_Site_Information_Test extends TestCase {
 			],
 			'webinarIntroBlockEditorUrl' => 'https://expl.c',
 			'blackFridayBlockEditorUrl'  => '',
-			'isWooCommerceActive'        => false,
 			'metabox'                    => [
 				'search_url'    => 'https://example.org',
 				'post_edit_url' => 'https://example.org',
@@ -146,6 +136,7 @@ final class Post_Site_Information_Test extends TestCase {
 			],
 			'pluginUrl'                  => '/location',
 			'wistiaEmbedPermission'      => true,
+
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
@@ -155,7 +146,6 @@ final class Post_Site_Information_Test extends TestCase {
 		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );
 		$this->promotion_manager->expects( 'is' )->andReturnFalse();
 		$this->short_link_helper->expects( 'get' )->andReturn( 'https://expl.c' );
-		$this->woocommerce_conditional->expects( 'is_met' )->andReturn( false );
 
 		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
 	}
@@ -187,7 +177,7 @@ final class Post_Site_Information_Test extends TestCase {
 			'search_url'                     => 'https://example.org',
 			'post_edit_url'                  => 'https://example.org',
 			'base_url'                       => 'https://example.org',
-			'isWooCommerceActive'            => true,
+
 			'adminUrl'                       => 'https://example.org',
 			'linkParams'                     => [
 				'param',
@@ -211,7 +201,6 @@ final class Post_Site_Information_Test extends TestCase {
 		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );
 		$this->promotion_manager->expects( 'is' )->andReturnFalse();
 		$this->short_link_helper->expects( 'get' )->andReturn( 'https://expl.c' );
-		$this->woocommerce_conditional->expects( 'is_met' )->andReturn( true );
 
 		$this->assertSame( $expected, $this->instance->get_site_information() );
 	}
