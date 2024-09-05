@@ -10,7 +10,7 @@ import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 export const getIsWooSeoActive = () => Boolean( get( window, "wpseoScriptData.isWooCommerceSeoActive", false ) );
 
 /**
- * Checks if WooCommerce is active.
+ * Checks if WooCommerce is active. Used also in premium.
  *
  * @returns {boolean} True if WooCommerce is active.
  */
