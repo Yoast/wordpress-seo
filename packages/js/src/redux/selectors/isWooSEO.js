@@ -24,8 +24,8 @@ export const getIsWooCommerceActive = () => isWooCommerceActive();
  */
 export const getIsWooSeoUpsell = ( state ) => {
 	const isWooSeoActive = getIsWooSeoActive();
-	const isWooCommerceActive = getIsWooCommerceActive();
+	const isWoocommerceActive = getIsWooCommerceActive();
 	const isProductPage = getIsProduct( state );
 
-	return ! isWooSeoActive && isWooCommerceActive && isProductPage;
+	return ! isWooSeoActive && isWoocommerceActive && isProductPage;
 };
