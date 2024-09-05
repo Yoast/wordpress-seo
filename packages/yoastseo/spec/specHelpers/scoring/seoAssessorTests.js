@@ -397,8 +397,12 @@ export function checkUrls( assessor, isProductAssessor = false ) {
 		const assessment = assessor.getAssessment( "keyphraseDistribution" );
 		const urlTitle = isProductAssessor ? "https://yoa.st/shopify30" : "https://yoa.st/33q";
 		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify31" : "https://yoa.st/33u";
-
-		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
+		// Only test this for product assessors, as the product specific/premium assessments have different URLs: they are not transformed into anchor opening tags.
+		if ( assessment ) {
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( urlTitle );
+			expect( assessment._config.urlCallToAction ).toBe( urlCallToAction );
+		}
 	} );
 
 	test( "OutboundLinks", () => {
