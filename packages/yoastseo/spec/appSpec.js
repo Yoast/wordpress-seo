@@ -8,7 +8,7 @@ App.prototype.removeLoadingDialog = function() {};
 App.prototype.runAnalyzer = function() {};
 
 // Makes lodash think this is a valid HTML element
-var mockElement = [];
+const mockElement = [];
 mockElement.nodeType = 1;
 
 global.document = {};
@@ -18,13 +18,11 @@ document.getElementById = function() {
 
 describe( "Creating an App", function() {
 	it( "throws an error when no args are given", function() {
-		expect( App ).toThrowError( MissingArgument );
+		expect( () => new App() ).toThrowError( MissingArgument );
 	} );
 
 	it( "throws on an empty args object", function() {
-		expect( function() {
-			new App( {} );
-		} ).toThrowError( MissingArgument );
+		expect( () => new App( {} ) ).toThrowError( MissingArgument );
 	} );
 
 	it( "throws on an invalid targets argument", function() {
