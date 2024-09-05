@@ -928,5 +928,6 @@ body.folded .wpseo-admin-submit-fixed {
 	font-size: 10px;
 	font-weight: 600;
 	line-height: normal;
+	text-wrap: nowrap;
 }
 /*# sourceMappingURL=admin-global.css.map */
