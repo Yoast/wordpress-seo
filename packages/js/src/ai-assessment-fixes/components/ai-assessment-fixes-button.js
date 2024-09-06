@@ -42,11 +42,12 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	// (2) the AI button is not disabled.
 	// (3) the editor is in visual mode.
 	// (4) all blocks are in visual mode.
-	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
+	const { isEnabled, ariaLabel, ariaHasPopup } = useSelect( ( select ) => {
 		if ( activeAIButtonId !== null && ! isButtonPressed ) {
 			return {
 				isEnabled: false,
 				ariaLabel: null,
+				ariaHasPopup: null,
 			};
 		}
 
@@ -55,6 +56,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			return {
 				isEnabled: false,
 				ariaLabel: disabledAIButtons[ aiFixesId ],
+				ariaHasPopup: null,
 			};
 		}
 
@@ -63,6 +65,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			return {
 				isEnabled: false,
 				ariaLabel: htmlLabel,
+				ariaHasPopup: "dialog",
 			};
 		}
 
@@ -71,6 +74,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		return {
 			isEnabled: allVisual,
 			ariaLabel: allVisual ? defaultLabel : htmlLabel,
+			ariaHasPopup: allVisual ? "dialog" : null,
 		};
 	}, [ isButtonPressed, activeAIButtonId ] );
 
@@ -142,6 +146,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			className={ `ai-button ${buttonClass}` }
 			pressed={ isButtonPressed }
 			disabled={ ! isEnabled }
+			aria-haspopup={ ariaHasPopup }
 		>
 			{ ! isPremium && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
 			<SparklesIcon pressed={ isButtonPressed } />
