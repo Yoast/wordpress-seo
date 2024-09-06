@@ -9,7 +9,7 @@ import { getIsProduct } from "./editorContext";
 export const getIsWooSeoActive = () => Boolean( get( window, "wpseoScriptData.isWooCommerceSeoActive", false ) );
 
 /**
- * Checks if WooCommerce is active. Used also in premium.
+ * Checks if WooCommerce is active.
  *
  * @returns {boolean} True if WooCommerce is active.
  */
