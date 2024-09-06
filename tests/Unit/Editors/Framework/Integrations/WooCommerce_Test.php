@@ -66,6 +66,30 @@ final class WooCommerce_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the to_array method.
+	 *
+	 * @dataProvider data_provider_is_enabled
+	 *
+	 * @param bool $woocommerce_enabled If the woocommerce plugin is enabled.
+	 * @param bool $expected            The expected outcome.
+	 *
+	 * @return void
+	 */
+	public function test_to_array(
+		bool $woocommerce_enabled,
+		bool $expected
+	) {
+
+		$this->woocommerce_conditional
+			->expects( 'is_met' )
+			->times( 3 )
+			->andReturn( $woocommerce_enabled );
+
+		$this->assertSame( $expected, $this->instance->is_enabled() );
+		$this->assertSame( [ 'isWooCommerceActive' => $this->instance->is_enabled() ], $this->instance->to_array() );
+	}
+
+	/**
 	 * Data provider for test_is_enabled.
 	 *
 	 * @return array<array<string|bool>>
