@@ -1,6 +1,7 @@
 import { get } from "lodash";
 import { select } from "@wordpress/data";
 import { render } from "@wordpress/element";
+import { addQueryArgs } from "@wordpress/url";
 import { ThemeProvider } from "styled-components";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
 import { BlackFridaySidebarChecklistPromotion } from "../components/BlackFridaySidebarChecklistPromotion";
@@ -14,7 +15,8 @@ import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/sh
 const initSettingsHeader = () => {
 	const reactRoot = document.getElementById( "yst-settings-header-root" );
 	const isRtl = Boolean( get( window, "wpseoScriptData.isRtl", false ) );
-	const webinarIntroSettingsUrl = select( "yoast-seo/settings" ).selectLinkParams( "https://yoa.st/webinar-intro-settings" );
+	const linkParams = select( "yoast-seo/settings" ).selectLinkParams();
+	const webinarIntroSettingsUrl = addQueryArgs( "https://yoa.st/webinar-intro-settings", linkParams );
 	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
 
 	if ( reactRoot ) {
