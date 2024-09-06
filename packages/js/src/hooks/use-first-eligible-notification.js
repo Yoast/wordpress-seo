@@ -1,8 +1,6 @@
 import { BlackFridayPromotion } from "../components/BlackFridayPromotion";
-import { BlackFridaySidebarChecklistPromotion } from "../components/BlackFridaySidebarChecklistPromotion";
 import { TrustpilotReviewNotification, useTrustpilotReviewNotification } from "../components/trustpilot-review-notification";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
-import { getIsWooCommerceActive } from "../redux/selectors/isWooSEO";
 import { shouldShowWebinarPromotionNotificationInSidebar } from "../helpers/shouldShowWebinarPromotionNotification";
 
 /**
@@ -42,10 +40,6 @@ export const useFirstEligibleNotification = ( { webinarIntroUrl } ) => {
 		{
 			getIsEligible: shouldShowWebinarPromotionNotificationInSidebar,
 			component: () => <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroUrl } />,
-		},
-		{
-			getIsEligible: getIsWooCommerceActive,
-			component: () => <BlackFridaySidebarChecklistPromotion hasIcon={ false } />,
 		},
 		{
 			getIsEligible: () => true,
