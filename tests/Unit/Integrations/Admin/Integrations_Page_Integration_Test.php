@@ -7,7 +7,6 @@ use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Integrations_Page;
@@ -121,14 +120,11 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'get_site_url' )
 			->andReturn( 'https://www.example.com' );
 
-		$short_link = Mockery::mock( Short_Link_Helper::class );
-		$short_link->expects( 'get' )->times( 3 )->andReturn( 'https://www.example.com?some=var' );
 		$url_helper = Mockery::mock( Url_Helper::class );
 		$url_helper->expects()->get_url_host( 'https://www.example.com' )->andReturn( 'https://www.example.com' );
 		$container = $this->create_container_with(
 			[
 				Url_Helper::class        => $url_helper,
-				Short_Link_Helper::class => $short_link,
 			]
 		);
 
@@ -172,13 +168,6 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'mastodon_active'                    => false,
 				'is_multisite'                       => false,
 				'plugin_url'                         => 'https://www.example.com',
-
-				'jetpack-boost_active'               => false,
-				'jetpack-boost_premium'              => false,
-				'jetpack-boost_logo_link'            => 'https://www.example.com?some=var',
-				'jetpack-boost_get_link'             => 'https://www.example.com?some=var',
-				'jetpack-boost_upgrade_link'         => 'https://www.example.com?some=var',
-				'jetpack-boost_learn_more_link'      => 'https://www.example.com',
 			]
 		);
 
