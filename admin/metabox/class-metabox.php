@@ -5,8 +5,6 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Active_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
 use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
@@ -897,8 +895,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
-			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
 			'isWooCommerceSeoActive'     => $woocommerce_seo_active,
 		];
 
