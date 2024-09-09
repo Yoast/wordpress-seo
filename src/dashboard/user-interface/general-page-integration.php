@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Dashboard\User_Interface;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
@@ -75,7 +76,7 @@ class General_Page_Integration implements Integration_Interface {
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		return [ Admin_Conditional::class, New_Dashboard_Ui_Conditional::class ];
 	}
 
 	/**
@@ -86,14 +87,12 @@ class General_Page_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		if ( \apply_filters( 'wpseo_new_dashboard', false ) ) {
-			// Add page.
-			\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ] );
+		// Add page.
+		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ] );
 
-			// Are we on the dashboard page?
-			if ( $this->current_page_helper->get_current_yoast_seo_page() === self::PAGE ) {
-				\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-			}
+		// Are we on the dashboard page?
+		if ( $this->current_page_helper->get_current_yoast_seo_page() === self::PAGE ) {
+			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		}
 	}
 
