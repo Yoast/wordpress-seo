@@ -8,7 +8,6 @@ use TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema;
 use WP_Recipe_Maker;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
-use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
