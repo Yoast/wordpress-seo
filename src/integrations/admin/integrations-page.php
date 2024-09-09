@@ -123,7 +123,6 @@ class Integrations_Page implements Integration_Interface {
 		$algolia_file         = 'wp-search-with-algolia/algolia.php';
 		$old_algolia_file     = 'search-by-algolia-instant-relevant-results/algolia.php';
 
-		$host                      = \YoastSEO()->helpers->url->get_url_host( \get_site_url() );
 		$addon_manager             = new WPSEO_Addon_Manager();
 		$woocommerce_seo_installed = $addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG );
 
