@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Dashboard\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -108,6 +109,7 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->assertEquals(
 			[
 				Admin_Conditional::class,
+				New_Dashboard_Ui_Conditional::class,
 			],
 			General_Page_Integration::get_conditionals()
 		);
@@ -120,7 +122,7 @@ final class General_Page_Integration_Test extends TestCase {
 	 */
 	public static function register_hooks_provider() {
 		return [
-			'Not on dashboard' => [
+			'Not on dashboard'  => [
 				'current_page' => 'not dashboard',
 				'action_times' => 0,
 			],
@@ -148,10 +150,6 @@ final class General_Page_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'add_filter' )
 			->with( 'wpseo_submenu_page', [ $this->instance, 'add_page' ] )
 			->once();
-
-		Monkey\Functions\expect( 'apply_filters' )
-			->with( 'wpseo_new_dashboard', false )
-			->once()->andReturnTrue();
 
 		$this->current_page_helper
 			->expects( 'get_current_yoast_seo_page' )
@@ -253,13 +251,15 @@ final class General_Page_Integration_Test extends TestCase {
 		];
 
 		$this->product_helper
-				->expects( 'is_premium' )
-				->once()
-				->andReturn( false );
+			->expects( 'is_premium' )
+			->once()
+			->andReturn( false );
 
 		Monkey\Functions\expect( 'is_rtl' )->once()->andReturn( false );
 
-		Monkey\Functions\expect( 'plugins_url' )->once()->andReturn( 'http://basic.wordpress.test/wp-content/worspress-seo' );
+		Monkey\Functions\expect( 'plugins_url' )
+			->once()
+			->andReturn( 'http://basic.wordpress.test/wp-content/worspress-seo' );
 
 		$this->shortlink_helper
 			->expects( 'get_query_params' )
