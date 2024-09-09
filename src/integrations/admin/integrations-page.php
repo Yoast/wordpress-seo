@@ -114,8 +114,8 @@ class Integrations_Page implements Integration_Interface {
 
 		$this->admin_asset_manager->enqueue_script( 'integrations-page' );
 
-		$elementor_conditional                 = new Elementor_Activated_Conditional();
-		$jetpack_conditional                   = new Jetpack_Conditional();
+		$elementor_conditional = new Elementor_Activated_Conditional();
+		$jetpack_conditional   = new Jetpack_Conditional();
 
 		$woocommerce_seo_file = 'wpseo-woocommerce/wpseo-woocommerce.php';
 		$acf_seo_file         = 'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php';
