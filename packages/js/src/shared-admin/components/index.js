@@ -7,3 +7,5 @@ export { PremiumUpsellCard } from "./premium-upsell-card";
 export { RecommendationsSidebar } from "./recommendations-sidebar";
 export { VideoFlow } from "./video-flow";
 export { AiFixAssessmentsUpsell } from "./ai-fix-assessments-upsell";
+export { default as SidebarNavigation } from "./sidebar-navigation";
+export { ReactComponent as YoastLogo } from "./yoast-logo.svg";

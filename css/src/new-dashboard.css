@@ -1,0 +1,86 @@
+body.seo_page_wpseo_page_dashboard_new {
+	@apply yst-bg-slate-100;
+
+	/* Move WP footer behind our content. */
+	z-index: -1;
+
+	#wpcontent {
+		padding-left: 0 !important;
+	}
+
+	#wpfooter {
+		@apply yst-pr-4;
+
+		@media (min-width: 768px) {
+			@apply yst-pr-8;
+
+			padding-left: 17rem;
+		}
+	}
+
+	.wp-responsive-open #wpbody {
+		@media screen and (max-width: 782px) {
+			right: -190px; /* Override to not leave space between the mobile menu and the content. */
+		}
+	}
+
+	#modal-search .yst-modal__close {
+		margin-top: -0.25rem;
+	}
+
+	&.sticky-menu {
+		.yst-root .yst-notifications--bottom-left {
+			@media (min-width: 783px) and (max-width: 962px) {
+				left: calc(160px + 2rem); /* Next to admin menu. 160px is the admin menu width. */
+			}
+		}
+
+		&.folded, &.auto-fold {
+			.yst-root .yst-notifications--bottom-left {
+				@media (min-width: 783px) and (max-width: 963px) {
+					left: calc(32px + 2rem); /* Next to admin menu. 32px is the collapsed admin menu width. */
+				}
+			}
+		}
+
+		&.folded {
+			.yst-root .yst-notifications--bottom-left {
+				@media (min-width: 962px) {
+					left: calc(32px + 2rem); /* Next to admin menu. 32px is the collapsed admin menu width. */
+				}
+			}
+		}
+	}
+
+	&:not(.sticky-menu) .wp-responsive-open .yst-root {
+		.yst-notifications--bottom-left {
+			@media (max-width: 783px) {
+				left: calc(190px + 2rem); /* Next to admin menu. 190px is the responsive admin menu width. */
+			}
+		}
+	}
+
+	.yst-root {
+
+		.yst-mobile-navigation__top {
+			@media (min-width: 601px) and (max-width: 768px) {
+				top: 46px;
+			}
+
+			@media (min-width: 783px) {
+				@apply yst-hidden;
+			}
+		}
+
+		.yst-mobile-navigation__dialog {
+			z-index: 99999;
+		}
+	}
+	/* RTL */
+
+	&.rtl {
+		.yst-root .yst-replacevar .emoji-select-popover {
+			@apply yst-left-0 yst-right-auto;
+		}
+	}
+}

@@ -11,7 +11,8 @@ import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { getPremiumBenefits } from "../helpers/get-premium-benefits";
-import { ErrorFallback, Notifications, Search, SidebarNavigation, SidebarRecommendations, YoastLogo } from "./components";
+import { SidebarNavigation, YoastLogo } from "../shared-admin/components";
+import { ErrorFallback, Notifications, Search, SidebarRecommendations  } from "./components";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
 	AuthorArchives,
