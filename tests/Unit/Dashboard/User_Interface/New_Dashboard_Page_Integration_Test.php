@@ -268,5 +268,4 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 
 		return $link_params;
 	}
-
 }
