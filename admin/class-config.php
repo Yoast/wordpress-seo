@@ -6,7 +6,6 @@
  */
 
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
-use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Dashboard\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
