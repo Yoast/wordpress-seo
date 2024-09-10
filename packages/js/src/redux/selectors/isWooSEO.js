@@ -13,7 +13,7 @@ export const getIsWooSeoActive = () => Boolean( get( window, "wpseoScriptData.is
  *
  * @returns {boolean} True if WooCommerce is active.
  */
-export const getIsWooCommerceActive = () => Boolean( get( window, "wpseoScriptData.isWooCommerceActive", false ) );
+export const getIsWooCommerceActive = () => get( window, "wpseoScriptData.metabox.isWooCommerceActive", false );
 
 /**
  * Determines whether the WooCommerce SEO addon is not active in a product page.

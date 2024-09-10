@@ -7,7 +7,6 @@
 
 use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Active_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
-use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
@@ -882,10 +881,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 		];
 
-		$woocommerce_conditional = new WooCommerce_Conditional();
-		$woocommerce_active      = $woocommerce_conditional->is_met();
-		$addon_manager           = new WPSEO_Addon_Manager();
-		$woocommerce_seo_active  = is_plugin_active( $addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) );
+		$addon_manager          = new WPSEO_Addon_Manager();
+		$woocommerce_seo_active = is_plugin_active( $addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) );
 
 		$script_data = [
 			'metabox'                    => $this->get_metabox_script_data(),
@@ -903,7 +900,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
 			'isWooCommerceSeoActive'     => $woocommerce_seo_active,
-			'isWooCommerceActive'        => $woocommerce_active,
 		];
 
 		/**
