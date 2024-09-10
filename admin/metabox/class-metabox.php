@@ -881,9 +881,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 		];
 
-		$addon_manager          = new WPSEO_Addon_Manager();
-		$woocommerce_seo_active = is_plugin_active( $addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) );
-
 		$script_data = [
 			'metabox'                    => $this->get_metabox_script_data(),
 			'userLanguageCode'           => WPSEO_Language_Utils::get_language( get_user_locale() ),
@@ -899,7 +896,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			],
 			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
-			'isWooCommerceSeoActive'     => $woocommerce_seo_active,
 		];
 
 		/**
