@@ -39,7 +39,7 @@ const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( B
 export default function MetaboxFill( { settings } ) {
 	const isTerm = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsTerm(), [] );
 	const isProduct = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsProduct(), [] );
-	const isWooCommerceActive = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsWooCommerceActive(), [] );
+	const isWooCommerceActive = useSelect( ( select ) => select( "yoast-seo/editor" ).getPreference( "isWooCommerceActive" ), [] );
 
 	const shouldShowWooCommerceChecklistPromo = isProduct && isWooCommerceActive;
 

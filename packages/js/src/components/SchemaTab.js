@@ -69,7 +69,7 @@ NewsAlert.propTypes = {
  */
 const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) => {
 	const isProduct = useSelect( ( select ) => select( STORE ).getIsProduct(), [] );
-	const isWooSeoActive = useSelect( select => select( STORE ).getIsWooSeoActive(), [] );
+	const isWooSeoActive = useSelect( select => select( STORE ).getPreference( "isWooCommerceSeoActive" ), [] );
 	const disablePageTypeSelect = isProduct && isWooSeoActive;
 	const schemaOption = disablePageTypeSelect ? { name: __( "Item Page", "wordpress-seo" ), value: "ItemPage" } : schemaTypeOptions.find( option => option.value === defaultType );
 	return [
