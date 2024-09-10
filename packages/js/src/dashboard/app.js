@@ -3,13 +3,13 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
-import { Paper, useSvgAria, Title } from "@yoast/ui-library";
+import { Paper, SidebarNavigation, Title, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import FirstTimeConfigurationSteps from "../first-time-configuration/first-time-configuration-steps";
+import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
-import { SidebarNavigation, YoastLogo } from "../shared-admin/components";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -32,10 +32,12 @@ const Menu = ( { idSuffix = "" } ) => {
 		</header>
 		<div className="yst-px-0.5 yst-space-y-6">
 			<ul className="yst-mt-1 yst-space-y-1">
-				<SidebarNavigation.SubmenuItem icon={ BellIcon } to="/" label={ __( "Alert center", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem icon={ AdjustmentsIcon } to="/first-time-configuration"
-				                               label={ __( "First-time configuration", "wordpress-seo" ) }
-				                               idSuffix={ idSuffix } />
+				<MenuItemLink icon={ BellIcon } to="/" label={ __( "Alert center", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<MenuItemLink
+					icon={ AdjustmentsIcon } to="/first-time-configuration"
+					label={ __( "First-time configuration", "wordpress-seo" ) }
+					idSuffix={ idSuffix }
+				/>
 			</ul>
 		</div>
 	</>;
