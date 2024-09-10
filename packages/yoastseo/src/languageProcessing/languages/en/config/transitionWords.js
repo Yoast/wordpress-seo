@@ -11,7 +11,7 @@ export const singleWords = [ "accordingly", "additionally", "afterward", "afterw
 	"shortly", "significantly", "similarly", "simultaneously", "since", "so", "soon", "specifically", "still", "straightaway",
 	"subsequently", "surely", "surprisingly", "than", "then", "thereafter", "therefore", "thereupon", "thirdly", "though",
 	"thus", "till", "undeniably", "undoubtedly", "unless", "unlike", "unquestionably", "until", "when", "whenever",
-	"whereas", "while" ];
+	"whereas", "while", "whether", "if", "actually" ];
 export const multipleWords = [ "above all", "after all", "after that", "all in all", "all of a sudden", "all things considered",
 	"analogous to", "although this may be true", "analogous to", "another key point", "as a matter of fact", "as a result",
 	"as an illustration", "as can be seen", "as has been noted", "as I have noted", "as I have said", "as I have shown",
@@ -40,7 +40,7 @@ export const multipleWords = [ "above all", "after all", "after that", "all in a
 	"to summarize", "to that end", "to the end that", "to this end", "together with", "under those circumstances", "until now",
 	"up against", "up to the present time", "vis a vis", "what's more", "while it may be true", "while this may be true",
 	"with attention to", "with the result that", "with this in mind", "with this intention", "with this purpose in mind",
-	"without a doubt", "without delay", "without doubt", "without reservation" ];
+	"without a doubt", "without delay", "without doubt", "without reservation", "according to", "whether or" ];
 
 export const allWords = singleWords.concat( multipleWords );
 
