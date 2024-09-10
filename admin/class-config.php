@@ -89,18 +89,15 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
 
-		$alert_dismissal_action  = YoastSEO()->classes->get( Alert_Dismissal_Action::class );
-		$dismissed_alerts        = $alert_dismissal_action->all_dismissed();
-		$woocommerce_conditional = new WooCommerce_Conditional();
+		$alert_dismissal_action = YoastSEO()->classes->get( Alert_Dismissal_Action::class );
+		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
 
 		$script_data = [
 			'userLanguageCode'               => WPSEO_Language_Utils::get_language( get_user_locale() ),
 			'dismissedAlerts'                => $dismissed_alerts,
 			'isRtl'                          => is_rtl(),
 			'isPremium'                      => YoastSEO()->helpers->product->is_premium(),
-			'isWooCommerceActive'            => $woocommerce_conditional->is_met(),
 			'currentPromotions'              => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
-			'webinarIntroSettingsUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-settings' ),
 			'webinarIntroFirstTimeConfigUrl' => $this->get_webinar_shortlink(),
 			'linkParams'                     => WPSEO_Shortlinker::get_query_params(),
 			'pluginUrl'                      => plugins_url( '', WPSEO_FILE ),

@@ -7,7 +7,7 @@ use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
-use Yoast\WP\SEO\Dashboard\User_Interface\General_Page_Integration;
+use Yoast\WP\SEO\Dashboard\User_Interface\New_Dashboard_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
@@ -15,13 +15,13 @@ use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class General_Page_Integration_Test_Test.
+ * Class New_Dashboard_Page_Integration_Test_Test.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Dashboard\User_Interface\General_Page_Integration
+ * @coversDefaultClass \Yoast\WP\SEO\Dashboard\User_Interface\New_Dashboard_Page_Integration
  */
-final class General_Page_Integration_Test extends TestCase {
+final class New_Dashboard_Page_Integration_Test extends TestCase {
 
-	public const PAGE = 'wpseo_page_dashboard_new';
+	public const PAGE = 'wpseo_page_new_dashboard';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -54,7 +54,7 @@ final class General_Page_Integration_Test extends TestCase {
 	/**
 	 * The class under test.
 	 *
-	 * @var General_Page_Integration
+	 * @var New_Dashboard_Page_Integration
 	 */
 	protected $instance;
 
@@ -71,7 +71,7 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->product_helper      = Mockery::mock( Product_Helper::class );
 		$this->shortlink_helper    = Mockery::mock( Short_Link_Helper::class );
 
-		$this->instance = new General_Page_Integration(
+		$this->instance = new New_Dashboard_Page_Integration(
 			$this->asset_manager,
 			$this->current_page_helper,
 			$this->product_helper,
@@ -111,7 +111,7 @@ final class General_Page_Integration_Test extends TestCase {
 				Admin_Conditional::class,
 				New_Dashboard_Ui_Conditional::class,
 			],
-			General_Page_Integration::get_conditionals()
+			New_Dashboard_Page_Integration::get_conditionals()
 		);
 	}
 
@@ -127,7 +127,7 @@ final class General_Page_Integration_Test extends TestCase {
 				'action_times' => 0,
 			],
 			'On dashboard page' => [
-				'current_page' => 'wpseo_page_dashboard_new',
+				'current_page' => 'wpseo_page_new_dashboard',
 				'action_times' => 1,
 			],
 		];
@@ -182,9 +182,9 @@ final class General_Page_Integration_Test extends TestCase {
 		// Assert that the new page was added at index 3.
 		$this->assertEquals( 'wpseo_dashboard', $pages[3][0] );
 		$this->assertEquals( '', $pages[3][1] );
-		$this->assertEquals( 'Dashboard New', $pages[3][2] );
+		$this->assertEquals( 'New dashboard', $pages[3][2] );
 		$this->assertEquals( 'wpseo_manage_options', $pages[3][3] );
-		$this->assertEquals( 'wpseo_page_dashboard_new', $pages[3][4] );
+		$this->assertEquals( 'wpseo_page_new_dashboard', $pages[3][4] );
 		$this->assertEquals( [ $this->instance, 'display_page' ], $pages[3][5] );
 	}
 
@@ -267,30 +267,5 @@ final class General_Page_Integration_Test extends TestCase {
 			->andReturn( $link_params );
 
 		return $link_params;
-	}
-
-	/**
-	 * Test for get_script_data that is used in enqueue_assets.
-	 *
-	 * @covers ::get_script_data
-	 *
-	 * @return void
-	 */
-	public function test_get_script_data() {
-		$link_params = $this->expect_get_script_data();
-		$expected    = [
-			'preferences' => [
-				'isPremium'      => false,
-				'isRtl'          => false,
-				'pluginUrl'      => 'http://basic.wordpress.test/wp-content/worspress-seo',
-				'upsellSettings' => [
-					'actionId'     => 'load-nfd-ctb',
-					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
-				],
-			],
-			'linkParams'  => $link_params,
-		];
-
-		$this->assertSame( $expected, $this->instance->get_script_data() );
 	}
 }

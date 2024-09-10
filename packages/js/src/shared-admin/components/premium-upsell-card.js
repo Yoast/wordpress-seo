@@ -16,8 +16,9 @@ import { ReactComponent as G2Logo } from "./g2-logo-white.svg";
  * @returns {JSX.Element} The premium upsell card.
  */
 export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
-	const info = useMemo( () => __( "Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support, and much, much more!", "wordpress-seo" ), [] );
-	const getPremium = createInterpolateElement(
+	let info = useMemo( () => __( "Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support, and much, much more!", "wordpress-seo" ), [] );
+	const isBlackFriday = promotions.includes( "black-friday-2024-promotion" );
+	let getPremium = createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
 			__( "%1$sGet%2$s %3$s", "wordpress-seo" ),
@@ -29,19 +30,21 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 			nowrap: <span className="yst-whitespace-nowrap" />,
 		}
 	);
-	const isBlackFriday = promotions.includes( "black-friday-2023-promotion" );
-	const saveMoneyText = createInterpolateElement(
-		sprintf(
-			/* translators: %1$s and %2$s expand to strong tags. */
-			__( "%1$sSAVE 30%%%2$s on your 12 month subscription", "wordpress-seo" ),
-			"<strong>",
-			"</strong>"
-		),
-		{
-			strong: <strong />,
-		}
-	);
+	if ( isBlackFriday ) {
+		info = useMemo( () => __( "If you were thinking about upgrading, now's the time! 30% OFF ends 3rd Dec 11am (CET)", "wordpress-seo" ), [] );
 
+		getPremium = createInterpolateElement(
+			sprintf(
+				/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
+				__( "%1$sAll annual plans incl. %2$s", "wordpress-seo" ),
+				"<nowrap>",
+				"</nowrap>"
+			),
+			{
+				nowrap: <span className="yst-whitespace-nowrap" />,
+			}
+		);
+	}
 	return (
 		<div className="yst-p-6 yst-rounded-lg yst-text-white yst-bg-primary-500 yst-shadow">
 			<figure
@@ -51,18 +54,13 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 			</figure>
 			{ isBlackFriday && <div className="sidebar__sale_banner_container">
 				<div className="sidebar__sale_banner">
-					<span className="banner_text">{ __( "BLACK FRIDAY - 30% OFF", "wordpress-seo" ) }</span>
+					<span className="banner_text">{ __( "30% OFF | Code: BF2024", "wordpress-seo" ) }</span>
 				</div>
 			</div> }
 			<Title as="h2" className="yst-mt-6 yst-text-base yst-font-extrabold yst-text-white">
 				{ getPremium }
 			</Title>
 			<p className="yst-mt-2">{ info }</p>
-			{ isBlackFriday && <div className="yst-text-center yst-border-t-[1px] yst-border-white yst-italic yst-mt-3">
-				<p className="yst-text-[10px] yst-my-3 yst-mx-0">
-					{ saveMoneyText }
-				</p>
-			</div> }
 			<Button
 				as="a"
 				variant="upsell"
@@ -72,7 +70,7 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 focus:yst-ring-offset-primary-500"
 				{ ...linkProps }
 			>
-				<span>{ isBlackFriday ? __( "Claim your 30% off now!", "wordpress-seo" ) : getPremium }</span>
+				<span>{ isBlackFriday ? __( "Buy now", "wordpress-seo" ) : getPremium }</span>
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
 			<p className="yst-text-center yst-text-xs yst-mx-2 yst-font-light yst-leading-5 yst-mt-2">
