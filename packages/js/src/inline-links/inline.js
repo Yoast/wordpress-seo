@@ -11,7 +11,7 @@ import { useMemo, useState, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { withSpokenMessages, Popover } from "@wordpress/components";
 import { prependHTTP } from "@wordpress/url";
-import { create, insert, isCollapsed, applyFormat } from "@wordpress/rich-text";
+import { applyFormat, create, insert, isCollapsed, useAnchor } from "@wordpress/rich-text";
 
 /**
  * Internal dependencies
@@ -19,6 +19,7 @@ import { create, insert, isCollapsed, applyFormat } from "@wordpress/rich-text";
 import { createLinkFormat, isValidHref } from "./utils";
 import HelpLink from "../components/HelpLink";
 import createInterpolateElement from "../helpers/createInterpolateElement";
+import { link as linkSettings } from "./edit-link";
 
 /**
  * Component to render the inline link UI.
@@ -44,6 +45,7 @@ function InlineLinkUI( {
 	onChange,
 	speak,
 	stopAddingLink,
+	contentRef,
 } ) {
 	/**
 	 * A unique key is generated when switching between editing and not editing
@@ -71,30 +73,13 @@ function InlineLinkUI( {
 	 */
 	const [ nextLinkValue, setNextLinkValue ] = useState();
 
-	const anchorRef = useMemo( () => {
-		const selection = window.getSelection();
-
-		if ( ! selection.rangeCount ) {
-			return;
-		}
-
-		const range = selection.getRangeAt( 0 );
-
-		if ( addingLink && ! isActive ) {
-			return range;
-		}
-
-		let element = range.startContainer;
-
-		// If the caret is right before the element, select the next element.
-		element = element.nextElementSibling || element;
-
-		while ( element.nodeType !== window.Node.ELEMENT_NODE ) {
-			element = element.parentNode;
-		}
-
-		return element.closest( "a" );
-	}, [ addingLink, value.start, value.end ] );
+	const anchor = useAnchor( {
+		editableContentElement: contentRef.current,
+		settings: {
+			...linkSettings,
+			isActive,
+		},
+	} );
 
 	const linkValue = {
 		url: activeAttributes.url,
@@ -338,7 +323,7 @@ function InlineLinkUI( {
 	return (
 		<Popover
 			key={ mountingKey }
-			anchor={ anchorRef }
+			anchor={ anchor }
 			focusOnMount={ addingLink ? "firstElement" : false }
 			onClose={ stopAddingLink }
 			position="bottom center"
@@ -363,6 +348,7 @@ InlineLinkUI.propTypes = {
 	onChange: PropTypes.func,
 	speak: PropTypes.func.isRequired,
 	stopAddingLink: PropTypes.func.isRequired,
+	contentRef: PropTypes.object,
 };
 
 export default withSpokenMessages( InlineLinkUI );
