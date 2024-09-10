@@ -11,9 +11,9 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Class General_Page_Integration.
+ * Class New_Dashboard_Page_Integration.
  */
-class General_Page_Integration implements Integration_Interface {
+class New_Dashboard_Page_Integration implements Integration_Interface {
 
 	/**
 	 * The page name.
