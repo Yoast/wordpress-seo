@@ -1,4 +1,5 @@
 import { get } from "lodash";
+import { getIsProduct } from "./editorContext";
 
 /**
  * Gets a preference.
@@ -28,3 +29,17 @@ export const getPreferences = state => state.preferences;
  * @returns {boolean} The isKeywordAnalysisActive.
  */
 export const getIsKeywordAnalysisActive = state => get( state, "preferences.isKeywordAnalysisActive", false );
+
+/**
+ * Determines whether the WooCommerce SEO addon is not active in a product page.
+ *
+ * @param {Object} state The state.
+ * @returns {Boolean} Whether the plugin is WooCommerce SEO or not.
+ */
+export const getIsWooSeoUpsell = ( state ) => {
+	const isWooSeoActive = getPreference( state, "isWooSeoActive" );
+	const isWooCommerceActive = getPreference( state, "isWooCommerceActive" );
+	const isProductPage = getIsProduct( state );
+
+	return ! isWooSeoActive && isWooCommerceActive && isProductPage;
+};
