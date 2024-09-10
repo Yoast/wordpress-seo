@@ -106,7 +106,7 @@ Title.propTypes = {
  * @param {Function} setIsVisible Function to set the visibility of the notification.
  * @returns {JSX.Element} The toast component.
  */
-const Toast = ( {
+const Toast = forwardRef( ( {
 	children,
 	id,
 	role,
@@ -116,7 +116,7 @@ const Toast = ( {
 	autoDismiss = null,
 	isVisible,
 	setIsVisible,
-} ) => {
+}, ref ) => {
 	const handleDismiss = useCallback( () => {
 		// Disable visibility on dismiss to trigger transition.
 		setIsVisible( false );
@@ -153,12 +153,13 @@ const Toast = ( {
 					className,
 				) }
 				role= { role }
+				ref={ ref }
 			>
 				{ children }
 			</Transition>
 		</ToastContext.Provider>
 	);
-};
+} );
 
 Toast.propTypes = {
 	children: PropTypes.node,

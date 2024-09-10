@@ -2,7 +2,7 @@
 import classNames from "classnames";
 import { keys, noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, forwardRef } from "react";
 import { ValidationIcon } from "../../elements/validation";
 import Toast from "../../elements/toast";
 const NotificationsContext = createContext( { position: "bottom-left" } );
@@ -113,12 +113,12 @@ const notificationsClassNameMap = {
  * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The Notifications element.
  */
-const Notifications = ( {
+const Notifications = forwardRef( ( {
 	children,
 	className = "",
 	position = "bottom-left",
 	...props
-} ) => (
+}, ref ) => (
 	<NotificationsContext.Provider value={ { position } }>
 		<aside
 			className={ classNames(
@@ -126,12 +126,13 @@ const Notifications = ( {
 				notificationsClassNameMap.position[ position ],
 				className,
 			) }
+			ref={ ref }
 			{ ...props }
 		>
 			{ children }
 		</aside>
 	</NotificationsContext.Provider>
-);
+) );
 
 Notifications.propTypes = {
 	children: PropTypes.node,
