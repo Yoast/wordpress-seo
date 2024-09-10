@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  */
 final class General_Page_Integration_Test extends TestCase {
 
-	public const PAGE = 'wpseo_page_dashboard_new';
+	public const PAGE = 'wpseo_page_new_dashboard';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -127,7 +127,7 @@ final class General_Page_Integration_Test extends TestCase {
 				'action_times' => 0,
 			],
 			'On dashboard page' => [
-				'current_page' => 'wpseo_page_dashboard_new',
+				'current_page' => 'wpseo_page_new_dashboard',
 				'action_times' => 1,
 			],
 		];
@@ -184,7 +184,7 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->assertEquals( '', $pages[3][1] );
 		$this->assertEquals( 'Dashboard New', $pages[3][2] );
 		$this->assertEquals( 'wpseo_manage_options', $pages[3][3] );
-		$this->assertEquals( 'wpseo_page_dashboard_new', $pages[3][4] );
+		$this->assertEquals( 'wpseo_page_new_dashboard', $pages[3][4] );
 		$this->assertEquals( [ $this->instance, 'display_page' ], $pages[3][5] );
 	}
 

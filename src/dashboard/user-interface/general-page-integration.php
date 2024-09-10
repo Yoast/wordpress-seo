@@ -20,7 +20,7 @@ class General_Page_Integration implements Integration_Interface {
 	 *
 	 * @TODO RENAME THIS TO SOMETHING SENSIBLE AFTER FEATURE FLAG PERIOD
 	 */
-	public const PAGE = 'wpseo_page_dashboard_new';
+	public const PAGE = 'wpseo_page_new_dashboard';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -112,7 +112,7 @@ class General_Page_Integration implements Integration_Interface {
 				[
 					'wpseo_dashboard',
 					'',
-					\__( 'Dashboard New', 'wordpress-seo' ),
+					\__( 'New dashboard', 'wordpress-seo' ),
 					'wpseo_manage_options',
 					self::PAGE,
 					[ $this, 'display_page' ],
@@ -151,7 +151,7 @@ class General_Page_Integration implements Integration_Interface {
 	 *
 	 * @return array<string,array<string|bool,array<string>>> The script data.
 	 */
-	public function get_script_data() {
+	private function get_script_data() {
 		return [
 			'preferences' => [
 				'isPremium'      => $this->product_helper->is_premium(),
