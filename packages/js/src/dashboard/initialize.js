@@ -5,6 +5,7 @@ import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
+import { HashRouter } from "react-router-dom";
 import App from "./app";
 import { STORE_NAME } from "./constants";
 import registerStore from "./store";
@@ -24,7 +25,9 @@ domReady( () => {
 	render(
 		<Root context={ { isRtl } }>
 			<SlotFillProvider>
-				<App />
+				<HashRouter>
+					<App />
+				</HashRouter>
 			</SlotFillProvider>
 		</Root>,
 		root

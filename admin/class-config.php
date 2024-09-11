@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
+use Yoast\WP\SEO\Dashboard\User_Interface\New_Dashboard_Page_Integration;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Integrations\Support_Integration;
@@ -53,7 +54,6 @@ class WPSEO_Admin_Pages {
 			// Bail, this is managed in the applicable integration.
 			return;
 		}
-
 		add_action( 'admin_enqueue_scripts', [ $this, 'config_page_scripts' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'config_page_styles' ] );
 	}
@@ -105,7 +105,7 @@ class WPSEO_Admin_Pages {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
-		if ( in_array( $page, [ WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_workouts' ], true ) ) {
+		if ( in_array( $page, [ WPSEO_Admin::PAGE_IDENTIFIER, New_Dashboard_Page_Integration::PAGE, 'wpseo_workouts' ], true ) ) {
 			wp_enqueue_media();
 
 			$script_data['userEditUrl'] = add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) );
