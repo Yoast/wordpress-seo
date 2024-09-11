@@ -38,7 +38,7 @@ class Main_Image extends Abstract_Schema_Piece {
 
 		// The first image in the content.
 		if ( $this->context->main_image_url ) {
-			return $this->helpers->schema->image->generate_from_url( $image_id, $this->context->main_image_url );
+			return $this->helpers->schema->image->generate_from_url( $image_id, $this->context->main_image_url, '', false, true, true );
 		}
 
 		return false;
