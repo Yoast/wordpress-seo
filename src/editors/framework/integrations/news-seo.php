@@ -19,9 +19,11 @@ class News_SEO implements Integration_Data_Provider_Interface {
 
 	/**
 	 * The constructor.
+	 * 
+	 * @param WPSEO_Addon_Manager $addon_manager The addon manager.
 	 */
-	public function __construct() {
-		$this->addon_manager = new WPSEO_Addon_Manager();
+	public function __construct( WPSEO_Addon_Manager $addon_manager ) {
+		$this->addon_manager = $addon_manager;
 	}
 
 	/**
@@ -39,7 +41,7 @@ class News_SEO implements Integration_Data_Provider_Interface {
 	 * @return array<string,bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
-		return [ 'isNewsSEOActive' => $this->is_enabled() ];
+		return [ 'isNewsSeoActive' => $this->is_enabled() ];
 	}
 
 	/**
@@ -48,6 +50,6 @@ class News_SEO implements Integration_Data_Provider_Interface {
 	 * @return array<string,bool> Returns the legacy key and if the feature is enabled.
 	 */
 	public function to_legacy_array(): array {
-		return [ 'isNewsSEOActive' => $this->is_enabled() ];
+		return [ 'isNewsSeoActive' => $this->is_enabled() ];
 	}
 }
