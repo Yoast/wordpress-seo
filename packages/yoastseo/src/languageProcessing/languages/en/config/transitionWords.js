@@ -40,7 +40,7 @@ export const multipleWords = [ "above all", "after all", "after that", "all in a
 	"to summarize", "to that end", "to the end that", "to this end", "together with", "under those circumstances", "until now",
 	"up against", "up to the present time", "vis a vis", "what's more", "while it may be true", "while this may be true",
 	"with attention to", "with the result that", "with this in mind", "with this intention", "with this purpose in mind",
-	"without a doubt", "without delay", "without doubt", "without reservation", "according to", "whether or" ];
+	"without a doubt", "without delay", "without doubt", "without reservation", "according to", "no sooner" ];
 
 export const allWords = singleWords.concat( multipleWords );
 
