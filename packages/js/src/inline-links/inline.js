@@ -34,6 +34,7 @@ import { link as linkSettings } from "./edit-link";
  * @param {Function} props.onChange The rich text change handler.
  * @param {Function} props.speak The speak function.
  * @param {Function} props.stopAddingLink The stop adding link handler.
+ * @param {Object} props.contentRef The ref containing the current content element.
  *
  * @returns {WPElement} The inline link UI.
  */
