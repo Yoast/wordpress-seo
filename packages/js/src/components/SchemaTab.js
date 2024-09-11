@@ -171,7 +171,7 @@ const Content = ( props ) => {
 	const [ focusedArticleType, setFocusedArticleType ] = useState( props.schemaArticleTypeSelected );
 	const woocommerceUpsellText = __( "Want your products stand out in search results with rich results like price, reviews and more?", "wordpress-seo" );
 	const isProduct = useSelect( ( select ) => select( STORE ).getIsProduct(), [] );
-	const isWooSeoActive = useSelect( select => select( STORE ).getIsWooSeoActive(), [] );
+	const isWooSeoActive = useSelect( select => select( STORE ).getPreference( "isWooCommerceSeoActive" ), [] );
 	const settingsLink = useSelect( select => select( STORE ).selectAdminLink( "?page=wpseo_page_settings" ), [] );
 
 	const disablePageTypeSelect = isProduct && isWooSeoActive;
