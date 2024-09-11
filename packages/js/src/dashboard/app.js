@@ -7,9 +7,9 @@ import { Paper, SidebarNavigation, Title, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
-import FirstTimeConfigurationSteps from "../first-time-configuration/first-time-configuration-steps";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
+import { FirstTimeConfiguration } from "./routes";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -105,7 +105,7 @@ const App = () => {
 							>
 								<Routes>
 									<Route path="/" element={ <Content /> } />
-									<Route path="/first-time-configuration" element={ <FirstTimeConfigurationSteps /> } />
+									<Route path="/first-time-configuration" element={ <FirstTimeConfiguration /> } />
 								</Routes>
 							</Transition>
 						</Paper>
