@@ -19,7 +19,7 @@ class News_SEO implements Integration_Data_Provider_Interface {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param WPSEO_Addon_Manager $addon_manager The addon manager.
 	 */
 	public function __construct( WPSEO_Addon_Manager $addon_manager ) {
