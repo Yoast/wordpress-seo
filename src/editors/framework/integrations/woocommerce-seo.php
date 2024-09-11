@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface
 /**
  * Describes if the Woocommerce SEO addon is enabled.
  */
-class WooCommerceSEO implements Integration_Data_Provider_Interface {
+class WooCommerce_SEO implements Integration_Data_Provider_Interface {
 
 	/**
 	 * The addon manager.
