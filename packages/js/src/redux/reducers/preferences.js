@@ -32,7 +32,7 @@ function getDefaultState() {
 		useTwitterData: window.wpseoScriptData.metabox.showSocial.twitter,
 		isWincherIntegrationActive: isWincherIntegrationActive(),
 		isInsightsEnabled: get( window, "wpseoScriptData.metabox.isInsightsEnabled", false ),
-		isNewsEnabled: ! ! window.wpseoAdminL10n.news_seo_is_active,
+		isNewsEnabled: get( window, "wpseoScriptData.metabox.isNewsSEOActive", false ),
 		isAiFeatureActive: Boolean( window.wpseoAdminL10n.isAiFeatureActive ),
 	};
 }
