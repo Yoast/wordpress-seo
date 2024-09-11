@@ -35,7 +35,7 @@ export const multipleWords = [ "o halde", "bundan böyle", "demek ki", "ne yazı
 	"sözün özü", "en nihayetinde", "uzun uzadıya", "her iki durumda da", "özü itibariyle", "amacı ile", "olması için", "başka bir ifadeyle",
 	"diğer bir deyişle", "i̇lk önce", "bir yandan", "bir taraftan", "hatırlatmak gerekirse", "bu bağlamda", "gel gelelim", "her şey hesaba katılırsa",
 	"bütüne bakıldığında", "belirtildiği gibi", "bir başka ifadeyle", "lafı toparlamak gerekirse", "bu düşünceyle", "bu maksatla", "bu doğrultuda",
-	"bu niyetle", "ne de", "ya da", "aksi durumda", "bu durum", "olup olmadığı", "diğer yandan", "öte yandan" ];
+	"bu niyetle", "ne de", "ya da", "aksi durumda", "bu durum", "olup olmadığı", "diğer yandan", "öte yandan", "ne olursa olsun" ];
 
 export const allWords = singleWords.concat( multipleWords );
 
