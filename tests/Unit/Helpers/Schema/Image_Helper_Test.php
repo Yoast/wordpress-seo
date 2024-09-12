@@ -89,6 +89,32 @@ final class Image_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests generating the schema from url with a found attachment id.
+	 *
+	 * @covers ::generate_from_url
+	 *
+	 * @return void
+	 */
+	public function test_generate_from_resized_url_with_found_attachment_id() {
+		$this->image
+			->expects( 'get_attachment_by_url' )
+			->once()
+			->with( 'https://example.org/image-300x300.jpg', true )
+			->andReturn( 1337 );
+
+		$this->instance
+			->expects( 'generate_from_resized_url' )
+			->once()
+			->with( '#schema-image-ABC', 1337, '', false, 'https://example.org/image-300x300.jpg' )
+			->andReturn( [] );
+
+		$this->assertEquals(
+			[],
+			$this->instance->generate_from_url( '#schema-image-ABC', 'https://example.org/image-300x300.jpg', '', false, true, true )
+		);
+	}
+
+	/**
 	 * Tests generating the schema from url no found attachment id.
 	 *
 	 * @covers ::generate_from_url
@@ -164,6 +190,53 @@ final class Image_Helper_Test extends TestCase {
 				'https://example.com/#/schema/logo/image/',
 				1337,
 				'Company name'
+			)
+		);
+	}
+
+	/**
+	 * Tests the generate_from_resized_url method.
+	 *
+	 * @covers ::generate_from_resized_url
+	 * @covers ::generate_object
+	 * @covers ::add_image_size
+	 * @covers ::add_caption
+	 *
+	 * @return void
+	 */
+	public function test_generate_from_resized_url() {
+		$this->image
+			->expects( 'get_attachment_image_url' )
+			->never();
+
+		$this->image
+			->expects( 'get_metadata' )
+			->never();
+
+		$this->language
+			->expects( 'add_piece_language' )
+			->once()
+			->andReturnUsing( [ $this, 'set_language' ] );
+
+		$expected = [
+			'@type'      => 'ImageObject',
+			'@id'        => 'https://example.com/#/schema/logo/image/',
+			'url'        => 'https://example.com/logo-300x300.jpg',
+			'contentUrl' => 'https://example.com/logo-300x300.jpg',
+			'width'      => 300,
+			'height'     => 300,
+			'caption'    => 'Caption',
+			'inLanguage' => 'language',
+		];
+
+		$this->assertEquals(
+			$expected,
+			$this->instance->generate_from_resized_url(
+				'https://example.com/#/schema/logo/image/',
+				1337,
+				'Caption',
+				false,
+				'https://example.com/logo-300x300.jpg'
 			)
 		);
 	}
