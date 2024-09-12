@@ -58,4 +58,4 @@ export const getIsWooCommerceActive = state => getPreference( state, "isWooComme
  * @param {Object} state The state.
  * @returns {Boolean} The preference for the isWooSeoActive.
  */
-export const getIsWooSeoActive = state => getPreference( state, "isWooSeoActive", false );
+export const getIsWooSeoActive = state => getPreference( state, "isWooCommerceSeoActive", false );
