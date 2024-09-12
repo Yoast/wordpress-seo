@@ -93,6 +93,10 @@ describe( "A keyword in slug count assessment", function() {
 } );
 
 describe( "tests for the assessment applicability.", function() {
+	afterEach( () => {
+		window.wpseoScriptData = undefined;
+	} );
+
 	it( "returns false when there is no keyword and slug found.", function() {
 		const paper = new Paper( "sample keyword" );
 		const researcher = new DefaultResearcher( paper );
@@ -122,11 +126,35 @@ describe( "tests for the assessment applicability.", function() {
 		expect( keywordCountInSlug.isApplicable( paper, researcher ) ).toBe( false );
 	} );
 
+	it( "returns false when page is front.", function() {
+		const paper = new Paper( "sample keyword", {
+			slug: "sample-with-keyword",
+			keyword: "keyword",
+		} );
+
+		window.wpseoScriptData = {
+			metabox: {
+				isFrontPage: true,
+			},
+		};
+
+		// The default researcher has the keywordCountInSlug research.
+		const researcher = new DefaultResearcher( paper );
+
+		expect( keywordCountInSlug.isApplicable( paper, researcher ) ).toBe( false );
+	} );
+
 	it( "returns true when the researcher has the keywordCountInSlug research.", function() {
 		const paper = new Paper( "sample keyword", {
 			slug: "sample-with-keyword",
 			keyword: "keyword",
 		} );
+
+		window.wpseoScriptData = {
+			metabox: {
+				isFrontPage: false,
+			},
+		};
 
 		// The default researcher has the keywordCountInSlug research.
 		const researcher = new DefaultResearcher( paper );
