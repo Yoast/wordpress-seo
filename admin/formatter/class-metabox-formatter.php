@@ -52,7 +52,6 @@ class WPSEO_Metabox_Formatter {
 
 		$defaults = [
 			'author_name'                        => get_the_author_meta( 'display_name' ),
-			'sitewide_social_image'              => WPSEO_Options::get( 'og_default_image' ),
 			'keyword_usage'                      => [],
 			'title_template'                     => '',
 			'metadesc_template'                  => '',
