@@ -336,10 +336,6 @@
   margin: 0.5em 0;
 }
 
-.wpseo_image_upload_button {
-  margin-left: 3px;
-}
-
 .good,
 .warn,
 .wrong {
@@ -455,15 +451,6 @@
 
 .yst-traffic-light.na .traffic-light-empty {
   display: inline;
-}
-
-.yoast-zapier-text {
-  display: flex;
-}
-
-.yoast-zapier-text .yoast-logo.svg {
-  max-width: 18px;
-  width: 100% !important;
 }
 
 /**
@@ -643,10 +630,6 @@ ul.yoast-seo-social-share-buttons a {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-}
-
-.yoast.yoast-zapier {
-  margin: 8px 0 25px;
 }
 
 .yoast-field-group.yoast-wincher-post-publish {

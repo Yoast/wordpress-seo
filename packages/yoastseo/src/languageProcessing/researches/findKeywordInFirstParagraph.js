@@ -1,5 +1,5 @@
 /** @module analyses/findKeywordInFirstParagraph */
-import { isEmpty } from "lodash";
+import { inRange, isEmpty } from "lodash";
 
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
 import { getParentNode } from "../helpers/sentence/getSentencesFromTree";
@@ -32,9 +32,9 @@ export default function( paper, researcher ) {
 		const parentNode = getParentNode( paper, paragraph );
 		return ! ( paragraph.isImplicit && parentNode && parentNode.name === "figcaption" );
 	} );
-	// Filter captions from Classic editor.
+	// Filter captions from Classic editor and from classic block inside Block editor.
 	paragraphs = paragraphs.filter( paragraph => {
-		return ! ( paragraph.isImplicit && paragraph.childNodes && paragraph.childNodes[ 0 ] &&
+		return ! ( paragraph.childNodes && paragraph.childNodes[ 0 ] &&
 			createShortcodeTagsRegex( [ "caption" ] ).test( paragraph.childNodes[ 0 ].value ) );
 	} );
 	 const firstParagraph = paragraphs[ 0 ];
@@ -42,12 +42,16 @@ export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const locale = paper.getLocale();
+	const startOffset = firstParagraph && firstParagraph.sourceCodeLocation.startOffset;
 
+	const mappedBlocks = paper._attributes.wpBlocks;
+	const filteredIntroductionBlock = mappedBlocks && mappedBlocks.filter( block => inRange( startOffset, block.startOffset, block.endOffset ) )[ 0 ];
 	const result = {
 		foundInOneSentence: false,
 		foundInParagraph: false,
 		keyphraseOrSynonym: "",
 		introduction: firstParagraph,
+		parentBlock: filteredIntroductionBlock || null,
 	};
 
 	if ( isEmpty( firstParagraph ) ) {

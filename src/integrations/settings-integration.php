@@ -60,7 +60,6 @@ class Settings_Integration implements Integration_Interface {
 			'myyoast-oauth',
 			'semrush_tokens',
 			'custom_taxonomy_slugs',
-			'zapier_subscription',
 			'import_cursors',
 			'workouts_data',
 			'configuration_finished_steps',
@@ -379,7 +378,7 @@ class Settings_Integration implements Integration_Interface {
 		\wp_enqueue_media();
 		$this->asset_manager->enqueue_script( 'new-settings' );
 		$this->asset_manager->enqueue_style( 'new-settings' );
-		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
 			$this->asset_manager->enqueue_style( 'black-friday-banner' );
 		}
 		$this->asset_manager->localize_script( 'new-settings', 'wpseoScriptData', $this->get_script_data() );

@@ -1,7 +1,7 @@
 /* global elementor, YoastSEO */
 import { dispatch, select } from "@wordpress/data";
 import { cleanForSlug } from "@wordpress/url";
-import { debounce, get } from "lodash";
+import { debounce, get, noop } from "lodash";
 import { markers, Paper } from "yoastseo";
 import { refreshDelay } from "../../analysis/constants";
 import firstImageUrlInContent from "../../helpers/firstImageUrlInContent";
@@ -115,6 +115,14 @@ function getEditorData( editorDocument ) {
  */
 function handleEditorChange() {
 	const currentDocument = elementor.documents.getCurrent();
+	if ( ! currentDocument.$element ) {
+		return;
+	}
+
+	// Don't update the editor data when the form ID is not equal to the document ID.
+	if ( ! isFormIdEqualToDocumentId() ) {
+		return;
+	}
 
 	// Quit early if the change was caused by switching out of the wp-post/page document.
 	// This can happen when users go to Site Settings, for example.
@@ -174,14 +182,32 @@ function resetMarks() {
 const debouncedHandleEditorChange = debounce( handleEditorChange, refreshDelay );
 
 /**
- * Observes changes to the whole document through a MutationObserver.
+ * Creates a MutationObserver to observe changes to the document.
  *
- * @returns {void}
+ * @param {function} callback The callback to execute when a change is detected.
+ *
+ * @returns {function} A function to disconnect the observer.
  */
-function observeChanges() {
-	const observer = new MutationObserver( debouncedHandleEditorChange );
-	observer.observe( document, { attributes: true, childList: true, subtree: true, characterData: true } );
-}
+const createMutationObserver = ( callback ) => {
+	const observer = new MutationObserver( callback );
+
+	/**
+	 * Observes changes in the document.
+	 *
+	 * @param {Node} [target=document] A DOM Node (which may be an Element) within the DOM tree to watch for changes.
+	 *
+	 * @returns {function} The disconnect function.
+	 */
+	return ( target = document ) => {
+		observer.observe( target, { attributes: true, childList: true, subtree: true, characterData: true } );
+
+		/**
+		 * Disconnects the observer.
+		 * @returns {void}
+		 */
+		return () => observer.disconnect();
+	};
+};
 
 /**
  * Initializes the watcher by coupling the change handlers to the change events.
@@ -194,9 +220,31 @@ export default function initialize() {
 	// This hook will fire just before the document is saved.
 	registerElementorUIHookBefore( "document/save/save", "yoast-seo/marks/reset-on-save", resetMarks, ( { document } ) => isFormId( document?.id || elementor.documents.getCurrent().id ) );
 
+	const startObserver = createMutationObserver( debouncedHandleEditorChange );
+	let stopObserver = noop;
+
+	/**
+	 * Stops the observer and cancels any pending changes.
+	 * @returns {void}
+	 */
+	const stopObserverAndPendingChanges = () => {
+		// Stop listening to the document.
+		stopObserver();
+		stopObserver = noop;
+		// Stop any pending debounced editor change calls.
+		debouncedHandleEditorChange.cancel();
+	};
+
+	registerElementorUIHookAfter(
+		"editor/documents/close",
+		"yoast-seo/content-scraper/stop",
+		stopObserverAndPendingChanges,
+		( { id } ) => isFormId( id )
+	);
 	// This hook will fire when the Elementor preview becomes available.
-	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo/content-scraper/initial", debouncedHandleEditorChange, isFormIdEqualToDocumentId );
-	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo/content-scraper", debounce( observeChanges, refreshDelay ), isFormIdEqualToDocumentId );
+	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo/content-scraper/start", () => {
+		stopObserver = startObserver();
+	}, isFormIdEqualToDocumentId );
 
 	// This hook will fire when the contents of the editor are modified.
 	registerElementorUIHookAfter( "document/save/set-is-modified", "yoast-seo/content-scraper/on-modified", debouncedHandleEditorChange, ( { document } ) => isFormId( document?.id || elementor.documents.getCurrent().id ) );

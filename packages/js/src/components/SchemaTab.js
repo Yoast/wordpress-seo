@@ -6,7 +6,6 @@ import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import WooCommerceUpsell from "./WooCommerceUpsell";
-import { get } from "lodash";
 import { useSelect } from "@wordpress/data";
 
 const NewsLandingPageLink = makeOutboundLink();
@@ -167,8 +166,8 @@ function isNewsArticleType( selectedValue, defaultValue ) {
 const Content = ( props ) => {
 	const schemaPageTypeOptions = getSchemaTypeOptions( props.pageTypeOptions, props.defaultPageType, props.postTypeName );
 	const schemaArticleTypeOptions = getSchemaTypeOptions( props.articleTypeOptions, props.defaultArticleType, props.postTypeName );
-	const woocommerceUpsellLink = get( window, "wpseoScriptData.metabox.woocommerceUpsellSchemaLink", "" );
-	const woocommerceUpsell = get( window, "wpseoScriptData.woocommerceUpsell", "" );
+	const woocommerceUpsellLink = useSelect( select => select( STORE ).selectLink( "https://yoa.st/product-schema-metabox" ), [] );
+	const woocommerceUpsell = useSelect( ( select ) => select( STORE ).getIsWooSeoUpsell(), [] );
 	const [ focusedArticleType, setFocusedArticleType ] = useState( props.schemaArticleTypeSelected );
 	const woocommerceUpsellText = __( "Want your products stand out in search results with rich results like price, reviews and more?", "wordpress-seo" );
 	const isProduct = useSelect( ( select ) => select( STORE ).getIsProduct(), [] );

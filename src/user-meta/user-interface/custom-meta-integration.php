@@ -48,6 +48,9 @@ class Custom_Meta_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks(): void {
+		\add_action( 'show_user_profile', [ $this, 'user_profile' ] );
+		\add_action( 'edit_user_profile', [ $this, 'user_profile' ] );
+
 		\add_action( 'personal_options_update', [ $this, 'process_user_option_update' ] );
 		\add_action( 'edit_user_profile_update', [ $this, 'process_user_option_update' ] );
 	}
@@ -67,9 +70,13 @@ class Custom_Meta_Integration implements Integration_Interface {
 		}
 
 		foreach ( $this->custom_meta_collector->get_custom_meta() as $meta ) {
-			$meta_field_id = $meta->get_field_id();
+			if ( ! $meta->is_setting_enabled() ) {
+				continue;
+			}
 
+			$meta_field_id       = $meta->get_field_id();
 			$user_input_to_store = isset( $_POST[ $meta_field_id ] ) ? \sanitize_text_field( \wp_unslash( $_POST[ $meta_field_id ] ) ) : '';
+
 			if ( $meta->is_empty_allowed() || $user_input_to_store !== '' ) {
 				\update_user_meta( $user_id, $meta->get_key(), $user_input_to_store );
 				continue;
@@ -77,5 +84,36 @@ class Custom_Meta_Integration implements Integration_Interface {
 
 			\delete_user_meta( $user_id, $meta->get_key() );
 		}
+	}
+
+	/**
+	 * Adds the inputs needed for SEO values to the User Profile page.
+	 *
+	 * @param WP_User $user User instance to output for.
+	 *
+	 * @return void
+	 */
+	public function user_profile( $user ) {
+		\wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
+
+		/* translators: %1$s expands to Yoast SEO */
+		$yoast_user_settings_header = \sprintf( \__( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
+
+		echo '
+
+		<div class="yoast yoast-settings">
+			
+			<h2 id="wordpress-seo">' . \esc_html( $yoast_user_settings_header ) . '</h2>';
+
+		foreach ( $this->custom_meta_collector->get_sorted_custom_meta() as $meta ) {
+			if ( ! $meta->is_setting_enabled() ) {
+				continue;
+			}
+
+			$meta->render_field( $user->ID );
+		}
+
+		\do_action( 'wpseo_render_user_profile', $user );
+		echo '</div>';
 	}
 }

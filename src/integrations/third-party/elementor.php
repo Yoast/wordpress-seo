@@ -14,10 +14,8 @@ use WPSEO_Metabox_Analysis_SEO;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Replace_Vars;
-use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
-use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
 use Yoast\WP\SEO\Elementor\Infrastructure\Request_Post;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -388,7 +386,6 @@ class Elementor implements Integration_Interface {
 
 		$plugins_script_data = [
 			'replaceVars' => [
-				'no_parent_text'           => \__( '(no parent)', 'wordpress-seo' ),
 				'replace_vars'             => $this->get_replace_vars(),
 				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 				'hidden_replace_vars'      => $this->get_hidden_replace_vars(),
@@ -410,24 +407,20 @@ class Elementor implements Integration_Interface {
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
-		$woocommerce_conditional = new WooCommerce_Conditional();
-		$permalink               = $this->get_permalink();
+		$permalink = $this->get_permalink();
 
 		$script_data = [
-			'media'                     => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'                   => $this->get_metabox_script_data( $permalink ),
 			'userLanguageCode'          => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'                    => true,
 			'isBlockEditor'             => WP_Screen::get()->is_block_editor(),
 			'isElementorEditor'         => true,
-			'isWooCommerceActive'       => $woocommerce_conditional->is_met(),
 			'postStatus'                => \get_post_status( $post_id ),
 			'postType'                  => \get_post_type( $post_id ),
 			'analysis'                  => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'webinarIntroElementorUrl'  => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
 			'usedKeywordsNonce'         => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 		];
 
@@ -440,14 +433,6 @@ class Elementor implements Integration_Interface {
 		$site_information = $repo->get_post_site_information();
 		$site_information->set_permalink( $permalink );
 		$script_data = \array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
-
-		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
-			$this->asset_manager->enqueue_style( 'featured-image' );
-
-			$script_data['featuredImage'] = [
-				'featured_image_notice' => \__( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
-			];
-		}
 
 		$this->asset_manager->localize_script( 'elementor', 'wpseoScriptData', $script_data );
 		$this->asset_manager->enqueue_user_language_script();

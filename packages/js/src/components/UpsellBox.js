@@ -108,16 +108,15 @@ class UpsellBox extends Component {
 	 * @returns {wp.Element} The rendered UpsellBox component.
 	 */
 	render() {
-		const isBlackFriday = select( "yoast-seo/editor" ).isPromotionActive( "black-friday-2023-promotion" );
+		const isBlackFriday = select( "yoast-seo/editor" ).isPromotionActive( "black-friday-2024-promotion" );
 		const { defaultPrice } = this.state;
 		const newPrice = isBlackFriday ? "69.30" : null;
 		const price = newPrice ? newPrice : defaultPrice;
 		return (
 			<Fragment>
 				{ isBlackFriday &&
-				<div className="yst-flex yst-justify-between yst-items-center yst-text-lg yst-content-between yst-bg-black yst-text-amber-300 yst-h-9 yst-border-amber-300 yst-border-y yst-border-x-0 yst-border-solid yst-px-6">
-					<div>{ __( "BLACK FRIDAY", "wordpress-seo" ) }</div>
-					<div>{ __( "30% OFF", "wordpress-seo" ) }</div>
+				<div className="yst-flex  yst-items-center yst-text-lg yst-content-between yst-bg-black yst-text-amber-300 yst-h-9 yst-border-amber-300 yst-border-y yst-border-x-0 yst-border-solid yst-px-6">
+					<div className="yst-mx-auto">{ __( "BLACK FRIDAY | 30% OFF", "wordpress-seo" ) }</div>
 				</div> }
 				<Container>
 					<Heading>{ this.props.title }</Heading>

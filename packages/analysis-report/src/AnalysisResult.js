@@ -26,14 +26,15 @@ const AnalysisResultBase = styled.li`
 	display: flex;
 	align-items: flex-start;
 	position: relative;
+	gap: 12px;
 `;
 
 const ScoreIcon = styled( SvgIcon )`
-	margin: 3px 11px 0 0; // icon 13 + 11 right margin = 24 for the 8px grid.
+	margin: 3px 0 0 0;
 `;
 
 const AnalysisResultText = styled.p`
-	margin: 0 16px 0 0;
+	margin: 0;
 	flex: 1 1 auto;
 	color: ${ props => props.suppressedText ? "rgba(30,30,30,0.5)" : "inherit" };
 `;

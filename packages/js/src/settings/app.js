@@ -4,14 +4,15 @@ import { AdjustmentsIcon, ArrowNarrowRightIcon, ColorSwatchIcon, DesktopComputer
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { createInterpolateElement, useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Button, ChildrenLimiter, ErrorBoundary, Paper, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
+import { Badge, Button, ChildrenLimiter, ErrorBoundary, Paper, SidebarNavigation, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { getPremiumBenefits } from "../helpers/get-premium-benefits";
-import { ErrorFallback, Notifications, Search, SidebarNavigation, SidebarRecommendations, YoastLogo } from "./components";
+import { MenuItemLink, YoastLogo } from "../shared-admin/components";
+import { ErrorFallback, Notifications, Search, SidebarRecommendations } from "./components";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
 	AuthorArchives,
@@ -81,14 +82,14 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				icon={ DesktopComputerIcon }
 				label={ __( "General", "wordpress-seo" ) }
 			>
-				<SidebarNavigation.SubmenuItem to="/site-features" label={ __( "Site features", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/site-basics" label={ __( "Site basics", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem
+				<MenuItemLink to="/site-features" label={ __( "Site features", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<MenuItemLink to="/site-basics" label={ __( "Site basics", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<MenuItemLink
 					to="/site-representation"
 					label={ __( "Site representation", "wordpress-seo" ) }
 					idSuffix={ idSuffix }
 				/>
-				<SidebarNavigation.SubmenuItem to="/site-connections" label={ __( "Site connections", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<MenuItemLink to="/site-connections" label={ __( "Site connections", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
 				id={ `menu-content-types${ idSuffix }` }
@@ -96,9 +97,9 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				label={ __( "Content types", "wordpress-seo" ) }
 			>
 				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
-					<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
+					<MenuItemLink to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
 					{ map( postTypes, ( { name, route, label, isNew } ) => (
-						<SidebarNavigation.SubmenuItem
+						<MenuItemLink
 							key={ `link-post-type-${ name }` }
 							to={ `/post-type/${ route }` }
 							label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
@@ -117,7 +118,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			>
 				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
 					{ map( taxonomies, taxonomy => (
-						<SidebarNavigation.SubmenuItem
+						<MenuItemLink
 							key={ `link-taxonomy-${ taxonomy.name }` }
 							to={ `/taxonomy/${ taxonomy.route }` }
 							label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
@@ -135,18 +136,18 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				label={ __( "Advanced", "wordpress-seo" ) }
 				defaultOpen={ false }
 			>
-				<SidebarNavigation.SubmenuItem
+				<MenuItemLink
 					to="/crawl-optimization"
 					label={ __( "Crawl optimization", "wordpress-seo" ) }
 					idSuffix={ idSuffix }
 				/>
-				<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/format-archives" label={ __( "Format archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/special-pages" label={ __( "Special pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/media-pages" label={ __( "Media pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<MenuItemLink to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<MenuItemLink to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<MenuItemLink to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<MenuItemLink to="/format-archives" label={ __( "Format archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<MenuItemLink to="/special-pages" label={ __( "Special pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<MenuItemLink to="/media-pages" label={ __( "Media pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<MenuItemLink to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
 		</div>
 	</>;
@@ -165,13 +166,12 @@ const PremiumUpsellList = () => {
 	const premiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const promotions = useSelectSettings( "selectPreference", [], "promotions", [] );
-	const isBlackFriday = promotions.includes( "black-friday-2023-promotion" );
+	const isBlackFriday = promotions.includes( "black-friday-2024-promotion" );
 
 	return (
 		<Paper as="div" className="xl:yst-max-w-3xl">
-			{ isBlackFriday && <div className="yst-rounded-t-lg yst-h-9 yst-flex yst-justify-between yst-items-center yst-bg-black yst-text-amber-300 yst-px-4 yst-text-lg yst-border-b yst-border-amber-300 yst-border-solid yst-font-semibold">
-				<div>{ __( "BLACK FRIDAY", "wordpress-seo" ) }</div>
-				<div>{ __( "30% OFF", "wordpress-seo" ) }</div>
+			{ isBlackFriday && <div className="yst-rounded-t-lg yst-h-9 yst-flex yst-items-center yst-bg-black yst-text-amber-300 yst-px-4 yst-text-lg yst-border-b yst-border-amber-300 yst-border-solid yst-font-semibold">
+				<div>{ __( "30% OFF | Code: BF2024", "wordpress-seo" ) }</div>
 			</div> }
 			<div className="yst-p-6 yst-flex yst-flex-col">
 				<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
@@ -199,7 +199,7 @@ const PremiumUpsellList = () => {
 					{ ...premiumUpsellConfig }
 				>
 					{ isBlackFriday ? __( "Claim your 30% off now!", "wordpress-seo" ) : sprintf(
-					/* translators: %s expands to "Yoast SEO" Premium */
+						/* translators: %s expands to "Yoast SEO" Premium */
 						__( "Explore %s now!", "wordpress-seo" ),
 						"Yoast SEO Premium"
 					) }
