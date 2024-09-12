@@ -43,3 +43,19 @@ export const getIsWooSeoUpsell = ( state ) => {
 
 	return ! isWooSeoActive && isWooCommerceActive && isProductPage;
 };
+
+/**
+ * Get the preference for the isWooCommerceActive.
+ *
+ * @param {Object} state The state.
+ * @returns {Boolean} The preference for the isWooCommerceActive.
+ */
+export const getIsWooCommerceActive = state => getPreference( state, "isWooCommerceActive", false );
+
+/**
+ * Get the preference for the isWooSeoActive.
+ *
+ * @param {Object} state The state.
+ * @returns {Boolean} The preference for the isWooSeoActive.
+ */
+export const getIsWooSeoActive = state => getPreference( state, "isWooSeoActive", false );

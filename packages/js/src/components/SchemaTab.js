@@ -69,7 +69,7 @@ NewsAlert.propTypes = {
  */
 const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) => {
 	const isProduct = useSelect( ( select ) => select( STORE ).getIsProduct(), [] );
-	const isWooSeoActive = useSelect( select => select( STORE ).getPreference( "isWooCommerceSeoActive" ), [] );
+	const isWooSeoActive = useSelect( select => select( STORE ).getIsWooSeoActive(), [] );
 	const disablePageTypeSelect = isProduct && isWooSeoActive;
 	const schemaOption = disablePageTypeSelect ? { name: __( "Item Page", "wordpress-seo" ), value: "ItemPage" } : schemaTypeOptions.find( option => option.value === defaultType );
 	return [
@@ -171,7 +171,7 @@ const Content = ( props ) => {
 	const [ focusedArticleType, setFocusedArticleType ] = useState( props.schemaArticleTypeSelected );
 	const woocommerceUpsellText = __( "Want your products stand out in search results with rich results like price, reviews and more?", "wordpress-seo" );
 	const isProduct = useSelect( ( select ) => select( STORE ).getIsProduct(), [] );
-	const isWooSeoActive = useSelect( select => select( STORE ).getPreference( "isWooCommerceSeoActive" ), [] );
+	const isWooSeoActive = useSelect( select => select( STORE ).getIsWooSeoActive(), [] );
 	const settingsLink = useSelect( select => select( STORE ).selectAdminLink( "?page=wpseo_page_settings" ), [] );
 
 	const disablePageTypeSelect = isProduct && isWooSeoActive;
