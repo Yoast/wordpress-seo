@@ -6,7 +6,6 @@ use WP_Post;
 use WP_Screen;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Recommended_Replace_Vars;
-use WPSEO_Language_Utils;
 use WPSEO_Meta;
 use WPSEO_Metabox_Analysis_Inclusive_Language;
 use WPSEO_Metabox_Analysis_Readability;
@@ -411,7 +410,6 @@ class Elementor implements Integration_Interface {
 
 		$script_data = [
 			'metabox'                   => $this->get_metabox_script_data( $permalink ),
-			'userLanguageCode'          => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'                    => true,
 			'isBlockEditor'             => WP_Screen::get()->is_block_editor(),
 			'isElementorEditor'         => true,
