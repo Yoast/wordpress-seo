@@ -324,7 +324,6 @@ export default withSelect( ( select, ownProps ) => {
 		getMarksButtonStatus,
 		getResultsForKeyword,
 		getIsElementorEditor,
-		getPreference,
 	} = select( "yoast-seo/editor" );
 
 	const keyword = getFocusKeyphrase();
@@ -334,6 +333,6 @@ export default withSelect( ( select, ownProps ) => {
 		marksButtonStatus: ownProps.hideMarksButtons ? "disabled" : getMarksButtonStatus(),
 		keyword,
 		isElementor: getIsElementorEditor(),
-		isAiFeatureEnabled: getPreference( "isAiFeatureActive", false ),
+		isAiFeatureEnabled: select( "yoast-seo-premium/editor" )?.getIsAiFeatureEnabled(),
 	};
 } )( SeoAnalysis );
