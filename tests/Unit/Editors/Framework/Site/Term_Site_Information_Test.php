@@ -127,6 +127,7 @@ final class Term_Site_Information_Test extends TestCase {
 			'isRtl'                 => false,
 			'isPremium'             => true,
 			'siteIconUrl'           => 'https://example.org',
+			'sitewideSocialImage'   => null,
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
@@ -168,7 +169,7 @@ final class Term_Site_Information_Test extends TestCase {
 			],
 			'pluginUrl'             => '/location',
 			'wistiaEmbedPermission' => true,
-
+			'sitewideSocialImage'   => null,
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );

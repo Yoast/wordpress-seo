@@ -124,6 +124,7 @@ final class Post_Site_Information_Test extends TestCase {
 			'linkParams'                 => $this->short_link_helper->get_query_params(),
 			'pluginUrl'                  => 'http://example.org/wp-content/plugins/wordpress-seo',
 			'wistiaEmbedPermission'      => true,
+			'sitewideSocialImage'        => '',
 		];
 
 		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
@@ -160,7 +161,7 @@ final class Post_Site_Information_Test extends TestCase {
 			'isRtl'                      => false,
 			'isPremium'                  => false,
 			'siteIconUrl'                => '',
-
+			'sitewideSocialImage'        => '',
 		];
 
 		$this->assertSame( $expected, $this->instance->get_site_information() );
