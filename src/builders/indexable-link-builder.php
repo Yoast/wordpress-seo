@@ -599,10 +599,10 @@ class Indexable_Link_Builder {
 		$first_content_image_url = \key( $images );
 		$first_content_image_id  = \current( $images );
 
-		if ( $indexable->open_graph_image_source === 'first-content-image' && $current_open_graph_image === $first_content_image_url ) {
+		if ( $indexable->open_graph_image_source === 'first-content-image' && $current_open_graph_image === $first_content_image_url && ! empty( $first_content_image_id ) ) {
 			$indexable->open_graph_image_id = $first_content_image_id;
 		}
-		if ( $indexable->twitter_image_source === 'first-content-image' && $current_twitter_image === $first_content_image_url ) {
+		if ( $indexable->twitter_image_source === 'first-content-image' && $current_twitter_image === $first_content_image_url && ! empty( $first_content_image_id ) ) {
 			$indexable->twitter_image_id = $first_content_image_id;
 		}
 	}
