@@ -879,9 +879,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 		];
 
-		$addon_manager          = new WPSEO_Addon_Manager();
-		$woocommerce_seo_active = is_plugin_active( $addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) );
-
 		$script_data = [
 			'metabox'                    => $this->get_metabox_script_data(),
 			'userLanguageCode'           => WPSEO_Language_Utils::get_language( get_user_locale() ),
@@ -895,7 +892,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'isWooCommerceSeoActive'     => $woocommerce_seo_active,
 		];
 
 		/**
