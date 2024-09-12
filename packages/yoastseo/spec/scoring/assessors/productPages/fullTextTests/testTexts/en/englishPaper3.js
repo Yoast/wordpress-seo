@@ -107,8 +107,7 @@ const expectedResults = {
 	productSKU: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Not all your product variants have a SKU. You can add a SKU via " +
-			"the \"Variations\" tab in the Product data box. <a href='https://yoa.st/4lx' target='_blank'>Include " +
+		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Not all your product variants have a SKU. <a href='https://yoa.st/4lx' target='_blank'>Include " +
 			"it if you can, as it will help search engines to better understand your content.</a>",
 	},
 	imageKeyphrase: {

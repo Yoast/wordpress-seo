@@ -98,8 +98,7 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
-			" Not all your product variants have a SKU. You can add a SKU via the \"Variations\" tab in the Product " +
-			"data box. <a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will help search " +
+			" Not all your product variants have a SKU. <a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will help search " +
 			"engines to better understand your content.</a>" );
 	} );
 
@@ -116,8 +115,7 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
-			" Not all your product variants have a SKU. You can add a SKU via the \"Variations\" tab in the Product " +
-			"data box. <a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will help search " +
+			" Not all your product variants have a SKU. <a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will help search " +
 			"engines to better understand your content.</a>" );
 	} );
 
@@ -213,7 +211,7 @@ describe( "a test for SKU assessment for Shopify", () => {
 				withVariants: sprintf(
 					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
 					__(
-						"%1$sSKU%3$s: Not all your product variants have a SKU. You can add a SKU via the \"Variations\" tab in the Product data box. %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
+						"%1$sSKU%3$s: Not all your product variants have a SKU. %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
 						"yoast-woo-seo"
 					),
 					urlTitleAnchorOpeningTag,

@@ -170,7 +170,7 @@ export default class ProductSKUAssessment extends Assessment {
 				},
 				okay: {
 					withoutVariants: "%1$sSKU%3$s: Your product is missing a SKU. %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
-					withVariants: "%1$sSKU%3$s: Not all your product variants have a SKU. You can add a SKU via the \"Variations\" tab in the Product data box. %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
+					withVariants: "%1$sSKU%3$s: Not all your product variants have a SKU. %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
 				},
 			};
 			defaultResultTexts.good = mapValues(
