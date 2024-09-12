@@ -37,8 +37,8 @@ export const getIsKeywordAnalysisActive = state => get( state, "preferences.isKe
  * @returns {Boolean} Whether the plugin is WooCommerce SEO or not.
  */
 export const getIsWooSeoUpsell = ( state ) => {
-	const isWooSeoActive = getPreference( state, "isWooSeoActive" );
-	const isWooCommerceActive = getPreference( state, "isWooCommerceActive" );
+	const isWooSeoActive = getIsWooSeoActive( state );
+	const isWooCommerceActive = getIsWooCommerceActive( state );
 	const isProductPage = getIsProduct( state );
 
 	return ! isWooSeoActive && isWooCommerceActive && isProductPage;
