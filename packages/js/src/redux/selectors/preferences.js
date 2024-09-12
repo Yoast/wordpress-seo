@@ -31,20 +31,6 @@ export const getPreferences = state => state.preferences;
 export const getIsKeywordAnalysisActive = state => get( state, "preferences.isKeywordAnalysisActive", false );
 
 /**
- * Determines whether the WooCommerce SEO addon is not active in a product page.
- *
- * @param {Object} state The state.
- * @returns {Boolean} Whether the plugin is WooCommerce SEO or not.
- */
-export const getIsWooSeoUpsell = ( state ) => {
-	const isWooSeoActive = getIsWooSeoActive( state );
-	const isWooCommerceActive = getIsWooCommerceActive( state );
-	const isProductPage = getIsProduct( state );
-
-	return ! isWooSeoActive && isWooCommerceActive && isProductPage;
-};
-
-/**
  * Get the preference for the isWooCommerceActive.
  *
  * @param {Object} state The state.
@@ -59,3 +45,17 @@ export const getIsWooCommerceActive = state => getPreference( state, "isWooComme
  * @returns {Boolean} The preference for the isWooSeoActive.
  */
 export const getIsWooSeoActive = state => getPreference( state, "isWooCommerceSeoActive", false );
+
+/**
+ * Determines whether the WooCommerce SEO addon is not active in a product page.
+ *
+ * @param {Object} state The state.
+ * @returns {Boolean} Whether the plugin is WooCommerce SEO or not.
+ */
+export const getIsWooSeoUpsell = ( state ) => {
+	const isWooSeoActive = getIsWooSeoActive( state );
+	const isWooCommerceActive = getIsWooCommerceActive( state );
+	const isProductPage = getIsProduct( state );
+
+	return ! isWooSeoActive && isWooCommerceActive && isProductPage;
+};
