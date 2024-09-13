@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Editors\Framework\Site;
 
 use Exception;
+use WPSEO_Options;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
@@ -80,6 +81,10 @@ abstract class Base_Site_Information {
 			'isRtl'                 => \is_rtl(),
 			'isPremium'             => $this->product_helper->is_premium(),
 			'siteIconUrl'           => \get_site_icon_url(),
+			'showSocial'            => [
+				'facebook' => WPSEO_Options::get( 'opengraph', false ),
+				'twitter'  => WPSEO_Options::get( 'twitter', false ),
+			],
 		];
 	}
 
@@ -102,6 +107,10 @@ abstract class Base_Site_Information {
 				'isRtl'         => \is_rtl(),
 				'isPremium'     => $this->product_helper->is_premium(),
 				'siteIconUrl'   => \get_site_icon_url(),
+				'showSocial'    => [
+					'facebook' => WPSEO_Options::get( 'opengraph', false ),
+					'twitter'  => WPSEO_Options::get( 'twitter', false ),
+				],
 			],
 		];
 	}
