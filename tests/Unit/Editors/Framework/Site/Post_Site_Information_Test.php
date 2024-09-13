@@ -136,7 +136,7 @@ final class Post_Site_Information_Test extends TestCase {
 			],
 			'pluginUrl'                  => '/location',
 			'wistiaEmbedPermission'      => true,
-			'isPrivateBlog'              => true,
+			'isPrivateBlog'              => false,
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
