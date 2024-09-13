@@ -91,9 +91,10 @@ class Image_Helper {
 		$data['url']        = $resized_url;
 		$data['contentUrl'] = $resized_url;
 
-		\preg_match( '/-(\d+)x(\d+)\.(jpg|jpeg|png|gif|webp)$/', $resized_url, $matches );
-		$data['width']  = $matches[1];
-		$data['height'] = $matches[2];
+		if ( \preg_match( '/-(\d+)x(\d+)\.(jpg|jpeg|png|gif|webp)$/', $resized_url, $matches ) ) {
+			$data['width']  = $matches[1];
+			$data['height'] = $matches[2];
+		}
 
 		$data = $this->add_caption( $data, $attachment_id, $caption );
 
