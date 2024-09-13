@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.6
-Stable tag: 23.3
+Stable tag: 23.4
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -274,9 +274,24 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 23.5 =
+
+Release date: 2024-09-17
+
+#### Enhancements
+
+* Improves our integration with cache plugins by preventing flushing their cache when not needed.
+* Improves analysis score feedback labels in the publish sections.
+
+#### Bugfixes
+
+* Fixes a bug where Arabic keyphrases containing certain function words were not correctly matched.
+
 = 23.4 =
 
 Release date: 2024-09-03
+
+Yoast SEO 23.4 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-3-9-24).
 
 #### Enhancements
 
@@ -300,16 +315,6 @@ Release date: 2024-09-03
 * Deprecates the `Disable_Concatenate_Scripts_Integration` class.
 * Deprecates the `Duplicate_Post_Integration` class.
 * Deprecates the `WPSEO_Admin_User_Profile::user_profile()` method and the `admin/views/user-profile.php` file.
-
-= 23.3 =
-
-Release date: 2024-08-20
-
-Yoast SEO 23.3 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-20-8-24).
-
-#### Other
-
-* This release only contains non-user-facing maintenance changes.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
