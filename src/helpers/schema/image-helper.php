@@ -55,7 +55,7 @@ class Image_Helper {
 	 * @param bool   $use_link_table    Whether the SEO Links table will be used to retrieve the id.
 	 * @param bool   $check_for_resized Whether to account for resized images.
 	 *
-	 * @return string[] Schema ImageObject array.
+	 * @return array<string, string> Schema ImageObject array.
 	 */
 	public function generate_from_url( $schema_id, $url, $caption = '', $add_hash = false, $use_link_table = true, $check_for_resized = false ) {
 		$attachment_id = $this->image->get_attachment_by_url( $url, $use_link_table );
@@ -80,7 +80,7 @@ class Image_Helper {
 	 * @param bool   $add_hash      Whether a hash will be added as a suffix in the @id.
 	 * @param string $resized_url   The url of the resized image.
 	 *
-	 * @return string[] Schema ImageObject array.
+	 * @return array<string, string> Schema ImageObject array.
 	 */
 	public function generate_from_resized_url( $schema_id, $attachment_id, $caption = '', $add_hash = false, $resized_url = '' ) {
 		$data = $this->generate_object();
@@ -108,7 +108,7 @@ class Image_Helper {
 	 * @param string $caption       The caption string, if there is one.
 	 * @param bool   $add_hash      Whether a hash will be added as a suffix in the @id.
 	 *
-	 * @return string[] Schema ImageObject array.
+	 * @return array<string, string> Schema ImageObject array.
 	 */
 	public function generate_from_attachment_id( $schema_id, $attachment_id, $caption = '', $add_hash = false ) {
 		$data = $this->generate_object();
@@ -133,7 +133,7 @@ class Image_Helper {
 	 * @param string $caption         The caption string, if there is one.
 	 * @param bool   $add_hash        Whether a hash will be added as a suffix in the @id.
 	 *
-	 * @return string[] Schema ImageObject array.
+	 * @return array<string, string> Schema ImageObject array.
 	 */
 	public function generate_from_attachment_meta( $schema_id, $attachment_meta, $caption = '', $add_hash = false ) {
 		$data = $this->generate_object();
@@ -160,7 +160,7 @@ class Image_Helper {
 	 * @param string $caption   A caption, if set.
 	 * @param bool   $add_hash  Whether a hash will be added as a suffix in the @id.
 	 *
-	 * @return string[] Schema ImageObject array.
+	 * @return array<string, string> Schema ImageObject array.
 	 */
 	public function simple_image_object( $schema_id, $url, $caption = '', $add_hash = false ) {
 		$data = $this->generate_object();
