@@ -21,6 +21,7 @@ const TaxonomyPicker = ( { id, value, terms, label, onChange } ) => {
 
 	return (
 		<SelectControl
+			__nextHasNoMarginBottom={ true }
 			__next40pxDefaultSize={ true }
 			id={ id }
 			label={ label }

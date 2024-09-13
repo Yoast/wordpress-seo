@@ -620,6 +620,10 @@ final class Indexable_Post_Builder_Test extends TestCase {
 			->with( 123 )
 			->andReturn( $image_meta );
 
+		$this->image->allows( 'get_post_content_image_id' )
+			->with( 123 )
+			->andReturn( '' );
+
 		$actual = $this->instance->find_alternative_image( $this->indexable );
 
 		$expected = [
@@ -661,7 +665,9 @@ final class Indexable_Post_Builder_Test extends TestCase {
 		$this->image->allows( 'get_post_content_image' )
 			->with( 123 )
 			->andReturn( false );
-
+		$this->image->allows( 'get_post_content_image_id' )
+			->with( 123 )
+			->andReturn( '' );
 		$this->assertFalse( $this->instance->find_alternative_image( $this->indexable ) );
 	}
 
