@@ -61,7 +61,7 @@ class Image_Helper {
 		$attachment_id = $this->image->get_attachment_by_url( $url, $use_link_table );
 		if ( $attachment_id > 0 ) {
 			// First check if we should use the resized image and whether it is a resized image indeed.
-			if ( $check_for_resized && \preg_match( '/-\d+x\d+\.(jpg|jpeg|png|gif|webp)$/i', $url ) ) {
+			if ( $check_for_resized && \preg_match( '/-(\d+)x(\d+)\.(jpg|jpeg|png|gif|webp)$/', $url ) ) {
 				return $this->generate_from_resized_url( $schema_id, $attachment_id, $caption, $add_hash, $url );
 			}
 
@@ -91,7 +91,7 @@ class Image_Helper {
 		$data['url']        = $resized_url;
 		$data['contentUrl'] = $resized_url;
 
-		\preg_match( '/-(\d+)x(\d+)\.(jpg|jpeg|png|gif|webp)/', $resized_url, $matches );
+		\preg_match( '/-(\d+)x(\d+)\.(jpg|jpeg|png|gif|webp)$/', $resized_url, $matches );
 		$data['width']  = $matches[1];
 		$data['height'] = $matches[2];
 
