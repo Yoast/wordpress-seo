@@ -865,7 +865,6 @@ class WPSEO_Utils {
 			'isBreadcrumbsDisabled' => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
 			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
 			'isPrivateBlog'         => ( (string) get_option( 'blog_public' ) ) === '0',
-			'isAiFeatureActive'     => (bool) WPSEO_Options::get( 'enable_ai_generator' ),
 		];
 
 		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );
