@@ -127,6 +127,10 @@ final class Term_Site_Information_Test extends TestCase {
 			'isRtl'                 => false,
 			'isPremium'             => true,
 			'siteIconUrl'           => 'https://example.org',
+			'showSocial'            => [
+				'facebook' => false,
+				'twitter'  => false,
+			],
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
@@ -160,6 +164,10 @@ final class Term_Site_Information_Test extends TestCase {
 				'isRtl'         => false,
 				'isPremium'     => true,
 				'siteIconUrl'   => 'https://example.org',
+				'showSocial'    => [
+					'facebook' => false,
+					'twitter'  => false,
+				],
 			],
 			'adminUrl'              => 'https://example.org',
 			'linkParams'            => [
