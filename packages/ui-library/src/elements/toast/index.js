@@ -116,6 +116,7 @@ const Toast = forwardRef( ( {
 	autoDismiss = null,
 	isVisible,
 	setIsVisible,
+	...props
 }, ref ) => {
 	const handleDismiss = useCallback( () => {
 		// Disable visibility on dismiss to trigger transition.
@@ -154,6 +155,7 @@ const Toast = forwardRef( ( {
 				) }
 				role= { role }
 				ref={ ref }
+				{ ...props }
 			>
 				{ children }
 			</Transition>
@@ -164,7 +166,7 @@ const Toast = forwardRef( ( {
 Toast.propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
-	role: PropTypes.string,
+	role: PropTypes.string.isRequired,
 	className: PropTypes.string,
 	position: PropTypes.string,
 	onDismiss: PropTypes.func,

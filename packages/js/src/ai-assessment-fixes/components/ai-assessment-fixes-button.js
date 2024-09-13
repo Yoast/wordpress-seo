@@ -47,7 +47,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			return {
 				isEnabled: false,
 				ariaLabel: null,
-				ariaHasPopup: null,
+				ariaHasPopup: false,
 			};
 		}
 
@@ -56,7 +56,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			return {
 				isEnabled: false,
 				ariaLabel: disabledAIButtons[ aiFixesId ],
-				ariaHasPopup: null,
+				ariaHasPopup: false,
 			};
 		}
 
@@ -65,7 +65,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			return {
 				isEnabled: false,
 				ariaLabel: htmlLabel,
-				ariaHasPopup: "dialog",
+				ariaHasPopup: false,
 			};
 		}
 
@@ -74,7 +74,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		return {
 			isEnabled: allVisual,
 			ariaLabel: allVisual ? defaultLabel : htmlLabel,
-			ariaHasPopup: allVisual ? "dialog" : null,
+			ariaHasPopup: allVisual ? "dialog" : false,
 		};
 	}, [ isButtonPressed, activeAIButtonId ] );
 
@@ -146,7 +146,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			className={ `ai-button ${buttonClass}` }
 			pressed={ isButtonPressed }
 			disabled={ ! isEnabled }
-			aria-haspopup={ ariaHasPopup }
+			ariaHasPopup={ ariaHasPopup }
 		>
 			{ ! isPremium && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
 			<SparklesIcon pressed={ isButtonPressed } />

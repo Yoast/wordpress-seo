@@ -29,6 +29,7 @@ const IconAIFixesButton = function( props ) {
 			unpressedBackground={ props.unpressedBackground }
 			id={ props.id }
 			aria-label={ props.ariaLabel }
+			aria-haspopup = { props.ariaHasPopup }
 			aria-pressed={ props.pressed }
 			pressedIconColor={ props.pressedIconColor }
 			className={ props.className }
@@ -43,6 +44,7 @@ IconAIFixesButton.propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	ariaLabel: PropTypes.string,
+	ariaHasPopup: PropTypes.string,
 	onClick: PropTypes.func,
 	onPointerEnter: PropTypes.func,
 	onPointerLeave: PropTypes.func,
