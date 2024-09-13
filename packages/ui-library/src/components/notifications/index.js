@@ -113,6 +113,7 @@ const notificationsClassNameMap = {
  * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The Notifications element.
  */
+
 const Notifications = forwardRef( ( {
 	children,
 	className = "",
@@ -133,11 +134,18 @@ const Notifications = forwardRef( ( {
 		</aside>
 	</NotificationsContext.Provider>
 ) );
+Notifications.displayName = "Notifications";
 
 Notifications.propTypes = {
 	children: PropTypes.node,
 	className: PropTypes.string,
 	position: PropTypes.oneOf( keys( notificationsClassNameMap.position ) ),
+};
+
+Notifications.defaultProps = {
+	children: null,
+	className: "",
+	position: "bottom-left",
 };
 
 Notifications.Notification = Notification;

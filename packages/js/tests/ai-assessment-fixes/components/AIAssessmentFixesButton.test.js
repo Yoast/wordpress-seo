@@ -67,6 +67,22 @@ describe( "AIAssessmentFixesButton", () => {
 		expect( labelText ).toBeInTheDocument();
 	} );
 
+	test( "should find the correct aria-haspopoup in the document to be false when the editor mode is not visual", () => {
+		mockSelect( "keyphraseDensityAIFixes", "code" );
+		render( <AIAssessmentFixesButton id="keyphraseDensity" isPremium={ false } /> );
+
+		const dialogPopup = document.querySelector( 'button[aria-haspopup="false"]' );
+		expect( dialogPopup ).toBeInTheDocument();
+	} );
+
+	test( "should find the correct aria-haspopoup in the document to be a dialog when the editor mode is visual", () => {
+		mockSelect( "keyphraseDensityAIFixes" );
+		render( <AIAssessmentFixesButton id="keyphraseDensity" isPremium={ false } /> );
+
+		const dialogPopup = document.querySelector( 'button[aria-haspopup="dialog"]' );
+		expect( dialogPopup ).toBeInTheDocument();
+	} );
+
 	test( "should find the correct button id", () => {
 		mockSelect( "keyphraseDensityAIFixes" );
 		render( <AIAssessmentFixesButton id="keyphraseDensity" isPremium={ true } /> );
@@ -127,6 +143,7 @@ describe( "AIAssessmentFixesButton", () => {
 		expect( button ).toBeDisabled();
 		expect( button ).toHaveAttribute( "aria-label", "Please switch to the visual editor to optimize with AI." );
 	} );
+
 	test( "should disable the highlighting button when the AI button is clicked", () => {
 		mockSelect( null );
 		render( <AIAssessmentFixesButton id="keyphraseDensity" isPremium={ true } /> );
@@ -140,6 +157,7 @@ describe( "AIAssessmentFixesButton", () => {
 		expect( setActiveAIFixesButton ).toHaveBeenCalledWith( "keyphraseDensityAIFixes" );
 		expect( setMarkerStatus ).toHaveBeenCalledWith( "disabled" );
 	} );
+
 	test( "should enable back the highlighting button when the AI button is clicked the second time", () => {
 		mockSelect( "keyphraseDensityAIFixes" );
 		render( <AIAssessmentFixesButton id="keyphraseDensity" isPremium={ true } /> );
@@ -153,6 +171,7 @@ describe( "AIAssessmentFixesButton", () => {
 		expect( setActiveAIFixesButton ).toHaveBeenCalledWith( null );
 		expect( setMarkerStatus ).toHaveBeenCalledWith( "enabled" );
 	} );
+
 	test( "should remove the active marker if it's available when the AI button is clicked", () => {
 		mockSelect( "keyphraseDensityAIFixes", "visual", [ { clientId: "test" } ], "test", "keyphraseDensity" );
 		render( <AIAssessmentFixesButton id="keyphraseDensity" isPremium={ true } /> );

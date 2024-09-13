@@ -26,14 +26,14 @@ export const toastClassNameMap = {
  * @param {string} [className] The additional class name.
  * @returns {JSX.Element} The close button.
  */
-const Close =forwardRef(( {
+const Close = forwardRef( ( {
 	dismissScreenReaderLabel,
 }, ref ) => {
 	const { handleDismiss } = useContext( ToastContext );
 	return (
 		<div className="yst-flex-shrink-0 yst-flex yst-self-start">
 			<button
-				ref={ref}
+				ref={ ref }
 				type="button"
 				onClick={ handleDismiss }
 				className="yst-bg-transparent yst-rounded-md yst-inline-flex yst-text-slate-400 hover:yst-text-slate-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
@@ -43,7 +43,9 @@ const Close =forwardRef(( {
 			</button>
 		</div>
 	);
-});
+} );
+
+Close.displayName = "Close";
 
 Close.propTypes = {
 	dismissScreenReaderLabel: PropTypes.string.isRequired,
@@ -153,7 +155,7 @@ const Toast = forwardRef( ( {
 					"yst-toast",
 					className,
 				) }
-				role= { role }
+				role={ role }
 				ref={ ref }
 				{ ...props }
 			>
@@ -175,6 +177,15 @@ Toast.propTypes = {
 	setIsVisible: PropTypes.func.isRequired,
 };
 
+Toast.defaultProps = {
+	children: null,
+	className: "",
+	position: "bottom-left",
+	onDismiss: noop,
+	autoDismiss: null,
+};
+
+Toast.displayName = "Toast";
 Toast.Close = Close;
 Toast.Description = Description;
 Toast.Title = Title;
