@@ -128,6 +128,10 @@ final class Post_Site_Information_Test extends TestCase {
 					'isRtl'         => false,
 					'isPremium'     => false,
 					'siteIconUrl'   => '',
+					'showSocial'    => [
+						'facebook' => true,
+						'twitter'  => true,
+					],
 				],
 			'adminUrl'                   => 'http://example.org/wp-admin/admin.php',
 			'linkParams'                 => $this->short_link_helper->get_query_params(),
@@ -173,6 +177,10 @@ final class Post_Site_Information_Test extends TestCase {
 			'isRtl'                      => false,
 			'isPremium'                  => false,
 			'siteIconUrl'                => '',
+			'showSocial'                 => [
+				'facebook' => true,
+				'twitter'  => true,
+			],
 			'sitewideSocialImage'        => '',
 			'isPrivateBlog'              => true,
 		];

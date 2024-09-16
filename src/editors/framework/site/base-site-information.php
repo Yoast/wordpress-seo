@@ -91,6 +91,10 @@ abstract class Base_Site_Information {
 			'isRtl'                 => \is_rtl(),
 			'isPremium'             => $this->product_helper->is_premium(),
 			'siteIconUrl'           => \get_site_icon_url(),
+			'showSocial'            => [
+				'facebook' => $this->options_helper->get( 'opengraph', false ),
+				'twitter'  => $this->options_helper->get( 'twitter', false ),
+			],
 			'sitewideSocialImage'   => $this->options_helper->get( 'og_default_image' ),
 			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
 			'isPrivateBlog'         => ( (string) \get_option( 'blog_public' ) ) === '0',
@@ -119,6 +123,10 @@ abstract class Base_Site_Information {
 				'isRtl'         => \is_rtl(),
 				'isPremium'     => $this->product_helper->is_premium(),
 				'siteIconUrl'   => \get_site_icon_url(),
+				'showSocial'    => [
+					'facebook' => $this->options_helper->get( 'opengraph', false ),
+					'twitter'  => $this->options_helper->get( 'twitter', false ),
+				],
 			],
 		];
 	}

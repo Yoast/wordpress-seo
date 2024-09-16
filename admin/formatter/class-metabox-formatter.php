@@ -55,10 +55,6 @@ class WPSEO_Metabox_Formatter {
 			'keyword_usage'                      => [],
 			'title_template'                     => '',
 			'metadesc_template'                  => '',
-			'showSocial'                         => [
-				'facebook' => WPSEO_Options::get( 'opengraph', false ),
-				'twitter'  => WPSEO_Options::get( 'twitter', false ),
-			],
 			'schema'                             => [
 				'displayFooter'      => WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ),
 				'pageTypeOptions'    => $schema_types->get_page_type_options(),

@@ -93,6 +93,8 @@ final class Term_Site_Information_Test extends TestCase {
 
 		$this->instance->set_term( $mock_term );
 		$this->options_helper->expects( 'get' )->with( 'stripcategorybase', false )->andReturnFalse();
+		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( false );
+		$this->options_helper->expects( 'get' )->with( 'twitter', false )->andReturn( false );
 		$this->options_helper->expects( 'get' )->with( 'og_default_image' )->andReturn( null );
 
 		$this->set_mocks();
@@ -128,6 +130,10 @@ final class Term_Site_Information_Test extends TestCase {
 			'isRtl'                 => false,
 			'isPremium'             => true,
 			'siteIconUrl'           => 'https://example.org',
+			'showSocial'            => [
+				'facebook' => false,
+				'twitter'  => false,
+			],
 			'sitewideSocialImage'   => null,
 			'isPrivateBlog'         => true,
 		];
@@ -167,6 +173,10 @@ final class Term_Site_Information_Test extends TestCase {
 				'isRtl'         => false,
 				'isPremium'     => true,
 				'siteIconUrl'   => 'https://example.org',
+				'showSocial'    => [
+					'facebook' => false,
+					'twitter'  => false,
+				],
 			],
 			'adminUrl'              => 'https://example.org',
 			'linkParams'            => [
