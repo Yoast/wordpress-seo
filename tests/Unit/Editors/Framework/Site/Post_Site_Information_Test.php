@@ -209,11 +209,11 @@ final class Post_Site_Information_Test extends TestCase {
 			'isRtl'                          => false,
 			'isPremium'                      => true,
 			'siteIconUrl'                    => 'https://example.org',
-			'sitewideSocialImage'            => null,
 			'showSocial'                     => [
 				'facebook' => false,
 				'twitter'  => false,
 			],
+			'sitewideSocialImage'            => null,
 			'isPrivateBlog'                  => false,
 		];
 
