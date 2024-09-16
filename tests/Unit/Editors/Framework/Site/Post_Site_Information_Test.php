@@ -140,7 +140,7 @@ final class Post_Site_Information_Test extends TestCase {
 			],
 			'pluginUrl'                  => '/location',
 			'wistiaEmbedPermission'      => true,
-
+			'isPrivateBlog'              => false,
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
@@ -199,10 +199,15 @@ final class Post_Site_Information_Test extends TestCase {
 				'facebook' => false,
 				'twitter'  => false,
 			],
+			'isPrivateBlog'                  => false,
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
 		Monkey\Functions\expect( 'home_url' )->andReturn( 'https://example.org' );
+		Monkey\Functions\expect( 'get_option' )
+				->once()
+				->with( 'blog_public' )
+				->andReturn( '1' );
 
 		$this->alert_dismissal_action->expects( 'all_dismissed' )->andReturn( [ 'the alert' ] );
 		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );

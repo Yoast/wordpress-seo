@@ -881,7 +881,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$script_data = [
 			'metabox'                    => $this->get_metabox_script_data(),
-			'userLanguageCode'           => WPSEO_Language_Utils::get_language( get_user_locale() ),
 			'isPost'                     => true,
 			'isBlockEditor'              => $is_block_editor,
 			'postId'                     => $post_id,

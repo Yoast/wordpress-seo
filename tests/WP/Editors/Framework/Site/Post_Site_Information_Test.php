@@ -128,6 +128,7 @@ final class Post_Site_Information_Test extends TestCase {
 			'linkParams'                 => $this->short_link_helper->get_query_params(),
 			'pluginUrl'                  => 'http://example.org/wp-content/plugins/wordpress-seo',
 			'wistiaEmbedPermission'      => true,
+			'isPrivateBlog'              => false,
 		];
 
 		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
@@ -146,6 +147,8 @@ final class Post_Site_Information_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_site_information() {
+		\update_option( 'blog_public', '0' );
+
 		$expected = [
 			'dismissedAlerts'            => false,
 			'currentPromotions'          => [],
@@ -168,9 +171,14 @@ final class Post_Site_Information_Test extends TestCase {
 				'facebook' => true,
 				'twitter'  => true,
 			],
-
+			'isPrivateBlog'              => true,
 		];
 
-		$this->assertSame( $expected, $this->instance->get_site_information() );
+		$site_info = $this->instance->get_site_information();
+
+		// Reset the blog_public option before the next test.
+		\update_option( 'blog_public', '1' );
+
+		$this->assertSame( $expected, $site_info );
 	}
 }
