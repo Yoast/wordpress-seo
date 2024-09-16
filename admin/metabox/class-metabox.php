@@ -896,6 +896,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'worker'  => $worker_script_data,
 			],
 			'isWooCommerceSeoActive'     => $woocommerce_seo_active,
+			'isFrontPage'                => get_option( 'page_on_front' ) === $post_id,
 		];
 
 		/**
