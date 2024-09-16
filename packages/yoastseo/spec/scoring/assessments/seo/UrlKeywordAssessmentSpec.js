@@ -94,7 +94,7 @@ describe( "A keyword in slug count assessment", function() {
 
 describe( "tests for the assessment applicability.", function() {
 	afterEach( () => {
-		window.wpseoScriptData = undefined;
+		window.wpseoScriptData = { };
 	} );
 
 	it( "returns false when there is no keyword and slug found.", function() {
