@@ -82,7 +82,7 @@ final class Term_Site_Information_Test extends TestCase {
 		$this->meta_surface      = Mockery::mock( Meta_Surface::class );
 		$this->product_helper    = Mockery::mock( Product_Helper::class );
 
-		$this->instance      = new Term_Site_Information( $this->options_helper, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper );
+		$this->instance      = new Term_Site_Information( $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->options_helper );
 		$taxonomy            = Mockery::mock( WP_Taxonomy::class )->makePartial();
 		$taxonomy->rewrite   = false;
 		$mock_term           = Mockery::mock( WP_Term::class )->makePartial();
@@ -93,6 +93,9 @@ final class Term_Site_Information_Test extends TestCase {
 
 		$this->instance->set_term( $mock_term );
 		$this->options_helper->expects( 'get' )->with( 'stripcategorybase', false )->andReturnFalse();
+		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( false );
+		$this->options_helper->expects( 'get' )->with( 'twitter', false )->andReturn( false );
+		$this->options_helper->expects( 'get' )->with( 'og_default_image' )->andReturn( null );
 
 		$this->set_mocks();
 	}
@@ -127,10 +130,20 @@ final class Term_Site_Information_Test extends TestCase {
 			'isRtl'                 => false,
 			'isPremium'             => true,
 			'siteIconUrl'           => 'https://example.org',
+			'showSocial'            => [
+				'facebook' => false,
+				'twitter'  => false,
+			],
+			'sitewideSocialImage'   => null,
+			'isPrivateBlog'         => true,
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
 		Monkey\Functions\expect( 'home_url' )->andReturn( 'https://example.org' );
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'blog_public' )
+			->andReturn( '0' );
 
 		$this->assertSame( $expected, $this->instance->get_site_information() );
 	}
@@ -160,6 +173,10 @@ final class Term_Site_Information_Test extends TestCase {
 				'isRtl'         => false,
 				'isPremium'     => true,
 				'siteIconUrl'   => 'https://example.org',
+				'showSocial'    => [
+					'facebook' => false,
+					'twitter'  => false,
+				],
 			],
 			'adminUrl'              => 'https://example.org',
 			'linkParams'            => [
@@ -168,7 +185,8 @@ final class Term_Site_Information_Test extends TestCase {
 			],
 			'pluginUrl'             => '/location',
 			'wistiaEmbedPermission' => true,
-
+			'sitewideSocialImage'   => null,
+			'isPrivateBlog'         => false,
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );

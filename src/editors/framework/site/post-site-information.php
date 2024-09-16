@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Editors\Framework\Site;
 
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
@@ -45,6 +46,7 @@ class Post_Site_Information extends Base_Site_Information {
 	 * @param Meta_Surface                       $meta                               The meta surface.
 	 * @param Product_Helper                     $product_helper                     The product helper.
 	 * @param Alert_Dismissal_Action             $alert_dismissal_action             The alert dismissal action.
+	 * @param Options_Helper                     $options_helper                     The options helper.
 	 *
 	 * @return void
 	 */
@@ -54,9 +56,10 @@ class Post_Site_Information extends Base_Site_Information {
 		Wistia_Embed_Permission_Repository $wistia_embed_permission_repository,
 		Meta_Surface $meta,
 		Product_Helper $product_helper,
-		Alert_Dismissal_Action $alert_dismissal_action
+		Alert_Dismissal_Action $alert_dismissal_action,
+		Options_Helper $options_helper
 	) {
-		parent::__construct( $short_link_helper, $wistia_embed_permission_repository, $meta, $product_helper );
+		parent::__construct( $short_link_helper, $wistia_embed_permission_repository, $meta, $product_helper, $options_helper );
 		$this->promotion_manager      = $promotion_manager;
 		$this->alert_dismissal_action = $alert_dismissal_action;
 	}

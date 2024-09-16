@@ -7,10 +7,11 @@ import { useNavigationContext } from "./index";
  * @param {JSX.node} label The label.
  * @param {JSX.ElementClass} [as] The field component.
  * @param {string} [pathProp] The key of the path in the props. Defaults to `href`.
+ * @param {JSX.ElementClass} [icon] The Icon component.
  * @param {Object} [props] Extra props.
  * @returns {JSX.Element} The submenu item element.
  */
-const SubmenuItem = ( { as: Component = "a", pathProp = "href", label, ...props } ) => {
+const SubmenuItem = ( { as: Component = "a", pathProp = "href", label, icon: Icon = null, ...props } ) => {
 	const { activePath, setMobileMenuOpen } = useNavigationContext();
 
 	const handleClick = useCallback( () => setMobileMenuOpen( false ), [ setMobileMenuOpen ] );
@@ -28,7 +29,12 @@ const SubmenuItem = ( { as: Component = "a", pathProp = "href", label, ...props 
 				onClick={ handleClick }
 				{ ...props }
 			>
-				{ label }
+				<span className="yst-flex yst-items-center yst-gap-3">
+					{ Icon &&
+						<Icon className="yst-flex-shrink-0 yst--ml-1 yst-h-6 yst-w-6 yst-text-slate-400 group-hover:yst-text-slate-500" />
+					}
+					{ label }
+				</span>
 			</Component>
 		</li>
 	);
@@ -39,6 +45,7 @@ SubmenuItem.propTypes = {
 	pathProp: PropTypes.string,
 	label: PropTypes.node.isRequired,
 	isActive: PropTypes.bool,
+	icon: PropTypes.elementType,
 };
 
 export default SubmenuItem;

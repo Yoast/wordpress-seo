@@ -61,7 +61,7 @@ class Multilingual implements Integration_Data_Provider_Interface {
 	 * @return array<string,bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
-		return [ 'multilingualPluginActive' => $this->is_enabled() ];
+		return [ 'isMultilingualActive' => $this->is_enabled() ];
 	}
 
 	/**

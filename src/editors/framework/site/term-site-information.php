@@ -4,23 +4,11 @@ namespace Yoast\WP\SEO\Editors\Framework\Site;
 
 use WP_Taxonomy;
 use WP_Term;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Product_Helper;
-use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
-use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
 /**
  * The Term_Site_Information class.
  */
 class Term_Site_Information extends Base_Site_Information {
-
-	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options_helper;
 
 	/**
 	 * The taxonomy.
@@ -35,27 +23,6 @@ class Term_Site_Information extends Base_Site_Information {
 	 * @var WP_Term|string|false
 	 */
 	private $term;
-
-	/**
-	 * The constructor.
-	 *
-	 * @param Options_Helper                     $options_helper                     The options helper.
-	 * @param Short_Link_Helper                  $short_link_helper                  The short link helper.
-	 * @param Wistia_Embed_Permission_Repository $wistia_embed_permission_repository The wistia embed permission
-	 *                                                                               repository.
-	 * @param Meta_Surface                       $meta                               The meta surface.
-	 * @param Product_Helper                     $product_helper                     The product helper.
-	 */
-	public function __construct(
-		Options_Helper $options_helper,
-		Short_Link_Helper $short_link_helper,
-		Wistia_Embed_Permission_Repository $wistia_embed_permission_repository,
-		Meta_Surface $meta,
-		Product_Helper $product_helper
-	) {
-		parent::__construct( $short_link_helper, $wistia_embed_permission_repository, $meta, $product_helper );
-		$this->options_helper = $options_helper;
-	}
 
 	/**
 	 *  Sets the term for the information object and retrieves its taxonomy.

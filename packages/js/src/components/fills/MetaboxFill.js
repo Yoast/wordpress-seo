@@ -23,7 +23,6 @@ import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../modals/KeywordUpsell";
 import { BlackFridayProductEditorChecklistPromotion } from "../BlackFridayProductEditorChecklistPromotion";
 import { BlackFridayPromotion } from "../BlackFridayPromotion";
-import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
 
 const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
@@ -40,8 +39,9 @@ const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( B
 export default function MetaboxFill( { settings } ) {
 	const isTerm = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsTerm(), [] );
 	const isProduct = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsProduct(), [] );
+	const isWooCommerceActive = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsWooCommerceActive(), [] );
 
-	const shouldShowWooCommerceChecklistPromo = isProduct && isWooCommerceActive();
+	const shouldShowWooCommerceChecklistPromo = isProduct && isWooCommerceActive;
 
 	return (
 		<>
