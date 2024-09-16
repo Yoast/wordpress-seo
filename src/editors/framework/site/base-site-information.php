@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Editors\Framework\Site;
 
 use Exception;
-use WPSEO_Options;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
@@ -43,6 +43,13 @@ abstract class Base_Site_Information {
 	protected $product_helper;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper $options_helper
+	 */
+	protected $optios_helper;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Short_Link_Helper                  $short_link_helper                  The short link helper.
@@ -50,17 +57,20 @@ abstract class Base_Site_Information {
 	 *                                                                               repository.
 	 * @param Meta_Surface                       $meta                               The meta surface.
 	 * @param Product_Helper                     $product_helper                     The product helper.
+	 * @param Options_Helper                     $options_helper                     The options helper.
 	 */
 	public function __construct(
 		Short_Link_Helper $short_link_helper,
 		Wistia_Embed_Permission_Repository $wistia_embed_permission_repository,
 		Meta_Surface $meta,
-		Product_Helper $product_helper
+		Product_Helper $product_helper,
+		Options_Helper $options_helper
 	) {
 		$this->short_link_helper                  = $short_link_helper;
 		$this->wistia_embed_permission_repository = $wistia_embed_permission_repository;
 		$this->meta                               = $meta;
 		$this->product_helper                     = $product_helper;
+		$this->options_helper                     = $options_helper;
 	}
 
 	/**

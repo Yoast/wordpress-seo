@@ -20,7 +20,7 @@ class Term_Site_Information extends Base_Site_Information {
 	 *
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	protected $options_helper;
 
 	/**
 	 * The taxonomy.
@@ -53,7 +53,7 @@ class Term_Site_Information extends Base_Site_Information {
 		Meta_Surface $meta,
 		Product_Helper $product_helper
 	) {
-		parent::__construct( $short_link_helper, $wistia_embed_permission_repository, $meta, $product_helper );
+		parent::__construct( $short_link_helper, $wistia_embed_permission_repository, $meta, $product_helper, $options_helper );
 		$this->options_helper = $options_helper;
 	}
 
