@@ -91,7 +91,7 @@ abstract class Base_Site_Information {
 			'isRtl'                 => \is_rtl(),
 			'isPremium'             => $this->product_helper->is_premium(),
 			'siteIconUrl'           => \get_site_icon_url(),
-			'sitewideSocialImage'   => WPSEO_Options::get( 'og_default_image' ),
+			'sitewideSocialImage'   => $this->options_helper->get( 'og_default_image' ),
 			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
 			'isPrivateBlog'         => ( (string) \get_option( 'blog_public' ) ) === '0',
 		];
@@ -109,7 +109,7 @@ abstract class Base_Site_Information {
 			'linkParams'            => $this->short_link_helper->get_query_params(),
 			'pluginUrl'             => \plugins_url( '', \WPSEO_FILE ),
 			'wistiaEmbedPermission' => $this->wistia_embed_permission_repository->get_value_for_user( \get_current_user_id() ),
-			'sitewideSocialImage'   => WPSEO_Options::get( 'og_default_image' ),
+			'sitewideSocialImage'   => $this->options_helper->get( 'og_default_image' ),
 			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
 			'isPrivateBlog'         => ( (string) \get_option( 'blog_public' ) ) === '0',
 			'metabox'               => [
