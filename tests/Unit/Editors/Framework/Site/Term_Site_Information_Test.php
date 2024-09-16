@@ -128,10 +128,15 @@ final class Term_Site_Information_Test extends TestCase {
 			'isPremium'             => true,
 			'siteIconUrl'           => 'https://example.org',
 			'sitewideSocialImage'   => null,
+			'isPrivateBlog'         => true,
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
 		Monkey\Functions\expect( 'home_url' )->andReturn( 'https://example.org' );
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'blog_public' )
+			->andReturn( '0' );
 
 		$this->assertSame( $expected, $this->instance->get_site_information() );
 	}
@@ -170,6 +175,7 @@ final class Term_Site_Information_Test extends TestCase {
 			'pluginUrl'             => '/location',
 			'wistiaEmbedPermission' => true,
 			'sitewideSocialImage'   => null,
+			'isPrivateBlog'         => false,
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
