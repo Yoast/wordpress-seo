@@ -19,6 +19,7 @@ const defaultAttributes = {
 	textTitle: "",
 	writingDirection: "LTR",
 	wpBlocks: [],
+	isFrontPage: false,
 };
 
 /**
@@ -200,6 +201,14 @@ Paper.prototype.hasSlug = function() {
  */
 Paper.prototype.getSlug = function() {
 	return this._attributes.slug;
+};
+
+/**
+ * Checks if currently editing page is a front page
+ * @returns {boolean} Returns true current page is a front page.
+ */
+Paper.prototype.isFrontPage = function() {
+	return this._attributes.isFrontPage;
 };
 
 /**
