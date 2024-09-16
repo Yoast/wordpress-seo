@@ -11,7 +11,7 @@ import { LiveAnnouncer, LiveMessage } from "react-aria-live";
  * @param {JSX.node} [description] The description.
  * @returns {JSX.Element} The route layout component.
  */
-const RouteLayout = ( {
+export const RouteLayout = ( {
 	children,
 	title,
 	description,
