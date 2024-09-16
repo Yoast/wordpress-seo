@@ -47,7 +47,7 @@ abstract class Base_Site_Information {
 	 *
 	 * @var Options_Helper $options_helper
 	 */
-	protected $optios_helper;
+	protected $options_helper;
 
 	/**
 	 * The constructor.

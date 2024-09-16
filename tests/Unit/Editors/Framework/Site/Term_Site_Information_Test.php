@@ -82,7 +82,7 @@ final class Term_Site_Information_Test extends TestCase {
 		$this->meta_surface      = Mockery::mock( Meta_Surface::class );
 		$this->product_helper    = Mockery::mock( Product_Helper::class );
 
-		$this->instance      = new Term_Site_Information( $this->options_helper, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper );
+		$this->instance      = new Term_Site_Information( $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->options_helper );
 		$taxonomy            = Mockery::mock( WP_Taxonomy::class )->makePartial();
 		$taxonomy->rewrite   = false;
 		$mock_term           = Mockery::mock( WP_Term::class )->makePartial();

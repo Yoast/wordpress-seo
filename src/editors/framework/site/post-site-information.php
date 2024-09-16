@@ -37,13 +37,6 @@ class Post_Site_Information extends Base_Site_Information {
 	private $promotion_manager;
 
 	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper $options_helper
-	 */
-	protected $options_helper;
-
-	/**
 	 * Constructs the class.
 	 *
 	 * @param Promotion_Manager                  $promotion_manager                  The promotion manager.
