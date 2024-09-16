@@ -137,6 +137,7 @@ final class Post_Site_Information_Test extends TestCase {
 			'linkParams'                 => $this->short_link_helper->get_query_params(),
 			'pluginUrl'                  => 'http://example.org/wp-content/plugins/wordpress-seo',
 			'wistiaEmbedPermission'      => true,
+			'sitewideSocialImage'        => '',
 			'isPrivateBlog'              => false,
 		];
 
@@ -180,6 +181,7 @@ final class Post_Site_Information_Test extends TestCase {
 				'facebook' => true,
 				'twitter'  => true,
 			],
+			'sitewideSocialImage'        => '',
 			'isPrivateBlog'              => true,
 		];
 

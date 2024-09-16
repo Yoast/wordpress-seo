@@ -95,6 +95,7 @@ final class Term_Site_Information_Test extends TestCase {
 		$this->options_helper->expects( 'get' )->with( 'stripcategorybase', false )->andReturnFalse();
 		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( false );
 		$this->options_helper->expects( 'get' )->with( 'twitter', false )->andReturn( false );
+		$this->options_helper->expects( 'get' )->with( 'og_default_image' )->andReturn( null );
 
 		$this->set_mocks();
 	}
@@ -133,6 +134,7 @@ final class Term_Site_Information_Test extends TestCase {
 				'facebook' => false,
 				'twitter'  => false,
 			],
+			'sitewideSocialImage'   => null,
 			'isPrivateBlog'         => true,
 		];
 
@@ -183,6 +185,7 @@ final class Term_Site_Information_Test extends TestCase {
 			],
 			'pluginUrl'             => '/location',
 			'wistiaEmbedPermission' => true,
+			'sitewideSocialImage'   => null,
 			'isPrivateBlog'         => false,
 		];
 
