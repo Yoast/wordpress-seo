@@ -152,6 +152,11 @@ final class Image_Helper_Test extends TestCase {
 				'generate_from_resized_times'       => 0,
 				'generate_from_attachment_id_times' => 1,
 			],
+			'Generate for other file types that are not image' => [
+				'url'                               => 'https://example.org/image.pdf',
+				'generate_from_resized_times'       => 0,
+				'generate_from_attachment_id_times' => 1,
+			],
 		];
 	}
 
