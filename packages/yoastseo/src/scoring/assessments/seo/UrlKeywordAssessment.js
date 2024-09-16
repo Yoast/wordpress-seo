@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { merge, get } from "lodash";
+import { merge } from "lodash";
 
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
@@ -63,7 +63,7 @@ class SlugKeywordAssessment extends Assessment {
 	 * @returns {boolean} True if the paper contains a keyword and a slug, and if the keywordCountInSlug research is available on the researcher.
 	 */
 	isApplicable( paper, researcher ) {
-		return !paper.isFrontPage() && paper.hasKeyword() && paper.hasSlug() && researcher.hasResearch( "keywordCountInSlug" );
+		return ! paper.isFrontPage() && paper.hasKeyword() && paper.hasSlug() && researcher.hasResearch( "keywordCountInSlug" );
 	}
 
 	/**
