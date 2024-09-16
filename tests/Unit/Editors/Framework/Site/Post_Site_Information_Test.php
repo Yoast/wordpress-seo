@@ -159,6 +159,8 @@ final class Post_Site_Information_Test extends TestCase {
 		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );
 		$this->promotion_manager->expects( 'is' )->andReturnFalse();
 		$this->short_link_helper->expects( 'get' )->andReturn( 'https://expl.c' );
+		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( false );
+		$this->options_helper->expects( 'get' )->with( 'twitter', false )->andReturn( false );
 
 		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
 	}
@@ -222,6 +224,8 @@ final class Post_Site_Information_Test extends TestCase {
 		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );
 		$this->promotion_manager->expects( 'is' )->andReturnFalse();
 		$this->short_link_helper->expects( 'get' )->andReturn( 'https://expl.c' );
+		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( false );
+		$this->options_helper->expects( 'get' )->with( 'twitter', false )->andReturn( false );
 
 		$this->assertSame( $expected, $this->instance->get_site_information() );
 	}
