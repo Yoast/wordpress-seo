@@ -744,7 +744,7 @@ final class Background_Indexing_Integration_Test extends TestCase {
 	/**
 	 * Provides data to test_schedule_cron_indexing.
 	 *
-	 * @return array The test data.
+	 * @return array<string|array<string>> The test data.
 	 */
 	public static function data_schedule_cron_indexing() {
 		return [

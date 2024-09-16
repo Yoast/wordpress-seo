@@ -22,7 +22,7 @@ function getDefaultState() {
 		isWordFormRecognitionActive: isUndefined( window.wpseoPremiumMetaboxData ) && isWordFormRecognitionActive(),
 		isCornerstoneActive: isCornerstoneActive(),
 		isBreadcrumbsDisabled: ! ! window.wpseoAdminL10n.isBreadcrumbsDisabled,
-		isPrivateBlog: ! ! window.wpseoAdminL10n.isPrivateBlog,
+		isPrivateBlog: ! ! window.wpseoScriptData.isPrivateBlog,
 		isSEMrushIntegrationActive: isSEMrushIntegrationActive(),
 		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ),
 		displayAdvancedTab: displayAdvancedTab,
