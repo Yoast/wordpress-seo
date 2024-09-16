@@ -26,7 +26,8 @@ final class Get_Permalink_Test extends Abstract_Indexable_Link_Builder_TestCase 
 			$this->url_helper,
 			$this->post_helper,
 			$this->options_helper,
-			$this->indexable_helper
+			$this->indexable_helper,
+			$this->image_content_extractor
 		);
 
 		$this->instance->set_dependencies( $this->indexable_repository, $this->image_helper );
