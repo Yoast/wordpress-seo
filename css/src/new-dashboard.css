@@ -1,4 +1,8 @@
 body.toplevel_page_wpseo_dashboard {
+	.notice:not(.notice-yoast) {
+		display:none;
+	}
+
 	@apply yst-bg-slate-100;
 
 	/* Move WP footer behind our content. */
