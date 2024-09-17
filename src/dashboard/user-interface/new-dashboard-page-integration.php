@@ -17,10 +17,8 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 
 	/**
 	 * The page name.
-	 *
-	 * @TODO RENAME THIS TO SOMETHING SENSIBLE AFTER FEATURE FLAG PERIOD
 	 */
-	public const PAGE = 'wpseo_page_new_dashboard';
+	public const PAGE = 'wpseo_dashboard';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -106,13 +104,13 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 	public function add_page( $pages ) {
 		\array_splice(
 			$pages,
-			3,
+			0,
 			0,
 			[
 				[
-					'wpseo_dashboard',
+					self::PAGE,
 					'',
-					\__( 'New dashboard', 'wordpress-seo' ),
+					\__( 'General', 'wordpress-seo' ),
 					'wpseo_manage_options',
 					self::PAGE,
 					[ $this, 'display_page' ],
