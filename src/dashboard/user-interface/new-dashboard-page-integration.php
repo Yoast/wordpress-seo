@@ -9,6 +9,8 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use function add_query_arg;
+use function admin_url;
 
 /**
  * Class New_Dashboard_Page_Integration.
@@ -143,7 +145,7 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 		\wp_enqueue_media();
 		$this->asset_manager->enqueue_script( 'new-dashboard' );
 		$this->asset_manager->enqueue_style( 'new-dashboard' );
-		$this->asset_manager->localize_script( 'dashboard', 'wpseoScriptData', $this->get_script_data() );
+		$this->asset_manager->localize_script( 'new-dashboard', 'wpseoScriptData', $this->get_script_data() );
 	}
 
 	/**
@@ -163,6 +165,7 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 				],
 			],
 			'linkParams'  => $this->shortlink_helper->get_query_params(),
+			'userEditUrl' => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) )
 		];
 	}
 }

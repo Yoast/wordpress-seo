@@ -8,7 +8,10 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import FirstTimeConfigurationSteps from "../first-time-configuration/first-time-configuration-steps";
+import { useSelectSettings } from "../settings/hooks";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
+import { PremiumUpsellList } from "../shared-admin/components/premium-upsell-list";
+import SidebarRecommendations from "./components/sidebar-recommendations";
 import { useSelectDashboard } from "./hooks";
 
 /**
@@ -73,6 +76,9 @@ const Content = () => {
 const App = () => {
 	const { pathname } = useLocation();
 	const isPremium = useSelectDashboard( "selectPreference", [], "isPremium" );
+	const premiumLink = useSelectDashboard( "selectLink", [], "https://yoa.st/17h" );
+	const premiumUpsellConfig = useSelectDashboard( "selectUpsellSettingsAsProps" );
+	const promotions = useSelectDashboard( "selectPreference", [], "promotions", [] );
 	return (
 		<SidebarNavigation activePath={ pathname }>
 			<SidebarNavigation.Mobile
@@ -109,7 +115,13 @@ const App = () => {
 								</Routes>
 							</Transition>
 						</Paper>
+						{ ! isPremium && <PremiumUpsellList
+							premiumLink={ premiumLink }
+							premiumUpsellConfig={ premiumUpsellConfig }
+							promotions={ promotions }
+						/> }
 					</div>
+					<SidebarRecommendations />
 				</div>
 			</div>
 		</SidebarNavigation>
