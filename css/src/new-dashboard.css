@@ -1,4 +1,4 @@
-body.seo_page_wpseo_page_new_dashboard {
+body.toplevel_page_wpseo_dashboard {
 	@apply yst-bg-slate-100;
 
 	/* Move WP footer behind our content. */

@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  */
 final class New_Dashboard_Page_Integration_Test extends TestCase {
 
-	public const PAGE = 'wpseo_page_new_dashboard';
+	public const PAGE = 'wpseo_dashboard';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
