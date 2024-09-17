@@ -238,7 +238,7 @@ class Assessor {
 	}
 
 	/**
-	 * Register an assessment to add it to the internal assessments object.
+	 * Registers an assessment and adds it to the internal assessments object.
 	 *
 	 * @param {string} name The name of the assessment.
 	 * @param {Assessment} assessment The object containing function to run as an assessment and it's requirements.
@@ -258,7 +258,7 @@ class Assessor {
 	}
 
 	/**
-	 * Remove a specific Assessment from the list of Assessments.
+	 * Removes a specific Assessment from the list of Assessments.
 	 *
 	 * @param {string} name The Assessment to remove from the list of assessments.
 	 * @returns {void}

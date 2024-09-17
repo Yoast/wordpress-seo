@@ -20,7 +20,7 @@ export default class SyllableCountStep {
 	}
 
 	/**
-	 * Returns if a valid regex has been set.
+	 * Checks whether a valid regex has been set.
 	 *
 	 * @returns {boolean} True if a regex has been set, false if not.
 	 */
@@ -52,8 +52,8 @@ export default class SyllableCountStep {
 	}
 
 	/**
-	 * Matches syllable exclusions in a given word and the returns the number found multiplied with the
-	 * given multiplier.
+	 * Matches syllable exclusions in a given word and returns the number found multiplied by the
+	 * given multiplier. The result of this multiplication is the syllable count.
 	 *
 	 * @param {String} word The word to match for syllable exclusions.
 	 * @returns {number} The amount of syllables found.

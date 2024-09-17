@@ -13,11 +13,11 @@ class Mark {
 	 *
 	 * @param {Object}   [properties]                  The properties of this Mark.
 	 *
-	 * @param {string?}  properties.original         The original text that should be marked.
-	 * @param {string?}  properties.marked           The new text including marks.
-	 * @param {array?}   properties.fieldsToMark     The array that specifies which text section(s) to mark.
+	 * @param {string}  [properties.original]         The original text that should be marked.
+	 * @param {string}  [properties.marked]           The new text including marks.
+	 * @param {array}   [properties.fieldsToMark]     The array that specifies which text section(s) to mark, e.g. "heading".
 	 *
-	 * @param {SourceCodeRange?} properties.position The position object: a range in the source code.
+	 * @param {SourceCodeRange} [properties.position] The position object: a range in the source code.
 	 */
 	constructor( properties ) {
 		properties = properties || {};
@@ -157,7 +157,7 @@ class Mark {
 	/**
 	 * Returns the start position inside block.
 	 *
-	 * @returns {number} The start position inside block if the mark position information, undefined otherwise.
+	 * @returns {number} The start position inside the block if the mark has position information, undefined otherwise.
 	 */
 	getBlockPositionStart() {
 		return this._properties.position && this._properties.position.startOffsetBlock;

@@ -7,7 +7,7 @@ export default class DeviationFragment {
 	/**
 	 * Constructs a new DeviationFragment.
 	 *
-	 * @param {Object} options Extra options about how to match this fragment.
+	 * @param {Object} options Extra options that are used to match this deviation fragment.
 	 * @param {string} options.location The location in the word where this deviation can occur.
 	 * @param {string} options.word The actual string that should be counted differently.
 	 * @param {number} options.syllables The amount of syllables this fragment has.

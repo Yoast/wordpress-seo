@@ -3,7 +3,6 @@ import { isUndefined } from "lodash";
 /**
  * FactoryProto is a mock factory function.
  *
- * @returns {void}
  */
 export default class FactoryProto {
 	/**
@@ -19,13 +18,13 @@ export default class FactoryProto {
 	}
 
 	/**
-	 * Returns a mock researcher
+	 * Returns a mock researcher.
 	 *
-	 * @param {object}  expectedValue 		The expected value or values.
-	 * @param {boolean} multiValue    		True if multiple values are expected.
-	 * @param {boolean} hasMorphologyData	True if the researcher has access to morphology data.
-	 * @param {Object|boolean} config		Optional config to be used for an assessment.
-	 * @param {Object|boolean} helpers	Optional helpers to be used for an assessment.
+	 * @param {Object} expectedValue Expected value.
+	 * @param {boolean} [multiValue=false] Whether the researcher has multiple values.
+	 * @param {boolean} [hasMorphologyData=false] Whether the researcher has morphology data.
+	 * @param {Object} [config=false] Optional config to be used for an assessment.
+	 * @param {Object} [helpers=false] Optional helpers to be used for an assessment.
 	 *
 	 * @returns {Researcher} Mock researcher.
 	 */
@@ -34,7 +33,7 @@ export default class FactoryProto {
 		if ( multiValue && ( typeof expectedValue === "object" || typeof helpers === "object" || typeof config === "object" ) ) {
 			return {
 				/**
-				 * Return research results by research name for multi-value mock researchers.
+				 * Returns research results by research name for multi-value mock researches.
 				 *
 				 * @param {string} research The name of the research.
 				 *
@@ -45,7 +44,7 @@ export default class FactoryProto {
 				},
 
 				/**
-				 * Return whether the worker has the research.
+				 * Returns whether the worker has the specified research.
 				 * @param {string} research The name of the research.
 				 * @returns {boolean} Whether the worker has the research.
 				 */
@@ -65,7 +64,7 @@ export default class FactoryProto {
 				},
 
 				/**
-				 * Check whether morphology data is available.
+				 * Checks whether morphology data is available.
 				 *
 				 * @returns {boolean} True if the researcher has access to morphology data.
 				 */
@@ -74,7 +73,7 @@ export default class FactoryProto {
 				},
 
 				/**
-				 * Return the helper to be used for the assessment.
+				 * Returns the helper to be used for the assessment.
 				 * @param {string} name The name of the helper.
 				 *
 				 * @returns {function} The helper for the assessment.
@@ -108,7 +107,7 @@ export default class FactoryProto {
 				},
 
 				/**
-				 * Return the config to be used for the assessment.
+				 * Returns the config to be used for the assessment.
 				 * @param {string} name The name of the config.
 				 *
 				 * @returns {function} The config for the assessment.
@@ -141,7 +140,7 @@ export default class FactoryProto {
 		}
 		return {
 			/**
-			 * Return research results.
+			 * Returns research results.
 			 *
 			 * @returns {Object} The results of the research.
 			 */
@@ -159,7 +158,7 @@ export default class FactoryProto {
 			},
 
 			/**
-			 * Return the helpers to be used for the assessment.
+			 * Returns the helpers to be used for the assessment.
 			 *
 			 * @returns {Object} The helpers for the assessment.
 			 */
@@ -168,7 +167,7 @@ export default class FactoryProto {
 			},
 
 			/**
-			 * Return whether the worker has the helper.
+			 * Returns whether the worker has the specified helper.
 			 *
 			 * @returns {boolean} Whether the worker has the helper.
 			 */
@@ -177,7 +176,7 @@ export default class FactoryProto {
 			},
 
 			/**
-			 * Return the config to be used for the assessment.
+			 * Returns the config to be used for the assessment.
 			 *
 			 * @returns {Object} The config for the assessment results.
 			 */
@@ -186,12 +185,12 @@ export default class FactoryProto {
 			},
 
 			/**
-			 * Return whether the worker has the config.
+			 * Returns whether the worker has the specified config.
 			 * @param {string} research The name of the config.
-			 * @returns {boolean} Whether the worker has the research.
+			 * @returns {boolean} Whether the worker has the specified config.
 			 */
-			hasConfig: function( research ) {
-				return ! isUndefined( expectedValue[ research ] );
+			hasConfig: function( config ) {
+				return ! isUndefined( expectedValue[ config ] );
 			},
 		};
 	}

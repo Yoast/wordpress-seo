@@ -80,7 +80,7 @@ class AssessorPresenter {
 	}
 
 	/**
-	 * Get the indicator screen reader text from the presenter configuration, if it exists.
+	 * Gets the indicator screen reader text from the presenter configuration, if it exists.
 	 *
 	 * @param {string} rating The rating to check against the config.
 	 * @returns {string} Translated string containing the screen reader text to be used.
@@ -94,7 +94,7 @@ class AssessorPresenter {
 	}
 
 	/**
-	 * Get the indicator screen reader readability text from the presenter configuration, if it exists.
+	 * Gets the indicator screen reader readability text from the presenter configuration, if it exists.
 	 *
 	 * @param {string} rating The rating to check against the config.
 	 * @returns {string} Translated string containing the screen reader readability text to be used.
@@ -108,7 +108,7 @@ class AssessorPresenter {
 	}
 
 	/**
-	 * Get the indicator full text from the presenter configuration, if it exists.
+	 * Gets the indicator full text from the presenter configuration, if it exists.
 	 *
 	 * @param {string} rating The rating to check against the config.
 	 * @returns {string} Translated string containing the full text to be used.
@@ -233,7 +233,7 @@ class AssessorPresenter {
 	}
 
 	/**
-	 * Mark with a given marker. This will set the active marker to the correct value.
+	 * Marks with a given marker. This will set the active marker to the correct value.
 	 *
 	 * @param {string} identifier The identifier for the assessment/marker.
 	 * @param {Function} marker The marker function.
@@ -306,7 +306,7 @@ class AssessorPresenter {
 	}
 
 	/**
-	 * Adds event handlers to the mark buttons
+	 * Adds event handlers to the mark buttons.
 	 *
 	 * @param {Object} scores The list of rendered scores.
 	 *
@@ -322,7 +322,7 @@ class AssessorPresenter {
 	}
 
 	/**
-	 * Removes all marks currently on the text
+	 * Removes all marks currently on the text.
 	 *
 	 * @returns {void}
 	 */

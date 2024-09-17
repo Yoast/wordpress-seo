@@ -26,23 +26,23 @@ const defaultAttributes = {
  */
 class Paper {
 	/**
-	 * Constructs the Paper object and sets the keyword property.
+	 * Constructs the Paper object and sets its attributes.
 	 *
 	 * @param {string}  text                            The text to use in the analysis.
 	 * @param {object}  [attributes]                    The object containing all attributes.
-	 * @param {string}  [attributes.keyword]            The main keyword.
-	 * @param {string}  [attributes.synonyms]           The main keyword's synonyms.
-	 * @param {string}  [attributes.description]        The SEO description.
+	 * @param {string}  [attributes.keyword]            The main keyword or keyphrase of the text.
+	 * @param {string}  [attributes.synonyms]           The synonyms of the main keyword or keyphrase. It should be separated by commas if multiple synonyms are added.
+	 * @param {string}  [attributes.description]        The SEO meta description.
 	 * @param {string}  [attributes.title]              The SEO title.
-	 * @param {number}  [attributes.titleWidth]         The width of the title in pixels.
+	 * @param {number}  [attributes.titleWidth=0]         The width of the title in pixels.
 	 * @param {string}  [attributes.slug]               The slug.
-	 * @param {string}  [attributes.locale]             The locale.
-	 * @param {string}  [attributes.permalink]          The base url + slug.
+	 * @param {string}  [attributes.locale=en_US]             The locale.
+	 * @param {string}  [attributes.permalink]          The full URL for any given post, page, or other pieces of content on a site.
 	 * @param {string}  [attributes.date]               The date.
-	 * @param {Object}  [attributes.wpBlocks]           The text, encoded in WordPress block editor blocks.
+	 * @param {Object[]}  [attributes.wpBlocks]           The array of texts, encoded in WordPress block editor blocks.
 	 * @param {Object}  [attributes.customData]         Custom data.
 	 * @param {string}  [attributes.textTitle]          The title of the text.
-	 * @param {string}  [attributes.writingDirection]   The writing direction of the paper. Defaults to left to right (LTR).
+	 * @param {string}  [attributes.writingDirection=LTR]   The writing direction of the paper. Defaults to left to right (LTR).
 	 */
 	constructor( text, attributes ) {
 		this._text = text || "";
@@ -113,8 +113,8 @@ class Paper {
 	}
 
 	/**
-	 * Returns the associated text or am empty string if no text is available.
-	 * @returns {string} Returns text
+	 * Returns the associated text or an empty string if no text is available.
+	 * @returns {string} Returns the text.
 	 */
 	getText() {
 		return this._text;
@@ -157,39 +157,39 @@ class Paper {
 	}
 
 	/**
-	 * Checks whether a title is available
-	 * @returns {boolean} Returns true if the Paper has a title.
+	 * Checks whether an SEO title is available
+	 * @returns {boolean} Returns true if the Paper has an SEO title.
 	 */
 	hasTitle() {
 		return this._attributes.title !== "";
 	}
 
 	/**
-	 * Returns the title, or an empty string of no title is available.
-	 * @returns {string} Returns the title
+	 * Returns the SEO title, or an empty string if no title is available.
+	 * @returns {string} Returns the SEO title.
 	 */
 	getTitle() {
 		return this._attributes.title;
 	}
 
 	/**
-	 * Checks whether a title width in pixels is available
-	 * @returns {boolean} Returns true if the Paper has a title.
+	 * Checks whether an SEO title width in pixels is available.
+	 * @returns {boolean} Returns true if the Paper's SEO title is wider than 0 pixels.
 	 */
 	hasTitleWidth() {
 		return this._attributes.titleWidth !== 0;
 	}
 
 	/**
-	 * Returns the title width in pixels, or an empty string of no title width in pixels is available.
-	 * @returns {number} Returns the title
+	 * Gets the SEO title width in pixels, or an empty string of no title width in pixels is available.
+	 * @returns {number} Returns the SEO title width in pixels.
 	 */
 	getTitleWidth() {
 		return this._attributes.titleWidth;
 	}
 
 	/**
-	 * Checks whether a slug is available
+	 * Checks whether a slug is available.
 	 * @returns {boolean} Returns true if the Paper has a slug.
 	 */
 	hasSlug() {
@@ -197,8 +197,8 @@ class Paper {
 	}
 
 	/**
-	 * Returns the slug, or an empty string of no slug is available.
-	 * @returns {string} Returns the url
+	 * Gets the paper's slug, or an empty string if no slug is available.
+	 * @returns {string} Returns the slug.
 	 */
 	getSlug() {
 		return this._attributes.slug;
@@ -225,8 +225,8 @@ class Paper {
 	}
 
 	/**
-	 * Checks whether a locale is available
-	 * @returns {boolean} Returns true if the paper has a locale
+	 * Checks whether a locale is available.
+	 * @returns {boolean} Returns true if the paper has a locale.
 	 */
 	hasLocale() {
 		return this._attributes.locale !== "";
@@ -234,7 +234,7 @@ class Paper {
 
 	/**
 	 * Returns the locale or an empty string if no locale is available
-	 * @returns {string} Returns the locale
+	 * @returns {string} Returns the locale.
 	 */
 	getLocale() {
 		return this._attributes.locale;
@@ -251,7 +251,7 @@ class Paper {
 	}
 
 	/**
-	 * Checks whether a permalink is available
+	 * Checks whether a permalink is available.
 	 * @returns {boolean} Returns true if the Paper has a permalink.
 	 */
 	hasPermalink() {

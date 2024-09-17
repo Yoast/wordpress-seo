@@ -174,10 +174,10 @@ export default class PreviouslyUsedKeyword {
 	}
 
 	/**
-	 * The assessment for the previously used keywords.
+	 * Executes the assessment that checks whether a text uses previously used keywords.
 	 *
 	 * @param {Paper} paper The Paper object to assess.
-	 * @returns {AssessmentResult} The assessment result of the assessment
+	 * @returns {AssessmentResult} The assessment result containing both a score and a descriptive text.
 	 */
 	assess( paper ) {
 		const previouslyUsedKeywords = this.researchPreviouslyUsedKeywords( paper );

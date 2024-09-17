@@ -17,6 +17,15 @@ class AssessmentResult {
 	 * Constructs the AssessmentResult value object.
 	 *
 	 * @param {Object} [values] The values for this assessment result.
+	 * @param {number} [values.score] The score for this assessment result.
+	 * @param {string} [values.text] The text for this assessment result. This is the text that can be used as a feedback message associated with the score.
+	 * @param {array} [values.marks] The marks for this assessment result.
+	 * @param {boolean} [values._hasBetaBadge] Whether this result has a beta badge.
+	 * @param {boolean} [values._hasJumps] Whether this result causes a jump to a different field.
+	 * @param {string} [values.editFieldName] The edit field name for this assessment result.
+	 * @param {boolean} [values._hasAIFixes] Whether this result has AI fixes.
+	 * @constructor
+	 * @returns {void}
 	 */
 	constructor( values ) {
 		this._hasScore = false;
@@ -74,7 +83,7 @@ class AssessmentResult {
 	}
 
 	/**
-	 * Gets the available score
+	 * Gets the available score.
 	 * @returns {number} The score associated with the AssessmentResult.
 	 */
 	getScore() {
@@ -83,7 +92,7 @@ class AssessmentResult {
 
 	/**
 	 * Sets the score for the assessment.
-	 * @param {number} score The score to be used for the score property
+	 * @param {number} score The score to be used for the score property.
 	 * @returns {void}
 	 */
 	setScore( score ) {
@@ -94,7 +103,7 @@ class AssessmentResult {
 	}
 
 	/**
-	 * Checks if a text is available.
+	 * Checks if a text for the assessment result is available.
 	 * @returns {boolean} Whether or not a text is available.
 	 */
 	hasText() {
@@ -102,7 +111,7 @@ class AssessmentResult {
 	}
 
 	/**
-	 * Gets the available text
+	 * Gets the available text for the assessment result.
 	 * @returns {string} The text associated with the AssessmentResult.
 	 */
 	getText() {
@@ -111,7 +120,7 @@ class AssessmentResult {
 
 	/**
 	 * Sets the text for the assessment.
-	 * @param {string} text The text to be used for the text property
+	 * @param {string} text The text to be used for the text property.
 	 * @returns {void}
 	 */
 	setText( text ) {
@@ -134,7 +143,7 @@ class AssessmentResult {
 	/**
 	 * Sets the marks for the assessment.
 	 *
-	 * @param {array} marks The marks to be used for the marks property
+	 * @param {array} marks The marks to be used for the marks property.
 	 *
 	 * @returns {void}
 	 */
@@ -146,7 +155,7 @@ class AssessmentResult {
 	}
 
 	/**
-	 * Sets the identifier
+	 * Sets the identifier.
 	 *
 	 * @param {string} identifier An alphanumeric identifier for this result.
 	 * @returns {void}
@@ -156,7 +165,7 @@ class AssessmentResult {
 	}
 
 	/**
-	 * Gets the identifier
+	 * Gets the identifier.
 	 *
 	 * @returns {string} An alphanumeric identifier for this result.
 	 */
@@ -165,7 +174,7 @@ class AssessmentResult {
 	}
 
 	/**
-	 * Sets the marker, a pure function that can return the marks for a given Paper
+	 * Sets the marker, a pure function that can return the marks for a given Paper.
 	 *
 	 * @param {Function} marker The marker to set.
 	 * @returns {void}
@@ -184,7 +193,7 @@ class AssessmentResult {
 	}
 
 	/**
-	 * Gets the marker, a pure function that can return the marks for a given Paper
+	 * Gets the marker, a pure function that can return the marks for a given Paper.
 	 *
 	 * @returns {Function} The marker.
 	 */

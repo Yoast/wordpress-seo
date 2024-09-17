@@ -294,7 +294,7 @@ class App {
 	}
 
 	/**
-	 * Initializes assessors based on if the respective analysis is active.
+	 * Initializes assessors based on whether the respective analysis is active.
 	 *
 	 * @param {Object} args The arguments passed to the App.
 	 * @returns {void}
@@ -349,7 +349,7 @@ class App {
 	}
 
 	/**
-	 * Extend the config with defaults.
+	 * Extends the config with defaults.
 	 *
 	 * @param   {Object}    args    The arguments to be extended.
 	 * @returns {Object}    args    The extended arguments.
@@ -362,7 +362,7 @@ class App {
 	}
 
 	/**
-	 * Extend sample text config with defaults.
+	 * Extends sample text config with defaults.
 	 *
 	 * @param   {Object}    sampleText  The sample text to be extended.
 	 * @returns {Object}    sampleText  The extended sample text.
@@ -610,7 +610,7 @@ class App {
 	}
 
 	/**
-	 * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
+	 * Removes the loading dialog and fires the analyzer when all plugins are loaded.
 	 *
 	 * @returns {void}
 	 */
