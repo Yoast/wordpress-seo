@@ -57,7 +57,7 @@ class Paper {
 		}
 
 		if ( attributes.hasOwnProperty( "url" ) ) {
-			// The 'url' attribute has been deprecated since version 18.8, refer to hasUrl and getUrl below.
+			// The 'url' attribute has been deprecated since version 1.19.1, refer to hasUrl and getUrl below.
 			console.warn( "The 'url' attribute is deprecated, use 'slug' instead." );
 			attributes.slug = attributes.url || attributes.slug;
 		}
@@ -206,7 +206,7 @@ class Paper {
 
 	/**
 	 * Checks whether an url is available
-	 * @deprecated Since version 18.7. Use hasSlug instead.
+	 * @deprecated Since version 1.19.1. Use hasSlug instead.
 	 * @returns {boolean} Returns true if the Paper has a slug.
 	 */
 	hasUrl() {
@@ -216,7 +216,7 @@ class Paper {
 
 	/**
 	 * Returns the url, or an empty string if no url is available.
-	 * @deprecated Since version 18.8. Use getSlug instead.
+	 * @deprecated Since version 1.19.1. Use getSlug instead.
 	 * @returns {string} Returns the url
 	 */
 	getUrl() {
