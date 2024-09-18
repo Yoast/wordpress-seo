@@ -3,6 +3,24 @@ body.toplevel_page_wpseo_dashboard {
 		display:none;
 	}
 
+	.yoast-new-dashboard-notice {
+		background: white;
+		border: 1px solid #E0B3CC;
+		box-shadow: 0px 4px 6px -1px #0000001A;
+	}
+
+	.yoast-new-dashboard-notice .yoast-icon {
+		background-color: var(--yoast-color-primary);
+		mask-image: var(--yoast-svg-icon-yoast);
+		-webkit-mask-image: var(--yoast-svg-icon-yoast);
+		mask-size: 100% 100%;
+		-webkit-mask-size: 100% 100%;
+		display: inline-block;
+		width: 14px;
+		height: 14px;
+		margin-right: 8px;
+	}
+
 	@apply yst-bg-slate-100;
 
 	/* Move WP footer behind our content. */

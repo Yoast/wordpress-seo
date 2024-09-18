@@ -10,6 +10,7 @@ import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
 import { FirstTimeConfiguration } from "./routes";
+import Notice from "./tailwind-components/notice";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -94,6 +95,11 @@ const App = () => {
 				</aside>
 				<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[17.5rem]" ) }>
 					<div className="yst-grow yst-space-y-6 yst-mb-8 xl:yst-mb-0">
+						<Notice
+							title="Title"
+						>
+							content
+						</Notice>
 						<Paper as="main">
 							<Transition
 								key={ pathname }
