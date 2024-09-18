@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  */
 final class New_Dashboard_Page_Integration_Test extends TestCase {
 
-	public const PAGE = 'wpseo_page_new_dashboard';
+	public const PAGE = 'wpseo_dashboard';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -127,7 +127,7 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 				'action_times' => 0,
 			],
 			'On dashboard page' => [
-				'current_page' => 'wpseo_page_new_dashboard',
+				'current_page' => 'wpseo_dashboard',
 				'action_times' => 1,
 			],
 		];
@@ -173,19 +173,25 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 	public function test_add_page() {
 		$pages = $this->instance->add_page(
 			[
-				[ 'page1', '', 'Page 1', 'manage_options', 'page1', [ $this, 'display_page' ] ],
-				[ 'page2', '', 'Page 2', 'manage_options', 'page2', [ $this, 'display_page' ] ],
-				[ 'page3', '', 'Page 3', 'manage_options', 'page3', [ $this, 'display_page' ] ],
+				[ 'page1', '', 'Page 1', 'manage_options', 'page1', [ 'custom_display_page' ] ],
+				[ 'page2', '', 'Page 2', 'manage_options', 'page2', [ 'custom_display_page' ] ],
+				[ 'page3', '', 'Page 3', 'manage_options', 'page3', [ 'custom_display_page' ] ],
 			]
 		);
 
-		// Assert that the new page was added at index 3.
-		$this->assertEquals( 'wpseo_dashboard', $pages[3][0] );
+		// Assert that the new page was added at index 0.
+		$this->assertEquals( 'wpseo_dashboard', $pages[0][0] );
+		$this->assertEquals( 'page3', $pages[3][0] );
+		$this->assertEquals( '', $pages[0][1] );
 		$this->assertEquals( '', $pages[3][1] );
-		$this->assertEquals( 'New dashboard', $pages[3][2] );
-		$this->assertEquals( 'wpseo_manage_options', $pages[3][3] );
-		$this->assertEquals( 'wpseo_page_new_dashboard', $pages[3][4] );
-		$this->assertEquals( [ $this->instance, 'display_page' ], $pages[3][5] );
+		$this->assertEquals( 'General', $pages[0][2] );
+		$this->assertEquals( 'Page 3', $pages[3][2] );
+		$this->assertEquals( 'wpseo_manage_options', $pages[0][3] );
+		$this->assertEquals( 'manage_options', $pages[3][3] );
+		$this->assertEquals( 'wpseo_dashboard', $pages[0][4] );
+		$this->assertEquals( 'page3', $pages[3][4] );
+		$this->assertEquals( [ $this->instance, 'display_page' ], $pages[0][5] );
+		$this->assertEquals( [ 'custom_display_page' ], $pages[3][5] );
 	}
 
 	/**
