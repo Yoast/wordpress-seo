@@ -216,6 +216,8 @@ class App {
 
 		this.callbacks = this.config.callbacks;
 
+		this.researcher = this.config.researcher;
+
 		setLocaleData( this.config.translations.locale_data[ "wordpress-seo" ], "wordpress-seo" );
 
 		this.initializeAssessors( args );
@@ -315,8 +317,8 @@ class App {
 			return;
 		}
 
-		this.defaultSeoAssessor = new SEOAssessor( { marker: this.config.marker } );
-		this.cornerStoneSeoAssessor = new CornerstoneSEOAssessor( { marker: this.config.marker } );
+		this.defaultSeoAssessor = new SEOAssessor( this.researcher, { marker: this.config.marker } );
+		this.cornerStoneSeoAssessor = new CornerstoneSEOAssessor( this.researcher, { marker: this.config.marker } );
 
 		// Set the assessor
 		if ( isUndefined( args.seoAssessor ) ) {
@@ -337,8 +339,10 @@ class App {
 			return;
 		}
 
-		this.defaultContentAssessor = new ContentAssessor( { marker: this.config.marker, locale: this.config.locale } );
-		this.cornerStoneContentAssessor = new CornerstoneContentAssessor( { marker: this.config.marker, locale: this.config.locale } );
+		this.defaultContentAssessor = new ContentAssessor( this.researcher, { marker: this.config.marker, locale: this.config.locale } );
+		this.cornerStoneContentAssessor = new CornerstoneContentAssessor( this.researcher,
+			{ marker: this.config.marker, locale: this.config.locale }
+		);
 
 		// Set the content assessor
 		if ( isUndefined( args._contentAssessor ) ) {
