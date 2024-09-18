@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { useCallback, useRef, useState } from "@wordpress/element";
+import { useCallback, useRef, useState, useEffect } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
 import { useSelect, useDispatch } from "@wordpress/data";
 
@@ -13,6 +13,7 @@ import { Paper } from "yoastseo";
 import { ModalContent } from "./modal-content";
 import { getAllBlocks } from "../../helpers/getAllBlocks";
 import { LockClosedIcon } from "@heroicons/react/solid";
+import { setFocusAIFixesButton } from "../../redux/actions";
 
 /**
  * The AI Assessment Fixes button component.
@@ -26,6 +27,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const aiFixesId = id + "AIFixes";
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
 	const activeAIButtonId = useSelect( select => select( "yoast-seo/editor" ).getActiveAIFixesButton(), [] );
+	const focusAIButton = useSelect( select => select( "yoast-seo/editor" ).getFocusAIFixesButton(), [] );
 	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
@@ -42,10 +44,11 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	// (2) the AI button is not disabled.
 	// (3) the editor is in visual mode.
 	// (4) all blocks are in visual mode.
-	const { isEnabled, ariaLabel, ariaHasPopup } = useSelect( ( select ) => {
+	const { isEnabled, isFocused, ariaLabel, ariaHasPopup } = useSelect( ( select ) => {
 		if ( activeAIButtonId !== null && ! isButtonPressed ) {
 			return {
 				isEnabled: false,
+				isFocused: false,
 				ariaLabel: null,
 				ariaHasPopup: false,
 			};
@@ -55,6 +58,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		if ( Object.keys( disabledAIButtons ).includes( aiFixesId ) ) {
 			return {
 				isEnabled: false,
+				isFocused: false,
 				ariaLabel: disabledAIButtons[ aiFixesId ],
 				ariaHasPopup: false,
 			};
@@ -64,6 +68,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		if ( editorMode !== "visual" ) {
 			return {
 				isEnabled: false,
+				isFocused: false,
 				ariaLabel: htmlLabel,
 				ariaHasPopup: false,
 			};
@@ -73,10 +78,22 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		const allVisual = blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
 		return {
 			isEnabled: allVisual,
+			isFocused: allVisual && focusAIButton === aiFixesId,
 			ariaLabel: allVisual ? defaultLabel : htmlLabel,
 			ariaHasPopup: allVisual ? "dialog" : false,
 		};
 	}, [ isButtonPressed, activeAIButtonId ] );
+
+	const buttonRef = useRef( null );
+
+	useEffect( () => {
+		if ( isFocused ) {
+			setTimeout( () => {
+				buttonRef.current?.focus();
+			}, 1000 );
+			setFocusAIFixesButton( false );
+		}
+	}, [ isFocused ] );
 
 	/**
 	 * Handles the button press state.
@@ -147,6 +164,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			pressed={ isButtonPressed }
 			disabled={ ! isEnabled }
 			ariaHasPopup={ ariaHasPopup }
+			ref={ buttonRef }
 		>
 			{ ! isPremium && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
 			<SparklesIcon pressed={ isButtonPressed } />

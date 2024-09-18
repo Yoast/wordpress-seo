@@ -1,7 +1,8 @@
-import { SET_ACTIVE_AI_FIXES_BUTTON, SET_DISABLED_AI_FIXES_BUTTONS } from "../actions";
+import { SET_ACTIVE_AI_FIXES_BUTTON, SET_DISABLED_AI_FIXES_BUTTONS, SET_FOCUS_AI_FIXES_BUTTON } from "../actions";
 
 const INITIAL_STATE = {
 	activeAIButton: null,
+	focusAIButton: null,
 	disabledAIButtons: {},
 };
 
@@ -15,10 +16,19 @@ const INITIAL_STATE = {
  */
 export default function AIButton( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
-		case SET_ACTIVE_AI_FIXES_BUTTON:
+		case SET_ACTIVE_AI_FIXES_BUTTON: {
+			const focusAIButton = action.activeAIButton === null && state.activeAIButton !== null ? state.activeAIButton : state.focusAIButton;
+			console.log( "focusAIButton", focusAIButton );
 			return {
 				...state,
 				activeAIButton: action.activeAIButton,
+				focusAIButton,
+			};
+		}
+		case SET_FOCUS_AI_FIXES_BUTTON:
+			return {
+				...state,
+				focusAIButton: action.focusAIButton,
 			};
 		case SET_DISABLED_AI_FIXES_BUTTONS:
 			return {
