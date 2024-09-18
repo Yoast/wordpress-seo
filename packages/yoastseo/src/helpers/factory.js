@@ -23,10 +23,10 @@ export default class FactoryProto {
 	 * @param {Object} expectedValue Expected value.
 	 * @param {boolean} [multiValue=false] Whether the researcher has multiple values.
 	 * @param {boolean} [hasMorphologyData=false] Whether the researcher has morphology data.
-	 * @param {Object} [config=false] Optional config to be used for an assessment.
-	 * @param {Object} [helpers=false] Optional helpers to be used for an assessment.
+	 * @param {Object|boolean} [config=false] Optional config to be used for an assessment.
+	 * @param {Object|boolean} [helpers=false] Optional helpers to be used for an assessment.
 	 *
-	 * @returns {Researcher} Mock researcher.
+	 * @returns {Object} Mock researcher.
 	 */
 	static buildMockResearcher( expectedValue, multiValue = false, hasMorphologyData = false,
 		config = false, helpers = false ) {
@@ -167,12 +167,13 @@ export default class FactoryProto {
 			},
 
 			/**
-			 * Returns whether the worker has the specified helper.
+			 * Checks whether a helper with the given name exists.
+			 * @param {string} name The name to check.
 			 *
-			 * @returns {boolean} Whether the worker has the helper.
+			 * @returns {boolean} True if the helper exists.
 			 */
-			hasHelper: function() {
-				return expectedValue;
+			hasHelper: function( name ) {
+				return ! isUndefined( helpers[ name ] );
 			},
 
 			/**
@@ -186,11 +187,11 @@ export default class FactoryProto {
 
 			/**
 			 * Returns whether the worker has the specified config.
-			 * @param {string} research The name of the config.
+			 * @param {string} name The name of the config.
 			 * @returns {boolean} Whether the worker has the specified config.
 			 */
-			hasConfig: function( config ) {
-				return ! isUndefined( expectedValue[ config ] );
+			hasConfig: function( name ) {
+				return ! isUndefined( expectedValue[ name ] );
 			},
 		};
 	}
