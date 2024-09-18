@@ -9,8 +9,6 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use function add_query_arg;
-use function admin_url;
 
 /**
  * Class New_Dashboard_Page_Integration.
@@ -165,7 +163,7 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 				],
 			],
 			'linkParams'  => $this->shortlink_helper->get_query_params(),
-			'userEditUrl' => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) )
+			'userEditUrl' => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) )
 		];
 	}
 }
