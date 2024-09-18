@@ -79,7 +79,7 @@ const defaults = {
  * Check arguments passed to the App to check if all necessary arguments are set.
  *
  * @private
- * @param {Object}      args            The arguments object passed to the App.
+ * @param {Object} args The arguments object passed to the App.
  * @returns {void}
  */
 function verifyArguments( args ) {
@@ -93,15 +93,15 @@ function verifyArguments( args ) {
 }
 
 /**
- * This should return an object with the given properties
+ * This should return an object with the given properties.
  *
  * @callback YoastSEO.App~getData
- * @returns {Object} data
- * @returns {String} data.keyword The keyword that should be used
- * @returns {String} data.meta
- * @returns {String} data.text The text to analyze
- * @returns {String} data.metaTitle The text in the HTML title tag
- * @returns {String} data.title The title to analyze
+ * @returns {Object} data. The data object containing the following properties: keyword, meta, text, metaTitle, title, url, excerpt.
+ * @returns {String} data.keyword The keyword that should be used.
+ * @returns {String} data.meta The meta description to analyze.
+ * @returns {String} data.text The text to analyze.
+ * @returns {String} data.metaTitle The text in the HTML title tag.
+ * @returns {String} data.title The title to analyze.
  * @returns {String} data.url The URL for the given page
  * @returns {String} data.excerpt Excerpt for the pages
  */
@@ -109,7 +109,7 @@ function verifyArguments( args ) {
 /**
  * @callback YoastSEO.App~getAnalyzerInput
  *
- * @returns {Array} An array containing the analyzer queue
+ * @returns {Array} An array containing the analyzer queue.
  */
 
 /**
@@ -121,7 +121,7 @@ function verifyArguments( args ) {
 /**
  * @callback YoastSEO.App~updateSnippetValues
  *
- * @param {Object} ev The event emitted from the DOM
+ * @param {Object} ev The event emitted from the DOM.
  */
 
 /**
@@ -159,44 +159,38 @@ function verifyArguments( args ) {
  */
 
 /**
- * Loader for the analyzer, loads the eventbinder and the elementdefiner
- *
- * @param {Object} args The arguments passed to the loader.
- * @param {Object} args.translations Jed compatible translations.
- * @param {Object} args.targets Targets to retrieve or set on.
- * @param {String} args.targets.snippet ID for the snippet preview element.
- * @param {String} args.targets.output ID for the element to put the output of the analyzer in.
- * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the analyzer output.
- * @param {boolean} args.dynamicDelay   Whether to enable dynamic delay, will ignore type delay if the analyzer takes a long time.
- *                                      Applicable on slow devices.
- * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
- * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when dynamic delay is enabled.
- * @param {Object} args.callbacks The callbacks that the app requires.
- * @param {Object} args.assessor The Assessor to use instead of the default assessor.
- * @param {YoastSEO.App~getData} args.callbacks.getData Called to retrieve input data
- * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input for the analyzer.
- * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to the DOM elements.
- * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the snippet values need to be updated.
- * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been determined by the analyzer.
- * @param {YoastSEO.App~saveContentScore} args.callback.saveContentScore Called when the content score has been
- *                                                                       determined by the assessor.
- * @param {YoastSEO.App~updatedContentResults} args.callbacks.updatedContentResults Called when the score has been determined
- *                                                                                  by the analyzer.
- * @param {YoastSEO.App~updatedKeywordsResults} args.callback.updatedKeywordsResults Called when the content score has been
- *                                                                                   determined by the assessor.
- * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
- * @param {Function} args.marker The marker to use to apply the list of marks retrieved from an assessment.
- *
- * @param {boolean} [args.debouncedRefresh] Whether or not to debounce the
- *                                          refresh function. Defaults to true.
- * @param {Researcher} args.researcher The Researcher object to be used.
- *
- * @constructor
+ * Represents the main YoastSEO App.
  */
 class App {
 	/**
-	 * Creates a new App instance.
-	 * @param {Object} args The arguments.
+	 * Loader for the analyzer, loads the eventbinder and the elementdefiner
+	 *
+	 * @param {Object} args The arguments passed to the loader.
+	 * @param {Object} args.translations Jed compatible translations.
+	 * @param {Object} args.targets Targets to retrieve or set on.
+	 * @param {String} args.targets.snippet ID for the snippet preview element.
+	 * @param {String} args.targets.output ID for the element to put the output of the analyzer in.
+	 * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the analyzer output.
+	 * @param {boolean} args.dynamicDelay   Whether to enable dynamic delay, will ignore type delay if the analyzer takes a long time. Applicable on slow devices.
+	 * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
+	 * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when dynamic delay is enabled.
+	 * @param {Object} args.callbacks The callbacks that the app requires.
+	 * @param {Object} args.assessor The Assessor to use instead of the default assessor.
+	 * @param {YoastSEO.App~getData} args.callbacks.getData Called to retrieve input data
+	 * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input for the analyzer.
+	 * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to the DOM elements.
+	 * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the snippet values need to be updated.
+	 * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been determined by the analyzer.
+	 * @param {YoastSEO.App~saveContentScore} args.callback.saveContentScore Called when the content score has been determined by the assessor.
+	 * @param {YoastSEO.App~updatedContentResults} args.callbacks.updatedContentResults Called when the score has been determined by the analyzer.
+	 * @param {YoastSEO.App~updatedKeywordsResults} args.callback.updatedKeywordsResults Called when the content score has been determined by the assessor.
+	 * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
+	 * @param {Function} args.marker The marker to use to apply the list of marks retrieved from an assessment.
+	 *
+	 * @param {boolean} [args.debouncedRefresh=true] Whether or not to debounce the refresh function. Defaults to true.
+	 * @param {Researcher} args.researcher The Researcher object to be used.
+	 *
+	 * @constructor
 	 */
 	constructor( args ) {
 		if ( ! isObject( args ) ) {
@@ -355,8 +349,9 @@ class App {
 	/**
 	 * Extends the config with defaults.
 	 *
-	 * @param   {Object}    args    The arguments to be extended.
-	 * @returns {Object}    args    The extended arguments.
+	 * @param {Object} args The arguments to be extended.
+	 *
+	 * @returns {Object} The extended arguments.
 	 */
 	extendConfig( args ) {
 		args.sampleText = this.extendSampleText( args.sampleText );
@@ -368,8 +363,8 @@ class App {
 	/**
 	 * Extends sample text config with defaults.
 	 *
-	 * @param   {Object}    sampleText  The sample text to be extended.
-	 * @returns {Object}    sampleText  The extended sample text.
+	 * @param {Object} sampleText The sample text to be extended.
+	 * @returns {Object} The extended sample text.
 	 */
 	extendSampleText( sampleText ) {
 		const defaultSampleText = defaults.sampleText;
@@ -458,12 +453,12 @@ class App {
 	}
 
 	/**
-	 * Initializes the assessor presenters for content and SEO.
+	 * Initializes the assessor presenters for content and SEO analysis.
 	 *
 	 * @returns {void}
 	 */
 	initAssessorPresenters() {
-		// Pass the assessor result through to the formatter
+		// Pass the assessor result through to the formatter.
 		if ( ! isUndefined( this.config.targets.output ) ) {
 			this.seoAssessorPresenter = new AssessorPresenter( {
 				targets: {
@@ -474,7 +469,7 @@ class App {
 		}
 
 		if ( ! isUndefined( this.config.targets.contentOutput ) ) {
-			// Pass the assessor result through to the formatter
+			// Pass the assessor result through to the formatter.
 			this.contentAssessorPresenter = new AssessorPresenter( {
 				targets: {
 					output: this.config.targets.contentOutput,
@@ -508,8 +503,7 @@ class App {
 	}
 
 	/**
-	 * Inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
-	 * to format outputs.
+	 * Inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter to format outputs.
 	 *
 	 * @returns {void}
 	 */
@@ -527,12 +521,12 @@ class App {
 
 		let text = this.analyzerData.text;
 
-		// Insert HTML stripping code
+		// Insert HTML stripping code.
 		text = removeHtmlBlocks( text );
 
 		const titleWidth = this.analyzerData.titleWidth;
 
-		// Create a paper object for the Researcher
+		// Create a paper object for the Researcher.
 		this.paper = new Paper( text, {
 			keyword: this.analyzerData.keyword,
 			synonyms: this.analyzerData.synonyms,
@@ -664,7 +658,7 @@ class App {
 	}
 
 	/**
-	 * Removes the pluging load dialog.
+	 * Removes the plugin load dialog.
 	 *
 	 * @returns {void}
 	 */
@@ -713,8 +707,8 @@ class App {
 	/**
 	 * Delegates to `YoastSEO.app.pluggable.registerModification`.
 	 *
-	 * @param {string}   modification   The name of the filter
-	 * @param {function} callable       The callable function
+	 * @param {string}   modification   The name of the filter.
+	 * @param {function} callable       The callable function.
 	 * @param {string}   pluginName     The plugin that is registering the modification.
 	 * @param {number}   [priority]     Used to specify the order in which the callables associated with a particular filter are called.
 	 *                                  Lower numbers correspond with earlier execution.
@@ -727,7 +721,7 @@ class App {
 
 	/**
 	 * Registers a custom assessment for use in the analyzer, this will result in a new line in the analyzer results.
-	 * The function needs to use the assessmentresult to return an result  based on the contents of the page/posts.
+	 * The function needs to use the assessment result to return a result based on the contents of the page/posts.
 	 *
 	 * Score 0 results in a grey circle if it is not explicitly set by using setscore
 	 * Scores 0, 1, 2, 3 and 4 result in a red circle
@@ -735,7 +729,7 @@ class App {
 	 * Scores 8, 9 and 10 result in a green circle
 	 *
 	 * @param {string} name Name of the test.
-	 * @param {function} assessment The assessment to run
+	 * @param {function} assessment The assessment to run.
 	 * @param {string}   pluginName The plugin that is registering the test.
 	 * @returns {boolean} Whether or not the test was successfully registered.
 	 */
@@ -798,7 +792,7 @@ class App {
 	 * to a SEO score.
 	 *
 	 * Negative scores result in a red circle
-	 * Scores 1, 2, 3, 4 and 5 result in a orange circle
+	 * Scores 1, 2, 3, 4 and 5 result in an orange circle
 	 * Scores 6 and 7 result in a yellow circle
 	 * Scores 8, 9 and 10 result in a red circle
 	 *

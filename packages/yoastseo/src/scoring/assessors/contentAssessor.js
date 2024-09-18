@@ -70,7 +70,7 @@ export default class ContentAssessor extends Assessor {
 	}
 
 	/**
-	 * Determines whether a language is fully supported. If a language supports 8 content assessments
+	 * Determines whether a language is fully supported. If a language supports 7 content assessments,
 	 * it is fully supported
 	 *
 	 * @returns {boolean} True if fully supported.
