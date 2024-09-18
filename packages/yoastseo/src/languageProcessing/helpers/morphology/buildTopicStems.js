@@ -6,31 +6,36 @@ import { isUndefined, escapeRegExp, memoize } from "lodash";
 import isDoubleQuoted from "../match/isDoubleQuoted";
 
 /**
- * A topic phrase (i.e., a keyphrase or synonym) with stem-original pairs for the words in the topic phrase.
- *
- * @param {StemOriginalPair[]} stemOriginalPairs The stem-original pairs for the words in the topic phrase.
- * @param {boolean}            exactMatch        Whether the topic phrase is an exact match.
- *
- * @constructor
+ * A TopicPhrase (i.e., a keyphrase or synonym) with stem-original pairs for the words in the topic phrase.
  */
-function TopicPhrase( stemOriginalPairs = [], exactMatch = false ) {
-	this.stemOriginalPairs = stemOriginalPairs;
-	this.exactMatch = exactMatch;
-}
-
-/**
- * Returns all stems in the topic phrase.
- *
- * @returns {string[]|[]} The stems in the topic phrase or empty array if the topic phrase is exact match.
- */
-TopicPhrase.prototype.getStems = function() {
-	// An exact match keyphrase doesn't have stems.
-	if ( this.exactMatch ) {
-		return [];
+class TopicPhrase {
+	/**
+	 * Constructs a new TopicPhrase.
+	 *
+	 * @param {StemOriginalPair[]} stemOriginalPairs The stem-original pairs for the words in the topic phrase.
+	 * @param {boolean}            exactMatch        Whether the topic phrase is an exact match.
+	 *
+	 * @constructor
+	 */
+	constructor( stemOriginalPairs = [], exactMatch = false ) {
+		this.stemOriginalPairs = stemOriginalPairs;
+		this.exactMatch = exactMatch;
 	}
 
-	return this.stemOriginalPairs.map( stemOriginalPair => stemOriginalPair.stem );
-};
+	/**
+	 * Returns all stems in the topic phrase.
+	 *
+	 * @returns {string[]|[]} The stems in the topic phrase or empty array if the topic phrase is exact match.
+	 */
+	getStems() {
+		// An exact match keyphrase doesn't have stems.
+		if ( this.exactMatch ) {
+			return [];
+		}
+
+		return this.stemOriginalPairs.map( stemOriginalPair => stemOriginalPair.stem );
+	}
+}
 
 /**
  * A stem-original pair ƒor a word in a topic phrase.
@@ -64,7 +69,7 @@ const buildStems = function( keyphrase, stemmer, functionWords, areHyphensWordBo
 		return new TopicPhrase();
 	}
 
-	// If the keyphrase is embedded in double quotation marks, return the keyprhase itself, without the outermost quotation marks.
+	// If the keyphrase is embedded in double quotation marks, return the keyphrase itself, without the outermost quotation marks.
 	if ( isDoubleQuoted( keyphrase ) ) {
 		keyphrase = keyphrase.substring( 1, keyphrase.length - 1 );
 		return new TopicPhrase(

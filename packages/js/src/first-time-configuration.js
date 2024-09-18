@@ -2,7 +2,7 @@ import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
-import FirstTimeConfigurationSteps from "./first-time-configuration/first-time-configuration-steps";
+import FirstTimeConfigurationAppContainer from "./first-time-configuration/first-time-configuration-app-container";
 
 domReady( () => {
 	const context = {
@@ -15,7 +15,7 @@ domReady( () => {
 
 	render(
 		<Root context={ context }>
-			<FirstTimeConfigurationSteps />
+			<FirstTimeConfigurationAppContainer />
 		</Root>,
 		root
 	);

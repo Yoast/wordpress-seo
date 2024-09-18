@@ -78,7 +78,7 @@ class SlugKeywordAssessment extends Assessment {
 				return {
 					score: this._config.scores.good,
 					resultText: sprintf(
-						/* translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+						/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 						__(
 							"%1$sKeyphrase in slug%2$s: Great work!",
 							"wordpress-seo"
@@ -92,7 +92,7 @@ class SlugKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.okay,
 				resultText: sprintf(
-					/* translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!",
 						"wordpress-seo"
@@ -108,7 +108,7 @@ class SlugKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.good,
 				resultText: sprintf(
-					/* translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 					__(
 						"%1$sKeyphrase in slug%2$s: More than half of your keyphrase appears in the slug. That's great!",
 						"wordpress-seo"
@@ -121,7 +121,7 @@ class SlugKeywordAssessment extends Assessment {
 		return {
 			score: this._config.scores.okay,
 			resultText: sprintf(
-				/* translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				__(
 					"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!",
 					"wordpress-seo"
@@ -139,7 +139,7 @@ class SlugKeywordAssessment extends Assessment {
  * UrlKeywordAssessment was the previous name for SlugKeywordAssessment (hence the name of this file).
  * We keep (and expose) this assessment for backwards compatibility.
  *
- * @deprecated Since version 18.8 Use SlugKeywordAssessment instead.
+ * @deprecated Since version 1.19.1. Use SlugKeywordAssessment instead.
  */
 class UrlKeywordAssessment extends SlugKeywordAssessment {
 	/**
