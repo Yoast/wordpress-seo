@@ -79,6 +79,7 @@ const App = () => {
 
 	useEffect( () => {
 		const allNotices = Array.from( document.querySelectorAll( ".notice-yoast" ) );
+		allNotices.forEach(notice => notice.remove());
 		setNotices( allNotices );
 	}, [] );
 

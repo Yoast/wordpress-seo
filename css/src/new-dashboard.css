@@ -1,6 +1,10 @@
 body.toplevel_page_wpseo_dashboard {
-	.notice:not(.notice-yoast) {
+	.notice {
 		display:none;
+	}
+
+	.yst-new-dashboard-notice .notice {
+		display:block;
 	}
 
 	#yoast-seo-dashboard .notice-yoast {
