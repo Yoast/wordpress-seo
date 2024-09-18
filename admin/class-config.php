@@ -50,7 +50,7 @@ class WPSEO_Admin_Pages {
 	public function init() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-		if ( in_array( $page, [ Settings_Integration::PAGE, Academy_Integration::PAGE, Support_Integration::PAGE, New_Dashboard_Page_Integration::PAGE,], true ) ) {
+		if ( in_array( $page, [ Settings_Integration::PAGE, Academy_Integration::PAGE, Support_Integration::PAGE, New_Dashboard_Page_Integration::PAGE ], true ) ) {
 			// Bail, this is managed in the applicable integration.
 			return;
 		}

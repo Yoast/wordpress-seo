@@ -163,7 +163,7 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 				],
 			],
 			'linkParams'  => $this->shortlink_helper->get_query_params(),
-			'userEditUrl' => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) )
+			'userEditUrl' => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) ),
 		];
 	}
 }
