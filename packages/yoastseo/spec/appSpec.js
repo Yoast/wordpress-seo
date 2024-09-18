@@ -1,5 +1,6 @@
 import MissingArgument from "../src/errors/missingArgument.js";
 import App from "../src/app.js";
+import Factory from "../src/helpers/factory";
 
 // Mock these function to prevent us from needing an actual DOM in the tests.
 App.prototype.showLoadingDialog = function() {};
@@ -15,6 +16,8 @@ global.document = {};
 document.getElementById = function() {
 	return mockElement;
 };
+
+const researcher = Factory.buildMockResearcher( {}, true, false );
 
 describe( "Creating an App", function() {
 	it( "throws an error when no args are given", function() {
@@ -48,6 +51,17 @@ describe( "Creating an App", function() {
 		} ).toThrowError( MissingArgument );
 	} );
 
+	it( "throws on a missing researcher argument", function() {
+		expect( function() {
+			new App( {
+				targets: {
+					snippet: "snippetID",
+					output: "outputID",
+				},
+			} );
+		} ).toThrowError( MissingArgument );
+	} );
+
 	it( "should work without an output ID", function() {
 		new App( {
 			targets: {
@@ -58,6 +72,7 @@ describe( "Creating an App", function() {
 					return {};
 				},
 			},
+			researcher: researcher,
 		} );
 	} );
 
@@ -72,6 +87,7 @@ describe( "Creating an App", function() {
 					return {};
 				},
 			},
+			researcher: researcher,
 		} );
 	} );
 } );
