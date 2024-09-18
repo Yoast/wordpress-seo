@@ -3,22 +3,31 @@ body.toplevel_page_wpseo_dashboard {
 		display:none;
 	}
 
-	.yoast-new-dashboard-notice {
+	#yoast-seo-dashboard .notice-yoast {
 		background: white;
 		border: 1px solid #E0B3CC;
 		box-shadow: 0px 4px 6px -1px #0000001A;
+		border-radius: 0.375rem;
+		margin: 0px;
+		padding: 5px 12px;
 	}
 
-	.yoast-new-dashboard-notice .yoast-icon {
-		background-color: var(--yoast-color-primary);
-		mask-image: var(--yoast-svg-icon-yoast);
-		-webkit-mask-image: var(--yoast-svg-icon-yoast);
-		mask-size: 100% 100%;
-		-webkit-mask-size: 100% 100%;
-		display: inline-block;
-		width: 14px;
-		height: 14px;
-		margin-right: 8px;
+	#yoast-seo-dashboard .notice-yoast p{
+		padding-left: 22px;
+	}
+
+	#yoast-seo-dashboard .notice-yoast img{
+		display: none;
+	}
+
+	#yoast-seo-dashboard .notice-yoast .notice-yoast__header{
+		margin-bottom: 5px;
+	}
+
+	#yoast-seo-dashboard .notice-yoast .notice-yoast__header h2{
+		font-size: 13px;
+		font-weight: 500;
+		color: #1E293B;
 	}
 
 	@apply yst-bg-slate-100;

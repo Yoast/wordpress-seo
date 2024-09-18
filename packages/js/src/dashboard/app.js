@@ -3,6 +3,7 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
+import { useEffect, useState } from "@wordpress/element";
 import { Paper, SidebarNavigation, Title, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import PropTypes from "prop-types";
@@ -10,7 +11,6 @@ import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
 import { FirstTimeConfiguration } from "./routes";
-import Notice from "./tailwind-components/notice";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -74,6 +74,14 @@ const Content = () => {
 const App = () => {
 	const { pathname } = useLocation();
 	const isPremium = useSelectDashboard( "selectPreference", [], "isPremium" );
+
+	const [ notices, setNotices ] = useState( [] );
+
+	useEffect( () => {
+		const allNotices = Array.from( document.querySelectorAll( ".notice-yoast" ) );
+		setNotices( allNotices );
+	}, [] );
+
 	return (
 		<SidebarNavigation activePath={ pathname }>
 			<SidebarNavigation.Mobile
@@ -95,11 +103,11 @@ const App = () => {
 				</aside>
 				<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[17.5rem]" ) }>
 					<div className="yst-grow yst-space-y-6 yst-mb-8 xl:yst-mb-0">
-						<Notice
-							title="Title"
-						>
-							content
-						</Notice>
+						{
+							notices.map( ( notice, index ) => (
+								<div key={ index } className="yst-new-dashboard-notice" dangerouslySetInnerHTML={ { __html: notice.outerHTML } } />
+							) )
+						}
 						<Paper as="main">
 							<Transition
 								key={ pathname }
