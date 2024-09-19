@@ -1,5 +1,5 @@
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Title, Paper } from "@yoast/ui-library";
 import PropTypes from "prop-types";
