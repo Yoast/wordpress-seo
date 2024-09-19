@@ -1,15 +1,16 @@
 import { __, _n } from "@wordpress/i18n";
 import { BellIcon } from "@heroicons/react/outline";
 import { Paper } from "@yoast/ui-library";
-import { List } from "./list";
-import { BoxTitle } from "./box-title";
-import { HiddenAlertsCollapsible } from "./hidden-alerts-collapsible";
+import { AlertsList } from "./alerts-list";
+import { AlertTitle } from "./alert-title";
+import { Collapsible } from "./collapsible";
+import { AlertsContext } from "../routes/alert-center";
 
 /**
  * @returns {JSX.Element} The notifications component.
  */
 export const Notifications = () => {
-	const notificationsList = [
+	const notificationsAlertsList = [
 		{
 			message: __( "Your site is not connected to your MyYoast account. Connect your site to get access to all the features.", "wordpress-seo" ),
 		},
@@ -18,23 +19,31 @@ export const Notifications = () => {
 		},
 	];
 
-	const hiddenNotificatins = 1;
+	const hiddenNotifications = 1;
 
 	const hiddenNotificationLabel = _n(
-		"hidden notification.",
-		"hidden notifications.",
-		hiddenNotificatins,
+		"hidden notification",
+		"hidden notifications",
+		hiddenNotifications,
 		"wordpress-seo"
 	);
 
+	const notificationsTheme = {
+		Icon: BellIcon,
+		bulletClass: "yst-fill-blue-500",
+		iconClass: "yst-text-blue-500",
+	};
+
 	return (
 		<Paper className="yst-p-8 yst-flex-1 yst-flex-col">
-			<BoxTitle title={ __( "Notifications", "wordpress-seo" ) } counts={ 2 } Icon={ BellIcon } iconColor="blue" />
-			<List items={ notificationsList } bulletColor="blue" hidden={ false } />
+			<AlertsContext.Provider value={ notificationsTheme }>
+				<AlertTitle counts={ 2 } title={ __( "Notifications", "wordpress-seo" ) } />
+				<AlertsList items={ notificationsAlertsList } hidden={ false } />
 
-			<HiddenAlertsCollapsible label={ `${ hiddenNotificatins } ${ hiddenNotificationLabel }` }>
-				<List items={ notificationsList } bulletColor="blue" hidden={ true } />
-			</HiddenAlertsCollapsible>
+				<Collapsible label={ `${ hiddenNotifications } ${ hiddenNotificationLabel }` }>
+					<AlertsList items={ notificationsAlertsList } hidden={ true } />
+				</Collapsible>
+			</AlertsContext.Provider>
 		</Paper>
 	);
 };

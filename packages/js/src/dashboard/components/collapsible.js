@@ -1,27 +1,27 @@
-
 import PropTypes from "prop-types";
 import { Disclosure } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
+import classNames from "classnames";
 
 /**
  * @param {string} label The label of the collapsible.
  * @param {ReactNode} children The children of the collapsible.
  * @returns {JSX.Element} The hidden alerts collapsible component.
  */
-export const HiddenAlertsCollapsible = ( { label, children } ) => {
+export const Collapsible = ( { label, children } ) => {
 	return (
 		<Disclosure>
 			{ ( { open } ) => (
-				<div className="yst-p-4 yst-shadow-sm yst-border-slate-200 yst-rounded-md yst-border">
-					<Disclosure.Button className="yst-w-full yst-flex yst-justify-between">
-						<div>{ label }</div>
+				<div className="yst-shadow-sm yst-border-slate-200 yst-rounded-md yst-border">
+					<Disclosure.Button className="yst-w-full yst-flex yst-justify-between yst-py-4 yst-pr-4 yst-pl-6 yst-items-center">
+						<div className="yst-font-medium">{ label }</div>
 						<ChevronDownIcon
-							className={ `${
-								open ? "yst-rotate-180 yst-transform" : ""
-							} yst-h-5 yst-w-5` }
+							className={ classNames( "yst-h-5 yst-w-5 flex-shrink-0",
+								open ? "yst-rotate-180" : ""
+							) }
 						/>
 					</Disclosure.Button>
-					<Disclosure.Panel>
+					<Disclosure.Panel className="yst-px-6">
 						{ children }
 					</Disclosure.Panel>
 				</div>
@@ -30,7 +30,7 @@ export const HiddenAlertsCollapsible = ( { label, children } ) => {
 	);
 };
 
-HiddenAlertsCollapsible.propTypes = {
+Collapsible.propTypes = {
 	label: PropTypes.string,
 	children: PropTypes.node,
 };

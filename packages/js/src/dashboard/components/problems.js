@@ -1,9 +1,10 @@
 import { __, _n } from "@wordpress/i18n";
 import { ExclamationCircleIcon } from "@heroicons/react/outline";
 import { Paper } from "@yoast/ui-library";
-import { List } from "./list";
-import { BoxTitle } from "./box-title";
-import { HiddenAlertsCollapsible } from "./hidden-alerts-collapsible";
+import { AlertsList } from "./alerts-list";
+import { AlertTitle } from "./alert-title";
+import { Collapsible } from "./collapsible";
+import { AlertsContext } from "../routes/alert-center";
 
 /**
  * @returns {JSX.Element} The problems component.
@@ -21,21 +22,29 @@ export const Problems = () => {
 	const hiddenProblems = 1;
 
 	const hiddenProblemsLabel = _n(
-		"hidden problem.",
-		"hidden problems.",
+		"hidden problem",
+		"hidden problems",
 		hiddenProblems,
 		"wordpress-seo"
 	);
 
+	const problemsTheme = {
+		Icon: ExclamationCircleIcon,
+		bulletClass: "yst-fill-red-500",
+		iconClass: "yst-text-red-500",
+	};
+
 	return (
 		<Paper className="yst-p-8 yst-flex-1 yst-flex-col">
-			<BoxTitle title={ __( "Problems", "wordpress-seo" ) } counts={ 2 } Icon={ ExclamationCircleIcon } />
-			<p className="yst-mt-2 yst-text-sm">{ __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" ) }</p>
-			<List items={ problemsList } />
+			<AlertsContext.Provider value={ problemsTheme }>
+				<AlertTitle title={ __( "Problems", "wordpress-seo" ) } counts={ 2 } />
+				<p className="yst-mt-2 yst-text-sm">{ __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" ) }</p>
+				<AlertsList items={ problemsList } />
 
-			<HiddenAlertsCollapsible label={ `${ hiddenProblems } ${ hiddenProblemsLabel }` }>
-				<List items={ problemsList } hidden={ true } />
-			</HiddenAlertsCollapsible>
+				<Collapsible label={ `${ hiddenProblems } ${ hiddenProblemsLabel }` }>
+					<AlertsList items={ problemsList } hidden={ true } />
+				</Collapsible>
+			</AlertsContext.Provider>
 		</Paper>
 	);
 };

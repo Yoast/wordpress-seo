@@ -1,6 +1,12 @@
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
 import { Notifications, Problems } from "../components";
+import { createContext } from "@wordpress/element";
+
+/**
+ * The context for the alerts.
+ */
+export const AlertsContext = createContext();
 
 /**
  * @returns {JSX.Element} The dashboard content placeholder.
@@ -17,7 +23,7 @@ export const AlertCenter = () => {
 				</div>
 			</header>
 		</Paper>
-		<div className="yst-flex yst-gap-8 yst-my-8 yst-items-start">
+		<div className="yst-grid lg:yst-grid-cols-2 yst-gap-8 yst-my-8 yst-items-start">
 			<Problems />
 			<Notifications />
 		</div>
