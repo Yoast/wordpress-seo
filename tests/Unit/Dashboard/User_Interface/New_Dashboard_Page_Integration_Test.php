@@ -74,11 +74,11 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 	public function set_up() {
 		$this->stubTranslationFunctions();
 
-		$this->asset_manager       = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
-		$this->product_helper      = Mockery::mock( Product_Helper::class );
-		$this->shortlink_helper    = Mockery::mock( Short_Link_Helper::class );
-		$this->notifications_helper    = Mockery::mock( Notification_Helper::class );
+		$this->asset_manager        = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->current_page_helper  = Mockery::mock( Current_Page_Helper::class );
+		$this->product_helper       = Mockery::mock( Product_Helper::class );
+		$this->shortlink_helper     = Mockery::mock( Short_Link_Helper::class );
+		$this->notifications_helper = Mockery::mock( Notification_Helper::class );
 
 		$this->instance = new New_Dashboard_Page_Integration(
 			$this->asset_manager,
@@ -230,6 +230,8 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 			->once();
 
 		Monkey\Functions\expect( 'wp_enqueue_media' )->once();
+		Monkey\Functions\expect( 'add_query_arg' )->once();
+		Monkey\Functions\expect( 'admin_url' )->once();
 
 		$this->asset_manager
 			->expects( 'enqueue_script' )
