@@ -209,7 +209,7 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	protected function show_search_engines_discouraged_notice() {
-		$yoast_class = ( $this->new_dashboard_conditional )->is_met() ? ' notice-yoast' : '';
+		$yoast_class = ( ( $this->new_dashboard_conditional )->is_met() && $this->current_page_helper->get_current_yoast_seo_page() === 'wpseo_dashboard' ) ? ' notice-yoast' : '';
 		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
 		\printf(
 			'<div id="robotsmessage" class="notice notice-error%1$s">%2$s</div>',
