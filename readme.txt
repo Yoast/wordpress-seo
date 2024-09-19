@@ -32,7 +32,7 @@ Yoast SEO offers comprehensive analysis tools that help elevate your content's S
 
 **Premium Yoast AI features** Get suggestions for your titles and descriptions at the click of a button. The [Yoast AI features](https://yoa.st/51c) save you time and optimize for higher click-through-rates.
 
-* Yoast AI Generate enables users to generate meta descriptions and titles for your pages, blog posts and social posts. Great! Even better, when you also have [Yoast WooCommerce SEO](https://yoa.st/3rh), you can recieve suggestions for product SEO titles and descriptions too! The best part, if you don't like the 5 suggestions, you can generate five more at a click. 
+* Yoast AI Generate enables users to generate meta descriptions and titles for your pages, blog posts and social posts. Great! Even better, when you also have [Yoast WooCommerce SEO](https://yoa.st/3rh), you can receive suggestions for product SEO titles and descriptions too! The best part, if you don't like the 5 suggestions, you can generate five more at a click.
 * Yoast AI Optimize helps you optimize existing content for search engines. Optimize three of the assessments in the Yoast SEO Analysis; Keyphrase in introduction, Keyphrase distribution and Keyphrase density, with easy dismiss or apply options.
 
 
