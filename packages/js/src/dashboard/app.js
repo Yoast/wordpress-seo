@@ -80,12 +80,13 @@ const App = () => {
 					</SidebarNavigation.Sidebar>
 				</aside>
 				<div className="yst-grow">
+					{ notices.length > 0 && <div className="yst-space-y-2 yst-mb-8"> {
+						notices.map( ( notice, index ) => (
+							<div key={ index } className="yst-new-dashboard-notice" dangerouslySetInnerHTML={ { __html: notice.outerHTML } } />
+						) )
+					}
+					</div> }
 					<div className="yst-space-y-6 yst-mb-8 xl:yst-mb-0">
-						{
-							notices.map( ( notice, index ) => (
-								<div key={ index } className="yst-new-dashboard-notice" dangerouslySetInnerHTML={ { __html: notice.outerHTML } } />
-							) )
-						}
 						<main>
 							<Transition
 								key={ pathname }
