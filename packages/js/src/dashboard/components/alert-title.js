@@ -21,7 +21,7 @@ export const AlertTitle = ( {
 	return (
 		<div className="yst-flex yst-justify-between yst-gap-2 yst-items-center">
 			<Icon className={ classNames( "yst-w-6 yst-h-6", iconClass ) } />
-			<Title className="yst-grow" as="h3" size="2">{ title } { `(${counts})` }</Title>
+			<Title className="yst-grow" as="h2" size="2">{ title } { `(${counts})` }</Title>
 		</div>
 	);
 };
