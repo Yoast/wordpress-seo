@@ -1,5 +1,5 @@
 /* global wpseoAdminL10n */
-import { withSelect } from "@wordpress/data";
+import {useSelect, withSelect} from "@wordpress/data";
 import { Component, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
@@ -22,6 +22,7 @@ import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import AIAssessmentFixesButton from "../../ai-assessment-fixes/components/ai-assessment-fixes-button";
+import uniqueId from "lodash/uniqueId";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -34,6 +35,11 @@ const AnalysisHeader = styled.span`
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends Component {
+	constructor( props ) {
+		super( props );
+
+		this.aiButtons = [];
+	}
 	/**
 	 * Renders the keyword synonyms upsell modal.
 	 *
@@ -206,6 +212,8 @@ class SeoAnalysis extends Component {
 	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
 	 */
 	renderAIFixesButton = ( hasAIFixes, id ) => {
+		console.log('renderAIFixesButton id: ', id);
+		this.aiButtons.push(id);
 		const isPremium = getL10nObject().isPremium;
 
 		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
@@ -221,6 +229,18 @@ class SeoAnalysis extends Component {
 	};
 	/* eslint-enable complexity */
 
+	componentDidUpdate() {
+		const ids = this.props.results.map(r => r.getIdentifier() + "AIFixes");
+		const focusAIFixesButton = this.props.focusAIFixesButton;
+		console.log("SeoAnalysis componentDidUpdate  ids: ", ids);
+		console.log("SeoAnalysis componentDidUpdate  focusAIFixesButton: ", focusAIFixesButton);
+
+		if (ids.includes(focusAIFixesButton) && !this.aiButtons.include(focusAIFixesButton)) {
+			console.log('do focus on tab');
+		}
+
+	}
+
 	/**
 	 * Renders the SEO Analysis component.
 	 *
@@ -235,6 +255,10 @@ class SeoAnalysis extends Component {
 			score.className = "na";
 			score.screenReaderReadabilityText = __( "Enter a focus keyphrase to calculate the SEO score", "wordpress-seo" );
 		}
+
+		console.log('SeoAnalysis render this.props.results: ', this.props.results);
+
+		this.aiButtons = [];
 
 		return (
 			<LocationConsumer>
@@ -298,6 +322,7 @@ SeoAnalysis.propTypes = {
 	results: PropTypes.array,
 	marksButtonStatus: PropTypes.string,
 	keyword: PropTypes.string,
+	focusAIFixesButton: PropTypes.string,
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
@@ -325,14 +350,17 @@ export default withSelect( ( select, ownProps ) => {
 		getResultsForKeyword,
 		getIsElementorEditor,
 		getPreference,
+		getFocusAIFixesButton,
 	} = select( "yoast-seo/editor" );
 
+	const focusAIFixesButton = getFocusAIFixesButton();
 	const keyword = getFocusKeyphrase();
 
 	return {
 		...getResultsForKeyword( keyword ),
 		marksButtonStatus: ownProps.hideMarksButtons ? "disabled" : getMarksButtonStatus(),
 		keyword,
+		focusAIFixesButton,
 		isElementor: getIsElementorEditor(),
 		isAiFeatureEnabled: getPreference( "isAiFeatureActive", false ),
 	};
