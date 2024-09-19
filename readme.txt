@@ -282,8 +282,8 @@ Yoast SEO 23.5 brings more enhancements and bugfixes. [Find more information abo
 
 #### Enhancements
 
-* Improves our integration with cache plugins by preventing flushing their cache when not needed.
 * Improves analysis score feedback labels in the publish sections.
+* Improves our integration with cache plugins by preventing flushing their cache when not needed.
 
 #### Bugfixes
 
