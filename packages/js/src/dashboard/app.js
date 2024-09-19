@@ -3,14 +3,13 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
+import { SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import { useEffect, useState } from "@wordpress/element";
-import { Paper, SidebarNavigation, Title, useSvgAria } from "@yoast/ui-library";
-import classNames from "classnames";
 import PropTypes from "prop-types";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
-import { FirstTimeConfiguration } from "./routes";
+import { FirstTimeConfiguration, AlertCenter } from "./routes";
 import { moveNotices } from "../helpers/moveNotices";
 
 /**
@@ -47,35 +46,12 @@ const Menu = ( { idSuffix = "" } ) => {
 Menu.propTypes = {
 	idSuffix: PropTypes.string,
 };
-/**
- * @returns {JSX.Element} The dashboard content placeholder.
- */
-const Content = () => {
-	return <>
-		<header className="yst-p-8 yst-border-b yst-border-slate-200">
-			<div className="yst-max-w-screen-sm">
-				<Title>{ __( "Alert center", "wordpress-seo" ) }</Title>
-				<p className="yst-text-tiny yst-mt-3">
-					{ __( "Monitor and manage potential SEO problems affecting your site and stay informed with important notifications and updates.", "wordpress-seo" ) }
-				</p>
-			</div>
-		</header>
-		<div className="yst-h-full yst-p-8">
-			<div
-				className="yst-max-w-6xl yst-grid yst-gap-6 yst-grid-cols-1 sm:yst-grid-cols-2 min-[783px]:yst-grid-cols-1 lg:yst-grid-cols-2 xl:yst-grid-cols-4"
-			>
-				Content
-			</div>
-		</div>
-	</>;
-};
+
 /**
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
 	const { pathname } = useLocation();
-	const isPremium = useSelectDashboard( "selectPreference", [], "isPremium" );
-
 	const [ notices, setNotices ] = useState( [] );
 
 	useEffect( () => {
@@ -103,14 +79,14 @@ const App = () => {
 						<Menu />
 					</SidebarNavigation.Sidebar>
 				</aside>
-				<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[17.5rem]" ) }>
-					<div className="yst-grow yst-space-y-6 yst-mb-8 xl:yst-mb-0">
+				<div className="yst-grow">
+					<div className="yst-space-y-6 yst-mb-8 xl:yst-mb-0">
 						{
 							notices.map( ( notice, index ) => (
 								<div key={ index } className="yst-new-dashboard-notice" dangerouslySetInnerHTML={ { __html: notice.outerHTML } } />
 							) )
 						}
-						<Paper as="main">
+						<main>
 							<Transition
 								key={ pathname }
 								appear={ true }
@@ -120,11 +96,11 @@ const App = () => {
 								enterTo="yst-opacity-100"
 							>
 								<Routes>
-									<Route path="/" element={ <Content /> } />
+									<Route path="/" element={ <AlertCenter /> } />
 									<Route path="/first-time-configuration" element={ <FirstTimeConfiguration /> } />
 								</Routes>
 							</Transition>
-						</Paper>
+						</main>
 					</div>
 				</div>
 			</div>
