@@ -11,6 +11,7 @@ import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
 import { FirstTimeConfiguration } from "./routes";
+import { moveNotices } from "../helpers/moveNotices";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -78,8 +79,8 @@ const App = () => {
 	const [ notices, setNotices ] = useState( [] );
 
 	useEffect( () => {
-		const allNotices = Array.from( document.querySelectorAll( ".notice-yoast" ) );
-		allNotices.forEach(notice => notice.remove());
+		const allNotices = moveNotices();
+
 		setNotices( allNotices );
 	}, [] );
 

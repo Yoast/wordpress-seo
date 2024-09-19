@@ -98,7 +98,7 @@ import jQuery from "jquery";
 		} );
 
 		// Dismiss the "search engines discouraged" admin notice.
-		jQuery( "button#robotsmessage-dismiss-button" ).on( "click", function() {
+		jQuery( 'body' ).on( 'click', 'button#robotsmessage-dismiss-button', function() {
 			wpseoSetIgnore( "search_engines_discouraged_notice", "robotsmessage", jQuery( this ).data( "nonce" ) ).then( () => {
 				// If we are on the dashboard, reload because we need to reload notifications as well.
 				if ( window.location.href.includes( "page=wpseo_dashboard" ) ) {
