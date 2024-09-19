@@ -1,6 +1,5 @@
 import { AcademyUpsellCard, PremiumUpsellCard, RecommendationsSidebar } from "../../shared-admin/components";
 import { useSelectDashboard } from "../hooks";
-import { get } from "lodash";
 /**
  * @returns {JSX.Element} The sidebar recommendations.
  */
