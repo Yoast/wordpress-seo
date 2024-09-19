@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Dashboard\User_Interface\New_Dashboard_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
@@ -52,6 +53,13 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 	private $shortlink_helper;
 
 	/**
+	 * Holds the Notification_Helper.
+	 *
+	 * @var Notification_Helper
+	 */
+	private $notifications_helper;
+
+	/**
 	 * The class under test.
 	 *
 	 * @var New_Dashboard_Page_Integration
@@ -70,12 +78,14 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->product_helper      = Mockery::mock( Product_Helper::class );
 		$this->shortlink_helper    = Mockery::mock( Short_Link_Helper::class );
+		$this->notifications_helper    = Mockery::mock( Notification_Helper::class );
 
 		$this->instance = new New_Dashboard_Page_Integration(
 			$this->asset_manager,
 			$this->current_page_helper,
 			$this->product_helper,
-			$this->shortlink_helper
+			$this->shortlink_helper,
+			$this->notifications_helper
 		);
 	}
 
@@ -271,6 +281,16 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 			->expects( 'get_query_params' )
 			->once()
 			->andReturn( $link_params );
+
+		$this->notifications_helper
+			->expects( 'get_problems' )
+			->once()
+			->andReturn( [] );
+
+		$this->notifications_helper
+			->expects( 'get_notifications' )
+			->once()
+			->andReturn( [] );
 
 		return $link_params;
 	}
