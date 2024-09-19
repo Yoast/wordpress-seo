@@ -1,8 +1,9 @@
-import { __ } from "@wordpress/i18n";
+import { __, _n } from "@wordpress/i18n";
 import { ExclamationCircleIcon } from "@heroicons/react/outline";
 import { Paper } from "@yoast/ui-library";
 import { List } from "./list";
 import { BoxTitle } from "./box-title";
+import { HiddenAlertsCollapsible } from "./hidden-alerts-collapsible";
 
 /**
  * @returns {JSX.Element} The problems component.
@@ -17,11 +18,24 @@ export const Problems = () => {
 		},
 	];
 
+	const hiddenProblems = 1;
+
+	const hiddenProblemsLabel = _n(
+		"hidden problem.",
+		"hidden problems.",
+		hiddenProblems,
+		"wordpress-seo"
+	);
+
 	return (
-		<Paper className="yst-p-8">
+		<Paper className="yst-p-8 yst-flex-1 yst-flex-col">
 			<BoxTitle title={ __( "Problems", "wordpress-seo" ) } counts={ 2 } Icon={ ExclamationCircleIcon } />
 			<p className="yst-mt-2 yst-text-sm">{ __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" ) }</p>
 			<List items={ problemsList } />
+
+			<HiddenAlertsCollapsible label={ `${ hiddenProblems } ${ hiddenProblemsLabel }` }>
+				<List items={ problemsList } hidden={ true } />
+			</HiddenAlertsCollapsible>
 		</Paper>
 	);
 };
