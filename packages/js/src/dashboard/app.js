@@ -84,11 +84,12 @@ const App = () => {
 					{ notices.length > 0 && <div className="yst-space-y-2 yst-mb-8"> {
 						notices.map( ( notice, index ) => (
 							<Notice
-								id={ notice.id || 'yoast-dashboard-notice-' + index }
-								title={notice.header}
-								button={notice.button}
+								key={ index }
+								id={ notice.id || "yoast-dashboard-notice-" + index }
+								title={ notice.header }
+								button={ notice.button }
 							>
-								{notice.content}
+								{ notice.content }
 							</Notice>
 						) )
 					}
