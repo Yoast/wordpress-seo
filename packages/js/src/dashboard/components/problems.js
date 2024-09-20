@@ -12,10 +12,10 @@ import { AlertsContext } from "../routes/alert-center";
 export const Problems = () => {
 	const problemsList = [
 		{
-			message: __( "Huge SEO issue: You're blocking access to robots. If you want search engines to show this site in their results, you must go to your Reading Settings and uncheck the box for Search Engine Visibility. I don't want this site to show in the search results.", "wordpress-seo" ),
+			message: "Huge SEO issue: You're blocking access to robots. If you want search engines to show this site in their results, you must go to your Reading Settings and uncheck the box for Search Engine Visibility. I don't want this site to show in the search results.",
 		},
 		{
-			message: __( "You still have the default WordPress tagline, even an empty one is probably better. You can fix this in the customizer.", "wordpress-seo" ),
+			message: "You still have the default WordPress tagline, even an empty one is probably better. You can fix this in the customizer.",
 		},
 	];
 

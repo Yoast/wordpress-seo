@@ -12,10 +12,10 @@ import { AlertsContext } from "../routes/alert-center";
 export const Notifications = () => {
 	const notificationsAlertsList = [
 		{
-			message: __( "Your site is not connected to your MyYoast account. Connect your site to get access to all the features.", "wordpress-seo" ),
+			message: "Your site is not connected to your MyYoast account. Connect your site to get access to all the features.",
 		},
 		{
-			message: __( "You have a new notification from Yoast SEO. Click here to read it.", "wordpress-seo" ),
+			message: "You have a new notification from Yoast SEO. Click here to read it.",
 		},
 	];
 
