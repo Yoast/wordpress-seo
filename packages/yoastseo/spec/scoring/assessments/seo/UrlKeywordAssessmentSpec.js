@@ -126,21 +126,14 @@ describe( "tests for the assessment applicability.", function() {
 		expect( keywordCountInSlug.isApplicable( paper, researcher ) ).toBe( false );
 	} );
 
-	it( "returns false when page is front.", function() {
+	it( "returns false when the page is the front page.", function() {
 		const paper = new Paper( "sample keyword", {
 			slug: "sample-with-keyword",
 			keyword: "keyword",
+			isFrontPage: true,
 		} );
 
-		window.wpseoScriptData = {
-			metabox: {
-				isFrontPage: true,
-			},
-		};
-
-		// The default researcher has the keywordCountInSlug research.
 		const researcher = new DefaultResearcher( paper );
-
 		expect( keywordCountInSlug.isApplicable( paper, researcher ) ).toBe( false );
 	} );
 
@@ -150,15 +143,8 @@ describe( "tests for the assessment applicability.", function() {
 			keyword: "keyword",
 		} );
 
-		window.wpseoScriptData = {
-			metabox: {
-				isFrontPage: false,
-			},
-		};
-
 		// The default researcher has the keywordCountInSlug research.
 		const researcher = new DefaultResearcher( paper );
-
 		expect( keywordCountInSlug.isApplicable( paper, researcher ) ).toBe( true );
 	} );
 } );

@@ -3,7 +3,8 @@ import { defaults, isEmpty, isEqual, isNil } from "lodash";
 /**
  * Default attributes to be used by the Paper if they are left undefined.
  * @type {{keyword: string, synonyms: string, description: string, title: string, titleWidth: number,
- * 		   slug: string, locale: string, permalink: string, date: string, customData: object, textTitle: string, writingDirection: "LTR" }}
+ * 		   slug: string, locale: string, permalink: string, date: string, customData: object, textTitle: string,
+ * 		   writingDirection: "LTR", isFrontPage: boolean }}
  */
 const defaultAttributes = {
 	keyword: "",
@@ -25,7 +26,7 @@ const defaultAttributes = {
 /**
  * Represents an object where the analysis data is stored.
  */
-class Paper {
+export default class Paper {
 	/**
 	 * Constructs the Paper object and sets its attributes.
 	 *
@@ -35,15 +36,16 @@ class Paper {
 	 * @param {string}  [attributes.synonyms]           The synonyms of the main keyword or keyphrase. It should be separated by commas if multiple synonyms are added.
 	 * @param {string}  [attributes.description]        The SEO meta description.
 	 * @param {string}  [attributes.title]              The SEO title.
-	 * @param {number}  [attributes.titleWidth=0]         The width of the title in pixels.
+	 * @param {number}  [attributes.titleWidth=0]       The width of the title in pixels.
 	 * @param {string}  [attributes.slug]               The slug.
-	 * @param {string}  [attributes.locale=en_US]             The locale.
+	 * @param {string}  [attributes.locale=en_US]       The locale.
 	 * @param {string}  [attributes.permalink]          The full URL for any given post, page, or other pieces of content on a site.
 	 * @param {string}  [attributes.date]               The date.
-	 * @param {Object[]}  [attributes.wpBlocks]           The array of texts, encoded in WordPress block editor blocks.
+	 * @param {Object[]}  [attributes.wpBlocks]         The array of texts, encoded in WordPress block editor blocks.
 	 * @param {Object}  [attributes.customData]         Custom data.
 	 * @param {string}  [attributes.textTitle]          The title of the text.
 	 * @param {string}  [attributes.writingDirection=LTR]   The writing direction of the paper. Defaults to left to right (LTR).
+	 * @param {boolean} [attributes.isFrontPage=false]  Whether the current page is the front page of the site. Defaults to false.
 	 */
 	constructor( text, attributes ) {
 		this._text = text || "";
@@ -206,14 +208,14 @@ class Paper {
 	}
 
 	/**
- * Checks if currently editing page is a front page
- * @returns {boolean} Returns true current page is a front page.
- */
-Paper.prototype.isFrontPage = function() {
-	return this._attributes.isFrontPage;
-};
+	 * Checks if currently edited page is a front page.
+	 * @returns {boolean} Returns true if the current page is a front page.
+	 */
+	isFrontPage() {
+		return this._attributes.isFrontPage;
+	}
 
-/**
+	/**
 	 * Checks whether an url is available
 	 * @deprecated Since version 1.19.1. Use hasSlug instead.
 	 * @returns {boolean} Returns true if the Paper has a slug.
@@ -367,5 +369,3 @@ Paper.prototype.isFrontPage = function() {
 		return new Paper( text, attributes );
 	}
 }
-
-export default Paper;
