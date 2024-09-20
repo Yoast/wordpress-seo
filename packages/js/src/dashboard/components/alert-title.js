@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { ExclamationCircleIcon } from "@heroicons/react/outline";
 import { Title } from "@yoast/ui-library";
-import { AlertsContext } from "../routes/alert-center";
+import { AlertsContext } from "../contexts/alerts-context";
 
 /**
  *

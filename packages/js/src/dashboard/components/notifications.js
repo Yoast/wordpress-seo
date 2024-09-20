@@ -4,7 +4,7 @@ import { Paper } from "@yoast/ui-library";
 import { AlertsList } from "./alerts-list";
 import { AlertTitle } from "./alert-title";
 import { Collapsible } from "./collapsible";
-import { AlertsContext } from "../routes/alert-center";
+import { AlertsContext } from "../contexts/alerts-context";
 
 /**
  * @returns {JSX.Element} The notifications component.

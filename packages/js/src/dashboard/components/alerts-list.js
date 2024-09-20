@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Button } from "@yoast/ui-library";
 import { EyeOffIcon, EyeIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import { AlertsContext } from "../routes/alert-center";
+import { AlertsContext } from "../contexts/alerts-context";
 
 /**
  *

@@ -1,12 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
 import { Notifications, Problems } from "../components";
-import { createContext } from "@wordpress/element";
-
-/**
- * The context for the alerts.
- */
-export const AlertsContext = createContext();
 
 /**
  * @returns {JSX.Element} The dashboard content placeholder.
