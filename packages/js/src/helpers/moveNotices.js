@@ -13,7 +13,7 @@ export function moveNotices() {
 	migratedNotices.forEach( notice => notice.remove() );
 
 	const ids = allNotices.map( notice => notice.id );
-	const headers = allNotices.map( notice => notice.querySelector( ".notice-yoast__header-heading" ) );
+	const headers = allNotices.map( notice => notice.querySelector( ".yoast-notice-migrated-header" ) );
 	const content = allNotices.map( notice => notice.querySelector( ".notice-yoast-content" ) );
 	const buttons = allNotices.map( notice => notice.querySelector( "button.notice-dismiss" ) );
 
