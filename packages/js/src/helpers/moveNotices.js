@@ -17,6 +17,18 @@ export function moveNotices() {
 	const content = allNotices.map( notice => notice.querySelector( ".notice-yoast-content" ) );
 	const buttons = allNotices.map( notice => notice.querySelector( "button.notice-dismiss" ) );
 
+	// Transform the buttons to Yoast buttons.
+	content.forEach( noticeContent => {
+		if ( noticeContent ) {
+			noticeContent.querySelectorAll( "a.button" ).forEach( button => {
+				button.classList.remove( "button" );
+				button.classList.add( "yst-button" );
+				button.classList.add( "yst-button--primary" );
+				button.classList.add( "yst-mt-4" );
+			} );
+		}
+	} );
+
 	const notices = allNotices.map( ( notice, index ) => ( {
 		notice: notice,
 		id: ids[ index ],
