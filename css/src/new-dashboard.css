@@ -29,6 +29,10 @@ body.toplevel_page_wpseo_dashboard {
 		display: none;
 	}
 
+	.yoast-dashboard-notice a{
+		font-weight: 500;
+	}
+
 	@apply yst-bg-slate-100;
 
 	/* Move WP footer behind our content. */
