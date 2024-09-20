@@ -4,6 +4,7 @@ import { merge } from "lodash";
 import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkParamsReducer, linkParamsSelectors } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
+import alertCenter, { alertCenterActions, alertCenterSelectors, createInitialAlertCenterState } from "./alert-center";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -16,22 +17,26 @@ const createStore = ( { initialState } ) => {
 		actions: {
 			...linkParamsActions,
 			...preferencesActions,
+			...alertCenterActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
 			...preferencesSelectors,
+			...alertCenterSelectors,
 		},
 		initialState: merge(
 			{},
 			{
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				preferences: createInitialPreferencesState(),
+				alertCenter: createInitialAlertCenterState(),
 			},
 			initialState
 		),
 		reducer: combineReducers( {
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			preferences,
+			alertCenter,
 		} ),
 
 	} );

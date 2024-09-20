@@ -75,13 +75,19 @@ class Notification_Helper {
 		return [
 			'dismissed' => \array_map(
 				static function ( $notification ) {
-					return $notification->to_array();
+					return [
+						'id'      => $notification->get_id(),
+						'message' => $notification->get_message(),
+					];
 				},
 				$dismissed_notifications
 			),
 			'active'    => \array_map(
 				static function ( $notification ) {
-					return $notification->to_array();
+					return [
+						'id'      => $notification->get_id(),
+						'message' => $notification->get_message(),
+					];
 				},
 				$active_notifications
 			),
@@ -113,13 +119,19 @@ class Notification_Helper {
 		return [
 			'dismissed' => \array_map(
 				static function ( $notification ) {
-					return $notification->to_array();
+					return [
+						'id'      => $notification->get_id(),
+						'message' => $notification->get_message(),
+					];
 				},
 				$dismissed_problems
 			),
 			'active'    => \array_map(
 				static function ( $notification ) {
-					return $notification->to_array();
+					return [
+						'id'      => $notification->get_id(),
+						'message' => $notification->get_message(),
+					];
 				},
 				$active_problems
 			),
