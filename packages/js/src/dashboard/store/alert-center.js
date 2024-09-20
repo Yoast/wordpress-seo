@@ -1,5 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
+import apiFetch from "@wordpress/api-fetch";
 import { get } from "lodash";
+import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+
+const TOGGLE_ALERT_VISIBILITY = "TOGGLE_ALERT_VISIBILITY";
+
+/**
+ * @param {string} id The id of the alert.
+ * @returns {Object} Success or error action object.
+ */
+export function* toggleAlertStatus( id ) {
+	try {
+		const data = yield { type: TOGGLE_ALERT_VISIBILITY,
+                payload: {
+                    id,
+                },
+		    };
+		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.success }`, payload: data };
+	} catch ( error ) {
+		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
+	}
+}
 
 /**
  * @returns {Object} The initial state.
@@ -39,20 +60,11 @@ const changeAlertVisibility = ( state, type, target, id ) => {
 const slice = createSlice( {
 	name: "alertCenter",
 	initialState: createInitialAlertCenterState(),
-	reducers: {
-		hideNotification: ( state, action ) => {
-			changeAlertVisibility( state, "notifications", "dismissed", action.payload );
-		},
-		hideProblem: ( state, action ) => {
-			changeAlertVisibility( state, "problems", "dismissed", action.payload );
-		},
-		showNotification: ( state, action ) => {
-			changeAlertVisibility( state, "notifications", "active", action.payload );
-		},
-		showProblem: ( state, action ) => {
-			changeAlertVisibility( state, "problems", "active", action.payload );
-		},
-	},
+    extraReducers: ( builder ) => {
+        builder.addCase( `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_STATUS.success }`, ( state, { payload: { id, type, target } } ) => {
+			changeAlertVisibility( state, type, target, id );
+		} );
+    },
 } );
 
 export const alertCenterSelectors = {
@@ -62,6 +74,19 @@ export const alertCenterSelectors = {
 	selectDismissedNotifications: ( state ) => get( state, "alertCenter.notifications.dismissed", [] ),
 };
 
-export const alertCenterActions = slice.actions;
+export const alertCenterActions = {
+    ...slice.actions,
+    toggleAlertStatus,
+};
+
+export const alertCenterControls = {
+	[ TOGGLE_ALERT_VISIBILITY ]: async( { payload } ) => apiFetch( {
+		path: "/yoast/v1/toggle-alert-status",
+		method: "POST",
+		data: {
+            id: payload.id,
+        }
+	} ),
+};
 
 export default slice.reducer;
