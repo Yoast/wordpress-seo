@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -83,13 +82,12 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 		Options_Helper $options_helper,
 		Capability_Helper $capability_helper
 	) {
-		$this->notification_center       = $notification_center;
-		$this->notification_helper       = $notification_helper;
-		$this->current_page_helper       = $current_page_helper;
-		$this->options_helper            = $options_helper;
-		$this->capability_helper         = $capability_helper;
-		$this->presenter                 = new Search_Engines_Discouraged_Presenter();
-		$this->new_dashboard_conditional = new New_Dashboard_Ui_Conditional();
+		$this->notification_center = $notification_center;
+		$this->notification_helper = $notification_helper;
+		$this->current_page_helper = $current_page_helper;
+		$this->options_helper      = $options_helper;
+		$this->capability_helper   = $capability_helper;
+		$this->presenter           = new Search_Engines_Discouraged_Presenter();
 	}
 
 	/**
@@ -199,7 +197,7 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 				$this->current_page_helper->is_yoast_seo_page()
 				|| \in_array( $this->current_page_helper->get_current_admin_page(), $pages_to_show_notice, true )
 			)
-			&& ( ( $this->new_dashboard_conditional )->is_met() || $this->current_page_helper->get_current_yoast_seo_page() !== 'wpseo_dashboard' )
+			&& $this->current_page_helper->get_current_yoast_seo_page() !== 'wpseo_dashboard'
 		);
 	}
 
@@ -209,14 +207,11 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	protected function show_search_engines_discouraged_notice() {
-		$yoast_class = ( ( $this->new_dashboard_conditional )->is_met() && $this->current_page_helper->get_current_yoast_seo_page() === 'wpseo_dashboard' ) ? ' notice-yoast' : '';
-		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
 		\printf(
-			'<div id="robotsmessage" class="notice notice-error%1$s">%2$s</div>',
-			$yoast_class,
+			'<div id="robotsmessage" class="notice notice-error">%1$s</div>',
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
 			$this->presenter->present()
 		);
-		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
