@@ -108,10 +108,12 @@ class Notice_Presenter extends Abstract_Presenter {
 			\esc_html( $this->title )
 		);
 		$out .= '</div>';
+		$out .= '<div class="notice-yoast-content">';
 		$out .= '<p>' . $this->content . '</p>';
 		if ( ! \is_null( $this->button ) ) {
 			$out .= '<p>' . $this->button . '</p>';
 		}
+		$out .= '</div>';
 		$out .= '</div>';
 
 		if ( ! \is_null( $this->image_filename ) ) {

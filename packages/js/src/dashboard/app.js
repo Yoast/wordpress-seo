@@ -11,6 +11,7 @@ import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
 import { FirstTimeConfiguration, AlertCenter } from "./routes";
 import { moveNotices } from "../helpers/moveNotices";
+import Notice from "./tailwind-components/notice";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -82,7 +83,13 @@ const App = () => {
 				<div className="yst-grow">
 					{ notices.length > 0 && <div className="yst-space-y-2 yst-mb-8"> {
 						notices.map( ( notice, index ) => (
-							<div key={ index } className="yst-new-dashboard-notice" dangerouslySetInnerHTML={ { __html: notice.outerHTML } } />
+							<Notice
+								id={ notice.id || 'yoast-dashboard-notice-' + index }
+								title={notice.header}
+								button={notice.button}
+							>
+								{notice.content}
+							</Notice>
 						) )
 					}
 					</div> }
