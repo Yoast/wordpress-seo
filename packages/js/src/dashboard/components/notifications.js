@@ -35,15 +35,17 @@ export const Notifications = () => {
 	};
 
 	return (
-		<Paper className="yst-p-8 yst-flex-1 yst-flex-col">
-			<AlertsContext.Provider value={ notificationsTheme }>
-				<AlertTitle counts={ 2 } title={ __( "Notifications", "wordpress-seo" ) } />
-				<AlertsList items={ notificationsAlertsList } hidden={ false } />
+		<Paper>
+			<Paper.Content>
+				<AlertsContext.Provider value={ notificationsTheme }>
+					<AlertTitle counts={ 2 } title={ __( "Notifications", "wordpress-seo" ) } />
+					<AlertsList items={ notificationsAlertsList } hidden={ false } />
 
-				<Collapsible label={ `${ hiddenNotifications } ${ hiddenNotificationLabel }` }>
-					<AlertsList items={ notificationsAlertsList } hidden={ true } />
-				</Collapsible>
-			</AlertsContext.Provider>
+					<Collapsible label={ `${ hiddenNotifications } ${ hiddenNotificationLabel }` }>
+						<AlertsList items={ notificationsAlertsList } hidden={ true } />
+					</Collapsible>
+				</AlertsContext.Provider>
+			</Paper.Content>
 		</Paper>
 	);
 };

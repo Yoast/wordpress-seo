@@ -35,16 +35,18 @@ export const Problems = () => {
 	};
 
 	return (
-		<Paper className="yst-p-8 yst-flex-1 yst-flex-col">
-			<AlertsContext.Provider value={ problemsTheme }>
-				<AlertTitle title={ __( "Problems", "wordpress-seo" ) } counts={ 2 } />
-				<p className="yst-mt-2 yst-text-sm">{ __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" ) }</p>
-				<AlertsList items={ problemsList } />
+		<Paper>
+			<Paper.Content>
+				<AlertsContext.Provider value={ problemsTheme }>
+					<AlertTitle title={ __( "Problems", "wordpress-seo" ) } counts={ 2 } />
+					<p className="yst-mt-2 yst-text-sm">{ __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" ) }</p>
+					<AlertsList items={ problemsList } />
 
-				<Collapsible label={ `${ hiddenProblems } ${ hiddenProblemsLabel }` }>
-					<AlertsList items={ problemsList } hidden={ true } />
-				</Collapsible>
-			</AlertsContext.Provider>
+					<Collapsible label={ `${ hiddenProblems } ${ hiddenProblemsLabel }` }>
+						<AlertsList items={ problemsList } hidden={ true } />
+					</Collapsible>
+				</AlertsContext.Provider>
+			</Paper.Content>
 		</Paper>
 	);
 };
