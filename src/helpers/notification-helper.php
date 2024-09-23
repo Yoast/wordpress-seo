@@ -78,6 +78,7 @@ class Notification_Helper {
 					return [
 						'id'      => $notification->get_id(),
 						'message' => $notification->get_message(),
+						'nonce'   => $notification->get_nonce(),
 					];
 				},
 				$dismissed_notifications
@@ -87,6 +88,7 @@ class Notification_Helper {
 					return [
 						'id'      => $notification->get_id(),
 						'message' => $notification->get_message(),
+						'nonce'   => $notification->get_nonce(),
 					];
 				},
 				$active_notifications
@@ -122,6 +124,7 @@ class Notification_Helper {
 					return [
 						'id'      => $notification->get_id(),
 						'message' => $notification->get_message(),
+						'nonce'   => $notification->get_nonce(),
 					];
 				},
 				$dismissed_problems
@@ -131,6 +134,7 @@ class Notification_Helper {
 					return [
 						'id'      => $notification->get_id(),
 						'message' => $notification->get_message(),
+						'nonce'   => $notification->get_nonce(),
 					];
 				},
 				$active_problems
