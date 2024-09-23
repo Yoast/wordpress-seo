@@ -19,7 +19,16 @@ export const Problems = () => {
 		},
 	];
 
-	const hiddenProblems = 1;
+	const hiddenProblemsList = [
+		{
+			message: "Huge SEO issue: You're blocking access to robots. If you want search engines to show this site in their results, you must go to your Reading Settings and uncheck the box for Search Engine Visibility. I don't want this site to show in the search results.",
+		},
+		{
+			message: "You still have the default WordPress tagline, even an empty one is probably better. You can fix this in the customizer.",
+		},
+	];
+
+	const hiddenProblems = hiddenProblemsList.length;
 
 	const hiddenProblemsLabel = _n(
 		"hidden problem",
@@ -36,15 +45,18 @@ export const Problems = () => {
 
 	return (
 		<Paper>
-			<Paper.Content>
+			<Paper.Content className="yst-flex yst-flex-col yst-gap-y-6">
 				<AlertsContext.Provider value={ problemsTheme }>
-					<AlertTitle title={ __( "Problems", "wordpress-seo" ) } counts={ 2 } />
-					<p className="yst-mt-2 yst-text-sm">{ __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" ) }</p>
-					<AlertsList items={ problemsList } />
+					<AlertTitle title={ __( "Problems", "wordpress-seo" ) } counts={ 2 }>
+						<p className="yst-mt-2 yst-text-sm">{ __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" ) }</p>
+					</AlertTitle>
+					<AlertsList items={ problemsList } hidden={ false } />
 
-					<Collapsible label={ `${ hiddenProblems } ${ hiddenProblemsLabel }` }>
-						<AlertsList items={ problemsList } hidden={ true } />
-					</Collapsible>
+					{ hiddenProblems > 0 && (
+						<Collapsible label={ `${ hiddenProblems } ${ hiddenProblemsLabel }` }>
+							<AlertsList className="yst-pb-6" items={ hiddenProblemsList } hidden={ true } />
+						</Collapsible>
+					) }
 				</AlertsContext.Provider>
 			</Paper.Content>
 		</Paper>

@@ -9,19 +9,24 @@ import { AlertsContext } from "../contexts/alerts-context";
  *
  * @param {string} title The title of alerts.
  * @param {number} counts The count of the alerts.
+ * @param {JSX.Node} children The children.
  *
  * @returns {JSX.Element} The alert title element.
  */
 export const AlertTitle = ( {
 	title,
 	counts = 0,
+	children = null,
 } ) => {
 	const { Icon = ExclamationCircleIcon, iconClass = "" } = useContext( AlertsContext );
 
 	return (
-		<div className="yst-flex yst-justify-between yst-gap-2 yst-items-center">
-			<Icon className={ classNames( "yst-w-6 yst-h-6", iconClass ) } />
-			<Title className="yst-grow" as="h2" size="2">{ title } { `(${counts})` }</Title>
+		<div>
+			<div className="yst-flex yst-justify-between yst-gap-2 yst-items-center">
+				<Icon className={ classNames( "yst-w-6 yst-h-6", iconClass ) } />
+				<Title className="yst-grow" as="h2" size="2">{ title } { `(${ counts })` }</Title>
+			</div>
+			{ children }
 		</div>
 	);
 };
@@ -29,4 +34,5 @@ export const AlertTitle = ( {
 AlertTitle.propTypes = {
 	title: PropTypes.string,
 	counts: PropTypes.number,
+	children: PropTypes.node,
 };

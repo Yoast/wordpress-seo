@@ -19,7 +19,16 @@ export const Notifications = () => {
 		},
 	];
 
-	const hiddenNotifications = 1;
+	const hiddenNotificationsAlertsList = [
+		{
+			message: "Your site is not connected to your MyYoast account. Connect your site to get access to all the features.",
+		},
+		{
+			message: "You have a new notification from Yoast SEO. Click here to read it.",
+		},
+	];
+
+	const hiddenNotifications = hiddenNotificationsAlertsList.length;
 
 	const hiddenNotificationLabel = _n(
 		"hidden notification",
@@ -36,14 +45,16 @@ export const Notifications = () => {
 
 	return (
 		<Paper>
-			<Paper.Content>
+			<Paper.Content className="yst-flex yst-flex-col yst-gap-y-6">
 				<AlertsContext.Provider value={ notificationsTheme }>
 					<AlertTitle counts={ 2 } title={ __( "Notifications", "wordpress-seo" ) } />
 					<AlertsList items={ notificationsAlertsList } hidden={ false } />
 
-					<Collapsible label={ `${ hiddenNotifications } ${ hiddenNotificationLabel }` }>
-						<AlertsList items={ notificationsAlertsList } hidden={ true } />
-					</Collapsible>
+					{ hiddenNotifications > 0 && (
+						<Collapsible label={ `${ hiddenNotifications } ${ hiddenNotificationLabel }` }>
+							<AlertsList className="yst-pb-6" items={ hiddenNotificationsAlertsList } hidden={ true } />
+						</Collapsible>
+					) }
 				</AlertsContext.Provider>
 			</Paper.Content>
 		</Paper>
