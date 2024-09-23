@@ -3,7 +3,7 @@ import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/r
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../../src/helpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
-import CornerStoneContentAssessor from "../../../../src/scoring/assessors/cornerstone/contentAssessor.js";
+import CornerstoneContentAssessor from "../../../../src/scoring/assessors/cornerstone/contentAssessor.js";
 import ProductCornerstoneContentAssessor from "../../../../src/scoring/assessors/productPages/cornerstone/contentAssessor.js";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher.js";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher.js";
@@ -583,7 +583,7 @@ describe( "Language-specific configuration for specific types of content is used
 		expect( assessment._config.farTooMany ).toEqual( japaneseConfig.defaultParameters.farTooMany );
 	} );
 
-	let cornerStoneContentAssessor = new CornerStoneContentAssessor( englishResearcher );
+	let cornerStoneContentAssessor = new CornerstoneContentAssessor( englishResearcher );
 	let productCornerstoneContentAssessor = new ProductCornerstoneContentAssessor( englishResearcher, mockOptions );
 
 	[ cornerStoneContentAssessor, productCornerstoneContentAssessor ].forEach( assessor => {
@@ -617,7 +617,7 @@ describe( "Language-specific configuration for specific types of content is used
 		} );
 	} );
 
-	cornerStoneContentAssessor = new CornerStoneContentAssessor( japaneseResearcher );
+	cornerStoneContentAssessor = new CornerstoneContentAssessor( japaneseResearcher );
 	productCornerstoneContentAssessor = new ProductCornerstoneContentAssessor( japaneseResearcher, mockOptions );
 
 	[ cornerStoneContentAssessor, productCornerstoneContentAssessor ].forEach( assessor => {
