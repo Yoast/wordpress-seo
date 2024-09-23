@@ -3,8 +3,10 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
-import { SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import { useEffect, useState } from "@wordpress/element";
+import { select } from "@wordpress/data";
+import { addQueryArgs } from "@wordpress/url";
+import { SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
@@ -12,6 +14,8 @@ import { useSelectDashboard } from "./hooks";
 import { FirstTimeConfiguration, AlertCenter } from "./routes";
 import { moveNotices } from "../helpers/moveNotices";
 import Notice from "./tailwind-components/notice";
+import WebinarPromoNotification from "../components/WebinarPromoNotification";
+import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -54,6 +58,8 @@ Menu.propTypes = {
 const App = () => {
 	const { pathname } = useLocation();
 	const [ notices, setNotices ] = useState( [] );
+	const linkParams = select( "yoast-seo/settings" ).selectLinkParams();
+	const webinarIntroSettingsUrl = addQueryArgs( "https://yoa.st/webinar-intro-settings", linkParams );
 
 	useEffect( () => {
 		const allNotices = moveNotices();
@@ -81,6 +87,7 @@ const App = () => {
 					</SidebarNavigation.Sidebar>
 				</aside>
 				<div className="yst-grow">
+					{ shouldShowWebinarPromotionNotificationInDashboard( "yoast-seo/settings" ) && <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
 					{ notices.length > 0 && <div className="yst-space-y-2 yst-mb-8"> {
 						notices.map( ( notice, index ) => (
 							<Notice

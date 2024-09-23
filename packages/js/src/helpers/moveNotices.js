@@ -4,7 +4,7 @@
  * @returns {Array} The now-deleted Yoast Notices.
  */
 export function moveNotices() {
-	const noticeYoastNotices = Array.from( document.querySelectorAll( ".notice-yoast" ) );
+	const noticeYoastNotices = Array.from( document.querySelectorAll( ".notice-yoast:not(.yoast-webinar-dashboard)" ) );
 	const migratedNotices = Array.from( document.querySelectorAll( ".yoast-migrated-notice" ) );
 
 	const allNotices = [ ...noticeYoastNotices, ...migratedNotices ];
@@ -15,7 +15,7 @@ export function moveNotices() {
 	const ids = allNotices.map( notice => notice.id );
 	const headers = allNotices.map( notice => notice.querySelector( ".yoast-notice-migrated-header" ) );
 	const content = allNotices.map( notice => notice.querySelector( ".notice-yoast-content" ) );
-	const buttons = allNotices.map( notice => notice.querySelector( "button.notice-dismiss" ) );
+	const dismissButtons = allNotices.map( notice => notice.querySelector( "button.notice-dismiss" ) );
 
 	// Transform the buttons to Yoast buttons.
 	content.forEach( noticeContent => {
@@ -34,7 +34,7 @@ export function moveNotices() {
 		id: ids[ index ],
 		header: headers[ index ],
 		content: content[ index ],
-		button: buttons[ index ],
+		button: dismissButtons[ index ],
 	} ) );
 
 	return notices;
