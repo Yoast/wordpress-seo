@@ -1,8 +1,9 @@
 /* global ajaxurl */
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { get } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
+export const ALERT_CENTER_NAME = "alertCenter";
 
 const TOGGLE_ALERT_VISIBILITY = "TOGGLE_ALERT_VISIBILITY";
 
@@ -31,51 +32,61 @@ export function* toggleAlertStatus( id, nonce, hidden = false ) {
  * @returns {Object} The initial state.
  */
 export const createInitialAlertCenterState = () => ( {
-	notifications: {
-		active: get( window, "wpseoScriptData.notifications.active", [] ),
-		dismissed: get( window, "wpseoScriptData.notifications.dismissed", [] ),
-	},
-	problems: {
-		active: get( window, "wpseoScriptData.problems.active", [] ),
-		dismissed: get( window, "wpseoScriptData.problems.dismissed", [] ),
-	},
+	alerts: get( window, "wpseoScriptData.alerts", [] ),
 } );
 
 /**
  * Change alert visability.
  *
  * @param {object} state The state.
- * @param {boolean} hidden The hidden state of the alert.
  * @param {string} id The id of the alert to hide.
  *
  * @returns {void}
  */
-const changeAlertVisibility = ( state, hidden, id ) => {
-	const target = hidden ? "active" : "dismissed";
-	const source = hidden ? "dismissed" : "active";
-	const type = state.problems[ source ].find( ( alert ) => alert.id === id ) ? "problems" : "notifications";
-	const alertToShow = state[ type ][ source ].find( ( alert ) => alert.id === id );
-	if ( alertToShow ) {
-		state[ type ][ source ] = state[ type ][ source ].filter( ( alert ) => alert.id !== id );
-		state[ type ][ target ] = [ ...state[ type ][ target ], alertToShow ];
-	}
+const changeAlertVisibility = ( state, id ) => {
+	state.alerts = state.alerts.map( ( alert ) => {
+		if ( alert.id === id ) {
+			return { ...alert, dismissed: ! alert.dismissed };
+		}
+		return alert;
+	} );
 };
 
 const slice = createSlice( {
-	name: "alertCenter",
+	name: ALERT_CENTER_NAME,
 	initialState: createInitialAlertCenterState(),
 	extraReducers: ( builder ) => {
-		builder.addCase( `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_STATUS.success }`, ( state, { payload: { id, hidden } } ) => {
-			changeAlertVisibility( state, hidden, id );
+		builder.addCase( `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_STATUS.success }`, ( state, { payload: { id } } ) => {
+			changeAlertVisibility( state, id );
 		} );
 	},
 } );
 
+/**
+ * Base selector to get the alerts from the state.
+ *
+ * @param {object} state The state.
+ * @returns {array} The alerts.
+ */
+const selectAlerts = ( state ) => get( state, "alertCenter.alerts", [] );
+
 export const alertCenterSelectors = {
-	selectActiveProblems: ( state ) => get( state, "alertCenter.problems.active", [] ),
-	selectDismissedProblems: ( state ) => get( state, "alertCenter.problems.dismissed", [] ),
-	selectActiveNotifications: ( state ) => get( state, "alertCenter.notifications.active", [] ),
-	selectDismissedNotifications: ( state ) => get( state, "alertCenter.notifications.dismissed", [] ),
+	selectActiveProblems: createSelector(
+		[ selectAlerts ],
+		( alerts ) => alerts.filter( ( alert ) => alert.type === "error" && ! alert.dismissed )
+	),
+	selectDismissedProblems: createSelector(
+		[ selectAlerts ],
+		( alerts ) => alerts.filter( ( alert ) => alert.type === "error" && alert.dismissed )
+	),
+	selectActiveNotifications: createSelector(
+		[ selectAlerts ],
+		( alerts ) => alerts.filter( ( alert ) => alert.type === "warning" && ! alert.dismissed )
+	),
+	selectDismissedNotifications: createSelector(
+		[ selectAlerts ],
+		( alerts ) => alerts.filter( ( alert ) => alert.type === "warning" && alert.dismissed )
+	),
 };
 
 export const alertCenterActions = {
