@@ -457,7 +457,8 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function get_preferences( $settings ) {
 		$shop_page_id             = $this->woocommerce_helper->get_shop_page_id();
-		$homepage_is_latest_posts = \get_option( 'show_on_front' ) === 'posts';
+		$show_on_front			  = \get_option( 'show_on_front' );
+		$homepage_is_latest_posts = $show_on_front === 'posts';
 		$page_on_front            = \get_option( 'page_on_front' );
 		$page_for_posts           = \get_option( 'page_for_posts' );
 
@@ -477,6 +478,11 @@ class Settings_Integration implements Integration_Interface {
 				$business_settings_url = \get_admin_url( null, 'edit.php?post_type=wpseo_locations' );
 			}
 		}
+
+		$post_id       		= (int) $post->ID;
+		$page_on_front 		= (int) get_option( 'page_on_front' );
+		$homepage_is_page 	= $show_on_front === 'page';
+		$is_front_page 		= $homepage_is_page && $page_on_front === $post_id;
 
 		return [
 			'isPremium'                     => $this->product_helper->is_premium(),
@@ -516,7 +522,7 @@ class Settings_Integration implements Integration_Interface {
 			'upsellSettings'                => $this->get_upsell_settings(),
 			'siteRepresentsPerson'          => $this->get_site_represents_person( $settings ),
 			'siteBasicsPolicies'            => $this->get_site_basics_policies( $settings ),
-			'isFrontPage'                   => \is_front_page(),
+			'isFrontPage'                   => $is_front_page,
 		];
 	}
 
