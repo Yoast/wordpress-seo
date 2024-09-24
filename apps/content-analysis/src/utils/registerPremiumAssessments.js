@@ -1,46 +1,21 @@
-import { getLanguagesWithWordComplexity } from "yoastseo/src/helpers/getLanguagesWithWordComplexity";
+import { languageProcessing, assessments, helpers } from "yoastseo";
 
-// Configs for the supported languages.
-import wordComplexityConfigEnglish from "yoastseo/src/languageProcessing/languages/en/config/wordComplexity";
-import wordComplexityConfigGerman from "yoastseo/src/languageProcessing/languages/de/config/wordComplexity";
-import wordComplexityConfigSpanish from "yoastseo/src/languageProcessing/languages/es/config/wordComplexity";
-import wordComplexityConfigFrench from "yoastseo/src/languageProcessing/languages/fr/config/wordComplexity";
-
-// Helpers for the supported languages.
-import wordComplexityHelperEnglish from "yoastseo/src/languageProcessing/languages/en/helpers/checkIfWordIsComplex";
-import wordComplexityHelperGerman from "yoastseo/src/languageProcessing/languages/de/helpers/checkIfWordIsComplex";
-import wordComplexityHelperSpanish from "yoastseo/src/languageProcessing/languages/es/helpers/checkIfWordIsComplex";
-import wordComplexityHelperFrench from "yoastseo/src/languageProcessing/languages/fr/helpers/checkIfWordIsComplex";
-// Research.
-import wordComplexity from "yoastseo/src/languageProcessing/researches/wordComplexity";
-import keyPhraseDistribution from "yoastseo/src/languageProcessing/researches/keyphraseDistribution";
-
-// Assessment.
-import WordComplexityAssessment from "yoastseo/src/scoring/assessments/readability/WordComplexityAssessment";
-import KeyphraseDistributionAssessment from "yoastseo/src/scoring/assessments/seo/KeyphraseDistributionAssessment";
-
-const helpers = {
-	de: wordComplexityHelperGerman,
-	en: wordComplexityHelperEnglish,
-	es: wordComplexityHelperSpanish,
-	fr: wordComplexityHelperFrench,
-};
-
-const configs = {
-	de: wordComplexityConfigGerman,
-	en: wordComplexityConfigEnglish,
-	es: wordComplexityConfigSpanish,
-	fr: wordComplexityConfigFrench,
-};
+const { getLanguagesWithWordComplexity, getWordComplexityConfig, getWordComplexityHelper } = helpers;
+// Assessments.
+const WordComplexityAssessment = assessments.readability.WordComplexityAssessment;
+const KeyphraseDistributionAssessment = assessments.seo.KeyphraseDistributionAssessment;
+// Researches.
+const wordComplexity = languageProcessing.researches.wordComplexity;
+const keyPhraseDistribution = languageProcessing.researches.keyphraseDistribution;
 
 const pluginName = "YoastSEOPremium";
 
 export default function( worker, language ) {
 	if ( getLanguagesWithWordComplexity().includes( language ) ) {
 		// Get the word complexity config for the specific language.
-		const wordComplexityConfig = configs[ language ];
+		const wordComplexityConfig = getWordComplexityConfig( language );
 		// Get the word complexity helper for the specific language.
-		const wordComplexityHelper = helpers[ language ];
+		const wordComplexityHelper = getWordComplexityHelper( language );
 		// Initialize the assessment for regular content.
 		const wordComplexityAssessment = new WordComplexityAssessment();
 		// Initialize the assessment for cornerstone content.

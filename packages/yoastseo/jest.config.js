@@ -30,8 +30,8 @@ module.exports = {
 		"<rootDir>/spec/scoring/assessments/inclusiveLanguage/testHelpers",
 		// Removes the index.js in the testTexts folder.
 		"<rootDir>/spec/fullTextTests/testTexts",
-		"<rootDir>/spec/scoring/collectionPages/fullTextTests/testTexts",
-		"<rootDir>/spec/scoring/productPages/fullTextTests/testTexts",
+		"<rootDir>/spec/scoring/assessors/collectionPages/fullTextTests/testTexts",
+		"<rootDir>/spec/scoring/assessors/productPages/fullTextTests/testTexts",
 		// Removes the generateStems.js in the languages folders.
 		"<rootDir>/spec/languageProcessing/languages/[a-z][a-z]/helpers/internal/stemmerCoverage/generateStems.js",
 	],

@@ -81,7 +81,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'wp_insert_post', [ $this, 'save_postdata' ] );
 		add_action( 'edit_attachment', [ $this, 'save_postdata' ] );
 		add_action( 'add_attachment', [ $this, 'save_postdata' ] );
-		add_action( 'admin_init', [ $this, 'translate_meta_boxes' ] );
 
 		$this->editor = new WPSEO_Metabox_Editor();
 		$this->editor->register_hooks();
@@ -168,9 +167,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * IMPORTANT: if you want to add a new string (option) somewhere, make sure you add that array key to
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 *
+	 * @deprecated 23.5
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public static function translate_meta_boxes() {
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.5' );
+
 		WPSEO_Meta::$meta_fields['general']['title']['title']    = __( 'SEO title', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
 
@@ -210,7 +214,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['title']       = __( '301 Redirect', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
 
-		do_action( 'wpseo_tab_translate' );
+		do_action_deprecated( 'wpseo_tab_translate', [], 'Yoast SEO 23.5', '', 'WPSEO_Metabox::translate_meta_boxes is deprecated.' );
 	}
 
 	/**
@@ -623,31 +627,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					unset( $val, $option, $checked );
 				}
 				break;
-
-			case 'upload':
-				$content .= '<input'
-					. ' id="' . $esc_form_key . '"'
-					. ' type="text"'
-					. ' size="36"'
-					. ' class="' . $class . '"'
-					. ' name="' . $esc_form_key . '"'
-					. ' value="' . esc_attr( $meta_value ) . '"' . $aria_describedby
-					. ' readonly="readonly"'
-					. ' /> ';
-				$content .= '<input'
-					. ' id="' . esc_attr( $esc_form_key ) . '_button"'
-					. ' class="wpseo_image_upload_button button"'
-					. ' data-target="' . esc_attr( $esc_form_key ) . '"'
-					. ' data-target-id="' . esc_attr( $esc_form_key ) . '-id"'
-					. ' type="button"'
-					. ' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"'
-					. ' /> ';
-				$content .= '<input'
-					. ' class="wpseo_image_remove_button button"'
-					. ' type="button"'
-					. ' value="' . esc_attr__( 'Clear Image', 'wordpress-seo' ) . '"'
-					. ' />';
-				break;
 		}
 
 		$html = '';
@@ -881,7 +860,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$plugins_script_data = [
 			'replaceVars' => [
-				'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
 				'replace_vars'             => $this->get_replace_vars(),
 				'hidden_replace_vars'      => $this->get_hidden_replace_vars(),
 				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
@@ -907,8 +885,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$woocommerce_seo_active  = is_plugin_active( $addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) );
 
 		$script_data = [
-			// @todo replace this translation with JavaScript translations.
-			'media'                      => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'                    => $this->get_metabox_script_data(),
 			'userLanguageCode'           => WPSEO_Language_Utils::get_language( get_user_locale() ),
 			'isPost'                     => true,
@@ -938,13 +914,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$site_information->set_permalink( $this->get_permalink() );
 		$script_data = array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
 
-		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
+		if ( ! $is_block_editor && post_type_supports( get_post_type(), 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );
-
-			// @todo replace this translation with JavaScript translations.
-			$script_data['featuredImage'] = [
-				'featured_image_notice' => __( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
-			];
 		}
 
 		$asset_manager->localize_script( $post_edit_handle, 'wpseoScriptData', $script_data );

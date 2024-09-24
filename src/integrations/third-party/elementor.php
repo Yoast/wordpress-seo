@@ -388,7 +388,6 @@ class Elementor implements Integration_Interface {
 
 		$plugins_script_data = [
 			'replaceVars' => [
-				'no_parent_text'           => \__( '(no parent)', 'wordpress-seo' ),
 				'replace_vars'             => $this->get_replace_vars(),
 				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 				'hidden_replace_vars'      => $this->get_hidden_replace_vars(),
@@ -414,7 +413,6 @@ class Elementor implements Integration_Interface {
 		$permalink               = $this->get_permalink();
 
 		$script_data = [
-			'media'                     => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'                   => $this->get_metabox_script_data( $permalink ),
 			'userLanguageCode'          => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'                    => true,
@@ -440,14 +438,6 @@ class Elementor implements Integration_Interface {
 		$site_information = $repo->get_post_site_information();
 		$site_information->set_permalink( $permalink );
 		$script_data = \array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
-
-		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
-			$this->asset_manager->enqueue_style( 'featured-image' );
-
-			$script_data['featuredImage'] = [
-				'featured_image_notice' => \__( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
-			];
-		}
 
 		$this->asset_manager->localize_script( 'elementor', 'wpseoScriptData', $script_data );
 		$this->asset_manager->enqueue_user_language_script();
