@@ -3,7 +3,7 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
-import { useEffect, useState } from "@wordpress/element";
+import { useMemo } from "@wordpress/element";
 import { select } from "@wordpress/data";
 import { addQueryArgs } from "@wordpress/url";
 import { SidebarNavigation, useSvgAria } from "@yoast/ui-library";
@@ -56,16 +56,11 @@ Menu.propTypes = {
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
+	const notices = useMemo( moveNotices, [] );
+
 	const { pathname } = useLocation();
-	const [ notices, setNotices ] = useState( [] );
 	const linkParams = select( "yoast-seo/settings" ).selectLinkParams();
 	const webinarIntroSettingsUrl = addQueryArgs( "https://yoa.st/webinar-intro-settings", linkParams );
-
-	useEffect( () => {
-		const allNotices = moveNotices();
-
-		setNotices( allNotices );
-	}, [] );
 
 	return (
 		<SidebarNavigation activePath={ pathname }>
@@ -94,7 +89,7 @@ const App = () => {
 								key={ index }
 								id={ notice.id || "yoast-dashboard-notice-" + index }
 								title={ notice.header }
-								button={ notice.button }
+								isDismissable={ notice.isDismissable }
 							>
 								{ notice.content }
 							</Notice>
