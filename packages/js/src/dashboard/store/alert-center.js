@@ -60,7 +60,7 @@ const slice = createSlice( {
 /**
  * @returns {Object} The initial state.
  */
-export const createInitialAlertCenterState = slice.getInitialState;
+export const getInitialAlertCenterState = slice.getInitialState;
 
 /**
  * Base selector to get the alerts from the state.
@@ -95,7 +95,7 @@ export const alertCenterActions = {
 };
 
 export const alertCenterControls = {
-	[ TOGGLE_ALERT_VISIBILITY ]: async( { payload } ) => {
+	[ TOGGLE_ALERT_VISIBILITY ]: ( { payload } ) => {
 		const formData = new URLSearchParams();
 		formData.append( "action", payload.hidden ? "yoast_restore_notification" : "yoast_dismiss_notification" );
 		formData.append( "notification", payload.id );
