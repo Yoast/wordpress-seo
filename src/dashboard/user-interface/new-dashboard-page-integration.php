@@ -6,6 +6,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -17,10 +18,15 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 
 	/**
 	 * The page name.
-	 *
-	 * @TODO RENAME THIS TO SOMETHING SENSIBLE AFTER FEATURE FLAG PERIOD
 	 */
-	public const PAGE = 'wpseo_page_new_dashboard';
+	public const PAGE = 'wpseo_dashboard';
+
+	/**
+	 * The notification helper.
+	 *
+	 * @var Notification_Helper
+	 */
+	protected $notification_helper;
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -57,17 +63,20 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
 	 * @param Product_Helper            $product_helper      The Product_Helper.
 	 * @param Short_Link_Helper         $shortlink_helper    The Short_Link_Helper.
+	 * @param Notification_Helper       $notification_helper The Notification_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Current_Page_Helper $current_page_helper,
 		Product_Helper $product_helper,
-		Short_Link_Helper $shortlink_helper
+		Short_Link_Helper $shortlink_helper,
+		Notification_Helper $notification_helper
 	) {
 		$this->asset_manager       = $asset_manager;
 		$this->current_page_helper = $current_page_helper;
 		$this->product_helper      = $product_helper;
 		$this->shortlink_helper    = $shortlink_helper;
+		$this->notification_helper = $notification_helper;
 	}
 
 	/**
@@ -106,13 +115,13 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 	public function add_page( $pages ) {
 		\array_splice(
 			$pages,
-			3,
+			0,
 			0,
 			[
 				[
-					'wpseo_dashboard',
+					self::PAGE,
 					'',
-					\__( 'New dashboard', 'wordpress-seo' ),
+					\__( 'General', 'wordpress-seo' ),
 					'wpseo_manage_options',
 					self::PAGE,
 					[ $this, 'display_page' ],
@@ -153,7 +162,7 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 	 */
 	private function get_script_data() {
 		return [
-			'preferences' => [
+			'preferences'   => [
 				'isPremium'      => $this->product_helper->is_premium(),
 				'isRtl'          => \is_rtl(),
 				'pluginUrl'      => \plugins_url( '', \WPSEO_FILE ),
@@ -162,8 +171,10 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
 			],
-			'linkParams'  => $this->shortlink_helper->get_query_params(),
-			'userEditUrl' => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) ),
+			'linkParams'    => $this->shortlink_helper->get_query_params(),
+			'userEditUrl'   => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) ),
+			'problems'      => $this->notification_helper->get_problems(),
+			'notifications' => $this->notification_helper->get_notifications(),
 		];
 	}
 }

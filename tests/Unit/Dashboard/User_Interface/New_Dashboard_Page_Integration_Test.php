@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Dashboard\User_Interface\New_Dashboard_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
@@ -21,7 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  */
 final class New_Dashboard_Page_Integration_Test extends TestCase {
 
-	public const PAGE = 'wpseo_page_new_dashboard';
+	public const PAGE = 'wpseo_dashboard';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -52,6 +53,13 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 	private $shortlink_helper;
 
 	/**
+	 * Holds the Notification_Helper.
+	 *
+	 * @var Notification_Helper
+	 */
+	private $notifications_helper;
+
+	/**
 	 * The class under test.
 	 *
 	 * @var New_Dashboard_Page_Integration
@@ -66,16 +74,18 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 	public function set_up() {
 		$this->stubTranslationFunctions();
 
-		$this->asset_manager       = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
-		$this->product_helper      = Mockery::mock( Product_Helper::class );
-		$this->shortlink_helper    = Mockery::mock( Short_Link_Helper::class );
+		$this->asset_manager        = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->current_page_helper  = Mockery::mock( Current_Page_Helper::class );
+		$this->product_helper       = Mockery::mock( Product_Helper::class );
+		$this->shortlink_helper     = Mockery::mock( Short_Link_Helper::class );
+		$this->notifications_helper = Mockery::mock( Notification_Helper::class );
 
 		$this->instance = new New_Dashboard_Page_Integration(
 			$this->asset_manager,
 			$this->current_page_helper,
 			$this->product_helper,
-			$this->shortlink_helper
+			$this->shortlink_helper,
+			$this->notifications_helper
 		);
 	}
 
@@ -127,7 +137,7 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 				'action_times' => 0,
 			],
 			'On dashboard page' => [
-				'current_page' => 'wpseo_page_new_dashboard',
+				'current_page' => 'wpseo_dashboard',
 				'action_times' => 1,
 			],
 		];
@@ -173,19 +183,25 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 	public function test_add_page() {
 		$pages = $this->instance->add_page(
 			[
-				[ 'page1', '', 'Page 1', 'manage_options', 'page1', [ $this, 'display_page' ] ],
-				[ 'page2', '', 'Page 2', 'manage_options', 'page2', [ $this, 'display_page' ] ],
-				[ 'page3', '', 'Page 3', 'manage_options', 'page3', [ $this, 'display_page' ] ],
+				[ 'page1', '', 'Page 1', 'manage_options', 'page1', [ 'custom_display_page' ] ],
+				[ 'page2', '', 'Page 2', 'manage_options', 'page2', [ 'custom_display_page' ] ],
+				[ 'page3', '', 'Page 3', 'manage_options', 'page3', [ 'custom_display_page' ] ],
 			]
 		);
 
-		// Assert that the new page was added at index 3.
-		$this->assertEquals( 'wpseo_dashboard', $pages[3][0] );
+		// Assert that the new page was added at index 0.
+		$this->assertEquals( 'wpseo_dashboard', $pages[0][0] );
+		$this->assertEquals( 'page3', $pages[3][0] );
+		$this->assertEquals( '', $pages[0][1] );
 		$this->assertEquals( '', $pages[3][1] );
-		$this->assertEquals( 'New dashboard', $pages[3][2] );
-		$this->assertEquals( 'wpseo_manage_options', $pages[3][3] );
-		$this->assertEquals( 'wpseo_page_new_dashboard', $pages[3][4] );
-		$this->assertEquals( [ $this->instance, 'display_page' ], $pages[3][5] );
+		$this->assertEquals( 'General', $pages[0][2] );
+		$this->assertEquals( 'Page 3', $pages[3][2] );
+		$this->assertEquals( 'wpseo_manage_options', $pages[0][3] );
+		$this->assertEquals( 'manage_options', $pages[3][3] );
+		$this->assertEquals( 'wpseo_dashboard', $pages[0][4] );
+		$this->assertEquals( 'page3', $pages[3][4] );
+		$this->assertEquals( [ $this->instance, 'display_page' ], $pages[0][5] );
+		$this->assertEquals( [ 'custom_display_page' ], $pages[3][5] );
 	}
 
 	/**
@@ -214,6 +230,8 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 			->once();
 
 		Monkey\Functions\expect( 'wp_enqueue_media' )->once();
+		Monkey\Functions\expect( 'add_query_arg' )->once();
+		Monkey\Functions\expect( 'admin_url' )->once();
 
 		$this->asset_manager
 			->expects( 'enqueue_script' )
@@ -266,6 +284,16 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 			->expects( 'get_query_params' )
 			->once()
 			->andReturn( $link_params );
+
+		$this->notifications_helper
+			->expects( 'get_problems' )
+			->once()
+			->andReturn( [] );
+
+		$this->notifications_helper
+			->expects( 'get_notifications' )
+			->once()
+			->andReturn( [] );
 
 		return $link_params;
 	}
