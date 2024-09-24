@@ -3,7 +3,7 @@ import { useSelect } from "@wordpress/data";
 import { BellIcon } from "@heroicons/react/outline";
 import { Paper } from "@yoast/ui-library";
 import { AlertsList } from "./alerts-list";
-import { AlertTitle } from "./alert-title";
+import { AlertsTitle } from "./alerts-title";
 import { Collapsible } from "./collapsible";
 import { AlertsContext } from "../contexts/alerts-context";
 
@@ -32,9 +32,9 @@ export const Notifications = () => {
 		<Paper>
 			<Paper.Content className="yst-flex yst-flex-col yst-gap-y-6">
 				<AlertsContext.Provider value={ notificationsTheme }>
-					<AlertTitle counts={ notificationsAlertsList.length } title={ __( "Notifications", "wordpress-seo" ) }>
+					<AlertsTitle counts={ notificationsAlertsList.length } title={ __( "Notifications", "wordpress-seo" ) }>
 						{ notificationsAlertsList.length === 0 && <p className="yst-mt-2 yst-text-sm">{ __( "No new notifications.", "wordpress-seo" ) }</p> }
-					</AlertTitle>
+					</AlertsTitle>
 					<AlertsList items={ notificationsAlertsList } />
 
 					{ hiddenNotifications > 0 && (

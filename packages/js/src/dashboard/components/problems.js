@@ -3,7 +3,7 @@ import { useSelect } from "@wordpress/data";
 import { ExclamationCircleIcon } from "@heroicons/react/outline";
 import { Paper } from "@yoast/ui-library";
 import { AlertsList } from "./alerts-list";
-import { AlertTitle } from "./alert-title";
+import { AlertsTitle } from "./alerts-title";
 import { Collapsible } from "./collapsible";
 import { AlertsContext } from "../contexts/alerts-context";
 
@@ -33,9 +33,9 @@ export const Problems = () => {
 		<Paper>
 			<Paper.Content className="yst-flex yst-flex-col yst-gap-y-6">
 				<AlertsContext.Provider value={ problemsTheme }>
-					<AlertTitle title={ __( "Problems", "wordpress-seo" ) } counts={ problemsList.length }>
+					<AlertsTitle title={ __( "Problems", "wordpress-seo" ) } counts={ problemsList.length }>
 						<p className="yst-mt-2 yst-text-sm">{ __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" ) }</p>
-					</AlertTitle>
+					</AlertsTitle>
 					<AlertsList items={ problemsList } />
 
 					{ dismissedProblems > 0 && (
