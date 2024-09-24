@@ -29,7 +29,7 @@ const createStore = ( { initialState } ) => {
 			{
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				preferences: createInitialPreferencesState(),
-				alertCenter: createInitialAlertCenterState(),
+				[ ALERT_CENTER_NAME ]: createInitialAlertCenterState(),
 			},
 			initialState
 		),

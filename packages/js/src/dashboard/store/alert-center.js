@@ -5,7 +5,7 @@ import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/cons
 
 export const ALERT_CENTER_NAME = "alertCenter";
 
-const TOGGLE_ALERT_VISIBILITY = "TOGGLE_ALERT_VISIBILITY";
+const TOGGLE_ALERT_VISIBILITY = "toggleAlertVisibility";
 
 /**
  * @param {string} id The id of the alert.
@@ -14,6 +14,7 @@ const TOGGLE_ALERT_VISIBILITY = "TOGGLE_ALERT_VISIBILITY";
  * @returns {Object} Success or error action object.
  */
 export function* toggleAlertStatus( id, nonce, hidden = false ) {
+	yield{ type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.request }` };
 	try {
 		yield{ type: TOGGLE_ALERT_VISIBILITY,
 			payload: {
@@ -22,28 +23,21 @@ export function* toggleAlertStatus( id, nonce, hidden = false ) {
 				hidden,
 			},
 		    };
-		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.success }`, payload: { id, hidden } };
+		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.success }`, payload: { id } };
 	} catch ( error ) {
 		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
 	}
 }
 
 /**
- * @returns {Object} The initial state.
- */
-export const createInitialAlertCenterState = () => ( {
-	alerts: get( window, "wpseoScriptData.alerts", [] ),
-} );
-
-/**
- * Change alert visability.
+ * Toggle alert visability.
  *
  * @param {object} state The state.
  * @param {string} id The id of the alert to hide.
  *
  * @returns {void}
  */
-const changeAlertVisibility = ( state, id ) => {
+const toggleAlert = ( state, id ) => {
 	state.alerts = state.alerts.map( ( alert ) => {
 		if ( alert.id === id ) {
 			return { ...alert, dismissed: ! alert.dismissed };
@@ -54,13 +48,21 @@ const changeAlertVisibility = ( state, id ) => {
 
 const slice = createSlice( {
 	name: ALERT_CENTER_NAME,
-	initialState: createInitialAlertCenterState(),
+	initialState: { alerts: [] },
+	reducers: {
+		toggleAlert,
+	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_STATUS.success }`, ( state, { payload: { id } } ) => {
-			changeAlertVisibility( state, id );
+			slice.caseReducers.toggleAlert( state, id );
 		} );
 	},
 } );
+
+/**
+ * @returns {Object} The initial state.
+ */
+export const createInitialAlertCenterState = slice.getInitialState;
 
 /**
  * Base selector to get the alerts from the state.
@@ -104,10 +106,8 @@ export const alertCenterControls = {
 		fetch( ajaxurl, {
 			method: "POST",
 			headers: {
-				"X-WP-Nonce": payload.nonce,
 				"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 			},
-			credentials: "same-origin",
 			body: formData.toString(),
 		} );
 	},
