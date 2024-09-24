@@ -479,11 +479,6 @@ class Settings_Integration implements Integration_Interface {
 			}
 		}
 
-		$post_id       		= (int) $post->ID;
-		$page_on_front 		= (int) get_option( 'page_on_front' );
-		$homepage_is_page 	= $show_on_front === 'page';
-		$is_front_page 		= $homepage_is_page && $page_on_front === $post_id;
-
 		return [
 			'isPremium'                     => $this->product_helper->is_premium(),
 			'isRtl'                         => \is_rtl(),
@@ -522,7 +517,6 @@ class Settings_Integration implements Integration_Interface {
 			'upsellSettings'                => $this->get_upsell_settings(),
 			'siteRepresentsPerson'          => $this->get_site_represents_person( $settings ),
 			'siteBasicsPolicies'            => $this->get_site_basics_policies( $settings ),
-			'isFrontPage'                   => $is_front_page,
 		];
 	}
 
