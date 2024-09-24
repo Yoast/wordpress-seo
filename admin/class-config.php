@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
+use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Dashboard\User_Interface\New_Dashboard_Page_Integration;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
@@ -50,7 +51,14 @@ class WPSEO_Admin_Pages {
 	public function init() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-		if ( in_array( $page, [ Settings_Integration::PAGE, Academy_Integration::PAGE, Support_Integration::PAGE ], true ) ) {
+
+		// Don't load the scripts for the following pages.
+		$page_exceptions = in_array( $page, [ Settings_Integration::PAGE, Academy_Integration::PAGE, Support_Integration::PAGE ], true );
+		// Don't load the scripts for the new dashboard page, but only if the feature flag is enabled.
+		$new_dashboard_conditional = new New_Dashboard_Ui_Conditional();
+		$new_dashboard_page        = ( $page === New_Dashboard_Page_Integration::PAGE && $new_dashboard_conditional->is_met() );
+
+		if ( $page_exceptions || $new_dashboard_page ) {
 			// Bail, this is managed in the applicable integration.
 			return;
 		}
@@ -104,7 +112,7 @@ class WPSEO_Admin_Pages {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
-		if ( in_array( $page, [ WPSEO_Admin::PAGE_IDENTIFIER, New_Dashboard_Page_Integration::PAGE, 'wpseo_workouts' ], true ) ) {
+		if ( in_array( $page, [ WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_workouts' ], true ) ) {
 			wp_enqueue_media();
 
 			$script_data['userEditUrl'] = add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) );
