@@ -1,9 +1,14 @@
 // eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
-import { merge } from "lodash";
+import { get, merge } from "lodash";
 import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkParamsReducer, linkParamsSelectors } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
+import { reducers, selectors, actions } from "@yoast/externals/redux";
+
+const { currentPromotions, dismissedAlerts, isPremium  } = reducers;
+const { isAlertDismissed, getIsPremium, isPromotionActive } = selectors;
+const { dismissAlert, setCurrentPromotions, setDismissedAlerts, setIsPremium } = actions;
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -16,22 +21,35 @@ const createStore = ( { initialState } ) => {
 		actions: {
 			...linkParamsActions,
 			...preferencesActions,
+			dismissAlert,
+			setCurrentPromotions,
+			setDismissedAlerts,
+			setIsPremium
 		},
 		selectors: {
 			...linkParamsSelectors,
 			...preferencesSelectors,
+			isAlertDismissed,
+			getIsPremium,
+			isPromotionActive,
 		},
 		initialState: merge(
 			{},
 			{
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				preferences: createInitialPreferencesState(),
+				currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
+				dismissedAlerts: get( window, "wpseoScriptData.dismissedAlerts", {} ),
+				isPremium: get( window, "wpseoScriptData.preferences.isPremium", false ),
 			},
 			initialState
 		),
 		reducer: combineReducers( {
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			preferences,
+			currentPromotions,
+			dismissedAlerts,
+			isPremium,
 		} ),
 
 	} );

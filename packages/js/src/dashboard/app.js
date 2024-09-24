@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
+import { STORE_NAME } from "./constants";
 import { FirstTimeConfiguration, AlertCenter } from "./routes";
 import { getMigrateNotices } from "../helpers/migrateNotices";
 import Notice from "./tailwind-components/notice";
@@ -59,7 +60,7 @@ const App = () => {
 	const notices = useMemo( getMigrateNotices, [] );
 
 	const { pathname } = useLocation();
-	const linkParams = select( "yoast-seo/settings" ).selectLinkParams();
+	const linkParams = select( STORE_NAME ).selectLinkParams();
 	const webinarIntroSettingsUrl = addQueryArgs( "https://yoa.st/webinar-intro-settings", linkParams );
 
 	return (
@@ -83,7 +84,7 @@ const App = () => {
 				</aside>
 				<div className="yst-grow">
 					<div>
-						{ shouldShowWebinarPromotionNotificationInDashboard( "yoast-seo/settings" ) && <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
+						{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) && <WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } /> }
 						{ notices.length > 0 && <div className="yst-space-y-2 yoast-new-dashboard-notices"> {
 							notices.map( ( notice, index ) => (
 								<Notice
