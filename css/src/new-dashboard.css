@@ -1,5 +1,5 @@
 body.toplevel_page_wpseo_dashboard {
-	.notice {
+	.notice, .yoast-migrated-notice {
 		display:none;
 	}
 
