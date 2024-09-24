@@ -12,7 +12,7 @@ import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
 import { FirstTimeConfiguration, AlertCenter } from "./routes";
-import { moveNotices } from "../helpers/moveNotices";
+import { getMigrateNotices } from "../helpers/migrateNotices";
 import Notice from "./tailwind-components/notice";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
 import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
@@ -56,7 +56,7 @@ Menu.propTypes = {
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
-	const notices = useMemo( moveNotices, [] );
+	const notices = useMemo( getMigrateNotices, [] );
 
 	const { pathname } = useLocation();
 	const linkParams = select( "yoast-seo/settings" ).selectLinkParams();
