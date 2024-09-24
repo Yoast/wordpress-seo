@@ -130,7 +130,7 @@ final class Migration_Error_Integration_Test extends TestCase {
 		$this->expect_shortlinker();
 
 		$expected  = '<div class="notice notice-error yoast-migrated-notice">';
-		$expected .= '<h4 class="yoast-notice-migrated-header">Yoast SEO cannot create database tables</h4><div class="notice-yoast-content">';
+		$expected .= '<h4 class="yoast-notice-migrated-header">Yoast SEO is unable to create database tables</h4><div class="notice-yoast-content">';
 		$expected .= '<p>Yoast SEO had problems creating the database tables needed to speed up your site.</p>';
 		$expected .= '<p>Please read <a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/3-6' ) . '">this help article</a> to find out how to resolve this problem.</p>';
 		$expected .= '<p>Your site will continue to work normally, but won\'t take full advantage of Yoast SEO.</p>';
