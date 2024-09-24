@@ -22,7 +22,7 @@ export const PersistentDismissableNotification = ( {
 	onDismissed,
 } ) => {
 	return isAlertDismissed ? null : (
-		<div id={ id } className="notice-yoast yoast is-dismissible yoast-webinar-dashboard">
+		<div id={ id } className="notice-yoast yoast is-dismissible yoast-webinar-dashboard yoast-new-dashboard-notices">
 			<div className="notice-yoast__container">
 				<div>
 					<div className="notice-yoast__header">

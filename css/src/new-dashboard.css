@@ -3,16 +3,16 @@ body.toplevel_page_wpseo_dashboard {
 		display:none;
 	}
 
+	.yoast-new-dashboard-notices:last-child{
+		margin-bottom: 2rem;
+	}
+
 	.yoast-dashboard-notice, .yoast-webinar-dashboard{
 		background: white;
 		border: 1px solid #E0B3CC;
 		box-shadow: 0px 4px 6px -1px #0000001A;
 		padding: 1rem;
 		border-radius: 0.375rem;
-	}
-
-	.yoast-webinar-dashboard {
-		margin: 0;
 	}
 
 	.yoast-dashboard-notice .yoast-icon {
@@ -36,17 +36,22 @@ body.toplevel_page_wpseo_dashboard {
 		display: none;
 	}
 
-	.yoast-webinar-dashboard .notice-dismiss:before{
-		background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%2394A3B8' class='yst-h-5 yst-w-5' role='img'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'></path></svg>");
-		content: '';
-	}
-
 	.yoast-dashboard-notice .notice-yoast img{
 		display: none;
 	}
 
 	.yoast-dashboard-notice a{
 		font-weight: 500;
+	}
+
+	.yoast-webinar-dashboard {
+		margin-bottom: 0.5rem;
+		margin-top: 0;
+	}
+
+	.yoast-webinar-dashboard .notice-dismiss:before{
+		background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%2394A3B8' class='yst-h-5 yst-w-5' role='img'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'></path></svg>");
+		content: '';
 	}
 
 	.yoast-webinar-dashboard p{

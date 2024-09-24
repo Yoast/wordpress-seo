@@ -61,7 +61,6 @@ const App = () => {
 	const { pathname } = useLocation();
 	const linkParams = select( "yoast-seo/settings" ).selectLinkParams();
 	const webinarIntroSettingsUrl = addQueryArgs( "https://yoa.st/webinar-intro-settings", linkParams );
-	const shouldShowWebinar = shouldShowWebinarPromotionNotificationInDashboard( "yoast-seo/settings" );
 
 	return (
 		<SidebarNavigation activePath={ pathname }>
@@ -83,9 +82,9 @@ const App = () => {
 					</SidebarNavigation.Sidebar>
 				</aside>
 				<div className="yst-grow">
-					{ ( notices.length > 0 || shouldShowWebinar ) && <div className="yst-space-y-2 yst-mb-8">
-						{ shouldShowWebinar && <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
-						{ notices.length > 0 && <div className="yst-space-y-2"> {
+					<div>
+						{ shouldShowWebinarPromotionNotificationInDashboard( "yoast-seo/settings" ) && <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
+						{ notices.length > 0 && <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> && <div className="yst-space-y-2 yoast-new-dashboard-notices"> {
 							notices.map( ( notice, index ) => (
 								<Notice
 									key={ index }
@@ -98,8 +97,7 @@ const App = () => {
 							) )
 						}
 						</div> }
-					</div> }
-
+					</div>
 					<div className="yst-space-y-6 yst-mb-8 xl:yst-mb-0">
 						<main>
 							<Transition
