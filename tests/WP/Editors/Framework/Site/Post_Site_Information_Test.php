@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\WP\Editors\Framework\Site;
 use Mockery;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Editors\Framework\Site\Post_Site_Information;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
@@ -65,6 +66,13 @@ final class Post_Site_Information_Test extends TestCase {
 	private $product_helper;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper $options_helper
+	 */
+	private $options_helper;
+
+	/**
 	 * The Post_Site_Information container.
 	 *
 	 * @var Post_Site_Information
@@ -84,9 +92,10 @@ final class Post_Site_Information_Test extends TestCase {
 		$this->wistia_embed_repo->expects( 'get_value_for_user' )->with( 0 )->andReturnTrue();
 		$this->meta_surface           = \YoastSEO()->meta;
 		$this->product_helper         = \YoastSEO()->helpers->product;
+		$this->options_helper         = \YoastSEO()->helpers->options;
 		$this->alert_dismissal_action = \YoastSEO()->classes->get( Alert_Dismissal_Action::class );
 
-		$this->instance = new Post_Site_Information( $this->promotion_manager, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action );
+		$this->instance = new Post_Site_Information( $this->promotion_manager, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action, $this->options_helper );
 		$this->instance->set_permalink( 'perma' );
 	}
 
@@ -119,11 +128,17 @@ final class Post_Site_Information_Test extends TestCase {
 					'isRtl'         => false,
 					'isPremium'     => false,
 					'siteIconUrl'   => '',
+					'showSocial'    => [
+						'facebook' => true,
+						'twitter'  => true,
+					],
 				],
 			'adminUrl'                   => 'http://example.org/wp-admin/admin.php',
 			'linkParams'                 => $this->short_link_helper->get_query_params(),
 			'pluginUrl'                  => 'http://example.org/wp-content/plugins/wordpress-seo',
 			'wistiaEmbedPermission'      => true,
+			'sitewideSocialImage'        => '',
+			'isPrivateBlog'              => false,
 		];
 
 		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
@@ -142,6 +157,8 @@ final class Post_Site_Information_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_site_information() {
+		\update_option( 'blog_public', '0' );
+
 		$expected = [
 			'dismissedAlerts'            => false,
 			'currentPromotions'          => [],
@@ -160,9 +177,19 @@ final class Post_Site_Information_Test extends TestCase {
 			'isRtl'                      => false,
 			'isPremium'                  => false,
 			'siteIconUrl'                => '',
-
+			'showSocial'                 => [
+				'facebook' => true,
+				'twitter'  => true,
+			],
+			'sitewideSocialImage'        => '',
+			'isPrivateBlog'              => true,
 		];
 
-		$this->assertSame( $expected, $this->instance->get_site_information() );
+		$site_info = $this->instance->get_site_information();
+
+		// Reset the blog_public option before the next test.
+		\update_option( 'blog_public', '1' );
+
+		$this->assertSame( $expected, $site_info );
 	}
 }

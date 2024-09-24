@@ -84,7 +84,7 @@ jobs:
       # NOTE: The ref value should be different when triggered by pull_request event.
       #       See: https://github.com/lewagon/wait-on-check-action/issues/25.
       - name: "Wait on tests (PR)"
-        uses: lewagon/wait-on-check-action@595dabb3acf442d47e29c9ec9ba44db0c6bdd18f # lewagon/wait-on-check-action@v1.3.3
+        uses: lewagon/wait-on-check-action@ccfb013c15c8afb7bf2b7c028fb74dc5a068cccc # lewagon/wait-on-check-action@v1.3.4
         if: github.event_name == 'pull_request'
         with:
           ref: ${{ github.event.pull_request.head.sha }}
@@ -93,7 +93,7 @@ jobs:
 
       - name: "Wait on tests (push)"
         if: github.event_name != 'pull_request'
-        uses: lewagon/wait-on-check-action@595dabb3acf442d47e29c9ec9ba44db0c6bdd18f # lewagon/wait-on-check-action@v1.3.3
+        uses: lewagon/wait-on-check-action@ccfb013c15c8afb7bf2b7c028fb74dc5a068cccc # lewagon/wait-on-check-action@v1.3.4
         with:
           ref: ${{ github.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}

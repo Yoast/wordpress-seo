@@ -49,18 +49,12 @@ class WPSEO_Metabox_Formatter {
 	 */
 	private function get_defaults() {
 		$schema_types = new Schema_Types();
-		$host         = YoastSEO()->helpers->url->get_url_host( get_site_url() );
 
 		$defaults = [
 			'author_name'                        => get_the_author_meta( 'display_name' ),
-			'sitewide_social_image'              => WPSEO_Options::get( 'og_default_image' ),
 			'keyword_usage'                      => [],
 			'title_template'                     => '',
 			'metadesc_template'                  => '',
-			'showSocial'                         => [
-				'facebook' => WPSEO_Options::get( 'opengraph', false ),
-				'twitter'  => WPSEO_Options::get( 'twitter', false ),
-			],
 			'schema'                             => [
 				'displayFooter'      => WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ),
 				'pageTypeOptions'    => $schema_types->get_page_type_options(),
@@ -73,10 +67,6 @@ class WPSEO_Metabox_Formatter {
 			 * @param bool $showMarkers Should the markers being enabled. Default = true.
 			 */
 			'show_markers'                       => apply_filters( 'wpseo_enable_assessment_markers', true ),
-			'getJetpackBoostPrePublishLink'      => WPSEO_Shortlinker::get( 'https://yoa.st/jetpack-boost-get-prepublish?domain=' . $host ),
-			'upgradeJetpackBoostPrePublishLink'  => WPSEO_Shortlinker::get( 'https://yoa.st/jetpack-boost-upgrade-prepublish?domain=' . $host ),
-			'woocommerceUpsellSchemaLink'        => WPSEO_Shortlinker::get( 'https://yoa.st/product-schema-metabox' ),
-			'woocommerceUpsellGooglePreviewLink' => WPSEO_Shortlinker::get( 'https://yoa.st/product-google-preview-metabox' ),
 		];
 
 		$integration_information_repo = YoastSEO()->classes->get( Integration_Information_Repository::class );

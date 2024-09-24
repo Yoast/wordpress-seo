@@ -7,7 +7,6 @@ import SnippetPreviewSection from "../components/SnippetPreviewSection";
 import { applyReplaceUsingPlugin } from "../helpers/replacementVariableHelpers";
 import getMemoizedFindCustomFields from "../helpers/getMemoizedFindCustomFields";
 import WooCommerceUpsell from "../components/WooCommerceUpsell";
-import { get } from "lodash";
 
 /**
  * Process the snippet editor form data before it's being displayed in the snippet preview.
@@ -50,7 +49,7 @@ export const mapEditorDataToPreview = function( data, context ) {
  * @returns {wp.Element} The component.
  */
 const SnippetEditorWrapper = ( props ) => {
-	const woocommerceUpsellLink = get( window, "wpseoScriptData.metabox.woocommerceUpsellGooglePreviewLink", "" );
+	const woocommerceUpsellLink = useSelect( select => select( "yoast-seo/editor" ).selectLink( "https://yoa.st/product-google-preview-metabox" ), [] );
 	const woocommerceUpsell = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsWooSeoUpsell(), [] );
 	const woocommerceUpsellText = __( "Want an enhanced Google preview of how your WooCommerce products look in the search results?", "wordpress-seo" );
 
