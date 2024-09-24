@@ -274,6 +274,22 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 23.6 =
+
+Release date: 2024-10-08
+
+#### Enhancements
+
+* Adds a filter to modify the sitemap's URL. Props to @ashujangra.
+* Improves the _transition words_ assessment for Turkish and English by expanding the relevant lists of transitions words. Props to [abulu](https://wordpress.org/support/users/abulu/).
+* Uses the full-sized counterpart when a resized first content image is used for Open Graph and X images.
+
+#### Bugfixes
+
+* Fixes a bug where the content analysis would error when removing an image caption in the default editor.
+* Fixes a bug where the link popover would be hidden when editing a post in tablet/mobile view. Props to [stokesman](https://github.com/stokesman).
+* Fixes a visual inconsistency where the descriptions of the disabled Premium policy settings would look enabled, when they are not enabled.
+
 = 23.5 =
 
 Release date: 2024-09-24
@@ -288,36 +304,6 @@ Yoast SEO 23.5 brings more enhancements and bugfixes. [Find more information abo
 #### Bugfixes
 
 * Fixes a bug where Arabic keyphrases containing certain function words were not correctly matched.
-
-= 23.4 =
-
-Release date: 2024-09-03
-
-Yoast SEO 23.4 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-3-9-24).
-
-#### Enhancements
-
-* Adds support for discarding the changes when switching to a post, using the Top bar feature in Elementor.
-* Adds _так_ to the words recognized by the _transition words_ assessment in Russian. Props to @pavelmai83.
-* Improves the schema output by following the specification for the _SearchAction_ more strictly.
-* Re-enables the script concatenation that was disabled to prevent a bug with WordPress 5.5.
-* Improves the look of the Yoast SEO metabox in the block editor by centering it and making it stand out more by using a background color.
-
-#### Bugfixes
-
-* Fixes a bug where an image caption inside a classic block would be considered the introduction when using the _keyphrase in introduction_ assessment in the default editor.
-* Fixes a bug where the first tag instead of the primary tag would be shown in a permalink when adding a link in the Classic editor.
-* Fixes a bug where the Yoast tab would disappear when opening and closing the Site Settings in Elementor.
-* Fixes a bug where the Yoast user settings would be wiped out after a user profile update when the respective global settings were disabled.
-* Fixes a bug where two admin links would not be resolvable when using a custom admin URL.
-
-#### Other
-
-* Adds a learn more link to the primary category picker.
-* Deprecates some functions in the `Yoast_Input_Validation` class.
-* Deprecates the `Disable_Concatenate_Scripts_Integration` class.
-* Deprecates the `Duplicate_Post_Integration` class.
-* Deprecates the `WPSEO_Admin_User_Profile::user_profile()` method and the `admin/views/user-profile.php` file.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
