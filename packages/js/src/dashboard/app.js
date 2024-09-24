@@ -84,7 +84,7 @@ const App = () => {
 				<div className="yst-grow">
 					<div>
 						{ shouldShowWebinarPromotionNotificationInDashboard( "yoast-seo/settings" ) && <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
-						{ notices.length > 0 && <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> && <div className="yst-space-y-2 yoast-new-dashboard-notices"> {
+						{ notices.length > 0 && <div className="yst-space-y-2 yoast-new-dashboard-notices"> {
 							notices.map( ( notice, index ) => (
 								<Notice
 									key={ index }
