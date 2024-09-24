@@ -38,12 +38,10 @@ export function* toggleAlertStatus( id, nonce, hidden = false ) {
  * @returns {void}
  */
 const toggleAlert = ( state, id ) => {
-	state.alerts = state.alerts.map( ( alert ) => {
-		if ( alert.id === id ) {
-			return { ...alert, dismissed: ! alert.dismissed };
-		}
-		return alert;
-	} );
+	const index = state.alerts.findIndex( ( alert ) => alert.id === id );
+	if ( index !== -1 ) {
+		state.alerts[ index ].dismissed = ! state.alerts[ index ].dismissed;
+	}
 };
 
 const slice = createSlice( {
