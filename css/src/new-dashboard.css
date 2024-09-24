@@ -11,6 +11,10 @@ body.toplevel_page_wpseo_dashboard {
 		border-radius: 0.375rem;
 	}
 
+	.yoast-webinar-dashboard {
+		margin: 0;
+	}
+
 	.yoast-dashboard-notice .yoast-icon {
 		background-color: var(--yoast-color-primary);
 		mask-image: var(--yoast-svg-icon-yoast);

@@ -22,7 +22,7 @@ export default function Notice( { title, id, isDismissable, children } ) {
 			<div className={ classNames( "yst-flex yst-flex-row yst-items-center yst-mb-1" ) }>
 				<span className="yoast-icon" />
 				{ title && <div className="yst-text-sm yst-font-medium" dangerouslySetInnerHTML={ { __html: title.outerHTML } } /> }
-				{ isDismissable && 
+				{ isDismissable &&
 					<div className="yst-relative yst-ml-auto">
 						<button
 							type="button"
