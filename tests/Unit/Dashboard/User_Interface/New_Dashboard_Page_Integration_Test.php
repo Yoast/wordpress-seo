@@ -231,7 +231,6 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_enqueue_media' )->once();
 
-
 		$this->asset_manager
 			->expects( 'enqueue_script' )
 			->with( 'new-dashboard' )
