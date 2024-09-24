@@ -30,7 +30,7 @@ export function* toggleAlertStatus( id, nonce, hidden = false ) {
 }
 
 /**
- * Toggle alert visability.
+ * Toggle alert visibility.
  *
  * @param {object} state The state.
  * @param {string} id The id of the alert to hide.
