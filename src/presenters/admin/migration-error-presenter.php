@@ -39,7 +39,7 @@ class Migration_Error_Presenter extends Abstract_Presenter {
 	public function present() {
 		$header = \sprintf(
 			/* translators: %s: Yoast SEO. */
-			\esc_html__( '%s cannot create database tables', 'wordpress-seo' ),
+			\esc_html__( '%s is unable to create database tables', 'wordpress-seo' ),
 			'Yoast SEO'
 		);
 		$message = \sprintf(
