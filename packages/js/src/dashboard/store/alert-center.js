@@ -1,7 +1,8 @@
-/* global ajaxurl */
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { get } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { select } from "@wordpress/data";
+import { STORE_NAME } from "../constants";
 
 export const ALERT_CENTER_NAME = "alertCenter";
 
@@ -101,7 +102,9 @@ export const alertCenterControls = {
 		formData.append( "notification", payload.id );
 		formData.append( "nonce", payload.nonce );
 
-		fetch( ajaxurl, {
+		const ajaxUrl = select( STORE_NAME ).selectPreference( "ajaxUrl" );
+
+		fetch( ajaxUrl, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
