@@ -457,8 +457,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function get_preferences( $settings ) {
 		$shop_page_id             = $this->woocommerce_helper->get_shop_page_id();
-		$show_on_front			  = \get_option( 'show_on_front' );
-		$homepage_is_latest_posts = $show_on_front === 'posts';
+		$homepage_is_latest_posts = \get_option( 'show_on_front' ) === 'posts';
 		$page_on_front            = \get_option( 'page_on_front' );
 		$page_for_posts           = \get_option( 'page_for_posts' );
 
