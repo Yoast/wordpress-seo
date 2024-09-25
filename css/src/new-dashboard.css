@@ -76,8 +76,8 @@ body.toplevel_page_wpseo_dashboard {
 			z-index: 99999;
 		}
 
-		.yst-paper{
-			.button{
+		.yst-paper {
+			.button {
 				/* .yst-button */
 				@apply
 				yst-inline-flex
