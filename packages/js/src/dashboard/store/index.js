@@ -25,7 +25,7 @@ const createStore = ( { initialState } ) => {
 			dismissAlert,
 			setCurrentPromotions,
 			setDismissedAlerts,
-			setIsPremium
+			setIsPremium,
 		},
 		selectors: {
 			...linkParamsSelectors,

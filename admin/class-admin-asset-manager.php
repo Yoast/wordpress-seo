@@ -313,7 +313,7 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'externals-contexts',
 				self::PREFIX . 'externals-redux',
 			],
-			'new-dashboard'        => [
+			'new-dashboard'            => [
 				self::PREFIX . 'api-client',
 			],
 		];
