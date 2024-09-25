@@ -63,7 +63,6 @@ export function renderRatingToColor( rating ) {
 export default function AnalysisList( props ) {
 	return <AnalysisListBase role="list">
 		{ props.results.map( ( result ) => {
-			console.log("AnalysisList result: ", result);
 			const color = renderRatingToColor( result.rating );
 			const isMarkButtonPressed = result.markerId === props.marksButtonActivatedResult;
 

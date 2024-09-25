@@ -1,4 +1,4 @@
-import { useState } from "@wordpress/element";
+import { forwardRef, useState } from "@wordpress/element";
 import { BetaBadge, SvgIcon } from "@yoast/components";
 import PropTypes from "prop-types";
 /* eslint-disable complexity */
@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
  *
  * @returns {wp.Element} The Collapsible component.
  */
-const SidebarCollapsible = ( props ) => {
+const SidebarCollapsible = forwardRef( ( props, ref ) => {
 	const [ isOpen, toggleOpen ] = useState( false );
 
 	const {
@@ -33,6 +33,7 @@ const SidebarCollapsible = ( props ) => {
 				className="components-button components-panel__body-toggle"
 				type="button"
 				id={ props.buttonId }
+				ref={ ref }
 			>
 				<span
 					className="yoast-icon-span"
@@ -56,7 +57,7 @@ const SidebarCollapsible = ( props ) => {
 		</h2>
 		{ isOpen && props.children }
 	</div>;
-};
+} );
 /* eslint-enable complexity */
 
 export default SidebarCollapsible;

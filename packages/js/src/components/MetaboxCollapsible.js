@@ -1,5 +1,6 @@
 import { Collapsible } from "@yoast/components";
 import styled from "styled-components";
+import { forwardRef } from "@wordpress/element";
 
 const StyledMetaboxCollapsible = styled( Collapsible )`
 	h2 > button {
@@ -26,8 +27,8 @@ const StyledMetaboxCollapsible = styled( Collapsible )`
  *
  * @returns {React.Component} A MetaboxCollapsible component
  */
-const MetaboxCollapsible = ( props ) => {
-	return <StyledMetaboxCollapsible hasPadding={ true } hasSeparator={ true } { ...props } />;
-};
+const MetaboxCollapsible = forwardRef( ( props, ref ) => {
+	return <StyledMetaboxCollapsible hasPadding={ true } hasSeparator={ true } { ...props } ref={ ref } />;
+} );
 
 export default MetaboxCollapsible;

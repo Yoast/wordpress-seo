@@ -1,5 +1,5 @@
 /* global wpseoAdminL10n */
-import {useSelect, withSelect} from "@wordpress/data";
+import { withSelect } from "@wordpress/data";
 import { Component, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
@@ -22,7 +22,7 @@ import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import AIAssessmentFixesButton from "../../ai-assessment-fixes/components/ai-assessment-fixes-button";
-import uniqueId from "lodash/uniqueId";
+import React from "react";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -38,6 +38,7 @@ class SeoAnalysis extends Component {
 	constructor( props ) {
 		super( props );
 
+		this.collapsibleRef = React.createRef();
 		this.aiButtons = [];
 	}
 	/**
@@ -212,8 +213,8 @@ class SeoAnalysis extends Component {
 	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
 	 */
 	renderAIFixesButton = ( hasAIFixes, id ) => {
-		console.log('renderAIFixesButton id: ', id);
-		this.aiButtons.push(id);
+		// console.log( "renderAIFixesButton id: ", id );
+		this.aiButtons.push( id );
 		const isPremium = getL10nObject().isPremium;
 
 		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
@@ -228,17 +229,21 @@ class SeoAnalysis extends Component {
 		);
 	};
 	/* eslint-enable complexity */
-
 	componentDidUpdate() {
-		const ids = this.props.results.map(r => r.getIdentifier() + "AIFixes");
+		const ids = this.props.results.map( r => r.getIdentifier() + "AIFixes" );
 		const focusAIFixesButton = this.props.focusAIFixesButton;
-		console.log("SeoAnalysis componentDidUpdate  ids: ", ids);
-		console.log("SeoAnalysis componentDidUpdate  focusAIFixesButton: ", focusAIFixesButton);
-
-		if (ids.includes(focusAIFixesButton) && !this.aiButtons.include(focusAIFixesButton)) {
-			console.log('do focus on tab');
+		console.log( "SeoAnalysis ids: ", ids );
+		console.log( "SeoAnalysis focusAIFixesButton: ", focusAIFixesButton );
+		console.log( "SeoAnalysis AIbuttons", this.aiButtons );
+		if ( ids.includes( focusAIFixesButton ) && ! this.aiButtons.includes( focusAIFixesButton ) ) {
+			console.log( "do focus on tab" );
+			setTimeout( () => {
+				this.collapsibleRef.current?.focus();
+			}, 1000 );
+		} else if ( ids.includes( focusAIFixesButton ) && this.aiButtons.includes( focusAIFixesButton ) ) {
+			console.log( "do focus on button" );
+			// focusAIFixesButton.focus();
 		}
-
 	}
 
 	/**
@@ -256,7 +261,7 @@ class SeoAnalysis extends Component {
 			score.screenReaderReadabilityText = __( "Enter a focus keyphrase to calculate the SEO score", "wordpress-seo" );
 		}
 
-		console.log('SeoAnalysis render this.props.results: ', this.props.results);
+		// console.log( "SeoAnalysis render this.props.results: ", this.props.results );
 
 		this.aiButtons = [];
 
@@ -284,6 +289,7 @@ class SeoAnalysis extends Component {
 											prefixIconCollapsed={ getIconForScore( score.className ) }
 											subTitle={ this.props.keyword }
 											id={ `yoast-seo-analysis-collapsible-${ location }` }
+											ref={ this.collapsibleRef }
 										>
 											<SynonymSlot location={ location } />
 											{ this.props.shouldUpsell && <Fragment>
