@@ -5,6 +5,7 @@ import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkPar
 import { STORE_NAME } from "../constants";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import { reducers, selectors, actions } from "@yoast/externals/redux";
+import * as controls from "../../redux/controls/dismissedAlerts";
 
 const { currentPromotions, dismissedAlerts, isPremium  } = reducers;
 const { isAlertDismissed, getIsPremium, isPromotionActive } = selectors;
@@ -51,7 +52,7 @@ const createStore = ( { initialState } ) => {
 			dismissedAlerts,
 			isPremium,
 		} ),
-
+		controls,
 	} );
 };
 
