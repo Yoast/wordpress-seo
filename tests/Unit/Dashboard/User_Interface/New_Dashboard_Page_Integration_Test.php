@@ -284,12 +284,7 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 			->andReturn( $link_params );
 
 		$this->notifications_helper
-			->expects( 'get_problems' )
-			->once()
-			->andReturn( [] );
-
-		$this->notifications_helper
-			->expects( 'get_notifications' )
+			->expects( 'get_alerts' )
 			->once()
 			->andReturn( [] );
 

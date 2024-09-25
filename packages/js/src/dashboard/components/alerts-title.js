@@ -13,7 +13,7 @@ import { AlertsContext } from "../contexts/alerts-context";
  *
  * @returns {JSX.Element} The alert title element.
  */
-export const AlertTitle = ( {
+export const AlertsTitle = ( {
 	title,
 	counts = 0,
 	children = null,
@@ -31,7 +31,7 @@ export const AlertTitle = ( {
 	);
 };
 
-AlertTitle.propTypes = {
+AlertsTitle.propTypes = {
 	title: PropTypes.string,
 	counts: PropTypes.number,
 	children: PropTypes.node,

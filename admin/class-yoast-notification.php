@@ -356,6 +356,15 @@ class Yoast_Notification {
 	}
 
 	/**
+	 * Get the message for the notification.
+	 *
+	 * @return string The message.
+	 */
+	public function get_message() {
+		return wpautop( $this->message );
+	}
+
+	/**
 	 * Wraps the message with a Yoast SEO icon.
 	 *
 	 * @param string $message The message to wrap.
