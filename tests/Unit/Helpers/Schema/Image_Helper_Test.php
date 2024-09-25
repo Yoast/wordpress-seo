@@ -89,6 +89,78 @@ final class Image_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests generating the schema from url with a found attachment id.
+	 *
+	 * @covers ::generate_from_url
+	 * @dataProvider provide_generate_from_resized_url_with_found_attachment_id
+	 *
+	 * @param string $url                               The url of the image to create schema for.
+	 * @param int    $generate_from_resized_times       The times we generate from resized URL.
+	 * @param int    $generate_from_attachment_id_times The times we generate from attachment ID.
+	 *
+	 * @return void
+	 */
+	public function test_generate_from_resized_url_with_found_attachment_id( $url, $generate_from_resized_times, $generate_from_attachment_id_times ) {
+		$this->image
+			->expects( 'get_attachment_by_url' )
+			->once()
+			->with( $url, true )
+			->andReturn( 1337 );
+
+		$this->instance
+			->expects( 'generate_from_resized_url' )
+			->times( $generate_from_resized_times )
+			->with( '#schema-image-ABC', 1337, '', false, $url )
+			->andReturn( [] );
+
+		$this->instance
+			->expects( 'generate_from_attachment_id' )
+			->times( $generate_from_attachment_id_times )
+			->with( '#schema-image-ABC', 1337, '', false )
+			->andReturn( [] );
+
+		$this->assertEquals(
+			[],
+			$this->instance->generate_from_url( '#schema-image-ABC', $url, '', false, true, true )
+		);
+	}
+
+	/**
+	 * Data provider for test_generate_from_resized_url_with_found_attachment_id.
+	 *
+	 * @return array<string, string>
+	 */
+	public static function provide_generate_from_resized_url_with_found_attachment_id() {
+		return [
+			'Generate for resized image' => [
+				'url'                               => 'https://example.org/image-300x300.jpg',
+				'generate_from_resized_times'       => 1,
+				'generate_from_attachment_id_times' => 0,
+			],
+			'Generate for non-resized image' => [
+				'url'                               => 'https://example.org/image.jpg',
+				'generate_from_resized_times'       => 0,
+				'generate_from_attachment_id_times' => 1,
+			],
+			'Generate for non-resized image that had the same format with resized in filename' => [
+				'url'                               => 'https://example.org/image-300x300-1.jpg',
+				'generate_from_resized_times'       => 0,
+				'generate_from_attachment_id_times' => 1,
+			],
+			'Generate for non-resized image that has a similar format with resized but with capital X' => [
+				'url'                               => 'https://example.org/image-300X300.jpg',
+				'generate_from_resized_times'       => 0,
+				'generate_from_attachment_id_times' => 1,
+			],
+			'Generate for other file types that are not image' => [
+				'url'                               => 'https://example.org/image.pdf',
+				'generate_from_resized_times'       => 0,
+				'generate_from_attachment_id_times' => 1,
+			],
+		];
+	}
+
+	/**
 	 * Tests generating the schema from url no found attachment id.
 	 *
 	 * @covers ::generate_from_url
@@ -166,6 +238,102 @@ final class Image_Helper_Test extends TestCase {
 				'Company name'
 			)
 		);
+	}
+
+	/**
+	 * Tests the generate_from_resized_url method.
+	 *
+	 * @covers ::generate_from_resized_url
+	 * @covers ::generate_object
+	 * @covers ::add_image_size
+	 * @covers ::add_caption
+	 * @dataProvider provide_generate_from_resized_url
+	 *
+	 * @param string                      $url      The url of the image to create schema for.
+	 * @param string|array<string,string> $expected The times we generate from resized URL.
+	 *
+	 * @return void
+	 */
+	public function test_generate_from_resized_url( $url, $expected ) {
+		$this->image
+			->expects( 'get_attachment_image_url' )
+			->never();
+
+		$this->image
+			->expects( 'get_metadata' )
+			->never();
+
+		$this->language
+			->expects( 'add_piece_language' )
+			->once()
+			->andReturnUsing( [ $this, 'set_language' ] );
+
+		$this->assertEquals(
+			$expected,
+			$this->instance->generate_from_resized_url(
+				'https://example.com/#/schema/logo/image/',
+				1337,
+				'Caption',
+				false,
+				$url
+			)
+		);
+	}
+
+	/**
+	 * Data provider for test_generate_from_resized_url.
+	 *
+	 * @return array<string, string|array>
+	 */
+	public static function provide_generate_from_resized_url() {
+		return [
+			'Generate for resized image' => [
+				'url'      => 'https://example.org/image-400x300.jpg',
+				'expected' => [
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/#/schema/logo/image/',
+					'url'        => 'https://example.org/image-400x300.jpg',
+					'contentUrl' => 'https://example.org/image-400x300.jpg',
+					'width'      => '400',
+					'height'     => '300',
+					'caption'    => 'Caption',
+					'inLanguage' => 'language',
+				],
+			],
+			'Generate for non-resized image' => [
+				'url'      => 'https://example.org/image.jpg',
+				'expected' => [
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/#/schema/logo/image/',
+					'url'        => 'https://example.org/image.jpg',
+					'contentUrl' => 'https://example.org/image.jpg',
+					'caption'    => 'Caption',
+					'inLanguage' => 'language',
+				],
+			],
+			'Generate for non-resized image that had the same format with resized in filename' => [
+				'url'      => 'https://example.org/image-300x300-1.jpg',
+				'expected' => [
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/#/schema/logo/image/',
+					'url'        => 'https://example.org/image-300x300-1.jpg',
+					'contentUrl' => 'https://example.org/image-300x300-1.jpg',
+					'caption'    => 'Caption',
+					'inLanguage' => 'language',
+				],
+			],
+			'Generate for non-resized image that has a similar format with resized but with capital X' => [
+				'url'      => 'https://example.org/image-300X300.jpg',
+				'expected' => [
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/#/schema/logo/image/',
+					'url'        => 'https://example.org/image-300X300.jpg',
+					'contentUrl' => 'https://example.org/image-300X300.jpg',
+					'caption'    => 'Caption',
+					'inLanguage' => 'language',
+				],
+			],
+		];
 	}
 
 	/**

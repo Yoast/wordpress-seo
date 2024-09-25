@@ -48,17 +48,23 @@ class Image_Helper {
 	/**
 	 * Find an image based on its URL and generate a Schema object for it.
 	 *
-	 * @param string $schema_id      The `@id` to use for the returned image.
-	 * @param string $url            The image URL to base our object on.
-	 * @param string $caption        An optional caption.
-	 * @param bool   $add_hash       Whether a hash will be added as a suffix in the @id.
-	 * @param bool   $use_link_table Whether the SEO Links table will be used to retrieve the id.
+	 * @param string $schema_id         The `@id` to use for the returned image.
+	 * @param string $url               The image URL to base our object on.
+	 * @param string $caption           An optional caption.
+	 * @param bool   $add_hash          Whether a hash will be added as a suffix in the @id.
+	 * @param bool   $use_link_table    Whether the SEO Links table will be used to retrieve the id.
+	 * @param bool   $check_for_resized Whether to account for resized images.
 	 *
-	 * @return array Schema ImageObject array.
+	 * @return array<string, string> Schema ImageObject array.
 	 */
-	public function generate_from_url( $schema_id, $url, $caption = '', $add_hash = false, $use_link_table = true ) {
+	public function generate_from_url( $schema_id, $url, $caption = '', $add_hash = false, $use_link_table = true, $check_for_resized = false ) {
 		$attachment_id = $this->image->get_attachment_by_url( $url, $use_link_table );
 		if ( $attachment_id > 0 ) {
+			// First check if we should use the resized image and whether it is a resized image indeed.
+			if ( $check_for_resized && \preg_match( '/-(\d+)x(\d+)\.(jpg|jpeg|png|gif|webp)$/', $url ) ) {
+				return $this->generate_from_resized_url( $schema_id, $attachment_id, $caption, $add_hash, $url );
+			}
+
 			return $this->generate_from_attachment_id( $schema_id, $attachment_id, $caption, $add_hash );
 		}
 
@@ -72,8 +78,38 @@ class Image_Helper {
 	 * @param int    $attachment_id The attachment to retrieve data from.
 	 * @param string $caption       The caption string, if there is one.
 	 * @param bool   $add_hash      Whether a hash will be added as a suffix in the @id.
+	 * @param string $resized_url   The url of the resized image.
 	 *
-	 * @return array Schema ImageObject array.
+	 * @return array<string, string> Schema ImageObject array.
+	 */
+	public function generate_from_resized_url( $schema_id, $attachment_id, $caption = '', $add_hash = false, $resized_url = '' ) {
+		$data = $this->generate_object();
+
+		$id_suffix = ( $add_hash ) ? \md5( $resized_url ) : '';
+
+		$data['@id']        = $schema_id . $id_suffix;
+		$data['url']        = $resized_url;
+		$data['contentUrl'] = $resized_url;
+
+		if ( \preg_match( '/-(\d+)x(\d+)\.(jpg|jpeg|png|gif|webp)$/', $resized_url, $matches ) ) {
+			$data['width']  = $matches[1];
+			$data['height'] = $matches[2];
+		}
+
+		$data = $this->add_caption( $data, $attachment_id, $caption );
+
+		return $data;
+	}
+
+	/**
+	 * Retrieve data about an image from the database and use it to generate a Schema object.
+	 *
+	 * @param string $schema_id     The `@id` to use for the returned image.
+	 * @param int    $attachment_id The attachment to retrieve data from.
+	 * @param string $caption       The caption string, if there is one.
+	 * @param bool   $add_hash      Whether a hash will be added as a suffix in the @id.
+	 *
+	 * @return array<string, string> Schema ImageObject array.
 	 */
 	public function generate_from_attachment_id( $schema_id, $attachment_id, $caption = '', $add_hash = false ) {
 		$data = $this->generate_object();
@@ -98,7 +134,7 @@ class Image_Helper {
 	 * @param string $caption         The caption string, if there is one.
 	 * @param bool   $add_hash        Whether a hash will be added as a suffix in the @id.
 	 *
-	 * @return array Schema ImageObject array.
+	 * @return array<string, string> Schema ImageObject array.
 	 */
 	public function generate_from_attachment_meta( $schema_id, $attachment_meta, $caption = '', $add_hash = false ) {
 		$data = $this->generate_object();
@@ -125,7 +161,7 @@ class Image_Helper {
 	 * @param string $caption   A caption, if set.
 	 * @param bool   $add_hash  Whether a hash will be added as a suffix in the @id.
 	 *
-	 * @return array Schema ImageObject array.
+	 * @return array<string, string> Schema ImageObject array.
 	 */
 	public function simple_image_object( $schema_id, $url, $caption = '', $add_hash = false ) {
 		$data = $this->generate_object();

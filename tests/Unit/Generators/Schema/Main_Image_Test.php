@@ -137,7 +137,7 @@ final class Main_Image_Test extends TestCase {
 
 		$this->schema_image->expects( 'generate_from_url' )
 			->once()
-			->with( $image_id, $image_url )
+			->with( $image_id, $image_url, '', false, true, true )
 			->andReturn( $image_schema );
 
 		self::assertEquals( $image_schema, $this->instance->generate() );
