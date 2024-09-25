@@ -230,8 +230,6 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 			->once();
 
 		Monkey\Functions\expect( 'wp_enqueue_media' )->once();
-		Monkey\Functions\expect( 'add_query_arg' )->once();
-		Monkey\Functions\expect( 'admin_url' )->once();
 
 		$this->asset_manager
 			->expects( 'enqueue_script' )
@@ -274,7 +272,8 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 			->andReturn( false );
 
 		Monkey\Functions\expect( 'is_rtl' )->once()->andReturn( false );
-
+		Monkey\Functions\expect( 'add_query_arg' )->once();
+		Monkey\Functions\expect( 'admin_url' )->once();
 		Monkey\Functions\expect( 'plugins_url' )
 			->once()
 			->andReturn( 'http://basic.wordpress.test/wp-content/worspress-seo' );
