@@ -14,7 +14,7 @@ export const AlertCenter = () => {
 	const premiumUpsellConfig = useSelectDashboard( "selectUpsellSettingsAsProps" );
 	const promotions = useSelectDashboard( "selectPreference", [], "promotions", [] );
 	return <>
-		<div className={ classNames( "", ! isPremium && "yst-flex yst-flex-wrap xl:yst-pr-[17.5rem]" ) }>
+		<div className={ classNames( {  "yst-flex yst-flex-wrap xl:yst-pr-[17.5rem]": ! isPremium } ) }>
 			<Paper className="yst-grow">
 				<header className="yst-p-8 yst-border-b yst-border-slate-200">
 					<div className="yst-max-w-screen-sm">
