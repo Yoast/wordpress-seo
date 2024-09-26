@@ -59,7 +59,7 @@ const createStore = ( { initialState } ) => {
 		} ),
 		controls: {
 			...alertCenterControls,
-			...dismissedAlertsControls
+			...dismissedAlertsControls,
 		},
 	} );
 };
