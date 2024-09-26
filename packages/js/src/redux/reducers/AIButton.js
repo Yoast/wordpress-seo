@@ -18,7 +18,6 @@ export default function AIButton( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
 		case SET_ACTIVE_AI_FIXES_BUTTON: {
 			const focusAIButton = action.activeAIButton === null && state.activeAIButton !== null ? state.activeAIButton : state.focusAIButton;
-			console.log( "focusAIButton", focusAIButton );
 			return {
 				...state,
 				activeAIButton: action.activeAIButton,
