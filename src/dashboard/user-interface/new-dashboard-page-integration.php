@@ -195,8 +195,7 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 			],
 			'linkParams'        => $this->shortlink_helper->get_query_params(),
 			'userEditUrl'       => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) ),
-			'problems'          => $this->notification_helper->get_problems(),
-			'notifications'     => $this->notification_helper->get_notifications(),
+			'alerts'            => $this->notification_helper->get_alerts(),
 			'currentPromotions' => $this->promotion_manager->get_current_promotions(),
 			'dismissedAlerts'   => $this->alert_dismissal_action->all_dismissed(),
 		];
