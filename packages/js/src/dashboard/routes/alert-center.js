@@ -26,7 +26,7 @@ export const AlertCenter = () => {
 				</header>
 			</Paper>
 			<div>
-				<div className="yst-grid lg:yst-grid-cols-2 yst-gap-8 yst-my-8 yst-grow">
+				<div className="yst-grid lg:yst-grid-cols-2 yst-gap-8 yst-my-8 yst-grow yst-items-start">
 					<Problems />
 					<Notifications />
 				</div>
