@@ -25,9 +25,11 @@ export const AlertCenter = () => {
 					</div>
 				</header>
 			</Paper>
-			<div className="yst-grid lg:yst-grid-cols-2 yst-gap-8 yst-my-8 yst-grow">
-				<Problems />
-				<Notifications />
+			<div>
+				<div className="yst-grid lg:yst-grid-cols-2 yst-gap-8 yst-my-8 yst-grow">
+					<Problems />
+					<Notifications />
+				</div>
 				{ ! isPremium && <PremiumUpsellList
 					premiumLink={ premiumLink }
 					premiumUpsellConfig={ premiumUpsellConfig }
