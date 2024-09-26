@@ -5,6 +5,7 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 
 /**
@@ -241,7 +242,8 @@ class WPSEO_Admin {
 			$configuration_title = ( ! $first_time_configuration_notice_helper->should_show_alternate_message() ) ? 'first-time configuration' : 'SEO configuration';
 			/* translators: CTA to finish the first time configuration. %s: Either first-time SEO configuration or SEO configuration. */
 			$message  = sprintf( __( 'Finish your %s', 'wordpress-seo' ), $configuration_title );
-			$ftc_link = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '" target="_blank">' . $message . '</a>';
+			$ftc_page = ( ( new New_Dashboard_Ui_Conditional() )->is_met() ) ? 'admin.php?page=wpseo_dashboard#/first-time-configuration' : 'admin.php?page=wpseo_dashboard#top#first-time-configuration';
+			$ftc_link = '<a href="' . esc_url( admin_url( $ftc_page ) ) . '" target="_blank">' . $message . '</a>';
 			array_unshift( $links, $ftc_link );
 		}
 
