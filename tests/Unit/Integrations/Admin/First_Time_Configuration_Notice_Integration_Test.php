@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Helpers\First_Time_Configuration_Notice_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\First_Time_Configuration_Notice_Integration;
@@ -44,11 +45,18 @@ final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	private $first_time_configuration_notice_helper;
 
 	/**
-	 * The the mock for a notice.
+	 * The mock for a notice.
 	 *
 	 * @var Yoast\WP\SEO\Presenters\Admin\Notice_Presenter
 	 */
 	private $notice_presenter;
+
+	/**
+	 * The mock for the New Dashboard UI conditional.
+	 *
+	 * @var New_Dashboard_Ui_Conditional
+	 */
+	private $new_dashboard_ui_conditional;
 
 	/**
 	 * The instance under test.
@@ -71,11 +79,13 @@ final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 		$this->options_helper                         = Mockery::mock( Options_Helper::class );
 		$this->admin_asset_manager                    = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->first_time_configuration_notice_helper = Mockery::mock( First_Time_Configuration_Notice_Helper::class );
+		$this->new_dashboard_ui_conditional           = Mockery::mock( New_Dashboard_Ui_Conditional::class );
 
 		$this->instance = new First_Time_Configuration_Notice_Integration(
 			$this->options_helper,
 			$this->first_time_configuration_notice_helper,
-			$this->admin_asset_manager
+			$this->admin_asset_manager,
+			$this->new_dashboard_ui_conditional
 		);
 
 		$this->notice_presenter = Mockery::mock( Notice_Presenter::class );
@@ -250,6 +260,11 @@ final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 			->expects( 'should_show_alternate_message' )
 			->once()
 			->andReturn( $should_show_alternate_message );
+
+		$this->new_dashboard_ui_conditional
+				->expects( 'is_met' )
+				->once()
+				->andReturnFalse();
 
 		Monkey\Functions\expect( 'self_admin_url' )
 			->once()
