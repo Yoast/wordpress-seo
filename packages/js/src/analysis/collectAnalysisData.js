@@ -61,9 +61,6 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 		blocks = mapGutenbergBlocks( blocks );
 	}
 
-	console.log('storeData', storeData);
-	console.log('window.wpseoScriptData', window.wpseoScriptData);
-
 	// Make a data structure for the paper data.
 	const data = {
 		text: editData.content,
