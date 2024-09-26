@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -64,7 +65,8 @@ class Old_Configuration_Integration implements Integration_Interface {
 		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_configurator' ) {
 			return;
 		}
-		\wp_safe_redirect( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ), 302, 'Yoast SEO' );
+		$redirect_url = ( ( new New_Dashboard_Ui_Conditional() )->is_met() ) ? 'admin.php?page=wpseo_dashboard#/first-time-configuration' : 'admin.php?page=wpseo_dashboard#top#first-time-configuration';
+		\wp_safe_redirect( \admin_url( $redirect_url ), 302, 'Yoast SEO' );
 		exit;
 	}
 }
