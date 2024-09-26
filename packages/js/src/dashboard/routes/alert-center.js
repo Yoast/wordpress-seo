@@ -1,4 +1,5 @@
 import { __ } from "@wordpress/i18n";
+import { useRef, useEffect, useState } from "@wordpress/element";
 import { Paper, Title } from "@yoast/ui-library";
 import { PremiumUpsellList } from "../../shared-admin/components/premium-upsell-list";
 import { Notifications, Problems } from "../components";
@@ -13,8 +14,18 @@ export const AlertCenter = () => {
 	const premiumLink = useSelectDashboard( "selectLink", [], "https://yoa.st/17h" );
 	const premiumUpsellConfig = useSelectDashboard( "selectUpsellSettingsAsProps" );
 	const promotions = useSelectDashboard( "selectPreference", [], "promotions", [] );
+	const paperRef = useRef( null );
+	const [ position, setPosition ] = useState( { top: 0 } );
+
+	useEffect( () => {
+		if ( paperRef.current ) {
+			const rect = paperRef.current.getBoundingClientRect();
+			setPosition( { top: rect.top + window.scrollY } );
+		}
+	}, [] );
+
 	return <>
-		<div className={ classNames( {  "yst-flex yst-flex-wrap xl:yst-pr-[17.5rem]": ! isPremium } ) }>
+		<div ref={ paperRef } className={ classNames( {  "yst-flex yst-flex-wrap xl:yst-pr-[17.5rem]": ! isPremium } ) }>
 			<Paper className="yst-grow">
 				<header className="yst-p-8 yst-border-b yst-border-slate-200">
 					<div className="yst-max-w-screen-sm">
@@ -36,7 +47,7 @@ export const AlertCenter = () => {
 					promotions={ promotions }
 				/> }
 			</div>
-			<SidebarRecommendations />
+			<SidebarRecommendations position={ position } />
 		</div>
 	</>;
 };
