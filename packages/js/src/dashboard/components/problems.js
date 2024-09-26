@@ -1,8 +1,9 @@
 import { __, _n } from "@wordpress/i18n";
+import { useSelect } from "@wordpress/data";
 import { ExclamationCircleIcon } from "@heroicons/react/outline";
 import { Paper } from "@yoast/ui-library";
 import { AlertsList } from "./alerts-list";
-import { AlertTitle } from "./alert-title";
+import { AlertsTitle } from "./alerts-title";
 import { Collapsible } from "./collapsible";
 import { AlertsContext } from "../contexts/alerts-context";
 
@@ -10,30 +11,15 @@ import { AlertsContext } from "../contexts/alerts-context";
  * @returns {JSX.Element} The problems component.
  */
 export const Problems = () => {
-	const problemsList = [
-		{
-			message: "Huge SEO issue: You're blocking access to robots. If you want search engines to show this site in their results, you must go to your Reading Settings and uncheck the box for Search Engine Visibility. I don't want this site to show in the search results.",
-		},
-		{
-			message: "You still have the default WordPress tagline, even an empty one is probably better. You can fix this in the customizer.",
-		},
-	];
+	const problemsList = useSelect( ( select ) => select( "@yoast/dashboard" ).selectActiveProblems(), [] );
+	const dismissedProblemsList = useSelect( ( select ) => select( "@yoast/dashboard" ).selectDismissedProblems(), [] );
 
-	const hiddenProblemsList = [
-		{
-			message: "Huge SEO issue: You're blocking access to robots. If you want search engines to show this site in their results, you must go to your Reading Settings and uncheck the box for Search Engine Visibility. I don't want this site to show in the search results.",
-		},
-		{
-			message: "You still have the default WordPress tagline, even an empty one is probably better. You can fix this in the customizer.",
-		},
-	];
+	const dismissedProblems = dismissedProblemsList.length;
 
-	const hiddenProblems = hiddenProblemsList.length;
-
-	const hiddenProblemsLabel = _n(
+	const dismissedProblemsLabel = _n(
 		"hidden problem",
 		"hidden problems",
-		hiddenProblems,
+		dismissedProblems,
 		"wordpress-seo"
 	);
 
@@ -47,14 +33,14 @@ export const Problems = () => {
 		<Paper>
 			<Paper.Content className="yst-flex yst-flex-col yst-gap-y-6">
 				<AlertsContext.Provider value={ problemsTheme }>
-					<AlertTitle title={ __( "Problems", "wordpress-seo" ) } counts={ 2 }>
+					<AlertsTitle title={ __( "Problems", "wordpress-seo" ) } counts={ problemsList.length }>
 						<p className="yst-mt-2 yst-text-sm">{ __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" ) }</p>
-					</AlertTitle>
-					<AlertsList items={ problemsList } hidden={ false } />
+					</AlertsTitle>
+					<AlertsList items={ problemsList } />
 
-					{ hiddenProblems > 0 && (
-						<Collapsible label={ `${ hiddenProblems } ${ hiddenProblemsLabel }` }>
-							<AlertsList className="yst-pb-6" items={ hiddenProblemsList } hidden={ true } />
+					{ dismissedProblems > 0 && (
+						<Collapsible label={ `${ dismissedProblems } ${ dismissedProblemsLabel }` }>
+							<AlertsList className="yst-pb-6" items={ dismissedProblemsList } />
 						</Collapsible>
 					) }
 				</AlertsContext.Provider>
