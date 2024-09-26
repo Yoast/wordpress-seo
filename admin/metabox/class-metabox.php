@@ -880,7 +880,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		];
 
 		$page_on_front    = (int) get_option( 'page_on_front' );
-		$homepage_is_page = \get_option( 'show_on_front' ) === 'page';
+		$homepage_is_page = get_option( 'show_on_front' ) === 'page';
 		$is_front_page    = $homepage_is_page && $page_on_front === (int) $post_id;
 
 		$script_data = [

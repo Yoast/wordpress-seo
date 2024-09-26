@@ -408,7 +408,7 @@ class Elementor implements Integration_Interface {
 
 		$permalink        = $this->get_permalink();
 		$page_on_front    = (int) get_option( 'page_on_front' );
-		$homepage_is_page = \get_option( 'show_on_front' ) === 'page';
+		$homepage_is_page = get_option( 'show_on_front' ) === 'page';
 		$is_front_page    = $homepage_is_page && $page_on_front === $post_id;
 
 		$script_data = [
