@@ -14,7 +14,7 @@ import { useSelectDashboard } from "./hooks";
 import { STORE_NAME } from "./constants";
 import { FirstTimeConfiguration, AlertCenter } from "./routes";
 import { getMigrateNotices } from "../helpers/migrateNotices";
-import Notice from "./tailwind-components/notice";
+import Notice from "./components/notice";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
 import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
 
