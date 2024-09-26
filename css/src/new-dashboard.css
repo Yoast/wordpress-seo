@@ -116,6 +116,24 @@ body.toplevel_page_wpseo_dashboard {
 				yst-px-2.5
 				yst-py-1.5;
 			}
+
+			.button-link {
+				@apply
+				yst-text-indigo-600
+				yst-cursor-pointer
+				yst-underline
+
+				hover:yst-text-indigo-500
+				focus:yst-text-indigo-500
+				focus:yst-outline-none
+				focus:yst-ring-1
+				focus:yst-ring-offset-1
+				focus:yst-ring-offset-transparent
+				focus:yst-ring-indigo-600
+				focus:yst-rounded-sm
+				visited:yst-text-primary-500
+				visited:hover:yst-text-primary-400;
+			}
 		}
 	}
 	/* RTL */
