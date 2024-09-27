@@ -98,7 +98,7 @@ final class Post_Site_Information_Test extends TestCase {
 		$this->alert_dismissal_action = Mockery::mock( Alert_Dismissal_Action::class );
 		$this->options_helper         = Mockery::mock( Options_Helper::class );
 
-		$this->instance = new Post_Site_Information( $this->promotion_manager, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action, $this->options_helper );
+		$this->instance = new Post_Site_Information( $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action, $this->options_helper, $this->promotion_manager );
 		$this->instance->set_permalink( 'perma' );
 		$this->set_mocks();
 	}
@@ -120,12 +120,7 @@ final class Post_Site_Information_Test extends TestCase {
 			'dismissedAlerts'            => [
 				'the alert',
 			],
-			'currentPromotions'          => [
-				'the promotion',
-				'another one',
-			],
 			'webinarIntroBlockEditorUrl' => 'https://expl.c',
-			'blackFridayBlockEditorUrl'  => '',
 			'metabox'                    => [
 				'search_url'    => 'https://example.org',
 				'post_edit_url' => 'https://example.org',
@@ -151,6 +146,11 @@ final class Post_Site_Information_Test extends TestCase {
 			'wistiaEmbedPermission'      => true,
 			'sitewideSocialImage'        => null,
 			'isPrivateBlog'              => false,
+			'currentPromotions'          => [
+				'the promotion',
+				'another one',
+			],
+			'blackFridayBlockEditorUrl'  => '',
 
 		];
 
@@ -186,12 +186,7 @@ final class Post_Site_Information_Test extends TestCase {
 			'dismissedAlerts'                => [
 				'the alert',
 			],
-			'currentPromotions'              => [
-				'the promotion',
-				'another one',
-			],
 			'webinarIntroBlockEditorUrl'     => 'https://expl.c',
-			'blackFridayBlockEditorUrl'      => '',
 			'search_url'                     => 'https://example.org',
 			'post_edit_url'                  => 'https://example.org',
 			'base_url'                       => 'https://example.org',
@@ -215,6 +210,11 @@ final class Post_Site_Information_Test extends TestCase {
 			],
 			'sitewideSocialImage'            => null,
 			'isPrivateBlog'                  => false,
+			'currentPromotions'              => [
+				'the promotion',
+				'another one',
+			],
+			'blackFridayBlockEditorUrl'      => '',
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );

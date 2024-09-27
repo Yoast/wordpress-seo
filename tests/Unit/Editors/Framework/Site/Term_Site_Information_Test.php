@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Editors\Site_Information_Mocks_Trait;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -63,6 +64,13 @@ final class Term_Site_Information_Test extends TestCase {
 	private $product_helper;
 
 	/**
+	 * Holds the Promotion_Manager instance.
+	 *
+	 * @var Mockery\MockInterface|Promotion_Manager
+	 */
+	private $promotion_manager;
+
+	/**
 	 * The Term_Site_Information container.
 	 *
 	 * @var Term_Site_Information
@@ -81,8 +89,9 @@ final class Term_Site_Information_Test extends TestCase {
 		$this->wistia_embed_repo = Mockery::mock( Wistia_Embed_Permission_Repository::class );
 		$this->meta_surface      = Mockery::mock( Meta_Surface::class );
 		$this->product_helper    = Mockery::mock( Product_Helper::class );
+		$this->promotion_manager = Mockery::mock( Promotion_Manager::class );
 
-		$this->instance      = new Term_Site_Information( $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->options_helper );
+		$this->instance      = new Term_Site_Information( $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->options_helper, $this->promotion_manager );
 		$taxonomy            = Mockery::mock( WP_Taxonomy::class )->makePartial();
 		$taxonomy->rewrite   = false;
 		$mock_term           = Mockery::mock( WP_Term::class )->makePartial();
@@ -114,28 +123,33 @@ final class Term_Site_Information_Test extends TestCase {
 	 */
 	public function test_site_information() {
 		$expected = [
-			'search_url'            => 'https://example.org',
-			'post_edit_url'         => 'https://example.org',
-			'base_url'              => 'https://example.org',
-			'adminUrl'              => 'https://example.org',
-			'linkParams'            => [
+			'search_url'                => 'https://example.org',
+			'post_edit_url'             => 'https://example.org',
+			'base_url'                  => 'https://example.org',
+			'adminUrl'                  => 'https://example.org',
+			'linkParams'                => [
 				'param',
 				'param2',
 			],
-			'pluginUrl'             => '/location',
-			'wistiaEmbedPermission' => true,
-			'site_name'             => 'examepl.com',
-			'contentLocale'         => 'nl_NL',
-			'userLocale'            => 'nl_NL',
-			'isRtl'                 => false,
-			'isPremium'             => true,
-			'siteIconUrl'           => 'https://example.org',
-			'showSocial'            => [
+			'pluginUrl'                 => '/location',
+			'wistiaEmbedPermission'     => true,
+			'site_name'                 => 'examepl.com',
+			'contentLocale'             => 'nl_NL',
+			'userLocale'                => 'nl_NL',
+			'isRtl'                     => false,
+			'isPremium'                 => true,
+			'siteIconUrl'               => 'https://example.org',
+			'showSocial'                => [
 				'facebook' => false,
 				'twitter'  => false,
 			],
-			'sitewideSocialImage'   => null,
-			'isPrivateBlog'         => true,
+			'sitewideSocialImage'       => null,
+			'isPrivateBlog'             => true,
+			'currentPromotions'         => [
+				'the promotion',
+				'another one',
+			],
+			'blackFridayBlockEditorUrl' => '',
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
@@ -144,6 +158,9 @@ final class Term_Site_Information_Test extends TestCase {
 			->once()
 			->with( 'blog_public' )
 			->andReturn( '0' );
+
+		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );
+		$this->promotion_manager->expects( 'is' )->andReturnFalse();
 
 		$this->assertSame( $expected, $this->instance->get_site_information() );
 	}
@@ -163,7 +180,7 @@ final class Term_Site_Information_Test extends TestCase {
 	public function test_legacy_site_information() {
 
 		$expected = [
-			'metabox'               => [
+			'metabox'                   => [
 				'search_url'    => 'https://example.org',
 				'post_edit_url' => 'https://example.org',
 				'base_url'      => 'https://example.org',
@@ -178,19 +195,27 @@ final class Term_Site_Information_Test extends TestCase {
 					'twitter'  => false,
 				],
 			],
-			'adminUrl'              => 'https://example.org',
-			'linkParams'            => [
+			'adminUrl'                  => 'https://example.org',
+			'linkParams'                => [
 				'param',
 				'param2',
 			],
-			'pluginUrl'             => '/location',
-			'wistiaEmbedPermission' => true,
-			'sitewideSocialImage'   => null,
-			'isPrivateBlog'         => false,
+			'pluginUrl'                 => '/location',
+			'wistiaEmbedPermission'     => true,
+			'sitewideSocialImage'       => null,
+			'isPrivateBlog'             => false,
+			'currentPromotions'         => [
+				'the promotion',
+				'another one',
+			],
+			'blackFridayBlockEditorUrl' => '',
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
 		Monkey\Functions\expect( 'home_url' )->andReturn( 'https://example.org' );
+
+		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );
+		$this->promotion_manager->expects( 'is' )->andReturnFalse();
 
 		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
 	}
