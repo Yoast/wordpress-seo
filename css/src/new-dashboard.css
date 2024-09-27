@@ -88,7 +88,7 @@ body.toplevel_page_wpseo_dashboard {
 	}
 
 	.yoast-webinar-dashboard .notice-dismiss {
-		padding: 15px;
+		@apply yst-p-4
 	}
 
 	@apply yst-bg-slate-100;
