@@ -66,7 +66,8 @@ body.toplevel_page_wpseo_dashboard {
 	.yoast-webinar-dashboard h2{
 		font-weight: 500;
 		font-size: .8125rem;
-		color: #1d2327;
+		color: #1E293B;
+		line-height: 19px;
 	}
 
 	.yoast-webinar-dashboard a{
