@@ -9,10 +9,13 @@ body.toplevel_page_wpseo_dashboard {
 
 	.yoast-dashboard-notice, .yoast-webinar-dashboard{
 		background: white;
-		border: 1px solid #E0B3CC;
-		box-shadow: 0px 4px 6px -1px #0000001A;
 		padding: 0.75rem;
 		border-radius: 0.375rem;
+
+		@apply
+		yst-border
+		yst-border-primary-200
+		yst-shadow-md
 	}
 
 	.yoast-dashboard-notice .yoast-icon {
