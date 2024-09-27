@@ -7,7 +7,7 @@ Requires PHP: 7.2.5
 Changelog
 =========
 
-## 23.7
+## 23.6
 
 Release date: 2024-10-08
 Changes compared to: 23.6-RC1
@@ -51,6 +51,5 @@ Non user facing:
 * Removes the `woocommerceUpsell` property from `wpseoScriptData`. [#21589](https://github.com/Yoast/wordpress-seo/pull/21589)
 * Removes outdated translations properties from fields definitions. [#21592](https://github.com/Yoast/wordpress-seo/pull/21592)
 * Moves woocommerce and jetpack boost upsell links to client side. [#21582](https://github.com/Yoast/wordpress-seo/pull/21582)
-
 ### Earlier versions
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
