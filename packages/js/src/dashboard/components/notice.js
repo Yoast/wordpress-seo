@@ -18,8 +18,8 @@ export default function Notice( { title, id, isDismissable, children } ) {
 	const ariaSvgProps = useSvgAria();
 
 	return (
-		<div id={ id } className={ classNames( "yst-p-4 yst-rounded-md yoast-dashboard-notice" ) }>
-			<div className={ classNames( "yst-flex yst-flex-row yst-items-center yst-mb-1" ) }>
+		<div id={ id } className={ classNames( "yst-p-3 yst-rounded-md yoast-dashboard-notice" ) }>
+			<div className={ classNames( "yst-flex yst-flex-row yst-items-center yst-min-h-[24px]" ) }>
 				<span className="yoast-icon" />
 				{ title && <div className="yst-text-sm yst-font-medium" dangerouslySetInnerHTML={ { __html: title.outerHTML } } /> }
 				{ isDismissable &&
@@ -34,7 +34,7 @@ export default function Notice( { title, id, isDismissable, children } ) {
 					</div>
 				}
 			</div>
-			{ children && <div className="yst-flex-1 yst-text-sm yst-px-6 yst-max-w-[600px]" dangerouslySetInnerHTML={ { __html: children.outerHTML } } /> }
+			{ children && <div className="yst-flex-1 yst-text-sm yst-max-w-[600px] yst-pl-[29px]" dangerouslySetInnerHTML={ { __html: children.outerHTML } } /> }
 		</div>
 	);
 }
