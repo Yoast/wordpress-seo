@@ -53,7 +53,7 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 	 * @return string The HTML string representation of the notification.
 	 */
 	public function present() {
-		$notification_text  = '<p>' . $this->get_message( $this->reason ) . ' ';
+		$notification_text  = '<p>' . $this->get_message( $this->reason );
 		$notification_text .= $this->get_time_estimate( $this->total_unindexed ) . '</p>';
 		$notification_text .= '<a class="button" href="' . \get_admin_url( null, 'admin.php?page=wpseo_tools&start-indexation=true' ) . '">';
 		$notification_text .= \esc_html__( 'Start SEO data optimization', 'wordpress-seo' );
