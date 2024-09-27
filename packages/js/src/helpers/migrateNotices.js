@@ -37,8 +37,8 @@ function prepareNoticesForMigration( notices ) {
 	return notices.map( ( notice, index ) => ( {
 		notice: notice,
 		id: ids[ index ],
-		header: headers[ index ],
-		content: contents[ index ],
+		header: headers[ index ].outerHTML,
+		content: contents[ index ].outerHTML,
 		isDismissable: isDismissable[ index ],
 	} ) );
 }
