@@ -7,10 +7,10 @@ import { useSvgAria } from "@yoast/ui-library";
 /**
  * Renders the notice component.
  *
- * @param {JSX.node} type The title of the notice.
+ * @param {object} type The title of the notice.
  * @param {string} id The id of the notice.
  * @param {boolean} isDismissable Whether the notice is dismissable.
- * @param {JSX.node} children The content of the notice.
+ * @param {object} children The content of the notice.
  *
  * @returns {React.Component} The Notice.
  */
@@ -40,8 +40,8 @@ export default function Notice( { title, id, isDismissable, children } ) {
 }
 
 Notice.propTypes = {
-	title: PropTypes.node.isRequired,
+	title: PropTypes.object.isRequired,
 	id: PropTypes.string.isRequired,
-	isDismissable: PropTypes.node.isRequired,
-	children: PropTypes.node.isRequired,
+	isDismissable: PropTypes.bool.isRequired,
+	children: PropTypes.object.isRequired,
 };
