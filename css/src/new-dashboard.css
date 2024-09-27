@@ -29,7 +29,8 @@ body.toplevel_page_wpseo_dashboard {
 
 	.yoast-dashboard-notice .notice-dismiss {
 		position: relative;
-		color: #94A3B8;
+		@apply yst-text-slate-400
+		hover:yst-text-slate-500
 	}
 
 	.yoast-dashboard-notice .notice-dismiss:before{
@@ -50,7 +51,14 @@ body.toplevel_page_wpseo_dashboard {
 	}
 
 	.yoast-webinar-dashboard .notice-dismiss:before{
+		/* yst-text-slate-400 */
 		background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%2394A3B8' class='yst-h-5 yst-w-5' role='img'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'></path></svg>");
+		content: '';
+	}
+
+	.yoast-webinar-dashboard .notice-dismiss:hover:before{
+		/* yst-text-slate-500 */
+		background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%2364748b' class='yst-h-5 yst-w-5' role='img'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'></path></svg>");
 		content: '';
 	}
 
