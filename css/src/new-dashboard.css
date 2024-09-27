@@ -239,8 +239,12 @@ body.toplevel_page_wpseo_dashboard {
 			@apply yst-mt-3;
 		}
 
-		.yst-new-dashboard__message .ul-disc {
-			@apply yst-list-disc yst-pl-3 yst-ml-3;
+		.yst-new-dashboard__message ul {
+			@apply
+			yst-list-disc
+			yst-pl-3
+			yst-ml-3
+			yst-mt-1.5;
 		}
 	}
 	/* RTL */
