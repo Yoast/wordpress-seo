@@ -1,9 +1,9 @@
 /**
  * Transform contents to adhere to the new dashboard format.
  *
- * @param {Array} contents An array with contents to be transformed.
+ * @param {HTMLElement[]} contents An array with contents to be transformed.
  *
- * @returns {Array} The contents to be transformed.
+ * @returns {HTMLElement[]} The contents to be transformed.
  */
 function transformContent( contents ) {
 	// Transform the buttons to Yoast buttons.
@@ -22,20 +22,32 @@ function transformContent( contents ) {
 }
 
 /**
- * Prepares notices to be migrated.
+ * Gets Yoast notices to be migrated.
  *
- * @param {Array} notices The notices to be prepared for migration.
- *
- * @returns {Array} The notices, prepared for migration.
+ * @returns {Array} The Yoast Notices to be migrated.
  */
-function prepareNoticesForMigration( notices ) {
-	const ids = notices.map( notice => notice.id );
-	const headers = notices.map( notice => notice.querySelector( ".yoast-notice-migrated-header" ) );
-	const contents = transformContent( notices.map( notice => notice.querySelector( ".notice-yoast-content" ) ) );
-	const isDismissable = notices.map( notice => notice.classList.contains( "is-dismissible" ) );
+export function getMigratingNotices() {
+	// Gather all notices that need migration.
+	const noticeYoastNotices = Array.from( document.querySelectorAll( ".notice-yoast:not(.yoast-webinar-dashboard)" ) );
+	const migratedNotices = Array.from( document.querySelectorAll( ".yoast-migrated-notice" ) );
+	return [ ...noticeYoastNotices, ...migratedNotices ];
+}
 
-	return notices.map( ( notice, index ) => ( {
-		notice: notice,
+/**
+ * Gets all the necessary info for migrating notices.
+ *
+ * @returns {Array} The necessary info for migrating notices.
+ */
+export function getMigratingNoticeInfo() {
+	const noticesToBeMigrated = getMigratingNotices();
+
+	const ids = noticesToBeMigrated.map( notice => notice.id );
+	const headers = noticesToBeMigrated.map( notice => notice.querySelector( ".yoast-notice-migrated-header" ) );
+	const contents = transformContent( noticesToBeMigrated.map( notice => notice.querySelector( ".notice-yoast-content" ) ) );
+	const isDismissable = noticesToBeMigrated.map( notice => notice.classList.contains( "is-dismissible" ) );
+
+	return noticesToBeMigrated.map( ( notice, index ) => ( {
+		originalNotice: notice,
 		id: ids[ index ],
 		header: headers[ index ].outerHTML,
 		content: contents[ index ].outerHTML,
@@ -44,22 +56,12 @@ function prepareNoticesForMigration( notices ) {
 }
 
 /**
- * Migrates Yoast notices.
+ * Deletes notices.
  *
- * @returns {Array} The migrated Yoast Notices.
+ * @param {Array} notices The notices to be deleted.
+ *
+ * @returns {void}
  */
-export function getMigrateNotices() {
-	// Gather all notices that need migration.
-	const noticeYoastNotices = Array.from( document.querySelectorAll( ".notice-yoast:not(.yoast-webinar-dashboard)" ) );
-	const migratedNotices = Array.from( document.querySelectorAll( ".yoast-migrated-notice" ) );
-	const allNotices = [ ...noticeYoastNotices, ...migratedNotices ];
-
-	// Prepare the notices for migration.
-	const noticesToBeMigrated = prepareNoticesForMigration( allNotices );
-
-	// Finally, remove the original notices from the DOM.
-	noticeYoastNotices.forEach( notice => notice.remove() );
-	migratedNotices.forEach( notice => notice.remove() );
-
-	return noticesToBeMigrated;
+export function deleteMigratingNotices( notices ) {
+	notices.forEach( notice => notice.originalNotice.remove() );
 }

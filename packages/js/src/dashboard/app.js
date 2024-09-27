@@ -3,7 +3,7 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
-import { useMemo } from "@wordpress/element";
+import { useEffect, useMemo } from "@wordpress/element";
 import { select } from "@wordpress/data";
 import { addQueryArgs } from "@wordpress/url";
 import { SidebarNavigation, useSvgAria } from "@yoast/ui-library";
@@ -13,7 +13,7 @@ import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
 import { STORE_NAME } from "./constants";
 import { FirstTimeConfiguration, AlertCenter } from "./routes";
-import { getMigrateNotices } from "../helpers/migrateNotices";
+import { getMigratingNoticeInfo, deleteMigratingNotices } from "../helpers/migrateNotices";
 import Notice from "./components/notice";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
 import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
@@ -57,7 +57,10 @@ Menu.propTypes = {
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
-	const notices = useMemo( getMigrateNotices, [] );
+	const notices = useMemo( getMigratingNoticeInfo, [] );
+	useEffect( () => {
+		deleteMigratingNotices( notices );
+	}, [ notices ] );
 
 	const { pathname } = useLocation();
 	const linkParams = select( STORE_NAME ).selectLinkParams();
