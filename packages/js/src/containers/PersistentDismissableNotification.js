@@ -33,7 +33,7 @@ export const PersistentDismissableNotification = ( {
 						<p>{ children }</p>
 					</div>
 				</div>
-				{ Image && <Image className="yoast-webinar-dashboard-image" height="60" /> }
+				{ Image && <Image height="60" /> }
 			</div>
 			<button type="button" className="notice-dismiss" onClick={ onDismissed }>
 				<span className="screen-reader-text">
