@@ -128,6 +128,10 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
 		$public_taxonomies = $this->taxonomy->get_indexable_taxonomies();
 
+		if ( empty( $public_taxonomies ) ) {
+			return '';
+		}
+
 		$taxonomies_placeholders = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 
 		$replacements = [ $this->version ];
@@ -159,7 +163,12 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
 		$public_taxonomies = $this->taxonomy->get_indexable_taxonomies();
-		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
+
+		if ( empty( $public_taxonomies ) ) {
+			return '';
+		}
+
+		$placeholders = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 
 		$replacements = [ $this->version ];
 		\array_push( $replacements, ...$public_taxonomies );
