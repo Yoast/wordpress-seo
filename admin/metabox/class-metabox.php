@@ -879,6 +879,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 		];
 
+		$page_on_front    = (int) get_option( 'page_on_front' );
+		$homepage_is_page = get_option( 'show_on_front' ) === 'page';
+		$is_front_page    = $homepage_is_page && $page_on_front === (int) $post_id;
+
 		$script_data = [
 			'metabox'                    => $this->get_metabox_script_data(),
 			'isPost'                     => true,
@@ -891,6 +895,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
+			'isFrontPage'                => $is_front_page,
 		];
 
 		/**
