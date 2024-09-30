@@ -95,7 +95,7 @@ final class Post_Site_Information_Test extends TestCase {
 		$this->options_helper         = \YoastSEO()->helpers->options;
 		$this->alert_dismissal_action = \YoastSEO()->classes->get( Alert_Dismissal_Action::class );
 
-		$this->instance = new Post_Site_Information( $this->promotion_manager, $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action, $this->options_helper );
+		$this->instance = new Post_Site_Information( $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action, $this->options_helper, $this->promotion_manager );
 		$this->instance->set_permalink( 'perma' );
 	}
 
@@ -114,9 +114,7 @@ final class Post_Site_Information_Test extends TestCase {
 	public function test_legacy_site_information() {
 		$expected = [
 			'dismissedAlerts'            => false,
-			'currentPromotions'          => [],
 			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'blackFridayBlockEditorUrl'  => '',
 			'metabox'                    =>
 				[
 					'search_url'    => 'http://example.org/wp-admin/edit.php?seo_kw_filter={keyword}',
@@ -139,6 +137,8 @@ final class Post_Site_Information_Test extends TestCase {
 			'wistiaEmbedPermission'      => true,
 			'sitewideSocialImage'        => '',
 			'isPrivateBlog'              => false,
+			'currentPromotions'          => [],
+			'blackFridayBlockEditorUrl'  => '',
 		];
 
 		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
@@ -161,9 +161,7 @@ final class Post_Site_Information_Test extends TestCase {
 
 		$expected = [
 			'dismissedAlerts'            => false,
-			'currentPromotions'          => [],
 			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'blackFridayBlockEditorUrl'  => '',
 			'search_url'                 => 'http://example.org/wp-admin/edit.php?seo_kw_filter={keyword}',
 			'post_edit_url'              => 'http://example.org/wp-admin/post.php?post={id}&action=edit',
 			'base_url'                   => 'http://example.org/',
@@ -183,6 +181,8 @@ final class Post_Site_Information_Test extends TestCase {
 			],
 			'sitewideSocialImage'        => '',
 			'isPrivateBlog'              => true,
+			'currentPromotions'          => [],
+			'blackFridayBlockEditorUrl'  => '',
 		];
 
 		$site_info = $this->instance->get_site_information();
