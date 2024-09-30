@@ -65,7 +65,7 @@ const AlertItem = ( { id, nonce, dismissed, message  } ) => {
 				variant="error"
 				dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) }
 				size="large"
-				autoDismiss={ 5000 }
+				autoDismiss={ 4000 }
 				onDismiss={ onToggleErrorDismiss }
 			>
 				{ __( `This ${type} can't be hidden at this time. Please try again later.`, "wordpress-seo" ) }
