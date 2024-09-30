@@ -8,19 +8,16 @@ import { useNavigationContext } from "./index";
  * @param {string} [pathProp="href"] The key of the path in the props.
  * @param {JSX.node} [children] The content.
  * @param {string} [className] The classname.
+ * @param {Function} [onClick] The click handler. We wrap this to close the mobile menu on click.
  * @param {Object} [props] Extra props.
  * @returns {JSX.Element} The element.
  */
-export const Link = ( { as: Component = "a", pathProp = "href", children, className, ...props } ) => {
+export const Link = ( { as: Component = "a", pathProp = "href", children, className, onClick, ...props } ) => {
 	const { activePath, setMobileMenuOpen } = useNavigationContext();
 
 	const handleClick = useCallback( () => {
 		setMobileMenuOpen( false );
-		// eslint-disable-next-line react/prop-types
-		if ( typeof props?.onClick === "function" ) {
-			// eslint-disable-next-line react/prop-types
-			props.onClick();
-		}
+		onClick?.();
 	}, [ setMobileMenuOpen ] );
 
 	return (
@@ -45,4 +42,5 @@ Link.propTypes = {
 	pathProp: PropTypes.string,
 	children: PropTypes.node,
 	className: PropTypes.string,
+	onClick: PropTypes.func,
 };
