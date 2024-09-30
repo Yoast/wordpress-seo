@@ -5,6 +5,7 @@ import { Paper } from "@yoast/ui-library";
 import { AlertsList } from "./alerts-list";
 import { AlertsTitle } from "./alerts-title";
 import { Collapsible } from "./collapsible";
+import { alertTypes } from "../constants";
 import { AlertsContext } from "../contexts/alerts-context";
 
 /**
@@ -31,7 +32,7 @@ export const Notifications = () => {
 	return (
 		<Paper>
 			<Paper.Content className="yst-flex yst-flex-col yst-gap-y-6">
-				<AlertsContext.Provider value={ notificationsTheme }>
+				<AlertsContext.Provider value={ { ...notificationsTheme, type: alertTypes.NOTIFICATION } }>
 					<AlertsTitle counts={ notificationsAlertsList.length } title={ __( "Notifications", "wordpress-seo" ) }>
 						{ notificationsAlertsList.length === 0 && <p className="yst-mt-2 yst-text-sm">{ __( "No new notifications.", "wordpress-seo" ) }</p> }
 					</AlertsTitle>
