@@ -4,13 +4,13 @@ import React from "react";
 
 /**
  * @param {JSX.ElementClass} [as="ul"] The component.
- * @param {?JSX.node} [children=null] The content.
+ * @param {JSX.node} [children] The content.
  * @param {boolean} [isIndented=false] Whether the list is indented.
  * @param {string} [className] The classname.
  * @param {Object} [props] Extra props.
  * @returns {JSX.Element} The element.
  */
-export const List = ( { as: Component = "ul", children = null, isIndented = false, className, ...props } ) => {
+export const List = ( { as: Component = "ul", children, isIndented = false, className, ...props } ) => {
 	return (
 		<Component
 			role="list"

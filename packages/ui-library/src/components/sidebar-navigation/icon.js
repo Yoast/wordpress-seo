@@ -4,12 +4,12 @@ import React from "react";
 
 /**
  * @param {JSX.ElementClass} [as="span"] The component.
- * @param {?JSX.node} [children=null] The content.
+ * @param {JSX.node} [children] The content.
  * @param {string} [className] The classname.
  * @param {Object} [props] Extra props.
  * @returns {JSX.Element} The element.
  */
-export const Icon = ( { as: Component = "span", children = null, className, ...props } ) => {
+export const Icon = ( { as: Component = "span", children, className, ...props } ) => {
 	return (
 		<Component
 			className={ classNames( "yst-sidebar-navigation__icon", className ) }

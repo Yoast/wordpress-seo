@@ -6,12 +6,12 @@ import React from "react";
  * Represents a Menu Item.
  *
  * @param {JSX.ElementClass} [as="li"] The component.
- * @param {?JSX.node} [children=null] The content.
+ * @param {JSX.node} [children] The content.
  * @param {string} [className] The classname.
  * @param {Object} [props] Extra props.
  * @returns {JSX.Element} The menu.
  */
-export const Item = ( { as: Component = "li", children = null, className, ...props } ) => {
+export const Item = ( { as: Component = "li", children, className, ...props } ) => {
 	return (
 		<Component
 			className={ classNames( "yst-sidebar-navigation__item", className ) }

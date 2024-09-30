@@ -6,12 +6,12 @@ import { useNavigationContext } from "./index";
 /**
  * @param {JSX.ElementClass} [as="a"] The component.
  * @param {string} [pathProp="href"] The key of the path in the props.
- * @param {?JSX.node} [children=null] The content.
+ * @param {JSX.node} [children] The content.
  * @param {string} [className] The classname.
  * @param {Object} [props] Extra props.
  * @returns {JSX.Element} The element.
  */
-export const Link = ( { as: Component = "a", pathProp = "href", children = null, className, ...props } ) => {
+export const Link = ( { as: Component = "a", pathProp = "href", children, className, ...props } ) => {
 	const { activePath, setMobileMenuOpen } = useNavigationContext();
 
 	const handleClick = useCallback( () => {
