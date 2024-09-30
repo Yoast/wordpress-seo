@@ -2,11 +2,9 @@ import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { get } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { select } from "@wordpress/data";
-import { STORE_NAME } from "../constants";
+import { STORE_NAME, TOGGLE_ALERT_VISIBILITY } from "../constants";
 
 export const ALERT_CENTER_NAME = "alertCenter";
-
-const TOGGLE_ALERT_VISIBILITY = "toggleAlertVisibility";
 
 /**
  * @param {string} id The id of the alert.
