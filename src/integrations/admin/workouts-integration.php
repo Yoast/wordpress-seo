@@ -155,7 +155,7 @@ class Workouts_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_style( 'workouts' );
 
 		$workouts_option = $this->get_workouts_option();
-		$ftc_url         = ( $this->new_dashboard_ui_conditional->is_met() ) ? \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#/first-time-configuration' ) ) : $link_url = \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) );
+		$ftc_url         = ( $this->new_dashboard_ui_conditional->is_met() ) ? \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#/first-time-configuration' ) ) : \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) );
 
 		$this->admin_asset_manager->enqueue_script( 'workouts' );
 		$this->admin_asset_manager->localize_script(

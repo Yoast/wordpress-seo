@@ -141,7 +141,7 @@ class Installation_Success_Integration implements Integration_Interface {
 		$asset_manager->enqueue_style( 'tailwind' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
-		$ftc_url = ( $this->new_dashboard_ui_conditional->is_met() ) ? \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#/first-time-configuration' ) ) : $link_url = \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) );
+		$ftc_url = ( $this->new_dashboard_ui_conditional->is_met() ) ? \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#/first-time-configuration' ) ) : \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) );
 
 		$asset_manager->localize_script(
 			'installation-success',
