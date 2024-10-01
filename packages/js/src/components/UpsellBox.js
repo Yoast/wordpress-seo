@@ -117,7 +117,7 @@ class UpsellBox extends Component {
 				{ isBlackFriday &&
 					<div className="yst-flex yst-flex-col yst-items-center yst-bg-black yst-border-amber-300 yst-border-y yst-border-x-0 yst-border-solid yst-gap-2 yst-py-2 yst-leading-5">
 						<div className="yst-mx-auto yst-text-amber-300 yst-text-lg">{ __( "BLACK FRIDAY | 30% OFF", "wordpress-seo" ) }</div>
-						<div className="yst-text-white yst-text-base yst-font-semibold">Promo code: BF2024</div> 
+						<div className="yst-text-white yst-text-base yst-font-semibold">{ __( "Promo code", "wordpress-seo" ) }: BF2024</div>
 					</div> }
 				<Container>
 					<Heading>{ this.props.title }</Heading>
