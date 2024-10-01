@@ -3,6 +3,14 @@ body.toplevel_page_wpseo_dashboard {
 		display:none;
 	}
 
+	.ul-disc{
+		@apply
+		yst-list-disc
+		yst-pl-3
+		yst-ml-3
+		yst-mt-1.5;
+	}
+
 	.yoast-new-dashboard-notices:last-child{
 		margin-bottom: 2rem;
 	}
@@ -213,7 +221,10 @@ body.toplevel_page_wpseo_dashboard {
 				yst-text-xs
 				yst-leading-4
 				yst-px-2.5
-				yst-py-1.5;
+				yst-py-1.5
+
+				/* custom for general page */
+				yst-mt-3;
 			}
 
 			.button-link {
