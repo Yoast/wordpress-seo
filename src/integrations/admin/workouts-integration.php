@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -44,6 +45,13 @@ class Workouts_Integration implements Integration_Interface {
 	private $product_helper;
 
 	/**
+	 * The New Dashboard UI conditional.
+	 *
+	 * @var New_Dashboard_Ui_Conditional
+	 */
+	private $new_dashboard_ui_conditional;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -53,21 +61,24 @@ class Workouts_Integration implements Integration_Interface {
 	/**
 	 * Workouts_Integration constructor.
 	 *
-	 * @param WPSEO_Addon_Manager       $addon_manager       The addon manager.
-	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
-	 * @param Options_Helper            $options_helper      The options helper.
-	 * @param Product_Helper            $product_helper      The product helper.
+	 * @param WPSEO_Addon_Manager          $addon_manager                The addon manager.
+	 * @param WPSEO_Admin_Asset_Manager    $admin_asset_manager          The admin asset manager.
+	 * @param Options_Helper               $options_helper               The options helper.
+	 * @param Product_Helper               $product_helper               The product helper.
+	 * @param New_Dashboard_Ui_Conditional $new_dashboard_ui_conditional The new dashboard UI conditional.
 	 */
 	public function __construct(
 		WPSEO_Addon_Manager $addon_manager,
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		Options_Helper $options_helper,
-		Product_Helper $product_helper
+		Product_Helper $product_helper,
+		New_Dashboard_Ui_Conditional $new_dashboard_ui_conditional
 	) {
-		$this->addon_manager       = $addon_manager;
-		$this->admin_asset_manager = $admin_asset_manager;
-		$this->options_helper      = $options_helper;
-		$this->product_helper      = $product_helper;
+		$this->addon_manager                = $addon_manager;
+		$this->admin_asset_manager          = $admin_asset_manager;
+		$this->options_helper               = $options_helper;
+		$this->product_helper               = $product_helper;
+		$this->new_dashboard_ui_conditional = $new_dashboard_ui_conditional;
 	}
 
 	/**
@@ -144,6 +155,7 @@ class Workouts_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_style( 'workouts' );
 
 		$workouts_option = $this->get_workouts_option();
+		$ftc_url         = ( $this->new_dashboard_ui_conditional->is_met() ) ? \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#/first-time-configuration' ) ) : \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) );
 
 		$this->admin_asset_manager->enqueue_script( 'workouts' );
 		$this->admin_asset_manager->localize_script(
@@ -155,7 +167,7 @@ class Workouts_Integration implements Integration_Interface {
 				'pluginUrl'                 => \esc_url( \plugins_url( '', \WPSEO_FILE ) ),
 				'toolsPageUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
 				'usersPageUrl'              => \esc_url( \admin_url( 'users.php' ) ),
-				'firstTimeConfigurationUrl' => \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ),
+				'firstTimeConfigurationUrl' => $ftc_url,
 				'isPremium'                 => $this->product_helper->is_premium(),
 				'upsellText'                => $this->get_upsell_text(),
 				'upsellLink'                => $this->get_upsell_link(),
