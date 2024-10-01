@@ -39,11 +39,23 @@ const Menu = ( { idSuffix = "" } ) => {
 		</header>
 		<div className="yst-px-0.5 yst-space-y-6">
 			<ul className="yst-mt-1 yst-space-y-1">
-				<MenuItemLink icon={ BellIcon } to="/" label={ __( "Alert center", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<MenuItemLink
-					icon={ AdjustmentsIcon } to="/first-time-configuration"
-					label={ __( "First-time configuration", "wordpress-seo" ) }
+					to="/"
+					label={ <>
+						<BellIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
+						{ __( "Alert center", "wordpress-seo" ) }
+					</> }
 					idSuffix={ idSuffix }
+					className="yst-gap-3"
+				/>
+				<MenuItemLink
+					to="/first-time-configuration"
+					label={ <>
+						<AdjustmentsIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
+						{ __( "First-time configuration", "wordpress-seo" ) }
+					</> }
+					idSuffix={ idSuffix }
+					className="yst-gap-3"
 				/>
 			</ul>
 		</div>
