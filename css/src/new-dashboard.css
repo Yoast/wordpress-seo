@@ -3,14 +3,6 @@ body.toplevel_page_wpseo_dashboard {
 		display:none;
 	}
 
-	.ul-disc{
-		@apply
-		yst-list-disc
-		yst-pl-3
-		yst-ml-3
-		yst-mt-1.5;
-	}
-
 	.yoast-new-dashboard-notices:last-child{
 		margin-bottom: 2rem;
 	}
@@ -243,6 +235,14 @@ body.toplevel_page_wpseo_dashboard {
 				focus:yst-rounded-sm
 				visited:yst-text-primary-500
 				visited:hover:yst-text-primary-400;
+			}
+
+			.ul-disc{
+				@apply
+				yst-list-disc
+				yst-pl-3
+				yst-ml-3
+				yst-mt-1.5;
 			}
 		}
 	}
