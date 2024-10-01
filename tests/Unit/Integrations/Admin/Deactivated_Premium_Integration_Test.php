@@ -117,10 +117,8 @@ final class Deactivated_Premium_Integration_Test extends TestCase {
                     var data = {
                     'action': 'dismiss_premium_deactivated_notice',
                     };
-
-                    jQuery.post( ajaxurl, data, function( response ) {
-                        jQuery( '#yoast-premium-deactivated-notice' ).hide();
-                    });
+                    jQuery( '#yoast-premium-deactivated-notice' ).hide();
+                    jQuery.post( ajaxurl, data, function( response ) {});
                 }
 
                 jQuery( document ).ready( function() {

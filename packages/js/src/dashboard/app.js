@@ -3,12 +3,20 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
+import { useEffect, useMemo } from "@wordpress/element";
+import { select } from "@wordpress/data";
+import { addQueryArgs } from "@wordpress/url";
 import { SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
+import { STORE_NAME } from "./constants";
 import { FirstTimeConfiguration, AlertCenter } from "./routes";
+import { getMigratingNoticeInfo, deleteMigratingNotices } from "../helpers/migrateNotices";
+import Notice from "./components/notice";
+import WebinarPromoNotification from "../components/WebinarPromoNotification";
+import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -49,7 +57,15 @@ Menu.propTypes = {
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
+	const notices = useMemo( getMigratingNoticeInfo, [] );
+	useEffect( () => {
+		deleteMigratingNotices( notices );
+	}, [ notices ] );
+
 	const { pathname } = useLocation();
+	const linkParams = select( STORE_NAME ).selectLinkParams();
+	const webinarIntroSettingsUrl = addQueryArgs( "https://yoa.st/webinar-intro-settings", linkParams );
+
 	return (
 		<SidebarNavigation activePath={ pathname }>
 			<SidebarNavigation.Mobile
@@ -70,6 +86,24 @@ const App = () => {
 					</SidebarNavigation.Sidebar>
 				</aside>
 				<div className="yst-grow">
+					<div>
+						{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
+							<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
+						}
+						{ notices.length > 0 && <div className="yst-space-y-3 yoast-new-dashboard-notices"> {
+							notices.map( ( notice, index ) => (
+								<Notice
+									key={ index }
+									id={ notice.id || "yoast-dashboard-notice-" + index }
+									title={ notice.header }
+									isDismissable={ notice.isDismissable }
+								>
+									{ notice.content }
+								</Notice>
+							) )
+						}
+						</div> }
+					</div>
 					<div className="yst-space-y-6 yst-mb-8 xl:yst-mb-0">
 						<main>
 							<Transition

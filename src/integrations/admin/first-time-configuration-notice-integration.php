@@ -138,13 +138,12 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 		echo '<script>
 				jQuery( document ).ready( function() {
 					jQuery( "body" ).on( "click", "#yoast-first-time-configuration-notice .notice-dismiss", function() {
+						jQuery( "#yoast-first-time-configuration-notice" ).hide();
 						const data = {
 							"action": "dismiss_first_time_configuration_notice",
 							"nonce": "' . \esc_js( \wp_create_nonce( 'wpseo-dismiss-first-time-configuration-notice' ) ) . '"
 						};
-						jQuery.post( ajaxurl, data, function( response ) {
-							jQuery( this ).parent( "#yoast-first-time-configuration-notice" ).hide();
-						});
+						jQuery.post( ajaxurl, data, function( response ) {});
 					} );
 				} );
 				</script>';
