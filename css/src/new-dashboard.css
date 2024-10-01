@@ -213,7 +213,10 @@ body.toplevel_page_wpseo_dashboard {
 				yst-text-xs
 				yst-leading-4
 				yst-px-2.5
-				yst-py-1.5;
+				yst-py-1.5
+
+				/* custom for general page */
+				yst-mt-3;
 			}
 
 			.button-link {
@@ -232,6 +235,14 @@ body.toplevel_page_wpseo_dashboard {
 				focus:yst-rounded-sm
 				visited:yst-text-primary-500
 				visited:hover:yst-text-primary-400;
+			}
+
+			.ul-disc{
+				@apply
+				yst-list-disc
+				yst-pl-3
+				yst-ml-3
+				yst-mt-1.5;
 			}
 		}
 	}
