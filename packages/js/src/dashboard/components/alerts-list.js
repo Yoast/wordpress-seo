@@ -35,7 +35,6 @@ const AlertItem = ( { id, nonce, dismissed, message  } ) => {
 			</div>
 			<div
 				className={ classNames(
-					"yst-new-dashboard__message",
 					"yst-text-sm yst-text-slate-600 yst-grow",
 					dismissed && "yst-opacity-50" ) }
 				dangerouslySetInnerHTML={ { __html: message } }
