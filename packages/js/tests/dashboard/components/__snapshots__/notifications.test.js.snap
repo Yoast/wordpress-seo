@@ -61,7 +61,7 @@ exports[`AlertsList should match snapshot 1`] = `
               </svg>
             </div>
             <div
-              class="yst-new-dashboard__message yst-text-sm yst-text-slate-600 yst-grow"
+              class="yst-text-sm yst-text-slate-600 yst-grow"
             >
               You've added a new type of content. We recommend that you review the corresponding Search appearance settings.
             </div>
@@ -114,7 +114,7 @@ exports[`AlertsList should match snapshot 1`] = `
               </svg>
             </div>
             <div
-              class="yst-new-dashboard__message yst-text-sm yst-text-slate-600 yst-grow"
+              class="yst-text-sm yst-text-slate-600 yst-grow"
             >
               We notice that you have installed WPML. To make sure your canonical URLs are set correctly, install and activate the WPML SEO add-on as well!
             </div>
@@ -167,7 +167,7 @@ exports[`AlertsList should match snapshot 1`] = `
               </svg>
             </div>
             <div
-              class="yst-new-dashboard__message yst-text-sm yst-text-slate-600 yst-grow"
+              class="yst-text-sm yst-text-slate-600 yst-grow"
             >
               Huge SEO Issue: You're blocking access to robots. If you want search engines to show this site in their results, you must go to your Reading Settings and uncheck the box for Search Engine Visibility. I don't want this site to show in the search results.
             </div>
@@ -220,7 +220,7 @@ exports[`AlertsList should match snapshot 1`] = `
               </svg>
             </div>
             <div
-              class="yst-new-dashboard__message yst-text-sm yst-text-slate-600 yst-grow"
+              class="yst-text-sm yst-text-slate-600 yst-grow"
             >
               We need to re-analyze some of your SEO data because of a change in the visibility of your taxonomies. Please help us do that by running the SEO data optimization. We estimate this will take less than a minute.
             </div>
