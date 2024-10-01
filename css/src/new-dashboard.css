@@ -245,18 +245,6 @@ body.toplevel_page_wpseo_dashboard {
 				visited:hover:yst-text-primary-400;
 			}
 		}
-
-		.yst-new-dashboard__message .button {
-			@apply yst-mt-3;
-		}
-
-		.yst-new-dashboard__message ul {
-			@apply
-			yst-list-disc
-			yst-pl-3
-			yst-ml-3
-			yst-mt-1.5;
-		}
 	}
 	/* RTL */
 
