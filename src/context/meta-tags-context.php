@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
-use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
@@ -123,13 +122,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	private $id_helper;
 
 	/**
-	 * The request helper.
-	 *
-	 * @var Request_Helper
-	 */
-	private $request_helper;
-
-	/**
 	 * The WPSEO Replace Vars object.
 	 *
 	 * @var WPSEO_Replace_Vars
@@ -184,7 +176,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @param Permalink_Helper     $permalink_helper     The permalink helper.
 	 * @param Indexable_Helper     $indexable_helper     The indexable helper.
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
-	 * @param Request_Helper       $request_helper       The request helper.
 	 */
 	public function __construct(
 		Options_Helper $options,
@@ -196,8 +187,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		User_Helper $user,
 		Permalink_Helper $permalink_helper,
 		Indexable_Helper $indexable_helper,
-		Indexable_Repository $indexable_repository,
-		Request_Helper $request_helper
+		Indexable_Repository $indexable_repository
 	) {
 		$this->options              = $options;
 		$this->url                  = $url;
@@ -209,7 +199,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		$this->permalink_helper     = $permalink_helper;
 		$this->indexable_helper     = $indexable_helper;
 		$this->indexable_repository = $indexable_repository;
-		$this->request_helper       = $request_helper;
 	}
 
 	/**
@@ -625,7 +614,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			return $this->image->get_attachment_image_url( $this->main_image_id, 'full' );
 		}
 
-		if ( $this->request_helper->is_rest_request() ) {
+		if ( \wp_is_serving_rest_request() ) {
 			return $this->get_main_image_url_for_rest_request();
 		}
 
@@ -647,7 +636,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return int|null The main image ID.
 	 */
 	public function generate_main_image_id() {
-		if ( $this->request_helper->is_rest_request() ) {
+		if ( \wp_is_serving_rest_request() ) {
 			return $this->get_main_image_id_for_rest_request();
 		}
 
