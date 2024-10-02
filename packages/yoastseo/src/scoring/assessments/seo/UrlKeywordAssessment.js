@@ -63,7 +63,7 @@ class SlugKeywordAssessment extends Assessment {
 	 * @returns {boolean} True if the paper contains a keyword and a slug, and if the keywordCountInSlug research is available on the researcher.
 	 */
 	isApplicable( paper, researcher ) {
-		return paper.hasKeyword() && paper.hasSlug() && researcher.hasResearch( "keywordCountInSlug" );
+		return ! paper.isFrontPage() && paper.hasKeyword() && paper.hasSlug() && researcher.hasResearch( "keywordCountInSlug" );
 	}
 
 	/**

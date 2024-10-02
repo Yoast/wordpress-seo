@@ -56,6 +56,17 @@ export function getIsElementorEditor( state ) {
 }
 
 /**
+ * Returns whether this is the current page is frontpage or not.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {Boolean} Whether this is a frontpage.
+ */
+export function getIsFrontPage( state ) {
+	return get( state, "editorContext.isFrontPage", false );
+}
+
+/**
  * Returns whether this is the taxonomy editor or not.
  *
  * @param {Object} state The state.

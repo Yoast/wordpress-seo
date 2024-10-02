@@ -1,4 +1,103 @@
 body.toplevel_page_wpseo_dashboard {
+	.notice, .yoast-migrated-notice {
+		display:none;
+	}
+
+	.yoast-new-dashboard-notices:last-child{
+		margin-bottom: 2rem;
+	}
+
+	.yoast-dashboard-notice, .yoast-webinar-dashboard{
+		background: white;
+		padding: 0.75rem;
+		border-radius: 0.375rem;
+
+		@apply
+		yst-border
+		yst-border-primary-200
+		yst-shadow-md
+	}
+
+	.yoast-dashboard-notice .yoast-icon {
+		background-color: var(--yoast-color-primary);
+		mask-image: var(--yoast-svg-icon-yoast);
+		-webkit-mask-image: var(--yoast-svg-icon-yoast);
+		mask-size: 100% 100%;
+		-webkit-mask-size: 100% 100%;
+		display: inline-block;
+		width: 17px;
+		height: 17px;
+		margin-right: 12px;
+	}
+
+	.yoast-dashboard-notice .notice-dismiss {
+		position: relative;
+		@apply yst-text-slate-400
+		hover:yst-text-slate-500
+	}
+
+	.yoast-dashboard-notice .notice-dismiss:before{
+		display: none;
+	}
+
+	.yoast-dashboard-notice .notice-yoast img{
+		display: none;
+	}
+
+	.yoast-dashboard-notice a{
+		font-weight: 500;
+	}
+
+	.yoast-webinar-dashboard {
+		margin-bottom: 0.8rem;
+		margin-top: 0;
+	}
+
+	.yoast-webinar-dashboard .notice-dismiss:before{
+		/* yst-text-slate-400 */
+		background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%2394A3B8' class='yst-h-5 yst-w-5' role='img'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'></path></svg>");
+		content: '';
+	}
+
+	.yoast-webinar-dashboard .notice-dismiss:hover:before{
+		/* yst-text-slate-500 */
+		background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%2364748b' class='yst-h-5 yst-w-5' role='img'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'></path></svg>");
+		content: '';
+	}
+
+	.yoast-webinar-dashboard p{
+		padding-left: 1.8rem;
+	}
+
+	.yoast-webinar-dashboard .yoast-icon{
+		width: 17px;
+		height: 17px;
+		margin-right: 12px;
+	}
+
+	.yoast-notice-migrated-header{
+		font-weight: 500;
+		font-size: .8125rem;
+		color: #1E293B;
+		line-height: 19px;
+	}
+
+	.yoast-webinar-dashboard a{
+		font-weight: 500;
+	}
+
+	.yoast-webinar-dashboard .notice-yoast__container{
+		padding: 0;
+	}
+
+	.yoast-webinar-dashboard .notice-dismiss {
+		@apply yst-p-3
+	}
+
+	.notice-yoast__header {
+		margin-bottom: 0.25rem;
+	}
+
 	@apply yst-bg-slate-100;
 
 	/* Move WP footer behind our content. */
@@ -114,7 +213,10 @@ body.toplevel_page_wpseo_dashboard {
 				yst-text-xs
 				yst-leading-4
 				yst-px-2.5
-				yst-py-1.5;
+				yst-py-1.5
+
+				/* custom for general page */
+				yst-mt-3;
 			}
 
 			.button-link {
@@ -133,6 +235,14 @@ body.toplevel_page_wpseo_dashboard {
 				focus:yst-rounded-sm
 				visited:yst-text-primary-500
 				visited:hover:yst-text-primary-400;
+			}
+
+			.ul-disc{
+				@apply
+				yst-list-disc
+				yst-pl-3
+				yst-ml-3
+				yst-mt-1.5;
 			}
 		}
 	}
