@@ -29,4 +29,30 @@ global.wpApiSettings = {
 	root: "http://example.com",
 };
 
+/* Mock the IntersectionObserver. */
+global.IntersectionObserver = class {
+	/**
+	 * Constructor.
+	 */
+	constructor() {}
+
+	/**
+	 * Observe.
+	 * @returns {void}
+	 */
+	observe() {}
+
+	/**
+	 * Observe.
+	 * @returns {void}
+	 */
+	unobserve() {}
+
+	/**
+	 * Observe.
+	 * @returns {void}
+	 */
+	disconnect() {}
+};
+
 global.jQuery = jest.fn();
