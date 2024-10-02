@@ -23,14 +23,14 @@ export const BlackFridayPromotion = ( {
 	const linkParams = useSelect( select => select( store ).selectLinkParams(), [ store ] );
 	const title = location === "sidebar"
 		? sprintf(
-			/* translators: %1$s expands to YOAST SEO PREMIUM */
-			__( "30%% OFF %1$s | Use code: BF2024", "wordpress-seo" ),
+			/* translators: %1$s expands to Yoast SEO Premium */
+			__( "Now with 30%% OFF: %1$s", "wordpress-seo" ),
 			"Yoast SEO Premium"
 		)
 		: createInterpolateElement(
 			sprintf(
-				/* translators: %1$s expands to YOAST SEO PREMIUM, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
-				__( "30%% OFF %1$s | Use code: BF2024 %2$sBuy now!%3$s", "wordpress-seo" ),
+				/* translators: %1$s expands to Yoast SEO Premium, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+				__( "Now with 30%% OFF: %1$s %2$sBuy now!%3$s", "wordpress-seo" ),
 				"Yoast SEO Premium",
 				"<a>",
 				"</a>"
@@ -49,7 +49,7 @@ export const BlackFridayPromotion = ( {
 			title={ title }
 			{ ...props }
 		>
-			<span className="yoast-bf-sale-badge">{ __( "Black Friday", "wordpress-seo" ) } </span>
+			<span className="yoast-bf-sale-badge">{ __( "BLACK FRIDAY SALE", "wordpress-seo" ) } </span>
 			{ location === "sidebar" && <a
 				// Styling is to counteract the WP paragraph margin-bottom.
 				className="yst-block yst--mb-[1em]"
