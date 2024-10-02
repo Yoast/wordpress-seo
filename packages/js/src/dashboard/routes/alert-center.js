@@ -15,9 +15,9 @@ export const AlertCenter = () => {
 	const promotions = useSelectDashboard( "selectPreference", [], "promotions", [] );
 	return <div className="yst-flex yst-gap-8 2xl:yst-flex-row yst-flex-col">
 		 { /* Alert center */ }
-		<div className="yst-flex yst-flex-wrap yst-grow xl:yst-flex-row yst-flex-col">
+		<div className="yst-flex yst-flex-wrap 2xl:yst-basis-4/5 2xl::yst-flex-row yst-flex-col">
 			<Paper className="yst-grow">
-				<header className="yst-p-8 yst-border-b yst-border-slate-200">
+				<header className="yst-p-8">
 					<div className="yst-max-w-screen-sm">
 						<Title>{ __( "Alert center", "wordpress-seo" ) }</Title>
 						<p className="yst-text-tiny yst-mt-3">
