@@ -290,6 +290,10 @@ Release date: 2024-10-08
 * Fixes a bug where the link popover would be hidden when editing a post in tablet/mobile view. Props to [stokesman](https://github.com/stokesman).
 * Fixes a visual inconsistency where the descriptions of the disabled Premium policy settings would look enabled, when they are not enabled.
 
+#### Other
+
+* Sets the minimum supported WordPress version to 6.5.
+
 = 23.5 =
 
 Release date: 2024-09-24

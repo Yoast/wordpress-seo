@@ -54,7 +54,7 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 			</figure>
 			{ isBlackFriday && <div className="sidebar__sale_banner_container">
 				<div className="sidebar__sale_banner">
-					<span className="banner_text">{ __( "30% OFF | Code: BF2024", "wordpress-seo" ) }</span>
+					<span className="banner_text">{ __( "30% OFF - BLACK FRIDAY", "wordpress-seo" ) }</span>
 				</div>
 			</div> }
 			<Title as="h2" className="yst-mt-6 yst-text-base yst-font-extrabold yst-text-white">

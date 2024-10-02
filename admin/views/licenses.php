@@ -135,7 +135,7 @@ $premium_sale_badge = '';
 
 if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
 	/* translators: %1$s expands to opening span, %2$s expands to closing span */
-	$sale_badge_span = sprintf( esc_html__( '%1$s30%% OFF | Use code: BF2024%2$s', 'wordpress-seo' ), '<span>', '</span>' );
+	$sale_badge_span = sprintf( esc_html__( '%1$s30%% OFF%2$s', 'wordpress-seo' ), '<span>', '</span>' );
 
 	$sale_badge = '<div class="yoast-seo-premium-extension-sale-badge">' . $sale_badge_span . '</div>';
 
