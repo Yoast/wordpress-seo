@@ -146,7 +146,9 @@ function handleEditorChange() {
 		editorData.title = data.title;
 		dispatch( "yoast-seo/editor" ).setEditorDataTitle( editorData.title );
 
-		if ( data.status === "draft" || data.status === "auto-draft" ) {
+		// Drafts might not have a slug (post_name), unless the slug has been manually changed.
+		if ( ( data.status === "draft" || data.status === "auto-draft" ) && select( "yoast-seo/editor" ).getEditorDataSlug() === "" ) {
+			// In this case we get it using the title.
 			dispatch( "yoast-seo/editor" ).updateData( { slug: cleanForSlug( editorData.title ) } );
 		}
 	}

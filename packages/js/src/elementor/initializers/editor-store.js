@@ -63,6 +63,14 @@ const populateStore = store => {
 	store.dispatch( actions.setLinkParams( get( window, "wpseoScriptData.linkParams", {} ) ) );
 	store.dispatch( actions.setPluginUrl( get( window, "wpseoScriptData.pluginUrl", "" ) ) );
 	store.dispatch( actions.setWistiaEmbedPermissionValue( get( window, "wpseoScriptData.wistiaEmbedPermission", false ) === "1" ) );
+
+	// Due to Elementor not including a way to get the slug, we include it in our form data.
+	// Hydrate the store with that slug value on load.
+	const slugInput = document.getElementById( "yoast_wpseo_slug" );
+	if ( slugInput ) {
+		store.dispatch( actions.setEditorDataSlug( slugInput.value ) );
+		store.dispatch( actions.updateData( { slug: slugInput.value } ) );
+	}
 };
 
 /**
