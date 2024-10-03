@@ -3,10 +3,10 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
-import { useCallback, useEffect, useMemo } from "@wordpress/element";
-import { select, useDispatch } from "@wordpress/data";
+import { useEffect, useMemo } from "@wordpress/element";
+import { select } from "@wordpress/data";
 import { addQueryArgs } from "@wordpress/url";
-import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
+import { SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
@@ -17,7 +17,6 @@ import { getMigratingNoticeInfo, deleteMigratingNotices } from "../helpers/migra
 import Notice from "./components/notice";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
 import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
-import { getToastErrorMessage} from "./helpers";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -78,90 +77,65 @@ const App = () => {
 	const { pathname } = useLocation();
 	const linkParams = select( STORE_NAME ).selectLinkParams();
 	const webinarIntroSettingsUrl = addQueryArgs( "https://yoa.st/webinar-intro-settings", linkParams );
-	const alertType = useSelectDashboard( "selectError", [], [] );
-	const { setError } = useDispatch( STORE_NAME );
-
-	const handleDismiss = useCallback( () => {
-		setError( null );
-	}, [ setError ] );
 
 	return (
-		<>
-			<SidebarNavigation activePath={ pathname }>
-				<SidebarNavigation.Mobile
-					openButtonId="button-open-dashboard-navigation-mobile"
-					closeButtonId="button-close-dashboard-navigation-mobile"
-					/* translators: Hidden accessibility text. */
-					openButtonScreenReaderText={ __( "Open dashboard navigation", "wordpress-seo" ) }
-					/* translators: Hidden accessibility text. */
-					closeButtonScreenReaderText={ __( "Close dashboard navigation", "wordpress-seo" ) }
-					aria-label={ __( "Dashboard navigation", "wordpress-seo" ) }
-				>
-					<Menu idSuffix="-mobile" />
-				</SidebarNavigation.Mobile>
-				<div className="yst-p-4 min-[783px]:yst-p-8 yst-flex yst-gap-4">
-					<aside className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden min-[783px]:yst-block yst-pb-6 yst-bottom-0 yst-w-56">
-						<SidebarNavigation.Sidebar>
-							<Menu />
-						</SidebarNavigation.Sidebar>
-					</aside>
-					<div className="yst-grow">
-						<div>
-							{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
-								<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
-							}
-							{ notices.length > 0 && <div className="yst-space-y-3 yoast-new-dashboard-notices"> {
-								notices.map( ( notice, index ) => (
-									<Notice
-										key={ index }
-										id={ notice.id || "yoast-dashboard-notice-" + index }
-										title={ notice.header }
-										isDismissable={ notice.isDismissable }
-									>
-										{ notice.content }
-									</Notice>
-								) )
-							}
-							</div> }
-						</div>
-						<div className="yst-space-y-6 yst-mb-8 xl:yst-mb-0">
-							<main>
-								<Transition
-									key={ pathname }
-									appear={ true }
-									show={ true }
-									enter="yst-transition-opacity yst-delay-100 yst-duration-300"
-									enterFrom="yst-opacity-0"
-									enterTo="yst-opacity-100"
+		<SidebarNavigation activePath={ pathname }>
+			<SidebarNavigation.Mobile
+				openButtonId="button-open-dashboard-navigation-mobile"
+				closeButtonId="button-close-dashboard-navigation-mobile"
+				/* translators: Hidden accessibility text. */
+				openButtonScreenReaderText={ __( "Open dashboard navigation", "wordpress-seo" ) }
+				/* translators: Hidden accessibility text. */
+				closeButtonScreenReaderText={ __( "Close dashboard navigation", "wordpress-seo" ) }
+				aria-label={ __( "Dashboard navigation", "wordpress-seo" ) }
+			>
+				<Menu idSuffix="-mobile" />
+			</SidebarNavigation.Mobile>
+			<div className="yst-p-4 min-[783px]:yst-p-8 yst-flex yst-gap-4">
+				<aside className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden min-[783px]:yst-block yst-pb-6 yst-bottom-0 yst-w-56">
+					<SidebarNavigation.Sidebar>
+						<Menu />
+					</SidebarNavigation.Sidebar>
+				</aside>
+				<div className="yst-grow">
+					<div>
+						{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
+							<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
+						}
+						{ notices.length > 0 && <div className="yst-space-y-3 yoast-new-dashboard-notices"> {
+							notices.map( ( notice, index ) => (
+								<Notice
+									key={ index }
+									id={ notice.id || "yoast-dashboard-notice-" + index }
+									title={ notice.header }
+									isDismissable={ notice.isDismissable }
 								>
-									<Routes>
-										<Route path="/" element={ <AlertCenter /> } />
-										<Route path="/first-time-configuration" element={ <FirstTimeConfiguration /> } />
-									</Routes>
-								</Transition>
-							</main>
-						</div>
+									{ notice.content }
+								</Notice>
+							) )
+						}
+						</div> }
+					</div>
+					<div className="yst-space-y-6 yst-mb-8 xl:yst-mb-0">
+						<main>
+							<Transition
+								key={ pathname }
+								appear={ true }
+								show={ true }
+								enter="yst-transition-opacity yst-delay-100 yst-duration-300"
+								enterFrom="yst-opacity-0"
+								enterTo="yst-opacity-100"
+							>
+								<Routes>
+									<Route path="/" element={ <AlertCenter /> } />
+									<Route path="/first-time-configuration" element={ <FirstTimeConfiguration /> } />
+								</Routes>
+							</Transition>
+						</main>
 					</div>
 				</div>
-			</SidebarNavigation>
-			<Notifications
-				className="yst-mx-[calc(50%-50vw)] yst-transition-all lg:yst-left-44"
-				position="bottom-left"
-			>
-				{ alertType && <Notifications.Notification
-					id="toggle-alert-error"
-					title={ __( "Something went wrong", "wordpress-seo" ) }
-					variant="error"
-					dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) }
-					size="large"
-					autoDismiss={ 4000 }
-					onDismiss={ handleDismiss }
-				>
-					{ getToastErrorMessage( alertType ) }
-				</Notifications.Notification>
-				}
-			</Notifications>
-		</>
+			</div>
+		</SidebarNavigation>
 	);
 };
 
