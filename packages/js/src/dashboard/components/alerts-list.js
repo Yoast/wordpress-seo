@@ -17,7 +17,7 @@ import { AlertsContext } from "../contexts/alerts-context";
  * @returns {JSX.Element} The alert item component.
  */
 const AlertItem = ( { id, nonce, dismissed, message  } ) => {
-	const { bulletClass = "", type = "" } = useContext( AlertsContext );
+	const { bulletClass = "" } = useContext( AlertsContext );
 	const { toggleAlertStatus } = useDispatch( "@yoast/dashboard" );
 	const Eye = dismissed ? EyeOffIcon : EyeIcon;
 
