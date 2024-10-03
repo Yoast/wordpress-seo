@@ -1,8 +1,8 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
-import { get } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { select } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
+import { get } from "lodash";
 
 export const ALERT_CENTER_NAME = "alertCenter";
 
@@ -26,7 +26,7 @@ export function* toggleAlertStatus( id, nonce, hidden = false ) {
 		    };
 		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.success }`, payload: { id } };
 	} catch ( error ) {
-		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
+		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.error }`, payload: { id } };
 	}
 }
 
@@ -45,15 +45,36 @@ const toggleAlert = ( state, id ) => {
 	}
 };
 
+/**
+ * Sets an error in case of unsuccessful toggling..
+ *
+ * @param {object} state The state.
+ * @param {string} id The id of the alert that generated the error..
+ *
+ * @returns {void}
+ */
+const setError = ( state, id ) => {
+	const index = state.alerts.findIndex( ( alert ) => alert.id === id );
+	if ( index !== -1 ) {
+		state.error = state.alerts[ index ].type;
+	} else {
+		state.error = null;
+	}
+};
+
 const slice = createSlice( {
 	name: ALERT_CENTER_NAME,
-	initialState: { alerts: [] },
+	initialState: { error: null, alerts: [] },
 	reducers: {
 		toggleAlert,
+		setError,
 	},
 	extraReducers: ( builder ) => {
-		builder.addCase( `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_STATUS.success }`, ( state, { payload: { id } } ) => {
+		builder.addCase( `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload: { id } } ) => {
 			slice.caseReducers.toggleAlert( state, id );
+		} );
+		builder.addCase( `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload: { id } } ) => {
+			slice.caseReducers.setError( state, id );
 		} );
 	},
 } );
@@ -87,6 +108,10 @@ export const alertCenterSelectors = {
 	selectDismissedNotifications: createSelector(
 		[ selectAlerts ],
 		( alerts ) => alerts.filter( ( alert ) => alert.type === "warning" && alert.dismissed )
+	),
+	selectError: createSelector(
+		( state ) => get( state, "alertCenter.error", null ),
+		( error ) => error
 	),
 };
 
