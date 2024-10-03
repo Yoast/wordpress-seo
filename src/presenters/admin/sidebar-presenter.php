@@ -90,9 +90,10 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						</p>
 						<p class="yoast-price-micro-copy">
 							<?php
-								echo \esc_html__( 'Only $/€/£99 per year (ex VAT)', 'wordpress-seo' );
+							if ( ! \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
+								echo \esc_html__( 'Only $/€/£99 per year (ex VAT)', 'wordpress-seo' ), '<br />';
+							}
 							?>
-							<br />
 							<?php
 								echo \esc_html__( '30-day money back guarantee.', 'wordpress-seo' );
 							?>
