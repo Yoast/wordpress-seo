@@ -2,7 +2,10 @@
 
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
+import { useDispatch } from "@wordpress/data";
+import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import { useEffect, useMemo } from "@wordpress/element";
 import { select } from "@wordpress/data";
 import { addQueryArgs } from "@wordpress/url";
@@ -11,6 +14,7 @@ import PropTypes from "prop-types";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
+import { getToastErrorMessage} from "./helpers";
 import { STORE_NAME } from "./constants";
 import { getMigratingNoticeInfo, deleteMigratingNotices } from "../helpers/migrateNotices";
 import Notice from "./components/notice";
@@ -74,10 +78,18 @@ const App = () => {
 	}, [ notices ] );
 
 	const { pathname } = useLocation();
+	const alertType = useSelectDashboard( "selectError", [], [] );
+	const { setError } = useDispatch( STORE_NAME );
+
+	const handleDismiss = useCallback( () => {
+		setError( null );
+	}, [ setError ] );
+
 	const linkParams = select( STORE_NAME ).selectLinkParams();
 	const webinarIntroSettingsUrl = addQueryArgs( "https://yoa.st/webinar-intro-settings", linkParams );
 
 	return (
+		<>
 		<SidebarNavigation activePath={ pathname }>
 			<SidebarNavigation.Mobile
 				openButtonId="button-open-dashboard-navigation-mobile"
@@ -132,6 +144,24 @@ const App = () => {
 				</div>
 			</div>
 		</SidebarNavigation>
+			<Notifications
+				className="yst-mx-[calc(50%-50vw)] yst-transition-all lg:yst-left-44"
+				position="bottom-left"
+			>
+				{ alertType && <Notifications.Notification
+					id="toggle-alert-error"
+					title={ __( "Something went wrong", "wordpress-seo" ) }
+					variant="error"
+					dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) }
+					size="large"
+					autoDismiss={ 4000 }
+					onDismiss={ handleDismiss }
+				>
+					{ getToastErrorMessage( alertType ) }
+				</Notifications.Notification>
+				}
+			</Notifications>
+		</>
 	);
 };
 
