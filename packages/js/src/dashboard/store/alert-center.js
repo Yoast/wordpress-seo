@@ -1,5 +1,5 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
-import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { ASYNC_ACTION_NAMES } from "../../shared-admin/constants";
 import { select } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 import { get } from "lodash";
@@ -55,10 +55,10 @@ const toggleAlert = ( state, id ) => {
  */
 const setError = ( state, id ) => {
 	const index = state.alerts.findIndex( ( alert ) => alert.id === id );
-	if ( index !== -1 ) {
-		state.error = state.alerts[ index ].type;
-	} else {
+	if ( index === -1 ) {
 		state.error = null;
+	} else {
+		state.error = state.alerts[ index ].type;
 	}
 };
 
@@ -137,7 +137,7 @@ export const alertCenterControls = {
 			body: formData.toString(),
 		} );
 
-		if ( ! response.ok) {
+		if ( ! response.ok ) {
 			throw new Error( "Failed to dismiss notification" );
 		}
 	},
