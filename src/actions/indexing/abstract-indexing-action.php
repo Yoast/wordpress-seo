@@ -57,7 +57,7 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface, 
 		$query = $this->get_select_query( $limit );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
-		$unindexed_object_ids = $this->wpdb->get_col( $query );
+		$unindexed_object_ids = ( $query === '' ) ? [] : $this->wpdb->get_col( $query );
 		$count                = (int) \count( $unindexed_object_ids );
 
 		\set_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT, $count, ( \MINUTE_IN_SECONDS * 15 ) );
@@ -83,7 +83,7 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface, 
 		$query = $this->get_count_query();
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
-		$count = $this->wpdb->get_var( $query );
+		$count = ( $query === '' ) ? 0 : $this->wpdb->get_var( $query );
 
 		if ( \is_null( $count ) ) {
 			return false;
