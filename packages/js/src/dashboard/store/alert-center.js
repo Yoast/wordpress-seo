@@ -96,7 +96,7 @@ export const alertCenterActions = {
 };
 
 export const alertCenterControls = {
-	[ TOGGLE_ALERT_VISIBILITY ]: async( { payload } ) => {
+	[ TOGGLE_ALERT_VISIBILITY ]: ( { payload } ) => {
 		const formData = new URLSearchParams();
 		formData.append( "action", payload.hidden ? "yoast_restore_notification" : "yoast_dismiss_notification" );
 		formData.append( "notification", payload.id );
@@ -104,17 +104,13 @@ export const alertCenterControls = {
 
 		const ajaxUrl = select( STORE_NAME ).selectPreference( "ajaxUrl" );
 
-		const response = await fetch( ajaxUrl, {
+		fetch( ajaxUrl, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 			},
 			body: formData.toString(),
 		} );
-
-		if ( ! response.ok) {
-			throw new Error( "Failed to dismiss notification" );
-		}
 	},
 };
 
