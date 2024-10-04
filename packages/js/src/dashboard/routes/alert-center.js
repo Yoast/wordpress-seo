@@ -1,3 +1,4 @@
+import { select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
 import { PremiumUpsellList } from "../../shared-admin/components/premium-upsell-list";
@@ -5,6 +6,7 @@ import { Notifications, Problems } from "../components";
 import SidebarRecommendations from "../components/sidebar-recommendations";
 import { useSelectDashboard } from "../hooks";
 import classNames from "classnames";
+import { STORE_NAME } from ".././constants";
 /**
  * @returns {JSX.Element} The dashboard content placeholder.
  */
@@ -12,7 +14,8 @@ export const AlertCenter = () => {
 	const isPremium = useSelectDashboard( "selectPreference", [], "isPremium" );
 	const premiumLink = useSelectDashboard( "selectLink", [], "https://yoa.st/17h" );
 	const premiumUpsellConfig = useSelectDashboard( "selectUpsellSettingsAsProps" );
-	const promotions = useSelectDashboard( "selectPreference", [], "promotions", [] );
+
+	const isBlackFriday = select( STORE_NAME ).isPromotionActive( "black-friday-2024-promotion" );
 	return <>
 		<div className={ classNames( {  "yst-flex yst-flex-wrap xl:yst-pr-[17.5rem]": ! isPremium } ) }>
 			<Paper className="yst-grow">
@@ -31,7 +34,7 @@ export const AlertCenter = () => {
 				{ ! isPremium && <PremiumUpsellList
 					premiumLink={ premiumLink }
 					premiumUpsellConfig={ premiumUpsellConfig }
-					promotions={ promotions }
+					isBlackFriday={ isBlackFriday }
 				/> }
 			</div>
 			<SidebarRecommendations />

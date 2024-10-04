@@ -2,6 +2,7 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
+import { select } from "@wordpress/data";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, ChildrenLimiter, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
@@ -13,6 +14,7 @@ import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { PremiumUpsellList } from "../shared-admin/components/premium-upsell-list";
 import { ErrorFallback, Notifications, Search, SidebarRecommendations } from "./components";
+import { STORE_NAME } from "./constants";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
 	AuthorArchives,
@@ -168,7 +170,8 @@ const App = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const premiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
-	const promotions = useSelectSettings( "selectPreference", [], "promotions", [] );
+
+	const isBlackFriday = select( STORE_NAME ).isPromotionActive( "black-friday-2024-promotion" );
 	useRouterScrollRestore();
 
 	const { dirty } = useFormikContext();
@@ -250,7 +253,7 @@ const App = () => {
 							{ ! isPremium && <PremiumUpsellList
 								premiumLink={ premiumLink }
 								premiumUpsellConfig={ premiumUpsellConfig }
-								promotions={ promotions }
+								isBlackFriday={ isBlackFriday }
 							/> }
 						</div>
 						<SidebarRecommendations />

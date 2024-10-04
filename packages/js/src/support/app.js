@@ -1,6 +1,7 @@
 /* eslint-disable complexity, react/jsx-max-depth */
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { createInterpolateElement, Fragment, useMemo } from "@wordpress/element";
+import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Badge, Button, FeatureUpsell, Link, Paper, Title } from "@yoast/ui-library";
@@ -9,6 +10,7 @@ import { AcademyUpsellCard, PremiumUpsellCard, RecommendationsSidebar } from "..
 import { FieldsetLayout } from "./components/fieldset-layout";
 import { ResourceCard } from "./components/resource-card";
 import { useSelectSupport } from "./hooks";
+import { STORE_NAME } from "./constants";
 
 /**
  * Opens the HelpScout beacon.
@@ -33,7 +35,6 @@ const openHelpScoutBeacon = () => {
  */
 export const App = () => {
 	const isPremium = useSelectSupport( "selectPreference", [], "isPremium", false );
-	const promotions = useSelectSupport( "selectPreference", [], "promotions", [] );
 	const premiumUpsellConfig = useSelectSupport( "selectUpsellSettingsAsProps" );
 	const pluginUrl = useSelectSupport( "selectPreference", [], "pluginUrl", "" );
 	const linkParams = useSelectSupport( "selectLinkParams" );
@@ -43,6 +44,8 @@ export const App = () => {
 	const supportForumsLink = useSelectSupport( "selectLink", [], "https://yoa.st/support-forums-support-card" );
 	const githubLink = useSelectSupport( "selectLink", [], "https://yoa.st/github-repository-support-card" );
 	const contactSupportLink = useSelectSupport( "selectLink", [], "https://yoa.st/contact-support-to-unlock-premium-support-section" );
+
+	const isBlackFriday = select( STORE_NAME ).isPromotionActive( "black-friday-2024-promotion" );
 
 	const faq = useMemo( () => ( [
 		{
@@ -232,7 +235,7 @@ export const App = () => {
 				</Paper>
 				{ ! isPremium && (
 					<RecommendationsSidebar>
-						<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } promotions={ promotions } />
+						<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } isBlackFriday={ isBlackFriday } />
 						<AcademyUpsellCard link={ academyLink } />
 					</RecommendationsSidebar>
 				) }
