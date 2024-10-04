@@ -53,28 +53,28 @@ const toggleAlert = ( state, id ) => {
  *
  * @returns {void}
  */
-const setError = ( state, id ) => {
+const setAlertToggleError = ( state, id ) => {
 	const index = state.alerts.findIndex( ( alert ) => alert.id === id );
 	if ( index === -1 ) {
-		state.error = null;
+		state.alertToggleError = null;
 	} else {
-		state.error = state.alerts[ index ].type;
+		state.alertToggleError = state.alerts[ index ];
 	}
 };
 
 const slice = createSlice( {
 	name: ALERT_CENTER_NAME,
-	initialState: { error: null, alerts: [] },
+	initialState: { alertToggleError: null, alerts: [] },
 	reducers: {
 		toggleAlert,
-		setError,
+		setAlertToggleError,
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload: { id } } ) => {
 			slice.caseReducers.toggleAlert( state, id );
 		} );
 		builder.addCase( `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload: { id } } ) => {
-			slice.caseReducers.setError( state, id );
+			slice.caseReducers.setAlertToggleError( state, id );
 		} );
 	},
 } );
@@ -90,7 +90,15 @@ export const getInitialAlertCenterState = slice.getInitialState;
  * @param {object} state The state.
  * @returns {array} The alerts.
  */
-const selectAlerts = ( state ) => get( state, "alertCenter.alerts", [] );
+const selectAlerts = ( state ) => get( state, `${ALERT_CENTER_NAME}.alerts`, [] );
+
+/**
+ * Selector to get the alert toggle error.
+ *
+ * @param {object} state The state.
+ * @returns {string}  id The id of the alert which caused the error..
+ */
+const selectAlertToggleError = ( state ) => get( state, `${ALERT_CENTER_NAME}.alertToggleError`, null );
 
 export const alertCenterSelectors = {
 	selectActiveProblems: createSelector(
@@ -109,10 +117,7 @@ export const alertCenterSelectors = {
 		[ selectAlerts ],
 		( alerts ) => alerts.filter( ( alert ) => alert.type === "warning" && alert.dismissed )
 	),
-	selectError: createSelector(
-		( state ) => get( state, "alertCenter.error", null ),
-		( error ) => error
-	),
+	selectAlertToggleError,
 };
 
 export const alertCenterActions = {

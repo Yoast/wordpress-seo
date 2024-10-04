@@ -75,12 +75,12 @@ const App = () => {
 	}, [ notices ] );
 
 	const { pathname } = useLocation();
-	const alertType = useSelectDashboard( "selectError", [], [] );
-	const { setError } = useDispatch( STORE_NAME );
+	const alertToggleError = useSelectDashboard( "selectAlertToggleError", [], [] );
+	const { setAlertToggleError } = useDispatch( STORE_NAME );
 
 	const handleDismiss = useCallback( () => {
-		setError( null );
-	}, [ setError ] );
+		setAlertToggleError( null );
+	}, [ setAlertToggleError ] );
 
 	const linkParams = select( STORE_NAME ).selectLinkParams();
 	const webinarIntroSettingsUrl = addQueryArgs( "https://yoa.st/webinar-intro-settings", linkParams );
