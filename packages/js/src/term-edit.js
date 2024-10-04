@@ -33,11 +33,6 @@ domReady( () => {
 	// Initialize the insights.
 	initializeInsights();
 
-	// Don't initialize the AI generator for WooCommerce categories and tags.
-	const AI_IGNORED_TAXONOMIES = [ "product_cat", "product_tag" ];
-
-	if ( window.wpseoScriptData.termType && ! AI_IGNORED_TAXONOMIES.includes( window.wpseoScriptData.termType ) ) {
-		// Initialize the AI Generator upsell.
-		initializeAiGenerator();
-	}
+	// Initialize the AI Generator upsell.
+	initializeAiGenerator();
 } );

@@ -27,10 +27,22 @@ export function getPostOrPageString( state ) {
  *
  * @param {Object} state The state.
  *
- * @returns {string} Whether you're editing a product.
+ * @returns {boolean} Whether you're editing a product.
  */
 export function getIsProduct( state ) {
 	return get( state, "editorContext.postTypeNameSingular" ) === "Product";
+}
+
+/**
+ * Returns whether you're editing a product term.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether you're editing a product term.
+ */
+export function getIsProductTerm( state ) {
+	const termType = get( state, "editorContext.termType" );
+	return termType === "product_cat" || termType === "product_tag";
 }
 
 /**

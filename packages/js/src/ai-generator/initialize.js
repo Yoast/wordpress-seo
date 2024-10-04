@@ -53,10 +53,9 @@ const STORE = "yoast-seo/editor";
  */
 const initializeAiGenerator = () => {
 	const isPremium = select( STORE ).getIsPremium();
-	const isWooSeoUpsell = select( STORE ).getIsWooSeoUpsell();
-	const isProduct = select( STORE ).getIsProduct();
-
-	const shouldShowAiGeneratorUpsell =  ( isProduct ) ? ! isPremium || isWooSeoUpsell : ! isPremium;
+	const isWooSeoUpsellPost = select( STORE ).getIsWooSeoUpsell();
+	const isWooSeoUpsellTerm = select( STORE ).getIsWooSeoUpsellTerm();
+	const shouldShowAiGeneratorUpsell = ! isPremium || isWooSeoUpsellPost || isWooSeoUpsellTerm;
 
 	addFilter(
 		"yoast.replacementVariableEditor.additionalButtons",
@@ -69,7 +68,6 @@ const initializeAiGenerator = () => {
 					</Fill>
 				);
 			}
-
 			return buttons;
 		}
 	);
