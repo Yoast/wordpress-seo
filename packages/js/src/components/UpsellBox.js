@@ -116,7 +116,7 @@ class UpsellBox extends Component {
 			<Fragment>
 				{ isBlackFriday &&
 				<div className="yst-flex  yst-items-center yst-text-lg yst-content-between yst-bg-black yst-text-amber-300 yst-h-9 yst-border-amber-300 yst-border-y yst-border-x-0 yst-border-solid yst-px-6">
-					<div className="yst-mx-auto">{ __( "BLACK FRIDAY | 30% OFF", "wordpress-seo" ) }</div>
+					<div className="yst-mx-auto">{ __( "30% OFF - BLACK FRIDAY", "wordpress-seo" ) }</div>
 				</div> }
 				<Container>
 					<Heading>{ this.props.title }</Heading>

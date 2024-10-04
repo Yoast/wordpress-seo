@@ -1,5 +1,4 @@
-#wpseo-first-time-configuration {
-	.yst-root {
+#yoast-configuration {
 		/* Override aggressive WordPress inputs styling */
 
 		.yst-input {
@@ -60,5 +59,4 @@
 		.yst-checkbox__input {
 			@apply before:yst-content-none !important;
 		}
-	}
 }

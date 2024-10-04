@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Helpers\First_Time_Configuration_Notice_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -36,6 +37,13 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 	private $first_time_configuration_notice_helper;
 
 	/**
+	 * The New Dashboard UI conditional.
+	 *
+	 * @var New_Dashboard_Ui_Conditional
+	 */
+	private $new_dashboard_ui_conditional;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -48,15 +56,18 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 	 * @param Options_Helper                         $options_helper                         The options helper.
 	 * @param First_Time_Configuration_Notice_Helper $first_time_configuration_notice_helper The first time configuration notice helper.
 	 * @param WPSEO_Admin_Asset_Manager              $admin_asset_manager                    The admin asset manager.
+	 * @param New_Dashboard_Ui_Conditional           $new_dashboard_ui_conditional           The new dashboard UI conditional.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
 		First_Time_Configuration_Notice_Helper $first_time_configuration_notice_helper,
-		WPSEO_Admin_Asset_Manager $admin_asset_manager
+		WPSEO_Admin_Asset_Manager $admin_asset_manager,
+		New_Dashboard_Ui_Conditional $new_dashboard_ui_conditional
 	) {
 		$this->options_helper                         = $options_helper;
 		$this->admin_asset_manager                    = $admin_asset_manager;
 		$this->first_time_configuration_notice_helper = $first_time_configuration_notice_helper;
+		$this->new_dashboard_ui_conditional           = $new_dashboard_ui_conditional;
 	}
 
 	/**
@@ -102,7 +113,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
 		$title    = $this->first_time_configuration_notice_helper->get_first_time_configuration_title();
-		$link_url = \esc_url( \self_admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) );
+		$link_url = ( $this->new_dashboard_ui_conditional->is_met() ) ? \esc_url( \self_admin_url( 'admin.php?page=wpseo_dashboard#/first-time-configuration' ) ) : \esc_url( \self_admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) );
 
 		if ( ! $this->first_time_configuration_notice_helper->should_show_alternate_message() ) {
 			$content = \sprintf(
@@ -138,13 +149,12 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 		echo '<script>
 				jQuery( document ).ready( function() {
 					jQuery( "body" ).on( "click", "#yoast-first-time-configuration-notice .notice-dismiss", function() {
+						jQuery( "#yoast-first-time-configuration-notice" ).hide();
 						const data = {
 							"action": "dismiss_first_time_configuration_notice",
 							"nonce": "' . \esc_js( \wp_create_nonce( 'wpseo-dismiss-first-time-configuration-notice' ) ) . '"
 						};
-						jQuery.post( ajaxurl, data, function( response ) {
-							jQuery( this ).parent( "#yoast-first-time-configuration-notice" ).hide();
-						});
+						jQuery.post( ajaxurl, data, function( response ) {});
 					} );
 				} );
 				</script>';

@@ -16,7 +16,7 @@ import FinishStep from "./tailwind-components/steps/finish/finish-step";
 import { STEPS } from "./constants";
 
 /* eslint-disable complexity */
-
+/* eslint-disable react/jsx-no-bind */
 /**
  * Updates the site representation in the database.
  *
@@ -469,140 +469,134 @@ export default function FirstTimeConfigurationSteps() {
 	}, [ beforeUnloadEventHandler ] );
 
 	return (
-		<div id="yoast-configuration" className="yst-max-w-[715px] yst-mt-6 yst-p-8 yst-rounded-lg yst-bg-white yst-shadow yst-text-slate-600">
-			<h2 id="yoast-configuration-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get it ranked!", "wordpress-seo" ) }</h2>
-			<p className="yst-pt-2 yst-mb-6">
-				{ __( "Let's get your site in tip-top shape for the search engines. Simply follow these 5 steps to make Google understand what your site is about.", "wordpress-seo" ) }
-			</p>
-			<hr id="configuration-hr-top" />
-			{ /* eslint-disable react/jsx-no-bind */ }
-			<div className="yst-mt-8">
-				<Stepper
-					setActiveStepIndex={ setActiveStepIndex }
-					activeStepIndex={ activeStepIndex }
-					isStepperFinished={ isStepperFinished }
+		<Stepper
+			setActiveStepIndex={ setActiveStepIndex }
+			activeStepIndex={ activeStepIndex }
+			isStepperFinished={ isStepperFinished }
+		>
+			<Step>
+				<Step.Header
+					name={ __( "SEO data optimization", "wordpress-seo" ) }
+					isFinished={ isIndexationStepFinished }
 				>
-					<Step>
-						<Step.Header
-							name={ __( "SEO data optimization", "wordpress-seo" ) }
-							isFinished={ isIndexationStepFinished }
-						>
-							<EditButton
-								stepId={ STEPS.optimizeSeoData }
-								beforeGo={ beforeEditing }
-								isVisible={ showEditButton }
-								additionalClasses={ "yst-ml-auto" }
-							>
-								{ __( "Edit", "wordpress-seo" ) }
-							</EditButton>
-						</Step.Header>
-						<Step.Content>
-							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } isStepperFinished={ isStepperFinished } />
-							<ContinueButton
-								stepId={ STEPS.optimizeSeoData }
-								additionalClasses="yst-mt-12"
-								beforeGo={ beforeContinueIndexationStep }
-								destination={ stepperFinishedOnce ? "last" : 1 }
-							>
-								{ __( "Continue", "wordpress-seo" ) }
-							</ContinueButton>
-						</Step.Content>
-					</Step>
-					<Step>
-						<Step.Header
-							name={ __( "Site representation", "wordpress-seo" ) }
-							isFinished={ isStep2Finished }
-						>
-							<EditButton
-								stepId={ STEPS.siteRepresentation }
-								beforeGo={ beforeEditing }
-								isVisible={ showEditButton }
-								additionalClasses={ "yst-ml-auto" }
-							>
-								{ __( "Edit", "wordpress-seo" ) }
-							</EditButton>
-						</Step.Header>
-						<Step.Content>
-							<SiteRepresentationStep
-								onOrganizationOrPersonChange={ onOrganizationOrPersonChange }
-								dispatch={ dispatch }
-								state={ state }
-								siteRepresentationEmpty={ siteRepresentationEmpty }
-							/>
-							<Step.Error id="yoast-site-representation-step-error" message={ state.stepErrors[ STEPS.siteRepresentation ] || "" } />
-							<ConfigurationStepButtons
-								stepId={ STEPS.siteRepresentation }
-								stepperFinishedOnce={ stepperFinishedOnce }
-								saveFunction={ updateOnFinishSiteRepresentation }
-								setEditState={ setIsStepBeingEdited }
-							/>
-						</Step.Content>
-					</Step>
-					<Step>
-						<Step.Header
-							name={ __( "Social profiles", "wordpress-seo" ) }
-							isFinished={ isStep3Finished }
-						>
-							<EditButton
-								stepId={ STEPS.socialProfiles }
-								beforeGo={ beforeEditing }
-								isVisible={ showEditButton }
-								additionalClasses={ "yst-ml-auto" }
-							>
-								{ __( "Edit", "wordpress-seo" ) }
-							</EditButton>
-						</Step.Header>
-						<Step.Content>
-							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } />
-							<Step.Error id="yoast-social-profiles-step-error" message={ state.stepErrors[ STEPS.socialProfiles ] || "" } />
-							<ConfigurationStepButtons
-								stepId={ STEPS.socialProfiles }
-								stepperFinishedOnce={ stepperFinishedOnce }
-								saveFunction={ updateOnFinishSocialProfiles }
-								setEditState={ setIsStepBeingEdited }
-							/>
-						</Step.Content>
-					</Step>
-					<Step>
-						<Step.Header
-							name={ __( "Personal preferences", "wordpress-seo" ) }
-							isFinished={ isStep4Finished }
-						>
-							<EditButton
-								stepId={ STEPS.personalPreferences }
-								beforeGo={ beforeEditing }
-								isVisible={ showEditButton }
-								additionalClasses={ "yst-ml-auto" }
-							>
-								{ __( "Edit", "wordpress-seo" ) }
-							</EditButton>
-						</Step.Header>
-						<Step.Content>
-							<PersonalPreferencesStep state={ state } setTracking={ setTracking } />
-							<Step.Error id="yoast-personal-preferences-step-error" message={ state.stepErrors[ STEPS.personalPreferences ] || "" } />
-							<ConfigurationStepButtons
-								stepId={ STEPS.personalPreferences }
-								stepperFinishedOnce={ stepperFinishedOnce }
-								saveFunction={ updateOnFinishPersonalPreferences }
-								setEditState={ setIsStepBeingEdited }
-							/>
-						</Step.Content>
-					</Step>
-					<Step>
-						<Step.Header
-							name={ __( "Finish configuration", "wordpress-seo" ) }
-							isFinished={ isStepperFinished }
-						/>
-						<Step.Content>
-							<FinishStep />
-						</Step.Content>
-					</Step>
-				</Stepper>
-			</div>
-		</div>
+					<EditButton
+						stepId={ STEPS.optimizeSeoData }
+						beforeGo={ beforeEditing }
+						isVisible={ showEditButton }
+						additionalClasses={ "yst-ml-auto" }
+					>
+						{ __( "Edit", "wordpress-seo" ) }
+					</EditButton>
+				</Step.Header>
+				<Step.Content>
+					<IndexationStep
+						setIndexingState={ setIndexingState } indexingState={ indexingState }
+						showRunIndexationAlert={ showRunIndexationAlert } isStepperFinished={ isStepperFinished }
+					/>
+					<ContinueButton
+						stepId={ STEPS.optimizeSeoData }
+						additionalClasses="yst-mt-12"
+						beforeGo={ beforeContinueIndexationStep }
+						destination={ stepperFinishedOnce ? "last" : 1 }
+					>
+						{ __( "Continue", "wordpress-seo" ) }
+					</ContinueButton>
+				</Step.Content>
+			</Step>
+			<Step>
+				<Step.Header
+					name={ __( "Site representation", "wordpress-seo" ) }
+					isFinished={ isStep2Finished }
+				>
+					<EditButton
+						stepId={ STEPS.siteRepresentation }
+						beforeGo={ beforeEditing }
+						isVisible={ showEditButton }
+						additionalClasses={ "yst-ml-auto" }
+					>
+						{ __( "Edit", "wordpress-seo" ) }
+					</EditButton>
+				</Step.Header>
+				<Step.Content>
+					<SiteRepresentationStep
+						onOrganizationOrPersonChange={ onOrganizationOrPersonChange }
+						dispatch={ dispatch }
+						state={ state }
+						siteRepresentationEmpty={ siteRepresentationEmpty }
+					/>
+					<Step.Error id="yoast-site-representation-step-error" message={ state.stepErrors[ STEPS.siteRepresentation ] || "" } />
+					<ConfigurationStepButtons
+						stepId={ STEPS.siteRepresentation }
+						stepperFinishedOnce={ stepperFinishedOnce }
+						saveFunction={ updateOnFinishSiteRepresentation }
+						setEditState={ setIsStepBeingEdited }
+					/>
+				</Step.Content>
+			</Step>
+			<Step>
+				<Step.Header
+					name={ __( "Social profiles", "wordpress-seo" ) }
+					isFinished={ isStep3Finished }
+				>
+					<EditButton
+						stepId={ STEPS.socialProfiles }
+						beforeGo={ beforeEditing }
+						isVisible={ showEditButton }
+						additionalClasses={ "yst-ml-auto" }
+					>
+						{ __( "Edit", "wordpress-seo" ) }
+					</EditButton>
+				</Step.Header>
+				<Step.Content>
+					<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } />
+					<Step.Error id="yoast-social-profiles-step-error" message={ state.stepErrors[ STEPS.socialProfiles ] || "" } />
+					<ConfigurationStepButtons
+						stepId={ STEPS.socialProfiles }
+						stepperFinishedOnce={ stepperFinishedOnce }
+						saveFunction={ updateOnFinishSocialProfiles }
+						setEditState={ setIsStepBeingEdited }
+					/>
+				</Step.Content>
+			</Step>
+			<Step>
+				<Step.Header
+					name={ __( "Personal preferences", "wordpress-seo" ) }
+					isFinished={ isStep4Finished }
+				>
+					<EditButton
+						stepId={ STEPS.personalPreferences }
+						beforeGo={ beforeEditing }
+						isVisible={ showEditButton }
+						additionalClasses={ "yst-ml-auto" }
+					>
+						{ __( "Edit", "wordpress-seo" ) }
+					</EditButton>
+				</Step.Header>
+				<Step.Content>
+					<PersonalPreferencesStep state={ state } setTracking={ setTracking } />
+					<Step.Error id="yoast-personal-preferences-step-error" message={ state.stepErrors[ STEPS.personalPreferences ] || "" } />
+					<ConfigurationStepButtons
+						stepId={ STEPS.personalPreferences }
+						stepperFinishedOnce={ stepperFinishedOnce }
+						saveFunction={ updateOnFinishPersonalPreferences }
+						setEditState={ setIsStepBeingEdited }
+					/>
+				</Step.Content>
+			</Step>
+			<Step>
+				<Step.Header
+					name={ __( "Finish configuration", "wordpress-seo" ) }
+					isFinished={ isStepperFinished }
+				/>
+				<Step.Content>
+					<FinishStep />
+				</Step.Content>
+			</Step>
+		</Stepper>
 	);
 }
 
 /* eslint-enable max-len */
 /* eslint-enable complexity */
+/* eslint-enable react/jsx-no-bind */
 /* eslint-enable max-statements */

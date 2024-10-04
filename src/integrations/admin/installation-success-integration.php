@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -28,6 +29,13 @@ class Installation_Success_Integration implements Integration_Interface {
 	protected $product_helper;
 
 	/**
+	 * The New Dashboard UI conditional.
+	 *
+	 * @var New_Dashboard_Ui_Conditional
+	 */
+	private $new_dashboard_ui_conditional;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -37,12 +45,18 @@ class Installation_Success_Integration implements Integration_Interface {
 	/**
 	 * Installation_Success_Integration constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
-	 * @param Product_Helper $product_helper The product helper.
+	 * @param Options_Helper               $options_helper               The options helper.
+	 * @param Product_Helper               $product_helper               The product helper.
+	 * @param New_Dashboard_Ui_Conditional $new_dashboard_ui_conditional The new dashboard UI conditional.
 	 */
-	public function __construct( Options_Helper $options_helper, Product_Helper $product_helper ) {
-		$this->options_helper = $options_helper;
-		$this->product_helper = $product_helper;
+	public function __construct(
+		Options_Helper $options_helper,
+		Product_Helper $product_helper,
+		New_Dashboard_Ui_Conditional $new_dashboard_ui_conditional
+	) {
+		$this->options_helper               = $options_helper;
+		$this->product_helper               = $product_helper;
+		$this->new_dashboard_ui_conditional = $new_dashboard_ui_conditional;
 	}
 
 	/**
@@ -127,12 +141,14 @@ class Installation_Success_Integration implements Integration_Interface {
 		$asset_manager->enqueue_style( 'tailwind' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
+		$ftc_url = ( $this->new_dashboard_ui_conditional->is_met() ) ? \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#/first-time-configuration' ) ) : \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) );
+
 		$asset_manager->localize_script(
 			'installation-success',
 			'wpseoInstallationSuccess',
 			[
 				'pluginUrl'                 => \esc_url( \plugins_url( '', \WPSEO_FILE ) ),
-				'firstTimeConfigurationUrl' => \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ),
+				'firstTimeConfigurationUrl' => $ftc_url,
 				'dashboardUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard' ) ),
 			]
 		);

@@ -590,7 +590,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
 			$sale_percentage = sprintf(
 				'<span class="admin-bar-premium-promotion">%1$s</span>',
-				esc_html__( '30% OFF | Code: BF2024', 'wordpress-seo' )
+				esc_html__( '30% OFF', 'wordpress-seo' )
 			);
 		}
 		$wp_admin_bar->add_menu(

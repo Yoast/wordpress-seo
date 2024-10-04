@@ -17,7 +17,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 	 * @return string The sidebar HTML.
 	 */
 	public function present() {
-		$title = \__( '30% OFF | Code: BF2024', 'wordpress-seo' );
+		$title = \__( '30% OFF - BLACK FRIDAY', 'wordpress-seo' );
 
 		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
 		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
@@ -90,9 +90,10 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						</p>
 						<p class="yoast-price-micro-copy">
 							<?php
-								echo \esc_html__( 'Only $/€/£99 per year (ex VAT)', 'wordpress-seo' );
+							if ( ! \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
+								echo \esc_html__( 'Only $/€/£99 per year (ex VAT)', 'wordpress-seo' ), '<br />';
+							}
 							?>
-							<br />
 							<?php
 								echo \esc_html__( '30-day money back guarantee.', 'wordpress-seo' );
 							?>

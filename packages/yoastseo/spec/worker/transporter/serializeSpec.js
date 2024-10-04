@@ -102,6 +102,7 @@ describe( "serialize", () => {
 			textTitle: "The title of the text",
 			writingDirection: "LTR",
 			wpBlocks: [],
+			isFrontPage: false,
 		} );
 	} );
 

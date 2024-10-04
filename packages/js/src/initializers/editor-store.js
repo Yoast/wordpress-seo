@@ -14,7 +14,7 @@ const populateStore = store => {
 	store.dispatch(
 		actions.setSettings( {
 			socialPreviews: {
-				sitewideImage: window.wpseoScriptData.metabox.sitewide_social_image,
+				sitewideImage: window.wpseoScriptData.sitewideSocialImage,
 				siteName: window.wpseoScriptData.metabox.site_name,
 				contentImage: window.wpseoScriptData.metabox.first_content_image,
 				twitterCardType: window.wpseoScriptData.metabox.twitterCardType,

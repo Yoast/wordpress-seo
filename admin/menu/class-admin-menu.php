@@ -5,6 +5,7 @@
  * @package WPSEO\Admin\Menu
  */
 
+use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 /**
  * Registers the admin menu on the left of the admin area.
  */
@@ -88,7 +89,6 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 
 		// Submenu pages.
 		$submenu_pages = [
-			$this->get_submenu_page( __( 'General', 'wordpress-seo' ), $this->get_page_identifier() ),
 			$this->get_submenu_page(
 				__( 'Search Console', 'wordpress-seo' ),
 				'wpseo_search_console',
@@ -97,6 +97,10 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 			$this->get_submenu_page( __( 'Tools', 'wordpress-seo' ), 'wpseo_tools' ),
 			$this->get_submenu_page( $this->get_license_page_title(), 'wpseo_licenses' ),
 		];
+
+		if ( ! ( new New_Dashboard_Ui_Conditional() )->is_met() ) {
+			array_unshift( $submenu_pages, $this->get_submenu_page( __( 'General', 'wordpress-seo' ), $this->get_page_identifier() ) );
+		}
 
 		/**
 		 * Filter: 'wpseo_submenu_pages' - Collects all submenus that need to be shown.
