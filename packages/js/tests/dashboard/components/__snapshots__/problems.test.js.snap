@@ -97,9 +97,6 @@ exports[`AlertsList should match snapshot 1`] = `
             </button>
           </div>
         </li>
-        <aside
-          class="yst-notifications yst-notifications--bottom-left yst-mx-[calc(50%-50vw)] yst-transition-all lg:yst-left-44"
-        />
         <li
           class="yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0"
         >
@@ -153,9 +150,6 @@ exports[`AlertsList should match snapshot 1`] = `
             </button>
           </div>
         </li>
-        <aside
-          class="yst-notifications yst-notifications--bottom-left yst-mx-[calc(50%-50vw)] yst-transition-all lg:yst-left-44"
-        />
         <li
           class="yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0"
         >
@@ -212,9 +206,6 @@ exports[`AlertsList should match snapshot 1`] = `
             </button>
           </div>
         </li>
-        <aside
-          class="yst-notifications yst-notifications--bottom-left yst-mx-[calc(50%-50vw)] yst-transition-all lg:yst-left-44"
-        />
         <li
           class="yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0"
         >
@@ -268,9 +259,6 @@ exports[`AlertsList should match snapshot 1`] = `
             </button>
           </div>
         </li>
-        <aside
-          class="yst-notifications yst-notifications--bottom-left yst-mx-[calc(50%-50vw)] yst-transition-all lg:yst-left-44"
-        />
       </ul>
       <div
         class="yst-shadow-sm yst-border-slate-300 yst-rounded-md yst-border"
