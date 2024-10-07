@@ -2,20 +2,31 @@ import { select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
 import { PremiumUpsellList } from "../../shared-admin/components/premium-upsell-list";
+import SidebarRecommendations from "../../shared-admin/components/sidebar-recommendations";
 import { Notifications, Problems } from "../components";
-import SidebarRecommendations from "../components/sidebar-recommendations";
 import { useSelectDashboard } from "../hooks";
 import classNames from "classnames";
 import { STORE_NAME } from ".././constants";
+
+/**
+ * Uses the store's selector to get whether a promotion is active.
+ *
+ * @returns {bool} Whether the promotion is active.
+ */
+const isPromotionActive = ( promotionID ) => {
+	return select( STORE_NAME ).isPromotionActive( promotionID )
+};
+
 /**
  * @returns {JSX.Element} The dashboard content placeholder.
  */
 export const AlertCenter = () => {
 	const isPremium = useSelectDashboard( "selectPreference", [], "isPremium" );
-	const premiumLink = useSelectDashboard( "selectLink", [], "https://yoa.st/17h" );
+	const premiumLinkList = useSelectDashboard( "selectLink", [], "https://yoa.st/17h" );
+	const premiumLinkSidebar = useSelectDashboard( "selectLink", [], "https://yoa.st/jj" );
 	const premiumUpsellConfig = useSelectDashboard( "selectUpsellSettingsAsProps" );
+	const academyLink = useSelectDashboard( "selectLink", [], "https://yoa.st/3t6" );
 
-	const isBlackFriday = select( STORE_NAME ).isPromotionActive( "black-friday-2024-promotion" );
 	return <>
 		<div className={ classNames( {  "yst-flex yst-flex-wrap xl:yst-pr-[17.5rem]": ! isPremium } ) }>
 			<Paper className="yst-grow">
@@ -32,12 +43,18 @@ export const AlertCenter = () => {
 				<Problems />
 				<Notifications />
 				{ ! isPremium && <PremiumUpsellList
-					premiumLink={ premiumLink }
+					premiumLink={ premiumLinkList }
 					premiumUpsellConfig={ premiumUpsellConfig }
-					isBlackFriday={ isBlackFriday }
+					isPromotionActive={ isPromotionActive }
 				/> }
 			</div>
-			<SidebarRecommendations />
+			<SidebarRecommendations
+				isPremium={ isPremium }
+				premiumLink={ premiumLinkSidebar }
+				premiumUpsellConfig={ premiumUpsellConfig }
+				academyLink={ academyLink }
+				isPromotionActive={ isPromotionActive }
+			/>
 		</div>
 	</>;
 };

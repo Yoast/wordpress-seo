@@ -1,3 +1,4 @@
+import { noop } from "lodash";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
@@ -8,10 +9,12 @@ import { getPremiumBenefits } from "../../helpers/get-premium-benefits";
 /**
  * @param {string} premiumLink The premium link.
  * @param {Object} [premiumUpsellConfig] The premium upsell configuration data.
- * @param {bool} isBlackFriday Whether the Black Friday promotion is active.
+ * @param {function} isPromotionActive Whether a promotion is active.
  * @returns {JSX.Element} The premium upsell card.
  */
-export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isBlackFriday } ) => {
+export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromotionActive } ) => {
+	const isBlackFriday = isPromotionActive( "black-friday-2024-promotion" );
+
 	return (
 		<Paper as="div" className="xl:yst-max-w-3xl">
 			{ isBlackFriday && <div
@@ -60,10 +63,10 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isBlackFr
 PremiumUpsellList.propTypes = {
 	premiumLink: PropTypes.string.isRequired,
 	premiumUpsellConfig: PropTypes.object,
-	isBlackFriday: PropTypes.bool,
+	isPromotionActive: PropTypes.func,
 };
 
 PremiumUpsellList.defaultProps = {
 	premiumUpsellConfig: {},
-	isBlackFriday: false,
+	isPromotionActive: noop,
 };

@@ -31,6 +31,17 @@ const openHelpScoutBeacon = () => {
 };
 
 /**
+ * Uses the store's selector to get whether a promotion is active.
+ * 
+ * @param {string} promotionID The promotion ID.
+ *
+ * @returns {bool} Whether the promotion is active.
+ */
+const isPromotionActive = ( promotionID ) => {
+	return select( STORE_NAME ).isPromotionActive( promotionID )
+};
+
+/**
  * @returns {JSX.Element} The app component.
  */
 export const App = () => {
@@ -44,8 +55,6 @@ export const App = () => {
 	const supportForumsLink = useSelectSupport( "selectLink", [], "https://yoa.st/support-forums-support-card" );
 	const githubLink = useSelectSupport( "selectLink", [], "https://yoa.st/github-repository-support-card" );
 	const contactSupportLink = useSelectSupport( "selectLink", [], "https://yoa.st/contact-support-to-unlock-premium-support-section" );
-
-	const isBlackFriday = select( STORE_NAME ).isPromotionActive( "black-friday-2024-promotion" );
 
 	const faq = useMemo( () => ( [
 		{
@@ -235,7 +244,7 @@ export const App = () => {
 				</Paper>
 				{ ! isPremium && (
 					<RecommendationsSidebar>
-						<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } isBlackFriday={ isBlackFriday } />
+						<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } isPromotionActive={ isPromotionActive } />
 						<AcademyUpsellCard link={ academyLink } />
 					</RecommendationsSidebar>
 				) }
