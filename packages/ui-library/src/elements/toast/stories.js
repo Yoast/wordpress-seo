@@ -221,6 +221,7 @@ export default {
 		isVisible: true,
 		setIsVisible: noop,
 		id: "toast",
+		role: "alert",
 		children: "Hello everyone!",
 		position: "bottom-left",
 	},
