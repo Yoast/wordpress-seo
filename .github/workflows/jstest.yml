@@ -69,6 +69,7 @@ jobs:
           - 'js'
           - 'replacement-variable-editor'
           - 'search-metadata-previews'
+          - 'semrush'
           - 'social-metadata-forms'
           - 'social-metadata-previews'
 

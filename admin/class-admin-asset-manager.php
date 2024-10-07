@@ -516,6 +516,7 @@ class WPSEO_Admin_Asset_Manager {
 			'network-admin-script'        => 'network-admin',
 			'redux'                       => 'redux-package',
 			'replacement-variable-editor' => 'replacement-variable-editor-package',
+			'semrush'                     => 'semrush-package',
 			'search-metadata-previews'    => 'search-metadata-previews-package',
 			'social-metadata-forms'       => 'social-metadata-forms-package',
 			'styled-components'           => 'styled-components-package',
