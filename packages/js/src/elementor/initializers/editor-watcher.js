@@ -1,6 +1,5 @@
 /* global elementor, YoastSEO */
 import { dispatch, select } from "@wordpress/data";
-import { cleanForSlug } from "@wordpress/url";
 import { debounce, get, noop } from "lodash";
 import { markers, Paper } from "yoastseo";
 import { refreshDelay } from "../../analysis/constants";
@@ -145,12 +144,6 @@ function handleEditorChange() {
 	if ( data.title !== editorData.title ) {
 		editorData.title = data.title;
 		dispatch( "yoast-seo/editor" ).setEditorDataTitle( editorData.title );
-
-		// Drafts might not have a slug (post_name), unless the slug has been manually changed.
-		if ( ( data.status === "draft" || data.status === "auto-draft" ) && select( "yoast-seo/editor" ).getEditorDataSlug() === "" ) {
-			// In this case we get it using the title.
-			dispatch( "yoast-seo/editor" ).updateData( { slug: cleanForSlug( editorData.title ) } );
-		}
 	}
 
 	if ( data.excerpt !== editorData.excerpt ) {
