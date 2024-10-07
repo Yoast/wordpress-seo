@@ -209,7 +209,7 @@ class SeoAnalysis extends Component {
 		const isPremium = getL10nObject().isPremium;
 
 		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
-		if ( ! this.props.isAiFeatureEnabled ) {
+		if ( isPremium && ! this.props.isAiFeatureEnabled ) {
 			return;
 		}
 
@@ -324,6 +324,7 @@ export default withSelect( ( select, ownProps ) => {
 		getMarksButtonStatus,
 		getResultsForKeyword,
 		getIsElementorEditor,
+		getPreference,
 	} = select( "yoast-seo/editor" );
 
 	const keyword = getFocusKeyphrase();
@@ -333,6 +334,6 @@ export default withSelect( ( select, ownProps ) => {
 		marksButtonStatus: ownProps.hideMarksButtons ? "disabled" : getMarksButtonStatus(),
 		keyword,
 		isElementor: getIsElementorEditor(),
-		isAiFeatureEnabled: select( "yoast-seo-premium/editor" )?.getIsAiFeatureEnabled(),
+		isAiFeatureEnabled: getPreference( "isAiFeatureActive", false ),
 	};
 } )( SeoAnalysis );
