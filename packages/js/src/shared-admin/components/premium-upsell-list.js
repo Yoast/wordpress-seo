@@ -9,7 +9,7 @@ import { getPremiumBenefits } from "../../helpers/get-premium-benefits";
 /**
  * @param {string} premiumLink The premium link.
  * @param {Object} [premiumUpsellConfig] The premium upsell configuration data.
- * @param {function} isPromotionActive Whether a promotion is active.
+ * @param {function} isPromotionActive Callback to get whether a promotion is active.
  * @returns {JSX.Element} The premium upsell card.
  */
 export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromotionActive } ) => {

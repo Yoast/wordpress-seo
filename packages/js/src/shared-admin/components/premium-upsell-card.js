@@ -1,4 +1,4 @@
-import { noop } from "lodash-es";
+import { noop } from "lodash";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";

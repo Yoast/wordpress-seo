@@ -11,10 +11,12 @@ import { STORE_NAME } from ".././constants";
 /**
  * Uses the store's selector to get whether a promotion is active.
  *
+ * @param {string} promotionID The promotion ID.
+ *
  * @returns {bool} Whether the promotion is active.
  */
 const isPromotionActive = ( promotionID ) => {
-	return select( STORE_NAME ).isPromotionActive( promotionID )
+	return select( STORE_NAME ).isPromotionActive( promotionID );
 };
 
 /**
