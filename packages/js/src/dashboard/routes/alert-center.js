@@ -13,9 +13,9 @@ export const AlertCenter = () => {
 	const premiumLink = useSelectDashboard( "selectLink", [], "https://yoa.st/17h" );
 	const premiumUpsellConfig = useSelectDashboard( "selectUpsellSettingsAsProps" );
 	const promotions = useSelectDashboard( "selectPreference", [], "promotions", [] );
-	return <div className="yst-flex yst-gap-8 2xl:yst-flex-row yst-flex-col">
+	return <div className="yst-flex yst-gap-8 xl:yst-flex-row yst-flex-col">
 		 { /* Alert center */ }
-		<div className="yst-flex yst-flex-wrap 2xl:yst-basis-4/5 2xl::yst-flex-row yst-flex-col">
+		<div className="yst-flex yst-flex-wrap yst-flex-grow xl:yst-flex-row yst-flex-col">
 			<Paper className="yst-grow">
 				<header className="yst-p-8">
 					<div className="yst-max-w-screen-sm">

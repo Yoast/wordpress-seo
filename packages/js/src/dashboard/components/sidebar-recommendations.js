@@ -14,7 +14,7 @@ const SidebarRecommendations = () => {
 	}
 
 	return (
-		<div className="2xl:yst-basis-1/5">
+		<div className="yst-min-w-[16rem] xl:yst-max-w-[16rem]">
 			<div className="yst-sticky yst-top-16">
 				<div className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 min-[783px]:yst-grid-cols-1 lg:yst-grid-cols-2 xl:yst-grid-cols-1 yst-gap-4">
 					<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } promotions={ promotions } />
