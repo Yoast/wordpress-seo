@@ -1,19 +1,17 @@
 import { render, screen } from "../../test-utils";
-import { UnsavedChangesModal } from "../../../src/dashboard/components";
-
-jest.mock( "react-router-dom", () => ( {
-	useBlocker: jest.fn( () => {
-		return {
-			state: "blocked",
-			reset: jest.fn(),
-			proceed: jest.fn(),
-		};
-	} ),
-} ) );
+import { UnsavedChangesModal } from "../../../src/shared-admin/components";
 
 describe( "UnsavedChangesModal", () => {
 	beforeEach( () => {
-		render( <UnsavedChangesModal /> );
+		render( <UnsavedChangesModal
+			isOpen={ true }
+			onClose={ jest.fn() }
+			title="Unsaved changes"
+			description="There are unsaved changes in one or more steps of the first-time configuration. Leaving means that those changes will be lost. Are you sure you want to leave this page?"
+			onDiscard={ jest.fn() }
+			dismissLabel="No, continue editing"
+			discardLabel="Yes, leave page"
+		/> );
 	} );
 
 	it( "should have dismiss and leave page buttons", () => {
