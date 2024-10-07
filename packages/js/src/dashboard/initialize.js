@@ -29,6 +29,8 @@ domReady( () => {
 		createRoutesFromElements(
 			<Route path="/" element={ <App /> }>
 				<Route path="/" element={ <AlertCenter /> } />
+				{ /* Fallback to the alert center. */ }
+				<Route path="*" element={ <AlertCenter /> } />
 				<Route path="/first-time-configuration" element={ <FirstTimeConfiguration /> } />
 			</Route>
 		)
