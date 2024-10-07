@@ -1,5 +1,4 @@
 import { __ } from "@wordpress/i18n";
-import { useCallback } from "@wordpress/element";
 import { get } from "lodash";
 import { useBlocker } from "react-router-dom";
 import { Modal, Button, useSvgAria } from "@yoast/ui-library";
@@ -18,15 +17,7 @@ export const UnsavedChangesModal = () => {
 		return isStepBeingEdited && currentLocation.pathname === "/first-time-configuration" && nextLocation.pathname !== "/first-time-configuration";
 	} );
 
-	const dismiss = useCallback( () => {
-		blocker.reset();
-	}, [ blocker ] );
-
-	const leave = useCallback( () => {
-		blocker.proceed();
-	}, [ blocker ] );
-
-	return <Modal isOpen={ blocker.state === "blocked" } onClose={ dismiss }>
+	return <Modal isOpen={ blocker.state === "blocked" } onClose={ blocker.reset }>
 		<Modal.Panel closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
 			<div className="sm:yst-flex sm:yst-items-start">
 				<div
@@ -44,10 +35,10 @@ export const UnsavedChangesModal = () => {
 				</div>
 			</div>
 			<div className="yst-flex yst-flex-col sm:yst-flex-row-reverse yst-gap-3 yst-mt-6">
-				<Button type="button" variant="error" onClick={ leave } className="yst-block">
+				<Button type="button" variant="error" onClick={ blocker.proceed } className="yst-block">
 					{ __( "Yes, leave page", "wordpress-seo" ) }
 				</Button>
-				<Button type="button" variant="secondary" onClick={ dismiss } className="yst-block">
+				<Button type="button" variant="secondary" onClick={ blocker.reset } className="yst-block">
 					{ __( "No, continue editing", "wordpress-seo" ) }
 				</Button>
 			</div>
