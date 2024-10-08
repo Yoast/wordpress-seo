@@ -1,5 +1,4 @@
-import { __, sprintf } from "@wordpress/i18n";
-import { merge } from "lodash";
+import { mapValues, merge } from "lodash";
 
 import Assessment from "../assessment";
 import Mark from "../../../values/Mark";
@@ -16,6 +15,12 @@ export default class WordComplexityAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {object} config The configuration to use.
+	 * @param {number} [config.scores.acceptableAmount] The score to return if the text has an acceptable amount of complex words.
+	 * @param {number} [config.scores.goodAmount]       The score to return if the text has a good amount of complex words.
+	 * @param {string} [config.urlTitle]                The URL to the article about this assessment.
+	 * @param {string} [config.urlCallToAction]         The URL to the help article for this assessment.
+	 * @param {object} [config.callbacks] The callbacks to use for the assessment.
+	 * @param {function} [config.callbacks.getResultTexts]         The function that returns the result texts.
 	 *
 	 * @returns {void}
 	 */
@@ -29,20 +34,11 @@ export default class WordComplexityAssessment extends Assessment {
 			},
 			urlTitle: "https://yoa.st/4ls",
 			urlCallToAction: "https://yoa.st/4lt",
+			callbacks: {},
 		};
 
-		/*
-		 * translators: This is the name of the 'Word complexity' readability assessment.
-         * It appears before the feedback in the analysis, for example in the feedback string:
-         * "Word complexity: You are not using too many complex words, which makes your text easy to read. Good job!"
-         */
-		this.name = __( "Word complexity", "wordpress-seo-premium" );
 		this.identifier = "wordComplexity";
 		this._config = merge( defaultConfig, config );
-
-		// Creates an anchor opening tag for the shortlinks.
-		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
-		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
 	}
 
 	/**
@@ -68,45 +64,59 @@ export default class WordComplexityAssessment extends Assessment {
 	/**
 	 * Calculates word complexity word result.
 	 *
-	 * @returns {object} Object containing the score, the result text and the information whether there is a mark..
+	 * @returns {object} Object containing the score, the result text and the information whether there is a mark.
 	 */
 	calculateResult() {
 		const complexWordsPercentage = this._wordComplexity.percentage;
 		const hasMarks = complexWordsPercentage > 0;
-		const assessmentLink = this._config.urlTitle + this.name + "</a>";
+		const { goodAmount, acceptableAmount } = this.getFeedbackStrings();
 
 		if ( complexWordsPercentage < 10 ) {
 			return {
 				score: this._config.scores.goodAmount,
 				hasMarks: hasMarks,
-				resultText: sprintf(
-					/* translators: %1$s expands to the title of the "Word complexity" assessment (translated to the current language)
-					 and links to an article on yoast.com.*/
-					__(
-						"%1$s: You are not using too many complex words, which makes your text easy to read. Good job!",
-						"wordpress-seo-premium"
-					),
-					assessmentLink
-				),
+				resultText: goodAmount,
 			};
 		}
 		return {
 			score: this._config.scores.acceptableAmount,
 			hasMarks: hasMarks,
-			resultText: sprintf(
-				/* translators: %1$s expands to the title of the "Word complexity" assessment (translated to the current language)
-					 and links to an article on yoast.com. %2$s expand to the percentage of the complex words found in the text.
-					 %3$s expand to a link on yoast.com, %4$s expands to the anchor end tag. */
-				__(
-					"%1$s: %2$s of the words in your text are considered complex. %3$sTry to use shorter and more familiar words to improve readability%4$s.",
-					"wordpress-seo-premium"
-				),
-				assessmentLink,
-				complexWordsPercentage + "%",
-				this._config.urlCallToAction,
-				"</a>"
-			),
+			resultText: acceptableAmount,
 		};
+	}
+
+	/**
+	 * Gets the feedback strings for the word complexity assessment.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
+	 * The callback function should return an object with the following properties:
+	 * - acceptableAmount: string
+	 * - goodAmount: string
+	 *
+	 * @returns {{acceptableAmount: string, goodAmount: string}} The feedback strings.
+	 */
+	getFeedbackStrings() {
+		// `urlTitleAnchorOpeningTag` represents the anchor opening tag with the URL to the article about this assessment.
+		const urlTitleAnchorOpeningTag = createAnchorOpeningTag( this._config.urlTitle );
+		// `urlActionAnchorOpeningTag` represents the anchor opening tag with the URL for the call to action.
+		const urlActionAnchorOpeningTag = createAnchorOpeningTag( this._config.urlCallToAction );
+
+		if ( ! this._config.callbacks.getResultTexts ) {
+			const defaultResultTexts = {
+				acceptableAmount: "%1$sWord complexity%3$s: Some words in your text are considered complex. %2$sTry to use shorter and more familiar words to improve readability%3$s.",
+				goodAmount: "%1$sWord complexity%3$s: You are not using too many complex words, which makes your text easy to read. Good job!",
+			};
+			return mapValues(
+				defaultResultTexts,
+				( resultText ) => this.formatResultText( resultText, urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag )
+			);
+		}
+		const complexWordsPercentage = this._wordComplexity.percentage;
+
+		return this._config.callbacks.getResultTexts( {
+			urlTitleAnchorOpeningTag,
+			urlActionAnchorOpeningTag,
+			complexWordsPercentage,
+		} );
 	}
 
 	/**
