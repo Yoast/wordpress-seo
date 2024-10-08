@@ -1,14 +1,13 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface;
+namespace Yoast\WP\SEO\Tests\Unit\General\User_Interface;
 
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
-use Yoast\WP\SEO\Dashboard\User_Interface\New_Dashboard_Page_Integration;
+use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -17,11 +16,11 @@ use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class New_Dashboard_Page_Integration_Test_Test.
+ * Class General_Page_Integration_Test_Test.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Dashboard\User_Interface\New_Dashboard_Page_Integration
+ * @coversDefaultClass \Yoast\WP\SEO\General\User_Interface\General_Page_Integration
  */
-final class New_Dashboard_Page_Integration_Test extends TestCase {
+final class General_Page_Integration_Test extends TestCase {
 
 	public const PAGE = 'wpseo_dashboard';
 
@@ -77,7 +76,7 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 	/**
 	 * The class under test.
 	 *
-	 * @var New_Dashboard_Page_Integration
+	 * @var General_Page_Integration
 	 */
 	protected $instance;
 
@@ -97,7 +96,7 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 		$this->alert_dismissal_action = Mockery::mock( Alert_Dismissal_Action::class );
 		$this->promotion_manager      = Mockery::mock( Promotion_Manager::class );
 
-		$this->instance = new New_Dashboard_Page_Integration(
+		$this->instance = new General_Page_Integration(
 			$this->asset_manager,
 			$this->current_page_helper,
 			$this->product_helper,
@@ -117,8 +116,8 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
-			New_Dashboard_Page_Integration::class,
-			new New_Dashboard_Page_Integration(
+			General_Page_Integration::class,
+			new General_Page_Integration(
 				$this->asset_manager,
 				$this->current_page_helper,
 				$this->product_helper,
@@ -141,9 +140,8 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 		$this->assertEquals(
 			[
 				Admin_Conditional::class,
-				New_Dashboard_Ui_Conditional::class,
 			],
-			New_Dashboard_Page_Integration::get_conditionals()
+			General_Page_Integration::get_conditionals()
 		);
 	}
 
@@ -234,7 +232,7 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_display_page() {
-		$this->expectOutputString( '<div id="yoast-seo-dashboard"></div>' );
+		$this->expectOutputString( '<div id="yoast-seo-general"></div>' );
 		$this->instance->display_page();
 	}
 
@@ -255,12 +253,12 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 
 		$this->asset_manager
 			->expects( 'enqueue_script' )
-			->with( 'new-dashboard' )
+			->with( 'general' )
 			->once();
 
 		$this->asset_manager
 			->expects( 'enqueue_style' )
-			->with( 'new-dashboard' )
+			->with( 'general' )
 			->once();
 
 		$this->asset_manager

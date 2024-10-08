@@ -12,7 +12,7 @@ import { STORE_NAME } from "./constants";
 import registerStore from "./store";
 
 domReady( () => {
-	const root = document.getElementById( "yoast-seo-dashboard" );
+	const root = document.getElementById( "yoast-seo-general" );
 	if ( ! root ) {
 		return;
 	}
