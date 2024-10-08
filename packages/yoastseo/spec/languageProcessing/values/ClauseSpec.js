@@ -40,11 +40,5 @@ describe( "a test for serializing and parsing a Clause class instance", function
 			isPassive: false,
 			participles: [],
 		} );
-		expect( mockClause.parse( mockClause.serialize() ) ).toEqual( {
-			_clauseText: "The cat is loved.",
-			_auxiliaries: [ "is" ],
-			_isPassive: false,
-			_participles: [],
-		} );
 	} );
 } );

@@ -6,7 +6,8 @@
  */
 
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
-use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
+use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
+use Yoast\WP\SEO\Dashboard\User_Interface\New_Dashboard_Page_Integration;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Integrations\Support_Integration;
@@ -50,11 +51,17 @@ class WPSEO_Admin_Pages {
 	public function init() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-		if ( in_array( $page, [ Settings_Integration::PAGE, Academy_Integration::PAGE, Support_Integration::PAGE ], true ) ) {
+
+		// Don't load the scripts for the following pages.
+		$page_exceptions = in_array( $page, [ Settings_Integration::PAGE, Academy_Integration::PAGE, Support_Integration::PAGE ], true );
+		// Don't load the scripts for the new dashboard page, but only if the feature flag is enabled.
+		$new_dashboard_conditional = new New_Dashboard_Ui_Conditional();
+		$new_dashboard_page        = ( $page === New_Dashboard_Page_Integration::PAGE && $new_dashboard_conditional->is_met() );
+
+		if ( $page_exceptions || $new_dashboard_page ) {
 			// Bail, this is managed in the applicable integration.
 			return;
 		}
-
 		add_action( 'admin_enqueue_scripts', [ $this, 'config_page_scripts' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'config_page_styles' ] );
 	}
@@ -89,18 +96,14 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
 
-		$alert_dismissal_action  = YoastSEO()->classes->get( Alert_Dismissal_Action::class );
-		$dismissed_alerts        = $alert_dismissal_action->all_dismissed();
-		$woocommerce_conditional = new WooCommerce_Conditional();
+		$alert_dismissal_action = YoastSEO()->classes->get( Alert_Dismissal_Action::class );
+		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
 
 		$script_data = [
-			'userLanguageCode'               => WPSEO_Language_Utils::get_language( get_user_locale() ),
 			'dismissedAlerts'                => $dismissed_alerts,
 			'isRtl'                          => is_rtl(),
 			'isPremium'                      => YoastSEO()->helpers->product->is_premium(),
-			'isWooCommerceActive'            => $woocommerce_conditional->is_met(),
 			'currentPromotions'              => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
-			'webinarIntroSettingsUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-settings' ),
 			'webinarIntroFirstTimeConfigUrl' => $this->get_webinar_shortlink(),
 			'linkParams'                     => WPSEO_Shortlinker::get_query_params(),
 			'pluginUrl'                      => plugins_url( '', WPSEO_FILE ),

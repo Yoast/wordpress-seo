@@ -287,7 +287,7 @@ final class Support_Integration_Test extends TestCase {
 
 		// In enqueue_assets method.
 		$this->promotion_manager->expects( 'is' )
-			->with( 'black-friday-2023-promotion' )
+			->with( 'black-friday-2024-promotion' )
 			->once()
 			->andReturn( $is_black_friday );
 
@@ -369,7 +369,7 @@ final class Support_Integration_Test extends TestCase {
 			'preferences'   => [
 				'isPremium'      => false,
 				'isRtl'          => false,
-				'promotions'     => [ 'black-friday-2023-promotion' ],
+				'promotions'     => [ 'black-friday-2024-promotion' ],
 				'pluginUrl'      => 'http://basic.wordpress.test/wp-content/worspress-seo',
 				'upsellSettings' => [
 					'actionId'     => 'load-nfd-ctb',
@@ -390,7 +390,7 @@ final class Support_Integration_Test extends TestCase {
 	protected function assert_promotions() {
 		$this->promotion_manager->expects( 'get_current_promotions' )
 			->once()
-			->andReturn( [ 'black-friday-2023-promotion' ] );
+			->andReturn( [ 'black-friday-2024-promotion' ] );
 
 		Monkey\Functions\expect( 'YoastSEO' )
 			->andReturn( (object) [ 'classes' => $this->create_classes_surface( $this->container ) ] );

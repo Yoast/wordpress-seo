@@ -31,16 +31,17 @@
 	border-radius: 14px;
 }
 
-#wpadminbar .yoast-menu-bf-sale-badge{
-    margin-left: 5px;
-    border-radius: 8px;
-    border: 1px solid #FCD34D;
-    background-color: #1F2937;
-    color: #FCD34D;
-    padding: 2px 8px;
-    font-size: 10px;
-    font-weight: 600;
-    line-height: normal;
+#wpadminbar .yoast-menu-bf-sale-badge {
+	margin-left: 5px;
+	border-radius: 8px;
+	border: 1px solid #fcd34d;
+	background-color: #1f2937;
+	color: #fcd34d;
+	padding: 2px 8px;
+	font-size: 10px;
+	font-weight: 600;
+	line-height: normal;
+	text-wrap: nowrap;
 }
 
 #wpadminbar .quicklinks #wp-admin-bar-wpseo-menu .wpseo-focus-keyword {

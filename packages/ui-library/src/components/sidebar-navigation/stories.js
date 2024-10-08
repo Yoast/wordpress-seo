@@ -47,6 +47,9 @@ export const Factory = {
 				<SidebarNavigation.SubmenuItem to="#sub3" label="SubmenuItem 3 label" />
 
 			</SidebarNavigation.MenuItem>
+			<ul className="yst-mt-1 yst-space-y-1">
+				<SidebarNavigation.SubmenuItem icon={ NewspaperIcon } to="#sub3" label="SubmenuItem 3 label" />
+			</ul>
 		</SidebarNavigation.Sidebar>,
 	},
 };
@@ -217,7 +220,7 @@ export default {
 		},
 		icon: {
 			control: "object",
-			description: "Available for `MenuItem`",
+			description: "Available for `MenuItem` and `SubmenuItem`",
 			table: {
 				type: { summary: "JSX Element" },
 			},

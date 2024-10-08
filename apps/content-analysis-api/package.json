@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "main": "index.js",
     "scripts": {
-        "postinstall": "yarn --cwd node_modules/yoastseo build",
+        "postinstall": "yarn --cwd node_modules/yoastseo build && yarn --cwd node_modules/yoastseo pretest",
         "start": "node index.js"
     },
     "dependencies": {
