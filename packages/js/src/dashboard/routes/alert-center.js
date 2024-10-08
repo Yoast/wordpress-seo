@@ -4,7 +4,7 @@ import { PremiumUpsellList } from "../../shared-admin/components/premium-upsell-
 import { Notifications, Problems } from "../components";
 import SidebarRecommendations from "../components/sidebar-recommendations";
 import { useSelectDashboard } from "../hooks";
-import classNames from "classnames";
+
 /**
  * @returns {JSX.Element} The dashboard content placeholder.
  */
@@ -13,10 +13,11 @@ export const AlertCenter = () => {
 	const premiumLink = useSelectDashboard( "selectLink", [], "https://yoa.st/17h" );
 	const premiumUpsellConfig = useSelectDashboard( "selectUpsellSettingsAsProps" );
 	const promotions = useSelectDashboard( "selectPreference", [], "promotions", [] );
-	return <>
-		<div className={ classNames( {  "yst-flex yst-flex-wrap xl:yst-pr-[17.5rem]": ! isPremium } ) }>
+	return <div className="yst-flex yst-gap-8 xl:yst-flex-row yst-flex-col">
+		 { /* Alert center */ }
+		<div className="yst-flex yst-flex-wrap yst-flex-grow xl:yst-flex-row yst-flex-col">
 			<Paper className="yst-grow">
-				<header className="yst-p-8 yst-border-b yst-border-slate-200">
+				<header className="yst-p-8">
 					<div className="yst-max-w-screen-sm">
 						<Title>{ __( "Alert center", "wordpress-seo" ) }</Title>
 						<p className="yst-text-tiny yst-mt-3">
@@ -25,16 +26,19 @@ export const AlertCenter = () => {
 					</div>
 				</header>
 			</Paper>
-			<div className="yst-grid lg:yst-grid-cols-2 yst-gap-8 yst-my-8 yst-grow">
-				<Problems />
-				<Notifications />
+			<div className="yst-basis-full">
+				<div className="yst-grid lg:yst-grid-cols-2 yst-gap-8 yst-my-8 yst-grow yst-items-start">
+					<Problems />
+					<Notifications />
+				</div>
 				{ ! isPremium && <PremiumUpsellList
 					premiumLink={ premiumLink }
 					premiumUpsellConfig={ premiumUpsellConfig }
 					promotions={ promotions }
 				/> }
 			</div>
-			<SidebarRecommendations />
 		</div>
-	</>;
+		{ /* Sidebar Recommendations */ }
+		<SidebarRecommendations />
+	</div>;
 };
