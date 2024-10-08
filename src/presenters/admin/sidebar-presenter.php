@@ -55,8 +55,8 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						<h2 class="yoast-get-premium-title">
 							<?php
 							if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
-								/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. */
-								\printf( \esc_html__( '%1$sAll annual plans incl.%2$s', 'wordpress-seo' ), '<span>', '</span>' );
+								/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
+								\printf( \esc_html__( '%1$sBuy%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast SEO Premium' );
 							}
 							else {
 								/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
