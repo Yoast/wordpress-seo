@@ -35,7 +35,7 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 
 		getPremium = createInterpolateElement(
 			sprintf(
-				/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
+				/* translators: %1$s and %3$s expand to a span wrap to avoid linebreaks. %2$s expands to "Yoast SEO Premium". */
 				__( "%1$sBuy %2$s%3$s", "wordpress-seo" ),
 				"<nowrap>",
 				"Yoast SEO Premium",
