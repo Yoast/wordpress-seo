@@ -253,12 +253,12 @@ final class General_Page_Integration_Test extends TestCase {
 
 		$this->asset_manager
 			->expects( 'enqueue_script' )
-			->with( 'general' )
+			->with( 'general-page' )
 			->once();
 
 		$this->asset_manager
 			->expects( 'enqueue_style' )
-			->with( 'general' )
+			->with( 'general-page' )
 			->once();
 
 		$this->asset_manager
