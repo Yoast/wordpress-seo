@@ -1,4 +1,4 @@
-import { AcademyUpsellCard, PremiumUpsellCard, RecommendationsSidebar } from "../../shared-admin/components";
+import { AcademyUpsellCard, PremiumUpsellCard } from "../../shared-admin/components";
 import { useSelectDashboard } from "../hooks";
 /**
  * @returns {JSX.Element} The sidebar recommendations.
@@ -14,10 +14,14 @@ const SidebarRecommendations = () => {
 	}
 
 	return (
-		<RecommendationsSidebar>
-			<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } promotions={ promotions } />
-			<AcademyUpsellCard link={ academyLink } />
-		</RecommendationsSidebar>
+		<div className="yst-min-w-[16rem] xl:yst-max-w-[16rem]">
+			<div className="yst-sticky yst-top-16">
+				<div className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 min-[783px]:yst-grid-cols-1 lg:yst-grid-cols-2 xl:yst-grid-cols-1 yst-gap-4">
+					<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } promotions={ promotions } />
+					<AcademyUpsellCard link={ academyLink } />
+				</div>
+			</div>
+		</div>
 	);
 };
 
