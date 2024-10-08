@@ -1,5 +1,5 @@
 import { render } from "../../test-utils";
-import { RouteLayout } from "../../../src/dashboard/components/route-layout";
+import { RouteLayout } from "../../../src/general/components/route-layout";
 
 describe( "RouteLayout", () => {
 	const props = {

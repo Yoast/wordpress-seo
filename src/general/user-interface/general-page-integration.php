@@ -1,11 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Dashboard\User_Interface;
+namespace Yoast\WP\SEO\General\User_Interface;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -14,9 +13,9 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
- * Class New_Dashboard_Page_Integration.
+ * Class General_Page_Integration.
  */
-class New_Dashboard_Page_Integration implements Integration_Interface {
+class General_Page_Integration implements Integration_Interface {
 
 	/**
 	 * The page name.
@@ -107,7 +106,7 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class, New_Dashboard_Ui_Conditional::class ];
+		return [ Admin_Conditional::class ];
 	}
 
 	/**
@@ -160,7 +159,7 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function display_page() {
-		echo '<div id="yoast-seo-dashboard"></div>';
+		echo '<div id="yoast-seo-general"></div>';
 	}
 
 	/**
@@ -172,9 +171,9 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 		// Remove the emoji script as it is incompatible with both React and any contenteditable fields.
 		\remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		\wp_enqueue_media();
-		$this->asset_manager->enqueue_script( 'new-dashboard' );
-		$this->asset_manager->enqueue_style( 'new-dashboard' );
-		$this->asset_manager->localize_script( 'new-dashboard', 'wpseoScriptData', $this->get_script_data() );
+		$this->asset_manager->enqueue_script( 'general-page' );
+		$this->asset_manager->enqueue_style( 'general-page' );
+		$this->asset_manager->localize_script( 'general-page', 'wpseoScriptData', $this->get_script_data() );
 	}
 
 	/**

@@ -1,4 +1,4 @@
-import { toggleAlertStatus, alertCenterActions, alertCenterSelectors } from "../../../src/dashboard/store/alert-center";
+import { toggleAlertStatus, alertCenterActions, alertCenterSelectors } from "../../../src/general/store/alert-center";
 
 describe( "toggleAlertStatus", () => {
 	it( "should dispatch the request action", () => {

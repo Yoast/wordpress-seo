@@ -1,6 +1,6 @@
 import { render } from "../../test-utils";
-import { AlertsList } from "../../../src/dashboard/components/alerts-list";
-import { AlertsContext } from "../../../src/dashboard/contexts/alerts-context";
+import { AlertsList } from "../../../src/general/components/alerts-list";
+import { AlertsContext } from "../../../src/general/contexts/alerts-context";
 
 const notificationsTheme = {
 	bulletClass: "yst-fill-blue-500",

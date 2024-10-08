@@ -102,7 +102,7 @@ const App = () => {
 						{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
 							<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
 						}
-						{ notices.length > 0 && <div className="yst-space-y-3 yoast-new-dashboard-notices"> {
+						{ notices.length > 0 && <div className="yst-space-y-3 yoast-general-page-notices"> {
 							notices.map( ( notice, index ) => (
 								<Notice
 									key={ index }

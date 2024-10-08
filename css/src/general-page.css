@@ -3,7 +3,7 @@ body.toplevel_page_wpseo_dashboard {
 		display:none;
 	}
 
-	.yoast-new-dashboard-notices:last-child{
+	.yoast-general-page-notices:last-child{
 		margin-bottom: 2rem;
 	}
 
