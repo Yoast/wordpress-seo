@@ -282,7 +282,7 @@ Yoast SEO 23.6 brings more enhancements and bugfixes. [Find more information abo
 
 #### Enhancements
 
-* Adds a filter to modify the sitemap's URL. Props to [ashujangra](https://github.com/ashujangra).
+* Adds a filter to modify the main sitemap's URL. Props to [ashujangra](https://github.com/ashujangra).
 * Improves the _transition words_ assessment for Turkish and English by expanding the relevant lists of transitions words. Props to [abulu](https://wordpress.org/support/users/abulu/).
 * Uses the full-sized counterpart when a resized first content image is used for Open Graph and X images.
 
