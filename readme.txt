@@ -274,6 +274,24 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 23.7 =
+
+Release date: 2024-10-22
+
+#### Enhancements
+
+* Removes the _keyphrase in slug_ assessment for static home pages.
+
+#### Bugfixes
+
+* Fixes a bug where a database error would occur when there were no public taxonomies available for indexing.
+* Fixes a bug where another plugin running the `exit()` function inside the `plugin_loaded` hook would result in a fatal error. Props to @menno-ll.
+
+#### Other
+
+* Removes translation strings that are not meant for the Yoast SEO Free version from the plugin.
+* Resets the notice for search engines discouraged when changing Search engine visibility to visible.
+
 = 23.6 =
 
 Release date: 2024-10-08
@@ -295,21 +313,6 @@ Yoast SEO 23.6 brings more enhancements and bugfixes. [Find more information abo
 #### Other
 
 * Sets the minimum supported WordPress version to 6.5.
-
-= 23.5 =
-
-Release date: 2024-09-24
-
-Yoast SEO 23.5 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-24-9-24).
-
-#### Enhancements
-
-* Improves analysis score feedback labels in the publish sections.
-* Improves our integration with cache plugins by preventing flushing their cache when not needed.
-
-#### Bugfixes
-
-* Fixes a bug where Arabic keyphrases containing certain function words were not correctly matched.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
