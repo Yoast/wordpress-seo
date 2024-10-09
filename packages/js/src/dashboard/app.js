@@ -8,11 +8,10 @@ import { select } from "@wordpress/data";
 import { addQueryArgs } from "@wordpress/url";
 import { SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
-import { Link, Route, Routes, useLocation } from "react-router-dom";
+import { Link, useLocation, Outlet } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
 import { STORE_NAME } from "./constants";
-import { FirstTimeConfiguration, AlertCenter } from "./routes";
 import { getMigratingNoticeInfo, deleteMigratingNotices } from "../helpers/migrateNotices";
 import Notice from "./components/notice";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
@@ -126,10 +125,7 @@ const App = () => {
 								enterFrom="yst-opacity-0"
 								enterTo="yst-opacity-100"
 							>
-								<Routes>
-									<Route path="/" element={ <AlertCenter /> } />
-									<Route path="/first-time-configuration" element={ <FirstTimeConfiguration /> } />
-								</Routes>
+								<Outlet />
 							</Transition>
 						</main>
 					</div>
