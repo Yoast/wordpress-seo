@@ -271,7 +271,7 @@ const App = () => {
 								isPromotionActive={ isPromotionActive }
 							/> }
 						</div>
-						{ ! isPremium && 
+						{ ! isPremium &&
 							<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[16rem]">
 								<SidebarRecommendations
 									premiumLink={ premiumLinkSidebar }
