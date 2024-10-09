@@ -43,7 +43,7 @@ global.IntersectionObserver = class {
 	observe() {}
 
 	/**
-	 * Observe.
+	 * Unobserve.
 	 * @returns {void}
 	 */
 	unobserve() {}
