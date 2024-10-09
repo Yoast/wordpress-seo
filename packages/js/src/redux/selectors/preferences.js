@@ -1,5 +1,5 @@
 import { get } from "lodash";
-import { getIsProduct } from "./editorContext";
+import { getIsProduct, getIsProductTerm } from "./editorContext";
 
 /**
  * Gets a preference.
@@ -50,7 +50,7 @@ export const getIsWooSeoActive = state => getPreference( state, "isWooCommerceSe
  * Determines whether the WooCommerce SEO addon is not active in a product page.
  *
  * @param {Object} state The state.
- * @returns {Boolean} Whether the plugin is WooCommerce SEO or not.
+ * @returns {Boolean} Whether the WooCommerce SEO addon is not active in a product page.
  */
 export const getIsWooSeoUpsell = ( state ) => {
 	const isWooSeoActive = getIsWooSeoActive( state );
@@ -58,4 +58,18 @@ export const getIsWooSeoUpsell = ( state ) => {
 	const isProductPage = getIsProduct( state );
 
 	return ! isWooSeoActive && isWooCommerceActive && isProductPage;
+};
+
+/**
+ * Determines whether the WooCommerce SEO addon is not active in a product term.
+ *
+ * @param {Object} state The state.
+ * @returns {Boolean} Whether the WooCommerce SEO addon is not active in a product term.
+ */
+export const getIsWooSeoUpsellTerm = ( state ) => {
+	const isWooSeoActive = getIsWooSeoActive( state );
+	const isWooCommerceActive = getIsWooCommerceActive( state );
+	const isProductTerm = getIsProductTerm( state );
+
+	return ! isWooSeoActive && isWooCommerceActive && isProductTerm;
 };

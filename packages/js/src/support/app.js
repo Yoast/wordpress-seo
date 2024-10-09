@@ -243,10 +243,12 @@ export const App = () => {
 					</Paper.Content>
 				</Paper>
 				{ ! isPremium && (
-					<RecommendationsSidebar>
-						<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } isPromotionActive={ isPromotionActive } />
-						<AcademyUpsellCard link={ academyLink } />
-					</RecommendationsSidebar>
+					<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[16rem]">
+						<RecommendationsSidebar>
+							<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } isPromotionActive={ isPromotionActive } />
+							<AcademyUpsellCard link={ academyLink } />
+						</RecommendationsSidebar>
+					</div>
 				) }
 			</div>
 		</div>

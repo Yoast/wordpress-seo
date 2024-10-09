@@ -134,16 +134,15 @@ testPapers.forEach( function( testPaper ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
 		} );
 		const productIdentifiersAssessment = new ProductIdentifiersAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
+			urlTitle: "https://yoa.st/4ly",
+			urlCallToAction: "https://yoa.st/4lz",
 			assessVariants: true,
 		} );
 		const productSKUAssessment = new ProductSKUAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
+			urlTitle: "https://yoa.st/4lw",
+			urlCallToAction: "https://yoa.st/4lx",
 			assessVariants: true,
 			productType: "simple",
-			addSKULocation: true,
 		} );
 		const imageKeyphraseAssessment = new ImageKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
@@ -158,8 +157,8 @@ testPapers.forEach( function( testPaper ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify21" ),
 		}, true );
 		const imageAltTagsAsessment = new ImageAltTags( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify40" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify41" ),
+			urlTitle: "https://yoa.st/shopify40",
+			urlCallToAction: "https://yoa.st/shopify41",
 		} );
 		const keyphraseDistributionAssessment = new KeyphraseDistribution( {
 			urlTitle: "https://yoa.st/shopify30",
@@ -197,8 +196,8 @@ testPapers.forEach( function( testPaper ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
 		} );
 		const listPresenceAssessment = new ListAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify38" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify39" ),
+			urlTitle: "https://yoa.st/shopify38",
+			urlCallToAction: "https://yoa.st/shopify39",
 		} );
 		const wordComplexityAssessment = new WordComplexityAssessment( {
 			urlTitle: "https://yoa.st/shopify77",

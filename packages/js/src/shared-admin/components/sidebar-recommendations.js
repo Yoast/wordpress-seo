@@ -11,6 +11,13 @@ import { AcademyUpsellCard, PremiumUpsellCard, RecommendationsSidebar } from "./
  * @returns {JSX.Element} The sidebar recommendations.
  */
 const SidebarRecommendations = ( { isPremium, premiumLink, premiumUpsellConfig, academyLink, isPromotionActive } ) => {
+	console.trace();
+	console.log("isPremium: ", isPremium);
+	console.log("premiumLink: ", premiumLink);
+	console.log("premiumUpsellConfig: ", premiumUpsellConfig);
+	console.log("academyLink: ", academyLink);
+	console.log("isPromotionActive: ", isPromotionActive);
+
 	if ( isPremium ) {
 		return null;
 	}

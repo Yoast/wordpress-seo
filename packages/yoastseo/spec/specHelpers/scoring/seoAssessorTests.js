@@ -1,7 +1,7 @@
 import getResults from "../getAssessorResults";
 import Paper from "../../../src/values/Paper";
 import KeyphraseDistributionAssessment from "../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
-import keyPhraseDistribution from "../../../src/languageProcessing/researches/keyphraseDistribution";
+import keyphraseDistribution from "../../../src/languageProcessing/researches/keyphraseDistribution";
 
 /* eslint-disable complexity */
 /* eslint-disable max-statements */
@@ -29,7 +29,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 
 	if ( isProductAssessor && ! isStoreBlog ) {
 		// Add the Keyphrase distribution assessment to the assessor, which is available in these assessors in Shopify.
-		assessor._researcher.addResearch( "keyphraseDistribution", keyPhraseDistribution );
+		assessor._researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
 		assessor.addAssessment( "keyphraseDistribution", new KeyphraseDistributionAssessment( {
 			urlTitle: isProduct ? "https://yoast.com/33" : "https://yoa.st/shopify30",
 			urlCallToAction: isProduct ? "https://yoast.com/34" : "https://yoa.st/shopify31",
@@ -397,8 +397,12 @@ export function checkUrls( assessor, isProductAssessor = false ) {
 		const assessment = assessor.getAssessment( "keyphraseDistribution" );
 		const urlTitle = isProductAssessor ? "https://yoa.st/shopify30" : "https://yoa.st/33q";
 		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify31" : "https://yoa.st/33u";
-
-		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
+		// Only test this for product assessors, as the product specific/premium assessments have different URLs: they are not transformed into anchor opening tags.
+		if ( assessment ) {
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( urlTitle );
+			expect( assessment._config.urlCallToAction ).toBe( urlCallToAction );
+		}
 	} );
 
 	test( "OutboundLinks", () => {

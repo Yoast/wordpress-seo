@@ -249,3 +249,24 @@ describe( "A test for marking keywords in the text", function() {
 		expect( keyphraseDistributionAssessment.getMarks() ).toEqual( [] );
 	} );
 } );
+
+describe( "a test for retrieving the feedback texts", () => {
+	it( "should return the custom feedback texts when `callbacks.getResultTexts` is provided", () => {
+		const assessment = new KeyphraseDistributionAssessment( {
+			callbacks: {
+				getResultTexts: () => ( {
+					good: "The text has a good keyphrase distribution.",
+					okay: "Some parts of your text do not contain the keyphrase or its synonyms. Distribute them more evenly.",
+					bad: "Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. Distribute them more evenly.",
+					consideration: "Include your keyphrase or its synonyms in the text so that we can check keyphrase distribution.",
+				} ),
+			},
+		} );
+		expect( assessment.getFeedbackStrings() ).toEqual( {
+			good: "The text has a good keyphrase distribution.",
+			okay: "Some parts of your text do not contain the keyphrase or its synonyms. Distribute them more evenly.",
+			bad: "Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. Distribute them more evenly.",
+			consideration: "Include your keyphrase or its synonyms in the text so that we can check keyphrase distribution.",
+		} );
+	} );
+} );

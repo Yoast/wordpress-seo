@@ -863,6 +863,7 @@ class WPSEO_Utils {
 			'postTypeNamePlural'    => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,
 			'postTypeNameSingular'  => ( $page_type === 'post' ) ? $label_object->labels->singular_name : $label_object->singular_name,
 			'isBreadcrumbsDisabled' => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
+			'isAiFeatureActive'     => (bool) WPSEO_Options::get( 'enable_ai_generator' ),
 		];
 
 		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );

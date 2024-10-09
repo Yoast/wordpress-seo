@@ -39,9 +39,11 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive } ) => {
 		getPremium = createInterpolateElement(
 			sprintf(
 				/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
-				__( "%1$sAll annual plans incl. %2$s", "wordpress-seo" ),
+				__( "%1$sBuy%2$s %3$s", "wordpress-seo" ),
 				"<nowrap>",
-				"</nowrap>"
+				"</nowrap>",
+				"Yoast SEO Premium"
+
 			),
 			{
 				nowrap: <span className="yst-whitespace-nowrap" />,
@@ -77,8 +79,10 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive } ) => {
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
 			<p className="yst-text-center yst-text-xs yst-mx-2 yst-font-light yst-leading-5 yst-mt-2">
-				{ __( "Only $/€/£99 per year (ex VAT)", "wordpress-seo" ) }
-				<br />
+				{ ! isBlackFriday && <>
+					{ __( "Only $/€/£99 per year (ex VAT)", "wordpress-seo" ) }
+					<br />
+				</> }
 				{ __( "30-day money back guarantee.", "wordpress-seo" ) }
 			</p>
 			<hr className="yst-border-t yst-border-primary-300 yst-my-4" />

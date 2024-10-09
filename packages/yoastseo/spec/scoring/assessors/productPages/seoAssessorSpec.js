@@ -1,12 +1,9 @@
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher.js";
 import Assessor from "../../../../src/scoring/assessors/productPages/seoAssessor.js";
 import Paper from "../../../../src/values/Paper.js";
-import getResults from "../../../specHelpers/getAssessorResults.js";
-import { checkAssessmentAvailability } from "../../../specHelpers/scoring/seoAssessorTests.js";
 
 const mockPaper = new Paper( "" );
 const assessor = new Assessor( new EnglishResearcher( mockPaper ), {
-	assessVariants: true,
 	introductionKeyphraseUrlTitle: "https://yoast.com/1",
 	introductionKeyphraseCTAUrl: "https://yoast.com/2",
 	keyphraseLengthUrlTitle: "https://yoast.com/3",
@@ -37,45 +34,6 @@ const assessor = new Assessor( new EnglishResearcher( mockPaper ), {
 	imageCountCTAUrl: "https://yoast.com/28",
 	imageKeyphraseUrlTitle: "https://yoast.com/29",
 	imageKeyphraseCTAUrl: "https://yoast.com/30",
-	imageAltTagsUrlTitle: "https://yoast.com/31",
-	imageAltTagsCTAUrl: "https://yoast.com/32",
-	keyphraseDistributionUrlTitle: "https://yoast.com/33",
-	keyphraseDistributionCTAUrl: "https://yoast.com/34",
-	productIdentifierUrlTitle: "https://yoast.com/35",
-	productIdentifierCTAUrl: "https://yoast.com/36",
-	productSKUUrlTitle: "https://yoast.com/37",
-	productSKUCTAUrl: "https://yoast.com/38",
-} );
-
-describe( "running assessments in the product page SEO assessor", function() {
-	checkAssessmentAvailability( assessor, true );
-
-	it( "runs the productSKUAssessments when applicable (canRetrieveVariantSkus is true) that require the SKU to be detectable, " +
-		"and that shouldn't be applicable if the product has variants and we don't want to assess variants", function() {
-		const customData = {
-			canRetrieveGlobalSku: true,
-			canRetrieveVariantSkus: true,
-			hasVariants: true,
-			productType: "variable",
-		};
-		assessor.assess( new Paper( "", { customData } ) );
-		const AssessmentResults = assessor.getValidResults();
-		const assessments = getResults( AssessmentResults );
-
-		expect( assessments ).toContain( "productSKU" );
-	} );
-
-	it( "runs the productIdentifierAssessment when it is applicable (it has variants and assessVariants is True)", function() {
-		const customData = {
-			hasVariants: true,
-			productType: "variable",
-		};
-		assessor.assess( new Paper( "", { customData } ) );
-		const AssessmentResults = assessor.getValidResults();
-		const assessments = getResults( AssessmentResults );
-
-		expect( assessments ).toContain( "productIdentifier" );
-	} );
 } );
 
 describe( "has configuration overrides", () => {
@@ -225,41 +183,5 @@ describe( "has configuration overrides", () => {
 		expect( assessment._config ).toBeDefined();
 		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/29' target='_blank'>" );
 		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/30' target='_blank'>" );
-	} );
-
-	test( "ImageAltTags", () => {
-		const assessment = assessor.getAssessment( "imageAltTags" );
-
-		expect( assessment ).toBeDefined();
-		expect( assessment._config ).toBeDefined();
-		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/31' target='_blank'>" );
-		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/32' target='_blank'>" );
-	} );
-
-	test( "KeyphraseDistribution", () => {
-		const assessment = assessor.getAssessment( "keyphraseDistribution" );
-
-		expect( assessment ).toBeDefined();
-		expect( assessment._config ).toBeDefined();
-		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/33' target='_blank'>" );
-		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/34' target='_blank'>" );
-	} );
-	test( "ProductIdentifierAssessment", () => {
-		const assessment = assessor.getAssessment( "productIdentifier" );
-
-		expect( assessment ).toBeDefined();
-		expect( assessment._config ).toBeDefined();
-		expect( assessment._config.assessVariants ).toBe( true );
-		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/35' target='_blank'>" );
-		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/36' target='_blank'>" );
-	} );
-	test( "ProductSKUAssessment", () => {
-		const assessment = assessor.getAssessment( "productSKU" );
-
-		expect( assessment ).toBeDefined();
-		expect( assessment._config ).toBeDefined();
-		expect( assessment._config.assessVariants ).toBe( true );
-		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/37' target='_blank'>" );
-		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/38' target='_blank'>" );
 	} );
 } );

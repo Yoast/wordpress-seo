@@ -14,9 +14,6 @@ import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssess
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment.js";
 import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment.js";
 import ImageCountAssessment from "../../assessments/seo/ImageCountAssessment.js";
-import ImageAltTagsAssessment from "../../assessments/seo/ImageAltTagsAssessment.js";
-import ProductIdentifiersAssessment from "../../assessments/seo/ProductIdentifiersAssessment.js";
-import ProductSKUAssessment from "../../assessments/seo/ProductSKUAssessment.js";
 import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
@@ -110,24 +107,6 @@ export default class ProductSEOAssessor extends SEOAssessor {
 			new ImageKeyphraseAssessment( {
 				urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
 				urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
-			} ),
-			new ImageAltTagsAssessment( {
-				urlTitle: createAnchorOpeningTag( options.imageAltTagsUrlTitle ),
-				urlCallToAction: createAnchorOpeningTag( options.imageAltTagsCTAUrl ),
-			} ),
-			new ProductIdentifiersAssessment( {
-				urlTitle: createAnchorOpeningTag( options.productIdentifierUrlTitle ),
-				urlCallToAction: createAnchorOpeningTag( options.productIdentifierCTAUrl ),
-				assessVariants: options.assessVariants,
-				productIdentifierOrBarcode: options.productIdentifierOrBarcode,
-				shouldShowEditButton: options.shouldShowEditButtons,
-			} ),
-			new ProductSKUAssessment( {
-				urlTitle: createAnchorOpeningTag( options.productSKUUrlTitle ),
-				urlCallToAction: createAnchorOpeningTag( options.productSKUCTAUrl ),
-				assessVariants: options.assessVariants,
-				addSKULocation: options.addSKULocation,
-				shouldShowEditButton: options.shouldShowEditButtons,
 			} ),
 		];
 	}

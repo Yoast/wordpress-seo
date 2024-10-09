@@ -1,5 +1,4 @@
-import { _n, sprintf } from "@wordpress/i18n";
-import { merge } from "lodash";
+import { mapValues, merge } from "lodash";
 
 import Assessment from "../assessment";
 import Mark from "../../../values/Mark";
@@ -16,6 +15,12 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * Constructs a new TextAlignmentAssessment.
 	 *
 	 * @param {object} config The configuration to use.
+	 * @param {string} [config.urlTitle] The URL to the article about this assessment.
+	 * @param {string} [config.urlCallToAction] The URL to the help article for this assessment.
+	 * @param {object} [config.scores] The scores to use for the assessment.
+	 * @param {number} [config.scores.bad] The score to return if the text has an over-use of center-alignment.
+	 * @param {object} [config.callbacks] The callbacks to use for the assessment.
+	 * @param {function} [config.callbacks.getResultTexts] The function that returns the result texts.
 	 *
 	 * @returns {void}
 	 */
@@ -23,11 +28,12 @@ export default class TextAlignmentAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/assessment-alignment" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/assessment-alignment-cta" ),
+			urlTitle: "https://yoa.st/assessment-alignment",
+			urlCallToAction: "https://yoa.st/assessment-alignment-cta",
 			scores: {
 				bad: 2,
 			},
+			callbacks: {},
 		};
 
 		this._config = merge( defaultConfig, config );
@@ -45,15 +51,15 @@ export default class TextAlignmentAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const longCenterAlignedTexts = researcher.getResearch( "getLongCenterAlignedTexts" );
-		const numberOfLongCenterAlignedTexts = longCenterAlignedTexts.length;
+		this.numberOfLongCenterAlignedTexts = longCenterAlignedTexts.length;
 
 		const assessmentResult = new AssessmentResult();
 		// We don't want to show the assessment and its feedback when the paper doesn't contain center-aligned text.
-		if ( numberOfLongCenterAlignedTexts === 0 ) {
+		if ( this.numberOfLongCenterAlignedTexts === 0 ) {
 			return assessmentResult;
 		}
 
-		const calculatedScore = this.calculateResult( paper, numberOfLongCenterAlignedTexts );
+		const calculatedScore = this.calculateResult( paper, this.numberOfLongCenterAlignedTexts );
 
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
@@ -116,45 +122,58 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @returns {Object} The calculated result.
 	 */
 	calculateResult( paper, numberOfLongCenterAlignedTexts ) {
+		const { rightToLeft, leftToRight } = this.getFeedbackStrings();
 		if (  numberOfLongCenterAlignedTexts > 0 ) {
 			if ( paper.getWritingDirection() === "RTL" ) {
 				return {
 					score: this._config.scores.bad,
-					resultText: sprintf(
-						/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
-						%4$s expands to the number of the long center-aligned sections in the text */
-						_n(
-							"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it right-aligned%3$s.",
-							"%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. " +
-							"%2$sWe recommend making them right-aligned%3$s.",
-							numberOfLongCenterAlignedTexts,
-							"wordpress-seo-premium"
-						),
-						this._config.urlTitle,
-						this._config.urlCallToAction,
-						"</a>",
-						numberOfLongCenterAlignedTexts
-					),
+					resultText: rightToLeft,
 				};
 			}
 			return {
 				score: this._config.scores.bad,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
-						%4$s expands to the number of the long center-aligned sections in the text */
-					_n(
-						"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it left-aligned%3$s.",
-						"%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. " +
-						"%2$sWe recommend making them left-aligned%3$s.",
-						numberOfLongCenterAlignedTexts,
-						"wordpress-seo-premium"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>",
-					numberOfLongCenterAlignedTexts
-				),
+				resultText: leftToRight,
 			};
 		}
+	}
+
+	/**
+	 * Returns the feedback strings for the assessment.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
+	 * This callback function should return an object with the following properties:
+	 * - rightToLeft: string
+	 * - leftToRight: string
+	 * The singular strings are used when there is only one long center-aligned text, the plural strings are used when there are multiple.
+	 * rightToLeft is for the feedback string that is shown when the writing direction is right-to-left.
+	 * leftToRight is for the feedback string that is shown when the writing direction is left-to-right.
+	 *
+	 * @returns {{leftToRight: string, rightToLeft: string}} The feedback strings.
+	 */
+	getFeedbackStrings() {
+		// `urlTitleAnchorOpeningTag` represents the anchor opening tag with the URL to the article about this assessment.
+		const urlTitleAnchorOpeningTag = createAnchorOpeningTag( this._config.urlTitle );
+		// `urlActionAnchorOpeningTag` represents the anchor opening tag with the URL for the call to action.
+		const urlActionAnchorOpeningTag = createAnchorOpeningTag( this._config.urlCallToAction );
+
+		if ( ! this._config.callbacks.getResultTexts ) {
+			const defaultResultTexts = {
+				rightToLeft: "%1$sAlignment%3$s: There are long sections of center-aligned text. %2$sWe recommend making them right-aligned%3$s.",
+				leftToRight: "%1$sAlignment%3$s: There are long sections of center-aligned text. %2$sWe recommend making them left-aligned%3$s.",
+			};
+			if ( this.numberOfLongCenterAlignedTexts === 1 ) {
+				defaultResultTexts.rightToLeft = "%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it right-aligned%3$s.";
+				defaultResultTexts.leftToRight = "%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it left-aligned%3$s.";
+			}
+			return mapValues(
+				defaultResultTexts,
+				( resultText ) => this.formatResultText( resultText, urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag )
+			);
+		}
+
+		return this._config.callbacks.getResultTexts( {
+			urlTitleAnchorOpeningTag,
+			urlActionAnchorOpeningTag,
+			numberOfLongCenterAlignedTexts: this.numberOfLongCenterAlignedTexts,
+		} );
 	}
 }

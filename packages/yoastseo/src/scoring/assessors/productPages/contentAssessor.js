@@ -5,7 +5,6 @@ import SentenceLengthInTextAssessment from "../../assessments/readability/Senten
 import TransitionWordsAssessment from "../../assessments/readability/TransitionWordsAssessment.js";
 import PassiveVoiceAssessment from "../../assessments/readability/PassiveVoiceAssessment.js";
 import TextPresenceAssessment from "../../assessments/readability/TextPresenceAssessment.js";
-import ListAssessment from "../../assessments/readability/ListAssessment.js";
 import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
@@ -52,10 +51,6 @@ export default class ProductContentAssessor extends ContentAssessor {
 			new TextPresenceAssessment( {
 				urlTitle: createAnchorOpeningTag( options.textPresenceUrlTitle ),
 				urlCallToAction: createAnchorOpeningTag( options.textPresenceCTAUrl ),
-			} ),
-			new ListAssessment( {
-				urlTitle: createAnchorOpeningTag( options.listsUrlTitle ),
-				urlCallToAction: createAnchorOpeningTag( options.listsCTAUrl ),
 			} ),
 		];
 	}
