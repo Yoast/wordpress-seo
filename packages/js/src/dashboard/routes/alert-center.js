@@ -53,17 +53,17 @@ export const AlertCenter = () => {
 				/> }
 			</div>
 		</div>
-		{ /* Sidebar Recommendations */ }
-		<div className="yst-min-w-[16rem] xl:yst-max-w-[16rem]">
-			<div className="yst-sticky yst-top-16">
-				<SidebarRecommendations
-					isPremium={ isPremium }
-					premiumLink={ premiumLinkSidebar }
-					premiumUpsellConfig={ premiumUpsellConfig }
-					academyLink={ academyLink }
-					isPromotionActive={ isPromotionActive }
-				/>
+		{ ! isPremium &&
+			<div className="yst-min-w-[16rem] xl:yst-max-w-[16rem]">
+				<div className="yst-sticky yst-top-16">
+					<SidebarRecommendations
+						premiumLink={ premiumLinkSidebar }
+						premiumUpsellConfig={ premiumUpsellConfig }
+						academyLink={ academyLink }
+						isPromotionActive={ isPromotionActive }
+					/>
+				</div>
 			</div>
-		</div>
+		}
 	</div>;
 };

@@ -271,17 +271,16 @@ const App = () => {
 								isPromotionActive={ isPromotionActive }
 							/> }
 						</div>
-						<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[16rem]">
-							<div className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 min-[783px]:yst-grid-cols-1 lg:yst-grid-cols-2 xl:yst-grid-cols-1 yst-gap-4">
+						{ ! isPremium && 
+							<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[16rem]">
 								<SidebarRecommendations
-									isPremium={ isPremium }
 									premiumLink={ premiumLinkSidebar }
 									premiumUpsellConfig={ premiumUpsellConfig }
 									academyLink={ academyLink }
 									isPromotionActive={ isPromotionActive }
 								/>
 							</div>
-						</div>
+						}
 					</div>
 				</div>
 			</SidebarNavigation>

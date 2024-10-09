@@ -6,7 +6,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Badge, Button, FeatureUpsell, Link, Paper, Title } from "@yoast/ui-library";
 import classNames from "classnames";
-import { AcademyUpsellCard, PremiumUpsellCard, RecommendationsSidebar } from "../shared-admin/components";
+import SidebarRecommendations from "../shared-admin/components/sidebar-recommendations";
 import { FieldsetLayout } from "./components/fieldset-layout";
 import { ResourceCard } from "./components/resource-card";
 import { useSelectSupport } from "./hooks";
@@ -242,14 +242,16 @@ export const App = () => {
 						</div>
 					</Paper.Content>
 				</Paper>
-				{ ! isPremium && (
+				{ ! isPremium &&
 					<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[16rem]">
-						<RecommendationsSidebar>
-							<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } isPromotionActive={ isPromotionActive } />
-							<AcademyUpsellCard link={ academyLink } />
-						</RecommendationsSidebar>
+						<SidebarRecommendations
+							premiumLink={ premiumLink }
+							premiumUpsellConfig={ premiumUpsellConfig }
+							academyLink={ academyLink }
+							isPromotionActive={ isPromotionActive }
+						/>
 					</div>
-				) }
+				}
 			</div>
 		</div>
 	);
