@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
-import { merge } from "lodash";
+import { get, merge } from "lodash";
+import { reducers, selectors, actions } from "@yoast/externals/redux";
 import {
 	getInitialLinkParamsState,
 	getInitialNotificationsState,
@@ -35,6 +36,10 @@ import search, { createInitialSearchState, searchActions, searchSelectors } from
 import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors, taxonomyControls } from "./taxonomies";
 import users, { createInitialUsersState, usersActions, usersControls, usersSelectors } from "./users";
 
+const { isPromotionActive } = selectors;
+const { currentPromotions } = reducers;
+const { setCurrentPromotions } = actions;
+
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
 /**
@@ -57,6 +62,7 @@ const createStore = ( { initialState } ) => {
 			...searchActions,
 			...taxonomiesActions,
 			...usersActions,
+			setCurrentPromotions,
 		},
 		selectors: {
 			...breadcrumbsSelectors,
@@ -73,6 +79,7 @@ const createStore = ( { initialState } ) => {
 			...searchSelectors,
 			...taxonomiesSelectors,
 			...usersSelectors,
+			isPromotionActive,
 		},
 		initialState: merge(
 			{},
@@ -90,6 +97,7 @@ const createStore = ( { initialState } ) => {
 				search: createInitialSearchState(),
 				taxonomies: createInitialTaxonomiesState(),
 				users: createInitialUsersState(),
+				currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
 			},
 			initialState
 		),
@@ -107,6 +115,7 @@ const createStore = ( { initialState } ) => {
 			search,
 			taxonomies,
 			users,
+			currentPromotions,
 		} ),
 		controls: {
 			...mediaControls,

@@ -1,3 +1,4 @@
+import { noop } from "lodash";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
@@ -12,12 +13,11 @@ import { ReactComponent as G2Logo } from "./g2-logo-white.svg";
 /**
  * @param {string} link The link.
  * @param {Object} [linkProps] Extra link props.
- * @param {array} [promotions] Promotions.
+ * @param {function} isPromotionActive Callback to get whether a promotion is active.
  * @returns {JSX.Element} The premium upsell card.
  */
-export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
+export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive } ) => {
 	let info = useMemo( () => __( "Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support, and much, much more!", "wordpress-seo" ), [] );
-	const isBlackFriday = promotions.includes( "black-friday-2024-promotion" );
 	let getPremium = createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
@@ -30,6 +30,9 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 			nowrap: <span className="yst-whitespace-nowrap" />,
 		}
 	);
+
+	const isBlackFriday = isPromotionActive( "black-friday-2024-promotion" );
+
 	if ( isBlackFriday ) {
 		info = useMemo( () => __( "If you were thinking about upgrading, now's the time! 30% OFF ends 3rd Dec 11am (CET)", "wordpress-seo" ), [] );
 
@@ -111,10 +114,10 @@ export const PremiumUpsellCard = ( { link, linkProps, promotions } ) => {
 PremiumUpsellCard.propTypes = {
 	link: PropTypes.string.isRequired,
 	linkProps: PropTypes.object,
-	promotions: PropTypes.array,
+	isPromotionActive: PropTypes.func,
 };
 
 PremiumUpsellCard.defaultProps = {
 	linkProps: {},
-	promotions: [],
+	isPromotionActive: noop,
 };

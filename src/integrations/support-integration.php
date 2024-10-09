@@ -158,17 +158,17 @@ class Support_Integration implements Integration_Interface {
 	 */
 	public function get_script_data() {
 		return [
-			'preferences'   => [
+			'preferences'       => [
 				'isPremium'      => $this->product_helper->is_premium(),
 				'isRtl'          => \is_rtl(),
-				'promotions'     => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 				'pluginUrl'      => \plugins_url( '', \WPSEO_FILE ),
 				'upsellSettings' => [
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
 			],
-			'linkParams'    => $this->shortlink_helper->get_query_params(),
+			'linkParams'        => $this->shortlink_helper->get_query_params(),
+			'currentPromotions' => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 		];
 	}
 }
