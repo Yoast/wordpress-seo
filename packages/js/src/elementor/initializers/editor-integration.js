@@ -188,6 +188,8 @@ export const initializeElementEditorIntegration = () => {
 		if ( data.slug && data.slug !== formData.slug ) {
 			dispatch( "yoast-seo/editor" ).updateData( { slug: data.slug } );
 		}
+		// Update the saved slug.
+		dispatch( "yoast-seo/editor" ).setEditorDataSlug( data.slug );
 
 		// Update the save as draft warning. Note: skipping the debounce to include it in the snapshot.
 		updateSaveAsDraftWarning( hasUnsavedSeoChanges );
