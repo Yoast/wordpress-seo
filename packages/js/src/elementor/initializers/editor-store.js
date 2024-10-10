@@ -70,7 +70,6 @@ const populateStore = store => {
 	const slugInput = document.getElementById( "yoast_wpseo_slug" );
 	if ( slugInput ) {
 		store.dispatch( actions.setEditorDataSlug( slugInput.value ) );
-		store.dispatch( actions.updateData( { slug: slugInput.value } ) );
 	}
 };
 
