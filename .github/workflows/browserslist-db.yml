@@ -1,0 +1,57 @@
+name: Update Browserslist database
+
+on:
+  workflow_dispatch
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Update Browserslist database
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Set up Git user
+        run: |
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update Browserslist database and create PR
+        uses: c2corg/browserslist-update-action@b3c521a9a0336de4d4e646ddd2db5e05b2e1a2e6 # @v2.4.0 locked to a specific commit to avoid security issues due to a compromised repo.
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: browserslist-update
+          base_branch: ${{ github.ref_name }}
+          directory: .
+          commit_message: 'Update Browserslist database'
+          title: 'Update Browserslist database'
+          labels: 'changelog: non-user-facing'
+          body: |
+            ## Context
+
+            * We always want to target the latest browsers when building our JavaScript. This PR makes sure that the list/db on what is considered the "latest browsers" is up to date and consistent across our JavaScript packages.
+            * Solves the following build warning:
+            ```
+            Browserslist: caniuse-lite is outdated. Please run:
+              npx update-browserslist-db@latest
+              Why you should do it regularly: https://github.com/browserslist/update-db#readme
+            ```
+
+            ## Summary
+            This PR can be summarized in the following changelog entry:
+
+            * Updates the Browserslist database.
+
+            ## Relevant technical choices:
+
+            * Used [browserslist-update-action](https://github.com/c2corg/browserslist-update-action) to create this PR.
+            * Used `npx update-browserslist-db@latest` to update the Browserslist database.
