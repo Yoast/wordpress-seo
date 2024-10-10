@@ -58,7 +58,7 @@ function removeMarks() {
 function getContent( editorDocument ) {
 	const content = [];
 
-	editorDocument.$element.find( ".elementor-widget-container" ).each( ( index, element ) => {
+	editorDocument.$element?.find( ".elementor-widget-container" ).each( ( index, element ) => {
 		// We remove \n and \t from the HTML as Elementor formats the HTML after saving.
 		// As this spacing is purely cosmetic, we can remove it for analysis purposes.
 		// When we apply the marks, we do need to make the same amendments.
@@ -114,9 +114,6 @@ function getEditorData( editorDocument ) {
  */
 function handleEditorChange() {
 	const currentDocument = elementor.documents.getCurrent();
-	if ( ! currentDocument.$element ) {
-		return;
-	}
 
 	// Don't update the editor data when the form ID is not equal to the document ID.
 	if ( ! isFormIdEqualToDocumentId() ) {
@@ -243,4 +240,7 @@ export default function initialize() {
 
 	// This hook will fire when the contents of the editor are modified.
 	registerElementorUIHookAfter( "document/save/set-is-modified", "yoast-seo/content-scraper/on-modified", debouncedHandleEditorChange, ( { document } ) => isFormId( document?.id || elementor.documents.getCurrent().id ) );
+
+	// Set the initial editor data (note: content is not there yet due to $element loading in later).
+	handleEditorChange();
 }
