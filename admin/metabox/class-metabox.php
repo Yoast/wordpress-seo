@@ -74,7 +74,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_box' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ] );
+		add_action( 'enqueue_block_assets', [ $this, 'enqueue' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_post_overview_assets' ] );
 		add_action( 'wp_insert_post', [ $this, 'save_postdata' ] );
 		add_action( 'edit_attachment', [ $this, 'save_postdata' ] );
 		add_action( 'add_attachment', [ $this, 'save_postdata' ] );
@@ -799,6 +800,22 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
+	 * Enqueues assets for the post overview page.
+	 *
+	 * @return void
+	 */
+	public function enqueue_post_overview_assets() {
+		global $pagenow;
+
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+
+		if ( self::is_post_overview( $pagenow ) ) {
+			$asset_manager->enqueue_style( 'edit-page' );
+			$asset_manager->enqueue_script( 'edit-page' );
+		}
+	}
+
+	/**
 	 * Enqueues all the needed JS and CSS.
 	 *
 	 * @todo [JRF => whomever] Create css/metabox-mp6.css file and add it to the below allowed colors array when done.
@@ -811,13 +828,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		$is_editor = self::is_post_overview( $pagenow ) || self::is_post_edit( $pagenow );
-
-		if ( self::is_post_overview( $pagenow ) ) {
-			$asset_manager->enqueue_style( 'edit-page' );
-			$asset_manager->enqueue_script( 'edit-page' );
-
-			return;
-		}
 
 		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
 		if ( ( $is_editor === false && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->display_metabox() === false ) {
