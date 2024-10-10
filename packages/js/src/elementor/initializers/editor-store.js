@@ -6,6 +6,7 @@ import { createFreezeReducer } from "../../redux/utils/create-freeze-reducer";
 import { createSnapshotReducer } from "../../redux/utils/create-snapshot-reducer";
 import * as snippetEditorActions from "../redux/actions/snippetEditor";
 import * as analysisSelectors from "../redux/selectors/analysis";
+import * as snippetEditorSelectors from "../redux/selectors/snippet-editor";
 
 /**
  * Populates the store.
@@ -88,6 +89,7 @@ export default function initEditorStore() {
 			...selectors,
 			// Add or override selectors that are specific for Elementor.
 			...analysisSelectors,
+			...snippetEditorSelectors,
 		},
 		actions: pickBy( {
 			...actions,
