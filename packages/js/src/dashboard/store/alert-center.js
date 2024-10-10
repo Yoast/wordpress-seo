@@ -1,8 +1,8 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
-import { get } from "lodash";
-import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { ASYNC_ACTION_NAMES } from "../../shared-admin/constants";
 import { select } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
+import { get } from "lodash";
 
 export const ALERT_CENTER_NAME = "alertCenter";
 
@@ -26,7 +26,7 @@ export function* toggleAlertStatus( id, nonce, hidden = false ) {
 		    };
 		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.success }`, payload: { id } };
 	} catch ( error ) {
-		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
+		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.error }`, payload: { id } };
 	}
 }
 
@@ -45,15 +45,36 @@ const toggleAlert = ( state, id ) => {
 	}
 };
 
+/**
+ * Sets an error in case of unsuccessful toggling..
+ *
+ * @param {object} state The state.
+ * @param {string} id The id of the alert that generated the error..
+ *
+ * @returns {void}
+ */
+const setAlertToggleError = ( state, id ) => {
+	const index = state.alerts.findIndex( ( alert ) => alert.id === id );
+	if ( index === -1 ) {
+		state.alertToggleError = null;
+	} else {
+		state.alertToggleError = state.alerts[ index ];
+	}
+};
+
 const slice = createSlice( {
 	name: ALERT_CENTER_NAME,
-	initialState: { alerts: [] },
+	initialState: { alertToggleError: null, alerts: [] },
 	reducers: {
 		toggleAlert,
+		setAlertToggleError,
 	},
 	extraReducers: ( builder ) => {
-		builder.addCase( `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_STATUS.success }`, ( state, { payload: { id } } ) => {
+		builder.addCase( `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload: { id } } ) => {
 			slice.caseReducers.toggleAlert( state, id );
+		} );
+		builder.addCase( `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload: { id } } ) => {
+			slice.caseReducers.setAlertToggleError( state, id );
 		} );
 	},
 } );
@@ -69,7 +90,15 @@ export const getInitialAlertCenterState = slice.getInitialState;
  * @param {object} state The state.
  * @returns {array} The alerts.
  */
-const selectAlerts = ( state ) => get( state, "alertCenter.alerts", [] );
+const selectAlerts = ( state ) => get( state, `${ALERT_CENTER_NAME}.alerts`, [] );
+
+/**
+ * Selector to get the alert toggle error.
+ *
+ * @param {object} state The state.
+ * @returns {string}  id The id of the alert which caused the error..
+ */
+const selectAlertToggleError = ( state ) => get( state, `${ALERT_CENTER_NAME}.alertToggleError`, null );
 
 export const alertCenterSelectors = {
 	selectActiveProblems: createSelector(
@@ -88,6 +117,7 @@ export const alertCenterSelectors = {
 		[ selectAlerts ],
 		( alerts ) => alerts.filter( ( alert ) => alert.type === "warning" && alert.dismissed )
 	),
+	selectAlertToggleError,
 };
 
 export const alertCenterActions = {
@@ -96,7 +126,7 @@ export const alertCenterActions = {
 };
 
 export const alertCenterControls = {
-	[ TOGGLE_ALERT_VISIBILITY ]: ( { payload } ) => {
+	[ TOGGLE_ALERT_VISIBILITY ]: async( { payload } ) => {
 		const formData = new URLSearchParams();
 		formData.append( "action", payload.hidden ? "yoast_restore_notification" : "yoast_dismiss_notification" );
 		formData.append( "notification", payload.id );
@@ -104,13 +134,17 @@ export const alertCenterControls = {
 
 		const ajaxUrl = select( STORE_NAME ).selectPreference( "ajaxUrl" );
 
-		fetch( ajaxUrl, {
+		const response = await fetch( ajaxUrl, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 			},
 			body: formData.toString(),
 		} );
+
+		if ( ! response.ok ) {
+			throw new Error( "Failed to dismiss notification" );
+		}
 	},
 };
 
