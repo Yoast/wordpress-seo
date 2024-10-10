@@ -7,6 +7,7 @@ import { createSnapshotReducer } from "../../redux/utils/create-snapshot-reducer
 import * as snippetEditorActions from "../redux/actions/snippetEditor";
 import * as analysisSelectors from "../redux/selectors/analysis";
 import * as snippetEditorSelectors from "../redux/selectors/snippet-editor";
+import * as wincherSelectors from "../redux/selectors/wincher-seo-performance";
 
 /**
  * Populates the store.
@@ -89,6 +90,7 @@ export default function initEditorStore() {
 			// Add or override selectors that are specific for Elementor.
 			...analysisSelectors,
 			...snippetEditorSelectors,
+			...wincherSelectors,
 		},
 		actions: pickBy( {
 			...actions,

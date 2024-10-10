@@ -36,3 +36,13 @@ export const getSnippetEditorSlug = createSelector(
 		return editedSlug || savedSlug || cleanForSlug( documentTitle ) || String( documentId );
 	}
 );
+
+// Override the default `getSnippetEditorData` to include the "slug with fallback" override.
+export const getSnippetEditorData = createSelector(
+	[
+		getSnippetEditorTitle,
+		getSnippetEditorDescription,
+		getSnippetEditorSlug,
+	],
+	( title, description, slug ) => ( { title, description, slug } )
+);
