@@ -14,6 +14,6 @@ fs.rmSync( BUILD_DIR, { recursive: true, force: true } );
 fs.mkdirSync( BUILD_DIR, { recursive: true } );
 
 // Merge all CSS files to single style.css file.
-[ "elements", "components" ].forEach( scope => {
-	fs.appendFileSync( `${ BUILD_DIR }/style.css`, execSync( `cat src/${ scope }/**/*.css` ) );
-} );
+// [ "elements", "components" ].forEach( scope => {
+// 	fs.appendFileSync( `${ BUILD_DIR }/style.css`, execSync( `cat src/${ scope }/**/*.css` ) );
+// } );

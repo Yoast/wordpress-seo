@@ -70,6 +70,8 @@
     "tailwindcss": "^3.2.4"
   },
   "dependencies": {
+    "classnames": "^2.3.2",
+    "@heroicons/react": "^1.0.6",
     "@wordpress/i18n": "^5.9.0",
     "@yoast/ui-library": "^4.0.0",
     "lodash": "^4.17.21",

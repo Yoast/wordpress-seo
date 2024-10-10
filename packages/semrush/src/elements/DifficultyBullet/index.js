@@ -1,0 +1,135 @@
+import React, { useState, useCallback } from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import { __ } from "@wordpress/i18n";
+import { Tooltip } from "@yoast/ui-library";
+
+const veryEasy = {
+	"class": "yst-bg-[#009F81]",
+	tooltip: {
+		title: __( "Very easy", "wordpress-seo" ),
+		description: __( "Your chance to start ranking new pages.", "wordpress-seo" ),
+	},
+};
+
+const easy = {
+	"class": "yst-bg-[#59DDAA]",
+	tooltip: {
+		title: __( "Easy", "wordpress-seo" ),
+		description: __( "You will need quality content focused on the keyword’s intent.", "wordpress-seo" ),
+	},
+};
+
+const possible = {
+	"class": "yst-bg-[#FDC23C]",
+	tooltip: {
+		title: __( "Possible", "wordpress-seo" ),
+		description: __( "You will need well-structured and unique content.", "wordpress-seo" ),
+	},
+};
+
+const difficult = {
+	"class": "yst-bg-[#FF8C43]",
+	tooltip: {
+		title: __( "Difficult", "wordpress-seo" ),
+		description: __( "You will need lots of ref. domains and optimized content.", "wordpress-seo" ),
+	},
+};
+
+const hard = {
+	"class": "yst-bg-[#FF4953]",
+	tooltip: {
+		title: __( "Hard", "wordpress-seo" ),
+		description: __( "You will need lots of high-quality ref. domains and optimized content.", "wordpress-seo" ),
+	},
+};
+
+const veryHard = {
+	"class": "yst-bg-[#D1002F]",
+	tooltip: {
+		title: __( "Very hard", "wordpress-seo" ),
+		description: __( "It will take a lot of on-page SEO, link building, and content promotion efforts.", "wordpress-seo" ),
+	},
+};
+
+const variants = [
+	{ min: 0, max: 14, variant: veryEasy },
+	{ min: 15, max: 29, variant: easy },
+	{ min: 30, max: 49, variant: possible },
+	{ min: 50, max: 69, variant: difficult },
+	{ min: 70, max: 84, variant: hard },
+	{ min: 85, max: 100, variant: veryHard },
+];
+
+/**
+ * Returns the variant of the difficulty.
+ *
+ * @param {number} value The percentage of difficulty.
+ * @returns {object} The variant of the difficulty.
+ */
+const getVariant = ( value ) => {
+	for ( const { min, max, variant } of variants ) {
+		if ( min <= value && value <= max ) {
+			return variant;
+		}
+	}
+	throw new Error( "Value out of range" );
+};
+
+
+/**
+ *
+ * @param {value} value The percentage of difficulty.
+ *
+ * @returns {wp.Element} The percentage of difficulty with a bullet with matching color.
+ */
+const DifficultyBullet = ( { value } ) => {
+	const [ isVisible, setIsVisible ] = useState( false );
+
+	const handleMouseEnter = useCallback(
+		() => setIsVisible( true ),
+		[ setIsVisible ],
+	);
+
+	const handleMouseLeave = useCallback(
+		() => setIsVisible( false ),
+		[ setIsVisible ],
+	);
+
+	const randomId = Math.random().toString( 36 ).substring( 7 );
+	const variant = getVariant( value );
+
+	return (
+		<div
+			className="yst-flex yst-gap-2 yst-items-center yst-relative"
+			onMouseEnter={ handleMouseEnter }
+			onMouseLeave={ handleMouseLeave }
+		>
+			<div className="yst-w-5 yst-flex yst-justify-end">
+				{ value }
+			</div>
+			<div
+				className={
+					classNames(
+						"yst-w-[11px] yst-h-[11px] yst-rounded-full",
+						variant.class,
+					) }
+			/>
+
+			{ isVisible && <Tooltip
+				id={ randomId }
+				className="yst-flex yst-flex-col yst-max-w-[180px] yst-text-[11px] yst-leading-4 yst-font-normal"
+			>
+				<span className="yst-font-medium">{ variant.tooltip.title } </span>
+				{ variant.tooltip.description }
+			</Tooltip> }
+
+		</div>
+	);
+};
+
+DifficultyBullet.propTypes = {
+	value: PropTypes.number.isRequired,
+};
+
+export default DifficultyBullet;
