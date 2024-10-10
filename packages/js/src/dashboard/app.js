@@ -11,7 +11,6 @@ import PropTypes from "prop-types";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
-import { getToastErrorMessage} from "./helpers";
 import { STORE_NAME } from "./constants";
 import { getMigratingNoticeInfo, deleteMigratingNotices } from "../helpers/migrateNotices";
 import Notice from "./components/notice";
@@ -87,65 +86,65 @@ const App = () => {
 
 	return (
 		<>
-		<SidebarNavigation activePath={ pathname }>
-			<SidebarNavigation.Mobile
-				openButtonId="button-open-dashboard-navigation-mobile"
-				closeButtonId="button-close-dashboard-navigation-mobile"
-				/* translators: Hidden accessibility text. */
-				openButtonScreenReaderText={ __( "Open dashboard navigation", "wordpress-seo" ) }
-				/* translators: Hidden accessibility text. */
-				closeButtonScreenReaderText={ __( "Close dashboard navigation", "wordpress-seo" ) }
-				aria-label={ __( "Dashboard navigation", "wordpress-seo" ) }
-			>
-				<Menu idSuffix="-mobile" />
-			</SidebarNavigation.Mobile>
-			<div className="yst-p-4 min-[783px]:yst-p-8 yst-flex yst-gap-4">
-				<aside className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden min-[783px]:yst-block yst-pb-6 yst-bottom-0 yst-w-56">
-					<SidebarNavigation.Sidebar>
-						<Menu />
-					</SidebarNavigation.Sidebar>
-				</aside>
-				<div className="yst-grow">
-					<div>
-						{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
-							<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
-						}
-						{ notices.length > 0 && <div className="yst-space-y-3 yoast-new-dashboard-notices"> {
-							notices.map( ( notice, index ) => (
-								<Notice
-									key={ index }
-									id={ notice.id || "yoast-dashboard-notice-" + index }
-									title={ notice.header }
-									isDismissable={ notice.isDismissable }
+			<SidebarNavigation activePath={ pathname }>
+				<SidebarNavigation.Mobile
+					openButtonId="button-open-dashboard-navigation-mobile"
+					closeButtonId="button-close-dashboard-navigation-mobile"
+					/* translators: Hidden accessibility text. */
+					openButtonScreenReaderText={ __( "Open dashboard navigation", "wordpress-seo" ) }
+					/* translators: Hidden accessibility text. */
+					closeButtonScreenReaderText={ __( "Close dashboard navigation", "wordpress-seo" ) }
+					aria-label={ __( "Dashboard navigation", "wordpress-seo" ) }
+				>
+					<Menu idSuffix="-mobile" />
+				</SidebarNavigation.Mobile>
+				<div className="yst-p-4 min-[783px]:yst-p-8 yst-flex yst-gap-4">
+					<aside className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden min-[783px]:yst-block yst-pb-6 yst-bottom-0 yst-w-56">
+						<SidebarNavigation.Sidebar>
+							<Menu />
+						</SidebarNavigation.Sidebar>
+					</aside>
+					<div className="yst-grow">
+						<div>
+							{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
+								<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
+							}
+							{ notices.length > 0 && <div className="yst-space-y-3 yoast-new-dashboard-notices"> {
+								notices.map( ( notice, index ) => (
+									<Notice
+										key={ index }
+										id={ notice.id || "yoast-dashboard-notice-" + index }
+										title={ notice.header }
+										isDismissable={ notice.isDismissable }
+									>
+										{ notice.content }
+									</Notice>
+								) )
+							}
+							</div> }
+						</div>
+						<div className="yst-space-y-6 yst-mb-8 xl:yst-mb-0">
+							<main>
+								<Transition
+									key={ pathname }
+									appear={ true }
+									show={ true }
+									enter="yst-transition-opacity yst-delay-100 yst-duration-300"
+									enterFrom="yst-opacity-0"
+									enterTo="yst-opacity-100"
 								>
-									{ notice.content }
-								</Notice>
-							) )
-						}
-						</div> }
-					</div>
-					<div className="yst-space-y-6 yst-mb-8 xl:yst-mb-0">
-						<main>
-							<Transition
-								key={ pathname }
-								appear={ true }
-								show={ true }
-								enter="yst-transition-opacity yst-delay-100 yst-duration-300"
-								enterFrom="yst-opacity-0"
-								enterTo="yst-opacity-100"
-							>
-								<Outlet />
-							</Transition>
-						</main>
+									<Outlet />
+								</Transition>
+							</main>
+						</div>
 					</div>
 				</div>
-			</div>
-		</SidebarNavigation>
+			</SidebarNavigation>
 			<Notifications
 				className="yst-mx-[calc(50%-50vw)] yst-transition-all lg:yst-left-44"
 				position="bottom-left"
 			>
-				{ alertType && <Notifications.Notification
+				{ alertToggleError && <Notifications.Notification
 					id="toggle-alert-error"
 					title={ __( "Something went wrong", "wordpress-seo" ) }
 					variant="error"
@@ -154,7 +153,7 @@ const App = () => {
 					autoDismiss={ 4000 }
 					onDismiss={ handleDismiss }
 				>
-					{ getToastErrorMessage( alertType ) }
+					{ alertToggleError.type === "error" ? __( "This problem can't be hidden at this time. Please try again later.", "wordpress-seo" ) : __( "This notification can't be hidden at this time. Please try again later.", "wordpress-seo" ) }
 				</Notifications.Notification>
 				}
 			</Notifications>
