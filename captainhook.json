@@ -1,0 +1,64 @@
+{
+  "pre-push": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "composer test",
+        "conditions": [
+          {
+            "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileChanged\\Any",
+            "args": [
+              [
+                "*.php"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "action": "yarn test",
+        "conditions": [
+          {
+            "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileChanged\\Any",
+            "args": [
+              [
+                "*.js"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "pre-commit": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "composer check-cs-thresholds",
+        "conditions": [
+          {
+            "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\Any",
+            "args": [
+              [
+                "*.php"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "action": "yarn lint",
+        "conditions": [
+          {
+            "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\Any",
+            "args": [
+              [
+                "*.js"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
