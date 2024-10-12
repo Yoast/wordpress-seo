@@ -1,0 +1,51 @@
+{
+  "name": "@yoast/lexical-editor",
+  "version": "0.0.0",
+  "description": "Yoast lexical editor",
+  "main": "build/index.js",
+  "files": [
+    "build/**/*"
+  ],
+  "author": "Team Yoast <support@yoast.com>",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yoast/wordpress-seo.git",
+    "directory": "packages/lexcial-editor"
+  },
+  "private": false,
+  "sideEffects": false,
+  "scripts": {
+    "build": "yarn clean && yarn build:js",
+    "build:js": "babel src --out-dir build",
+    "clean": "rm -rf build",
+    "lint": "eslint . --max-warnings=0",
+    "watch": "yarn clean && yarn build:js --watch"
+  },
+  "dependencies": {
+    "@lexical/react": "^0.18.0",
+    "@lexical/utils": "^0.18.0",
+    "@yoast/browserslist-config": "^1.2.3",
+    "lexical": "^0.18.0",
+    "lexical-beautiful-mentions": "^0.1.41",
+    "prop-types": "^15.8.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.25.7",
+    "@babel/core": "^7.25.8",
+    "@babel/eslint-parser": "^7.25.8",
+    "@babel/eslint-plugin": "^7.25.7",
+    "@babel/plugin-transform-runtime": "^7.25.7",
+    "@babel/preset-env": "^7.25.8",
+    "@babel/preset-react": "^7.25.7",
+    "eslint": "^8.57.1",
+    "eslint-config-yoast": "^6.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.34.1"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
