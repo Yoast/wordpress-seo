@@ -24,6 +24,7 @@ module.exports = {
 				allowTernary: true,
 			},
 		],
+		"react/prop-types": "off",
 		"space-unary-ops": [
 			"error",
 			{

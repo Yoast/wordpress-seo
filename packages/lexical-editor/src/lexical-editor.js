@@ -53,7 +53,7 @@ export const LexicalEditor = ( {
 			{ hasIndenting && <NoIndentingPlugin /> }
 			{ isSingleLine && <SingleLinePlugin /> }
 			{ shouldAutoFocus && <AutoFocusPlugin /> }
-			<BeautifulMentionsPlugin { ...mentionsProps } />
+			{ initialConfig.nodes?.includes( BeautifulMentionNode ) && <BeautifulMentionsPlugin { ...mentionsProps } /> }
 			{ children }
 		</LexicalComposer>
 	);

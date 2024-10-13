@@ -1,54 +1,36 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { BeautifulMentionNode, EmojiList, LexicalEditor } from "@yoast/lexical-editor";
+import { $getAllNodes, $getRoot, LexicalEditor, ReplacementNode, ReplacementPlugin } from "@yoast/lexical-editor";
+import { Badge } from "@yoast/ui-library";
 import { useSelectSettings } from "./hooks";
-
-const beautifulMentionsTheme = {
-	"@": "yst-px-1 yst-mx-px",
-	"@Focused": "yst-outline-none yst-shadow-md",
-	"due:": {
-		trigger: "yst-hidden",
-		value: "yst-text-orange-400",
-		container: "yst-px-1 yst-mx-px",
-		containerFocused: "yst-outline-none yst-shadow-md",
-	},
-	":": {
-		trigger: "yst-hidden",
-		value: "",
-		container: "",
-		containerFocused: "",
-	},
-	"%": {
-		trigger: "yst-hidden",
-		container: "yst-badge yst-badge--plain yst-tag-input__tag yst-pe-2",
-		containerFocused: "yst-badge yst-badge--plain yst-tag-input__tag yst-pe-2 yst-outline-none yst-ring-2 yst-ring-primary-500",
-	},
-};
 
 const editorConfig = {
 	namespace: "yoast-seo/lexical-editor",
-	nodes: [ BeautifulMentionNode ],
+	nodes: [ ReplacementNode ],
 	onError: console.error,
-	theme: {
-		beautifulMentions: beautifulMentionsTheme,
-	},
 };
+
+/**
+ * @param {Object} item The item.
+ * @returns {JSX.Element} The element.
+ */
+const transformItemToEditor = ( item ) => (
+	<Badge className="yst-badge yst-badge--plain yst-tag-input__tag yst-pe-2">
+		{ item.getLabel() }
+	</Badge>
+);
 
 export const Test = () => {
 	const handleChange = useCallback( ( editorState ) => {
-		console.log( editorState );
+		editorState.read( () => {
+			const nodes = $getAllNodes();
+			const root = $getRoot();
+			console.log( nodes, root.getTextContent() );
+		} );
 	}, [] );
 
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "custom_post_type" );
-	const mentionsProps = useMemo( () => ( {
-		items: {
-			"@": [ "Anton", "Boris", "Catherine", "Dmitri", "Elena", "Felix", "Gina" ],
-			"#": [ "Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape" ],
-			"due:": [ "Today", "Tomorrow", "01-01-2023" ],
-			":": Object.values( EmojiList ).map( ( { emoji, ...rest } ) => ( { value: emoji, ...rest } ) ),
-			"%": replacementVariables.map( ( { label, value, ...rest } ) => ( { value: label, val: value, ...rest } ) ),
-		},
-	} ), [ replacementVariables ] );
+	const items = useMemo( () => replacementVariables.map( ( { name, label, ...data } ) => ( { name, label, data } ) ), [] );
 
 	return (
 		<div className="yst-relative">
@@ -59,9 +41,16 @@ export const Test = () => {
 				>{ __( "Enter some text...", "wordpress-seo" ) }</div> }
 				onChange={ handleChange }
 				isSingleLine={ true }
-				mentionsProps={ mentionsProps }
+				shouldAutoFocus={ true }
 				className="yst-lexical-editor yst-tag-input yst-block"
-			/>
+			>
+				<ReplacementPlugin
+					items={ items }
+					trigger="%%"
+					minLength={ 0 }
+					transformItemToEditor={ transformItemToEditor }
+				/>
+			</LexicalEditor>
 		</div>
 	);
 };
