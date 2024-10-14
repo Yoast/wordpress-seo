@@ -98,24 +98,6 @@ const App = () => {
 					</SidebarNavigation.Sidebar>
 				</aside>
 				<div className="yst-grow">
-					<div>
-						{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
-							<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
-						}
-						{ pathname !== "/first-time-configuration" && notices.length > 0 && <div className="yst-space-y-3 yoast-new-dashboard-notices"> {
-							notices.map( ( notice, index ) => (
-								<Notice
-									key={ index }
-									id={ notice.id || "yoast-dashboard-notice-" + index }
-									title={ notice.header }
-									isDismissable={ notice.isDismissable }
-								>
-									{ notice.content }
-								</Notice>
-							) )
-						}
-						</div> }
-					</div>
 					<div className="yst-space-y-6 yst-mb-8 xl:yst-mb-0">
 						<main>
 							<Transition
@@ -126,6 +108,24 @@ const App = () => {
 								enterFrom="yst-opacity-0"
 								enterTo="yst-opacity-100"
 							>
+								<div>
+									{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
+										<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
+									}
+									{ pathname !== "/first-time-configuration" && notices.length > 0 && <div className="yst-space-y-3 yoast-new-dashboard-notices"> {
+										notices.map( ( notice, index ) => (
+											<Notice
+												key={ index }
+												id={ notice.id || "yoast-dashboard-notice-" + index }
+												title={ notice.header }
+												isDismissable={ notice.isDismissable }
+											>
+												{ notice.content }
+											</Notice>
+										) )
+									}
+									</div> }
+								</div>
 								<Routes>
 									<Route path="/" element={ <AlertCenter /> } />
 									<Route path="/first-time-configuration" element={ <FirstTimeConfiguration /> } />
