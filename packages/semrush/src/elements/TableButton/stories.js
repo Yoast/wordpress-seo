@@ -19,10 +19,10 @@ export const Factory = {
 			},
 		},
 	},
-	render: () => {
+	render: ( { disabled } ) => {
 		return <div className="yst-flex yst-gap-2">
-			<TableButton type="add" add={ noop } remove={ noop } />
-			<TableButton type="remove" add={ noop } remove={ noop } />
+			<TableButton type="add" add={ noop } remove={ noop } disabled={ disabled } />
+			<TableButton type="remove" add={ noop } remove={ noop } disabled={ disabled } />
 		</div>;
 	},
 };

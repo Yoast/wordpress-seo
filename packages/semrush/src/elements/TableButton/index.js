@@ -33,10 +33,11 @@ const variant = {
  * @param {string} type Whether it is an add button or not.
  * @param {Function} remove The remove function.
  * @param {Function} add The add function.
+ * @param {boolean} disabled Whether the button is disabled or not.
  *
  * @returns {wp.Element} The button.
  */
-const TableButton = ( { type = "add", remove, add } ) => {
+const TableButton = ( { type = "add", remove, add, disabled = false } ) => {
 	const [ successClass, setSuccessClass ] = useState( "" );
 	const [ buttonType, setButtonType ] = useState( type );
 	const [ successState, setSuccessState ] = useState( false );
@@ -104,6 +105,7 @@ const TableButton = ( { type = "add", remove, add } ) => {
 				variant[ buttonType ].buttonClass )
 			}
 			onClick={ onClick }
+			disabled={ disabled }
 		>
 			<ButtonIcon
 				className={
@@ -120,6 +122,7 @@ TableButton.propTypes = {
 	type: PropTypes.oneOf( [ "add", "remove" ] ),
 	remove: PropTypes.func.isRequired,
 	add: PropTypes.func.isRequired,
+	disabled: PropTypes.bool,
 };
 
 export default TableButton;
