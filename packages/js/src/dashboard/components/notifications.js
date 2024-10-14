@@ -31,7 +31,7 @@ export const Notifications = () => {
 	return (
 		<Paper>
 			<Paper.Content className="yst-flex yst-flex-col yst-gap-y-6">
-				<AlertsContext.Provider value={ notificationsTheme }>
+				<AlertsContext.Provider value={ { ...notificationsTheme } }>
 					<AlertsTitle counts={ notificationsAlertsList.length } title={ __( "Notifications", "wordpress-seo" ) }>
 						{ notificationsAlertsList.length === 0 && <p className="yst-mt-2 yst-text-sm">{ __( "No new notifications.", "wordpress-seo" ) }</p> }
 					</AlertsTitle>
