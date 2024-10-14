@@ -88,8 +88,6 @@ class SEMrushKeyphrasesTable extends Component {
 		const url = "https://www.semrush.com/analytics/keywordoverview/?q=" + encodeURIComponent( keyphrase ) +
 			"&db=" + encodeURIComponent( countryCode );
 
-		console.log( data );
-
 		return (
 			data && ! isEmpty( data.results ) && <Fragment>
 				<table className="yoast yoast-table">

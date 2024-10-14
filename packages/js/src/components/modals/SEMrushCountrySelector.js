@@ -200,8 +200,6 @@ class SEMrushCountrySelector extends Component {
 
 		const response = await this.doRequest( keyphrase, countryCode );
 
-		console.log( 'semrush', response );
-
 		if ( response.status === 200 ) {
 			this.handleSuccessResponse( response );
 
