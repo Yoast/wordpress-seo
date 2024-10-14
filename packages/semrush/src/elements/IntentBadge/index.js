@@ -61,11 +61,9 @@ const IntentBadge = ( { initial } ) => {
 		return null;
 	}
 
-	const randomId = `id-${ initial }-${ Math.random().toString( 36 ).substring( 7 ) }`;
-
 	return (
 		<div
-			aria-describedby={ randomId }
+			aria-label={ variants[ initial ].tooltip.description }
 			className={
 				classNames(
 					"yst-w-5 yst-h-5 yst-flex yst-items-center yst-justify-center yst-font-semibold yst-text-sm yst-relative",
@@ -77,7 +75,7 @@ const IntentBadge = ( { initial } ) => {
 		>
 			{ initial.toUpperCase() }
 
-			{ isVisible && <Tooltip id={ randomId } className="yst-flex yst-flex-col yst-max-w-[180px] yst-text-[11px] yst-leading-4 yst-font-normal">
+			{ isVisible && <Tooltip className="yst-flex yst-flex-col yst-max-w-[180px] yst-text-[11px] yst-leading-4 yst-font-normal">
 				<span className="yst-font-medium">{ variants[ initial ].tooltip.title } </span>
 				{ variants[ initial ].tooltip.description }
 			</Tooltip> }

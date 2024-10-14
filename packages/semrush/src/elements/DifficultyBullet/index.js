@@ -96,11 +96,11 @@ const DifficultyBullet = ( { value } ) => {
 		[ setIsVisible ],
 	);
 
-	const randomId = Math.random().toString( 36 ).substring( 7 );
 	const variant = getVariant( value );
 
 	return (
 		<div
+			aria-label={ variant.tooltip.description }
 			className="yst-flex yst-gap-2 yst-items-center yst-relative"
 			onMouseEnter={ handleMouseEnter }
 			onMouseLeave={ handleMouseLeave }
@@ -117,7 +117,6 @@ const DifficultyBullet = ( { value } ) => {
 			/>
 
 			{ isVisible && <Tooltip
-				id={ randomId }
 				className="yst-flex yst-flex-col yst-max-w-[180px] yst-text-[11px] yst-leading-4 yst-font-normal"
 			>
 				<span className="yst-font-medium">{ variant.tooltip.title } </span>
