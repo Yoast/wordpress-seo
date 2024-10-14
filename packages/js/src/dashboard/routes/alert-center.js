@@ -1,4 +1,4 @@
-import { select } from "@wordpress/data";
+import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
 import { PremiumUpsellList } from "../../shared-admin/components/premium-upsell-list";
@@ -6,17 +6,6 @@ import SidebarRecommendations from "../../shared-admin/components/sidebar-recomm
 import { Notifications, Problems } from "../components";
 import { useSelectDashboard } from "../hooks";
 import { STORE_NAME } from ".././constants";
-
-/**
- * Uses the store's selector to get whether a promotion is active.
- *
- * @param {string} promotionID The promotion ID.
- *
- * @returns {bool} Whether the promotion is active.
- */
-const isPromotionActive = ( promotionID ) => {
-	return select( STORE_NAME ).isPromotionActive( promotionID );
-};
 
 /**
  * @returns {JSX.Element} The dashboard content placeholder.
@@ -27,6 +16,7 @@ export const AlertCenter = () => {
 	const premiumLinkSidebar = useSelectDashboard( "selectLink", [], "https://yoa.st/jj" );
 	const premiumUpsellConfig = useSelectDashboard( "selectUpsellSettingsAsProps" );
 	const academyLink = useSelectDashboard( "selectLink", [], "https://yoa.st/3t6" );
+	const { isPromotionActive } = useSelect( STORE_NAME );
 
 	return <div className="yst-flex yst-gap-8 xl:yst-flex-row yst-flex-col">
 		 { /* Alert center */ }

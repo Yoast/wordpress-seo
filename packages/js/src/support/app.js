@@ -1,7 +1,7 @@
 /* eslint-disable complexity, react/jsx-max-depth */
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { createInterpolateElement, Fragment, useMemo } from "@wordpress/element";
-import { select } from "@wordpress/data";
+import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Badge, Button, FeatureUpsell, Link, Paper, Title } from "@yoast/ui-library";
@@ -31,17 +31,6 @@ const openHelpScoutBeacon = () => {
 };
 
 /**
- * Uses the store's selector to get whether a promotion is active.
- *
- * @param {string} promotionID The promotion ID.
- *
- * @returns {bool} Whether the promotion is active.
- */
-const isPromotionActive = ( promotionID ) => {
-	return select( STORE_NAME ).isPromotionActive( promotionID );
-};
-
-/**
  * @returns {JSX.Element} The app component.
  */
 export const App = () => {
@@ -55,6 +44,7 @@ export const App = () => {
 	const supportForumsLink = useSelectSupport( "selectLink", [], "https://yoa.st/support-forums-support-card" );
 	const githubLink = useSelectSupport( "selectLink", [], "https://yoa.st/github-repository-support-card" );
 	const contactSupportLink = useSelectSupport( "selectLink", [], "https://yoa.st/contact-support-to-unlock-premium-support-section" );
+	const { isPromotionActive } = useSelect( STORE_NAME );
 
 	const faq = useMemo( () => ( [
 		{

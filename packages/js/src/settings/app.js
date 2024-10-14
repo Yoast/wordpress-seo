@@ -2,7 +2,7 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
-import { select } from "@wordpress/data";
+import { useSelect } from "@wordpress/data";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, ChildrenLimiter, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
@@ -163,17 +163,6 @@ Menu.propTypes = {
 };
 
 /**
- * Uses the store's selector to get whether a promotion is active.
- *
- * @param {string} promotionID The promotion ID.
- *
- * @returns {bool} Whether the promotion is active.
- */
-const isPromotionActive = ( promotionID ) => {
-	return select( STORE_NAME ).isPromotionActive( promotionID );
-};
-
-/**
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
@@ -185,7 +174,7 @@ const App = () => {
 	const premiumLinkSidebar = useSelectSettings( "selectLink", [], "https://yoa.st/jj" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const academyLink = useSelectSettings( "selectLink", [], "https://yoa.st/3t6" );
-
+	const { isPromotionActive } = useSelect( STORE_NAME );
 
 	useRouterScrollRestore();
 
