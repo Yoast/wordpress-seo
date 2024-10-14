@@ -8,7 +8,7 @@ import { __ } from "@wordpress/i18n";
  * @param {array}    data                      Array of objects with X and Y coordinates for the SVG chart points.
  * @param {Function} mapChartDataToTableData   Function to adapt the chart points to meaningful data for the table.
  *
- * @returns {wp.Element} The data table for the SVG area chart.
+ * @returns {JSX.Element} The data table for the SVG area chart.
  */
 const TrendGraphTable = ( {
 	data,

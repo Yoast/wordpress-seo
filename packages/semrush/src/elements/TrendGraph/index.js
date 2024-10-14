@@ -14,7 +14,7 @@ import TrendGraphTable from "./TrendGraphTable";
  * @param {string}   strokeColor               The SVG chart line color in HEX format.
  * @param {number}   strokeWidth               The SVG chart line width.
  *
- * @returns {wp.Element} The SVG area chart component.
+ * @returns {JSX.Element} The SVG area chart component.
  */
 const TrendGraph = ( {
 	data,

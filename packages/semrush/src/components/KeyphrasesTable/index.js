@@ -15,7 +15,7 @@ import TableButton from "../../elements/TableButton";
  * @param {array} data The data for the row.
  * @param {boolean} isPremium Whether the user is premium or not.
  *
- * @returns {wp.Element} The row.
+ * @returns {JSX.Element} The row.
  */
 const KeyphrasesTableRow = ( { data, isPremium = false } ) => {
 	const [ relatedKeyphrase, volume, trend, difficulty, intent ] = data;
@@ -59,7 +59,7 @@ KeyphrasesTableRow.propTypes = {
  * Laoding keyphrase table row.
  * @param {boolean} isPremium Whether the user is premium or not.
  *
- * @returns {wp.Element} The loading row.
+ * @returns {JSX.Element} The loading row.
  */
 const LoadingKeyphrasesTableRow = ( { isPremium = false } ) => {
 	return (
@@ -100,7 +100,7 @@ LoadingKeyphrasesTableRow.propTypes = {
  * @param {object} rows The rows to display in the table.
  * @param {boolean} isPremium Whether the user is premium or not.
  *
- * @returns  {wp.Element} The keyphrases table.
+ * @returns  {JSX.Element} The keyphrases table.
  */
 const KeyphrasesTable = ( { rows, isPremium = false } ) => {
 	return <Table>

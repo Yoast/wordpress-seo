@@ -43,7 +43,7 @@ const variants = {
  *
  * @param {string} initial The initial of the intent.
  *
- * @returns {wp.Element} The colored initial badge.
+ * @returns {JSX.Element} The colored initial badge.
  */
 const IntentBadge = ( { initial } ) => {
 	const [ isVisible, setIsVisible ] = useState( false );

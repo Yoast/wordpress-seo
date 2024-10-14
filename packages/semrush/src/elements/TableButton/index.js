@@ -35,7 +35,7 @@ const variant = {
  * @param {Function} add The add function.
  * @param {boolean} disabled Whether the button is disabled or not.
  *
- * @returns {wp.Element} The button.
+ * @returns {JSX.Element} The button.
  */
 const TableButton = ( { type = "add", remove, add, disabled = false } ) => {
 	const [ successClass, setSuccessClass ] = useState( "" );

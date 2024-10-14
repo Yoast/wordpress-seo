@@ -81,7 +81,7 @@ const getVariant = ( value ) => {
  *
  * @param {value} value The percentage of difficulty.
  *
- * @returns {wp.Element} The percentage of difficulty with a bullet with matching color.
+ * @returns {JSX.Element} The percentage of difficulty with a bullet with matching color.
  */
 const DifficultyBullet = ( { value } ) => {
 	const [ isVisible, setIsVisible ] = useState( false );
