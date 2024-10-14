@@ -1,5 +1,7 @@
 // "use strict";
 import { languageProcessing } from "yoastseo";
+import { countSyllablesInWord } from "../../../../helpers/syllables/countSyllables";
+import syllables from "../../config/syllables.json";
 const { buildFormRule, createRulesFromArrays } = languageProcessing;
 
 /**
@@ -7,20 +9,58 @@ const { buildFormRule, createRulesFromArrays } = languageProcessing;
  *
  * @param {string}      endsWith            How the form ends.
  * @param {int}         minimumWordLength   How long the word should be to classify for this form.
- * @param {string[]}    exceptions          The list of words with that ending (endsWith) which are not this form.
+ * @param {string[]}    nonStemmingExceptions  The list of words with that ending (endsWith) which are not this form.
+ * @param {string[]}    forcedStemmingExceptions The list of words with that ending (endsWith) which are not caught by the regular rules.
+ * @param {Function}    extraCheck          An extra check to determine if the word is this form.
  *
  * @returns {Function} A function that checks if the input word can be a specific adjectival form.
  */
-const constructCanBeFunction = function( endsWith, minimumWordLength, exceptions ) {
-	return word => {
+const constructCanBeFunction = function( endsWith, minimumWordLength, nonStemmingExceptions = [], forcedStemmingExceptions = [], extraCheck = null ) {
+	return ( word ) => {
 		const wordLength = word.length;
+
 		if ( wordLength < minimumWordLength ) {
 			return false;
 		}
-
-		const doesEndWith = word.substring( wordLength - endsWith.length, wordLength ) === endsWith;
-		return doesEndWith && ! exceptions.includes( word );
+		if ( extraCheck ) {
+			return extraCheck( word, endsWith, nonStemmingExceptions, forcedStemmingExceptions );
+		}
+		return word.endsWith( endsWith ) && ! nonStemmingExceptions.includes( word );
 	};
+};
+
+/**
+ * Further checks if the word can be a specific adjectival form.
+ *
+ * @param {string} word The word to check.
+ * @param {string} endsWith The ending of the form.
+ * @param {string[]}  nonStemmingExceptions list of words ending with the form that are not this form.
+ * @param {string[]} forcedStemmingExceptions The list of words ending with the form that are not caught by the regular rules.
+ *
+ * @returns {boolean} Whether the word can be a specific adjectival form.
+ */
+const refineAdjectiveCheck = ( word, endsWith, nonStemmingExceptions, forcedStemmingExceptions ) => {
+	const countSyllables = countSyllablesInWord( word, syllables );
+	/*
+	 * This check is based on the regular comparative and superlative formation rules.
+	 * One syllable adjectives receive -er and -est. The syllable count of the comparative/superlative form is 2.
+	 * One syllable adjectives ending in -e receive -r and -st. The syllable count of the comparative/superlative form is 2.
+	 * One or two syllable adjectives ending in -y receive -ier and -iest. The syllable count of the comparative/superlative form is 3.
+	 * Words ending in -er/-est that don't follow the above rules are not comparatives/superlatives, unless listed in the exceptions list.
+	 */
+	if ( word.endsWith( endsWith ) ) {
+		const suffix = `i${ endsWith }`;
+		if ( forcedStemmingExceptions.includes( word.slice( 0, -suffix.length ) ) ||
+			forcedStemmingExceptions.includes( word.slice( 0, -endsWith.length ) ) ) {
+			return true;
+		}
+		if ( word.endsWith( suffix ) ) {
+			return countSyllables <= 3 && ! nonStemmingExceptions.includes( word );
+		}
+
+		return countSyllables <= 2 && ! nonStemmingExceptions.includes( word );
+	}
+	return false;
 };
 
 /**
@@ -35,15 +75,16 @@ const constructCanBeFunction = function( endsWith, minimumWordLength, exceptions
  * @param {string[]} stopAdjectives.erExceptions           The list of words that end with -er and are not comparatives.
  * @param {string[]} stopAdjectives.estExceptions          The list of words that end with -est and are not superlatives.
  * @param {string[]} stopAdjectives.lyExceptions           The list of words that end with -ly and are not adverbs.
+ * @param {string[]} multiSyllableAdjWithSuffixes          The list of adjectives containing more than 2 syllables that can have suffixes.
  *
  * @returns {Object} The base form of the input word.
  */
-export default function( word, regexAdjective, stopAdjectives ) {
+export default function( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes ) {
 	/*
 	 * Check comparatives: Consider only words of four letters or more (otherwise, words like "per" are being treated
 	 * as comparatives).
 	 */
-	const canBeComparative = constructCanBeFunction( "er", 4, stopAdjectives.erExceptions );
+	const canBeComparative = constructCanBeFunction( "er", 4, stopAdjectives.erExceptions, multiSyllableAdjWithSuffixes, refineAdjectiveCheck );
 	if ( canBeComparative( word ) ) {
 		const comparativeToBaseRegex = createRulesFromArrays( regexAdjective.comparativeToBase );
 		return {
@@ -56,7 +97,7 @@ export default function( word, regexAdjective, stopAdjectives ) {
 	 * Check superlatives: Consider only words of five letters or more (otherwise, words like "test" are being treated
 	 * as superlatives).
 	 */
-	const canBeSuperlative = constructCanBeFunction( "est", 5, stopAdjectives.estExceptions );
+	const canBeSuperlative = constructCanBeFunction( "est", 5, stopAdjectives.estExceptions, multiSyllableAdjWithSuffixes, refineAdjectiveCheck );
 	if ( canBeSuperlative( word ) ) {
 		const superlativeToBaseRegex = createRulesFromArrays( regexAdjective.superlativeToBase );
 		return {
