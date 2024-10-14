@@ -62,7 +62,7 @@ const TrendGraphTable = ( {
 					<tr>
 						{
 							data.map( ( point, index ) => {
-								return <td key={ index }>{ mapChartDataToTableData( point.y ) }</td>;
+								return <td key={ index }>{ mapChartDataToTableData( point ) }</td>;
 							} )
 						}
 					</tr>
@@ -73,12 +73,7 @@ const TrendGraphTable = ( {
 };
 
 TrendGraphTable.propTypes = {
-	data: PropTypes.arrayOf(
-		PropTypes.shape( {
-			x: PropTypes.number,
-			y: PropTypes.number,
-		} ),
-	).isRequired,
+	data: PropTypes.arrayOf( PropTypes.number ).isRequired,
 };
 
 

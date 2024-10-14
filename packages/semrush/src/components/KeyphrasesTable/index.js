@@ -20,7 +20,7 @@ import TableButton from "../../elements/TableButton";
 const KeyphrasesTableRow = ( { data, isPremium = false } ) => {
 	const [ relatedKeyphrase, volume, trend, difficulty, intent ] = data;
 	const intentInitials = intent ? intent.split( "," ) : [];
-	const chartPoints = trend.split( "," ).map( ( value, index ) => ( { x: index, y: parseFloat( value ) } ) );
+	const chartPoints = trend.split( "," ).map( value => parseFloat( value ) );
 
 	return (
 		<Table.Row>

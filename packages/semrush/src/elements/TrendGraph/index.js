@@ -24,19 +24,17 @@ const TrendGraph = ( {
 	strokeColor = "#498afc",
 	strokeWidth = 1.8,
 } ) => {
-	// When all the x values are zero, make sure the maximumX value is at least 1 to avoid a division by zero later.
-	const maximumXFromData = Math.max( 1, Math.max( ...data.map( point => point.x ) ) );
 	// When all the y values are zero, make sure the maximumY value is at least 1 to avoid a division by zero later.
-	const maximumYFromData = Math.max( 1, Math.max( ...data.map( point => point.y ) ) );
+	const maximumYFromData = Math.max( 1, Math.max( ...data.map( point => point ) ) );
 
 	// Reserve some vertical spacing to prevent the SVG stroke from being cut-off.
 	const chartHeight = height - strokeWidth;
 
 	const polylinePoints = data
-		.map( point => {
-			const x = ( point.x / maximumXFromData ) * width;
+		.map( ( point, index ) => {
+			const x = ( index / 11 ) * width;
 			// Add some vertical padding to make sure the line stroke is always drawn within the SVG.
-			const y = chartHeight - ( point.y / maximumYFromData ) * chartHeight + strokeWidth;
+			const y = chartHeight - ( point / maximumYFromData ) * chartHeight + strokeWidth;
 
 			return `${ x },${ y }`;
 		} )
@@ -77,12 +75,7 @@ const TrendGraph = ( {
 };
 
 TrendGraph.propTypes = {
-	data: PropTypes.arrayOf(
-		PropTypes.shape( {
-			x: PropTypes.number,
-			y: PropTypes.number,
-		} ),
-	).isRequired,
+	data: PropTypes.arrayOf( PropTypes.number ).isRequired,
 	width: PropTypes.number,
 	height: PropTypes.number,
 	fillColor: PropTypes.string,
