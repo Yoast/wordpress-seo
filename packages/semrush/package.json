@@ -1,6 +1,6 @@
 {
   "name": "@yoast/semrush",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Yoast Semrush library",
   "main": "build/index.js",
   "style": "build/css/style.css",
