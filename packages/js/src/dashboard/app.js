@@ -108,11 +108,11 @@ const App = () => {
 								enterFrom="yst-opacity-0"
 								enterTo="yst-opacity-100"
 							>
-								<div>
+								{ pathname !== "/first-time-configuration" && <div>
 									{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
 										<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
 									}
-									{ pathname !== "/first-time-configuration" && notices.length > 0 && <div className="yst-space-y-3 yoast-new-dashboard-notices"> {
+									{ notices.length > 0 && <div className="yst-space-y-3 yoast-new-dashboard-notices"> {
 										notices.map( ( notice, index ) => (
 											<Notice
 												key={ index }
@@ -125,7 +125,7 @@ const App = () => {
 										) )
 									}
 									</div> }
-								</div>
+								</div> }
 								<Routes>
 									<Route path="/" element={ <AlertCenter /> } />
 									<Route path="/first-time-configuration" element={ <FirstTimeConfiguration /> } />
