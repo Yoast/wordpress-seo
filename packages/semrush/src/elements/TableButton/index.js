@@ -8,7 +8,7 @@ import { __ } from "@wordpress/i18n";
 const variant = {
 	add: {
 		ButtonIcon: PlusIcon,
-		buttonIconClass: "yst-text-slate-400",
+		buttonIconClass: "yst-text-slate-400 yst-w-3 yst-h-3 yst-mr-[3px]",
 		buttonText: __( "Add", "wordpress-seo" ),
 		buttonClass: "yst-text-slate-700",
 		SuccessIcon: CheckIcon,
@@ -18,7 +18,7 @@ const variant = {
 	},
 	remove: {
 		ButtonIcon: TrashIcon,
-		buttonIconClass: "yst-text-red-500",
+		buttonIconClass: "yst-text-red-500 yst-w-4 yst-h-4",
 		buttonText: __( "Remove", "wordpress-seo" ),
 		buttonClass: "yst-text-red-500",
 		SuccessIcon: XIcon,
@@ -101,18 +101,13 @@ const TableButton = ( { type = "add", remove, add, disabled = false } ) => {
 			variant={ variant[ buttonType ].variant }
 			size="small"
 			className={ classNames(
-				"yst-flex yst-items-center yst-justify-center yst-gap-2 yst-text-xs",
+				"yst-flex yst-items-center yst-justify-center yst-gap-[6px] yst-text-xs",
 				variant[ buttonType ].buttonClass )
 			}
 			onClick={ onClick }
 			disabled={ disabled }
 		>
-			<ButtonIcon
-				className={
-					classNames(
-						"yst-w-4 yst-h-4",
-						variant[ buttonType ].buttonIconClass ) }
-			/>
+			<ButtonIcon className={ variant[ buttonType ].buttonIconClass } />
 			{ variant[ buttonType ].buttonText }
 		</Button>
 	);
