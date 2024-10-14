@@ -37,13 +37,12 @@ To include this packages CSS in your build, import it in your stylesheet **befor
 Now that your CSS is set up, you can start using the React components. Always start your React tree with the `Root` component, which provides a context for general options and a CSS classname for scoping this libraries CSS. Without it, components in this library will not render properly. Check out the `Root` component in [the Storybook](https://semrush.yoast.com/?path=/docs/2-components-root--factory).
 
 ```jsx
-import { Root, Alert } from "@yoast/semrush";
+import { Root } from "@yoast/ui-library";
+import { KeyphrasesTable } from "@yoast/semrush";
 
 export default () => (
     <Root context={ { isRtl: false } }>
-        <Alert variant="success">
-            Congrats! You've successfully setup the Semrush library.
-        </Alert>
+        <KeyphrasesTable data={data}>
     </Root>
 );
 ```
