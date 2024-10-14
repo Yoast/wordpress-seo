@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
-import { get, merge } from "lodash";
+import { merge } from "lodash";
 import { reducers, selectors, actions } from "@yoast/externals/redux";
 import {
 	getInitialLinkParamsState,
