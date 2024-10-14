@@ -342,3 +342,68 @@ describe( "determineStem", function() {
 		expect( determineStem( "goods", morphologyDataEN ) ).toEqual( "good" );
 	} );
 } );
+
+const agentNounsDataProvider = [
+	// Agent noun ending in -er.
+	[ "composer", "composer" ],
+	[ "computer", "computer" ],
+	[ "walker", "walker" ],
+	[ "maker", "maker" ],
+	[ "writer", "writer" ],
+	[ "player", "player" ],
+	[ "doomer", "doomer" ],
+	// Agent nouns in plural form.
+	[ "composers", "composer" ],
+	[ "computers", "computer" ],
+	[ "walkers", "walker" ],
+	[ "makers", "maker" ],
+	[ "writers", "writer" ],
+	[ "players", "player" ],
+	[ "doomers", "doomer" ],
+];
+
+describe( "determineStem for agent nouns", function() {
+	it.each( agentNounsDataProvider )( "stems agent noun %s to %s", function( word, expected ) {
+		expect( determineStem( word, morphologyDataEN ) ).toEqual( expected );
+	} );
+} );
+
+const adjectivesDataProvider = [
+	// Adjectives with one syllable stem that receive -er for comparative form.
+	[ "faster", "fast" ],
+	[ "fatter", "fat" ],
+	[ "bigger", "big" ],
+	// Adjectives with one syllable stem that receive -est for superlative form.
+	[ "fastest", "fast" ],
+	[ "fattest", "fat" ],
+	[ "biggest", "big" ],
+	// Adjectives with one syllable stem ending in -e that receive -r for comparative form.
+	[ "nicer", "nice" ],
+	[ "braver", "brave" ],
+	[ "simpler", "simple" ],
+	[ "cuter", "cute" ],
+	// [ "blonder", "blonde" ],
+	// Adjectives with one syllable stem ending in -e that receive -st for superlative form.
+	[ "nicest", "nice" ],
+	[ "bravest", "brave" ],
+	[ "simplest", "simple" ],
+	[ "cutest", "cute" ],
+	// [ "blondest", "blonde" ],
+	// Adjectives with two syllables stem that receive -er for comparative form.
+	[ "happier", "happy" ],
+	[ "noisier", "noisy" ],
+	[ "cleverer", "clever" ],
+	[ "narrower", "narrow" ],
+
+	// Adjectives with two syllable stem that receive -est for superlative form.
+	[ "happiest", "happy" ],
+	[ "noisiest", "noisy" ],
+	[ "cleverest", "clever" ],
+	[ "narrowest", "narrow" ],
+];
+
+describe( "determineStem for adjective forms", function() {
+	it.each( adjectivesDataProvider )( "stems adjective form %s to %s", function( word, expected ) {
+		expect( determineStem( word, morphologyDataEN ) ).toEqual( expected );
+	} );
+} );
