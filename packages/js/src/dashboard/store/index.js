@@ -43,9 +43,6 @@ const createStore = ( { initialState } ) => {
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				preferences: createInitialPreferencesState(),
 				[ ALERT_CENTER_NAME ]: getInitialAlertCenterState(),
-				currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
-				dismissedAlerts: get( window, "wpseoScriptData.dismissedAlerts", {} ),
-				isPremium: get( window, "wpseoScriptData.preferences.isPremium", false ),
 			},
 			initialState
 		),

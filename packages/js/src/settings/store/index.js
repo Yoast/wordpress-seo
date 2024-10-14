@@ -97,7 +97,6 @@ const createStore = ( { initialState } ) => {
 				search: createInitialSearchState(),
 				taxonomies: createInitialTaxonomiesState(),
 				users: createInitialUsersState(),
-				currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
 			},
 			initialState
 		),

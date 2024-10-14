@@ -33,7 +33,6 @@ const createStore = ( { initialState } ) => {
 			{
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				[ PREFERENCES_NAME ]: getInitialPreferencesState(),
-				currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
 			},
 			initialState
 		),
