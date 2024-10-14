@@ -22,8 +22,6 @@
     "watch:css": "node ./scripts/watch-css.js",
     "storybook": "storybook dev -p 6007",
     "build:storybook": "storybook build",
-    "test:storyshots": "yarn build:storybook --test --quiet && jest tests/storyshots.js",
-    "t_st": "yarn test:storyshots",
     "lint": "eslint src --max-warnings=0"
   },
   "devDependencies": {
