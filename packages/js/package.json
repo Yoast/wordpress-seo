@@ -36,7 +36,6 @@
     "@yoast/helpers": "^0.17.0-alpha.0",
     "@yoast/replacement-variable-editor": "^2.0.0-alpha.0",
     "@yoast/search-metadata-previews": "^3.0.0-alpha.0",
-    "@yoast/semrush": "^1.0.0",
     "@yoast/social-metadata-forms": "^2.0.0-alpha.0",
     "@yoast/style-guide": "^0.14.0-alpha.0",
     "@yoast/ui-library": "^4.0.0",
