@@ -20,7 +20,7 @@ import { AlertsContext } from "../contexts/alerts-context";
 const AlertItem = ( { id, nonce, dismissed, message  } ) => {
 	const { bulletClass = "" } = useContext( AlertsContext );
 	const { toggleAlertStatus } = useDispatch( "@yoast/dashboard" );
-	const Eye = dismissed ? EyeOffIcon : EyeIcon;
+	const Eye = dismissed ? EyeIcon : EyeOffIcon;
 
 	const toggleAlert = useCallback( () => {
 		toggleAlertStatus( id, nonce, dismissed );
