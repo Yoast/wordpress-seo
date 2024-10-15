@@ -1,33 +1,7 @@
-// "use strict";
 import { languageProcessing } from "yoastseo";
 import { countSyllablesInWord } from "../../../../helpers/syllables/countSyllables";
 import syllables from "../../config/syllables.json";
 const { buildFormRule, createRulesFromArrays } = languageProcessing;
-
-/**
- * Constructs a function that checks if the input word can be a specific adjectival form.
- *
- * @param {string}      endsWith            How the form ends.
- * @param {int}         minimumWordLength   How long the word should be to classify for this form.
- * @param {string[]}    nonStemmingExceptions  The list of words with that ending (endsWith) which are not this form.
- * @param {string[]}    forcedStemmingExceptions The list of words with that ending (endsWith) which are not caught by the regular rules.
- * @param {Function}    extraCheck          An extra check to determine if the word is this form.
- *
- * @returns {Function} A function that checks if the input word can be a specific adjectival form.
- */
-const constructCanBeFunction = function( endsWith, minimumWordLength, nonStemmingExceptions = [], forcedStemmingExceptions = [], extraCheck = null ) {
-	return ( word ) => {
-		const wordLength = word.length;
-
-		if ( wordLength < minimumWordLength ) {
-			return false;
-		}
-		if ( extraCheck ) {
-			return extraCheck( word, endsWith, nonStemmingExceptions, forcedStemmingExceptions );
-		}
-		return word.endsWith( endsWith ) && ! nonStemmingExceptions.includes( word );
-	};
-};
 
 /**
  * Further checks if the word can be a specific adjectival form.
@@ -49,18 +23,62 @@ const refineAdjectiveCheck = ( word, endsWith, nonStemmingExceptions, forcedStem
 	 * Words ending in -er/-est that don't follow the above rules are not comparatives/superlatives, unless listed in the exceptions list.
 	 */
 	if ( word.endsWith( endsWith ) ) {
-		const suffix = `i${ endsWith }`;
-		if ( forcedStemmingExceptions.includes( word.slice( 0, -suffix.length ) ) ||
-			forcedStemmingExceptions.includes( word.slice( 0, -endsWith.length ) ) ) {
+		// The suffix for adjectives ending in -y is -ier/-iest.
+		const adjectiveEndingInYSuffix = `i${ endsWith }`;
+		// Checks if the word is an adjective ending in -y that can have suffixes -er/-est.
+		const isStemEndingInY = word.endsWith( adjectiveEndingInYSuffix );
+		// Checks if the word is an adjective longer than one syllable that can have suffixes -er/-est, OR
+		// if the word is an adjective ending in -y containing more than two syllables that can have suffixes -ier/-iest.
+		const isForcedStemmingException = forcedStemmingExceptions.includes( word.slice( 0, -adjectiveEndingInYSuffix.length ) ) ||
+			forcedStemmingExceptions.includes( word.slice( 0, -endsWith.length ) );
+		// Check if the word ending in -er/-est is not a comparative/superlative.
+		const isNonStemmingException = nonStemmingExceptions.includes( word );
+		// The maximum syllable count for a word to be a comparative/superlative is 2, unless it ends in -y, then it's 3.
+		const maxSyllables = isStemEndingInY ? 3 : 2;
+
+		if ( isForcedStemmingException || ( countSyllables <= maxSyllables && ! isNonStemmingException ) ) {
 			return true;
 		}
-		if ( word.endsWith( suffix ) ) {
-			return countSyllables <= 3 && ! nonStemmingExceptions.includes( word );
-		}
-
-		return countSyllables <= 2 && ! nonStemmingExceptions.includes( word );
 	}
 	return false;
+};
+
+/**
+ * Checks if the word ends with a specific form and is not in the exceptions list.
+ *
+ * @param {string} word 		The word to check.
+ * @param {string} endsWith 	The ending of the form.
+ * @param {string[]} nonStemmingExceptions 	The list of words ending with the form that are not this form.
+ * @returns {boolean} Whether the word ends with the form and is not in the exceptions list.
+ */
+const endsWithAndNoException = ( word, endsWith, nonStemmingExceptions ) => word.endsWith( endsWith ) && ! nonStemmingExceptions.includes( word );
+
+/**
+ * Constructs a function that checks if the input word can be a specific adjectival form.
+ *
+ * @param {string}      endsWith            How the form ends.
+ * @param {int}         minimumWordLength   How long the word should be to classify for this form.
+ * @param {string[]}    [nonStemmingExceptions=[]]			The list of words with that ending (endsWith) which are not this form.
+ * @param {string[]}    [forcedStemmingExceptions=[]]		The list of words with that ending (endsWith) which are not caught by the regular rules.
+ * @param {Function}    [checkFunction=endsWithAndNoException]	An extra check to determine if the word is this form.
+ *
+ * @returns {Function} A function that checks if the input word can be a specific adjectival form.
+ */
+const constructCanBeFunction = function(
+	endsWith,
+	minimumWordLength,
+	nonStemmingExceptions = [],
+	forcedStemmingExceptions = [],
+	checkFunction = endsWithAndNoException
+) {
+	return word => {
+		const wordLength = word.length;
+
+		if ( wordLength < minimumWordLength ) {
+			return false;
+		}
+		return checkFunction( word, endsWith, nonStemmingExceptions, forcedStemmingExceptions );
+	};
 };
 
 /**
