@@ -6,36 +6,20 @@ import { __ } from "@wordpress/i18n";
 
 const variants = {
 	i: {
-		textColor: "yst-bg-blue-900",
-		backgroundColor: "yst-bg-blue-200",
-		tooltip: {
-			title: __( "Informational", "wordpress-seo" ),
-			description: __( "The user wants to find an answer to a specific question.", "wordpress-seo" ),
-		},
+		title: __( "Informational", "wordpress-seo" ),
+		description: __( "The user wants to find an answer to a specific question.", "wordpress-seo" ),
 	},
 	n: {
-		textColor: "yst-bg-violet-900",
-		backgroundColor: "yst-bg-violet-200",
-		tooltip: {
-			title: __( "Navigational", "wordpress-seo" ),
-			description: __( "The user wants to find a specific page or site.", "wordpress-seo" ),
-		},
+		title: __( "Navigational", "wordpress-seo" ),
+		description: __( "The user wants to find a specific page or site.", "wordpress-seo" ),
 	},
 	c: {
-		textColor: "yst-bg-amber-900",
-		backgroundColor: "yst-bg-amber-200",
-		tooltip: {
-			title: __( "Commercial", "wordpress-seo" ),
-			description: __( "The user wants to investigate brands or services.", "wordpress-seo" ),
-		},
+		title: __( "Commercial", "wordpress-seo" ),
+		description: __( "The user wants to investigate brands or services.", "wordpress-seo" ),
 	},
 	t: {
-		textColor: "yst-bg-green-900",
-		backgroundColor: "yst-bg-green-200",
-		tooltip: {
-			title: __( "Transactional", "wordpress-seo" ),
-			description: __( "The user wants to complete an action (conversion).", "wordpress-seo" ),
-		},
+		title: __( "Transactional", "wordpress-seo" ),
+		description: __( "The user wants to complete an action (conversion).", "wordpress-seo" ),
 	},
 };
 
@@ -63,12 +47,11 @@ const IntentBadge = ( { initial } ) => {
 
 	return (
 		<div
-			aria-label={ variants[ initial ].tooltip.description }
+			aria-label={ variants[ initial ].description }
 			className={
 				classNames(
-					"yst-w-5 yst-h-5 yst-flex yst-items-center yst-justify-center yst-font-semibold yst-text-sm yst-relative",
-					variants[ initial ].textColor,
-					variants[ initial ].backgroundColor,
+					"yst-intent-badge",
+					`yst-intent-badge-${ initial }`,
 				) }
 			onMouseEnter={ handleMouseEnter }
 			onMouseLeave={ handleMouseLeave }
@@ -76,8 +59,8 @@ const IntentBadge = ( { initial } ) => {
 			{ initial.toUpperCase() }
 
 			{ isVisible && <Tooltip className="yst-flex yst-flex-col yst-max-w-[180px] yst-text-[11px] yst-leading-4 yst-font-normal">
-				<span className="yst-font-medium">{ variants[ initial ].tooltip.title } </span>
-				{ variants[ initial ].tooltip.description }
+				<span className="yst-font-medium">{ variants[ initial ].title } </span>
+				{ variants[ initial ].description }
 			</Tooltip> }
 		</div>
 	);
