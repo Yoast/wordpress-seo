@@ -330,6 +330,14 @@ describe( "determineStem", function() {
 		[ "better", "good" ],
 		[ "best", "good" ],
 		[ "goods", "good" ],
+		[ "gentle", "gentle" ],
+		[ "gentler", "gentle" ],
+		[ "gentlest", "gentle" ],
+		[ "gently", "gentle" ],
+		[ "simple", "simple" ],
+		[ "simpler", "simple" ],
+		[ "simplest", "simple" ],
+		[ "simply", "simple" ],
 	];
 	it.each( irregularAdjectives )( "stems irregular adjective \"%s\" to \"%s\"", function( word, expected ) {
 		expect( determineStem( word, morphologyDataEN ) ).toEqual( expected );

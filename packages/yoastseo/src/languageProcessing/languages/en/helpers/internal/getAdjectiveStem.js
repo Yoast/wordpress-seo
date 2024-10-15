@@ -18,9 +18,9 @@ const refineAdjectiveCheck = ( word, endsWith, nonStemmingExceptions, forcedStem
 	/*
 	 * This check is based on the regular comparative and superlative formation rules.
 	 * One syllable adjectives receive -er and -est. The syllable count of the comparative/superlative form is 2.
-	 * One syllable adjectives ending in -e receive -r and -st. The syllable count of the comparative/superlative form is 2.
-	 * One or two syllable adjectives ending in -y receive -ier and -iest. The syllable count of the comparative/superlative form is 3.
-	 * Words ending in -er/-est that don't follow the above rules are not comparatives/superlatives, unless listed in the exceptions list.
+	 * One/two syllable adjectives ending in -e receive -r and -st. The syllable count of the comparative/superlative form is 2.
+	 * Two syllable adjectives ending in -y receive -ier and -iest. The syllable count of the comparative/superlative form is 3.
+	 * Words ending in -er/-est that don't follow the above rules are not comparatives/superlatives, unless listed in the exception lists.
 	 */
 	if ( word.endsWith( endsWith ) ) {
 		// The suffix for adjectives ending in -y is -ier/-iest.
