@@ -43,6 +43,7 @@ const createStore = ( { initialState } ) => {
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				preferences: createInitialPreferencesState(),
 				[ ALERT_CENTER_NAME ]: getInitialAlertCenterState(),
+				currentPromotions: { promotions: [] },
 			},
 			initialState
 		),

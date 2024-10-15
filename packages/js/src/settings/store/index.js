@@ -97,6 +97,7 @@ const createStore = ( { initialState } ) => {
 				search: createInitialSearchState(),
 				taxonomies: createInitialTaxonomiesState(),
 				users: createInitialUsersState(),
+				currentPromotions: { promotions: [] },
 			},
 			initialState
 		),
