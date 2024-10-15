@@ -24,6 +24,10 @@ const TrendGraph = ( {
 	strokeColor = "#498afc",
 	strokeWidth = 1.8,
 } ) => {
+	if ( data.length !== 12 ) {
+		throw new Error( "The data prop must be an array with exactly 12 values." );
+	}
+
 	// When all the y values are zero, make sure the maximumY value is at least 1 to avoid a division by zero later.
 	const maximumYFromData = Math.max( 1, Math.max( ...data.map( point => point ) ) );
 
