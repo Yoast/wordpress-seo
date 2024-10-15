@@ -1,7 +1,7 @@
 {
   "name": "@yoast/related-keyphrase-suggestions",
   "version": "0.1.0",
-  "description": "Yoast related-keyphrase-suggestions library",
+  "description": "Yoast related keyphrase suggestions library",
   "main": "build/index.js",
   "style": "build/css/style.css",
   "files": [
