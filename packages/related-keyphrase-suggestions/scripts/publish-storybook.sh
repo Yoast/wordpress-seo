@@ -5,7 +5,7 @@
 # # Clean up previous Storybook GitHub Pages repo dir
 # rm -rf storybook-git-repo
 # # Clone Storybook GitHub Pages repo
-# git clone --no-checkout git@github.com:Yoast/semrush-storybook.git storybook-git-repo
+# git clone --no-checkout git@github.com:Yoast/related-keyphrase-suggestions-storybook.git storybook-git-repo
 # # Build our Storybook
 # yarn build:storybook
 # # Copy git folder from Storybook GitHub Pages dir -> static Storybook dir
@@ -13,7 +13,7 @@
 # # Switch to static Storybook dir
 # cd storybook-static
 # # Add custom domain CNAME record
-# echo semrush.yoast.com > CNAME
+# echo related-keyphrase-suggestionsh.yoast.com > CNAME
 # # Commit files and push to Storybook GitHub Pages repo
 # git add -A
 # git commit -m "Publish storybook"

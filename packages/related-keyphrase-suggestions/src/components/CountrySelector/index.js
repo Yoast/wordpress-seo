@@ -4,7 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { Button, Select } from "@yoast/ui-library";
 
 /**
- * The ID of the Semrush Country Selection component.
+ * The ID of the related keyphrase suggestions Country Selection component.
  *
  * @type {string} id The ID of the component.
  */

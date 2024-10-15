@@ -5,7 +5,7 @@ const theme = tailwindConfig.presets[ 0 ].theme;
 
 export default create( {
 	base: "light",
-	brandTitle: "Yoast Semrush library",
+	brandTitle: "Yoast related keyphrase suggestions library",
 	brandUrl: "https://yoast.com",
 	brandImage: "https://yoast.com/app/uploads/2021/01/yoast_logo_rgb_optm.svg",
 
