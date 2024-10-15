@@ -174,6 +174,9 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 		\wp_enqueue_media();
 		$this->asset_manager->enqueue_script( 'new-dashboard' );
 		$this->asset_manager->enqueue_style( 'new-dashboard' );
+		if ( $this->promotion_manager->is( 'black-friday-2024-promotion' ) ) {
+			$this->asset_manager->enqueue_style( 'black-friday-banner' );
+		}
 		$this->asset_manager->localize_script( 'new-dashboard', 'wpseoScriptData', $this->get_script_data() );
 	}
 

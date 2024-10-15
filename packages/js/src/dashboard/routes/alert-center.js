@@ -1,18 +1,23 @@
+import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
 import { PremiumUpsellList } from "../../shared-admin/components/premium-upsell-list";
+import SidebarRecommendations from "../../shared-admin/components/sidebar-recommendations";
 import { Notifications, Problems } from "../components";
-import SidebarRecommendations from "../components/sidebar-recommendations";
 import { useSelectDashboard } from "../hooks";
+import { STORE_NAME } from ".././constants";
 
 /**
  * @returns {JSX.Element} The dashboard content placeholder.
  */
 export const AlertCenter = () => {
 	const isPremium = useSelectDashboard( "selectPreference", [], "isPremium" );
-	const premiumLink = useSelectDashboard( "selectLink", [], "https://yoa.st/17h" );
+	const premiumLinkList = useSelectDashboard( "selectLink", [], "https://yoa.st/17h" );
+	const premiumLinkSidebar = useSelectDashboard( "selectLink", [], "https://yoa.st/jj" );
 	const premiumUpsellConfig = useSelectDashboard( "selectUpsellSettingsAsProps" );
-	const promotions = useSelectDashboard( "selectPreference", [], "promotions", [] );
+	const academyLink = useSelectDashboard( "selectLink", [], "https://yoa.st/3t6" );
+	const { isPromotionActive } = useSelect( STORE_NAME );
+
 	return <div className="yst-flex yst-gap-8 xl:yst-flex-row yst-flex-col">
 		 { /* Alert center */ }
 		<div className="yst-flex yst-flex-wrap yst-flex-grow xl:yst-flex-row yst-flex-col">
@@ -32,13 +37,23 @@ export const AlertCenter = () => {
 					<Notifications />
 				</div>
 				{ ! isPremium && <PremiumUpsellList
-					premiumLink={ premiumLink }
+					premiumLink={ premiumLinkList }
 					premiumUpsellConfig={ premiumUpsellConfig }
-					promotions={ promotions }
+					isPromotionActive={ isPromotionActive }
 				/> }
 			</div>
 		</div>
-		{ /* Sidebar Recommendations */ }
-		<SidebarRecommendations />
+		{ ! isPremium &&
+			<div className="yst-min-w-[16rem] xl:yst-max-w-[16rem]">
+				<div className="yst-sticky yst-top-16">
+					<SidebarRecommendations
+						premiumLink={ premiumLinkSidebar }
+						premiumUpsellConfig={ premiumUpsellConfig }
+						academyLink={ academyLink }
+						isPromotionActive={ isPromotionActive }
+					/>
+				</div>
+			</div>
+		}
 	</div>;
 };

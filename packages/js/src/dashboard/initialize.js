@@ -21,6 +21,9 @@ domReady( () => {
 		initialState: {
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
 			[ ALERT_CENTER_NAME ]: { alerts: get( window, "wpseoScriptData.alerts", [] ) },
+			currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
+			dismissedAlerts: get( window, "wpseoScriptData.dismissedAlerts", {} ),
+			isPremium: get( window, "wpseoScriptData.preferences.isPremium", false ),
 		},
 	} );
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );

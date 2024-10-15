@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
-import { get, merge } from "lodash";
+import { merge } from "lodash";
 import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkParamsReducer, linkParamsSelectors } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
@@ -43,9 +43,7 @@ const createStore = ( { initialState } ) => {
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				preferences: createInitialPreferencesState(),
 				[ ALERT_CENTER_NAME ]: getInitialAlertCenterState(),
-				currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
-				dismissedAlerts: get( window, "wpseoScriptData.dismissedAlerts", {} ),
-				isPremium: get( window, "wpseoScriptData.preferences.isPremium", false ),
+				currentPromotions: { promotions: [] },
 			},
 			initialState
 		),
