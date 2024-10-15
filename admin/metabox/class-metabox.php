@@ -825,7 +825,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @return void
 	 */
-	public function maybe_enqueue_assets_non_block_editor(): void {
+	public function maybe_enqueue_assets_non_block_editor() {
 		global $pagenow;
 
 		if ( ( self::is_post_edit( $pagenow ) === false && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || WP_Screen::get()->is_block_editor() ) {
