@@ -1,5 +1,5 @@
 # Welcome to the Yoast related keyphrase suggestions library
-The Yoast related keyphrase suggestions library is a React component library for building Yoast related keyphrase suggestions integration user interfaces. This Storybook provides an interactive overview of all available components and examples on how to use them.
+The Yoast related keyphrase suggestions library is a React component library for building Yoast related keyphrase suggestions user interfaces. This Storybook provides an interactive overview of all available components and examples on how to use them.
 
 [View the changelog here](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/related-keyphrase-suggestions/changelog.md).
 
