@@ -10,6 +10,8 @@ export const Factory = {
 	},
 	args: {
 		type: "add",
+		onAdd: noop,
+		onRemove: noop,
 	},
 	argTypes: {
 		type: {
@@ -21,8 +23,8 @@ export const Factory = {
 	},
 	render: ( { disabled } ) => {
 		return <div className="yst-flex yst-gap-2">
-			<TableButton type="add" add={ noop } remove={ noop } disabled={ disabled } />
-			<TableButton type="remove" add={ noop } remove={ noop } disabled={ disabled } />
+			<TableButton type="add" onAdd={ noop } onRemove={ noop } disabled={ disabled } />
+			<TableButton type="remove" onAdd={ noop } onRemove={ noop } disabled={ disabled } />
 		</div>;
 	},
 };

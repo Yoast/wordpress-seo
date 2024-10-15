@@ -44,7 +44,7 @@ const KeyphrasesTableRow = ( { data, isPremium = false } ) => {
 				<DifficultyBullet value={ Number( difficulty ) } />
 			</Table.Cell>
 			{ isPremium && <Table.Cell className="yst-flex yst-justify-center yst-w-[124px]">
-				<TableButton add={ noop } remove={ noop } />
+				<TableButton onAdd={ noop } onRemove={ noop } />
 			</Table.Cell> }
 		</Table.Row>
 	);

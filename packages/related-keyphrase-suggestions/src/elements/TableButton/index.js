@@ -5,51 +5,53 @@ import { TrashIcon, PlusIcon, CheckIcon, XIcon } from "@heroicons/react/outline"
 import { Button } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 
-const variant = {
+const variants = {
 	add: {
-		ButtonIcon: PlusIcon,
-		buttonIconClass: "yst-text-slate-400 yst-w-3 yst-h-3 yst-mr-[3px]",
-		buttonText: __( "Add", "wordpress-seo" ),
-		buttonClass: "yst-text-slate-700",
-		SuccessIcon: CheckIcon,
-		sucessIconClass: "yst-text-green-400",
-		successText: __( "Added!", "wordpress-seo" ),
-		variant: "secondary",
+		button: {
+			Icon: PlusIcon,
+		    label: __( "Add", "wordpress-seo" ),
+			variant: "secondary",
+		},
+		success: {
+			Icon: CheckIcon,
+			label: __( "Added!", "wordpress-seo" ),
+		},
 	},
 	remove: {
-		ButtonIcon: TrashIcon,
-		buttonIconClass: "yst-text-red-500 yst-w-4 yst-h-4",
-		buttonText: __( "Remove", "wordpress-seo" ),
-		buttonClass: "yst-text-red-500",
-		SuccessIcon: XIcon,
-		sucessIconClass: "yst-text-red-500",
-		successText: __( "Removed!", "wordpress-seo" ),
-		variant: "tertiary",
+		button: {
+			Icon: TrashIcon,
+			label: __( "Remove", "wordpress-seo" ),
+			variant: "tertiary",
+		},
+		success: {
+			Icon: XIcon,
+			label: __( "Removed!", "wordpress-seo" ),
+		},
 	},
 };
 
 /**
  *
  * @param {string} type Whether it is an add button or not.
- * @param {Function} remove The remove function.
- * @param {Function} add The add function.
+ * @param {Function} onRemove The remove function.
+ * @param {Function} onAdd The add function.
  * @param {boolean} disabled Whether the button is disabled or not.
  *
  * @returns {JSX.Element} The button.
  */
-const TableButton = ( { type = "add", remove, add, disabled = false } ) => {
+const TableButton = ( { type = "add", onRemove, onAdd, disabled = false } ) => {
 	const [ successClass, setSuccessClass ] = useState( "" );
 	const [ buttonType, setButtonType ] = useState( type );
 	const [ successState, setSuccessState ] = useState( false );
-	const SuccessIcon = variant[ buttonType ].SuccessIcon;
-	const ButtonIcon = variant[ buttonType ].ButtonIcon;
-	variant.add.onClick = add;
-	variant.remove.onClick = remove;
+	const SuccessIcon = variants[ buttonType ].success.Icon;
+	const ButtonIcon = variants[ buttonType ].button.Icon;
+	variants.add.onClick = onAdd;
+	variants.remove.onClick = onRemove;
 
 	const onClick = useCallback( () => {
-		variant[ buttonType ].onClick();
+		variants[ buttonType ].onClick();
 		setSuccessState( true );
-	}, [ remove, add ] );
+	}, [ onRemove, onAdd ] );
 
 	useEffect( () => {
 		if ( successState ) {
@@ -81,42 +83,35 @@ const TableButton = ( { type = "add", remove, add, disabled = false } ) => {
 		return (
 			<div
 				className={
-					classNames( "yst-flex yst-items-center yst-justify-center yst-gap-1 yst-text-slate-600 yst-text-xs yst-px-3 yst-py-[5px] yst-transition yst-duration-1000 yst-ease-in-out",
+					classNames( "yst-success-message",
+						`yst-success-message-${ buttonType }`,
 						successClass,
 			 ) }
 			>
-				<SuccessIcon
-					className={ classNames(
-						"yst-w-4 yst-h-4",
-						variant[ buttonType ].sucessIconClass,
-				 ) }
-				/>
-				{ variant[ buttonType ].successText }
+				<SuccessIcon className="yst-success-icon" />
+				{ variants[ buttonType ].success.label }
 			</div>
 		);
 	}
 
 	return (
 		<Button
-			variant={ variant[ buttonType ].variant }
+			variant={ variants[ buttonType ].button.variant }
 			size="small"
-			className={ classNames(
-				"yst-flex yst-items-center yst-justify-center yst-gap-[6px] yst-text-xs",
-				variant[ buttonType ].buttonClass )
-			}
+			className="yst-keyphrase-button"
 			onClick={ onClick }
 			disabled={ disabled }
 		>
-			<ButtonIcon className={ variant[ buttonType ].buttonIconClass } />
-			{ variant[ buttonType ].buttonText }
+			<ButtonIcon className="yst-button-icon" />
+			{ variants[ buttonType ].button.label }
 		</Button>
 	);
 };
 
 TableButton.propTypes = {
 	type: PropTypes.oneOf( [ "add", "remove" ] ),
-	remove: PropTypes.func.isRequired,
-	add: PropTypes.func.isRequired,
+	onRemove: PropTypes.func.isRequired,
+	onAdd: PropTypes.func.isRequired,
 	disabled: PropTypes.bool,
 };
 
