@@ -8,7 +8,6 @@ import IntentBadge from "../../elements/IntentBadge";
 import DifficultyBullet from "../../elements/DifficultyBullet";
 import TableButton from "../../elements/TableButton";
 
-
 /**
  * The row for the keyphrases table.
  *
@@ -106,22 +105,22 @@ const KeyphrasesTable = ( { rows, isPremium = false } ) => {
 	return <Table>
 		<Table.Head>
 			<Table.Row>
-				<Table.Header className="yst-font-medium">
+				<Table.Header>
 					{ __( "Related keyphrase", "wordpress-seo" ) }
 				</Table.Header>
-				<Table.Header className="yst-font-medium">
+				<Table.Header>
 					{ __( "Intent", "wordpress-seo" ) }
 				</Table.Header>
-				<Table.Header className="yst-font-medium">
+				<Table.Header>
 					{ __( "Volume", "wordpress-seo" ) }
 				</Table.Header>
-				<Table.Header className="yst-font-medium">
+				<Table.Header>
 					{ __( "Trend", "wordpress-seo" ) }
 				</Table.Header>
-				<Table.Header className="yst-w-24 yst-font-medium">
+				<Table.Header className="yst-w-24">
 					{ __( "Keyphrase difficulty %", "wordpress-seo" ) }
 				</Table.Header>
-				{ isPremium && <Table.Header className="yst-font-medium yst-text-right yst-w-20">
+				{ isPremium && <Table.Header className="yst-text-right yst-w-20">
 					{ __( "Add keyphrase", "wordpress-seo" ) }
 				</Table.Header> }
 			</Table.Row>

@@ -5,7 +5,7 @@ import { __ } from "@wordpress/i18n";
 import { Tooltip } from "@yoast/ui-library";
 
 const veryEasy = {
-	"class": "yst-bg-[#009F81]",
+	name: "very-easy",
 	tooltip: {
 		title: __( "Very easy", "wordpress-seo" ),
 		description: __( "Your chance to start ranking new pages.", "wordpress-seo" ),
@@ -13,7 +13,7 @@ const veryEasy = {
 };
 
 const easy = {
-	"class": "yst-bg-[#59DDAA]",
+	name: "easy",
 	tooltip: {
 		title: __( "Easy", "wordpress-seo" ),
 		description: __( "You will need quality content focused on the keyword’s intent.", "wordpress-seo" ),
@@ -21,7 +21,7 @@ const easy = {
 };
 
 const possible = {
-	"class": "yst-bg-[#FDC23C]",
+	name: "possible",
 	tooltip: {
 		title: __( "Possible", "wordpress-seo" ),
 		description: __( "You will need well-structured and unique content.", "wordpress-seo" ),
@@ -29,7 +29,7 @@ const possible = {
 };
 
 const difficult = {
-	"class": "yst-bg-[#FF8C43]",
+	name: "difficult",
 	tooltip: {
 		title: __( "Difficult", "wordpress-seo" ),
 		description: __( "You will need lots of ref. domains and optimized content.", "wordpress-seo" ),
@@ -37,7 +37,7 @@ const difficult = {
 };
 
 const hard = {
-	"class": "yst-bg-[#FF4953]",
+	name: "hard",
 	tooltip: {
 		title: __( "Hard", "wordpress-seo" ),
 		description: __( "You will need lots of high-quality ref. domains and optimized content.", "wordpress-seo" ),
@@ -45,7 +45,7 @@ const hard = {
 };
 
 const veryHard = {
-	"class": "yst-bg-[#D1002F]",
+	name: "very-hard",
 	tooltip: {
 		title: __( "Very hard", "wordpress-seo" ),
 		description: __( "It will take a lot of on-page SEO, link building, and content promotion efforts.", "wordpress-seo" ),
@@ -98,9 +98,11 @@ const DifficultyBullet = ( { value } ) => {
 
 	const variant = getVariant( value );
 
+	const variantClass = `yst-difficulty-${ variant.name }`;
+
 	return (
 		<div
-			aria-label={ variant.tooltip.description }
+			aria-label={ `${ variant.tooltip.title }, ${ variant.tooltip.description }` }
 			className="yst-flex yst-gap-2 yst-items-center yst-relative"
 			onMouseEnter={ handleMouseEnter }
 			onMouseLeave={ handleMouseLeave }
@@ -112,7 +114,7 @@ const DifficultyBullet = ( { value } ) => {
 				className={
 					classNames(
 						"yst-w-[11px] yst-h-[11px] yst-rounded-full",
-						variant.class,
+						variantClass,
 					) }
 			/>
 
