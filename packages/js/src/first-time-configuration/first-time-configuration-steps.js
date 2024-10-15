@@ -453,7 +453,7 @@ export default function FirstTimeConfigurationSteps() {
 		 */
 		if ( state.editedSteps.includes( activeStepIndex + 1 ) || indexingState === "in_progress" ) {
 			// Show the pup-up modal only if the user is in the first time configuration tab
-			if ( location.href.indexOf( "page=wpseo_dashboard#top#first-time-configuration" ) !== -1 ) {
+			if ( location.href.indexOf( "page=wpseo_dashboard#top#first-time-configuration" ) !== -1 || location.href.indexOf( "page=wpseo_dashboard#/first-time-configuration" ) !== -1 ) {
 				event.preventDefault();
 				event.returnValue = "";
 			}

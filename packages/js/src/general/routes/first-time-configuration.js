@@ -1,14 +1,20 @@
 import { __ } from "@wordpress/i18n";
+import { get } from "lodash";
+import { useBlocker } from "react-router-dom";
 import { Paper } from "@yoast/ui-library";
 import FirstTimeConfigurationSteps from "../../first-time-configuration/first-time-configuration-steps";
-import {
-	RouteLayout,
-} from "../components";
+import { RouteLayout } from "../components";
+import { UnsavedChangesModal } from "../../shared-admin/components";
 
 /**
  * @returns {JSX.Element} The site defaults route.
  */
 const FirstTimeConfiguration = () => {
+	const blocker = useBlocker( ( { currentLocation, nextLocation } ) =>{
+		const isStepBeingEdited = get( window, "isStepBeingEdited", false );
+		return isStepBeingEdited && currentLocation.pathname === "/first-time-configuration" && nextLocation.pathname !== "/first-time-configuration";
+	} );
+
 	return (
 		<Paper>
 			<RouteLayout
@@ -20,6 +26,15 @@ const FirstTimeConfiguration = () => {
 					<FirstTimeConfigurationSteps />
 				</div>
 			</RouteLayout>
+			<UnsavedChangesModal
+				isOpen={ blocker.state === "blocked" }
+				onClose={ blocker.reset }
+				title={ __( "Unsaved changes", "wordpress-seo" ) }
+				description={ __( "There are unsaved changes in one or more steps of the first-time configuration. Leaving means that those changes will be lost. Are you sure you want to leave this page?", "wordpress-seo" ) }
+				onDiscard={ blocker.proceed }
+				dismissLabel={ __( "No, continue editing", "wordpress-seo" ) }
+				discardLabel={ __( "Yes, leave page", "wordpress-seo" ) }
+			/>
 		</Paper>
 	);
 };

@@ -285,7 +285,7 @@ Release date: 2024-10-22
 #### Bugfixes
 
 * Fixes a bug where a database error would occur when there were no public taxonomies available for indexing.
-* Fixes a bug where another plugin running the `exit()` function inside the `plugin_loaded` hook would result in a fatal error. Props to @menno-ll.
+* Fixes a bug where another plugin running the `exit()` function inside the `plugin_loaded` hook would result in a fatal error. Props to [menno-ll](https://github.com/menno-ll).
 
 #### Other
 

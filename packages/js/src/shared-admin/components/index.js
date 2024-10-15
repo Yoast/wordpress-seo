@@ -5,7 +5,7 @@ export { ReactComponent as G2LogoWhite } from "./g2-logo-white.svg";
 export { MenuItemLink } from "./menu-item-link";
 export { OutboundLink } from "./outbound-link";
 export { PremiumUpsellCard } from "./premium-upsell-card";
-export { RecommendationsSidebar } from "./recommendations-sidebar";
 export { VideoFlow } from "./video-flow";
 export { AiFixAssessmentsUpsell } from "./ai-fix-assessments-upsell";
 export { ReactComponent as YoastLogo } from "./yoast-logo.svg";
+export { UnsavedChangesModal } from "./unsaved-changes-modal";

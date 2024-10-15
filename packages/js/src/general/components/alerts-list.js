@@ -1,11 +1,10 @@
-import { useContext, useCallback } from "@wordpress/element";
+import { Fragment, useContext, useCallback } from "@wordpress/element";
 import { useDispatch } from "@wordpress/data";
 import PropTypes from "prop-types";
 import { Button } from "@yoast/ui-library";
 import { EyeOffIcon, EyeIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { AlertsContext } from "../contexts/alerts-context";
-
 
 /**
  * The alert item object.
@@ -20,32 +19,33 @@ import { AlertsContext } from "../contexts/alerts-context";
 const AlertItem = ( { id, nonce, dismissed, message  } ) => {
 	const { bulletClass = "" } = useContext( AlertsContext );
 	const { toggleAlertStatus } = useDispatch( "@yoast/dashboard" );
-	const Eye = dismissed ? EyeOffIcon : EyeIcon;
+	const Eye = dismissed ? EyeIcon : EyeOffIcon;
 
-	const toggleAlert = useCallback( () => {
+	const toggleAlert = useCallback( async() => {
 		toggleAlertStatus( id, nonce, dismissed );
 	}, [ id, nonce, dismissed, toggleAlertStatus ] );
 
-	return <li key={ id } className="yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0">
-		<div className="yst-flex yst-justify-between yst-gap-5 yst-items-start">
-			<div className={ classNames( "yst-mt-1",  dismissed && "yst-opacity-50" ) }>
-				<svg width="11" height="11" className={ bulletClass }>
-					<circle cx="5.5" cy="5.5" r="5.5" />
-				</svg>
+	return <Fragment>
+		<li key={ id } className="yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0">
+			<div className="yst-flex yst-justify-between yst-gap-5 yst-items-start">
+				<div className={ classNames( "yst-mt-1",  dismissed && "yst-opacity-50" ) }>
+					<svg width="11" height="11" className={ bulletClass }>
+						<circle cx="5.5" cy="5.5" r="5.5" />
+					</svg>
+				</div>
+				<div
+					className={ classNames(
+						"yst-text-sm yst-text-slate-600 yst-grow",
+						dismissed && "yst-opacity-50" ) }
+					dangerouslySetInnerHTML={ { __html: message } }
+				/>
+
+				<Button variant="secondary" size="small" className="yst-self-center yst-h-8" onClick={ toggleAlert }>
+					<Eye className="yst-w-4 yst-h-4 yst-text-neutral-700" />
+				</Button>
 			</div>
-			<div
-				className={ classNames(
-					"yst-text-sm yst-text-slate-600 yst-grow",
-					dismissed && "yst-opacity-50" ) }
-				dangerouslySetInnerHTML={ { __html: message } }
-			/>
-
-
-			<Button variant="secondary" size="small" className="yst-self-center yst-h-8" onClick={ toggleAlert }>
-				<Eye className="yst-w-4 yst-h-4 yst-text-neutral-700" />
-			</Button>
-		</div>
-	</li>;
+		</li>
+	</Fragment>;
 };
 
 AlertItem.propTypes = {

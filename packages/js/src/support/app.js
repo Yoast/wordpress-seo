@@ -1,14 +1,16 @@
 /* eslint-disable complexity, react/jsx-max-depth */
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { createInterpolateElement, Fragment, useMemo } from "@wordpress/element";
+import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Badge, Button, FeatureUpsell, Link, Paper, Title } from "@yoast/ui-library";
 import classNames from "classnames";
-import { AcademyUpsellCard, PremiumUpsellCard, RecommendationsSidebar } from "../shared-admin/components";
+import SidebarRecommendations from "../shared-admin/components/sidebar-recommendations";
 import { FieldsetLayout } from "./components/fieldset-layout";
 import { ResourceCard } from "./components/resource-card";
 import { useSelectSupport } from "./hooks";
+import { STORE_NAME } from "./constants";
 
 /**
  * Opens the HelpScout beacon.
@@ -33,7 +35,6 @@ const openHelpScoutBeacon = () => {
  */
 export const App = () => {
 	const isPremium = useSelectSupport( "selectPreference", [], "isPremium", false );
-	const promotions = useSelectSupport( "selectPreference", [], "promotions", [] );
 	const premiumUpsellConfig = useSelectSupport( "selectUpsellSettingsAsProps" );
 	const pluginUrl = useSelectSupport( "selectPreference", [], "pluginUrl", "" );
 	const linkParams = useSelectSupport( "selectLinkParams" );
@@ -43,6 +44,7 @@ export const App = () => {
 	const supportForumsLink = useSelectSupport( "selectLink", [], "https://yoa.st/support-forums-support-card" );
 	const githubLink = useSelectSupport( "selectLink", [], "https://yoa.st/github-repository-support-card" );
 	const contactSupportLink = useSelectSupport( "selectLink", [], "https://yoa.st/contact-support-to-unlock-premium-support-section" );
+	const { isPromotionActive } = useSelect( STORE_NAME );
 
 	const faq = useMemo( () => ( [
 		{
@@ -230,12 +232,16 @@ export const App = () => {
 						</div>
 					</Paper.Content>
 				</Paper>
-				{ ! isPremium && (
-					<RecommendationsSidebar>
-						<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } promotions={ promotions } />
-						<AcademyUpsellCard link={ academyLink } />
-					</RecommendationsSidebar>
-				) }
+				{ ! isPremium &&
+					<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[16rem]">
+						<SidebarRecommendations
+							premiumLink={ premiumLink }
+							premiumUpsellConfig={ premiumUpsellConfig }
+							academyLink={ academyLink }
+							isPromotionActive={ isPromotionActive }
+						/>
+					</div>
+				}
 			</div>
 		</div>
 	);

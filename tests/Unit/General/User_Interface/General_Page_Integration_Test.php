@@ -265,6 +265,17 @@ final class General_Page_Integration_Test extends TestCase {
 			->expects( 'localize_script' )
 			->once();
 
+		$this->promotion_manager
+			->expects( 'is' )
+			->once()
+			->with( 'black-friday-2024-promotion' )
+			->andReturn( true );
+
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->with( 'black-friday-banner' )
+			->once();
+
 		$this->expect_get_script_data();
 
 		$this->instance->enqueue_assets();
