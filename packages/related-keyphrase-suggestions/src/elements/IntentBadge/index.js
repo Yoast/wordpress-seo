@@ -47,7 +47,7 @@ const IntentBadge = ( { initial } ) => {
 
 	return (
 		<div
-			aria-label={ variants[ initial ].description }
+			aria-label={ `${ variants[ initial ].title }, ${ variants[ initial ].description }` }
 			className={
 				classNames(
 					"yst-intent-badge",
