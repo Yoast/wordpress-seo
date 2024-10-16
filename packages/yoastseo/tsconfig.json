@@ -1,0 +1,23 @@
+{
+  "include": [
+    "index.js",
+    "src/**.js",
+    "src/**.ts",
+    "src/app.js",
+    "src/pluggable.js",
+    "spec/specHelpers/factory.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "../../node_modules"
+  ],
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "allowJs": true,
+    "checkJs": false,
+    "outDir": "./types",
+    "module": "system",
+    "target": "es6"
+  }
+}
