@@ -16,6 +16,7 @@ export const Problems = () => {
 	const dismissedProblemsList = useSelect( ( select ) => select( STORE_NAME ).selectDismissedProblems(), [] );
 
 	const dismissedProblems = dismissedProblemsList.length;
+	const problems = problemsList.length;
 
 	const dismissedProblemsLabel = _n(
 		"hidden problem",
@@ -35,7 +36,11 @@ export const Problems = () => {
 			<Paper.Content className="yst-flex yst-flex-col yst-gap-y-6">
 				<AlertsContext.Provider value={ { ...problemsTheme } }>
 					<AlertsTitle title={ __( "Problems", "wordpress-seo" ) } counts={ problemsList.length }>
-						<p className="yst-mt-2 yst-text-sm">{ __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" ) }</p>
+						{ problems > 0 ? (
+							<p className="yst-mt-2 yst-text-sm">{ __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" ) }</p>
+						) :  (
+							<p className="yst-mt-2 yst-text-sm">{ __( "Good job! We could detect no serious SEO problems.", "wordpress-seo" ) }</p>
+						) }
 					</AlertsTitle>
 					<AlertsList items={ problemsList } />
 
