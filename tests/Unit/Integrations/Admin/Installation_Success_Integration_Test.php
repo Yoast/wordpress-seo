@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Installation_Success_Integration;
@@ -42,13 +41,6 @@ final class Installation_Success_Integration_Test extends TestCase {
 	protected $product_helper;
 
 	/**
-	 * The New Dashboard UI conditional.
-	 *
-	 * @var New_Dashboard_Ui_Conditional
-	 */
-	private $new_dashboard_ui_conditional;
-
-	/**
 	 * Set up the fixtures for the tests.
 	 *
 	 * @return void
@@ -56,16 +48,14 @@ final class Installation_Success_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options_helper               = Mockery::mock( Options_Helper::class );
-		$this->product_helper               = Mockery::mock( Product_Helper::class );
-		$this->new_dashboard_ui_conditional = Mockery::mock( New_Dashboard_Ui_Conditional::class );
+		$this->options_helper = Mockery::mock( Options_Helper::class );
+		$this->product_helper = Mockery::mock( Product_Helper::class );
 
 		$this->instance = Mockery::mock(
 			Installation_Success_Integration::class,
 			[
 				$this->options_helper,
 				$this->product_helper,
-				$this->new_dashboard_ui_conditional,
 			]
 		)->makePartial();
 	}
