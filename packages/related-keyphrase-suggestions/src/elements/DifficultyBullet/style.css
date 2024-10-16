@@ -1,0 +1,28 @@
+@layer components {
+	.yst-root {
+        /* These are not tailwind colors, taken from semrush */
+        .yst-difficulty-very-easy {
+            background: #009F81;
+        }
+
+        .yst-difficulty-easy {
+            background: #59DDAA;
+        }
+
+        .yst-difficulty-possible {
+            background: #FDC23C;
+        }
+
+        .yst-difficulty-difficult {
+            background: #FF8C43;
+        }
+
+        .yst-difficulty-hard {
+            background: #FF4953;
+        }
+
+        .yst-difficulty-very-hard {
+            background: #D1002F;
+        }
+    }
+}
