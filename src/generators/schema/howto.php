@@ -46,9 +46,9 @@ class HowTo extends Abstract_Schema_Piece {
 			return;
 		}
 
-		$days    = empty( $attributes['days'] ) ? 0 : $attributes['days'];
-		$hours   = empty( $attributes['hours'] ) ? 0 : $attributes['hours'];
-		$minutes = empty( $attributes['minutes'] ) ? 0 : $attributes['minutes'];
+		$days    = \intval( ( $attributes['days'] ?? 0 ) );
+		$hours   = \intval( ( $attributes['hours'] ?? 0 ) );
+		$minutes = \intval( ( $attributes['minutes'] ?? 0 ) );
 
 		if ( ( $days + $hours + $minutes ) > 0 ) {
 			$data['totalTime'] = \esc_attr( 'P' . $days . 'DT' . $hours . 'H' . $minutes . 'M' );
