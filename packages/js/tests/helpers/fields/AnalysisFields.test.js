@@ -1,4 +1,5 @@
 import AnalysisFields from "../../../src/helpers/fields/AnalysisFields";
+import { mockWindow } from "../../test-utils";
 
 /**
  * Creates an input element.
@@ -11,22 +12,6 @@ const createInputElement = ( id ) => {
 	document.body.appendChild( inputElement );
 
 	return inputElement;
-};
-
-/**
- * Mocks the window to override specific data.
- * @param {Object} data The data to set on the window.
- * @returns {jest.SpyInstance} The spy. Be sure to restore at the end of the test.
- */
-const mockWindow = ( data ) => {
-	const original = { ...window };
-	const spy = jest.spyOn( global, "window", "get" );
-	spy.mockImplementation( () => ( {
-		...original,
-		...data,
-	} ) );
-
-	return spy;
 };
 
 describe( "keyphrase", () => {
