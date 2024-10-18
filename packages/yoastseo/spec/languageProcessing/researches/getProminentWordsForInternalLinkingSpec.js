@@ -131,7 +131,7 @@ describe( "relevantWords research", function() {
 				new ProminentWord( "work", "work", 12 ),
 				new ProminentWord( "SEO", "seo", 9 ),
 				new ProminentWord( "yoast", "yoast", 9 ),
-				new ProminentWord( "customer", "custome", 6 ),
+				new ProminentWord( "customer", "customer", 6 ),
 				new ProminentWord( "delete", "delete", 6 ),
 				new ProminentWord( "end", "end", 6 ),
 				new ProminentWord( "free", "free", 6 ),

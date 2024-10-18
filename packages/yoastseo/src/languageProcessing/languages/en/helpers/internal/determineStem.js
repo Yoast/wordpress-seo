@@ -107,8 +107,10 @@ export function determineRegularStem( word, morphologyData ) {
 
 	// Adjectival base.
 	const stopAdjectives = morphologyData.adjectives.stopAdjectives;
+	// The list of adjectives containing more than 2 syllables that can have suffixes -er or -est, e.g. "cleverer".
+	const multiSyllableAdjWithSuffixes = morphologyData.adjectives.multiSyllableAdjWithSuffixes;
 
-	const baseIfAdjective = getAdjectiveStem( word, regexAdjective, stopAdjectives ).base;
+	const baseIfAdjective = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes ).base;
 	possibleRegularBases.push( baseIfAdjective );
 
 	return findShortestAndAlphabeticallyFirst( possibleRegularBases );
