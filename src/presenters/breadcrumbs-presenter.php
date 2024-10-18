@@ -137,8 +137,13 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			// If it's not the last element and we have a url.
 			$link      .= '<' . $this->get_element() . '>';
 			$title_attr = isset( $breadcrumb['title'] ) ? ' title="' . \esc_attr( $breadcrumb['title'] ) . '"' : '';
-			$link      .= '<a href="' . \esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
-			$link      .= '</' . $this->get_element() . '>';
+			$link      .= '<a';
+			// If the block is rendered server side (via a rest request) make sure the links target blank.
+			if ( \wp_is_serving_rest_request() ) {
+				$link .= ' target="_blank"';
+			}
+			$link .= ' href="' . \esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
+			$link .= '</' . $this->get_element() . '>';
 		}
 		elseif ( $index === ( $total - 1 ) ) {
 			// If it's the last element.
