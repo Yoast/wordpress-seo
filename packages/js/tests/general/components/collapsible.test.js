@@ -1,5 +1,5 @@
 import { render, fireEvent } from "../../test-utils";
-import { Collapsible } from "../../../src/dashboard/components/collapsible";
+import { Collapsible } from "../../../src/general/components/collapsible";
 
 describe( "Collapsible", () => {
 	it( "should hide children when collapsible is closed", () => {
