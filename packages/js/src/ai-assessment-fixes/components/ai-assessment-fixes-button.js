@@ -78,15 +78,16 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 
 
 	/**
-	 * Toggles the markers status, based on the editor mode.
+	 * Toggles the markers status, based on the editor mode and the AI assessment fixes button status.
 	 *
 	 * @param {string} editorMode The editor mode.
+	 * @param {boolean} activeAIButtonId The active AI button ID.
 	 *
 	 * @returns {void}
 	 */
 	useEffect( () => {
 		// Toggle markers based on editor mode.
-		if ( editorMode === "visual" ) {
+		if ( editorMode === "visual" && ! activeAIButtonId ) {
 			setMarkerStatus( "enabled" );
 		} else {
 			setMarkerStatus( "disabled" );
@@ -94,9 +95,9 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 
 		// Cleanup function to reset the marker status when the component unmounts or editor mode changes
 		return () => {
-			setMarkerStatus( "enabled" );
+			setMarkerStatus( "disabled" );
 		};
-	}, [ editorMode, setMarkerStatus ] );
+	}, [ editorMode, activeAIButtonId, setMarkerStatus ] );
 
 	/**
 	 * Handles the button press state.
@@ -126,7 +127,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			 */
 			setMarkerStatus( "disabled" );
 		}
-
 		// Dismiss the tooltip when the button is pressed.
 		setButtonClass( "" );
 	};
