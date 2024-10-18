@@ -77,7 +77,7 @@ final class SEMrush_Phrases_Action_Test extends TestCase {
 			'params' => [
 				'phrase'         => $keyphrase,
 				'database'       => $country_code,
-				'export_columns' => 'Ph,Nq,Td',
+				'export_columns' => 'Ph,Nq,Td,In,Kd',
 				'display_limit'  => 10,
 				'display_offset' => 0,
 				'display_sort'   => 'nq_desc',
@@ -131,8 +131,8 @@ final class SEMrush_Phrases_Action_Test extends TestCase {
 			->andReturn(
 				[
 					'data'   => [
-						'column_names' => [],
-						'rows'         => [],
+						'columnNames' => [ 'Ph', 'Nq', 'Td', 'In', 'Kd' ],
+						'rows'        => [],
 					],
 					'status' => 200,
 				]
@@ -145,8 +145,8 @@ final class SEMrush_Phrases_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'results' => [
-					'column_names' => [],
-					'rows'         => [],
+					'columnNames' => [ 'Ph', 'Nq', 'Td', 'In', 'Kd' ],
+					'rows'        => [],
 				],
 				'status'  => 200,
 			],
