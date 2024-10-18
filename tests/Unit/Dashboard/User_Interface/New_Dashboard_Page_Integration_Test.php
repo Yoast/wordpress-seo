@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
+use Yoast\WP\SEO\Conditionals\Admin\Non_Network_Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Dashboard\User_Interface\New_Dashboard_Page_Integration;
@@ -142,6 +143,7 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 			[
 				Admin_Conditional::class,
 				New_Dashboard_Ui_Conditional::class,
+				Non_Network_Admin_Conditional::class,
 			],
 			New_Dashboard_Page_Integration::get_conditionals()
 		);

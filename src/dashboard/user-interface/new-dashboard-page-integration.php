@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Dashboard\User_Interface;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
+use Yoast\WP\SEO\Conditionals\Admin\Non_Network_Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -107,7 +108,11 @@ class New_Dashboard_Page_Integration implements Integration_Interface {
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class, New_Dashboard_Ui_Conditional::class ];
+		return [
+			Admin_Conditional::class,
+			New_Dashboard_Ui_Conditional::class,
+			Non_Network_Admin_Conditional::class,
+		];
 	}
 
 	/**
