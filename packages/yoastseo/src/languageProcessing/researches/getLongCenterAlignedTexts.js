@@ -4,11 +4,6 @@
  * @returns {Node[]} An array containing all center-aligned nodes that are longer than 50 characters.
  */
 function getLongCenterAlignedElements( nodes ) {
-	/**
-	 * Before counting the characters of a text, we sanitize the text first by removing HTML tags.
-	 * In the filtered array, we save the un-sanitized text.
-	 * This text will be used for highlighting feature where we will match this with the html of a post.
-	 */
 	return nodes.filter( node =>
 		node.attributes.class instanceof Set &&
 		node.attributes.class.has( "has-text-align-center" ) &&
@@ -23,13 +18,9 @@ function getLongCenterAlignedElements( nodes ) {
  */
 export default function( paper ) {
 	const tree = paper.getTree();
-	// Get all paragraphs from the text. We only retrieve the paragraphs with <p> tags.
+
 	const paragraphs = tree.findAll( node => node.name === "p" );
-	// Get all the headings from the text. Here we retrieve the headings from level 1-6.
 	const headings = tree.findAll( node => /^h[1-6]$/.test( node.name ) );
 
-	const longParagraphsWithCenterAlignedText = getLongCenterAlignedElements( paragraphs );
-	const longHeadingsWithCenterAlignedText = getLongCenterAlignedElements( headings );
-
-	return longParagraphsWithCenterAlignedText.concat( longHeadingsWithCenterAlignedText );
+	return getLongCenterAlignedElements( paragraphs.concat( headings ) );
 }
