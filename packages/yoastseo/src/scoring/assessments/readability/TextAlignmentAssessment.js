@@ -2,10 +2,8 @@ import { mapValues, merge } from "lodash";
 
 import Assessment from "../assessment";
 import Mark from "../../../values/Mark";
-import addMark from "../../../markers/addMark";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { createAnchorOpeningTag } from "../../../helpers";
-import { stripBlockTagsAtStartEnd } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 
 /**
  * Represents the assessment that checks whether there is an over-use of center-alignment in the text.
@@ -75,26 +73,19 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @param {Paper}       paper        The paper to use for the assessment.
 	 * @param {Researcher}  researcher   The researcher used in the assessment.
 	 *
-	 * @returns {object} Mark objects for all long center-aligned texts.
+	 * @returns {Mark[]} Mark objects for all long center-aligned texts.
 	 */
 	getMarks( paper, researcher ) {
-		const longCenterAlignedTexts = researcher.getResearch( "getLongCenterAlignedTexts" );
-		// For example: [ {text: "abc", elementType: "heading"}, {text: "123", elementType: "paragraph"} ].
-		return longCenterAlignedTexts.map( longCenterAlignedText => {
-			const text = longCenterAlignedText.text;
-			const fieldsToMark = longCenterAlignedText.elementType;
-			/*
-			 * Strip the HTML block tags at the beginning and end of the text before applying the yoastmark.
-			 * This is because applying yoastmark tags to un-sanitized text could lead to highlighting problem(s).
-			 */
-			const marked = addMark( stripBlockTagsAtStartEnd( text ) );
-
-			return new Mark( {
-				original: text,
-				marked: marked,
-				fieldsToMark: fieldsToMark,
-			} );
-		} );
+		const nodes = researcher.getResearch( "getLongCenterAlignedTexts" );
+		return nodes.map( node => new Mark( {
+			position: {
+				clientId: node.clientId || "",
+				startOffset: node.sourceCodeLocation.startOffset,
+				endOffset: node.sourceCodeLocation.endOffset,
+				startOffsetBlock: 0,
+				endOffsetBlock: node.sourceCodeLocation.endOffset - node.sourceCodeLocation.startOffset,
+			} } )
+		);
 	}
 
 	/**
