@@ -1,0 +1,1 @@
+Keyphrase table button. Either for removing or adding a keyphrase.
