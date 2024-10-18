@@ -27,7 +27,7 @@
   "scripts": {
     "build": "yarn clean && yarn build:js && yarn build:types",
     "build:js": "babel src --copy-files --source-maps --out-dir build",
-    "build:types": "tsc || echo 'expected to fail for now'",
+    "build:types": "tsc",
     "clean": "rm -rf build",
     "pretest": "grunt get-premium-configuration",
     "test": "jest",
