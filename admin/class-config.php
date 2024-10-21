@@ -52,9 +52,9 @@ class WPSEO_Admin_Pages {
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
 		// Don't load the scripts for the following pages.
-		$page_exceptions = in_array( $page, [ Settings_Integration::PAGE, Academy_Integration::PAGE, Support_Integration::PAGE, General_Page_Integration::PAGE ], true );
-
-		if ( $page_exceptions ) {
+		$page_exceptions = in_array( $page, [ Settings_Integration::PAGE, Academy_Integration::PAGE, Support_Integration::PAGE ], true );
+		$new_dashboard_page = ( $page === General_Page_Integration::PAGE && ! is_network_admin() );
+		if ( $page_exceptions || $new_dashboard_page ) {
 			// Bail, this is managed in the applicable integration.
 			return;
 		}

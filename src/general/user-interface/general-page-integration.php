@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\General\User_Interface;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
+use Yoast\WP\SEO\Conditionals\Admin\Non_Network_Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
@@ -106,7 +107,7 @@ class General_Page_Integration implements Integration_Interface {
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		return [ Admin_Conditional::class, Non_Network_Admin_Conditional::class ];
 	}
 
 	/**
@@ -117,6 +118,7 @@ class General_Page_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
+
 		// Add page.
 		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ] );
 

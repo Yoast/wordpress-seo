@@ -122,6 +122,13 @@ class WPSEO_Admin_Asset {
 	protected $in_footer;
 
 	/**
+	 * For JS Assets. The script's async/defer strategy.
+	 *
+	 * @var string
+	 */
+	protected $strategy;
+
+	/**
 	 * For CSS Assets. Whether this stylesheet is a right-to-left stylesheet.
 	 *
 	 * @var bool
@@ -147,6 +154,7 @@ class WPSEO_Admin_Asset {
 		'media'     => 'all',
 		'version'   => '',
 		'suffix'    => '',
+		'strategy'  => '',
 	];
 
 	/**
@@ -173,6 +181,7 @@ class WPSEO_Admin_Asset {
 		$this->version   = $args['version'];
 		$this->media     = $args['media'];
 		$this->in_footer = $args['in_footer'];
+		$this->strategy  = $args['strategy'];
 		$this->rtl       = $args['rtl'];
 		$this->suffix    = $args['suffix'];
 	}
@@ -233,6 +242,15 @@ class WPSEO_Admin_Asset {
 	 */
 	public function is_in_footer() {
 		return $this->in_footer;
+	}
+
+	/**
+	 * Returns the script asset's async/defer loading strategy.
+	 *
+	 * @return string
+	 */
+	public function get_strategy() {
+		return $this->strategy;
 	}
 
 	/**

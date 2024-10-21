@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
+use Yoast\WP\SEO\Conditionals\Admin\Non_Network_Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -140,6 +141,7 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->assertEquals(
 			[
 				Admin_Conditional::class,
+				Non_Network_Admin_Conditional::class,
 			],
 			General_Page_Integration::get_conditionals()
 		);
