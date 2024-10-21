@@ -91,6 +91,7 @@ class WPSEO_Upgrade {
 			'20.7-RC0'   => 'upgrade_207',
 			'20.8-RC0'   => 'upgrade_208',
 			'22.6-RC0'   => 'upgrade_226',
+			'23.7-RC0'   => 'upgrade_237',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -1148,6 +1149,17 @@ class WPSEO_Upgrade {
 			$cleanup_integration = YoastSEO()->classes->get( Cleanup_Integration::class );
 			$cleanup_integration->start_cron_job( 'clean_selected_empty_usermeta', DAY_IN_SECONDS );
 		}
+	}
+
+	/**
+	 * Performs the 22.6 upgrade routine.
+	 * Schedules another cleanup scheduled action, but starting from the last cleanup action we just added (if there aren't any running cleanups already).
+	 *
+	 * @return void
+	 */
+	private function upgrade_237() {
+		error_log('set_home_url_for_151');
+		WPSEO_Options::set( 'set_up_options', true );
 	}
 
 	/**

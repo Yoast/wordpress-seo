@@ -263,37 +263,50 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	}
 
 	/**
+	 * Get defaults, possibly translated.
+	 *
+	 * @param bool $translated Whether the defaults should be returned as translated.
+	 *
+	 * @return array<string, string> The defaults, possibly translated
+	 */
+	public static function get_maybe_translated_defaults( $translated = true ) {
+		$maybe_translated_defaults = [];
+
+		/* translators: 1: Author name; 2: Site name. */
+		$maybe_translated_defaults['title-author-wpseo'] = ( $translated ) ? sprintf( __( '%1$s, Author at %2$s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ' : sprintf( '%1$s, Author at %2$s', '%%name%%', '%%sitename%%' ) . ' %%page%% ';
+		/* translators: %s expands to the search phrase. */
+		$maybe_translated_defaults['title-search-wpseo'] = ( $translated ) ? sprintf( __( 'You searched for %s', 'wordpress-seo' ), '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%' : sprintf( 'You searched for %s', '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%';
+		$maybe_translated_defaults['title-404-wpseo']    = ( $translated ) ? __( 'Page not found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%' : 'Page not found' . ' %%sep%% %%sitename%%';
+		/* translators: 1: link to post; 2: link to blog. */
+		$maybe_translated_defaults['rssafter'] = ( $translated ) ? sprintf( __( 'The post %1$s appeared first on %2$s.', 'wordpress-seo' ), '%%POSTLINK%%', '%%BLOGLINK%%' ) : sprintf( 'The post %1$s appeared first on %2$s.', '%%POSTLINK%%', '%%BLOGLINK%%' );
+
+		$maybe_translated_defaults['breadcrumbs-404crumb']      = ( $translated ) ? __( 'Error 404: Page not found', 'wordpress-seo' ) : 'Error 404: Page not found';
+		$maybe_translated_defaults['breadcrumbs-archiveprefix'] = ( $translated ) ? __( 'Archives for', 'wordpress-seo' ) : 'Archives for';
+		$maybe_translated_defaults['breadcrumbs-home']          = ( $translated ) ? __( 'Home', 'wordpress-seo' ) : 'Home';
+		$maybe_translated_defaults['breadcrumbs-searchprefix']  = ( $translated ) ? __( 'You searched for', 'wordpress-seo' ) : 'You searched for';
+
+		return $maybe_translated_defaults;
+	}
+
+	/**
 	 * Translate strings used in the option defaults.
 	 *
 	 * @return void
 	 */
 	public function translate_defaults() {
-		/* translators: 1: Author name; 2: Site name. */
-		$this->defaults['title-author-wpseo'] = sprintf( __( '%1$s, Author at %2$s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ';
-		/* translators: %s expands to the search phrase. */
-		$this->defaults['title-search-wpseo'] = sprintf( __( 'You searched for %s', 'wordpress-seo' ), '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%';
-		$this->defaults['title-404-wpseo']    = __( 'Page not found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%';
-		/* translators: 1: link to post; 2: link to blog. */
-		$this->defaults['rssafter'] = sprintf( __( 'The post %1$s appeared first on %2$s.', 'wordpress-seo' ), '%%POSTLINK%%', '%%BLOGLINK%%' );
-
-		$this->defaults['breadcrumbs-404crumb']      = __( 'Error 404: Page not found', 'wordpress-seo' );
-		$this->defaults['breadcrumbs-archiveprefix'] = __( 'Archives for', 'wordpress-seo' );
-		$this->defaults['breadcrumbs-home']          = __( 'Home', 'wordpress-seo' );
-		$this->defaults['breadcrumbs-searchprefix']  = __( 'You searched for', 'wordpress-seo' );
+		foreach ( self::get_maybe_translated_defaults( false ) as $key => $value ) {
+			$this->defaults[ $key ] = $value;
+		}
 	}
 
 	/**
-	 * Add dynamically created default options based on available post types and taxonomies.
+	 * Get enriched defaults, possibly translated.
 	 *
-	 * @return  void
+	 * @param bool $translated Whether the enriched defaults should be returned as translated.
+	 *
+	 * @return array<string, string> The enriched defaults, possibly translated
 	 */
-	public function enrich_defaults() {
-		$enriched_defaults = $this->enriched_defaults;
-		if ( $enriched_defaults !== null ) {
-			$this->defaults += $enriched_defaults;
-			return;
-		}
-
+	public static function get_maybe_translated_enriched_defaults( $translated = true ) {
 		$enriched_defaults = [];
 
 		/*
@@ -306,7 +319,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		if ( $post_type_objects ) {
 			/* translators: %s expands to the name of a post type (plural). */
-			$archive = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' );
+			$archive = ( $translated ) ? sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' ) : sprintf( '%s Archive', '%%pt_plural%%' );
 
 			foreach ( $post_type_objects as $pt ) {
 				$enriched_defaults[ 'title-' . $pt->name ]                   = '%%title%% %%page%% %%sep%% %%sitename%%'; // Text field.
@@ -342,7 +355,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		if ( $taxonomy_objects ) {
 			/* translators: %s expands to the variable used for term title. */
-			$archives = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
+			$archives = ( $translated ) ? sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) : sprintf( '%s Archives', '%%term_title%%' );
 
 			foreach ( $taxonomy_objects as $tax ) {
 				$enriched_defaults[ 'title-tax-' . $tax->name ]           = $archives . ' %%page%% %%sep%% %%sitename%%'; // Text field.
@@ -359,6 +372,23 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'taxonomy-' . $tax->name . '-ptparent' ] = 0; // Select box;.
 			}
 		}
+
+		return $enriched_defaults;
+	}
+
+	/**
+	 * Add dynamically created default options based on available post types and taxonomies.
+	 *
+	 * @return  void
+	 */
+	public function enrich_defaults() {
+		$enriched_defaults = $this->enriched_defaults;
+		if ( $enriched_defaults !== null ) {
+			$this->defaults += $enriched_defaults;
+			return;
+		}
+
+		$enriched_defaults = self::get_maybe_translated_enriched_defaults( false );
 
 		$this->enriched_defaults = $enriched_defaults;
 		$this->defaults         += $enriched_defaults;
