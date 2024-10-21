@@ -36,11 +36,12 @@ export const Problems = () => {
 			<Paper.Content className="yst-flex yst-flex-col yst-gap-y-6">
 				<AlertsContext.Provider value={ { ...problemsTheme } }>
 					<AlertsTitle title={ __( "Problems", "wordpress-seo" ) } counts={ problemsList.length }>
-						{ problems > 0 ? (
-							<p className="yst-mt-2 yst-text-sm">{ __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" ) }</p>
-						) :  (
-							<p className="yst-mt-2 yst-text-sm">{ __( "Good job! We could detect no serious SEO problems.", "wordpress-seo" ) }</p>
-						) }
+						<p className="yst-mt-2 yst-text-sm">
+							{ problemCount > 0
+								 ? __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" )
+								 : __( "Good job! We could detect no serious SEO problems.", "wordpress-seo" )
+						 }
+						</p>
 					</AlertsTitle>
 					<AlertsList items={ problemsList } />
 
