@@ -91,7 +91,7 @@ describe( "determineRegularStem", function() {
 		[ "supplied", "supply" ],
 		[ "supplying", "supply" ],
 		[ "supplyings", "supply" ],
-		[ "supplier", "supply" ],
+		[ "supplier", "supplier" ],
 		[ "release", "release" ],
 		[ "releases", "release" ],
 		[ "released", "release" ],
