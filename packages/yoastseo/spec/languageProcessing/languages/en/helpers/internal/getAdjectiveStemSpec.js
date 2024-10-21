@@ -5,7 +5,7 @@ const morphologyData = getMorphologyData( "en" );
 const adjectiveData = morphologyData.en.adjectives;
 const regexAdjective = adjectiveData.regexAdjective;
 const stopAdjectives = adjectiveData.stopAdjectives;
-const multiSyllableAdjWithSuffixes = adjectiveData.multiSyllableAdjWithSuffixes;
+const multiSyllableAdjWithSuffixes = adjectiveData.multiSyllableAdjectives.list;
 
 const oneSyllableRegularAdj = [
 	[ "short", "shorter", "shortest", "shortly" ],
@@ -54,11 +54,11 @@ const multiSyllableRegularAdj = [
 	[ "stupid", "stupider", "stupidest", "stupidly" ],
 	[ "clever", "cleverer", "cleverest", "cleverly" ],
 	[ "shallow", "shallower", "shallowest", "shallowly" ],
-	[ "sheer", "sheerer", "sheerest", "sheerly" ],
-	// [ "abrupt", "abrupter", "abruptest", "abruptly" ],
-	// [ "alert", "alerter", "alertest", "alertly" ],
-	// [ "certain", "certainer", "certainest", "certainly" ],
-	// [ "silent", "silenter", "silentest", "silently" ],
+	[ "alert", "alerter", "alertest", "alertly" ],
+	[ "slender", "slenderer", "slenderest", "slenderly" ],
+	[ "pleasant", "pleasanter", "pleasantest", "pleasantly" ],
+	[ "mature", "maturer", "maturest", "maturely" ],
+	[ "polite", "politer", "politest", "politely" ],
 ];
 
 // Adjectives ending in -y with two syllables.
@@ -67,7 +67,6 @@ const yAtTheEnd = [
 	[ "dry", "drier", "driest", "dryly" ],
 	[ "shy", "shier", "shiest", "shyly" ],
 	[ "sly", "slier", "sliest", "slyly" ],
-	[ "wry", "wryer", "wryest", "wryly" ],
 	// Two syllable adjectives ending in -y.
 	[ "happy", "happier", "happiest", "happily" ],
 	[ "pretty", "prettier", "prettiest", "prettily" ],
@@ -256,6 +255,72 @@ describe( "Test for getting the base from words that look like an adjective form
 		returnedGetBaseResult = getAdjectiveStem( "sfeest", regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
 		expect( returnedGetBaseResult.base ).toEqual( "sfeest" );
 		expect( returnedGetBaseResult.guessedForm ).toEqual( "est" );
+	} );
+
+	// Two syllable non-comparative forms of words that end in -er.
+	const twoSyllableNonComparative = [
+		"baker",
+		"builder",
+		"teacher",
+		"driver",
+		"digger",
+		"power",
+		"shower",
+		"bower",
+		"tower",
+		"blower",
+		"skewer",
+		"answer",
+		"brewer",
+		"mower",
+		"grower",
+		"sewer",
+		"flower",
+		"drawer",
+		"viewer",
+		"rower",
+		"snower",
+	];
+	it.each( twoSyllableNonComparative )( "should not stem words that are listed in the exception list: `stopAdjectives.erExceptions`", function( word ) {
+		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
+		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
+	} );
+
+	// These words are not in the exception list.
+	const multiSyllableNonComparative = [
+		"caretaker",
+		"carpenter",
+		"character",
+		"consider",
+		"cucumber",
+		"deliver",
+		"disaster",
+		"empower",
+		"helicopter",
+		"lavender",
+		"minister",
+		"newsletter",
+		"register",
+		"remember",
+		"semester",
+		"sinister",
+		"surrender",
+		"volunteer",
+		"together",
+		"reviewer",
+		"widower",
+		// 3-syllable words ending in -ier
+		"cashier",
+		"premier",
+		"supplier",
+		"glacier",
+		"occupier",
+	];
+	it.each( multiSyllableNonComparative )( "should not stems word ending in -er that have two syllables or more: the word is not listed in `multiSyllableAdjWithSuffixes`", function( word ) {
+		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
+		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
 	} );
 } );
 
