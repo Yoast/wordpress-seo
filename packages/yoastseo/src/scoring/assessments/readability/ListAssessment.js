@@ -3,7 +3,6 @@ import { mapValues, merge } from "lodash";
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { createAnchorOpeningTag } from "../../../helpers";
-import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 
 /**
  * Represents the assessment that will look if the text has a list (only applicable for product pages).
@@ -42,19 +41,12 @@ export default class ListAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether there is an ordered or unordered list in the text.
-	 *
-	 * @param {Paper}	paper	The paper object to get the text from.
-	 *
-	 * @returns {boolean} Whether there is a list in the paper text.
+	 * Checks whether there is an ordered or unordered list in the paper.
+	 * @param {Paper}	paper	The paper to analyze.
+	 * @returns {boolean} Whether there is a list in the paper.
 	 */
 	findList( paper ) {
-		const regex = /<[uo]l.*>[\s\S]*<\/[uo]l>/;
-		let text = paper.getText();
-
-		text = removeHtmlBlocks( text );
-
-		return regex.test( text );
+		return paper.getTree().findAll( node => node.name === "ul" || node.name === "ol" ).length > 0;
 	}
 
 	/**
