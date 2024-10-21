@@ -12,7 +12,7 @@ class Url_List_Presenter extends Abstract_Presenter {
 	 *
 	 * @var bool
 	 */
-	protected $target_blank;
+	private $target_blank;
 
 	/**
 	 * A list of arrays containing titles and URLs.

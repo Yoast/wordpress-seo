@@ -138,7 +138,11 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			$link      .= '<' . $this->get_element() . '>';
 			$title_attr = isset( $breadcrumb['title'] ) ? ' title="' . \esc_attr( $breadcrumb['title'] ) . '"' : '';
 			$link      .= '<a';
-			// If the block is rendered server side (via a rest request) make sure the links target blank.
+
+			/**
+			 * This is needed because when the editor is loaded in an Iframe the link needs to open in a different browser window.
+			 * We don't want this behaviour in the front-end and the way to check this is to check if the block is rendered in a REST request. Thus being in the editor.
+			 */
 			if ( \wp_is_serving_rest_request() ) {
 				$link .= ' target="_blank"';
 			}
