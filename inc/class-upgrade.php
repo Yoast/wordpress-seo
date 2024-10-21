@@ -1158,7 +1158,6 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_237() {
-		error_log('set_home_url_for_151');
 		WPSEO_Options::set( 'set_up_options', true );
 	}
 

@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use WPSEO_Post_Type;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -54,11 +53,9 @@ class Initial_Option_Setup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function maybe_translate_defaults() {
-		error_log('blabla1');
 		if ( $this->options_helper->get( 'set_up_options', false ) ) {
 			return;
 		}
-		error_log('blabla2');
 
 		$this->options_helper->set( 'set_up_options', true );
 
@@ -76,7 +73,7 @@ class Initial_Option_Setup_Integration implements Integration_Interface {
 		$untranslated_default_titles = $this->options_helper->get_maybe_translated_default_titles( false );
 
 		foreach ( $translated_default_titles as $key => $value ) {
-			if ( trim( $this->options_helper->get( $key ) ) === trim( $untranslated_default_titles[ $key ] ) ) {
+			if ( \trim( $this->options_helper->get( $key ) ) === \trim( $untranslated_default_titles[ $key ] ) ) {
 				$this->options_helper->set( $key, $value );
 			}
 		}
@@ -92,7 +89,7 @@ class Initial_Option_Setup_Integration implements Integration_Interface {
 		$untranslated_enriched_default_titles = $this->options_helper->get_maybe_translated_enriched_defaults( false );
 
 		foreach ( $translated_enriched_default_titles as $key => $value ) {
-			if ( trim( $this->options_helper->get( $key ) ) === trim( $untranslated_enriched_default_titles[ $key ] ) ) {
+			if ( \trim( $this->options_helper->get( $key ) ) === \trim( $untranslated_enriched_default_titles[ $key ] ) ) {
 				$this->options_helper->set( $key, $value );
 			}
 		}
