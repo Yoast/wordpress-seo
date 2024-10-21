@@ -215,8 +215,8 @@ body.toplevel_page_wpseo_dashboard {
 				yst-px-2.5
 				yst-py-1.5;
 
-				/* custom for general page */
-				@apply yst-mt-3 yst-whitespace-normal;
+				/* custom for general page and reset WP styles */
+				@apply yst-mt-3 yst-whitespace-normal yst-min-h-[unset] yst-mb-[unset] yst-align-[unset];
 			}
 
 			.button-link {
