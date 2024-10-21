@@ -257,6 +257,17 @@ describe( "Test for getting the base from words that look like an adjective form
 		expect( returnedGetBaseResult.guessedForm ).toEqual( "est" );
 	} );
 
+	const oneSyllableNonComparative = [
+		"per",
+		"her",
+		"cher",
+	];
+	it.each( oneSyllableNonComparative )( "should not stem one syllable word ending in -er: %s", function( word ) {
+		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
+		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
+	} );
+
 	// Two syllable non-comparative forms of words that end in -er.
 	const twoSyllableNonComparative = [
 		"baker",
