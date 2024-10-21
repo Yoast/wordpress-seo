@@ -281,7 +281,9 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 			'url'  => 'home_url',
 			'text' => 'home_text',
 		];
-
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
+			->once()
+			->andReturnFalse();
 		$this->instance->expects( 'get_element' )
 			->twice()
 			->withNoArgs()
@@ -307,6 +309,9 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 			'url'  => 'home_url',
 			'text' => 'home_text',
 		];
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
+			->once()
+			->andReturnFalse();
 
 		$this->instance->expects( 'get_element' )
 			->twice()
@@ -340,13 +345,44 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 			'text'  => 'home_text',
 			'title' => 'home_title',
 		];
-
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
+			->once()
+			->andReturnFalse();
 		$this->instance->expects( 'get_element' )
 			->twice()
 			->withNoArgs()
 			->andReturn( 'span' );
 
 		$link = '<span><a href="home_url" title="home_title">home_text</a></span>';
+
+		$this->assertEquals(
+			$link,
+			$this->instance->crumb_to_link( $breadcrumb, 0, 2 )
+		);
+	}
+
+	/**
+	 * Tests the creation of a breadcrumb element has target blank in the editor.
+	 *
+	 * @covers ::crumb_to_link
+	 *
+	 * @return void
+	 */
+	public function test_crumb_in_editor() {
+		$breadcrumb = [
+			'url'   => 'home_url',
+			'text'  => 'home_text',
+			'title' => 'home_title',
+		];
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
+			->once()
+			->andReturnTrue();
+		$this->instance->expects( 'get_element' )
+			->twice()
+			->withNoArgs()
+			->andReturn( 'span' );
+
+		$link = '<span><a target="_blank" href="home_url" title="home_title">home_text</a></span>';
 
 		$this->assertEquals(
 			$link,
