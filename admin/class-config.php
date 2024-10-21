@@ -56,7 +56,7 @@ class WPSEO_Admin_Pages {
 		$page_exceptions = in_array( $page, [ Settings_Integration::PAGE, Academy_Integration::PAGE, Support_Integration::PAGE ], true );
 		// Don't load the scripts for the new dashboard page, but only if the feature flag is enabled.
 		$new_dashboard_conditional = new New_Dashboard_Ui_Conditional();
-		$new_dashboard_page        = ( $page === New_Dashboard_Page_Integration::PAGE && $new_dashboard_conditional->is_met() );
+		$new_dashboard_page        = ( $page === New_Dashboard_Page_Integration::PAGE && $new_dashboard_conditional->is_met() && ! is_network_admin() );
 
 		if ( $page_exceptions || $new_dashboard_page ) {
 			// Bail, this is managed in the applicable integration.
