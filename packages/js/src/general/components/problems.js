@@ -6,13 +6,14 @@ import { AlertsList } from "./alerts-list";
 import { AlertsTitle } from "./alerts-title";
 import { Collapsible } from "./collapsible";
 import { AlertsContext } from "../contexts/alerts-context";
+import { STORE_NAME } from "../constants/index";
 
 /**
  * @returns {JSX.Element} The problems component.
  */
 export const Problems = () => {
-	const problemsList = useSelect( ( select ) => select( "@yoast/dashboard" ).selectActiveProblems(), [] );
-	const dismissedProblemsList = useSelect( ( select ) => select( "@yoast/dashboard" ).selectDismissedProblems(), [] );
+	const problemsList = useSelect( ( select ) => select( STORE_NAME ).selectActiveProblems(), [] );
+	const dismissedProblemsList = useSelect( ( select ) => select( STORE_NAME ).selectDismissedProblems(), [] );
 
 	const dismissedProblems = dismissedProblemsList.length;
 

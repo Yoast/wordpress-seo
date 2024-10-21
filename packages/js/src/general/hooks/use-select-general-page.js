@@ -7,6 +7,6 @@ import { STORE_NAME } from "../constants";
  * @param {*} [args] Selector arguments.
  * @returns {*} The result.
  */
-const useSelectDashboard = ( selector, deps = [], ...args ) => useSelect( select => select( STORE_NAME )[ selector ]?.( ...args ), deps );
+const useSelectGeneralPage = ( selector, deps = [], ...args ) => useSelect( select => select( STORE_NAME )[ selector ]?.( ...args ), deps );
 
-export default useSelectDashboard;
+export default useSelectGeneralPage;

@@ -5,6 +5,7 @@ import { Button } from "@yoast/ui-library";
 import { EyeOffIcon, EyeIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { AlertsContext } from "../contexts/alerts-context";
+import { STORE_NAME } from "../constants/index";
 
 /**
  * The alert item object.
@@ -18,7 +19,7 @@ import { AlertsContext } from "../contexts/alerts-context";
  */
 const AlertItem = ( { id, nonce, dismissed, message  } ) => {
 	const { bulletClass = "" } = useContext( AlertsContext );
-	const { toggleAlertStatus } = useDispatch( "@yoast/dashboard" );
+	const { toggleAlertStatus } = useDispatch( STORE_NAME );
 	const Eye = dismissed ? EyeIcon : EyeOffIcon;
 
 	const toggleAlert = useCallback( async() => {

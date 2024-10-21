@@ -10,7 +10,7 @@ import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library"
 import PropTypes from "prop-types";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
-import { useSelectDashboard } from "./hooks";
+import { useSelectGeneralPage } from "./hooks";
 import { STORE_NAME } from "./constants";
 import { getMigratingNoticeInfo, deleteMigratingNotices } from "../helpers/migrateNotices";
 import Notice from "./components/notice";
@@ -23,7 +23,7 @@ import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/sh
  */
 const Menu = ( { idSuffix = "" } ) => {
 	const svgAriaProps = useSvgAria();
-	const isPremium = useSelectDashboard( "selectPreference", [], "isPremium" );
+	const isPremium = useSelectGeneralPage( "selectPreference", [], "isPremium" );
 
 	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
@@ -74,7 +74,7 @@ const App = () => {
 	}, [ notices ] );
 
 	const { pathname } = useLocation();
-	const alertToggleError = useSelectDashboard( "selectAlertToggleError", [], [] );
+	const alertToggleError = useSelectGeneralPage( "selectAlertToggleError", [], [] );
 	const { setAlertToggleError } = useDispatch( STORE_NAME );
 
 	const handleDismiss = useCallback( () => {
@@ -123,7 +123,7 @@ const App = () => {
 											notices.map( ( notice, index ) => (
 												<Notice
 													key={ index }
-													id={ notice.id || "yoast-dashboard-notice-" + index }
+													id={ notice.id || "yoast-general-page-notice-" + index }
 													title={ notice.header }
 													isDismissable={ notice.isDismissable }
 												>

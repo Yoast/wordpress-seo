@@ -18,7 +18,7 @@ export default function Notice( { title, id, isDismissable, children } ) {
 	const ariaSvgProps = useSvgAria();
 
 	return (
-		<div id={ id } className={ classNames( "yst-p-3 yst-rounded-md yoast-dashboard-notice" ) }>
+		<div id={ id } className={ classNames( "yst-p-3 yst-rounded-md yoast-general-page-notice" ) }>
 			<div className={ classNames( "yst-flex yst-flex-row yst-items-center yst-min-h-[24px]" ) }>
 				<span className="yoast-icon" />
 				{ title && <div className="yst-text-sm yst-font-medium" dangerouslySetInnerHTML={ { __html: title } } /> }

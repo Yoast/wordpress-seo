@@ -4,18 +4,18 @@ import { Paper, Title } from "@yoast/ui-library";
 import { PremiumUpsellList } from "../../shared-admin/components/premium-upsell-list";
 import SidebarRecommendations from "../../shared-admin/components/sidebar-recommendations";
 import { Notifications, Problems } from "../components";
-import { useSelectDashboard } from "../hooks";
+import { useSelectGeneralPage } from "../hooks";
 import { STORE_NAME } from ".././constants";
 
 /**
- * @returns {JSX.Element} The dashboard content placeholder.
+ * @returns {JSX.Element} The general page content placeholder.
  */
 export const AlertCenter = () => {
-	const isPremium = useSelectDashboard( "selectPreference", [], "isPremium" );
-	const premiumLinkList = useSelectDashboard( "selectLink", [], "https://yoa.st/17h" );
-	const premiumLinkSidebar = useSelectDashboard( "selectLink", [], "https://yoa.st/jj" );
-	const premiumUpsellConfig = useSelectDashboard( "selectUpsellSettingsAsProps" );
-	const academyLink = useSelectDashboard( "selectLink", [], "https://yoa.st/3t6" );
+	const isPremium = useSelectGeneralPage( "selectPreference", [], "isPremium" );
+	const premiumLinkList = useSelectGeneralPage( "selectLink", [], "https://yoa.st/17h" );
+	const premiumLinkSidebar = useSelectGeneralPage( "selectLink", [], "https://yoa.st/jj" );
+	const premiumUpsellConfig = useSelectGeneralPage( "selectUpsellSettingsAsProps" );
+	const academyLink = useSelectGeneralPage( "selectLink", [], "https://yoa.st/3t6" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
 
 	return <div className="yst-flex yst-gap-8 xl:yst-flex-row yst-flex-col">

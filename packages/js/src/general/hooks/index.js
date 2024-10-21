@@ -1,2 +1,2 @@
 
-export { default as useSelectDashboard } from "./use-select-dashboard";
+export { default as useSelectGeneralPage } from "./use-select-general-page";

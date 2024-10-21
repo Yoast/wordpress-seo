@@ -6,13 +6,14 @@ import { AlertsList } from "./alerts-list";
 import { AlertsTitle } from "./alerts-title";
 import { Collapsible } from "./collapsible";
 import { AlertsContext } from "../contexts/alerts-context";
+import { STORE_NAME } from "../constants/index";
 
 /**
  * @returns {JSX.Element} The notifications component.
  */
 export const Notifications = () => {
-	const notificationsAlertsList = useSelect( ( select ) => select( "@yoast/dashboard" ).selectActiveNotifications(), [] );
-	const hiddenNotificationsAlertsList = useSelect( ( select ) => select( "@yoast/dashboard" ).selectDismissedNotifications(), [] );
+	const notificationsAlertsList = useSelect( ( select ) => select( STORE_NAME ).selectActiveNotifications(), [] );
+	const hiddenNotificationsAlertsList = useSelect( ( select ) => select( STORE_NAME ).selectDismissedNotifications(), [] );
 	const hiddenNotifications = hiddenNotificationsAlertsList.length;
 
 	const hiddenNotificationLabel = _n(
