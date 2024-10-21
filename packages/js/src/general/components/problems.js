@@ -16,7 +16,7 @@ export const Problems = () => {
 	const dismissedProblemsList = useSelect( ( select ) => select( STORE_NAME ).selectDismissedProblems(), [] );
 
 	const dismissedProblems = dismissedProblemsList.length;
-	const problems = problemsList.length;
+	const problemCount = problemsList.length;
 
 	const dismissedProblemsLabel = _n(
 		"hidden problem",
