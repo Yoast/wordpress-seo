@@ -107,8 +107,12 @@ export function determineRegularStem( word, morphologyData ) {
 
 	// Adjectival base.
 	const stopAdjectives = morphologyData.adjectives.stopAdjectives;
-	// The list of adjectives containing more than 2 syllables that can have suffixes -er or -est, e.g. "cleverer".
-	const multiSyllableAdjWithSuffixes = morphologyData.adjectives.multiSyllableAdjWithSuffixes;
+	/*
+	 The following list of words are the stem of adjectives that have two syllables or more that receive -er and -est in their comparative and superlative forms, e.g 'shallow'.
+	 Please note that if the adjective ends in -y and -e, the ending is removed, e.g. 'acute' -> 'acut'.
+	 The list is not exhaustive and can be expanded if needed. Oxford dictionary was used to check if the forms indeed exist, e.g. "acuter".
+	 */
+	const multiSyllableAdjWithSuffixes = morphologyData.adjectives.multiSyllableAdjectives.list;
 
 	const baseIfAdjective = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes ).base;
 	possibleRegularBases.push( baseIfAdjective );
