@@ -23,6 +23,10 @@ const refineAdjectiveCheck = ( word, endsWith, nonStemmingExceptions, forcedStem
 	 * Words ending in -er/-est that don't follow the above rules are not comparatives/superlatives, unless listed in the exception lists.
 	 */
 	if ( word.endsWith( endsWith ) ) {
+		// Words with one syllable or less can't be comparatives/superlatives.
+		if ( countSyllables <= 1 ) {
+			return false;
+		}
 		// The suffix for adjectives ending in -y is -ier/-iest.
 		const adjectiveEndingInYSuffix = `i${ endsWith }`;
 		// Checks if the word is an adjective ending in -y that can have suffixes -er/-est.
