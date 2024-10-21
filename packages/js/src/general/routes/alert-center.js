@@ -19,7 +19,7 @@ export const AlertCenter = () => {
 	const { isPromotionActive } = useSelect( STORE_NAME );
 
 	return <div className="yst-flex yst-gap-8 xl:yst-flex-row yst-flex-col">
-		<div className="yst-flex yst-flex-wrap yst-flex-grow xl:yst-flex-row yst-flex-col">
+		<div className="yst-@container yst-flex yst-flex-wrap yst-flex-grow yst-flex-col">
 			<Paper className="yst-grow">
 				<header className="yst-p-8 yst-max-w-screen-sm">
 					<Title>{ __( "Alert center", "wordpress-seo" ) }</Title>
@@ -28,7 +28,7 @@ export const AlertCenter = () => {
 					</p>
 				</header>
 			</Paper>
-			<div className="yst-grid lg:yst-grid-cols-2 yst-gap-8 yst-my-8 yst-grow yst-items-start">
+			<div className="yst-grid yst-grid-cols-1 @3xl:yst-grid-cols-2 yst-gap-8 yst-my-8 yst-grow yst-items-start">
 				<Problems />
 				<Notifications />
 			</div>
