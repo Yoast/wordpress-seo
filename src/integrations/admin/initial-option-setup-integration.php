@@ -94,6 +94,4 @@ class Initial_Option_Setup_Integration implements Integration_Interface {
 			}
 		}
 	}
-
-
 }

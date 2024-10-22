@@ -276,7 +276,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		$maybe_translated_defaults['title-author-wpseo'] = ( $translated ) ? sprintf( __( '%1$s, Author at %2$s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ' : sprintf( '%1$s, Author at %2$s', '%%name%%', '%%sitename%%' ) . ' %%page%% ';
 		/* translators: %s expands to the search phrase. */
 		$maybe_translated_defaults['title-search-wpseo'] = ( $translated ) ? sprintf( __( 'You searched for %s', 'wordpress-seo' ), '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%' : sprintf( 'You searched for %s', '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%';
-		$maybe_translated_defaults['title-404-wpseo']    = ( $translated ) ? __( 'Page not found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%' : 'Page not found' . ' %%sep%% %%sitename%%';
+		$maybe_translated_defaults['title-404-wpseo']    = ( $translated ) ? __( 'Page not found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%' : 'Page not found %%sep%% %%sitename%%';
 		/* translators: 1: link to post; 2: link to blog. */
 		$maybe_translated_defaults['rssafter'] = ( $translated ) ? sprintf( __( 'The post %1$s appeared first on %2$s.', 'wordpress-seo' ), '%%POSTLINK%%', '%%BLOGLINK%%' ) : sprintf( 'The post %1$s appeared first on %2$s.', '%%POSTLINK%%', '%%BLOGLINK%%' );
 
