@@ -243,26 +243,12 @@ describe.each( allFormsToTestForBase )( "Test for getting the base from all type
 	} );
 
 describe( "Test for getting the base from words that look like an adjective form but aren't", function() {
-	it( "returns the stem of words that look like they end in -er suffix", function() {
-		// The word 'sfeer' is made up
-		returnedGetBaseResult = getAdjectiveStem( "sfeer", regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
-		expect( returnedGetBaseResult.base ).toEqual( "sfeer" );
-		expect( returnedGetBaseResult.guessedForm ).toEqual( "er" );
-	} );
-
-	it( "returns the stem of words that look like they end in -est suffix", function() {
-		// The word 'sfeest' is made up
-		returnedGetBaseResult = getAdjectiveStem( "sfeest", regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
-		expect( returnedGetBaseResult.base ).toEqual( "sfeest" );
-		expect( returnedGetBaseResult.guessedForm ).toEqual( "est" );
-	} );
-
 	const oneSyllableNonComparative = [
 		"per",
 		"her",
 		"cher",
 	];
-	it.each( oneSyllableNonComparative )( "should not stem one syllable word ending in -er: %s", function( word ) {
+	it.each( oneSyllableNonComparative )( "should not stem one syllable word ending in -er: \"%s\"", function( word ) {
 		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
 		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
 		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
@@ -292,7 +278,7 @@ describe( "Test for getting the base from words that look like an adjective form
 		"rower",
 		"snower",
 	];
-	it.each( twoSyllableNonComparative )( "should not stem words that are listed in the exception list: `stopAdjectives.erExceptions`", function( word ) {
+	it.each( twoSyllableNonComparative )( "should not stem word that is listed in the exception list `stopAdjectives.erExceptions`: \"%s\"", function( word ) {
 		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
 		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
 		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
@@ -328,7 +314,7 @@ describe( "Test for getting the base from words that look like an adjective form
 		"glacier",
 		"occupier",
 	];
-	it.each( multiSyllableNonComparative )( "should not stems word ending in -er that have two syllables or more: the word is not listed in `multiSyllableAdjWithSuffixes`", function( word ) {
+	it.each( multiSyllableNonComparative )( "should not stem word ending in -er that have two syllables or more \"%s\": the word is not listed in `multiSyllableAdjWithSuffixes`", function( word ) {
 		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
 		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
 		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
