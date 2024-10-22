@@ -349,10 +349,13 @@ describe.each( adjectivesWithoutComparativesOrSuperlatives )( "Test for getting 
 	} );
 } );
 
-describe( "Test for getting the base from adjectives that don't get any forms", function() {
-	it.each( onlyBaseAdjective )( "doesn't stem the base form itself %s", function( word ) {
+describe.each( onlyBaseAdjective )( "Test for getting the base from adjectives that don't get any forms", function( word ) {
+	it( "doesn't stem the base form itself: " + word, function() {
 		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives );
 		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
+	} );
+	it( "should return 'base' as the guessed form for the following word: " + word, function() {
+		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives );
 		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
 	} );
 } );
