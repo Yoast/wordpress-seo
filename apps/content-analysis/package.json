@@ -5,6 +5,7 @@
 	"dependencies": {
 		"@babel/core": "^7.25.8",
 		"@babel/eslint-parser": "^7.25.8",
+    "@babel/preset-env": "^7.25.8",
 		"@svgr/webpack": "^8.1.0",
 		"@wordpress/i18n": "^3.1.1",
 		"@yoast/analysis-report": "^1.21.0",
