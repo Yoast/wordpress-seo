@@ -104,10 +104,6 @@ class WPSEO_Upgrade {
 			add_action( 'init', [ $this, 'upgrade_125' ] );
 		}
 
-		// Since 3.7.
-		$upsell_notice = new WPSEO_Product_Upsell_Notice();
-		$upsell_notice->set_upgrade_notice();
-
 		/**
 		 * Filter: 'wpseo_run_upgrade' - Runs the upgrade hook which are dependent on Yoast SEO.
 		 *
