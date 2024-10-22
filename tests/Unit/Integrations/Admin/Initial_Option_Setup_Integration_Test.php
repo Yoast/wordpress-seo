@@ -94,14 +94,14 @@ final class Initial_Option_Setup_Integration_Test extends TestCase {
 	 * @covers ::replace_defaults_with_translations
 	 * @covers ::replace_enriched_defaults_with_translations
 	 *
-	 * @param bool $set_up_options                                  Whether options are set up.
-	 * @param int  $times_setting_set_up_options                    The number of times the set_up_options option is set.
+	 * @param bool                  $set_up_options                 Whether options are set up.
+	 * @param int                   $times_setting_set_up_options   The number of times the set_up_options option is set.
 	 * @param array<string, string> $translated_default_titles      The translated default titles.
 	 * @param array<string, string> $untranslated_default_titles    The untranslated default titles.
 	 * @param array<string, string> $translated_enriched_defaults   The translated enriched defaults.
 	 * @param array<string, string> $untranslated_enriched_defaults The untranslated enriched defaults.
-	 * @param array<string> $current_setting_values                 The current setting values.
-	 * @param int $translate_times                                  The number of times the set method is called.
+	 * @param array<string>         $current_setting_values         The current setting values.
+	 * @param int                   $translate_times                The number of times the set method is called.
 	 *
 	 * @return void
 	 */
@@ -156,7 +156,7 @@ final class Initial_Option_Setup_Integration_Test extends TestCase {
 	/**
 	 * Data provider for test_maybe_translate_defaults.
 	 *
-	 * @return array<string, array<string, bool|int|array<string, string>>
+	 * @return array<string, array<string, bool|int|array<string, string>>>
 	 */
 	public static function provider_maybe_translate_defaults() {
 		yield 'Already set up options' => [
@@ -182,11 +182,11 @@ final class Initial_Option_Setup_Integration_Test extends TestCase {
 			],
 			'translated_enriched_defaults'   => [
 				'title-tax-category'      => '%%term_title%% Lorem %%page%% %%sep%% %%sitename%%',
-				'title-tax-post_format' => '%%term_title%% Lorem %%page%% %%sep%% %%sitename%%',
+				'title-tax-post_format'   => '%%term_title%% Lorem %%page%% %%sep%% %%sitename%%',
 			],
 			'untranslated_enriched_defaults' => [
 				'title-tax-category'      => '%%term_title%% Archives %%page%% %%sep%% %%sitename%%',
-				'title-tax-post_format' => '%%term_title%% Archives %%page%% %%sep%% %%sitename%%',
+				'title-tax-post_format'   => '%%term_title%% Archives %%page%% %%sep%% %%sitename%%',
 			],
 			'current_setting_values'         => [
 				'Error 404: Page not found',
@@ -209,11 +209,11 @@ final class Initial_Option_Setup_Integration_Test extends TestCase {
 			],
 			'translated_enriched_defaults'   => [
 				'title-tax-category'      => '%%term_title%% Lorem %%page%% %%sep%% %%sitename%%',
-				'title-tax-post_format' => '%%term_title%% Lorem %%page%% %%sep%% %%sitename%%',
+				'title-tax-post_format'   => '%%term_title%% Lorem %%page%% %%sep%% %%sitename%%',
 			],
 			'untranslated_enriched_defaults' => [
 				'title-tax-category'      => '%%term_title%% Archives %%page%% %%sep%% %%sitename%%',
-				'title-tax-post_format' => '%%term_title%% Archives %%page%% %%sep%% %%sitename%%',
+				'title-tax-post_format'   => '%%term_title%% Archives %%page%% %%sep%% %%sitename%%',
 			],
 			'current_setting_values'         => [
 				'Custom error page',
