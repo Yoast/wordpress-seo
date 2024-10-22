@@ -74,7 +74,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_box' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ] );
+		// Enqueue metabox assets for the block editor.
+		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue' ] );
+		// Enqueue metabox assets for other editors.
+		add_action( 'admin_enqueue_scripts', [ $this, 'maybe_enqueue_assets_non_block_editor' ] );
+
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_post_overview_assets' ] );
 		add_action( 'wp_insert_post', [ $this, 'save_postdata' ] );
 		add_action( 'edit_attachment', [ $this, 'save_postdata' ] );
 		add_action( 'add_attachment', [ $this, 'save_postdata' ] );
@@ -799,6 +804,38 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
+	 * Enqueues assets for the post overview page.
+	 *
+	 * @return void
+	 */
+	public function enqueue_post_overview_assets() {
+		global $pagenow;
+
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+
+		if ( self::is_post_overview( $pagenow ) ) {
+			$asset_manager->enqueue_style( 'edit-page' );
+			$asset_manager->enqueue_script( 'edit-page' );
+		}
+	}
+
+	/**
+	 * Checks to make sure the current editor used is not the block editor to enqueue all needed assets.
+	 * If it is the block editor the assets are already enqueued in the `enqueue_block_assets` action.
+	 *
+	 * @return void
+	 */
+	public function maybe_enqueue_assets_non_block_editor() {
+		global $pagenow;
+
+		if ( ( self::is_post_edit( $pagenow ) === false && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || WP_Screen::get()->is_block_editor() ) {
+			return;
+		}
+
+		$this->enqueue();
+	}
+
+	/**
 	 * Enqueues all the needed JS and CSS.
 	 *
 	 * @todo [JRF => whomever] Create css/metabox-mp6.css file and add it to the below allowed colors array when done.
@@ -806,23 +843,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return void
 	 */
 	public function enqueue() {
-		global $pagenow;
+		if ( $this->display_metabox() === false ) {
+			return;
+		}
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-
-		$is_editor = self::is_post_overview( $pagenow ) || self::is_post_edit( $pagenow );
-
-		if ( self::is_post_overview( $pagenow ) ) {
-			$asset_manager->enqueue_style( 'edit-page' );
-			$asset_manager->enqueue_script( 'edit-page' );
-
-			return;
-		}
-
-		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
-		if ( ( $is_editor === false && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->display_metabox() === false ) {
-			return;
-		}
 
 		$post_id = get_queried_object_id();
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
