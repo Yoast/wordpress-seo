@@ -1,5 +1,4 @@
-import { __, _n, sprintf } from "@wordpress/i18n";
-import { merge } from "lodash";
+import { mapValues, merge } from "lodash";
 
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
@@ -13,6 +12,12 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {object}  config      The configuration to use.
+	 * @param {number}  [config.scores.bad]   The score to return if not all images have alt tags.
+	 * @param {number}  [config.scores.good]  The score to return if all images have alt tags.
+	 * @param {string}  [config.urlTitle]     The URL to the article about this assessment.
+	 * @param {string}  [config.urlCallToAction]  The URL to the help article for this assessment.
+	 * @param {object} [config.callbacks] The callbacks to use for the assessment.
+	 * @param {function}  [config.callbacks.getResultTexts]  The function that returns the result texts.
 	 *
 	 * @returns {void}
 	 */
@@ -24,8 +29,9 @@ export default class ImageAltTagsAssessment extends Assessment {
 				bad: 3,
 				good: 9,
 			},
-			urlTitle: createAnchorOpeningTag( "" ),
-			urlCallToAction: createAnchorOpeningTag( "" ),
+			urlTitle: "",
+			urlCallToAction: "",
+			callbacks: {},
 		};
 
 		this.identifier = "imageAltTags";
@@ -67,28 +73,20 @@ export default class ImageAltTagsAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculates the result based on the availability of images in the text, including videos in product pages.
+	 * Calculates the result based on the availability of images in the text.
 	 *
 	 * @returns {Object} The calculated result.
 	 */
 	calculateResult() {
 		// The number of images with no alt tags.
 		const imagesNoAlt = this.altTagsProperties.noAlt;
+		const { good: goodResultText, noneHasAltBad, someHaveAltBad } = this.getFeedbackStrings();
 
 		// None of the images has alt tags.
 		if ( imagesNoAlt === this.imageCount ) {
 			return {
 				score: this._config.scores.bad,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					__(
-						"%1$sImage alt tags%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
-						"yoast-woo-seo"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
+				resultText: noneHasAltBad,
 			};
 		}
 
@@ -96,38 +94,55 @@ export default class ImageAltTagsAssessment extends Assessment {
 		if ( imagesNoAlt > 0 ) {
 			return {
 				score: this._config.scores.bad,
-				resultText: sprintf(
-					/* translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
-					* %1$d expands to the number of images without alt tags,
-					* %2$d expands to the number of images found in the text, */
-					_n(
-						"%3$sImage alt tags%5$s: %1$d image out of %2$d doesn't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
-						"%3$sImage alt tags%5$s: %1$d images out of %2$d don't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
-						imagesNoAlt,
-						"yoast-woo-seo"
-					),
-					imagesNoAlt,
-					this.imageCount,
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
+				resultText: someHaveAltBad,
 			};
 		}
 
 		// All images have alt tags.
 		return {
 			score: this._config.scores.good,
-			resultText: sprintf(
-				/* translators: %1$s expands to a link on yoast.com,
-				 * %2$s expands to the anchor end tag. */
-				__(
-					"%1$sImage alt tags%2$s: All images have alt attributes. Good job!",
-					"yoast-woo-seo"
-				),
-				this._config.urlTitle,
-				"</a>"
-			),
+			resultText: goodResultText,
 		};
+	}
+
+	/**
+	 * Returns the feedback strings for the assessment.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
+	 * This callback function should return an object with the following properties:
+	 * - good: string
+	 * - noneHasAltBad: string
+	 * - someHaveAltBad: string
+	 *
+	 * @returns {{good: string, noneHasAltBad: string, someHaveAltBad: string}} The feedback strings.
+	 */
+	getFeedbackStrings() {
+		// `urlTitleAnchorOpeningTag` represents the anchor opening tag with the URL to the article about this assessment.
+		const urlTitleAnchorOpeningTag = createAnchorOpeningTag( this._config.urlTitle );
+		// `urlActionAnchorOpeningTag` represents the anchor opening tag with the URL for the call to action.
+		const urlActionAnchorOpeningTag = createAnchorOpeningTag( this._config.urlCallToAction );
+
+		const numberOfImagesWithoutAlt = this.altTagsProperties.noAlt;
+
+		if ( ! this._config.callbacks.getResultTexts ) {
+			const defaultResultTexts = {
+				good: "%1$sImage alt tags%3$s: All images have alt attributes. Good job!",
+				noneHasAltBad: "%1$sImage alt tags%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
+				someHaveAltBad: "%1$sImage alt tags%3$s: Some images don't have alt attributes. %2$sAdd alt attributes to your images%3$s!",
+			};
+			if ( numberOfImagesWithoutAlt === 1 ) {
+				defaultResultTexts.someHaveAltBad = "%1$sImage alt tags%3$s: One image doesn't have alt attributes. %2$sAdd alt attributes to your images%3$s!";
+			}
+			return mapValues(
+				defaultResultTexts,
+				( resultText ) => this.formatResultText( resultText, urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag )
+			);
+		}
+
+		return this._config.callbacks.getResultTexts( {
+			urlTitleAnchorOpeningTag,
+			urlActionAnchorOpeningTag,
+			numberOfImagesWithoutAlt,
+			totalNumberOfImages: this.imageCount,
+		} );
 	}
 }

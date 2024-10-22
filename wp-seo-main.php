@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '23.6' );
+define( 'WPSEO_VERSION', '23.7-RC3' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -563,8 +563,14 @@ function yoast_wpseo_missing_filter_notice() {
  * @return void
  */
 function yoast_wpseo_activation_failed_notice( $message ) {
+	$title = sprintf(
+		/* translators: %s: Yoast SEO. */
+		esc_html__( '%s activation failed', 'wordpress-seo' ),
+		'Yoast SEO'
+	);
+
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- This function is only called in 3 places that are safe.
-	echo '<div class="error"><p>' . esc_html__( 'Activation failed:', 'wordpress-seo' ) . ' ' . strip_tags( $message, '<a>' ) . '</p></div>';
+	echo '<div class="error yoast-migrated-notice"><h4 class="yoast-notice-migrated-header">' . $title . '</h4><div class="notice-yoast-content"><p>' . strip_tags( $message, '<a>' ) . '</p></div></div>';
 }
 
 /**

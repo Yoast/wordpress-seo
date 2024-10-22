@@ -406,7 +406,10 @@ class Elementor implements Integration_Interface {
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
-		$permalink = $this->get_permalink();
+		$permalink        = $this->get_permalink();
+		$page_on_front    = (int) \get_option( 'page_on_front' );
+		$homepage_is_page = \get_option( 'show_on_front' ) === 'page';
+		$is_front_page    = $homepage_is_page && $page_on_front === $post_id;
 
 		$script_data = [
 			'metabox'                   => $this->get_metabox_script_data( $permalink ),
@@ -420,6 +423,7 @@ class Elementor implements Integration_Interface {
 				'worker'  => $worker_script_data,
 			],
 			'usedKeywordsNonce'         => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
+			'isFrontPage'               => $is_front_page,
 		];
 
 		/**

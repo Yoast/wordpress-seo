@@ -3,6 +3,7 @@ import MetaDescriptionLengthAssessment from "../../../assessments/seo/MetaDescri
 import TextLengthAssessment from "../../../assessments/seo/TextLengthAssessment.js";
 import SlugKeywordAssessment from "../../../assessments/seo/UrlKeywordAssessment.js";
 import ImageKeyphraseAssessment from "../../../assessments/seo/KeyphraseInImageTextAssessment.js";
+
 import { createAnchorOpeningTag } from "../../../../helpers";
 
 /**

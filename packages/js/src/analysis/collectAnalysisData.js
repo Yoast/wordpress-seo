@@ -2,6 +2,7 @@ import { applyFilters } from "@wordpress/hooks";
 import {
 	cloneDeep,
 	merge,
+	get,
 } from "lodash";
 import { serialize } from "@wordpress/blocks";
 
@@ -96,6 +97,7 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	data.shortcodes = window.wpseoScriptData.analysis.plugins.shortcodes
 		? window.wpseoScriptData.analysis.plugins.shortcodes.wpseo_shortcode_tags
 		: [];
+	data.isFrontPage = get( window, "wpseoScriptData.isFrontPage", "0" ) === "1";
 
 	return Paper.parse( applyFilters( "yoast.analysis.data", data ) );
 }

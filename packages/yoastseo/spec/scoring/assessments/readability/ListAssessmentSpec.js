@@ -74,3 +74,20 @@ describe( "tests for the assessment applicability.", function() {
 		expect( listAssessment.isApplicable( paper ) ).toBe( false );
 	} );
 } );
+
+describe( "a test for retrieving the feedback texts", () => {
+	it( "should return the custom feedback texts when `callbacks.getResultTexts` is provided", () => {
+		const assessment = new ListAssessment( {
+			callbacks: {
+				getResultTexts: () => ( {
+					good: "This text has a list.",
+					bad: "This text doesn't have a list.",
+				} ),
+			},
+		} );
+		expect( assessment.getFeedbackStrings() ).toEqual( {
+			good: "This text has a list.",
+			bad: "This text doesn't have a list.",
+		} );
+	} );
+} );

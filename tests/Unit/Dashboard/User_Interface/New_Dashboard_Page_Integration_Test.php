@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Dashboard\User_Interface\New_Dashboard_Page_Integration;
@@ -12,7 +13,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Integrations\Academy_Integration;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -60,6 +61,20 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 	private $notifications_helper;
 
 	/**
+	 * Holds the alert dismissal action.
+	 *
+	 * @var Alert_Dismissal_Action
+	 */
+	private $alert_dismissal_action;
+
+	/**
+	 * Holds the promotion manager.
+	 *
+	 * @var Promotion_Manager
+	 */
+	private $promotion_manager;
+
+	/**
 	 * The class under test.
 	 *
 	 * @var New_Dashboard_Page_Integration
@@ -74,18 +89,22 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 	public function set_up() {
 		$this->stubTranslationFunctions();
 
-		$this->asset_manager        = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->current_page_helper  = Mockery::mock( Current_Page_Helper::class );
-		$this->product_helper       = Mockery::mock( Product_Helper::class );
-		$this->shortlink_helper     = Mockery::mock( Short_Link_Helper::class );
-		$this->notifications_helper = Mockery::mock( Notification_Helper::class );
+		$this->asset_manager          = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->current_page_helper    = Mockery::mock( Current_Page_Helper::class );
+		$this->product_helper         = Mockery::mock( Product_Helper::class );
+		$this->shortlink_helper       = Mockery::mock( Short_Link_Helper::class );
+		$this->notifications_helper   = Mockery::mock( Notification_Helper::class );
+		$this->alert_dismissal_action = Mockery::mock( Alert_Dismissal_Action::class );
+		$this->promotion_manager      = Mockery::mock( Promotion_Manager::class );
 
 		$this->instance = new New_Dashboard_Page_Integration(
 			$this->asset_manager,
 			$this->current_page_helper,
 			$this->product_helper,
 			$this->shortlink_helper,
-			$this->notifications_helper
+			$this->notifications_helper,
+			$this->alert_dismissal_action,
+			$this->promotion_manager
 		);
 	}
 
@@ -98,12 +117,15 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
-			Academy_Integration::class,
-			new Academy_Integration(
+			New_Dashboard_Page_Integration::class,
+			new New_Dashboard_Page_Integration(
 				$this->asset_manager,
 				$this->current_page_helper,
 				$this->product_helper,
-				$this->shortlink_helper
+				$this->shortlink_helper,
+				$this->notifications_helper,
+				$this->alert_dismissal_action,
+				$this->promotion_manager
 			)
 		);
 	}
@@ -230,8 +252,6 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 			->once();
 
 		Monkey\Functions\expect( 'wp_enqueue_media' )->once();
-		Monkey\Functions\expect( 'add_query_arg' )->once();
-		Monkey\Functions\expect( 'admin_url' )->once();
 
 		$this->asset_manager
 			->expects( 'enqueue_script' )
@@ -274,7 +294,8 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 			->andReturn( false );
 
 		Monkey\Functions\expect( 'is_rtl' )->once()->andReturn( false );
-
+		Monkey\Functions\expect( 'add_query_arg' )->once();
+		Monkey\Functions\expect( 'admin_url' )->once();
 		Monkey\Functions\expect( 'plugins_url' )
 			->once()
 			->andReturn( 'http://basic.wordpress.test/wp-content/worspress-seo' );
@@ -285,12 +306,17 @@ final class New_Dashboard_Page_Integration_Test extends TestCase {
 			->andReturn( $link_params );
 
 		$this->notifications_helper
-			->expects( 'get_problems' )
+			->expects( 'get_alerts' )
 			->once()
 			->andReturn( [] );
 
-		$this->notifications_helper
-			->expects( 'get_notifications' )
+		$this->promotion_manager
+			->expects( 'get_current_promotions' )
+			->once()
+			->andReturn( [] );
+
+		$this->alert_dismissal_action
+			->expects( 'all_dismissed' )
 			->once()
 			->andReturn( [] );
 
