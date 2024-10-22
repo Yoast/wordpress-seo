@@ -101,7 +101,6 @@ const eAtTheEnd = [
 	[ "white", "whiter", "whitest", "whitely" ],
 	[ "large", "larger", "largest", "largely" ],
 	[ "late", "later", "latest", "lately" ],
-	[ "blue", "bluer", "bluest", "bluely" ],
 	[ "safe", "safer", "safest", "safely" ],
 	[ "wide", "wider", "widest", "widely" ],
 	[ "rare", "rarer", "rarest", "rarely" ],

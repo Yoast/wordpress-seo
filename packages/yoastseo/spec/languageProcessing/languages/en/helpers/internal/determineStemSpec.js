@@ -338,6 +338,10 @@ describe( "determineStem", function() {
 		[ "simpler", "simple" ],
 		[ "simplest", "simple" ],
 		[ "simply", "simple" ],
+		[ "freer", "free" ],
+		[ "freest", "free" ],
+		[ "truer", "true" ],
+		[ "truest", "true" ],
 	];
 	it.each( irregularAdjectives )( "stems irregular adjective \"%s\" to \"%s\"", function( word, expected ) {
 		expect( determineStem( word, morphologyDataEN ) ).toEqual( expected );
