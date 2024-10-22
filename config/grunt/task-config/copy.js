@@ -20,6 +20,7 @@ module.exports = {
 				cwd: ".",
 				src: [
 					"admin/**",
+					"changelog.md",
 					"css/dist/**/*.css",
 					"css/main-sitemap.xsl",
 					"deprecated/**",
