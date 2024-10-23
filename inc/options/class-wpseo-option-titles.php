@@ -302,11 +302,13 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	/**
 	 * Get enriched defaults, possibly translated.
 	 *
-	 * @param bool $translated Whether the enriched defaults should be returned as translated.
+	 * @param bool         $translated         Whether the enriched defaults should be returned as translated.
+	 * @param string|false $specific_post_type The post types whose defaults should be enriched, false for all post types.
+	 * @param string|false $specific_taxonomy  The taxonomies whose defaults should be enriched, false for all taxonomies.
 	 *
 	 * @return array<string, string> The enriched defaults, possibly translated
 	 */
-	public static function get_maybe_translated_enriched_defaults( $translated = true ) {
+	public static function get_maybe_translated_enriched_defaults( $translated = true, $specific_post_type = false, $specific_taxonomy = false ) {
 		$enriched_defaults = [];
 
 		/*
@@ -315,7 +317,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		 * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
 		 * These are the defaults and can be prepared for any public post type.
 		 */
-		$post_type_objects = get_post_types( [ 'public' => true ], 'objects' );
+		$args = array( 'public' => true );
+		if ( $specific_post_type !== false ) {
+			$args['name'] = $specific_post_type;
+		}
+		$post_type_objects = get_post_types( $args, 'objects' );
 
 		if ( $post_type_objects ) {
 			/* translators: %s expands to the name of a post type (plural). */
@@ -351,6 +357,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			}
 		}
 
+		$args = array( 'public' => true );
+		if ( $specific_taxonomy !== false ) {
+			$args['name'] = $specific_taxonomy;
+		}
 		$taxonomy_objects = get_taxonomies( [ 'public' => true ], 'object' );
 
 		if ( $taxonomy_objects ) {

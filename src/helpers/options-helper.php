@@ -153,11 +153,13 @@ class Options_Helper {
 	/**
 	 * Get enriched title defaults, possibly translated.
 	 *
-	 * @param bool $translated Whether the enriched title defaults should be returned as translated.
+	 * @param bool         $translated         Whether the enriched defaults should be returned as translated.
+	 * @param string|false $specific_post_type The post types whose defaults should be enriched, false for all post types.
+	 * @param string|false $specific_taxonomy  The taxonomies whose defaults should be enriched, false for all taxonomies.
 	 *
 	 * @return array<string, string> The enriched title defaults, possibly translated
 	 */
-	public function get_maybe_translated_enriched_defaults( $translated ) {
-		return WPSEO_Option_Titles::get_maybe_translated_enriched_defaults( $translated );
+	public function get_maybe_translated_enriched_defaults( $translated, $specific_post_type, $specific_taxonomy ) {
+		return WPSEO_Option_Titles::get_maybe_translated_enriched_defaults( $translated, $specific_post_type, $specific_taxonomy );
 	}
 }
