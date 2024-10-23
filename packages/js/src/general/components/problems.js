@@ -5,7 +5,6 @@ import { Paper } from "@yoast/ui-library";
 import { AlertsList } from "./alerts-list";
 import { AlertsTitle } from "./alerts-title";
 import { Collapsible } from "./collapsible";
-import { STORE_NAME } from "../constants";
 
 import { AlertsContext } from "../contexts/alerts-context";
 import { STORE_NAME } from "../constants/index";
