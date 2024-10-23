@@ -5,7 +5,7 @@ import { Button } from "@yoast/ui-library";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { AlertsContext } from "../contexts/alerts-context";
-import { STORE_NAME } from "../constants/index";
+import { STORE_NAME } from "../constants";
 
 /**
  * The alert item object.
