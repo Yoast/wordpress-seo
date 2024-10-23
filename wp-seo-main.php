@@ -341,7 +341,7 @@ function wpseo_init() {
 	WPSEO_Options::get_instance();
 	WPSEO_Meta::init();
 
-	if ( version_compare( WPSEO_Options::get( 'version', 1 ), WPSEO_VERSION, '<' ) ) {
+	if ( version_compare( WPSEO_Options::get( 'version', 1, ['wpseo'] ), WPSEO_VERSION, '<' ) ) {
 		if ( function_exists( 'opcache_reset' ) ) {
 			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Prevent notices when opcache.restrict_api is set.
 			@opcache_reset();
@@ -355,7 +355,7 @@ function wpseo_init() {
 		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
 	}
 
-	if ( WPSEO_Options::get( 'enable_xml_sitemap' ) === true ) {
+	if ( WPSEO_Options::get( 'enable_xml_sitemap', null, ['wpseo'] ) === true ) {
 		$GLOBALS['wpseo_sitemaps'] = new WPSEO_Sitemaps();
 	}
 

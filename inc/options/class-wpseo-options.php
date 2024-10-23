@@ -214,8 +214,9 @@ class WPSEO_Options {
 	 *
 	 * @return array Array combining the values of all the options.
 	 */
-	public static function get_all() {
-		static::$option_values = static::get_options( static::get_option_names() );
+	public static function get_all( $specific_options = [] ) {
+		$option_names          = ( empty( $specific_options ) ) ? static::get_option_names() : $specific_options;
+		static::$option_values = static::get_options( $option_names );
 
 		return static::$option_values;
 	}
@@ -274,9 +275,9 @@ class WPSEO_Options {
 	 *
 	 * @return mixed Returns value if found, $default_value if not.
 	 */
-	public static function get( $key, $default_value = null ) {
-		if ( static::$option_values === null ) {
-			static::prime_cache();
+	public static function get( $key, $default_value = null, $option_groups = [] ) {
+		if ( ! isset( static::$option_values[ $key ] ) || static::$option_values[ $key ] === null ) {
+			static::prime_cache( $option_groups );
 		}
 		if ( isset( static::$option_values[ $key ] ) ) {
 			return static::$option_values[ $key ];
@@ -299,8 +300,8 @@ class WPSEO_Options {
 	 *
 	 * @return void
 	 */
-	private static function prime_cache() {
-		static::$option_values = static::get_all();
+	private static function prime_cache( $option_groups = [] ) {
+		static::$option_values = static::get_all( $option_groups );
 		static::$option_values = static::add_ms_option( static::$option_values );
 	}
 
