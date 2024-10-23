@@ -33,7 +33,7 @@ export const Problems = () => {
 
 	return (
 		<Paper>
-			<Paper.Content className="yst-flex yst-flex-col yst-gap-y-6">
+			<Paper.Content className="yst-max-w-[600px] yst-flex yst-flex-col yst-gap-y-6">
 				<AlertsContext.Provider value={ { ...problemsTheme } }>
 					<AlertsTitle title={ __( "Problems", "wordpress-seo" ) } counts={ problemsList.length }>
 						<p className="yst-mt-2 yst-text-sm">
