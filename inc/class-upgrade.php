@@ -91,7 +91,7 @@ class WPSEO_Upgrade {
 			'20.7-RC0'   => 'upgrade_207',
 			'20.8-RC0'   => 'upgrade_208',
 			'22.6-RC0'   => 'upgrade_226',
-			'23.7-RC0'   => 'upgrade_237',
+			'23.8-RC0'   => 'upgrade_238',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -1148,12 +1148,12 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 22.6 upgrade routine.
+	 * Performs the 23.8 upgrade routine.
 	 * Schedules another cleanup scheduled action, but starting from the last cleanup action we just added (if there aren't any running cleanups already).
 	 *
 	 * @return void
 	 */
-	private function upgrade_237() {
+	private function upgrade_238() {
 		WPSEO_Options::set( 'set_up_options', true );
 	}
 
