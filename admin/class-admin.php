@@ -75,8 +75,6 @@ class WPSEO_Admin {
 			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		}
 
-		$this->set_upsell_notice();
-
 		$this->initialize_cornerstone_content();
 
 		if ( WPSEO_Utils::is_plugin_network_active() ) {
@@ -365,17 +363,6 @@ class WPSEO_Admin {
 			],
 			YoastSEO()->helpers->wincher->get_admin_global_links()
 		);
-	}
-
-	/**
-	 * Sets the upsell notice.
-	 *
-	 * @return void
-	 */
-	protected function set_upsell_notice() {
-		$upsell = new WPSEO_Product_Upsell_Notice();
-		$upsell->dismiss_notice_listener();
-		$upsell->initialize();
 	}
 
 	/**

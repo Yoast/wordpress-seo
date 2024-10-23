@@ -91,6 +91,7 @@ class WPSEO_Upgrade {
 			'20.7-RC0'   => 'upgrade_207',
 			'20.8-RC0'   => 'upgrade_208',
 			'22.6-RC0'   => 'upgrade_226',
+			'23.8-RC0'   => 'upgrade_238',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -102,10 +103,6 @@ class WPSEO_Upgrade {
 			 */
 			add_action( 'init', [ $this, 'upgrade_125' ] );
 		}
-
-		// Since 3.7.
-		$upsell_notice = new WPSEO_Product_Upsell_Notice();
-		$upsell_notice->set_upgrade_notice();
 
 		/**
 		 * Filter: 'wpseo_run_upgrade' - Runs the upgrade hook which are dependent on Yoast SEO.
@@ -1148,6 +1145,16 @@ class WPSEO_Upgrade {
 			$cleanup_integration = YoastSEO()->classes->get( Cleanup_Integration::class );
 			$cleanup_integration->start_cron_job( 'clean_selected_empty_usermeta', DAY_IN_SECONDS );
 		}
+	}
+
+	/**
+	 * Performs the 23.8 upgrade routine.
+	 * Schedules another cleanup scheduled action, but starting from the last cleanup action we just added (if there aren't any running cleanups already).
+	 *
+	 * @return void
+	 */
+	private function upgrade_238() {
+		WPSEO_Options::set( 'set_up_options', true );
 	}
 
 	/**

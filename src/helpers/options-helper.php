@@ -138,4 +138,28 @@ class Options_Helper {
 	public function is_twitter_id_valid( $twitter_id ) {
 		return empty( $twitter_id ) || WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id, false );
 	}
+
+	/**
+	 * Get title defaults, possibly translated.
+	 *
+	 * @param bool $translated Whether the defaults should be returned as translated.
+	 *
+	 * @return array<string, string> The title defaults, possibly translated
+	 */
+	public function get_maybe_translated_default_titles( $translated ) {
+		return WPSEO_Option_Titles::get_maybe_translated_defaults( $translated );
+	}
+
+	/**
+	 * Get enriched title defaults, possibly translated.
+	 *
+	 * @param bool         $translated         Whether the enriched defaults should be returned as translated.
+	 * @param string|false $specific_post_type The post types whose defaults should be enriched, false for all post types.
+	 * @param string|false $specific_taxonomy  The taxonomies whose defaults should be enriched, false for all taxonomies.
+	 *
+	 * @return array<string, string> The enriched title defaults, possibly translated
+	 */
+	public function get_maybe_translated_enriched_defaults( $translated, $specific_post_type, $specific_taxonomy ) {
+		return WPSEO_Option_Titles::get_maybe_translated_enriched_defaults( $translated, $specific_post_type, $specific_taxonomy );
+	}
 }
