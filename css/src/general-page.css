@@ -1,13 +1,13 @@
 body.toplevel_page_wpseo_dashboard {
 	.notice, .yoast-migrated-notice {
-		display:none;
+		display: none;
 	}
 
-	.yoast-general-page-notices:last-child{
+	.yoast-general-page-notices:last-child {
 		margin-bottom: 2rem;
 	}
 
-	.yoast-general-page-notice, .yoast-webinar-dashboard{
+	.yoast-general-page-notice, .yoast-webinar-dashboard {
 		background: white;
 		padding: 0.75rem;
 		border-radius: 0.375rem;
@@ -36,15 +36,15 @@ body.toplevel_page_wpseo_dashboard {
 		hover:yst-text-slate-500
 	}
 
-	.yoast-general-page-notice .notice-dismiss:before{
+	.yoast-general-page-notice .notice-dismiss:before {
 		display: none;
 	}
 
-	.yoast-general-page-notice .notice-yoast img{
+	.yoast-general-page-notice .notice-yoast img {
 		display: none;
 	}
 
-	.yoast-general-page-notice a{
+	.yoast-general-page-notice a {
 		font-weight: 500;
 	}
 
@@ -53,40 +53,40 @@ body.toplevel_page_wpseo_dashboard {
 		margin-top: 0;
 	}
 
-	.yoast-webinar-dashboard .notice-dismiss:before{
+	.yoast-webinar-dashboard .notice-dismiss:before {
 		/* yst-text-slate-400 */
 		background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%2394A3B8' class='yst-h-5 yst-w-5' role='img'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'></path></svg>");
 		content: '';
 	}
 
-	.yoast-webinar-dashboard .notice-dismiss:hover:before{
+	.yoast-webinar-dashboard .notice-dismiss:hover:before {
 		/* yst-text-slate-500 */
 		background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%2364748b' class='yst-h-5 yst-w-5' role='img'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'></path></svg>");
 		content: '';
 	}
 
-	.yoast-webinar-dashboard p{
+	.yoast-webinar-dashboard p {
 		padding-left: 1.8rem;
 	}
 
-	.yoast-webinar-dashboard .yoast-icon{
+	.yoast-webinar-dashboard .yoast-icon {
 		width: 17px;
 		height: 17px;
 		margin-right: 12px;
 	}
 
-	.yoast-notice-migrated-header{
+	.yoast-notice-migrated-header {
 		font-weight: 500;
 		font-size: .8125rem;
-		color: #1E293B;
+		color: #1e293b;
 		line-height: 19px;
 	}
 
-	.yoast-webinar-dashboard a{
+	.yoast-webinar-dashboard a {
 		font-weight: 500;
 	}
 
-	.yoast-webinar-dashboard .notice-yoast__container{
+	.yoast-webinar-dashboard .notice-yoast__container {
 		padding: 0;
 	}
 
@@ -190,7 +190,8 @@ body.toplevel_page_wpseo_dashboard {
 				yst-rounded-md
 				yst-text-sm
 				yst-font-medium
-				yst-leading-4
+				yst-leading-5
+				yst-text-center
 
 				focus:yst-outline-none
 				focus:yst-ring-2
@@ -213,10 +214,10 @@ body.toplevel_page_wpseo_dashboard {
 				yst-text-xs
 				yst-leading-4
 				yst-px-2.5
-				yst-py-1.5
+				yst-py-1.5;
 
-				/* custom for general page */
-				yst-mt-3;
+				/* custom for general page and reset WP styles */
+				@apply yst-mt-3 yst-whitespace-normal yst-min-h-[unset] yst-mb-[unset] yst-align-[unset];
 			}
 
 			.button-link {
@@ -237,7 +238,7 @@ body.toplevel_page_wpseo_dashboard {
 				visited:hover:yst-text-primary-400;
 			}
 
-			.ul-disc{
+			.ul-disc {
 				@apply
 				yst-list-disc
 				yst-pl-3
@@ -246,6 +247,7 @@ body.toplevel_page_wpseo_dashboard {
 			}
 		}
 	}
+
 	/* RTL */
 
 	&.rtl {
