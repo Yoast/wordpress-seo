@@ -89,7 +89,7 @@ class Image_Content_Extractor {
 		$attribute = \apply_filters( 'wpseo_image_attribute_containing_id', 'class' );
 		while ( $processor->next_tag( $query ) ) {
 			$src_raw = $processor->get_attribute( 'src' );
-			if ( !$src_raw ) {
+			if ( ! $src_raw ) {
 				continue;
 			}
 			
