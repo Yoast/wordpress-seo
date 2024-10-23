@@ -49,9 +49,7 @@ class WPSEO_Admin {
 			add_action( 'delete_category', [ $this, 'schedule_rewrite_flush' ] );
 		}
 
-		if ( WPSEO_Options::get( 'disable-attachment' ) === true ) {
-			add_filter( 'wpseo_accessible_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
-		}
+		add_filter( 'wpseo_accessible_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
 
 		add_filter( 'plugin_action_links_' . WPSEO_BASENAME, [ $this, 'add_action_link' ], 10, 2 );
 		add_filter( 'network_admin_plugin_action_links_' . WPSEO_BASENAME, [ $this, 'add_action_link' ], 10, 2 );
