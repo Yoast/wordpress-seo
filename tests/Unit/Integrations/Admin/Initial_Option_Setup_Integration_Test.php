@@ -131,13 +131,13 @@ final class Initial_Option_Setup_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get_maybe_translated_enriched_defaults' )
-			->with( true )
+			->with( true, false, false )
 			->times( $times_setting_set_up_options )
 			->andReturn( $translated_enriched_defaults );
 
 		$this->options_helper
 			->expects( 'get_maybe_translated_enriched_defaults' )
-			->with( false )
+			->with( false, false, false )
 			->times( $times_setting_set_up_options )
 			->andReturn( $untranslated_enriched_defaults );
 

@@ -317,7 +317,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		 * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
 		 * These are the defaults and can be prepared for any public post type.
 		 */
-		$args = array( 'public' => true );
+		$args = [ 'public' => true ];
 		if ( $specific_post_type !== false ) {
 			$args['name'] = $specific_post_type;
 		}
@@ -357,7 +357,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			}
 		}
 
-		$args = array( 'public' => true );
+		$args = [ 'public' => true ];
 		if ( $specific_taxonomy !== false ) {
 			$args['name'] = $specific_taxonomy;
 		}

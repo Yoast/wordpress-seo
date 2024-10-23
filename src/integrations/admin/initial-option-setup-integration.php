@@ -92,7 +92,7 @@ class Initial_Option_Setup_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Replaces options with translations, if values are the default ones.
+	 * Replaces options with translations, if stored values are the default ones.
 	 *
 	 * @return void
 	 */
@@ -100,7 +100,9 @@ class Initial_Option_Setup_Integration implements Integration_Interface {
 		$translated_default_titles   = $this->options_helper->get_maybe_translated_default_titles( true );
 		$untranslated_default_titles = $this->options_helper->get_maybe_translated_default_titles( false );
 
+		// Replace stored settings with their translated default, but only if the stored settings are still the (non-translated) defaults.
 		foreach ( $translated_default_titles as $key => $value ) {
+			// Let's check the trimmed values, because the options framework returns the stored values as trimmed.
 			if ( \trim( $this->options_helper->get( $key ) ) === \trim( $untranslated_default_titles[ $key ] ) ) {
 				$this->options_helper->set( $key, $value );
 			}
@@ -108,7 +110,7 @@ class Initial_Option_Setup_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Replaces enriched options with translations, if values are the default ones.
+	 * Replaces enriched options with translations, if stored values are the default ones.
 	 *
 	 * @param string|false $specific_post_type The post types whose defaults should be enriched, false for all post types.
 	 * @param string|false $specific_taxonomy  The taxonomies whose defaults should be enriched, false for all taxonomies.
@@ -119,7 +121,9 @@ class Initial_Option_Setup_Integration implements Integration_Interface {
 		$translated_enriched_default_titles   = $this->options_helper->get_maybe_translated_enriched_defaults( true, $specific_post_type, $specific_taxonomy );
 		$untranslated_enriched_default_titles = $this->options_helper->get_maybe_translated_enriched_defaults( false, $specific_post_type, $specific_taxonomy );
 
+		// Replace stored settings with their translated enriched default, but only if the stored settings are still the (non-translated) enriched defaults.
 		foreach ( $translated_enriched_default_titles as $key => $value ) {
+			// Let's check the trimmed values, because the options framework returns the stored values as trimmed.
 			if ( \trim( $this->options_helper->get( $key ) ) === \trim( $untranslated_enriched_default_titles[ $key ] ) ) {
 				$this->options_helper->set( $key, $value );
 			}
