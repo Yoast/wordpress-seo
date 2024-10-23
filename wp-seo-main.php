@@ -221,10 +221,8 @@ function _wpseo_activate() {
 	WPSEO_Options::ensure_options_exist();
 
 	if ( ! is_multisite() || ! ms_is_switched() ) {
-		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
-			// Constructor has side effects so this registers all hooks.
-			$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
-		}
+		// Constructor has side effects so this registers all hooks.
+		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
 	}
 	add_action( 'shutdown', [ 'WPSEO_Utils', 'clear_rewrites' ] );
 
@@ -351,9 +349,7 @@ function wpseo_init() {
 		// Get a cleaned up version of the $options.
 	}
 
-	if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
-		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
-	}
+	new WPSEO_Rewrite();
 
 	if ( WPSEO_Options::get( 'enable_xml_sitemap', null, ['wpseo'] ) === true ) {
 		$GLOBALS['wpseo_sitemaps'] = new WPSEO_Sitemaps();

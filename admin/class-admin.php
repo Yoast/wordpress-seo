@@ -43,11 +43,9 @@ class WPSEO_Admin {
 			WPSEO_Options::maybe_set_multisite_defaults( false );
 		}
 
-		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
-			add_action( 'created_category', [ $this, 'schedule_rewrite_flush' ] );
-			add_action( 'edited_category', [ $this, 'schedule_rewrite_flush' ] );
-			add_action( 'delete_category', [ $this, 'schedule_rewrite_flush' ] );
-		}
+		add_action( 'created_category', [ $this, 'schedule_rewrite_flush' ] );
+		add_action( 'edited_category', [ $this, 'schedule_rewrite_flush' ] );
+		add_action( 'delete_category', [ $this, 'schedule_rewrite_flush' ] );
 
 		add_filter( 'wpseo_accessible_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
 
@@ -115,6 +113,10 @@ class WPSEO_Admin {
 	 * @return void
 	 */
 	public function schedule_rewrite_flush() {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) !== true ) {
+			return;
+		}
+
 		// Bail if this is a multisite installation and the site has been switched.
 		if ( is_multisite() && ms_is_switched() ) {
 			return;

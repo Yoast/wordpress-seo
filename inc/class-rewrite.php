@@ -32,7 +32,9 @@ class WPSEO_Rewrite {
 	 * @return void
 	 */
 	public function schedule_flush() {
-		add_action( 'shutdown', 'flush_rewrite_rules' );
+		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
+			add_action( 'shutdown', 'flush_rewrite_rules' );
+		}
 	}
 
 	/**
@@ -45,6 +47,10 @@ class WPSEO_Rewrite {
 	 * @return string
 	 */
 	public function no_category_base( $link, $term, $taxonomy ) {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) !== true ) {
+			return $link;
+		}
+
 		if ( $taxonomy !== 'category' ) {
 			return $link;
 		}
@@ -91,6 +97,10 @@ class WPSEO_Rewrite {
 	 * @return array<string> The query vars.
 	 */
 	public function request( $query_vars ) {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) !== true ) {
+			return $query_vars;
+		}
+
 		if ( ! isset( $query_vars['wpseo_category_redirect'] ) ) {
 			return $query_vars;
 		}
@@ -104,7 +114,11 @@ class WPSEO_Rewrite {
 	 *
 	 * @return array<string> The category rewrite rules.
 	 */
-	public function category_rewrite_rules() {
+	public function category_rewrite_rules( $rules ) {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) !== true ) {
+			return $rules;
+		}
+
 		global $wp_rewrite;
 
 		$category_rewrite = [];
