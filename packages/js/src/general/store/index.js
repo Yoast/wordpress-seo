@@ -6,7 +6,7 @@ import { STORE_NAME } from "../constants";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import { reducers, selectors, actions } from "@yoast/externals/redux";
 import * as dismissedAlertsControls from "../../redux/controls/dismissedAlerts";
-import alertCenter, { alertCenterActions, alertCenterSelectors, getInitialAlertCenterState, alertCenterControls, ALERT_CENTER_NAME } from "./alert-center";
+import { alertCenterReducer, alertCenterActions, alertCenterSelectors, getInitialAlertCenterState, alertCenterControls, ALERT_CENTER_NAME } from "./alert-center";
 
 const { currentPromotions, dismissedAlerts, isPremium  } = reducers;
 const { isAlertDismissed, getIsPremium, isPromotionActive } = selectors;
@@ -50,7 +50,7 @@ const createStore = ( { initialState } ) => {
 		reducer: combineReducers( {
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			preferences,
-			[ ALERT_CENTER_NAME ]: alertCenter,
+			[ ALERT_CENTER_NAME ]: alertCenterReducer,
 			currentPromotions,
 			dismissedAlerts,
 			isPremium,

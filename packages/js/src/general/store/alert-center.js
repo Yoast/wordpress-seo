@@ -1,8 +1,8 @@
-import { createSlice, createSelector } from "@reduxjs/toolkit";
-import { ASYNC_ACTION_NAMES } from "../../shared-admin/constants";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { select } from "@wordpress/data";
-import { STORE_NAME } from "../constants";
 import { get } from "lodash";
+import { ASYNC_ACTION_NAMES } from "../../shared-admin/constants";
+import { STORE_NAME } from "../constants";
 
 export const ALERT_CENTER_NAME = "alertCenter";
 
@@ -14,16 +14,17 @@ const TOGGLE_ALERT_VISIBILITY = "toggleAlertVisibility";
  * @param {boolean} hidden The hidden state of the alert.
  * @returns {Object} Success or error action object.
  */
-export function* toggleAlertStatus( id, nonce, hidden = false ) {
+function* toggleAlertStatus( id, nonce, hidden = false ) {
 	yield{ type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.request }` };
 	try {
-		yield{ type: TOGGLE_ALERT_VISIBILITY,
+		yield{
+			type: TOGGLE_ALERT_VISIBILITY,
 			payload: {
 				id,
 				nonce,
 				hidden,
 			},
-		    };
+		};
 		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.success }`, payload: { id } };
 	} catch ( error ) {
 		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.error }`, payload: { id } };
@@ -68,6 +69,14 @@ const slice = createSlice( {
 	reducers: {
 		toggleAlert,
 		setAlertToggleError,
+		/**
+		 * @param {Object} state The state of the slice.
+		 * @param {string} id The ID of the alert to remove.
+		 * @returns {void}
+		 */
+		removeAlert( state, { payload: id } ) {
+			state.alerts = state.alerts.filter( ( alert ) => alert.id !== id );
+		},
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload: { id } } ) => {
@@ -90,7 +99,12 @@ export const getInitialAlertCenterState = slice.getInitialState;
  * @param {object} state The state.
  * @returns {array} The alerts.
  */
-const selectAlerts = ( state ) => get( state, `${ALERT_CENTER_NAME}.alerts`, [] );
+const selectAlerts = ( state ) => get( state, `${ ALERT_CENTER_NAME }.alerts`, [] );
+
+const selectActiveAlerts = createSelector(
+	[ selectAlerts ],
+	( alerts ) => alerts.filter( ( alert ) => ! alert.dismissed )
+);
 
 /**
  * Selector to get the alert toggle error.
@@ -98,26 +112,37 @@ const selectAlerts = ( state ) => get( state, `${ALERT_CENTER_NAME}.alerts`, [] 
  * @param {object} state The state.
  * @returns {string}  id The id of the alert which caused the error..
  */
-const selectAlertToggleError = ( state ) => get( state, `${ALERT_CENTER_NAME}.alertToggleError`, null );
+const selectAlertToggleError = ( state ) => get( state, `${ ALERT_CENTER_NAME }.alertToggleError`, null );
 
 export const alertCenterSelectors = {
 	selectActiveProblems: createSelector(
-		[ selectAlerts ],
-		( alerts ) => alerts.filter( ( alert ) => alert.type === "error" && ! alert.dismissed )
+		[ selectActiveAlerts ],
+		( alerts ) => alerts.filter( ( alert ) => alert.type === "error" )
 	),
 	selectDismissedProblems: createSelector(
 		[ selectAlerts ],
 		( alerts ) => alerts.filter( ( alert ) => alert.type === "error" && alert.dismissed )
 	),
 	selectActiveNotifications: createSelector(
-		[ selectAlerts ],
-		( alerts ) => alerts.filter( ( alert ) => alert.type === "warning" && ! alert.dismissed )
+		[ selectActiveAlerts ],
+		( alerts ) => alerts.filter( ( alert ) => alert.type === "warning" )
 	),
 	selectDismissedNotifications: createSelector(
 		[ selectAlerts ],
 		( alerts ) => alerts.filter( ( alert ) => alert.type === "warning" && alert.dismissed )
 	),
 	selectAlertToggleError,
+	selectAlert: createSelector(
+		[
+			selectAlerts,
+			( state, id ) => id,
+		],
+		( alerts, id ) => alerts.find( ( alert ) => alert.id === id )
+	),
+	selectActiveAlertsCount: createSelector(
+		[ selectActiveAlerts ],
+		( alerts ) => alerts.length
+	),
 };
 
 export const alertCenterActions = {
@@ -148,4 +173,4 @@ export const alertCenterControls = {
 	},
 };
 
-export default slice.reducer;
+export const alertCenterReducer = slice.reducer;
