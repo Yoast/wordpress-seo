@@ -43,15 +43,11 @@ class WPSEO_Admin {
 			WPSEO_Options::maybe_set_multisite_defaults( false );
 		}
 
-		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
-			add_action( 'created_category', [ $this, 'schedule_rewrite_flush' ] );
-			add_action( 'edited_category', [ $this, 'schedule_rewrite_flush' ] );
-			add_action( 'delete_category', [ $this, 'schedule_rewrite_flush' ] );
-		}
+		add_action( 'created_category', [ $this, 'schedule_rewrite_flush' ] );
+		add_action( 'edited_category', [ $this, 'schedule_rewrite_flush' ] );
+		add_action( 'delete_category', [ $this, 'schedule_rewrite_flush' ] );
 
-		if ( WPSEO_Options::get( 'disable-attachment' ) === true ) {
-			add_filter( 'wpseo_accessible_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
-		}
+		add_filter( 'wpseo_accessible_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
 
 		add_filter( 'plugin_action_links_' . WPSEO_BASENAME, [ $this, 'add_action_link' ], 10, 2 );
 		add_filter( 'network_admin_plugin_action_links_' . WPSEO_BASENAME, [ $this, 'add_action_link' ], 10, 2 );
@@ -74,8 +70,6 @@ class WPSEO_Admin {
 		if ( YoastSEO()->helpers->current_page->is_yoast_seo_page() ) {
 			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		}
-
-		$this->set_upsell_notice();
 
 		$this->initialize_cornerstone_content();
 
@@ -119,6 +113,10 @@ class WPSEO_Admin {
 	 * @return void
 	 */
 	public function schedule_rewrite_flush() {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) !== true ) {
+			return;
+		}
+
 		// Bail if this is a multisite installation and the site has been switched.
 		if ( is_multisite() && ms_is_switched() ) {
 			return;
@@ -365,17 +363,6 @@ class WPSEO_Admin {
 			],
 			YoastSEO()->helpers->wincher->get_admin_global_links()
 		);
-	}
-
-	/**
-	 * Sets the upsell notice.
-	 *
-	 * @return void
-	 */
-	protected function set_upsell_notice() {
-		$upsell = new WPSEO_Product_Upsell_Notice();
-		$upsell->dismiss_notice_listener();
-		$upsell->initialize();
 	}
 
 	/**
