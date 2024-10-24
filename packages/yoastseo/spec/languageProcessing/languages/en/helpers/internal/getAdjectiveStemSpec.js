@@ -5,13 +5,13 @@ const morphologyData = getMorphologyData( "en" );
 const adjectiveData = morphologyData.en.adjectives;
 const regexAdjective = adjectiveData.regexAdjective;
 const stopAdjectives = adjectiveData.stopAdjectives;
+const multiSyllableAdjWithSuffixes = adjectiveData.multiSyllableAdjectives.list;
 
-const regularAdjectivesToTest = [
+const oneSyllableRegularAdj = [
 	[ "short", "shorter", "shortest", "shortly" ],
 	[ "cool", "cooler", "coolest", "coolly" ],
 	[ "warm", "warmer", "warmest", "warmly" ],
 	[ "high", "higher", "highest", "highly" ],
-	[ "silent", "silenter", "silentest", "silently" ],
 	[ "kind", "kinder", "kindest", "kindly" ],
 	[ "firm", "firmer", "firmest", "firmly" ],
 	[ "cruel", "crueler", "cruelest", "cruelly" ],
@@ -21,8 +21,6 @@ const regularAdjectivesToTest = [
 	[ "cold", "colder", "coldest", "coldly" ],
 	[ "few", "fewer", "fewest", "fewly" ],
 	[ "light", "lighter", "lightest", "lightly" ],
-	[ "alert", "alerter", "alertest", "alertly" ],
-	[ "certain", "certainer", "certainest", "certainly" ],
 	[ "hard", "harder", "hardest", "hardly" ],
 	[ "low", "lower", "lowest", "lowly" ],
 	[ "new", "newer", "newest", "newly" ],
@@ -30,14 +28,12 @@ const regularAdjectivesToTest = [
 	[ "young", "younger", "youngest", "youngly" ],
 	[ "loud", "louder", "loudest", "loudly" ],
 	[ "proud", "prouder", "proudest", "proudly" ],
-	[ "abrupt", "abrupter", "abruptest", "abruptly" ],
 	[ "great", "greater", "greatest", "greatly" ],
 	[ "long", "longer", "longest", "longly" ],
 	[ "bold", "bolder", "boldest", "boldly" ],
 	[ "bald", "balder", "baldest", "baldly" ],
 	[ "sweet", "sweeter", "sweetest", "sweetly" ],
 	[ "quiet", "quieter", "quietest", "quietly" ],
-	[ "stupid", "stupider", "stupidest", "stupidly" ],
 	[ "stiff", "stiffer", "stiffest", "stiffly" ],
 	[ "brief", "briefer", "briefest", "briefly" ],
 	[ "rich", "richer", "richest", "richly" ],
@@ -50,12 +46,28 @@ const regularAdjectivesToTest = [
 	[ "brown", "browner", "brownest", "brownly" ],
 	[ "clear", "clearer", "clearest", "clearly" ],
 	[ "kind", "kinder", "kindest", "kindly" ],
-	[ "narrow", "narrower", "narrowest", "narrowly" ],
 	[ "faint", "fainter", "faintest", "faintly" ],
-	[ "test", "tester", "testest", "testly" ],
 ];
 
+const multiSyllableRegularAdj = [
+	[ "narrow", "narrower", "narrowest", "narrowly" ],
+	[ "stupid", "stupider", "stupidest", "stupidly" ],
+	[ "clever", "cleverer", "cleverest", "cleverly" ],
+	[ "shallow", "shallower", "shallowest", "shallowly" ],
+	[ "alert", "alerter", "alertest", "alertly" ],
+	[ "slender", "slenderer", "slenderest", "slenderly" ],
+	[ "pleasant", "pleasanter", "pleasantest", "pleasantly" ],
+	[ "mature", "maturer", "maturest", "maturely" ],
+	[ "polite", "politer", "politest", "politely" ],
+];
+
+// Adjectives ending in -y with two syllables.
 const yAtTheEnd = [
+	// One syllable adjectives ending in -y.
+	[ "dry", "drier", "driest", "dryly" ],
+	[ "shy", "shier", "shiest", "shyly" ],
+	[ "sly", "slier", "sliest", "slyly" ],
+	// Two syllable adjectives ending in -y.
 	[ "happy", "happier", "happiest", "happily" ],
 	[ "pretty", "prettier", "prettiest", "prettily" ],
 	[ "heavy", "heavier", "heaviest", "heavily" ],
@@ -76,14 +88,19 @@ const yAtTheEnd = [
 	[ "risky", "riskier", "riskiest", "riskily" ],
 	[ "fancy", "fancier", "fanciest", "fancily" ],
 	[ "easy", "easier", "easiest", "easily" ],
+	// Three syllable adjectives ending in -y.
+	[ "unhappy", "unhappier", "unhappiest", "unhappily" ],
+	[ "unlucky", "unluckier", "unluckiest", "unluckily" ],
+	[ "unhealthy", "unhealthier", "unhealthiest", "unhealthily" ],
 ];
 
+// Adjectives ending in -e with one or two syllables.
 const eAtTheEnd = [
+	// One syllable adjectives ending in -e.
 	[ "nice", "nicer", "nicest", "nicely" ],
 	[ "white", "whiter", "whitest", "whitely" ],
 	[ "large", "larger", "largest", "largely" ],
 	[ "late", "later", "latest", "lately" ],
-	[ "blue", "bluer", "bluest", "bluely" ],
 	[ "safe", "safer", "safest", "safely" ],
 	[ "wide", "wider", "widest", "widely" ],
 	[ "rare", "rarer", "rarest", "rarely" ],
@@ -96,8 +113,6 @@ const eAtTheEnd = [
 	[ "rude", "ruder", "rudest", "rudely" ],
 	[ "strange", "stranger", "strangest", "strangely" ],
 	[ "huge", "huger", "hugest", "hugely" ],
-	[ "extreme", "extremer", "extremest", "extremely" ],
-
 ];
 
 const needsDoublingLastConsonant = [
@@ -114,7 +129,6 @@ const needsDoublingLastConsonant = [
 	[ "fat", "fatter", "fattest", "fatly" ],
 	[ "wet", "wetter", "wettest", "wetly" ],
 	[ "fit", "fitter", "fittest", "fitly" ],
-
 ];
 
 const adjectivesWithoutComparativesOrSuperlatives = [
@@ -155,7 +169,7 @@ const adjectivesWithoutComparativesOrSuperlatives = [
 	[ "jealous", "jealously" ],
 ];
 
-const OnlyBaseAdjective = [
+const onlyBaseAdjective = [
 	"boring",
 	"calming",
 	"numbing",
@@ -169,81 +183,165 @@ const OnlyBaseAdjective = [
 	"parallel",
 ];
 
-const allFormsToTestForBase = regularAdjectivesToTest.concat( yAtTheEnd, eAtTheEnd, needsDoublingLastConsonant );
+const allFormsToTestForBase = oneSyllableRegularAdj.concat( yAtTheEnd, eAtTheEnd, needsDoublingLastConsonant );
 
 let returnedGetBaseResult = "";
 
-describe( "Test for getting the base from all types of regular adjectives", function() {
-	allFormsToTestForBase.forEach( function( paradigm ) {
-		const testBase = paradigm[ 0 ];
-		it( "returns the base of the word form which is a base itself", function() {
-			returnedGetBaseResult = getAdjectiveStem( testBase, regexAdjective, stopAdjectives );
-			expect( returnedGetBaseResult.base ).toEqual( testBase );
+describe.each( multiSyllableRegularAdj )( "Test for getting the base from multi-syllable adjectives",
+	function( base, comparative, superlative, adverb ) {
+		it( "doesn't stem base of the word form: " + base, function() {
+			returnedGetBaseResult = getAdjectiveStem( base, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+			expect( returnedGetBaseResult.base ).toEqual( base );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "base" );
 		} );
 
-		const testComparative = paradigm[ 1 ];
-		it( "returns the base of the word form which is a comparative", function() {
-			returnedGetBaseResult = getAdjectiveStem( testComparative, regexAdjective, stopAdjectives );
-			expect( returnedGetBaseResult.base ).toEqual( testBase );
+		it( "stems comparative form " + comparative + " to " + base, function() {
+			returnedGetBaseResult = getAdjectiveStem( comparative, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+			expect( returnedGetBaseResult.base ).toEqual( base );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "er" );
 		} );
 
-		const testSuperlative = paradigm[ 2 ];
-		it( "returns the base of the word form which is a superlative", function() {
-			returnedGetBaseResult = getAdjectiveStem( testSuperlative, regexAdjective, stopAdjectives );
-			expect( returnedGetBaseResult.base ).toEqual( testBase );
+		it( "stems superlative form " + superlative + " to " + base, function() {
+			returnedGetBaseResult = getAdjectiveStem( superlative, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+			expect( returnedGetBaseResult.base ).toEqual( base );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "est" );
 		} );
 
-		const testAdverb = paradigm[ 3 ];
-		it( "returns the base of the word form which is an adverb", function() {
-			returnedGetBaseResult = getAdjectiveStem( testAdverb, regexAdjective, stopAdjectives );
-			expect( returnedGetBaseResult.base ).toEqual( testBase );
+		it( "stems adverb form " + adverb + " to " + base, function() {
+			returnedGetBaseResult = getAdjectiveStem( adverb, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+			expect( returnedGetBaseResult.base ).toEqual( base );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "ly" );
 		} );
 	} );
 
-	it( "returns the stem of words that look like they end in -er suffix", function() {
-		// The word 'sfeer' is made up
-		returnedGetBaseResult = getAdjectiveStem( "sfeer", regexAdjective, stopAdjectives );
-		expect( returnedGetBaseResult.base ).toEqual( "sfeer" );
-		expect( returnedGetBaseResult.guessedForm ).toEqual( "er" );
-	} );
-
-	it( "returns the stem of words that look like they end in -est suffix", function() {
-		// The word 'sfeest' is made up
-		returnedGetBaseResult = getAdjectiveStem( "sfeest", regexAdjective, stopAdjectives );
-		expect( returnedGetBaseResult.base ).toEqual( "sfeest" );
-		expect( returnedGetBaseResult.guessedForm ).toEqual( "est" );
-	} );
-} );
-
-describe( "Test for getting the base from adjectives that only form an adverb", function() {
-	adjectivesWithoutComparativesOrSuperlatives.forEach( function( paradigm ) {
-		const testBase = paradigm[ 0 ];
-		it( "returns the base of the word form which is a base itself", function() {
-			returnedGetBaseResult = getAdjectiveStem( testBase, regexAdjective, stopAdjectives );
-			expect( returnedGetBaseResult.base ).toEqual( testBase );
+describe.each( allFormsToTestForBase )( "Test for getting the base from all types of regular adjectives",
+	function( base, comparative, superlative, adverb ) {
+		it( "doesn't stem base of the word form: " + base, function() {
+			returnedGetBaseResult = getAdjectiveStem( base, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+			expect( returnedGetBaseResult.base ).toEqual( base );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "base" );
 		} );
 
-		const testAdverb = paradigm[ 1 ];
-		it( "returns the base of the word form which is an adverb", function() {
-			returnedGetBaseResult = getAdjectiveStem( testAdverb, regexAdjective, stopAdjectives );
-			expect( returnedGetBaseResult.base ).toEqual( testBase );
+		it( "stems comparative form " + comparative + " to " + base, function() {
+			returnedGetBaseResult = getAdjectiveStem( comparative, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+			expect( returnedGetBaseResult.base ).toEqual( base );
+			expect( returnedGetBaseResult.guessedForm ).toEqual( "er" );
+		} );
+
+		it( "stems superlative form " + superlative + " to " + base, function() {
+			returnedGetBaseResult = getAdjectiveStem( superlative, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+			expect( returnedGetBaseResult.base ).toEqual( base );
+			expect( returnedGetBaseResult.guessedForm ).toEqual( "est" );
+		} );
+
+		it( "stems adverb form " + adverb + " to " + base, function() {
+			returnedGetBaseResult = getAdjectiveStem( adverb, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+			expect( returnedGetBaseResult.base ).toEqual( base );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "ly" );
 		} );
 	} );
+
+describe( "Test for getting the base from words that look like an adjective form but aren't", function() {
+	const oneSyllableNonComparative = [
+		"per",
+		"her",
+		"cher",
+	];
+	it.each( oneSyllableNonComparative )( "should not stem one syllable word ending in -er: \"%s\"", function( word ) {
+		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
+		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
+	} );
+
+	// Two syllable non-comparative forms of words that end in -er.
+	const twoSyllableNonComparative = [
+		"baker",
+		"builder",
+		"teacher",
+		"driver",
+		"digger",
+		"power",
+		"shower",
+		"bower",
+		"tower",
+		"blower",
+		"skewer",
+		"answer",
+		"brewer",
+		"mower",
+		"grower",
+		"sewer",
+		"flower",
+		"drawer",
+		"viewer",
+		"rower",
+		"snower",
+	];
+	it.each( twoSyllableNonComparative )( "should not stem word that is listed in the exception list `stopAdjectives.erExceptions`: \"%s\"", function( word ) {
+		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
+		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
+	} );
+
+	// These words are not in the exception list.
+	const multiSyllableNonComparative = [
+		"caretaker",
+		"carpenter",
+		"character",
+		"consider",
+		"cucumber",
+		"deliver",
+		"disaster",
+		"empower",
+		"helicopter",
+		"lavender",
+		"minister",
+		"newsletter",
+		"register",
+		"remember",
+		"semester",
+		"sinister",
+		"surrender",
+		"volunteer",
+		"together",
+		"reviewer",
+		"widower",
+		// 3-syllable words ending in -ier
+		"cashier",
+		"premier",
+		"supplier",
+		"glacier",
+		"occupier",
+	];
+	it.each( multiSyllableNonComparative )( "should not stem word ending in -er that have two syllables or more \"%s\": the word is not listed in `multiSyllableAdjWithSuffixes`", function( word ) {
+		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
+		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
+	} );
 } );
 
-describe( "Test for getting the base from adjectives that don't get any forms", function() {
-	OnlyBaseAdjective.forEach( function( word ) {
-		it( "returns the base of the word form which is a base itself", function() {
-			returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives );
-			expect( returnedGetBaseResult.base ).toEqual( word );
-			expect( returnedGetBaseResult.guessedForm ).toEqual( "base" );
-		} );
+
+describe.each( adjectivesWithoutComparativesOrSuperlatives )( "Test for getting the base from adjectives that only form an adverb", function( base, adverb ) {
+	it( "should not stem the base itself: \"%s\"", function() {
+		returnedGetBaseResult = getAdjectiveStem( base, regexAdjective, stopAdjectives );
+		expect( returnedGetBaseResult ).toHaveProperty( "base", base );
+		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
+	} );
+	it( "gets the stem \"%s\" from the adverb form \"%s\"", function() {
+		returnedGetBaseResult = getAdjectiveStem( adverb, regexAdjective, stopAdjectives );
+		expect( returnedGetBaseResult ).toHaveProperty( "base", base );
+		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "ly" );
+	} );
+} );
+
+describe.each( onlyBaseAdjective )( "Test for getting the base from adjectives that don't get any forms", function( word ) {
+	it( "doesn't stem the base form itself: " + word, function() {
+		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives );
+		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
+	} );
+	it( "should return 'base' as the guessed form for the following word: " + word, function() {
+		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives );
+		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
 	} );
 } );
 
