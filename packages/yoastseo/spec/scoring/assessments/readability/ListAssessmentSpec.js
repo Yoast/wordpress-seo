@@ -1,11 +1,15 @@
 import ListAssessment from "../../../../src/scoring/assessments/readability/ListAssessment";
 import Paper from "../../../../src/values/Paper.js";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import buildTree from "../../../specHelpers/parse/buildTree";
 
 const listAssessment = new ListAssessment();
 
 describe( "a test for an assessment that checks whether a paper contains a list or not", function() {
 	it( "assesses when there are no lists", function() {
 		const mockPaper = new Paper( "text with no list" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
 
 		const assessment = listAssessment.getResult( mockPaper );
 
@@ -20,6 +24,8 @@ describe( "a test for an assessment that checks whether a paper contains a list 
 			" \t<li>kittens</li>\n" +
 			"</ul>\n" +
 			"</blockquote>" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
 
 		const assessment = listAssessment.getResult( mockPaper );
 
@@ -33,6 +39,8 @@ describe( "a test for an assessment that checks whether a paper contains a list 
 			"  <li>Tea</li>\n" +
 			"  <li>Milk</li>\n" +
 			"</ol>" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
 
 		const assessment = listAssessment.getResult( mockPaper );
 
@@ -46,6 +54,8 @@ describe( "a test for an assessment that checks whether a paper contains a list 
 			"  <li>Tea</li>\n" +
 			"  <li>Milk</li>\n" +
 			"</ul> and more text after the list" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
 
 		const assessment = listAssessment.getResult( mockPaper );
 
