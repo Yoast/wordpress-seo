@@ -6,7 +6,7 @@ exports[`AlertsList should match snapshot 1`] = `
     class="yst-paper"
   >
     <div
-      class="yst-paper__content yst-flex yst-flex-col yst-gap-y-6"
+      class="yst-paper__content yst-max-w-[600px] yst-flex yst-flex-col yst-gap-y-6"
     >
       <div>
         <div
