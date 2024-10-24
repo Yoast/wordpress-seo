@@ -68,6 +68,14 @@ const slice = createSlice( {
 	reducers: {
 		toggleAlert,
 		setAlertToggleError,
+		/**
+		 * @param {Object} state The state of the slice.
+		 * @param {string} id The ID of the alert to remove.
+		 * @returns {void}
+		 */
+		removeAlert( state, { payload: id } ) {
+			state.alerts = state.alerts.filter( ( alert ) => alert.id !== id );
+		},
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload: { id } } ) => {

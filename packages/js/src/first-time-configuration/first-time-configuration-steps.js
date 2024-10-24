@@ -1,8 +1,9 @@
 import apiFetch from "@wordpress/api-fetch";
+import { useDispatch } from "@wordpress/data";
 import { useCallback, useReducer, useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { uniq } from "lodash";
-
+import { STORE_NAME } from "../general/constants";
 import { configurationReducer } from "./tailwind-components/helpers/index.js";
 import SocialProfilesStep from "./tailwind-components/steps/social-profiles/social-profiles-step";
 import Stepper, { Step } from "./tailwind-components/stepper";
@@ -158,6 +159,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
  * @returns {WPElement} The FirstTimeConfigurationSteps component.
  */
 export default function FirstTimeConfigurationSteps() {
+	const { removeAlert } = useDispatch( STORE_NAME );
 	const [ finishedSteps, setFinishedSteps ] = useState( window.wpseoFirstTimeConfigurationData.finishedSteps );
 
 	const isStepFinished = useCallback( ( stepId ) => {
@@ -192,32 +194,10 @@ export default function FirstTimeConfigurationSteps() {
 	without triggering a reload, whereas the window variable remains stale. */
 	useEffect( () => {
 		if ( indexingState === "completed" ) {
-			const indexationNotice = document.getElementById( "wpseo-reindex" );
-			if ( indexationNotice ) {
-				const allCounters = document.querySelectorAll( ".yoast-issue-counter, #toplevel_page_wpseo_dashboard .update-plugins" );
-
-				// Update the notification counters if there are any (non-zero ones).
-				if ( allCounters.length > 0 && allCounters[ 0 ].firstChild.textContent !== "0" ) {
-					// Get the oldCount for easier targeting.
-					const oldCount = allCounters[ 0 ].firstChild.textContent;
-					const newCount = ( parseInt( oldCount, 10 ) - 1 ).toString();
-					allCounters.forEach( ( counterNode => {
-						// The classList replace will return false if the class was not present (and thus an adminbar counter).
-						const isAdminBarCounter = ! counterNode.classList.replace( "count-" + oldCount, "count-" + newCount );
-						// If the count reaches zero because of this, remove the red dot alltogether.
-						if ( isAdminBarCounter && newCount === "0" ) {
-							counterNode.style.display = "none";
-						} else {
-							counterNode.firstChild.textContent = counterNode.firstChild.textContent.replace( oldCount, newCount );
-							counterNode.lastChild.textContent = counterNode.lastChild.textContent.replace( oldCount, newCount );
-						}
-					} ) );
-				}
-				indexationNotice.remove();
-			}
+			removeAlert( "wpseo-reindex" );
 			window.yoastIndexingData.amount = "0";
 		}
-	}, [ indexingState ] );
+	}, [ indexingState, removeAlert ] );
 
 	const isStep2Finished = isStepFinished( STEPS.siteRepresentation );
 	const isStep3Finished = isStepFinished( STEPS.socialProfiles );
