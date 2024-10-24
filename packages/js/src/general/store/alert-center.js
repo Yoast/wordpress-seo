@@ -17,13 +17,14 @@ const TOGGLE_ALERT_VISIBILITY = "toggleAlertVisibility";
 export function* toggleAlertStatus( id, nonce, hidden = false ) {
 	yield{ type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.request }` };
 	try {
-		yield{ type: TOGGLE_ALERT_VISIBILITY,
+		yield{
+			type: TOGGLE_ALERT_VISIBILITY,
 			payload: {
 				id,
 				nonce,
 				hidden,
 			},
-		    };
+		};
 		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.success }`, payload: { id } };
 	} catch ( error ) {
 		return { type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.error }`, payload: { id } };
@@ -172,4 +173,4 @@ export const alertCenterControls = {
 	},
 };
 
-export default slice.reducer;
+export const alertCenterReducer = slice.reducer;
