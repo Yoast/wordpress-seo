@@ -17,7 +17,7 @@ class WPSEO_Rewrite {
 		add_filter( 'query_vars', [ $this, 'query_vars' ] );
 		add_filter( 'term_link', [ $this, 'no_category_base' ], 10, 3 );
 		add_filter( 'request', [ $this, 'request' ] );
-		add_filter( 'category_rewrite_rules', [ $this, 'category_rewrite_rules' ] );
+		add_filter( 'category_rewrite_rules', [ $this, 'category_rewrite_rules_wrapper' ] );
 
 		add_action( 'created_category', [ $this, 'schedule_flush' ] );
 		add_action( 'edited_category', [ $this, 'schedule_flush' ] );
@@ -110,15 +110,26 @@ class WPSEO_Rewrite {
 	}
 
 	/**
-	 * This function taken and only slightly adapted from WP No Category Base plugin by Saurabh Gupta.
+	 * Wrapper for the category_rewrite_rules() below, so we can add the $rules param in a BC way.
+	 *
+	 * @param array<string> $rules Rewrite rules generated for the current permastruct, keyed by their regex pattern.
 	 *
 	 * @return array<string> The category rewrite rules.
 	 */
-	public function category_rewrite_rules( $rules ) {
+	public function category_rewrite_rules_wrapper( $rules ) {
 		if ( WPSEO_Options::get( 'stripcategorybase' ) !== true ) {
 			return $rules;
 		}
 
+		return $this->category_rewrite_rules();
+	}
+
+	/**
+	 * This function taken and only slightly adapted from WP No Category Base plugin by Saurabh Gupta.
+	 *
+	 * @return array<string> The category rewrite rules.
+	 */
+	public function category_rewrite_rules() {
 		global $wp_rewrite;
 
 		$category_rewrite = [];
