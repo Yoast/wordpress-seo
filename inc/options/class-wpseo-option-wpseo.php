@@ -214,7 +214,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		/**
 		 * Filter: 'wpseo_enable_tracking' - Enables the data tracking of Yoast SEO Premium.
 		 *
-		 * @param string $is_enabled The enabled state. Default is false.
+		 * @param string|false $is_enabled The enabled state. Default is false.
 		 */
 		$this->defaults['tracking'] = apply_filters( 'wpseo_enable_tracking', false );
 
