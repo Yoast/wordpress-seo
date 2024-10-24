@@ -1229,7 +1229,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
           className="c20"
         >
           <button
-            aria-label="Marks are disabled in current view"
+            aria-label="Highlighting is currently disabled"
             aria-pressed={false}
             className="c22"
             disabled={true}
@@ -1514,7 +1514,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
           className="c20"
         >
           <button
-            aria-label="Marks are disabled in current view"
+            aria-label="Highlighting is currently disabled"
             aria-pressed={false}
             className="c22"
             disabled={true}

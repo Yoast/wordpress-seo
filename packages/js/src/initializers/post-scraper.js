@@ -51,7 +51,6 @@ import isBlockEditor from "../helpers/isBlockEditor";
 
 const {
 	setFocusKeyword,
-	setMarkerStatus,
 	updateData,
 	setCornerstoneContent,
 	refreshSnippetEditor,
@@ -361,24 +360,6 @@ export default function initPostScraper( $, store, editorData ) {
 	}
 
 	/**
-	 * Toggles the markers status in the state, based on the editor mode.
-	 *
-	 * @param {string} editorMode The editor mode.
-	 * @param {Object} store      The store to update.
-	 *
-	 * @returns {void}
-	 */
-	function toggleMarkers( editorMode, store ) {
-		if ( editorMode === "visual" ) {
-			store.dispatch( setMarkerStatus( "enabled" ) );
-
-			return;
-		}
-
-		store.dispatch( setMarkerStatus( "disabled" ) );
-	}
-
-	/**
 	 * Gets the current editor mode from the state.
 	 *
 	 * @returns {string} The current editor mode.
@@ -567,9 +548,6 @@ export default function initPostScraper( $, store, editorData ) {
 
 		if ( isBlockEditor() ) {
 			let editorMode = getEditorMode();
-
-			toggleMarkers( editorMode, store );
-
 			subscribe( () => {
 				const currentEditorMode = getEditorMode();
 
@@ -578,7 +556,6 @@ export default function initPostScraper( $, store, editorData ) {
 				}
 
 				editorMode = currentEditorMode;
-				toggleMarkers( editorMode, store );
 			} );
 		}
 
