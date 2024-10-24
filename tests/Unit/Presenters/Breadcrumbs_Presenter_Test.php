@@ -281,9 +281,7 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 			'url'  => 'home_url',
 			'text' => 'home_text',
 		];
-		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
-			->once()
-			->andReturnFalse();
+
 		$this->instance->expects( 'get_element' )
 			->twice()
 			->withNoArgs()
@@ -309,9 +307,6 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 			'url'  => 'home_url',
 			'text' => 'home_text',
 		];
-		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
-			->once()
-			->andReturnFalse();
 
 		$this->instance->expects( 'get_element' )
 			->twice()
@@ -345,9 +340,7 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 			'text'  => 'home_text',
 			'title' => 'home_title',
 		];
-		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
-			->once()
-			->andReturnFalse();
+
 		$this->instance->expects( 'get_element' )
 			->twice()
 			->withNoArgs()
@@ -374,9 +367,7 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 			'text'  => 'home_text',
 			'title' => 'home_title',
 		];
-		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
-			->once()
-			->andReturnTrue();
+
 		$this->instance->expects( 'get_element' )
 			->twice()
 			->withNoArgs()
@@ -384,10 +375,12 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$link = '<span><a target="_blank" href="home_url" title="home_title">home_text</a></span>';
 
+		$_GET['context'] = 'edit';
 		$this->assertEquals(
 			$link,
 			$this->instance->crumb_to_link( $breadcrumb, 0, 2 )
 		);
+		unset( $_GET['context'] );
 	}
 
 	/**
