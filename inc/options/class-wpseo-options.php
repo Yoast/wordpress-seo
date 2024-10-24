@@ -212,6 +212,8 @@ class WPSEO_Options {
 	/**
 	 * Retrieve all the options for the SEO plugin in one go.
 	 *
+	 * @param array $specific_options The option groups of the option you want to get.
+	 *
 	 * @return array Array combining the values of all the options.
 	 */
 	public static function get_all( $specific_options = [] ) {
@@ -270,8 +272,9 @@ class WPSEO_Options {
 	/**
 	 * Retrieve a single field from any option for the SEO plugin. Keys are always unique.
 	 *
-	 * @param string $key           The key it should return.
-	 * @param mixed  $default_value The default value that should be returned if the key isn't set.
+	 * @param string        $key           The key it should return.
+	 * @param mixed         $default_value The default value that should be returned if the key isn't set.
+	 * @param array<string> $option_groups The option groups to retrieve the option from.
 	 *
 	 * @return mixed Returns value if found, $default_value if not.
 	 */
@@ -298,6 +301,8 @@ class WPSEO_Options {
 	/**
 	 * Primes our cache.
 	 *
+	 * @param array<string> $option_groups The option groups to prime the cache with.
+	 *
 	 * @return void
 	 */
 	private static function prime_cache( $option_groups = [] ) {
@@ -308,13 +313,14 @@ class WPSEO_Options {
 	/**
 	 * Retrieve a single field from an option for the SEO plugin.
 	 *
-	 * @param string $key   The key to set.
-	 * @param mixed  $value The value to set.
+	 * @param string $key          The key to set.
+	 * @param mixed  $value        The value to set.
+	 * @param string $option_group The lookup table which represents the option_group where the key is stored.
 	 *
 	 * @return mixed|null Returns value if found, $default if not.
 	 */
-	public static function set( $key, $value ) {
-		$lookup_table = static::get_lookup_table();
+	public static function set( $key, $value, $option_group = '' ) {
+		$lookup_table = static::get_lookup_table( $option_group );
 
 		if ( isset( $lookup_table[ $key ] ) ) {
 			return static::save_option( $lookup_table[ $key ], $key, $value );
@@ -563,12 +569,15 @@ class WPSEO_Options {
 	/**
 	 * Retrieves a lookup table to find in which option_group a key is stored.
 	 *
+	 * @param string $option_group The option_group where the key is stored.
+	 *
 	 * @return array The lookup table.
 	 */
-	private static function get_lookup_table() {
-		$lookup_table = [];
+	private static function get_lookup_table( $option_group = '' ) {
+		$lookup_table  = [];
+		$option_groups = ( $option_group === '' ) ? static::$options : [ $option_group => static::$options[ $option_group ] ];
 
-		foreach ( array_keys( static::$options ) as $option_name ) {
+		foreach ( array_keys( $option_groups ) as $option_name ) {
 			$full_option = static::get_option( $option_name );
 			foreach ( $full_option as $key => $value ) {
 				$lookup_table[ $key ] = $option_name;
