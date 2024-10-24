@@ -355,6 +355,35 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the creation of a breadcrumb element has target blank in the editor.
+	 *
+	 * @covers ::crumb_to_link
+	 *
+	 * @return void
+	 */
+	public function test_crumb_in_editor() {
+		$breadcrumb = [
+			'url'   => 'home_url',
+			'text'  => 'home_text',
+			'title' => 'home_title',
+		];
+
+		$this->instance->expects( 'get_element' )
+			->twice()
+			->withNoArgs()
+			->andReturn( 'span' );
+
+		$link = '<span><a target="_blank" href="home_url" title="home_title">home_text</a></span>';
+
+		$_GET['context'] = 'edit';
+		$this->assertEquals(
+			$link,
+			$this->instance->crumb_to_link( $breadcrumb, 0, 2 )
+		);
+		unset( $_GET['context'] );
+	}
+
+	/**
 	 * Tests the creation of a breadcrumb element string when it's the last element
 	 * and the last element should be bolded.
 	 *
