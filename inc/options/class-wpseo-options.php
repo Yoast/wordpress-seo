@@ -212,7 +212,7 @@ class WPSEO_Options {
 	/**
 	 * Retrieve all the options for the SEO plugin in one go.
 	 *
-	 * @param array $specific_options The option groups of the option you want to get.
+	 * @param array<string> $specific_options The option groups of the option you want to get.
 	 *
 	 * @return array Array combining the values of all the options.
 	 */
