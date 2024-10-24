@@ -150,9 +150,9 @@ class WPSEO_Upgrade {
 	 */
 	protected function finish_up( $previous_version = null ) {
 		if ( $previous_version ) {
-			WPSEO_Options::set( 'previous_version', $previous_version );
+			WPSEO_Options::set( 'previous_version', $previous_version, 'wpseo' );
 		}
-		WPSEO_Options::set( 'version', WPSEO_VERSION );
+		WPSEO_Options::set( 'version', WPSEO_VERSION, 'wpseo' );
 
 		// Just flush rewrites, always, to at least make them work after an upgrade.
 		add_action( 'shutdown', 'flush_rewrite_rules' );
