@@ -14,7 +14,7 @@ const TOGGLE_ALERT_VISIBILITY = "toggleAlertVisibility";
  * @param {boolean} hidden The hidden state of the alert.
  * @returns {Object} Success or error action object.
  */
-export function* toggleAlertStatus( id, nonce, hidden = false ) {
+function* toggleAlertStatus( id, nonce, hidden = false ) {
 	yield{ type: `${ TOGGLE_ALERT_VISIBILITY }/${ ASYNC_ACTION_NAMES.request }` };
 	try {
 		yield{
