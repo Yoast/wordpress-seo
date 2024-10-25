@@ -10,7 +10,7 @@ import { __ } from "@wordpress/i18n";
  *
  * @returns {JSX.Element} The data table for the SVG area chart.
  */
-const TrendGraphTable = ( {
+const TrendGraphScreenReader = ( {
 	data,
 } ) => {
 	const dataTableHeaderLabels = [
@@ -40,12 +40,12 @@ const TrendGraphTable = ( {
 	};
 
 	if ( data.length !== dataTableHeaderLabels.length ) {
-		return <p>{ __( "The number of headers and header labels don't match.", "wordpress-seo" ) }</p>;
+		throw new Error( "The number of headers and header labels don't match." );
 	}
 
 	return (
 		<div
-			className="yst-absolute yst-border-0 yst-h-0 yst-overflow-hidden yst-w-0 yst-p-0"
+			className="yst-sr-only"
 		>
 			<table>
 				<caption>{ __( "Keyphrase volume in the last 12 months on a scale from 0 to 100.", "wordpress-seo" ) }</caption>
@@ -72,9 +72,9 @@ const TrendGraphTable = ( {
 	);
 };
 
-TrendGraphTable.propTypes = {
+TrendGraphScreenReader.propTypes = {
 	data: PropTypes.arrayOf( PropTypes.number ).isRequired,
 };
 
 
-export default TrendGraphTable;
+export default TrendGraphScreenReader;

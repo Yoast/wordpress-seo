@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
 /* Internal dependencies */
-import TrendGraphTable from "./TrendGraphTable";
+import TrendGraphScreenReader from "./TrendGraphScreenReader";
 
 /**
  * Renders a SVG area chart.
@@ -25,11 +25,15 @@ const TrendGraph = ( {
 	strokeWidth = 1.8,
 } ) => {
 	if ( data.length !== 12 ) {
-		throw new Error( "The data prop must be an array with exactly 12 values." );
+		const missingLength = 12 - data.length;
+
+		for ( let i = 0; i < missingLength; i++ ) {
+			data.unshift( 0 );
+		}
 	}
 
 	// When all the y values are zero, make sure the maximumY value is at least 1 to avoid a division by zero later.
-	const maximumYFromData = Math.max( 1, Math.max( ...data.map( point => point ) ) );
+	const maximumYFromData = Math.max( 1, ...data.map( point => point ) );
 
 	// Reserve some vertical spacing to prevent the SVG stroke from being cut-off.
 	const chartHeight = height - strokeWidth;
@@ -72,7 +76,7 @@ const TrendGraph = ( {
 				/>
 			</svg>
 
-			<TrendGraphTable data={ data } />
+			<TrendGraphScreenReader data={ data } />
 
 		</Fragment>
 	);
