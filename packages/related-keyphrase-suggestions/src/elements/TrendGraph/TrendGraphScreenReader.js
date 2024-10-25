@@ -2,6 +2,32 @@ import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
+const dataTableHeaderLabels = [
+	__( "Twelve months ago", "wordpress-seo" ),
+	__( "Eleven months ago", "wordpress-seo" ),
+	__( "Ten months ago", "wordpress-seo" ),
+	__( "Nine months ago", "wordpress-seo" ),
+	__( "Eight months ago", "wordpress-seo" ),
+	__( "Seven months ago", "wordpress-seo" ),
+	__( "Six months ago", "wordpress-seo" ),
+	__( "Five months ago", "wordpress-seo" ),
+	__( "Four months ago", "wordpress-seo" ),
+	__( "Three months ago", "wordpress-seo" ),
+	__( "Two months ago", "wordpress-seo" ),
+	__( "Last month", "wordpress-seo" ),
+];
+
+/**
+ * Adapts the chart y axis data to a more meaningful format for the alternative representation in the data table.
+ *
+ * @param {number} y The raw y axis data of the chart.
+ *
+ * @returns {number} The formatted y axis data.
+ */
+const mapChartDataToTableData = ( y ) => {
+	return Math.round( y * 100 );
+};
+
 /**
  * Renders a table for an accessible representation of the SVG area chart.
  *
@@ -13,31 +39,6 @@ import { __ } from "@wordpress/i18n";
 const TrendGraphScreenReader = ( {
 	data,
 } ) => {
-	const dataTableHeaderLabels = [
-		__( "Twelve months ago", "wordpress-seo" ),
-		__( "Eleven months ago", "wordpress-seo" ),
-		__( "Ten months ago", "wordpress-seo" ),
-		__( "Nine months ago", "wordpress-seo" ),
-		__( "Eight months ago", "wordpress-seo" ),
-		__( "Seven months ago", "wordpress-seo" ),
-		__( "Six months ago", "wordpress-seo" ),
-		__( "Five months ago", "wordpress-seo" ),
-		__( "Four months ago", "wordpress-seo" ),
-		__( "Three months ago", "wordpress-seo" ),
-		__( "Two months ago", "wordpress-seo" ),
-		__( "Last month", "wordpress-seo" ),
-	];
-
-	/**
-	 * Adapts the chart y axis data to a more meaningful format for the alternative representation in the data table.
-	 *
-	 * @param {number} y The raw y axis data of the chart.
-	 *
-	 * @returns {number} The formatted y axis data.
-	 */
-	const mapChartDataToTableData = ( y ) => {
-		return Math.round( y * 100 );
-	};
 
 	if ( data.length !== dataTableHeaderLabels.length ) {
 		throw new Error( "The number of headers and header labels don't match." );
