@@ -22,7 +22,7 @@ import { STEPS } from "./constants";
  *
  * @param {Object} state The state to save.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function updateSiteRepresentation( state ) {
 	// Revert emptyChoice to the actual default: "company";
@@ -52,7 +52,7 @@ async function updateSiteRepresentation( state ) {
  *
  * @param {Object} state The state to save.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function updateSocialProfiles( state ) {
 	const socialProfiles = {
@@ -75,7 +75,7 @@ async function updateSocialProfiles( state ) {
  *
  * @param {Object} state The state to save.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function updateTracking( state ) {
 	if ( state.tracking !== 0 && state.tracking !== 1 ) {
@@ -99,7 +99,7 @@ async function updateTracking( state ) {
  *
  * @param {Array} finishedSteps Array of finished steps.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function saveFinishedSteps( finishedSteps ) {
 	const response = await apiFetch( {
@@ -275,7 +275,7 @@ export default function FirstTimeConfigurationSteps() {
 	/**
 	 * Runs checks of finishing the social profiles step.
 	 *
-	 * @returns {void}
+	 * @returns {Promise|boolean} Returns either a Boolean for success/failure or a Promise.
 	 */
 	function updateOnFinishSocialProfiles() {
 		if ( state.companyOrPerson === "person" ) {
@@ -316,7 +316,7 @@ export default function FirstTimeConfigurationSteps() {
 	/**
 	 * Runs checks of finishing the enable tracking step.
 	 *
-	 * @returns {void}
+	 * @returns {Promise|boolean} Returns either a Boolean for success/failure or a Promise.
 	 */
 	function updateOnFinishPersonalPreferences() {
 		return updateTracking( state )
