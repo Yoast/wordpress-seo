@@ -16,31 +16,27 @@ import TableButton from "../../elements/TableButton";
  *
  * @returns {JSX.Element} The row.
  */
-const KeyphrasesTableRow = ( { data, isPremium = false } ) => {
-	const [ relatedKeyphrase, volume, trend, difficulty, intent ] = data;
-	const intentInitials = intent ? intent.split( "," ) : [];
-	const chartPoints = trend.split( "," ).map( value => parseFloat( value ) );
-
+const KeyphrasesTableRow = ( { keyword, searchVolume, trends, keywordDifficultyIndex, intent, isPremium = false } ) => {
 	return (
 		<Table.Row>
 			<Table.Cell>
-				{ relatedKeyphrase }
+				{ keyword }
 			</Table.Cell>
 			<Table.Cell>
 				<div className="yst-flex yst-gap-2">
-					{ intentInitials.length > 0 && intentInitials.map( ( initial, index ) => (
-						<IntentBadge key={ `${ index }-${ relatedKeyphrase }-${ initial }` } initial={ initial } />
+					{ intent.length > 0 && intent.map( ( initial, index ) => (
+						<IntentBadge key={ `${ index }-${ keyword }-${ initial }` } initial={ initial } />
 					) ) }
 				</div>
 			</Table.Cell>
 			<Table.Cell>
-				{ volume }
+				{ searchVolume }
 			</Table.Cell>
 			<Table.Cell>
-				<TrendGraph data={ chartPoints } />
+				<TrendGraph data={ trends } />
 			</Table.Cell>
 			<Table.Cell>
-				<DifficultyBullet value={ Number( difficulty ) } />
+				<DifficultyBullet value={ keywordDifficultyIndex } />
 			</Table.Cell>
 			{ isPremium && <Table.Cell className="yst-flex yst-justify-center yst-w-[124px]">
 				<TableButton onAdd={ noop } onRemove={ noop } />
@@ -50,7 +46,11 @@ const KeyphrasesTableRow = ( { data, isPremium = false } ) => {
 };
 
 KeyphrasesTableRow.propTypes = {
-	data: PropTypes.array.isRequired,
+	keyword: PropTypes.string,
+	searchVolume: PropTypes.string,
+	trends: PropTypes.array,
+	keywordDifficultyIndex: PropTypes.number,
+	intent: PropTypes.array,
 	isPremium: PropTypes.bool,
 };
 
@@ -94,14 +94,45 @@ LoadingKeyphrasesTableRow.propTypes = {
 	isPremium: PropTypes.bool,
 };
 
+const intentMapping = [ "i", "n", "t", "c" ];
+
+/**
+ * Prepare the row data.
+ * @param {array} columnNames The column names.
+ * @param {array} row The row data.
+ * @returns {object} The prepared row.
+ */
+const prepareRow = ( columnNames, row ) => {
+	const rowData = {};
+	columnNames.forEach( ( columnName, index ) => {
+		switch ( columnName ) {
+			case "trends":
+				rowData[ columnName ] = row[ index ].split( "," ).map( ( value ) => parseFloat( value ) );
+				break;
+			case "intent":
+				rowData[ columnName ] = row[ index ].split( "," ).map( ( value ) => intentMapping[ Number( value ) ] );
+				break;
+			case "keywordDifficultyIndex":
+				rowData[ columnName ] = Number( row[ index ] );
+				break;
+			default:
+				rowData[ columnName ] = row[ index ];
+		}
+	} );
+	return rowData;
+};
+
 /**
  *
- * @param {object} rows The rows to display in the table.
+ * @param {object} data The rows to display in the table.
  * @param {boolean} isPremium Whether the user is premium or not.
  *
  * @returns  {JSX.Element} The keyphrases table.
  */
-const KeyphrasesTable = ( { rows, isPremium = false } ) => {
+const KeyphrasesTable = ( { data, isPremium = false } ) => {
+	const formattedColumnNames = data?.results?.columnNames?.map( name => name.charAt( 0 ).toLowerCase() + name.replace( /\s/g, "" ).slice( 1 ) );
+	const rows = data?.results?.rows?.map( row => prepareRow( formattedColumnNames, row ) );
+
 	return <Table>
 		<Table.Head>
 			<Table.Row>
@@ -128,8 +159,8 @@ const KeyphrasesTable = ( { rows, isPremium = false } ) => {
 
 		<Table.Body>
 
-			{ rows && rows.length > 0 ? rows.map( ( data, index ) =>
-				<KeyphrasesTableRow key={ `related-keyphrase-${ index }` } data={ data } isPremium={ isPremium } />,
+			{ rows ? rows.map( ( rowData, index ) =>
+				<KeyphrasesTableRow key={ `related-keyphrase-${ index }` } { ...rowData } isPremium={ isPremium } />,
 			)
 			// Show 10 loading rows when there are no rows.
 				: Array.from( { length: 10 }, ( _, index ) =>
@@ -140,7 +171,7 @@ const KeyphrasesTable = ( { rows, isPremium = false } ) => {
 };
 
 KeyphrasesTable.propTypes = {
-	rows: PropTypes.array,
+	data: PropTypes.object,
 	isPremium: PropTypes.bool,
 };
 

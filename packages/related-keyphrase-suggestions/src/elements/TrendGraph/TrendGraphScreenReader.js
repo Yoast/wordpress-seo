@@ -39,7 +39,6 @@ const mapChartDataToTableData = ( y ) => {
 const TrendGraphScreenReader = ( {
 	data,
 } ) => {
-
 	if ( data.length !== dataTableHeaderLabels.length ) {
 		throw new Error( "The number of headers and header labels don't match." );
 	}
