@@ -1,4 +1,5 @@
 import { useSelect } from "@wordpress/data";
+import { useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
 import { PremiumUpsellList } from "../../shared-admin/components/premium-upsell-list";
@@ -17,6 +18,18 @@ export const AlertCenter = () => {
 	const premiumUpsellConfig = useSelectGeneralPage( "selectUpsellSettingsAsProps" );
 	const academyLink = useSelectGeneralPage( "selectLink", [], "https://yoa.st/3t6" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
+
+	/**
+	 * Removes the first time configuration notice when the the last step has been completed.
+	 */
+	useEffect( () => {
+		if ( window.wpseoFirstTimeConfigurationData.finishedSteps.includes( "personalPreferences" ) )  {
+			const firstTimeConfigurationNotice = document.getElementById( "yoast-first-time-configuration-notice" );
+			if ( firstTimeConfigurationNotice ) {
+				firstTimeConfigurationNotice.remove();
+			}
+		}
+	}, [] );
 
 	return <div className="yst-flex yst-gap-6 xl:yst-flex-row yst-flex-col">
 		<div className="yst-@container yst-flex yst-flex-wrap yst-flex-grow yst-flex-col">

@@ -1,6 +1,6 @@
 /* global wpseoFirstTimeConfigurationData */
 import apiFetch from "@wordpress/api-fetch";
-import { useCallback, useReducer, useState, useEffect, useRef } from "@wordpress/element";
+import { useCallback, useReducer, useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { uniq } from "lodash";
 
@@ -398,17 +398,6 @@ export default function FirstTimeConfigurationSteps() {
 			setStepperFinishedOnce( true );
 		}
 	}, [ isStepperFinished ] );
-
-	/* In order to refresh data in the php form, once the stepper is done, we need to reload upon haschanges triggered by the tabswitching */
-	const isStepperFinishedAtBeginning = useRef( isStep2Finished && isStep3Finished && isStep4Finished );
-	useEffect( () => {
-		if ( isStepperFinished && ! isStepperFinishedAtBeginning.current ) {
-			const firstTimeConfigurationNotice = document.getElementById( "yoast-first-time-configuration-notice" );
-			if ( firstTimeConfigurationNotice ) {
-				firstTimeConfigurationNotice.remove();
-			}
-		}
-	}, [ isStepperFinished, isStepperFinishedAtBeginning ] );
 
 	// If stepperFinishedOnce changes or isStepBeingEdited changes, evaluate edit button state.
 	useEffect( () => {
