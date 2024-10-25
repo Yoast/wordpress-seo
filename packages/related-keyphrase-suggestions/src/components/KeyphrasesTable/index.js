@@ -117,7 +117,7 @@ const KeyphrasesTable = ( { rows, isPremium = false } ) => {
 				<Table.Header>
 					{ __( "Trend", "wordpress-seo" ) }
 				</Table.Header>
-				<Table.Header className="yst-w-24">
+				<Table.Header className="yst-w-[98px]">
 					{ __( "Keyphrase difficulty %", "wordpress-seo" ) }
 				</Table.Header>
 				{ isPremium && <Table.Header className="yst-text-right yst-w-20">
