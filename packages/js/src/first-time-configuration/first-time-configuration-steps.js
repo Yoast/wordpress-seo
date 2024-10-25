@@ -171,6 +171,7 @@ export default function FirstTimeConfigurationSteps() {
 
 	useEffect( () => {
 		saveFinishedSteps( finishedSteps );
+		window.wpseoFirstTimeConfigurationData.finishedSteps = finishedSteps;
 	}, [ finishedSteps ] );
 
 	const [ state, dispatch ] = useReducer( configurationReducer, {
@@ -256,6 +257,7 @@ export default function FirstTimeConfigurationSteps() {
 				setErrorFields( [] );
 				removeStepError( STEPS.siteRepresentation );
 				finishSteps( STEPS.siteRepresentation );
+				window.wpseoFirstTimeConfigurationData =  { ...window.wpseoFirstTimeConfigurationData, siteRepresentation: state.siteRepresentation };
 				return true;
 			} )
 			.catch( ( e ) => {
@@ -295,6 +297,7 @@ export default function FirstTimeConfigurationSteps() {
 				finishSteps( STEPS.socialProfiles );
 			} )
 			.then( () => {
+				window.wpseoFirstTimeConfigurationData =  { ...window.wpseoFirstTimeConfigurationData, socialProfiles: state.socialProfiles };
 				return true;
 			} )
 			.catch(
@@ -320,6 +323,7 @@ export default function FirstTimeConfigurationSteps() {
 			.then( () => finishSteps( STEPS.personalPreferences ) )
 			.then( () => {
 				removeStepError( STEPS.personalPreferences );
+				window.wpseoFirstTimeConfigurationData.tracking = state.tracking;
 				return true;
 			} )
 			.catch( e => {
