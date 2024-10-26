@@ -213,6 +213,7 @@ function enforcePeerDependencyPresence( { Yarn } ) { // eslint-disable-line comp
 
 module.exports = defineConfig( {
 	constraints: async( context ) => {
+		enforceWorkspaceDependenciesWhenPossible( context );
 		enforceFieldsOnAllWorkspaces( context, {
 			[ "repository.type" ]: "git",
 			[ "repository.url" ]: "git+https://github.com/Yoast/wordpress-seo.git",

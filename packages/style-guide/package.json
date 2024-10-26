@@ -21,14 +21,14 @@
     "clean": "rm -rf build"
   },
   "dependencies": {
-    "@yoast/helpers": "^0.17.0-alpha.0",
+    "@yoast/helpers": "workspace:^",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.24.1",
     "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.24.4",
-    "@yoast/browserslist-config": "^1.2.3",
+    "@yoast/browserslist-config": "workspace:^",
     "babel-plugin-styled-components": "^2.1.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-react": "^6.24.1",

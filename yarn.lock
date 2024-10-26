@@ -11279,21 +11279,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yoast/analysis-report@npm:^2.0.0-alpha.0, @yoast/analysis-report@workspace:packages/analysis-report":
+"@yoast/analysis-report@workspace:^, @yoast/analysis-report@workspace:packages/analysis-report":
   version: 0.0.0-use.local
   resolution: "@yoast/analysis-report@workspace:packages/analysis-report"
   dependencies:
     "@babel/cli": "npm:^7.24.1"
     "@babel/core": "npm:^7.24.4"
     "@wordpress/i18n": "npm:^1.1.0"
-    "@yoast/babel-preset": "npm:^1.1.1"
-    "@yoast/components": "npm:^3.0.0-alpha.1"
-    "@yoast/helpers": "npm:^0.17.0-alpha.0"
-    "@yoast/jest-preset": "npm:^1.0.1"
-    "@yoast/style-guide": "npm:^0.14.0-alpha.0"
+    "@yoast/babel-preset": "workspace:^"
+    "@yoast/components": "workspace:^"
+    "@yoast/helpers": "workspace:^"
+    "@yoast/jest-preset": "workspace:^"
+    "@yoast/style-guide": "workspace:^"
     babel-plugin-styled-components: "npm:^2.1.4"
     eslint: "npm:^8.57.0"
-    eslint-config-yoast: "npm:^6.0.0"
+    eslint-config-yoast: "workspace:^"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.34.1"
@@ -11310,7 +11310,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@yoast/babel-preset@npm:^1.1.1, @yoast/babel-preset@workspace:packages/babel-preset":
+"@yoast/babel-preset@workspace:^, @yoast/babel-preset@workspace:packages/babel-preset":
   version: 0.0.0-use.local
   resolution: "@yoast/babel-preset@workspace:packages/babel-preset"
   dependencies:
@@ -11323,13 +11323,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@yoast/browserslist-config@npm:^1.0.0, @yoast/browserslist-config@npm:^1.2.3, @yoast/browserslist-config@workspace:packages/browserslist-config":
+"@yoast/browserslist-config@npm:^1.0.0, @yoast/browserslist-config@workspace:^, @yoast/browserslist-config@workspace:packages/browserslist-config":
   version: 0.0.0-use.local
   resolution: "@yoast/browserslist-config@workspace:packages/browserslist-config"
   dependencies:
     browserslist: "npm:^4.7.3"
     eslint: "npm:^8.57.0"
-    eslint-config-yoast: "npm:^6.0.0"
+    eslint-config-yoast: "workspace:^"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.34.1"
@@ -11337,7 +11337,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@yoast/components@npm:^3.0.0-alpha.0, @yoast/components@npm:^3.0.0-alpha.1, @yoast/components@workspace:packages/components":
+"@yoast/components@workspace:^, @yoast/components@workspace:packages/components":
   version: 0.0.0-use.local
   resolution: "@yoast/components@workspace:packages/components"
   dependencies:
@@ -11347,15 +11347,15 @@ __metadata:
     "@babel/preset-env": "npm:^7.24.4"
     "@wordpress/a11y": "npm:^1.1.3"
     "@wordpress/i18n": "npm:^1.2.3"
-    "@yoast/browserslist-config": "npm:^1.2.3"
-    "@yoast/helpers": "npm:^0.17.0-alpha.0"
-    "@yoast/style-guide": "npm:^0.14.0-alpha.0"
+    "@yoast/browserslist-config": "workspace:^"
+    "@yoast/helpers": "workspace:^"
+    "@yoast/style-guide": "workspace:^"
     autoprefixer: "npm:^10.4.19"
     babel-plugin-styled-components: "npm:^2.1.4"
     browserslist: "npm:^4.7.3"
     cssnano: "npm:^6.1.2"
     eslint: "npm:^8.57.0"
-    eslint-config-yoast: "npm:^6.0.0"
+    eslint-config-yoast: "workspace:^"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.34.1"
@@ -11393,16 +11393,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@yoast/feature-flag@npm:^0.6.0-alpha.0, @yoast/feature-flag@workspace:packages/feature-flag":
+"@yoast/feature-flag@workspace:^, @yoast/feature-flag@workspace:packages/feature-flag":
   version: 0.0.0-use.local
   resolution: "@yoast/feature-flag@workspace:packages/feature-flag"
   dependencies:
     "@babel/cli": "npm:^7.24.1"
     "@babel/core": "npm:^7.24.4"
     "@babel/preset-env": "npm:^7.24.4"
-    "@yoast/browserslist-config": "npm:^1.2.3"
+    "@yoast/browserslist-config": "workspace:^"
     eslint: "npm:^8.57.0"
-    eslint-config-yoast: "npm:^6.0.0"
+    eslint-config-yoast: "workspace:^"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.34.1"
@@ -11446,7 +11446,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yoast/helpers@npm:^0.17.0-alpha.0, @yoast/helpers@workspace:packages/helpers":
+"@yoast/helpers@workspace:^, @yoast/helpers@workspace:packages/helpers":
   version: 0.0.0-use.local
   resolution: "@yoast/helpers@workspace:packages/helpers"
   dependencies:
@@ -11455,10 +11455,10 @@ __metadata:
     "@babel/plugin-transform-react-jsx": "npm:^7.23.4"
     "@babel/preset-env": "npm:^7.24.4"
     "@wordpress/i18n": "npm:^1.2.3"
-    "@yoast/browserslist-config": "npm:^1.2.3"
+    "@yoast/browserslist-config": "workspace:^"
     babel-plugin-styled-components: "npm:^2.1.4"
     eslint: "npm:^8.57.0"
-    eslint-config-yoast: "npm:^6.0.0"
+    eslint-config-yoast: "workspace:^"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.34.1"
@@ -11478,7 +11478,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@yoast/jest-preset@npm:^1.0.0, @yoast/jest-preset@npm:^1.0.1, @yoast/jest-preset@workspace:packages/jest-preset":
+"@yoast/jest-preset@workspace:^, @yoast/jest-preset@workspace:packages/jest-preset":
   version: 0.0.0-use.local
   resolution: "@yoast/jest-preset@workspace:packages/jest-preset"
   dependencies:
@@ -11491,7 +11491,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@yoast/postcss-preset@npm:^1.2.0, @yoast/postcss-preset@workspace:packages/postcss-preset":
+"@yoast/postcss-preset@workspace:^, @yoast/postcss-preset@workspace:packages/postcss-preset":
   version: 0.0.0-use.local
   resolution: "@yoast/postcss-preset@workspace:packages/postcss-preset"
   dependencies:
@@ -11504,7 +11504,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@yoast/replacement-variable-editor@npm:^2.0.0-alpha.0, @yoast/replacement-variable-editor@workspace:packages/replacement-variable-editor":
+"@yoast/replacement-variable-editor@workspace:^, @yoast/replacement-variable-editor@workspace:packages/replacement-variable-editor":
   version: 0.0.0-use.local
   resolution: "@yoast/replacement-variable-editor@workspace:packages/replacement-variable-editor"
   dependencies:
@@ -11519,15 +11519,15 @@ __metadata:
     "@wordpress/components": "npm:^25.8.14"
     "@wordpress/hooks": "npm:^2.12.3"
     "@wordpress/i18n": "npm:^1.2.3"
-    "@yoast/browserslist-config": "npm:^1.2.3"
-    "@yoast/components": "npm:^3.0.0-alpha.1"
-    "@yoast/helpers": "npm:^0.17.0-alpha.0"
-    "@yoast/style-guide": "npm:^0.14.0-alpha.0"
+    "@yoast/browserslist-config": "workspace:^"
+    "@yoast/components": "workspace:^"
+    "@yoast/helpers": "workspace:^"
+    "@yoast/style-guide": "workspace:^"
     babel-plugin-styled-components: "npm:^2.1.4"
     classnames: "npm:^2.3.2"
     draft-js-single-line-plugin: "npm:^2.0.5"
     eslint: "npm:^8.57.0"
-    eslint-config-yoast: "npm:^6.0.0"
+    eslint-config-yoast: "workspace:^"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.34.1"
@@ -11547,7 +11547,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@yoast/search-metadata-previews@npm:^3.0.0-alpha.0, @yoast/search-metadata-previews@workspace:packages/search-metadata-previews":
+"@yoast/search-metadata-previews@workspace:^, @yoast/search-metadata-previews@workspace:packages/search-metadata-previews":
   version: 0.0.0-use.local
   resolution: "@yoast/search-metadata-previews@workspace:packages/search-metadata-previews"
   dependencies:
@@ -11559,15 +11559,15 @@ __metadata:
     "@testing-library/react": "npm:^15.0.5"
     "@wordpress/a11y": "npm:^1.0.7"
     "@wordpress/i18n": "npm:^1.1.0"
-    "@yoast/browserslist-config": "npm:^1.2.3"
-    "@yoast/components": "npm:^3.0.0-alpha.1"
-    "@yoast/helpers": "npm:^0.17.0-alpha.0"
-    "@yoast/replacement-variable-editor": "npm:^2.0.0-alpha.0"
-    "@yoast/style-guide": "npm:^0.14.0-alpha.0"
+    "@yoast/browserslist-config": "workspace:^"
+    "@yoast/components": "workspace:^"
+    "@yoast/helpers": "workspace:^"
+    "@yoast/replacement-variable-editor": "workspace:^"
+    "@yoast/style-guide": "workspace:^"
     babel-plugin-styled-components: "npm:^2.1.4"
     browserslist: "npm:^4.7.3"
     eslint: "npm:^8.57.0"
-    eslint-config-yoast: "npm:^6.0.0"
+    eslint-config-yoast: "workspace:^"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.34.1"
@@ -11582,14 +11582,14 @@ __metadata:
     react-is: "npm:^18.2.0"
     react-transition-group: "npm:^2.7.1"
     styled-components: "npm:^5.3.6"
-    yoastseo: "npm:^2.0.0-alpha.0"
+    yoastseo: "workspace:^"
   peerDependencies:
     "@draft-js-plugins/mention": ^5.0.0
     draft-js: ^0.11.7
   languageName: unknown
   linkType: soft
 
-"@yoast/social-metadata-forms@npm:^2.0.0-alpha.0, @yoast/social-metadata-forms@workspace:packages/social-metadata-forms":
+"@yoast/social-metadata-forms@workspace:^, @yoast/social-metadata-forms@workspace:packages/social-metadata-forms":
   version: 0.0.0-use.local
   resolution: "@yoast/social-metadata-forms@workspace:packages/social-metadata-forms"
   dependencies:
@@ -11598,15 +11598,15 @@ __metadata:
     "@babel/plugin-transform-react-jsx": "npm:^7.23.4"
     "@babel/preset-env": "npm:^7.24.4"
     "@wordpress/i18n": "npm:^1.1.0"
-    "@yoast/browserslist-config": "npm:^1.2.3"
-    "@yoast/components": "npm:^3.0.0-alpha.1"
-    "@yoast/helpers": "npm:^0.17.0-alpha.0"
-    "@yoast/replacement-variable-editor": "npm:^2.0.0-alpha.0"
-    "@yoast/style-guide": "npm:^0.14.0-alpha.0"
+    "@yoast/browserslist-config": "workspace:^"
+    "@yoast/components": "workspace:^"
+    "@yoast/helpers": "workspace:^"
+    "@yoast/replacement-variable-editor": "workspace:^"
+    "@yoast/style-guide": "workspace:^"
     babel-plugin-styled-components: "npm:^2.1.4"
     browserslist: "npm:^4.7.3"
     eslint: "npm:^8.57.0"
-    eslint-config-yoast: "npm:^6.0.0"
+    eslint-config-yoast: "workspace:^"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.34.1"
@@ -11637,15 +11637,15 @@ __metadata:
     "@babel/plugin-transform-react-jsx": "npm:^7.23.4"
     "@babel/preset-env": "npm:^7.24.4"
     "@wordpress/i18n": "npm:^1.1.0"
-    "@yoast/browserslist-config": "npm:^1.2.3"
-    "@yoast/components": "npm:^3.0.0-alpha.1"
-    "@yoast/replacement-variable-editor": "npm:^2.0.0-alpha.0"
-    "@yoast/social-metadata-forms": "npm:^2.0.0-alpha.0"
-    "@yoast/style-guide": "npm:^0.14.0-alpha.0"
+    "@yoast/browserslist-config": "workspace:^"
+    "@yoast/components": "workspace:^"
+    "@yoast/replacement-variable-editor": "workspace:^"
+    "@yoast/social-metadata-forms": "workspace:^"
+    "@yoast/style-guide": "workspace:^"
     babel-plugin-styled-components: "npm:^2.1.4"
     browserslist: "npm:^4.7.3"
     eslint: "npm:^8.57.0"
-    eslint-config-yoast: "npm:^6.0.0"
+    eslint-config-yoast: "workspace:^"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.34.1"
@@ -11667,15 +11667,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@yoast/style-guide@npm:^0.14.0-alpha.0, @yoast/style-guide@workspace:packages/style-guide":
+"@yoast/style-guide@workspace:^, @yoast/style-guide@workspace:packages/style-guide":
   version: 0.0.0-use.local
   resolution: "@yoast/style-guide@workspace:packages/style-guide"
   dependencies:
     "@babel/cli": "npm:^7.24.1"
     "@babel/core": "npm:^7.24.4"
     "@babel/preset-env": "npm:^7.24.4"
-    "@yoast/browserslist-config": "npm:^1.2.3"
-    "@yoast/helpers": "npm:^0.17.0-alpha.0"
+    "@yoast/browserslist-config": "workspace:^"
+    "@yoast/helpers": "workspace:^"
     babel-plugin-styled-components: "npm:^2.1.4"
     babel-plugin-transform-object-rest-spread: "npm:^6.26.0"
     babel-preset-react: "npm:^6.24.1"
@@ -11688,7 +11688,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@yoast/tailwindcss-preset@npm:^2.3.0, @yoast/tailwindcss-preset@workspace:packages/tailwindcss-preset":
+"@yoast/tailwindcss-preset@workspace:^, @yoast/tailwindcss-preset@workspace:packages/tailwindcss-preset":
   version: 0.0.0-use.local
   resolution: "@yoast/tailwindcss-preset@workspace:packages/tailwindcss-preset"
   peerDependencies:
@@ -11698,7 +11698,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@yoast/ui-library@npm:^4.0.0, @yoast/ui-library@workspace:packages/ui-library":
+"@yoast/ui-library@workspace:^, @yoast/ui-library@workspace:packages/ui-library":
   version: 0.0.0-use.local
   resolution: "@yoast/ui-library@workspace:packages/ui-library"
   dependencies:
@@ -11729,15 +11729,15 @@ __metadata:
     "@tailwindcss/container-queries": "npm:^0.1.1"
     "@tailwindcss/forms": "npm:^0.5.3"
     "@wordpress/jest-preset-default": "npm:^11.27.0"
-    "@yoast/browserslist-config": "npm:^1.2.3"
-    "@yoast/jest-preset": "npm:^1.0.1"
-    "@yoast/postcss-preset": "npm:^1.2.0"
-    "@yoast/tailwindcss-preset": "npm:^2.3.0"
+    "@yoast/browserslist-config": "workspace:^"
+    "@yoast/jest-preset": "workspace:^"
+    "@yoast/postcss-preset": "workspace:^"
+    "@yoast/tailwindcss-preset": "workspace:^"
     babel-loader: "npm:^9.1.3"
     classnames: "npm:^2.3.2"
     css-loader: "npm:^6.11.0"
     eslint: "npm:^8.57.0"
-    eslint-config-yoast: "npm:^6.0.0"
+    eslint-config-yoast: "workspace:^"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.34.1"
@@ -11791,18 +11791,18 @@ __metadata:
     "@wordpress/rich-text": "npm:^7.0.2"
     "@wordpress/server-side-render": "npm:^1.21.1"
     "@wordpress/url": "npm:^3.17.0"
-    "@yoast/analysis-report": "npm:^2.0.0-alpha.0"
-    "@yoast/babel-preset": "npm:^1.1.1"
-    "@yoast/browserslist-config": "npm:^1.2.3"
-    "@yoast/components": "npm:^3.0.0-alpha.0"
-    "@yoast/feature-flag": "npm:^0.6.0-alpha.0"
-    "@yoast/helpers": "npm:^0.17.0-alpha.0"
-    "@yoast/jest-preset": "npm:^1.0.0"
-    "@yoast/replacement-variable-editor": "npm:^2.0.0-alpha.0"
-    "@yoast/search-metadata-previews": "npm:^3.0.0-alpha.0"
-    "@yoast/social-metadata-forms": "npm:^2.0.0-alpha.0"
-    "@yoast/style-guide": "npm:^0.14.0-alpha.0"
-    "@yoast/ui-library": "npm:^4.0.0"
+    "@yoast/analysis-report": "workspace:^"
+    "@yoast/babel-preset": "workspace:^"
+    "@yoast/browserslist-config": "workspace:^"
+    "@yoast/components": "workspace:^"
+    "@yoast/feature-flag": "workspace:^"
+    "@yoast/helpers": "workspace:^"
+    "@yoast/jest-preset": "workspace:^"
+    "@yoast/replacement-variable-editor": "workspace:^"
+    "@yoast/search-metadata-previews": "workspace:^"
+    "@yoast/social-metadata-forms": "workspace:^"
+    "@yoast/style-guide": "workspace:^"
+    "@yoast/ui-library": "workspace:^"
     a11y-speak: "git+https://github.com/Yoast/a11y-speak.git#main"
     babel-plugin-styled-components: "npm:^2.1.4"
     babel-polyfill: "npm:^6.26.0"
@@ -11812,7 +11812,7 @@ __metadata:
     classnames: "npm:^2.3.2"
     draft-js: "npm:^0.11.7"
     eslint: "npm:^8.57.0"
-    eslint-config-yoast: "npm:^6.0.0"
+    eslint-config-yoast: "workspace:^"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.34.1"
@@ -11841,7 +11841,7 @@ __metadata:
     react-test-renderer: "npm:^18.2.0"
     redux: "npm:^4.2.1"
     styled-components: "npm:^5.3.6"
-    yoastseo: "npm:^2.0.0-alpha.0"
+    yoastseo: "workspace:^"
     yup: "npm:^0.32.11"
   languageName: unknown
   linkType: soft
@@ -18713,7 +18713,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-yoast@npm:^6.0.0, eslint-config-yoast@workspace:packages/eslint":
+"eslint-config-yoast@workspace:^, eslint-config-yoast@workspace:packages/eslint":
   version: 0.0.0-use.local
   resolution: "eslint-config-yoast@workspace:packages/eslint"
   dependencies:
@@ -38584,19 +38584,19 @@ __metadata:
     "@wordpress/dependency-extraction-webpack-plugin": "npm:^4.28.0"
     "@wordpress/scripts": "npm:^26.16.0"
     "@yarnpkg/types": "npm:^4.0.0"
-    "@yoast/babel-preset": "npm:^1.1.1"
-    "@yoast/browserslist-config": "npm:^1.2.3"
+    "@yoast/babel-preset": "workspace:^"
+    "@yoast/browserslist-config": "workspace:^"
     "@yoast/grunt-plugin-tasks": "npm:^2.4.0"
-    "@yoast/postcss-preset": "npm:^1.2.0"
-    "@yoast/tailwindcss-preset": "npm:^2.3.0"
-    "@yoast/ui-library": "npm:^4.0.0"
+    "@yoast/postcss-preset": "workspace:^"
+    "@yoast/tailwindcss-preset": "workspace:^"
+    "@yoast/ui-library": "workspace:^"
     colors: "npm:1.4.0"
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^2.6.12"
     cross-env: "npm:^7.0.3"
     dotenv: "npm:^8.2.0"
     eslint: "npm:^8.57.0"
-    eslint-config-yoast: "npm:^6.0.0"
+    eslint-config-yoast: "workspace:^"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.34.1"
@@ -39075,7 +39075,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yoastseo@npm:^2.0.0-alpha.0, yoastseo@workspace:packages/yoastseo":
+"yoastseo@workspace:^, yoastseo@workspace:packages/yoastseo":
   version: 0.0.0-use.local
   resolution: "yoastseo@workspace:packages/yoastseo"
   dependencies:
@@ -39085,12 +39085,12 @@ __metadata:
     "@babel/preset-env": "npm:^7.24.4"
     "@stylistic/eslint-plugin": "npm:^1.6.3"
     "@wordpress/i18n": "npm:^4.46.0"
-    "@yoast/browserslist-config": "npm:^1.2.3"
-    "@yoast/feature-flag": "npm:^0.6.0-alpha.0"
+    "@yoast/browserslist-config": "workspace:^"
+    "@yoast/feature-flag": "workspace:^"
     blob-polyfill: "npm:^7.0.20220408"
     console.table: "npm:^0.10.0"
     eslint: "npm:^8.57.0"
-    eslint-config-yoast: "npm:^6.0.0"
+    eslint-config-yoast: "workspace:^"
     eslint-plugin-import: "npm:^2.29.1"
     grunt: "npm:^1.6.1"
     grunt-shell: "npm:^4.0.0"
