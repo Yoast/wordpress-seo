@@ -24,13 +24,13 @@
     "access": "public"
   },
   "dependencies": {
-    "@wordpress/i18n": "^1.1.0",
+    "@wordpress/i18n": "^4.51.1",
     "@yoast/components": "workspace:^",
     "@yoast/replacement-variable-editor": "workspace:^",
     "@yoast/social-metadata-forms": "workspace:^",
     "@yoast/style-guide": "workspace:^",
-    "lodash": "^4.17.11",
-    "prop-types": "^15.6.0",
+    "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",

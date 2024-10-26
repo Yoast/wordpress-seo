@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/Yoast/eslint#readme",
   "dependencies": {
-    "js-yaml": "^3.6.0"
+    "js-yaml": "^4.1.0"
   },
   "peerDependencies": {
     "eslint-plugin-import": ">=2.27.5",

@@ -45,7 +45,10 @@ const { defineConfig } = require( "@yarnpkg/types" );
  * @typedef {import("@yarnpkg/types").Yarn.Constraints.Dependency} Dependency
  */
 
-const IGNORE_CONSISTENT_DEPENDENCIES_FOR = new Set( [] );
+const IGNORE_CONSISTENT_DEPENDENCIES_FOR = new Set( [
+	".",
+	"packages/e2e-tests",
+] );
 
 /**
  * This rule will enforce that a workspace MUST depend on the same version of a dependency as the one used by the other workspaces
@@ -213,6 +216,7 @@ function enforcePeerDependencyPresence( { Yarn } ) { // eslint-disable-line comp
 
 module.exports = defineConfig( {
 	constraints: async( context ) => {
+		enforceConsistentDependenciesAcrossTheProject( context );
 		enforceWorkspaceDependenciesWhenPossible( context );
 		enforceFieldsOnAllWorkspaces( context, {
 			[ "repository.type" ]: "git",

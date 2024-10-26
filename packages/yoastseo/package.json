@@ -60,7 +60,7 @@
     "url": "https://github.com/Yoast/wordpress-seo/issues"
   },
   "dependencies": {
-    "@wordpress/i18n": "^4.46.0",
+    "@wordpress/i18n": "^4.51.1",
     "@yoast/feature-flag": "workspace:^",
     "htmlparser2": "^3.9.2",
     "lodash": "^4.17.21",

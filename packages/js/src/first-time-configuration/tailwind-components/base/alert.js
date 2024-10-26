@@ -78,7 +78,7 @@ export function FadeInAlert( { id, isVisible, expandDuration, type, children, cl
 		height={ isVisible ? "auto" : 0 }
 		easing="linear"
 		duration={ expandDuration }
-		onAnimationEnd={ startOpacityTransition }
+		onHeightAnimationEnd={ startOpacityTransition }
 	>
 		<Alert
 			type={ type }
