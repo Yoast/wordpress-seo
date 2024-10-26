@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yoast/wordpress-seo",
+    "url": "git+https://github.com/Yoast/wordpress-seo.git",
     "directory": "packages/babel-preset"
   },
   "author": "Team Yoast <support@yoast.com>",

@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "license": "GPL-3.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yoast/wordpress-seo.git",
+    "directory": "packages/js"
+  },
   "scripts": {
     "build": "cd ../.. && yarn wp-scripts build --config config/webpack/webpack.config.js",
     "test": "jest",

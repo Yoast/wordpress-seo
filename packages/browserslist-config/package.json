@@ -3,7 +3,7 @@
   "version": "1.2.3",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yoast/javascript",
+    "url": "git+https://github.com/Yoast/wordpress-seo.git",
     "directory": "packages/browserslist-config"
   },
   "description": "The browserslist configuration for Yoast projects",

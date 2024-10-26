@@ -14,7 +14,7 @@
   "version": "2.0.0-alpha.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/wordpress-seo.git",
+    "url": "git+https://github.com/Yoast/wordpress-seo.git",
     "directory": "packages/yoastseo"
   },
   "files": [

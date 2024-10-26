@@ -5,6 +5,11 @@
   "main": "index.js",
   "author": "Team Yoast",
   "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yoast/wordpress-seo.git",
+    "directory": "packages/e2e-tests"
+  },
   "scripts": {
     "test:e2e": "node run-tests.js"
   },

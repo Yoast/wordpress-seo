@@ -7,7 +7,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yoast/javascript",
+    "url": "git+https://github.com/Yoast/wordpress-seo.git",
     "directory": "packages/feature-flag"
   },
   "author": "Team Yoast",

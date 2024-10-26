@@ -11,6 +11,11 @@
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yoast/wordpress-seo.git",
+    "directory": "packages/ui-library"
+  },
   "scripts": {
     "build": "yarn clean && yarn build:js && yarn build:css",
     "build:js": "babel src --out-dir build --ignore \"src/**/*.stories.js\",\"src/**/stories.js\",\"src/**/docs/**/*.js\"",

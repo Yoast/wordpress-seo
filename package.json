@@ -14,7 +14,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/wordpress-seo"
+    "url": "git+https://github.com/Yoast/wordpress-seo.git",
+    "directory": "."
   },
   "workspaces": {
     "packages": [

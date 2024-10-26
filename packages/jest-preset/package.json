@@ -5,6 +5,11 @@
   "main": "jest-preset.js",
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yoast/wordpress-seo.git",
+    "directory": "packages/jest-preset"
+  },
   "dependencies": {
     "@wordpress/jest-preset-default": "^11.27.0",
     "babel-jest": "^29.7.0"

@@ -5,6 +5,11 @@
   "main": "index.js",
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yoast/wordpress-seo.git",
+    "directory": "packages/postcss-preset"
+  },
   "dependencies": {
     "autoprefixer": "^10.4.19",
     "cssnano": "^6.1.2",
