@@ -51,7 +51,7 @@ class SEMrush_Phrases_Action {
 			$transient_key = \sprintf( static::TRANSIENT_CACHE_KEY, $keyphrase, $database );
 			$transient     = \get_transient( $transient_key );
 
-			if ( $transient !== false ) {
+			if ( $transient !== false && isset( $transient['data']['columnNames'] ) && \count( $transient['data']['columnNames'] ) === 5 ) {
 				return $this->to_result_object( $transient );
 			}
 
@@ -59,7 +59,7 @@ class SEMrush_Phrases_Action {
 				'params' => [
 					'phrase'         => $keyphrase,
 					'database'       => $database,
-					'export_columns' => 'Ph,Nq,Td',
+					'export_columns' => 'Ph,Nq,Td,In,Kd',
 					'display_limit'  => 10,
 					'display_offset' => 0,
 					'display_sort'   => 'nq_desc',
