@@ -810,6 +810,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		if ( self::is_post_overview( $pagenow ) ) {
+			error_log( 'This is the post overview' );
 			$asset_manager->enqueue_style( 'edit-page' );
 			$asset_manager->enqueue_script( 'edit-page' );
 		}
