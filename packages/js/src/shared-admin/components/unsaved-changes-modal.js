@@ -1,6 +1,6 @@
-import { __ } from "@wordpress/i18n";
-import { Modal, Button, useSvgAria } from "@yoast/ui-library";
 import { ExclamationIcon } from "@heroicons/react/outline";
+import { __ } from "@wordpress/i18n";
+import { Button, Modal, useSvgAria } from "@yoast/ui-library";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 
@@ -8,16 +8,16 @@ import PropTypes from "prop-types";
  * The unsaved changes modal.
  *
  * @param {boolean} isOpen Whether the modal is open.
- * @param {Function} onClose The function to call when the modal is closed.
+ * @param {function} [onClose] The function to call when the modal is closed.
+ * @param {function} [onDiscard] The function to call when the changes are discarded.
  * @param {string} title The title of the modal.
  * @param {string} description The description of the modal.
- * @param {Function} onDiscard The function to call when the changes are discarded.
  * @param {string} dismissLabel The label for the dismiss button.
  * @param {string} discardLabel The label for the discard button.
  *
  * @returns {JSX.Element} The unsaved changes modal.
  */
-export const UnsavedChangesModal = ( { isOpen, onClose = noop, title, description, onDiscard, dismissLabel, discardLabel } ) => {
+export const UnsavedChangesModal = ( { isOpen, onClose = noop, onDiscard = noop, title, description, dismissLabel, discardLabel } ) => {
 	const svgAriaProps = useSvgAria();
 
 	return <Modal isOpen={ isOpen } onClose={ onClose }>
@@ -52,9 +52,9 @@ export const UnsavedChangesModal = ( { isOpen, onClose = noop, title, descriptio
 UnsavedChangesModal.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func,
+	onDiscard: PropTypes.func,
 	title: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
-	onDiscard: PropTypes.func.isRequired,
 	dismissLabel: PropTypes.string.isRequired,
 	discardLabel: PropTypes.string.isRequired,
 };
