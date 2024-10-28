@@ -4,13 +4,13 @@ import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
+import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
-import { ALERT_CENTER_NAME } from "./store/alert-center";
-import { createHashRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import App from "./app";
 import { STORE_NAME } from "./constants";
+import { AlertCenter, FirstTimeConfiguration } from "./routes";
 import registerStore from "./store";
-import { FirstTimeConfiguration, AlertCenter } from "./routes";
+import { ALERT_CENTER_NAME } from "./store/alert-center";
 
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-general" );
@@ -32,9 +32,15 @@ domReady( () => {
 		createRoutesFromElements(
 			<Route path="/" element={ <App /> }>
 				<Route path="/" element={ <AlertCenter /> } />
-				{ /* Fallback to the alert center. */ }
-				<Route path="*" element={ <AlertCenter /> } />
 				<Route path="/first-time-configuration" element={ <FirstTimeConfiguration /> } />
+				{
+					/**
+					 * Fallback route: redirect to the root (alert center).
+					 * A redirect is used to support the activePath in the menu. E.g. `pathname` matches exactly.
+					 * It replaces the current path to not introduce invalid history in the browser (that would just redirect again).
+					 */
+				}
+				<Route path="*" element={ <Navigate to="/" replace={ true } /> } />
 			</Route>
 		)
 	);
