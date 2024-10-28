@@ -53,7 +53,7 @@
     "@yoast/tailwindcss-preset": "^2.3.0",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
-    "eslint": "^9.13.0",
+    "eslint": "^8.57.0",
     "eslint-config-yoast": "^6.0.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -69,11 +69,8 @@
     "classnames": "^2.5.1",
     "@heroicons/react": "^2.1.5",
     "@wordpress/i18n": "^5.10.0",
-    "@yoast/ui-library": "^4.0.0",
     "lodash": "^4.17.21",
-    "prop-types": "^15.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "prop-types": "^15.8.1"
   },
   "peerDependencies": {
     "@yoast/ui-library": "^4.0.0",
