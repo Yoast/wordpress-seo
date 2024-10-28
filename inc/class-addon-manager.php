@@ -816,8 +816,8 @@ class WPSEO_Addon_Manager {
 	 */
 	protected function map_site_information( $site_information ) {
 		return (object) [
-			'url'           => $site_information->url,
-			'subscriptions' => array_map( [ $this, 'map_subscription' ], $site_information->subscriptions ),
+			'url'           => $site_information->url ?? null,
+			'subscriptions' => array_map( [ $this, 'map_subscription' ], $site_information->subscriptions ?? [] ),
 		];
 	}
 
@@ -831,17 +831,16 @@ class WPSEO_Addon_Manager {
 	protected function map_subscription( $subscription ) {
 		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Not our properties.
 		return (object) [
-			'renewal_url' => $subscription->renewalUrl,
-			'expiry_date' => $subscription->expiryDate,
+			'renewal_url' => $subscription->renewalUrl ?? null,
+			'expiry_date' => $subscription->expiryDate ?? null,
 			'product'     => (object) [
-				'version'      => $subscription->product->version,
-				'name'         => $subscription->product->name,
-				'slug'         => $subscription->product->slug,
-				'last_updated' => $subscription->product->lastUpdated,
-				'store_url'    => $subscription->product->storeUrl,
-				// Ternary operator is necessary because download can be undefined.
-				'download'     => ( $subscription->product->download ?? null ),
-				'changelog'    => $subscription->product->changelog,
+				'version'      => $subscription->product->version ?? null,
+				'name'         => $subscription->product->name ?? null,
+				'slug'         => $subscription->product->slug ?? null,
+				'last_updated' => $subscription->product->lastUpdated ?? null,
+				'store_url'    => $subscription->product->storeUrl ?? null,
+				'download'     => $subscription->product->download ?? null,
+				'changelog'    => $subscription->product->changelog ?? null,
 			],
 		];
 		// phpcs:enable
