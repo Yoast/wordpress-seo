@@ -75,7 +75,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_box' ] );
 		// Enqueue metabox assets for the block editor.
-		add_action( 'enqueue_block_assets', [ $this, 'enqueue' ] );
+		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue' ] );
 		// Enqueue metabox assets for other editors.
 		add_action( 'admin_enqueue_scripts', [ $this, 'maybe_enqueue_assets_non_block_editor' ] );
 
