@@ -843,11 +843,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return void
 	 */
 	public function enqueue() {
-		if ( $this->display_metabox() === false ) {
-			return;
-		}
+		global $pagenow;
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
+
+		$is_editor = self::is_post_overview( $pagenow ) || self::is_post_edit( $pagenow );
+
+		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
+		if ( ( $is_editor === false && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->display_metabox() === false ) {
+			return;
+		}
 
 		$post_id = get_queried_object_id();
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
