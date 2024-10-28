@@ -103,7 +103,7 @@ export const Factory = {
 		</div>,
 };
 
-export const LoadingTable = () => <div className="yst-max-w-3xl yst-px-8"><KeyphrasesTable  /></div>;
+export const LoadingTable = () => <div className="yst-max-w-3xl yst-px-8"><KeyphrasesTable renderButton={ noop } /></div>;
 
 export const WithoutPremium = () => <div className="yst-max-w-3xl yst-px-8"><KeyphrasesTable data={ Factory.args.data } /></div>;
 
