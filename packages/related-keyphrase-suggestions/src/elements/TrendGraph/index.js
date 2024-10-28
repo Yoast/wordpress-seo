@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 /* Internal dependencies */
@@ -52,7 +52,7 @@ const TrendGraph = ( {
 	const polygonPoints = `0,${ chartHeight + strokeWidth } ` + polylinePoints + ` ${ width },${ chartHeight + strokeWidth }`;
 
 	return (
-		<Fragment>
+		<>
 			<svg
 				width={ 66 }
 				height={ 24 }
@@ -78,7 +78,7 @@ const TrendGraph = ( {
 
 			<TrendGraphScreenReader data={ data } />
 
-		</Fragment>
+		</>
 	);
 };
 

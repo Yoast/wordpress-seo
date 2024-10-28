@@ -1,3 +1,4 @@
+import React from "react";
 import { Root } from "@yoast/ui-library";
 import "./style.css";
 
