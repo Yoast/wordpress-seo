@@ -297,7 +297,7 @@ export default function FirstTimeConfigurationSteps() {
 				finishSteps( STEPS.socialProfiles );
 			} )
 			.then( () => {
-				window.wpseoFirstTimeConfigurationData =  { ...window.wpseoFirstTimeConfigurationData, socialProfiles: state.socialProfiles };
+				window.wpseoFirstTimeConfigurationData.socialProfiles = state.socialProfiles;
 				return true;
 			} )
 			.catch(
