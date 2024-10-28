@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+/* global wpseoFirstTimeConfigurationData */
 
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
@@ -16,6 +17,7 @@ import { getMigratingNoticeInfo, deleteMigratingNotices } from "../helpers/migra
 import Notice from "./components/notice";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
 import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
+import { STEPS as FTC_STEPS } from "../first-time-configuration/constants";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -68,7 +70,11 @@ Menu.propTypes = {
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
-	const notices = useMemo( getMigratingNoticeInfo, [] );
+	// If the last step of the First-time configuration has been completed, we remove the First-time configuration notice.
+	const notices =  wpseoFirstTimeConfigurationData.finishedSteps.includes( FTC_STEPS.personalPreferences )
+		? useMemo( getMigratingNoticeInfo, [] ).filter(  notice => notice.id !== "yoast-first-time-configuration-notice" )
+		: useMemo( getMigratingNoticeInfo, [] );
+
 	useEffect( () => {
 		deleteMigratingNotices( notices );
 	}, [ notices ] );

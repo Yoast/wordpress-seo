@@ -19,18 +19,6 @@ export const AlertCenter = () => {
 	const academyLink = useSelectGeneralPage( "selectLink", [], "https://yoa.st/3t6" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
 
-	/**
-	 * Removes the first time configuration notice when the the last step has been completed.
-	 */
-	useEffect( () => {
-		if ( window.wpseoFirstTimeConfigurationData.finishedSteps.includes( "personalPreferences" ) )  {
-			const firstTimeConfigurationNotice = document.getElementById( "yoast-first-time-configuration-notice" );
-			if ( firstTimeConfigurationNotice ) {
-				firstTimeConfigurationNotice.remove();
-			}
-		}
-	}, [] );
-
 	return <div className="yst-flex yst-gap-6 xl:yst-flex-row yst-flex-col">
 		<div className="yst-@container yst-flex yst-flex-wrap yst-flex-grow yst-flex-col">
 			<Paper className="yst-grow">
