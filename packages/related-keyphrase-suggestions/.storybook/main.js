@@ -6,9 +6,6 @@ function getAbsolutePath( value ) {
 
 const config = {
 	stories: [
-		"../src/introduction.stories.mdx",
-		"../src/installation.stories.mdx",
-		"../src/contributing.stories.mdx",
 		"../src/changelog.stories.mdx",
 		"../src/**/*.stories.@(js|mdx)",
 		"../src/**/stories.@(js|mdx)",
@@ -16,7 +13,8 @@ const config = {
 	addons: [
 		getAbsolutePath( "@storybook/addon-links" ),
 		getAbsolutePath( "@storybook/addon-essentials" ),
-		getAbsolutePath( "@storybook/addon-a11y" ),
+		
+		( "@storybook/addon-a11y" ),
 		{
 			name: getAbsolutePath( "@storybook/addon-styling-webpack" ),
 			options: {
