@@ -9,7 +9,7 @@ module.exports = ( api ) => ( {
 		"@babel/preset-react",
 	],
 	plugins: [
-		"@babel/plugin-proposal-optional-chaining",
+		"@babel/plugin-transform-optional-chaining",
 		"@babel/plugin-transform-runtime",
 	],
 	sourceType: "unambiguous",

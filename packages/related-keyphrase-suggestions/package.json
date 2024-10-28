@@ -30,7 +30,7 @@
     "@babel/eslint-parser": "^7.23.9",
     "@babel/eslint-plugin": "^7.23.5",
     "@babel/parser": "^7.23.9",
-    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
+    "@babel/plugin-transform-optional-chaining": "^7.21.0",
     "@babel/plugin-transform-runtime": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-react": "^7.23.3",
