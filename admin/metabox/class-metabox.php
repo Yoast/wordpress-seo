@@ -74,11 +74,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_box' ] );
-		// Enqueue metabox assets for the block editor.
 		add_action( 'enqueue_block_assets', [ $this, 'enqueue' ] );
-		// Enqueue metabox assets for other editors.
-		add_action( 'admin_enqueue_scripts', [ $this, 'maybe_enqueue_assets_non_block_editor' ] );
-
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_post_overview_assets' ] );
 		add_action( 'wp_insert_post', [ $this, 'save_postdata' ] );
 		add_action( 'edit_attachment', [ $this, 'save_postdata' ] );
@@ -817,20 +813,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$asset_manager->enqueue_style( 'edit-page' );
 			$asset_manager->enqueue_script( 'edit-page' );
 		}
-	}
-
-	/**
-	 * Checks to make sure the current editor used is not the block editor to enqueue all needed assets.
-	 * If it is the block editor the assets are already enqueued in the `enqueue_block_assets` action.
-	 *
-	 * @return void
-	 */
-	public function maybe_enqueue_assets_non_block_editor(): void {
-		if ( WP_Screen::get()->is_block_editor() ) {
-			return;
-		}
-
-		$this->enqueue();
 	}
 
 	/**
