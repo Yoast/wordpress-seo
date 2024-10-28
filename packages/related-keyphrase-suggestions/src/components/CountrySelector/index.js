@@ -12,8 +12,8 @@ const id = "yst-semrush-country-selector";
 
 /**
  * List of all available database countries for the Semrush API.
- * See: https://www.semrush.com/api-analytics/#databases
- * @type {*[]}
+@link https://www.semrush.com/api-analytics/#databases
+@type {{value: string, id: string, label: string}[]}
  */
 const countries = [
 	{ value: "us", id: "country-us", label: "United States - US" },
