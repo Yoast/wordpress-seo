@@ -55,6 +55,17 @@ module.exports = {
 			"error",
 			"always",
 		],
+		"import/no-unresolved": [
+			"error",
+			{
+				ignore: [
+					// Ignore UI library, or we have to build the code before linting.
+					// Because `main` in `package.json` points to the `build/index.js` (in the UI library), which is not present before building.
+					// As we are dealing with our source, not the actual NPM download, due to the monorepo setup.
+					"^@yoast/ui-library",
+				],
+			},
+		],
 	},
 	overrides: [
 		{
