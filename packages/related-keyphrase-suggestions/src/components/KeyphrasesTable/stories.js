@@ -1,13 +1,16 @@
 import React from "react";
+import { noop } from "lodash";
 import KeyphrasesTable from ".";
 import { component } from "./docs";
+import TableButton from "../../elements/TableButton";
 
 export const Factory = {
 	parameters: {
 		controls: { disable: false },
 	},
 	args: {
-		isPremium: true,
+		renderButton: () => <TableButton type="add" onAdd={ noop } onRemove={ noop } />,
+		relatedKeyphrases: [],
 		data: {
 			results: {
 				columnNames: [ "Keyword", "Search Volume", "Trends", "Keyword Difficulty Index", "Intent" ],
@@ -94,21 +97,23 @@ export const Factory = {
 			},
 		},
 	},
-	render: ( { data, isPremium } ) =>
+	render: ( args ) =>
 		<div className="yst-max-w-3xl yst-px-8">
-			<KeyphrasesTable data={ data } isPremium={ isPremium } />
+			<KeyphrasesTable { ...args } />
 		</div>,
 };
 
-export const LoadingTable = () => <div className="yst-max-w-3xl yst-px-8"><KeyphrasesTable isPremium={ true } /></div>;
+export const LoadingTable = () => <div className="yst-max-w-3xl yst-px-8"><KeyphrasesTable  /></div>;
 
-export const WithoutPremium = () => <div className="yst-max-w-3xl yst-px-8"><KeyphrasesTable data={ Factory.args.data } isPremium={ false } /></div>;
+export const WithoutPremium = () => <div className="yst-max-w-3xl yst-px-8"><KeyphrasesTable data={ Factory.args.data } /></div>;
 
 export default {
 	title: "1) Components/KeyphrasesTable",
 	component: KeyphrasesTable,
 	argTypes: {
-		rows: { control: "array" },
+		renderButton: { control: "object" },
+		relatedKeyphrases: { control: "array" },
+		data: { control: "object" },
 	},
 	parameters: {
 		docs: {
