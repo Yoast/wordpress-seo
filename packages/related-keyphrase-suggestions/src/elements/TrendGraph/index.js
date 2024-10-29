@@ -5,23 +5,15 @@ import TrendGraphScreenReader from "./TrendGraphScreenReader";
 /**
  * Renders a SVG area chart.
  *
- * @param {array}    data                      Array of objects with X and Y coordinates for the SVG chart points.
- * @param {number}   width                     The SVG chart width.
- * @param {number}   height                    The SVG chart height.
- * @param {string}   fillColor                 The SVG chart area background color in HEX format.
- * @param {string}   strokeColor               The SVG chart line color in HEX format.
- * @param {number}   strokeWidth               The SVG chart line width.
+ * @param {array} data Array of objects with X and Y coordinates for the SVG chart points.
  *
  * @returns {JSX.Element} The SVG area chart component.
  */
-const TrendGraph = ( {
-	data,
-	width = 66,
-	height = 24,
-	fillColor = "#ade3fc",
-	strokeColor = "#498afc",
-	strokeWidth = 1.8,
-} ) => {
+const TrendGraph = ( { data } ) => {
+	const width = 66;
+	const height = 24;
+	const strokeWidth = 1.8;
+
 	if ( data.length !== 12 ) {
 		const missingLength = 12 - data.length;
 
@@ -52,21 +44,21 @@ const TrendGraph = ( {
 	return (
 		<>
 			<svg
-				width={ 66 }
-				height={ 24 }
-				viewBox={ "0 0 66 24" }
+				width={ width }
+				height={ height }
+				viewBox={ `0 0 ${ width } ${ height }` }
 				className="yst-block"
 				role="img"
 				aria-hidden="true"
 				focusable="false"
 			>
 				<polygon
-					fill={ fillColor }
+					className="yst-fill-sky-200"
 					points={ polygonPoints }
 				/>
 				<polyline
 					fill="none"
-					stroke={ strokeColor }
+					className="yst-stroke-blue-500"
 					strokeWidth={ strokeWidth }
 					strokeLinejoin="round"
 					strokeLinecap="round"
@@ -82,11 +74,6 @@ const TrendGraph = ( {
 
 TrendGraph.propTypes = {
 	data: PropTypes.arrayOf( PropTypes.number ).isRequired,
-	width: PropTypes.number,
-	height: PropTypes.number,
-	fillColor: PropTypes.string,
-	strokeColor: PropTypes.string,
-	strokeWidth: PropTypes.number,
 };
 
 export default TrendGraph;
