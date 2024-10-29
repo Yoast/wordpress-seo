@@ -1,4 +1,3 @@
-/* global wpseoFirstTimeConfigurationData */
 import apiFetch from "@wordpress/api-fetch";
 import { useCallback, useReducer, useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -159,7 +158,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
  * @returns {WPElement} The FirstTimeConfigurationSteps component.
  */
 export default function FirstTimeConfigurationSteps() {
-	const [ finishedSteps, setFinishedSteps ] = useState( wpseoFirstTimeConfigurationData.finishedSteps );
+	const [ finishedSteps, setFinishedSteps ] = useState( window.wpseoFirstTimeConfigurationData.finishedSteps );
 
 	const isStepFinished = useCallback( ( stepId ) => {
 		return finishedSteps.includes( stepId );
@@ -171,11 +170,11 @@ export default function FirstTimeConfigurationSteps() {
 
 	useEffect( () => {
 		saveFinishedSteps( finishedSteps );
-		wpseoFirstTimeConfigurationData.finishedSteps = finishedSteps;
+		window.wpseoFirstTimeConfigurationData.finishedSteps = finishedSteps;
 	}, [ finishedSteps ] );
 
 	const [ state, dispatch ] = useReducer( configurationReducer, {
-		...calculateInitialState( wpseoFirstTimeConfigurationData, isStepFinished ),
+		...calculateInitialState( window.wpseoFirstTimeConfigurationData, isStepFinished ),
 	} );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "already_done" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
@@ -257,7 +256,7 @@ export default function FirstTimeConfigurationSteps() {
 				setErrorFields( [] );
 				removeStepError( STEPS.siteRepresentation );
 				finishSteps( STEPS.siteRepresentation );
-				wpseoFirstTimeConfigurationData.siteRepresentation = state.siteRepresentation;
+				window.wpseoFirstTimeConfigurationData = { ...window.wpseoFirstTimeConfigurationData,  ...state }
 				return true;
 			} )
 			.catch( ( e ) => {
@@ -297,7 +296,7 @@ export default function FirstTimeConfigurationSteps() {
 				finishSteps( STEPS.socialProfiles );
 			} )
 			.then( () => {
-				wpseoFirstTimeConfigurationData.socialProfiles = state.socialProfiles;
+				window.wpseoFirstTimeConfigurationData.socialProfiles = state.socialProfiles;
 				return true;
 			} )
 			.catch(
@@ -323,7 +322,7 @@ export default function FirstTimeConfigurationSteps() {
 			.then( () => finishSteps( STEPS.personalPreferences ) )
 			.then( () => {
 				removeStepError( STEPS.personalPreferences );
-				wpseoFirstTimeConfigurationData.tracking = state.tracking;
+				window.wpseoFirstTimeConfigurationData.tracking = state.tracking;
 				return true;
 			} )
 			.catch( e => {
