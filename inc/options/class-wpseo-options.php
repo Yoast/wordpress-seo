@@ -279,7 +279,7 @@ class WPSEO_Options {
 	 * @return mixed Returns value if found, $default_value if not.
 	 */
 	public static function get( $key, $default_value = null, $option_groups = [] ) {
-		if ( ! isset( static::$option_values[ $key ] ) || static::$option_values[ $key ] === null ) {
+		if ( ! isset( static::$option_values[ $key ] ) ) {
 			static::prime_cache( $option_groups );
 		}
 		if ( isset( static::$option_values[ $key ] ) ) {
