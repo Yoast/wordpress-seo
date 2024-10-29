@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { Button, Select } from "@yoast/ui-library";
@@ -131,6 +131,11 @@ const COUNTRIES = [
 /**
  * The Country Selector component.
  *
+ * @param {string} countryCode The country code.
+ * @param {string} activeCountryCode The active country code.
+ * @param {Function} onChange The change handler.
+ * @param {Function} onSelect The select handler.
+ *
  * @returns {JSX.Element} The country selector.
  */
 const CountrySelector = (
@@ -141,28 +146,11 @@ const CountrySelector = (
 		onSelect,
 	},
 ) => {
-	const [ buttonVariant, setButtonVariant ] = useState( "secondary" );
-
-	useEffect( () => {
-		if ( activeCountryCode === countryCode ) {
-			setButtonVariant( "secondary" );
-			return;
-		}
-
-		setButtonVariant( "primary" );
-	}, [ activeCountryCode, countryCode ] );
-
-	/**
-	 * Renders the Country Selector.
-	 *
-	 * @returns {JSX.Element} The Country Selector.
-	 */
-
 	return (
 		<div className="yst-flex yst-items-end yst-mb-4">
 			<div className="yst-w-1/2">
 				<Select
-					id="yst-country-selector-select"
+					id="yst-country-selector__select"
 					label={ __( "Show results for:", "wordpress-seo" ) }
 					options={ COUNTRIES }
 					value={ countryCode }
@@ -170,10 +158,10 @@ const CountrySelector = (
 				/>
 			</div>
 			<Button
-				id="yst-country-selector-button"
+				id="yst-country-selector__button"
 				className="yst-ml-2"
 				size="large"
-				variant={ buttonVariant }
+				variant={ activeCountryCode === countryCode ? "secondary" : "primary" }
 				onClick={ onSelect }
 			>{ __( "Change country", "wordpress-seo" ) }</Button>
 		</div>
