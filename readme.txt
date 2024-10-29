@@ -287,6 +287,10 @@ Release date: 2024-11-05
 
 * Fixes a bug in our Elementor integration where previously saved slug values of drafts would be ignored.
 
+#### Other
+
+* Sets the _WordPress tested up to_ version to 6.7
+
 = 23.7 =
 
 Release date: 2024-10-22
