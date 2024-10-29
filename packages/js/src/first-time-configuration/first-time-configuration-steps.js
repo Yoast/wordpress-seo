@@ -171,11 +171,11 @@ export default function FirstTimeConfigurationSteps() {
 
 	useEffect( () => {
 		saveFinishedSteps( finishedSteps );
-		window.wpseoFirstTimeConfigurationData.finishedSteps = finishedSteps;
+		wpseoFirstTimeConfigurationData.finishedSteps = finishedSteps;
 	}, [ finishedSteps ] );
 
 	const [ state, dispatch ] = useReducer( configurationReducer, {
-		...calculateInitialState( window.wpseoFirstTimeConfigurationData, isStepFinished ),
+		...calculateInitialState( wpseoFirstTimeConfigurationData, isStepFinished ),
 	} );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "already_done" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
@@ -257,7 +257,7 @@ export default function FirstTimeConfigurationSteps() {
 				setErrorFields( [] );
 				removeStepError( STEPS.siteRepresentation );
 				finishSteps( STEPS.siteRepresentation );
-				window.wpseoFirstTimeConfigurationData.siteRepresentation = state.siteRepresentation;
+				wpseoFirstTimeConfigurationData =  { ...wpseoFirstTimeConfigurationData, siteRepresentation: state.siteRepresentation };
 				return true;
 			} )
 			.catch( ( e ) => {
@@ -297,7 +297,7 @@ export default function FirstTimeConfigurationSteps() {
 				finishSteps( STEPS.socialProfiles );
 			} )
 			.then( () => {
-				window.wpseoFirstTimeConfigurationData.socialProfiles = state.socialProfiles;
+				wpseoFirstTimeConfigurationData.socialProfiles = state.socialProfiles;
 				return true;
 			} )
 			.catch(
@@ -323,7 +323,7 @@ export default function FirstTimeConfigurationSteps() {
 			.then( () => finishSteps( STEPS.personalPreferences ) )
 			.then( () => {
 				removeStepError( STEPS.personalPreferences );
-				window.wpseoFirstTimeConfigurationData.tracking = state.tracking;
+				wpseoFirstTimeConfigurationData.tracking = state.tracking;
 				return true;
 			} )
 			.catch( e => {
