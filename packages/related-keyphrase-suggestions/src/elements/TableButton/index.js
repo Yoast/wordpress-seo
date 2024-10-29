@@ -98,7 +98,7 @@ const TableButton = ( { type = "add", onRemove, onAdd, disabled = false } ) => {
 		<Button
 			variant={ variants[ buttonType ].button.variant }
 			size="small"
-			className="yst-keyphrase-button"
+			className="yst-table-button"
 			onClick={ onClick }
 			disabled={ disabled }
 		>
