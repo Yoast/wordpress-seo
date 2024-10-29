@@ -6,7 +6,7 @@ import { Tooltip, useToggleState } from "@yoast/ui-library";
 
 
 const variants = [
-	{ 	
+	{
 		min: 0,
 		max: 14,
 		name: "very-easy",
@@ -15,8 +15,8 @@ const variants = [
 			description: __( "Your chance to start ranking new pages.", "wordpress-seo" ),
 		},
 	},
-	{ 
-		min: 15, 
+	{
+		min: 15,
 		max: 29,
 		name: "easy",
 		tooltip: {
@@ -24,35 +24,35 @@ const variants = [
 			description: __( "You will need quality content focused on the keyword’s intent.", "wordpress-seo" ),
 		},
 	},
-	{ 
-		min: 30, 
-		max: 49, 
+	{
+		min: 30,
+		max: 49,
 		name: "possible",
 		tooltip: {
 			title: __( "Possible", "wordpress-seo" ),
 			description: __( "You will need well-structured and unique content.", "wordpress-seo" ),
 		},
 	},
-	{ 
-		min: 50, 
-		max: 69, 
+	{
+		min: 50,
+		max: 69,
 		name: "difficult",
 		tooltip: {
 			title: __( "Difficult", "wordpress-seo" ),
 			description: __( "You will need lots of ref. domains and optimized content.", "wordpress-seo" ),
 		},
 	},
-	{ 
-		min: 70, 
-		max: 84, 
+	{
+		min: 70,
+		max: 84,
 		name: "hard",
 		tooltip: {
 			title: __( "Hard", "wordpress-seo" ),
 			description: __( "You will need lots of high-quality ref. domains and optimized content.", "wordpress-seo" ),
 		},
 	},
-	{ 
-		min: 85, 
+	{
+		min: 85,
 		max: 100,
 		name: "very-hard",
 		tooltip: {
