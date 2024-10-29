@@ -13,7 +13,6 @@ export const Factory = {
 export default {
 	title: "2) Elements/TrendGraph",
 	component: TrendGraph,
-	argTypes: {},
 	parameters: {
 		docs: {
 			description: { component },

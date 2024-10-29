@@ -12,9 +12,6 @@ export const Factory = {
 	argTypes: {
 		value: {
 			description: "The percentage of difficulty.",
-			control: {
-				type: "number",
-			},
 		},
 	},
 	render: ( { value } ) => (
@@ -33,9 +30,6 @@ export const Factory = {
 export default {
 	title: "2) Elements/DifficultyBullet",
 	component: DifficultyBullet,
-	argTypes: {
-		value: { control: "text" },
-	},
 	parameters: {
 		docs: {
 			description: { component },

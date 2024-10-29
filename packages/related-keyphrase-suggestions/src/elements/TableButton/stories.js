@@ -16,9 +16,6 @@ export const Factory = {
 	argTypes: {
 		type: {
 			description: "The keyphrase table button type.",
-			control: {
-				type: "text",
-			},
 		},
 	},
 	render: ( { disabled } ) => {

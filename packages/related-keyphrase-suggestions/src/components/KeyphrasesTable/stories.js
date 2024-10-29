@@ -92,9 +92,6 @@ export const Factory = {
 	argTypes: {
 		data: {
 			description: "Array of keyphrase objects, contain keyphrase, intent, volume, trend, and difficulty.",
-			control: {
-				type: "object",
-			},
 		},
 	},
 	render: ( args ) =>
@@ -110,11 +107,6 @@ export const WithoutPremium = () => <div className="yst-max-w-3xl yst-px-8"><Key
 export default {
 	title: "1) Components/KeyphrasesTable",
 	component: KeyphrasesTable,
-	argTypes: {
-		renderButton: { control: "object" },
-		relatedKeyphrases: { control: "array" },
-		data: { control: "object" },
-	},
 	parameters: {
 		docs: {
 			description: { component },

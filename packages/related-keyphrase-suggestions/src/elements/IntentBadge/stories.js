@@ -12,9 +12,6 @@ export const Factory = {
 	argTypes: {
 		initial: {
 			description: "Initial of the intent",
-			control: {
-				type: "string",
-			},
 		},
 	},
 	render: ( { initial } ) => (
@@ -30,9 +27,6 @@ export const Factory = {
 export default {
 	title: "2) Elements/IntentBadge",
 	component: IntentBadge,
-	argTypes: {
-		initial: "text",
-	},
 	args: {
 		initial: "i",
 	},
