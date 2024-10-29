@@ -47,17 +47,13 @@ export default class ListAssessment extends Assessment {
 	 */
 	findList( paper ) {
 		const foundLists = paper.getTree().findAll( node => node.name === "ul" || node.name === "ol" );
+		/*
+		This is a helper function to check if a list is not empty.
+		A list is not empty if it has at least one <li> child with paragraph node.
+		*/
+		const isListNotEmpty = list => list.childNodes.some( child => child.name === "li" && child.childNodes.some( node => node.name === "p" ) );
 
-		for ( const list of foundLists ) {
-			for ( const child of list.childNodes ) {
-				// A list is not empty if it has at least one <li> child with text.
-				if ( child.name === "li" && child.childNodes.some( node => node.name === "p" ) ) {
-					return true;
-				}
-			}
-		}
-
-		return false;
+		return foundLists.some( isListNotEmpty );
 	}
 
 	/**
