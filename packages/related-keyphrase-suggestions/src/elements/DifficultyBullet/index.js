@@ -98,7 +98,7 @@ const DifficultyBullet = ( { value } ) => {
 
 	const variant = getVariant( value );
 
-	const variantClass = `yst-difficulty-${ variant.name }`;
+	const variantClass = `yst-difficulty--${ variant.name }`;
 
 	return (
 		<div
@@ -113,13 +113,13 @@ const DifficultyBullet = ( { value } ) => {
 			<div
 				className={
 					classNames(
-						"yst-w-[11px] yst-h-[11px] yst-rounded-full",
+						"yst-w-3 yst-h-3 yst-rounded-full",
 						variantClass,
 					) }
 			/>
 
 			{ isVisible && <Tooltip
-				className="yst-flex yst-flex-col yst-max-w-[180px] yst-text-[11px] yst-leading-4 yst-font-normal"
+				className="yst-flex yst-flex-col yst-max-w-40 yst-text-xs yst-leading-4 yst-font-normal"
 			>
 				<span className="yst-font-medium">{ variant.tooltip.title } </span>
 				{ variant.tooltip.description }
