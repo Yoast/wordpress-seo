@@ -63,6 +63,32 @@ describe( "a test for an assessment that checks whether a paper contains a list 
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: " +
 			"There is at least one list on this page. Great!" );
 	} );
+	it( "should exclude empty list: it has <li> items but they don't have any text", function() {
+		const mockPaper = new Paper( "This is a text with a list <ul style=\"list-style-type:disc\">\n" +
+			"  <li></li>\n" +
+			"</ul> and more text after the list" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const assessment = listAssessment.getResult( mockPaper );
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: No lists appear on this page. <a href='https://yoa.st/shopify39' target='_blank'>Add at least one ordered or unordered list</a>!" );
+	} );
+	it( "should not exclude a list if at least one of the <li> items has text", function() {
+		const mockPaper = new Paper( "This is a text with a list <ul style=\"list-style-type:disc\">\n" +
+			"  <li></li>\n" +
+			"  <li>test</li>\n" +
+			"</ul> and more text after the list" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const assessment = listAssessment.getResult( mockPaper );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: " +
+			"There is at least one list on this page. Great!" );
+	} );
 } );
 
 describe( "tests for the assessment applicability.", function() {
