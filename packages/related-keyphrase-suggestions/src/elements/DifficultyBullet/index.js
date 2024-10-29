@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
-import { Tooltip } from "@yoast/ui-library";
+import { Tooltip, useToggleState } from "@yoast/ui-library";
 
 const veryEasy = {
 	name: "very-easy",
@@ -84,17 +84,7 @@ const getVariant = ( value ) => {
  * @returns {JSX.Element} The percentage of difficulty with a bullet with matching color.
  */
 export const DifficultyBullet = ( { value } ) => {
-	const [ isVisible, setIsVisible ] = useState( false );
-
-	const handleMouseEnter = useCallback(
-		() => setIsVisible( true ),
-		[ setIsVisible ],
-	);
-
-	const handleMouseLeave = useCallback(
-		() => setIsVisible( false ),
-		[ setIsVisible ],
-	);
+	const [ isVisible, , , handleMouseEnter, handleMouseLeave ] = useToggleState( false );
 
 	const variant = getVariant( value );
 
@@ -119,7 +109,7 @@ export const DifficultyBullet = ( { value } ) => {
 			/>
 
 			{ isVisible && <Tooltip
-				className="yst-flex yst-flex-col yst-max-w-40 yst-text-xs yst-leading-4 yst-font-normal"
+				className="yst-flex yst-flex-col yst-max-w-[180px] yst-text-xs yst-leading-4 yst-font-normal"
 			>
 				<span className="yst-font-medium">{ variant.tooltip.title } </span>
 				{ variant.tooltip.description }

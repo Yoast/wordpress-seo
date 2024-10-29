@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { Tooltip } from "@yoast/ui-library";
+import { Tooltip, useToggleState } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 
 const variants = {
@@ -30,16 +30,7 @@ const variants = {
  * @returns {JSX.Element} The colored initial badge.
  */
 export const IntentBadge = ( { initial } ) => {
-	const [ isVisible, setIsVisible ] = useState( false );
-	const handleMouseEnter = useCallback(
-		() => setIsVisible( true ),
-		[ setIsVisible ],
-	);
-	const handleMouseLeave = useCallback(
-		() => setIsVisible( false ),
-		[ setIsVisible ],
-	);
-
+	const [ isVisible, , , handleMouseEnter, handleMouseLeave ] = useToggleState( false );
 
 	if ( ! variants[ initial ] ) {
 		return null;
