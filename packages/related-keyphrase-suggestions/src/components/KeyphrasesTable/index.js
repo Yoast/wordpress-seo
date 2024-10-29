@@ -43,7 +43,7 @@ const KeyphrasesTableRow = ( { keyword, searchVolume, trends, keywordDifficultyI
 			<Table.Cell>
 				<DifficultyBullet value={ keywordDifficultyIndex } />
 			</Table.Cell>
-			{ renderButton && <Table.Cell className="yst-flex yst-justify-center yst-w-[124px]">
+			{ renderButton && <Table.Cell className="yst-flex yst-justify-end yst-w-32">
 				{ renderButton( keyword, relatedKeyphrases ) }
 			</Table.Cell> }
 		</Table.Row>
