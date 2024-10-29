@@ -15,14 +15,14 @@ export const Factory = {
 		},
 	},
 	render: ( { value } ) => (
-		<div className="yst-flex yst-gap-10 yst-pt-14 yst-justify-center">
+		<>
 			<DifficultyBullet value={ value } />
 			<DifficultyBullet value={ 20 } />
 			<DifficultyBullet value={ 35 } />
 			<DifficultyBullet value={ 55 } />
 			<DifficultyBullet value={ 73 } />
 			<DifficultyBullet value={ 90 } />
-		</div>
+		</>
 	),
 };
 
@@ -35,4 +35,11 @@ export default {
 			description: { component },
 		},
 	},
+	decorators: [
+		( Story ) => (
+			<div className="yst-flex yst-gap-10 yst-pt-14 yst-justify-center">
+				<Story />
+			</div>
+		),
+	],
 };

@@ -19,10 +19,10 @@ export const Factory = {
 		},
 	},
 	render: ( { disabled } ) => {
-		return <div className="yst-flex yst-gap-2">
+		return <>
 			<TableButton type="add" onAdd={ noop } onRemove={ noop } disabled={ disabled } />
 			<TableButton type="remove" onAdd={ noop } onRemove={ noop } disabled={ disabled } />
-		</div>;
+		</>;
 	},
 };
 
@@ -34,4 +34,11 @@ export default {
 			description: { component },
 		},
 	},
+	decorators: [
+		( Story ) => (
+			<div className="yst-flex yst-gap-2">
+				<Story />
+			</div>
+		),
+	],
 };

@@ -1,3 +1,4 @@
+import React from "react";
 import { CountrySelector } from ".";
 import { component } from "./docs";
 import { noop } from "lodash";
@@ -22,4 +23,12 @@ export default {
 			description: { component },
 		},
 	},
+	decorators: [
+		( Story ) => (
+			// Min height to make room for options dropdown.
+			<div className="yst-min-h-[300px]">
+				<Story />
+			</div>
+		),
+	],
 };

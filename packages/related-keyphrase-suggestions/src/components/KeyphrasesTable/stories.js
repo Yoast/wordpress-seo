@@ -94,15 +94,12 @@ export const Factory = {
 			description: "Array of keyphrase objects, contain keyphrase, intent, volume, trend, and difficulty.",
 		},
 	},
-	render: ( args ) =>
-		<div className="yst-max-w-3xl yst-px-8">
-			<KeyphrasesTable { ...args } />
-		</div>,
+	render: ( args ) => <KeyphrasesTable { ...args } />,
 };
 
-export const LoadingTable = () => <div className="yst-max-w-3xl yst-px-8"><KeyphrasesTable renderButton={ noop } /></div>;
+export const LoadingTable = () => <KeyphrasesTable renderButton={ noop } />;
 
-export const WithoutPremium = () => <div className="yst-max-w-3xl yst-px-8"><KeyphrasesTable data={ Factory.args.data } /></div>;
+export const WithoutPremium = () => <KeyphrasesTable data={ Factory.args.data } />;
 
 export default {
 	title: "1) Components/KeyphrasesTable",
@@ -112,4 +109,11 @@ export default {
 			description: { component },
 		},
 	},
+	decorators: [
+		( Story ) => (
+			<div className="yst-max-w-3xl yst-px-8">
+				<Story />
+			</div>
+		),
+	],
 };
