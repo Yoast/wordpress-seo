@@ -3,8 +3,10 @@ A React component library for building Yoast releated keyphrase suggestions user
 
 [View the changelog here](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/related-keyphrase-suggestions/changelog.md).
 
+For internal use only. Not offering support for external use.
+
 ## Local development
-The components in this library are developed in isolation inside a [Storybook](https://storybook.js.org/), a visual tool for building component libraries. Developing components in isolation helps keep the interfaces flexible while ignoring implementation details.
+The components in this package are developed in isolation inside a [Storybook](https://storybook.js.org/), a visual tool for building component libraries. Developing components in isolation helps keep the interfaces flexible while ignoring implementation details.
 
 ```sh
 # Install dependencies
@@ -14,6 +16,3 @@ yarn storybook
 # Build a static Storybook
 yarn build:storybook
 ```
-
-## Contributions
-If you've developed a React component that you think belongs in this library, feel free to reach out to the Components team or open a pull request and request a review from one of the Components teams developers.
