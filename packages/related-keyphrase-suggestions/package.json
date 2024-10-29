@@ -1,7 +1,7 @@
 {
   "name": "@yoast/related-keyphrase-suggestions",
   "version": "0.1.0",
-  "description": "Yoast related keyphrase suggestions library",
+  "description": "Yoast related keyphrase suggestions package",
   "main": "build/index.js",
   "style": "build/css/style.css",
   "files": [
@@ -22,7 +22,7 @@
     "watch:css": "node ./scripts/watch-css.js",
     "storybook": "storybook dev -p 6007",
     "build:storybook": "storybook build",
-    "lint": "eslint src --max-warnings=0"
+    "lint": "eslint . --max-warnings=0"
   },
   "devDependencies": {
     "@babel/cli": "^7.25.9",

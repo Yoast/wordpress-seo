@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 module.exports = {
 	presets: [ require( "@yoast/tailwindcss-preset" ) ],
-	content: [ 
+	content: [
 		"../ui-library/src/**/!(stories).js",
 		"./src/**/*.js",
 		"./src/**/*.mdx",
