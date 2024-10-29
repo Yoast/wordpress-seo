@@ -8,7 +8,7 @@ const { buildFormRule, createRulesFromArrays } = languageProcessing;
  *
  * @param {string} word The word to check.
  * @param {string} endsWith The ending of the form.
- * @param {string[]}  nonStemmingExceptions list of words ending with the form that are not this form.
+ * @param {string[]}  nonStemmingExceptions The list of words ending with the form that are not this form.
  * @param {string[]} forcedStemmingExceptions The list of words ending with the form that are not caught by the regular rules.
  *
  * @returns {boolean} Whether the word can be a specific adjectival form.
@@ -27,15 +27,15 @@ const refineAdjectiveCheck = ( word, endsWith, nonStemmingExceptions, forcedStem
 		if ( countSyllables <= 1 ) {
 			return false;
 		}
-		// The suffix for adjectives ending in -y is -ier/-iest.
+		// The suffix for adjectives ending in -y is -ier/-iest. 
 		const adjectiveEndingInYSuffix = `i${ endsWith }`;
-		// Checks if the word is an adjective ending in -y that can have suffixes -er/-est.
+		// Checks if the word is an adjective ending in -y that can have suffixes -er/-est. For example, 'pretty'.
 		const isStemEndingInY = word.endsWith( adjectiveEndingInYSuffix );
-		// Checks if the word is an adjective longer than one syllable that can have suffixes -er/-est, OR
-		// if the word is an adjective ending in -y containing more than two syllables that can have suffixes -ier/-iest.
+		// Checks if the word is an adjective longer than one syllable that can have suffixes -er/-est (e.g. 'shallow'), OR
+		// if the word is an adjective ending in -y containing more than two syllables that can have suffixes -ier/-iest (e.g. 'unlikely').
 		const isForcedStemmingException = forcedStemmingExceptions.includes( word.slice( 0, -adjectiveEndingInYSuffix.length ) ) ||
 			forcedStemmingExceptions.includes( word.slice( 0, -endsWith.length ) );
-		// Check if the word ending in -er/-est is not a comparative/superlative.
+		// Check if the word ending in -er/-est is not a comparative/superlative (e.g. 'banner').
 		const isNonStemmingException = nonStemmingExceptions.includes( word );
 		// The maximum syllable count for a word to be a comparative/superlative is 2, unless it ends in -y, then it's 3.
 		const maxSyllables = isStemEndingInY ? 3 : 2;

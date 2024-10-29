@@ -61,7 +61,7 @@ const multiSyllableRegularAdj = [
 	[ "polite", "politer", "politest", "politely" ],
 ];
 
-// Adjectives ending in -y with two syllables.
+// Adjectives ending in -y.
 const yAtTheEnd = [
 	// One syllable adjectives ending in -y.
 	[ "dry", "drier", "driest", "dryly" ],
@@ -94,9 +94,8 @@ const yAtTheEnd = [
 	[ "unhealthy", "unhealthier", "unhealthiest", "unhealthily" ],
 ];
 
-// Adjectives ending in -e with one or two syllables.
+// Adjectives ending in -e with one syllable.
 const eAtTheEnd = [
-	// One syllable adjectives ending in -e.
 	[ "nice", "nicer", "nicest", "nicely" ],
 	[ "white", "whiter", "whitest", "whitely" ],
 	[ "large", "larger", "largest", "largely" ],
