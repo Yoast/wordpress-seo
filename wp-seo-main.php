@@ -349,7 +349,7 @@ function wpseo_init() {
 		// Get a cleaned up version of the $options.
 	}
 
-	new WPSEO_Rewrite();
+	$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
 
 	if ( WPSEO_Options::get( 'enable_xml_sitemap', null, [ 'wpseo' ] ) === true ) {
 		$GLOBALS['wpseo_sitemaps'] = new WPSEO_Sitemaps();
