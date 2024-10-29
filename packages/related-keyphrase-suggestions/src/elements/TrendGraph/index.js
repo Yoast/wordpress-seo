@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TrendGraphScreenReader from "./TrendGraphScreenReader";
+import { TrendGraphScreenReader } from "./TrendGraphScreenReader";
 
 /**
  * Renders a SVG area chart.
@@ -9,7 +9,7 @@ import TrendGraphScreenReader from "./TrendGraphScreenReader";
  *
  * @returns {JSX.Element} The SVG area chart component.
  */
-const TrendGraph = ( { data } ) => {
+export const TrendGraph = ( { data } ) => {
 	const width = 66;
 	const height = 24;
 	const strokeWidth = 1.8;
@@ -75,5 +75,3 @@ const TrendGraph = ( { data } ) => {
 TrendGraph.propTypes = {
 	data: PropTypes.arrayOf( PropTypes.number ).isRequired,
 };
-
-export default TrendGraph;

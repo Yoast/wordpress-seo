@@ -1,4 +1,4 @@
-import TrendGraph from ".";
+import { TrendGraph } from ".";
 import { component } from "./docs";
 
 export const Factory = {

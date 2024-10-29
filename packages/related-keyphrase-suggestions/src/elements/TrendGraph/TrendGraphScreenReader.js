@@ -36,7 +36,7 @@ const mapChartDataToTableData = ( y ) => {
  *
  * @returns {JSX.Element} The data table for the SVG area chart.
  */
-const TrendGraphScreenReader = ( {
+export const TrendGraphScreenReader = ( {
 	data,
 } ) => {
 	if ( data.length !== dataTableHeaderLabels.length ) {
@@ -75,6 +75,3 @@ const TrendGraphScreenReader = ( {
 TrendGraphScreenReader.propTypes = {
 	data: PropTypes.arrayOf( PropTypes.number ).isRequired,
 };
-
-
-export default TrendGraphScreenReader;

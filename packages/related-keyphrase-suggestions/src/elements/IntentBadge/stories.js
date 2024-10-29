@@ -1,5 +1,5 @@
 import React from "react";
-import IntentBadge from ".";
+import { IntentBadge } from ".";
 import { component } from "./docs";
 
 export const Factory = {

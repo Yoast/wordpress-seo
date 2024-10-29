@@ -138,7 +138,7 @@ const COUNTRIES = [
  *
  * @returns {JSX.Element} The country selector.
  */
-const CountrySelector = (
+export const CountrySelector = (
 	{
 		countryCode = "us",
 		activeCountryCode = "us",
@@ -174,5 +174,3 @@ CountrySelector.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onSelect: PropTypes.func.isRequired,
 };
-
-export default CountrySelector;

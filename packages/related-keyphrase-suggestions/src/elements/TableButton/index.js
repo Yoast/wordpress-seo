@@ -39,7 +39,7 @@ const variants = {
  *
  * @returns {JSX.Element} The button.
  */
-const TableButton = ( { type = "add", onRemove, onAdd, disabled = false } ) => {
+export const TableButton = ( { type = "add", onRemove, onAdd, disabled = false } ) => {
 	const [ successClass, setSuccessClass ] = useState( "" );
 	const [ buttonType, setButtonType ] = useState( type );
 	const [ successState, setSuccessState ] = useState( false );
@@ -114,5 +114,3 @@ TableButton.propTypes = {
 	onAdd: PropTypes.func.isRequired,
 	disabled: PropTypes.bool,
 };
-
-export default TableButton;

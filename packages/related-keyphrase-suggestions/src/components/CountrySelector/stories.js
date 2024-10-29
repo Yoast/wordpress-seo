@@ -1,4 +1,4 @@
-import CountrySelector from ".";
+import { CountrySelector } from ".";
 import { component } from "./docs";
 import { noop } from "lodash";
 

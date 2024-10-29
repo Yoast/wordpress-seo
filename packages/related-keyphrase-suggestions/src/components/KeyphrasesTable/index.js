@@ -3,9 +3,7 @@ import PropTypes from "prop-types";
 import { Table, SkeletonLoader } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { isUndefined } from "lodash";
-import TrendGraph from "../../elements/TrendGraph";
-import IntentBadge from "../../elements/IntentBadge";
-import DifficultyBullet from "../../elements/DifficultyBullet";
+import { DifficultyBullet, IntentBadge, TrendGraph } from "../..";
 
 /**
  * The row for the keyphrases table.
@@ -140,7 +138,7 @@ const prepareRow = ( columnNames, row ) => {
  *
  * @returns  {JSX.Element} The keyphrases table.
  */
-const KeyphrasesTable = ( { data, renderButton, relatedKeyphrases } ) => {
+export const KeyphrasesTable = ( { data, renderButton, relatedKeyphrases } ) => {
 	const rows = data?.results?.rows?.map( row => prepareRow(  data.results.columnNames, row ) );
 
 	return <Table>
@@ -193,4 +191,3 @@ KeyphrasesTable.propTypes = {
 
 KeyphrasesTable.displayName = "KeyphrasesTable";
 
-export default KeyphrasesTable;

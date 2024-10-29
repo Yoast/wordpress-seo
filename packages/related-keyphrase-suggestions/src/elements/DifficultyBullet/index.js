@@ -83,7 +83,7 @@ const getVariant = ( value ) => {
  *
  * @returns {JSX.Element} The percentage of difficulty with a bullet with matching color.
  */
-const DifficultyBullet = ( { value } ) => {
+export const DifficultyBullet = ( { value } ) => {
 	const [ isVisible, setIsVisible ] = useState( false );
 
 	const handleMouseEnter = useCallback(
@@ -133,4 +133,3 @@ DifficultyBullet.propTypes = {
 	value: PropTypes.number.isRequired,
 };
 
-export default DifficultyBullet;

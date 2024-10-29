@@ -29,7 +29,7 @@ const variants = {
  *
  * @returns {JSX.Element} The colored initial badge.
  */
-const IntentBadge = ( { initial } ) => {
+export const IntentBadge = ( { initial } ) => {
 	const [ isVisible, setIsVisible ] = useState( false );
 	const handleMouseEnter = useCallback(
 		() => setIsVisible( true ),
@@ -70,4 +70,3 @@ IntentBadge.propTypes = {
 	initial: PropTypes.oneOf( [ "i", "n", "c", "t" ] ).isRequired,
 };
 
-export default IntentBadge;

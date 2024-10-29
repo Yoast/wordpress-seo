@@ -1,8 +1,8 @@
 import React from "react";
 import { noop } from "lodash";
-import KeyphrasesTable from ".";
+import { KeyphrasesTable } from ".";
 import { component } from "./docs";
-import TableButton from "../../elements/TableButton";
+import { TableButton } from "../..";
 
 export const Factory = {
 	parameters: {

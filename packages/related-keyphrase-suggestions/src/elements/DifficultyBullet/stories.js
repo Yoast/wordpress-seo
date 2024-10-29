@@ -1,5 +1,5 @@
 import React from "react";
-import DifficultyBullet from ".";
+import { DifficultyBullet } from ".";
 import { component } from "./docs";
 
 export const Factory = {

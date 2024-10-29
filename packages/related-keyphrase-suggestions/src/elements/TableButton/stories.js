@@ -1,6 +1,6 @@
 import React from "react";
 import { noop } from "lodash";
-import TableButton from ".";
+import { TableButton } from ".";
 import { component } from "./docs";
 
 
