@@ -7,6 +7,7 @@ import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
+import { RouteErrorFallback } from "./components";
 import { STORE_NAME } from "./constants";
 import { AlertCenter, FirstTimeConfiguration } from "./routes";
 import registerStore from "./store";
@@ -30,9 +31,9 @@ domReady( () => {
 
 	const router = createHashRouter(
 		createRoutesFromElements(
-			<Route path="/" element={ <App /> }>
-				<Route path="/" element={ <AlertCenter /> } />
-				<Route path="/first-time-configuration" element={ <FirstTimeConfiguration /> } />
+			<Route path="/" element={ <App /> } errorElement={ <RouteErrorFallback className="yst-m-8" /> }>
+				<Route path="/" element={ <AlertCenter /> } errorElement={ <RouteErrorFallback /> } />
+				<Route path="/first-time-configuration" element={ <FirstTimeConfiguration /> } errorElement={ <RouteErrorFallback /> } />
 				{
 					/**
 					 * Fallback route: redirect to the root (alert center).
