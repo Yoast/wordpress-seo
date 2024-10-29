@@ -70,7 +70,6 @@ Menu.propTypes = {
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
-	// If the last step of the First-time configuration has been completed, we remove the First-time configuration notice.
 	const notices = useMemo( getMigratingNoticeInfo, [] );
 
 	useEffect( () => {
@@ -125,6 +124,8 @@ const App = () => {
 										}
 										{ notices.length > 0 && <div className="yst-space-y-3 yoast-general-page-notices"> {
 											notices.map( ( notice, index ) => {
+												/* If the last step of the First-time configuration has been completed,
+												we remove the First-time configuration notice. */
 												if ( notice.id === "yoast-first-time-configuration-notice" && wpseoFirstTimeConfigurationData.finishedSteps.includes( FTC_STEPS.personalPreferences ) ) {
 													return null;
 												}
