@@ -42,7 +42,7 @@ export const IntentBadge = ( { initial } ) => {
 			className={
 				classNames(
 					"yst-intent-badge",
-					`yst-intent-badge-${ initial }`,
+					`yst-intent-badge--${ initial }`,
 				) }
 			onMouseEnter={ handleMouseEnter }
 			onMouseLeave={ handleMouseLeave }
