@@ -257,7 +257,7 @@ export default function FirstTimeConfigurationSteps() {
 				setErrorFields( [] );
 				removeStepError( STEPS.siteRepresentation );
 				finishSteps( STEPS.siteRepresentation );
-				wpseoFirstTimeConfigurationData =  { ...wpseoFirstTimeConfigurationData, siteRepresentation: state.siteRepresentation };
+				wpseoFirstTimeConfigurationData.siteRepresentation = state.siteRepresentation;
 				return true;
 			} )
 			.catch( ( e ) => {
