@@ -71,9 +71,7 @@ Menu.propTypes = {
  */
 const App = () => {
 	// If the last step of the First-time configuration has been completed, we remove the First-time configuration notice.
-	const notices =  wpseoFirstTimeConfigurationData.finishedSteps.includes( FTC_STEPS.personalPreferences )
-		? useMemo( getMigratingNoticeInfo, [] ).filter(  notice => notice.id !== "yoast-first-time-configuration-notice" )
-		: useMemo( getMigratingNoticeInfo, [] );
+	const notices = useMemo( getMigratingNoticeInfo, [] );
 
 	useEffect( () => {
 		deleteMigratingNotices( notices );
@@ -126,16 +124,21 @@ const App = () => {
 											<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
 										}
 										{ notices.length > 0 && <div className="yst-space-y-3 yoast-general-page-notices"> {
-											notices.map( ( notice, index ) => (
-												<Notice
-													key={ index }
-													id={ notice.id || "yoast-general-page-notice-" + index }
-													title={ notice.header }
-													isDismissable={ notice.isDismissable }
-												>
-													{ notice.content }
-												</Notice>
-											) )
+											notices.map( ( notice, index ) => {
+												if ( notice.id === "yoast-first-time-configuration-notice" && wpseoFirstTimeConfigurationData.finishedSteps.includes( FTC_STEPS.personalPreferences ) ) {
+													return null;
+												}
+												return (
+													<Notice
+														key={ index }
+														id={ notice.id || "yoast-general-page-notice-" + index }
+														title={ notice.header }
+														isDismissable={ notice.isDismissable }
+													>
+														{ notice.content }
+													</Notice>
+												);
+											} )
 										}
 										</div> }
 									</div> }
