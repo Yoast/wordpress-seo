@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { TrashIcon, PlusIcon, CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { TrashIcon, PlusIcon, CheckIcon, XIcon } from "@heroicons/react/outline";
 import { Button } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 
@@ -24,7 +24,7 @@ const variants = {
 			variant: "tertiary",
 		},
 		success: {
-			Icon: XMarkIcon,
+			Icon: XIcon,
 			label: __( "Removed!", "wordpress-seo" ),
 		},
 	},
