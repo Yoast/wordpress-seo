@@ -14,4 +14,4 @@ export { default as NewsSeoAlert } from "./news-seo-alert";
 export { default as OpenGraphDisabledAlert } from "./open-graph-disabled-alert";
 export { default as RouteLayout } from "./route-layout";
 export { default as Search } from "./search";
-export { default as ErrorFallback } from "./error-fallback";
+export { ErrorFallback } from "./error-fallback";

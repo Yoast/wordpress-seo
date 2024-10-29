@@ -1,8 +1,7 @@
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
-import { PremiumUpsellList } from "../../shared-admin/components/premium-upsell-list";
-import SidebarRecommendations from "../../shared-admin/components/sidebar-recommendations";
+import { PremiumUpsellList, SidebarRecommendations } from "../../shared-admin/components";
 import { Notifications, Problems } from "../components";
 import { STORE_NAME } from "../constants";
 import { useSelectGeneralPage } from "../hooks";

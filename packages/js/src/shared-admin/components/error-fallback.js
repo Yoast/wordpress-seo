@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { Title, Alert, Button } from "@yoast/ui-library";
+import { Alert, Button, Title } from "@yoast/ui-library";
+import PropTypes from "prop-types";
 
 /**
  * @param {Function} handleRefreshClick The function to be called when the "Refresh this page" button is clicked.
@@ -9,10 +9,8 @@ import { Title, Alert, Button } from "@yoast/ui-library";
  */
 const HorizontalButtons = ( { handleRefreshClick, supportLink } ) => {
 	return (
-		<div className="yst-flex yst-gap-2">
-			<Button
-				onClick={ handleRefreshClick }
-			>
+		<div className={ "yst-flex yst-gap-2" }>
+			<Button onClick={ handleRefreshClick }>
 				{ __( "Refresh this page", "wordpress-seo" ) }
 			</Button>
 			<Button variant="secondary" as="a" href={ supportLink } target="_blank" rel="noopener">

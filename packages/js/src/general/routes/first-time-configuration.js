@@ -1,16 +1,16 @@
 import { __ } from "@wordpress/i18n";
+import { Paper } from "@yoast/ui-library";
 import { get } from "lodash";
 import { useBlocker } from "react-router-dom";
-import { Paper } from "@yoast/ui-library";
 import FirstTimeConfigurationSteps from "../../first-time-configuration/first-time-configuration-steps";
-import { RouteLayout } from "../components";
 import { UnsavedChangesModal } from "../../shared-admin/components";
+import { RouteLayout } from "../components";
 
 /**
  * @returns {JSX.Element} The site defaults route.
  */
-const FirstTimeConfiguration = () => {
-	const blocker = useBlocker( ( { currentLocation, nextLocation } ) =>{
+export const FirstTimeConfiguration = () => {
+	const blocker = useBlocker( ( { currentLocation, nextLocation } ) => {
 		const isStepBeingEdited = get( window, "isStepBeingEdited", false );
 		return isStepBeingEdited && currentLocation.pathname === "/first-time-configuration" && nextLocation.pathname !== "/first-time-configuration";
 	} );
@@ -37,5 +37,3 @@ const FirstTimeConfiguration = () => {
 		</Paper>
 	);
 };
-
-export default FirstTimeConfiguration;
