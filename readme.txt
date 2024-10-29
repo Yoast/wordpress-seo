@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 6.6
+Tested up to: 6.7
 Stable tag: 23.7
 Requires PHP: 7.2.5
 
@@ -286,6 +286,10 @@ Release date: 2024-11-05
 #### Bugfixes
 
 * Fixes a bug in our Elementor integration where previously saved slug values of drafts would be ignored.
+
+#### Other
+
+* Sets the _WordPress tested up to_ version to 6.7
 
 = 23.7 =
 

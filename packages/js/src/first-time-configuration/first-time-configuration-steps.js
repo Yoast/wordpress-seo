@@ -1,6 +1,5 @@
-/* global wpseoFirstTimeConfigurationData */
 import apiFetch from "@wordpress/api-fetch";
-import { useCallback, useReducer, useState, useEffect, useRef } from "@wordpress/element";
+import { useCallback, useReducer, useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { uniq } from "lodash";
 
@@ -22,7 +21,7 @@ import { STEPS } from "./constants";
  *
  * @param {Object} state The state to save.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function updateSiteRepresentation( state ) {
 	// Revert emptyChoice to the actual default: "company";
@@ -52,7 +51,7 @@ async function updateSiteRepresentation( state ) {
  *
  * @param {Object} state The state to save.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function updateSocialProfiles( state ) {
 	const socialProfiles = {
@@ -75,7 +74,7 @@ async function updateSocialProfiles( state ) {
  *
  * @param {Object} state The state to save.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function updateTracking( state ) {
 	if ( state.tracking !== 0 && state.tracking !== 1 ) {
@@ -99,7 +98,7 @@ async function updateTracking( state ) {
  *
  * @param {Array} finishedSteps Array of finished steps.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function saveFinishedSteps( finishedSteps ) {
 	const response = await apiFetch( {
@@ -159,7 +158,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
  * @returns {WPElement} The FirstTimeConfigurationSteps component.
  */
 export default function FirstTimeConfigurationSteps() {
-	const [ finishedSteps, setFinishedSteps ] = useState( wpseoFirstTimeConfigurationData.finishedSteps );
+	const [ finishedSteps, setFinishedSteps ] = useState( window.wpseoFirstTimeConfigurationData.finishedSteps );
 
 	const isStepFinished = useCallback( ( stepId ) => {
 		return finishedSteps.includes( stepId );
@@ -171,6 +170,7 @@ export default function FirstTimeConfigurationSteps() {
 
 	useEffect( () => {
 		saveFinishedSteps( finishedSteps );
+		window.wpseoFirstTimeConfigurationData.finishedSteps = finishedSteps;
 	}, [ finishedSteps ] );
 
 	const [ state, dispatch ] = useReducer( configurationReducer, {
@@ -256,6 +256,7 @@ export default function FirstTimeConfigurationSteps() {
 				setErrorFields( [] );
 				removeStepError( STEPS.siteRepresentation );
 				finishSteps( STEPS.siteRepresentation );
+				window.wpseoFirstTimeConfigurationData = { ...window.wpseoFirstTimeConfigurationData,  ...state };
 				return true;
 			} )
 			.catch( ( e ) => {
@@ -273,7 +274,7 @@ export default function FirstTimeConfigurationSteps() {
 	/**
 	 * Runs checks of finishing the social profiles step.
 	 *
-	 * @returns {void}
+	 * @returns {Promise|boolean} Returns either a Boolean for success/failure or a Promise.
 	 */
 	function updateOnFinishSocialProfiles() {
 		if ( state.companyOrPerson === "person" ) {
@@ -295,6 +296,7 @@ export default function FirstTimeConfigurationSteps() {
 				finishSteps( STEPS.socialProfiles );
 			} )
 			.then( () => {
+				window.wpseoFirstTimeConfigurationData.socialProfiles = state.socialProfiles;
 				return true;
 			} )
 			.catch(
@@ -313,13 +315,14 @@ export default function FirstTimeConfigurationSteps() {
 	/**
 	 * Runs checks of finishing the enable tracking step.
 	 *
-	 * @returns {void}
+	 * @returns {Promise|boolean} Returns either a Boolean for success/failure or a Promise.
 	 */
 	function updateOnFinishPersonalPreferences() {
 		return updateTracking( state )
 			.then( () => finishSteps( STEPS.personalPreferences ) )
 			.then( () => {
 				removeStepError( STEPS.personalPreferences );
+				window.wpseoFirstTimeConfigurationData.tracking = state.tracking;
 				return true;
 			} )
 			.catch( e => {
@@ -394,17 +397,6 @@ export default function FirstTimeConfigurationSteps() {
 			setStepperFinishedOnce( true );
 		}
 	}, [ isStepperFinished ] );
-
-	/* In order to refresh data in the php form, once the stepper is done, we need to reload upon haschanges triggered by the tabswitching */
-	const isStepperFinishedAtBeginning = useRef( isStep2Finished && isStep3Finished && isStep4Finished );
-	useEffect( () => {
-		if ( isStepperFinished && ! isStepperFinishedAtBeginning.current ) {
-			const firstTimeConfigurationNotice = document.getElementById( "yoast-first-time-configuration-notice" );
-			if ( firstTimeConfigurationNotice ) {
-				firstTimeConfigurationNotice.remove();
-			}
-		}
-	}, [ isStepperFinished, isStepperFinishedAtBeginning ] );
 
 	// If stepperFinishedOnce changes or isStepBeingEdited changes, evaluate edit button state.
 	useEffect( () => {
