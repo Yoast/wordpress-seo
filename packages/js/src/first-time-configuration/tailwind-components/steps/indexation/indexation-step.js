@@ -1,11 +1,8 @@
-import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { ReactComponent as ConfigurationStartImage } from "../../../../../images/indexables_1_left_bubble_optm.svg";
 import { FadeInAlert } from "../../base/alert";
 import { ConfigurationIndexation } from "./configuration-indexation";
-
-/* eslint-disable complexity */
 
 /**
  * The indexation step.
@@ -18,9 +15,9 @@ import { ConfigurationIndexation } from "./configuration-indexation";
  * @returns {WPElement} The indexation step.
  */
 export default function IndexationStep( { indexingState, setIndexingState, showRunIndexationAlert, isStepperFinished } ) {
-	return <Fragment>
-		<div className="yst-flex yst-flex-row yst-justify-between yst-flex-wrap yst-mb-8">
-			<p className="yst-text-sm yst-whitespace-pre-line yst-w-[463px]">
+	return <div className="yst-@container">
+		<div className="yst-flex yst-flex-col @lg:yst-flex-row yst-gap-6 yst-mb-8">
+			<p className="yst-text-sm yst-whitespace-pre-line">
 				{ __(
 					"Let's start by running the SEO data optimization. That means we'll scan your site and create a database with " +
 					"optimized SEO data. It won't change any content or settings on your site and you don't need to do anything, just hit start!\n" +
@@ -28,7 +25,7 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 					"wordpress-seo"
 				) }
 			</p>
-			<ConfigurationStartImage className="yst-h-28 yst-w-24 yst-mr-6" />
+			<ConfigurationStartImage className="yst-shrink-0 yst-h-28 yst-w-24" />
 		</div>
 		<div id="yoast-configuration-indexing-container" className="indexation-container">
 			<ConfigurationIndexation
@@ -48,7 +45,7 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 					"wordpress-seo" )
 			}
 		</FadeInAlert>
-	</Fragment>;
+	</div>;
 }
 
 IndexationStep.propTypes = {

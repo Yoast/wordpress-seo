@@ -320,7 +320,7 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'externals-contexts',
 				self::PREFIX . 'externals-redux',
 			],
-			'new-dashboard'            => [
+			'general-page'             => [
 				self::PREFIX . 'api-client',
 			],
 		];
@@ -671,8 +671,8 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
-				'name' => 'new-dashboard',
-				'src'  => 'new-dashboard-' . $flat_version,
+				'name' => 'general-page',
+				'src'  => 'general-page-' . $flat_version,
 				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
