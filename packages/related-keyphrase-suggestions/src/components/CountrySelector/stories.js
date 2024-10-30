@@ -40,7 +40,7 @@ export default {
 	decorators: [
 		( Story ) => (
 			// Min height to make room for options dropdown.
-			<div className="yst-min-h-[300px]">
+			<div className="yst-min-h-[300px] yst-w-2/3">
 				<Story />
 			</div>
 		),
