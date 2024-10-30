@@ -9,7 +9,7 @@ import {
 	orangeUnlessAnimalsObjects,
 } from "./feedbackStrings/generalFeedbackStrings";
 import {
-	orangeUnlessCultureOfOrigin,
+	orangeUnlessCultureOfOrigin, orangeUnlessCultureUsesTerm,
 } from "./feedbackStrings/cultureAssessmentStrings";
 
 const cultureAssessments = [
@@ -38,22 +38,14 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "tribe" ],
 		inclusiveAlternatives: "<i>group, cohort, crew, league, guild, team, union</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		/*
-		 * Replace 'the culture in which this term originated' with 'a culture that uses this term' in the 'unless you are
-		 * referring to...' part of the orangeUnlessCultureOfOrigin string.
-		 */
-		feedbackFormat: orangeUnlessCultureOfOrigin.slice( 0, -42 ) + "a culture that uses this term.",
+		feedbackFormat: orangeUnlessCultureUsesTerm,
 	},
 	{
 		identifier: "tribes",
 		nonInclusivePhrases: [ "tribes" ],
 		inclusiveAlternatives: "<i>groups, cohorts, crews, leagues, guilds, teams, unions</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		/*
-		 * Replace 'the culture in which this term originated' with 'a culture that uses this term' in the 'unless you are
-		 * referring to...' part of the orangeUnlessCultureOfOrigin string.
-		 */
-		feedbackFormat: orangeUnlessCultureOfOrigin.slice( 0, -42 ) + "a culture that uses this term.",
+		feedbackFormat: orangeUnlessCultureUsesTerm,
 	},
 	{
 		identifier: "exotic",
