@@ -11,7 +11,8 @@ export const Factory = {
 		countryCode: "us",
 		activeCountryCode: "us",
 		onChange: noop,
-		onSelect: noop,
+		onClick: noop,
+		className: "",
 	},
 };
 

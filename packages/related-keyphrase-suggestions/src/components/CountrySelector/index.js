@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { Button, Select } from "@yoast/ui-library";
+import classNames from "classnames";
 
 /**
  * List of all available database countries for the Semrush API.
@@ -133,8 +134,9 @@ const COUNTRIES = [
  *
  * @param {string} countryCode The country code.
  * @param {string} activeCountryCode The active country code.
- * @param {Function} onChange The change handler.
- * @param {Function} onSelect The select handler.
+ * @param {Function} onChange The change handler for the select.
+ * @param {Function} onClick The click handler for the button.
+ * @param {string} className The class name.
  *
  * @returns {JSX.Element} The country selector.
  */
@@ -143,11 +145,12 @@ export const CountrySelector = (
 		countryCode = "us",
 		activeCountryCode = "us",
 		onChange,
-		onSelect,
+		onClick,
+		className,
 	},
 ) => {
 	return (
-		<div className="yst-flex yst-items-end yst-mb-4">
+		<div className={ classNames( "yst-flex yst-items-end", className ) }>
 			<div className="yst-w-1/2">
 				<Select
 					id="yst-country-selector__select"
@@ -162,7 +165,7 @@ export const CountrySelector = (
 				className="yst-ml-2"
 				size="large"
 				variant={ activeCountryCode === countryCode ? "secondary" : "primary" }
-				onClick={ onSelect }
+				onClick={ onClick }
 			>{ __( "Change country", "wordpress-seo" ) }</Button>
 		</div>
 	);
@@ -172,5 +175,6 @@ CountrySelector.propTypes = {
 	countryCode: PropTypes.string,
 	activeCountryCode: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
-	onSelect: PropTypes.func.isRequired,
+	onClick: PropTypes.func.isRequired,
+	className: PropTypes.string,
 };
