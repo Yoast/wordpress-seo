@@ -1,1 +1,1 @@
-Keyphrases table is a component that displays a list of keyphrases with their trend graph, intent, and difficulty score.
+Keyphrases table is a component that displays a list of keyphrases with their trend graph, intent, search volum and difficulty score with an optional column for adding and removing keyphrases.
