@@ -113,7 +113,7 @@ export const DifficultyBullet = ( { value } ) => {
 			/>
 
 			{ isVisible && <Tooltip
-				className="yst-flex yst-flex-col yst-max-w-[180px] yst-text-xs yst-leading-4 yst-font-normal"
+				className="yst-flex yst-flex-col yst-w-48 yst-text-xs yst-leading-4 yst-font-normal"
 			>
 				<span className="yst-font-medium">{ variant.tooltip.title } </span>
 				{ variant.tooltip.description }

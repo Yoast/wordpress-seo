@@ -69,7 +69,7 @@ const LoadingKeyphrasesTableRow = ( { withButton = false } ) => {
 	return (
 		<Table.Row>
 			<Table.Cell className="yst-w-56">
-				<SkeletonLoader as="span" className="yst-w-[167px] yst-h-5" />
+				<SkeletonLoader as="span" className="yst-w-44 yst-h-5" />
 			</Table.Cell>
 			<Table.Cell>
 				<SkeletonLoader className="yst-w-5 yst-h-5" />
@@ -130,6 +130,14 @@ const prepareRow = ( columnNames, row ) => {
 	return rowData;
 };
 
+const headers = [
+	__( "Related keyphrase", "wordpress-seo" ),
+	__( "Intent", "wordpress-seo" ),
+	__( "Volume", "wordpress-seo" ),
+	__( "Trend", "wordpress-seo" ),
+	__( "Difficulty %", "wordpress-seo" ),
+];
+
 /**
  *
  * @param {object} data The rows to display in the table.
@@ -144,24 +152,16 @@ export const KeyphrasesTable = ( { data, renderButton, relatedKeyphrases } ) => 
 	return <Table>
 		<Table.Head>
 			<Table.Row>
-				<Table.Header>
-					{ __( "Related keyphrase", "wordpress-seo" ) }
-				</Table.Header>
-				<Table.Header>
-					{ __( "Intent", "wordpress-seo" ) }
-				</Table.Header>
-				<Table.Header>
-					{ __( "Volume", "wordpress-seo" ) }
-				</Table.Header>
-				<Table.Header>
-					{ __( "Trend", "wordpress-seo" ) }
-				</Table.Header>
-				<Table.Header>
-					{ __( "Difficulty %", "wordpress-seo" ) }
-				</Table.Header>
+				{ headers && headers.map( ( headerLabel, index ) =>
+					<Table.Header key={ `header-${ index }` }>
+						{ headerLabel }
+					</Table.Header> )
+				}
+
 				{ renderButton && <Table.Header className="yst-text-right yst-w-20">
 					{ __( "Add keyphrase", "wordpress-seo" ) }
 				</Table.Header> }
+
 			</Table.Row>
 		</Table.Head>
 
