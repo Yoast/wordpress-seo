@@ -27,7 +27,7 @@ const refineAdjectiveCheck = ( word, endsWith, nonStemmingExceptions, forcedStem
 		if ( countSyllables <= 1 ) {
 			return false;
 		}
-		// The suffix for adjectives ending in -y is -ier/-iest. 
+		// The suffix for adjectives ending in -y is -ier/-iest.
 		const adjectiveEndingInYSuffix = `i${ endsWith }`;
 		// Checks if the word is an adjective ending in -y that can have suffixes -er/-est. For example, 'pretty'.
 		const isStemEndingInY = word.endsWith( adjectiveEndingInYSuffix );

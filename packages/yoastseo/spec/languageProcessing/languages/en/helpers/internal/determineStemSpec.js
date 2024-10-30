@@ -8,10 +8,9 @@ import {
 
 import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
-
 const morphologyDataEN = getMorphologyData( "en" ).en;
 
-describe( "findShortestAndAlphabeticallyFirst", function() {
+describe( "a test for the following function: findShortestAndAlphabeticallyFirst", function() {
 	it( "returns the shortest and the alphabetically-first word from an array", function() {
 		expect( findShortestAndAlphabeticallyFirst( [ "d", "f", "a", "c", "b" ] ) ).toEqual( "a" );
 		expect( findShortestAndAlphabeticallyFirst( [ "d", "f", "ab", "c", "b" ] ) ).toEqual( "b" );
@@ -25,7 +24,7 @@ describe( "findShortestAndAlphabeticallyFirst", function() {
 	} );
 } );
 
-describe( "determineIrregularStem and determineIrregularVerbStem", function() {
+describe( "a test for the following functions: determineIrregularStem and determineIrregularVerbStem", function() {
 	const nounIrregulars = morphologyDataEN.nouns.irregularNouns;
 	const adjectiveIrregulars = morphologyDataEN.adjectives.irregularAdjectives;
 
@@ -36,179 +35,148 @@ describe( "determineIrregularStem and determineIrregularVerbStem", function() {
 		expect( determineIrregularVerbStem( "word", verbMorphology ) ).toBeNull();
 	} );
 
-	it( "returns the stem of an irregular noun", function() {
-		expect( determineIrregularStem( "anaesthesia", nounIrregulars ) ).toEqual( "anaesthesia" );
-		expect( determineIrregularStem( "anaesthesiae", nounIrregulars ) ).toEqual( "anaesthesia" );
-		expect( determineIrregularStem( "anæsthesia", nounIrregulars ) ).toEqual( "anaesthesia" );
-		expect( determineIrregularStem( "anæsthesiæ", nounIrregulars ) ).toEqual( "anaesthesia" );
-		expect( determineIrregularStem( "anaesthesias", nounIrregulars ) ).toEqual( "anaesthesia" );
+	const irregularNouns = [ "anaesthesia", "anaesthesiae", "anæsthesia", "anæsthesiæ", "anaesthesias" ];
+	it.each( irregularNouns )( "stems irregular noun \"%s\" to \"anaesthesia\"", function( word ) {
+		expect( determineIrregularStem( word, nounIrregulars ) ).toEqual( "anaesthesia" );
 	} );
 
-	it( "returns the stem of an irregular adjective", function() {
-		expect( determineIrregularStem( "good", adjectiveIrregulars ) ).toEqual( "good" );
-		expect( determineIrregularStem( "well", adjectiveIrregulars ) ).toEqual( "good" );
-		expect( determineIrregularStem( "better", adjectiveIrregulars ) ).toEqual( "good" );
-		expect( determineIrregularStem( "best", adjectiveIrregulars ) ).toEqual( "good" );
+	const irregularAdjectives = [ "good", "well", "better", "best" ];
+	it.each( irregularAdjectives )( "stems irregular adjective \"%s\" to \"good\"", function( word ) {
+		expect( determineIrregularStem( word, adjectiveIrregulars ) ).toEqual( "good" );
 	} );
 
-	it( "returns the stem of an irregular verb", function() {
-		expect( determineIrregularVerbStem( "bless", verbMorphology ) ).toEqual( "bless" );
-		expect( determineIrregularVerbStem( "blesses", verbMorphology ) ).toEqual( "bless" );
-		expect( determineIrregularVerbStem( "blessing", verbMorphology ) ).toEqual( "bless" );
-		expect( determineIrregularVerbStem( "blessed", verbMorphology ) ).toEqual( "bless" );
-		expect( determineIrregularVerbStem( "blest", verbMorphology ) ).toEqual( "bless" );
+	const irregularVerbs = [ "bless", "blesses", "blessing", "blessed", "blest" ];
+	it.each( irregularVerbs )( "stems irregular verb form \"%s\" to \"bless\"", function( word ) {
+		expect( determineIrregularVerbStem( word, verbMorphology ) ).toEqual( "bless" );
 	} );
 
-	it( "returns the stem of an irregular verb with a prefix (which is processed separately)", function() {
-		expect( determineIrregularVerbStem( "foresee", verbMorphology ) ).toEqual( "foresee" );
-		expect( determineIrregularVerbStem( "foresees", verbMorphology ) ).toEqual( "foresee" );
-		expect( determineIrregularVerbStem( "foreseeing", verbMorphology ) ).toEqual( "foresee" );
-		expect( determineIrregularVerbStem( "foresaw", verbMorphology ) ).toEqual( "foresee" );
-		expect( determineIrregularVerbStem( "foreseen", verbMorphology ) ).toEqual( "foresee" );
+	const irregularVerbsWithPrefix = [ "foresee", "foresees", "foreseeing", "foresaw", "foreseen" ];
+	it.each( irregularVerbsWithPrefix )( "stems irregular verb form with prefix \"%s\" to \"foresee\"", function( word ) {
+		expect( determineIrregularVerbStem( word, verbMorphology ) ).toEqual( "foresee" );
 	} );
 } );
 
-describe( "determineRegularStem", function() {
+describe( "a test for the following function: determineRegularStem", function() {
 	const regularWords = [
-		[ "word", "word" ],
-		[ "words", "word" ],
-		[ "worded", "word" ],
-		[ "wording", "word" ],
-		[ "worder", "word" ],
-		[ "wordest", "word" ],
-		[ "wordly", "word" ],
-		[ "wordings", "word" ],
-		[ "tomato", "tomato" ],
-		[ "tomatos", "tomato" ],
-		[ "tomatoes", "tomato" ],
+		[ "beer", "beer" ],
+		[ "belly", "belly" ],
 		[ "bonus", "bonus" ],
-		[ "bonuses", "bonus" ],
 		[ "bonused", "bonus" ],
+		[ "bonuses", "bonus" ],
 		[ "bonusing", "bonus" ],
 		[ "bonusings", "bonus" ],
-		[ "supply", "supply" ],
-		[ "supplies", "supply" ],
-		[ "supplied", "supply" ],
-		[ "supplying", "supply" ],
-		[ "supplyings", "supply" ],
-		[ "supplier", "supplier" ],
-		[ "release", "release" ],
-		[ "releases", "release" ],
-		[ "released", "release" ],
-		[ "releasing", "release" ],
-		[ "releasings", "release" ],
 		[ "historic", "historical" ],
 		[ "historical", "historical" ],
 		[ "historically", "historical" ],
+		[ "interest", "interest" ],
+		[ "paper", "paper" ],
+		[ "partner", "partner" ],
 		[ "pathetic", "pathetical" ],
 		[ "pathetical", "pathetical" ],
 		[ "pathetically", "pathetical" ],
+		[ "release", "release" ],
+		[ "released", "release" ],
+		[ "releases", "release" ],
+		[ "releasing", "release" ],
+		[ "releasings", "release" ],
 		[ "smart", "smart" ],
 		[ "smarter", "smart" ],
 		[ "smartest", "smart" ],
-		[ "paper", "paper" ],
-		[ "beer", "beer" ],
-		[ "partner", "partner" ],
-		[ "interest", "interest" ],
-		[ "zest", "zest" ],
-		[ "belly", "belly" ],
-		[ "analysis", "analysis" ],
+		[ "supplied", "supply" ],
+		[ "supplies", "supply" ],
+		[ "supply", "supply" ],
+		[ "supplying", "supply" ],
+		[ "supplyings", "supply" ],
+		[ "tomato", "tomato" ],
+		[ "tomatoes", "tomato" ],
+		[ "tomatos", "tomato" ],
+		// Made up word.
 		[ "trwprtrw", "trwprtrw" ],
+		[ "word", "word" ],
+		[ "worded", "word" ],
+		[ "worder", "word" ],
+		[ "wordest", "word" ],
+		[ "wording", "word" ],
+		[ "wordings", "word" ],
+		[ "wordly", "word" ],
+		[ "words", "word" ],
+		[ "zest", "zest" ],
 	];
 	it.each( regularWords )( "stems regular word \"%s\" to \"%s\"", function( word, expected ) {
 		expect( determineRegularStem( word, morphologyDataEN ) ).toEqual( expected );
 	} );
 } );
 
-describe( "determineStem", function() {
-	const regularWords = [
-		[ "word", "word" ],
-		[ "words", "word" ],
-		[ "worded", "word" ],
-		[ "wording", "word" ],
-		[ "worder", "word" ],
-		[ "wordest", "word" ],
-		[ "wordly", "word" ],
+describe( "a test for the following function: determineStem", function() {
+	const possessiveFormsOfRegularWords = [
+		[ "supplies'", "supply" ],
+		[ "supplies's", "supply" ],
+		[ "supply's", "supply" ],
+		[ "tomato's", "tomato" ],
+		[ "tomatoes's", "tomato" ],
+		[ "tomatos's", "tomato" ],
 		[ "word's", "word" ],
-		[ "words's", "word" ],
-		[ "words'", "word" ],
 		[ "wording's", "word" ],
 		[ "wordings'", "word" ],
 		[ "wordings's", "word" ],
-		[ "wordings", "word" ],
-		[ "tomato", "tomato" ],
-		[ "tomatos", "tomato" ],
-		[ "tomatoes", "tomato" ],
-		[ "tomato's", "tomato" ],
-		[ "tomatos'", "tomato" ],
-		[ "tomatos's", "tomato" ],
-		[ "tomatoes's", "tomato" ],
-		[ "town", "town" ],
-		[ "towns", "town" ],
-		[ "supply", "supply" ],
-		[ "supplies", "supply" ],
-		[ "supplied", "supply" ],
-		[ "supplying", "supply" ],
-		[ "supply's", "supply" ],
-		[ "supplies'", "supply" ],
-		[ "supplies's", "supply" ],
-		[ "supplyings", "supply" ],
+		[ "words'", "word" ],
+		[ "words's", "word" ],
 	];
-	it.each( regularWords )( "stems regular word \"%s\" to \"%s\"", function( word, expected ) {
+	it.each( possessiveFormsOfRegularWords )( "stems possessive form of regular noun \"%s\" to \"%s\"", function( word, expected ) {
 		expect( determineStem( word, morphologyDataEN ) ).toEqual( expected );
 	} );
 
 	const verbsEndingInE = [
-		[ "share", "share" ],
-		[ "sharing", "share" ],
-		[ "shared", "share" ],
-		[ "shares", "share" ],
-		[ "improve", "improve" ],
-		[ "improving", "improve" ],
-		[ "improved", "improve" ],
-		[ "improves", "improve" ],
+		[ "amaze", "amaze" ],
+		[ "amazed", "amaze" ],
+		[ "amazes", "amaze" ],
+		[ "amazing", "amaze" ],
 		[ "compete", "compete" ],
 		[ "competed", "compete" ],
 		[ "competes", "compete" ],
 		[ "competing", "compete" ],
+		[ "improve", "improve" ],
+		[ "improved", "improve" ],
+		[ "improves", "improve" ],
+		[ "improving", "improve" ],
+		[ "move", "move" ],
+		[ "moved", "move" ],
+		[ "moves", "move" ],
+		[ "moving", "move" ],
+		[ "optimize", "optimize" ],
+		[ "optimized", "optimize" ],
+		[ "optimizes", "optimize" ],
+		[ "optimizing", "optimize" ],
+		[ "prepare", "prepare" ],
+		[ "prepared", "prepare" ],
+		[ "prepares", "prepare" ],
+		[ "preparing", "prepare" ],
 		[ "schedule", "schedule" ],
-		[ "scheduling", "schedule" ],
 		[ "scheduled", "schedule" ],
 		[ "schedules", "schedule" ],
+		[ "scheduling", "schedule" ],
+		[ "share", "share" ],
+		[ "shared", "share" ],
+		[ "shares", "share" ],
+		[ "sharing", "share" ],
+		[ "specialize", "specialize" ],
+		[ "specialized", "specialize" ],
+		[ "specializes", "specialize" ],
+		[ "specializing", "specialize" ],
 		[ "type", "type" ],
 		[ "typed", "type" ],
 		[ "types", "type" ],
 		[ "typing", "type" ],
-		[ "release", "release" ],
-		[ "releasing", "release" ],
-		[ "released", "release" ],
-		[ "releases", "release" ],
-		[ "prepare", "prepare" ],
-		[ "preparing", "prepare" ],
-		[ "prepared", "prepare" ],
-		[ "prepares", "prepare" ],
-		[ "move", "move" ],
-		[ "moving", "move" ],
-		[ "moved", "move" ],
-		[ "moves", "move" ],
-		[ "amaze", "amaze" ],
-		[ "amazing", "amaze" ],
-		[ "amazed", "amaze" ],
-		[ "amazes", "amaze" ],
-		[ "specialize", "specialize" ],
-		[ "specializing", "specialize" ],
-		[ "specialized", "specialize" ],
-		[ "specializes", "specialize" ],
-		[ "optimize", "optimize" ],
-		[ "optimizing", "optimize" ],
-		[ "optimized", "optimize" ],
-		[ "optimizes", "optimize" ],
 	];
-	it.each( verbsEndingInE )( "stems verb ending in -e \"%s\" to \"%s\"", function( word, expected ) {
+	it.each( verbsEndingInE )( "correctly stems verb form whose base ending in -e: \"%s\" to \"%s\"", function( word, expected ) {
 		expect( determineStem( word, morphologyDataEN ) ).toEqual( expected );
 	} );
 
 	const verbalFormsNotGettingE = [
+		[ "develop", "develop" ],
+		[ "developed", "develop" ],
+		[ "developing", "develop" ],
+		[ "develops", "develop" ],
 		[ "doom", "doom" ],
 		[ "doomed", "doom" ],
 		[ "dooming", "doom" ],
@@ -217,10 +185,6 @@ describe( "determineStem", function() {
 		[ "loaded", "load" ],
 		[ "loading", "load" ],
 		[ "loads", "load" ],
-		[ "develop", "develop" ],
-		[ "developed", "develop" ],
-		[ "developing", "develop" ],
-		[ "develops", "develop" ],
 	];
 	it.each( verbalFormsNotGettingE )( "stems verb form \"%s\" to \"%s\", in which the base should not get -e ending", function( word, expected ) {
 		expect( determineStem( word, morphologyDataEN ) ).toEqual( expected );
@@ -241,120 +205,97 @@ describe( "determineStem", function() {
 	} );
 
 	const irregularWords = [
-		[ "analysis", "analysis" ],
+		[ "ai", "ai" ],
 		[ "analyses", "analysis" ],
-		[ "focus", "focus" ],
-		[ "foci", "focus" ],
-		[ "focuses", "focus" ],
+		[ "analysis", "analysis" ],
+		[ "beta", "beta" ],
+		[ "data", "data" ],
+		[ "extra", "extra" ],
 		[ "fix", "fix" ],
-		[ "fixes", "fix" ],
 		[ "fixed", "fix" ],
+		[ "fixes", "fix" ],
 		[ "fixing", "fix" ],
+		[ "foci", "focus" ],
+		[ "focus", "focus" ],
+		[ "focuses", "focus" ],
+		[ "meta", "meta" ],
 		[ "mix", "mix" ],
-		[ "mixes", "mix" ],
 		[ "mixed", "mix" ],
+		[ "mixes", "mix" ],
 		[ "mixing", "mix" ],
 		[ "plus", "plus" ],
-		[ "ai", "ai" ],
-		[ "data", "data" ],
-		[ "beta", "beta" ],
-		[ "extra", "extra" ],
-		[ "meta", "meta" ],
 	];
 	it.each( irregularWords )( "stems irregular word \"%s\" to \"%s\"", function( word, expected ) {
 		expect( determineStem( word, morphologyDataEN ) ).toEqual( expected );
+		expect( determineStem( expected, morphologyDataEN ) ).toEqual( expected );
 	} );
 
-	const adjEndingInOus = [
-		[ "continuous", "continuous" ],
-		[ "various", "various" ],
-		[ "serious", "serious" ],
-	];
-	it.each( adjEndingInOus )( "stems adjective ending in -ous \"%s\" to \"%s\"", function( word, expected ) {
-		expect( determineStem( word, morphologyDataEN ) ).toEqual( expected );
+	const adjEndingInOus = [ "continuous", "various", "serious" ];
+	it.each( adjEndingInOus )( "stems adjective ending in -ous \"%s\"", function( word ) {
+		expect( determineStem( word, morphologyDataEN ) ).toEqual( word );
 	} );
 
 	const irregularNounsAndVerbs = [
-		[ "anaesthesia", "anaesthesia" ],
-		[ "anaesthesiae", "anaesthesia" ],
-		[ "anæsthesia", "anaesthesia" ],
-		[ "anæsthesiæ", "anaesthesia" ],
-		[ "anaesthesias", "anaesthesia" ],
-		[ "anaesthesia's", "anaesthesia" ],
-		[ "anaesthesiae's", "anaesthesia" ],
-		[ "anæsthesia's", "anaesthesia" ],
-		[ "anæsthesiæ's", "anaesthesia" ],
-		[ "anaesthesias's", "anaesthesia" ],
-		[ "anaesthesias'", "anaesthesia" ],
-		[ "traffic", "traffic" ],
-		[ "ying", "ying" ],
-		[ "bless", "bless" ],
-		[ "blesses", "bless" ],
-		[ "blessing", "bless" ],
-		[ "blessed", "bless" ],
-		[ "blest", "bless" ],
-		[ "blessing's", "bless" ],
-		[ "blessings'", "bless" ],
-		[ "blessings's", "bless" ],
-		[ "blessings", "bless" ],
-		[ "hear", "hear" ],
-		[ "hears", "hear" ],
-		[ "hearing", "hear" ],
-		[ "heard", "hear" ],
-		[ "abear", "abear" ],
-		[ "abears", "abear" ],
-		[ "abearing", "abear" ],
-		[ "abore", "abear" ],
 		[ "abare", "abear" ],
+		[ "abear", "abear" ],
+		[ "abearing", "abear" ],
+		[ "abears", "abear" ],
+		[ "abore", "abear" ],
 		[ "aborne", "abear" ],
-		[ "foresee", "foresee" ],
-		[ "foresees", "foresee" ],
-		[ "foreseeing", "foresee" ],
-		[ "foresaw", "foresee" ],
-		[ "foreseen", "foresee" ],
-		[ "foresee's", "foresee" ],
-		[ "foresees's", "foresee" ],
+		[ "hear", "hear" ],
+		[ "heard", "hear" ],
+		[ "hearing", "hear" ],
+		[ "hears", "hear" ],
+		[ "hyena", "hyena" ],
+		[ "hyenas", "hyena" ],
+		[ "hyenae", "hyena" ],
+		[ "hyenæ", "hyena" ],
+		[ "hyena's", "hyena" ],
+		[ "hyenas'", "hyena" ],
+		[ "hyenae's", "hyena" ],
+		[ "hyenæ's", "hyena" ],
 		[ "test-drive", "test-drive" ],
+		[ "test-driven", "test-drive" ],
 		[ "test-drives", "test-drive" ],
 		[ "test-driving", "test-drive" ],
 		[ "test-drove", "test-drive" ],
-		[ "test-driven", "test-drive" ],
+		[ "traffic", "traffic" ],
+		[ "ying", "ying" ],
 	];
 	it.each( irregularNounsAndVerbs )( "stems irregular noun/verb \"%s\" to \"%s\"", function( word, expected ) {
 		expect( determineStem( word, morphologyDataEN ) ).toEqual( expected );
 	} );
 
 	const irregularAdjectives = [
-		[ "good", "good" ],
-		[ "well", "good" ],
-		[ "better", "good" ],
-		[ "best", "good" ],
-		[ "goods", "good" ],
+		[ "freer", "free" ],
+		[ "freest", "free" ],
 		[ "gentle", "gentle" ],
 		[ "gentler", "gentle" ],
 		[ "gentlest", "gentle" ],
 		[ "gently", "gentle" ],
+		[ "goods", "good" ],
 		[ "simple", "simple" ],
 		[ "simpler", "simple" ],
 		[ "simplest", "simple" ],
 		[ "simply", "simple" ],
-		[ "freer", "free" ],
-		[ "freest", "free" ],
 		[ "truer", "true" ],
 		[ "truest", "true" ],
 	];
 	it.each( irregularAdjectives )( "stems irregular adjective \"%s\" to \"%s\"", function( word, expected ) {
 		expect( determineStem( word, morphologyDataEN ) ).toEqual( expected );
+		expect( determineStem( expected, morphologyDataEN ) ).toEqual( expected );
 	} );
+
 	const agentNouns = [
 		[ "composers", "composer" ],
 		[ "computers", "computer" ],
-		[ "walkers", "walker" ],
-		[ "makers", "maker" ],
-		[ "writers", "writer" ],
-		[ "players", "player" ],
 		[ "doomers", "doomer" ],
+		[ "makers", "maker" ],
+		[ "players", "player" ],
+		[ "suppliers", "supplier" ],
 		[ "testers", "tester" ],
+		[ "walkers", "walker" ],
+		[ "writers", "writer" ],
 	];
 	it.each( agentNouns )( "stems plural agent noun \"%s\" to \"%s\", and doesn't stem the singular form", function( word, expected ) {
 		expect( determineStem( word, morphologyDataEN ) ).toEqual( expected );
