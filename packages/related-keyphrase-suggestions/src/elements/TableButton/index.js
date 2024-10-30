@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { TrashIcon, PlusIcon, CheckIcon, XIcon } from "@heroicons/react/outline";
@@ -30,87 +30,58 @@ const variants = {
 	},
 };
 
+
+/**
+ * The success message for the table buttons.
+ *
+ * @param {string} variant The variant of the success message.
+ * @param {string} className The class name.
+ *
+ * @returns {JSX.Element} The success message.
+ */
+const SuccessMessage = ( { variant, className = "" } ) => {
+	const SuccessIcon = variants[ variant ].success.Icon;
+	return <div
+		className={
+			classNames( "yst-success-message",
+				`yst-success-message-${ variant }`,
+				className,
+			 ) }
+	>
+		<SuccessIcon className="yst-success-icon" />
+		{ variants[ variant ].success.label }
+	</div>;
+};
+
+SuccessMessage.propTypes = {
+	variant: PropTypes.oneOf( [ "add", "remove" ] ),
+	className: PropTypes.string,
+};
+
 /**
  *
- * @param {string} type Whether it is an add button or not.
- * @param {Function} onRemove The remove function.
- * @param {Function} onAdd The add function.
- * @param {boolean} disabled Whether the button is disabled or not.
+ * @param {string} variant Whether it is an add button or not.
  *
  * @returns {JSX.Element} The button.
  */
-export const TableButton = ( { type = "add", onRemove, onAdd, disabled = false } ) => {
-	const [ successClass, setSuccessClass ] = useState( "" );
-	const [ buttonType, setButtonType ] = useState( type );
-	const [ successState, setSuccessState ] = useState( false );
-	const SuccessIcon = variants[ buttonType ].success.Icon;
-	const ButtonIcon = variants[ buttonType ].button.Icon;
-	variants.add.onClick = onAdd;
-	variants.remove.onClick = onRemove;
-
-	const onClick = useCallback( () => {
-		variants[ buttonType ].onClick();
-		setSuccessState( true );
-	}, [ onRemove, onAdd ] );
-
-	useEffect( () => {
-		if ( successState ) {
-			const timer = setTimeout( () => {
-				setSuccessClass( "yst-opacity-0" );
-			}, 800 );
-
-			const timerRestore = setTimeout( () => {
-				setSuccessClass( "" );
-				if ( buttonType === "add" ) {
-					setButtonType( "remove" );
-				}
-				if ( buttonType === "remove" ) {
-					setButtonType( "add" );
-				}
-				setSuccessState( false );
-			}, 1500 );
-
-			return () => {
-				clearTimeout( timer );
-				clearTimeout( timerRestore );
-			};
-		}
-		setSuccessClass( "" );
-	}, [ successState ] );
-
-
-	if ( successState ) {
-		return (
-			<div
-				className={
-					classNames( "yst-success-message",
-						`yst-success-message-${ buttonType }`,
-						successClass,
-			 ) }
-			>
-				<SuccessIcon className="yst-success-icon" />
-				{ variants[ buttonType ].success.label }
-			</div>
-		);
-	}
+export const TableButton = ( { variant = "add", ...props } ) => {
+	const ButtonIcon = variants[ variant ].button.Icon;
 
 	return (
 		<Button
-			variant={ variants[ buttonType ].button.variant }
+			{ ...props }
+			variant={ variants[ variant ].button.variant }
 			size="small"
 			className="yst-table-button"
-			onClick={ onClick }
-			disabled={ disabled }
 		>
 			<ButtonIcon className="yst-button-icon" />
-			{ variants[ buttonType ].button.label }
+			{ variants[ variant ].button.label }
 		</Button>
 	);
 };
 
 TableButton.propTypes = {
-	type: PropTypes.oneOf( [ "add", "remove" ] ),
-	onRemove: PropTypes.func.isRequired,
-	onAdd: PropTypes.func.isRequired,
-	disabled: PropTypes.bool,
+	variant: PropTypes.oneOf( [ "add", "remove" ] ),
 };
+
+TableButton.SuccessMessage = SuccessMessage;

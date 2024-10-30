@@ -2,14 +2,14 @@ import React from "react";
 import { noop } from "lodash";
 import { KeyphrasesTable } from ".";
 import { component } from "./docs";
-import { TableButton } from "../..";
+import { Factory as ButtonFactory } from "../../elements/TableButton/stories";
 
 export const Factory = {
 	parameters: {
 		controls: { disable: false },
 	},
 	args: {
-		renderButton: () => <TableButton type="add" onAdd={ noop } onRemove={ noop } />,
+		renderButton: ButtonFactory.render,
 		relatedKeyphrases: [],
 		data: {
 			results: {
