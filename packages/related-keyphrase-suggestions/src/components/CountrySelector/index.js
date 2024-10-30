@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { Button, Select } from "@yoast/ui-library";
+import { Button, AutocompleteField } from "@yoast/ui-library";
 import classNames from "classnames";
 
 /**
@@ -149,20 +149,31 @@ export const CountrySelector = (
 		className,
 	},
 ) => {
+	const handleQueryChange = useCallback( event => {
+	    onChange( event.target.value );
+	}, [ onChange ] );
+
 	return (
-		<div className={ classNames( "yst-flex yst-items-end", className ) }>
-			<div className="yst-w-1/2">
-				<Select
-					id="yst-country-selector__select"
-					label={ __( "Show results for:", "wordpress-seo" ) }
-					options={ COUNTRIES }
-					value={ countryCode }
-					onChange={ onChange }
-				/>
-			</div>
+		<div className={ classNames( "yst-flex yst-items-end yst-gap-2", className ) }>
+			<AutocompleteField
+				id="yst-country-selector__select"
+				label={ __( "Show results for:", "wordpress-seo" ) }
+				options={ COUNTRIES }
+				value={ countryCode }
+				selectedLabel={ COUNTRIES.find( option => option.value === countryCode )?.label }
+				onChange={ onChange }
+				onQueryChange={ handleQueryChange }
+				className="yst-grow"
+			>
+				{ COUNTRIES.map( option => (
+					<AutocompleteField.Option key={ option.value } value={ option.value }>
+						{ option.label }
+					</AutocompleteField.Option>
+				) ) }
+
+			</AutocompleteField>
 			<Button
 				id="yst-country-selector__button"
-				className="yst-ml-2"
 				size="large"
 				variant={ activeCountryCode === countryCode ? "secondary" : "primary" }
 				onClick={ onClick }
