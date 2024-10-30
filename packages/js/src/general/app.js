@@ -17,6 +17,7 @@ import { getMigratingNoticeInfo, deleteMigratingNotices } from "../helpers/migra
 import Notice from "./components/notice";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
 import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
+import { useNotificationCountSync } from "./hooks/use-notification-count-sync";
 import { STEPS as FTC_STEPS } from "../first-time-configuration/constants";
 
 /**
@@ -79,6 +80,7 @@ const App = () => {
 	const { pathname } = useLocation();
 	const alertToggleError = useSelectGeneralPage( "selectAlertToggleError", [], [] );
 	const { setAlertToggleError } = useDispatch( STORE_NAME );
+	useNotificationCountSync();
 
 	const handleDismiss = useCallback( () => {
 		setAlertToggleError( null );
