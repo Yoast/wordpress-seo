@@ -6,10 +6,10 @@ const { buildFormRule, createRulesFromArrays } = languageProcessing;
 /**
  * Further checks if the word can be a specific adjectival form.
  *
- * @param {string} word The word to check.
- * @param {string} endsWith The ending of the form.
- * @param {string[]}  nonStemmingExceptions The list of words ending with the form that are not this form.
- * @param {string[]} forcedStemmingExceptions The list of words ending with the form that are not caught by the regular rules.
+ * @param {string} word		The word to check.
+ * @param {string} endsWith	The ending of the form.
+ * @param {string[]} nonStemmingExceptions		The list of words ending with the form that are not this form.
+ * @param {string[]} forcedStemmingExceptions	The list of words ending with the form that are not caught by the regular rules.
  *
  * @returns {boolean} Whether the word can be a specific adjectival form.
  */
@@ -50,8 +50,8 @@ const refineAdjectiveCheck = ( word, endsWith, nonStemmingExceptions, forcedStem
 /**
  * Checks if the word ends with a specific form and is not in the exceptions list.
  *
- * @param {string} word 		The word to check.
- * @param {string} endsWith 	The ending of the form.
+ * @param {string} word		The word to check.
+ * @param {string} endsWith	The ending of the form.
  * @param {string[]} nonStemmingExceptions 	The list of words ending with the form that are not this form.
  * @returns {boolean} Whether the word ends with the form and is not in the exceptions list.
  */
@@ -62,8 +62,8 @@ const endsWithAndNoException = ( word, endsWith, nonStemmingExceptions ) => word
  *
  * @param {string}      endsWith            How the form ends.
  * @param {int}         minimumWordLength   How long the word should be to classify for this form.
- * @param {string[]}    [nonStemmingExceptions=[]]			The list of words with that ending (endsWith) which are not this form.
- * @param {string[]}    [forcedStemmingExceptions=[]]		The list of words with that ending (endsWith) which are not caught by the regular rules.
+ * @param {string[]}    [nonStemmingExceptions=[]]		The list of words with that ending (endsWith) which are not this form.
+ * @param {string[]}	[forcedStemmingExceptions=[]]	The list of words with that ending (endsWith) which are not caught by the regular rules.
  * @param {Function}    [checkFunction=endsWithAndNoException]	An extra check to determine if the word is this form.
  *
  * @returns {Function} A function that checks if the input word can be a specific adjectival form.

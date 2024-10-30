@@ -35,18 +35,15 @@ export function findShortestAndAlphabeticallyFirst( array ) {
  * Checks if the input word occurs in the list of exceptions and if so returns the first form of the paradigm, which is
  * always the base.
  *
- * @param {string} word                 The word for which to determine its base.
- * @param {Array}  irregulars           An array of irregular nouns and adjectives.
+ * @param {string}		word		The word for which to determine its base.
+ * @param {string[]}	irregulars	An array of irregular nouns and adjectives.
  *
  * @returns {string|null} The base form of the irregular word; null if no irregular stem was found.
  */
 export function determineIrregularStem( word, irregulars ) {
-	for ( let i = 0; i < irregulars.length; i++ ) {
-		const paradigm = irregulars[ i ];
-		for ( let j = 0; j < paradigm.length; j++ ) {
-			if ( paradigm[ j ] === word ) {
-				return paradigm[ 0 ];
-			}
+	for ( const paradigm of irregulars ) {
+		if ( paradigm.includes( word ) ) {
+			return paradigm[ 0 ];
 		}
 	}
 	return null;
@@ -57,8 +54,8 @@ export function determineIrregularStem( word, irregulars ) {
  * of the paradigm, which is always the base. Contrary to nouns and adjectives, irregular verbs can have different prefixes
  * which are not included in the list of exceptions and have to be processed separately.
  *
- * @param {string}    word            The word for which to determine its base.
- * @param {Object}    verbMorphology  Regexes and irregulars for verb morphology, False if verb rules should not be applied.
+ * @param {string}	word            The word for which to determine its base.
+ * @param {Object}	verbMorphology  Regexes and irregulars for verb morphology, False if verb rules should not be applied.
  *
  * @returns {string|null} The base form of the irregular word; null if no irregular stem was found.
  */
