@@ -12,7 +12,7 @@ import { beCarefulHarmful } from "./generalFeedbackStrings";
  * the culture in which this term originated."
  */
 export const orangeUnlessCultureOfOrigin = [ beCarefulHarmful, "Consider using an alternative, such as %2$s instead," +
-" unless you are referring to the culture in which this term originated." ].join( "" );
+" unless you are referring to the culture in which this term originated." ].join( " " );
 
 /*
  * Used for culturally appropriative terms, such as 'tribe'.
@@ -21,4 +21,4 @@ export const orangeUnlessCultureOfOrigin = [ beCarefulHarmful, "Consider using a
  * a culture that uses this term."
  */
 export const orangeUnlessCultureUsesTerm = [ beCarefulHarmful, "Consider using an alternative, such as %2$s instead," +
-" unless you are referring to a culture that uses this term." ].join( "" );
+" unless you are referring to a culture that uses this term." ].join( " " );
