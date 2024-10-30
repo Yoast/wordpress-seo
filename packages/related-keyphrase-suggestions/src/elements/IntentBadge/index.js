@@ -49,7 +49,7 @@ export const IntentBadge = ( { initial } ) => {
 		>
 			{ initial.toUpperCase() }
 
-			{ isVisible && <Tooltip className="yst-flex yst-flex-col yst-max-w-48 yst-text-xxs yst-leading-4 yst-font-normal">
+			{ isVisible && <Tooltip className="yst-flex yst-flex-col yst-w-48 yst-text-xs yst-leading-4 yst-font-normal">
 				<span className="yst-font-medium">{ variants[ initial ].title } </span>
 				{ variants[ initial ].description }
 			</Tooltip> }
