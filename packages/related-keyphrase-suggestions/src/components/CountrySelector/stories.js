@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
+import { useArgs } from "@storybook/addons";
 import { CountrySelector } from ".";
 import { component } from "./docs";
 import { noop } from "lodash";
@@ -24,15 +25,13 @@ export default {
 		},
 	},
 	render: () => {
-		const [ countryCode, setCountryCode ] = useState( "us" );
-		const [ activeCountryCode, setActiveCountryCode ] = useState( "us" );
-		const handleOnClick = useCallback( () => {
-			setActiveCountryCode( countryCode );
-		}, [ setActiveCountryCode, countryCode ] );
+		const [ { countryCode, activeCountryCode }, updateArgs ] = useArgs();
+		const handleChange = useCallback( value => updateArgs( { countryCode: value } ), [ updateArgs ] );
+		const handleClick = useCallback( () => updateArgs( { activeCountryCode: countryCode } ), [ updateArgs, countryCode ] );
 
 		return <CountrySelector
-			onClick={ handleOnClick }
-			onChange={ setCountryCode }
+			onClick={ handleClick }
+			onChange={ handleChange }
 			countryCode={ countryCode }
 			activeCountryCode={ activeCountryCode }
 		/>;

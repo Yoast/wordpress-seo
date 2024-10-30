@@ -30,8 +30,8 @@
             yst-py-1 
             yst-leading-5
             yst-transition 
-            yst-duration-1000 
-            yst-ease-in-out;
+            yst-duration-300 
+            yst-ease-out;
 
             .yst-success-icon {
                 @apply yst-w-4 yst-h-4;

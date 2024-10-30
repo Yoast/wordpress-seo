@@ -19,29 +19,22 @@ export const Factory = {
 	render: ( { disabled } ) => {
 		const [ isAdd, toggleIsAdd ] = useToggleState( true );
 		const [ isSuccess, toggleIsSuccess ] = useToggleState( false );
-		const [ successClass, setSuccessClass ] = useState( "" );
 
 		useEffect( () => {
 			if ( isSuccess ) {
-				const timer = setTimeout( () => {
-					setSuccessClass( "yst-opacity-0" );
-				}, 800 );
-
 				const timerRestore = setTimeout( () => {
-					setSuccessClass( "" );
 					toggleIsAdd();
 					toggleIsSuccess();
 				}, 1000 );
 
 				return () => {
-					clearTimeout( timer );
 					clearTimeout( timerRestore );
 				};
 			}
-		}, [ toggleIsAdd, toggleIsSuccess, setSuccessClass, isSuccess ] );
+		}, [ toggleIsAdd, toggleIsSuccess, isSuccess ] );
 
 		return <>
-			{ isSuccess ? <TableButton.SuccessMessage variant={ isAdd ? "add" : "remove" } className={ successClass } />
+			{ isSuccess ? <TableButton.SuccessMessage variant={ isAdd ? "add" : "remove" } />
 				: <TableButton variant={ isAdd ? "add" : "remove" } onClick={ toggleIsSuccess } disabled={ disabled } /> }
 
 		</>;

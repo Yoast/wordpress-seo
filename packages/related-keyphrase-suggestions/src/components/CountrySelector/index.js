@@ -150,7 +150,9 @@ export const CountrySelector = (
 	},
 ) => {
 	const handleQueryChange = useCallback( event => {
-	    onChange( event.target.value );
+		if ( COUNTRIES.find( option => option.value === event.target.value ) ) {
+			onChange( event.target.value );
+		}
 	}, [ onChange ] );
 
 	return (
