@@ -317,6 +317,29 @@ describe( "Test for getting the base from words that look like an adjective form
 		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
 		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
 	} );
+
+	/*
+	These are two syllable words ending in -er that are not a comparative form. They are not in the exception list, but they should not be stemmed.
+	Currently, this unit test passes because the `countSyllablesInWord` function recognizes these words as having one syllable.
+	If at some point the `countSyllablesInWord` function is updated to recognize these words as having two syllables, this test will fail,
+	and the words should be added to the `multiSyllableAdjWithSuffixes` list.
+	 */
+	const twoSyllableWordsEndingInEr = [
+		"beer",
+		"deer",
+		"doer",
+		"jeer",
+		"peer",
+		"seer",
+		"veer",
+		"cheer",
+		"sheer",
+	];
+	it.each( twoSyllableWordsEndingInEr )( "should not stem two syllable word ending in -er \"%s\": the word is not listed in `multiSyllableAdjWithSuffixes`", function( word ) {
+		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
+		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
+	} );
 } );
 
 
