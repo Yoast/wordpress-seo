@@ -340,6 +340,41 @@ describe( "Test for getting the base from words that look like an adjective form
 		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
 		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
 	} );
+
+	// One syllable words ending in -est that are not superlatives. They should not be stemmed. They are not in the exception list.
+	const oneSyllableWordsEndingInEst = [
+		"zest",
+		"fest",
+		"gest",
+		"hest",
+		"jest",
+		"chest",
+		"crest",
+		"drest",
+		"geest",
+		"guest",
+		"prest",
+	];
+	it.each( oneSyllableWordsEndingInEst )( "should not stem one syllable word ending in -est that is not superlative: \"%s\"", function( word ) {
+		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
+		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
+	} );
+
+	const multiSyllableWordsEndingInEst = [
+		"anapest",
+		"almagest",
+		"interest",
+		"manifest",
+		"palimpsest",
+		"rinderpest",
+		"wildebeest",
+	];
+	it.each( multiSyllableWordsEndingInEst )( "should not stem multi-syllable word ending in -est that is not superlative: \"%s\"", function( word ) {
+		returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes );
+		expect( returnedGetBaseResult ).toHaveProperty( "base", word );
+		expect( returnedGetBaseResult ).toHaveProperty( "guessedForm", "base" );
+	} );
 } );
 
 
