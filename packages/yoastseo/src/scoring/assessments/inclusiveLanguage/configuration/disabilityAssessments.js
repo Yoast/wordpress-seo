@@ -29,7 +29,6 @@ import {
 	isPreceded,
 	notFollowed,
 	notPreceded,
-	notPrecededAndNotFollowed,
 } from "../helpers/createRuleDescriptions";
 
 const disabilityAssessments = [
