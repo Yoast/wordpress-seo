@@ -12,16 +12,6 @@ const fs = require( "fs" );
  */
 describe( "Export of the inclusive language configuration", () => {
 	/**
-	 * Retrieves the rules from a function call in a prettier format.
-	 * @param {string} str The function call.
-	 * @returns {string} The prettier formatted string.
-	 */
-	const retrieveRule = ( str ) => {
-		const matches = [ ...str.matchAll( /\.filter.*?_is(.*?)Exception.*?\[(.*?)]/g ) ];
-		return matches.map( match => "Not" + match[ 1 ] + ": " + match[ 2 ] ).join( " and " );
-	};
-
-	/**
 	 * Retrieves the href value from a string containing an anchor.
 	 * @param {string} str The string containing an anchor.
 	 * @returns {string} The href value of the anchor.
@@ -77,7 +67,7 @@ describe( "Export of the inclusive language configuration", () => {
 				nonInclusivePhrases: assessment.nonInclusivePhrases.join( ", " ),
 				inclusiveAlternatives: assessment.inclusiveAlternatives.join( ", " ).replace( /<\/?i>/g, "" ),
 				score: assessment.score === SCORES.POTENTIALLY_NON_INCLUSIVE ? "orange" : "red",
-				rule: assessment.rule.name === "includesConsecutiveWords" ? "" : retrieveRule( assessment.rule.toString() ),
+				ruleDescription: assessment.ruleDescription,
 				caseSensitive: assessment.caseSensitive ? "yes" : "no",
 				feedbackFormat: sprintf( assessment.feedbackFormat, "\"x\"", "\"y\"", "\"z\"" ).replace( /<\/?i>/g, "" ),
 				learnMoreUrl: retrieveAnchor( assessment.learnMoreUrl ),
@@ -89,25 +79,10 @@ describe( "Export of the inclusive language configuration", () => {
 		resultLines.unshift( header.join( ";" ) );
 
 		// Set doExport to true to write the results to a temporary file.
-		const doExport = false;
+		const doExport = true;
 		if ( doExport ) {
 			writeToTempFile( "inclusive-language-database.csv", resultLines.join( "\n" ) );
 		}
-	} );
-
-	it.skip( "should retrieve rules in a more pretty format", () => {
-		let assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "firemen" ) );
-		expect( retrieveRule( assessment.rule.toString() ) ).toEqual( "" );
-
-		assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "binge" ) );
-		expect( retrieveRule( assessment.rule.toString() ) ).toEqual(
-			"NotFollowedBy: \"drink\", \"drinks\", \"drinking\", \"eating disorder\", \"and purge\", " +
-			"\"behavior\", \"behaviors\", \"behaviour\", \"behaviours\"" );
-
-		assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "seniors" ) );
-		expect( retrieveRule( assessment.rule.toString() ) ).
-			toEqual( "NotPrecededBy: \"high school\", \"college\", \"graduating\", \"juniors and\"" +
-			" and NotFollowedBy: \"in high school\", \"in college\", \"who are graduating\"" );
 	} );
 
 	it( "should retrieve the href value for an anchor", () => {
