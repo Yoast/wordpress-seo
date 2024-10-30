@@ -89,7 +89,7 @@ describe( "The AnalysisList component", () => {
 
 		expect( analysisResults ).toHaveLength( results.length );
 
-		expect( analysisResults[ 0 ].props.ariaLabelMarks ).toEqual( "Marks are disabled in current view" );
+		expect( analysisResults[ 0 ].props.ariaLabelMarks ).toEqual( "Highlighting is currently disabled" );
 	} );
 
 	it( "renders a list of analysis results with one upsell result", () => {
