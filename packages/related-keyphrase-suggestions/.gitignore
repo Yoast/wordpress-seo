@@ -5,5 +5,4 @@
 node_modules
 # Artifacts
 build
-storybook-static
 storybook-git-repo
