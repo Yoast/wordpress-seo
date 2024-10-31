@@ -92,8 +92,6 @@ export const DifficultyBullet = ( { value } ) => {
 		return null;
 	}
 
-	const variantClass = `yst-difficulty--${ variant.name }`;
-
 	return (
 		<div
 			aria-description={ `${ variant.tooltip.title }, ${ variant.tooltip.description }` }
@@ -108,7 +106,7 @@ export const DifficultyBullet = ( { value } ) => {
 				className={
 					classNames(
 						"yst-w-3 yst-h-3 yst-rounded-full",
-						variantClass,
+						`yst-difficulty--${ variant.name }`,
 					) }
 			/>
 
