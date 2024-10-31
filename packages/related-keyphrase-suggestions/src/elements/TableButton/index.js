@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { TrashIcon, PlusIcon, CheckIcon, XIcon } from "@heroicons/react/outline";
@@ -35,15 +35,17 @@ const variants = {
  * The success message for the table buttons.
  *
  * @param {string} variant The variant of the success message.
+ * @param {string} className The class name.
  *
  * @returns {JSX.Element} The success message.
  */
-const SuccessMessage = ( { variant } ) => {
+const SuccessMessage = ( { variant, className = "" } ) => {
 	const SuccessIcon = variants[ variant ].success.Icon;
 	return <div
 		className={
 			classNames( "yst-success-message yst-animate-appear-disappear",
 				`yst-success-message-${ variant }`,
+				className,
 			 ) }
 	>
 		<SuccessIcon className="yst-success-icon" />
@@ -53,20 +55,31 @@ const SuccessMessage = ( { variant } ) => {
 
 SuccessMessage.propTypes = {
 	variant: PropTypes.oneOf( [ "add", "remove" ] ),
+	className: PropTypes.string,
 };
 
 /**
  *
  * @param {string} variant Whether it is an add button or not.
+ * @param {boolean} focused Whether the button should be focused.
  *
  * @returns {JSX.Element} The button.
  */
-export const TableButton = ( { variant = "add", ...props } ) => {
+export const TableButton = ( { variant = "add", focused = false, ...props } ) => {
 	const ButtonIcon = variants[ variant ].button.Icon;
+	const ref = useRef();
+
+	useEffect( () => {
+		if ( focused ) {
+			ref.current.focus();
+		}
+	}, [ focus ] );
+
 
 	return (
 		<Button
 			{ ...props }
+			ref={ ref }
 			variant={ variants[ variant ].button.variant }
 			size="small"
 			className="yst-table-button"
@@ -79,6 +92,7 @@ export const TableButton = ( { variant = "add", ...props } ) => {
 
 TableButton.propTypes = {
 	variant: PropTypes.oneOf( [ "add", "remove" ] ),
+	focused: PropTypes.bool,
 };
 
 TableButton.SuccessMessage = SuccessMessage;

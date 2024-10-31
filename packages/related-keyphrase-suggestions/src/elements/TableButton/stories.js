@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { noop } from "lodash";
 import { useToggleState } from "@yoast/ui-library";
 import { TableButton } from ".";
@@ -19,12 +19,14 @@ export const Factory = {
 	render: ( { disabled } ) => {
 		const [ isAdd, toggleIsAdd ] = useToggleState( true );
 		const [ isSuccess, toggleIsSuccess ] = useToggleState( false );
+		const [ isFocused, , , setIsFocused ] = useToggleState( false );
 
 		useEffect( () => {
 			if ( isSuccess ) {
 				const timerRestore = setTimeout( () => {
 					toggleIsAdd();
 					toggleIsSuccess();
+					setIsFocused();
 				}, 1000 );
 
 				return () => {
@@ -35,7 +37,7 @@ export const Factory = {
 
 		return <>
 			{ isSuccess ? <TableButton.SuccessMessage variant={ isAdd ? "add" : "remove" } />
-				: <TableButton variant={ isAdd ? "add" : "remove" } onClick={ toggleIsSuccess } disabled={ disabled } /> }
+				: <TableButton variant={ isAdd ? "add" : "remove" } onClick={ toggleIsSuccess } disabled={ disabled } focused={ isFocused } /> }
 
 		</>;
 	},
@@ -49,8 +51,8 @@ export const Variants = () =>
 
 export const SuccessMessage = () =>
 	<>
-		<TableButton.SuccessMessage variant="add" />
-		<TableButton.SuccessMessage variant="remove" />
+		<TableButton.SuccessMessage variant="add" className="yst-opacity-100" />
+		<TableButton.SuccessMessage variant="remove" className="yst-opacity-100" />
 	</>;
 
 export default {
