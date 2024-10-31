@@ -34,7 +34,7 @@ export const updateNotificationsCount = ( total ) => {
 
 	const adminBarItems = document.querySelectorAll( "#wp-admin-bar-wpseo-menu .yoast-issue-counter" );
 	for ( const adminBar of adminBarItems ) {
-		adminBar.classList.toggle( "yst-hidden", total === 0 );
+		adminBar.classList.toggle( "wpseo-no-adminbar-notifications", total === 0 );
 		updateTextContentIfElementExists( adminBar, ".yoast-issues-count", String( total ) );
 		updateTextContentIfElementExists( adminBar, ".screen-reader-text", screenReaderText );
 	}
