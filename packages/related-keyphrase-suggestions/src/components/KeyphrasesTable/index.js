@@ -38,7 +38,7 @@ const KeyphrasesTableRow = ( { keyword, searchVolume, trends, keywordDifficultyI
 			<Table.Cell>
 				<TrendGraph data={ trends } />
 			</Table.Cell>
-			<Table.Cell>
+			<Table.Cell className="yst-w-28">
 				<DifficultyBullet value={ keywordDifficultyIndex } />
 			</Table.Cell>
 			{ renderButton && <Table.Cell className="yst-flex yst-justify-end yst-w-32">
