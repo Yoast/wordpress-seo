@@ -47,7 +47,7 @@ const FakeAdminMenu = ( { total = 2 } ) => (
  * @returns {JSX.Element} The admin bar count.
  */
 const AdminBarCountHtml = ( { total } ) => (
-	<div className={ `wp-core-ui wp-ui-notification yoast-issue-counter${ total === 0 ? " yst-hidden" : "" }` }>
+	<div className={ `wp-core-ui wp-ui-notification yoast-issue-counter${ total === 0 ? " wpseo-no-adminbar-notifications" : "" }` }>
 		<span className="yoast-issues-count" aria-hidden="true">${ total }</span>
 		<span className="screen-reader-text">${ total } notifications</span>
 	</div>
@@ -113,7 +113,7 @@ describe( "updateNotificationsCount", () => {
 	test.each( [
 		[ 3, "screen-reader plural in English" ],
 		[ 1, "screen-reader singular in English" ],
-		[ 0, "yst-hidden class triggering hidden css" ],
+		[ 0, "wpseo-no-adminbar-notifications class triggering hidden css" ],
 	] )( "updates the total in the admin bar to %i [%s]", ( total ) => {
 		const { container } = render( <FakeAdminBar /> );
 		updateNotificationsCount( total );
