@@ -26,10 +26,11 @@ const variants = {
 /**
  *
  * @param {string} initial The initial of the intent.
+ * @param {string} className The class name.
  *
  * @returns {JSX.Element} The colored initial badge.
  */
-export const IntentBadge = ( { initial } ) => {
+export const IntentBadge = ( { initial, className = "" } ) => {
 	const [ isVisible, , , handleMouseEnter, handleMouseLeave ] = useToggleState( false );
 
 	if ( ! variants[ initial ] ) {
@@ -37,12 +38,13 @@ export const IntentBadge = ( { initial } ) => {
 	}
 
 	return (
-		<div
+		<span
 			aria-description={ `${ variants[ initial ].title }, ${ variants[ initial ].description }` }
 			className={
 				classNames(
 					"yst-intent-badge",
 					`yst-intent-badge--${ initial }`,
+					className,
 				) }
 			onMouseEnter={ handleMouseEnter }
 			onMouseLeave={ handleMouseLeave }
@@ -53,11 +55,12 @@ export const IntentBadge = ( { initial } ) => {
 				<span className="yst-font-medium">{ variants[ initial ].title } </span>
 				{ variants[ initial ].description }
 			</Tooltip> }
-		</div>
+		</span>
 	);
 };
 
 IntentBadge.propTypes = {
 	initial: PropTypes.oneOf( [ "i", "n", "c", "t" ] ).isRequired,
+	className: PropTypes.string,
 };
 
