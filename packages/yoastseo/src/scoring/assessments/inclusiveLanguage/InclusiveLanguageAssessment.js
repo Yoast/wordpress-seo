@@ -31,7 +31,9 @@ export default class InclusiveLanguageAssessment {
 	 * 									and `%2$s` (and potentially further replacements) for the suggested alternative(s).
 	 * @param {string} config.learnMoreUrl The URL to an article explaining more about this specific assessment.
 	 * @param {function} [config.rule] A potential additional rule for targeting the non-inclusive phrases.
+	 * @param {string} [config.ruleDescription] A description of the rule.
 	 * @param {boolean} [config.caseSensitive=false] If the inclusive phrase is case-sensitive, defaults to `false`.
+	 * @param {string} [config.category] The category of the assessment.
 	 *
 	 * @returns {void}
 	 */
