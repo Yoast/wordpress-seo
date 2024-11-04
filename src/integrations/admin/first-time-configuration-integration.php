@@ -219,6 +219,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 			'companyOrPersonOptions'     => $options,
 			'shouldForceCompany'         => $this->should_force_company(),
 			'knowledgeGraphMessage'      => $knowledge_graph_message,
+			'currentOpenStepIndex'       => \count( $finished_steps ),
 			'shortlinks'                 => [
 				'gdpr'                     => $this->shortlinker->build_shortlink( 'https://yoa.st/gdpr-config-workout' ),
 				'configIndexables'         => $this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables' ),

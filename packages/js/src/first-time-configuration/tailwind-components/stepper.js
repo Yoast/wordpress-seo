@@ -47,11 +47,14 @@ export function useStepperContext() {
 function GoButton( { beforeGo, children, destination, ...restProps } ) {
 	const { stepIndex, setActiveStepIndex, lastStepIndex } = useStepperContext();
 	const goToDestination = useCallback( () => {
-		if ( typeof destination === "string" ) {
-			setActiveStepIndex( destination === "last" ? lastStepIndex : 0 );
+		let index = 0;
+		if ( typeof destination === "string" &&  destination === "last"  ) {
+			index = lastStepIndex;
 		} else {
-			setActiveStepIndex( stepIndex + destination );
+			index = stepIndex + destination;
 		}
+		setActiveStepIndex( index );
+		window.wpseoFirstTimeConfigurationData.currentOpenStepIndex = index;
 	}, [ stepIndex, lastStepIndex, setActiveStepIndex, destination ] );
 
 	const goFunction = useCallback( async() => {
