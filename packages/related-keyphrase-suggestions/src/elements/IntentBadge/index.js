@@ -25,42 +25,42 @@ const variants = {
 
 /**
  *
- * @param {string} initial The initial of the intent.
+ * @param {string} value The initial of the intent, can be i,n,c or t only.
  * @param {string} className The class name.
  *
  * @returns {JSX.Element} The colored initial badge.
  */
-export const IntentBadge = ( { initial, className = "" } ) => {
+export const IntentBadge = ( { value, className = "" } ) => {
 	const [ isVisible, , , handleMouseEnter, handleMouseLeave ] = useToggleState( false );
 
-	if ( ! variants[ initial ] ) {
+	if ( ! variants[ value ] ) {
 		return null;
 	}
 
 	return (
 		<span
-			aria-description={ `${ variants[ initial ].title }, ${ variants[ initial ].description }` }
+			aria-description={ `${ variants[ value ].title }, ${ variants[ value ].description }` }
 			className={
 				classNames(
 					"yst-intent-badge",
-					`yst-intent-badge--${ initial }`,
+					`yst-intent-badge--${ value }`,
 					className,
 				) }
 			onMouseEnter={ handleMouseEnter }
 			onMouseLeave={ handleMouseLeave }
 		>
-			{ initial.toUpperCase() }
+			{ value.toUpperCase() }
 
 			{ isVisible && <Tooltip className="yst-flex yst-flex-col yst-w-48 yst-text-xs yst-leading-4 yst-font-normal">
-				<span className="yst-font-medium">{ variants[ initial ].title } </span>
-				{ variants[ initial ].description }
+				<span className="yst-font-medium">{ variants[ value ].title } </span>
+				{ variants[ value ].description }
 			</Tooltip> }
 		</span>
 	);
 };
 
 IntentBadge.propTypes = {
-	initial: PropTypes.oneOf( [ "i", "n", "c", "t" ] ).isRequired,
+	value: PropTypes.oneOf( [ "i", "n", "c", "t" ] ).isRequired,
 	className: PropTypes.string,
 };
 

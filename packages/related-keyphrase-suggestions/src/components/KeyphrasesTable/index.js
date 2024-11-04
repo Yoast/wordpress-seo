@@ -10,9 +10,9 @@ import { DifficultyBullet, IntentBadge, TrendGraph } from "../..";
  *
  * @param {string} keyword The keyword.
  * @param {string} searchVolume The search volume.
- * @param {Array} trends The trends.
+ * @param {number[]} trends An array of trends ver 12 months.
  * @param {number} keywordDifficultyIndex The keyword difficulty index.
- * @param {Array} intent The intent.
+ * @param {string[]} intent An array of intent initials.
  * @param {Function} renderButton The render button function.
  * @param {Array} relatedKeyphrases The related keyphrases.
  *
@@ -26,8 +26,8 @@ const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], key
 			</Table.Cell>
 			<Table.Cell>
 				<div className="yst-flex yst-gap-2">
-					{ intent.length > 0 && intent.map( ( initial, index ) => (
-						<IntentBadge key={ `${ index }-${ keyword }-${ initial }` } initial={ initial } />
+					{ intent.length > 0 && intent.map( ( value, index ) => (
+						<IntentBadge key={ `${ index }-${ keyword }-${ value }` } value={ value } />
 					) ) }
 				</div>
 			</Table.Cell>
