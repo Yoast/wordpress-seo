@@ -64,9 +64,6 @@ export function getInitialActiveStepIndex( isSavedSteps ) {
 
 	// Get the index of the first element that has not been saved yet.
 	const index = isSavedSteps.findIndex( ( element ) => element === false );
-	if ( window.wpseoFirstTimeConfigurationData.currentOpenStepIndex < index ) {
-		return window.wpseoFirstTimeConfigurationData.currentOpenStepIndex;
-	}
 	if ( index !== -1 ) {
 		return index;
 	}
