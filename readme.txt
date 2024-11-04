@@ -280,8 +280,8 @@ Release date: 2024-11-05
 
 #### Enhancements
 
+* Introduces a new, redesigned General page.
 * Adds a notification to inform the user when an error occurs while changing the visibility of a notification or a problem.
-* Introduces the new, redesigned General page.
 
 #### Bugfixes
 
