@@ -8,18 +8,17 @@ import { DifficultyBullet, IntentBadge, TrendGraph } from "../..";
 /**
  * The row for the keyphrases table.
  *
- * @param {Object} props The props.
- * @param {string} props.keyword The keyword.
- * @param {string} props.searchVolume The search volume.
- * @param {Array} props.trends The trends.
- * @param {number} props.keywordDifficultyIndex The keyword difficulty index.
- * @param {Array} props.intent The intent.
- * @param {Function} props.renderButton The render button function.
- * @param {Array} props.relatedKeyphrases The related keyphrases.
+ * @param {string} keyword The keyword.
+ * @param {string} searchVolume The search volume.
+ * @param {Array} trends The trends.
+ * @param {number} keywordDifficultyIndex The keyword difficulty index.
+ * @param {Array} intent The intent.
+ * @param {Function} renderButton The render button function.
+ * @param {Array} relatedKeyphrases The related keyphrases.
  *
  * @returns {JSX.Element} The row.
  */
-const KeyphrasesTableRow = ( { keyword, searchVolume, trends, keywordDifficultyIndex, intent, renderButton, relatedKeyphrases } ) => {
+const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], keywordDifficultyIndex = 0, intent = [], renderButton, relatedKeyphrases } ) => {
 	return (
 		<Table.Row>
 			<Table.Cell>
@@ -38,7 +37,7 @@ const KeyphrasesTableRow = ( { keyword, searchVolume, trends, keywordDifficultyI
 			<Table.Cell>
 				<TrendGraph data={ trends } />
 			</Table.Cell>
-			<Table.Cell className="yst-w-28">
+			<Table.Cell>
 				<DifficultyBullet value={ keywordDifficultyIndex } />
 			</Table.Cell>
 			{ renderButton && <Table.Cell className="yst-flex yst-justify-end yst-w-32">
@@ -69,7 +68,7 @@ const LoadingKeyphrasesTableRow = ( { withButton = false } ) => {
 	return (
 		<Table.Row>
 			<Table.Cell className="yst-w-56">
-				<SkeletonLoader as="span" className="yst-w-44 yst-h-5" />
+				<SkeletonLoader className="yst-w-44 yst-h-5" />
 			</Table.Cell>
 			<Table.Cell>
 				<SkeletonLoader className="yst-w-5 yst-h-5" />
@@ -135,7 +134,6 @@ const headers = [
 	__( "Intent", "wordpress-seo" ),
 	__( "Volume", "wordpress-seo" ),
 	__( "Trend", "wordpress-seo" ),
-	__( "Difficulty %", "wordpress-seo" ),
 ];
 
 /**
@@ -157,6 +155,10 @@ export const KeyphrasesTable = ( { data, renderButton, relatedKeyphrases } ) => 
 						{ headerLabel }
 					</Table.Header> )
 				}
+
+				<Table.Header className="yst-whitespace-nowrap">
+					{ __( "Difficulty %", "wordpress-seo" ) }
+				</Table.Header>
 
 				{ renderButton && <Table.Header className="yst-text-right yst-w-20">
 					{ __( "Add keyphrase", "wordpress-seo" ) }
