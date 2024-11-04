@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { noop } from "lodash";
 import { useToggleState } from "@yoast/ui-library";
 import { TableButton } from ".";
@@ -19,14 +19,14 @@ export const Factory = {
 	render: ( { disabled } ) => {
 		const [ isAdd, toggleIsAdd ] = useToggleState( true );
 		const [ isSuccess, toggleIsSuccess ] = useToggleState( false );
-		const [ isFocused, , , setIsFocused ] = useToggleState( false );
+		const buttonRef = useRef();
 
 		useEffect( () => {
 			if ( isSuccess ) {
 				const timerRestore = setTimeout( () => {
 					toggleIsAdd();
 					toggleIsSuccess();
-					setIsFocused();
+					buttonRef?.current?.focus();
 				}, 1000 );
 
 				return () => {
@@ -36,9 +36,14 @@ export const Factory = {
 		}, [ toggleIsAdd, toggleIsSuccess, isSuccess ] );
 
 		return <>
-			{ isSuccess ? <TableButton.SuccessMessage variant={ isAdd ? "add" : "remove" } />
-				: <TableButton variant={ isAdd ? "add" : "remove" } onClick={ toggleIsSuccess } disabled={ disabled } focused={ isFocused } /> }
-
+			<TableButton
+				variant={ isAdd ? "add" : "remove" }
+				onClick={ toggleIsSuccess }
+				disabled={ disabled }
+				ref={ buttonRef }
+				className={ isSuccess ? "yst-opacity-0" : "" }
+			/>
+			{ isSuccess && <TableButton.SuccessMessage variant={ isAdd ? "add" : "remove" } className="yst-absolute" /> }
 		</>;
 	},
 };

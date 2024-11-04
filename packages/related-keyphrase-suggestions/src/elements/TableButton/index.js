@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { forwardRef } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { TrashIcon, PlusIcon, CheckIcon, XIcon } from "@heroicons/react/outline";
@@ -61,20 +61,12 @@ SuccessMessage.propTypes = {
 /**
  *
  * @param {string} variant Whether it is an add button or not.
- * @param {boolean} focused Whether the button should be focused.
+ * @param {string} className The class name.
  *
  * @returns {JSX.Element} The button.
  */
-export const TableButton = ( { variant = "add", focused = false, ...props } ) => {
+export const TableButton = forwardRef( ( { variant = "add", className = "", ...props }, ref ) => {
 	const ButtonIcon = variants[ variant ].button.Icon;
-	const ref = useRef();
-
-	useEffect( () => {
-		if ( focused ) {
-			ref.current.focus();
-		}
-	}, [ focus ] );
-
 
 	return (
 		<Button
@@ -82,17 +74,22 @@ export const TableButton = ( { variant = "add", focused = false, ...props } ) =>
 			ref={ ref }
 			variant={ variants[ variant ].button.variant }
 			size="small"
-			className="yst-table-button"
+			className={ classNames(
+				"yst-table-button",
+				className,
+			 ) }
 		>
 			<ButtonIcon className="yst-button-icon" />
 			{ variants[ variant ].button.label }
 		</Button>
 	);
-};
+} );
 
 TableButton.propTypes = {
-	variant: PropTypes.oneOf( [ "add", "remove" ] ),
-	focused: PropTypes.bool,
+	variant: PropTypes.oneOf( [ "add", "remove" ] ).isRequired,
+	className: PropTypes.string, // eslint-disable-line react/require-default-props
 };
+
+TableButton.displayName = "TableButton";
 
 TableButton.SuccessMessage = SuccessMessage;
