@@ -77,6 +77,8 @@ abstract class Dynamic_Block_V3 implements Integration_Interface {
 	abstract public function present( $attributes );
 
 	/**
+	 * Checks whether the links in the block should have target="blank".
+	 *
 	 * This is needed because when the editor is loaded in an Iframe the link needs to open in a different browser window.
 	 * We don't want this behaviour in the front-end and the way to check this is to check if the block is rendered in a REST request with the `context` set as 'edit'. Thus being in the editor.
 	 *
