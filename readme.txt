@@ -278,6 +278,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-11-05
 
+Yoast SEO 23.8 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-5-11-24).
+
 #### Enhancements
 
 * Introduces a new, redesigned General page.
