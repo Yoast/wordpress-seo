@@ -79,7 +79,7 @@ describe( "Export of the inclusive language configuration", () => {
 		resultLines.unshift( header.join( ";" ) );
 
 		// Set doExport to true to write the results to a temporary file.
-		const doExport = true;
+		const doExport = false;
 		if ( doExport ) {
 			writeToTempFile( "inclusive-language-database.csv", resultLines.join( "\n" ) );
 		}
