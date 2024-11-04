@@ -131,6 +131,11 @@ const App = () => {
 												if ( notice.id === "yoast-first-time-configuration-notice" && wpseoFirstTimeConfigurationData.finishedSteps.includes( FTC_STEPS.personalPreferences ) ) {
 													return null;
 												}
+												/* If all the site representation info in First-time configuration is added,
+												we remove the relevant notice from Local. */
+												if ( notice.id === "yoast-local-missing-organization-info-notice" && ( wpseoFirstTimeConfigurationData.companyLogo && wpseoFirstTimeConfigurationData.companyLogoId && wpseoFirstTimeConfigurationData.companyName ) ) {
+													return null;
+												}
 												return (
 													<Notice
 														key={ index }
