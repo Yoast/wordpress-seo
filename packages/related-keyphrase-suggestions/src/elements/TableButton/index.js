@@ -42,6 +42,7 @@ const variants = {
 const SuccessMessage = ( { variant, className = "" } ) => {
 	const SuccessIcon = variants[ variant ].success.Icon;
 	return <div
+		role="alert"
 		className={
 			classNames( "yst-success-message yst-animate-appear-disappear",
 				`yst-success-message-${ variant }`,
