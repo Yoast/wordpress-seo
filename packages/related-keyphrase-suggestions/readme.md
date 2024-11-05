@@ -1,5 +1,5 @@
 # Welcome to the Yoast releated keyphrase suggestions package!
-A React component library for building Yoast releated keyphrase suggestions user interfaces. 
+A React component library for building user interfaces for Yoast related keyphrase suggestions. 
 
 [View the changelog here](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/related-keyphrase-suggestions/changelog.md).
 
