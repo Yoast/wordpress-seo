@@ -119,11 +119,7 @@ const prepareRow = ( columnNames, row ) => {
 				rowData.keywordDifficultyIndex = Number( row[ index ] );
 				break;
 			case "Search Volume":
-				if ( Number( row[ index ] ) > 1000000 ) {
-					rowData.searchVolume = `${ Number( row[ index ] ) / 1000000 }M`;
-				} else {
-					rowData.searchVolume = `${ Number( row[ index ] ) / 1000 }K`;
-				}
+				rowData.searchVolume = row[ index ];
 				break;
 			default:
 				rowData[ columnName.toLowerCase() ] = row[ index ];
