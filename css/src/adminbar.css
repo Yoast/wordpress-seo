@@ -111,6 +111,10 @@
   color: #f18500;
 }
 
+#wpadminbar .wpseo-no-adminbar-notifications {
+  display: none;
+}
+
 @media screen and (max-width: 782px) {
   #wp-admin-bar-wpseo-menu .wpseo-score-icon {
     margin: 16px 10px 0 2px !important;

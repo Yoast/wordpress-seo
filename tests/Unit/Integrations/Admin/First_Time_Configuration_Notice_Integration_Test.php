@@ -6,7 +6,6 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
 use Yoast\WP\SEO\Helpers\First_Time_Configuration_Notice_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\First_Time_Configuration_Notice_Integration;
@@ -52,13 +51,6 @@ final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	private $notice_presenter;
 
 	/**
-	 * The mock for the New Dashboard UI conditional.
-	 *
-	 * @var New_Dashboard_Ui_Conditional
-	 */
-	private $new_dashboard_ui_conditional;
-
-	/**
 	 * The instance under test.
 	 *
 	 * @var First_Time_Configuration_Notice_Integration
@@ -79,13 +71,11 @@ final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 		$this->options_helper                         = Mockery::mock( Options_Helper::class );
 		$this->admin_asset_manager                    = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->first_time_configuration_notice_helper = Mockery::mock( First_Time_Configuration_Notice_Helper::class );
-		$this->new_dashboard_ui_conditional           = Mockery::mock( New_Dashboard_Ui_Conditional::class );
 
 		$this->instance = new First_Time_Configuration_Notice_Integration(
 			$this->options_helper,
 			$this->first_time_configuration_notice_helper,
-			$this->admin_asset_manager,
-			$this->new_dashboard_ui_conditional
+			$this->admin_asset_manager
 		);
 
 		$this->notice_presenter = Mockery::mock( Notice_Presenter::class );
@@ -259,14 +249,9 @@ final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $should_show_alternate_message );
 
-		$this->new_dashboard_ui_conditional
-				->expects( 'is_met' )
-				->once()
-				->andReturnFalse();
-
 		Monkey\Functions\expect( 'self_admin_url' )
 			->once()
-			->with( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' );
+			->with( 'admin.php?page=wpseo_dashboard#/first-time-configuration' );
 
 		$this->expect_notice_presenter();
 

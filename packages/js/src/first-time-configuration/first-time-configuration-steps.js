@@ -1,9 +1,9 @@
-/* global wpseoFirstTimeConfigurationData */
 import apiFetch from "@wordpress/api-fetch";
-import { useCallback, useReducer, useState, useEffect, useRef } from "@wordpress/element";
+import { useDispatch } from "@wordpress/data";
+import { useCallback, useReducer, useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { uniq } from "lodash";
-
+import { STORE_NAME } from "../general/constants";
 import { configurationReducer } from "./tailwind-components/helpers/index.js";
 import SocialProfilesStep from "./tailwind-components/steps/social-profiles/social-profiles-step";
 import Stepper, { Step } from "./tailwind-components/stepper";
@@ -22,7 +22,7 @@ import { STEPS } from "./constants";
  *
  * @param {Object} state The state to save.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function updateSiteRepresentation( state ) {
 	// Revert emptyChoice to the actual default: "company";
@@ -52,7 +52,7 @@ async function updateSiteRepresentation( state ) {
  *
  * @param {Object} state The state to save.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function updateSocialProfiles( state ) {
 	const socialProfiles = {
@@ -75,7 +75,7 @@ async function updateSocialProfiles( state ) {
  *
  * @param {Object} state The state to save.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function updateTracking( state ) {
 	if ( state.tracking !== 0 && state.tracking !== 1 ) {
@@ -99,7 +99,7 @@ async function updateTracking( state ) {
  *
  * @param {Array} finishedSteps Array of finished steps.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function saveFinishedSteps( finishedSteps ) {
 	const response = await apiFetch( {
@@ -159,7 +159,8 @@ function calculateInitialState( windowObject, isStepFinished ) {
  * @returns {WPElement} The FirstTimeConfigurationSteps component.
  */
 export default function FirstTimeConfigurationSteps() {
-	const [ finishedSteps, setFinishedSteps ] = useState( wpseoFirstTimeConfigurationData.finishedSteps );
+	const { removeAlert } = useDispatch( STORE_NAME );
+	const [ finishedSteps, setFinishedSteps ] = useState( window.wpseoFirstTimeConfigurationData.finishedSteps );
 
 	const isStepFinished = useCallback( ( stepId ) => {
 		return finishedSteps.includes( stepId );
@@ -171,6 +172,7 @@ export default function FirstTimeConfigurationSteps() {
 
 	useEffect( () => {
 		saveFinishedSteps( finishedSteps );
+		window.wpseoFirstTimeConfigurationData.finishedSteps = finishedSteps;
 	}, [ finishedSteps ] );
 
 	const [ state, dispatch ] = useReducer( configurationReducer, {
@@ -192,32 +194,10 @@ export default function FirstTimeConfigurationSteps() {
 	without triggering a reload, whereas the window variable remains stale. */
 	useEffect( () => {
 		if ( indexingState === "completed" ) {
-			const indexationNotice = document.getElementById( "wpseo-reindex" );
-			if ( indexationNotice ) {
-				const allCounters = document.querySelectorAll( ".yoast-issue-counter, #toplevel_page_wpseo_dashboard .update-plugins" );
-
-				// Update the notification counters if there are any (non-zero ones).
-				if ( allCounters.length > 0 && allCounters[ 0 ].firstChild.textContent !== "0" ) {
-					// Get the oldCount for easier targeting.
-					const oldCount = allCounters[ 0 ].firstChild.textContent;
-					const newCount = ( parseInt( oldCount, 10 ) - 1 ).toString();
-					allCounters.forEach( ( counterNode => {
-						// The classList replace will return false if the class was not present (and thus an adminbar counter).
-						const isAdminBarCounter = ! counterNode.classList.replace( "count-" + oldCount, "count-" + newCount );
-						// If the count reaches zero because of this, remove the red dot alltogether.
-						if ( isAdminBarCounter && newCount === "0" ) {
-							counterNode.style.display = "none";
-						} else {
-							counterNode.firstChild.textContent = counterNode.firstChild.textContent.replace( oldCount, newCount );
-							counterNode.lastChild.textContent = counterNode.lastChild.textContent.replace( oldCount, newCount );
-						}
-					} ) );
-				}
-				indexationNotice.remove();
-			}
+			removeAlert( "wpseo-reindex" );
 			window.yoastIndexingData.amount = "0";
 		}
-	}, [ indexingState ] );
+	}, [ indexingState, removeAlert ] );
 
 	const isStep2Finished = isStepFinished( STEPS.siteRepresentation );
 	const isStep3Finished = isStepFinished( STEPS.socialProfiles );
@@ -256,6 +236,7 @@ export default function FirstTimeConfigurationSteps() {
 				setErrorFields( [] );
 				removeStepError( STEPS.siteRepresentation );
 				finishSteps( STEPS.siteRepresentation );
+				window.wpseoFirstTimeConfigurationData = { ...window.wpseoFirstTimeConfigurationData,  ...state };
 				return true;
 			} )
 			.catch( ( e ) => {
@@ -273,7 +254,7 @@ export default function FirstTimeConfigurationSteps() {
 	/**
 	 * Runs checks of finishing the social profiles step.
 	 *
-	 * @returns {void}
+	 * @returns {Promise|boolean} Returns either a Boolean for success/failure or a Promise.
 	 */
 	function updateOnFinishSocialProfiles() {
 		if ( state.companyOrPerson === "person" ) {
@@ -295,6 +276,7 @@ export default function FirstTimeConfigurationSteps() {
 				finishSteps( STEPS.socialProfiles );
 			} )
 			.then( () => {
+				window.wpseoFirstTimeConfigurationData.socialProfiles = state.socialProfiles;
 				return true;
 			} )
 			.catch(
@@ -313,13 +295,14 @@ export default function FirstTimeConfigurationSteps() {
 	/**
 	 * Runs checks of finishing the enable tracking step.
 	 *
-	 * @returns {void}
+	 * @returns {Promise|boolean} Returns either a Boolean for success/failure or a Promise.
 	 */
 	function updateOnFinishPersonalPreferences() {
 		return updateTracking( state )
 			.then( () => finishSteps( STEPS.personalPreferences ) )
 			.then( () => {
 				removeStepError( STEPS.personalPreferences );
+				window.wpseoFirstTimeConfigurationData.tracking = state.tracking;
 				return true;
 			} )
 			.catch( e => {
@@ -395,17 +378,6 @@ export default function FirstTimeConfigurationSteps() {
 		}
 	}, [ isStepperFinished ] );
 
-	/* In order to refresh data in the php form, once the stepper is done, we need to reload upon haschanges triggered by the tabswitching */
-	const isStepperFinishedAtBeginning = useRef( isStep2Finished && isStep3Finished && isStep4Finished );
-	useEffect( () => {
-		if ( isStepperFinished && ! isStepperFinishedAtBeginning.current ) {
-			const firstTimeConfigurationNotice = document.getElementById( "yoast-first-time-configuration-notice" );
-			if ( firstTimeConfigurationNotice ) {
-				firstTimeConfigurationNotice.remove();
-			}
-		}
-	}, [ isStepperFinished, isStepperFinishedAtBeginning ] );
-
 	// If stepperFinishedOnce changes or isStepBeingEdited changes, evaluate edit button state.
 	useEffect( () => {
 		setShowEditButton( stepperFinishedOnce && ! isStepBeingEdited );
@@ -453,7 +425,7 @@ export default function FirstTimeConfigurationSteps() {
 		 */
 		if ( state.editedSteps.includes( activeStepIndex + 1 ) || indexingState === "in_progress" ) {
 			// Show the pup-up modal only if the user is in the first time configuration tab
-			if ( location.href.indexOf( "page=wpseo_dashboard#top#first-time-configuration" ) !== -1 ) {
+			if ( location.href.indexOf( "page=wpseo_dashboard#top#first-time-configuration" ) !== -1 || location.href.indexOf( "page=wpseo_dashboard#/first-time-configuration" ) !== -1 ) {
 				event.preventDefault();
 				event.returnValue = "";
 			}

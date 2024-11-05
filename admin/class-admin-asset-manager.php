@@ -88,14 +88,21 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return void
 	 */
 	public function register_script( WPSEO_Admin_Asset $script ) {
-		$url = $script->get_src() ? $this->get_url( $script, WPSEO_Admin_Asset::TYPE_JS ) : false;
+		$url  = $script->get_src() ? $this->get_url( $script, WPSEO_Admin_Asset::TYPE_JS ) : false;
+		$args = [
+			'in_footer' => $script->is_in_footer(),
+		];
+
+		if ( $script->get_strategy() !== '' ) {
+			$args['strategy'] = $script->get_strategy();
+		}
 
 		wp_register_script(
 			$this->prefix . $script->get_name(),
 			$url,
 			$script->get_deps(),
 			$script->get_version(),
-			$script->is_in_footer()
+			$args
 		);
 
 		if ( in_array( 'wp-i18n', $script->get_deps(), true ) ) {
@@ -313,7 +320,7 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'externals-contexts',
 				self::PREFIX . 'externals-redux',
 			],
-			'new-dashboard'            => [
+			'general-page'             => [
 				self::PREFIX . 'api-client',
 			],
 		];
@@ -664,8 +671,8 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
-				'name' => 'new-dashboard',
-				'src'  => 'new-dashboard-' . $flat_version,
+				'name' => 'general-page',
+				'src'  => 'general-page-' . $flat_version,
 				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
