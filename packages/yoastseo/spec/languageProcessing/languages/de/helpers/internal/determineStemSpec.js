@@ -7,10 +7,19 @@ const morphologyDataDE = getMorphologyData( "de" ).de;
 const wordsToStem = [
 	// Default stemmer
 	[ "studenten", "student" ],
-	// Nouns: exceptionStems
+	// Nouns that gets umlaut in plural
 	[ "vögel", "vogel" ],
-	// Nouns: exceptionStems compound
+	[ "läden", "laden" ],
+	// A noun that gets umlaut and -e in plural
+	[ "häuse", "haus" ],
+	[ "ängste", "angst" ],
+	// A noun that gets umlaut and -er in plural
+	[  "männer", "mann" ],
+	[ "wörter", "wort" ],
+	// compound noun that gets umlaut in plural
 	[ "raubvögel", "raubvogel" ],
+	// compound noun that gets umlaut and -e in plural
+	[ "landflüchte", "landflucht" ],
 	// Nouns: exceptionStems with one plural matching multiple singulars
 	[ "stadium", "stadi" ],
 	[ "stadion", "stadi" ],
