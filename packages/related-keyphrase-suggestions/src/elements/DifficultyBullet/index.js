@@ -79,7 +79,7 @@ const getVariant = ( value ) => {
 
 /**
  *
- * @param {value} value The percentage of difficulty.
+ * @param {number} value The index of difficulty (0-100).
  *
  * @returns {JSX.Element} The percentage of difficulty with a bullet with matching color.
  */

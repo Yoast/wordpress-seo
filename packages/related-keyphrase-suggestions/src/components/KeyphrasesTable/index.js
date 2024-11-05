@@ -132,13 +132,6 @@ const prepareRow = ( columnNames, row ) => {
 	return rowData;
 };
 
-const headers = [
-	__( "Related keyphrase", "wordpress-seo" ),
-	__( "Intent", "wordpress-seo" ),
-	__( "Volume", "wordpress-seo" ),
-	__( "Trend", "wordpress-seo" ),
-];
-
 /**
  *
  * @param {string[]} columnNames The column names.
@@ -154,11 +147,21 @@ export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyph
 	return <Table>
 		<Table.Head>
 			<Table.Row>
-				{ headers && headers.map( ( headerLabel, index ) =>
-					<Table.Header key={ `header-${ index }` }>
-						{ headerLabel }
-					</Table.Header> )
-				}
+				<Table.Header>
+					{ __( "Related keyphrase", "wordpress-seo" ) }
+				</Table.Header>
+
+				<Table.Header>
+					{ __( "Intent", "wordpress-seo" ) }
+				</Table.Header>
+
+				<Table.Header>
+					{ __( "Volume", "wordpress-seo" ) }
+				</Table.Header>
+
+				<Table.Header>
+					{ __( "Trend", "wordpress-seo" ) }
+				</Table.Header>
 
 				<Table.Header className="yst-whitespace-nowrap">
 					{ __( "Difficulty %", "wordpress-seo" ) }
