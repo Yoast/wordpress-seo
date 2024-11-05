@@ -14,10 +14,10 @@ module.exports = {
 		  },
 		  keyframes: {
 				appearDisappear: {
-			  "0%": { opacity: "0" },
-			  "20%": { opacity: "1" },
-			  "70%": { opacity: "1" },
-			  "100%": { opacity: "0" },
+					"0%": { opacity: "0" },
+					"20%": { opacity: "1" },
+					"70%": { opacity: "1" },
+					"100%": { opacity: "0" },
 				},
 		  },
 		},

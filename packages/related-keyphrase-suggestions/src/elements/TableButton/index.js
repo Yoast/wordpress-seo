@@ -9,7 +9,7 @@ const variants = {
 	add: {
 		button: {
 			Icon: PlusIcon,
-		    label: __( "Add", "wordpress-seo" ),
+			label: __( "Add", "wordpress-seo" ),
 			variant: "secondary",
 		},
 		success: {
