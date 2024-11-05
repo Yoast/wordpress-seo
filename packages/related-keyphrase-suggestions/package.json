@@ -21,7 +21,6 @@
     "watch:js": "yarn build:js --watch",
     "watch:css": "node ./scripts/watch-css.js",
     "storybook": "storybook dev -p 6007",
-    "build:storybook": "storybook build",
     "lint": "eslint . .storybook --max-warnings=0"
   },
   "devDependencies": {
