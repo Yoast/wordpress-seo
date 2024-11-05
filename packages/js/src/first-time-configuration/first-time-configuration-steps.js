@@ -203,18 +203,6 @@ export default function FirstTimeConfigurationSteps() {
 	const isStep3Finished = isStepFinished( STEPS.socialProfiles );
 	const isStep4Finished = isStepFinished( STEPS.personalPreferences );
 
-	useEffect( () => {
-		if ( state.companyLogo !== "" && state.companyLogoId !== 0 && state.companyName !== "" ) {
-			resolveNotice( "yoast-local-missing-organization-info-notice" );
-		} else {
-			unresolveNotice( "yoast-local-missing-organization-info-notice" );
-		}
-
-		if ( isStep4Finished ) {
-			resolveNotice( "yoast-first-time-configuration-notice" );
-		}
-	}, [ finishedSteps ] );
-
 	const setTracking = useCallback( ( value ) => {
 		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
 	} );
@@ -249,6 +237,13 @@ export default function FirstTimeConfigurationSteps() {
 				removeStepError( STEPS.siteRepresentation );
 				finishSteps( STEPS.siteRepresentation );
 				window.wpseoFirstTimeConfigurationData = { ...window.wpseoFirstTimeConfigurationData,  ...state };
+
+				if ( state.companyLogo !== "" && state.companyLogoId !== 0 && state.companyName !== "" ) {
+					resolveNotice( "yoast-local-missing-organization-info-notice" );
+				} else {
+					unresolveNotice( "yoast-local-missing-organization-info-notice" );
+				}
+
 				return true;
 			} )
 			.catch( ( e ) => {
@@ -315,6 +310,9 @@ export default function FirstTimeConfigurationSteps() {
 			.then( () => {
 				removeStepError( STEPS.personalPreferences );
 				window.wpseoFirstTimeConfigurationData.tracking = state.tracking;
+
+				resolveNotice( "yoast-first-time-configuration-notice" );
+
 				return true;
 			} )
 			.catch( e => {
