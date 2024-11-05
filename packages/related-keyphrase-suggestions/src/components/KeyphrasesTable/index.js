@@ -49,11 +49,11 @@ const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], key
 KeyphrasesTableRow.propTypes = {
 	keyword: PropTypes.string,
 	searchVolume: PropTypes.string,
-	trends: PropTypes.array,
+	trends: PropTypes.arrayOf( PropTypes.number ),
 	keywordDifficultyIndex: PropTypes.number,
-	intent: PropTypes.array,
+	intent: PropTypes.arrayOf( PropTypes.string ),
 	renderButton: PropTypes.func,
-	relatedKeyphrases: PropTypes.array,
+	relatedKeyphrases: PropTypes.arrayOf( PropTypes.string ),
 };
 
 /**
@@ -190,9 +190,9 @@ export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyph
 };
 
 KeyphrasesTable.propTypes = {
-	columnNames: PropTypes.array,
-	data: PropTypes.array,
-	relatedKeyphrases: PropTypes.array,
+	columnNames: PropTypes.arrayOf( PropTypes.string ),
+	data: PropTypes.arrayOf( PropTypes.arrayOf( PropTypes.string ) ),
+	relatedKeyphrases: PropTypes.arrayOf( PropTypes.string ),
 	renderButton: PropTypes.func,
 };
 
