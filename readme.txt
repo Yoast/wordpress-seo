@@ -274,6 +274,26 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 23.9 =
+
+Release date: 2024-11-19
+
+#### Enhancements
+
+* Adds a maximum width to the problems and notifications in the dashboard.
+* improves the compatibility with WordPress 6.7 Iframe editor.
+
+#### Bugfixes
+
+* Fixes a bug where a fatal error is triggered in Php 8.x when a user's additional contact methods have been improperly set to `null`. Props to [PhilETaylor](https://github.com/PhilETaylor).
+* Fixes a bug where the First time configuration would have a double separator for the title and content.
+* Fixes a bug where the First time configuration would not resize properly on smaller width screens.
+* Fixes a bug where the highlighting marker button was incorrectly enabled when switching the editor mode from code to visual while the AI Optimize toast notification was still visible.
+
+#### Other
+
+* Stops PHP notices about `_load_textdomain_just_in_time` loading incorrectly, on WP 6.7.
+
 = 23.8 =
 
 Release date: 2024-11-05
@@ -292,26 +312,6 @@ Yoast SEO 23.8 brings more enhancements and bugfixes. [Find more information abo
 #### Other
 
 * Sets the _WordPress tested up to_ version to 6.7.
-
-= 23.7 =
-
-Release date: 2024-10-22
-
-Yoast SEO 23.7 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-22-10-24).
-
-#### Enhancements
-
-* Removes the _keyphrase in slug_ assessment for static home pages.
-
-#### Bugfixes
-
-* Fixes a bug where a database error would occur when there were no public taxonomies available for indexing.
-* Fixes a bug where another plugin running the `exit()` function inside the `plugin_loaded` hook would result in a fatal error. Props to [menno-ll](https://github.com/menno-ll).
-
-#### Other
-
-* Removes translation strings that are not meant for the Yoast SEO Free version from the plugin.
-* Resets the notice for search engines discouraged when changing Search engine visibility to visible.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
