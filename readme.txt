@@ -281,7 +281,7 @@ Release date: 2024-11-19
 #### Enhancements
 
 * Adds a maximum width to the problems and notifications in the dashboard.
-* improves the compatibility with WordPress 6.7 Iframe editor.
+* Improves the compatibility of the Yoast blocks with WordPress 6.7.
 
 #### Bugfixes
 
