@@ -22,7 +22,7 @@
     "watch:css": "node ./scripts/watch-css.js",
     "storybook": "storybook dev -p 6007",
     "build:storybook": "storybook build",
-    "lint": "eslint . --max-warnings=0  --ignore-pattern '!.*'"
+    "lint": "eslint . .storybook --max-warnings=0"
   },
   "devDependencies": {
     "@babel/cli": "^7.25.9",

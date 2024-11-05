@@ -2,7 +2,6 @@
 .vscode
 .idea
 # Dependencies
-node_modules
+node_modules/
 # Artifacts
-build
-storybook-git-repo
+build/
