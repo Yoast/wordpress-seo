@@ -2390,7 +2390,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
           <span
             className="screen-reader-text"
             style={
-              Object {
+              {
                 "clip": "rect(1px, 1px, 1px, 1px)",
                 "height": "1px",
                 "overflow": "hidden",

@@ -14,7 +14,7 @@
   "version": "2.0.0-alpha.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/wordpress-seo.git",
+    "url": "git+https://github.com/Yoast/wordpress-seo.git",
     "directory": "packages/yoastseo"
   },
   "files": [
@@ -29,24 +29,23 @@
     "build:js": "babel src --copy-files --source-maps --out-dir build",
     "build:types": "tsc",
     "clean": "rm -rf build",
-    "pretest": "grunt get-premium-configuration",
-    "test": "jest",
-    "lint": "eslint src spec --max-warnings 10"
+    "test": "grunt get-premium-configuration && jest",
+    "lint": "eslint . --max-warnings 8"
   },
   "engines": {
     "node": ">=8.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.23.9",
-    "@babel/core": "^7.24.0",
-    "@babel/eslint-parser": "^7.23.10",
-    "@babel/preset-env": "^7.24.0",
+    "@babel/cli": "^7.24.1",
+    "@babel/core": "^7.24.4",
+    "@babel/eslint-parser": "^7.24.1",
+    "@babel/preset-env": "^7.24.4",
     "@stylistic/eslint-plugin": "^1.6.3",
-    "@yoast/browserslist-config": "^1.2.3",
+    "@yoast/browserslist-config": "workspace:^",
     "blob-polyfill": "^7.0.20220408",
     "console.table": "^0.10.0",
     "eslint": "^8.57.0",
-    "eslint-config-yoast": "^6.0.0",
+    "eslint-config-yoast": "workspace:^",
     "eslint-plugin-import": "^2.29.1",
     "grunt": "^1.6.1",
     "grunt-shell": "^4.0.0",
@@ -61,8 +60,8 @@
     "url": "https://github.com/Yoast/wordpress-seo/issues"
   },
   "dependencies": {
-    "@wordpress/i18n": "^4.46.0",
-    "@yoast/feature-flag": "^0.6.0-alpha.0",
+    "@wordpress/i18n": "^4.51.1",
+    "@yoast/feature-flag": "workspace:^",
     "htmlparser2": "^3.9.2",
     "lodash": "^4.17.21",
     "loglevel": "^1.8.1",

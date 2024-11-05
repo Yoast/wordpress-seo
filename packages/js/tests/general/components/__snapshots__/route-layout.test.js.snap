@@ -21,30 +21,6 @@ exports[`RouteLayout renders the component correctly for custom props 1`] = `
     </div>
   </header>
   empty component 
-  <div>
-    <div
-      aria-live="assertive"
-      role="log"
-      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
-    />
-    <div
-      aria-live="assertive"
-      role="log"
-      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
-    />
-    <div
-      aria-live="polite"
-      role="log"
-      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
-    >
-      Custom title Dashboard - Yoast SEO
-    </div>
-    <div
-      aria-live="polite"
-      role="log"
-      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
-    />
-  </div>
 </div>
 `;
 
@@ -69,29 +45,5 @@ exports[`RouteLayout renders the component correctly for default props 1`] = `
     </div>
   </header>
   empty component 
-  <div>
-    <div
-      aria-live="assertive"
-      role="log"
-      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
-    />
-    <div
-      aria-live="assertive"
-      role="log"
-      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
-    />
-    <div
-      aria-live="polite"
-      role="log"
-      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
-    >
-      Title Dashboard - Yoast SEO
-    </div>
-    <div
-      aria-live="polite"
-      role="log"
-      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
-    />
-  </div>
 </div>
 `;

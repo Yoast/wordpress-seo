@@ -353,7 +353,7 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
             class="c7"
           >
             <div
-              class="SnippetPreview__DesktopPartContainer-sc-1hxg8jo-20"
+              class=""
             >
               <span
                 class="screen-reader-text"
@@ -432,7 +432,7 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
               </div>
             </div>
             <div
-              class="SnippetPreview__DesktopPartContainer-sc-1hxg8jo-20"
+              class=""
             >
               <span
                 class="screen-reader-text"

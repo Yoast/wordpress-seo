@@ -1,4 +1,6 @@
+// eslint-disable-next-line import/no-unresolved
 import initStoryshots from "@storybook/addon-storyshots";
+// eslint-disable-next-line import/no-unresolved
 import { imageSnapshot } from "@storybook/addon-storyshots-puppeteer";
 import path from "path";
 

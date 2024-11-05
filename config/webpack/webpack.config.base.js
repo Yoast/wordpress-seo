@@ -29,7 +29,7 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 					plugin.constructor.name !== "MiniCssExtractPlugin" &&
 					plugin.constructor.name !== "CleanWebpackPlugin" &&
 					plugin.constructor.name !== "BundleAnalyzerPlugin" &&
-					plugin.constructor.name !== "DefinePlugin"
+					plugin.constructor.name !== "DefinePlugin",
 			),
 			new DependencyExtractionWebpackPlugin( {
 				injectPolyfill: true,

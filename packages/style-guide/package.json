@@ -9,30 +9,35 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/wordpress-seo",
+    "url": "git+https://github.com/Yoast/wordpress-seo.git",
     "directory": "packages/style-guide"
   },
   "author": "Yoast",
   "license": "GPL-3.0",
-  "private": false,
   "scripts": {
     "build": "yarn clean && yarn build:js && yarn build:json",
     "build:js": "babel src --out-dir build",
     "build:json": "cp src/*.json build/",
     "clean": "rm -rf build"
   },
+  "dependencies": {
+    "@yoast/helpers": "workspace:^",
+    "styled-components": "^5.3.6"
+  },
   "devDependencies": {
-    "@babel/cli": "^7.17.10",
-    "@babel/core": "^7.17.10",
-    "@babel/preset-env": "^7.16.11",
-    "@yoast/browserslist-config": "^1.2.3",
-    "@yoast/helpers": "^0.17.0-alpha.0",
-    "babel-plugin-styled-components": "^2.0.6",
+    "@babel/cli": "^7.24.1",
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
+    "@yoast/browserslist-config": "workspace:^",
+    "babel-plugin-styled-components": "^2.1.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-react": "^6.24.1",
-    "browserslist": "^4.7.3",
-    "json": "^11.0.0",
-    "styled-components": "^5.3.6"
+    "browserslist": "^4.7.3"
+  },
+  "peerDependencies": {
+    "react": "^18.0.2",
+    "react-dom": "^18.0.2",
+    "react-is": "^18.2.0"
   },
   "publishConfig": {
     "access": "public"

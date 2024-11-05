@@ -2,7 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
-import { LiveAnnouncer, LiveMessage } from "react-aria-live";
+import { SpokenMessage } from "../../settings/components/spoken-message";
 
 /**
  * @param {Object} props The properties.
@@ -23,8 +23,8 @@ export const RouteLayout = ( {
 		"Yoast SEO"
 	);
 	return (
-		<LiveAnnouncer>
-			<LiveMessage message={ ariaLiveTitle } aria-live="polite" />
+		<>
+			<SpokenMessage message={ ariaLiveTitle } aria-live="polite" />
 			<Helmet>
 				<title>Dashboard</title>
 			</Helmet>
@@ -35,7 +35,7 @@ export const RouteLayout = ( {
 				</div>
 			</header>
 			{ children }
-		</LiveAnnouncer>
+		</>
 	);
 };
 

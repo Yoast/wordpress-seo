@@ -11,7 +11,7 @@ const image = {
 };
 
 
-describe( validateTwitterImage, () => {
+describe( "validateTwitterImage", () => {
 	// Test when all the values of the image object are allowed values.
 	it( "returns an empty array when all the values of the image object are allowed values.", () => {
 		const testImage = { ...image };
@@ -24,7 +24,7 @@ describe( validateTwitterImage, () => {
 	} );
 } );
 
-describe( validateSize, () => {
+describe( "validateSize", () => {
 	const warningLargeCard = "Your image dimensions are not suitable. The minimum dimensions are 300x157 pixels. " +
 "The maximum dimensions are 4096x4096 pixels.";
 
@@ -103,7 +103,7 @@ describe( validateSize, () => {
 } );
 
 
-describe( validateType, () => {
+describe( "validateType", () => {
 	it( "returns true when the fileType is jpg, png or webp", () => {
 		const testImage = { ...image };
 
@@ -135,7 +135,7 @@ describe( validateType, () => {
 	} );
 } );
 
-describe( validatesBytes, () => {
+describe( "validatesBytes", () => {
 	it( "returns true when the bytes are less than 5MB", () => {
 		const testImage = { ...image, bytes: 4 };
 

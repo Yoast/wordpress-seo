@@ -2,8 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
-import { LiveAnnouncer, LiveMessage } from "react-aria-live";
-import { useDocumentTitle } from "../hooks";
+import { useDocumentTitle, useSpokenMessage } from "../hooks";
 
 /**
  * @param {Object} props The properties.
@@ -12,21 +11,18 @@ import { useDocumentTitle } from "../hooks";
  * @param {JSX.node} [description] The description.
  * @returns {JSX.Element} The route layout component.
  */
-const RouteLayout = ( {
-	children,
-	title,
-	description,
-} ) => {
+const RouteLayout = ( { children, title, description } ) => {
 	const documentTitle = useDocumentTitle( { prefix: `${ title } ‹ ` } );
-	const ariaLiveTitle = sprintf(
+
+	useSpokenMessage( sprintf(
 		/* translators: 1: Settings' section title, 2: Yoast SEO */
 		__( "%1$s Settings - %2$s", "wordpress-seo" ),
 		title,
 		"Yoast SEO"
-	);
+	) );
+
 	return (
-		<LiveAnnouncer>
-			<LiveMessage message={ ariaLiveTitle } aria-live="polite" />
+		<>
 			<Helmet>
 				<title>{ documentTitle }</title>
 			</Helmet>
@@ -37,7 +33,7 @@ const RouteLayout = ( {
 				</div>
 			</header>
 			{ children }
-		</LiveAnnouncer>
+		</>
 	);
 };
 
@@ -45,6 +41,9 @@ RouteLayout.propTypes = {
 	children: PropTypes.node.isRequired,
 	title: PropTypes.string.isRequired,
 	description: PropTypes.node,
+};
+RouteLayout.defaultProps = {
+	description: null,
 };
 
 export default RouteLayout;

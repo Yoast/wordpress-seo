@@ -94,7 +94,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
 					<SidebarItem key="wincher-seo-performance" renderPriority={ 23 }>
-						<WincherSEOPerformanceModal location="sidebar" shouldCloseOnClickOutside={ false } />
+						<WincherSEOPerformanceModal location="sidebar" />
 					</SidebarItem> }
 				{ settings.shouldUpsell && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 24 }>
 					<InternalLinkingSuggestionsUpsell />

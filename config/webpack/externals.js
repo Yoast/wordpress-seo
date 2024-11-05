@@ -25,7 +25,7 @@ const yoastPackages = Object.keys( dependencies ).filter(
 	( packageName ) =>
 		packageName.startsWith( YOAST_PACKAGE_NAMESPACE ) ||
 		legacyYoastPackages.includes( packageName ) ||
-		additionalPackages.includes( packageName )
+		additionalPackages.includes( packageName ),
 );
 
 /**

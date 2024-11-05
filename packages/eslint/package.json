@@ -1,7 +1,6 @@
 {
   "name": "eslint-config-yoast",
   "version": "6.0.0",
-  "private": false,
   "description": "ESLint configuration for Yoast projects",
   "keywords": [
     "eslint",
@@ -14,7 +13,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/javascript.git",
+    "url": "git+https://github.com/Yoast/wordpress-seo.git",
     "directory": "packages/eslint"
   },
   "author": "Team Yoast <support@yoast.com>",
@@ -24,7 +23,7 @@
   },
   "homepage": "https://github.com/Yoast/eslint#readme",
   "dependencies": {
-    "js-yaml": "^3.6.0"
+    "js-yaml": "^4.1.0"
   },
   "peerDependencies": {
     "eslint-plugin-import": ">=2.27.5",

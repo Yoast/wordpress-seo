@@ -5,7 +5,11 @@
   "main": "index.js",
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
-  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yoast/wordpress-seo.git",
+    "directory": "packages/tailwindcss-preset"
+  },
   "peerDependencies": {
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/forms": "^0.5.3",

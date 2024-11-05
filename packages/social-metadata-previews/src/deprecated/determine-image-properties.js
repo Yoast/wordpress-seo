@@ -16,8 +16,8 @@ export const TWITTER_IMAGE_SIZES = createObjectWrapper(
 	( scope, key ) => logOnce(
 		`@yoast/social-metadata-previews/TWITTER_IMAGE_SIZES/${ scope }/${ key }`,
 		`[@yoast/social-metadata-previews] "TWITTER_IMAGE_SIZES.${ key }" is deprecated and will be removed in the future, ` +
-		"please use this from @yoast/social-metadata-forms instead."
-	)
+		"please use this from @yoast/social-metadata-forms instead.",
+	),
 );
 
 const facebookImageSizes = {
@@ -39,8 +39,8 @@ export const FACEBOOK_IMAGE_SIZES = createObjectWrapper(
 	( scope, key ) => logOnce(
 		`@yoast/social-metadata-previews/FACEBOOK_IMAGE_SIZES/${ scope }/${ key }`,
 		`[@yoast/social-metadata-previews] "FACEBOOK_IMAGE_SIZES.${ key }" is deprecated and will be removed in the future, ` +
-		"please use this from @yoast/social-metadata-forms instead."
-	)
+		"please use this from @yoast/social-metadata-forms instead.",
+	),
 );
 
 /**
@@ -56,7 +56,7 @@ export function determineFacebookImageMode( originalDimensions ) {
 	logOnce(
 		"@yoast/social-metadata-previews/determineFacebookImageMode",
 		"[@yoast/social-metadata-previews] 'determineFacebookImageMode' is deprecated and will be removed in the future, " +
-		"please use this from @yoast/social-metadata-forms instead."
+		"please use this from @yoast/social-metadata-forms instead.",
 	);
 
 	const { largeThreshold } = FACEBOOK_IMAGE_SIZES;

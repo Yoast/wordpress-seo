@@ -117,7 +117,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 			height={ [ "company", "person" ].includes( state.companyOrPerson ) ? "auto" : 0 }
 			duration={ 400 }
 			easing="linear"
-			onAnimationEnd={ startOpacityTransition }
+			onHeightAnimationEnd={ startOpacityTransition }
 		>
 			<div className={ classNames( "yst-transition-opacity yst-duration-300 yst-mt-6", sectionOpacity ) }>
 				{ state.companyOrPerson === "company" && <OrganizationSection

@@ -41,7 +41,7 @@ module.exports = {
 						"Missing or incorrect .env variables. See .env.example for hints about the required values.\r\n" +
 						`Not sending a notification to the Yoast Slack. ${
 							colors.green( " For now, notify the appropriate channel yourself." )
-						} Press enter to continue...`
+						} Press enter to continue...`,
 					) ) ),
 				},
 			],
@@ -55,7 +55,7 @@ module.exports = {
 					type: "input",
 					message: colors.bgWhite( colors.inverse( colors.red(
 						"There was an error trying to send a notification to the Yoast Slack. " +
-						`${ colors.green( " For now, notify the appropriate channel yourself." ) } Press enter to continue...`
+						`${ colors.green( " For now, notify the appropriate channel yourself." ) } Press enter to continue...`,
 					) ) ),
 				},
 			],

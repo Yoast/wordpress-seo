@@ -1,3 +1,4 @@
+import { useMemo } from "@wordpress/element";
 import useSelectSettings from "./use-select-settings";
 
 /**
@@ -9,7 +10,7 @@ import useSelectSettings from "./use-select-settings";
  */
 const useDocumentTitle = ( { prefix = "", postfix = "" } = {} ) => {
 	const documentTitle = useSelectSettings( "selectPreference", [], "documentTitle" );
-	return prefix + documentTitle + postfix;
+	return useMemo( () => [ prefix, documentTitle, postfix ].join( "" ), [ prefix, documentTitle, postfix ] );
 };
 
 export default useDocumentTitle;

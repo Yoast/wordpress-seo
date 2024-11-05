@@ -18,6 +18,7 @@ local.properties
 .cproject
 .buildpath
 .vscode
+.idea/
 nbproject/
 node_modules/
 bower_components/
@@ -28,7 +29,6 @@ phpunit.xml
 phpunit-integration.xml
 phpunit-wp.xml
 .phpunit.result.cache
-build/
 
 ############
 ## OSes
@@ -37,6 +37,7 @@ build/
 [Tt]humbs.db
 [Dd]esktop.ini
 *.DS_store
+.DS_store
 .DS_store?
 
 ############
@@ -45,6 +46,7 @@ build/
 
 bin/
 tmp/
+/.tmp
 *.tmp
 *.bak
 *.log
@@ -53,19 +55,31 @@ tmp/
 *.cpr
 *.orig
 *.php.in
-.idea/
 temp/
 ._*
 .Trashes
 .env
 .svn
-.tmp
+.cache/phpunit/cache/
+.nx/cache
 
 ############
 ## Composer
 ############
 /vendor/
 /vendor_prefixed/
+
+############
+## Yarn
+############
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+yarn-error.log
 
 ############
 ## WPSEO
@@ -88,25 +102,14 @@ test.sh
 /premium/src/generated/
 
 ############
-# Dist files
+## Dist files
 ############
 /languages/
 /js/vendor/*
 /js/dist/*
+build/
 /css/dist/*
 /packages/*/dist
 /blocks/**
-yarn-error.log
-coverage
 dependencies.json
 dependencies.md
-.vscode
-.idea/
-.DS_Store
-
-############
-# Temp files
-############
-/.tmp
-
-.cache/phpunit/cache/

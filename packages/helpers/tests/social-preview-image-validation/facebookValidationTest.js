@@ -10,7 +10,7 @@ const image = {
 	id: 34,
 };
 
-describe( validateFacebookImage, () => {
+describe( "validateFacebookImage", () => {
 	// Test when all the values of the image object are allowed values.
 	it( "returns an empty array when all the values of the image object are allowed values.", () => {
 		const testImage = { ...image };
@@ -23,7 +23,7 @@ describe( validateFacebookImage, () => {
 	} );
 } );
 
-describe( validateSize, () => {
+describe( "validateSize", () => {
 	const warningMessage = "Your image dimensions are not suitable. The minimum dimensions are 200x200 pixels.";
 
 	it( "returns true when the dimensions are valid", () => {
@@ -57,7 +57,7 @@ describe( validateSize, () => {
 	} );
 } );
 
-describe( validateType, () => {
+describe( "validateType", () => {
 	it(	"returns true when the fileType is jpeg, gif or png", () => {
 		const testImage = { ...image, type: "jpg" };
 

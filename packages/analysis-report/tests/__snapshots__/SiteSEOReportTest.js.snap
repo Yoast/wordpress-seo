@@ -10,78 +10,78 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
     Test assessment
   </p>
   <div
-    className="bjXoTs progress"
+    className="hDCHJo progress"
   >
     <span
-      className="zSbSj progress__part"
+      className="dpgRRS progress__part"
     />
     <span
-      className="jFdQTa progress__part"
+      className="eMmXBj progress__part"
     />
     <span
-      className="jnzOIl progress__part"
+      className="ddshys progress__part"
     />
   </div>
   <ul
-    className="cVQvbD assessments"
+    className="fgzmXx assessments"
     role="list"
   >
     <li
-      className="eYuGur assessments__item"
+      className="hfSIdm assessments__item"
     >
       <span
-        className="hNYQft jLZaQs assessments__item-bullet"
+        className="duMUGA jDArrc assessments__item-bullet"
       />
       <span
-        className="hNYQft kXgChN assessments__item-text"
+        className="duMUGA fEnQlx assessments__item-text"
         dangerouslySetInnerHTML={
-          Object {
+          {
             "__html": "<div></div>",
           }
         }
       />
       <span
-        className="hNYQft cFTcQJ assessments__item-score"
+        className="duMUGA bzVHaO assessments__item-score"
       >
         10
       </span>
     </li>
     <li
-      className="eYuGur assessments__item"
+      className="hfSIdm assessments__item"
     >
       <span
-        className="hNYQft eEkVPZ assessments__item-bullet"
+        className="duMUGA dLaIDh assessments__item-bullet"
       />
       <span
-        className="hNYQft kXgChN assessments__item-text"
+        className="duMUGA fEnQlx assessments__item-text"
         dangerouslySetInnerHTML={
-          Object {
+          {
             "__html": "<div></div>",
           }
         }
       />
       <span
-        className="hNYQft cFTcQJ assessments__item-score"
+        className="duMUGA bzVHaO assessments__item-score"
       >
         15
       </span>
     </li>
     <li
-      className="eYuGur assessments__item"
+      className="hfSIdm assessments__item"
     >
       <span
-        className="hNYQft kWkurS assessments__item-bullet"
+        className="duMUGA fNcAKm assessments__item-bullet"
       />
       <span
-        className="hNYQft kXgChN assessments__item-text"
+        className="duMUGA fEnQlx assessments__item-text"
         dangerouslySetInnerHTML={
-          Object {
+          {
             "__html": "<div></div>",
           }
         }
       />
       <span
-        className="hNYQft cFTcQJ assessments__item-score"
+        className="duMUGA bzVHaO assessments__item-score"
       >
         20
       </span>

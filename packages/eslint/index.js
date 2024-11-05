@@ -20,7 +20,7 @@ var filePath = path.resolve( __dirname, "./default.yml" ),
 	config;
 
 try {
-	config = yaml.safeLoad( fs.readFileSync( filePath, "utf8" ) ) || {};
+	config = yaml.load( fs.readFileSync( filePath, "utf8" ) ) || {};
 } catch ( e ) {
 	console.error( "Error reading YAML file: " + filePath );
 	e.message = "Cannot read config file: " + filePath + "\nError: " + e.message;

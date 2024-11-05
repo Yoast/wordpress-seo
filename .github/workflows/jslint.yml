@@ -11,34 +11,34 @@ on:
       - 'feature/**'
     paths:
       - '**.js' # Includes Gruntfile.js.
+      - '**.cjs'
       - '.browserslistrc'
       - '.eslintignore'
-      - '.eslintrc'
       - '.nvmrc'
-      - '.yarnrc'
+      - '.yarnrc.yml'
       - 'lerna.json'
+      - 'nx.json'
       - 'package.json'
       - 'yarn.lock'
       - '.github/workflows/jslint.yml'
       - '.yarn/**'
-      - 'apps/**'
-      - 'config/grunt/**'
+      - 'config/**/*.js'
       - 'packages/**'
   pull_request:
     paths:
       - '**.js' # Includes Gruntfile.js.
+      - '**.cjs'
       - '.browserslistrc'
       - '.eslintignore'
-      - '.eslintrc'
       - '.nvmrc'
-      - '.yarnrc'
+      - '.yarnrc.yml'
       - 'lerna.json'
+      - 'nx.json'
       - 'package.json'
       - 'yarn.lock'
       - '.github/workflows/jslint.yml'
       - '.yarn/**'
-      - 'apps/**'
-      - 'config/grunt/**'
+      - 'config/**/*.js'
       - 'packages/**'
   # Allow manually triggering the workflow.
   workflow_dispatch:
@@ -82,3 +82,6 @@ jobs:
 
       - name: Run Javascript lint
         run: yarn lint
+
+      - name: Run Yarn constraints
+        run: yarn constraints

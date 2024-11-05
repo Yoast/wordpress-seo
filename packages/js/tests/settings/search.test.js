@@ -55,7 +55,9 @@ describe( "Search", () => {
 			it( "should close on click", async() => {
 				expect( screen.getByRole( "dialog" ) ).toBeTruthy();
 				fireEvent.click( screen.getByRole( "button", { name: "Close" } ) );
-				expect( screen.queryByRole( "dialog" ) ).toBe( null );
+				await waitFor( () => {
+					expect( screen.queryByRole( "dialog" ) ).toBe( null );
+				}, { timeout: 1000 } );
 			} );
 		} );
 

@@ -53,13 +53,6 @@ exports[`StyledSection can change the heading level 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -68,7 +61,7 @@ exports[`StyledSection can change the heading level 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-file-text "
       fill="blue"
       focusable="false"
       role="img"
@@ -144,13 +137,6 @@ exports[`StyledSection can change the icon to angle-down 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -159,7 +145,7 @@ exports[`StyledSection can change the icon to angle-down 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-angle-down StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-angle-down "
       fill="blue"
       focusable="false"
       role="img"
@@ -233,13 +219,6 @@ exports[`StyledSection can change the icon to angle-left 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -248,7 +227,7 @@ exports[`StyledSection can change the icon to angle-left 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-angle-left StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-angle-left "
       fill="blue"
       focusable="false"
       role="img"
@@ -322,13 +301,6 @@ exports[`StyledSection can change the icon to angle-right 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -337,7 +309,7 @@ exports[`StyledSection can change the icon to angle-right 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-angle-right StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-angle-right "
       fill="blue"
       focusable="false"
       role="img"
@@ -411,13 +383,6 @@ exports[`StyledSection can change the icon to angle-up 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -426,7 +391,7 @@ exports[`StyledSection can change the icon to angle-up 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-angle-up StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-angle-up "
       fill="blue"
       focusable="false"
       role="img"
@@ -500,13 +465,6 @@ exports[`StyledSection can change the icon to circle 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -515,7 +473,7 @@ exports[`StyledSection can change the icon to circle 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-circle StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-circle "
       fill="blue"
       focusable="false"
       role="img"
@@ -589,13 +547,6 @@ exports[`StyledSection can change the icon to edit 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -604,7 +555,7 @@ exports[`StyledSection can change the icon to edit 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-edit StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-edit "
       fill="blue"
       focusable="false"
       role="img"
@@ -678,13 +629,6 @@ exports[`StyledSection can change the icon to eye 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -693,7 +637,7 @@ exports[`StyledSection can change the icon to eye 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-eye StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-eye "
       fill="blue"
       focusable="false"
       role="img"
@@ -767,13 +711,6 @@ exports[`StyledSection can change the icon to file-text 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -782,7 +719,7 @@ exports[`StyledSection can change the icon to file-text 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-file-text "
       fill="blue"
       focusable="false"
       role="img"
@@ -856,13 +793,6 @@ exports[`StyledSection can change the icon to key 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -871,7 +801,7 @@ exports[`StyledSection can change the icon to key 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-key StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-key "
       fill="blue"
       focusable="false"
       role="img"
@@ -945,13 +875,6 @@ exports[`StyledSection can change the icon to list 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -960,7 +883,7 @@ exports[`StyledSection can change the icon to list 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-list StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-list "
       fill="blue"
       focusable="false"
       role="img"
@@ -1034,13 +957,6 @@ exports[`StyledSection can change the icon to question-circle 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -1049,7 +965,7 @@ exports[`StyledSection can change the icon to question-circle 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-question-circle StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-question-circle "
       fill="blue"
       focusable="false"
       role="img"
@@ -1123,13 +1039,6 @@ exports[`StyledSection can change the icon to search 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -1138,7 +1047,7 @@ exports[`StyledSection can change the icon to search 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-search "
       fill="blue"
       focusable="false"
       role="img"
@@ -1212,13 +1121,6 @@ exports[`StyledSection can change the icon to times 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -1227,7 +1129,7 @@ exports[`StyledSection can change the icon to times 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-times StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-times "
       fill="blue"
       focusable="false"
       role="img"
@@ -1301,13 +1203,6 @@ exports[`StyledSection have a red icon 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -1316,7 +1211,7 @@ exports[`StyledSection have a red icon 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-search "
       fill="red"
       focusable="false"
       role="img"
@@ -1389,13 +1284,6 @@ exports[`StyledSection match the snapshot 1`] = `
   color: red;
 }
 
-.c0 .StyledSection__StyledIcon-sc-enyt8a-1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
 <section
   className="c0 yoast-section"
 >
@@ -1404,7 +1292,7 @@ exports[`StyledSection match the snapshot 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-sc-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-file-text "
       fill="blue"
       focusable="false"
       role="img"
