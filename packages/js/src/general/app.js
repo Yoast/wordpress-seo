@@ -5,7 +5,7 @@ import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { useCallback, useEffect, useMemo } from "@wordpress/element";
-import { select, useDispatch } from "@wordpress/data";
+import { select, useDispatch, useSelect } from "@wordpress/data";
 import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
@@ -18,7 +18,6 @@ import Notice from "./components/notice";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
 import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
 import { useNotificationCountSync } from "./hooks/use-notification-count-sync";
-import { STEPS as FTC_STEPS } from "../first-time-configuration/constants";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -72,6 +71,7 @@ Menu.propTypes = {
  */
 const App = () => {
 	const notices = useMemo( getMigratingNoticeInfo, [] );
+	const resolvedNotices = useSelect( ( select ) => select( STORE_NAME ).selectResolvedNotices(), [] );
 
 	useEffect( () => {
 		deleteMigratingNotices( notices );
@@ -126,20 +126,16 @@ const App = () => {
 										}
 										{ notices.length > 0 && <div className="yst-space-y-3 yoast-general-page-notices"> {
 											notices.map( ( notice, index ) => {
-												/* If the last step of the First-time configuration has been completed,
-												we remove the First-time configuration notice. */
-												if ( notice.id === "yoast-first-time-configuration-notice" && wpseoFirstTimeConfigurationData.finishedSteps.includes( FTC_STEPS.personalPreferences ) ) {
+												const noticeID = notice.id || "yoast-general-page-notice-" + index;
+
+												if ( resolvedNotices.includes( noticeID ) ) {
 													return null;
 												}
-												/* If all the site representation info in First-time configuration is added,
-												we remove the relevant notice from Local. */
-												if ( notice.id === "yoast-local-missing-organization-info-notice" && ( wpseoFirstTimeConfigurationData.companyLogo && wpseoFirstTimeConfigurationData.companyLogoId && wpseoFirstTimeConfigurationData.companyName ) ) {
-													return null;
-												}
+
 												return (
 													<Notice
 														key={ index }
-														id={ notice.id || "yoast-general-page-notice-" + index }
+														id={ noticeID }
 														title={ notice.header }
 														isDismissable={ notice.isDismissable }
 													>

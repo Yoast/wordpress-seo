@@ -160,6 +160,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
  */
 export default function FirstTimeConfigurationSteps() {
 	const { removeAlert } = useDispatch( STORE_NAME );
+	const { resolveNotice } = useDispatch( STORE_NAME );
 	const [ finishedSteps, setFinishedSteps ] = useState( window.wpseoFirstTimeConfigurationData.finishedSteps );
 
 	const isStepFinished = useCallback( ( stepId ) => {
@@ -202,6 +203,12 @@ export default function FirstTimeConfigurationSteps() {
 	const isStep2Finished = isStepFinished( STEPS.siteRepresentation );
 	const isStep3Finished = isStepFinished( STEPS.socialProfiles );
 	const isStep4Finished = isStepFinished( STEPS.personalPreferences );
+
+	useEffect( () => {
+		if ( isStep4Finished ) {
+			resolveNotice( "yoast-first-time-configuration-notice" );
+		}
+	}, [ finishedSteps ] );
 
 	const setTracking = useCallback( ( value ) => {
 		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
