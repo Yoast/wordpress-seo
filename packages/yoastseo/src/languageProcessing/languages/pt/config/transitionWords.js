@@ -4,7 +4,6 @@ export const singleWords = [
 	"igualmente", "inegavelmente", "inesperadamente", "mas", "ocasionalmente", "outrossim", "pois", "porquanto",
 	"porque", "portanto", "posteriormente", "precipuamente", "primeiramente", "primordialmente", "principalmente",
 	"salvo", "semelhantemente", "similarmente", "sobretudo", "surpreendentemente", "todavia", "logo", "inclusive",
-	"curiosamente"
 ];
 
 export const multipleWords = [
@@ -19,14 +18,17 @@ export const multipleWords = [
 	"em suma", "em terceiro lugar", "em virtude de", "finalmente", "isto é", "já que", "juntamente com", "logo após",
 	"logo depois", "logo que", "mesmo que", "não apenas", "nesse hiato", "nesse ínterim", "nesse meio tempo", "nesse sentido",
 	"no entanto", "no momento em que", "ou por outra", "ou seja", "para que", "pelo contrário", "por analogia", "por causa de",
-	"por certo", "por conseguinte", "por consequência", "porém", "por exemplo", "por fim", "por isso", "por mais que",
+	"por certo", "por conseguinte", "por consequência", "por conseqüência", "porém", "por exemplo", "por fim", "por isso", "por mais que",
 	"por menos que", "por outro lado", "por vezes", "posto que", "se acaso", "se bem que", "seja como for", "sem dúvida",
 	"sempre que", "só para exemplificar", "só para ilustrar", "só que", "sob o mesmo ponto de vista", "talvez provavelmente",
-	"tanto quanto", "todas as vezes que", "todas as vezes em que", "uma vez que", "visto que", "de repente", "por aí",
-	"enquanto isso", "nada obstante", "por isso mesmo", "de qualquer forma", "diga-se de passagem", "de qualquer jeito",
-	"de vez em quando", "aos poucos", "diante disso", "até porque", "bom", "claro que", "quem diria", "no geral"
+	"tanto quanto", "todas as vezes que", "todas as vezes em que", "uma vez que", "visto que", "de repente",
+	"nada obstante", "não obstante", "de qualquer forma", "diga-se de passagem", "de qualquer jeito",
+	"de vez em quando", "aos poucos", "claro que", "no geral", "em geral", "geralmente", "subitamente", "a despeito de",
+	"em razão de", "em razão disso", "razão pela qual", "por essa razão", "por motivo de", "devido a", "em todo o caso", "de qualquer maneira",
+	"de todo modo", "de todo a modo", "de qualquer modo", "de forma que", "de modo que", "de tempos em tempos", "daí em diante", " daí por diante",
+	"de hoje em diante", "a partir de agora", "de agora em diante",
 ];
 
-export const allWords = singleWords.concat(multipleWords);
+export const allWords = singleWords.concat( multipleWords );
 
 export default allWords;
