@@ -138,14 +138,15 @@ const headers = [
 
 /**
  *
- * @param {object} data The rows to display in the table.
+ * @param {string[]} columnNames The column names.
+ * @param {string[]} data The rows to display in the table.
  * @param {Function} renderButton The render button function.
- * @param {Array} relatedKeyphrases The related keyphrases.
+ * @param {string[]} relatedKeyphrases The related keyphrases.
  *
  * @returns  {JSX.Element} The keyphrases table.
  */
-export const KeyphrasesTable = ( { data, renderButton, relatedKeyphrases } ) => {
-	const rows = data?.results?.rows?.map( row => prepareRow(  data.results.columnNames, row ) );
+export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyphrases } ) => {
+	const rows = data?.map( row => prepareRow(  columnNames, row ) );
 
 	return <Table>
 		<Table.Head>
@@ -186,7 +187,8 @@ export const KeyphrasesTable = ( { data, renderButton, relatedKeyphrases } ) => 
 };
 
 KeyphrasesTable.propTypes = {
-	data: PropTypes.object,
+	columnNames: PropTypes.array,
+	data: PropTypes.array,
 	relatedKeyphrases: PropTypes.array,
 	renderButton: PropTypes.func,
 };
