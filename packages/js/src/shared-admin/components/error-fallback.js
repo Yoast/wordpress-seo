@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
  */
 const HorizontalButtons = ( { handleRefreshClick, supportLink } ) => {
 	return (
-		<div className={ "yst-flex yst-gap-2" }>
+		<div className="yst-flex yst-gap-2">
 			<Button onClick={ handleRefreshClick }>
 				{ __( "Refresh this page", "wordpress-seo" ) }
 			</Button>
