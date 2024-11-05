@@ -8,38 +8,43 @@ import { DifficultyBullet, IntentBadge, TrendGraph } from "../..";
 /**
  * The row for the keyphrases table.
  *
- * @param {string} keyword The keyword.
- * @param {string} searchVolume The search volume.
- * @param {number[]} trends An array of trends for 12 months.
- * @param {number} keywordDifficultyIndex The keyword difficulty index.
- * @param {string[]} intent An array of intent initials.
- * @param {Function} renderButton The render button function.
- * @param {Array} relatedKeyphrases The related keyphrases.
+ * @param {string} [keyword=""] The keyword.
+ * @param {string} [searchVolume=""] The search volume.
+ * @param {number[]} [trends=[]] An array of trends for 12 months.
+ * @param {number} [keywordDifficultyIndex=-1] The keyword difficulty index.
+ * @param {string[]} [intent=[]] An array of intent initials.
+ * @param {Function} [renderButton] The render button function.
+ * @param {string[]} [relatedKeyphrases] The related keyphrases.
  *
  * @returns {JSX.Element} The row.
  */
-const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], keywordDifficultyIndex = 0, intent = [], renderButton, relatedKeyphrases } ) => {
+const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], keywordDifficultyIndex = -1, intent = [], renderButton, relatedKeyphrases } ) => {
 	return (
 		<Table.Row>
 			<Table.Cell>
 				{ keyword }
 			</Table.Cell>
-			<Table.Cell className="yst-flex yst-gap-2">
-				{ intent.length > 0 && intent.map( ( value, index ) => (
-					<IntentBadge key={ `${ index }-${ keyword }-${ value }` } value={ value } />
-				) ) }
-
+			<Table.Cell>
+				<div className="yst-flex yst-gap-2">
+					{ intent.length > 0 && intent.map( ( value, index ) => (
+						<IntentBadge key={ `${ index }-${ keyword }-${ value }` } value={ value } />
+					) ) }
+				</div>
 			</Table.Cell>
-			<Table.Cell className="yst-text-right rtl:yst-text-left">
-				{ searchVolume }
+			<Table.Cell>
+				<div className="yst-flex yst-justify-end">
+					{ searchVolume }
+				</div>
 			</Table.Cell>
 			<Table.Cell>
 				<TrendGraph data={ trends } />
 			</Table.Cell>
-			<Table.Cell className="yst-flex yst-justify-end">
-				<DifficultyBullet value={ keywordDifficultyIndex } />
+			<Table.Cell>
+				<div className="yst-flex yst-justify-end">
+					<DifficultyBullet value={ keywordDifficultyIndex } />
+				</div>
 			</Table.Cell>
-			{ isFunction( renderButton ) && <Table.Cell className="yst-text-right rtl:yst-text-left yst-relative">
+			{ isFunction( renderButton ) && <Table.Cell>
 				{ renderButton( keyword, relatedKeyphrases ) }
 			</Table.Cell> }
 		</Table.Row>

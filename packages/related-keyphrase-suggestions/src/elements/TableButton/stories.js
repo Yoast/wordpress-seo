@@ -35,8 +35,7 @@ export const Factory = {
 			}
 		}, [ toggleIsAdd, toggleIsSuccess, isSuccess ] );
 
-		return <div className="yst-relative">
-
+		return <div className="yst-flex yst-justify-end yst-relative">
 			<TableButton
 				variant={ isAdd ? "add" : "remove" }
 				onClick={ toggleIsSuccess }
