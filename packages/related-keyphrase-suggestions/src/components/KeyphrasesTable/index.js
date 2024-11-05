@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Table, SkeletonLoader } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { isUndefined } from "lodash";
+import { isFunction } from "lodash";
 import { DifficultyBullet, IntentBadge, TrendGraph } from "../..";
 
 /**
@@ -39,7 +39,7 @@ const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], key
 			<Table.Cell className="yst-flex yst-justify-end">
 				<DifficultyBullet value={ keywordDifficultyIndex } />
 			</Table.Cell>
-			{ renderButton && <Table.Cell className="yst-text-right rtl:yst-text-left yst-relative">
+			{ isFunction( renderButton ) && <Table.Cell className="yst-text-right rtl:yst-text-left yst-relative">
 				{ renderButton( keyword, relatedKeyphrases ) }
 			</Table.Cell> }
 		</Table.Row>
@@ -186,7 +186,7 @@ export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyph
 			)
 			// Show 10 loading rows when there are no rows.
 				: Array.from( { length: 10 }, ( _, index ) =>
-					<LoadingKeyphrasesTableRow key={ `loading-row-${ index }` } withButton={ ! isUndefined( renderButton ) }  /> )
+					<LoadingKeyphrasesTableRow key={ `loading-row-${ index }` } withButton={ isFunction( renderButton ) }  /> )
 			}
 		</Table.Body>
 	</Table>;
