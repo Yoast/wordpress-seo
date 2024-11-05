@@ -35,7 +35,7 @@ const preview = {
 			argTypesRegex: "^on[A-Z].*",
 		},
 		backgrounds: {
-			default: "light",
+			"default": "light",
 			values: [
 				{
 					name: "light",
