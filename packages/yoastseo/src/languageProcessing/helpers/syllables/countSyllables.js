@@ -137,7 +137,7 @@ const countUsingVowels = function( word, syllables ) {
  *
  * @returns {number} The syllable count for the word.
  */
-const countSyllablesInWord = function( word, syllables ) {
+export const countSyllablesInWord = function( word, syllables ) {
 	let syllableCount = 0;
 
 	if ( ! isUndefined( syllables.deviations ) && ! isUndefined( syllables.deviations.words ) ) {
