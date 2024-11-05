@@ -521,6 +521,7 @@ class WPSEO_Admin_Asset_Manager {
 			'styled-components'           => 'styled-components-package',
 			'style-guide'                 => 'style-guide-package',
 			'yoast-components'            => 'components-new-package',
+			'related-keyphrase-suggestions' => 'related-keyphrase-suggestions-package',
 		];
 
 		foreach ( $renamed_scripts as $original => $replacement ) {

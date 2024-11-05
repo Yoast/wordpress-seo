@@ -1,5 +1,7 @@
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
+import { KeyphrasesTable } from "@yoast/related-keyphrase-suggestions";
+import { Root } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
@@ -117,14 +119,14 @@ export default function RelatedKeyphraseModalContent( props ) {
 			) }
 
 			{ getUserMessage( props ) }
-
-			<SEMrushKeyphrasesTable
-				keyphrase={ keyphrase }
-				relatedKeyphrases={ relatedKeyphrases }
-				countryCode={ countryCode }
-				renderAction={ renderAction }
-				data={ response }
-			/>
+			<Root>
+				<KeyphrasesTable
+					relatedKeyphrases={ relatedKeyphrases }
+					columnNames={ response?.results?.columnNames }
+					data={ response?.results?.rows }
+					renderButton={ renderAction }
+				/>
+			</Root>
 		</Fragment>
 	);
 }
