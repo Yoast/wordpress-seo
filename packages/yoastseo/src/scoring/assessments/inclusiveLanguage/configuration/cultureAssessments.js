@@ -11,6 +11,7 @@ import {
 import {
 	orangeUnlessCultureOfOrigin, orangeUnlessCultureUsesTerm,
 } from "./feedbackStrings/cultureAssessmentStrings";
+import { notFollowed } from "../helpers/createRuleDescriptions";
 
 const cultureAssessments = [
 	{
@@ -22,6 +23,7 @@ const cultureAssessments = [
 		caseSensitive: true,
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "War", "war", "Assembly", "assembly" ] ) ),
+		ruleDescription: notFollowed( [ "War", "war", "Assembly", "assembly" ] ),
 	},
 	{
 		identifier: "thirdWorld",
@@ -32,6 +34,7 @@ const cultureAssessments = [
 		caseSensitive: true,
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "War", "war", "Quarterly", "quarterly", "country" ] ) ),
+		ruleDescription: notFollowed( [ "War", "war", "Quarterly", "quarterly", "country" ] ),
 	},
 	{
 		identifier: "tribe",
@@ -58,6 +61,7 @@ const cultureAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "longhair", "longhairs", "shorthair", "shorthairs" ] ) );
 		},
+		ruleDescription: notFollowed( [ "longhair", "longhairs", "shorthair", "shorthairs" ] ),
 	},
 	{
 		identifier: "sherpa",
