@@ -10,7 +10,7 @@ import { DifficultyBullet, IntentBadge, TrendGraph } from "../..";
  *
  * @param {string} keyword The keyword.
  * @param {string} searchVolume The search volume.
- * @param {number[]} trends An array of trends ver 12 months.
+ * @param {number[]} trends An array of trends for 12 months.
  * @param {number} keywordDifficultyIndex The keyword difficulty index.
  * @param {string[]} intent An array of intent initials.
  * @param {Function} renderButton The render button function.
