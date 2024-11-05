@@ -1,5 +1,4 @@
 @import "@yoast/ui-library";
-@import "@yoast/related-keyphrase-suggestions";
 
 @import "../src/elements/IntentBadge/style.css";
 @import "../src/elements/DifficultyBullet/style.css";
