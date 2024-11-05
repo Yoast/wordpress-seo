@@ -89,8 +89,7 @@ const LoadingKeyphrasesTableRow = ( { withButton = false } ) => {
 					<SkeletonLoader className="yst-w-3 yst-h-5" />
 				</div>
 			</Table.Cell>
-			{ withButton &&
-			<Table.Cell>
+			{ withButton && <Table.Cell>
 				<SkeletonLoader className="yst-w-16 yst-h-7" />
 			</Table.Cell>
 			}
@@ -140,7 +139,7 @@ const prepareRow = ( columnNames, row ) => {
  * @param {Function} renderButton The render button function.
  * @param {string[]} relatedKeyphrases The related keyphrases.
  *
- * @returns  {JSX.Element} The keyphrases table.
+ * @returns {JSX.Element} The keyphrases table.
  */
 export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyphrases } ) => {
 	const rows = data?.map( row => prepareRow(  columnNames, row ) );
@@ -151,25 +150,24 @@ export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyph
 				<Table.Header>
 					{ __( "Related keyphrase", "wordpress-seo" ) }
 				</Table.Header>
-
 				<Table.Header>
 					{ __( "Intent", "wordpress-seo" ) }
 				</Table.Header>
-
 				<Table.Header>
 					{ __( "Volume", "wordpress-seo" ) }
 				</Table.Header>
-
 				<Table.Header>
 					{ __( "Trend", "wordpress-seo" ) }
 				</Table.Header>
-
 				<Table.Header className="yst-whitespace-nowrap">
-					{ __( "Difficulty %", "wordpress-seo" ) }
+					<div className="yst-flex yst-justify-end">
+						{ __( "Difficulty %", "wordpress-seo" ) }
+					</div>
 				</Table.Header>
-
-				{ renderButton && <Table.Header className="yst-text-right yst-min-w-28">
-					{ __( "Add keyphrase", "wordpress-seo" ) }
+				{ renderButton && <Table.Header className="yst-min-w-28">
+					<div className="yst-flex yst-justify-end">
+						{ __( "Add keyphrase", "wordpress-seo" ) }
+					</div>
 				</Table.Header> }
 
 			</Table.Row>
@@ -177,17 +175,17 @@ export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyph
 
 		<Table.Body>
 
-			{ rows ? rows.map( ( rowData, index ) =>
-				<KeyphrasesTableRow
-					key={ `related-keyphrase-${ index }` }
-					renderButton={ renderButton }
-					relatedKeyphrases={ relatedKeyphrases }
-					{ ...rowData }
-				/>,
-			)
-			// Show 10 loading rows when there are no rows.
-				: Array.from( { length: 10 }, ( _, index ) =>
-					<LoadingKeyphrasesTableRow key={ `loading-row-${ index }` } withButton={ isFunction( renderButton ) }  /> )
+			{ rows
+				? rows.map( ( rowData, index ) => (
+					<KeyphrasesTableRow
+						key={ `related-keyphrase-${ index }` }
+						renderButton={ renderButton }
+						relatedKeyphrases={ relatedKeyphrases }
+						{ ...rowData }
+					/> ) )
+				// Show 10 loading rows when there are no rows.
+				: Array.from( { length: 10 }, ( _, index ) => (
+					<LoadingKeyphrasesTableRow key={ `loading-row-${ index }` } withButton={ isFunction( renderButton ) }  /> ) )
 			}
 		</Table.Body>
 	</Table>;

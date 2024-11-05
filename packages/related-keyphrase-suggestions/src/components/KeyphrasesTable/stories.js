@@ -95,7 +95,7 @@ export const Factory = {
 
 export const LoadingTable = () => <KeyphrasesTable renderButton={ noop } />;
 
-export const WithoutButtons = () => <KeyphrasesTable data={ Factory.args.data } />;
+export const WithoutButtons = () => <KeyphrasesTable data={ Factory.args.data } columnNames={ Factory.args.columnNames } />;
 
 export default {
 	title: "1) Components/KeyphrasesTable",
