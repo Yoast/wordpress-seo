@@ -159,8 +159,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
  * @returns {WPElement} The FirstTimeConfigurationSteps component.
  */
 export default function FirstTimeConfigurationSteps() {
-	const { removeAlert } = useDispatch( STORE_NAME );
-	const { resolveNotice } = useDispatch( STORE_NAME );
+	const { removeAlert, resolveNotice, unresolveNotice } = useDispatch( STORE_NAME );
 	const [ finishedSteps, setFinishedSteps ] = useState( window.wpseoFirstTimeConfigurationData.finishedSteps );
 
 	const isStepFinished = useCallback( ( stepId ) => {
@@ -205,6 +204,12 @@ export default function FirstTimeConfigurationSteps() {
 	const isStep4Finished = isStepFinished( STEPS.personalPreferences );
 
 	useEffect( () => {
+		if ( state.companyLogo !== "" && state.companyLogoId !== 0 && state.companyName !== "" ) {
+			resolveNotice( "yoast-local-missing-organization-info-notice" );
+		} else {
+			unresolveNotice( "yoast-local-missing-organization-info-notice" );
+		}
+
 		if ( isStep4Finished ) {
 			resolveNotice( "yoast-first-time-configuration-notice" );
 		}
