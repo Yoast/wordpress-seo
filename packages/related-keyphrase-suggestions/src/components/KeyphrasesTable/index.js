@@ -24,23 +24,22 @@ const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], key
 			<Table.Cell>
 				{ keyword }
 			</Table.Cell>
-			<Table.Cell>
-				<div className="yst-flex yst-gap-2">
-					{ intent.length > 0 && intent.map( ( value, index ) => (
-						<IntentBadge key={ `${ index }-${ keyword }-${ value }` } value={ value } />
-					) ) }
-				</div>
+			<Table.Cell className="yst-flex yst-gap-2">
+				{ intent.length > 0 && intent.map( ( value, index ) => (
+					<IntentBadge key={ `${ index }-${ keyword }-${ value }` } value={ value } />
+				) ) }
+
 			</Table.Cell>
-			<Table.Cell>
+			<Table.Cell className="yst-text-right rtl:yst-text-left">
 				{ searchVolume }
 			</Table.Cell>
 			<Table.Cell>
 				<TrendGraph data={ trends } />
 			</Table.Cell>
-			<Table.Cell>
+			<Table.Cell className="yst-flex yst-justify-end">
 				<DifficultyBullet value={ keywordDifficultyIndex } />
 			</Table.Cell>
-			{ renderButton && <Table.Cell className="yst-flex yst-justify-end yst-w-32">
+			{ renderButton && <Table.Cell className="yst-text-right rtl:yst-text-left yst-relative">
 				{ renderButton( keyword, relatedKeyphrases ) }
 			</Table.Cell> }
 		</Table.Row>
@@ -120,7 +119,11 @@ const prepareRow = ( columnNames, row ) => {
 				rowData.keywordDifficultyIndex = Number( row[ index ] );
 				break;
 			case "Search Volume":
-				rowData.searchVolume = row[ index ];
+				if ( Number( row[ index ] ) > 1000000 ) {
+					rowData.searchVolume = `${ Number( row[ index ] ) / 1000000 }M`;
+				} else {
+					rowData.searchVolume = `${ Number( row[ index ] ) / 1000 }K`;
+				}
 				break;
 			default:
 				rowData[ columnName.toLowerCase() ] = row[ index ];
@@ -161,7 +164,7 @@ export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyph
 					{ __( "Difficulty %", "wordpress-seo" ) }
 				</Table.Header>
 
-				{ renderButton && <Table.Header className="yst-text-right yst-w-20">
+				{ renderButton && <Table.Header className="yst-text-right yst-min-w-28">
 					{ __( "Add keyphrase", "wordpress-seo" ) }
 				</Table.Header> }
 

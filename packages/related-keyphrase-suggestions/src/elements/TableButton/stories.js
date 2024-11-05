@@ -35,7 +35,8 @@ export const Factory = {
 			}
 		}, [ toggleIsAdd, toggleIsSuccess, isSuccess ] );
 
-		return <>
+		return <div className="yst-relative">
+
 			<TableButton
 				variant={ isAdd ? "add" : "remove" }
 				onClick={ toggleIsSuccess }
@@ -43,8 +44,8 @@ export const Factory = {
 				ref={ buttonRef }
 				className={ isSuccess ? "yst-opacity-0" : "" }
 			/>
-			{ isSuccess && <TableButton.SuccessMessage variant={ isAdd ? "add" : "remove" } className="yst-absolute" /> }
-		</>;
+			{ isSuccess && <TableButton.SuccessMessage variant={ isAdd ? "add" : "remove" } className="yst-absolute yst-top-0 yst-right-0" /> }
+		</div>;
 	},
 };
 

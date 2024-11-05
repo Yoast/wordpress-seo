@@ -95,11 +95,11 @@ export const DifficultyBullet = ( { value } ) => {
 	return (
 		<div
 			aria-description={ `${ variant.tooltip.title }, ${ variant.tooltip.description }` }
-			className="yst-flex yst-gap-2 yst-items-center yst-justify-center yst-relative yst-w-10"
+			className="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
 			onMouseEnter={ handleMouseEnter }
 			onMouseLeave={ handleMouseLeave }
 		>
-			<div className="yst-text-right">
+			<div className="yst-text-right yst-w-5">
 				{ value }
 			</div>
 			<div
