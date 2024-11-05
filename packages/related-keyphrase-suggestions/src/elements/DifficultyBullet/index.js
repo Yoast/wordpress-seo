@@ -65,7 +65,7 @@ const variants = [
 /**
  * Returns the variant of the difficulty.
  *
- * @param {number} value The percentage of difficulty.
+ * @param {number} value The difficulty index (0-100).
  * @returns {object} The variant of the difficulty.
  */
 const getVariant = ( value ) => {
