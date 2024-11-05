@@ -1,11 +1,10 @@
 /* eslint-disable complexity */
-/* global wpseoFirstTimeConfigurationData */
 
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { useCallback, useEffect, useMemo } from "@wordpress/element";
-import { select, useDispatch, useSelect } from "@wordpress/data";
+import { select, useDispatch } from "@wordpress/data";
 import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
@@ -71,7 +70,7 @@ Menu.propTypes = {
  */
 const App = () => {
 	const notices = useMemo( getMigratingNoticeInfo, [] );
-	const resolvedNotices = useSelect( ( select ) => select( STORE_NAME ).selectResolvedNotices(), [] );
+	const resolvedNotices = select( STORE_NAME ).selectResolvedNotices();
 
 	useEffect( () => {
 		deleteMigratingNotices( notices );
