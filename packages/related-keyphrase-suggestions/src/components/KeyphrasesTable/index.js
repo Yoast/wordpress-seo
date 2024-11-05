@@ -57,7 +57,7 @@ KeyphrasesTableRow.propTypes = {
 };
 
 /**
- * Laoding keyphrase table row.
+ * Loading keyphrase table row.
  *
  * @param {boolean} withButton Whether the user is with button columns or not.
  *
