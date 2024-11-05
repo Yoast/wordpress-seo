@@ -7,19 +7,19 @@ export const Factory = {
 		controls: { disable: false },
 	},
 	args: {
-		initial: "i",
+		value: "i",
 	},
 	argTypes: {
-		initial: {
+		value: {
 			description: "Initial of the intent",
 		},
 	},
-	render: ( { initial } ) => (
+	render: ( { value } ) => (
 		<>
-			<IntentBadge initial={ initial } />
-			<IntentBadge initial="n" />
-			<IntentBadge initial="c" />
-			<IntentBadge initial="t" />
+			<IntentBadge value={ value } />
+			<IntentBadge value="n" />
+			<IntentBadge value="c" />
+			<IntentBadge value="t" />
 		</>
 	),
 };
@@ -28,7 +28,7 @@ export default {
 	title: "2) Elements/IntentBadge",
 	component: IntentBadge,
 	args: {
-		initial: "i",
+		value: "i",
 	},
 	parameters: {
 		docs: {
