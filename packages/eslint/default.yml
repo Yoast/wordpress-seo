@@ -95,19 +95,19 @@ rules:
 
   # Stylistic Issues
   array-bracket-spacing: [2, always]
-  block-spacing: [2, always]
+  block-spacing: 2
   brace-style: [2, 1tbs]
   camelcase: 2
   comma-spacing: 2
   comma-style: 2
   computed-property-spacing: [2, always]
-  consistent-this: [2, "that"]
+  consistent-this: 2
   eol-last: 2
   indent: [2, tab, {"SwitchCase": 1}]
-  jsx-quotes: [2, "prefer-double"]
-  key-spacing: [2, {"beforeColon": false, "afterColon": true}]
-  keyword-spacing: [2, {"before": true, "after": true}]
-  linebreak-style: [2, unix]
+  jsx-quotes: 2
+  key-spacing: 2
+  keyword-spacing: 2
+  linebreak-style: 2
   max-depth: 2
   max-len: [2, 150, 4]
   max-nested-callbacks: 2
@@ -152,7 +152,7 @@ rules:
   quotes: [2, double, avoid-escape]
   require-jsdoc: [2, {"require": {"MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true}}]
   semi-spacing: 2
-  semi: [2, always]
+  semi: 2
   space-before-blocks: 2
   space-before-function-paren: [2, "never"]
   space-in-parens: [2, "always", {"exceptions": ["empty"]}]
