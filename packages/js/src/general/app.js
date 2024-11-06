@@ -2,7 +2,7 @@
 
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
-import { select, useDispatch } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
@@ -69,7 +69,7 @@ Menu.propTypes = {
  */
 const App = () => {
 	const notices = useMemo( getMigratingNoticeInfo, [] );
-	const resolvedNotices = select( STORE_NAME ).selectResolvedNotices();
+	const resolvedNotices = useSelect( select => select( STORE_NAME ).selectResolvedNotices(), [] );
 
 	useEffect( () => {
 		deleteMigratingNotices( notices );
@@ -84,7 +84,7 @@ const App = () => {
 		setAlertToggleError( null );
 	}, [ setAlertToggleError ] );
 
-	const linkParams = select( STORE_NAME ).selectLinkParams();
+	const linkParams = useSelect( select => select( STORE_NAME ).selectLinkParams(), [] );
 	const webinarIntroSettingsUrl = addQueryArgs( "https://yoa.st/webinar-intro-settings", linkParams );
 
 	return (
