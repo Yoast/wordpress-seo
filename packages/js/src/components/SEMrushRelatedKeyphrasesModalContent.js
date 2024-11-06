@@ -10,7 +10,6 @@ import { isEmpty } from "lodash";
 import SEMrushLoading from "./modals/SEMrushLoading";
 import SEMrushLimitReached from "./modals/SEMrushLimitReached";
 import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
-import SEMrushKeyphrasesTable from "./modals/SEMrushKeyphrasesTable";
 import SEMrushUpsellAlert from "./modals/SEMrushUpsellAlert";
 import SEMrushRequestFailed from "./modals/SEMrushRequestFailed";
 import SEMrushMaxRelatedKeyphrases from "./modals/SEMrushMaxRelatedKeyphrases";
