@@ -141,15 +141,15 @@ const prepareRow = ( columnNames, row ) => {
 
 /**
  *
- * @param {string[]} columnNames The column names.
- * @param {string[]} data The rows to display in the table.
- * @param {Function} renderButton The render button function.
- * @param {Object[]} relatedKeyphrases The related keyphrases.
- * @param {string} className The class name for the table.
+ * @param {string[]} [columnNames=[]] The column names.
+ * @param {string[]} [data] The rows to display in the table.
+ * @param {Function} [renderButton] The render button function.
+ * @param {Object[]} [relatedKeyphrases=[]] The related keyphrases.
+ * @param {string} [className=""] The class name for the table.
  *
  * @returns {JSX.Element} The keyphrases table.
  */
-export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyphrases, className } ) => {
+export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "" } ) => {
 	const rows = data?.map( row => prepareRow(  columnNames, row ) );
 
 	return <Table className={ className }>
