@@ -281,6 +281,7 @@ Release date: 2024-11-19
 #### Enhancements
 
 * Adds a maximum width to the problems and notifications in the dashboard.
+* Adds new columns and design to the related key phrase suggestions table.
 * Improves the compatibility of the Yoast blocks with WordPress 6.7.
 
 #### Bugfixes

@@ -1,0 +1,15 @@
+@layer components {
+	.yst-root {
+		.yst-table-wrapper {
+			@apply yst-rounded-lg;
+		}
+
+		.yst-table-header {
+			@apply first:yst-rounded-tl-lg last:yst-rounded-tr-lg;
+		}
+
+		.yst-table-row:last-of-type .yst-table-cell {
+			@apply first:yst-rounded-bl-lg last:yst-rounded-br-lg;
+		}
+	}
+}
