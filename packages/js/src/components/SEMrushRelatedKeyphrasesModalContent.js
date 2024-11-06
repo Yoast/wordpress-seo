@@ -92,6 +92,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 		relatedKeyphrases,
 		setRequestSucceeded,
 		setRequestLimitReached,
+		isRtl,
 	} = props;
 
 	const isPremium = getL10nObject().isPremium;
@@ -118,7 +119,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 			) }
 
 			{ getUserMessage( props ) }
-			<Root>
+			<Root context={ { isRtl } }>
 				<KeyphrasesTable
 					relatedKeyphrases={ relatedKeyphrases }
 					columnNames={ response?.results?.columnNames }
@@ -144,6 +145,7 @@ RelatedKeyphraseModalContent.propTypes = {
 	setNoResultsFound: PropTypes.func.isRequired,
 	response: PropTypes.object,
 	lastRequestKeyphrase: PropTypes.string,
+	isRtl: PropTypes.bool,
 };
 
 RelatedKeyphraseModalContent.defaultProps = {
@@ -153,4 +155,5 @@ RelatedKeyphraseModalContent.defaultProps = {
 	requestLimitReached: false,
 	response: {},
 	lastRequestKeyphrase: "",
+	isRtl: false,
 };
