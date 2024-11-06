@@ -14,7 +14,7 @@ import { DifficultyBullet, IntentBadge, TrendGraph } from "../..";
  * @param {number} [keywordDifficultyIndex=-1] The keyword difficulty index.
  * @param {string[]} [intent=[]] An array of intent initials.
  * @param {Function} [renderButton] The render button function.
- * @param {string[]} [relatedKeyphrases] The related keyphrases.
+ * @param {Object[]} [relatedKeyphrases] The related keyphrases.
  *
  * @returns {JSX.Element} The row.
  */
@@ -58,7 +58,12 @@ KeyphrasesTableRow.propTypes = {
 	keywordDifficultyIndex: PropTypes.number,
 	intent: PropTypes.arrayOf( PropTypes.string ),
 	renderButton: PropTypes.func,
-	relatedKeyphrases: PropTypes.arrayOf( PropTypes.string ),
+	relatedKeyphrases: PropTypes.arrayOf( PropTypes.shape( {
+		key: PropTypes.string,
+		keyword: PropTypes.string,
+		results: PropTypes.array,
+		score: PropTypes.number,
+	} ) ),
 };
 
 /**
@@ -78,13 +83,15 @@ const LoadingKeyphrasesTableRow = ( { withButton = false } ) => {
 				<SkeletonLoader className="yst-w-5 yst-h-5" />
 			</Table.Cell>
 			<Table.Cell>
-				<SkeletonLoader className="yst-w-14 yst-h-5" />
+				<div className="yst-flex yst-justify-end">
+					<SkeletonLoader className="yst-w-14 yst-h-5" />
+				</div>
 			</Table.Cell>
 			<Table.Cell>
 				<SkeletonLoader className="yst-w-16 yst-h-5" />
 			</Table.Cell>
 			<Table.Cell>
-				<div className="yst-flex yst-gap-2">
+				<div className="yst-flex yst-gap-2 yst-justify-end">
 					<SkeletonLoader className="yst-w-4 yst-h-5" />
 					<SkeletonLoader className="yst-w-3 yst-h-5" />
 				</div>
@@ -134,17 +141,18 @@ const prepareRow = ( columnNames, row ) => {
 
 /**
  *
- * @param {string[]} columnNames The column names.
- * @param {string[]} data The rows to display in the table.
- * @param {Function} renderButton The render button function.
- * @param {string[]} relatedKeyphrases The related keyphrases.
+ * @param {string[]} [columnNames=[]] The column names.
+ * @param {string[]} [data] The rows to display in the table.
+ * @param {Function} [renderButton] The render button function.
+ * @param {Object[]} [relatedKeyphrases=[]] The related keyphrases.
+ * @param {string} [className=""] The class name for the table.
  *
  * @returns {JSX.Element} The keyphrases table.
  */
-export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyphrases } ) => {
+export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "" } ) => {
 	const rows = data?.map( row => prepareRow(  columnNames, row ) );
 
-	return <Table>
+	return <Table className={ className }>
 		<Table.Head>
 			<Table.Row>
 				<Table.Header>
@@ -154,7 +162,9 @@ export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyph
 					{ __( "Intent", "wordpress-seo" ) }
 				</Table.Header>
 				<Table.Header>
-					{ __( "Volume", "wordpress-seo" ) }
+					<div className="yst-flex yst-justify-end">
+						{ __( "Volume", "wordpress-seo" ) }
+					</div>
 				</Table.Header>
 				<Table.Header>
 					{ __( "Trend", "wordpress-seo" ) }
@@ -194,8 +204,14 @@ export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyph
 KeyphrasesTable.propTypes = {
 	columnNames: PropTypes.arrayOf( PropTypes.string ),
 	data: PropTypes.arrayOf( PropTypes.arrayOf( PropTypes.string ) ),
-	relatedKeyphrases: PropTypes.arrayOf( PropTypes.string ),
+	relatedKeyphrases: PropTypes.arrayOf( PropTypes.shape( {
+		key: PropTypes.string,
+		keyword: PropTypes.string,
+		results: PropTypes.array,
+		score: PropTypes.number,
+	} ) ),
 	renderButton: PropTypes.func,
+	className: PropTypes.string,
 };
 
 KeyphrasesTable.displayName = "KeyphrasesTable";
