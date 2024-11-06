@@ -211,6 +211,18 @@ export default function FirstTimeConfigurationSteps() {
 		dispatch( { type: "SET_ERROR_FIELDS", payload: value } );
 	} );
 
+	const resolveLocalNotice = useCallback( () => {
+		if ( state.companyLogo !== "" && state.companyLogoId !== 0 && state.companyName !== "" ) {
+			resolveNotice( "yoast-local-missing-organization-info-notice" );
+		} else {
+			unresolveNotice( "yoast-local-missing-organization-info-notice" );
+		}
+	}, [ resolveNotice, unresolveNotice, state.companyLogo, state.companyLogoId, state.companyName ] );
+
+	const resolveFTCNotice = useCallback( () => {
+		resolveNotice( "yoast-first-time-configuration-notice" );
+	}, [ resolveNotice ] );
+
 	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ( ! state.companyLogo && ! state.companyLogoFallback ) || ! state.websiteName );
 	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ( ! state.personLogo && ! state.personLogoFallback ) || ! state.websiteName );
 
@@ -238,11 +250,7 @@ export default function FirstTimeConfigurationSteps() {
 				finishSteps( STEPS.siteRepresentation );
 				window.wpseoFirstTimeConfigurationData = { ...window.wpseoFirstTimeConfigurationData,  ...state };
 
-				if ( state.companyLogo !== "" && state.companyLogoId !== 0 && state.companyName !== "" ) {
-					resolveNotice( "yoast-local-missing-organization-info-notice" );
-				} else {
-					unresolveNotice( "yoast-local-missing-organization-info-notice" );
-				}
+				resolveLocalNotice();
 
 				return true;
 			} )
@@ -311,7 +319,7 @@ export default function FirstTimeConfigurationSteps() {
 				removeStepError( STEPS.personalPreferences );
 				window.wpseoFirstTimeConfigurationData.tracking = state.tracking;
 
-				resolveNotice( "yoast-first-time-configuration-notice" );
+				resolveFTCNotice();
 
 				return true;
 			} )
