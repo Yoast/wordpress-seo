@@ -14,7 +14,7 @@ import { DifficultyBullet, IntentBadge, TrendGraph } from "../..";
  * @param {number} [keywordDifficultyIndex=-1] The keyword difficulty index.
  * @param {string[]} [intent=[]] An array of intent initials.
  * @param {Function} [renderButton] The render button function.
- * @param {string[]} [relatedKeyphrases] The related keyphrases.
+ * @param {Object[]} [relatedKeyphrases] The related keyphrases.
  *
  * @returns {JSX.Element} The row.
  */
@@ -58,7 +58,12 @@ KeyphrasesTableRow.propTypes = {
 	keywordDifficultyIndex: PropTypes.number,
 	intent: PropTypes.arrayOf( PropTypes.string ),
 	renderButton: PropTypes.func,
-	relatedKeyphrases: PropTypes.arrayOf( PropTypes.string ),
+	relatedKeyphrases: PropTypes.arrayOf( PropTypes.shape( {
+		key: PropTypes.string,
+		keyword: PropTypes.string,
+		results: PropTypes.array,
+		score: PropTypes.number,
+	} ) ),
 };
 
 /**
@@ -137,7 +142,7 @@ const prepareRow = ( columnNames, row ) => {
  * @param {string[]} columnNames The column names.
  * @param {string[]} data The rows to display in the table.
  * @param {Function} renderButton The render button function.
- * @param {string[]} relatedKeyphrases The related keyphrases.
+ * @param {Object[]} relatedKeyphrases The related keyphrases.
  *
  * @returns {JSX.Element} The keyphrases table.
  */
@@ -194,7 +199,12 @@ export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyph
 KeyphrasesTable.propTypes = {
 	columnNames: PropTypes.arrayOf( PropTypes.string ),
 	data: PropTypes.arrayOf( PropTypes.arrayOf( PropTypes.string ) ),
-	relatedKeyphrases: PropTypes.arrayOf( PropTypes.string ),
+	relatedKeyphrases: PropTypes.arrayOf( PropTypes.shape( {
+		key: PropTypes.string,
+		keyword: PropTypes.string,
+		results: PropTypes.array,
+		score: PropTypes.number,
+	} ) ),
 	renderButton: PropTypes.func,
 };
 
