@@ -83,13 +83,15 @@ const LoadingKeyphrasesTableRow = ( { withButton = false } ) => {
 				<SkeletonLoader className="yst-w-5 yst-h-5" />
 			</Table.Cell>
 			<Table.Cell>
-				<SkeletonLoader className="yst-w-14 yst-h-5" />
+				<div className="yst-flex yst-justify-end">
+					<SkeletonLoader className="yst-w-14 yst-h-5" />
+				</div>
 			</Table.Cell>
 			<Table.Cell>
 				<SkeletonLoader className="yst-w-16 yst-h-5" />
 			</Table.Cell>
 			<Table.Cell>
-				<div className="yst-flex yst-gap-2">
+				<div className="yst-flex yst-gap-2 yst-justify-end">
 					<SkeletonLoader className="yst-w-4 yst-h-5" />
 					<SkeletonLoader className="yst-w-3 yst-h-5" />
 				</div>
@@ -143,13 +145,14 @@ const prepareRow = ( columnNames, row ) => {
  * @param {string[]} data The rows to display in the table.
  * @param {Function} renderButton The render button function.
  * @param {Object[]} relatedKeyphrases The related keyphrases.
+ * @param {string} className The class name for the table.
  *
  * @returns {JSX.Element} The keyphrases table.
  */
-export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyphrases } ) => {
+export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyphrases, className } ) => {
 	const rows = data?.map( row => prepareRow(  columnNames, row ) );
 
-	return <Table>
+	return <Table className={ className }>
 		<Table.Head>
 			<Table.Row>
 				<Table.Header>
@@ -208,6 +211,7 @@ KeyphrasesTable.propTypes = {
 		score: PropTypes.number,
 	} ) ),
 	renderButton: PropTypes.func,
+	className: PropTypes.string,
 };
 
 KeyphrasesTable.displayName = "KeyphrasesTable";
