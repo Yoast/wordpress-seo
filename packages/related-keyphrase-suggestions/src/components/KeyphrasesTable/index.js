@@ -159,7 +159,9 @@ export const KeyphrasesTable = ( { columnNames, data, renderButton, relatedKeyph
 					{ __( "Intent", "wordpress-seo" ) }
 				</Table.Header>
 				<Table.Header>
-					{ __( "Volume", "wordpress-seo" ) }
+					<div className="yst-flex yst-justify-end">
+						{ __( "Volume", "wordpress-seo" ) }
+					</div>
 				</Table.Header>
 				<Table.Header>
 					{ __( "Trend", "wordpress-seo" ) }
