@@ -1,16 +1,16 @@
 /* eslint-disable complexity, react/jsx-max-depth */
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
-import { createInterpolateElement, Fragment, useMemo } from "@wordpress/element";
 import { useSelect } from "@wordpress/data";
+import { createInterpolateElement, Fragment, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Badge, Button, FeatureUpsell, Link, Paper, Title } from "@yoast/ui-library";
 import classNames from "classnames";
-import SidebarRecommendations from "../shared-admin/components/sidebar-recommendations";
+import { SidebarRecommendations } from "../shared-admin/components";
 import { FieldsetLayout } from "./components/fieldset-layout";
 import { ResourceCard } from "./components/resource-card";
-import { useSelectSupport } from "./hooks";
 import { STORE_NAME } from "./constants";
+import { useSelectSupport } from "./hooks";
 
 /**
  * Opens the HelpScout beacon.
@@ -108,7 +108,10 @@ export const App = () => {
 										<Fragment key={ `faq-${ index }` }>
 											{ index > 0 && <hr className="yst-my-3" /> }
 											<li>
-												<Link href={ link } className="yst-flex yst-items-center yst-font-medium yst-no-underline" target="_blank">
+												<Link
+													href={ link } className="yst-flex yst-items-center yst-font-medium yst-no-underline"
+													target="_blank"
+												>
 													{ title }
 													<ArrowNarrowRightIcon className="yst-inline-block yst-ml-1.5 yst-h-3 yst-w-3 yst-icon-rtl" />
 												</Link>

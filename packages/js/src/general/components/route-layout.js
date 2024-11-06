@@ -1,8 +1,8 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
-import { Helmet } from "react-helmet";
 import { LiveAnnouncer, LiveMessage } from "react-aria-live";
+import { Helmet } from "react-helmet";
 
 /**
  * @param {Object} props The properties.
@@ -44,5 +44,3 @@ RouteLayout.propTypes = {
 	title: PropTypes.string.isRequired,
 	description: PropTypes.node,
 };
-
-export default RouteLayout;
