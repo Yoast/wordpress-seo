@@ -115,6 +115,9 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		if ( ! empty( $image_type ) && \is_string( $image_type ) ) {
 			$image['type'] = \trim( $image_type );
 		}
+		else {
+			$image['type'] = '';
+		}
 
 		$image_width = ( $image['width'] ?? '' );
 		/**
@@ -127,6 +130,9 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		if ( ! empty( $image_width ) && $image_width > 0 ) {
 			$image['width'] = $image_width;
 		}
+		else {
+			$image['width'] = '';
+		}
 
 		$image_height = ( $image['height'] ?? '' );
 		/**
@@ -138,6 +144,9 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		$image_height = (int) \apply_filters( 'wpseo_opengraph_image_height', $image_height, $this->presentation );
 		if ( ! empty( $image_height ) && $image_height > 0 ) {
 			$image['height'] = $image_height;
+		}
+		else {
+			$image['height'] = '';
 		}
 
 		return $image;

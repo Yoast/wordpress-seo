@@ -3,22 +3,21 @@
 
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
-import { __ } from "@wordpress/i18n";
-import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { select, useDispatch } from "@wordpress/data";
+import { useCallback, useEffect, useMemo } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
-import { Link, useLocation, Outlet } from "react-router-dom";
-import { MenuItemLink, YoastLogo } from "../shared-admin/components";
-import { useSelectGeneralPage } from "./hooks";
-import { STORE_NAME } from "./constants";
-import { getMigratingNoticeInfo, deleteMigratingNotices } from "../helpers/migrateNotices";
-import Notice from "./components/notice";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
-import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
-import { useNotificationCountSync } from "./hooks/use-notification-count-sync";
 import { STEPS as FTC_STEPS } from "../first-time-configuration/constants";
+import { deleteMigratingNotices, getMigratingNoticeInfo } from "../helpers/migrateNotices";
+import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
+import { MenuItemLink, YoastLogo } from "../shared-admin/components";
+import { Notice } from "./components";
+import { STORE_NAME } from "./constants";
+import { useNotificationCountSync, useSelectGeneralPage } from "./hooks";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -127,7 +126,7 @@ const App = () => {
 										{ notices.length > 0 && <div className="yst-space-y-3 yoast-general-page-notices"> {
 											notices.map( ( notice, index ) => {
 												/* If the last step of the First-time configuration has been completed,
-												we remove the First-time configuration notice. */
+												 we remove the First-time configuration notice. */
 												if ( notice.id === "yoast-first-time-configuration-notice" && wpseoFirstTimeConfigurationData.finishedSteps.includes( FTC_STEPS.personalPreferences ) ) {
 													return null;
 												}
@@ -165,7 +164,10 @@ const App = () => {
 					autoDismiss={ 4000 }
 					onDismiss={ handleDismiss }
 				>
-					{ alertToggleError.type === "error" ? __( "This problem can't be hidden at this time. Please try again later.", "wordpress-seo" ) : __( "This notification can't be hidden at this time. Please try again later.", "wordpress-seo" ) }
+					{ alertToggleError.type === "error"
+						? __( "This problem can't be hidden at this time. Please try again later.", "wordpress-seo" )
+						: __( "This notification can't be hidden at this time. Please try again later.", "wordpress-seo" )
+					}
 				</Notifications.Notification>
 				}
 			</Notifications>

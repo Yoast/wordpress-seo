@@ -199,6 +199,7 @@ export default function FirstTimeConfigurationSteps() {
 		}
 	}, [ indexingState, removeAlert ] );
 
+	const isStep1Finished = isStepFinished( STEPS.optimizeSeoData );
 	const isStep2Finished = isStepFinished( STEPS.siteRepresentation );
 	const isStep3Finished = isStepFinished( STEPS.socialProfiles );
 	const isStep4Finished = isStepFinished( STEPS.personalPreferences );
@@ -319,17 +320,16 @@ export default function FirstTimeConfigurationSteps() {
 	);
 
 	const isStepperFinished = [
+		isStep1Finished,
 		isStep2Finished,
 		isStep3Finished,
 		isStep4Finished,
 	].every( Boolean );
 
-	const [ isIndexationStepFinished, setIndexationStepFinished ] = useState( isStepFinished( STEPS.siteRepresentation ) );
-
 	/* Duplicate site representation, because in reality, the first step cannot be saved.
 	It's considered "finished" once at least the site representation has been done. */
 	const savedSteps = [
-		isIndexationStepFinished,
+		isStepFinished( STEPS.optimizeSeoData ),
 		isStepFinished( STEPS.siteRepresentation ),
 		isStepFinished( STEPS.socialProfiles ),
 		isStepFinished( STEPS.personalPreferences ),
@@ -355,8 +355,8 @@ export default function FirstTimeConfigurationSteps() {
 			return false;
 		}
 
-		setIndexationStepFinished( true );
 		setIsStepBeingEdited( false );
+		finishSteps( STEPS.optimizeSeoData );
 		return true;
 	}
 
@@ -402,7 +402,7 @@ export default function FirstTimeConfigurationSteps() {
 		return () => removeEventListener( "keydown", preventEnterSubmit );
 	}, [] );
 
-	// Used by admin.js to decide wether to show the confirmation dialog when user switches tabs in General.
+	// Used by admin.js to decide whether to show the confirmation dialog when user switches tabs in General.
 	useEffect( () => {
 		if ( state.editedSteps.includes( activeStepIndex + 1 ) || indexingState === "in_progress" ) {
 			window.isStepBeingEdited = true;
@@ -449,7 +449,7 @@ export default function FirstTimeConfigurationSteps() {
 			<Step>
 				<Step.Header
 					name={ __( "SEO data optimization", "wordpress-seo" ) }
-					isFinished={ isIndexationStepFinished }
+					isFinished={ isStep1Finished }
 				>
 					<EditButton
 						stepId={ STEPS.optimizeSeoData }

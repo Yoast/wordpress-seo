@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
-import classNames from "classnames";
 import { XIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { useSvgAria } from "@yoast/ui-library";
+import classNames from "classnames";
+import PropTypes from "prop-types";
 
 /**
  * Renders the notice component.
@@ -14,7 +14,7 @@ import { useSvgAria } from "@yoast/ui-library";
  *
  * @returns {React.Component} The Notice.
  */
-export default function Notice( { title, id, isDismissable, children } ) {
+export function Notice( { title, id, isDismissable, children } ) {
 	const ariaSvgProps = useSvgAria();
 
 	return (
@@ -34,7 +34,9 @@ export default function Notice( { title, id, isDismissable, children } ) {
 					</div>
 				}
 			</div>
-			{ children && <div className="yst-flex-1 yst-text-sm yst-max-w-[600px] yst-pl-[29px]" dangerouslySetInnerHTML={ { __html: children } } /> }
+			{ children && (
+				<div className="yst-flex-1 yst-text-sm yst-max-w-[600px] yst-pl-[29px]" dangerouslySetInnerHTML={ { __html: children } } />
+			) }
 		</div>
 	);
 }
