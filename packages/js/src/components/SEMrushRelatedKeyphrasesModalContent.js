@@ -1,5 +1,7 @@
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
+import { KeyphrasesTable } from "@yoast/related-keyphrase-suggestions";
+import { Root } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
@@ -8,7 +10,6 @@ import { isEmpty } from "lodash";
 import SEMrushLoading from "./modals/SEMrushLoading";
 import SEMrushLimitReached from "./modals/SEMrushLimitReached";
 import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
-import SEMrushKeyphrasesTable from "./modals/SEMrushKeyphrasesTable";
 import SEMrushUpsellAlert from "./modals/SEMrushUpsellAlert";
 import SEMrushRequestFailed from "./modals/SEMrushRequestFailed";
 import SEMrushMaxRelatedKeyphrases from "./modals/SEMrushMaxRelatedKeyphrases";
@@ -91,6 +92,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 		relatedKeyphrases,
 		setRequestSucceeded,
 		setRequestLimitReached,
+		isRtl,
 	} = props;
 
 	const isPremium = getL10nObject().isPremium;
@@ -117,14 +119,14 @@ export default function RelatedKeyphraseModalContent( props ) {
 			) }
 
 			{ getUserMessage( props ) }
-
-			<SEMrushKeyphrasesTable
-				keyphrase={ keyphrase }
-				relatedKeyphrases={ relatedKeyphrases }
-				countryCode={ countryCode }
-				renderAction={ renderAction }
-				data={ response }
-			/>
+			<Root context={ { isRtl } }>
+				<KeyphrasesTable
+					relatedKeyphrases={ relatedKeyphrases }
+					columnNames={ response?.results?.columnNames }
+					data={ response?.results?.rows }
+					renderButton={ renderAction }
+				/>
+			</Root>
 		</Fragment>
 	);
 }
@@ -143,6 +145,7 @@ RelatedKeyphraseModalContent.propTypes = {
 	setNoResultsFound: PropTypes.func.isRequired,
 	response: PropTypes.object,
 	lastRequestKeyphrase: PropTypes.string,
+	isRtl: PropTypes.bool,
 };
 
 RelatedKeyphraseModalContent.defaultProps = {
@@ -152,4 +155,5 @@ RelatedKeyphraseModalContent.defaultProps = {
 	requestLimitReached: false,
 	response: {},
 	lastRequestKeyphrase: "",
+	isRtl: false,
 };

@@ -1,0 +1,9 @@
+@import "@yoast/ui-library";
+
+@import "../src/elements/IntentBadge/style.css";
+@import "../src/elements/DifficultyBullet/style.css";
+@import "../src/elements/TableButton/style.css";
+      
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

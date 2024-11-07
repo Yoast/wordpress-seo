@@ -10,6 +10,7 @@
 @import "../src/elements/radio/style.css";
 @import "../src/elements/select/style.css";
 @import "../src/elements/skeleton-loader/style.css";
+@import "../src/elements/table/style.css";
 @import "../src/elements/tag-input/style.css";
 @import "../src/elements/text-input/style.css";
 @import "../src/elements/textarea/style.css";
