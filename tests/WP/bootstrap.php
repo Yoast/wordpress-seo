@@ -45,10 +45,6 @@ return [
 		'dependencies' => [],
 		'version'      => 'test',
 	],
-	'first-time-configuration.js' => [
-		'dependencies' => [],
-		'version'      => 'test',
-	]
 ];
 ",
 		'externals.php' => '<?php return [];',
