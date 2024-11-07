@@ -1,9 +1,8 @@
 /* eslint-disable complexity */
-/* global wpseoFirstTimeConfigurationData */
 
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
-import { select, useDispatch } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
@@ -11,7 +10,6 @@ import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library"
 import PropTypes from "prop-types";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
-import { STEPS as FTC_STEPS } from "../first-time-configuration/constants";
 import { deleteMigratingNotices, getMigratingNoticeInfo } from "../helpers/migrateNotices";
 import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
@@ -71,6 +69,7 @@ Menu.propTypes = {
  */
 const App = () => {
 	const notices = useMemo( getMigratingNoticeInfo, [] );
+	const resolvedNotices = useSelect( select => select( STORE_NAME ).selectResolvedNotices(), [] );
 
 	useEffect( () => {
 		deleteMigratingNotices( notices );
@@ -85,7 +84,7 @@ const App = () => {
 		setAlertToggleError( null );
 	}, [ setAlertToggleError ] );
 
-	const linkParams = select( STORE_NAME ).selectLinkParams();
+	const linkParams = useSelect( select => select( STORE_NAME ).selectLinkParams(), [] );
 	const webinarIntroSettingsUrl = addQueryArgs( "https://yoa.st/webinar-intro-settings", linkParams );
 
 	return (
@@ -125,15 +124,16 @@ const App = () => {
 										}
 										{ notices.length > 0 && <div className="yst-space-y-3 yoast-general-page-notices"> {
 											notices.map( ( notice, index ) => {
-												/* If the last step of the First-time configuration has been completed,
-												 we remove the First-time configuration notice. */
-												if ( notice.id === "yoast-first-time-configuration-notice" && wpseoFirstTimeConfigurationData.finishedSteps.includes( FTC_STEPS.personalPreferences ) ) {
+												const noticeID = notice.id || "yoast-general-page-notice-" + index;
+
+												if ( resolvedNotices.includes( noticeID ) ) {
 													return null;
 												}
+
 												return (
 													<Notice
 														key={ index }
-														id={ notice.id || "yoast-general-page-notice-" + index }
+														id={ noticeID }
 														title={ notice.header }
 														isDismissable={ notice.isDismissable }
 													>
