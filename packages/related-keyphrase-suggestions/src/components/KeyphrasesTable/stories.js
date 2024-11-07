@@ -12,6 +12,7 @@ export const Factory = {
 		renderButton: ButtonFactory.render,
 		relatedKeyphrases: [],
 		columnNames: [ "Keyword", "Search Volume", "Trends", "Keyword Difficulty Index", "Intent" ],
+		userLocale: "en",
 		data: [
 			[
 				"speed test",

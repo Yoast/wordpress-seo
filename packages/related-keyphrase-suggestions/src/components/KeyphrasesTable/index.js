@@ -112,11 +112,12 @@ const intentMapping = [ "i", "n", "t", "c" ];
 
 /**
  * Prepare the row data.
- * @param {array} columnNames The column names.
- * @param {array} row The row data.
+ * @param {string[]} columnNames The column names.
+ * @param {string[]} row The row data.
+ * @param {string} [userLocale] The user locale.
  * @returns {object} The prepared row.
  */
-const prepareRow = ( columnNames, row ) => {
+const prepareRow = ( columnNames, row, userLocale ) => {
 	const rowData = {};
 	columnNames.forEach( ( columnName, index ) => {
 		switch ( columnName ) {
@@ -130,7 +131,17 @@ const prepareRow = ( columnNames, row ) => {
 				rowData.keywordDifficultyIndex = Number( row[ index ] );
 				break;
 			case "Search Volume":
-				rowData.searchVolume = row[ index ];
+				try {
+					rowData.searchVolume = new Intl.NumberFormat( userLocale, {
+						notation: "compact",
+						compactDisplay: "short",
+					} ).format( row[ index ] );
+				} catch ( e ) {
+					rowData.searchVolume = new Intl.NumberFormat( "en", {
+						notation: "compact",
+						compactDisplay: "short",
+					} ).format( row[ index ] );
+				}
 				break;
 			default:
 				rowData[ columnName.toLowerCase() ] = row[ index ];
@@ -147,11 +158,12 @@ const prepareRow = ( columnNames, row ) => {
  * @param {Object[]} [relatedKeyphrases=[]] The related keyphrases.
  * @param {string} [className=""] The class name for the table.
  * @param {boolean} [isPending=false] Whether the data is still pending.
+ * @param {string} [userLocale] The user locale, only the first part, for example "en" not "en_US".
  *
  * @returns {JSX.Element} The keyphrases table.
  */
-export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", isPending = false } ) => {
-	const rows = data?.map( row => prepareRow(  columnNames, row ) );
+export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", userLocale, isPending = false } ) => {
+	const rows = data?.map( row => prepareRow(  columnNames, row, userLocale ) );
 
 	if ( ( ! rows || rows.length === 0 ) && ! isPending ) {
 		return null;
@@ -217,6 +229,7 @@ KeyphrasesTable.propTypes = {
 	renderButton: PropTypes.func,
 	className: PropTypes.string,
 	isPending: PropTypes.bool,
+	userLocale: PropTypes.string,
 };
 
 KeyphrasesTable.displayName = "KeyphrasesTable";

@@ -174,6 +174,6 @@ RelatedKeyphraseModalContent.defaultProps = {
 	response: {},
 	lastRequestKeyphrase: "",
 	isRtl: false,
-	userLocale: null,
+	userLocale: "en_US",
 	isPending: false,
 };
