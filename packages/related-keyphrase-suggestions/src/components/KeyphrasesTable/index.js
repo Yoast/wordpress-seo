@@ -153,6 +153,10 @@ const prepareRow = ( columnNames, row ) => {
 export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", isPending } ) => {
 	const rows = data?.map( row => prepareRow(  columnNames, row ) );
 
+	if ( ( ! rows || rows.length === 0 ) && ! isPending ) {
+		return null;
+	}
+
 	return <Table className={ className }>
 		<Table.Head>
 			<Table.Row>
@@ -185,7 +189,7 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 		</Table.Head>
 
 		<Table.Body>
-			{ rows && ! isPending && rows.map( ( rowData, index ) => (
+			{ rows.length && rows.map( ( rowData, index ) => (
 				<KeyphrasesTableRow
 					key={ `related-keyphrase-${ index }` }
 					renderButton={ renderButton }
