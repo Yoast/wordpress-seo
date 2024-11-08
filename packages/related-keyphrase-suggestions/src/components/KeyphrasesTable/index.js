@@ -146,7 +146,7 @@ const prepareRow = ( columnNames, row ) => {
  * @param {Function} [renderButton] The render button function.
  * @param {Object[]} [relatedKeyphrases=[]] The related keyphrases.
  * @param {string} [className=""] The class name for the table.
- * @param {boolean} [isPending] Whether the data is still pending.
+ * @param {boolean} [isPending=false] Whether the data is still pending.
  *
  * @returns {JSX.Element} The keyphrases table.
  */
