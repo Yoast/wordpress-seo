@@ -93,6 +93,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 		relatedKeyphrases,
 		setRequestSucceeded,
 		setRequestLimitReached,
+		isPending,
 		isRtl,
 	} = props;
 
@@ -128,9 +129,10 @@ export default function RelatedKeyphraseModalContent( props ) {
 					relatedKeyphrases={ relatedKeyphrases }
 					columnNames={ response?.results?.columnNames }
 					data={ response?.results?.rows }
+					isPending={ isPending }
 					renderButton={ renderAction }
 				/>
-				<p className="yst-mb-0 yst-mt-2">
+				{ response?.results?.rows && <p className="yst-mb-0 yst-mt-2">
 					<GetMoreInsightsLink href={ url }>
 						{ sprintf(
 						/* translators: %s expands to Semrush */
@@ -138,7 +140,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 							"Semrush"
 						) }
 					</GetMoreInsightsLink>
-				</p>
+				</p> }
 			</Root>
 
 		</Fragment>
@@ -160,6 +162,7 @@ RelatedKeyphraseModalContent.propTypes = {
 	response: PropTypes.object,
 	lastRequestKeyphrase: PropTypes.string,
 	isRtl: PropTypes.bool,
+	isPending: PropTypes.bool,
 };
 
 RelatedKeyphraseModalContent.defaultProps = {
@@ -170,4 +173,5 @@ RelatedKeyphraseModalContent.defaultProps = {
 	response: {},
 	lastRequestKeyphrase: "",
 	isRtl: false,
+	isPending: false,
 };
