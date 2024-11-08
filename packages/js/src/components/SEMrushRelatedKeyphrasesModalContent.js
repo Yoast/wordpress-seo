@@ -95,7 +95,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 		setRequestLimitReached,
 		isPending,
 		isRtl,
-		userLocale
+		userLocale,
 	} = props;
 
 	const isPremium = getL10nObject().isPremium;
@@ -145,7 +145,6 @@ export default function RelatedKeyphraseModalContent( props ) {
 					</GetMoreInsightsLink>
 				</p> }
 			</Root>
-
 		</Fragment>
 	);
 }
@@ -166,6 +165,7 @@ RelatedKeyphraseModalContent.propTypes = {
 	lastRequestKeyphrase: PropTypes.string,
 	isRtl: PropTypes.bool,
 	isPending: PropTypes.bool,
+	userLocale: PropTypes.string,
 };
 
 RelatedKeyphraseModalContent.defaultProps = {
@@ -177,4 +177,5 @@ RelatedKeyphraseModalContent.defaultProps = {
 	lastRequestKeyphrase: "",
 	isRtl: false,
 	isPending: false,
+	userLocale: null,
 };

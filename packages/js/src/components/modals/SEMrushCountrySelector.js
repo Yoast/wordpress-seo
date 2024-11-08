@@ -3,14 +3,28 @@ import PropTypes from "prop-types";
 import { useEffect, useCallback, useState } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
-import { __ } from "@wordpress/i18n";
 
 /* Yoast dependencies */
 import { CountrySelector } from "@yoast/related-keyphrase-suggestions";
 import { Root } from "@yoast/ui-library";
 
 /**
- * The SEMrush Country Selector component.
+ * The SEMrush Country Selector wrapper component.
+ *
+ * @param {string} [countryCode] The country code.
+ * @param {Function} setCountry The function to set the country code.
+ * @param {Function} newRequest The function to fire a new request.
+ * @param {string} [keyphrase] The keyphrase.
+ * @param {Function} setRequestFailed The function to set the request as failed.
+ * @param {Function} setNoResultsFound The function to set the request as having no results.
+ * @param {Function} setRequestSucceeded The function to set the request as succeeded.
+ * @param {Function} setRequestLimitReached The function to set the request as having reached the limit.
+ * @param {Object} response The response object.
+ * @param {string} lastRequestKeyphrase The last requested keyphrase.
+ * @param {boolean} isRtl Whether the site is in RTL mode.
+ * @param {string} userLocale The user locale.
+ *
+ * @returns {JSX.Element} The SEMrush Country Selector component.
  */
 const SEMrushCountrySelector = ( {
 	countryCode,
@@ -22,106 +36,49 @@ const SEMrushCountrySelector = ( {
 	setRequestSucceeded,
 	setRequestLimitReached,
 	response,
-	lastRequestKeyphrase
+	lastRequestKeyphrase,
+	isRtl,
+	userLocale,
 } ) => {
 	const [ activeCountryCode, setActiveCountryCode ] = useState( countryCode );
 
-	// Listens to the change action and fires the SEMrush request.
-	// Fire a new request when the modal is first opened and when the keyphrase has been changed.
-	useEffect(()=>{
-		if ( ! response || keyphrase !== lastRequestKeyphrase ) {
-			relatedKeyphrasesRequest();
-		}
-	},[]);
-
 	/**
-	 * Stores the country code via a REST API call.
+	 * Handles a failed response.
 	 *
-	 * @param {string} countryCode The country code to store.
+	 * @param {Object} res The response object.
 	 *
 	 * @returns {void}
 	 */
-	const storeCountryCode = useCallback(( countryCode ) => {
-		apiFetch( {
-			path: "yoast/v1/semrush/country_code",
-			method: "POST",
-			// eslint-disable-next-line camelcase
-			data: { country_code: countryCode },
-		} );
-	},[]);
+	const handleFailedResponse = useCallback( ( res ) => {
+		if ( ! ( "error" in res ) ) {
+			return;
+		}
+
+		if ( res.error.includes( "TOTAL LIMIT EXCEEDED" ) ) {
+			setRequestLimitReached();
+
+			return;
+		}
+
+		setRequestFailed( res );
+	}, [ setRequestLimitReached, setRequestFailed ] );
 
 	/**
 	 * Sends a new related keyphrases request to SEMrush and updates the semrush_country_code value in the database.
 	 *
 	 * @returns {void}
 	 */
-	const relatedKeyphrasesRequest = useCallback( async () => {
-
+	const relatedKeyphrasesRequest = useCallback( async() => {
 		newRequest( countryCode, keyphrase );
 
-		storeCountryCode( countryCode );
+		apiFetch( {
+			path: "yoast/v1/semrush/country_code",
+			method: "POST",
+			// eslint-disable-next-line camelcase
+			data: { country_code: countryCode },
+		} );
 
-		const response = await doRequest( keyphrase, countryCode );
-
-		if ( response.status === 200 ) {
-			handleSuccessResponse( response );
-			setActiveCountryCode( countryCode );
-			return;
-		}
-
-		handleFailedResponse( response );
-	}, [ countryCode, keyphrase, newRequest ] );
-
-	/**
-	 * Handles a success response.
-	 *
-	 * @param {Object} response The response object.
-	 *
-	 * @returns {void}
-	 */
-	const handleSuccessResponse = useCallback( ( response ) => {
-
-		if ( response.results.rows.length === 0 ) {
-			// No results found.
-			setNoResultsFound();
-			return;
-		}
-		
-		setRequestSucceeded( response );
-	}, [ setNoResultsFound, setRequestSucceeded ] );
-
-	/**
-	 * Handles a failed response.
-	 *
-	 * @param {Object} response The response object.
-	 *
-	 * @returns {void}
-	 */
-	const handleFailedResponse = useCallback( ( response ) => {
-
-		if ( ! ( "error" in response ) ) {
-			return;
-		}
-
-		if ( response.error.includes( "TOTAL LIMIT EXCEEDED" ) ) {
-			setRequestLimitReached();
-
-			return;
-		}
-
-		setRequestFailed( response );
-	} , [ setRequestLimitReached, setRequestFailed ] );
-
-	/**
-	 * Performs the related keyphrases API request.
-	 *
-	 * @param {string} keyphrase   The keyphrase to send to SEMrush.
-	 * @param {string} countryCode The database country code to send to SEMrush.
-	 *
-	 * @returns {Object} The response object.
-	 */
-	const doRequest = useCallback( async ( keyphrase, countryCode ) => {
-		return await apiFetch( {
+		const res = await apiFetch( {
 			path: addQueryArgs(
 				"/yoast/v1/semrush/related_keyphrases",
 				{
@@ -131,7 +88,21 @@ const SEMrushCountrySelector = ( {
 				}
 			),
 		} );
-	}, [] );
+
+		if ( res.status === 200 ) {
+			if ( res.results.rows.length === 0 ) {
+				// No results found.
+				setNoResultsFound();
+				return;
+			}
+
+			setRequestSucceeded( res );
+			setActiveCountryCode( countryCode );
+			return;
+		}
+
+		handleFailedResponse( res );
+	}, [ countryCode, keyphrase, newRequest ] );
 
 	/**
 	 * Save the selected value in the store.
@@ -142,22 +113,30 @@ const SEMrushCountrySelector = ( {
 	 */
 	const onChangeHandler = useCallback( ( selected ) => {
 		setCountry( selected );
-	}, []);
+	}, [] );
 
+	// Listens to the change action and fires the SEMrush request.
+	// Fire a new request when the modal is first opened and when the keyphrase has been changed.
+	// Should only fire once at the start.
+	useEffect( ()=>{
+		if ( ! response || keyphrase !== lastRequestKeyphrase ) {
+			relatedKeyphrasesRequest();
+		}
+	}, [] );
 
 	return (
-			<Root context={ { isRtl } }>
-				<CountrySelector
-					countryCode={ countryCode }
-					activeCountryCode={ activeCountryCode }
-					onChange={ onChangeHandler }
-					onClick={ relatedKeyphrasesRequest }
-					className="yst-my-5 lg:yst-w-4/5"
-					userLocale={ userLcale }
-				/>
-			</Root>
+		<Root context={ { isRtl } }>
+			<CountrySelector
+				countryCode={ countryCode }
+				activeCountryCode={ activeCountryCode }
+				onChange={ onChangeHandler }
+				onClick={ relatedKeyphrasesRequest }
+				className="yst-my-5 lg:yst-w-4/5"
+				userLocale={ userLocale }
+			/>
+		</Root>
 	);
-}
+};
 
 SEMrushCountrySelector.propTypes = {
 	keyphrase: PropTypes.string,
@@ -170,6 +149,8 @@ SEMrushCountrySelector.propTypes = {
 	setRequestSucceeded: PropTypes.func.isRequired,
 	setRequestLimitReached: PropTypes.func.isRequired,
 	setRequestFailed: PropTypes.func.isRequired,
+	isRtl: PropTypes.bool.isRequired,
+	userLocale: PropTypes.string,
 };
 
 SEMrushCountrySelector.defaultProps = {
@@ -177,6 +158,7 @@ SEMrushCountrySelector.defaultProps = {
 	countryCode: "us",
 	response: {},
 	lastRequestKeyphrase: "",
+	userLocale: null,
 };
 
 export default SEMrushCountrySelector;
