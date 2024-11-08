@@ -95,6 +95,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 		setRequestLimitReached,
 		isPending,
 		isRtl,
+		userLocale
 	} = props;
 
 	const isPremium = getL10nObject().isPremium;
@@ -119,6 +120,8 @@ export default function RelatedKeyphraseModalContent( props ) {
 						setRequestLimitReached={ setRequestLimitReached }
 						response={ response }
 						lastRequestKeyphrase={ lastRequestKeyphrase }
+						userLocale={ userLocale }
+						isRtl={ isRtl }
 					/>
 				</Fragment>
 			) }
