@@ -132,7 +132,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 					isPending={ isPending }
 					renderButton={ renderAction }
 				/>
-				{ response?.results?.rows && ! isPending && <p className="yst-mb-0 yst-mt-2">
+				{ response?.results?.rows && <p className="yst-mb-0 yst-mt-2">
 					<GetMoreInsightsLink href={ url }>
 						{ sprintf(
 						/* translators: %s expands to Semrush */
@@ -162,6 +162,7 @@ RelatedKeyphraseModalContent.propTypes = {
 	response: PropTypes.object,
 	lastRequestKeyphrase: PropTypes.string,
 	isRtl: PropTypes.bool,
+	isPending: PropTypes.bool,
 };
 
 RelatedKeyphraseModalContent.defaultProps = {
@@ -172,4 +173,5 @@ RelatedKeyphraseModalContent.defaultProps = {
 	response: {},
 	lastRequestKeyphrase: "",
 	isRtl: false,
+	isPending: false,
 };
