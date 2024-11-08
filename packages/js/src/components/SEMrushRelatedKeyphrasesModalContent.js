@@ -132,7 +132,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 					isPending={ isPending }
 					renderButton={ renderAction }
 				/>
-				<p className="yst-mb-0 yst-mt-2">
+				{ response?.results?.rows && ! isPending && <p className="yst-mb-0 yst-mt-2">
 					<GetMoreInsightsLink href={ url }>
 						{ sprintf(
 						/* translators: %s expands to Semrush */
@@ -140,7 +140,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 							"Semrush"
 						) }
 					</GetMoreInsightsLink>
-				</p>
+				</p> }
 			</Root>
 
 		</Fragment>
