@@ -146,11 +146,16 @@ const prepareRow = ( columnNames, row ) => {
  * @param {Function} [renderButton] The render button function.
  * @param {Object[]} [relatedKeyphrases=[]] The related keyphrases.
  * @param {string} [className=""] The class name for the table.
+ * @param {boolean} [isPending=false] Whether the data is still pending.
  *
  * @returns {JSX.Element} The keyphrases table.
  */
-export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "" } ) => {
+export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", isPending = false } ) => {
 	const rows = data?.map( row => prepareRow(  columnNames, row ) );
+
+	if ( ( ! rows || rows.length === 0 ) && ! isPending ) {
+		return null;
+	}
 
 	return <Table className={ className }>
 		<Table.Head>
@@ -184,18 +189,17 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 		</Table.Head>
 
 		<Table.Body>
+			{ rows && rows.map( ( rowData, index ) => (
+				<KeyphrasesTableRow
+					key={ `related-keyphrase-${ index }` }
+					renderButton={ renderButton }
+					relatedKeyphrases={ relatedKeyphrases }
+					{ ...rowData }
+				/> ) )
+			}
 
-			{ rows
-				? rows.map( ( rowData, index ) => (
-					<KeyphrasesTableRow
-						key={ `related-keyphrase-${ index }` }
-						renderButton={ renderButton }
-						relatedKeyphrases={ relatedKeyphrases }
-						{ ...rowData }
-					/> ) )
-				// Show 10 loading rows when there are no rows.
-				: Array.from( { length: 10 }, ( _, index ) => (
-					<LoadingKeyphrasesTableRow key={ `loading-row-${ index }` } withButton={ isFunction( renderButton ) }  /> ) )
+			{ isPending && Array.from( { length: 10 }, ( _, index ) => (
+				<LoadingKeyphrasesTableRow key={ `loading-row-${ index }` } withButton={ isFunction( renderButton ) }  /> ) )
 			}
 		</Table.Body>
 	</Table>;
@@ -212,6 +216,7 @@ KeyphrasesTable.propTypes = {
 	} ) ),
 	renderButton: PropTypes.func,
 	className: PropTypes.string,
+	isPending: PropTypes.bool,
 };
 
 KeyphrasesTable.displayName = "KeyphrasesTable";
