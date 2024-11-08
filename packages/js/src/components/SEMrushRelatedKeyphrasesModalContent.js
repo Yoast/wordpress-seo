@@ -130,7 +130,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 					data={ response?.results?.rows }
 					renderButton={ renderAction }
 				/>
-				<p style={ { marginBottom: 0 } }>
+				<p className="yst-mb-0 yst-mt-2">
 					<GetMoreInsightsLink href={ url }>
 						{ sprintf(
 						/* translators: %s expands to Semrush */
