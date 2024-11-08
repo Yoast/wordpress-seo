@@ -2,7 +2,7 @@
 import { Fragment } from "@wordpress/element";
 import { KeyphrasesTable } from "@yoast/related-keyphrase-suggestions";
 import { Root } from "@yoast/ui-library";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 
@@ -14,6 +14,7 @@ import SEMrushUpsellAlert from "./modals/SEMrushUpsellAlert";
 import SEMrushRequestFailed from "./modals/SEMrushRequestFailed";
 import SEMrushMaxRelatedKeyphrases from "./modals/SEMrushMaxRelatedKeyphrases";
 import getL10nObject from "../analysis/getL10nObject";
+import { makeOutboundLink } from "@yoast/helpers";
 
 /**
  * Determines whether the error property is present in the passed response object.
@@ -96,6 +97,9 @@ export default function RelatedKeyphraseModalContent( props ) {
 	} = props;
 
 	const isPremium = getL10nObject().isPremium;
+	const GetMoreInsightsLink = makeOutboundLink();
+	const url = "https://www.semrush.com/analytics/keywordoverview/?q=" + encodeURIComponent( keyphrase ) +
+			"&db=" + encodeURIComponent( countryCode );
 
 	return (
 		<Fragment>
@@ -126,7 +130,17 @@ export default function RelatedKeyphraseModalContent( props ) {
 					data={ response?.results?.rows }
 					renderButton={ renderAction }
 				/>
+				<p className="yst-mb-0 yst-mt-2">
+					<GetMoreInsightsLink href={ url }>
+						{ sprintf(
+						/* translators: %s expands to Semrush */
+							__( "Get more insights at %s", "wordpress-seo" ),
+							"Semrush"
+						) }
+					</GetMoreInsightsLink>
+				</p>
 			</Root>
+
 		</Fragment>
 	);
 }
