@@ -113,4 +113,9 @@ export default {
 			</div>
 		),
 	],
+	argTypes: {
+		userLocale: {
+			description: "The locale used for formatting the search volume. Should be only the first part, for example 'en' not 'en_US'.",
+		},
+	},
 };
