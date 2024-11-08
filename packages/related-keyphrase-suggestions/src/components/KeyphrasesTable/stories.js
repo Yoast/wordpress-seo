@@ -115,7 +115,7 @@ export default {
 	],
 	argTypes: {
 		userLocale: {
-			description: "The locale used for formatting the search volume. Should be only the first part, for example 'en' not 'en_US'.",
+			description: "The locale used for formatting the search volume. Should be without country code, for example 'en' not 'en_US'. Fallback to the browser language.",
 		},
 	},
 };
