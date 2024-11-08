@@ -104,17 +104,6 @@ const SEMrushCountrySelector = ( {
 		handleFailedResponse( res );
 	}, [ countryCode, keyphrase, newRequest ] );
 
-	/**
-	 * Save the selected value in the store.
-	 *
-	 * @param {string} selected The user selection.
-	 *
-	 * @returns {void}
-	 */
-	const onChangeHandler = useCallback( ( selected ) => {
-		setCountry( selected );
-	}, [] );
-
 	// Listens to the change action and fires the SEMrush request.
 	// Fire a new request when the modal is first opened and when the keyphrase has been changed.
 	// Should only fire once at the start.
@@ -129,7 +118,7 @@ const SEMrushCountrySelector = ( {
 			<CountrySelector
 				countryCode={ countryCode }
 				activeCountryCode={ activeCountryCode }
-				onChange={ onChangeHandler }
+				onChange={ setCountry }
 				onClick={ relatedKeyphrasesRequest }
 				className="yst-my-5 lg:yst-w-4/5"
 				userLocale={ userLocale }
