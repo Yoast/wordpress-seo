@@ -114,10 +114,10 @@ const intentMapping = [ "i", "n", "t", "c" ];
  * Prepare the row data.
  * @param {string[]} columnNames The column names.
  * @param {string[]} row The row data.
- * @param {string} [userLocale] The user locale.
+ * @param {Object} searchVolumeFormat The search volume format object.
  * @returns {object} The prepared row.
  */
-const prepareRow = ( columnNames, row, userLocale ) => {
+const prepareRow = ( columnNames, row, searchVolumeFormat ) => {
 	const rowData = {};
 	columnNames.forEach( ( columnName, index ) => {
 		switch ( columnName ) {
@@ -131,17 +131,7 @@ const prepareRow = ( columnNames, row, userLocale ) => {
 				rowData.keywordDifficultyIndex = Number( row[ index ] );
 				break;
 			case "Search Volume":
-				try {
-					rowData.searchVolume = new Intl.NumberFormat( userLocale, {
-						notation: "compact",
-						compactDisplay: "short",
-					} ).format( row[ index ] );
-				} catch ( e ) {
-					rowData.searchVolume = new Intl.NumberFormat( "en", {
-						notation: "compact",
-						compactDisplay: "short",
-					} ).format( row[ index ] );
-				}
+				rowData.searchVolume = searchVolumeFormat.format( row[ index ] );
 				break;
 			default:
 				rowData[ columnName.toLowerCase() ] = row[ index ];
@@ -163,7 +153,13 @@ const prepareRow = ( columnNames, row, userLocale ) => {
  * @returns {JSX.Element} The keyphrases table.
  */
 export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", userLocale, isPending = false } ) => {
-	const rows = data?.map( row => prepareRow(  columnNames, row, userLocale ) );
+	let searchVolumeFormat;
+	try {
+		searchVolumeFormat  = new Intl.NumberFormat( userLocale, { notation: "compact", compactDisplay: "short" } );
+	} catch ( e ) {
+		searchVolumeFormat  = new Intl.NumberFormat( "en", { notation: "compact", compactDisplay: "short" } );
+	}
+	const rows = data?.map( row => prepareRow(  columnNames, row, searchVolumeFormat ) );
 
 	if ( ( ! rows || rows.length === 0 ) && ! isPending ) {
 		return null;
