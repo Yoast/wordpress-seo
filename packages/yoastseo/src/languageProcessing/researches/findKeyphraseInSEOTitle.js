@@ -74,15 +74,26 @@ const adjustPosition = function( title, position ) {
 };
 
 /**
- * Creates a cartesian product of the given arrays.
- * This function is taken from: https://stackoverflow.com/questions/12303989/cartesian-product-of-multiple-arrays-in-javascript
+ * Creates a cartesian product of the given arrays using lazy approach.
  *
  * @param {array} arrays The arrays to create the cartesian product of.
  *
  * @returns {array} The cartesian product of the given arrays.
  */
-function cartesian( ...arrays ) {
-	return arrays.reduce( ( a, b ) => a.flatMap( d => b.map( e => [ d, e ].flat() ) ) );
+function* lazyCartesian(...arrays) {
+	const lengths = arrays.map(arr => arr.length);
+	const indices = Array(arrays.length).fill(0);
+
+	while (true) {
+		yield indices.map((index, i) => arrays[i][index]);
+
+		let i = arrays.length - 1;
+		while (i >= 0 && ++indices[i] === lengths[i]) {
+			indices[i] = 0;
+			i--;
+		}
+		if (i < 0) break;
+	}
 }
 
 /**
@@ -103,50 +114,63 @@ function findExactMatch( matchesObject, keyphrase, result, prefixedFunctionWords
 	For each matched word of the keyphrase, get the prefixed function word.
 	For example, for the matches array [ "القطط" ,"والوسيمة" ], the `matchedPrefixedFunctionWords` array will be [ "ال", "وال" ].
 	 */
-	matchesObject.matches.forEach( match => {
-		const { prefix: prefixedFunctionWord  } = stemPrefixedFunctionWords( match, prefixedFunctionWordsRegex );
-		matchedPrefixedFunctionWords.push( prefixedFunctionWord );
-	} );
+	matchedPrefixedFunctionWords = matchesObject.matches.map(match => {
+		const { prefix: prefixedFunctionWord } = stemPrefixedFunctionWords(match, prefixedFunctionWordsRegex);
+		return prefixedFunctionWord;
+	});
 
 	// Split the keyphrase into words. For example, the keyphrase "قطط وسيمة" will be split into [ قطط", "وسيمة" ].
 	const splitKeyphrase = keyphrase.split( " " );
-	let keyphraseVariations = [];
 
 	// Add an empty string to the array to account for the case where the word is not prefixed, remove duplicates.
 	matchedPrefixedFunctionWords = uniq( matchedPrefixedFunctionWords.concat( [ "" ] ) );
+
 	/*
-	 Create an array of arrays, where each array contains each word of the keyphrase with function word prefixes attached.
+	 Create an array of arrays, where each array contains word of the keyphrase with function word prefixes attached
+	 and the word is present in the SEO title.
 	 For example, when the split keyphrase is [ "قطط", "وسيمة" ] and the matchedPrefixedFunctionWords is [ "ال", "وال", "" ],
 	 the array would be: [ [ "والقطط","القطط", "قطط" ], [ "والوسيمة" ,"الوسيمة", "وسيمة" ] ].
 	 */
-	const arrays = [];
-	splitKeyphrase.forEach( word => {
-		arrays.push( matchedPrefixedFunctionWords.map( prefixedFunctionWord => prefixedFunctionWord + word ) );
-	} );
+	const arrays = splitKeyphrase.map(
+		word => matchedPrefixedFunctionWords.map(prefixedFunctionWord => prefixedFunctionWord + word)
+			.filter(keyphraseWord => {
+				const wordFoundMatch = wordMatch(title, keyphraseWord, locale, false);
+
+				return wordFoundMatch.count > 0;
+			})
+	);
+
 	/*
 	Create the cartesian product of the created arrays: to create all possible combinations of the previously created arrays.
 	For example, the cartesian product of [ [ "والقطط","القطط", "قطط" ], [ "والوسيمة" ,"الوسيمة", "وسيمة" ] ] will be:
 	...[ [ "والقطط", "والوسيمة" ], [ "والقطط", "الوسيمة" ], [ "والقطط", "وسيمة" ], [ "القطط", "والوسيمة" ]]
 	 */
-	keyphraseVariations = cartesian( ...arrays );
-	// Turn the keyphrase combination array into strings. For example, [ "والقطط", "والوسيمة" ] will be turned into "والقطط والوسيمة".
-	keyphraseVariations = keyphraseVariations.map( variation => Array.isArray( variation ) ? variation.join( " " ) : variation );
-	keyphraseVariations.forEach( variation => {
+	console.log("lazyCartesian START arrays: ", arrays);
+	for (const variation of lazyCartesian(...arrays)) {
+		// Join the keyphrase combination into a string.
+		const variationStr = Array.isArray(variation) ? variation.join(" ") : variation;
+
+		// console.log('variationStr', variationStr);
 		// Check if the exact match of the keyphrase combination is found in the SEO title.
-		const foundMatch = wordMatch( title, variation, locale, false );
-		if ( foundMatch.count > 0 ) {
+		const foundMatch = wordMatch(title, variationStr, locale, false);
+		if (foundMatch.count > 0) {
 			result.exactMatchFound = true;
 			// Adjust the position of the matched keyphrase if it's preceded by non-prefixed function words.
-			result.position = adjustPosition( title, foundMatch.position );
+			result.position = adjustPosition(title, foundMatch.position);
+
+			break;
 		}
-	} );
+	}
+
 	/*
 	This check if to account for the case where an exact match of the keyphrase is not found in the SEO title,
 	but it's found in the position is 0.
 	 */
-	if ( matchesObject.position === 0 ) {
+	if ( !result.exactMatchFound && matchesObject.position === 0 ) {
 		result.position = 0;
+		return result;
 	}
+
 	return result;
 }
 
