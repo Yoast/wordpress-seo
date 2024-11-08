@@ -150,7 +150,7 @@ const prepareRow = ( columnNames, row ) => {
  *
  * @returns {JSX.Element} The keyphrases table.
  */
-export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", isPending } ) => {
+export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", isPending = false } ) => {
 	const rows = data?.map( row => prepareRow(  columnNames, row ) );
 
 	if ( ( ! rows || rows.length === 0 ) && ! isPending ) {
