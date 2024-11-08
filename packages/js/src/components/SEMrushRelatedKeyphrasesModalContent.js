@@ -93,6 +93,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 		relatedKeyphrases,
 		setRequestSucceeded,
 		setRequestLimitReached,
+		isPending,
 		isRtl,
 	} = props;
 
@@ -128,6 +129,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 					relatedKeyphrases={ relatedKeyphrases }
 					columnNames={ response?.results?.columnNames }
 					data={ response?.results?.rows }
+					isPending={ isPending }
 					renderButton={ renderAction }
 				/>
 				<p className="yst-mb-0 yst-mt-2">
