@@ -189,7 +189,7 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 		</Table.Head>
 
 		<Table.Body>
-			{ rows.length && rows.map( ( rowData, index ) => (
+			{ rows && rows.map( ( rowData, index ) => (
 				<KeyphrasesTableRow
 					key={ `related-keyphrase-${ index }` }
 					renderButton={ renderButton }
