@@ -155,9 +155,10 @@ const prepareRow = ( columnNames, row, searchVolumeFormat ) => {
 export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", userLocale, isPending = false } ) => {
 	let searchVolumeFormat;
 	try {
-		searchVolumeFormat  = new Intl.NumberFormat( userLocale, { notation: "compact", compactDisplay: "short" } );
+		searchVolumeFormat = new Intl.NumberFormat( userLocale, { notation: "compact", compactDisplay: "short" } );
 	} catch ( e ) {
-		searchVolumeFormat  = new Intl.NumberFormat( "en", { notation: "compact", compactDisplay: "short" } );
+		// Fallback to the browser language.
+		searchVolumeFormat = new Intl.NumberFormat( navigator.language.split( "-" )[ 0 ], { notation: "compact", compactDisplay: "short" } );
 	}
 	const rows = data?.map( row => prepareRow(  columnNames, row, searchVolumeFormat ) );
 
