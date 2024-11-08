@@ -80,19 +80,21 @@ const adjustPosition = function( title, position ) {
  *
  * @returns {array} The cartesian product of the given arrays.
  */
-function* lazyCartesian(...arrays) {
-	const lengths = arrays.map(arr => arr.length);
-	const indices = Array(arrays.length).fill(0);
+function* lazyCartesian( ...arrays ) {
+	const lengths = arrays.map( arr => arr.length );
+	const indices = Array( arrays.length ).fill( 0 );
 
-	while (true) {
-		yield indices.map((index, i) => arrays[i][index]);
+	while ( true ) {
+		yield indices.map( ( index, position ) => arrays[ position ][ index ] );
 
 		let i = arrays.length - 1;
-		while (i >= 0 && ++indices[i] === lengths[i]) {
-			indices[i] = 0;
+		while ( i >= 0 && ++indices[ i ] === lengths[ i ] ) {
+			indices[ i ] = 0;
 			i--;
 		}
-		if (i < 0) break;
+		if ( i < 0 ) {
+			break;
+		}
 	}
 }
 
@@ -114,10 +116,10 @@ function findExactMatch( matchesObject, keyphrase, result, prefixedFunctionWords
 	For each matched word of the keyphrase, get the prefixed function word.
 	For example, for the matches array [ "القطط" ,"والوسيمة" ], the `matchedPrefixedFunctionWords` array will be [ "ال", "وال" ].
 	 */
-	matchedPrefixedFunctionWords = matchesObject.matches.map(match => {
-		const { prefix: prefixedFunctionWord } = stemPrefixedFunctionWords(match, prefixedFunctionWordsRegex);
+	matchedPrefixedFunctionWords = matchesObject.matches.map( match => {
+		const { prefix: prefixedFunctionWord } = stemPrefixedFunctionWords( match, prefixedFunctionWordsRegex );
 		return prefixedFunctionWord;
-	});
+	} );
 
 	// Split the keyphrase into words. For example, the keyphrase "قطط وسيمة" will be split into [ قطط", "وسيمة" ].
 	const splitKeyphrase = keyphrase.split( " " );
@@ -132,12 +134,12 @@ function findExactMatch( matchesObject, keyphrase, result, prefixedFunctionWords
 	 the array would be: [ [ "والقطط","القطط", "قطط" ], [ "والوسيمة" ,"الوسيمة", "وسيمة" ] ].
 	 */
 	const arrays = splitKeyphrase.map(
-		word => matchedPrefixedFunctionWords.map(prefixedFunctionWord => prefixedFunctionWord + word)
-			.filter(keyphraseWord => {
-				const wordFoundMatch = wordMatch(title, keyphraseWord, locale, false);
+		word => matchedPrefixedFunctionWords.map( prefixedFunctionWord => prefixedFunctionWord + word )
+			.filter( keyphraseWord => {
+				const wordFoundMatch = wordMatch( title, keyphraseWord, locale, false );
 
 				return wordFoundMatch.count > 0;
-			})
+			} )
 	);
 
 	/*
@@ -145,18 +147,16 @@ function findExactMatch( matchesObject, keyphrase, result, prefixedFunctionWords
 	For example, the cartesian product of [ [ "والقطط","القطط", "قطط" ], [ "والوسيمة" ,"الوسيمة", "وسيمة" ] ] will be:
 	...[ [ "والقطط", "والوسيمة" ], [ "والقطط", "الوسيمة" ], [ "والقطط", "وسيمة" ], [ "القطط", "والوسيمة" ]]
 	 */
-	console.log("lazyCartesian START arrays: ", arrays);
-	for (const variation of lazyCartesian(...arrays)) {
+	for ( const variation of lazyCartesian( ...arrays ) ) {
 		// Join the keyphrase combination into a string.
-		const variationStr = Array.isArray(variation) ? variation.join(" ") : variation;
+		const variationStr = Array.isArray( variation ) ? variation.join( " " ) : variation;
 
-		// console.log('variationStr', variationStr);
 		// Check if the exact match of the keyphrase combination is found in the SEO title.
-		const foundMatch = wordMatch(title, variationStr, locale, false);
-		if (foundMatch.count > 0) {
+		const foundMatch = wordMatch( title, variationStr, locale, false );
+		if ( foundMatch.count > 0 ) {
 			result.exactMatchFound = true;
 			// Adjust the position of the matched keyphrase if it's preceded by non-prefixed function words.
-			result.position = adjustPosition(title, foundMatch.position);
+			result.position = adjustPosition( title, foundMatch.position );
 
 			break;
 		}
@@ -166,7 +166,7 @@ function findExactMatch( matchesObject, keyphrase, result, prefixedFunctionWords
 	This check if to account for the case where an exact match of the keyphrase is not found in the SEO title,
 	but it's found in the position is 0.
 	 */
-	if ( !result.exactMatchFound && matchesObject.position === 0 ) {
+	if ( ! result.exactMatchFound && matchesObject.position === 0 ) {
 		result.position = 0;
 		return result;
 	}
