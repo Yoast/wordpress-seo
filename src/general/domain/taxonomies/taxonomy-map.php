@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\General\Domain\Taxonomies;
 
 /**
- * This class describes a map of taxonomies.
+ * This class describes a map of a taxonomy.
  */
 class Taxonomy_Map {
 
