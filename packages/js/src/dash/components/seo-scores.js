@@ -25,7 +25,9 @@ export const SeoScores = ( { contentTypes } ) => {
 					selected={ selectedContentType }
 					onChange={ setSelectedContentType }
 				/>
-				<AutocompleteField />
+				{ selectedContentType.taxonomy &&
+					<AutocompleteField />
+				}
 			</div>
 			<p className="yst-my-6">{ __( "description", "wordpress-seo" ) }</p>
 			<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-3 yst-gap-6">
