@@ -3,8 +3,8 @@ import { PageTitle } from "./page-title";
 import { SeoScores } from "./seo-scores";
 
 /**
- * @typedef {import("./dashboard").ContentType} ContentType
- * @typedef {import("./dashboard").Taxonomy} Taxonomy
+ * @typedef {import("../index").ContentType} ContentType
+ * @typedef {import("../index").Taxonomy} Taxonomy
  */
 
 /**

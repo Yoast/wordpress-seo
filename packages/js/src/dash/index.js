@@ -14,3 +14,9 @@ export { Dashboard } from "./components/dashboard";
  * @property {string} label The user-facing label.
  * @property {Taxonomy|null} taxonomy The (main) taxonomy or null.
  */
+
+/**
+ * @typedef {Object} Term A term.
+ * @property {string} name The unique identifier.
+ * @property {string} label The user-facing label.
+ */

@@ -40,7 +40,7 @@ domReady( () => {
 				name: "category",
 				label: "Categories",
 				links: {
-					search: "http://basic.wordpress.test/wp-json/wp/v2/categories",
+					search: "https://igor.local/wp-json/wp/v2/categories",
 				},
 			},
 		},

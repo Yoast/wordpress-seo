@@ -1,8 +1,9 @@
 import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { AutocompleteField, Paper, Title } from "@yoast/ui-library";
+import { Paper, Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { ContentTypeFilter } from "./content-type-filter";
+import { TermFilter } from "./term-filter";
 
 /**
  * @typedef {import("./dashboard").ContentType} ContentType
@@ -10,10 +11,12 @@ import { ContentTypeFilter } from "./content-type-filter";
  */
 
 /**
+ * @param {ContentType[]} contentTypes The content types. May not be empty.
  * @returns {JSX.Element} The element.
  */
 export const SeoScores = ( { contentTypes } ) => {
-	const [ selectedContentType, setSelectedContentType ] = useState( () => contentTypes[ 0 ] );
+	const [ selectedContentType, setSelectedContentType ] = useState( contentTypes[ 0 ] );
+	const [ selectedTerm, setSelectedTerm ] = useState();
 
 	return (
 		<Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8">
@@ -25,8 +28,13 @@ export const SeoScores = ( { contentTypes } ) => {
 					selected={ selectedContentType }
 					onChange={ setSelectedContentType }
 				/>
-				{ selectedContentType.taxonomy &&
-					<AutocompleteField />
+				{ selectedContentType.taxonomy && selectedContentType.taxonomy?.links?.search &&
+					<TermFilter
+						idSuffix="seo"
+						taxonomy={ selectedContentType.taxonomy }
+						selected={ selectedTerm }
+						onChange={ setSelectedTerm }
+					/>
 				}
 			</div>
 			<p className="yst-my-6">{ __( "description", "wordpress-seo" ) }</p>
@@ -48,7 +56,7 @@ SeoScores.propTypes = {
 				label: PropTypes.string.isRequired,
 				links: PropTypes.shape( {
 					search: PropTypes.string,
-				} ).isRequired,
+				} ),
 			} ),
 		} )
 	).isRequired,
