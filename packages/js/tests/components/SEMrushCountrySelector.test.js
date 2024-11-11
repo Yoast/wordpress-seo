@@ -31,4 +31,30 @@ describe( "SEMrushCountrySelector", () => {
 
 		expect( onClickMock ).toHaveBeenCalled();
 	} );
+
+	it( "successfully calls the associated setCountry function when a country is selected", () => {
+		const onChangeMock = jest.fn();
+
+		render( <SEMrushCountrySelector
+			setCountry={ onChangeMock }
+			newRequest={ noop }
+			setNoResultsFoundnewRequest={ noop }
+			setRequestSucceeded={ noop }
+			setRequestLimitReached={ noop }
+			setRequestFailed={ noop }
+			setNoResultsFound={ noop }
+			userLocale="en"
+			isRtl={ false }
+		/> );
+
+		const select = screen.getByRole( "combobox" );
+
+		expect( select ).toBeInTheDocument();
+
+		fireEvent.click( select );
+		const options = screen.getAllByRole( "option" );
+		fireEvent.click( options[ 3 ] );
+
+		expect( onChangeMock ).toHaveBeenCalled();
+	} );
 } );
