@@ -280,16 +280,16 @@ Release date: 2024-11-19
 
 #### Enhancements
 
-* Adds a maximum width to the problems and notifications in the dashboard.
-* Adds new columns and design to the related key phrase suggestions table.
+* Adds a maximum width to the problems and notifications sections on the General page.
+* Adds _Intent_ and _Difficulty_ to the metrics shown in the Semrush integration.
 * Improves the compatibility of the Yoast blocks with WordPress 6.7.
+* Allows to set OpenGraph image `width`, `height `and `type` HTML metadata to `null` in order to don't show them. Props to [@GiovanniMounir](https://github.com/GiovanniMounir).
 
 #### Bugfixes
 
 * Fixes a bug where a fatal error is triggered in Php 8.x when a user's additional contact methods have been improperly set to `null`. Props to [PhilETaylor](https://github.com/PhilETaylor).
 * Fixes a bug where the First time configuration would have a double separator for the title and content.
 * Fixes a bug where the First time configuration would not resize properly on smaller width screens.
-* Fixes a bug where the highlighting marker button was incorrectly enabled when switching the editor mode from code to visual while the AI Optimize toast notification was still visible.
 
 #### Other
 
