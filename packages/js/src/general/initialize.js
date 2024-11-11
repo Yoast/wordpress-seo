@@ -5,14 +5,15 @@ import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
+import { Dashboard } from "../dash";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
-import { FTC_NAME } from "./store/first-time-configuration";
 import App from "./app";
 import { RouteErrorFallback } from "./components";
 import { STORE_NAME } from "./constants";
-import { AlertCenter, FirstTimeConfiguration } from "./routes";
+import { AlertCenter, FirstTimeConfiguration, ROUTES } from "./routes";
 import registerStore from "./store";
 import { ALERT_CENTER_NAME } from "./store/alert-center";
+import { FTC_NAME } from "./store/first-time-configuration";
 
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-general" );
@@ -31,19 +32,43 @@ domReady( () => {
 	} );
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 
+	const contentTypes = get( window, "wpseoScriptData.dash.contentTypes", [
+		{
+			name: "post",
+			label: "Posts",
+			taxonomy: {
+				name: "category",
+				label: "Categories",
+				links: {
+					search: "http://basic.wordpress.test/wp-json/wp/v2/categories",
+				},
+			},
+		},
+		{
+			name: "page",
+			label: "Pages",
+			taxonomy: null,
+		},
+	] );
+	const userName = get( window, "wpseoScriptData.dash.userName", "User" );
+
 	const router = createHashRouter(
 		createRoutesFromElements(
 			<Route path="/" element={ <App /> } errorElement={ <RouteErrorFallback className="yst-m-8" /> }>
-				<Route path="/" element={ <AlertCenter /> } errorElement={ <RouteErrorFallback /> } />
-				<Route path="/first-time-configuration" element={ <FirstTimeConfiguration /> } errorElement={ <RouteErrorFallback /> } />
+				<Route
+					path={ ROUTES.dashboard }
+					element={ <Dashboard contentTypes={ contentTypes } userName={ userName } /> } errorElement={ <RouteErrorFallback /> }
+				/>
+				<Route path={ ROUTES.alertCenter } element={ <AlertCenter /> } errorElement={ <RouteErrorFallback /> } />
+				<Route path={ ROUTES.firstTimeConfiguration } element={ <FirstTimeConfiguration /> } errorElement={ <RouteErrorFallback /> } />
 				{
 					/**
-					 * Fallback route: redirect to the root (alert center).
+					 * Fallback route: redirect to the dashboard.
 					 * A redirect is used to support the activePath in the menu. E.g. `pathname` matches exactly.
 					 * It replaces the current path to not introduce invalid history in the browser (that would just redirect again).
 					 */
 				}
-				<Route path="*" element={ <Navigate to="/" replace={ true } /> } />
+				<Route path="*" element={ <Navigate to={ ROUTES.dashboard } replace={ true } /> } />
 			</Route>
 		)
 	);
