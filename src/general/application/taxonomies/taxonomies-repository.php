@@ -3,15 +3,13 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\General\Application\Taxonomies;
 
+use Yoast\WP\SEO\General\Application\Taxonomy_Filters\Taxonomy_Filters_Repository;
 use Yoast\WP\SEO\General\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\General\Domain\Taxonomies\Taxonomy;
 use Yoast\WP\SEO\General\Domain\Taxonomies\Taxonomy_Map;
-use Yoast\WP\SEO\General\Domain\Taxonomy_Filters\Taxonomy_Filter_Interface;
 
 /**
  * The repository to get all content types.
- *
- * @makePublic
  */
 class Taxonomies_Repository {
 
@@ -23,24 +21,24 @@ class Taxonomies_Repository {
 	private $taxonomy_map;
 
 	/**
-	 * The taxonomy filter repository.
+	 * The taxonomy filters repository.
 	 *
-	 * @var Taxonomy_Filter_Interface[]
+	 * @var Taxonomy_Filters_Repository
 	 */
-	private $taxonomy_filters;
+	private $taxonomy_filters_repository;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param Taxonomy_Map              $taxonomy_map        The taxonomy map.
-	 * @param Taxonomy_Filter_Interface ...$taxonomy_filters All taxonomies.
+	 * @param Taxonomy_Map                $taxonomy_map                The taxonomy map.
+	 * @param Taxonomy_Filters_Repository $taxonomy_filters_repository The taxonomy filters repository.
 	 */
 	public function __construct(
 		Taxonomy_Map $taxonomy_map,
-		Taxonomy_Filter_Interface ...$taxonomy_filters
+		Taxonomy_Filters_Repository $taxonomy_filters_repository
 	) {
-		$this->taxonomy_map     = $taxonomy_map;
-		$this->taxonomy_filters = $taxonomy_filters;
+		$this->taxonomy_map                = $taxonomy_map;
+		$this->taxonomy_filters_repository = $taxonomy_filters_repository;
 	}
 
 	/**
@@ -54,8 +52,8 @@ class Taxonomies_Repository {
 		// @TODO: First we check if there's a filter that overrides the filtering taxonomy for this content type.
 
 		// Then we check if we have made an explicit filter for this content type.
-		// @TODO: Maybe: $taxonomy_filters = $this->taxonomy_filters_repository->get_taxonomy_filters( $content_type );.
-		foreach ( $this->taxonomy_filters as $taxonomy_filter ) {
+		$taxonomy_filters = $this->taxonomy_filters_repository->get_taxonomy_filters();
+		foreach ( $taxonomy_filters as $taxonomy_filter ) {
 			if ( $taxonomy_filter->get_filtered_content_type() === $content_type->get_name() ) {
 				$taxonomy = \get_taxonomy( $taxonomy_filter->get_filtering_taxonomy() );
 				if ( \is_a( $taxonomy, 'WP_Taxonomy' ) ) {

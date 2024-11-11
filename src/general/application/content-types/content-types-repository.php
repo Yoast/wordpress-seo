@@ -10,8 +10,6 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 
 /**
  * The repository to get all content types.
- *
- * @makePublic
  */
 class Content_Types_Repository {
 
