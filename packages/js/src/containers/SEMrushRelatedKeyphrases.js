@@ -30,6 +30,7 @@ export default compose( [
 			lastRequestKeyphrase: getSEMrushRequestKeyphrase(),
 			isRtl: getPreference( "isRtl", false ),
 			userLocale: getPreference( "userLocale", "en_US" ),
+			isPremium: getIsPremium(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
