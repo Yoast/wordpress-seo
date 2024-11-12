@@ -34,6 +34,22 @@ class Taxonomy {
 		return [
 			'name'  => $this->taxonomy->name,
 			'label' => $this->taxonomy->label,
+			'links' => [
+				'search' => $this->build_rest_url(),
+			],
 		];
+	}
+
+	/**
+	 * Builds the REST API URL for the taxonomy.
+	 *
+	 * @return string The REST API URL for the taxonomy.
+	 */
+	protected function build_rest_url(): string {
+		$rest_base = ( $this->taxonomy->rest_base ) ? $this->taxonomy->rest_base : $this->taxonomy->name;
+
+		$rest_namespace = ( $this->taxonomy->rest_namespace ) ? $this->taxonomy->rest_namespace : 'wp/v2';
+
+		return \rest_url( "{$rest_namespace}/{$rest_base}" );
 	}
 }
