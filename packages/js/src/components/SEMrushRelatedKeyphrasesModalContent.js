@@ -107,7 +107,11 @@ export default function RelatedKeyphraseModalContent( props ) {
 		<Root context={ { isRtl } }>
 			{ ! requestLimitReached && (
 				<Fragment>
-					{ ! isPremium && <SEMrushUpsellAlert /> }
+					{ ! isPremium && <PremiumUpsell
+						className="yst-my-6"
+						url={ window.wpseoAdminL10n[ "shortlinks.semrush.premium_landing_page" ] }
+					/> }
+
 					{ isPremium && hasMaximumRelatedKeyphrases( relatedKeyphrases ) && <SEMrushMaxRelatedKeyphrases /> }
 					<SEMrushCountrySelector
 						countryCode={ countryCode }
@@ -126,7 +130,6 @@ export default function RelatedKeyphraseModalContent( props ) {
 			) }
 
 			{ getUserMessage( props ) }
-
 			<KeyphrasesTable
 				relatedKeyphrases={ relatedKeyphrases }
 				columnNames={ response?.results?.columnNames }
@@ -137,7 +140,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 			{ response?.results?.rows && <p className="yst-mb-0 yst-mt-2">
 				<GetMoreInsightsLink href={ url }>
 					{ sprintf(
-					/* translators: %s expands to Semrush */
+						/* translators: %s expands to Semrush */
 						__( "Get more insights at %s", "wordpress-seo" ),
 						"Semrush"
 					) }
