@@ -19,7 +19,7 @@ class Content_Type {
 	/**
 	 * The constructor.
 	 *
-	 * @param WP_Post_Type $content_type The the content type.
+	 * @param WP_Post_Type $content_type The content type.
 	 */
 	public function __construct( WP_Post_Type $content_type ) {
 		$this->content_type = $content_type;
@@ -28,9 +28,9 @@ class Content_Type {
 	/**
 	 * Maps all content type information to the expected key value representation.
 	 *
-	 * @param array<string,string> $content_type_taxonomy The filtering taxonomy of the content type.
+	 * @param array<string,string|array<string, string>> $content_type_taxonomy The filtering taxonomy of the content type.
 	 *
-	 * @return array<string,string> The expected key value representation.
+	 * @return array<string, string|array<string,string|array<string, string>>|null> The expected key value representation.
 	 */
 	public function map_to_array( array $content_type_taxonomy ): array {
 		return [

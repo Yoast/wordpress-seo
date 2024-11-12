@@ -8,7 +8,7 @@ use Yoast\WP\SEO\General\Application\Taxonomy_Filters\Taxonomy_Filters_Repositor
 use Yoast\WP\SEO\General\Domain\Taxonomies\Taxonomy;
 
 /**
- * The repository to get all content types.
+ * The repository to get taxonomies.
  */
 class Taxonomies_Repository {
 
@@ -35,7 +35,7 @@ class Taxonomies_Repository {
 	 *
 	 * @param string $content_type The content type the taxonomy filters.
 	 *
-	 * @return array<string, string> The filtering taxonomy of the content type.
+	 * @return array<string,string|array<string, string>> The filtering taxonomy of the content type.
 	 */
 	public function get_content_type_taxonomy( string $content_type ): array {
 		// First we check if there's a filter that overrides the filtering taxonomy for this content type.
@@ -59,13 +59,13 @@ class Taxonomies_Repository {
 			);
 		}
 
-		// Then we check if we have made an explicit filter for this content type.
+		// Then we check if there is a filter explicitly made for this content type.
 		$taxonomy = $this->taxonomy_filters_repository->get_taxonomy_filter( $content_type );
 		if ( $this->is_taxonomy_valid( $taxonomy, $content_type ) ) {
 			return $this->get_taxonomy_map( $taxonomy );
 		}
 
-		// As a fallback, we check if the content type has a category taxonomy and we make it the filtering taxonomy if so.
+		// As a fallback, we check if the content type has a category taxonomy.
 		$taxonomy = \get_taxonomy( 'category' );
 		if ( $this->is_taxonomy_valid( $taxonomy, $content_type ) ) {
 			return $this->get_taxonomy_map( $taxonomy );
@@ -79,7 +79,7 @@ class Taxonomies_Repository {
 	 *
 	 * @param WP_Taxonomy $taxonomy The taxonomy.
 	 *
-	 * @return array<string, string> The filtering taxonomy of the content type.
+	 * @return array<string,string|array<string, string>> The map of the filtering taxonomy.
 	 */
 	private function get_taxonomy_map( WP_Taxonomy $taxonomy ): array {
 		$taxonomy_instance = new Taxonomy( $taxonomy );

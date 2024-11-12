@@ -28,7 +28,7 @@ class Taxonomy {
 	/**
 	 * Maps all taxonomy information to the expected key value representation.
 	 *
-	 * @return array<string,string> The expected key value representation.
+	 * @return array<string,string|array<string, string>> The expected key value representation.
 	 */
 	public function map_to_array(): array {
 		return [

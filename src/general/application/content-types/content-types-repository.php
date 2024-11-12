@@ -8,7 +8,7 @@ use Yoast\WP\SEO\General\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 
 /**
- * The repository to get all content types.
+ * The repository to get content types.
  */
 class Content_Types_Repository {
 
@@ -43,14 +43,14 @@ class Content_Types_Repository {
 	/**
 	 * Returns the content types object.
 	 *
-	 * @return array<string, string> The content types object.
+	 * @return array<string, string|array<string,string|array<string, string>>|null> The content types object.
 	 */
 	public function get_content_types(): array {
 		$content_types = [];
 		$post_types    = $this->post_type_helper->get_indexable_post_types();
 
 		foreach ( $post_types as $post_type ) {
-			$post_type_object      = \get_post_type_object( $post_type ); // @TODO: Refactor `Post_Type_Helper::get_indexable_post_types()` to be able to return objects.
+			$post_type_object      = \get_post_type_object( $post_type ); // @TODO: Refactor `Post_Type_Helper::get_indexable_post_types()` to be able to return objects. That way, we can remove this line.
 			$content_type_instance = new Content_Type( $post_type_object );
 
 			$content_type_taxonomy = $this->taxonomies_repository->get_content_type_taxonomy( $post_type_object->name );

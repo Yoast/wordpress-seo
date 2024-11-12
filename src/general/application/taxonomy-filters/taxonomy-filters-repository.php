@@ -7,14 +7,12 @@ use WP_Taxonomy;
 use Yoast\WP\SEO\General\Domain\Taxonomy_Filters\Taxonomy_Filter_Interface;
 
 /**
- * The repository to get all content types.
- *
- * @makePublic
+ * The repository to get taxonomy filters.
  */
 class Taxonomy_Filters_Repository {
 
 	/**
-	 * The taxonomy filter repository.
+	 * All taxonomy filters.
 	 *
 	 * @var Taxonomy_Filter_Interface[]
 	 */
@@ -23,7 +21,7 @@ class Taxonomy_Filters_Repository {
 	/**
 	 * The constructor.
 	 *
-	 * @param Taxonomy_Filter_Interface ...$taxonomy_filters All taxonomies.
+	 * @param Taxonomy_Filter_Interface ...$taxonomy_filters All taxonomy filters.
 	 */
 	public function __construct(
 		Taxonomy_Filter_Interface ...$taxonomy_filters
