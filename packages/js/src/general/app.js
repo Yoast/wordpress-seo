@@ -10,7 +10,7 @@ import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library"
 import PropTypes from "prop-types";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
-import { attachDismissHandlers } from "../helpers/attachDismissHandlers";
+import { disconnectObservers, observeNotices } from "../helpers/observeNotices";
 import { deleteMigratingNotices, getMigratingNoticeInfo } from "../helpers/migrateNotices";
 import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
@@ -74,8 +74,14 @@ const App = () => {
 
 	useEffect( () => {
 		deleteMigratingNotices( notices );
-		attachDismissHandlers( notices );
 	}, [ notices ] );
+
+	useEffect( () => {
+		const observers = observeNotices( notices );
+		return () => {
+			disconnectObservers( observers );
+		};
+	}, [ ] );
 
 	const { pathname } = useLocation();
 	const alertToggleError = useSelectGeneralPage( "selectAlertToggleError", [], [] );
