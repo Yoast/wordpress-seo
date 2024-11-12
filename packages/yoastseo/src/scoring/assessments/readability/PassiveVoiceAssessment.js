@@ -139,7 +139,6 @@ export default class PassiveVoiceAssessment extends Assessment {
 		assessmentResult.setScore( passiveVoiceResult.score );
 		assessmentResult.setText( passiveVoiceResult.text );
 		assessmentResult.setHasMarks( passiveVoiceResult.hasMarks );
-		assessmentResult.setHasAIFixes( true );
 
 		return assessmentResult;
 	}
