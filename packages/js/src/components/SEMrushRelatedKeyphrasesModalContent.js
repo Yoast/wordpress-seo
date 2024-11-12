@@ -105,7 +105,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 	return (
 		<Root context={ { isRtl } }>
 
-			{ ! isPremium && <SEMrushUpsellAlert /> }
+			{ ! requestLimitReached && ! isPremium && <SEMrushUpsellAlert /> }
 
 			{ ! requestLimitReached && <SEMrushCountrySelector
 				countryCode={ countryCode }
