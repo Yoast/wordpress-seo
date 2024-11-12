@@ -25,12 +25,11 @@ export function hasError( response ) {
  * Determines whether the maximum amount of related keyphrases has been reached.
  *
  * @param {array} relatedKeyphrases The related keyphrases. Can be empty.
- * @param {boolean} [isPremium=true] Whether the user is on a premium plan or not.
  *
  * @returns {boolean} Whether or not the maximum limit has been reached.
  */
-export function hasMaximumRelatedKeyphrases( relatedKeyphrases, isPremium = true ) {
-	return isPremium && relatedKeyphrases && relatedKeyphrases.length >= 4;
+export function hasMaximumRelatedKeyphrases( relatedKeyphrases ) {
+	return relatedKeyphrases && relatedKeyphrases.length >= 4;
 }
 
 /**
@@ -48,7 +47,6 @@ export function getUserMessage( props ) {
 		response,
 		requestHasData,
 		relatedKeyphrases,
-		isPremium,
 	} = props;
 
 	if ( requestLimitReached ) {
@@ -64,7 +62,7 @@ export function getUserMessage( props ) {
 	}
 }
 
-	if ( hasMaximumRelatedKeyphrases( relatedKeyphrases, isPremium ) ) {
+	if ( hasMaximumRelatedKeyphrases( relatedKeyphrases ) ) {
 		return "maxRelatedKeyphrases";
 	}
 }
