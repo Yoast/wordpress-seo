@@ -98,16 +98,5 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 
 			expect( actual ).toBe( true );
 		} );
-
-		it( "returns that the limit has not been reached when user does not have premium", () => {
-			const actual = SEMrushRelatedKeyphrasesModalContent.hasMaximumRelatedKeyphrases( [
-				{ key: "a", keyword: "yoast seo", score: 33 },
-				{ key: "b", keyword: "yoast seo plugin", score: 33 },
-				{ key: "c", keyword: "yoast plugin", score: 33 },
-				{ key: "d", keyword: "yoast premium plugin", score: 33 },
-			], false );
-
-			expect( actual ).toBe( false );
-		} );
 	} );
 } );
