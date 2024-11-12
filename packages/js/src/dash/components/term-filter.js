@@ -1,42 +1,42 @@
 import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { AutocompleteField } from "@yoast/ui-library";
+import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import { debounce } from "lodash";
 import PropTypes from "prop-types";
 import { FETCH_DELAY } from "../../shared-admin/constants";
 
 /**
- * @typedef {import("../index").Taxonomy} Taxonomy
- * @typedef {import("../index").Term} Term
+ * @type {import("../index").Taxonomy} Taxonomy
+ * @type {import("../index").Term} Term
  */
 
 /**
- * @param {string} url The URL to fetch from.
- * @param {string} query The query to search for.
- * @param {AbortSignal} signal The signal to abort the request.
- * @returns {Promise<any|Error>} The promise of terms, or an error.
+ * @param {string|URL} url The URL to fetch from.
+ * @param {RequestInit} requestInit The request options.
+ * @returns {Promise<any|Error>} The promise of a result, or an error.
  */
-const searchTerms = async( { url, query, signal } ) => {
+const fetchJson = async( url, requestInit ) => {
 	try {
-		const urlInstance = new URL( "?" + new URLSearchParams( {
-			search: query,
-			_fields: [ "name", "slug" ],
-		} ), url );
-		const response = await fetch( urlInstance, {
-			headers: {
-				"Content-Type": "application/json",
-			},
-			signal,
-		} );
-
+		const response = await fetch( url, requestInit );
 		if ( ! response.ok ) {
-			throw new Error( "Failed to search terms" );
+			// From the perspective of the results, this is a Promise.reject.
+			throw new Error( "Not ok" );
 		}
 		return response.json();
-	} catch ( e ) {
-		throw e;
+	} catch ( error ) {
+		return Promise.reject( error );
 	}
 };
+
+/**
+ * @param {string|URL} baseUrl The URL to fetch from.
+ * @param {string} query The query to search for.
+ * @returns {URL} The URL with the search query.
+ */
+const createSearchTermUrl = ( baseUrl, query ) => new URL( "?" + new URLSearchParams( {
+	search: query,
+	_fields: [ "name", "slug" ],
+} ), baseUrl );
 
 /**
  * @param {{name: string, slug: string}} term The term from the response.
@@ -52,20 +52,19 @@ const transformTerm = ( term ) => ( { name: term.slug, label: term.name } );
  * @returns {JSX.Element} The element.
  */
 export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
-	const [ error, setError ] = useState( null );
+	const [ isLoading, setIsLoading ] = useState( false );
+	const [ error, setError ] = useState();
 	const [ query, setQuery ] = useState( "" );
 	const [ terms, setTerms ] = useState( [] );
 	/** @type {MutableRefObject<AbortController>} */
 	const controller = useRef();
 
-	useEffect( () => {
-		controller.current?.abort();
-		controller.current = new AbortController();
-
-		searchTerms( { url: taxonomy.links.search, query, signal: controller.current.signal } )
+	// This needs to be wrapped including settings the state, because the debounce return messes with the timing/events.
+	const handleSearchTerms = useCallback( debounce( ( ...args ) => {
+		fetchJson( ...args )
 			.then( ( result ) => {
 				setTerms( result.map( transformTerm ) );
-				setError( null );
+				setError( undefined ); // eslint-disable-line no-undefined
 			} )
 			.catch( ( e ) => {
 				// Ignore abort errors, because they are expected.
@@ -75,40 +74,63 @@ export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
 						message: __( "Something went wrong", "wordpress-seo" ),
 					} );
 				}
+			} )
+			.finally( () => {
+				setIsLoading( false );
 			} );
-
-		return () => {
-			controller.current?.abort();
-		};
-	}, [ taxonomy.links.search, query ] );
+	}, FETCH_DELAY ), [] );
 
 	const handleChange = useCallback( ( value ) => {
+		if ( value === null ) {
+			// User indicated they want to clear the selection.
+			setQuery( "" );
+		}
 		onChange( terms.find( ( { name } ) => name === value ) );
 	}, [ terms ] );
-	const handleQueryChange = useCallback( debounce( ( event ) => {
+
+	const handleQueryChange = useCallback( ( event ) => {
 		setQuery( event?.target?.value?.trim()?.toLowerCase() || "" );
-	}, FETCH_DELAY ), [] );
+	}, [] );
+
+	useEffect( () => {
+		setIsLoading( true );
+		controller.current?.abort();
+		controller.current = new AbortController();
+		handleSearchTerms( createSearchTermUrl( taxonomy.links.search, query ), {
+			headers: { "Content-Type": "application/json" },
+			signal: controller.current.signal,
+		} );
+
+		return () => controller.current?.abort();
+	}, [ taxonomy.links.search, query, handleSearchTerms ] );
 
 	return (
 		<AutocompleteField
 			id={ `term--${ idSuffix }` }
 			label={ taxonomy.label }
-			value={ selected?.name }
-			selectedLabel={ selected?.label || "" }
+			value={ selected?.name || "" }
+			selectedLabel={ selected?.label || query }
 			onChange={ handleChange }
 			onQueryChange={ handleQueryChange }
 			placeholder={ __( "All", "wordpress-seo" ) }
 			nullable={ true }
 			validation={ error }
 		>
-			{ terms
-				? terms.map( ( { name, label } ) => (
-					<AutocompleteField.Option key={ name } value={ name }>
-						{ label }
-					</AutocompleteField.Option>
-				) )
-				: __( "None found", "wordpress-seo" )
-			}
+			{ isLoading && (
+				<div className="yst-autocomplete__option">
+					<Spinner />
+				</div>
+			) }
+			{ ! isLoading && terms.length === 0 && (
+				<div className="yst-autocomplete__option">
+					{ __( "Nothing found", "wordpress-seo" ) }
+				</div>
+			) }
+			{ ! isLoading && terms.length > 0 && terms.map( ( { name, label } ) => (
+				<AutocompleteField.Option key={ name } value={ name }>
+					{ label }
+				</AutocompleteField.Option>
+			) ) }
 		</AutocompleteField>
 	);
 };

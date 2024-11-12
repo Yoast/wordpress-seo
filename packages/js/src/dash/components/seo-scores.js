@@ -6,8 +6,9 @@ import { ContentTypeFilter } from "./content-type-filter";
 import { TermFilter } from "./term-filter";
 
 /**
- * @typedef {import("./dashboard").ContentType} ContentType
- * @typedef {import("./dashboard").Taxonomy} Taxonomy
+ * @type {import("../index").ContentType} ContentType
+ * @type {import("../index").Taxonomy} Taxonomy
+ * @type {import("../index").Term} Term
  */
 
 /**

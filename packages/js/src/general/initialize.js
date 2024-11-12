@@ -38,7 +38,7 @@ domReady( () => {
 			label: "Posts",
 			taxonomy: {
 				name: "category",
-				label: "Categories",
+				label: "Category",
 				links: {
 					search: "https://igor.local/wp-json/wp/v2/categories",
 				},
