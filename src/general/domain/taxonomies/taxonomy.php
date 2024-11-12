@@ -2,51 +2,38 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\General\Domain\Taxonomies;
 
+use WP_Taxonomy;
+
 /**
- * This class describes a single Taxonomy.
+ * This class describes a Taxonomy.
  */
 class Taxonomy {
 
 	/**
-	 * The name of the taxonomy.
+	 * The taxonomy.
 	 *
-	 * @var bool
+	 * @var WP_Taxonomy
 	 */
-	private $name;
-
-	/**
-	 * The label of the taxonomy.
-	 *
-	 * @var string
-	 */
-	private $label;
+	private $taxonomy;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param string $name  The name of the taxonomy.
-	 * @param string $label The label of the taxonomy.
+	 * @param WP_Taxonomy $taxonomy The taxonomy.
 	 */
-	public function __construct( string $name, string $label ) {
-		$this->name  = $name;
-		$this->label = $label;
+	public function __construct( WP_Taxonomy $taxonomy ) {
+		$this->taxonomy = $taxonomy;
 	}
 
 	/**
-	 * Gets the taxonomy name.
+	 * Maps all taxonomy information to the expected key value representation.
 	 *
-	 * @return string The taxonomy name.
+	 * @return array<string,string> The expected key value representation.
 	 */
-	public function get_name(): string {
-		return $this->name;
-	}
-
-	/**
-	 * Gets the taxonomy label.
-	 *
-	 * @return string The taxonomy label.
-	 */
-	public function get_label(): string {
-		return $this->label;
+	public function map_to_array(): array {
+		return [
+			'name'  => $this->taxonomy->name,
+			'label' => $this->taxonomy->label,
+		];
 	}
 }

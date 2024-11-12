@@ -2,51 +2,41 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\General\Domain\Content_Types;
 
+use WP_Post_Type;
+
 /**
- * This class describes a single Content Type.
+ * This class describes a Content Type.
  */
 class Content_Type {
 
 	/**
-	 * The name of the content type.
+	 * The content type.
 	 *
-	 * @var string
+	 * @var WP_Post_Type
 	 */
-	private $name;
-
-	/**
-	 * The label of the content type.
-	 *
-	 * @var string
-	 */
-	private $label;
+	private $content_type;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param string $name  The name of the content type.
-	 * @param string $label The label of the content type.
+	 * @param WP_Post_Type $content_type The the content type.
 	 */
-	public function __construct( string $name, string $label ) {
-		$this->name  = $name;
-		$this->label = $label;
+	public function __construct( WP_Post_Type $content_type ) {
+		$this->content_type = $content_type;
 	}
 
 	/**
-	 * Gets the content type name.
+	 * Maps all content type information to the expected key value representation.
 	 *
-	 * @return string The content type name.
-	 */
-	public function get_name(): string {
-		return $this->name;
-	}
-
-	/**
-	 * Gets the content type label.
+	 * @param array<string,string> $content_type_taxonomy The filtering taxonomy of the content type.
 	 *
-	 * @return string The content type label.
+	 * @return array<string,string> The expected key value representation.
 	 */
-	public function get_label(): string {
-		return $this->label;
+	public function map_to_array( array $content_type_taxonomy ): array {
+		return [
+			'name'     => $this->content_type->name,
+			'label'    => $this->content_type->label,
+			'taxonomy' => ( \count( $content_type_taxonomy ) === 0 ) ? null : $content_type_taxonomy,
+		];
 	}
 }
