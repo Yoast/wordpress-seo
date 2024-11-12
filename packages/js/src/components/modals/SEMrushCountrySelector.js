@@ -6,7 +6,6 @@ import { addQueryArgs } from "@wordpress/url";
 
 /* Yoast dependencies */
 import { CountrySelector } from "@yoast/related-keyphrase-suggestions";
-import { Root } from "@yoast/ui-library";
 
 /**
  * The SEMrush Country Selector wrapper component.
@@ -21,7 +20,6 @@ import { Root } from "@yoast/ui-library";
  * @param {Function} setRequestLimitReached The function to set the request as having reached the limit.
  * @param {Object} response The response object.
  * @param {string} lastRequestKeyphrase The last requested keyphrase.
- * @param {boolean} isRtl Whether the site is in RTL mode.
  * @param {string} userLocale The user locale.
  *
  * @returns {JSX.Element} The SEMrush Country Selector component.
@@ -37,7 +35,6 @@ const SEMrushCountrySelector = ( {
 	setRequestLimitReached,
 	response,
 	lastRequestKeyphrase,
-	isRtl,
 	userLocale,
 } ) => {
 	const [ activeCountryCode, setActiveCountryCode ] = useState( countryCode );
@@ -114,16 +111,14 @@ const SEMrushCountrySelector = ( {
 	}, [] );
 
 	return (
-		<Root context={ { isRtl } }>
-			<CountrySelector
-				countryCode={ countryCode }
-				activeCountryCode={ activeCountryCode }
-				onChange={ setCountry }
-				onClick={ relatedKeyphrasesRequest }
-				className="yst-my-5 lg:yst-w-4/5"
-				userLocale={ userLocale }
-			/>
-		</Root>
+		<CountrySelector
+			countryCode={ countryCode }
+			activeCountryCode={ activeCountryCode }
+			onChange={ setCountry }
+			onClick={ relatedKeyphrasesRequest }
+			className="yst-my-5 lg:yst-w-4/5"
+			userLocale={ userLocale }
+		/>
 	);
 };
 
@@ -138,7 +133,6 @@ SEMrushCountrySelector.propTypes = {
 	setRequestSucceeded: PropTypes.func.isRequired,
 	setRequestLimitReached: PropTypes.func.isRequired,
 	setRequestFailed: PropTypes.func.isRequired,
-	isRtl: PropTypes.bool.isRequired,
 	userLocale: PropTypes.string,
 };
 
