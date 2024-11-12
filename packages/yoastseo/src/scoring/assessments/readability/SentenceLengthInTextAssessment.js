@@ -1,13 +1,10 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { map, merge } from "lodash";
+import { merge } from "lodash";
 
 import Assessment from "../assessment";
-import getTooLongSentences from "../../helpers/assessments/checkForTooLongSentences";
 import formatNumber from "../../../helpers/formatNumber";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
-import addMark from "../../../markers/addMark";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
+import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 
@@ -70,7 +67,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 
 		assessmentResult.setScore( score );
 		assessmentResult.setText( this.translateScore( score, percentage ) );
-		assessmentResult.setHasMarks( ( percentage > 0 ) );
+		assessmentResult.setHasMarks( percentage > 0 );
 
 		return assessmentResult;
 	}
@@ -99,13 +96,22 @@ class SentenceLengthInTextAssessment extends Assessment {
 		if ( researcher.getConfig( "sentenceLength" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
 		}
-		const sentenceObjects = this.getTooLongSentences( sentenceCount );
+		const tooLongSentences = this.getTooLongSentences( sentenceCount );
 
-		return map( sentenceObjects, function( sentenceObject ) {
-			const sentence = stripTags( sentenceObject.sentence );
+		return tooLongSentences.map( tooLongSentence => {
+			const sentence = tooLongSentence.sentence;
+			const startOffset = sentence.sourceCodeRange.startOffset;
+			const endOffset = sentence.sourceCodeRange.endOffset;
 			return new Mark( {
-				original: sentence,
-				marked: addMark( sentence ),
+				position: {
+					startOffset,
+					endOffset,
+					startOffsetBlock: startOffset - ( sentence.parentStartOffset || 0 ),
+					endOffsetBlock: endOffset - ( sentence.parentStartOffset || 0 ),
+					clientId: sentence.parentClientId || "",
+					attributeId: sentence.parentAttributeId || "",
+					isFirstSection: sentence.isParentFirstSectionOfBlock || false,
+				},
 			} );
 		} );
 	}
@@ -179,14 +185,14 @@ class SentenceLengthInTextAssessment extends Assessment {
 	/**
 	 * Calculates the percentage of sentences that are too long.
 	 *
-	 * @param {Array} sentences The sentences to calculate the percentage for.
+	 * @param {SentenceLength[]} sentences The sentences to calculate the percentage for.
 	 * @returns {number} The calculates percentage of too long sentences.
 	 */
 	calculatePercentage( sentences ) {
 		let percentage = 0;
 
 		if ( sentences.length !== 0 ) {
-			const tooLongTotal = this.countTooLongSentences( sentences );
+			const tooLongTotal = this.getTooLongSentences( sentences ).length;
 
 			percentage = formatNumber( ( tooLongTotal / sentences.length ) * 100 );
 		}
@@ -222,23 +228,12 @@ class SentenceLengthInTextAssessment extends Assessment {
 	}
 
 	/**
-	 * Gets the sentences that are qualified as being too long.
-	 *
-	 * @param {array} sentences The sentences to filter through.
-	 * @returns {array} Array with all the sentences considered to be too long.
+	 * Returns the sentences that are qualified as being too long.
+	 * @param {SentenceLength[]} sentences The sentences to filter.
+	 * @returns {SentenceLength[]} Array with all the sentences considered to be too long.
 	 */
 	getTooLongSentences( sentences ) {
-		return getTooLongSentences( sentences, this._config.recommendedLength );
-	}
-
-	/**
-	 * Get the total amount of sentences that are qualified as being too long.
-	 *
-	 * @param {Array} sentences The sentences to filter through.
-	 * @returns {Number} The amount of sentences that are considered too long.
-	 */
-	countTooLongSentences( sentences ) {
-		return this.getTooLongSentences( sentences ).length;
+		return sentences.filter( sentence => sentence.sentenceLength > this._config.recommendedLength );
 	}
 }
 

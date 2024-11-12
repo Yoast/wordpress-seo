@@ -5,6 +5,7 @@ import Paper from "../../../../src/values/Paper.js";
 import Mark from "../../../../src/values/Mark.js";
 import addMark from "../../../../src/markers/addMark";
 import Factory from "../../../../src/helpers/factory.js";
+import buildTree from "../../../specHelpers/parse/buildTree";
 
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
@@ -12,19 +13,21 @@ import PolishResearcher from "../../../../src/languageProcessing/languages/pl/Re
 import RussianResearcher from "../../../../src/languageProcessing/languages/ru/Researcher";
 import ItalianResearcher from "../../../../src/languageProcessing/languages/it/Researcher";
 import TurkishResearcher from "../../../../src/languageProcessing/languages/tr/Researcher";
+import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/sentenceLength";
 
 const shortSentenceDefault = "Word ".repeat( 18 ) + "word. ";
 const longSentenceDefault = "Word ".repeat( 20 ) + "word. ";
 const shortSentence15WordsLimit = "Word ".repeat( 13 ) + "word. ";
 const longSentence15WordsLimit = "Word ".repeat( 15 ) + "word. ";
 
-import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/sentenceLength";
-
 // eslint-disable-next-line max-statements
 describe( "An assessment for sentence length", function() {
 	it( "returns the score for all short sentences using the default config", function() {
 		const mockPaper = new Paper( shortSentenceDefault );
-		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, new DefaultResearcher( mockPaper ) );
+		const mockResearcher = new DefaultResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -34,7 +37,10 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 50% long sentences using the default config", function() {
 		const mockPaper = new Paper( shortSentenceDefault + longSentenceDefault );
-		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, new DefaultResearcher( mockPaper ) );
+		const mockResearcher = new DefaultResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -46,7 +52,10 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 100% long sentences using the default config", function() {
 		const mockPaper = new Paper( longSentenceDefault );
-		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, new DefaultResearcher( mockPaper ) );
+		const mockResearcher = new DefaultResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -58,7 +67,10 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 25% long sentences using the default config", function() {
 		const mockPaper = new Paper( longSentenceDefault + shortSentenceDefault + shortSentenceDefault + shortSentenceDefault );
-		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, new DefaultResearcher( mockPaper ) );
+		const mockResearcher = new DefaultResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -68,7 +80,10 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 30% long sentences using the default config", function() {
 		const mockPaper = new Paper( longSentenceDefault.repeat( 3 ) + shortSentenceDefault.repeat( 7 ) );
-		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, new DefaultResearcher( mockPaper ) );
+		const mockResearcher = new DefaultResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -80,7 +95,10 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 100% long sentences in a language that overrides the default recommended length config", function() {
 		const mockPaper = new Paper( longSentence15WordsLimit );
-		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, new RussianResearcher( mockPaper ) );
+		const mockResearcher = new RussianResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -90,8 +108,15 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 		expect( new SentenceLengthInTextAssessment().getMarks( mockPaper, new RussianResearcher( mockPaper ) ) ).toEqual( [
 			new Mark( {
-				original: "Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word word.",
-				marked: addMark( "Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word word." ),
+				position: {
+					startOffset: 0,
+					endOffset: 81,
+					startOffsetBlock: 0,
+					endOffsetBlock: 81,
+					clientId: "",
+					attributeId: "",
+					isFirstSection: false,
+				},
 			} ),
 		] );
 	} );
@@ -173,7 +198,10 @@ describe( "An assessment for sentence length", function() {
 	it( "returns the score for 20% long sentences in a language that overrides the default config" +
 		" for maximum allowed percentage of long sentences", function() {
 		const mockPaper = new Paper( longSentenceDefault.repeat( 4 ) + shortSentenceDefault.repeat( 16 ) );
-		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, new PolishResearcher( mockPaper ) );
+		const mockResearcher = new PolishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -186,7 +214,10 @@ describe( "An assessment for sentence length", function() {
 	it( "returns the score for 25% long sentences in a language that overrides the default config for both recommended " +
 		"maximum sentence length, and the maximum allowed percentage of long sentences", function() {
 		const mockPaper = new Paper( longSentence15WordsLimit + shortSentence15WordsLimit.repeat( 3 ) );
-		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, new TurkishResearcher( mockPaper ) );
+		const mockResearcher = new TurkishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -237,9 +268,12 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 100% long sentences in a language that should count sentence length in characters (Japanese)", function() {
 		const mockPaper = new Paper( "" );
-		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
+		const mockResearcher = Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 41 },
-		], false, false, japaneseConfig ) );
+		], false, false, japaneseConfig );
+		buildTree( mockPaper, mockResearcher );
+
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -398,10 +432,13 @@ describe( "An assessment for sentence length for cornerstone content", function(
 
 	it( "returns the score for 25% long sentences in a language that overrides the default cornerstone configuration", function() {
 		const mockPaper = new Paper( longSentenceDefault + shortSentenceDefault.repeat( 3 ) );
+		const mockResearcher = new PolishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
 		const assessment = new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
-		}, true ).getResult( mockPaper, new PolishResearcher( mockPaper ) );
+		}, true ).getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -428,10 +465,13 @@ describe( "An assessment for sentence length for cornerstone content", function(
 
 	it( "returns the score for 25% long sentences using the default cornerstone configuration", function() {
 		const mockPaper = new Paper( longSentenceDefault + shortSentenceDefault.repeat( 3 ) );
+		const mockResearcher = new DefaultResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
 		const assessment = new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
-		}, true ).getResult( mockPaper, new DefaultResearcher( mockPaper ) );
+		}, true ).getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -445,10 +485,13 @@ describe( "An assessment for sentence length for cornerstone content", function(
 describe( "An assessment for sentence length for product pages", function() {
 	it( "returns the score for 100% short sentences in English using the product page configuration", function() {
 		const mockPaper = new Paper( shortSentenceDefault );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
 		const assessment = new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
-		}, false, true ).getResult( mockPaper, new EnglishResearcher( mockPaper ) );
+		}, false, true ).getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -458,10 +501,13 @@ describe( "An assessment for sentence length for product pages", function() {
 
 	it( "returns the score for 100% long sentences in English using the product page configuration", function() {
 		const mockPaper = new Paper( longSentenceDefault );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
 		const assessment = new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
-		}, false, true ).getResult( mockPaper, new EnglishResearcher( mockPaper ) );
+		}, false, true ).getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -473,10 +519,13 @@ describe( "An assessment for sentence length for product pages", function() {
 
 	it( "returns the score for 25% long sentences in English using the product page configuration", function() {
 		const mockPaper = new Paper( longSentenceDefault + shortSentenceDefault.repeat( 3 ) );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
 		const assessment = new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
-		}, true ).getResult( mockPaper, new EnglishResearcher( mockPaper ) );
+		}, true ).getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -488,10 +537,13 @@ describe( "An assessment for sentence length for product pages", function() {
 
 	it( "returns the score for 100% short sentences in English using the cornerstone product page configuration", function() {
 		const mockPaper = new Paper( shortSentenceDefault );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
 		const assessment = new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 15,
 			farTooMany: 20,
-		}, true, true ).getResult( mockPaper, new EnglishResearcher( mockPaper ) );
+		}, true, true ).getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -501,10 +553,13 @@ describe( "An assessment for sentence length for product pages", function() {
 
 	it( "returns the score for 100% long sentences in English using the cornerstone product page configuration", function() {
 		const mockPaper = new Paper( longSentenceDefault );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
 		const assessment = new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 15,
 			farTooMany: 20,
-		}, true, true ).getResult( mockPaper, new EnglishResearcher( mockPaper ) );
+		}, true, true ).getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -516,10 +571,13 @@ describe( "An assessment for sentence length for product pages", function() {
 
 	it( "returns the score for 20% long sentences in English using the cornerstone product page configuration", function() {
 		const mockPaper = new Paper( longSentenceDefault + shortSentenceDefault.repeat( 4 ) );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
 		const assessment = new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 15,
 			farTooMany: 20,
-		}, true, true ).getResult( mockPaper, new EnglishResearcher( mockPaper ) );
+		}, true, true ).getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -531,10 +589,13 @@ describe( "An assessment for sentence length for product pages", function() {
 
 	it( "returns the score for 25% long sentences in English using the cornerstone product page configuration", function() {
 		const mockPaper = new Paper( longSentenceDefault + shortSentenceDefault.repeat( 3 ) );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
 		const assessment = new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 15,
 			farTooMany: 20,
-		}, true, true ).getResult( mockPaper, new EnglishResearcher( mockPaper ) );
+		}, true, true ).getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -547,15 +608,23 @@ describe( "An assessment for sentence length for product pages", function() {
 
 describe( "A test for marking too long sentences", function() {
 	it( "returns markers for too long sentences", function() {
-		const paper = new Paper( "This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?" );
-		const sentenceLengthInText = Factory.buildMockResearcher( [ { sentence: "This is a too long sentence, because it has over twenty" +
-				" words, and that is hard too read, don't you think?", sentenceLength: 21 } ] );
+		const mockPaper = new Paper( "This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
 		const expected = [
-			new Mark( { original: "This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?",
-				marked: "<yoastmark class='yoast-text-mark'>This is a too long sentence, because it has over twenty words, and that is hard too" +
-					" read, don't you think?</yoastmark>" } ),
+			new Mark( {
+				position: {
+					startOffset: 0,
+					endOffset: 106,
+					startOffsetBlock: 0,
+					endOffsetBlock: 106,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				} } ),
 		];
-		expect( new SentenceLengthInTextAssessment().getMarks( paper, sentenceLengthInText ) ).toEqual( expected );
+		expect( new SentenceLengthInTextAssessment().getMarks( mockPaper, mockResearcher ) ).toEqual( expected );
 	} );
 
 	it( "returns no markers if no sentences are too long", function() {
