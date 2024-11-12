@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\General\Application\Taxonomy_Filters;
 
+use WP_Taxonomy;
 use Yoast\WP\SEO\General\Domain\Taxonomy_Filters\Taxonomy_Filter_Interface;
 
 /**
@@ -31,11 +32,21 @@ class Taxonomy_Filters_Repository {
 	}
 
 	/**
-	 * Returns the object of the filtering taxonomy of a content type.
+	 * Returns a taxonomy filter based on a content type.
 	 *
-	 * @return Taxonomy_Filter_Interface[] The filtering taxonomy of the content type.
+	 * @param string $content_type The content type.
+	 *
+	 * @return WP_Taxonomy|false The taxonomy filter.
 	 */
-	public function get_taxonomy_filters(): array {
-		return $this->taxonomy_filters;
+	public function get_taxonomy_filter( string $content_type ) {
+		foreach ( $this->taxonomy_filters as $taxonomy_filter ) {
+			if ( $taxonomy_filter->get_filtered_content_type() === $content_type ) {
+				$taxonomy = \get_taxonomy( $taxonomy_filter->get_filtering_taxonomy() );
+
+				return $taxonomy;
+			}
+		}
+
+		return false;
 	}
 }

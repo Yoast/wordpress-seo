@@ -39,7 +39,6 @@ class Taxonomies_Repository {
 	 */
 	public function get_content_type_taxonomy( string $content_type ): array {
 		// First we check if there's a filter that overrides the filtering taxonomy for this content type.
-
 		/**
 		 * Filter: 'wpseo_{$content_type}_filtering_taxonomy' - Allows overriding which taxonomy filters the content type.
 		 *
@@ -61,15 +60,9 @@ class Taxonomies_Repository {
 		}
 
 		// Then we check if we have made an explicit filter for this content type.
-		$taxonomy_filters = $this->taxonomy_filters_repository->get_taxonomy_filters();
-		foreach ( $taxonomy_filters as $taxonomy_filter ) {
-			if ( $taxonomy_filter->get_filtered_content_type() === $content_type ) {
-				$taxonomy = \get_taxonomy( $taxonomy_filter->get_filtering_taxonomy() );
-
-				if ( $this->is_taxonomy_valid( $taxonomy, $content_type ) ) {
-					return $this->get_taxonomy_map( $taxonomy );
-				}
-			}
+		$taxonomy = $this->taxonomy_filters_repository->get_taxonomy_filter( $content_type );
+		if ( $this->is_taxonomy_valid( $taxonomy, $content_type ) ) {
+			return $this->get_taxonomy_map( $taxonomy );
 		}
 
 		// As a fallback, we check if the content type has a category taxonomy and we make it the filtering taxonomy if so.
