@@ -14,15 +14,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/javascript.git",
+    "url": "https://github.com/Yoast/wordpress-seo.git",
     "directory": "packages/eslint"
   },
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/Yoast/eslint/issues"
+    "url": "https://github.com/Yoast/wordpress-seo/issues"
   },
-  "homepage": "https://github.com/Yoast/eslint#readme",
+  "homepage": "https://github.com/Yoast/wordpress-seo/tree/main/packages/eslint",
   "dependencies": {
     "js-yaml": "^3.6.0"
   },
