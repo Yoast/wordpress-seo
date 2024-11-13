@@ -120,7 +120,7 @@ rules:
   no-multiple-empty-lines: 2
   no-negated-condition: 2
   no-nested-ternary: 2
-  no-new-object: 2
+  no-object-constructor: 2
   no-restricted-syntax: [
     'error',
     {
@@ -140,7 +140,7 @@ rules:
       message: 'A textdomain needs to be provided for translation calls.',
     }
   ]
-  no-spaced-func: 2
+  func-call-spacing: 2
   no-trailing-spaces: 2
   no-unneeded-ternary: 2
   no-whitespace-before-property: 2
