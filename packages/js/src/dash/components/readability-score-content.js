@@ -1,4 +1,5 @@
 import { useEffect, useState } from "@wordpress/element";
+import { ScoreChart } from "./score-chart";
 import { ContentStatusDescription } from "./content-status-description";
 import { ScoreList } from "./score-list";
 
@@ -9,73 +10,73 @@ import { ScoreList } from "./score-list";
  */
 
 /** @type {Scores} **/
-const fakeScores = {
-	ok: {
-		name: "ok",
-		amount: 6,
-		links: {
-			view: "https://basic.wordpress.test/wp-admin/edit.php?category=22",
-		},
-	},
-	good: {
+const fakeScores = [
+	{
 		name: "good",
 		amount: 6,
 		links: {
 			view: null,
 		},
 	},
-	bad: {
+	{
+		name: "ok",
+		amount: 6,
+		links: {
+			view: "https://basic.wordpress.test/wp-admin/edit.php?category=22",
+		},
+	},
+	{
 		name: "bad",
 		amount: 6,
 		links: {
 			view: null,
 		},
 	},
-	notAnalyzed: {
+	{
 		name: "notAnalyzed",
 		amount: 6,
 		links: {
 			view: null,
 		},
 	},
-};
-const fakeScores2 = {
-	ok: {
+];
+const fakeScores2 = [
+	{
 		name: "ok",
 		amount: 7,
 		links: {
 			view: "https://basic.wordpress.test/wp-admin/edit.php?category=22",
 		},
 	},
-	good: {
+	{
 		name: "good",
 		amount: 12,
 		links: {
 			view: null,
 		},
 	},
-	bad: {
+	{
 		name: "bad",
-		amount: 0,
+		amount: 1,
 		links: {
 			view: null,
 		},
 	},
-	notAnalyzed: {
+	{
 		name: "notAnalyzed",
-		amount: 0,
+		amount: 2,
 		links: {
 			view: null,
 		},
 	},
-};
+];
 
 /**
  * @param {ContentType} contentType The selected contentType.
  * @param {Term?} [term] The selected term.
  * @returns {JSX.Element} The element.
  */
-export const Scores = ( { contentType, term } ) => {
+export const ReadabilityScoreContent = ( { contentType, term } ) => {
 	const [ scores, setScores ] = useState();
 	useEffect( () => {
 		const rand = Math.random();
@@ -90,7 +91,7 @@ export const Scores = ( { contentType, term } ) => {
 		<ContentStatusDescription scores={ scores } />
 		<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-3 yst-gap-6">
 			{ scores && <ScoreList scores={ scores } /> }
-			<div>chart</div>
+			{ scores && <ScoreChart scores={ scores } /> }
 		</div>
 	</>;
 };

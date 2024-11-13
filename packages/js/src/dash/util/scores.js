@@ -21,3 +21,15 @@ export const SCORES = {
 		hex: "#cbd5e1",
 	},
 };
+
+export const getLabels = () => {
+	return Object.values( SCORES ).map( ( value ) =>{
+		return value.label;
+	} );
+};
+
+export const getHex = () => {
+	return Object.values( SCORES ).map( ( value ) =>{
+		return value.hex;
+	} );
+};

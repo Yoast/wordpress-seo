@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { ContentTypeFilter } from "./content-type-filter";
-import { SeoScoreContent } from "./seo-score-content";
+import { ReadabilityScoreContent } from "./readability-score-content";
 import { TermFilter } from "./term-filter";
 
 /**
@@ -17,35 +17,35 @@ import { TermFilter } from "./term-filter";
  * @param {ContentType[]} contentTypes The content types. May not be empty.
  * @returns {JSX.Element} The element.
  */
-export const SeoScores = ( { contentTypes } ) => {
+export const ReadabilityScores = ( { contentTypes } ) => {
 	const [ selectedContentType, setSelectedContentType ] = useState( contentTypes[ 0 ] );
 	const [ selectedTerm, setSelectedTerm ] = useState();
 
 	return (
 		<Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8">
-			<Title as="h2">{ __( "SEO scores", "wordpress-seo" ) }</Title>
+			<Title as="h2">{ __( "Readability scores", "wordpress-seo" ) }</Title>
 			<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-2 yst-gap-6 yst-mt-4">
 				<ContentTypeFilter
-					idSuffix="seo"
+					idSuffix="readability"
 					contentTypes={ contentTypes }
 					selected={ selectedContentType }
 					onChange={ setSelectedContentType }
 				/>
 				{ selectedContentType.taxonomy && selectedContentType.taxonomy?.links?.search &&
 					<TermFilter
-						idSuffix="seo"
+						idSuffix="readability"
 						taxonomy={ selectedContentType.taxonomy }
 						selected={ selectedTerm }
 						onChange={ setSelectedTerm }
 					/>
 				}
 			</div>
-			<SeoScoreContent contentType={ selectedContentType } term={ selectedTerm } />
+			<ReadabilityScoreContent contentType={ selectedContentType } term={ selectedTerm } />
 		</Paper>
 	);
 };
 
-SeoScores.propTypes = {
+ReadabilityScores.propTypes = {
 	contentTypes: PropTypes.arrayOf(
 		PropTypes.shape( {
 			name: PropTypes.string.isRequired,
