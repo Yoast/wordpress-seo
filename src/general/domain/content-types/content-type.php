@@ -2,7 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\General\Domain\Content_Types;
 
-use WP_Post_Type;
+use Yoast\WP\SEO\General\Domain\Taxonomies\Taxonomy;
 
 /**
  * This class describes a Content Type.
@@ -10,33 +10,63 @@ use WP_Post_Type;
 class Content_Type {
 
 	/**
-	 * The content type.
+	 * The name of the content type.
 	 *
-	 * @var WP_Post_Type
+	 * @var string
 	 */
-	private $content_type;
+	private $name;
+
+	/**
+	 * The label of the content type.
+	 *
+	 * @var string
+	 */
+	private $label;
+
+	/**
+	 * The taxonomy that filters the content type.
+	 *
+	 * @var Taxonomy
+	 */
+	private $taxonomy;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param WP_Post_Type $content_type The content type.
+	 * @param string   $name     The name of the content type.
+	 * @param string   $label    The label of the content type.
+	 * @param Taxonomy $taxonomy The taxonomy that filters the content type.
 	 */
-	public function __construct( WP_Post_Type $content_type ) {
-		$this->content_type = $content_type;
+	public function __construct( string $name, string $label, ?Taxonomy $taxonomy ) {
+		$this->name     = $name;
+		$this->label    = $label;
+		$this->taxonomy = $taxonomy;
 	}
 
 	/**
-	 * Maps all content type information to the expected key value representation.
+	 * Gets name of the content type.
 	 *
-	 * @param array<string,string|array<string, string>> $content_type_taxonomy The filtering taxonomy of the content type.
-	 *
-	 * @return array<string, string|array<string,string|array<string, string>>|null> The expected key value representation.
+	 * @return string The name of the content type.
 	 */
-	public function map_to_array( array $content_type_taxonomy ): array {
-		return [
-			'name'     => $this->content_type->name,
-			'label'    => $this->content_type->label,
-			'taxonomy' => ( \count( $content_type_taxonomy ) === 0 ) ? null : $content_type_taxonomy,
-		];
+	public function get_name(): string {
+		return $this->name;
+	}
+
+	/**
+	 * Gets label of the content type.
+	 *
+	 * @return string The label of the content type.
+	 */
+	public function get_label(): string {
+		return $this->label;
+	}
+
+	/**
+	 * Gets the taxonomy that filters the content type.
+	 *
+	 * @return string The taxonomy that filters the content type.
+	 */
+	public function get_taxonomy(): ?Taxonomy {
+		return $this->taxonomy;
 	}
 }

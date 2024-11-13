@@ -2,54 +2,61 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\General\Domain\Taxonomies;
 
-use WP_Taxonomy;
-
 /**
  * This class describes a Taxonomy.
  */
 class Taxonomy {
 
 	/**
-	 * The taxonomy.
+	 * The name of the taxonomy.
 	 *
-	 * @var WP_Taxonomy
+	 * @var string
 	 */
-	private $taxonomy;
+	private $name;
+
+	/**
+	 * The label of the taxonomy.
+	 *
+	 * @var string
+	 */
+	private $label;
+
+	/**
+	 * The REST URL of the taxonomy.
+	 *
+	 * @var string
+	 */
+	private $rest_url;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param WP_Taxonomy $taxonomy The taxonomy.
+	 * @param string $name     The name of the taxonomy.
+	 * @param string $label    The label of the taxonomy.
+	 * @param string $rest_url The REST URL of the taxonomy.
 	 */
-	public function __construct( WP_Taxonomy $taxonomy ) {
-		$this->taxonomy = $taxonomy;
+	public function __construct(
+		string $name,
+		string $label,
+		string $rest_url
+	) {
+		$this->name     = $name;
+		$this->label    = $label;
+		$this->rest_url = $rest_url;
 	}
 
 	/**
-	 * Maps all taxonomy information to the expected key value representation.
+	 * Parses the taxonomy to the expected key value representation.
 	 *
-	 * @return array<string,string|array<string, string>> The expected key value representation.
+	 * @return array<string, array<string, string>> The taxonomy presented as the expected key value representation.
 	 */
-	public function map_to_array(): array {
+	public function to_array(): array {
 		return [
-			'name'  => $this->taxonomy->name,
-			'label' => $this->taxonomy->label,
+			'name'  => $this->name,
+			'label' => $this->label,
 			'links' => [
-				'search' => $this->build_rest_url(),
+				'search' => $this->rest_url,
 			],
 		];
-	}
-
-	/**
-	 * Builds the REST API URL for the taxonomy.
-	 *
-	 * @return string The REST API URL for the taxonomy.
-	 */
-	protected function build_rest_url(): string {
-		$rest_base = ( $this->taxonomy->rest_base ) ? $this->taxonomy->rest_base : $this->taxonomy->name;
-
-		$rest_namespace = ( $this->taxonomy->rest_namespace ) ? $this->taxonomy->rest_namespace : 'wp/v2';
-
-		return \rest_url( "{$rest_namespace}/{$rest_base}" );
 	}
 }
