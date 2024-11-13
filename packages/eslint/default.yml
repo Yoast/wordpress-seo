@@ -77,7 +77,6 @@ rules:
   strict: 2
 
   # Variables
-  no-catch-shadow: 2
   no-label-var: 2
   no-shadow: [ 2, { "builtinGlobals": false, "hoist": "all", "allow": [] } ]
   no-undef-init: 2
