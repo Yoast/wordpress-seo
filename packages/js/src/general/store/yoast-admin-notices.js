@@ -1,12 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
+import { getMigratingNoticeInfo } from "../../helpers/migrateNotices";
 
 export const YOAST_ADMIN_NOTICES_NAME = "YoastAdminNotices";
 
 const slice = createSlice( {
-	name: FTC_NAME,
-	initialState: { resolvedNotices: [] },
 	name: YOAST_ADMIN_NOTICES_NAME,
+	initialState: {
+		unresolvedNotices: getMigratingNoticeInfo(),
+		resolvedNotices: [],
+	},
 	reducers: {
 		/**
 		 * @param {Object} state The state of the slice.
@@ -16,6 +19,7 @@ const slice = createSlice( {
 		resolveNotice( state, { payload: noticeID } ) {
 			if ( ! state.resolvedNotices.includes( noticeID ) ) {
 				state.resolvedNotices.push( noticeID );
+				state.unresolvedNotices = state.unresolvedNotices.filter( ( id ) => id !== noticeID );
 			}
 		},
 		/**
@@ -24,6 +28,7 @@ const slice = createSlice( {
 		 * @returns {void}
 		 */
 		unresolveNotice( state, { payload: noticeID } ) {
+			state.unresolvedNotices.push( noticeID );
 			state.resolvedNotices = state.resolvedNotices.filter( ( id ) => id !== noticeID );
 		},
 	},
@@ -36,6 +41,7 @@ export const getInitialYoastAdminNoticesState = slice.getInitialState;
 
 export const YoastAdminNoticesSelectors = {
 	selectResolvedNotices: state => get( state, `${ YOAST_ADMIN_NOTICES_NAME }.resolvedNotices`, [] ),
+	selectUnresolvedNotices: state => get( state, `${ YOAST_ADMIN_NOTICES_NAME }.unresolvedNotices`, [] ),
 };
 
 export const YoastAdminNoticesActions = slice.actions;
