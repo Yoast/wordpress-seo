@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
 
-export const FTC_NAME = "firstTimeConfiguration";
+export const YOAST_ADMIN_NOTICES_NAME = "YoastAdminNotices";
 
 const slice = createSlice( {
 	name: FTC_NAME,
 	initialState: { resolvedNotices: [] },
+	name: YOAST_ADMIN_NOTICES_NAME,
 	reducers: {
 		/**
 		 * @param {Object} state The state of the slice.
@@ -31,12 +32,12 @@ const slice = createSlice( {
 /**
  * @returns {Object} The initial state.
  */
-export const getInitialFirstTimeConfigurationState = slice.getInitialState;
+export const getInitialYoastAdminNoticesState = slice.getInitialState;
 
-export const firstTimeConfigurationSelectors = {
-	selectResolvedNotices: state => get( state, `${ FTC_NAME }.resolvedNotices`, [] ),
+export const YoastAdminNoticesSelectors = {
+	selectResolvedNotices: state => get( state, `${ YOAST_ADMIN_NOTICES_NAME }.resolvedNotices`, [] ),
 };
 
-export const firstTimeConfigurationActions = slice.actions;
+export const YoastAdminNoticesActions = slice.actions;
 
-export const firstTimeConfigurationReducer = slice.reducer;
+export const YoastAdminNoticesReducer = slice.reducer;
