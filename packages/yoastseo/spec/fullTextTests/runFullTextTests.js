@@ -43,6 +43,7 @@ import { getLanguagesWithWordComplexity } from "../../src/helpers";
 
 // Import test papers.
 import testPapers from "./testTexts";
+import fs from "fs";
 
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements
@@ -64,6 +65,34 @@ testPapers.forEach( function( testPaper ) {
 		researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
 
 		buildTree( paper, researcher );
+
+		/**
+		 * Writes the given contents to the given filename in the temporary directory tmp
+		 * @param {string} filename The name of the file.
+		 * @param {string} content The content of the file.
+		 * @returns {void}
+		 */
+		const writeToTempFile = ( filename, content ) => {
+			// Creates a temporary directory in the current working directory to store the data, if it not yet exists.
+			// (i.e., packages/yoastseo/tmp/ if this function is called from packages/yoastseo/)
+			const dir = "tmp/";
+			if ( ! fs.existsSync( dir ) ) {
+				fs.mkdirSync( dir );
+			}
+
+			// Writes the data to this temporary directory
+			fs.writeFileSync( dir + filename, content );
+		};
+
+		// Collects the results and the header into list of ;-separated rows
+		const sentences = researcher.getResearch( "countSentencesFromText" );
+		const resultLines = sentences.map( sentence => sentence.sentence.trimStart().split( " " )[ 0 ] + ";" + sentence.sentenceLength );
+
+		// Set doExport to true to write the results to a temporary file.
+		const doExport = true;
+		if ( doExport ) {
+			writeToTempFile( testPaper.name + ".csv", resultLines.join( "\n" ) );
+		}
 
 		const expectedResults = testPaper.expectedResults;
 

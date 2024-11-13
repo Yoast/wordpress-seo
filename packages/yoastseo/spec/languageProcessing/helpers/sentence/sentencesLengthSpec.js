@@ -33,6 +33,20 @@ describe( "A test to count sentence lengths.", function() {
 		expect( sentenceLengths[ 1 ].sentence.text ).toEqual( "this is a string" );
 	} );
 
+	it( "should return the correct length for sentences containing hyphens", function() {
+		const mockPaper = new Paper(
+			"<p>My know-it-all mother-in-law made a state-of-the-art U-turn.</p>" +
+			"<p>Her ex-husband found that low-key amazing.</p>" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper ), mockResearcher );
+
+		expect( sentenceLengths.length ).toEqual( 2 );
+		expect( sentenceLengths[ 0 ].sentenceLength ).toEqual( 7 );
+		expect( sentenceLengths[ 1 ].sentenceLength ).toEqual( 6 );
+	} );
+
 	it( "should return the sentences and their length for Japanese (so counting characters)", function() {
 		const mockPaper = new Paper( "<p>自然おのずから存在しているもの</p>" +
 			"<p>歩くさわやかな森 <span style='color: red;'> 自然 </span></p>" );
