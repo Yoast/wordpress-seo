@@ -90,7 +90,7 @@ const App = () => {
 		return () => {
 			disconnectObservers( observers );
 		};
-	}, [ pathname] );
+	}, [ pathname ] );
 
 	const alertToggleError = useSelectGeneralPage( "selectAlertToggleError", [], [] );
 	const { setAlertToggleError } = useDispatch( STORE_NAME );
