@@ -22,11 +22,11 @@ export const observeNotices = ( notices ) => {
 				 * @returns {void}
 				 */
 				const resolveDismissedNotice = ( mutationsList ) => {
-					mutationsList.map( ( mutation ) => {
+					for ( const mutation of mutationsList ) {
 						if ( mutation.type === "attributes" && mutation.attributeName === "style" && dismissibleNotice.style.display === "none" ) {
 							resolveNotice( notice.id );
 						}
-					} );
+					}
 				};
 				const observer = new MutationObserver( resolveDismissedNotice );
 				observer.observe( dismissibleNotice, { attributes: true } );

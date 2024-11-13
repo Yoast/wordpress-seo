@@ -3,14 +3,15 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useEffect } from "@wordpress/element";
+import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
-import { deleteMigratingNotices } from "../helpers/migrateNotices";
+import { disconnectObservers, observeNotices } from "../helpers/observeNotices";
+import { deleteMigratingNotices, getMigratingNoticeInfo } from "../helpers/migrateNotices";
 import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { Notice } from "./components";
@@ -69,11 +70,19 @@ Menu.propTypes = {
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
-	const notices = useSelect( select => select( STORE_NAME ).selectUnresolvedNotices(), [] );
+	const notices = useMemo( getMigratingNoticeInfo, [] );
 	const resolvedNotices = useSelect( select => select( STORE_NAME ).selectResolvedNotices(), [] );
+
 	useEffect( () => {
 		deleteMigratingNotices( notices );
 	}, [ notices ] );
+
+	useEffect( () => {
+		const observers = observeNotices( notices );
+		return () => {
+			disconnectObservers( observers );
+		};
+	}, [ ] );
 
 	const { pathname } = useLocation();
 

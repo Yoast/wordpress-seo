@@ -5,7 +5,6 @@ import { PremiumUpsellList, SidebarRecommendations } from "../../shared-admin/co
 import { Notifications, Problems } from "../components";
 import { STORE_NAME } from "../constants";
 import { useSelectGeneralPage } from "../hooks";
-import { useEffect } from "@wordpress/element";
 
 /**
  * @returns {JSX.Element} The general page content placeholder.
