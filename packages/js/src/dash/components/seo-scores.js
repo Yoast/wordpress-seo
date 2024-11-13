@@ -3,6 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { ContentTypeFilter } from "./content-type-filter";
+import { Scores } from "./scores";
 import { TermFilter } from "./term-filter";
 
 /**
@@ -10,6 +11,7 @@ import { TermFilter } from "./term-filter";
  * @type {import("../index").Taxonomy} Taxonomy
  * @type {import("../index").Term} Term
  */
+
 
 /**
  * @param {ContentType[]} contentTypes The content types. May not be empty.
@@ -38,11 +40,7 @@ export const SeoScores = ( { contentTypes } ) => {
 					/>
 				}
 			</div>
-			<p className="yst-my-6">{ __( "description", "wordpress-seo" ) }</p>
-			<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-3 yst-gap-6">
-				<div className="yst-col-span-2">Scores</div>
-				<div>chart</div>
-			</div>
+			<Scores contentType={ selectedContentType } term={ selectedTerm } />
 		</Paper>
 	);
 };

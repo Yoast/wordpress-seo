@@ -20,3 +20,19 @@ export { Dashboard } from "./components/dashboard";
  * @property {string} name The unique identifier.
  * @property {string} label The user-facing label.
  */
+
+/**
+ * @typedef {Object} Scores A set of Score objects.
+ * @property {Score} ok Ok score.
+ * @property {Score} good Good score.
+ * @property {Score} bad Bad score.
+ * @property {Score} notAnalyzed Not analyzed score.
+ */
+
+/**
+ * @typedef {Object} Score A set of Score objects.
+ * @property {string} name The name of the score.
+ * @property {number} amount The amount of content for this score.
+ * @property {Object} links The links.
+ * @property {string} [links.view] The view link, might not exist.
+ */
