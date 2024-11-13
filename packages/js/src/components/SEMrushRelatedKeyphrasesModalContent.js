@@ -9,6 +9,9 @@ import { isEmpty } from "lodash";
 import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
 import SEMrushUpsellAlert from "./modals/SEMrushUpsellAlert";
 import { makeOutboundLink } from "@yoast/helpers";
+import SEMrushRequestFailed from "./modals/SEMrushRequestFailed";
+import SEMrushMaxRelatedKeyphrases from "./modals/SEMrushMaxRelatedKeyphrases";
+import getL10nObject from "../analysis/getL10nObject";
 
 /**
  * Determines whether the error property is present in the passed response object.
