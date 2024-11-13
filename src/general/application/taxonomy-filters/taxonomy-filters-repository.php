@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\General\Application\Taxonomy_Filters;
 
 use Yoast\WP\SEO\General\Domain\Taxonomies\Taxonomy;
 use Yoast\WP\SEO\General\Domain\Taxonomy_Filters\Taxonomy_Filter_Interface;
-use Yoast\WP\SEO\General\Infrastructure\Taxonomies_Collector;
+use Yoast\WP\SEO\General\Infrastructure\Taxonomies\Taxonomies_Collector;
 
 /**
  * The repository to get taxonomy filters.

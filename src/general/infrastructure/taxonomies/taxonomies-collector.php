@@ -1,6 +1,7 @@
 <?php
 
-namespace Yoast\WP\SEO\General\Infrastructure;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
+namespace Yoast\WP\SEO\General\Infrastructure\Taxonomies;
 
 use WP_Taxonomy;
 use Yoast\WP\SEO\General\Domain\Taxonomies\Taxonomy;
@@ -8,6 +9,24 @@ use Yoast\WP\SEO\General\Domain\Taxonomies\Taxonomy;
  * Class that collects taxonomies and relevant information.
  */
 class Taxonomies_Collector {
+
+	/**
+	 * The taxonomy validator.
+	 *
+	 * @var Taxonomy_Validator
+	 */
+	private $taxonomy_validator;
+
+	/**
+	 * The constructor.
+	 *
+	 * @param Taxonomy_Validator $taxonomy_validator The taxonomy validator.
+	 */
+	public function __construct(
+		Taxonomy_Validator $taxonomy_validator
+	) {
+		$this->taxonomy_validator = $taxonomy_validator;
+	}
 
 	/**
 	 * Returns a custom pair of taxonomy/content type, that's been given by users via hooks.
@@ -62,7 +81,7 @@ class Taxonomies_Collector {
 	public function get_taxonomy( string $taxonomy_name, string $content_type ): ?Taxonomy {
 		$taxonomy = \get_taxonomy( $taxonomy_name );
 
-		if ( $this->is_taxonomy_valid( $taxonomy, $content_type ) ) {
+		if ( $this->taxonomy_validator->is_valid_taxonomy( $taxonomy, $content_type ) ) {
 			return new Taxonomy( $taxonomy->name, $taxonomy->label, $this->get_taxonomy_rest_url( $taxonomy ) );
 		}
 
@@ -82,20 +101,5 @@ class Taxonomies_Collector {
 		$rest_namespace = ( $taxonomy->rest_namespace ) ? $taxonomy->rest_namespace : 'wp/v2';
 
 		return \rest_url( "{$rest_namespace}/{$rest_base}" );
-	}
-
-	/**
-	 * Returns whether the taxonomy in question is valid and associated with a given content type.
-	 *
-	 * @param WP_Taxonomy|false|null $taxonomy     The taxonomy to check.
-	 * @param string                 $content_type The name of the content type to check.
-	 *
-	 * @return bool Whether the taxonomy in question is valid.
-	 */
-	public function is_taxonomy_valid( $taxonomy, $content_type ): bool {
-		return \is_a( $taxonomy, 'WP_Taxonomy' )
-			&& $taxonomy->public
-			&& $taxonomy->show_in_rest
-			&& \in_array( $taxonomy->name, \get_object_taxonomies( $content_type ), true );
 	}
 }
