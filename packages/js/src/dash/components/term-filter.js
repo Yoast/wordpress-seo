@@ -4,6 +4,7 @@ import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import { debounce } from "lodash";
 import PropTypes from "prop-types";
 import { FETCH_DELAY } from "../../shared-admin/constants";
+import { fetchJson } from "../util/fetch-json";
 
 /**
  * @type {import("../index").Taxonomy} Taxonomy
@@ -11,29 +12,11 @@ import { FETCH_DELAY } from "../../shared-admin/constants";
  */
 
 /**
- * @param {string|URL} url The URL to fetch from.
- * @param {RequestInit} requestInit The request options.
- * @returns {Promise<any|Error>} The promise of a result, or an error.
- */
-const fetchJson = async( url, requestInit ) => {
-	try {
-		const response = await fetch( url, requestInit );
-		if ( ! response.ok ) {
-			// From the perspective of the results, this is a Promise.reject.
-			throw new Error( "Not ok" );
-		}
-		return response.json();
-	} catch ( error ) {
-		return Promise.reject( error );
-	}
-};
-
-/**
  * @param {string|URL} baseUrl The URL to fetch from.
- * @param {string} query The query to search for.
- * @returns {URL} The URL with the search query.
+ * @param {string} query The query.
+ * @returns {URL} The URL with the query.
  */
-const createSearchTermUrl = ( baseUrl, query ) => new URL( "?" + new URLSearchParams( {
+const createQueryUrl = ( baseUrl, query ) => new URL( "?" + new URLSearchParams( {
 	search: query,
 	_fields: [ "name", "slug" ],
 } ), baseUrl );
@@ -52,7 +35,7 @@ const transformTerm = ( term ) => ( { name: term.slug, label: term.name } );
  * @returns {JSX.Element} The element.
  */
 export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
-	const [ isLoading, setIsLoading ] = useState( false );
+	const [ isQuerying, setIsQuerying ] = useState( false );
 	const [ error, setError ] = useState();
 	const [ query, setQuery ] = useState( "" );
 	const [ terms, setTerms ] = useState( [] );
@@ -60,7 +43,7 @@ export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
 	const controller = useRef();
 
 	// This needs to be wrapped including settings the state, because the debounce return messes with the timing/events.
-	const handleSearchTerms = useCallback( debounce( ( ...args ) => {
+	const handleTermQuery = useCallback( debounce( ( ...args ) => {
 		fetchJson( ...args )
 			.then( ( result ) => {
 				setTerms( result.map( transformTerm ) );
@@ -76,7 +59,7 @@ export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
 				}
 			} )
 			.finally( () => {
-				setIsLoading( false );
+				setIsQuerying( false );
 			} );
 	}, FETCH_DELAY ), [] );
 
@@ -93,16 +76,16 @@ export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
 	}, [] );
 
 	useEffect( () => {
-		setIsLoading( true );
+		setIsQuerying( true );
 		controller.current?.abort();
 		controller.current = new AbortController();
-		handleSearchTerms( createSearchTermUrl( taxonomy.links.search, query ), {
+		handleTermQuery( createQueryUrl( taxonomy.links.search, query ), {
 			headers: { "Content-Type": "application/json" },
 			signal: controller.current.signal,
 		} );
 
 		return () => controller.current?.abort();
-	}, [ taxonomy.links.search, query, handleSearchTerms ] );
+	}, [ taxonomy.links.search, query, handleTermQuery ] );
 
 	return (
 		<AutocompleteField
@@ -116,17 +99,17 @@ export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
 			nullable={ true }
 			validation={ error }
 		>
-			{ isLoading && (
+			{ isQuerying && (
 				<div className="yst-autocomplete__option">
 					<Spinner />
 				</div>
 			) }
-			{ ! isLoading && terms.length === 0 && (
+			{ ! isQuerying && terms.length === 0 && (
 				<div className="yst-autocomplete__option">
 					{ __( "Nothing found", "wordpress-seo" ) }
 				</div>
 			) }
-			{ ! isLoading && terms.length > 0 && terms.map( ( { name, label } ) => (
+			{ ! isQuerying && terms.length > 0 && terms.map( ( { name, label } ) => (
 				<AutocompleteField.Option key={ name } value={ name }>
 					{ label }
 				</AutocompleteField.Option>
