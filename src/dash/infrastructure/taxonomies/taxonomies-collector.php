@@ -1,10 +1,10 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-namespace Yoast\WP\SEO\General\Infrastructure\Taxonomies;
+namespace Yoast\WP\SEO\Dash\Infrastructure\Taxonomies;
 
 use WP_Taxonomy;
-use Yoast\WP\SEO\General\Domain\Taxonomies\Taxonomy;
+use Yoast\WP\SEO\Dash\Domain\Taxonomies\Taxonomy;
 /**
  * Class that collects taxonomies and relevant information.
  */

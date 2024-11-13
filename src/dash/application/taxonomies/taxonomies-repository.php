@@ -1,11 +1,11 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-namespace Yoast\WP\SEO\General\Application\Taxonomies;
+namespace Yoast\WP\SEO\Dash\Application\Taxonomies;
 
-use Yoast\WP\SEO\General\Application\Filter_Pairs\Filter_Pairs_Repository;
-use Yoast\WP\SEO\General\Domain\Taxonomies\Taxonomy;
-use Yoast\WP\SEO\General\Infrastructure\Taxonomies\Taxonomies_Collector;
+use Yoast\WP\SEO\Dash\Application\Filter_Pairs\Filter_Pairs_Repository;
+use Yoast\WP\SEO\Dash\Domain\Taxonomies\Taxonomy;
+use Yoast\WP\SEO\Dash\Infrastructure\Taxonomies\Taxonomies_Collector;
 
 /**
  * The repository to get taxonomies.

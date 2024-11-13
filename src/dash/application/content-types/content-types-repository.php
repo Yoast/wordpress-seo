@@ -1,11 +1,11 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-namespace Yoast\WP\SEO\General\Application\Content_Types;
+namespace Yoast\WP\SEO\Dash\Application\Content_Types;
 
-use Yoast\WP\SEO\General\Application\Taxonomies\Taxonomies_Repository;
-use Yoast\WP\SEO\General\Domain\Content_Types\Content_Type;
-use Yoast\WP\SEO\General\Domain\Content_Types\Content_Types_List;
+use Yoast\WP\SEO\Dash\Application\Taxonomies\Taxonomies_Repository;
+use Yoast\WP\SEO\Dash\Domain\Content_Types\Content_Type;
+use Yoast\WP\SEO\Dash\Domain\Content_Types\Content_Types_List;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 
 /**
