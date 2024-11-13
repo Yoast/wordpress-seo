@@ -1,11 +1,11 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\General\Domain\Taxonomy_Filters;
+namespace Yoast\WP\SEO\General\Domain\Filter_Pairs;
 
 /**
- * This class describes the product category filter.
+ * This class describes the product category filter pair.
  */
-class Product_Category_Filter implements Taxonomy_Filter_Interface {
+class Product_Category_Filter_Pair implements Filter_Pairs_Interface {
 
 	/**
 	 * Gets the filtering taxonomy.

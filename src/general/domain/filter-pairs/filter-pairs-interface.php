@@ -1,11 +1,11 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\General\Domain\Taxonomy_Filters;
+namespace Yoast\WP\SEO\General\Domain\Filter_Pairs;
 
 /**
- * This interface describes a Taxonomy Filter implementation.
+ * This interface describes a Filter Pair implementation.
  */
-interface Taxonomy_Filter_Interface {
+interface Filter_Pairs_Interface {
 
 	/**
 	 * Gets the filtering taxonomy.

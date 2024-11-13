@@ -3,7 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\General\Application\Taxonomies;
 
-use Yoast\WP\SEO\General\Application\Taxonomy_Filters\Taxonomy_Filters_Repository;
+use Yoast\WP\SEO\General\Application\Filter_Pairs\Filter_Pairs_Repository;
 use Yoast\WP\SEO\General\Domain\Taxonomies\Taxonomy;
 use Yoast\WP\SEO\General\Infrastructure\Taxonomies\Taxonomies_Collector;
 
@@ -20,24 +20,24 @@ class Taxonomies_Repository {
 	private $taxonomies_collector;
 
 	/**
-	 * The taxonomy filters repository.
+	 * The filter pairs repository.
 	 *
-	 * @var Taxonomy_Filters_Repository
+	 * @var Filter_Pairs_Repository
 	 */
-	private $taxonomy_filters_repository;
+	private $filter_pairs_repository;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param Taxonomies_Collector        $taxonomies_collector        The taxonomies collector.
-	 * @param Taxonomy_Filters_Repository $taxonomy_filters_repository The taxonomy filters repository.
+	 * @param Taxonomies_Collector    $taxonomies_collector    The taxonomies collector.
+	 * @param Filter_Pairs_Repository $filter_pairs_repository The filter pairs repository.
 	 */
 	public function __construct(
 		Taxonomies_Collector $taxonomies_collector,
-		Taxonomy_Filters_Repository $taxonomy_filters_repository
+		Filter_Pairs_Repository $filter_pairs_repository
 	) {
-		$this->taxonomies_collector        = $taxonomies_collector;
-		$this->taxonomy_filters_repository = $taxonomy_filters_repository;
+		$this->taxonomies_collector    = $taxonomies_collector;
+		$this->filter_pairs_repository = $filter_pairs_repository;
 	}
 
 	/**
@@ -55,7 +55,7 @@ class Taxonomies_Repository {
 		}
 
 		// Then we check if there is a filter explicitly made for this content type.
-		$taxonomy = $this->taxonomy_filters_repository->get_taxonomy( $content_type );
+		$taxonomy = $this->filter_pairs_repository->get_taxonomy( $content_type );
 		if ( $taxonomy ) {
 			return $taxonomy;
 		}
