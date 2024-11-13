@@ -6,7 +6,6 @@ import { Notifications, Problems } from "../components";
 import { STORE_NAME } from "../constants";
 import { useSelectGeneralPage } from "../hooks";
 import { useEffect } from "@wordpress/element";
-import { disconnectObservers, observeNotices } from "../../helpers/observeNotices";
 
 /**
  * @returns {JSX.Element} The general page content placeholder.
@@ -18,14 +17,6 @@ export const AlertCenter = () => {
 	const premiumUpsellConfig = useSelectGeneralPage( "selectUpsellSettingsAsProps" );
 	const academyLink = useSelectGeneralPage( "selectLink", [], "https://yoa.st/3t6" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
-	const notices = useSelect( select => select( STORE_NAME ).selectUnresolvedNotices(), [] );
-
-	useEffect( () => {
-		const observers = observeNotices( notices );
-		return () => {
-			disconnectObservers( observers );
-		};
-	}, [] );
 
 	return <div className="yst-flex yst-gap-6 xl:yst-flex-row yst-flex-col">
 		<div className="yst-@container yst-flex yst-flex-wrap yst-flex-grow yst-flex-col">

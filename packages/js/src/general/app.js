@@ -16,6 +16,7 @@ import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { Notice } from "./components";
 import { STORE_NAME } from "./constants";
 import { useNotificationCountSync, useSelectGeneralPage } from "./hooks";
+import { disconnectObservers, observeNotices } from "../helpers/observeNotices";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -75,6 +76,14 @@ const App = () => {
 	}, [ notices ] );
 
 	const { pathname } = useLocation();
+
+	useEffect( () => {
+		const observers = observeNotices( notices );
+		return () => {
+			disconnectObservers( observers );
+		};
+	}, [ pathname] );
+
 	const alertToggleError = useSelectGeneralPage( "selectAlertToggleError", [], [] );
 	const { setAlertToggleError } = useDispatch( STORE_NAME );
 	useNotificationCountSync();
