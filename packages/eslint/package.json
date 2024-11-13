@@ -24,11 +24,11 @@
   },
   "homepage": "https://github.com/Yoast/wordpress-seo/tree/main/packages/eslint",
   "dependencies": {
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.35.0",
     "js-yaml": "^3.6.0"
   },
   "peerDependencies": {
-    "eslint-plugin-import": ">=2.27.5",
-    "eslint-plugin-jsx-a11y": ">=6.1.1",
-    "eslint-plugin-react": ">=7.11.1"
   }
 }
