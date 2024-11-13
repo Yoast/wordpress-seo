@@ -17,7 +17,6 @@ import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { Notice } from "./components";
 import { STORE_NAME } from "./constants";
 import { useNotificationCountSync, useSelectGeneralPage } from "./hooks";
-import { disconnectObservers, observeNotices } from "../helpers/observeNotices";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.

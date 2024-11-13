@@ -4,7 +4,6 @@ import { get } from "lodash";
 export const YOAST_ADMIN_NOTICES_NAME = "YoastAdminNotices";
 
 const slice = createSlice( {
-	name: FTC_NAME,
 	initialState: { resolvedNotices: [] },
 	name: YOAST_ADMIN_NOTICES_NAME,
 	reducers: {
