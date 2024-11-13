@@ -8,12 +8,16 @@ export default compose( [
 			getSEMrushModalOpen,
 			getSEMrushLoginStatus,
 			getIsElementorEditor,
+			getSEMrushSelectedCountry,
+			getPreference,
 		} = select( "yoast-seo/editor" );
 
 		return {
 			whichModalOpen: getSEMrushModalOpen(),
 			isLoggedIn: getSEMrushLoginStatus(),
 			shouldCloseOnClickOutside: ! getIsElementorEditor(),
+			countryCode: getSEMrushSelectedCountry(),
+			isRtl: getPreference( "isRtl", false ),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
