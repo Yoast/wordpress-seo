@@ -24,7 +24,7 @@ export const PremiumUpsell = ( { url, className } ) => {
 				"Yoast SEO",
 			) }
 		</p>
-		<Button 
+		<Button
 			variant="upsell"
 			as="a" href={ url }
 			className="yst-mt-4"
