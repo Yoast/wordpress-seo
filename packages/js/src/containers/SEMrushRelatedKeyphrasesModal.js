@@ -1,4 +1,5 @@
 import { withDispatch, withSelect } from "@wordpress/data";
+import { addQueryArgs } from "@wordpress/url";
 import { compose } from "@wordpress/compose";
 import SEMrushRelatedKeyphrasesModal from "../components/SEMrushRelatedKeyphrasesModal";
 
@@ -9,6 +10,7 @@ export default compose( [
 			getSEMrushLoginStatus,
 			getSEMrushSelectedCountry,
 			getPreference,
+			selectLinkParams,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -16,6 +18,7 @@ export default compose( [
 			isLoggedIn: getSEMrushLoginStatus(),
 			countryCode: getSEMrushSelectedCountry(),
 			isRtl: getPreference( "isRtl", false ),
+			learnMoreLink: addQueryArgs( "https://yoa.st/3-v", selectLinkParams() ),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

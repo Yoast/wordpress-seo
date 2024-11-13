@@ -153,7 +153,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	 * @returns {wp.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
-		const { keyphrase, location, whichModalOpen, isLoggedIn, onClose, countryCode, isRtl } = this.props;
+		const { keyphrase, location, whichModalOpen, isLoggedIn, onClose, countryCode, isRtl, learnMoreLink } = this.props;
 
 		const insightsLink = "https://www.semrush.com/analytics/keywordoverview/?q=" + encodeURIComponent( keyphrase ) +
 			"&db=" + encodeURIComponent( countryCode );
@@ -174,7 +174,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 						isOpen={ Boolean( keyphrase ) && whichModalOpen === location }
 						onClose={ onClose }
 						insightsLink={ insightsLink }
-						learnMoreLink={ "https://learnmore.semrush.com/" }
+						learnMoreLink={ learnMoreLink }
 					>
 
 						<Slot name="YoastRelatedKeyphrases" />
@@ -218,6 +218,7 @@ SEMrushRelatedKeyphrasesModal.propTypes = {
 	onClose: PropTypes.func.isRequired,
 	onAuthentication: PropTypes.func.isRequired,
 	countryCode: PropTypes.string,
+	learnMoreLink: PropTypes.string,
 	isRtl: PropTypes.bool,
 };
 
@@ -227,6 +228,7 @@ SEMrushRelatedKeyphrasesModal.defaultProps = {
 	whichModalOpen: "none",
 	isLoggedIn: false,
 	countryCode: "en_US",
+	learnMoreLink: "",
 	isRtl: false,
 };
 
