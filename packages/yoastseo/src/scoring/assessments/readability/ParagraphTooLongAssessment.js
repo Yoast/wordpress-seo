@@ -1,24 +1,23 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { filter, map, merge } from "lodash";
+import { map, merge } from "lodash";
+
 import { stripBlockTagsAtStartEnd as stripHTMLTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import marker from "../../../markers/addMark";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
 
 /**
- * Represents the assessment that will look if the text has too long paragraphs.
+ * Represents the assessment that will look if the Paper contains paragraphs that are considered too long.
  */
 export default class ParagraphTooLongAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
-	 *
+	 * @constructor
 	 * @param {object} config       The configuration to use.
 	 * @param {boolean} isProduct   Whether product configuration should be used.
-	 *
-	 * @returns {void}
 	 */
 	constructor( config = {}, isProduct = false ) {
 		super();
@@ -41,16 +40,13 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	/**
 	 * Returns an array containing only the paragraphs longer than the recommended length.
 	 *
-	 * @param {array} paragraphsLength The array containing the lengths of individual paragraphs.
-	 * @param {object} config          The config to use.
+	 * @param {ParagraphLength[]} paragraphsLength The array containing the lengths of individual paragraphs.
+	 * @param {object} config The config to use.
 	 *
-	 * @returns {array} The number of too long paragraphs.
+	 * @returns {ParagraphLength[]} An array containing too long paragraphs.
 	 */
 	getTooLongParagraphs( paragraphsLength, config  ) {
-		const recommendedLength = config.parameters.recommendedLength;
-		return filter( paragraphsLength, function( paragraph ) {
-			return paragraph.countLength > recommendedLength;
-		} );
+		return paragraphsLength.filter( paragraph => paragraph.paragraphLength > config.parameters.recommendedLength );
 	}
 
 	/**
@@ -79,21 +75,21 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	/**
 	 * Returns the scores and text for the ParagraphTooLongAssessment.
 	 *
-	 * @param {array} paragraphsLength  The array containing the lengths of individual paragraphs.
-	 * @param {array} tooLongParagraphs The number of too long paragraphs.
-	 * @param {object} config           The config to use.
+	 * @param {ParagraphLength[]} paragraphsLength The array containing the lengths of individual paragraphs.
+	 * @param {object} config The config to use.
 	 *
-	 * @returns {{score: number, text: string }} The assessmentResult.
+	 * @returns {AssessmentResult} The assessmentResult.
 	 */
-	calculateResult( paragraphsLength, tooLongParagraphs, config ) {
-		let score;
+	calculateResult( paragraphsLength, config ) {
+		const assessmentResult = new AssessmentResult();
 
 		if ( paragraphsLength.length === 0 ) {
-			return {};
+			return assessmentResult;
 		}
 
-		const longestParagraphLength = paragraphsLength[ 0 ].countLength;
-
+		paragraphsLength = paragraphsLength.sort( ( a, b ) => b.paragraphLength - a.paragraphLength );
+		const longestParagraphLength = paragraphsLength[ 0 ].paragraphLength;
+		let score;
 		if ( longestParagraphLength <= config.parameters.recommendedLength ) {
 			// Green indicator.
 			score = 9;
@@ -109,67 +105,51 @@ export default class ParagraphTooLongAssessment extends Assessment {
 			score = 3;
 		}
 
-		if ( score >= 7 ) {
-			return {
-				score: score,
-				hasMarks: false,
+		assessmentResult.setScore( score );
 
-				text: sprintf(
-					/* translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-					__(
-						"%1$sParagraph length%2$s: None of the paragraphs are too long. Great job!",
-						"wordpress-seo"
-					),
-					config.urlTitle,
-					"</a>"
-				),
-			};
-		}
-		return {
-			score: score,
-			hasMarks: true,
-			text: sprintf(
-				/* translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
-			%3$d expands to the number of paragraphs over the recommended word / character limit, %4$d expands to the word / character limit,
-			%6$s expands to the word 'words' or 'characters'. */
-				_n(
-					"%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum of %4$d %6$s. %5$sShorten your paragraphs%2$s!",
-					"%1$sParagraph length%2$s: %3$d of the paragraphs contain more than the recommended maximum of %4$d %6$s. %5$sShorten your paragraphs%2$s!",
-					tooLongParagraphs.length,
+		if ( score >= 7 ) {
+			assessmentResult.setHasMarks( false );
+			assessmentResult.setText( sprintf(
+				/* translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				__(
+					"%1$sParagraph length%2$s: None of the paragraphs are too long. Great job!",
 					"wordpress-seo"
 				),
 				config.urlTitle,
-				"</a>",
-				tooLongParagraphs.length,
-				config.parameters.recommendedLength,
-				config.urlCallToAction,
-				this._config.countTextIn
-			),
-		};
-	}
+				"</a>"
+			) );
+			return assessmentResult;
+		}
 
-	/**
-	 * Sort the paragraphs based on word count.
-	 *
-	 * @param {Array} paragraphs The array with paragraphs.
-	 *
-	 * @returns {Array} The array sorted on word counts.
-	 */
-	sortParagraphs( paragraphs ) {
-		return paragraphs.sort(
-			function( a, b ) {
-				return b.countLength - a.countLength;
-			}
-		);
+		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength, config );
+		assessmentResult.setHasMarks( true );
+		assessmentResult.setText( sprintf(
+			/* translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
+			%3$d expands to the number of paragraphs over the recommended word / character limit, %4$d expands to the word / character limit,
+			%6$s expands to the word 'words' or 'characters'. */
+			_n(
+				"%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum of %4$d %6$s. %5$sShorten your paragraphs%2$s!",
+				"%1$sParagraph length%2$s: %3$d of the paragraphs contain more than the recommended maximum of %4$d %6$s. %5$sShorten your paragraphs%2$s!",
+				tooLongParagraphs.length,
+				"wordpress-seo"
+			),
+			config.urlTitle,
+			"</a>",
+			tooLongParagraphs.length,
+			config.parameters.recommendedLength,
+			config.urlCallToAction,
+			this._config.countTextIn
+		) );
+		return assessmentResult;
 	}
 
 	/**
 	 * Creates a marker for the paragraphs.
 	 *
-	 * @param {object} paper        The paper to use for the assessment.
-	 * @param {Researcher} researcher   The researcher used for calling research.
+	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 *
-	 * @returns {Array} An array with marked paragraphs.
+	 * @returns {Mark[]} An array with marked paragraphs.
 	 */
 	getMarks( paper, researcher ) {
 		const paragraphsLength = researcher.getResearch( "getParagraphLength" );
@@ -190,27 +170,16 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	 * @param {Paper} paper             The paper to use for the assessment.
 	 * @param {Researcher} researcher   The researcher used for calling research.
 	 *
-	 * @returns {object} The assessment result.
+	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher ) {
-		let paragraphsLength = researcher.getResearch( "getParagraphLength" );
+		const paragraphsLength = researcher.getResearch( "getParagraphLength" );
 		const countTextInCharacters = researcher.getConfig( "countCharacters" );
 		if ( countTextInCharacters ) {
 			this._config.countTextIn = __( "characters", "wordpress-seo" );
 		}
 
-		paragraphsLength = this.sortParagraphs( paragraphsLength );
-		const config = this.getConfig( researcher );
-
-		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength, config );
-		const paragraphLengthResult = this.calculateResult( paragraphsLength, tooLongParagraphs, config );
-		const assessmentResult = new AssessmentResult();
-
-		assessmentResult.setScore( paragraphLengthResult.score );
-		assessmentResult.setText( paragraphLengthResult.text );
-		assessmentResult.setHasMarks( paragraphLengthResult.hasMarks );
-
-		return assessmentResult;
+		return this.calculateResult( paragraphsLength, this.getConfig( researcher ) );
 	}
 
 	/**

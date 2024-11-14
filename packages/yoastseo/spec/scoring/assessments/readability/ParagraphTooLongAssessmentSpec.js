@@ -5,6 +5,7 @@ import Factory from "../../../../src/helpers/factory.js";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import paragraphLengthJapanese from "../../../../src/languageProcessing/languages/ja/config/paragraphLength";
+import buildTree from "../../../specHelpers/parse/buildTree";
 
 const paragraphTooLongAssessment = new ParagraphTooLongAssessment();
 const shortTextJapanese = "は".repeat( 300 );
@@ -14,14 +15,14 @@ const veryLongTextJapanese = "は".repeat( 410 );
 describe( "An assessment for scoring too long paragraphs.", function() {
 	const paper = new Paper( "" );
 	it( "should score 1 paragraph with ok length", function() {
-		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { countLength: 60, text: "" } ] ) );
+		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { paragraphLength: 60 } ] ) );
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs" +
 			" are too long. Great job!" );
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
 	it( "should score 1 slightly too long paragraph", function() {
-		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { countLength: 160, text: "" } ] ) );
+		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { paragraphLength: 160 } ] ) );
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs" +
 			" contains more than the recommended maximum of 150 words." +
@@ -29,7 +30,7 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "should score 1 extremely long paragraph", function() {
-		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { countLength: 6000, text: "" } ] ) );
+		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { paragraphLength: 6000 } ] ) );
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs" +
 			" contains more than the recommended maximum of 150 words." +
@@ -37,16 +38,16 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "should score 3 paragraphs with ok length", function() {
-		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { countLength: 60, text: "" },
-			{ countLength: 71, text: "" }, { countLength: 83, text: "" } ] ) );
+		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { paragraphLength: 60 },
+			{ paragraphLength: 71 }, { paragraphLength: 83 } ] ) );
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs" +
 			" are too long. Great job!" );
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
 	it( "should score 3 paragraphs, one of which is too long", function() {
-		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { countLength: 60, text: "" },
-			{ countLength: 71, text: "" }, { countLength: 183, text: "" } ] ) );
+		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { paragraphLength: 60 },
+			{ paragraphLength: 71 }, { paragraphLength: 183 } ] ) );
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs" +
 			" contains more than the recommended maximum of 150 words." +
@@ -54,8 +55,8 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "should score 3 paragraphs, two of which are too long", function() {
-		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { countLength: 60, text: "" },
-			{ countLength: 191, text: "" }, { countLength: 183, text: "" } ] ) );
+		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { paragraphLength: 60 },
+			{ paragraphLength: 191 }, { paragraphLength: 183 } ] ) );
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 2 of the paragraphs" +
 			" contain more than the recommended maximum of 150 words." +
@@ -73,8 +74,11 @@ describe( "An assessment for scoring too long paragraphs in Japanese in which ch
 	"in the calculation instead of word length", function() {
 	it( "should score 1 slightly too long paragraph", function() {
 		const paper = new Paper( longTextJapanese );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		buildTree( paper, japaneseResearcher );
 
-		const assessment = paragraphTooLongAssessment.getResult( paper, new JapaneseResearcher( paper ) );
+		const assessment = paragraphTooLongAssessment.getResult( paper, japaneseResearcher );
+
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs" +
 			" contains more than the recommended maximum of 300 characters." +
@@ -83,8 +87,11 @@ describe( "An assessment for scoring too long paragraphs in Japanese in which ch
 	} );
 	it( "should score 1 too long paragraph", function() {
 		const paper = new Paper( veryLongTextJapanese );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		buildTree( paper, japaneseResearcher );
 
-		const assessment = paragraphTooLongAssessment.getResult( paper, new JapaneseResearcher( paper ) );
+		const assessment = paragraphTooLongAssessment.getResult( paper, japaneseResearcher );
+
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs" +
 			" contains more than the recommended maximum of 300 characters." +
@@ -93,7 +100,11 @@ describe( "An assessment for scoring too long paragraphs in Japanese in which ch
 	} );
 	it( "should score 2 slightly too long paragraphs", function() {
 		const paper = new Paper( `${shortTextJapanese}<p>${longTextJapanese}</p><p>${longTextJapanese}</p>`  );
-		const assessment = paragraphTooLongAssessment.getResult( paper, new JapaneseResearcher( paper ) );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		buildTree( paper, japaneseResearcher );
+
+		const assessment = paragraphTooLongAssessment.getResult( paper, japaneseResearcher );
+
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 2 of the paragraphs" +
 			" contain more than the recommended maximum of 300 characters." +
@@ -310,8 +321,8 @@ describe( "A test for marking the sentences", function() {
 	} );
 	it( "should return no markers when no paragraph is too long", function() {
 		const paper = new Paper( "This is a very interesting paper." );
-		const paragraphTooLong = Factory.buildMockResearcher( [ { countLength: 60, text: "" }, { countLength: 11, text: "" },
-			{ countLength: 13, text: "" } ] );
+		const paragraphTooLong = Factory.buildMockResearcher( [ { paragraphLength: 60 }, { paragraphLength: 11 },
+			{ paragraphLength: 13 } ] );
 		const expected = [];
 		expect( paragraphTooLongAssessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
 	} );
@@ -327,9 +338,9 @@ describe( "test for paragraph too long assessment when is used in product page a
 			},
 		};
 		const result = new ParagraphTooLongAssessment( config ).getResult( paper, Factory.buildMockResearcher( [
-			{ countLength: 60, text: "" },
-			{ countLength: 11, text: "" },
-			{ countLength: 13, text: "" },
+			{ paragraphLength: 60 },
+			{ paragraphLength: 11 },
+			{ paragraphLength: 13 },
 		] ) );
 		expect( result.getScore() ).toEqual( 9 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: " +
@@ -344,9 +355,9 @@ describe( "test for paragraph too long assessment when is used in product page a
 			},
 		};
 		const result = new ParagraphTooLongAssessment( config ).getResult( paper, Factory.buildMockResearcher( [
-			{ countLength: 110, text: "" },
-			{ countLength: 150, text: "" },
-			{ countLength: 150, text: "" },
+			{ paragraphLength: 110 },
+			{ paragraphLength: 150 },
+			{ paragraphLength: 150 },
 		] ) );
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain" +
@@ -361,9 +372,9 @@ describe( "test for paragraph too long assessment when is used in product page a
 			},
 		};
 		const result = new ParagraphTooLongAssessment( config ).getResult( paper, Factory.buildMockResearcher( [
-			{ countLength: 90, text: "" },
-			{ countLength: 75, text: "" },
-			{ countLength: 80, text: "" },
+			{ paragraphLength: 90 },
+			{ paragraphLength: 75 },
+			{ paragraphLength: 80 },
 		] ) );
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain " +
@@ -377,9 +388,9 @@ describe( "test for paragraph too long assessment for languages that have langua
 		it( "should assess a paper with paragraphs that contain less than 300 characters (green bullet)", function() {
 			const paper = new Paper( "" );
 			const mockResearcher = Factory.buildMockResearcher( [
-				{ countLength: 200, text: "" },
-				{ countLength: 260, text: "" },
-				{ countLength: 100, text: "" },
+				{ paragraphLength: 200 },
+				{ paragraphLength: 260 },
+				{ paragraphLength: 100 },
 			],
 			false,
 			false,
@@ -393,9 +404,9 @@ describe( "test for paragraph too long assessment for languages that have langua
 		it( "should assess a paper with two paragraphs that contain more than 400 characters (red bullet)", function() {
 			const paper = new Paper( "" );
 			const mockResearcher = Factory.buildMockResearcher( [
-				{ countLength: 400, text: "" },
-				{ countLength: 300, text: "" },
-				{ countLength: 500, text: "" },
+				{ paragraphLength: 400 },
+				{ paragraphLength: 300 },
+				{ paragraphLength: 500 },
 			],
 			false,
 			false,
@@ -409,9 +420,9 @@ describe( "test for paragraph too long assessment for languages that have langua
 		it( "should assess a paper with paragraphs that contain 300-400 characters (orange bullet)", function() {
 			const paper = new Paper( "" );
 			const mockResearcher = Factory.buildMockResearcher( [
-				{ countLength: 350, text: "" },
-				{ countLength: 300, text: "" },
-				{ countLength: 390, text: "" },
+				{ paragraphLength: 350 },
+				{ paragraphLength: 300 },
+				{ paragraphLength: 390 },
 			],
 			false,
 			false,
@@ -427,9 +438,9 @@ describe( "test for paragraph too long assessment for languages that have langua
 		it( "should assess a paper with paragraphs that contain less than 140 characters (green bullet)", function() {
 			const paper = new Paper( "" );
 			const mockResearcher = Factory.buildMockResearcher( [
-				{ countLength: 100, text: "" },
-				{ countLength: 120, text: "" },
-				{ countLength: 90, text: "" },
+				{ paragraphLength: 100 },
+				{ paragraphLength: 120 },
+				{ paragraphLength: 90 },
 			],
 			false,
 			false,
@@ -443,9 +454,9 @@ describe( "test for paragraph too long assessment for languages that have langua
 		it( "should assess a paper with three paragraphs that contain more than 200 characters (red bullet)", function() {
 			const paper = new Paper( "" );
 			const mockResearcher = Factory.buildMockResearcher( [
-				{ countLength: 400, text: "" },
-				{ countLength: 300, text: "" },
-				{ countLength: 500, text: "" },
+				{ paragraphLength: 400 },
+				{ paragraphLength: 300 },
+				{ paragraphLength: 500 },
 			],
 			false,
 			false,
@@ -459,9 +470,9 @@ describe( "test for paragraph too long assessment for languages that have langua
 		it( "should assess a paper with all paragraphs that contain 140-200 characters (orange bullet)", function() {
 			const paper = new Paper( "" );
 			const mockResearcher = Factory.buildMockResearcher( [
-				{ countLength: 150, text: "" },
-				{ countLength: 170, text: "" },
-				{ countLength: 200, text: "" },
+				{ paragraphLength: 150 },
+				{ paragraphLength: 170 },
+				{ paragraphLength: 200 },
 			],
 			false,
 			false,
