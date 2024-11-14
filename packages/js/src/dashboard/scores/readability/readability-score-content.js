@@ -89,7 +89,7 @@ export const ReadabilityScoreContent = ( { contentType, term } ) => {
 
 	return <>
 		<ContentStatusDescription scores={ scores } />
-		<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-3 yst-gap-6">
+		<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-7 yst-gap-6">
 			{ scores && <ScoreList scores={ scores } /> }
 			{ scores && <ScoreChart scores={ scores } /> }
 		</div>

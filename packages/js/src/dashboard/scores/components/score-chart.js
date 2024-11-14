@@ -38,7 +38,6 @@ const transformScoresToGraphData = ( scores ) => {
 
 const chartOptions = {
 	plugins: {
-		responsive: true,
 		legend: false,
 		tooltip: {
 			displayColors: false,
@@ -57,7 +56,7 @@ const chartOptions = {
  */
 export const ScoreChart = ( { scores } ) => {
 	return (
-		<div>
+		<div className="yst-col-span-3">
 			<Doughnut
 				options={ chartOptions }
 				data={ transformScoresToGraphData( scores ) }

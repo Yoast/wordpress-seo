@@ -1,7 +1,9 @@
-import { useEffect, useState } from "@wordpress/element";
+import { SkeletonLoader } from "@yoast/ui-library";
+import { useFetch } from "../../hooks/use-fetch";
 import { ContentStatusDescription } from "../components/content-status-description";
 import { ScoreChart } from "../components/score-chart";
 import { ScoreList } from "../components/score-list";
+import { SCORE_META } from "../score-meta";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -9,89 +11,67 @@ import { ScoreList } from "../components/score-list";
  * @type {import("../index").Score} Score
  */
 
-/** @type {Score[]} **/
-const fakeScores = [
-	{
-		name: "ok",
-		amount: 4,
-		links: {
-			view: "https://basic.wordpress.test/wp-admin/edit.php?category=22",
-		},
-	},
-	{
-		name: "good",
-		amount: 5,
-		links: {
-			view: null,
-		},
-	},
-	{
-		name: "bad",
-		amount: 6,
-		links: {
-			view: null,
-		},
-	},
-	{
-		name: "notAnalyzed",
-		amount: 7,
-		links: {
-			view: null,
-		},
-	},
-];
-const fakeScores2 = [
-	{
-		name: "ok",
-		amount: 7,
-		links: {
-			view: "https://basic.wordpress.test/wp-admin/edit.php?category=22",
-		},
-	},
-	{
-		name: "good",
-		amount: 12,
-		links: {
-			view: null,
-		},
-	},
-	{
-		name: "bad",
-		amount: 1,
-		links: {
-			view: null,
-		},
-	},
-	{
-		name: "notAnalyzed",
-		amount: 2,
-		links: {
-			view: null,
-		},
-	},
-];
-
 /**
  * @param {ContentType} contentType The selected contentType.
  * @param {Term?} [term] The selected term.
  * @returns {JSX.Element} The element.
  */
 export const SeoScoreContent = ( { contentType, term } ) => {
-	const [ scores, setScores ] = useState();
-	useEffect( () => {
-		const rand = Math.random();
-		if ( rand < 0.5 ) {
-			setScores( fakeScores );
-		} else {
-			setScores( fakeScores2 );
-		}
-	}, [ contentType.name, term?.name ] );
+	const { data: scores = [], isPending } = useFetch( {
+		dependencies: [ contentType.name, term?.name ],
+		url: "/wp-content/plugins/wordpress-seo/packages/js/src/dashboard/scores/seo/scores.json",
+		//		url: `/wp-json/yoast/v1/scores/${ contentType.name }/${ term?.name }`,
+		options: { headers: { "Content-Type": "application/json" } },
+		fetchDelay: 0,
+		doFetch: async( url, options ) => {
+			await new Promise( ( resolve ) => setTimeout( resolve, 1000 ) );
+			try {
+				const response = await fetch( url, options );
+				if ( ! response.ok ) {
+					// From the perspective of the results, we want to reject this as an error.
+					throw new Error( "Not ok" );
+				}
+				return response.json();
+			} catch ( error ) {
+				return Promise.reject( error );
+			}
+		},
+	} );
 
-	return <>
-		<ContentStatusDescription scores={ scores } />
-		<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-3 yst-gap-6">
-			{ scores && <ScoreList scores={ scores } /> }
-			{ scores && <ScoreChart scores={ scores } /> }
-		</div>
-	</>;
+	if ( isPending ) {
+		return (
+			<>
+				<SkeletonLoader className="yst-w-full yst-my-6">&nbsp;</SkeletonLoader>
+				<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-7 yst-gap-6">
+					<ul className="yst-col-span-4">
+						{ Object.entries( SCORE_META ).map( ( [ name, { label } ] ) => (
+							<li
+								key={ `skeleton-loader--${ name }` }
+								className="yst-flex yst-items-center yst-min-h-[1rem] yst-py-3 yst-border-b last:yst-border-b-0"
+							>
+								<SkeletonLoader className="yst-w-3 yst-h-3 yst-rounded-full" />
+								<SkeletonLoader className="yst-ml-3 yst-mr-2">{ label }</SkeletonLoader>
+								<SkeletonLoader className="yst-w-7">1</SkeletonLoader>
+								<SkeletonLoader className="yst-ml-auto yst-button yst-button--small">View</SkeletonLoader>
+							</li>
+						) ) }
+					</ul>
+					<div className="yst-col-span-3 yst-relative">
+						<SkeletonLoader className="yst-w-full yst-aspect-square yst-rounded-full" />
+						<div className="yst-absolute yst-inset-5 yst-aspect-square yst-bg-white yst-rounded-full" />
+					</div>
+				</div>
+			</>
+		);
+	}
+
+	return (
+		<>
+			<ContentStatusDescription scores={ scores } />
+			<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-7 yst-gap-6">
+				{ scores && <ScoreList scores={ scores } /> }
+				{ scores && <ScoreChart scores={ scores } /> }
+			</div>
+		</>
+	);
 };
