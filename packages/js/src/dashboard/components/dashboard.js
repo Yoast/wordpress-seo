@@ -11,7 +11,7 @@ import { PageTitle } from "./page-title";
  * @param {string} userName The user name.
  * @returns {JSX.Element} The element.
  */
-export const Dash = ( { contentTypes, userName } ) => {
+export const Dashboard = ( { contentTypes, userName } ) => {
 	return (
 		<div className="yst-@container">
 			<PageTitle userName={ userName } />

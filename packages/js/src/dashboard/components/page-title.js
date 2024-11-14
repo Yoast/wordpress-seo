@@ -15,7 +15,7 @@ export const PageTitle = ( { userName } ) => (
 				) }
 			</Title>
 			<p className="yst-mt-3 yst-text-tiny">
-				{ __( "Welcome to your SEO dash!", "wordpress-seo" ) }
+				{ __( "Welcome to your SEO dashboard!", "wordpress-seo" ) }
 			</p>
 		</Paper.Content>
 	</Paper>
