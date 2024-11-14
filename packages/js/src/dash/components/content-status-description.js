@@ -1,11 +1,12 @@
 import { __ } from "@wordpress/i18n";
+
 /**
- * @type {import("../index").Scores} Scores
+ * @type {import("../index").Score} Score
  */
 
 /**
- * @param {Scores|null} scores The SEO scores.
- * @returns {JSX.Element}
+ * @param {Score[]|null} scores The SEO scores.
+ * @returns {JSX.Element} The element.
  */
 export const ContentStatusDescription = ( { scores } ) => {
 	if ( ! scores ) {

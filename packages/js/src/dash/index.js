@@ -22,16 +22,8 @@ export { Dash } from "./components/dash";
  */
 
 /**
- * @typedef {Object} Scores A set of Score objects.
- * @property {Score} ok Ok score.
- * @property {Score} good Good score.
- * @property {Score} bad Bad score.
- * @property {Score} notAnalyzed Not analyzed score.
- */
-
-/**
- * @typedef {Object} Score A set of Score objects.
- * @property {string} name The name of the score.
+ * @typedef {Object} Score A score.
+ * @property {string} name The name of the score. Can be "ok", "good", "bad" or "notAnalyzed".
  * @property {number} amount The amount of content for this score.
  * @property {Object} links The links.
  * @property {string} [links.view] The view link, might not exist.

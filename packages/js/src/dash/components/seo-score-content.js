@@ -1,26 +1,26 @@
 import { useEffect, useState } from "@wordpress/element";
-import { ScoreChart } from "./score-chart";
 import { ContentStatusDescription } from "./content-status-description";
+import { ScoreChart } from "./score-chart";
 import { ScoreList } from "./score-list";
 
 /**
  * @type {import("../index").ContentType} ContentType
  * @type {import("../index").Term} Term
- * @type {import("../index").Scores} Scores
+ * @type {import("../index").Score} Score
  */
 
-/** @type {Scores} **/
+/** @type {Score[]} **/
 const fakeScores = [
 	{
 		name: "ok",
-		amount: 6,
+		amount: 4,
 		links: {
 			view: "https://basic.wordpress.test/wp-admin/edit.php?category=22",
 		},
 	},
 	{
 		name: "good",
-		amount: 6,
+		amount: 5,
 		links: {
 			view: null,
 		},
@@ -34,7 +34,7 @@ const fakeScores = [
 	},
 	{
 		name: "notAnalyzed",
-		amount: 6,
+		amount: 7,
 		links: {
 			view: null,
 		},
@@ -70,6 +70,7 @@ const fakeScores2 = [
 		},
 	},
 ];
+
 /**
  * @param {ContentType} contentType The selected contentType.
  * @param {Term?} [term] The selected term.

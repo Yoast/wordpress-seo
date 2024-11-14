@@ -1,5 +1,6 @@
 import { __ } from "@wordpress/i18n";
-export const SCORES = {
+
+export const SCORE_META = {
 	good: {
 		label: __( "Good", "wordpress-seo" ),
 		color: "yst-bg-analysis-good",
@@ -20,16 +21,4 @@ export const SCORES = {
 		color: "yst-bg-analysis-na",
 		hex: "#cbd5e1",
 	},
-};
-
-export const getLabels = () => {
-	return Object.values( SCORES ).map( ( value ) =>{
-		return value.label;
-	} );
-};
-
-export const getHex = () => {
-	return Object.values( SCORES ).map( ( value ) =>{
-		return value.hex;
-	} );
 };
