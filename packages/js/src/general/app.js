@@ -76,20 +76,15 @@ const App = () => {
 		deleteMigratingNotices( notices );
 	}, [ notices ] );
 
-	useEffect( () => {
-		const observers = observeNotices( notices );
-		return () => {
-			disconnectObservers( observers );
-		};
-	}, [ ] );
-
 	const { pathname } = useLocation();
 
 	useEffect( () => {
-		const observers = observeNotices( notices );
-		return () => {
-			disconnectObservers( observers );
-		};
+		if ( pathname !== "/first-time-configuration" ) {
+			const observers = observeNotices( notices );
+			return () => {
+				disconnectObservers( observers );
+			};
+		}
 	}, [ pathname ] );
 
 	const alertToggleError = useSelectGeneralPage( "selectAlertToggleError", [], [] );
