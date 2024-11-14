@@ -33,9 +33,9 @@ class Content_Type {
 	/**
 	 * The constructor.
 	 *
-	 * @param string   $name     The name of the content type.
-	 * @param string   $label    The label of the content type.
-	 * @param Taxonomy $taxonomy The taxonomy that filters the content type.
+	 * @param string        $name     The name of the content type.
+	 * @param string        $label    The label of the content type.
+	 * @param Taxonomy|null $taxonomy The taxonomy that filters the content type.
 	 */
 	public function __construct( string $name, string $label, ?Taxonomy $taxonomy ) {
 		$this->name     = $name;
@@ -64,7 +64,7 @@ class Content_Type {
 	/**
 	 * Gets the taxonomy that filters the content type.
 	 *
-	 * @return string The taxonomy that filters the content type.
+	 * @return Taxonomy|null The taxonomy that filters the content type.
 	 */
 	public function get_taxonomy(): ?Taxonomy {
 		return $this->taxonomy;

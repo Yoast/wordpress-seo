@@ -19,7 +19,7 @@ class Taxonomy_Validator {
 	 *
 	 * @return bool Whether the taxonomy in question is valid.
 	 */
-	public function is_valid_taxonomy( $taxonomy, $content_type ): bool {
+	public function is_valid_taxonomy( $taxonomy, string $content_type ): bool {
 		return \is_a( $taxonomy, 'WP_Taxonomy' )
 			&& $taxonomy->public
 			&& $taxonomy->show_in_rest
