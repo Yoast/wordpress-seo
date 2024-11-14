@@ -1,6 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 /**
  * @param {string} userName The user name.
@@ -21,7 +20,3 @@ export const PageTitle = ( { userName } ) => (
 		</Paper.Content>
 	</Paper>
 );
-
-PageTitle.propTypes = {
-	userName: PropTypes.string.isRequired,
-};

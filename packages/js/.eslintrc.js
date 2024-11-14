@@ -103,5 +103,12 @@ module.exports = {
 				"react/display-name": 0,
 			},
 		},
+		// Ignore Proptypes in dash.
+		{
+			files: [ "src/dash/**/*.js" ],
+			rules: {
+				"react/prop-types": 0,
+			},
+		},
 	],
 };

@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import { debounce } from "lodash";
-import PropTypes from "prop-types";
 import { FETCH_DELAY } from "../../shared-admin/constants";
 import { fetchJson } from "../util/fetch-json";
 
@@ -116,19 +115,4 @@ export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
 			) ) }
 		</AutocompleteField>
 	);
-};
-
-TermFilter.propTypes = {
-	idSuffix: PropTypes.string.isRequired,
-	taxonomy: PropTypes.shape( {
-		label: PropTypes.string.isRequired,
-		links: PropTypes.shape( {
-			search: PropTypes.string.isRequired,
-		} ).isRequired,
-	} ).isRequired,
-	selected: PropTypes.shape( {
-		name: PropTypes.string.isRequired,
-		label: PropTypes.string.isRequired,
-	} ),
-	onChange: PropTypes.func.isRequired,
 };

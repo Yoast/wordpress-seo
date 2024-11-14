@@ -1,7 +1,6 @@
 import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { ContentTypeFilter } from "./content-type-filter";
 import { ReadabilityScoreContent } from "./readability-score-content";
 import { TermFilter } from "./term-filter";
@@ -41,20 +40,4 @@ export const ReadabilityScores = ( { contentTypes } ) => {
 			<ReadabilityScoreContent contentType={ selectedContentType } term={ selectedTerm } />
 		</Paper>
 	);
-};
-
-ReadabilityScores.propTypes = {
-	contentTypes: PropTypes.arrayOf(
-		PropTypes.shape( {
-			name: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-			taxonomy: PropTypes.shape( {
-				name: PropTypes.string.isRequired,
-				label: PropTypes.string.isRequired,
-				links: PropTypes.shape( {
-					search: PropTypes.string,
-				} ),
-			} ),
-		} )
-	).isRequired,
 };

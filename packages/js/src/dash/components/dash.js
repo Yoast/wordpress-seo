@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { PageTitle } from "./page-title";
 import { ReadabilityScores } from "./readability-scores";
 import { SeoScores } from "./seo-scores";
@@ -22,21 +21,4 @@ export const Dash = ( { contentTypes, userName } ) => {
 			</div>
 		</div>
 	);
-};
-
-Dash.propTypes = {
-	contentTypes: PropTypes.arrayOf(
-		PropTypes.shape( {
-			name: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-			taxonomy: PropTypes.shape( {
-				name: PropTypes.string.isRequired,
-				label: PropTypes.string.isRequired,
-				links: PropTypes.shape( {
-					search: PropTypes.string,
-				} ).isRequired,
-			} ),
-		} )
-	).isRequired,
-	userName: PropTypes.string.isRequired,
 };

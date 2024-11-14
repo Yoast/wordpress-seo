@@ -1,7 +1,6 @@
 import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { ContentTypeFilter } from "./content-type-filter";
 import { SeoScoreContent } from "./seo-score-content";
 import { TermFilter } from "./term-filter";
@@ -42,20 +41,4 @@ export const SeoScores = ( { contentTypes } ) => {
 			<SeoScoreContent contentType={ selectedContentType } term={ selectedTerm } />
 		</Paper>
 	);
-};
-
-SeoScores.propTypes = {
-	contentTypes: PropTypes.arrayOf(
-		PropTypes.shape( {
-			name: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-			taxonomy: PropTypes.shape( {
-				name: PropTypes.string.isRequired,
-				label: PropTypes.string.isRequired,
-				links: PropTypes.shape( {
-					search: PropTypes.string,
-				} ),
-			} ),
-		} )
-	).isRequired,
 };
