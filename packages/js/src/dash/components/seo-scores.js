@@ -12,7 +12,6 @@ import { TermFilter } from "./term-filter";
  * @type {import("../index").Term} Term
  */
 
-
 /**
  * @param {ContentType[]} contentTypes The content types. May not be empty.
  * @returns {JSX.Element} The element.

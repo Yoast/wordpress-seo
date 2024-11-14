@@ -5,7 +5,6 @@ import { SeoScores } from "./seo-scores";
 
 /**
  * @type {import("../index").ContentType} ContentType
- * @type {import("../index").Taxonomy} Taxonomy
  */
 
 /**

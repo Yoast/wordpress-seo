@@ -8,10 +8,8 @@ import { TermFilter } from "./term-filter";
 
 /**
  * @type {import("../index").ContentType} ContentType
- * @type {import("../index").Taxonomy} Taxonomy
  * @type {import("../index").Term} Term
  */
-
 
 /**
  * @param {ContentType[]} contentTypes The content types. May not be empty.
