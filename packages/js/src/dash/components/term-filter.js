@@ -35,7 +35,7 @@ const transformTerm = ( term ) => ( { name: term.slug, label: term.name } );
  * @returns {JSX.Element} The element.
  */
 export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
-	const [ isQuerying, setIsQuerying ] = useState( false );
+	const [ isPending, setIsPending ] = useState( false );
 	const [ error, setError ] = useState();
 	const [ query, setQuery ] = useState( "" );
 	const [ terms, setTerms ] = useState( [] );
@@ -59,7 +59,7 @@ export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
 				}
 			} )
 			.finally( () => {
-				setIsQuerying( false );
+				setIsPending( false );
 			} );
 	}, FETCH_DELAY ), [] );
 
@@ -76,7 +76,7 @@ export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
 	}, [] );
 
 	useEffect( () => {
-		setIsQuerying( true );
+		setIsPending( true );
 		controller.current?.abort();
 		controller.current = new AbortController();
 		handleTermQuery( createQueryUrl( taxonomy.links.search, query ), {
@@ -99,17 +99,17 @@ export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
 			nullable={ true }
 			validation={ error }
 		>
-			{ isQuerying && (
+			{ isPending && (
 				<div className="yst-autocomplete__option">
 					<Spinner />
 				</div>
 			) }
-			{ ! isQuerying && terms.length === 0 && (
+			{ ! isPending && terms.length === 0 && (
 				<div className="yst-autocomplete__option">
 					{ __( "Nothing found", "wordpress-seo" ) }
 				</div>
 			) }
-			{ ! isQuerying && terms.length > 0 && terms.map( ( { name, label } ) => (
+			{ ! isPending && terms.length > 0 && terms.map( ( { name, label } ) => (
 				<AutocompleteField.Option key={ name } value={ name }>
 					{ label }
 				</AutocompleteField.Option>
