@@ -5,7 +5,7 @@ import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
-import { Dashboard } from "../dash";
+import { Dash } from "../dash";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
 import { RouteErrorFallback } from "./components";
@@ -40,7 +40,7 @@ domReady( () => {
 			<Route path="/" element={ <App /> } errorElement={ <RouteErrorFallback className="yst-m-8" /> }>
 				<Route
 					path={ ROUTES.dashboard }
-					element={ <Dashboard contentTypes={ contentTypes } userName={ userName } /> } errorElement={ <RouteErrorFallback /> }
+					element={ <Dash contentTypes={ contentTypes } userName={ userName } /> } errorElement={ <RouteErrorFallback /> }
 				/>
 				<Route path={ ROUTES.alertCenter } element={ <AlertCenter /> } errorElement={ <RouteErrorFallback /> } />
 				<Route path={ ROUTES.firstTimeConfiguration } element={ <FirstTimeConfiguration /> } errorElement={ <RouteErrorFallback /> } />

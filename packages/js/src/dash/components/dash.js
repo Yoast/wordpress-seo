@@ -13,7 +13,7 @@ import { SeoScores } from "./seo-scores";
  * @param {string} userName The user name.
  * @returns {JSX.Element} The element.
  */
-export const Dashboard = ( { contentTypes, userName } ) => {
+export const Dash = ( { contentTypes, userName } ) => {
 	return (
 		<div className="yst-@container">
 			<PageTitle userName={ userName } />
@@ -25,7 +25,7 @@ export const Dashboard = ( { contentTypes, userName } ) => {
 	);
 };
 
-Dashboard.propTypes = {
+Dash.propTypes = {
 	contentTypes: PropTypes.arrayOf(
 		PropTypes.shape( {
 			name: PropTypes.string.isRequired,

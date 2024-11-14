@@ -1,4 +1,4 @@
-export { Dashboard } from "./components/dashboard";
+export { Dash } from "./components/dash";
 
 /**
  * @typedef {Object} Taxonomy A taxonomy.
