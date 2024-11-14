@@ -28,7 +28,7 @@ const transformTerm = ( term ) => ( { name: term.slug, label: term.name } );
  * @param {string} idSuffix The suffix for the ID.
  * @param {Taxonomy} taxonomy The taxonomy.
  * @param {Term?} selected The selected term.
- * @param {function(ContentType?)} onChange The callback. Expects it changes the `selected` prop.
+ * @param {function(Term?)} onChange The callback. Expects it changes the `selected` prop.
  * @returns {JSX.Element} The element.
  */
 export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {

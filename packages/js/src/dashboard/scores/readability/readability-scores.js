@@ -1,9 +1,10 @@
 import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
+import { useFetch } from "../../hooks/use-fetch";
 import { ContentTypeFilter } from "../components/content-type-filter";
+import { ScoreContent } from "../components/score-content";
 import { TermFilter } from "../components/term-filter";
-import { ReadabilityScoreContent } from "./readability-score-content";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -17,6 +18,27 @@ import { ReadabilityScoreContent } from "./readability-score-content";
 export const ReadabilityScores = ( { contentTypes } ) => {
 	const [ selectedContentType, setSelectedContentType ] = useState( contentTypes[ 0 ] );
 	const [ selectedTerm, setSelectedTerm ] = useState();
+
+	const { data: scores, isPending } = useFetch( {
+		dependencies: [ selectedContentType.name, selectedTerm?.name ],
+		url: "/wp-content/plugins/wordpress-seo/packages/js/src/dashboard/scores/readability/scores.json",
+		//		url: `/wp-json/yoast/v1/scores/${ contentType.name }/${ term?.name }`,
+		options: { headers: { "Content-Type": "application/json" } },
+		fetchDelay: 0,
+		doFetch: async( url, options ) => {
+			await new Promise( ( resolve ) => setTimeout( resolve, 1000 ) );
+			try {
+				const response = await fetch( url, options );
+				if ( ! response.ok ) {
+					// From the perspective of the results, we want to reject this as an error.
+					throw new Error( "Not ok" );
+				}
+				return response.json();
+			} catch ( error ) {
+				return Promise.reject( error );
+			}
+		},
+	} );
 
 	return (
 		<Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8">
@@ -37,7 +59,7 @@ export const ReadabilityScores = ( { contentTypes } ) => {
 					/>
 				}
 			</div>
-			<ReadabilityScoreContent contentType={ selectedContentType } term={ selectedTerm } />
+			<ScoreContent scores={ scores } isLoading={ isPending } />
 		</Paper>
 	);
 };
