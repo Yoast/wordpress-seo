@@ -32,24 +32,7 @@ domReady( () => {
 	} );
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 
-	const contentTypes = get( window, "wpseoScriptData.dash.contentTypes", [
-		{
-			name: "post",
-			label: "Posts",
-			taxonomy: {
-				name: "category",
-				label: "Category",
-				links: {
-					search: "https://igor.local/wp-json/wp/v2/categories",
-				},
-			},
-		},
-		{
-			name: "page",
-			label: "Pages",
-			taxonomy: null,
-		},
-	] );
+	const contentTypes = get( window, "wpseoScriptData.contentTypes", [] );
 	const userName = get( window, "wpseoScriptData.dash.userName", "User" );
 
 	const router = createHashRouter(
