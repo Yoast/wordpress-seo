@@ -1,7 +1,7 @@
 import { useEffect, useState } from "@wordpress/element";
-import { ContentStatusDescription } from "./content-status-description";
-import { ScoreChart } from "./score-chart";
-import { ScoreList } from "./score-list";
+import { ContentStatusDescription } from "../components/content-status-description";
+import { ScoreChart } from "../components/score-chart";
+import { ScoreList } from "../components/score-list";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -12,17 +12,17 @@ import { ScoreList } from "./score-list";
 /** @type {Score[]} **/
 const fakeScores = [
 	{
-		name: "good",
+		name: "ok",
 		amount: 4,
 		links: {
-			view: null,
+			view: "https://basic.wordpress.test/wp-admin/edit.php?category=22",
 		},
 	},
 	{
-		name: "ok",
+		name: "good",
 		amount: 5,
 		links: {
-			view: "https://basic.wordpress.test/wp-admin/edit.php?category=22",
+			view: null,
 		},
 	},
 	{
@@ -76,7 +76,7 @@ const fakeScores2 = [
  * @param {Term?} [term] The selected term.
  * @returns {JSX.Element} The element.
  */
-export const ReadabilityScoreContent = ( { contentType, term } ) => {
+export const SeoScoreContent = ( { contentType, term } ) => {
 	const [ scores, setScores ] = useState();
 	useEffect( () => {
 		const rand = Math.random();

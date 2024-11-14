@@ -1,5 +1,5 @@
 import { Badge, Button } from "@yoast/ui-library";
-import { SCORE_META } from "../util/score-meta";
+import { SCORE_META } from "../score-meta";
 
 /**
  * @type {import("../index").Score} Score

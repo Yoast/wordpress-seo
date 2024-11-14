@@ -1,6 +1,6 @@
 import { ArcElement, Chart, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { SCORE_META } from "../util/score-meta";
+import { SCORE_META } from "../score-meta";
 
 /**
  * @type {import("../index").Score} Score

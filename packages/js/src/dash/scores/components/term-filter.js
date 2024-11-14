@@ -1,7 +1,7 @@
 import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
-import { useFetch } from "../util/use-fetch";
+import { useFetch } from "../../hooks/use-fetch";
 
 /**
  * @type {import("../index").Taxonomy} Taxonomy

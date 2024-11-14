@@ -1,6 +1,6 @@
+import { ReadabilityScores } from "../scores/readability/readability-scores";
+import { SeoScores } from "../scores/seo/seo-scores";
 import { PageTitle } from "./page-title";
-import { ReadabilityScores } from "./readability-scores";
-import { SeoScores } from "./seo-scores";
 
 /**
  * @type {import("../index").ContentType} ContentType
