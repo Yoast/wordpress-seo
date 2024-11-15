@@ -37,7 +37,7 @@ class Content_Type {
 	 * @param string        $label    The label of the content type.
 	 * @param Taxonomy|null $taxonomy The taxonomy that filters the content type.
 	 */
-	public function __construct( string $name, string $label, ?Taxonomy $taxonomy ) {
+	public function __construct( string $name, string $label, ?Taxonomy $taxonomy = null ) {
 		$this->name     = $name;
 		$this->label    = $label;
 		$this->taxonomy = $taxonomy;
@@ -68,5 +68,16 @@ class Content_Type {
 	 */
 	public function get_taxonomy(): ?Taxonomy {
 		return $this->taxonomy;
+	}
+
+	/**
+	 * Sets the taxonomy that filters the content type.
+	 *
+	 * @param Taxonomy|null $taxonomy The taxonomy that filters the content type.
+	 *
+	 * @return void
+	 */
+	public function set_taxonomy( ?Taxonomy $taxonomy ): void {
+		$this->taxonomy = $taxonomy;
 	}
 }
