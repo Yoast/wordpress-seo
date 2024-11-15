@@ -35,6 +35,21 @@ class Analysis_Features_List {
 		foreach ( $this->features as $feature ) {
 			$array = \array_merge( $array, $feature->to_legacy_array() );
 		}
+
+		return $array;
+	}
+
+	/**
+	 * Parses the feature list to an array representation.
+	 *
+	 * @return array<string,bool> The list presented as a key value representation.
+	 */
+	public function to_array(): array {
+		$array = [];
+		foreach ( $this->features as $feature ) {
+			$array = \array_merge( $array, $feature->to_array() );
+		}
+
 		return $array;
 	}
 }

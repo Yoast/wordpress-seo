@@ -8,7 +8,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin\Non_Network_Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Dashboard\Application\Content_Types\Content_Types_Repository;
+use Yoast\WP\SEO\Dashboard\Application\Configuration\Dashboard_Configuration;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
@@ -76,11 +76,11 @@ final class General_Page_Integration_Test extends TestCase {
 	private $promotion_manager;
 
 	/**
-	 * Holds the content types repository.
+	 * Holds the dashboard configuration.
 	 *
-	 * @var Mockery\MockInterface|Content_Types_Repository
+	 * @var Mockery\MockInterface|Dashboard_Configuration
 	 */
-	private $content_types_repository;
+	private $dashboard_configuration;
 
 	/**
 	 * The class under test.
@@ -97,14 +97,14 @@ final class General_Page_Integration_Test extends TestCase {
 	public function set_up() {
 		$this->stubTranslationFunctions();
 
-		$this->asset_manager            = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->current_page_helper      = Mockery::mock( Current_Page_Helper::class );
-		$this->product_helper           = Mockery::mock( Product_Helper::class );
-		$this->shortlink_helper         = Mockery::mock( Short_Link_Helper::class );
-		$this->notifications_helper     = Mockery::mock( Notification_Helper::class );
-		$this->alert_dismissal_action   = Mockery::mock( Alert_Dismissal_Action::class );
-		$this->promotion_manager        = Mockery::mock( Promotion_Manager::class );
-		$this->content_types_repository = Mockery::mock( Content_Types_Repository::class );
+		$this->asset_manager           = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->current_page_helper     = Mockery::mock( Current_Page_Helper::class );
+		$this->product_helper          = Mockery::mock( Product_Helper::class );
+		$this->shortlink_helper        = Mockery::mock( Short_Link_Helper::class );
+		$this->notifications_helper    = Mockery::mock( Notification_Helper::class );
+		$this->alert_dismissal_action  = Mockery::mock( Alert_Dismissal_Action::class );
+		$this->promotion_manager       = Mockery::mock( Promotion_Manager::class );
+		$this->dashboard_configuration = Mockery::mock( Dashboard_Configuration::class );
 
 		$this->instance = new General_Page_Integration(
 			$this->asset_manager,
@@ -114,7 +114,7 @@ final class General_Page_Integration_Test extends TestCase {
 			$this->notifications_helper,
 			$this->alert_dismissal_action,
 			$this->promotion_manager,
-			$this->content_types_repository
+			$this->dashboard_configuration
 		);
 	}
 
@@ -136,7 +136,7 @@ final class General_Page_Integration_Test extends TestCase {
 				$this->notifications_helper,
 				$this->alert_dismissal_action,
 				$this->promotion_manager,
-				$this->content_types_repository
+				$this->dashboard_configuration
 			)
 		);
 	}
@@ -342,8 +342,8 @@ final class General_Page_Integration_Test extends TestCase {
 			->once()
 			->andReturn( [] );
 
-		$this->content_types_repository
-			->expects( 'get_content_types' )
+		$this->dashboard_configuration
+			->expects( 'get_configuration' )
 			->once()
 			->andReturn( [] );
 

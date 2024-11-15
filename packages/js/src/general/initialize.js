@@ -32,8 +32,8 @@ domReady( () => {
 	} );
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 
-	const contentTypes = get( window, "wpseoScriptData.contentTypes", [] );
-	const userName = get( window, "wpseoScriptData.dash.userName", "User" );
+	const contentTypes = get( window, "wpseoScriptData.dashboard.contentTypes", [] );
+	const userName = get( window, "wpseoScriptData.dashboard.displayName", "User" );
 
 	const router = createHashRouter(
 		createRoutesFromElements(
