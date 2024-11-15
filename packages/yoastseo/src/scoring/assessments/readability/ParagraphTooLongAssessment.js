@@ -2,7 +2,7 @@ import { __, _n, sprintf } from "@wordpress/i18n";
 import { filter, map, merge } from "lodash";
 import { stripBlockTagsAtStartEnd as stripHTMLTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import marker from "../../../markers/addMark";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
@@ -26,7 +26,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 		const defaultConfig = {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/35d" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/35e" ),
-			countTextIn: __( "words", "wordpress-seo" ),
+			countCharacters: false,
 			parameters: {
 				recommendedLength: 150,
 				maximumRecommendedLength: 200,
@@ -125,25 +125,34 @@ export default class ParagraphTooLongAssessment extends Assessment {
 				),
 			};
 		}
+
+		/* translators: %1$s and %5$s expand to links on yoast.com, %2$s expands to the anchor end tag,
+		%3$d expands to the number of paragraphs over the recommended limit, %4$d expands to the limit. */
+		const wordFeedback = _n(
+			"%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum number of words (%4$d). %5$sShorten your paragraphs%2$s!",
+			"%1$sParagraph length%2$s: %3$d of the paragraphs contain more than the recommended maximum number of words (%4$d). %5$sShorten your paragraphs%2$s!",
+			tooLongParagraphs.length,
+			"wordpress-seo"
+		);
+		/* translators: %1$s and %5$s expand to links on yoast.com, %2$s expands to the anchor end tag,
+		%3$d expands to the number of paragraphs over the recommended limit, %4$d expands to the limit. */
+		const characterFeedback = _n(
+			"%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum number of characters (%4$d). %5$sShorten your paragraphs%2$s!",
+			"%1$sParagraph length%2$s: %3$d of the paragraphs contain more than the recommended maximum number of characters (%4$d). %5$sShorten your paragraphs%2$s!",
+			tooLongParagraphs.length,
+			"wordpress-seo"
+		);
+
 		return {
 			score: score,
 			hasMarks: true,
 			text: sprintf(
-				/* translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
-			%3$d expands to the number of paragraphs over the recommended word / character limit, %4$d expands to the word / character limit,
-			%6$s expands to the word 'words' or 'characters'. */
-				_n(
-					"%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum of %4$d %6$s. %5$sShorten your paragraphs%2$s!",
-					"%1$sParagraph length%2$s: %3$d of the paragraphs contain more than the recommended maximum of %4$d %6$s. %5$sShorten your paragraphs%2$s!",
-					tooLongParagraphs.length,
-					"wordpress-seo"
-				),
+				config.countCharacters ? characterFeedback : wordFeedback,
 				config.urlTitle,
 				"</a>",
 				tooLongParagraphs.length,
 				config.parameters.recommendedLength,
-				config.urlCallToAction,
-				this._config.countTextIn
+				config.urlCallToAction
 			),
 		};
 	}
@@ -194,10 +203,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		let paragraphsLength = researcher.getResearch( "getParagraphLength" );
-		const countTextInCharacters = researcher.getConfig( "countCharacters" );
-		if ( countTextInCharacters ) {
-			this._config.countTextIn = __( "characters", "wordpress-seo" );
-		}
+		this._config.countCharacters = !! researcher.getConfig( "countCharacters" );
 
 		paragraphsLength = this.sortParagraphs( paragraphsLength );
 		const config = this.getConfig( researcher );
