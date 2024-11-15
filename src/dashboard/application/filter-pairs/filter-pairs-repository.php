@@ -1,11 +1,11 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-namespace Yoast\WP\SEO\Dash\Application\Filter_Pairs;
+namespace Yoast\WP\SEO\Dashboard\Application\Filter_Pairs;
 
-use Yoast\WP\SEO\Dash\Domain\Filter_Pairs\Filter_Pairs_Interface;
-use Yoast\WP\SEO\Dash\Domain\Taxonomies\Taxonomy;
-use Yoast\WP\SEO\Dash\Infrastructure\Taxonomies\Taxonomies_Collector;
+use Yoast\WP\SEO\Dashboard\Domain\Filter_Pairs\Filter_Pairs_Interface;
+use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Taxonomies\Taxonomies_Collector;
 
 /**
  * The repository to get hardcoded filter pairs.

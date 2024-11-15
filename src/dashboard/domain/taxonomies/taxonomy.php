@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dash\Domain\Taxonomies;
+namespace Yoast\WP\SEO\Dashboard\Domain\Taxonomies;
 
 /**
  * This class describes a Taxonomy.

@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dash\Domain\Filter_Pairs;
+namespace Yoast\WP\SEO\Dashboard\Domain\Filter_Pairs;
 
 /**
  * This class describes the product category filter pair.

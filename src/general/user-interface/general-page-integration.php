@@ -6,7 +6,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin\Non_Network_Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Dash\Application\Content_Types\Content_Types_Repository;
+use Yoast\WP\SEO\Dashboard\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;

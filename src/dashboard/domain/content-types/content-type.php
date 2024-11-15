@@ -1,8 +1,8 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dash\Domain\Content_Types;
+namespace Yoast\WP\SEO\Dashboard\Domain\Content_Types;
 
-use Yoast\WP\SEO\Dash\Domain\Taxonomies\Taxonomy;
+use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
 
 /**
  * This class describes a Content Type.
