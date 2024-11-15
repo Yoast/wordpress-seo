@@ -1,7 +1,13 @@
+export { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+export { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+export { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
+export { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+export { BeautifulMentionNode, BeautifulMentionsPlugin } from "lexical-beautiful-mentions";
 export { EmojiPickerPlugin } from "./emoji-picker";
-export { PickerPlugin } from "./picker";
-export { ReplacementPlugin, ReplacementNode, $createReplacementNode } from "./replacement";
+export { default as EmojiList } from "./emoji-picker/list";
 export { NoFormattingPlugin } from "./no-formatting";
 export { NoIndentingPlugin } from "./no-indenting";
 export { OnTextContentChangePlugin } from "./on-text-content-change";
+export { PickerPlugin } from "./picker";
+export { ReplacementPlugin, ReplacementNode, $createReplacementNode } from "./replacement";
 export { SingleLinePlugin } from "./single-line";

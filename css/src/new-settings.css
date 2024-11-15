@@ -1,3 +1,6 @@
+/* TODO: remove src/ part and rely on the build. This is just to skip the watching. */
+@import "@yoast/lexical-editor/src/plugins/picker/style.css";
+
 body.seo_page_wpseo_page_settings {
 	@apply yst-bg-slate-100;
 

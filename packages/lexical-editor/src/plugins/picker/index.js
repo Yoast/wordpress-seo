@@ -46,20 +46,18 @@ const useTransformItemsToOptions = ( items = [] ) => useMemo(
  * @returns {JSX.Element} The element.
  */
 export const PickerMenu = ( { options, selectedIndex, selectOption, setHighlightedIndex } ) => (
-	<div className="yst-picker-menu typeahead-popover">
-		<ul>
-			{ options.map( ( option, index ) => (
-				<PickerMenuItem
-					key={ option.name }
-					index={ index }
-					isSelected={ selectedIndex === index }
-					onSelect={ selectOption }
-					onHighlight={ setHighlightedIndex }
-					option={ option }
-				/>
-			) ) }
-		</ul>
-	</div>
+	<ul className="yst-picker-menu typeahead-popover">
+		{ options.map( ( option, index ) => (
+			<PickerMenuItem
+				key={ option.name }
+				index={ index }
+				isSelected={ selectedIndex === index }
+				onSelect={ selectOption }
+				onHighlight={ setHighlightedIndex }
+				option={ option }
+			/>
+		) ) }
+	</ul>
 );
 
 /**
@@ -90,7 +88,7 @@ const PickerMenuItem = ( { option, index, isSelected, onSelect, onHighlight } ) 
 		<li
 			key={ option.name }
 			tabIndex={ -1 }
-			className={ `yst-picker-item${ isSelected ? " selected" : "" }` }
+			className={ `yst-picker-menu-item${ isSelected ? " selected" : "" }` }
 			ref={ option.setRefElement }
 			role="option"
 			aria-selected={ isSelected }

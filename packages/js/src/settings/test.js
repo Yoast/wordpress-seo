@@ -1,6 +1,21 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { $getAllNodes, $getRoot, LexicalEditor, ReplacementNode, ReplacementPlugin } from "@yoast/lexical-editor";
+import {
+	$getAllNodes,
+	$getRoot,
+	AutoFocusPlugin,
+	ContentEditable,
+	EmojiList,
+	EmojiPickerPlugin,
+	HistoryPlugin,
+	LexicalComposer,
+	LexicalErrorBoundary,
+	OnChangePlugin,
+	ReplacementNode,
+	ReplacementPlugin,
+	RichTextPlugin,
+	SingleLinePlugin,
+} from "@yoast/lexical-editor";
 import { Badge } from "@yoast/ui-library";
 import { useSelectSettings } from "./hooks";
 
@@ -34,23 +49,26 @@ export const Test = () => {
 
 	return (
 		<div className="yst-relative">
-			<LexicalEditor
-				initialConfig={ editorConfig }
-				placeholder={ <div
-					className="yst-absolute yst-top-0 yst-py-2 yst-px-3 yst-pointer-events-none"
-				>{ __( "Enter some text...", "wordpress-seo" ) }</div> }
-				onChange={ handleChange }
-				isSingleLine={ true }
-				shouldAutoFocus={ true }
-				className="yst-lexical-editor yst-tag-input yst-block"
-			>
+			<LexicalComposer initialConfig={ editorConfig }>
+				<RichTextPlugin
+					contentEditable={ <ContentEditable className="yst-lexical-editor yst-tag-input yst-block" /> }
+					ErrorBoundary={ LexicalErrorBoundary }
+					placeholder={ <div
+						className="yst-absolute yst-top-0 yst-py-2 yst-px-3 yst-pointer-events-none"
+					>{ __( "Enter some text...", "wordpress-seo" ) }</div> }
+				/>
+				<HistoryPlugin />
+				<OnChangePlugin ignoreSelectionChange={ true } onChange={ handleChange } />
+				<SingleLinePlugin />
+				<AutoFocusPlugin />
 				<ReplacementPlugin
 					items={ items }
 					trigger="%%"
 					minLength={ 0 }
 					transformItemToEditor={ transformItemToEditor }
 				/>
-			</LexicalEditor>
+				<EmojiPickerPlugin emojiList={ EmojiList } />
+			</LexicalComposer>
 		</div>
 	);
 };

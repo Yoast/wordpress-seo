@@ -8,9 +8,8 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { LexicalTypeaheadMenuPlugin, MenuOption, useBasicTypeaheadTriggerMatch } from "@lexical/react/LexicalTypeaheadMenuPlugin";
 import { $createTextNode, $getSelection, $isRangeSelection } from "lexical";
-import * as React from "react";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import * as ReactDOM from "react-dom";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import ReactDOM from "react-dom";
 
 class EmojiOption extends MenuOption {
 	constructor( title, emoji, options = {} ) {
@@ -21,30 +20,23 @@ class EmojiOption extends MenuOption {
 	}
 }
 
-const EmojiMenuItem = ( { index, isSelected, onClick, onMouseEnter, option } ) => {
-	let className = "item";
-	if ( isSelected ) {
-		className += " selected";
-	}
-
-	return (
-		<li
-			key={ option.key }
-			tabIndex={ -1 }
-			className={ className }
-			ref={ option.setRefElement }
-			role="option"
-			aria-selected={ isSelected }
-			id={ "typeahead-item-" + index }
-			onMouseEnter={ onMouseEnter }
-			onClick={ onClick }
-		>
-			<span className="text">
-				{ option.emoji } { option.title }
-			</span>
-		</li>
-	);
-};
+const EmojiMenuItem = ( { index, isSelected, onClick, onMouseEnter, option } ) => (
+	<li
+		key={ option.key }
+		tabIndex={ -1 }
+		className={ `yst-picker-menu-item${ isSelected ? " selected" : "" }` }
+		ref={ option.setRefElement }
+		role="option"
+		aria-selected={ isSelected }
+		id={ "typeahead-item-" + index }
+		onMouseEnter={ onMouseEnter }
+		onClick={ onClick }
+	>
+		<span className="text">
+			{ option.emoji } { option.title }
+		</span>
+	</li>
+);
 
 const MAX_EMOJI_SUGGESTION_COUNT = 10;
 
@@ -59,14 +51,11 @@ export const EmojiPickerPlugin = () => {
 
 	const emojiOptions = useMemo(
 		() =>
-			emojis !== null
-				? emojis.map(
-					( { emoji, aliases, tags } ) =>
-						new EmojiOption( aliases[ 0 ], emoji, {
-							keywords: [ ...aliases, ...tags ],
-						} ),
-				)
-				: [],
+			emojis === null ? [] : emojis.map( ( { emoji, aliases, tags } ) =>
+				new EmojiOption( aliases[ 0 ], emoji, {
+					keywords: [ ...aliases, ...tags ],
+				} ),
+			),
 		[ emojis ],
 	);
 
@@ -126,26 +115,24 @@ export const EmojiPickerPlugin = () => {
 
 				return anchorElementRef.current && options.length
 					? ReactDOM.createPortal(
-						<div className="typeahead-popover emoji-menu">
-							<ul>
-								{ options.map( ( option, index ) => (
-									<div key={ option.key }>
-										<EmojiMenuItem
-											index={ index }
-											isSelected={ selectedIndex === index }
-											onClick={ () => {
-												setHighlightedIndex( index );
-												selectOptionAndCleanUp( option );
-											} }
-											onMouseEnter={ () => {
-												setHighlightedIndex( index );
-											} }
-											option={ option }
-										/>
-									</div>
-								) ) }
-							</ul>
-						</div>,
+						<ul className="yst-picker-menu typeahead-popover yst-emoji-menu">
+							{ options.map( ( option, index ) => (
+								<div key={ option.key }>
+									<EmojiMenuItem
+										index={ index }
+										isSelected={ selectedIndex === index }
+										onClick={ () => {
+											setHighlightedIndex( index );
+											selectOptionAndCleanUp( option );
+										} }
+										onMouseEnter={ () => {
+											setHighlightedIndex( index );
+										} }
+										option={ option }
+									/>
+								</div>
+							) ) }
+						</ul>,
 						anchorElementRef.current,
 					)
 					: null;

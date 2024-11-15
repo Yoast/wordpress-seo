@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Yoast lexical editor",
   "main": "build/index.js",
+  "style": "build/index.css",
   "files": [
     "build/**/*"
   ],
@@ -16,8 +17,9 @@
   "private": false,
   "sideEffects": false,
   "scripts": {
-    "build": "yarn clean && yarn build:js",
+    "build": "yarn clean && yarn build:js && yarn build:css",
     "build:js": "babel src --out-dir build",
+    "build:css": "cp src/plugins/picker/style.css build/index.css",
     "clean": "rm -rf build",
     "lint": "eslint . --max-warnings=0",
     "watch": "yarn clean && yarn build:js --watch"
