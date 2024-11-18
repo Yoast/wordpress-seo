@@ -28,3 +28,10 @@ export { Dashboard } from "./components/dashboard";
  * @property {Object} links The links.
  * @property {string} [links.view] The view link, might not exist.
  */
+
+/**
+ * @typedef {Object} Features Whether features are enabled.
+ * @property {boolean} indexables Whether indexables are enabled.
+ * @property {boolean} seoAnalysis Whether SEO analysis is enabled.
+ * @property {boolean} readabilityAnalysis Whether readability analysis is enabled.
+ */

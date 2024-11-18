@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { AutocompleteField } from "@yoast/ui-library";
 
 /**
- * @typedef {import("./dashboard").ContentType} ContentType
+ * @type {import("../index").ContentType} ContentType
  */
 
 /**
