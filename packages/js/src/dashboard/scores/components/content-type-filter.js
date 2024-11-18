@@ -1,7 +1,6 @@
 import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { AutocompleteField } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 /**
  * @typedef {import("./dashboard").ContentType} ContentType
@@ -43,19 +42,4 @@ export const ContentTypeFilter = ( { idSuffix, contentTypes, selected, onChange 
 			) ) }
 		</AutocompleteField>
 	);
-};
-
-ContentTypeFilter.propTypes = {
-	idSuffix: PropTypes.string.isRequired,
-	contentTypes: PropTypes.arrayOf(
-		PropTypes.shape( {
-			name: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-		} )
-	).isRequired,
-	selected: PropTypes.shape( {
-		name: PropTypes.string.isRequired,
-		label: PropTypes.string.isRequired,
-	} ),
-	onChange: PropTypes.func.isRequired,
 };

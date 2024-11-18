@@ -5,10 +5,11 @@ import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
-import { Dashboard } from "../dash";
+import { Dashboard } from "../dashboard";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
 import { RouteErrorFallback } from "./components";
+import { SidebarLayout } from "./components/sidebar-layout";
 import { STORE_NAME } from "./constants";
 import { AlertCenter, FirstTimeConfiguration, ROUTES } from "./routes";
 import registerStore from "./store";
@@ -40,9 +41,14 @@ domReady( () => {
 			<Route path="/" element={ <App /> } errorElement={ <RouteErrorFallback className="yst-m-8" /> }>
 				<Route
 					path={ ROUTES.dashboard }
-					element={ <Dashboard contentTypes={ contentTypes } userName={ userName } /> } errorElement={ <RouteErrorFallback /> }
+					element={ <SidebarLayout><Dashboard contentTypes={ contentTypes } userName={ userName } /></SidebarLayout> }
+					errorElement={ <RouteErrorFallback /> }
 				/>
-				<Route path={ ROUTES.alertCenter } element={ <AlertCenter /> } errorElement={ <RouteErrorFallback /> } />
+				<Route
+					path={ ROUTES.alertCenter }
+					element={ <SidebarLayout><AlertCenter /></SidebarLayout> }
+					errorElement={ <RouteErrorFallback /> }
+				/>
 				<Route path={ ROUTES.firstTimeConfiguration } element={ <FirstTimeConfiguration /> } errorElement={ <RouteErrorFallback /> } />
 				{
 					/**
