@@ -64,8 +64,40 @@ const wordsToStem = [
 	[ "Kraftwerke", "Kraftwerk" ],
 ];
 
-describe( "Test for determining stems for German words", () => {
-	it( "creates stems for German words", () => {
-		wordsToStem.forEach( wordToStem => expect( determineStem( wordToStem[ 0 ], morphologyDataDE ) ).toBe( wordToStem[ 1 ] ) );
+describe.each( wordsToStem )( "Test for determining stems for German words", ( word, stem ) => {
+	it( "stems for German word " + word + " to " + stem, () => {
+		expect( determineStem( word, morphologyDataDE ) ).toBe( stem );
+	} );
+} );
+
+const umlautExceptions = [
+	[ "geschwülst", "geschwulst" ],
+	[ "schwäger", "schwager" ],
+	[ "schäden", "schaden" ],
+	[ "töchter", "tochter" ],
+	[ "brünst", "brunst" ],
+	[ "brüder", "bruder" ],
+	[ "gärten", "garten" ],
+	[ "gräben", "graben" ],
+	[ "kästen", "kasten" ],
+	[ "mütter", "mutter" ],
+	[ "läden", "laden" ],
+	[ "väter", "vater" ],
+	[ "füchs", "fuchs" ],
+	[ "ärzte", "arzt" ],
+	[ "gäns", "gans" ],
+	[ "häls", "hal" ],
+	[ "äxte", "axt" ],
+	[ "äste", "ast" ],
+	[ "feuersbrünst", "feuersbrunst" ],
+	[ "hirschbrünft", "hirschbrunft" ],
+	[ "brünst", "brunst" ],
+	[ "lebensbrünst", "lebensbrunst" ],
+	[ "liebesbrünst", "liebesbrunst" ],
+];
+
+describe.each( umlautExceptions )( "Test for determining stems for German words with umlauts", ( word, stem ) => {
+	it( "stems for German word with umlaut " + word + " to " + stem, () => {
+		expect( determineStem( word, morphologyDataDE ) ).toBe( stem );
 	} );
 } );
