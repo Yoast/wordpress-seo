@@ -3,15 +3,18 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon, ChartPieIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useEffect, useMemo } from "@wordpress/element";
+import { useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import { Notice } from "./components";
+import { STORE_NAME } from "./constants";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
-import { deleteMigratingNotices, getMigratingNoticeInfo } from "../helpers/migrateNotices";
+import { deleteMigratingNotices } from "../helpers/migrateNotices";
 import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
+import { useNotificationCountSync, useSelectGeneralPage } from "./hooks";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { Notice } from "./components";
 import { STORE_NAME } from "./constants";
@@ -87,6 +90,42 @@ const App = () => {
 	const alertToggleError = useSelectGeneralPage( "selectAlertToggleError", [], [] );
 	const { setAlertToggleError } = useDispatch( STORE_NAME );
 	useNotificationCountSync();
+
+	useEffect( () => {
+		if ( pathname !== "/first-time-configuration" ) {
+			/**
+			 * Handles the click event for dismissing a notice.
+			 * @param {number} noticeId The ID of the notice to dismiss.
+			 *
+			 * @returns {void}
+			 */
+			const handleClick = ( noticeId ) => {
+				dismissNotice( noticeId );
+			};
+
+			const activeNotices = notices.filter( ( notice ) => ! notice.isDismissed );
+			const closeButtons = activeNotices.map( ( notice ) => {
+				return {
+					noticeId: notice.id,
+					button: document.querySelector( `#${ notice.id } .notice-dismiss` ),
+				};
+			} );
+			closeButtons.forEach( ( { noticeId, button } ) => {
+				if ( button ) {
+					button.addEventListener( "click", () => handleClick( noticeId ), true );
+				}
+			} );
+
+			// Cleanup function to remove event listeners
+			return () => {
+				closeButtons.forEach( ( { noticeId, button } ) => {
+					if ( button ) {
+						button.removeEventListener( "click", () => handleClick( noticeId ), true );
+					}
+				} );
+			};
+		}
+	}, [ pathname, notices ] );
 
 	const handleDismiss = useCallback( () => {
 		setAlertToggleError( null );
