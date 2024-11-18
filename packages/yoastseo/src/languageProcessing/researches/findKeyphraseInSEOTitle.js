@@ -166,7 +166,7 @@ function findExactMatch( matchesObject, keyphrase, result, prefixedFunctionWords
 	This check if to account for the case where an exact match of the keyphrase is not found in the SEO title,
 	but it's found in the position is 0.
 	 */
-	if ( ! result.exactMatchFound && matchesObject.position === 0 ) {
+	if ( matchesObject.position === 0 ) {
 		result.position = 0;
 		return result;
 	}
