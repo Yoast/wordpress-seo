@@ -285,7 +285,6 @@ Yoast SEO 23.9 brings more enhancements and bugfixes. [Find more information abo
 * Adds a maximum width to the problems and notifications sections on the _General_ page.
 * Adds _Intent_ and _Difficulty_ to the metrics shown in the Semrush integration.
 * Improves the compatibility of the Yoast blocks with WordPress 6.7.
-* Allows to set OpenGraph image `width`, `height `and `type` HTML metadata to `null` in order to don't show them. Props to [GiovanniMounir](https://github.com/GiovanniMounir).
 
 #### Bugfixes
 
