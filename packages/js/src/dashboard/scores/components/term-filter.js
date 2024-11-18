@@ -64,7 +64,7 @@ export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
 			nullable={ true }
 			validation={ error && {
 				variant: "error",
-				message: __( "Something went wrong", "wordpress-seo" ),
+				message: __( "Something went wrong.", "wordpress-seo" ),
 			} }
 		>
 			{ isPending && (
