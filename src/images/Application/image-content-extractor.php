@@ -92,7 +92,7 @@ class Image_Content_Extractor {
 			if ( ! $src_raw ) {
 				continue;
 			}
-			
+
 			$src     = \htmlentities( $src_raw, ( \ENT_QUOTES | \ENT_SUBSTITUTE | \ENT_HTML401 ), \get_bloginfo( 'charset' ) );
 			$classes = $processor->get_attribute( $attribute );
 			$id      = $this->extract_id_of_classes( $classes );
