@@ -278,7 +278,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-11-19
 
-Yoast SEO 23.9 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-19-11-24).
+Yoast SEO 23.9 brings enhancements to the Yoast SEO Semrush integration and various bug fixes. Find more about Yoast SEO 23.9 in [our release post](https://yoa.st/release-19-11-24)!
 
 #### Enhancements
 
