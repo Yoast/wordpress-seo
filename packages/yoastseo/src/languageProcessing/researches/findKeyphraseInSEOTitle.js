@@ -142,23 +142,26 @@ function findExactMatch( matchesObject, keyphrase, result, prefixedFunctionWords
 			} )
 	);
 
+	// Check if any of the arrays is empty, which means that the keyphrase is not found in the SEO title.
+	if ( ! arrays.find( array => array.length === 0 ) ) {
 	/*
-	Create the cartesian product of the created arrays: to create all possible combinations of the previously created arrays.
-	For example, the cartesian product of [ [ "والقطط","القطط", "قطط" ], [ "والوسيمة" ,"الوسيمة", "وسيمة" ] ] will be:
-	...[ [ "والقطط", "والوسيمة" ], [ "والقطط", "الوسيمة" ], [ "والقطط", "وسيمة" ], [ "القطط", "والوسيمة" ]]
-	 */
-	for ( const variation of lazyCartesian( ...arrays ) ) {
+		Create the cartesian product of the created arrays: to create all possible combinations of the previously created arrays.
+		For example, the cartesian product of [ [ "والقطط","القطط", "قطط" ], [ "والوسيمة" ,"الوسيمة", "وسيمة" ] ] will be:
+		...[ [ "والقطط", "والوسيمة" ], [ "والقطط", "الوسيمة" ], [ "والقطط", "وسيمة" ], [ "القطط", "والوسيمة" ]]
+		 */
+		for ( const variation of lazyCartesian( ...arrays ) ) {
 		// Join the keyphrase combination into a string.
-		const variationStr = Array.isArray( variation ) ? variation.join( " " ) : variation;
+			const variationStr = Array.isArray( variation ) ? variation.join( " " ) : variation;
 
-		// Check if the exact match of the keyphrase combination is found in the SEO title.
-		const foundMatch = wordMatch( title, variationStr, locale, false );
-		if ( foundMatch.count > 0 ) {
-			result.exactMatchFound = true;
-			// Adjust the position of the matched keyphrase if it's preceded by non-prefixed function words.
-			result.position = adjustPosition( title, foundMatch.position );
+			// Check if the exact match of the keyphrase combination is found in the SEO title.
+			const foundMatch = wordMatch( title, variationStr, locale, false );
+			if ( foundMatch.count > 0 ) {
+				result.exactMatchFound = true;
+				// Adjust the position of the matched keyphrase if it's preceded by non-prefixed function words.
+				result.position = adjustPosition( title, foundMatch.position );
 
-			break;
+				break;
+			}
 		}
 	}
 
@@ -168,7 +171,6 @@ function findExactMatch( matchesObject, keyphrase, result, prefixedFunctionWords
 	 */
 	if ( matchesObject.position === 0 ) {
 		result.position = 0;
-		return result;
 	}
 
 	return result;
