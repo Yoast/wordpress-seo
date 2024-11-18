@@ -42,26 +42,28 @@ class Dashboard_Configuration {
 	 *
 	 * @var Enabled_Analysis_Features_Repository
 	 */
-	private $analysis_features_repository;
+	private $enabled_analysis_features_repository;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param Content_Types_Repository             $content_types_repository     The content types repository.
-	 * @param Indexable_Helper                     $indexable_helper             The indexable helper repository.
-	 * @param User_Helper                          $user_helper                  The user helper.
-	 * @param Enabled_Analysis_Features_Repository $analysis_features_repository The analysis feature repository.
+	 * @param Content_Types_Repository             $content_types_repository             The content types repository.
+	 * @param Indexable_Helper                     $indexable_helper                     The indexable helper
+	 *                                                                                   repository.
+	 * @param User_Helper                          $user_helper                          The user helper.
+	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The analysis feature
+	 *                                                                                   repository.
 	 */
 	public function __construct(
 		Content_Types_Repository $content_types_repository,
 		Indexable_Helper $indexable_helper,
 		User_Helper $user_helper,
-		Enabled_Analysis_Features_Repository $analysis_features_repository
+		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository
 	) {
-		$this->content_types_repository     = $content_types_repository;
-		$this->indexable_helper             = $indexable_helper;
-		$this->user_helper                  = $user_helper;
-		$this->analysis_features_repository = $analysis_features_repository;
+		$this->content_types_repository             = $content_types_repository;
+		$this->indexable_helper                     = $indexable_helper;
+		$this->user_helper                          = $user_helper;
+		$this->enabled_analysis_features_repository = $enabled_analysis_features_repository;
 	}
 
 	/**
@@ -74,7 +76,7 @@ class Dashboard_Configuration {
 			'contentTypes'            => $this->content_types_repository->get_content_types(),
 			'indexablesEnabled'       => $this->indexable_helper->should_index_indexables(),
 			'displayName'             => $this->user_helper->get_current_user_display_name(),
-			'enabledAnalysisFeatures' => $this->analysis_features_repository->get_enabled_features_by_keys(
+			'enabledAnalysisFeatures' => $this->enabled_analysis_features_repository->get_features_by_keys(
 				[
 					Readability_Analysis::NAME,
 					Keyphrase_Analysis::NAME,
