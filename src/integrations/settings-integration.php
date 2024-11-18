@@ -971,7 +971,7 @@ class Settings_Integration implements Integration_Interface {
 			$route = \substr( $route, 1 );
 		}
 
-		return \rawurlencode( $route );
+		return $route;
 	}
 
 	/**
