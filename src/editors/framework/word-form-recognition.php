@@ -10,6 +10,8 @@ use Yoast\WP\SEO\Helpers\Language_Helper;
  */
 class Word_Form_Recognition implements Analysis_Feature_Interface {
 
+	public const NAME = 'wordFormRecognition';
+
 	/**
 	 * The language helper.
 	 *
@@ -41,7 +43,7 @@ class Word_Form_Recognition implements Analysis_Feature_Interface {
 	 * @return string
 	 */
 	public function get_name(): string {
-		return 'wordFormRecognition';
+		return self::NAME;
 	}
 
 	/**
