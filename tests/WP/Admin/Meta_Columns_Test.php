@@ -161,6 +161,21 @@ final class Meta_Columns_Test extends TestCase {
 					],
 				],
 			],
+			[
+				'na',
+				[
+					[
+						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+						'value'   => 'needs-a-value-anyway',
+						'compare' => 'NOT EXISTS',
+					],
+					[
+						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+						'value'   => 'needs-a-value-anyway',
+						'compare' => 'NOT EXISTS',
+					],
+				],
+			],
 		];
 	}
 

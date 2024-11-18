@@ -355,6 +355,9 @@ class WPSEO_Meta_Columns {
 	 * @return array The Readability score filter.
 	 */
 	protected function determine_readability_filters( $readability_filter ) {
+		if ( $readability_filter === WPSEO_Rank::NO_FOCUS ) {
+			return $this->create_no_focus_keyword_filter();
+		}
 		$rank = new WPSEO_Rank( $readability_filter );
 
 		return $this->create_readability_score_filter( $rank->get_starting_score(), $rank->get_end_score() );
