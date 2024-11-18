@@ -6,8 +6,8 @@ use WP_REST_Request;
 use WP_REST_Response;
 use wpdb;
 use WPSEO_Capability_Utils;
-use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Dashboard\Application\SEO_Scores\SEO_Scores_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types\Content_Types_Collector;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -35,6 +35,13 @@ class SEO_Scores_Route implements Route_Interface {
 	private $content_types_collector;
 
 	/**
+	 * The SEO Scores repository.
+	 *
+	 * @var SEO_Scores_Repository
+	 */
+	private $seo_scores_repository;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -52,15 +59,18 @@ class SEO_Scores_Route implements Route_Interface {
 	 * Constructs the class.
 	 *
 	 * @param Content_Types_Collector $content_types_collector The content type collector.
+	 * @param SEO_Scores_Repository   $seo_scores_repository   The SEO Scores repository.
 	 * @param Indexable_Repository    $indexable_repository    The indexable repository.
 	 * @param wpdb                    $wpdb                    The WordPress database object.
 	 */
 	public function __construct(
 		Content_Types_Collector $content_types_collector,
+		SEO_Scores_Repository $seo_scores_repository,
 		Indexable_Repository $indexable_repository,
 		wpdb $wpdb
 	) {
 		$this->content_types_collector = $content_types_collector;
+		$this->seo_scores_repository   = $seo_scores_repository;
 		$this->indexable_repository    = $indexable_repository;
 		$this->wpdb                    = $wpdb;
 	}
@@ -109,88 +119,18 @@ class SEO_Scores_Route implements Route_Interface {
 	}
 
 	/**
-	 * Sets the value of the wistia embed permission.
+	 * Gets the SEO scores of a specific content type.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function get_seo_scores( WP_REST_Request $request ) {
-		$content_type = $request['contentType'];
-
-		$selects = [
-			'needs_improvement' => 'COUNT(CASE WHEN primary_focus_keyword_score < 41 THEN 1 END)',
-			'ok'                => 'COUNT(CASE WHEN primary_focus_keyword_score >= 41 AND primary_focus_keyword_score < 70 THEN 1 END)',
-			'good'              => 'COUNT(CASE WHEN primary_focus_keyword_score >= 71 THEN 1 END)',
-			'not_analyzed'      => 'COUNT(CASE WHEN primary_focus_keyword_score IS NULL THEN 1 END)',
-		];
-
-		if ( $request['term'] === 0 || $request['taxonomy'] === '' ) {
-			// Without taxonomy filtering.
-			$counts = $this->indexable_repository->query()
-				->select_many_expr( $selects )
-				->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
-				->where_in( 'object_type', [ 'post' ] )
-				->where_in( 'object_sub_type', [ $content_type ] )
-				->find_one();
-
-			// This results in:
-			// SELECT
-			//	COUNT(CASE WHEN primary_focus_keyword_score < 41 THEN 1 END) AS `needs_improvement`,
-			//	COUNT(CASE WHEN primary_focus_keyword_score >= 41 AND primary_focus_keyword_score < 70 THEN 1 END) AS `ok`,
-			//	COUNT(CASE WHEN primary_focus_keyword_score >= 71 THEN 1 END) AS `good`,
-			//	COUNT(CASE WHEN primary_focus_keyword_score IS NULL THEN 1 END) AS `not_analyzed`
-			// FROM `wp_yoast_indexable`
-			// WHERE ( post_status = 'publish' OR post_status IS NULL )
-			//	AND `object_type` IN ('post')
-			//	AND `object_sub_type` IN ('post')
-			// LIMIT 1
-
-		}
-		else {
-			// With taxonomy filtering.
-			$query = $this->wpdb->prepare(
-				"
-				SELECT
-					COUNT(CASE WHEN I.primary_focus_keyword_score < 41 THEN 1 END) AS `needs_improvement`,
-					COUNT(CASE WHEN I.primary_focus_keyword_score >= 41 AND I.primary_focus_keyword_score < 70 THEN 1 END) AS `ok`,
-					COUNT(CASE WHEN I.primary_focus_keyword_score >= 70 THEN 1 END) AS `good`,
-					COUNT(CASE WHEN I.primary_focus_keyword_score IS NULL THEN 1 END) AS `not_analyzed` 
-				FROM %i AS I
-				WHERE ( I.post_status = 'publish' OR I.post_status IS NULL )
-					AND I.object_type IN ('post')
-					AND I.object_sub_type IN (%s)
-					AND I.object_id IN (
-						SELECT object_id
-						FROM %i
-						WHERE term_taxonomy_id IN (
-							SELECT term_taxonomy_id
-							FROM 
-								%i
-							WHERE 
-								term_id = %d
-								AND taxonomy = %s
-						)
-				)",
-				Model::get_table_name( 'Indexable' ),
-				$content_type,
-				$this->wpdb->term_relationships,
-				$this->wpdb->term_taxonomy,
-				$request['term'],
-				$request['taxonomy']
-			);
-
-			$counts = $this->wpdb->get_row( $query );
-		}
+		$result = $this->seo_scores_repository->get_seo_scores( $request['contentType'], $request['taxonomy'], $request['term'] );
 
 		return new WP_REST_Response(
 			[
-				'json' => (object) [
-					'good'              => $counts->good,
-					'ok'                => $counts->ok,
-					'needs_improvement' => $counts->needs_improvement,
-					'not_analyzed'      => $counts->not_analyzed,
-				],
+				'scores' => $result,
 			],
 			200
 		);
