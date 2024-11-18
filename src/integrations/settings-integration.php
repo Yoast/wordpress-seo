@@ -378,7 +378,7 @@ class Settings_Integration implements Integration_Interface {
 		\wp_enqueue_media();
 		$this->asset_manager->enqueue_script( 'new-settings' );
 		$this->asset_manager->enqueue_style( 'new-settings' );
-		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
 			$this->asset_manager->enqueue_style( 'black-friday-banner' );
 		}
 		$this->asset_manager->localize_script( 'new-settings', 'wpseoScriptData', $this->get_script_data() );
@@ -445,6 +445,7 @@ class Settings_Integration implements Integration_Interface {
 			'taxonomies'                     => $transformed_taxonomies,
 			'fallbacks'                      => $this->get_fallbacks(),
 			'showNewContentTypeNotification' => $show_new_content_type_notification,
+			'currentPromotions'              => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 		];
 	}
 
@@ -488,7 +489,6 @@ class Settings_Integration implements Integration_Interface {
 			'isLocalSeoActive'              => \defined( 'WPSEO_LOCAL_FILE' ),
 			'isNewsSeoActive'               => \defined( 'WPSEO_NEWS_FILE' ),
 			'isWooCommerceSEOActive'        => $woocommerce_seo_active,
-			'promotions'                    => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 			'siteUrl'                       => \get_bloginfo( 'url' ),
 			'siteTitle'                     => \get_bloginfo( 'name' ),
 			'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),

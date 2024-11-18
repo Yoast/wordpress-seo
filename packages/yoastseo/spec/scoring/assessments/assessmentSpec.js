@@ -65,3 +65,14 @@ describe( "test hasEnoughContentForAssessment", () => {
 	} );
 } );
 
+describe( "test formatResultText", () => {
+	it( "should return a formatted string", () => {
+		const mockAssessment = new Assessment();
+		const resultText = "This is a test string with a %1$s and a %2$s";
+		const urlTitle = "www.example.com";
+		const urlCallToAction = "www.example2.com";
+
+		expect( mockAssessment.formatResultText( resultText, urlTitle, urlCallToAction ) ).toBe( "This is a test string with a www.example.com and a www.example2.com" );
+	} );
+} );
+

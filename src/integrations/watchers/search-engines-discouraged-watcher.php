@@ -101,6 +101,8 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'manage_search_engines_discouraged_notification' ] );
 
+		\add_action( 'update_option_blog_public', [ $this, 'restore_ignore_option' ] );
+
 		/*
 		 * The `admin_notices` hook fires on single site admin pages vs.
 		 * `network_admin_notices` which fires on multisite admin pages and
@@ -229,5 +231,16 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 				'priority'     => 1,
 			]
 		);
+	}
+
+	/**
+	 * Should restore the ignore option for the search engines discouraged notice.
+	 *
+	 * @return void
+	 */
+	public function restore_ignore_option() {
+		if ( ! $this->search_engines_are_discouraged() ) {
+			$this->options_helper->set( 'ignore_search_engines_discouraged_notice', false );
+		}
 	}
 }

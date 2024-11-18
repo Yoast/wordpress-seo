@@ -39,6 +39,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.5",
     "@slack/webhook": "^5.0.2",
+    "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/forms": "^0.5.2",
     "@wordpress/dependency-extraction-webpack-plugin": "^4.28.0",
     "@wordpress/scripts": "^26.16.0",
@@ -46,6 +47,7 @@
     "@yoast/browserslist-config": "^1.2.3",
     "@yoast/grunt-plugin-tasks": "^2.4",
     "@yoast/postcss-preset": "^1.2.0",
+    "@yoast/related-keyphrase-suggestions": "^0.1.0",
     "@yoast/tailwindcss-preset": "^2.3.0",
     "@yoast/ui-library": "^4.0.0",
     "colors": "1.4.0",
@@ -75,7 +77,7 @@
     "webpack-bundle-analyzer": "^4.9.1"
   },
   "yoast": {
-    "pluginVersion": "23.4-RC3"
+    "pluginVersion": "23.9-RC4"
   },
   "version": "0.0.0"
 }

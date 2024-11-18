@@ -1,38 +1,33 @@
-import { inherits } from "util";
-
 import Assessor from "./assessor.js";
 import IntroductionKeyword from "../assessments/seo/IntroductionKeywordAssessment.js";
 import KeyphraseLength from "../assessments/seo/KeyphraseLengthAssessment.js";
 import KeyphraseDensityAssessment from "../assessments/seo/KeywordDensityAssessment.js";
 import MetaDescriptionKeyword from "../assessments/seo/MetaDescriptionKeywordAssessment.js";
-import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
 import TextCompetingLinks from "../assessments/seo/TextCompetingLinksAssessment.js";
-import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
+import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
 
 /**
- * Creates the Assessor
- *
- * @param {Researcher} researcher      The researcher to use for the analysis.
- * @param {Object?}    options         The options for this assessor.
- * @param {Function}   options.marker  The marker to pass the list of marks to.
- *
- * @constructor
+ * The relatedKeywordAssessor class is used for the related keyword analysis.
  */
-const relatedKeywordAssessor = function( researcher, options ) {
-	Assessor.call( this, researcher, options );
-	this.type = "relatedKeywordAssessor";
+export default class RelatedKeywordAssessor extends Assessor {
+	/**
+	 * Creates a new RelatedKeywordAssessor instance.
+	 * @param {Researcher}	researcher	The researcher to use.
+	 * @param {Object}		[options]	The assessor options.
+	 */
+	constructor( researcher, options ) {
+		super( researcher, options );
+		this.type = "relatedKeywordAssessor";
 
-	this._assessments = [
-		new IntroductionKeyword(),
-		new KeyphraseLength( { isRelatedKeyphrase: true } ),
-		new KeyphraseDensityAssessment(),
-		new MetaDescriptionKeyword(),
-		new TextCompetingLinks(),
-		new FunctionWordsInKeyphrase(),
-		new ImageKeyphrase(),
-	];
-};
-
-inherits( relatedKeywordAssessor, Assessor );
-
-export default relatedKeywordAssessor;
+		this._assessments = [
+			new IntroductionKeyword(),
+			new KeyphraseLength( { isRelatedKeyphrase: true } ),
+			new KeyphraseDensityAssessment(),
+			new MetaDescriptionKeyword(),
+			new TextCompetingLinks(),
+			new FunctionWordsInKeyphrase(),
+			new ImageKeyphrase(),
+		];
+	}
+}

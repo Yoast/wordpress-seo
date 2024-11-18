@@ -6,6 +6,8 @@ import { createFreezeReducer } from "../../redux/utils/create-freeze-reducer";
 import { createSnapshotReducer } from "../../redux/utils/create-snapshot-reducer";
 import * as snippetEditorActions from "../redux/actions/snippetEditor";
 import * as analysisSelectors from "../redux/selectors/analysis";
+import * as snippetEditorSelectors from "../redux/selectors/snippet-editor";
+import * as wincherSelectors from "../redux/selectors/wincher-seo-performance";
 
 /**
  * Populates the store.
@@ -25,7 +27,7 @@ const populateStore = store => {
 	store.dispatch(
 		actions.setSettings( {
 			socialPreviews: {
-				sitewideImage: window.wpseoScriptData.metabox.sitewide_social_image,
+				sitewideImage: window.wpseoScriptData.sitewideSocialImage,
 				siteName: window.wpseoScriptData.metabox.site_name,
 				contentImage: window.wpseoScriptData.metabox.first_content_image,
 				twitterCardType: window.wpseoScriptData.metabox.twitterCardType,
@@ -63,6 +65,13 @@ const populateStore = store => {
 	store.dispatch( actions.setLinkParams( get( window, "wpseoScriptData.linkParams", {} ) ) );
 	store.dispatch( actions.setPluginUrl( get( window, "wpseoScriptData.pluginUrl", "" ) ) );
 	store.dispatch( actions.setWistiaEmbedPermissionValue( get( window, "wpseoScriptData.wistiaEmbedPermission", false ) === "1" ) );
+
+	// Due to Elementor not including a way to get the slug, we include it in our form data.
+	// Hydrate the store with that slug value on load.
+	const slugInput = document.getElementById( "yoast_wpseo_slug" );
+	if ( slugInput ) {
+		store.dispatch( actions.setEditorDataSlug( slugInput.value ) );
+	}
 };
 
 /**
@@ -80,6 +89,8 @@ export default function initEditorStore() {
 			...selectors,
 			// Add or override selectors that are specific for Elementor.
 			...analysisSelectors,
+			...snippetEditorSelectors,
+			...wincherSelectors,
 		},
 		actions: pickBy( {
 			...actions,

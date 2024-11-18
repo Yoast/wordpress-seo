@@ -22,7 +22,7 @@ function getDefaultState() {
 		isWordFormRecognitionActive: isUndefined( window.wpseoPremiumMetaboxData ) && isWordFormRecognitionActive(),
 		isCornerstoneActive: isCornerstoneActive(),
 		isBreadcrumbsDisabled: ! ! window.wpseoAdminL10n.isBreadcrumbsDisabled,
-		isPrivateBlog: ! ! window.wpseoAdminL10n.isPrivateBlog,
+		isPrivateBlog: ! ! window.wpseoScriptData.isPrivateBlog,
 		isSEMrushIntegrationActive: isSEMrushIntegrationActive(),
 		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ),
 		displayAdvancedTab: displayAdvancedTab,
@@ -32,8 +32,11 @@ function getDefaultState() {
 		useTwitterData: window.wpseoScriptData.metabox.showSocial.twitter,
 		isWincherIntegrationActive: isWincherIntegrationActive(),
 		isInsightsEnabled: get( window, "wpseoScriptData.metabox.isInsightsEnabled", false ),
-		isNewsEnabled: ! ! window.wpseoAdminL10n.news_seo_is_active,
+		isNewsEnabled: get( window, "wpseoScriptData.metabox.isNewsSeoActive", false ),
 		isAiFeatureActive: Boolean( window.wpseoAdminL10n.isAiFeatureActive ),
+		isWooCommerceSeoActive: get( window, "wpseoScriptData.metabox.isWooCommerceSeoActive", false ),
+		isWooCommerceActive: get( window, "wpseoScriptData.metabox.isWooCommerceActive", false ),
+		isRtl: get( window, "wpseoScriptData.metabox.isRtl", false ),
 	};
 }
 

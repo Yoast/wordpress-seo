@@ -17,6 +17,10 @@ jest.mock( "@wordpress/data", () => ( {
 	} ) ),
 } ) );
 
+jest.mock( "react-router-dom", () => ( {
+	useNavigate: jest.fn(),
+} ) );
+
 describe( "Search", () => {
 	beforeEach( () => {
 		global.navigator.userAgent = "Mozilla/5.0 (Macintosh)";

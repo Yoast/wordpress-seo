@@ -39,5 +39,4 @@ export * from "./WincherModal";
 export * from "./WincherRequest";
 export * from "./WincherSEOPerformance";
 export * from "./isPremium";
-export * from "./isWooSEO";
 export * from "./postId";

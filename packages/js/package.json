@@ -6,7 +6,7 @@
   "scripts": {
     "build": "cd ../.. && wp-scripts build --config config/webpack/webpack.config.js",
     "test": "jest",
-    "lint": "eslint src tests --max-warnings=69"
+    "lint": "eslint src tests --max-warnings=59"
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
@@ -27,13 +27,14 @@
     "@wordpress/i18n": "^4.14.0",
     "@wordpress/is-shallow-equal": "^3.1.1",
     "@wordpress/plugins": "^3.1.2",
-    "@wordpress/rich-text": "^3.25.3",
+    "@wordpress/rich-text": "^7.0.2",
     "@wordpress/server-side-render": "^1.21.1",
     "@wordpress/url": "^3.17.0",
     "@yoast/analysis-report": "^1.21.0",
     "@yoast/components": "^3.0.0-alpha.0",
     "@yoast/feature-flag": "^0.6.0-alpha.0",
     "@yoast/helpers": "^0.17.0-alpha.0",
+    "@yoast/related-keyphrase-suggestions": "^0.1.0",
     "@yoast/replacement-variable-editor": "^2.0.0-alpha.0",
     "@yoast/search-metadata-previews": "^3.0.0-alpha.0",
     "@yoast/social-metadata-forms": "^2.0.0-alpha.0",
@@ -62,7 +63,7 @@
     "react-hotkeys-hook": "^4.0.5",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
-    "react-router-dom": "^6.3.0",
+    "react-router-dom": "^6.26.2",
     "react-select": "^3.1.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",

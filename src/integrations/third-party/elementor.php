@@ -6,7 +6,6 @@ use WP_Post;
 use WP_Screen;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Recommended_Replace_Vars;
-use WPSEO_Language_Utils;
 use WPSEO_Meta;
 use WPSEO_Metabox_Analysis_Inclusive_Language;
 use WPSEO_Metabox_Analysis_Readability;
@@ -14,10 +13,8 @@ use WPSEO_Metabox_Analysis_SEO;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Replace_Vars;
-use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
-use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
 use Yoast\WP\SEO\Elementor\Infrastructure\Request_Post;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -409,24 +406,24 @@ class Elementor implements Integration_Interface {
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
-		$woocommerce_conditional = new WooCommerce_Conditional();
-		$permalink               = $this->get_permalink();
+		$permalink        = $this->get_permalink();
+		$page_on_front    = (int) \get_option( 'page_on_front' );
+		$homepage_is_page = \get_option( 'show_on_front' ) === 'page';
+		$is_front_page    = $homepage_is_page && $page_on_front === $post_id;
 
 		$script_data = [
 			'metabox'                   => $this->get_metabox_script_data( $permalink ),
-			'userLanguageCode'          => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'                    => true,
 			'isBlockEditor'             => WP_Screen::get()->is_block_editor(),
 			'isElementorEditor'         => true,
-			'isWooCommerceActive'       => $woocommerce_conditional->is_met(),
 			'postStatus'                => \get_post_status( $post_id ),
 			'postType'                  => \get_post_type( $post_id ),
 			'analysis'                  => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'webinarIntroElementorUrl'  => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
 			'usedKeywordsNonce'         => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
+			'isFrontPage'               => $is_front_page,
 		];
 
 		/**
@@ -476,40 +473,18 @@ class Elementor implements Integration_Interface {
 		\printf(
 			'<input type="hidden" id="%1$s" name="%1$s" value="%2$s" />',
 			\esc_attr( WPSEO_Meta::$form_prefix . 'slug' ),
-			\esc_attr( $this->get_post_slug() )
+			/**
+			 * It is important that this slug value is the same as in the database.
+			 * If the DB value is empty we can auto-generate a slug.
+			 * But if not empty, we should not touch it anymore.
+			 */
+			\esc_attr( $this->get_metabox_post()->post_name )
 		);
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
 		echo \apply_filters( 'wpseo_elementor_hidden_fields', '' );
 
 		echo '</form>';
-	}
-
-	/**
-	 * Returns the slug for the post being edited.
-	 *
-	 * @return string
-	 */
-	protected function get_post_slug() {
-		$post = $this->get_metabox_post();
-
-		// In case get_metabox_post returns null for whatever reason.
-		if ( ! $post instanceof WP_Post ) {
-			return '';
-		}
-
-		// Drafts might not have a post_name unless the slug has been manually changed.
-		// In this case we get it using get_sample_permalink.
-		if ( ! $post->post_name ) {
-			$sample = \get_sample_permalink( $post );
-
-			// Since get_sample_permalink runs through filters, ensure that it has the expected return value.
-			if ( \is_array( $sample ) && \count( $sample ) === 2 && \is_string( $sample[1] ) ) {
-				return $sample[1];
-			}
-		}
-
-		return $post->post_name;
 	}
 
 	/**

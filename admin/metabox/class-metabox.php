@@ -5,9 +5,6 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Active_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
-use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
@@ -85,8 +82,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->editor = new WPSEO_Metabox_Editor();
 		$this->editor->register_hooks();
 
-		$this->social_is_enabled            = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
-		$this->is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false;
+		$this->social_is_enabled            = WPSEO_Options::get( 'opengraph', false, [ 'wpseo_social' ] ) || WPSEO_Options::get( 'twitter', false, [ 'wpseo_social' ] );
+		$this->is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta', null, [ 'wpseo' ] ) === false;
 
 		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
@@ -501,7 +498,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Adds a line in the meta box.
 	 *
-	 * @todo [JRF] Check if $class is added appropriately everywhere.
+	 * @deprecated 23.5
+	 * @codeCoverageIgnore
 	 *
 	 * @param string[] $meta_field_def Contains the vars based on which output is generated.
 	 * @param string   $key            Internal key (without prefix).
@@ -509,6 +507,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	public function do_meta_box( $meta_field_def, $key = '' ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 23.5' );
+
 		$content      = '';
 		$esc_form_key = esc_attr( WPSEO_Meta::$form_prefix . $key );
 		$meta_value   = WPSEO_Meta::get_value( $key, $this->get_metabox_post()->ID );
@@ -631,7 +631,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$html = '';
 		if ( $content === '' ) {
-			$content = apply_filters( 'wpseo_do_meta_box_field_' . $key, $content, $meta_value, $esc_form_key, $meta_field_def, $key );
+			$content = apply_filters_deprecated( 'wpseo_do_meta_box_field_' . $key, [ $content, $meta_value, $esc_form_key, $meta_field_def, $key ], 'Yoast SEO 23.5', '', 'do_meta_box is deprecated' );
 		}
 
 		if ( $content !== '' ) {
@@ -879,14 +879,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 		];
 
-		$woocommerce_conditional = new WooCommerce_Conditional();
-		$woocommerce_active      = $woocommerce_conditional->is_met();
-		$addon_manager           = new WPSEO_Addon_Manager();
-		$woocommerce_seo_active  = is_plugin_active( $addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) );
+		$page_on_front    = (int) get_option( 'page_on_front' );
+		$homepage_is_page = get_option( 'show_on_front' ) === 'page';
+		$is_front_page    = $homepage_is_page && $page_on_front === (int) $post_id;
 
 		$script_data = [
 			'metabox'                    => $this->get_metabox_script_data(),
-			'userLanguageCode'           => WPSEO_Language_Utils::get_language( get_user_locale() ),
 			'isPost'                     => true,
 			'isBlockEditor'              => $is_block_editor,
 			'postId'                     => $post_id,
@@ -897,11 +895,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
-			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
-			'isWooCommerceSeoActive'     => $woocommerce_seo_active,
-			'isWooCommerceActive'        => $woocommerce_active,
-			'woocommerceUpsell'          => get_post_type( $post_id ) === 'product' && ! $woocommerce_seo_active && $woocommerce_active,
+			'isFrontPage'                => $is_front_page,
 		];
 
 		/**

@@ -16,7 +16,7 @@ const getLongCenterAlignedTexts = languageProcessing.researches.getLongCenterAli
 const TextAlignmentAssessment = assessments.readability.TextAlignmentAssessment;
 
 const MORPHOLOGY_VERSIONS = {
-	en: "v5",
+	en: "v6",
 	de: "v10",
 	es: "v10",
 	fr: "v11",
