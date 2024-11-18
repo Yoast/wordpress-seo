@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Features_List;
  *
  * @makePublic
  */
-class Enabled_Analysis_Features_Repository {
+class Analysis_Features_Repository {
 
 	/**
 	 * All plugin features.
@@ -35,14 +35,14 @@ class Enabled_Analysis_Features_Repository {
 	 *
 	 * @return Analysis_Features_List The analysis list.
 	 */
-	public function get_enabled_features(): Analysis_Features_List {
-		$enabled_analysis_features = new Analysis_Features_List();
+	public function get_analysis_features(): Analysis_Features_List {
+		$analysis_features_list = new Analysis_Features_List();
 		foreach ( $this->plugin_features as $plugin_feature ) {
 			$analysis_feature = new Analysis_Feature( $plugin_feature->is_enabled(), $plugin_feature->get_name(), $plugin_feature->get_legacy_key() );
-			$enabled_analysis_features->add_feature( $analysis_feature );
+			$analysis_features_list->add_feature( $analysis_feature );
 		}
 
-		return $enabled_analysis_features;
+		return $analysis_features_list;
 	}
 
 	/**
@@ -52,16 +52,16 @@ class Enabled_Analysis_Features_Repository {
 	 *
 	 * @return Analysis_Features_List The analysis list.
 	 */
-	public function get_enabled_features_by_keys( array $feature_names ): Analysis_Features_List {
-		$enabled_analysis_features = new Analysis_Features_List();
+	public function get_analysis_features_by_keys( array $feature_names ): Analysis_Features_List {
+		$analysis_features_list = new Analysis_Features_List();
 
 		foreach ( $this->plugin_features as $plugin_feature ) {
 			if ( \in_array( $plugin_feature->get_name(), $feature_names, true ) ) {
 				$analysis_feature = new Analysis_Feature( $plugin_feature->is_enabled(), $plugin_feature->get_name(), $plugin_feature->get_legacy_key() );
-				$enabled_analysis_features->add_feature( $analysis_feature );
+				$analysis_features_list->add_feature( $analysis_feature );
 			}
 		}
 
-		return $enabled_analysis_features;
+		return $analysis_features_list;
 	}
 }
