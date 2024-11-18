@@ -282,20 +282,20 @@ Yoast SEO 23.9 brings more enhancements and bugfixes. [Find more information abo
 
 #### Enhancements
 
-* Adds a maximum width to the problems and notifications sections on the General page.
+* Adds a maximum width to the problems and notifications sections on the _General_ page.
 * Adds _Intent_ and _Difficulty_ to the metrics shown in the Semrush integration.
 * Improves the compatibility of the Yoast blocks with WordPress 6.7.
-* Allows to set OpenGraph image `width`, `height `and `type` HTML metadata to `null` in order to don't show them. Props to [@GiovanniMounir](https://github.com/GiovanniMounir).
+* Allows to set OpenGraph image `width`, `height `and `type` HTML metadata to `null` in order to don't show them. Props to [GiovanniMounir](https://github.com/GiovanniMounir).
 
 #### Bugfixes
 
-* Fixes a bug where a fatal error is triggered in Php 8.x when a user's additional contact methods have been improperly set to `null`. Props to [PhilETaylor](https://github.com/PhilETaylor).
-* Fixes a bug where the First time configuration would have a double separator for the title and content.
-* Fixes a bug where the First time configuration would not resize properly on smaller width screens.
+* Fixes a bug where a fatal error is triggered in PHP 8.x when a user's additional contact methods have been improperly set to `null`. Props to [PhilETaylor](https://github.com/PhilETaylor).
+* Fixes a bug where the _First time configuration_ would have a double separator for the title and content.
+* Fixes a bug where the _First time configuration_ would not resize properly on smaller width screens.
 
 #### Other
 
-* Stops PHP notices about `_load_textdomain_just_in_time` loading incorrectly, on WP 6.7.
+* Stops PHP notices on WordPress 6.7 about `_load_textdomain_just_in_time` loading incorrectly.
 
 = 23.8 =
 
