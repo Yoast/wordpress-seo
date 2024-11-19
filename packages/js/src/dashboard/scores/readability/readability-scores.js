@@ -28,6 +28,12 @@ export const ReadabilityScores = ( { contentTypes } ) => {
 		fetchDelay: 0,
 		doFetch: async( url, options ) => {
 			await new Promise( ( resolve ) => setTimeout( resolve, 1000 ) );
+			return [ "good", "ok", "bad", "notAnalyzed" ].map( ( name ) => ( {
+				name,
+				amount: Math.ceil( Math.random() * 10 ),
+				links: Math.random() > 0.5 ? {} : { view: `edit.php?readability_filter=${ name }` },
+			} ) );
+			// eslint-disable-next-line no-unreachable
 			try {
 				const response = await fetch( url, options );
 				if ( ! response.ok ) {
