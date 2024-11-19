@@ -19,7 +19,9 @@ export const ScoreList = ( { scores } ) => (
 				<span className={ `yst-rounded-full yst-w-3 yst-h-3 ${ SCORE_META[ score.name ].color }` } />
 				<span className="yst-ml-3 yst-mr-2 yst-leading-4 yst-py-1.5">{ SCORE_META[ score.name ].label }</span>
 				<Badge variant="plain">{ score.amount }</Badge>
-				{ score.links.view && <Button as="a" variant="secondary" size="small" href={ score.links.view } className="yst-ml-auto">View</Button> }
+				{ score.links.view && (
+					<Button as="a" variant="secondary" size="small" href={ score.links.view } className="yst-ml-auto">View</Button>
+				) }
 			</li>
 		) ) }
 	</ul>
