@@ -136,14 +136,36 @@ class SEO_Scores_Collector {
 	/**
 	 * Builds the view link of the SEO score.
 	 *
-	 * @param string   $seo_score_name The name of the SEO score.
-	 * @param string   $content_type   The content type.
-	 * @param int|null $term_id        The ID of the term we might be filtering.
+	 * @param string $seo_score_name The name of the SEO score.
+	 * @param string $content_type   The content type.
+	 * @param string $taxonomy       The taxonomy of the term we might be filtering.
+	 * @param int    $term_id        The ID of the term we might be filtering.
 	 *
 	 * @return string The view link of the SEO score.
 	 */
-	public function get_view_link( string $seo_score_name, string $content_type, ?int $term_id ): string {
-		// @TODO.
-		return '#';
+	public function get_view_link( string $seo_score_name, string $content_type, string $taxonomy, int $term_id ): ?string {
+		// @TODO: Refactor by Single Source of Truthing this with the `WPSEO_Meta_Columns` class. Until then, we build this manually.
+		$posts_page = \admin_url( 'edit.php' );
+		$args       = [
+			'post_status' => 'publish',
+			'post_type'   => $content_type,
+			'seo_filter'  => $seo_score_name,
+		];
+
+		if ( $taxonomy === '' || $term_id === 0 ) {
+			return \add_query_arg( $args, $posts_page );
+		}
+
+		$taxonomy_object = \get_taxonomy( $taxonomy );
+		$query_var       = $taxonomy_object->query_var;
+
+		if ( $query_var === false ) {
+			return null;
+		}
+
+		$term               = \get_term( $term_id );
+		$args[ $query_var ] = $term->slug;
+
+		return \add_query_arg( $args, $posts_page );
 	}
 }

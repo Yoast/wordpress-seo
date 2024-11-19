@@ -15,6 +15,13 @@ abstract class Abstract_SEO_Score implements SEO_Scores_Interface {
 	private $name;
 
 	/**
+	 * The name of the SEO score that is used when filtering on the posts page.
+	 *
+	 * @var string
+	 */
+	private $filter_name;
+
+	/**
 	 * The amount of the SEO score.
 	 *
 	 * @var int
@@ -60,7 +67,7 @@ abstract class Abstract_SEO_Score implements SEO_Scores_Interface {
 	 *
 	 * @return void
 	 */
-	public function set_view_link( string $view_link ): void {
+	public function set_view_link( ?string $view_link ): void {
 		$this->view_link = $view_link;
 	}
 
@@ -70,12 +77,16 @@ abstract class Abstract_SEO_Score implements SEO_Scores_Interface {
 	 * @return array<string, string|array<string, string>> The SEO score presented as the expected key value representation.
 	 */
 	public function to_array(): array {
-		return [
+		$array = [
 			'name'   => $this->get_name(),
 			'amount' => $this->amount,
-			'links'  => [
-				'view' => $this->view_link,
-			],
+			'links'  => [],
 		];
+
+		if ( $this->view_link !== null ) {
+			$array['links']['view'] = $this->view_link;
+		}
+
+		return $array;
 	}
 }

@@ -17,6 +17,15 @@ class No_SEO_Score extends Abstract_SEO_Score {
 	}
 
 	/**
+	 * Gets the name of the SEO score that is used when filtering on the posts page.
+	 *
+	 * @return string The name of the SEO score that is used when filtering on the posts page.
+	 */
+	public function get_filter_name(): string {
+		return 'na';
+	}
+
+	/**
 	 * Gets the minimum score of the SEO score.
 	 *
 	 * @return null The minimum score of the SEO score.

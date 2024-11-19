@@ -15,6 +15,13 @@ interface SEO_Scores_Interface {
 	public function get_name(): string;
 
 	/**
+	 * Gets the name of the SEO score that is used when filtering on the posts page.
+	 *
+	 * @return string
+	 */
+	public function get_filter_name(): string;
+
+	/**
 	 * Gets the minimum score of the SEO score.
 	 *
 	 * @return int
@@ -44,7 +51,7 @@ interface SEO_Scores_Interface {
 	 *
 	 * @return void
 	 */
-	public function set_view_link( string $view_link ): void;
+	public function set_view_link( ?string $view_link ): void;
 
 	/**
 	 * Parses the SEO score to the expected key value representation.
