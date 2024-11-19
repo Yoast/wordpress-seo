@@ -8,10 +8,10 @@ use wpdb;
 use WPSEO_Capability_Utils;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Dashboard\Application\SEO_Scores\SEO_Scores_Repository;
+use Yoast\WP\SEO\Dashboard\Application\Taxonomies\Taxonomies_Repository;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types\Content_Types_Collector;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Taxonomies\Taxonomies_Collector;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -38,11 +38,11 @@ class SEO_Scores_Route implements Route_Interface {
 	private $content_types_collector;
 
 	/**
-	 * The taxonomies collector.
+	 * The taxonomies repository.
 	 *
-	 * @var Taxonomies_Collector
+	 * @var Taxonomies_Repository
 	 */
-	private $taxonomies_collector;
+	private $taxonomies_repository;
 
 	/**
 	 * The SEO Scores repository.
@@ -69,20 +69,20 @@ class SEO_Scores_Route implements Route_Interface {
 	 * Constructs the class.
 	 *
 	 * @param Content_Types_Collector $content_types_collector The content type collector.
-	 * @param Taxonomies_Collector    $taxonomies_collector    The taxonomies collector.
+	 * @param Taxonomies_Repository   $taxonomies_repository   The taxonomies repository.
 	 * @param SEO_Scores_Repository   $seo_scores_repository   The SEO Scores repository.
 	 * @param Indexable_Repository    $indexable_repository    The indexable repository.
 	 * @param wpdb                    $wpdb                    The WordPress database object.
 	 */
 	public function __construct(
 		Content_Types_Collector $content_types_collector,
-		Taxonomies_Collector $taxonomies_collector,
+		Taxonomies_Repository $taxonomies_repository,
 		SEO_Scores_Repository $seo_scores_repository,
 		Indexable_Repository $indexable_repository,
 		wpdb $wpdb
 	) {
 		$this->content_types_collector = $content_types_collector;
-		$this->taxonomies_collector    = $taxonomies_collector;
+		$this->taxonomies_repository   = $taxonomies_repository;
 		$this->seo_scores_repository   = $seo_scores_repository;
 		$this->indexable_repository    = $indexable_repository;
 		$this->wpdb                    = $wpdb;
@@ -204,7 +204,14 @@ class SEO_Scores_Route implements Route_Interface {
 		if ( $taxonomy === '' ) {
 			return null;
 		}
-		return $this->taxonomies_collector->get_taxonomy( $taxonomy, $content_type->get_name() );
+
+		$valid_taxonomy = $this->taxonomies_repository->get_content_type_taxonomy( $content_type->get_name() );
+
+		if ( $valid_taxonomy && $valid_taxonomy->get_name() === $taxonomy ) {
+			return $valid_taxonomy;
+		}
+
+		return null;
 	}
 
 	/**
