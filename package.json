@@ -77,7 +77,7 @@
     "webpack-bundle-analyzer": "^4.9.1"
   },
   "yoast": {
-    "pluginVersion": "23.9"
+    "pluginVersion": "24.0-RC1"
   },
   "version": "0.0.0"
 }

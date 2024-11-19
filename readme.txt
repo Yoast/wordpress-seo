@@ -274,6 +274,26 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 24.0 =
+
+Release date: 2024-12-03
+
+#### Enhancements
+
+* Allows to set OpenGraph image `width`, `height `and `type` HTML metadata to `null` in order to don't show them. Props to [GiovanniMounir](https://github.com/GiovanniMounir).
+* Improves the _transition words_ assessment for Portuguese and English by updating the relevant lists of transitions words. Props to [BrunoAseff](https://github.com/BrunoAseff).
+* Shows an error message in the Yoast _General_ page in case of JavaScript errors.
+
+#### Bugfixes
+
+* Fixes a bug where the first step in the _First time configuration_ would not be considered finished unless the _Site representation_ step would be finished as well.
+* Fixes a bug where the settings for a post type are inaccessible when the permalink structure includes special characters that require encoding, e.g., when WooCommerce products are set to use the \"Shop base with category\" permalink structure.
+* Fixes a bug where the Yoast _General_ page would not reflect the active menu item properly if using a fallback.
+
+#### Other
+
+* Improves the documentation for `wpseo_enable_tracking` filter. Props to [kkmuffme](https://github.com/kkmuffme).
+
 = 23.9 =
 
 Release date: 2024-11-19
@@ -295,25 +315,6 @@ Yoast SEO 23.9 brings enhancements to the Yoast SEO Semrush integration and vari
 #### Other
 
 * Stops PHP notices on WordPress 6.7 about `_load_textdomain_just_in_time` loading incorrectly.
-
-= 23.8 =
-
-Release date: 2024-11-05
-
-Yoast SEO 23.8 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-5-11-24).
-
-#### Enhancements
-
-* Introduces a new, redesigned General page.
-* Adds a notification to inform the user when an error occurs while changing the visibility of a notification or a problem.
-
-#### Bugfixes
-
-* Fixes a bug in our Elementor integration where previously saved slug values of drafts would be ignored.
-
-#### Other
-
-* Sets the _WordPress tested up to_ version to 6.7.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
