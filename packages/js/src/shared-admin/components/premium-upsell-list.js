@@ -1,8 +1,8 @@
-import { noop } from "lodash";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Title, Paper } from "@yoast/ui-library";
+import { Button, Paper, Title } from "@yoast/ui-library";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 import { getPremiumBenefits } from "../../helpers/get-premium-benefits";
 
@@ -16,7 +16,7 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 	const isBlackFriday = isPromotionActive( "black-friday-2024-promotion" );
 
 	return (
-		<Paper as="div" className="xl:yst-max-w-3xl">
+		<Paper as="div" className="yst-mt-6 xl:yst-max-w-3xl">
 			{ isBlackFriday && <div
 				className="yst-rounded-t-lg yst-h-9 yst-flex yst-justify-between yst-items-center yst-bg-black yst-text-amber-300 yst-px-4 yst-text-lg yst-border-b yst-border-amber-300 yst-border-solid yst-font-semibold"
 			>
