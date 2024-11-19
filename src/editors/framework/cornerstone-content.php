@@ -10,6 +10,8 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  */
 class Cornerstone_Content implements Analysis_Feature_Interface {
 
+	public const NAME = 'cornerstoneContent';
+
 	/**
 	 * The options helper.
 	 *
@@ -41,7 +43,7 @@ class Cornerstone_Content implements Analysis_Feature_Interface {
 	 * @return string The name.
 	 */
 	public function get_name(): string {
-		return 'cornerstoneContent';
+		return self::NAME;
 	}
 
 	/**
