@@ -5,6 +5,7 @@ import { Paper } from "@yoast/ui-library";
 import { AlertsList } from "./alerts-list";
 import { AlertsTitle } from "./alerts-title";
 import { Collapsible } from "./collapsible";
+
 import { AlertsContext } from "../contexts/alerts-context";
 import { STORE_NAME } from "../constants/index";
 
@@ -32,10 +33,15 @@ export const Problems = () => {
 
 	return (
 		<Paper>
-			<Paper.Content className="yst-flex yst-flex-col yst-gap-y-6">
+			<Paper.Content className="yst-max-w-[600px] yst-flex yst-flex-col yst-gap-y-6">
 				<AlertsContext.Provider value={ { ...problemsTheme } }>
 					<AlertsTitle title={ __( "Problems", "wordpress-seo" ) } counts={ problemsList.length }>
-						<p className="yst-mt-2 yst-text-sm">{ __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" ) }</p>
+						<p className="yst-mt-2 yst-text-sm">
+							{ problemsList.length > 0
+								 ? __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" )
+								 : __( "Good job! We could detect no serious SEO problems.", "wordpress-seo" )
+						 }
+						</p>
 					</AlertsTitle>
 					<AlertsList items={ problemsList } />
 

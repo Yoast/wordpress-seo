@@ -250,7 +250,7 @@ class WPSEO_Admin_Init {
 	 * @return void
 	 */
 	private function load_xml_sitemaps_admin() {
-		if ( WPSEO_Options::get( 'enable_xml_sitemap', false ) ) {
+		if ( WPSEO_Options::get( 'enable_xml_sitemap', false, [ 'wpseo' ] ) ) {
 			new WPSEO_Sitemaps_Admin();
 		}
 	}

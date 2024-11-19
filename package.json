@@ -47,6 +47,7 @@
     "@yoast/browserslist-config": "^1.2.3",
     "@yoast/grunt-plugin-tasks": "^2.4",
     "@yoast/postcss-preset": "^1.2.0",
+    "@yoast/related-keyphrase-suggestions": "^0.1.0",
     "@yoast/tailwindcss-preset": "^2.3.0",
     "@yoast/ui-library": "^4.0.0",
     "colors": "1.4.0",
@@ -76,7 +77,7 @@
     "webpack-bundle-analyzer": "^4.9.1"
   },
   "yoast": {
-    "pluginVersion": "23.8"
+    "pluginVersion": "23.9"
   },
   "version": "0.0.0"
 }

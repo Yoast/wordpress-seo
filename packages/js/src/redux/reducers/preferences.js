@@ -36,6 +36,7 @@ function getDefaultState() {
 		isAiFeatureActive: Boolean( window.wpseoAdminL10n.isAiFeatureActive ),
 		isWooCommerceSeoActive: get( window, "wpseoScriptData.metabox.isWooCommerceSeoActive", false ),
 		isWooCommerceActive: get( window, "wpseoScriptData.metabox.isWooCommerceActive", false ),
+		isRtl: get( window, "wpseoScriptData.metabox.isRtl", false ),
 	};
 }
 

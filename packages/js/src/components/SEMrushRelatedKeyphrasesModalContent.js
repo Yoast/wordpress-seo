@@ -1,6 +1,8 @@
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { KeyphrasesTable } from "@yoast/related-keyphrase-suggestions";
+import { Root } from "@yoast/ui-library";
+import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 
@@ -8,11 +10,11 @@ import { isEmpty } from "lodash";
 import SEMrushLoading from "./modals/SEMrushLoading";
 import SEMrushLimitReached from "./modals/SEMrushLimitReached";
 import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
-import SEMrushKeyphrasesTable from "./modals/SEMrushKeyphrasesTable";
 import SEMrushUpsellAlert from "./modals/SEMrushUpsellAlert";
 import SEMrushRequestFailed from "./modals/SEMrushRequestFailed";
 import SEMrushMaxRelatedKeyphrases from "./modals/SEMrushMaxRelatedKeyphrases";
 import getL10nObject from "../analysis/getL10nObject";
+import { makeOutboundLink } from "@yoast/helpers";
 
 /**
  * Determines whether the error property is present in the passed response object.
@@ -91,9 +93,14 @@ export default function RelatedKeyphraseModalContent( props ) {
 		relatedKeyphrases,
 		setRequestSucceeded,
 		setRequestLimitReached,
+		isPending,
+		isRtl,
 	} = props;
 
 	const isPremium = getL10nObject().isPremium;
+	const GetMoreInsightsLink = makeOutboundLink();
+	const url = "https://www.semrush.com/analytics/keywordoverview/?q=" + encodeURIComponent( keyphrase ) +
+			"&db=" + encodeURIComponent( countryCode );
 
 	return (
 		<Fragment>
@@ -117,14 +124,25 @@ export default function RelatedKeyphraseModalContent( props ) {
 			) }
 
 			{ getUserMessage( props ) }
+			<Root context={ { isRtl } }>
+				<KeyphrasesTable
+					relatedKeyphrases={ relatedKeyphrases }
+					columnNames={ response?.results?.columnNames }
+					data={ response?.results?.rows }
+					isPending={ isPending }
+					renderButton={ renderAction }
+				/>
+				{ response?.results?.rows && <p className="yst-mb-0 yst-mt-2">
+					<GetMoreInsightsLink href={ url }>
+						{ sprintf(
+						/* translators: %s expands to Semrush */
+							__( "Get more insights at %s", "wordpress-seo" ),
+							"Semrush"
+						) }
+					</GetMoreInsightsLink>
+				</p> }
+			</Root>
 
-			<SEMrushKeyphrasesTable
-				keyphrase={ keyphrase }
-				relatedKeyphrases={ relatedKeyphrases }
-				countryCode={ countryCode }
-				renderAction={ renderAction }
-				data={ response }
-			/>
 		</Fragment>
 	);
 }
@@ -143,6 +161,8 @@ RelatedKeyphraseModalContent.propTypes = {
 	setNoResultsFound: PropTypes.func.isRequired,
 	response: PropTypes.object,
 	lastRequestKeyphrase: PropTypes.string,
+	isRtl: PropTypes.bool,
+	isPending: PropTypes.bool,
 };
 
 RelatedKeyphraseModalContent.defaultProps = {
@@ -152,4 +172,6 @@ RelatedKeyphraseModalContent.defaultProps = {
 	requestLimitReached: false,
 	response: {},
 	lastRequestKeyphrase: "",
+	isRtl: false,
+	isPending: false,
 };
