@@ -120,7 +120,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 						setRequestLimitReached={ setRequestLimitReached }
 						response={ response }
 						lastRequestKeyphrase={ lastRequestKeyphrase }
-						userLocale={ userLocale }
+						userLocale={ userLocale.split( "_" )[ 0 ] }
 					/>
 				</Fragment>
 			) }
