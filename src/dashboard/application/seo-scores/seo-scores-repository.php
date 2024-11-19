@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Dashboard\Application\SEO_Scores;
 
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\SEO_Scores\SEO_Scores_Interface;
+use Yoast\WP\SEO\Dashboard\Domain\SEO_Scores\SEO_Scores_List;
 use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
 use Yoast\WP\SEO\Dashboard\Infrastructure\SEO_Scores\SEO_Scores_Collector;
 
@@ -13,14 +14,21 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\SEO_Scores\SEO_Scores_Collector;
 class SEO_Scores_Repository {
 
 	/**
-	 * The SEO Scores collector.
+	 * The SEO cores collector.
 	 *
 	 * @var SEO_Scores_Collector
 	 */
 	private $seo_scores_collector;
 
 	/**
-	 * All SEO Scores.
+	 * The SEO scores list.
+	 *
+	 * @var SEO_Scores_List
+	 */
+	protected $seo_scores_list;
+
+	/**
+	 * All SEO scores.
 	 *
 	 * @var SEO_Scores_Interface[]
 	 */
@@ -29,14 +37,17 @@ class SEO_Scores_Repository {
 	/**
 	 * The constructor.
 	 *
-	 * @param SEO_Scores_Collector $seo_scores_collector The SEO Scores collector.
-	 * @param SEO_Scores_Interface ...$seo_scores        All SEO Scores.
+	 * @param SEO_Scores_Collector $seo_scores_collector The SEO scores collector.
+	 * @param SEO_Scores_List      $seo_scores_list      The SEO scores list.
+	 * @param SEO_Scores_Interface ...$seo_scores        All SEO scores.
 	 */
 	public function __construct(
 		SEO_Scores_Collector $seo_scores_collector,
+		SEO_Scores_List $seo_scores_list,
 		SEO_Scores_Interface ...$seo_scores
 	) {
 		$this->seo_scores_collector = $seo_scores_collector;
+		$this->seo_scores_list      = $seo_scores_list;
 		$this->seo_scores           = $seo_scores;
 	}
 
@@ -50,16 +61,15 @@ class SEO_Scores_Repository {
 	 * @return array<array<string, string|array<string, string>>> The SEO scores.
 	 */
 	public function get_seo_scores( Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ): array {
-		$seo_scores = [];
-
 		$current_scores = $this->seo_scores_collector->get_seo_scores( $this->seo_scores, $content_type, $term_id );
+
 		foreach ( $this->seo_scores as $seo_score ) {
 			$seo_score->set_amount( (int) $current_scores[ $seo_score->get_name() ] );
 			$seo_score->set_view_link( $this->seo_scores_collector->get_view_link( $seo_score, $content_type, $taxonomy, $term_id ) );
 
-			$seo_scores[] = $seo_score->to_array();
+			$this->seo_scores_list->add( $seo_score );
 		}
 
-		return $seo_scores;
+		return $this->seo_scores_list->to_array();
 	}
 }

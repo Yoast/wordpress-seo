@@ -26,6 +26,15 @@ class Ok_SEO_Score extends Abstract_SEO_Score {
 	}
 
 	/**
+	 * Gets the position of the SEO score.
+	 *
+	 * @return int The position of the SEO score.
+	 */
+	public function get_position(): int {
+		return 1;
+	}
+
+	/**
 	 * Gets the minimum score of the SEO score.
 	 *
 	 * @return int The minimum score of the SEO score.

@@ -50,6 +50,22 @@ abstract class Abstract_SEO_Score implements SEO_Scores_Interface {
 	private $view_link;
 
 	/**
+	 * The position of the score.
+	 *
+	 * @var int
+	 */
+	private $position;
+
+	/**
+	 * Gets the amount of the SEO score.
+	 *
+	 * @return int The amount of the SEO score.
+	 */
+	public function get_amount(): int {
+		return $this->amount;
+	}
+
+	/**
 	 * Sets the amount of the SEO score.
 	 *
 	 * @param int $amount The amount of the SEO score.
@@ -61,6 +77,15 @@ abstract class Abstract_SEO_Score implements SEO_Scores_Interface {
 	}
 
 	/**
+	 * Gets the view link of the SEO score.
+	 *
+	 * @return string|null The view link of the SEO score.
+	 */
+	public function get_view_link(): ?string {
+		return $this->view_link;
+	}
+
+	/**
 	 * Sets the view link of the SEO score.
 	 *
 	 * @param string $view_link The view link of the SEO score.
@@ -69,24 +94,5 @@ abstract class Abstract_SEO_Score implements SEO_Scores_Interface {
 	 */
 	public function set_view_link( ?string $view_link ): void {
 		$this->view_link = $view_link;
-	}
-
-	/**
-	 * Parses the SEO score to the expected key value representation.
-	 *
-	 * @return array<string, string|array<string, string>> The SEO score presented as the expected key value representation.
-	 */
-	public function to_array(): array {
-		$array = [
-			'name'   => $this->get_name(),
-			'amount' => $this->amount,
-			'links'  => [],
-		];
-
-		if ( $this->view_link !== null ) {
-			$array['links']['view'] = $this->view_link;
-		}
-
-		return $array;
 	}
 }

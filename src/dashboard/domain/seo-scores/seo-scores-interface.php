@@ -36,6 +36,20 @@ interface SEO_Scores_Interface {
 	public function get_max_score(): ?int;
 
 	/**
+	 * Gets the position of the SEO score.
+	 *
+	 * @return int
+	 */
+	public function get_position(): int;
+
+	/**
+	 * Gets the amount of the SEO score.
+	 *
+	 * @return int
+	 */
+	public function get_amount(): int;
+
+	/**
 	 * Sets the amount of the SEO score.
 	 *
 	 * @param int $amount The amount of the SEO score.
@@ -45,6 +59,13 @@ interface SEO_Scores_Interface {
 	public function set_amount( int $amount ): void;
 
 	/**
+	 * Gets the view link of the SEO score.
+	 *
+	 * @return string|null
+	 */
+	public function get_view_link(): ?string;
+
+	/**
 	 * Sets the view link of the SEO score.
 	 *
 	 * @param string $view_link The view link of the SEO score.
@@ -52,11 +73,4 @@ interface SEO_Scores_Interface {
 	 * @return void
 	 */
 	public function set_view_link( ?string $view_link ): void;
-
-	/**
-	 * Parses the SEO score to the expected key value representation.
-	 *
-	 * @return array<string, string|array<string, string>>
-	 */
-	public function to_array(): array;
 }
