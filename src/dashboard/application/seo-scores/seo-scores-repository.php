@@ -52,7 +52,7 @@ class SEO_Scores_Repository {
 	public function get_seo_scores( Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ): array {
 		$seo_scores = [];
 
-		$current_scores = $this->seo_scores_collector->get_seo_scores( $this->seo_scores, $content_type, $taxonomy, $term_id );
+		$current_scores = $this->seo_scores_collector->get_seo_scores( $this->seo_scores, $content_type, $term_id );
 		foreach ( $this->seo_scores as $seo_score ) {
 			$seo_score->set_amount( (int) $current_scores[ $seo_score->get_name() ] );
 			$seo_score->set_view_link( $this->seo_scores_collector->get_view_link( $seo_score, $content_type, $taxonomy, $term_id ) );

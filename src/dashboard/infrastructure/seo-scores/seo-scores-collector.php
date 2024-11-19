@@ -2,7 +2,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\SEO_Scores;
 
-use wpdb;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\SEO_Scores\SEO_Scores_Interface;
@@ -14,34 +13,16 @@ use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
 class SEO_Scores_Collector {
 
 	/**
-	 * The WordPress database instance.
-	 *
-	 * @var wpdb
-	 */
-	protected $wpdb;
-
-	/**
-	 * Constructs the class.
-	 *
-	 * @param wpdb $wpdb The WordPress database instance.
-	 */
-	public function __construct(
-		wpdb $wpdb
-	) {
-		$this->wpdb = $wpdb;
-	}
-
-	/**
 	 * Retrieves the current SEO scores for a content type.
 	 *
 	 * @param SEO_Scores_Interface[] $seo_scores   All SEO scores.
 	 * @param Content_Type           $content_type The content type.
-	 * @param Taxonomy|null          $taxonomy     The taxonomy of the term we're filtering for.
 	 * @param int|null               $term_id      The ID of the term we're filtering for.
 	 *
 	 * @return array<string, string> The SEO scores for a content type.
 	 */
-	public function get_seo_scores( array $seo_scores, Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ) {
+	public function get_seo_scores( array $seo_scores, Content_Type $content_type, ?int $term_id ) {
+		global $wpdb;
 		$select = $this->build_select( $seo_scores );
 
 		$replacements = \array_merge(
@@ -52,50 +33,53 @@ class SEO_Scores_Collector {
 			]
 		);
 
-		if ( $term_id === null || $taxonomy === null ) {
-			$query = $this->wpdb->prepare(
+		if ( $term_id === null ) {
+			//phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $select['fields'] is an array of simple strings with placeholders.
+			//phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $replacements is an array with the correct replacements.
+			//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+			//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+			$scores = $wpdb->get_row(
+				$wpdb->prepare(
+					"
+					SELECT {$select['fields']}
+					FROM %i AS I
+					WHERE ( I.post_status = 'publish' OR I.post_status IS NULL )
+						AND I.object_type IN ('post')
+						AND I.object_sub_type IN (%s)",
+					$replacements
+				),
+				\ARRAY_A
+			);
+			//phpcs:enable
+			return $scores;
+
+		}
+
+		$replacements[] = $wpdb->term_relationships;
+		$replacements[] = $term_id;
+
+		//phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $select['fields'] is an array of simple strings with placeholders.
+		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $replacements is an array with the correct replacements.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		$scores = $wpdb->get_row(
+			$wpdb->prepare(
 				"
 				SELECT {$select['fields']}
 				FROM %i AS I
 				WHERE ( I.post_status = 'publish' OR I.post_status IS NULL )
 					AND I.object_type IN ('post')
-					AND I.object_sub_type IN (%s)",
+					AND I.object_sub_type IN (%s)
+					AND I.object_id IN (
+						SELECT object_id
+						FROM %i
+						WHERE term_taxonomy_id = %d
+				)",
 				$replacements
-			);
-
-			$scores = $this->wpdb->get_row( $query, \ARRAY_A );
-			return $scores;
-
-		}
-
-		$replacements[] = $this->wpdb->term_relationships;
-		$replacements[] = $this->wpdb->term_taxonomy;
-		$replacements[] = $term_id;
-		$replacements[] = $taxonomy->get_name();
-
-		$query = $this->wpdb->prepare(
-			"
-			SELECT {$select['fields']}
-			FROM %i AS I
-			WHERE ( I.post_status = 'publish' OR I.post_status IS NULL )
-				AND I.object_type IN ('post')
-				AND I.object_sub_type IN (%s)
-				AND I.object_id IN (
-					SELECT object_id
-					FROM %i
-					WHERE term_taxonomy_id IN (
-						SELECT term_taxonomy_id
-						FROM 
-							%i
-						WHERE 
-							term_id = %d
-							AND taxonomy = %s
-					)
-			)",
-			$replacements
+			),
+			\ARRAY_A
 		);
-
-		$scores = $this->wpdb->get_row( $query, \ARRAY_A );
+		//phpcs:enable
 		return $scores;
 	}
 
