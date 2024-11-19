@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.7
-Stable tag: 23.8
+Stable tag: 23.9
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -278,22 +278,23 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-11-19
 
+Yoast SEO 23.9 brings enhancements to the Yoast SEO Semrush integration and various bug fixes. Find more about Yoast SEO 23.9 in [our release post](https://yoa.st/release-19-11-24)!
+
 #### Enhancements
 
-* Adds a maximum width to the problems and notifications in the dashboard.
-* Adds new columns and design to the related key phrase suggestions table.
+* Adds a maximum width to the problems and notifications sections on the _General_ page.
+* Adds _Intent_ and _Difficulty_ to the metrics shown in the Semrush integration.
 * Improves the compatibility of the Yoast blocks with WordPress 6.7.
 
 #### Bugfixes
 
-* Fixes a bug where a fatal error is triggered in Php 8.x when a user's additional contact methods have been improperly set to `null`. Props to [PhilETaylor](https://github.com/PhilETaylor).
-* Fixes a bug where the First time configuration would have a double separator for the title and content.
-* Fixes a bug where the First time configuration would not resize properly on smaller width screens.
-* Fixes a bug where the highlighting marker button was incorrectly enabled when switching the editor mode from code to visual while the AI Optimize toast notification was still visible.
+* Fixes a bug where a fatal error is triggered in PHP 8.x when a user's additional contact methods have been improperly set to `null`. Props to [PhilETaylor](https://github.com/PhilETaylor).
+* Fixes a bug where the _First time configuration_ would have a double separator for the title and content.
+* Fixes a bug where the _First time configuration_ would not resize properly on smaller width screens.
 
 #### Other
 
-* Stops PHP notices about `_load_textdomain_just_in_time` loading incorrectly, on WP 6.7.
+* Stops PHP notices on WordPress 6.7 about `_load_textdomain_just_in_time` loading incorrectly.
 
 = 23.8 =
 
