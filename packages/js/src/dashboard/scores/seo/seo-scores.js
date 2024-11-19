@@ -1,4 +1,4 @@
-import { useState } from "@wordpress/element";
+import { useEffect, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
 import { useFetch } from "../../hooks/use-fetch";
@@ -40,6 +40,11 @@ export const SeoScores = ( { contentTypes } ) => {
 			}
 		},
 	} );
+
+	useEffect( () => {
+		// Reset the selected term when the selected content type changes.
+		setSelectedTerm( undefined ); // eslint-disable-line no-undefined
+	}, [ selectedContentType.name ] );
 
 	return (
 		<Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8">
