@@ -25,6 +25,24 @@ const createQueryUrl = ( baseUrl, query ) => new URL( "?" + new URLSearchParams(
 const transformTerm = ( term ) => ( { name: term.slug, label: term.name } );
 
 /**
+ * Renders either a list of terms or a message that nothing was found.
+ * @param {Term[]} terms The terms.
+ * @returns {JSX.Element} The element.
+ */
+const Content = ( { terms } ) => terms.length === 0
+	? (
+		<div className="yst-autocomplete__option">
+			{ __( "Nothing found", "wordpress-seo" ) }
+		</div>
+	)
+	: terms.map( ( { name, label } ) => (
+		<AutocompleteField.Option key={ name } value={ name }>
+			{ label }
+		</AutocompleteField.Option>
+	) )
+;
+
+/**
  * @param {string} idSuffix The suffix for the ID.
  * @param {Taxonomy} taxonomy The taxonomy.
  * @param {Term?} selected The selected term.
@@ -72,16 +90,7 @@ export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
 					<Spinner />
 				</div>
 			) }
-			{ ! isPending && terms.length === 0 && (
-				<div className="yst-autocomplete__option">
-					{ __( "Nothing found", "wordpress-seo" ) }
-				</div>
-			) }
-			{ ! isPending && terms.length > 0 && terms.map( ( { name, label } ) => (
-				<AutocompleteField.Option key={ name } value={ name }>
-					{ label }
-				</AutocompleteField.Option>
-			) ) }
+			{ ! isPending && <Content terms={ terms } /> }
 		</AutocompleteField>
 	);
 };
