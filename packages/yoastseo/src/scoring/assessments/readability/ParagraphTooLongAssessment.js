@@ -126,34 +126,42 @@ export default class ParagraphTooLongAssessment extends Assessment {
 			};
 		}
 
-		/* translators: %1$s and %5$s expand to links on yoast.com, %2$s expands to the anchor end tag,
-		%3$d expands to the number of paragraphs over the recommended limit, %4$d expands to the limit. */
-		const wordFeedback = _n(
-			"%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum number of words (%4$d). %5$sShorten your paragraphs%2$s!",
-			"%1$sParagraph length%2$s: %3$d of the paragraphs contain more than the recommended maximum number of words (%4$d). %5$sShorten your paragraphs%2$s!",
+		const wordFeedback = sprintf(
+			/* translators: %1$s and %5$s expand to links on yoast.com, %2$s expands to the anchor end tag,
+			%3$d expands to the number of paragraphs over the recommended limit, %4$d expands to the limit. */
+			_n(
+				"%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum number of words (%4$d). %5$sShorten your paragraphs%2$s!",
+				"%1$sParagraph length%2$s: %3$d of the paragraphs contain more than the recommended maximum number of words (%4$d). %5$sShorten your paragraphs%2$s!",
+				tooLongParagraphs.length,
+				"wordpress-seo"
+			),
+			config.urlTitle,
+			"</a>",
 			tooLongParagraphs.length,
-			"wordpress-seo"
+			config.parameters.recommendedLength,
+			config.urlCallToAction
 		);
-		/* translators: %1$s and %5$s expand to links on yoast.com, %2$s expands to the anchor end tag,
-		%3$d expands to the number of paragraphs over the recommended limit, %4$d expands to the limit. */
-		const characterFeedback = _n(
-			"%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum number of characters (%4$d). %5$sShorten your paragraphs%2$s!",
-			"%1$sParagraph length%2$s: %3$d of the paragraphs contain more than the recommended maximum number of characters (%4$d). %5$sShorten your paragraphs%2$s!",
+
+		const characterFeedback = sprintf(
+			/* translators: %1$s and %5$s expand to links on yoast.com, %2$s expands to the anchor end tag,
+			%3$d expands to the number of paragraphs over the recommended limit, %4$d expands to the limit. */
+			_n(
+				"%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum number of characters (%4$d). %5$sShorten your paragraphs%2$s!",
+				"%1$sParagraph length%2$s: %3$d of the paragraphs contain more than the recommended maximum number of characters (%4$d). %5$sShorten your paragraphs%2$s!",
+				tooLongParagraphs.length,
+				"wordpress-seo"
+			),
+			config.urlTitle,
+			"</a>",
 			tooLongParagraphs.length,
-			"wordpress-seo"
+			config.parameters.recommendedLength,
+			config.urlCallToAction
 		);
 
 		return {
 			score: score,
 			hasMarks: true,
-			text: sprintf(
-				config.countCharacters ? characterFeedback : wordFeedback,
-				config.urlTitle,
-				"</a>",
-				tooLongParagraphs.length,
-				config.parameters.recommendedLength,
-				config.urlCallToAction
-			),
+			text: config.countCharacters ? characterFeedback : wordFeedback,
 		};
 	}
 
