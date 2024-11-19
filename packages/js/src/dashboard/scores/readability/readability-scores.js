@@ -5,6 +5,7 @@ import { useFetch } from "../../hooks/use-fetch";
 import { ContentTypeFilter } from "../components/content-type-filter";
 import { ScoreContent } from "../components/score-content";
 import { TermFilter } from "../components/term-filter";
+import { SCORE_DESCRIPTIONS } from "../score-meta";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -59,7 +60,7 @@ export const ReadabilityScores = ( { contentTypes } ) => {
 					/>
 				}
 			</div>
-			<ScoreContent scores={ scores } isLoading={ isPending } />
+			<ScoreContent scores={ scores } isLoading={ isPending } descriptions={ SCORE_DESCRIPTIONS.readability } />
 		</Paper>
 	);
 };
