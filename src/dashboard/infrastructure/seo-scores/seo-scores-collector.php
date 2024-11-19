@@ -4,7 +4,9 @@ namespace Yoast\WP\SEO\Dashboard\Infrastructure\SEO_Scores;
 
 use wpdb;
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\SEO_Scores\SEO_Scores_Interface;
+use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
 
 /**
  * Getting SEO scores from the indexable database table.
@@ -33,24 +35,24 @@ class SEO_Scores_Collector {
 	 * Retrieves the current SEO scores for a content type.
 	 *
 	 * @param SEO_Scores_Interface[] $seo_scores   All SEO scores.
-	 * @param string                 $content_type The content type.
-	 * @param string                 $taxonomy     The taxonomy of the term we're filtering for.
-	 * @param int                    $term_id      The ID of the term we're filtering for.
+	 * @param Content_Type           $content_type The content type.
+	 * @param Taxonomy|null          $taxonomy     The taxonomy of the term we're filtering for.
+	 * @param int|null               $term_id      The ID of the term we're filtering for.
 	 *
 	 * @return array<string, string> The SEO scores for a content type.
 	 */
-	public function get_seo_scores( array $seo_scores, string $content_type, string $taxonomy, int $term_id ) {
+	public function get_seo_scores( array $seo_scores, Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ) {
 		$select = $this->build_select( $seo_scores );
 
 		$replacements = \array_merge(
 			\array_values( $select['replacements'] ),
 			[
 				Model::get_table_name( 'Indexable' ),
-				$content_type,
+				$content_type->get_name(),
 			]
 		);
 
-		if ( $term_id === 0 || $taxonomy === '' ) {
+		if ( $term_id === null || $taxonomy === null ) {
 			$query = $this->wpdb->prepare(
 				"
 				SELECT {$select['fields']}
@@ -69,7 +71,7 @@ class SEO_Scores_Collector {
 		$replacements[] = $this->wpdb->term_relationships;
 		$replacements[] = $this->wpdb->term_taxonomy;
 		$replacements[] = $term_id;
-		$replacements[] = $taxonomy;
+		$replacements[] = $taxonomy->get_name();
 
 		$query = $this->wpdb->prepare(
 			"
@@ -136,27 +138,27 @@ class SEO_Scores_Collector {
 	/**
 	 * Builds the view link of the SEO score.
 	 *
-	 * @param string $seo_score_name The name of the SEO score.
-	 * @param string $content_type   The content type.
-	 * @param string $taxonomy       The taxonomy of the term we might be filtering.
-	 * @param int    $term_id        The ID of the term we might be filtering.
+	 * @param SEO_Scores_Interface $seo_score_name The name of the SEO score.
+	 * @param Content_Type         $content_type   The content type.
+	 * @param Taxonomy|null        $taxonomy       The taxonomy of the term we might be filtering.
+	 * @param int|null             $term_id        The ID of the term we might be filtering.
 	 *
 	 * @return string The view link of the SEO score.
 	 */
-	public function get_view_link( string $seo_score_name, string $content_type, string $taxonomy, int $term_id ): ?string {
+	public function get_view_link( SEO_Scores_Interface $seo_score_name, Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ): ?string {
 		// @TODO: Refactor by Single Source of Truthing this with the `WPSEO_Meta_Columns` class. Until then, we build this manually.
 		$posts_page = \admin_url( 'edit.php' );
 		$args       = [
 			'post_status' => 'publish',
-			'post_type'   => $content_type,
-			'seo_filter'  => $seo_score_name,
+			'post_type'   => $content_type->get_name(),
+			'seo_filter'  => $seo_score_name->get_filter_name(),
 		];
 
-		if ( $taxonomy === '' || $term_id === 0 ) {
+		if ( $taxonomy === null || $term_id === null ) {
 			return \add_query_arg( $args, $posts_page );
 		}
 
-		$taxonomy_object = \get_taxonomy( $taxonomy );
+		$taxonomy_object = \get_taxonomy( $taxonomy->get_name() );
 		$query_var       = $taxonomy_object->query_var;
 
 		if ( $query_var === false ) {

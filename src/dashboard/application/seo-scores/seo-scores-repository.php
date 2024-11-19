@@ -2,7 +2,9 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Dashboard\Application\SEO_Scores;
 
+use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\SEO_Scores\SEO_Scores_Interface;
+use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
 use Yoast\WP\SEO\Dashboard\Infrastructure\SEO_Scores\SEO_Scores_Collector;
 
 /**
@@ -41,19 +43,19 @@ class SEO_Scores_Repository {
 	/**
 	 * Returns the SEO Scores of a content type.
 	 *
-	 * @param string $content_type The content type.
-	 * @param string $taxonomy     The taxonomy of the term we're filtering for.
-	 * @param int    $term_id      The ID of the term we're filtering for.
+	 * @param Content_Type  $content_type The content type.
+	 * @param Taxonomy|null $taxonomy     The taxonomy of the term we're filtering for.
+	 * @param int|null      $term_id      The ID of the term we're filtering for.
 	 *
 	 * @return array<array<string, string|array<string, string>>> The SEO scores.
 	 */
-	public function get_seo_scores( string $content_type, string $taxonomy, int $term_id ): array {
+	public function get_seo_scores( Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ): array {
 		$seo_scores = [];
 
 		$current_scores = $this->seo_scores_collector->get_seo_scores( $this->seo_scores, $content_type, $taxonomy, $term_id );
 		foreach ( $this->seo_scores as $seo_score ) {
 			$seo_score->set_amount( (int) $current_scores[ $seo_score->get_name() ] );
-			$seo_score->set_view_link( $this->seo_scores_collector->get_view_link( $seo_score->get_filter_name(), $content_type, $taxonomy, $term_id ) );
+			$seo_score->set_view_link( $this->seo_scores_collector->get_view_link( $seo_score, $content_type, $taxonomy, $term_id ) );
 
 			$seo_scores[] = $seo_score->to_array();
 		}

@@ -8,7 +8,10 @@ use wpdb;
 use WPSEO_Capability_Utils;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Dashboard\Application\SEO_Scores\SEO_Scores_Repository;
+use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
+use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types\Content_Types_Collector;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Taxonomies\Taxonomies_Collector;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -35,6 +38,13 @@ class SEO_Scores_Route implements Route_Interface {
 	private $content_types_collector;
 
 	/**
+	 * The taxonomies collector.
+	 *
+	 * @var Taxonomies_Collector
+	 */
+	private $taxonomies_collector;
+
+	/**
 	 * The SEO Scores repository.
 	 *
 	 * @var SEO_Scores_Repository
@@ -59,17 +69,20 @@ class SEO_Scores_Route implements Route_Interface {
 	 * Constructs the class.
 	 *
 	 * @param Content_Types_Collector $content_types_collector The content type collector.
+	 * @param Taxonomies_Collector    $taxonomies_collector    The taxonomies collector.
 	 * @param SEO_Scores_Repository   $seo_scores_repository   The SEO Scores repository.
 	 * @param Indexable_Repository    $indexable_repository    The indexable repository.
 	 * @param wpdb                    $wpdb                    The WordPress database object.
 	 */
 	public function __construct(
 		Content_Types_Collector $content_types_collector,
+		Taxonomies_Collector $taxonomies_collector,
 		SEO_Scores_Repository $seo_scores_repository,
 		Indexable_Repository $indexable_repository,
 		wpdb $wpdb
 	) {
 		$this->content_types_collector = $content_types_collector;
+		$this->taxonomies_collector    = $taxonomies_collector;
 		$this->seo_scores_repository   = $seo_scores_repository;
 		$this->indexable_repository    = $indexable_repository;
 		$this->wpdb                    = $wpdb;
@@ -94,23 +107,20 @@ class SEO_Scores_Route implements Route_Interface {
 							'required'          => true,
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
-							'validate_callback' => [ $this, 'validate_content_type' ],
 						],
 						'term' => [
 							'required'          => false,
 							'type'              => 'integer',
-							'default'           => 0,
+							'default'           => null,
 							'sanitize_callback' => static function ( $param ) {
 								return \intval( $param );
 							},
-							'validate_callback' => [ $this, 'validate_term' ],
 						],
 						'taxonomy' => [
 							'required'          => false,
 							'type'              => 'string',
 							'default'           => '',
 							'sanitize_callback' => 'sanitize_text_field',
-							'validate_callback' => [ $this, 'validate_taxonomy' ],
 						],
 					],
 				],
@@ -126,7 +136,36 @@ class SEO_Scores_Route implements Route_Interface {
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function get_seo_scores( WP_REST_Request $request ) {
-		$result = $this->seo_scores_repository->get_seo_scores( $request['contentType'], $request['taxonomy'], $request['term'] );
+		$content_type = $this->get_content_type( $request['contentType'] );
+		if ( $content_type === null ) {
+			return new WP_REST_Response(
+				[
+					'error' => 'Invalid content type.',
+				],
+				400
+			);
+		}
+
+		$taxonomy = $this->get_taxonomy( $request['taxonomy'], $content_type );
+		if ( $request['taxonomy'] !== '' && $taxonomy === null ) {
+			return new WP_REST_Response(
+				[
+					'error' => 'Invalid taxonomy.',
+				],
+				400
+			);
+		}
+
+		if ( ! $this->validate_term( $request['term'], $taxonomy ) ) {
+			return new WP_REST_Response(
+				[
+					'error' => 'Invalid term.',
+				],
+				400
+			);
+		}
+
+		$result = $this->seo_scores_repository->get_seo_scores( $content_type, $taxonomy, $request['term'] );
 
 		return new WP_REST_Response(
 			[
@@ -137,48 +176,48 @@ class SEO_Scores_Route implements Route_Interface {
 	}
 
 	/**
-	 * Validates the content type against the content types collector.
+	 * Gets the content type object.
 	 *
 	 * @param string $content_type The content type.
 	 *
-	 * @return bool Whether the content type passed validation.
+	 * @return Content_Type|null The content type object.
 	 */
-	public function validate_content_type( $content_type ) {
-		// @TODO: Is it necessary to go through all the indexable content types again and validate against those? If so, it can look like this.
+	protected function get_content_type( string $content_type ): ?Content_Type {
 		$content_types = $this->content_types_collector->get_content_types();
 
-		if ( isset( $content_types[ $content_type ] ) ) {
-			return true;
+		if ( isset( $content_types[ $content_type ] ) && \is_a( $content_types[ $content_type ], Content_Type::class ) ) {
+			return $content_types[ $content_type ];
 		}
 
-		return false;
+		return null;
 	}
 
 	/**
-	 * Validates the taxonomy against the given content type.
+	 * Gets the taxonomy object.
 	 *
-	 * @param string          $taxonomy The taxonomy.
-	 * @param WP_REST_Request $request  The request object.
+	 * @param string       $taxonomy     The taxonomy.
+	 * @param Content_Type $content_type The content type that the taxonomy is filtering.
 	 *
-	 * @return bool Whether the taxonomy passed validation.
+	 * @return Taxonomy|null The taxonomy object.
 	 */
-	public function validate_taxonomy( $taxonomy, $request ) {
-		// @TODO: Is it necessary to validate against content types? If so, it can take inspiration from validate_content_type().
-		return true;
+	protected function get_taxonomy( string $taxonomy, Content_Type $content_type ): ?Taxonomy {
+		if ( $taxonomy === '' ) {
+			return null;
+		}
+		return $this->taxonomies_collector->get_taxonomy( $taxonomy, $content_type->get_name() );
 	}
 
 	/**
-	 * Validates the term against the given content type.
+	 * Validates the term against the given taxonomy.
 	 *
-	 * @param int             $term_id The term ID.
-	 * @param WP_REST_Request $request The request object.
+	 * @param int           $term_id  The ID of the term.
+	 * @param Taxonomy|null $taxonomy The taxonomy.
 	 *
 	 * @return bool Whether the term passed validation.
 	 */
-	public function validate_term( $term_id, $request ) {
-		// @TODO: Is it necessary to validate against content types? If so, it can look like this.
-		if ( $request['term'] === 0 ) {
-			return true;
+	protected function validate_term( ?int $term_id, ?Taxonomy $taxonomy ): bool {
+		if ( $term_id === null ) {
+			return ( $taxonomy === null );
 		}
 
 		$term = \get_term( $term_id );
@@ -186,10 +225,8 @@ class SEO_Scores_Route implements Route_Interface {
 			return false;
 		}
 
-		$post_type = $request['contentType'];
-
-		// Check if the term's taxonomy is associated with the post type.
-		return \in_array( $term->taxonomy, \get_object_taxonomies( $post_type ), true );
+		$taxonomy_name = ( $taxonomy === null ) ? '' : $taxonomy->get_name();
+		return $term->taxonomy === $taxonomy_name;
 	}
 
 	/**
