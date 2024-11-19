@@ -1,16 +1,17 @@
-import { __ } from "@wordpress/i18n";
+import { maxBy } from "lodash";
 
 /**
  * @type {import("../index").Score} Score
+ * @type {import("../index").ScoreType} ScoreType
  */
 
 /**
- * @param {Score[]|null} scores The SEO scores.
+ * @param {Score[]} scores The SEO scores.
+ * @param {Object.<ScoreType,string>} descriptions The descriptions.
  * @returns {JSX.Element} The element.
  */
-export const ContentStatusDescription = ( { scores } ) => {
-	if ( ! scores ) {
-		return <p className="yst-my-6">{ __( "No scores could be retrieved Or maybe loading??", "wordpress-seo" ) }</p>;
-	}
-	return <p className="yst-my-6">{ __( "description placeholder", "wordpress-seo" ) }</p>;
+export const ContentStatusDescription = ( { scores, descriptions } ) => {
+	const maxScore = maxBy( scores, "amount" );
+
+	return <p className="yst-my-6">{ descriptions[ maxScore.name ] || "" }</p>;
 };

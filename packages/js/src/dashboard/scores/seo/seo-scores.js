@@ -5,6 +5,7 @@ import { useFetch } from "../../hooks/use-fetch";
 import { ContentTypeFilter } from "../components/content-type-filter";
 import { ScoreContent } from "../components/score-content";
 import { TermFilter } from "../components/term-filter";
+import { SCORE_DESCRIPTIONS } from "../score-meta";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -28,6 +29,12 @@ export const SeoScores = ( { contentTypes } ) => {
 		fetchDelay: 0,
 		doFetch: async( url, options ) => {
 			await new Promise( ( resolve ) => setTimeout( resolve, 1000 ) );
+			return [ "good", "ok", "bad", "notAnalyzed" ].map( ( name ) => ( {
+				name,
+				amount: Math.ceil( Math.random() * 10 ),
+				links: Math.random() > 0.5 ? {} : { view: `edit.php?seo_filter=${ name }` },
+			} ) );
+			// eslint-disable-next-line no-unreachable
 			try {
 				const response = await fetch( url, options );
 				if ( ! response.ok ) {
@@ -60,7 +67,7 @@ export const SeoScores = ( { contentTypes } ) => {
 					/>
 				}
 			</div>
-			<ScoreContent scores={ scores } isLoading={ isPending } />
+			<ScoreContent scores={ scores } isLoading={ isPending } descriptions={ SCORE_DESCRIPTIONS.seo } />
 		</Paper>
 	);
 };

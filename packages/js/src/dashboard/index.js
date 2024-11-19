@@ -22,8 +22,16 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
+ * @typedef {"seo"|"readability"} AnalysisType The analysis type.
+ */
+
+/**
+ * @typedef {"ok"|"good"|"bad"|"notAnalyzed"} ScoreType The score type.
+ */
+
+/**
  * @typedef {Object} Score A score.
- * @property {string} name The name of the score. Can be "ok", "good", "bad" or "notAnalyzed".
+ * @property {ScoreType} name The name of the score.
  * @property {number} amount The amount of content for this score.
  * @property {Object} links The links.
  * @property {string} [links.view] The view link, might not exist.

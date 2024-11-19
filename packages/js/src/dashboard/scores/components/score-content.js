@@ -6,6 +6,7 @@ import { ScoreList } from "./score-list";
 
 /**
  * @type {import("../index").Score} Score
+ * @type {import("../index").ScoreType} ScoreType
  */
 
 /**
@@ -39,16 +40,17 @@ const ScoreContentSkeletonLoader = () => (
 /**
  * @param {Score[]} [scores=[]] The scores.
  * @param {boolean} isLoading Whether the scores are still loading.
+ * @param {Object.<ScoreType,string>} descriptions The descriptions.
  * @returns {JSX.Element} The element.
  */
-export const ScoreContent = ( { scores = [], isLoading } ) => {
+export const ScoreContent = ( { scores = [], isLoading, descriptions } ) => {
 	if ( isLoading ) {
 		return <ScoreContentSkeletonLoader />;
 	}
 
 	return (
 		<>
-			<ContentStatusDescription scores={ scores } />
+			<ContentStatusDescription scores={ scores } descriptions={ descriptions } />
 			<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-7 yst-gap-6">
 				{ scores && <ScoreList scores={ scores } /> }
 				{ scores && <ScoreChart scores={ scores } /> }
