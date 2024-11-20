@@ -18,6 +18,27 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 trait Scores_Route_Trait {
 
 	/**
+	 * The content types collector.
+	 *
+	 * @var Content_Types_Collector
+	 */
+	protected $content_types_collector;
+
+	/**
+	 * The taxonomies repository.
+	 *
+	 * @var Taxonomies_Repository
+	 */
+	protected $taxonomies_repository;
+
+	/**
+	 * The indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	protected $indexable_repository;
+
+	/**
 	 * Sets the collectors for the trait.
 	 *
 	 * @required
