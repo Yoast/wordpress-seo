@@ -45,7 +45,8 @@ class SEO_Scores_Collector {
 					FROM %i AS I
 					WHERE ( I.post_status = 'publish' OR I.post_status IS NULL )
 						AND I.object_type IN ('post')
-						AND I.object_sub_type IN (%s)",
+						AND I.object_sub_type IN (%s)
+						AND ( I.is_robots_noindex IS NULL OR I.is_robots_noindex <> 1 )",
 					$replacements
 				),
 				\ARRAY_A
@@ -70,6 +71,7 @@ class SEO_Scores_Collector {
 				WHERE ( I.post_status = 'publish' OR I.post_status IS NULL )
 					AND I.object_type IN ('post')
 					AND I.object_sub_type IN (%s)
+					AND ( I.is_robots_noindex IS NULL OR I.is_robots_noindex <> 1 )
 					AND I.object_id IN (
 						SELECT object_id
 						FROM %i
