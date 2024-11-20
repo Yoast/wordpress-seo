@@ -11,6 +11,7 @@ export const Factory = {
 	args: {
 		renderButton: ButtonFactory.render,
 		relatedKeyphrases: [],
+		isPending: false,
 		columnNames: [ "Keyword", "Search Volume", "Trends", "Keyword Difficulty Index", "Intent" ],
 		userLocale: "en",
 		data: [
@@ -94,7 +95,7 @@ export const Factory = {
 	render: ( args ) => <KeyphrasesTable { ...args } />,
 };
 
-export const LoadingTable = () => <KeyphrasesTable renderButton={ noop } />;
+export const LoadingTable = () => <KeyphrasesTable renderButton={ noop } isPending={ true } />;
 
 export const WithoutButtons = () => <KeyphrasesTable data={ Factory.args.data } columnNames={ Factory.args.columnNames } />;
 

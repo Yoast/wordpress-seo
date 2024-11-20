@@ -76,8 +76,8 @@ KeyphrasesTableRow.propTypes = {
 const LoadingKeyphrasesTableRow = ( { withButton = false } ) => {
 	return (
 		<Table.Row>
-			<Table.Cell className="yst-w-56">
-				<SkeletonLoader className="yst-w-44 yst-h-5" />
+			<Table.Cell className="yst-w-44">
+				<SkeletonLoader className="yst-w-36 yst-h-5" />
 			</Table.Cell>
 			<Table.Cell>
 				<SkeletonLoader className="yst-w-5 yst-h-5" />
@@ -96,8 +96,10 @@ const LoadingKeyphrasesTableRow = ( { withButton = false } ) => {
 					<SkeletonLoader className="yst-w-3 yst-h-5" />
 				</div>
 			</Table.Cell>
-			{ withButton && <Table.Cell>
-				<SkeletonLoader className="yst-w-16 yst-h-7" />
+			{ withButton && <Table.Cell className="yst-w-32">
+				<div className="yst-flex yst-justify-end">
+					<SkeletonLoader className="yst-w-16 yst-h-7" />
+				</div>
 			</Table.Cell>
 			}
 		</Table.Row>
@@ -188,8 +190,9 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 						{ __( "Difficulty %", "wordpress-seo" ) }
 					</div>
 				</Table.Header>
-				{ renderButton && <Table.Header className="yst-min-w-28">
-					<div className="yst-flex yst-justify-end">
+
+				{ renderButton && <Table.Header className="yst-w-32">
+					<div className="yst-flex yst-justify-end yst-text-right rtl:yst-text-left">
 						{ __( "Add keyphrase", "wordpress-seo" ) }
 					</div>
 				</Table.Header> }
@@ -198,7 +201,7 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 		</Table.Head>
 
 		<Table.Body>
-			{ rows && rows.map( ( rowData, index ) => (
+			{ ! isPending && rows && rows.map( ( rowData, index ) => (
 				<KeyphrasesTableRow
 					key={ `related-keyphrase-${ index }` }
 					renderButton={ renderButton }
