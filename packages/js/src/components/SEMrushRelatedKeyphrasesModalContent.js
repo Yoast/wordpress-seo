@@ -95,6 +95,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 		setRequestLimitReached,
 		isPending,
 		isRtl,
+		userLocale,
 	} = props;
 
 	const isPremium = getL10nObject().isPremium;
@@ -103,7 +104,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 			"&db=" + encodeURIComponent( countryCode );
 
 	return (
-		<Fragment>
+		<Root context={ { isRtl } }>
 			{ ! requestLimitReached && (
 				<Fragment>
 					{ ! isPremium && <SEMrushUpsellAlert /> }
@@ -119,31 +120,30 @@ export default function RelatedKeyphraseModalContent( props ) {
 						setRequestLimitReached={ setRequestLimitReached }
 						response={ response }
 						lastRequestKeyphrase={ lastRequestKeyphrase }
+						userLocale={ userLocale.split( "_" )[ 0 ] }
 					/>
 				</Fragment>
 			) }
 
 			{ getUserMessage( props ) }
-			<Root context={ { isRtl } }>
-				<KeyphrasesTable
-					relatedKeyphrases={ relatedKeyphrases }
-					columnNames={ response?.results?.columnNames }
-					data={ response?.results?.rows }
-					isPending={ isPending }
-					renderButton={ renderAction }
-				/>
-				{ response?.results?.rows && <p className="yst-mb-0 yst-mt-2">
-					<GetMoreInsightsLink href={ url }>
-						{ sprintf(
-						/* translators: %s expands to Semrush */
-							__( "Get more insights at %s", "wordpress-seo" ),
-							"Semrush"
-						) }
-					</GetMoreInsightsLink>
-				</p> }
-			</Root>
 
-		</Fragment>
+			<KeyphrasesTable
+				relatedKeyphrases={ relatedKeyphrases }
+				columnNames={ response?.results?.columnNames }
+				data={ response?.results?.rows }
+				isPending={ isPending }
+				renderButton={ renderAction }
+			/>
+			{ response?.results?.rows && <p className="yst-mb-0 yst-mt-2">
+				<GetMoreInsightsLink href={ url }>
+					{ sprintf(
+					/* translators: %s expands to Semrush */
+						__( "Get more insights at %s", "wordpress-seo" ),
+						"Semrush"
+					) }
+				</GetMoreInsightsLink>
+			</p> }
+		</Root>
 	);
 }
 
@@ -162,6 +162,7 @@ RelatedKeyphraseModalContent.propTypes = {
 	response: PropTypes.object,
 	lastRequestKeyphrase: PropTypes.string,
 	isRtl: PropTypes.bool,
+	userLocale: PropTypes.string,
 	isPending: PropTypes.bool,
 };
 
@@ -173,5 +174,6 @@ RelatedKeyphraseModalContent.defaultProps = {
 	response: {},
 	lastRequestKeyphrase: "",
 	isRtl: false,
+	userLocale: null,
 	isPending: false,
 };
