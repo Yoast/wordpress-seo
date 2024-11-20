@@ -17,7 +17,7 @@ export const Dashboard = ( { contentTypes, userName, features } ) => {
 	return (
 		<>
 			<PageTitle userName={ userName } features={ features } />
-			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-mt-6">
+			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
 				{ features.indexables && features.seoAnalysis && <SeoScores contentTypes={ contentTypes } /> }
 				{ features.indexables && features.readabilityAnalysis && <ReadabilityScores contentTypes={ contentTypes } /> }
 			</div>
