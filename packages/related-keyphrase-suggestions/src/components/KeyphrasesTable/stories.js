@@ -12,6 +12,7 @@ export const Factory = {
 		renderButton: ButtonFactory.render,
 		relatedKeyphrases: [],
 		columnNames: [ "Keyword", "Search Volume", "Trends", "Keyword Difficulty Index", "Intent" ],
+		userLocale: "en",
 		data: [
 			[
 				"speed test",
@@ -112,4 +113,9 @@ export default {
 			</div>
 		),
 	],
+	argTypes: {
+		userLocale: {
+			description: "The locale used for formatting the search volume. Should be without country code, for example 'en' not 'en_US'. Fallback to the browser language.",
+		},
+	},
 };
