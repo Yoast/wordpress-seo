@@ -44,7 +44,7 @@ const fetchJson = async( url, options ) => {
  * @returns {FetchResult} The fetch result.
  */
 export const useFetch = ( { dependencies, url, options, prepareData = identity, doFetch = fetchJson, fetchDelay = FETCH_DELAY } ) => {
-	const [ isPending, setIsPending ] = useState( false );
+	const [ isPending, setIsPending ] = useState( true );
 	const [ error, setError ] = useState();
 	const [ data, setData ] = useState();
 	/** @type {MutableRefObject<AbortController>} */

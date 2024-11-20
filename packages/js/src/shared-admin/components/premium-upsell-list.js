@@ -1,8 +1,8 @@
-import { noop } from "lodash";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Title, Paper } from "@yoast/ui-library";
+import { Button, Paper, Title } from "@yoast/ui-library";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 import { getPremiumBenefits } from "../../helpers/get-premium-benefits";
 

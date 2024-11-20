@@ -9,12 +9,19 @@ import { Dashboard } from "../dashboard";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
 import { RouteErrorFallback } from "./components";
+import { ConnectedPremiumUpsellList } from "./components/connected-premium-upsell-list";
 import { SidebarLayout } from "./components/sidebar-layout";
 import { STORE_NAME } from "./constants";
 import { AlertCenter, FirstTimeConfiguration, ROUTES } from "./routes";
 import registerStore from "./store";
 import { ALERT_CENTER_NAME } from "./store/alert-center";
 import { FTC_NAME } from "./store/first-time-configuration";
+
+/**
+ * @type {import("../index").ContentType} ContentType
+ * @type {import("../index").Features} Features
+ * @type {import("../index").Links} Links
+ */
 
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-general" );
@@ -33,20 +40,32 @@ domReady( () => {
 	} );
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 
+	/** @type {ContentType[]} */
 	const contentTypes = get( window, "wpseoScriptData.dashboard.contentTypes", [] );
+	/** @type {string} */
 	const userName = get( window, "wpseoScriptData.dashboard.displayName", "User" );
-
+	/** @type {Features} */
+	const features = {
+		indexables: get( window, "wpseoScriptData.dashboard.indexablesEnabled", false ),
+		seoAnalysis: get( window, "wpseoScriptData.dashboard.enabledAnalysisFeatures.keyphraseAnalysis", false ),
+		readabilityAnalysis: get( window, "wpseoScriptData.dashboard.enabledAnalysisFeatures.readabilityAnalysis", false ),
+	};
 	const router = createHashRouter(
 		createRoutesFromElements(
 			<Route path="/" element={ <App /> } errorElement={ <RouteErrorFallback className="yst-m-8" /> }>
 				<Route
 					path={ ROUTES.dashboard }
-					element={ <SidebarLayout><Dashboard contentTypes={ contentTypes } userName={ userName } /></SidebarLayout> }
+					element={
+						<SidebarLayout>
+							<Dashboard contentTypes={ contentTypes } userName={ userName } features={ features } />
+							<ConnectedPremiumUpsellList />
+						</SidebarLayout>
+					}
 					errorElement={ <RouteErrorFallback /> }
 				/>
 				<Route
 					path={ ROUTES.alertCenter }
-					element={ <SidebarLayout><AlertCenter /></SidebarLayout> }
+					element={ <SidebarLayout><AlertCenter /><ConnectedPremiumUpsellList /></SidebarLayout> }
 					errorElement={ <RouteErrorFallback /> }
 				/>
 				<Route path={ ROUTES.firstTimeConfiguration } element={ <FirstTimeConfiguration /> } errorElement={ <RouteErrorFallback /> } />
