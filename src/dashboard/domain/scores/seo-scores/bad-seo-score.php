@@ -18,11 +18,11 @@ class Bad_SEO_Score extends Abstract_SEO_Score {
 	}
 
 	/**
-	 * Gets the name of the SEO score that is used when filtering on the posts page.
+	 * Gets the value of the SEO score that is used when filtering on the posts page.
 	 *
 	 * @return string The name of the SEO score that is used when filtering on the posts page.
 	 */
-	public function get_filter_name(): string {
+	public function get_filter_value(): string {
 		return 'bad';
 	}
 

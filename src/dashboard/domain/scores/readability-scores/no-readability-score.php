@@ -18,11 +18,11 @@ class No_Readability_Score extends Abstract_Readability_Score {
 	}
 
 	/**
-	 * Gets the name of the readability score that is used when filtering on the posts page.
+	 * Gets the value of the readability score that is used when filtering on the posts page.
 	 *
 	 * @return string The name of the readability score that is used when filtering on the posts page.
 	 */
-	public function get_filter_name(): string {
+	public function get_filter_value(): string {
 		return 'na';
 	}
 

@@ -15,11 +15,18 @@ interface Scores_Interface {
 	public function get_name(): string;
 
 	/**
-	 * Gets the name of the score that is used when filtering on the posts page.
+	 * Gets the key of the score that is used when filtering on the posts page.
 	 *
 	 * @return string
 	 */
-	public function get_filter_name(): string;
+	public function get_filter_key(): string;
+
+	/**
+	 * Gets the value of the score that is used when filtering on the posts page.
+	 *
+	 * @return string
+	 */
+	public function get_filter_value(): string;
 
 	/**
 	 * Gets the minimum score of the score.

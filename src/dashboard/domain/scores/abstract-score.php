@@ -15,11 +15,18 @@ abstract class Abstract_Score implements Scores_Interface {
 	private $name;
 
 	/**
-	 * The name of the score that is used when filtering on the posts page.
+	 * The key of the score that is used when filtering on the posts page.
 	 *
 	 * @var string
 	 */
-	private $filter_name;
+	private $filter_key;
+
+	/**
+	 * The value of the score that is used when filtering on the posts page.
+	 *
+	 * @var string
+	 */
+	private $filter_value;
 
 	/**
 	 * The min score of the score.

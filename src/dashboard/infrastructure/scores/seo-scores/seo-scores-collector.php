@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Dashboard\Infrastructure\Scores\SEO_Scores;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Scores\SEO_Scores\SEO_Scores_Interface;
-use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
 
 /**
  * Getting SEO scores from the indexable database table.
@@ -120,40 +119,5 @@ class SEO_Scores_Collector {
 			'fields'       => $select_fields,
 			'replacements' => $select_replacements,
 		];
-	}
-
-	/**
-	 * Builds the view link of the SEO score.
-	 *
-	 * @param SEO_Scores_Interface $seo_score_name The name of the SEO score.
-	 * @param Content_Type         $content_type   The content type.
-	 * @param Taxonomy|null        $taxonomy       The taxonomy of the term we might be filtering.
-	 * @param int|null             $term_id        The ID of the term we might be filtering.
-	 *
-	 * @return string The view link of the SEO score.
-	 */
-	public function get_view_link( SEO_Scores_Interface $seo_score_name, Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ): ?string {
-		$posts_page = \admin_url( 'edit.php' );
-		$args       = [
-			'post_status' => 'publish',
-			'post_type'   => $content_type->get_name(),
-			'seo_filter'  => $seo_score_name->get_filter_name(),
-		];
-
-		if ( $taxonomy === null || $term_id === null ) {
-			return \add_query_arg( $args, $posts_page );
-		}
-
-		$taxonomy_object = \get_taxonomy( $taxonomy->get_name() );
-		$query_var       = $taxonomy_object->query_var;
-
-		if ( $query_var === false ) {
-			return null;
-		}
-
-		$term               = \get_term( $term_id );
-		$args[ $query_var ] = $term->slug;
-
-		return \add_query_arg( $args, $posts_page );
 	}
 }

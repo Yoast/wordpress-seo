@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Scores\Readability_Scores\Readability_Scores_I
 use Yoast\WP\SEO\Dashboard\Domain\Scores\Scores_List;
 use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Scores\Readability_Scores\Readability_Scores_Collector;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Scores\Score_Link_Collector;
 
 /**
  * The repository to get readability Scores.
@@ -20,6 +21,13 @@ class Readability_Scores_Repository {
 	 * @var Readability_Scores_Collector
 	 */
 	private $readability_scores_collector;
+
+	/**
+	 * The score link collector.
+	 *
+	 * @var Score_Link_Collector
+	 */
+	private $score_link_collector;
 
 	/**
 	 * The scores list.
@@ -39,15 +47,18 @@ class Readability_Scores_Repository {
 	 * The constructor.
 	 *
 	 * @param Readability_Scores_Collector $readability_scores_collector The readability scores collector.
+	 * @param Score_Link_Collector         $score_link_collector         The score link collector.
 	 * @param Scores_List                  $scores_list                  The scores list.
 	 * @param Readability_Scores_Interface ...$readability_scores        All readability scores.
 	 */
 	public function __construct(
 		Readability_Scores_Collector $readability_scores_collector,
+		Score_Link_Collector $score_link_collector,
 		Scores_List $scores_list,
 		Readability_Scores_Interface ...$readability_scores
 	) {
 		$this->readability_scores_collector = $readability_scores_collector;
+		$this->score_link_collector         = $score_link_collector;
 		$this->scores_list                  = $scores_list;
 		$this->readability_scores           = $readability_scores;
 	}
@@ -66,7 +77,7 @@ class Readability_Scores_Repository {
 
 		foreach ( $this->readability_scores as $readability_score ) {
 			$readability_score->set_amount( (int) $current_scores[ $readability_score->get_name() ] );
-			$readability_score->set_view_link( $this->readability_scores_collector->get_view_link( $readability_score, $content_type, $taxonomy, $term_id ) );
+			$readability_score->set_view_link( $this->score_link_collector->get_view_link( $readability_score, $content_type, $taxonomy, $term_id ) );
 
 			$this->scores_list->add( $readability_score );
 		}
