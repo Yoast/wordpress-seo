@@ -28,7 +28,7 @@ class SEO_Scores_List {
 	/**
 	 * Parses the SEO score list to the expected key value representation.
 	 *
-	 * @return array<array<string,array<string, array<string, array<string, string|null>>>>> The SEO score list presented as the expected key value representation.
+	 * @return array<array<string, string|int|array<string, string>>> The SEO score list presented as the expected key value representation.
 	 */
 	public function to_array(): array {
 		$array = [];

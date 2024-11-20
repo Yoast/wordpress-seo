@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Dashboard\User_Interface;
 
 use WP_REST_Request;
 use WP_REST_Response;
-use wpdb;
 use WPSEO_Capability_Utils;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Dashboard\Application\SEO_Scores\SEO_Scores_Repository;
@@ -59,33 +58,23 @@ class SEO_Scores_Route implements Route_Interface {
 	private $indexable_repository;
 
 	/**
-	 * The WordPress database instance.
-	 *
-	 * @var wpdb
-	 */
-	protected $wpdb;
-
-	/**
 	 * Constructs the class.
 	 *
 	 * @param Content_Types_Collector $content_types_collector The content type collector.
 	 * @param Taxonomies_Repository   $taxonomies_repository   The taxonomies repository.
 	 * @param SEO_Scores_Repository   $seo_scores_repository   The SEO Scores repository.
 	 * @param Indexable_Repository    $indexable_repository    The indexable repository.
-	 * @param wpdb                    $wpdb                    The WordPress database object.
 	 */
 	public function __construct(
 		Content_Types_Collector $content_types_collector,
 		Taxonomies_Repository $taxonomies_repository,
 		SEO_Scores_Repository $seo_scores_repository,
-		Indexable_Repository $indexable_repository,
-		wpdb $wpdb
+		Indexable_Repository $indexable_repository
 	) {
 		$this->content_types_collector = $content_types_collector;
 		$this->taxonomies_repository   = $taxonomies_repository;
 		$this->seo_scores_repository   = $seo_scores_repository;
 		$this->indexable_repository    = $indexable_repository;
-		$this->wpdb                    = $wpdb;
 	}
 
 	/**
@@ -165,11 +154,9 @@ class SEO_Scores_Route implements Route_Interface {
 			);
 		}
 
-		$result = $this->seo_scores_repository->get_seo_scores( $content_type, $taxonomy, $request['term'] );
-
 		return new WP_REST_Response(
 			[
-				'scores' => $result,
+				'scores' => $this->seo_scores_repository->get_seo_scores( $content_type, $taxonomy, $request['term'] ),
 			],
 			200
 		);

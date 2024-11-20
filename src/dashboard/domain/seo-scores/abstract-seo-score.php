@@ -22,7 +22,7 @@ abstract class Abstract_SEO_Score implements SEO_Scores_Interface {
 	private $filter_name;
 
 	/**
-	 * The amount of the SEO score.
+	 * The min score of the SEO score.
 	 *
 	 * @var int
 	 */
@@ -36,7 +36,7 @@ abstract class Abstract_SEO_Score implements SEO_Scores_Interface {
 	private $max_score;
 
 	/**
-	 * The min score of the SEO score.
+	 * The amount of the SEO score.
 	 *
 	 * @var int
 	 */

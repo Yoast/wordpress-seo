@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\SEO_Scores\SEO_Scores_Collector;
 class SEO_Scores_Repository {
 
 	/**
-	 * The SEO cores collector.
+	 * The SEO scores collector.
 	 *
 	 * @var SEO_Scores_Collector
 	 */
@@ -58,7 +58,7 @@ class SEO_Scores_Repository {
 	 * @param Taxonomy|null $taxonomy     The taxonomy of the term we're filtering for.
 	 * @param int|null      $term_id      The ID of the term we're filtering for.
 	 *
-	 * @return array<array<string, string|array<string, string>>> The SEO scores.
+	 * @return array<array<string, string|int|array<string, string>>> The SEO scores.
 	 */
 	public function get_seo_scores( Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ): array {
 		$current_scores = $this->seo_scores_collector->get_seo_scores( $this->seo_scores, $content_type, $term_id );

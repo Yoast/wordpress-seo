@@ -130,7 +130,6 @@ class SEO_Scores_Collector {
 	 * @return string The view link of the SEO score.
 	 */
 	public function get_view_link( SEO_Scores_Interface $seo_score_name, Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ): ?string {
-		// @TODO: Refactor by Single Source of Truthing this with the `WPSEO_Meta_Columns` class. Until then, we build this manually.
 		$posts_page = \admin_url( 'edit.php' );
 		$args       = [
 			'post_status' => 'publish',

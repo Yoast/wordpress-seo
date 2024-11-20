@@ -31,7 +31,7 @@ class Content_Types_Collector {
 	/**
 	 * Returns the content types array.
 	 *
-	 * @return Content_Type[] The content types array.
+	 * @return array<string,Content_Type> The content types array.
 	 */
 	public function get_content_types(): array {
 		$content_types = [];
