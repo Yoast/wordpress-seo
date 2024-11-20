@@ -1,12 +1,12 @@
 <?php
-
-namespace Yoast\WP\SEO\Dashboard\User_Interface;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Dashboard\User_Interface\Scores;
 
 use WP_REST_Request;
 use WP_REST_Response;
 use WPSEO_Capability_Utils;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Dashboard\Application\SEO_Scores\SEO_Scores_Repository;
+use Yoast\WP\SEO\Dashboard\Application\Scores\Readability_Scores\Readability_Scores_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Taxonomies\Taxonomies_Repository;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
@@ -16,9 +16,9 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
- * Registers a route to get SEO scores.
+ * Registers a route to get readability scores.
  */
-class SEO_Scores_Route implements Route_Interface {
+class Readability_Scores_Route implements Route_Interface {
 
 	use No_Conditionals;
 
@@ -27,7 +27,7 @@ class SEO_Scores_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	public const ROUTE_PREFIX = '/seo_scores';
+	public const ROUTE_PREFIX = '/readability_scores';
 
 	/**
 	 * The content type collector.
@@ -44,11 +44,11 @@ class SEO_Scores_Route implements Route_Interface {
 	private $taxonomies_repository;
 
 	/**
-	 * The SEO Scores repository.
+	 * The readability Scores repository.
 	 *
-	 * @var SEO_Scores_Repository
+	 * @var Readability_Scores_Repository
 	 */
-	private $seo_scores_repository;
+	private $readability_scores_repository;
 
 	/**
 	 * The indexable repository.
@@ -60,21 +60,21 @@ class SEO_Scores_Route implements Route_Interface {
 	/**
 	 * Constructs the class.
 	 *
-	 * @param Content_Types_Collector $content_types_collector The content type collector.
-	 * @param Taxonomies_Repository   $taxonomies_repository   The taxonomies repository.
-	 * @param SEO_Scores_Repository   $seo_scores_repository   The SEO Scores repository.
-	 * @param Indexable_Repository    $indexable_repository    The indexable repository.
+	 * @param Content_Types_Collector       $content_types_collector       The content type collector.
+	 * @param Taxonomies_Repository         $taxonomies_repository         The taxonomies repository.
+	 * @param Readability_Scores_Repository $readability_scores_repository The readability Scores repository.
+	 * @param Indexable_Repository          $indexable_repository          The indexable repository.
 	 */
 	public function __construct(
 		Content_Types_Collector $content_types_collector,
 		Taxonomies_Repository $taxonomies_repository,
-		SEO_Scores_Repository $seo_scores_repository,
+		Readability_Scores_Repository $readability_scores_repository,
 		Indexable_Repository $indexable_repository
 	) {
-		$this->content_types_collector = $content_types_collector;
-		$this->taxonomies_repository   = $taxonomies_repository;
-		$this->seo_scores_repository   = $seo_scores_repository;
-		$this->indexable_repository    = $indexable_repository;
+		$this->content_types_collector       = $content_types_collector;
+		$this->taxonomies_repository         = $taxonomies_repository;
+		$this->readability_scores_repository = $readability_scores_repository;
+		$this->indexable_repository          = $indexable_repository;
 	}
 
 	/**
@@ -89,7 +89,7 @@ class SEO_Scores_Route implements Route_Interface {
 			[
 				[
 					'methods'             => 'GET',
-					'callback'            => [ $this, 'get_seo_scores' ],
+					'callback'            => [ $this, 'get_readability_scores' ],
 					'permission_callback' => [ $this, 'permission_manage_options' ],
 					'args'                => [
 						'contentType' => [
@@ -118,13 +118,13 @@ class SEO_Scores_Route implements Route_Interface {
 	}
 
 	/**
-	 * Gets the SEO scores of a specific content type.
+	 * Gets the readability scores of a specific content type.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
-	public function get_seo_scores( WP_REST_Request $request ) {
+	public function get_readability_scores( WP_REST_Request $request ) {
 		$content_type = $this->get_content_type( $request['contentType'] );
 		if ( $content_type === null ) {
 			return new WP_REST_Response(
@@ -156,7 +156,7 @@ class SEO_Scores_Route implements Route_Interface {
 
 		return new WP_REST_Response(
 			[
-				'scores' => $this->seo_scores_repository->get_seo_scores( $content_type, $taxonomy, $request['term'] ),
+				'scores' => $this->readability_scores_repository->get_readability_scores( $content_type, $taxonomy, $request['term'] ),
 			],
 			200
 		);

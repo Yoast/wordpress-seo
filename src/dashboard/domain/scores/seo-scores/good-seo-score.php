@@ -1,19 +1,20 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\Domain\SEO_Scores;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Dashboard\Domain\Scores\SEO_Scores;
 
 /**
- * This class describes an OK SEO score.
+ * This class describes a Good SEO score.
  */
-class Ok_SEO_Score extends Abstract_SEO_Score {
+class Good_SEO_Score extends Abstract_SEO_Score {
 
 	/**
 	 * Gets the name of the SEO score.
 	 *
-	 * @return string The the name of the SEO score.
+	 * @return string The name of the SEO score.
 	 */
 	public function get_name(): string {
-		return 'ok';
+		return 'good';
 	}
 
 	/**
@@ -22,7 +23,7 @@ class Ok_SEO_Score extends Abstract_SEO_Score {
 	 * @return string The name of the SEO score that is used when filtering on the posts page.
 	 */
 	public function get_filter_name(): string {
-		return 'ok';
+		return 'good';
 	}
 
 	/**
@@ -31,7 +32,7 @@ class Ok_SEO_Score extends Abstract_SEO_Score {
 	 * @return int The position of the SEO score.
 	 */
 	public function get_position(): int {
-		return 1;
+		return 0;
 	}
 
 	/**
@@ -40,7 +41,7 @@ class Ok_SEO_Score extends Abstract_SEO_Score {
 	 * @return int The minimum score of the SEO score.
 	 */
 	public function get_min_score(): ?int {
-		return 41;
+		return 71;
 	}
 
 	/**
@@ -49,6 +50,6 @@ class Ok_SEO_Score extends Abstract_SEO_Score {
 	 * @return int The maximum score of the SEO score.
 	 */
 	public function get_max_score(): ?int {
-		return 70;
+		return 100;
 	}
 }

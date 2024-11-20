@@ -1,49 +1,49 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\Domain\SEO_Scores;
+namespace Yoast\WP\SEO\Dashboard\Domain\Scores;
 
 /**
- * Abstract class for an SEO score.
+ * Abstract class for a score.
  */
-abstract class Abstract_SEO_Score implements SEO_Scores_Interface {
+abstract class Abstract_Score implements Scores_Interface {
 
 	/**
-	 * The name of the SEO score.
+	 * The name of the score.
 	 *
 	 * @var string
 	 */
 	private $name;
 
 	/**
-	 * The name of the SEO score that is used when filtering on the posts page.
+	 * The name of the score that is used when filtering on the posts page.
 	 *
 	 * @var string
 	 */
 	private $filter_name;
 
 	/**
-	 * The min score of the SEO score.
+	 * The min score of the score.
 	 *
 	 * @var int
 	 */
 	private $min_score;
 
 	/**
-	 * The max score of the SEO score.
+	 * The max score of the score.
 	 *
 	 * @var int
 	 */
 	private $max_score;
 
 	/**
-	 * The amount of the SEO score.
+	 * The amount of the score.
 	 *
 	 * @var int
 	 */
 	private $amount;
 
 	/**
-	 * The view link of the SEO score.
+	 * The view link of the score.
 	 *
 	 * @var string
 	 */
@@ -57,18 +57,18 @@ abstract class Abstract_SEO_Score implements SEO_Scores_Interface {
 	private $position;
 
 	/**
-	 * Gets the amount of the SEO score.
+	 * Gets the amount of the score.
 	 *
-	 * @return int The amount of the SEO score.
+	 * @return int The amount of the score.
 	 */
 	public function get_amount(): int {
 		return $this->amount;
 	}
 
 	/**
-	 * Sets the amount of the SEO score.
+	 * Sets the amount of the score.
 	 *
-	 * @param int $amount The amount of the SEO score.
+	 * @param int $amount The amount of the score.
 	 *
 	 * @return void
 	 */
@@ -77,18 +77,18 @@ abstract class Abstract_SEO_Score implements SEO_Scores_Interface {
 	}
 
 	/**
-	 * Gets the view link of the SEO score.
+	 * Gets the view link of the score.
 	 *
-	 * @return string|null The view link of the SEO score.
+	 * @return string|null The view link of the score.
 	 */
 	public function get_view_link(): ?string {
 		return $this->view_link;
 	}
 
 	/**
-	 * Sets the view link of the SEO score.
+	 * Sets the view link of the score.
 	 *
-	 * @param string $view_link The view link of the SEO score.
+	 * @param string $view_link The view link of the score.
 	 *
 	 * @return void
 	 */

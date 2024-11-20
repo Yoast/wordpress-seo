@@ -1,12 +1,13 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-namespace Yoast\WP\SEO\Dashboard\Application\SEO_Scores;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Dashboard\Application\Scores\SEO_Scores;
 
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
-use Yoast\WP\SEO\Dashboard\Domain\SEO_Scores\SEO_Scores_Interface;
-use Yoast\WP\SEO\Dashboard\Domain\SEO_Scores\SEO_Scores_List;
+use Yoast\WP\SEO\Dashboard\Domain\Scores\Scores_List;
+use Yoast\WP\SEO\Dashboard\Domain\Scores\SEO_Scores\SEO_Scores_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
-use Yoast\WP\SEO\Dashboard\Infrastructure\SEO_Scores\SEO_Scores_Collector;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Scores\SEO_Scores\SEO_Scores_Collector;
 
 /**
  * The repository to get SEO Scores.
@@ -21,11 +22,11 @@ class SEO_Scores_Repository {
 	private $seo_scores_collector;
 
 	/**
-	 * The SEO scores list.
+	 * The scores list.
 	 *
-	 * @var SEO_Scores_List
+	 * @var Scores_List
 	 */
-	protected $seo_scores_list;
+	protected $scores_list;
 
 	/**
 	 * All SEO scores.
@@ -38,16 +39,16 @@ class SEO_Scores_Repository {
 	 * The constructor.
 	 *
 	 * @param SEO_Scores_Collector $seo_scores_collector The SEO scores collector.
-	 * @param SEO_Scores_List      $seo_scores_list      The SEO scores list.
+	 * @param Scores_List          $scores_list          The scores list.
 	 * @param SEO_Scores_Interface ...$seo_scores        All SEO scores.
 	 */
 	public function __construct(
 		SEO_Scores_Collector $seo_scores_collector,
-		SEO_Scores_List $seo_scores_list,
+		Scores_List $scores_list,
 		SEO_Scores_Interface ...$seo_scores
 	) {
 		$this->seo_scores_collector = $seo_scores_collector;
-		$this->seo_scores_list      = $seo_scores_list;
+		$this->scores_list          = $scores_list;
 		$this->seo_scores           = $seo_scores;
 	}
 
@@ -67,9 +68,9 @@ class SEO_Scores_Repository {
 			$seo_score->set_amount( (int) $current_scores[ $seo_score->get_name() ] );
 			$seo_score->set_view_link( $this->seo_scores_collector->get_view_link( $seo_score, $content_type, $taxonomy, $term_id ) );
 
-			$this->seo_scores_list->add( $seo_score );
+			$this->scores_list->add( $seo_score );
 		}
 
-		return $this->seo_scores_list->to_array();
+		return $this->scores_list->to_array();
 	}
 }
