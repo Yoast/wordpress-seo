@@ -1,6 +1,6 @@
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
-import { KeyphrasesTable } from "@yoast/related-keyphrase-suggestions";
+import { KeyphrasesTable, PremiumUpsell } from "@yoast/related-keyphrase-suggestions";
 import { Root } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
