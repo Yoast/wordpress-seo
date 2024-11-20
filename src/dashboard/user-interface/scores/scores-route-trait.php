@@ -149,9 +149,7 @@ trait Scores_Route_Trait {
 		}
 
 		return new WP_REST_Response(
-			[
-				'scores' => $this->calculate_scores( $content_type, $taxonomy, $request['term'] ),
-			],
+			$this->calculate_scores( $content_type, $taxonomy, $request['term'] ),
 			200
 		);
 	}
