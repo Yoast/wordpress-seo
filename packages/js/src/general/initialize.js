@@ -9,6 +9,7 @@ import { Dashboard } from "../dashboard";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
 import { RouteErrorFallback } from "./components";
+import { ConnectedPremiumUpsellList } from "./components/connected-premium-upsell-list";
 import { SidebarLayout } from "./components/sidebar-layout";
 import { STORE_NAME } from "./constants";
 import { AlertCenter, FirstTimeConfiguration, ROUTES } from "./routes";
@@ -57,13 +58,14 @@ domReady( () => {
 					element={
 						<SidebarLayout>
 							<Dashboard contentTypes={ contentTypes } userName={ userName } features={ features } />
+							<ConnectedPremiumUpsellList />
 						</SidebarLayout>
 					}
 					errorElement={ <RouteErrorFallback /> }
 				/>
 				<Route
 					path={ ROUTES.alertCenter }
-					element={ <SidebarLayout><AlertCenter /></SidebarLayout> }
+					element={ <SidebarLayout><AlertCenter /><ConnectedPremiumUpsellList /></SidebarLayout> }
 					errorElement={ <RouteErrorFallback /> }
 				/>
 				<Route path={ ROUTES.firstTimeConfiguration } element={ <FirstTimeConfiguration /> } errorElement={ <RouteErrorFallback /> } />

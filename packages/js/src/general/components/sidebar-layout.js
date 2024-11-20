@@ -1,7 +1,7 @@
 import { useSelect } from "@wordpress/data";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { PremiumUpsellList, SidebarRecommendations } from "../../shared-admin/components";
+import { SidebarRecommendations } from "../../shared-admin/components";
 import { STORE_NAME } from "../constants";
 import { useSelectGeneralPage } from "../hooks";
 
@@ -15,20 +15,12 @@ export const SidebarLayout = ( { contentClassName, children } ) => {
 	const premiumLinkSidebar = useSelectGeneralPage( "selectLink", [], "https://yoa.st/jj" );
 	const premiumUpsellConfig = useSelectGeneralPage( "selectUpsellSettingsAsProps" );
 	const academyLink = useSelectGeneralPage( "selectLink", [], "https://yoa.st/3t6" );
-	const premiumLinkList = useSelectGeneralPage( "selectLink", [], "https://yoa.st/17h" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
 
 	return (
 		<div className="yst-flex yst-gap-6 xl:yst-flex-row yst-flex-col">
 			<div className={ classNames( "yst-@container yst-flex yst-flex-grow yst-flex-col", contentClassName ) }>
 				{ children }
-				{ isPremium ? null : (
-					<PremiumUpsellList
-						premiumLink={ premiumLinkList }
-						premiumUpsellConfig={ premiumUpsellConfig }
-						isPromotionActive={ isPromotionActive }
-					/>
-				) }
 			</div>
 			{ ! isPremium &&
 				<div className="yst-min-w-[16rem] xl:yst-max-w-[16rem]">
