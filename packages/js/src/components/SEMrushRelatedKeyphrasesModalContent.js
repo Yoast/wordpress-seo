@@ -1,5 +1,5 @@
 /* External dependencies */
-import { KeyphrasesTable , UserMessage } from "@yoast/related-keyphrase-suggestions";
+import { KeyphrasesTable, UserMessage } from "@yoast/related-keyphrase-suggestions";
 import { Root } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
