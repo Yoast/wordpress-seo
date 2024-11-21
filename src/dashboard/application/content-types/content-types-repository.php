@@ -20,13 +20,6 @@ class Content_Types_Repository {
 	protected $content_types_collector;
 
 	/**
-	 * The content types list.
-	 *
-	 * @var Content_Types_List
-	 */
-	protected $content_types_list;
-
-	/**
 	 * The taxonomies repository.
 	 *
 	 * @var Taxonomies_Repository
@@ -37,16 +30,13 @@ class Content_Types_Repository {
 	 * The constructor.
 	 *
 	 * @param Content_Types_Collector $content_types_collector The post type helper.
-	 * @param Content_Types_List      $content_types_list      The content types list.
 	 * @param Taxonomies_Repository   $taxonomies_repository   The taxonomies repository.
 	 */
 	public function __construct(
 		Content_Types_Collector $content_types_collector,
-		Content_Types_List $content_types_list,
 		Taxonomies_Repository $taxonomies_repository
 	) {
 		$this->content_types_collector = $content_types_collector;
-		$this->content_types_list      = $content_types_list;
 		$this->taxonomies_repository   = $taxonomies_repository;
 	}
 
@@ -56,15 +46,16 @@ class Content_Types_Repository {
 	 * @return array<array<string,array<string, array<string, array<string, string|null>>>>> The content types array.
 	 */
 	public function get_content_types(): array {
-		$content_types = $this->content_types_collector->get_content_types();
+		$content_types_list = new Content_Types_List();
+		$content_types      = $this->content_types_collector->get_content_types();
 
 		foreach ( $content_types as $content_type ) {
 			$content_type_taxonomy = $this->taxonomies_repository->get_content_type_taxonomy( $content_type->get_name() );
 			$content_type->set_taxonomy( $content_type_taxonomy );
 
-			$this->content_types_list->add( $content_type );
+			$content_types_list->add( $content_type );
 		}
 
-		return $this->content_types_list->to_array();
+		return $content_types_list->to_array();
 	}
 }
