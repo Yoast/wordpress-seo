@@ -30,33 +30,11 @@ trait Scores_Repository_Trait {
 	private $score_link_collector;
 
 	/**
-	 * The scores list.
-	 *
-	 * @var Scores_List
-	 */
-	protected $scores_list;
-
-	/**
 	 * All scores.
 	 *
 	 * @var Scores_Interface[]
 	 */
 	private $scores;
-
-	/**
-	 * Sets the scores list for the trait.
-	 *
-	 * @required
-	 *
-	 * @param Scores_List $scores_list The scores list.
-	 *
-	 * @return void
-	 */
-	public function set_scores_list(
-		Scores_List $scores_list
-	) {
-		$this->scores_list = $scores_list;
-	}
 
 	/**
 	 * Sets the score link collector for the trait.
@@ -83,15 +61,16 @@ trait Scores_Repository_Trait {
 	 * @return array<array<string, string|int|array<string, string>>> The scores.
 	 */
 	public function get_scores( Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ): array {
+		$scores_list    = new Scores_List();
 		$current_scores = $this->scores_collector->get_current_scores( $this->scores, $content_type, $term_id );
 
 		foreach ( $this->scores as $score ) {
 			$score->set_amount( (int) $current_scores[ $score->get_name() ] );
 			$score->set_view_link( $this->score_link_collector->get_view_link( $score, $content_type, $taxonomy, $term_id ) );
 
-			$this->scores_list->add( $score );
+			$scores_list->add( $score );
 		}
 
-		return $this->scores_list->to_array();
+		return $scores_list->to_array();
 	}
 }
