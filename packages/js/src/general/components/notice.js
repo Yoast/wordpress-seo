@@ -1,7 +1,9 @@
+import { useCallback } from "@wordpress/element";
+import { useDispatch } from "@wordpress/data";
+import { STORE_NAME } from "../constants";
 import { XIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { useSvgAria } from "@yoast/ui-library";
-import classNames from "classnames";
 import PropTypes from "prop-types";
 
 /**
@@ -10,16 +12,23 @@ import PropTypes from "prop-types";
  * @param {string} type The title of the notice.
  * @param {string} id The id of the notice.
  * @param {boolean} isDismissable Whether the notice is dismissable.
- * @param {boolean} isDismissed Whether the notice is dismissed.
  * @param {string} children The content of the notice.
  *
  * @returns {React.Component} The Notice.
  */
-export function Notice( { title, id, isDismissable, isDismissed = false, children } ) {
+export function Notice( { title, id, isDismissable, children } ) {
 	const ariaSvgProps = useSvgAria();
+	const { dismissNotice } = useDispatch( STORE_NAME );
+
+	const handleDismiss = useCallback( () => {
+		// Dismiss the notice after the rest of the call stack has been processed.
+		setTimeout( () => {
+			dismissNotice( id );
+		}, 0 );
+	}, [ dismissNotice, id ] );
 
 	return (
-		<div id={ id } className={ classNames( "yst-p-3 yst-rounded-md yoast-general-page-notice", isDismissed && "yst-hidden" ) }>
+		<div id={ id } className="yst-p-3 yst-rounded-md yoast-general-page-notice">
 			<div className="yst-flex yst-flex-row yst-items-center yst-min-h-[24px]">
 				<span className="yoast-icon" />
 				{ title && <div className="yst-text-sm yst-font-medium" dangerouslySetInnerHTML={ { __html: title } } /> }
@@ -28,6 +37,7 @@ export function Notice( { title, id, isDismissable, isDismissed = false, childre
 						<button
 							type="button"
 							className="notice-dismiss"
+							onClick={ handleDismiss }
 						>
 							<span className="yst-sr-only">{ __( "Close", "wordpress-seo" ) }</span>
 							<XIcon className="yst-h-5 yst-w-5" { ...ariaSvgProps } />
@@ -46,6 +56,5 @@ Notice.propTypes = {
 	title: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	isDismissable: PropTypes.bool.isRequired,
-	isDismissed: PropTypes.bool,
 	children: PropTypes.string.isRequired,
 };

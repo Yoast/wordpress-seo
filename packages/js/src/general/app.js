@@ -69,7 +69,6 @@ Menu.propTypes = {
  */
 const App = () => {
 	const notices = useSelect( select => select( STORE_NAME ).selectNotices(), [] );
-	const { dismissNotice } = useDispatch( STORE_NAME );
 
 	useEffect( () => {
 		deleteMigratingNotices( notices );
@@ -79,42 +78,6 @@ const App = () => {
 	const alertToggleError = useSelectGeneralPage( "selectAlertToggleError", [], [] );
 	const { setAlertToggleError } = useDispatch( STORE_NAME );
 	useNotificationCountSync();
-
-	useEffect( () => {
-		if ( pathname !== "/first-time-configuration" ) {
-			/**
-			 * Handles the click event for dismissing a notice.
-			 * @param {number} noticeId The ID of the notice to dismiss.
-			 *
-			 * @returns {void}
-			 */
-			const handleClick = ( noticeId ) => {
-				dismissNotice( noticeId );
-			};
-
-			const activeNotices = notices.filter( ( notice ) => ! notice.isDismissed );
-			const closeButtons = activeNotices.map( ( notice ) => {
-				return {
-					noticeId: notice.id,
-					button: document.querySelector( `#${ notice.id } .notice-dismiss` ),
-				};
-			} );
-			closeButtons.forEach( ( { noticeId, button } ) => {
-				if ( button ) {
-					button.addEventListener( "click", () => handleClick( noticeId ), true );
-				}
-			} );
-
-			// Cleanup function to remove event listeners
-			return () => {
-				closeButtons.forEach( ( { noticeId, button } ) => {
-					if ( button ) {
-						button.removeEventListener( "click", () => handleClick( noticeId ), true );
-					}
-				} );
-			};
-		}
-	}, [ pathname, notices ] );
 
 	const handleDismiss = useCallback( () => {
 		setAlertToggleError( null );
@@ -159,20 +122,18 @@ const App = () => {
 										{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
 											<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
 										}
-										{ notices.length > 0 && <div className="yst-space-y-3 yoast-general-page-notices"> {
-											notices.map( ( notice, index ) => {
-												return (
-													<Notice
-														key={ index }
-														id={ notice.id || "yoast-general-page-notice-" + index }
-														title={ notice.header }
-														isDismissable={ notice.isDismissable }
-														isDismissed={ notice.isDismissed }
-													>
-														{ notice.content }
-													</Notice>
-												);
-											} )
+										{ notices.filter( notice => ! notice.isDismissed ).length > 0 && <div className="yst-space-y-3 yoast-general-page-notices"> {
+											notices.filter( notice => ! notice.isDismissed ).map( ( notice, index ) =>
+												<Notice
+													key={ index }
+													id={ notice.id || "yoast-general-page-notice-" + index }
+													title={ notice.header }
+													isDismissable={ notice.isDismissable }
+													isDismissed={ notice.isDismissed }
+												>
+													{ notice.content }
+												</Notice>
+												 )
 										}
 										</div> }
 									</div> }
