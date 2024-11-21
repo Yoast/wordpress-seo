@@ -122,14 +122,14 @@ const App = () => {
 										{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
 											<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
 										}
-										{ notices.filter( notice => ! notice.isDismissed ).length > 0 && <div className="yst-space-y-3 yoast-general-page-notices"> {
-											notices.filter( notice => ! notice.isDismissed ).map( ( notice, index ) =>
+										{ notices.length > 0 && <div className={ notices.filter( notice => ! notice.isDismissed ).length > 0 ? "yst-space-y-3 yoast-general-page-notices" : "yst-hidden" }> {
+											notices.map( ( notice, index ) =>
 												<Notice
 													key={ index }
 													id={ notice.id || "yoast-general-page-notice-" + index }
 													title={ notice.header }
 													isDismissable={ notice.isDismissable }
-													isDismissed={ notice.isDismissed }
+													className={ notice.isDismissed ? "yst-hidden" : "" }
 												>
 													{ notice.content }
 												</Notice>
