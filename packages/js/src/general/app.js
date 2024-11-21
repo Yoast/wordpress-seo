@@ -16,9 +16,6 @@ import { deleteMigratingNotices } from "../helpers/migrateNotices";
 import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
 import { useNotificationCountSync, useSelectGeneralPage } from "./hooks";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
-import { Notice } from "./components";
-import { STORE_NAME } from "./constants";
-import { useNotificationCountSync, useSelectGeneralPage } from "./hooks";
 import { ROUTES } from "./routes";
 
 /**
@@ -79,8 +76,7 @@ Menu.propTypes = {
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
-	const notices = useMemo( getMigratingNoticeInfo, [] );
-	const resolvedNotices = useSelect( select => select( STORE_NAME ).selectResolvedNotices(), [] );
+	const notices = useSelect( select => select( STORE_NAME ).selectNotices(), [] );
 
 	useEffect( () => {
 		deleteMigratingNotices( notices );
@@ -90,42 +86,6 @@ const App = () => {
 	const alertToggleError = useSelectGeneralPage( "selectAlertToggleError", [], [] );
 	const { setAlertToggleError } = useDispatch( STORE_NAME );
 	useNotificationCountSync();
-
-	useEffect( () => {
-		if ( pathname !== "/first-time-configuration" ) {
-			/**
-			 * Handles the click event for dismissing a notice.
-			 * @param {number} noticeId The ID of the notice to dismiss.
-			 *
-			 * @returns {void}
-			 */
-			const handleClick = ( noticeId ) => {
-				dismissNotice( noticeId );
-			};
-
-			const activeNotices = notices.filter( ( notice ) => ! notice.isDismissed );
-			const closeButtons = activeNotices.map( ( notice ) => {
-				return {
-					noticeId: notice.id,
-					button: document.querySelector( `#${ notice.id } .notice-dismiss` ),
-				};
-			} );
-			closeButtons.forEach( ( { noticeId, button } ) => {
-				if ( button ) {
-					button.addEventListener( "click", () => handleClick( noticeId ), true );
-				}
-			} );
-
-			// Cleanup function to remove event listeners
-			return () => {
-				closeButtons.forEach( ( { noticeId, button } ) => {
-					if ( button ) {
-						button.removeEventListener( "click", () => handleClick( noticeId ), true );
-					}
-				} );
-			};
-		}
-	}, [ pathname, notices ] );
 
 	const handleDismiss = useCallback( () => {
 		setAlertToggleError( null );
@@ -169,25 +129,18 @@ const App = () => {
 										{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
 											<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
 										}
-										{ notices.length > 0 && <div className="yst-space-y-3 yoast-general-page-notices"> {
-											notices.map( ( notice, index ) => {
-												const noticeID = notice.id || "yoast-general-page-notice-" + index;
-
-												if ( resolvedNotices.includes( noticeID ) ) {
-													return null;
-												}
-
-												return (
-													<Notice
-														key={ index }
-														id={ noticeID }
-														title={ notice.header }
-														isDismissable={ notice.isDismissable }
-													>
-														{ notice.content }
-													</Notice>
-												);
-											} )
+										{ notices.filter( notice => ! notice.isDismissed ).length > 0 && <div className="yst-space-y-3 yoast-general-page-notices"> {
+											notices.filter( notice => ! notice.isDismissed ).map( ( notice, index ) =>
+												<Notice
+													key={ index }
+													id={ notice.id || "yoast-general-page-notice-" + index }
+													title={ notice.header }
+													isDismissable={ notice.isDismissable }
+													isDismissed={ notice.isDismissed }
+												>
+													{ notice.content }
+												</Notice>
+												 )
 										}
 										</div> }
 									</div> }
