@@ -105,6 +105,7 @@ class WPSEO_Meta_Columns {
 		}
 
 		$this->admin_asset_manager->enqueue_script( 'edit-page' );
+		$this->admin_asset_manager->enqueue_style( 'edit-page' );
 
 		$added_columns = [];
 

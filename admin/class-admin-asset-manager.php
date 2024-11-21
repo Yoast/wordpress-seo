@@ -567,6 +567,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'alerts-' . $flat_version,
 			],
 			[
+				'name' => 'edit-page',
+				'src'  => 'edit-page-' . $flat_version,
+			],
+			[
 				'name' => 'featured-image',
 				'src'  => 'featured-image-' . $flat_version,
 			],
