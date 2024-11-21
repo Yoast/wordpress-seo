@@ -17,6 +17,7 @@ export default compose( [
 			getSEMrushRequestHasData,
 			getSEMrushRequestKeyphrase,
 			getPreference,
+			getIsPremium,
 		} = select( "yoast-seo/editor" );
 
 		return {
