@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Dashboard\Application\Scores;
 
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
+use Yoast\WP\SEO\Dashboard\Domain\Scores\Scores_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Scores\Scores_List;
 use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Scores\Score_Link_Collector;
