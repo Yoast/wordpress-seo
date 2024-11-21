@@ -6,11 +6,12 @@ namespace Yoast\WP\SEO\Dashboard\Infrastructure\Scores\Readability_Scores;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Scores\Readability_Scores\Readability_Scores_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Scores\Scores_Collector_Interface;
 
 /**
  * Getting readability scores from the indexable database table.
  */
-class Readability_Scores_Collector {
+class Readability_Scores_Collector implements Scores_Collector_Interface {
 
 	/**
 	 * Retrieves the current readability scores for a content type.
@@ -19,9 +20,9 @@ class Readability_Scores_Collector {
 	 * @param Content_Type                   $content_type       The content type.
 	 * @param int|null                       $term_id            The ID of the term we're filtering for.
 	 *
-	 * @return array<string, string> The readability scores for a content type.
+	 * @return array<string, string> The current readability scores for a content type.
 	 */
-	public function get_readability_scores( array $readability_scores, Content_Type $content_type, ?int $term_id ) {
+	public function get_current_scores( array $readability_scores, Content_Type $content_type, ?int $term_id ) {
 		global $wpdb;
 		$select = $this->build_select( $readability_scores );
 

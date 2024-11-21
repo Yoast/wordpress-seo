@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Dashboard\User_Interface\Scores;
 use WP_REST_Request;
 use WP_REST_Response;
 use WPSEO_Capability_Utils;
+use Yoast\WP\SEO\Dashboard\Application\Scores\Scores_Repository_Interface;
 use Yoast\WP\SEO\Dashboard\Application\Taxonomies\Taxonomies_Repository;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
@@ -37,6 +38,13 @@ trait Scores_Route_Trait {
 	 * @var Indexable_Repository
 	 */
 	protected $indexable_repository;
+
+	/**
+	 * The scores repository.
+	 *
+	 * @var Scores_Repository_Interface
+	 */
+	private $scores_repository;
 
 	/**
 	 * Sets the collectors for the trait.
@@ -91,6 +99,12 @@ trait Scores_Route_Trait {
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
 						],
+						'taxonomy' => [
+							'required'          => false,
+							'type'              => 'string',
+							'default'           => '',
+							'sanitize_callback' => 'sanitize_text_field',
+						],
 						'term' => [
 							'required'          => false,
 							'type'              => 'integer',
@@ -99,12 +113,6 @@ trait Scores_Route_Trait {
 								return \intval( $param );
 							},
 						],
-						'taxonomy' => [
-							'required'          => false,
-							'type'              => 'string',
-							'default'           => '',
-							'sanitize_callback' => 'sanitize_text_field',
-						],
 					],
 				],
 			]
@@ -112,7 +120,7 @@ trait Scores_Route_Trait {
 	}
 
 	/**
-	 * Gets the SEO scores of a specific content type.
+	 * Gets the scores of a specific content type.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -149,7 +157,7 @@ trait Scores_Route_Trait {
 		}
 
 		return new WP_REST_Response(
-			$this->calculate_scores( $content_type, $taxonomy, $request['term'] ),
+			$this->scores_repository->get_scores( $content_type, $taxonomy, $request['term'] ),
 			200
 		);
 	}
