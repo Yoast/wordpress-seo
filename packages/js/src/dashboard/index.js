@@ -43,3 +43,9 @@ export { Dashboard } from "./components/dashboard";
  * @property {boolean} seoAnalysis Whether SEO analysis is enabled.
  * @property {boolean} readabilityAnalysis Whether readability analysis is enabled.
  */
+
+/**
+ * @typedef {Object} Endpoints The endpoints.
+ * @property {string} seoScores The endpoint for SEO scores.
+ * @property {string} readabilityScores The endpoint for readability scores.
+ */

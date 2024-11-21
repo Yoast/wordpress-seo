@@ -21,6 +21,7 @@ import { FTC_NAME } from "./store/first-time-configuration";
  * @type {import("../index").ContentType} ContentType
  * @type {import("../index").Features} Features
  * @type {import("../index").Links} Links
+ * @type {import("../index").Endpoints} Endpoints
  */
 
 domReady( () => {
@@ -50,6 +51,17 @@ domReady( () => {
 		seoAnalysis: get( window, "wpseoScriptData.dashboard.enabledAnalysisFeatures.keyphraseAnalysis", false ),
 		readabilityAnalysis: get( window, "wpseoScriptData.dashboard.enabledAnalysisFeatures.readabilityAnalysis", false ),
 	};
+
+	/** @type {Endpoints} */
+	const endpoints = {
+		seoScores: get( window, "wpseoScriptData.dashboard.endpoints.seoScores", "" ),
+		readabilityScores: get( window, "wpseoScriptData.dashboard.endpoints.readabilityScores", "" ),
+	};
+	/** @type {Object<string,string>} */
+	const headers = {
+		"X-Wp-Nonce": get( window, "wpseoScriptData.dashboard.nonce", "" ),
+	};
+
 	const router = createHashRouter(
 		createRoutesFromElements(
 			<Route path="/" element={ <App /> } errorElement={ <RouteErrorFallback className="yst-m-8" /> }>
@@ -57,7 +69,13 @@ domReady( () => {
 					path={ ROUTES.dashboard }
 					element={
 						<SidebarLayout>
-							<Dashboard contentTypes={ contentTypes } userName={ userName } features={ features } />
+							<Dashboard
+								contentTypes={ contentTypes }
+								userName={ userName }
+								features={ features }
+								endpoints={ endpoints }
+								headers={ headers }
+							/>
 							<ConnectedPremiumUpsellList />
 						</SidebarLayout>
 					}
