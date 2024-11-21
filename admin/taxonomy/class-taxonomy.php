@@ -204,6 +204,7 @@ class WPSEO_Taxonomy {
 
 		if ( self::is_term_overview( $pagenow ) ) {
 			$asset_manager->enqueue_script( 'edit-page' );
+			$asset_manager->enqueue_style( 'edit-page' );
 		}
 	}
 
