@@ -810,6 +810,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 
+		if ( self::is_post_overview( $pagenow ) ) {
+			return;
+		}
+
 		$is_editor = self::is_post_edit( $pagenow );
 
 		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
