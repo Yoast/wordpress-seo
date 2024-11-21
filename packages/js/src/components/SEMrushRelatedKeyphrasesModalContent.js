@@ -1,5 +1,5 @@
 /* External dependencies */
-import { KeyphrasesTable, PremiumUpsell , UserMessage } from "@yoast/related-keyphrase-suggestions";
+import { KeyphrasesTable , UserMessage } from "@yoast/related-keyphrase-suggestions";
 import { Root } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
@@ -41,7 +41,6 @@ export function hasMaximumRelatedKeyphrases( relatedKeyphrases ) {
  */
 export function getUserMessage( props ) {
 	const {
-		isPending,
 		requestLimitReached,
 		isSuccess,
 		response,
@@ -60,7 +59,6 @@ export function getUserMessage( props ) {
 	if ( ! requestHasData ) {
 		return "requestEmpty";
 	}
-}
 
 	if ( hasMaximumRelatedKeyphrases( relatedKeyphrases ) ) {
 		return "maxRelatedKeyphrases";
@@ -95,7 +93,6 @@ export default function RelatedKeyphraseModalContent( props ) {
 		userLocale,
 	} = props;
 
-	const isPremium = getL10nObject().isPremium;
 	const GetMoreInsightsLink = makeOutboundLink();
 	const url = "https://www.semrush.com/analytics/keywordoverview/?q=" + encodeURIComponent( keyphrase ) +
 			"&db=" + encodeURIComponent( countryCode );
