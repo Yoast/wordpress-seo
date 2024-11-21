@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Scores\Readability_Scores\Readability_Scores_I
 use Yoast\WP\SEO\Dashboard\Infrastructure\Scores\Readability_Scores\Readability_Scores_Collector;
 
 /**
- * The repository to get readability Scores.
+ * The repository to get readability scores.
  */
 class Readability_Scores_Repository implements Scores_Repository_Interface {
 

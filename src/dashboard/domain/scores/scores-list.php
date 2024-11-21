@@ -10,7 +10,7 @@ class Scores_List {
 	/**
 	 * The scores.
 	 *
-	 * @var array<Scores_Interface>
+	 * @var Scores_Interface[]
 	 */
 	private $scores = [];
 
