@@ -45,8 +45,8 @@ class Readability_Scores_Collector implements Scores_Collector_Interface {
 					SELECT {$select['fields']}
 					FROM %i AS I
 					WHERE ( I.post_status = 'publish' OR I.post_status IS NULL )
-						AND I.object_type IN ('post')
-						AND I.object_sub_type IN (%s)",
+						AND I.object_type = 'post'
+						AND I.object_sub_type = %s",
 					$replacements
 				)
 			);
@@ -68,8 +68,8 @@ class Readability_Scores_Collector implements Scores_Collector_Interface {
 				SELECT {$select['fields']}
 				FROM %i AS I
 				WHERE ( I.post_status = 'publish' OR I.post_status IS NULL )
-					AND I.object_type IN ('post')
-					AND I.object_sub_type IN (%s)
+					AND I.object_type = 'post'
+					AND I.object_sub_type = %s
 					AND I.object_id IN (
 						SELECT object_id
 						FROM %i
