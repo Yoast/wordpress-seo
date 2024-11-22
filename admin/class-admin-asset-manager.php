@@ -584,6 +584,10 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
+				'name' => 'block-editor',
+				'src'  => 'block-editor-' . $flat_version,
+			],
+			[
 				'name' => 'ai-generator',
 				'src'  => 'ai-generator-' . $flat_version,
 				'deps' => [
