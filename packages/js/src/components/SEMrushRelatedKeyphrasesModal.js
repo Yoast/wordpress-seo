@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 
 /* Yoast dependencies */
 import { NewButton, ButtonStyledLink } from "@yoast/components";
-import { Root } from "@yoast/ui-library";
 
 /* Internal dependencies */
 import { Modal } from "@yoast/related-keyphrase-suggestions";
@@ -153,7 +152,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	 * @returns {wp.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
-		const { keyphrase, location, whichModalOpen, isLoggedIn, onClose, countryCode, isRtl, learnMoreLink } = this.props;
+		const { keyphrase, location, whichModalOpen, isLoggedIn, onClose, countryCode, learnMoreLink } = this.props;
 
 		const insightsLink = "https://www.semrush.com/analytics/keywordoverview/?q=" + encodeURIComponent( keyphrase ) +
 			"&db=" + encodeURIComponent( countryCode );
@@ -169,18 +168,16 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 						{ __( "Get related keyphrases", "wordpress-seo" ) }
 					</NewButton>
 				</div> }
-				<Root context={ { isRtl } }>
-					<Modal
-						isOpen={ Boolean( keyphrase ) && whichModalOpen === location }
-						onClose={ onClose }
-						insightsLink={ insightsLink }
-						learnMoreLink={ learnMoreLink }
-					>
+				<Modal
+					isOpen={ Boolean( keyphrase ) && whichModalOpen === location }
+					onClose={ onClose }
+					insightsLink={ insightsLink }
+					learnMoreLink={ learnMoreLink }
+				>
 
-						<Slot name="YoastRelatedKeyphrases" />
+					<Slot name="YoastRelatedKeyphrases" />
 
-					</Modal>
-				</Root>
+				</Modal>
 				{ ! isLoggedIn && <div className={ "yoast" }>
 					<ButtonStyledLink
 						variant={ "secondary" }
@@ -219,7 +216,6 @@ SEMrushRelatedKeyphrasesModal.propTypes = {
 	onAuthentication: PropTypes.func.isRequired,
 	countryCode: PropTypes.string,
 	learnMoreLink: PropTypes.string,
-	isRtl: PropTypes.bool,
 };
 
 SEMrushRelatedKeyphrasesModal.defaultProps = {
@@ -229,7 +225,6 @@ SEMrushRelatedKeyphrasesModal.defaultProps = {
 	isLoggedIn: false,
 	countryCode: "en_US",
 	learnMoreLink: "",
-	isRtl: false,
 };
 
 export default SEMrushRelatedKeyphrasesModal;

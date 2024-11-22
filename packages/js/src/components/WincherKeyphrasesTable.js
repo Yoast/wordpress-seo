@@ -408,20 +408,6 @@ const WincherKeyphrasesTable = ( props ) => {
 					</tbody>
 				</table>
 			</TableWrapper>
-			<p style={ { marginBottom: 0, position: "relative" } }>
-				<GetMoreInsightsLink
-					href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }
-				>
-					{ sprintf(
-						/* translators: %s expands to Wincher */
-						__( "Get more insights over at %s", "wordpress-seo" ),
-						"Wincher"
-					) }
-				</GetMoreInsightsLink>
-				<FocusKeyphraseFootnote>
-					{ __( "* focus keyphrase", "wordpress-seo" ) }
-				</FocusKeyphraseFootnote>
-			</p>
 		</Fragment>
 	);
 };
