@@ -49,8 +49,7 @@ class SEO_Scores_Collector implements Scores_Collector_Interface {
 						AND I.object_sub_type IN (%s)
 						AND ( I.is_robots_noindex IS NULL OR I.is_robots_noindex <> 1 )",
 					$replacements
-				),
-				\ARRAY_A
+				)
 			);
 			//phpcs:enable
 			return $current_scores;
@@ -79,8 +78,7 @@ class SEO_Scores_Collector implements Scores_Collector_Interface {
 						WHERE term_taxonomy_id = %d
 				)",
 				$replacements
-			),
-			\ARRAY_A
+			)
 		);
 		//phpcs:enable
 		return $current_scores;

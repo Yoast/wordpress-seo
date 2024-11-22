@@ -65,7 +65,8 @@ abstract class Abstract_Scores_Repository implements Scores_Repository_Interface
 		$current_scores = $this->scores_collector->get_current_scores( $this->scores, $content_type, $term_id );
 
 		foreach ( $this->scores as $score ) {
-			$score->set_amount( (int) $current_scores[ $score->get_name() ] );
+			$score_name = $score->get_name();
+			$score->set_amount( (int) $current_scores->$score_name );
 			$score->set_view_link( $this->score_link_collector->get_view_link( $score, $content_type, $taxonomy, $term_id ) );
 
 			$scores_list->add( $score );

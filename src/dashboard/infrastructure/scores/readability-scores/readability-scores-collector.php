@@ -48,8 +48,7 @@ class Readability_Scores_Collector implements Scores_Collector_Interface {
 						AND I.object_type IN ('post')
 						AND I.object_sub_type IN (%s)",
 					$replacements
-				),
-				\ARRAY_A
+				)
 			);
 			//phpcs:enable
 			return $current_scores;
@@ -77,8 +76,7 @@ class Readability_Scores_Collector implements Scores_Collector_Interface {
 						WHERE term_taxonomy_id = %d
 				)",
 				$replacements
-			),
-			\ARRAY_A
+			)
 		);
 		//phpcs:enable
 		return $current_scores;
