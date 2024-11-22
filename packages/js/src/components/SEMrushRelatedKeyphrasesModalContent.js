@@ -116,11 +116,11 @@ export default function RelatedKeyphraseModalContent( props ) {
 				userLocale={ userLocale.split( "_" )[ 0 ] }
 			/> }
 
-			<UserMessage
+			{ ! isPending && <UserMessage
 				variant={ getUserMessage( props ) }
 				upsellLink={ window.wpseoAdminL10n[ "shortlinks.semrush.prices" ] }
 				className="yst-my-2"
-			/>
+			/> }
 
 			<KeyphrasesTable
 				relatedKeyphrases={ relatedKeyphrases }
