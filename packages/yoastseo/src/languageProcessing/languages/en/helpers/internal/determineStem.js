@@ -109,7 +109,9 @@ export function determineRegularStem( word, morphologyData ) {
 	 Please note that if the adjective ends in -y and -e, the ending is removed, e.g. 'acute' -> 'acut'.
 	 The list is not exhaustive and can be expanded if needed. Oxford dictionary was used to check if the forms indeed exist, e.g. "acuter".
 	 */
-	const multiSyllableAdjWithSuffixes = morphologyData.adjectives.multiSyllableAdjectives.list;
+	const multiSyllableAdjWithSuffixes = morphologyData.adjectives.multiSyllableAdjectives
+		? morphologyData.adjectives.multiSyllableAdjectives.list
+		: [];
 
 	const baseIfAdjective = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes ).base;
 	possibleRegularBases.push( baseIfAdjective );
