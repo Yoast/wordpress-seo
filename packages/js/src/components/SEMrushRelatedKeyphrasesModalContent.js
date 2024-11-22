@@ -1,17 +1,12 @@
 /* External dependencies */
 import { KeyphrasesTable, UserMessage } from "@yoast/related-keyphrase-suggestions";
 import { Root } from "@yoast/ui-library";
-import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 
 /* Internal dependencies */
 import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
 import SEMrushUpsellAlert from "./modals/SEMrushUpsellAlert";
-import { makeOutboundLink } from "@yoast/helpers";
-import SEMrushRequestFailed from "./modals/SEMrushRequestFailed";
-import SEMrushMaxRelatedKeyphrases from "./modals/SEMrushMaxRelatedKeyphrases";
-import getL10nObject from "../analysis/getL10nObject";
 
 /**
  * Determines whether the error property is present in the passed response object.
@@ -96,10 +91,6 @@ export default function RelatedKeyphraseModalContent( props ) {
 		userLocale,
 	} = props;
 
-	const GetMoreInsightsLink = makeOutboundLink();
-	const url = "https://www.semrush.com/analytics/keywordoverview/?q=" + encodeURIComponent( keyphrase ) +
-			"&db=" + encodeURIComponent( countryCode );
-
 	return (
 		<Root context={ { isRtl } }>
 
@@ -132,15 +123,6 @@ export default function RelatedKeyphraseModalContent( props ) {
 				isPending={ isPending }
 				renderButton={ renderAction }
 			/>
-			{ response?.results?.rows && <p className="yst-mb-0 yst-mt-2">
-				<GetMoreInsightsLink href={ url }>
-					{ sprintf(
-						/* translators: %s expands to Semrush */
-						__( "Get more insights at %s", "wordpress-seo" ),
-						"Semrush"
-					) }
-				</GetMoreInsightsLink>
-			</p> }
 		</Root>
 	);
 }
