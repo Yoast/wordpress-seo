@@ -2,20 +2,15 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Scores;
 
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Dashboard\Application\Scores\SEO_Scores\SEO_Scores_Repository;
-use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
  * Registers a route to get SEO scores.
  */
-class SEO_Scores_Route implements Route_Interface {
-
-	use Scores_Route_Trait;
-	use No_Conditionals;
+class SEO_Scores_Route extends Abstract_Scores_Route {
 
 	/**
-	 * Represents the prefix.
+	 * The prefix of the route.
 	 *
 	 * @var string
 	 */

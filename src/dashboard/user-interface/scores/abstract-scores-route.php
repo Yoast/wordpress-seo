@@ -2,9 +2,11 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Scores;
 
+use Exception;
 use WP_REST_Request;
 use WP_REST_Response;
 use WPSEO_Capability_Utils;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Dashboard\Application\Scores\Scores_Repository_Interface;
 use Yoast\WP\SEO\Dashboard\Application\Taxonomies\Taxonomies_Repository;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
@@ -12,11 +14,21 @@ use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types\Content_Types_Collector;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
- * Trait for routes of scores.
+ * Abstract scores route.
  */
-trait Scores_Route_Trait {
+abstract class Abstract_Scores_Route implements Route_Interface {
+
+	use No_Conditionals;
+
+	/**
+	 * The prefix of the rout.
+	 *
+	 * @var string
+	 */
+	public const ROUTE_PREFIX = null;
 
 	/**
 	 * The content types collector.
@@ -44,10 +56,10 @@ trait Scores_Route_Trait {
 	 *
 	 * @var Scores_Repository_Interface
 	 */
-	private $scores_repository;
+	protected $scores_repository;
 
 	/**
-	 * Sets the collectors for the trait.
+	 * Sets the collectors.
 	 *
 	 * @required
 	 *
@@ -62,7 +74,7 @@ trait Scores_Route_Trait {
 	}
 
 	/**
-	 * Sets the collectors for the trait.
+	 * Sets the repositories.
 	 *
 	 * @required
 	 *
@@ -80,6 +92,24 @@ trait Scores_Route_Trait {
 	}
 
 	/**
+	 * Returns the route prefix.
+	 *
+	 * @return string The route prefix.
+	 *
+	 * @throws Exception If the ROUTE_PREFIX constant is not set in the child class.
+	 */
+	public function get_route_prefix() {
+		$class  = static::class;
+		$prefix = $class::ROUTE_PREFIX;
+
+		if ( $prefix === null ) {
+			throw new Exception( 'Score route without explicit prefix' );
+		}
+
+		return $prefix;
+	}
+
+	/**
 	 * Registers routes for scores.
 	 *
 	 * @return void
@@ -87,7 +117,7 @@ trait Scores_Route_Trait {
 	public function register_routes() {
 		\register_rest_route(
 			Main::API_V1_NAMESPACE,
-			self::ROUTE_PREFIX,
+			$this->get_route_prefix(),
 			[
 				[
 					'methods'             => 'GET',

@@ -11,33 +11,33 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Scores\Score_Link_Collector;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Scores\Scores_Collector_Interface;
 
 /**
- * The trait to scores repositories.
+ * The abstract scores repository.
  */
-trait Scores_Repository_Trait {
+abstract class Abstract_Scores_Repository implements Scores_Repository_Interface {
 
 	/**
 	 * The scores collector.
 	 *
 	 * @var Scores_Collector_Interface
 	 */
-	private $scores_collector;
+	protected $scores_collector;
 
 	/**
 	 * The score link collector.
 	 *
 	 * @var Score_Link_Collector
 	 */
-	private $score_link_collector;
+	protected $score_link_collector;
 
 	/**
 	 * All scores.
 	 *
 	 * @var Scores_Interface[]
 	 */
-	private $scores;
+	protected $scores;
 
 	/**
-	 * Sets the score link collector for the trait.
+	 * Sets the score link collector.
 	 *
 	 * @required
 	 *
