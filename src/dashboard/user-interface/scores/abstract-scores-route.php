@@ -234,7 +234,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 	/**
 	 * Validates the term against the given taxonomy.
 	 *
-	 * @param int           $term_id  The ID of the term.
+	 * @param int|null      $term_id  The ID of the term.
 	 * @param Taxonomy|null $taxonomy The taxonomy.
 	 *
 	 * @return bool Whether the term passed validation.
