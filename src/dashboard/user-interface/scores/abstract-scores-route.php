@@ -157,37 +157,21 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 	 * @return WP_REST_Response The success or failure response.
 	 */
 	public function get_scores( WP_REST_Request $request ) {
-		$content_type = $this->get_content_type( $request['contentType'] );
-		if ( $content_type === null ) {
+		try {
+			$content_type = $this->get_content_type( $request['contentType'] );
+			$taxonomy     = $this->get_taxonomy( $request['taxonomy'], $content_type );
+			$term_id      = $this->get_validated_term_id( $request['term'], $taxonomy );
+		} catch ( Exception $exception ) {
 			return new WP_REST_Response(
 				[
-					'error' => 'Invalid content type.',
+					'error' => $exception->getMessage(),
 				],
-				400
-			);
-		}
-
-		$taxonomy = $this->get_taxonomy( $request['taxonomy'], $content_type );
-		if ( $request['taxonomy'] !== '' && $taxonomy === null ) {
-			return new WP_REST_Response(
-				[
-					'error' => 'Invalid taxonomy.',
-				],
-				400
-			);
-		}
-
-		if ( ! $this->validate_term( $request['term'], $taxonomy ) ) {
-			return new WP_REST_Response(
-				[
-					'error' => 'Invalid term.',
-				],
-				400
+				$exception->getCode()
 			);
 		}
 
 		return new WP_REST_Response(
-			$this->scores_repository->get_scores( $content_type, $taxonomy, $request['term'] ),
+			$this->scores_repository->get_scores( $content_type, $taxonomy, $term_id ),
 			200
 		);
 	}
@@ -198,6 +182,8 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 	 * @param string $content_type The content type.
 	 *
 	 * @return Content_Type|null The content type object.
+	 *
+	 * @throws Exception When the content type is invalid.
 	 */
 	protected function get_content_type( string $content_type ): ?Content_Type {
 		$content_types = $this->content_types_collector->get_content_types();
@@ -206,7 +192,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 			return $content_types[ $content_type ];
 		}
 
-		return null;
+		throw new Exception( 'Invalid content type.', 400 );
 	}
 
 	/**
@@ -216,6 +202,8 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 	 * @param Content_Type $content_type The content type that the taxonomy is filtering.
 	 *
 	 * @return Taxonomy|null The taxonomy object.
+	 *
+	 * @throws Exception When the taxonomy is invalid.
 	 */
 	protected function get_taxonomy( string $taxonomy, Content_Type $content_type ): ?Taxonomy {
 		if ( $taxonomy === '' ) {
@@ -228,29 +216,40 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 			return $valid_taxonomy;
 		}
 
-		return null;
+		throw new Exception( 'Invalid taxonomy.', 400 );
 	}
 
 	/**
-	 * Validates the term against the given taxonomy.
+	 * Gets the term ID validated against the given taxonomy.
 	 *
-	 * @param int|null      $term_id  The ID of the term.
+	 * @param int|null      $term_id  The term ID to be validated.
 	 * @param Taxonomy|null $taxonomy The taxonomy.
 	 *
-	 * @return bool Whether the term passed validation.
+	 * @return bool The validated term ID.
+	 *
+	 * @throws Exception When the term id is invalidated.
 	 */
-	protected function validate_term( ?int $term_id, ?Taxonomy $taxonomy ): bool {
-		if ( $term_id === null ) {
-			return ( $taxonomy === null );
+	protected function get_validated_term_id( ?int $term_id, ?Taxonomy $taxonomy ): ?int {
+		if ( $term_id !== null && $taxonomy === null ) {
+			throw new Exception( 'Term needs a provided taxonomy.', 400 );
 		}
 
-		$term = \get_term( $term_id );
-		if ( ! $term || \is_wp_error( $term ) ) {
-			return false;
+		if ( $term_id === null && $taxonomy !== null ) {
+			throw new Exception( 'Taxonomy needs a provided term.', 400 );
 		}
 
-		$taxonomy_name = ( $taxonomy === null ) ? '' : $taxonomy->get_name();
-		return $term->taxonomy === $taxonomy_name;
+		if ( $term_id !== null ) {
+			$term = \get_term( $term_id );
+			if ( ! $term || \is_wp_error( $term ) ) {
+				throw new Exception( 'Invalid term.', 400 );
+			}
+
+			if ( $taxonomy !== null && $term->taxonomy !== $taxonomy->get_name() ) {
+				throw new Exception( 'Invalid term.', 400 );
+			}
+		}
+
+		return $term_id;
 	}
 
 	/**
