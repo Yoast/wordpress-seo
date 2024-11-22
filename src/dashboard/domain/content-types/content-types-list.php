@@ -22,7 +22,16 @@ class Content_Types_List {
 	 * @return void
 	 */
 	public function add( Content_Type $content_type ): void {
-		$this->content_types[] = $content_type;
+		$this->content_types[ $content_type->get_name() ] = $content_type;
+	}
+
+	/**
+	 * Returns the content types in the list.
+	 *
+	 * @return array<Content_Type> The content types in the list.
+	 */
+	public function get(): array {
+		return $this->content_types;
 	}
 
 	/**

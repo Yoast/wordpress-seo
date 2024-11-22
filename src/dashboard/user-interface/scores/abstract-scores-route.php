@@ -186,7 +186,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 	 * @throws Exception When the content type is invalid.
 	 */
 	protected function get_content_type( string $content_type ): ?Content_Type {
-		$content_types = $this->content_types_collector->get_content_types();
+		$content_types = $this->content_types_collector->get_content_types()->get();
 
 		if ( isset( $content_types[ $content_type ] ) && \is_a( $content_types[ $content_type ], Content_Type::class ) ) {
 			return $content_types[ $content_type ];

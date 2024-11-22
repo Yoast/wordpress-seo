@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Dashboard\Application\Content_Types;
 
 use Yoast\WP\SEO\Dashboard\Application\Taxonomies\Taxonomies_Repository;
-use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Types_List;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types\Content_Types_Collector;
 
 /**
@@ -46,14 +45,11 @@ class Content_Types_Repository {
 	 * @return array<array<string,array<string, array<string, array<string, string|null>>>>> The content types array.
 	 */
 	public function get_content_types(): array {
-		$content_types_list = new Content_Types_List();
-		$content_types      = $this->content_types_collector->get_content_types();
+		$content_types_list = $this->content_types_collector->get_content_types();
 
-		foreach ( $content_types as $content_type ) {
+		foreach ( $content_types_list->get() as $content_type ) {
 			$content_type_taxonomy = $this->taxonomies_repository->get_content_type_taxonomy( $content_type->get_name() );
 			$content_type->set_taxonomy( $content_type_taxonomy );
-
-			$content_types_list->add( $content_type );
 		}
 
 		return $content_types_list->to_array();
