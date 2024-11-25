@@ -1,8 +1,7 @@
 import { SkeletonLoader } from "@yoast/ui-library";
-import { SCORE_META } from "../score-meta";
 import { ContentStatusDescription } from "./content-status-description";
-import { ScoreChart } from "./score-chart";
-import { ScoreList } from "./score-list";
+import { ScoreChart, ScoreChartSkeletonLoader } from "./score-chart";
+import { ScoreList, ScoreListSkeletonLoader } from "./score-list";
 
 /**
  * @type {import("../index").Score} Score
@@ -10,29 +9,24 @@ import { ScoreList } from "./score-list";
  */
 
 /**
+ * @type {{container: string, list: string, chart: string}}
+ */
+const CLASSNAMES = {
+	container: "yst-flex yst-flex-col @md:yst-flex-row yst-gap-12 yst-mt-6",
+	list: "yst-grow",
+	// Calculation: (line-height 1rem + py 0.375rem * 2) * 4 + (spacing 0.75rem * 2 + border 1px ) * 3 = 11.5rem + 3px.
+	chart: "yst-w-[calc(11.5rem+3px)] yst-aspect-square",
+};
+
+/**
  * @returns {JSX.Element} The element.
  */
 const ScoreContentSkeletonLoader = () => (
 	<>
-		<SkeletonLoader className="yst-w-full yst-my-6">&nbsp;</SkeletonLoader>
-		<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-7 yst-gap-6">
-			<ul className="yst-col-span-4">
-				{ Object.entries( SCORE_META ).map( ( [ name, { label } ] ) => (
-					<li
-						key={ `skeleton-loader--${ name }` }
-						className="yst-flex yst-items-center yst-min-h-[1rem] yst-py-3 yst-border-b last:yst-border-b-0"
-					>
-						<SkeletonLoader className="yst-w-3 yst-h-3 yst-rounded-full" />
-						<SkeletonLoader className="yst-ml-3 yst-mr-2">{ label }</SkeletonLoader>
-						<SkeletonLoader className="yst-w-7">1</SkeletonLoader>
-						<SkeletonLoader className="yst-ml-auto yst-button yst-button--small">View</SkeletonLoader>
-					</li>
-				) ) }
-			</ul>
-			<div className="yst-col-span-3 yst-relative">
-				<SkeletonLoader className="yst-w-full yst-aspect-square yst-rounded-full" />
-				<div className="yst-absolute yst-inset-5 yst-aspect-square yst-bg-white yst-rounded-full" />
-			</div>
+		<SkeletonLoader className="yst-w-full">&nbsp;</SkeletonLoader>
+		<div className={ CLASSNAMES.container }>
+			<ScoreListSkeletonLoader className={ CLASSNAMES.list } />
+			<ScoreChartSkeletonLoader className={ CLASSNAMES.chart } />
 		</div>
 	</>
 );
@@ -51,9 +45,9 @@ export const ScoreContent = ( { scores = [], isLoading, descriptions } ) => {
 	return (
 		<>
 			<ContentStatusDescription scores={ scores } descriptions={ descriptions } />
-			<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-7 yst-gap-6">
-				{ scores && <ScoreList scores={ scores } /> }
-				{ scores && <ScoreChart scores={ scores } /> }
+			<div className={ CLASSNAMES.container }>
+				{ scores && <ScoreList className={ CLASSNAMES.list } scores={ scores } /> }
+				{ scores && <ScoreChart className={ CLASSNAMES.chart } scores={ scores } /> }
 			</div>
 		</>
 	);

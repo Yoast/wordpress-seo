@@ -13,5 +13,5 @@ import { maxBy } from "lodash";
 export const ContentStatusDescription = ( { scores, descriptions } ) => {
 	const maxScore = maxBy( scores, "amount" );
 
-	return <p className="yst-my-6">{ descriptions[ maxScore.name ] || "" }</p>;
+	return <p>{ descriptions[ maxScore?.name ] || "" }</p>;
 };

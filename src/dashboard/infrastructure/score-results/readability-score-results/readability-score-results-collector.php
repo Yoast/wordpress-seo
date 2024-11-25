@@ -71,7 +71,7 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 			//phpcs:enable
 			$end_time = \microtime( true );
 
-			\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $current_scores ), ( \MINUTE_IN_SECONDS ) );
+			\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $current_scores ), \MINUTE_IN_SECONDS );
 
 			$results['scores']     = $current_scores;
 			$results['cache_used'] = false;
@@ -107,7 +107,7 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 		//phpcs:enable
 		$end_time = \microtime( true );
 
-		\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $current_scores ), ( \MINUTE_IN_SECONDS ) );
+		\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $current_scores ), \MINUTE_IN_SECONDS );
 
 		$results['scores']     = $current_scores;
 		$results['cache_used'] = false;

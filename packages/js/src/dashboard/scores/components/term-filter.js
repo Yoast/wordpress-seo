@@ -1,7 +1,7 @@
 import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
-import { useFetch } from "../../hooks/use-fetch";
+import { useFetch } from "../../fetch/use-fetch";
 
 /**
  * @type {import("../index").Taxonomy} Taxonomy
@@ -9,20 +9,20 @@ import { useFetch } from "../../hooks/use-fetch";
  */
 
 /**
- * @param {string|URL} baseUrl The URL to fetch from.
+ * @param {string|URL} endpoint The URL to fetch from.
  * @param {string} query The query.
- * @returns {URL} The URL with the query.
+ * @returns {URL} The URL to query for the terms.
  */
-const createQueryUrl = ( baseUrl, query ) => new URL( "?" + new URLSearchParams( {
+const createQueryUrl = ( endpoint, query ) => new URL( "?" + new URLSearchParams( {
 	search: query,
-	_fields: [ "name", "slug" ],
-} ), baseUrl );
+	_fields: [ "id", "name" ],
+} ), endpoint );
 
 /**
- * @param {{name: string, slug: string}} term The term from the response.
- * @returns {Term} The transformed term.
+ * @param {{id: number, name: string}} term The term from the response.
+ * @returns {Term} The transformed term for internal usage.
  */
-const transformTerm = ( term ) => ( { name: term.slug, label: term.name } );
+const transformTerm = ( term ) => ( { name: String( term.id ), label: term.name } );
 
 /**
  * Renders either a list of terms or a message that nothing was found.
@@ -54,7 +54,11 @@ export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
 	const { data: terms = [], error, isPending } = useFetch( {
 		dependencies: [ taxonomy.links.search, query ],
 		url: createQueryUrl( taxonomy.links.search, query ),
-		options: { headers: { "Content-Type": "application/json" } },
+		options: {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		},
 		prepareData: ( result ) => result.map( transformTerm ),
 	} );
 
