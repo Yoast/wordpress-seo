@@ -39,6 +39,8 @@ class Taxonomies_Collector {
 		/**
 		 * Filter: 'wpseo_{$content_type}_filtering_taxonomy' - Allows overriding which taxonomy filters the content type.
 		 *
+		 * @internal
+		 *
 		 * @param string $filtering_taxonomy The taxonomy that filters the content type.
 		 */
 		$filtering_taxonomy = \apply_filters( "wpseo_{$content_type}_filtering_taxonomy", '' );
