@@ -154,8 +154,9 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	render() {
 		const { keyphrase, location, whichModalOpen, isLoggedIn, onClose, countryCode, learnMoreLink } = this.props;
 
-		const insightsLink = "https://www.semrush.com/analytics/keywordoverview/?q=" + encodeURIComponent( keyphrase ) +
-			"&db=" + encodeURIComponent( countryCode );
+		const insightsLink = new URL( "https://www.semrush.com/analytics/keywordoverview/" );
+		insightsLink.searchParams.append( "q", keyphrase );
+		insightsLink.searchParams.append( "db", countryCode );
 
 		return (
 			<Fragment>
