@@ -14,8 +14,8 @@ import { ScoreList } from "./score-list";
  */
 const ScoreContentSkeletonLoader = () => (
 	<>
-		<SkeletonLoader className="yst-w-full yst-my-6">&nbsp;</SkeletonLoader>
-		<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-7 yst-gap-6">
+		<SkeletonLoader className="yst-w-full">&nbsp;</SkeletonLoader>
+		<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-7 yst-gap-6 yst-mt-6">
 			<ul className="yst-col-span-4">
 				{ Object.entries( SCORE_META ).map( ( [ name, { label } ] ) => (
 					<li
@@ -51,7 +51,7 @@ export const ScoreContent = ( { scores = [], isLoading, descriptions } ) => {
 	return (
 		<>
 			<ContentStatusDescription scores={ scores } descriptions={ descriptions } />
-			<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-7 yst-gap-6">
+			<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-7 yst-gap-6 yst-mt-6">
 				{ scores && <ScoreList scores={ scores } /> }
 				{ scores && <ScoreChart scores={ scores } /> }
 			</div>

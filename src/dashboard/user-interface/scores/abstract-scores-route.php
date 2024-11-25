@@ -24,6 +24,13 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 	use No_Conditionals;
 
 	/**
+	 * The namespace of the rout.
+	 *
+	 * @var string
+	 */
+	public const ROUTE_NAMESPACE = Main::API_V1_NAMESPACE;
+
+	/**
 	 * The prefix of the rout.
 	 *
 	 * @var string
@@ -98,7 +105,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 	 *
 	 * @throws Exception If the ROUTE_PREFIX constant is not set in the child class.
 	 */
-	public function get_route_prefix() {
+	public static function get_route_prefix() {
 		$class  = static::class;
 		$prefix = $class::ROUTE_PREFIX;
 
@@ -116,7 +123,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 	 */
 	public function register_routes() {
 		\register_rest_route(
-			Main::API_V1_NAMESPACE,
+			self::ROUTE_NAMESPACE,
 			$this->get_route_prefix(),
 			[
 				[
