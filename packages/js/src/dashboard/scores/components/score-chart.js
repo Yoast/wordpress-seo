@@ -1,4 +1,6 @@
+import { SkeletonLoader } from "@yoast/ui-library";
 import { ArcElement, Chart, Tooltip } from "chart.js";
+import classNames from "classnames";
 import { Doughnut } from "react-chartjs-2";
 import { SCORE_META } from "../score-meta";
 
@@ -50,13 +52,24 @@ const chartOptions = {
 };
 
 /**
- *
+ * @param {string} [className] The class name.
+ * @returns {JSX.Element} The element.
+ */
+export const ScoreChartSkeletonLoader = ( { className } ) => (
+	<div className={ classNames( className, "yst-relative" ) }>
+		<SkeletonLoader className="yst-w-full yst-aspect-square yst-rounded-full" />
+		<div className="yst-absolute yst-inset-5 yst-aspect-square yst-bg-white yst-rounded-full" />
+	</div>
+);
+
+/**
+ * @param {string} [className] The class name.
  * @param {Score[]} scores The scores.
  * @returns {JSX.Element} The element.
  */
-export const ScoreChart = ( { scores } ) => {
+export const ScoreChart = ( { className, scores } ) => {
 	return (
-		<div className="yst-col-span-3">
+		<div className={ className }>
 			<Doughnut
 				options={ chartOptions }
 				data={ transformScoresToGraphData( scores ) }
