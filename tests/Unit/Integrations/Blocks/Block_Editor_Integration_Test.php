@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Blocks;
 use Brain\Monkey\Functions;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
 use Yoast\WP\SEO\Integrations\Blocks\Block_Editor_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -42,6 +43,21 @@ final class Block_Editor_Integration_Test extends TestCase {
 		$this->asset_manager = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 
 		$this->instance = new Block_Editor_Integration( $this->asset_manager );
+	}
+
+	/**
+	 * Tests that the integration is loaded when the
+	 * right conditionals are met.
+	 *
+	 * @covers ::get_conditionals
+	 *
+	 * @return void
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[ Post_Conditional::class ],
+			Block_Editor_Integration::get_conditionals()
+		);
 	}
 
 	/**
