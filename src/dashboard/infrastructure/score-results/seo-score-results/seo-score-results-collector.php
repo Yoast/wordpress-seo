@@ -3,7 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\SEO_Score_Results;
 
-use stdClass;
 use WPSEO_Utils;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
@@ -24,20 +23,20 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 	 * @param Content_Type           $content_type The content type.
 	 * @param int|null               $term_id      The ID of the term we're filtering for.
 	 *
-	 * @return array<string, string> The current SEO scores for a content type.
+	 * @return array<string, object|bool|float> The current SEO scores for a content type.
 	 */
 	public function get_current_scores( array $seo_scores, Content_Type $content_type, ?int $term_id ) {
 		global $wpdb;
-		$results = new stdClass();
+		$results = [];
 
 		$content_type_name = $content_type->get_name();
 		$transient_name    = self::SEO_SCORES_TRANSIENT . '_' . $content_type_name . ( ( $term_id === null ) ? '' : '_' . $term_id );
 
 		$transient = \get_transient( $transient_name );
 		if ( $transient !== false ) {
-			$results->scores = \json_decode( $transient, false );
-			$results->cache_used = true;
-			$results->query_time = 0;
+			$results['scores']     = \json_decode( $transient, false );
+			$results['cache_used'] = true;
+			$results['query_time'] = 0;
 
 			return $results;
 		}
@@ -53,11 +52,11 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 		);
 
 		if ( $term_id === null ) {
+			$start_time = \microtime( true );
 			//phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $select['fields'] is an array of simple strings with placeholders.
 			//phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $replacements is an array with the correct replacements.
 			//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 			//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
-			$start_time = microtime(true);
 			$current_scores = $wpdb->get_row(
 				$wpdb->prepare(
 					"
@@ -70,12 +69,14 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 					$replacements
 				)
 			);
-			$end_time = microtime(true);
 			//phpcs:enable
+			$end_time = \microtime( true );
+
 			\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $current_scores ), ( \MINUTE_IN_SECONDS ) );
-			$results->scores = $current_scores;
-			$results->cache_used = false;
-			$results->query_time = $end_time - $start_time;
+
+			$results['scores']     = $current_scores;
+			$results['cache_used'] = false;
+			$results['query_time'] = ( $end_time - $start_time );
 			return $results;
 
 		}
@@ -83,11 +84,11 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 		$replacements[] = $wpdb->term_relationships;
 		$replacements[] = $term_id;
 
+		$start_time = \microtime( true );
 		//phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $select['fields'] is an array of simple strings with placeholders.
 		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $replacements is an array with the correct replacements.
 		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
-		$start_time = microtime(true);
 		$current_scores = $wpdb->get_row(
 			$wpdb->prepare(
 				"
@@ -105,12 +106,14 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 				$replacements
 			)
 		);
-		$end_time = microtime(true);
 		//phpcs:enable
+		$end_time = \microtime( true );
+
 		\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $current_scores ), ( \MINUTE_IN_SECONDS ) );
-		$results->scores = $current_scores;
-		$results->cache_used = false;
-		$results->query_time = $end_time - $start_time;
+
+		$results['scores']     = $current_scores;
+		$results['cache_used'] = false;
+		$results['query_time'] = ( $end_time - $start_time );
 		return $results;
 	}
 

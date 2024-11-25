@@ -4,10 +4,10 @@
 namespace Yoast\WP\SEO\Dashboard\Application\Score_Results;
 
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
-use Yoast\WP\SEO\Dashboard\Domain\Scores\Scores_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Results\Current_Score;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Results\Current_Scores_List;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Results\Score_Result;
+use Yoast\WP\SEO\Dashboard\Domain\Scores\Scores_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\Score_Results_Collector_Interface;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Scores\Score_Link_Collector;
@@ -72,11 +72,11 @@ abstract class Abstract_Score_Results_Repository {
 				'view' => $this->score_link_collector->get_view_link( $score, $content_type, $taxonomy, $term_id ),
 			];
 
-			$current_score = new Current_Score( $score_name, (int) $current_scores->scores->$score_name, $current_score_links );
+			$current_score = new Current_Score( $score_name, (int) $current_scores['scores']->$score_name, $current_score_links );
 			$current_scores_list->add( $current_score );
 		}
 
-		$score_result = new Score_Result( $current_scores_list, $current_scores->query_time, $current_scores->cache_used );
+		$score_result = new Score_Result( $current_scores_list, $current_scores['query_time'], $current_scores['cache_used'] );
 
 		return $score_result->to_array();
 	}
