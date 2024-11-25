@@ -814,10 +814,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
-		$is_editor = self::is_post_edit( $pagenow );
-
 		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
-		if ( ( $is_editor === false && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->display_metabox() === false ) {
+		if ( ( self::is_post_edit( $pagenow ) === false && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->display_metabox() === false ) {
 			return;
 		}
 
