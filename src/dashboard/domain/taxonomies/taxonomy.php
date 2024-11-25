@@ -46,6 +46,15 @@ class Taxonomy {
 	}
 
 	/**
+	 * Returns the name of the taxonomy.
+	 *
+	 * @return string The name of the taxonomy.
+	 */
+	public function get_name(): string {
+		return $this->name;
+	}
+
+	/**
 	 * Parses the taxonomy to the expected key value representation.
 	 *
 	 * @return array<string, array<string, string>> The taxonomy presented as the expected key value representation.
