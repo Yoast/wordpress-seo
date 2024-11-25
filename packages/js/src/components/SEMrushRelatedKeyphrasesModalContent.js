@@ -1,12 +1,11 @@
 /* External dependencies */
-import { KeyphrasesTable, UserMessage } from "@yoast/related-keyphrase-suggestions";
+import { KeyphrasesTable, UserMessage, PremiumUpsell } from "@yoast/related-keyphrase-suggestions";
 import { Root } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 
 /* Internal dependencies */
 import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
-import SEMrushUpsellAlert from "./modals/SEMrushUpsellAlert";
 
 /**
  * Determines whether the error property is present in the passed response object.
@@ -94,7 +93,10 @@ export default function RelatedKeyphraseModalContent( props ) {
 	return (
 		<Root context={ { isRtl } }>
 
-			{ ! requestLimitReached && ! isPremium && <SEMrushUpsellAlert /> }
+			{ ! requestLimitReached && ! isPremium && <PremiumUpsell
+				url={ window.wpseoAdminL10n[ "shortlinks.semrush.premium_landing_page" ] }
+				className="yst-mb-4"
+			/> }
 
 			{ ! requestLimitReached && <SEMrushCountrySelector
 				countryCode={ countryCode }
@@ -113,7 +115,6 @@ export default function RelatedKeyphraseModalContent( props ) {
 			{ ! isPending && <UserMessage
 				variant={ getUserMessage( props ) }
 				upsellLink={ window.wpseoAdminL10n[ "shortlinks.semrush.prices" ] }
-				className="yst-my-2"
 			/> }
 
 			<KeyphrasesTable
@@ -122,6 +123,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 				data={ response?.results?.rows }
 				isPending={ isPending }
 				renderButton={ renderAction }
+				className="yst-mt-4"
 			/>
 		</Root>
 	);

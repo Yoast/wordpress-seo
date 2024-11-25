@@ -116,7 +116,7 @@ const SEMrushCountrySelector = ( {
 			activeCountryCode={ activeCountryCode }
 			onChange={ setCountry }
 			onClick={ relatedKeyphrasesRequest }
-			className="yst-my-5 lg:yst-w-4/5"
+			className="yst-mb-5 lg:yst-w-4/5"
 			userLocale={ userLocale }
 		/>
 	);
