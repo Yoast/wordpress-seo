@@ -10,6 +10,10 @@
 	.wpseo-score-icon .wpseo-score-text {
 		display: none;
 	}
+
+	.wpseo-cornerstone svg {
+		margin-left: -4px;
+	}
 }
 
 /*# sourceMappingURL=edit-page.css.map */
