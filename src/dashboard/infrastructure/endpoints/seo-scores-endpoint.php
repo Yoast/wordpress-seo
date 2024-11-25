@@ -2,13 +2,15 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints;
 
+use Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;
+use Yoast\WP\SEO\Dashboard\User_Interface\Scores\Abstract_Scores_Route;
 use Yoast\WP\SEO\Dashboard\User_Interface\Scores\SEO_Scores_Route;
 
 /**
  * Represents the SEO scores endpoint.
  */
-class Seo_Scores_Endpoint implements Endpoint_Interface {
+class SEO_Scores_Endpoint implements Endpoint_Interface {
 
 	/**
 	 * Gets the name.
@@ -25,16 +27,17 @@ class Seo_Scores_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_namespace(): string {
-		return Seo_Scores_Route::ROUTE_NAMESPACE;
+		return Abstract_Scores_Route::ROUTE_NAMESPACE;
 	}
 
 	/**
 	 * Gets the route.
 	 *
+	 * @throws Exception If the route prefix is not overwritten this throws.
 	 * @return string
 	 */
 	public function get_route(): string {
-		return Seo_Scores_Route::ROUTE_PREFIX;
+		return SEO_Scores_Route::get_route_prefix();
 	}
 
 	/**

@@ -105,7 +105,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 	 *
 	 * @throws Exception If the ROUTE_PREFIX constant is not set in the child class.
 	 */
-	public function get_route_prefix() {
+	public static function get_route_prefix() {
 		$class  = static::class;
 		$prefix = $class::ROUTE_PREFIX;
 
