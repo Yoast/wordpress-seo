@@ -63,7 +63,7 @@ class Readability_Scores_Collector implements Scores_Collector_Interface {
 				)
 			);
 			//phpcs:enable
-			\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $current_scores ), ( \MINUTE_IN_SECONDS ) );
+			\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $current_scores ), \MINUTE_IN_SECONDS );
 			return $current_scores;
 
 		}
@@ -92,7 +92,7 @@ class Readability_Scores_Collector implements Scores_Collector_Interface {
 			)
 		);
 		//phpcs:enable
-		\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $current_scores ), ( \MINUTE_IN_SECONDS ) );
+		\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $current_scores ), \MINUTE_IN_SECONDS );
 		return $current_scores;
 	}
 
