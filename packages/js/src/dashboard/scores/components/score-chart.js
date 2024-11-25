@@ -14,29 +14,24 @@ Chart.register( ArcElement, Tooltip );
  * @param {Score[]} scores The scores.
  * @returns {Object} Parsed chart data.
  */
-const transformScoresToGraphData = ( scores ) => {
-	const hexes = scores.map( ( { name } ) => SCORE_META[ name ].hex );
-
-	return {
-		labels: scores.map( ( { name } ) => SCORE_META[ name ].label ),
-		datasets: [
-			{
-				cutout: "82%",
-				data: scores.map( ( { amount } ) => amount ),
-				backgroundColor: hexes,
-				borderColor: hexes,
-				borderWidth: 1,
-				offset: 1,
-				hoverOffset: 5,
-				spacing: 1,
-				weight: 1,
-				animation: {
-					animateRotate: true,
-				},
+const transformScoresToGraphData = ( scores ) => ( {
+	labels: scores.map( ( { name } ) => SCORE_META[ name ].label ),
+	datasets: [
+		{
+			cutout: "82%",
+			data: scores.map( ( { amount } ) => amount ),
+			backgroundColor: scores.map( ( { name } ) => SCORE_META[ name ].hex ),
+			borderWidth: 0,
+			offset: 0,
+			hoverOffset: 5,
+			spacing: 1,
+			weight: 1,
+			animation: {
+				animateRotate: true,
 			},
-		],
-	};
-};
+		},
+	],
+} );
 
 const chartOptions = {
 	plugins: {
@@ -48,6 +43,9 @@ const chartOptions = {
 				label: context => `${ context.label }: ${ context?.formattedValue }`,
 			},
 		},
+	},
+	layout: {
+		padding: 5,
 	},
 };
 
