@@ -179,7 +179,7 @@ export const CountrySelector = (
 				selectedLabel={ countryCode ? regionNames.of( countryCode.toUpperCase() ) : "" }
 				onChange={ onChange }
 				onQueryChange={ handleQueryChange }
-				className="yst-grow"
+				className="sm:yst-w-96"
 			>
 				{ filteredOptions.map( option => (
 					<AutocompleteField.Option key={ option.value } value={ option.value }>
