@@ -172,7 +172,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 				<Modal
 					isOpen={ Boolean( keyphrase ) && whichModalOpen === location }
 					onClose={ onClose }
-					insightsLink={ insightsLink }
+					insightsLink={ insightsLink.toString() }
 					learnMoreLink={ learnMoreLink }
 				>
 
