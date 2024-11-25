@@ -48,36 +48,4 @@ interface Scores_Interface {
 	 * @return int
 	 */
 	public function get_position(): int;
-
-	/**
-	 * Gets the amount of the score.
-	 *
-	 * @return int
-	 */
-	public function get_amount(): int;
-
-	/**
-	 * Sets the amount of the score.
-	 *
-	 * @param int $amount The amount of the score.
-	 *
-	 * @return void
-	 */
-	public function set_amount( int $amount ): void;
-
-	/**
-	 * Gets the view link of the score.
-	 *
-	 * @return string|null
-	 */
-	public function get_view_link(): ?string;
-
-	/**
-	 * Sets the view link of the score.
-	 *
-	 * @param string $view_link The view link of the score.
-	 *
-	 * @return void
-	 */
-	public function set_view_link( ?string $view_link ): void;
 }

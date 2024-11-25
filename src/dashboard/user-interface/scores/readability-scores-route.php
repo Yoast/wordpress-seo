@@ -2,7 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Scores;
 
-use Yoast\WP\SEO\Dashboard\Application\Scores\Readability_Scores\Readability_Scores_Repository;
+use Yoast\WP\SEO\Dashboard\Application\Score_Results\Readability_Score_Results\Readability_Score_Results_Repository;
 
 /**
  * Registers a route to get readability scores.
@@ -19,11 +19,11 @@ class Readability_Scores_Route extends Abstract_Scores_Route {
 	/**
 	 * Constructs the class.
 	 *
-	 * @param Readability_Scores_Repository $readability_scores_repository The readability scores repository.
+	 * @param Readability_Score_Results_Repository $readability_score_results_repository The readability score results repository.
 	 */
 	public function __construct(
-		Readability_Scores_Repository $readability_scores_repository
+		Readability_Score_Results_Repository $readability_score_results_repository
 	) {
-		$this->scores_repository = $readability_scores_repository;
+		$this->score_results_repository = $readability_score_results_repository;
 	}
 }
