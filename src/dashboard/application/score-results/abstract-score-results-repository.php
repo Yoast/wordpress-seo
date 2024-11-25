@@ -73,7 +73,7 @@ abstract class Abstract_Score_Results_Repository {
 			];
 
 			$current_score = new Current_Score( $score_name, (int) $current_scores['scores']->$score_name, $current_score_links );
-			$current_scores_list->add( $current_score );
+			$current_scores_list->add( $current_score, $score->get_position() );
 		}
 
 		$score_result = new Score_Result( $current_scores_list, $current_scores['query_time'], $current_scores['cache_used'] );

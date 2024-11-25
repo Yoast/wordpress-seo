@@ -31,9 +31,9 @@ class Score_Result {
 	/**
 	 * The constructor.
 	 *
-	 * @param Current_Score[] $current_scores_list The list of the current scores of the score result.
-	 * @param float           $query_time          The time the query took to get the score results.
-	 * @param bool            $is_cached_used      Whether cache was used to get the score results.
+	 * @param Current_Scores_List $current_scores_list The list of the current scores of the score result.
+	 * @param float               $query_time          The time the query took to get the score results.
+	 * @param bool                $is_cached_used      Whether cache was used to get the score results.
 	 */
 	public function __construct( Current_Scores_List $current_scores_list, float $query_time, bool $is_cached_used ) {
 		$this->current_scores_list = $current_scores_list;

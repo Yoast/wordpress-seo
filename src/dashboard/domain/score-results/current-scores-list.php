@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Dashboard\Domain\Score_Results;
 
 /**
- * This class describes a list of score results.
+ * This class describes a list of current scores.
  */
 class Current_Scores_List {
 
 	/**
-	 * The scores.
+	 * The current scores.
 	 *
 	 * @var Current_Score[]
 	 */
@@ -18,11 +18,12 @@ class Current_Scores_List {
 	 * Adds a current score to the list.
 	 *
 	 * @param Current_Score $current_score The current score to add.
+	 * @param int           $position      The position to add the current score.
 	 *
 	 * @return void
 	 */
-	public function add( Current_Score $current_score ): void {
-		$this->current_scores[] = $current_score;
+	public function add( Current_Score $current_score, int $position ): void {
+		$this->current_scores[ $position ] = $current_score;
 	}
 
 	/**
@@ -32,6 +33,9 @@ class Current_Scores_List {
 	 */
 	public function to_array(): array {
 		$array = [];
+
+		\ksort( $this->current_scores );
+
 		foreach ( $this->current_scores as $current_score ) {
 			$array[] = [
 				'name'   => $current_score->get_name(),
