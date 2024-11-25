@@ -308,29 +308,44 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return string The correct link.
 	 */
 	public function adjacent_rel_url( $link, $rel, $presentation = null ) {
-		if ( ! $link && ( $rel === 'next' || $rel === 'prev' ) && ( ! \is_null( $this->$rel ) ) ) {
-			if ( \class_exists( WP_HTML_Tag_Processor::class ) ) {
-				$processor = new WP_HTML_Tag_Processor( $this->$rel );
-				while ( $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
-					$href = $processor->get_attribute( 'href' );
-
-					if ( ! $href ) {
-						continue;
-					}
-
-					// Safety check for full url, not expected.
-					if ( \strpos( $href, 'http' ) === 0 ) {
-						return $href;
-					}
-
-					// Check if $href is relative and append last part of the url to permalink.
-					if ( \strpos( $href, '/' ) === 0 ) {
-						$href_parts = \explode( '/', $href );
-						return $presentation->permalink . \end( $href_parts );
-					}
-				}
-			}
+		// Prioritize existing prev and next links.
+		if ( $link ) {
+			return $link;
 		}
+
+		// Safety check for rel value.
+		if ( $rel !== 'next' && $rel !== 'prev' ) {
+			return $link;
+		}
+
+		// Check $this->next or $this->prev for existing links.
+		if ( \is_null( $this->$rel ) ) {
+			return $link;
+		}
+
+		$processor = new WP_HTML_Tag_Processor( $this->$rel );
+
+		if ( ! $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
+			return $link;
+		}
+
+		$href = $processor->get_attribute( 'href' );
+
+		if ( ! $href ) {
+			return $link;
+		}
+
+		// Safety check for full url, not expected.
+		if ( \strpos( $href, 'http' ) === 0 ) {
+			return $href;
+		}
+
+		// Check if $href is relative and append last part of the url to permalink.
+		if ( \strpos( $href, '/' ) === 0 ) {
+			$href_parts = \explode( '/', $href );
+			return $presentation->permalink . \end( $href_parts );
+		}
+
 		return $link;
 	}
 
