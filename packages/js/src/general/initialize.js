@@ -62,6 +62,11 @@ domReady( () => {
 		"X-Wp-Nonce": get( window, "wpseoScriptData.dashboard.nonce", "" ),
 	};
 
+	/** @type {{contentAnalysis: string}} */
+	const links = {
+		contentAnalysis: select( STORE_NAME ).selectLink( "https://yoa.st/content-analysis-tool" ),
+	};
+
 	const router = createHashRouter(
 		createRoutesFromElements(
 			<Route path="/" element={ <App /> } errorElement={ <RouteErrorFallback className="yst-m-8" /> }>
@@ -75,6 +80,7 @@ domReady( () => {
 								features={ features }
 								endpoints={ endpoints }
 								headers={ headers }
+								links={ links }
 							/>
 							<ConnectedPremiumUpsellList />
 						</SidebarLayout>
