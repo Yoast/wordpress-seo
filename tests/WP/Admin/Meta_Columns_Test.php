@@ -132,12 +132,24 @@ final class Meta_Columns_Test extends TestCase {
 				'bad',
 				[
 					[
-						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-						'value'   => [ 1, 40 ],
-						'type'    => 'numeric',
-						'compare' => 'BETWEEN',
+						'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
+						'compare' => 'EXISTS',
 					],
-				],
+					[
+						'relation' => 'OR',
+						[
+							'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+							'value'   => 41,
+							'type'    => 'numeric',
+							'compare' => '<',
+						],[
+						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+						'value'   => 'needs-a-value-anyway',
+						'compare' => 'NOT EXISTS',
+					]
+					]
+
+				]
 			],
 			[
 				'ok',
@@ -165,12 +177,7 @@ final class Meta_Columns_Test extends TestCase {
 				'na',
 				[
 					[
-						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-						'value'   => 'needs-a-value-anyway',
-						'compare' => 'NOT EXISTS',
-					],
-					[
-						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+						'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
 						'value'   => 'needs-a-value-anyway',
 						'compare' => 'NOT EXISTS',
 					],

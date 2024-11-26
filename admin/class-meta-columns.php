@@ -356,7 +356,10 @@ class WPSEO_Meta_Columns {
 	 */
 	protected function determine_readability_filters( $readability_filter ) {
 		if ( $readability_filter === WPSEO_Rank::NO_FOCUS ) {
-			return $this->create_no_focus_keyword_filter();
+			return $this->create_no_readability_scores_filter();
+		}
+		if ( $readability_filter === WPSEO_Rank::BAD ) {
+			return $this->create_bad_readability_scores_filter();
 		}
 		$rank = new WPSEO_Rank( $readability_filter );
 
@@ -594,6 +597,7 @@ class WPSEO_Meta_Columns {
 			$result['meta_query'] = array_merge( $result['meta_query'], [ $this->get_meta_robots_query_values() ] );
 		}
 
+
 		return array_merge( $vars, $result );
 	}
 
@@ -667,6 +671,47 @@ class WPSEO_Meta_Columns {
 				'value'   => 'needs-a-value-anyway',
 				'compare' => 'NOT EXISTS',
 			],
+		];
+	}
+	/**
+	 * Creates a filter to retrieve posts that have no keyword set.
+	 *
+	 * @return array Array containing the no focus keyword filter.
+	 */
+	protected function create_no_readability_scores_filter() {
+		return [
+			[
+				'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
+				'value'   => 'needs-a-value-anyway',
+				'compare' => 'NOT EXISTS',
+			],
+		];
+	}
+	/**
+	 * Creates a filter to retrieve posts that have no keyword set.
+	 *
+	 * @return array Array containing the no focus keyword filter.
+	 */
+	protected function create_bad_readability_scores_filter() {
+		return [
+			[
+				'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
+				'compare' => 'EXISTS',
+			],
+			[
+				'relation' => 'OR',
+				[
+				'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+				'value'   => 41,
+				'type'    => 'numeric',
+				'compare' => '<',
+			],[
+				'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+				'value'   => 'needs-a-value-anyway',
+				'compare' => 'NOT EXISTS',
+			]
+				]
+
 		];
 	}
 
