@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey\Functions;
+use WP_User;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -138,5 +139,43 @@ final class User_Helper_Test extends TestCase {
 			->andReturn( true );
 
 		$this->assertTrue( $this->instance->delete_meta( 1, 'key', 'value' ) );
+	}
+
+	/**
+	 * Tests that get_current_user_display_name return the display_name if its there or an empty string.
+	 *
+	 * @covers ::get_current_user_display_name
+	 *
+	 * @dataProvider current_user_display_name_provider
+	 *
+	 * @param WP_User|null $user                  The user.
+	 * @param string       $expected_display_name The expected display name.
+	 *
+	 * @return void
+	 */
+	public function test_get_current_user_display_name( $user, $expected_display_name ) {
+		Functions\expect( 'wp_get_current_user' )
+			->once()
+			->andReturn( $user );
+
+		$this->assertSame( $expected_display_name, $this->instance->get_current_user_display_name() );
+	}
+
+	/**
+	 * Data provider for current_user_display_name_provider test.
+	 *
+	 * @return array<string,array<WP_User,null,string>>
+	 */
+	public static function current_user_display_name_provider() {
+		$user1               = new WP_User();
+		$user1->display_name = 'admin';
+		$user2               = new WP_User();
+		$user2->display_name = 'First_name';
+
+		return [
+			[ $user1, 'admin' ],
+			[ $user2, 'First_name' ],
+			[ null, '' ],
+		];
 	}
 }
