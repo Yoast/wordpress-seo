@@ -22,6 +22,13 @@ abstract class Abstract_Score_Results_Repository {
 	protected $score_results_collector;
 
 	/**
+	 * The current scores repository.
+	 *
+	 * @var Current_Scores_Repository
+	 */
+	protected $current_scores_repository;
+
+	/**
 	 * All score groups.
 	 *
 	 * @var Score_Groups_Interface[]
