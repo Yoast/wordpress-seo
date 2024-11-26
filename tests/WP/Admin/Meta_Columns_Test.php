@@ -139,9 +139,9 @@ final class Meta_Columns_Test extends TestCase {
 						'relation' => 'OR',
 						[
 							'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-							'value'   => 41,
+							'value'   => 40,
 							'type'    => 'numeric',
-							'compare' => '<',
+							'compare' => '<=',
 						],
 						[
 							'key'     => WPSEO_Meta::$meta_prefix . 'content_score',

@@ -694,6 +694,7 @@ class WPSEO_Meta_Columns {
 	 * @return array<array<string>> Array containing the bad readability filter.
 	 */
 	protected function create_bad_readability_scores_filter() {
+		$rank = new WPSEO_Rank( WPSEO_Rank::BAD );
 		return [
 			[
 				'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
@@ -703,9 +704,9 @@ class WPSEO_Meta_Columns {
 				'relation' => 'OR',
 				[
 					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-					'value'   => 41,
+					'value'   => $rank->get_end_score(),
 					'type'    => 'numeric',
-					'compare' => '<',
+					'compare' => '<=',
 				],
 				[
 					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
