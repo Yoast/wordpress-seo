@@ -597,7 +597,6 @@ class WPSEO_Meta_Columns {
 			$result['meta_query'] = array_merge( $result['meta_query'], [ $this->get_meta_robots_query_values() ] );
 		}
 
-
 		return array_merge( $vars, $result );
 	}
 
@@ -607,7 +606,7 @@ class WPSEO_Meta_Columns {
 	 * @param number $low  The lower boundary of the score.
 	 * @param number $high The higher boundary of the score.
 	 *
-	 * @return array The Readability Score filter.
+	 * @return array<array<string>> The Readability Score filter.
 	 */
 	protected function create_readability_score_filter( $low, $high ) {
 		return [
@@ -626,7 +625,7 @@ class WPSEO_Meta_Columns {
 	 * @param number $low  The lower boundary of the score.
 	 * @param number $high The higher boundary of the score.
 	 *
-	 * @return array The SEO score filter.
+	 * @return array<array<string>> The SEO score filter.
 	 */
 	protected function create_seo_score_filter( $low, $high ) {
 		return [
@@ -642,7 +641,7 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Creates a filter to retrieve posts that were set to no-index.
 	 *
-	 * @return array Array containin the no-index filter.
+	 * @return array<array<string>> Array containin the no-index filter.
 	 */
 	protected function create_no_index_filter() {
 		return [
@@ -657,7 +656,7 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Creates a filter to retrieve posts that have no keyword set.
 	 *
-	 * @return array Array containing the no focus keyword filter.
+	 * @return array<array<string>> Array containing the no focus keyword filter.
 	 */
 	protected function create_no_focus_keyword_filter() {
 		return [
@@ -673,10 +672,11 @@ class WPSEO_Meta_Columns {
 			],
 		];
 	}
+
 	/**
 	 * Creates a filter to retrieve posts that have no keyword set.
 	 *
-	 * @return array Array containing the no focus keyword filter.
+	 * @return array<array<string>> Array containing the no focus keyword filter.
 	 */
 	protected function create_no_readability_scores_filter() {
 		return [
@@ -687,10 +687,11 @@ class WPSEO_Meta_Columns {
 			],
 		];
 	}
+
 	/**
 	 * Creates a filter to retrieve posts that have no keyword set.
 	 *
-	 * @return array Array containing the no focus keyword filter.
+	 * @return array<array<string>> Array containing the no focus keyword filter.
 	 */
 	protected function create_bad_readability_scores_filter() {
 		return [
@@ -701,16 +702,17 @@ class WPSEO_Meta_Columns {
 			[
 				'relation' => 'OR',
 				[
-				'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-				'value'   => 41,
-				'type'    => 'numeric',
-				'compare' => '<',
-			],[
-				'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-				'value'   => 'needs-a-value-anyway',
-				'compare' => 'NOT EXISTS',
-			]
-				]
+					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+					'value'   => 41,
+					'type'    => 'numeric',
+					'compare' => '<',
+				],
+				[
+					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+					'value'   => 'needs-a-value-anyway',
+					'compare' => 'NOT EXISTS',
+				],
+			],
 
 		];
 	}
@@ -753,7 +755,7 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @param string $order_by The ID of the column by which to order the posts.
 	 *
-	 * @return array Array containing the order filters.
+	 * @return array<string> Array containing the order filters.
 	 */
 	private function filter_order_by( $order_by ) {
 		switch ( $order_by ) {

@@ -142,14 +142,15 @@ final class Meta_Columns_Test extends TestCase {
 							'value'   => 41,
 							'type'    => 'numeric',
 							'compare' => '<',
-						],[
-						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-						'value'   => 'needs-a-value-anyway',
-						'compare' => 'NOT EXISTS',
-					]
-					]
+						],
+						[
+							'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+							'value'   => 'needs-a-value-anyway',
+							'compare' => 'NOT EXISTS',
+						],
+					],
 
-				]
+				],
 			],
 			[
 				'ok',
