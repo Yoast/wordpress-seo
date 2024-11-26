@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Score_Groups_Interface;
 
 /**
- * The interface of scores collectors.
+ * The interface of score result collectors.
  */
 interface Score_Results_Collector_Interface {
 

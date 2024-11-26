@@ -43,13 +43,6 @@ abstract class Abstract_Score_Group implements Score_Groups_Interface {
 	private $max_score;
 
 	/**
-	 * The view link of the score group.
-	 *
-	 * @var string
-	 */
-	private $view_link;
-
-	/**
 	 * The position of the score group.
 	 *
 	 * @var int
