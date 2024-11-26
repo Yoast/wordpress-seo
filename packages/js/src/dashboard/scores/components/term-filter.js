@@ -14,18 +14,12 @@ import { useFetch } from "../../fetch/use-fetch";
  * @returns {URL} The URL to query for the terms.
  */
 const createQueryUrl = ( endpoint, query ) => {
-	const existingParams = new URL( endpoint ).searchParams;
-	if ( existingParams.size !== 0 ) {
-		return new URL( "?" + existingParams + "&" + new URLSearchParams( {
-			search: query,
-			_fields: [ "id", "name" ],
-		} ), endpoint );
-	}
+	const url = new URL( endpoint );
 
-	return new URL( "?" + new URLSearchParams( {
-		search: query,
-		_fields: [ "id", "name" ],
-	} ), endpoint );
+	url.searchParams.set( "search", query );
+	url.searchParams.set( "_fields", [ "id", "name" ] );
+
+	return url;
 };
 
 /**
