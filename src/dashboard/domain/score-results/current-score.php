@@ -72,6 +72,9 @@ class Current_Score {
 		}
 
 		foreach ( $this->links as $key => $link ) {
+			if ( $link === null ) {
+				continue;
+			}
 			$links[ $key ] = $link;
 		}
 		return $links;
