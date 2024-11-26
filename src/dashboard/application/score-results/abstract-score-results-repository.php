@@ -64,7 +64,7 @@ abstract class Abstract_Score_Results_Repository {
 	 */
 	public function get_score_results( Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ): array {
 		$current_scores_list = new Current_Scores_List();
-		$current_scores      = $this->score_results_collector->get_current_scores( $this->score_groups, $content_type, $term_id );
+		$score_results       = $this->score_results_collector->get_score_results( $this->score_groups, $content_type, $term_id );
 
 		foreach ( $this->score_groups as $score_group ) {
 			$score_name          = $score_group->get_name();
@@ -72,11 +72,11 @@ abstract class Abstract_Score_Results_Repository {
 				'view' => $this->score_group_link_collector->get_view_link( $score_group, $content_type, $taxonomy, $term_id ),
 			];
 
-			$current_score = new Current_Score( $score_name, (int) $current_scores['scores']->$score_name, $current_score_links );
+			$current_score = new Current_Score( $score_name, (int) $score_results['scores']->$score_name, $current_score_links );
 			$current_scores_list->add( $current_score, $score_group->get_position() );
 		}
 
-		$score_result = new Score_Result( $current_scores_list, $current_scores['query_time'], $current_scores['cache_used'] );
+		$score_result = new Score_Result( $current_scores_list, $score_results['query_time'], $score_results['cache_used'] );
 
 		return $score_result->to_array();
 	}

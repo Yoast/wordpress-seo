@@ -12,13 +12,13 @@ use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Score_Groups_Interface;
 interface Score_Results_Collector_Interface {
 
 	/**
-	 * Retrieves the current score results for a content type.
+	 * Retrieves the score results for a content type.
 	 *
 	 * @param Score_Groups_Interface[] $score_groups All score groups.
 	 * @param Content_Type             $content_type The content type.
 	 * @param int|null                 $term_id      The ID of the term we're filtering for.
 	 *
-	 * @return array<string, string> The current scores for a content type.
+	 * @return array<string, string> The score results for a content type.
 	 */
-	public function get_current_scores( array $score_groups, Content_Type $content_type, ?int $term_id );
+	public function get_score_results( array $score_groups, Content_Type $content_type, ?int $term_id );
 }

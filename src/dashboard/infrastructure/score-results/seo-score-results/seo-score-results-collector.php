@@ -17,15 +17,15 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 	public const SEO_SCORES_TRANSIENT = 'wpseo_seo_scores';
 
 	/**
-	 * Retrieves the current SEO scores for a content type.
+	 * Retrieves the SEO score results for a content type.
 	 *
 	 * @param SEO_Score_Groups_Interface[] $seo_score_groups All SEO score groups.
 	 * @param Content_Type                 $content_type     The content type.
 	 * @param int|null                     $term_id          The ID of the term we're filtering for.
 	 *
-	 * @return array<string, object|bool|float> The current SEO scores for a content type.
+	 * @return array<string, object|bool|float> The SEO score results for a content type.
 	 */
-	public function get_current_scores( array $seo_score_groups, Content_Type $content_type, ?int $term_id ) {
+	public function get_score_results( array $seo_score_groups, Content_Type $content_type, ?int $term_id ) {
 		global $wpdb;
 		$results = [];
 

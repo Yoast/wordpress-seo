@@ -17,15 +17,15 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 	public const READABILITY_SCORES_TRANSIENT = 'wpseo_readability_scores';
 
 	/**
-	 * Retrieves the current readability scores for a content type.
+	 * Retrieves readability score results for a content type.
 	 *
 	 * @param Readability_Score_Groups_Interface[] $readability_score_groups All readability score groups.
 	 * @param Content_Type                         $content_type             The content type.
 	 * @param int|null                             $term_id                  The ID of the term we're filtering for.
 	 *
-	 * @return array<string, object|bool|float> The current readability scores for a content type.
+	 * @return array<string, object|bool|float> The readability score results for a content type.
 	 */
-	public function get_current_scores( array $readability_score_groups, Content_Type $content_type, ?int $term_id ) {
+	public function get_score_results( array $readability_score_groups, Content_Type $content_type, ?int $term_id ) {
 		global $wpdb;
 		$results = [];
 
