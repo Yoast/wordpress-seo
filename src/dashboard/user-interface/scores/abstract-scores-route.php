@@ -7,7 +7,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WPSEO_Capability_Utils;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Dashboard\Application\Scores\Scores_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Application\Score_Results\Abstract_Score_Results_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Taxonomies\Taxonomies_Repository;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
@@ -61,9 +61,9 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 	/**
 	 * The scores repository.
 	 *
-	 * @var Scores_Repository_Interface
+	 * @var Abstract_Score_Results_Repository
 	 */
-	protected $scores_repository;
+	protected $score_results_repository;
 
 	/**
 	 * Sets the collectors.
@@ -178,7 +178,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 		}
 
 		return new WP_REST_Response(
-			$this->scores_repository->get_scores( $content_type, $taxonomy, $term_id ),
+			$this->score_results_repository->get_score_results( $content_type, $taxonomy, $term_id ),
 			200
 		);
 	}

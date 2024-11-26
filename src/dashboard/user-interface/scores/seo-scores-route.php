@@ -2,7 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Scores;
 
-use Yoast\WP\SEO\Dashboard\Application\Scores\SEO_Scores\SEO_Scores_Repository;
+use Yoast\WP\SEO\Dashboard\Application\Score_Results\SEO_Score_Results\SEO_Score_Results_Repository;
 
 /**
  * Registers a route to get SEO scores.
@@ -19,11 +19,11 @@ class SEO_Scores_Route extends Abstract_Scores_Route {
 	/**
 	 * Constructs the class.
 	 *
-	 * @param SEO_Scores_Repository $seo_scores_repository The SEO scores repository.
+	 * @param SEO_Score_Results_Repository $seo_score_results_repository The SEO score results repository.
 	 */
 	public function __construct(
-		SEO_Scores_Repository $seo_scores_repository
+		SEO_Score_Results_Repository $seo_score_results_repository
 	) {
-		$this->scores_repository = $seo_scores_repository;
+		$this->score_results_repository = $seo_score_results_repository;
 	}
 }
