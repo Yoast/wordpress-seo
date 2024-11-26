@@ -674,9 +674,9 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Creates a filter to retrieve posts that have no keyword set.
+	 * Creates a filter to retrieve posts that have not been analyzed for readability yet..
 	 *
-	 * @return array<array<string>> Array containing the no focus keyword filter.
+	 * @return array<array<string>> Array containing the no readability filter.
 	 */
 	protected function create_no_readability_scores_filter() {
 		return [
@@ -689,9 +689,9 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Creates a filter to retrieve posts that have no keyword set.
+	 * Creates a filter to retrieve posts that have bad readability scores, including those that have not enough content to have one.
 	 *
-	 * @return array<array<string>> Array containing the no focus keyword filter.
+	 * @return array<array<string>> Array containing the bad readability filter.
 	 */
 	protected function create_bad_readability_scores_filter() {
 		return [
