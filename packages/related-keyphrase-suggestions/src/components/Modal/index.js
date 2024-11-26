@@ -30,7 +30,7 @@ export const Modal = ( { isOpen, onClose, insightsLink, learnMoreLink, children 
 					</BaseModal.Title>
 				</BaseModal.Container.Header>
 				<BaseModal.Container.Content
-					className="yst-p-6 yst-m-0 yst-max-h-[60vh] yst-overflow-y-auto"
+					className="yst-related-keyphrase-modal-content yst-m-0"
 				>
 					{ children }
 				</BaseModal.Container.Content>
