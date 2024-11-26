@@ -4,13 +4,13 @@
 namespace Yoast\WP\SEO\Dashboard\Application\Score_Results;
 
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
+use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Score_Groups_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Results\Current_Score;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Results\Current_Scores_List;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Results\Score_Result;
-use Yoast\WP\SEO\Dashboard\Domain\Scores\Scores_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Score_Groups\Score_Group_Link_Collector;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\Score_Results_Collector_Interface;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Scores\Score_Link_Collector;
 
 /**
  * The abstract score results repository.
@@ -25,32 +25,32 @@ abstract class Abstract_Score_Results_Repository {
 	protected $score_results_collector;
 
 	/**
-	 * The score link collector.
+	 * The score group link collector.
 	 *
-	 * @var Score_Link_Collector
+	 * @var Score_Group_Link_Collector
 	 */
-	protected $score_link_collector;
+	protected $score_group_link_collector;
 
 	/**
-	 * All scores.
+	 * All score groups.
 	 *
-	 * @var Scores_Interface[]
+	 * @var Score_Groups_Interface[]
 	 */
-	protected $scores;
+	protected $score_groups;
 
 	/**
 	 * Sets the score link collector.
 	 *
 	 * @required
 	 *
-	 * @param Score_Link_Collector $score_link_collector The score link collector.
+	 * @param Score_Group_Link_Collector $score_group_link_collector The score group link collector.
 	 *
 	 * @return void
 	 */
-	public function set_score_link_collector(
-		Score_Link_Collector $score_link_collector
+	public function set_score_group_link_collector(
+		Score_Group_Link_Collector $score_group_link_collector
 	) {
-		$this->score_link_collector = $score_link_collector;
+		$this->score_group_link_collector = $score_group_link_collector;
 	}
 
 	/**
@@ -64,16 +64,16 @@ abstract class Abstract_Score_Results_Repository {
 	 */
 	public function get_score_results( Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ): array {
 		$current_scores_list = new Current_Scores_List();
-		$current_scores      = $this->score_results_collector->get_current_scores( $this->scores, $content_type, $term_id );
+		$current_scores      = $this->score_results_collector->get_current_scores( $this->score_groups, $content_type, $term_id );
 
-		foreach ( $this->scores as $score ) {
-			$score_name          = $score->get_name();
+		foreach ( $this->score_groups as $score_group ) {
+			$score_name          = $score_group->get_name();
 			$current_score_links = [
-				'view' => $this->score_link_collector->get_view_link( $score, $content_type, $taxonomy, $term_id ),
+				'view' => $this->score_group_link_collector->get_view_link( $score_group, $content_type, $taxonomy, $term_id ),
 			];
 
 			$current_score = new Current_Score( $score_name, (int) $current_scores['scores']->$score_name, $current_score_links );
-			$current_scores_list->add( $current_score, $score->get_position() );
+			$current_scores_list->add( $current_score, $score_group->get_position() );
 		}
 
 		$score_result = new Score_Result( $current_scores_list, $current_scores['query_time'], $current_scores['cache_used'] );

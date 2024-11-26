@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\SEO_Score_Results;
 use WPSEO_Utils;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
-use Yoast\WP\SEO\Dashboard\Domain\Scores\SEO_Scores\SEO_Scores_Interface;
+use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\Score_Results_Collector_Interface;
 
 /**
@@ -19,13 +19,13 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 	/**
 	 * Retrieves the current SEO scores for a content type.
 	 *
-	 * @param SEO_Scores_Interface[] $seo_scores   All SEO scores.
-	 * @param Content_Type           $content_type The content type.
-	 * @param int|null               $term_id      The ID of the term we're filtering for.
+	 * @param SEO_Score_Groups_Interface[] $seo_score_groups All SEO score groups.
+	 * @param Content_Type                 $content_type     The content type.
+	 * @param int|null                     $term_id          The ID of the term we're filtering for.
 	 *
 	 * @return array<string, object|bool|float> The current SEO scores for a content type.
 	 */
-	public function get_current_scores( array $seo_scores, Content_Type $content_type, ?int $term_id ) {
+	public function get_current_scores( array $seo_score_groups, Content_Type $content_type, ?int $term_id ) {
 		global $wpdb;
 		$results = [];
 
@@ -41,7 +41,7 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 			return $results;
 		}
 
-		$select = $this->build_select( $seo_scores );
+		$select = $this->build_select( $seo_score_groups );
 
 		$replacements = \array_merge(
 			\array_values( $select['replacements'] ),
@@ -120,18 +120,18 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 	/**
 	 * Builds the select statement for the SEO scores query.
 	 *
-	 * @param SEO_Scores_Interface[] $seo_scores All SEO scores.
+	 * @param SEO_Score_Groups_Interface[] $seo_score_groups All SEO score groups.
 	 *
 	 * @return array<string, string> The select statement for the SEO scores query.
 	 */
-	private function build_select( array $seo_scores ): array {
+	private function build_select( array $seo_score_groups ): array {
 		$select_fields       = [];
 		$select_replacements = [];
 
-		foreach ( $seo_scores as $seo_score ) {
-			$min  = $seo_score->get_min_score();
-			$max  = $seo_score->get_max_score();
-			$name = $seo_score->get_name();
+		foreach ( $seo_score_groups as $seo_score_group ) {
+			$min  = $seo_score_group->get_min_score();
+			$max  = $seo_score_group->get_max_score();
+			$name = $seo_score_group->get_name();
 
 			if ( $min === null || $max === null ) {
 				$select_fields[]       = 'COUNT(CASE WHEN I.primary_focus_keyword_score IS NULL THEN 1 END) AS %i';

@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Dashboard\Application\Score_Results\Readability_Score_Results;
 
 use Yoast\WP\SEO\Dashboard\Application\Score_Results\Abstract_Score_Results_Repository;
-use Yoast\WP\SEO\Dashboard\Domain\Scores\Readability_Scores\Readability_Scores_Interface;
+use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Readability_Score_Groups\Readability_Score_Groups_Interface;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\Readability_Score_Results\Readability_Score_Results_Collector;
 
 /**
@@ -16,13 +16,13 @@ class Readability_Score_Results_Repository extends Abstract_Score_Results_Reposi
 	 * The constructor.
 	 *
 	 * @param Readability_Score_Results_Collector $readability_score_results_collector The readability score results collector.
-	 * @param Readability_Scores_Interface        ...$readability_scores               All readability scores.
+	 * @param Readability_Score_Groups_Interface  ...$readability_score_groups         All readability score groups.
 	 */
 	public function __construct(
 		Readability_Score_Results_Collector $readability_score_results_collector,
-		Readability_Scores_Interface ...$readability_scores
+		Readability_Score_Groups_Interface ...$readability_score_groups
 	) {
 		$this->score_results_collector = $readability_score_results_collector;
-		$this->scores                  = $readability_scores;
+		$this->score_groups            = $readability_score_groups;
 	}
 }

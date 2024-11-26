@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\Readability_Score_
 use WPSEO_Utils;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
-use Yoast\WP\SEO\Dashboard\Domain\Scores\Readability_Scores\Readability_Scores_Interface;
+use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Readability_Score_Groups\Readability_Score_Groups_Interface;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\Score_Results_Collector_Interface;
 
 /**
@@ -19,13 +19,13 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 	/**
 	 * Retrieves the current readability scores for a content type.
 	 *
-	 * @param Readability_Scores_Interface[] $readability_scores All readability scores.
-	 * @param Content_Type                   $content_type       The content type.
-	 * @param int|null                       $term_id            The ID of the term we're filtering for.
+	 * @param Readability_Score_Groups_Interface[] $readability_score_groups All readability score groups.
+	 * @param Content_Type                         $content_type             The content type.
+	 * @param int|null                             $term_id                  The ID of the term we're filtering for.
 	 *
-	 * @return array<string, object|bool|float> The current SEO scores for a content type.
+	 * @return array<string, object|bool|float> The current readability scores for a content type.
 	 */
-	public function get_current_scores( array $readability_scores, Content_Type $content_type, ?int $term_id ) {
+	public function get_current_scores( array $readability_score_groups, Content_Type $content_type, ?int $term_id ) {
 		global $wpdb;
 		$results = [];
 
@@ -41,7 +41,7 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 			return $results;
 		}
 
-		$select = $this->build_select( $readability_scores );
+		$select = $this->build_select( $readability_score_groups );
 
 		$replacements = \array_merge(
 			\array_values( $select['replacements'] ),
@@ -118,18 +118,18 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 	/**
 	 * Builds the select statement for the readability scores query.
 	 *
-	 * @param Readability_Scores_Interface[] $readability_scores All readability scores.
+	 * @param Readability_Score_Groups_Interface[] $readability_score_groups All readability score groups.
 	 *
 	 * @return array<string, string> The select statement for the readability scores query.
 	 */
-	private function build_select( array $readability_scores ): array {
+	private function build_select( array $readability_score_groups ): array {
 		$select_fields       = [];
 		$select_replacements = [];
 
-		foreach ( $readability_scores as $readability_score ) {
-			$min  = $readability_score->get_min_score();
-			$max  = $readability_score->get_max_score();
-			$name = $readability_score->get_name();
+		foreach ( $readability_score_groups as $readability_score_group ) {
+			$min  = $readability_score_group->get_min_score();
+			$max  = $readability_score_group->get_max_score();
+			$name = $readability_score_group->get_name();
 
 			if ( $min === null || $max === null ) {
 				$select_fields[]       = 'COUNT(CASE WHEN I.readability_score = 0 AND I.estimated_reading_time_minutes IS NULL THEN 1 END) AS %i';

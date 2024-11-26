@@ -27,7 +27,7 @@ class Current_Scores_List {
 	}
 
 	/**
-	 * Parses the score list to the expected key value representation.
+	 * Parses the current score list to the expected key value representation.
 	 *
 	 * @return array<array<string, string|int|array<string, string>>> The score list presented as the expected key value representation.
 	 */
