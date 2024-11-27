@@ -189,6 +189,7 @@ final class Rank_Test extends TestCase {
 			[ WPSEO_Rank::BAD, 'Readability: Needs improvement' ],
 			[ WPSEO_Rank::OK, 'Readability: OK' ],
 			[ WPSEO_Rank::GOOD, 'Readability: Good' ],
+			[ WPSEO_Rank::NO_FOCUS, 'Readability: Not analyzed' ],
 		];
 	}
 
