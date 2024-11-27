@@ -21,12 +21,16 @@ import { TermFilter } from "./term-filter";
  * @returns {URL} The URL to get scores.
  */
 const createScoresUrl = ( endpoint, contentType, term ) => {
-	const searchParams = new URLSearchParams( { contentType: contentType.name } );
+	const url = new URL( endpoint );
+
+	url.searchParams.set( "contentType", contentType.name );
+
 	if ( contentType.taxonomy?.name && term?.name ) {
-		searchParams.set( "taxonomy", contentType.taxonomy.name );
-		searchParams.set( "term", term.name );
+		url.searchParams.set( "taxonomy", contentType.taxonomy.name );
+		url.searchParams.set( "term", term.name );
 	}
-	return new URL( "?" + searchParams, endpoint );
+
+	return url;
 };
 
 // Added dummy space as content to prevent children prop warnings in the console.
