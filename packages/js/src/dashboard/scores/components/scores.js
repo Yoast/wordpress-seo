@@ -94,6 +94,7 @@ export const Scores = ( { analysisType, contentTypes, endpoint, headers } ) => {
 			},
 		},
 		fetchDelay: 0,
+		prepareData: ( data ) => data?.scores,
 	} );
 
 	useEffect( () => {
