@@ -74,7 +74,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 
 	/**
 	 * Returns the score for the ParagraphTooLongAssessment.
-	 * @param {array} paragraphsLength The array containing the lengths of individual paragraphs.
+	 * @param {ParagraphLength[]} paragraphsLength The array containing the lengths of individual paragraphs.
 	 * @param {object} config The config to use.
 	 * @returns {number} The score.
 	 */
@@ -199,14 +199,19 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	getMarks( paper, researcher ) {
 		const paragraphsLength = researcher.getResearch( "getParagraphLength" );
 		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength, this.getConfig( researcher ) );
-		return map( tooLongParagraphs, function( paragraph ) {
-			const paragraphText = stripHTMLTags( paragraph.text );
-			const marked = marker( paragraphText );
-			return new Mark( {
-				original: paragraphText,
-				marked: marked,
-			} );
-		} );
+		return tooLongParagraphs.flatMap( ( { paragraph } ) =>
+			paragraph.sentences.map( sentence => new Mark( {
+				position: {
+					startOffset: sentence.sourceCodeRange.startOffset,
+					endOffset: sentence.sourceCodeRange.endOffset,
+					startOffsetBlock: sentence.sourceCodeRange.startOffset - ( sentence.parentStartOffset || 0 ),
+					endOffsetBlock: sentence.sourceCodeRange.endOffset - ( sentence.parentStartOffset || 0 ),
+					clientId: sentence.parentClientId || "",
+					attributeId: sentence.parentAttributeId || "",
+					isFirstSection: sentence.isParentFirstSectionOfBlock || false,
+				},
+			} ) )
+		);
 	}
 
 	/**
