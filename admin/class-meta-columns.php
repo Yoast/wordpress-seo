@@ -674,11 +674,13 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Creates a filter to retrieve posts that have not been analyzed for readability yet..
+	 * Creates a filter to retrieve posts that have not been analyzed for readability yet.
 	 *
 	 * @return array<array<string>> Array containing the no readability filter.
 	 */
 	protected function create_no_readability_scores_filter() {
+		// We check the existence of the Estimated Reading Time, because readability scores of posts that haven't been manually saved while Yoast SEO is 0, which is the same score as for posts with not enough content.
+		// Meanwhile, the ERT is a solid indicator of whether a post has ever been saved (aka, analyzed), so we're using that.
 		return [
 			[
 				'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
