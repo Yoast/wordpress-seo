@@ -46,7 +46,7 @@ export const Modal = ( { isOpen, onClose, insightsLink, learnMoreLink, children 
 							"Semrush",
 						) }
 						<span className="yst-sr-only">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
-						<ExternalLinkIcon className="yst-link-icon rtl:yst-rotate-270" />
+						<ExternalLinkIcon className="yst-link-icon rtl:yst-rotate-[270deg]" />
 					</Link>
 					<Link
 						href={ learnMoreLink }
