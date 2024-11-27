@@ -64,6 +64,9 @@ class SentenceLengthInTextAssessment extends Assessment {
 		const score = this.calculateScore( percentage );
 
 		const assessmentResult = new AssessmentResult();
+		if ( score < 9 ) {
+			assessmentResult.setHasAIFixes( true );
+		}
 
 		assessmentResult.setScore( score );
 		assessmentResult.setText( this.translateScore( score, percentage ) );

@@ -106,7 +106,9 @@ export default class ParagraphTooLongAssessment extends Assessment {
 		}
 
 		assessmentResult.setScore( score );
-
+		if ( score < 9 ) {
+			assessmentResult.setHasAIFixes( true );
+		}
 		if ( score >= 7 ) {
 			assessmentResult.setHasMarks( false );
 			assessmentResult.setText( sprintf(
