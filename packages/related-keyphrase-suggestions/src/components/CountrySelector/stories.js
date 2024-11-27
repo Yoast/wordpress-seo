@@ -24,16 +24,17 @@ export default {
 			description: { component },
 		},
 	},
-	render: () => {
-		const [ { countryCode, activeCountryCode }, updateArgs ] = useArgs();
-		const handleChange = useCallback( value => updateArgs( { countryCode: value } ), [ updateArgs ] );
+	render: ( { userLocale, countryCode, activeCountryCode } ) => {
+		const [ { value = countryCode, activeValue = activeCountryCode }, updateArgs ] = useArgs();
+		const handleChange = useCallback( newValue => updateArgs( { countryCode: newValue } ), [ updateArgs ] );
 		const handleClick = useCallback( () => updateArgs( { activeCountryCode: countryCode } ), [ updateArgs, countryCode ] );
 
 		return <CountrySelector
 			onClick={ handleClick }
 			onChange={ handleChange }
-			countryCode={ countryCode }
-			activeCountryCode={ activeCountryCode }
+			countryCode={ value }
+			activeCountryCode={ activeValue }
+			userLocale={ userLocale }
 		/>;
 	},
 	decorators: [

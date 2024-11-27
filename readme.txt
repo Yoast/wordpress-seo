@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.7
-Stable tag: 23.8
+Stable tag: 23.9
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -274,45 +274,48 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 24.0 =
+
+Release date: 2024-12-03
+
+#### Enhancements
+
+* Allows to set OpenGraph image `width`, `height `and `type` HTML metadata to `null` in order to don't show them. Props to [GiovanniMounir](https://github.com/GiovanniMounir).
+* Improves the _transition words_ assessment for Portuguese and English by updating the relevant lists of transitions words. Props to [BrunoAseff](https://github.com/BrunoAseff).
+* Shows an error message in the Yoast _General_ page in case of JavaScript errors.
+* Updates the design and translations of the country selector in the related keyphrase suggestion modal.
+
+#### Bugfixes
+
+* Fixes a bug where the first step in the _First time configuration_ would not be considered finished unless the _Site representation_ step would be finished as well.
+* Fixes a bug where the settings for a post type are inaccessible when the permalink structure includes special characters that require encoding, e.g., when WooCommerce products are set to use the \"Shop base with category\" permalink structure.
+* Fixes a bug where the Yoast _General_ page would not reflect the active menu item properly if using a fallback.
+
+#### Other
+
+* Improves the documentation for `wpseo_enable_tracking` filter. Props to [kkmuffme](https://github.com/kkmuffme).
+
 = 23.9 =
 
 Release date: 2024-11-19
 
+Yoast SEO 23.9 brings enhancements to the Yoast SEO Semrush integration and various bug fixes. Find more about Yoast SEO 23.9 in [our release post](https://yoa.st/release-19-11-24)!
+
 #### Enhancements
 
-* Adds a maximum width to the problems and notifications in the dashboard.
-* Adds new columns and design to the related key phrase suggestions table.
+* Adds a maximum width to the problems and notifications sections on the _General_ page.
+* Adds _Intent_ and _Difficulty_ to the metrics shown in the Semrush integration.
 * Improves the compatibility of the Yoast blocks with WordPress 6.7.
 
 #### Bugfixes
 
-* Fixes a bug where a fatal error is triggered in Php 8.x when a user's additional contact methods have been improperly set to `null`. Props to [PhilETaylor](https://github.com/PhilETaylor).
-* Fixes a bug where the First time configuration would have a double separator for the title and content.
-* Fixes a bug where the First time configuration would not resize properly on smaller width screens.
-* Fixes a bug where the highlighting marker button was incorrectly enabled when switching the editor mode from code to visual while the AI Optimize toast notification was still visible.
+* Fixes a bug where a fatal error is triggered in PHP 8.x when a user's additional contact methods have been improperly set to `null`. Props to [PhilETaylor](https://github.com/PhilETaylor).
+* Fixes a bug where the _First time configuration_ would have a double separator for the title and content.
+* Fixes a bug where the _First time configuration_ would not resize properly on smaller width screens.
 
 #### Other
 
-* Stops PHP notices about `_load_textdomain_just_in_time` loading incorrectly, on WP 6.7.
-
-= 23.8 =
-
-Release date: 2024-11-05
-
-Yoast SEO 23.8 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-5-11-24).
-
-#### Enhancements
-
-* Introduces a new, redesigned General page.
-* Adds a notification to inform the user when an error occurs while changing the visibility of a notification or a problem.
-
-#### Bugfixes
-
-* Fixes a bug in our Elementor integration where previously saved slug values of drafts would be ignored.
-
-#### Other
-
-* Sets the _WordPress tested up to_ version to 6.7.
+* Stops PHP notices on WordPress 6.7 about `_load_textdomain_just_in_time` loading incorrectly.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

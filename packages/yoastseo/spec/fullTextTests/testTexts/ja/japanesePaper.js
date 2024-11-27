@@ -119,7 +119,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 3,
 		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 4 of the paragraphs contain more " +
-			"than the recommended maximum of 300 characters. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
+			"than the recommended maximum number of characters (300). <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,

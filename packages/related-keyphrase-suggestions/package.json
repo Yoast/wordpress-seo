@@ -72,7 +72,7 @@
     "prop-types": "^15.8.1"
   },
   "peerDependencies": {
-    "@yoast/ui-library": "^4.0.0",
+    "@yoast/ui-library": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

@@ -206,16 +206,20 @@ class SeoAnalysis extends Component {
 	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
 	 */
 	renderAIFixesButton = ( hasAIFixes, id ) => {
+		const { isElementor, isAiFeatureEnabled } = this.props;
 		const isPremium = getL10nObject().isPremium;
 
 		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
-		if ( isPremium && ! this.props.isAiFeatureEnabled ) {
+		if ( isPremium && ! isAiFeatureEnabled ) {
 			return;
 		}
 
+		const isElementorEditorPageActive =  document.body.classList.contains( "elementor-editor-active" );
+		const isNotElementorPage =  ! isElementor && ! isElementorEditorPageActive;
+
 		// The reason of adding the check if Elementor is active or not is because `isBlockEditor` method also returns `true` for Elementor.
 		// The reason of adding the check if the Elementor editor is active, is to stop showing the buttons in the in-between screen.
-		return hasAIFixes && isBlockEditor() && ! this.props.isElementor && ! document.body.classList.contains( "elementor-editor-active" ) && (
+		return hasAIFixes && isBlockEditor() && isNotElementorPage && (
 			<AIAssessmentFixesButton id={ id } isPremium={ isPremium } />
 		);
 	};

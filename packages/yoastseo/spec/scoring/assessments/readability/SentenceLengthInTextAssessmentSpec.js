@@ -332,7 +332,7 @@ describe( "An assessment for sentence length", function() {
 describe( "A test for getting the right scoring config", function() {
 	it( "uses the default config if no language-specific config is available", function() {
 		const defaultConfig = {
-			countTextIn: "words",
+			countCharacters: false,
 			recommendedLength: 20,
 			slightlyTooMany: 25,
 			farTooMany: 30,
@@ -344,7 +344,7 @@ describe( "A test for getting the right scoring config", function() {
 	} );
 	it( "uses the default config if no language-specific config is available in cornerstone", function() {
 		const defaultConfigCornerstone = {
-			countTextIn: "words",
+			countCharacters: false,
 			recommendedLength: 20,
 			slightlyTooMany: 20,
 			farTooMany: 25,
@@ -361,7 +361,7 @@ describe( "A test for getting the right scoring config", function() {
 		const mockPaper = new Paper( "" );
 		const researcher = new ItalianResearcher( mockPaper );
 		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( researcher ) ).toEqual( {
-			countTextIn: "words",
+			countCharacters: false,
 			recommendedLength: 25,
 			slightlyTooMany: 25,
 			farTooMany: 30,
@@ -375,7 +375,7 @@ describe( "A test for getting the right scoring config", function() {
 			slightlyTooMany: 20,
 			farTooMany: 25,
 		}, true ).getLanguageSpecificConfig( new PolishResearcher( mockPaper ) ) ).toEqual( {
-			countTextIn: "words",
+			countCharacters: false,
 			farTooMany: 20,
 			recommendedLength: 20,
 			slightlyTooMany: 15,
@@ -386,7 +386,7 @@ describe( "A test for getting the right scoring config", function() {
 	it( "uses a combination of language-specific and default config in cornerstone if there is regular but not cornerstone config" +
 		" available", function() {
 		const expectedConfig = {
-			countTextIn: "words",
+			countCharacters: false,
 			recommendedLength: 25,
 			slightlyTooMany: 20,
 			farTooMany: 25,

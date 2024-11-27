@@ -25,7 +25,7 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { paragraphLength: 160 } ] ) );
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs" +
-			" contains more than the recommended maximum of 150 words." +
+			" contains more than the recommended maximum number of words (150)." +
 			" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
@@ -33,7 +33,7 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { paragraphLength: 6000 } ] ) );
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs" +
-			" contains more than the recommended maximum of 150 words." +
+			" contains more than the recommended maximum number of words (150)." +
 			" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
@@ -50,7 +50,7 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 			{ paragraphLength: 71 }, { paragraphLength: 183 } ] ) );
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs" +
-			" contains more than the recommended maximum of 150 words." +
+			" contains more than the recommended maximum number of words (150)." +
 			" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
@@ -59,7 +59,7 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 			{ paragraphLength: 191 }, { paragraphLength: 183 } ] ) );
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 2 of the paragraphs" +
-			" contain more than the recommended maximum of 150 words." +
+			" contain more than the recommended maximum number of words (150)." +
 			" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
@@ -81,7 +81,7 @@ describe( "An assessment for scoring too long paragraphs in Japanese in which ch
 
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs" +
-			" contains more than the recommended maximum of 300 characters." +
+			" contains more than the recommended maximum number of characters (300)." +
 			" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
@@ -94,7 +94,7 @@ describe( "An assessment for scoring too long paragraphs in Japanese in which ch
 
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs" +
-			" contains more than the recommended maximum of 300 characters." +
+			" contains more than the recommended maximum number of characters (300)." +
 			" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
@@ -107,7 +107,7 @@ describe( "An assessment for scoring too long paragraphs in Japanese in which ch
 
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 2 of the paragraphs" +
-			" contain more than the recommended maximum of 300 characters." +
+			" contain more than the recommended maximum number of characters (300)." +
 			" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
@@ -329,7 +329,7 @@ describe( "A test for marking the sentences", function() {
 } );
 
 describe( "test for paragraph too long assessment when is used in product page analysis", function() {
-	it( "should assess a paper on a product page with paragraphs that contain less than 70 words", function() {
+	it( "should assess a paper on a product page with paragraphs that contain less than words (70)", function() {
 		const paper = new Paper( "" );
 		const config = {
 			parameters: {
@@ -361,7 +361,7 @@ describe( "test for paragraph too long assessment when is used in product page a
 		] ) );
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain" +
-			" more than the recommended maximum of 70 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
+			" more than the recommended maximum number of words (70). <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 	} );
 	it( "should assess a paper on a product page with paragraphs that contain between 70 and 100 words", function() {
 		const paper = new Paper( "" );
@@ -378,14 +378,14 @@ describe( "test for paragraph too long assessment when is used in product page a
 		] ) );
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain " +
-			"more than the recommended maximum of 70 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
+			"more than the recommended maximum number of words (70). <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 	} );
 } );
 
 describe( "test for paragraph too long assessment for languages that have language-specific config", () => {
 	// Japanese has a language specific config for paragraph length. The config is used for the unit tests below.
 	describe( "test for non-product pages", () => {
-		it( "should assess a paper with paragraphs that contain less than 300 characters (green bullet)", function() {
+		it( "should assess a paper with paragraphs that contain less than characters (300) (green bullet)", function() {
 			const paper = new Paper( "" );
 			const mockResearcher = Factory.buildMockResearcher( [
 				{ paragraphLength: 200 },
@@ -415,7 +415,7 @@ describe( "test for paragraph too long assessment for languages that have langua
 
 			expect( result.getScore() ).toEqual( 3 );
 			expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 2 of the paragraphs contain " +
-				"more than the recommended maximum of 300 characters. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
+				"more than the recommended maximum number of characters (300). <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		} );
 		it( "should assess a paper with paragraphs that contain 300-400 characters (orange bullet)", function() {
 			const paper = new Paper( "" );
@@ -431,11 +431,11 @@ describe( "test for paragraph too long assessment for languages that have langua
 
 			expect( result.getScore() ).toEqual( 6 );
 			expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 2 of the paragraphs contain " +
-				"more than the recommended maximum of 300 characters. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
+				"more than the recommended maximum number of characters (300). <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		} );
 	} );
 	describe( "test for product pages", () => {
-		it( "should assess a paper with paragraphs that contain less than 140 characters (green bullet)", function() {
+		it( "should assess a paper with paragraphs that contain less than characters (140) (green bullet)", function() {
 			const paper = new Paper( "" );
 			const mockResearcher = Factory.buildMockResearcher( [
 				{ paragraphLength: 100 },
@@ -465,7 +465,7 @@ describe( "test for paragraph too long assessment for languages that have langua
 
 			expect( result.getScore() ).toEqual( 3 );
 			expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain " +
-				"more than the recommended maximum of 140 characters. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
+				"more than the recommended maximum number of characters (140). <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		} );
 		it( "should assess a paper with all paragraphs that contain 140-200 characters (orange bullet)", function() {
 			const paper = new Paper( "" );
@@ -481,7 +481,7 @@ describe( "test for paragraph too long assessment for languages that have langua
 
 			expect( result.getScore() ).toEqual( 6 );
 			expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain " +
-				"more than the recommended maximum of 140 characters. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
+				"more than the recommended maximum number of characters (140). <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		} );
 	} );
 } );
