@@ -73,22 +73,15 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	}
 
 	/**
-	 * Returns the scores and text for the ParagraphTooLongAssessment.
-	 *
-	 * @param {ParagraphLength[]} paragraphsLength The array containing the lengths of individual paragraphs.
+	 * Returns the score for the ParagraphTooLongAssessment.
+	 * @param {array} paragraphsLength The array containing the lengths of individual paragraphs.
 	 * @param {object} config The config to use.
-	 *
-	 * @returns {AssessmentResult} The assessmentResult.
+	 * @returns {number} The score.
 	 */
-	calculateResult( paragraphsLength, config ) {
-		const assessmentResult = new AssessmentResult();
+	getScore( paragraphsLength, config ) {
+		const sortedParagraphsLength = paragraphsLength.sort( ( a, b ) => b.paragraphLength - a.paragraphLength );
 
-		if ( paragraphsLength.length === 0 ) {
-			return assessmentResult;
-		}
-
-		paragraphsLength = paragraphsLength.sort( ( a, b ) => b.paragraphLength - a.paragraphLength );
-		const longestParagraphLength = paragraphsLength[ 0 ].paragraphLength;
+		const longestParagraphLength = sortedParagraphsLength[ 0 ].paragraphLength;
 		let score;
 		if ( longestParagraphLength <= config.parameters.recommendedLength ) {
 			// Green indicator.
@@ -104,11 +97,30 @@ export default class ParagraphTooLongAssessment extends Assessment {
 			// Red indicator.
 			score = 3;
 		}
+		return score;
+	}
+
+	/**
+	 * Returns the scores and text for the ParagraphTooLongAssessment.
+	 *
+	 * @param {ParagraphLength[]} paragraphsLength The array containing the lengths of individual paragraphs.
+	 * @param {object} config The config to use.
+	 *
+	 * @returns {AssessmentResult} The assessmentResult.
+	 */
+	calculateResult( paragraphsLength, config ) {
+		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength, config );
+
+		const assessmentResult = new AssessmentResult();
+
+		if ( paragraphsLength.length === 0 ) {
+			return assessmentResult;
+		}
+
+		const score = this.getScore( paragraphsLength, config );
 
 		assessmentResult.setScore( score );
-		if ( score < 9 ) {
-			assessmentResult.setHasAIFixes( true );
-		}
+
 		if ( score >= 7 ) {
 			assessmentResult.setHasMarks( false );
 			assessmentResult.setText( sprintf(
@@ -154,12 +166,11 @@ export default class ParagraphTooLongAssessment extends Assessment {
 			config.parameters.recommendedLength,
 			config.urlCallToAction
 		);
+		assessmentResult.setHasMarks( true );
+		assessmentResult.setText( config.countCharacters ? characterFeedback : wordFeedback );
+		assessmentResult.setHasAIFixes( true );
 
-		return {
-			score: score,
-			hasMarks: true,
-			text: config.countCharacters ? characterFeedback : wordFeedback,
-		};
+		return assessmentResult;
 	}
 
 	/**
