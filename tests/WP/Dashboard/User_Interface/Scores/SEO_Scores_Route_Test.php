@@ -20,6 +20,13 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 final class SEO_Scores_Route_Test extends TestCase {
 
 	/**
+	 * The instance to test.
+	 *
+	 * @var SEO_Scores_Route
+	 */
+	private $instance;
+
+	/**
 	 * Holds the SEO_Score_Results_Repository instance.
 	 *
 	 * @var Mockery\MockInterface|SEO_Score_Results_Repository
