@@ -36,7 +36,7 @@ export const RequestLimitReached = ( { upsellLink, className = "" } ) => {
 							"Semrush",
 						)
 					}
-					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-text-amber-900" />
+					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-text-amber-900 rtl:yst-rotate-180" />
 
 				</Button> }
 			</div>
