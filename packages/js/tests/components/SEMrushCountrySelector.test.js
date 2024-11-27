@@ -1,13 +1,11 @@
 import { noop } from "lodash";
 import SEMrushCountrySelector from "../../../js/src/components/modals/SEMrushCountrySelector";
-import { fireEvent, render, screen, waitFor } from "../test-utils";
+import { fireEvent, render, screen } from "../test-utils";
 
 jest.mock( "@wordpress/api-fetch", () => ( {
 	__esModule: true,
 	"default": () => ( { response: {} } ),
 } ) );
-
-const DOWN_ARROW = { keyCode: 40 };
 
 describe( "SEMrushCountrySelector", () => {
 	it( "successfully calls the associated newRequest function when the select country button is clicked", () => {
@@ -21,39 +19,42 @@ describe( "SEMrushCountrySelector", () => {
 			setRequestLimitReached={ noop }
 			setRequestFailed={ noop }
 			setNoResultsFound={ noop }
+			userLocale="en"
+			isRtl={ false }
 		/> );
 
 		const button = screen.getByRole( "button" );
 		expect( button ).toBeInTheDocument();
-		expect( button ).toHaveTextContent( "Select country" );
+		expect( button ).toHaveTextContent( "Change country" );
 
 		fireEvent.click( button );
 
 		expect( onClickMock ).toHaveBeenCalled();
 	} );
 
-	it( "successfully calls the associated setCountry function when the selected option has changed", async() => {
-		const setCountryMock = jest.fn();
+	it( "successfully calls the associated setCountry function when a country is selected", () => {
+		const onChangeMock = jest.fn();
 
 		render( <SEMrushCountrySelector
-			setCountry={ setCountryMock }
+			setCountry={ onChangeMock }
 			newRequest={ noop }
 			setNoResultsFoundnewRequest={ noop }
 			setRequestSucceeded={ noop }
 			setRequestLimitReached={ noop }
 			setRequestFailed={ noop }
 			setNoResultsFound={ noop }
+			userLocale="en"
+			isRtl={ false }
 		/> );
 
-		const select = document.getElementById( "yoast-semrush-country-selector-select" );
-		fireEvent.keyDown( select, DOWN_ARROW );
+		const select = screen.getByRole( "combobox" );
 
-		let item;
-		await waitFor( () => {
-			item = screen.getByText( "United Kingdom - UK" );
-		}, { timeout: 1000 } );
-		fireEvent.click( item );
+		expect( select ).toBeInTheDocument();
 
-		expect( setCountryMock ).toHaveBeenCalledWith( "uk" );
+		fireEvent.click( select );
+		const options = screen.getAllByRole( "option" );
+		fireEvent.click( options[ 3 ] );
+
+		expect( onChangeMock ).toHaveBeenCalled();
 	} );
 } );

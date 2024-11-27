@@ -1,5 +1,16 @@
 # Changelog
 
+## 4.1.0
+
+Enhancements:
+
+* Improves styling of Autocomplete disabled state. [#21321](https://github.com/Yoast/wordpress-seo/pull/21321)
+* Adds a `Toast` element. [#21407](https://github.com/Yoast/wordpress-seo/pull/21407)
+
+Bugfixes:
+
+* Removes the 100% height styling from the Autocomplete `.yst-autocomplete__button` class. [#21323](https://github.com/Yoast/wordpress-seo/pull/21323)
+
 ## 4.0.0
 
 Enhancements:
