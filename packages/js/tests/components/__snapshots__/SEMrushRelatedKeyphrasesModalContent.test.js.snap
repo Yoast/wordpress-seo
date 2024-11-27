@@ -1,0 +1,4225 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SEMrushRelatedKeyphrasesModalContent RelatedKeyphraseModalContent renders the SEMrush related keyphrases modal content with maximum related keyphrases alert 1`] = `
+<div>
+  <div
+    class="yst-root"
+  >
+    <div
+      class="yst-flex yst-items-end yst-gap-2 yst-mb-4"
+    >
+      <div
+        class="yst-autocomplete-field sm:yst-w-96"
+      >
+        <div
+          class="yst-autocomplete yst-autocomplete-field__select"
+          data-headlessui-state=""
+        >
+          <div
+            class="yst-flex yst-items-center yst-mb-2"
+          >
+            <label
+              class="yst-label yst-autocomplete-field__label"
+              data-headlessui-state=""
+              id="headlessui-combobox-label-:rc:"
+            >
+              Show results for:
+            </label>
+          </div>
+          <div
+            class="yst-relative"
+          >
+            <div
+              class="yst-validation-input"
+            >
+              <div
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-labelledby="headlessui-combobox-label-:rc: headlessui-combobox-button-:rd:"
+                class="yst-validation-input__input yst-autocomplete__button"
+                data-headlessui-state=""
+                data-id="yst-country-selector__select"
+                id="headlessui-combobox-button-:rd:"
+                tabindex="-1"
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-labelledby="headlessui-combobox-label-:rc:"
+                  autocomplete="off"
+                  class="yst-autocomplete__input"
+                  data-headlessui-state=""
+                  id="headlessui-combobox-input-:re:"
+                  placeholder=""
+                  role="combobox"
+                  type="text"
+                  value=""
+                />
+                <svg
+                  aria-hidden="true"
+                  class="yst-autocomplete__button-icon"
+                  fill="currentColor"
+                  role="img"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        class="yst-button yst-button--secondary yst-button--large"
+        id="yst-country-selector__button"
+        type="button"
+      >
+        Change country
+      </button>
+    </div>
+    <span
+      class="yst-alert yst-alert--warning"
+      role="status"
+    >
+      <svg
+        aria-hidden="true"
+        class="yst-validation-icon yst-validation-icon--warning yst-alert__icon"
+        fill="currentColor"
+        role="img"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          clip-rule="evenodd"
+          d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+          fill-rule="evenodd"
+        />
+      </svg>
+      <div
+        class="yst-validation-message yst-validation-message--warning yst-alert__message"
+      >
+        You've reached the maximum amount of 4 related keyphrases. You can change or remove related keyphrases in the Yoast SEO metabox or sidebar.
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`SEMrushRelatedKeyphrasesModalContent RelatedKeyphraseModalContent renders the SEMrush related keyphrases modal content with no results alert 1`] = `
+<div>
+  <div
+    class="yst-root"
+  >
+    <div
+      class="yst-flex yst-items-end yst-gap-2 yst-mb-4"
+    >
+      <div
+        class="yst-autocomplete-field sm:yst-w-96"
+      >
+        <div
+          class="yst-autocomplete yst-autocomplete-field__select"
+          data-headlessui-state=""
+        >
+          <div
+            class="yst-flex yst-items-center yst-mb-2"
+          >
+            <label
+              class="yst-label yst-autocomplete-field__label"
+              data-headlessui-state=""
+              id="headlessui-combobox-label-:r6:"
+            >
+              Show results for:
+            </label>
+          </div>
+          <div
+            class="yst-relative"
+          >
+            <div
+              class="yst-validation-input"
+            >
+              <div
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-labelledby="headlessui-combobox-label-:r6: headlessui-combobox-button-:r7:"
+                class="yst-validation-input__input yst-autocomplete__button"
+                data-headlessui-state=""
+                data-id="yst-country-selector__select"
+                id="headlessui-combobox-button-:r7:"
+                tabindex="-1"
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-labelledby="headlessui-combobox-label-:r6:"
+                  autocomplete="off"
+                  class="yst-autocomplete__input"
+                  data-headlessui-state=""
+                  id="headlessui-combobox-input-:r8:"
+                  placeholder=""
+                  role="combobox"
+                  type="text"
+                  value=""
+                />
+                <svg
+                  aria-hidden="true"
+                  class="yst-autocomplete__button-icon"
+                  fill="currentColor"
+                  role="img"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        class="yst-button yst-button--secondary yst-button--large"
+        id="yst-country-selector__button"
+        type="button"
+      >
+        Change country
+      </button>
+    </div>
+    <span
+      class="yst-alert yst-alert--info"
+      role="status"
+    >
+      <svg
+        aria-hidden="true"
+        class="yst-validation-icon yst-validation-icon--info yst-alert__icon"
+        fill="currentColor"
+        role="img"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          clip-rule="evenodd"
+          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+          fill-rule="evenodd"
+        />
+      </svg>
+      <div
+        class="yst-validation-message yst-validation-message--info yst-alert__message"
+      >
+        Sorry, there's no data available for that keyphrase/country combination.
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`SEMrushRelatedKeyphrasesModalContent RelatedKeyphraseModalContent renders the SEMrush related keyphrases modal content with request failed alert 1`] = `
+<div>
+  <div
+    class="yst-root"
+  >
+    <div
+      class="yst-flex yst-items-end yst-gap-2 yst-mb-4"
+    >
+      <div
+        class="yst-autocomplete-field sm:yst-w-96"
+      >
+        <div
+          class="yst-autocomplete yst-autocomplete-field__select"
+          data-headlessui-state=""
+        >
+          <div
+            class="yst-flex yst-items-center yst-mb-2"
+          >
+            <label
+              class="yst-label yst-autocomplete-field__label"
+              data-headlessui-state=""
+              id="headlessui-combobox-label-:r9:"
+            >
+              Show results for:
+            </label>
+          </div>
+          <div
+            class="yst-relative"
+          >
+            <div
+              class="yst-validation-input"
+            >
+              <div
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-labelledby="headlessui-combobox-label-:r9: headlessui-combobox-button-:ra:"
+                class="yst-validation-input__input yst-autocomplete__button"
+                data-headlessui-state=""
+                data-id="yst-country-selector__select"
+                id="headlessui-combobox-button-:ra:"
+                tabindex="-1"
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-labelledby="headlessui-combobox-label-:r9:"
+                  autocomplete="off"
+                  class="yst-autocomplete__input"
+                  data-headlessui-state=""
+                  id="headlessui-combobox-input-:rb:"
+                  placeholder=""
+                  role="combobox"
+                  type="text"
+                  value=""
+                />
+                <svg
+                  aria-hidden="true"
+                  class="yst-autocomplete__button-icon"
+                  fill="currentColor"
+                  role="img"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        class="yst-button yst-button--secondary yst-button--large"
+        id="yst-country-selector__button"
+        type="button"
+      >
+        Change country
+      </button>
+    </div>
+    <span
+      class="yst-alert yst-alert--error"
+      role="status"
+    >
+      <svg
+        aria-hidden="true"
+        class="yst-validation-icon yst-validation-icon--error yst-alert__icon"
+        fill="currentColor"
+        role="img"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          clip-rule="evenodd"
+          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+          fill-rule="evenodd"
+        />
+      </svg>
+      <div
+        class="yst-validation-message yst-validation-message--error yst-alert__message"
+      >
+        We've encountered a problem trying to get related keyphrases. Please try again later.
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`SEMrushRelatedKeyphrasesModalContent RelatedKeyphraseModalContent renders the SEMrush related keyphrases modal content with request limit reached alert 1`] = `
+<div>
+  <div
+    class="yst-root"
+  >
+    <span
+      class="yst-alert yst-alert--warning"
+      role="status"
+    >
+      <svg
+        aria-hidden="true"
+        class="yst-validation-icon yst-validation-icon--warning yst-alert__icon"
+        fill="currentColor"
+        role="img"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          clip-rule="evenodd"
+          d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+          fill-rule="evenodd"
+        />
+      </svg>
+      <div
+        class="yst-validation-message yst-validation-message--warning yst-alert__message"
+      >
+        <div
+          class="yst-flex yst-flex-col yst-items-start"
+        >
+          You've reached your request limit for today. Check back tomorrow or upgrade your plan over at Semrush.
+          <a
+            class="yst-button yst-button--upsell yst-mt-3 yst-gap-1.5"
+            href="https://yoa.st/semrush-prices"
+            target="_blank"
+          >
+            Upgrade your Semrush plan
+            <svg
+              aria-hidden="true"
+              class="yst-w-4 yst-h-4 yst-text-amber-900"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`SEMrushRelatedKeyphrasesModalContent RelatedKeyphraseModalContent renders the SEMrush related keyphrases modal content with results and with premium 1`] = `
+<div>
+  <div
+    class="yst-root"
+  >
+    <div
+      class="yst-flex yst-items-end yst-gap-2 yst-mb-4"
+    >
+      <div
+        class="yst-autocomplete-field sm:yst-w-96"
+      >
+        <div
+          class="yst-autocomplete yst-autocomplete-field__select"
+          data-headlessui-state=""
+        >
+          <div
+            class="yst-flex yst-items-center yst-mb-2"
+          >
+            <label
+              class="yst-label yst-autocomplete-field__label"
+              data-headlessui-state=""
+              id="headlessui-combobox-label-:r3:"
+            >
+              Show results for:
+            </label>
+          </div>
+          <div
+            class="yst-relative"
+          >
+            <div
+              class="yst-validation-input"
+            >
+              <div
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-labelledby="headlessui-combobox-label-:r3: headlessui-combobox-button-:r4:"
+                class="yst-validation-input__input yst-autocomplete__button"
+                data-headlessui-state=""
+                data-id="yst-country-selector__select"
+                id="headlessui-combobox-button-:r4:"
+                tabindex="-1"
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-labelledby="headlessui-combobox-label-:r3:"
+                  autocomplete="off"
+                  class="yst-autocomplete__input"
+                  data-headlessui-state=""
+                  id="headlessui-combobox-input-:r5:"
+                  placeholder=""
+                  role="combobox"
+                  type="text"
+                  value=""
+                />
+                <svg
+                  aria-hidden="true"
+                  class="yst-autocomplete__button-icon"
+                  fill="currentColor"
+                  role="img"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        class="yst-button yst-button--secondary yst-button--large"
+        id="yst-country-selector__button"
+        type="button"
+      >
+        Change country
+      </button>
+    </div>
+    <div
+      class="yst-table-wrapper yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5"
+    >
+      <table
+        class="yst-min-w-full yst-divide-y yst-divide-slate-300 yst-mt-4"
+      >
+        <thead
+          class="yst-bg-slate-50"
+        >
+          <tr
+            class="yst-table-row"
+          >
+            <th
+              class="yst-table-header yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900"
+            >
+              Related keyphrase
+            </th>
+            <th
+              class="yst-table-header yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900"
+            >
+              Intent
+            </th>
+            <th
+              class="yst-table-header yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                Volume
+              </div>
+            </th>
+            <th
+              class="yst-table-header yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900"
+            >
+              Trend
+            </th>
+            <th
+              class="yst-table-header yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900 yst-whitespace-nowrap"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                Difficulty %
+              </div>
+            </th>
+            <th
+              class="yst-table-header yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900 yst-w-32"
+            >
+              <div
+                class="yst-flex yst-justify-end yst-text-right rtl:yst-text-left"
+              >
+                Add keyphrase
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="yst-divide-y yst-divide-gray-200 yst-bg-white"
+        >
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              speed test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Informational, The user wants to find an answer to a specific question."
+                  class="yst-intent-badge yst-intent-badge--i"
+                >
+                  I
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                14M
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,14.232000000000001 6,1.8 12,14.232000000000001 18,14.232000000000001 24,14.232000000000001 30,18.672 36,18.672 42,16.008 48,14.232000000000001 54,14.232000000000001 60,14.232000000000001 66,14.232000000000001 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,14.232000000000001 6,1.8 12,14.232000000000001 18,14.232000000000001 24,14.232000000000001 30,18.672 36,18.672 42,16.008 48,14.232000000000001 54,14.232000000000001 60,14.232000000000001 66,14.232000000000001"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        100
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        24
+                      </td>
+                      <td>
+                        24
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Very easy, Your chance to start ranking new pages."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    9
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--very-easy"
+                  />
+                </div>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <button>
+                Add
+              </button>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              internet speed test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Informational, The user wants to find an answer to a specific question."
+                  class="yst-intent-badge yst-intent-badge--i"
+                >
+                  I
+                </span>
+                <span
+                  aria-description="Transactional, The user wants to complete an action (conversion)."
+                  class="yst-intent-badge yst-intent-badge--t"
+                >
+                  T
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                7.5M
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,24 6,24 12,24 18,24 24,24 30,24 36,24 42,24 48,24 54,24 60,5.796000000000002 66,24 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,24 6,24 12,24 18,24 24,24 30,24 36,24 42,24 48,24 54,24 60,5.796000000000002 66,24"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        82
+                      </td>
+                      <td>
+                        0
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Difficult, You will need lots of ref. domains and optimized content."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    50
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--difficult"
+                  />
+                </div>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <button>
+                Add
+              </button>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              automated test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Commercial, The user wants to investigate brands or services."
+                  class="yst-intent-badge yst-intent-badge--c"
+                >
+                  C
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                1.5M
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,19.56 6,18.672 12,18.672 18,20.448 24,16.008 30,17.562 36,9.347999999999999 42,6.018 48,16.008 54,16.008 60,19.56 66,20.448 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,19.56 6,18.672 12,18.672 18,20.448 24,16.008 30,17.562 36,9.347999999999999 42,6.018 48,16.008 54,16.008 60,19.56 66,20.448"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        20
+                      </td>
+                      <td>
+                        24
+                      </td>
+                      <td>
+                        24
+                      </td>
+                      <td>
+                        16
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        29
+                      </td>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        81
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        20
+                      </td>
+                      <td>
+                        16
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Very hard, It will take a lot of on-page SEO, link building, and content promotion efforts."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    90
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--very-hard"
+                  />
+                </div>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <button>
+                Add
+              </button>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Informational, The user wants to find an answer to a specific question."
+                  class="yst-intent-badge yst-intent-badge--i"
+                >
+                  I
+                </span>
+                <span
+                  aria-description="Transactional, The user wants to complete an action (conversion)."
+                  class="yst-intent-badge yst-intent-badge--t"
+                >
+                  T
+                </span>
+                <span
+                  aria-description="Commercial, The user wants to investigate brands or services."
+                  class="yst-intent-badge yst-intent-badge--c"
+                >
+                  C
+                </span>
+                <span
+                  aria-description="Navigational, The user wants to find a specific page or site."
+                  class="yst-intent-badge yst-intent-badge--n"
+                >
+                  N
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                1.5M
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,16.008 6,19.782 12,17.562 18,20.448 24,20.448 30,20.448 36,20.448 42,17.562 48,20.448 54,19.782 60,20.448 66,19.782 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,16.008 6,19.782 12,17.562 18,20.448 24,20.448 30,20.448 36,20.448 42,17.562 48,20.448 54,19.782 60,20.448 66,19.782"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        19
+                      </td>
+                      <td>
+                        29
+                      </td>
+                      <td>
+                        16
+                      </td>
+                      <td>
+                        16
+                      </td>
+                      <td>
+                        16
+                      </td>
+                      <td>
+                        16
+                      </td>
+                      <td>
+                        29
+                      </td>
+                      <td>
+                        16
+                      </td>
+                      <td>
+                        19
+                      </td>
+                      <td>
+                        16
+                      </td>
+                      <td>
+                        19
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Possible, You will need well-structured and unique content."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    30
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--possible"
+                  />
+                </div>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <button>
+                Add
+              </button>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              wifi speed test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Informational, The user wants to find an answer to a specific question."
+                  class="yst-intent-badge yst-intent-badge--i"
+                >
+                  I
+                </span>
+                <span
+                  aria-description="Transactional, The user wants to complete an action (conversion)."
+                  class="yst-intent-badge yst-intent-badge--t"
+                >
+                  T
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                823K
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,1.8 6,14.232000000000001 12,14.232000000000001 18,14.232000000000001 24,12.012 30,14.232000000000001 36,14.232000000000001 42,12.012 48,12.012 54,12.012 60,12.012 66,12.012 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,1.8 6,14.232000000000001 12,14.232000000000001 18,14.232000000000001 24,12.012 30,14.232000000000001 36,14.232000000000001 42,12.012 48,12.012 54,12.012 60,12.012 66,12.012"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        100
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Easy, You will need quality content focused on the keyword’s intent."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    15
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--easy"
+                  />
+                </div>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <button>
+                Add
+              </button>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              typing test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Informational, The user wants to find an answer to a specific question."
+                  class="yst-intent-badge yst-intent-badge--i"
+                >
+                  I
+                </span>
+                <span
+                  aria-description="Commercial, The user wants to investigate brands or services."
+                  class="yst-intent-badge yst-intent-badge--c"
+                >
+                  C
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                550K
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,11.79 6,11.79 12,11.79 18,14.01 24,16.008 30,11.79 36,11.79 42,11.79 48,14.01 54,16.008 60,16.008 66,11.79 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,11.79 6,11.79 12,11.79 18,14.01 24,16.008 30,11.79 36,11.79 42,11.79 48,14.01 54,16.008 60,16.008 66,11.79"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        55
+                      </td>
+                      <td>
+                        55
+                      </td>
+                      <td>
+                        55
+                      </td>
+                      <td>
+                        45
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        55
+                      </td>
+                      <td>
+                        55
+                      </td>
+                      <td>
+                        55
+                      </td>
+                      <td>
+                        45
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        55
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Very hard, It will take a lot of on-page SEO, link building, and content promotion efforts."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    95
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--very-hard"
+                  />
+                </div>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <button>
+                Add
+              </button>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              accesability test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Informational, The user wants to find an answer to a specific question."
+                  class="yst-intent-badge yst-intent-badge--i"
+                >
+                  I
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                301K
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,16.008 6,14.232000000000001 12,14.232000000000001 18,14.232000000000001 24,14.232000000000001 30,12.012 36,14.232000000000001 42,12.012 48,16.008 54,14.232000000000001 60,14.232000000000001 66,17.562 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,16.008 6,14.232000000000001 12,14.232000000000001 18,14.232000000000001 24,14.232000000000001 30,12.012 36,14.232000000000001 42,12.012 48,16.008 54,14.232000000000001 60,14.232000000000001 66,17.562"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        29
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Hard, You will need lots of high-quality ref. domains and optimized content."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    80
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--hard"
+                  />
+                </div>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <button>
+                Add
+              </button>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              seo test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Commercial, The user wants to investigate brands or services."
+                  class="yst-intent-badge yst-intent-badge--c"
+                >
+                  C
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                301K
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,9.347999999999999 6,12.012 12,12.012 18,12.012 24,9.347999999999999 30,12.012 36,9.347999999999999 42,9.347999999999999 48,12.012 54,14.232000000000001 60,14.232000000000001 66,12.012 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,9.347999999999999 6,12.012 12,12.012 18,12.012 24,9.347999999999999 30,12.012 36,9.347999999999999 42,9.347999999999999 48,12.012 54,14.232000000000001 60,14.232000000000001 66,12.012"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        54
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Very hard, It will take a lot of on-page SEO, link building, and content promotion efforts."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    86
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--very-hard"
+                  />
+                </div>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <button>
+                Add
+              </button>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              related keyphrase test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Navigational, The user wants to find a specific page or site."
+                  class="yst-intent-badge yst-intent-badge--n"
+                >
+                  N
+                </span>
+                <span
+                  aria-description="Commercial, The user wants to investigate brands or services."
+                  class="yst-intent-badge yst-intent-badge--c"
+                >
+                  C
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                246K
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,9.347999999999999 6,9.347999999999999 12,12.012 18,6.018 24,1.8 30,6.018 36,6.018 42,6.018 48,9.347999999999999 54,12.012 60,12.012 66,12.012 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,9.347999999999999 6,9.347999999999999 12,12.012 18,6.018 24,1.8 30,6.018 36,6.018 42,6.018 48,9.347999999999999 54,12.012 60,12.012 66,12.012"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        81
+                      </td>
+                      <td>
+                        100
+                      </td>
+                      <td>
+                        81
+                      </td>
+                      <td>
+                        81
+                      </td>
+                      <td>
+                        81
+                      </td>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Difficult, You will need lots of ref. domains and optimized content."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    60
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--difficult"
+                  />
+                </div>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <button>
+                Add
+              </button>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              storybook tests
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Navigational, The user wants to find a specific page or site."
+                  class="yst-intent-badge yst-intent-badge--n"
+                >
+                  N
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                246K
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,6.018 6,12.012 12,14.232000000000001 18,12.012 24,14.232000000000001 30,21.114 36,19.56 42,23.112 48,22.668 54,22.446 60,19.56 66,17.562 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,6.018 6,12.012 12,14.232000000000001 18,12.012 24,14.232000000000001 30,21.114 36,19.56 42,23.112 48,22.668 54,22.446 60,19.56 66,17.562"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        81
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        13
+                      </td>
+                      <td>
+                        20
+                      </td>
+                      <td>
+                        4
+                      </td>
+                      <td>
+                        6
+                      </td>
+                      <td>
+                        7
+                      </td>
+                      <td>
+                        20
+                      </td>
+                      <td>
+                        29
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Hard, You will need lots of high-quality ref. domains and optimized content."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    72
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--hard"
+                  />
+                </div>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <button>
+                Add
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SEMrushRelatedKeyphrasesModalContent RelatedKeyphraseModalContent renders the SEMrush related keyphrases modal content with results and without premium 1`] = `
+<div>
+  <div
+    class="yst-root"
+  >
+    <div
+      class="yst-mb-4"
+    >
+      <p>
+        You’ll reach more people with multiple keyphrases! Want to quickly add these related keyphrases to the Yoast SEO analyses for even better content optimization?
+      </p>
+      <a
+        class="yst-button yst-button--upsell yst-mt-4"
+        href="https://yoa.st/413"
+        target="_blank"
+      >
+        <svg
+          aria-hidden="true"
+          class="yst-w-4 yst-h-4 yst-mr-2 yst-text-amber-900"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Explore Yoast SEO Premium!
+        <span
+          class="yst-sr-only"
+        >
+          (Opens in a new browser tab)
+        </span>
+      </a>
+    </div>
+    <div
+      class="yst-flex yst-items-end yst-gap-2 yst-mb-4"
+    >
+      <div
+        class="yst-autocomplete-field sm:yst-w-96"
+      >
+        <div
+          class="yst-autocomplete yst-autocomplete-field__select"
+          data-headlessui-state=""
+        >
+          <div
+            class="yst-flex yst-items-center yst-mb-2"
+          >
+            <label
+              class="yst-label yst-autocomplete-field__label"
+              data-headlessui-state=""
+              id="headlessui-combobox-label-:r0:"
+            >
+              Show results for:
+            </label>
+          </div>
+          <div
+            class="yst-relative"
+          >
+            <div
+              class="yst-validation-input"
+            >
+              <div
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-labelledby="headlessui-combobox-label-:r0: headlessui-combobox-button-:r1:"
+                class="yst-validation-input__input yst-autocomplete__button"
+                data-headlessui-state=""
+                data-id="yst-country-selector__select"
+                id="headlessui-combobox-button-:r1:"
+                tabindex="-1"
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-labelledby="headlessui-combobox-label-:r0:"
+                  autocomplete="off"
+                  class="yst-autocomplete__input"
+                  data-headlessui-state=""
+                  id="headlessui-combobox-input-:r2:"
+                  placeholder=""
+                  role="combobox"
+                  type="text"
+                  value=""
+                />
+                <svg
+                  aria-hidden="true"
+                  class="yst-autocomplete__button-icon"
+                  fill="currentColor"
+                  role="img"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        class="yst-button yst-button--secondary yst-button--large"
+        id="yst-country-selector__button"
+        type="button"
+      >
+        Change country
+      </button>
+    </div>
+    <div
+      class="yst-table-wrapper yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5"
+    >
+      <table
+        class="yst-min-w-full yst-divide-y yst-divide-slate-300 yst-mt-4"
+      >
+        <thead
+          class="yst-bg-slate-50"
+        >
+          <tr
+            class="yst-table-row"
+          >
+            <th
+              class="yst-table-header yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900"
+            >
+              Related keyphrase
+            </th>
+            <th
+              class="yst-table-header yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900"
+            >
+              Intent
+            </th>
+            <th
+              class="yst-table-header yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                Volume
+              </div>
+            </th>
+            <th
+              class="yst-table-header yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900"
+            >
+              Trend
+            </th>
+            <th
+              class="yst-table-header yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900 yst-whitespace-nowrap"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                Difficulty %
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="yst-divide-y yst-divide-gray-200 yst-bg-white"
+        >
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              speed test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Informational, The user wants to find an answer to a specific question."
+                  class="yst-intent-badge yst-intent-badge--i"
+                >
+                  I
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                14M
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,14.232000000000001 6,1.8 12,14.232000000000001 18,14.232000000000001 24,14.232000000000001 30,18.672 36,18.672 42,16.008 48,14.232000000000001 54,14.232000000000001 60,14.232000000000001 66,14.232000000000001 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,14.232000000000001 6,1.8 12,14.232000000000001 18,14.232000000000001 24,14.232000000000001 30,18.672 36,18.672 42,16.008 48,14.232000000000001 54,14.232000000000001 60,14.232000000000001 66,14.232000000000001"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        100
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        24
+                      </td>
+                      <td>
+                        24
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Very easy, Your chance to start ranking new pages."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    9
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--very-easy"
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              internet speed test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Informational, The user wants to find an answer to a specific question."
+                  class="yst-intent-badge yst-intent-badge--i"
+                >
+                  I
+                </span>
+                <span
+                  aria-description="Transactional, The user wants to complete an action (conversion)."
+                  class="yst-intent-badge yst-intent-badge--t"
+                >
+                  T
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                7.5M
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,24 6,24 12,24 18,24 24,24 30,24 36,24 42,24 48,24 54,24 60,5.796000000000002 66,24 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,24 6,24 12,24 18,24 24,24 30,24 36,24 42,24 48,24 54,24 60,5.796000000000002 66,24"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        0
+                      </td>
+                      <td>
+                        82
+                      </td>
+                      <td>
+                        0
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Difficult, You will need lots of ref. domains and optimized content."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    50
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--difficult"
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              automated test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Commercial, The user wants to investigate brands or services."
+                  class="yst-intent-badge yst-intent-badge--c"
+                >
+                  C
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                1.5M
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,19.56 6,18.672 12,18.672 18,20.448 24,16.008 30,17.562 36,9.347999999999999 42,6.018 48,16.008 54,16.008 60,19.56 66,20.448 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,19.56 6,18.672 12,18.672 18,20.448 24,16.008 30,17.562 36,9.347999999999999 42,6.018 48,16.008 54,16.008 60,19.56 66,20.448"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        20
+                      </td>
+                      <td>
+                        24
+                      </td>
+                      <td>
+                        24
+                      </td>
+                      <td>
+                        16
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        29
+                      </td>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        81
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        20
+                      </td>
+                      <td>
+                        16
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Very hard, It will take a lot of on-page SEO, link building, and content promotion efforts."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    90
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--very-hard"
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Informational, The user wants to find an answer to a specific question."
+                  class="yst-intent-badge yst-intent-badge--i"
+                >
+                  I
+                </span>
+                <span
+                  aria-description="Transactional, The user wants to complete an action (conversion)."
+                  class="yst-intent-badge yst-intent-badge--t"
+                >
+                  T
+                </span>
+                <span
+                  aria-description="Commercial, The user wants to investigate brands or services."
+                  class="yst-intent-badge yst-intent-badge--c"
+                >
+                  C
+                </span>
+                <span
+                  aria-description="Navigational, The user wants to find a specific page or site."
+                  class="yst-intent-badge yst-intent-badge--n"
+                >
+                  N
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                1.5M
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,16.008 6,19.782 12,17.562 18,20.448 24,20.448 30,20.448 36,20.448 42,17.562 48,20.448 54,19.782 60,20.448 66,19.782 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,16.008 6,19.782 12,17.562 18,20.448 24,20.448 30,20.448 36,20.448 42,17.562 48,20.448 54,19.782 60,20.448 66,19.782"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        19
+                      </td>
+                      <td>
+                        29
+                      </td>
+                      <td>
+                        16
+                      </td>
+                      <td>
+                        16
+                      </td>
+                      <td>
+                        16
+                      </td>
+                      <td>
+                        16
+                      </td>
+                      <td>
+                        29
+                      </td>
+                      <td>
+                        16
+                      </td>
+                      <td>
+                        19
+                      </td>
+                      <td>
+                        16
+                      </td>
+                      <td>
+                        19
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Possible, You will need well-structured and unique content."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    30
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--possible"
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              wifi speed test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Informational, The user wants to find an answer to a specific question."
+                  class="yst-intent-badge yst-intent-badge--i"
+                >
+                  I
+                </span>
+                <span
+                  aria-description="Transactional, The user wants to complete an action (conversion)."
+                  class="yst-intent-badge yst-intent-badge--t"
+                >
+                  T
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                823K
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,1.8 6,14.232000000000001 12,14.232000000000001 18,14.232000000000001 24,12.012 30,14.232000000000001 36,14.232000000000001 42,12.012 48,12.012 54,12.012 60,12.012 66,12.012 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,1.8 6,14.232000000000001 12,14.232000000000001 18,14.232000000000001 24,12.012 30,14.232000000000001 36,14.232000000000001 42,12.012 48,12.012 54,12.012 60,12.012 66,12.012"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        100
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Easy, You will need quality content focused on the keyword’s intent."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    15
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--easy"
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              typing test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Informational, The user wants to find an answer to a specific question."
+                  class="yst-intent-badge yst-intent-badge--i"
+                >
+                  I
+                </span>
+                <span
+                  aria-description="Commercial, The user wants to investigate brands or services."
+                  class="yst-intent-badge yst-intent-badge--c"
+                >
+                  C
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                550K
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,11.79 6,11.79 12,11.79 18,14.01 24,16.008 30,11.79 36,11.79 42,11.79 48,14.01 54,16.008 60,16.008 66,11.79 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,11.79 6,11.79 12,11.79 18,14.01 24,16.008 30,11.79 36,11.79 42,11.79 48,14.01 54,16.008 60,16.008 66,11.79"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        55
+                      </td>
+                      <td>
+                        55
+                      </td>
+                      <td>
+                        55
+                      </td>
+                      <td>
+                        45
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        55
+                      </td>
+                      <td>
+                        55
+                      </td>
+                      <td>
+                        55
+                      </td>
+                      <td>
+                        45
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        55
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Very hard, It will take a lot of on-page SEO, link building, and content promotion efforts."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    95
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--very-hard"
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              accesability test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Informational, The user wants to find an answer to a specific question."
+                  class="yst-intent-badge yst-intent-badge--i"
+                >
+                  I
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                301K
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,16.008 6,14.232000000000001 12,14.232000000000001 18,14.232000000000001 24,14.232000000000001 30,12.012 36,14.232000000000001 42,12.012 48,16.008 54,14.232000000000001 60,14.232000000000001 66,17.562 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,16.008 6,14.232000000000001 12,14.232000000000001 18,14.232000000000001 24,14.232000000000001 30,12.012 36,14.232000000000001 42,12.012 48,16.008 54,14.232000000000001 60,14.232000000000001 66,17.562"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        36
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        29
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Hard, You will need lots of high-quality ref. domains and optimized content."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    80
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--hard"
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              seo test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Commercial, The user wants to investigate brands or services."
+                  class="yst-intent-badge yst-intent-badge--c"
+                >
+                  C
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                301K
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,9.347999999999999 6,12.012 12,12.012 18,12.012 24,9.347999999999999 30,12.012 36,9.347999999999999 42,9.347999999999999 48,12.012 54,14.232000000000001 60,14.232000000000001 66,12.012 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,9.347999999999999 6,12.012 12,12.012 18,12.012 24,9.347999999999999 30,12.012 36,9.347999999999999 42,9.347999999999999 48,12.012 54,14.232000000000001 60,14.232000000000001 66,12.012"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        54
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Very hard, It will take a lot of on-page SEO, link building, and content promotion efforts."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    86
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--very-hard"
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              related keyphrase test
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Navigational, The user wants to find a specific page or site."
+                  class="yst-intent-badge yst-intent-badge--n"
+                >
+                  N
+                </span>
+                <span
+                  aria-description="Commercial, The user wants to investigate brands or services."
+                  class="yst-intent-badge yst-intent-badge--c"
+                >
+                  C
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                246K
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,9.347999999999999 6,9.347999999999999 12,12.012 18,6.018 24,1.8 30,6.018 36,6.018 42,6.018 48,9.347999999999999 54,12.012 60,12.012 66,12.012 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,9.347999999999999 6,9.347999999999999 12,12.012 18,6.018 24,1.8 30,6.018 36,6.018 42,6.018 48,9.347999999999999 54,12.012 60,12.012 66,12.012"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        81
+                      </td>
+                      <td>
+                        100
+                      </td>
+                      <td>
+                        81
+                      </td>
+                      <td>
+                        81
+                      </td>
+                      <td>
+                        81
+                      </td>
+                      <td>
+                        66
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        54
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Difficult, You will need lots of ref. domains and optimized content."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    60
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--difficult"
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr
+            class="yst-table-row"
+          >
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              storybook tests
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-gap-2"
+              >
+                <span
+                  aria-description="Navigational, The user wants to find a specific page or site."
+                  class="yst-intent-badge yst-intent-badge--n"
+                >
+                  N
+                </span>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                246K
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-block"
+                focusable="false"
+                height="24"
+                role="img"
+                viewBox="0 0 66 24"
+                width="66"
+              >
+                <polygon
+                  class="yst-fill-sky-200"
+                  points="0,24 0,6.018 6,12.012 12,14.232000000000001 18,12.012 24,14.232000000000001 30,21.114 36,19.56 42,23.112 48,22.668 54,22.446 60,19.56 66,17.562 66,24"
+                />
+                <polyline
+                  class="yst-stroke-blue-500"
+                  fill="none"
+                  points="0,6.018 6,12.012 12,14.232000000000001 18,12.012 24,14.232000000000001 30,21.114 36,19.56 42,23.112 48,22.668 54,22.446 60,19.56 66,17.562"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+              <div
+                class="yst-sr-only"
+              >
+                <table>
+                  <caption>
+                    Keyphrase volume in the last 12 months on a scale from 0 to 100.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Twelve months ago
+                      </th>
+                      <th>
+                        Eleven months ago
+                      </th>
+                      <th>
+                        Ten months ago
+                      </th>
+                      <th>
+                        Nine months ago
+                      </th>
+                      <th>
+                        Eight months ago
+                      </th>
+                      <th>
+                        Seven months ago
+                      </th>
+                      <th>
+                        Six months ago
+                      </th>
+                      <th>
+                        Five months ago
+                      </th>
+                      <th>
+                        Four months ago
+                      </th>
+                      <th>
+                        Three months ago
+                      </th>
+                      <th>
+                        Two months ago
+                      </th>
+                      <th>
+                        Last month
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        81
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        54
+                      </td>
+                      <td>
+                        44
+                      </td>
+                      <td>
+                        13
+                      </td>
+                      <td>
+                        20
+                      </td>
+                      <td>
+                        4
+                      </td>
+                      <td>
+                        6
+                      </td>
+                      <td>
+                        7
+                      </td>
+                      <td>
+                        20
+                      </td>
+                      <td>
+                        29
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td
+              class="yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500"
+            >
+              <div
+                class="yst-flex yst-justify-end"
+              >
+                <div
+                  aria-description="Hard, You will need lots of high-quality ref. domains and optimized content."
+                  class="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+                >
+                  <div
+                    class="yst-text-right yst-w-5"
+                  >
+                    72
+                  </div>
+                  <div
+                    class="yst-w-3 yst-h-3 yst-rounded-full yst-difficulty--hard"
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;
