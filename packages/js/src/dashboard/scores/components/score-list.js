@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useRef } from "@wordpress/element";
-import { Badge, Button, Label, SkeletonLoader, Tooltip, useToggleState } from "@yoast/ui-library";
+import { Badge, Button, Label, SkeletonLoader, TooltipComponent, TooltipContainer, TooltipTrigger } from "@yoast/ui-library";
 import classNames from "classnames";
 import { SCORE_META } from "../score-meta";
 
@@ -37,16 +36,37 @@ export const ScoreListSkeletonLoader = ( { className } ) => (
 );
 
 /**
- * @param {EventListener} onKeydown The keydown event listener.
- * @returns {void}
+ * @param {Score} score The score.
+ * @returns {JSX.Element} The element.
  */
-const useKeydown = ( onKeydown ) => {
-	useEffect( () => {
-		document.addEventListener( "keydown", onKeydown );
-		return () => {
-			document.removeEventListener( "keydown", onKeydown );
-		};
-	}, [ onKeydown ] );
+const ScoreListItemContent = ( { score } ) => (
+	<>
+		<span className={ classNames( CLASSNAMES.score, SCORE_META[ score.name ].color ) } />
+		<Label as="span" className={ classNames( CLASSNAMES.label, "yst-leading-4 yst-py-1.5" ) }>
+			{ SCORE_META[ score.name ].label }
+		</Label>
+		<Badge variant="plain" className={ classNames( score.links.view && "yst-mr-3" ) }>{ score.amount }</Badge>
+	</>
+);
+
+/**
+ * @param {Score} score The score.
+ * @param {string} idSuffix The suffix for the IDs.
+ * @returns {JSX.Element} The element.
+ */
+const ScoreListItemContentWithTooltip = ( { score, idSuffix } ) => {
+	const id = `tooltip--${ idSuffix }__${ score.name }`;
+
+	return (
+		<TooltipContainer>
+			<TooltipTrigger className="yst-flex yst-items-center" ariaDescribedby={ id }>
+				<ScoreListItemContent score={ score } />
+			</TooltipTrigger>
+			<TooltipComponent id={ id }>
+				{ SCORE_META[ score.name ].tooltip }
+			</TooltipComponent>
+		</TooltipContainer>
+	);
 };
 
 /**
@@ -55,48 +75,11 @@ const useKeydown = ( onKeydown ) => {
  * @returns {JSX.Element} The element.
  */
 const ScoreListItem = ( { score, idSuffix } ) => {
-	const [ isVisible, , , show, hide ] = useToggleState( false );
-	const ref = useRef();
-
-	const TooltipTrigger = SCORE_META[ score.name ].tooltip ? "button" : "span";
-	const tooltipTriggerProps = useMemo( () => SCORE_META[ score.name ].tooltip ? {
-		onFocus: show,
-		onMouseEnter: show,
-		"aria-describedby": `tooltip--${ idSuffix }__${ score.name }`,
-		"aria-disabled": true,
-		className: "yst-rounded-md yst-cursor-default focus:yst-outline-none focus-visible:yst-ring-primary-500 focus-visible:yst-border-primary-500 focus-visible:yst-ring-2 focus-visible:yst-ring-offset-2 focus-visible:yst-bg-white focus-visible:yst-border-opacity-0",
-	} : {}, [ show ] );
-
-	useKeydown( ( event ) => {
-		if ( event.key === "Escape" ) {
-			hide();
-			ref.current?.blur();
-		}
-	} );
+	const Content = SCORE_META[ score.name ].tooltip ? ScoreListItemContentWithTooltip : ScoreListItemContent;
 
 	return (
 		<li className={ CLASSNAMES.listItem }>
-			<div className="yst-tooltip-container">
-				<TooltipTrigger
-					ref={ ref }
-					{ ...tooltipTriggerProps }
-					className={ classNames( tooltipTriggerProps.className, "yst-flex yst-items-center" ) }
-				>
-					<span className={ classNames( CLASSNAMES.score, SCORE_META[ score.name ].color ) } />
-					<Label as="span" className={ classNames( CLASSNAMES.label, "yst-leading-4 yst-py-1.5" ) }>
-						{ SCORE_META[ score.name ].label }
-					</Label>
-					<Badge variant="plain" className={ classNames( score.links.view && "yst-mr-3" ) }>{ score.amount }</Badge>
-				</TooltipTrigger>
-				{ SCORE_META[ score.name ].tooltip && (
-					<Tooltip
-						id={ tooltipTriggerProps[ "aria-describedby" ] }
-						className={ classNames( ! isVisible && "yst-hidden" ) }
-					>
-						{ SCORE_META[ score.name ].tooltip }
-					</Tooltip>
-				) }
-			</div>
+			<Content score={ score } idSuffix={ idSuffix } />
 			{ score.links.view && (
 				<Button as="a" variant="secondary" size="small" href={ score.links.view } className="yst-ml-auto">View</Button>
 			) }
