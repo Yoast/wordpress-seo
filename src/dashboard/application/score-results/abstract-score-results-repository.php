@@ -65,10 +65,6 @@ abstract class Abstract_Score_Results_Repository {
 	public function get_score_results( Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ): array {
 		$score_results = $this->score_results_collector->get_score_results( $this->score_groups, $content_type, $term_id );
 
-		if ( $score_results === null ) {
-			throw new Exception( 'Error getting score results', 500 );
-		}
-
 		$current_scores_list = $this->current_scores_repository->get_current_scores( $this->score_groups, $score_results, $content_type, $taxonomy, $term_id );
 		$score_result_object = new Score_Result( $current_scores_list, $score_results['query_time'], $score_results['cache_used'] );
 

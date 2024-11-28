@@ -7,6 +7,7 @@ use WPSEO_Utils;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface;
+use Yoast\WP\SEO\Dashboard\Domain\Score_Results\Score_Results_Not_Found_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\Score_Results_Collector_Interface;
 
 /**
@@ -23,7 +24,9 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 	 * @param Content_Type                 $content_type     The content type.
 	 * @param int|null                     $term_id          The ID of the term we're filtering for.
 	 *
-	 * @return array<string, object|bool|float>|null The SEO score results for a content type, null for failure.
+	 * @return array<string, object|bool|float> The SEO score results for a content type.
+	 *
+	 * @throws Score_Results_Not_Found_Exception When the query of getting score results fails.
 	 */
 	public function get_score_results( array $seo_score_groups, Content_Type $content_type, ?int $term_id ) {
 		global $wpdb;
@@ -99,7 +102,7 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 		//phpcs:enable
 
 		if ( $current_scores === null ) {
-			return null;
+			throw new Score_Results_Not_Found_Exception();
 		}
 
 		$end_time = \microtime( true );
