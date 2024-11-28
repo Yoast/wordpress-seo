@@ -14,22 +14,10 @@ export default [
 		name: "yoast/recommended",
 		plugins: {
 			jsdoc: jsdocPlugin,
-			node: nodePlugin,
 			stylistic: stylisticPlugin,
 		},
 		languageOptions: {
 			ecmaVersion: "latest",
-			globals: {
-				...globals.amd,
-				...globals.browser,
-				...globals.jquery,
-				...globals.node,
-			},
-			parserOptions: {
-				ecmaFeatures: {
-					jsx: true,
-				},
-			},
 		},
 
 		// https://eslint.org/docs/rules/
@@ -160,14 +148,6 @@ export default [
 			} ],
 			"jsdoc/require-returns": "error",
 
-			// Plugin: Node rules (https://github.com/eslint-community/eslint-plugin-n)
-			"node/callback-return": "error",
-			"node/global-require": "error",
-			"node/handle-callback-err": "error",
-			"node/no-mixed-requires": "error",
-			"node/no-path-concat": "error",
-			"node/no-process-exit": "error",
-
 			// Plugin: Import rules (https://github.com/import-js/eslint-plugin-import)
 			"import/no-extraneous-dependencies": "error",
 			"import/no-unresolved": "error",
@@ -232,6 +212,29 @@ export const reactConfig = [
 			"react/require-default-props": [ "error", { ignoreFunctionalComponents: true } ],
 			"react/self-closing-comp": "error",
 			"react/void-dom-elements-no-children": "error",
+		},
+	},
+];
+
+export const nodeConfig = [
+	{
+		name: "yoast/node",
+		languageOptions: {
+			ecmaVersion: "latest",
+			globals: {
+				...globals.node,
+			},
+		plugins: {
+			node: nodePlugin,
+		},
+		rules: {
+			// Plugin: Node rules (https://github.com/eslint-community/eslint-plugin-n)
+			"node/callback-return": "error",
+			"node/global-require": "error",
+			"node/handle-callback-err": "error",
+			"node/no-mixed-requires": "error",
+			"node/no-path-concat": "error",
+			"node/no-process-exit": "error",
 		},
 	},
 ];
