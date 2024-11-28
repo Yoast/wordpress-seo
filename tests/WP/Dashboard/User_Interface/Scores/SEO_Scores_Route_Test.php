@@ -54,6 +54,23 @@ final class SEO_Scores_Route_Test extends TestCase {
 	 * Tests the get_scores method.
 	 *
 	 * @covers ::get_scores
+	 * @covers Yoast\WP\SEO\Dashboard\Application\Score_Results\SEO_Score_Results\SEO_Score_Results_Repository::get_score_results
+	 * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\SEO_Score_Results\SEO_Score_Results_Collector::get_score_results
+	 * @covers Yoast\WP\SEO\Dashboard\Application\Score_Results\Current_Scores_Repository::get_current_scores
+	 * @covers Yoast\WP\SEO\Dashboard\Application\Score_Results\Current_Scores_Repository::get_current_score_links
+	 * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Score_Groups\Score_Group_Link_Collector::get_view_link
+	 * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Results\Score_Result\Score_Result::to_array
+	 * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Results\Current_Scores_List::to_array
+	 * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Results\Current_Score::get_name
+	 * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Results\Current_Score::get_amount
+	 * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Results\Current_Score::get_links_to_array
+	 * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface::get_name
+	 * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface::get_min_score
+	 * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface::get_max_score
+	 * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface::get_position
+	 * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface::get_filter_key
+	 * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface::get_filter_value
+	 * @covers Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type::get_name
 	 *
 	 * @return void
 	 */
