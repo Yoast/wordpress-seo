@@ -72,18 +72,37 @@ final class SEO_Scores_Route_Test extends TestCase {
 	 * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface::get_filter_value
 	 * @covers Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type::get_name
 	 *
+	 * @dataProvider data_provider_get_seo_scores
+	 *
+	 * @param array<array<string, string>> $inserted_posts   The posts to be insterted.
+	 * @param array<string, int>           $expected_amounts The amounts of the scores that are expected to be returned.
+	 *
 	 * @return void
 	 */
-	public function test_get_seo_scores() {
+	public function test_get_seo_scores( $inserted_posts, $expected_amounts ) {
 		$request = new WP_REST_Request( 'GET', '/yoast/v1/seo_scores' );
 		$request->set_param( 'contentType', 'post' );
+		$request->set_param( 'taxonomy', 'category' );
+		$request->set_param( 'term', 1 );
+
+		foreach ( $inserted_posts as $key => $post ) {
+			$meta_input = [];
+			foreach ( $post['meta_input'] as $meta_key => $meta_value ) {
+				$meta_input[ $meta_key ] = $meta_value;
+			}
+			\wp_insert_post(
+				[
+					'post_title'    => 'Test Post' . $key,
+					'post_status'   => 'publish',
+					'post_category' => [ 1 ],
+					'meta_input'    => $meta_input,
+				]
+			);
+		}
 
 		$response = \rest_get_server()->dispatch( $request );
 
-		$this->assertInstanceOf(
-			WP_REST_Response::class,
-			$response
-		);
+		$this->assertInstanceOf( WP_REST_Response::class, $response );
 
 		$response_data = $response->get_data();
 
@@ -91,5 +110,71 @@ final class SEO_Scores_Route_Test extends TestCase {
 		$this->assertIsArray( $response_data['scores'] );
 		$this->assertIsFloat( $response_data['queryTime'] );
 		$this->assertIsBool( $response_data['cacheUsed'] );
+
+		$this->assertEquals( $response_data['scores'][0]['name'], 'good' );
+		$this->assertEquals( $response_data['scores'][0]['amount'], $expected_amounts['good'] );
+
+		$this->assertEquals( $response_data['scores'][1]['name'], 'ok' );
+		$this->assertEquals( $response_data['scores'][1]['amount'], $expected_amounts['ok'] );
+
+		$this->assertEquals( $response_data['scores'][2]['name'], 'bad' );
+		$this->assertEquals( $response_data['scores'][2]['amount'], $expected_amounts['bad'] );
+
+		$this->assertEquals( $response_data['scores'][3]['name'], 'notAnalyzed' );
+		$this->assertEquals( $response_data['scores'][3]['amount'], $expected_amounts['notAnalyzed'] );
+	}
+
+	/**
+	 * Data provider for test_get_seo_scores.
+	 *
+	 * @return array<string,bool>
+	 */
+	public static function data_provider_get_seo_scores() {
+		yield 'No posts insterted' => [
+			'inserted_posts'   => [],
+			'expected_amounts' => [
+				'good'        => 0,
+				'ok'          => 0,
+				'bad'         => 0,
+				'notAnalyzed' => 0,
+			],
+		];
+		yield 'Multiple posts of all sorts of SEO scores' => [
+			'inserted_posts'   => [
+				[
+					'meta_input' => [
+						'_yoast_wpseo_linkdex' => '30',
+						'_yoast_wpseo_focuskw' => 'test',
+					],
+				],
+				[
+					'meta_input' => [
+						'_yoast_wpseo_linkdex' => '10',
+						'_yoast_wpseo_focuskw' => 'test',
+					],
+				],
+				[
+					'meta_input' => [
+						'_yoast_wpseo_linkdex' => '50',
+						'_yoast_wpseo_focuskw' => 'test',
+					],
+				],
+				[
+					'meta_input' => [
+						'_yoast_wpseo_linkdex' => '80',
+						'_yoast_wpseo_focuskw' => 'test',
+					],
+				],
+				[
+					'meta_input'   => [],
+				],
+			],
+			'expected_amounts' => [
+				'good'        => 1,
+				'ok'          => 1,
+				'bad'         => 2,
+				'notAnalyzed' => 1,
+			],
+		];
 	}
 }
