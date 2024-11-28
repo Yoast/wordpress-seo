@@ -168,6 +168,8 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 			$content_type = $this->get_content_type( $request['contentType'] );
 			$taxonomy     = $this->get_taxonomy( $request['taxonomy'], $content_type );
 			$term_id      = $this->get_validated_term_id( $request['term'], $taxonomy );
+
+			$results = $this->score_results_repository->get_score_results( $content_type, $taxonomy, $term_id );
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(
 				[
@@ -178,7 +180,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 		}
 
 		return new WP_REST_Response(
-			$this->score_results_repository->get_score_results( $content_type, $taxonomy, $term_id ),
+			$results,
 			200
 		);
 	}
