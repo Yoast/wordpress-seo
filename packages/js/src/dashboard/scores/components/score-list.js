@@ -62,7 +62,7 @@ const ScoreListItemContentWithTooltip = ( { score, idSuffix } ) => {
 			<TooltipTrigger className="yst-flex yst-items-center" ariaDescribedby={ id }>
 				<ScoreListItemContent score={ score } />
 			</TooltipTrigger>
-			<TooltipWithContext id={ id }>
+			<TooltipWithContext id={ id } className="max-[784px]:yst-max-w-full">
 				{ SCORE_META[ score.name ].tooltip }
 			</TooltipWithContext>
 		</TooltipContainer>
