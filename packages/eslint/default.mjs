@@ -36,7 +36,8 @@ export default [
 		// https://eslint.org/docs/rules/
 		rules: {
 			// Native ESLint rules
-			// - ESLint "Possible problems - These rules relate to possible logic errors in code:" (https://eslint.org/docs/latest/rules/#possible-problems).
+			// - ESLint "Possible problems - These rules relate to possible logic errors in code:"
+			// (https://eslint.org/docs/latest/rules/#possible-problems).
 			"no-inner-declarations": [ "error", "functions" ],
 			"no-self-compare": "error",
 			"no-use-before-define": "error",
@@ -58,7 +59,7 @@ export default [
 			"no-array-constructor": "error",
 			"no-bitwise": "error",
 			"no-caller": "error",
-			"no-console": [ "warn", { allow: [ "warn", "error", "trace" ], } ],
+			"no-console": [ "warn", { allow: [ "warn", "error", "trace" ] } ],
 			"no-div-regex": "error",
 			"no-else-return": "error",
 			"no-eq-null": "error",
@@ -95,11 +96,11 @@ export default [
 				}, {
 					selector: "CallExpression[callee.name=/^(_nx)$/][arguments.length!=5]",
 					message: "A textdomain needs to be provided for translation calls.",
-				}
+				},
 			],
 			"no-return-assign": "error",
 			"no-script-url": "error",
-			"no-shadow": [ "error", { builtinGlobals: false, hoist: "all", allow: [], } ],
+			"no-shadow": [ "error", { builtinGlobals: false, hoist: "all", allow: [] } ],
 			"no-undef-init": "error",
 			"no-undefined": "error",
 			"no-unneeded-ternary": "error",
@@ -107,7 +108,7 @@ export default [
 			"no-useless-call": "error",
 			"no-useless-concat": "error",
 			"no-void": "error",
-			"no-warning-comments": [ "error", { terms: [ "todo" ], location: "anywhere", } ],
+			"no-warning-comments": [ "error", { terms: [ "todo" ], location: "anywhere" } ],
 			"prefer-const": "error",
 			radix: "error",
 			strict: "error",
@@ -122,7 +123,7 @@ export default [
 			"stylistic/computed-property-spacing": [ "error", "always" ],
 			"stylistic/eol-last": "error",
 			"stylistic/func-call-spacing": "error",
-			"stylistic/indent": [ "error", "tab", { SwitchCase: 1, } ],
+			"stylistic/indent": [ "error", "tab", { SwitchCase: 1 } ],
 			"stylistic/jsx-quotes": "error",
 			"stylistic/key-spacing": "error",
 			"stylistic/keyword-spacing": "error",
@@ -137,15 +138,15 @@ export default [
 			"stylistic/object-curly-spacing": [ "error", "always" ],
 			"stylistic/operator-linebreak": "error",
 			"stylistic/padded-blocks": [ "error", "never" ],
-			"stylistic/quote-props": [ "error", "as-needed", { keywords: true, } ],
+			"stylistic/quote-props": [ "error", "as-needed", { keywords: true } ],
 			"stylistic/quotes": [ "error", "double", "avoid-escape" ],
 			"stylistic/semi-spacing": "error",
 			"stylistic/semi": "error",
 			"stylistic/space-before-blocks": "error",
 			"stylistic/space-before-function-paren": [ "error", "never" ],
-			"stylistic/space-in-parens": [ "error", "always", { exceptions: [ "empty" ], } ],
+			"stylistic/space-in-parens": [ "error", "always", { exceptions: [ "empty" ] } ],
 			"stylistic/space-infix-ops": "error",
-			"stylistic/space-unary-ops": [ "error", { words: false, nonwords: false, overrides: { "!": true, }, } ],
+			"stylistic/space-unary-ops": [ "error", { words: false, nonwords: false, overrides: { "!": true } } ],
 			"stylistic/spaced-comment": [ "error", "always" ],
 			"stylistic/wrap-iife": "error",
 
@@ -170,7 +171,7 @@ export default [
 
 			// Plugin: jsx-a11y rules (https://github.com/jsx-eslint/eslint-plugin-jsx-a11y).
 			// Deprecated in v6.1.0 in favor of label-has-associated-control but we still want to require only for/id and not nesting.
-			"jsx-a11y/label-has-for": [ "error", { required: "id", } ],
+			"jsx-a11y/label-has-for": [ "error", { required: "id" } ],
 
 			// Plugin: React rules (https://github.com/jsx-eslint/eslint-plugin-react)
 			"react/boolean-prop-naming": "error",
@@ -179,16 +180,16 @@ export default [
 			"react/forbid-foreign-prop-types": "error",
 			"react/jsx-boolean-value": [ "error", "always" ],
 			"react/jsx-closing-bracket-location": [ "error", "line-aligned" ],
-			"react/jsx-curly-spacing": [ "error", { when: "always", children: true, } ],
+			"react/jsx-curly-spacing": [ "error", { when: "always", children: true } ],
 			"react/jsx-equals-spacing": "error",
 			"react/jsx-first-prop-new-line": [ "error", "multiline" ],
 			"react/jsx-indent-props": [ "error", "tab" ],
 			"react/jsx-indent": [ "error", "tab" ],
-			"react/jsx-max-depth": [ "error", { max: 8, } ],
-			"react/jsx-max-props-per-line": [ "error", { maximum: 6, } ],
+			"react/jsx-max-depth": [ "error", { max: 8 } ],
+			"react/jsx-max-props-per-line": [ "error", { maximum: 6 } ],
 			"react/jsx-no-bind": "error",
 			"react/jsx-pascal-case": "error",
-			"react/jsx-tag-spacing": [ "error", { beforeClosing: "never", } ],
+			"react/jsx-tag-spacing": [ "error", { beforeClosing: "never" } ],
 			"react/no-access-state-in-setstate": "error",
 			"react/no-redundant-should-component-update": "error",
 			"react/no-render-return-value": "error",
@@ -197,7 +198,7 @@ export default [
 			"react/no-unused-prop-types": "error",
 			"react/no-unused-state": "error",
 			"react/prefer-es6-class": "error",
-			"react/require-default-props": [ "error", { ignoreFunctionalComponents: true, } ],
+			"react/require-default-props": [ "error", { ignoreFunctionalComponents: true } ],
 			"react/self-closing-comp": "error",
 			"react/void-dom-elements-no-children": "error",
 
@@ -205,11 +206,11 @@ export default [
 			"import/no-extraneous-dependencies": "error",
 			"import/no-unresolved": "error",
 		},
-		"settings": {
-			"jsdoc": {
-				"tagNamePreference": {
-					"return": "returns"
-				}
-			}
-		}
+		settings: {
+			jsdoc: {
+				tagNamePreference: {
+					"return": "returns",
+				},
+			},
+		},
 	} ];

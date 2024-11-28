@@ -11,6 +11,9 @@
   "files": [
     "default.mjs"
   ],
+  "scripts": {
+    "lint": "eslint . --max-warnings=0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/wordpress-seo.git",
@@ -34,5 +37,8 @@
   },
   "peerDependencies": {
     "eslint": "^8.57 || >= 9"
+  },
+  "devDependencies": {
+    "eslint": "^9.15.0"
   }
 }
