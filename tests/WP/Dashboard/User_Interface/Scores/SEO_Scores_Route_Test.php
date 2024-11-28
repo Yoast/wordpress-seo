@@ -51,9 +51,73 @@ final class SEO_Scores_Route_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the get_scores by sending a non existing content type.
+	 *
+	 * @covers ::get_scores
+	 * @covers ::get_content_type
+	 *
+	 * @return void
+	 */
+	public function test_get_seo_scores_with_non_existing_content_type() {
+		$request = new WP_REST_Request( 'GET', '/yoast/v1/seo_scores' );
+		$request->set_param( 'contentType', 'not-existing-content-type' );
+
+		$response = \rest_get_server()->dispatch( $request );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $response );
+
+		$response_data = $response->get_data();
+
+		$this->assertSame( 400, $response->status );
+		$this->assertSame( $response_data['error'], 'Invalid content type.' );
+	}
+
+	/**
+	 * Tests the get_scores by sending an excluded-from-indexable-creation content type.
+	 *
+	 * @covers ::get_scores
+	 * @covers ::get_content_type
+	 *
+	 * @return void
+	 */
+	public function test_get_seo_scores_with_excluded_content_type() {
+		$request = new WP_REST_Request( 'GET', '/yoast/v1/seo_scores' );
+		$request->set_param( 'contentType', 'post' );
+
+		\add_filter( 'wpseo_indexable_excluded_post_types', [ $this, 'filter_exclude_post' ] );
+
+		$response = \rest_get_server()->dispatch( $request );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $response );
+
+		$response_data = $response->get_data();
+
+		$this->assertSame( 400, $response->status );
+		$this->assertSame( $response_data['error'], 'Invalid content type.' );
+
+		\remove_filter( 'wpseo_editor_specific_replace_vars', [ $this, 'filter_exclude_post' ] );
+	}
+
+	/**
+	 * Filter function to exclude posts from indexable creation.
+	 *
+	 * @param array<string> $excluded_post_types The excluded post types before the filter.
+	 *
+	 * @return array<string> The excluded post types after the filter.
+	 */
+	public function filter_exclude_post( $excluded_post_types ) {
+		$excluded_post_types[] = 'post';
+
+		return $excluded_post_types;
+	}
+
+	/**
 	 * Tests the get_scores method.
 	 *
 	 * @covers ::get_scores
+	 * @covers ::get_content_type
+	 * @covers ::get_taxonomy
+	 * @covers ::get_validated_term_id
 	 * @covers Yoast\WP\SEO\Dashboard\Application\Score_Results\SEO_Score_Results\SEO_Score_Results_Repository::get_score_results
 	 * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\SEO_Score_Results\SEO_Score_Results_Collector::get_score_results
 	 * @covers Yoast\WP\SEO\Dashboard\Application\Score_Results\Current_Scores_Repository::get_current_scores
