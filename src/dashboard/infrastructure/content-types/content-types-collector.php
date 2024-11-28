@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Types_List;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+
 /**
  * Class that collects post types and relevant information.
  */
@@ -36,11 +37,9 @@ class Content_Types_Collector {
 	 */
 	public function get_content_types(): Content_Types_List {
 		$content_types_list = new Content_Types_List();
-		$post_types         = $this->post_type_helper->get_indexable_post_types();
+		$post_types         = $this->post_type_helper->get_indexable_post_type_objects();
 
-		foreach ( $post_types as $post_type ) {
-			$post_type_object = \get_post_type_object( $post_type ); // @TODO: Refactor `Post_Type_Helper::get_indexable_post_types()` to be able to return objects. That way, we can remove this line.
-
+		foreach ( $post_types as $post_type_object ) {
 			$content_type = new Content_Type( $post_type_object->name, $post_type_object->label );
 			$content_types_list->add( $content_type );
 		}
