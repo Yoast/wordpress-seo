@@ -5,7 +5,7 @@ However, to get a fully functioning experience, with regards to accessibility, t
 * The Tooltip should be visible when the element that triggers the Tooltip is hovered over. And it should be hidden when the element is no longer hovered over.
 * The Tooltip should be hidden when the user presses the `Escape` key, regardless of focus or hover.
 
-That is what this **TooltipContainer**, the **TooltipTrigger** and the **TooltipComponent** components are for.
+That is what this **TooltipContainer**, the **TooltipTrigger** and the **TooltipWithContext** components are for.
 
 The **TooltipContainer** is the parent component that wraps the TooltipTrigger and the Tooltip components. It manages the visibility of the Tooltip.
 * It provides the `isVisible` boolean and `show` and `hide` functions.
@@ -18,7 +18,7 @@ The **TooltipTrigger** wraps the content that should trigger the Tooltip in a fo
 * It adds the `aria-disabled` attribute to indicate the trigger itself is not actually doing anything.
 * It has styling for keyboard focus (`focus-visible`) and none for hover.
 
-The **TooltipComponent** wraps the Tooltip element.
+The **TooltipWithContext** wraps the Tooltip element.
 * It gets the `isVisible` from the context.
 * It hides the Tooltip via the `yst-hidden` className when `isVisible` is false.
 * It forwards any props to the Tooltip element.

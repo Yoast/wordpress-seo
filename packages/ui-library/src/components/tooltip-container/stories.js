@@ -1,7 +1,7 @@
 import React from "react";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component } from "./docs";
-import { TooltipComponent, TooltipContainer, TooltipTrigger } from "./index";
+import { TooltipContainer, TooltipTrigger, TooltipWithContext } from "./index";
 
 export const Factory = {
 	parameters: {
@@ -10,7 +10,7 @@ export const Factory = {
 	args: {
 		children: <>
 			<TooltipTrigger ariaDescribedby="tooltip-factory">Element containing a tooltip.</TooltipTrigger>
-			<TooltipComponent id="tooltip-factory">I&apos;m a tooltip</TooltipComponent>
+			<TooltipWithContext id="tooltip-factory">I&apos;m a tooltip</TooltipWithContext>
 		</>,
 	},
 };
@@ -29,15 +29,15 @@ export const Trigger = {
 		( Story, args ) => (
 			<TooltipContainer>
 				<Story />
-				<TooltipComponent id={ args.ariaDescribedby }>I&apos;m a tooltip</TooltipComponent>
+				<TooltipWithContext id={ args.ariaDescribedby }>I&apos;m a tooltip</TooltipWithContext>
 			</TooltipContainer>
 		),
 	],
 };
 
-export const Tooltip = {
-	name: "TooltipComponent",
-	render: ( args ) => <TooltipComponent { ...args } />,
+export const WithContext = {
+	name: "TooltipWithContext",
+	render: ( args ) => <TooltipWithContext { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},
@@ -70,7 +70,7 @@ export default {
 			description: {
 				component,
 			},
-			page: () => <InteractiveDocsPage stories={ [ Trigger, Tooltip ] } />,
+			page: () => <InteractiveDocsPage stories={ [ Trigger, WithContext ] } />,
 		},
 	},
 	decorators: [

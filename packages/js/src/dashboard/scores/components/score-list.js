@@ -1,4 +1,4 @@
-import { Badge, Button, Label, SkeletonLoader, TooltipComponent, TooltipContainer, TooltipTrigger } from "@yoast/ui-library";
+import { Badge, Button, Label, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
 import classNames from "classnames";
 import { SCORE_META } from "../score-meta";
 
@@ -62,9 +62,9 @@ const ScoreListItemContentWithTooltip = ( { score, idSuffix } ) => {
 			<TooltipTrigger className="yst-flex yst-items-center" ariaDescribedby={ id }>
 				<ScoreListItemContent score={ score } />
 			</TooltipTrigger>
-			<TooltipComponent id={ id }>
+			<TooltipWithContext id={ id }>
 				{ SCORE_META[ score.name ].tooltip }
-			</TooltipComponent>
+			</TooltipWithContext>
 		</TooltipContainer>
 	);
 };

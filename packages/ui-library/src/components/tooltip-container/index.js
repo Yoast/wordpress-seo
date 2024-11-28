@@ -106,7 +106,7 @@ TooltipTrigger.propTypes = {
  * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The element.
  */
-export const TooltipComponent = ( { className, children, ...props } ) => {
+export const TooltipWithContext = ( { className, children, ...props } ) => {
 	const { isVisible } = useTooltipContext();
 
 	return (
@@ -118,7 +118,7 @@ export const TooltipComponent = ( { className, children, ...props } ) => {
 		</Tooltip>
 	);
 };
-TooltipComponent.propTypes = {
+TooltipWithContext.propTypes = {
 	className: PropTypes.string,
 	children: PropTypes.node,
 };
