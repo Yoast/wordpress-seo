@@ -9,10 +9,9 @@ import stylisticPlugin from "@stylistic/eslint-plugin";
 
 export default [
 	js.configs.recommended,
-	reactPlugin.configs.flat.recommended,
-	jsxA11YPlugin.flatConfigs.recommended,
 	importPlugin.flatConfigs.recommended,
 	{
+		name: "yoast/recommended",
 		plugins: {
 			jsdoc: jsdocPlugin,
 			node: nodePlugin,
@@ -169,6 +168,38 @@ export default [
 			"node/no-path-concat": "error",
 			"node/no-process-exit": "error",
 
+			// Plugin: Import rules (https://github.com/import-js/eslint-plugin-import)
+			"import/no-extraneous-dependencies": "error",
+			"import/no-unresolved": "error",
+		},
+		settings: {
+			jsdoc: {
+				tagNamePreference: {
+					"return": "returns",
+				},
+			},
+		},
+	} ];
+
+export const reactConfig = [
+	reactPlugin.configs.flat.recommended,
+	jsxA11YPlugin.flatConfigs.recommended,
+	{
+		name: "yoast/react",
+		languageOptions: {
+			ecmaVersion: "latest",
+			globals: {
+				...globals.amd,
+				...globals.browser,
+				...globals.jquery,
+			},
+			parserOptions: {
+				ecmaFeatures: {
+					jsx: true,
+				},
+			},
+		},
+		rules: {
 			// Plugin: jsx-a11y rules (https://github.com/jsx-eslint/eslint-plugin-jsx-a11y).
 			// Deprecated in v6.1.0 in favor of label-has-associated-control but we still want to require only for/id and not nesting.
 			"jsx-a11y/label-has-for": [ "error", { required: "id" } ],
@@ -201,16 +232,6 @@ export default [
 			"react/require-default-props": [ "error", { ignoreFunctionalComponents: true } ],
 			"react/self-closing-comp": "error",
 			"react/void-dom-elements-no-children": "error",
-
-			// Plugin: Import rules (https://github.com/import-js/eslint-plugin-import)
-			"import/no-extraneous-dependencies": "error",
-			"import/no-unresolved": "error",
 		},
-		settings: {
-			jsdoc: {
-				tagNamePreference: {
-					"return": "returns",
-				},
-			},
-		},
-	} ];
+	},
+];
