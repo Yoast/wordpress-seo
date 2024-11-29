@@ -8,31 +8,31 @@ A comprehensive glossary of terms and concepts used in YoastSEO.js.
 A value object that encapsulates all content and metadata to be analyzed. The Paper object is immutable and serves as the primary input for all analyses.
 
 **Properties include:**
-- text: The main content to analyze
-- title: The SEO title or page title
+- text: The main content to analyze. We assume the content follows a standard HTML format, and consists of the elements that would be part of the `<body>` (so no `<head>` or `<footer>` elements.
+- title: The SEO title
 - keyword: The focus keyphrase
 - description: Meta description
-- url: The slug/URL of the page
+- slug: The slug/URL of the page
 - locale: Language code (e.g., en_US)
 - permalink: Full URL
 
 **Example:**
 ```javascript
-const paper = new Paper("This is the main content", {
+const paper = new Paper("<p>This is the <strong>main</strong> content<p>", {
     title: "Example Title",
     keyword: "example",
     description: "This is a meta description",
-    url: "example-page",
+    slug: "example-page",
     locale: "en_US"
 });
 ```
 
 ### <a name="assessment"></a>Assessment
 A single analysis unit that evaluates one specific aspect of content. Each assessment:
-- Has a specific purpose (e.g., keyword density analysis)
+- Has a specific purpose (e.g., the _keyword density_ assessment evaluates the number of keywords used in the content)
 - Produces a score (0-100)
-- Can generate improvement suggestions
 - May include text markers for visual feedback
+- Can generate improvement suggestions (through Yoast AI)
 
 **Example Assessment Structure:**
 ```javascript
@@ -58,6 +58,8 @@ Types of assessors include:
 - SEOAssessor: Focuses on search engine optimization
 - ReadabilityAssessor: Analyzes text readability
 - CornerStoneAssessor: Applies stricter rules for important content
+
+The diagram below shows an example hierarchy of assessors and assessments. 
 
 ```mermaid
 graph TD
@@ -101,7 +103,6 @@ Score ranges:
 A system to highlight relevant parts of text for specific assessments. Markers:
 - Help visualize assessment results
 - Provide inline feedback
-- Support multiple marking types (error, warning, good)
 
 **Example Marker Output:**
 ```html
@@ -157,10 +158,7 @@ These are crucial for:
 - Content quality assessment
 
 ### <a name="keyphrase"></a>Keyphrase
-The main search term or topic being targeted. Can be:
-- Single word ("SEO")
-- Multiple words ("WordPress SEO plugin")
-- Contains function words ("how to bake bread")
+The main search term or topic being targeted. We use `keyphrase` and `keyword` interchangeably, but primarily the former, as a keyphrase can be a single word ("SEO") or consist of multiple words ("WordPress SEO plugin"), and even contain function words ("how to bake bread").
 
 **Keyphrase Analysis:**
 ```mermaid
