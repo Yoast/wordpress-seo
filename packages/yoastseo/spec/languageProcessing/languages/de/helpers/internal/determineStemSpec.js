@@ -7,19 +7,6 @@ const morphologyDataDE = getMorphologyData( "de" ).de;
 const wordsToStem = [
 	// Default stemmer
 	[ "studenten", "student" ],
-	// Nouns that gets umlaut in plural
-	[ "vögel", "vogel" ],
-	[ "läden", "laden" ],
-	// A noun that gets umlaut and -e in plural
-	[ "häuse", "haus" ],
-	[ "ängste", "angst" ],
-	// A noun that gets umlaut and -er in plural
-	[  "männer", "mann" ],
-	[ "wörter", "wort" ],
-	// compound noun that gets umlaut in plural
-	[ "raubvögel", "raubvogel" ],
-	// compound noun that gets umlaut and -e in plural
-	[ "landflüchte", "landflucht" ],
 	// Nouns: exceptionStems with one plural matching multiple singulars
 	[ "stadium", "stadi" ],
 	[ "stadion", "stadi" ],
@@ -71,7 +58,33 @@ describe.each( wordsToStem )( "Test for determining stems for German words", ( w
 } );
 
 const umlautExceptions = [
+	// A noun that gets umlaut in plural
+	[ "vögel", "vogel" ],
+	[ "läden", "laden" ],
+	// A noun that gets umlaut and an irregular plural dative suffix
+	[ "müttern", "mutter" ],
+	[ "schwägern", "schwager" ],
+	// A noun that gets umlaut and a regular case suffix
+	[ "bädern", "bad" ],
+	[ "ängsten", "angst" ],
+	[ "hände", "hand" ],
+	// A noun that gets umlaut and -e in plural
+	[ "häuse", "haus" ],
+	[ "ängste", "angst" ],
+	// A noun that gets umlaut and -er in plural
+	[  "männer", "mann" ],
+	[ "wörter", "wort" ],
+	// compound noun that gets umlaut in plural
+	[ "raubvögel", "raubvogel" ],
+	// compound noun that gets umlaut and -e in plural
+	[ "landflüchte", "landflucht" ],
 	[ "geschwülst", "geschwulst" ],
+	[ "feuersbrünst", "feuersbrunst" ],
+	[ "hirschbrünft", "hirschbrunft" ],
+	[ "brünst", "brunst" ],
+	[ "lebensbrünst", "lebensbrunst" ],
+	[ "liebesbrünst", "liebesbrunst" ],
+	// More umlaut nouns from all groups
 	[ "schwäger", "schwager" ],
 	[ "schäden", "schaden" ],
 	[ "töchter", "tochter" ],
@@ -89,11 +102,6 @@ const umlautExceptions = [
 	[ "häls", "hal" ],
 	[ "äxte", "axt" ],
 	[ "äste", "ast" ],
-	[ "feuersbrünst", "feuersbrunst" ],
-	[ "hirschbrünft", "hirschbrunft" ],
-	[ "brünst", "brunst" ],
-	[ "lebensbrünst", "lebensbrunst" ],
-	[ "liebesbrünst", "liebesbrunst" ],
 ];
 
 describe.each( umlautExceptions )( "Test for determining stems for German words with umlauts", ( word, stem ) => {
