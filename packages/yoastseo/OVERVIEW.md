@@ -6,21 +6,21 @@ YoastSEO.js is a text analysis and SEO assessment library that helps improve con
 
 ### Core Concepts
 
-- **Paper**: A value object representing the text content to be analyzed, including metadata like title, meta description, keyword, etc.
-- **Assessment**: An individual analysis that evaluates a specific aspect of content (e.g., keyword density, sentence length)
-- **Assessor**: A collection of assessments that work together to analyze content from a specific angle (SEO, readability, etc.)
-- **Researcher**: Performs linguistic research on text content (e.g., sentence detection, word counting)
-- **Score**: A numeric value (0-100) indicating how well content performs for a specific assessment
-- **Marker**: Highlights relevant portions of text for specific assessments
+- **[Paper](./GLOSSARY.md#paper)**: A value object representing the text content to be analyzed, including metadata like title, meta description, keyword, etc.
+- **[Assessment](./GLOSSARY.md#assessment)**: An individual analysis that evaluates a specific aspect of content (e.g., keyword density, sentence length)
+- **[Assessor](./GLOSSARY.md#assessor)**: A collection of assessments that work together to analyze content from a specific angle (SEO, readability, etc.)
+- **[Researcher](./GLOSSARY.md#researcher)**: Performs linguistic research on text content (e.g., sentence detection, word counting)
+- **[Score](./GLOSSARY.md#score)**: A numeric value (0-100) indicating how well content performs for a specific assessment
+- **[Marker](./GLOSSARY.md#marker)**: Highlights relevant portions of text for specific assessments
 
 ### Linguistic Concepts
 
-- **Morphology**: Study of word forms and structure (stems, affixes, etc.)
-- **Stem**: The base form of a word before any affixes are added
-- **Function Words**: Words with little semantic meaning that primarily serve grammatical purposes (e.g., articles, prepositions)
-- **Content Words**: Words that carry semantic meaning (nouns, verbs, adjectives, etc.)
-- **Keyphrase**: The main topic or search term being targeted in the content
-- **Synonym**: Alternative words or phrases with similar meaning to the keyphrase
+- **[Morphology](./GLOSSARY.md#morphology)**: Study of word forms and structure (stems, affixes, etc.)
+- **[Stem](./GLOSSARY.md#stem)**: The base form of a word before any affixes are added
+- **[Function Words](./GLOSSARY.md#function-words)**: Words with little semantic meaning that primarily serve grammatical purposes (e.g., articles, prepositions)
+- **[Content Words](./GLOSSARY.md#content-words)**: Words that carry semantic meaning (nouns, verbs, adjectives, etc.)
+- **[Keyphrase](./GLOSSARY.md#keyphrase)**: The main topic or search term being targeted in the content
+- **[Synonym](./GLOSSARY.md#synonym)**: Alternative words or phrases with similar meaning to the keyphrase
 
 ## Architecture Diagrams
 
