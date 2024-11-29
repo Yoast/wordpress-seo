@@ -30,7 +30,7 @@ const paper = new Paper("<p>This is the <strong>main</strong> content<p>", {
 ### <a name="assessment"></a>Assessment
 A single analysis unit that evaluates one specific aspect of content. Each assessment:
 - Has a specific purpose (e.g., the _keyword density_ assessment evaluates the number of keywords used in the content)
-- Produces a score (0-100)
+- Produces a score (0-9)
 - May include text markers for visual feedback
 - Can generate improvement suggestions (through Yoast AI)
 
