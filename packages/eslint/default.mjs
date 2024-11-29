@@ -159,7 +159,28 @@ export default [
 				},
 			},
 		},
-	} ];
+	},
+	{
+		files: [
+			"**/*.{spec,test,tests}.{js,jsx,mjs,cjs,ts,tsx}",
+			"{spec,test,tests}/**/*.{js,jsx,mjs,cjs,ts,tsx}",
+		],
+		languageOptions: {
+			globals: {
+				...globals.jest,
+				...globals.node,
+			},
+		},
+	},
+	{
+		files: [ "jest.config.{js,ts,cjs}" ],
+		languageOptions: {
+			globals: {
+				...globals.commonjs,
+			},
+		},
+	},
+];
 
 export const reactConfig = [
 	reactPlugin.configs.flat.recommended,
