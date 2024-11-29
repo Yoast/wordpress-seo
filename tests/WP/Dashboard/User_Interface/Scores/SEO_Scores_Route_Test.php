@@ -286,7 +286,7 @@ final class SEO_Scores_Route_Test extends TestCase {
 			]
 		);
 
-		$term_id   = $term->term_id;
+		$term_id   = (int) $term->term_id;
 		$term_slug = 'test-category';
 
 		$inserted_posts_in_multiple_terms = [

@@ -245,12 +245,17 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 			throw new Exception( 'Taxonomy needs a provided term.', 400 );
 		}
 
+		error_log( 'term_id: ' . $term_id );
 		if ( $term_id !== null ) {
 			$term = \get_term( $term_id );
+			error_log( print_r( $term, true ) );
 			if ( ! $term || \is_wp_error( $term ) ) {
 				throw new Exception( 'Invalid term.', 400 );
 			}
 
+			error_log( print_r( $taxonomy, true ) );
+			error_log( 'taxonomy name: ' . $taxonomy->get_name() );
+			error_log( 'term->taxonomy: ' . $term->taxonomy );
 			if ( $taxonomy !== null && $term->taxonomy !== $taxonomy->get_name() ) {
 				throw new Exception( 'Invalid term.', 400 );
 			}
