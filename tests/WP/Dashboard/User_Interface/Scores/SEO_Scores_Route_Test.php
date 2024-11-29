@@ -77,6 +77,8 @@ final class SEO_Scores_Route_Test extends TestCase {
 	 *
 	 * @covers ::get_scores
 	 * @covers ::get_content_type
+	 * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types\Content_Types_Collector::get_content_types
+	 * @covers Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Types_List::add
 	 *
 	 * @return void
 	 */
@@ -95,7 +97,7 @@ final class SEO_Scores_Route_Test extends TestCase {
 		$this->assertSame( 400, $response->status );
 		$this->assertSame( $response_data['error'], 'Invalid content type.' );
 
-		\remove_filter( 'wpseo_editor_specific_replace_vars', [ $this, 'filter_exclude_post' ] );
+		\remove_filter( 'wpseo_indexable_excluded_post_types', [ $this, 'filter_exclude_post' ] );
 	}
 
 	/**
@@ -109,6 +111,85 @@ final class SEO_Scores_Route_Test extends TestCase {
 		$excluded_post_types[] = 'post';
 
 		return $excluded_post_types;
+	}
+
+	/**
+	 * Tests the get_scores by sending a non filtering taxonomy for this content type.
+	 *
+	 * @covers ::get_taxonomy
+	 * @covers Yoast\WP\SEO\Dashboard\Application\Taxonomies\Taxonomies_Repository::get_content_type_taxonomy
+	 *
+	 * @return void
+	 */
+	public function test_get_seo_scores_with_non_filtering_taxonomy() {
+		$request = new WP_REST_Request( 'GET', '/yoast/v1/seo_scores' );
+		$request->set_param( 'contentType', 'post' );
+		$request->set_param( 'taxonomy', 'post_tag' );
+		$request->set_param( 'term', 'irrelevant' );
+
+		$response = \rest_get_server()->dispatch( $request );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $response );
+
+		$response_data = $response->get_data();
+
+		$this->assertSame( 400, $response->status );
+		$this->assertSame( $response_data['error'], 'Invalid taxonomy.' );
+	}
+
+	/**
+	 * Tests the get_scores by sending an invalid term for this taxonomy and content type.
+	 *
+	 * @covers ::get_validated_term_id
+	 *
+	 * @return void
+	 */
+	public function test_get_seo_scores_with_invalid_term() {
+		$tag_id = \wp_insert_term(
+			'Test tag',
+			'post_tag',
+			[
+				'slug' => 'test-tag',
+			]
+		);
+
+		$request = new WP_REST_Request( 'GET', '/yoast/v1/seo_scores' );
+		$request->set_param( 'contentType', 'post' );
+		$request->set_param( 'taxonomy', 'category' );
+		$request->set_param( 'term', $tag_id['term_id'] );
+
+		$response = \rest_get_server()->dispatch( $request );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $response );
+
+		$response_data = $response->get_data();
+
+		$this->assertSame( 400, $response->status );
+		$this->assertSame( $response_data['error'], 'Invalid term.' );
+	}
+
+	/**
+	 * Tests trying to get_scores with an unauthorized user.
+	 *
+	 * @covers ::permission_manage_options
+	 *
+	 * @return void
+	 */
+	public function test_get_seo_scores_with_not_priviliged_user() {
+		$user = $this->factory->user->create_and_get( [ 'role' => 'author' ] );
+		\wp_set_current_user( $user->ID );
+
+		$request = new WP_REST_Request( 'GET', '/yoast/v1/seo_scores' );
+		$request->set_param( 'contentType', 'post' );
+
+		$response = \rest_get_server()->dispatch( $request );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $response );
+
+		$response_data = $response->get_data();
+
+		$this->assertSame( $response_data['code'], 'rest_forbidden' );
+		$this->assertSame( $response_data['data']['status'], 403 );
 	}
 
 	/**
@@ -138,16 +219,20 @@ final class SEO_Scores_Route_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_get_seo_scores
 	 *
-	 * @param array<array<string, string>> $inserted_posts   The posts to be insterted.
-	 * @param array<string, int>           $expected_amounts The amounts of the scores that are expected to be returned.
+	 * @param array<array<string,string>> $inserted_posts   The posts to be insterted.
+	 * @param array<string,string|int>    $taxonomy_filter  An array of term IDs and slugs.
+	 * @param array<string,int>           $expected_amounts The amounts of the scores that are expected to be returned.
 	 *
 	 * @return void
 	 */
-	public function test_get_seo_scores( $inserted_posts, $expected_amounts ) {
+	public function test_get_seo_scores( $inserted_posts, $taxonomy_filter, $expected_amounts ) {
 		$request = new WP_REST_Request( 'GET', '/yoast/v1/seo_scores' );
 		$request->set_param( 'contentType', 'post' );
-		$request->set_param( 'taxonomy', 'category' );
-		$request->set_param( 'term', 1 );
+
+		if ( ! empty( $taxonomy_filter ) ) {
+			$request->set_param( 'taxonomy', 'category' );
+			$request->set_param( 'term', $taxonomy_filter['term_id'] );
+		}
 
 		foreach ( $inserted_posts as $key => $post ) {
 			$meta_input = [];
@@ -158,7 +243,7 @@ final class SEO_Scores_Route_Test extends TestCase {
 				[
 					'post_title'    => 'Test Post' . $key,
 					'post_status'   => 'publish',
-					'post_category' => [ 1 ],
+					'post_category' => [ $post['post_category'] ],
 					'meta_input'    => $meta_input,
 				]
 			);
@@ -186,6 +271,12 @@ final class SEO_Scores_Route_Test extends TestCase {
 
 		$this->assertEquals( $response_data['scores'][3]['name'], 'notAnalyzed' );
 		$this->assertEquals( $response_data['scores'][3]['amount'], $expected_amounts['notAnalyzed'] );
+
+		$link_suffix = ( ! empty( $taxonomy_filter ) ) ? '&category_name=' . $taxonomy_filter['term_slug'] : '';
+		$this->assertEquals( $response_data['scores'][0]['links']['view'], 'http://example.org/wp-admin/edit.php?post_status=publish&post_type=post&seo_filter=good' . $link_suffix );
+		$this->assertEquals( $response_data['scores'][1]['links']['view'], 'http://example.org/wp-admin/edit.php?post_status=publish&post_type=post&seo_filter=ok' . $link_suffix );
+		$this->assertEquals( $response_data['scores'][2]['links']['view'], 'http://example.org/wp-admin/edit.php?post_status=publish&post_type=post&seo_filter=bad' . $link_suffix );
+		$this->assertEquals( $response_data['scores'][3]['links']['view'], 'http://example.org/wp-admin/edit.php?post_status=publish&post_type=post&seo_filter=na' . $link_suffix );
 	}
 
 	/**
@@ -194,8 +285,87 @@ final class SEO_Scores_Route_Test extends TestCase {
 	 * @return array<string,bool>
 	 */
 	public static function data_provider_get_seo_scores() {
+		$term = \wp_insert_term(
+			'Test category',
+			'category',
+			[
+				'slug' => 'test-category',
+			]
+		);
+
+		$term_id   = $term['term_id'];
+		$term_slug = 'test-category';
+
+		$inserted_posts_in_multiple_terms = [
+			[
+				'post_category' => 1,
+				'meta_input'    => [
+					'_yoast_wpseo_linkdex' => '30',
+					'_yoast_wpseo_focuskw' => 'test',
+				],
+			],
+			[
+				'post_category' => $term_id,
+				'meta_input'    => [
+					'_yoast_wpseo_linkdex' => '30',
+					'_yoast_wpseo_focuskw' => 'test',
+				],
+			],
+			[
+				'post_category' => 1,
+				'meta_input'    => [
+					'_yoast_wpseo_linkdex' => '10',
+					'_yoast_wpseo_focuskw' => 'test',
+				],
+			],
+			[
+				'post_category' => $term_id,
+				'meta_input'    => [
+					'_yoast_wpseo_linkdex' => '10',
+					'_yoast_wpseo_focuskw' => 'test',
+				],
+			],
+			[
+				'post_category' => 1,
+				'meta_input'    => [
+					'_yoast_wpseo_linkdex' => '50',
+					'_yoast_wpseo_focuskw' => 'test',
+				],
+			],
+			[
+				'post_category' => $term_id,
+				'meta_input'    => [
+					'_yoast_wpseo_linkdex' => '50',
+					'_yoast_wpseo_focuskw' => 'test',
+				],
+			],
+			[
+				'post_category' => 1,
+				'meta_input'    => [
+					'_yoast_wpseo_linkdex' => '80',
+					'_yoast_wpseo_focuskw' => 'test',
+				],
+			],
+			[
+				'post_category' => $term_id,
+				'meta_input'    => [
+					'_yoast_wpseo_linkdex' => '80',
+					'_yoast_wpseo_focuskw' => 'test',
+				],
+			],
+			[
+				'post_category' => 1,
+				'meta_input'    => [],
+			],
+			[
+				'post_category' => $term_id,
+				'meta_input'    => [],
+			],
+		];
+
 		yield 'No posts insterted' => [
 			'inserted_posts'   => [],
+			'taxonomy_filter'  => [],
 			'expected_amounts' => [
 				'good'        => 0,
 				'ok'          => 0,
@@ -203,41 +373,27 @@ final class SEO_Scores_Route_Test extends TestCase {
 				'notAnalyzed' => 0,
 			],
 		];
-		yield 'Multiple posts of all sorts of SEO scores' => [
-			'inserted_posts'   => [
-				[
-					'meta_input' => [
-						'_yoast_wpseo_linkdex' => '30',
-						'_yoast_wpseo_focuskw' => 'test',
-					],
-				],
-				[
-					'meta_input' => [
-						'_yoast_wpseo_linkdex' => '10',
-						'_yoast_wpseo_focuskw' => 'test',
-					],
-				],
-				[
-					'meta_input' => [
-						'_yoast_wpseo_linkdex' => '50',
-						'_yoast_wpseo_focuskw' => 'test',
-					],
-				],
-				[
-					'meta_input' => [
-						'_yoast_wpseo_linkdex' => '80',
-						'_yoast_wpseo_focuskw' => 'test',
-					],
-				],
-				[
-					'meta_input'   => [],
-				],
+		yield 'Multiple posts of all sorts of SEO scores from term with ID 1' => [
+			'inserted_posts'   => $inserted_posts_in_multiple_terms,
+			'taxonomy_filter'  => [
+				'term_id'   => $term_id,
+				'term_slug' => $term_slug,
 			],
 			'expected_amounts' => [
 				'good'        => 1,
 				'ok'          => 1,
 				'bad'         => 2,
 				'notAnalyzed' => 1,
+			],
+		];
+		yield 'Multiple posts of all sorts of SEO scores from all terms' => [
+			'inserted_posts'   => $inserted_posts_in_multiple_terms,
+			'taxonomy_filter'  => [],
+			'expected_amounts' => [
+				'good'        => 2,
+				'ok'          => 2,
+				'bad'         => 4,
+				'notAnalyzed' => 2,
 			],
 		];
 	}
