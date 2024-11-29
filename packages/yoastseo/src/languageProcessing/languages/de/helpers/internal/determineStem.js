@@ -107,7 +107,7 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
  */
 export default function determineStem( word, morphologyDataGerman ) {
 	// Already return the stem here if the word contains umlaut and ends with an ending that looks like a valid suffix, e.g. "läden" stemmed to "laden".
-	const umlautException = morphologyDataGerman.nouns.umlautException;
+	const umlautException = morphologyDataGerman.nouns.umlautException || [];
 	const findUmlautException = findStemOnNounExceptionList( umlautException, word );
 	if ( findUmlautException ) {
 		return findUmlautException;
