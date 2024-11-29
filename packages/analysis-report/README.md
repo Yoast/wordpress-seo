@@ -36,12 +36,44 @@ graph TD
 
 ### ContentAnalysis
 The main component that organizes analysis results into collapsible sections:
-- Errors
-- Problems
-- Improvements
-- Good Results
-- Considerations
 
+#### Props
+```typescript
+interface ContentAnalysisProps {
+  // Results categorized by type
+  problemsResults: AnalysisResult[];
+  improvementsResults: AnalysisResult[];
+  goodResults: AnalysisResult[];
+  considerationsResults: AnalysisResult[];
+  errorsResults: AnalysisResult[];
+  upsellResults?: AnalysisResult[];
+
+  // Handlers
+  onMarkButtonClick: (id: string, marker: Marker) => void;
+  onEditButtonClick: (id: string, fieldName: string) => void;
+
+  // Configuration
+  headingLevel?: number;  // Default: 4
+  marksButtonStatus?: "enabled" | "disabled" | "hidden";
+  marksButtonClassName?: string;
+  editButtonClassName?: string;
+  
+  // State
+  activeMarker?: string;
+  
+  // Premium features
+  isPremium?: boolean;
+  shouldUpsellHighlighting?: boolean;
+}
+```
+
+#### Features
+- Automatically collapses/expands sections
+- Handles section ordering by priority
+- Manages marker button states
+- Supports custom category labels
+
+#### Example Usage
 ```jsx
 import { ContentAnalysis } from "@yoast/analysis-report";
 
@@ -79,6 +111,45 @@ function MyAnalysis() {
 ### AnalysisResult
 Individual result item with score indicator and optional marking functionality:
 
+#### Props
+```typescript
+interface AnalysisResultProps {
+  // Content
+  text: string;             // HTML string with analysis feedback
+  score: number;            // 0-100 score
+  rating: "good" | "OK" | "bad" | "feedback" | "upsell";
+  id: string;              // Unique identifier
+  
+  // Marking functionality
+  hasMarks: boolean;       // Whether this result supports text marking
+  marker?: Marker;         // Marking instructions
+  marksButtonStatus?: "enabled" | "disabled" | "hidden";
+  
+  // Edit functionality
+  hasEditButton: boolean;  // Whether to show edit button
+  editFieldName?: string;  // Field to focus when edit clicked
+  
+  // Styling
+  bulletColor: string;     // Color for score indicator
+  marksButtonClassName?: string;
+  editButtonClassName?: string;
+  
+  // Accessibility
+  ariaLabelMarks: string;
+  ariaLabelEdit?: string;
+  
+  // State
+  pressed: boolean;        // Whether marks are active
+  suppressedText?: boolean;// Grey out the text
+}
+```
+
+#### Features
+- Sanitizes HTML in text content
+- Manages button states and interactions
+- Handles accessibility attributes
+- Supports custom styling
+
 ```jsx
 import { AnalysisResult } from "@yoast/analysis-report";
 
@@ -104,6 +175,27 @@ function SingleResult() {
 ### SiteSEOReport  
 Displays overall SEO score with a stacked progress bar:
 
+#### Props
+```typescript
+interface SiteSEOReportProps {
+  className?: string;
+  seoAssessmentText: string;
+  seoAssessmentItems: Array<{
+    html: string;          // HTML content for item description
+    value: number;         // Percentage value (0-100)
+    color: string;         // Color for progress bar segment
+  }>;
+  barHeight?: string;      // Custom height for progress bar
+}
+```
+
+#### Features
+- Renders stacked progress bars
+- Displays score breakdowns
+- Supports custom styling and dimensions
+- Handles responsive layouts
+
+#### Example Usage
 ```jsx
 import { SiteSEOReport } from "@yoast/analysis-report";
 
@@ -137,29 +229,7 @@ graph TD
     C --> F[EditButton]
 ```
 
-## Key Features
-
-1. **Score Visualization**
-   - Color-coded bullets indicating score levels
-   - Stacked progress bars for overall scores
-   - Clear visual hierarchy of results
-
-2. **Interactive Elements**
-   - Collapsible sections
-   - Text marking capabilities
-   - Edit buttons for direct navigation
-
-3. **Accessibility**
-   - ARIA labels
-   - Keyboard navigation
-   - Screen reader support
-
-4. **Customization**
-   - Custom marker implementations
-   - Themeable through styled-components
-   - Configurable section labels
-
-## Usage Outside WordPress
+## Usage Outside of WordPress
 
 When using this package outside of WordPress, keep in mind:
 
@@ -218,6 +288,289 @@ function SEOAnalysis({ content }) {
   );
 }
 ```
+
+## Marking & Editing Functionality
+
+### Text Marking System
+
+The marking system allows highlighting relevant parts of the text that correspond to specific analysis results. This is implemented through the `marker` prop and `onMarkButtonClick` handler.
+
+#### Marker Implementation
+
+A marker can be either a function or an array of marking instructions:
+
+```javascript
+// Function marker
+const functionMarker = () => {
+  return [
+    {
+      marked: "This text needs improvement",
+      original: "This text needs improvement",
+      position: {
+        startOffset: 0,
+        endOffset: 24
+      }
+    }
+  ];
+};
+
+// Array marker
+const arrayMarker = [
+  {
+    _startOffset: 0,
+    _endOffset: 24,
+    _marked: "This text needs improvement",
+    _original: "This text needs improvement"
+  }
+];
+```
+
+#### Marking Flow
+
+1. User clicks the eye icon (mark button)
+2. `onMarkButtonClick` is called with:
+   - `id`: The unique identifier of the assessment result
+   - `marker`: The marking instructions
+3. The parent application should then:
+   - Apply the marks to the text
+   - Update the UI to show the marked text
+   - Handle mark toggling (removing marks when clicked again)
+
+### Edit Button System
+
+The edit button system facilitates navigation to the relevant editing field for a specific assessment result.
+
+```javascript
+<ContentAnalysis
+  {...results}
+  onEditButtonClick={(id, fieldName) => {
+    // fieldName could be "title", "metaDescription", "text", etc.
+    focusField(fieldName);
+  }}
+/>
+```
+
+#### Edit Button Behavior
+
+1. **Visibility**: Edit buttons only appear when:
+   - `hasEditButton` is true for the result
+   - A valid `editFieldName` is provided
+   - The result is not suppressed
+
+2. **Navigation**: When clicked, should:
+   - Focus the corresponding input field
+   - Scroll to the field if needed
+   - Optionally highlight the field
+
+3. **Accessibility**: 
+   - Includes proper ARIA labels (e.g., "Edit your meta description")
+   - Supports keyboard navigation
+   - Provides visual feedback on focus/hover
+
+### Integration Example
+
+```jsx
+function SEOAnalysisWithMarking({ content }) {
+  const [activeMarker, setActiveMarker] = useState("");
+  const [marks, setMarks] = useState([]);
+
+  const handleMarkClick = (id, marker) => {
+    if (activeMarker === id) {
+      // Remove marks
+      setMarks([]);
+      setActiveMarker("");
+    } else {
+      // Apply new marks
+      const newMarks = typeof marker === "function" 
+        ? marker() 
+        : marker;
+      setMarks(newMarks);
+      setActiveMarker(id);
+    }
+  };
+
+  const handleEditClick = (id, fieldName) => {
+    const field = document.querySelector(`[name="${fieldName}"]`);
+    if (field) {
+      field.focus();
+      field.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  return (
+    <>
+      <ContentAnalysis
+        {...results}
+        marksButtonActivatedResult={activeMarker}
+        onMarkButtonClick={handleMarkClick}
+        onEditButtonClick={handleEditClick}
+      />
+      <TextEditor
+        content={content}
+        marks={marks}
+        onMarkingRequired={handleMarkClick}
+      />
+    </>
+  );
+}
+```
+
+## Components Reference
+
+### ContentAnalysis
+
+The root component that organizes and displays all analysis results in categorized, collapsible sections.
+
+#### Props
+```typescript
+interface ContentAnalysisProps {
+  // Results categorized by type
+  problemsResults: AnalysisResult[];
+  improvementsResults: AnalysisResult[];
+  goodResults: AnalysisResult[];
+  considerationsResults: AnalysisResult[];
+  errorsResults: AnalysisResult[];
+  upsellResults?: AnalysisResult[];
+
+  // Handlers
+  onMarkButtonClick: (id: string, marker: Marker) => void;
+  onEditButtonClick: (id: string, fieldName: string) => void;
+
+  // Configuration
+  headingLevel?: number;  // Default: 4
+  marksButtonStatus?: "enabled" | "disabled" | "hidden";
+  marksButtonClassName?: string;
+  editButtonClassName?: string;
+  
+  // State
+  activeMarker?: string;
+  
+  // Premium features
+  isPremium?: boolean;
+  shouldUpsellHighlighting?: boolean;
+}
+```
+
+#### Features
+- Automatically collapses/expands sections
+- Handles section ordering by priority
+- Manages marker button states
+- Supports custom category labels
+
+### AnalysisResult
+
+Individual result item that displays a single analysis outcome with interactive elements.
+
+#### Props
+```typescript
+interface AnalysisResultProps {
+  // Content
+  text: string;             // HTML string with analysis feedback
+  score: number;            // 0-100 score
+  rating: "good" | "OK" | "bad" | "feedback" | "upsell";
+  id: string;              // Unique identifier
+  
+  // Marking functionality
+  hasMarks: boolean;       // Whether this result supports text marking
+  marker?: Marker;         // Marking instructions
+  marksButtonStatus?: "enabled" | "disabled" | "hidden";
+  
+  // Edit functionality
+  hasEditButton: boolean;  // Whether to show edit button
+  editFieldName?: string;  // Field to focus when edit clicked
+  
+  // Styling
+  bulletColor: string;     // Color for score indicator
+  marksButtonClassName?: string;
+  editButtonClassName?: string;
+  
+  // Accessibility
+  ariaLabelMarks: string;
+  ariaLabelEdit?: string;
+  
+  // State
+  pressed: boolean;        // Whether marks are active
+  suppressedText?: boolean;// Grey out the text
+}
+```
+
+#### Features
+- Sanitizes HTML in text content
+- Manages button states and interactions
+- Handles accessibility attributes
+- Supports custom styling
+
+### SiteSEOReport
+
+Displays aggregate SEO scores with a stacked progress bar visualization.
+
+#### Props
+```typescript
+interface SiteSEOReportProps {
+  className?: string;
+  seoAssessmentText: string;
+  seoAssessmentItems: Array<{
+    html: string;          // HTML content for item description
+    value: number;         // Percentage value (0-100)
+    color: string;         // Color for progress bar segment
+  }>;
+  barHeight?: string;      // Custom height for progress bar
+}
+```
+
+#### Features
+- Renders stacked progress bars
+- Displays score breakdowns
+- Supports custom styling and dimensions
+- Handles responsive layouts
+
+## Component Interactions
+
+### Data Flow
+```mermaid
+sequenceDiagram
+    participant P as Parent App
+    participant C as ContentAnalysis
+    participant A as AnalysisResult
+    participant M as Marker System
+    
+    P->>C: Analysis Results
+    C->>A: Individual Result
+    A->>M: Marking Request
+    M->>P: Mark Positions
+    P->>M: Apply Marks
+    M->>A: Update UI
+```
+
+### State Management
+
+The components follow a unidirectional data flow:
+
+1. **Parent Level**
+   ```javascript
+   {
+     activeMarker: string | null;    // Currently active marker
+     marks: Mark[];                  // Active text marks
+     results: AnalysisResult[];      // Analysis results
+   }
+   ```
+
+2. **ContentAnalysis Level**
+   ```javascript
+   {
+     collapsibleStates: {           // Section collapse states
+       [category: string]: boolean
+     }
+   }
+   ```
+
+3. **AnalysisResult Level**
+   ```javascript
+   {
+     isHovered: boolean;            // UI hover state
+     isPressed: boolean;            // Marker active state
+   }
+   ```
 
 ## Contributing
 
