@@ -3,7 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\SEO_Score_Results;
 
-use WPSEO_Utils;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface;
@@ -33,18 +32,7 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 		$results = [];
 
 		$content_type_name = $content_type->get_name();
-		$transient_name    = self::SEO_SCORES_TRANSIENT . '_' . $content_type_name . ( ( $term_id === null ) ? '' : '_' . $term_id );
-
-		$transient = \get_transient( $transient_name );
-		if ( $transient !== false ) {
-			$results['scores']     = \json_decode( $transient, false );
-			$results['cache_used'] = true;
-			$results['query_time'] = 0;
-
-			return $results;
-		}
-
-		$select = $this->build_select( $seo_score_groups );
+		$select            = $this->build_select( $seo_score_groups );
 
 		$replacements = \array_merge(
 			\array_values( $select['replacements'] ),
@@ -106,8 +94,6 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 		}
 
 		$end_time = \microtime( true );
-
-		\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $current_scores ), \MINUTE_IN_SECONDS );
 
 		$results['scores']     = $current_scores;
 		$results['cache_used'] = false;
