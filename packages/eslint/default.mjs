@@ -16,10 +16,6 @@ export default [
 			jsdoc: jsdocPlugin,
 			stylistic: stylisticPlugin,
 		},
-		languageOptions: {
-			ecmaVersion: "latest",
-		},
-
 		// https://eslint.org/docs/rules/
 		rules: {
 			// Native ESLint rules
@@ -187,19 +183,6 @@ export const reactConfig = [
 	jsxA11YPlugin.flatConfigs.recommended,
 	{
 		name: "yoast/react",
-		languageOptions: {
-			ecmaVersion: "latest",
-			globals: {
-				...globals.amd,
-				...globals.browser,
-				...globals.jquery,
-			},
-			parserOptions: {
-				ecmaFeatures: {
-					jsx: true,
-				},
-			},
-		},
 		rules: {
 			// Plugin: jsx-a11y rules (https://github.com/jsx-eslint/eslint-plugin-jsx-a11y).
 			// Deprecated in v6.1.0 in favor of label-has-associated-control but we still want to require only for/id and not nesting.
@@ -240,11 +223,6 @@ export const reactConfig = [
 export const nodeConfig = [
 	{
 		name: "yoast/node",
-		languageOptions: {
-			ecmaVersion: "latest",
-			globals: {
-				...globals.node,
-			},
 		plugins: {
 			node: nodePlugin,
 		},
