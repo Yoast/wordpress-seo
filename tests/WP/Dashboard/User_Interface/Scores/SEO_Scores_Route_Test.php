@@ -239,7 +239,8 @@ final class SEO_Scores_Route_Test extends TestCase {
 			foreach ( $post['meta_input'] as $meta_key => $meta_value ) {
 				$meta_input[ $meta_key ] = $meta_value;
 			}
-			\wp_insert_post(
+
+			$this->factory()->post->create(
 				[
 					'post_title'    => 'Test Post' . $key,
 					'post_status'   => 'publish',
@@ -285,15 +286,17 @@ final class SEO_Scores_Route_Test extends TestCase {
 	 * @return array<string,bool>
 	 */
 	public static function data_provider_get_seo_scores() {
-		$term = \wp_insert_term(
-			'Test category',
-			'category',
+		$term = self::factory()->term->create_and_get(
 			[
-				'slug' => 'test-category',
+				'name'     => 'Test category',
+				'taxonomy' => 'category',
+				[
+					'slug' => 'test-category',
+				],
 			]
 		);
 
-		$term_id   = $term['term_id'];
+		$term_id   = $term->term_id;
 		$term_slug = 'test-category';
 
 		$inserted_posts_in_multiple_terms = [
