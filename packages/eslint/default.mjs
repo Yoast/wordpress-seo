@@ -142,6 +142,9 @@ export default [
 					ArrowFunctionExpression: true,
 					FunctionExpression: true,
 				},
+				// The fixer only adds empty blocks, which are easy to forget to fill in.
+				enableFixer: false,
+				exemptEmptyFunctions: true,
 			} ],
 			"jsdoc/require-returns": "error",
 
