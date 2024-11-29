@@ -3,7 +3,6 @@
 // @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Tests\WP\Dashboard\User_Interface\Scores;
 
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Mockery;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -231,7 +230,6 @@ final class SEO_Scores_Route_Test extends TestCase {
 		$request->set_param( 'contentType', 'post' );
 
 		if ( ! empty( $taxonomy_filter ) ) {
-			error_log( print_r( $taxonomy_filter, true ) );
 			$request->set_param( 'taxonomy', 'category' );
 			$request->set_param( 'term', $taxonomy_filter['term_id'] );
 		}
@@ -252,23 +250,11 @@ final class SEO_Scores_Route_Test extends TestCase {
 			);
 		}
 
-		error_log(print_r(get_posts( [ 'post_type' => 'post', 'numberposts' => -1 ] ), true));
-		$post_indexables = YoastSEO()->classes->get( Indexable_Repository::class )->find_all_with_type_and_sub_type( 'post', 'post');
-
-		foreach ( $post_indexables as $indexable ) {
-			error_log(print_r($indexable->id, true));
-			error_log(print_r($indexable->permalink, true));
-			error_log(print_r($indexable->type, true));
-			error_log(print_r($indexable->object_sub_type, true));
-		}
-
 		$response = \rest_get_server()->dispatch( $request );
 
 		$this->assertInstanceOf( WP_REST_Response::class, $response );
 
 		$response_data = $response->get_data();
-
-		error_log( print_r( $response_data, true ) );
 
 		$this->assertIsArray( $response_data );
 		$this->assertIsArray( $response_data['scores'] );
