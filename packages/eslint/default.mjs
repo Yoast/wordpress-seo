@@ -183,6 +183,11 @@ export const reactConfig = [
 	jsxA11YPlugin.flatConfigs.recommended,
 	{
 		name: "yoast/react",
+		settings: {
+			react: {
+				version: "detect",
+			},
+		},
 		rules: {
 			// Plugin: jsx-a11y rules (https://github.com/jsx-eslint/eslint-plugin-jsx-a11y).
 			// Deprecated in v6.1.0 in favor of label-has-associated-control but we still want to require only for/id and not nesting.
