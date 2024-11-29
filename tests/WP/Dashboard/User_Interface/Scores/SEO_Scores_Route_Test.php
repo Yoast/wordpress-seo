@@ -101,19 +101,6 @@ final class SEO_Scores_Route_Test extends TestCase {
 	}
 
 	/**
-	 * Filter function to exclude posts from indexable creation.
-	 *
-	 * @param array<string> $excluded_post_types The excluded post types before the filter.
-	 *
-	 * @return array<string> The excluded post types after the filter.
-	 */
-	public function filter_exclude_post( $excluded_post_types ) {
-		$excluded_post_types[] = 'post';
-
-		return $excluded_post_types;
-	}
-
-	/**
 	 * Tests the get_scores by sending a non filtering taxonomy for this content type.
 	 *
 	 * @covers ::get_taxonomy
@@ -226,8 +213,10 @@ final class SEO_Scores_Route_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_seo_scores( $inserted_posts, $taxonomy_filter, $expected_amounts ) {
+		$this->register_blog_post_type();
+
 		$request = new WP_REST_Request( 'GET', '/yoast/v1/seo_scores' );
-		$request->set_param( 'contentType', 'post' );
+		$request->set_param( 'contentType', 'blog-post' );
 
 		if ( ! empty( $taxonomy_filter ) ) {
 			$request->set_param( 'taxonomy', 'category' );
@@ -244,6 +233,7 @@ final class SEO_Scores_Route_Test extends TestCase {
 				[
 					'post_title'    => 'Test Post ' . $key,
 					'post_status'   => 'publish',
+					'post_type'     => 'blog-post',
 					'post_category' => [ $post['post_category'] ],
 					'meta_input'    => $meta_input,
 				]
@@ -274,10 +264,10 @@ final class SEO_Scores_Route_Test extends TestCase {
 		$this->assertEquals( $response_data['scores'][3]['amount'], $expected_amounts['notAnalyzed'] );
 
 		$link_suffix = ( ! empty( $taxonomy_filter ) ) ? '&category_name=' . $taxonomy_filter['term_slug'] : '';
-		$this->assertEquals( $response_data['scores'][0]['links']['view'], 'http://example.org/wp-admin/edit.php?post_status=publish&post_type=post&seo_filter=good' . $link_suffix );
-		$this->assertEquals( $response_data['scores'][1]['links']['view'], 'http://example.org/wp-admin/edit.php?post_status=publish&post_type=post&seo_filter=ok' . $link_suffix );
-		$this->assertEquals( $response_data['scores'][2]['links']['view'], 'http://example.org/wp-admin/edit.php?post_status=publish&post_type=post&seo_filter=bad' . $link_suffix );
-		$this->assertEquals( $response_data['scores'][3]['links']['view'], 'http://example.org/wp-admin/edit.php?post_status=publish&post_type=post&seo_filter=na' . $link_suffix );
+		$this->assertEquals( $response_data['scores'][0]['links']['view'], 'http://example.org/wp-admin/edit.php?post_status=publish&post_type=blog-post&seo_filter=good' . $link_suffix );
+		$this->assertEquals( $response_data['scores'][1]['links']['view'], 'http://example.org/wp-admin/edit.php?post_status=publish&post_type=blog-post&seo_filter=ok' . $link_suffix );
+		$this->assertEquals( $response_data['scores'][2]['links']['view'], 'http://example.org/wp-admin/edit.php?post_status=publish&post_type=blog-post&seo_filter=bad' . $link_suffix );
+		$this->assertEquals( $response_data['scores'][3]['links']['view'], 'http://example.org/wp-admin/edit.php?post_status=publish&post_type=blog-post&seo_filter=na' . $link_suffix );
 	}
 
 	/**
@@ -366,7 +356,7 @@ final class SEO_Scores_Route_Test extends TestCase {
 			],
 		];
 
-		yield 'No posts insterted' => [
+		yield 'No posts inserted' => [
 			'inserted_posts'   => [],
 			'taxonomy_filter'  => [],
 			'expected_amounts' => [
@@ -399,5 +389,35 @@ final class SEO_Scores_Route_Test extends TestCase {
 				'notAnalyzed' => 2,
 			],
 		];
+	}
+
+	/**
+	 * Filter function to exclude posts from indexable creation.
+	 *
+	 * @param array<string> $excluded_post_types The excluded post types before the filter.
+	 *
+	 * @return array<string> The excluded post types after the filter.
+	 */
+	public function filter_exclude_post( $excluded_post_types ) {
+		$excluded_post_types[] = 'post';
+
+		return $excluded_post_types;
+	}
+
+	/**
+	 * Action function to register new blog post post type.
+	 *
+	 * @return void
+	 */
+	public function register_blog_post_type() {
+		$args = [
+			'label'              => 'Blog posts',
+			'public'             => true,
+			'has_archive'        => true,
+			'show_in_rest'       => true,
+			'taxonomies'         => [ 'category' ],
+		];
+
+		\register_post_type( 'blog-post', $args );
 	}
 }
