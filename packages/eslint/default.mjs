@@ -7,6 +7,7 @@ import nodePlugin from "eslint-plugin-n";
 import importPlugin from "eslint-plugin-import";
 import stylisticPlugin from "@stylistic/eslint-plugin";
 
+/** @type {import('eslint').Linter.Config[]} */
 export default [
 	js.configs.recommended,
 	importPlugin.flatConfigs.recommended,
@@ -178,6 +179,7 @@ export default [
 	},
 ];
 
+/** @type {import('eslint').Linter.Config[]} */
 export const reactConfig = [
 	reactPlugin.configs.flat.recommended,
 	jsxA11YPlugin.flatConfigs.recommended,
@@ -225,6 +227,7 @@ export const reactConfig = [
 	},
 ];
 
+/** @type {import('eslint').Linter.Config[]} */
 export const nodeConfig = [
 	{
 		name: "yoast/node",
