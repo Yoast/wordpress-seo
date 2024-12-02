@@ -16,10 +16,6 @@
             &.yst-intent-badge--t {
                 @apply yst-text-green-900 yst-bg-green-200;
             }
-
-			.yst-tooltip--top {
-				@apply rtl:yst-translate-x-[58%];
-			}
         }
     }
 }
