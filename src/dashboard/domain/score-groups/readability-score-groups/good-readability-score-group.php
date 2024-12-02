@@ -52,4 +52,13 @@ class Good_Readability_Score_Group extends Abstract_Readability_Score_Group {
 	public function get_max_score(): ?int {
 		return 100;
 	}
+
+	/**
+	 * Gets whether the score group is abiguous.
+	 *
+	 * @return string
+	 */
+	public function get_is_ambiguous(): string {
+		return false;
+	}
 }

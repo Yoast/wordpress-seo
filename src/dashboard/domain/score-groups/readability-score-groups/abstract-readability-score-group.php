@@ -11,6 +11,13 @@ use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Abstract_Score_Group;
 abstract class Abstract_Readability_Score_Group extends Abstract_Score_Group implements Readability_Score_Groups_Interface {
 
 	/**
+	 * Whether the score group is ambiguous.
+	 *
+	 * @var bool
+	 */
+	private $is_ambiguous;
+
+	/**
 	 * Gets the key of the readability score group that is used when filtering on the posts page.
 	 *
 	 * @return string The name of the readability score group that is used when filtering on the posts page.

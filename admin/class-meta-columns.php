@@ -681,11 +681,26 @@ class WPSEO_Meta_Columns {
 	protected function create_no_readability_scores_filter() {
 		// We check the existence of the Estimated Reading Time, because readability scores of posts that haven't been manually saved while Yoast SEO is active, don't exist, which is also the case for posts with not enough content.
 		// Meanwhile, the ERT is a solid indicator of whether a post has ever been saved (aka, analyzed), so we're using that.
+		$rank = new WPSEO_Rank( WPSEO_Rank::BAD );
 		return [
 			[
 				'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
 				'value'   => 'needs-a-value-anyway',
 				'compare' => 'NOT EXISTS',
+			],
+			[
+				'relation' => 'OR',
+				[
+					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+					'value'   => $rank->get_end_score(),
+					'type'    => 'numeric',
+					'compare' => '<=',
+				],
+				[
+					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+					'value'   => 'needs-a-value-anyway',
+					'compare' => 'NOT EXISTS',
+				],
 			],
 		];
 	}
@@ -716,7 +731,6 @@ class WPSEO_Meta_Columns {
 					'compare' => 'NOT EXISTS',
 				],
 			],
-
 		];
 	}
 
