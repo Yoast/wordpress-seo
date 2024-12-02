@@ -242,13 +242,13 @@ export default withSelect( select => {
 		getReadabilityResults,
 		getMarkButtonStatus,
 		getIsElementorEditor,
-		getPreference,
+		getIsAiFeatureEnabled,
 	} = select( "yoast-seo/editor" );
 
 	return {
 		...getReadabilityResults(),
 		marksButtonStatus: getMarkButtonStatus(),
 		isElementor: getIsElementorEditor(),
-		isAiFeatureEnabled: getPreference( "isAiFeatureActive", false ),
+		isAiFeatureEnabled: getIsAiFeatureEnabled(),
 	};
 } )( ReadabilityAnalysis );
