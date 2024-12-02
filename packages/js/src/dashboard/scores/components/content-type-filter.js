@@ -1,10 +1,27 @@
 import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { AutocompleteField } from "@yoast/ui-library";
+import { replace, unescape } from "lodash";
 
 /**
  * @type {import("../index").ContentType} ContentType
  */
+
+
+/**
+ * The regex to find a single quote.
+ * @type {RegExp}
+ */
+const findSingleQuoteRegex =  new RegExp( "&#039;", "g" );
+
+/**
+ * Decodes the label to remove HTML entities
+ * @param {string} encodedString The string to decode.
+ * @returns {string} The decoded string.
+ */
+function decodeString( encodedString ) {
+	return replace( unescape( encodedString ), findSingleQuoteRegex, "'" );
+}
 
 /**
  * @param {string} idSuffix The suffix for the ID.
@@ -31,15 +48,16 @@ export const ContentTypeFilter = ( { idSuffix, contentTypes, selected, onChange 
 			id={ `content-type--${ idSuffix }` }
 			label={ __( "Content type", "wordpress-seo" ) }
 			value={ selected?.name }
-			selectedLabel={ selected?.label || "" }
+			selectedLabel={ decodeString( selected?.label ) || "" }
 			onChange={ handleChange }
 			onQueryChange={ handleQueryChange }
 		>
-			{ filtered.map( ( { name, label } ) => (
-				<AutocompleteField.Option key={ name } value={ name }>
-					{ label }
-				</AutocompleteField.Option>
-			) ) }
+			{ filtered.map( ( { name, label } ) => {
+				 const decodedLabel = decodeString( label );
+				return <AutocompleteField.Option key={ name } value={ name }>
+					{ decodedLabel }
+				</AutocompleteField.Option>;
+			} ) }
 		</AutocompleteField>
 	);
 };
