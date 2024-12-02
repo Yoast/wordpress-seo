@@ -39,7 +39,7 @@ export const SCORE_DESCRIPTIONS = {
 		good: __( "Most of your content has a good SEO score. Well done!", "wordpress-seo" ),
 		ok: __( "Your content has an average SEO score. Time to find opportunities for improvement!", "wordpress-seo" ),
 		bad: __( "Some of your content could use a little extra care. Take a look and start improving!", "wordpress-seo" ),
-		notAnalyzed: __( "Some of your content hasn't been analyzed yet. Please open it and save it in your editor so we can start the analysis.", "wordpress-seo" ),
+		notAnalyzed: __( "Some of your content hasn't been analyzed yet. Please open it in your editor, ensure a focus keyphrase is entered, and save it so we can start the analysis.", "wordpress-seo" ),
 	},
 	readability: {
 		good: __( "Most of your content has a good readability score. Well done!", "wordpress-seo" ),

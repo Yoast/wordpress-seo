@@ -27,14 +27,17 @@ export const PageTitle = ( { userName, features, links } ) => (
 				{ features.indexables && ! features.seoAnalysis && ! features.readabilityAnalysis
 					? createInterpolateElement(
 						sprintf(
-							/* translators: %1$s and %2$s expand to an opening and closing anchor tag. */
-							__( "It looks like the ‘SEO analysis’ and the ‘Readability analysis’ are currently turned off in your %1$sSite features%2$s. Enable these features to start seeing all the insights you need right here!", "wordpress-seo" ),
+							/* translators: %1$s, %2$s, %3$s and  %4$s expand to an opening and closing anchor tag. */
+							__( "It looks like the ‘SEO analysis’ and the ‘Readability analysis’ are currently disabled in your %1$sSite features%2$s or your %3$suser profile settings%4$s. Enable these features to start seeing all the insights you need right here!", "wordpress-seo" ),
 							"<link>",
-							"</link>"
+							"</link>",
+							"<profilelink>",
+							"</profilelink>"
 						),
 						{
 							// Added dummy space as content to prevent children prop warnings in the console.
 							link: <Link href="admin.php?page=wpseo_page_settings#/site-features"> </Link>,
+							profilelink: <Link href="profile.php"> </Link>,
 						}
 					)
 					: createInterpolateElement(
