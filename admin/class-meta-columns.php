@@ -593,7 +593,7 @@ class WPSEO_Meta_Columns {
 		$current_seo_filter = $this->get_current_seo_filter();
 
 		// This only applies for the SEO score filter because it can because the SEO score can be altered by the no-index option.
-		if ( $this->is_valid_filter( $current_seo_filter ) && ! in_array( $current_seo_filter, [ WPSEO_Rank::NO_INDEX, WPSEO_Rank::NO_FOCUS ], true ) ) {
+		if ( $this->is_valid_filter( $current_seo_filter ) && ! in_array( $current_seo_filter, [ WPSEO_Rank::NO_INDEX ], true ) ) {
 			$result['meta_query'] = array_merge( $result['meta_query'], [ $this->get_meta_robots_query_values() ] );
 		}
 
@@ -660,11 +660,6 @@ class WPSEO_Meta_Columns {
 	 */
 	protected function create_no_focus_keyword_filter() {
 		return [
-			[
-				'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-				'value'   => 'needs-a-value-anyway',
-				'compare' => 'NOT EXISTS',
-			],
 			[
 				'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
 				'value'   => 'needs-a-value-anyway',
