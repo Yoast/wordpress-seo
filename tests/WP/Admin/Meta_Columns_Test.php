@@ -468,9 +468,6 @@ final class Meta_Columns_Test extends TestCase {
 	public function test_determine_seo_filters( $filter, $expected ) {
 		$result = self::$class_instance->determine_seo_filters( $filter );
 
-		error_log(print_r($expected, true));
-		error_log(print_r($result, true));
-
 		$this->assertEquals( $expected, $result );
 	}
 
