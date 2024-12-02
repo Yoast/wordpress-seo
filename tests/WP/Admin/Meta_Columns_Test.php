@@ -182,6 +182,20 @@ final class Meta_Columns_Test extends TestCase {
 						'value'   => 'needs-a-value-anyway',
 						'compare' => 'NOT EXISTS',
 					],
+					[
+						'relation' => 'OR',
+						[
+							'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+							'value'   => 40,
+							'type'    => 'numeric',
+							'compare' => '<=',
+						],
+						[
+							'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+							'value'   => 'needs-a-value-anyway',
+							'compare' => 'NOT EXISTS',
+						],
+					],
 				],
 			],
 		];
