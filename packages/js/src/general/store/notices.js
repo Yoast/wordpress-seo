@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
 
-export const FTC_NAME = "firstTimeConfiguration";
+export const NOTICES_NAME = "notices";
 
 const slice = createSlice( {
-	name: FTC_NAME,
+	name: NOTICES_NAME,
 	initialState: { resolvedNotices: [] },
 	reducers: {
 		/**
@@ -31,12 +31,12 @@ const slice = createSlice( {
 /**
  * @returns {Object} The initial state.
  */
-export const getInitialFirstTimeConfigurationState = slice.getInitialState;
+export const getInitialNoticesState = slice.getInitialState;
 
-export const firstTimeConfigurationSelectors = {
-	selectResolvedNotices: state => get( state, `${ FTC_NAME }.resolvedNotices`, [] ),
+export const noticesSelectors = {
+	selectResolvedNotices: state => get( state, `${ NOTICES_NAME }.resolvedNotices`, [] ),
 };
 
-export const firstTimeConfigurationActions = slice.actions;
+export const noticesActions = slice.actions;
 
-export const firstTimeConfigurationReducer = slice.reducer;
+export const noticesReducer = slice.reducer;

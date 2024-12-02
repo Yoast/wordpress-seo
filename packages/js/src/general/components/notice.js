@@ -1,7 +1,9 @@
 import { XIcon } from "@heroicons/react/outline";
+import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 
 /**
@@ -11,11 +13,16 @@ import PropTypes from "prop-types";
  * @param {string} id The id of the notice.
  * @param {boolean} isDismissable Whether the notice is dismissable.
  * @param {string} children The content of the notice.
+ * @param {function} onDismiss The dismiss handler.
  *
  * @returns {React.Component} The Notice.
  */
-export function Notice( { title, id, isDismissable, children } ) {
+export function Notice( { title, id, isDismissable, children, onDismiss } ) {
 	const ariaSvgProps = useSvgAria();
+
+	const handleClick = useCallback( () => {
+		onDismiss( id );
+	}, [ onDismiss, id ] );
 
 	return (
 		<div id={ id } className={ classNames( "yst-p-3 yst-rounded-md yoast-general-page-notice" ) }>
@@ -27,6 +34,7 @@ export function Notice( { title, id, isDismissable, children } ) {
 						<button
 							type="button"
 							className="notice-dismiss"
+							onClick={ handleClick }
 						>
 							<span className="yst-sr-only">{ __( "Close", "wordpress-seo" ) }</span>
 							<XIcon className="yst-h-5 yst-w-5" { ...ariaSvgProps } />
@@ -41,9 +49,14 @@ export function Notice( { title, id, isDismissable, children } ) {
 	);
 }
 
+Notice.defaultProps = {
+	onDismiss: noop,
+};
+
 Notice.propTypes = {
 	title: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	isDismissable: PropTypes.bool.isRequired,
 	children: PropTypes.string.isRequired,
+	onDismiss: PropTypes.func,
 };

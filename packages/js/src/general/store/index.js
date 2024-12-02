@@ -7,7 +7,7 @@ import preferences, { createInitialPreferencesState, preferencesActions, prefere
 import { reducers, selectors, actions } from "@yoast/externals/redux";
 import * as dismissedAlertsControls from "../../redux/controls/dismissedAlerts";
 import { alertCenterReducer, alertCenterActions, alertCenterSelectors, getInitialAlertCenterState, alertCenterControls, ALERT_CENTER_NAME } from "./alert-center";
-import { firstTimeConfigurationActions, firstTimeConfigurationReducer, firstTimeConfigurationSelectors, FTC_NAME, getInitialFirstTimeConfigurationState } from "./first-time-configuration";
+import { noticesActions, noticesReducer, noticesSelectors, NOTICES_NAME, getInitialNoticesState } from "./notices";
 
 const { currentPromotions, dismissedAlerts, isPremium } = reducers;
 const { isAlertDismissed, getIsPremium, isPromotionActive } = selectors;
@@ -29,7 +29,7 @@ const createStore = ( { initialState } ) => {
 			setCurrentPromotions,
 			setDismissedAlerts,
 			setIsPremium,
-			...firstTimeConfigurationActions,
+			...noticesActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
@@ -38,7 +38,7 @@ const createStore = ( { initialState } ) => {
 			isAlertDismissed,
 			getIsPremium,
 			isPromotionActive,
-			...firstTimeConfigurationSelectors,
+			...noticesSelectors,
 		},
 		initialState: merge(
 			{},
@@ -47,7 +47,7 @@ const createStore = ( { initialState } ) => {
 				preferences: createInitialPreferencesState(),
 				[ ALERT_CENTER_NAME ]: getInitialAlertCenterState(),
 				currentPromotions: { promotions: [] },
-				[ FTC_NAME ]: getInitialFirstTimeConfigurationState(),
+				[ NOTICES_NAME ]: getInitialNoticesState(),
 			},
 			initialState
 		),
@@ -58,7 +58,7 @@ const createStore = ( { initialState } ) => {
 			currentPromotions,
 			dismissedAlerts,
 			isPremium,
-			[ FTC_NAME ]: firstTimeConfigurationReducer,
+			[ NOTICES_NAME ]: noticesReducer,
 		} ),
 		controls: {
 			...alertCenterControls,

@@ -6,7 +6,7 @@ import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
-import { FTC_NAME } from "./store/first-time-configuration";
+import { NOTICES_NAME } from "./store/notices";
 import App from "./app";
 import { RouteErrorFallback } from "./components";
 import { STORE_NAME } from "./constants";
@@ -26,7 +26,7 @@ domReady( () => {
 			currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
 			dismissedAlerts: get( window, "wpseoScriptData.dismissedAlerts", {} ),
 			isPremium: get( window, "wpseoScriptData.preferences.isPremium", false ),
-			[ FTC_NAME ]: { resolvedNotices: [] },
+			[ NOTICES_NAME ]: { resolvedNotices: [] },
 		},
 	} );
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
