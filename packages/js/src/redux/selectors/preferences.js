@@ -76,12 +76,12 @@ export const getIsWooSeoUpsellTerm = ( state ) => {
 };
 
 /**
- * @deprecated This function is deprecated and will be removed in future versions. 
+ * @deprecated This function is deprecated and will be removed in future versions.
  * Please use the getIsAiFeatureEnabled from yoast-seo-premium store instead.
- * 
+ *
  * @returns {boolean} Whether the AI feature is enabled.
  */
 export const getIsAiFeatureEnabled = () => {
-	const getIsAiFeatureEnabledFromPremium = select("yoast-seo-premium/editor")?.getIsAiFeatureEnabled;
+	const getIsAiFeatureEnabledFromPremium = select( "yoast-seo-premium/editor" )?.getIsAiFeatureEnabled;
 	return getIsAiFeatureEnabledFromPremium ? getIsAiFeatureEnabledFromPremium() : Boolean( window.wpseoAdminL10n.isAiFeatureActive );
 };

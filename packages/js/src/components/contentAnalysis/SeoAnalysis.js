@@ -3,7 +3,6 @@ import { withSelect } from "@wordpress/data";
 import { Component, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
-import { get } from "lodash";
 import { LocationConsumer, RootContext } from "@yoast/externals/contexts";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -307,6 +306,7 @@ SeoAnalysis.propTypes = {
 	shouldUpsellHighlighting: PropTypes.bool,
 	isElementor: PropTypes.bool,
 	isAiFeatureEnabled: PropTypes.bool,
+	isPremium: PropTypes.bool,
 };
 
 SeoAnalysis.defaultProps = {
@@ -319,6 +319,7 @@ SeoAnalysis.defaultProps = {
 	shouldUpsellHighlighting: false,
 	isElementor: false,
 	isAiFeatureEnabled: false,
+	isPremium: false,
 };
 
 export default withSelect( ( select, ownProps ) => {
@@ -328,7 +329,7 @@ export default withSelect( ( select, ownProps ) => {
 		getResultsForKeyword,
 		getIsElementorEditor,
 		getIsPremium,
-		getIsAiFeatureEnabled
+		getIsAiFeatureEnabled,
 	} = select( "yoast-seo/editor" );
 
 	const keyword = getFocusKeyphrase();

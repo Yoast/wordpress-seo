@@ -235,6 +235,7 @@ ReadabilityAnalysis.defaultProps = {
 	shouldUpsell: false,
 	shouldUpsellHighlighting: false,
 	isAiFeatureEnabled: false,
+	isElementor: false,
 };
 
 export default withSelect( select => {
