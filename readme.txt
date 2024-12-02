@@ -278,6 +278,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-12-03
 
+Yoast SEO 24.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-3-12-24).
+
 #### Enhancements
 
 * Allows to set OpenGraph image HTML metadata `width`, `height`, and `type` to `null` in order not to show them. Props to [GiovanniMounir](https://github.com/GiovanniMounir).
