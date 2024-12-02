@@ -35,9 +35,10 @@ const ScoreContentSkeletonLoader = () => (
  * @param {Score[]} [scores=[]] The scores.
  * @param {boolean} isLoading Whether the scores are still loading.
  * @param {Object.<ScoreType,string>} descriptions The descriptions.
+ * @param {string} idSuffix The suffix for the IDs.
  * @returns {JSX.Element} The element.
  */
-export const ScoreContent = ( { scores = [], isLoading, descriptions } ) => {
+export const ScoreContent = ( { scores = [], isLoading, descriptions, idSuffix } ) => {
 	if ( isLoading ) {
 		return <ScoreContentSkeletonLoader />;
 	}
@@ -46,7 +47,7 @@ export const ScoreContent = ( { scores = [], isLoading, descriptions } ) => {
 		<>
 			<ContentStatusDescription scores={ scores } descriptions={ descriptions } />
 			<div className={ CLASSNAMES.container }>
-				{ scores && <ScoreList className={ CLASSNAMES.list } scores={ scores } /> }
+				{ scores && <ScoreList className={ CLASSNAMES.list } scores={ scores } idSuffix={ idSuffix } /> }
 				{ scores && <ScoreChart className={ CLASSNAMES.chart } scores={ scores } /> }
 			</div>
 		</>
