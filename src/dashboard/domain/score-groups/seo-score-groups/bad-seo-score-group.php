@@ -41,7 +41,7 @@ class Bad_SEO_Score_Group extends Abstract_SEO_Score_Group {
 	 * @return int The minimum score of the SEO score group.
 	 */
 	public function get_min_score(): ?int {
-		return 0;
+		return 1;
 	}
 
 	/**
