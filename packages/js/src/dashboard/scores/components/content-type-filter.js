@@ -12,7 +12,7 @@ import { replace, unescape } from "lodash";
  * The regex to find a single quote.
  * @type {RegExp}
  */
-const findSingleQuoteRegex =  new RegExp( "&#039;", "g" );
+const findSingleQuoteRegex =  new RegExp( "&#0?39;", "g" );
 
 /**
  * Decodes the label to remove HTML entities
