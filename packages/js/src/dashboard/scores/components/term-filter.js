@@ -1,6 +1,7 @@
 import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
+import { unescape } from "lodash";
 import { useFetch } from "../../fetch/use-fetch";
 
 /**
@@ -26,7 +27,7 @@ const createQueryUrl = ( endpoint, query ) => {
  * @param {{id: number, name: string}} term The term from the response.
  * @returns {Term} The transformed term for internal usage.
  */
-const transformTerm = ( term ) => ( { name: String( term.id ), label: term.name } );
+const transformTerm = ( term ) => ( { name: String( term.id ), label: unescape( term.name ) } );
 
 /**
  * Renders either a list of terms or a message that nothing was found.
