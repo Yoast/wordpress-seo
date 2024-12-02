@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Score_Groups_Interface;
 interface Readability_Score_Groups_Interface extends Score_Groups_Interface {
 
 	/**
-	 * Gets whether the score group is abiguous.
+	 * Gets whether the score group is ambiguous.
 	 *
 	 * @return string
 	 */

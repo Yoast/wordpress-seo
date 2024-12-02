@@ -54,7 +54,7 @@ class No_Readability_Score_Group extends Abstract_Readability_Score_Group {
 	}
 
 	/**
-	 * Gets whether the score group is abiguous.
+	 * Gets whether the score group is ambiguous.
 	 *
 	 * @return string
 	 */
