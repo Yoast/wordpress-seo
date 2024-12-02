@@ -1,6 +1,6 @@
 import React from "react";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
-import { component } from "./docs";
+import { component, withFlex } from "./docs";
 import { TooltipContainer, TooltipTrigger, TooltipWithContext } from "./index";
 
 export const Factory = {
@@ -55,6 +55,35 @@ export const WithContext = {
 	],
 };
 
+export const WithFlex = {
+	name: "With display flex",
+	render: ( args ) => <TooltipWithContext { ...args } />,
+	parameters: {
+		controls: { disable: false },
+		docs: {
+			description: {
+				story: withFlex,
+			},
+		},
+	},
+	args: {
+		id: "tooltip",
+		children: <div className="yst-flex yst-flex-col">
+			<span>Row one</span>
+			<span>Row two</span>
+		</div>,
+	},
+	decorators: [
+		( Story, args ) => (
+			<TooltipContainer>
+				<TooltipTrigger ariaDescribedby={ args.id }>Element containing a tooltip.</TooltipTrigger>
+				<Story />
+			</TooltipContainer>
+		),
+	],
+};
+
+
 export default {
 	title: "2) Components/Tooltip Container",
 	component: TooltipContainer,
@@ -70,7 +99,7 @@ export default {
 			description: {
 				component,
 			},
-			page: () => <InteractiveDocsPage stories={ [ Trigger, WithContext ] } />,
+			page: () => <InteractiveDocsPage stories={ [ Trigger, WithContext, WithFlex ] } />,
 		},
 	},
 	decorators: [

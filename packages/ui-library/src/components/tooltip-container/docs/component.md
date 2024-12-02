@@ -22,3 +22,5 @@ The **TooltipWithContext** wraps the Tooltip element.
 * It gets the `isVisible` from the context.
 * It hides the Tooltip via the `yst-hidden` className when `isVisible` is false.
 * It forwards any props to the Tooltip element.
+
+**Note**: The tooltip is the same element, so if you want to override styling like `display`. You should add a container inside.
