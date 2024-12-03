@@ -274,6 +274,23 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 24.1 =
+
+Release date: 2024-12-17
+
+#### Enhancements
+
+* Adds `Not analyzed` as a option in the readability filter in the posts page.
+* Enhances the existing `Needs improvement` option in the readability filter in the posts page, to include posts that don't have enough content as well.
+
+#### Bugfixes
+
+* Fixes a bug where posts that have been set to explicitly not be noindexed and had no keyword set would not appear in the relevant SEO filter in the posts page.
+
+#### Other
+
+* Improves the translatability of feedback for the _paragraph length_ and the _sentence length_ assessments.
+
 = 24.0 =
 
 Release date: 2024-12-03
@@ -296,28 +313,6 @@ Yoast SEO 24.0 brings more enhancements and bugfixes. [Find more information abo
 #### Other
 
 * Improves the documentation for `wpseo_enable_tracking` filter. Props to [kkmuffme](https://github.com/kkmuffme).
-
-= 23.9 =
-
-Release date: 2024-11-19
-
-Yoast SEO 23.9 brings enhancements to the Yoast SEO Semrush integration and various bug fixes. Find more about Yoast SEO 23.9 in [our release post](https://yoa.st/release-19-11-24)!
-
-#### Enhancements
-
-* Adds a maximum width to the problems and notifications sections on the _General_ page.
-* Adds _Intent_ and _Difficulty_ to the metrics shown in the Semrush integration.
-* Improves the compatibility of the Yoast blocks with WordPress 6.7.
-
-#### Bugfixes
-
-* Fixes a bug where a fatal error is triggered in PHP 8.x when a user's additional contact methods have been improperly set to `null`. Props to [PhilETaylor](https://github.com/PhilETaylor).
-* Fixes a bug where the _First time configuration_ would have a double separator for the title and content.
-* Fixes a bug where the _First time configuration_ would not resize properly on smaller width screens.
-
-#### Other
-
-* Stops PHP notices on WordPress 6.7 about `_load_textdomain_just_in_time` loading incorrectly.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
