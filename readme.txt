@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.7
-Stable tag: 23.9
+Stable tag: 24.0
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -278,12 +278,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-12-03
 
+Yoast SEO 24.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-3-12-24).
+
 #### Enhancements
 
-* Allows to set OpenGraph image `width`, `height `and `type` HTML metadata to `null` in order to don't show them. Props to [GiovanniMounir](https://github.com/GiovanniMounir).
-* Improves the _transition words_ assessment for Portuguese and English by updating the relevant lists of transitions words. Props to [BrunoAseff](https://github.com/BrunoAseff).
-* Shows an error message in the Yoast _General_ page in case of JavaScript errors.
-* Updates the design and translations of the country selector in the related keyphrase suggestion modal.
+* Allows to set OpenGraph image HTML metadata `width`, `height`, and `type` to `null` in order not to show them. Props to [GiovanniMounir](https://github.com/GiovanniMounir).
+* Improves the _transition words_ assessment for Portuguese and English by updating the relevant lists of transition words. Props to [BrunoAseff](https://github.com/BrunoAseff).
+* Introduces an error message in the Yoast _General_ page in case of JavaScript errors.
+* Updates the design and translations of the country selector in the modal for related keyphrase suggestions.
 
 #### Bugfixes
 
