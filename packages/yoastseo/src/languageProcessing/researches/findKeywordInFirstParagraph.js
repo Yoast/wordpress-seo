@@ -37,7 +37,7 @@ export default function( paper, researcher ) {
 		return ! ( paragraph.childNodes && paragraph.childNodes[ 0 ] &&
 			createShortcodeTagsRegex( [ "caption" ] ).test( paragraph.childNodes[ 0 ].value ) );
 	} );
-	 const firstParagraph = paragraphs[ 0 ];
+	const firstParagraph = paragraphs[ 0 ];
 
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );

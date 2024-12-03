@@ -206,7 +206,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].count ).toBe( 1 );
 	} );
 
-	/*it( "returns an object with sentence beginnings and counts for two sentences in German starting with different words.", function() {
+	/* it( "returns an object with sentence beginnings and counts for two sentences in German starting with different words.", function() {
 		mockPaper = new Paper( "Ich bin wie du. Auf wiedersehen. ", { locale: "de_DE" } );
 		researcher = new GermanResearcher( mockPaper );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "ich" );
@@ -530,7 +530,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
 	} );*/
 
-	/*it( "returns an object with sentence beginnings and counts for three sentences all starting with the same words", () => {
+	/* it( "returns an object with sentence beginnings and counts for three sentences all starting with the same words", () => {
 		mockPaper = new Paper( "Οι γάτες είναι χαριτωμένες. Οι γάτες είναι γλυκές. Οι γάτες είναι αξιολάτρευτες.", { locale: "el" } );
 		researcher = new GreekResearcher( mockPaper );
 
@@ -560,7 +560,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 2 ].word ).toBe( "αυτός ο άνδρας" );
 	} );
 
-	/*it( "returns an object with sentence beginnings and counts for two sentences in Japanese starting with different words.", function() {
+	/* it( "returns an object with sentence beginnings and counts for two sentences in Japanese starting with different words.", function() {
 		// https://tatoeba.org/en/sentences/show/425148
 		// https://tatoeba.org/en/sentences/show/9431906
 		mockPaper = new Paper( "私たちはよくチェスをします。チェスは難しい。", { locale: "ja_JP" } );

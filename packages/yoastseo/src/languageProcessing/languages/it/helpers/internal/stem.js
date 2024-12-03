@@ -402,7 +402,7 @@ export default function stem( word, morphologyData ) {
 	// Step 2:  Verb suffix removal.
 	if ( wordAfter0 === wordAfter1 ) {
 		word = removeVerbSuffixes( word, morphologyData, rvText );
-	 }
+	}
 
 	rvText = word.substring( rv );
 
