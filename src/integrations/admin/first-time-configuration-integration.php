@@ -143,7 +143,6 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		}
 
 		$this->admin_asset_manager->enqueue_script( 'indexation' );
-		$this->admin_asset_manager->enqueue_script( 'first-time-configuration' );
 		$this->admin_asset_manager->enqueue_style( 'first-time-configuration' );
 		$this->admin_asset_manager->enqueue_style( 'admin-css' );
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
@@ -226,7 +225,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 			],
 		];
 
-		$this->admin_asset_manager->localize_script( 'first-time-configuration', 'wpseoFirstTimeConfigurationData', $data_ftc );
+		$this->admin_asset_manager->localize_script( 'general-page', 'wpseoFirstTimeConfigurationData', $data_ftc );
 	}
 
 	/**

@@ -1,8 +1,7 @@
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
-import { PremiumUpsellList } from "../../shared-admin/components/premium-upsell-list";
-import SidebarRecommendations from "../../shared-admin/components/sidebar-recommendations";
+import { PremiumUpsellList, SidebarRecommendations } from "../../shared-admin/components";
 import { Notifications, Problems } from "../components";
 import { STORE_NAME } from "../constants";
 import { useSelectGeneralPage } from "../hooks";
@@ -20,8 +19,8 @@ export const AlertCenter = () => {
 
 	return <div className="yst-flex yst-gap-6 xl:yst-flex-row yst-flex-col">
 		<div className="yst-@container yst-flex yst-flex-wrap yst-flex-grow yst-flex-col">
-			<Paper className="yst-grow">
-				<header className="yst-p-8 yst-max-w-screen-sm">
+			<Paper className="yst-p-8 yst-grow">
+				<header className="yst-max-w-screen-sm">
 					<Title>{ __( "Alert center", "wordpress-seo" ) }</Title>
 					<p className="yst-text-tiny yst-mt-3">
 						{ __( "Monitor and manage potential SEO problems affecting your site and stay informed with important notifications and updates.", "wordpress-seo" ) }

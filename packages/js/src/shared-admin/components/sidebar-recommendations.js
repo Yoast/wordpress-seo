@@ -9,7 +9,7 @@ import { AcademyUpsellCard, PremiumUpsellCard } from "./";
  *
  * @returns {JSX.Element} The sidebar recommendations.
  */
-const SidebarRecommendations = ( { premiumLink, premiumUpsellConfig, academyLink, isPromotionActive } ) => {
+export const SidebarRecommendations = ( { premiumLink, premiumUpsellConfig, academyLink, isPromotionActive } ) => {
 	return (
 		<div className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 min-[783px]:yst-grid-cols-1 lg:yst-grid-cols-2 xl:yst-grid-cols-1 yst-gap-4">
 			<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } isPromotionActive={ isPromotionActive } />
@@ -24,5 +24,3 @@ SidebarRecommendations.propTypes = {
 	academyLink: PropTypes.string.isRequired,
 	isPromotionActive: PropTypes.func.isRequired,
 };
-
-export default SidebarRecommendations;
