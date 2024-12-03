@@ -156,6 +156,7 @@ export default [
 			jsdoc: {
 				tagNamePreference: {
 					"return": "returns",
+					constant: "const",
 				},
 			},
 		},
