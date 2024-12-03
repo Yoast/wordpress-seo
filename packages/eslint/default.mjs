@@ -112,8 +112,15 @@ export default [
 			"stylistic/key-spacing": "error",
 			"stylistic/keyword-spacing": "error",
 			"stylistic/linebreak-style": "error",
-			"stylistic/max-len": [ "error", 4 ],
- 			"stylistic/new-parens": "error",
+			"stylistic/max-len": [
+				"error",
+				{
+					code: 150,
+					tabWidth: 4,
+					ignoreStrings: true,
+				},
+			],
+			"stylistic/new-parens": "error",
 			"stylistic/no-extra-semi": "error",
 			"stylistic/no-mixed-spaces-and-tabs": [ "error", "smart-tabs" ],
 			"stylistic/no-multiple-empty-lines": "error",
