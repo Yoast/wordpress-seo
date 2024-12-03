@@ -593,7 +593,7 @@ class WPSEO_Meta_Columns {
 		$current_seo_filter = $this->get_current_seo_filter();
 
 		// This only applies for the SEO score filter because it can because the SEO score can be altered by the no-index option.
-		if ( $this->is_valid_filter( $current_seo_filter ) && ! in_array( $current_seo_filter, [ WPSEO_Rank::NO_INDEX, WPSEO_Rank::NO_FOCUS ], true ) ) {
+		if ( $this->is_valid_filter( $current_seo_filter ) && ! in_array( $current_seo_filter, [ WPSEO_Rank::NO_INDEX ], true ) ) {
 			$result['meta_query'] = array_merge( $result['meta_query'], [ $this->get_meta_robots_query_values() ] );
 		}
 
@@ -661,11 +661,6 @@ class WPSEO_Meta_Columns {
 	protected function create_no_focus_keyword_filter() {
 		return [
 			[
-				'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-				'value'   => 'needs-a-value-anyway',
-				'compare' => 'NOT EXISTS',
-			],
-			[
 				'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
 				'value'   => 'needs-a-value-anyway',
 				'compare' => 'NOT EXISTS',
@@ -681,11 +676,26 @@ class WPSEO_Meta_Columns {
 	protected function create_no_readability_scores_filter() {
 		// We check the existence of the Estimated Reading Time, because readability scores of posts that haven't been manually saved while Yoast SEO is active, don't exist, which is also the case for posts with not enough content.
 		// Meanwhile, the ERT is a solid indicator of whether a post has ever been saved (aka, analyzed), so we're using that.
+		$rank = new WPSEO_Rank( WPSEO_Rank::BAD );
 		return [
 			[
 				'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
 				'value'   => 'needs-a-value-anyway',
 				'compare' => 'NOT EXISTS',
+			],
+			[
+				'relation' => 'OR',
+				[
+					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+					'value'   => $rank->get_starting_score(),
+					'type'    => 'numeric',
+					'compare' => '<',
+				],
+				[
+					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+					'value'   => 'needs-a-value-anyway',
+					'compare' => 'NOT EXISTS',
+				],
 			],
 		];
 	}
@@ -698,25 +708,24 @@ class WPSEO_Meta_Columns {
 	protected function create_bad_readability_scores_filter() {
 		$rank = new WPSEO_Rank( WPSEO_Rank::BAD );
 		return [
+			'relation' => 'OR',
 			[
-				'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
-				'compare' => 'EXISTS',
+				'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+				'value'   => [ $rank->get_starting_score(), $rank->get_end_score() ],
+				'type'    => 'numeric',
+				'compare' => 'BETWEEN',
 			],
 			[
-				'relation' => 'OR',
-				[
-					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-					'value'   => $rank->get_end_score(),
-					'type'    => 'numeric',
-					'compare' => '<=',
-				],
 				[
 					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
 					'value'   => 'needs-a-value-anyway',
 					'compare' => 'NOT EXISTS',
 				],
+				[
+					'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
+					'compare' => 'EXISTS',
+				],
 			],
-
 		];
 	}
 

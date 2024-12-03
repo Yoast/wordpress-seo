@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Dashboard\Application\Score_Results;
 
+use Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Score_Groups_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Results\Score_Result;
@@ -58,6 +59,8 @@ abstract class Abstract_Score_Results_Repository {
 	 * @param int|null      $term_id      The ID of the term we're filtering for.
 	 *
 	 * @return array<array<string, string|int|array<string, string>>> The scores.
+	 *
+	 * @throws Exception When getting score results from the infrastructure fails.
 	 */
 	public function get_score_results( Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ): array {
 		$score_results = $this->score_results_collector->get_score_results( $this->score_groups, $content_type, $term_id );

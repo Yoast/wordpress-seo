@@ -1,8 +1,8 @@
 @layer components {
 	.yst-root {
 		.yst-tooltip {
+			display: var(--yst-display-tooltip, inline-block);
 			@apply yst-absolute
-			yst-inline-block
 			yst-z-10
 			yst-px-2.5
 			yst-py-2
@@ -17,6 +17,7 @@
 
 		.yst-tooltip--top {
 			@apply yst--translate-x-1/2
+			rtl:yst-translate-x-1/2
 			yst--translate-y-full
 			yst-left-1/2
 			yst-top-0
@@ -29,6 +30,7 @@
 				yst-left-1/2
 				yst-top-full /* Arrow positioned at the bottom of the tooltip */
 				yst--translate-x-1/2
+				rtl:yst-translate-x-1/2
 				yst-translate-y-0
 				yst-border-8
 				yst-border-x-transparent
@@ -39,6 +41,7 @@
 
 		.yst-tooltip--bottom {
 			@apply yst--translate-x-1/2
+			rtl:yst-translate-x-1/2
 			yst--translate-y-0
 			yst-left-1/2
 			yst-top-full
@@ -51,6 +54,7 @@
 				yst-left-1/2
 				yst-bottom-full /* Arrow positioned at the top of the tooltip */
 				yst--translate-x-1/2
+				rtl:yst-translate-x-1/2
 				yst-border-8
 				yst-border-x-transparent
 				yst-border-t-transparent
@@ -59,7 +63,7 @@
 		}
 
 		.yst-tooltip--right {
-			@apply yst--translate-x-0 
+			@apply yst--translate-x-0
 			yst--translate-y-1/2
 			yst-left-full
 			yst-top-1/2

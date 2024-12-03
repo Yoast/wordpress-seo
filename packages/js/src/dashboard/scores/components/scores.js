@@ -133,7 +133,12 @@ export const Scores = ( { analysisType, contentTypes, endpoint, headers } ) => {
 			<div className="yst-mt-6">
 				<ErrorAlert error={ error } />
 				{ ! error && (
-					<ScoreContent scores={ scores } isLoading={ isPending } descriptions={ SCORE_DESCRIPTIONS[ analysisType ] } />
+					<ScoreContent
+						scores={ scores }
+						isLoading={ isPending }
+						descriptions={ SCORE_DESCRIPTIONS[ analysisType ] }
+						idSuffix={ analysisType }
+					/>
 				) }
 			</div>
 		</Paper>
