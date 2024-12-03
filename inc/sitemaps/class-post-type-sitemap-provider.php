@@ -94,8 +94,12 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_index_links( $max_entries ) {
 		global $wpdb;
-		$post_types          = WPSEO_Post_Type::get_accessible_post_types();
-		$post_types          = array_filter( $post_types, [ $this, 'is_valid_post_type' ] );
+		$post_types       = WPSEO_Post_Type::get_accessible_post_types();
+		$post_types       = array_filter( $post_types, [ $this, 'is_valid_post_type' ] );
+		$posts_to_exclude = YoastSEO()->helpers->post_type->get_excluded_post_types_for_indexables();
+
+		// Exclude post types that are not indexable.
+		$post_types          = array_diff( $post_types, $posts_to_exclude );
 		$last_modified_times = WPSEO_Sitemaps::get_last_modified_gmt( $post_types, true );
 		$index               = [];
 

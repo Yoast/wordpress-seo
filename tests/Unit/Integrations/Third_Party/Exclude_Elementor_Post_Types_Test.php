@@ -59,7 +59,7 @@ final class Exclude_Elementor_Post_Types_Test extends TestCase {
 	public function test_exclude_elementor_post_types() {
 		$excluded_post_types = [];
 
-		$expected = [ 'elementor_library' ];
+		$expected = [ 'elementor_library', 'e-floating-buttons' ];
 		$actual   = $this->instance->exclude_post_types( $excluded_post_types );
 
 		self::assertEquals( $expected, $actual );

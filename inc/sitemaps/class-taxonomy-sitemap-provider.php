@@ -323,6 +323,12 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
+		// Check if the taxonomy is indexable.
+		$indexable_taxonomies = YoastSEO()->helpers->taxonomy->get_indexable_taxonomies();
+		if ( in_array( $taxonomy_name, $indexable_taxonomies ) ) {
+			return true;
+		}
+
 		/**
 		 * Filter to exclude the taxonomy from the XML sitemap.
 		 *

@@ -29,6 +29,6 @@ class Exclude_Elementor_Post_Types extends Abstract_Exclude_Post_Type {
 	 * @return array The names of the post types.
 	 */
 	public function get_post_type() {
-		return [ 'elementor_library' ];
+		return [ 'elementor_library', 'e-floating-buttons' ];
 	}
 }
