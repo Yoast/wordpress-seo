@@ -179,6 +179,10 @@ export default [
 				...globals.node,
 			},
 		},
+		rules: {
+			// Some tests assert that a constructor throws an error, which is a valid use case.
+			"no-new": "off",
+		},
 	},
 	{
 		files: [ "jest.config.{js,ts,cjs}" ],
