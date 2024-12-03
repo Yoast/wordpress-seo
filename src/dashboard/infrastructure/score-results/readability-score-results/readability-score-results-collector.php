@@ -129,12 +129,13 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 			$max  = $readability_score_group->get_max_score();
 			$name = $readability_score_group->get_name();
 
-			if ( $min === null || $max === null ) {
+			if ( $min === null && $max === null ) {
 				$select_fields[]       = 'COUNT(CASE WHEN I.readability_score = 0 AND I.estimated_reading_time_minutes IS NULL THEN 1 END) AS %i';
 				$select_replacements[] = $name;
 			}
 			else {
-				$select_fields[]       = 'COUNT(CASE WHEN I.readability_score >= %d AND I.readability_score <= %d AND I.estimated_reading_time_minutes IS NOT NULL THEN 1 END) AS %i';
+				$needs_ert             = ( $min === 1 ) ? ' OR (I.readability_score = 0 AND I.estimated_reading_time_minutes IS NOT NULL)' : '';
+				$select_fields[]       = "COUNT(CASE WHEN ( I.readability_score >= %d AND I.readability_score <= %d ){$needs_ert} THEN 1 END) AS %i";
 				$select_replacements[] = $min;
 				$select_replacements[] = $max;
 				$select_replacements[] = $name;

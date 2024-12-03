@@ -132,7 +132,7 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 			$name = $seo_score_group->get_name();
 
 			if ( $min === null || $max === null ) {
-				$select_fields[]       = 'COUNT(CASE WHEN I.primary_focus_keyword_score IS NULL THEN 1 END) AS %i';
+				$select_fields[]       = 'COUNT(CASE WHEN I.primary_focus_keyword_score = 0 OR I.primary_focus_keyword_score IS NULL THEN 1 END) AS %i';
 				$select_replacements[] = $name;
 			}
 			else {
