@@ -30,7 +30,7 @@ function InstallationSuccessPage() {
 			<div className="installation-success-content">
 				<div className="yst-flex yst-flex-col md:yst-flex-row yst-justify-center yst-items-center yst-gap-8">
 					<div id="installation-success-card-optimized-site" className="yst-shrink-0 yst-bg-white yst-rounded-lg yst-p-6 yst-flex yst-flex-col yst-max-w-sm yst-shadow-md yst-h-4/5 yst-leading-6">
-						<h2 className="yst-tracking-tight yst-text-gray-900 yst-text-2xl yst-leading-8 yst-font-extrabold">{ __( "Your site is already easier to find for search engines.", "wordpress-seo" ) }</h2>
+						<h2 className="yst-tracking-tight yst-text-gray-900 yst-text-2xl yst-leading-8 yst-font-extrabold">{ __( "Your site is now easier for search engines to find.", "wordpress-seo" ) }</h2>
 						<p className="yst-text-gray-500 yst-text-base yst-my-4">
 							{ sprintf(
 								/* translators: %s expands to Yoast SEO. */
