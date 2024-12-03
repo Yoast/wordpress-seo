@@ -38,7 +38,7 @@ describe( "counts words in sentences from text", function() {
 		expect( getSentences( paper, new EnglishResearcher() )[ 0 ].sentenceLength ).toBe( 4 );
 		expect( getSentences( paper, new EnglishResearcher() )[ 1 ].sentenceLength ).toBe( 2 );
 	} );
-	/*it( "returns sentences with question mark in Japanese", function() {
+	/* it( "returns sentences with question mark in Japanese", function() {
 		paper = new Paper( "雨が降っている。 いつ終わるの？ さようなら" );
 		expect( getSentences( paper, new JapaneseResearcher() )[ 0 ].sentenceLength ).toBe( 8 );
 		expect( getSentences( paper, new JapaneseResearcher() )[ 1 ].sentenceLength ).toBe( 7 );

@@ -21,7 +21,7 @@ import { filterShortcodesFromHTML } from "../helpers";
  * @returns {{markings: Mark[], count: number}} The number of keyphrase occurrences in the text and the Mark objects of the matches.
  */
 export function countKeyphraseInText( sentences, keyphraseForms, locale, matchWordCustomHelper,
-									  isExactMatchRequested, customSplitIntoTokensHelper ) {
+	isExactMatchRequested, customSplitIntoTokensHelper ) {
 	const result = { count: 0, markings: [] };
 
 	sentences.forEach( sentence => {
