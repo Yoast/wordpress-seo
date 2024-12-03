@@ -50,15 +50,6 @@ class No_Readability_Score_Group extends Abstract_Readability_Score_Group {
 	 * @return null The maximum score of the readability score group.
 	 */
 	public function get_max_score(): ?int {
-		return 40;
-	}
-
-	/**
-	 * Gets whether the score group is ambiguous.
-	 *
-	 * @return string
-	 */
-	public function get_is_ambiguous(): string {
-		return false;
+		return null;
 	}
 }

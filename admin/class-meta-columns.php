@@ -687,9 +687,9 @@ class WPSEO_Meta_Columns {
 				'relation' => 'OR',
 				[
 					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-					'value'   => $rank->get_end_score(),
+					'value'   => $rank->get_starting_score(),
 					'type'    => 'numeric',
-					'compare' => '<=',
+					'compare' => '<',
 				],
 				[
 					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
@@ -708,22 +708,22 @@ class WPSEO_Meta_Columns {
 	protected function create_bad_readability_scores_filter() {
 		$rank = new WPSEO_Rank( WPSEO_Rank::BAD );
 		return [
+			'relation' => 'OR',
 			[
-				'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
-				'compare' => 'EXISTS',
+				'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+				'value'   => [ $rank->get_starting_score(), $rank->get_end_score() ],
+				'type'    => 'numeric',
+				'compare' => 'BETWEEN',
 			],
 			[
-				'relation' => 'OR',
-				[
-					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-					'value'   => $rank->get_end_score(),
-					'type'    => 'numeric',
-					'compare' => '<=',
-				],
 				[
 					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
 					'value'   => 'needs-a-value-anyway',
 					'compare' => 'NOT EXISTS',
+				],
+				[
+					'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
+					'compare' => 'EXISTS',
 				],
 			],
 		];

@@ -125,19 +125,17 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 		$select_replacements = [];
 
 		foreach ( $readability_score_groups as $readability_score_group ) {
-			$min          = $readability_score_group->get_min_score();
-			$max          = $readability_score_group->get_max_score();
-			$name         = $readability_score_group->get_name();
-			$is_ambiguous = $readability_score_group->get_is_ambiguous();
+			$min  = $readability_score_group->get_min_score();
+			$max  = $readability_score_group->get_max_score();
+			$name = $readability_score_group->get_name();
 
-			if ( $min === null ) {
-				$select_fields[]       = 'COUNT(CASE WHEN I.readability_score <= %d AND I.estimated_reading_time_minutes IS NULL THEN 1 END) AS %i';
-				$select_replacements[] = $max;
+			if ( $min === null && $max === null ) {
+				$select_fields[]       = 'COUNT(CASE WHEN I.readability_score = 0 AND I.estimated_reading_time_minutes IS NULL THEN 1 END) AS %i';
 				$select_replacements[] = $name;
 			}
 			else {
-				$check_for_ert         = ( $is_ambiguous ) ? ' AND I.estimated_reading_time_minutes IS NOT NULL' : '';
-				$select_fields[]       = "COUNT(CASE WHEN I.readability_score >= %d AND I.readability_score <= %d{$check_for_ert} THEN 1 END) AS %i";
+				$needs_ert             = ( $min === 1 ) ? ' OR (I.readability_score = 0 AND I.estimated_reading_time_minutes IS NOT NULL)' : '';
+				$select_fields[]       = "COUNT(CASE WHEN ( I.readability_score >= %d AND I.readability_score <= %d{$needs_ert} ) THEN 1 END) AS %i";
 				$select_replacements[] = $min;
 				$select_replacements[] = $max;
 				$select_replacements[] = $name;
