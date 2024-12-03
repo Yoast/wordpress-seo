@@ -29,7 +29,7 @@ export default [
 			// - ESLint "Suggestions - These rules suggest alternate ways of doing things:" (https://eslint.org/docs/latest/rules/#suggestions).
 			"accessor-pairs": "error",
 			camelcase: "error",
-			complexity: [ "error", 10 ],
+			complexity: [ "warn", 10 ],
 			"consistent-this": "error",
 			curly: "error",
 			"dot-notation": "error",
@@ -37,7 +37,7 @@ export default [
 			"guard-for-in": "error",
 			"max-depth": "error",
 			"max-nested-callbacks": "error",
-			"max-statements": [ "error", 30 ],
+			"max-statements": [ "warn", 30 ],
 			"new-cap": "error",
 			"no-alert": "error",
 			"no-array-constructor": "error",
