@@ -171,15 +171,6 @@
     eslint-visitor-keys "^2.1.0"
     semver "^6.3.1"
 
-"@babel/eslint-parser@^7.23.9":
-  version "7.23.10"
-  resolved "https://registry.yarnpkg.com/@babel/eslint-parser/-/eslint-parser-7.23.10.tgz#2d4164842d6db798873b40e0c4238827084667a2"
-  integrity sha512-3wSYDPZVnhseRnxRJH6ZVTNknBz76AEnyC+AYYhasjP3Yy23qz0ERR7Fcd2SHmYuSFJ2kY9gaaDd3vyqU09eSw==
-  dependencies:
-    "@nicolo-ribaudo/eslint-scope-5-internals" "5.1.1-v1"
-    eslint-visitor-keys "^2.1.0"
-    semver "^6.3.1"
-
 "@babel/eslint-parser@^7.25.9":
   version "7.25.9"
   resolved "https://registry.yarnpkg.com/@babel/eslint-parser/-/eslint-parser-7.25.9.tgz#603c68a63078796527bc9d0833f5e52dd5f9224c"
@@ -189,7 +180,7 @@
     eslint-visitor-keys "^2.1.0"
     semver "^6.3.1"
 
-"@babel/eslint-plugin@^7.17.7", "@babel/eslint-plugin@^7.23.5":
+"@babel/eslint-plugin@^7.17.7":
   version "7.23.5"
   resolved "https://registry.yarnpkg.com/@babel/eslint-plugin/-/eslint-plugin-7.23.5.tgz#77d4703e9f83b81e9fc13382810372beb2f10f94"
   integrity sha512-03+E/58Hoo/ui69gR+beFdGpplpoVK0BSIdke2iw4/Bz7eGN0ssRenNlnU4nmbkowNQOPCStKSwFr8H6DiY49g==
@@ -3075,6 +3066,11 @@
   version "9.15.0"
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-9.15.0.tgz#df0e24fe869143b59731942128c19938fdbadfb5"
   integrity sha512-tMTqrY+EzbXmKJR5ToI8lxu7jaN5EdmrBFJpQk5JmSlyLsx6o4t27r883K5xsLuCYCpfKBCGswMSWXsM+jB7lg==
+
+"@eslint/js@9.16.0":
+  version "9.16.0"
+  resolved "https://registry.yarnpkg.com/@eslint/js/-/js-9.16.0.tgz#3df2b2dd3b9163056616886c86e4082f45dbf3f4"
+  integrity sha512-tw2HxzQkrbeuvyj1tG2Yqq+0H9wGoI2IMk4EOsQeX+vmd75FtJAzf+gTA69WF+baUKRYQ3x2kbLE08js5OsTVg==
 
 "@eslint/js@^9.14.0":
   version "9.14.0"
@@ -6415,17 +6411,6 @@
     "@types/express" "^4.7.0"
     file-system-cache "2.3.0"
 
-"@stylistic/eslint-plugin@^2.10.1":
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/@stylistic/eslint-plugin/-/eslint-plugin-2.10.1.tgz#809924752a1a13ebff2b0b6d7884fd61d389a907"
-  integrity sha512-U+4yzNXElTf9q0kEfnloI9XbOyD4cnEQCxjUI94q0+W++0GAEQvJ/slwEj9lwjDHfGADRSr+Tco/z0XJvmDfCQ==
-  dependencies:
-    "@typescript-eslint/utils" "^8.12.2"
-    eslint-visitor-keys "^4.2.0"
-    espree "^10.3.0"
-    estraverse "^5.3.0"
-    picomatch "^4.0.2"
-
 "@stylistic/eslint-plugin@^2.11.0":
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/@stylistic/eslint-plugin/-/eslint-plugin-2.11.0.tgz#50d0289f36f7201055b7fa1729fdc1d8c46e93fa"
@@ -7449,14 +7434,6 @@
     "@typescript-eslint/types" "6.10.0"
     "@typescript-eslint/visitor-keys" "6.10.0"
 
-"@typescript-eslint/scope-manager@8.13.0":
-  version "8.13.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-8.13.0.tgz#2f4aed0b87d72360e64e4ea194b1fde14a59082e"
-  integrity sha512-XsGWww0odcUT0gJoBZ1DeulY1+jkaHUciUq4jKNv4cpInbvvrtDoyBH9rE/n2V29wQJPk8iCH1wipra9BhmiMA==
-  dependencies:
-    "@typescript-eslint/types" "8.13.0"
-    "@typescript-eslint/visitor-keys" "8.13.0"
-
 "@typescript-eslint/scope-manager@8.16.0":
   version "8.16.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-8.16.0.tgz#ebc9a3b399a69a6052f3d88174456dd399ef5905"
@@ -7484,11 +7461,6 @@
   version "6.10.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-6.10.0.tgz#f4f0a84aeb2ac546f21a66c6e0da92420e921367"
   integrity sha512-36Fq1PWh9dusgo3vH7qmQAj5/AZqARky1Wi6WpINxB6SkQdY5vQoT2/7rW7uBIsPDcvvGCLi4r10p0OJ7ITAeg==
-
-"@typescript-eslint/types@8.13.0":
-  version "8.13.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-8.13.0.tgz#3f35dead2b2491a04339370dcbcd17bbdfc204d8"
-  integrity sha512-4cyFErJetFLckcThRUFdReWJjVsPCqyBlJTi6IDEpc1GWCIIZRFxVppjWLIMcQhNGhdWJJRYFHpHoDWvMlDzng==
 
 "@typescript-eslint/types@8.16.0":
   version "8.16.0"
@@ -7520,20 +7492,6 @@
     is-glob "^4.0.3"
     semver "^7.5.4"
     ts-api-utils "^1.0.1"
-
-"@typescript-eslint/typescript-estree@8.13.0":
-  version "8.13.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-8.13.0.tgz#db8c93dd5437ca3ce417a255fb35ddc3c12c3e95"
-  integrity sha512-v7SCIGmVsRK2Cy/LTLGN22uea6SaUIlpBcO/gnMGT/7zPtxp90bphcGf4fyrCQl3ZtiBKqVTG32hb668oIYy1g==
-  dependencies:
-    "@typescript-eslint/types" "8.13.0"
-    "@typescript-eslint/visitor-keys" "8.13.0"
-    debug "^4.3.4"
-    fast-glob "^3.3.2"
-    is-glob "^4.0.3"
-    minimatch "^9.0.4"
-    semver "^7.6.0"
-    ts-api-utils "^1.3.0"
 
 "@typescript-eslint/typescript-estree@8.16.0":
   version "8.16.0"
@@ -7574,16 +7532,6 @@
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
 
-"@typescript-eslint/utils@^8.12.2":
-  version "8.13.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-8.13.0.tgz#f6d40e8b5053dcaeabbd2e26463857abf27d62c0"
-  integrity sha512-A1EeYOND6Uv250nybnLZapeXpYMl8tkzYUxqmoKAWnI4sei3ihf2XdZVd+vVOmHGcp3t+P7yRrNsyyiXTvShFQ==
-  dependencies:
-    "@eslint-community/eslint-utils" "^4.4.0"
-    "@typescript-eslint/scope-manager" "8.13.0"
-    "@typescript-eslint/types" "8.13.0"
-    "@typescript-eslint/typescript-estree" "8.13.0"
-
 "@typescript-eslint/utils@^8.13.0":
   version "8.16.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-8.16.0.tgz#c71264c437157feaa97842809836254a6fc833c3"
@@ -7609,14 +7557,6 @@
   dependencies:
     "@typescript-eslint/types" "6.10.0"
     eslint-visitor-keys "^3.4.1"
-
-"@typescript-eslint/visitor-keys@8.13.0":
-  version "8.13.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-8.13.0.tgz#e97b0d92b266ef38a1faf40a74da289b66683a5b"
-  integrity sha512-7N/+lztJqH4Mrf0lb10R/CbI1EaAMMGyF5y0oJvFoAhafwgiRA7TXyd8TFn8FC8k5y2dTsYogg238qavRGNnlw==
-  dependencies:
-    "@typescript-eslint/types" "8.13.0"
-    eslint-visitor-keys "^3.4.3"
 
 "@typescript-eslint/visitor-keys@8.16.0":
   version "8.16.0"
@@ -16305,6 +16245,46 @@ eslint@^9.15.0:
     natural-compare "^1.4.0"
     optionator "^0.9.3"
 
+eslint@^9.16.0:
+  version "9.16.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-9.16.0.tgz#66832e66258922ac0a626f803a9273e37747f2a6"
+  integrity sha512-whp8mSQI4C8VXd+fLgSM0lh3UlmcFtVwUQjyKCFfsp+2ItAIYhlq/hqGahGqHE6cv9unM41VlqKk2VtKYR2TaA==
+  dependencies:
+    "@eslint-community/eslint-utils" "^4.2.0"
+    "@eslint-community/regexpp" "^4.12.1"
+    "@eslint/config-array" "^0.19.0"
+    "@eslint/core" "^0.9.0"
+    "@eslint/eslintrc" "^3.2.0"
+    "@eslint/js" "9.16.0"
+    "@eslint/plugin-kit" "^0.2.3"
+    "@humanfs/node" "^0.16.6"
+    "@humanwhocodes/module-importer" "^1.0.1"
+    "@humanwhocodes/retry" "^0.4.1"
+    "@types/estree" "^1.0.6"
+    "@types/json-schema" "^7.0.15"
+    ajv "^6.12.4"
+    chalk "^4.0.0"
+    cross-spawn "^7.0.5"
+    debug "^4.3.2"
+    escape-string-regexp "^4.0.0"
+    eslint-scope "^8.2.0"
+    eslint-visitor-keys "^4.2.0"
+    espree "^10.3.0"
+    esquery "^1.5.0"
+    esutils "^2.0.2"
+    fast-deep-equal "^3.1.3"
+    file-entry-cache "^8.0.0"
+    find-up "^5.0.0"
+    glob-parent "^6.0.2"
+    ignore "^5.2.0"
+    imurmurhash "^0.1.4"
+    is-glob "^4.0.0"
+    json-stable-stringify-without-jsonify "^1.0.1"
+    lodash.merge "^4.6.2"
+    minimatch "^3.1.2"
+    natural-compare "^1.4.0"
+    optionator "^0.9.3"
+
 espree@^10.0.1, espree@^10.1.0, espree@^10.3.0:
   version "10.3.0"
   resolved "https://registry.yarnpkg.com/espree/-/espree-10.3.0.tgz#29267cf5b0cb98735b65e64ba07e0ed49d1eed8a"
@@ -18220,6 +18200,11 @@ globals@^15.11.0, globals@^15.12.0:
   version "15.12.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-15.12.0.tgz#1811872883ad8f41055b61457a130221297de5b5"
   integrity sha512-1+gLErljJFhbOVyaetcwJiJ4+eLe45S2E7P5UiZ9xGfeq3ATQf5DOv9G7MH3gGbKQLkzmNh2DxfZwLdw+j6oTQ==
+
+globals@^15.13.0:
+  version "15.13.0"
+  resolved "https://registry.yarnpkg.com/globals/-/globals-15.13.0.tgz#bbec719d69aafef188ecd67954aae76a696010fc"
+  integrity sha512-49TewVEz0UxZjr1WYYsWpPrhyC/B/pA8Bq0fUmet2n+eR7yn0IvNzNaoBwnK6mdkzcN+se7Ez9zUgULTz2QH4g==
 
 globalthis@^1.0.3:
   version "1.0.3"
