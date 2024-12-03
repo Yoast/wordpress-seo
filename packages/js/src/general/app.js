@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 
 import { Transition } from "@headlessui/react";
-import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
+import { AdjustmentsIcon, BellIcon, ChartPieIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -16,6 +16,7 @@ import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { Notice } from "./components";
 import { STORE_NAME } from "./constants";
 import { useNotificationCountSync, useSelectGeneralPage } from "./hooks";
+import { ROUTES } from "./routes";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -36,28 +37,35 @@ const Menu = ( { idSuffix = "" } ) => {
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 			</Link>
 		</header>
-		<div className="yst-px-0.5 yst-space-y-6">
-			<ul className="yst-mt-1 yst-space-y-1">
-				<MenuItemLink
-					to="/"
-					label={ <>
-						<BellIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
-						{ __( "Alert center", "wordpress-seo" ) }
-					</> }
-					idSuffix={ idSuffix }
-					className="yst-gap-3"
-				/>
-				<MenuItemLink
-					to="/first-time-configuration"
-					label={ <>
-						<AdjustmentsIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
-						{ __( "First-time configuration", "wordpress-seo" ) }
-					</> }
-					idSuffix={ idSuffix }
-					className="yst-gap-3"
-				/>
-			</ul>
-		</div>
+		<ul className="yst-mt-1 yst-px-0.5 yst-space-y-4">
+			<MenuItemLink
+				to={ ROUTES.dashboard }
+				label={ <>
+					<ChartPieIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
+					{ __( "Dashboard", "wordpress-seo" ) }
+				</> }
+				idSuffix={ idSuffix }
+				className="yst-gap-3"
+			/>
+			<MenuItemLink
+				to={ ROUTES.alertCenter }
+				label={ <>
+					<BellIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
+					{ __( "Alert center", "wordpress-seo" ) }
+				</> }
+				idSuffix={ idSuffix }
+				className="yst-gap-3"
+			/>
+			<MenuItemLink
+				to={ ROUTES.firstTimeConfiguration }
+				label={ <>
+					<AdjustmentsIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
+					{ __( "First-time configuration", "wordpress-seo" ) }
+				</> }
+				idSuffix={ idSuffix }
+				className="yst-gap-3"
+			/>
+		</ul>
 	</>;
 };
 Menu.propTypes = {
@@ -118,7 +126,7 @@ const App = () => {
 									enterFrom="yst-opacity-0"
 									enterTo="yst-opacity-100"
 								>
-									{ pathname !== "/first-time-configuration" && <div>
+									{ pathname !== ROUTES.firstTimeConfiguration && <div>
 										{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
 											<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
 										}

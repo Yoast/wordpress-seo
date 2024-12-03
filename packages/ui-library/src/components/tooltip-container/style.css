@@ -1,0 +1,25 @@
+@layer components {
+	.yst-root {
+		.yst-tooltip-container {
+			@apply yst-relative;
+
+			--yst-display-tooltip: none;
+
+			&:hover, &:focus-within {
+				--yst-display-tooltip: inline-block;
+			}
+		}
+
+		.yst-tooltip-trigger {
+			@apply yst-cursor-default
+			yst-rounded-md
+			focus:yst-outline-none
+			focus-visible:yst-ring-primary-500
+			focus-visible:yst-border-primary-500
+			focus-visible:yst-ring-2
+			focus-visible:yst-ring-offset-2
+			focus-visible:yst-bg-white
+			focus-visible:yst-border-opacity-0;
+		}
+	}
+}

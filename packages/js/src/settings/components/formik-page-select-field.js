@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { useField } from "formik";
 import { debounce, find, isEmpty, map, values } from "lodash";
 import PropTypes from "prop-types";
-import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { ASYNC_ACTION_STATUS, FETCH_DELAY } from "../../shared-admin/constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 /**
@@ -63,7 +63,7 @@ const FormikPageSelectField = ( { name, id, ...props } ) => {
 			setQueriedPageIds( [] );
 			setStatus( ASYNC_ACTION_STATUS.error );
 		}
-	}, 200 ), [ setQueriedPageIds, setStatus, fetchPages ] );
+	}, FETCH_DELAY ), [ setQueriedPageIds, setStatus, fetchPages ] );
 
 	const handleChange = useCallback( newValue => {
 		setTouched( true, false );

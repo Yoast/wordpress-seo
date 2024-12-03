@@ -38,7 +38,7 @@
 @import "../src/components/text-field/style.css";
 @import "../src/components/textarea-field/style.css";
 @import "../src/components/toggle-field/style.css";
-
+@import "../src/components/tooltip-container/style.css";
 
 @tailwind base;
 @tailwind components;
