@@ -135,7 +135,7 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 			}
 			else {
 				$needs_ert             = ( $min === 1 ) ? ' OR (I.readability_score = 0 AND I.estimated_reading_time_minutes IS NOT NULL)' : '';
-				$select_fields[]       = "COUNT(CASE WHEN ( I.readability_score >= %d AND I.readability_score <= %d{$needs_ert} ) THEN 1 END) AS %i";
+				$select_fields[]       = "COUNT(CASE WHEN ( I.readability_score >= %d AND I.readability_score <= %d ){$needs_ert} THEN 1 END) AS %i";
 				$select_replacements[] = $min;
 				$select_replacements[] = $max;
 				$select_replacements[] = $name;
