@@ -15,19 +15,24 @@ import { DifficultyBullet, IntentBadge, TrendGraph } from "../..";
  * @param {string[]} [intent=[]] An array of intent initials.
  * @param {Function} [renderButton] The render button function.
  * @param {Object[]} [relatedKeyphrases] The related keyphrases.
+ * @param {string} id The id of the row.
  *
  * @returns {JSX.Element} The row.
  */
-const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], keywordDifficultyIndex = -1, intent = [], renderButton, relatedKeyphrases } ) => {
+const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], keywordDifficultyIndex = -1, intent = [], renderButton, relatedKeyphrases, id } ) => {
 	return (
-		<Table.Row>
+		<Table.Row id={ id }>
 			<Table.Cell>
 				{ keyword }
 			</Table.Cell>
 			<Table.Cell>
 				<div className="yst-flex yst-gap-2">
 					{ intent.length > 0 && intent.map( ( value, index ) => (
-						<IntentBadge key={ `${ index }-${ keyword }-${ value }` } value={ value } />
+						<IntentBadge
+							id={ `intent-${ index }-${ value }-${ id }` }
+							key={ `${ id }-${ index }-${ value }` }
+							value={ value }
+						/>
 					) ) }
 				</div>
 			</Table.Cell>
@@ -41,7 +46,7 @@ const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], key
 			</Table.Cell>
 			<Table.Cell>
 				<div className="yst-flex yst-justify-end">
-					<DifficultyBullet value={ keywordDifficultyIndex } />
+					<DifficultyBullet value={ keywordDifficultyIndex } id={ `difficulty-index-${ id }` } />
 				</div>
 			</Table.Cell>
 			{ isFunction( renderButton ) && <Table.Cell>
@@ -64,6 +69,7 @@ KeyphrasesTableRow.propTypes = {
 		results: PropTypes.array,
 		score: PropTypes.number,
 	} ) ),
+	id: PropTypes.string.isRequired,
 };
 
 /**
@@ -192,6 +198,7 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 			{ rows && rows.map( ( rowData, index ) => (
 				<KeyphrasesTableRow
 					key={ `related-keyphrase-${ index }` }
+					id={ `related-keyphrase-${ index }` }
 					renderButton={ renderButton }
 					relatedKeyphrases={ relatedKeyphrases }
 					{ ...rowData }
