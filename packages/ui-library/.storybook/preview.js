@@ -1,5 +1,6 @@
 import Root from "../src/components/root";
 import "./style.css";
+import React from "react";
 
 const preview = {
 	globalTypes: {
@@ -36,7 +37,7 @@ const preview = {
 			argTypesRegex: "^on[A-Z].*",
 		},
 		backgrounds: {
-			default: "light",
+			"default": "light",
 			values: [
 				{
 					name: "light",
