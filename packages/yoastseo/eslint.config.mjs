@@ -39,9 +39,8 @@ export default [
 
 			// Deviate from the Yoast config to allow existing violations. New occurrences are still disallowed.
 			"no-useless-backreference": "warn",
+			"no-prototype-builtins": "warn",
 
-			// Deviate from the Yoast config to allow cases like thing.hasOwnProperty("x"), which we often use.
-			"no-prototype-builtins": "off",
 			// Deviate from the Yoast config to allow default imports that share the name of a named export.
 			// We sometimes export a value as both a named export and a default export.
 			"import/no-named-as-default": "off",

@@ -31,7 +31,7 @@
     "clean": "rm -rf build",
     "pretest": "grunt get-premium-configuration",
     "test": "jest",
-    "lint": "eslint . --max-warnings 10"
+    "lint": "eslint . --max-warnings 25"
   },
   "engines": {
     "node": ">=8.0.0"
