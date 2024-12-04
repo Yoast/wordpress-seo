@@ -80,8 +80,7 @@ export default [
 			"react/no-unused-prop-types": "warn",
 			"react/prop-types": "warn",
 			"react/require-default-props": "warn",
-
-			"no-prototype-builtins": "off",
+			"no-prototype-builtins": "warn",
 		},
 	},
 	{
