@@ -11,14 +11,12 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Integration Test Class for Yoast\WP\SEO\Dashboard\Application\Taxonomies\Endpoints_Repository.
  *
- * @coversDefaultClass Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository
+ * @covers Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository::get_all_endpoints
  */
 final class Endpoints_Repository_Test extends TestCase {
 
 	/**
 	 * Tests if both endpoints make it into the endpoint list with the needed data
-	 *
-	 * @covers ::get_all_endpoints
 	 *
 	 * @dataProvider data_get_all_endpoints
 	 *
