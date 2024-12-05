@@ -153,11 +153,11 @@ const prepareRow = ( columnNames, row ) => {
  * @param {Object[]} [relatedKeyphrases=[]] The related keyphrases.
  * @param {string} [className=""] The class name for the table.
  * @param {boolean} [isPending=false] Whether the data is still pending.
- * @param {string} [suffix=""] The suffix for the id of the row.
+ * @param {string} [idPrefix=""] The idPrefix for the id of the row.
  *
  * @returns {JSX.Element} The keyphrases table.
  */
-export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", isPending = false, suffix = "yoast-seo" } ) => {
+export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", isPending = false, idPrefix = "yoast-seo" } ) => {
 	const rows = data?.map( row => prepareRow(  columnNames, row ) );
 
 	if ( ( ! rows || rows.length === 0 ) && ! isPending ) {
@@ -198,8 +198,8 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 		<Table.Body>
 			{ rows && rows.map( ( rowData, index ) => (
 				<KeyphrasesTableRow
-					key={ `${ suffix }-related-keyphrase-${ index }` }
-					id={ `${ suffix }-related-keyphrase-${ index }` }
+					key={ `${ idPrefix }-related-keyphrase-${ index }` }
+					id={ `${ idPrefix }-related-keyphrase-${ index }` }
 					renderButton={ renderButton }
 					relatedKeyphrases={ relatedKeyphrases }
 					{ ...rowData }
@@ -225,7 +225,7 @@ KeyphrasesTable.propTypes = {
 	renderButton: PropTypes.func,
 	className: PropTypes.string,
 	isPending: PropTypes.bool,
-	suffix: PropTypes.string,
+	idPrefix: PropTypes.string,
 };
 
 KeyphrasesTable.displayName = "KeyphrasesTable";
