@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Integration Test Class for Yoast\WP\SEO\Dashboard\Application\Taxonomies\Taxonomies_Repository.
  *
- * @coversDefaultClass Yoast\WP\SEO\Dashboard\Application\Taxonomies\Taxonomies_Repository
+ * @covers Yoast\WP\SEO\Dashboard\Application\Taxonomies\Taxonomies_Repository::get_content_type_taxonomy
  */
 final class Taxonomies_Repository_Test extends TestCase {
 
@@ -99,8 +99,6 @@ final class Taxonomies_Repository_Test extends TestCase {
 	/**
 	 * Tests get content type for the `post` content type. Which is the fallback of the system.
 	 *
-	 * @covers ::get_content_type_taxonomy
-	 *
 	 * @return void
 	 */
 	public function test_get_content_type_taxonomy_posts() {
@@ -111,8 +109,6 @@ final class Taxonomies_Repository_Test extends TestCase {
 	/**
 	 * Tests get content type a non existing post type.
 	 *
-	 * @covers ::get_content_type_taxonomy
-	 *
 	 * @return void
 	 */
 	public function test_get_content_type_taxonomies_non_existing_taxonomy() {
@@ -121,8 +117,6 @@ final class Taxonomies_Repository_Test extends TestCase {
 
 	/**
 	 * Tests get content type a predefined filter pair.
-	 *
-	 * @covers ::get_content_type_taxonomy
 	 *
 	 * @return void
 	 */
@@ -134,8 +128,6 @@ final class Taxonomies_Repository_Test extends TestCase {
 	/**
 	 * Tests get content type for a custom post type that has not been added to the list of valid taxonomies.
 	 *
-	 * @covers ::get_content_type_taxonomy
-	 *
 	 * @return void
 	 */
 	public function test_get_content_type_taxonomies_custom_added_post_type() {
@@ -144,8 +136,6 @@ final class Taxonomies_Repository_Test extends TestCase {
 
 	/**
 	 * Tests get content type for a custom post type which is also added to the valid taxonomies with a filter.
-	 *
-	 * @covers ::get_content_type_taxonomy
 	 *
 	 * @return void
 	 */
