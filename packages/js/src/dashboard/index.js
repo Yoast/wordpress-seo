@@ -52,5 +52,5 @@ export { Dashboard } from "./components/dashboard";
 
 /**
  * @typedef {Object} Links The links.
- * @property {string} contentAnalysis The content analysis information link.
+ * @property {string} dashboardLearnMore The dashboard information link.
  */
