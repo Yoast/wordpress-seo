@@ -82,6 +82,7 @@ export const Nullable = {
 		value: dummyOptions[ 0 ].value,
 		placeholder: "Type to autocomplete options",
 		nullable: true,
+		clearButtonScreenReaderText: "Clear selection",
 	},
 };
 
