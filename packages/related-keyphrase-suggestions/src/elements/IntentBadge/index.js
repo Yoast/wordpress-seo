@@ -47,7 +47,7 @@ export const IntentBadge = ( { id, value, className = "" } ) => {
 						className,
 					) }
 			>
-				{ value.toUpperCase() }
+				{ value }
 			</TooltipTrigger>
 			<TooltipWithContext id={ id } className="yst-w-48 yst-text-xs yst-leading-4 yst-font-normal">
 				<div className="yst-font-medium">{ variants[ value ].title } </div>

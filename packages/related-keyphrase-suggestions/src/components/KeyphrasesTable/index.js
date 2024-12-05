@@ -29,7 +29,7 @@ const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], key
 				<div className="yst-flex yst-gap-2">
 					{ intent.length > 0 && intent.map( ( value, index ) => (
 						<IntentBadge
-							id={ `intent-${ index }-${ value }-${ id }` }
+							id={ `${ id }__intent-${ index }-${ value }` }
 							key={ `${ id }-${ index }-${ value }` }
 							value={ value }
 						/>
@@ -46,7 +46,7 @@ const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], key
 			</Table.Cell>
 			<Table.Cell>
 				<div className="yst-flex yst-justify-end">
-					<DifficultyBullet value={ keywordDifficultyIndex } id={ `difficulty-index-${ id }` } />
+					<DifficultyBullet value={ keywordDifficultyIndex } id={ `${ id }__difficulty-index` } />
 				</div>
 			</Table.Cell>
 			{ isFunction( renderButton ) && <Table.Cell>
@@ -153,10 +153,11 @@ const prepareRow = ( columnNames, row ) => {
  * @param {Object[]} [relatedKeyphrases=[]] The related keyphrases.
  * @param {string} [className=""] The class name for the table.
  * @param {boolean} [isPending=false] Whether the data is still pending.
+ * @param {string} [suffix=""] The suffix for the id of the row.
  *
  * @returns {JSX.Element} The keyphrases table.
  */
-export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", isPending = false } ) => {
+export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", isPending = false, suffix = "yoast-seo" } ) => {
 	const rows = data?.map( row => prepareRow(  columnNames, row ) );
 
 	if ( ( ! rows || rows.length === 0 ) && ! isPending ) {
@@ -197,8 +198,8 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 		<Table.Body>
 			{ rows && rows.map( ( rowData, index ) => (
 				<KeyphrasesTableRow
-					key={ `related-keyphrase-${ index }` }
-					id={ `related-keyphrase-${ index }` }
+					key={ `${ suffix }-related-keyphrase-${ index }` }
+					id={ `${ suffix }-related-keyphrase-${ index }` }
 					renderButton={ renderButton }
 					relatedKeyphrases={ relatedKeyphrases }
 					{ ...rowData }
@@ -224,6 +225,7 @@ KeyphrasesTable.propTypes = {
 	renderButton: PropTypes.func,
 	className: PropTypes.string,
 	isPending: PropTypes.bool,
+	suffix: PropTypes.string,
 };
 
 KeyphrasesTable.displayName = "KeyphrasesTable";
