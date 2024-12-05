@@ -9,17 +9,17 @@ module.exports = {
 	],
 	theme: {
 		extend: {
-		  animation: {
+			animation: {
 				"appear-disappear": "appearDisappear 1s ease-out forwards",
-		  },
-		  keyframes: {
+			},
+			keyframes: {
 				appearDisappear: {
 					"0%": { opacity: "0" },
 					"20%": { opacity: "1" },
 					"70%": { opacity: "1" },
 					"100%": { opacity: "0" },
 				},
-		  },
+			},
 		},
-	  },
+	},
 };
