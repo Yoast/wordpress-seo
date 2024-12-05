@@ -146,8 +146,8 @@ export default [
 				require: {
 					MethodDefinition: true,
 					ClassDeclaration: true,
-					ArrowFunctionExpression: true,
-					FunctionExpression: true,
+					ArrowFunctionExpression: false,
+					FunctionExpression: false,
 				},
 				// The fixer only adds empty blocks, which are easy to forget to fill in.
 				enableFixer: false,
