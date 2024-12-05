@@ -62,9 +62,9 @@ domReady( () => {
 		"X-Wp-Nonce": get( window, "wpseoScriptData.dashboard.nonce", "" ),
 	};
 
-	/** @type {{contentAnalysis: string}} */
+	/** @type {{dashboardLearnMore: string}} */
 	const links = {
-		contentAnalysis: select( STORE_NAME ).selectLink( "https://yoa.st/content-analysis-tool" ),
+		dashboardLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-learn-more" ),
 	};
 
 	const router = createHashRouter(
