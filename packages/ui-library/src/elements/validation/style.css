@@ -76,7 +76,7 @@
 		}
 
 		.yst-validation-input__icon {
-			@apply yst-absolute yst-top-[0.6875rem] yst-right-2.5 yst-w-5 yst-h-5;
+			@apply yst-absolute yst-top-2.5 yst-right-2.5 yst-w-5 yst-h-5;
 		}
 
 		/* Validation message */
