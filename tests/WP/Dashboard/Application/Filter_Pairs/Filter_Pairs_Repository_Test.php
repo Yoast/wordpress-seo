@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Integration Test Class for Yoast\WP\SEO\Dashboard\Application\Filter_Pairs\Filter_Pairs_Repository.
  *
- * @coversDefaultClass Yoast\WP\SEO\Dashboard\Application\Filter_Pairs\Filter_Pairs_Repository
+ * @covers Yoast\WP\SEO\Dashboard\Application\Filter_Pairs\Filter_Pairs_Repository::get_taxonomy
  */
 final class Filter_Pairs_Repository_Test extends TestCase {
 
@@ -57,8 +57,6 @@ final class Filter_Pairs_Repository_Test extends TestCase {
 
 	/**
 	 * Tests get_taxonomy to see if it returns the correct data when a pair is found.
-	 *
-	 * @covers ::get_taxonomy
 	 *
 	 * @return void
 	 */
