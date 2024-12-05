@@ -67,7 +67,11 @@ abstract class Abstract_Score_Results_Repository {
 		$score_results = $this->score_results_collector->get_score_results( $this->score_groups, $content_type, $term_id, $is_troubleshooting );
 
 		if ( $is_troubleshooting === true ) {
-			return $score_results;
+			$score_results['score_ids'] = clone $score_results['scores'];
+
+			foreach ( $score_results['scores'] as &$score ) {
+				$score = ( $score !== null ) ? \count( \explode( ',', $score ) ) : 0;
+			}
 		}
 
 		$current_scores_list = $this->current_scores_repository->get_current_scores( $this->score_groups, $score_results, $content_type, $taxonomy, $term_id );
