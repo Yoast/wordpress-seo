@@ -80,7 +80,7 @@ export const TableButton = forwardRef( ( { variant = "add", className = "", ...p
 				className,
 			 ) }
 		>
-			<ButtonIcon className="yst-button-icon yst-mr-1.5 yst--ml-1 rtl:yst--mr-1 rtl:yst-ml-1.5" />
+			<ButtonIcon className="yst-button-icon yst--mx-1" />
 			{ variants[ variant ].button.label }
 		</Button>
 	);
