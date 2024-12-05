@@ -51,9 +51,7 @@
     "browserslist": "^4.7.3",
     "eslint": "^8.57.0",
     "eslint-config-yoast": "^6.0.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsx-a11y": "^6.8.0",
-    "eslint-plugin-react": "^7.34.1",
+    "globals": "^15.13.0",
     "jest-styled-components": "^7.0.3"
   },
   "peerDependencies": {
