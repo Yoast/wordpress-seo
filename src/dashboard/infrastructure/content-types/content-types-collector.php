@@ -40,6 +40,10 @@ class Content_Types_Collector {
 		$post_types         = $this->post_type_helper->get_indexable_post_type_objects();
 
 		foreach ( $post_types as $post_type_object ) {
+			if ( $post_type_object->show_ui === false ) {
+				continue;
+			}
+
 			$content_type = new Content_Type( $post_type_object->name, $post_type_object->label );
 			$content_types_list->add( $content_type );
 		}
