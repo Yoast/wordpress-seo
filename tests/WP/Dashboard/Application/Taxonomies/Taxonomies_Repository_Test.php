@@ -141,7 +141,7 @@ final class Taxonomies_Repository_Test extends TestCase {
 	 */
 	public function test_get_content_type_taxonomies_custom_added_post_type_with_filter() {
 		\add_filter( 'wpseo_book_filtering_taxonomy', [ $this, 'book_filtering_taxonomy' ] );
-		$alternative_genre= new Taxonomy( 'alternative-genre', 'Alternative Genres', 'http://example.org/index.php?rest_route=/my_custom_namespace/v1/alternative_genres' );
+		$alternative_genre = new Taxonomy( 'alternative-genre', 'Alternative Genres', 'http://example.org/index.php?rest_route=/my_custom_namespace/v1/alternative_genres' );
 		self::assertEquals( $alternative_genre, $this->instance->get_content_type_taxonomy( 'book' ) );
 	}
 
