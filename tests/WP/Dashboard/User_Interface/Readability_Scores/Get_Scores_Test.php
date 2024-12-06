@@ -69,13 +69,14 @@ final class Get_Scores_Test extends Abstract_Readability_Scores_Test {
 			$request->set_param( 'term', $term_id );
 		}
 
+		$new_ids = [];
 		foreach ( $inserted_posts as $key => $post ) {
 			$meta_input = [];
 			foreach ( $post['meta_input'] as $meta_key => $meta_value ) {
 				$meta_input[ $meta_key ] = $meta_value;
 			}
 
-			$this->factory()->post->create(
+			$new_ids[] = self::factory()->post->create(
 				[
 					'post_title'    => 'Test Post ' . $key,
 					'post_status'   => 'publish',
@@ -115,7 +116,12 @@ final class Get_Scores_Test extends Abstract_Readability_Scores_Test {
 		$this->assertEquals( $response_data['scores'][2]['links']['view'], 'http://example.org/wp-admin/edit.php?post_status=publish&post_type=blog-post&readability_filter=bad' . $link_suffix );
 		$this->assertEquals( $response_data['scores'][3]['links']['view'], 'http://example.org/wp-admin/edit.php?post_status=publish&post_type=blog-post&readability_filter=na' . $link_suffix );
 
+		// Clean up.
+		foreach ( $new_ids as $new_id ) {
+			\wp_delete_post( $new_id, true );
+		}
 		\unregister_post_type( 'blog-post' );
+		\wp_delete_term( $term_id, 'category' );
 	}
 
 	/**
