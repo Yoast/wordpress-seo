@@ -23,12 +23,13 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 	 * @param Readability_Score_Groups_Interface[] $readability_score_groups All readability score groups.
 	 * @param Content_Type                         $content_type             The content type.
 	 * @param int|null                             $term_id                  The ID of the term we're filtering for.
+	 * @param bool|null                            $is_troubleshooting       Whether we're in troubleshooting mode.
 	 *
 	 * @return array<string, object|bool|float> The readability score results for a content type.
 	 *
 	 * @throws Score_Results_Not_Found_Exception When the query of getting score results fails.
 	 */
-	public function get_score_results( array $readability_score_groups, Content_Type $content_type, ?int $term_id ) {
+	public function get_score_results( array $readability_score_groups, Content_Type $content_type, ?int $term_id, ?bool $is_troubleshooting ) {
 		global $wpdb;
 		$results = [];
 
@@ -36,7 +37,7 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 		$transient_name    = self::READABILITY_SCORES_TRANSIENT . '_' . $content_type_name . ( ( $term_id === null ) ? '' : '_' . $term_id );
 
 		$transient = \get_transient( $transient_name );
-		if ( $transient !== false ) {
+		if ( $is_troubleshooting !== true && $transient !== false ) {
 			$results['scores']     = \json_decode( $transient, false );
 			$results['cache_used'] = true;
 			$results['query_time'] = 0;
@@ -44,7 +45,7 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 			return $results;
 		}
 
-		$select = $this->build_select( $readability_score_groups );
+		$select = $this->build_select( $readability_score_groups, $is_troubleshooting );
 
 		$replacements = \array_merge(
 			\array_values( $select['replacements'] ),
@@ -105,7 +106,9 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 
 		$end_time = \microtime( true );
 
-		\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $current_scores ), \MINUTE_IN_SECONDS );
+		if ( $is_troubleshooting !== true ) {
+			\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $current_scores ), \MINUTE_IN_SECONDS );
+		}
 
 		$results['scores']     = $current_scores;
 		$results['cache_used'] = false;
@@ -117,12 +120,17 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 	 * Builds the select statement for the readability scores query.
 	 *
 	 * @param Readability_Score_Groups_Interface[] $readability_score_groups All readability score groups.
+	 * @param bool|null                            $is_troubleshooting       Whether we're in troubleshooting mode.
 	 *
 	 * @return array<string, string> The select statement for the readability scores query.
 	 */
-	private function build_select( array $readability_score_groups ): array {
+	private function build_select( array $readability_score_groups, ?bool $is_troubleshooting ): array {
 		$select_fields       = [];
 		$select_replacements = [];
+
+		// When we don't troubleshoot, we're interested in the amount of posts in a group, when we troubleshoot we want to gather the actual IDs.
+		$select_operation = ( $is_troubleshooting === true ) ? 'GROUP_CONCAT' : 'COUNT';
+		$selected_info    = ( $is_troubleshooting === true ) ? 'I.object_id' : '1';
 
 		foreach ( $readability_score_groups as $readability_score_group ) {
 			$min  = $readability_score_group->get_min_score();
@@ -130,12 +138,12 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 			$name = $readability_score_group->get_name();
 
 			if ( $min === null && $max === null ) {
-				$select_fields[]       = 'COUNT(CASE WHEN I.readability_score = 0 AND I.estimated_reading_time_minutes IS NULL THEN 1 END) AS %i';
+				$select_fields[]       = "{$select_operation}(CASE WHEN I.readability_score = 0 AND I.estimated_reading_time_minutes IS NULL THEN {$selected_info} END) AS %i";
 				$select_replacements[] = $name;
 			}
 			else {
 				$needs_ert             = ( $min === 1 ) ? ' OR (I.readability_score = 0 AND I.estimated_reading_time_minutes IS NOT NULL)' : '';
-				$select_fields[]       = "COUNT(CASE WHEN ( I.readability_score >= %d AND I.readability_score <= %d ){$needs_ert} THEN 1 END) AS %i";
+				$select_fields[]       = "{$select_operation}(CASE WHEN ( I.readability_score >= %d AND I.readability_score <= %d ){$needs_ert} THEN {$selected_info} END) AS %i";
 				$select_replacements[] = $min;
 				$select_replacements[] = $max;
 				$select_replacements[] = $name;
