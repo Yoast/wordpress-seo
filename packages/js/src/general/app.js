@@ -3,19 +3,19 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon, ChartPieIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useEffect, useMemo } from "@wordpress/element";
+import { useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import WebinarPromoNotification from "../components/WebinarPromoNotification";
-import { deleteMigratingNotices, getMigratingNoticeInfo } from "../helpers/migrateNotices";
-import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
-import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { Notice } from "./components";
 import { STORE_NAME } from "./constants";
+import WebinarPromoNotification from "../components/WebinarPromoNotification";
+import { deleteMigratingNotices } from "../helpers/migrateNotices";
+import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
 import { useNotificationCountSync, useSelectGeneralPage } from "./hooks";
+import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { ROUTES } from "./routes";
 
 /**
@@ -76,8 +76,7 @@ Menu.propTypes = {
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
-	const notices = useMemo( getMigratingNoticeInfo, [] );
-	const resolvedNotices = useSelect( select => select( STORE_NAME ).selectResolvedNotices(), [] );
+	const notices = useSelect( select => select( STORE_NAME ).selectNotices(), [] );
 
 	useEffect( () => {
 		deleteMigratingNotices( notices );
@@ -130,25 +129,18 @@ const App = () => {
 										{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
 											<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
 										}
-										{ notices.length > 0 && <div className="yst-space-y-3 yoast-general-page-notices"> {
-											notices.map( ( notice, index ) => {
-												const noticeID = notice.id || "yoast-general-page-notice-" + index;
-
-												if ( resolvedNotices.includes( noticeID ) ) {
-													return null;
-												}
-
-												return (
-													<Notice
-														key={ index }
-														id={ noticeID }
-														title={ notice.header }
-														isDismissable={ notice.isDismissable }
-													>
-														{ notice.content }
-													</Notice>
-												);
-											} )
+										{ notices.length > 0 && <div className={ notices.filter( notice => ! notice.isDismissed ).length > 0 ? "yst-space-y-3 yoast-general-page-notices" : "yst-hidden" }> {
+											notices.map( ( notice, index ) =>
+												<Notice
+													key={ index }
+													id={ notice.id || "yoast-general-page-notice-" + index }
+													title={ notice.header }
+													isDismissable={ notice.isDismissable }
+													className={ notice.isDismissed ? "yst-hidden" : "" }
+												>
+													{ notice.content }
+												</Notice>
+												 )
 										}
 										</div> }
 									</div> }

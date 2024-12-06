@@ -51,6 +51,13 @@ class WPSEO_Meta_Columns {
 	private $score_icon_helper;
 
 	/**
+	 * Holds the WPSEO_Admin_Asset_Manager instance.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
+	private $admin_asset_manager;
+
+	/**
 	 * When page analysis is enabled, just initialize the hooks.
 	 */
 	public function __construct() {
@@ -62,6 +69,7 @@ class WPSEO_Meta_Columns {
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 		$this->admin_columns_cache  = YoastSEO()->classes->get( Admin_Columns_Cache_Integration::class );
 		$this->score_icon_helper    = YoastSEO()->helpers->score_icon;
+		$this->admin_asset_manager  = YoastSEO()->classes->get( WPSEO_Admin_Asset_Manager::class );
 	}
 
 	/**
@@ -95,6 +103,9 @@ class WPSEO_Meta_Columns {
 		if ( $this->display_metabox() === false ) {
 			return $columns;
 		}
+
+		$this->admin_asset_manager->enqueue_script( 'edit-page' );
+		$this->admin_asset_manager->enqueue_style( 'edit-page' );
 
 		$added_columns = [];
 

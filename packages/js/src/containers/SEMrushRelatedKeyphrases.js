@@ -17,6 +17,7 @@ export default compose( [
 			getSEMrushRequestHasData,
 			getSEMrushRequestKeyphrase,
 			getPreference,
+			getIsPremium,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -30,6 +31,7 @@ export default compose( [
 			lastRequestKeyphrase: getSEMrushRequestKeyphrase(),
 			isRtl: getPreference( "isRtl", false ),
 			userLocale: getPreference( "userLocale", "en_US" ),
+			isPremium: getIsPremium(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
