@@ -19,7 +19,7 @@ use WP_REST_Response;
  * @covers Yoast\WP\SEO\Dashboard\Application\Score_Results\Current_Scores_Repository::get_current_scores
  * @covers Yoast\WP\SEO\Dashboard\Application\Score_Results\Current_Scores_Repository::get_current_score_links
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Score_Groups\Score_Group_Link_Collector::get_view_link
- * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Results\Score_Result\Score_Result::to_array
+ * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Results\Score_Result::to_array
  * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Results\Current_Scores_List::to_array
  * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Results\Current_Score::get_name
  * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Results\Current_Score::get_amount
