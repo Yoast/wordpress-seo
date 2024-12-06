@@ -15,7 +15,7 @@ import { OutboundLink } from "../../shared-admin/components";
  * @returns {JSX.Element} The element.
  */
 export const PageTitle = ( { userName, features, links } ) => (
-	<Paper>
+	<Paper className="yst-shadow-md">
 		<Paper.Content className="yst-flex yst-flex-col yst-gap-y-4 yst-max-w-screen-sm">
 			<Title as="h1">
 				{ sprintf(
@@ -46,13 +46,13 @@ export const PageTitle = ( { userName, features, links } ) => (
 					: createInterpolateElement(
 						sprintf(
 							/* translators: %1$s and %2$s expand to an opening and closing anchor tag. */
-							__( "Welcome to your dashboard! Check your content's SEO performance, readability, and overall strengths and opportunities. %1$sLearn more on how to improve your content with our content analysis tool%2$s.", "wordpress-seo" ),
+							__( "Welcome to your dashboard! Check your content's SEO performance, readability, and overall strengths and opportunities. %1$sLearn more about the dashboard%2$s.", "wordpress-seo" ),
 							"<link>",
 							"</link>"
 						),
 						{
 							// Added dummy space as content to prevent children prop warnings in the console.
-							link: <OutboundLink href={ links.contentAnalysis }> </OutboundLink>,
+							link: <OutboundLink href={ links.dashboardLearnMore }> </OutboundLink>,
 						}
 					)
 				}
