@@ -118,7 +118,7 @@ final class Get_Scores_Test extends Abstract_SEO_Scores_Test {
 
 		// Clean up.
 		foreach ( $new_ids as $new_id ) {
-			$result = \wp_delete_post( $new_id, true );
+			\wp_delete_post( $new_id, true );
 		}
 		\unregister_post_type( 'blog-post' );
 		\wp_delete_term( $term_id, 'category' );
