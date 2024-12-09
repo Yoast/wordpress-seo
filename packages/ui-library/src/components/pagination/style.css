@@ -5,6 +5,7 @@
 			yst-isolate
 			yst-inline-flex
 			yst--space-x-px
+			rtl:yst-space-x-reverse
 			yst-rounded-md
 			yst-shadow-sm;
 		}
