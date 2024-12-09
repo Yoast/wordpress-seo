@@ -40,7 +40,7 @@ export default compose( [
 			setSEMrushRequestFailed,
 			setSEMrushSetRequestLimitReached,
 			setSEMrushNoResultsFound,
-		 } = dispatch( "yoast-seo/editor" );
+		} = dispatch( "yoast-seo/editor" );
 		return {
 			setCountry: ( countryCode ) => {
 				setSEMrushChangeCountry( countryCode );
