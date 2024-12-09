@@ -55,7 +55,7 @@ export default function WorkoutCard( {
 		}
 		return __( "Do workout again", "wordpress-seo" );
 	},
-	  [ finishedSteps, finishableSteps ]
+	[ finishedSteps, finishableSteps ]
 	);
 
 	const onClick = useCallback(

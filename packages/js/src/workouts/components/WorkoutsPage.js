@@ -86,7 +86,7 @@ export default function WorkoutsPage( props ) {
 	/**
 	 * Generate slots based on the workout key, and sort by priority.
 	 */
-	 const slots = useMemo( () => {
+	const slots = useMemo( () => {
 		const slotIds = Object.keys( workouts );
 		const sortedWorkouts = sortBy( slotIds.map( id => {
 			return { ...workouts[ id ], id };
@@ -119,7 +119,7 @@ export default function WorkoutsPage( props ) {
 				// translators: %1$s translates to a leftward pointing arrow ( ← )
 				sprintf( __( "%1$sBack to all workouts", "worpdress-seo" ), "← " )
 			}</Button> }
-			 <div className={ activeWorkout ? "" : "workflows__index" }>
+			<div className={ activeWorkout ? "" : "workflows__index" }>
 				{ slots }
 			</div>
 		</div>

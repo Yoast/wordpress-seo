@@ -77,7 +77,7 @@ export default function initAdmin( jQuery ) {
 	 *
 	 * @returns {void}
 	 */
-	 function setInitialActiveTab() {
+	function setInitialActiveTab() {
 		var activeTabId = window.location.hash.replace( "#top#", "" );
 		/* In some cases, the second # gets replace by %23, which makes the tab
 		 * switching not work unless we do this. */
@@ -108,7 +108,7 @@ export default function initAdmin( jQuery ) {
 	jQuery( window ).on( "hashchange", function() {
 		setInitialActiveTab();
 		wpseoSetTabHash();
-	 } );
+	} );
 
 	/**
 	 * Hides or shows the Author without posts toggle.

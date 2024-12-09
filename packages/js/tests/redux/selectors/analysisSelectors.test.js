@@ -20,7 +20,7 @@ beforeEach(
 
 afterEach(
 	() => {
-	  windowSpy.mockRestore();
+		windowSpy.mockRestore();
 	}
 );
 

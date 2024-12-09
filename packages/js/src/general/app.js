@@ -140,7 +140,7 @@ const App = () => {
 												>
 													{ notice.content }
 												</Notice>
-												 )
+											)
 										}
 										</div> }
 									</div> }

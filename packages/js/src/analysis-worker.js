@@ -42,7 +42,7 @@ function loadDependencies( dependencies ) {
 
 		if ( dependency === "lodash" ) {
 			// eslint-disable-next-line no-undef
-	        self.lodash = _.noConflict();
+			self.lodash = _.noConflict();
 		}
 	}
 }

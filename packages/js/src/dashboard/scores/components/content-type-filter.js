@@ -53,7 +53,7 @@ export const ContentTypeFilter = ( { idSuffix, contentTypes, selected, onChange 
 			onQueryChange={ handleQueryChange }
 		>
 			{ filtered.map( ( { name, label } ) => {
-				 const decodedLabel = decodeString( label );
+				const decodedLabel = decodeString( label );
 				return <AutocompleteField.Option key={ name } value={ name }>
 					{ decodedLabel }
 				</AutocompleteField.Option>;
