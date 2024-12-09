@@ -107,7 +107,7 @@ export const Scores = ( { analysisType, contentTypes, endpoint, headers } ) => {
 	}, [ selectedContentType.name ] );
 
 	return (
-		<Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8">
+		<Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md">
 			<Title as="h2">
 				{ analysisType === "readability"
 					? __( "Readability scores", "wordpress-seo" )

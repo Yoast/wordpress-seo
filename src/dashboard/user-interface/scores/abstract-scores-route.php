@@ -150,6 +150,12 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 								return \intval( $param );
 							},
 						],
+						'troubleshooting' => [
+							'required'          => false,
+							'type'              => 'bool',
+							'default'           => null,
+							'sanitize_callback' => 'rest_sanitize_boolean',
+						],
 					],
 				],
 			]
@@ -169,7 +175,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 			$taxonomy     = $this->get_taxonomy( $request['taxonomy'], $content_type );
 			$term_id      = $this->get_validated_term_id( $request['term'], $taxonomy );
 
-			$results = $this->score_results_repository->get_score_results( $content_type, $taxonomy, $term_id );
+			$results = $this->score_results_repository->get_score_results( $content_type, $taxonomy, $term_id, $request['troubleshooting'] );
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(
 				[

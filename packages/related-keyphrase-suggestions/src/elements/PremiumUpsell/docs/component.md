@@ -1,0 +1,1 @@
+The Yoast Premium upsell component can accept class name and url for the upsell button that will open the link in a new tab and has a screen reader text to indicate that.

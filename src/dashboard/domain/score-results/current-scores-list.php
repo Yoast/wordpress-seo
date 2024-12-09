@@ -36,12 +36,16 @@ class Current_Scores_List {
 
 		\ksort( $this->current_scores );
 
-		foreach ( $this->current_scores as $current_score ) {
+		foreach ( $this->current_scores as $key => $current_score ) {
 			$array[] = [
 				'name'   => $current_score->get_name(),
 				'amount' => $current_score->get_amount(),
 				'links'  => $current_score->get_links_to_array(),
 			];
+
+			if ( $current_score->get_ids() !== null ) {
+				$array[ $key ]['ids'] = $current_score->get_ids();
+			}
 		}
 
 		return $array;

@@ -7,6 +7,7 @@ import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
+import { ADMIN_NOTICES_NAME } from "./store/admin-notices";
 import App from "./app";
 import { RouteErrorFallback } from "./components";
 import { ConnectedPremiumUpsellList } from "./components/connected-premium-upsell-list";
@@ -15,7 +16,6 @@ import { STORE_NAME } from "./constants";
 import { AlertCenter, FirstTimeConfiguration, ROUTES } from "./routes";
 import registerStore from "./store";
 import { ALERT_CENTER_NAME } from "./store/alert-center";
-import { FTC_NAME } from "./store/first-time-configuration";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -36,7 +36,7 @@ domReady( () => {
 			currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
 			dismissedAlerts: get( window, "wpseoScriptData.dismissedAlerts", {} ),
 			isPremium: get( window, "wpseoScriptData.preferences.isPremium", false ),
-			[ FTC_NAME ]: { resolvedNotices: [] },
+			[ ADMIN_NOTICES_NAME ]: { resolvedNotices: [] },
 		},
 	} );
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
@@ -62,9 +62,9 @@ domReady( () => {
 		"X-Wp-Nonce": get( window, "wpseoScriptData.dashboard.nonce", "" ),
 	};
 
-	/** @type {{contentAnalysis: string}} */
+	/** @type {{dashboardLearnMore: string}} */
 	const links = {
-		contentAnalysis: select( STORE_NAME ).selectLink( "https://yoa.st/content-analysis-tool" ),
+		dashboardLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-learn-more" ),
 	};
 
 	const router = createHashRouter(
