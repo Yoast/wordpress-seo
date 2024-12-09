@@ -1,4 +1,4 @@
-import { __, sprintf } from "@wordpress/i18n";
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { map, merge } from "lodash";
 
 import Assessment from "../assessment";
@@ -6,7 +6,7 @@ import getTooLongSentences from "../../helpers/assessments/checkForTooLongSenten
 import formatNumber from "../../../helpers/formatNumber";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import addMark from "../../../markers/addMark";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
@@ -33,7 +33,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 			farTooMany: 30,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34v" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34w" ),
-			countTextIn: __( "words", "wordpress-seo" ),
+			countCharacters: false,
 		};
 
 		// Add cornerstone and/or product-specific config if applicable.
@@ -58,10 +58,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 			this._config = this.getLanguageSpecificConfig( researcher );
 		}
 
-		const countTextInCharacters = researcher.getConfig( "countCharacters" );
-		if ( countTextInCharacters ) {
-			this._config.countTextIn = __( "characters", "wordpress-seo" );
-		}
+		this._config.countCharacters = !! researcher.getConfig( "countCharacters" );
 
 		const percentage = this.calculatePercentage( sentences );
 		const score = this.calculateScore( percentage );
@@ -158,12 +155,14 @@ class SentenceLengthInTextAssessment extends Assessment {
 			);
 		}
 
-		return sprintf(
-			/* translators: %1$s and %6$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
+		const wordFeedback = sprintf(
+			/* translators: %1$s and %6$s expand to links on yoast.com, %2$s expands to the anchor end tag,
 			%3$d expands to percentage of sentences, %4$s expands to the recommended maximum sentence length,
-			%5$s expands to the recommended maximum percentage, %7$s expands to the word 'words' or 'characters'. */
-			__(
-				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s %7$s, which is more than the recommended maximum of %5$s. %6$sTry to shorten the sentences%2$s.",
+			%5$s expands to the recommended maximum percentage. */
+			_n(
+				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$d word, which is more than the recommended maximum of %5$s. %6$sTry to shorten the sentences%2$s.",
+				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$d words, which is more than the recommended maximum of %5$s. %6$sTry to shorten the sentences%2$s.",
+				this._config.recommendedLength,
 				"wordpress-seo"
 			),
 			this._config.urlTitle,
@@ -171,9 +170,28 @@ class SentenceLengthInTextAssessment extends Assessment {
 			percentage + "%",
 			this._config.recommendedLength,
 			this._config.slightlyTooMany + "%",
-			this._config.urlCallToAction,
-			this._config.countTextIn
+			this._config.urlCallToAction
 		);
+
+		const characterFeedback = sprintf(
+			/* translators: %1$s and %6$s expand to links on yoast.com, %2$s expands to the anchor end tag,
+			%3$d expands to percentage of sentences, %4$s expands to the recommended maximum sentence length,
+			%5$s expands to the recommended maximum percentage. */
+			_n(
+				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$d character, which is more than the recommended maximum of %5$s. %6$sTry to shorten the sentences%2$s.",
+				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$d characters, which is more than the recommended maximum of %5$s. %6$sTry to shorten the sentences%2$s.",
+				this._config.recommendedLength,
+				"wordpress-seo"
+			),
+			this._config.urlTitle,
+			"</a>",
+			percentage + "%",
+			this._config.recommendedLength,
+			this._config.slightlyTooMany + "%",
+			this._config.urlCallToAction
+		);
+
+		return this._config.countCharacters ? characterFeedback : wordFeedback;
 	}
 
 	/**

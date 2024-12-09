@@ -51,7 +51,7 @@ class Additional_Contactmethods_Integration implements Integration_Interface {
 	public function update_contactmethods( $contactmethods ) {
 		$additional_contactmethods = $this->additional_contactmethods_collector->get_additional_contactmethods_objects();
 
-		return \array_merge( $contactmethods, $additional_contactmethods );
+		return \array_merge( ( $contactmethods ?? [] ), $additional_contactmethods );
 	}
 
 	/**

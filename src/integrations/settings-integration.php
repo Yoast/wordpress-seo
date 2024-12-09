@@ -445,6 +445,7 @@ class Settings_Integration implements Integration_Interface {
 			'taxonomies'                     => $transformed_taxonomies,
 			'fallbacks'                      => $this->get_fallbacks(),
 			'showNewContentTypeNotification' => $show_new_content_type_notification,
+			'currentPromotions'              => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 		];
 	}
 
@@ -488,7 +489,6 @@ class Settings_Integration implements Integration_Interface {
 			'isLocalSeoActive'              => \defined( 'WPSEO_LOCAL_FILE' ),
 			'isNewsSeoActive'               => \defined( 'WPSEO_NEWS_FILE' ),
 			'isWooCommerceSEOActive'        => $woocommerce_seo_active,
-			'promotions'                    => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 			'siteUrl'                       => \get_bloginfo( 'url' ),
 			'siteTitle'                     => \get_bloginfo( 'name' ),
 			'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
@@ -971,7 +971,7 @@ class Settings_Integration implements Integration_Interface {
 			$route = \substr( $route, 1 );
 		}
 
-		return \rawurlencode( $route );
+		return $route;
 	}
 
 	/**

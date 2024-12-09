@@ -5,8 +5,6 @@
  * @package WPSEO\Admin\Views
  */
 
-use Yoast\WP\SEO\Conditionals\New_Dashboard_Ui_Conditional;
-
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -102,7 +100,7 @@ function wpseo_import_external_select( $name, $plugins ) {
 	<h3><?php esc_html_e( 'Step 4: Go through the first time configuration', 'wordpress-seo' ); ?></h3>
 	<p>
 		<?php
-		$ftc_page = ( ( new New_Dashboard_Ui_Conditional() )->is_met() ) ? 'admin.php?page=wpseo_dashboard#/first-time-configuration' : 'admin.php?page=wpseo_dashboard#top#first-time-configuration';
+		$ftc_page = 'admin.php?page=wpseo_dashboard#/first-time-configuration';
 		printf(
 			/* translators: 1: Link start tag to the First time configuration tab in the General page, 2: Link closing tag. */
 			esc_html__( 'You should finish the %1$sfirst time configuration%2$s to make sure your SEO data has been optimized and you’ve set the essential Yoast SEO settings for your site.', 'wordpress-seo' ),

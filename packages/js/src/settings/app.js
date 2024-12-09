@@ -2,6 +2,7 @@
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
+import { useSelect } from "@wordpress/data";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, ChildrenLimiter, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
@@ -10,9 +11,9 @@ import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { MenuItemLink, YoastLogo } from "../shared-admin/components";
-import { PremiumUpsellList } from "../shared-admin/components/premium-upsell-list";
-import { ErrorFallback, Notifications, Search, SidebarRecommendations } from "./components";
+import { MenuItemLink, PremiumUpsellList, SidebarRecommendations, YoastLogo } from "../shared-admin/components";
+import { ErrorFallback, Notifications, Search } from "./components";
+import { STORE_NAME } from "./constants";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
 	AuthorArchives,
@@ -158,6 +159,7 @@ Menu.propTypes = {
 	taxonomies: PropTypes.object.isRequired,
 	idSuffix: PropTypes.string,
 };
+
 /**
  * @returns {JSX.Element} The app component.
  */
@@ -166,9 +168,12 @@ const App = () => {
 	const postTypes = useSelectSettings( "selectPostTypes" );
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
-	const premiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
+	const premiumLinkList = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
+	const premiumLinkSidebar = useSelectSettings( "selectLink", [], "https://yoa.st/jj" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
-	const promotions = useSelectSettings( "selectPreference", [], "promotions", [] );
+	const academyLink = useSelectSettings( "selectLink", [], "https://yoa.st/3t6" );
+	const { isPromotionActive } = useSelect( STORE_NAME );
+
 	useRouterScrollRestore();
 
 	const { dirty } = useFormikContext();
@@ -248,12 +253,21 @@ const App = () => {
 								</ErrorBoundary>
 							</Paper>
 							{ ! isPremium && <PremiumUpsellList
-								premiumLink={ premiumLink }
+								premiumLink={ premiumLinkList }
 								premiumUpsellConfig={ premiumUpsellConfig }
-								promotions={ promotions }
+								isPromotionActive={ isPromotionActive }
 							/> }
 						</div>
-						<SidebarRecommendations />
+						{ ! isPremium &&
+							<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[16rem]">
+								<SidebarRecommendations
+									premiumLink={ premiumLinkSidebar }
+									premiumUpsellConfig={ premiumUpsellConfig }
+									academyLink={ academyLink }
+									isPromotionActive={ isPromotionActive }
+								/>
+							</div>
+						}
 					</div>
 				</div>
 			</SidebarNavigation>

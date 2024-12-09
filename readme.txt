@@ -4,8 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 6.6
-Stable tag: 23.6
+Tested up to: 6.7
+Stable tag: 24.0
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -274,45 +274,46 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 23.7 =
+= 24.1 =
 
-Release date: 2024-10-22
-
-#### Enhancements
-
-* Removes the _keyphrase in slug_ assessment for static home pages.
-
-#### Bugfixes
-
-* Fixes a bug where a database error would occur when there were no public taxonomies available for indexing.
-* Fixes a bug where another plugin running the `exit()` function inside the `plugin_loaded` hook would result in a fatal error. Props to @menno-ll.
-
-#### Other
-
-* Removes translation strings that are not meant for the Yoast SEO Free version from the plugin.
-* Resets the notice for search engines discouraged when changing Search engine visibility to visible.
-
-= 23.6 =
-
-Release date: 2024-10-08
-
-Yoast SEO 23.6 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-8-10-24).
+Release date: 2024-12-17
 
 #### Enhancements
 
-* Adds a filter to modify the sitemap's URL. Props to [ashujangra](https://github.com/ashujangra).
-* Improves the _transition words_ assessment for Turkish and English by expanding the relevant lists of transitions words. Props to [abulu](https://wordpress.org/support/users/abulu/).
-* Uses the full-sized counterpart when a resized first content image is used for Open Graph and X images.
+* Adds `Not analyzed` as a option in the readability filter in the posts page.
+* Enhances the existing `Needs improvement` option in the readability filter in the posts page, to include posts that don't have enough content as well.
+* Introduces Yoast dashboard, a place where site administrators can check the SEO and Readability performance of the site's posts.
 
 #### Bugfixes
 
-* Fixes a bug where the content analysis would error when removing an image caption in the default editor.
-* Fixes a bug where the link popover would be hidden when editing a post in tablet/mobile view. Props to [stokesman](https://github.com/stokesman).
-* Fixes a visual inconsistency where the descriptions of the disabled Premium policy settings would look enabled, when they are not enabled.
+* Fixes a bug where posts that have been set to explicitly not be noindexed and had no keyword set would not appear in the relevant SEO filter in the posts page.
 
 #### Other
 
-* Sets the minimum supported WordPress version to 6.5.
+* Improves the translatability of feedback for the _paragraph length_ and the _sentence length_ assessments.
+
+= 24.0 =
+
+Release date: 2024-12-03
+
+Yoast SEO 24.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-3-12-24).
+
+#### Enhancements
+
+* Allows to set OpenGraph image HTML metadata `width`, `height`, and `type` to `null` in order not to show them. Props to [GiovanniMounir](https://github.com/GiovanniMounir).
+* Improves the _transition words_ assessment for Portuguese and English by updating the relevant lists of transition words. Props to [BrunoAseff](https://github.com/BrunoAseff).
+* Introduces an error message in the Yoast _General_ page in case of JavaScript errors.
+* Updates the design and translations of the country selector in the modal for related keyphrase suggestions.
+
+#### Bugfixes
+
+* Fixes a bug where the first step in the _First time configuration_ would not be considered finished unless the _Site representation_ step would be finished as well.
+* Fixes a bug where the settings for a post type are inaccessible when the permalink structure includes special characters that require encoding, e.g., when WooCommerce products are set to use the \"Shop base with category\" permalink structure.
+* Fixes a bug where the Yoast _General_ page would not reflect the active menu item properly if using a fallback.
+
+#### Other
+
+* Improves the documentation for `wpseo_enable_tracking` filter. Props to [kkmuffme](https://github.com/kkmuffme).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
