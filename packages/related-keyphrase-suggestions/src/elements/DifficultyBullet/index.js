@@ -99,7 +99,7 @@ export const DifficultyBullet = ( { value } ) => {
 			onMouseEnter={ handleMouseEnter }
 			onMouseLeave={ handleMouseLeave }
 		>
-			<div className="yst-text-right yst-w-5">
+			<div className="yst-text-end yst-w-5">
 				{ value }
 			</div>
 			<div
