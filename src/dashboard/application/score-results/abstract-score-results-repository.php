@@ -54,16 +54,25 @@ abstract class Abstract_Score_Results_Repository {
 	/**
 	 * Returns the score results for a content type.
 	 *
-	 * @param Content_Type  $content_type The content type.
-	 * @param Taxonomy|null $taxonomy     The taxonomy of the term we're filtering for.
-	 * @param int|null      $term_id      The ID of the term we're filtering for.
+	 * @param Content_Type  $content_type       The content type.
+	 * @param Taxonomy|null $taxonomy           The taxonomy of the term we're filtering for.
+	 * @param int|null      $term_id            The ID of the term we're filtering for.
+	 * @param bool|null     $is_troubleshooting Whether we're in troubleshooting mode.
 	 *
 	 * @return array<array<string, string|int|array<string, string>>> The scores.
 	 *
 	 * @throws Exception When getting score results from the infrastructure fails.
 	 */
-	public function get_score_results( Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ): array {
-		$score_results = $this->score_results_collector->get_score_results( $this->score_groups, $content_type, $term_id );
+	public function get_score_results( Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id, ?bool $is_troubleshooting ): array {
+		$score_results = $this->score_results_collector->get_score_results( $this->score_groups, $content_type, $term_id, $is_troubleshooting );
+
+		if ( $is_troubleshooting === true ) {
+			$score_results['score_ids'] = clone $score_results['scores'];
+
+			foreach ( $score_results['scores'] as &$score ) {
+				$score = ( $score !== null ) ? \count( \explode( ',', $score ) ) : 0;
+			}
+		}
 
 		$current_scores_list = $this->current_scores_repository->get_current_scores( $this->score_groups, $score_results, $content_type, $taxonomy, $term_id );
 		$score_result_object = new Score_Result( $current_scores_list, $score_results['query_time'], $score_results['cache_used'] );

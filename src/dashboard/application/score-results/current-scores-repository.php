@@ -50,8 +50,10 @@ class Current_Scores_Repository {
 		foreach ( $score_groups as $score_group ) {
 			$score_name          = $score_group->get_name();
 			$current_score_links = $this->get_current_score_links( $score_group, $content_type, $taxonomy, $term_id );
+			$score_amount        = (int) $score_results['scores']->$score_name;
+			$score_ids           = ( isset( $score_results['score_ids'] ) ) ? $score_results['score_ids']->$score_name : null;
 
-			$current_score = new Current_Score( $score_name, (int) $score_results['scores']->$score_name, $current_score_links );
+			$current_score = new Current_Score( $score_name, $score_amount, $score_ids, $current_score_links );
 			$current_scores_list->add( $current_score, $score_group->get_position() );
 		}
 

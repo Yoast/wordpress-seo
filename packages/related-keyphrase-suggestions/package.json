@@ -61,13 +61,13 @@
     "postcss-loader": "^8.1.1",
     "puppeteer": "^23.6.0",
     "storybook": "^8.3.6",
-    "tailwindcss": "^3.4.14",
-    "style-loader": "^4.0.0"
+    "style-loader": "^4.0.0",
+    "tailwindcss": "^3.4.14"
   },
   "dependencies": {
-    "classnames": "^2.5.1",
     "@heroicons/react": "^1.0.6",
     "@wordpress/i18n": "^5.10.0",
+    "classnames": "^2.5.1",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1"
   },
