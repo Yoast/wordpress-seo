@@ -1,4 +1,3 @@
-import React from "react";
 import { InstallationSuccessPage } from "../src/installation-success";
 import { render } from "./test-utils";
 
