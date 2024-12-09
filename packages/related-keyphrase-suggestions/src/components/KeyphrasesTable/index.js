@@ -238,7 +238,7 @@ KeyphrasesTable.propTypes = {
 	className: PropTypes.string,
 	isPending: PropTypes.bool,
 	userLocale: PropTypes.string,
-  idPrefix: PropTypes.string,
+	idPrefix: PropTypes.string,
 };
 
 KeyphrasesTable.displayName = "KeyphrasesTable";
