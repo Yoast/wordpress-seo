@@ -14,8 +14,6 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\Score_Results_Collector_
  */
 class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 
-	public const SEO_SCORES_TRANSIENT = 'wpseo_seo_scores';
-
 	/**
 	 * Retrieves the SEO score results for a content type.
 	 *
@@ -97,7 +95,6 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 		$end_time = \microtime( true );
 
 		$results['scores']     = $current_scores;
-		$results['cache_used'] = false;
 		$results['query_time'] = ( $end_time - $start_time );
 		return $results;
 	}

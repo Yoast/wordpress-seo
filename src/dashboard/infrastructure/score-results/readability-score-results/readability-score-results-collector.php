@@ -14,8 +14,6 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\Score_Results_Collector_
  */
 class Readability_Score_Results_Collector implements Score_Results_Collector_Interface {
 
-	public const READABILITY_SCORES_TRANSIENT = 'wpseo_readability_scores';
-
 	/**
 	 * Retrieves readability score results for a content type.
 	 *
@@ -95,7 +93,6 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 		$end_time = \microtime( true );
 
 		$results['scores']     = $current_scores;
-		$results['cache_used'] = false;
 		$results['query_time'] = ( $end_time - $start_time );
 		return $results;
 	}

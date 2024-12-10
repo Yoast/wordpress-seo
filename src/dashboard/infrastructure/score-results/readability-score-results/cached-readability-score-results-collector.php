@@ -14,6 +14,8 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\Score_Results_Collector_
  */
 class Cached_Readability_Score_Results_Collector implements Score_Results_Collector_Interface {
 
+	public const READABILITY_SCORES_TRANSIENT = 'wpseo_readability_scores';
+
 	/**
 	 * The actual collector implementation.
 	 *
@@ -50,7 +52,7 @@ class Cached_Readability_Score_Results_Collector implements Score_Results_Collec
 		?bool $is_troubleshooting
 	) {
 		$content_type_name = $content_type->get_name();
-		$transient_name    = Readability_Score_Results_Collector::READABILITY_SCORES_TRANSIENT . '_' . $content_type_name . ( ( $term_id === null ) ? '' : '_' . $term_id );
+		$transient_name    = self::READABILITY_SCORES_TRANSIENT . '_' . $content_type_name . ( ( $term_id === null ) ? '' : '_' . $term_id );
 
 		$results   = [];
 		$transient = \get_transient( $transient_name );
@@ -61,7 +63,9 @@ class Cached_Readability_Score_Results_Collector implements Score_Results_Collec
 
 			return $results;
 		}
-		$results = $this->readability_score_results_collector->get_score_results( $score_groups, $content_type, $term_id, $is_troubleshooting );
+
+		$results               = $this->readability_score_results_collector->get_score_results( $score_groups, $content_type, $term_id, $is_troubleshooting );
+		$results['cache_used'] = false;
 		if ( $is_troubleshooting !== true ) {
 			\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $results['scores'] ), \MINUTE_IN_SECONDS );
 		}
