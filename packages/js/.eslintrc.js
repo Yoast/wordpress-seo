@@ -103,5 +103,12 @@ module.exports = {
 				"react/display-name": 0,
 			},
 		},
+		// Ignore Proptypes in the dashboard.
+		{
+			files: [ "src/dashboard/**/*.js" ],
+			rules: {
+				"react/prop-types": 0,
+			},
+		},
 	],
 };

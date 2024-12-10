@@ -76,8 +76,8 @@ KeyphrasesTableRow.propTypes = {
 const LoadingKeyphrasesTableRow = ( { withButton = false } ) => {
 	return (
 		<Table.Row>
-			<Table.Cell className="yst-w-56">
-				<SkeletonLoader className="yst-w-44 yst-h-5" />
+			<Table.Cell className="yst-w-44">
+				<SkeletonLoader className="yst-w-36 yst-h-5" />
 			</Table.Cell>
 			<Table.Cell>
 				<SkeletonLoader className="yst-w-5 yst-h-5" />
@@ -96,8 +96,10 @@ const LoadingKeyphrasesTableRow = ( { withButton = false } ) => {
 					<SkeletonLoader className="yst-w-3 yst-h-5" />
 				</div>
 			</Table.Cell>
-			{ withButton && <Table.Cell>
-				<SkeletonLoader className="yst-w-16 yst-h-7" />
+			{ withButton && <Table.Cell className="yst-w-32">
+				<div className="yst-flex yst-justify-end">
+					<SkeletonLoader className="yst-w-16 yst-h-7" />
+				</div>
 			</Table.Cell>
 			}
 		</Table.Row>
@@ -112,11 +114,12 @@ const intentMapping = [ "i", "n", "t", "c" ];
 
 /**
  * Prepare the row data.
- * @param {array} columnNames The column names.
- * @param {array} row The row data.
+ * @param {string[]} columnNames The column names.
+ * @param {string[]} row The row data.
+ * @param {Object} searchVolumeFormat The search volume format object.
  * @returns {object} The prepared row.
  */
-const prepareRow = ( columnNames, row ) => {
+const prepareRow = ( columnNames, row, searchVolumeFormat ) => {
 	const rowData = {};
 	columnNames.forEach( ( columnName, index ) => {
 		switch ( columnName ) {
@@ -130,7 +133,7 @@ const prepareRow = ( columnNames, row ) => {
 				rowData.keywordDifficultyIndex = Number( row[ index ] );
 				break;
 			case "Search Volume":
-				rowData.searchVolume = row[ index ];
+				rowData.searchVolume = searchVolumeFormat.format( row[ index ] );
 				break;
 			default:
 				rowData[ columnName.toLowerCase() ] = row[ index ];
@@ -147,11 +150,19 @@ const prepareRow = ( columnNames, row ) => {
  * @param {Object[]} [relatedKeyphrases=[]] The related keyphrases.
  * @param {string} [className=""] The class name for the table.
  * @param {boolean} [isPending=false] Whether the data is still pending.
+ * @param {string} [userLocale] The user locale, only the first part, for example "en" not "en_US".
  *
  * @returns {JSX.Element} The keyphrases table.
  */
-export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", isPending = false } ) => {
-	const rows = data?.map( row => prepareRow(  columnNames, row ) );
+export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", userLocale, isPending = false } ) => {
+	let searchVolumeFormat;
+	try {
+		searchVolumeFormat = new Intl.NumberFormat( userLocale, { notation: "compact", compactDisplay: "short" } );
+	} catch ( e ) {
+		// Fallback to the browser language.
+		searchVolumeFormat = new Intl.NumberFormat( navigator.language.split( "-" )[ 0 ], { notation: "compact", compactDisplay: "short" } );
+	}
+	const rows = data?.map( row => prepareRow(  columnNames, row, searchVolumeFormat ) );
 
 	if ( ( ! rows || rows.length === 0 ) && ! isPending ) {
 		return null;
@@ -160,10 +171,10 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 	return <Table className={ className }>
 		<Table.Head>
 			<Table.Row>
-				<Table.Header>
+				<Table.Header className="yst-text-start">
 					{ __( "Related keyphrase", "wordpress-seo" ) }
 				</Table.Header>
-				<Table.Header>
+				<Table.Header className="yst-text-start">
 					{ __( "Intent", "wordpress-seo" ) }
 				</Table.Header>
 				<Table.Header>
@@ -171,7 +182,7 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 						{ __( "Volume", "wordpress-seo" ) }
 					</div>
 				</Table.Header>
-				<Table.Header>
+				<Table.Header className="yst-text-start">
 					{ __( "Trend", "wordpress-seo" ) }
 				</Table.Header>
 				<Table.Header className="yst-whitespace-nowrap">
@@ -179,8 +190,9 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 						{ __( "Difficulty %", "wordpress-seo" ) }
 					</div>
 				</Table.Header>
-				{ renderButton && <Table.Header className="yst-min-w-28">
-					<div className="yst-flex yst-justify-end">
+
+				{ renderButton && <Table.Header className="yst-w-32">
+					<div className="yst-flex yst-justify-end yst-text-right rtl:yst-text-left">
 						{ __( "Add keyphrase", "wordpress-seo" ) }
 					</div>
 				</Table.Header> }
@@ -189,7 +201,7 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 		</Table.Head>
 
 		<Table.Body>
-			{ rows && rows.map( ( rowData, index ) => (
+			{ ! isPending && rows && rows.map( ( rowData, index ) => (
 				<KeyphrasesTableRow
 					key={ `related-keyphrase-${ index }` }
 					renderButton={ renderButton }
@@ -217,6 +229,7 @@ KeyphrasesTable.propTypes = {
 	renderButton: PropTypes.func,
 	className: PropTypes.string,
 	isPending: PropTypes.bool,
+	userLocale: PropTypes.string,
 };
 
 KeyphrasesTable.displayName = "KeyphrasesTable";

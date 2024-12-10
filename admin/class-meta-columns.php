@@ -51,6 +51,13 @@ class WPSEO_Meta_Columns {
 	private $score_icon_helper;
 
 	/**
+	 * Holds the WPSEO_Admin_Asset_Manager instance.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
+	private $admin_asset_manager;
+
+	/**
 	 * When page analysis is enabled, just initialize the hooks.
 	 */
 	public function __construct() {
@@ -62,6 +69,7 @@ class WPSEO_Meta_Columns {
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 		$this->admin_columns_cache  = YoastSEO()->classes->get( Admin_Columns_Cache_Integration::class );
 		$this->score_icon_helper    = YoastSEO()->helpers->score_icon;
+		$this->admin_asset_manager  = YoastSEO()->classes->get( WPSEO_Admin_Asset_Manager::class );
 	}
 
 	/**
@@ -95,6 +103,9 @@ class WPSEO_Meta_Columns {
 		if ( $this->display_metabox() === false ) {
 			return $columns;
 		}
+
+		$this->admin_asset_manager->enqueue_script( 'edit-page' );
+		$this->admin_asset_manager->enqueue_style( 'edit-page' );
 
 		$added_columns = [];
 
@@ -355,6 +366,12 @@ class WPSEO_Meta_Columns {
 	 * @return array The Readability score filter.
 	 */
 	protected function determine_readability_filters( $readability_filter ) {
+		if ( $readability_filter === WPSEO_Rank::NO_FOCUS ) {
+			return $this->create_no_readability_scores_filter();
+		}
+		if ( $readability_filter === WPSEO_Rank::BAD ) {
+			return $this->create_bad_readability_scores_filter();
+		}
 		$rank = new WPSEO_Rank( $readability_filter );
 
 		return $this->create_readability_score_filter( $rank->get_starting_score(), $rank->get_end_score() );
@@ -587,7 +604,7 @@ class WPSEO_Meta_Columns {
 		$current_seo_filter = $this->get_current_seo_filter();
 
 		// This only applies for the SEO score filter because it can because the SEO score can be altered by the no-index option.
-		if ( $this->is_valid_filter( $current_seo_filter ) && ! in_array( $current_seo_filter, [ WPSEO_Rank::NO_INDEX, WPSEO_Rank::NO_FOCUS ], true ) ) {
+		if ( $this->is_valid_filter( $current_seo_filter ) && ! in_array( $current_seo_filter, [ WPSEO_Rank::NO_INDEX ], true ) ) {
 			$result['meta_query'] = array_merge( $result['meta_query'], [ $this->get_meta_robots_query_values() ] );
 		}
 
@@ -600,7 +617,7 @@ class WPSEO_Meta_Columns {
 	 * @param number $low  The lower boundary of the score.
 	 * @param number $high The higher boundary of the score.
 	 *
-	 * @return array The Readability Score filter.
+	 * @return array<array<string>> The Readability Score filter.
 	 */
 	protected function create_readability_score_filter( $low, $high ) {
 		return [
@@ -619,7 +636,7 @@ class WPSEO_Meta_Columns {
 	 * @param number $low  The lower boundary of the score.
 	 * @param number $high The higher boundary of the score.
 	 *
-	 * @return array The SEO score filter.
+	 * @return array<array<string>> The SEO score filter.
 	 */
 	protected function create_seo_score_filter( $low, $high ) {
 		return [
@@ -635,7 +652,7 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Creates a filter to retrieve posts that were set to no-index.
 	 *
-	 * @return array Array containin the no-index filter.
+	 * @return array<array<string>> Array containin the no-index filter.
 	 */
 	protected function create_no_index_filter() {
 		return [
@@ -650,19 +667,75 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Creates a filter to retrieve posts that have no keyword set.
 	 *
-	 * @return array Array containing the no focus keyword filter.
+	 * @return array<array<string>> Array containing the no focus keyword filter.
 	 */
 	protected function create_no_focus_keyword_filter() {
 		return [
 			[
-				'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+				'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+				'value'   => 'needs-a-value-anyway',
+				'compare' => 'NOT EXISTS',
+			],
+		];
+	}
+
+	/**
+	 * Creates a filter to retrieve posts that have not been analyzed for readability yet.
+	 *
+	 * @return array<array<string>> Array containing the no readability filter.
+	 */
+	protected function create_no_readability_scores_filter() {
+		// We check the existence of the Estimated Reading Time, because readability scores of posts that haven't been manually saved while Yoast SEO is active, don't exist, which is also the case for posts with not enough content.
+		// Meanwhile, the ERT is a solid indicator of whether a post has ever been saved (aka, analyzed), so we're using that.
+		$rank = new WPSEO_Rank( WPSEO_Rank::BAD );
+		return [
+			[
+				'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
 				'value'   => 'needs-a-value-anyway',
 				'compare' => 'NOT EXISTS',
 			],
 			[
-				'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-				'value'   => 'needs-a-value-anyway',
-				'compare' => 'NOT EXISTS',
+				'relation' => 'OR',
+				[
+					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+					'value'   => $rank->get_starting_score(),
+					'type'    => 'numeric',
+					'compare' => '<',
+				],
+				[
+					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+					'value'   => 'needs-a-value-anyway',
+					'compare' => 'NOT EXISTS',
+				],
+			],
+		];
+	}
+
+	/**
+	 * Creates a filter to retrieve posts that have bad readability scores, including those that have not enough content to have one.
+	 *
+	 * @return array<array<string>> Array containing the bad readability filter.
+	 */
+	protected function create_bad_readability_scores_filter() {
+		$rank = new WPSEO_Rank( WPSEO_Rank::BAD );
+		return [
+			'relation' => 'OR',
+			[
+				'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+				'value'   => [ $rank->get_starting_score(), $rank->get_end_score() ],
+				'type'    => 'numeric',
+				'compare' => 'BETWEEN',
+			],
+			[
+				[
+					'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+					'value'   => 'needs-a-value-anyway',
+					'compare' => 'NOT EXISTS',
+				],
+				[
+					'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
+					'compare' => 'EXISTS',
+				],
 			],
 		];
 	}
@@ -705,7 +778,7 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @param string $order_by The ID of the column by which to order the posts.
 	 *
-	 * @return array Array containing the order filters.
+	 * @return array<string> Array containing the order filters.
 	 */
 	private function filter_order_by( $order_by ) {
 		switch ( $order_by ) {
