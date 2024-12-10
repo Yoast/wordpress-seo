@@ -59,7 +59,7 @@ class Cached_SEO_Score_Results_Collector implements Score_Results_Collector_Inte
 
 			return $results;
 		}
-		$results = $this->seo_score_results_collector->get_score_results( $score_groups, $content_type, $term_id,$is_troubleshooting );
+		$results = $this->seo_score_results_collector->get_score_results( $score_groups, $content_type, $term_id, $is_troubleshooting );
 		if ( $is_troubleshooting !== true ) {
 			\set_transient( $transient_name, WPSEO_Utils::format_json_encode( $results['scores'] ), \MINUTE_IN_SECONDS );
 		}
