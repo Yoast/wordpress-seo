@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
-import { Tooltip, useToggleState } from "@yoast/ui-library";
+import { TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
 
 
 const variants = [
@@ -80,12 +80,11 @@ const getVariant = ( value ) => {
 /**
  *
  * @param {number} value The index of difficulty (0-100).
+ * @param {string} id The id of the tooltip.
  *
  * @returns {JSX.Element} The percentage of difficulty with a bullet with matching color.
  */
-export const DifficultyBullet = ( { value } ) => {
-	const [ isVisible, , , handleMouseEnter, handleMouseLeave ] = useToggleState( false );
-
+export const DifficultyBullet = ( { value, id } ) => {
 	const variant = getVariant( value );
 
 	if ( ! variant ) {
@@ -93,36 +92,36 @@ export const DifficultyBullet = ( { value } ) => {
 	}
 
 	return (
-		<div
-			aria-description={ `${ variant.tooltip.title }, ${ variant.tooltip.description }` }
-			className="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
-			onMouseEnter={ handleMouseEnter }
-			onMouseLeave={ handleMouseLeave }
-		>
-			<div className="yst-text-end yst-w-5">
-				{ value }
-			</div>
-			<div
-				className={
-					classNames(
-						"yst-w-3 yst-h-3 yst-rounded-full",
-						`yst-difficulty--${ variant.name }`,
-					) }
-			/>
-
-			{ isVisible && <Tooltip
-				className="yst-flex yst-flex-col yst-w-48 yst-text-xs yst-leading-4 yst-font-normal"
+		<TooltipContainer>
+			<TooltipTrigger
+				ariaDescribedby={ id }
+				className="yst-flex yst-gap-2 yst-items-center yst-relative yst-w-10"
+			>
+				<div className="yst-text-right yst-w-5">
+					{ value }
+				</div>
+				<div
+					className={
+						classNames(
+							"yst-w-3 yst-h-3 yst-rounded-full",
+							`yst-difficulty--${ variant.name }`,
+						) }
+				/>
+			</TooltipTrigger>
+			<TooltipWithContext
+				id={ id }
+				className="yst-w-48 yst-text-xs yst-leading-4 yst-font-normal"
 				position="left"
 			>
-				<span className="yst-font-medium">{ variant.tooltip.title } </span>
+				<div className="yst-font-medium">{ variant.tooltip.title } </div>
 				{ variant.tooltip.description }
-			</Tooltip> }
-
-		</div>
+			</TooltipWithContext>
+		</TooltipContainer>
 	);
 };
 
 DifficultyBullet.propTypes = {
 	value: PropTypes.number.isRequired,
+	id: PropTypes.string.isRequired,
 };
 
