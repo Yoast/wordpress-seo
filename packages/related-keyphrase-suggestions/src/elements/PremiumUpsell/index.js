@@ -27,10 +27,10 @@ export const PremiumUpsell = ( { url, className } ) => {
 		<Button
 			variant="upsell"
 			as="a" href={ url }
-			className="yst-mt-4"
+			className="yst-mt-4 yst-gap-2"
 			target="_blank"
 		>
-			<LockOpenIcon className="yst-w-4 yst-h-4 yst-mr-2 yst-text-amber-900" />
+			<LockOpenIcon className="yst-w-4 yst-h-4 yst-text-amber-900" />
 			{ sprintf(
 				/* translators: %s: Expands to "Yoast SEO Premium". */
 				__( "Explore %s!", "wordpress-seo" ),

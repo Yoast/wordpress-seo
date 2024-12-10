@@ -12,20 +12,20 @@ const verifyDefaultContent = ( container, getByRole ) => {
 
 	const text = {
 		description: "Welcome to your dashboard! Check your content's SEO performance, readability, and overall strengths and opportunities.",
-		contentAnalysisLink: "Learn more on how to improve your content with our content analysis tool",
-		contentAnalysisLinkScreenReader: "(Opens in a new browser tab)",
+		dashboardLearnMoreLink: "Learn more about the dashboard",
+		dashboardLearnMoreLinkScreenReader: "(Opens in a new browser tab)",
 	};
 
 	// The text is not retrievable with getByText due to the HTML. So below is a bit strange with the joins with and without spaces.
 	expect( container.querySelector( "p" ).textContent )
-		.toBe( [ [ text.description, text.contentAnalysisLink ].join( " " ), text.contentAnalysisLinkScreenReader, "." ].join( "" ) );
+		.toBe( [ [ text.description, text.dashboardLearnMoreLink ].join( " " ), text.dashboardLearnMoreLinkScreenReader, "." ].join( "" ) );
 
-	const contentAnalysisLink = getByRole( "link", {
-		name: [ text.contentAnalysisLink, text.contentAnalysisLinkScreenReader ].join( " " ),
+	const dashboardLearnMoreLink = getByRole( "link", {
+		name: [ text.dashboardLearnMoreLink, text.dashboardLearnMoreLinkScreenReader ].join( " " ),
 	} );
-	expect( contentAnalysisLink ).toHaveAttribute( "href", "https://example.com/content-analysis" );
-	expect( contentAnalysisLink ).toHaveAttribute( "target", "_blank" );
-	expect( contentAnalysisLink ).toHaveTextContent( text.contentAnalysisLink );
+	expect( dashboardLearnMoreLink ).toHaveAttribute( "href", "https://example.com/content-analysis" );
+	expect( dashboardLearnMoreLink ).toHaveAttribute( "target", "_blank" );
+	expect( dashboardLearnMoreLink ).toHaveTextContent( text.dashboardLearnMoreLink );
 };
 
 describe( "PageTitle", () => {
@@ -34,7 +34,7 @@ describe( "PageTitle", () => {
 			<PageTitle
 				userName="John"
 				features={ { indexables: true, seoAnalysis: true, readabilityAnalysis: true } }
-				links={ { contentAnalysis: "https://example.com/content-analysis" } }
+				links={ { dashboardLearnMore: "https://example.com/content-analysis" } }
 			/>
 		);
 
@@ -46,7 +46,7 @@ describe( "PageTitle", () => {
 			<PageTitle
 				userName="Bob"
 				features={ { indexables: true, seoAnalysis: false, readabilityAnalysis: false } }
-				links={ { contentAnalysis: "https://example.com/content-analysis" } }
+				links={ { dashboardLearnMore: "https://example.com/content-analysis" } }
 			/>
 		);
 
@@ -70,7 +70,7 @@ describe( "PageTitle", () => {
 			<PageTitle
 				userName="John"
 				features={ { indexables: false, seoAnalysis: true, readabilityAnalysis: true } }
-				links={ { contentAnalysis: "https://example.com/content-analysis" } }
+				links={ { dashboardLearnMore: "https://example.com/content-analysis" } }
 			/>
 		);
 

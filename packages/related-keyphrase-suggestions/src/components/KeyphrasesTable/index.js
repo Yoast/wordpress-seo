@@ -178,10 +178,10 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 	return <Table className={ className }>
 		<Table.Head>
 			<Table.Row>
-				<Table.Header>
+				<Table.Header className="yst-text-start">
 					{ __( "Related keyphrase", "wordpress-seo" ) }
 				</Table.Header>
-				<Table.Header>
+				<Table.Header className="yst-text-start">
 					{ __( "Intent", "wordpress-seo" ) }
 				</Table.Header>
 				<Table.Header>
@@ -189,7 +189,7 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 						{ __( "Volume", "wordpress-seo" ) }
 					</div>
 				</Table.Header>
-				<Table.Header>
+				<Table.Header className="yst-text-start">
 					{ __( "Trend", "wordpress-seo" ) }
 				</Table.Header>
 				<Table.Header className="yst-whitespace-nowrap">
