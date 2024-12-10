@@ -33,7 +33,7 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 		$results = [];
 
 		$content_type_name = $content_type->get_name();
-		$select            = $this->build_select( $seo_score_groups );
+		$select            = $this->build_select( $seo_score_groups, $is_troubleshooting );
 
 		$replacements = \array_merge(
 			\array_values( $select['replacements'] ),

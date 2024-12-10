@@ -33,7 +33,7 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 		$results = [];
 
 		$content_type_name = $content_type->get_name();
-		$select            = $this->build_select( $readability_score_groups );
+		$select            = $this->build_select( $readability_score_groups, $is_troubleshooting );
 
 		$replacements = \array_merge(
 			\array_values( $select['replacements'] ),
