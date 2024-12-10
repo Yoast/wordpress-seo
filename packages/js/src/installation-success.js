@@ -44,7 +44,7 @@ export function InstallationSuccessPage() {
 						</div>
 					</div>
 					<div>
-						<ArrowRightIcon className="yst-w-8 yst-text-gray-500" />
+						<ArrowRightIcon className="yst-w-8 yst-text-gray-500 rtl:yst-rotate-180" />
 					</div>
 					<div id="installation-success-card-configuration" className="yst-shrink-0 yst-shadow-xl yst-bg-primary-500 yst-rounded-lg yst-p-6 yst-flex yst-flex-col yst-max-w-sm yst-h-4/5 yst-leading-6">
 						<h2 className=" yst-text-white yst-text-2xl yst-leading-8 yst-font-extrabold">
@@ -76,7 +76,7 @@ export function InstallationSuccessPage() {
 								{ __( "Start first-time configuration!", "wordpress-seo" ) }
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									className="yst-ml-3 yst-mr-1 yst-h-5 yst-w-5"
+									className="yst-ms-3 yst-me-1 yst-h-5 yst-w-5 rtl:yst-rotate-180"
 									fill="none"
 									viewBox="0 0 24 24"
 									stroke="currentColor"
