@@ -22,12 +22,13 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 	 * @param Readability_Score_Groups_Interface[] $readability_score_groups All readability score groups.
 	 * @param Content_Type                         $content_type             The content type.
 	 * @param int|null                             $term_id                  The ID of the term we're filtering for.
+	 * @param bool|null                            $is_troubleshooting       Whether we're in troubleshooting mode.
 	 *
 	 * @return array<string, object|bool|float> The readability score results for a content type.
 	 *
 	 * @throws Score_Results_Not_Found_Exception When the query of getting score results fails.
 	 */
-	public function get_score_results( array $readability_score_groups, Content_Type $content_type, ?int $term_id ) {
+	public function get_score_results( array $readability_score_groups, Content_Type $content_type, ?int $term_id, ?bool $is_troubleshooting ) {
 		global $wpdb;
 		$results = [];
 
@@ -103,24 +104,30 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 	 * Builds the select statement for the readability scores query.
 	 *
 	 * @param Readability_Score_Groups_Interface[] $readability_score_groups All readability score groups.
+	 * @param bool|null                            $is_troubleshooting       Whether we're in troubleshooting mode.
 	 *
 	 * @return array<string, string> The select statement for the readability scores query.
 	 */
-	private function build_select( array $readability_score_groups ): array {
+	private function build_select( array $readability_score_groups, ?bool $is_troubleshooting ): array {
 		$select_fields       = [];
 		$select_replacements = [];
+
+		// When we don't troubleshoot, we're interested in the amount of posts in a group, when we troubleshoot we want to gather the actual IDs.
+		$select_operation = ( $is_troubleshooting === true ) ? 'GROUP_CONCAT' : 'COUNT';
+		$selected_info    = ( $is_troubleshooting === true ) ? 'I.object_id' : '1';
 
 		foreach ( $readability_score_groups as $readability_score_group ) {
 			$min  = $readability_score_group->get_min_score();
 			$max  = $readability_score_group->get_max_score();
 			$name = $readability_score_group->get_name();
 
-			if ( $min === null || $max === null ) {
-				$select_fields[]       = 'COUNT(CASE WHEN I.readability_score = 0 AND I.estimated_reading_time_minutes IS NULL THEN 1 END) AS %i';
+			if ( $min === null && $max === null ) {
+				$select_fields[]       = "{$select_operation}(CASE WHEN I.readability_score = 0 AND I.estimated_reading_time_minutes IS NULL THEN {$selected_info} END) AS %i";
 				$select_replacements[] = $name;
 			}
 			else {
-				$select_fields[]       = 'COUNT(CASE WHEN I.readability_score >= %d AND I.readability_score <= %d AND I.estimated_reading_time_minutes IS NOT NULL THEN 1 END) AS %i';
+				$needs_ert             = ( $min === 1 ) ? ' OR (I.readability_score = 0 AND I.estimated_reading_time_minutes IS NOT NULL)' : '';
+				$select_fields[]       = "{$select_operation}(CASE WHEN ( I.readability_score >= %d AND I.readability_score <= %d ){$needs_ert} THEN {$selected_info} END) AS %i";
 				$select_replacements[] = $min;
 				$select_replacements[] = $max;
 				$select_replacements[] = $name;

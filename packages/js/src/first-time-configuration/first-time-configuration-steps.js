@@ -159,7 +159,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
  * @returns {WPElement} The FirstTimeConfigurationSteps component.
  */
 export default function FirstTimeConfigurationSteps() {
-	const { removeAlert, resolveNotice, unresolveNotice } = useDispatch( STORE_NAME );
+	const { removeAlert, dismissNotice, restoreNotice } = useDispatch( STORE_NAME );
 	const [ finishedSteps, setFinishedSteps ] = useState( window.wpseoFirstTimeConfigurationData.finishedSteps );
 
 	const isStepFinished = useCallback( ( stepId ) => {
@@ -214,15 +214,15 @@ export default function FirstTimeConfigurationSteps() {
 
 	const resolveLocalNotice = useCallback( () => {
 		if ( state.companyLogo !== "" && state.companyLogoId !== 0 && state.companyName !== "" ) {
-			resolveNotice( "yoast-local-missing-organization-info-notice" );
+			dismissNotice( "yoast-local-missing-organization-info-notice" );
 		} else {
-			unresolveNotice( "yoast-local-missing-organization-info-notice" );
+			restoreNotice( "yoast-local-missing-organization-info-notice" );
 		}
-	}, [ resolveNotice, unresolveNotice, state.companyLogo, state.companyLogoId, state.companyName ] );
+	}, [ dismissNotice, restoreNotice, state.companyLogo, state.companyLogoId, state.companyName ] );
 
 	const resolveFTCNotice = useCallback( () => {
-		resolveNotice( "yoast-first-time-configuration-notice" );
-	}, [ resolveNotice ] );
+		dismissNotice( "yoast-first-time-configuration-notice" );
+	}, [ dismissNotice ] );
 
 	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ( ! state.companyLogo && ! state.companyLogoFallback ) || ! state.websiteName );
 	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ( ! state.personLogo && ! state.personLogoFallback ) || ! state.websiteName );

@@ -19,15 +19,16 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 	/**
 	 * Retrieves the SEO score results for a content type.
 	 *
-	 * @param SEO_Score_Groups_Interface[] $seo_score_groups All SEO score groups.
-	 * @param Content_Type                 $content_type     The content type.
-	 * @param int|null                     $term_id          The ID of the term we're filtering for.
+	 * @param SEO_Score_Groups_Interface[] $seo_score_groups   All SEO score groups.
+	 * @param Content_Type                 $content_type       The content type.
+	 * @param int|null                     $term_id            The ID of the term we're filtering for.
+	 * @param bool|null                    $is_troubleshooting Whether we're in troubleshooting mode.
 	 *
 	 * @return array<string, object|bool|float> The SEO score results for a content type.
 	 *
 	 * @throws Score_Results_Not_Found_Exception When the query of getting score results fails.
 	 */
-	public function get_score_results( array $seo_score_groups, Content_Type $content_type, ?int $term_id ) {
+	public function get_score_results( array $seo_score_groups, Content_Type $content_type, ?int $term_id, ?bool $is_troubleshooting ): array {
 		global $wpdb;
 		$results = [];
 
@@ -104,13 +105,18 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 	/**
 	 * Builds the select statement for the SEO scores query.
 	 *
-	 * @param SEO_Score_Groups_Interface[] $seo_score_groups All SEO score groups.
+	 * @param SEO_Score_Groups_Interface[] $seo_score_groups   All SEO score groups.
+	 * @param bool|null                    $is_troubleshooting Whether we're in troubleshooting mode.
 	 *
 	 * @return array<string, string> The select statement for the SEO scores query.
 	 */
-	private function build_select( array $seo_score_groups ): array {
+	private function build_select( array $seo_score_groups, ?bool $is_troubleshooting ): array {
 		$select_fields       = [];
 		$select_replacements = [];
+
+		// When we don't troubleshoot, we're interested in the amount of posts in a group, when we troubleshoot we want to gather the actual IDs.
+		$select_operation = ( $is_troubleshooting === true ) ? 'GROUP_CONCAT' : 'COUNT';
+		$selected_info    = ( $is_troubleshooting === true ) ? 'I.object_id' : '1';
 
 		foreach ( $seo_score_groups as $seo_score_group ) {
 			$min  = $seo_score_group->get_min_score();
@@ -118,11 +124,11 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 			$name = $seo_score_group->get_name();
 
 			if ( $min === null || $max === null ) {
-				$select_fields[]       = 'COUNT(CASE WHEN I.primary_focus_keyword_score IS NULL THEN 1 END) AS %i';
+				$select_fields[]       = "{$select_operation}(CASE WHEN I.primary_focus_keyword_score = 0 OR I.primary_focus_keyword_score IS NULL THEN {$selected_info} END) AS %i";
 				$select_replacements[] = $name;
 			}
 			else {
-				$select_fields[]       = 'COUNT(CASE WHEN I.primary_focus_keyword_score >= %d AND I.primary_focus_keyword_score <= %d THEN 1 END) AS %i';
+				$select_fields[]       = "{$select_operation}(CASE WHEN I.primary_focus_keyword_score >= %d AND I.primary_focus_keyword_score <= %d THEN {$selected_info} END) AS %i";
 				$select_replacements[] = $min;
 				$select_replacements[] = $max;
 				$select_replacements[] = $name;

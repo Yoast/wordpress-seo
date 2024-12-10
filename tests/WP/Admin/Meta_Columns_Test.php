@@ -86,11 +86,6 @@ final class Meta_Columns_Test extends TestCase {
 				'na',
 				[
 					[
-						'key'     => '_yoast_wpseo_meta-robots-noindex',
-						'value'   => 'needs-a-value-anyway',
-						'compare' => 'NOT EXISTS',
-					],
-					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
 						'value'   => 'needs-a-value-anyway',
 						'compare' => 'NOT EXISTS',
@@ -131,25 +126,24 @@ final class Meta_Columns_Test extends TestCase {
 			[
 				'bad',
 				[
+					'relation' => 'OR',
 					[
-						'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
-						'compare' => 'EXISTS',
+						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+						'value'   => [ 1, 40 ],
+						'type'    => 'numeric',
+						'compare' => 'BETWEEN',
 					],
 					[
-						'relation' => 'OR',
-						[
-							'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-							'value'   => 40,
-							'type'    => 'numeric',
-							'compare' => '<=',
-						],
 						[
 							'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
 							'value'   => 'needs-a-value-anyway',
 							'compare' => 'NOT EXISTS',
 						],
+						[
+							'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
+							'compare' => 'EXISTS',
+						],
 					],
-
 				],
 			],
 			[
@@ -181,6 +175,20 @@ final class Meta_Columns_Test extends TestCase {
 						'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
 						'value'   => 'needs-a-value-anyway',
 						'compare' => 'NOT EXISTS',
+					],
+					[
+						'relation' => 'OR',
+						[
+							'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+							'value'   => 1,
+							'type'    => 'numeric',
+							'compare' => '<',
+						],
+						[
+							'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+							'value'   => 'needs-a-value-anyway',
+							'compare' => 'NOT EXISTS',
+						],
 					],
 				],
 			],

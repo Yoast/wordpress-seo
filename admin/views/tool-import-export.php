@@ -21,7 +21,7 @@ $yoast_seo_import = false;
  * Yoast SEO that we can import stuff for that plugin.
  */
 // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only comparing the variable so no need to sanitize.
-if ( isset( $_POST['import_external'] ) && wp_unslash( $_POST['import_external'] ) === 'Import' ) {
+if ( isset( $_POST['import_external'] ) && wp_unslash( $_POST['import_external'] ) === __( 'Import', 'wordpress-seo' ) ) {
 	check_admin_referer( 'wpseo-import-plugins' );
 	if ( isset( $_POST['import_external_plugin'] ) && is_string( $_POST['import_external_plugin'] ) ) {
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are using the variable as a class name.
@@ -32,7 +32,7 @@ if ( isset( $_POST['import_external'] ) && wp_unslash( $_POST['import_external']
 	}
 }
 // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only comparing the variable so no need to sanitize.
-elseif ( isset( $_POST['clean_external'] ) && wp_unslash( $_POST['clean_external'] ) === 'Clean up' ) {
+elseif ( isset( $_POST['clean_external'] ) && wp_unslash( $_POST['clean_external'] ) === __( 'Clean up', 'wordpress-seo' ) ) {
 	check_admin_referer( 'wpseo-clean-plugins' );
 	if ( isset( $_POST['clean_external_plugin'] ) && is_string( $_POST['clean_external_plugin'] ) ) {
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are using the variable as a class name.

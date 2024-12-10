@@ -9,9 +9,7 @@ import PropTypes from "prop-types";
 import { NewButton, ButtonStyledLink } from "@yoast/components";
 
 /* Internal dependencies */
-import { ModalContainer } from "./modals/Container";
-import Modal from "./modals/Modal";
-import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
+import { Modal } from "@yoast/related-keyphrase-suggestions";
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
@@ -154,7 +152,11 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	 * @returns {wp.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
-		const { keyphrase, location, whichModalOpen, isLoggedIn, shouldCloseOnClickOutside, onClose } = this.props;
+		const { keyphrase, location, whichModalOpen, isLoggedIn, onClose, countryCode, learnMoreLink } = this.props;
+
+		const insightsLink = new URL( "https://www.semrush.com/analytics/keywordoverview/" );
+		insightsLink.searchParams.append( "q", keyphrase );
+		insightsLink.searchParams.append( "db", countryCode );
 
 		return (
 			<Fragment>
@@ -167,21 +169,16 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 						{ __( "Get related keyphrases", "wordpress-seo" ) }
 					</NewButton>
 				</div> }
-				{ keyphrase && whichModalOpen === location &&
-					<Modal
-						title={ __( "Related keyphrases", "wordpress-seo" ) }
-						onRequestClose={ onClose }
-						icon={ <YoastIcon /> }
-						additionalClassName="yoast-related-keyphrases-modal"
-						shouldCloseOnClickOutside={ shouldCloseOnClickOutside }
-					>
-						<ModalContainer
-							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
-						>
-							<Slot name="YoastRelatedKeyphrases" />
-						</ModalContainer>
-					</Modal>
-				}
+				<Modal
+					isOpen={ Boolean( keyphrase ) && whichModalOpen === location }
+					onClose={ onClose }
+					insightsLink={ insightsLink.toString() }
+					learnMoreLink={ learnMoreLink }
+				>
+
+					<Slot name="YoastRelatedKeyphrases" />
+
+				</Modal>
 				{ ! isLoggedIn && <div className={ "yoast" }>
 					<ButtonStyledLink
 						variant={ "secondary" }
@@ -218,7 +215,8 @@ SEMrushRelatedKeyphrasesModal.propTypes = {
 	onOpenWithNoKeyphrase: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
 	onAuthentication: PropTypes.func.isRequired,
-	shouldCloseOnClickOutside: PropTypes.bool,
+	countryCode: PropTypes.string,
+	learnMoreLink: PropTypes.string,
 };
 
 SEMrushRelatedKeyphrasesModal.defaultProps = {
@@ -226,7 +224,8 @@ SEMrushRelatedKeyphrasesModal.defaultProps = {
 	location: "",
 	whichModalOpen: "none",
 	isLoggedIn: false,
-	shouldCloseOnClickOutside: true,
+	countryCode: "en_US",
+	learnMoreLink: "",
 };
 
 export default SEMrushRelatedKeyphrasesModal;

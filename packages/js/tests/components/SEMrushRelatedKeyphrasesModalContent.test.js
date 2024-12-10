@@ -1,7 +1,4 @@
 import * as SEMrushRelatedKeyphrasesModalContent from "../../src/components/SEMrushRelatedKeyphrasesModalContent";
-import SEMrushLoading from "../../src/components/modals/SEMrushLoading";
-import SEMrushLimitReached from "../../src/components/modals/SEMrushLimitReached";
-import SEMrushRequestFailed from "../../src/components/modals/SEMrushRequestFailed";
 
 describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 	let props = {};
@@ -41,17 +38,6 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 	} );
 
 	describe( "getUserMessage", () => {
-		it( "returns the SEMrushLoading message when request is pending", () => {
-			props = {
-				...props,
-				isPending: true,
-			};
-
-			const actual = SEMrushRelatedKeyphrasesModalContent.getUserMessage( props );
-
-			expect( actual ).toEqual( <SEMrushLoading /> );
-		} );
-
 		it( "returns the SEMrushLimitReached message when request limit is reached", () => {
 			props = {
 				...props,
@@ -60,7 +46,7 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 
 			const actual = SEMrushRelatedKeyphrasesModalContent.getUserMessage( props );
 
-			expect( actual ).toEqual( <SEMrushLimitReached /> );
+			expect( actual ).toEqual( "requestLimitReached" );
 		} );
 
 		it( "returns the SEMrushRequestFailed message when request fails", () => {
@@ -75,13 +61,13 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 
 			const actual = SEMrushRelatedKeyphrasesModalContent.getUserMessage( props );
 
-			expect( actual ).toEqual( <SEMrushRequestFailed /> );
+			expect( actual ).toEqual( "requestFailed" );
 		} );
 
 		it( "returns a message when response contains no data", () => {
 			const actual = SEMrushRelatedKeyphrasesModalContent.getUserMessage( props );
 
-			expect( actual ).toEqual( <p>{ "Sorry, there's no data available for that keyphrase/country combination." }</p> );
+			expect( actual ).toEqual( "requestEmpty" );
 		} );
 	} );
 

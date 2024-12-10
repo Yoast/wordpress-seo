@@ -41,7 +41,7 @@ class Bad_Readability_Score_Group extends Abstract_Readability_Score_Group {
 	 * @return int The minimum score of the readability score group.
 	 */
 	public function get_min_score(): ?int {
-		return 0;
+		return 1;
 	}
 
 	/**
