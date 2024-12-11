@@ -1,8 +1,6 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { map, merge } from "lodash";
+import { merge } from "lodash";
 
-import { stripBlockTagsAtStartEnd as stripHTMLTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
-import marker from "../../../markers/addMark";
 import { createAnchorOpeningTag } from "../../../helpers";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import AssessmentResult from "../../../values/AssessmentResult";
@@ -199,19 +197,19 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	getMarks( paper, researcher ) {
 		const paragraphsLength = researcher.getResearch( "getParagraphLength" );
 		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength, this.getConfig( researcher ) );
-		return tooLongParagraphs.flatMap( ( { paragraph } ) =>
-			paragraph.sentences.map( sentence => new Mark( {
+		return tooLongParagraphs.flatMap( ( { paragraph } ) => {
+			return new Mark( {
 				position: {
-					startOffset: sentence.sourceCodeRange.startOffset,
-					endOffset: sentence.sourceCodeRange.endOffset,
-					startOffsetBlock: sentence.sourceCodeRange.startOffset - ( sentence.parentStartOffset || 0 ),
-					endOffsetBlock: sentence.sourceCodeRange.endOffset - ( sentence.parentStartOffset || 0 ),
-					clientId: sentence.parentClientId || "",
-					attributeId: sentence.parentAttributeId || "",
-					isFirstSection: sentence.isParentFirstSectionOfBlock || false,
+					startOffset: paragraph.sourceCodeLocation.startTag.endOffset,
+					endOffset: paragraph.sourceCodeLocation.endTag.startOffset,
+					startOffsetBlock: 0,
+					endOffsetBlock: paragraph.sourceCodeLocation.endOffset - paragraph.sourceCodeLocation.startOffset,
+					clientId: paragraph.clientId || "",
+					attributeId: paragraph.parentAttributeId || "",
+					isFirstSection: paragraph.isParentFirstSectionOfBlock || false,
 				},
-			} ) )
-		);
+			} );
+		} );
 	}
 
 	/**
