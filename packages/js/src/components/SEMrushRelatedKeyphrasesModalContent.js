@@ -72,18 +72,13 @@ export function getUserMessage( props ) {
 export default function RelatedKeyphraseModalContent( props ) {
 	const {
 		response,
-		lastRequestKeyphrase,
 		keyphrase,
 		newRequest,
 		setCountry,
 		renderAction,
 		countryCode,
 		requestLimitReached,
-		setRequestFailed,
-		setNoResultsFound,
 		relatedKeyphrases,
-		setRequestSucceeded,
-		setRequestLimitReached,
 		isPending,
 		isRtl,
 		isPremium,
@@ -103,12 +98,6 @@ export default function RelatedKeyphraseModalContent( props ) {
 				setCountry={ setCountry }
 				newRequest={ newRequest }
 				keyphrase={ keyphrase }
-				setRequestFailed={ setRequestFailed }
-				setNoResultsFound={ setNoResultsFound }
-				setRequestSucceeded={ setRequestSucceeded }
-				setRequestLimitReached={ setRequestLimitReached }
-				response={ response }
-				lastRequestKeyphrase={ lastRequestKeyphrase }
 				userLocale={ userLocale.split( "_" )[ 0 ] }
 			/> }
 
@@ -137,12 +126,7 @@ RelatedKeyphraseModalContent.propTypes = {
 	countryCode: PropTypes.string.isRequired,
 	setCountry: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
-	setRequestSucceeded: PropTypes.func.isRequired,
-	setRequestLimitReached: PropTypes.func.isRequired,
-	setRequestFailed: PropTypes.func.isRequired,
-	setNoResultsFound: PropTypes.func.isRequired,
 	response: PropTypes.object,
-	lastRequestKeyphrase: PropTypes.string,
 	isRtl: PropTypes.bool,
 	userLocale: PropTypes.string,
 	isPending: PropTypes.bool,
@@ -155,7 +139,6 @@ RelatedKeyphraseModalContent.defaultProps = {
 	renderAction: null,
 	requestLimitReached: false,
 	response: {},
-	lastRequestKeyphrase: "",
 	isRtl: false,
 	userLocale: "en_US",
 	isPending: false,
