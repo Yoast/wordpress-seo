@@ -15,6 +15,9 @@ import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
  * @returns {boolean} Whether or not the error property is present.
  */
 export function hasError( response ) {
+	if ( response?.code === "invalid_json" ) {
+		return true;
+	}
 	return ! isEmpty( response ) && "error" in response;
 }
 

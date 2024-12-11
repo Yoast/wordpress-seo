@@ -35,6 +35,14 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 
 			expect( actual ).toBe( true );
 		} );
+		it( "returns true when there is no internet connection", () => {
+			const actual = SEMrushRelatedKeyphrasesModalContent.hasError( {
+				code: "invalid_json",
+				message: "The response is not a valid JSON response.",
+			} );
+
+			expect( actual ).toBe( true );
+		} );
 	} );
 
 	describe( "getUserMessage", () => {
