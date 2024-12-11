@@ -34,6 +34,7 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 			onClose: jest.fn(),
 			onAuthentication: jest.fn(),
 			location: "metabox",
+			newRequest: jest.fn(),
 		};
 	} );
 
