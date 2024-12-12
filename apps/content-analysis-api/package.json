@@ -7,7 +7,7 @@
         "start": "node index.js"
     },
     "dependencies": {
-        "express": "^4.19.2",
+        "express": "^5.0.1",
         "yoastseo": "link:../../packages/yoastseo"
     }
 }
