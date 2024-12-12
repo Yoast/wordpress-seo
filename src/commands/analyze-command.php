@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Commands;
 
 use WP_CLI;
+use WPSEO_Utils;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Main;
 
@@ -50,67 +51,59 @@ class Analyse_Command implements Command_Interface {
 	 * @return void
 	 */
 	public function analyze( $args = null, $assoc_args = null ) {
-
-		if ( isset( $assoc_args['post-id'] ) ) {
-			WP_CLI::log(
-				\__( 'You should specify the id of the post to analyse.', 'wordpress-seo' )
-			);
-
-			return;
-		}
-
 		$posts = [];
 
-		if(isset($assoc_args['post-id'] )) {
+		if ( isset( $assoc_args['post-id'] ) ) {
 			$posts[] = \get_post( $assoc_args['post-id'] );
-		}else{
-			$posts = \get_posts(['numberposts'=>1000000000000]);
+		}
+		else {
+			$posts = \get_posts( [ 'numberposts' => -1 ] );
 		}
 		foreach ( $posts as $post ) {
 			$seo_description = $this->meta->get_value( 'metadesc', $post->ID );
 			$seo_title       = $this->meta->get_value( 'title', $post->ID );
 			$focus_kw        = $this->meta->get_value( 'focuskw', $post->ID );
-
-
-			$post_content = $post->post_content;
+			$post_content    = $post->post_content;
 
 			$url  = 'http://localhost:3000/analyze';
-			$body = json_encode( [
-				'text'        => $post_content,
-				'description' => $seo_description,
-				'slug'        => $post->post_name,
-				'permalink'   => get_permalink( $post->ID ),
-				'title'       => $seo_title,
-				'textTitle'   => $post->post_title,
-				'keyword'     => $focus_kw,
-			] );
+			$body = WPSEO_Utils::format_json_encode(
+				[
+					'text'        => $post_content,
+					'description' => $seo_description,
+					'slug'        => $post->post_name,
+					'permalink'   => \get_permalink( $post->ID ),
+					'title'       => $seo_title,
+					'textTitle'   => $post->post_title,
+					'keyword'     => $focus_kw,
+				]
+			);
 
-			$ch = curl_init( $url );
+			$ch = \curl_init( $url );
 
-			curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
-			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-			curl_setopt( $ch, CURLOPT_HTTPHEADER, [
+			\curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
+			\curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+			\curl_setopt( $ch, CURLOPT_HTTPHEADER, [
 				'Content-Type: application/json',
 				'Content-Length: ' . strlen( $body ),
 			] );
-			curl_setopt( $ch, CURLOPT_POSTFIELDS, $body );
+			\curl_setopt( $ch, CURLOPT_POSTFIELDS, $body );
 
-			$response = curl_exec( $ch );
+			$response = \curl_exec( $ch );
 
-			if ( curl_errno( $ch ) ) {
-				WP_CLI::error( 'Failed to get a response from the analysis server: ' . curl_error( $ch ) );
+			if ( \curl_errno( $ch ) ) {
+				WP_CLI::error( 'Failed to get a response from the analysis server: ' . \curl_error( $ch ) );
 			}
 			else {
 				if ( $assoc_args['save'] ) {
-					$unpack_response = json_decode( $response );
+					$unpack_response = \json_decode( $response );
 					$this->meta->set_value( 'content_score', (string) $unpack_response->readabilityScore, $post->ID );
 					$this->meta->set_value( 'linkdex', (string) $unpack_response->seoScore, $post->ID );
 				}
-				$unpack_response = json_decode( $response );
-				WP_CLI::success( 'Analyzed post: '.$post->ID ." : " . $unpack_response->readabilityScore );
+				$unpack_response = \json_decode( $response );
+				WP_CLI::success( 'Analyzed post '.$post->ID ." - SEO score: ". $unpack_response->seoScore . " - Readability score: " . $unpack_response->readabilityScore );
 			}
 
-			curl_close( $ch );
+			\curl_close( $ch );
 		}
 	}
 }
