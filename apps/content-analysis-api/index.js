@@ -90,7 +90,9 @@ app.get( "/analyze", ( request, response ) => {
 
 	response.json( {
 		seo: seoAssessor.getValidResults().map( resultToVM ),
+		seoScore: seoAssessor.calculateOverallScore(),
 		readability: contentAssessor.getValidResults().map( resultToVM ),
+		readabilityScore: contentAssessor.calculateOverallScore(),
 		relatedKeyword: relatedKeywordAssessor.getValidResults().map( resultToVM ),
 		inclusiveLanguage: inclusiveLanguageAssessor.getValidResults().map( resultToVM ),
 	} );
