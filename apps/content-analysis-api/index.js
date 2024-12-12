@@ -1,7 +1,6 @@
 const { Paper, App, interpreters, languageProcessing, assessments, helpers, assessors } = require( "yoastseo" );
 const express = require( "express" );
-const LanguageProcessor = require( "yoastseo/src/parse/language/LanguageProcessor" );
-const { SEOAssessor, ContentAssessor, RelatedKeywordAssessor, InclusiveLanguageAssessor } = assessors;
+const { SEOAssessor, ContentAssessor, RelatedKeywordAssessor, InclusiveLanguageAssessor, MetaDescriptionAssessor } = assessors;
 
 // Premium assessments
 const keyphraseDistribution = languageProcessing.researches.keyphraseDistribution;
@@ -200,19 +199,20 @@ app.get( "/research/word-count", ( request, response ) => {
 	response.json( { count: wordCount.count, unit: wordCount.unit } );
 } );
 
-app.get( "/tokenize/", ( request, response ) => {
+app.get( "/analyze/meta-description", ( request, response ) => {
+	if ( ! request.body.description ) {
+		return response.status( 400 ).json( { error: "Description is required" } );
+	}
 	const language = request.body.locale || "en";
 	const researcher = getResearcher( language );
+	const assessor = new MetaDescriptionAssessor( researcher );
 	const paper = new Paper(
 		request.body.text || "",
 		request.body || {}
 	);
-	const languageProcessor = new LanguageProcessor( researcher );
-	researcher.setPaper( paper );
-	const = researcher.getResearch( "" );
-	response.json( { count: wordCount.count, unit: wordCount.unit } );
+	assessor.assess( paper );
+	response.json( assessor.getValidResults().map( resultToVM ) );
 } );
-
 
 // Failing example using the App class. App uses createMeasurementElement, which is a browser-only function.
 app.get( "/app", ( req, res ) => {
