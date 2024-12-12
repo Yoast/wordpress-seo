@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Main;
  * Command to generate indexables for all posts and terms.
  */
 class Analyse_Command implements Command_Interface {
+
 	/**
 	 * @var Meta_Helper
 	 */
@@ -78,13 +79,17 @@ class Analyse_Command implements Command_Interface {
 
 			$ch = \curl_init( $url );
 
-			\curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
-			\curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-			\curl_setopt( $ch, CURLOPT_HTTPHEADER, [
-				'Content-Type: application/json',
-				'Content-Length: ' . strlen( $body ),
-			] );
-			\curl_setopt( $ch, CURLOPT_POSTFIELDS, $body );
+			\curl_setopt( $ch, \CURLOPT_CUSTOMREQUEST, 'GET' );
+			\curl_setopt( $ch, \CURLOPT_RETURNTRANSFER, true );
+			\curl_setopt(
+				$ch,
+				\CURLOPT_HTTPHEADER,
+				[
+					'Content-Type: application/json',
+					'Content-Length: ' . \strlen( $body ),
+				]
+			);
+			\curl_setopt( $ch, \CURLOPT_POSTFIELDS, $body );
 
 			$response = \curl_exec( $ch );
 
@@ -92,13 +97,13 @@ class Analyse_Command implements Command_Interface {
 				WP_CLI::error( 'Failed to get a response from the analysis server: ' . \curl_error( $ch ) );
 			}
 			else {
-				if ( $assoc_args['save'] ) {
+				if ( isset( $assoc_args['save'] ) && $assoc_args['save'] ) {
 					$unpack_response = \json_decode( $response );
 					$this->meta->set_value( 'content_score', (string) $unpack_response->readabilityScore, $post->ID );
 					$this->meta->set_value( 'linkdex', (string) $unpack_response->seoScore, $post->ID );
 				}
 				$unpack_response = \json_decode( $response );
-				WP_CLI::success( 'Analyzed post '.$post->ID ." - SEO score: ". $unpack_response->seoScore . " - Readability score: " . $unpack_response->readabilityScore );
+				WP_CLI::success( 'Analyzed post ' . $post->ID . ' - SEO score: ' . ( $unpack_response->seoScore < 0 ? '0' : $unpack_response->seoScore ) . ' - Readability score: ' . $unpack_response->readabilityScore );
 			}
 
 			\curl_close( $ch );
