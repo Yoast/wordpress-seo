@@ -1,5 +1,6 @@
 const { Paper, App, interpreters, languageProcessing, assessments, helpers, assessors } = require( "yoastseo" );
 const express = require( "express" );
+const LanguageProcessor = require( "yoastseo/src/parse/language/LanguageProcessor" );
 const { SEOAssessor, ContentAssessor, RelatedKeywordAssessor, InclusiveLanguageAssessor } = assessors;
 
 // Premium assessments
@@ -185,6 +186,33 @@ app.get( "/research/flesch-reading-ease", ( request, response ) => {
 	const fleschReadingEaseScore = researcher.getResearch( "getFleschReadingScore" );
 	response.json( { score: fleschReadingEaseScore.score, difficulty: fleschReadingEaseScore.difficulty } );
 } );
+
+
+app.get( "/research/word-count", ( request, response ) => {
+	const language = request.body.locale || "en";
+	const researcher = getResearcher( language );
+	const paper = new Paper(
+		request.body.text || "",
+		request.body || {}
+	);
+	researcher.setPaper( paper );
+	const wordCount = researcher.getResearch( "wordCountInText" );
+	response.json( { count: wordCount.count, unit: wordCount.unit } );
+} );
+
+app.get( "/tokenize/", ( request, response ) => {
+	const language = request.body.locale || "en";
+	const researcher = getResearcher( language );
+	const paper = new Paper(
+		request.body.text || "",
+		request.body || {}
+	);
+	const languageProcessor = new LanguageProcessor( researcher );
+	researcher.setPaper( paper );
+	const = researcher.getResearch( "" );
+	response.json( { count: wordCount.count, unit: wordCount.unit } );
+} );
+
 
 // Failing example using the App class. App uses createMeasurementElement, which is a browser-only function.
 app.get( "/app", ( req, res ) => {
