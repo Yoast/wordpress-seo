@@ -1,6 +1,6 @@
 const { Paper, App, interpreters, languageProcessing, assessments, helpers, assessors } = require( "yoastseo" );
 const express = require( "express" );
-const { SEOAssessor, ContentAssessor, RelatedKeywordAssessor, InclusiveLanguageAssessor } = assessors;
+const { SEOAssessor, ContentAssessor, RelatedKeywordAssessor, InclusiveLanguageAssessor, MetaDescriptionAssessor } = assessors;
 
 // Premium assessments
 const keyphraseDistribution = languageProcessing.researches.keyphraseDistribution;
@@ -184,6 +184,21 @@ app.get( "/research/flesch-reading-ease", ( request, response ) => {
 	researcher.setPaper( paper );
 	const fleschReadingEaseScore = researcher.getResearch( "getFleschReadingScore" );
 	response.json( { score: fleschReadingEaseScore.score, difficulty: fleschReadingEaseScore.difficulty } );
+} );
+
+app.get( "/analyze/meta-description", ( request, response ) => {
+	if ( ! request.body.description ) {
+		return response.status( 400 ).json( { error: "Description is required" } );
+	}
+	const language = request.body.locale || "en";
+	const researcher = getResearcher( language );
+	const assessor = new MetaDescriptionAssessor( researcher );
+	const paper = new Paper(
+		request.body.text || "",
+		request.body || {}
+	);
+	assessor.assess( paper );
+	response.json( assessor.getValidResults().map( resultToVM ) );
 } );
 
 // Failing example using the App class. App uses createMeasurementElement, which is a browser-only function.
