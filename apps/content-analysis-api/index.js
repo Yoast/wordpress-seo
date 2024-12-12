@@ -50,9 +50,13 @@ const resultToVM = ( result ) => {
 const app = express();
 app.use( express.json() );
 
-app.get( "/analyze", ( request, response ) => {
-	// Fetch the Researcher and set the morphology data for the given language (yes, this is a bit hacky)
-	const language = request.body.locale || "en";
+/**
+ * Get a Researcher instance for a specific language.
+ *
+ * @param {string} language The language to get the Researcher for.
+ * @returns {Researcher} The Researcher instance.
+ */
+const getResearcher = ( language ) => {
 	const dataVersion = MORPHOLOGY_VERSIONS[ language ];
 	// eslint-disable-next-line global-require
 	const { "default": Researcher } = require( `yoastseo/build/languageProcessing/languages/${language}/Researcher` );
@@ -68,6 +72,15 @@ app.get( "/analyze", ( request, response ) => {
 		researcher.addConfig( "wordComplexity", helpers.getWordComplexityConfig( language ) );
 	}
 	researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
+
+	return researcher;
+};
+
+app.get( "/analyze", ( request, response ) => {
+	// Fetch the Researcher and set the morphology data for the given language (yes, this is a bit hacky)
+	const language = request.body.locale || "en";
+
+	const researcher = getResearcher( language );
 
 	const seoAssessor = new SEOAssessor( researcher );
 	seoAssessor.addAssessment("keyphraseDistribution", new KeyphraseDistributionAssessment());
@@ -96,6 +109,58 @@ app.get( "/analyze", ( request, response ) => {
 	} );
 } );
 
+app.get( "/analyze/seo", ( request, response ) => {
+	const language = request.body.locale || "en";
+	const researcher = getResearcher( language );
+	const assessor = new SEOAssessor( researcher );
+	assessor.addAssessment("keyphraseDistribution", new KeyphraseDistributionAssessment());
+	assessor.addAssessment("TextTitleAssessment", new TextTitleAssessment());
+
+	const paper = new Paper(
+		request.body.text || "",
+		request.body || {}
+	);
+	assessor.assess( paper );
+	response.json( assessor.getValidResults().map( resultToVM ) );
+} );
+
+app.get( "/analyze/readability", ( request, response ) => {
+	const language = request.body.locale || "en";
+	const researcher = getResearcher( language );
+	const assessor = new ContentAssessor( researcher );
+	assessor.addAssessment("wordComplexity", new WordComplexityAssessment());
+	assessor.addAssessment("textAlignment", new TextAlignmentAssessment());
+	const paper = new Paper(
+		request.body.text || "",
+		request.body || {}
+	);
+	assessor.assess( paper );
+	response.json( assessor.getValidResults().map( resultToVM ) );
+} );
+
+app.get( "/analyze/related-keyphrase", ( request, response ) => {
+	const language = request.body.locale || "en";
+	const researcher = getResearcher( language );
+	const assessor = new RelatedKeywordAssessor( researcher );
+	const paper = new Paper(
+		request.body.text || "",
+		request.body || {}
+	);
+	assessor.assess( paper );
+	response.json( assessor.getValidResults().map( resultToVM ) );
+} );
+
+app.get( "/analyze/inclusive-language", ( request, response ) => {
+	const language = request.body.locale || "en";
+	const researcher = getResearcher( language );
+	const assessor = new InclusiveLanguageAssessor( researcher );
+	const paper = new Paper(
+		request.body.text || "",
+		request.body || {}
+	);
+	assessor.assess( paper );
+	response.json( assessor.getValidResults().map( resultToVM ) );
+} );
 
 // Failing example using the App class. App uses createMeasurementElement, which is a browser-only function.
 app.get( "/app", ( req, res ) => {

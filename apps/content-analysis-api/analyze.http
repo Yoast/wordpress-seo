@@ -1,4 +1,4 @@
-### Creates a new request
+### Creates a new request for all analysis types
 GET http://localhost:3000/analyze
 Content-Type: application/json
 
@@ -7,7 +7,42 @@ Content-Type: application/json
     "keyword": "Yoast SEO"
 }
 
-### Run a request in a different language
+### Creates a new request for an SEO analysis
+GET http://localhost:3000/analyze/seo
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>",
+    "keyword": "Yoast SEO"
+}
+
+### Creates a new request for a readability analysis
+GET http://localhost:3000/analyze/readability
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>"
+}
+
+### Creates a new request for a related keyphrase analysis
+GET http://localhost:3000/analyze/related-keyphrase
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>",
+    "keyword": "Yoast SEO"
+}
+
+### Creates a new request for an inclusive language analysis
+GET http://localhost:3000/analyze/inclusive-language
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>",
+    "keyword": "Yoast SEO"
+}
+
+### Run a request for all analysis in a different language
 GET http://localhost:3000/analyze
 Content-Type: application/json
 
