@@ -1,6 +1,14 @@
 const { Paper, App, interpreters, languageProcessing, assessments, helpers, assessors } = require( "yoastseo" );
 const express = require( "express" );
-const { SEOAssessor, ContentAssessor, RelatedKeywordAssessor, InclusiveLanguageAssessor, MetaDescriptionAssessor } = assessors;
+const { SEOAssessor,
+	ContentAssessor,
+	RelatedKeywordAssessor,
+	InclusiveLanguageAssessor,
+	MetaDescriptionAssessor,
+	SeoTitleAssessor,
+	KeyphraseUseAssessor,
+	KeyphraseAssessor
+} = assessors;
 
 // Premium assessments
 const keyphraseDistribution = languageProcessing.researches.keyphraseDistribution;
@@ -206,6 +214,53 @@ app.get( "/analyze/meta-description", ( request, response ) => {
 	const language = request.body.locale || "en";
 	const researcher = getResearcher( language );
 	const assessor = new MetaDescriptionAssessor( researcher );
+	const paper = new Paper(
+		request.body.text || "",
+		request.body || {}
+	);
+	assessor.assess( paper );
+	response.json( assessor.getValidResults().map( resultToVM ) );
+} );
+
+app.get( "/analyze/seo-title", ( request, response ) => {
+	if ( ! request.body.title ) {
+		return response.status( 400 ).json( { error: "Title is required" } );
+	}
+	const language = request.body.locale || "en";
+	const researcher = getResearcher( language );
+	const assessor = new SeoTitleAssessor( researcher );
+	const paper = new Paper(
+		request.body.text || "",
+		request.body || {}
+	);
+	assessor.assess( paper );
+	response.json( assessor.getValidResults().map( resultToVM ) );
+} );
+
+app.get( "/analyze/keyphrase", ( request, response ) => {
+	if ( ! request.body.keyword ) {
+		return response.status( 400 ).json( { error: "Keyword is required" } );
+	}
+	const language = request.body.locale || "en";
+	const researcher = getResearcher( language );
+	const assessor = new KeyphraseAssessor( researcher );
+	const paper = new Paper(
+		request.body.text || "",
+		request.body || {}
+	);
+	assessor.assess( paper );
+	response.json( assessor.getValidResults().map( resultToVM ) );
+} );
+
+app.get( "/analyze/keyphrase-use", ( request, response ) => {
+	if ( ! request.body.keyword ) {
+		return response.status( 400 ).json( { error: "Keyword is required" } );
+	}
+	const language = request.body.locale || "en";
+	const researcher = getResearcher( language );
+	const assessor = new KeyphraseUseAssessor( researcher );
+	assessor.addAssessment("keyphraseDistribution", new KeyphraseDistributionAssessment());
+
 	const paper = new Paper(
 		request.body.text || "",
 		request.body || {}
