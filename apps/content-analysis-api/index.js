@@ -162,6 +162,30 @@ app.get( "/analyze/inclusive-language", ( request, response ) => {
 	response.json( assessor.getValidResults().map( resultToVM ) );
 } );
 
+app.get( "/research/estimated-reading-time", ( request, response ) => {
+	const language = request.body.locale || "en";
+	const researcher = getResearcher( language );
+	const paper = new Paper(
+		request.body.text || "",
+		request.body || {}
+	);
+	researcher.setPaper( paper );
+	const estimatedReadingTime = researcher.getResearch( "readingTime" );
+	response.json( { time: estimatedReadingTime } );
+} );
+
+app.get( "/research/flesch-reading-ease", ( request, response ) => {
+	const language = request.body.locale || "en";
+	const researcher = getResearcher( language );
+	const paper = new Paper(
+		request.body.text || "",
+		request.body || {}
+	);
+	researcher.setPaper( paper );
+	const fleschReadingEaseScore = researcher.getResearch( "getFleschReadingScore" );
+	response.json( { score: fleschReadingEaseScore.score, difficulty: fleschReadingEaseScore.difficulty } );
+} );
+
 // Failing example using the App class. App uses createMeasurementElement, which is a browser-only function.
 app.get( "/app", ( req, res ) => {
 	const contentAnalysis = new App( {
