@@ -35,3 +35,6 @@ export { default as StorePostsAndPagesSEOAssessor } from "./storePostsAndPages/s
 
 // Field-specific assessors.
 export { default as MetaDescriptionAssessor } from "./metaDescriptionAssessor.js";
+export { default as SeoTitleAssessor } from "./seoTitleAssessor.js";
+export { default as KeyphraseUseAssessor } from "./keyphraseUseAssessor.js";
+export { default as KeyphraseAssessor } from "./keyphraseAssessor.js";

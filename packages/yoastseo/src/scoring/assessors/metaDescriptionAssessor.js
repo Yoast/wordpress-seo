@@ -3,11 +3,11 @@ import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescription
 import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
 
 /**
- * The SEOAssessor class is used for the general SEO analysis.
+ * The Assessor class that is used for the assessment of the meta description.
  */
 export default class MetaDescriptionAssessor extends Assessor {
 	/**
-	 * Creates a new SEOAssessor instance.
+	 * Creates a new MetaDescriptionAssessor instance.
 	 * @param {Researcher}	researcher	The researcher to use.
 	 * @param {Object}		[options]	The assessor options.
 	 */
