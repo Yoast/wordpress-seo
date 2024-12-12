@@ -16,11 +16,9 @@ class Analyse_Command implements Command_Interface {
 	 */
 	private $meta;
 
-
-	public function __construct( Meta_Helper $meta, ) {
+	public function __construct( Meta_Helper $meta ) {
 		$this->meta = $meta;
 	}
-
 
 	/**
 	 * Gets the namespace.
