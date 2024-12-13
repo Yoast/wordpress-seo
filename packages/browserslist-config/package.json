@@ -27,6 +27,9 @@
   },
   "devDependencies": {
     "browserslist": "^4.7.3",
+    "eslint": "^9.16.0",
+    "eslint-config-yoast": "^6.0.0",
+    "globals": "^15.13.0",
     "jest": "^29.7.0"
   }
 }
