@@ -125,8 +125,9 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	), [] );
 	const schemaDescription = useMemo( () => addLinkToString(
 		sprintf(
-			// eslint-disable-next-line max-len
-			// translators: %1$s expands to the post type plural, e.g. posts. %2$s and %3$s expand to opening and closing anchor tag. %4$s expands to "Yoast SEO".
+			/* translators: %1$s expands to the post type plural, e.g. posts.
+			 * %2$s and %3$s expand to opening and closing anchor tag. %4$s expands to "Yoast SEO".
+			 */
 			__( "Determine how your %1$s should be described by default in %2$syour site's Schema.org markup%3$s. You can always change the settings for individual %1$s in the %4$s sidebar or metabox.", "wordpress-seo" ),
 			labelLower,
 			"<a>",
