@@ -110,7 +110,6 @@ export default function WorkoutsPage( props ) {
 			</h1>
 			<p id="workouts-page-description">
 				{ __(
-					// eslint-disable-next-line max-len
 					"Getting your site in shape and keeping it SEO fit can be hard. We can help you get started! Take these step-by-step workouts, and you’ll be tackling some of the most fundamental SEO challenges!",
 					"wordpress-seo"
 				) }
