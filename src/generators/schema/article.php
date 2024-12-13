@@ -58,11 +58,11 @@ class Article extends Abstract_Schema_Piece {
 		];
 
 		if ( \strtotime( $this->context->post->post_modified_gmt ) > \strtotime( $this->context->post->post_date_gmt ) ) {
-			$data['dateModified']  = $this->helpers->date->format( $this->context->post->post_modified_gmt );
+			$data['dateModified'] = $this->helpers->date->format( $this->context->post->post_modified_gmt );
 		}
-			
+
 		$data['mainEntityOfPage'] = [ '@id' => $this->context->main_schema_id ];
-		$data['wordCount'] = $this->word_count( $this->context->post->post_content, $this->context->post->post_title );
+		$data['wordCount']        = $this->word_count( $this->context->post->post_content, $this->context->post->post_title );
 
 		if ( $this->context->post->comment_status === 'open' ) {
 			$data['commentCount'] = \intval( $this->context->post->comment_count, 10 );
