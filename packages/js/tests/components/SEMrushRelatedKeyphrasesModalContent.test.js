@@ -1,6 +1,5 @@
 import RelatedKeyphraseModalContent, { hasError, getUserMessage, hasMaximumRelatedKeyphrases } from "../../src/components/SEMrushRelatedKeyphrasesModalContent";
 import { render } from "../test-utils";
-import { expect } from "@jest/globals";
 
 const succesfulResponse = {
 	results: {
@@ -206,21 +205,6 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 			expect( link ).toHaveAttribute( "href", "https://yoa.st/413" );
 		} );
 
-		it( "renders the results and with premium", async() => {
-			props = {
-				...props,
-				isPremium: true,
-				renderAction: jest.fn( () => <button>Add</button> ),
-				requestHasData: true,
-				response: succesfulResponse,
-			};
-
-			const { getAllByRole } = render( <RelatedKeyphraseModalContent { ...props } /> );
-
-			const buttons = getAllByRole( "button", { name: /Add/i } );
-			expect( buttons ).toHaveLength( 10 );
-		} );
-
 		it( "renders the no results alert", async() => {
 			props = {
 				...props,
@@ -284,6 +268,69 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 			const { queryByText } = render( <RelatedKeyphraseModalContent { ...props } /> );
 			const alert = queryByText( "You've reached the maximum amount of 4 related keyphrases. You can change or remove related keyphrases in the Yoast SEO metabox or sidebar." );
 			expect( alert ).toBeInTheDocument();
+		} );
+	} );
+
+	describe( "RelatedKeyphraseModalContent table content", () => {
+		let renderResult;
+		let rowsWithId;
+
+		beforeEach( () => {
+			props = {
+				...props,
+				isPremium: true,
+				renderAction: jest.fn( () => <button>Add</button> ),
+				requestHasData: true,
+				response: succesfulResponse,
+			};
+			renderResult = render( <RelatedKeyphraseModalContent { ...props } /> );
+			const { getAllByRole } = renderResult;
+			const rows = getAllByRole( "row" );
+			// The results rows accepts an id while the header row and hidden table row do not.
+			rowsWithId = rows.filter( row => row.hasAttribute( "id" ) );
+		} );
+
+		it( "renders the results and with add button when premium is active", async() => {
+			const { getAllByRole } = renderResult;
+			const buttons = getAllByRole( "button", { name: /Add/i } );
+			expect( buttons ).toHaveLength( 10 );
+		} );
+
+		it( "render the 10 rows for the results", () => {
+			expect( rowsWithId ).toHaveLength( 10 );
+		} );
+
+		it( "render the keyphrases", () => {
+			const expectedKeyphrases = succesfulResponse.results.rows.map( row => row[ 0 ] );
+			expectedKeyphrases.forEach( ( keyphrase, index ) => {
+				expect( rowsWithId[ index ] ).toHaveTextContent( keyphrase );
+			} );
+		} );
+
+		it( "render the search volume", () => {
+			const searchVolumeFormat = new Intl.NumberFormat( "en", { notation: "compact", compactDisplay: "short" } );
+			const expectedSearchVolumes = succesfulResponse.results.rows.map( row => row[ 1 ] );
+			expectedSearchVolumes.forEach( ( searchVolume, index ) => {
+				const volume = searchVolumeFormat.format( searchVolume );
+				expect( rowsWithId[ index ] ).toHaveTextContent( volume );
+			} );
+		} );
+
+		it( "render the intent badges", () => {
+			const expectedIntents = succesfulResponse.results.rows.map( row => row[ 4 ] );
+			expectedIntents.forEach( ( intentList, index ) => {
+				const intents = intentList.split( "," ).map( ( value ) => [ "i", "n", "t", "c" ][ Number( value ) ] );
+				intents.forEach( ( intent ) => {
+					expect( rowsWithId[ index ] ).toHaveTextContent( intent );
+				} );
+			} );
+		} );
+
+		it( "render the keyword difficulty index", () => {
+			const expectedKeywordDifficultyIndexes = succesfulResponse.results.rows.map( row => row[ 3 ] );
+			expectedKeywordDifficultyIndexes.forEach( ( keywordDifficultyIndex, index ) => {
+				expect( rowsWithId[ index ] ).toHaveTextContent( keywordDifficultyIndex );
+			} );
 		} );
 	} );
 } );
