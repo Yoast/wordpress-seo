@@ -1,11 +1,8 @@
-/* External dependencies */
-import { KeyphrasesTable, UserMessage, PremiumUpsell } from "@yoast/related-keyphrase-suggestions";
+import { useCallback, useState } from "@wordpress/element";
+import { CountrySelector, KeyphrasesTable, UserMessage, PremiumUpsell } from "@yoast/related-keyphrase-suggestions";
 import { Root } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
-
-/* Internal dependencies */
-import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
 
 /**
  * Determines whether the error property is present in the passed response object.
@@ -88,6 +85,18 @@ export default function RelatedKeyphraseModalContent( props ) {
 		userLocale,
 	} = props;
 
+	const [ activeCountryCode, setActiveCountryCode ] = useState( countryCode );
+
+	/**
+	 * Sends a new related keyphrases request to SEMrush and updates the semrush_country_code value in the database.
+	 *
+	 * @returns {void}
+	 */
+	const relatedKeyphrasesRequest = useCallback( async() => {
+		newRequest( countryCode, keyphrase );
+		setActiveCountryCode( countryCode );
+	}, [ countryCode, keyphrase, newRequest ] );
+
 	return (
 		<Root context={ { isRtl } }>
 
@@ -96,11 +105,12 @@ export default function RelatedKeyphraseModalContent( props ) {
 				className="yst-mb-4"
 			/> }
 
-			{ ! requestLimitReached && <SEMrushCountrySelector
+			{ ! requestLimitReached && <CountrySelector
 				countryCode={ countryCode }
-				setCountry={ setCountry }
-				newRequest={ newRequest }
-				keyphrase={ keyphrase }
+				activeCountryCode={ activeCountryCode }
+				onChange={ setCountry }
+				onClick={ relatedKeyphrasesRequest }
+				className="yst-mb-4"
 				userLocale={ userLocale.split( "_" )[ 0 ] }
 			/> }
 
