@@ -16,7 +16,6 @@ const SEMrushMaxRelatedKeyphrases = () => {
 				sprintf(
 					/* translators: %s: Expands to "Yoast SEO". */
 					__(
-						// eslint-disable-next-line max-len
 						"You've reached the maximum amount of 4 related keyphrases. You can change or remove related keyphrases in the %s metabox or sidebar.",
 						"wordpress-seo"
 					),
