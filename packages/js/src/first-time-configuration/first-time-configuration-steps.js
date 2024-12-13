@@ -150,7 +150,6 @@ function calculateInitialState( windowObject, isStepFinished ) {
 	};
 }
 
-/* eslint-enable max-len, react/prop-types */
 
 /* eslint-disable max-statements */
 /**
@@ -401,7 +400,7 @@ export default function FirstTimeConfigurationSteps() {
 		setShowEditButton( stepperFinishedOnce && ! isStepBeingEdited );
 	}, [ stepperFinishedOnce, isStepBeingEdited ] );
 
-	/* eslint-disable max-len */
+
 	useEffect( () => {
 		/**
 		 * Prevents the submission of the form upon pressing enter.
@@ -586,7 +585,7 @@ export default function FirstTimeConfigurationSteps() {
 	);
 }
 
-/* eslint-enable max-len */
+
 /* eslint-enable complexity */
 /* eslint-enable react/jsx-no-bind */
 /* eslint-enable max-statements */

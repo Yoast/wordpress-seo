@@ -2,7 +2,7 @@ import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
 import ElementorFill from "../components/fills/ElementorFill";
 
-/* eslint-disable complexity */
+
 export default compose( [
 	withSelect( select => {
 		const {
@@ -23,4 +23,4 @@ export default compose( [
 		};
 	} ),
 ] )( ElementorFill );
-/* eslint-enable complexity */
+

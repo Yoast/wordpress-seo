@@ -1,4 +1,4 @@
-/* eslint-disable no-undefined */
+
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";

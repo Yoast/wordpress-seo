@@ -59,7 +59,7 @@ export const getIsFreeIntegrationOrPremiumAvailable = ( integration ) => {
 	return ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium;
 };
 
-/* eslint-disable complexity */
+
 /**
  * Checks the conditions for which a card is active
  *
@@ -80,7 +80,7 @@ export const getIsCardActive = ( integration, activeState ) => {
 
 	return networkControlEnabled && multisiteAvailable;
 };
-/* eslint-enable complexity */
+
 
 /**
  * Updates an integration state.

@@ -12,7 +12,7 @@ describe( "Test isFollowedAndPrecededByException", () => {
 		const callback = isFollowedAndPrecededByException( words, consecutiveWords, precedingExceptions, followingExceptions  );
 		const index = 1;
 
-		// eslint-disable-next-line callback-return
+
 		expect( callback( index ) ).toEqual( true );
 	} );
 	it( "returns false when a term is followed but not preceded by an exception", () => {
@@ -23,7 +23,7 @@ describe( "Test isFollowedAndPrecededByException", () => {
 		const callback = isFollowedAndPrecededByException( words, consecutiveWords, precedingExceptions, followingExceptions  );
 		const index = 1;
 
-		// eslint-disable-next-line callback-return
+
 		expect( callback( index ) ).toEqual( false );
 	} );
 	it( "returns false when a term is preceded but not followed by an exception", () => {
@@ -34,7 +34,7 @@ describe( "Test isFollowedAndPrecededByException", () => {
 		const callback = isFollowedAndPrecededByException( words, consecutiveWords, precedingExceptions, followingExceptions  );
 		const index = 1;
 
-		// eslint-disable-next-line callback-return
+
 		expect( callback( index ) ).toEqual( false );
 	} );
 } );
@@ -48,7 +48,7 @@ describe( "Test isNotFollowedAndPrecededByException", () => {
 		const callback = isNotFollowedAndPrecededByException( words, consecutiveWords, precedingExceptions, followingExceptions  );
 		const index = 1;
 
-		// eslint-disable-next-line callback-return
+
 		expect( callback( index ) ).toEqual( false );
 	} );
 	it( "returns true when a term is followed but not preceded by an exception", () => {
@@ -59,7 +59,7 @@ describe( "Test isNotFollowedAndPrecededByException", () => {
 		const callback = isNotFollowedAndPrecededByException( words, consecutiveWords, precedingExceptions, followingExceptions  );
 		const index = 1;
 
-		// eslint-disable-next-line callback-return
+
 		expect( callback( index ) ).toEqual( true );
 	} );
 	it( "returns true when a term is preceded but not followed by an exception", () => {
@@ -70,7 +70,7 @@ describe( "Test isNotFollowedAndPrecededByException", () => {
 		const callback = isNotFollowedAndPrecededByException( words, consecutiveWords, precedingExceptions, followingExceptions  );
 		const index = 1;
 
-		// eslint-disable-next-line callback-return
+
 		expect( callback( index ) ).toEqual( true );
 	} );
 } );

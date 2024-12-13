@@ -55,7 +55,7 @@
     "core-js": "^2.6.12",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.16.0",
     "eslint-config-yoast": "^6.0.0",
     "globals": "^15.13.0",
     "grunt-git": "^1.0.14",

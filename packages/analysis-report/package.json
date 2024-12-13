@@ -36,7 +36,7 @@
     "@yoast/babel-preset": "^1.1.1",
     "@yoast/jest-preset": "^1.0.1",
     "babel-plugin-styled-components": "^2.0.6",
-    "eslint": "^8.57.0",
+    "eslint": "^9.16.0",
     "eslint-config-yoast": "^6.0.0",
     "globals": "^15.13.0",
     "jest": "^27.5.1",

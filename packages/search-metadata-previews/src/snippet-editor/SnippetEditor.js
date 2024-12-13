@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+
 // External dependencies.
 import styled from "styled-components";
 import React from "react";
@@ -535,7 +535,7 @@ class SnippetEditor extends React.Component {
 		 * The SnippetPreview is not a build-in HTML element so this check is not
 		 * relevant.
 		 */
-		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
+
 		return (
 			<ErrorBoundary>
 				<div>
@@ -578,7 +578,6 @@ class SnippetEditor extends React.Component {
 				</div>
 			</ErrorBoundary>
 		);
-		/* eslint-enable jsx-a11y/mouse-events-have-key-events */
 	}
 }
 

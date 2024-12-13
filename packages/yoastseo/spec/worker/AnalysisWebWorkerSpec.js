@@ -625,7 +625,7 @@ describe( "AnalysisWebWorker", () => {
 				// Mock the console to see if it is used and to not output anything for real.
 				// eslint-disable-next-line no-console
 				console.log = jest.fn();
-				// eslint-disable-next-line no-console
+
 				console.error = jest.fn();
 
 				// Mock the first function call in analyze to throw an error.
@@ -640,7 +640,7 @@ describe( "AnalysisWebWorker", () => {
 					expect( result.error ).toBe( "An error occurred while running the analysis.\n\tError: Simulated error!" );
 					// eslint-disable-next-line no-console
 					expect( console.log ).toHaveBeenCalled();
-					// eslint-disable-next-line no-console
+
 					expect( console.error ).toHaveBeenCalled();
 					done();
 				};

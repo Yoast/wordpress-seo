@@ -7,7 +7,7 @@ import Mark from "../../../../src/values/Mark.js";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
 let paper = new Paper();
-// eslint-disable-next-line max-statements
+
 describe( "An assessment for scoring repeated sentence beginnings.", function() {
 	it( "scores one instance with 4 consecutive sentences starting with the same word.", function() {
 		const assessment = new SentenceBeginningsAssessment().getResult( paper, Factory.buildMockResearcher( [ { word: "hey", count: 2 },

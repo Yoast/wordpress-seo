@@ -1,5 +1,5 @@
 #!/usr/local/bin/node
-/* eslint-disable jsdoc/require-jsdoc, no-console */
+/* eslint-disable no-console */
 const fs = require( "fs" );
 const path = require( "path" );
 const { execSync } = require( "child_process" );

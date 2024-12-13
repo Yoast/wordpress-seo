@@ -1,5 +1,5 @@
-/* eslint-disable react/forbid-foreign-prop-types */
-/* eslint-disable jsx-a11y/tabindex-no-positive */
+
+
 import { XIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import { isString, map, noop } from "lodash";
@@ -39,7 +39,7 @@ export const Tag = ( { tag, index, disabled = false, onRemoveTag, screenReaderRe
 	}, [ index, disabled, onRemoveTag ] );
 
 	return (
-		// eslint-disable-next-line jsx-a11y/no-static-element-interactions
+
 		<Badge
 			onKeyDown={ handleKeyDown } { ...props } variant="plain" className="yst-tag-input__tag"
 		>

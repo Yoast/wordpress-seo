@@ -1,4 +1,4 @@
-/* eslint-disable capitalized-comments, spaced-comment */
+
 import {
 	computeScoresPerSentenceShortTopic,
 	computeScoresPerSentenceLongTopic,

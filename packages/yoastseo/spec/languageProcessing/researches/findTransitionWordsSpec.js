@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import transitionWordsResearch from "../../../src/languageProcessing/researches/findTransitionWords.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
@@ -19,7 +18,6 @@ import RussianResearcher from "../../../src/languageProcessing/languages/ru/Rese
 import HebrewResearcher from "../../../src/languageProcessing/languages/he/Researcher";
 import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
 
-// eslint-disable-next-line max-statements
 describe( "a test for finding transition words from a string", function() {
 	let mockPaper, result;
 

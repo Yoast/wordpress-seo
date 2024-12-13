@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { get, reduce, join, filter, isArray } from "lodash";
 import { preferencesSelectors } from "./preferences";

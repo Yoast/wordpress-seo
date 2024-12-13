@@ -47,6 +47,9 @@ export default [
 
 			// Deviate from the Yoast config to ignore imports from premium-configuration, which might not be available in all environments.
 			"import/no-unresolved": [ "error", { ignore: [ "premium-configuration/data/morphologyData" ] } ],
+
+			// Deviate from the Yoast config to allow for not using the error that is caught.
+			"no-unused-vars": [ "error", { caughtErrors: "none" } ],
 		},
 	},
 	{

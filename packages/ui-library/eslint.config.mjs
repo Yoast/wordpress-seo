@@ -18,6 +18,7 @@ export default [
 				"error",
 				"always",
 			],
+
 			// Deviate from the Yoast config to allow use of short-circuit and ternary expressions to call functions with side effects, like setState.
 			"no-unused-expressions": [
 				"error",
@@ -26,6 +27,7 @@ export default [
 					allowTernary: true,
 				},
 			],
+
 			// Deviate from the Yoast config to force spacing before async arrow function parentheses.
 			"space-before-function-paren": [
 				"error",
@@ -35,6 +37,9 @@ export default [
 					asyncArrow: "always",
 				},
 			],
+
+			// Deviate from the Yoast config to allow for not using the error that is caught.
+			"no-unused-vars": [ "error", { caughtErrors: "none" } ],
 		},
 	},
 	{

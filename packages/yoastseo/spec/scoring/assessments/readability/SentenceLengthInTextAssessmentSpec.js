@@ -1,4 +1,4 @@
-/* eslint-disable capitalized-comments, spaced-comment */
+
 import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
 
 import Paper from "../../../../src/values/Paper.js";
@@ -20,7 +20,7 @@ const longSentence15WordsLimit = "Word ".repeat( 15 ) + "word. ";
 
 import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/sentenceLength";
 
-// eslint-disable-next-line max-statements
+
 describe( "An assessment for sentence length", function() {
 	it( "returns the score for all short sentences using the default config", function() {
 		const mockPaper = new Paper( shortSentenceDefault );

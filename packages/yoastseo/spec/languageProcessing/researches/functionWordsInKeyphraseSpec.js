@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import functionWordsInKeyphrase from "../../../src/languageProcessing/researches/functionWordsInKeyphrase.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import IndonesianResearcher from "../../../src/languageProcessing/languages/id/Researcher";

@@ -10,7 +10,7 @@ xdescribe( "Test isFollowedByException", () => {
 		const callback = isNotPrecededByException( words, exceptions );
 		const index = 1;
 
-		// eslint-disable-next-line callback-return
+
 		expect( callback( index ) ).toEqual( true );
 	} );
 	it( "returns the right value when term is not preceded by an exception", () => {
@@ -19,7 +19,7 @@ xdescribe( "Test isFollowedByException", () => {
 		const callback = isNotPrecededByException( words, exceptions );
 		const index = 1;
 
-		// eslint-disable-next-line callback-return
+
 		expect( callback( index ) ).toEqual( false );
 	} );
 } );

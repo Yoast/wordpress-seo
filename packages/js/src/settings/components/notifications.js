@@ -1,4 +1,4 @@
-/* eslint-disable complexity */
+
 import { useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Notifications as NotificationsUi } from "@yoast/ui-library";

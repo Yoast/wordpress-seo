@@ -33,6 +33,9 @@ export default [
 					asyncArrow: "always",
 				},
 			],
+
+			// Deviate from the Yoast config to allow for not using the error that is caught.
+			"no-unused-vars": [ "error", { caughtErrors: "none" } ],
 		},
 	},
 	{

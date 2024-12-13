@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import SocialInputSection from "./social-input-section";
 import Alert from "../../base/alert";
 
-/* eslint-disable max-len, react/prop-types */
+
 /**
  * Social profiles step component
  *

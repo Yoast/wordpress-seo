@@ -391,7 +391,7 @@ describe( "A test for Disability assessments", function() {
 	} );
 } );
 
-// eslint-disable-next-line max-statements
+
 describe( "a test for targeting non-inclusive phrases in disability assessments", () => {
 	it( "should return the appropriate score and feedback string for: 'binge' and its other forms", () => {
 		const testData = [

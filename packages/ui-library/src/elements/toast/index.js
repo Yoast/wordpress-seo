@@ -1,4 +1,4 @@
-/* eslint-disable complexity */
+
 import { Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
