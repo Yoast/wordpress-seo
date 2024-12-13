@@ -191,7 +191,7 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 	} );
 
 	describe( "RelatedKeyphraseModalContent", () => {
-		it( "renders the SEMrush related keyphrases modal content with results and without premium", async() => {
+		it( "renders the anchor tag with the right premium upsell link", async() => {
 			props = {
 				...props,
 				isPremium: false,
@@ -201,11 +201,12 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 				premiumUpsellLink: "https://yoa.st/413",
 			};
 
-			const { container } = render( <RelatedKeyphraseModalContent { ...props } /> );
-			expect( container ).toMatchSnapshot();
+			const { getByRole } = render( <RelatedKeyphraseModalContent { ...props } /> );
+			const link = getByRole( "link", { name: /Explore Yoast SEO Premium!/i } );
+			expect( link ).toHaveAttribute( "href", "https://yoa.st/413" );
 		} );
 
-		it( "renders the SEMrush related keyphrases modal content with results and with premium", async() => {
+		it( "renders the results and with premium", async() => {
 			props = {
 				...props,
 				isPremium: true,
@@ -214,11 +215,13 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 				response: succesfulResponse,
 			};
 
-			const { container } = render( <RelatedKeyphraseModalContent { ...props } /> );
-			expect( container ).toMatchSnapshot();
+			const { getAllByRole } = render( <RelatedKeyphraseModalContent { ...props } /> );
+
+			const buttons = getAllByRole( "button", { name: /Add/i } );
+			expect( buttons ).toHaveLength( 10 );
 		} );
 
-		it( "renders the SEMrush related keyphrases modal content with no results alert", async() => {
+		it( "renders the no results alert", async() => {
 			props = {
 				...props,
 				isPremium: true,
@@ -227,11 +230,12 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 				response: {},
 			};
 
-			const { container } = render( <RelatedKeyphraseModalContent { ...props } /> );
-			expect( container ).toMatchSnapshot();
+			const { queryByText } = render( <RelatedKeyphraseModalContent { ...props } /> );
+			const alert = queryByText( "Sorry, there's no data available for that keyphrase/country combination." );
+			expect( alert ).toBeInTheDocument();
 		} );
 
-		it( "renders the SEMrush related keyphrases modal content with request limit reached alert", async() => {
+		it( "renders the request limit reached alert with the right link", async() => {
 			props = {
 				...props,
 				isPremium: true,
@@ -241,11 +245,12 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 				semrushUpsellLink: "https://yoa.st/semrush-prices",
 			};
 
-			const { container } = render( <RelatedKeyphraseModalContent { ...props } /> );
-			expect( container ).toMatchSnapshot();
+			const { getByRole } = render( <RelatedKeyphraseModalContent { ...props } /> );
+			const link = getByRole( "link", { name: /Upgrade your Semrush plan/i } );
+			expect( link ).toHaveAttribute( "href", "https://yoa.st/semrush-prices" );
 		} );
 
-		it( "renders the SEMrush related keyphrases modal content with request failed alert", async() => {
+		it( "renders the request failed alert", async() => {
 			props = {
 				...props,
 				isPremium: true,
@@ -257,11 +262,12 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 				},
 			};
 
-			const { container } = render( <RelatedKeyphraseModalContent { ...props } /> );
-			expect( container ).toMatchSnapshot();
+			const { queryByText } = render( <RelatedKeyphraseModalContent { ...props } /> );
+			const alert = queryByText( "We've encountered a problem trying to get related keyphrases. Please try again later." );
+			expect( alert ).toBeInTheDocument();
 		} );
 
-		it( "renders the SEMrush related keyphrases modal content with maximum related keyphrases alert", async() => {
+		it( "renders the maximum related keyphrases alert", async() => {
 			props = {
 				...props,
 				isPremium: true,
@@ -275,8 +281,9 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 				requestHasData: true,
 			};
 
-			const { container } = render( <RelatedKeyphraseModalContent { ...props } /> );
-			expect( container ).toMatchSnapshot();
+			const { queryByText } = render( <RelatedKeyphraseModalContent { ...props } /> );
+			const alert = queryByText( "You've reached the maximum amount of 4 related keyphrases. You can change or remove related keyphrases in the Yoast SEO metabox or sidebar." );
+			expect( alert ).toBeInTheDocument();
 		} );
 	} );
 } );
