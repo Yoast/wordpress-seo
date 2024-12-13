@@ -7,7 +7,7 @@ import initSettingsHeader from "./initializers/settings-header";
 
 initAdmin( jQuery );
 
-// eslint-disable-next-line complexity
+
 if ( wpseoScriptData ) {
 	if ( typeof wpseoScriptData.dismissedAlerts !== "undefined" ) {
 		initSettingsStore();

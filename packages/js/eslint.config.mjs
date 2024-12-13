@@ -60,6 +60,10 @@ export default [
 					exports: "always-multiline",
 				},
 			],
+
+			// Deviate from the Yoast config to allow for not using the error that is caught.
+			"no-unused-vars": [ "error", { caughtErrors: "none" } ],
+
 			// Deviate from the Yoast config to allow longer template literals.
 			"stylistic/max-len": [
 				"error",

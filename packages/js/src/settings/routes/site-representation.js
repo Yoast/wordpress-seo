@@ -21,7 +21,7 @@ const FormikDummyAutocompleteField = withFormikDummySelectField( FormikAutocompl
  */
 const SiteRepresentation = () => {
 	const { values } = useFormikContext();
-	// eslint-disable-next-line camelcase
+
 	const {
 		website_name: websiteName,
 		company_or_person: companyOrPerson,

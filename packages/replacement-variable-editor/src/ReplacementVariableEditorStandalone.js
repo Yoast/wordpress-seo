@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+
 // External dependencies.
 import React from "react";
 import Editor from "@draft-js-plugins/editor";
@@ -52,7 +52,7 @@ const MentionSuggestionsStyleWrapper = styled.div`
 `;
 
 // Regex sources from https://github.com/facebook/draft-js/issues/1105
-// eslint-disable-next-line max-len
+
 const emojiRegExp = new RegExp( "(?:\\p{RI}\\p{RI}|\\p{Emoji}(?:\\p{Emoji_Modifier}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?(?:\\u{200D}\\p{Emoji}(?:\\p{Emoji_Modifier}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?)*)", "gu" );
 
 /**

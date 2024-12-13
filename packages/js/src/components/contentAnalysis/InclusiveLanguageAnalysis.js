@@ -232,7 +232,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 InclusiveLanguageAnalysis.propTypes = {
 	results: PropTypes.array,
 	// `marksButtonStatus` is used, but not recognized by ESLint.
-	// eslint-disable-next-line react/no-unused-prop-types
+
 	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled", "hidden" ] ).isRequired,
 	overallScore: PropTypes.number,
 	shouldUpsellHighlighting: PropTypes.bool,

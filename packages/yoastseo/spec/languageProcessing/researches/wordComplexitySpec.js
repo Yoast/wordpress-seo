@@ -1,4 +1,4 @@
-/* eslint-disable max-statements */
+
 
 import wordComplexity from "../../../src/languageProcessing/researches/wordComplexity.js";
 import Paper from "../../../src/values/Paper";
@@ -198,7 +198,6 @@ describe( "test with different language specific helper and config", () => {
 	} );
 
 	it( "should not recognize German function words to be complex, no matter whether they are capitalized or not", () => {
-		// eslint-disable-next-line max-len
 		const paper = new Paper( "Nach der von Erzbischof Hinkmar von Reims gebildeten Legende hat gegen Ende des 5. Wahrscheinlichkeit verhältnismäßig." );
 		const researcher = new GermanResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperGerman );

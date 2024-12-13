@@ -4,7 +4,7 @@ import KeyphraseDistributionAssessment from "../../../src/scoring/assessments/se
 import keyphraseDistribution from "../../../src/languageProcessing/researches/keyphraseDistribution";
 
 /* eslint-disable complexity */
-/* eslint-disable max-statements */
+
 /**
  * Checks which assessment are available for an SEO assessor, given a certain Paper.
  * @param {Assessor} assessor The SEO assessor.
@@ -167,7 +167,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 	} );
 }
 /* eslint-enable complexity */
-/* eslint-enable max-statements */
+
 
 /**
  * Checks the config overrides for a given SEO assessor.

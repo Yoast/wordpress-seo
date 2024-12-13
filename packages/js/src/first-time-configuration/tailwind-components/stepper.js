@@ -7,7 +7,7 @@ import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
 import StepHeader from "./step-header";
 import { FadeInAlert } from "../tailwind-components/base/alert";
 
-/* eslint-disable complexity */
+
 const {
 	slideDuration,
 	delayBeforeOpening,
@@ -274,4 +274,4 @@ Step.Error = StepError;
 Step.Header = StepHeader;
 Step.GoButton = GoButton;
 Step.EditButton = EditButton;
-/* eslint-enable complexity */
+

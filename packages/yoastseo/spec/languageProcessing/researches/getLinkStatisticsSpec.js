@@ -4,7 +4,7 @@ import Paper from "../../../src/values/Paper.js";
 
 let foundLinks;
 
-// eslint-disable-next-line max-statements
+
 describe( "Tests a string for anchors and its attributes", function() {
 	const paperAttributes = {
 		keyword: "link",

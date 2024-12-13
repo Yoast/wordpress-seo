@@ -26,6 +26,9 @@ export default [
 				},
 			],
 
+			// Deviate from the Yoast config to allow for not using the error that is caught.
+			"no-unused-vars": [ "error", { caughtErrors: "none" } ],
+
 			// Deviate from the yoast config to allow existing usages of .bind in React components and unused state. New cases are still prohibited.
 			"react/jsx-no-bind": "warn",
 			"react/no-unused-state": "warn",

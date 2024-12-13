@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import SocialFieldArray from "./social-field-array";
 import SocialInput from "./social-input";
 
-/* eslint-disable complexity */
+
 /**
  * A wrapper that combines all the SocialInputs. Intended for use in the first time configuration.
  *
@@ -54,7 +54,7 @@ export default function SocialInputSectionContainer( { socialProfiles, errorFiel
 		/>
 	);
 }
-/* eslint-enable complexity */
+
 
 SocialInputSectionContainer.propTypes = {
 	socialProfiles: PropTypes.object.isRequired,

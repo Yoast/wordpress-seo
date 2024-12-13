@@ -50,7 +50,7 @@ const FormikPageSelectField = ( { name, id, ...props } ) => {
 	const debouncedFetchPages = useCallback( debounce( async search => {
 		try {
 			setStatus( ASYNC_ACTION_STATUS.loading );
-			// eslint-disable-next-line camelcase
+
 			const response = await fetchPages( { search } );
 
 			setQueriedPageIds( map( response.payload, "id" ) );
