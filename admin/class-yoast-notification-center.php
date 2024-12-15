@@ -106,18 +106,18 @@ class Yoast_Notification_Center {
 		$notification_center = self::get();
 
 		if ( ! isset( $_POST['notification'] ) || ! is_string( $_POST['notification'] ) ) {
-			die( '-1' );
+			exit( '-1' );
 		}
 
 		$notification_id = sanitize_text_field( wp_unslash( $_POST['notification'] ) );
 
 		if ( empty( $notification_id ) ) {
-			die( '-1' );
+			exit( '-1' );
 		}
 
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are using the variable as a nonce.
 		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['nonce'] ), $notification_id ) ) {
-			die( '-1' );
+			exit( '-1' );
 		}
 
 		$notification = $notification_center->get_notification_by_id( $notification_id );
@@ -132,10 +132,10 @@ class Yoast_Notification_Center {
 		}
 
 		if ( self::maybe_dismiss_notification( $notification ) ) {
-			die( '1' );
+			exit( '1' );
 		}
 
-		die( '-1' );
+		exit( '-1' );
 	}
 
 	/**
