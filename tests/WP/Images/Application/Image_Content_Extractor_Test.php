@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  * @group images
  *
  * @coversDefaultClass \Yoast\WP\SEO\Images\Application\Image_Content_Extractor
- * @covers \Yoast\WP\SEO\Images\Application\Image_Content_Extractor
  */
 final class Image_Content_Extractor_Test extends TestCase {
 
@@ -65,7 +64,6 @@ final class Image_Content_Extractor_Test extends TestCase {
 	 *
 	 * @dataProvider gather_images_wp_provider
 	 *
-	 * @covers ::__construct
 	 * @covers ::gather_images
 	 * @covers ::gather_images_wp
 	 *
