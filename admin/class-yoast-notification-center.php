@@ -330,11 +330,11 @@ class Yoast_Notification_Center {
 
 			// If notification ID exists in notifications, don't add again.
 			$present_notification = $this->get_notification_by_id( $notification_id, $user_id );
-			if ( ! is_null( $present_notification ) ) {
+			if ( $present_notification !== null ) {
 				$this->remove_notification( $present_notification, false );
 			}
 
-			if ( is_null( $present_notification ) ) {
+			if ( $present_notification === null ) {
 				$this->new[] = $notification_id;
 			}
 		}

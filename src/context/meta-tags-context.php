@@ -523,7 +523,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 				break;
 			default:
 				$additional_type = $this->indexable->schema_page_type;
-				if ( \is_null( $additional_type ) ) {
+				if ( $additional_type === null ) {
 					$additional_type = $this->options->get( 'schema-page-type-' . $this->indexable->object_sub_type );
 				}
 
@@ -553,7 +553,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_schema_article_type() {
 		$additional_type = $this->indexable->schema_article_type;
-		if ( \is_null( $additional_type ) ) {
+		if ( $additional_type === null ) {
 			$additional_type = $this->options->get( 'schema-article-type-' . $this->indexable->object_sub_type );
 		}
 
