@@ -52,7 +52,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * The Metabox post.
 	 *
-	 * @var WP_Post
+	 * @var WP_Post|null
 	 */
 	protected $post = null;
 

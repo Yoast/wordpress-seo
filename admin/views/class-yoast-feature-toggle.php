@@ -107,7 +107,7 @@ class Yoast_Feature_Toggle {
 	/**
 	 * Value to specify the feature toggle order.
 	 *
-	 * @var string
+	 * @var int
 	 */
 	protected $order = 100;
 

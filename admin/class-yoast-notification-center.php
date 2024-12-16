@@ -22,7 +22,7 @@ class Yoast_Notification_Center {
 	/**
 	 * The singleton instance of this object.
 	 *
-	 * @var Yoast_Notification_Center
+	 * @var Yoast_Notification_Center|null
 	 */
 	private static $instance = null;
 

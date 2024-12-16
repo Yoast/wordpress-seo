@@ -88,7 +88,7 @@ abstract class Base_Site_Information {
 	 * Returns site information that is the
 	 *
 	 * @throws Exception If an invalid user ID is supplied to the wistia repository.
-	 * @return array<string|string,string[]>
+	 * @return array<string, string|array<string, string>>
 	 */
 	public function get_site_information(): array {
 		return [
@@ -118,7 +118,7 @@ abstract class Base_Site_Information {
 	 * Returns site information that is the
 	 *
 	 * @throws Exception If an invalid user ID is supplied to the wistia repository.
-	 * @return array<string|string,string[]>
+	 * @return array<string, string|array<string, string|array<string, string>>>
 	 */
 	public function get_legacy_site_information(): array {
 		return [

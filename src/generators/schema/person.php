@@ -198,7 +198,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @param array<string|string[]> $data      The Person schema.
 	 * @param string                 $schema_id The string used in the `@id` for the schema.
 	 * @param bool                   $add_hash  Whether or not the person's image url hash should be added to the image id.
-	 * @param WP_User                $user_data User data.
+	 * @param WP_User|null           $user_data User data.
 	 *
 	 * @return array<string|string[]> The Person schema.
 	 */
@@ -261,7 +261,7 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Checks the site is represented by the same person as this indexable.
 	 *
-	 * @param WP_User $user_data User data.
+	 * @param WP_User|null $user_data User data.
 	 *
 	 * @return bool True when the site is represented by the same person as this indexable.
 	 */
