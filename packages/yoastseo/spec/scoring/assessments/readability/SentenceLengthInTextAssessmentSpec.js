@@ -3,7 +3,6 @@ import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/
 
 import Paper from "../../../../src/values/Paper.js";
 import Mark from "../../../../src/values/Mark.js";
-import addMark from "../../../../src/markers/addMark";
 import Factory from "../../../../src/helpers/factory.js";
 import buildTree from "../../../specHelpers/parse/buildTree";
 
