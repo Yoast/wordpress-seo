@@ -129,7 +129,7 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 									href={ createUserUrl }
 									target="_blank"
 									rel="noreferrer"
-									className="yst-relative yst-w-full yst-flex yst-items-center yst-py-4 yst-px-3 yst-gap-2 yst-no-underline yst-text-sm yst-text-left yst-bg-white yst-text-slate-700 group-hover:yst-text-white group-hover:yst-bg-primary-500 yst-border-t yst-border-slate-200"
+									className="yst-relative yst-w-full yst-flex yst-items-center yst-py-4 yst-px-3 yst-gap-2 yst-no-underline yst-text-sm yst-text-start yst-bg-white yst-text-slate-700 group-hover:yst-text-white group-hover:yst-bg-primary-500 yst-border-t yst-border-slate-200"
 								>
 									<UserAddIcon className="yst-w-5 yst-h-5 yst-text-slate-400 group-hover:yst-text-white" />
 									<span>{ __( "Add new user...", "wordpress-seo" ) }</span>
