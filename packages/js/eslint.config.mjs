@@ -23,12 +23,13 @@ export default [
 					ignore: [
 						// This is our internal externals used within `packages/js`, not actually a package.
 						"^@yoast/externals/(components|contexts|redux)$",
-						// Ignore UI library and schema-blocks, or we have to build the code before linting.
-						// Because `main` in `package.json` points to the `build/index.js` (in the UI library), which is not present before building.
-						// As we are dealing with our source, not the actual NPM download, due to the monorepo setup.
-						"^@yoast/(ui-library|schema-blocks|style-guide|components|helpers|search-metadata-previews|social-metadata-forms|replacement-variable-editor|analysis-report|feature-flag|related-keyphrase-suggestions)$",
+						// Externals provided by @wordpress/dependency-extraction-webpack-plugin
 						"^@wordpress/(annotations|api|edit-post|sanitize)$",
 						"^jquery$",
+						// Ignore @yoast packages from this workspace, or we have to build the code before linting.
+						// Because `main` in `package.json` points to the `build/index.js`, which is not present before building.
+						// As we are dealing with our source, not the actual NPM download, due to the monorepo setup.
+						"^@yoast/(ui-library|style-guide|components|helpers|search-metadata-previews|social-metadata-forms|replacement-variable-editor|analysis-report|feature-flag|related-keyphrase-suggestions)$",
 						"yoastseo",
 					],
 				},
