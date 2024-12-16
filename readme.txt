@@ -280,9 +280,9 @@ Release date: 2024-12-17
 
 #### Enhancements
 
+* Introduces the Yoast Dashboard, a place where site administrators can check the SEO and Readability performance of the site's posts.
 * Adds `Not analyzed` as a option in the readability filter in the posts page.
 * Enhances the existing `Needs improvement` option in the readability filter in the posts page, to include posts that don't have enough content as well.
-* Introduces Yoast dashboard, a place where site administrators can check the SEO and Readability performance of the site's posts.
 
 #### Bugfixes
 
