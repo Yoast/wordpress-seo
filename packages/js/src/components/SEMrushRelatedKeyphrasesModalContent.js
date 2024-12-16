@@ -12,7 +12,7 @@ import { isEmpty } from "lodash";
  * @returns {boolean} Whether or not the error property is present.
  */
 export function hasError( response ) {
-	if ( response?.code === "invalid_json" ) {
+	if ( response?.code === "invalid_json" || response?.code === "fetch_error" ) {
 		return true;
 	}
 	return ! isEmpty( response ) && "error" in response;
