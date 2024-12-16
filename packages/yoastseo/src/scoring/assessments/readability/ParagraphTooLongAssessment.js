@@ -198,12 +198,13 @@ export default class ParagraphTooLongAssessment extends Assessment {
 		const paragraphsLength = researcher.getResearch( "getParagraphLength" );
 		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength, this.getConfig( researcher ) );
 		return tooLongParagraphs.flatMap( ( { paragraph } ) => {
+			const scl = paragraph.sourceCodeLocation;
 			return new Mark( {
 				position: {
-					startOffset: paragraph.sourceCodeLocation.startTag.endOffset,
-					endOffset: paragraph.sourceCodeLocation.endTag.startOffset,
+					startOffset: scl.startTag ? scl.startTag.endOffset : scl.startOffset,
+					endOffset: scl.endTag ? scl.endTag.startOffset : scl.endOffset,
 					startOffsetBlock: 0,
-					endOffsetBlock: paragraph.sourceCodeLocation.endOffset - paragraph.sourceCodeLocation.startOffset,
+					endOffsetBlock: scl.endOffset - scl.startOffset,
 					clientId: paragraph.clientId || "",
 					attributeId: paragraph.parentAttributeId || "",
 					isFirstSection: paragraph.isParentFirstSectionOfBlock || false,

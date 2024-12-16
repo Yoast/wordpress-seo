@@ -18,7 +18,7 @@ export default function( sentences, researcher ) {
 	const sentencesWordCount = [];
 	sentences.forEach( sentence => {
 		const customLengthHelper = researcher.getHelper( "customCountLength" );
-		const length = customLengthHelper ? customLengthHelper( sentence.text ) : getWordsFromTokens( sentence.tokens ).length;
+		const length = customLengthHelper ? customLengthHelper( sentence.text ) : getWordsFromTokens( sentence.tokens, false ).length;
 		if ( length > 0 ) {
 			sentencesWordCount.push( {
 				sentence: sentence,

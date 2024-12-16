@@ -21,7 +21,7 @@ export default function( paper, researcher ) {
 	paragraphs.forEach( paragraph => {
 		const customLengthHelper = researcher.getHelper( "customCountLength" );
 		const tokens = paragraph.sentences.map( sentence => sentence.tokens ).flat();
-		const length = customLengthHelper ? customLengthHelper( paragraph.innerText() ) : getWordsFromTokens( tokens ).length;
+		const length = customLengthHelper ? customLengthHelper( paragraph.innerText() ) : getWordsFromTokens( tokens, false ).length;
 		if ( length > 0 ) {
 			paragraphLengths.push( {
 				paragraph: paragraph,

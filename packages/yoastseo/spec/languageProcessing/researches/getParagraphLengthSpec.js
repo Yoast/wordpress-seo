@@ -6,13 +6,13 @@ import buildTree from "../../specHelpers/parse/buildTree";
 
 describe( "a test for getting paragraph length", function() {
 	it( "returns the paragraph length of a paragraph between p tags", function() {
-		const mockPaper = new Paper( "<p>Lorem ipsum</p>" );
+		const mockPaper = new Paper( "<p>Lorem ipsum, hyphens all-over-the-place</p>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
 		const paragraphLengths = getParagraphLength( mockPaper, mockResearcher );
 
-		expect( paragraphLengths[ 0 ].paragraphLength ).toBe( 2 );
+		expect( paragraphLengths[ 0 ].paragraphLength ).toBe( 4 );
 	} );
 
 	it( "returns the paragraph length of a paragraph in Japanese between p tags", function() {

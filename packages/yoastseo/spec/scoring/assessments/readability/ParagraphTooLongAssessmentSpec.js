@@ -138,8 +138,7 @@ describe( "Applicability of the assessment.", function() {
 
 describe( "A test for marking the sentences", function() {
 	it( "should return markers for a default text", function() {
-		const assessment = new ParagraphTooLongAssessment();
-		const paper = new Paper( "You just got Yoast SEO, and you are ready to get the most out of it! Or, have you already been using it for a " +
+		const paper = new Paper( "<p>You just got Yoast SEO, and you are ready to get the most out of it! Or, have you already been using it for a " +
 			"while and know your way around it? Either way, you should use some essential Yoast SEO settings to let the plugin work at its best. " +
 			"That’s why we’ve created a Yoast SEO configuration workout! In five steps, we guide you in setting up Yoast SEO the right way! Read " +
 			"on to learn more about each step. If you just installed Yoast SEO, you’ll find a link to the workout at the top of your general " +
@@ -147,35 +146,27 @@ describe( "A test for marking the sentences", function() {
 			"screen, where you can find and access the Configuration workout by clicking the Start workout button. If you’ve finished the workout " +
 			"but want to revise some steps, you can find it in the Workouts menu item of the SEO menu (see bottom of image). Now, let’s go through " +
 			"the workout’s steps. Choose Organization if you have a professional or a company website. For example, if we were filling in the data " +
-			"for yoast.com, we would choose Organization. You’ll then need to add the Organization’s name, logo, and tagline." );
-		const paragraphTooLong = new EnglishResearcher( paper );
+			"for yoast.com, we would choose Organization. You’ll then need to add the Organization’s name, logo, and tagline.</p>" );
+		const englishResearcher = new EnglishResearcher( paper );
+		buildTree( paper, englishResearcher );
+
 		const expected = [
-			new Mark( { original: "You just got Yoast SEO, and you are ready to get the most out of it! Or, have you already been using it for a " +
-					"while and know your way around it? Either way, you should use some essential Yoast SEO settings to let the plugin work at its " +
-					"best. That’s why we’ve created a Yoast SEO configuration workout! In five steps, we guide you in setting up Yoast SEO the " +
-					"right way! Read on to learn more about each step. If you just installed Yoast SEO, you’ll find a link to the workout at the " +
-					"top of your general WordPress Dashboard, as well as on top of all the screens of the Yoast SEO settings (see image). The link" +
-					" takes you to the Workouts screen, where you can find and access the Configuration workout by clicking the Start workout " +
-					"button. If you’ve finished the workout but want to revise some steps, you can find it in the Workouts menu item of the SEO " +
-					"menu (see bottom of image). Now, let’s go through the workout’s steps. Choose Organization if you have a professional or a " +
-					"company website. For example, if we were filling in the data for yoast.com, we would choose Organization. You’ll then need to" +
-					" add the Organization’s name, logo, and tagline.", marked: "<yoastmark class='yoast-text-mark'>You just got Yoast SEO, and " +
-					"you are ready to get the most out of it! Or, have you already been using it for a while " +
-					"and know your way around it? Either way, you should use some essential Yoast SEO settings to let the plugin work at its best. " +
-					"That’s why we’ve created a Yoast SEO configuration workout! In five steps, we guide you in setting up Yoast SEO the right way!" +
-					" Read on to learn more about each step. If you just installed Yoast SEO, you’ll find a link to the workout at the top of your" +
-					" general WordPress Dashboard, as well as on top of all the screens of the Yoast SEO settings (see image). The link takes you " +
-					"to the Workouts screen, where you can find and access the Configuration workout by clicking the Start workout button. If " +
-					"you’ve finished the workout but want to revise some steps, you can find it in the Workouts menu item of the SEO menu (see " +
-					"bottom of image). Now, let’s go through the workout’s steps. Choose Organization if you have a professional or a company " +
-					"website. For example, if we were filling in the data for yoast.com, we would choose Organization. You’ll then need to add " +
-					"the Organization’s name, logo, and tagline.</yoastmark>" } ),
+			new Mark( {
+				position: {
+					attributeId: "",
+					clientId: "",
+					startOffset: 3,
+					startOffsetBlock: 0,
+					endOffset: 1150,
+					endOffsetBlock: 1154,
+					isFirstSection: false,
+				},
+			} ),
 		];
-		expect( assessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
+		expect( new ParagraphTooLongAssessment().getMarks( paper, englishResearcher ) ).toEqual( expected );
 	} );
 	it( "should return markers for a default text where the text contains <br> tags with attribute," +
 		" where <br> has a closing tag", function() {
-		const assessment = new ParagraphTooLongAssessment();
 		const paper = new Paper( "<p>Lorem ipsum dolor sit amet, in magna dolor voluptaria vel, duis aliquid perfecto ius ea, ad pri " +
 			"corpora petentium torquatos. Eu vidit rationibus vel. No vis partem nominavi neglegentur. Omnis dicat everti ut eam, " +
 			"eos ne atqui facer antiopam. Et pri vivendo sensibus perpetua, aperiam epicurei menandri an vix, sea prima accumsan " +
@@ -193,34 +184,26 @@ describe( "A test for marking the sentences", function() {
 			"epicuri perfecto eam ne. Vis summo delicatissimi in, cu porro facete phaedrum nam. <br data-mce-fragment=\"1\"></br>" +
 			"<br data-mce-fragment=\"1\"></br>Utamur discere phaedrum eu nam. Ne quidam placerat per, qui inani diceret cu, " +
 			"at nec quot petentium efficiendi. Sea te persius vulputate. Docendi temporibus et quo. Ad duo appareat lobortis definitionem.!</p>" );
-		const paragraphTooLong = new EnglishResearcher( paper );
+		const englishResearcher = new EnglishResearcher( paper );
+		buildTree( paper, englishResearcher );
+
 		const expected = [
 			new Mark( {
-				original: "Lorem ipsum dolor sit amet, in magna dolor voluptaria vel, duis aliquid perfecto ius ea, " +
-					"ad pri corpora petentium torquatos. Eu vidit rationibus vel. No vis partem nominavi neglegentur. Omnis dicat everti " +
-					"ut eam, eos ne atqui facer antiopam. Et pri vivendo sensibus perpetua, aperiam epicurei menandri an vix, sea prima " +
-					"accumsan signiferumque ad. Nisl commune ei est, ut eum stet cibo, duo malis veniam ut. Cu est veritus adolescens " +
-					"vituperatoribus, at eam movet perfecto. Magna consequat at cum. Vel ad fabellas accusata, vel ea erat lorem mediocritatem, " +
-					"dissentiunt liberavisse per ex. Duo putant vituperata eu, sit at tota etiam deseruisse. Sed in autem mucius. Errem omnium " +
-					"facilis mea an. Eu usu eripuit dissentiet, duo ei perfecto argumentum. Diceret forensibus cu has, quo alia nihil et, " +
-					"convenire adversarium efficiantur per id. His mazim virtute ornatus ei, has id vocibus docendi percipitur. " +
-					"Wisi nusquam pri no, putent menandri ad duo. Nullam nostrum salutandi eum id, per agam exerci an.",
-				marked: "<yoastmark class='yoast-text-mark'>Lorem ipsum dolor sit amet, in magna dolor voluptaria vel, " +
-					"duis aliquid perfecto ius ea, " +
-					"ad pri corpora petentium torquatos. Eu vidit rationibus vel. No vis partem nominavi neglegentur. Omnis dicat everti " +
-					"ut eam, eos ne atqui facer antiopam. Et pri vivendo sensibus perpetua, aperiam epicurei menandri an vix, sea prima " +
-					"accumsan signiferumque ad. Nisl commune ei est, ut eum stet cibo, duo malis veniam ut. Cu est veritus adolescens " +
-					"vituperatoribus, at eam movet perfecto. Magna consequat at cum. Vel ad fabellas accusata, vel ea erat lorem mediocritatem, " +
-					"dissentiunt liberavisse per ex. Duo putant vituperata eu, sit at tota etiam deseruisse. Sed in autem mucius. Errem omnium " +
-					"facilis mea an. Eu usu eripuit dissentiet, duo ei perfecto argumentum. Diceret forensibus cu has, quo alia nihil et, " +
-					"convenire adversarium efficiantur per id. His mazim virtute ornatus ei, has id vocibus docendi percipitur. " +
-					"Wisi nusquam pri no, putent menandri ad duo. Nullam nostrum salutandi eum id, per agam exerci an.</yoastmark>" } ),
+				position: {
+					attributeId: "",
+					clientId: "",
+					startOffset: 3,
+					startOffsetBlock: 0,
+					endOffset: 1002,
+					endOffsetBlock: 999,
+					isFirstSection: false,
+				},
+			} ),
 		];
-		expect( assessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
+		expect( new ParagraphTooLongAssessment().getMarks( paper, englishResearcher ) ).toEqual( expected );
 	} );
 	it( "should return markers for a default text where the text contains <br> tags with attribute," +
 		" where <br> doesn't have a closing tag", function() {
-		const assessment = new ParagraphTooLongAssessment();
 		const paper = new Paper( "<p>Lorem ipsum dolor sit amet, in magna dolor voluptaria vel, duis aliquid perfecto ius ea, ad pri " +
 			"corpora petentium torquatos. Eu vidit rationibus vel. No vis partem nominavi neglegentur. Omnis dicat everti ut eam, " +
 			"eos ne atqui facer antiopam. Et pri vivendo sensibus perpetua, aperiam epicurei menandri an vix, sea prima accumsan " +
@@ -238,30 +221,23 @@ describe( "A test for marking the sentences", function() {
 			"epicuri perfecto eam ne. Vis summo delicatissimi in, cu porro facete phaedrum nam. <br data-mce-fragment=\"1\">" +
 			"<br data-mce-fragment=\"1\">Utamur discere phaedrum eu nam. Ne quidam placerat per, qui inani diceret cu, " +
 			"at nec quot petentium efficiendi. Sea te persius vulputate. Docendi temporibus et quo. Ad duo appareat lobortis definitionem.!</p>" );
-		const paragraphTooLong = new EnglishResearcher( paper );
+		const englishResearcher = new EnglishResearcher( paper );
+		buildTree( paper, englishResearcher );
+
 		const expected = [
 			new Mark( {
-				original: "Lorem ipsum dolor sit amet, in magna dolor voluptaria vel, duis aliquid perfecto ius ea, " +
-					"ad pri corpora petentium torquatos. Eu vidit rationibus vel. No vis partem nominavi neglegentur. Omnis dicat everti " +
-					"ut eam, eos ne atqui facer antiopam. Et pri vivendo sensibus perpetua, aperiam epicurei menandri an vix, sea prima " +
-					"accumsan signiferumque ad. Nisl commune ei est, ut eum stet cibo, duo malis veniam ut. Cu est veritus adolescens " +
-					"vituperatoribus, at eam movet perfecto. Magna consequat at cum. Vel ad fabellas accusata, vel ea erat lorem mediocritatem, " +
-					"dissentiunt liberavisse per ex. Duo putant vituperata eu, sit at tota etiam deseruisse. Sed in autem mucius. Errem omnium " +
-					"facilis mea an. Eu usu eripuit dissentiet, duo ei perfecto argumentum. Diceret forensibus cu has, quo alia nihil et, " +
-					"convenire adversarium efficiantur per id. His mazim virtute ornatus ei, has id vocibus docendi percipitur. " +
-					"Wisi nusquam pri no, putent menandri ad duo. Nullam nostrum salutandi eum id, per agam exerci an.",
-				marked: "<yoastmark class='yoast-text-mark'>Lorem ipsum dolor sit amet, in magna dolor voluptaria vel, " +
-					"duis aliquid perfecto ius ea, " +
-					"ad pri corpora petentium torquatos. Eu vidit rationibus vel. No vis partem nominavi neglegentur. Omnis dicat everti " +
-					"ut eam, eos ne atqui facer antiopam. Et pri vivendo sensibus perpetua, aperiam epicurei menandri an vix, sea prima " +
-					"accumsan signiferumque ad. Nisl commune ei est, ut eum stet cibo, duo malis veniam ut. Cu est veritus adolescens " +
-					"vituperatoribus, at eam movet perfecto. Magna consequat at cum. Vel ad fabellas accusata, vel ea erat lorem mediocritatem, " +
-					"dissentiunt liberavisse per ex. Duo putant vituperata eu, sit at tota etiam deseruisse. Sed in autem mucius. Errem omnium " +
-					"facilis mea an. Eu usu eripuit dissentiet, duo ei perfecto argumentum. Diceret forensibus cu has, quo alia nihil et, " +
-					"convenire adversarium efficiantur per id. His mazim virtute ornatus ei, has id vocibus docendi percipitur. " +
-					"Wisi nusquam pri no, putent menandri ad duo. Nullam nostrum salutandi eum id, per agam exerci an.</yoastmark>" } ),
+				position: {
+					attributeId: "",
+					clientId: "",
+					startOffset: 3,
+					startOffsetBlock: 0,
+					endOffset: 1002,
+					endOffsetBlock: 999,
+					isFirstSection: false,
+				},
+			} ),
 		];
-		expect( assessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
+		expect( new ParagraphTooLongAssessment().getMarks( paper, englishResearcher ) ).toEqual( expected );
 	} );
 	it( "should return markers for a long paragraph inside image caption", function() {
 		const longText = " A study was carried out to determine the effect of dietary probiotic L on production performance," +
@@ -282,20 +258,29 @@ describe( "A test for marking the sentences", function() {
 			"beneficial conditions for nutrients’ utilisation, inhibit pathogenic bacteria in the host. Utilising probiotics " +
 			"in animal nutrition provides not only economic and health benefits they produce also safe foods. Blood haemoglobin, " +
 			"total protein and total cholesterol concentrations were not significantly affected by the probiotic.";
-		const assessment = new ParagraphTooLongAssessment();
 		const paper = new Paper( "<p>A short text.</p>" +
 			"<p><img class='size-medium wp-image-34' src='http://basic.wordpress.test/wp-content/uploads" +
 			"/2021/08/cat-4797096_1280-300x196.jpeg' alt='Not a rabbit' width='300' height='196'></img>" +
 			longText + "<br></br>\n" +
 			"</p>"
 		);
-		const paragraphTooLong = new EnglishResearcher( paper );
+		const englishResearcher = new EnglishResearcher( paper );
+		buildTree( paper, englishResearcher );
+
 		const expected = [
 			new Mark( {
-				original: longText,
-				marked: `<yoastmark class='yoast-text-mark'>${ longText }</yoastmark>` } ),
+				position: {
+					attributeId: "",
+					clientId: "",
+					startOffset: 23,
+					startOffsetBlock: 0,
+					endOffset: 2147,
+					endOffsetBlock: 2124,
+					isFirstSection: false,
+				},
+			} ),
 		];
-		expect( assessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
+		expect( new ParagraphTooLongAssessment().getMarks( paper, englishResearcher ) ).toEqual( expected );
 	} );
 	it( "should return markers for a text in Japanese", function() {
 		const paper = new Paper( "接続詞は、文と文との中間に位置しています。前文と後文との間にあって、両者の関係を示している言葉です。学校文法では、接続詞は文の成分" +
@@ -303,28 +288,34 @@ describe( "A test for marking the sentences", function() {
 			"としており、芳賀やすしは接続詞を承前副詞と並立連体詞とに二分しています。時枝文法では「辞」として扱っています。つまり、接続詞は前文を受けて、後文の文末まで" +
 			"係っていく副詞のような働きをしているということです。独立語として中立的に結びつけている言葉ではありません。このように接続詞は前文の内容を後文へと持ち込んで、" +
 			"どんな関係になっているかを示し、後文の文末まで係っていく、そうした副詞と似た働きをしています。後文への修飾語的性格を持っています。" );
-		const paragraphTooLong = new JapaneseResearcher( paper );
+
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		buildTree( paper, japaneseResearcher );
+
+		const assessment = new ParagraphTooLongAssessment();
+
 		const expected = [
-			new Mark( { original: "接続詞は、文と文との中間に位置しています。前文と後文との間にあって、両者の関係を示している言葉です。学校文法では、接続詞は文の成分" +
-					"としては独立語として扱われておりますが、独立語でないとする文法学説もあります。松下文法では一品詞としないで副詞に含め、山田文法では副詞の一類として接続副詞" +
-					"としており、芳賀やすしは接続詞を承前副詞と並立連体詞とに二分しています。時枝文法では「辞」として扱っています。つまり、接続詞は前文を受けて、後文の文末まで" +
-					"係っていく副詞のような働きをしているということです。独立語として中立的に結びつけている言葉ではありません。このように接続詞は前文の内容を後文へと持ち込んで、" +
-					"どんな関係になっているかを示し、後文の文末まで係っていく、そうした副詞と似た働きをしています。後文への修飾語的性格を持っています。", marked:
-					"<yoastmark class='yoast-text-mark'>接続詞は、文と文との中間に位置しています。前文と後文との間にあって、両者の関係を示している言葉です。" +
-					"学校文法では、接続詞は文の成分としては独立語として扱われておりますが、独立語でないとする文法学説もあります。松下文法では一品詞としないで副詞に含め、" +
-					"山田文法では副詞の一類として接続副詞としており、芳賀やすしは接続詞を承前副詞と並立連体詞とに二分しています。時枝文法では「辞」として扱っています。" +
-					"つまり、接続詞は前文を受けて、後文の文末まで係っていく副詞のような働きをしているということです。独立語として中立的に結びつけている言葉ではありません。" +
-					"このように接続詞は前文の内容を後文へと持ち込んで、どんな関係になっているかを示し、後文の文末まで係っていく、そうした副詞と似た働きをしています。" +
-					"後文への修飾語的性格を持っています。</yoastmark>" } ),
+			new Mark( {
+				position: {
+					attributeId: "",
+					clientId: "",
+					startOffset: 0,
+					startOffsetBlock: 0,
+					endOffset: 362,
+					endOffsetBlock: 362,
+					isFirstSection: false,
+				},
+			} ),
 		];
-		expect( paragraphTooLongAssessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
+
+		expect( assessment.getMarks( paper, japaneseResearcher ) ).toEqual( expected );
 	} );
 	it( "should return no markers when no paragraph is too long", function() {
 		const paper = new Paper( "This is a very interesting paper." );
-		const paragraphTooLong = Factory.buildMockResearcher( [ { paragraphLength: 60 }, { paragraphLength: 11 },
-			{ paragraphLength: 13 } ] );
+		const mockResearcher = Factory.buildMockResearcher(
+			[ { paragraphLength: 60 }, { paragraphLength: 11 }, { paragraphLength: 13 } ] );
 		const expected = [];
-		expect( paragraphTooLongAssessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
+		expect( paragraphTooLongAssessment.getMarks( paper, mockResearcher ) ).toEqual( expected );
 	} );
 } );
 

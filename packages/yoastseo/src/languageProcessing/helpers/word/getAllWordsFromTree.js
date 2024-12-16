@@ -3,15 +3,37 @@ import { flatMap } from "lodash";
 import removePunctuation from "../sanitize/removePunctuation";
 
 /**
+ * Merges words surrounding a separator into one word.
+ *
+ * @param {string[]} words The array of words to split and merge.
+ * @param {string} separator The separator to split on.
+ *
+ * @returns {void} This function mutates the `words` array through splicing.
+ */
+function mergeBy( words, separator ) {
+	while ( words.indexOf( separator ) !== -1 ) {
+		const currentSeparator = words.indexOf( separator );
+		const wordBefore = words[ currentSeparator - 1 ];
+		const wordAfter = words[ currentSeparator + 1 ];
+		words.splice( currentSeparator - 1, 3, wordBefore + separator + wordAfter );
+	}
+}
+
+/**
  * Gets the words from the tokens.
  *
  * @param {Token[]} tokens The tokens to get the words from.
+ * @param {boolean} splitOnHyphens Whether to split words on hyphens.
  *
  * @returns {string[]} Array of words retrieved from the tokens.
  */
-export function getWordsFromTokens( tokens ) {
+export function getWordsFromTokens( tokens, splitOnHyphens = true ) {
 	// Retrieve all texts from the tokens.
 	let words = tokens.map( token => token.text );
+	// Combine words separated by a hyphen, if needed.
+	if ( ! splitOnHyphens ) {
+		mergeBy( words, "-" );
+	}
 	// Remove punctuation and spaces.
 	words = words.map( token => removePunctuation( token ) );
 	// Filter out empty tokens.
