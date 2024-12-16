@@ -16,7 +16,7 @@ final class Site_Kit_Consent_Repository_Fake implements Site_Kit_Consent_Reposit
 	/**
 	 * The value `is_consent_granted` will return.
 	 *
-	 * @var bool $consent
+	 * @var bool
 	 */
 	private $consent = true;
 

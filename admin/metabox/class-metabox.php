@@ -275,7 +275,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Passes variables to js for use with the post-scraper.
 	 *
-	 * @return array<string,string|array<string|int|bool>|bool|int>
+	 * @return array<string, string|array<string|int|bool>|bool|int>
 	 */
 	public function get_metabox_script_data() {
 		$permalink = $this->get_permalink();
