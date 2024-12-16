@@ -1092,7 +1092,7 @@ class WPSEO_Utils {
 		/**
 		 * The feature flag integration.
 		 *
-		 * @var Feature_Flag_Integration $feature_flag_integration;
+		 * @var Feature_Flag_Integration $feature_flag_integration
 		 */
 		$feature_flag_integration = YoastSEO()->classes->get( Feature_Flag_Integration::class );
 		return $feature_flag_integration->get_enabled_features();

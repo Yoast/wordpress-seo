@@ -193,7 +193,7 @@ class Meta {
 			/**
 			 * The indexable presenter.
 			 *
-			 * @var Abstract_Indexable_Presenter
+			 * @var Abstract_Indexable_Presenter $presenter
 			 */
 			$presenter               = new $presenter_class();
 			$presenter->presentation = $presentation;

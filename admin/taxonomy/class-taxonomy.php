@@ -191,7 +191,7 @@ class WPSEO_Taxonomy {
 			/**
 			 * The website information repository.
 			 *
-			 * @var $repo Website_Information_Repository
+			 * @var Website_Information_Repository $repo
 			 */
 			$repo             = YoastSEO()->classes->get( Website_Information_Repository::class );
 			$term_information = $repo->get_term_site_information();
