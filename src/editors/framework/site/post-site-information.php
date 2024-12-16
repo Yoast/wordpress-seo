@@ -18,14 +18,14 @@ class Post_Site_Information extends Base_Site_Information {
 	/**
 	 * The permalink.
 	 *
-	 * @var string $permalink
+	 * @var string
 	 */
 	private $permalink;
 
 	/**
 	 * The alert dismissal action.
 	 *
-	 * @var Alert_Dismissal_Action $alert_dismissal_action
+	 * @var Alert_Dismissal_Action
 	 */
 	private $alert_dismissal_action;
 
