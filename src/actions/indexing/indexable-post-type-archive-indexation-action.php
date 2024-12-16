@@ -15,7 +15,6 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  */
 class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action_Interface, Limited_Indexing_Action_Interface {
 
-
 	/**
 	 * The transient cache key.
 	 */

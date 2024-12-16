@@ -124,7 +124,6 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 		}
 		else {
 			$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [] );
-
 		}
 		Functions\expect( 'setup_postdata' )->once()->with( 'post' );
 		Functions\expect( 'apply_filters' )->once()->with( 'the_content', $content )->andReturn( $content );
