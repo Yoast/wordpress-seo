@@ -290,24 +290,24 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 			rowsWithId = rows.filter( row => row.hasAttribute( "id" ) );
 		} );
 
-		it( "renders the results and with add button when premium is active", async() => {
+		it( "should render the results and with add button when premium is active", async() => {
 			const { getAllByRole } = renderResult;
 			const buttons = getAllByRole( "button", { name: /Add/i } );
 			expect( buttons ).toHaveLength( 10 );
 		} );
 
-		it( "render the 10 rows for the results", () => {
+		it( "should render the 10 rows for the results", () => {
 			expect( rowsWithId ).toHaveLength( 10 );
 		} );
 
-		it( "render the keyphrases", () => {
+		it( "should render the keyphrases", () => {
 			const expectedKeyphrases = succesfulResponse.results.rows.map( row => row[ 0 ] );
 			expectedKeyphrases.forEach( ( keyphrase, index ) => {
 				expect( rowsWithId[ index ] ).toHaveTextContent( keyphrase );
 			} );
 		} );
 
-		it( "render the search volume", () => {
+		it( "should render the search volume", () => {
 			const searchVolumeFormat = new Intl.NumberFormat( "en", { notation: "compact", compactDisplay: "short" } );
 			const expectedSearchVolumes = succesfulResponse.results.rows.map( row => row[ 1 ] );
 			expectedSearchVolumes.forEach( ( searchVolume, index ) => {
@@ -316,21 +316,111 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 			} );
 		} );
 
-		it( "render the intent badges", () => {
+		it( "should render the intent badges", () => {
+			const variantsIntents = {
+				i: {
+					title: "Informational",
+					description: "The user wants to find an answer to a specific question.",
+				},
+				n: {
+					title: "Navigational",
+					description: "The user wants to find a specific page or site.",
+				},
+				c: {
+					title: "Commercial",
+					description: "The user wants to investigate brands or services.",
+				},
+				t: {
+					title: "Transactional",
+					description: "The user wants to complete an action (conversion).",
+				},
+			};
 			const expectedIntents = succesfulResponse.results.rows.map( row => row[ 4 ] );
 			expectedIntents.forEach( ( intentList, index ) => {
 				const intents = intentList.split( "," ).map( ( value ) => [ "i", "n", "t", "c" ][ Number( value ) ] );
+
 				intents.forEach( ( intent ) => {
 					expect( rowsWithId[ index ] ).toHaveTextContent( intent );
+					// Check the tooltip content.
+					expect( rowsWithId[ index ] ).toHaveTextContent( variantsIntents[ intent ].title );
+					expect( rowsWithId[ index ] ).toHaveTextContent( variantsIntents[ intent ].description );
 				} );
 			} );
 		} );
 
-		it( "render the keyword difficulty index", () => {
+		it( "should render the keyword difficulty index", () => {
+			const difficultyIndex = [
+				{
+					min: 0,
+					max: 14,
+					name: "very-easy",
+					tooltip: {
+						title: "Very easy",
+						description: "Your chance to start ranking new pages.",
+					},
+				},
+				{
+					min: 15,
+					max: 29,
+					name: "easy",
+					tooltip: {
+						title: "Easy",
+						description: "You will need quality content focused on the keyword’s intent.",
+					},
+				},
+				{
+					min: 30,
+					max: 49,
+					name: "possible",
+					tooltip: {
+						title: "Possible",
+						description: "You will need well-structured and unique content.",
+					},
+				},
+				{
+					min: 50,
+					max: 69,
+					name: "difficult",
+					tooltip: {
+						title: "Difficult",
+						description: "You will need lots of ref. domains and optimized content.",
+					},
+				},
+				{
+					min: 70,
+					max: 84,
+					name: "hard",
+					tooltip: {
+						title: "Hard",
+						description: "You will need lots of high-quality ref. domains and optimized content.",
+					},
+				},
+				{
+					min: 85,
+					max: 100,
+					name: "very-hard",
+					tooltip: {
+						title: "Very hard",
+						description: "It will take a lot of on-page SEO, link building, and content promotion efforts.",
+					},
+				},
+			];
 			const expectedKeywordDifficultyIndexes = succesfulResponse.results.rows.map( row => row[ 3 ] );
 			expectedKeywordDifficultyIndexes.forEach( ( keywordDifficultyIndex, index ) => {
 				expect( rowsWithId[ index ] ).toHaveTextContent( keywordDifficultyIndex );
+				// Check the tooltip content.
+				const variantDifficultyIndex = difficultyIndex.find( variant =>
+					keywordDifficultyIndex >= variant.min && keywordDifficultyIndex <= variant.max );
+				expect( rowsWithId[ index ] ).toHaveTextContent( variantDifficultyIndex.tooltip.title );
+				expect( rowsWithId[ index ] ).toHaveTextContent( variantDifficultyIndex.tooltip.description );
 			} );
+		} );
+
+		it( "should render the trends svgs", () => {
+			const { container } = renderResult;
+			const trendGraphs = container.querySelectorAll( 'svg[height="24"][width="66"]' );
+			expect( trendGraphs ).toHaveLength( 10 );
+			expect( trendGraphs ).toMatchSnapshot();
 		} );
 	} );
 } );
