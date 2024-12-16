@@ -27,9 +27,7 @@ class Current_Scores_Repository {
 	 *
 	 * @param Score_Group_Link_Collector $score_group_link_collector The score group link collector.
 	 */
-	public function __construct(
-		Score_Group_Link_Collector $score_group_link_collector
-	) {
+	public function __construct( Score_Group_Link_Collector $score_group_link_collector ) {
 		$this->score_group_link_collector = $score_group_link_collector;
 	}
 

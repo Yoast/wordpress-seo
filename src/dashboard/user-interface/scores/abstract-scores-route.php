@@ -74,9 +74,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 	 *
 	 * @return void
 	 */
-	public function set_collectors(
-		Content_Types_Collector $content_types_collector
-	) {
+	public function set_collectors( Content_Types_Collector $content_types_collector ) {
 		$this->content_types_collector = $content_types_collector;
 	}
 

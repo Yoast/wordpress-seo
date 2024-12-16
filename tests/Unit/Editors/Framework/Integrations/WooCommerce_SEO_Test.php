@@ -52,11 +52,7 @@ final class WooCommerce_SEO_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_is_enabled(
-		bool $woocommerce_seo_enabled,
-		bool $expected
-	) {
-
+	public function test_is_enabled( bool $woocommerce_seo_enabled, bool $expected ) {
 		$this->addon_manager
 			->expects( 'get_plugin_file' )
 			->times( 3 )
