@@ -21,7 +21,6 @@ const FormikDummyAutocompleteField = withFormikDummySelectField( FormikAutocompl
  */
 const SiteRepresentation = () => {
 	const { values } = useFormikContext();
-
 	const {
 		website_name: websiteName,
 		company_or_person: companyOrPerson,

@@ -2,7 +2,6 @@ import passiveVoice from "../../../../src/languageProcessing/researches/getPassi
 import Paper from "../../../../src/values/Paper.js";
 import Researcher from "../../../../src/languageProcessing/languages/fr/Researcher";
 
-
 describe( "detecting passive voice in sentences", function() {
 	it( "returns active voice (présent)", function() {
 		const paper = new Paper( "Je mange une pomme.", { locale: "fr_FR" } );

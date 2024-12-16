@@ -1,4 +1,3 @@
-
 // External dependencies.
 import React, { PureComponent } from "react";
 import styled from "styled-components";
@@ -552,7 +551,6 @@ export default class SnippetPreview extends PureComponent {
 	getDescription() {
 		if ( ! this.props.description ) {
 			return __(
-
 				"Please provide a meta description by editing the snippet below. If you don’t, Google will try to find a relevant part of your post to show in the search results.",
 				"wordpress-seo"
 			);
@@ -658,7 +656,6 @@ export default class SnippetPreview extends PureComponent {
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
 		 * However this is not relevant in this case, because the url is not focusable.
 		 */
-
 		return <React.Fragment>
 			<ScreenReaderText>
 				{
@@ -886,7 +883,6 @@ export default class SnippetPreview extends PureComponent {
 		 * However this is not relevant in this case, because the title and description are
 		 * not focusable.
 		 */
-
 		return (
 			<section className="yoast-snippet-preview-section">
 				<Container

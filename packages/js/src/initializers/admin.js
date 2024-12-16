@@ -1,5 +1,4 @@
 /* global ajaxurl */
-
 import { __ } from "@wordpress/i18n";
 import { debounce } from "lodash";
 
@@ -216,9 +215,7 @@ export default function initAdmin( jQuery ) {
 
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
-
 	window.wpseoSetTabHash = wpseoSetTabHash;
-
 
 	jQuery( document ).ready( function() {
 		/**

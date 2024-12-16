@@ -3,7 +3,6 @@ global.jQuery = {};
 
 import BlockEditorData from "../src/analysis/blockEditorData.js";
 
-
 const refresh = () => {
 	return true;
 };

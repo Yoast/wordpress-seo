@@ -4,7 +4,6 @@ import { PropTypes } from "prop-types";
 import { Fragment } from "@wordpress/element";
 import { SimpleIntegration } from "./simple-integration";
 
-
 /**
  * Represents an integration.
  *
@@ -38,7 +37,6 @@ export const PluginIntegration = ( { integration, isActive } ) => {
 		</SimpleIntegration>
 	);
 };
-
 
 PluginIntegration.propTypes = {
 	integration: PropTypes.shape( {

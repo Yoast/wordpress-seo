@@ -168,7 +168,6 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 }
 /* eslint-enable complexity */
 
-
 /**
  * Checks the config overrides for a given SEO assessor.
  * @param {Assessor} assessor The SEO assessor.

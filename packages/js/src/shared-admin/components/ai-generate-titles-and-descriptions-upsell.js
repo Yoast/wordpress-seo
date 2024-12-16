@@ -32,7 +32,6 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 	const { onClose, initialFocus } = useModalContext();
 
 	const learnMoreLinkStructure = {
-
 		a: <OutboundLink
 			href={ learnMoreLink }
 			className="yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"

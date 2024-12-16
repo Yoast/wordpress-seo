@@ -1,7 +1,6 @@
 // Make sure the Jed object is globally available
 const Jed = require( "jed" );
 
-
 const FactoryProto = function() {};
 
 FactoryProto.prototype.buildJed = function() {

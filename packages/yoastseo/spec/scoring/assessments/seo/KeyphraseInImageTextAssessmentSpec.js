@@ -1,4 +1,3 @@
-
 import KeyphraseInImagesAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../../src/helpers/factory.js";

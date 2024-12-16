@@ -11,7 +11,6 @@ export default compose( [
 		const readabilityScoreIndicator = getIndicatorForScore( data.getReadabilityResults().overallScore );
 		const { isKeywordAnalysisActive, isContentAnalysisActive } = data.getPreferences();
 
-
 		let readabilityScoreColor;
 		switch ( readabilityScoreIndicator.className ) {
 			case "good":
@@ -25,7 +24,6 @@ export default compose( [
 				readabilityScoreColor = colors.$color_bad;
 				break;
 		}
-
 
 		let seoScoreColor;
 		switch ( seoScoreIndicator.className ) {

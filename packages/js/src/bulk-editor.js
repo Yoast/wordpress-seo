@@ -70,7 +70,6 @@ import jQuery from "jquery";
 
 				var data = {
 					action: saveAllMethod,
-
 					_ajax_nonce: wpseoBulkEditorNonce,
 				};
 

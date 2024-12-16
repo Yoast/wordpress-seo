@@ -1,4 +1,3 @@
-
 import metaDescriptionLength from "../../../src/languageProcessing/researches/metaDescriptionLength.js";
 import Paper from "../../../src/values/Paper.js";
 

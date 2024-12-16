@@ -110,7 +110,6 @@ describe( "wrapTryAroundAction", function() {
 		// Mute the actual logs.
 		// eslint-disable-next-line no-console
 		console.debug = jest.fn();
-
 		console.error = jest.fn();
 
 		wrapper().then( result => {
@@ -118,7 +117,6 @@ describe( "wrapTryAroundAction", function() {
 			expect( result.error ).toBe( "Error: Testing error!" );
 			// eslint-disable-next-line no-console
 			expect( console.debug ).toHaveBeenCalledTimes( 1 );
-
 			expect( console.error ).toHaveBeenCalledTimes( 1 );
 
 			done();

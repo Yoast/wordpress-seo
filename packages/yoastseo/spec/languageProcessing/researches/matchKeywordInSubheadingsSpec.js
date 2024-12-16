@@ -1,4 +1,3 @@
-
 import matchKeywordInSubheadings from "../../../src/languageProcessing/researches/matchKeywordInSubheadings";
 import Paper from "../../../src/values/Paper";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";

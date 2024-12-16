@@ -150,7 +150,6 @@ function calculateInitialState( windowObject, isStepFinished ) {
 	};
 }
 
-
 /* eslint-disable max-statements */
 /**
  * The first time configuration.
@@ -400,7 +399,6 @@ export default function FirstTimeConfigurationSteps() {
 		setShowEditButton( stepperFinishedOnce && ! isStepBeingEdited );
 	}, [ stepperFinishedOnce, isStepBeingEdited ] );
 
-
 	useEffect( () => {
 		/**
 		 * Prevents the submission of the form upon pressing enter.
@@ -584,7 +582,6 @@ export default function FirstTimeConfigurationSteps() {
 		</Stepper>
 	);
 }
-
 
 /* eslint-enable complexity */
 /* eslint-enable react/jsx-no-bind */

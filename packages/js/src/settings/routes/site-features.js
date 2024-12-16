@@ -137,7 +137,6 @@ const LearnMoreLink = ( { id, link, ariaLabel, ...props } ) => {
 	const href = useSelectSettings( "selectLink", [ link ], link );
 
 	return (
-
 		<Link
 			id={ id }
 			href={ href }

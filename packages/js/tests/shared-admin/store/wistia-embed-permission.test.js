@@ -111,7 +111,6 @@ describe( "wistiaEmbedPermission", () => {
 				// Falsy with different types.
 				[ false, "" ],
 				[ false, null ],
-
 				[ false, undefined ],
 			] )( "returns the value %p when the input value is %p", ( expected, input ) => {
 				expect( wistiaEmbedPermissionReducer( {}, wistiaEmbedPermissionActions.setWistiaEmbedPermissionValue( input ) ) )
@@ -139,7 +138,6 @@ describe( "wistiaEmbedPermission", () => {
 				// Falsy with different types.
 				[ false, { value: "" } ],
 				[ false, { value: null } ],
-
 				[ false, { value: undefined } ],
 				// The above, but without the object with value key.
 				[ false, true ],
@@ -150,7 +148,6 @@ describe( "wistiaEmbedPermission", () => {
 				[ false, Object ],
 				[ false, "" ],
 				[ false, null ],
-
 				[ false, undefined ],
 			] )( "returns the value %p when the input value is %p", ( expected, input ) => {
 				expect( wistiaEmbedPermissionReducer( {}, {
@@ -174,7 +171,6 @@ describe( "wistiaEmbedPermission", () => {
 				// Falsy with different types.
 				[ false, { value: "" } ],
 				[ false, { value: null } ],
-
 				[ false, { value: undefined } ],
 				// The above, but without the object with value key.
 				[ false, true ],
@@ -185,7 +181,6 @@ describe( "wistiaEmbedPermission", () => {
 				[ false, Object ],
 				[ false, "" ],
 				[ false, null ],
-
 				[ false, undefined ],
 			] )( "returns the value %p when the input value is %p", ( expectedValue, inputValue ) => {
 				expect( wistiaEmbedPermissionReducer( {}, {
@@ -321,7 +316,6 @@ describe( "wistiaEmbedPermission", () => {
 				// Falsy with different types.
 				[ false, { payload: "" } ],
 				[ false, { payload: null } ],
-
 				[ false, { payload: undefined } ],
 				// The above, but without the object with payload key.
 				[ false, true ],
@@ -342,7 +336,6 @@ describe( "wistiaEmbedPermission", () => {
 
 			test.each( [
 				[ null ],
-
 				[ undefined ],
 			] )( "throws a TypeError when passing %p", async( input ) => {
 				expect.assertions( 2 );

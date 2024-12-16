@@ -10,7 +10,6 @@ xdescribe( "Test isFollowedByException", () => {
 		const callback = isNotPrecededByException( words, exceptions );
 		const index = 1;
 
-
 		expect( callback( index ) ).toEqual( true );
 	} );
 	it( "returns the right value when term is not preceded by an exception", () => {
@@ -18,7 +17,6 @@ xdescribe( "Test isFollowedByException", () => {
 		const exceptions = [ "this" ];
 		const callback = isNotPrecededByException( words, exceptions );
 		const index = 1;
-
 
 		expect( callback( index ) ).toEqual( false );
 	} );

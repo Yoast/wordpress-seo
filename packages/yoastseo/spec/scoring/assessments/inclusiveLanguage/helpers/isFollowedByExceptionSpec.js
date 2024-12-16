@@ -11,7 +11,6 @@ describe( "Test isFollowedByException", () => {
 		const callback = isFollowedByException( words, consecutiveWords, exceptions );
 		const index = 1;
 
-
 		expect( callback( index ) ).toEqual( true );
 	} );
 	it( "returns the right value when term is not followed by an exception", () => {
@@ -20,7 +19,6 @@ describe( "Test isFollowedByException", () => {
 		const exceptions = [ "sentence" ];
 		const callback = isFollowedByException( words, consecutiveWords, exceptions );
 		const index = 1;
-
 
 		expect( callback( index ) ).toEqual( false );
 	} );

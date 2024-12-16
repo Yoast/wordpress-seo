@@ -1,13 +1,10 @@
-
 import getSentenceBeginnings from "../../../src/languageProcessing/researches/getSentenceBeginnings";
-
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
 import SpanishResearcher from "../../../src/languageProcessing/languages/es/Researcher";
 import GreekResearcher from "../../../src/languageProcessing/languages/el/Researcher";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
-
 
 describe( "gets the sentence beginnings and the count of consecutive duplicates.", function() {
 	let mockPaper = new Paper( "How are you? Bye!" );

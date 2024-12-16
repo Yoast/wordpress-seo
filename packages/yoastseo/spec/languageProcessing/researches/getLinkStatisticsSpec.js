@@ -4,7 +4,6 @@ import Paper from "../../../src/values/Paper.js";
 
 let foundLinks;
 
-
 describe( "Tests a string for anchors and its attributes", function() {
 	const paperAttributes = {
 		keyword: "link",

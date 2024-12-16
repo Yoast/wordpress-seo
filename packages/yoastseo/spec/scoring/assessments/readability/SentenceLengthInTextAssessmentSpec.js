@@ -1,6 +1,4 @@
-
 import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
-
 import Paper from "../../../../src/values/Paper.js";
 import Mark from "../../../../src/values/Mark.js";
 import addMark from "../../../../src/markers/addMark";
@@ -19,7 +17,6 @@ const shortSentence15WordsLimit = "Word ".repeat( 13 ) + "word. ";
 const longSentence15WordsLimit = "Word ".repeat( 15 ) + "word. ";
 
 import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/sentenceLength";
-
 
 describe( "An assessment for sentence length", function() {
 	it( "returns the score for all short sentences using the default config", function() {

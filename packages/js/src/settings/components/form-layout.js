@@ -1,4 +1,3 @@
-
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, useToggleState } from "@yoast/ui-library";

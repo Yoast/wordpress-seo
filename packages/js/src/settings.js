@@ -7,7 +7,6 @@ import initSettingsHeader from "./initializers/settings-header";
 
 initAdmin( jQuery );
 
-
 if ( wpseoScriptData ) {
 	if ( typeof wpseoScriptData.dismissedAlerts !== "undefined" ) {
 		initSettingsStore();

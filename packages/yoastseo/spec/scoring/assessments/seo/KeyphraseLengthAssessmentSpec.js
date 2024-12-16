@@ -1,4 +1,3 @@
-
 import { merge } from "lodash";
 
 import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";

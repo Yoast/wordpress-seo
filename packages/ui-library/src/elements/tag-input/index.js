@@ -1,5 +1,3 @@
-
-
 import { XIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import { isString, map, noop } from "lodash";
@@ -39,7 +37,6 @@ export const Tag = ( { tag, index, disabled = false, onRemoveTag, screenReaderRe
 	}, [ index, disabled, onRemoveTag ] );
 
 	return (
-
 		<Badge
 			onKeyDown={ handleKeyDown } { ...props } variant="plain" className="yst-tag-input__tag"
 		>

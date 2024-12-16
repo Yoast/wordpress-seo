@@ -1,4 +1,3 @@
-
 import { ExternalLinkIcon, LockOpenIcon } from "@heroicons/react/outline";
 import { ArrowSmRightIcon } from "@heroicons/react/solid";
 import { useMemo } from "@wordpress/element";

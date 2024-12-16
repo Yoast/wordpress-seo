@@ -1,4 +1,3 @@
-
 // External dependencies.
 import styled from "styled-components";
 import React from "react";
@@ -535,7 +534,6 @@ class SnippetEditor extends React.Component {
 		 * The SnippetPreview is not a build-in HTML element so this check is not
 		 * relevant.
 		 */
-
 		return (
 			<ErrorBoundary>
 				<div>

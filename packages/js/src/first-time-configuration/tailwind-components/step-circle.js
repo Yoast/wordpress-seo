@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { stepperTimingClasses } from "../stepper-helper";
 import { useStepperContext } from "./stepper";
 
-
 const { slideDuration, delayUntilStepFaded } = stepperTimingClasses;
 const commonCircleClasses = `yst-transition-opacity ${ slideDuration } yst-absolute yst-inset-0 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full`;
 

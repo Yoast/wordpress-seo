@@ -7,7 +7,6 @@ import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
 import StepHeader from "./step-header";
 import { FadeInAlert } from "../tailwind-components/base/alert";
 
-
 const {
 	slideDuration,
 	delayBeforeOpening,
@@ -274,4 +273,3 @@ Step.Error = StepError;
 Step.Header = StepHeader;
 Step.GoButton = GoButton;
 Step.EditButton = EditButton;
-

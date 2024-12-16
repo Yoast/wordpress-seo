@@ -1,4 +1,3 @@
-
 import {
 	computeScoresPerSentenceShortTopic,
 	computeScoresPerSentenceLongTopic,

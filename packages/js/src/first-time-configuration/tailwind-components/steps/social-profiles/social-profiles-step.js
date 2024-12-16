@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import SocialInputSection from "./social-input-section";
 import Alert from "../../base/alert";
 
-
 /**
  * Social profiles step component
  *

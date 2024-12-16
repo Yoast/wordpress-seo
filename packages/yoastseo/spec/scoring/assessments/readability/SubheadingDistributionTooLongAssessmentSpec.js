@@ -1,4 +1,3 @@
-
 import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../../src/helpers/factory.js";
