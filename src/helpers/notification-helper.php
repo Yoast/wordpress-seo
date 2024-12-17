@@ -39,10 +39,10 @@ class Notification_Helper {
 	/**
 	 * Check if the user has dismissed a notification. (wrapper function)
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param Yoast_Notification $notification The notification to check for dismissal.
 	 * @param int|null           $user_id      User ID to check on.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */

@@ -159,9 +159,9 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
-	 * @throws Repository_Not_Found_Exception When the given widget name is not implemented yet.
-	 *
 	 * @return WP_REST_Response The success or failure response.
+	 *
+	 * @throws Repository_Not_Found_Exception When the given widget name is not implemented yet.
 	 */
 	public function get_time_based_seo_metrics( WP_REST_Request $request ): WP_REST_Response {
 		try {
