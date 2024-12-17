@@ -43,6 +43,8 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 *
 	 * @deprecated 23.1
 	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	public function use_social_templates() {
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.1' );
