@@ -278,6 +278,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2024-12-17
 
+Yoast SEO 24.1 adds the Yoast SEO Dashboard to monitor your site's SEO performance in one overview. Find more about Yoast SEO 24.1 in [our release post](https://yoa.st/release-18-12-24)!
+
 #### Enhancements
 
 * Introduces the Yoast Dashboard, a place where site administrators can check the SEO and Readability performance of the site's posts.
