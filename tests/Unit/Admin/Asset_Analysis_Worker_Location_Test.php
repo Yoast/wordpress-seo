@@ -37,7 +37,7 @@ final class Asset_Analysis_Worker_Location_Test extends TestCase {
 	/**
 	 * Get the path to wordpress-seo
 	 *
-	 * @return false|string
+	 * @return string|false
 	 */
 	protected function get_wpseo_file() {
 		return \realpath( __DIR__ . '/../../../wp-seo.php' );
