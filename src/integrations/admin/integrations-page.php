@@ -122,6 +122,7 @@ class Integrations_Page implements Integration_Interface {
 		$acf_seo_file_github  = 'yoast-acf-analysis/yoast-acf-analysis.php';
 		$algolia_file         = 'wp-search-with-algolia/algolia.php';
 		$old_algolia_file     = 'search-by-algolia-instant-relevant-results/algolia.php';
+		$google_site_kit_file = 'google-site-kit/google-site-kit.php';
 
 		$addon_manager             = new WPSEO_Addon_Manager();
 		$woocommerce_seo_installed = $addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG );
@@ -140,6 +141,7 @@ class Integrations_Page implements Integration_Interface {
 		$ssp_active               = \class_exists( PodcastEpisode::class );
 		$wp_recipe_maker_active   = \class_exists( WP_Recipe_Maker::class );
 		$mastodon_active          = $this->is_mastodon_active();
+		$google_site_kit 		  = \is_plugin_active( $google_site_kit_file );
 
 		$woocommerce_seo_activate_url = \wp_nonce_url(
 			\self_admin_url( 'plugins.php?action=activate&plugin=' . $woocommerce_seo_file ),
@@ -193,6 +195,8 @@ class Integrations_Page implements Integration_Interface {
 				'mastodon_active'                    => $mastodon_active,
 				'is_multisite'                       => \is_multisite(),
 				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
+				'google_site_kit_plugin_active'      => $google_site_kit,
+				'google_site_kit_connected'          => \get_option( 'googlesitekit_has_connected_admins', false ),
 			]
 		);
 	}

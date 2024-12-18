@@ -5,6 +5,7 @@ import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
 import { getInitialState, getIsMultisiteAvailable, getIsNetworkControlEnabled, updateIntegrationState } from "./helper";
 
 import { ToggleableIntegration } from "./toggleable-integration";
+import { SiteKitIntegration } from "./site-kit-integration";
 
 const integrations = [
 	{
@@ -75,4 +76,5 @@ export const RecommendedIntegrations = [
 			/>
 		);
 	} ),
+	<SiteKitIntegration key={ integrations.length } />,
 ];
