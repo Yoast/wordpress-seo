@@ -9,7 +9,7 @@ import classNames from "classnames";
 import { useField } from "formik";
 import { debounce, find, isEmpty, map, values } from "lodash";
 import PropTypes from "prop-types";
-import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { ASYNC_ACTION_STATUS, FETCH_DELAY } from "../../shared-admin/constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 let abortController;
@@ -80,7 +80,7 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 
 			console.error( error.message );
 		}
-	}, 200 ), [ setQueriedUserIds, addManyUsers, setStatus ] );
+	}, FETCH_DELAY ), [ setQueriedUserIds, addManyUsers, setStatus ] );
 
 	const handleChange = useCallback( newValue => {
 		setTouched( true, false );

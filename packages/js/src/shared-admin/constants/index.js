@@ -19,3 +19,5 @@ export const VIDEO_FLOW = {
 	askPermission: "askPermission",
 	isPlaying: "isPlaying",
 };
+
+export const FETCH_DELAY = 200;

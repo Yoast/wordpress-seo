@@ -23,16 +23,6 @@ final class Analysis_Features_List_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * Set up the test.
-	 *
-	 * @return void
-	 */
-	protected function set_up(): void {
-		parent::set_up();
-		$this->instance = new Analysis_Features_List();
-	}
-
-	/**
 	 * Tests the getters.
 	 *
 	 * @covers ::add_feature
@@ -50,5 +40,35 @@ final class Analysis_Features_List_Test extends TestCase {
 			],
 			$this->instance->parse_to_legacy_array()
 		);
+	}
+
+	/**
+	 * Tests the to array.
+	 *
+	 * @covers ::add_feature
+	 * @covers ::parse_to_array
+	 *
+	 * @return void
+	 */
+	public function test_parse_to_array(): void {
+		$this->instance->add_feature( new Analysis_Feature( false, 'name-false', 'legacy-key-false' ) );
+		$this->instance->add_feature( new Analysis_Feature( true, 'name-true', 'legacy-key-true' ) );
+		$this->assertSame(
+			[
+				'name-false' => false,
+				'name-true'  => true,
+			],
+			$this->instance->to_array()
+		);
+	}
+
+	/**
+	 * Set up the test.
+	 *
+	 * @return void
+	 */
+	protected function set_up(): void {
+		parent::set_up();
+		$this->instance = new Analysis_Features_List();
 	}
 }
