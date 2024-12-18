@@ -4,7 +4,7 @@
     "main": "index.js",
     "scripts": {
         "postinstall": "yarn --cwd node_modules/yoastseo build && yarn --cwd node_modules/yoastseo pretest",
-        "start": "node index.js"
+        "start": "node --watch index.js"
     },
     "dependencies": {
         "express": "^5.0.1",
