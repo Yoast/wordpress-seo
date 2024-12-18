@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.7
-Stable tag: 24.0
+Stable tag: 24.1
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -276,13 +276,15 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 24.1 =
 
-Release date: 2024-12-17
+Release date: 2024-12-18
+
+Yoast SEO 24.1 adds the Yoast SEO Dashboard to monitor your site's SEO performance in one overview. Find more about Yoast SEO 24.1 in [our release post](https://yoa.st/release-18-12-24)!
 
 #### Enhancements
 
-* Adds `Not analyzed` as a option in the readability filter in the posts page.
+* Introduces the Yoast Dashboard, a place where site administrators can check the SEO and Readability performance of the site's posts.
+* Adds `Not analyzed` as an option in the readability filter in the posts page.
 * Enhances the existing `Needs improvement` option in the readability filter in the posts page, to include posts that don't have enough content as well.
-* Introduces Yoast dashboard, a place where site administrators can check the SEO and Readability performance of the site's posts.
 
 #### Bugfixes
 
