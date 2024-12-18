@@ -15,19 +15,24 @@ import { DifficultyBullet, IntentBadge, TrendGraph } from "../..";
  * @param {string[]} [intent=[]] An array of intent initials.
  * @param {Function} [renderButton] The render button function.
  * @param {Object[]} [relatedKeyphrases] The related keyphrases.
+ * @param {string} id The id of the row.
  *
  * @returns {JSX.Element} The row.
  */
-const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], keywordDifficultyIndex = -1, intent = [], renderButton, relatedKeyphrases } ) => {
+const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], keywordDifficultyIndex = -1, intent = [], renderButton, relatedKeyphrases, id } ) => {
 	return (
-		<Table.Row>
+		<Table.Row id={ id }>
 			<Table.Cell>
 				{ keyword }
 			</Table.Cell>
 			<Table.Cell>
 				<div className="yst-flex yst-gap-2">
 					{ intent.length > 0 && intent.map( ( value, index ) => (
-						<IntentBadge key={ `${ index }-${ keyword }-${ value }` } value={ value } />
+						<IntentBadge
+							id={ `${ id }__intent-${ index }-${ value }` }
+							key={ `${ id }-${ index }-${ value }` }
+							value={ value }
+						/>
 					) ) }
 				</div>
 			</Table.Cell>
@@ -41,7 +46,7 @@ const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], key
 			</Table.Cell>
 			<Table.Cell>
 				<div className="yst-flex yst-justify-end">
-					<DifficultyBullet value={ keywordDifficultyIndex } />
+					<DifficultyBullet value={ keywordDifficultyIndex } id={ `${ id }__difficulty-index` } />
 				</div>
 			</Table.Cell>
 			{ isFunction( renderButton ) && <Table.Cell>
@@ -64,6 +69,7 @@ KeyphrasesTableRow.propTypes = {
 		results: PropTypes.array,
 		score: PropTypes.number,
 	} ) ),
+	id: PropTypes.string.isRequired,
 };
 
 /**
@@ -151,10 +157,11 @@ const prepareRow = ( columnNames, row, searchVolumeFormat ) => {
  * @param {string} [className=""] The class name for the table.
  * @param {boolean} [isPending=false] Whether the data is still pending.
  * @param {string} [userLocale] The user locale, only the first part, for example "en" not "en_US".
+ * @param {string} [idPrefix=""] The idPrefix for the id of the row.
  *
  * @returns {JSX.Element} The keyphrases table.
  */
-export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", userLocale, isPending = false } ) => {
+export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", userLocale, isPending = false, idPrefix = "yoast-seo" } ) => {
 	let searchVolumeFormat;
 	try {
 		searchVolumeFormat = new Intl.NumberFormat( userLocale, { notation: "compact", compactDisplay: "short" } );
@@ -203,7 +210,8 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 		<Table.Body>
 			{ ! isPending && rows && rows.map( ( rowData, index ) => (
 				<KeyphrasesTableRow
-					key={ `related-keyphrase-${ index }` }
+					key={ `${ idPrefix }-related-keyphrase-${ index }` }
+					id={ `${ idPrefix }-related-keyphrase-${ index }` }
 					renderButton={ renderButton }
 					relatedKeyphrases={ relatedKeyphrases }
 					{ ...rowData }
@@ -230,6 +238,7 @@ KeyphrasesTable.propTypes = {
 	className: PropTypes.string,
 	isPending: PropTypes.bool,
 	userLocale: PropTypes.string,
+	idPrefix: PropTypes.string,
 };
 
 KeyphrasesTable.displayName = "KeyphrasesTable";

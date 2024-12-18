@@ -24,7 +24,8 @@ export default {
 			description: { component },
 		},
 	},
-	render: ( { isOpen } ) => {
+	render: ( args ) => {
+		const { isOpen } = args;
 		const [ open, toggleOpen, setOpen ] = useToggleState( isOpen );
 
 		useEffect( () => {
@@ -34,6 +35,6 @@ export default {
 			<Button onClick={ toggleOpen }>
 				Open Modal
 			</Button>
-			<Modal isOpen={ open } onClose={ toggleOpen }> Hello World! </Modal></> );
+			<Modal { ...args } isOpen={ open } onClose={ toggleOpen }> Hello World! </Modal></> );
 	},
 };
