@@ -124,7 +124,7 @@ const expectedResults = {
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 50.8% of the sentences contain more than 40 characters, " +
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 51.6% of the sentences contain more than 40 characters, " +
 			"which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
