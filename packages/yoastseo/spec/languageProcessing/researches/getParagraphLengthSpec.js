@@ -26,47 +26,15 @@ describe( "a test for getting paragraph length", function() {
 	} );
 
 	it( "returns the paragraph length of two paragraphs divided by double linebreaks and ends with a double linebreak", function() {
+		// After using the HTML parser, we don't split paragraphs on double linebreaks, so this should be one paragraph.
 		const mockPaper = new Paper( "Lorem \n\n ipsum two \n\n" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
 		const paragraphLengths = getParagraphLength( mockPaper, mockResearcher );
 
-		expect( paragraphLengths[ 0 ].paragraphLength ).toBe( 1 );
-		expect( paragraphLengths[ 1 ].paragraphLength ).toBe( 2 );
-	} );
-
-	it( "returns the paragraph length of two paragraphs in Japanese divided by double linebreaks and ends with a double linebreak", function() {
-		const mockPaper = new Paper( "1964年 \n\n （昭和39年） \n\n" );
-		const mockResearcher = new JapaneseResearcher( mockPaper );
-		buildTree( mockPaper, mockResearcher );
-
-		const paragraphLengths = getParagraphLength( mockPaper, mockResearcher );
-
-		expect( paragraphLengths[ 0 ].paragraphLength ).toBe( 5 );
-		expect( paragraphLengths[ 1 ].paragraphLength ).toBe( 7 );
-	} );
-
-	it( "returns the paragraph length of two paragraphs divided by double linebreaks that don't end with a double linebreak", function() {
-		const mockPaper = new Paper( "Lorem \n\n ipsum two" );
-		const mockResearcher = new EnglishResearcher( mockPaper );
-		buildTree( mockPaper, mockResearcher );
-
-		const paragraphLengths = getParagraphLength( mockPaper, mockResearcher );
-
-		expect( paragraphLengths[ 0 ].paragraphLength ).toBe( 1 );
-		expect( paragraphLengths[ 1 ].paragraphLength ).toBe( 2 );
-	} );
-
-	it( "returns the paragraph length of two paragraphs in Japanese divided by double linebreaks that don't end with a double linebreak", function() {
-		const mockPaper = new Paper( "1964年 \n\n （昭和39年）" );
-		const mockResearcher = new JapaneseResearcher( mockPaper );
-		buildTree( mockPaper, mockResearcher );
-
-		const paragraphLengths = getParagraphLength( mockPaper, mockResearcher );
-
-		expect( paragraphLengths[ 0 ].paragraphLength ).toBe( 5 );
-		expect( paragraphLengths[ 1 ].paragraphLength ).toBe( 7 );
+		expect( paragraphLengths.length ).toBe( 1 );
+		expect( paragraphLengths[ 0 ].paragraphLength ).toBe( 3 );
 	} );
 
 	it( "returns the paragraph length of a paragraph without tags or double linebreaks", function() {
@@ -162,44 +130,34 @@ describe( "a test for getting paragraph length", function() {
 		expect( paragraphLengths.length ).toBe( 1 );
 	} );
 
-	it( "returns the paragraph length of paragraph without p tags or double linebreaks, but with h2 tags", function() {
+	it( "should not recognize heading as paragraph", function() {
 		const mockPaper = new Paper( "<h2>Lorem ipsum dolor sit amet</h2>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
 		const paragraphLengths = getParagraphLength( mockPaper, mockResearcher );
 
-		expect( paragraphLengths[ 0 ].paragraphLength ).toBe( 5 );
+		expect( paragraphLengths.length ).toBe( 0 );
 	} );
 
-	it( "returns the paragraph length of paragraph in Japanese without p tags or double linebreaks, but with h2 tags", function() {
-		const mockPaper = new Paper( "<h2>（昭和39年）10月1日に開業した。</h2>" );
-		const mockResearcher = new JapaneseResearcher( mockPaper );
-		buildTree( mockPaper, mockResearcher );
-
-		const paragraphLengths = getParagraphLength( mockPaper, mockResearcher );
-
-		expect( paragraphLengths[ 0 ].paragraphLength ).toBe( 18 );
-	} );
-
-	xit( "returns the paragraph length of an empty paragraph with p tags", function() {
+	it( "should not count an empty paragraph", function() {
 		const mockPaper = new Paper( "<p></p>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
 		const paragraphLengths = getParagraphLength( mockPaper, mockResearcher );
 
-		expect( paragraphLengths.paragraphLength ).not.toContain( 0 );
+		expect( paragraphLengths.length ).toBe( 0 );
 	} );
 
-	xit( "returns the paragraph length of an empty paragraph without p tags or double line breaks", function() {
+	it( "should not count an empty paragraph without p tags or double line breaks", function() {
 		const mockPaper = new Paper( "" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
 		const paragraphLengths = getParagraphLength( mockPaper, mockResearcher );
 
-		expect( paragraphLengths.paragraphLength ).not.toContain( 0 );
+		expect( paragraphLengths.length ).toBe( 0 );
 	} );
 } );
 
