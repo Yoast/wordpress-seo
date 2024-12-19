@@ -82,7 +82,7 @@ const ScoreListItem = ( { score, idSuffix } ) => {
 		<li className={ CLASSNAMES.listItem }>
 			<Content score={ score } idSuffix={ idSuffix } />
 			{ score.links.view && (
-				<Button as="a" variant="secondary" size="small" href={ score.links.view } className="yst-ml-auto">View</Button>
+				<Button as="a" variant="secondary" size="small" href={ score.links.view } className="yst-ml-auto">{ __( "View", "wordpress-seo" ) }</Button>
 			) }
 		</li>
 	);
