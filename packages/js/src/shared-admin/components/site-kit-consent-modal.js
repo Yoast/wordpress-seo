@@ -4,13 +4,13 @@ import { PropTypes } from "prop-types";
 
 /**
  * The Site Kit consent modal component.
- * 
- * @param isOpen {boolean} Whether the modal is open.
- * @param onClose {Function} Callback to close the modal.
- * 
+ *
+ * @param {boolean} isOpen Whether the modal is open.
+ * @param {Function} onClose Callback to close the modal.
+ *
  * @returns {WPElement} The Site Kit consent modal component.
  */
-export const GoogleSiteKitConsentModal = ( { isOpen, onClose } ) => {
+export const SiteKitConsentModal = ( { isOpen, onClose } ) => {
 	return (
 		<Modal
 			isOpen={ isOpen }
@@ -24,9 +24,9 @@ export const GoogleSiteKitConsentModal = ( { isOpen, onClose } ) => {
 			</Modal.Panel>
 		</Modal>
 	);
-}
+};
 
-GoogleSiteKitConsentModal.propTypes = {
+SiteKitConsentModal.propTypes = {
 	isOpen: PropTypes.bool,
 	onClose: PropTypes.func,
 };

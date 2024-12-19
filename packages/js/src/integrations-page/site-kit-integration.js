@@ -5,7 +5,7 @@ import { SimpleIntegration } from "./simple-integration";
 import { ReactComponent as SiteKitLogo } from "../../images/site-kit-logo.svg";
 import { get } from "lodash";
 import { useToggleState } from "@yoast/ui-library";
-import { GoogleSiteKitConsentModal } from "../shared-admin/components";	
+import { SiteKitConsentModal } from "../shared-admin/components";
 
 const siteKitIntegration = {
 	name: "Site Kit by Google",
@@ -100,42 +100,42 @@ export const SiteKitIntegration = () => {
 
 	return (
 		<>
-		<SimpleIntegration
-			integration={ siteKitIntegration }
-			isActive={ isInstalled && isActive  }
-			button={ getButtonConfig( isInstalled, isActive, afterSetup, isConnected ) }
-		>
+			<SimpleIntegration
+				integration={ siteKitIntegration }
+				isActive={ isInstalled && isActive  }
+				button={ getButtonConfig( isInstalled, isActive, afterSetup, isConnected ) }
+			>
 
-			{ successfullyConnected && <Fragment>
-				<span className="yst-text-slate-700 yst-font-medium">{ __( "Successfully connected", "wordpress-seo" ) }</span>
-				<CheckIcon
-					className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
-				/>
-			</Fragment> }
+				{ successfullyConnected && <Fragment>
+					<span className="yst-text-slate-700 yst-font-medium">{ __( "Successfully connected", "wordpress-seo" ) }</span>
+					<CheckIcon
+						className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
+					/>
+				</Fragment> }
 
-			{ notConnected && isActive && <Fragment>
-				<span className="yst-text-slate-700 yst-font-medium">
-					{
-						__( "Not connected", "wordpress-seo" )
-					}
-				</span>
-				<XIcon
-					className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0"
-				/>
-			</Fragment> }
+				{ notConnected && isActive && <Fragment>
+					<span className="yst-text-slate-700 yst-font-medium">
+						{
+							__( "Not connected", "wordpress-seo" )
+						}
+					</span>
+					<XIcon
+						className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0"
+					/>
+				</Fragment> }
 
-			{ pluginNotDetected && <Fragment>
-				<span className="yst-text-slate-700 yst-font-medium">
-					{
-						__( "Plugin not detected", "wordpress-seo" )
-					}
-				</span>
-				<XIcon
-					className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0"
-				/>
-			</Fragment> }
-		</SimpleIntegration>
-		<GoogleSiteKitConsentModal isOpen={ isModalOpen } onClose={ toggleModal } />
+				{ pluginNotDetected && <Fragment>
+					<span className="yst-text-slate-700 yst-font-medium">
+						{
+							__( "Plugin not detected", "wordpress-seo" )
+						}
+					</span>
+					<XIcon
+						className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0"
+					/>
+				</Fragment> }
+			</SimpleIntegration>
+			<SiteKitConsentModal isOpen={ isModalOpen } onClose={ toggleModal } />
 		</>
 	);
 };
