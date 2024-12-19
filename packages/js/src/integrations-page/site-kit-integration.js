@@ -4,7 +4,8 @@ import { Fragment, createInterpolateElement, useMemo, useCallback } from "@wordp
 import { SimpleIntegration } from "./simple-integration";
 import { ReactComponent as SiteKitLogo } from "../../images/site-kit-logo.svg";
 import { get } from "lodash";
-import { Modal } from "@yoast/ui-library";
+import { useToggleState } from "@yoast/ui-library";
+import { GoogleSiteKitConsentModal } from "../shared-admin/components";	
 
 const siteKitIntegration = {
 	name: "Site Kit by Google",
@@ -63,6 +64,7 @@ export const SiteKitIntegration = () => {
 	const afterSetup = get( window, "wpseoIntegrationsData.google_site_kit.setup", false );
 	const isInstalled = get( window, "wpseoIntegrationsData.google_site_kit.installed", false );
 	const isConnected = get( window, "wpseoIntegrationsData.google_site_kit.connected", false );
+	const [ isModalOpen, toggleModal ] = useToggleState( false );
 
 	const getButtonConfig = useCallback( () => {
 		const button = {
@@ -82,6 +84,8 @@ export const SiteKitIntegration = () => {
 			button.href = "/wp-admin/admin.php?page=googlesitekit-splash";
 		} else if ( ! isConnected ) {
 			button.children = buttonLabels.connect;
+			button.onClick = toggleModal;
+			button.as = "button";
 		} else if ( isConnected ) {
 			button.children = buttonLabels.disconnect;
 			button.variant = "secondary";
@@ -95,6 +99,7 @@ export const SiteKitIntegration = () => {
 	const successfullyConnected = useMemo( () => isActive && afterSetup && isConnected, [ isActive, afterSetup, isConnected ] );
 
 	return (
+		<>
 		<SimpleIntegration
 			integration={ siteKitIntegration }
 			isActive={ isInstalled && isActive  }
@@ -130,5 +135,7 @@ export const SiteKitIntegration = () => {
 				/>
 			</Fragment> }
 		</SimpleIntegration>
+		<GoogleSiteKitConsentModal isOpen={ isModalOpen } onClose={ toggleModal } />
+		</>
 	);
 };
