@@ -141,7 +141,7 @@ class Integrations_Page implements Integration_Interface {
 		$ssp_active               = \class_exists( PodcastEpisode::class );
 		$wp_recipe_maker_active   = \class_exists( WP_Recipe_Maker::class );
 		$mastodon_active          = $this->is_mastodon_active();
-		$google_site_kit 		  = \is_plugin_active( $google_site_kit_file );
+		
 
 		$woocommerce_seo_activate_url = \wp_nonce_url(
 			\self_admin_url( 'plugins.php?action=activate&plugin=' . $woocommerce_seo_file ),
@@ -195,8 +195,12 @@ class Integrations_Page implements Integration_Interface {
 				'mastodon_active'                    => $mastodon_active,
 				'is_multisite'                       => \is_multisite(),
 				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
-				'google_site_kit_plugin_active'      => $google_site_kit,
-				'google_site_kit_connected'          => \get_option( 'googlesitekit_has_connected_admins', false ),
+				'google_site_kit'                    => [
+					'installed' => \file_exists( \WP_PLUGIN_DIR . '/' . $google_site_kit_file ),
+					'active'    => \is_plugin_active( $google_site_kit_file ),
+					'setup'     => \get_option( 'googlesitekit_has_connected_admins', false ) === "1",
+					'connected' => $this->options_helper->get( 'google_site_kit_connected', false ),
+				],
 			]
 		);
 	}

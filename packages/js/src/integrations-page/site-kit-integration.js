@@ -21,11 +21,7 @@ const siteKitIntegration = {
 	learnMoreLink: "https://yoa.st/integrations-google-site-kit",
 	logoLink: "https://yoa.st/integrations-google-site-kit",
 	slug: "google-site-kit",
-	description: sprintf(
-		/* translators: 1: Wincher */
-		__( "View traffic and search rankings on your dashboard by connecting your Google account.", "wordpress-seo" ),
-		"Wincher"
-	),
+	description: __( "View traffic and search rankings on your dashboard by connecting your Google account.", "wordpress-seo" ),
 	isPremium: false,
 	isNew: false,
 	isMultisiteAvailable: false,
@@ -41,23 +37,61 @@ const siteKitIntegration = {
  * @returns {WPElement} A card representing an integration.
  */
 export const SiteKitIntegration = () => {
-	const isActive = get( window, "wpseoIntegrationsData.google_site_kit_plugin_active", "0" ) === "1";
-	const isConnected = get( window, "wpseoIntegrationsData.google_site_kit_connected", "0" ) === "1";
+	const isActive = get( window, "wpseoIntegrationsData.google_site_kit.active", false );
+	const afterSetup = get( window, "wpseoIntegrationsData.google_site_kit.setup", false );
+	const isInstalled = get( window, "wpseoIntegrationsData.google_site_kit.installed", false );
+	const isConnected = get( window, "wpseoIntegrationsData.google_site_kit.connected", false );
+	const button = {
+		className: "yst-mt-6 yst-w-full",
+		as: "a",
+	};
+	if ( ! isInstalled ) {
+		button.children = sprintf(
+			/* translators: 1: Site Kit by Google */
+			__( "Install %1$s", "wordpress-seo" ),
+			"Site Kit by Google"
+		);
+		button.href = "/wp-admin/plugins.php";
+	} else if ( ! isActive ) {
+		button.children = sprintf(
+			/* translators: 1: Site Kit by Google */
+			__( "Activate %1$s", "wordpress-seo" ),
+			"Site Kit by Google"
+		);
+		button.href = "/wp-admin/plugins.php";
+	} else if ( ! afterSetup ) {
+		button.children = sprintf(
+			/* translators: 1: Site Kit by Google */
+			__( "Set up %1$s", "wordpress-seo" ),
+			"Site Kit by Google"
+		);
+		button.href = "/wp-admin/admin.php?page=googlesitekit-splash";
+	} else if ( ! isConnected ) {
+		button.children = sprintf(
+			/* translators: 1: Site Kit by Google */
+			__( "Connect %1$s", "wordpress-seo" ),
+			"Site Kit by Google"
+		);
+	} else if ( isConnected ) {
+		button.children = __( "Disconnect", "wordpress-seo" );
+		button.variant = "secondary";
+	}
 
 	return (
 		<SimpleIntegration
 			integration={ siteKitIntegration }
-			isActive={ isActive }
+			isActive={ isInstalled && isActive  }
+			button={ button }
 		>
 
-			{ isActive && isConnected && <Fragment>
-				<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
+			{ isActive && afterSetup && isConnected && <Fragment>
+				<span className="yst-text-slate-700 yst-font-medium">{ __( "Successfully connected", "wordpress-seo" ) }</span>
 				<CheckIcon
 					className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
 				/>
 			</Fragment> }
 
-			{ ! isConnected && isActive && <Fragment>
+			{ ( ! isConnected || ! afterSetup ) && isActive && <Fragment>
 				<span className="yst-text-slate-700 yst-font-medium">
 					{
 						__( "Not connected", "wordpress-seo" )
@@ -68,7 +102,7 @@ export const SiteKitIntegration = () => {
 				/>
 			</Fragment> }
 
-			{ ! isActive && <Fragment>
+			{ ( ! isActive || ! isInstalled ) && <Fragment>
 				<span className="yst-text-slate-700 yst-font-medium">
 					{
 						__( "Plugin not detected", "wordpress-seo" )

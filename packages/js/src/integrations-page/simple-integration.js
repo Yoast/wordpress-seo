@@ -13,10 +13,11 @@ import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
  * @param {object}     integration The integration.
  * @param {boolean}    isActive    The integration state.
  * @param {wp.Element} children    The child components.
+ * @param {wp.Element} button      The button component.
  *
  * @returns {WPElement} A card representing an integration.
  */
-export const SimpleIntegration = ( { integration, isActive, children } ) => {
+export const SimpleIntegration = ( { integration, isActive, children, button } ) => {
 	const IntegrationLogo = integration.logo;
 
 	return (
@@ -68,6 +69,8 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 						</span>
 						<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ms-1 yst-icon-rtl" />
 					</Link> }
+
+					{ button && <Button { ...button } /> }
 				</div>
 			</Card.Content>
 			<Card.Footer>
@@ -121,9 +124,11 @@ SimpleIntegration.propTypes = {
 		PropTypes.node,
 		PropTypes.arrayOf( PropTypes.node ),
 	] ),
+	button: PropTypes.object,
 };
 
 SimpleIntegration.defaultProps = {
 	isActive: true,
 	children: [],
+	button: null,
 };
