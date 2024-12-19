@@ -1,6 +1,7 @@
 import { Badge, Button, Label, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
 import classNames from "classnames";
 import { SCORE_META } from "../score-meta";
+import { __ } from "@wordpress/i18n";
 
 /**
  * @type {import("../index").Score} Score
@@ -29,7 +30,7 @@ export const ScoreListSkeletonLoader = ( { className } ) => (
 				<SkeletonLoader className={ CLASSNAMES.score } />
 				<SkeletonLoader className={ CLASSNAMES.label }>{ label }</SkeletonLoader>
 				<SkeletonLoader className="yst-w-7 yst-mr-3">1</SkeletonLoader>
-				<SkeletonLoader className="yst-ml-auto yst-button yst-button--small">View</SkeletonLoader>
+				<SkeletonLoader className="yst-ml-auto yst-button yst-button--small">{ __( "View", "wordpress-seo" ) }</SkeletonLoader>
 			</li>
 		) ) }
 	</ul>
@@ -81,7 +82,7 @@ const ScoreListItem = ( { score, idSuffix } ) => {
 		<li className={ CLASSNAMES.listItem }>
 			<Content score={ score } idSuffix={ idSuffix } />
 			{ score.links.view && (
-				<Button as="a" variant="secondary" size="small" href={ score.links.view } className="yst-ml-auto">View</Button>
+				<Button as="a" variant="secondary" size="small" href={ score.links.view } className="yst-ml-auto">{ __( "View", "wordpress-seo" ) }</Button>
 			) }
 		</li>
 	);
