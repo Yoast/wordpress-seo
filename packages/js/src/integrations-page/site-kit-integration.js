@@ -4,6 +4,7 @@ import { Fragment, createInterpolateElement, useMemo, useCallback } from "@wordp
 import { SimpleIntegration } from "./simple-integration";
 import { ReactComponent as SiteKitLogo } from "../../images/site-kit-logo.svg";
 import { get } from "lodash";
+import { Modal } from "@yoast/ui-library";
 
 const siteKitIntegration = {
 	name: "Site Kit by Google",
@@ -67,6 +68,7 @@ export const SiteKitIntegration = () => {
 		const button = {
 			className: "yst-mt-6 yst-w-full",
 			as: "a",
+			id: "google-site-kit-button",
 		};
 
 		if ( ! isInstalled ) {
