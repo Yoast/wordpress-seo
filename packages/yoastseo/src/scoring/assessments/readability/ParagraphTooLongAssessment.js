@@ -206,8 +206,8 @@ export default class ParagraphTooLongAssessment extends Assessment {
 					startOffsetBlock: 0,
 					endOffsetBlock: scl.endOffset - scl.startOffset,
 					clientId: paragraph.clientId || "",
-					attributeId: paragraph.parentAttributeId || "",
-					isFirstSection: paragraph.isParentFirstSectionOfBlock || false,
+					attributeId: paragraph.attributeId || "",
+					isFirstSection: paragraph.isFirstSection || false,
 				},
 			} );
 		} );
