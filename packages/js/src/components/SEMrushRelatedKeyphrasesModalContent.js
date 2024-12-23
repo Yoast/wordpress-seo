@@ -71,13 +71,13 @@ export function getUserMessage( props ) {
  */
 export default function RelatedKeyphraseModalContent( props ) {
 	const {
-    keyphrase = "",
-    relatedKeyphrases = [],
-    renderAction = null,
-    requestLimitReached = false,
-    countryCode = "us",
-    setCountry,
-    newRequest,
+		keyphrase = "",
+		relatedKeyphrases = [],
+		renderAction = null,
+		requestLimitReached = false,
+		countryCode = "us",
+		setCountry,
+		newRequest,
 		response = {},
 		isRtl = false,
 		userLocale = "en_US",

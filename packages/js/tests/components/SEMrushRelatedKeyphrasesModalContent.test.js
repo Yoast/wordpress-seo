@@ -125,11 +125,11 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 			expect( actual ).toBe( true );
 		} );
 		it( "returns true when there is invalid_json error", () => {
-			const actual = SEMrushRelatedKeyphrasesModalContent.hasError( { code: "invalid_json" } );
+			const actual = hasError( { code: "invalid_json" } );
 			expect( actual ).toBe( true );
 		} );
 		it( "returns true when there is fetch_error error", () => {
-			const actual = SEMrushRelatedKeyphrasesModalContent.hasError( { code: "fetch_error"	} );
+			const actual = hasError( { code: "fetch_error"	} );
 			expect( actual ).toBe( true );
 		} );
 	} );
