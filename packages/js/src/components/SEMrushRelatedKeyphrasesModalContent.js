@@ -1,11 +1,8 @@
-/* External dependencies */
-import { KeyphrasesTable, UserMessage, PremiumUpsell } from "@yoast/related-keyphrase-suggestions";
+import { useCallback, useState } from "@wordpress/element";
+import { CountrySelector, KeyphrasesTable, UserMessage, PremiumUpsell } from "@yoast/related-keyphrase-suggestions";
 import { Root } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
-
-/* Internal dependencies */
-import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
 
 /**
  * Determines whether the error property is present in the passed response object.
@@ -15,6 +12,9 @@ import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
  * @returns {boolean} Whether or not the error property is present.
  */
 export function hasError( response ) {
+	if ( response?.code === "invalid_json" || response?.code === "fetch_error" ) {
+		return true;
+	}
 	return ! isEmpty( response ) && "error" in response;
 }
 
@@ -71,26 +71,33 @@ export function getUserMessage( props ) {
  */
 export default function RelatedKeyphraseModalContent( props ) {
 	const {
-		response = {},
-		lastRequestKeyphrase = "",
 		keyphrase = "",
-		newRequest,
-		setCountry,
-		renderAction = null,
-		countryCode,
-		requestLimitReached = false,
-		setRequestFailed,
-		setNoResultsFound,
 		relatedKeyphrases = [],
-		setRequestSucceeded,
-		setRequestLimitReached,
-		isPending,
+		renderAction = null,
+		requestLimitReached = false,
+		countryCode = "us",
+		setCountry,
+		newRequest,
+		response = {},
 		isRtl = false,
-		isPremium = false,
 		userLocale = "en_US",
+		isPending = false,
+		isPremium = false,
 		semrushUpsellLink = "",
 		premiumUpsellLink = "",
 	} = props;
+
+	const [ activeCountryCode, setActiveCountryCode ] = useState( countryCode );
+
+	/**
+	 * Sends a new related keyphrases request to SEMrush and updates the semrush_country_code value in the database.
+	 *
+	 * @returns {void}
+	 */
+	const relatedKeyphrasesRequest = useCallback( async() => {
+		newRequest( countryCode, keyphrase );
+		setActiveCountryCode( countryCode );
+	}, [ countryCode, keyphrase, newRequest ] );
 
 	return (
 		<Root context={ { isRtl } }>
@@ -100,17 +107,12 @@ export default function RelatedKeyphraseModalContent( props ) {
 				className="yst-mb-4"
 			/> }
 
-			{ ! requestLimitReached && <SEMrushCountrySelector
+			{ ! requestLimitReached && <CountrySelector
 				countryCode={ countryCode }
-				setCountry={ setCountry }
-				newRequest={ newRequest }
-				keyphrase={ keyphrase }
-				setRequestFailed={ setRequestFailed }
-				setNoResultsFound={ setNoResultsFound }
-				setRequestSucceeded={ setRequestSucceeded }
-				setRequestLimitReached={ setRequestLimitReached }
-				response={ response }
-				lastRequestKeyphrase={ lastRequestKeyphrase }
+				activeCountryCode={ activeCountryCode }
+				onChange={ setCountry }
+				onClick={ relatedKeyphrasesRequest }
+				className="yst-mb-4"
 				userLocale={ userLocale.split( "_" )[ 0 ] }
 			/> }
 
@@ -139,12 +141,7 @@ RelatedKeyphraseModalContent.propTypes = {
 	countryCode: PropTypes.string.isRequired,
 	setCountry: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
-	setRequestSucceeded: PropTypes.func.isRequired,
-	setRequestLimitReached: PropTypes.func.isRequired,
-	setRequestFailed: PropTypes.func.isRequired,
-	setNoResultsFound: PropTypes.func.isRequired,
 	response: PropTypes.object,
-	lastRequestKeyphrase: PropTypes.string,
 	isRtl: PropTypes.bool,
 	userLocale: PropTypes.string,
 	isPending: PropTypes.bool,

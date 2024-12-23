@@ -42,10 +42,6 @@ export default compose( [
 		const {
 			setSEMrushChangeCountry,
 			setSEMrushNewRequest,
-			setSEMrushRequestSucceeded,
-			setSEMrushRequestFailed,
-			setSEMrushSetRequestLimitReached,
-			setSEMrushNoResultsFound,
 		 } = dispatch( "yoast-seo/editor" );
 		return {
 			setCountry: ( countryCode ) => {
@@ -53,18 +49,6 @@ export default compose( [
 			},
 			newRequest: ( countryCode, keyphrase ) => {
 				setSEMrushNewRequest( countryCode, keyphrase );
-			},
-			setRequestSucceeded: ( response ) => {
-				setSEMrushRequestSucceeded( response );
-			},
-			setRequestFailed: ( response ) => {
-				setSEMrushRequestFailed( response );
-			},
-			setRequestLimitReached: () => {
-				setSEMrushSetRequestLimitReached();
-			},
-			setNoResultsFound: () => {
-				setSEMrushNoResultsFound();
 			},
 		};
 	} ),
