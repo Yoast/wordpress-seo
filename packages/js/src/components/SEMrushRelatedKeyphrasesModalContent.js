@@ -71,18 +71,20 @@ export function getUserMessage( props ) {
  */
 export default function RelatedKeyphraseModalContent( props ) {
 	const {
-		response,
-		keyphrase,
-		newRequest,
-		setCountry,
-		renderAction,
-		countryCode,
-		requestLimitReached,
-		relatedKeyphrases,
-		isPending,
-		isRtl,
-		isPremium,
-		userLocale,
+    keyphrase = "",
+    relatedKeyphrases = [],
+    renderAction = null,
+    requestLimitReached = false,
+    countryCode = "us",
+    setCountry,
+    newRequest,
+		response = {},
+		isRtl = false,
+		userLocale = "en_US",
+		isPending = false,
+		isPremium = false,
+		semrushUpsellLink = "",
+		premiumUpsellLink = "",
 	} = props;
 
 	const [ activeCountryCode, setActiveCountryCode ] = useState( countryCode );
@@ -101,7 +103,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 		<Root context={ { isRtl } }>
 
 			{ ! requestLimitReached && ! isPremium && <PremiumUpsell
-				url={ window.wpseoAdminL10n[ "shortlinks.semrush.premium_landing_page" ] }
+				url={ premiumUpsellLink }
 				className="yst-mb-4"
 			/> }
 
@@ -116,7 +118,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 
 			{ ! isPending && <UserMessage
 				variant={ getUserMessage( props ) }
-				upsellLink={ window.wpseoAdminL10n[ "shortlinks.semrush.prices" ] }
+				upsellLink={ semrushUpsellLink }
 			/> }
 
 			<KeyphrasesTable
@@ -144,16 +146,6 @@ RelatedKeyphraseModalContent.propTypes = {
 	userLocale: PropTypes.string,
 	isPending: PropTypes.bool,
 	isPremium: PropTypes.bool,
-};
-
-RelatedKeyphraseModalContent.defaultProps = {
-	keyphrase: "",
-	relatedKeyphrases: [],
-	renderAction: null,
-	requestLimitReached: false,
-	response: {},
-	isRtl: false,
-	userLocale: "en_US",
-	isPending: false,
-	isPremium: false,
+	semrushUpsellLink: PropTypes.string,
+	premiumUpsellLink: PropTypes.string,
 };

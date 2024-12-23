@@ -202,8 +202,8 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 	}, [ setQuery, debouncedSearch ] );
 
 	const handleOptionActiveState = useCallback( ( { active } ) => classNames(
-		"yst-group yst-block yst-no-underline yst-text-sm yst-text-slate-800 yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white",
-		active && "yst-text-white yst-bg-primary-600"
+		"yst-group yst-block yst-no-underline yst-text-sm  yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white",
+		active ? "yst-text-white yst-bg-primary-600" : "yst-text-slate-800"
 	), [] );
 
 	return <>
