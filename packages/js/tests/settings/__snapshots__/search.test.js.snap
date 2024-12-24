@@ -155,7 +155,7 @@ exports[`Search modal should show search results 1`] = `
     >
       <li
         aria-selected="false"
-        class="yst-group yst-block yst-no-underline yst-text-sm yst-text-slate-800 yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white yst-text-white yst-bg-primary-600"
+        class="yst-group yst-block yst-no-underline yst-text-sm  yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white yst-text-white yst-bg-primary-600"
         data-headlessui-state="active"
         id="headlessui-combobox-option-:rl:"
         role="option"

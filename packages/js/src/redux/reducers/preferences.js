@@ -1,4 +1,5 @@
 import { isUndefined, get } from "lodash";
+import { getIsAiFeatureEnabled } from "../selectors/preferences";
 import isContentAnalysisActive from "../../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
 import isInclusiveLanguageAnalysisActive from "../../analysis/isInclusiveLanguageAnalysisActive";
@@ -33,7 +34,8 @@ function getDefaultState() {
 		isWincherIntegrationActive: isWincherIntegrationActive(),
 		isInsightsEnabled: get( window, "wpseoScriptData.metabox.isInsightsEnabled", false ),
 		isNewsEnabled: get( window, "wpseoScriptData.metabox.isNewsSeoActive", false ),
-		isAiFeatureActive: Boolean( window.wpseoAdminL10n.isAiFeatureActive ),
+		// The check for AI feature is deprecated, used as fallback. Should be removed once we stop supporting older versions of premium.
+		isAiFeatureActive: getIsAiFeatureEnabled(),
 		isWooCommerceSeoActive: get( window, "wpseoScriptData.metabox.isWooCommerceSeoActive", false ),
 		isWooCommerceActive: get( window, "wpseoScriptData.metabox.isWooCommerceActive", false ),
 		isRtl: get( window, "wpseoScriptData.metabox.isRtl", false ),

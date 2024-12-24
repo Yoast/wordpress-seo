@@ -7,7 +7,6 @@ import { LocationConsumer, RootContext } from "@yoast/externals/contexts";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
-import getL10nObject from "../../analysis/getL10nObject";
 import Results from "../../containers/Results";
 import AnalysisUpsell from "../AnalysisUpsell";
 import MetaboxCollapsible from "../MetaboxCollapsible";
@@ -206,8 +205,7 @@ class SeoAnalysis extends Component {
 	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
 	 */
 	renderAIFixesButton = ( hasAIFixes, id ) => {
-		const { isElementor, isAiFeatureEnabled } = this.props;
-		const isPremium = getL10nObject().isPremium;
+		const { isElementor, isAiFeatureEnabled, isPremium } = this.props;
 
 		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
 		if ( isPremium && ! isAiFeatureEnabled ) {
@@ -232,7 +230,7 @@ class SeoAnalysis extends Component {
 	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
-		const isPremium = getL10nObject().isPremium;
+		const { isPremium } = this.props;
 		const highlightingUpsellLink = "shortlinks.upsell.sidebar.highlighting_seo_analysis";
 
 		if ( score.className !== "loading" && this.props.keyword === "" ) {
@@ -308,6 +306,7 @@ SeoAnalysis.propTypes = {
 	shouldUpsellHighlighting: PropTypes.bool,
 	isElementor: PropTypes.bool,
 	isAiFeatureEnabled: PropTypes.bool,
+	isPremium: PropTypes.bool,
 };
 
 SeoAnalysis.defaultProps = {
@@ -320,6 +319,7 @@ SeoAnalysis.defaultProps = {
 	shouldUpsellHighlighting: false,
 	isElementor: false,
 	isAiFeatureEnabled: false,
+	isPremium: false,
 };
 
 export default withSelect( ( select, ownProps ) => {
@@ -328,7 +328,8 @@ export default withSelect( ( select, ownProps ) => {
 		getMarksButtonStatus,
 		getResultsForKeyword,
 		getIsElementorEditor,
-		getPreference,
+		getIsPremium,
+		getIsAiFeatureEnabled,
 	} = select( "yoast-seo/editor" );
 
 	const keyword = getFocusKeyphrase();
@@ -338,6 +339,7 @@ export default withSelect( ( select, ownProps ) => {
 		marksButtonStatus: ownProps.hideMarksButtons ? "disabled" : getMarksButtonStatus(),
 		keyword,
 		isElementor: getIsElementorEditor(),
-		isAiFeatureEnabled: getPreference( "isAiFeatureActive", false ),
+		isPremium: getIsPremium(),
+		isAiFeatureEnabled: getIsAiFeatureEnabled(),
 	};
 } )( SeoAnalysis );
