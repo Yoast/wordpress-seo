@@ -1,11 +1,13 @@
 @layer components {
 	.yst-root {
 		.yst-pagination {
+			/* Override direction to be LTR due to this component always being numbers. */
+			direction: ltr;
+
 			@apply
 			yst-isolate
 			yst-inline-flex
 			yst--space-x-px
-			rtl:yst-space-x-reverse
 			yst-rounded-md
 			yst-shadow-sm;
 		}

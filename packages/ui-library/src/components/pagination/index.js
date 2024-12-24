@@ -47,7 +47,7 @@ const Pagination = ( {
 		<nav className={ classNames( "yst-pagination", className ) } { ...props }>
 			<Button className="yst-rounded-s-md" onClick={ handleNavigate } data-page={ current - 1 } disabled={ disabled || current - 1 < 1 }>
 				<span className="yst-pointer-events-none yst-sr-only">{ screenReaderTextPrevious }</span>
-				<ChevronLeftIcon className="yst-pointer-events-none yst-h-5 yst-w-5 rtl:yst-rotate-180" { ...svgAriaProps } />
+				<ChevronLeftIcon className="yst-pointer-events-none yst-h-5 yst-w-5" { ...svgAriaProps } />
 			</Button>
 			{ variant === VARIANT.display.text && (
 				<DisplayText current={ current } total={ total } />
@@ -63,7 +63,7 @@ const Pagination = ( {
 			) }
 			<Button className="yst-rounded-e-md" onClick={ handleNavigate } data-page={ current + 1 } disabled={ disabled || current + 1 > total }>
 				<span className="yst-pointer-events-none yst-sr-only">{ screenReaderTextNext }</span>
-				<ChevronRightIcon className="yst-pointer-events-none yst-h-5 yst-w-5 rtl:yst-rotate-180" { ...svgAriaProps } />
+				<ChevronRightIcon className="yst-pointer-events-none yst-h-5 yst-w-5" { ...svgAriaProps } />
 			</Button>
 		</nav>
 	);
