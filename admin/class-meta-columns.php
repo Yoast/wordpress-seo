@@ -89,7 +89,7 @@ class WPSEO_Meta_Columns {
 		}
 
 		add_filter( 'request', [ $this, 'column_sort_orderby' ] );
-		add_filter( 'default_hidden_columns', [ $this, 'column_hidden' ], 10, 1 );
+		add_filter( 'hidden_columns', [ $this, 'column_hidden' ], 10, 1 );
 	}
 
 	/**
