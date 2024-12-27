@@ -50,7 +50,7 @@
     "babel-plugin-styled-components": "^2.0.6",
     "browserslist": "^4.7.3",
     "eslint": "^9.16.0",
-    "eslint-config-yoast": "^6.0.0",
+    "eslint-config-yoast": "^7.0.0",
     "globals": "^15.13.0",
     "jest-styled-components": "^7.0.3"
   },
