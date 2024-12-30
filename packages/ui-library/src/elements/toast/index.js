@@ -58,7 +58,7 @@ const Description = ( {
 	className = "",
 } ) => {
 	return isArray( description ) ? (
-		<ul className={ classNames( "yst-list-disc yst-ml-4", className ) }>
+		<ul className={ classNames( "yst-list-disc yst-ms-4", className ) }>
 			{ description.map( ( text, index ) => (
 				<li className="yst-pt-1" key={ `${ text }-${ index }` }>{ text }</li>
 			) ) }

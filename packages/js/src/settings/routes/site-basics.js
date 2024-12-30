@@ -348,7 +348,7 @@ const SiteBasics = () => {
 					<FieldsetLayout
 						title={ <>
 							{ __( "Site policies", "wordpress-seo" ) }
-							{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+							{ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
 						</> }
 						description={ sitePoliciesDescription }
 					>

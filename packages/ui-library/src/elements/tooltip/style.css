@@ -19,15 +19,16 @@
 			@apply yst--translate-x-1/2
 			rtl:yst-translate-x-1/2
 			yst--translate-y-full
-			yst-left-1/2
+			yst-start-1/2
 			yst-top-0
 			yst--mt-3; /* Negative margin to move the tooltip up */
 
 			/* Style properties for the tooltip arrow */
+
 			&::before {
 				@apply yst-content-['']
 				yst-absolute
-				yst-left-1/2
+				yst-start-1/2
 				yst-top-full /* Arrow positioned at the bottom of the tooltip */
 				yst--translate-x-1/2
 				rtl:yst-translate-x-1/2
@@ -43,15 +44,16 @@
 			@apply yst--translate-x-1/2
 			rtl:yst-translate-x-1/2
 			yst--translate-y-0
-			yst-left-1/2
+			yst-start-1/2
 			yst-top-full
 			yst-mt-3;
 
 			/* Style properties for the tooltip arrow */
+
 			&::before {
 				@apply yst-content-['']
 				yst-absolute
-				yst-left-1/2
+				yst-start-1/2
 				yst-bottom-full /* Arrow positioned at the top of the tooltip */
 				yst--translate-x-1/2
 				rtl:yst-translate-x-1/2
@@ -65,43 +67,45 @@
 		.yst-tooltip--right {
 			@apply yst--translate-x-0
 			yst--translate-y-1/2
-			yst-left-full
+			yst-start-full
 			yst-top-1/2
-			yst-ml-3;
+			yst-ms-3;
 
 			/* Style properties for the tooltip arrow */
+
 			&::before {
 				@apply yst-content-['']
 				yst-absolute
-				yst-right-full /* Arrow positioned at the left of the tooltip */
+				yst-end-full /* Arrow positioned at the left of the tooltip */
 				yst-top-1/2
 				yst--translate-y-1/2
 				yst-border-8
-				yst-border-l-transparent
+				yst-border-s-transparent
 				yst-border-t-transparent
 				yst-border-b-transparent
-				yst-border-r-gray-800;
+				yst-border-e-gray-800;
 			}
 		}
 
 		.yst-tooltip--left {
 			@apply yst--translate-y-1/2
-			yst-right-full
+			yst-end-full
 			yst-top-1/2
-			yst-mr-3;
+			yst-me-3;
 
 			/* Style properties for the tooltip arrow */
+
 			&::before {
 				@apply yst-content-['']
 				yst-absolute
-				yst-left-full /* Arrow positioned at the right of the tooltip */
+				yst-start-full /* Arrow positioned at the right of the tooltip */
 				yst-top-1/2
 				yst--translate-y-1/2
 				yst-border-8
-				yst-border-r-transparent
+				yst-border-e-transparent
 				yst-border-t-transparent
 				yst-border-b-transparent
-				yst-border-l-gray-800;
+				yst-border-s-gray-800;
 			}
 		}
 	}

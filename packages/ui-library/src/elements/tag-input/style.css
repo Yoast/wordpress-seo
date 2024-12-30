@@ -54,10 +54,9 @@
 		}
 
 		.yst-tag-input__tag {
-			min-height: 20px;
-			padding-inline-end: 0.125rem;
-
 			@apply
+			yst-min-h-[1.25rem] /* Badge is 1rem + 0.125rem top & bottom padding = 1.25rem */
+			yst-pe-0.5
 			yst-gap-0.5
 			yst-cursor-pointer
 			focus:yst-outline-none

@@ -203,7 +203,7 @@ const App = () => {
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
 					</aside>
-					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[17.5rem]" ) }>
+					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pe-[17.5rem]" ) }>
 						<div className="yst-grow yst-space-y-6 yst-mb-8 xl:yst-mb-0">
 							<Paper as="main">
 								<ErrorBoundary FallbackComponent={ ErrorFallback }>
@@ -259,7 +259,7 @@ const App = () => {
 							/> }
 						</div>
 						{ ! isPremium &&
-							<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[16rem]">
+							<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-end-8 xl:yst-w-[16rem]">
 								<SidebarRecommendations
 									premiumLink={ premiumLinkSidebar }
 									premiumUpsellConfig={ premiumUpsellConfig }

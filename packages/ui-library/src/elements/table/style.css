@@ -5,11 +5,11 @@
 		}
 
 		.yst-table-header {
-			@apply first:yst-rounded-tl-lg last:yst-rounded-tr-lg;
+			@apply first:yst-rounded-ss-lg last:yst-rounded-se-lg;
 		}
 
 		.yst-table-row:last-of-type .yst-table-cell {
-			@apply first:yst-rounded-bl-lg last:yst-rounded-br-lg;
+			@apply first:yst-rounded-es-lg last:yst-rounded-ee-lg;
 		}
 	}
 }
