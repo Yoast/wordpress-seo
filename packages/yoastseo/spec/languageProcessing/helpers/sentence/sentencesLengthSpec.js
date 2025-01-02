@@ -47,6 +47,23 @@ describe( "A test to count sentence lengths.", function() {
 		expect( sentenceLengths[ 1 ].sentenceLength ).toEqual( 6 );
 	} );
 
+	it( "should return the correct length for sentences containing leading and trailing spaces including the first and last token that is not spaces", function() {
+		const mockPaper = new Paper(
+			"<p> The first sentence.</p><p>The second sentence. </p>" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper ), mockResearcher );
+
+		expect( sentenceLengths.length ).toEqual( 2 );
+		expect( sentenceLengths[ 0 ].sentenceLength ).toEqual( 3 );
+		expect( sentenceLengths[ 0 ].firstToken ).toEqual( { sourceCodeRange: { endOffset: 7, startOffset: 4 }, text: "The" } );
+		expect( sentenceLengths[ 0 ].lastToken ).toEqual( { sourceCodeRange: { endOffset: 23, startOffset: 22 }, text: "." } );
+		expect( sentenceLengths[ 1 ].sentenceLength ).toEqual( 3 );
+		expect( sentenceLengths[ 1 ].firstToken ).toEqual( { sourceCodeRange: { endOffset: 33, startOffset: 30 }, text: "The" } );
+		expect( sentenceLengths[ 1 ].lastToken ).toEqual( { sourceCodeRange: { endOffset: 50, startOffset: 49 }, text: "." } );
+	} );
+
 	it( "should return the sentences and their length for Japanese (so counting characters)", function() {
 		const mockPaper = new Paper( "<p>自然おのずから存在しているもの</p>" +
 			"<p>歩くさわやかな森 <span style='color: red;'> 自然 </span></p>" );

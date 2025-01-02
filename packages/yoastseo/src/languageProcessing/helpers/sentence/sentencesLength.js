@@ -15,16 +15,21 @@ import { getWordsFromTokens } from "../word/getAllWordsFromTree";
  * @returns {SentenceLength[]} Array with the length of each sentence.
  */
 export default function( sentences, researcher ) {
-	const sentencesWordCount = [];
-	sentences.forEach( sentence => {
-		const customLengthHelper = researcher.getHelper( "customCountLength" );
+	const customLengthHelper = researcher.getHelper( "customCountLength" );
+
+	return sentences.map( sentence => {
 		const length = customLengthHelper ? customLengthHelper( sentence.text ) : getWordsFromTokens( sentence.tokens, false ).length;
+
 		if ( length > 0 ) {
-			sentencesWordCount.push( {
+			const firstToken = sentence.tokens.find( ( { text } ) => text !== " " );
+			const lastToken = sentence.tokens.slice().reverse().find( ( { text } ) => text !== " " );
+
+			return {
 				sentence: sentence,
 				sentenceLength: length,
-			} );
+				firstToken: firstToken ? firstToken : null,
+				lastToken: lastToken ? lastToken : null,
+			};
 		}
-	} );
-	return sentencesWordCount;
+	} ).filter( Boolean );
 }

@@ -99,18 +99,10 @@ class SentenceLengthInTextAssessment extends Assessment {
 		const tooLongSentences = this.getTooLongSentences( sentenceCount );
 
 		return tooLongSentences.map( tooLongSentence => {
-			const sentence = tooLongSentence.sentence;
-			const { text } = sentence;
+			const { sentence, firstToken, lastToken } = tooLongSentence;
 
-			let startOffset = sentence.sourceCodeRange.startOffset;
-			let endOffset = sentence.sourceCodeRange.endOffset;
-			// Adjust the start and end offset to exclude leading and trailing spaces.
-			if ( text.startsWith( " " ) ) {
-				startOffset += 1;
-			}
-			if ( text.endsWith( " " ) ) {
-				endOffset -= 1;
-			}
+			const startOffset = firstToken.sourceCodeRange.startOffset;
+			const endOffset = lastToken.sourceCodeRange.endOffset;
 
 			return new Mark( {
 				position: {
