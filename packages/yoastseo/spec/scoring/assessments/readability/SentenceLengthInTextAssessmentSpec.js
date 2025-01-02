@@ -109,9 +109,9 @@ describe( "An assessment for sentence length", function() {
 			new Mark( {
 				position: {
 					startOffset: 0,
-					endOffset: 81,
+					endOffset: 80,
 					startOffsetBlock: 0,
-					endOffsetBlock: 81,
+					endOffsetBlock: 80,
 					clientId: "",
 					attributeId: "",
 					isFirstSection: false,
@@ -626,16 +626,59 @@ describe( "A test for marking too long sentences", function() {
 		expect( new SentenceLengthInTextAssessment().getMarks( mockPaper, mockResearcher ) ).toEqual( expected );
 	} );
 
+	it( "adjusts the startOffset when the long sentence starts with a space", () => {
+		const mockPaper = new Paper( " This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const expected = [
+			new Mark( {
+				position: {
+					startOffset: 1,
+					endOffset: 107,
+					startOffsetBlock: 1,
+					endOffsetBlock: 107,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				} } ),
+		];
+		expect( new SentenceLengthInTextAssessment().getMarks( mockPaper, mockResearcher ) ).toEqual( expected );
+	} );
+
+	it( "adjusts the endOffset when the long sentence ends with a space", () => {
+		const mockPaper = new Paper( "This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think? " );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const expected = [
+			new Mark( {
+				position: {
+					startOffset: 0,
+					endOffset: 106,
+					startOffsetBlock: 0,
+					endOffsetBlock: 106,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				} } ),
+		];
+		expect( new SentenceLengthInTextAssessment().getMarks( mockPaper, mockResearcher ) ).toEqual( expected );
+	} );
+
 	it( "returns no markers if no sentences are too long", function() {
 		const paper = new Paper( "This is a short sentence." );
-		const sentenceLengthInText = Factory.buildMockResearcher( [ { sentence: "This is a short sentence.", sentenceLength: 5 } ] );
+		// const sentenceLengthInText = Factory.buildMockResearcher( [ { sentence: "This is a short sentence.", sentenceLength: 5 } ] );
+		const mockResearcher = new EnglishResearcher( paper );
+		buildTree( paper, mockResearcher );
+
 		const expected = [];
-		expect( new SentenceLengthInTextAssessment().getMarks( paper, sentenceLengthInText ) ).toEqual( expected );
+		expect( new SentenceLengthInTextAssessment().getMarks( paper, mockResearcher ) ).toEqual( expected );
 	} );
 } );
 
-describe( "A test for marking too long sentences", function() {
-	it( "calculatePercentage returns nothing if there are no sentences", function() {
+describe( "A test for calculatePercentage", function() {
+	it( "returns nothing if there are no sentences", function() {
 		expect( new SentenceLengthInTextAssessment().calculatePercentage( [] ) ).toEqual( 0 );
 	} );
 } );
