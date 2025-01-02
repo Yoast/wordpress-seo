@@ -54,7 +54,7 @@ Row.propTypes = {
  */
 const Header = ( { children, className = "", ...props } ) => (
 	<th
-		className={ classNames( "yst-table-header yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900", className ) }
+		className={ classNames( "yst-table-header yst-px-3 yst-py-4 yst-text-start yst-text-sm yst-font-semibold yst-text-slate-900", className ) }
 		{ ...props }
 	>
 		{ children }

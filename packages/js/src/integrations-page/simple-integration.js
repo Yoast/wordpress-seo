@@ -34,7 +34,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 						}
 					</span>
 				</Link>
-				{ ( integration.isNew ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "New", "wordpress-seo" ) }</Badge> }
+				{ ( integration.isNew ) && <Badge className="yst-absolute yst-top-2 yst-end-2">{ __( "New", "wordpress-seo" ) }</Badge> }
 			</Card.Header>
 			<Card.Content>
 				<div>
@@ -47,7 +47,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 							return (
 								<li key={ idx } className="yst-flex yst-items-start">
 									<CheckIcon
-										className="yst-h-5 yst-w-5 yst-mr-2 yst-text-green-400 yst-flex-shrink-0"
+										className="yst-h-5 yst-w-5 yst-me-2 yst-text-green-400 yst-flex-shrink-0"
 									/>
 									<span> { usp } </span>
 								</li>
@@ -66,7 +66,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 								__( "(Opens in a new browser tab)", "wordpress-seo" )
 							}
 						</span>
-						<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
+						<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ms-1 yst-icon-rtl" />
 					</Link> }
 				</div>
 			</Card.Content>
@@ -83,7 +83,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 					target="_blank"
 				>
 					<LockOpenIcon
-						className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900"
+						className="yst--ms-1 yst-me-2 yst-h-5 yst-w-5 yst-text-yellow-900"
 					/>
 					{ __( "Unlock with Premium", "wordpress-seo" ) }
 					<span className="yst-sr-only">

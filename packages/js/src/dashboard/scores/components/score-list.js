@@ -13,7 +13,7 @@ import { __ } from "@wordpress/i18n";
 const CLASSNAMES = {
 	listItem: "yst-flex yst-items-center yst-py-3 first:yst-pt-0 last:yst-pb-0 yst-border-b last:yst-border-b-0",
 	score: "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full",
-	label: "yst-ml-3 yst-mr-2",
+	label: "yst-ms-3 yst-me-2",
 };
 
 /**
@@ -29,8 +29,8 @@ export const ScoreListSkeletonLoader = ( { className } ) => (
 			>
 				<SkeletonLoader className={ CLASSNAMES.score } />
 				<SkeletonLoader className={ CLASSNAMES.label }>{ label }</SkeletonLoader>
-				<SkeletonLoader className="yst-w-7 yst-mr-3">1</SkeletonLoader>
-				<SkeletonLoader className="yst-ml-auto yst-button yst-button--small">{ __( "View", "wordpress-seo" ) }</SkeletonLoader>
+				<SkeletonLoader className="yst-w-7 yst-me-3">1</SkeletonLoader>
+				<SkeletonLoader className="yst-ms-auto yst-button yst-button--small">{ __( "View", "wordpress-seo" ) }</SkeletonLoader>
 			</li>
 		) ) }
 	</ul>
@@ -46,7 +46,7 @@ const ScoreListItemContent = ( { score } ) => (
 		<Label as="span" className={ classNames( CLASSNAMES.label, "yst-leading-4 yst-py-1.5" ) }>
 			{ SCORE_META[ score.name ].label }
 		</Label>
-		<Badge variant="plain" className={ classNames( score.links.view && "yst-mr-3" ) }>{ score.amount }</Badge>
+		<Badge variant="plain" className={ classNames( score.links.view && "yst-me-3" ) }>{ score.amount }</Badge>
 	</>
 );
 
@@ -82,7 +82,7 @@ const ScoreListItem = ( { score, idSuffix } ) => {
 		<li className={ CLASSNAMES.listItem }>
 			<Content score={ score } idSuffix={ idSuffix } />
 			{ score.links.view && (
-				<Button as="a" variant="secondary" size="small" href={ score.links.view } className="yst-ml-auto">{ __( "View", "wordpress-seo" ) }</Button>
+				<Button as="a" variant="secondary" size="small" href={ score.links.view } className="yst-ms-auto">{ __( "View", "wordpress-seo" ) }</Button>
 			) }
 		</li>
 	);

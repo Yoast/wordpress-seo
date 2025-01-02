@@ -45,7 +45,7 @@ const FeatureUpsell = ( { children, shouldUpsell = true, className = "", variant
 					rel="noopener"
 					{ ...cardProps }
 				>
-					<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
+					<LockOpenIcon className={ classNames( "yst-w-5 yst-h-5 yst-shrink-0", cardText && "yst--ms-1" ) } { ...svgAriaProps } />
 					{ cardText }
 				</Button>
 			</div>

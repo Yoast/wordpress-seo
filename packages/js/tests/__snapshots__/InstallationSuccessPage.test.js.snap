@@ -60,7 +60,7 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
         <div>
           <svg
             aria-hidden="true"
-            class="yst-w-8 yst-text-gray-500"
+            class="yst-w-8 yst-text-gray-500 rtl:yst-rotate-180"
             fill="none"
             stroke="currentColor"
             stroke-width="2"
@@ -104,7 +104,7 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
             >
               Start first-time configuration!
               <svg
-                class="yst-ml-3 yst-mr-1 yst-h-5 yst-w-5"
+                class="yst-ms-3 yst-me-1 yst-h-5 yst-w-5 rtl:yst-rotate-180"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
