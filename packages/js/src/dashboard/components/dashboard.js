@@ -1,4 +1,6 @@
+import { __ } from "@wordpress/i18n";
 import { Scores } from "../scores/components/scores";
+import { SiteKitTable } from "../scores/components/site-kit-table";
 import { PageTitle } from "./page-title";
 
 /**
@@ -18,6 +20,53 @@ import { PageTitle } from "./page-title";
  * @returns {JSX.Element} The element.
  */
 export const Dashboard = ( { contentTypes, userName, features, endpoints, headers, links } ) => {
+
+	const columnsNames = [ 
+		__( "Landing page", "wordpress-seo" ), 
+		__( "Clicks", "wordpress-seo" ), 
+		__( "Impressions", "wordpress-seo" ), 
+		__( "CTR", "wordpress-seo" ), 
+		__( "Average position", "wordpress-seo" ),
+		__( "SEO score", "wordpress-seo" ),
+	 ];
+
+	 const data = [
+		[  "https://example.com",
+			100,
+			1000,
+			10,
+			1,
+			100,
+		],
+		[  "https://example.com",
+			100,
+			1000,
+			10,
+			1,
+			100,
+		],
+		[  "https://example.com",
+			100,
+			1000,
+			10,
+			1,
+			100,
+		],
+		[  "https://example.com",
+			100,
+			1000,
+			10,
+			1,
+			100,
+		],
+		[  "https://example.com",
+			100,
+			1000,
+			10,
+			1,
+			100,
+		],
+	 ];
 	return (
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } />
@@ -28,7 +77,10 @@ export const Dashboard = ( { contentTypes, userName, features, endpoints, header
 				{ features.indexables && features.readabilityAnalysis && (
 					<Scores analysisType="readability" contentTypes={ contentTypes } endpoint={ endpoints.readabilityScores } headers={ headers } />
 				) }
+
+				<SiteKitTable title={ __( "Top 5 most popular content", "wordpress-seo" ) } columnsNames={ columnsNames } data={ data } />
 			</div>
+
 		</>
 	);
 };
