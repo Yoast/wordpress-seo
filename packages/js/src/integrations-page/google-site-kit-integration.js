@@ -7,7 +7,7 @@ import { get } from "lodash";
 import { useToggleState } from "@yoast/ui-library";
 import { SiteKitConsentModal } from "../shared-admin/components";
 
-const siteKitIntegration = {
+const integration = {
 	name: "Site Kit by Google",
 	claim: createInterpolateElement(
 		sprintf(
@@ -59,7 +59,7 @@ const buttonLabels = {
  *
  * @returns {WPElement} The Site Kit integration component.
  */
-export const SiteKitIntegration = () => {
+export const GoogleSiteKitIntegration = () => {
 	const isActive = get( window, "wpseoIntegrationsData.google_site_kit.active", false );
 	const afterSetup = get( window, "wpseoIntegrationsData.google_site_kit.setup", false );
 	const isInstalled = get( window, "wpseoIntegrationsData.google_site_kit.installed", false );
@@ -101,7 +101,7 @@ export const SiteKitIntegration = () => {
 	return (
 		<>
 			<SimpleIntegration
-				integration={ siteKitIntegration }
+				integration={ integration }
 				isActive={ isInstalled && isActive  }
 				button={ getButtonConfig( isInstalled, isActive, afterSetup, isConnected ) }
 			>
