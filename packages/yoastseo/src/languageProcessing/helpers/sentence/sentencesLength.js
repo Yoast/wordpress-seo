@@ -18,11 +18,12 @@ export default function( sentences, researcher ) {
 	const customLengthHelper = researcher.getHelper( "customCountLength" );
 
 	return sentences.map( sentence => {
-		const length = customLengthHelper ? customLengthHelper( sentence.text ) : getWordsFromTokens( sentence.tokens, false ).length;
+		const { tokens } = sentence;
+		const length = customLengthHelper ? customLengthHelper( sentence.text ) : getWordsFromTokens( tokens, false ).length;
 
 		if ( length > 0 ) {
-			const firstToken = sentence.tokens.find( ( { text } ) => text !== " " );
-			const lastToken = sentence.tokens.slice().reverse().find( ( { text } ) => text !== " " );
+			const firstToken = tokens.find( ( { text } ) => text !== " " );
+			const lastToken = tokens.slice().reverse().find( ( { text } ) => text !== " " );
 
 			return {
 				sentence: sentence,
