@@ -10,6 +10,7 @@ use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
+use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
 
 
@@ -116,6 +117,7 @@ class Integrations_Page implements Integration_Interface {
 
 		$elementor_conditional = new Elementor_Activated_Conditional();
 		$jetpack_conditional   = new Jetpack_Conditional();
+		$google_site_kit_conditional = new Google_Site_Kit_Feature_Conditional();
 
 		$woocommerce_seo_file = 'wpseo-woocommerce/wpseo-woocommerce.php';
 		$acf_seo_file         = 'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php';
@@ -196,10 +198,11 @@ class Integrations_Page implements Integration_Interface {
 				'is_multisite'                       => \is_multisite(),
 				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
 				'google_site_kit'                    => [
-					'installed' => \file_exists( \WP_PLUGIN_DIR . '/' . $google_site_kit_file ),
-					'active'    => \is_plugin_active( $google_site_kit_file ),
-					'setup'     => \get_option( 'googlesitekit_has_connected_admins', false ) === "1",
-					'connected' => $this->options_helper->get( 'google_site_kit_connected', false ),
+					'installed'      => \file_exists( \WP_PLUGIN_DIR . '/' . $google_site_kit_file ),
+					'active'         => \is_plugin_active( $google_site_kit_file ),
+					'setup'          => \get_option( 'googlesitekit_has_connected_admins', false ) === "1",
+					'connected'      => $this->options_helper->get( 'google_site_kit_connected', false ),
+					'featureEnabled' => $google_site_kit_conditional->is_met(),
 				],
 			]
 		);
