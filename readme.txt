@@ -276,7 +276,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 24.2 =
 
-Release date: 2024-12-31
+Release date: 2025-01-07
+
+Yoast SEO 24.2 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-7-1-25).
 
 #### Enhancements
 
