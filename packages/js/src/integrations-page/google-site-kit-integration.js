@@ -75,7 +75,7 @@ export const GoogleSiteKitIntegration = () => {
 
 		if ( ! isInstalled ) {
 			button.children = buttonLabels.install;
-			button.href = "/wp-admin/plugins.php";
+			button.href = "/wp-admin/plugin-install.php?s=google%2520site%2520kit&tab=search&type=term";
 		} else if ( ! isActive ) {
 			button.children = buttonLabels.activate;
 			button.href = "/wp-admin/plugins.php";
