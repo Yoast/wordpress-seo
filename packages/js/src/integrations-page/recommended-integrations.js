@@ -62,7 +62,9 @@ const integrations = [
 	},
 ];
 
-export const RecommendedIntegrations = [
+const isGoogleSiteKitFeatureEnabled = get( window, "wpseoIntegrationsData.google_site_kit.featureEnabled", false );
+
+const RecommendedIntegrations = [
 	integrations.map( ( integration, index ) => {
 		return (
 			<ToggleableIntegration
@@ -76,5 +78,11 @@ export const RecommendedIntegrations = [
 			/>
 		);
 	} ),
-	<GoogleSiteKitIntegration key={ integrations.length } />,
 ];
+
+
+if( isGoogleSiteKitFeatureEnabled ) {
+	RecommendedIntegrations.push( <GoogleSiteKitIntegration key={ integrations.length } /> );
+}
+
+export { RecommendedIntegrations };
