@@ -63,7 +63,7 @@ const integrations = [
 	},
 ];
 
-const isGoogleSiteKitFeatureEnabled = get( window, "wpseoIntegrationsData.google_site_kit.featureEnabled", false );
+const isGoogleSiteKitFeatureEnabled = get( window, "wpseoIntegrationsData.googleSiteKit.featureEnabled", false );
 
 const RecommendedIntegrations = [
 	integrations.map( ( integration, index ) => {
@@ -82,7 +82,7 @@ const RecommendedIntegrations = [
 ];
 
 
-if( isGoogleSiteKitFeatureEnabled ) {
+if ( isGoogleSiteKitFeatureEnabled ) {
 	RecommendedIntegrations.push( <GoogleSiteKitIntegration key={ integrations.length } /> );
 }
 

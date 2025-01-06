@@ -60,10 +60,7 @@ const buttonLabels = {
  * @returns {WPElement} The Site Kit integration component.
  */
 export const GoogleSiteKitIntegration = () => {
-	const isActive = get( window, "wpseoIntegrationsData.google_site_kit.active", false );
-	const afterSetup = get( window, "wpseoIntegrationsData.google_site_kit.setup", false );
-	const isInstalled = get( window, "wpseoIntegrationsData.google_site_kit.installed", false );
-	const isConnected = get( window, "wpseoIntegrationsData.google_site_kit.connected", false );
+	const { isActive, afterSetup, isInstalled, isConnected } = get( window, "wpseoIntegrationsData.googleSiteKit", { isActive: false, afterSetup: false, isInstalled: false, isConnected: false } );
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
 
 	const getButtonConfig = useCallback( () => {
@@ -88,6 +85,7 @@ export const GoogleSiteKitIntegration = () => {
 			button.as = "button";
 		} else if ( isConnected ) {
 			button.children = buttonLabels.disconnect;
+			button.as = "button";
 			button.variant = "secondary";
 		}
 
