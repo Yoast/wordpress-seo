@@ -20,47 +20,46 @@ import { PageTitle } from "./page-title";
  * @returns {JSX.Element} The element.
  */
 export const Dashboard = ( { contentTypes, userName, features, endpoints, headers, links } ) => {
-
-	const columnsNames = [ 
-		__( "Landing page", "wordpress-seo" ), 
-		__( "Clicks", "wordpress-seo" ), 
-		__( "Impressions", "wordpress-seo" ), 
-		__( "CTR", "wordpress-seo" ), 
-		__( "Average position", "wordpress-seo" ),
-		__( "SEO score", "wordpress-seo" ),
+	const columns = [
+		{ name: "landing-page", label: __( "Landing page", "wordpress-seo" ) },
+		{ name: "clicks", label: __( "Clicks", "wordpress-seo" ), sortable: true },
+		{ name: "impressions", label: __( "Impressions", "wordpress-seo" ) },
+		{ name: "ctr", label: __( "CTR", "wordpress-seo" ) },
+		{ name: "average-position", label: __( "Average position", "wordpress-seo" ) },
+		{ name: "seo-score", label: __( "SEO score", "wordpress-seo" ) },
 	 ];
 
 	 const data = [
 		[  "https://example.com",
-			100,
+			10,
 			1000,
 			10,
 			1,
 			100,
 		],
 		[  "https://example.com",
-			100,
+			90,
 			1000,
 			10,
 			1,
 			100,
 		],
 		[  "https://example.com",
-			100,
+			50,
 			1000,
 			10,
 			1,
 			100,
 		],
 		[  "https://example.com",
-			100,
+			0,
 			1000,
 			10,
 			1,
 			100,
 		],
 		[  "https://example.com",
-			100,
+			70,
 			1000,
 			10,
 			1,
@@ -71,6 +70,7 @@ export const Dashboard = ( { contentTypes, userName, features, endpoints, header
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } />
 			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
+				<SiteKitTable title={ __( "Top 5 most popular content", "wordpress-seo" ) } columns={ columns } data={ data } />
 				{ features.indexables && features.seoAnalysis && (
 					<Scores analysisType="seo" contentTypes={ contentTypes } endpoint={ endpoints.seoScores } headers={ headers } />
 				) }
@@ -78,7 +78,7 @@ export const Dashboard = ( { contentTypes, userName, features, endpoints, header
 					<Scores analysisType="readability" contentTypes={ contentTypes } endpoint={ endpoints.readabilityScores } headers={ headers } />
 				) }
 
-				<SiteKitTable title={ __( "Top 5 most popular content", "wordpress-seo" ) } columnsNames={ columnsNames } data={ data } />
+
 			</div>
 
 		</>
