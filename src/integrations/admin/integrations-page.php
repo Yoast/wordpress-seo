@@ -9,11 +9,9 @@ use WP_Recipe_Maker;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
-
-
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -115,8 +113,8 @@ class Integrations_Page implements Integration_Interface {
 
 		$this->admin_asset_manager->enqueue_script( 'integrations-page' );
 
-		$elementor_conditional = new Elementor_Activated_Conditional();
-		$jetpack_conditional   = new Jetpack_Conditional();
+		$elementor_conditional       = new Elementor_Activated_Conditional();
+		$jetpack_conditional         = new Jetpack_Conditional();
 		$google_site_kit_conditional = new Google_Site_Kit_Feature_Conditional();
 
 		$woocommerce_seo_file = 'wpseo-woocommerce/wpseo-woocommerce.php';
@@ -143,7 +141,6 @@ class Integrations_Page implements Integration_Interface {
 		$ssp_active               = \class_exists( PodcastEpisode::class );
 		$wp_recipe_maker_active   = \class_exists( WP_Recipe_Maker::class );
 		$mastodon_active          = $this->is_mastodon_active();
-		
 
 		$woocommerce_seo_activate_url = \wp_nonce_url(
 			\self_admin_url( 'plugins.php?action=activate&plugin=' . $woocommerce_seo_file ),
@@ -197,10 +194,10 @@ class Integrations_Page implements Integration_Interface {
 				'mastodon_active'                    => $mastodon_active,
 				'is_multisite'                       => \is_multisite(),
 				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
-				'googleSiteKit'                    => [
+				'googleSiteKit'                      => [
 					'isInstalled'    => \file_exists( \WP_PLUGIN_DIR . '/' . $google_site_kit_file ),
 					'isActive'       => \is_plugin_active( $google_site_kit_file ),
-					'afterSetup'     => \get_option( 'googlesitekit_has_connected_admins', false ) === "1",
+					'afterSetup'     => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
 					'isConnected'    => $this->options_helper->get( 'google_site_kit_connected', false ),
 					'featureEnabled' => $google_site_kit_conditional->is_met(),
 				],
