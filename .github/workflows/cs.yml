@@ -11,7 +11,7 @@ on:
       - 'composer.lock'
       - '.phpcs.xml.dist'
       - 'phpcs.xml.dist'
-      - '.github/workflows/cs.yml'
+      - '.github/workflows/**'
   pull_request:
     paths:
       - '**.php' # Includes config/*.php files.
@@ -19,7 +19,7 @@ on:
       - 'composer.lock'
       - '.phpcs.xml.dist'
       - 'phpcs.xml.dist'
-      - '.github/workflows/cs.yml'
+      - '.github/workflows/**'
   # Allow manually triggering the workflow.
   workflow_dispatch:
 
@@ -30,6 +30,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  actionlint:
+    name: 'Lint GH Action workflows'
+    uses: Yoast/.github/.github/workflows/reusable-actionlint.yml@main
+
   checkcs:
     name: 'Check code style'
     runs-on: ubuntu-latest
@@ -44,11 +48,11 @@ jobs:
           BASE_REF: ${{ github.base_ref }}
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "NAME=$BASE_REF" >> $GITHUB_OUTPUT
-            echo "REF=origin/$BASE_REF" >> $GITHUB_OUTPUT
+            echo "NAME=$BASE_REF" >> "$GITHUB_OUTPUT"
+            echo "REF=origin/$BASE_REF" >> "$GITHUB_OUTPUT"
           else
-            echo 'NAME=trunk' >> $GITHUB_OUTPUT
-            echo "REF=origin/trunk" >> $GITHUB_OUTPUT
+            echo 'NAME=trunk' >> "$GITHUB_OUTPUT"
+            echo "REF=origin/trunk" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Fetch base branch
@@ -83,7 +87,7 @@ jobs:
           set +e
           composer check-cs-thresholds
           exitcode="$?"
-          echo "EXITCODE=$exitcode" >> $GITHUB_OUTPUT
+          echo "EXITCODE=$exitcode" >> "$GITHUB_OUTPUT"
           exit "$exitcode"
 
       # Check the codestyle only of the files which were changed in the current branch.

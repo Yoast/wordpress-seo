@@ -198,9 +198,11 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 					</div>
 				</Table.Header>
 
-				{ renderButton && <Table.Header className="yst-w-32">
-					<div className="yst-flex yst-justify-end yst-text-right rtl:yst-text-left">
-						{ __( "Add keyphrase", "wordpress-seo" ) }
+				{ renderButton && <Table.Header>
+					<div className="yst-flex yst-justify-end">
+						<div className="yst-text-end yst-w-[88px]">
+							{ __( "Add keyphrase", "wordpress-seo" ) }
+						</div>
 					</div>
 				</Table.Header> }
 

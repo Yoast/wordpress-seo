@@ -69,7 +69,7 @@ const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfi
 				onClick={ onAddProfile }
 				data-hiive-event-name="clicked_add_profile"
 			>
-				<PlusIcon className="yst-w-5 yst-h-5 yst-mr-1 yst-text-slate-400" />
+				<PlusIcon className="yst-w-5 yst-h-5 yst-me-1 yst-text-slate-400" />
 				{ addButtonChildren }
 			</Button>
 		</div>

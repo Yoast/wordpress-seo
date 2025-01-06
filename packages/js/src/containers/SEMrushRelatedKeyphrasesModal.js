@@ -11,6 +11,7 @@ export default compose( [
 			getSEMrushSelectedCountry,
 			getPreference,
 			selectLinkParams,
+			getFocusKeyphrase,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -19,6 +20,7 @@ export default compose( [
 			countryCode: getSEMrushSelectedCountry(),
 			isRtl: getPreference( "isRtl", false ),
 			learnMoreLink: addQueryArgs( "https://yoa.st/3-v", selectLinkParams() ),
+			keyphrase: getFocusKeyphrase(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
@@ -27,6 +29,7 @@ export default compose( [
 			setSEMrushOpenModal,
 			setSEMrushDismissModal,
 			setSEMrushLoginStatus,
+			setSEMrushNewRequest,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -41,6 +44,9 @@ export default compose( [
 			},
 			onAuthentication: ( status ) => {
 				setSEMrushLoginStatus( status );
+			},
+			newRequest: ( countryCode, keyphrase ) => {
+				setSEMrushNewRequest( countryCode, keyphrase );
 			},
 		};
 	} ),

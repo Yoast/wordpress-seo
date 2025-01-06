@@ -725,7 +725,7 @@ body.folded .wpseo-admin-submit-fixed {
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: row;
-	justify-content: left;
+	justify-content: flex-start;
 	align-items: center;
 	width: 100%;
 }

@@ -16,22 +16,16 @@ require_once \dirname( __DIR__, 2 ) . '/vendor/yoast/wp-test-utils/src/WPIntegra
 /* *****[ Ensure a couple of required files are present ]***** */
 
 /**
- * Creates asset files.
+ * Creates asset and block files.
+ *
+ * @return void
  *
  * @throws RuntimeException If the directory or file creation failed.
  */
-$yoast_seo_create_asset_files = static function () {
-	$target_dir = \dirname( __DIR__, 2 ) . '/src/generated/assets';
-
-	// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged -- Silencing warnings when function fails.
-	if ( @\is_dir( $target_dir ) === false ) {
-		if ( @\mkdir( $target_dir, 0777, true ) === false ) {
-			throw new RuntimeException( \sprintf( 'Failed to create the %s directory.', $target_dir ) );
-		}
-	} // phpcs:enable WordPress
-
+function yoast_seo_create_asset_files_for_tests() {
+	$base_dir       = \dirname( __DIR__, 2 );
 	$required_files = [
-		'plugin.php'    => "<?php
+		'src/generated/assets/plugin.php'                 => "<?php
 return [
 	'post-edit.js' => [
 		'dependencies' => [],
@@ -47,21 +41,34 @@ return [
 	],
 ];
 ",
-		'externals.php' => '<?php return [];',
-		'languages.php' => '<?php return [];',
+		'src/generated/assets/externals.php'              => '<?php return [];',
+		'src/generated/assets/languages.php'              => '<?php return [];',
+		'blocks/dynamic-blocks/breadcrumbs/block.json'    => '{}',
+		'blocks/structured-data-blocks/faq/block.json'    => '{}',
+		'blocks/structured-data-blocks/how-to/block.json' => '{}',
 	];
 
-	foreach ( $required_files as $file_name => $contents ) {
-		$target_file = $target_dir . '/' . $file_name;
-		if ( \file_exists( $target_file ) === false ) {
-			if ( \file_put_contents( $target_file, $contents ) === false ) {
-				throw new RuntimeException( \sprintf( 'Failed to write to target location: %s', $target_file ) );
+	foreach ( $required_files as $file_path => $contents ) {
+		$file_path = $base_dir . '/' . $file_path;
+		if ( \file_exists( $file_path ) === true ) {
+			continue;
+		}
+
+		// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged -- Silencing warnings when function fails.
+		$target_dir = \dirname( $file_path );
+		if ( @\is_dir( $target_dir ) === false ) {
+			if ( @\mkdir( $target_dir, 0777, true ) === false ) {
+				throw new RuntimeException( \sprintf( 'Failed to create the %s directory.', $target_dir ) );
 			}
+		} // phpcs:enable WordPress
+
+		if ( \file_put_contents( $file_path, $contents ) === false ) {
+			throw new RuntimeException( \sprintf( 'Failed to write to target location: %s', $file_path ) );
 		}
 	}
-};
+}
 
-$yoast_seo_create_asset_files();
+namespace\yoast_seo_create_asset_files_for_tests();
 
 
 /* *****[ Wire in the integration ]***** */

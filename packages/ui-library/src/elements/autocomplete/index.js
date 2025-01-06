@@ -6,6 +6,7 @@ import { constant } from "lodash";
 import PropTypes from "prop-types";
 import React, { forwardRef, Fragment, useCallback } from "react";
 import { useSvgAria } from "../../hooks";
+import Button from "../button";
 import { ValidationInput } from "../validation";
 
 // Render Combobox.Button as a div always.
@@ -52,27 +53,27 @@ const optionPropType = {
 Option.propTypes = optionPropType;
 
 /**
- *
- * @param {Function} onChange Change callback.
+ * @param {Function} onClear Clear callback.
  * @param {Object} svgAriaProps SVG aria props.
  * @param {string} screenReaderText Screen reader text.
  * @returns {JSX.Element} Select component.
  */
-const ClearSelection = ( { onChange, svgAriaProps, screenReaderText } ) => {
-	const clear = useCallback( ( e ) => {
+const ClearSelection = ( { onClear, svgAriaProps, screenReaderText } ) => {
+	const handleClear = useCallback( ( e ) => {
 		e.preventDefault();
-		onChange( null );
-	}, [ onChange ] );
+		onClear( null );
+	}, [ onClear ] );
 
-	return <button type="button" className="yst-mr-4 yst-flex yst-items-center" onClick={ clear }>
-		<span className="yst-sr-only">{ screenReaderText }</span>
-		<XIcon className="yst-text-slate-400 yst-w-5 yst-h-5" { ...svgAriaProps } />
-		<div className="yst-w-2 yst-mr-2 yst-border-r-slate-200 yst-border-r yst-h-7" />
-	</button>;
+	return (
+		<Button variant="tertiary" className="yst-autocomplete__clear-action" onClick={ handleClear }>
+			<span className="yst-sr-only">{ screenReaderText }</span>
+			<XIcon className="yst-autocomplete__action-icon" { ...svgAriaProps } />
+		</Button>
+	);
 };
 
 ClearSelection.propTypes = {
-	onChange: PropTypes.func.isRequired,
+	onClear: PropTypes.func.isRequired,
 	svgAriaProps: PropTypes.object.isRequired,
 	screenReaderText: PropTypes.string.isRequired,
 };
@@ -87,10 +88,14 @@ ClearSelection.propTypes = {
  * @param {JSX.node} [labelSuffix] Optional label suffix.
  * @param {Function} onChange Change callback.
  * @param {Function} onQueryChange Query change callback.
+ * @param {Function} [onClear] Clear callback.
  * @param {Object} [validation] The validation state.
  * @param {string} [placeholder] Input placeholder.
  * @param {string} [className] CSS class.
  * @param {Object} [buttonProps] Any extra props for the button.
+ * @param {string} [clearButtonScreenReaderText] Screen reader text for the clear button.
+ * @param {boolean} [nullable=false] Allow nullable values.
+ * @param {boolean} [disabled=false] Disable the autocomplete.
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} Select component.
  */
@@ -104,16 +109,21 @@ const Autocomplete = forwardRef( ( {
 	labelSuffix,
 	onChange,
 	onQueryChange,
+	onClear,
 	validation,
 	placeholder,
 	className,
 	buttonProps,
 	clearButtonScreenReaderText,
+	nullable,
 	disabled,
 	...props
 }, ref ) => {
 	const getDisplayValue = useCallback( constant( selectedLabel ), [ selectedLabel ] );
 	const svgAriaProps = useSvgAria();
+	const showClearSelection = nullable && selectedLabel;
+	const showSelectorIcon = ! validation?.message;
+	const showActionContainer = showClearSelection || showSelectorIcon;
 
 	return (
 		<Combobox
@@ -148,15 +158,22 @@ const Autocomplete = forwardRef( ( {
 						displayValue={ getDisplayValue }
 						onChange={ onQueryChange }
 					/>
-					{ props.nullable && selectedLabel &&
-						<ClearSelection
-							onChange={ onChange }
-							svgAriaProps={ svgAriaProps }
-							screenReaderText={ clearButtonScreenReaderText }
-						/>
-					}
-					{ ! validation?.message && (
-						<SelectorIcon className="yst-autocomplete__button-icon" { ...svgAriaProps } />
+					{ showActionContainer && (
+						<div className="yst-autocomplete__action-container">
+							{ showClearSelection && (
+								<>
+									<ClearSelection
+										onClear={ onClear || onChange }
+										svgAriaProps={ svgAriaProps }
+										screenReaderText={ clearButtonScreenReaderText }
+									/>
+									<hr className="yst-autocomplete__action-separator" />
+								</>
+							) }
+							{ showSelectorIcon && (
+								<SelectorIcon className="yst-autocomplete__action-icon yst-pointer-events-none" { ...svgAriaProps } />
+							) }
+						</div>
 					) }
 				</ValidationInput>
 				<Transition
@@ -196,6 +213,7 @@ const propTypes = {
 	buttonProps: PropTypes.object,
 	clearButtonScreenReaderText: PropTypes.string,
 	nullable: PropTypes.bool,
+	onClear: PropTypes.func,
 	disabled: PropTypes.bool,
 };
 
@@ -214,6 +232,7 @@ Autocomplete.defaultProps = {
 	buttonProps: {},
 	clearButtonScreenReaderText: "Clear",
 	nullable: false,
+	onClear: null,
 	disabled: false,
 };
 
