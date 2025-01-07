@@ -274,6 +274,25 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 24.3 =
+
+Release date: 2025-01-21
+
+#### Enhancements
+
+* Introduces more robust HTML processing and highlighting for the _sentence length_ and _paragraph length_ assessments.
+
+#### Bugfixes
+
+* Fixes a bug where the Semrush request would be executed twice when opening the related keyphrases modal.
+* Fixes a bug where the text color in the search on our settings page would not change correctly when active, resulting in bad contrast.
+* Fixes a bug where the _View_ button label in the Yoast dashboard would not be available for translation.
+
+#### Other
+
+* Improves contrast in the related keyphrase suggestions table.
+* Improves contrast in the RSS supported variables explainer table.
+
 = 24.2 =
 
 Release date: 2025-01-07
@@ -294,26 +313,6 @@ Yoast SEO 24.2 brings more enhancements and bugfixes. [Find more information abo
 
 * Changes the title text on the Yoast installation success page.
 * Fixes a console warning about ReactDOM.render being no longer supported in React 18.
-
-= 24.1 =
-
-Release date: 2024-12-18
-
-Yoast SEO 24.1 adds the Yoast SEO Dashboard to monitor your site's SEO performance in one overview. Find more about Yoast SEO 24.1 in [our release post](https://yoa.st/release-18-12-24)!
-
-#### Enhancements
-
-* Introduces the Yoast Dashboard, a place where site administrators can check the SEO and Readability performance of the site's posts.
-* Adds `Not analyzed` as an option in the readability filter in the posts page.
-* Enhances the existing `Needs improvement` option in the readability filter in the posts page, to include posts that don't have enough content as well.
-
-#### Bugfixes
-
-* Fixes a bug where posts that have been set to explicitly not be noindexed and had no keyword set would not appear in the relevant SEO filter in the posts page.
-
-#### Other
-
-* Improves the translatability of feedback for the _paragraph length_ and the _sentence length_ assessments.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
