@@ -1,18 +1,19 @@
 /* eslint-disable react/jsx-max-depth */
 import { Transition } from "@headlessui/react";
-import { AdjustmentsIcon, ArrowNarrowRightIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
+import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
-import { createInterpolateElement, useCallback, useMemo } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Button, ChildrenLimiter, ErrorBoundary, Paper, SidebarNavigation, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
+import { useSelect } from "@wordpress/data";
+import { useCallback, useMemo } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
+import { Badge, ChildrenLimiter, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { getPremiumBenefits } from "../helpers/get-premium-benefits";
-import { MenuItemLink, YoastLogo } from "../shared-admin/components";
-import { ErrorFallback, Notifications, Search, SidebarRecommendations } from "./components";
+import { MenuItemLink, PremiumUpsellList, SidebarRecommendations, YoastLogo } from "../shared-admin/components";
+import { ErrorFallback, Notifications, Search } from "./components";
+import { STORE_NAME } from "./constants";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
 	AuthorArchives,
@@ -160,57 +161,6 @@ Menu.propTypes = {
 };
 
 /**
- * @returns {JSX.Element} The element.
- */
-const PremiumUpsellList = () => {
-	const premiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
-	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
-	const promotions = useSelectSettings( "selectPreference", [], "promotions", [] );
-	const isBlackFriday = promotions.includes( "black-friday-2024-promotion" );
-
-	return (
-		<Paper as="div" className="xl:yst-max-w-3xl">
-			{ isBlackFriday && <div className="yst-rounded-t-lg yst-h-9 yst-flex yst-items-center yst-bg-black yst-text-amber-300 yst-px-4 yst-text-lg yst-border-b yst-border-amber-300 yst-border-solid yst-font-semibold">
-				<div>{ __( "30% OFF | Code: BF2024", "wordpress-seo" ) }</div>
-			</div> }
-			<div className="yst-p-6 yst-flex yst-flex-col">
-				<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
-					{ sprintf(
-					/* translators: %s expands to "Yoast SEO" Premium */
-						__( "Upgrade to %s", "wordpress-seo" ),
-						"Yoast SEO Premium"
-					) }
-				</Title>
-				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-pl-[1em] yst-list-outside yst-text-slate-800 yst-mt-6">
-					{ getPremiumBenefits().map( ( benefit, index ) => (
-						<li key={ `upsell-benefit-${ index }` }>
-							{ createInterpolateElement( benefit, { strong: <span className="yst-font-semibold" /> } ) }
-						</li>
-					) ) }
-				</ul>
-				<Button
-					as="a"
-					variant="upsell"
-					size="extra-large"
-					href={ premiumLink }
-					className="yst-gap-2 yst-mt-4"
-					target="_blank"
-					rel="noopener"
-					{ ...premiumUpsellConfig }
-				>
-					{ isBlackFriday ? __( "Claim your 30% off now!", "wordpress-seo" ) : sprintf(
-						/* translators: %s expands to "Yoast SEO" Premium */
-						__( "Explore %s now!", "wordpress-seo" ),
-						"Yoast SEO Premium"
-					) }
-					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
-				</Button>
-			</div>
-		</Paper>
-	);
-};
-
-/**
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
@@ -218,6 +168,11 @@ const App = () => {
 	const postTypes = useSelectSettings( "selectPostTypes" );
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const premiumLinkList = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
+	const premiumLinkSidebar = useSelectSettings( "selectLink", [], "https://yoa.st/jj" );
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
+	const academyLink = useSelectSettings( "selectLink", [], "https://yoa.st/3t6" );
+	const { isPromotionActive } = useSelect( STORE_NAME );
 
 	useRouterScrollRestore();
 
@@ -248,7 +203,7 @@ const App = () => {
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
 					</aside>
-					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[17.5rem]" ) }>
+					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pe-[17.5rem]" ) }>
 						<div className="yst-grow yst-space-y-6 yst-mb-8 xl:yst-mb-0">
 							<Paper as="main">
 								<ErrorBoundary FallbackComponent={ ErrorFallback }>
@@ -297,9 +252,22 @@ const App = () => {
 									</Transition>
 								</ErrorBoundary>
 							</Paper>
-							{ ! isPremium && <PremiumUpsellList /> }
+							{ ! isPremium && <PremiumUpsellList
+								premiumLink={ premiumLinkList }
+								premiumUpsellConfig={ premiumUpsellConfig }
+								isPromotionActive={ isPromotionActive }
+							/> }
 						</div>
-						<SidebarRecommendations />
+						{ ! isPremium &&
+							<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-end-8 xl:yst-w-[16rem]">
+								<SidebarRecommendations
+									premiumLink={ premiumLinkSidebar }
+									premiumUpsellConfig={ premiumUpsellConfig }
+									academyLink={ academyLink }
+									isPromotionActive={ isPromotionActive }
+								/>
+							</div>
+						}
 					</div>
 				</div>
 			</SidebarNavigation>

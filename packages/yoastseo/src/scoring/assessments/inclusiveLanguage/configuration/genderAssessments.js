@@ -16,6 +16,7 @@ import { orangeExclusionaryUnless,
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
+import { nonInclusiveWhenStandalone } from "../helpers/createRuleDescriptions";
 
 const genderAssessments = [
 	{
@@ -281,6 +282,7 @@ const genderAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
+		ruleDescription: nonInclusiveWhenStandalone,
 	},
 ];
 

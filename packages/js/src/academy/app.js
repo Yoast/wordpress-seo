@@ -267,7 +267,7 @@ const App = () => {
 									/>
 
 									{ shouldShowPremiumBadge( course.dependencies, isPremium ) && (
-										<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+										<div className="yst-absolute yst-top-2 yst-end-2 yst-flex yst-gap-1.5">
 											<Badge size="small" variant="upsell">{ __( "Premium", "wordpress-seo" ) }</Badge>
 										</div>
 									) }
@@ -291,7 +291,7 @@ const App = () => {
 													__( "(Opens in a new browser tab)", "wordpress-seo" )
 												}
 											</span>
-											<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
+											<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ms-1 yst-icon-rtl" />
 										</Link> }
 								</Card.Content>
 								<Card.Footer>
@@ -309,7 +309,7 @@ const App = () => {
 													rel="noopener"
 													{ ...premiumUpsellConfig }
 												>
-													<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
+													<LockOpenIcon className="yst-w-5 yst-h-5 yst--ms-1 yst-shrink-0" { ...svgAriaProps } />
 													{ sprintf(
 														/* translators: %1$s expands to Premium. */
 														__( "Unlock with %1$s", "wordpress-seo" ),
@@ -331,7 +331,7 @@ const App = () => {
 													rel="noopener"
 												>
 													{ __( "Start the course", "wordpress-seo" ) }
-													<ExternalLinkIcon className="yst--mr-1 yst-ml-1 yst-h-5 yst-w-5 yst-text-white" />
+													<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-white rtl:yst-rotate-[270deg]" />
 												</Button>
 											)
 										}

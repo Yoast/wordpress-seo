@@ -5,6 +5,7 @@
 		}
 
 		/* Variants */
+
 		.yst-radio--disabled {
 			.yst-radio__input,
 			.yst-radio__label,
@@ -23,6 +24,7 @@
 
 			.yst-radio__input {
 				@apply yst-sr-only;
+
 				&:checked + .yst-radio__content {
 					.yst-radio__label {
 						@apply yst-border-transparent yst-ring-2 yst-ring-primary-500;
@@ -31,7 +33,7 @@
 					.yst-radio__check {
 						@apply yst-visible;
 					}
-					
+
 				}
 
 				&:focus + .yst-radio__content {
@@ -46,7 +48,7 @@
 							@apply yst-ring-offset-1 yst-ring-[3px];
 						}
 					}
-				} 
+				}
 			}
 
 			.yst-radio__content {
@@ -58,7 +60,7 @@
 				yst-flex
 				yst-h-14
 				yst-w-14
-				yst-ml-0
+				yst-ms-0
 				yst-justify-center
 				yst-items-center
 				yst-text-base
@@ -78,7 +80,7 @@
 				yst-invisible
 				yst-absolute
 				yst-top-0.5
-				yst-right-0.5
+				yst-end-0.5
 				yst-h-5
 				yst-w-5
 				yst-text-primary-600;
@@ -98,7 +100,7 @@
 		}
 
 		.yst-radio__label {
-			@apply yst-ml-3;
+			@apply yst-ms-3;
 		}
 	}
 }

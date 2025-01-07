@@ -24,6 +24,12 @@ import {
 	shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
 } from "./disabilityRulesData";
 import { sprintf } from "@wordpress/i18n";
+import {
+	nonInclusiveWhenStandalone,
+	isPreceded,
+	notFollowed,
+	notPreceded,
+} from "../helpers/createRuleDescriptions";
 
 const disabilityAssessments = [
 	{
@@ -36,6 +42,7 @@ const disabilityAssessments = [
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase,
 				[ "drink", "drinks", "drinking", "eating disorder", "and purge", "behavior", "behaviors", "behaviour", "behaviours" ] ) ),
+		ruleDescription: notFollowed( [ "drink", "drinks", "drinking", "eating disorder", "and purge", "behavior", "behaviors", "behaviour", "behaviours" ] ),
 	},
 	{
 		identifier: "bingeing",
@@ -47,6 +54,7 @@ const disabilityAssessments = [
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase,
 				[ "and purging", "behavior", "behaviors", "behaviour", "behaviours" ] ) ),
+		ruleDescription: notFollowed( [ "and purging", "behavior", "behaviors", "behaviour", "behaviours" ] ),
 	},
 	{
 		identifier: "binged",
@@ -57,6 +65,7 @@ const disabilityAssessments = [
 			"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, such as %2$s.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "and purged" ] ) ),
+		ruleDescription: notFollowed( [ "and purged" ] ),
 	},
 	{
 		identifier: "binges",
@@ -67,6 +76,7 @@ const disabilityAssessments = [
 			"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, such as %2$s.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "and purges" ] ) ),
+		ruleDescription: notFollowed( [ "and purges" ] ),
 	},
 	{
 		identifier: "wheelchairBound",
@@ -92,6 +102,7 @@ const disabilityAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, [ "mentally" ] ) );
 		},
+		ruleDescription: notPreceded( [ "mentally" ] ),
 	},
 	{
 		identifier: "alcoholic",
@@ -101,6 +112,7 @@ const disabilityAssessments = [
 		feedbackFormat: orangeUnlessSomeoneWants,
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "drink", "beverage" ] ) ),
+		ruleDescription: notFollowed( [ "drink", "beverage" ] ),
 	},
 	{
 		identifier: "alcoholics",
@@ -110,6 +122,7 @@ const disabilityAssessments = [
 		feedbackFormat: orangeUnlessSomeoneWants,
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "anonymous" ] ) ),
+		ruleDescription: notFollowed( [ "anonymous" ] ),
 	},
 	{
 		identifier: "cripple",
@@ -148,6 +161,7 @@ const disabilityAssessments = [
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase,
 				[ "toilet", "toilets", "parking", "bathroom", "bathrooms", "stall", "stalls" ] ) ),
+		ruleDescription: notFollowed( [ "toilet", "toilets", "parking", "bathroom", "bathrooms", "stall", "stalls" ] ),
 	},
 	{
 		identifier: "insane",
@@ -195,6 +209,7 @@ const disabilityAssessments = [
 			"Consider using an alternative, such as %2$s, unless referring to how you characterize your own condition.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "autism" ] ) ),
+		ruleDescription: notFollowed( [ "autism" ] ),
 	},
 	{
 		identifier: "autismHigh",
@@ -327,6 +342,7 @@ const disabilityAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, [ "deaf and" ] ) );
 		},
+		ruleDescription: notPreceded( [ "deaf and" ] ),
 	},
 	{
 		identifier: "deaf",
@@ -395,6 +411,7 @@ const disabilityAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, formsOfToBeNotWithOptionalIntensifier ) );
 		},
+		ruleDescription: "Targeted when preceded by a negated form of 'to be' or 'to get' and an optional intensifier.",
 	},
 	{
 		identifier: "to be crazy about",
@@ -407,6 +424,7 @@ const disabilityAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, formsOfToBeWithOptionalIntensifier ) );
 		},
+		ruleDescription: "Targeted when preceded by a form of 'to be' or 'to get' and an optional intensifier.",
 	},
 	{
 		identifier: "crazy in love",
@@ -427,6 +445,7 @@ const disabilityAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, formsOfToGo ) );
 		},
+		ruleDescription: isPreceded( formsOfToGo ),
 	},
 	{
 		identifier: "to drive crazy",
@@ -440,6 +459,7 @@ const disabilityAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, combinationsOfDriveAndObjectPronoun ) );
 		},
+		ruleDescription: "Targeted when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me')",
 	},
 	{
 		identifier: "crazy",
@@ -457,6 +477,8 @@ const disabilityAssessments = [
 					shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
 					shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
 		},
+		ruleDescription: "Not targeted with this feedback when part of a more specific phrase that we target ('to drive crazy', " +
+			"to go crazy', 'to (not) be crazy about', 'crazy in love').",
 	},
 	{
 		identifier: "crazier",
@@ -489,6 +511,7 @@ const disabilityAssessments = [
 		feedbackFormat: orangeUnlessMedicalCondition,
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "disorder" ] ) ),
+		ruleDescription: notFollowed( [ "disorder" ] ),
 	},
 	{
 		identifier: "paranoid",
@@ -499,6 +522,7 @@ const disabilityAssessments = [
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase,
 				[ "personality disorder", "delusion", "delusions", "ideation" ] ) ),
+		ruleDescription: notFollowed( [ "personality disorder", "delusion", "delusions", "ideation" ] ),
 	},
 	{
 		identifier: "manic",
@@ -509,6 +533,7 @@ const disabilityAssessments = [
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase,
 				[ "episode", "episodes", "state", "states", "symptoms", "and depressive episodes", "and hypomanic", "or hypomanic" ] ) ),
+		ruleDescription: notFollowed( [ "episode", "episodes", "state", "states", "symptoms", "and depressive episodes", "and hypomanic", "or hypomanic" ] ),
 	},
 	{
 		identifier: "hysterical",
@@ -562,6 +587,7 @@ const disabilityAssessments = [
 			" If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %3$s.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "personality disorder" ] ) ),
+		ruleDescription: notFollowed( [ "personality disorder" ] ),
 	},
 	{
 		identifier: "OCD",
@@ -577,6 +603,8 @@ const disabilityAssessments = [
 			return includesConsecutiveWords( words, inclusivePhrases )
 				.filter( isPrecededByException( words, formsOfToBeAndToBeNotWithOptionalIntensifier ) );
 		},
+		ruleDescription: "Targeted when preceded by a form of 'to be' or 'to get' (including their negated forms)" +
+			"and an optional intensifier",
 	},
 	{
 		identifier: "theMentallyIll",
@@ -588,6 +616,7 @@ const disabilityAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
+		ruleDescription: nonInclusiveWhenStandalone,
 	},
 	{
 		identifier: "theDisabled",
@@ -599,6 +628,7 @@ const disabilityAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
+		ruleDescription: nonInclusiveWhenStandalone,
 	},
 ];
 

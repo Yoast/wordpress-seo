@@ -1,13 +1,15 @@
 /* eslint-disable complexity, react/jsx-max-depth */
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import { useSelect } from "@wordpress/data";
 import { createInterpolateElement, Fragment, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Badge, Button, FeatureUpsell, Link, Paper, Title } from "@yoast/ui-library";
 import classNames from "classnames";
-import { AcademyUpsellCard, PremiumUpsellCard, RecommendationsSidebar } from "../shared-admin/components";
+import { SidebarRecommendations } from "../shared-admin/components";
 import { FieldsetLayout } from "./components/fieldset-layout";
 import { ResourceCard } from "./components/resource-card";
+import { STORE_NAME } from "./constants";
 import { useSelectSupport } from "./hooks";
 
 /**
@@ -33,7 +35,6 @@ const openHelpScoutBeacon = () => {
  */
 export const App = () => {
 	const isPremium = useSelectSupport( "selectPreference", [], "isPremium", false );
-	const promotions = useSelectSupport( "selectPreference", [], "promotions", [] );
 	const premiumUpsellConfig = useSelectSupport( "selectUpsellSettingsAsProps" );
 	const pluginUrl = useSelectSupport( "selectPreference", [], "pluginUrl", "" );
 	const linkParams = useSelectSupport( "selectLinkParams" );
@@ -43,6 +44,7 @@ export const App = () => {
 	const supportForumsLink = useSelectSupport( "selectLink", [], "https://yoa.st/support-forums-support-card" );
 	const githubLink = useSelectSupport( "selectLink", [], "https://yoa.st/github-repository-support-card" );
 	const contactSupportLink = useSelectSupport( "selectLink", [], "https://yoa.st/contact-support-to-unlock-premium-support-section" );
+	const { isPromotionActive } = useSelect( STORE_NAME );
 
 	const faq = useMemo( () => ( [
 		{
@@ -81,7 +83,7 @@ export const App = () => {
 
 	return (
 		<div className="yst-p-4 min-[783px]:yst-p-8">
-			<div className={ classNames( "yst-flex yst-flex-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[17.5rem]" ) }>
+			<div className={ classNames( "yst-flex yst-flex-grow yst-flex-wrap", ! isPremium && "xl:yst-pe-[17.5rem]" ) }>
 				<Paper as="main" className="yst-flex-grow yst-mb-8 xl:yst-mb-0">
 					<Paper.Header>
 						<div className="yst-max-w-screen-sm">
@@ -106,9 +108,12 @@ export const App = () => {
 										<Fragment key={ `faq-${ index }` }>
 											{ index > 0 && <hr className="yst-my-3" /> }
 											<li>
-												<Link href={ link } className="yst-flex yst-items-center yst-font-medium yst-no-underline" target="_blank">
+												<Link
+													href={ link } className="yst-flex yst-items-center yst-font-medium yst-no-underline"
+													target="_blank"
+												>
 													{ title }
-													<ArrowNarrowRightIcon className="yst-inline-block yst-ml-1.5 yst-h-3 yst-w-3 yst-icon-rtl" />
+													<ArrowNarrowRightIcon className="yst-inline-block yst-ms-1.5 yst-h-3 yst-w-3 yst-icon-rtl" />
 												</Link>
 											</li>
 										</Fragment>
@@ -205,7 +210,7 @@ export const App = () => {
 									{ ...premiumUpsellConfig }
 								>
 									<div className={ classNames( "yst-flex", ! isPremium && "yst-opacity-50" ) }>
-										<div className="yst-mr-6">
+										<div className="yst-me-6">
 											<p>{ __( "Our support team is here to answer any questions you may have. Fill out the (pop-up) contact form, and we'll get back to you as soon as possible!", "wordpress-seo" ) }</p>
 											<Button
 												variant="secondary"
@@ -213,7 +218,7 @@ export const App = () => {
 												onClick={ openHelpScoutBeacon }
 											>
 												{ __( "Contact our support team", "wordpress-seo" ) }
-												<ArrowNarrowRightIcon className="yst-inline-block yst-ml-1.5 yst-h-3 yst-w-3 yst-icon-rtl" />
+												<ArrowNarrowRightIcon className="yst-inline-block yst-ms-1.5 yst-h-3 yst-w-3 yst-icon-rtl" />
 											</Button>
 										</div>
 										<img
@@ -230,12 +235,16 @@ export const App = () => {
 						</div>
 					</Paper.Content>
 				</Paper>
-				{ ! isPremium && (
-					<RecommendationsSidebar>
-						<PremiumUpsellCard link={ premiumLink } linkProps={ premiumUpsellConfig } promotions={ promotions } />
-						<AcademyUpsellCard link={ academyLink } />
-					</RecommendationsSidebar>
-				) }
+				{ ! isPremium &&
+					<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-end-8 xl:yst-w-[16rem]">
+						<SidebarRecommendations
+							premiumLink={ premiumLink }
+							premiumUpsellConfig={ premiumUpsellConfig }
+							academyLink={ academyLink }
+							isPromotionActive={ isPromotionActive }
+						/>
+					</div>
+				}
 			</div>
 		</div>
 	);

@@ -253,7 +253,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 |------------	|------------------	|---------------------	|---------------	|
 | Grey	| 0	| Keyphrase was not set or not used in the text		| **Keyphrase distribution**: **Include your keyphrase or its synonyms in the text so that we can check keyword distribution.** |
 | Red	| 1	| The resulting score is >0.6	| **Keyphrase distribution**: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. **Distibute them more evenly.** |
-| Orange	| 6	| The resulting score is between 0.4 and 0.6		|  between 0.4 and 0.6	**Keyphrase distribution**: Uneven. Some parts of your text do not contain your keyphrase or its synonyms. **Distribute them more evenly.**	|
+| Orange	| 6	| The resulting score is between 0.4 and 0.6		| **Keyphrase distribution**: Uneven. Some parts of your text do not contain your keyphrase or its synonyms. **Distribute them more evenly.**	|
 | Green	| 9	| The resulting score is <0.4		| **Keyphrase distribution**: Good job! |
 
 ## Other SEO assessments scoring criteria

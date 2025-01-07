@@ -108,7 +108,17 @@ final class Image_Presenter_Test extends TestCase {
 			->with( 'https://example.com/image.jpg', $this->presentation )
 			->andReturn( false );
 
-		$this->assertEquals( [ [ 'url' => 'https://example.com/image.jpg' ] ], $this->instance->get() );
+		$this->assertEquals(
+			[
+				[
+					'url'    => 'https://example.com/image.jpg',
+					'type'   => '',
+					'width'  => '',
+					'height' => '',
+				],
+			],
+			$this->instance->get()
+		);
 	}
 
 	/**
@@ -180,6 +190,7 @@ final class Image_Presenter_Test extends TestCase {
 			'url'    => 'https://example.com/image.jpg',
 			'width'  => 100,
 			'height' => 100,
+			'type'   => '',
 		];
 
 		$this->presentation->open_graph_images = [ $raw_image ];

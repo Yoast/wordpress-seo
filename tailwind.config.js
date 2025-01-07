@@ -4,6 +4,7 @@ module.exports = {
 	presets: [ preset ],
 	content: [
 		"./packages/ui-library/src/**/!(stories).js",
+		"./packages/related-keyphrase-suggestions/src/**/!(stories).js",
 		"./packages/js/src/**/*.js",
 		"./src/integrations/settings-integration.php",
 	],

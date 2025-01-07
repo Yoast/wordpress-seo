@@ -1,18 +1,8 @@
-/* External dependencies */
-import { Fragment } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { useCallback, useState } from "@wordpress/element";
+import { CountrySelector, KeyphrasesTable, UserMessage, PremiumUpsell } from "@yoast/related-keyphrase-suggestions";
+import { Root } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
-
-/* Internal dependencies */
-import SEMrushLoading from "./modals/SEMrushLoading";
-import SEMrushLimitReached from "./modals/SEMrushLimitReached";
-import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
-import SEMrushKeyphrasesTable from "./modals/SEMrushKeyphrasesTable";
-import SEMrushUpsellAlert from "./modals/SEMrushUpsellAlert";
-import SEMrushRequestFailed from "./modals/SEMrushRequestFailed";
-import SEMrushMaxRelatedKeyphrases from "./modals/SEMrushMaxRelatedKeyphrases";
-import getL10nObject from "../analysis/getL10nObject";
 
 /**
  * Determines whether the error property is present in the passed response object.
@@ -22,40 +12,10 @@ import getL10nObject from "../analysis/getL10nObject";
  * @returns {boolean} Whether or not the error property is present.
  */
 export function hasError( response ) {
+	if ( response?.code === "invalid_json" || response?.code === "fetch_error" ) {
+		return true;
+	}
 	return ! isEmpty( response ) && "error" in response;
-}
-
-/**
- * Gets a user message based on the passed props' values.
- *
- * @param {Object} props The props to use.
- *
- * @returns {wp.Element} The user message.
- */
-export function getUserMessage( props ) {
-	const {
-		isPending,
-		requestLimitReached,
-		isSuccess,
-		response,
-		requestHasData,
-	} = props;
-
-	if ( isPending ) {
-		return <SEMrushLoading />;
-	}
-
-	if ( requestLimitReached ) {
-		return <SEMrushLimitReached />;
-	}
-
-	if ( ! isSuccess && hasError( response ) ) {
-		return <SEMrushRequestFailed />;
-	}
-
-	if ( ! requestHasData ) {
-		return <p>{ __( "Sorry, there's no data available for that keyphrase/country combination.", "wordpress-seo" ) }</p>;
-	}
 }
 
 /**
@@ -70,6 +30,39 @@ export function hasMaximumRelatedKeyphrases( relatedKeyphrases ) {
 }
 
 /**
+ * Gets a user message variant.
+ *
+ * @param {object} props The props to use within the content.
+ *
+ * @returns {string} The user message variant.
+ */
+export function getUserMessage( props ) {
+	const {
+		requestLimitReached,
+		isSuccess,
+		response,
+		requestHasData,
+		relatedKeyphrases,
+	} = props;
+
+	if ( requestLimitReached ) {
+		return "requestLimitReached";
+	}
+
+	if ( ! isSuccess && hasError( response ) ) {
+		return "requestFailed";
+	}
+
+	if ( ! requestHasData ) {
+		return "requestEmpty";
+	}
+
+	if ( hasMaximumRelatedKeyphrases( relatedKeyphrases ) ) {
+		return "maxRelatedKeyphrases";
+	}
+}
+
+/**
  * Renders the SEMrush related keyphrases modal content.
  *
  * @param {Object} props The props to use within the content.
@@ -78,54 +71,65 @@ export function hasMaximumRelatedKeyphrases( relatedKeyphrases ) {
  */
 export default function RelatedKeyphraseModalContent( props ) {
 	const {
-		response,
-		lastRequestKeyphrase,
-		keyphrase,
-		newRequest,
+		keyphrase = "",
+		relatedKeyphrases = [],
+		renderAction = null,
+		requestLimitReached = false,
+		countryCode = "us",
 		setCountry,
-		renderAction,
-		countryCode,
-		requestLimitReached,
-		setRequestFailed,
-		setNoResultsFound,
-		relatedKeyphrases,
-		setRequestSucceeded,
-		setRequestLimitReached,
+		newRequest,
+		response = {},
+		isRtl = false,
+		userLocale = "en_US",
+		isPending = false,
+		isPremium = false,
+		semrushUpsellLink = "",
+		premiumUpsellLink = "",
 	} = props;
 
-	const isPremium = getL10nObject().isPremium;
+	const [ activeCountryCode, setActiveCountryCode ] = useState( countryCode );
+
+	/**
+	 * Sends a new related keyphrases request to SEMrush and updates the semrush_country_code value in the database.
+	 *
+	 * @returns {void}
+	 */
+	const relatedKeyphrasesRequest = useCallback( async() => {
+		newRequest( countryCode, keyphrase );
+		setActiveCountryCode( countryCode );
+	}, [ countryCode, keyphrase, newRequest ] );
 
 	return (
-		<Fragment>
-			{ ! requestLimitReached && (
-				<Fragment>
-					{ ! isPremium && <SEMrushUpsellAlert /> }
-					{ isPremium && hasMaximumRelatedKeyphrases( relatedKeyphrases ) && <SEMrushMaxRelatedKeyphrases /> }
-					<SEMrushCountrySelector
-						countryCode={ countryCode }
-						setCountry={ setCountry }
-						newRequest={ newRequest }
-						keyphrase={ keyphrase }
-						setRequestFailed={ setRequestFailed }
-						setNoResultsFound={ setNoResultsFound }
-						setRequestSucceeded={ setRequestSucceeded }
-						setRequestLimitReached={ setRequestLimitReached }
-						response={ response }
-						lastRequestKeyphrase={ lastRequestKeyphrase }
-					/>
-				</Fragment>
-			) }
+		<Root context={ { isRtl } }>
 
-			{ getUserMessage( props ) }
+			{ ! requestLimitReached && ! isPremium && <PremiumUpsell
+				url={ premiumUpsellLink }
+				className="yst-mb-4"
+			/> }
 
-			<SEMrushKeyphrasesTable
-				keyphrase={ keyphrase }
-				relatedKeyphrases={ relatedKeyphrases }
+			{ ! requestLimitReached && <CountrySelector
 				countryCode={ countryCode }
-				renderAction={ renderAction }
-				data={ response }
+				activeCountryCode={ activeCountryCode }
+				onChange={ setCountry }
+				onClick={ relatedKeyphrasesRequest }
+				className="yst-mb-4"
+				userLocale={ userLocale.split( "_" )[ 0 ] }
+			/> }
+
+			{ ! isPending && <UserMessage
+				variant={ getUserMessage( props ) }
+				upsellLink={ semrushUpsellLink }
+			/> }
+
+			<KeyphrasesTable
+				relatedKeyphrases={ relatedKeyphrases }
+				columnNames={ response?.results?.columnNames }
+				data={ response?.results?.rows }
+				isPending={ isPending }
+				renderButton={ renderAction }
+				className="yst-mt-4"
 			/>
-		</Fragment>
+		</Root>
 	);
 }
 
@@ -137,19 +141,11 @@ RelatedKeyphraseModalContent.propTypes = {
 	countryCode: PropTypes.string.isRequired,
 	setCountry: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
-	setRequestSucceeded: PropTypes.func.isRequired,
-	setRequestLimitReached: PropTypes.func.isRequired,
-	setRequestFailed: PropTypes.func.isRequired,
-	setNoResultsFound: PropTypes.func.isRequired,
 	response: PropTypes.object,
-	lastRequestKeyphrase: PropTypes.string,
-};
-
-RelatedKeyphraseModalContent.defaultProps = {
-	keyphrase: "",
-	relatedKeyphrases: [],
-	renderAction: null,
-	requestLimitReached: false,
-	response: {},
-	lastRequestKeyphrase: "",
+	isRtl: PropTypes.bool,
+	userLocale: PropTypes.string,
+	isPending: PropTypes.bool,
+	isPremium: PropTypes.bool,
+	semrushUpsellLink: PropTypes.string,
+	premiumUpsellLink: PropTypes.string,
 };

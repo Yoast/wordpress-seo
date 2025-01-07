@@ -135,10 +135,11 @@ final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_hooks() {
-		Monkey\Actions\expectAdded( 'admin_init' );
-		Monkey\Actions\expectAdded( 'admin_notices' );
-
 		$this->instance->register_hooks();
+
+		$this->assertNotFalse( \has_action( 'admin_init', [ $this->instance, 'manage_search_engines_discouraged_notification' ] ) );
+		$this->assertNotFalse( \has_action( 'admin_notices', [ $this->instance, 'maybe_show_search_engines_discouraged_notice' ] ) );
+		$this->assertNotFalse( \has_action( 'update_option_blog_public', [ $this->instance, 'restore_ignore_option' ] ) );
 	}
 
 	/**
@@ -434,5 +435,49 @@ final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 			'Notification does not exist'    => $notification_does_not_exist,
 			'Notification should be removed' => $notification_should_be_removed,
 		];
+	}
+
+	/**
+	 * Data provider for test_restore_ignore_option.
+	 *
+	 * @return array<string,array<string,string|integer> Data for test_restore_ignore_option.
+	 */
+	public static function data_provider_restore_ignore_option() {
+		return [
+			'should restore ignore_search_engines_discouraged_notice' => [
+				'blog_public'             => '1',
+				'set_ignore_option_times' => 1,
+			],
+			'should not restore ignore_search_engines_discouraged_notice' => [
+				'blog_public'             => '0',
+				'set_ignore_option_times' => 0,
+			],
+		];
+	}
+
+	/**
+	 * Tests restore_ignore_option.
+	 *
+	 * @covers ::restore_ignore_option
+	 *
+	 * @dataProvider data_provider_restore_ignore_option
+	 *
+	 * @param string $blog_public             The value of the blog_public option.
+	 * @param int    $set_ignore_option_times The number of times the ignore option should be set.
+	 *
+	 * @return void
+	 */
+	public function test_restore_ignore_option( $blog_public, $set_ignore_option_times ) {
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'blog_public' )
+			->once()
+			->andReturn( $blog_public );
+
+		$this->options_helper
+			->expects( 'set' )
+			->times( $set_ignore_option_times )
+			->with( 'ignore_search_engines_discouraged_notice', false );
+
+		$this->instance->restore_ignore_option();
 	}
 }

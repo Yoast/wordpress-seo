@@ -7,6 +7,7 @@ import {
 } from "./feedbackStrings/generalFeedbackStrings";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { isNotPrecededByException } from "../helpers/isPrecededByException";
+import { notPreceded } from "../helpers/createRuleDescriptions";
 
 const otherAssessments = [
 	{
@@ -30,6 +31,7 @@ const otherAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, [ "mentally", "behaviorally", "behaviourally" ] ) );
 		},
+		ruleDescription: notPreceded( [ "mentally", "behaviorally", "behaviourally" ] ),
 	},
 	{
 		identifier: "normalPeople",
@@ -43,6 +45,7 @@ const otherAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, [ "mentally", "behaviorally", "behaviourally" ] ) );
 		},
+		ruleDescription: notPreceded( [ "mentally", "behaviorally", "behaviourally" ] ),
 	},
 	{
 		identifier: "mentallyNormal",

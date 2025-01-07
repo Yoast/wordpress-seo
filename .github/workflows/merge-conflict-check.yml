@@ -1,0 +1,24 @@
+name: Check PRs for merge conflicts
+
+on:
+  # Check for new conflicts due to merges.
+  push:
+    branches:
+      - main
+      - trunk
+      - 'release/**'
+      - 'hotfix/[0-9]+.[0-9]+*'
+      - 'feature/**'
+  # Check conflicts in new PRs and for resolved conflicts due to an open PR being updated.
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  check-prs:
+    if: github.repository_owner == 'Yoast'
+
+    name: Check PRs for merge conflicts
+    uses: Yoast/.github/.github/workflows/reusable-merge-conflict-check.yml@main

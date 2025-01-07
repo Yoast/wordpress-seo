@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
 import { useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
-import { ErrorFallback } from "../shared-admin/components/error-fallback";
+import PropTypes from "prop-types";
+import { ErrorFallback } from "../shared-admin/components";
 
 /**
  * @param {Object} error The error instance.

@@ -16,7 +16,7 @@ const rowClassNameMap = {
  * @returns {JSX.Element} The element.
  */
 const Cell = ( { children, className = "", ...props } ) => (
-	<td className={ classNames( "yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500", className ) } { ...props }>
+	<td className={ classNames( "yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-600", className ) } { ...props }>
 		{ children }
 	</td>
 );
@@ -35,7 +35,7 @@ Cell.propTypes = {
  * @returns {JSX.Element} The element.
  */
 const Row = ( { children, variant = "plain", className = "", ...props } ) => (
-	<tr className={ classNames( rowClassNameMap.variant[ variant ], className ) } { ...props }>
+	<tr className={ classNames( "yst-table-row", rowClassNameMap.variant[ variant ], className ) } { ...props }>
 		{ children }
 	</tr>
 );
@@ -54,7 +54,7 @@ Row.propTypes = {
  */
 const Header = ( { children, className = "", ...props } ) => (
 	<th
-		className={ classNames( "yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900", className ) }
+		className={ classNames( "yst-table-header yst-px-3 yst-py-4 yst-text-start yst-text-sm yst-font-semibold yst-text-slate-900", className ) }
 		{ ...props }
 	>
 		{ children }
@@ -103,7 +103,7 @@ Body.propTypes = {
  * @returns {JSX.Element} The element.
  */
 const Table = forwardRef( ( { children, className = "", ...props }, ref ) => (
-	<div className="yst-overflow-hidden yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5 yst-rounded-lg">
+	<div className="yst-table-wrapper yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5">
 		<table className={ classNames( "yst-min-w-full yst-divide-y yst-divide-slate-300", className ) } { ...props } ref={ ref }>
 			{ children }
 		</table>

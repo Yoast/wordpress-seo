@@ -82,8 +82,8 @@ export const AlgoliaIntegration = ( {
 						}
 					</span>
 				</Link>
-				{ ( ! isNetworkControlEnabled && isMultisiteAvailable ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "Network Disabled", "wordpress-seo" ) }</Badge> }
-				{ ( isNetworkControlEnabled && integration.isNew ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "New", "wordpress-seo" ) }</Badge> }
+				{ ( ! isNetworkControlEnabled && isMultisiteAvailable ) && <Badge className="yst-absolute yst-top-2 yst-end-2">{ __( "Network Disabled", "wordpress-seo" ) }</Badge> }
+				{ ( isNetworkControlEnabled && integration.isNew ) && <Badge className="yst-absolute yst-top-2 yst-end-2">{ __( "New", "wordpress-seo" ) }</Badge> }
 			</Card.Header>
 			<Card.Content>
 				<div>
@@ -103,7 +103,7 @@ export const AlgoliaIntegration = ( {
 									__( "(Opens in a new browser tab)", "wordpress-seo" )
 								}
 							</span>
-							<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
+							<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ms-1 yst-icon-rtl" />
 						</Link> }
 					</p>
 				</div>
@@ -133,7 +133,7 @@ export const AlgoliaIntegration = ( {
 					target="_blank"
 				>
 					<LockOpenIcon
-						className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900"
+						className="yst--ms-1 yst-me-2 yst-h-5 yst-w-5 yst-text-yellow-900"
 					/>
 					{ __( "Unlock with Premium", "wordpress-seo" ) }
 					<span className="yst-sr-only">

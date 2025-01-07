@@ -116,7 +116,7 @@ const expectedResults = {
 	imageAltTags: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt tags</a>: 1 image out of 4 doesn't have alt attributes." +
+		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt tags</a>: One image doesn't have alt attributes." +
 			" <a href='https://yoa.st/shopify41' target='_blank'>Add alt attributes to your images</a>!",
 	},
 	keyphraseDistribution: {
@@ -132,12 +132,12 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/shopify66' target='_blank'>Paragraph length</a>: 2 of the paragraphs contain more than " +
-			"the recommended maximum of 70 words. <a href='https://yoa.st/shopify67' target='_blank'>Shorten your paragraphs</a>!",
+			"the recommended maximum number of words (70). <a href='https://yoa.st/shopify67' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: Great!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 28.6% of the sentences contain more than 20 words, which is more than the recommended maximum of 20%. <a href='https://yoa.st/shopify49' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,

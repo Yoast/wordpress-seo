@@ -7,7 +7,6 @@ use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
@@ -41,13 +40,6 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var Options_Helper
 	 */
 	protected $options;
-
-	/**
-	 * Represents the request helper.
-	 *
-	 * @var Request_Helper
-	 */
-	protected $request;
 
 	/**
 	 * The helpers surface.
@@ -207,7 +199,6 @@ class Front_End_Integration implements Integration_Interface {
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer  The meta tags context memoizer.
 	 * @param ContainerInterface         $service_container The DI container.
 	 * @param Options_Helper             $options           The options helper.
-	 * @param Request_Helper             $request           The request helper.
 	 * @param Helpers_Surface            $helpers           The helpers surface.
 	 * @param WPSEO_Replace_Vars         $replace_vars      The replace vars helper.
 	 */
@@ -215,14 +206,12 @@ class Front_End_Integration implements Integration_Interface {
 		Meta_Tags_Context_Memoizer $context_memoizer,
 		ContainerInterface $service_container,
 		Options_Helper $options,
-		Request_Helper $request,
 		Helpers_Surface $helpers,
 		WPSEO_Replace_Vars $replace_vars
 	) {
 		$this->container        = $service_container;
 		$this->context_memoizer = $context_memoizer;
 		$this->options          = $options;
-		$this->request          = $request;
 		$this->helpers          = $helpers;
 		$this->replace_vars     = $replace_vars;
 	}
@@ -309,6 +298,8 @@ class Front_End_Integration implements Integration_Interface {
 
 	/**
 	 * Returns correct adjacent pages when Query loop block does not inherit query from template.
+	 * Prioritizes existing prev and next links.
+	 * Includes a safety check for full urls though it is not expected in the query pagination block.
 	 *
 	 * @param string                      $link         The current link.
 	 * @param string                      $rel          Link relationship, prev or next.
@@ -317,21 +308,42 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return string The correct link.
 	 */
 	public function adjacent_rel_url( $link, $rel, $presentation = null ) {
-		if ( $link === \home_url( '/' ) ) {
+		// Prioritize existing prev and next links.
+		if ( $link ) {
 			return $link;
 		}
 
-		if ( ( $rel === 'next' || $rel === 'prev' ) && ( ! \is_null( $this->$rel ) ) ) {
-			// Reconstruct url if it's relative.
-			if ( \class_exists( WP_HTML_Tag_Processor::class ) ) {
-				$processor = new WP_HTML_Tag_Processor( $this->$rel );
-				while ( $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
-					$href = $processor->get_attribute( 'href' );
-					if ( $href && \strpos( $href, '/' ) === 0 ) {
-						return $presentation->permalink . \substr( $href, 1 );
-					}
-				}
-			}
+		// Safety check for rel value.
+		if ( $rel !== 'next' && $rel !== 'prev' ) {
+			return $link;
+		}
+
+		// Check $this->next or $this->prev for existing links.
+		if ( \is_null( $this->$rel ) ) {
+			return $link;
+		}
+
+		$processor = new WP_HTML_Tag_Processor( $this->$rel );
+
+		if ( ! $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
+			return $link;
+		}
+
+		$href = $processor->get_attribute( 'href' );
+
+		if ( ! $href ) {
+			return $link;
+		}
+
+		// Safety check for full url, not expected.
+		if ( \strpos( $href, 'http' ) === 0 ) {
+			return $href;
+		}
+
+		// Check if $href is relative and append last part of the url to permalink.
+		if ( \strpos( $href, '/' ) === 0 ) {
+			$href_parts = \explode( '/', $href );
+			return $presentation->permalink . \end( $href_parts );
 		}
 
 		return $link;
@@ -353,7 +365,7 @@ class Front_End_Integration implements Integration_Interface {
 			return $presenters;
 		}
 
-		if ( $this->request->is_rest_request() ) {
+		if ( \wp_is_serving_rest_request() ) {
 			return $presenters;
 		}
 
@@ -559,7 +571,7 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	private function maybe_remove_title_presenter( $presenters ) {
 		// Do not remove the title if we're on a REST request.
-		if ( $this->request->is_rest_request() ) {
+		if ( \wp_is_serving_rest_request() ) {
 			return $presenters;
 		}
 

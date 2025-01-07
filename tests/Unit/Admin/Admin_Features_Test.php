@@ -5,12 +5,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Admin;
 use Brain\Monkey;
 use Mockery;
 use Wincher_Dashboard_Widget;
-use WP_User;
 use WPSEO_Admin;
 use WPSEO_Primary_Term_Admin;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Product_Helper;
-use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Dashboard_Widget;
@@ -23,32 +20,6 @@ use Yoast_Dashboard_Widget;
 final class Admin_Features_Test extends TestCase {
 
 	/**
-	 * Returns an instance with set expectations for the dependencies.
-	 *
-	 * @return WPSEO_Admin Instance to test against.
-	 */
-	private function get_admin_with_expectations() {
-		Monkey\Functions\expect( 'admin_url' )
-			->once()
-			->with( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' )
-			->andReturn( 'https://example.org' );
-
-		Monkey\Functions\expect( 'wp_nonce_url' )
-			->once()
-			->with( 'https://example.org', 'dismiss-5star-upsell' )
-			->andReturn( 'https://example.org?_wpnonce=test-nonce' );
-
-		$admin_user     = Mockery::mock( WP_User::class );
-		$admin_user->ID = 1;
-
-		Monkey\Functions\expect( 'get_current_user_id' )
-			->once()
-			->andReturn( $admin_user->ID );
-
-		return new WPSEO_Admin();
-	}
-
-	/**
 	 * Sets up the YoastSEO function with the right expectations.
 	 *
 	 * @return void
@@ -59,26 +30,18 @@ final class Admin_Features_Test extends TestCase {
 		$current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$current_page_helper->expects( 'is_yoast_seo_page' )->once()->andReturn( true );
 
-		$product_helper = Mockery::mock( Product_Helper::class );
-		$product_helper->expects( 'is_premium' )->once()->andReturn( false );
-
-		$short_link = Mockery::mock( Short_Link_Helper::class );
-		$short_link->expects( 'get' )->times( 3 )->andReturn( 'https://www.example.com?some=var' );
-
 		$url_helper = Mockery::mock( Url_Helper::class );
 		$url_helper->expects( 'is_plugin_network_active' )->twice()->andReturn( false );
 
 		$container = $this->create_container_with(
 			[
 				Current_Page_Helper::class => $current_page_helper,
-				Product_Helper::class      => $product_helper,
-				Short_Link_Helper::class   => $short_link,
 				Url_Helper::class          => $url_helper,
 			]
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )
-			->times( 7 )
+			->times( 3 )
 			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		Monkey\Functions\expect( 'get_user_locale' )
@@ -98,7 +61,7 @@ final class Admin_Features_Test extends TestCase {
 
 		$this->setup_yoastseo_with_expectations();
 
-		$class_instance = $this->get_admin_with_expectations();
+		$class_instance = new WPSEO_Admin();
 
 		$admin_features = [
 			'primary_category'         => new WPSEO_Primary_Term_Admin(),
@@ -122,7 +85,7 @@ final class Admin_Features_Test extends TestCase {
 
 		$this->setup_yoastseo_with_expectations();
 
-		$class_instance = $this->get_admin_with_expectations();
+		$class_instance = new WPSEO_Admin();
 
 		$admin_features = [
 			'dashboard_widget'         => new Yoast_Dashboard_Widget(),

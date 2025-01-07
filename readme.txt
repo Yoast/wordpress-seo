@@ -4,8 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 6.6
-Stable tag: 23.5
+Tested up to: 6.7
+Stable tag: 24.2
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -274,36 +274,45 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 23.6 =
+= 24.3 =
 
-Release date: 2024-10-08
-
-#### Enhancements
-
-* Adds a filter to modify the sitemap's URL. Props to @ashujangra.
-* Improves the _transition words_ assessment for Turkish and English by expanding the relevant lists of transitions words. Props to [abulu](https://wordpress.org/support/users/abulu/).
-* Uses the full-sized counterpart when a resized first content image is used for Open Graph and X images.
-
-#### Bugfixes
-
-* Fixes a bug where the content analysis would error when removing an image caption in the default editor.
-* Fixes a bug where the link popover would be hidden when editing a post in tablet/mobile view. Props to [stokesman](https://github.com/stokesman).
-* Fixes a visual inconsistency where the descriptions of the disabled Premium policy settings would look enabled, when they are not enabled.
-
-= 23.5 =
-
-Release date: 2024-09-24
-
-Yoast SEO 23.5 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-24-9-24).
+Release date: 2025-01-21
 
 #### Enhancements
 
-* Improves analysis score feedback labels in the publish sections.
-* Improves our integration with cache plugins by preventing flushing their cache when not needed.
+* Introduces more robust HTML processing and highlighting for the _sentence length_ and _paragraph length_ assessments.
 
 #### Bugfixes
 
-* Fixes a bug where Arabic keyphrases containing certain function words were not correctly matched.
+* Fixes a bug where the Semrush request would be executed twice when opening the related keyphrases modal.
+* Fixes a bug where the text color in the search on our settings page would not change correctly when active, resulting in bad contrast.
+* Fixes a bug where the _View_ button label in the Yoast dashboard would not be available for translation.
+
+#### Other
+
+* Improves contrast in the related keyphrase suggestions table.
+* Improves contrast in the RSS supported variables explainer table.
+
+= 24.2 =
+
+Release date: 2025-01-07
+
+Yoast SEO 24.2 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-7-1-25).
+
+#### Enhancements
+
+* Improves the tooltips accessibility in the related keyphrase suggestions modal.
+
+#### Bugfixes
+
+* Fixes a bug where a deprecation message would appear in PHP 8+ when saving a post containing images with invalid sources. Props to [kkmuffme](https://github.com/kkmuffme).
+* Fixes a bug where a TypeError would occur when checking for capabilities of SEO Manager user role when the roles were not passed as an array. Props to [kfeinUI](https://github.com/kfeinUI).
+* Fixes a bug where styles on buttons, intent badge and modal links would not adjust the direction when on RTL view.
+
+#### Other
+
+* Changes the title text on the Yoast installation success page.
+* Fixes a console warning about ReactDOM.render being no longer supported in React 18.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

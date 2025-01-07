@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { useCallback, useRef, useState, useEffect } from "@wordpress/element";
+import { useEffect, useCallback, useRef, useState } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
 import { useSelect, useDispatch } from "@wordpress/data";
 
@@ -39,6 +39,9 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	// The button is pressed when the active AI button id is the same as the current button id.
 	const isButtonPressed = activeAIButtonId === aiFixesId;
 
+	// Get the editor mode using useSelect.
+	const editorMode = useSelect( ( select ) => select( "core/edit-post" ).getEditorMode(), [] );
+
 	// Enable the button when:
 	// (1) other AI buttons are not pressed.
 	// (2) the AI button is not disabled.
@@ -64,7 +67,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			};
 		}
 
-		const editorMode = select( "core/edit-post" ).getEditorMode();
 		if ( editorMode !== "visual" ) {
 			return {
 				isEnabled: false,
@@ -82,7 +84,30 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			ariaLabel: allVisual ? defaultLabel : htmlLabel,
 			ariaHasPopup: allVisual ? "dialog" : false,
 		};
-	}, [ isButtonPressed, activeAIButtonId ] );
+	}, [ isButtonPressed, activeAIButtonId, editorMode ] );
+
+
+	/**
+	 * Toggles the markers status, based on the editor mode and the AI assessment fixes button status.
+	 *
+	 * @param {string} editorMode The editor mode.
+	 * @param {boolean} activeAIButtonId The active AI button ID.
+	 *
+	 * @returns {void}
+	 */
+	useEffect( () => {
+		// Toggle markers based on editor mode.
+		if ( editorMode === "visual" && ! activeAIButtonId ) {
+			setMarkerStatus( "enabled" );
+		} else {
+			setMarkerStatus( "disabled" );
+		}
+
+		// Cleanup function to reset the marker status when the component unmounts or editor mode changes
+		return () => {
+			setMarkerStatus( "disabled" );
+		};
+	}, [ editorMode, activeAIButtonId, setMarkerStatus ] );
 
 	const buttonRef = useRef( null );
 
@@ -123,7 +148,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			 */
 			setMarkerStatus( "disabled" );
 		}
-
 		// Dismiss the tooltip when the button is pressed.
 		setButtonClass( "" );
 	};
