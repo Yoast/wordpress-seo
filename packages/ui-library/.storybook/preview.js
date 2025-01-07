@@ -1,7 +1,6 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import Root from "../src/components/root";
 import "./style.css";
-import React from "react";
 
 const preview = {
 	globalTypes: {

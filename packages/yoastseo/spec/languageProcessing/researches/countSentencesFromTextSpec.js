@@ -67,7 +67,7 @@ describe( "counts words in sentences from text", function() {
 		expect( sentences[ 0 ].sentenceLength ).toBe( 4 );
 		expect( sentences[ 1 ].sentenceLength ).toBe( 2 );
 	} );
-	 it( "returns sentences with question mark in Japanese", function() {
+	it( "returns sentences with question mark in Japanese", function() {
 		const mockPaper = new Paper( "雨が降っている。 いつ終わるの？ さようなら" );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
