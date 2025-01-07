@@ -354,15 +354,7 @@ const TableExplanation = ( { isLoggedIn } ) => {
 							)
 						}
 					</WincherAccountLink>,
-					wincherLink: <WincherLink href={ wpseoAdminGlobalL10n[ "links.wincher.about" ] }>
-						{
-							sprintf(
-								/* translators: %s : Expands to "Wincher". */
-								__( "%s", "wordpress-seo" ),
-								"Wincher"
-							)
-						}
-					</WincherLink>,
+					wincherLink: <WincherLink href={ wpseoAdminGlobalL10n[ "links.wincher.about" ] }>Wincher</WincherLink>,
 				},
 			} )
 		}
