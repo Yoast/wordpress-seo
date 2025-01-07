@@ -49,7 +49,7 @@ const ScoreBullet = ( { score } ) => (
  *
  * @returns {JSX.Element} The element.
  */
-const SiteKitTable = ( { title, columns, data } ) => {
+export const SiteKitTable = ( { title, columns, data } ) => {
 	const [ sortConfig, setSortConfig ] = useState( { key: null, ascending: true } );
 
 	const sortedData = [ ...data ].sort( ( a, b ) => {
@@ -117,7 +117,3 @@ const SiteKitTable = ( { title, columns, data } ) => {
 		</Paper>
 	);
 };
-
-SiteKitTable.SortableHeader = SortableHeader;
-
-export { SiteKitTable };
