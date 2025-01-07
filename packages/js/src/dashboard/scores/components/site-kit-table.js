@@ -33,7 +33,7 @@ const SortableHeader = ( { columnName, isAscending, onClick, index } ) =>  {
  * @returns {JSX.Element} The element.
  */
 const ScoreBullet = ( { score } ) => (
-	<span className="yst-flex yst-justify-end yst-items-center">
+	<span className="yst-flex yst-justify-center yst-items-center">
 		<span className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
 			<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
 		</span>

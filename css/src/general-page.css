@@ -271,10 +271,6 @@ body.toplevel_page_wpseo_dashboard {
 		counter-reset: row-number;
 	}
 
-	.yst-site-kit-widget-table th:last-child div {
-		@apply yst-text-end;
-	}
-
 	/* RTL */
 
 	&.rtl {
