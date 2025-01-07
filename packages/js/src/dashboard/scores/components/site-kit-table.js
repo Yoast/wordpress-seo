@@ -33,11 +33,13 @@ const SortableHeader = ( { columnName, isAscending, onClick, index } ) =>  {
  * @returns {JSX.Element} The element.
  */
 const ScoreBullet = ( { score } ) => (
-	<span className="yst-flex yst-justify-center yst-items-center">
-		<span className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
-			<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
-		</span>
-	</span>
+	<div className="yst-flex yst-justify-end yst-items-center">
+		<div className="yst-flex yst-justify-center yst-w-16">
+			<span className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
+				<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
+			</span>
+		</div>
+	</div>
 );
 
 /**
@@ -95,20 +97,20 @@ export const SiteKitTable = ( { title, columns, data } ) => {
 										index={ index }
 										onClick={ handleSort }
 									/>
-								) : <span className={ column.className }>{ column.label }</span> }
+								) : <div className={ column.className }>{ column.label }</div> }
 							</Table.Header>
 						) }
 					</Table.Row>
 				</Table.Head>
-				<Table.Body className="yst-parent-numbered-cell">
+				<Table.Body>
 					{ sortedData.map( ( row, rowIndex ) => (
 						<Table.Row key={ `row-${title}-${rowIndex}` }>
 							{ row.map( ( cell, cellIndex ) => (
 								<Table.Cell key={ `cell-${title}-${cellIndex}` } className="yst-numbered-cell">
-									{ columns[ cellIndex ].name === "seo-score" ? <ScoreBullet score={ cell } /> : <span
+									{ columns[ cellIndex ].name === "seo-score" ? <ScoreBullet score={ cell } /> : <div
 										className={ classNames( columns[ cellIndex ].sortable ? "yst-text-end yst-pe-5" : "",
 											columns[ cellIndex ].className ) }
-									>{ cell }</span> }
+									>{ cell }</div> }
 								</Table.Cell> ) ) }
 						</Table.Row>
 					) ) }
