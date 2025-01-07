@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.7
-Stable tag: 24.1
+Stable tag: 24.2
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -276,7 +276,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 24.2 =
 
-Release date: 2024-12-31
+Release date: 2025-01-07
+
+Yoast SEO 24.2 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-7-1-25).
 
 #### Enhancements
 
@@ -285,7 +287,8 @@ Release date: 2024-12-31
 #### Bugfixes
 
 * Fixes a bug where a deprecation message would appear in PHP 8+ when saving a post containing images with invalid sources. Props to [kkmuffme](https://github.com/kkmuffme).
-* Fixes a bug where TypeError would occur when checking for capabilities of SEO Manager user role when the roles were not passed as an array. Props to [kfeinUI](https://github.com/kfeinUI).
+* Fixes a bug where a TypeError would occur when checking for capabilities of SEO Manager user role when the roles were not passed as an array. Props to [kfeinUI](https://github.com/kfeinUI).
+* Fixes a bug where styles on buttons, intent badge and modal links would not adjust the direction when on RTL view.
 
 #### Other
 
