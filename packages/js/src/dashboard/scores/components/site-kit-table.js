@@ -50,7 +50,7 @@ const ScoreBullet = ( { score } ) => (
  * @returns {JSX.Element} The element.
  */
 const SiteKitTable = ( { title, columns, data } ) => {
-	const [ sortConfig, setSortConfig ] = useState( { key: null, direction: "ascending" } );
+	const [ sortConfig, setSortConfig ] = useState( { key: null, ascending: true } );
 
 	const sortedData = [ ...data ].sort( ( a, b ) => {
 		if ( sortConfig.key === null ) {
@@ -59,20 +59,20 @@ const SiteKitTable = ( { title, columns, data } ) => {
 		const aValue = a[ sortConfig.key ];
 		const bValue = b[ sortConfig.key ];
 		if ( aValue < bValue ) {
-			return sortConfig.direction === "ascending" ? -1 : 1;
+			return sortConfig.ascending ? -1 : 1;
 		}
 		if ( aValue > bValue ) {
-			return sortConfig.direction === "ascending" ? 1 : -1;
+			return sortConfig.ascending ? 1 : -1;
 		}
 		return 0;
 	} );
 
 	const handleSort = useCallback( ( columnIndex ) => {
-		let direction = "ascending";
-		if ( sortConfig.key === columnIndex && sortConfig.direction === "ascending" ) {
-			direction = "descending";
+		let ascending = true;
+		if ( sortConfig.key === columnIndex && sortConfig.ascending ) {
+			ascending = false;
 		}
-		setSortConfig( { key: columnIndex, direction } );
+		setSortConfig( { key: columnIndex, ascending } );
 	}, [ sortConfig, setSortConfig ] );
 
 	return (
@@ -91,7 +91,7 @@ const SiteKitTable = ( { title, columns, data } ) => {
 								{ column.sortable ? (
 									<SortableHeader
 										columnName={ column.label }
-										isAscending={ sortConfig.direction === "ascending" }
+										isAscending={ sortConfig.ascending }
 										index={ index }
 										onClick={ handleSort }
 									/>
