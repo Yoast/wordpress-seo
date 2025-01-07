@@ -1,11 +1,19 @@
+/* The styles for the overview page for posts or terms. */
 @import url(../src/score_icon.css);
+
 @media screen and (max-width: 782px) {
-  .column-wpseo-title,
-  .column-wpseo-score,
-  .column-wpseo-metadesc,
-  .column-wpseo-focuskw {
-    display: none;
-  }
+	.wpseo-score-icon{
+		margin-right: 0;
+		margin-left: 0!important;
+	}
+	
+	.wpseo-score-icon .wpseo-score-text {
+		display: none;
+	}
+
+	.wpseo-cornerstone svg {
+		margin-left: -4px;
+	}
 }
 
 /*# sourceMappingURL=edit-page.css.map */

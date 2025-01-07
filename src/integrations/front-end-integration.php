@@ -298,6 +298,8 @@ class Front_End_Integration implements Integration_Interface {
 
 	/**
 	 * Returns correct adjacent pages when Query loop block does not inherit query from template.
+	 * Prioritizes existing prev and next links.
+	 * Includes a safety check for full urls though it is not expected in the query pagination block.
 	 *
 	 * @param string                      $link         The current link.
 	 * @param string                      $rel          Link relationship, prev or next.
@@ -306,21 +308,42 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return string The correct link.
 	 */
 	public function adjacent_rel_url( $link, $rel, $presentation = null ) {
-		if ( $link === \home_url( '/' ) ) {
+		// Prioritize existing prev and next links.
+		if ( $link ) {
 			return $link;
 		}
 
-		if ( ( $rel === 'next' || $rel === 'prev' ) && ( ! \is_null( $this->$rel ) ) ) {
-			// Reconstruct url if it's relative.
-			if ( \class_exists( WP_HTML_Tag_Processor::class ) ) {
-				$processor = new WP_HTML_Tag_Processor( $this->$rel );
-				while ( $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
-					$href = $processor->get_attribute( 'href' );
-					if ( $href && \strpos( $href, '/' ) === 0 ) {
-						return $presentation->permalink . \substr( $href, 1 );
-					}
-				}
-			}
+		// Safety check for rel value.
+		if ( $rel !== 'next' && $rel !== 'prev' ) {
+			return $link;
+		}
+
+		// Check $this->next or $this->prev for existing links.
+		if ( \is_null( $this->$rel ) ) {
+			return $link;
+		}
+
+		$processor = new WP_HTML_Tag_Processor( $this->$rel );
+
+		if ( ! $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
+			return $link;
+		}
+
+		$href = $processor->get_attribute( 'href' );
+
+		if ( ! $href ) {
+			return $link;
+		}
+
+		// Safety check for full url, not expected.
+		if ( \strpos( $href, 'http' ) === 0 ) {
+			return $href;
+		}
+
+		// Check if $href is relative and append last part of the url to permalink.
+		if ( \strpos( $href, '/' ) === 0 ) {
+			$href_parts = \explode( '/', $href );
+			return $presentation->permalink . \end( $href_parts );
 		}
 
 		return $link;

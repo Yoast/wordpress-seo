@@ -7,6 +7,7 @@ export const Factory = {
 		controls: { disable: false },
 	},
 	args: {
+		id: "12",
 		value: 12,
 	},
 	argTypes: {
@@ -14,14 +15,14 @@ export const Factory = {
 			description: "The percentage of difficulty.",
 		},
 	},
-	render: ( { value } ) => (
+	render: ( args ) => (
 		<>
-			<DifficultyBullet value={ value } />
-			<DifficultyBullet value={ 20 } />
-			<DifficultyBullet value={ 35 } />
-			<DifficultyBullet value={ 55 } />
-			<DifficultyBullet value={ 73 } />
-			<DifficultyBullet value={ 90 } />
+			<DifficultyBullet { ...args } />
+			<DifficultyBullet value={ 20 } id="20" />
+			<DifficultyBullet value={ 35 } id="35" />
+			<DifficultyBullet value={ 55 } id="55" />
+			<DifficultyBullet value={ 73 } id="73" />
+			<DifficultyBullet value={ 90 } id="90" />
 		</>
 	),
 };

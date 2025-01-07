@@ -2,9 +2,9 @@
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useCallback, useContext } from "react";
 import Tooltip from "../../elements/tooltip";
-import { useKeydown, useToggleState } from "../../hooks";
+import { useToggleState } from "../../hooks";
 
 /**
  * @typedef {Object} TooltipContextValue
@@ -40,15 +40,16 @@ export const useTooltipContext = () => useContext( TooltipContext );
 export const TooltipContainer = ( { as: Component = "span", className, children } ) => {
 	const [ isVisible, , , show, hide ] = useToggleState( false );
 
-	useKeydown( ( event ) => {
-		if ( event.key === "Escape" ) {
+	const handleKeyDown = useCallback( ( event ) => {
+		if ( event.key === "Escape" && isVisible ) {
 			hide();
+			event.stopPropagation();
 		}
-	}, document );
+	}, [ isVisible, hide ] );
 
 	return (
 		<TooltipContext.Provider value={ { isVisible, show, hide } }>
-			<Component className={ classNames( "yst-tooltip-container", className ) }>
+			<Component className={ classNames( "yst-tooltip-container", className ) } onKeyDown={ handleKeyDown }>
 				{ children }
 			</Component>
 		</TooltipContext.Provider>
