@@ -20,10 +20,10 @@ const SortableHeader = ( { columnName, isAscending, onClick, index } ) =>  {
 
 	const ChevronIcon = isAscending ? ChevronDownIcon : ChevronUpIcon;
 
-	return <div className="yst-text-end"><button className="yst-inline-flex" onClick={ handleSort }>
+	return <span className="yst-text-end"><button className="yst-inline-flex" onClick={ handleSort }>
 		{ columnName }
 		<ChevronIcon className="yst-text-slate-400 yst-w-5" />
-	</button></div>;
+	</button></span>;
 };
 
 /**
@@ -33,11 +33,11 @@ const SortableHeader = ( { columnName, isAscending, onClick, index } ) =>  {
  * @returns {JSX.Element} The element.
  */
 const ScoreBullet = ( { score } ) => (
-	<div className="yst-flex yst-justify-end yst-items-center">
+	<span className="yst-flex yst-justify-end yst-items-center">
 		<span className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
 			<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
 		</span>
-	</div>
+	</span>
 );
 
 /**
@@ -95,7 +95,7 @@ export const SiteKitTable = ( { title, columns, data } ) => {
 										index={ index }
 										onClick={ handleSort }
 									/>
-								) : <div className={ column.className }>{ column.label }</div> }
+								) : <span className={ column.className }>{ column.label }</span> }
 							</Table.Header>
 						) }
 					</Table.Row>
@@ -105,10 +105,10 @@ export const SiteKitTable = ( { title, columns, data } ) => {
 						<Table.Row key={ `row-${title}-${rowIndex}` }>
 							{ row.map( ( cell, cellIndex ) => (
 								<Table.Cell key={ `cell-${title}-${cellIndex}` } className="yst-numbered-cell">
-									{ columns[ cellIndex ].name === "seo-score" ? <ScoreBullet score={ cell } /> : <div
+									{ columns[ cellIndex ].name === "seo-score" ? <ScoreBullet score={ cell } /> : <span
 										className={ classNames( columns[ cellIndex ].sortable ? "yst-text-end yst-pe-5" : "",
 											columns[ cellIndex ].className ) }
-									>{ cell }</div> }
+									>{ cell }</span> }
 								</Table.Cell> ) ) }
 						</Table.Row>
 					) ) }

@@ -254,11 +254,11 @@ body.toplevel_page_wpseo_dashboard {
 		@apply yst-relative;
 	}
 
-	.yst-site-kit-widget-table .yst-numbered-cell:first-child div {
+	.yst-site-kit-widget-table .yst-numbered-cell:first-child span {
 		@apply yst-text-slate-900 yst-font-medium;
 	}
-	.yst-site-kit-widget-table .yst-numbered-cell:first-child, .yst-site-kit-widget-table th:first-child{
-		padding-left: 22px!important;
+	.yst-site-kit-widget-table .yst-numbered-cell:first-child span, .yst-site-kit-widget-table th:first-child span{
+		@apply yst-ps-3;
 	}
 
 	.yst-site-kit-widget-table .yst-numbered-cell:first-child::before {
