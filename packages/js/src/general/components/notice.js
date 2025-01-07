@@ -35,7 +35,7 @@ export function Notice( { title, id, isDismissable, children, className } ) {
 				<span className="yoast-icon" />
 				{ title && <div className="yst-text-sm yst-font-medium" dangerouslySetInnerHTML={ { __html: title } } /> }
 				{ isDismissable &&
-					<div className="yst-relative yst-ml-auto">
+					<div className="yst-relative yst-ms-auto">
 						<button
 							type="button"
 							className="notice-dismiss"
@@ -48,7 +48,7 @@ export function Notice( { title, id, isDismissable, children, className } ) {
 				}
 			</div>
 			{ children && (
-				<div className="yst-flex-1 yst-text-sm yst-max-w-[600px] yst-pl-[29px]" dangerouslySetInnerHTML={ { __html: children } } />
+				<div className="yst-flex-1 yst-text-sm yst-max-w-[600px] yst-ps-[29px]" dangerouslySetInnerHTML={ { __html: children } } />
 			) }
 		</div>
 	);

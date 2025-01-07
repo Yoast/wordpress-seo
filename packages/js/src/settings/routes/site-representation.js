@@ -261,7 +261,7 @@ const SiteRepresentation = () => {
 										id="input-wpseo_social-mastodon_url"
 										label={ __( "Mastodon", "wordpress-seo" ) }
 										placeholder={ __( "E.g. https://mastodon.social/@yoast", "wordpress-seo" ) }
-										labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+										labelSuffix={ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
 										isDummy={ ! isPremium }
 										description={ <>
 											{ __( "Get your site verified in your Mastodon profile.", "wordpress-seo" ) }
@@ -313,7 +313,7 @@ const SiteRepresentation = () => {
 											) ) }
 											{ /* eslint-disable-next-line react/jsx-no-bind */ }
 											<Button id="button-add-social-profile" variant="secondary" onClick={ ()=>handleAddProfile( arrayHelpers ) }>
-												<PlusIcon className="yst--ml-1 yst-mr-1 yst-h-5 yst-w-5 yst-text-slate-400" />
+												<PlusIcon className="yst--ms-1 yst-me-1 yst-h-5 yst-w-5 yst-text-slate-400" />
 												{ __( "Add another profile", "wordpress-seo" ) }
 											</Button>
 										</>
@@ -324,7 +324,7 @@ const SiteRepresentation = () => {
 							<FieldsetLayout
 								title={ <>
 									{ __( "Additional organization info", "wordpress-seo" ) }
-									{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+									{ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
 								</> }
 								description={ __( "Enrich your organization's profile by providing more in-depth information. The more details you share, the better Google understands your website.", "wordpress-seo" ) }
 							>
@@ -410,7 +410,7 @@ const SiteRepresentation = () => {
 							<FieldsetLayout
 								title={ <>
 									{ __( "Organization identifiers", "wordpress-seo" ) }
-									{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+									{ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
 								</> }
 								description={ __( "Please tell us more about your organization’s identifiers. This information will help Google to display accurate and helpful details about your organization.", "wordpress-seo" ) }
 							>

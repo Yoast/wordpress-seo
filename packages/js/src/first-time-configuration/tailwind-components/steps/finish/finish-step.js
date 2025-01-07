@@ -26,7 +26,7 @@ export default function FinishStep() {
 
 	return (
 		<div className="yst-flex yst-flex-row yst-justify-between yst-items-center yst--mt-4">
-			<div className="yst-mr-6">
+			<div className="yst-me-6">
 				<p className="yst-text-sm yst-mb-4">
 					{
 						sprintf(
@@ -52,7 +52,7 @@ export default function FinishStep() {
 						__( "Learn how to increase your rankings with %1$s", "wordpress-seo" ),
 						"Yoast SEO"
 					) }
-					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl yst-ml-2" />
+					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl yst-ms-2" />
 				</Button>
 				<p className="yst-mt-4">
 					<Link

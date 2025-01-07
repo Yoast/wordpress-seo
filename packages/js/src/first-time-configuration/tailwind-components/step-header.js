@@ -62,7 +62,7 @@ export default function StepHeader( { name, description, isFinished, children } 
 			/>
 		</span>
 		{ /* Name and description. */ }
-		<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
+		<span className="yst-ms-4 yst-min-w-0 yst-flex yst-flex-col">
 			<span className={ `yst-transition-colors yst-duration-500 yst-text-xs yst-font-[650] yst-tracking-wide yst-uppercase ${ nameClassNames }` }>
 				{ name }
 			</span>

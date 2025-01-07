@@ -46,7 +46,7 @@ const ValidationErrorsNotification = ( { id, onDismiss, ...props } ) => {
 
 	return (
 		<NotificationsUi.Notification key={ id } id={ id } onDismiss={ onDismiss } { ...props }>
-			<ul className="yst-list-disc yst-mt-1 yst-ml-4 yst-space-y-2">
+			<ul className="yst-list-disc yst-mt-1 yst-ms-4 yst-space-y-2">
 				{ map( flatErrors, ( error, name ) => error && (
 					<li key={ name }>
 						<Link to={ `${ get( searchIndex, `${ name }.route`, "404" ) }#${ get( searchIndex, `${ name }.fieldId`, "" ) }` }>

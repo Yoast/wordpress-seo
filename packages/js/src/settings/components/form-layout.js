@@ -35,7 +35,7 @@ const FormLayout = ( { children } ) => {
 					animateOpacity={ true }
 				>
 					<div className="yst-bg-slate-50 yst-border-slate-200 yst-border-t yst-rounded-b-lg">
-						<div className="yst-flex yst-align-middle yst-space-x-3 yst-p-8">
+						<div className="yst-flex yst-align-middle yst-space-x-3 rtl:yst-space-x-reverse yst-p-8">
 							<Button
 								id="button-submit-settings"
 								type="submit"

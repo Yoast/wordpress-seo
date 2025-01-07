@@ -470,7 +470,7 @@ export default function FirstTimeConfigurationSteps() {
 						stepId={ STEPS.optimizeSeoData }
 						beforeGo={ beforeEditing }
 						isVisible={ showEditButton }
-						additionalClasses={ "yst-ml-auto" }
+						additionalClasses="yst-ms-auto"
 					>
 						{ __( "Edit", "wordpress-seo" ) }
 					</EditButton>
@@ -499,7 +499,7 @@ export default function FirstTimeConfigurationSteps() {
 						stepId={ STEPS.siteRepresentation }
 						beforeGo={ beforeEditing }
 						isVisible={ showEditButton }
-						additionalClasses={ "yst-ml-auto" }
+						additionalClasses="yst-ms-auto"
 					>
 						{ __( "Edit", "wordpress-seo" ) }
 					</EditButton>
@@ -529,7 +529,7 @@ export default function FirstTimeConfigurationSteps() {
 						stepId={ STEPS.socialProfiles }
 						beforeGo={ beforeEditing }
 						isVisible={ showEditButton }
-						additionalClasses={ "yst-ml-auto" }
+						additionalClasses="yst-ms-auto"
 					>
 						{ __( "Edit", "wordpress-seo" ) }
 					</EditButton>
@@ -554,7 +554,7 @@ export default function FirstTimeConfigurationSteps() {
 						stepId={ STEPS.personalPreferences }
 						beforeGo={ beforeEditing }
 						isVisible={ showEditButton }
-						additionalClasses={ "yst-ml-auto" }
+						additionalClasses="yst-ms-auto"
 					>
 						{ __( "Edit", "wordpress-seo" ) }
 					</EditButton>

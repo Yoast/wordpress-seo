@@ -319,7 +319,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								name={ `wpseo_titles.page-analyse-extra-${ name }` }
 								id={ `input-wpseo_titles-page-analyse-extra-${ name }` }
 								label={ __( "Add custom fields to page analysis", "wordpress-seo" ) }
-								labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+								labelSuffix={ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
 								description={ <>
 									{ customFieldsDescription }
 									<br />

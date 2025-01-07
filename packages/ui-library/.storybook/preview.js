@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Root from "../src/components/root";
 import "./style.css";
 import React from "react";
@@ -73,11 +74,17 @@ const preview = {
 		},
 	},
 	decorators: [
-		( Story, context ) => (
-			<Root dir={ context.globals.dir } context={ { isRtl: context.globals.dir === "rtl" } }>
-				<Story { ...context } />
-			</Root>
-		),
+		( Story, context ) => {
+			useEffect( () => {
+				document.documentElement.setAttribute( "dir", context.globals.dir );
+			}, [ context.globals.dir ] );
+
+			return (
+				<Root context={ { isRtl: context.globals.dir === "rtl" } }>
+					<Story { ...context } />
+				</Root>
+			);
+		},
 	],
 };
 

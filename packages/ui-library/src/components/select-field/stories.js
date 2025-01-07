@@ -91,7 +91,7 @@ export const WithLabelSuffix = {
 		options: Factory.args.options,
 		value: Factory.args.options[ 2 ].value,
 		label: "Select field with a label suffix",
-		labelSuffix: <Badge className="yst-ml-1.5" size="small">Beta</Badge>,
+		labelSuffix: <Badge className="yst-ms-1.5" size="small">Beta</Badge>,
 	},
 };
 
