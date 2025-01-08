@@ -1792,6 +1792,19 @@ describe( "AnalysisWebWorker", () => {
 			worker._paper = new Paper( "This is the content.", { keyword: "dogs" } );
 			expect( worker.shouldReadabilityUpdate( paper ) ).toBe( true );
 		} );
+
+		test( "returns true when the client IDs of the blocks inside attributes changes", () => {
+			const paper = new Paper( "This is the content.", { wpBlocks: [
+				{ name: "block1", clientId: "1234" },
+				{ name: "block2", clientId: "5678" },
+			] } );
+
+			worker._paper = new Paper( "This is the content.", { wpBlocks: [
+				{ name: "block1", clientId: "6783" },
+				{ name: "block2", clientId: "0636" },
+			] } );
+			expect( worker.shouldReadabilityUpdate( paper ) ).toBe( true );
+		} );
 	} );
 
 	describe( "shouldSeoUpdate", () => {
