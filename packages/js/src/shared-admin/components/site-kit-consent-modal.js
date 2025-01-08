@@ -8,7 +8,7 @@ import { PropTypes } from "prop-types";
  * @param {boolean} isOpen Whether the modal is open.
  * @param {Function} onClose Callback to close the modal.
  *
- * @returns {WPElement} The Site Kit consent modal component.
+ * @returns {JSX.Element} The Site Kit consent modal component.
  */
 export const SiteKitConsentModal = ( { isOpen, onClose } ) => {
 	return (
@@ -19,7 +19,7 @@ export const SiteKitConsentModal = ( { isOpen, onClose } ) => {
 			<Modal.Panel>
 				<Modal.Title>{ __( "Connect Site Kit by Google", "wordpress-seo" ) }</Modal.Title>
 				<Modal.Description>
-					<p>{ __( "Connect your Google account to view traffic and search rankings on your dashboard.", "wordpress-seo" ) }</p>
+					{ __( "Connect your Google account to view traffic and search rankings on your dashboard.", "wordpress-seo" ) }
 				</Modal.Description>
 			</Modal.Panel>
 		</Modal>

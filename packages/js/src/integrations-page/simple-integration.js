@@ -13,7 +13,7 @@ import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
  * @param {object}     integration The integration.
  * @param {boolean}    isActive    The integration state.
  * @param {wp.Element} children    The child components.
- * @param {wp.Element} button      The button component.
+ * @param {object} button      The button component props.
  *
  * @returns {WPElement} A card representing an integration.
  */

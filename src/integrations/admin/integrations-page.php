@@ -194,13 +194,11 @@ class Integrations_Page implements Integration_Interface {
 				'mastodon_active'                    => $mastodon_active,
 				'is_multisite'                       => \is_multisite(),
 				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
-				'googleSiteKit'                      => [
-					'isInstalled'    => \file_exists( \WP_PLUGIN_DIR . '/' . $google_site_kit_file ),
-					'isActive'       => \is_plugin_active( $google_site_kit_file ),
-					'afterSetup'     => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
-					'isConnected'    => $this->options_helper->get( 'google_site_kit_connected', false ),
-					'featureEnabled' => $google_site_kit_conditional->is_met(),
-				],
+				'google_site_kit_installed'          => \file_exists( \WP_PLUGIN_DIR . '/' . $google_site_kit_file ),
+				'google_site_kit_active'             => \is_plugin_active( $google_site_kit_file ),
+				'google_site_kit_setup'              => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
+				'google_site_kit_connected'          => $this->options_helper->get( 'google_site_kit_connected', false ),
+				'google_site_kit_feature'            => $google_site_kit_conditional->is_met(),
 			]
 		);
 	}

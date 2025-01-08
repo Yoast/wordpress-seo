@@ -122,13 +122,15 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'get_site_url' )
 			->andReturn( 'https://www.example.com' );
 
-		Monkey\Functions\expect( 'is_plugin_active' )->times( 6 )->andReturnTrue();
+		Monkey\Functions\expect( 'is_plugin_active' )->times( 5 )->andReturnTrue();
+		Monkey\Functions\expect( 'is_plugin_active' )->with( 'google-site-kit/google-site-kit.php' )->once()->andReturnFalse();
 		Monkey\Functions\expect( 'wp_nonce_url' )->times( 3 )->andReturn( 'nonce' );
 		Monkey\Functions\expect( 'self_admin_url' )->times( 3 )->andReturn( 'https://www.example.com' );
 		Monkey\Functions\expect( 'plugins_url' )->andReturn( 'https://www.example.com' );
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://www.example.com' );
 
-		$this->options_helper->expects( 'get' )->times( 6 )->andReturnTrue();
+		$this->options_helper->expects( 'get' )->times( 5 )->andReturnTrue();
+		$this->options_helper->expects( 'get' )->with( 'google_site_kit_connected', false )->once()->andReturnFalse();
 
 		$this->admin_asset_manager->expects( 'localize_script' )->with(
 			'integrations-page',
@@ -159,13 +161,11 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'mastodon_active'                    => false,
 				'is_multisite'                       => false,
 				'plugin_url'                         => 'https://www.example.com',
-				'googleSiteKit'                      => [
-					'isInstalled'    => false,
-					'isActive'       => true,
-					'afterSetup'     => false,
-					'isConnected'    => true,
-					'featureEnabled' => false,
-				],
+				'google_site_kit_installed'          => false,
+				'google_site_kit_active'             => false,
+				'google_site_kit_setup'              => false,
+				'google_site_kit_connected'          => false,
+				'google_site_kit_feature'            => false,
 			]
 		);
 

@@ -63,7 +63,7 @@ const integrations = [
 	},
 ];
 
-const isGoogleSiteKitFeatureEnabled = get( window, "wpseoIntegrationsData.googleSiteKit.featureEnabled", false );
+const isGoogleSiteKitFeatureEnabled = get( window, "wpseoIntegrationsData.google_site_kit_feature", false );
 
 const RecommendedIntegrations = [
 	integrations.map( ( integration, index ) => {
@@ -81,9 +81,15 @@ const RecommendedIntegrations = [
 	} ),
 ];
 
+const googleSiteKitProps = {
+	isInstalled: get( window, "wpseoIntegrationsData.google_site_kit_installed", false ) === "1",
+	isActive: get( window, "wpseoIntegrationsData.google_site_kit_active", false ) === "1",
+	afterSetup: get( window, "wpseoIntegrationsData.google_site_kit_setup", false ) === "1",
+	isConnected: get( window, "wpseoIntegrationsData.google_site_kit_connect", false ) === "1",
+};
 
 if ( isGoogleSiteKitFeatureEnabled ) {
-	RecommendedIntegrations.push( <GoogleSiteKitIntegration key={ integrations.length } /> );
+	RecommendedIntegrations.push( <GoogleSiteKitIntegration key={ integrations.length } { ...googleSiteKitProps } /> );
 }
 
 export { RecommendedIntegrations };
