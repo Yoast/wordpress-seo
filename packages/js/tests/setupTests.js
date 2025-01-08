@@ -3,6 +3,7 @@ import { createElement } from "@wordpress/element";
 import { setLocaleData } from "@wordpress/i18n";
 import "jest-styled-components";
 import "raf/polyfill";
+// eslint-disable-next-line no-restricted-imports -- We need to import React to set up the global React object.
 import React from "react";
 
 setLocaleData( {

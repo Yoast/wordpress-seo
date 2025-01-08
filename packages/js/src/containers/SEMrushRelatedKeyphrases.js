@@ -42,7 +42,7 @@ export default compose( [
 		const {
 			setSEMrushChangeCountry,
 			setSEMrushNewRequest,
-		 } = dispatch( "yoast-seo/editor" );
+		} = dispatch( "yoast-seo/editor" );
 		return {
 			setCountry: ( countryCode ) => {
 				setSEMrushChangeCountry( countryCode );

@@ -38,9 +38,9 @@ export const Problems = () => {
 					<AlertsTitle title={ __( "Problems", "wordpress-seo" ) } counts={ problemsList.length }>
 						<p className="yst-mt-2 yst-text-sm">
 							{ problemsList.length > 0
-								 ? __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" )
-								 : __( "Good job! We could detect no serious SEO problems.", "wordpress-seo" )
-						 }
+								? __( "We have detected the following issues that affect the SEO of your site.", "wordpress-seo" )
+								: __( "Good job! We could detect no serious SEO problems.", "wordpress-seo" )
+							}
 						</p>
 					</AlertsTitle>
 					<AlertsList items={ problemsList } />

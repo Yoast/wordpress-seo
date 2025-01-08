@@ -125,7 +125,7 @@ export default function YoastComboBox( { id, value, label, onChange, onQueryChan
 											</>;
 										} }
 									</Combobox.Option>
-								 ) ) }
+								) ) }
 							</Combobox.Options>
 						) }
 					</div>

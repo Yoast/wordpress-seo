@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import firstParagraph from "../../../src/languageProcessing/researches/findKeywordInFirstParagraph.js";

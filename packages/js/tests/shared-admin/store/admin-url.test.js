@@ -91,7 +91,6 @@ describe( "adminUrl", () => {
 				 * Fake class to throw an error when calling toString.
 				 */
 				class Test {
-					// eslint-disable-next-line require-jsdoc
 					toString() {
 						throw new Error( "Test error" );
 					}
