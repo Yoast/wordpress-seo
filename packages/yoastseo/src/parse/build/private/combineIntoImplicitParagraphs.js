@@ -24,7 +24,7 @@ function isInterElementWhitespace( node ) {
  * @returns {boolean} Whether the node has any children.
  */
 function hasChildren( node ) {
-	return node && node.childNodes.length > 0;
+	return node?.childNodes.length > 0;
 }
 
 /**

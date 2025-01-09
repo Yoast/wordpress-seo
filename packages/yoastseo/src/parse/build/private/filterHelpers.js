@@ -26,7 +26,7 @@ export function elementHasName( name ) {
  */
 export function elementHasClass( className ) {
 	return ( blockElement ) => {
-		return !! blockElement.attributes.class && blockElement.attributes.class.has( className );
+		return !! blockElement.attributes.class?.has( className );
 	};
 }
 

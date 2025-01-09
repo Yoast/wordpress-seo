@@ -25,7 +25,7 @@ export default function build( paper, languageProcessor, shortcodes ) {
 	html = html.replace( htmlEntitiesRegex, "#$1" );
 
 	let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
-	if ( tree.childNodes && tree.childNodes.length > 0 ) {
+	if ( tree.childNodes?.length > 0 ) {
 		parseBlocks( paper, tree );
 	}
 

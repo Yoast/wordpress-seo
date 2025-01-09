@@ -1,4 +1,3 @@
-import { isUndefined } from "lodash";
 const blockTokenizer = /<!--\s+wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/g;
 
 /**
@@ -67,7 +66,7 @@ export function updateBlocksOffset( blocks, text ) {
 			currentBlock.contentOffset = startedAt + length + 1;
 		}
 
-		if ( currentBlock.innerBlocks && currentBlock.innerBlocks.length > 0 ) {
+		if ( currentBlock.innerBlocks?.length > 0 ) {
 			updateBlocksOffset( currentBlock.innerBlocks, text );
 		}
 	} );
@@ -90,7 +89,7 @@ function updateClientIdAndAttrIdForSubtree( rootNode, blocks, clientId ) {
 	}
 
 	let currentClientId = clientId;
-	if ( rootNode.sourceCodeLocation && ! isUndefined( rootNode.sourceCodeLocation.startOffset ) ) {
+	if ( rootNode.sourceCodeLocation?.startOffset ) {
 		const foundBlock = blocks.find( block => block.contentOffset === rootNode.sourceCodeLocation.startOffset );
 		if ( foundBlock ) {
 			currentClientId = foundBlock.clientId;
@@ -104,7 +103,7 @@ function updateClientIdAndAttrIdForSubtree( rootNode, blocks, clientId ) {
 
 	// If the node has children, update the clientId for them.
 	( rootNode.childNodes || [] ).forEach( ( node ) => {
-		if ( node.attributes && node.attributes.id ) {
+		if ( node.attributes?.id ) {
 			/*
 			 * If the node's child has an attribute with 'id' key, also set this id to the first and third child node.
 			 * This step is specifically for parsing the Yoast blocks.
@@ -118,7 +117,7 @@ function updateClientIdAndAttrIdForSubtree( rootNode, blocks, clientId ) {
 			 *    - For example, in Yoast FAQ block, the second child node would represent the "answer" section.
 			 * 4. The fourth child node of the sub-block, only contains a new line.
 			 */
-			if ( node.childNodes && node.childNodes.length > 3 ) {
+			if ( node.childNodes?.length > 3 ) {
 				node.childNodes[ 0 ].attributeId = node.attributes.id;
 				node.childNodes[ 0 ].isFirstSection = true;
 

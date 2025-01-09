@@ -65,7 +65,7 @@ function isBlockElement( nodeName ) {
 function isOverarchingParagraph( nodeName, children ) {
 	return isParagraph( nodeName ) && children.some( ( node, index, childNodes ) => {
 		const nextNode = childNodes.length - 1 !== index && childNodes[ index + 1 ];
-		return node.name === "br" && nextNode && nextNode.name === "br";
+		return node.name === "br" && nextNode?.name === "br";
 	} );
 }
 
