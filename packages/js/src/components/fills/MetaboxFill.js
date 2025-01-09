@@ -1,6 +1,6 @@
 /* External dependencies */
-import { useSelect } from "@wordpress/data";
-import { Fragment } from "@wordpress/element";
+import { useDispatch, useSelect } from "@wordpress/data";
+import { Fragment, useEffect } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
@@ -24,6 +24,7 @@ import KeywordUpsell from "../modals/KeywordUpsell";
 import { BlackFridayProductEditorChecklistPromotion } from "../BlackFridayProductEditorChecklistPromotion";
 import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
+import isBlockEditor from "../../helpers/isBlockEditor";
 
 const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
@@ -37,11 +38,40 @@ const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( B
  * @returns {wp.Element} The Metabox component.
  */
 export default function MetaboxFill( { settings } ) {
-	const isTerm = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsTerm(), [] );
-	const isProduct = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsProduct(), [] );
-	const isWooCommerceActive = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsWooCommerceActive(), [] );
+	const { isTerm, isProduct, isWooCommerceActive, activeAIButtonId } = useSelect( ( select ) => ( {
+		isTerm: select( "yoast-seo/editor" ).getIsTerm(),
+		isProduct: select( "yoast-seo/editor" ).getIsProduct(),
+		isWooCommerceActive: select( "yoast-seo/editor" ).getIsWooCommerceActive(),
+		activeAIButtonId: select( "yoast-seo/editor" ).getActiveAIFixesButton(),
+	} ), [] );
+	const editorMode = isBlockEditor() ? useSelect( ( select ) => select( "core/edit-post" ).getEditorMode(), [] ) : null;
+
+	const { setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 
 	const shouldShowWooCommerceChecklistPromo = isProduct && isWooCommerceActive;
+	/**
+	 * Toggles the markers status, based on the editor mode and the AI assessment fixes button status.
+	 *
+	 * @param {string} editorMode The editor mode.
+	 * @param {boolean} activeAIButtonId The active AI button ID.
+	 *
+	 * @returns {void}
+	 */
+	useEffect( () => {
+		if ( ! editorMode ) {
+			// Toggle markers based on editor mode.
+			if ( ( editorMode === "visual" && activeAIButtonId ) || editorMode === "text" ) {
+				setMarkerStatus( "disabled" );
+			} else {
+				setMarkerStatus( "enabled" );
+			}
+
+			// Cleanup function to reset the marker status when the component unmounts or editor mode changes
+			return () => {
+				setMarkerStatus( "disabled" );
+			};
+		}
+	}, [ editorMode, activeAIButtonId, setMarkerStatus ] );
 
 	return (
 		<>
