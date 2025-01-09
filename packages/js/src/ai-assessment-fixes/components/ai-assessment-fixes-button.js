@@ -25,8 +25,11 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const aiFixesId = id + "AIFixes";
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const activeAIButtonId = useSelect( select => select( "yoast-seo/editor" ).getActiveAIFixesButton(), [] );
-	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
+	const { activeMarker, editorMode, activeAIButtonId } = useSelect( ( select ) => ( {
+		activeMarker: select( "yoast-seo/editor" ).getActiveMarker(),
+		editorMode: select( "core/edit-post" ).getEditorMode(),
+		activeAIButtonId: select( "yoast-seo/editor" ).getActiveAIFixesButton(),
+	} ), [] );
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
@@ -36,9 +39,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 
 	// The button is pressed when the active AI button id is the same as the current button id.
 	const isButtonPressed = activeAIButtonId === aiFixesId;
-
-	// Get the editor mode using useSelect.
-	const editorMode = useSelect( ( select ) => select( "core/edit-post" ).getEditorMode(), [] );
 
 	// Enable the button when:
 	// (1) other AI buttons are not pressed.
@@ -75,29 +75,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			ariaLabel: allVisual ? defaultLabel : htmlLabel,
 		};
 	}, [ isButtonPressed, activeAIButtonId, editorMode ] );
-
-
-	/**
-	 * Toggles the markers status, based on the editor mode and the AI assessment fixes button status.
-	 *
-	 * @param {string} editorMode The editor mode.
-	 * @param {boolean} activeAIButtonId The active AI button ID.
-	 *
-	 * @returns {void}
-	 */
-	useEffect( () => {
-		// Toggle markers based on editor mode.
-		if ( editorMode === "visual" && ! activeAIButtonId ) {
-			setMarkerStatus( "enabled" );
-		} else {
-			setMarkerStatus( "disabled" );
-		}
-
-		// Cleanup function to reset the marker status when the component unmounts or editor mode changes
-		return () => {
-			setMarkerStatus( "disabled" );
-		};
-	}, [ editorMode, activeAIButtonId, setMarkerStatus ] );
 
 	/**
 	 * Handles the button press state.
