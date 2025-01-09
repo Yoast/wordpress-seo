@@ -283,7 +283,7 @@ export function getPositionalDataByState( props ) {
 				</PositionOverTimeButton>
 			</td>
 			<td>{ formatLastUpdated( rowData.updated_at ) }</td>
-		 </Fragment>
+		</Fragment>
 	);
 }
 

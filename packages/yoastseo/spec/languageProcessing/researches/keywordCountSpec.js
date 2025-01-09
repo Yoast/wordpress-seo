@@ -2645,7 +2645,7 @@ describe( "Test for counting the keyphrase in a text for Japanese", () => {
 		expect( getKeyphraseCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいい<yoastmark class='yoast-text-mark'>猫</yoastmark>です。",
 				original: "私の猫はかわいい猫です。",
-				 } ) ] );
+			} ) ] );
 	} );
 
 	it( "counts a string if text with no keyphrase in it.", function() {

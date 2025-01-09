@@ -1,8 +1,8 @@
-/* eslint-disable max-statements,complexity */
+/* eslint-disable complexity */
 // External dependencies.
 import { enableFeatures } from "@yoast/feature-flag";
 import { __, setLocaleData, sprintf } from "@wordpress/i18n";
-import { forEach, has, includes, isEmpty, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash";
+import { forEach, has, includes, isEmpty, isEqual, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash";
 import { getLogger } from "loglevel";
 
 // Internal dependencies.
@@ -952,6 +952,12 @@ export default class AnalysisWebWorker {
 		}
 
 		if ( this._paper.getKeyword() !== paper.getKeyword() ) {
+			return true;
+		}
+
+		// Perform deep comparison between the list of Gutenberg blocks as we want to update the readability analysis
+		// if the client IDs of the blocks inside `wpBlocks` change.
+		if ( ! isEqual( this._paper._attributes.wpBlocks, paper._attributes.wpBlocks ) ) {
 			return true;
 		}
 

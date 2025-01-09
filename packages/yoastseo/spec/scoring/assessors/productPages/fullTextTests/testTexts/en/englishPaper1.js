@@ -136,8 +136,8 @@ const expectedResults = {
 	},
 	textSentenceLength: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: Great!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 28.6% of the sentences contain more than 20 words, which is more than the recommended maximum of 20%. <a href='https://yoa.st/shopify49' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,

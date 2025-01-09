@@ -90,6 +90,8 @@ jobs:
           php-version: ${{ matrix.php_version }}
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           coverage: ${{ matrix.coverage == true && 'xdebug' || 'none' }}
+        env:
+          update: true
 
       # The PHP platform requirement would prevent updating the test utilities to the appropriate versions.
       # As long as the `composer update` is run selectively to only update the test utils, removing this is fine.
@@ -220,6 +222,8 @@ jobs:
           php-version: ${{ matrix.php_version }}
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           coverage: ${{ matrix.coverage == true && 'xdebug' || 'none' }}
+        env:
+          update: true
 
       # The PHP platform requirement would prevent updating the test utilities to the appropriate versions.
       # As long as the `composer update` is run selectively to only update the test utils, removing this is fine.

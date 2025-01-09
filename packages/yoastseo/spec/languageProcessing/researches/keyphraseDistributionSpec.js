@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import {
 	computeScoresPerSentenceShortTopic,
 	computeScoresPerSentenceLongTopic,
@@ -250,9 +249,9 @@ describe( "Test for the research", function() {
 		} );
 	} );
 
-	//It’s the same as the English one above it, excepts the locale is Italian. But still the English morphology data is added.
+	// It’s the same as the English one above it, excepts the locale is Italian. But still the English morphology data is added.
 
-	/*it( "returns a score (for a language without morphology support) over all sentences and all topic forms; returns markers for " +
+	/* it( "returns a score (for a language without morphology support) over all sentences and all topic forms; returns markers for " +
 		"sentences that contain the topic", function() {
 		const paper = new Paper(
 			sentencesIT.join( " " ),

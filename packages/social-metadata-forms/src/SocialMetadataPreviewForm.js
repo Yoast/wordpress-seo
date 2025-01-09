@@ -51,9 +51,9 @@ const Caret = styled.div`
 		height: 24px;
 		background-image: url(
 		${ props => getDirectionalStyle(
-		angleRight( getCaretColor( props.isActive ) ),
-		angleLeft( getCaretColor( props.isActive ) )
-	) }
+			angleRight( getCaretColor( props.isActive ) ),
+			angleLeft( getCaretColor( props.isActive ) )
+		) }
 		);
 		color: ${ props => getCaretColor( props.isActive ) };
 		background-size: 24px;

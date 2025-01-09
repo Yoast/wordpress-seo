@@ -392,7 +392,7 @@ class Indexation extends Component {
 	 *
 	 * @returns {WPElement} The rendered component.
 	 */
-	 render() {
+	render() {
 		if ( this.settings.disabled ) {
 			return this.renderDisabledTool();
 		}

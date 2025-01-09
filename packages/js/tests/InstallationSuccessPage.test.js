@@ -1,9 +1,8 @@
-import React from "react";
 import { InstallationSuccessPage } from "../src/installation-success";
 import { render } from "./test-utils";
 
 describe( "InstallationSuccessPage", () => {
-	  it( "should render the text 'Your site is now easier for search engines to find.'", () => {
+	it( "should render the text 'Your site is now easier for search engines to find.'", () => {
 		global.window.wpseoInstallationSuccess = {
 			pluginUrl: "http://wordpress.test/wp-content/plugins/wordpress-seo",
 			firstTimeConfigurationUrl: "http://wordpress.test/wp-admin/admin.php?page=wpseo_dashboard#/first-time-configuration",

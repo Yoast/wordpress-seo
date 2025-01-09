@@ -34,7 +34,7 @@ const FormikAutocompleteField = ( { name, id, options, ...props } ) => {
 	}, [ setValue, setTouched ] );
 
 	const handleQueryChange = useCallback( event => {
-	    setValue( event.target.value );
+		setValue( event.target.value );
 		handleSelectedLabel( event.target.value );
 	}, [ setValue ] );
 

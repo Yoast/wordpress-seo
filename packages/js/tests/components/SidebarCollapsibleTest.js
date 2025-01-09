@@ -1,4 +1,3 @@
-import React from "react";
 import SidebarCollapsible from "../../src/components/SidebarCollapsible";
 import { fireEvent, render, screen } from "../test-utils";
 

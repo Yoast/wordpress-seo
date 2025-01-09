@@ -24,7 +24,6 @@ export const AiFixAssessmentsUpsell = ( {
 	const { onClose, initialFocus } = useModalContext();
 
 	const learnMoreLinkStructure = {
-		// eslint-disable-next-line jsx-a11y/anchor-has-content
 		a: <OutboundLink
 			href={ learnMoreLink }
 			className="yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"

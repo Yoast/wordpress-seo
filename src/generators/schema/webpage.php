@@ -52,7 +52,10 @@ class WebPage extends Abstract_Schema_Piece {
 
 		if ( $this->context->indexable->object_type === 'post' ) {
 			$data['datePublished'] = $this->helpers->date->format( $this->context->post->post_date_gmt );
-			$data['dateModified']  = $this->helpers->date->format( $this->context->post->post_modified_gmt );
+
+			if ( \strtotime( $this->context->post->post_modified_gmt ) > \strtotime( $this->context->post->post_date_gmt ) ) {
+				$data['dateModified'] = $this->helpers->date->format( $this->context->post->post_modified_gmt );
+			}
 
 			if ( $this->context->indexable->object_sub_type === 'post' ) {
 				$data = $this->add_author( $data, $this->context->post );

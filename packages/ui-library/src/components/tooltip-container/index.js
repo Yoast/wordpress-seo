@@ -1,4 +1,3 @@
-/* eslint-disable react/require-default-props */
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
