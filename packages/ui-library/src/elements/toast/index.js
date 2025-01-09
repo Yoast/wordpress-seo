@@ -3,7 +3,7 @@ import { XIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { isArray, noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { createContext, useCallback, useContext, useEffect } from "react";
+import React, { createContext, useCallback, useContext, useEffect, forwardRef } from "react";
 
 const ToastContext = createContext( { handleDismiss: noop } );
 
@@ -25,13 +25,14 @@ export const toastClassNameMap = {
  * @param {string} [className] The additional class name.
  * @returns {JSX.Element} The close button.
  */
-const Close = ( {
+const Close = forwardRef( ( {
 	dismissScreenReaderLabel,
-} ) => {
-	const { handleDismiss } = useToastContext();
+}, ref ) => {
+	const { handleDismiss } = useContext( ToastContext );
 	return (
 		<div className="yst-flex-shrink-0 yst-flex yst-self-start">
 			<button
+				ref={ ref }
 				type="button"
 				onClick={ handleDismiss }
 				className="yst-bg-transparent yst-rounded-md yst-inline-flex yst-text-slate-400 hover:yst-text-slate-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
@@ -41,7 +42,9 @@ const Close = ( {
 			</button>
 		</div>
 	);
-};
+} );
+
+Close.displayName = "Close";
 
 Close.propTypes = {
 	dismissScreenReaderLabel: PropTypes.string.isRequired,
@@ -95,6 +98,7 @@ Title.propTypes = {
  * @param {Object} props The props object.
  * @param {JSX.node} children The children.
  * @param {string} id The toast ID.
+ * @param {string} role The toast role.
  * @param {string} [className] The additional class name.
  * @param {string} position The toast position.
  * @param {Function} [onDismiss] Function to trigger on dismissal.
@@ -103,16 +107,18 @@ Title.propTypes = {
  * @param {Function} setIsVisible Function to set the visibility of the notification.
  * @returns {JSX.Element} The toast component.
  */
-const Toast = ( {
+const Toast = forwardRef( ( {
 	children,
 	id,
+	role,
 	className = "",
 	position = "bottom-left",
 	onDismiss = noop,
 	autoDismiss = null,
 	isVisible,
 	setIsVisible,
-} ) => {
+	...props
+}, ref ) => {
 	const handleDismiss = useCallback( () => {
 		// Disable visibility on dismiss to trigger transition.
 		setIsVisible( false );
@@ -148,17 +154,20 @@ const Toast = ( {
 					"yst-toast",
 					className,
 				) }
-				role="alert"
+				role={ role }
+				ref={ ref }
+				{ ...props }
 			>
 				{ children }
 			</Transition>
 		</ToastContext.Provider>
 	);
-};
+} );
 
 Toast.propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
+	role: PropTypes.string.isRequired,
 	className: PropTypes.string,
 	position: PropTypes.string,
 	onDismiss: PropTypes.func,
@@ -167,6 +176,15 @@ Toast.propTypes = {
 	setIsVisible: PropTypes.func.isRequired,
 };
 
+Toast.defaultProps = {
+	children: null,
+	className: "",
+	position: "bottom-left",
+	onDismiss: noop,
+	autoDismiss: null,
+};
+
+Toast.displayName = "Toast";
 Toast.Close = Close;
 Toast.Description = Description;
 Toast.Title = Title;
