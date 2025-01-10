@@ -3,6 +3,7 @@ import { Slot } from "@wordpress/components";
 import PropTypes from "prop-types";
 
 import SocialForm from "../social/SocialForm";
+import { useFallbackWarning } from "./useFallbackWarning";
 
 /**
  * This wrapper is connected to the facebook container. So the data is connected to both components.
@@ -14,6 +15,8 @@ import SocialForm from "../social/SocialForm";
  */
 const FacebookWrapper = ( props ) => {
 	const [ activeMetaTabId, setActiveMetaTabId ] = useState( "" );
+
+	useFallbackWarning( props.imageFallbackUrl, props.imageUrl, props.imageWarnings );
 
 	// Set active meta tab id on window event.
 	const handleMetaTabChange = useCallback( ( event ) => {
@@ -49,6 +52,9 @@ FacebookWrapper.propTypes = {
 	isPremium: PropTypes.bool.isRequired,
 	onLoad: PropTypes.func.isRequired,
 	location: PropTypes.string.isRequired,
+	imageFallbackUrl: PropTypes.string.isRequired,
+	imageUrl: PropTypes.string.isRequired,
+	imageWarnings: PropTypes.array.isRequired,
 };
 
 export default FacebookWrapper;
