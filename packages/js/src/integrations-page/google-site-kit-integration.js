@@ -186,7 +186,7 @@ export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, i
 					className: "yst-mt-6 yst-w-full",
 					id: "google-site-kit-button",
 					...getButtonProps( isInstalled, isActive, afterSetup, isConnected ),
-				 } }
+				} }
 			>
 				<SuccessfullyConnected isActive={ isActive } afterSetup={ afterSetup } isConnected={ isConnected } />
 				<NotConnected isConnected={ isConnected } afterSetup={ afterSetup } isActive={ isActive } />
