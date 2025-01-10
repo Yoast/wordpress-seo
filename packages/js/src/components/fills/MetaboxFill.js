@@ -58,7 +58,7 @@ export default function MetaboxFill( { settings } ) {
 	 * @returns {void}
 	 */
 	useEffect( () => {
-		if ( ! editorMode ) {
+		if ( isBlockEditor() ) {
 			// Toggle markers based on editor mode.
 			if ( ( editorMode === "visual" && activeAIButtonId ) || editorMode === "text" ) {
 				setMarkerStatus( "disabled" );
