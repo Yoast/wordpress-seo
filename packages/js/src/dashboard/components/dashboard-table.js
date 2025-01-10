@@ -1,7 +1,7 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { useState, useCallback } from "@wordpress/element";
 import classNames from "classnames";
-import { SCORE_META } from "../score-meta";
+import { SCORE_META } from "../scores/score-meta";
 import { Paper, Table, Title } from "@yoast/ui-library";
 
 /**
@@ -51,7 +51,7 @@ const ScoreBullet = ( { score } ) => (
  *
  * @returns {JSX.Element} The element.
  */
-export const SiteKitTable = ( { title, columns, data } ) => {
+export const DashboardTable = ( { title, columns, data } ) => {
 	const [ sortConfig, setSortConfig ] = useState( { key: null, ascending: true } );
 
 	const sortedData = [ ...data ].sort( ( a, b ) => {
@@ -78,13 +78,14 @@ export const SiteKitTable = ( { title, columns, data } ) => {
 	}, [ sortConfig, setSortConfig ] );
 
 	return (
-		<Paper className="yst-grow yst-p-8 yst-shadow-md">
+		<Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md">
 			<Title as="h3" size="2" className="yst-text-slate-900 yst-font-medium">
 				{ title }
 			</Title>
 			<table className="yst-site-kit-widget-table">
 				<Table.Head className="yst-bg-white yst-mt-2 yst-border-b-slate-300 yst-border-b yst-border-t-0">
 					<Table.Row>
+						<Table.Header>{ "" }</Table.Header>
 						{ columns.map( ( column, index ) =>
 							<Table.Header
 								key={ `${column.name}-${title}` }
@@ -105,10 +106,12 @@ export const SiteKitTable = ( { title, columns, data } ) => {
 				<Table.Body>
 					{ sortedData.map( ( row, rowIndex ) => (
 						<Table.Row key={ `row-${title}-${rowIndex}` }>
+							<Table.Cell>{ rowIndex + 1 }. </Table.Cell>
 							{ row.map( ( cell, cellIndex ) => (
 								<Table.Cell key={ `cell-${title}-${cellIndex}` } className="yst-numbered-cell">
 									{ columns[ cellIndex ].name === "seo-score" ? <ScoreBullet score={ cell } /> : <div
 										className={ classNames( columns[ cellIndex ].sortable ? "yst-text-end yst-pe-5" : "",
+											cellIndex === 0 ? "yst-text-slate-900 yst-font-medium" : "",
 											columns[ cellIndex ].className ) }
 									>{ cell }</div> }
 								</Table.Cell> ) ) }

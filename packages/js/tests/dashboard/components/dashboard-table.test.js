@@ -1,9 +1,9 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "../../test-utils.js";
 import "@testing-library/jest-dom";
-import { SiteKitTable } from "../../../../src/dashboard/scores/components/site-kit-table.js";
-import { SCORE_META } from "../../../../src/dashboard/scores/score-meta.js";
+import { DashboardTable } from "../../../src/dashboard/components/dashboard-table.js";
+import { SCORE_META } from "../../../src/dashboard/scores/score-meta.js";
 
-describe( "SiteKitTable", () => {
+describe( "DashboardTable", () => {
 	const columns = [
 		{ name: "landing-page", label: "Landing page" },
 		{ name: "clicks", label: "Clicks", sortable: true },
@@ -22,7 +22,7 @@ describe( "SiteKitTable", () => {
 	];
 
 	it( "renders the table with correct title and columns", () => {
-		render( <SiteKitTable title="Test Table" columns={ columns } data={ data } /> );
+		render( <DashboardTable title="Test Table" columns={ columns } data={ data } /> );
 		expect( screen.getByText( "Test Table" ) ).toBeInTheDocument();
 		columns.forEach( ( column ) => {
 			expect( screen.getByText( column.label ) ).toBeInTheDocument();
@@ -30,7 +30,7 @@ describe( "SiteKitTable", () => {
 	} );
 
 	it( "renders the table rows correctly", () => {
-		render( <SiteKitTable title="Test Table" columns={ columns } data={ data } /> );
+		render( <DashboardTable title="Test Table" columns={ columns } data={ data } /> );
 		data.forEach( ( row ) => {
 			const rowElement = screen.getByText( row[ 0 ] ).closest( "tr" );
 			expect( rowElement ).toHaveTextContent( row[ 0 ] );
@@ -43,7 +43,7 @@ describe( "SiteKitTable", () => {
 	} );
 
 	it( "sorts the table correctly when a sortable column header is clicked", () => {
-		render( <SiteKitTable title="Test Table" columns={ columns } data={ data } /> );
+		render( <DashboardTable title="Test Table" columns={ columns } data={ data } /> );
 		const clicksHeader = screen.getByText( "Clicks" );
 		fireEvent.click( clicksHeader );
 		const sortedData = data.sort( ( a, b ) => a[ 1 ] - b[ 1 ] );

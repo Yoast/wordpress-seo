@@ -107,41 +107,39 @@ export const Scores = ( { analysisType, contentTypes, endpoint, headers } ) => {
 	}, [ selectedContentType.name ] );
 
 	return (
-		<Paper className="yst-@container yst-grow yst-p-8 yst-shadow-md">
-			<div className="yst-max-w-screen-sm">
-				<Title as="h2">
-					{ analysisType === "readability"
-						? __( "Readability scores", "wordpress-seo" )
-						: __( "SEO scores", "wordpress-seo" )
-					}
-				</Title>
-				<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-2 yst-gap-6 yst-mt-4">
-					<ContentTypeFilter
+		<Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md">
+			<Title as="h2">
+				{ analysisType === "readability"
+					? __( "Readability scores", "wordpress-seo" )
+					: __( "SEO scores", "wordpress-seo" )
+				}
+			</Title>
+			<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-2 yst-gap-6 yst-mt-4">
+				<ContentTypeFilter
+					idSuffix={ analysisType }
+					contentTypes={ contentTypes }
+					selected={ selectedContentType }
+					onChange={ setSelectedContentType }
+				/>
+				{ selectedContentType.taxonomy && selectedContentType.taxonomy?.links?.search &&
+					<TermFilter
 						idSuffix={ analysisType }
-						contentTypes={ contentTypes }
-						selected={ selectedContentType }
-						onChange={ setSelectedContentType }
+						taxonomy={ selectedContentType.taxonomy }
+						selected={ selectedTerm }
+						onChange={ setSelectedTerm }
 					/>
-					{ selectedContentType.taxonomy && selectedContentType.taxonomy?.links?.search &&
-						<TermFilter
-							idSuffix={ analysisType }
-							taxonomy={ selectedContentType.taxonomy }
-							selected={ selectedTerm }
-							onChange={ setSelectedTerm }
-						/>
-					}
-				</div>
-				<div className="yst-mt-6">
-					<ErrorAlert error={ error } />
-					{ ! error && (
-						<ScoreContent
-							scores={ scores }
-							isLoading={ isPending }
-							descriptions={ SCORE_DESCRIPTIONS[ analysisType ] }
-							idSuffix={ analysisType }
-						/>
-					) }
-				</div>
+				}
+			</div>
+			<div className="yst-mt-6">
+				<ErrorAlert error={ error } />
+				{ ! error && (
+					<ScoreContent
+						scores={ scores }
+						isLoading={ isPending }
+						descriptions={ SCORE_DESCRIPTIONS[ analysisType ] }
+						idSuffix={ analysisType }
+					/>
+				) }
 			</div>
 		</Paper>
 	);
