@@ -15,7 +15,7 @@ import Alert from "../Alert";
 function ImageSelect( props ) {
 	const imageSelected = props.usingFallback === false && props.imageUrl !== "";
 	const previewImageUrl = props.imageUrl || props.defaultImageUrl || "";
-	const showWarnings = props.warnings.length > 0 && imageSelected;
+	const showWarnings = props.warnings.length > 0 && ( imageSelected || props.imageFallbackUrl !== "" );
 
 
 	let imageClassName =  previewImageUrl === ""  ? "yoast-image-select__preview yoast-image-select__preview--no-preview" : "yoast-image-select__preview";
