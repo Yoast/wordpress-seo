@@ -4,7 +4,12 @@ import { GoogleSiteKitIntegration } from "../../src/integrations-page/google-sit
 
 describe( "GoogleSiteKitIntegration", () => {
 	it( "renders the integration component", () => {
-		render( <GoogleSiteKitIntegration /> );
+		render( <GoogleSiteKitIntegration
+			isActive={ false }
+			afterSetup={ false }
+			isInstalled={ false }
+			isConnected={ false }
+		/> );
 		expect( screen.getByText( "Site Kit by Google" ) ).toBeInTheDocument();
 	} );
 
