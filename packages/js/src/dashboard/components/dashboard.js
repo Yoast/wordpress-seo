@@ -21,15 +21,13 @@ export const Dashboard = ( { contentTypes, userName, features, endpoints, header
 	return (
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } />
-			<div className="yst-flex yst-flex-row">
-				<div className="yst-flex yst-flex-col yst-gap-6 yst-my-6 yst-basis-2/3">
-					{ features.indexables && features.seoAnalysis && (
-						<Scores analysisType="seo" contentTypes={ contentTypes } endpoint={ endpoints.seoScores } headers={ headers } />
-					) }
-					{ features.indexables && features.readabilityAnalysis && (
-						<Scores analysisType="readability" contentTypes={ contentTypes } endpoint={ endpoints.readabilityScores } headers={ headers } />
-					) }
-				</div>
+			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
+				{ features.indexables && features.seoAnalysis && (
+					<Scores analysisType="seo" contentTypes={ contentTypes } endpoint={ endpoints.seoScores } headers={ headers } />
+				) }
+				{ features.indexables && features.readabilityAnalysis && (
+					<Scores analysisType="readability" contentTypes={ contentTypes } endpoint={ endpoints.readabilityScores } headers={ headers } />
+				) }
 			</div>
 		</>
 	);
