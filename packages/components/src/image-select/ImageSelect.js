@@ -17,10 +17,8 @@ function ImageSelect( props ) {
 	const previewImageUrl = props.imageUrl || props.defaultImageUrl || "";
 	const showWarnings = props.warnings.length > 0 && imageSelected;
 
-	let imageClassName = showWarnings ? "yoast-image-select__preview yoast-image-select__preview-has-warnings" : "yoast-image-select__preview";
-	if ( previewImageUrl === "" ) {
-		imageClassName = "yoast-image-select__preview yoast-image-select__preview--no-preview";
-	}
+
+	let imageClassName =  previewImageUrl === ""  ? "yoast-image-select__preview yoast-image-select__preview--no-preview" : "yoast-image-select__preview";
 
 	const imageSelectButtonsProps = {
 		imageSelected: imageSelected,
@@ -72,7 +70,7 @@ function ImageSelect( props ) {
 					</button>
 				}
 				{
-					showWarnings && <div role="alert">
+					showWarnings && <div role="alert" className="yst-mt-4">
 						{
 							props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
 								{ warning }
