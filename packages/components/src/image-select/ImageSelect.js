@@ -87,7 +87,7 @@ export default ImageSelect;
 ImageSelect.propTypes = {
 	defaultImageUrl: PropTypes.string,
 	imageUrl: PropTypes.string,
-	imageFallbackUrl: PropTypes.string,
+	imageFallbackUrl: PropTypes.string.isRequired,
 	imageAltText: PropTypes.string,
 	hasPreview: PropTypes.bool.isRequired,
 	label: PropTypes.string.isRequired,
@@ -108,7 +108,6 @@ ImageSelect.propTypes = {
 ImageSelect.defaultProps = {
 	defaultImageUrl: "",
 	imageUrl: "",
-	imageFallbackUrl: "",
 	imageAltText: "",
 	onClick: () => {},
 	onMouseEnter: () => {},
