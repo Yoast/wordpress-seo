@@ -124,8 +124,8 @@ final class Integrations_Page_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_plugin_active' )->times( 5 )->andReturnTrue();
 		Monkey\Functions\expect( 'is_plugin_active' )->with( 'google-site-kit/google-site-kit.php' )->once()->andReturnFalse();
-		Monkey\Functions\expect( 'wp_nonce_url' )->times( 3 )->andReturn( 'nonce' );
-		Monkey\Functions\expect( 'self_admin_url' )->times( 3 )->andReturn( 'https://www.example.com' );
+		Monkey\Functions\expect( 'wp_nonce_url' )->times( 5 )->andReturn( 'nonce' );
+		Monkey\Functions\expect( 'self_admin_url' )->times( 6 )->andReturn( 'https://www.example.com' );
 		Monkey\Functions\expect( 'plugins_url' )->andReturn( 'https://www.example.com' );
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://www.example.com' );
 
@@ -166,6 +166,9 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'google_site_kit_setup'              => false,
 				'google_site_kit_connected'          => false,
 				'google_site_kit_feature'            => false,
+				'google_site_kit_install_url'        => 'nonce',
+				'google_site_kit_activate_url'       => 'nonce',
+				'google_site_kit_setup_url'          => 'https://www.example.com',
 			]
 		);
 

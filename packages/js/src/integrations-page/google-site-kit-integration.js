@@ -8,19 +8,18 @@ import { useToggleState } from "@yoast/ui-library";
 import { SiteKitConsentModal } from "../shared-admin/components";
 
 const integration = {
-	name: "Site Kit by Google",
+	name: __( "Site Kit by Google", "wordpress-seo" ),
 	claim: createInterpolateElement(
 		sprintf(
-			/* translators: 1: bold open tag; 2: Site Kit by Google; 3: bold close tag. */
-			__( "Get valuable insights with %1$s%2$s%3$s", "wordpress-seo" ),
+			/* translators: 1: bold open tag; 2: bold close tag. */
+			__( "Get valuable insights with %1$sSite Kit by Google%2$s", "wordpress-seo" ),
 			"<strong>",
-			"Site Kit by Google",
 			"</strong>"
 		), {
 			strong: <strong />,
 		}
 	),
-	learnMoreLink: "https://yoa.st/integrations-google-site-kit",
+	learnMoreLink: "https://yoa.st/integrations-google-site-kit-learn-more",
 	logoLink: "https://yoa.st/integrations-google-site-kit",
 	slug: "google-site-kit",
 	description: __( "View traffic and search rankings on your dashboard by connecting your Google account.", "wordpress-seo" ),
@@ -28,49 +27,6 @@ const integration = {
 	isNew: false,
 	isMultisiteAvailable: false,
 	logo: SiteKitLogo,
-};
-
-const buttonProps = {
-	install: {
-		children: sprintf(
-		/* translators: 1: Site Kit by Google */
-			__( "Install %1$s", "wordpress-seo" ),
-			"Site Kit by Google"
-		),
-		as: "a",
-		href: "/wp-admin/plugin-install.php?s=google%2520site%2520kit&tab=search&type=term",
-	},
-	activate: {
-		children: sprintf(
-		/* translators: 1: Site Kit by Google */
-			__( "Activate %1$s", "wordpress-seo" ),
-			"Site Kit by Google"
-		),
-		as: "a",
-		href: "/wp-admin/plugins.php",
-	},
-	setup: {
-		children: sprintf(
-		/* translators: 1: Site Kit by Google */
-			__( "Set up %1$s", "wordpress-seo" ),
-			"Site Kit by Google"
-		),
-		as: "a",
-		href: "/wp-admin/admin.php?page=googlesitekit-splash",
-	},
-	connect: {
-		children: sprintf(
-		/* translators: 1: Site Kit by Google */
-			__( "Connect %1$s", "wordpress-seo" ),
-			"Site Kit by Google"
-		),
-		as: "button",
-	},
-	disconnect: {
-		children: __( "Disconnect", "wordpress-seo" ),
-		as: "button",
-		variant: "secondary",
-	},
 };
 
 /**
@@ -156,11 +112,41 @@ SuccessfullyConnected.propTypes = {
  * @param {boolean} afterSetup Whether the integration has been set up.
  * @param {boolean} isInstalled Whether the integration is installed.
  * @param {boolean} isConnected Whether the integration is connected.
+ * @param {string} installUrl The installation url.
+ * @param {string} activateUrl The ctivationUrl.
+ * @param {string} setupUrl The setup url.
  *
  * @returns {WPElement} The Site Kit integration component.
  */
-export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, isConnected } ) => {
+export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, isConnected, installUrl, activateUrl, setupUrl } ) => {
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
+
+	const buttonProps = {
+		install: {
+			children: __( "Install Site Kit by Google", "wordpress-seo" ),
+			as: "a",
+			href: installUrl,
+		},
+		activate: {
+			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
+			as: "a",
+			href: activateUrl,
+		},
+		setup: {
+			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
+			as: "a",
+			href: setupUrl,
+		},
+		connect: {
+			children: __( "Connect Site Kit by Google", "wordpress-seo" ),
+			as: "button",
+		},
+		disconnect: {
+			children: __( "Disconnect", "wordpress-seo" ),
+			as: "button",
+			variant: "secondary",
+		},
+	};
 
 	const getButtonProps = useCallback( () => {
 		switch ( true ) {
@@ -202,4 +188,7 @@ GoogleSiteKitIntegration.propTypes = {
 	afterSetup: PropTypes.bool.isRequired,
 	isInstalled: PropTypes.bool.isRequired,
 	isConnected: PropTypes.bool.isRequired,
+	installUrl: PropTypes.string.isRequired,
+	activateUrl: PropTypes.string.isRequired,
+	setupUrl: PropTypes.string.isRequired,
 };

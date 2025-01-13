@@ -165,6 +165,18 @@ class Integrations_Page implements Integration_Interface {
 			'install-plugin_acf-content-analysis-for-yoast-seo'
 		);
 
+		$google_site_kit_activate_url = \wp_nonce_url(
+			\self_admin_url( 'plugins.php?action=activate&plugin=' . $google_site_kit_file ),
+			'activate-plugin_' . $google_site_kit_file
+		);
+
+		$google_site_kit_install_url = \wp_nonce_url(
+			\self_admin_url( 'update.php?action=install-plugin&plugin=google-site-kit' ),
+			'install-plugin_google-site-kit'
+		);
+
+		$google_site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
+
 		$this->admin_asset_manager->localize_script(
 			'integrations-page',
 			'wpseoIntegrationsData',
@@ -199,6 +211,9 @@ class Integrations_Page implements Integration_Interface {
 				'google_site_kit_setup'              => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
 				'google_site_kit_connected'          => $this->options_helper->get( 'google_site_kit_connected', false ),
 				'google_site_kit_feature'            => $google_site_kit_conditional->is_met(),
+				'google_site_kit_install_url'        => $google_site_kit_install_url,
+				'google_site_kit_activate_url'       => $google_site_kit_activate_url,
+				'google_site_kit_setup_url'          => $google_site_kit_setup_url,
 			]
 		);
 	}
