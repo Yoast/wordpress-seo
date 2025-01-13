@@ -1,7 +1,6 @@
 /* External dependencies */
 import { Fill } from "@wordpress/components";
-import { useDispatch, useSelect } from "@wordpress/data";
-import { Fragment, useEffect } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
@@ -23,6 +22,7 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import KeywordUpsell from "../modals/KeywordUpsell";
 import isBlockEditor from "../../helpers/isBlockEditor";
+import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
 
 /* eslint-disable complexity */
 /**
@@ -39,35 +39,10 @@ import isBlockEditor from "../../helpers/isBlockEditor";
 export default function SidebarFill( { settings } ) {
 	const webinarIntroUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
 	const FirstEligibleNotification = useFirstEligibleNotification( { webinarIntroUrl } );
-	const { editorMode, activeAIButtonId } = useSelect( ( select ) => ( {
-		editorMode: select( "core/edit-post" ).getEditorMode(),
-		activeAIButtonId: select( "yoast-seo/editor" ).getActiveAIFixesButton(),
-	} ), [] );
-	const { setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 
-	/**
-	 * Toggles the markers status, based on the editor mode and the AI assessment fixes button status.
-	 *
-	 * @param {string} editorMode The editor mode.
-	 * @param {boolean} activeAIButtonId The active AI button ID.
-	 *
-	 * @returns {void}
-	 */
-	useEffect( () => {
-		if ( isBlockEditor() ) {
-			// Toggle markers based on editor mode.
-			if ( ( editorMode === "visual" && activeAIButtonId ) || editorMode === "text" ) {
-				setMarkerStatus( "disabled" );
-			} else {
-				setMarkerStatus( "enabled" );
-			}
-
-			// Cleanup function to reset the marker status when the component unmounts or editor mode changes
-			return () => {
-				setMarkerStatus( "disabled" );
-			};
-		}
-	}, [ editorMode, activeAIButtonId, setMarkerStatus ] );
+	if ( isBlockEditor() ) {
+		useToggleMarkerStatus();
+	}
 
 	return (
 		<Fragment>
