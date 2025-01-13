@@ -14,7 +14,6 @@ import { useFallbackWarning } from "./useFallbackWarning";
  * @returns {JSX.Element} The TwitterWrapper.
  */
 const TwitterWrapper = ( props ) => {
-
 	useFallbackWarning( props.imageFallbackUrl, props.imageUrl, props.imageWarnings );
 
 	useEffect( () => {

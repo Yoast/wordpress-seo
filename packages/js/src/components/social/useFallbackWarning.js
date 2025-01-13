@@ -11,7 +11,7 @@ import { __, sprintf } from "@wordpress/i18n";
  * @returns {void}
  */
 export const useFallbackWarning = ( imageFallbackUrl, imageUrl, imageWarnings ) => {
-	useEffect(() => {
+	useEffect( () => {
 		if ( imageUrl === "" ) {
 			imageWarnings.length = 0;
 			if ( imageFallbackUrl.toLowerCase().endsWith( ".avif" ) ) {
