@@ -54,3 +54,17 @@ export { Dashboard } from "./components/dashboard";
  * @typedef {Object} Links The links.
  * @property {string} dashboardLearnMore The dashboard information link.
  */
+
+/**
+ * @typedef {Object} Column A column in the table.
+ * @property {string} name The unique identifier.
+ * @property {string} label The user-facing label.
+ * @property {boolean} sortable Whether the column is sortable.
+ * @property {string} [className] The CSS class name for the column.
+ */
+
+/**
+ * @typedef {Array<Array<string|number>>} Data The data for the table rows.
+ */
+
+

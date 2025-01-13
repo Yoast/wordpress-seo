@@ -5,6 +5,11 @@ import { SCORE_META } from "../scores/score-meta";
 import { Paper, Table, Title } from "@yoast/ui-library";
 
 /**
+ * @type {import("../index").Column} Column
+ * @type {import("../index").Data} Data
+ */
+
+/**
  * The sortable header component.
  *
  * @param {string} columnName The column name.
@@ -20,7 +25,7 @@ const SortableHeader = ( { columnName, isAscending, onClick, index } ) =>  {
 
 	const ChevronIcon = isAscending ? ChevronDownIcon : ChevronUpIcon;
 
-	return <span className="yst-text-end"><button className="yst-inline-flex" onClick={ handleSort }>
+	return <span className="yst-text-end"><button className="yst-inline-flex yst-gap-1" onClick={ handleSort }>
 		{ columnName }
 		<ChevronIcon className="yst-text-slate-400 yst-w-5" />
 	</button></span>;
@@ -46,8 +51,8 @@ const ScoreBullet = ( { score } ) => (
  * The Site Kit table component.
  *
  * @param {string} title The table title.
- * @param {[object]} columns The columns properties.
- * @param {[object]} data The rows data.
+ * @param {Column[]} columns The columns properties.
+ * @param {Data} data The rows data.
  *
  * @returns {JSX.Element} The element.
  */
@@ -82,43 +87,45 @@ export const DashboardTable = ( { title, columns, data } ) => {
 			<Title as="h3" size="2" className="yst-text-slate-900 yst-font-medium">
 				{ title }
 			</Title>
-			<table className="yst-site-kit-widget-table">
-				<Table.Head className="yst-bg-white yst-mt-2 yst-border-b-slate-300 yst-border-b yst-border-t-0">
-					<Table.Row>
-						<Table.Header>{ "" }</Table.Header>
-						{ columns.map( ( column, index ) =>
-							<Table.Header
-								key={ `${column.name}-${title}` }
-								className="yst-align-bottom yst-pb-3 yst-text-slate-900 yst-font-medium"
-							>
-								{ column.sortable ? (
-									<SortableHeader
-										columnName={ column.label }
-										isAscending={ sortConfig.ascending }
-										index={ index }
-										onClick={ handleSort }
-									/>
-								) : <div className={ column.className }>{ column.label }</div> }
-							</Table.Header>
-						) }
-					</Table.Row>
-				</Table.Head>
-				<Table.Body>
-					{ sortedData.map( ( row, rowIndex ) => (
-						<Table.Row key={ `row-${title}-${rowIndex}` }>
-							<Table.Cell>{ rowIndex + 1 }. </Table.Cell>
-							{ row.map( ( cell, cellIndex ) => (
-								<Table.Cell key={ `cell-${title}-${cellIndex}` } className="yst-numbered-cell">
-									{ columns[ cellIndex ].name === "seo-score" ? <ScoreBullet score={ cell } /> : <div
-										className={ classNames( columns[ cellIndex ].sortable ? "yst-text-end yst-pe-5" : "",
-											cellIndex === 0 ? "yst-text-slate-900 yst-font-medium" : "",
-											columns[ cellIndex ].className ) }
-									>{ cell }</div> }
-								</Table.Cell> ) ) }
+			<div className="yst-overflow-auto">
+				<table className="yst-site-kit-widget-table">
+					<Table.Head className="yst-bg-white yst-mt-2 yst-border-b-slate-300 yst-border-b yst-border-t-0">
+						<Table.Row>
+							<Table.Header>{ "" }</Table.Header>
+							{ columns.map( ( column, index ) =>
+								<Table.Header
+									key={ `${column.name}-${title}` }
+									className="yst-align-bottom yst-pb-3 yst-text-slate-900 yst-font-medium"
+								>
+									{ column.sortable ? (
+										<SortableHeader
+											columnName={ column.label }
+											isAscending={ sortConfig.ascending }
+											index={ index }
+											onClick={ handleSort }
+										/>
+									) : <div className={ column.className }>{ column.label }</div> }
+								</Table.Header>
+							) }
 						</Table.Row>
-					) ) }
-				</Table.Body>
-			</table>
+					</Table.Head>
+					<Table.Body>
+						{ sortedData.map( ( row, rowIndex ) => (
+							<Table.Row key={ `row-${title}-${rowIndex}` }>
+								<Table.Cell>{ rowIndex + 1 }. </Table.Cell>
+								{ row.map( ( cell, cellIndex ) => (
+									<Table.Cell key={ `cell-${title}-${cellIndex}` } className="yst-numbered-cell">
+										{ columns[ cellIndex ].name === "seo-score" ? <ScoreBullet score={ cell } /> : <div
+											className={ classNames( columns[ cellIndex ].sortable ? "yst-text-end yst-pe-5" : "",
+												cellIndex === 0 ? "yst-text-slate-900 yst-font-medium" : "",
+												columns[ cellIndex ].className ) }
+										>{ cell }</div> }
+									</Table.Cell> ) ) }
+							</Table.Row>
+						) ) }
+					</Table.Body>
+				</table>
+			</div>
 		</Paper>
 	);
 };
