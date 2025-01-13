@@ -30,10 +30,6 @@ global.wpApiSettings = {
 	root: "http://example.com",
 };
 
-global.wpseoScriptData = {
-	isPremium: 0,
-};
-
 /* Mock the IntersectionObserver. */
 global.IntersectionObserver = class {
 	/**
