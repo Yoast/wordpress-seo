@@ -16,9 +16,7 @@ function ImageSelect( props ) {
 	const imageSelected = props.usingFallback === false && props.imageUrl !== "";
 	const previewImageUrl = props.imageUrl || props.defaultImageUrl || "";
 	const showWarnings = props.warnings.length > 0 && ( imageSelected || props.imageFallbackUrl !== "" );
-
-
-	let imageClassName =  previewImageUrl === ""  ? "yoast-image-select__preview yoast-image-select__preview--no-preview" : "yoast-image-select__preview";
+	const imageClassName =  previewImageUrl === ""  ? "yoast-image-select__preview yoast-image-select__preview--no-preview" : "yoast-image-select__preview";
 
 	const imageSelectButtonsProps = {
 		imageSelected: imageSelected,
@@ -89,6 +87,7 @@ export default ImageSelect;
 ImageSelect.propTypes = {
 	defaultImageUrl: PropTypes.string,
 	imageUrl: PropTypes.string,
+	imageFallbackUrl: PropTypes.string,
 	imageAltText: PropTypes.string,
 	hasPreview: PropTypes.bool.isRequired,
 	label: PropTypes.string.isRequired,
@@ -109,6 +108,7 @@ ImageSelect.propTypes = {
 ImageSelect.defaultProps = {
 	defaultImageUrl: "",
 	imageUrl: "",
+	imageFallbackUrl: "",
 	imageAltText: "",
 	onClick: () => {},
 	onMouseEnter: () => {},
