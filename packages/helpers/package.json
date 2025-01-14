@@ -23,6 +23,7 @@
   "license": "GPL-3.0",
   "private": false,
   "dependencies": {
+    "@wordpress/element": "^6.14.0",
     "@wordpress/i18n": "^1.2.3",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",

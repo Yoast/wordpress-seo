@@ -8479,6 +8479,20 @@
     react "^18.2.0"
     react-dom "^18.2.0"
 
+"@wordpress/element@^6.14.0":
+  version "6.14.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/element/-/element-6.14.0.tgz#d29a837d7a01c62d206bb2ae44c27a4f199736c1"
+  integrity sha512-vZPm2ekv9B7fMcv/slyu/p8lV44EPa6RRHOk04ldNUpsrjC6ph6Q4wpuI5WzLEX7p1u71c8ZOuroEuRvdFxMcA==
+  dependencies:
+    "@babel/runtime" "7.25.7"
+    "@types/react" "^18.2.79"
+    "@types/react-dom" "^18.2.25"
+    "@wordpress/escape-html" "*"
+    change-case "^4.1.2"
+    is-plain-object "^5.0.0"
+    react "^18.3.0"
+    react-dom "^18.3.0"
+
 "@wordpress/element@^6.7.0":
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/@wordpress/element/-/element-6.7.0.tgz#8d8ac6568909135b8b86131ee689a2724f36df05"
@@ -8492,6 +8506,13 @@
     is-plain-object "^5.0.0"
     react "^18.3.0"
     react-dom "^18.3.0"
+
+"@wordpress/escape-html@*":
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/escape-html/-/escape-html-3.14.0.tgz#ef7007b4edc71a3b00b93bc1870057ae4ddad2ea"
+  integrity sha512-tLzQk7VQse1TF/StFe6vt4zdPCWV9LFRPhseC46tbBxAlm/+v6gmaJP501voA/vPQOJSZrYyA5iXGQhA8cJsRw==
+  dependencies:
+    "@babel/runtime" "7.25.7"
 
 "@wordpress/escape-html@^1.12.2":
   version "1.12.2"

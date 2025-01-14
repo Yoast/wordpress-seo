@@ -26,3 +26,4 @@ export { makeOutboundLink } from "./makeOutboundLink";
 export { default as validateFacebookImage } from "./social-preview-image-validation/facebookValidation";
 export { default as validateTwitterImage } from "./social-preview-image-validation/twitterValidation";
 export * from "./hiddenInputHelper";
+export * from "./i18n-create-interpolate-element";
