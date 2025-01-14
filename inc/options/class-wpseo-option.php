@@ -145,7 +145,7 @@ abstract class WPSEO_Option {
 	 */
 	protected function __construct() {
 
-		if ( defined( WERE_ARE_DOING_TESTS ) && WERE_ARE_DOING_TESTS ) {
+		if ( defined( 'WERE_ARE_DOING_TESTS' ) && WERE_ARE_DOING_TESTS ) {
 			add_action( 'doing_it_wrong_trigger_error', function ( $function_name, $message, $error_level  ) {
 				if ( '_load_textdomain_just_in_time ' == $function_name ) {
 					return false;
