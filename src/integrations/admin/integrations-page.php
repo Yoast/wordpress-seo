@@ -43,6 +43,27 @@ class Integrations_Page implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * The elementor conditional.
+	 *
+	 * @var Elementor_Activated_Conditional
+	 */
+	private $elementor_conditional;
+
+	/**
+	 * The jetpack conditional.
+	 *
+	 * @var Jetpack_Conditional
+	 */
+	private $jetpack_conditional;
+
+	/**
+	 * The Google Site Kit conditional.
+	 *
+	 * @var Google_Site_Kit_Feature_Conditional
+	 */
+	private $google_site_kit_conditional;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -52,18 +73,27 @@ class Integrations_Page implements Integration_Interface {
 	/**
 	 * Workouts_Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
-	 * @param Options_Helper            $options_helper      The options helper.
-	 * @param Woocommerce_Helper        $woocommerce_helper  The WooCommerce helper.
+	 * @param WPSEO_Admin_Asset_Manager           $admin_asset_manager         The admin asset manager.
+	 * @param Options_Helper                      $options_helper              The options helper.
+	 * @param Woocommerce_Helper                  $woocommerce_helper          The WooCommerce helper.
+	 * @param Elementor_Activated_Conditional     $elementor_conditional       The elementor conditional.
+	 * @param Jetpack_Conditional                 $jetpack_conditional         The Jetpack conditional.
+	 * @param Google_Site_Kit_Feature_Conditional $google_site_kit_conditional The Google Site Kit conditional.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		Options_Helper $options_helper,
-		Woocommerce_Helper $woocommerce_helper
+		Woocommerce_Helper $woocommerce_helper,
+		Elementor_Activated_Conditional $elementor_conditional,
+		Jetpack_Conditional $jetpack_conditional,
+		Google_Site_Kit_Feature_Conditional $google_site_kit_conditional
 	) {
-		$this->admin_asset_manager = $admin_asset_manager;
-		$this->options_helper      = $options_helper;
-		$this->woocommerce_helper  = $woocommerce_helper;
+		$this->admin_asset_manager         = $admin_asset_manager;
+		$this->options_helper              = $options_helper;
+		$this->woocommerce_helper          = $woocommerce_helper;
+		$this->elementor_conditional       = $elementor_conditional;
+		$this->jetpack_conditional         = $jetpack_conditional;
+		$this->google_site_kit_conditional = $google_site_kit_conditional;
 	}
 
 	/**
@@ -112,10 +142,6 @@ class Integrations_Page implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
 		$this->admin_asset_manager->enqueue_script( 'integrations-page' );
-
-		$elementor_conditional       = new Elementor_Activated_Conditional();
-		$jetpack_conditional         = new Jetpack_Conditional();
-		$google_site_kit_conditional = new Google_Site_Kit_Feature_Conditional();
 
 		$woocommerce_seo_file = 'wpseo-woocommerce/wpseo-woocommerce.php';
 		$acf_seo_file         = 'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php';
@@ -187,8 +213,8 @@ class Integrations_Page implements Integration_Interface {
 				'allow_algolia_integration'          => $this->options_helper->get( 'allow_algolia_integration_active', true ),
 				'wincher_integration_active'         => $this->options_helper->get( 'wincher_integration_active', true ),
 				'allow_wincher_integration'          => null,
-				'elementor_integration_active'       => $elementor_conditional->is_met(),
-				'jetpack_integration_active'         => $jetpack_conditional->is_met(),
+				'elementor_integration_active'       => $this->elementor_conditional->is_met(),
+				'jetpack_integration_active'         => $this->jetpack_conditional->is_met(),
 				'woocommerce_seo_installed'          => $woocommerce_seo_installed,
 				'woocommerce_seo_active'             => $woocommerce_seo_active,
 				'woocommerce_active'                 => $woocommerce_active,
@@ -210,7 +236,7 @@ class Integrations_Page implements Integration_Interface {
 				'google_site_kit_active'             => \is_plugin_active( $google_site_kit_file ),
 				'google_site_kit_setup'              => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
 				'google_site_kit_connected'          => $this->options_helper->get( 'google_site_kit_connected', false ),
-				'google_site_kit_feature'            => $google_site_kit_conditional->is_met(),
+				'google_site_kit_feature'            => $this->google_site_kit_conditional->is_met(),
 				'google_site_kit_install_url'        => $google_site_kit_install_url,
 				'google_site_kit_activate_url'       => $google_site_kit_activate_url,
 				'google_site_kit_setup_url'          => $google_site_kit_setup_url,
