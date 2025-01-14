@@ -28,8 +28,8 @@ class Site_Kit_Search_Console_Adapter {
 	 *
 	 * @return void
 	 */
-	public function register() {
-		if ( self::$search_console_module === null ) {
+	public function __construct() {
+		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
 			$site_kit_plugin             = Plugin::instance();
 			$modules                     = new Modules( $site_kit_plugin->context() );
 			self::$search_console_module = $modules->get_module( Search_Console::MODULE_SLUG );
@@ -44,9 +44,6 @@ class Site_Kit_Search_Console_Adapter {
 	 * @return ApiDataRow[]|WP_Error Data on success, or WP_Error on failure.
 	 */
 	public function get_data( Request_Parameters $parameters ) {
-		if ( self::$search_console_module === null ) {
-			$this->register();
-		}
 		$api_parameters = [
 			'slug'       => 'search-console',
 			'datapoint'  => 'searchanalytics',
