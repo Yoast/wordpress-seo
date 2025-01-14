@@ -7,16 +7,16 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Rankings\Search_Rankings_Parser;
 
 /**
- * Registers a route to get top ranking pages.
+ * Registers a route to get the top search queries.
  */
-class Top_Page_Route extends Abstract_Ranking_Route {
+class Top_Query_Route extends Abstract_Ranking_Route {
 
 	/**
 	 * The prefix of the route.
 	 *
 	 * @var string
 	 */
-	public const ROUTE_PREFIX = '/top_pages';
+	public const ROUTE_PREFIX = '/top_queries';
 
 	/**
 	 * The constructor.
@@ -25,7 +25,7 @@ class Top_Page_Route extends Abstract_Ranking_Route {
 	 * @param Search_Rankings_Parser          $search_rankings_parser          The parser.
 	 */
 	public function __construct( Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter, Search_Rankings_Parser $search_rankings_parser ) {
-		$this->set_request_parameters( new Request_Parameters( [ 'page' ] ) );
+		$this->set_request_parameters( new Request_Parameters( [ 'query' ] ) );
 
 		parent::__construct( $site_kit_search_console_adapter, $search_rankings_parser );
 	}

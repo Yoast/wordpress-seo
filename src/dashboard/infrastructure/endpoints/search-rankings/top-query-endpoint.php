@@ -6,12 +6,12 @@ namespace Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Search_Rankings;
 use Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;
 use Yoast\WP\SEO\Dashboard\User_Interface\Search_Rankings\Abstract_Ranking_Route;
-use Yoast\WP\SEO\Dashboard\User_Interface\Search_Rankings\Top_Page_Route;
+use Yoast\WP\SEO\Dashboard\User_Interface\Search_Rankings\Top_Query_Route;
 
 /**
- * Represents the top page results endpoint.
+ * Represents the top search queries endpoint.
  */
-class Top_Page_Endpoint implements Endpoint_Interface {
+class Top_Query_Endpoint implements Endpoint_Interface {
 
 	/**
 	 * Gets the name.
@@ -38,7 +38,7 @@ class Top_Page_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_route(): string {
-		return Top_Page_Route::get_route_prefix();
+		return Top_Query_Route::get_route_prefix();
 	}
 
 	/**
