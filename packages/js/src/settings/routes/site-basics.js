@@ -15,7 +15,6 @@ import {
 } from "../components";
 import { withDisabledMessageSupport, withFormikDummySelectField } from "../hocs";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
-import { i18nCreateInterpolateElement } from "@yoast/helpers";
 
 const ToggleFieldWithDisabledMessageSupport = withDisabledMessageSupport( ToggleField );
 const FormikSelectPageWithDummy = withFormikDummySelectField( FormikPageSelectField );
@@ -105,15 +104,16 @@ const SiteBasics = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
-
-
-	const taglineDescription = useMemo( () => i18nCreateInterpolateElement(
-		/**
-		 * translators: %1$s expands to an opening anchor tag.
-		 * %2$s expands to a closing anchor tag.
-		 */
-		__( "This field updates the %1$stagline in your WordPress settings%2$s.", "wordpress-seo" ),
-		[ "<a>", "</a>" ],
+	const taglineDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening anchor tag.
+			 * %2$s expands to a closing anchor tag.
+			 */
+			__( "This field updates the %1$stagline in your WordPress settings%2$s.", "wordpress-seo" ),
+			"<a>",
+			"</a>"
+		),
 		{
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
 			a: <a href={ `${ generalSettingsUrl }#blogdescription` } target="_blank" rel="noopener noreferrer" />,
