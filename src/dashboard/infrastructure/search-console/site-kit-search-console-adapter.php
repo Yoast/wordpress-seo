@@ -24,12 +24,14 @@ class Site_Kit_Search_Console_Adapter {
 	private static $search_console_module;
 
 	/**
-	 * The constructor that sets the instance in the adapter.
+	 * The register method that sets the instance in the adapter.
 	 */
-	public function __construct() {
-		$site_kit_plugin             = Plugin::instance();
-		$modules                     = new Modules( $site_kit_plugin->context() );
-		self::$search_console_module = $modules->get_module( Search_Console::MODULE_SLUG );
+	public function register() {
+		if ( self::$search_console_module === null ) {
+			$site_kit_plugin             = Plugin::instance();
+			$modules                     = new Modules( $site_kit_plugin->context() );
+			self::$search_console_module = $modules->get_module( Search_Console::MODULE_SLUG );
+		}
 	}
 
 	/**
@@ -40,6 +42,9 @@ class Site_Kit_Search_Console_Adapter {
 	 * @return ApiDataRow[]|WP_Error Data on success, or WP_Error on failure.
 	 */
 	public function get_data( Request_Parameters $parameters ) {
+		if ( self::$search_console_module === null ) {
+			$this->register();
+		}
 		$api_parameters = [
 			'slug'       => 'search-console',
 			'datapoint'  => 'searchanalytics',
