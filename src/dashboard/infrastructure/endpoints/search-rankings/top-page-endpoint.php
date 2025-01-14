@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Search_Rankings;
 
 use Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;
-use Yoast\WP\SEO\Dashboard\User_Interface\Scores\Abstract_Ranking_Route;
-use Yoast\WP\SEO\Dashboard\User_Interface\Scores\Top_Page_Route;
+use Yoast\WP\SEO\Dashboard\User_Interface\Search_Rankings\Abstract_Ranking_Route;
+use Yoast\WP\SEO\Dashboard\User_Interface\Search_Rankings\Top_Page_Route;
 
 /**
  * Represents the readability scores endpoint.

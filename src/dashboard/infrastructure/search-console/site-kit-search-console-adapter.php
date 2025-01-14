@@ -40,7 +40,7 @@ class Site_Kit_Search_Console_Adapter {
 	 * @return ApiDataRow[]|WP_Error Data on success, or WP_Error on failure.
 	 */
 	public function get_data( Request_Parameters $parameters ) {
-		$data = [
+		$api_parameters = [
 			'slug'       => 'search-console',
 			'datapoint'  => 'searchanalytics',
 			'startDate'  => $parameters->get_start_date(),
@@ -49,6 +49,6 @@ class Site_Kit_Search_Console_Adapter {
 			'dimensions' => $parameters->get_dimensions(),
 		];
 
-		return self::$search_console_module->get_data( 'searchanalytics', $data );
+		return self::$search_console_module->get_data( 'searchanalytics', $api_parameters );
 	}
 }
