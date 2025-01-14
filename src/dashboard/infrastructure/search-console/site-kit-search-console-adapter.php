@@ -25,6 +25,8 @@ class Site_Kit_Search_Console_Adapter {
 
 	/**
 	 * The register method that sets the instance in the adapter.
+	 *
+	 * @return void
 	 */
 	public function register() {
 		if ( self::$search_console_module === null ) {
