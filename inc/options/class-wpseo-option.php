@@ -147,7 +147,11 @@ abstract class WPSEO_Option {
 
 		if ( defined( 'WERE_ARE_DOING_TESTS' ) && WERE_ARE_DOING_TESTS ) {
 			add_action( 'doing_it_wrong_trigger_error', function ( $function_name, $message, $error_level  ) {
-				if ( '_load_textdomain_just_in_time ' == $function_name ) {
+				// We only expect 1 notice and should only silence that 1 notice to prevent new notices from being introduced unnoticed.
+				static $counter = 0;
+
+				if ( $counter === 0 && '_load_textdomain_just_in_time ' === $function_name ) {
+					++$counter;
 					return false;
 				}
 			}, 10, 3 );
