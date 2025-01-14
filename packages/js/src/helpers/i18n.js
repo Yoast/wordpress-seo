@@ -35,7 +35,7 @@ export function setTextdomainL10n( textdomain, l10nNamespace = "wpseoYoastJSL10n
  * @param {object} conversionMap The conversion map object.
  * @returns {string} The interpolated string.
  */
-export const i18nCreateInterpolateElement = ( interpolatedString, conversionMap ) => {
+export const safeCreateInterpolateElement = ( interpolatedString, conversionMap ) => {
 	try {
 		return createInterpolateElement( interpolatedString, conversionMap );
 	} catch ( error ) {
