@@ -15,6 +15,7 @@ import {
 } from "../components";
 import { withDisabledMessageSupport, withFormikDummySelectField } from "../hocs";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
+import { i18nCreateInterpolateElement } from "../../helpers/i18n";
 
 const ToggleFieldWithDisabledMessageSupport = withDisabledMessageSupport( ToggleField );
 const FormikSelectPageWithDummy = withFormikDummySelectField( FormikPageSelectField );
@@ -104,7 +105,7 @@ const SiteBasics = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
-	const taglineDescription = useMemo( () => createInterpolateElement(
+	const taglineDescription = useMemo( () => i18nCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening anchor tag.
