@@ -11,7 +11,7 @@ jobs:
     steps:
       # Check out the repository code
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Run the 'ls' command to list files in the repository
       - name: List files in the repository
