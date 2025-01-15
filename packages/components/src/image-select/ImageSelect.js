@@ -15,8 +15,15 @@ import Alert from "../Alert";
 function ImageSelect( props ) {
 	const imageSelected = props.usingFallback === false && props.imageUrl !== "";
 	const previewImageUrl = props.imageUrl || props.defaultImageUrl || "";
-	const showWarnings = props.warnings.length > 0 && ( imageSelected || props.imageFallbackUrl !== "" );
-	const imageClassName =  previewImageUrl === ""  ? "yoast-image-select__preview yoast-image-select__preview--no-preview" : "yoast-image-select__preview";
+	const showWarnings = props.warnings.length > 0 && ( imageSelected || props.usingFallback );
+	const imageClassNames = [ "yoast-image-select__preview" ];
+	if ( previewImageUrl === "" ) {
+		imageClassNames.push( "yoast-image-select__preview--no-preview" );
+	}
+	if ( showWarnings ) {
+		imageClassNames.push( "yoast-image-select__preview-has-warnings" );
+	}
+
 
 	const imageSelectButtonsProps = {
 		imageSelected: imageSelected,
@@ -56,7 +63,7 @@ function ImageSelect( props ) {
 			>
 				{ props.hasPreview &&
 					<button
-						className={ imageClassName }
+						className={ imageClassNames.join( " " ) }
 						onClick={ props.onClick }
 						type="button"
 						disabled={ props.isDisabled }
@@ -68,7 +75,7 @@ function ImageSelect( props ) {
 					</button>
 				}
 				{
-					showWarnings && <div role="alert" className="yst-mt-4">
+					showWarnings && <div role="alert">
 						{
 							props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
 								{ warning }
@@ -87,7 +94,6 @@ export default ImageSelect;
 ImageSelect.propTypes = {
 	defaultImageUrl: PropTypes.string,
 	imageUrl: PropTypes.string,
-	imageFallbackUrl: PropTypes.string.isRequired,
 	imageAltText: PropTypes.string,
 	hasPreview: PropTypes.bool.isRequired,
 	label: PropTypes.string.isRequired,
