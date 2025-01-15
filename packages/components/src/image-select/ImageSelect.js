@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import FieldGroup from "../field-group/FieldGroup";
 import Alert from "../Alert";
 
+/* eslint-disable complexity */
 /**
  * Renders ImageSelect component.
  *
@@ -88,6 +89,8 @@ function ImageSelect( props ) {
 		</div>
 	);
 }
+
+/* eslint-enable complexity */
 
 export default ImageSelect;
 
