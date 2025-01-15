@@ -41,7 +41,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 	/**
 	 * The admin asset manager.
 	 *
-	 * @var  Mockery\MockInterface|WPSEO_Admin_Asset_Manager
+	 * @var Mockery\MockInterface|WPSEO_Admin_Asset_Manager
 	 */
 	private $admin_asset_manager;
 
