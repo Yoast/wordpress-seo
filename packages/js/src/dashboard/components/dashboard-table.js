@@ -39,7 +39,7 @@ export const DashboardTable = ( { title, columns, data } ) => {
 				{ title }
 			</Title>
 			<div className="yst-overflow-auto">
-				<table className="yst-site-kit-widget-table">
+				<Table variant="minimal">
 					<Table.Head className="yst-bg-white yst-mt-2 yst-border-b-slate-300 yst-border-b yst-border-t-0">
 						<Table.Row>
 							<Table.Header>{ "" }</Table.Header>
@@ -67,7 +67,7 @@ export const DashboardTable = ( { title, columns, data } ) => {
 							</Table.Row>
 						) ) }
 					</Table.Body>
-				</table>
+				</Table>
 			</div>
 		</Paper>
 	);

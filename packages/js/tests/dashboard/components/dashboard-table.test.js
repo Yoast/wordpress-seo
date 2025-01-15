@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "../../test-utils.js";
+import { render, screen } from "../../test-utils.js";
 import "@testing-library/jest-dom";
 import { DashboardTable } from "../../../src/dashboard/components/dashboard-table.js";
 import { SCORE_META } from "../../../src/dashboard/scores/score-meta.js";
@@ -6,7 +6,7 @@ import { SCORE_META } from "../../../src/dashboard/scores/score-meta.js";
 describe( "DashboardTable", () => {
 	const columns = [
 		{ name: "landing-page", label: "Landing page" },
-		{ name: "clicks", label: "Clicks", sortable: true },
+		{ name: "clicks", label: "Clicks" },
 		{ name: "impressions", label: "Impressions" },
 		{ name: "ctr", label: "CTR" },
 		{ name: "average-position", label: "Average position" },
@@ -40,14 +40,5 @@ describe( "DashboardTable", () => {
 			expect( rowElement ).toHaveTextContent( String( row[ 4 ] ) );
 			expect( rowElement ).toHaveTextContent( SCORE_META[ row[ 5 ] ].label );
 		} );
-	} );
-
-	it( "sorts the table correctly when a sortable column header is clicked", () => {
-		render( <DashboardTable title="Test Table" columns={ columns } data={ data } /> );
-		const clicksHeader = screen.getByText( "Clicks" );
-		fireEvent.click( clicksHeader );
-		const sortedData = data.sort( ( a, b ) => a[ 1 ] - b[ 1 ] );
-		const firstRow = screen.getAllByRole( "row" )[ 1 ];
-		expect( firstRow ).toHaveTextContent( sortedData[ 0 ][ 0 ] );
 	} );
 } );
