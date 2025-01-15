@@ -150,7 +150,7 @@ abstract class WPSEO_Option {
 				// We only expect 1 notice and should only silence that 1 notice to prevent new notices from being introduced unnoticed.
 				static $counter = 0;
 
-				if ( $counter === 0 && '_load_textdomain_just_in_time ' === $function_name ) {
+				if ( $counter === 0 && '_load_textdomain_just_in_time' === $function_name ) {
 					++$counter;
 					return false;
 				}
