@@ -1,0 +1,20 @@
+name: Manual Run Commands
+
+# Allow the workflow to be triggered manually
+on:
+  workflow_dispatch:  # Enables manual triggering in the GitHub Actions interface
+
+jobs:
+  run-commands:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the repository code
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      # Run the 'ls' command to list files in the repository
+      - name: List files in the repository
+        run: |
+          echo "Listing files in the repository root:"
+          ls -la
