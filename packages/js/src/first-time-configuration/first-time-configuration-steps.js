@@ -150,8 +150,6 @@ function calculateInitialState( windowObject, isStepFinished ) {
 	};
 }
 
-/* eslint-enable max-len, react/prop-types */
-
 /* eslint-disable max-statements */
 /**
  * The first time configuration.
@@ -159,7 +157,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
  * @returns {WPElement} The FirstTimeConfigurationSteps component.
  */
 export default function FirstTimeConfigurationSteps() {
-	const { removeAlert, resolveNotice, unresolveNotice } = useDispatch( STORE_NAME );
+	const { removeAlert, dismissNotice, restoreNotice } = useDispatch( STORE_NAME );
 	const [ finishedSteps, setFinishedSteps ] = useState( window.wpseoFirstTimeConfigurationData.finishedSteps );
 
 	const isStepFinished = useCallback( ( stepId ) => {
@@ -214,15 +212,15 @@ export default function FirstTimeConfigurationSteps() {
 
 	const resolveLocalNotice = useCallback( () => {
 		if ( state.companyLogo !== "" && state.companyLogoId !== 0 && state.companyName !== "" ) {
-			resolveNotice( "yoast-local-missing-organization-info-notice" );
+			dismissNotice( "yoast-local-missing-organization-info-notice" );
 		} else {
-			unresolveNotice( "yoast-local-missing-organization-info-notice" );
+			restoreNotice( "yoast-local-missing-organization-info-notice" );
 		}
-	}, [ resolveNotice, unresolveNotice, state.companyLogo, state.companyLogoId, state.companyName ] );
+	}, [ dismissNotice, restoreNotice, state.companyLogo, state.companyLogoId, state.companyName ] );
 
 	const resolveFTCNotice = useCallback( () => {
-		resolveNotice( "yoast-first-time-configuration-notice" );
-	}, [ resolveNotice ] );
+		dismissNotice( "yoast-first-time-configuration-notice" );
+	}, [ dismissNotice ] );
 
 	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ( ! state.companyLogo && ! state.companyLogoFallback ) || ! state.websiteName );
 	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ( ! state.personLogo && ! state.personLogoFallback ) || ! state.websiteName );
@@ -401,7 +399,6 @@ export default function FirstTimeConfigurationSteps() {
 		setShowEditButton( stepperFinishedOnce && ! isStepBeingEdited );
 	}, [ stepperFinishedOnce, isStepBeingEdited ] );
 
-	/* eslint-disable max-len */
 	useEffect( () => {
 		/**
 		 * Prevents the submission of the form upon pressing enter.
@@ -473,7 +470,7 @@ export default function FirstTimeConfigurationSteps() {
 						stepId={ STEPS.optimizeSeoData }
 						beforeGo={ beforeEditing }
 						isVisible={ showEditButton }
-						additionalClasses={ "yst-ml-auto" }
+						additionalClasses="yst-ms-auto"
 					>
 						{ __( "Edit", "wordpress-seo" ) }
 					</EditButton>
@@ -502,7 +499,7 @@ export default function FirstTimeConfigurationSteps() {
 						stepId={ STEPS.siteRepresentation }
 						beforeGo={ beforeEditing }
 						isVisible={ showEditButton }
-						additionalClasses={ "yst-ml-auto" }
+						additionalClasses="yst-ms-auto"
 					>
 						{ __( "Edit", "wordpress-seo" ) }
 					</EditButton>
@@ -532,7 +529,7 @@ export default function FirstTimeConfigurationSteps() {
 						stepId={ STEPS.socialProfiles }
 						beforeGo={ beforeEditing }
 						isVisible={ showEditButton }
-						additionalClasses={ "yst-ml-auto" }
+						additionalClasses="yst-ms-auto"
 					>
 						{ __( "Edit", "wordpress-seo" ) }
 					</EditButton>
@@ -557,7 +554,7 @@ export default function FirstTimeConfigurationSteps() {
 						stepId={ STEPS.personalPreferences }
 						beforeGo={ beforeEditing }
 						isVisible={ showEditButton }
-						additionalClasses={ "yst-ml-auto" }
+						additionalClasses="yst-ms-auto"
 					>
 						{ __( "Edit", "wordpress-seo" ) }
 					</EditButton>
@@ -586,7 +583,6 @@ export default function FirstTimeConfigurationSteps() {
 	);
 }
 
-/* eslint-enable max-len */
 /* eslint-enable complexity */
 /* eslint-enable react/jsx-no-bind */
 /* eslint-enable max-statements */

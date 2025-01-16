@@ -15,7 +15,7 @@
 		}
 
 		.yst-file-import__feedback-header {
-			@apply yst-flex yst-items-start yst-space-x-4;
+			@apply yst-flex yst-items-start yst-space-x-4 rtl:yst-space-x-reverse;
 		}
 
 		.yst-file-import__feedback-figure {

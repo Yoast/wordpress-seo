@@ -23,7 +23,6 @@ const morphologyDataHE = getMorphologyData( "he" );
 
 let result;
 
-// eslint-disable-next-line max-statements
 describe( "Matches keyphrase in SEO title", function() {
 	it( "returns the exact match and its position", function() {
 		const mockPaper = new Paper( "", {

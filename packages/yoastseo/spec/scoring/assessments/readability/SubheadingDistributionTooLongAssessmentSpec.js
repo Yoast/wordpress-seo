@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../../src/helpers/factory.js";
@@ -628,7 +627,7 @@ describe( "Language-specific configuration for specific types of content is used
 			expect( assessment._config.slightlyTooMany ).toEqual( japaneseConfig.cornerstoneParameters.slightlyTooMany );
 			expect( assessment._config.farTooMany ).toEqual( japaneseConfig.cornerstoneParameters.farTooMany );
 		} );
-		//Only need one test for japanese to test getLanguageSpecificConfig. The other tests are redundant.
+		// Only need one test for japanese to test getLanguageSpecificConfig. The other tests are redundant.
 		// it( "should score short cornerstone content in Japanese (<500 characters), " +
 		// "which does not have subheadings, as OK.", function() {
 		// 	const paper = new Paper( shortCornerstoneTextJapanese );
@@ -665,7 +664,7 @@ describe( "A test for scoring too long text fragments without a subheading for l
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 	// you need 1 test to test the getLanguageSpecificConfig in the get result method. The rest of the tests is redundant.
-	/*it( "Scores a text where multiple sections are slightly too long.", function() {
+	/* it( "Scores a text where multiple sections are slightly too long.", function() {
 		const paper = new Paper( shortTextJapanese + subheading + longTextJapanese + subheading + longTextJapanese );
 		const assessment = subheadingDistributionTooLong.getResult( paper, new JapaneseResearcher( paper ) );
 

@@ -52,6 +52,7 @@ export function getMigratingNoticeInfo() {
 		header: headers[ index ].outerHTML,
 		content: contents[ index ].outerHTML,
 		isDismissable: isDismissable[ index ],
+		isDismissed: false,
 	} ) );
 }
 

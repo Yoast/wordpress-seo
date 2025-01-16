@@ -1,21 +1,20 @@
-/* eslint-disable complexity */
-
 import { Transition } from "@headlessui/react";
-import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
+import { AdjustmentsIcon, BellIcon, ChartPieIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useEffect, useMemo } from "@wordpress/element";
+import { useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import WebinarPromoNotification from "../components/WebinarPromoNotification";
-import { deleteMigratingNotices, getMigratingNoticeInfo } from "../helpers/migrateNotices";
-import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
-import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { Notice } from "./components";
 import { STORE_NAME } from "./constants";
+import WebinarPromoNotification from "../components/WebinarPromoNotification";
+import { deleteMigratingNotices } from "../helpers/migrateNotices";
+import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
 import { useNotificationCountSync, useSelectGeneralPage } from "./hooks";
+import { MenuItemLink, YoastLogo } from "../shared-admin/components";
+import { ROUTES } from "./routes";
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -36,28 +35,35 @@ const Menu = ( { idSuffix = "" } ) => {
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 			</Link>
 		</header>
-		<div className="yst-px-0.5 yst-space-y-6">
-			<ul className="yst-mt-1 yst-space-y-1">
-				<MenuItemLink
-					to="/"
-					label={ <>
-						<BellIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
-						{ __( "Alert center", "wordpress-seo" ) }
-					</> }
-					idSuffix={ idSuffix }
-					className="yst-gap-3"
-				/>
-				<MenuItemLink
-					to="/first-time-configuration"
-					label={ <>
-						<AdjustmentsIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
-						{ __( "First-time configuration", "wordpress-seo" ) }
-					</> }
-					idSuffix={ idSuffix }
-					className="yst-gap-3"
-				/>
-			</ul>
-		</div>
+		<ul className="yst-mt-1 yst-px-0.5 yst-space-y-4">
+			<MenuItemLink
+				to={ ROUTES.dashboard }
+				label={ <>
+					<ChartPieIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
+					{ __( "Dashboard", "wordpress-seo" ) }
+				</> }
+				idSuffix={ idSuffix }
+				className="yst-gap-3"
+			/>
+			<MenuItemLink
+				to={ ROUTES.alertCenter }
+				label={ <>
+					<BellIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
+					{ __( "Alert center", "wordpress-seo" ) }
+				</> }
+				idSuffix={ idSuffix }
+				className="yst-gap-3"
+			/>
+			<MenuItemLink
+				to={ ROUTES.firstTimeConfiguration }
+				label={ <>
+					<AdjustmentsIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
+					{ __( "First-time configuration", "wordpress-seo" ) }
+				</> }
+				idSuffix={ idSuffix }
+				className="yst-gap-3"
+			/>
+		</ul>
 	</>;
 };
 Menu.propTypes = {
@@ -68,8 +74,7 @@ Menu.propTypes = {
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
-	const notices = useMemo( getMigratingNoticeInfo, [] );
-	const resolvedNotices = useSelect( select => select( STORE_NAME ).selectResolvedNotices(), [] );
+	const notices = useSelect( select => select( STORE_NAME ).selectNotices(), [] );
 
 	useEffect( () => {
 		deleteMigratingNotices( notices );
@@ -118,29 +123,22 @@ const App = () => {
 									enterFrom="yst-opacity-0"
 									enterTo="yst-opacity-100"
 								>
-									{ pathname !== "/first-time-configuration" && <div>
+									{ pathname !== ROUTES.firstTimeConfiguration && <div>
 										{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
 											<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
 										}
-										{ notices.length > 0 && <div className="yst-space-y-3 yoast-general-page-notices"> {
-											notices.map( ( notice, index ) => {
-												const noticeID = notice.id || "yoast-general-page-notice-" + index;
-
-												if ( resolvedNotices.includes( noticeID ) ) {
-													return null;
-												}
-
-												return (
-													<Notice
-														key={ index }
-														id={ noticeID }
-														title={ notice.header }
-														isDismissable={ notice.isDismissable }
-													>
-														{ notice.content }
-													</Notice>
-												);
-											} )
+										{ notices.length > 0 && <div className={ notices.filter( notice => ! notice.isDismissed ).length > 0 ? "yst-space-y-3 yoast-general-page-notices" : "yst-hidden" }> {
+											notices.map( ( notice, index ) =>
+												<Notice
+													key={ index }
+													id={ notice.id || "yoast-general-page-notice-" + index }
+													title={ notice.header }
+													isDismissable={ notice.isDismissable }
+													className={ notice.isDismissed ? "yst-hidden" : "" }
+												>
+													{ notice.content }
+												</Notice>
+											)
 										}
 										</div> }
 									</div> }

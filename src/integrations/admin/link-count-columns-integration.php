@@ -136,7 +136,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 
 		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = \sprintf(
 			'<span class="yoast-linked-to yoast-column-header-has-tooltip" data-tooltip-text="%1$s"><span class="screen-reader-text">%2$s</span></span>',
-			\esc_attr__( 'Number of outgoing internal links in this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ),
+			\esc_attr__( 'Number of outgoing internal links in this post.', 'wordpress-seo' ),
 			/* translators: Hidden accessibility text. */
 			\esc_html__( 'Outgoing internal links', 'wordpress-seo' )
 		);
@@ -144,7 +144,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 		if ( $this->post_link_indexing_action->get_total_unindexed() === 0 ) {
 			$columns[ 'wpseo-' . self::COLUMN_LINKED ] = \sprintf(
 				'<span class="yoast-linked-from yoast-column-header-has-tooltip" data-tooltip-text="%1$s"><span class="screen-reader-text">%2$s</span></span>',
-				\esc_attr__( 'Number of internal links linking to this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ),
+				\esc_attr__( 'Number of internal links linking to this post.', 'wordpress-seo' ),
 				/* translators: Hidden accessibility text. */
 				\esc_html__( 'Received internal links', 'wordpress-seo' )
 			);

@@ -5,20 +5,18 @@ export const SET_REQUEST_LIMIT_REACHED = "SET_LIMIT_REACHED";
 export const NEW_REQUEST = "NEW_REQUEST";
 export const NO_DATA_FOUND = "NO_DATA_FOUND";
 export const SET_LOGIN_STATUS = "SET_LOGIN_STATUS";
+export const SET_REQUEST_PENDING = "SET_REQUEST_PENDING";
 
 /**
- * An action creator for starting a new request.
+ * An action creator for when the request has succeeded.
  *
- * @param {Object} countryCode The country code of the database for the SEMrush request.
- * @param {string} keyphrase   The keyphrase for the SEMrush request.
+ * @param {Object} response The response of the request.
  *
  * @returns {Object} Action object.
  */
-export function setSEMrushNewRequest( countryCode, keyphrase ) {
+export function setSEMrushRequestPending() {
 	return {
-		type: NEW_REQUEST,
-		countryCode,
-		keyphrase,
+		type: SET_REQUEST_PENDING,
 	};
 }
 
@@ -98,4 +96,38 @@ export function setSEMrushLoginStatus( loginStatus ) {
 		type: SET_LOGIN_STATUS,
 		loginStatus,
 	};
+}
+
+/**
+ * An action creator for starting a new request.
+ *
+ * @param {Object} countryCode The country code of the database for the SEMrush request.
+ * @param {string} keyphrase   The keyphrase for the SEMrush request.
+ *
+ * @returns {Object} Action object.
+ */
+export function* setSEMrushNewRequest( countryCode, keyphrase ) {
+	try {
+		yield setSEMrushRequestPending();
+
+		const response = yield{
+			type: NEW_REQUEST,
+			countryCode,
+			keyphrase,
+		};
+
+		if ( response.status === 200 ) {
+			if ( response.results.rows.length === 0 ) {
+				yield setSEMrushNoResultsFound();
+			} else {
+				yield setSEMrushRequestSucceeded( response );
+			}
+		} else if ( response.error && response.error.includes( "TOTAL LIMIT EXCEEDED" ) ) {
+			yield setSEMrushSetRequestLimitReached();
+		} else {
+			yield setSEMrushRequestFailed( response );
+		}
+	} catch ( error ) {
+		yield setSEMrushRequestFailed( error );
+	}
 }

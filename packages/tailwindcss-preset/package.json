@@ -9,6 +9,6 @@
   "peerDependencies": {
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/forms": "^0.5.3",
-    "tailwindcss": "^3.2.4"
+    "tailwindcss": "^3.3.7"
   }
 }

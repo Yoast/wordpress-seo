@@ -1,8 +1,8 @@
-import { noop } from "lodash";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Title, Paper } from "@yoast/ui-library";
+import { Button, Paper, Title } from "@yoast/ui-library";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 import { getPremiumBenefits } from "../../helpers/get-premium-benefits";
 
@@ -31,7 +31,7 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 						"Yoast SEO Premium"
 					) }
 				</Title>
-				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-pl-[1em] yst-list-outside yst-text-slate-800 yst-mt-6">
+				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-ps-[1em] yst-list-outside yst-text-slate-800 yst-mt-6">
 					{ getPremiumBenefits().map( ( benefit, index ) => (
 						<li key={ `upsell-benefit-${ index }` }>
 							{ createInterpolateElement( benefit, { strong: <span className="yst-font-semibold" /> } ) }

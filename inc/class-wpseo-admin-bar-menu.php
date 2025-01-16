@@ -398,7 +398,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'parent' => self::MENU_IDENTIFIER,
 				'id'     => 'wpseo-notifications',
 				'title'  => __( 'Notifications', 'wordpress-seo' ) . $counter,
-				'href'   => $settings_url,
+				'href'   => empty( $settings_url ) ? '' : $settings_url . '#/alert-center',
 				'meta'   => [ 'tabindex' => ! empty( $settings_url ) ? false : '0' ],
 			];
 			$wp_admin_bar->add_menu( $admin_bar_menu_args );

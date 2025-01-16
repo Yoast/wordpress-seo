@@ -1,6 +1,7 @@
 import Researcher from "../../../../src/languageProcessing/languages/ar/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
+import buildTree from "../../../specHelpers/parse/buildTree";
 import functionWords from "../../../../src/languageProcessing/languages/ar/config/functionWords";
 import transitionWords from "../../../../src/languageProcessing/languages/ar/config/transitionWords";
 import firstWordExceptions from "../../../../src/languageProcessing/languages/ar/config/firstWordExceptions";
@@ -9,10 +10,12 @@ import twoPartTransitionWords from "../../../../src/languageProcessing/languages
 const morphologyDataAR = getMorphologyData( "ar" );
 
 describe( "a test for Arabic Researcher", function() {
-	const researcher = new Researcher( new Paper( "This is another paper!" ) );
+	const paper = new Paper( "This is another paper!" );
+	const researcher = new Researcher( paper );
+	buildTree( paper, researcher );
 
 	it( "checks if the Arabic Researcher still inherit the Abstract Researcher", function() {
-		expect( researcher.getResearch( "getParagraphLength" ) ).toEqual( [ { text: "This is another paper!", countLength: 4 } ] );
+		expect( researcher.getResearch( "getParagraphLength" )[ 0 ].paragraphLength ).toEqual( 4 );
 	} );
 
 	it( "returns false if the default research is deleted in Arabic Researcher", function() {

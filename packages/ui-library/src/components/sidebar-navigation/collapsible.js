@@ -31,7 +31,7 @@ export const Collapsible = ( { as: Component = "div", label, icon, children, def
 				<Icon
 					as={ ChevronDownIcon }
 					className={ classNames(
-						"yst-ml-auto yst-h-4 yst-w-4 yst-stroke-3",
+						"yst-ms-auto yst-h-4 yst-w-4 yst-stroke-3",
 						isOpen && "yst-rotate-180",
 					) }
 				/>

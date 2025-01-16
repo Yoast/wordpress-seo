@@ -20,7 +20,7 @@
 		}
 
 		.yst-sidebar-navigation__list--indented {
-			@apply yst-ml-8;
+			@apply yst-ms-8;
 			--yst-menu-text-color: theme('colors.slate.600');
 		}
 

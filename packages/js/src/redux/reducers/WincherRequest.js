@@ -34,7 +34,7 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 		case WINCHER_NEW_REQUEST:
 			return {
 				...state,
-			    limitReached: false,
+				limitReached: false,
 				isSuccess: false,
 				response: null,
 				isNewlyAuthenticated: false,

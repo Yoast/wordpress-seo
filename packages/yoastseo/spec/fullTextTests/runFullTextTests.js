@@ -45,7 +45,6 @@ import { getLanguagesWithWordComplexity } from "../../src/helpers";
 import testPapers from "./testTexts";
 
 testPapers.forEach( function( testPaper ) {
-	// eslint-disable-next-line max-statements
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
 		const locale = paper.getLocale();

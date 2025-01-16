@@ -137,5 +137,11 @@
 
 			focus:yst-ring-0;
 		}
+
+		.yst-button--loading {
+			@apply
+			yst--ms-1
+			yst-me-2;
+		}
 	}
 }

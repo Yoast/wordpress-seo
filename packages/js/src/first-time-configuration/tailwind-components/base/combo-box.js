@@ -90,22 +90,22 @@ export default function YoastComboBox( { id, value, label, onChange, onQueryChan
 						<Combobox.Button
 							data-id={ `button-${ id }` }
 							role="button"
-							className="yst-w-full yst-h-full yst-rounded-md yst-border yst-border-slate-300 yst-flex yst-items-center yst-rounded-r-md yst-pl-3 yst-pr-2 focus-within:yst-border-primary-500 focus-within:yst-outline-none focus-within:yst-ring-1 focus-within:yst-ring-primary-500"
+							className="yst-w-full yst-h-full yst-rounded-md yst-border yst-border-slate-300 yst-flex yst-items-center yst-rounded-r-md yst-ps-3 yst-pe-2 focus-within:yst-border-primary-500 focus-within:yst-outline-none focus-within:yst-ring-1 focus-within:yst-ring-primary-500"
 							as="div"
 						>
 							<Combobox.Input
 								data-id={ `input-${ id }` }
-								className="yst-w-full yst-text-slate-700 yst-rounded-md yst-border-0 yst-outline-none yst-bg-white yst-py-2 yst-pl-0 yst-pr-10 yst-shadow-none sm:yst-text-sm"
+								className="yst-w-full yst-text-slate-700 yst-rounded-md yst-border-0 yst-outline-none yst-bg-white yst-py-2 yst-ps-0 yst-pe-10 yst-shadow-none sm:yst-text-sm"
 								onChange={ handleInputChange }
 								displayValue={ getDisplayValue }
 								placeholder={ placeholder }
 								onClick={ stopEventPropagation( open ) }
 							/>
-							<SelectorIcon className="yst-h-5 yst-w-5 yst-text-slate-400 yst-inset-y-0 yst-right-0" aria-hidden="true" />
+							<SelectorIcon className="yst-h-5 yst-w-5 yst-text-slate-400 yst-inset-y-0 yst-end-0" aria-hidden="true" />
 						</Combobox.Button>
 						{ ( filteredOptions.length > 0 ) && (
 							<Combobox.Options className="yst-absolute yst-z-10 yst-mt-1 yst-max-h-60 yst-w-full yst-overflow-auto yst-rounded-md yst-bg-white yst-text-base yst-shadow-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm">
-								{ isLoading && <div className="yst-flex yst-bg-white yst-sticky yst-z-20 yst-text-sm yst-italic yst-top-0 yst-py-2 yst-pl-3 yst-pr-9 yst-my-0"><Spinner className="yst-text-primary-500 yst-h-4 yst-w-4 yst-mr-2 yst-self-center" />{ __( "Loading...", "wordpress-seo" ) }</div> }
+								{ isLoading && <div className="yst-flex yst-bg-white yst-sticky yst-z-20 yst-text-sm yst-italic yst-top-0 yst-py-2 yst-ps-3 yst-pe-9 yst-my-0"><Spinner className="yst-text-primary-500 yst-h-4 yst-w-4 yst-me-2 yst-self-center" />{ __( "Loading...", "wordpress-seo" ) }</div> }
 								{ filteredOptions.map( ( option ) => (
 									<Combobox.Option
 										key={ `yst-option-${ option.value }` }
@@ -117,7 +117,7 @@ export default function YoastComboBox( { id, value, label, onChange, onQueryChan
 												<span className={ classNames( "yst-block yst-truncate", ( selected || value.value === option.value ) && "yst-font-semibold" ) }>{ option.label }</span>
 												{ ( selected || value.value === option.value ) && (
 													<span
-														className={ "yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-4 yst-text-white" }
+														className={ "yst-absolute yst-inset-y-0 yst-end-0 yst-flex yst-items-center yst-pe-4 yst-text-white" }
 													>
 														<CheckIcon className="yst-h-5 yst-w-5" aria-hidden="true" />
 													</span>
@@ -125,7 +125,7 @@ export default function YoastComboBox( { id, value, label, onChange, onQueryChan
 											</>;
 										} }
 									</Combobox.Option>
-								 ) ) }
+								) ) }
 							</Combobox.Options>
 						) }
 					</div>

@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstallationSuccessPage should match the snapshot 1`] = `
+<div>
+  <div
+    class="yst-root yst-my-auto yst-flex yst-flex-col yst-h-[90vh] yst-justify-center"
+  >
+    <h1
+      class="yst-text-4xl yst-text-gray-900 yst-w-[350px] yst-font-extrabold yst-leading-10 yst-mx-auto yst-mt-6 yst-mb-16 yst-text-center yst-tracking-tight"
+    >
+      You've successfully installed 
+      <span
+        class="yst-text-primary-500"
+      >
+        Yoast SEO
+      </span>
+      !
+    </h1>
+    <div
+      class="installation-success-content"
+    >
+      <div
+        class="yst-flex yst-flex-col md:yst-flex-row yst-justify-center yst-items-center yst-gap-8"
+      >
+        <div
+          class="yst-shrink-0 yst-bg-white yst-rounded-lg yst-p-6 yst-flex yst-flex-col yst-max-w-sm yst-shadow-md yst-h-4/5 yst-leading-6"
+          id="installation-success-card-optimized-site"
+        >
+          <h2
+            class="yst-tracking-tight yst-text-gray-900 yst-text-2xl yst-leading-8 yst-font-extrabold"
+          >
+            Your site is now easier for search engines to find.
+          </h2>
+          <p
+            class="yst-text-gray-500 yst-text-base yst-my-4"
+          >
+            Yoast SEO rolls out the red carpet for the search bots, which helps your site perform better in search engines.
+          </p>
+          <div
+            class="card-button-section"
+          />
+          <div
+            class="yst-bg-green-100 yst-w-20 yst-h-20 yst-rounded-full yst-mx-auto yst-my-2 yst-flex yst-items-center yst-justify-center"
+          >
+            <svg
+              aria-hidden="true"
+              class="yst-w-8 yst-text-green-600"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </div>
+        <div>
+          <svg
+            aria-hidden="true"
+            class="yst-w-8 yst-text-gray-500 rtl:yst-rotate-180"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <div
+          class="yst-shrink-0 yst-shadow-xl yst-bg-primary-500 yst-rounded-lg yst-p-6 yst-flex yst-flex-col yst-max-w-sm yst-h-4/5 yst-leading-6"
+          id="installation-success-card-configuration"
+        >
+          <h2
+            class=" yst-text-white yst-text-2xl yst-leading-8 yst-font-extrabold"
+          >
+            For the best ranking results: configure Yoast SEO!
+          </h2>
+          <p
+            class="yst-font-medium yst-text-white yst-text-base yst-my-4"
+          >
+            Set the essential Yoast SEO settings for your site in a few steps.
+          </p>
+          <img
+            alt=""
+            class="yst-my-6 yst-mx-auto yst-w-[150px] yst-h-[120px]"
+            src="http://wordpress.test/wp-content/plugins/wordpress-seo/images/indexables_3_left_bubble_optm.svg"
+          />
+          <div
+            class="yst-flex yst-grow-1 yst-mt-auto"
+          >
+            <a
+              class="yst-inline-flex yst-items-center yst-w-full yst-justify-center yst-no-underline yst-px-6 yst-py-3 yst-border yst-border-transparent yst-text-base yst-font-medium yst-rounded-md yst-shadow-none yst-text-primary-500 yst-bg-white hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-white yst-ring-offset-2 yst-ring-offset-primary-500"
+              data-hiive-event-name="clicked_start_first_time_configuration"
+              href="http://wordpress.test/wp-admin/admin.php?page=wpseo_dashboard#/first-time-configuration"
+              id="installation-successful-configuration-link"
+            >
+              Start first-time configuration!
+              <svg
+                class="yst-ms-3 yst-me-1 yst-h-5 yst-w-5 rtl:yst-rotate-180"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <a
+          class="yst-bottom-12 yst-right-0 yst-mr-5 yst-self-end yst-text-base md:yst-absolute"
+          data-hiive-event-name="clicked_skip_button | installation successful screen"
+          href="http://wordpress.test/wp-admin/admin.php?page=wpseo_dashboard"
+          id="installation-success-skip-link"
+        >
+          Skip »
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;

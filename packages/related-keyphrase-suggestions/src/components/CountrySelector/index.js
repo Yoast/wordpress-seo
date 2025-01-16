@@ -1,11 +1,12 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { Button, AutocompleteField } from "@yoast/ui-library";
 import classNames from "classnames";
+import { filter } from "lodash";
 
 /**
- * List of all available database countries for the Semrush API.
+ * List of all available database countries for the Semrush API. We do not use the label but it is included for reference.
 @link https://www.semrush.com/api-analytics/#databases
 @type {{value: string, label: string}[]}
  */
@@ -132,11 +133,12 @@ const COUNTRIES = [
 /**
  * The Country Selector component.
  *
- * @param {string} countryCode The country code.
- * @param {string} activeCountryCode The active country code.
+ * @param {string} [countryCode="en"] The country code.
+ * @param {string} [activeCountryCode="en"] The active country code.
  * @param {Function} onChange The change handler for the select.
  * @param {Function} onClick The click handler for the button.
- * @param {string} className The class name.
+ * @param {string} [className] The class name.
+ * @param {string} [userLocale] The user locale, only the language code.
  *
  * @returns {JSX.Element} The country selector.
  */
@@ -147,29 +149,41 @@ export const CountrySelector = (
 		onChange,
 		onClick,
 		className,
+		userLocale,
 	},
 ) => {
+	let regionNames;
+	try {
+		regionNames = new Intl.DisplayNames( [ userLocale ], { type: "region" } );
+	} catch ( e ) {
+		// Fallback to the browser language.
+		regionNames = new Intl.DisplayNames( [ navigator.language.split( "-" )[ 0 ] ], { type: "region" } );
+	}
+
+	const [ query, setQuery ] = useState( "" );
+
+	const filteredOptions = useMemo( () => filter( COUNTRIES, option => query
+		? regionNames.of( option.value.toUpperCase() ).toLowerCase().startsWith( query )
+		: true ), [ query ] );
+
 	const handleQueryChange = useCallback( event => {
-		if ( COUNTRIES.find( option => option.value === event.target.value ) ) {
-			onChange( event.target.value );
-		}
-	}, [ onChange ] );
+		setQuery( event.target.value.toLowerCase() );
+	}, [ setQuery ] );
 
 	return (
 		<div className={ classNames( "yst-flex yst-items-end yst-gap-2", className ) }>
 			<AutocompleteField
 				id="yst-country-selector__select"
 				label={ __( "Show results for:", "wordpress-seo" ) }
-				options={ COUNTRIES }
 				value={ countryCode }
-				selectedLabel={ COUNTRIES.find( option => option.value === countryCode )?.label }
+				selectedLabel={ countryCode ? regionNames.of( countryCode.toUpperCase() ) : "" }
 				onChange={ onChange }
 				onQueryChange={ handleQueryChange }
-				className="yst-grow"
+				className="sm:yst-w-96"
 			>
-				{ COUNTRIES.map( option => (
+				{ filteredOptions.map( option => (
 					<AutocompleteField.Option key={ option.value } value={ option.value }>
-						{ option.label }
+						{ regionNames.of( option.value.toUpperCase() )  }
 					</AutocompleteField.Option>
 				) ) }
 
@@ -190,4 +204,5 @@ CountrySelector.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onClick: PropTypes.func.isRequired,
 	className: PropTypes.string,
+	userLocale: PropTypes.string,
 };

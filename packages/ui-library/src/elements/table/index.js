@@ -16,7 +16,7 @@ const rowClassNameMap = {
  * @returns {JSX.Element} The element.
  */
 const Cell = ( { children, className = "", ...props } ) => (
-	<td className={ classNames( "yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500", className ) } { ...props }>
+	<td className={ classNames( "yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-600", className ) } { ...props }>
 		{ children }
 	</td>
 );
@@ -54,7 +54,7 @@ Row.propTypes = {
  */
 const Header = ( { children, className = "", ...props } ) => (
 	<th
-		className={ classNames( "yst-table-header yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900", className ) }
+		className={ classNames( "yst-table-header yst-px-3 yst-py-4 yst-text-start yst-text-sm yst-font-semibold yst-text-slate-900", className ) }
 		{ ...props }
 	>
 		{ children }
