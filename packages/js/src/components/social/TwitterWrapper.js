@@ -14,16 +14,21 @@ import { useFallbackWarning } from "./useFallbackWarning";
  * @returns {JSX.Element} The TwitterWrapper.
  */
 const TwitterWrapper = ( props ) => {
-	useFallbackWarning( props.imageFallbackUrl, props.imageUrl, props.imageWarnings );
+	const warnings = useFallbackWarning( props.imageFallbackUrl, props.imageUrl, props.imageWarnings );
 
 	useEffect( () => {
 		// Load on the next cycle because the editor inits asynchronously, and we need to load the data after the component is fully loaded.
 		setTimeout( props.onLoad );
 	}, [] );
 
+	const allProps = {
+		...props,
+		imageWarnings: warnings,
+	};
+
 	return props.isPremium
-		? <Slot name={ `YoastTwitterPremium${ props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) }` } fillProps={ props } />
-		: <SocialForm { ...props } />;
+		? <Slot name={ `YoastTwitterPremium${ props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) }` } fillProps={ allProps } />
+		: <SocialForm { ...allProps } />;
 };
 
 TwitterWrapper.propTypes = {

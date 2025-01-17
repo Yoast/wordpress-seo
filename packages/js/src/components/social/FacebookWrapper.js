@@ -16,8 +16,7 @@ import { useFallbackWarning } from "./useFallbackWarning";
 const FacebookWrapper = ( props ) => {
 	const [ activeMetaTabId, setActiveMetaTabId ] = useState( "" );
 
-	useFallbackWarning( props.imageFallbackUrl, props.imageUrl, props.imageWarnings );
-
+	const warnings = useFallbackWarning( props.imageFallbackUrl, props.imageUrl, props.imageWarnings );
 	// Set active meta tab id on window event.
 	const handleMetaTabChange = useCallback( ( event ) => {
 		setActiveMetaTabId( event.detail.metaTabId );
@@ -36,10 +35,11 @@ const FacebookWrapper = ( props ) => {
 		};
 	}, [] );
 
-	const allProps = useMemo( () => ( {
+	const allProps = {
 		...props,
 		activeMetaTabId,
-	} ), [ props, activeMetaTabId ] );
+		imageWarnings: warnings,
+	};
 
 	return (
 		props.isPremium
