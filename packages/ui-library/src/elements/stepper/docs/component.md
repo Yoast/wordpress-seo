@@ -1,0 +1,1 @@
+The stepper element takes a list of steps labels, the current step and is the process complete.

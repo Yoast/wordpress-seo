@@ -21,6 +21,7 @@
 @import "../src/elements/file-input/style.css";
 @import "../src/elements/autocomplete/style.css";
 @import "../src/elements/validation/style.css";
+@import "../src/elements/stepper/style.css";
 
 @import "../src/components/autocomplete-field/style.css";
 @import "../src/components/card/style.css";
