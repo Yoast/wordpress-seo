@@ -52,9 +52,15 @@ FacebookWrapper.propTypes = {
 	isPremium: PropTypes.bool.isRequired,
 	onLoad: PropTypes.func.isRequired,
 	location: PropTypes.string.isRequired,
-	imageFallbackUrl: PropTypes.string.isRequired,
-	imageUrl: PropTypes.string.isRequired,
-	imageWarnings: PropTypes.array.isRequired,
+	imageFallbackUrl: PropTypes.string,
+	imageUrl: PropTypes.string,
+	imageWarnings: PropTypes.array,
+};
+
+FacebookWrapper.defaultProps = {
+	imageFallbackUrl: "",
+	imageUrl: "",
+	imageWarnings: [],
 };
 
 export default FacebookWrapper;

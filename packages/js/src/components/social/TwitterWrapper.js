@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import SocialForm from "../social/SocialForm";
 import { useFallbackWarning } from "./useFallbackWarning";
+import FacebookWrapper from "./FacebookWrapper";
 
 /**
  * This wrapper is connected to the twitter container. So the data is connected to both components.
@@ -35,9 +36,15 @@ TwitterWrapper.propTypes = {
 	isPremium: PropTypes.bool.isRequired,
 	onLoad: PropTypes.func.isRequired,
 	location: PropTypes.string.isRequired,
-	imageFallbackUrl: PropTypes.string.isRequired,
-	imageUrl: PropTypes.string.isRequired,
-	imageWarnings: PropTypes.array.isRequired,
+	imageFallbackUrl: PropTypes.string,
+	imageUrl: PropTypes.string,
+	imageWarnings: PropTypes.array,
+};
+
+TwitterWrapper.defaultProps = {
+	imageFallbackUrl: "",
+	imageUrl: "",
+	imageWarnings: [],
 };
 
 export default TwitterWrapper;
