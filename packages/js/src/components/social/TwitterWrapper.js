@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 
 import SocialForm from "../social/SocialForm";
 import { useFallbackWarning } from "./useFallbackWarning";
-import FacebookWrapper from "./FacebookWrapper";
 
 /**
  * This wrapper is connected to the twitter container. So the data is connected to both components.

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useMemo } from "@wordpress/element";
+import { useEffect, useState, useCallback } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import PropTypes from "prop-types";
 
