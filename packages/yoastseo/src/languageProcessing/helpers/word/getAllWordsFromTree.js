@@ -49,7 +49,7 @@ export function getWordsFromTokens( tokens, splitOnHyphens = true ) {
  * @returns {string[]} Array of words retrieved from the tree.
  */
 export default function( paper ) {
-	const sentences = getSentencesFromTree( paper );
+	const sentences = getSentencesFromTree( paper.getTree() );
 	// Get all the tokens from each sentence.
 	const tokens = flatMap( sentences.map( sentence => sentence.tokens ) );
 	return getWordsFromTokens( tokens );

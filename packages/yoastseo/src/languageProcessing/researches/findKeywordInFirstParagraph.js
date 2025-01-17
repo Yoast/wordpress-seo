@@ -29,7 +29,7 @@ export default function( paper, researcher ) {
 	let paragraphs = researcher.getResearch( "getParagraphs" );
 	// Filter captions from non-Classic editors.
 	paragraphs = paragraphs.filter( paragraph => {
-		const parentNode = getParentNode( paper, paragraph );
+		const parentNode = getParentNode( paper.getTree(), paragraph );
 		return ! ( paragraph.isImplicit && parentNode && parentNode.name === "figcaption" );
 	} );
 	// Filter captions from Classic editor and from classic block inside Block editor.

@@ -11,7 +11,7 @@ describe( "A test to count sentence lengths.", function() {
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
-		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper ), mockResearcher );
+		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper.getTree() ), mockResearcher );
 
 		expect( sentenceLengths.length ).toEqual( 1 );
 		expect( sentenceLengths[ 0 ].sentenceLength ).toEqual( 2 );
@@ -24,7 +24,7 @@ describe( "A test to count sentence lengths.", function() {
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
-		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper ), mockResearcher );
+		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper.getTree() ), mockResearcher );
 
 		expect( sentenceLengths.length ).toEqual( 2 );
 		expect( sentenceLengths[ 0 ].sentenceLength ).toEqual( 3 );
@@ -40,7 +40,7 @@ describe( "A test to count sentence lengths.", function() {
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
-		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper ), mockResearcher );
+		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper.getTree() ), mockResearcher );
 
 		expect( sentenceLengths.length ).toEqual( 2 );
 		expect( sentenceLengths[ 0 ].sentenceLength ).toEqual( 7 );
@@ -53,7 +53,7 @@ describe( "A test to count sentence lengths.", function() {
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
-		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper ), mockResearcher );
+		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper.getTree() ), mockResearcher );
 
 		expect( sentenceLengths.length ).toEqual( 2 );
 		expect( sentenceLengths[ 0 ].sentenceLength ).toEqual( 3 );
@@ -70,7 +70,7 @@ describe( "A test to count sentence lengths.", function() {
 		const mockJapaneseResearcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, mockJapaneseResearcher );
 
-		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper ), mockJapaneseResearcher );
+		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper.getTree() ), mockJapaneseResearcher );
 
 		expect( sentenceLengths.length ).toEqual( 2 );
 		expect( sentenceLengths[ 0 ].sentenceLength ).toEqual( 15 );

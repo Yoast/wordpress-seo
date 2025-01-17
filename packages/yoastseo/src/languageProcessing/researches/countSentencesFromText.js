@@ -10,6 +10,6 @@ import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
  * @returns {SentenceLength[]} The sentences from the text.
  */
 export default function( paper, researcher ) {
-	const sentences = getSentencesFromTree( paper );
+	const sentences = getSentencesFromTree( paper.getTree() );
 	return sentencesLength( sentences, researcher );
 }
