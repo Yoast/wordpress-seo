@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Search_Rankings;
 
 use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Request_Parameters;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Cached_Site_Kit_Search_Console_Adapter;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Rankings\Search_Rankings_Parser;
 
 /**
@@ -21,10 +21,10 @@ class Top_Page_Route extends Abstract_Ranking_Route {
 	/**
 	 * The constructor.
 	 *
-	 * @param Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter The adapter.
-	 * @param Search_Rankings_Parser          $search_rankings_parser          The parser.
+	 * @param Cached_Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter The adapter.
+	 * @param Search_Rankings_Parser                 $search_rankings_parser          The parser.
 	 */
-	public function __construct( Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter, Search_Rankings_Parser $search_rankings_parser ) {
+	public function __construct( Cached_Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter, Search_Rankings_Parser $search_rankings_parser ) {
 		$this->set_request_parameters( new Request_Parameters( [ 'page' ] ) );
 
 		parent::__construct( $site_kit_search_console_adapter, $search_rankings_parser );

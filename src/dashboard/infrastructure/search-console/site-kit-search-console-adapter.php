@@ -10,11 +10,12 @@ use Google\Site_Kit\Plugin;
 use Google\Site_Kit_Dependencies\Google\Service\SearchConsole\ApiDataRow;
 use WP_Error;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Request_Parameters;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Site_Kit_Adapter_Interface;
 
 /**
  * The site API adapter to make calls via the Site_Kit plugin.
  */
-class Site_Kit_Search_Console_Adapter {
+class Site_Kit_Search_Console_Adapter implements Site_Kit_Adapter_Interface {
 
 	/**
 	 * The search console module class from Site kit.

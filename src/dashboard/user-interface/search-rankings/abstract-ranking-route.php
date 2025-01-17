@@ -8,8 +8,8 @@ use WP_REST_Response;
 use WPSEO_Capability_Utils;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Request_Parameters;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Rankings\Search_Rankings_Parser;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Site_Kit_Adapter_Interface;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -43,7 +43,7 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 	/**
 	 * The API adapter.
 	 *
-	 * @var Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter
+	 * @var Site_Kit_Adapter_Interface $site_kit_search_console_adapter
 	 */
 	private $site_kit_search_console_adapter;
 
@@ -57,10 +57,10 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter The adapter.
-	 * @param Search_Rankings_Parser          $search_rankings_parser          The parser.
+	 * @param Site_Kit_Adapter_Interface $site_kit_search_console_adapter The adapter.
+	 * @param Search_Rankings_Parser     $search_rankings_parser          The parser.
 	 */
-	public function __construct( Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter, Search_Rankings_Parser $search_rankings_parser ) {
+	public function __construct( Site_Kit_Adapter_Interface $site_kit_search_console_adapter, Search_Rankings_Parser $search_rankings_parser ) {
 		$this->site_kit_search_console_adapter = $site_kit_search_console_adapter;
 		$this->search_rankings_parser          = $search_rankings_parser;
 	}
@@ -135,7 +135,7 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 		try {
 			$this->request_parameters->set_limit( $request->get_param( 'limit' ) );
 			$this->request_parameters->set_start_date( '2024-01-01' );
-			$this->request_parameters->set_end_date( '2025-01-01' );
+			$this->request_parameters->set_end_date( '2025-01-02' );
 
 			$results = $this->site_kit_search_console_adapter->get_data( $this->request_parameters );
 
