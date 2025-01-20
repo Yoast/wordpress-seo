@@ -99,7 +99,7 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 				[
 					'methods'             => 'GET',
 					'callback'            => [ $this, 'get_rankings' ],
-					//'permission_callback' => [ $this, 'permission_manage_options' ],
+					'permission_callback' => [ $this, 'permission_manage_options' ],
 					'args'                => [
 						'limit' => [
 							'required'          => true,
