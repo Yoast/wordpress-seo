@@ -278,6 +278,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-01-21
 
+Yoast SEO 24.3 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Introduces more robust HTML processing and highlighting for the _sentence length_ and _paragraph length_ assessments.
