@@ -35,6 +35,7 @@ export const Dashboard = ( { contentTypes, userName, features, endpoints, header
 	const [ showGoogleSiteKit, , , , setRemoveGoogleSiteKit ] = useToggleState( true );
 
 	const handleRemovePermanently = useCallback( ()=>{
+		// TODO: Implement the remove permanently functionality.
 		setRemoveGoogleSiteKit();
 	}, [ setRemoveGoogleSiteKit ] );
 
