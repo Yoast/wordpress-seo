@@ -4,11 +4,11 @@ import { __, sprintf } from "@wordpress/i18n";
 /**
  * Checks if the fallback image is in AVIF format and sets a warning message.
  *
- * @param {string} imageFallbackUrl
- * @param {string} imageUrl
- * @param {array} imageWarnings
+ * @param {string} imageFallbackUrl The fallback image URL.
+ * @param {string} imageUrl The image URL.
+ * @param {array} imageWarnings The image warnings.
  *
- * @returns {array}
+ * @returns {string[]} An array of warnings.
  */
 export const useFallbackWarning = ( imageFallbackUrl, imageUrl, imageWarnings ) => {
 	const [ hasFallbackWarning, setHasFallbackWarning ] = useState( false );
