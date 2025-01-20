@@ -102,22 +102,22 @@ export const GoogleSiteKitConnectionWidget = ( {
 
 	const { buttonProps, currentStep, isComplete } = getButtonAndStepperProps(
 		active, installed, setup, connected, installUrl, activateUrl, setupUrl );
-	return <Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-4 yst-shadow-md">
-		<div className="yst-relative">
-			<DotsVerticalIcon
-				className={ classNames( "yst-cursor-pointer yst-h-4 yst-absolute yst-top-0 yst-end-0 hover:yst-text-slate-600",
-					open ? "yst-text-slate-600" : "yst-text-slate-400"
-				) } onClick={ toggleOpen }
-			/>
-			{ open && <div className="yst-w-56 yst-rounded-md yst-border yst-border-slate-200 yst-shadow-sm yst-bg-white yst-absolute yst-top-6 yst-end-0">
-				<button className="yst-text-slate-600 yst-py-2 yst-border-b yst-border-slate-200 yst-flex yst-justify-start yst-gap-2 yst-px-4" onClick={ onRemove }>
-					<XIcon className="yst-w-4 yst-text-slate-400" />
-					{ __( "Remove until next visit", "wordpress-seo" ) }</button>
-				<button className="yst-text-red-500 yst-py-2 yst-flex yst-justify-start yst-gap-2 yst-px-4" onClick={ onRemovePermanently }>
-					<TrashIcon className="yst-w-4" />
-					{ __( "Remove permanently", "wordpress-seo" ) }</button>
-			</div> }
-		</div>
+	return <Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative">
+
+		<DotsVerticalIcon
+			className={ classNames( "yst-cursor-pointer yst-h-4 yst-absolute yst-top-4 yst-end-4 hover:yst-text-slate-600",
+				open ? "yst-text-slate-600" : "yst-text-slate-400"
+			) } onClick={ toggleOpen }
+		/>
+		{ open && <div className="yst-w-56 yst-rounded-md yst-border yst-border-slate-200 yst-shadow-sm yst-bg-white yst-absolute yst-top-10 yst-end-4">
+			<button className="yst-text-slate-600 yst-py-2 yst-border-b yst-border-slate-200 yst-flex yst-justify-start yst-gap-2 yst-px-4" onClick={ onRemove }>
+				<XIcon className="yst-w-4 yst-text-slate-400" />
+				{ __( "Remove until next visit", "wordpress-seo" ) }</button>
+			<button className="yst-text-red-500 yst-py-2 yst-flex yst-justify-start yst-gap-2 yst-px-4" onClick={ onRemovePermanently }>
+				<TrashIcon className="yst-w-4" />
+				{ __( "Remove permanently", "wordpress-seo" ) }</button>
+		</div> }
+
 		<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4"><YoastConnectSiteKit /></div>
 		<Stepper steps={ steps } currentStep={ currentStep } isComplete={ isComplete } />
 		<hr className="yst-bg-slate-200 yst-my-6" />
