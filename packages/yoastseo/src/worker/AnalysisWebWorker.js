@@ -30,7 +30,7 @@ import SEOAssessor from "../scoring/assessors/seoAssessor.js";
 import TaxonomyAssessor from "../scoring/assessors/taxonomyAssessor.js";
 
 // Tree assessor functionality.
-import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../scoring/scoreAggregators";
+import { ReadabilityScoreAggregator, SEOScoreAggregator, RelatedKeywordScoreAggregator } from "../scoring/scoreAggregators";
 
 const logger = getLogger( "yoast-analysis-worker" );
 logger.setDefaultLevel( "error" );
@@ -313,6 +313,7 @@ export default class AnalysisWebWorker {
 		// Score aggregators
 		this._seoScoreAggregator = new SEOScoreAggregator();
 		this._contentScoreAggregator = new ReadabilityScoreAggregator();
+		this._relatedKeywordScoreAggregator = new RelatedKeywordScoreAggregator();
 
 		// Tree representation of text to analyze
 		this._tree = null;
@@ -1247,7 +1248,7 @@ export default class AnalysisWebWorker {
 			const analysisCombination = {
 				oldAssessor: this._relatedKeywordAssessor,
 				treeAssessor: this._relatedKeywordTreeAssessor,
-				scoreAggregator: this._seoScoreAggregator,
+				scoreAggregator: this._relatedKeywordScoreAggregator,
 			};
 
 			// We need to remember the key, since the SEO results are stored in an object, not an array.

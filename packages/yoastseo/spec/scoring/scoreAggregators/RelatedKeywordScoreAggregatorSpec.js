@@ -1,11 +1,11 @@
-import { SEOScoreAggregator } from "../../../src/scoring/scoreAggregators";
+import { RelatedKeywordScoreAggregator } from "../../../src/scoring/scoreAggregators";
 import AssessmentResult from "../../../src/values/AssessmentResult";
 
-describe( "SEOScoreAggregator", () => {
+describe( "RelatedKeywordScoreAggregator", () => {
 	let aggregator;
 
 	beforeEach( () => {
-		aggregator = new SEOScoreAggregator();
+		aggregator = new RelatedKeywordScoreAggregator();
 	} );
 
 	describe( "aggregate", () => {
@@ -107,6 +107,18 @@ describe( "SEOScoreAggregator", () => {
 				new AssessmentResult( { score: 5 } ),
 				new AssessmentResult( { score: 4 } ),
 				new AssessmentResult( { score: 8 } ),
+			];
+			const score = aggregator.aggregate( results );
+			expect( score ).toBe( 63 );
+		} );
+
+		it( "exclude assessments without score from aggregator", () => {
+			const results = [
+				new AssessmentResult( { score: 5 } ),
+				new AssessmentResult(),
+				new AssessmentResult( { score: 4 } ),
+				new AssessmentResult( { score: 8 } ),
+				new AssessmentResult(),
 			];
 			const score = aggregator.aggregate( results );
 			expect( score ).toBe( 63 );
