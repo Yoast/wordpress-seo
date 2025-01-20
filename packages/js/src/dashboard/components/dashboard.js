@@ -1,5 +1,7 @@
 import { Scores } from "../scores/components/scores";
 import { PageTitle } from "./page-title";
+import { GoogleSiteKitConnectionWidget } from "./google-site-kit-connection-widget";
+import { get } from "lodash";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -18,10 +20,22 @@ import { PageTitle } from "./page-title";
  * @returns {JSX.Element} The element.
  */
 export const Dashboard = ( { contentTypes, userName, features, endpoints, headers, links } ) => {
+	const googleSiteKitConfiguration = get( window, "wpseoScriptData.dashboard.google_site_kit", {
+		installed: false,
+		featureActive: false,
+		active: false,
+		setup: false,
+		connected: false,
+		installUrl: "",
+		activateUrl: "",
+		setupUrl: "",
+	} );
+
 	return (
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } />
 			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
+				{ googleSiteKitConfiguration.featureActive && <GoogleSiteKitConnectionWidget { ...googleSiteKitConfiguration } /> }
 				{ features.indexables && features.seoAnalysis && (
 					<Scores analysisType="seo" contentTypes={ contentTypes } endpoint={ endpoints.seoScores } headers={ headers } />
 				) }

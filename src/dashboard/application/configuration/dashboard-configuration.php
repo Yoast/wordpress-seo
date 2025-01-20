@@ -4,6 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Dashboard\Application\Configuration;
 
+use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Nonces\Nonce_Repository;
@@ -11,6 +12,7 @@ use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features
 use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
 use Yoast\WP\SEO\Editors\Framework\Readability_Analysis;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
@@ -61,6 +63,20 @@ class Dashboard_Configuration {
 	private $nonce_repository;
 
 	/**
+	 * The Google Site Kit conditional.
+	 *
+	 * @var Google_Site_Kit_Feature_Conditional
+	 */
+	private $google_site_kit_conditional;
+
+	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Content_Types_Repository             $content_types_repository             The content types repository.
@@ -68,7 +84,9 @@ class Dashboard_Configuration {
 	 *                                                                                   repository.
 	 * @param User_Helper                          $user_helper                          The user helper.
 	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The analysis feature
-	 *                                                                                   repository.
+	 * @param Options_Helper                       $options_helper                       The options helper.
+	 * @param Google_Site_Kit_Feature_Conditional  $google_site_kit_conditional          The Google Site Kit conditional.
+	 *                                                                                             repository.
 	 * @param Endpoints_Repository                 $endpoints_repository                 The endpoints repository.
 	 * @param Nonce_Repository                     $nonce_repository                     The nonce repository.
 	 */
@@ -78,7 +96,9 @@ class Dashboard_Configuration {
 		User_Helper $user_helper,
 		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository,
 		Endpoints_Repository $endpoints_repository,
-		Nonce_Repository $nonce_repository
+		Nonce_Repository $nonce_repository,
+		Google_Site_Kit_Feature_Conditional $google_site_kit_conditional,
+		Options_Helper $options_helper
 	) {
 		$this->content_types_repository             = $content_types_repository;
 		$this->indexable_helper                     = $indexable_helper;
@@ -86,6 +106,8 @@ class Dashboard_Configuration {
 		$this->enabled_analysis_features_repository = $enabled_analysis_features_repository;
 		$this->endpoints_repository                 = $endpoints_repository;
 		$this->nonce_repository                     = $nonce_repository;
+		$this->google_site_kit_conditional          = $google_site_kit_conditional;
+		$this->options_helper                       = $options_helper;
 	}
 
 	/**
@@ -106,6 +128,33 @@ class Dashboard_Configuration {
 			)->to_array(),
 			'endpoints'               => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			'nonce'                   => $this->nonce_repository->get_rest_nonce(),
+			'google_site_kit'         => $this->get_google_site_kit_configuration(),
+		];
+	}
+
+	public function get_google_site_kit_configuration(): array {
+		$google_site_kit_file         = 'google-site-kit/google-site-kit.php';
+		$google_site_kit_activate_url = \wp_nonce_url(
+			\self_admin_url( 'plugins.php?action=activate&plugin=' . $google_site_kit_file ),
+			'activate-plugin_' . $google_site_kit_file
+		);
+
+		$google_site_kit_install_url = \wp_nonce_url(
+			\self_admin_url( 'update.php?action=install-plugin&plugin=google-site-kit' ),
+			'install-plugin_google-site-kit'
+		);
+
+		$google_site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
+
+		return [
+			'installed'     => \file_exists( \WP_PLUGIN_DIR . '/' . $google_site_kit_file ),
+			'active'        => \is_plugin_active( $google_site_kit_file ),
+			'setup'         => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
+			'connected'     => $this->options_helper->get( 'google_site_kit_connected', false ),
+			'featureActive' => $this->google_site_kit_conditional->is_met(),
+			'installUrl'    => $google_site_kit_install_url,
+			'activateUrl'   => $google_site_kit_activate_url,
+			'setupUrl'      => $google_site_kit_setup_url,
 		];
 	}
 }
