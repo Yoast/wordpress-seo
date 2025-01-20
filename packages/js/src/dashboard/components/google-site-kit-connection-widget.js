@@ -21,15 +21,20 @@ import classNames from "classnames";
  * @returns {Object} The button and stepper props.
  */
 const getButtonAndStepperProps = ( active, installed, setup, connected, installUrl, activateUrl, setupUrl ) => {
-	let buttonProps = {
-		children: __( "Install Site Kit by Google", "wordpress-seo" ),
-		as: "a",
-		href: installUrl,
-	};
-	let currentStep = 1;
-	let isComplete = false;
+	let buttonProps;
+	let currentStep;
+	let isComplete;
 
 	switch ( true ) {
+		case ( ! installed ):
+			currentStep = 1;
+			isComplete = false;
+			buttonProps = {
+				children: __( "Install Site Kit by Google", "wordpress-seo" ),
+				as: "a",
+				href: installUrl,
+			};
+			break;
 		case ( ! active && installed ):
 			currentStep = 2;
 			buttonProps = {

@@ -157,9 +157,9 @@ class Dashboard_Configuration {
 			'setup'         => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
 			'connected'     => $this->options_helper->get( 'google_site_kit_connected', false ),
 			'featureActive' => $this->google_site_kit_conditional->is_met(),
-			'installUrl'    => $google_site_kit_install_url,
-			'activateUrl'   => $google_site_kit_activate_url,
-			'setupUrl'      => $google_site_kit_setup_url,
+			'installUrl'    => \html_entity_decode( $google_site_kit_install_url ),
+			'activateUrl'   => \html_entity_decode( $google_site_kit_activate_url ),
+			'setupUrl'      => \html_entity_decode( $google_site_kit_setup_url ),
 		];
 	}
 }
