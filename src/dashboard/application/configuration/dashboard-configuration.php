@@ -83,12 +83,12 @@ class Dashboard_Configuration {
 	 * @param Indexable_Helper                     $indexable_helper                     The indexable helper
 	 *                                                                                   repository.
 	 * @param User_Helper                          $user_helper                          The user helper.
-	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The analysis feature
-	 * @param Options_Helper                       $options_helper                       The options helper.
-	 * @param Google_Site_Kit_Feature_Conditional  $google_site_kit_conditional          The Google Site Kit conditional.
-	 *                                                                                             repository.
+	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The analysis feature.
+	 *                                                                                        repository.
 	 * @param Endpoints_Repository                 $endpoints_repository                 The endpoints repository.
 	 * @param Nonce_Repository                     $nonce_repository                     The nonce repository.
+	 * @param Google_Site_Kit_Feature_Conditional  $google_site_kit_conditional          The Google Site Kit conditional.
+	 * @param Options_Helper                       $options_helper                       The options helper.
 	 */
 	public function __construct(
 		Content_Types_Repository $content_types_repository,
@@ -132,6 +132,11 @@ class Dashboard_Configuration {
 		];
 	}
 
+	/**
+	 * Get the Google Site Kit configuration.
+	 *
+	 * @return array<string|bool>
+	 */
 	public function get_google_site_kit_configuration(): array {
 		$google_site_kit_file         = 'google-site-kit/google-site-kit.php';
 		$google_site_kit_activate_url = \wp_nonce_url(
