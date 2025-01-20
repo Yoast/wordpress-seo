@@ -3,52 +3,33 @@ import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-con
 import { __ } from "@wordpress/i18n";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { ArrowRightIcon } from "@heroicons/react/outline";
-
+import { useSelect } from "@wordpress/data";
+import { addQueryArgs } from "@wordpress/url";
 
 /**
- * The google site kit connection guide widget.
+ * Get the button and stepper props based on the current state.
  *
- * @param {boolean} setup Whether the setup is complete.
  * @param {boolean} active Whether the feature is active.
- * @param {boolean} connected Whether the connection is active.
  * @param {boolean} installed Whether the plugin is installed.
- * @param {boolean} featureActive Whether the feature is active.
- * @param {string} activateUrl The URL to activate Site Kit.
+ * @param {boolean} setup Whether the setup is complete.
+ * @param {boolean} connected Whether the connection is active.
  * @param {string} installUrl The URL to install Site Kit.
+ * @param {string} activateUrl The URL to activate Site Kit.
+ * @param {string} setupUrl The URL to setup Site Kit.
  *
- * @returns {JSX.Element} The widget.
+ * @returns {Object} The button and stepper props.
  */
-export const GoogleSiteKitConnectionWidget = ( {
-	installUrl,
-	activateUrl,
-	setupUrl,
-	connected,
-	active,
-	setup,
-	installed,
-} ) => {
-	const steps = [
-		{ label: __( "INSTALL", "wordpress-seo" ) },
-		{ label: __( "ACTIVATE", "wordpress-seo" ) },
-		{ label: __( "SET UP", "wordpress-seo" ) },
-		{ label: __( "CONNECT", "wordpress-seo" ) },
-	];
-
-	const learnMorelink = "https://yoa.st/dashboard-google-site-kit-learn-more";
-	let buttonProps;
-	let currentStep;
-	let isComplete;
+const getButtonAndStepperProps = ( active, installed, setup, connected, installUrl, activateUrl, setupUrl ) => {
+	let buttonProps = {
+		children: __( "Install Site Kit by Google", "wordpress-seo" ),
+		as: "a",
+		href: installUrl,
+	};
+	let currentStep = 1;
+	let isComplete = false;
 
 	switch ( true ) {
-		case ( ! installed ):
-			currentStep = 1;
-			buttonProps = {
-				children: __( "Install Site Kit by Google", "wordpress-seo" ),
-				as: "a",
-				href: installUrl,
-			};
-			break;
-		case ( ! active ):
+		case ( ! active && installed ):
 			currentStep = 2;
 			buttonProps = {
 				children: __( "Activate Site Kit by Google", "wordpress-seo" ),
@@ -74,8 +55,43 @@ export const GoogleSiteKitConnectionWidget = ( {
 			buttonProps = { children: "Take a quick tour" };
 			break;
 	}
+	return { buttonProps, currentStep, isComplete };
+};
 
-	console.log( buttonProps, currentStep, isComplete );
+/**
+ * The google site kit connection guide widget.
+ *
+ * @param {boolean} installed Whether the plugin is installed.
+ * @param {boolean} setup Whether the setup is complete.
+ * @param {boolean} active Whether the feature is active.
+ * @param {boolean} connected Whether the connection is active.
+ * @param {boolean} installed Whether the plugin is installed.
+ * @param {string} activateUrl The URL to activate Site Kit.
+ * @param {string} installUrl The URL to install Site Kit.
+ *
+ * @returns {JSX.Element} The widget.
+ */
+export const GoogleSiteKitConnectionWidget = ( {
+	installUrl,
+	activateUrl,
+	setupUrl,
+	connected,
+	active,
+	setup,
+	installed,
+} ) => {
+	const steps = [
+		{ label: __( "INSTALL", "wordpress-seo" ) },
+		{ label: __( "ACTIVATE", "wordpress-seo" ) },
+		{ label: __( "SET UP", "wordpress-seo" ) },
+		{ label: __( "CONNECT", "wordpress-seo" ) },
+	];
+
+	const linkParams = useSelect( select => select( "@yoast/general" ).selectLinkParams(), [] );
+	const learnMorelink = addQueryArgs( "https://yoa.st/google-site-kit-learn-more", linkParams );
+
+	const { buttonProps, currentStep, isComplete } = getButtonAndStepperProps(
+		active, installed, setup, connected, installUrl, activateUrl, setupUrl );
 	return <Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md">
 		<div className="yst-flex yst-justify-center yst-mb-6"><YoastConnectSiteKit /></div>
 		<Stepper steps={ steps } currentStep={ currentStep } isComplete={ isComplete } />
@@ -101,3 +117,5 @@ export const GoogleSiteKitConnectionWidget = ( {
 		</div>
 	</Paper>;
 };
+
+
