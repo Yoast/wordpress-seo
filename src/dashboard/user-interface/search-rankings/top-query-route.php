@@ -2,9 +2,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Search_Rankings;
 
-use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Request_Parameters;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Rankings\Search_Rankings_Parser;
+use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Rankings_Data_Provider;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
 
 /**
  * Registers a route to get the top search queries.
@@ -21,12 +20,11 @@ class Top_Query_Route extends Abstract_Ranking_Route {
 	/**
 	 * The constructor.
 	 *
-	 * @param Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter The adapter.
-	 * @param Search_Rankings_Parser          $search_rankings_parser          The parser.
+	 * @param Search_Rankings_Data_Provider $search_rankings_data_provider The data provider.
 	 */
-	public function __construct( Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter, Search_Rankings_Parser $search_rankings_parser ) {
-		$this->set_request_parameters( new Request_Parameters( [ 'query' ] ) );
+	public function __construct( Search_Rankings_Data_Provider $search_rankings_data_provider ) {
+		$this->set_request_parameters( new Search_Console_Parameters( [ 'query' ] ) );
 
-		parent::__construct( $site_kit_search_console_adapter, $search_rankings_parser );
+		parent::__construct( $search_rankings_data_provider );
 	}
 }

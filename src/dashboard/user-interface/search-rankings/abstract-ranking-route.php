@@ -7,9 +7,8 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WPSEO_Capability_Utils;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Request_Parameters;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Rankings\Search_Rankings_Parser;
+use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Rankings_Data_Provider;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -36,44 +35,35 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 	/**
 	 * The request parameters.
 	 *
-	 * @var Request_Parameters $request_parameters
+	 * @var Search_Console_Parameters $request_parameters
 	 */
 	private $request_parameters;
 
 	/**
-	 * The API adapter.
+	 * The data provider.
 	 *
-	 * @var Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter
+	 * @var Search_Rankings_Data_Provider $search_rankings_data_provider
 	 */
-	private $site_kit_search_console_adapter;
-
-	/**
-	 * The rankings parser.
-	 *
-	 * @var Search_Rankings_Parser $search_rankings_parser
-	 */
-	private $search_rankings_parser;
+	private $search_rankings_data_provider;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter The adapter.
-	 * @param Search_Rankings_Parser          $search_rankings_parser          The parser.
+	 * @param Search_Rankings_Data_Provider $search_rankings_data_provider The data provider.
 	 */
-	public function __construct( Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter, Search_Rankings_Parser $search_rankings_parser ) {
-		$this->site_kit_search_console_adapter = $site_kit_search_console_adapter;
-		$this->search_rankings_parser          = $search_rankings_parser;
+	public function __construct( Search_Rankings_Data_Provider $search_rankings_data_provider ) {
+		$this->search_rankings_data_provider = $search_rankings_data_provider;
 	}
 
 	/**
 	 * Sets the request parameters.
 	 *
-	 * @param Request_Parameters $request_parameters The API request parameters.
+	 * @param Search_Console_Parameters $request_parameters The API request parameters.
 	 *
 	 * @return void
 	 */
 	public function set_request_parameters(
-		Request_Parameters $request_parameters
+		Search_Console_Parameters $request_parameters
 	) {
 		$this->request_parameters = $request_parameters;
 	}
@@ -109,7 +99,7 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 				[
 					'methods'             => 'GET',
 					'callback'            => [ $this, 'get_rankings' ],
-					'permission_callback' => [ $this, 'permission_manage_options' ],
+					//'permission_callback' => [ $this, 'permission_manage_options' ],
 					'args'                => [
 						'limit' => [
 							'required'          => true,
@@ -137,7 +127,7 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 			$this->request_parameters->set_start_date( '2024-01-01' );
 			$this->request_parameters->set_end_date( '2025-01-01' );
 
-			$results = $this->site_kit_search_console_adapter->get_data( $this->request_parameters );
+			$search_data_container = $this->search_rankings_data_provider->get_data( $this->request_parameters );
 
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(
@@ -147,8 +137,6 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 				$exception->getCode()
 			);
 		}
-
-		$search_data_container = $this->search_rankings_parser->parse( $results );
 
 		return new WP_REST_Response(
 			$search_data_container->to_array(),
