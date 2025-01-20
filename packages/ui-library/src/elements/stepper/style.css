@@ -21,8 +21,13 @@
 		.yst-step--active .yst-step-circle {
 			@apply yst-bg-white yst-text-white yst-border-primary-500;
 		}
+
+		.yst-step--active {
+			@apply yst-text-primary-500;
+		}
 		
 		.yst-step--complete {
+			@apply yst-text-slate-900;
 			.yst-step-circle {
 				@apply yst-bg-primary-500 yst-text-white yst-border-primary-500;
 			}
