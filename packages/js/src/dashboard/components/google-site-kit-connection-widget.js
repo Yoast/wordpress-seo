@@ -1,10 +1,11 @@
-import { Button, Paper, Stepper, Title } from "@yoast/ui-library";
+import { Button, Paper, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { __ } from "@wordpress/i18n";
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { ArrowRightIcon } from "@heroicons/react/outline";
+import { ArrowRightIcon, DotsVerticalIcon, XIcon, TrashIcon } from "@heroicons/react/outline";
 import { useSelect } from "@wordpress/data";
 import { addQueryArgs } from "@wordpress/url";
+import classNames from "classnames";
 
 /**
  * Get the button and stepper props based on the current state.
@@ -68,6 +69,8 @@ const getButtonAndStepperProps = ( active, installed, setup, connected, installU
  * @param {boolean} installed Whether the plugin is installed.
  * @param {string} activateUrl The URL to activate Site Kit.
  * @param {string} installUrl The URL to install Site Kit.
+ * @param {function} onRemove The function to call when the widget is removed.
+ * @param {function} onRemovePermanently The function to call when the widget is removed permanently.
  *
  * @returns {JSX.Element} The widget.
  */
@@ -79,6 +82,8 @@ export const GoogleSiteKitConnectionWidget = ( {
 	active,
 	setup,
 	installed,
+	onRemove,
+	onRemovePermanently,
 } ) => {
 	const steps = [
 		{ label: __( "INSTALL", "wordpress-seo" ) },
@@ -86,14 +91,29 @@ export const GoogleSiteKitConnectionWidget = ( {
 		{ label: __( "SET UP", "wordpress-seo" ) },
 		{ label: __( "CONNECT", "wordpress-seo" ) },
 	];
-
+	const [ open, toggleOpen ] = useToggleState( false );
 	const linkParams = useSelect( select => select( "@yoast/general" ).selectLinkParams(), [] );
 	const learnMorelink = addQueryArgs( "https://yoa.st/google-site-kit-learn-more", linkParams );
 
 	const { buttonProps, currentStep, isComplete } = getButtonAndStepperProps(
 		active, installed, setup, connected, installUrl, activateUrl, setupUrl );
-	return <Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md">
-		<div className="yst-flex yst-justify-center yst-mb-6"><YoastConnectSiteKit /></div>
+	return <Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-4 yst-shadow-md">
+		<div className="yst-relative">
+			<DotsVerticalIcon
+				className={ classNames( "yst-cursor-pointer yst-h-4 yst-absolute yst-top-0 yst-end-0 hover:yst-text-slate-600",
+					open ? "yst-text-slate-600" : "yst-text-slate-400"
+				) } onClick={ toggleOpen }
+			/>
+			{ open && <div className="yst-w-56 yst-rounded-md yst-border yst-border-slate-200 yst-shadow-sm yst-bg-white yst-absolute yst-top-6 yst-end-0">
+				<button className="yst-text-slate-600 yst-py-2 yst-border-b yst-border-slate-200 yst-flex yst-justify-start yst-gap-2 yst-px-4" onClick={ onRemove }>
+					<XIcon className="yst-w-4 yst-text-slate-400" />
+					{ __( "Remove until next visit", "wordpress-seo" ) }</button>
+				<button className="yst-text-red-500 yst-py-2 yst-flex yst-justify-start yst-gap-2 yst-px-4" onClick={ onRemovePermanently }>
+					<TrashIcon className="yst-w-4" />
+					{ __( "Remove permanently", "wordpress-seo" ) }</button>
+			</div> }
+		</div>
+		<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4"><YoastConnectSiteKit /></div>
 		<Stepper steps={ steps } currentStep={ currentStep } isComplete={ isComplete } />
 		<hr className="yst-bg-slate-200 yst-my-6" />
 		<Title size="2">{ __( "Expand your dashboard with insights from Google!", "wordpress-seo" ) }</Title>

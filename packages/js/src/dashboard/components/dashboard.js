@@ -2,6 +2,8 @@ import { Scores } from "../scores/components/scores";
 import { PageTitle } from "./page-title";
 import { GoogleSiteKitConnectionWidget } from "./google-site-kit-connection-widget";
 import { get } from "lodash";
+import { useCallback } from "@wordpress/element";
+import { useToggleState } from "@yoast/ui-library";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -30,12 +32,20 @@ export const Dashboard = ( { contentTypes, userName, features, endpoints, header
 		activateUrl: "",
 		setupUrl: "",
 	} );
+	const [ showGoogleSiteKit, , , , setRemoveGoogleSiteKit ] = useToggleState( true );
+
+	const handleRemovePermanently = useCallback( ()=>{
+		setRemoveGoogleSiteKit();
+	}, [ setRemoveGoogleSiteKit ] );
 
 	return (
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } />
 			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
-				{ googleSiteKitConfiguration.featureActive && <GoogleSiteKitConnectionWidget { ...googleSiteKitConfiguration } /> }
+				{ showGoogleSiteKit && googleSiteKitConfiguration.featureActive && <GoogleSiteKitConnectionWidget
+					{ ...googleSiteKitConfiguration }
+					onRemove={ setRemoveGoogleSiteKit } onRemovePermanently={ handleRemovePermanently }
+				/> }
 				{ features.indexables && features.seoAnalysis && (
 					<Scores analysisType="seo" contentTypes={ contentTypes } endpoint={ endpoints.seoScores } headers={ headers } />
 				) }
