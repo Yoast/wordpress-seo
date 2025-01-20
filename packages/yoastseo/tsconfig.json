@@ -9,7 +9,8 @@
     "allowJs": true,
     "checkJs": false,
     "outDir": "./types",
-    "module": "es2022",
+    "module": "esnext",
+    "moduleResolution": "Bundler",
     "strict": true,
     "skipLibCheck": true,
   }
