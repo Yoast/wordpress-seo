@@ -21,11 +21,7 @@ export const useFallbackWarning = ( imageFallbackUrl, imageUrl, imageWarnings ) 
 		"JPG", "PNG", "WEBP", "GIF"
 	);
 	useEffect( () => {
-		if ( imageUrl === "" ) {
-			setHasFallbackWarning(  imageFallbackUrl.toLowerCase().endsWith( ".avif" )  );
-		} else {
-			setHasFallbackWarning( false );
-		}
+		setHasFallbackWarning( imageUrl === "" ? imageFallbackUrl.toLowerCase().endsWith( ".avif" ) : false );
 	}, [ imageFallbackUrl, imageUrl ] );
 	return hasFallbackWarning ? [ warningMessage ] : imageWarnings;
 };
