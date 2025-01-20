@@ -2,6 +2,7 @@ import EnglishResearcher from "../../../src/languageProcessing/languages/en/Rese
 import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
 import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";
 import IndonesianResearcher from "../../../src/languageProcessing/languages/id/Researcher";
+import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import getWordForms from "../../../src/languageProcessing/researches/getWordForms";
 import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
@@ -174,6 +175,23 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "buku-buku" ], [ "kucing" ] ],
+				synonymsForms: [],
+			}
+		);
+	} );
+
+	it( "does not change the upper case Turkish ı to Latin dotted i, and vice versa", () => {
+		const attributes = {
+			keyword: "İşık parkları Istanbul'da",
+		};
+		const testPaper = new Paper( "", attributes );
+		const researcher = new TurkishResearcher( testPaper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
+			{
+				// here we get
+				keyphraseForms: [ [ "ışık" ], [ "parkları" ], [ "istanbul'da" ] ],
 				synonymsForms: [],
 			}
 		);
