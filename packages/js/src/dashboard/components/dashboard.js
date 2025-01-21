@@ -19,8 +19,11 @@ import { useToggleState } from "@yoast/ui-library";
  * @param {Endpoints} endpoints The endpoints.
  * @param {Object<string,string>} headers The headers for the score requests.
  * @param {Links} links The links.
+ *
  * @returns {JSX.Element} The element.
  */
+// The complexity is cause by the google site kit feature flag which is temporary.
+// eslint-disable-next-line complexity
 export const Dashboard = ( { contentTypes, userName, features, endpoints, headers, links } ) => {
 	const googleSiteKitConfiguration = get( window, "wpseoScriptData.dashboard.google_site_kit", {
 		installed: false,
@@ -35,6 +38,7 @@ export const Dashboard = ( { contentTypes, userName, features, endpoints, header
 	const [ showGoogleSiteKit, , , , setRemoveGoogleSiteKit ] = useToggleState( true );
 
 	const handleRemovePermanently = useCallback( ()=>{
+		/* eslint-disable-next-line */
 		// TODO: Implement the remove permanently functionality.
 		setRemoveGoogleSiteKit();
 	}, [ setRemoveGoogleSiteKit ] );

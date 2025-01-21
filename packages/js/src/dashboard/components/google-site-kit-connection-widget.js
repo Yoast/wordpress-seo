@@ -35,7 +35,7 @@ const getButtonAndStepperProps = ( active, installed, setup, connected, installU
 				href: installUrl,
 			};
 			break;
-		case ( ! active && installed ):
+		case ( ! active ):
 			currentStep = 2;
 			buttonProps = {
 				children: __( "Activate Site Kit by Google", "wordpress-seo" ),
