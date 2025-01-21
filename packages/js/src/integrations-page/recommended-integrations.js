@@ -85,7 +85,7 @@ const googleSiteKitProps = {
 	isInstalled: get( window, "wpseoIntegrationsData.google_site_kit_installed", false ) === "1",
 	isActive: get( window, "wpseoIntegrationsData.google_site_kit_active", false ) === "1",
 	afterSetup: get( window, "wpseoIntegrationsData.google_site_kit_setup", false ) === "1",
-	isConnected: get( window, "wpseoIntegrationsData.google_site_kit_connect", false ) === "1",
+	isConnected: get( window, "wpseoIntegrationsData.google_site_kit_connected", false ) === "1",
 	installUrl: get( window, "wpseoIntegrationsData.google_site_kit_install_url", "" ),
 	activateUrl: get( window, "wpseoIntegrationsData.google_site_kit_activate_url", "" ),
 	setupUrl: get( window, "wpseoIntegrationsData.google_site_kit_setup_url", "" ),

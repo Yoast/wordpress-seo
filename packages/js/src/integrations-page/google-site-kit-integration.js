@@ -61,47 +61,43 @@ const SuccessfullyConnected = () => {
 export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, isConnected, installUrl, activateUrl, setupUrl } ) => {
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
 
-	const buttonProps = {
-		install: {
-			children: __( "Install Site Kit by Google", "wordpress-seo" ),
-			as: "a",
-			href: installUrl,
-		},
-		activate: {
-			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
-			as: "a",
-			href: activateUrl,
-		},
-		setup: {
-			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-			as: "a",
-			href: setupUrl,
-		},
-		connect: {
-			children: __( "Connect Site Kit by Google", "wordpress-seo" ),
-			as: "button",
-		},
-		disconnect: {
+	const getButtonProps = useCallback( () => {
+		if ( ! isInstalled ) {
+			return {
+				children: __( "Install Site Kit by Google", "wordpress-seo" ),
+				as: "a",
+				href: installUrl,
+			};
+		}
+		if ( ! isActive ) {
+			return {
+				children: __( "Activate Site Kit by Google", "wordpress-seo" ),
+				as: "a",
+				href: activateUrl,
+			};
+		}
+		if ( ! afterSetup ) {
+			return {
+				children: __( "Set up Site Kit by Google", "wordpress-seo" ),
+				as: "a",
+				href: setupUrl,
+			};
+		}
+		if ( ! isConnected ) {
+			return {
+				children: __( "Connect Site Kit by Google", "wordpress-seo" ),
+				as: "button",
+				onClick: toggleModal,
+			};
+		}
+
+		return {
 			children: __( "Disconnect", "wordpress-seo" ),
 			as: "button",
 			variant: "secondary",
-		},
-	};
+		};
+	}, [ isInstalled, isActive, afterSetup, isConnected, installUrl, activateUrl, toggleModal ] );
 
-	const getButtonProps = useCallback( () => {
-		switch ( true ) {
-			case ( ! isInstalled ):
-				return buttonProps.install;
-			case ( ! isActive ):
-				return buttonProps.activate;
-			case ( ! afterSetup ):
-				return buttonProps.setup;
-			case ( ! isConnected ):
-				return { ...buttonProps.connect, onClick: toggleModal };
-			case ( isConnected ):
-				return buttonProps.disconnect;
-		}
-	}, [ isInstalled, isActive, afterSetup, isConnected ] );
 
 	const successfullyConnected = isInstalled && isActive && afterSetup && isConnected;
 	return (
