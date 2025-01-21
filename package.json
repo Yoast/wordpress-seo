@@ -40,7 +40,7 @@
     "@babel/core": "^7.18.5",
     "@slack/webhook": "^5.0.2",
     "@tailwindcss/container-queries": "^0.1.1",
-    "@tailwindcss/forms": "^0.5.2",
+    "@tailwindcss/forms": "^0.5.9",
     "@wordpress/dependency-extraction-webpack-plugin": "^4.28.0",
     "@wordpress/scripts": "^26.16.0",
     "@yoast/babel-preset": "^1.1.1",
@@ -77,7 +77,7 @@
     "webpack-bundle-analyzer": "^4.9.1"
   },
   "yoast": {
-    "pluginVersion": "24.2"
+    "pluginVersion": "24.3"
   },
   "version": "0.0.0"
 }

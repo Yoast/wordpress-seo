@@ -67,7 +67,7 @@ const FeatureCard = ( {
 					decoding="async"
 				/>
 				{ shouldRenderBadgeContainer && (
-					<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+					<div className="yst-absolute yst-top-2 yst-end-2 yst-flex yst-gap-1.5">
 						{ isDisabled && <Badge size="small" variant="plain">{ message }</Badge> }
 						{ isPremium && isPremiumFeature && hasPremiumBadge && <Badge size="small" variant="upsell">Premium</Badge> }
 						{ isBetaFeature && <Badge size="small" variant="info">Beta</Badge> }
@@ -100,7 +100,7 @@ const FeatureCard = ( {
 						rel="noopener"
 						{ ...premiumUpsellConfig }
 					>
-						<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
+						<LockOpenIcon className="yst-w-5 yst-h-5 yst--ms-1 yst-shrink-0" { ...svgAriaProps } />
 						{ sprintf(
 							/* translators: %1$s expands to Premium. */
 							__( "Unlock with %1$s", "wordpress-seo" ),
@@ -405,7 +405,7 @@ const SiteFeatures = () => {
 									className="yst-self-start"
 								>
 									{ __( "View the XML sitemap", "wordpress-seo" ) }
-									<ExternalLinkIcon className="yst--mr-1 yst-ml-1 yst-h-5 yst-w-5 yst-text-slate-400" />
+									<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
 								</Button> }
 								<LearnMoreLink id="link-xml-sitemaps-learn-more" link="https://yoa.st/2a-" ariaLabel={ __( "XML sitemaps", "wordpress-seo" ) } />
 							</FeatureCard>

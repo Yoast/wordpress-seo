@@ -36,7 +36,7 @@ export default function Select( { id, value, choices, label, onChange, error, di
 							<Listbox.Button
 								data-id={ `button-${ id } ` }
 								className={ classNames(
-									"yst-relative yst-h-[45px] yst-w-full yst-leading-6 yst-py-2 yst-pl-3 yst-pr-10 yst-text-left yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500 sm:yst-text-sm",
+									"yst-relative yst-h-[45px] yst-w-full yst-leading-6 yst-py-2 yst-ps-3 yst-pe-10 yst-text-start yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500 sm:yst-text-sm",
 									{
 										"yst-border-red-300": error.isVisible,
 										"yst-opacity-50": disabled,
@@ -46,11 +46,11 @@ export default function Select( { id, value, choices, label, onChange, error, di
 								{ ...getErrorAriaProps( id, error ) }
 							>
 								<span className="yst-block yst-truncate">{ valueLabel }</span>
-								<span className="yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-2 yst-pointer-events-none">
+								<span className="yst-absolute yst-inset-y-0 yst-end-0 yst-flex yst-items-center yst-pe-2 yst-pointer-events-none">
 									<SelectorIcon className="yst-w-5 yst-h-5 yst-text-slate-400" aria-hidden="true" />
 								</span>
 								{ error.isVisible &&
-								<div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-8">
+								<div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-end-0 yst-me-8">
 									<ExclamationCircleIcon className="yst-pointer-events-none yst-h-5 yst-w-5 yst-text-red-500" />
 								</div> }
 							</Listbox.Button>
@@ -88,7 +88,7 @@ export default function Select( { id, value, choices, label, onChange, error, di
 													{ selected ? (
 														<span
 															className={ classNames(
-																"yst-text-white yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-4"
+																"yst-text-white yst-absolute yst-inset-y-0 yst-end-0 yst-flex yst-items-center yst-pe-4"
 															) }
 														>
 															<CheckIcon className="yst-w-5 yst-h-5" aria-hidden="true" />

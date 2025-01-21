@@ -12,7 +12,7 @@ exports[`AiFixAssessmentsUpsell renders the component correctly 1`] = `
         class="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white"
       >
         <div
-          class="yst-absolute yst-w-full yst-h-full yst-top-0 yst-left-0"
+          class="yst-absolute yst-w-full yst-h-full yst-top-0 yst-right-0"
         >
           <div
             class="wistia_embed wistia_async_vun9z1dpfh videoFoam=true"
@@ -20,7 +20,7 @@ exports[`AiFixAssessmentsUpsell renders the component correctly 1`] = `
         </div>
       </div>
       <span
-        class="yst-badge yst-badge--info yst-absolute yst-right-0 yst-mr-4 yst-text-center yst-justify-center"
+        class="yst-badge yst-badge--info yst-absolute yst-end-4 yst-text-center yst-justify-center"
         style="top: -8px;"
       >
         Beta
@@ -93,7 +93,7 @@ exports[`AiFixAssessmentsUpsell renders the component correctly 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5"
+          class="yst--ms-1 yst-me-2 yst-h-5 yst-w-5"
           fill="none"
           stroke="currentColor"
           stroke-width="2"

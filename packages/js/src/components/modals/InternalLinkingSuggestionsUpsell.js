@@ -47,8 +47,10 @@ export const InternalLinkingSuggestionsUpsell = () => {
 								"Yoast SEO Premium"
 							) }
 							benefitsTitle={
-								/* translators: %s expands to 'Yoast SEO Premium'. */
-								sprintf( "%s also gives you:", "Yoast SEO Premium" )
+								sprintf(
+									/* translators: %s expands to 'Yoast SEO Premium'. */
+									__( "%s also gives you:", "wordpress-seo" ),
+									"Yoast SEO Premium" )
 							}
 							benefits={ getPremiumBenefits() }
 							upsellButtonText={
@@ -93,7 +95,7 @@ export const InternalLinkingSuggestionsUpsell = () => {
 							{ __( "Internal linking suggestions", "wordpress-seo" ) }
 						</MetaboxButton.Text>
 						<Badge size="small" variant="upsell">
-							<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-mr-1 yst-shrink-0" { ...svgAriaProps } />
+							<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-me-1 yst-shrink-0" { ...svgAriaProps } />
 							<span>Premium</span>
 						</Badge>
 					</MetaboxButton>

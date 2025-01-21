@@ -79,7 +79,7 @@ export default function ImageSelect( {
 				<Button
 					id={ url ? id + "__replace-image" : id + "__select-image" }
 					variant="secondary"
-					className="yst-mr-2"
+					className="yst-me-2"
 					onClick={ onSelectImageClick }
 					data-hiive-event-name={ url ? "clicked_replace_image" : "clicked_select_image" }
 				>

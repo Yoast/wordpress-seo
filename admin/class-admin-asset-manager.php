@@ -658,6 +658,11 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'tailwind',
 				'src'  => 'tailwind-' . $flat_version,
+				// Note: The RTL suffix is not added here.
+				// Tailwind and our UI library provide styling that should be standalone compatible with RTL.
+				// To make it easier we should use the logical properties and values when possible.
+				// If there are exceptions, we can use the Tailwind modifier, e.g. `rtl:yst-space-x-reverse`.
+				'rtl'  => false,
 			],
 			[
 				'name' => 'new-settings',

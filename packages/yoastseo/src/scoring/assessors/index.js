@@ -32,3 +32,9 @@ export { default as StorePostsAndPagesCornerstoneSEOAssessor } from "./storePost
 export { default as StorePostsAndPagesContentAssessor } from "./storePostsAndPages/contentAssessor.js";
 export { default as StorePostsAndPagesRelatedKeywordAssessor } from "./storePostsAndPages/relatedKeywordAssessor.js";
 export { default as StorePostsAndPagesSEOAssessor } from "./storePostsAndPages/seoAssessor.js";
+
+// Field-specific assessors.
+export { default as MetaDescriptionAssessor } from "./metaDescriptionAssessor.js";
+export { default as SeoTitleAssessor } from "./seoTitleAssessor.js";
+export { default as KeyphraseUseAssessor } from "./keyphraseUseAssessor.js";
+export { default as KeyphraseAssessor } from "./keyphraseAssessor.js";

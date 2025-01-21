@@ -221,7 +221,7 @@ exports[`AlertsList should match snapshot 1`] = `
       >
         <button
           aria-expanded="false"
-          class="yst-w-full yst-flex yst-justify-between yst-py-4 yst-pr-4 yst-pl-6 yst-items-center"
+          class="yst-w-full yst-flex yst-justify-between yst-py-4 yst-pe-4 yst-ps-6 yst-items-center"
           data-headlessui-state=""
           id="headlessui-disclosure-button-:r0:"
           type="button"

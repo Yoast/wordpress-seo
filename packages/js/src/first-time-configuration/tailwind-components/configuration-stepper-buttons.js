@@ -141,7 +141,7 @@ export function StepButtons( { stepId, beforeContinue, continueLabel, beforeBack
 		</ContinueButton>
 		<BackButton
 			stepId={ stepId }
-			additionalClasses="yst-ml-3"
+			additionalClasses="yst-ms-3"
 			beforeGo={ beforeBack }
 		>
 			{ backLabel }
