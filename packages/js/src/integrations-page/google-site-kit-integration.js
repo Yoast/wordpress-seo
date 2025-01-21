@@ -25,7 +25,7 @@ const integration = {
 	description: __( "View traffic and search rankings on your dashboard by connecting your Google account.", "wordpress-seo" ),
 	isPremium: false,
 	isNew: false,
-	isMultisiteAvailable: false,
+	isMultisiteAvailable: true,
 	logo: SiteKitLogo,
 };
 
