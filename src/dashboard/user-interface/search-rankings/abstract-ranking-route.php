@@ -2,6 +2,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Search_Rankings;
 
+use DateTime;
+use DateTimeZone;
 use Exception;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -47,7 +49,7 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 	/**
 	 * Returns the needed conditionals.
 	 *
-	 * @return array The conditionals that must be met to load this.
+	 * @return array<string> The conditionals that must be met to load this.
 	 */
 	public static function get_conditionals(): array {
 		return [ Google_Site_Kit_Feature_Conditional::class ];
@@ -78,9 +80,8 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 	/**
 	 * Returns the route prefix.
 	 *
-	 * @return string The route prefix.
-	 *
 	 * @throws Exception If the ROUTE_PREFIX constant is not set in the child class.
+	 * @return string The route prefix.
 	 */
 	public static function get_route_prefix() {
 		$class  = static::class;
@@ -106,7 +107,7 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 				[
 					'methods'             => 'GET',
 					'callback'            => [ $this, 'get_rankings' ],
-					//'permission_callback' => [ $this, 'permission_manage_options' ],
+					'permission_callback' => [ $this, 'permission_manage_options' ],
 					'args'                => [
 						'limit' => [
 							'required'          => true,
@@ -131,8 +132,11 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 	public function get_rankings( WP_REST_Request $request ): WP_REST_Response {
 		try {
 			$this->request_parameters->set_limit( $request->get_param( 'limit' ) );
-			$this->request_parameters->set_start_date( '2024-01-01' );
-			$this->request_parameters->set_end_date( '2025-01-01' );
+			$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+			$date->modify( '-28 days' );
+
+			$this->request_parameters->set_start_date( $date->format( 'Y-m-d' ) );
+			$this->request_parameters->set_end_date( ( new DateTime( 'now', new DateTimeZone( 'UTC' ) ) )->format( 'Y-m-d' ) );
 
 			$search_data_container = $this->search_rankings_data_provider->get_data( $this->request_parameters );
 

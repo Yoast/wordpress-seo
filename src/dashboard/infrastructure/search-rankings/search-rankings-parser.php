@@ -22,7 +22,7 @@ class Search_Rankings_Parser {
 	public function parse( array $results ): Data_Container {
 		$search_data_container = new Data_Container();
 		foreach ( $results as $ranking ) {
-			$search_data_container->add_data( new Search_Data( $ranking->clicks, $ranking->ctr, $ranking->impressions, $ranking->position, $ranking->keys ) );
+			$search_data_container->add_data( new Search_Data( $ranking->clicks, $ranking->ctr, $ranking->impressions, $ranking->position, $ranking->keys[0] ) );
 		}
 
 		return $search_data_container;
