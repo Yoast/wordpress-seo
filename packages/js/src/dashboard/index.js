@@ -56,15 +56,11 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {Object} Column A column in the table.
- * @property {string} name The unique identifier.
- * @property {string} label The user-facing label.
- * @property {boolean} sortable Whether the column is sortable.
- * @property {string} [className] The CSS class name for the column.
+ * @typedef {Object} MostPopularContent The most popular content data.
+ * @property {string} subject The landing page.
+ * @property {number} clicks The number of clicks.
+ * @property {number} impressions The number of impressions.
+ * @property {number} ctr The click-through rate.
+ * @property {number} position The average position.
+ * @property {number} seoScore The seo score.
  */
-
-/**
- * @typedef {Array<Array<string|number>>} Data The data for the table rows.
- */
-
-

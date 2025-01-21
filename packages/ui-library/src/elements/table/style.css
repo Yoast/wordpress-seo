@@ -41,6 +41,10 @@
 		.yst-table--minimal {
 			table {
 				@apply yst-divide-y yst-divide-slate-300;
+
+				th {
+					@apply yst-align-bottom;
+				}
 				tbody {
 					@apply yst-divide-y yst-divide-gray-200 yst-bg-white;
 				}
