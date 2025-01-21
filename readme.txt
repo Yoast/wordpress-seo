@@ -274,6 +274,18 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 24.4 =
+
+Release date: 2025-02-04
+
+#### Bugfixes
+
+* Fixes a bug where editing a link in the block editor would have unexpected consequences when using undo.
+* Fixes a bug where the `article:modified_time` meta tag would show an earlier time than the `article:published_time` meta tag for scheduled posts.
+* Fixes a bug where the Schema type of the product would not be locked when Yoast WooCommerce SEO is enabled.
+* Fixes a bug where users without Yoast WooCommerce SEO are not greeted with the AI upsell when trying to use the AI feature and are actually able to access the feature, if on a non-English site.
+* Fixes a bug where Yoast WooCommerce SEO upsell would not render when on a locale that translates the product post label.
+
 = 24.3 =
 
 Release date: 2025-01-21
@@ -294,27 +306,6 @@ Yoast SEO 24.3 brings more enhancements and bugfixes. [Find more information abo
 
 * Improves contrast in the related keyphrase suggestions table.
 * Improves contrast in the RSS supported variables explainer table.
-
-= 24.2 =
-
-Release date: 2025-01-07
-
-Yoast SEO 24.2 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-7-1-25).
-
-#### Enhancements
-
-* Improves the tooltips accessibility in the related keyphrase suggestions modal.
-
-#### Bugfixes
-
-* Fixes a bug where a deprecation message would appear in PHP 8+ when saving a post containing images with invalid sources. Props to [kkmuffme](https://github.com/kkmuffme).
-* Fixes a bug where a TypeError would occur when checking for capabilities of SEO Manager user role when the roles were not passed as an array. Props to [kfeinUI](https://github.com/kfeinUI).
-* Fixes a bug where styles on buttons, intent badge and modal links would not adjust the direction when on RTL view.
-
-#### Other
-
-* Changes the title text on the Yoast installation success page.
-* Fixes a console warning about ReactDOM.render being no longer supported in React 18.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
