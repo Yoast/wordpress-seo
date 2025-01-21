@@ -38,12 +38,11 @@ class Search_Data implements Data_Interface {
 	private $position;
 
 	/**
-	 * An array representation of the different `keys`.
-	 * In the context of this domain object keys can represent a `URI` or a `search term`
+	 * In the context of this domain object the subject can represent a `URI` or a `search term`
 	 *
-	 * @var string[]
+	 * @var string
 	 */
-	private $keys = [];
+	private $subject;
 
 	/**
 	 * The seo score.
@@ -59,14 +58,14 @@ class Search_Data implements Data_Interface {
 	 * @param float    $ctr         The ctr.
 	 * @param int      $impressions The impressions.
 	 * @param float    $position    The position.
-	 * @param string[] $keys        The clicks.
+	 * @param string  $subject        The clicks.
 	 */
-	public function __construct( int $clicks, float $ctr, int $impressions, float $position, array $keys ) {
+	public function __construct( int $clicks, float $ctr, int $impressions, float $position, string $subject ) {
 		$this->clicks      = $clicks;
 		$this->ctr         = $ctr;
 		$this->impressions = $impressions;
 		$this->position    = $position;
-		$this->keys        = $keys;
+		$this->subject        = $subject;
 		$this->seo_score   = 0;
 	}
 
@@ -81,7 +80,7 @@ class Search_Data implements Data_Interface {
 			'ctr'         => $this->ctr,
 			'impressions' => $this->impressions,
 			'position'    => $this->position,
-			'keys'        => $this->keys,
+			'subject'        => $this->subject,
 			'seoScore'    => $this->seo_score,
 		];
 	}

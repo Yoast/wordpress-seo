@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Data;
 /**
  * This class contains all logic to parse the raw API response to usable domain objects for the rest of the system.
  */
-class Search_Rankings_Parser {
+class Organic_Sessions_Parser {
 
 	/**
 	 * Parses the raw API response to a Search Data object containing the API response and SEO score.
