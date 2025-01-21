@@ -96,27 +96,39 @@ export const GoogleSiteKitConnectionWidget = ( {
 		{ label: __( "SET UP", "wordpress-seo" ) },
 		{ label: __( "CONNECT", "wordpress-seo" ) },
 	];
-	const [ open, toggleOpen ] = useToggleState( false );
+	const [ isMenuOpen, toggleMenuOpen ] = useToggleState( false );
 	const linkParams = useSelect( select => select( "@yoast/general" ).selectLinkParams(), [] );
 	const learnMorelink = addQueryArgs( "https://yoa.st/google-site-kit-learn-more", linkParams );
 
 	const { buttonProps, currentStep, isComplete } = getButtonAndStepperProps(
 		active, installed, setup, connected, installUrl, activateUrl, setupUrl );
 	return <Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative">
-
-		<DotsVerticalIcon
-			className={ classNames( "yst-cursor-pointer yst-h-4 yst-absolute yst-top-4 yst-end-4 hover:yst-text-slate-600",
-				open ? "yst-text-slate-600" : "yst-text-slate-400"
-			) } onClick={ toggleOpen }
-		/>
-		{ open && <div className="yst-w-56 yst-rounded-md yst-border yst-border-slate-200 yst-shadow-sm yst-bg-white yst-absolute yst-top-10 yst-end-4">
-			<button className="yst-text-slate-600 yst-py-2 yst-border-b yst-border-slate-200 yst-flex yst-justify-start yst-gap-2 yst-px-4" onClick={ onRemove }>
-				<XIcon className="yst-w-4 yst-text-slate-400" />
-				{ __( "Remove until next visit", "wordpress-seo" ) }</button>
-			<button className="yst-text-red-500 yst-py-2 yst-flex yst-justify-start yst-gap-2 yst-px-4" onClick={ onRemovePermanently }>
-				<TrashIcon className="yst-w-4" />
-				{ __( "Remove permanently", "wordpress-seo" ) }</button>
-		</div> }
+		<button
+			aria-haspopup="true"
+			aria-expanded={ isMenuOpen }
+			aria-controls="menu"
+			onClick={ toggleMenuOpen }
+			className="yst-absolute yst-top-4 yst-end-4"
+		>
+			<DotsVerticalIcon
+				className={ classNames( "yst-h-4 hover:yst-text-slate-600",
+					isMenuOpen ? "yst-text-slate-600" : "yst-text-slate-400"
+				) }
+			/>
+			<span className="yst-sr-only">{ __( "Open menu", "wordpress-seo" ) }</span>
+		</button>
+		{ isMenuOpen && <ul role="menu" className="yst-w-56 yst-rounded-md yst-border yst-border-slate-200 yst-shadow-sm yst-bg-white yst-absolute yst-top-10 yst-end-4">
+			<li role="menuitem" className="yst-border-b yst-border-slate-200">
+				<button className="yst-text-slate-600 yst-py-2 yst-flex yst-justify-start yst-gap-2 yst-px-4 yst-items-center" onClick={ onRemove }>
+					<XIcon className="yst-w-4 yst-text-slate-400" />
+					{ __( "Remove until next visit", "wordpress-seo" ) }</button>
+			</li>
+			<li role="menuitem">
+				<button className="yst-text-red-500 yst-py-2 yst-flex yst-justify-start yst-items-center yst-gap-2 yst-px-4" onClick={ onRemovePermanently }>
+					<TrashIcon className="yst-w-4" />
+					{ __( "Remove permanently", "wordpress-seo" ) }</button>
+			</li>
+		</ul> }
 
 		<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4"><YoastConnectSiteKit /></div>
 		<Stepper steps={ steps } currentStep={ currentStep } isComplete={ isComplete } />
