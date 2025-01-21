@@ -6,7 +6,7 @@ use Exception;
 use WP_REST_Request;
 use WP_REST_Response;
 use WPSEO_Capability_Utils;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Rankings_Data_Provider;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
 use Yoast\WP\SEO\Main;
@@ -16,8 +16,6 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  * Abstract scores route.
  */
 abstract class Abstract_Ranking_Route implements Route_Interface {
-
-	use No_Conditionals;
 
 	/**
 	 * The namespace of the rout.
@@ -45,6 +43,15 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 	 * @var Search_Rankings_Data_Provider $search_rankings_data_provider
 	 */
 	private $search_rankings_data_provider;
+
+	/**
+	 * Returns the needed conditionals.
+	 *
+	 * @return array The conditionals that must be met to load this.
+	 */
+	public static function get_conditionals(): array {
+		return [ Google_Site_Kit_Feature_Conditional::class ];
+	}
 
 	/**
 	 * The constructor.
@@ -99,7 +106,7 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 				[
 					'methods'             => 'GET',
 					'callback'            => [ $this, 'get_rankings' ],
-					'permission_callback' => [ $this, 'permission_manage_options' ],
+					//'permission_callback' => [ $this, 'permission_manage_options' ],
 					'args'                => [
 						'limit' => [
 							'required'          => true,
