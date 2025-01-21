@@ -53,7 +53,7 @@ const SuccessfullyConnected = () => {
  * @param {boolean} isInstalled Whether the integration is installed.
  * @param {boolean} isConnected Whether the integration is connected.
  * @param {string} installUrl The installation url.
- * @param {string} activateUrl The ctivationUrl.
+ * @param {string} activateUrl The activation url.
  * @param {string} setupUrl The setup url.
  *
  * @returns {WPElement} The Site Kit integration component.
