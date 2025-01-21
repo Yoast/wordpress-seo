@@ -5,6 +5,8 @@ import { ArrowSmRightIcon, CheckIcon } from "@heroicons/react/solid";
 import { PropTypes } from "prop-types";
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
+import { useSelect } from "@wordpress/data";
+import { addQueryArgs } from "@wordpress/url";
 
 /* eslint-disable complexity */
 /**
@@ -19,11 +21,15 @@ import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
 export const SimpleIntegration = ( { integration, isActive, children } ) => {
 	const IntegrationLogo = integration.logo;
 
+	const linkParams = useSelect( select => select( "yoast-seo/settings" ).selectLinkParams(), [] );
+	const learnMoreLink = addQueryArgs( integration.learnMoreLink, linkParams );
+	const logoLink = addQueryArgs( integration.logoLink, linkParams );
+
 	return (
 		<Card>
 			<Card.Header>
 				<Link
-					href={ integration.logoLink }
+					href={ logoLink }
 					target="_blank"
 				>
 					{ integration.logo && <IntegrationLogo alt={ `${integration.name} logo` } className={ `${ isActive ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
@@ -55,7 +61,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 						} ) }
 					</ul> }
 					{ integration.learnMoreLink && <Link
-						href={ integration.learnMoreLink }
+						href={ learnMoreLink }
 						className="yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium"
 						target="_blank"
 					>

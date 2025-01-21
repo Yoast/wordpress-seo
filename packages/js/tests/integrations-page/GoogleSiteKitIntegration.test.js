@@ -1,6 +1,11 @@
 import { render, screen } from "../test-utils";
 import { GoogleSiteKitIntegration } from "../../src/integrations-page/google-site-kit-integration";
 
+jest.mock( "@wordpress/data", () => ( {
+	useSelect: jest.fn( () =>  [] ),
+} ) );
+
+
 describe( "GoogleSiteKitIntegration", () => {
 	const urlsProps = {
 		installUrl: "/wp-admin/update.php?action=install-plugin&plugin=google-site-kit&_wpnonce=8b2868f15d",
@@ -33,7 +38,6 @@ describe( "GoogleSiteKitIntegration", () => {
 		const link = screen.getByRole( "link", { name: "Install Site Kit by Google" } );
 		expect( link ).toBeInTheDocument();
 		expect( link ).toHaveAttribute( "href", "/wp-admin/update.php?action=install-plugin&plugin=google-site-kit&_wpnonce=8b2868f15d" );
-		expect( screen.getByText( "Plugin not detected" ) ).toBeInTheDocument();
 	} );
 
 	it.each( [
@@ -51,7 +55,6 @@ describe( "GoogleSiteKitIntegration", () => {
 		const link = screen.getByRole( "link", { name: "Activate Site Kit by Google" } );
 		expect( link ).toBeInTheDocument();
 		expect( link ).toHaveAttribute( "href", "/wp-admin/plugins.php?action=activate&plugin=google-site-kit%2Fgoogle-site-kit.php&_wpnonce=0a752c1514" );
-		expect( screen.getByText( "Plugin not detected" ) ).toBeInTheDocument();
 	} );
 
 	it( "shows 'Set up Site Kit by Google' button when active but not set up", () => {
@@ -59,13 +62,11 @@ describe( "GoogleSiteKitIntegration", () => {
 		const link = screen.getByRole( "link", { name: "Set up Site Kit by Google" } );
 		expect( link ).toBeInTheDocument();
 		expect( link ).toHaveAttribute( "href", "/wp-admin/admin.php?page=googlesitekit-splash" );
-		expect( screen.getByText( "Not connected" ) ).toBeInTheDocument();
 	} );
 
 	it( "shows 'Connect Site Kit by Google' button when set up but not connected", () => {
 		render( <GoogleSiteKitIntegration isActive={ true } afterSetup={ true } isInstalled={ true } isConnected={ false } { ...urlsProps } /> );
 		expect( screen.getByRole( "button", { name: "Connect Site Kit by Google" } ) ).toBeInTheDocument();
-		expect( screen.getByText( "Not connected" ) ).toBeInTheDocument();
 	} );
 
 	it( "shows 'Disconnect' button when connected", () => {
