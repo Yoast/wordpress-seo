@@ -1,5 +1,5 @@
 import en from "../../premium-configuration/data/morphologyData-en-v6.json";
-import de from "../../premium-configuration/data/morphologyData-de-v10.json";
+import de from "../../premium-configuration/data/morphologyData-de-v11.json";
 import nl from "../../premium-configuration/data/morphologyData-nl-v9.json";
 import es from "../../premium-configuration/data/morphologyData-es-v10.json";
 import fr from "../../premium-configuration/data/morphologyData-fr-v11.json";
