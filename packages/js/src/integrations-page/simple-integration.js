@@ -6,7 +6,6 @@ import { PropTypes } from "prop-types";
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
 import { useSelect } from "@wordpress/data";
-import { addQueryArgs } from "@wordpress/url";
 
 /* eslint-disable complexity */
 /**
@@ -21,9 +20,8 @@ import { addQueryArgs } from "@wordpress/url";
 export const SimpleIntegration = ( { integration, isActive, children } ) => {
 	const IntegrationLogo = integration.logo;
 
-	const linkParams = useSelect( select => select( "yoast-seo/settings" ).selectLinkParams(), [] );
-	const learnMoreLink = addQueryArgs( integration.learnMoreLink, linkParams );
-	const logoLink = addQueryArgs( integration.logoLink, linkParams );
+	const learnMoreLink = useSelect( select => select( "yoast-seo/settings" ).selectLink( integration.learnMoreLink ), [] );
+	const logoLink = useSelect( select => select( "yoast-seo/settings" ).selectLink( integration.logoLink ), [] );
 
 	return (
 		<Card>
