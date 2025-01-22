@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure;
 
-use Yoast\WP\SEO\Dashboard\Infrastructure\Repositories\Permanently_Dismissed_Site_Kit_Widget_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Permanently_Dismissed_Site_Kit_Widget_Repository_Interface;
 
 /**
  * Fake class for the Permanently Dismissed Site Kit Widget Repository.

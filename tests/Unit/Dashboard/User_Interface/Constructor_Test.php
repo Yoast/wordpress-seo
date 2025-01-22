@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface;
 
-use Yoast\WP\SEO\Dashboard\Infrastructure\Repositories\Permanently_Dismissed_Site_Kit_Widget_Repository_interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Permanently_Dismissed_Site_Kit_Widget_Repository_interface;
 
 /**
  * Test class for the constructor.

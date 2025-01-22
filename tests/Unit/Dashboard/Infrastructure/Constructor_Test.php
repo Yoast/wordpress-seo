@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  *
  * @group Permanently_Dismissed_Site_Kit_Widget_Repository
  *
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Repositories\Permanently_Dismissed_Site_Kit_Widget_Repository::__construct
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Permanently_Dismissed_Site_Kit_Widget_Repository::__construct
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */

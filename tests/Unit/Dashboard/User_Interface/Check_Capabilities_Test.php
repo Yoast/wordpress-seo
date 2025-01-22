@@ -21,7 +21,9 @@ final class Check_Capabilities_Test extends Abstract_Site_Kit_Widget_Permanent_D
 	 * @return void
 	 */
 	public function test_check_capabilities() {
-		Functions\expect( 'current_user_can' )->once()->with( 'administrator' )->andReturn( true );
+		Functions\expect( 'current_user_can' )
+			->once()
+			->with( 'administrator' )->andReturn( true );
 
 		$this->assertTrue( $this->instance->check_capabilities() );
 	}

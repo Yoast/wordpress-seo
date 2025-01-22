@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure;
  *
  * @group Permanently_Dismissed_Site_Kit_Widget_Repository
  *
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Repositories\Permanently_Dismissed_Site_Kit_Widget_Repository::is_site_kit_widget_dismissed
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Permanently_Dismissed_Site_Kit_Widget_Repository::is_site_kit_widget_dismissed
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
