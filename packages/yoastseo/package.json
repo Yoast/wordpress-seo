@@ -30,6 +30,7 @@
     "build:types": "tsc",
     "clean": "rm -rf build",
     "pretest": "grunt get-premium-configuration",
+    "export:inclusive-language": "jest inclusiveLanguage",
     "test": "jest",
     "lint": "eslint . --max-warnings 26"
   },
