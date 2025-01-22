@@ -15,7 +15,7 @@ export const useFallbackWarning = ( imageFallbackUrl, imageUrl, imageWarnings ) 
 	const warningMessage = sprintf(
 		/* Translators: %s expands to the jpg format, %s expands to the png format, %s expands to the webp format, %s expands to the gif format. */
 		__(
-			"The image automatically added from your content isn't supported. Please use %s, %s, %s or %s formats to ensure it displays correctly on social media.",
+			"No image was found that we can automatically set as your social image. Please use %s, %s, %s or %s formats to ensure it displays correctly on social media.",
 			"wordpress-seo"
 		),
 		"JPG", "PNG", "WEBP", "GIF"
