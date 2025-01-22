@@ -1,6 +1,5 @@
 <?php
-// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\Infrastructure\Repositories;
+namespace Yoast\WP\SEO\Dashboard\Infrastructure;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 

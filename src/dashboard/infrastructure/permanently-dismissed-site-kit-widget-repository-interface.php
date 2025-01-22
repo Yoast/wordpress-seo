@@ -1,6 +1,5 @@
 <?php
-// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\Infrastructure\Repositories;
+namespace Yoast\WP\SEO\Dashboard\Infrastructure;
 
 /**
  * Interface for the Permanently Dismissed Site Kit Widget Repository.
