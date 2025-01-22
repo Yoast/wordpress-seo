@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Repositories;
+namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure;
 
 /**
  * Test class for the is_site_kit_widget_dismissed method.

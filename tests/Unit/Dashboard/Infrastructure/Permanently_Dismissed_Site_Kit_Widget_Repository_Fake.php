@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Repositories;
+namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure;
 
 use Yoast\WP\SEO\Dashboard\Infrastructure\Repositories\Permanently_Dismissed_Site_Kit_Widget_Repository_Interface;
 
