@@ -16,8 +16,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-abstract class Abstract_Permanently_Dismissed_Site_Kit_Widget_Repository_Test extends TestCase
-{
+abstract class Abstract_Permanently_Dismissed_Site_Kit_Widget_Repository_Test extends TestCase {
+
 	/**
 	 * Holds the instance.
 	 *
@@ -37,12 +37,11 @@ abstract class Abstract_Permanently_Dismissed_Site_Kit_Widget_Repository_Test ex
 	 *
 	 * @return void
 	 */
-	protected function set_up()
-	{
+	protected function set_up() {
 		parent::set_up();
 
-		$this->options_helper = Mockery::mock(Options_Helper::class);
+		$this->options_helper = Mockery::mock( Options_Helper::class );
 
-		$this->instance = new Permanently_Dismissed_Site_Kit_Widget_Repository($this->options_helper);
+		$this->instance = new Permanently_Dismissed_Site_Kit_Widget_Repository( $this->options_helper );
 	}
 }
