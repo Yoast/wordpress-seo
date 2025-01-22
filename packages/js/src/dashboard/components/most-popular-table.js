@@ -20,10 +20,8 @@ export const MostPopularTable = ( { data } ) => {
 			<TableWidget.Header>{ __( "Impressions", "wordpress-seo" ) }</TableWidget.Header>
 			<TableWidget.Header>{ __( "CTR", "wordpress-seo" ) }</TableWidget.Header>
 			<TableWidget.Header>{ __( "Average position", "wordpress-seo" ) }</TableWidget.Header>
-			<TableWidget.Header>
-				<div className="yst-flex yst-justify-end">
-					{ __( "SEO score", "wordpress-seo" ) }
-				</div>
+			<TableWidget.Header className="yst-text-center">
+				{ __( "SEO score", "wordpress-seo" ) }
 			</TableWidget.Header>
 		</TableWidget.Head>
 		<TableWidget.Body>
