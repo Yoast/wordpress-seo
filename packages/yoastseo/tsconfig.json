@@ -10,7 +10,7 @@
     "checkJs": false,
     "outDir": "./types",
     "module": "esnext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
     "strict": true,
     "skipLibCheck": true,
   }
