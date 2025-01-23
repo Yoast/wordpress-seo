@@ -27,7 +27,7 @@ const ScoreBullet = ( { score } ) => (
 const TableHead = ( { children } ) => {
 	return <Table.Head>
 		<Table.Row>
-			<Table.Header>{ "" }</Table.Header>
+			<Table.Header className="yst-px-0">{ "" }</Table.Header>
 			{ children }
 		</Table.Row>
 	</Table.Head>;
@@ -44,7 +44,7 @@ const TableHead = ( { children } ) => {
  */
 const TableRow = ( { children, index, key } ) => {
 	return <Table.Row key={ key }>
-		<Table.Cell>{ index + 1 }. </Table.Cell>
+		<Table.Cell className="yst-px-0">{ index + 1 }. </Table.Cell>
 		{ children }
 	</Table.Row>;
 };
@@ -59,7 +59,7 @@ const TableRow = ( { children, index, key } ) => {
  */
 export const TableWidget = ( { title, children } ) => {
 	return (
-		<Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md">
+		<Paper className="yst-@container yst-grow yst-p-8 yst-shadow-md yst-mt-6">
 			<Title as="h3" size="2" className="yst-text-slate-900 yst-font-medium">
 				{ title }
 			</Title>
