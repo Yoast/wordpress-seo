@@ -2,7 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Application\Search_Rankings;
 
-use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Collector_Interface;
+use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Dashboard_Repository_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter;
@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console
 /**
  * The data provider for search ranking related data.
  */
-class Top_Page_Collector implements Collector_Interface {
+class Top_Page_Repository implements Dashboard_Repository_Interface {
 
 	/**
 	 * The adapter.

@@ -9,7 +9,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WPSEO_Capability_Utils;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
-use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Collector_Interface;
+use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Dashboard_Repository_Interface;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -42,7 +42,7 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 	/**
 	 * The data provider.
 	 *
-	 * @var Collector_Interface $search_rankings_collector
+	 * @var Dashboard_Repository_Interface $search_rankings_collector
 	 */
 	private $search_rankings_collector;
 
@@ -58,9 +58,9 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Collector_Interface $search_rankings_collector The data provider.
+	 * @param Dashboard_Repository_Interface $search_rankings_collector The data provider.
 	 */
-	public function __construct( Collector_Interface $search_rankings_collector ) {
+	public function __construct( Dashboard_Repository_Interface $search_rankings_collector ) {
 		$this->search_rankings_collector = $search_rankings_collector;
 	}
 

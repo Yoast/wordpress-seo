@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Dashboard\Domain\Data_Provider;
 /**
  * Interface describing the way to get data for a specific data provider.
  */
-interface Collector_Interface {
+interface Dashboard_Repository_Interface {
 
 	/**
 	 * Method to get search related data from a provider.
