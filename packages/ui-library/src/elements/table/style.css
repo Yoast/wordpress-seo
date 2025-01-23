@@ -42,7 +42,7 @@
 			table {
 				@apply yst-divide-y yst-divide-slate-300;
 
-				th {
+				.yst-table-header {
 					@apply yst-align-bottom;
 				}
 				tbody {

@@ -88,7 +88,7 @@ Head.propTypes = {
  * @returns {JSX.Element} The element.
  */
 const Body = ( { children, className = "", ...props } ) => (
-	<tbody className={ className  } { ...props }>{ children }</tbody>
+	<tbody className={ className } { ...props }>{ children }</tbody>
 );
 
 Body.propTypes = {
