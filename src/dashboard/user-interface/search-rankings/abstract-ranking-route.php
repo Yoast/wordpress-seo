@@ -42,9 +42,9 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 	/**
 	 * The data provider.
 	 *
-	 * @var Dashboard_Repository_Interface $search_rankings_collector
+	 * @var Dashboard_Repository_Interface $search_rankings_repository
 	 */
-	private $search_rankings_collector;
+	private $search_rankings_repository;
 
 	/**
 	 * Returns the needed conditionals.
@@ -58,10 +58,10 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Dashboard_Repository_Interface $search_rankings_collector The data provider.
+	 * @param Dashboard_Repository_Interface $search_rankings_repository The data provider.
 	 */
-	public function __construct( Dashboard_Repository_Interface $search_rankings_collector ) {
-		$this->search_rankings_collector = $search_rankings_collector;
+	public function __construct( Dashboard_Repository_Interface $search_rankings_repository ) {
+		$this->search_rankings_repository = $search_rankings_repository;
 	}
 
 	/**
@@ -138,7 +138,7 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 			$this->request_parameters->set_start_date( $date->format( 'Y-m-d' ) );
 			$this->request_parameters->set_end_date( ( new DateTime( 'now', new DateTimeZone( 'UTC' ) ) )->format( 'Y-m-d' ) );
 
-			$search_data_container = $this->search_rankings_collector->get_data( $this->request_parameters );
+			$search_data_container = $this->search_rankings_repository->get_data( $this->request_parameters );
 
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(

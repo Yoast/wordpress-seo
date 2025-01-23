@@ -20,11 +20,11 @@ class Top_Page_Route extends Abstract_Ranking_Route {
 	/**
 	 * The constructor.
 	 *
-	 * @param Top_Page_Repository $top_page_collector The data provider.
+	 * @param Top_Page_Repository $top_page_repository The data provider.
 	 */
-	public function __construct( Top_Page_Repository $top_page_collector ) {
+	public function __construct( Top_Page_Repository $top_page_repository ) {
 		$this->set_request_parameters( new Search_Console_Parameters( [ 'page' ] ) );
 
-		parent::__construct( $top_page_collector );
+		parent::__construct( $top_page_repository );
 	}
 }
