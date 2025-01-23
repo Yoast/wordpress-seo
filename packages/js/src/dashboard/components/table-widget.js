@@ -1,22 +1,4 @@
-import classNames from "classnames";
 import { Paper, Table, Title } from "@yoast/ui-library";
-import { SCORE_META } from "../scores/score-meta";
-
-/**
- * The score bullet component.
- *
- * @param {string} score The score.
- * @returns {JSX.Element} The element.
- */
-const ScoreBullet = ( { score } ) => (
-	<div className="yst-flex yst-justify-end yst-items-center">
-		<div className="yst-flex yst-justify-center yst-w-16">
-			<span className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
-				<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
-			</span>
-		</div>
-	</div>
-);
 
 /**
  * The table head component.
@@ -27,7 +9,7 @@ const ScoreBullet = ( { score } ) => (
 const TableHead = ( { children } ) => {
 	return <Table.Head>
 		<Table.Row>
-			<Table.Header>{ "" }</Table.Header>
+			<Table.Header className="yst-pe-0">{ "" }</Table.Header>
 			{ children }
 		</Table.Row>
 	</Table.Head>;
@@ -38,13 +20,12 @@ const TableHead = ( { children } ) => {
  *
  * @param {children} children The row cells.
  * @param {number} index The row index.
- * @param {string} key The row key.
  *
  * @returns {JSX.Element} The row element.
  */
-const TableRow = ( { children, index, key } ) => {
-	return <Table.Row key={ key }>
-		<Table.Cell>{ index + 1 }. </Table.Cell>
+const TableRow = ( { children, index } ) => {
+	return <Table.Row>
+		<Table.Cell className="yst-pe-0">{ index + 1 }. </Table.Cell>
 		{ children }
 	</Table.Row>;
 };
@@ -59,7 +40,7 @@ const TableRow = ( { children, index, key } ) => {
  */
 export const TableWidget = ( { title, children } ) => {
 	return (
-		<Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md">
+		<Paper className="yst-@container yst-grow yst-p-8 yst-shadow-md yst-mt-6">
 			<Title as="h3" size="2" className="yst-text-slate-900 yst-font-medium">
 				{ title }
 			</Title>
@@ -74,7 +55,6 @@ export const TableWidget = ( { title, children } ) => {
 
 TableWidget.Head = TableHead;
 TableWidget.Row = TableRow;
-TableWidget.ScoreBullet = ScoreBullet;
 TableWidget.Cell = Table.Cell;
 TableWidget.Header = Table.Header;
 TableWidget.Body = Table.Body;
