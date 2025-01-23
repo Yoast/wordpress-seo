@@ -2,7 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Search_Rankings;
 
-use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Rankings_Data_Provider;
+use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Page_Collector;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
 
 /**
@@ -20,11 +20,11 @@ class Top_Page_Route extends Abstract_Ranking_Route {
 	/**
 	 * The constructor.
 	 *
-	 * @param Search_Rankings_Data_Provider $search_rankings_data_provider The data provider.
+	 * @param Top_Page_Collector $top_page_collector The data provider.
 	 */
-	public function __construct( Search_Rankings_Data_Provider $search_rankings_data_provider ) {
+	public function __construct( Top_Page_Collector $top_page_collector ) {
 		$this->set_request_parameters( new Search_Console_Parameters( [ 'page' ] ) );
 
-		parent::__construct( $search_rankings_data_provider );
+		parent::__construct( $top_page_collector );
 	}
 }
