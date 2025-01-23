@@ -180,8 +180,8 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 		);
 	} );
 
-	// Since Turkish has i as the lower case version of dotted İ, and ı for the lower case version of dotless I, it is expected to change the Latin capitalized i (I) to ı.
-	it( "changes I to ı and İ to i in Turkish", () => {
+	it( "correctly changes I to ı and İ to i in Turkish when converting keyphrase forms to lower case", () => {
+		// Since Turkish has i as the lower case version of dotted İ, and ı for the lower case version of dotless I, it is expected to change the Latin capitalized i (I) to ı.
 		const attributes = {
 			keyword: "Işık parkları İstanbul",
 		};
