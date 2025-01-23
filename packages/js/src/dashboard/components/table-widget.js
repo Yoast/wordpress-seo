@@ -38,12 +38,11 @@ const TableHead = ( { children } ) => {
  *
  * @param {children} children The row cells.
  * @param {number} index The row index.
- * @param {string} key The row key.
  *
  * @returns {JSX.Element} The row element.
  */
-const TableRow = ( { children, index, key } ) => {
-	return <Table.Row key={ key }>
+const TableRow = ( { children, index } ) => {
+	return <Table.Row>
 		<Table.Cell className="yst-px-0">{ index + 1 }. </Table.Cell>
 		{ children }
 	</Table.Row>;
