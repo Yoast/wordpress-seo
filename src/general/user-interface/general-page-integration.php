@@ -207,7 +207,6 @@ class General_Page_Integration implements Integration_Interface {
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
-				'languageCode'         => explode('_', \get_locale())[0],
 			],
 			'linkParams'        => $this->shortlink_helper->get_query_params(),
 			'userEditUrl'       => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) ),
