@@ -58,7 +58,7 @@ const TableRow = ( { children, index } ) => {
  */
 export const TableWidget = ( { title, children } ) => {
 	return (
-		<Paper className="yst-@container yst-grow yst-p-8 yst-shadow-md yst-mt-6">
+		<Paper className="yst-grow yst-p-8 yst-shadow-md yst-mt-6">
 			<Title as="h3" size="2" className="yst-text-slate-900 yst-font-medium">
 				{ title }
 			</Title>
