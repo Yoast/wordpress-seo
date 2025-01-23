@@ -7,7 +7,7 @@
 				.yst-table-header {
 					@apply yst-px-3 yst-py-4 yst-text-start yst-text-sm yst-font-semibold yst-text-slate-900;
 				}
-		
+
 				.yst-table-cell {
 					@apply yst-px-3 yst-py-4 yst-text-sm yst-text-slate-600;
 				}
@@ -16,7 +16,7 @@
 
 		.yst-table--default {
 			@apply yst-rounded-lg yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5;
-			
+
 			table {
 				@apply yst-divide-y yst-divide-slate-300;
 
