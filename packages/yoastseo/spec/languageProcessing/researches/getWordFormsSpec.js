@@ -180,9 +180,10 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 		);
 	} );
 
-	it( "does not change the upper case Turkish ı to Latin dotted i, and vice versa", () => {
+	// Since Turkish has i as the lower case version of dotted İ, and ı for the lower case version of dotless I, it is expected to change the Latin capitalized i (I) to ı.
+	it( "changes I to ı and İ to i in Turkish", () => {
 		const attributes = {
-			keyword: "İşık parkları Istanbul'da",
+			keyword: "Işık parkları İstanbul",
 		};
 		const testPaper = new Paper( "", attributes );
 		const researcher = new TurkishResearcher( testPaper );
@@ -191,7 +192,7 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				// here we get
-				keyphraseForms: [ [ "ışık" ], [ "parkları" ], [ "istanbul'da" ] ],
+				keyphraseForms: [ [ "ışık" ], [ "parkları" ], [ "istanbul"] ],
 				synonymsForms: [],
 			}
 		);
