@@ -2,10 +2,12 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Domain\Search_Rankings;
 
+use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Interface;
+
 /**
  * Domain object that represents a single Search Data record.
  */
-class Search_Data {
+class Search_Data implements Data_Interface {
 
 	/**
 	 * The amount of clicks a `key` gets.
@@ -36,12 +38,11 @@ class Search_Data {
 	private $position;
 
 	/**
-	 * An array representation of the different `keys`.
-	 * In the context of this domain object keys can represent a `URI` or a `search term`
+	 * In the context of this domain object subject can represent a `URI` or a `search term`
 	 *
-	 * @var string[]
+	 * @var string
 	 */
-	private $keys = [];
+	private $subject;
 
 	/**
 	 * The seo score.
@@ -53,18 +54,18 @@ class Search_Data {
 	/**
 	 * The constructor.
 	 *
-	 * @param int      $clicks      The clicks.
-	 * @param float    $ctr         The ctr.
-	 * @param int      $impressions The impressions.
-	 * @param float    $position    The position.
-	 * @param string[] $keys        The clicks.
+	 * @param int    $clicks      The clicks.
+	 * @param float  $ctr         The ctr.
+	 * @param int    $impressions The impressions.
+	 * @param float  $position    The position.
+	 * @param string $subject     The subject of the data.
 	 */
-	public function __construct( int $clicks, float $ctr, int $impressions, float $position, array $keys ) {
+	public function __construct( int $clicks, float $ctr, int $impressions, float $position, string $subject ) {
 		$this->clicks      = $clicks;
 		$this->ctr         = $ctr;
 		$this->impressions = $impressions;
 		$this->position    = $position;
-		$this->keys        = $keys;
+		$this->subject     = $subject;
 		$this->seo_score   = 0;
 	}
 
@@ -79,7 +80,7 @@ class Search_Data {
 			'ctr'         => $this->ctr,
 			'impressions' => $this->impressions,
 			'position'    => $this->position,
-			'keys'        => $this->keys,
+			'subject'     => $this->subject,
 			'seoScore'    => $this->seo_score,
 		];
 	}

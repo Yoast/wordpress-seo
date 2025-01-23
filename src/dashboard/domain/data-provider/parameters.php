@@ -1,11 +1,11 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\Domain\Search_Rankings;
+namespace Yoast\WP\SEO\Dashboard\Domain\Data_Provider;
 
 /**
  * Object representation of the request parameters.
  */
-class Request_Parameters {
+abstract class Parameters {
 
 	/**
 	 * The start date.
@@ -22,27 +22,11 @@ class Request_Parameters {
 	private $end_date;
 
 	/**
-	 * The search dimensions to query.
-	 *
-	 * @var string[] $dimensions
-	 */
-	private $dimensions;
-
-	/**
 	 * The amount of results.
 	 *
 	 * @var int $limit
 	 */
 	private $limit;
-
-	/**
-	 * The constructor.
-	 *
-	 * @param string[] $dimensions The search dimensions to query.
-	 */
-	public function __construct( array $dimensions ) {
-		$this->dimensions = $dimensions;
-	}
 
 	/**
 	 * Getter for the start date.
@@ -61,15 +45,6 @@ class Request_Parameters {
 	 */
 	public function get_end_date(): string {
 		return $this->end_date;
-	}
-
-	/**
-	 * Getter for the dimensions.
-	 *
-	 * @return string[]
-	 */
-	public function get_dimensions(): array {
-		return $this->dimensions;
 	}
 
 	/**

@@ -7,9 +7,9 @@ use Google\Site_Kit\Core\Modules\Module;
 use Google\Site_Kit\Core\Modules\Modules;
 use Google\Site_Kit\Modules\Search_Console;
 use Google\Site_Kit\Plugin;
-use Google\Site_Kit_Dependencies\Google\Service\SearchConsole\ApiDataRow;
 use WP_Error;
-use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Request_Parameters;
+use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
+use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Data;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Site_Kit_Adapter_Interface;
 
 /**
@@ -40,11 +40,11 @@ class Site_Kit_Search_Console_Adapter implements Site_Kit_Adapter_Interface {
 	/**
 	 * The wrapper method to add our parameters to a Site Kit API request.
 	 *
-	 * @param Request_Parameters $parameters The parameters.
+	 * @param Search_Console_Parameters $parameters The parameters.
 	 *
-	 * @return ApiDataRow[]|WP_Error Data on success, or WP_Error on failure.
+	 * @return Data_Container|WP_Error Data on success, or WP_Error on failure.
 	 */
-	public function get_data( Request_Parameters $parameters ) {
+	public function get_data( Search_Console_Parameters $parameters ): Data_Container {
 		$api_parameters = [
 			'slug'       => 'search-console',
 			'datapoint'  => 'searchanalytics',
@@ -54,6 +54,13 @@ class Site_Kit_Search_Console_Adapter implements Site_Kit_Adapter_Interface {
 			'dimensions' => $parameters->get_dimensions(),
 		];
 
-		return self::$search_console_module->get_data( 'searchanalytics', $api_parameters );
+		$data_rows = self::$search_console_module->get_data( 'searchanalytics', $api_parameters );
+
+		$search_data_container = new Data_Container();
+		foreach ( $data_rows as $ranking ) {
+			$search_data_container->add_data( new Search_Data( $ranking->clicks, $ranking->ctr, $ranking->impressions, $ranking->position, $ranking->keys[0] ) );
+		}
+
+		return $search_data_container;
 	}
 }

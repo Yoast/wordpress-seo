@@ -2,14 +2,15 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Search_Rankings;
 
+use DateTime;
+use DateTimeZone;
 use Exception;
 use WP_REST_Request;
 use WP_REST_Response;
 use WPSEO_Capability_Utils;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Request_Parameters;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Rankings\Search_Rankings_Parser;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Site_Kit_Adapter_Interface;
+use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Dashboard_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -17,8 +18,6 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  * Abstract scores route.
  */
 abstract class Abstract_Ranking_Route implements Route_Interface {
-
-	use No_Conditionals;
 
 	/**
 	 * The namespace of the rout.
@@ -36,44 +35,44 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 	/**
 	 * The request parameters.
 	 *
-	 * @var Request_Parameters $request_parameters
+	 * @var Search_Console_Parameters $request_parameters
 	 */
 	private $request_parameters;
 
 	/**
-	 * The API adapter.
+	 * The data provider.
 	 *
-	 * @var Site_Kit_Adapter_Interface $site_kit_search_console_adapter
+	 * @var Dashboard_Repository_Interface $search_rankings_repository
 	 */
-	private $site_kit_search_console_adapter;
+	private $search_rankings_repository;
 
 	/**
-	 * The rankings parser.
+	 * Returns the needed conditionals.
 	 *
-	 * @var Search_Rankings_Parser $search_rankings_parser
+	 * @return array<string> The conditionals that must be met to load this.
 	 */
-	private $search_rankings_parser;
+	public static function get_conditionals(): array {
+		return [ Google_Site_Kit_Feature_Conditional::class ];
+	}
 
 	/**
 	 * The constructor.
 	 *
-	 * @param Site_Kit_Adapter_Interface $site_kit_search_console_adapter The adapter.
-	 * @param Search_Rankings_Parser     $search_rankings_parser          The parser.
+	 * @param Dashboard_Repository_Interface $search_rankings_repository The data provider.
 	 */
-	public function __construct( Site_Kit_Adapter_Interface $site_kit_search_console_adapter, Search_Rankings_Parser $search_rankings_parser ) {
-		$this->site_kit_search_console_adapter = $site_kit_search_console_adapter;
-		$this->search_rankings_parser          = $search_rankings_parser;
+	public function __construct( Dashboard_Repository_Interface $search_rankings_repository ) {
+		$this->search_rankings_repository = $search_rankings_repository;
 	}
 
 	/**
 	 * Sets the request parameters.
 	 *
-	 * @param Request_Parameters $request_parameters The API request parameters.
+	 * @param Search_Console_Parameters $request_parameters The API request parameters.
 	 *
 	 * @return void
 	 */
 	public function set_request_parameters(
-		Request_Parameters $request_parameters
+		Search_Console_Parameters $request_parameters
 	) {
 		$this->request_parameters = $request_parameters;
 	}
@@ -81,9 +80,8 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 	/**
 	 * Returns the route prefix.
 	 *
-	 * @return string The route prefix.
-	 *
 	 * @throws Exception If the ROUTE_PREFIX constant is not set in the child class.
+	 * @return string The route prefix.
 	 */
 	public static function get_route_prefix() {
 		$class  = static::class;
@@ -134,10 +132,13 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 	public function get_rankings( WP_REST_Request $request ): WP_REST_Response {
 		try {
 			$this->request_parameters->set_limit( $request->get_param( 'limit' ) );
-			$this->request_parameters->set_start_date( '2024-01-01' );
-			$this->request_parameters->set_end_date( '2025-01-02' );
+			$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+			$date->modify( '-28 days' );
 
-			$results = $this->site_kit_search_console_adapter->get_data( $this->request_parameters );
+			$this->request_parameters->set_start_date( $date->format( 'Y-m-d' ) );
+			$this->request_parameters->set_end_date( ( new DateTime( 'now', new DateTimeZone( 'UTC' ) ) )->format( 'Y-m-d' ) );
+
+			$search_data_container = $this->search_rankings_repository->get_data( $this->request_parameters );
 
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(
@@ -147,8 +148,6 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 				$exception->getCode()
 			);
 		}
-
-		$search_data_container = $this->search_rankings_parser->parse( $results );
 
 		return new WP_REST_Response(
 			$search_data_container->to_array(),
