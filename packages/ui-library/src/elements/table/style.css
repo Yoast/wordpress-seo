@@ -10,17 +10,17 @@
 		
 				.yst-table-cell {
 					@apply yst-px-3 yst-py-4 yst-text-sm yst-text-slate-600;
-				}				
+				}
 			}
 		}
-	
+
 		.yst-table--default {
 			@apply yst-rounded-lg yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5;
 			
 			table {
 				@apply yst-divide-y yst-divide-slate-300;
 
-				thead{
+				thead {
 					@apply yst-bg-slate-50;
 
 					.yst-table-header {
@@ -45,6 +45,7 @@
 				.yst-table-header {
 					@apply yst-align-bottom;
 				}
+
 				tbody {
 					@apply yst-divide-y yst-divide-gray-200 yst-bg-white;
 				}
