@@ -18,6 +18,7 @@ class Top_Page_Collector implements Collector_Interface {
 	 * @var Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter
 	 */
 	private $site_kit_search_console_adapter;
+
 	/**
 	 * The constructor.
 	 *

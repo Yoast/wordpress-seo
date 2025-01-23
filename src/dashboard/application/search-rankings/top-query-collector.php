@@ -24,7 +24,7 @@ class Top_Query_Collector implements Collector_Interface {
 	 *
 	 * @param Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter The adapter.
 	 */
-	public function __construct( Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter) {
+	public function __construct( Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter ) {
 		$this->site_kit_search_console_adapter = $site_kit_search_console_adapter;
 	}
 
