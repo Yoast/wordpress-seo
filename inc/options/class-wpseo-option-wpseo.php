@@ -139,7 +139,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'new_post_types'                           => [],
 		'new_taxonomies'                           => [],
 		'show_new_content_type_notification'       => false,
-		'site_kit_widget_permanently_dismissed'	  => false,
+		'site_kit_widget_permanently_dismissed'    => false,
 	];
 
 	/**

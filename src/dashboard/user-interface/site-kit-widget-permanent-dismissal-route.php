@@ -110,7 +110,7 @@ class Site_Kit_Widget_Permanent_Dismissal_Route implements Route_Interface {
 	 *
 	 * @return bool
 	 */
-	public function check_capabilities()  {
-		return \current_user_can( 'administrator' );
+	public function check_capabilities() {
+		return \current_user_can( 'install_plugins' );
 	}
 }
