@@ -9,6 +9,7 @@ import LanguageProcessor from "../../parse/language/LanguageProcessor.js";
 import MissingArgument from "../../errors/missingArgument.js";
 import removeDuplicateMarks from "../../markers/removeDuplicateMarks.js";
 import { showTrace } from "../../helpers/errors.js";
+import SEOScoreAggregator from "../scoreAggregators/SEOScoreAggregator";
 
 // The maximum score of individual assessment is 9. This is why we set the "score rating" here to 9.
 const ScoreRating = 9;
@@ -17,6 +18,12 @@ const ScoreRating = 9;
  * The Assessor is a base class for all assessors.
  */
 class Assessor {
+	/**
+	 * The ScoreAggregator for this assessor.
+	 * @private
+	 */
+	_scoreAggregator = new SEOScoreAggregator();
+
 	/**
 	 * Creates a new Assessor instance.
 	 * @param {Researcher}	researcher	The researcher to use.
@@ -298,6 +305,15 @@ class Assessor {
 				return this.isApplicable( availableAssessment, this.getPaper(), this._researcher );
 			}.bind( this )
 		);
+	}
+
+	/**
+	 * Returns the ScoreAggregator for this assessor.
+	 *
+	 * @returns {ScoreAggregator} The specific marker for this assessor.
+	 */
+	getScoreAggregator() {
+		return this._scoreAggregator;
 	}
 }
 

@@ -6,6 +6,7 @@ import MetaDescriptionKeyword from "../assessments/seo/MetaDescriptionKeywordAss
 import TextCompetingLinks from "../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
+import RelatedKeywordScoreAggregator from "../scoreAggregators/RelatedKeywordScoreAggregator";
 
 /**
  * The relatedKeywordAssessor class is used for the related keyword analysis.
@@ -29,5 +30,7 @@ export default class RelatedKeywordAssessor extends Assessor {
 			new FunctionWordsInKeyphrase(),
 			new ImageKeyphrase(),
 		];
+
+		this._scoreAggregator = new RelatedKeywordScoreAggregator();
 	}
 }

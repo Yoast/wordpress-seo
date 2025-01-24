@@ -1,6 +1,7 @@
 import Assessor from "./assessor.js";
 import inclusiveLanguageAssessmentsConfigs from "../assessments/inclusiveLanguage/configuration";
 import InclusiveLanguageAssessment from "../assessments/inclusiveLanguage/InclusiveLanguageAssessment.js";
+import SEOScoreAggregator from "../scoreAggregators/SEOScoreAggregator";
 
 /**
  * Default options for the Inclusive language assessor.

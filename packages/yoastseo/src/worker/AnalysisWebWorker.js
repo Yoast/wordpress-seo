@@ -29,9 +29,6 @@ import RelatedKeywordTaxonomyAssessor from "../scoring/assessors/relatedKeywordT
 import SEOAssessor from "../scoring/assessors/seoAssessor.js";
 import TaxonomyAssessor from "../scoring/assessors/taxonomyAssessor.js";
 
-// Tree assessor functionality.
-import { ReadabilityScoreAggregator, SEOScoreAggregator, RelatedKeywordScoreAggregator } from "../scoring/scoreAggregators";
-
 const logger = getLogger( "yoast-analysis-worker" );
 logger.setDefaultLevel( "error" );
 
@@ -309,11 +306,6 @@ export default class AnalysisWebWorker {
 
 		// Registered assessments
 		this._registeredTreeAssessments = [];
-
-		// Score aggregators
-		this._seoScoreAggregator = new SEOScoreAggregator();
-		this._contentScoreAggregator = new ReadabilityScoreAggregator();
-		this._relatedKeywordScoreAggregator = new RelatedKeywordScoreAggregator();
 
 		// Tree representation of text to analyze
 		this._tree = null;
@@ -1104,7 +1096,6 @@ export default class AnalysisWebWorker {
 				this._results.seo[ "" ] = await this.assess( this._paper, this._tree, {
 					oldAssessor: this._seoAssessor,
 					treeAssessor: this._seoTreeAssessor,
-					scoreAggregator: this._seoScoreAggregator,
 				} );
 			}
 
@@ -1134,10 +1125,10 @@ export default class AnalysisWebWorker {
 			const analysisCombination = {
 				oldAssessor: this._contentAssessor,
 				treeAssessor: this._contentTreeAssessor,
-				scoreAggregator: this._contentScoreAggregator,
 			};
+
 			// Set the locale (we are more lenient for languages that have full analysis support).
-			analysisCombination.scoreAggregator.setLocale( this._configuration.locale );
+			analysisCombination.oldAssessor.getScoreAggregator().setLocale( this._configuration.locale );
 			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
@@ -1158,16 +1149,15 @@ export default class AnalysisWebWorker {
 	 * @param {Paper}                      paper The paper to analyze.
 	 * @param {module:parsedPaper/structure.Node} tree  The tree to analyze.
 	 *
-	 * @param {Object}                             analysisCombination                 Which assessors and score aggregator to use.
+	 * @param {Object}                             analysisCombination                 Which assessors to use.
 	 * @param {Assessor}                           analysisCombination.oldAssessor     The original assessor.
 	 * @param {module:parsedPaper/assess.TreeAssessor}    analysisCombination.treeAssessor    The new assessor.
-	 * @param {module:parsedPaper/assess.ScoreAggregator} analysisCombination.scoreAggregator The score aggregator to use.
 	 *
 	 * @returns {Promise<{score: number, results: AssessmentResult[]}>} The analysis results.
 	 */
 	async assess( paper, tree, analysisCombination ) {
 		// Disabled code: The variable `treeAssessor` is removed from here.
-		const { oldAssessor, scoreAggregator } = analysisCombination;
+		const { oldAssessor } = analysisCombination;
 		/*
 		 * Assess the paper and the tree
 		 * using the original assessor and the tree assessor.
@@ -1194,7 +1184,7 @@ export default class AnalysisWebWorker {
 		const results = [ ...treeAssessmentResults, ...oldAssessmentResults ];
 
 		// Aggregate the results.
-		const score = scoreAggregator.aggregate( results );
+		const score = oldAssessor.getScoreAggregator().aggregate( results );
 
 		return {
 			results: results,
@@ -1244,11 +1234,10 @@ export default class AnalysisWebWorker {
 				synonyms: this._relatedKeywords[ key ].synonyms,
 			} );
 
-			// Which combination of (tree) assessors and score aggregator to use.
+			// Which combination of (tree) assessors to use.
 			const analysisCombination = {
 				oldAssessor: this._relatedKeywordAssessor,
 				treeAssessor: this._relatedKeywordTreeAssessor,
-				scoreAggregator: this._relatedKeywordScoreAggregator,
 			};
 
 			// We need to remember the key, since the SEO results are stored in an object, not an array.
