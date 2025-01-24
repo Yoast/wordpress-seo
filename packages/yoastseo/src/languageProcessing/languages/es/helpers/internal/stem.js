@@ -295,7 +295,7 @@ const canonicalizeStem = function( stemmedWord, stemsThatBelongToOneWord ) {
  *
  * @returns {string} The word with the verb suffixes removed (if applicable).
  */
-const stemVerbSuffixes = function( word, wordAfter1, rvText, rv ) {
+const stemVerbSuffixes = function( word, wordAfter1, rvText, rv, morphologyData ) {
 	// Do step 2a if no ending was removed by step 1.
 	const suf = findMatchingEndingInArray( rvText, [ "ya", "ye", "yan", "yen", "yeron", "yendo", "yo", "yó", "yas", "yes", "yais", "yamos" ] );
 
@@ -309,6 +309,9 @@ const stemVerbSuffixes = function( word, wordAfter1, rvText, rv ) {
 
 	// Do Step 2b if step 2a was done, but failed to remove a suffix.
 	if ( word === wordAfter1 ) {
+		if (morphologyData.wordsThatLookLikeButAreNot.notVerbForms.includes(removeAccent(word))) {
+			return word;
+		}
 		const suf11 = findMatchingEndingInArray( rvText, [ "arían", "arías", "arán", "arás", "aríais", "aría", "aréis",
 			"aríamos", "aremos", "ará", "aré", "erían", "erías", "erán",
 			"erás", "eríais", "ería", "eréis", "eríamos", "eremos", "erá",
@@ -328,6 +331,28 @@ const stemVerbSuffixes = function( word, wordAfter1, rvText, rv ) {
 			word = word.slice( 0, -suf12.length );
 			if ( endsIn( word, "gu" ) ) {
 				word = word.slice( 0, -1 );
+			}
+			if (morphologyData.wordsThatLookLikeButAreNot.notVerbForms.includes(word)) {
+				return word;
+			}
+			if (morphologyData.wordsThatLookLikeButAreNot.notVerbForms.includes(removeAccent(word))) {
+				return word;
+			}
+			rvText = word.slice(rv);
+			const suf11AfterSuf12 = findMatchingEndingInArray( rvText, [ "arían", "arías", "arán", "arás", "aríais", "aría", "aréis",
+				"aríamos", "aremos", "ará", "aré", "erían", "erías", "erán",
+				"erás", "eríais", "ería", "eréis", "eríamos", "eremos", "erá",
+				"eré", "irían", "irías", "irán", "irás", "iríais", "iría", "iréis",
+				"iríamos", "iremos", "irá", "iré", "aba", "ada", "ida", "ía", "ara",
+				"iera", "ad", "ed", "id", "ase", "iese", "aste", "iste", "an",
+				"aban", "ían", "aran", "ieran", "asen", "iesen", "aron", "ieron",
+				"ado", "ido", "ando", "iendo", "ió", "ar", "er", "ir", "as", "abas",
+				"adas", "idas", "ías", "aras", "ieras", "ases", "ieses", "ís", "áis",
+				"abais", "íais", "arais", "ierais", "  aseis", "ieseis", "asteis",
+				"isteis", "ados", "idos", "amos", "ábamos", "íamos", "imos", "áramos",
+				"iéramos", "iésemos", "ásemos" ] );
+			if (suf11AfterSuf12 !== "") {
+				word = word.slice(0, -suf11AfterSuf12.length );
 			}
 		}
 	}
@@ -580,7 +605,7 @@ export default function stem( word, morphologyData ) {
 			word = wordWithoutS;
 			isNonVerb = true;
 		} else {
-			word = stemVerbSuffixes( word, wordAfter1, rvText, rv );
+			word = stemVerbSuffixes( word, wordAfter1, rvText, rv, morphologyData );
 		}
 	}
 
@@ -611,3 +636,4 @@ export default function stem( word, morphologyData ) {
 
 	return removeAccent( word );
 }
+

@@ -73,7 +73,7 @@ const wordsToStem = [
 	[ "comienzo", "comenz" ],
 	// Input a word that ends in a common verb suffix.
 	[ "saltaron", "salt" ],
-	// [ "revocares", "revoc" ],
+	[ "revocares", "revoc" ],
 	// Input a word that ends in -os, -s, -a, -o, -á, -í,-ó, -é, -e.
 	[ "agostinas", "agostin" ],
 	[ "boboré", "bobor" ],
