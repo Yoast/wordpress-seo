@@ -12,10 +12,15 @@
 			yst-h-6
 			yst-ring-2
 			yst-rounded-full
-			yst-flex
-			yst-items-center
-			yst-justify-center
+			yst-relative
+			yst-transition-all
+			yst-ease-in
+			yst-delay-500
 			yst-z-10;
+		}
+
+		.yst-step-icon {
+			@apply yst-absolute yst-top-1/2 yst-left-1/2 yst-transform -yst-translate-x-1/2 -yst-translate-y-1/2 yst-transition-all yst-ease-in;
 		}
 
 		.yst-step--active .yst-step-circle {
