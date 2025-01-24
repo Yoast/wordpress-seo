@@ -26,14 +26,14 @@ import { useToggleState } from "@yoast/ui-library";
 // eslint-disable-next-line complexity
 export const Dashboard = ( { contentTypes, userName, features, endpoints, headers, links } ) => {
 	const googleSiteKitConfiguration = get( window, "wpseoScriptData.dashboard.google_site_kit", {
-		installed: false,
-		featureActive: false,
-		active: false,
-		setup: false,
-		connected: false,
+		isInstalled: false,
+		isActive: false,
+		isSetup: false,
+		isConnected: false,
 		installUrl: "",
 		activateUrl: "",
 		setupUrl: "",
+		featureActive: false,
 	} );
 	const [ showGoogleSiteKit, , , , setRemoveGoogleSiteKit ] = useToggleState( true );
 

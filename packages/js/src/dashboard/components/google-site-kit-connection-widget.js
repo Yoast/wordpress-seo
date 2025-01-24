@@ -9,23 +9,23 @@ import classNames from "classnames";
 /**
  * Get the button and stepper props based on the current state.
  *
- * @param {boolean} active Whether the feature is active.
- * @param {boolean} installed Whether the plugin is installed.
- * @param {boolean} setup Whether the setup is complete.
- * @param {boolean} connected Whether the connection is active.
+ * @param {boolean} isInstalled Whether the plugin is isInstalled.
+ * @param {boolean} isActive Whether the feature is active.
+ * @param {boolean} isSetup Whether the setup is complete.
+ * @param {boolean} isConnected Whether the connection is active.
  * @param {string} installUrl The URL to install Site Kit.
  * @param {string} activateUrl The URL to activate Site Kit.
  * @param {string} setupUrl The URL to setup Site Kit.
  *
  * @returns {Object} The button and stepper props.
  */
-const getButtonAndStepperProps = ( active, installed, setup, connected, installUrl, activateUrl, setupUrl ) => {
+const getButtonAndStepperProps = ( isInstalled, isActive, isSetup, isConnected, installUrl, activateUrl, setupUrl ) => {
 	let buttonProps;
 	let currentStep;
 	let isComplete;
 
 	switch ( true ) {
-		case ( ! installed ):
+		case ( ! isInstalled ):
 			currentStep = 1;
 			isComplete = false;
 			buttonProps = {
@@ -35,7 +35,7 @@ const getButtonAndStepperProps = ( active, installed, setup, connected, installU
 			};
 			isComplete = false;
 			break;
-		case ( ! active ):
+		case ( ! isActive ):
 			currentStep = 2;
 			buttonProps = {
 				children: __( "Activate Site Kit by Google", "wordpress-seo" ),
@@ -44,7 +44,7 @@ const getButtonAndStepperProps = ( active, installed, setup, connected, installU
 			};
 			isComplete = false;
 			break;
-		case ( ! setup ):
+		case ( ! isSetup ):
 			currentStep = 3;
 			buttonProps = {
 				children: __( "Set up Site Kit by Google", "wordpress-seo" ),
@@ -53,12 +53,12 @@ const getButtonAndStepperProps = ( active, installed, setup, connected, installU
 			};
 			isComplete = false;
 			break;
-		case ( ! connected ):
+		case ( ! isConnected ):
 			currentStep = 4;
 			buttonProps = { children: __( "Connect Site Kit by Google", "wordpress-seo" ) };
 			isComplete = false;
 			break;
-		case connected:
+		case isConnected:
 			isComplete = true;
 			currentStep = 4;
 			buttonProps = { children: "Take a quick tour" };
@@ -70,13 +70,13 @@ const getButtonAndStepperProps = ( active, installed, setup, connected, installU
 /**
  * The google site kit connection guide widget.
  *
- * @param {boolean} installed Whether the plugin is installed.
- * @param {boolean} setup Whether the setup is complete.
- * @param {boolean} active Whether the feature is active.
- * @param {boolean} connected Whether the connection is active.
- * @param {boolean} installed Whether the plugin is installed.
- * @param {string} activateUrl The URL to activate Site Kit.
+ * @param {boolean} isInstalled Whether the plugin is installed.
+ * @param {boolean} isActive Whether the feature is active.
+ * @param {boolean} isSetup Whether the setup is complete.
+ * @param {boolean} isConnected Whether the connection is active.
  * @param {string} installUrl The URL to install Site Kit.
+ * @param {string} activateUrl The URL to activate Site Kit.
+ * @param {string} setupUrl The URL to setup Site Kit.
  * @param {function} onRemove The function to call when the widget is removed.
  * @param {function} onRemovePermanently The function to call when the widget is removed permanently.
  *
@@ -86,10 +86,10 @@ export const GoogleSiteKitConnectionWidget = ( {
 	installUrl,
 	activateUrl,
 	setupUrl,
-	connected,
-	active,
-	setup,
-	installed,
+	isConnected,
+	isActive,
+	isSetup,
+	isInstalled,
 	onRemove,
 	onRemovePermanently,
 } ) => {
@@ -103,7 +103,7 @@ export const GoogleSiteKitConnectionWidget = ( {
 	const learnMorelink = useSelect( select => select( "@yoast/general" ).selectLink( "https://yoa.st/google-site-kit-learn-more" ), [] );
 
 	const { buttonProps, currentStep, isComplete } = getButtonAndStepperProps(
-		active, installed, setup, connected, installUrl, activateUrl, setupUrl );
+		isInstalled, isActive, isSetup, isConnected, installUrl, activateUrl, setupUrl );
 	return <Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative">
 		<button
 			aria-haspopup="true"
@@ -148,7 +148,7 @@ export const GoogleSiteKitConnectionWidget = ( {
 		<div className="yst-flex yst-gap-0.5 yst-mt-6 yst-items-center">
 			<Button { ...buttonProps } />
 
-			{ connected ? <Button>{ __( "Dismiss", "wordpress-seo" ) }</Button>
+			{ isConnected ? <Button>{ __( "Dismiss", "wordpress-seo" ) }</Button>
 				: <Button as="a" variant="tertiary" href={ learnMorelink }>{ __( "Learn more", "wordpress-seo" ) }
 					<ArrowRightIcon className="yst-w-3 yst-ml-2 yst-text-primary-500" />
 				</Button>

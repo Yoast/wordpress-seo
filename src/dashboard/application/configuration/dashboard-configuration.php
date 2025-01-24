@@ -152,14 +152,14 @@ class Dashboard_Configuration {
 		$google_site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
 
 		return [
-			'installed'     => \file_exists( \WP_PLUGIN_DIR . '/' . $google_site_kit_file ),
-			'active'        => \is_plugin_active( $google_site_kit_file ),
-			'setup'         => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
-			'connected'     => $this->options_helper->get( 'google_site_kit_connected', false ),
-			'featureActive' => $this->google_site_kit_conditional->is_met(),
+			'isInstalled'     => \file_exists( \WP_PLUGIN_DIR . '/' . $google_site_kit_file ),
+			'isActive'        => \is_plugin_active( $google_site_kit_file ),
+			'isSetup'         => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
+			'isConnected'     => $this->options_helper->get( 'google_site_kit_connected', false ),
 			'installUrl'    => \html_entity_decode( $google_site_kit_install_url ),
 			'activateUrl'   => \html_entity_decode( $google_site_kit_activate_url ),
 			'setupUrl'      => \html_entity_decode( $google_site_kit_setup_url ),
+			'featureActive' => $this->google_site_kit_conditional->is_met(),
 		];
 	}
 }
