@@ -10,28 +10,28 @@ use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Interface;
 class Search_Data implements Data_Interface {
 
 	/**
-	 * The amount of clicks a `key` gets.
+	 * The amount of clicks a `subject` gets.
 	 *
 	 * @var int $clicks
 	 */
 	private $clicks;
 
 	/**
-	 * The click-through rate a `key` gets.
+	 * The click-through rate a `subject` gets.
 	 *
 	 * @var float $clicks
 	 */
 	private $ctr;
 
 	/**
-	 * The amount of impressions a `key` gets.
+	 * The amount of impressions a `subject` gets.
 	 *
 	 * @var int $impressions
 	 */
 	private $impressions;
 
 	/**
-	 * The average position for the given `key`.
+	 * The average position for the given `subject`.
 	 *
 	 * @var float $position
 	 */
@@ -43,13 +43,6 @@ class Search_Data implements Data_Interface {
 	 * @var string
 	 */
 	private $subject;
-
-	/**
-	 * The seo score.
-	 *
-	 * @var int
-	 */
-	private $seo_score;
 
 	/**
 	 * The constructor.
@@ -66,7 +59,6 @@ class Search_Data implements Data_Interface {
 		$this->impressions = $impressions;
 		$this->position    = $position;
 		$this->subject     = $subject;
-		$this->seo_score   = 0;
 	}
 
 	/**
@@ -81,7 +73,15 @@ class Search_Data implements Data_Interface {
 			'impressions' => $this->impressions,
 			'position'    => $this->position,
 			'subject'     => $this->subject,
-			'seoScore'    => $this->seo_score,
 		];
+	}
+
+	/**
+	 * Gets the subject.
+	 *
+	 * @return string The subject.
+	 */
+	public function get_subject(): string {
+		return $this->subject;
 	}
 }

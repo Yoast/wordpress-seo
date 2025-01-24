@@ -8,7 +8,7 @@ namespace Yoast\WP\SEO\Dashboard\Domain\Data_Provider;
 class Data_Container {
 
 	/**
-	 * All the search data points.
+	 * All the data points.
 	 *
 	 * @var array<Data_Interface> $data_container
 	 */
@@ -33,9 +33,18 @@ class Data_Container {
 	}
 
 	/**
-	 * Converts the list to an array.
+	 * Method to get all the data points.
 	 *
-	 * @return array<string,string> The array of endpoints.
+	 * @return Data_Interface[] All the data points.
+	 */
+	public function get_data(): array {
+		return $this->data_container;
+	}
+
+	/**
+	 * Converts the data points into an array.
+	 *
+	 * @return array<string,string> The array of the data points.
 	 */
 	public function to_array(): array {
 		$result = [];
