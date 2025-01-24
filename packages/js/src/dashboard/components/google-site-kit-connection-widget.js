@@ -4,7 +4,6 @@ import { __ } from "@wordpress/i18n";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { ArrowRightIcon, DotsVerticalIcon, XIcon, TrashIcon } from "@heroicons/react/outline";
 import { useSelect } from "@wordpress/data";
-import { addQueryArgs } from "@wordpress/url";
 import classNames from "classnames";
 
 /**
@@ -34,6 +33,7 @@ const getButtonAndStepperProps = ( active, installed, setup, connected, installU
 				as: "a",
 				href: installUrl,
 			};
+			isComplete = false;
 			break;
 		case ( ! active ):
 			currentStep = 2;
@@ -42,6 +42,7 @@ const getButtonAndStepperProps = ( active, installed, setup, connected, installU
 				as: "a",
 				href: activateUrl,
 			};
+			isComplete = false;
 			break;
 		case ( ! setup ):
 			currentStep = 3;
@@ -50,10 +51,12 @@ const getButtonAndStepperProps = ( active, installed, setup, connected, installU
 				as: "a",
 				href: setupUrl,
 			};
+			isComplete = false;
 			break;
 		case ( ! connected ):
 			currentStep = 4;
 			buttonProps = { children: __( "Connect Site Kit by Google", "wordpress-seo" ) };
+			isComplete = false;
 			break;
 		case connected:
 			isComplete = true;
@@ -97,8 +100,7 @@ export const GoogleSiteKitConnectionWidget = ( {
 		{ label: __( "CONNECT", "wordpress-seo" ) },
 	];
 	const [ isMenuOpen, toggleMenuOpen ] = useToggleState( false );
-	const linkParams = useSelect( select => select( "@yoast/general" ).selectLinkParams(), [] );
-	const learnMorelink = addQueryArgs( "https://yoa.st/google-site-kit-learn-more", linkParams );
+	const learnMorelink = useSelect( select => select( "@yoast/general" ).selectLink( "https://yoa.st/google-site-kit-learn-more" ), [] );
 
 	const { buttonProps, currentStep, isComplete } = getButtonAndStepperProps(
 		active, installed, setup, connected, installUrl, activateUrl, setupUrl );
@@ -119,14 +121,14 @@ export const GoogleSiteKitConnectionWidget = ( {
 		</button>
 		{ isMenuOpen && <ul role="menu" className="yst-w-56 yst-rounded-md yst-border yst-border-slate-200 yst-shadow-sm yst-bg-white yst-absolute yst-top-10 yst-end-4">
 			<li role="menuitem" className="yst-border-b yst-border-slate-200">
-				<button className="yst-text-slate-600 yst-py-2 yst-flex yst-justify-start yst-gap-2 yst-px-4 yst-items-center" onClick={ onRemove }>
+				<Button variant="teriary" className="yst-text-slate-600 yst-py-2 yst-flex yst-justify-start yst-gap-2 yst-px-4 yst-items-center yst-w-full" onClick={ onRemove }>
 					<XIcon className="yst-w-4 yst-text-slate-400" />
-					{ __( "Remove until next visit", "wordpress-seo" ) }</button>
+					{ __( "Remove until next visit", "wordpress-seo" ) }</Button>
 			</li>
 			<li role="menuitem">
-				<button className="yst-text-red-500 yst-py-2 yst-flex yst-justify-start yst-items-center yst-gap-2 yst-px-4" onClick={ onRemovePermanently }>
+				<Button variant="teriary" className="yst-text-red-500 yst-py-2 yst-flex yst-justify-start yst-items-center yst-gap-2 yst-px-4 yst-w-full" onClick={ onRemovePermanently }>
 					<TrashIcon className="yst-w-4" />
-					{ __( "Remove permanently", "wordpress-seo" ) }</button>
+					{ __( "Remove permanently", "wordpress-seo" ) }</Button>
 			</li>
 		</ul> }
 
