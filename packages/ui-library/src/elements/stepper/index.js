@@ -26,7 +26,7 @@ const Step = ( { label, index, isComplete, currentStep, addStepRef } ) => {
 				currentStep === index + 1 ? "yst-step--active" : "" ) }
 		>
 			<div className="yst-step-circle">
-				{ ( currentStep > index + 1 || isComplete ) && <CheckIcon className="yst-w-3" /> }
+				{ ( currentStep > index + 1 || isComplete ) && <CheckIcon className="yst-w-4" /> }
 
 				{ ! isComplete && currentStep === index + 1 && <div className="yst-bg-primary-500 yst-w-2 yst-h-2 yst-rounded-full"  /> }
 			</div>
@@ -99,7 +99,7 @@ const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }
 
 				{ /* Progress */ }
 				<div
-					className="yst-h-full yst-transition-all yst-ease-in-out yst-duration-500 yst-bg-primary-500"
+					className="yst-h-full yst-transition-all yst-ease-in-out yst-duration-600 yst-bg-primary-500"
 					style={ { width: `${ calculateProgressBarWidth() }%` } }
 				/>
 			</div>
