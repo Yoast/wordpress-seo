@@ -43,7 +43,11 @@
 				@apply yst-divide-y yst-divide-slate-300;
 
 				.yst-table-header {
-					@apply yst-align-bottom;
+					@apply yst-align-bottom yst-py-2;
+				}
+
+				.yst-table-cell {
+					@apply yst-py-2;
 				}
 
 				tbody {

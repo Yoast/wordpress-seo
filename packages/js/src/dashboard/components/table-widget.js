@@ -43,7 +43,7 @@ const TableHead = ( { children } ) => {
  */
 const TableRow = ( { children, index } ) => {
 	return <Table.Row>
-		<Table.Cell className="yst-px-0">{ index + 1 }. </Table.Cell>
+		<Table.Cell className="yst-px-0 yst-text-slate-500">{ index + 1 }. </Table.Cell>
 		{ children }
 	</Table.Row>;
 };
