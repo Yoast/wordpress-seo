@@ -8,7 +8,7 @@ const getLanguagesWithWordComplexity = helpers.getLanguagesWithWordComplexity;
 
 const MORPHOLOGY_VERSIONS = {
 	en: "v6",
-	de: "v10",
+	de: "v11",
 	es: "v10",
 	fr: "v11",
 	it: "v10",
