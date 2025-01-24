@@ -28,9 +28,7 @@ const Step = ( { label, index, isComplete, currentStep, addStepRef } ) => {
 			<div className="yst-step-circle">
 				{ ( currentStep > index + 1 || isComplete ) && <CheckIcon className="yst-w-3" /> }
 
-				{ ! isComplete && currentStep === index + 1 && <svg className="yst-text-primary-500" width="9" height="9" xmlns="http://www.w3.org/2000/svg">
-					<circle cx="4.5" cy="4.5" r="4.5" fill="currentColor" />
-				</svg> }
+				{ ! isComplete && currentStep === index + 1 && <div className="yst-bg-primary-500 yst-w-2 yst-h-2 yst-rounded-full"  /> }
 			</div>
 			<div className="yst-font-semibold yst-text-xxs yst-mt-3">{ label }</div>
 		</div>
@@ -101,7 +99,7 @@ const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }
 
 				{ /* Progress */ }
 				<div
-					className="yst-h-full yst-transition yst-ease yst-duration-200 yst-bg-primary-500"
+					className="yst-h-full yst-transition-all yst-ease-in-out yst-duration-500 yst-bg-primary-500"
 					style={ { width: `${ calculateProgressBarWidth() }%` } }
 				/>
 			</div>

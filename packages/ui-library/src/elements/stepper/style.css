@@ -7,10 +7,10 @@
 
 		.yst-step-circle {
 			@apply yst-bg-white 
-			yst-border-slate-300 
+			yst-ring-slate-300 
 			yst-w-6
 			yst-h-6
-			yst-border-2
+			yst-ring-2
 			yst-rounded-full
 			yst-flex
 			yst-items-center
@@ -19,7 +19,7 @@
 		}
 
 		.yst-step--active .yst-step-circle {
-			@apply yst-bg-white yst-text-white yst-border-primary-500;
+			@apply yst-bg-white yst-text-white yst-ring-primary-500;
 		}
 
 		.yst-step--active {
@@ -29,7 +29,7 @@
 		.yst-step--complete {
 			@apply yst-text-slate-900;
 			.yst-step-circle {
-				@apply yst-bg-primary-500 yst-text-white yst-border-primary-500;
+				@apply yst-bg-primary-500 yst-text-white yst-ring-primary-500;
 			}
 		}
 		
