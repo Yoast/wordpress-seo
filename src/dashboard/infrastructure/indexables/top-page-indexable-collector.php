@@ -3,7 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Indexables;
 
-use WP_Error;
 use Yoast\WP\SEO\Dashboard\Application\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Repository;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Top_Pages\Top_Page_Data;
