@@ -1,10 +1,12 @@
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { get } from "lodash";
 import { ReactComponent as SemrushLogo } from "../../images/semrush-logo.svg";
 import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
 import { getInitialState, getIsMultisiteAvailable, getIsNetworkControlEnabled, updateIntegrationState } from "./helper";
 
 import { ToggleableIntegration } from "./toggleable-integration";
+import { GoogleSiteKitIntegration } from "./google-site-kit-integration";
 
 const integrations = [
 	{
@@ -61,7 +63,9 @@ const integrations = [
 	},
 ];
 
-export const RecommendedIntegrations = [
+const isGoogleSiteKitFeatureEnabled = get( window, "wpseoIntegrationsData.google_site_kit_feature", false );
+
+const RecommendedIntegrations = [
 	integrations.map( ( integration, index ) => {
 		return (
 			<ToggleableIntegration
@@ -76,3 +80,19 @@ export const RecommendedIntegrations = [
 		);
 	} ),
 ];
+
+const googleSiteKitProps = {
+	isInstalled: get( window, "wpseoIntegrationsData.google_site_kit_installed", false ) === "1",
+	isActive: get( window, "wpseoIntegrationsData.google_site_kit_active", false ) === "1",
+	afterSetup: get( window, "wpseoIntegrationsData.google_site_kit_setup", false ) === "1",
+	isConnected: get( window, "wpseoIntegrationsData.google_site_kit_connected", false ) === "1",
+	installUrl: get( window, "wpseoIntegrationsData.google_site_kit_install_url", "" ),
+	activateUrl: get( window, "wpseoIntegrationsData.google_site_kit_activate_url", "" ),
+	setupUrl: get( window, "wpseoIntegrationsData.google_site_kit_setup_url", "" ),
+};
+
+if ( isGoogleSiteKitFeatureEnabled ) {
+	RecommendedIntegrations.push( <GoogleSiteKitIntegration key={ integrations.length } { ...googleSiteKitProps } /> );
+}
+
+export { RecommendedIntegrations };
