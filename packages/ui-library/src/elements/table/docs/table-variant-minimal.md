@@ -1,0 +1,1 @@
+The minial variant is the table without the table border.
