@@ -22,18 +22,16 @@ import classNames from "classnames";
 const getButtonAndStepperProps = ( isInstalled, isActive, isSetup, isConnected, installUrl, activateUrl, setupUrl ) => {
 	let buttonProps;
 	let currentStep;
-	let isComplete;
+	let isComplete = false;
 
 	switch ( true ) {
 		case ( ! isInstalled ):
 			currentStep = 1;
-			isComplete = false;
 			buttonProps = {
 				children: __( "Install Site Kit by Google", "wordpress-seo" ),
 				as: "a",
 				href: installUrl,
 			};
-			isComplete = false;
 			break;
 		case ( ! isActive ):
 			currentStep = 2;
@@ -42,7 +40,6 @@ const getButtonAndStepperProps = ( isInstalled, isActive, isSetup, isConnected, 
 				as: "a",
 				href: activateUrl,
 			};
-			isComplete = false;
 			break;
 		case ( ! isSetup ):
 			currentStep = 3;
@@ -51,12 +48,10 @@ const getButtonAndStepperProps = ( isInstalled, isActive, isSetup, isConnected, 
 				as: "a",
 				href: setupUrl,
 			};
-			isComplete = false;
 			break;
 		case ( ! isConnected ):
 			currentStep = 4;
 			buttonProps = { children: __( "Connect Site Kit by Google", "wordpress-seo" ) };
-			isComplete = false;
 			break;
 		case isConnected:
 			isComplete = true;
