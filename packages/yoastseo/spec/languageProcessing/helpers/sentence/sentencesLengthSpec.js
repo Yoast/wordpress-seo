@@ -47,6 +47,20 @@ describe( "A test to count sentence lengths.", function() {
 		expect( sentenceLengths[ 1 ].sentenceLength ).toEqual( 6 );
 	} );
 
+	it( "should return the correct length for sentences containing hyphens, and disregard hyphens at the start/end", function() {
+		const mockPaper = new Paper(
+			"<p>---My know-it-all mother-in-law made a state-of-the-art U-turn-</p>" +
+			"<p>- Her ex-husband found that low-key amazing ---</p>" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper ), mockResearcher );
+
+		expect( sentenceLengths.length ).toEqual( 2 );
+		expect( sentenceLengths[ 0 ].sentenceLength ).toEqual( 7 );
+		expect( sentenceLengths[ 1 ].sentenceLength ).toEqual( 6 );
+	} );
+
 	it( "should return the correct length for sentences containing leading and trailing spaces including the first and last token that is not spaces", function() {
 		const mockPaper = new Paper(
 			"<p> The first sentence.</p><p>The second sentence. </p>" );
