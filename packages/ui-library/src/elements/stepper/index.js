@@ -21,20 +21,18 @@ const Step = ( { label, index, isComplete, currentStep, addStepRef } ) => {
 	return (
 		<div
 			ref={ handleRef }
-			className={ classNames( "yst-flex yst-flex-col yst-items-center",
+			className={ classNames( "yst-step",
 				currentStep > index + 1 || isComplete ? "yst-step--complete" : "",
 				currentStep === index + 1 ? "yst-step--active" : "" ) }
 		>
-			<div className="yst-step-circle">
-				<CheckIcon
-					className={
-						classNames( "yst-w-4 yst-step-icon",
-							( currentStep > index + 1 || isComplete ) ? "yst-opacity-100" : "yst-opacity-0" ) }
-				/>
+			<div className="yst-step__circle">
+				{ ( currentStep > index + 1 || isComplete ) && <CheckIcon
+					className="yst-step__icon yst-w-4 yst-z-50"
+				/> }
 
 				<div
 					className={
-						classNames( "yst-bg-primary-500 yst-w-2 yst-h-2 yst-rounded-full yst-step-icon yst-delay-500",
+						classNames( "yst-step__icon yst-bg-primary-500 yst-w-2 yst-h-2 yst-rounded-full yst-delay-500",
 							! isComplete && currentStep === index + 1 ? "yst-opacity-100" : "yst-opacity-0" ) }
 				/>
 			</div>
