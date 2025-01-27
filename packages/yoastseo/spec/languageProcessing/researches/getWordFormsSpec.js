@@ -192,7 +192,7 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				// here we get
-				keyphraseForms: [ [ "ışık" ], [ "parkları" ], [ "istanbul"] ],
+				keyphraseForms: [ [ "ışık" ], [ "parkları" ], [ "istanbul" ] ],
 				synonymsForms: [],
 			}
 		);
