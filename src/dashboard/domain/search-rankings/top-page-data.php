@@ -1,10 +1,9 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\Domain\Top_Pages;
+namespace Yoast\WP\SEO\Dashboard\Domain\Search_Rankings;
 
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface;
-use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Data;
 
 /**
  * Domain object that represents a single Top Page Data record.
