@@ -40,6 +40,7 @@
 @import "../src/components/textarea-field/style.css";
 @import "../src/components/toggle-field/style.css";
 @import "../src/components/tooltip-container/style.css";
+@import "../src/components/dropdown-menu/style.css";
 
 @tailwind base;
 @tailwind components;

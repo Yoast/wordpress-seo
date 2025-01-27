@@ -1,0 +1,60 @@
+@layer components {
+	.yst-root {
+		.yst-dropdown-menu__button {
+			@apply 
+			yst-absolute
+			yst-top-4
+			yst-end-4
+			yst-p-0
+			yst-text-slate-400
+			yst-rounded-full
+			focus:yst-text-slate-600
+			focus:yst-outline
+			focus:yst-outline-2
+			focus:yst-outline-offset-2
+			focus:yst-outline-primary-500;
+		}
+
+		.yst-dropdown-menu__item {
+			@apply
+			yst-border-b
+			yst-border-slate-200
+			last:yst-border-0
+			yst-text-slate-600;
+		}
+
+		.yst-dropdown-menu__item--button{
+			@apply
+			yst-flex
+			yst-py-2
+			yst-justify-start
+			yst-gap-2 yst-px-4
+			yst-items-center
+			yst-w-full
+			yst-ring-0
+			yst-rounded-none
+			focus:yst-outline-none
+			focus:yst-bg-slate-100
+			hover:yst-bg-slate-100
+			yst-outline-none;
+		}
+
+		.yst-dropdown-menu {
+			@apply yst-relative;
+		}
+
+		.yst-dropdown-menu__list {
+			@apply
+			yst-w-56
+			yst-rounded-md
+			yst-border
+			yst-border-slate-200
+			yst-shadow-sm
+			yst-bg-white
+			yst-absolute
+			yst-top-10
+			yst-end-4
+			focus-visible:yst-outline-none;
+		}
+	}
+}
