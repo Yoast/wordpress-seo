@@ -112,7 +112,9 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 						'limit' => [
 							'required'          => true,
 							'type'              => 'int',
-							'sanitize_callback' => 'sanitize_text_field',
+							'sanitize_callback' => static function ( $param ) {
+								return \intval( $param );
+							},
 							'default'           => 5,
 						],
 
@@ -138,7 +140,7 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 			$this->request_parameters->set_start_date( $date->format( 'Y-m-d' ) );
 			$this->request_parameters->set_end_date( ( new DateTime( 'now', new DateTimeZone( 'UTC' ) ) )->format( 'Y-m-d' ) );
 
-			$search_data_container = $this->search_rankings_repository->get_data( $this->request_parameters );
+			$search_rankings_container = $this->search_rankings_repository->get_data( $this->request_parameters );
 
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(
@@ -150,7 +152,7 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 		}
 
 		return new WP_REST_Response(
-			$search_data_container->to_array(),
+			$search_rankings_container->to_array(),
 			200
 		);
 	}
