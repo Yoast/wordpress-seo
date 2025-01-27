@@ -35,5 +35,6 @@ export default {
 	},
 	args: {
 		children: <p className="yst-p-2 yst-bg-blue-700 yst-text-white">Content that will be grayscale.</p>,
+		variant: "default",
 	},
 };
