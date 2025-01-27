@@ -62,6 +62,13 @@ const getButtonAndStepperProps = ( isInstalled, isActive, isSetup, isConnected, 
 	return { buttonProps, currentStep, isComplete };
 };
 
+const steps = [
+	__( "INSTALL", "wordpress-seo" ),
+	__( "ACTIVATE", "wordpress-seo" ),
+	__( "SET UP", "wordpress-seo" ),
+	__( "CONNECT", "wordpress-seo" ),
+];
+
 /**
  * The google site kit connection guide widget.
  *
@@ -88,12 +95,6 @@ export const GoogleSiteKitConnectionWidget = ( {
 	onRemove,
 	onRemovePermanently,
 } ) => {
-	const steps = [
-		{ label: __( "INSTALL", "wordpress-seo" ) },
-		{ label: __( "ACTIVATE", "wordpress-seo" ) },
-		{ label: __( "SET UP", "wordpress-seo" ) },
-		{ label: __( "CONNECT", "wordpress-seo" ) },
-	];
 	const [ isMenuOpen, toggleMenuOpen ] = useToggleState( false );
 	const learnMorelink = useSelect( select => select( "@yoast/general" ).selectLink( "https://yoa.st/google-site-kit-learn-more" ), [] );
 

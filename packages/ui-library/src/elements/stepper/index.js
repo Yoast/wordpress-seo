@@ -18,15 +18,18 @@ const Step = ( { label, index, isComplete, currentStep, addStepRef } ) => {
 	const handleRef = useCallback( ( el ) =>{
 		addStepRef( el, index );
 	}, [] );
+
+	const isStepComplete = currentStep > index + 1 || isComplete;
+
 	return (
 		<div
 			ref={ handleRef }
 			className={ classNames( "yst-step",
-				currentStep > index + 1 || isComplete ? "yst-step--complete" : "",
+				isStepComplete ? "yst-step--complete" : "",
 				currentStep === index + 1 ? "yst-step--active" : "" ) }
 		>
 			<div className="yst-step__circle">
-				{ ( currentStep > index + 1 || isComplete ) && <CheckIcon
+				{ isStepComplete && <CheckIcon
 					className="yst-step__icon yst-w-4 yst-z-50"
 				/> }
 
@@ -84,8 +87,8 @@ const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }
 	return (
 		<div className={ classNames( className, "yst-stepper" ) } ref={ ref }>
 			{ steps.map( ( step, index ) => <Step
-				key={ step.label }
-				label={ step.label }
+				key={ step }
+				label={ step }
 				currentStep={ currentStep }
 				isComplete={ isComplete }
 				index={ index }
@@ -118,9 +121,7 @@ Stepper.displayName = "Stepper";
 Stepper.propTypes = {
 	currentStep: PropTypes.number.isRequired,
 	isComplete: PropTypes.bool.isRequired,
-	steps: PropTypes.arrayOf( PropTypes.shape( {
-		label: PropTypes.string,
-	} ) ).isRequired,
+	steps: PropTypes.arrayOf( PropTypes.string ).isRequired,
 	className: PropTypes.string,
 };
 Stepper.defaultProps = {

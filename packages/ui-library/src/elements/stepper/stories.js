@@ -49,20 +49,7 @@ export default {
 		},
 	},
 	args: {
-		steps: [
-			{
-				label: "INSTALL",
-			},
-			{
-				label: "ACTIVATE",
-			},
-			{
-				label: "SET UP",
-			},
-			{
-				label: "CONNECT",
-			},
-		],
+		steps: [ "INSTALL", "ACTIVATE", "SET UP", "CONNECT" ],
 		className: "yst-mb-5",
 	},
 };
