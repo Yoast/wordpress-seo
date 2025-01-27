@@ -63,11 +63,11 @@ export default {
 	args: {
 		variant: "default",
 		children: (
-			<p className="yst-p-2 yst-bg-blue-700 yst-text-white">
+			<p>
 				This is the content that is locked behind the Feature Upsell.
-				All the content in here will be grayscale when its enabled.
-				For demo purposes, this paragraph is colored to highlight the grayscale functionality.
-
+				All the content in here will be grayscale when the upsell is enabled.
+				This can best be seen on the button, which is actually our primary button with
+				its regular colored background showcasing the grayscale functionality.
 			</p>
 		),
 	},
