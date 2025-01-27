@@ -42,11 +42,13 @@ class Top_Page_Repository implements Dashboard_Repository_Interface {
 	}
 
 	/**
-	 * Method to get search related data from a provider.
+	 * Gets the top pages' data.
 	 *
-	 * @param Parameters $parameters The parameter to get the search data for.
+	 * @param Parameters $parameters The parameter to use for getting the top pages.
 	 *
 	 * @return Data_Container
+	 *
+	 * @throws Exception When getting the top pages' data fails.
 	 */
 	public function get_data( Parameters $parameters ): Data_Container {
 

@@ -112,7 +112,9 @@ abstract class Abstract_Ranking_Route implements Route_Interface {
 						'limit' => [
 							'required'          => true,
 							'type'              => 'int',
-							'sanitize_callback' => 'sanitize_text_field',
+							'sanitize_callback' => static function ( $param ) {
+								return \intval( $param );
+							},
 							'default'           => 5,
 						],
 

@@ -52,7 +52,6 @@ class SEO_Score_Groups_Repository {
 			}
 		}
 
-		// @TODO: Consider throwing an exception here, when we deal with error handling.
 		return new No_SEO_Score_Group();
 	}
 }
