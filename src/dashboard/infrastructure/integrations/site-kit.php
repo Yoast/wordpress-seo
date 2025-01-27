@@ -1,0 +1,70 @@
+<?php
+
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Integrations;
+
+use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+
+class Site_Kit implements Integration_Data_Provider_Interface {
+
+	private const GOOGLE_SITE_KIT_FILE = 'google-site-kit/google-site-kit.php';
+
+	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
+	 * The constructor.
+	 *
+	 * @param Options_Helper $options_helper The options helper.
+	 */
+	public function __construct( Options_Helper $options_helper ) {
+		$this->options_helper = $options_helper;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function is_enabled(): bool {
+		return \is_plugin_active( self::GOOGLE_SITE_KIT_FILE );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function to_array(): array {
+		$google_site_kit_activate_url = \wp_nonce_url(
+			\self_admin_url( 'plugins.php?action=activate&plugin=' . self::GOOGLE_SITE_KIT_FILE ),
+			'activate-plugin_' . self::GOOGLE_SITE_KIT_FILE
+		);
+
+		$google_site_kit_install_url = \wp_nonce_url(
+			\self_admin_url( 'update.php?action=install-plugin&plugin=google-site-kit' ),
+			'install-plugin_google-site-kit'
+		);
+
+		$google_site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
+
+		return [
+			'installed'       => \file_exists( \WP_PLUGIN_DIR . '/' . self::GOOGLE_SITE_KIT_FILE ),
+			'active'          => \is_plugin_active( self::GOOGLE_SITE_KIT_FILE ),
+			'setup_completed' => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
+			'connected'       => $this->options_helper->get( 'google_site_kit_connected', false ),
+			'feature_enabled' => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
+			'install_url'     => $google_site_kit_install_url,
+			'activate_url'    => $google_site_kit_activate_url,
+			'setup_url'       => $google_site_kit_setup_url,
+		];
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function to_legacy_array(): array {
+		return $this->to_array();
+	}
+}
