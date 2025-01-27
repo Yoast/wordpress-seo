@@ -1,11 +1,14 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Integrations;
 
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
+/**
+ * Describes if the Site kit integration is enabled and configured.
+ */
 class Site_Kit implements Integration_Data_Provider_Interface {
 
 	private const GOOGLE_SITE_KIT_FILE = 'google-site-kit/google-site-kit.php';
@@ -27,24 +30,32 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * If the integration is activated.
+	 *
+	 * @return bool If the integration is activated.
 	 */
 	public function is_enabled(): bool {
 		return \is_plugin_active( self::GOOGLE_SITE_KIT_FILE );
 	}
 
 	/**
-	 * @inheritDoc
+	 * Return this object represented by a key value array.
+	 *
+	 * @return array<string,bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
-		$google_site_kit_activate_url = \wp_nonce_url(
-			\self_admin_url( 'plugins.php?action=activate&plugin=' . self::GOOGLE_SITE_KIT_FILE ),
-			'activate-plugin_' . self::GOOGLE_SITE_KIT_FILE
+		$google_site_kit_activate_url = \html_entity_decode(
+			\wp_nonce_url(
+				\self_admin_url( 'plugins.php?action=activate&plugin=' . self::GOOGLE_SITE_KIT_FILE ),
+				'activate-plugin_' . self::GOOGLE_SITE_KIT_FILE
+			)
 		);
 
-		$google_site_kit_install_url = \wp_nonce_url(
-			\self_admin_url( 'update.php?action=install-plugin&plugin=google-site-kit' ),
-			'install-plugin_google-site-kit'
+		$google_site_kit_install_url = \html_entity_decode(
+			\wp_nonce_url(
+				\self_admin_url( 'update.php?action=install-plugin&plugin=google-site-kit' ),
+				'install-plugin_google-site-kit'
+			)
 		);
 
 		$google_site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
@@ -62,7 +73,9 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Return this object represented by a key value array.
+	 *
+	 * @return array<string,bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_legacy_array(): array {
 		return $this->to_array();

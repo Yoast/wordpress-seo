@@ -82,16 +82,15 @@ const RecommendedIntegrations = [
 ];
 
 const googleSiteKitProps = {
-	isInstalled: get( window, "wpseoIntegrationsData.google_site_kit_configuration.installed", false ) === "1",
-	isActive: get( window, "wpseoIntegrationsData.google_site_kit_configuration.active", false ) === "1",
-	afterSetup: get( window, "wpseoIntegrationsData.google_site_kit_configuration.setup_completed", false ) === "1",
-	isConnected: get( window, "wpseoIntegrationsData.google_site_kit_configuration.connected", false ) === "1",
+	isInstalled: get( window, "wpseoIntegrationsData.google_site_kit_configuration.installed", false ),
+	isActive: get( window, "wpseoIntegrationsData.google_site_kit_configuration.active", false ),
+	afterSetup: get( window, "wpseoIntegrationsData.google_site_kit_configuration.setup_completed", false ),
+	isConnected: get( window, "wpseoIntegrationsData.google_site_kit_configuration.connected", false ),
 	installUrl: get( window, "wpseoIntegrationsData.google_site_kit_configuration.install_url", "" ),
 	activateUrl: get( window, "wpseoIntegrationsData.google_site_kit_configuration.activate_url", "" ),
 	setupUrl: get( window, "wpseoIntegrationsData.google_site_kit_configuration.setup_url", "" ),
 };
 
-console.log(get( window, "wpseoIntegrationsData.google_site_kit_configuration.installed", false ));
 
 if ( isGoogleSiteKitFeatureEnabled ) {
 	RecommendedIntegrations.push( <GoogleSiteKitIntegration key={ integrations.length } { ...googleSiteKitProps } /> );
