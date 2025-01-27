@@ -34,7 +34,14 @@ export default {
 		children: { control: "text" },
 	},
 	args: {
-		children: <p className="yst-p-2 yst-bg-blue-700 yst-text-white">Content that will be grayscale.</p>,
 		variant: "default",
+		children: (
+			<p className="yst-p-2 yst-bg-blue-700 yst-text-white">
+				This is the content that is locked behind the Feature Upsell.
+				All the content in here will be grayscale when its enabled.
+				For demo purposes, this paragraph is colored to highlight the grayscale functionality.
+
+			</p>
+		),
 	},
 };
