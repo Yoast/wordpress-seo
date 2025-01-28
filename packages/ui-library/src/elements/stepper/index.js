@@ -14,19 +14,13 @@ import { CheckIcon } from "@heroicons/react/solid";
  *
  * @returns {JSX.Element} The step element.
  */
-const Step = ( { label, index, isComplete, currentStep, addStepRef } ) => {
-	const handleRef = useCallback( ( el ) =>{
-		addStepRef( el, index );
-	}, [] );
-
-	const isStepComplete = currentStep > index + 1 || isComplete;
-
+const Step = forwardRef( ( { label, isComplete,  isActive, isStepComplete }, ref ) => {
 	return (
 		<div
-			ref={ handleRef }
+			ref={ ref }
 			className={ classNames( "yst-step",
 				isStepComplete ? "yst-step--complete" : "",
-				currentStep === index + 1 ? "yst-step--active" : "" ) }
+				isActive ? "yst-step--active" : "" ) }
 		>
 			<div className="yst-step__circle">
 				{ isStepComplete && <CheckIcon
@@ -36,20 +30,20 @@ const Step = ( { label, index, isComplete, currentStep, addStepRef } ) => {
 				<div
 					className={
 						classNames( "yst-step__icon yst-bg-primary-500 yst-w-2 yst-h-2 yst-rounded-full yst-delay-500",
-							! isComplete && currentStep === index + 1 ? "yst-opacity-100" : "yst-opacity-0" ) }
+							! isComplete && isActive ? "yst-opacity-100" : "yst-opacity-0" ) }
 				/>
 			</div>
 			<div className="yst-font-semibold yst-text-xxs yst-mt-3">{ label }</div>
 		</div>
 	);
-};
+} );
 
+Step.displayName = "Step";
 Step.propTypes = {
 	label: PropTypes.string.isRequired,
-	index: PropTypes.number.isRequired,
 	isComplete: PropTypes.bool.isRequired,
-	currentStep: PropTypes.number.isRequired,
-	addStepRef: PropTypes.func.isRequired,
+	isStepComplete: PropTypes.bool.isRequired,
+	isActive: PropTypes.bool.isRequired,
 };
 
 /**
@@ -58,6 +52,7 @@ Step.propTypes = {
  * @param {boolean} isComplete Is the step complete.
  * @param {array} steps The steps names.
  * @param {string} [className] Optional extra className.
+ *
  * @returns {JSX.Element} The Stepper element.
  */
 const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }, ref ) => {
@@ -72,17 +67,17 @@ const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }
 			marginLeft: stepRef.current[ 0 ].offsetWidth / 2,
 			marginRight: stepRef.current[ steps.length - 1 ].offsetWidth / 2,
 		} );
-	}, [ stepRef, steps.length ] );
+	}, [ stepRef.current, steps.length ] );
 
 	if ( ! steps.length ) {
-		return <></>;
+		return;
 	}
 
 	const calculateProgressBarWidth = () => {
 		return ( ( currentStep - 1 ) / ( steps.length - 1 ) ) * 100;
 	};
 
-	const addStepRef = useCallback( ( el, index ) => ( stepRef.current[ index ] = el ), [ stepRef ] );
+	const addStepRef = useCallback( ( el ) => ( stepRef.current.push( el ) ), [ stepRef.current ] );
 
 	return (
 		<div className={ classNames( className, "yst-stepper" ) } ref={ ref }>
@@ -92,7 +87,9 @@ const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }
 				currentStep={ currentStep }
 				isComplete={ isComplete }
 				index={ index }
-				addStepRef={ addStepRef }
+				isActive={ currentStep === index + 1 }
+				isStepComplete={ currentStep > index + 1 || isComplete }
+				ref={ addStepRef }
 			/> ) }
 
 			{ /* Progress bar */ }
