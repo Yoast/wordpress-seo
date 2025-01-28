@@ -81,7 +81,6 @@ const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }
 			{ steps.map( ( step, index ) => <Step
 				key={ step }
 				label={ step }
-				currentStep={ currentStep }
 				isComplete={ isComplete }
 				isActive={ currentStep === index + 1 }
 				isStepComplete={ currentStep > index + 1 || isComplete }
