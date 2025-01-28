@@ -11,6 +11,7 @@ import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssess
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment.js";
 import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment.js";
 import { createAnchorOpeningTag } from "../../../helpers";
+import RelatedKeywordScoreAggregator from "../../scoreAggregators/RelatedKeywordScoreAggregator";
 
 /**
  * The CollectionSEOAssessor class is used for the SEO analysis for collections.
@@ -78,5 +79,7 @@ export default class CollectionSEOAssessor extends SEOAssessor {
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
 			} ),
 		];
+
+		this._scoreAggregator = new RelatedKeywordScoreAggregator();
 	}
 }

@@ -165,18 +165,6 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 	}
 
 	/**
-	 * Sets the locale of the content. We are more lenient on languages
-	 * that are fully supported in the analysis.
-	 *
-	 * @param {string} locale The locale of the content.
-	 *
-	 * @returns {void}
-	 */
-	setLocale( locale ) {
-		this.locale = locale;
-	}
-
-	/**
 	 * Aggregates the given assessment results into a single analysis score.
 	 *
 	 * @param {AssessmentResult[]} results The assessment results.
