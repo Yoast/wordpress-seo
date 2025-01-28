@@ -63,6 +63,7 @@ const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }
 	const stepRef = useRef( [] );
 
 	useEffect( () => {
+		// Get the center of the first and last step to set the progress bar position in the middle.
 		setProgressBarPosition( {
 			left: stepRef.current[ 0 ].offsetWidth / 2,
 			right: stepRef.current[ steps.length - 1 ].offsetWidth / 2,
