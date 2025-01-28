@@ -56,16 +56,16 @@ Step.propTypes = {
  * @returns {JSX.Element} The Stepper element.
  */
 const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }, ref ) => {
-	const [ margins, setMargins ] = useState( {
-		marginLeft: 0,
-		marginRight: 0,
+	const [ progressBarPosition, setProgressBarPosition ] = useState( {
+		left: 0,
+		right: 0,
 	} );
 	const stepRef = useRef( [] );
 
 	useEffect( () => {
-		setMargins( {
-			marginLeft: stepRef.current[ 0 ].offsetWidth / 2,
-			marginRight: stepRef.current[ steps.length - 1 ].offsetWidth / 2,
+		setProgressBarPosition( {
+			left: stepRef.current[ 0 ].offsetWidth / 2,
+			right: stepRef.current[ steps.length - 1 ].offsetWidth / 2,
 		} );
 	}, [ stepRef.current, steps.length ] );
 
@@ -82,7 +82,6 @@ const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }
 				label={ step }
 				currentStep={ currentStep }
 				isComplete={ isComplete }
-				index={ index }
 				isActive={ currentStep === index + 1 }
 				isStepComplete={ currentStep > index + 1 || isComplete }
 				ref={ addStepRef }
@@ -90,7 +89,7 @@ const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }
 
 			<ProgressBar
 				className="yst-absolute yst-top-3 yst-w-auto yst-h-0.5"
-				style={ { left: margins.marginLeft, right: margins.marginRight } }
+				style={ progressBarPosition }
 				min={ 0 }
 				max={ steps.length - 1 }
 				progress={ currentStep - 1 }
