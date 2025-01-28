@@ -139,7 +139,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'new_post_types'                           => [],
 		'new_taxonomies'                           => [],
 		'show_new_content_type_notification'       => false,
-		'site_kit_widget_permanently_dismissed'    => false,
+		'site_kit_configuration_permanently_dismissed'    => false,
 	];
 
 	/**
@@ -508,7 +508,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'redirect_search_pretty_urls'
 				 *  'should_redirect_after_install_free'
 				 *  'show_new_content_type_notification'
-				 *  'site_kit_widget_permanently_dismissed',
+				 *  'site_kit_configuration_permanently_dismissed',
 				 *  and most of the feature variables.
 				 */
 				default:

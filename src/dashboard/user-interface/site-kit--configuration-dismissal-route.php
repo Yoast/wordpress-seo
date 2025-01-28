@@ -7,18 +7,18 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Permanently_Dismissed_Site_Kit_Widget_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
- * Registers a route to set whether the Site Kit widget is permanently dismissed.
+ * Registers a route to set whether the Site Kit configuration is permanently dismissed.
  *
  * @makePublic
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Site_Kit_Widget_Permanent_Dismissal_Route implements Route_Interface {
+class Site_Kit_Configuration_Dismissal_Route implements Route_Interface {
 
 	use No_Conditionals;
 
@@ -27,24 +27,24 @@ class Site_Kit_Widget_Permanent_Dismissal_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	public const ROUTE_PREFIX = '/site_kit_widget_permanent_dismissal';
+	public const ROUTE_PREFIX = '/site_kit_configuration_permanent_dismissal';
 
 	/**
 	 * Holds the introductions collector instance.
 	 *
-	 * @var Permanently_Dismissed_Site_Kit_Widget_Repository_Interface
+	 * @var Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface
 	 */
-	private $permanently_dismissed_site_kit_widget_repository;
+	private $permanently_dismissed_site_kit_configuration_repository;
 
 	/**
 	 * Constructs the class.
 	 *
-	 * @param Permanently_Dismissed_Site_Kit_Widget_Repository_Interface $permanently_dismissed_site_kit_widget_repository The repository.
+	 * @param Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface $permanently_dismissed_site_kit_configuration_repository The repository.
 	 */
 	public function __construct(
-		Permanently_Dismissed_Site_Kit_Widget_Repository_Interface $permanently_dismissed_site_kit_widget_repository
+		Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface $permanently_dismissed_site_kit_configuration_repository
 	) {
-		$this->permanently_dismissed_site_kit_widget_repository = $permanently_dismissed_site_kit_widget_repository;
+		$this->permanently_dismissed_site_kit_configuration_repository = $permanently_dismissed_site_kit_configuration_repository;
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Site_Kit_Widget_Permanent_Dismissal_Route implements Route_Interface {
 			[
 				[
 					'methods'             => 'POST',
-					'callback'            => [ $this, 'set_site_kit_widget_permanent_dismissal' ],
+					'callback'            => [ $this, 'set_site_kit_configuration_permanent_dismissal' ],
 					'permission_callback' => [ $this, 'check_capabilities' ],
 					'args'                => [
 						'is_dismissed' => [
@@ -75,21 +75,21 @@ class Site_Kit_Widget_Permanent_Dismissal_Route implements Route_Interface {
 	}
 
 	/**
-	 * Sets whether the Site Kit widget is permanently dismissed.
+	 * Sets whether the Site Kit configuration is permanently dismissed.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
-	public function set_site_kit_widget_permanent_dismissal( WP_REST_Request $request ) {
+	public function set_site_kit_configuration_permanent_dismissal( WP_REST_Request $request ) {
 		$params       = $request->get_params();
 		$is_dismissed = $params['is_dismissed'];
 
 		try {
-			$result = $this->permanently_dismissed_site_kit_widget_repository->set_site_kit_widget_dismissal( $is_dismissed );
+			$result = $this->permanently_dismissed_site_kit_configuration_repository->set_site_kit_configuration_dismissal( $is_dismissed );
 		} catch ( Exception $exception ) {
 			return new WP_Error(
-				'wpseo_set_site_kit_widget_permanent_dismissal_error',
+				'wpseo_set_site_kit_configuration_permanent_dismissal_error',
 				$exception->getMessage(),
 				(object) []
 			);

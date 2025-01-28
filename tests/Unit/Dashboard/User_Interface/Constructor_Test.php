@@ -2,18 +2,18 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface;
 
-use Yoast\WP\SEO\Dashboard\Infrastructure\Permanently_Dismissed_Site_Kit_Widget_Repository_interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface;
 
 /**
  * Test class for the constructor.
  *
- * @group site_kit_widget_permanent_dismissal_route
+ * @group site_kit_configuration_permanent_dismissal_route
  *
- * @covers Yoast\WP\SEO\Dashboard\User_Interface\Site_Kit_Widget_Permanent_Dismissal_Route::__construct
+ * @covers Yoast\WP\SEO\Dashboard\User_Interface\Site_Kit_Configuration_Permanent_Dismissal_Route::__construct
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Constructor_Test extends Abstract_Site_Kit_Widget_Permanent_Dismissal_Route_Test {
+final class Constructor_Test extends Abstract_Site_Kit_Configuration_Permanent_Dismissal_Route_Test {
 
 	/**
 	 * Tests if the needed attributes are set correctly.
@@ -22,8 +22,8 @@ final class Constructor_Test extends Abstract_Site_Kit_Widget_Permanent_Dismissa
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
-			Permanently_Dismissed_Site_Kit_Widget_Repository_interface::class,
-			$this->getPropertyValue( $this->instance, 'permanently_dismissed_site_kit_widget_repository' )
+			Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface::class,
+			$this->getPropertyValue( $this->instance, 'permanently_dismissed_site_kit_configuration_repository' )
 		);
 	}
 }
