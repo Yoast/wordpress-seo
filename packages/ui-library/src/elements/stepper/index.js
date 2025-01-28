@@ -48,7 +48,7 @@ Step.propTypes = {
 
 /**
  *
- * @param {number} currentStep The currrent step.
+ * @param {number} currentStep The currrent step, not array index based.
  * @param {boolean} isComplete Is the step complete.
  * @param {[string]} steps The steps names.
  * @param {string} [className] Optional extra className.
