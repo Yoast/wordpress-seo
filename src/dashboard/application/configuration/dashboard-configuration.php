@@ -128,7 +128,7 @@ class Dashboard_Configuration {
 			)->to_array(),
 			'endpoints'               => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			'nonce'                   => $this->nonce_repository->get_rest_nonce(),
-			'googleSiteKit'         => $this->get_google_site_kit_configuration(),
+			'googleSiteKit'           => $this->get_google_site_kit_configuration(),
 		];
 	}
 
@@ -156,10 +156,10 @@ class Dashboard_Configuration {
 			'isActive'        => \is_plugin_active( $google_site_kit_file ),
 			'isSetup'         => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
 			'isConnected'     => $this->options_helper->get( 'google_site_kit_connected', false ),
-			'installUrl'    => \html_entity_decode( $google_site_kit_install_url ),
-			'activateUrl'   => \html_entity_decode( $google_site_kit_activate_url ),
-			'setupUrl'      => \html_entity_decode( $google_site_kit_setup_url ),
-			'featureActive' => $this->google_site_kit_conditional->is_met(),
+			'installUrl'      => \html_entity_decode( $google_site_kit_install_url ),
+			'activateUrl'     => \html_entity_decode( $google_site_kit_activate_url ),
+			'setupUrl'        => \html_entity_decode( $google_site_kit_setup_url ),
+			'featureActive'   => $this->google_site_kit_conditional->is_met(),
 		];
 	}
 }
