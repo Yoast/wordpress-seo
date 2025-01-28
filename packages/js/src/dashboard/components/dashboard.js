@@ -25,7 +25,7 @@ import { useToggleState } from "@yoast/ui-library";
 // The complexity is cause by the google site kit feature flag which is temporary.
 // eslint-disable-next-line complexity
 export const Dashboard = ( { contentTypes, userName, features, endpoints, headers, links } ) => {
-	const googleSiteKitConfiguration = get( window, "wpseoScriptData.dashboard.google_site_kit", {
+	const googleSiteKitConfiguration = get( window, "wpseoScriptData.dashboard.googleSiteKit", {
 		isInstalled: false,
 		isActive: false,
 		isSetup: false,

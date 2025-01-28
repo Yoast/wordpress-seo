@@ -128,7 +128,7 @@ class Dashboard_Configuration {
 			)->to_array(),
 			'endpoints'               => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			'nonce'                   => $this->nonce_repository->get_rest_nonce(),
-			'google_site_kit'         => $this->get_google_site_kit_configuration(),
+			'googleSiteKit'         => $this->get_google_site_kit_configuration(),
 		];
 	}
 
