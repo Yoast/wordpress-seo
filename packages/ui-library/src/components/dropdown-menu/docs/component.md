@@ -1,1 +1,1 @@
-A dropdowm menu with menu item and button item sub components. The menu trigger accepts a node and fallback to three vertical dots if not provided.
+A dropdowm menu with menu item and button item sub components. The dropdown menu has the IconTrigger component to render the trigger icon and also Trigger component without ny styling. The dropdown menu has the following sub components: IconTrigger, Trigger, Item, ButtonItem, List. The Items should be the children of List.
