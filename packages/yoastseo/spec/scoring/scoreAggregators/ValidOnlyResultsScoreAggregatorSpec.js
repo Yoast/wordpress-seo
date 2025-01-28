@@ -1,11 +1,11 @@
-import { RelatedKeywordScoreAggregator } from "../../../src/scoring/scoreAggregators";
+import { ValidOnlyResultsScoreAggregator } from "../../../src/scoring/scoreAggregators";
 import AssessmentResult from "../../../src/values/AssessmentResult";
 
-describe( "RelatedKeywordScoreAggregator", () => {
+describe( "ValidOnlyResultsScoreAggregator", () => {
 	let aggregator;
 
 	beforeEach( () => {
-		aggregator = new RelatedKeywordScoreAggregator();
+		aggregator = new ValidOnlyResultsScoreAggregator();
 	} );
 
 	describe( "aggregate", () => {

@@ -5,7 +5,7 @@ import SEOScoreAggregator from "./SEOScoreAggregator";
  *
  * @memberOf module:parsedPaper/assess
  */
-class RelatedKeywordScoreAggregator extends SEOScoreAggregator {
+class ValidOnlyResultsScoreAggregator extends SEOScoreAggregator {
 	/**
 	 * Returns the list of valid results.
 	 * Valid results are all results that have a score.
@@ -32,4 +32,4 @@ class RelatedKeywordScoreAggregator extends SEOScoreAggregator {
 	}
 }
 
-export default RelatedKeywordScoreAggregator;
+export default ValidOnlyResultsScoreAggregator;

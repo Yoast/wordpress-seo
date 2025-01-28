@@ -11,7 +11,7 @@ import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssess
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment.js";
 import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment.js";
 import { createAnchorOpeningTag } from "../../../helpers";
-import RelatedKeywordScoreAggregator from "../../scoreAggregators/RelatedKeywordScoreAggregator";
+import ValidOnlyResultsScoreAggregator from "../../scoreAggregators/ValidOnlyResultsScoreAggregator";
 
 /**
  * The CollectionSEOAssessor class is used for the SEO analysis for collections.
@@ -80,6 +80,6 @@ export default class CollectionSEOAssessor extends SEOAssessor {
 			} ),
 		];
 
-		this._scoreAggregator = new RelatedKeywordScoreAggregator();
+		this._scoreAggregator = new ValidOnlyResultsScoreAggregator();
 	}
 }
