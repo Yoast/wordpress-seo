@@ -83,7 +83,7 @@ describe( "Export of the inclusive language configuration", () => {
 		if ( doExport ) {
 			writeToTempFile( "inclusive-language-database.csv", resultLines.join( "\n" ) );
 			/* eslint-disable no-console */
-			console.log("result=== \n"+resultLines.join( "\n" ));
+			console.log(`result=== \n${resultLines.join("\n")}`);
 			/* eslint-enable no-console */
 		}
 	} );
