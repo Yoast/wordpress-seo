@@ -4,6 +4,10 @@
 		.yst-stepper {
 			@apply yst-relative yst-flex yst-justify-between yst-items-center;
 
+			.yst-progress-bar__progress {
+				@apply yst-duration-500;
+			}
+
 		}
 
 		.yst-step {
@@ -49,6 +53,5 @@
 				@apply yst-bg-primary-500 yst-text-white yst-ring-primary-500 yst-transition-none yst-delay-0;
 			}
 		}
-		
 	}
 }

@@ -2,6 +2,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef, useRef, useEffect, useState, useCallback } from "react";
 import { CheckIcon } from "@heroicons/react/solid";
+import { ProgressBar } from "../../index";
 
 /**
  * Step component.
@@ -73,10 +74,6 @@ const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }
 		return;
 	}
 
-	const calculateProgressBarWidth = () => {
-		return ( ( currentStep - 1 ) / ( steps.length - 1 ) ) * 100;
-	};
-
 	const addStepRef = useCallback( ( el ) => ( stepRef.current.push( el ) ), [ stepRef.current ] );
 
 	return (
@@ -92,23 +89,13 @@ const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }
 				ref={ addStepRef }
 			/> ) }
 
-			{ /* Progress bar */ }
-			<div
-				className="yst-absolute yst-top-3 yst-left-0 yst-h-0.5 yst-bg-slate-300"
-				style={ {
-					width: `calc(100% - ${ margins.marginLeft +
-                                    margins.marginRight }px)`,
-					marginLeft: margins.marginLeft,
-					marginRight: margins.marginRight,
-				} }
-			>
-
-				{ /* Progress */ }
-				<div
-					className="yst-h-full yst-transition-all yst-ease-in yst-duration-500 yst-bg-primary-500"
-					style={ { width: `${ calculateProgressBarWidth() }%` } }
-				/>
-			</div>
+			<ProgressBar
+				className="yst-absolute yst-top-3 yst-w-auto yst-h-0.5"
+				style={ { left: margins.marginLeft, right: margins.marginRight } }
+				min={ 0 }
+				max={ steps.length - 1 }
+				progress={ currentStep - 1 }
+			/>
 		</div>
 
 	);
