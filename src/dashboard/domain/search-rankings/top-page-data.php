@@ -25,14 +25,27 @@ class Top_Page_Data implements Data_Interface {
 	private $seo_score_group;
 
 	/**
+	 * The edit link of the top page.
+	 *
+	 * @var string $edit_link
+	 */
+	private $edit_link;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Search_Data                $search_data     The search data for the top page.
 	 * @param SEO_Score_Groups_Interface $seo_score_group The SEO score group the top page belongs to.
+	 * @param string                     $edit_link       The edit link of the top page.
 	 */
-	public function __construct( Search_Data $search_data, SEO_Score_Groups_Interface $seo_score_group ) {
+	public function __construct(
+		Search_Data $search_data,
+		SEO_Score_Groups_Interface $seo_score_group,
+		?string $edit_link = null
+	) {
 		$this->search_data     = $search_data;
 		$this->seo_score_group = $seo_score_group;
+		$this->edit_link       = $edit_link;
 	}
 
 	/**
@@ -43,6 +56,11 @@ class Top_Page_Data implements Data_Interface {
 	public function to_array(): array {
 		$top_page_data             = $this->search_data->to_array();
 		$top_page_data['seoScore'] = $this->seo_score_group->get_name();
+		$top_page_data['links']    = [];
+
+		if ( $this->edit_link !== null ) {
+			$top_page_data['links']['edit'] = $this->edit_link;
+		}
 
 		return $top_page_data;
 	}
