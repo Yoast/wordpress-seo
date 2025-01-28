@@ -1,8 +1,10 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import React, { forwardRef, useRef, useEffect, useState, useCallback } from "react";
+import React, { forwardRef, useRef, useEffect, useState, useCallback, createContext, useContext } from "react";
 import { CheckIcon } from "@heroicons/react/solid";
 import { ProgressBar } from "../../index";
+
+const StepperContext = createContext();
 
 /**
  * Step component.
@@ -14,10 +16,11 @@ import { ProgressBar } from "../../index";
  *
  * @returns {JSX.Element} The step element.
  */
-const Step = forwardRef( ( { label, isComplete, isActive, isStepComplete }, ref ) => {
+const Step = ( { label, isComplete, isActive, isStepComplete } ) => {
+	const addStepRef = useContext( StepperContext );
 	return (
 		<div
-			ref={ ref }
+			ref={ addStepRef }
 			className={ classNames( "yst-step",
 				isStepComplete ? "yst-step--complete" : "",
 				isActive ? "yst-step--active" : "" ) }
@@ -36,7 +39,7 @@ const Step = forwardRef( ( { label, isComplete, isActive, isStepComplete }, ref 
 			<div className="yst-font-semibold yst-text-xxs yst-mt-3">{ label }</div>
 		</div>
 	);
-} );
+};
 
 Step.displayName = "Step";
 Step.propTypes = {
@@ -48,14 +51,14 @@ Step.propTypes = {
 
 /**
  *
- * @param {number} currentStep The currrent step, not array index based.
- * @param {boolean} isComplete Is the step complete.
- * @param {[string]} steps The steps names.
+ * @param {JSX.Node} children Content of the stepper.
+ * @param {number} numberOfSteps The umber of steps.
+ * @param {string} [currentStep] The current step.
  * @param {string} [className] Optional extra className.
  *
  * @returns {JSX.Element} The Stepper element.
  */
-const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }, ref ) => {
+export const Stepper = forwardRef( ( { children, numberOfSteps, currentStep, className = "" }, ref ) => {
 	const [ progressBarPosition, setProgressBarPosition ] = useState( {
 		left: 0,
 		right: 0,
@@ -63,51 +66,51 @@ const Stepper = forwardRef( ( { currentStep, isComplete, steps, className = "" }
 	const stepRef = useRef( [] );
 
 	useEffect( () => {
-		// Get the center of the first and last step to set the progress bar position in the middle.
-		setProgressBarPosition( {
-			left: stepRef.current[ 0 ].offsetWidth / 2,
-			right: stepRef.current[ steps.length - 1 ].offsetWidth / 2,
-		} );
-	}, [ stepRef.current, steps.length ] );
+		if ( stepRef.current.length > 0 ) {
+			const firstStepRect = stepRef.current[ 0 ].getBoundingClientRect();
+			const lastStepRect = stepRef.current[ numberOfSteps - 1 ].getBoundingClientRect();
+			setProgressBarPosition( {
+				left: firstStepRect.width / 2,
+				right: lastStepRect.width / 2,
+			} );
+		}
+	}, [ stepRef.current, numberOfSteps ] );
 
-	if ( ! steps.length ) {
+	if ( ! numberOfSteps ) {
 		return;
 	}
 
 	const addStepRef = useCallback( ( el ) => ( stepRef.current.push( el ) ), [ stepRef.current ] );
 
 	return (
-		<div className={ classNames( className, "yst-stepper" ) } ref={ ref }>
-			{ steps.map( ( step, index ) => <Step
-				key={ step }
-				label={ step }
-				isComplete={ isComplete }
-				isActive={ currentStep === index + 1 }
-				isStepComplete={ currentStep > index + 1 || isComplete }
-				ref={ addStepRef }
-			/> ) }
+		<StepperContext.Provider value={ addStepRef }>
+			<div className={ classNames( className, "yst-stepper" ) } ref={ ref }>
 
-			<ProgressBar
-				className="yst-absolute yst-top-3 yst-w-auto yst-h-0.5"
-				style={ progressBarPosition }
-				min={ 0 }
-				max={ steps.length - 1 }
-				progress={ currentStep - 1 }
-			/>
-		</div>
+				{ children }
 
+				<ProgressBar
+					className="yst-absolute yst-top-3 yst-w-auto yst-h-0.5"
+					style={ progressBarPosition }
+					min={ 0 }
+					max={ numberOfSteps - 1 }
+					progress={ currentStep - 1 }
+				/>
+			</div>
+		</StepperContext.Provider>
 	);
 } );
 
 Stepper.displayName = "Stepper";
 Stepper.propTypes = {
 	currentStep: PropTypes.number.isRequired,
-	isComplete: PropTypes.bool.isRequired,
-	steps: PropTypes.arrayOf( PropTypes.string ).isRequired,
+	numberOfSteps: PropTypes.number.isRequired,
+	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
 };
 Stepper.defaultProps = {
 	className: "",
 };
 
-export default Stepper;
+Stepper.Step = Step;
+Stepper.Step.displayName = "Stepper.Step";
+

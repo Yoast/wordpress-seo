@@ -21,7 +21,6 @@
 @import "../src/elements/file-input/style.css";
 @import "../src/elements/autocomplete/style.css";
 @import "../src/elements/validation/style.css";
-@import "../src/elements/stepper/style.css";
 
 @import "../src/components/autocomplete-field/style.css";
 @import "../src/components/card/style.css";
@@ -41,6 +40,7 @@
 @import "../src/components/toggle-field/style.css";
 @import "../src/components/tooltip-container/style.css";
 @import "../src/components/dropdown-menu/style.css";
+@import "../src/components/stepper/style.css";
 
 @tailwind base;
 @tailwind components;

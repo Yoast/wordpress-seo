@@ -99,7 +99,6 @@ export const GoogleSiteKitConnectionWidget = ( {
 	const { buttonProps, currentStep, isComplete } = getButtonAndStepperProps(
 		isInstalled, isActive, isSetup, isConnected, installUrl, activateUrl, setupUrl );
 	return <Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative">
-
 		<DropdownMenu className="yst-absolute yst-top-4 yst-end-4">
 			<DropdownMenu.IconTrigger screenReaderTriggerLabel={ __( "Open menu", "wordpress-seo" ) } className="yst-absolute yst-top-0 yst-end-0" />
 			<DropdownMenu.List className="yst-absolute yst-top-5 yst-end-0">
@@ -115,7 +114,15 @@ export const GoogleSiteKitConnectionWidget = ( {
 		</DropdownMenu>
 
 		<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4"><YoastConnectSiteKit /></div>
-		<Stepper steps={ steps } currentStep={ currentStep } isComplete={ isComplete } />
+		<Stepper steps={ steps } currentStep={ currentStep } numberOfSteps={ steps.length }>
+			{ steps.map( ( label, index ) => ( <Stepper.Step
+				key={ label }
+				label={ label }
+				isActive={ currentStep === index + 1 }
+				isComplete={ isComplete }
+				isStepComplete={ currentStep > index + 1 || isComplete }
+			/> ) ) }
+		</Stepper>
 		<hr className="yst-bg-slate-200 yst-my-6" />
 		<Title size="2">{ __( "Expand your dashboard with insights from Google!", "wordpress-seo" ) }</Title>
 		<p  className="yst-my-4">{ __( "Bring together powerful tools like Google Analytics and Search Console for a complete overview of your website's performance, all in one seamless dashboard.", "wordpress-seo" ) }</p>

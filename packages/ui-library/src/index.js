@@ -22,7 +22,6 @@ export { default as Toast, useToastContext } from "./elements/toast";
 export { default as Toggle } from "./elements/toggle";
 export { default as Tooltip } from "./elements/tooltip";
 export { ValidationIcon, ValidationInput, ValidationMessage } from "./elements/validation";
-export { default as Stepper } from "./elements/stepper";
 
 export { default as AutocompleteField } from "./components/autocomplete-field";
 export { default as Card } from "./components/card";
@@ -43,6 +42,7 @@ export { default as TextareaField } from "./components/textarea-field";
 export { default as ToggleField } from "./components/toggle-field";
 export { TooltipContainer, TooltipTrigger, TooltipWithContext, useTooltipContext } from "./components/tooltip-container";
 export { DropdownMenu } from "./components/dropdown-menu";
+export { Stepper } from "./components/stepper";
 
 export * from "./hooks";
 export * from "./constants";

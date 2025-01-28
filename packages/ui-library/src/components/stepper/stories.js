@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
-import Stepper from ".";
+import { Stepper } from ".";
 import { component } from "./docs";
-import Button from "../button/index";
+import { Button } from "../../index";
 
 export const Factory = {
 	parameters: {
@@ -10,6 +10,7 @@ export const Factory = {
 	render: ( args ) =>{
 		const [ currentStep, setCurrentStep ] = useState( 1 );
 		const [ isComplete, setIsComplete ] = useState( false );
+		const steps = [ "INSTALL", "ACTIVATE", "SET UP", "CONNECT" ];
 
 		const handleNext = useCallback( () => {
 			setCurrentStep( ( prevStep ) => {
@@ -17,7 +18,7 @@ export const Factory = {
 					setIsComplete( false );
 					return 1;
 				}
-				if ( prevStep === args.steps.length ) {
+				if ( prevStep === steps.length ) {
 					setIsComplete( true );
 					return prevStep;
 				}
@@ -26,11 +27,20 @@ export const Factory = {
 		}, [ setIsComplete, setCurrentStep, isComplete ] );
 
 		return <>
-			<Stepper { ...args } currentStep={ currentStep } isComplete={ isComplete } />
+			<Stepper { ...args } numberOfSteps={ steps.length } currentStep={ currentStep }>
+				{ steps.map( ( step, index ) => <Stepper.Step
+					key={ step }
+					label={ step }
+					isComplete={ isComplete }
+					isActive={ currentStep === index + 1 }
+					isStepComplete={ currentStep > index + 1 || isComplete }
+				/> ) }
+
+			</Stepper>
 
 			<Button id="yst-stepper-button" onClick={ handleNext }>
-				{ currentStep < args.steps.length && "Next" }
-				{ currentStep === args.steps.length && ! isComplete && "Finish" }
+				{ currentStep < steps.length && "Next" }
+				{ currentStep === steps.length && ! isComplete && "Finish" }
 				{ isComplete && "Restart" }
 			</Button>
 		</>;
@@ -38,10 +48,10 @@ export const Factory = {
 };
 
 export default {
-	title: "1) Elements/Stepper",
+	title: "2) Components/Stepper",
 	component: Stepper,
 	argTypes: {
-		steps: { control: false },
+		className: { control: false },
 	},
 	parameters: {
 		docs: {
@@ -49,7 +59,6 @@ export default {
 		},
 	},
 	args: {
-		steps: [ "INSTALL", "ACTIVATE", "SET UP", "CONNECT" ],
 		className: "yst-mb-5",
 	},
 };
