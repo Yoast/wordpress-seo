@@ -8,7 +8,6 @@ import { Button } from "../../index";
 /**
  * The button Item for the dropdown menu.
  *
- *
  * @param {JSX.node} children Content of the button.
  * @param {string} [className] CSS class.
  *
@@ -35,44 +34,76 @@ MenuButtonItem.propTypes = {
 };
 
 /**
+ * Dropdown menu icon trigger.
+ *
+ * @param {string} [className] CSS class.
+ * @param {string} [screenReaderTriggerLabel] Screen reader label.
+ * @param {JSX.node} [Icon] Icon component.
+ *
+ * @returns {JSX.Element} Menu trigger component.
+ */
+const DropdownMenuIconTrigger = ( { className, screenReaderTriggerLabel = "Open menu", Icon = DotsVerticalIcon, ...props } ) => (
+	<Menu.Button className={ classNames( "yst-dropdown-menu__icon-trigger", className ) } { ...props }>
+		<Icon
+			className="yst-h-4 hover:yst-text-slate-600"
+		/>
+		<span className="yst-sr-only">{ screenReaderTriggerLabel }</span>
+
+	</Menu.Button>
+);
+
+DropdownMenuIconTrigger.propTypes = {
+	className: PropTypes.string,
+	screenReaderTriggerLabel: PropTypes.string,
+	Icon: PropTypes.node,
+};
+
+/**
+ * Dropdown menu list.
  *
  * @param {JSX.node} children Content of the menu.
- * @param {JSX.node} [menuButtonContent] Content of the menu button.
+ *
+ * @returns {JSX.Element} Menu component.
+ */
+const DropdownMenuList = ( { children, className } ) => {
+	return (
+		<Transition
+			as={ Fragment }
+			enter="yst-transition yst-ease-out yst-duration-100"
+			enterFrom="yst-transform yst-opacity-0 yst-cale-95"
+			enterTo="yst-transform yst-opacity-100 yst-scale-100"
+			leave="yst-transition yst-ease-in yst-duration-75"
+			leaveFrom="yst-transform yst-opacity-100 yst-scale-100"
+			leaveTo="yst-transform yst-opacity-0 yst-scale-95"
+		>
+			<Menu.Items className={ classNames( "yst-dropdown-menu__list", className ) }>
+				{ children }
+			</Menu.Items>
+		</Transition>
+	);
+};
+
+DropdownMenuList.propTypes = {
+	children: PropTypes.node.isRequired,
+	className: PropTypes.string,
+};
+
+/**
+ *
+ * @param {JSX.node} children Content of the menu.
  * @param {string} [className] CSS class.
  * @returns
  */
-export const DropdownMenu = ( { children, menuTrigger, screenReaderTriggerLabel = "Open menu", className } ) => {
+export const DropdownMenu = ( { children, className } ) => {
 	return (
 		<Menu as="div" className={ classNames( "yst-dropdown-menu", className ) }>
-			{ menuTrigger
-				? <Menu.Button { ...menuTrigger } />
-				: <Menu.Button className={ "yst-dropdown-menu__button" }>
-					<DotsVerticalIcon
-						className="yst-h-4 hover:yst-text-slate-600"
-					/>
-					<span className="yst-sr-only">{ screenReaderTriggerLabel }</span>
-				</Menu.Button> }
-			<Transition
-				as={ Fragment }
-				enter="yst-transition yst-ease-out yst-duration-100"
-				enterFrom="yst-transform yst-opacity-0 yst-cale-95"
-				enterTo="yst-transform yst-opacity-100 yst-scale-100"
-				leave="yst-transition yst-ease-in yst-duration-75"
-				leaveFrom="yst-transform yst-opacity-100 yst-scale-100"
-				leaveTo="yst-transform yst-opacity-0 yst-scale-95"
-			>
-				<Menu.Items className="yst-dropdown-menu__list">
-					{ children }
-				</Menu.Items>
-			</Transition>
+			{ children }
 		</Menu>
 	);
 };
 
 DropdownMenu.propTypes = {
 	children: PropTypes.node.isRequired,
-	menuTrigger: PropTypes.node,
-	screenReaderTriggerLabel: PropTypes.string,
 	className: PropTypes.string,
 };
 
@@ -81,5 +112,14 @@ DropdownMenu.Item.displayName = "DropdownMenu.Item";
 
 DropdownMenu.ButtonItem = MenuButtonItem;
 DropdownMenu.ButtonItem.displayName = "DropdownMenu.ButtonItem";
+
+DropdownMenu.IconTrigger = DropdownMenuIconTrigger;
+DropdownMenu.IconTrigger.displayName = "DropdownMenu.IconTrigger";
+
+DropdownMenu.Trigger = Menu.Button;
+DropdownMenu.Trigger.displayName = "DropdownMenu.Trigger";
+
+DropdownMenu.List = DropdownMenuList;
+DropdownMenu.List.displayName = "DropdownMenu.List";
 
 DropdownMenu.displayName = "DropdownMenu";

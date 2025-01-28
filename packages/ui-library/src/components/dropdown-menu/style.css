@@ -1,10 +1,7 @@
 @layer components {
 	.yst-root {
-		.yst-dropdown-menu__button {
+		.yst-dropdown-menu__icon-trigger {
 			@apply 
-			yst-absolute
-			yst-top-4
-			yst-end-4
 			yst-p-0
 			yst-text-slate-400
 			yst-rounded-full
@@ -23,7 +20,7 @@
 			yst-text-slate-600;
 		}
 
-		.yst-dropdown-menu__item--button{
+		.yst-dropdown-menu__item--button {
 			@apply
 			yst-flex
 			yst-py-2
@@ -39,10 +36,6 @@
 			yst-outline-none;
 		}
 
-		.yst-dropdown-menu {
-			@apply yst-relative;
-		}
-
 		.yst-dropdown-menu__list {
 			@apply
 			yst-w-56
@@ -51,9 +44,7 @@
 			yst-border-slate-200
 			yst-shadow-sm
 			yst-bg-white
-			yst-absolute
-			yst-top-10
-			yst-end-4
+			yst-z-50
 			focus-visible:yst-outline-none;
 		}
 	}
