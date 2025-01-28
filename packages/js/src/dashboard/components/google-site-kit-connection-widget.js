@@ -1,10 +1,9 @@
-import { Button, Paper, Stepper, Title, useToggleState } from "@yoast/ui-library";
+import { Button, Paper, Stepper, Title, DropdownMenu } from "@yoast/ui-library";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { __ } from "@wordpress/i18n";
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { ArrowRightIcon, DotsVerticalIcon, XIcon, TrashIcon } from "@heroicons/react/outline";
+import { ArrowRightIcon, XIcon, TrashIcon } from "@heroicons/react/outline";
 import { useSelect } from "@wordpress/data";
-import classNames from "classnames";
 
 /**
  * Get the button and stepper props based on the current state.
@@ -95,38 +94,25 @@ export const GoogleSiteKitConnectionWidget = ( {
 	onRemove,
 	onRemovePermanently,
 } ) => {
-	const [ isMenuOpen, toggleMenuOpen ] = useToggleState( false );
 	const learnMorelink = useSelect( select => select( "@yoast/general" ).selectLink( "https://yoa.st/google-site-kit-learn-more" ), [] );
 
 	const { buttonProps, currentStep, isComplete } = getButtonAndStepperProps(
 		isInstalled, isActive, isSetup, isConnected, installUrl, activateUrl, setupUrl );
 	return <Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative">
-		<button
-			aria-haspopup="true"
-			aria-expanded={ isMenuOpen }
-			aria-controls="menu"
-			onClick={ toggleMenuOpen }
-			className="yst-absolute yst-top-4 yst-end-4"
-		>
-			<DotsVerticalIcon
-				className={ classNames( "yst-h-4 hover:yst-text-slate-600",
-					isMenuOpen ? "yst-text-slate-600" : "yst-text-slate-400"
-				) }
-			/>
-			<span className="yst-sr-only">{ __( "Open menu", "wordpress-seo" ) }</span>
-		</button>
-		{ isMenuOpen && <ul role="menu" className="yst-w-56 yst-rounded-md yst-border yst-border-slate-200 yst-shadow-sm yst-bg-white yst-absolute yst-top-10 yst-end-4">
-			<li role="menuitem" className="yst-border-b yst-border-slate-200">
-				<Button variant="teriary" className="yst-text-slate-600 yst-py-2 yst-flex yst-justify-start yst-gap-2 yst-px-4 yst-items-center yst-w-full" onClick={ onRemove }>
+
+		<DropdownMenu className="yst-absolute yst-top-4 yst-end-4">
+			<DropdownMenu.IconTrigger screenReaderTriggerLabel={ __( "Open menu", "wordpress-seo" ) } className="yst-absolute yst-top-0 yst-end-0" />
+			<DropdownMenu.List className="yst-absolute yst-top-5 yst-end-0">
+				<DropdownMenu.ButtonItem className="yst-text-slate-600" onClick={ onRemove }>
 					<XIcon className="yst-w-4 yst-text-slate-400" />
-					{ __( "Remove until next visit", "wordpress-seo" ) }</Button>
-			</li>
-			<li role="menuitem">
-				<Button variant="teriary" className="yst-text-red-500 yst-py-2 yst-flex yst-justify-start yst-items-center yst-gap-2 yst-px-4 yst-w-full" onClick={ onRemovePermanently }>
+					{ __( "Remove until next visit", "wordpress-seo" ) }
+				</DropdownMenu.ButtonItem>
+				<DropdownMenu.ButtonItem className="yst-text-red-500" onClick={ onRemovePermanently }>
 					<TrashIcon className="yst-w-4" />
-					{ __( "Remove permanently", "wordpress-seo" ) }</Button>
-			</li>
-		</ul> }
+					{ __( "Remove permanently", "wordpress-seo" ) }
+				</DropdownMenu.ButtonItem>
+			</DropdownMenu.List>
+		</DropdownMenu>
 
 		<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4"><YoastConnectSiteKit /></div>
 		<Stepper steps={ steps } currentStep={ currentStep } isComplete={ isComplete } />
