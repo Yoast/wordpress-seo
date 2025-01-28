@@ -6,6 +6,9 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Integrations_Page;
@@ -38,9 +41,30 @@ final class Integrations_Page_Integration_Test extends TestCase {
 	/**
 	 * The admin asset manager.
 	 *
-	 * @var WPSEO_Admin_Asset_Manager
+	 * @var Mockery\MockInterface|WPSEO_Admin_Asset_Manager
 	 */
 	private $admin_asset_manager;
+
+	/**
+	 * The elementor conditional.
+	 *
+	 * @var Mockery\MockInterface|Elementor_Activated_Conditional
+	 */
+	private $elementor_conditional;
+
+	/**
+	 * The jetpack conditional.
+	 *
+	 * @var Mockery\MockInterface|Jetpack_Conditional
+	 */
+	private $jetpack_conditional;
+
+	/**
+	 * The Google Site Kit conditional.
+	 *
+	 * @var Mockery\MockInterface|Google_Site_Kit_Feature_Conditional
+	 */
+	private $google_site_kit_conditional;
 
 	/**
 	 * The instance under test.
@@ -59,14 +83,20 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		if ( ! \defined( 'WP_PLUGIN_DIR' ) ) {
 			\define( 'WP_PLUGIN_DIR', '/' );
 		}
-		$this->options_helper      = Mockery::mock( Options_Helper::class );
-		$this->admin_asset_manager = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->woocommerce_helper  = Mockery::mock( Woocommerce_Helper::class );
+		$this->options_helper              = Mockery::mock( Options_Helper::class );
+		$this->admin_asset_manager         = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->woocommerce_helper          = Mockery::mock( Woocommerce_Helper::class );
+		$this->elementor_conditional       = Mockery::mock( Elementor_Activated_Conditional::class );
+		$this->jetpack_conditional         = Mockery::mock( Jetpack_Conditional::class );
+		$this->google_site_kit_conditional = Mockery::mock( Google_Site_Kit_Feature_Conditional::class );
 
 		$this->instance = new Integrations_Page(
 			$this->admin_asset_manager,
 			$this->options_helper,
-			$this->woocommerce_helper
+			$this->woocommerce_helper,
+			$this->elementor_conditional,
+			$this->jetpack_conditional,
+			$this->google_site_kit_conditional
 		);
 	}
 
@@ -120,12 +150,18 @@ final class Integrations_Page_Integration_Test extends TestCase {
 			->andReturn( 'https://www.example.com' );
 
 		Monkey\Functions\expect( 'is_plugin_active' )->times( 5 )->andReturnTrue();
-		Monkey\Functions\expect( 'wp_nonce_url' )->times( 3 )->andReturn( 'nonce' );
-		Monkey\Functions\expect( 'self_admin_url' )->times( 3 )->andReturn( 'https://www.example.com' );
+		Monkey\Functions\expect( 'is_plugin_active' )->with( 'google-site-kit/google-site-kit.php' )->once()->andReturnFalse();
+		Monkey\Functions\expect( 'wp_nonce_url' )->times( 5 )->andReturn( 'nonce' );
+		Monkey\Functions\expect( 'self_admin_url' )->times( 6 )->andReturn( 'https://www.example.com' );
 		Monkey\Functions\expect( 'plugins_url' )->andReturn( 'https://www.example.com' );
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://www.example.com' );
 
 		$this->options_helper->expects( 'get' )->times( 5 )->andReturnTrue();
+		$this->options_helper->expects( 'get' )->with( 'google_site_kit_connected', false )->once()->andReturnFalse();
+
+		$this->elementor_conditional->expects( 'is_met' )->andReturnFalse();
+		$this->jetpack_conditional->expects( 'is_met' )->andReturnFalse();
+		$this->google_site_kit_conditional->expects( 'is_met' )->andReturnFalse();
 
 		$this->admin_asset_manager->expects( 'localize_script' )->with(
 			'integrations-page',
@@ -137,8 +173,8 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'allow_algolia_integration'          => true,
 				'wincher_integration_active'         => true,
 				'allow_wincher_integration'          => null,
-				'elementor_integration_active'       => true,
-				'jetpack_integration_active'         => true,
+				'elementor_integration_active'       => false,
+				'jetpack_integration_active'         => false,
 				'woocommerce_seo_installed'          => false,
 				'woocommerce_seo_active'             => true,
 				'woocommerce_active'                 => false,
@@ -156,6 +192,14 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'mastodon_active'                    => false,
 				'is_multisite'                       => false,
 				'plugin_url'                         => 'https://www.example.com',
+				'google_site_kit_installed'          => false,
+				'google_site_kit_active'             => false,
+				'google_site_kit_setup'              => false,
+				'google_site_kit_connected'          => false,
+				'google_site_kit_feature'            => false,
+				'google_site_kit_install_url'        => 'nonce',
+				'google_site_kit_activate_url'       => 'nonce',
+				'google_site_kit_setup_url'          => 'https://www.example.com',
 			]
 		);
 

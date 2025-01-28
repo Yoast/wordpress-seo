@@ -12,6 +12,13 @@ import removePunctuation from "../sanitize/removePunctuation";
  */
 function mergeBy( words, separator ) {
 	while ( words.indexOf( separator ) !== -1 ) {
+		// Special case: separator is at the beginning or end of the array: remove it.
+		if ( words.indexOf( separator ) === 0 || words.indexOf( separator ) === words.length - 1 ) {
+			words.splice( words.indexOf( separator ), 1 );
+			continue;
+		}
+
+		// Default case: separator is in the middle of the array: merge the words surrounding it.
 		const currentSeparator = words.indexOf( separator );
 		const wordBefore = words[ currentSeparator - 1 ];
 		const wordAfter = words[ currentSeparator + 1 ];
