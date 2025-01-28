@@ -8,14 +8,13 @@ import { ProgressBar } from "../../index";
  * Step component.
  *
  * @param {string} label The step label.
- * @param {number} index The step index.
  * @param {boolean} isComplete Is the step complete.
- * @param {number} currentStep The current step.
- * @param {function} addStepRef The function to add the step ref.
+ * @param {boolean} isActive Is the step
+ * @param {boolean} isStepComplete Is the step complete.
  *
  * @returns {JSX.Element} The step element.
  */
-const Step = forwardRef( ( { label, isComplete,  isActive, isStepComplete }, ref ) => {
+const Step = forwardRef( ( { label, isComplete, isActive, isStepComplete }, ref ) => {
 	return (
 		<div
 			ref={ ref }
@@ -42,16 +41,16 @@ const Step = forwardRef( ( { label, isComplete,  isActive, isStepComplete }, ref
 Step.displayName = "Step";
 Step.propTypes = {
 	label: PropTypes.string.isRequired,
+	isActive: PropTypes.bool.isRequired,
 	isComplete: PropTypes.bool.isRequired,
 	isStepComplete: PropTypes.bool.isRequired,
-	isActive: PropTypes.bool.isRequired,
 };
 
 /**
  *
  * @param {number} currentStep The currrent step.
  * @param {boolean} isComplete Is the step complete.
- * @param {array} steps The steps names.
+ * @param {[string]} steps The steps names.
  * @param {string} [className] Optional extra className.
  *
  * @returns {JSX.Element} The Stepper element.
