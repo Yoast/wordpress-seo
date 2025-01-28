@@ -309,9 +309,6 @@ const stemVerbSuffixes = function( word, wordAfter1, rvText, rv, morphologyData 
 
 	// Do Step 2b if step 2a was done, but failed to remove a suffix.
 	if ( word === wordAfter1 ) {
-		if (morphologyData.wordsThatLookLikeButAreNot.notVerbForms.includes(removeAccent(word))) {
-			return word;
-		}
 		const suf11 = findMatchingEndingInArray( rvText, [ "arían", "arías", "arán", "arás", "aríais", "aría", "aréis",
 			"aríamos", "aremos", "ará", "aré", "erían", "erías", "erán",
 			"erás", "eríais", "ería", "eréis", "eríamos", "eremos", "erá",
@@ -356,7 +353,6 @@ const stemVerbSuffixes = function( word, wordAfter1, rvText, rv, morphologyData 
 			}
 		}
 	}
-
 	return word;
 };
 
@@ -636,4 +632,3 @@ export default function stem( word, morphologyData ) {
 
 	return removeAccent( word );
 }
-
