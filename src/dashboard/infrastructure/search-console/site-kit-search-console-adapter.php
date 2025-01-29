@@ -58,7 +58,9 @@ class Site_Kit_Search_Console_Adapter {
 		$data_rows = self::$search_console_module->get_data( 'searchanalytics', $api_parameters );
 
 		if ( \is_wp_error( $data_rows ) ) {
-			throw new Failed_Request_Exception( \wp_kses_post( $data_rows->get_error_message() ) );
+			$error_data        = $data_rows->get_error_data();
+			$error_status_code = ( $error_data['status'] ?? 500 );
+			throw new Failed_Request_Exception( \wp_kses_post( $data_rows->get_error_message() ), (int) $error_status_code );
 		}
 
 		$search_data_container = new Data_Container();

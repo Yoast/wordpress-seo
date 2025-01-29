@@ -12,9 +12,10 @@ class Failed_Request_Exception extends Exception {
 	/**
 	 * Constructor of the exception.
 	 *
-	 * @param string $error The error of the request.
+	 * @param string $error_message     The error message of the request.
+	 * @param int    $error_status_code The error status code of the request.
 	 */
-	public function __construct( $error ) {
-		parent::__construct( 'The Search Console request failed: ' . $error, 500 );
+	public function __construct( $error_message, $error_status_code ) {
+		parent::__construct( 'The Search Console request failed: ' . $error_message, $error_status_code );
 	}
 }
