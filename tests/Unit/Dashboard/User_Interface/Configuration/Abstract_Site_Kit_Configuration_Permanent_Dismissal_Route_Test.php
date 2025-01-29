@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Configuration;
 
 use Mockery;
