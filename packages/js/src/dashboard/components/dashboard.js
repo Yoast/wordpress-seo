@@ -1,6 +1,6 @@
 import { Scores } from "../scores/components/scores";
 import { PageTitle } from "./page-title";
-import { GoogleSiteKitConnectionWidget } from "./google-site-kit-connection-widget";
+import { GoogleSiteKitSetupWidget } from "./google-site-kit-setup-widget";
 import { get } from "lodash";
 import { useCallback } from "@wordpress/element";
 import { useToggleState } from "@yoast/ui-library";
@@ -48,7 +48,7 @@ export const Dashboard = ( { contentTypes, userName, features, endpoints, header
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } />
 			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
-				{ showGoogleSiteKit && googleSiteKitConfiguration.featureActive && <GoogleSiteKitConnectionWidget
+				{ showGoogleSiteKit && googleSiteKitConfiguration.featureActive && <GoogleSiteKitSetupWidget
 					{ ...googleSiteKitConfiguration } learnMoreLink={ learnMorelink }
 					onRemove={ setRemoveGoogleSiteKit } onRemovePermanently={ handleRemovePermanently }
 				/> }
