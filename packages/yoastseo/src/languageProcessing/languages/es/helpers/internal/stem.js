@@ -329,10 +329,8 @@ const stemVerbSuffixes = function( word, wordAfter1, rvText, rv, morphologyData 
 			if ( endsIn( word, "gu" ) ) {
 				word = word.slice( 0, -1 );
 			}
-			if (morphologyData.wordsThatLookLikeButAreNot.notVerbForms.includes(word)) {
-				return word;
-			}
-			if (morphologyData.wordsThatLookLikeButAreNot.notVerbForms.includes(removeAccent(word))) {
+			const unaccentedNotVerbForms = morphologyData.wordsThatLookLikeButAreNot.notVerbForms.map(removeAccent);
+			if (unaccentedNotVerbForms.includes(removeAccent(word))) {
 				return word;
 			}
 			rvText = word.slice(rv);
