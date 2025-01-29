@@ -65,7 +65,16 @@ class Site_Kit_Search_Console_Adapter {
 
 		$search_data_container = new Data_Container();
 		foreach ( $data_rows as $ranking ) {
-			$search_data_container->add_data( new Search_Data( $ranking->clicks, $ranking->ctr, $ranking->impressions, $ranking->position, $ranking->keys[0] ) );
+			/**
+			 * Filter: 'wpseo_transform_dashboard_subject_for_testing' - Allows overriding subjects like URLs for the dashboard, to facilitate testing in local environments.
+			 *
+			 * @internal
+			 *
+			 * @param string $url The subject to be transformed.
+			 */
+			$subject = \apply_filters( 'wpseo_transform_dashboard_subject_for_testing', $ranking->keys[0] );
+
+			$search_data_container->add_data( new Search_Data( $ranking->clicks, $ranking->ctr, $ranking->impressions, $ranking->position, $subject ) );
 		}
 
 		return $search_data_container;

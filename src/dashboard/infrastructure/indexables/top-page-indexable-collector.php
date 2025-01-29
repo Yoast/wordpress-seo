@@ -56,15 +56,6 @@ class Top_Page_Indexable_Collector {
 		foreach ( $top_pages->get_data() as $top_page ) {
 			$url = $top_page->get_subject();
 
-			/**
-			 * Filter: 'wpseo_transform_dashboard_url_for_testing' - Allows overriding the URLs for the dashboard, to facilitate testing in local environments.
-			 *
-			 * @internal
-			 *
-			 * @param string $url The URL to be transformed.
-			 */
-			$url = \apply_filters( 'wpseo_transform_dashboard_url_for_testing', $url );
-
 			$indexable = $this->get_top_page_indexable( $url );
 
 			if ( $indexable instanceof Indexable ) {
