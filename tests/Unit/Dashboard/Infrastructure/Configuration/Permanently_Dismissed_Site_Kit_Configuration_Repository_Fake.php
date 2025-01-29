@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure;
+namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Configuration;
 
-use Yoast\WP\SEO\Dashboard\Infrastructure\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface;
 
 /**
  * Fake class for the Permanently Dismissed Site Kit Configuration Repository.

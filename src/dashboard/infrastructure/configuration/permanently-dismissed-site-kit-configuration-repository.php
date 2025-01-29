@@ -1,5 +1,5 @@
 <?php
-namespace Yoast\WP\SEO\Dashboard\Infrastructure;
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Configuration;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 

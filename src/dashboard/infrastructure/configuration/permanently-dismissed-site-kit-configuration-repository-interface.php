@@ -1,5 +1,5 @@
 <?php
-namespace Yoast\WP\SEO\Dashboard\Infrastructure;
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Configuration;
 
 /**
  * Interface for the Permanently Dismissed Site Kit configuration Repository.

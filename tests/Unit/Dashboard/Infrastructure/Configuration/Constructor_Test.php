@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure;
+namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Configuration;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  *
  * @group Permanently_Dismissed_Site_Kit_Configuration_Repository
  *
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Permanently_Dismissed_Site_Kit_Configuration_Repository::__construct
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository::__construct
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */

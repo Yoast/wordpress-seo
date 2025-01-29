@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure;
+namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Configuration;
 
 use Mockery;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Permanently_Dismissed_Site_Kit_Configuration_Repository;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group Permanently_Dismissed_Site_Kit_Configuration_Repository
  *
- * @coversDefaultClass \Yoast\WP\SEO\Dashboard\Infrastructure\Permanently_Dismissed_Site_Kit_Configuration_Repository
+ * @coversDefaultClass \Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */

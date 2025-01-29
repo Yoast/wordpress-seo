@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure;
+namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Configuration;
 
 /**
  * Test class for the is_site_kit_configuration_dismissed method.
  *
  * @group Permanently_Dismissed_Site_Kit_Configuration_Repository
  *
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Permanently_Dismissed_Site_Kit_Configuration_Repository::is_site_kit_configuration_dismissed
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository::is_site_kit_configuration_dismissed
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */

@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface;
+namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Configuration;
 
 use Mockery;
 use WP_Error;
-use Yoast\WP\SEO\Dashboard\User_Interface\Site_Kit_Configuration_Dismissal_Route;
-use Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Permanently_Dismissed_Site_Kit_Configuration_Repository_Fake;
+use Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Configuration_Dismissal_Route;
+use Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Fake;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

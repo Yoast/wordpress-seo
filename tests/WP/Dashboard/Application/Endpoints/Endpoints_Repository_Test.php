@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Tests\WP\Dashboard\Application\Endpoints;
 
 use Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Readability_Scores_Endpoint;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Configuration_Dismissal_Endpoint;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\SEO_Scores_Endpoint;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
@@ -37,7 +37,7 @@ final class Endpoints_Repository_Test extends TestCase {
 	 * @return array<array<Endpoint_Interface[],array<string>>>
 	 */
 	public static function data_get_all_endpoints() {
-		$readability_endpoint = new Readability_Scores_Endpoint();
+		$readability_endpoint = new Site_Kit_Configuration_Dismissal_Endpoint();
 		$seo_scores_endpoint  = new SEO_Scores_Endpoint();
 
 		return [

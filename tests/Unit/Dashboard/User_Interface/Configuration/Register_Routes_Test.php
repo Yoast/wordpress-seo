@@ -1,15 +1,16 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface;
+namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Configuration;
 
 use Brain\Monkey\Functions;
+use function Brain\Monkey\Functions;
 
 /**
  * Test class for the register_routes method.
  *
  * @group site_kit_configuration_permanent_dismissal_route
  *
- * @covers Yoast\WP\SEO\Dashboard\User_Interface\Site_Kit_Configuration_Permanent_Dismissal_Route::register_routes
+ * @covers Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Configuration_Permanent_Dismissal_Route::register_routes
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -31,14 +32,6 @@ final class Register_Routes_Test extends Abstract_Site_Kit_Configuration_Permane
 						'methods'             => 'POST',
 						'callback'            => [ $this->instance, 'set_site_kit_configuration_permanent_dismissal' ],
 						'permission_callback' => [ $this->instance, 'check_capabilities' ],
-						'args'                => [
-							'is_dismissed' => [
-								'required'          => true,
-								'type'              => 'bool',
-								'default'           => false,
-								'sanitize_callback' => 'rest_sanitize_boolean',
-							],
-						],
 					],
 				]
 			);
