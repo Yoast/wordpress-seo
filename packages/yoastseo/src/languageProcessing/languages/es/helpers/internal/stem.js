@@ -309,7 +309,7 @@ const stemVerbSuffixes = function( word, wordAfter1, rvText, rv, morphologyData 
 
 	// Do Step 2b if step 2a was done, but failed to remove a suffix.
 	if ( word === wordAfter1 ) {
-		const suf11 = findMatchingEndingInArray( rvText, [ "arían", "arías", "arán", "arás", "aríais", "aría", "aréis",
+		const spanishVerbSuffixes = [ "arían", "arías", "arán", "arás", "aríais", "aría", "aréis",
 			"aríamos", "aremos", "ará", "aré", "erían", "erías", "erán",
 			"erás", "eríais", "ería", "eréis", "eríamos", "eremos", "erá",
 			"eré", "irían", "irías", "irán", "irás", "iríais", "iría", "iréis",
@@ -320,7 +320,8 @@ const stemVerbSuffixes = function( word, wordAfter1, rvText, rv, morphologyData 
 			"adas", "idas", "ías", "aras", "ieras", "ases", "ieses", "ís", "áis",
 			"abais", "íais", "arais", "ierais", "  aseis", "ieseis", "asteis",
 			"isteis", "ados", "idos", "amos", "ábamos", "íamos", "imos", "áramos",
-			"iéramos", "iésemos", "ásemos" ] );
+			"iéramos", "iésemos", "ásemos" ];
+		const suf11 = findMatchingEndingInArray( rvText, spanishVerbSuffixes );
 		const suf12 = findMatchingEndingInArray( rvText, [ "en", "es", "éis", "emos" ] );
 		if ( suf11 !== "" ) {
 			word = word.slice( 0, -suf11.length );
@@ -329,23 +330,19 @@ const stemVerbSuffixes = function( word, wordAfter1, rvText, rv, morphologyData 
 			if ( endsIn( word, "gu" ) ) {
 				word = word.slice( 0, -1 );
 			}
+			// Creates an unaccented version of the words that look like verbs but are not and checks if the stemmed word is on the list after removing verb suffixes. If so, returns word.
 			const unaccentedNotVerbForms = morphologyData.wordsThatLookLikeButAreNot.notVerbForms.map(removeAccent);
 			if (unaccentedNotVerbForms.includes(removeAccent(word))) {
 				return word;
 			}
+			// Checks if the stemmed word is on the list of words with multiple stems. If so, returns the canonical stem.
+			const canonicalStem = canonicalizeStem( word, morphologyData.stemsThatBelongToOneWord );
+			if ( canonicalStem ) {
+				return canonicalStem;
+			}
 			rvText = word.slice(rv);
-			const suf11AfterSuf12 = findMatchingEndingInArray( rvText, [ "arían", "arías", "arán", "arás", "aríais", "aría", "aréis",
-				"aríamos", "aremos", "ará", "aré", "erían", "erías", "erán",
-				"erás", "eríais", "ería", "eréis", "eríamos", "eremos", "erá",
-				"eré", "irían", "irías", "irán", "irás", "iríais", "iría", "iréis",
-				"iríamos", "iremos", "irá", "iré", "aba", "ada", "ida", "ía", "ara",
-				"iera", "ad", "ed", "id", "ase", "iese", "aste", "iste", "an",
-				"aban", "ían", "aran", "ieran", "asen", "iesen", "aron", "ieron",
-				"ado", "ido", "ando", "iendo", "ió", "ar", "er", "ir", "as", "abas",
-				"adas", "idas", "ías", "aras", "ieras", "ases", "ieses", "ís", "áis",
-				"abais", "íais", "arais", "ierais", "  aseis", "ieseis", "asteis",
-				"isteis", "ados", "idos", "amos", "ábamos", "íamos", "imos", "áramos",
-				"iéramos", "iésemos", "ásemos" ] );
+			// Checks for verb suffix after adjusting rvText if a suffix was already found at suf11 and suf12.
+			const suf11AfterSuf12 = findMatchingEndingInArray( rvText, spanishVerbSuffixes );
 			if (suf11AfterSuf12 !== "") {
 				word = word.slice(0, -suf11AfterSuf12.length );
 			}
