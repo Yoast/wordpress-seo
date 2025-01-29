@@ -44,11 +44,14 @@ MenuButtonItem.propTypes = {
  */
 const DropdownMenuIconTrigger = ( { className, screenReaderTriggerLabel = "Open menu", Icon = DotsVerticalIcon, ...props } ) => (
 	<Menu.Button className={ classNames( "yst-dropdown-menu__icon-trigger", className ) } { ...props }>
-		<Icon
-			className="yst-h-4 hover:yst-text-slate-600"
-		/>
-		<span className="yst-sr-only">{ screenReaderTriggerLabel }</span>
-
+		{ ( { open } ) => <>
+			<Icon
+				className={ classNames( "yst-h-4 hover:yst-text-slate-600",
+					open ? "yst-text-slate-600" : "",
+				) }
+			/>
+			<span className="yst-sr-only">{ screenReaderTriggerLabel }</span>
+		</> }
 	</Menu.Button>
 );
 
