@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Configuration;
 
 use Brain\Monkey\Functions;
-use function Brain\Monkey\Functions;
 
 /**
  * Test class for the register_routes method.

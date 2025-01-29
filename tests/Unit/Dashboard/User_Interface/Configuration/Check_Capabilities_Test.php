@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Configuration;
 
 use Brain\Monkey\Functions;
-use function Brain\Monkey\Functions;
 
 /**
  * Abstract class for the Permanently Dismissed Site Kit Configuration Repository tests.
