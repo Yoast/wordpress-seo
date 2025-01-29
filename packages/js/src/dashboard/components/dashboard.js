@@ -4,6 +4,7 @@ import { GoogleSiteKitConnectionWidget } from "./google-site-kit-connection-widg
 import { get } from "lodash";
 import { useCallback } from "@wordpress/element";
 import { useToggleState } from "@yoast/ui-library";
+import { useSelect } from "@wordpress/data";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -36,7 +37,7 @@ export const Dashboard = ( { contentTypes, userName, features, endpoints, header
 		featureActive: false,
 	} );
 	const [ showGoogleSiteKit, , , , setRemoveGoogleSiteKit ] = useToggleState( true );
-
+	const learnMorelink = useSelect( select => select( "@yoast/general" ).selectLink( "https://yoa.st/google-site-kit-learn-more" ), [] );
 	const handleRemovePermanently = useCallback( ()=>{
 		/* eslint-disable-next-line */
 		// TODO: Implement the remove permanently functionality.
@@ -48,7 +49,7 @@ export const Dashboard = ( { contentTypes, userName, features, endpoints, header
 			<PageTitle userName={ userName } features={ features } links={ links } />
 			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
 				{ showGoogleSiteKit && googleSiteKitConfiguration.featureActive && <GoogleSiteKitConnectionWidget
-					{ ...googleSiteKitConfiguration }
+					{ ...googleSiteKitConfiguration } learnMoreLink={ learnMorelink }
 					onRemove={ setRemoveGoogleSiteKit } onRemovePermanently={ handleRemovePermanently }
 				/> }
 				{ features.indexables && features.seoAnalysis && (

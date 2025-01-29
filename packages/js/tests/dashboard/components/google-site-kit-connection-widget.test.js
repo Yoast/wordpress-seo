@@ -1,10 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { GoogleSiteKitConnectionWidget } from "../../../src/dashboard/components/google-site-kit-connection-widget";
 
-jest.mock( "@wordpress/data", () => ( {
-	useSelect: jest.fn( () =>  [] ),
-} ) );
-
 describe( "GoogleSiteKitConnectionWidget", () => {
 	const defaultProps = {
 		installUrl: "https://example.com/install",
@@ -16,6 +12,7 @@ describe( "GoogleSiteKitConnectionWidget", () => {
 		isInstalled: false,
 		onRemove: jest.fn(),
 		onRemovePermanently: jest.fn(),
+		learnMoreLink: "https://example.com/learn-more",
 	};
 
 	it( "renders the widget with install button", () => {

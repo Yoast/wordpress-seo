@@ -3,7 +3,6 @@ import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-con
 import { __ } from "@wordpress/i18n";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { ArrowRightIcon, XIcon, TrashIcon } from "@heroicons/react/outline";
-import { useSelect } from "@wordpress/data";
 
 /**
  * Get the button and stepper props based on the current state.
@@ -80,6 +79,7 @@ const steps = [
  * @param {string} setupUrl The URL to setup Site Kit.
  * @param {function} onRemove The function to call when the widget is removed.
  * @param {function} onRemovePermanently The function to call when the widget is removed permanently.
+ * @param {string} learnMorelink The URL to learn more about the feature.
  *
  * @returns {JSX.Element} The widget.
  */
@@ -93,9 +93,8 @@ export const GoogleSiteKitConnectionWidget = ( {
 	isInstalled,
 	onRemove,
 	onRemovePermanently,
+	learnMorelink,
 } ) => {
-	const learnMorelink = useSelect( select => select( "@yoast/general" ).selectLink( "https://yoa.st/google-site-kit-learn-more" ), [] );
-
 	const { buttonProps, currentStep, isComplete } = getButtonAndStepperProps(
 		isInstalled, isActive, isSetup, isConnected, installUrl, activateUrl, setupUrl );
 	return <Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative">
