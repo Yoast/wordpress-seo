@@ -46,6 +46,7 @@ final class Endpoints_Repository_Test extends TestCase {
 				'expected_list' => [
 					'readabilityScores' => 'http://example.org/index.php?rest_route=/yoast/v1/readability_scores',
 					'seoScores'         => 'http://example.org/index.php?rest_route=/yoast/v1/seo_scores',
+					'siteKitConfigurationDismissal' => 'http://example.org/index.php?rest_route=/yoast/v1/site_kit_configuration_permanent_dismissal',
 				],
 			],
 			'Seo endpoint'                 => [
