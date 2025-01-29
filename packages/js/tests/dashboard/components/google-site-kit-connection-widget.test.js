@@ -9,11 +9,11 @@ describe( "GoogleSiteKitConnectionWidget", () => {
 	const defaultProps = {
 		installUrl: "https://example.com/install",
 		activateUrl: "https://example.com/activate",
-		setupUrl: "https://example.com/setup",
-		connected: false,
-		active: false,
-		setup: false,
-		installed: false,
+		isSetupUrl: "https://example.com/isSetup",
+		isConnected: false,
+		isActive: false,
+		isSetup: false,
+		isInstalled: false,
 		onRemove: jest.fn(),
 		onRemovePermanently: jest.fn(),
 	};
@@ -24,22 +24,22 @@ describe( "GoogleSiteKitConnectionWidget", () => {
 	} );
 
 	it( "renders the widget with activate button", () => {
-		render( <GoogleSiteKitConnectionWidget { ...defaultProps } installed={ true } /> );
+		render( <GoogleSiteKitConnectionWidget { ...defaultProps } isInstalled={ true } /> );
 		expect( screen.getByText( "Activate Site Kit by Google" ) ).toBeInTheDocument();
 	} );
 
 	it( "renders the widget with setup button", () => {
-		render( <GoogleSiteKitConnectionWidget { ...defaultProps } installed={ true } active={ true } /> );
+		render( <GoogleSiteKitConnectionWidget { ...defaultProps } isInstalled={ true } isActive={ true } /> );
 		expect( screen.getByText( "Set up Site Kit by Google" ) ).toBeInTheDocument();
 	} );
 
 	it( "renders the widget with connect button", () => {
-		render( <GoogleSiteKitConnectionWidget { ...defaultProps } installed={ true } active={ true } setup={ true } /> );
+		render( <GoogleSiteKitConnectionWidget { ...defaultProps } isInstalled={ true } isActive={ true } isSetup={ true } /> );
 		expect( screen.getByText( "Connect Site Kit by Google" ) ).toBeInTheDocument();
 	} );
 
 	it( "renders the widget with dismiss button when connected", () => {
-		render( <GoogleSiteKitConnectionWidget { ...defaultProps } installed={ true } active={ true } setup={ true } connected={ true } /> );
+		render( <GoogleSiteKitConnectionWidget { ...defaultProps } isInstalled={ true } isActive={ true } isSetup={ true } isConnected={ true } /> );
 		expect( screen.getByText( "Dismiss" ) ).toBeInTheDocument();
 	} );
 
