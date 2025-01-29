@@ -84,7 +84,7 @@ class Top_Page_Indexable_Collector {
 	protected function get_top_page_indexable( string $url ) {
 		// First check if the URL is the static homepage.
 		if ( \trailingslashit( $url ) === \trailingslashit( \get_home_url() ) && \get_option( 'show_on_front' ) === 'page' ) {
-			return $this->indexable_repository->find_by_id_and_type( \get_option( 'page_on_front' ), 'post' );
+			return $this->indexable_repository->find_by_id_and_type( \get_option( 'page_on_front' ), 'post', false );
 		}
 
 		return $this->indexable_repository->find_by_permalink( $url );
