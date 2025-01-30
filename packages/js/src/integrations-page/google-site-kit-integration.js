@@ -117,7 +117,7 @@ export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, i
 			<DisconnectModal
 				isOpen={ isDisconnectModalOpen }
 				onClose={ toggleDisconnectModal }
-				onDiscard={ ()=>{} }
+				onDiscard={ toggleDisconnectModal }
 				title={ __( "Are you sure?", "wordpress-seo" ) }
 				description={ __( "By disconnecting, you will revoke your consent for Yoast to access your Site Kit data, meaning we can no longer show insights from Site Kit by Google on your dashboard. Do you want to proceed?", "wordpress-seo" ) }
 				dismissLabel={ __( "No, stay connected", "wordpress-seo" ) }
