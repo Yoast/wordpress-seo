@@ -83,7 +83,7 @@ const steps = [
  *
  * @returns {JSX.Element} The widget.
  */
-export const GoogleSiteKitSetupWidget = ( {
+export const SiteKitSetupWidget = ( {
 	installUrl,
 	activateUrl,
 	setupUrl,
