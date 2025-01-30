@@ -6,7 +6,7 @@ import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
 import { getInitialState, getIsMultisiteAvailable, getIsNetworkControlEnabled, updateIntegrationState } from "./helper";
 
 import { ToggleableIntegration } from "./toggleable-integration";
-import { GoogleSiteKitIntegration } from "./google-site-kit-integration";
+import { SiteKitIntegration } from "./site-kit-integration";
 
 const integrations = [
 	{
@@ -92,7 +92,7 @@ const googleSiteKitProps = {
 };
 
 if ( isGoogleSiteKitFeatureEnabled ) {
-	RecommendedIntegrations.push( <GoogleSiteKitIntegration key={ integrations.length } { ...googleSiteKitProps } /> );
+	RecommendedIntegrations.push( <SiteKitIntegration key={ integrations.length } { ...googleSiteKitProps } /> );
 }
 
 export { RecommendedIntegrations };

@@ -58,7 +58,7 @@ const SuccessfullyConnected = () => {
  *
  * @returns {WPElement} The Site Kit integration component.
  */
-export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, isConnected, installUrl, activateUrl, setupUrl } ) => {
+export const SiteKitIntegration = ( { isActive, afterSetup, isInstalled, isConnected, installUrl, activateUrl, setupUrl } ) => {
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
 	const [ isDisconnectModalOpen, toggleDisconnectModal ] = useToggleState( true );
 
@@ -129,7 +129,7 @@ export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, i
 	);
 };
 
-GoogleSiteKitIntegration.propTypes = {
+SiteKitIntegration.propTypes = {
 	isActive: PropTypes.bool.isRequired,
 	afterSetup: PropTypes.bool.isRequired,
 	isInstalled: PropTypes.bool.isRequired,
