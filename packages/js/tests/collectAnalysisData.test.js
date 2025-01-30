@@ -117,7 +117,8 @@ describe( "collectAnalysisData", () => {
 		const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule );
 
 		expect( results._attributes.wpBlocks ).not.toBe( newBlocks );
-		expect( results._attributes.wpBlocks ).not.toContain( { isValid: false, innerBlocks: [], name: "core/paragraph" } );
+		expect( newBlocks ).toContainEqual( { isValid: false, innerBlocks: [], name: "core/paragraph" } );
+		expect( results._attributes.wpBlocks ).not.toContainEqual( { isValid: false, innerBlocks: [], name: "core/paragraph" } );
 	} );
 
 	it( "does not add wpBlocks if no blockEditorDataModule is added", () => {
