@@ -58,6 +58,7 @@ domReady( () => {
 	const endpoints = {
 		seoScores: get( window, "wpseoScriptData.dashboard.endpoints.seoScores", "" ),
 		readabilityScores: get( window, "wpseoScriptData.dashboard.endpoints.readabilityScores", "" ),
+		topPages: get( window, "wpseoScriptData.dashboard.endpoints.topPageResults", "" ),
 	};
 	/** @type {Object<string,string>} */
 	const headers = {
@@ -81,7 +82,7 @@ domReady( () => {
 						<SidebarLayout>
 							<Dashboard
 								widgetFactory={ widgetFactory }
-								initialWidgets={ [ "seoScores", "readabilityScores" ] }
+								initialWidgets={ [ "seoScores", "readabilityScores", "topPages" ] }
 								userName={ userName }
 								features={ features }
 								links={ links }

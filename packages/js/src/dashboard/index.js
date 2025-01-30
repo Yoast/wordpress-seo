@@ -48,6 +48,7 @@ export { Dashboard } from "./components/dashboard";
  * @typedef {Object} Endpoints The endpoints.
  * @property {string} seoScores The endpoint for SEO scores.
  * @property {string} readabilityScores The endpoint for readability scores.
+ * @property {string} topPages The endpoint to get the top pages.
  */
 
 /**

@@ -1,5 +1,6 @@
 /* eslint-disable complexity */
 import { ScoreWidget } from "../widgets/score-widget";
+import { TopPagesWidget } from "../widgets/top-pages-widget";
 
 /**
  * @type {import("../index").WidgetType} WidgetType
@@ -26,6 +27,7 @@ export class WidgetFactory {
 		return [
 			{ type: "seoScores" },
 			{ type: "readabilityScores" },
+			{ type: "topPages" },
 		];
 	}
 
@@ -48,6 +50,8 @@ export class WidgetFactory {
 					return null;
 				}
 				return <ScoreWidget key={ widget.id } analysisType="readability" dataProvider={ this.#dataProvider } />;
+			case "topPages":
+				return <TopPagesWidget key={ widget.id } dataProvider={ this.#dataProvider } />;
 		}
 	}
 }
