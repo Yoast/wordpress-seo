@@ -62,5 +62,20 @@ export { Dashboard } from "./components/dashboard";
  * @property {number} impressions The number of impressions.
  * @property {number} ctr The click-through rate.
  * @property {number} position The average position.
- * @property {number} seoScore The seo score.
+ * @property {ScoreType} seoScore The seo score.
+ */
+
+/**
+ * @typedef {"seoScores"|"readabilityScores"|"popularContent"} WidgetType The widget type.
+ */
+
+/**
+ * @typedef {Object} WidgetTypeInfo The widget info. Should hold what the UI needs to let the user pick a widget.
+ * @property {WidgetType} type The widget type.
+ */
+
+/**
+ * @typedef {Object} WidgetInstance The widget instance. Should hold what the UI needs to render the widget.
+ * @property {string} id The unique identifier.
+ * @property {WidgetType} type The widget type.
  */

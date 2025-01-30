@@ -1,0 +1,53 @@
+/* eslint-disable complexity */
+import { ScoreWidget } from "../widgets/score-widget";
+
+/**
+ * @type {import("../index").WidgetType} WidgetType
+ * @type {import("../index").WidgetTypeInfo} WidgetTypeInfo
+ */
+
+/**
+ * Controls how to create a widget.
+ */
+export class WidgetFactory {
+	#dataProvider;
+
+	/**
+	 * @param {import("./data-provider").DataProvider} dataProvider
+	 */
+	constructor( dataProvider ) {
+		this.#dataProvider = dataProvider;
+	}
+
+	/**
+	 * @returns {WidgetTypeInfo[]}
+	 */
+	static get widgetTypes() {
+		return [
+			{ type: "seoScores" },
+			{ type: "readabilityScores" },
+		];
+	}
+
+	/**
+	 * @param {WidgetInstance} widget The widget to create.
+	 * @param {function} onRemove The remove handler.
+	 * @returns {JSX.Element|null} The widget or null.
+	 */
+	// eslint-disable-next-line no-unused-vars
+	createWidget( widget, onRemove ) {
+		switch ( widget.type ) {
+			case "seoScores":
+				// TODO: Should this move into a FeatureWidget, or just into the ScoreWidget itself?
+				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
+					return null;
+				}
+				return <ScoreWidget key={ widget.id } analysisType="seo" dataProvider={ this.#dataProvider } />;
+			case "readabilityScores":
+				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "readabilityAnalysis" ) ) ) {
+					return null;
+				}
+				return <ScoreWidget key={ widget.id } analysisType="readability" dataProvider={ this.#dataProvider } />;
+		}
+	}
+}

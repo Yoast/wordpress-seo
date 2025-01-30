@@ -6,8 +6,9 @@ import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
+import { DataProvider } from "../dashboard/services/data-provider";
+import { WidgetFactory } from "../dashboard/services/widget-factory";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
-import { ADMIN_NOTICES_NAME } from "./store/admin-notices";
 import App from "./app";
 import { RouteErrorFallback } from "./components";
 import { ConnectedPremiumUpsellList } from "./components/connected-premium-upsell-list";
@@ -15,6 +16,7 @@ import { SidebarLayout } from "./components/sidebar-layout";
 import { STORE_NAME } from "./constants";
 import { AlertCenter, FirstTimeConfiguration, ROUTES } from "./routes";
 import registerStore from "./store";
+import { ADMIN_NOTICES_NAME } from "./store/admin-notices";
 import { ALERT_CENTER_NAME } from "./store/alert-center";
 
 /**
@@ -62,10 +64,13 @@ domReady( () => {
 		"X-Wp-Nonce": get( window, "wpseoScriptData.dashboard.nonce", "" ),
 	};
 
-	/** @type {{dashboardLearnMore: string}} */
+	/** @type {Links} */
 	const links = {
 		dashboardLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-learn-more" ),
 	};
+
+	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links } );
+	const widgetFactory = new WidgetFactory( dataProvider );
 
 	const router = createHashRouter(
 		createRoutesFromElements(
@@ -75,11 +80,10 @@ domReady( () => {
 					element={
 						<SidebarLayout>
 							<Dashboard
-								contentTypes={ contentTypes }
+								widgetFactory={ widgetFactory }
+								initialWidgets={ [ "seoScores", "readabilityScores" ] }
 								userName={ userName }
 								features={ features }
-								endpoints={ endpoints }
-								headers={ headers }
 								links={ links }
 							/>
 							<ConnectedPremiumUpsellList />
