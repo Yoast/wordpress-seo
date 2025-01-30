@@ -26,14 +26,14 @@ final class Time_Based_Traffic_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	private const ROUTE_NAMESPACE = Main::API_V1_NAMESPACE;
+	public const ROUTE_NAMESPACE = Main::API_V1_NAMESPACE;
 
 	/**
 	 * The prefix of the route.
 	 *
 	 * @var string
 	 */
-	private const ROUTE_NAME = '/time_based_traffic';
+	public const ROUTE_NAME = '/time_based_traffic';
 
 	/**
 	 * The data provider.
