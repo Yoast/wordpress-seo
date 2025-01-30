@@ -12,12 +12,15 @@ import { TopPagesWidget } from "../widgets/top-pages-widget";
  */
 export class WidgetFactory {
 	#dataProvider;
+	#remoteDataProvider;
 
 	/**
 	 * @param {import("./data-provider").DataProvider} dataProvider
+	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider
 	 */
-	constructor( dataProvider ) {
+	constructor( dataProvider, remoteDataProvider ) {
 		this.#dataProvider = dataProvider;
+		this.#remoteDataProvider = remoteDataProvider;
 	}
 
 	/**
@@ -40,7 +43,6 @@ export class WidgetFactory {
 	createWidget( widget, onRemove ) {
 		switch ( widget.type ) {
 			case "seoScores":
-				// TODO: Should this move into a FeatureWidget, or just into the ScoreWidget itself?
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
 					return null;
 				}
@@ -51,7 +53,9 @@ export class WidgetFactory {
 				}
 				return <ScoreWidget key={ widget.id } analysisType="readability" dataProvider={ this.#dataProvider } />;
 			case "topPages":
-				return <TopPagesWidget key={ widget.id } dataProvider={ this.#dataProvider } />;
+				return <TopPagesWidget key={ widget.id } dataProvider={ this.#dataProvider } remoteDataProvider={ this.#remoteDataProvider } />;
+			default:
+				return null;
 		}
 	}
 }

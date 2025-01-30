@@ -3,8 +3,12 @@
  * @type {import("../index").Features} Features
  * @type {import("../index").Endpoints} Endpoints
  * @type {import("../index").Links} Links
+ * @type {import("../index").TopPageData} TopPageData
  */
 
+/**
+ * Controls the data.
+ */
 export class DataProvider {
 	#contentTypes;
 	#userName;
@@ -20,7 +24,6 @@ export class DataProvider {
 	 * @param {Endpoints} endpoints The endpoints.
 	 * @param {Object<string,string>} headers The headers for the WP requests.
 	 * @param {Links} links The links.
-	 * @constructor
 	 */
 	constructor( { contentTypes, userName, features, endpoints, headers, links } ) {
 		this.#contentTypes = contentTypes;
@@ -31,72 +34,48 @@ export class DataProvider {
 		this.#links = links;
 	}
 
-	async getContentTypes() {
+	/**
+	 * @returns {ContentType[]} The content types.
+	 */
+	getContentTypes() {
 		return this.#contentTypes;
 	}
 
-	async getUserName() {
+	/**
+	 * @returns {string} The user name.
+	 */
+	getUserName() {
 		return this.#userName;
 	}
 
-	async hasFeature( feature ) {
+	/**
+	 * @param {string} feature The feature to check.
+	 * @returns {boolean} Whether the feature is enabled.
+	 */
+	hasFeature( feature ) {
 		return this.#features?.[ feature ] === true;
 	}
 
-	async getEndpoint( endpoint ) {
-		return this.#endpoints?.[ endpoint ];
-	}
-
-	async getHeaders() {
-		return this.#headers;
-	}
-
-	async getLink( id ) {
-		return this.#links?.[ id ];
+	/**
+	 * @param {string} id The identifier.
+	 * @returns {?string} The endpoint, if found.
+	 */
+	getEndpoint( id ) {
+		return this.#endpoints?.[ id ];
 	}
 
 	/**
-	 * @param {string} endpoint The endpoint.
-	 * @param {number?} limit The number of results to return.
-	 * @throws {TypeError} If the URL is invalid.
-	 * @link https://developer.mozilla.org/en-US/docs/Web/API/URL
-	 * @returns {URL} The URL to get the most popular content.
+	 * @returns {Object<string,string>} The headers for making requests to the endpoints.
 	 */
-	static #createTopPagesUrl( endpoint, limit ) {
-		const url = new URL( endpoint );
-
-		if ( limit ) {
-			url.searchParams.set( "limit", limit.toString( 10 ) );
-		}
-
-		return url;
+	getHeaders() {
+		return this.#headers;
 	}
 
-	async getTopPages( limit, signal ) {
-		try {
-			const response = await fetch(
-				DataProvider.#createTopPagesUrl( this.#endpoints.topPages, limit ),
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						...this.#headers,
-					},
-					signal,
-				}
-			);
-			if ( ! response.ok ) {
-				throw new Error( "Not OK" );
-			}
-
-			const data = await response.json();
-			if ( ! data || ! Array.isArray( data ) ) {
-				throw new Error( "Invalid data" );
-			}
-
-			return data;
-		} catch ( error ) {
-			throw new Error( `Failed to fetch most popular content: ${ error }` );
-		}
+	/**
+	 * @param {string} id The identifier.
+	 * @returns {?string} The link, if found.
+	 */
+	getLink( id ) {
+		return this.#links?.[ id ];
 	}
 }

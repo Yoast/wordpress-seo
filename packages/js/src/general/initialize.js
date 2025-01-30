@@ -7,6 +7,7 @@ import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
 import { DataProvider } from "../dashboard/services/data-provider";
+import { RemoteDataProvider } from "../dashboard/services/remote-data-provider";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
@@ -70,8 +71,9 @@ domReady( () => {
 		dashboardLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-learn-more" ),
 	};
 
+	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links } );
-	const widgetFactory = new WidgetFactory( dataProvider );
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 
 	const router = createHashRouter(
 		createRoutesFromElements(

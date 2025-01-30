@@ -77,4 +77,3 @@ TableWidget.ScoreBullet = ScoreBullet;
 TableWidget.Cell = Table.Cell;
 TableWidget.Header = Table.Header;
 TableWidget.Body = Table.Body;
-

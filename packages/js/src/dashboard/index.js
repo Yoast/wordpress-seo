@@ -57,7 +57,7 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {Object} MostPopularContent The most popular content data.
+ * @typedef {Object} TopPageData The top page data.
  * @property {string} subject The landing page.
  * @property {number} clicks The number of clicks.
  * @property {number} impressions The number of impressions.
@@ -67,7 +67,7 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {"seoScores"|"readabilityScores"|"popularContent"} WidgetType The widget type.
+ * @typedef {"seoScores"|"readabilityScores"|"topPages"} WidgetType The widget type.
  */
 
 /**
