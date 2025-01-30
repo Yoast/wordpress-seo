@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  */
 class Site_Kit implements Integration_Data_Provider_Interface {
 
-	private const GOOGLE_SITE_KIT_FILE = 'google-site-kit/google-site-kit.php';
+	private const SITE_KIT_FILE = 'google-site-kit/google-site-kit.php';
 
 	/**
 	 * The options helper.
@@ -35,7 +35,7 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 	 * @return bool If the integration is activated.
 	 */
 	public function is_enabled(): bool {
-		return \is_plugin_active( self::GOOGLE_SITE_KIT_FILE );
+		return \is_plugin_active( self::SITE_KIT_FILE );
 	}
 
 	/**
@@ -44,31 +44,31 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 	 * @return array<string,bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
-		$google_site_kit_activate_url = \html_entity_decode(
+		$site_kit_activate_url = \html_entity_decode(
 			\wp_nonce_url(
-				\self_admin_url( 'plugins.php?action=activate&plugin=' . self::GOOGLE_SITE_KIT_FILE ),
-				'activate-plugin_' . self::GOOGLE_SITE_KIT_FILE
+				\self_admin_url( 'plugins.php?action=activate&plugin=' . self::SITE_KIT_FILE ),
+				'activate-plugin_' . self::SITE_KIT_FILE
 			)
 		);
 
-		$google_site_kit_install_url = \html_entity_decode(
+		$site_kit_install_url = \html_entity_decode(
 			\wp_nonce_url(
 				\self_admin_url( 'update.php?action=install-plugin&plugin=google-site-kit' ),
 				'install-plugin_google-site-kit'
 			)
 		);
 
-		$google_site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
+		$site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
 
 		return [
-			'installed'       => \file_exists( \WP_PLUGIN_DIR . '/' . self::GOOGLE_SITE_KIT_FILE ),
-			'active'          => \is_plugin_active( self::GOOGLE_SITE_KIT_FILE ),
+			'isInstalled'       => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
+			'isActive'          => \is_plugin_active( self::SITE_KIT_FILE ),
 			'setup_completed' => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
-			'connected'       => $this->options_helper->get( 'google_site_kit_connected', false ),
+			'isConnected'       => $this->options_helper->get( 'google_site_kit_connected', false ),
 			'feature_enabled' => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
-			'install_url'     => $google_site_kit_install_url,
-			'activate_url'    => $google_site_kit_activate_url,
-			'setup_url'       => $google_site_kit_setup_url,
+			'install_url'     => $site_kit_install_url,
+			'activate_url'    => $site_kit_activate_url,
+			'setup_url'       => $site_kit_setup_url,
 		];
 	}
 

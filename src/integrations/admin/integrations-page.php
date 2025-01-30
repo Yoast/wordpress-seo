@@ -219,7 +219,7 @@ class Integrations_Page implements Integration_Interface {
 				'mastodon_active'                    => $mastodon_active,
 				'is_multisite'                       => \is_multisite(),
 				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
-				'google_site_kit_configuration'      => $this->site_kit_integration_data->to_array(),
+				'site_kit_configuration'             => $this->site_kit_integration_data->to_array(),
 			]
 		);
 	}
