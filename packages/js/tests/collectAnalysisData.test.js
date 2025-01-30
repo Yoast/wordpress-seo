@@ -105,6 +105,21 @@ describe( "collectAnalysisData", () => {
 		expect( results._attributes.wpBlocks ).toEqual( gutenbergBlocks );
 	} );
 
+	it( "should not modify the original blocks array when filtering", () => {
+		const edit = mockEdit( "<p>some content</p>" );
+		const store = mockStore( storeData );
+		const customData = mockCustomAnalysisData();
+		const pluggable = mockPluggable();
+		const newBlocks = gutenbergBlocks.concat(
+			{ isValid: false, innerBlocks: [], name: "core/paragraph" }
+		);
+		const blockEditorDataModule = mockBlockEditorDataModule( newBlocks );
+		const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule );
+
+		expect( results._attributes.wpBlocks ).not.toBe( newBlocks );
+		expect( results._attributes.wpBlocks ).not.toContain( { isValid: false, innerBlocks: [], name: "core/paragraph" } );
+	} );
+
 	it( "does not add wpBlocks if no blockEditorDataModule is added", () => {
 		const edit = mockEdit( "<p>some content</p>" );
 		const store = mockStore( storeData );
