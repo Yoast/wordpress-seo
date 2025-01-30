@@ -60,7 +60,7 @@ const SuccessfullyConnected = () => {
  */
 export const SiteKitIntegration = ( { isActive, afterSetup, isInstalled, isConnected, installUrl, activateUrl, setupUrl } ) => {
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
-	const [ isDisconnectModalOpen, toggleDisconnectModal ] = useToggleState( true );
+	const [ isDisconnectModalOpen, toggleDisconnectModal ] = useToggleState( false );
 
 	const getButtonProps = useCallback( () => {
 		if ( ! isInstalled ) {
