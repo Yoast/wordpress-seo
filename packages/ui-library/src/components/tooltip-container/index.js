@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { createContext, useCallback, useContext } from "react";
+import React, { createContext, useCallback, useContext, useRef, useEffect, useState } from "react";
 import Tooltip from "../../elements/tooltip";
 import { useToggleState } from "../../hooks";
 
@@ -10,6 +10,8 @@ import { useToggleState } from "../../hooks";
  * @property {boolean} isVisible Whether the tooltip is visible.
  * @property {function} show Show the tooltip.
  * @property {function} hide Hide the tooltip.
+ * @property {Object} tooltipPosition The position of the tooltip.
+ * @property {function} setTooltipPosition Set the position of the tooltip.
  */
 
 /**
@@ -19,6 +21,8 @@ const TooltipContext = createContext( {
 	isVisible: false,
 	show: noop,
 	hide: noop,
+	tooltipPosition: {},
+	setTooltipPosition: noop,
 } );
 
 /**
@@ -38,6 +42,7 @@ export const useTooltipContext = () => useContext( TooltipContext );
  */
 export const TooltipContainer = ( { as: Component = "span", className, children } ) => {
 	const [ isVisible, , , show, hide ] = useToggleState( false );
+	const [ tooltipPosition, setTooltipPosition ] = useState( {} );
 
 	const handleKeyDown = useCallback( ( event ) => {
 		if ( event.key === "Escape" && isVisible ) {
@@ -47,7 +52,7 @@ export const TooltipContainer = ( { as: Component = "span", className, children 
 	}, [ isVisible, hide ] );
 
 	return (
-		<TooltipContext.Provider value={ { isVisible, show, hide } }>
+		<TooltipContext.Provider value={ { isVisible, show, hide, tooltipPosition, setTooltipPosition } }>
 			<Component className={ classNames( "yst-tooltip-container", className ) } onKeyDown={ handleKeyDown }>
 				{ children }
 			</Component>
@@ -74,13 +79,40 @@ TooltipContainer.propTypes = {
  * @returns {JSX.Element} The element.
  */
 export const TooltipTrigger = ( { as: Component = "button", className, children, ariaDescribedby, ...props } ) => {
-	const { show } = useTooltipContext();
+	const { show, hide, tooltipPosition, isVisible } = useTooltipContext();
+	const triggerRef = useRef();
+
+	useEffect( () => {
+		const rect = triggerRef.current.getBoundingClientRect();
+		const margin = 10;
+
+		const extendedRect = {
+			top: rect.top - margin,
+			right: rect.right + margin,
+			bottom: rect.bottom + margin,
+			left: rect.left - margin,
+		};
+
+		document.addEventListener( "mousemove", ( event ) => {
+			const mouseX = event.clientX;
+			const mouseY = event.clientY;
+			const outsideTooltip = mouseX < tooltipPosition.left ||
+			mouseX > tooltipPosition.right || mouseY < tooltipPosition.top || mouseY > tooltipPosition.bottom;
+			const outsideTriggerWithMargin = mouseX < extendedRect.left ||
+			mouseX > extendedRect.right || mouseY < extendedRect.top || mouseY > extendedRect.bottom;
+			if ( outsideTriggerWithMargin && document.activeElement !== triggerRef.current && outsideTooltip ) {
+				hide();
+			} else {
+				show();
+			}
+		} );
+	}, [ show, hide, triggerRef.current, tooltipPosition, isVisible ] );
+
 
 	return (
 		<Component
+			ref={ triggerRef }
 			className={ classNames( "yst-tooltip-trigger", className ) }
-			onFocus={ show }
-			onMouseEnter={ show }
 			aria-describedby={ ariaDescribedby }
 			aria-disabled={ true }
 			{ ...props }
@@ -107,10 +139,22 @@ TooltipTrigger.propTypes = {
  * @returns {JSX.Element} The element.
  */
 export const TooltipWithContext = ( { className, children, ...props } ) => {
-	const { isVisible } = useTooltipContext();
+	const { isVisible, setTooltipPosition } = useTooltipContext();
+	const tooltipRef = useRef();
+
+	useEffect( () => {
+		const rect = tooltipRef.current.getBoundingClientRect();
+		setTooltipPosition( {
+			top: rect.top,
+			right: rect.right,
+			bottom: rect.bottom,
+			left: rect.left,
+		} );
+	}, [ tooltipRef.current, setTooltipPosition, isVisible ] );
 
 	return (
 		<Tooltip
+			ref={ tooltipRef }
 			className={ classNames( className, { "yst-hidden": ! isVisible } ) }
 			{ ...props }
 		>

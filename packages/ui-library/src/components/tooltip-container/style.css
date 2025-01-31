@@ -2,12 +2,6 @@
 	.yst-root {
 		.yst-tooltip-container {
 			@apply yst-relative;
-
-			--yst-display-tooltip: none;
-
-			&:hover, &:focus-within {
-				--yst-display-tooltip: inline-block;
-			}
 		}
 
 		.yst-tooltip-trigger {

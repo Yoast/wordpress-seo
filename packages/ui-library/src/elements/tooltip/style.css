@@ -23,7 +23,7 @@
 
 			&.yst-tooltip--light {
 				@apply yst-bg-white
-				yst-text-gray-800 
+				yst-text-slate-600 
 				yst-border-slate-200 
 				yst-border;
 
