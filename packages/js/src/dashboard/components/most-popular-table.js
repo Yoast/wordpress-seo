@@ -22,7 +22,7 @@ const Info = ( { link } ) => (
 			className="yst-px-0 yst-flex yst-gap-1.5"
 		>
 			{ __( "Learn more", "wordpress-seo" ) }
-			<ArrowRightIcon className="yst-w-4 yst-h-4 yst-me-1" />
+			<ArrowRightIcon className="yst-w-4 yst-h-4 yst-me-1 rtl:yst-rotate-180" />
 		</Button>
 	</>
 );
