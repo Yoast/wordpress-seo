@@ -63,8 +63,6 @@ const integrations = [
 	},
 ];
 
-const isGoogleSiteKitFeatureEnabled = get( window, "wpseoIntegrationsData.google_site_kit_configuration.feature_enabled", false );
-
 const RecommendedIntegrations = [
 	integrations.map( ( integration, index ) => {
 		return (
@@ -81,7 +79,7 @@ const RecommendedIntegrations = [
 	} ),
 ];
 
-const googleSiteKitProps = {
+const siteKitProps = {
 	isInstalled: get( window, "wpseoIntegrationsData.site_kit_configuration.isInstalled", false ),
 	isActive: get( window, "wpseoIntegrationsData.site_kit_configuration.isActive", false ),
 	afterSetup: get( window, "wpseoIntegrationsData.site_kit_configuration.setup_completed", false ),
@@ -91,9 +89,9 @@ const googleSiteKitProps = {
 	setupUrl: get( window, "wpseoIntegrationsData.site_kit_configuration.setup_url", "" ),
 };
 
-
-if ( isGoogleSiteKitFeatureEnabled ) {
-	RecommendedIntegrations.push( <GoogleSiteKitIntegration key={ integrations.length } { ...googleSiteKitProps } /> );
+const isSiteKitFeatureEnabled = get( window, "wpseoIntegrationsData.site_kit_configuration.feature_enabled", false );
+if ( isSiteKitFeatureEnabled ) {
+	RecommendedIntegrations.push( <GoogleSiteKitIntegration key={ integrations.length } { ...siteKitProps } /> );
 }
 
 export { RecommendedIntegrations };
