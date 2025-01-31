@@ -9,7 +9,7 @@ import { ArrowRightIcon, XIcon, TrashIcon } from "@heroicons/react/outline";
  *
  * @param {boolean} isInstalled Whether the plugin is isInstalled.
  * @param {boolean} isActive Whether the feature is active.
- * @param {boolean} isSetup Whether the setup is complete.
+ * @param {boolean} isSetupCompleted Whether the setup is complete.
  * @param {boolean} isConnected Whether the connection is active.
  * @param {string} installUrl The URL to install Site Kit.
  * @param {string} activateUrl The URL to activate Site Kit.
@@ -17,7 +17,7 @@ import { ArrowRightIcon, XIcon, TrashIcon } from "@heroicons/react/outline";
  *
  * @returns {Object} The button and stepper props.
  */
-const getButtonAndStepperProps = ( isInstalled, isActive, isSetup, isConnected, installUrl, activateUrl, setupUrl ) => {
+const getButtonAndStepperProps = ( isInstalled, isActive, isSetupCompleted, isConnected, installUrl, activateUrl, setupUrl ) => {
 	let buttonProps;
 	let currentStep;
 	let isComplete = false;
@@ -39,7 +39,7 @@ const getButtonAndStepperProps = ( isInstalled, isActive, isSetup, isConnected, 
 				href: activateUrl,
 			};
 			break;
-		case ( ! isSetup ):
+		case ( ! isSetupCompleted ):
 			currentStep = 3;
 			buttonProps = {
 				children: __( "Set up Site Kit by Google", "wordpress-seo" ),
@@ -72,7 +72,7 @@ const steps = [
  *
  * @param {boolean} isInstalled Whether the plugin is installed.
  * @param {boolean} isActive Whether the feature is active.
- * @param {boolean} isSetup Whether the setup is complete.
+ * @param {boolean} isSetupCompleted Whether the setup is complete.
  * @param {boolean} isConnected Whether the connection is active.
  * @param {string} installUrl The URL to install Site Kit.
  * @param {string} activateUrl The URL to activate Site Kit.
@@ -89,14 +89,14 @@ export const SiteKitSetupWidget = ( {
 	setupUrl,
 	isConnected,
 	isActive,
-	isSetup,
+	isSetupCompleted,
 	isInstalled,
 	onRemove,
 	onRemovePermanently,
 	learnMorelink,
 } ) => {
 	const { buttonProps, currentStep, isComplete } = getButtonAndStepperProps(
-		isInstalled, isActive, isSetup, isConnected, installUrl, activateUrl, setupUrl );
+		isInstalled, isActive, isSetupCompleted, isConnected, installUrl, activateUrl, setupUrl );
 	return <Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative">
 		<DropdownMenu className="yst-absolute yst-top-4 yst-end-4">
 			<DropdownMenu.IconTrigger screenReaderTriggerLabel={ __( "Open menu", "wordpress-seo" ) } className="yst-absolute yst-top-0 yst-end-0" />

@@ -49,7 +49,7 @@ const SuccessfullyConnected = () => {
  * The Site Kit integration component.
  *
  * @param {boolean} isActive Whether the integration is active.
- * @param {boolean} afterSetup Whether the integration has been set up.
+ * @param {boolean} isSetupCompleted Whether the integration has been set up.
  * @param {boolean} isInstalled Whether the integration is installed.
  * @param {boolean} isConnected Whether the integration is connected.
  * @param {string} installUrl The installation url.
@@ -58,7 +58,7 @@ const SuccessfullyConnected = () => {
  *
  * @returns {WPElement} The Site Kit integration component.
  */
-export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, isConnected, installUrl, activateUrl, setupUrl } ) => {
+export const GoogleSiteKitIntegration = ( { isActive, isSetupCompleted, isInstalled, isConnected, installUrl, activateUrl, setupUrl } ) => {
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
 
 	const getButtonProps = useCallback( () => {
@@ -76,7 +76,7 @@ export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, i
 				href: activateUrl,
 			};
 		}
-		if ( ! afterSetup ) {
+		if ( ! isSetupCompleted ) {
 			return {
 				children: __( "Set up Site Kit by Google", "wordpress-seo" ),
 				as: "a",
@@ -96,10 +96,10 @@ export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, i
 			as: "button",
 			variant: "secondary",
 		};
-	}, [ isInstalled, isActive, afterSetup, isConnected, installUrl, activateUrl, toggleModal ] );
+	}, [ isInstalled, isActive, isSetupCompleted, isConnected, installUrl, activateUrl, toggleModal ] );
 
 
-	const successfullyConnected = isInstalled && isActive && afterSetup && isConnected;
+	const successfullyConnected = isInstalled && isActive && isSetupCompleted && isConnected;
 	return (
 		<>
 			<SimpleIntegration
@@ -108,7 +108,7 @@ export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, i
 			>
 				<span className="yst-flex yst-flex-col yst-flex-1">
 					{ successfullyConnected && <SuccessfullyConnected  /> }
-					<Button className="yst-w-full" id="google-site-kit-button" { ...getButtonProps( isInstalled, isActive, afterSetup, isConnected ) } />
+					<Button className="yst-w-full" id="google-site-kit-button" { ...getButtonProps( isInstalled, isActive, isSetupCompleted, isConnected ) } />
 				</span>
 			</SimpleIntegration>
 			<SiteKitConsentModal isOpen={ isModalOpen } onClose={ toggleModal } />
@@ -118,7 +118,7 @@ export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, i
 
 GoogleSiteKitIntegration.propTypes = {
 	isActive: PropTypes.bool.isRequired,
-	afterSetup: PropTypes.bool.isRequired,
+	isSetupCompleted: PropTypes.bool.isRequired,
 	isInstalled: PropTypes.bool.isRequired,
 	isConnected: PropTypes.bool.isRequired,
 	installUrl: PropTypes.string.isRequired,

@@ -26,15 +26,15 @@ import { useSelect } from "@wordpress/data";
 // The complexity is cause by the google site kit feature flag which is temporary.
 // eslint-disable-next-line complexity
 export const Dashboard = ( { contentTypes, userName, features, endpoints, headers, links } ) => {
-	const googleSiteKitConfiguration = get( window, "wpseoScriptData.dashboard.googleSiteKit", {
+	const siteKitConfiguration = get( window, "wpseoScriptData.dashboard.siteKitConfiguration", {
 		isInstalled: false,
 		isActive: false,
-		isSetup: false,
+		isSetupCompleted: false,
 		isConnected: false,
 		installUrl: "",
 		activateUrl: "",
 		setupUrl: "",
-		featureActive: false,
+		isFeatureEnabled: false,
 	} );
 	const [ showGoogleSiteKit, , , , setRemoveGoogleSiteKit ] = useToggleState( true );
 	const learnMorelink = useSelect( select => select( "@yoast/general" ).selectLink( "https://yoa.st/google-site-kit-learn-more" ), [] );
@@ -48,8 +48,8 @@ export const Dashboard = ( { contentTypes, userName, features, endpoints, header
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } />
 			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
-				{ showGoogleSiteKit && googleSiteKitConfiguration.featureActive && <SiteKitSetupWidget
-					{ ...googleSiteKitConfiguration } learnMoreLink={ learnMorelink }
+				{ showGoogleSiteKit && siteKitConfiguration.isFeatureEnabled && <SiteKitSetupWidget
+					{ ...siteKitConfiguration } learnMoreLink={ learnMorelink }
 					onRemove={ setRemoveGoogleSiteKit } onRemovePermanently={ handleRemovePermanently }
 				/> }
 				{ features.indexables && features.seoAnalysis && (

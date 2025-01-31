@@ -7,6 +7,7 @@ namespace Yoast\WP\SEO\Dashboard\Application\Configuration;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
 use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
@@ -77,6 +78,13 @@ class Dashboard_Configuration {
 	private $options_helper;
 
 	/**
+	 * The site kit integration configuration data.
+	 *
+	 * @var Site_Kit
+	 */
+	private $site_kit_integration_data;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Content_Types_Repository             $content_types_repository             The content types repository.
@@ -89,6 +97,8 @@ class Dashboard_Configuration {
 	 * @param Nonce_Repository                     $nonce_repository                     The nonce repository.
 	 * @param Google_Site_Kit_Feature_Conditional  $google_site_kit_conditional          The Google Site Kit conditional.
 	 * @param Options_Helper                       $options_helper                       The options helper.
+	 * @param Site_Kit                             $site_kit_integration_data            The site kit integration configuration data.
+	 * 
 	 */
 	public function __construct(
 		Content_Types_Repository $content_types_repository,
@@ -98,7 +108,8 @@ class Dashboard_Configuration {
 		Endpoints_Repository $endpoints_repository,
 		Nonce_Repository $nonce_repository,
 		Google_Site_Kit_Feature_Conditional $google_site_kit_conditional,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		Site_Kit $site_kit_integration_data
 	) {
 		$this->content_types_repository             = $content_types_repository;
 		$this->indexable_helper                     = $indexable_helper;
@@ -108,6 +119,7 @@ class Dashboard_Configuration {
 		$this->nonce_repository                     = $nonce_repository;
 		$this->google_site_kit_conditional          = $google_site_kit_conditional;
 		$this->options_helper                       = $options_helper;
+		$this->site_kit_integration_data            = $site_kit_integration_data;
 	}
 
 	/**
@@ -128,38 +140,7 @@ class Dashboard_Configuration {
 			)->to_array(),
 			'endpoints'               => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			'nonce'                   => $this->nonce_repository->get_rest_nonce(),
-			'googleSiteKit'           => $this->get_google_site_kit_configuration(),
-		];
-	}
-
-	/**
-	 * Get the Google Site Kit configuration.
-	 *
-	 * @return array<string|bool>
-	 */
-	public function get_google_site_kit_configuration(): array {
-		$google_site_kit_file         = 'google-site-kit/google-site-kit.php';
-		$google_site_kit_activate_url = \wp_nonce_url(
-			\self_admin_url( 'plugins.php?action=activate&plugin=' . $google_site_kit_file ),
-			'activate-plugin_' . $google_site_kit_file
-		);
-
-		$google_site_kit_install_url = \wp_nonce_url(
-			\self_admin_url( 'update.php?action=install-plugin&plugin=google-site-kit' ),
-			'install-plugin_google-site-kit'
-		);
-
-		$google_site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
-
-		return [
-			'isInstalled'     => \file_exists( \WP_PLUGIN_DIR . '/' . $google_site_kit_file ),
-			'isActive'        => \is_plugin_active( $google_site_kit_file ),
-			'isSetup'         => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
-			'isConnected'     => $this->options_helper->get( 'google_site_kit_connected', false ),
-			'installUrl'      => \html_entity_decode( $google_site_kit_install_url ),
-			'activateUrl'     => \html_entity_decode( $google_site_kit_activate_url ),
-			'setupUrl'        => \html_entity_decode( $google_site_kit_setup_url ),
-			'featureActive'   => $this->google_site_kit_conditional->is_met(),
+			'siteKitConfiguration'    => $this->site_kit_integration_data->to_array(),
 		];
 	}
 }

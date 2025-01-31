@@ -82,14 +82,14 @@ const RecommendedIntegrations = [
 const siteKitProps = {
 	isInstalled: get( window, "wpseoIntegrationsData.site_kit_configuration.isInstalled", false ),
 	isActive: get( window, "wpseoIntegrationsData.site_kit_configuration.isActive", false ),
-	afterSetup: get( window, "wpseoIntegrationsData.site_kit_configuration.setup_completed", false ),
+	afterSetup: get( window, "wpseoIntegrationsData.site_kit_configuration.isSetupCompleted", false ),
 	isConnected: get( window, "wpseoIntegrationsData.site_kit_configuration.isConnected", false ),
-	installUrl: get( window, "wpseoIntegrationsData.site_kit_configuration.install_url", "" ),
-	activateUrl: get( window, "wpseoIntegrationsData.site_kit_configuration.activate_url", "" ),
-	setupUrl: get( window, "wpseoIntegrationsData.site_kit_configuration.setup_url", "" ),
+	installUrl: get( window, "wpseoIntegrationsData.site_kit_configuration.installUrl", "" ),
+	activateUrl: get( window, "wpseoIntegrationsData.site_kit_configuration.activateUrl", "" ),
+	setupUrl: get( window, "wpseoIntegrationsData.site_kit_configuration.setupUrl", "" ),
 };
 
-const isSiteKitFeatureEnabled = get( window, "wpseoIntegrationsData.site_kit_configuration.feature_enabled", false );
+const isSiteKitFeatureEnabled = get( window, "wpseoIntegrationsData.site_kit_configuration.isFeatureEnabled", false );
 if ( isSiteKitFeatureEnabled ) {
 	RecommendedIntegrations.push( <GoogleSiteKitIntegration key={ integrations.length } { ...siteKitProps } /> );
 }
