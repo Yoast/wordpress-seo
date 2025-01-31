@@ -98,7 +98,6 @@ class Dashboard_Configuration {
 	 * @param Google_Site_Kit_Feature_Conditional  $google_site_kit_conditional          The Google Site Kit conditional.
 	 * @param Options_Helper                       $options_helper                       The options helper.
 	 * @param Site_Kit                             $site_kit_integration_data            The site kit integration configuration data.
-	 * 
 	 */
 	public function __construct(
 		Content_Types_Repository $content_types_repository,
