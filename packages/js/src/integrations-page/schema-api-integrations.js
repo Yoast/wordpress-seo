@@ -58,7 +58,7 @@ const integrations = [
 			"Yoast SEO"
 		),
 		isPremium: false,
-		isNew: true,
+		isNew: false,
 		isMultisiteAvailable: true,
 		logo: SSPLogo,
 	},
@@ -85,7 +85,7 @@ const integrations = [
 			"Yoast SEO"
 		),
 		isPremium: true,
-		isNew: true,
+		isNew: false,
 		isMultisiteAvailable: true,
 		logo: EDDLogo,
 	},
@@ -111,7 +111,7 @@ const integrations = [
 			"Yoast SEO"
 		),
 		isPremium: false,
-		isNew: true,
+		isNew: false,
 		isMultisiteAvailable: true,
 		logo: RecipeMakerLogo,
 	},

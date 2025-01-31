@@ -1,7 +1,8 @@
-import getAllWordsFromTree from "../../../../src/languageProcessing/helpers/word/getAllWordsFromTree";
+import getAllWordsFromTree, { getWordsFromTokens } from "../../../../src/languageProcessing/helpers/word/getAllWordsFromTree";
 import buildTree from "../../../specHelpers/parse/buildTree";
 import Paper from "../../../../src/values/Paper";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import Token from "../../../../src/parse/structure/Token";
 
 describe( "a test for getting words from the tree", () => {
 	let researcher;
@@ -40,5 +41,18 @@ describe( "a test for getting words from the tree", () => {
 		buildTree( paper, researcher );
 		expect( getAllWordsFromTree( paper ).length ).toEqual( 0 );
 		expect( getAllWordsFromTree( paper ) ).toEqual( [] );
+	} );
+
+	it( "should split tokens on hyphens if requested", () => {
+		const tokens = [ new Token( "this" ), new Token( "is" ), new Token( "a" ),
+			new Token( "test" ), new Token( "-" ), new Token( "text" ) ];
+		expect( getWordsFromTokens( tokens, true ) ).toEqual( [ "this", "is", "a", "test", "text" ] );
+		expect( getWordsFromTokens( tokens, false ) ).toEqual( [ "this", "is", "a", "test-text" ] );
+	} );
+	it( "should correctly deal with hyphens in first and last position", () => {
+		const tokens = [ new Token( "-" ), new Token( "this" ), new Token( "is" ), new Token( "a" ),
+			new Token( "test" ), new Token( "-" ), new Token( "text" ), new Token( "-" ) ];
+		expect( getWordsFromTokens( tokens, true ) ).toEqual( [ "this", "is", "a", "test", "text" ] );
+		expect( getWordsFromTokens( tokens, false ) ).toEqual( [ "this", "is", "a", "test-text" ] );
 	} );
 } );

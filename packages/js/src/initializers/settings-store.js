@@ -4,7 +4,7 @@ import { get } from "lodash";
 import * as controls from "../redux/controls/dismissedAlerts";
 
 const { currentPromotions, dismissedAlerts, isPremium, linkParams  } = reducers;
-const { isAlertDismissed, getIsPremium, isPromotionActive, selectLinkParams } = selectors;
+const { isAlertDismissed, getIsPremium, isPromotionActive, selectLinkParams, selectLink } = selectors;
 const { dismissAlert, setCurrentPromotions, setDismissedAlerts, setLinkParams, setIsPremium } = actions;
 
 /**
@@ -39,6 +39,7 @@ export default function initSettingsStore() {
 			getIsPremium,
 			isPromotionActive,
 			selectLinkParams,
+			selectLink,
 		},
 		actions: {
 			dismissAlert,

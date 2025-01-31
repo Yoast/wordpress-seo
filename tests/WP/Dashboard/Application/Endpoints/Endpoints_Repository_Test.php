@@ -6,6 +6,7 @@ use Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Readability_Scores_Endpoint;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\SEO_Scores_Endpoint;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Configuration_Dismissal_Endpoint;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -37,15 +38,17 @@ final class Endpoints_Repository_Test extends TestCase {
 	 * @return array<array<Endpoint_Interface[],array<string>>>
 	 */
 	public static function data_get_all_endpoints() {
-		$readability_endpoint = new Readability_Scores_Endpoint();
-		$seo_scores_endpoint  = new SEO_Scores_Endpoint();
+		$readability_endpoint        = new Readability_Scores_Endpoint();
+		$seo_scores_endpoint         = new SEO_Scores_Endpoint();
+		$site_kit_dismissal_endpoint = new Site_Kit_Configuration_Dismissal_Endpoint();
 
 		return [
 			'Seo and Readability endpoint' => [
-				'endpoints'     => [ $readability_endpoint, $seo_scores_endpoint ],
+				'endpoints'     => [ $readability_endpoint, $seo_scores_endpoint, $site_kit_dismissal_endpoint ],
 				'expected_list' => [
-					'readabilityScores' => 'http://example.org/index.php?rest_route=/yoast/v1/readability_scores',
-					'seoScores'         => 'http://example.org/index.php?rest_route=/yoast/v1/seo_scores',
+					'readabilityScores'             => 'http://example.org/index.php?rest_route=/yoast/v1/readability_scores',
+					'seoScores'                     => 'http://example.org/index.php?rest_route=/yoast/v1/seo_scores',
+					'siteKitConfigurationDismissal' => 'http://example.org/index.php?rest_route=/yoast/v1/site_kit_configuration_permanent_dismissal',
 				],
 			],
 			'Seo endpoint'                 => [
