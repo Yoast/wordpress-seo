@@ -1,12 +1,11 @@
 /* eslint-disable complexity */
 // External dependencies.
 import { enableFeatures } from "@yoast/feature-flag";
-import { __, setLocaleData, sprintf } from "@wordpress/i18n";
+import { setLocaleData } from "@wordpress/i18n";
 import { forEach, has, includes, isEmpty, isEqual, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash";
 import { getLogger } from "loglevel";
 
 // Internal dependencies.
-import AssessmentResult from "../values/AssessmentResult.js";
 import { build } from "../parse/build";
 import { configureShortlinker } from "../helpers/shortlinker";
 import InvalidTypeError from "../errors/invalidType.js";
@@ -77,7 +76,7 @@ export default class AnalysisWebWorker {
 		this._inclusiveLanguageOptions = {};
 
 		/*
-		 * The cached analyses results.
+		 * The cached analysis results.
 		 *
 		 * A single result has the following structure:
 		 * {AssessmentResult[]} 	readability.results An array of assessment results; in serialized format.
@@ -110,8 +109,21 @@ export default class AnalysisWebWorker {
 		this._registeredMessageHandlers = {};
 		this._registeredParsers = [];
 
-		// Set up everything for the analysis on the tree.
-		this.setupTreeAnalysis();
+		// Custom assessor classes.
+		this._CustomSEOAssessorClasses = {};
+		this._CustomCornerstoneSEOAssessorClasses = {};
+		this._CustomContentAssessorClasses = {};
+		this._CustomCornerstoneContentAssessorClasses = {};
+		this._CustomRelatedKeywordAssessorClasses = {};
+		this._CustomCornerstoneRelatedKeywordAssessorClasses = {};
+
+		// Custom assessor options.
+		this._CustomSEOAssessorOptions = {};
+		this._CustomCornerstoneSEOAssessorOptions = {};
+		this._CustomContentAssessorOptions = {};
+		this._CustomCornerstoneContentAssessorOptions = {};
+		this._CustomRelatedKeywordAssessorOptions = {};
+		this._CustomCornerstoneRelatedKeywordAssessorOptions = {};
 
 		this.bindActions();
 
@@ -172,7 +184,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Sets a custom content assessor class.
 	 *
-	 * @param {Class}  ContentAssessorClass     A content assessor class.
+	 * @param {ContentAssessor}  ContentAssessorClass     A content assessor class.
 	 * @param {string} customAnalysisType       The type of analysis.
 	 * @param {Object} customAssessorOptions    The options to use.
 	 *
@@ -187,7 +199,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Sets a custom cornerstone content assessor class.
 	 *
-	 * @param {Class}  CornerstoneContentAssessorClass  A cornerstone content assessor class.
+	 * @param {CornerstoneContentAssessor}  CornerstoneContentAssessorClass  A cornerstone content assessor class.
 	 * @param {string} customAnalysisType               The type of analysis.
 	 * @param {Object} customAssessorOptions            The options to use.
 	 *
@@ -202,7 +214,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Sets a custom SEO assessor class.
 	 *
-	 * @param {Class}   SEOAssessorClass         An SEO assessor class.
+	 * @param {SEOAssessor}   SEOAssessorClass   An SEO assessor class.
 	 * @param {string}  customAnalysisType       The type of analysis.
 	 * @param {Object}  customAssessorOptions    The options to use.
 	 *
@@ -217,7 +229,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Sets a custom cornerstone SEO assessor class.
 	 *
-	 * @param {Class}   CornerstoneSEOAssessorClass  A cornerstone SEO assessor class.
+	 * @param {CornerstoneSEOAssessor}   CornerstoneSEOAssessorClass  A cornerstone SEO assessor class.
 	 * @param {string}  customAnalysisType           The type of analysis.
 	 * @param {Object}  customAssessorOptions        The options to use.
 	 *
@@ -232,7 +244,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Sets a custom related keyword assessor class.
 	 *
-	 * @param {Class}   RelatedKeywordAssessorClass A related keyword assessor class.
+	 * @param {RelatedKeywordAssessor}   RelatedKeywordAssessorClass A related keyword assessor class.
 	 * @param {string}  customAnalysisType          The type of analysis.
 	 * @param {Object}  customAssessorOptions       The options to use.
 	 *
@@ -247,7 +259,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Sets a custom cornerstone related keyword assessor class.
 	 *
-	 * @param {Class}   CornerstoneRelatedKeywordAssessorClass  A cornerstone related keyword assessor class.
+	 * @param {CornerstoneRelatedKeywordAssessor}   CornerstoneRelatedKeywordAssessorClass  A cornerstone related keyword assessor class.
 	 * @param {string}  customAnalysisType                      The type of analysis.
 	 * @param {Object}  customAssessorOptions                   The options to use.
 	 *
@@ -271,43 +283,7 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
-	 * Sets up the web worker for running the tree readability and SEO analysis.
-	 *
-	 * @returns {void}
-	 */
-	setupTreeAnalysis() {
-		// Researcher
-		/*
-		 * Disabled code:
-		 * this._treeResearcher = new TreeResearcher();
-		 */
-		this._treeResearcher = null;
-
-		// Custom assessor classes.
-		this._CustomSEOAssessorClasses = {};
-		this._CustomCornerstoneSEOAssessorClasses = {};
-		this._CustomContentAssessorClasses = {};
-		this._CustomCornerstoneContentAssessorClasses = {};
-		this._CustomRelatedKeywordAssessorClasses = {};
-		this._CustomCornerstoneRelatedKeywordAssessorClasses = {};
-
-		// Custom assessor options.
-		this._CustomSEOAssessorOptions = {};
-		this._CustomCornerstoneSEOAssessorOptions = {};
-		this._CustomContentAssessorOptions = {};
-		this._CustomCornerstoneContentAssessorOptions = {};
-		this._CustomRelatedKeywordAssessorOptions = {};
-		this._CustomCornerstoneRelatedKeywordAssessorOptions = {};
-
-		// Registered assessments
-		this._registeredTreeAssessments = [];
-
-		// Tree builder.
-		this._treeBuilder = null;
-	}
-
-	/**
-	 * Registers this web worker with the scope passed to it's constructor.
+	 * Registers this web worker with the scope passed to its constructor.
 	 *
 	 * @returns {void}
 	 */
@@ -397,7 +373,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the appropriate content assessor.
 	 *
-	 * @returns {null|Assessor} The chosen content assessor.
+	 * @returns {ContentAssessor|null} The chosen content assessor.
 	 */
 	createContentAssessor() {
 		const {
@@ -454,7 +430,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the appropriate SEO assessor.
 	 *
-	 * @returns {null|Assessor} The chosen SEO assessor.
+	 * @returns {SEOAssessor|null} The chosen SEO assessor.
 	 */
 	createSEOAssessor() {
 		const {
@@ -506,12 +482,12 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the appropriate inclusive language assessor.
 	 *
-	 * @returns {null|Assessor} The chosen inclusive language assessor.
+	 * @returns {InclusiveLanguageAssessor|null} The chosen inclusive language assessor.
 	 */
 	createInclusiveLanguageAssessor() {
 		const { inclusiveLanguageAnalysisActive } = this._configuration;
 
-		if ( inclusiveLanguageAnalysisActive === false ) {
+		if ( ! inclusiveLanguageAnalysisActive ) {
 			return null;
 		}
 
@@ -522,7 +498,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the appropriate SEO assessor for related keywords.
 	 *
-	 * @returns {null|Assessor} The chosen related keywords assessor.
+	 * @returns {RelatedKeywordAssessor|null} The chosen related keyword assessor.
 	 */
 	createRelatedKeywordsAssessor() {
 		const {
@@ -572,24 +548,6 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
-	 * Creates an SEO assessor for a tree, based on the given combination of cornerstone, taxonomy and related keyphrase flags.
-	 *
-	 * @param {Object}  assessorConfig                    The assessor configuration.
-	 * @param {boolean} [assessorConfig.relatedKeyphrase] If this assessor is for a related keyphrase, instead of the main one.
-	 * @param {boolean} [assessorConfig.taxonomy]         If this assessor is for a taxonomy page, instead of a regular page.
-	 * @param {boolean} [assessorConfig.cornerstone]      If this assessor is for cornerstone content.
-	 *
-	 * @returns {module:parsedPaper/assess.TreeAssessor} The created tree assessor.
-	 */
-
-	/*
-	 * Disabled code:
-	 * createSEOTreeAssessor( assessorConfig ) {
-	 * 	 return constructSEOAssessor( this._treeResearcher, assessorConfig );
-	 * }
-	 */
-
-	/**
 	 * Sends a message.
 	 *
 	 * @param {string} type      The message type.
@@ -613,12 +571,12 @@ export default class AnalysisWebWorker {
 	/**
 	 * Checks which assessors should update giving a configuration.
 	 *
-	 * @param {Object}   configuration          The configuration to check.
-	 * @param {Assessor} [contentAssessor=null] The content assessor.
-	 * @param {Assessor} [seoAssessor=null]     The SEO assessor.
-	 * @param {Assessor} [inclusiveLanguageAssessor=null] The inclusive language assessor.
+	 * @param {Object} configuration The configuration to check.
+	 * @param {ContentAssessor|null} [contentAssessor=null] The content assessor.
+	 * @param {SEOAssessor|null} [seoAssessor=null] The SEO assessor.
+	 * @param {InclusiveLanguageAssessor|null} [inclusiveLanguageAssessor=null] The inclusive language assessor.
 	 *
-	 * @returns {Object} Containing seo, readability, and inclusiveLanguage with true or false.
+	 * @returns {{seo: boolean, readability: boolean, inclusiveLanguage: boolean}} Whether each assessor should update.
 	 */
 	static shouldAssessorsUpdate(
 		configuration,
@@ -711,7 +669,7 @@ export default class AnalysisWebWorker {
 		}
 
 		if ( has( configuration, "enabledFeatures" ) ) {
-			// Make feature flags available inside of the web worker.
+			// Make feature flags available inside the web worker.
 			enableFeatures( configuration.enabledFeatures );
 			delete configuration.enabledFeatures;
 		}
@@ -755,9 +713,9 @@ export default class AnalysisWebWorker {
 	 * Register an assessment for a specific plugin.
 	 *
 	 * @param {string}   name       The name of the assessment.
-	 * @param {function} assessment The function to run as an assessment.
+	 * @param {Assessment} assessment The assessment to add.
 	 * @param {string}   pluginName The name of the plugin associated with the assessment.
-	 * @param {string}   type       The type of the assessment. The default type is seo.
+	 * @param {string}   type       The type of the assessment. The default type is "seo".
 	 *
 	 * @returns {boolean} Whether registering the assessment was successful.
 	 */
@@ -804,7 +762,7 @@ export default class AnalysisWebWorker {
 	 * Register a message handler for a specific plugin.
 	 *
 	 * @param {string}   name       The name of the message handler.
-	 * @param {function} handler    The function to run as an message handler.
+	 * @param {function} handler    The function to run as a message handler.
 	 * @param {string}   pluginName The name of the plugin associated with the message handler.
 	 *
 	 * @returns {boolean} Whether registering the message handler was successful.
@@ -828,6 +786,8 @@ export default class AnalysisWebWorker {
 		name = pluginName + "-" + name;
 
 		this._registeredMessageHandlers[ name ] = handler;
+
+		return true;
 	}
 
 	/**
@@ -852,27 +812,8 @@ export default class AnalysisWebWorker {
 		}
 
 		this.clearCache();
-	}
 
-	/**
-	 * Register a parser that parses a formatted text
-	 * to a structured tree representation that can be further analyzed.
-	 *
-	 * @param {Object}   parser                              The parser to register.
-	 * @param {function(Paper): boolean} parser.isApplicable A method that checks whether this parser is applicable for a paper.
-	 * @param {function(Paper): module:parsedPaper/structure.Node } parser.parse A method that parses a paper to a structured tree representation.
-	 *
-	 * @returns {void}
-	 */
-	registerParser( parser ) {
-		if ( typeof parser.isApplicable !== "function" ) {
-			throw new InvalidTypeError( "Failed to register the custom parser. Expected parameter 'parser' to have a method 'isApplicable'." );
-		}
-		if ( typeof parser.parse !== "function" ) {
-			throw new InvalidTypeError( "Failed to register the custom parser. Expected parameter 'parser' to have a method 'parse'." );
-		}
-
-		this._registeredParsers.push( parser );
+		return true;
 	}
 
 	/**
@@ -1013,7 +954,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Updates the results for the additional assessor.
 	 *
-	 * @param {boolean} shouldCustomAssessorsUpdate Whether the results of the additional assessor should be updated.
+	 * @param {Object} shouldCustomAssessorsUpdate Whether the results of the additional assessor should be updated.
 	 * @returns {void}
 	 */
 	updateAdditionalAssessors( shouldCustomAssessorsUpdate ) {
@@ -1041,7 +982,7 @@ export default class AnalysisWebWorker {
 	 *
 	 * @param {number} id                        The request id.
 	 * @param {Object} payload                   The payload object.
-	 * @param {Object} payload.paper             The paper to analyze.
+	 * @param {Paper} payload.paper              The paper to analyze.
 	 * @param {Object} [payload.relatedKeywords] The related keywords.
 	 *
 	 * @returns {Object} The result, may not contain readability or seo.
@@ -1135,26 +1076,6 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
-	 * Generates an error message ("grey bullet") for the given assessment.
-	 *
-	 * @param {module:parsedPaper/assess.Assessment} assessment The assessment to generate an error message for.
-	 *
-	 * @returns {AssessmentResult} The generated assessment result.
-	 */
-	generateAssessmentError( assessment ) {
-		const result = new AssessmentResult();
-
-		result.setScore( -1 );
-		result.setText( sprintf(
-			/* translators: %1$s expands to the name of the assessment. */
-			__( "An error occurred in the '%1$s' assessment", "wordpress-seo" ),
-			assessment.name
-		) );
-
-		return result;
-	}
-
-	/**
 	 * Assesses the SEO of a paper on the given related keyphrases and their synonyms.
 	 *
 	 * The old assessor is used and their results are combined.
@@ -1190,7 +1111,7 @@ export default class AnalysisWebWorker {
 	 * @param {number} id  The request id.
 	 * @param {string} url The url of the script to load;
 	 *
-	 * @returns {Object} An object containing whether or not the url was loaded, the url and possibly an error message.
+	 * @returns {Object} An object containing whether the url was loaded, the url and possibly an error message.
 	 */
 	loadScript( id, { url } ) {
 		if ( isUndefined( url ) ) {
