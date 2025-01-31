@@ -1,6 +1,6 @@
 // External dependencies.
 import { __, sprintf } from "@wordpress/i18n";
-import { filter, find, findIndex, isFunction, isUndefined, map } from "lodash";
+import { isFunction, isUndefined } from "lodash";
 
 // Internal dependencies.
 import AssessmentResult from "../../values/AssessmentResult.js";
@@ -9,7 +9,6 @@ import LanguageProcessor from "../../parse/language/LanguageProcessor.js";
 import MissingArgument from "../../errors/missingArgument.js";
 import removeDuplicateMarks from "../../markers/removeDuplicateMarks.js";
 import { showTrace } from "../../helpers/errors.js";
-import SEOScoreAggregator from "../scoreAggregators/SEOScoreAggregator";
 
 // The maximum score of individual assessment is 9. This is why we set the "score rating" here to 9.
 const ScoreRating = 9;
@@ -19,12 +18,6 @@ const ScoreRating = 9;
  */
 class Assessor {
 	/**
-	 * The ScoreAggregator for this assessor.
-	 * @private
-	 */
-	_scoreAggregator = new SEOScoreAggregator();
-
-	/**
 	 * Creates a new Assessor instance.
 	 * @param {Researcher}	researcher	The researcher to use.
 	 * @param {Object}		[options]	The assessor options.
@@ -32,9 +25,33 @@ class Assessor {
 	constructor( researcher, options ) {
 		this.type = "assessor";
 		this.setResearcher( researcher );
+
+		/**
+		 * The list of assessments.
+		 * @type {Assessment[]}
+		 * @private
+		 */
 		this._assessments = [];
 
+		/**
+		 * The list of results.
+		 * @type {AssessmentResult[]}
+		 */
+		this.results = [];
+
+		/**
+		 * The options.
+		 * @type {Object|{}}
+		 * @private
+		 */
 		this._options = options || {};
+
+		/**
+		 * The ScoreAggregator for this assessor.
+		 * @type {ScoreAggregator}
+		 * @private
+		 */
+		this._scoreAggregator = null;
 	}
 
 	/**
@@ -69,11 +86,7 @@ class Assessor {
 	 * @returns {boolean} Whether or not the Assessment is applicable.
 	 */
 	isApplicable( assessment, paper, researcher ) {
-		if ( assessment.hasOwnProperty( "isApplicable" ) || typeof assessment.isApplicable === "function" ) {
-			return assessment.isApplicable( paper, researcher );
-		}
-
-		return true;
+		return assessment.isApplicable( paper, researcher );
 	}
 
 	/**
@@ -83,7 +96,7 @@ class Assessor {
 	 * @returns {boolean} Whether or not the assessment has a marker.
 	 */
 	hasMarker( assessment ) {
-		return isFunction( this._options.marker ) && ( assessment.hasOwnProperty( "getMarks" ) || typeof assessment.getMarks === "function" );
+		return isFunction( this._options.marker ) && ( Object.hasOwn( assessment, "getMarks" ) || typeof assessment.getMarks === "function" );
 	}
 
 	/**
@@ -137,14 +150,11 @@ class Assessor {
 		paper.setTree( build( paper, languageProcessor, shortcodes ) );
 
 		let assessments = this.getAvailableAssessments();
-		this.results = [];
 
-		assessments = filter( assessments, function( assessment ) {
-			return this.isApplicable( assessment, paper, this._researcher );
-		}.bind( this ) );
+		assessments = assessments.filter( assessment => this.isApplicable( assessment, paper, this._researcher ) );
 
 		this.setHasMarkers( false );
-		this.results = map( assessments, this.executeAssessment.bind( this, paper, this._researcher ) );
+		this.results = assessments.map( assessment => this.executeAssessment( paper, this._researcher, assessment ) );
 
 		this._lastPaper = paper;
 	}
@@ -215,9 +225,7 @@ class Assessor {
 	 * @returns {AssessmentResult[]} The array with all the valid assessments.
 	 */
 	getValidResults() {
-		return filter( this.results, function( result ) {
-			return this.isValidResult( result );
-		}.bind( this ) );
+		return this.results.filter( result => this.isValidResult( result ) );
 	}
 
 	/**
@@ -252,7 +260,7 @@ class Assessor {
 	 * @returns {boolean} Whether registering the assessment was successful.
 	 */
 	addAssessment( name, assessment ) {
-		if ( ! assessment.hasOwnProperty( "identifier" ) ) {
+		if ( ! Object.hasOwn( assessment, "identifier" ) ) {
 			assessment.identifier = name;
 		}
 		// If the assessor already has the same assessment, remove it and replace it with the new assessment with the same identifier.
@@ -271,9 +279,9 @@ class Assessor {
 	 * @returns {void}
 	 */
 	removeAssessment( name ) {
-		const toDelete = findIndex( this._assessments, function( assessment ) {
-			return assessment.hasOwnProperty( "identifier" ) && name === assessment.identifier;
-		} );
+		const toDelete = this._assessments.findIndex( assessment =>
+			Object.hasOwn( assessment, "identifier" ) && name === assessment.identifier
+		);
 
 		if ( -1 !== toDelete ) {
 			this._assessments.splice( toDelete, 1 );
@@ -284,12 +292,12 @@ class Assessor {
 	 * Returns an assessment by identifier
 	 *
 	 * @param {string} identifier The identifier of the assessment.
-	 * @returns {undefined|Assessment} The object if found, otherwise undefined.
+	 * @returns {Assessment} The object if found, otherwise undefined.
 	 */
 	getAssessment( identifier ) {
-		return find( this._assessments, function( assessment ) {
-			return assessment.hasOwnProperty( "identifier" ) && identifier === assessment.identifier;
-		} );
+		return this._assessments.find( assessment =>
+			Object.hasOwn( assessment, "identifier" ) && identifier === assessment.identifier
+		);
 	}
 
 	/**
@@ -299,12 +307,7 @@ class Assessor {
 	 */
 	getApplicableAssessments() {
 		const availableAssessments = this.getAvailableAssessments();
-		return filter(
-			availableAssessments,
-			function( availableAssessment ) {
-				return this.isApplicable( availableAssessment, this.getPaper(), this._researcher );
-			}.bind( this )
-		);
+		return availableAssessments.filter( assessment => this.isApplicable( assessment, this.getPaper(), this._researcher ) );
 	}
 
 	/**

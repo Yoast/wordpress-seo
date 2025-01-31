@@ -5,7 +5,6 @@ import TextLengthAssessment from "../../assessments/seo/TextLengthAssessment";
 import OutboundLinksAssessment from "../../assessments/seo/OutboundLinksAssessment";
 import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssessment";
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
-import ValidOnlyResultsScoreAggregator from "../../scoreAggregators/ValidOnlyResultsScoreAggregator";
 
 /**
  * The CornerstoneSEOAssessor class is used for the SEO analysis for cornerstone content.
@@ -42,7 +41,5 @@ export default class CornerstoneSEOAssessor extends SEOAssessor {
 		this.addAssessment( "slugKeyword", new SlugKeywordAssessment( {
 			scores: { okay: 3 },
 		} ) );
-
-		this._scoreAggregator = new ValidOnlyResultsScoreAggregator();
 	}
 }
