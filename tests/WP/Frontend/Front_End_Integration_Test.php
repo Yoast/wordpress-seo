@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\WP\Frontend;
 use Mockery;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
@@ -42,13 +41,6 @@ final class Front_End_Integration_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * Represents the request helper.
-	 *
-	 * @var Request_Helper
-	 */
-	protected $request;
-
-	/**
 	 * The helpers surface.
 	 *
 	 * @var Helpers_Surface
@@ -79,7 +71,6 @@ final class Front_End_Integration_Test extends TestCase {
 		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
 		$this->container        = Mockery::mock( ContainerInterface::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
-		$this->request          = Mockery::mock( Request_Helper::class );
 		$this->helpers          = Mockery::mock( Helpers_Surface::class );
 		$this->replace_vars     = Mockery::mock( WPSEO_Replace_Vars::class );
 
@@ -87,7 +78,6 @@ final class Front_End_Integration_Test extends TestCase {
 			$this->context_memoizer,
 			$this->container,
 			$this->options,
-			$this->request,
 			$this->helpers,
 			$this->replace_vars
 		);
@@ -134,39 +124,39 @@ final class Front_End_Integration_Test extends TestCase {
 				'next'     => '<a href="/?query-1-page=4">Next</a>',
 				'expected' => '',
 			],
-			'next link' => [
-				'link'     => 'https://example.org?query-1-page=4',
+			'query loop next link' => [
+				'link'     => '',
 				'rel'      => 'next',
-				'prev'     => '<a href="/?query-1-page=2">Prev</a>',
+				'prev'     => '',
 				'next'     => '<a href="/?query-1-page=4">Next</a>',
 				'expected' => 'https://example.org/?query-1-page=4',
 			],
 			'prev link' => [
-				'link'     => 'https://example.org?query-1-page=2',
+				'link'     => '',
 				'rel'      => 'prev',
 				'prev'     => '<a href="/?query-1-page=2">Prev</a>',
-				'next'     => '<a href="/?query-1-page=4">Next</a>',
+				'next'     => '',
 				'expected' => 'https://example.org/?query-1-page=2',
 			],
-			'prev link is home' => [
+			'link has url' => [
 				'link'     => 'https://example.org/',
 				'rel'      => 'prev',
 				'prev'     => '<a href="/?query-1-page=2">Prev</a>',
-				'next'     => '<a href="/?query-1-page=4">Next</a>',
-				'expected' => 'https://example.org/?query-1-page=2',
-			],
-			'prev link is null' => [
-				'link'     => 'https://example.org/',
-				'rel'      => 'prev',
-				'prev'     => null,
-				'next'     => '<a href="/?query-1-page=4">Next</a>',
+				'next'     => '',
 				'expected' => 'https://example.org/',
 			],
+			'prev link is null' => [
+				'link'     => '',
+				'rel'      => 'prev',
+				'prev'     => null,
+				'next'     => '',
+				'expected' => '',
+			],
 			'full url' => [
-				'link'     => 'https://example.org/?query-1-page=2',
+				'link'     => '',
 				'rel'      => 'prev',
 				'prev'     => '<a href="https://example.org/?query-1-page=2">Prev</a>',
-				'next'     => '<a href="https://example.org/?query-1-page=4">Next</a>',
+				'next'     => '',
 				'expected' => 'https://example.org/?query-1-page=2',
 			],
 		];

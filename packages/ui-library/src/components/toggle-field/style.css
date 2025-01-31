@@ -14,8 +14,7 @@
 			}
 
 			.yst-toggle-field__label,
-			.yst-toggle-field__label-wrapper,
-			.yst-toggle-field__description {
+			.yst-toggle-field__label-wrapper {
 				@apply yst-cursor-not-allowed;
 			}
 		}
@@ -34,7 +33,7 @@
 		}
 
 		.yst-toggle-field__description {
-			@apply yst-mr-[4.25rem];
+			@apply yst-me-[4.25rem];
 		}
 	}
 }

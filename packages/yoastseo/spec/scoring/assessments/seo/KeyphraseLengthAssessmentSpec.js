@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import { merge } from "lodash";
 
 import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
@@ -264,7 +263,7 @@ describe( "the keyphrase length assessment for regular posts and pages", functio
 	} );
 } );
 
-//Japanese tests do test character specific logic. So not removed.
+// Japanese tests do test character specific logic. So not removed.
 describe( "the keyphrase length assessment for Japanese", function() {
 	it( "should clear the memoized data", function() {
 		primeLanguageSpecificData.cache.clear();

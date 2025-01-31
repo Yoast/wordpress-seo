@@ -4,8 +4,6 @@ import { useEffect, useState } from "@wordpress/element";
 import { stepperTimings } from "../stepper-helper";
 import { useStepperContext } from "./stepper";
 
-/* eslint-disable complexity */
-
 /**
  * Gets the classnames for the step name.
  *
@@ -22,7 +20,6 @@ function getNameClassNames( isFinished, isActiveStep, isLastStep ) {
 	return isFinished ? "yst-text-slate-900" : "yst-text-slate-600";
 }
 
-/* eslint-disable complexity */
 /**
  * The Step header component.
  *
@@ -65,7 +62,7 @@ export default function StepHeader( { name, description, isFinished, children } 
 			/>
 		</span>
 		{ /* Name and description. */ }
-		<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
+		<span className="yst-ms-4 yst-min-w-0 yst-flex yst-flex-col">
 			<span className={ `yst-transition-colors yst-duration-500 yst-text-xs yst-font-[650] yst-tracking-wide yst-uppercase ${ nameClassNames }` }>
 				{ name }
 			</span>
@@ -86,5 +83,3 @@ StepHeader.defaultProps = {
 	description: "",
 	children: [],
 };
-
-/* eslint-enable complexity */

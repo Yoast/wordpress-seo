@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { Title, Alert, Button } from "@yoast/ui-library";
+import { Alert, Button, Title } from "@yoast/ui-library";
+import PropTypes from "prop-types";
 
 /**
  * @param {Function} handleRefreshClick The function to be called when the "Refresh this page" button is clicked.
@@ -10,9 +10,7 @@ import { Title, Alert, Button } from "@yoast/ui-library";
 const HorizontalButtons = ( { handleRefreshClick, supportLink } ) => {
 	return (
 		<div className="yst-flex yst-gap-2">
-			<Button
-				onClick={ handleRefreshClick }
-			>
+			<Button onClick={ handleRefreshClick }>
 				{ __( "Refresh this page", "wordpress-seo" ) }
 			</Button>
 			<Button variant="secondary" as="a" href={ supportLink } target="_blank" rel="noopener">
@@ -64,7 +62,7 @@ export const ErrorFallback = ( { error, children } ) => {
 			<Title>{ __( "Something went wrong. An unexpected error occurred.", "wordpress-seo" ) }</Title>
 			<p>{ __( "We're very sorry, but it seems like the following error has interrupted our application:", "wordpress-seo" ) }</p>
 			<Alert variant="error">{ error?.message || __( "Undefined error message.", "wordpress-seo" ) }</Alert>
-			<p>{ __( "Unfortunately, this means that all your unsaved changes will be lost. You can try and refresh this page to resolve the problem. If this error still occurs, please get in touch with our support team, and we'll get you all the help you need!", "wordpress-seo" ) }</p>
+			<p>{ __( "Unfortunately, this means that any unsaved changes in this section will be lost. You can try and refresh this page to resolve the problem. If this error still occurs, please get in touch with our support team, and we'll get you all the help you need!", "wordpress-seo" ) }</p>
 			{ children }
 		</div>
 	);

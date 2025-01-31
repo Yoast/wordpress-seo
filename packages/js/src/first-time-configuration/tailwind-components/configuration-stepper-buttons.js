@@ -141,7 +141,7 @@ export function StepButtons( { stepId, beforeContinue, continueLabel, beforeBack
 		</ContinueButton>
 		<BackButton
 			stepId={ stepId }
-			additionalClasses="yst-ml-3"
+			additionalClasses="yst-ms-3"
 			beforeGo={ beforeBack }
 		>
 			{ backLabel }
@@ -180,7 +180,7 @@ export function ConfigurationStepButtons( { stepId, stepperFinishedOnce, saveFun
 	const onSaveClick = useCallback( async() => {
 		const saveSuccesful = await saveFunction();
 
-		// If save is not succesful: we are still editing
+		// If save is not successful: we are still editing
 		setEditState( ! saveSuccesful );
 		return saveSuccesful;
 	}, [ saveFunction ] );

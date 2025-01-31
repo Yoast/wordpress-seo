@@ -25,7 +25,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	/**
 	 * Data provider to test the build.
 	 *
-	 * @return array The test data.
+	 * @return array<string|array<string>> The test data.
 	 */
 	public static function build_provider() {
 		return [
@@ -36,9 +36,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				',
 				SEO_Links::TYPE_EXTERNAL,
 				false,
-				false,
-				false,
-				false,
+				[],
 			],
 			[
 				'
@@ -47,9 +45,11 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				',
 				SEO_Links::TYPE_EXTERNAL_IMAGE,
 				true,
-				false,
-				false,
-				true,
+
+				[
+					'https://link.com/newly-added-in-post'     => 1,
+					'https://link.com/already-existed-in-post' => 2,
+				],
 			],
 			[
 				'
@@ -58,9 +58,11 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				',
 				SEO_Links::TYPE_EXTERNAL_IMAGE,
 				true,
-				true,
-				false,
-				false,
+
+				[
+					'https://link.com/newly-added-in-post'     => 1,
+					'https://link.com/already-existed-in-post' => 2,
+				],
 			],
 			[
 				'
@@ -69,9 +71,11 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				',
 				SEO_Links::TYPE_EXTERNAL_IMAGE,
 				true,
-				false,
-				true,
-				true,
+
+				[
+					'https://link.com/newly-added-in-post'     => 1,
+					'https://link.com/already-existed-in-post' => 2,
+				],
 			],
 			[
 				'
@@ -80,9 +84,11 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				',
 				SEO_Links::TYPE_EXTERNAL_IMAGE,
 				true,
-				false,
-				true,
-				true,
+
+				[
+					'https://link.com/newly-added-in-post'     => 1,
+					'https://link.com/already-existed-in-post' => 2,
+				],
 			],
 		];
 	}
@@ -98,23 +104,29 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @dataProvider build_provider
 	 *
-	 * @param string $content              The content.
-	 * @param string $link_type            The link type.
-	 * @param bool   $is_image             Whether the link is an image.
-	 * @param bool   $ignore_content_scan  Whether content scanning should be ignored.
-	 * @param bool   $should_content_regex Whether the image id should be extracted with a regex.
-	 * @param bool   $should_doc_scan      Whether the doc document should be used.
+	 * @param string        $content   The content.
+	 * @param string        $link_type The link type.
+	 * @param bool          $is_image  Whether the link is an image.
+	 * @param array<string> $images    The images that are in the content.
 	 *
 	 * @return void
 	 */
-	public function test_build( $content, $link_type, $is_image, $ignore_content_scan, $should_content_regex, $should_doc_scan ) {
+	public function test_build( $content, $link_type, $is_image, $images ) {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->id          = 1;
 		$indexable->object_id   = 2;
 		$indexable->object_type = 'post';
 		$indexable->permalink   = 'https://site.com/page';
 
+		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
 		$this->post_helper->expects( 'get_post' )->once()->with( 2 )->andReturn( 'post' );
+		if ( $is_image ) {
+			$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( $images );
+		}
+		else {
+			$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [] );
+
+		}
 		Functions\expect( 'setup_postdata' )->once()->with( 'post' );
 		Functions\expect( 'apply_filters' )->once()->with( 'the_content', $content )->andReturn( $content );
 		Functions\expect( 'wp_reset_postdata' )->once();
@@ -143,21 +155,6 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 		Functions\expect( 'home_url' )->once()->andReturn( 'https://site.com' );
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com' )->andReturn( $parsed_home_url );
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com/page' )->andReturn( $parsed_page_url );
-		if ( $should_doc_scan ) {
-			Functions\expect( 'apply_filters' )
-				->once()
-				->with( 'wpseo_image_attribute_containing_id', 'class' )
-				->andReturn( 'class' );
-		}
-		if ( $should_content_regex ) {
-			Functions\expect( 'apply_filters' )
-				->twice()
-				->with( 'wpseo_extract_id_pattern', '/(?<!\S)wp-image-(\d+)(?!\S)/i' )
-				->andReturn( '/(?<!\S)wp-image-(\d+)(?!\S)/i' );
-		}
-		if ( $ignore_content_scan ) {
-			Functions\expect( 'apply_filters' )->once()->with( 'wpseo_force_skip_image_content_parsing', false )->andReturn( true );
-		}
 
 		// Inside create_links->create_internal_link method.
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://link.com/newly-added-in-post' )->andReturn( $parsed_new_link_url );
@@ -258,7 +255,10 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 		$target_indexable->language    = 'nl';
 		$target_indexable->region      = 'NL';
 
+		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
 		$this->post_helper->expects( 'get_post' )->once()->with( 2 )->andReturn( 'post' );
+		$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [] );
+
 		Functions\expect( 'setup_postdata' )->once()->with( 'post' );
 		Filters\expectApplied( 'the_content' )->with( $content )->andReturnFirstArg();
 		Functions\expect( 'wp_reset_postdata' )->once();
@@ -372,6 +372,9 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 		$indexable->object_type = 'page';
 		$indexable->permalink   = 'https://site.com/page';
 
+		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
+		$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [] );
+
 		$this->seo_links_repository
 			->expects( 'find_all_by_indexable_id' )
 			->with( $indexable->id )
@@ -400,6 +403,10 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 		$indexable->object_id   = 2;
 		$indexable->object_type = 'page';
 		$indexable->permalink   = 'https://site.com/page';
+
+		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
+		$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [] );
+
 		Functions\expect( 'apply_filters' )->andReturn( true );
 
 		$this->seo_links_repository

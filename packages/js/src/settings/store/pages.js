@@ -1,4 +1,4 @@
-/* eslint-disable camelcase, complexity */
+/* eslint-disable complexity */
 import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
 import apiFetch from "@wordpress/api-fetch";
 import { decodeEntities } from "@wordpress/html-entities";

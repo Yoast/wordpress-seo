@@ -88,7 +88,6 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 
 		// Submenu pages.
 		$submenu_pages = [
-			$this->get_submenu_page( __( 'General', 'wordpress-seo' ), $this->get_page_identifier() ),
 			$this->get_submenu_page(
 				__( 'Search Console', 'wordpress-seo' ),
 				'wpseo_search_console',

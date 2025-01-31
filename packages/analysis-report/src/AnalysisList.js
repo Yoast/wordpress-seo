@@ -71,7 +71,7 @@ export default function AnalysisList( props ) {
 
 			let ariaLabelMarks = "";
 			if ( props.marksButtonStatus === "disabled" ) {
-				ariaLabelMarks = __( "Marks are disabled in current view", "wordpress-seo" );
+				ariaLabelMarks = __( "Highlighting is currently disabled", "wordpress-seo" );
 			} else if ( isMarkButtonPressed ) {
 				ariaLabelMarks = __( "Remove highlight from the text", "wordpress-seo" );
 			} else {
@@ -93,6 +93,7 @@ export default function AnalysisList( props ) {
 				bulletColor={ color }
 				hasMarksButton={ result.hasMarks }
 				hasEditButton={ result.hasJumps }
+				hasAIFixes={ result.hasAIFixes }
 				ariaLabelMarks={ ariaLabelMarks }
 				ariaLabelEdit={ ariaLabelEdit }
 				pressed={ isMarkButtonPressed }
@@ -109,6 +110,7 @@ export default function AnalysisList( props ) {
 				onResultChange={ props.onResultChange }
 				markButtonFactory={ props.markButtonFactory }
 				shouldUpsellHighlighting={ props.shouldUpsellHighlighting }
+				renderAIFixesButton={ props.renderAIFixesButton }
 				renderHighlightingUpsell={ props.renderHighlightingUpsell }
 			/>;
 		} ) }
@@ -128,6 +130,7 @@ AnalysisList.propTypes = {
 	onResultChange: PropTypes.func,
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
+	renderAIFixesButton: PropTypes.func,
 };
 
 AnalysisList.defaultProps = {
@@ -141,4 +144,5 @@ AnalysisList.defaultProps = {
 	onResultChange: noop,
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: noop,
+	renderAIFixesButton: noop,
 };

@@ -1,9 +1,9 @@
-/* global wpseoFirstTimeConfigurationData */
 import apiFetch from "@wordpress/api-fetch";
-import { useCallback, useReducer, useState, useEffect, useRef } from "@wordpress/element";
+import { useDispatch } from "@wordpress/data";
+import { useCallback, useReducer, useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { uniq } from "lodash";
-
+import { STORE_NAME } from "../general/constants";
 import { configurationReducer } from "./tailwind-components/helpers/index.js";
 import SocialProfilesStep from "./tailwind-components/steps/social-profiles/social-profiles-step";
 import Stepper, { Step } from "./tailwind-components/stepper";
@@ -16,13 +16,13 @@ import FinishStep from "./tailwind-components/steps/finish/finish-step";
 import { STEPS } from "./constants";
 
 /* eslint-disable complexity */
-
+/* eslint-disable react/jsx-no-bind */
 /**
  * Updates the site representation in the database.
  *
  * @param {Object} state The state to save.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function updateSiteRepresentation( state ) {
 	// Revert emptyChoice to the actual default: "company";
@@ -52,7 +52,7 @@ async function updateSiteRepresentation( state ) {
  *
  * @param {Object} state The state to save.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function updateSocialProfiles( state ) {
 	const socialProfiles = {
@@ -75,7 +75,7 @@ async function updateSocialProfiles( state ) {
  *
  * @param {Object} state The state to save.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function updateTracking( state ) {
 	if ( state.tracking !== 0 && state.tracking !== 1 ) {
@@ -99,7 +99,7 @@ async function updateTracking( state ) {
  *
  * @param {Array} finishedSteps Array of finished steps.
  *
- * @returns {Promise|bool} A promise, or false if the call fails.
+ * @returns {Promise|boolean} A promise, or false if the call fails.
  */
 async function saveFinishedSteps( finishedSteps ) {
 	const response = await apiFetch( {
@@ -150,8 +150,6 @@ function calculateInitialState( windowObject, isStepFinished ) {
 	};
 }
 
-/* eslint-enable max-len, react/prop-types */
-
 /* eslint-disable max-statements */
 /**
  * The first time configuration.
@@ -159,7 +157,8 @@ function calculateInitialState( windowObject, isStepFinished ) {
  * @returns {WPElement} The FirstTimeConfigurationSteps component.
  */
 export default function FirstTimeConfigurationSteps() {
-	const [ finishedSteps, setFinishedSteps ] = useState( wpseoFirstTimeConfigurationData.finishedSteps );
+	const { removeAlert, dismissNotice, restoreNotice } = useDispatch( STORE_NAME );
+	const [ finishedSteps, setFinishedSteps ] = useState( window.wpseoFirstTimeConfigurationData.finishedSteps );
 
 	const isStepFinished = useCallback( ( stepId ) => {
 		return finishedSteps.includes( stepId );
@@ -171,6 +170,7 @@ export default function FirstTimeConfigurationSteps() {
 
 	useEffect( () => {
 		saveFinishedSteps( finishedSteps );
+		window.wpseoFirstTimeConfigurationData.finishedSteps = finishedSteps;
 	}, [ finishedSteps ] );
 
 	const [ state, dispatch ] = useReducer( configurationReducer, {
@@ -192,33 +192,12 @@ export default function FirstTimeConfigurationSteps() {
 	without triggering a reload, whereas the window variable remains stale. */
 	useEffect( () => {
 		if ( indexingState === "completed" ) {
-			const indexationNotice = document.getElementById( "wpseo-reindex" );
-			if ( indexationNotice ) {
-				const allCounters = document.querySelectorAll( ".yoast-issue-counter, #toplevel_page_wpseo_dashboard .update-plugins" );
-
-				// Update the notification counters if there are any (non-zero ones).
-				if ( allCounters.length > 0 && allCounters[ 0 ].firstChild.textContent !== "0" ) {
-					// Get the oldCount for easier targeting.
-					const oldCount = allCounters[ 0 ].firstChild.textContent;
-					const newCount = ( parseInt( oldCount, 10 ) - 1 ).toString();
-					allCounters.forEach( ( counterNode => {
-						// The classList replace will return false if the class was not present (and thus an adminbar counter).
-						const isAdminBarCounter = ! counterNode.classList.replace( "count-" + oldCount, "count-" + newCount );
-						// If the count reaches zero because of this, remove the red dot alltogether.
-						if ( isAdminBarCounter && newCount === "0" ) {
-							counterNode.style.display = "none";
-						} else {
-							counterNode.firstChild.textContent = counterNode.firstChild.textContent.replace( oldCount, newCount );
-							counterNode.lastChild.textContent = counterNode.lastChild.textContent.replace( oldCount, newCount );
-						}
-					} ) );
-				}
-				indexationNotice.remove();
-			}
+			removeAlert( "wpseo-reindex" );
 			window.yoastIndexingData.amount = "0";
 		}
-	}, [ indexingState ] );
+	}, [ indexingState, removeAlert ] );
 
+	const isStep1Finished = isStepFinished( STEPS.optimizeSeoData );
 	const isStep2Finished = isStepFinished( STEPS.siteRepresentation );
 	const isStep3Finished = isStepFinished( STEPS.socialProfiles );
 	const isStep4Finished = isStepFinished( STEPS.personalPreferences );
@@ -230,6 +209,18 @@ export default function FirstTimeConfigurationSteps() {
 	const setErrorFields = useCallback( ( value ) => {
 		dispatch( { type: "SET_ERROR_FIELDS", payload: value } );
 	} );
+
+	const resolveLocalNotice = useCallback( () => {
+		if ( state.companyLogo !== "" && state.companyLogoId !== 0 && state.companyName !== "" ) {
+			dismissNotice( "yoast-local-missing-organization-info-notice" );
+		} else {
+			restoreNotice( "yoast-local-missing-organization-info-notice" );
+		}
+	}, [ dismissNotice, restoreNotice, state.companyLogo, state.companyLogoId, state.companyName ] );
+
+	const resolveFTCNotice = useCallback( () => {
+		dismissNotice( "yoast-first-time-configuration-notice" );
+	}, [ dismissNotice ] );
 
 	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ( ! state.companyLogo && ! state.companyLogoFallback ) || ! state.websiteName );
 	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ( ! state.personLogo && ! state.personLogoFallback ) || ! state.websiteName );
@@ -256,6 +247,10 @@ export default function FirstTimeConfigurationSteps() {
 				setErrorFields( [] );
 				removeStepError( STEPS.siteRepresentation );
 				finishSteps( STEPS.siteRepresentation );
+				window.wpseoFirstTimeConfigurationData = { ...window.wpseoFirstTimeConfigurationData,  ...state };
+
+				resolveLocalNotice();
+
 				return true;
 			} )
 			.catch( ( e ) => {
@@ -273,7 +268,7 @@ export default function FirstTimeConfigurationSteps() {
 	/**
 	 * Runs checks of finishing the social profiles step.
 	 *
-	 * @returns {void}
+	 * @returns {Promise|boolean} Returns either a Boolean for success/failure or a Promise.
 	 */
 	function updateOnFinishSocialProfiles() {
 		if ( state.companyOrPerson === "person" ) {
@@ -295,6 +290,7 @@ export default function FirstTimeConfigurationSteps() {
 				finishSteps( STEPS.socialProfiles );
 			} )
 			.then( () => {
+				window.wpseoFirstTimeConfigurationData.socialProfiles = state.socialProfiles;
 				return true;
 			} )
 			.catch(
@@ -313,13 +309,17 @@ export default function FirstTimeConfigurationSteps() {
 	/**
 	 * Runs checks of finishing the enable tracking step.
 	 *
-	 * @returns {void}
+	 * @returns {Promise|boolean} Returns either a Boolean for success/failure or a Promise.
 	 */
 	function updateOnFinishPersonalPreferences() {
 		return updateTracking( state )
 			.then( () => finishSteps( STEPS.personalPreferences ) )
 			.then( () => {
 				removeStepError( STEPS.personalPreferences );
+				window.wpseoFirstTimeConfigurationData.tracking = state.tracking;
+
+				resolveFTCNotice();
+
 				return true;
 			} )
 			.catch( e => {
@@ -336,17 +336,16 @@ export default function FirstTimeConfigurationSteps() {
 	);
 
 	const isStepperFinished = [
+		isStep1Finished,
 		isStep2Finished,
 		isStep3Finished,
 		isStep4Finished,
 	].every( Boolean );
 
-	const [ isIndexationStepFinished, setIndexationStepFinished ] = useState( isStepFinished( STEPS.siteRepresentation ) );
-
 	/* Duplicate site representation, because in reality, the first step cannot be saved.
 	It's considered "finished" once at least the site representation has been done. */
 	const savedSteps = [
-		isIndexationStepFinished,
+		isStepFinished( STEPS.optimizeSeoData ),
 		isStepFinished( STEPS.siteRepresentation ),
 		isStepFinished( STEPS.socialProfiles ),
 		isStepFinished( STEPS.personalPreferences ),
@@ -372,8 +371,8 @@ export default function FirstTimeConfigurationSteps() {
 			return false;
 		}
 
-		setIndexationStepFinished( true );
 		setIsStepBeingEdited( false );
+		finishSteps( STEPS.optimizeSeoData );
 		return true;
 	}
 
@@ -395,23 +394,11 @@ export default function FirstTimeConfigurationSteps() {
 		}
 	}, [ isStepperFinished ] );
 
-	/* In order to refresh data in the php form, once the stepper is done, we need to reload upon haschanges triggered by the tabswitching */
-	const isStepperFinishedAtBeginning = useRef( isStep2Finished && isStep3Finished && isStep4Finished );
-	useEffect( () => {
-		if ( isStepperFinished && ! isStepperFinishedAtBeginning.current ) {
-			const firstTimeConfigurationNotice = document.getElementById( "yoast-first-time-configuration-notice" );
-			if ( firstTimeConfigurationNotice ) {
-				firstTimeConfigurationNotice.remove();
-			}
-		}
-	}, [ isStepperFinished, isStepperFinishedAtBeginning ] );
-
 	// If stepperFinishedOnce changes or isStepBeingEdited changes, evaluate edit button state.
 	useEffect( () => {
 		setShowEditButton( stepperFinishedOnce && ! isStepBeingEdited );
 	}, [ stepperFinishedOnce, isStepBeingEdited ] );
 
-	/* eslint-disable max-len */
 	useEffect( () => {
 		/**
 		 * Prevents the submission of the form upon pressing enter.
@@ -430,7 +417,7 @@ export default function FirstTimeConfigurationSteps() {
 		return () => removeEventListener( "keydown", preventEnterSubmit );
 	}, [] );
 
-	// Used by admin.js to decide wether to show the confirmation dialog when user switches tabs in General.
+	// Used by admin.js to decide whether to show the confirmation dialog when user switches tabs in General.
 	useEffect( () => {
 		if ( state.editedSteps.includes( activeStepIndex + 1 ) || indexingState === "in_progress" ) {
 			window.isStepBeingEdited = true;
@@ -453,7 +440,7 @@ export default function FirstTimeConfigurationSteps() {
 		 */
 		if ( state.editedSteps.includes( activeStepIndex + 1 ) || indexingState === "in_progress" ) {
 			// Show the pup-up modal only if the user is in the first time configuration tab
-			if ( location.href.indexOf( "page=wpseo_dashboard#top#first-time-configuration" ) !== -1 ) {
+			if ( location.href.indexOf( "page=wpseo_dashboard#top#first-time-configuration" ) !== -1 || location.href.indexOf( "page=wpseo_dashboard#/first-time-configuration" ) !== -1 ) {
 				event.preventDefault();
 				event.returnValue = "";
 			}
@@ -469,140 +456,133 @@ export default function FirstTimeConfigurationSteps() {
 	}, [ beforeUnloadEventHandler ] );
 
 	return (
-		<div id="yoast-configuration" className="yst-max-w-[715px] yst-mt-6 yst-p-8 yst-rounded-lg yst-bg-white yst-shadow yst-text-slate-600">
-			<h2 id="yoast-configuration-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get it ranked!", "wordpress-seo" ) }</h2>
-			<p className="yst-pt-2 yst-mb-6">
-				{ __( "Let's get your site in tip-top shape for the search engines. Simply follow these 5 steps to make Google understand what your site is about.", "wordpress-seo" ) }
-			</p>
-			<hr id="configuration-hr-top" />
-			{ /* eslint-disable react/jsx-no-bind */ }
-			<div className="yst-mt-8">
-				<Stepper
-					setActiveStepIndex={ setActiveStepIndex }
-					activeStepIndex={ activeStepIndex }
-					isStepperFinished={ isStepperFinished }
+		<Stepper
+			setActiveStepIndex={ setActiveStepIndex }
+			activeStepIndex={ activeStepIndex }
+			isStepperFinished={ isStepperFinished }
+		>
+			<Step>
+				<Step.Header
+					name={ __( "SEO data optimization", "wordpress-seo" ) }
+					isFinished={ isStep1Finished }
 				>
-					<Step>
-						<Step.Header
-							name={ __( "SEO data optimization", "wordpress-seo" ) }
-							isFinished={ isIndexationStepFinished }
-						>
-							<EditButton
-								stepId={ STEPS.optimizeSeoData }
-								beforeGo={ beforeEditing }
-								isVisible={ showEditButton }
-								additionalClasses={ "yst-ml-auto" }
-							>
-								{ __( "Edit", "wordpress-seo" ) }
-							</EditButton>
-						</Step.Header>
-						<Step.Content>
-							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } isStepperFinished={ isStepperFinished } />
-							<ContinueButton
-								stepId={ STEPS.optimizeSeoData }
-								additionalClasses="yst-mt-12"
-								beforeGo={ beforeContinueIndexationStep }
-								destination={ stepperFinishedOnce ? "last" : 1 }
-							>
-								{ __( "Continue", "wordpress-seo" ) }
-							</ContinueButton>
-						</Step.Content>
-					</Step>
-					<Step>
-						<Step.Header
-							name={ __( "Site representation", "wordpress-seo" ) }
-							isFinished={ isStep2Finished }
-						>
-							<EditButton
-								stepId={ STEPS.siteRepresentation }
-								beforeGo={ beforeEditing }
-								isVisible={ showEditButton }
-								additionalClasses={ "yst-ml-auto" }
-							>
-								{ __( "Edit", "wordpress-seo" ) }
-							</EditButton>
-						</Step.Header>
-						<Step.Content>
-							<SiteRepresentationStep
-								onOrganizationOrPersonChange={ onOrganizationOrPersonChange }
-								dispatch={ dispatch }
-								state={ state }
-								siteRepresentationEmpty={ siteRepresentationEmpty }
-							/>
-							<Step.Error id="yoast-site-representation-step-error" message={ state.stepErrors[ STEPS.siteRepresentation ] || "" } />
-							<ConfigurationStepButtons
-								stepId={ STEPS.siteRepresentation }
-								stepperFinishedOnce={ stepperFinishedOnce }
-								saveFunction={ updateOnFinishSiteRepresentation }
-								setEditState={ setIsStepBeingEdited }
-							/>
-						</Step.Content>
-					</Step>
-					<Step>
-						<Step.Header
-							name={ __( "Social profiles", "wordpress-seo" ) }
-							isFinished={ isStep3Finished }
-						>
-							<EditButton
-								stepId={ STEPS.socialProfiles }
-								beforeGo={ beforeEditing }
-								isVisible={ showEditButton }
-								additionalClasses={ "yst-ml-auto" }
-							>
-								{ __( "Edit", "wordpress-seo" ) }
-							</EditButton>
-						</Step.Header>
-						<Step.Content>
-							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } />
-							<Step.Error id="yoast-social-profiles-step-error" message={ state.stepErrors[ STEPS.socialProfiles ] || "" } />
-							<ConfigurationStepButtons
-								stepId={ STEPS.socialProfiles }
-								stepperFinishedOnce={ stepperFinishedOnce }
-								saveFunction={ updateOnFinishSocialProfiles }
-								setEditState={ setIsStepBeingEdited }
-							/>
-						</Step.Content>
-					</Step>
-					<Step>
-						<Step.Header
-							name={ __( "Personal preferences", "wordpress-seo" ) }
-							isFinished={ isStep4Finished }
-						>
-							<EditButton
-								stepId={ STEPS.personalPreferences }
-								beforeGo={ beforeEditing }
-								isVisible={ showEditButton }
-								additionalClasses={ "yst-ml-auto" }
-							>
-								{ __( "Edit", "wordpress-seo" ) }
-							</EditButton>
-						</Step.Header>
-						<Step.Content>
-							<PersonalPreferencesStep state={ state } setTracking={ setTracking } />
-							<Step.Error id="yoast-personal-preferences-step-error" message={ state.stepErrors[ STEPS.personalPreferences ] || "" } />
-							<ConfigurationStepButtons
-								stepId={ STEPS.personalPreferences }
-								stepperFinishedOnce={ stepperFinishedOnce }
-								saveFunction={ updateOnFinishPersonalPreferences }
-								setEditState={ setIsStepBeingEdited }
-							/>
-						</Step.Content>
-					</Step>
-					<Step>
-						<Step.Header
-							name={ __( "Finish configuration", "wordpress-seo" ) }
-							isFinished={ isStepperFinished }
-						/>
-						<Step.Content>
-							<FinishStep />
-						</Step.Content>
-					</Step>
-				</Stepper>
-			</div>
-		</div>
+					<EditButton
+						stepId={ STEPS.optimizeSeoData }
+						beforeGo={ beforeEditing }
+						isVisible={ showEditButton }
+						additionalClasses="yst-ms-auto"
+					>
+						{ __( "Edit", "wordpress-seo" ) }
+					</EditButton>
+				</Step.Header>
+				<Step.Content>
+					<IndexationStep
+						setIndexingState={ setIndexingState } indexingState={ indexingState }
+						showRunIndexationAlert={ showRunIndexationAlert } isStepperFinished={ isStepperFinished }
+					/>
+					<ContinueButton
+						stepId={ STEPS.optimizeSeoData }
+						additionalClasses="yst-mt-12"
+						beforeGo={ beforeContinueIndexationStep }
+						destination={ stepperFinishedOnce ? "last" : 1 }
+					>
+						{ __( "Continue", "wordpress-seo" ) }
+					</ContinueButton>
+				</Step.Content>
+			</Step>
+			<Step>
+				<Step.Header
+					name={ __( "Site representation", "wordpress-seo" ) }
+					isFinished={ isStep2Finished }
+				>
+					<EditButton
+						stepId={ STEPS.siteRepresentation }
+						beforeGo={ beforeEditing }
+						isVisible={ showEditButton }
+						additionalClasses="yst-ms-auto"
+					>
+						{ __( "Edit", "wordpress-seo" ) }
+					</EditButton>
+				</Step.Header>
+				<Step.Content>
+					<SiteRepresentationStep
+						onOrganizationOrPersonChange={ onOrganizationOrPersonChange }
+						dispatch={ dispatch }
+						state={ state }
+						siteRepresentationEmpty={ siteRepresentationEmpty }
+					/>
+					<Step.Error id="yoast-site-representation-step-error" message={ state.stepErrors[ STEPS.siteRepresentation ] || "" } />
+					<ConfigurationStepButtons
+						stepId={ STEPS.siteRepresentation }
+						stepperFinishedOnce={ stepperFinishedOnce }
+						saveFunction={ updateOnFinishSiteRepresentation }
+						setEditState={ setIsStepBeingEdited }
+					/>
+				</Step.Content>
+			</Step>
+			<Step>
+				<Step.Header
+					name={ __( "Social profiles", "wordpress-seo" ) }
+					isFinished={ isStep3Finished }
+				>
+					<EditButton
+						stepId={ STEPS.socialProfiles }
+						beforeGo={ beforeEditing }
+						isVisible={ showEditButton }
+						additionalClasses="yst-ms-auto"
+					>
+						{ __( "Edit", "wordpress-seo" ) }
+					</EditButton>
+				</Step.Header>
+				<Step.Content>
+					<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } />
+					<Step.Error id="yoast-social-profiles-step-error" message={ state.stepErrors[ STEPS.socialProfiles ] || "" } />
+					<ConfigurationStepButtons
+						stepId={ STEPS.socialProfiles }
+						stepperFinishedOnce={ stepperFinishedOnce }
+						saveFunction={ updateOnFinishSocialProfiles }
+						setEditState={ setIsStepBeingEdited }
+					/>
+				</Step.Content>
+			</Step>
+			<Step>
+				<Step.Header
+					name={ __( "Personal preferences", "wordpress-seo" ) }
+					isFinished={ isStep4Finished }
+				>
+					<EditButton
+						stepId={ STEPS.personalPreferences }
+						beforeGo={ beforeEditing }
+						isVisible={ showEditButton }
+						additionalClasses="yst-ms-auto"
+					>
+						{ __( "Edit", "wordpress-seo" ) }
+					</EditButton>
+				</Step.Header>
+				<Step.Content>
+					<PersonalPreferencesStep state={ state } setTracking={ setTracking } />
+					<Step.Error id="yoast-personal-preferences-step-error" message={ state.stepErrors[ STEPS.personalPreferences ] || "" } />
+					<ConfigurationStepButtons
+						stepId={ STEPS.personalPreferences }
+						stepperFinishedOnce={ stepperFinishedOnce }
+						saveFunction={ updateOnFinishPersonalPreferences }
+						setEditState={ setIsStepBeingEdited }
+					/>
+				</Step.Content>
+			</Step>
+			<Step>
+				<Step.Header
+					name={ __( "Finish configuration", "wordpress-seo" ) }
+					isFinished={ isStepperFinished }
+				/>
+				<Step.Content>
+					<FinishStep />
+				</Step.Content>
+			</Step>
+		</Stepper>
 	);
 }
 
-/* eslint-enable max-len */
 /* eslint-enable complexity */
+/* eslint-enable react/jsx-no-bind */
 /* eslint-enable max-statements */

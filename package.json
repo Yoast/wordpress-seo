@@ -32,32 +32,32 @@
     "build": "lerna run build",
     "build:css": "postcss css/dist/*.css --verbose --replace",
     "webpack-analyze-bundle": "wp-scripts build --config config/webpack/webpack.config.js --webpack-bundle-analyzer",
-    "start": "wp-scripts start --config config/webpack/webpack.config.js --webpack-src-dir=packages/**/src",
+    "start": "wp-scripts start --config config/webpack/webpack.config.js --webpack-src-dir=packages/js/src",
     "sync:wp-deps": "node config/scripts/sync-wp-dependencies.js"
   },
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.18.5",
     "@slack/webhook": "^5.0.2",
-    "@tailwindcss/forms": "^0.5.2",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.9",
     "@wordpress/dependency-extraction-webpack-plugin": "^4.28.0",
     "@wordpress/scripts": "^26.16.0",
     "@yoast/babel-preset": "^1.1.1",
     "@yoast/browserslist-config": "^1.2.3",
     "@yoast/grunt-plugin-tasks": "^2.4",
     "@yoast/postcss-preset": "^1.2.0",
+    "@yoast/related-keyphrase-suggestions": "^0.1.0",
     "@yoast/tailwindcss-preset": "^2.3.0",
-    "@yoast/ui-library": "^4.0.0",
+    "@yoast/ui-library": "^4.1.0",
     "colors": "1.4.0",
     "copy-webpack-plugin": "^12.0.2",
     "core-js": "^2.6.12",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
-    "eslint": "^8.57.0",
-    "eslint-config-yoast": "^6.0.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsx-a11y": "^6.8.0",
-    "eslint-plugin-react": "^7.34.1",
+    "eslint": "^9.16.0",
+    "eslint-config-yoast": "^7.0.0",
+    "globals": "^15.13.0",
     "grunt-git": "^1.0.14",
     "grunt-prompt": "^1.3.3",
     "grunt-shell": "^3.0.1",
@@ -75,7 +75,7 @@
     "webpack-bundle-analyzer": "^4.9.1"
   },
   "yoast": {
-    "pluginVersion": "22.7-RC2"
+    "pluginVersion": "24.4-RC2"
   },
   "version": "0.0.0"
 }

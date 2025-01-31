@@ -1,0 +1,191 @@
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher.js";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher.js";
+import ContentAssessor from "../../../../src/scoring/assessors/productPages/contentAssessor.js";
+import Paper from "../../../../src/values/Paper.js";
+
+const options = {
+	subheadingUrlTitle: "https://yoast.com/1",
+	subheadingCTAUrl: "https://yoast.com/2",
+	paragraphUrlTitle: "https://yoast.com/3",
+	paragraphCTAUrl: "https://yoast.com/4",
+	sentenceLengthUrlTitle: "https://yoast.com/5",
+	sentenceLengthCTAUrl: "https://yoast.com/6",
+	transitionWordsUrlTitle: "https://yoast.com/7",
+	transitionWordsCTAUrl: "https://yoast.com/8",
+	passiveVoiceUrlTitle: "https://yoast.com/9",
+	passiveVoiceCTAUrl: "https://yoast.com/10",
+	textPresenceUrlTitle: "https://yoast.com/11",
+	textPresenceCTAUrl: "https://yoast.com/12",
+};
+
+describe( "A product page content assessor", function() {
+	describe( "Checks the applicable assessments for text containing less than 300 words", function() {
+		it( "Should have 5 available assessments for a fully supported language. " +
+			"This doesn't include Word complexity and Lists assessments since the registration is done from Shopify side.", function() {
+			const paper = new Paper( "Lorem ipsum dolor sit amet, voluptua probatus ullamcorper id vis, ceteros consetetur qui ea, " +
+				"nam movet populo aliquam te. His eu debitis fastidii. Pri ea amet dicant. Ut his suas corpora, eu reformidans " +
+				"signiferumque duo. At erant expetenda patrioque quo, rebum atqui nam ad, tempor elaboraret interpretaris pri ad. " +
+				"Novum postea sea in. Placerat recteque cu usu. Cu nam sadipscing disputationi, sed labitur elaboraret et. Eu sed " +
+				"accumsan prodesset. Posse integre et nec, usu assum audiam erroribus eu. Ei viris eirmod interesset usu, " +
+				"usu homero liberavisse in, solet disputando ea vim. Mei eu inani nonumes consulatu, ea alterum menandri ius, " +
+				"ne euismod neglegentur sed. Vis te deleniti suscipit, fabellas laboramus pri ei. Te quo aliquip offendit. " +
+				"Vero paulo regione ei eum, sed at atqui meliore copiosae. Has et vocent vivendum. Mundi graeco latine cum ne, " +
+				"no cum laoreet alienum. Quo cu vero utinam constituto. Vis omnium vivendum ea. Eum lorem ludus possim ut. Eu has eius " +
+				"munere explicari, atqui ullamcorper eos no, harum epicuri per ut. Utamur volumus minimum ea vel, duo eu praesent " +
+				"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
+				"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
+				"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod.", { locale: "en_US" } );
+			const contentAssessor = new ContentAssessor( new EnglishResearcher( paper ), options );
+
+			contentAssessor.getPaper = function() {
+				return paper;
+			};
+			const actual = contentAssessor.getApplicableAssessments().map( result => result.identifier );
+			const expected = [
+				"textParagraphTooLong",
+				"textSentenceLength",
+				"textTransitionWords",
+				"passiveVoice",
+				"textPresence",
+			];
+			expect( actual ).toEqual( expected );
+		} );
+
+		it( "Should have 3 available assessments for a basic supported language", function() {
+			// A text of at least 50 characters.
+			const longEnoughText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis. There is more";
+			const paper = new Paper( longEnoughText, { locale: "xx_XX" } );
+			const contentAssessor = new ContentAssessor( new DefaultResearcher( paper ), options );
+
+			contentAssessor.getPaper = function() {
+				return paper;
+			};
+
+			const actual = contentAssessor.getApplicableAssessments().map( result => result.identifier );
+			const expected = [
+				"textParagraphTooLong",
+				"textSentenceLength",
+				"textPresence",
+			];
+			expect( actual ).toEqual( expected );
+		} );
+	} );
+
+	describe( "Checks the applicable assessments for text containing more than 300 words", function() {
+		it( "Should have 6 available assessments for a fully supported language", function() {
+			const paper = new Paper( "beautiful cats ".repeat( 200 ), { locale: "en_US" } );
+			const contentAssessor = new ContentAssessor( new EnglishResearcher( paper ), options );
+
+			contentAssessor.getPaper = function() {
+				return paper;
+			};
+			const actual = contentAssessor.getApplicableAssessments().map( result => result.identifier );
+			const expected = [
+				"subheadingsTooLong",
+				"textParagraphTooLong",
+				"textSentenceLength",
+				"textTransitionWords",
+				"passiveVoice",
+				"textPresence",
+			];
+			expect( actual ).toEqual( expected );
+		} );
+
+		it( "Should have 4 available assessments for a basic supported language", function() {
+			const paper = new Paper( "test ".repeat( 310 ), { locale: "xx_XX" } );
+			const contentAssessor = new ContentAssessor( new DefaultResearcher( paper ), options );
+
+			contentAssessor.getPaper = function() {
+				return paper;
+			};
+
+			const actual = contentAssessor.getApplicableAssessments().map( result => result.identifier );
+			const expected = [
+				"subheadingsTooLong",
+				"textParagraphTooLong",
+				"textSentenceLength",
+				"textPresence",
+			];
+			expect( actual ).toEqual( expected );
+		} );
+	} );
+	describe( "has configuration overrides", () => {
+		const paper = new Paper( "a tortie cat ".repeat( 150 ) );
+
+		const assessor = new ContentAssessor( new DefaultResearcher( paper ), {
+			subheadingUrlTitle: "https://yoast.com/1",
+			subheadingCTAUrl: "https://yoast.com/2",
+			paragraphUrlTitle: "https://yoast.com/3",
+			paragraphCTAUrl: "https://yoast.com/4",
+			sentenceLengthUrlTitle: "https://yoast.com/5",
+			sentenceLengthCTAUrl: "https://yoast.com/6",
+			transitionWordsUrlTitle: "https://yoast.com/7",
+			transitionWordsCTAUrl: "https://yoast.com/8",
+			passiveVoiceUrlTitle: "https://yoast.com/9",
+			passiveVoiceCTAUrl: "https://yoast.com/10",
+			textPresenceUrlTitle: "https://yoast.com/11",
+			textPresenceCTAUrl: "https://yoast.com/12",
+		} );
+
+		test( "SubheadingsDistributionTooLong", () => {
+			const assessment = assessor.getAssessment( "subheadingsTooLong" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.shouldNotAppearInShortText ).toBeDefined();
+			expect( assessment._config.shouldNotAppearInShortText ).toBe( true );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/1' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/2' target='_blank'>" );
+		} );
+
+		test( "ParagraphTooLong", () => {
+			const assessment = assessor.getAssessment( "textParagraphTooLong" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.parameters.recommendedLength ).toBe( 70 );
+			expect( assessment._config.parameters.maximumRecommendedLength ).toBe( 100 );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/3' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/4' target='_blank'>" );
+		} );
+
+		test( "SentenceLengthAssessment", () => {
+			const assessment = assessor.getAssessment( "textSentenceLength" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.slightlyTooMany ).toBe( 20 );
+			expect( assessment._config.farTooMany ).toBe( 25 );
+			expect( assessment._isProduct ).toBe( true );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/5' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/6' target='_blank'>" );
+		} );
+
+		test( "TransitionWords", () => {
+			const assessment = assessor.getAssessment( "textTransitionWords" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/7' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/8' target='_blank'>" );
+		} );
+
+		test( "PassiveVoice", () => {
+			const assessment = assessor.getAssessment( "passiveVoice" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/9' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/10' target='_blank'>" );
+		} );
+
+		test( "TextPresence", () => {
+			const assessment = assessor.getAssessment( "textPresence" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/11' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/12' target='_blank'>" );
+		} );
+	} );
+} );

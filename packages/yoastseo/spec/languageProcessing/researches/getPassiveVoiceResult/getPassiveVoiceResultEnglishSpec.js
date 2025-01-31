@@ -3,7 +3,6 @@ import Paper from "../../../../src/values/Paper.js";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
 // Tests inspired by the examples on http://www.englishpage.com/verbpage/activepassive.html
-// eslint-disable-next-line max-statements
 describe( "detecting passive voice in sentences", function() {
 	it( "returns active voice (Simple Present)", function() {
 		const paper = new Paper( "Once a week, Tom cleans the house." );

@@ -2,13 +2,10 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use Elementor\Controls_Manager;
-use Elementor\Core\DocumentTypes\PageBase;
 use WP_Post;
 use WP_Screen;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Recommended_Replace_Vars;
-use WPSEO_Language_Utils;
 use WPSEO_Meta;
 use WPSEO_Metabox_Analysis_Inclusive_Language;
 use WPSEO_Metabox_Analysis_Readability;
@@ -16,15 +13,13 @@ use WPSEO_Metabox_Analysis_SEO;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Replace_Vars;
-use WPSEO_Shortlinker;
 use WPSEO_Utils;
-use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
-use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
+use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
+use Yoast\WP\SEO\Elementor\Infrastructure\Request_Post;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
@@ -32,11 +27,6 @@ use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
  * Integrates the Yoast SEO metabox in the Elementor editor.
  */
 class Elementor implements Integration_Interface {
-
-	/**
-	 * The identifier for the elementor tab.
-	 */
-	public const YOAST_TAB = 'yoast-tab';
 
 	/**
 	 * Represents the post.
@@ -65,6 +55,13 @@ class Elementor implements Integration_Interface {
 	 * @var Capability_Helper
 	 */
 	protected $capability;
+
+	/**
+	 * Holds the Request_Post.
+	 *
+	 * @var Request_Post
+	 */
+	private $request_post;
 
 	/**
 	 * Holds whether the socials are enabled.
@@ -120,21 +117,21 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager     The asset manager.
-	 * @param Options_Helper            $options           The options helper.
-	 * @param Capability_Helper         $capability        The capability helper.
-	 * @param Promotion_Manager         $promotion_manager The promotion manager.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
+	 * @param Options_Helper            $options       The options helper.
+	 * @param Capability_Helper         $capability    The capability helper.
+	 * @param Request_Post              $request_post  The Request_Post.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Options_Helper $options,
 		Capability_Helper $capability,
-		Promotion_Manager $promotion_manager
+		Request_Post $request_post
 	) {
-		$this->asset_manager     = $asset_manager;
-		$this->options           = $options;
-		$this->capability        = $capability;
-		$this->promotion_manager = $promotion_manager;
+		$this->asset_manager = $asset_manager;
+		$this->options       = $options;
+		$this->capability    = $capability;
+		$this->request_post  = $request_post;
 
 		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
@@ -164,21 +161,11 @@ class Elementor implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_elementor_hooks() {
-
 		if ( $this->get_metabox_post() === null || ! $this->display_metabox( $this->get_metabox_post()->post_type ) ) {
 			return;
 		}
 
 		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'init' ] );
-
-		// We are too late for elementor/init. We should see if we can be on time, or else this workaround works (we do always get the "else" though).
-		if ( ! \did_action( 'elementor/init' ) ) {
-			\add_action( 'elementor/init', [ $this, 'add_yoast_panel_tab' ] );
-		}
-		else {
-			$this->add_yoast_panel_tab();
-		}
-		\add_action( 'elementor/documents/register_controls', [ $this, 'register_document_controls' ] );
 	}
 
 	/**
@@ -190,40 +177,6 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->register_assets();
 		$this->enqueue();
 		$this->render_hidden_fields();
-	}
-
-	/**
-	 * Register a panel tab slug, in order to allow adding controls to this tab.
-	 *
-	 * @return void
-	 */
-	public function add_yoast_panel_tab() {
-		Controls_Manager::add_tab( $this::YOAST_TAB, 'Yoast SEO' );
-	}
-
-	/**
-	 * Register additional document controls.
-	 *
-	 * @param PageBase $document The PageBase document.
-	 *
-	 * @return void
-	 */
-	public function register_document_controls( $document ) {
-		// PageBase is the base class for documents like `post` `page` and etc.
-		if ( ! $document instanceof PageBase || ! $document::get_property( 'has_elements' ) ) {
-			return;
-		}
-
-		// This is needed to get the tab to appear, but will be overwritten in the JavaScript.
-		$document->start_controls_section(
-			'yoast_temporary_section',
-			[
-				'label' => 'Yoast SEO',
-				'tab'   => self::YOAST_TAB,
-			]
-		);
-
-		$document->end_controls_section();
 	}
 
 	// Below is mostly copied from `class-metabox.php`. That constructor has side-effects we do not need.
@@ -432,7 +385,6 @@ class Elementor implements Integration_Interface {
 
 		$plugins_script_data = [
 			'replaceVars' => [
-				'no_parent_text'           => \__( '(no parent)', 'wordpress-seo' ),
 				'replace_vars'             => $this->get_replace_vars(),
 				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 				'hidden_replace_vars'      => $this->get_hidden_replace_vars(),
@@ -454,40 +406,35 @@ class Elementor implements Integration_Interface {
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
-		$alert_dismissal_action  = \YoastSEO()->classes->get( Alert_Dismissal_Action::class );
-		$dismissed_alerts        = $alert_dismissal_action->all_dismissed();
-		$woocommerce_conditional = new WooCommerce_Conditional();
+		$permalink        = $this->get_permalink();
+		$page_on_front    = (int) \get_option( 'page_on_front' );
+		$homepage_is_page = \get_option( 'show_on_front' ) === 'page';
+		$is_front_page    = $homepage_is_page && $page_on_front === $post_id;
 
 		$script_data = [
-			'media'                     => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
-			'metabox'                   => $this->get_metabox_script_data(),
-			'userLanguageCode'          => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+			'metabox'                   => $this->get_metabox_script_data( $permalink ),
 			'isPost'                    => true,
 			'isBlockEditor'             => WP_Screen::get()->is_block_editor(),
 			'isElementorEditor'         => true,
-			'isWooCommerceActive'       => $woocommerce_conditional->is_met(),
 			'postStatus'                => \get_post_status( $post_id ),
 			'postType'                  => \get_post_type( $post_id ),
 			'analysis'                  => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'dismissedAlerts'           => $dismissed_alerts,
-			'webinarIntroElementorUrl'  => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
-			'currentPromotions'         => $this->promotion_manager->get_current_promotions(),
 			'usedKeywordsNonce'         => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
-			'linkParams'                => WPSEO_Shortlinker::get_query_params(),
-			'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),
-			'wistiaEmbedPermission'     => \YoastSEO()->classes->get( Wistia_Embed_Permission_Repository::class )->get_value_for_user( \get_current_user_id() ),
+			'isFrontPage'               => $is_front_page,
 		];
 
-		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
-			$this->asset_manager->enqueue_style( 'featured-image' );
-
-			$script_data['featuredImage'] = [
-				'featured_image_notice' => \__( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
-			];
-		}
+		/**
+		 * The website information repository.
+		 *
+		 * @var $repo Website_Information_Repository
+		 */
+		$repo             = \YoastSEO()->classes->get( Website_Information_Repository::class );
+		$site_information = $repo->get_post_site_information();
+		$site_information->set_permalink( $permalink );
+		$script_data = \array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
 
 		$this->asset_manager->localize_script( 'elementor', 'wpseoScriptData', $script_data );
 		$this->asset_manager->enqueue_user_language_script();
@@ -526,40 +473,18 @@ class Elementor implements Integration_Interface {
 		\printf(
 			'<input type="hidden" id="%1$s" name="%1$s" value="%2$s" />',
 			\esc_attr( WPSEO_Meta::$form_prefix . 'slug' ),
-			\esc_attr( $this->get_post_slug() )
+			/**
+			 * It is important that this slug value is the same as in the database.
+			 * If the DB value is empty we can auto-generate a slug.
+			 * But if not empty, we should not touch it anymore.
+			 */
+			\esc_attr( $this->get_metabox_post()->post_name )
 		);
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
 		echo \apply_filters( 'wpseo_elementor_hidden_fields', '' );
 
 		echo '</form>';
-	}
-
-	/**
-	 * Returns the slug for the post being edited.
-	 *
-	 * @return string
-	 */
-	protected function get_post_slug() {
-		$post = $this->get_metabox_post();
-
-		// In case get_metabox_post returns null for whatever reason.
-		if ( ! $post instanceof WP_Post ) {
-			return '';
-		}
-
-		// Drafts might not have a post_name unless the slug has been manually changed.
-		// In this case we get it using get_sample_permalink.
-		if ( ! $post->post_name ) {
-			$sample = \get_sample_permalink( $post );
-
-			// Since get_sample_permalink runs through filters, ensure that it has the expected return value.
-			if ( \is_array( $sample ) && \count( $sample ) === 2 && \is_string( $sample[1] ) ) {
-				return $sample[1];
-			}
-		}
-
-		return $post->post_name;
 	}
 
 	/**
@@ -572,41 +497,19 @@ class Elementor implements Integration_Interface {
 			return $this->post;
 		}
 
-		$post = null;
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
-		if ( isset( $_GET['post'] ) && \is_numeric( $_GET['post'] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
-			$post = (int) \wp_unslash( $_GET['post'] );
-		}
+		$this->post = $this->request_post->get_post();
 
-		if ( ! empty( $post ) ) {
-			$this->post = \get_post( $post );
-
-			return $this->post;
-		}
-
-		if ( isset( $GLOBALS['post'] ) ) {
-			$this->post = $GLOBALS['post'];
-
-			return $this->post;
-		}
-
-		return null;
+		return $this->post;
 	}
 
 	/**
 	 * Passes variables to js for use with the post-scraper.
 	 *
+	 * @param string $permalink The permalink.
+	 *
 	 * @return array
 	 */
-	protected function get_metabox_script_data() {
-		$permalink = '';
-
-		if ( \is_object( $this->get_metabox_post() ) ) {
-			$permalink = \get_sample_permalink( $this->get_metabox_post()->ID );
-			$permalink = $permalink[0];
-		}
-
+	protected function get_metabox_script_data( $permalink ) {
 		$post_formatter = new WPSEO_Metabox_Formatter(
 			new WPSEO_Post_Metabox_Formatter( $this->get_metabox_post(), [], $permalink )
 		);
@@ -622,6 +525,22 @@ class Elementor implements Integration_Interface {
 		$values['elementorMarkerStatus'] = $this->is_highlighting_available() ? 'enabled' : 'hidden';
 
 		return $values;
+	}
+
+	/**
+	 * Gets the permalink.
+	 *
+	 * @return string
+	 */
+	protected function get_permalink(): string {
+		$permalink = '';
+
+		if ( \is_object( $this->get_metabox_post() ) ) {
+			$permalink = \get_sample_permalink( $this->get_metabox_post()->ID );
+			$permalink = $permalink[0];
+		}
+
+		return $permalink;
 	}
 
 	/**

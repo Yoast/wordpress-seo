@@ -1,8 +1,12 @@
 {
   "name": "@yoast/helpers",
-  "version": "0.16.0",
+  "version": "0.17.0-alpha.0",
   "description": "All Yoast helper functions.",
   "main": "build/index.js",
+  "files": [
+    "build",
+    "!*.map"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
@@ -13,8 +17,7 @@
     "build:js": "babel src --out-dir build",
     "clean": "rm -rf build",
     "test": "jest",
-    "lint": "eslint . --max-warnings=0",
-    "prepublishOnly": "yarn build"
+    "lint": "eslint . --max-warnings=0"
   },
   "author": "Yoast",
   "license": "GPL-3.0",
@@ -37,6 +40,9 @@
     "@babel/preset-env": "^7.16.11",
     "@yoast/browserslist-config": "^1.2.3",
     "babel-plugin-styled-components": "^2.0.6",
+    "eslint": "^9.16.0",
+    "eslint-config-yoast": "^7.0.0",
+    "globals": "^15.12.0",
     "jest-styled-components": "^7.0.3",
     "react-test-renderer": "^18.2.0"
   },

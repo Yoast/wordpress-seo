@@ -1,13 +1,12 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../../src/helpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
-import CornerStoneContentAssessor from "../../../../src/scoring/cornerstone/contentAssessor";
-import ProductCornerstoneContentAssessor from "../../../../src/scoring/productPages/cornerstone/contentAssessor";
+import CornerstoneContentAssessor from "../../../../src/scoring/assessors/cornerstone/contentAssessor.js";
+import ProductCornerstoneContentAssessor from "../../../../src/scoring/assessors/productPages/cornerstone/contentAssessor.js";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher.js";
-import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
-import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher.js";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
 import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/subheadingsTooLong.js";
 
 const subheadingDistributionTooLong = new SubheadingDistributionTooLong();
@@ -583,7 +582,7 @@ describe( "Language-specific configuration for specific types of content is used
 		expect( assessment._config.farTooMany ).toEqual( japaneseConfig.defaultParameters.farTooMany );
 	} );
 
-	let cornerStoneContentAssessor = new CornerStoneContentAssessor( englishResearcher );
+	let cornerStoneContentAssessor = new CornerstoneContentAssessor( englishResearcher );
 	let productCornerstoneContentAssessor = new ProductCornerstoneContentAssessor( englishResearcher, mockOptions );
 
 	[ cornerStoneContentAssessor, productCornerstoneContentAssessor ].forEach( assessor => {
@@ -617,7 +616,7 @@ describe( "Language-specific configuration for specific types of content is used
 		} );
 	} );
 
-	cornerStoneContentAssessor = new CornerStoneContentAssessor( japaneseResearcher );
+	cornerStoneContentAssessor = new CornerstoneContentAssessor( japaneseResearcher );
 	productCornerstoneContentAssessor = new ProductCornerstoneContentAssessor( japaneseResearcher, mockOptions );
 
 	[ cornerStoneContentAssessor, productCornerstoneContentAssessor ].forEach( assessor => {
@@ -628,7 +627,7 @@ describe( "Language-specific configuration for specific types of content is used
 			expect( assessment._config.slightlyTooMany ).toEqual( japaneseConfig.cornerstoneParameters.slightlyTooMany );
 			expect( assessment._config.farTooMany ).toEqual( japaneseConfig.cornerstoneParameters.farTooMany );
 		} );
-		//Only need one test for japanese to test getLanguageSpecificConfig. The other tests are redundant.
+		// Only need one test for japanese to test getLanguageSpecificConfig. The other tests are redundant.
 		// it( "should score short cornerstone content in Japanese (<500 characters), " +
 		// "which does not have subheadings, as OK.", function() {
 		// 	const paper = new Paper( shortCornerstoneTextJapanese );
@@ -665,7 +664,7 @@ describe( "A test for scoring too long text fragments without a subheading for l
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 	// you need 1 test to test the getLanguageSpecificConfig in the get result method. The rest of the tests is redundant.
-	/*it( "Scores a text where multiple sections are slightly too long.", function() {
+	/* it( "Scores a text where multiple sections are slightly too long.", function() {
 		const paper = new Paper( shortTextJapanese + subheading + longTextJapanese + subheading + longTextJapanese );
 		const assessment = subheadingDistributionTooLong.getResult( paper, new JapaneseResearcher( paper ) );
 

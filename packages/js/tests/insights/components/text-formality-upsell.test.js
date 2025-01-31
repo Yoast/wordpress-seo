@@ -1,5 +1,4 @@
 import TextFormalityUpsell from "../../../src/insights/components/text-formality-upsell";
-import React from "react";
 import renderer from "react-test-renderer";
 
 window.wpseoAdminL10n = {

@@ -1,9 +1,7 @@
-/* eslint-disable complexity */
 import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { noop } from "lodash";
-
 import { SvgIcon, IconButtonToggle, IconCTAEditButton, BetaBadge } from "@yoast/components";
 import { strings } from "@yoast/helpers";
 
@@ -11,21 +9,31 @@ const { stripTagsFromHtmlString } = strings;
 
 const ALLOWED_TAGS = [ "a", "b", "strong", "em", "i" ];
 
+const ResultButtonsContainer = styled.div`
+	display: grid;
+	grid-template-rows: 1fr;
+	max-width: 32px;
+	// This gap value is half the gap value between assessment result list items, which is 12px.
+	gap: 6px;
+`;
+
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
 	min-height: 24px;
+	margin-bottom: 12px;
 	padding: 0;
 	display: flex;
 	align-items: flex-start;
 	position: relative;
+	gap: 12px;
 `;
 
 const ScoreIcon = styled( SvgIcon )`
-	margin: 3px 11px 0 0; // icon 13 + 11 right margin = 24 for the 8px grid.
+	margin: 3px 0 0 0;
 `;
 
 const AnalysisResultText = styled.p`
-	margin: 0 16px 0 0;
+	margin: 0;
 	flex: 1 1 auto;
 	color: ${ props => props.suppressedText ? "rgba(30,30,30,0.5)" : "inherit" };
 `;
@@ -125,18 +133,21 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 				{ props.hasBetaBadgeLabel && <BetaBadge /> }
 				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( props.text, ALLOWED_TAGS ) } } />
 			</AnalysisResultText>
-			{ marksButton }
-			{ props.renderHighlightingUpsell( isOpen, closeModal ) }
-			{
-				props.hasEditButton && props.isPremium &&
-				<IconCTAEditButton
-					className={ props.editButtonClassName }
-					onClick={ props.onButtonClickEdit }
-					id={ props.buttonIdEdit }
-					icon="edit"
-					ariaLabel={ props.ariaLabelEdit }
-				/>
-			}
+			<ResultButtonsContainer>
+				{ marksButton }
+				{ props.renderHighlightingUpsell( isOpen, closeModal ) }
+				{
+					props.hasEditButton && props.isPremium &&
+					<IconCTAEditButton
+						className={ props.editButtonClassName }
+						onClick={ props.onButtonClickEdit }
+						id={ props.buttonIdEdit }
+						icon="edit"
+						ariaLabel={ props.ariaLabelEdit }
+					/>
+				}
+				{ props.renderAIFixesButton( props.hasAIFixes, props.id ) }
+			</ResultButtonsContainer>
 		</AnalysisResultBase>
 	);
 };
@@ -147,6 +158,8 @@ AnalysisResult.propTypes = {
 	bulletColor: PropTypes.string.isRequired,
 	hasMarksButton: PropTypes.bool.isRequired,
 	hasEditButton: PropTypes.bool,
+	hasAIButton: PropTypes.bool,
+	hasAIFixes: PropTypes.bool,
 	buttonIdMarks: PropTypes.string.isRequired,
 	buttonIdEdit: PropTypes.string,
 	pressed: PropTypes.bool.isRequired,
@@ -168,6 +181,7 @@ AnalysisResult.propTypes = {
 	] ),
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
+	renderAIFixesButton: PropTypes.func,
 };
 
 AnalysisResult.defaultProps = {
@@ -177,6 +191,7 @@ AnalysisResult.defaultProps = {
 	editButtonClassName: "",
 	hasBetaBadgeLabel: false,
 	hasEditButton: false,
+	hasAIFixes: false,
 	buttonIdEdit: "",
 	ariaLabelEdit: "",
 	onButtonClickEdit: noop,
@@ -186,6 +201,7 @@ AnalysisResult.defaultProps = {
 	marker: noop,
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: noop,
+	renderAIFixesButton: noop,
 };
 
 export default AnalysisResult;

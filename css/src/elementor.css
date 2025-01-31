@@ -44,8 +44,7 @@
 	font-weight: 400;
 }
 
-.elementor-panel .elementor-tab-control-yoast-tab a:before,
-.elementor-panel .elementor-tab-control-yoast-tab span:before,
+.elementor-tab-control-yoast-seo-tab span:before,
 .yoast-element-menu-icon:before {
 	mask-image: var(--yoast-svg-icon-yoast);
 	-webkit-mask-image: var(--yoast-svg-icon-yoast);
@@ -54,14 +53,8 @@
 	height: 16px;
 	width: 16px;
 	margin: 0 auto;
-
-	/*
-	Content should contain some text, because that's how Elementor spaces their nav.
-	Set color to transparent because we don't wan't to see the before's text.
-	*/
-	content: ".";
-	color: transparent;
-	background-color: #6d7882;
+	content: " ";
+	background-color: currentColor;
 }
 
 .yoast-element-menu-icon {
@@ -71,12 +64,9 @@
 .yoast-element-menu-icon:before {
 	height: 19px;
 	width: 19px;
-	background-color: #a4afb7;
 }
 
 .yoast-elementor-panel__fills {
-	margin-top: 10px;
-	padding: 5px 5px 0 5px;
 	color: var(--yoast-color-dark);
 	background-color: var(--yoast-color-white);
 	-webkit-font-smoothing: subpixel-antialiased;
@@ -200,53 +190,71 @@
 }
 
 /* Introduction message */
-#yoast-introduction {
+
+.yoast-elementor-introduction {
 	position: absolute !important;
-	top: 5px!important;
-	left: 41px!important;
 	z-index: 1;
 	background-color: #fff;
-	border-radius: 3px;
 	box-shadow: var(--yoast-shadow-default);
 	text-align: left;
 	padding: 20px;
 }
 
-#yoast-introduction::before {
+#yoast-introduction {
+	top: 5px!important;
+	left: 41px!important;
+	border-radius: 3px;
+}
+
+#yoast-introduction-editor-v2 {
+	border: solid 1px black;
+	border-radius: 8px;
+}
+
+.yoast-elementor-introduction::before {
 	content: "";
 	position: absolute;
+	border: solid transparent;
+}
+
+#yoast-introduction::before {
 	left: -12px;
 	top: 8px;
-	border: solid transparent;
-	border-width: 7px 5px;
 	border-bottom-color: #fff;
+	border-width: 7px 5px;
 	transform: rotate(-90deg);
 }
 
-#yoast-introduction > div {
+#yoast-introduction-editor-v2::before {
+	left: var(--yoast-elementor-introduction-arrow, 28%);
+	top: -20px;
+	border-width: 10px 8px;
+	border-bottom-color: black;
+}
+
+.yoast-elementor-introduction > div {
 	color: var(--yoast-color-default);
 }
 
-#yoast-introduction > .dialog-header {
+.yoast-elementor-introduction > .dialog-header {
 	font-weight: var(--yoast-font-weight-bold);
 	line-height: 1.3;
 }
 
-#yoast-introduction > .dialog-message {
+.yoast-elementor-introduction > .dialog-message {
 	margin-top: 0.5em;
 }
 
-#yoast-introduction > .dialog-buttons-wrapper {
+.yoast-elementor-introduction > .dialog-buttons-wrapper {
 	display: flex;
 	justify-content: flex-end;
 	margin-top: 12px;
 }
 
-#yoast-introduction .dialog-button {
+#yoast-introduction .dialog-button, #yoast-introduction-editor-v2 .dialog-button {
 	background-color: var(--yoast-color-primary);
 	padding: 7px 17px;
 	font-size: 12px;
-	text-transform: capitalize;
 }
 
 /* All hover effects */

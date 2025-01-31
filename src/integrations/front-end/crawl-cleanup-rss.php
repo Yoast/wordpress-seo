@@ -30,7 +30,7 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array The conditionals.
+	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
@@ -43,11 +43,11 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		if ( $this->is_true( 'remove_feed_global' ) ) {
-			\add_action( 'feed_links_show_posts_feed', '__return_false' );
+			\add_filter( 'feed_links_show_posts_feed', '__return_false' );
 		}
 
 		if ( $this->is_true( 'remove_feed_global_comments' ) ) {
-			\add_action( 'feed_links_show_comments_feed', '__return_false' );
+			\add_filter( 'feed_links_show_comments_feed', '__return_false' );
 		}
 
 		\add_action( 'wp', [ $this, 'maybe_disable_feeds' ] );
@@ -60,15 +60,26 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 	 * @return void
 	 */
 	public function maybe_disable_feeds() {
-		if ( ( \is_singular() && $this->is_true( 'remove_feed_post_comments' ) )
-			|| ( \is_author() && $this->is_true( 'remove_feed_authors' ) )
-			|| ( \is_category() && $this->is_true( 'remove_feed_categories' ) )
-			|| ( \is_tag() && $this->is_true( 'remove_feed_tags' ) )
-			|| ( \is_tax() && $this->is_true( 'remove_feed_custom_taxonomies' ) )
-			|| ( \is_post_type_archive() && $this->is_true( 'remove_feed_post_types' ) )
-			|| ( \is_search() && $this->is_true( 'remove_feed_search' ) )
-		) {
-			\remove_action( 'wp_head', 'feed_links_extra', 3 );
+		if ( $this->is_true( 'remove_feed_post_comments' ) ) {
+			\add_filter( 'feed_links_extra_show_post_comments_feed', '__return_false' );
+		}
+		if ( $this->is_true( 'remove_feed_authors' ) ) {
+			\add_filter( 'feed_links_extra_show_author_feed', '__return_false' );
+		}
+		if ( $this->is_true( 'remove_feed_categories' ) ) {
+			\add_filter( 'feed_links_extra_show_category_feed', '__return_false' );
+		}
+		if ( $this->is_true( 'remove_feed_tags' ) ) {
+			\add_filter( 'feed_links_extra_show_tag_feed', '__return_false' );
+		}
+		if ( $this->is_true( 'remove_feed_custom_taxonomies' ) ) {
+			\add_filter( 'feed_links_extra_show_tax_feed', '__return_false' );
+		}
+		if ( $this->is_true( 'remove_feed_post_types' ) ) {
+			\add_filter( 'feed_links_extra_show_post_type_archive_feed', '__return_false' );
+		}
+		if ( $this->is_true( 'remove_feed_search' ) ) {
+			\add_filter( 'feed_links_extra_show_search_feed', '__return_false' );
 		}
 	}
 

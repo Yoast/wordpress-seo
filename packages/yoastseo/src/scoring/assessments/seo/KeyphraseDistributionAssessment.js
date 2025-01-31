@@ -1,5 +1,4 @@
-import { __, sprintf } from "@wordpress/i18n";
-import { merge } from "lodash";
+import { mapValues, merge } from "lodash";
 
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
@@ -26,6 +25,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @param {number} [config.scores.consideration]    The score to return if there are no keyword occurrences.
 	 * @param {string} [config.urlTitle]                The URL to the article about this assessment.
 	 * @param {string} [config.urlCallToAction]         The URL to the help article for this assessment.
+	 * @param {object} [config.callbacks] 				The callbacks to use for the assessment.
+	 * @param {function} [config.callbacks.getResultTexts]	The function that returns the result texts.
 	 *
 	 * @returns {void}
 	 */
@@ -45,14 +46,11 @@ class KeyphraseDistributionAssessment extends Assessment {
 			},
 			urlTitle: "https://yoa.st/33q",
 			urlCallToAction: "https://yoa.st/33u",
+			callbacks: {},
 		};
 
 		this.identifier = "keyphraseDistribution";
 		this._config = merge( defaultConfig, config );
-
-		// Creates an anchor opening tag for the shortlinks.
-		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
-		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
 	}
 
 	/**
@@ -73,7 +71,9 @@ class KeyphraseDistributionAssessment extends Assessment {
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 		assessmentResult.setHasMarks( calculatedResult.hasMarks );
-
+		if ( calculatedResult.score < 9 ) {
+			assessmentResult.setHasAIFixes( true );
+		}
 		return assessmentResult;
 	}
 
@@ -85,22 +85,18 @@ class KeyphraseDistributionAssessment extends Assessment {
 	calculateResult() {
 		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
 		const hasMarks = this._keyphraseDistribution.sentencesToHighlight.length > 0;
+		const {
+			good: goodResultText,
+			okay: okayResultText,
+			bad: badResultText,
+			consideration: considerationResultText,
+		} = this.getFeedbackStrings();
 
 		if ( distributionScore === 100 ) {
 			return {
 				score: this._config.scores.consideration,
 				hasMarks: hasMarks,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
-					%3$s expands to the anchor end tag */
-					__(
-						"%1$sKeyphrase distribution%3$s: %2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s.",
-						"wordpress-seo-premium"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
+				resultText: considerationResultText,
 			};
 		}
 
@@ -108,17 +104,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				hasMarks: hasMarks,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
-					%3$s expands to the anchor end tag */
-					__(
-						"%1$sKeyphrase distribution%3$s: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
-						"wordpress-seo-premium"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
+				resultText: badResultText,
 			};
 		}
 
@@ -128,33 +114,48 @@ class KeyphraseDistributionAssessment extends Assessment {
 			return {
 				score: this._config.scores.okay,
 				hasMarks: hasMarks,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to links to Yoast.com articles,
-					%3$s expands to the anchor end tag */
-					__(
-						"%1$sKeyphrase distribution%3$s: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
-						"wordpress-seo-premium"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
+				resultText: okayResultText,
 			};
 		}
 
 		return {
 			score: this._config.scores.good,
 			hasMarks: hasMarks,
-			resultText: sprintf(
-				/* translators: %1$s expands to links to Yoast.com articles, %2$s expands to the anchor end tag */
-				__(
-					"%1$sKeyphrase distribution%2$s: Good job!",
-					"wordpress-seo-premium"
-				),
-				this._config.urlTitle,
-				"</a>"
-			),
+			resultText: goodResultText,
 		};
+	}
+
+	/**
+	 * Gets the feedback strings for the keyphrase distribution assessment.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
+	 * The callback function should return an object with the following properties:
+	 * - good: string
+	 * - okay: string
+	 * - bad: string
+	 * - consideration: string
+	 *
+	 * @returns {{good: string, okay: string, bad: string, consideration: string}} The feedback strings.
+	 */
+	getFeedbackStrings() {
+		// `urlTitleAnchorOpeningTag` represents the anchor opening tag with the URL to the article about this assessment.
+		const urlTitleAnchorOpeningTag = createAnchorOpeningTag( this._config.urlTitle );
+		// `urlActionAnchorOpeningTag` represents the anchor opening tag with the URL for the call to action.
+		const urlActionAnchorOpeningTag = createAnchorOpeningTag( this._config.urlCallToAction );
+
+		if ( ! this._config.callbacks.getResultTexts ) {
+			const defaultResultTexts = {
+				good: "%1$sKeyphrase distribution%3$s: Good job!",
+				okay: "%1$sKeyphrase distribution%3$s: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
+				bad: "%1$sKeyphrase distribution%3$s: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
+				consideration: "%1$sKeyphrase distribution%3$s: %2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s.",
+			};
+			return mapValues(
+				defaultResultTexts,
+				( resultText ) => this.formatResultText( resultText, urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag )
+			);
+		}
+
+		return this._config.callbacks.getResultTexts( { urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag } );
 	}
 
 	/**

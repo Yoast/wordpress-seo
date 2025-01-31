@@ -306,7 +306,11 @@ final class Schema_Generator_Test extends TestCase {
 									'@type'       => 'EntryPoint',
 									'urlTemplate' => '?s={search_term_string}',
 								],
-								'query-input' => 'required name=search_term_string',
+								'query-input' => [
+									'@type'          => 'PropertyValueSpecification',
+									'valueRequired'  => true,
+									'valueName'      => 'search_term_string',
+								],
 							],
 						],
 						'inLanguage'      => 'English',
@@ -394,7 +398,11 @@ final class Schema_Generator_Test extends TestCase {
 									'@type'       => 'EntryPoint',
 									'urlTemplate' => '?s={search_term_string}',
 								],
-								'query-input' => 'required name=search_term_string',
+								'query-input' => [
+									'@type'          => 'PropertyValueSpecification',
+									'valueRequired'  => true,
+									'valueName'      => 'search_term_string',
+								],
 							],
 						],
 						'inLanguage'      => 'English',
@@ -422,8 +430,8 @@ final class Schema_Generator_Test extends TestCase {
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
-			'post_date_gmt'     => 'date',
-			'post_modified_gmt' => 'date',
+			'post_date_gmt'     => '2024-12-13 09:58:08',
+			'post_modified_gmt' => '2024-12-13 09:58:09',
 		];
 		$this->context->has_image                  = false;
 
@@ -440,9 +448,15 @@ final class Schema_Generator_Test extends TestCase {
 
 		$this->date
 			->expects( 'format' )
-			->twice()
-			->with( 'date' )
-			->andReturn( 'date' );
+			->once()
+			->with( '2024-12-13 09:58:08' )
+			->andReturn( '2024-12-13 09:58:08' );
+
+		$this->date
+			->expects( 'format' )
+			->once()
+			->with( '2024-12-13 09:58:09' )
+			->andReturn( '2024-12-13 09:58:09' );
 
 		Monkey\Functions\expect( 'is_search' )
 			->andReturn( false );
@@ -621,8 +635,8 @@ final class Schema_Generator_Test extends TestCase {
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
-			'post_date_gmt'     => 'date',
-			'post_modified_gmt' => 'date',
+			'post_date_gmt'     => '2024-12-13 09:58:08',
+			'post_modified_gmt' => '2024-12-13 09:58:09',
 		];
 		$this->context->has_image                  = false;
 
@@ -639,9 +653,15 @@ final class Schema_Generator_Test extends TestCase {
 
 		$this->date
 			->expects( 'format' )
-			->twice()
-			->with( 'date' )
-			->andReturn( 'date' );
+			->once()
+			->with( '2024-12-13 09:58:08' )
+			->andReturn( '2024-12-13 09:58:08' );
+
+		$this->date
+			->expects( 'format' )
+			->once()
+			->with( '2024-12-13 09:58:09' )
+			->andReturn( '2024-12-13 09:58:09' );
 
 		Monkey\Functions\expect( 'is_search' )
 			->andReturn( false );
@@ -686,8 +706,8 @@ final class Schema_Generator_Test extends TestCase {
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
-			'post_date_gmt'     => 'date',
-			'post_modified_gmt' => 'date',
+			'post_date_gmt'     => '2024-12-13 09:58:08',
+			'post_modified_gmt' => '2024-12-13 09:58:09',
 		];
 		$this->context->has_image                  = false;
 
@@ -704,9 +724,15 @@ final class Schema_Generator_Test extends TestCase {
 
 		$this->date
 			->expects( 'format' )
-			->twice()
-			->with( 'date' )
-			->andReturn( 'date' );
+			->once()
+			->with( '2024-12-13 09:58:08' )
+			->andReturn( '2024-12-13 09:58:08' );
+
+		$this->date
+			->expects( 'format' )
+			->once()
+			->with( '2024-12-13 09:58:09' )
+			->andReturn( '2024-12-13 09:58:09' );
 
 		Monkey\Functions\expect( 'is_search' )
 			->andReturn( false );
@@ -735,7 +761,11 @@ final class Schema_Generator_Test extends TestCase {
 								'@type'       => 'EntryPoint',
 								'urlTemplate' => '?s={search_term_string}',
 							],
-							'query-input' => 'required name=search_term_string',
+							'query-input' => [
+								'@type'          => 'PropertyValueSpecification',
+								'valueRequired'  => true,
+								'valueName'      => 'search_term_string',
+							],
 						],
 					],
 					'inLanguage'      => 'English',
@@ -759,7 +789,11 @@ final class Schema_Generator_Test extends TestCase {
 							'@type'       => 'EntryPoint',
 							'urlTemplate' => '?s={search_term_string}',
 						],
-						'query-input' => 'required name=search_term_string',
+						'query-input' => [
+							'@type'          => 'PropertyValueSpecification',
+							'valueRequired'  => true,
+							'valueName'      => 'search_term_string',
+						],
 					],
 				],
 				'inLanguage'      => 'English',
@@ -786,8 +820,8 @@ final class Schema_Generator_Test extends TestCase {
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
-			'post_date_gmt'     => 'date',
-			'post_modified_gmt' => 'date',
+			'post_date_gmt'     => '2024-12-13 09:58:08',
+			'post_modified_gmt' => '2024-12-13 09:58:09',
 		];
 		$this->context->has_image                  = false;
 
@@ -804,9 +838,15 @@ final class Schema_Generator_Test extends TestCase {
 
 		$this->date
 			->expects( 'format' )
-			->twice()
-			->with( 'date' )
-			->andReturn( 'date' );
+			->once()
+			->with( '2024-12-13 09:58:08' )
+			->andReturn( '2024-12-13 09:58:08' );
+
+		$this->date
+			->expects( 'format' )
+			->once()
+			->with( '2024-12-13 09:58:09' )
+			->andReturn( '2024-12-13 09:58:09' );
 
 		Monkey\Functions\expect( 'is_search' )
 			->andReturn( false );
@@ -838,7 +878,11 @@ final class Schema_Generator_Test extends TestCase {
 								'@type'       => 'EntryPoint',
 								'urlTemplate' => '?s={search_term_string}',
 							],
-							'query-input' => 'required name=search_term_string',
+							'query-input' => [
+								'@type'          => 'PropertyValueSpecification',
+								'valueRequired'  => true,
+								'valueName'      => 'search_term_string',
+							],
 						],
 					],
 					'inLanguage'      => 'English',
@@ -859,7 +903,11 @@ final class Schema_Generator_Test extends TestCase {
 							'@type'       => 'EntryPoint',
 							'urlTemplate' => '?s={search_term_string}',
 						],
-						'query-input' => 'required name=search_term_string',
+						'query-input' => [
+							'@type'          => 'PropertyValueSpecification',
+							'valueRequired'  => true,
+							'valueName'      => 'search_term_string',
+						],
 					],
 				],
 				'inLanguage'      => 'English',
@@ -881,8 +929,8 @@ final class Schema_Generator_Test extends TestCase {
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
-			'post_date_gmt'     => 'date',
-			'post_modified_gmt' => 'date',
+			'post_date_gmt'     => '2024-12-13 09:58:08',
+			'post_modified_gmt' => '2024-12-13 09:58:09',
 		];
 		$this->context->has_image                  = false;
 
@@ -893,9 +941,15 @@ final class Schema_Generator_Test extends TestCase {
 
 		$this->date
 			->expects( 'format' )
-			->twice()
-			->with( 'date' )
-			->andReturn( 'date' );
+			->once()
+			->with( '2024-12-13 09:58:08' )
+			->andReturn( '2024-12-13 09:58:08' );
+
+		$this->date
+			->expects( 'format' )
+			->once()
+			->with( '2024-12-13 09:58:09' )
+			->andReturn( '2024-12-13 09:58:09' );
 
 		Monkey\Functions\expect( 'is_search' )
 			->andReturn( false );
@@ -944,7 +998,11 @@ final class Schema_Generator_Test extends TestCase {
 									'@type'       => 'EntryPoint',
 									'urlTemplate' => '?s={search_term_string}',
 								],
-								'query-input' => 'required name=search_term_string',
+								'query-input' => [
+									'@type'          => 'PropertyValueSpecification',
+									'valueRequired'  => true,
+									'valueName'      => 'search_term_string',
+								],
 							],
 						],
 						'inLanguage'      => 'English',
@@ -1057,13 +1115,90 @@ final class Schema_Generator_Test extends TestCase {
 									'@type'       => 'EntryPoint',
 									'urlTemplate' => 'https://fake.url/?s={search_term_string}',
 								],
-								'query-input' => 'required name=search_term_string',
+								'query-input' => [
+									'@type'          => 'PropertyValueSpecification',
+									'valueRequired'  => true,
+									'valueName'      => 'search_term_string',
+								],
 							],
 						],
 						'inLanguage'      => 'English',
 					],
 				],
 			],
+			$this->instance->generate( $this->context )
+		);
+	}
+
+	/**
+	 * Tests with the generate with a post page that was published with schedule (aka, has a modified date earlier than a published date).
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::get_graph_pieces
+	 *
+	 * @return void
+	 */
+	public function test_get_graph_pieces_on_scheduled_post() {
+		$this->stubEscapeFunctions();
+		$this->current_page->expects( 'is_paged' )->andReturns( false );
+
+		$this->context->alternate_site_name        = '';
+		$this->context->indexable->object_type     = 'post';
+		$this->context->indexable->object_sub_type = 'post';
+		$this->context->post                       = (object) [
+			'post_date_gmt'     => '2024-12-13 09:58:08',
+			'post_modified_gmt' => '2024-12-13 09:58:07',
+		];
+		$this->context->has_image                  = false;
+
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->with( $this->context->post )
+			->andReturnFalse();
+
+		$this->article
+			->expects( 'is_author_supported' )
+			->twice()
+			->with( 'post' )
+			->andReturnFalse();
+
+		$this->date
+			->expects( 'format' )
+			->once()
+			->with( '2024-12-13 09:58:08' )
+			->andReturn( '2024-12-13 09:58:08' );
+
+		Monkey\Functions\expect( 'is_search' )
+			->andReturn( false );
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->andReturnTrue();
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->times( 3 )
+			->andReturnArg( 0 );
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
+
+		Monkey\Actions\expectDone( 'wpseo_pre_schema_block_type_yoast/faq-block' )
+			->with( $this->context->blocks['yoast/faq-block'], $this->context );
+
+		Monkey\Filters\expectApplied( 'wpseo_schema_needs_faq' )
+			->with( true );
+
+		$this->current_page->expects( 'is_home_static_page' )->andReturns( false );
+		$this->current_page->expects( 'is_home_posts_page' )->andReturns( false );
+
+		$expected_schema = $this->get_expected_schema();
+		unset( $expected_schema['@graph'][0]['dateModified'] );
+
+		$this->assertEquals(
+			$expected_schema,
 			$this->instance->generate( $this->context )
 		);
 	}
@@ -1100,8 +1235,8 @@ final class Schema_Generator_Test extends TestCase {
 							'@id' => '#id-1',
 						],
 					],
-					'datePublished'   => 'date',
-					'dateModified'    => 'date',
+					'datePublished'   => '2024-12-13 09:58:08',
+					'dateModified'    => '2024-12-13 09:58:09',
 				],
 				[
 					'@type'           => 'WebSite',
@@ -1116,7 +1251,11 @@ final class Schema_Generator_Test extends TestCase {
 								'@type'       => 'EntryPoint',
 								'urlTemplate' => '?s={search_term_string}',
 							],
-							'query-input' => 'required name=search_term_string',
+							'query-input' => [
+								'@type'          => 'PropertyValueSpecification',
+								'valueRequired'  => true,
+								'valueName'      => 'search_term_string',
+							],
 						],
 					],
 					'inLanguage'      => 'English',

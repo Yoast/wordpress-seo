@@ -27,7 +27,6 @@ import refreshAnalysis, { initializationDone } from "../analysis/refreshAnalysis
 import collectAnalysisData from "../analysis/collectAnalysisData";
 import PostDataCollector from "../analysis/PostDataCollector";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
-import getTranslations from "../analysis/getTranslations";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
@@ -52,7 +51,6 @@ import isBlockEditor from "../helpers/isBlockEditor";
 
 const {
 	setFocusKeyword,
-	setMarkerStatus,
 	updateData,
 	setCornerstoneContent,
 	refreshSnippetEditor,
@@ -248,7 +246,6 @@ export default function initPostScraper( $, store, editorData ) {
 			marker: getApplyMarks( store ),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
-			hasSnippetPreview: false,
 			debouncedRefresh: false,
 			// eslint-disable-next-line new-cap
 			researcher: new window.yoast.Researcher.default(),
@@ -276,10 +273,6 @@ export default function initPostScraper( $, store, editorData ) {
 
 		titleElement = $( "#title" );
 
-		const translations = getTranslations();
-		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
-			args.translations = translations;
-		}
 		return args;
 	}
 
@@ -364,24 +357,6 @@ export default function initPostScraper( $, store, editorData ) {
 				},
 			} );
 		}
-	}
-
-	/**
-	 * Toggles the markers status in the state, based on the editor mode.
-	 *
-	 * @param {string} editorMode The editor mode.
-	 * @param {Object} store      The store to update.
-	 *
-	 * @returns {void}
-	 */
-	function toggleMarkers( editorMode, store ) {
-		if ( editorMode === "visual" ) {
-			store.dispatch( setMarkerStatus( "enabled" ) );
-
-			return;
-		}
-
-		store.dispatch( setMarkerStatus( "disabled" ) );
 	}
 
 	/**
@@ -573,9 +548,6 @@ export default function initPostScraper( $, store, editorData ) {
 
 		if ( isBlockEditor() ) {
 			let editorMode = getEditorMode();
-
-			toggleMarkers( editorMode, store );
-
 			subscribe( () => {
 				const currentEditorMode = getEditorMode();
 
@@ -584,7 +556,6 @@ export default function initPostScraper( $, store, editorData ) {
 				}
 
 				editorMode = currentEditorMode;
-				toggleMarkers( editorMode, store );
 			} );
 		}
 

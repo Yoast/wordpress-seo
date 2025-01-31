@@ -31,12 +31,14 @@ export default class InclusiveLanguageAssessment {
 	 * 									and `%2$s` (and potentially further replacements) for the suggested alternative(s).
 	 * @param {string} config.learnMoreUrl The URL to an article explaining more about this specific assessment.
 	 * @param {function} [config.rule] A potential additional rule for targeting the non-inclusive phrases.
+	 * @param {string} [config.ruleDescription] A description of the rule.
 	 * @param {boolean} [config.caseSensitive=false] If the inclusive phrase is case-sensitive, defaults to `false`.
+	 * @param {string} [config.category] The category of the assessment.
 	 *
 	 * @returns {void}
 	 */
 	constructor( { identifier, nonInclusivePhrases, inclusiveAlternatives,
-					 score, feedbackFormat, learnMoreUrl, rule, caseSensitive, category } ) {
+		score, feedbackFormat, learnMoreUrl, rule, ruleDescription, caseSensitive, category } ) {
 		this.identifier = identifier;
 		this.nonInclusivePhrases = nonInclusivePhrases;
 		this.inclusiveAlternatives = inclusiveAlternatives;
@@ -48,6 +50,7 @@ export default class InclusiveLanguageAssessment {
 		this.learnMoreUrl = createAnchorOpeningTag( learnMoreUrl );
 
 		this.rule = rule || includesConsecutiveWords;
+		this.ruleDescription = ruleDescription;
 		this.caseSensitive = caseSensitive || false;
 		this.category = category;
 	}

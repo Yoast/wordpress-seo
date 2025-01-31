@@ -34,6 +34,7 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 			onClose: jest.fn(),
 			onAuthentication: jest.fn(),
 			location: "metabox",
+			newRequest: jest.fn(),
 		};
 	} );
 
@@ -57,17 +58,6 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 			fireEvent.click( openModalButton );
 
 			expect( props.onOpenWithNoKeyphrase ).toHaveBeenCalled();
-		} );
-	} );
-
-	describe( "onModalClose", () => {
-		it( "successfully calls the close method", async() => {
-			render( <SEMrushRelatedKeyphrasesModal { ...props } keyphrase="yoast seo" isLoggedIn={ true } whichModalOpen="metabox" /> );
-
-			const closeModalButton = screen.getByLabelText( "Close dialog" );
-			fireEvent.click( closeModalButton );
-
-			expect( props.onClose ).toHaveBeenCalled();
 		} );
 	} );
 

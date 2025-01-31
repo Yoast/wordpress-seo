@@ -8,6 +8,20 @@ import Mark from "../../../../src/values/Mark.js";
 const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
 
 describe( "An assessment to check the keyphrase distribution in the text", function() {
+	it( "returns `hasAIFixes` to be true when the result is not good", function() {
+		const mockPaper = new Paper( "a string", { keyword: "keyword" } );
+		const assessment = keyphraseDistributionAssessment.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( {
+				keyphraseDistributionScore: 100,
+				sentencesToHighlight: [],
+			} )
+		);
+
+		expect( assessment.getScore() ).toEqual( 0 );
+		expect( assessment.hasAIFixes() ).toBeTruthy();
+	} );
+
 	it( "returns a 'consideration' score when no keyword occurs", function() {
 		const mockPaper = new Paper( "a string", { keyword: "keyword" } );
 		const assessment = keyphraseDistributionAssessment.getResult(
@@ -233,5 +247,26 @@ describe( "A test for marking keywords in the text", function() {
 				} )
 		);
 		expect( keyphraseDistributionAssessment.getMarks() ).toEqual( [] );
+	} );
+} );
+
+describe( "a test for retrieving the feedback texts", () => {
+	it( "should return the custom feedback texts when `callbacks.getResultTexts` is provided", () => {
+		const assessment = new KeyphraseDistributionAssessment( {
+			callbacks: {
+				getResultTexts: () => ( {
+					good: "The text has a good keyphrase distribution.",
+					okay: "Some parts of your text do not contain the keyphrase or its synonyms. Distribute them more evenly.",
+					bad: "Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. Distribute them more evenly.",
+					consideration: "Include your keyphrase or its synonyms in the text so that we can check keyphrase distribution.",
+				} ),
+			},
+		} );
+		expect( assessment.getFeedbackStrings() ).toEqual( {
+			good: "The text has a good keyphrase distribution.",
+			okay: "Some parts of your text do not contain the keyphrase or its synonyms. Distribute them more evenly.",
+			bad: "Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. Distribute them more evenly.",
+			consideration: "Include your keyphrase or its synonyms in the text so that we can check keyphrase distribution.",
+		} );
 	} );
 } );

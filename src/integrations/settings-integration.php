@@ -6,12 +6,12 @@ use WP_Post;
 use WP_Post_Type;
 use WP_Taxonomy;
 use WP_User;
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Editor_Specific_Replace_Vars;
 use WPSEO_Admin_Recommended_Replace_Vars;
 use WPSEO_Option_Titles;
 use WPSEO_Options;
-use WPSEO_Plugin_Availability;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Sitemaps_Router;
@@ -60,7 +60,6 @@ class Settings_Integration implements Integration_Interface {
 			'myyoast-oauth',
 			'semrush_tokens',
 			'custom_taxonomy_slugs',
-			'zapier_subscription',
 			'import_cursors',
 			'workouts_data',
 			'configuration_finished_steps',
@@ -258,10 +257,18 @@ class Settings_Integration implements Integration_Interface {
 
 		// Are we saving the settings?
 		if ( $this->current_page_helper->get_current_admin_page() === 'options.php' ) {
-			// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged -- This deprecation will be addressed later.
-			$post_action = \filter_input( \INPUT_POST, 'action', @\FILTER_SANITIZE_STRING );
-			$option_page = \filter_input( \INPUT_POST, 'option_page', @\FILTER_SANITIZE_STRING );
-			// phpcs:enable
+			$post_action = '';
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
+			if ( isset( $_POST['action'] ) && \is_string( $_POST['action'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information.
+				$post_action = \wp_unslash( $_POST['action'] );
+			}
+			$option_page = '';
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
+			if ( isset( $_POST['option_page'] ) && \is_string( $_POST['option_page'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information.
+				$option_page = \wp_unslash( $_POST['option_page'] );
+			}
 
 			if ( $post_action === 'update' && $option_page === self::PAGE ) {
 				\add_action( 'admin_init', [ $this, 'register_setting' ] );
@@ -371,7 +378,7 @@ class Settings_Integration implements Integration_Interface {
 		\wp_enqueue_media();
 		$this->asset_manager->enqueue_script( 'new-settings' );
 		$this->asset_manager->enqueue_style( 'new-settings' );
-		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
 			$this->asset_manager->enqueue_style( 'black-friday-banner' );
 		}
 		$this->asset_manager->localize_script( 'new-settings', 'wpseoScriptData', $this->get_script_data() );
@@ -438,6 +445,7 @@ class Settings_Integration implements Integration_Interface {
 			'taxonomies'                     => $transformed_taxonomies,
 			'fallbacks'                      => $this->get_fallbacks(),
 			'showNewContentTypeNotification' => $show_new_content_type_notification,
+			'currentPromotions'              => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 		];
 	}
 
@@ -454,9 +462,8 @@ class Settings_Integration implements Integration_Interface {
 		$page_on_front            = \get_option( 'page_on_front' );
 		$page_for_posts           = \get_option( 'page_for_posts' );
 
-		$wpseo_plugin_availability_checker = new WPSEO_Plugin_Availability();
-		$woocommerce_seo_file              = 'wpseo-woocommerce/wpseo-woocommerce.php';
-		$woocommerce_seo_active            = $wpseo_plugin_availability_checker->is_active( $woocommerce_seo_file );
+		$addon_manager          = new WPSEO_Addon_Manager();
+		$woocommerce_seo_active = \is_plugin_active( $addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) );
 
 		if ( empty( $page_on_front ) ) {
 			$page_on_front = $page_for_posts;
@@ -482,7 +489,6 @@ class Settings_Integration implements Integration_Interface {
 			'isLocalSeoActive'              => \defined( 'WPSEO_LOCAL_FILE' ),
 			'isNewsSeoActive'               => \defined( 'WPSEO_NEWS_FILE' ),
 			'isWooCommerceSEOActive'        => $woocommerce_seo_active,
-			'promotions'                    => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 			'siteUrl'                       => \get_bloginfo( 'url' ),
 			'siteTitle'                     => \get_bloginfo( 'name' ),
 			'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
@@ -965,7 +971,7 @@ class Settings_Integration implements Integration_Interface {
 			$route = \substr( $route, 1 );
 		}
 
-		return \rawurlencode( $route );
+		return $route;
 	}
 
 	/**

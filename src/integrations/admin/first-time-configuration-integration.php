@@ -9,6 +9,7 @@ use WPSEO_Option_Tab;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
@@ -137,12 +138,11 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 */
 	public function enqueue_assets() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
-		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_dashboard' || \is_network_admin() ) {
+		if ( ! isset( $_GET['page'] ) || ( $_GET['page'] !== 'wpseo_dashboard' && $_GET['page'] !== General_Page_Integration::PAGE ) || \is_network_admin() ) {
 			return;
 		}
 
 		$this->admin_asset_manager->enqueue_script( 'indexation' );
-		$this->admin_asset_manager->enqueue_script( 'first-time-configuration' );
 		$this->admin_asset_manager->enqueue_style( 'first-time-configuration' );
 		$this->admin_asset_manager->enqueue_style( 'admin-css' );
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
@@ -225,7 +225,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 			],
 		];
 
-		$this->admin_asset_manager->localize_script( 'first-time-configuration', 'wpseoFirstTimeConfigurationData', $data_ftc );
+		$this->admin_asset_manager->localize_script( 'general-page', 'wpseoFirstTimeConfigurationData', $data_ftc );
 	}
 
 	/**

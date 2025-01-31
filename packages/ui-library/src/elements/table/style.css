@@ -1,0 +1,59 @@
+@layer components {
+	.yst-root {
+		.yst-table-wrapper {
+			table {
+				@apply yst-min-w-full;
+
+				.yst-table-header {
+					@apply yst-px-3 yst-py-4 yst-text-start yst-text-sm yst-font-semibold yst-text-slate-900;
+				}
+
+				.yst-table-cell {
+					@apply yst-px-3 yst-py-4 yst-text-sm yst-text-slate-600;
+				}
+			}
+		}
+
+		.yst-table--default {
+			@apply yst-rounded-lg yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5;
+
+			table {
+				@apply yst-divide-y yst-divide-slate-300;
+
+				thead {
+					@apply yst-bg-slate-50;
+
+					.yst-table-header {
+						@apply first:yst-rounded-ss-lg last:yst-rounded-se-lg;
+					}
+				}
+
+				tbody {
+					@apply yst-divide-y yst-divide-gray-200 yst-bg-white;
+				}
+
+				.yst-table-row:last-of-type .yst-table-cell {
+					@apply first:yst-rounded-es-lg last:yst-rounded-ee-lg;
+				}
+			}
+		}
+
+		.yst-table--minimal {
+			table {
+				@apply yst-divide-y yst-divide-slate-300;
+
+				.yst-table-header {
+					@apply yst-align-bottom yst-py-2;
+				}
+
+				.yst-table-cell {
+					@apply yst-py-2;
+				}
+
+				tbody {
+					@apply yst-divide-y yst-divide-gray-200 yst-bg-white;
+				}
+			}
+		}
+	}
+}

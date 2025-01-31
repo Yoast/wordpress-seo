@@ -112,9 +112,8 @@ class Deactivated_Premium_Integration implements Integration_Interface {
                     'action': 'dismiss_premium_deactivated_notice',
                     };
 
-                    jQuery.post( ajaxurl, data, function( response ) {
-                        jQuery( '#yoast-premium-deactivated-notice' ).hide();
-                    });
+                    jQuery( '#yoast-premium-deactivated-notice' ).hide();
+                    jQuery.post( ajaxurl, data, function( response ) {});
                 }
 
                 jQuery( document ).ready( function() {

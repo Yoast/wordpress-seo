@@ -31,6 +31,12 @@ module.exports = {
 					800: "#83084e",
 					900: "#770045",
 				},
+				analysis: {
+					good: "#7ad03a",
+					ok: "#ee7c1b",
+					bad: "#dc3232",
+					na: "#cbd5e1",
+				},
 			},
 			strokeWidth: {
 				3: "3px",
@@ -39,6 +45,7 @@ module.exports = {
 	},
 	important: true,
 	plugins: [
+		require( "@tailwindcss/container-queries" ),
 		require( "@tailwindcss/forms" )( {
 			strategy: "class",
 		} ),

@@ -2,7 +2,9 @@ import { applyFilters } from "@wordpress/hooks";
 import {
 	cloneDeep,
 	merge,
+	get,
 } from "lodash";
+import { serialize } from "@wordpress/blocks";
 
 import measureTextWidth from "../helpers/measureTextWidth";
 import getContentLocale from "./getContentLocale";
@@ -11,6 +13,24 @@ import getWritingDirection from "./getWritingDirection";
 import { Paper } from "yoastseo";
 
 /* eslint-disable complexity */
+/**
+ * Maps the Gutenberg blocks to a format that can be used in the analysis.
+ *
+ * @param {object[]} blocks The Gutenberg blocks.
+ * @returns {object[]} The mapped Gutenberg blocks.
+ */
+export const mapGutenbergBlocks = ( blocks ) => {
+	blocks = blocks.filter( block => block.isValid );
+	blocks = blocks.map( block => {
+		const serializedBlock = serialize( [ block ], { isInnerBlocks: false } );
+		block.blockLength = serializedBlock && serializedBlock.length;
+		if ( block.innerBlocks ) {
+			block.innerBlocks = mapGutenbergBlocks( block.innerBlocks );
+		}
+		return block;
+	} );
+	return blocks;
+};
 
 /**
  * Retrieves the data needed for the analyses.
@@ -38,7 +58,7 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	let blocks = null;
 	if ( blockEditorDataModule ) {
 		blocks = blockEditorDataModule.getBlocks() || [];
-		blocks = blocks.filter( block => block.isValid );
+		blocks = mapGutenbergBlocks( blocks );
 	}
 
 	// Make a data structure for the paper data.
@@ -77,6 +97,7 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	data.shortcodes = window.wpseoScriptData.analysis.plugins.shortcodes
 		? window.wpseoScriptData.analysis.plugins.shortcodes.wpseo_shortcode_tags
 		: [];
+	data.isFrontPage = get( window, "wpseoScriptData.isFrontPage", "0" ) === "1";
 
 	return Paper.parse( applyFilters( "yoast.analysis.data", data ) );
 }

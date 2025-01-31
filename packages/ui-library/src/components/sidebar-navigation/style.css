@@ -7,5 +7,107 @@
 		.yst-mobile-navigation__dialog {
 			@apply yst-fixed yst-inset-0 yst-flex yst-z-50;
 		}
+
+		.yst-sidebar-navigation__sidebar, .yst-mobile-navigation__dialog {
+			/* Initializing the variable here instead of on the list, as one of these should always exist. */
+			--yst-menu-text-color: theme('colors.slate.800');
+		}
+
+		.yst-sidebar-navigation__list {
+			/* Due to the ring falling outside of the size, we need some spacing. */
+			@apply yst-space-y-0.5;
+
+		}
+
+		.yst-sidebar-navigation__list--indented {
+			@apply yst-ms-8;
+			--yst-menu-text-color: theme('colors.slate.600');
+		}
+
+		.yst-sidebar-navigation__item--active {
+			&.yst-sidebar-navigation__link, &.yst-sidebar-navigation__collapsible-button {
+				@apply yst-text-slate-900 yst-bg-slate-200 !important;
+			}
+
+			.yst-sidebar-navigation__icon {
+				@apply yst-text-slate-500;
+			}
+		}
+
+		.yst-sidebar-navigation__item {
+			@apply yst-list-none;
+
+			/* Due to the ring falling outside of the size, we need some spacing. */
+			@apply yst-space-y-0.5;
+
+			&:first-child {
+				@apply yst-mt-0.5;
+			}
+		}
+
+		.yst-sidebar-navigation__collapsible ~ .yst-sidebar-navigation__collapsible {
+			/* Due to the ring falling outside of the size, we need some spacing. This is the fallback for if not nested in a list. */
+			@apply yst-mt-1;
+		}
+
+		.yst-sidebar-navigation__collapsible-button {
+			@apply
+			yst-flex
+			yst-w-full
+			yst-justify-center
+			yst-items-center
+			yst-gap-x-3
+			yst-py-2
+			yst-px-3
+			yst-no-underline
+			yst-cursor-pointer
+			yst-rounded-md
+			yst-text-sm
+			yst-font-medium
+			yst-text-[var(--yst-menu-text-color)]
+
+			hover:yst-text-slate-900
+			hover:yst-bg-slate-50
+
+			focus:yst-outline-none
+			focus:yst-ring-2
+			focus:yst-ring-primary-500
+			;
+		}
+
+		.yst-sidebar-navigation__link {
+			@apply
+			yst-flex
+			yst-py-2
+			yst-px-3
+			yst-items-center
+			yst-no-underline
+			yst-text-sm
+			yst-font-medium
+			yst-rounded-md
+			yst-text-[var(--yst-menu-text-color)]
+
+			hover:yst-text-slate-900
+			hover:yst-bg-slate-50
+
+			focus:yst-outline-none
+			focus:yst-ring-1
+			focus:yst-ring-offset-1
+			focus:yst-ring-offset-transparent
+			focus:yst-ring-primary-500;
+		}
+
+		a.yst-sidebar-navigation__link {
+			/* Override anchor defaults that conflict. */
+			@apply
+			focus:yst-text-[var(--yst-menu-text-color)]
+			focus:yst-rounded-md
+			visited:yst-text-[var(--yst-menu-text-color)]
+			visited:hover:yst-text-slate-900;
+		}
+
+		.yst-sidebar-navigation__icon {
+			@apply yst-flex-shrink-0 yst-text-slate-400 group-hover:yst-text-slate-500;
+		}
 	}
 }

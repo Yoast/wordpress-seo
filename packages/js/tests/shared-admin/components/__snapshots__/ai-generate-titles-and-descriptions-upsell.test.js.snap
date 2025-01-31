@@ -1,0 +1,244 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AiGenerateTitlesAndDescriptionsUpsell renders the component correctly for custom props 1`] = `
+<div>
+  <div
+    class="yst-px-10 yst-pt-10 yst-introduction-gradient yst-text-center"
+  >
+    <div
+      class="yst-relative yst-w-full"
+    >
+      <div
+        class="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white"
+      >
+        <div
+          class="yst-absolute yst-w-full yst-h-full yst-top-0 yst-right-0"
+        >
+          <div
+            class="wistia_embed wistia_async_vmrahpfjxp videoFoam=true"
+          />
+        </div>
+      </div>
+      <span
+        class="yst-badge yst-badge--info yst-absolute yst-top-2 yst-end-4"
+      >
+        Beta
+      </span>
+    </div>
+    <div
+      class="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center"
+    >
+      <span
+        class="yst-introduction-modal-uppercase yst-flex yst-gap-2 yst-items-center"
+      >
+        <span
+          class="yst-logo-icon"
+        />
+        Custon new to text
+      </span>
+    </div>
+  </div>
+  <div
+    class="yst-px-10 yst-pb-4 yst-flex yst-flex-col yst-items-center"
+  >
+    <div
+      class="yst-mt-4 yst-mx-1.5 yst-text-center"
+    >
+      <h3
+        class="yst-text-slate-900 yst-text-lg yst-font-medium"
+      >
+        Custom title
+      </h3>
+      <div
+        class="yst-mt-2 yst-text-slate-600 yst-text-sm"
+      >
+        Let AI do some of the thinking for you and help you save time. Get high-quality suggestions for product titles and meta descriptions to make your content rank high and look good on social media. 
+        <a
+          class="yst-link yst-link--primary yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
+          href="https://example.com/learn-more"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Learn more
+          <svg
+            aria-hidden="true"
+            class="yst-w-4 yst-h-4 rtl:yst-rotate-180"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+              fill-rule="evenodd"
+            />
+          </svg>
+          <span
+            class="yst-sr-only"
+          >
+            (Opens in a new browser tab)
+          </span>
+        </a>
+      </div>
+    </div>
+    <div
+      class="yst-w-full yst-flex yst-mt-10"
+    >
+      <a
+        class="yst-button yst-button--upsell yst-button--extra-large yst-grow"
+        href="https://example.com/upsell"
+        target="_blank"
+      >
+        <svg
+          aria-hidden="true"
+          class="yst--ms-1 yst-me-2 yst-h-5 yst-w-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Test Upsell Label
+        <span
+          class="yst-sr-only"
+        >
+          (Opens in a new browser tab)
+        </span>
+      </a>
+    </div>
+    Custom bundle note
+    <a
+      class="yst-button yst-button--tertiary yst-mt-4"
+    >
+      Close
+    </a>
+  </div>
+</div>
+`;
+
+exports[`AiGenerateTitlesAndDescriptionsUpsell renders the component correctly for default props 1`] = `
+<div>
+  <div
+    class="yst-px-10 yst-pt-10 yst-introduction-gradient yst-text-center"
+  >
+    <div
+      class="yst-relative yst-w-full"
+    >
+      <div
+        class="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white"
+      >
+        <div
+          class="yst-absolute yst-w-full yst-h-full yst-top-0 yst-right-0"
+        >
+          <div
+            class="wistia_embed wistia_async_vmrahpfjxp videoFoam=true"
+          />
+        </div>
+      </div>
+      <span
+        class="yst-badge yst-badge--info yst-absolute yst-top-2 yst-end-4"
+      >
+        Beta
+      </span>
+    </div>
+    <div
+      class="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center"
+    >
+      <span
+        class="yst-introduction-modal-uppercase yst-flex yst-gap-2 yst-items-center"
+      >
+        <span
+          class="yst-logo-icon"
+        />
+        Yoast SEO Premium
+      </span>
+    </div>
+  </div>
+  <div
+    class="yst-px-10 yst-pb-4 yst-flex yst-flex-col yst-items-center"
+  >
+    <div
+      class="yst-mt-4 yst-mx-1.5 yst-text-center"
+    >
+      <h3
+        class="yst-text-slate-900 yst-text-lg yst-font-medium"
+      >
+        Use AI to write your titles & meta descriptions!
+      </h3>
+      <div
+        class="yst-mt-2 yst-text-slate-600 yst-text-sm"
+      >
+        Let AI do some of the thinking for you and help you save time. Get high-quality suggestions for titles and meta descriptions to make your content rank high and look good on social media. 
+        <a
+          class="yst-link yst-link--primary yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
+          href="https://example.com/learn-more"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Learn more
+          <svg
+            aria-hidden="true"
+            class="yst-w-4 yst-h-4 rtl:yst-rotate-180"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+              fill-rule="evenodd"
+            />
+          </svg>
+          <span
+            class="yst-sr-only"
+          >
+            (Opens in a new browser tab)
+          </span>
+        </a>
+      </div>
+    </div>
+    <div
+      class="yst-w-full yst-flex yst-mt-10"
+    >
+      <a
+        class="yst-button yst-button--upsell yst-button--extra-large yst-grow"
+        href="https://example.com/upsell"
+        target="_blank"
+      >
+        <svg
+          aria-hidden="true"
+          class="yst--ms-1 yst-me-2 yst-h-5 yst-w-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Test Upsell Label
+        <span
+          class="yst-sr-only"
+        >
+          (Opens in a new browser tab)
+        </span>
+      </a>
+    </div>
+    <a
+      class="yst-button yst-button--tertiary yst-mt-4"
+    >
+      Close
+    </a>
+  </div>
+</div>
+`;

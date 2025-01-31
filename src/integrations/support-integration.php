@@ -133,7 +133,7 @@ class Support_Integration implements Integration_Interface {
 		\remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		$this->asset_manager->enqueue_script( 'support' );
 		$this->asset_manager->enqueue_style( 'support' );
-		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
 			$this->asset_manager->enqueue_style( 'black-friday-banner' );
 		}
 		$this->asset_manager->localize_script( 'support', 'wpseoScriptData', $this->get_script_data() );
@@ -158,17 +158,17 @@ class Support_Integration implements Integration_Interface {
 	 */
 	public function get_script_data() {
 		return [
-			'preferences'   => [
+			'preferences'       => [
 				'isPremium'      => $this->product_helper->is_premium(),
 				'isRtl'          => \is_rtl(),
-				'promotions'     => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 				'pluginUrl'      => \plugins_url( '', \WPSEO_FILE ),
 				'upsellSettings' => [
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
 			],
-			'linkParams'    => $this->shortlink_helper->get_query_params(),
+			'linkParams'        => $this->shortlink_helper->get_query_params(),
+			'currentPromotions' => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 		];
 	}
 }

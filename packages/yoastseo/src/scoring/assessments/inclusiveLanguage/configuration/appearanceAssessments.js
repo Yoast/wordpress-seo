@@ -1,10 +1,11 @@
-import { potentiallyHarmful,
-	potentiallyHarmfulUnless,
+import { redHarmful,
+	orangeUnlessSomeoneWants,
 	preferredDescriptorIfKnown,
-} from "./feedbackStrings";
+} from "./feedbackStrings/generalFeedbackStrings";
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
+import { nonInclusiveWhenStandalone } from "../helpers/createRuleDescriptions";
 
 const appearanceAssessments = [
 	{
@@ -12,18 +13,19 @@ const appearanceAssessments = [
 		nonInclusivePhrases: [ "albinos" ],
 		inclusiveAlternatives: "<i>people with albinism, albino people</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnless,
+		feedbackFormat: orangeUnlessSomeoneWants,
 	},
 	{
 		identifier: "anAlbino",
 		nonInclusivePhrases: [ "an albino" ],
 		inclusiveAlternatives: "<i>person with albinism, albino person</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnless,
+		feedbackFormat: orangeUnlessSomeoneWants,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
+		ruleDescription: nonInclusiveWhenStandalone,
 	},
 	{
 		identifier: "obese",
@@ -31,7 +33,7 @@ const appearanceAssessments = [
 		inclusiveAlternatives: "<i>has a higher weight, " +
 			"higher-weight person, person in higher weight body, heavier person</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnown ].join( " " ),
+		feedbackFormat: [ orangeUnlessSomeoneWants, preferredDescriptorIfKnown ].join( " " ),
 	},
 	{
 		identifier: "obesitySingular",
@@ -39,7 +41,7 @@ const appearanceAssessments = [
 		inclusiveAlternatives: "<i>person who has a higher weight, " +
 			"higher-weight person, person in higher weight body, heavier person</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnown ].join( " " ),
+		feedbackFormat: [ orangeUnlessSomeoneWants, preferredDescriptorIfKnown ].join( " " ),
 	},
 	{
 		identifier: "obesityPlural",
@@ -47,35 +49,35 @@ const appearanceAssessments = [
 		inclusiveAlternatives: "<i>people who have a higher weight, " +
 			"higher-weight people, people in higher weight bodies, heavier people</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnless ].join( " " ),
+		feedbackFormat: [ orangeUnlessSomeoneWants ].join( " " ),
 	},
 	{
 		identifier: "verticallyChallenged",
 		nonInclusivePhrases: [ "vertically challenged" ],
 		inclusiveAlternatives: "<i>little person, has short stature, someone with dwarfism</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "midget",
 		nonInclusivePhrases: [ "midget" ],
 		inclusiveAlternatives: "<i>little person, has short stature, someone with dwarfism</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "midgets",
 		nonInclusivePhrases: [ "midgets" ],
 		inclusiveAlternatives: "<i>little people, have short stature, people with dwarfism</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 	{
 		identifier: "harelip",
 		nonInclusivePhrases: [ "harelip" ],
 		inclusiveAlternatives: "<i>cleft lip, cleft palate</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: redHarmful,
 	},
 ];
 

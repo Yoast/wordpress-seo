@@ -192,7 +192,6 @@ const WincherNetworkErrorAlert = () => {
 			{
 				sprintf(
 					__(
-						// eslint-disable-next-line max-len
 						"Network Error: Unable to connect to the server. Please check your internet connection and try again later.",
 						"wordpress-seo"
 					)
@@ -219,7 +218,6 @@ const WincherConnectSuccessAlert = ( props ) => {
 					sprintf(
 						/* translators: %1$s and %2$s: Expands to "Wincher". */
 						__(
-							// eslint-disable-next-line max-len
 							"You have successfully connected with %1$s. Your %2$s account does not contain any keyphrases for this website yet. You can track keyphrases by using the \"Track SEO Performance\" button in the post editor.",
 							"wordpress-seo"
 						),
@@ -237,7 +235,6 @@ const WincherConnectSuccessAlert = ( props ) => {
 				sprintf(
 					/* translators: %s: Expands to "Wincher". */
 					__(
-						// eslint-disable-next-line max-len
 						"You have successfully connected with %s.",
 						"wordpress-seo"
 					),
@@ -354,15 +351,7 @@ const TableExplanation = ( { isLoggedIn } ) => {
 							)
 						}
 					</WincherAccountLink>,
-					wincherLink: <WincherLink href={ wpseoAdminGlobalL10n[ "links.wincher.about" ] }>
-						{
-							sprintf(
-								/* translators: %s : Expands to "Wincher". */
-								__( "%s", "wordpress-seo" ),
-								"Wincher"
-							)
-						}
-					</WincherLink>,
+					wincherLink: <WincherLink href={ wpseoAdminGlobalL10n[ "links.wincher.about" ] }>Wincher</WincherLink>,
 				},
 			} )
 		}

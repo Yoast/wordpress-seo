@@ -1,17 +1,15 @@
 import MissingArgument from "../src/errors/missingArgument.js";
-import SnippetPreview from "../src/snippetPreview/snippetPreview.js";
 import App from "../src/app.js";
+import Factory from "../src/helpers/factory";
 
 // Mock these function to prevent us from needing an actual DOM in the tests.
-App.prototype.createSnippetPreview = function() {};
 App.prototype.showLoadingDialog = function() {};
 App.prototype.updateLoadingDialog = function() {};
 App.prototype.removeLoadingDialog = function() {};
-App.prototype.initSnippetPreview = function() {};
 App.prototype.runAnalyzer = function() {};
 
 // Makes lodash think this is a valid HTML element
-var mockElement = [];
+const mockElement = [];
 mockElement.nodeType = 1;
 
 global.document = {};
@@ -19,15 +17,15 @@ document.getElementById = function() {
 	return mockElement;
 };
 
+const researcher = Factory.buildMockResearcher( {}, true, false );
+
 describe( "Creating an App", function() {
 	it( "throws an error when no args are given", function() {
-		expect( App ).toThrowError( MissingArgument );
+		expect( () => new App() ).toThrowError( MissingArgument );
 	} );
 
 	it( "throws on an empty args object", function() {
-		expect( function() {
-			new App( {} );
-		} ).toThrowError( MissingArgument );
+		expect( () => new App( {} ) ).toThrowError( MissingArgument );
 	} );
 
 	it( "throws on an invalid targets argument", function() {
@@ -53,35 +51,15 @@ describe( "Creating an App", function() {
 		} ).toThrowError( MissingArgument );
 	} );
 
-	it( "throws on a missing snippet preview", function() {
+	it( "throws on a missing researcher argument", function() {
 		expect( function() {
 			new App( {
 				targets: {
+					snippet: "snippetID",
 					output: "outputID",
-				},
-				callbacks: {
-					getData: () => {
-						return {};
-					},
 				},
 			} );
 		} ).toThrowError( MissingArgument );
-	} );
-
-	it( "accepts a Snippet Preview object", function() {
-		new App( {
-			targets: {
-				output: "outputID",
-			},
-			callbacks: {
-				getData: () => {
-					return {};
-				},
-			},
-			snippetPreview: new SnippetPreview( {
-				targetElement: mockElement,
-			} ),
-		} );
 	} );
 
 	it( "should work without an output ID", function() {
@@ -94,6 +72,7 @@ describe( "Creating an App", function() {
 					return {};
 				},
 			},
+			researcher: researcher,
 		} );
 	} );
 
@@ -108,6 +87,7 @@ describe( "Creating an App", function() {
 					return {};
 				},
 			},
+			researcher: researcher,
 		} );
 	} );
 } );

@@ -77,7 +77,6 @@ class WPSEO_Meta {
 	 *            Array format:
 	 *                (required)       'type'          => (string) field type. i.e. text / textarea / checkbox /
 	 *                                                    radio / select / multiselect / upload etc.
-	 *                (required)       'title'         => (string) table row title.
 	 *                (recommended)    'default_value' => (string|array) default value for the field.
 	 *                                                    IMPORTANT:
 	 *                                                    - if the field has options, the default has to be the
@@ -94,11 +93,7 @@ class WPSEO_Meta {
 	 *                (optional)        'autocomplete' => (bool) whether autocomplete is on for text fields,
 	 *                                                    defaults to true.
 	 *                (optional)        'class'        => (string) classname(s) to add to the actual <input> tag.
-	 *                (optional)        'description'  => (string) description to show underneath the field.
-	 *                (optional)        'expl'         => (string) label for a checkbox.
-	 *                (optional)        'help'         => (string) help text to show on mouse over ? image.
 	 *                (optional)        'rows'         => (int) number of rows for a textarea, defaults to 3.
-	 *                (optional)        'placeholder'  => (string) Currently only used by add-on plugins.
 	 *                (optional)        'serialized'   => (bool) whether the value is expected to be serialized,
 	 *                                                     i.e. an array or object, defaults to false.
 	 *                                                     Currently only used by add-on plugins.
@@ -111,105 +106,79 @@ class WPSEO_Meta {
 			],
 			'title' => [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // Translation added later.
-				'help'          => '', // Translation added later.
 			],
 			'metadesc' => [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'class'         => 'metadesc',
 				'rows'          => 2,
-				'description'   => '', // Translation added later.
-				'help'          => '', // Translation added later.
 			],
 			'linkdex' => [
 				'type'          => 'hidden',
-				'title'         => 'linkdex',
 				'default_value' => '0',
-				'description'   => '',
 			],
 			'content_score' => [
 				'type'          => 'hidden',
-				'title'         => 'content_score',
 				'default_value' => '0',
-				'description'   => '',
 			],
 			'inclusive_language_score' => [
 				'type'          => 'hidden',
-				'title'         => 'inclusive_language_score',
 				'default_value' => '0',
-				'description'   => '',
 			],
 			'is_cornerstone' => [
 				'type'          => 'hidden',
-				'title'         => 'is_cornerstone',
 				'default_value' => 'false',
-				'description'   => '',
 			],
 		],
 		'advanced' => [
 			'meta-robots-noindex'  => [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '0', // = post-type default.
 				'options'       => [
-					'0' => '', // Post type default - translation added later.
-					'2' => '', // Index - translation added later.
-					'1' => '', // No-index - translation added later.
+					'0' => '', // Post type default.
+					'2' => '', // Index.
+					'1' => '', // No-index.
 				],
 			],
 			'meta-robots-nofollow' => [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '0', // = follow.
 				'options'       => [
-					'0' => '', // Follow - translation added later.
-					'1' => '', // No-follow - translation added later.
+					'0' => '', // Follow.
+					'1' => '', // No-follow.
 				],
 			],
 			'meta-robots-adv'      => [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // Translation added later.
 				'options'       => [
-					'noimageindex' => '', // Translation added later.
-					'noarchive'    => '', // Translation added later.
-					'nosnippet'    => '', // Translation added later.
+					'noimageindex' => '',
+					'noarchive'    => '',
+					'nosnippet'    => '',
 				],
 			],
 			'bctitle'              => [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // Translation added later.
 			],
 			'canonical'            => [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // Translation added later.
 			],
 			'redirect'             => [
 				'type'          => 'url',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // Translation added later.
 			],
 		],
 		'social'   => [],
 		'schema'   => [
 			'schema_page_type'    => [
 				'type'    => 'hidden',
-				'title'   => '',
 				'options' => Schema_Types::PAGE_TYPES,
 			],
 			'schema_article_type' => [
 				'type'          => 'hidden',
-				'title'         => '',
 				'hide_on_pages' => true,
 				'options'       => Schema_Types::ARTICLE_TYPES,
 			],
@@ -217,10 +186,6 @@ class WPSEO_Meta {
 		/* Fields we should validate & save, but not show on any form. */
 		'non_form' => [
 			'linkdex' => [
-				'type'          => null,
-				'default_value' => '0',
-			],
-			'zapier_trigger_sent' => [
 				'type'          => null,
 				'default_value' => '0',
 			],
@@ -275,13 +240,11 @@ class WPSEO_Meta {
 	 */
 	public static function init() {
 		foreach ( self::$social_networks as $option => $network ) {
-			if ( WPSEO_Options::get( $option, false ) === true ) {
+			if ( WPSEO_Options::get( $option, false, [ 'wpseo_social' ] ) === true ) {
 				foreach ( self::$social_fields as $box => $type ) {
 					self::$meta_fields['social'][ $network . '-' . $box ] = [
 						'type'          => $type,
-						'title'         => '', // Translation added later.
 						'default_value' => '',
-						'description'   => '', // Translation added later.
 					];
 				}
 			}
@@ -370,13 +333,6 @@ class WPSEO_Meta {
 				if ( $post_type === '' ) {
 					return [];
 				}
-
-				/* Adjust the no-index text strings based on the post type. */
-				$post_type_object = get_post_type_object( $post_type );
-
-				$field_defs['meta-robots-noindex']['title']        = sprintf( $field_defs['meta-robots-noindex']['title'], $post_type_object->labels->singular_name );
-				$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( WPSEO_Options::get( 'noindex-' . $post_type, false ) === true ) ? $field_defs['meta-robots-noindex']['options']['1'] : $field_defs['meta-robots-noindex']['options']['2'] ), $post_type_object->label );
-				$field_defs['meta-robots-nofollow']['title']       = sprintf( $field_defs['meta-robots-nofollow']['title'], $post_type_object->labels->singular_name );
 
 				/* Don't show the breadcrumb title field if breadcrumbs aren't enabled. */
 				if ( WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
