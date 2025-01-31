@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Paper, Table, Title } from "@yoast/ui-library";
+import { Table } from "@yoast/ui-library";
 import { SCORE_META } from "../scores/score-meta";
 
 /**
@@ -51,25 +51,17 @@ const TableRow = ( { children, index } ) => {
 /**
  * The Site Kit table component.
  *
- * @param {string} title The table title.
  * @param {JSX.Element} children The table rows.
  *
  * @returns {JSX.Element} The element.
  */
-export const TableWidget = ( { title, children } ) => {
-	return (
-		<Paper className="yst-grow yst-p-8 yst-shadow-md yst-mt-6">
-			<Title as="h3" size="2" className="yst-text-slate-900 yst-font-medium">
-				{ title }
-			</Title>
-			<div className="yst-overflow-auto">
-				<Table variant="minimal">
-					{ children }
-				</Table>
-			</div>
-		</Paper>
-	);
-};
+export const TableWidget = ( { children } ) => (
+	<div className="yst-overflow-auto">
+		<Table variant="minimal">
+			{ children }
+		</Table>
+	</div>
+);
 
 TableWidget.Head = TableHead;
 TableWidget.Row = TableRow;
@@ -77,4 +69,3 @@ TableWidget.ScoreBullet = ScoreBullet;
 TableWidget.Cell = Table.Cell;
 TableWidget.Header = Table.Header;
 TableWidget.Body = Table.Body;
-

@@ -1,9 +1,32 @@
 import { __ } from "@wordpress/i18n";
 import { TableWidget } from "./table-widget";
+import { ArrowRightIcon } from "@heroicons/react/solid";
+import { Button, Paper, Title } from "@yoast/ui-library";
+import { InfoTooltip } from "./info-tooltip";
 
 /**
  * @type {import("../index").MostPopularContent} Most popular content
  */
+
+const Info = ( { link } ) => (
+	<>
+		<p>
+			{ __(
+				"The top 5 URLs on your website with the highest number of clicks. ",
+				"wordpress-seo"
+			) }
+		</p>
+		<Button
+			variant="tertiary"
+			href={ link }
+			className="yst-px-0 yst-flex yst-gap-1.5"
+		>
+			{ __( "Learn more", "wordpress-seo" ) }
+			<ArrowRightIcon className="yst-w-4 yst-h-4 yst-me-1" />
+		</Button>
+	</>
+);
+
 
 /**
  * The top 5 most popular content table component.
@@ -12,35 +35,46 @@ import { TableWidget } from "./table-widget";
  *
  * @returns {JSX.Element} The element.
  */
-export const MostPopularTable = ( { data } ) => {
-	return <TableWidget title={ __( "Top 5 most popular content", "wordpress-seo" ) }>
-		<TableWidget.Head>
-			<TableWidget.Header>{ __( "Landing page", "wordpress-seo" ) }</TableWidget.Header>
-			<TableWidget.Header className="yst-text-end">{ __( "Clicks", "wordpress-seo" ) }</TableWidget.Header>
-			<TableWidget.Header className="yst-text-end">{ __( "Impressions", "wordpress-seo" ) }</TableWidget.Header>
-			<TableWidget.Header className="yst-text-end">{ __( "CTR", "wordpress-seo" ) }</TableWidget.Header>
-			<TableWidget.Header  className="yst-text-end">
-				{ __( "Average position", "wordpress-seo" ) }
-			</TableWidget.Header>
-			<TableWidget.Header className="yst-text-center">
-				<div className="yst-flex yst-justify-end yst-items-end">
-					<div className="yst-flex yst-justify-center yst-w-16">
-						{ __( "SEO score", "wordpress-seo" ) }
+export const MostPopularTable = ( { data, learnMoreLink } ) => {
+	return <Paper className="yst-grow yst-p-8 yst-shadow-md yst-mt-6">
+		<div className="yst-flex yst-justify-between">
+			<Title as="h3" size="2" className="yst-text-slate-900 yst-font-medium">
+				{ __( "Top 5 most popular content", "wordpress-seo" ) }
+			</Title>
+			<InfoTooltip>
+				<Info link={ learnMoreLink } />
+			</InfoTooltip>
+		</div>
+
+		<TableWidget>
+			<TableWidget.Head>
+				<TableWidget.Header>{ __( "Landing page", "wordpress-seo" ) }</TableWidget.Header>
+				<TableWidget.Header className="yst-text-end">{ __( "Clicks", "wordpress-seo" ) }</TableWidget.Header>
+				<TableWidget.Header className="yst-text-end">{ __( "Impressions", "wordpress-seo" ) }</TableWidget.Header>
+				<TableWidget.Header className="yst-text-end">{ __( "CTR", "wordpress-seo" ) }</TableWidget.Header>
+				<TableWidget.Header  className="yst-text-end">
+					{ __( "Average position", "wordpress-seo" ) }
+				</TableWidget.Header>
+				<TableWidget.Header className="yst-text-center">
+					<div className="yst-flex yst-justify-end yst-items-end">
+						<div className="yst-flex yst-justify-center yst-w-16">
+							{ __( "SEO score", "wordpress-seo" ) }
+						</div>
 					</div>
-				</div>
-			</TableWidget.Header>
-		</TableWidget.Head>
-		<TableWidget.Body>
-			{ data.map( ( { subject, clicks, impressions, ctr, averagePosition, seoScore }, index ) => (
-				<TableWidget.Row key={ `most-popular-content-${ index }` } index={ index }>
-					<TableWidget.Cell className="yst-text-slate-900 yst-font-medium">{ subject }</TableWidget.Cell>
-					<TableWidget.Cell className="yst-text-end">{ clicks }</TableWidget.Cell>
-					<TableWidget.Cell className="yst-text-end">{ impressions }</TableWidget.Cell>
-					<TableWidget.Cell className="yst-text-end">{ ctr }</TableWidget.Cell>
-					<TableWidget.Cell className="yst-text-end">{ averagePosition }</TableWidget.Cell>
-					<TableWidget.Cell><TableWidget.ScoreBullet score={ seoScore } /></TableWidget.Cell>
-				</TableWidget.Row>
-			) ) }
-		</TableWidget.Body>
-	</TableWidget>;
+				</TableWidget.Header>
+			</TableWidget.Head>
+			<TableWidget.Body>
+				{ data.map( ( { subject, clicks, impressions, ctr, averagePosition, seoScore }, index ) => (
+					<TableWidget.Row key={ `most-popular-content-${ index }` } index={ index }>
+						<TableWidget.Cell className="yst-text-slate-900 yst-font-medium">{ subject }</TableWidget.Cell>
+						<TableWidget.Cell className="yst-text-end">{ clicks }</TableWidget.Cell>
+						<TableWidget.Cell className="yst-text-end">{ impressions }</TableWidget.Cell>
+						<TableWidget.Cell className="yst-text-end">{ ctr }</TableWidget.Cell>
+						<TableWidget.Cell className="yst-text-end">{ averagePosition }</TableWidget.Cell>
+						<TableWidget.Cell><TableWidget.ScoreBullet score={ seoScore } /></TableWidget.Cell>
+					</TableWidget.Row>
+				) ) }
+			</TableWidget.Body>
+		</TableWidget>
+	</Paper>;
 };
