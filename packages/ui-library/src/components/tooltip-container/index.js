@@ -1,7 +1,7 @@
 import classNames from "classnames";
-import { noop } from "lodash";
+import { noop, debounce } from "lodash";
 import PropTypes from "prop-types";
-import React, { createContext, useCallback, useContext, useRef, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useRef, useEffect, useState, useMemo } from "react";
 import Tooltip from "../../elements/tooltip";
 import { useToggleState } from "../../hooks";
 
@@ -51,8 +51,12 @@ export const TooltipContainer = ( { as: Component = "span", className, children 
 		}
 	}, [ isVisible, hide ] );
 
+	const contextValue = useMemo( () => ( {
+		isVisible, show, hide, tooltipPosition, setTooltipPosition,
+	} ), [ isVisible, show, hide, tooltipPosition ] );
+
 	return (
-		<TooltipContext.Provider value={ { isVisible, show, hide, tooltipPosition, setTooltipPosition } }>
+		<TooltipContext.Provider value={ contextValue }>
 			<Component className={ classNames( "yst-tooltip-container", className ) } onKeyDown={ handleKeyDown }>
 				{ children }
 			</Component>
@@ -83,31 +87,37 @@ export const TooltipTrigger = ( { as: Component = "button", className, children,
 	const triggerRef = useRef();
 
 	useEffect( () => {
-		const rect = triggerRef.current.getBoundingClientRect();
-		const margin = 10;
+		const handleMouseMove = debounce( ( event ) => {
+			const rect = triggerRef.current.getBoundingClientRect();
+			const margin = 10;
+			const extendedRect = {
+				top: rect.top - margin,
+				right: rect.right + margin,
+				bottom: rect.bottom + margin,
+				left: rect.left - margin,
+			};
 
-		const extendedRect = {
-			top: rect.top - margin,
-			right: rect.right + margin,
-			bottom: rect.bottom + margin,
-			left: rect.left - margin,
-		};
-
-		document.addEventListener( "mousemove", ( event ) => {
 			const mouseX = event.clientX;
 			const mouseY = event.clientY;
 			const outsideTooltip = mouseX < tooltipPosition.left ||
-			mouseX > tooltipPosition.right || mouseY < tooltipPosition.top || mouseY > tooltipPosition.bottom;
+				mouseX > tooltipPosition.right || mouseY < tooltipPosition.top || mouseY > tooltipPosition.bottom;
 			const outsideTriggerWithMargin = mouseX < extendedRect.left ||
-			mouseX > extendedRect.right || mouseY < extendedRect.top || mouseY > extendedRect.bottom;
+				mouseX > extendedRect.right || mouseY < extendedRect.top || mouseY > extendedRect.bottom;
+
 			if ( outsideTriggerWithMargin && document.activeElement !== triggerRef.current && outsideTooltip ) {
 				hide();
 			} else {
 				show();
 			}
-		} );
-	}, [ show, hide, triggerRef.current, tooltipPosition, isVisible ] );
+		}, 100 );
 
+		document.addEventListener( "mousemove", handleMouseMove );
+
+		return () => {
+			document.removeEventListener( "mousemove", handleMouseMove );
+			handleMouseMove.cancel();
+		};
+	}, [ show, hide, triggerRef, tooltipPosition, isVisible ] );
 
 	return (
 		<Component
@@ -115,6 +125,7 @@ export const TooltipTrigger = ( { as: Component = "button", className, children,
 			className={ classNames( "yst-tooltip-trigger", className ) }
 			aria-describedby={ ariaDescribedby }
 			aria-disabled={ true }
+			onMouseEnter={ show }
 			{ ...props }
 		>
 			{ children }
