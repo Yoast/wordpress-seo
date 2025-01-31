@@ -5,10 +5,10 @@ describe( "SiteKitSetupWidget", () => {
 	const defaultProps = {
 		installUrl: "https://example.com/install",
 		activateUrl: "https://example.com/activate",
-		isSetupUrl: "https://example.com/isSetup",
+		setupUrl: "https://example.com/isSetup",
 		isConnected: false,
 		isActive: false,
-		isSetup: false,
+		isSetupCompleted: false,
 		isInstalled: false,
 		onRemove: jest.fn(),
 		onRemovePermanently: jest.fn(),
@@ -31,12 +31,12 @@ describe( "SiteKitSetupWidget", () => {
 	} );
 
 	it( "renders the widget with connect button", () => {
-		render( <SiteKitSetupWidget { ...defaultProps } isInstalled={ true } isActive={ true } isSetup={ true } /> );
+		render( <SiteKitSetupWidget { ...defaultProps } isInstalled={ true } isActive={ true } isSetupCompleted={ true } /> );
 		expect( screen.getByText( "Connect Site Kit by Google" ) ).toBeInTheDocument();
 	} );
 
 	it( "renders the widget with dismiss button when connected", () => {
-		render( <SiteKitSetupWidget { ...defaultProps } isInstalled={ true } isActive={ true } isSetup={ true } isConnected={ true } /> );
+		render( <SiteKitSetupWidget { ...defaultProps } isInstalled={ true } isActive={ true } isSetupCompleted={ true } isConnected={ true } /> );
 		expect( screen.getByText( "Dismiss" ) ).toBeInTheDocument();
 	} );
 
