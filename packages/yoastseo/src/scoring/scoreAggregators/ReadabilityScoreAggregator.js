@@ -11,8 +11,6 @@ import ScoreAggregator from "./ScoreAggregator";
  *
  * @type {{ok: number, bad: number, good: number}}
  * @const
- *
- * @memberOf module:parsedPaper/assess
  */
 const PENALTY_MAPPING_FULL_SUPPORT = {
 	bad: 3,
@@ -27,8 +25,6 @@ const PENALTY_MAPPING_FULL_SUPPORT = {
  *
  * @type {{ok: number, bad: number, good: number}}
  * @const
- *
- * @memberOf module:parsedPaper/assess
  */
 const PENALTY_MAPPING_PARTIAL_SUPPORT = {
 	bad: 4,
@@ -41,8 +37,6 @@ const PENALTY_MAPPING_PARTIAL_SUPPORT = {
  *
  * @type {{GOOD: number, OKAY: number, NEEDS_IMPROVEMENT: number, NOT_AVAILABLE: number}}
  * @const
- *
- * @memberOf module:parsedPaper/assess
  */
 export const READABILITY_SCORES = {
 	GOOD: 90,
@@ -61,8 +55,7 @@ const FULLY_SUPPORTED_LANGUAGES = [ "en", "nl", "de", "it", "ru", "fr", "es" ];
 
 /**
  * Aggregates the results of the readability analysis into a single score.
- *
- * @memberOf module:parsedPaper/assess
+ * @extends ScoreAggregator
  */
 class ReadabilityScoreAggregator extends ScoreAggregator {
 	/**

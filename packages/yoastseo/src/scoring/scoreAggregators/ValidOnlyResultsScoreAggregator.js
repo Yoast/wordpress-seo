@@ -2,8 +2,7 @@ import SEOScoreAggregator from "./SEOScoreAggregator";
 
 /**
  * Aggregates SEO assessment results into a single score.
- *
- * @memberOf module:parsedPaper/assess
+ * @extends SEOScoreAggregator
  */
 class ValidOnlyResultsScoreAggregator extends SEOScoreAggregator {
 	/**
