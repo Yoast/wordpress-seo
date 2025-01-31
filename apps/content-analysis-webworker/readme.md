@@ -1,11 +1,16 @@
 # Content analysis web worker
 
-Barebones example web worker to run the YoastSEO content analysis in a separate thread.
+This is a barebones example web worker to run the Yoast SEO content analysis in a separate thread.
 
-To run this code locally you'll need to serve it.
+## Getting started
 
-For example if you have node installed, navigate to the folder containing the code and run:
+You can run this project locally by executing the following commands.
 
+```shell
+yarn        # Install the dependencies.
+yarn build  # Build the project.
+yarn start  # Start the development server.
 ```
-npx lite-server
-```
+
+The server will automatically reload when you make changes to the code inside this app.
+Any changes outside the app (e.g. in the `yoastseo` package) will require a call to `yarn` to reload the dependencies.

@@ -4,12 +4,15 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "yarn --cwd node_modules/yoastseo build",
-    "build": "webpack && cp index.html dist/index.html"
+    "build": "webpack",
+    "start": "webpack-dev-server --open --no-client-overlay"
   },
   "dependencies": {
     "yoastseo": "link:../../packages/yoastseo"
   },
   "devDependencies": {
-    "webpack": "^5.91.0"
+    "html-webpack-plugin": "^5.6.3",
+    "webpack": "^5.97.1",
+    "webpack-dev-server": "^5.2.0"
   }
 }

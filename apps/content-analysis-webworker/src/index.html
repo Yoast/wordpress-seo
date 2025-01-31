@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>Yoast SEO demo as webworker</title>
+	<title>Yoast SEO webworker demo</title>
 	<script src="main.js"></script>
 </head>
 <body>
@@ -15,11 +15,12 @@
 		<textarea id="paper"></textarea>
 		<label for="keyphrase">Keyphrase </label>
 		<input type="text" id="keyphrase" />
-		<input type="button" id="analyze" value="Analyze" />
+		<input type="button" value="Analyze" id="analyze" />
 	</form>
 
 	<h2>Results</h2>
-	<p id="result"></p>
+	<div id="result-div"></div>
+	<pre id="result-pre"></pre>
 </div>
 </body>
 </html>
