@@ -13,7 +13,7 @@ use Brain\Monkey\Functions;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Register_Routes_Test extends Abstract_Site_Kit_Configuration_Permanent_Dismissal_Route_Test {
+final class Site_Kit_Configuration_Permanent_Dismissal_Route_Register_Routes_Test extends Abstract_Site_Kit_Configuration_Permanent_Dismissal_Route_Test {
 
 	/**
 	 * Tests the registration of the routes.

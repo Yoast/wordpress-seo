@@ -13,7 +13,7 @@ use Brain\Monkey\Functions;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Check_Capabilities_Test extends Abstract_Site_Kit_Configuration_Permanent_Dismissal_Route_Test {
+final class Site_Kit_Configuration_Permanent_Dismissal_Route_Check_Capabilities_Test extends Abstract_Site_Kit_Configuration_Permanent_Dismissal_Route_Test {
 
 	/**
 	 * Tests that the capability that is tested for is `administrator`.
