@@ -56,6 +56,11 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
+ * @typedef {Object} MostPopularContentLinks The links.
+ * @property {string} edit The edit link.
+ */
+
+/**
  * @typedef {Object} MostPopularContent The most popular content data.
  * @property {string} subject The landing page.
  * @property {number} clicks The number of clicks.
@@ -63,4 +68,5 @@ export { Dashboard } from "./components/dashboard";
  * @property {number} ctr The click-through rate.
  * @property {number} position The average position.
  * @property {number} seoScore The seo score.
+ * @property {MostPopularContentLinks} links The links.
  */
