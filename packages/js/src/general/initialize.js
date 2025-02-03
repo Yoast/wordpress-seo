@@ -77,6 +77,17 @@ domReady( () => {
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links } );
 	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 
+	const initialWidgets = [ "seoScores", "readabilityScores" ];
+	// If site kit feature is enabled, active and connected: add the top pages widget.
+	if (
+		get( window, "wpseoScriptData.dashboard.siteKitConfiguration.feature_enabled", false ) &&
+		get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isActive", false ) &&
+		// get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isConnected", false )
+		true
+	) {
+		initialWidgets.push( "topPages" );
+	}
+
 	const router = createHashRouter(
 		createRoutesFromElements(
 			<Route path="/" element={ <App /> } errorElement={ <RouteErrorFallback className="yst-m-8" /> }>
@@ -86,7 +97,7 @@ domReady( () => {
 						<SidebarLayout>
 							<Dashboard
 								widgetFactory={ widgetFactory }
-								initialWidgets={ [ "seoScores", "readabilityScores", "topPages" ] }
+								initialWidgets={ initialWidgets }
 								userName={ userName }
 								features={ features }
 								links={ links }
