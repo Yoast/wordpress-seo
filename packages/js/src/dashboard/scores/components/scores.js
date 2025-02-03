@@ -1,7 +1,7 @@
-import { createInterpolateElement, useEffect, useState } from "@wordpress/element";
+import { createInterpolateElement, useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Link, Paper, Title } from "@yoast/ui-library";
-import { useFetch } from "../../fetch/use-fetch";
+import { Alert, Link } from "@yoast/ui-library";
+import { useRemoteData } from "../../services/use-remote-data";
 import { SCORE_DESCRIPTIONS } from "../score-meta";
 import { ContentTypeFilter } from "./content-type-filter";
 import { ScoreContent } from "./score-content";
@@ -13,25 +13,6 @@ import { TermFilter } from "./term-filter";
  * @type {import("../index").Term} Term
  * @type {import("../index").AnalysisType} AnalysisType
  */
-
-/**
- * @param {string|URL} endpoint The endpoint.
- * @param {ContentType} contentType The content type.
- * @param {Term?} [term] The term.
- * @returns {URL} The URL to get scores.
- */
-const createScoresUrl = ( endpoint, contentType, term ) => {
-	const url = new URL( endpoint );
-
-	url.searchParams.set( "contentType", contentType.name );
-
-	if ( contentType.taxonomy?.name && term?.name ) {
-		url.searchParams.set( "taxonomy", contentType.taxonomy.name );
-		url.searchParams.set( "term", term.name );
-	}
-
-	return url;
-};
 
 // Added dummy space as content to prevent children prop warnings in the console.
 const supportLink = <Link variant="error" href="admin.php?page=wpseo_page_support"> </Link>;
@@ -78,42 +59,55 @@ const ErrorAlert = ( { error } ) => {
 };
 
 /**
+ * @param {ContentType?} [contentType] The selected content type.
+ * @param {Term?} [term] The selected term.
+ * @returns {{contentType: string, taxonomy?: string, term?: string}} The score query parameters.
+ */
+const getScoreQueryParams = ( contentType, term ) => { // eslint-disable-line complexity
+	const params = {
+		contentType: contentType?.name,
+	};
+	if ( contentType?.taxonomy?.name && term?.name ) {
+		params.taxonomy = contentType.taxonomy.name;
+		params.term = term.name;
+	}
+
+	return params;
+};
+
+/**
+ * @param {?{scores: Score[]}} [data] The data.
+ * @returns {?Score[]} scores The scores.
+ */
+const prepareScoreData = ( data ) => data?.scores;
+
+/**
  * @param {AnalysisType} analysisType The analysis type. Either "seo" or "readability".
  * @param {ContentType[]} contentTypes The content types. May not be empty.
- * @param {string} endpoint The endpoint or base URL.
- * @param {Object<string,string>} headers The headers to send with the request.
+ * @param {import("../services/data-provider")} dataProvider The data provider.
+ * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
  * @returns {JSX.Element} The element.
  */
-export const Scores = ( { analysisType, contentTypes, endpoint, headers } ) => {
+export const Scores = ( { analysisType, contentTypes, dataProvider, remoteDataProvider } ) => { // eslint-disable-line complexity
 	const [ selectedContentType, setSelectedContentType ] = useState( contentTypes[ 0 ] );
+	/** @type {[Term?, function(Term?)]} */
 	const [ selectedTerm, setSelectedTerm ] = useState();
 
-	const { data: scores, error, isPending } = useFetch( {
-		dependencies: [ selectedContentType.name, selectedContentType?.taxonomy, selectedTerm?.name ],
-		url: createScoresUrl( endpoint, selectedContentType, selectedTerm ),
-		options: {
-			headers: {
-				"Content-Type": "application/json",
-				...headers,
-			},
-		},
-		fetchDelay: 0,
-		prepareData: ( data ) => data?.scores,
-	} );
+	const getScores = useCallback( ( options ) => remoteDataProvider.fetchJson(
+		dataProvider.getEndpoint( analysisType + "Scores" ),
+		getScoreQueryParams( selectedContentType, selectedTerm ),
+		options
+	), [ dataProvider, analysisType, selectedContentType, selectedTerm ] );
+
+	const { data: scores, error, isPending } = useRemoteData( getScores, prepareScoreData );
 
 	useEffect( () => {
 		// Reset the selected term when the selected content type changes.
 		setSelectedTerm( undefined ); // eslint-disable-line no-undefined
-	}, [ selectedContentType.name ] );
+	}, [ selectedContentType?.name ] );
 
 	return (
-		<Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md">
-			<Title as="h2">
-				{ analysisType === "readability"
-					? __( "Readability scores", "wordpress-seo" )
-					: __( "SEO scores", "wordpress-seo" )
-				}
-			</Title>
+		<>
 			<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-2 yst-gap-6 yst-mt-4">
 				<ContentTypeFilter
 					idSuffix={ analysisType }
@@ -141,6 +135,6 @@ export const Scores = ( { analysisType, contentTypes, endpoint, headers } ) => {
 					/>
 				) }
 			</div>
-		</Paper>
+		</>
 	);
 };
