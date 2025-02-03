@@ -58,7 +58,7 @@ const SuccessfullyConnected = () => {
  *
  * @returns {WPElement} The Site Kit integration component.
  */
-export const GoogleSiteKitIntegration = ( { isActive, isSetupCompleted, isInstalled, isConnected, installUrl, activateUrl, setupUrl } ) => {
+export const SiteKitIntegration = ( { isActive, isSetupCompleted, isInstalled, isConnected, installUrl, activateUrl, setupUrl } ) => {
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
 
 	const getButtonProps = useCallback( () => {
@@ -116,7 +116,7 @@ export const GoogleSiteKitIntegration = ( { isActive, isSetupCompleted, isInstal
 	);
 };
 
-GoogleSiteKitIntegration.propTypes = {
+SiteKitIntegration.propTypes = {
 	isActive: PropTypes.bool.isRequired,
 	isSetupCompleted: PropTypes.bool.isRequired,
 	isInstalled: PropTypes.bool.isRequired,
