@@ -14,45 +14,45 @@ import { TermFilter } from "./term-filter";
  * @type {import("../index").AnalysisType} AnalysisType
  */
 
-// Added dummy space as content to prevent children prop warnings in the console.
-const supportLink = <Link variant="error" href="admin.php?page=wpseo_page_support"> </Link>;
-
-const TimeoutErrorMessage = createInterpolateElement(
-	sprintf(
-		/* translators: %1$s and %2$s expand to an opening/closing tag for a link to the support page. */
-		__( "A timeout occurred, possibly due to a large number of posts or terms. In case you need further help, please take a look at our %1$sSupport page%2$s.", "wordpress-seo" ),
-		"<supportLink>",
-		"</supportLink>"
-	),
-	{
-		supportLink,
+/**
+ * @param {string} message The message with placeholders.
+ * @param {JSX.Element} link The link.
+ * @returns {JSX.Element|string} The message.
+ */
+const createLinkMessage = ( message, link ) => {
+	try {
+		return createInterpolateElement( sprintf( message, "<link>", "</link>" ), { link } );
+	} catch ( e ) {
+		return sprintf( message, "", "" );
 	}
-);
-const OtherErrorMessage = createInterpolateElement(
-	sprintf(
-		/* translators: %1$s and %2$s expand to an opening/closing tag for a link to the support page. */
-		__( "Something went wrong. In case you need further help, please take a look at our %1$sSupport page%2$s.", "wordpress-seo" ),
-		"<supportLink>",
-		"</supportLink>"
-	),
-	{
-		supportLink,
-	}
-);
+};
 
 /**
  * @param {Error?} [error] The error.
+ * @param {string} supportLink The support link.
  * @returns {JSX.Element} The element.
  */
-const ErrorAlert = ( { error } ) => {
+const ErrorAlert = ( { error, supportLink } ) => {
 	if ( ! error ) {
 		return null;
 	}
+
+	// Added dummy space as content to prevent children prop warnings in the console.
+	const link = <Link variant="error" href={ supportLink }> </Link>;
+
 	return (
 		<Alert variant="error">
 			{ error?.name === "TimeoutError"
-				? TimeoutErrorMessage
-				: OtherErrorMessage
+				? createLinkMessage(
+					/* translators: %1$s and %2$s expand to an opening/closing tag for a link to the support page. */
+					__( "A timeout occurred, possibly due to a large number of posts or terms. In case you need further help, please take a look at our %1$sSupport page%2$s.", "wordpress-seo" ),
+					link
+				)
+				: createLinkMessage(
+					/* translators: %1$s and %2$s expand to an opening/closing tag for a link to the support page. */
+					__( "Something went wrong. In case you need further help, please take a look at our %1$sSupport page%2$s.", "wordpress-seo" ),
+					link
+				)
 			}
 		</Alert>
 	);
@@ -125,7 +125,7 @@ export const Scores = ( { analysisType, contentTypes, dataProvider, remoteDataPr
 				}
 			</div>
 			<div className="yst-mt-6">
-				<ErrorAlert error={ error } />
+				<ErrorAlert error={ error } supportLink={ dataProvider.getLink( "errorSupport" ) } />
 				{ ! error && (
 					<ScoreContent
 						scores={ scores }

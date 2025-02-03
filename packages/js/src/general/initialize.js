@@ -9,7 +9,7 @@ import { Dashboard } from "../dashboard";
 import { DataProvider } from "../dashboard/services/data-provider";
 import { RemoteDataProvider } from "../dashboard/services/remote-data-provider";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
-import { LINK_PARAMS_NAME } from "../shared-admin/store";
+import { ADMIN_URL_NAME, LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
 import { RouteErrorFallback } from "./components";
 import { ConnectedPremiumUpsellList } from "./components/connected-premium-upsell-list";
@@ -34,6 +34,7 @@ domReady( () => {
 	}
 	registerStore( {
 		initialState: {
+			[ ADMIN_URL_NAME ]: get( window, "wpseoScriptData.adminUrl", "" ),
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
 			[ ALERT_CENTER_NAME ]: { alerts: get( window, "wpseoScriptData.alerts", [] ) },
 			currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
@@ -69,6 +70,7 @@ domReady( () => {
 	/** @type {Links} */
 	const links = {
 		dashboardLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-learn-more" ),
+		errorSupport: select( STORE_NAME ).selectAdminLink( "?page=wpseo_page_support" ),
 	};
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
