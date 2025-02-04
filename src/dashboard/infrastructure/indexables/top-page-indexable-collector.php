@@ -98,6 +98,10 @@ class Top_Page_Indexable_Collector {
 	 * @return string|null The edit link for the top page.
 	 */
 	protected function get_top_page_edit_link( Indexable $indexable ): ?string {
+		if ( ! \current_user_can( 'edit_posts' ) ) {
+			return null;
+		}
+
 		if ( $indexable->object_type === 'post' ) {
 			return \get_edit_post_link( $indexable->object_id, '&' );
 		}
