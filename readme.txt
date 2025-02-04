@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.7
-Stable tag: 24.3
+Stable tag: 24.4
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -278,14 +278,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-02-04
 
+Yoast SEO 24.4 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Bugfixes
 
 * Fixes a bug where editing a link in the block editor would have unexpected consequences when using undo.
 * Fixes a bug where the `article:modified_time` meta tag would show an earlier time than the `article:published_time` meta tag for scheduled posts.
 * Fixes a bug where the Schema type of the product would not be locked when Yoast WooCommerce SEO is enabled.
-* Fixes a bug where users without Yoast WooCommerce SEO are not greeted with the AI upsell when trying to use the AI feature and are actually able to access the feature, if on a non-English site.
 * Fixes a bug where using hyphens at the start or end of a sentence would cripple the content analysis when editing a post.
-* Fixes a bug where Yoast WooCommerce SEO upsell would not render when on a locale that translates the product post label.
 
 = 24.3 =
 
