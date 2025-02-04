@@ -284,7 +284,7 @@ Release date: 2025-02-18
 
 #### Bugfixes
 
-* Fixes deprecation notice thrown by the canonical presenter in environments running PHP >= 8.1. Props to [aanduque](https://github.com/aanduque).
+* Fixes a bug where the canonical presenter would throw a deprecation notice when the environments run PHP >= 8.1. Props to [aanduque](https://github.com/aanduque).
 
 #### Other
 
