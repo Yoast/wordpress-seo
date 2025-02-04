@@ -12,7 +12,7 @@ const Info = ( { link } ) => (
 	<>
 		<p>
 			{ __(
-				"The top 5 URLs on your website with the highest number of clicks. ",
+				"The top 5 URLs on your website with the highest number of clicks.",
 				"wordpress-seo"
 			) }
 		</p>
