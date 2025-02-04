@@ -95,9 +95,7 @@ class Site_Kit_Configuration_Dismissal_Route implements Route_Interface {
 
 			return new WP_REST_Response(
 				[
-					'json' => (object) [
-						'success' => $result,
-					],
+					'success' => $result,
 				],
 				( $result ) ? 200 : 400
 			);
