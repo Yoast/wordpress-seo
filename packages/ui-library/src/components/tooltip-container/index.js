@@ -5,6 +5,9 @@ import React, { createContext, useCallback, useContext, useRef, useEffect, useSt
 import Tooltip from "../../elements/tooltip";
 import { useToggleState } from "../../hooks";
 
+const GRACE_MRGIN = 10;
+const DEBOUNCE_DELAY = 100;
+
 /**
  * @typedef {Object} TooltipContextValue
  * @property {boolean} isVisible Whether the tooltip is visible.
@@ -89,12 +92,11 @@ export const TooltipTrigger = ( { as: Component = "button", className, children,
 	useEffect( () => {
 		const handleMouseMove = debounce( ( event ) => {
 			const rect = triggerRef.current.getBoundingClientRect();
-			const margin = 10;
 			const extendedRect = {
-				top: rect.top - margin,
-				right: rect.right + margin,
-				bottom: rect.bottom + margin,
-				left: rect.left - margin,
+				top: rect.top - GRACE_MRGIN,
+				right: rect.right + GRACE_MRGIN,
+				bottom: rect.bottom + GRACE_MRGIN,
+				left: rect.left - GRACE_MRGIN,
 			};
 
 			const mouseX = event.clientX;
@@ -109,12 +111,12 @@ export const TooltipTrigger = ( { as: Component = "button", className, children,
 			} else {
 				show();
 			}
-		}, 100 );
+		}, DEBOUNCE_DELAY );
 
-		document.addEventListener( "mousemove", handleMouseMove );
+		document.addEventListener( "pointermove", handleMouseMove );
 
 		return () => {
-			document.removeEventListener( "mousemove", handleMouseMove );
+			document.removeEventListener( "pointermove", handleMouseMove );
 			handleMouseMove.cancel();
 		};
 	}, [ show, hide, triggerRef, tooltipPosition, isVisible ] );
