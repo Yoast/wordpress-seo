@@ -31,7 +31,7 @@ export const MostPopularTable = ( { data } ) => {
 					</div>
 				</div>
 			</TableWidget.Header>
-			<TableWidget.Header className="yst-text-end yst-pe-0">{ __( "Actions", "wordpress-seo" ) }</TableWidget.Header>
+			<TableWidget.Header className="yst-text-end">{ __( "Actions", "wordpress-seo" ) }</TableWidget.Header>
 		</TableWidget.Head>
 		<TableWidget.Body>
 			{ data.map( ( { subject, clicks, impressions, ctr, averagePosition, seoScore, links }, index ) => (
@@ -42,7 +42,7 @@ export const MostPopularTable = ( { data } ) => {
 					<TableWidget.Cell className="yst-text-end">{ ctr }</TableWidget.Cell>
 					<TableWidget.Cell className="yst-text-end">{ averagePosition }</TableWidget.Cell>
 					<TableWidget.Cell><TableWidget.ScoreBullet score={ seoScore } /></TableWidget.Cell>
-					<TableWidget.Cell className="yst-text-end yst-pe-0">
+					<TableWidget.Cell className="yst-text-end">
 						<Button
 							variant="tertiary"
 							size="small"
