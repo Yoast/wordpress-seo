@@ -34,9 +34,7 @@ final class Set_Site_Kit_Consent_Test extends Abstract_Site_Kit_Consent_Manageme
 			->expects( '__construct' )
 			->with(
 				[
-					'json' => (object) [
-						'success' => $consent,
-					],
+					'success' => $consent,
 				],
 				$expected_status
 			)
