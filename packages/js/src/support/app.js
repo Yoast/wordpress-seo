@@ -1,4 +1,4 @@
-/* eslint-disable complexity, react/jsx-max-depth */
+/* eslint-disable react/jsx-max-depth */
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { useSelect } from "@wordpress/data";
 import { createInterpolateElement, Fragment, useMemo } from "@wordpress/element";

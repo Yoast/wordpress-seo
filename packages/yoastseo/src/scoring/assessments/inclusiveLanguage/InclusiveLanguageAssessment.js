@@ -38,7 +38,7 @@ export default class InclusiveLanguageAssessment {
 	 * @returns {void}
 	 */
 	constructor( { identifier, nonInclusivePhrases, inclusiveAlternatives,
-					 score, feedbackFormat, learnMoreUrl, rule, ruleDescription, caseSensitive, category } ) {
+		score, feedbackFormat, learnMoreUrl, rule, ruleDescription, caseSensitive, category } ) {
 		this.identifier = identifier;
 		this.nonInclusivePhrases = nonInclusivePhrases;
 		this.inclusiveAlternatives = inclusiveAlternatives;

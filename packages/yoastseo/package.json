@@ -31,7 +31,7 @@
     "clean": "rm -rf build",
     "pretest": "grunt get-premium-configuration",
     "test": "jest",
-    "lint": "eslint src spec --max-warnings 10"
+    "lint": "eslint . --max-warnings 26"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -39,15 +39,13 @@
   "devDependencies": {
     "@babel/cli": "^7.25.9",
     "@babel/core": "^7.26.0",
-    "@babel/eslint-parser": "^7.25.9",
     "@babel/preset-env": "^7.26.0",
-    "@stylistic/eslint-plugin": "^2.10.1",
     "@yoast/browserslist-config": "^1.2.3",
     "blob-polyfill": "^7.0.20220408",
     "console.table": "^0.10.0",
-    "eslint": "^8.57.0",
-    "eslint-config-yoast": "^6.0.0",
-    "eslint-plugin-import": "^2.31.0",
+    "eslint": "^9.16.0",
+    "eslint-config-yoast": "^7.0.0",
+    "globals": "^15.12.0",
     "grunt": "^1.6.1",
     "grunt-shell": "^4.0.0",
     "jest": "^29.7.0",

@@ -1,4 +1,4 @@
-/* eslint-disable max-statements,complexity */
+/* eslint-disable complexity */
 // External dependencies.
 import { enableFeatures } from "@yoast/feature-flag";
 import { __, setLocaleData, sprintf } from "@wordpress/i18n";

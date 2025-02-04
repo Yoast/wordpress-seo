@@ -8,7 +8,6 @@ import React from "react";
  * @returns {ReactElement} The svg icon.
  */
 const Logo = ( props ) => (
-	/* eslint-disable max-len */
 	<svg { ...props } xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 240">
 		<linearGradient id="a" gradientUnits="userSpaceOnUse" x1="476.05" y1="194.48" x2="476.05" y2="36.513">
 			<stop offset="0" style={ { stopColor: "#570732" } } />
@@ -61,7 +60,6 @@ const Logo = ( props ) => (
 		</linearGradient>
 		<path fill="url(#e)" d="M175.2 62.2c-38.6 0-54 27.3-54 56.2 0 30 15.1 54.6 54 54.6 38.7 0 54.1-27.6 54-54.6-.1-33-16.8-56.2-54-56.2zm0 87.1c-15.7 0-23.4-11.7-23.4-30.9s8.3-32.9 23.4-32.9c15 0 23.2 13.7 23.2 32.9s-7.5 30.9-23.2 30.9z" />
 	</svg>
-	/* eslint-enable max-len */
 );
 
 export default Logo;

@@ -95,7 +95,7 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 				) }
 				<span aria-hidden="true" className="yoast-button-upsell__caret" />
 			</OutboundLink> }
-			 <p>{ keywordsResearchInfo }</p>
+			<p>{ keywordsResearchInfo }</p>
 			<DataModel
 				data={ data }
 				itemScreenReaderText={

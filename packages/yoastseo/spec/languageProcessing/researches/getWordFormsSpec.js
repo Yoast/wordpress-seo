@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
 import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";

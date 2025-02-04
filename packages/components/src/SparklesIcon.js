@@ -13,7 +13,6 @@ export const SparklesIcon = ( { pressed = false, className = "" } ) => {
 
 	return <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg" className={ className }>
 		<path
-			// eslint-disable-next-line max-len
 			d="M3.33284 2.96991V5.63658M1.99951 4.30324H4.66618M3.99951 12.3032V14.9699M2.66618 13.6366H5.33284M8.66618 2.96991L10.19 7.54134L13.9995 8.96991L10.19 10.3985L8.66618 14.9699L7.14237 10.3985L3.33284 8.96991L7.14237 7.54134L8.66618 2.96991Z"
 			strokeLinecap="round"
 			strokeLinejoin="round"

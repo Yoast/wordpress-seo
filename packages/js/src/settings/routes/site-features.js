@@ -137,7 +137,6 @@ const LearnMoreLink = ( { id, link, ariaLabel, ...props } ) => {
 	const href = useSelectSettings( "selectLink", [ link ], link );
 
 	return (
-		// eslint-disable-next-line react/jsx-no-target-blank
 		<Link
 			id={ id }
 			href={ href }

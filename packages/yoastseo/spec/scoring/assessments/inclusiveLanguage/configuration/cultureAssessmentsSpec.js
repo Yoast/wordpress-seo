@@ -55,7 +55,6 @@ describe( "A test for Culture Assessments", () => {
 	} );
 } );
 
-// eslint-disable-next-line max-statements
 describe( "a test for targeting non-inclusive phrases in culture assessments", () => {
 	it( "should return the appropriate score and feedback string for: 'Third World'", () => {
 		const testData = [
