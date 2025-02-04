@@ -110,15 +110,23 @@ describe( "collectAnalysisData", () => {
 		const store = mockStore( storeData );
 		const customData = mockCustomAnalysisData();
 		const pluggable = mockPluggable();
-		const newBlocks = gutenbergBlocks.concat(
-			{ isValid: false, innerBlocks: [], name: "core/paragraph" }
-		);
-		const blockEditorDataModule = mockBlockEditorDataModule( newBlocks );
-		const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule );
 
-		expect( results._attributes.wpBlocks ).not.toBe( newBlocks );
-		expect( newBlocks ).toContainEqual( { isValid: false, innerBlocks: [], name: "core/paragraph" } );
-		expect( results._attributes.wpBlocks ).not.toContainEqual( { isValid: false, innerBlocks: [], name: "core/paragraph" } );
+		const getFirstColumnBlocks = ( blocks ) => blocks
+			.find( block => block.name === "core/columns" ).innerBlocks
+			.find( block => block.name === "core/column" ).innerBlocks;
+		const invalidBlock = { isValid: false, innerBlocks: [], name: "core/paragraph" };
+
+		const firstColumnBlocks = getFirstColumnBlocks( gutenbergBlocks );
+		firstColumnBlocks.push( invalidBlock );
+		const blockEditorDataModule = mockBlockEditorDataModule( gutenbergBlocks );
+
+		// The original blocks array should contain the invalid block.
+		expect( getFirstColumnBlocks( gutenbergBlocks ) ).toContainEqual( invalidBlock );
+
+		// When collecting the analysis data, the invalid block should be removed from the results, but not from the original blocks array.
+		const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule );
+		expect( getFirstColumnBlocks( results._attributes.wpBlocks ) ).not.toContainEqual( invalidBlock );
+		expect( getFirstColumnBlocks( gutenbergBlocks ) ).toContainEqual( invalidBlock );
 	} );
 
 	it( "does not add wpBlocks if no blockEditorDataModule is added", () => {
