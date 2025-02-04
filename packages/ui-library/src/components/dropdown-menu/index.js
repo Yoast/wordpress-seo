@@ -73,7 +73,7 @@ const DropdownMenuList = ( { children, className } ) => {
 		<Transition
 			as={ Fragment }
 			enter="yst-transition yst-ease-out yst-duration-100"
-			enterFrom="yst-transform yst-opacity-0 yst-cale-95"
+			enterFrom="yst-transform yst-opacity-0 yst-scale-95"
 			enterTo="yst-transform yst-opacity-100 yst-scale-100"
 			leave="yst-transition yst-ease-in yst-duration-75"
 			leaveFrom="yst-transform yst-opacity-100 yst-scale-100"
