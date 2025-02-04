@@ -5,7 +5,7 @@
 		}
 
 		.yst-tooltip-trigger {
-			@apply yst-cursor-default
+			@apply yst-cursor-pointer
 			yst-rounded-md
 			focus:yst-outline-none
 			focus-visible:yst-ring-primary-500
