@@ -35,9 +35,7 @@ final class Set_Site_Kit_Permanent_Dismissal_Test extends Abstract_Site_Kit_Conf
 			->expects( '__construct' )
 			->with(
 				[
-					'json' => (object) [
-						'success' => $is_dismissed,
-					],
+					'success' => $is_dismissed,
 				],
 				$expected_status
 			)

@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Configuration_D
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Conditionals_Test extends Abstract_Site_Kit_Configuration_Permanent_Dismissal_Route_Test {
+final class Site_Kit_Configuration_Permanent_Dismissal_Route_Get_Conditionals_Test extends Abstract_Site_Kit_Configuration_Permanent_Dismissal_Route_Test {
 
 	/**
 	 * Tests the get_conditionals function.
