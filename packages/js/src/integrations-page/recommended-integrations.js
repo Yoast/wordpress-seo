@@ -90,7 +90,7 @@ const siteKitProps = {
 
 const isSiteKitFeatureEnabled = get( window, "wpseoIntegrationsData.site_kit_configuration.feature_enabled", false );
 if ( isSiteKitFeatureEnabled ) {
-	RecommendedIntegrations.push( <GoogleSiteKitIntegration key={ integrations.length } { ...siteKitProps } /> );
+	RecommendedIntegrations.push( <SiteKitIntegration key={ integrations.length } { ...siteKitProps } /> );
 }
 
 export { RecommendedIntegrations };
