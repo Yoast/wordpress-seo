@@ -58,6 +58,16 @@
 					}
 				}
 
+				.yst-table-header{
+					&:first-child {
+						@apply yst-ps-0;
+					}
+
+					&:last-child {
+						@apply yst-pe-0;
+					}
+				}
+
 				tbody {
 					@apply yst-divide-y yst-divide-gray-200 yst-bg-white;
 				}
