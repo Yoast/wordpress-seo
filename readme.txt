@@ -274,6 +274,23 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 24.5 =
+
+Release date: 2025-02-18
+
+#### Enhancements
+
+* Issues a warning message when the image automatically selected for a post social preview is in the unsupported AVIF format.
+
+#### Bugfixes
+
+* Fixes deprecation notice thrown by the canonical presenter in environments running PHP >= 8.1. Props to [aanduque](https://github.com/aanduque).
+
+#### Other
+
+* Simplifies calculating the `date` replacement variable before displaying it in the frontend. Props to [apermo](https://github.com/apermo).
+* Updates the Yoast WooCommerce SEO integration cards with the latest Woo logo.
+
 = 24.4 =
 
 Release date: 2025-02-04
@@ -286,27 +303,6 @@ Yoast SEO 24.4 brings more enhancements and bugfixes. [Find more information abo
 * Fixes a bug where the `article:modified_time` meta tag would show an earlier time than the `article:published_time` meta tag for scheduled posts.
 * Fixes a bug where the Schema type of the product would not be locked when Yoast WooCommerce SEO is enabled.
 * Fixes a bug where using hyphens at the start or end of a sentence would cripple the content analysis when editing a post.
-
-= 24.3 =
-
-Release date: 2025-01-21
-
-Yoast SEO 24.3 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Introduces more robust HTML processing and highlighting for the _sentence length_ and _paragraph length_ assessments.
-
-#### Bugfixes
-
-* Fixes a bug where the Semrush request would be executed twice when opening the related keyphrases modal.
-* Fixes a bug where the text color in the search on our settings page would not change correctly when active, resulting in bad contrast.
-* Fixes a bug where the _View_ button label in the Yoast dashboard would not be available for translation.
-
-#### Other
-
-* Improves contrast in the related keyphrase suggestions table.
-* Improves contrast in the RSS supported variables explainer table.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
