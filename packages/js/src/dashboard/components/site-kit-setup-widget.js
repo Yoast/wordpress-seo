@@ -99,8 +99,8 @@ export const SiteKitSetupWidget = ( {
 		isInstalled, isActive, isSetupCompleted, isConnected, installUrl, activateUrl, setupUrl );
 	return <Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative">
 		<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
-			<DropdownMenu.IconTrigger screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) } className="yst-absolute yst-top-0 yst-end-0" />
-			<DropdownMenu.List className="yst-absolute yst-top-5 yst-end-0">
+			<DropdownMenu.IconTrigger screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) } className="yst-float-end" />
+			<DropdownMenu.List className="yst-mt-6">
 				<DropdownMenu.ButtonItem className="yst-text-slate-600" onClick={ onRemove }>
 					<XIcon className="yst-w-4 yst-text-slate-400" />
 					{ __( "Remove until next visit", "wordpress-seo" ) }
