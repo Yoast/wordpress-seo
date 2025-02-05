@@ -6,12 +6,12 @@ import { Menu, Transition } from "@headlessui/react";
 import { Button } from "../../index";
 
 /**
- * The button Item for the dropdown menu.
+ * The item for the dropdown menu that renders as ui library Button with tertiary variant.
  *
  * @param {JSX.node} children Content of the button.
  * @param {string} [className] CSS class.
  *
- * @returns {JSX.Element} Button component.
+ * @returns {JSX.Element} Button item component.
  */
 const ButtonItem = ( { children, className, ...props } ) => {
 	return (
