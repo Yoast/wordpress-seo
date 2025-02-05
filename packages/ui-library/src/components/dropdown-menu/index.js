@@ -42,7 +42,7 @@ MenuButtonItem.propTypes = {
  * @returns {JSX.Element} Menu trigger component.
  */
 const DropdownMenuIconTrigger = ( { className, screenReaderTriggerLabel = "Open menu", Icon = DotsVerticalIcon, ...props } ) => (
-	<Menu.Button className={ classNames( "yst-dropdown-menu__icon-trigger", className ) } { ...props }>
+	<Menu.Button { ...props } className={ classNames( "yst-dropdown-menu__icon-trigger", className ) }>
 		{ ( { open } ) => <>
 			<Icon
 				className={ classNames( "yst-h-4 hover:yst-text-slate-600",
@@ -68,7 +68,7 @@ DropdownMenuIconTrigger.propTypes = {
  *
  * @returns {JSX.Element} Menu list component.
  */
-const DropdownMenuList = ( { children, className } ) => {
+const DropdownMenuList = ( { children, className, ...props } ) => {
 	return (
 		<Transition
 			as={ Fragment }
@@ -79,7 +79,7 @@ const DropdownMenuList = ( { children, className } ) => {
 			leaveFrom="yst-transform yst-opacity-100 yst-scale-100"
 			leaveTo="yst-transform yst-opacity-0 yst-scale-95"
 		>
-			<Menu.Items className={ classNames( "yst-dropdown-menu__list", className ) }>
+			<Menu.Items { ...props } className={ classNames( "yst-dropdown-menu__list", className ) }>
 				{ children }
 			</Menu.Items>
 		</Transition>
