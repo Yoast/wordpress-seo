@@ -56,7 +56,7 @@ Step.propTypes = {
 /**
  *
  * @param {JSX.Node} children Content of the stepper.
- * @param {string} [currentStep] The current step.
+ * @param {number} [currentStep] The current step.
  * @param {string} [className] Optional extra className.
  *
  * @returns {JSX.Element} The Stepper element.
