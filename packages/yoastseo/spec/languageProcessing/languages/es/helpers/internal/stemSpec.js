@@ -10,7 +10,7 @@ const wordsToStem = [
 	[ "martes", "martes" ],
 	[ "microondas", "microondas" ],
 	[ "jesús", "jesus" ],
-	[ "práxedes", "praxedes"],
+	[ "práxedes", "praxedes" ],
 	// Input noun with: singular: -z, plural: -ces
 	[ "actriz", "actriz" ],
 	[ "actrices", "actriz" ],

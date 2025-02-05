@@ -331,8 +331,8 @@ const stemVerbSuffixes = function( word, wordAfter1, rvText, rv, morphologyData 
 				word = word.slice( 0, -1 );
 			}
 			// Creates an unaccented version of the words that look like verbs but are not and checks if the stemmed word is on the list after removing verb suffixes. If so, returns word.
-			const unaccentedNotVerbForms = morphologyData.wordsThatLookLikeButAreNot.notVerbForms.map(removeAccent);
-			if (unaccentedNotVerbForms.includes(removeAccent(word))) {
+			const unaccentedNotVerbForms = morphologyData.wordsThatLookLikeButAreNot.notVerbForms.map( removeAccent );
+			if ( unaccentedNotVerbForms.includes( removeAccent( word ) ) ) {
 				return word;
 			}
 			// Checks if the stemmed word is on the list of words with multiple stems. If so, returns the canonical stem.
@@ -340,11 +340,11 @@ const stemVerbSuffixes = function( word, wordAfter1, rvText, rv, morphologyData 
 			if ( canonicalStem ) {
 				return canonicalStem;
 			}
-			rvText = word.slice(rv);
+			rvText = word.slice( rv );
 			// Checks for verb suffix after adjusting rvText if a suffix was already found at suf11 and suf12.
 			const suf11AfterSuf12 = findMatchingEndingInArray( rvText, spanishVerbSuffixes );
-			if (suf11AfterSuf12 !== "") {
-				word = word.slice(0, -suf11AfterSuf12.length );
+			if ( suf11AfterSuf12 !== "" ) {
+				word = word.slice( 0, -suf11AfterSuf12.length );
 			}
 		}
 	}
