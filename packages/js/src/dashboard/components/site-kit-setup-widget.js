@@ -101,11 +101,17 @@ export const SiteKitSetupWidget = ( {
 		<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
 			<DropdownMenu.IconTrigger screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) } className="yst-float-end" />
 			<DropdownMenu.List className="yst-mt-6">
-				<DropdownMenu.ButtonItem className="yst-text-slate-600" onClick={ onRemove }>
+				<DropdownMenu.ButtonItem
+					className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4"
+					onClick={ onRemove }
+				>
 					<XIcon className="yst-w-4 yst-text-slate-400" />
 					{ __( "Remove until next visit", "wordpress-seo" ) }
 				</DropdownMenu.ButtonItem>
-				<DropdownMenu.ButtonItem className="yst-text-red-500" onClick={ onRemovePermanently }>
+				<DropdownMenu.ButtonItem
+					className="yst-text-red-500 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4"
+					onClick={ onRemovePermanently }
+				>
 					<TrashIcon className="yst-w-4" />
 					{ __( "Remove permanently", "wordpress-seo" ) }
 				</DropdownMenu.ButtonItem>
