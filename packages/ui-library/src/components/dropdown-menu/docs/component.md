@@ -1,1 +1,5 @@
-A dropdowm menu with sub components. The dropdown menu has the `DropdownMenu.IconTrigger` component to render the trigger icon and also `DropdownMenu.Trigger` component without ny styling and with the render prop `open`. There are also two item subcomponent that should be rendered under `DropdownMenu.List`, the `DropdownMenu.ButtonItem` which is acts as a `Button` and `DropdownMenu.Item` which accepts `as` prop and without any styling, also accepts `open` render prop.
+A dropdowm menu with sub components. The childrem on the dropdown menu should be the list of items `DropdownMenu.List` and the trigger `DropdownMenu.Trigger` or `DropdownMenu.IconTrigger`. The `DropdownMenu.List` should have the `DropdownMenu.Item` or `DropdownMenu.ButtonItem` as children.
+
+The `DropdownMenu.IconTrigger` component renders the trigger as an icon.
+The `DropdownMenu.Trigger` component is the trigger without any styling and with the render prop `open`.
+The `DropdownMenu.ButtonItem` component acts as a `Button`, while `DropdownMenu.Item` accepts `as` prop, without any styling, and render prop `open`.
