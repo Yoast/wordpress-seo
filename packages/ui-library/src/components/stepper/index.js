@@ -3,8 +3,14 @@ import PropTypes from "prop-types";
 import React, { forwardRef, useRef, useEffect, useState, useCallback, createContext, useContext } from "react";
 import { CheckIcon } from "@heroicons/react/solid";
 import { ProgressBar } from "../../index";
+import { noop } from "lodash";
 
-const StepperContext = createContext();
+/**
+ * Context for the stepper. Used to add a reference to the step.
+ */
+const StepperContext = createContext( {
+	addStepRef: noop,
+} );
 
 /**
  * Step component.
@@ -112,5 +118,6 @@ Stepper.defaultProps = {
 };
 
 Stepper.Step = Step;
+Stepper.Context = StepperContext;
 Stepper.Step.displayName = "Stepper.Step";
 
