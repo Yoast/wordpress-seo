@@ -49,8 +49,10 @@ export const Dashboard = ( { contentTypes, userName, features, endpoints, header
 			<PageTitle userName={ userName } features={ features } links={ links } />
 			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
 				{ showGoogleSiteKit && siteKitConfiguration.isFeatureEnabled && <SiteKitSetupWidget
-					{ ...siteKitConfiguration } learnMoreLink={ learnMorelink }
-					onRemove={ setRemoveGoogleSiteKit } onRemovePermanently={ handleRemovePermanently }
+					{ ...siteKitConfiguration }
+					learnMoreLink={ learnMorelink }
+					onRemove={ setRemoveGoogleSiteKit }
+					onRemovePermanently={ handleRemovePermanently }
 				/> }
 				{ features.indexables && features.seoAnalysis && (
 					<Scores analysisType="seo" contentTypes={ contentTypes } endpoint={ endpoints.seoScores } headers={ headers } />
