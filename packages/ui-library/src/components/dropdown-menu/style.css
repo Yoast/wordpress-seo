@@ -25,7 +25,6 @@
 
 		.yst-dropdown-menu__list {
 			@apply
-			yst-w-56
 			yst-rounded-md
 			yst-border
 			yst-border-slate-200
