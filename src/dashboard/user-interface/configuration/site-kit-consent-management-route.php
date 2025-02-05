@@ -68,6 +68,14 @@ class Site_Kit_Consent_Management_Route implements Route_Interface {
 					'methods'             => 'POST',
 					'callback'            => [ $this, 'set_site_kit_consent' ],
 					'permission_callback' => [ $this, 'check_capabilities' ],
+					'args'                => [
+						'consent' => [
+							'required'          => true,
+							'type'              => 'bool',
+							'sanitize_callback' => 'rest_sanitize_boolean',
+						],
+
+					],
 				],
 			]
 		);
