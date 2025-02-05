@@ -31,6 +31,14 @@ final class Site_Kit_Configuration_Permanent_Dismissal_Route_Register_Routes_Tes
 						'methods'             => 'POST',
 						'callback'            => [ $this->instance, 'set_site_kit_configuration_permanent_dismissal' ],
 						'permission_callback' => [ $this->instance, 'check_capabilities' ],
+						'args'                => [
+							'is_dismissed' => [
+								'required'          => true,
+								'type'              => 'bool',
+								'sanitize_callback' => 'rest_sanitize_boolean',
+							],
+
+						],
 					],
 				]
 			);

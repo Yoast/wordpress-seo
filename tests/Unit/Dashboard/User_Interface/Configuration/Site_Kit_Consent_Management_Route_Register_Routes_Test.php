@@ -31,6 +31,14 @@ final class Site_Kit_Consent_Management_Route_Register_Routes_Test extends Abstr
 						'methods'             => 'POST',
 						'callback'            => [ $this->instance, 'set_site_kit_consent' ],
 						'permission_callback' => [ $this->instance, 'check_capabilities' ],
+						'args'                => [
+							'consent' => [
+								'required'          => true,
+								'type'              => 'bool',
+								'sanitize_callback' => 'rest_sanitize_boolean',
+							],
+
+						],
 					],
 				]
 			);
