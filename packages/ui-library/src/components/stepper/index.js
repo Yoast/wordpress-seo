@@ -56,13 +56,12 @@ Step.propTypes = {
 /**
  *
  * @param {JSX.Node} children Content of the stepper.
- * @param {number} numberOfSteps The umber of steps.
  * @param {string} [currentStep] The current step.
  * @param {string} [className] Optional extra className.
  *
  * @returns {JSX.Element} The Stepper element.
  */
-export const Stepper = forwardRef( ( { children, numberOfSteps, currentStep, className = "" }, ref ) => {
+export const Stepper = forwardRef( ( { children, currentStep, className = "" }, ref ) => {
 	const [ progressBarPosition, setProgressBarPosition ] = useState( {
 		left: 0,
 		right: 0,
@@ -72,17 +71,13 @@ export const Stepper = forwardRef( ( { children, numberOfSteps, currentStep, cla
 	useEffect( () => {
 		if ( stepRef.current.length > 0 ) {
 			const firstStepRect = stepRef.current[ 0 ].getBoundingClientRect();
-			const lastStepRect = stepRef.current[ numberOfSteps - 1 ].getBoundingClientRect();
+			const lastStepRect = stepRef.current[ stepRef.current.length - 1 ].getBoundingClientRect();
 			setProgressBarPosition( {
 				left: firstStepRect.width / 2,
 				right: lastStepRect.width / 2,
 			} );
 		}
-	}, [ stepRef.current, numberOfSteps ] );
-
-	if ( ! numberOfSteps ) {
-		return;
-	}
+	}, [ stepRef.current ] );
 
 	const addStepRef = useCallback( ( el ) => ( stepRef.current.push( el ) ), [ stepRef.current ] );
 
@@ -96,7 +91,7 @@ export const Stepper = forwardRef( ( { children, numberOfSteps, currentStep, cla
 					className="yst-absolute yst-top-3 yst-w-auto yst-h-0.5"
 					style={ progressBarPosition }
 					min={ 0 }
-					max={ numberOfSteps - 1 }
+					max={ stepRef.current.length - 1 }
 					progress={ currentStep - 1 }
 				/>
 			</div>
@@ -107,7 +102,6 @@ export const Stepper = forwardRef( ( { children, numberOfSteps, currentStep, cla
 Stepper.displayName = "Stepper";
 Stepper.propTypes = {
 	currentStep: PropTypes.number.isRequired,
-	numberOfSteps: PropTypes.number.isRequired,
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
 };

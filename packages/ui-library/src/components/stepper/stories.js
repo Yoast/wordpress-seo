@@ -11,7 +11,7 @@ export const Factory = {
 	render: ( args ) =>{
 		const [ isComplete, setIsComplete ] = useState( false );
 		const steps = [ "INSTALL", "ACTIVATE", "SET UP", "CONNECT" ];
-		const [ { numberOfSteps, className, currentStep }, updateArgs ] = useArgs();
+		const [ { className, currentStep }, updateArgs ] = useArgs();
 
 		const handleNext = useCallback( () => {
 			if ( currentStep < steps.length ) {
@@ -26,7 +26,7 @@ export const Factory = {
 		}, [ setIsComplete, updateArgs, isComplete, currentStep ] );
 
 		return <>
-			<Stepper className={ className } numberOfSteps={ numberOfSteps } currentStep={ currentStep }>
+			<Stepper className={ className } currentStep={ currentStep }>
 				{ steps.map( ( step, index ) => <Stepper.Step
 					key={ step }
 					label={ step }

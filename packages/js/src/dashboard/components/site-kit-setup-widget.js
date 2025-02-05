@@ -119,7 +119,7 @@ export const SiteKitSetupWidget = ( {
 		</DropdownMenu>
 
 		<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4"><YoastConnectSiteKit /></div>
-		<Stepper steps={ steps } currentStep={ currentStep } numberOfSteps={ steps.length }>
+		<Stepper steps={ steps } currentStep={ currentStep }>
 			{ steps.map( ( label, index ) => ( <Stepper.Step
 				key={ label }
 				label={ label }
