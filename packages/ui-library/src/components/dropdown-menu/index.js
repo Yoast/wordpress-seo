@@ -23,7 +23,6 @@ const MenuButtonItem = ( { children, className, ...props } ) => {
 				className ) }
 		>
 			{ children }
-
 		</Menu.Item>
 	);
 };
@@ -97,7 +96,7 @@ DropdownMenuList.propTypes = {
  * @param {JSX.node} children Content of the menu.
  * @param {object} props The menu props.
  *
- * @returns {JSX.Element} Menu component.
+ * @returns {JSX.Element} Dropdown menu component.
  */
 export const DropdownMenu = ( { children, ...props } ) => {
 	return (
