@@ -13,7 +13,7 @@ import { Button } from "../../index";
  *
  * @returns {JSX.Element} Button component.
  */
-const MenuButtonItem = ( { children, className, ...props } ) => {
+const ButtonItem = ( { children, className, ...props } ) => {
 	return (
 		<Menu.Item
 			as={ Button }
@@ -27,7 +27,7 @@ const MenuButtonItem = ( { children, className, ...props } ) => {
 	);
 };
 
-MenuButtonItem.propTypes = {
+ButtonItem.propTypes = {
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
 };
@@ -36,12 +36,12 @@ MenuButtonItem.propTypes = {
  * Dropdown menu icon trigger.
  *
  * @param {string} [className] CSS class.
- * @param {string} [screenReaderTriggerLabel] Screen reader label.
+ * @param {string} [screenReaderTriggerLabel] Screen reader label for the menu trigger.
  * @param {JSX.node} [Icon] Icon component.
  *
  * @returns {JSX.Element} Menu trigger component.
  */
-const DropdownMenuIconTrigger = ( { className, screenReaderTriggerLabel = "Open menu", Icon = DotsVerticalIcon, ...props } ) => (
+const IconTrigger = ( { className, screenReaderTriggerLabel, Icon = DotsVerticalIcon, ...props } ) => (
 	<Menu.Button { ...props } className={ classNames( "yst-dropdown-menu__icon-trigger", className ) }>
 		{ ( { open } ) => <>
 			<Icon
@@ -54,9 +54,9 @@ const DropdownMenuIconTrigger = ( { className, screenReaderTriggerLabel = "Open 
 	</Menu.Button>
 );
 
-DropdownMenuIconTrigger.propTypes = {
+IconTrigger.propTypes = {
 	className: PropTypes.string,
-	screenReaderTriggerLabel: PropTypes.string,
+	screenReaderTriggerLabel: PropTypes.string.isRequired,
 	Icon: PropTypes.node,
 };
 
@@ -68,7 +68,7 @@ DropdownMenuIconTrigger.propTypes = {
  *
  * @returns {JSX.Element} Menu list component.
  */
-const DropdownMenuList = ( { children, className, ...props } ) => {
+const List = ( { children, className, ...props } ) => {
 	return (
 		<Transition
 			as={ Fragment }
@@ -86,7 +86,7 @@ const DropdownMenuList = ( { children, className, ...props } ) => {
 	);
 };
 
-DropdownMenuList.propTypes = {
+List.propTypes = {
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
 };
@@ -113,16 +113,16 @@ DropdownMenu.propTypes = {
 DropdownMenu.Item = Menu.Item;
 DropdownMenu.Item.displayName = "DropdownMenu.Item";
 
-DropdownMenu.ButtonItem = MenuButtonItem;
+DropdownMenu.ButtonItem = ButtonItem;
 DropdownMenu.ButtonItem.displayName = "DropdownMenu.ButtonItem";
 
-DropdownMenu.IconTrigger = DropdownMenuIconTrigger;
+DropdownMenu.IconTrigger = IconTrigger;
 DropdownMenu.IconTrigger.displayName = "DropdownMenu.IconTrigger";
 
 DropdownMenu.Trigger = Menu.Button;
 DropdownMenu.Trigger.displayName = "DropdownMenu.Trigger";
 
-DropdownMenu.List = DropdownMenuList;
+DropdownMenu.List = List;
 DropdownMenu.List.displayName = "DropdownMenu.List";
 
 DropdownMenu.displayName = "DropdownMenu";
