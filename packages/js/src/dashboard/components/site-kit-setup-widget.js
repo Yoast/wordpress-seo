@@ -128,17 +128,21 @@ export const SiteKitSetupWidget = ( {
 
 		<span className="yst-text-slate-800 yst-font-medium">{ __( "What you'll get:", "wordpress-seo" ) }</span>
 		<ul>
-			<li className="yst-gap-2 yst-flex yst-mt-2"><CheckCircleIcon className="yst-w-5 yst-text-green-400" />
-				{ __( "Actionable insights into traffic, SEO, and user behavior to grow your audience.", "wordpress-seo" ) }</li>
-			<li className="yst-gap-2 yst-flex yst-mt-2"><CheckCircleIcon className="yst-w-5 yst-text-green-400" />
-				{ __( "Key performance metrics to fine-tune your website and optimize like a pro.", "wordpress-seo" ) }</li>
+			<li className="yst-gap-2 yst-flex yst-mt-2">
+				<CheckCircleIcon className="yst-w-5 yst-text-green-400" />
+				{ __( "Actionable insights into traffic, SEO, and user behavior to grow your audience.", "wordpress-seo" ) }
+			</li>
+			<li className="yst-gap-2 yst-flex yst-mt-2">
+				<CheckCircleIcon className="yst-w-5 yst-text-green-400" />
+				{ __( "Key performance metrics to fine-tune your website and optimize like a pro.", "wordpress-seo" ) }
+			</li>
 		</ul>
 		<div className="yst-flex yst-gap-0.5 yst-mt-6 yst-items-center">
 			<Button { ...buttonProps } />
 
 			{ isConnected ? <Button>{ __( "Dismiss", "wordpress-seo" ) }</Button>
 				: <Button as="a" variant="tertiary" href={ learnMorelink }>{ __( "Learn more", "wordpress-seo" ) }
-					<ArrowRightIcon className="yst-w-3 yst-ml-2 yst-text-primary-500" />
+					<ArrowRightIcon className="yst-w-3 yst-me-2 yst-text-primary-500 rtl:yst-rotate-180" />
 				</Button>
 			}
 		</div>
