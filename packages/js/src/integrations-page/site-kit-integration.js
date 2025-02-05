@@ -108,7 +108,7 @@ export const SiteKitIntegration = ( { isActive, isSetupCompleted, isInstalled, i
 			>
 				<span className="yst-flex yst-flex-col yst-flex-1">
 					{ successfullyConnected && <SuccessfullyConnected  /> }
-					<Button className="yst-w-full" id="google-site-kit-button" { ...getButtonProps( isInstalled, isActive, isSetupCompleted, isConnected ) } />
+					<Button className="yst-w-full" id="site-kit-integration__button" { ...getButtonProps( isInstalled, isActive, isSetupCompleted, isConnected ) } />
 				</span>
 			</SimpleIntegration>
 			<SiteKitConsentModal isOpen={ isModalOpen } onClose={ toggleModal } />
