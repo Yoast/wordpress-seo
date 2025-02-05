@@ -17,27 +17,27 @@ describe( "SiteKitSetupWidget", () => {
 
 	it( "renders the widget with install button", () => {
 		render( <SiteKitSetupWidget { ...defaultProps } /> );
-		expect( screen.getByText( "Install Site Kit by Google" ) ).toBeInTheDocument();
+		expect( screen.getByRole( "link", { name: /Install Site Kit by Google/i } ) ).toBeInTheDocument();
 	} );
 
 	it( "renders the widget with activate button", () => {
 		render( <SiteKitSetupWidget { ...defaultProps } isInstalled={ true } /> );
-		expect( screen.getByText( "Activate Site Kit by Google" ) ).toBeInTheDocument();
+		expect( screen.getByRole( "link", { name: /Activate Site Kit by Google/i } ) ).toBeInTheDocument();
 	} );
 
 	it( "renders the widget with setup button", () => {
 		render( <SiteKitSetupWidget { ...defaultProps } isInstalled={ true } isActive={ true } /> );
-		expect( screen.getByText( "Set up Site Kit by Google" ) ).toBeInTheDocument();
+		expect( screen.getByRole( "link", { name: /Set up Site Kit by Google/i } ) ).toBeInTheDocument();
 	} );
 
 	it( "renders the widget with connect button", () => {
 		render( <SiteKitSetupWidget { ...defaultProps } isInstalled={ true } isActive={ true } isSetupCompleted={ true } /> );
-		expect( screen.getByText( "Connect Site Kit by Google" ) ).toBeInTheDocument();
+		expect( screen.getByRole( "button", { name: /Connect Site Kit by Google/i } ) ).toBeInTheDocument();
 	} );
 
 	it( "renders the widget with dismiss button when connected", () => {
 		render( <SiteKitSetupWidget { ...defaultProps } isInstalled={ true } isActive={ true } isSetupCompleted={ true } isConnected={ true } /> );
-		expect( screen.getByText( "Dismiss" ) ).toBeInTheDocument();
+		expect( screen.getByRole( "button", { name: /Dismiss/i } ) ).toBeInTheDocument();
 	} );
 
 	it( "opens the menu and calls onRemove when 'Remove until next visit' is clicked", () => {
