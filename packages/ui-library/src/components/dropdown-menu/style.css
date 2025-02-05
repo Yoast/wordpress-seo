@@ -2,7 +2,6 @@
 	.yst-root {
 		.yst-dropdown-menu__icon-trigger {
 			@apply 
-			yst-p-0
 			yst-text-slate-400
 			yst-rounded-full
 			focus:yst-text-slate-600
@@ -12,20 +11,8 @@
 			focus:yst-outline-primary-500;
 		}
 
-		.yst-dropdown-menu__item {
-			@apply
-			yst-border-b
-			yst-border-slate-200
-			last:yst-border-0
-			yst-text-slate-600;
-		}
-
 		.yst-dropdown-menu__item--button {
 			@apply
-			yst-flex
-			yst-py-2
-			yst-justify-start
-			yst-gap-2 yst-px-4
 			yst-items-center
 			yst-w-full
 			yst-ring-0

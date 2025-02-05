@@ -13,11 +13,11 @@ export const Factory = {
 			<DropdownMenu.Item as="div" className="yst-text-red-500">
 				Item
 			</DropdownMenu.Item>
-			<DropdownMenu.ButtonItem className="yst-text-slate-600">
+			<DropdownMenu.ButtonItem className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4">
 				<XIcon className="yst-w-4 yst-text-slate-400" />
 				Button Item
 			</DropdownMenu.ButtonItem>
-			<DropdownMenu.ButtonItem className="yst-text-red-500">
+			<DropdownMenu.ButtonItem className="yst-text-red-500 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4">
 				<TrashIcon className="yst-w-4" />
 				Button Item
 			</DropdownMenu.ButtonItem>

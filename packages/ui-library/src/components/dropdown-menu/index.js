@@ -19,7 +19,7 @@ const ButtonItem = ( { children, className, ...props } ) => {
 			as={ Button }
 			variant="tertiary"
 			{ ...props }
-			className={ classNames( "yst-dropdown-menu__item yst-dropdown-menu__item--button",
+			className={ classNames( "yst-dropdown-menu__item--button",
 				className ) }
 		>
 			{ children }
