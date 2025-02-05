@@ -78,4 +78,32 @@ describe( "SiteKitIntegration", () => {
 		expect( screen.getByRole( "button", { name: "Disconnect" } ) ).toBeInTheDocument();
 		expect( screen.getByText( "Successfully connected" ) ).toBeInTheDocument();
 	} );
+
+	it( "opens a modal to disconnect when clicking on 'Disconnect' button when connected and dismissing the modal", () => {
+		render( <SiteKitIntegration
+			isActive={ true }
+			afterSetup={ true }
+			isInstalled={ true }
+			isConnected={ true } { ...urlsProps }
+		/> );
+		const disconnectButton = screen.getByRole( "button", { name: "Disconnect" } );
+
+		act( () => {
+			disconnectButton.click();
+		} );
+
+		const disconnectDialog = screen.getByRole( "dialog" );
+		expect( disconnectDialog ).toBeInTheDocument();
+
+		const dismissDisconnectButton = screen.getByRole( "button", { name: "Yes, disconnect" } );
+		expect( dismissDisconnectButton ).toBeInTheDocument();
+
+		expect( screen.getByRole( "button", { name: "No, stay connected" } ) ).toBeInTheDocument();
+
+		act( () => {
+			dismissDisconnectButton.click();
+		} );
+
+		expect( disconnectDialog ).not.toBeInTheDocument();
+	} );
 } );

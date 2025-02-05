@@ -1,17 +1,15 @@
 <?php
-// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Search_Rankings;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints;
 
 use Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;
-use Yoast\WP\SEO\Dashboard\User_Interface\Search_Rankings\Abstract_Ranking_Route;
-use Yoast\WP\SEO\Dashboard\User_Interface\Search_Rankings\Top_Query_Route;
+use Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Consent_Management_Route;
 
 /**
- * Represents the top search queries endpoint.
+ * Represents the Site Kit consent management endpoint.
  */
-class Top_Query_Endpoint implements Endpoint_Interface {
+class Site_Kit_Consent_Management_Endpoint implements Endpoint_Interface {
 
 	/**
 	 * Gets the name.
@@ -19,7 +17,7 @@ class Top_Query_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_name(): string {
-		return 'topQueryResults';
+		return 'siteKitConsentManagement';
 	}
 
 	/**
@@ -28,7 +26,7 @@ class Top_Query_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_namespace(): string {
-		return Abstract_Ranking_Route::ROUTE_NAMESPACE;
+		return Site_Kit_Consent_Management_Route::ROUTE_NAMESPACE;
 	}
 
 	/**
@@ -38,7 +36,7 @@ class Top_Query_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_route(): string {
-		return Top_Query_Route::get_route_prefix();
+		return Site_Kit_Consent_Management_Route::ROUTE_PREFIX;
 	}
 
 	/**

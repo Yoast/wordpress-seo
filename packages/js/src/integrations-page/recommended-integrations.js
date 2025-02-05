@@ -5,7 +5,6 @@ import { ReactComponent as SemrushLogo } from "../../images/semrush-logo.svg";
 import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
 import { SiteKitIntegration } from "./site-kit-integration";
 import { getInitialState, getIsMultisiteAvailable, getIsNetworkControlEnabled, updateIntegrationState } from "./helper";
-
 import { ToggleableIntegration } from "./toggleable-integration";
 
 const integrations = [
