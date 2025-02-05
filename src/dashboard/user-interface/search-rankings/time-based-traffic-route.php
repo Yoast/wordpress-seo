@@ -36,14 +36,14 @@ final class Time_Based_Traffic_Route implements Route_Interface {
 	public const ROUTE_NAME = '/time_based_traffic';
 
 	/**
-	 * The data provider.
+	 * The data provider for page based search rankings.
 	 *
 	 * @var Top_Page_Repository $top_page_repository
 	 */
 	private $top_page_repository;
 
 	/**
-	 * The data provider.
+	 * The data provider for query based search rankings.
 	 *
 	 * @var Top_Query_Repository $top_query_repository
 	 */
@@ -61,8 +61,8 @@ final class Time_Based_Traffic_Route implements Route_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Top_Page_Repository  $top_page_repository  The data provider.
-	 * @param Top_Query_Repository $top_query_repository The data provider.
+	 * @param Top_Page_Repository  $top_page_repository  The data provider for page based search rankings.
+	 * @param Top_Query_Repository $top_query_repository The data provider for query based search rankings.
 	 */
 	public function __construct(
 		Top_Page_Repository $top_page_repository,
@@ -98,11 +98,13 @@ final class Time_Based_Traffic_Route implements Route_Interface {
 						'options' => [
 							'type'       => 'object',
 							'required'   => true,
+
 							'properties' => [
 								'widget' => [
-									'type'     => 'string',
-									'required' => true,
-									'enum'     => [ 'query', 'page' ],
+									'type'              => 'string',
+									'required'          => true,
+									'sanitize_callback' => 'sanitize_text_field',
+									'enum'              => [ 'query', 'page' ],
 								],
 							],
 						],
@@ -113,7 +115,7 @@ final class Time_Based_Traffic_Route implements Route_Interface {
 	}
 
 	/**
-	 * Gets the rankings of a specific amount of pages.
+	 * Gets the time based traffic numbers for a specific amount of pages.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -134,11 +136,11 @@ final class Time_Based_Traffic_Route implements Route_Interface {
 			switch ( $widget_name ) {
 				case 'query':
 					$request_parameters->set_dimensions( [ 'query' ] );
-					$search_rankings_container = $this->top_query_repository->get_data( $request_parameters );
+					$time_based_traffic_container = $this->top_query_repository->get_data( $request_parameters );
 					break;
 				case 'page':
 					$request_parameters->set_dimensions( [ 'page' ] );
-					$search_rankings_container = $this->top_page_repository->get_data( $request_parameters );
+					$time_based_traffic_container = $this->top_page_repository->get_data( $request_parameters );
 					break;
 				default:
 					throw new Repository_Not_Found_Exception();
@@ -153,7 +155,7 @@ final class Time_Based_Traffic_Route implements Route_Interface {
 		}
 
 		return new WP_REST_Response(
-			$search_rankings_container->to_array(),
+			$time_based_traffic_container->to_array(),
 			200
 		);
 	}
