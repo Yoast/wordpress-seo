@@ -31,7 +31,7 @@ const mastodonIntegration =	{
 		"Yoast SEO Premium"
 	),
 	isPremium: true,
-	isNew: true,
+	isNew: false,
 	isMultisiteAvailable: true,
 	logo: MastodonLogo,
 	upsellLink: "https://yoa.st/get-mastodon-integration",

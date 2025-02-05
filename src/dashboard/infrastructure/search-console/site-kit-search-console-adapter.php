@@ -7,8 +7,8 @@ use Google\Site_Kit\Core\Modules\Module;
 use Google\Site_Kit\Core\Modules\Modules;
 use Google\Site_Kit\Modules\Search_Console;
 use Google\Site_Kit\Plugin;
-use WP_Error;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
+use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Data;
 
 /**
@@ -41,7 +41,9 @@ class Site_Kit_Search_Console_Adapter {
 	 *
 	 * @param Search_Console_Parameters $parameters The parameters.
 	 *
-	 * @return Data_Container|WP_Error Data on success, or WP_Error on failure.
+	 * @return Data_Container The Site Kit API response.
+	 *
+	 * @throws Failed_Request_Exception When the query of getting score results fails.
 	 */
 	public function get_data( Search_Console_Parameters $parameters ): Data_Container {
 		$api_parameters = [
@@ -55,9 +57,24 @@ class Site_Kit_Search_Console_Adapter {
 
 		$data_rows = self::$search_console_module->get_data( 'searchanalytics', $api_parameters );
 
+		if ( \is_wp_error( $data_rows ) ) {
+			$error_data        = $data_rows->get_error_data();
+			$error_status_code = ( $error_data['status'] ?? 500 );
+			throw new Failed_Request_Exception( \wp_kses_post( $data_rows->get_error_message() ), (int) $error_status_code );
+		}
+
 		$search_data_container = new Data_Container();
 		foreach ( $data_rows as $ranking ) {
-			$search_data_container->add_data( new Search_Data( $ranking->clicks, $ranking->ctr, $ranking->impressions, $ranking->position, $ranking->keys[0] ) );
+			/**
+			 * Filter: 'wpseo_transform_dashboard_subject_for_testing' - Allows overriding subjects like URLs for the dashboard, to facilitate testing in local environments.
+			 *
+			 * @internal
+			 *
+			 * @param string $url The subject to be transformed.
+			 */
+			$subject = \apply_filters( 'wpseo_transform_dashboard_subject_for_testing', $ranking->keys[0] );
+
+			$search_data_container->add_data( new Search_Data( $ranking->clicks, $ranking->ctr, $ranking->impressions, $ranking->position, $subject ) );
 		}
 
 		return $search_data_container;
