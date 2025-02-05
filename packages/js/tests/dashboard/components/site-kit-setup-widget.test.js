@@ -43,14 +43,16 @@ describe( "SiteKitSetupWidget", () => {
 	it( "opens the menu and calls onRemove when 'Remove until next visit' is clicked", () => {
 		render( <SiteKitSetupWidget { ...defaultProps } /> );
 		fireEvent.click( screen.getByRole( "button", { name: /open menu/i } ) );
-		fireEvent.click( screen.getByText( "Remove until next visit" ) );
+		const removeButton = screen.getByRole( "menuitem", { name: /Remove until next visit/i, type: "button" } );
+		fireEvent.click( removeButton );
 		expect( defaultProps.onRemove ).toHaveBeenCalled();
 	} );
 
 	it( "opens the menu and calls onRemovePermanently when 'Remove permanently' is clicked", () => {
 		render( <SiteKitSetupWidget { ...defaultProps } /> );
 		fireEvent.click( screen.getByRole( "button", { name: /open menu/i } ) );
-		fireEvent.click( screen.getByText( "Remove permanently" ) );
+		const removeButton = screen.getByRole( "menuitem", { name: /Remove permanently/i, type: "button" } );
+		fireEvent.click( removeButton );
 		expect( defaultProps.onRemovePermanently ).toHaveBeenCalled();
 	} );
 } );
