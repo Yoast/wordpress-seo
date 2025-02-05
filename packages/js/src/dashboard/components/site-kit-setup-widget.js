@@ -141,8 +141,9 @@ export const SiteKitSetupWidget = ( {
 			<Button { ...buttonProps } />
 
 			{ isConnected ? <Button>{ __( "Dismiss", "wordpress-seo" ) }</Button>
-				: <Button as="a" variant="tertiary" href={ learnMorelink }>{ __( "Learn more", "wordpress-seo" ) }
-					<ArrowRightIcon className="yst-w-3 yst-me-2 yst-text-primary-500 rtl:yst-rotate-180" />
+				: <Button as="a" variant="tertiary" href={ learnMorelink } className="yst-flex yst-items-center yst-gap-1">
+					{ __( "Learn more", "wordpress-seo" ) }
+					<ArrowRightIcon className="yst-w-3 yst-text-primary-500 rtl:yst-rotate-180" />
 				</Button>
 			}
 		</div>
