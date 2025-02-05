@@ -18,21 +18,20 @@ const StepperContext = createContext( {
  * @param {string} label The step label.
  * @param {boolean} isComplete Is the step complete.
  * @param {boolean} isActive Is the step
- * @param {boolean} isStepComplete Is the step complete.
  *
  * @returns {JSX.Element} The step element.
  */
-const Step = ( { label, isComplete, isActive, isStepComplete } ) => {
+const Step = ( { label, isComplete, isActive } ) => {
 	const addStepRef = useContext( StepperContext );
 	return (
 		<div
 			ref={ addStepRef }
 			className={ classNames( "yst-step",
-				isStepComplete ? "yst-step--complete" : "",
+				isComplete ? "yst-step--complete" : "",
 				isActive ? "yst-step--active" : "" ) }
 		>
 			<div className="yst-step__circle">
-				{ isStepComplete && <CheckIcon
+				{ isComplete && <CheckIcon
 					className="yst-step__icon yst-w-4 yst-z-50"
 				/> }
 
@@ -52,7 +51,6 @@ Step.propTypes = {
 	label: PropTypes.string.isRequired,
 	isActive: PropTypes.bool.isRequired,
 	isComplete: PropTypes.bool.isRequired,
-	isStepComplete: PropTypes.bool.isRequired,
 };
 
 /**

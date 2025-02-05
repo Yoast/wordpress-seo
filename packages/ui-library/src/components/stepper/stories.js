@@ -30,9 +30,8 @@ export const Factory = {
 				{ steps.map( ( step, index ) => <Stepper.Step
 					key={ step }
 					label={ step }
-					isComplete={ isComplete }
+					isComplete={ currentStep > index + 1 || isComplete }
 					isActive={ currentStep === index + 1 }
-					isStepComplete={ currentStep > index + 1 || isComplete }
 				/> ) }
 
 			</Stepper>

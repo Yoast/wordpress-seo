@@ -124,8 +124,7 @@ export const SiteKitSetupWidget = ( {
 				key={ label }
 				label={ label }
 				isActive={ currentStep === index + 1 }
-				isComplete={ isComplete }
-				isStepComplete={ currentStep > index + 1 || isComplete }
+				isComplete={ currentStep > index + 1 || isComplete }
 			/> ) ) }
 		</Stepper>
 		<hr className="yst-bg-slate-200 yst-my-6" />
