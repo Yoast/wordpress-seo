@@ -65,8 +65,9 @@ DropdownMenuIconTrigger.propTypes = {
  * Dropdown menu list.
  *
  * @param {JSX.node} children Content of the menu.
+ * @param {string} [className] CSS class.
  *
- * @returns {JSX.Element} Menu component.
+ * @returns {JSX.Element} Menu list component.
  */
 const DropdownMenuList = ( { children, className } ) => {
 	return (
