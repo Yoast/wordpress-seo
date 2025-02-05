@@ -22,7 +22,7 @@ const StepperContext = createContext( {
  * @returns {JSX.Element} The step element.
  */
 const Step = ( { label, isComplete, isActive } ) => {
-	const addStepRef = useContext( StepperContext );
+	const { addStepRef } = useContext( StepperContext );
 	return (
 		<div
 			ref={ addStepRef }
@@ -87,7 +87,7 @@ export const Stepper = forwardRef( ( { children, numberOfSteps, currentStep, cla
 	const addStepRef = useCallback( ( el ) => ( stepRef.current.push( el ) ), [ stepRef.current ] );
 
 	return (
-		<StepperContext.Provider value={ addStepRef }>
+		<StepperContext.Provider value={ { addStepRef } }>
 			<div className={ classNames( className, "yst-stepper" ) } ref={ ref }>
 
 				{ children }
