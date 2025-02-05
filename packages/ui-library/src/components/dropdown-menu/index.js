@@ -94,12 +94,13 @@ DropdownMenuList.propTypes = {
 /**
  *
  * @param {JSX.node} children Content of the menu.
- * @param {string} [className] CSS class.
- * @returns
+ * @param {object} props The menu props.
+ *
+ * @returns {JSX.Element} Menu component.
  */
-export const DropdownMenu = ( { children, className } ) => {
+export const DropdownMenu = ( { children, ...props } ) => {
 	return (
-		<Menu as="div" className={ classNames( "yst-dropdown-menu", className ) }>
+		<Menu { ...props }>
 			{ children }
 		</Menu>
 	);
@@ -107,7 +108,6 @@ export const DropdownMenu = ( { children, className } ) => {
 
 DropdownMenu.propTypes = {
 	children: PropTypes.node.isRequired,
-	className: PropTypes.string,
 };
 
 DropdownMenu.Item = Menu.Item;
