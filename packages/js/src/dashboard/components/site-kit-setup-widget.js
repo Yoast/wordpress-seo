@@ -137,7 +137,7 @@ export const SiteKitSetupWidget = ( {
 				{ __( "Key performance metrics to fine-tune your website and optimize like a pro.", "wordpress-seo" ) }
 			</li>
 		</ul>
-		<div className="yst-flex yst-gap-0.5 yst-mt-6 yst-items-center">
+		<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
 			<Button { ...buttonProps } />
 
 			{ isConnected ? <Button>{ __( "Dismiss", "wordpress-seo" ) }</Button>
