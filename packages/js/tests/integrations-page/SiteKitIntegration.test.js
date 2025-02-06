@@ -1,4 +1,4 @@
-import { render, screen } from "../test-utils";
+import { render, screen, act } from "../test-utils";
 import { SiteKitIntegration } from "../../src/integrations-page/site-kit-integration";
 
 jest.mock( "@wordpress/data", () => ( {
@@ -82,7 +82,7 @@ describe( "SiteKitIntegration", () => {
 	it( "opens a modal to disconnect when clicking on 'Disconnect' button when connected and dismissing the modal", () => {
 		render( <SiteKitIntegration
 			isActive={ true }
-			afterSetup={ true }
+			isSetupCompleted={ true }
 			isInstalled={ true }
 			isConnected={ true } { ...urlsProps }
 		/> );

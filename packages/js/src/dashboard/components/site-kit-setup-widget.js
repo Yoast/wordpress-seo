@@ -4,62 +4,6 @@ import { __ } from "@wordpress/i18n";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { ArrowRightIcon, XIcon, TrashIcon } from "@heroicons/react/outline";
 
-/**
- * Get the button and stepper props based on the current state.
- *
- * @param {boolean} isInstalled Whether the plugin is isInstalled.
- * @param {boolean} isActive Whether the feature is active.
- * @param {boolean} isSetupCompleted Whether the setup is complete.
- * @param {boolean} isConnected Whether the connection is active.
- * @param {string} installUrl The URL to install Site Kit.
- * @param {string} activateUrl The URL to activate Site Kit.
- * @param {string} setupUrl The URL to setup Site Kit.
- *
- * @returns {Object} The button and stepper props.
- */
-const getButtonAndStepperProps = ( isInstalled, isActive, isSetupCompleted, isConnected, installUrl, activateUrl, setupUrl ) => {
-	let buttonProps;
-	let currentStep;
-	let isComplete = false;
-
-	switch ( true ) {
-		case ( ! isInstalled ):
-			currentStep = 1;
-			buttonProps = {
-				children: __( "Install Site Kit by Google", "wordpress-seo" ),
-				as: "a",
-				href: installUrl,
-			};
-			break;
-		case ( ! isActive ):
-			currentStep = 2;
-			buttonProps = {
-				children: __( "Activate Site Kit by Google", "wordpress-seo" ),
-				as: "a",
-				href: activateUrl,
-			};
-			break;
-		case ( ! isSetupCompleted ):
-			currentStep = 3;
-			buttonProps = {
-				children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-				as: "a",
-				href: setupUrl,
-			};
-			break;
-		case ( ! isConnected ):
-			currentStep = 4;
-			buttonProps = { children: __( "Connect Site Kit by Google", "wordpress-seo" ) };
-			break;
-		case isConnected:
-			isComplete = true;
-			currentStep = 4;
-			buttonProps = { children: "Take a quick tour" };
-			break;
-	}
-	return { buttonProps, currentStep, isComplete };
-};
-
 const steps = [
 	__( "INSTALL", "wordpress-seo" ),
 	__( "ACTIVATE", "wordpress-seo" ),
@@ -95,9 +39,34 @@ export const SiteKitSetupWidget = ( {
 	onRemovePermanently,
 	learnMorelink,
 } ) => {
-	const { buttonProps, currentStep, isComplete } = getButtonAndStepperProps(
-		isInstalled, isActive, isSetupCompleted, isConnected, installUrl, activateUrl, setupUrl );
-	return <Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative">
+	const stepsStatuses = [ isInstalled, isActive, isSetupCompleted, isConnected ];
+
+	const currentStep = stepsStatuses.findIndex( status => ! status ) >= 0 ? stepsStatuses.findIndex( status => ! status ) : stepsStatuses.length - 1;
+
+	const lastStepCompleted = currentStep + 1 === steps.length && isConnected;
+
+	const buttonProps = [
+		{
+			children: __( "Install Site Kit by Google", "wordpress-seo" ),
+			href: installUrl,
+			as: "a",
+		},
+		{
+			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
+			href: activateUrl,
+			as: "a",
+		},
+		{
+			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
+			href: setupUrl,
+			as: "a",
+		},
+		{
+			children: __( "Connect Site Kit by Google", "wordpress-seo" ),
+		},
+	];
+
+	return <Paper className="yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative yst-mt-6">
 		<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
 			<DropdownMenu.IconTrigger screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) } className="yst-float-end" />
 			<DropdownMenu.List className="yst-mt-6 yst-w-56">
@@ -123,8 +92,8 @@ export const SiteKitSetupWidget = ( {
 			{ steps.map( ( label, index ) => ( <Stepper.Step
 				key={ label }
 				label={ label }
-				isActive={ currentStep === index + 1 }
-				isComplete={ currentStep > index + 1 || isComplete }
+				isActive={ currentStep === index }
+				isComplete={ currentStep > index || lastStepCompleted }
 			/> ) ) }
 		</Stepper>
 		<hr className="yst-bg-slate-200 yst-my-6" />
@@ -143,13 +112,21 @@ export const SiteKitSetupWidget = ( {
 			</li>
 		</ul>
 		<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
-			<Button { ...buttonProps } />
 
-			{ isConnected ? <Button>{ __( "Dismiss", "wordpress-seo" ) }</Button>
-				: <Button as="a" variant="tertiary" href={ learnMorelink } className="yst-flex yst-items-center yst-gap-1">
-					{ __( "Learn more", "wordpress-seo" ) }
-					<ArrowRightIcon className="yst-w-3 yst-text-primary-500 rtl:yst-rotate-180" />
-				</Button>
+			{ lastStepCompleted
+				? <>
+					<Button>
+						{ __( "Take a quick tour", "wordpress-seo" ) }
+					</Button>
+					<Button variant="tertiary">{ __( "Dismiss", "wordpress-seo" ) }</Button>
+				</>
+				: <>
+					<Button { ...buttonProps[ currentStep ] } />
+					<Button as="a" variant="tertiary" href={ learnMorelink } className="yst-flex yst-items-center yst-gap-1">
+						{ __( "Learn more", "wordpress-seo" ) }
+						<ArrowRightIcon className="yst-w-3 yst-text-primary-500 rtl:yst-rotate-180" />
+					</Button>
+				</>
 			}
 		</div>
 	</Paper>;

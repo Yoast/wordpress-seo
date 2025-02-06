@@ -1,6 +1,6 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { CheckIcon } from "@heroicons/react/solid";
-import { createInterpolateElement, useCallback } from "@wordpress/element";
+import { createInterpolateElement } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
 import { ReactComponent as SiteKitLogo } from "../../images/site-kit-logo.svg";
@@ -61,47 +61,33 @@ const SuccessfullyConnected = () => {
 export const SiteKitIntegration = ( { isActive, isSetupCompleted, isInstalled, isConnected, installUrl, activateUrl, setupUrl } ) => {
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
 	const [ isDisconnectModalOpen, toggleDisconnectModal ] = useToggleState( false );
+	const stepsStatuses = [ isInstalled, isActive, isSetupCompleted, isConnected ];
 
-	const getButtonProps = useCallback( () => {
-		if ( ! isInstalled ) {
-			return {
-				children: __( "Install Site Kit by Google", "wordpress-seo" ),
-				as: "a",
-				href: installUrl,
-			};
-		}
-		if ( ! isActive ) {
-			return {
-				children: __( "Activate Site Kit by Google", "wordpress-seo" ),
-				as: "a",
-				href: activateUrl,
-			};
-		}
-		if ( ! isSetupCompleted ) {
-			return {
-				children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-				as: "a",
-				href: setupUrl,
-			};
-		}
-		if ( ! isConnected ) {
-			return {
-				children: __( "Connect Site Kit by Google", "wordpress-seo" ),
-				as: "button",
-				onClick: toggleModal,
-			};
-		}
+	const currentStep = stepsStatuses.findIndex( status => ! status ) >= 0 ? stepsStatuses.findIndex( status => ! status ) : stepsStatuses.length - 1;
 
-		return {
-			children: __( "Disconnect", "wordpress-seo" ),
-			as: "button",
-			variant: "secondary",
-			onClick: toggleDisconnectModal,
-		};
-	}, [ isInstalled, isActive, isSetupCompleted, isConnected, installUrl, activateUrl, toggleModal ] );
+	const buttonProps = [
+		{
+			children: __( "Install Site Kit by Google", "wordpress-seo" ),
+			href: installUrl,
+			as: "a",
+		},
+		{
+			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
+			href: activateUrl,
+			as: "a",
+		},
+		{
+			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
+			href: setupUrl,
+			as: "a",
+		},
+		{
+			children: __( "Connect Site Kit by Google", "wordpress-seo" ),
+			onClick: toggleModal,
+		},
+	];
 
-
-	const successfullyConnected = isInstalled && isActive && isSetupCompleted && isConnected;
+	const successfullyConnected = currentStep + 1 === stepsStatuses.length && isConnected;
 	return (
 		<>
 			<SimpleIntegration
@@ -109,8 +95,13 @@ export const SiteKitIntegration = ( { isActive, isSetupCompleted, isInstalled, i
 				isActive={ successfullyConnected }
 			>
 				<span className="yst-flex yst-flex-col yst-flex-1">
-					{ successfullyConnected && <SuccessfullyConnected  /> }
-					<Button className="yst-w-full" id="site-kit-integration__button" { ...getButtonProps( isInstalled, isActive, isSetupCompleted, isConnected ) } />
+					{ successfullyConnected ? <>
+						<SuccessfullyConnected  />
+						<Button className="yst-w-full" id="site-kit-integration__button" variant="secondary" onClick={ toggleDisconnectModal }>
+							{ __( "Disconnect", "wordpress-seo" ) }
+						</Button>
+					</> : <Button className="yst-w-full" id="site-kit-integration__button" { ...buttonProps[ currentStep ] } />  }
+
 				</span>
 			</SimpleIntegration>
 
