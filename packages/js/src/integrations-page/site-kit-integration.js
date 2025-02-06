@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
 import { ReactComponent as SiteKitLogo } from "../../images/site-kit-logo.svg";
 import { Button, useToggleState } from "@yoast/ui-library";
-import { SiteKitConsentModal } from "../shared-admin/components";
+import { SiteKitConsentModal, UnsavedChangesModal as DisconnectModal } from "../shared-admin/components";
 
 const integration = {
 	name: __( "Site Kit by Google", "wordpress-seo" ),
@@ -58,8 +58,9 @@ const SuccessfullyConnected = () => {
  *
  * @returns {WPElement} The Site Kit integration component.
  */
-export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, isConnected, installUrl, activateUrl, setupUrl } ) => {
+export const SiteKitIntegration = ( { isActive, afterSetup, isInstalled, isConnected, installUrl, activateUrl, setupUrl } ) => {
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
+	const [ isDisconnectModalOpen, toggleDisconnectModal ] = useToggleState( false );
 
 	const getButtonProps = useCallback( () => {
 		if ( ! isInstalled ) {
@@ -95,6 +96,7 @@ export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, i
 			children: __( "Disconnect", "wordpress-seo" ),
 			as: "button",
 			variant: "secondary",
+			onClick: toggleDisconnectModal,
 		};
 	}, [ isInstalled, isActive, afterSetup, isConnected, installUrl, activateUrl, toggleModal ] );
 
@@ -111,12 +113,23 @@ export const GoogleSiteKitIntegration = ( { isActive, afterSetup, isInstalled, i
 					<Button className="yst-w-full" id="google-site-kit-button" { ...getButtonProps( isInstalled, isActive, afterSetup, isConnected ) } />
 				</span>
 			</SimpleIntegration>
+
+			<DisconnectModal
+				isOpen={ isDisconnectModalOpen }
+				onClose={ toggleDisconnectModal }
+				onDiscard={ toggleDisconnectModal }
+				title={ __( "Are you sure?", "wordpress-seo" ) }
+				description={ __( "By disconnecting, you will revoke your consent for Yoast to access your Site Kit data, meaning we can no longer show insights from Site Kit by Google on your dashboard. Do you want to proceed?", "wordpress-seo" ) }
+				dismissLabel={ __( "No, stay connected", "wordpress-seo" ) }
+				discardLabel={ __( "Yes, disconnect", "wordpress-seo" ) }
+			/>
+
 			<SiteKitConsentModal isOpen={ isModalOpen } onClose={ toggleModal } />
 		</>
 	);
 };
 
-GoogleSiteKitIntegration.propTypes = {
+SiteKitIntegration.propTypes = {
 	isActive: PropTypes.bool.isRequired,
 	afterSetup: PropTypes.bool.isRequired,
 	isInstalled: PropTypes.bool.isRequired,

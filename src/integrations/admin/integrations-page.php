@@ -9,9 +9,9 @@ use WP_Recipe_Maker;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -57,11 +57,11 @@ class Integrations_Page implements Integration_Interface {
 	private $jetpack_conditional;
 
 	/**
-	 * The Google Site Kit conditional.
+	 * The site kit integration configuration data.
 	 *
-	 * @var Google_Site_Kit_Feature_Conditional
+	 * @var Site_Kit
 	 */
-	private $google_site_kit_conditional;
+	private $site_kit_integration_data;
 
 	/**
 	 * {@inheritDoc}
@@ -73,12 +73,12 @@ class Integrations_Page implements Integration_Interface {
 	/**
 	 * Workouts_Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager           $admin_asset_manager         The admin asset manager.
-	 * @param Options_Helper                      $options_helper              The options helper.
-	 * @param Woocommerce_Helper                  $woocommerce_helper          The WooCommerce helper.
-	 * @param Elementor_Activated_Conditional     $elementor_conditional       The elementor conditional.
-	 * @param Jetpack_Conditional                 $jetpack_conditional         The Jetpack conditional.
-	 * @param Google_Site_Kit_Feature_Conditional $google_site_kit_conditional The Google Site Kit conditional.
+	 * @param WPSEO_Admin_Asset_Manager       $admin_asset_manager       The admin asset manager.
+	 * @param Options_Helper                  $options_helper            The options helper.
+	 * @param Woocommerce_Helper              $woocommerce_helper        The WooCommerce helper.
+	 * @param Elementor_Activated_Conditional $elementor_conditional     The elementor conditional.
+	 * @param Jetpack_Conditional             $jetpack_conditional       The Jetpack conditional.
+	 * @param Site_Kit                        $site_kit_integration_data The site kit integration configuration data.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
@@ -86,14 +86,14 @@ class Integrations_Page implements Integration_Interface {
 		Woocommerce_Helper $woocommerce_helper,
 		Elementor_Activated_Conditional $elementor_conditional,
 		Jetpack_Conditional $jetpack_conditional,
-		Google_Site_Kit_Feature_Conditional $google_site_kit_conditional
+		Site_Kit $site_kit_integration_data
 	) {
-		$this->admin_asset_manager         = $admin_asset_manager;
-		$this->options_helper              = $options_helper;
-		$this->woocommerce_helper          = $woocommerce_helper;
-		$this->elementor_conditional       = $elementor_conditional;
-		$this->jetpack_conditional         = $jetpack_conditional;
-		$this->google_site_kit_conditional = $google_site_kit_conditional;
+		$this->admin_asset_manager       = $admin_asset_manager;
+		$this->options_helper            = $options_helper;
+		$this->woocommerce_helper        = $woocommerce_helper;
+		$this->elementor_conditional     = $elementor_conditional;
+		$this->jetpack_conditional       = $jetpack_conditional;
+		$this->site_kit_integration_data = $site_kit_integration_data;
 	}
 
 	/**
@@ -148,7 +148,6 @@ class Integrations_Page implements Integration_Interface {
 		$acf_seo_file_github  = 'yoast-acf-analysis/yoast-acf-analysis.php';
 		$algolia_file         = 'wp-search-with-algolia/algolia.php';
 		$old_algolia_file     = 'search-by-algolia-instant-relevant-results/algolia.php';
-		$google_site_kit_file = 'google-site-kit/google-site-kit.php';
 
 		$addon_manager             = new WPSEO_Addon_Manager();
 		$woocommerce_seo_installed = $addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG );
@@ -191,18 +190,6 @@ class Integrations_Page implements Integration_Interface {
 			'install-plugin_acf-content-analysis-for-yoast-seo'
 		);
 
-		$google_site_kit_activate_url = \wp_nonce_url(
-			\self_admin_url( 'plugins.php?action=activate&plugin=' . $google_site_kit_file ),
-			'activate-plugin_' . $google_site_kit_file
-		);
-
-		$google_site_kit_install_url = \wp_nonce_url(
-			\self_admin_url( 'update.php?action=install-plugin&plugin=google-site-kit' ),
-			'install-plugin_google-site-kit'
-		);
-
-		$google_site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
-
 		$this->admin_asset_manager->localize_script(
 			'integrations-page',
 			'wpseoIntegrationsData',
@@ -232,14 +219,7 @@ class Integrations_Page implements Integration_Interface {
 				'mastodon_active'                    => $mastodon_active,
 				'is_multisite'                       => \is_multisite(),
 				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
-				'google_site_kit_installed'          => \file_exists( \WP_PLUGIN_DIR . '/' . $google_site_kit_file ),
-				'google_site_kit_active'             => \is_plugin_active( $google_site_kit_file ),
-				'google_site_kit_setup'              => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
-				'google_site_kit_connected'          => $this->options_helper->get( 'google_site_kit_connected', false ),
-				'google_site_kit_feature'            => $this->google_site_kit_conditional->is_met(),
-				'google_site_kit_install_url'        => $google_site_kit_install_url,
-				'google_site_kit_activate_url'       => $google_site_kit_activate_url,
-				'google_site_kit_setup_url'          => $google_site_kit_setup_url,
+				'site_kit_configuration'             => $this->site_kit_integration_data->to_array(),
 			]
 		);
 	}

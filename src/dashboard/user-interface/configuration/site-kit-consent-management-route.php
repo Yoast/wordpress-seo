@@ -7,7 +7,7 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Site_Kit_Configuration_Dismissal_Route implements Route_Interface {
+class Site_Kit_Consent_Management_Route implements Route_Interface {
 
 	use No_Conditionals;
 
@@ -34,24 +34,24 @@ class Site_Kit_Configuration_Dismissal_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	public const ROUTE_PREFIX = '/site_kit_configuration_permanent_dismissal';
+	public const ROUTE_PREFIX = '/site_kit_manage_consent';
 
 	/**
-	 * Holds the introductions collector instance.
+	 * Holds the repository instance.
 	 *
-	 * @var Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface
+	 * @var Site_Kit_Consent_Repository_Interface
 	 */
-	private $permanently_dismissed_site_kit_configuration_repository;
+	private $site_kit_consent_repository;
 
 	/**
 	 * Constructs the class.
 	 *
-	 * @param Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface $permanently_dismissed_site_kit_configuration_repository The repository.
+	 * @param Site_Kit_Consent_Repository_Interface $site_kit_consent_repository The repository.
 	 */
 	public function __construct(
-		Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface $permanently_dismissed_site_kit_configuration_repository
+		Site_Kit_Consent_Repository_Interface $site_kit_consent_repository
 	) {
-		$this->permanently_dismissed_site_kit_configuration_repository = $permanently_dismissed_site_kit_configuration_repository;
+		$this->site_kit_consent_repository = $site_kit_consent_repository;
 	}
 
 	/**
@@ -66,10 +66,10 @@ class Site_Kit_Configuration_Dismissal_Route implements Route_Interface {
 			[
 				[
 					'methods'             => 'POST',
-					'callback'            => [ $this, 'set_site_kit_configuration_permanent_dismissal' ],
+					'callback'            => [ $this, 'set_site_kit_consent' ],
 					'permission_callback' => [ $this, 'check_capabilities' ],
 					'args'                => [
-						'is_dismissed' => [
+						'consent' => [
 							'required'          => true,
 							'type'              => 'bool',
 							'sanitize_callback' => 'rest_sanitize_boolean',
@@ -88,25 +88,25 @@ class Site_Kit_Configuration_Dismissal_Route implements Route_Interface {
 	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
-	public function set_site_kit_configuration_permanent_dismissal( WP_REST_Request $request ) {
-		$is_dismissed = $request->get_param( 'is_dismissed' );
+	public function set_site_kit_consent( WP_REST_Request $request ) {
+		$consent = $request->get_param( 'consent' );
 
 		try {
-			$result = $this->permanently_dismissed_site_kit_configuration_repository->set_site_kit_configuration_dismissal( $is_dismissed );
+			$result = $this->site_kit_consent_repository->set_site_kit_consent( $consent );
 		} catch ( Exception $exception ) {
 			return new WP_Error(
-				'wpseo_set_site_kit_configuration_permanent_dismissal_error',
+				'wpseo_set_site_kit_consent_error',
 				$exception->getMessage(),
 				(object) []
 			);
 		}
 
-			return new WP_REST_Response(
-				[
-					'success' => $result,
-				],
-				( $result ) ? 200 : 400
-			);
+		return new WP_REST_Response(
+			[
+				'success' => $result,
+			],
+			( $result ) ? 200 : 400
+		);
 	}
 
 	/**
