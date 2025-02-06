@@ -3,24 +3,44 @@
 <head>
 	<meta charset="utf-8" />
 	<title>Yoast SEO webworker demo</title>
+	<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+	<style>
+		li.bad::marker {
+			color: #dc3232;
+		}
+		li.ok::marker {
+			color: #ee7c1b;
+		}
+		li.good::marker {
+			color: #7ad03a;
+		}
+	</style>
 	<script src="main.js"></script>
 </head>
 <body>
-<h1>Yoast SEO</h1>
-
+<h1>Yoast SEO webworker demo</h1>
 <div>
-	<h2>Imports</h2>
+	<h2>Data</h2>
 	<form>
 		<label for="paper">Paper </label>
 		<textarea id="paper"></textarea>
 		<label for="keyphrase">Keyphrase </label>
 		<input type="text" id="keyphrase" />
+		<label for="language">Language </label>
+		<select id="language">
+			<option value="en">English</option>
+			<option value="de">German</option>
+			<option value="nl">Dutch</option>
+			<option value="fr">French</option>
+			<option value="es">Spanish</option>
+			<option value="it">Italian</option>
+			<option value="ja">Japanese</option>
+		</select>
 		<input type="button" value="Analyze" id="analyze" />
 	</form>
 
 	<h2>Results</h2>
 	<div id="result-div"></div>
-	<pre id="result-pre"></pre>
 </div>
 </body>
 </html>
