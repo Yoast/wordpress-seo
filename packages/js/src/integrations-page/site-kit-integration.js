@@ -62,9 +62,7 @@ export const SiteKitIntegration = ( { isActive, isSetupCompleted, isInstalled, i
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
 	const [ isDisconnectModalOpen, toggleDisconnectModal ] = useToggleState( false );
 	const stepsStatuses = [ isInstalled, isActive, isSetupCompleted, isConnected ];
-
 	const currentStep = stepsStatuses.findIndex( status => ! status ) >= 0 ? stepsStatuses.findIndex( status => ! status ) : stepsStatuses.length - 1;
-
 	const buttonProps = [
 		{
 			children: __( "Install Site Kit by Google", "wordpress-seo" ),
