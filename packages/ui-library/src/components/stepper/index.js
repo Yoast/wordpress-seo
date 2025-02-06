@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import React, { forwardRef, useRef, useEffect, useState, useCallback, createContext, useContext } from "react";
+import React, { forwardRef, useRef, useState, useCallback, createContext, useContext, useLayoutEffect } from "react";
 import { CheckIcon } from "@heroicons/react/solid";
 import { ProgressBar } from "../../index";
 import { noop } from "lodash";
@@ -56,7 +56,7 @@ Step.propTypes = {
 /**
  *
  * @param {JSX.Node} children Content of the stepper.
- * @param {number} [currentStep] The current step.
+ * @param {number} [currentStep] The current step, starts from 0.
  * @param {string} [className] Optional extra className.
  *
  * @returns {JSX.Element} The Stepper element.
@@ -68,7 +68,7 @@ export const Stepper = forwardRef( ( { children, currentStep, className = "" }, 
 	} );
 	const stepRef = useRef( [] );
 
-	useEffect( () => {
+	useLayoutEffect( () => {
 		if ( stepRef.current.length > 0 ) {
 			const firstStepRect = stepRef.current[ 0 ].getBoundingClientRect();
 			const lastStepRect = stepRef.current[ stepRef.current.length - 1 ].getBoundingClientRect();
@@ -92,7 +92,7 @@ export const Stepper = forwardRef( ( { children, currentStep, className = "" }, 
 					style={ progressBarPosition }
 					min={ 0 }
 					max={ stepRef.current.length - 1 }
-					progress={ currentStep - 1 }
+					progress={ currentStep }
 				/>
 			</div>
 		</StepperContext.Provider>

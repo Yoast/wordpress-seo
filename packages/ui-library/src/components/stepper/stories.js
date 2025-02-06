@@ -14,14 +14,14 @@ export const Factory = {
 		const [ { className, currentStep }, updateArgs ] = useArgs();
 
 		const handleNext = useCallback( () => {
-			if ( currentStep < steps.length ) {
+			if ( currentStep < steps.length - 1 ) {
 				setIsComplete( false );
 				updateArgs( { currentStep: currentStep + 1 } );
-			} else if ( currentStep === steps.length && ! isComplete ) {
+			} else if ( currentStep === steps.length - 1 && ! isComplete ) {
 				setIsComplete( true );
 			} else if ( isComplete ) {
 				setIsComplete( false );
-				updateArgs( { currentStep: 1 } );
+				updateArgs( { currentStep: 0 } );
 			}
 		}, [ setIsComplete, updateArgs, isComplete, currentStep ] );
 
@@ -30,15 +30,15 @@ export const Factory = {
 				{ steps.map( ( step, index ) => <Stepper.Step
 					key={ step }
 					label={ step }
-					isComplete={ currentStep > index + 1 || isComplete }
-					isActive={ currentStep === index + 1 }
+					isComplete={ currentStep > index || isComplete }
+					isActive={ currentStep === index }
 				/> ) }
 
 			</Stepper>
 
 			<Button id="yst-stepper-button" onClick={ handleNext }>
-				{ currentStep < steps.length && "Next" }
-				{ currentStep === steps.length && ! isComplete && "Finish" }
+				{ currentStep < steps.length - 1 && "Next" }
+				{ currentStep === steps.length - 1 && ! isComplete && "Finish" }
 				{ isComplete && "Restart" }
 			</Button>
 		</>;
@@ -50,7 +50,6 @@ export default {
 	component: Stepper,
 	argTypes: {
 		className: { control: "text" },
-		numberOfSteps: { control: "number" },
 		currentStep: { control: "number" },
 	},
 	parameters: {
@@ -60,7 +59,6 @@ export default {
 	},
 	args: {
 		className: "yst-mb-5",
-		numberOfSteps: 4,
-		currentStep: 1,
+		currentStep: 0,
 	},
 };
