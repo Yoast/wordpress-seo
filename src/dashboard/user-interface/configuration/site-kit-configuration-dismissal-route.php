@@ -68,6 +68,14 @@ class Site_Kit_Configuration_Dismissal_Route implements Route_Interface {
 					'methods'             => 'POST',
 					'callback'            => [ $this, 'set_site_kit_configuration_permanent_dismissal' ],
 					'permission_callback' => [ $this, 'check_capabilities' ],
+					'args'                => [
+						'is_dismissed' => [
+							'required'          => true,
+							'type'              => 'bool',
+							'sanitize_callback' => 'rest_sanitize_boolean',
+						],
+
+					],
 				],
 			]
 		);
