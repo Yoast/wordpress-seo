@@ -41,9 +41,12 @@ export const SiteKitSetupWidget = ( {
 } ) => {
 	const stepsStatuses = [ isInstalled, isActive, isSetupCompleted, isConnected ];
 
-	const currentStep = stepsStatuses.findIndex( status => ! status ) >= 0 ? stepsStatuses.findIndex( status => ! status ) : stepsStatuses.length - 1;
+	let currentStep = stepsStatuses.findIndex( status => ! status );
+	const overAllCompleted = currentStep === -1;
 
-	const lastStepCompleted = currentStep + 1 === steps.length && isConnected;
+	if ( currentStep === -1 ) {
+		currentStep = steps.length - 1;
+	}
 
 	const buttonProps = [
 		{
@@ -92,7 +95,7 @@ export const SiteKitSetupWidget = ( {
 			{ steps.map( ( label, index ) => ( <Stepper.Step
 				key={ label }
 				isActive={ currentStep === index }
-				isComplete={ currentStep > index || lastStepCompleted }
+				isComplete={ stepsStatuses[ index ] }
 			>
 				{ label }
 			</Stepper.Step> ) ) }
@@ -114,7 +117,7 @@ export const SiteKitSetupWidget = ( {
 		</ul>
 		<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
 
-			{ lastStepCompleted
+			{ overAllCompleted
 				? <>
 					<Button>
 						{ __( "Take a quick tour", "wordpress-seo" ) }
