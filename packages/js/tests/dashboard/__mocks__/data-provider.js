@@ -8,7 +8,7 @@ export class MockDataProvider extends DataProvider {
 	/**
 	 * Creates an instance of MockDataProvider.
 	 *
-	 * @param {Object} options - The options to initialize the data provider.
+	 * @param {Object} [options] The options to initialize the data provider. See {@link DataProvider}.
 	 */
 	constructor( options = {} ) {
 		super( defaultsDeep( options, {

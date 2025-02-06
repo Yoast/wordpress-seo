@@ -28,7 +28,7 @@ import { ALERT_CENTER_NAME } from "./store/alert-center";
  * @type {import("../index").Endpoints} Endpoints
  */
 
-domReady( () => {
+domReady( () => { // eslint-disable-line complexity
 	const root = document.getElementById( "yoast-seo-general" );
 	if ( ! root ) {
 		return;
