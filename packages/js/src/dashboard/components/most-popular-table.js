@@ -48,7 +48,7 @@ export const MostPopularTable = ( { data } ) => {
 							size="small"
 							as="a"
 							href={ links?.edit }
-							className="yst-px-0"
+							className="yst-px-0 yst-me-1"
 							disabled={ ! links || ! links?.edit }
 						>
 							<PencilIcon className="yst-w-4 yst-h-4 yst-me-1.5" />

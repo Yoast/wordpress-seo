@@ -62,7 +62,7 @@ export const TableWidget = ( { title, children } ) => {
 			<Title as="h3" size="2" className="yst-text-slate-900 yst-font-medium">
 				{ title }
 			</Title>
-			<div className="yst-overflow-auto yst-pe-1">
+			<div className="yst-overflow-auto">
 				<Table variant="minimal">
 					{ children }
 				</Table>
