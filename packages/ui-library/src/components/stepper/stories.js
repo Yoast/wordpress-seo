@@ -29,10 +29,11 @@ export const Factory = {
 			<Stepper className={ className } currentStep={ currentStep }>
 				{ steps.map( ( step, index ) => <Stepper.Step
 					key={ step }
-					label={ step }
 					isComplete={ currentStep > index || isComplete }
 					isActive={ currentStep === index }
-				/> ) }
+				>
+					{ step }
+				</Stepper.Step> ) }
 
 			</Stepper>
 

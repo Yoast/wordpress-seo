@@ -15,13 +15,13 @@ const StepperContext = createContext( {
 /**
  * Step component.
  *
- * @param {string} label The step label.
+ * @param {JSX.Node} children The step label or children.
  * @param {boolean} isComplete Is the step complete.
  * @param {boolean} isActive Is the step
  *
  * @returns {JSX.Element} The step element.
  */
-const Step = ( { label, isComplete, isActive } ) => {
+const Step = ( { children, isComplete, isActive } ) => {
 	const { addStepRef } = useContext( StepperContext );
 	return (
 		<div
@@ -41,14 +41,14 @@ const Step = ( { label, isComplete, isActive } ) => {
 							! isComplete && isActive ? "yst-opacity-100" : "yst-opacity-0" ) }
 				/>
 			</div>
-			<div className="yst-font-semibold yst-text-xxs yst-mt-3">{ label }</div>
+			<div className="yst-font-semibold yst-text-xxs yst-mt-3">{ children }</div>
 		</div>
 	);
 };
 
 Step.displayName = "Step";
 Step.propTypes = {
-	label: PropTypes.string.isRequired,
+	children: PropTypes.node.isRequired,
 	isActive: PropTypes.bool.isRequired,
 	isComplete: PropTypes.bool.isRequired,
 };

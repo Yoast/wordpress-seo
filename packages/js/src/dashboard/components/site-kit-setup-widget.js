@@ -91,10 +91,11 @@ export const SiteKitSetupWidget = ( {
 		<Stepper steps={ steps } currentStep={ currentStep }>
 			{ steps.map( ( label, index ) => ( <Stepper.Step
 				key={ label }
-				label={ label }
 				isActive={ currentStep === index }
 				isComplete={ currentStep > index || lastStepCompleted }
-			/> ) ) }
+			>
+				{ label }
+			</Stepper.Step> ) ) }
 		</Stepper>
 		<hr className="yst-bg-slate-200 yst-my-6" />
 		<Title size="2">{ __( "Expand your dashboard with insights from Google!", "wordpress-seo" ) }</Title>
