@@ -15,14 +15,16 @@ import { Button } from "../../index";
  */
 const ButtonItem = ( { children, className, ...props } ) => {
 	return (
-		<Menu.Item
-			as={ Button }
-			variant="tertiary"
-			{ ...props }
-			className={ classNames( "yst-dropdown-menu__item--button",
-				className ) }
-		>
-			{ children }
+		<Menu.Item>
+			{ ( { active } ) => (
+				<Button
+					variant="tertiary"
+					{ ...props }
+					className={ classNames( "yst-dropdown-menu__item--button",
+						active ? "yst-bg-slate-100" : "",
+						className ) }
+				>{ children }</Button>
+			) }
 		</Menu.Item>
 	);
 };

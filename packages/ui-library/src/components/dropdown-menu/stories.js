@@ -8,10 +8,14 @@ export const Factory = {
 		<DropdownMenu.IconTrigger screenReaderTriggerLabel="Open menu" />
 		<DropdownMenu.List>
 			<DropdownMenu.Item as="div" className="yst-text-slate-600">
-				Item
+				{ ( { active } ) => (
+					<div className={ active ? "yst-bg-slate-100" : "" }>Item</div>
+				) }
 			</DropdownMenu.Item>
 			<DropdownMenu.Item as="div" className="yst-text-red-500">
-				Item
+				{ ( { active } ) => (
+					<div className={ active ? "yst-bg-slate-100" : "" }>Item</div>
+				) }
 			</DropdownMenu.Item>
 			<DropdownMenu.ButtonItem className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4">
 				<XIcon className="yst-w-4 yst-text-slate-400" />
