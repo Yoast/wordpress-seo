@@ -12,22 +12,28 @@ describe( "SiteKitSetupWidget", () => {
 		isInstalled: false,
 		onRemove: jest.fn(),
 		onRemovePermanently: jest.fn(),
-		learnMoreLink: "https://example.com/learn-more",
+		learnMorelink: "https://example.com/learn-more",
 	};
 
 	it( "renders the widget with install button", () => {
 		render( <SiteKitSetupWidget { ...defaultProps } /> );
-		expect( screen.getByRole( "link", { name: /Install Site Kit by Google/i } ) ).toBeInTheDocument();
+		const installLink = screen.getByRole( "link", { name: /Install Site Kit by Google/i } );
+		expect( installLink ).toBeInTheDocument();
+		expect( installLink ).toHaveAttribute( "href", defaultProps.installUrl );
 	} );
 
 	it( "renders the widget with activate button", () => {
 		render( <SiteKitSetupWidget { ...defaultProps } isInstalled={ true } /> );
-		expect( screen.getByRole( "link", { name: /Activate Site Kit by Google/i } ) ).toBeInTheDocument();
+		const activateLink = screen.getByRole( "link", { name: /Activate Site Kit by Google/i } );
+		expect( activateLink ).toBeInTheDocument();
+		expect( activateLink ).toHaveAttribute( "href", defaultProps.activateUrl );
 	} );
 
 	it( "renders the widget with setup button", () => {
 		render( <SiteKitSetupWidget { ...defaultProps } isInstalled={ true } isActive={ true } /> );
-		expect( screen.getByRole( "link", { name: /Set up Site Kit by Google/i } ) ).toBeInTheDocument();
+		const setupLink = screen.getByRole( "link", { name: /Set up Site Kit by Google/i } );
+		expect( setupLink ).toBeInTheDocument();
+		expect( setupLink ).toHaveAttribute( "href", defaultProps.setupUrl );
 	} );
 
 	it( "renders the widget with connect button", () => {
@@ -54,5 +60,12 @@ describe( "SiteKitSetupWidget", () => {
 		const removeButton = screen.getByRole( "menuitem", { name: /Remove permanently/i, type: "button" } );
 		fireEvent.click( removeButton );
 		expect( defaultProps.onRemovePermanently ).toHaveBeenCalled();
+	} );
+
+	it( "renders the widget with learn more link", () => {
+		render( <SiteKitSetupWidget { ...defaultProps } /> );
+		const learnMoreLink = screen.getByRole( "link", { name: /Learn more/i } );
+		expect( learnMoreLink ).toBeInTheDocument();
+		expect( learnMoreLink ).toHaveAttribute( "href", defaultProps.learnMorelink );
 	} );
 } );
