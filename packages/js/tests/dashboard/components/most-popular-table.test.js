@@ -21,11 +21,13 @@ describe( "MostPopularTable", () => {
 			/>
 		);
 
-		expect( getByRole( "cell", { name: "https://example.com/page1" } ) ).toBeInTheDocument();
-		expect( getByRole( "cell", { name: "Edit" } ) ).toBeInTheDocument();
+		const editButton = getByRole( "link", { name: "Edit" } );
+		expect( editButton ).toBeInTheDocument();
+		expect( editButton ).toHaveAttribute( "href", "https://example.com/page1/edit" );
+		expect( editButton ).toHaveAttribute( "aria-disabled", "false" );
 	} );
-	it( "should render the one line without edit button", () => {
-		const { queryByRole } = render(
+	it( "should render the one line with disabled edit button", () => {
+		const { getByRole } = render(
 			<MostPopularTable
 				data={ [
 					{
@@ -40,7 +42,10 @@ describe( "MostPopularTable", () => {
 				] }
 			/>
 		);
-		const editButton = queryByRole( "button", { name: "Edit" } );
-		expect( editButton ).not.toBeInTheDocument();
+		const editButton = getByRole( "link", { name: "Edit" } );
+		expect( editButton ).toBeInTheDocument();
+		expect( editButton ).not.toHaveAttribute( "href" );
+		expect( editButton ).toHaveAttribute( "disabled" );
+		expect( editButton ).toHaveAttribute( "aria-disabled", "true" );
 	} );
 } );

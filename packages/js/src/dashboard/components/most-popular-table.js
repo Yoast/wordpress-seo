@@ -50,6 +50,8 @@ export const MostPopularTable = ( { data } ) => {
 							href={ links?.edit }
 							className="yst-px-0 yst-me-1"
 							disabled={ ! links || ! links?.edit }
+							aria-disabled={ ! links || ! links?.edit }
+							role="link"
 						>
 							<PencilIcon className="yst-w-4 yst-h-4 yst-me-1.5" />
 							{ __( "Edit", "wordpress-seo" ) }
