@@ -1,7 +1,6 @@
 @layer components {
 	.yst-root {
 		.yst-tooltip {
-			display: var(--yst-display-tooltip, inline-block);
 			@apply yst-absolute
 			yst-z-10
 			yst-px-2.5
