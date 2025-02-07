@@ -1,5 +1,10 @@
 import { Scores } from "../scores/components/scores";
 import { PageTitle } from "./page-title";
+import { SiteKitSetupWidget } from "./site-kit-setup-widget";
+import { get } from "lodash";
+import { useCallback } from "@wordpress/element";
+import { useToggleState } from "@yoast/ui-library";
+import { useSelect } from "@wordpress/data";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -15,12 +20,39 @@ import { PageTitle } from "./page-title";
  * @param {Endpoints} endpoints The endpoints.
  * @param {Object<string,string>} headers The headers for the score requests.
  * @param {Links} links The links.
+ *
  * @returns {JSX.Element} The element.
  */
+// The complexity is cause by the google site kit feature flag which is temporary.
+// eslint-disable-next-line complexity
 export const Dashboard = ( { contentTypes, userName, features, endpoints, headers, links } ) => {
+	const siteKitConfiguration = get( window, "wpseoScriptData.dashboard.siteKitConfiguration", {
+		isInstalled: false,
+		isActive: false,
+		isSetupCompleted: false,
+		isConnected: false,
+		installUrl: "",
+		activateUrl: "",
+		setupUrl: "",
+		isFeatureEnabled: false,
+	} );
+	const [ showGoogleSiteKit, , , , setRemoveGoogleSiteKit ] = useToggleState( true );
+	const learnMorelink = useSelect( select => select( "@yoast/general" ).selectLink( "https://yoa.st/google-site-kit-learn-more" ), [] );
+	const handleRemovePermanently = useCallback( ()=>{
+		/* eslint-disable-next-line */
+		// TODO: Implement the remove permanently functionality.
+		setRemoveGoogleSiteKit();
+	}, [ setRemoveGoogleSiteKit ] );
+
 	return (
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } />
+			{ showGoogleSiteKit && siteKitConfiguration.isFeatureEnabled && <SiteKitSetupWidget
+				{ ...siteKitConfiguration }
+				learnMoreLink={ learnMorelink }
+				onRemove={ setRemoveGoogleSiteKit }
+				onRemovePermanently={ handleRemovePermanently }
+			/> }
 			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
 				{ features.indexables && features.seoAnalysis && (
 					<Scores analysisType="seo" contentTypes={ contentTypes } endpoint={ endpoints.seoScores } headers={ headers } />
