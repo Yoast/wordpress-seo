@@ -105,6 +105,30 @@ describe( "collectAnalysisData", () => {
 		expect( results._attributes.wpBlocks ).toEqual( gutenbergBlocks );
 	} );
 
+	it( "should not modify the original blocks array when filtering", () => {
+		const edit = mockEdit( "<p>some content</p>" );
+		const store = mockStore( storeData );
+		const customData = mockCustomAnalysisData();
+		const pluggable = mockPluggable();
+
+		const getFirstColumnBlocks = ( blocks ) => blocks
+			.find( block => block.name === "core/columns" ).innerBlocks
+			.find( block => block.name === "core/column" ).innerBlocks;
+		const invalidBlock = { isValid: false, innerBlocks: [], name: "core/paragraph" };
+
+		const firstColumnBlocks = getFirstColumnBlocks( gutenbergBlocks );
+		firstColumnBlocks.push( invalidBlock );
+		const blockEditorDataModule = mockBlockEditorDataModule( gutenbergBlocks );
+
+		// The original blocks array should contain the invalid block.
+		expect( getFirstColumnBlocks( gutenbergBlocks ) ).toContainEqual( invalidBlock );
+
+		// When collecting the analysis data, the invalid block should be removed from the results, but not from the original blocks array.
+		const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule );
+		expect( getFirstColumnBlocks( results._attributes.wpBlocks ) ).not.toContainEqual( invalidBlock );
+		expect( getFirstColumnBlocks( gutenbergBlocks ) ).toContainEqual( invalidBlock );
+	} );
+
 	it( "does not add wpBlocks if no blockEditorDataModule is added", () => {
 		const edit = mockEdit( "<p>some content</p>" );
 		const store = mockStore( storeData );

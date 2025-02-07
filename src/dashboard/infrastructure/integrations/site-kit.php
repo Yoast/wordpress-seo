@@ -61,14 +61,14 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 		$site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
 
 		return [
-			'isInstalled'     => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
-			'isActive'        => \is_plugin_active( self::SITE_KIT_FILE ),
-			'setup_completed' => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
-			'isConnected'     => $this->options_helper->get( 'google_site_kit_connected', false ),
-			'feature_enabled' => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
-			'install_url'     => $site_kit_install_url,
-			'activate_url'    => $site_kit_activate_url,
-			'setup_url'       => $site_kit_setup_url,
+			'isInstalled'      => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
+			'isActive'         => \is_plugin_active( self::SITE_KIT_FILE ),
+			'isSetupCompleted' => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
+			'isConnected'      => $this->options_helper->get( 'google_site_kit_connected', false ),
+			'isFeatureEnabled' => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
+			'installUrl'       => $site_kit_install_url,
+			'activateUrl'      => $site_kit_activate_url,
+			'setupUrl'         => $site_kit_setup_url,
 		];
 	}
 

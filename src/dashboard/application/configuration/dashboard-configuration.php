@@ -4,6 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Dashboard\Application\Configuration;
 
+use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
@@ -12,6 +13,7 @@ use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features
 use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
 use Yoast\WP\SEO\Editors\Framework\Readability_Analysis;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
@@ -75,8 +77,8 @@ class Dashboard_Configuration {
 	 * @param Indexable_Helper                     $indexable_helper                     The indexable helper
 	 *                                                                                   repository.
 	 * @param User_Helper                          $user_helper                          The user helper.
-	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The analysis feature
-	 *                                                                                   repository.
+	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The analysis feature.
+	 *                                                                                        repository.
 	 * @param Endpoints_Repository                 $endpoints_repository                 The endpoints repository.
 	 * @param Nonce_Repository                     $nonce_repository                     The nonce repository.
 	 * @param Site_Kit                             $site_kit_integration_data            The Site Kit integration data.

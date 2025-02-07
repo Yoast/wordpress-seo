@@ -1,5 +1,10 @@
 import { useCallback, useState } from "@wordpress/element";
 import { PageTitle } from "./page-title";
+import { SiteKitSetupWidget } from "./site-kit-setup-widget";
+import { get } from "lodash";
+import { useCallback } from "@wordpress/element";
+import { useToggleState } from "@yoast/ui-library";
+import { useSelect } from "@wordpress/data";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -26,6 +31,7 @@ const prepareWidgetInstance = ( type ) => {
  * @param {string} userName The user name.
  * @param {Features} features Whether features are enabled.
  * @param {Links} links The links.
+ *
  * @returns {JSX.Element} The element.
  */
 export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, features, links } ) => {
@@ -43,6 +49,12 @@ export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, featu
 	return (
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } />
+			{ showGoogleSiteKit && siteKitConfiguration.isFeatureEnabled && <SiteKitSetupWidget
+				{ ...siteKitConfiguration }
+				learnMoreLink={ learnMorelink }
+				onRemove={ setRemoveGoogleSiteKit }
+				onRemovePermanently={ handleRemovePermanently }
+			/> }
 			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
 				{ widgets.map( ( widget ) => widgetFactory.createWidget( widget, removeWidget ) ) }
 			</div>
