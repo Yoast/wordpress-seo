@@ -5,7 +5,7 @@ import React, { createContext, useCallback, useContext, useRef, useEffect, useSt
 import Tooltip from "../../elements/tooltip";
 import { useToggleState } from "../../hooks";
 
-const GRACE_MRGIN = 10;
+const GRACE_MARGIN = 10;
 const DEBOUNCE_DELAY = 100;
 
 /**
