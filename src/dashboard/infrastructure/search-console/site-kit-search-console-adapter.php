@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Data;
 
 /**
- * The site API adapter to make calls via the Site_Kit plugin.
+ * The site API adapter to make calls to the Search Console API, via the Site_Kit plugin.
  */
 class Site_Kit_Search_Console_Adapter {
 
@@ -37,7 +37,7 @@ class Site_Kit_Search_Console_Adapter {
 	}
 
 	/**
-	 * The wrapper method to add our parameters to a Site Kit API request.
+	 * The wrapper method to do a Site Kit API request for Search Console.
 	 *
 	 * @param Search_Console_Parameters $parameters The parameters.
 	 *
