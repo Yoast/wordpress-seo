@@ -4,7 +4,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Dashboard\Application\Configuration;
 
-use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
@@ -13,7 +12,6 @@ use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features
 use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
 use Yoast\WP\SEO\Editors\Framework\Readability_Analysis;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
