@@ -90,7 +90,7 @@ export const TooltipTrigger = ( { as: Component = "button", className, children,
 	const triggerRef = useRef();
 
 	useEffect( () => {
-		const handleMouseMove = debounce( ( event ) => {
+		const handlePointerMove = debounce( ( event ) => {
 			const rect = triggerRef.current.getBoundingClientRect();
 			const extendedRect = {
 				top: rect.top - GRACE_MARGIN,
@@ -113,11 +113,11 @@ export const TooltipTrigger = ( { as: Component = "button", className, children,
 			}
 		}, DEBOUNCE_DELAY );
 
-		document.addEventListener( "pointermove", handleMouseMove );
+		document.addEventListener( "pointermove", handlePointerMove );
 
 		return () => {
-			document.removeEventListener( "pointermove", handleMouseMove );
-			handleMouseMove.cancel();
+			document.removeEventListener( "pointermove", handlePointerMove );
+			handlePointerMove.cancel();
 		};
 	}, [ show, hide, triggerRef, tooltipPosition, isVisible ] );
 
