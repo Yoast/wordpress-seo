@@ -41,7 +41,6 @@ export class WidgetFactory {
 	 * @param {function} onRemove The remove handler.
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
-
 	createWidget( widget, onRemove ) {
 		switch ( widget.type ) {
 			case "seoScores":
