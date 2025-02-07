@@ -119,7 +119,7 @@ export const TooltipTrigger = ( { as: Component = "button", className, children,
 			document.removeEventListener( "pointermove", handlePointerMove );
 			handlePointerMove.cancel();
 		};
-	}, [ show, hide, triggerRef, tooltipPosition, isVisible ] );
+	}, [ show, hide, triggerRef.current, tooltipPosition, isVisible ] );
 
 	return (
 		<Component
