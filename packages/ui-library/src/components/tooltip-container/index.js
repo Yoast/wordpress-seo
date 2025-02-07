@@ -93,10 +93,10 @@ export const TooltipTrigger = ( { as: Component = "button", className, children,
 		const handleMouseMove = debounce( ( event ) => {
 			const rect = triggerRef.current.getBoundingClientRect();
 			const extendedRect = {
-				top: rect.top - GRACE_MRGIN,
-				right: rect.right + GRACE_MRGIN,
-				bottom: rect.bottom + GRACE_MRGIN,
-				left: rect.left - GRACE_MRGIN,
+				top: rect.top - GRACE_MARGIN,
+				right: rect.right + GRACE_MARGIN,
+				bottom: rect.bottom + GRACE_MARGIN,
+				left: rect.left - GRACE_MARGIN,
 			};
 
 			const mouseX = event.clientX;
@@ -127,7 +127,6 @@ export const TooltipTrigger = ( { as: Component = "button", className, children,
 			className={ classNames( "yst-tooltip-trigger", className ) }
 			aria-describedby={ ariaDescribedby }
 			aria-disabled={ true }
-			onMouseEnter={ show }
 			{ ...props }
 		>
 			{ children }
