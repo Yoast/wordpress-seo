@@ -47,25 +47,11 @@
 				}
 
 				.yst-table-cell {
-					@apply yst-py-2;
-
-					&:first-child {
-						@apply yst-ps-0;
-					}
-
-					&:last-child {
-						@apply yst-pe-0;
-					}
+					@apply yst-py-2 first:yst-ps-0 last:yst-pe-0;
 				}
 
 				.yst-table-header{
-					&:first-child {
-						@apply yst-ps-0;
-					}
-
-					&:last-child {
-						@apply yst-pe-0;
-					}
+					@apply first:yst-ps-0 last:yst-pe-0;
 				}
 
 				tbody {
