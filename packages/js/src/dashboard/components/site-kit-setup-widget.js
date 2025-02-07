@@ -70,7 +70,7 @@ export const SiteKitSetupWidget = ( {
 	];
 
 	return <Paper className="yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative yst-mt-6">
-		<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
+		{ ! overAllCompleted && <DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
 			<DropdownMenu.IconTrigger screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) } className="yst-float-end" />
 			<DropdownMenu.List className="yst-mt-6 yst-w-56">
 				<DropdownMenu.ButtonItem
@@ -89,6 +89,7 @@ export const SiteKitSetupWidget = ( {
 				</DropdownMenu.ButtonItem>
 			</DropdownMenu.List>
 		</DropdownMenu>
+		}
 
 		<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4"><YoastConnectSiteKit /></div>
 		<Stepper steps={ steps } currentStep={ currentStep }>
@@ -122,7 +123,7 @@ export const SiteKitSetupWidget = ( {
 					<Button>
 						{ __( "Take a quick tour", "wordpress-seo" ) }
 					</Button>
-					<Button variant="tertiary">{ __( "Dismiss", "wordpress-seo" ) }</Button>
+					<Button variant="tertiary" onClick={ onRemovePermanently }>{ __( "Dismiss", "wordpress-seo" ) }</Button>
 				</>
 				: <>
 					<Button { ...buttonProps[ currentStep ] } />

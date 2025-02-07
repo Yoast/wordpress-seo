@@ -47,7 +47,7 @@ const IconTrigger = ( { className, screenReaderTriggerLabel, Icon = DotsVertical
 	<Menu.Button { ...props } className={ classNames( "yst-dropdown-menu__icon-trigger", className ) }>
 		{ ( { open } ) => <>
 			<Icon
-				className={ classNames( "yst-h-4 hover:yst-text-slate-600",
+				className={ classNames( "yst-h-6 yst-w-6 hover:yst-text-slate-600",
 					open ? "yst-text-slate-600" : "",
 				) }
 			/>
