@@ -5,6 +5,11 @@ import { DataProvider } from "../../../src/dashboard/services/data-provider";
  * Mock data provider.
  */
 export class MockDataProvider extends DataProvider {
+	/**
+	 * Creates an instance of MockDataProvider.
+	 *
+	 * @param {Object} options - The options to initialize the data provider.
+	 */
 	constructor( options = {} ) {
 		super( defaultsDeep( options, {
 			contentTypes: [
@@ -53,6 +58,17 @@ export class MockDataProvider extends DataProvider {
 			links: {
 				dashboardLearnMore: "https://example.com/dashboard-learn-more",
 				errorSupport: "https://example.com/error-support",
+				siteKitLearnMorelink: "https://example.com/google-site-kit-learn-more",
+			},
+			siteKitConfiguration: {
+				isInstalled: false,
+				isActive: false,
+				isSetupCompleted: false,
+				isConnected: false,
+				installUrl: "https://example.com/install",
+				activateUrl: "https://example.com/activate",
+				setupUrl: "https://example.com/isSetup",
+				isFeatureEnabled: false,
 			},
 		} ) );
 	}

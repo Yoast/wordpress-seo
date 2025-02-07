@@ -71,22 +71,36 @@ domReady( () => {
 	const links = {
 		dashboardLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-learn-more" ),
 		errorSupport: select( STORE_NAME ).selectAdminLink( "?page=wpseo_page_support" ),
+		siteKitLearnMorelink: select( STORE_NAME ).selectLink( "https://yoa.st/google-site-kit-learn-more" ),
 	};
 
+	const siteKitConfiguration = get( window, "wpseoScriptData.dashboard.siteKitConfiguration", {
+		isInstalled: false,
+		isActive: false,
+		isSetupCompleted: false,
+		isConnected: false,
+		installUrl: "",
+		activateUrl: "",
+		setupUrl: "",
+		isFeatureEnabled: false,
+	} );
+
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
-	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links } );
+	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 
 	const initialWidgets = [ "seoScores", "readabilityScores" ];
+
+	// If site kit feature is enabled, add the site kit setup widget.
+	if ( siteKitConfiguration.isFeatureEnabled ) {
+		initialWidgets.push( "siteKitSetup" );
+	}
+
 	// If site kit feature is enabled, active and connected: add the top pages widget.
-	if (
-		get( window, "wpseoScriptData.dashboard.siteKitConfiguration.feature_enabled", false ) &&
-		get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isActive", false ) &&
-		// get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isConnected", false )
-		true
-	) {
+	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isActive ) {
 		initialWidgets.push( "topPages" );
 	}
+
 
 	const router = createHashRouter(
 		createRoutesFromElements(

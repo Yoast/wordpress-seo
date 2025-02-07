@@ -3,6 +3,7 @@ import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-con
 import { __ } from "@wordpress/i18n";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { ArrowRightIcon, XIcon, TrashIcon } from "@heroicons/react/outline";
+import { useCallback } from "@wordpress/element";
 
 const steps = [
 	__( "INSTALL", "wordpress-seo" ),
@@ -14,31 +15,33 @@ const steps = [
 /**
  * The google site kit connection guide widget.
  *
- * @param {boolean} isInstalled Whether the plugin is installed.
- * @param {boolean} isActive Whether the feature is active.
- * @param {boolean} isSetupCompleted Whether the setup is complete.
- * @param {boolean} isConnected Whether the connection is active.
- * @param {string} installUrl The URL to install Site Kit.
- * @param {string} activateUrl The URL to activate Site Kit.
- * @param {string} setupUrl The URL to setup Site Kit.
  * @param {function} onRemove The function to call when the widget is removed.
- * @param {function} onRemovePermanently The function to call when the widget is removed permanently.
- * @param {string} learnMorelink The URL to learn more about the feature.
+ * @param {DataProvider} dataProvider The data provider.
  *
  * @returns {JSX.Element} The widget.
  */
 export const SiteKitSetupWidget = ( {
-	installUrl,
-	activateUrl,
-	setupUrl,
-	isConnected,
-	isActive,
-	isSetupCompleted,
-	isInstalled,
 	onRemove,
-	onRemovePermanently,
-	learnMorelink,
+	dataProvider,
 } ) => {
+	const {
+		installUrl,
+		activateUrl,
+		setupUrl,
+		isConnected,
+		isActive,
+		isSetupCompleted,
+		isInstalled } = dataProvider.getSiteKitConfiguration();
+	const learnMorelink = dataProvider.getLink( "siteKitLearnMorelink" );
+	const handleOnRemove = useCallback( () => {
+		onRemove( "siteKitSetup" );
+	}, [ onRemove ] );
+
+	const onRemovePermanently = useCallback( () => {
+		// Implement the remove permanently functionality.
+		handleOnRemove();
+	}, [ handleOnRemove ] );
+
 	const stepsStatuses = [ isInstalled, isActive, isSetupCompleted, isConnected ];
 
 	let currentStep = stepsStatuses.findIndex( status => ! status );
@@ -69,13 +72,13 @@ export const SiteKitSetupWidget = ( {
 		},
 	];
 
-	return <Paper className="yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative yst-mt-6">
+	return <Paper className="yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative">
 		<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
 			<DropdownMenu.IconTrigger screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) } className="yst-float-end" />
 			<DropdownMenu.List className="yst-mt-6 yst-w-56">
 				<DropdownMenu.ButtonItem
 					className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4"
-					onClick={ onRemove }
+					onClick={ handleOnRemove }
 				>
 					<XIcon className="yst-w-4 yst-text-slate-400" />
 					{ __( "Remove until next visit", "wordpress-seo" ) }

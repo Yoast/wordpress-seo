@@ -3,7 +3,8 @@
  * @type {import("../index").Features} Features
  * @type {import("../index").Endpoints} Endpoints
  * @type {import("../index").Links} Links
- * @type {import("../index").TopPageData} TopPageData
+ * @type {import("../index").TopPageData}
+ * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
  */
 
 /**
@@ -16,6 +17,7 @@ export class DataProvider {
 	#endpoints;
 	#headers;
 	#links;
+	#siteKitConfiguration;
 
 	/**
 	 * @param {ContentType[]} contentTypes The content types.
@@ -24,14 +26,16 @@ export class DataProvider {
 	 * @param {Endpoints} endpoints The endpoints.
 	 * @param {Object<string,string>} headers The headers for the WP requests.
 	 * @param {Links} links The links.
+	 * @param {SiteKitConfiguration} siteKitConfiguration The Site Kit configuration.
 	 */
-	constructor( { contentTypes, userName, features, endpoints, headers, links } ) {
+	constructor( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } ) {
 		this.#contentTypes = contentTypes;
 		this.#userName = userName;
 		this.#features = features;
 		this.#endpoints = endpoints;
 		this.#headers = headers;
 		this.#links = links;
+		this.#siteKitConfiguration = siteKitConfiguration;
 	}
 
 	/**
@@ -77,5 +81,12 @@ export class DataProvider {
 	 */
 	getLink( id ) {
 		return this.#links?.[ id ];
+	}
+
+	/**
+	 * @returns {SiteKitConfiguration} The site kit configuration data.
+	 */
+	getSiteKitConfiguration() {
+		return this.#siteKitConfiguration;
 	}
 }

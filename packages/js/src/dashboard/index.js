@@ -81,3 +81,15 @@ export { Dashboard } from "./components/dashboard";
  * @property {string} id The unique identifier.
  * @property {WidgetType} type The widget type.
  */
+
+/**
+ * @typedef {Object} SiteKitConfiguration The Site Kit configuration.
+ * @property {boolean} isInstalled Whether Site Kit is installed.
+ * @property {boolean} isActive Whether Site Kit is active.
+ * @property {boolean} isSetupCompleted Whether Site Kit is setup.
+ * @property {boolean} isConnected Whether Site Kit is connected.
+ * @property {string} installUrl The URL to install Site Kit.
+ * @property {string} activateUrl The URL to activate Site Kit.
+ * @property {string} setupUrl The URL to setup Site Kit.
+ * @property {boolean} isFeatureEnabled Whether the feature is enabled.
+ */

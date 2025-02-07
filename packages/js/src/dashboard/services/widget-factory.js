@@ -1,5 +1,6 @@
 /* eslint-disable complexity */
 import { ScoreWidget } from "../widgets/score-widget";
+import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
 import { TopPagesWidget } from "../widgets/top-pages-widget";
 
 /**
@@ -31,6 +32,7 @@ export class WidgetFactory {
 			{ type: "seoScores" },
 			{ type: "readabilityScores" },
 			{ type: "topPages" },
+			{ type: "siteKitSetup" },
 		];
 	}
 
@@ -39,7 +41,7 @@ export class WidgetFactory {
 	 * @param {function} onRemove The remove handler.
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
-	// eslint-disable-next-line no-unused-vars
+
 	createWidget( widget, onRemove ) {
 		switch ( widget.type ) {
 			case "seoScores":
@@ -54,6 +56,8 @@ export class WidgetFactory {
 				return <ScoreWidget key={ widget.id } analysisType="readability" dataProvider={ this.#dataProvider } remoteDataProvider={ this.#remoteDataProvider } />;
 			case "topPages":
 				return <TopPagesWidget key={ widget.id } dataProvider={ this.#dataProvider } remoteDataProvider={ this.#remoteDataProvider } />;
+			case "siteKitSetup":
+				return <SiteKitSetupWidget key={ widget.id } dataProvider={ this.#dataProvider } onRemove={ onRemove } />;
 			default:
 				return null;
 		}
