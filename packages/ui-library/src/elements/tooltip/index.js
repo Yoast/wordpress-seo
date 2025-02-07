@@ -45,7 +45,7 @@ Tooltip.propTypes = {
 	children: PropTypes.node,
 	className: PropTypes.string,
 	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ),
-	variant: PropTypes.oneOf( [ "dark", "light" ] ),
+	variant: PropTypes.oneOf( Object.keys( variantClassNameMap ) ),
 };
 Tooltip.defaultProps = {
 	as: "div",
