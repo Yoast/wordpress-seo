@@ -89,17 +89,20 @@ domReady( () => {
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 
-	const initialWidgets = [ "seoScores", "readabilityScores" ];
+	const initialWidgets = [];
 
 	// If site kit feature is enabled, add the site kit setup widget.
 	if ( siteKitConfiguration.isFeatureEnabled ) {
 		initialWidgets.push( "siteKitSetup" );
 	}
 
-	// If site kit feature is enabled, active and connected: add the top pages widget.
-	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isActive ) {
+	// If site kit feature is enabled and connected: add the top pages widget.
+	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isConnected ) {
 		initialWidgets.push( "topPages" );
 	}
+
+	initialWidgets.push( "seoScores" );
+	initialWidgets.push( "readabilityScores" );
 
 
 	const router = createHashRouter(
