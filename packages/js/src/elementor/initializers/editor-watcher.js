@@ -41,11 +41,11 @@ function widgetHasMarks( widget ) {
 function findWidgetInternalContent( element ) {
 	let elements = element?.find( ".elementor-widget-container" );
 
-	if ( ! elements.length ) {
+	if ( ! elements || ! elements.length ) {
 		elements =  element?.find( ".elementor-widget" ).children().not( ".elementor-background-overlay .ui-resizable-handle" );
 	}
 
-	return elements ?? [];
+	return elements;
 }
 
 /**
@@ -81,7 +81,7 @@ function getContent( editorDocument ) {
 
 	const elements = findWidgetInternalContent( editorDocument.$element );
 
-	elements.each( ( index, element ) => {
+	elements?.each( ( index, element ) => {
 		// We remove \n and \t from the HTML as Elementor formats the HTML after saving.
 		// As this spacing is purely cosmetic, we can remove it for analysis purposes.
 		// When we apply the marks, we do need to make the same amendments.
