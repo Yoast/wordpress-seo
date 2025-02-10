@@ -29,6 +29,11 @@ const TopPagesSkeletonLoaderRow = ( { index } ) => (
 				<SkeletonLoader className="yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full" />
 			</div>
 		</TableWidget.Cell>
+		<TableWidget.Cell>
+			<SkeletonLoader className="yst-ms-auto">
+				Edit
+			</SkeletonLoader>
+		</TableWidget.Cell>
 	</TableWidget.Row>
 );
 
