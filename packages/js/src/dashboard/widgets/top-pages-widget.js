@@ -69,8 +69,8 @@ const TopPagesTable = ( { data, children } ) => {
 							as="a"
 							href={ links?.edit }
 							className="yst-px-0 yst-me-1"
-							disabled={ ! links || ! links?.edit }
-							aria-disabled={ ! links || ! links?.edit }
+							disabled={ ! links?.edit }
+							aria-disabled={ ! links?.edit }
 							role="link"
 						>
 							<PencilIcon className="yst-w-4 yst-h-4 yst-me-1.5" />
