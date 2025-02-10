@@ -3,12 +3,12 @@ import { DataFormatter } from "../../../src/dashboard/services/data-formatter";
 
 describe( "DataFormatter", () => {
 	test.each( [
-		[ "subject, dropping protocol", "subject", "http://example.com/foo", "example.com/foo" ],
+		[ "subject, dropping protocol and hostname", "subject", "http://example.com/foo", "/foo" ],
 		[
-			"subject, dropping: protocol, port, search and hash",
+			"subject, dropping: protocol, hostname, port, search and hash",
 			"subject",
 			"https://user:password@www.example.com:8080/foo?query=bar#baz",
-			"www.example.com/foo",
+			"/foo",
 		],
 		[ "subject, not a URL", "subject", "foo", "foo" ],
 		[ "clicks", "clicks", 1234, "1,234" ],

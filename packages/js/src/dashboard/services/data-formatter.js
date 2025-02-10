@@ -50,8 +50,8 @@ export class DataFormatter {
 			return link;
 		}
 
-		// Dropping: protocol, port, search and hash.
-		return [ url.hostname, url.pathname ].join( "" );
+		// Dropping: hostname, protocol, port, search and hash.
+		return url.pathname;
 	}
 
 	/**
