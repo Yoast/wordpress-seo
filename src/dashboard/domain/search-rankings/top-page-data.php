@@ -57,7 +57,7 @@ class Top_Page_Data implements Data_Interface {
 		$top_page_data             = $this->search_data->to_array();
 		$top_page_data['seoScore'] = $this->seo_score_group->get_name();
 		$top_page_data['links']    = [];
-		$top_page_data['links']['edit'] = "https://example.com/edit";
+
 		if ( $this->edit_link !== null ) {
 			$top_page_data['links']['edit'] = $this->edit_link;
 		}
