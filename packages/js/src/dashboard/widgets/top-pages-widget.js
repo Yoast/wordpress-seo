@@ -51,7 +51,7 @@ const TopPagesTable = ( { data, children } ) => {
 			<TableWidget.Header className="yst-text-end">{ __( "CTR", "wordpress-seo" ) }</TableWidget.Header>
 			<TableWidget.Header className="yst-text-end">{ __( "Average position", "wordpress-seo" ) }</TableWidget.Header>
 			<TableWidget.Header className="yst-text-center">{ __( "SEO score", "wordpress-seo" ) }</TableWidget.Header>
-			<TableWidget.Header className="yst-text-end yst-me-1.5">{ __( "Actions", "wordpress-seo" ) }</TableWidget.Header>
+			<TableWidget.Header className="yst-text-end">{ __( "Actions", "wordpress-seo" ) }</TableWidget.Header>
 		</TableWidget.Head>
 		<TableWidget.Body>
 			{ children || data.map( ( { subject, clicks, impressions, ctr, position, seoScore, links }, index ) => (
