@@ -14,14 +14,17 @@ import { TopPagesWidget } from "../widgets/top-pages-widget";
 export class WidgetFactory {
 	#dataProvider;
 	#remoteDataProvider;
+	#dataFormatter;
 
 	/**
 	 * @param {import("./data-provider").DataProvider} dataProvider
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider
+	 * @param {import("./data-formatter").DataFormatter} dataFormatter
 	 */
-	constructor( dataProvider, remoteDataProvider ) {
+	constructor( dataProvider, remoteDataProvider, dataFormatter ) {
 		this.#dataProvider = dataProvider;
 		this.#remoteDataProvider = remoteDataProvider;
+		this.#dataFormatter = dataFormatter;
 	}
 
 	/**
@@ -54,7 +57,12 @@ export class WidgetFactory {
 				}
 				return <ScoreWidget key={ widget.id } analysisType="readability" dataProvider={ this.#dataProvider } remoteDataProvider={ this.#remoteDataProvider } />;
 			case "topPages":
-				return <TopPagesWidget key={ widget.id } dataProvider={ this.#dataProvider } remoteDataProvider={ this.#remoteDataProvider } />;
+				return <TopPagesWidget
+					key={ widget.id }
+					dataProvider={ this.#dataProvider }
+					remoteDataProvider={ this.#remoteDataProvider }
+					dataFormatter={ this.#dataFormatter }
+				/>;
 			case "siteKitSetup":
 				return <SiteKitSetupWidget key={ widget.id } dataProvider={ this.#dataProvider } onRemove={ onRemove } />;
 			default:

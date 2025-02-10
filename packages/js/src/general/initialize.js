@@ -6,6 +6,7 @@ import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
+import { DataFormatter } from "../dashboard/services/data-formatter";
 import { DataProvider } from "../dashboard/services/data-provider";
 import { RemoteDataProvider } from "../dashboard/services/remote-data-provider";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
@@ -27,7 +28,7 @@ import { ALERT_CENTER_NAME } from "./store/alert-center";
  * @type {import("../index").Endpoints} Endpoints
  */
 
-domReady( () => {
+domReady( () => { // eslint-disable-line complexity
 	const root = document.getElementById( "yoast-seo-general" );
 	if ( ! root ) {
 		return;
@@ -49,6 +50,7 @@ domReady( () => {
 	const contentTypes = get( window, "wpseoScriptData.dashboard.contentTypes", [] );
 	/** @type {string} */
 	const userName = get( window, "wpseoScriptData.dashboard.displayName", "User" );
+	const userLocale = document.getElementsByTagName( "html" )?.[ 0 ]?.getAttribute( "lang" ) || "en-US";
 	/** @type {Features} */
 	const features = {
 		indexables: get( window, "wpseoScriptData.dashboard.indexablesEnabled", false ),
@@ -87,7 +89,8 @@ domReady( () => {
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
-	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+	const dataFormatter = new DataFormatter( { locale: userLocale } );
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatter );
 
 	const initialWidgets = [];
 

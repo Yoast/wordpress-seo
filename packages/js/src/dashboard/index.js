@@ -74,7 +74,7 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {"seoScores"|"readabilityScores"|"topPages"} WidgetType The widget type.
+ * @typedef {"seoScores"|"readabilityScores"|"topPages"|"siteKitSetup"} WidgetType The widget type.
  */
 
 /**
