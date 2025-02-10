@@ -1,7 +1,7 @@
-import { createInterpolateElement, useEffect, useState } from "@wordpress/element";
+import { createInterpolateElement, useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Link, Paper, Title } from "@yoast/ui-library";
-import { useFetch } from "../../fetch/use-fetch";
+import { Alert, Link } from "@yoast/ui-library";
+import { useRemoteData } from "../../services/use-remote-data";
 import { SCORE_DESCRIPTIONS } from "../score-meta";
 import { ContentTypeFilter } from "./content-type-filter";
 import { ScoreContent } from "./score-content";
@@ -15,105 +15,99 @@ import { TermFilter } from "./term-filter";
  */
 
 /**
- * @param {string|URL} endpoint The endpoint.
- * @param {ContentType} contentType The content type.
- * @param {Term?} [term] The term.
- * @returns {URL} The URL to get scores.
+ * @param {string} message The message with placeholders.
+ * @param {JSX.Element} link The link.
+ * @returns {JSX.Element|string} The message.
  */
-const createScoresUrl = ( endpoint, contentType, term ) => {
-	const url = new URL( endpoint );
-
-	url.searchParams.set( "contentType", contentType.name );
-
-	if ( contentType.taxonomy?.name && term?.name ) {
-		url.searchParams.set( "taxonomy", contentType.taxonomy.name );
-		url.searchParams.set( "term", term.name );
+const createLinkMessage = ( message, link ) => {
+	try {
+		return createInterpolateElement( sprintf( message, "<link>", "</link>" ), { link } );
+	} catch ( e ) {
+		return sprintf( message, "", "" );
 	}
-
-	return url;
 };
-
-// Added dummy space as content to prevent children prop warnings in the console.
-const supportLink = <Link variant="error" href="admin.php?page=wpseo_page_support"> </Link>;
-
-const TimeoutErrorMessage = createInterpolateElement(
-	sprintf(
-		/* translators: %1$s and %2$s expand to an opening/closing tag for a link to the support page. */
-		__( "A timeout occurred, possibly due to a large number of posts or terms. In case you need further help, please take a look at our %1$sSupport page%2$s.", "wordpress-seo" ),
-		"<supportLink>",
-		"</supportLink>"
-	),
-	{
-		supportLink,
-	}
-);
-const OtherErrorMessage = createInterpolateElement(
-	sprintf(
-		/* translators: %1$s and %2$s expand to an opening/closing tag for a link to the support page. */
-		__( "Something went wrong. In case you need further help, please take a look at our %1$sSupport page%2$s.", "wordpress-seo" ),
-		"<supportLink>",
-		"</supportLink>"
-	),
-	{
-		supportLink,
-	}
-);
 
 /**
  * @param {Error?} [error] The error.
+ * @param {string} supportLink The support link.
  * @returns {JSX.Element} The element.
  */
-const ErrorAlert = ( { error } ) => {
+const ErrorAlert = ( { error, supportLink } ) => {
 	if ( ! error ) {
 		return null;
 	}
+
+	// Added dummy space as content to prevent children prop warnings in the console.
+	const link = <Link variant="error" href={ supportLink }> </Link>;
+
 	return (
 		<Alert variant="error">
 			{ error?.name === "TimeoutError"
-				? TimeoutErrorMessage
-				: OtherErrorMessage
+				? createLinkMessage(
+					/* translators: %1$s and %2$s expand to an opening/closing tag for a link to the support page. */
+					__( "A timeout occurred, possibly due to a large number of posts or terms. In case you need further help, please take a look at our %1$sSupport page%2$s.", "wordpress-seo" ),
+					link
+				)
+				: createLinkMessage(
+					/* translators: %1$s and %2$s expand to an opening/closing tag for a link to the support page. */
+					__( "Something went wrong. In case you need further help, please take a look at our %1$sSupport page%2$s.", "wordpress-seo" ),
+					link
+				)
 			}
 		</Alert>
 	);
 };
 
 /**
+ * @param {ContentType?} [contentType] The selected content type.
+ * @param {Term?} [term] The selected term.
+ * @returns {{contentType: string, taxonomy?: string, term?: string}} The score query parameters.
+ */
+const getScoreQueryParams = ( contentType, term ) => { // eslint-disable-line complexity
+	const params = {
+		contentType: contentType?.name,
+	};
+	if ( contentType?.taxonomy?.name && term?.name ) {
+		params.taxonomy = contentType.taxonomy.name;
+		params.term = term.name;
+	}
+
+	return params;
+};
+
+/**
+ * @param {?{scores: Score[]}} [data] The data.
+ * @returns {?Score[]} scores The scores.
+ */
+const prepareScoreData = ( data ) => data?.scores;
+
+/**
  * @param {AnalysisType} analysisType The analysis type. Either "seo" or "readability".
  * @param {ContentType[]} contentTypes The content types. May not be empty.
- * @param {string} endpoint The endpoint or base URL.
- * @param {Object<string,string>} headers The headers to send with the request.
+ * @param {import("../services/data-provider")} dataProvider The data provider.
+ * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
  * @returns {JSX.Element} The element.
  */
-export const Scores = ( { analysisType, contentTypes, endpoint, headers } ) => {
+export const Scores = ( { analysisType, contentTypes, dataProvider, remoteDataProvider } ) => { // eslint-disable-line complexity
 	const [ selectedContentType, setSelectedContentType ] = useState( contentTypes[ 0 ] );
+	/** @type {[Term?, function(Term?)]} */
 	const [ selectedTerm, setSelectedTerm ] = useState();
 
-	const { data: scores, error, isPending } = useFetch( {
-		dependencies: [ selectedContentType.name, selectedContentType?.taxonomy, selectedTerm?.name ],
-		url: createScoresUrl( endpoint, selectedContentType, selectedTerm ),
-		options: {
-			headers: {
-				"Content-Type": "application/json",
-				...headers,
-			},
-		},
-		fetchDelay: 0,
-		prepareData: ( data ) => data?.scores,
-	} );
+	const getScores = useCallback( ( options ) => remoteDataProvider.fetchJson(
+		dataProvider.getEndpoint( analysisType + "Scores" ),
+		getScoreQueryParams( selectedContentType, selectedTerm ),
+		options
+	), [ dataProvider, analysisType, selectedContentType, selectedTerm ] );
+
+	const { data: scores, error, isPending } = useRemoteData( getScores, prepareScoreData );
 
 	useEffect( () => {
 		// Reset the selected term when the selected content type changes.
 		setSelectedTerm( undefined ); // eslint-disable-line no-undefined
-	}, [ selectedContentType.name ] );
+	}, [ selectedContentType?.name ] );
 
 	return (
-		<Paper className="yst-@container yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md">
-			<Title as="h2">
-				{ analysisType === "readability"
-					? __( "Readability scores", "wordpress-seo" )
-					: __( "SEO scores", "wordpress-seo" )
-				}
-			</Title>
+		<>
 			<div className="yst-grid yst-grid-cols-1 @md:yst-grid-cols-2 yst-gap-6 yst-mt-4">
 				<ContentTypeFilter
 					idSuffix={ analysisType }
@@ -131,7 +125,7 @@ export const Scores = ( { analysisType, contentTypes, endpoint, headers } ) => {
 				}
 			</div>
 			<div className="yst-mt-6">
-				<ErrorAlert error={ error } />
+				<ErrorAlert error={ error } supportLink={ dataProvider.getLink( "errorSupport" ) } />
 				{ ! error && (
 					<ScoreContent
 						scores={ scores }
@@ -141,6 +135,6 @@ export const Scores = ( { analysisType, contentTypes, endpoint, headers } ) => {
 					/>
 				) }
 			</div>
-		</Paper>
+		</>
 	);
 };
