@@ -58,7 +58,7 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {Object} TableWidgetLinks The links.
+ * @typedef {Object} TopPageDataLinks The links.
  * @property {string} edit The link for editing the content.
  */
 
@@ -70,7 +70,7 @@ export { Dashboard } from "./components/dashboard";
  * @property {number} ctr The click-through rate.
  * @property {number} position The average position.
  * @property {ScoreType} seoScore The seo score.
- * @property {TableWidgetLinks} links The links.
+ * @property {TopPageDataLinks} links The links.
  */
 
 /**
