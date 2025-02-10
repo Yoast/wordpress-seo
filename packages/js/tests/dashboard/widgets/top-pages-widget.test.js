@@ -104,7 +104,7 @@ describe( "TopPagesWidget", () => {
 			expect( getByRole( "table" ) ).toBeInTheDocument();
 		} );
 
-		// Expect limit (1) row with 6 columns = 6 skeleton loaders.
+		// Expect limit (1) row with 7 columns = 7 skeleton loaders.
 		expect( container.getElementsByClassName( "yst-skeleton-loader" ).length ).toBe( 7 );
 	} );
 } );
