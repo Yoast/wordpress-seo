@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Si
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Constructor_Test extends Abstract_Site_Kit_Configuration_Permanent_Dismissal_Route_Test {
+final class Site_Kit_Configuration_Permanent_Dismissal_Route_Constructor_Test extends Abstract_Site_Kit_Configuration_Permanent_Dismissal_Route_Test {
 
 	/**
 	 * Tests if the needed attributes are set correctly.

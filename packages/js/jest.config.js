@@ -3,6 +3,7 @@ module.exports = {
 	setupFilesAfterEnv: [ "<rootDir>/tests/setupTests.js" ],
 	testPathIgnorePatterns: [
 		"/tests/__mocks__/",
+		"/tests/dashboard/__mocks__/",
 		"/tests/containers/mockSelectors.js",
 		"/tests/helpers/factory.js",
 		"/tests/setupTests.js",

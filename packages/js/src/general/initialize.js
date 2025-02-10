@@ -6,8 +6,10 @@ import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
-import { LINK_PARAMS_NAME } from "../shared-admin/store";
-import { ADMIN_NOTICES_NAME } from "./store/admin-notices";
+import { DataProvider } from "../dashboard/services/data-provider";
+import { RemoteDataProvider } from "../dashboard/services/remote-data-provider";
+import { WidgetFactory } from "../dashboard/services/widget-factory";
+import { ADMIN_URL_NAME, LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
 import { RouteErrorFallback } from "./components";
 import { ConnectedPremiumUpsellList } from "./components/connected-premium-upsell-list";
@@ -15,6 +17,7 @@ import { SidebarLayout } from "./components/sidebar-layout";
 import { STORE_NAME } from "./constants";
 import { AlertCenter, FirstTimeConfiguration, ROUTES } from "./routes";
 import registerStore from "./store";
+import { ADMIN_NOTICES_NAME } from "./store/admin-notices";
 import { ALERT_CENTER_NAME } from "./store/alert-center";
 
 /**
@@ -31,6 +34,7 @@ domReady( () => {
 	}
 	registerStore( {
 		initialState: {
+			[ ADMIN_URL_NAME ]: get( window, "wpseoScriptData.adminUrl", "" ),
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
 			[ ALERT_CENTER_NAME ]: { alerts: get( window, "wpseoScriptData.alerts", [] ) },
 			currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
@@ -56,16 +60,50 @@ domReady( () => {
 	const endpoints = {
 		seoScores: get( window, "wpseoScriptData.dashboard.endpoints.seoScores", "" ),
 		readabilityScores: get( window, "wpseoScriptData.dashboard.endpoints.readabilityScores", "" ),
+		topPages: get( window, "wpseoScriptData.dashboard.endpoints.topPageResults", "" ),
 	};
 	/** @type {Object<string,string>} */
 	const headers = {
 		"X-Wp-Nonce": get( window, "wpseoScriptData.dashboard.nonce", "" ),
 	};
 
-	/** @type {{dashboardLearnMore: string}} */
+	/** @type {Links} */
 	const links = {
 		dashboardLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-learn-more" ),
+		errorSupport: select( STORE_NAME ).selectAdminLink( "?page=wpseo_page_support" ),
+		siteKitLearnMorelink: select( STORE_NAME ).selectLink( "https://yoa.st/google-site-kit-learn-more" ),
 	};
+
+	const siteKitConfiguration = get( window, "wpseoScriptData.dashboard.siteKitConfiguration", {
+		isInstalled: false,
+		isActive: false,
+		isSetupCompleted: false,
+		isConnected: false,
+		installUrl: "",
+		activateUrl: "",
+		setupUrl: "",
+		isFeatureEnabled: false,
+	} );
+
+	const remoteDataProvider = new RemoteDataProvider( { headers } );
+	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+
+	const initialWidgets = [];
+
+	// If site kit feature is enabled, add the site kit setup widget.
+	if ( siteKitConfiguration.isFeatureEnabled ) {
+		initialWidgets.push( "siteKitSetup" );
+	}
+
+	// If site kit feature is enabled and connected: add the top pages widget.
+	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isActive ) {
+		initialWidgets.push( "topPages" );
+	}
+
+	initialWidgets.push( "seoScores" );
+	initialWidgets.push( "readabilityScores" );
+
 
 	const router = createHashRouter(
 		createRoutesFromElements(
@@ -75,11 +113,10 @@ domReady( () => {
 					element={
 						<SidebarLayout>
 							<Dashboard
-								contentTypes={ contentTypes }
+								widgetFactory={ widgetFactory }
+								initialWidgets={ initialWidgets }
 								userName={ userName }
 								features={ features }
-								endpoints={ endpoints }
-								headers={ headers }
 								links={ links }
 							/>
 							<ConnectedPremiumUpsellList />

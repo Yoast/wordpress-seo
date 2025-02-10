@@ -7,13 +7,13 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 /**
  * Test class for the constructor.
  *
- * @group Permanently_Dismissed_Site_Kit_Configuration_Repository
+ * @group Site_Kit_Consent_Repository
  *
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository::__construct
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository::__construct
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Constructor_Test extends Abstract_Permanently_Dismissed_Site_Kit_Configuration_Repository_Test {
+final class Site_Kit_Consent_Repository_Constructor_Test extends Abstract_Site_Kit_Consent_Repository_Test {
 
 	/**
 	 * Tests if the needed attributes are set correctly.
