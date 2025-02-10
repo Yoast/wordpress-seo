@@ -4,7 +4,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Dashboard\Application\Configuration;
 
-use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
@@ -13,7 +12,6 @@ use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features
 use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
 use Yoast\WP\SEO\Editors\Framework\Readability_Analysis;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
@@ -64,21 +62,7 @@ class Dashboard_Configuration {
 	private $nonce_repository;
 
 	/**
-	 * The Google Site Kit conditional.
-	 *
-	 * @var Google_Site_Kit_Feature_Conditional
-	 */
-	private $google_site_kit_conditional;
-
-	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options_helper;
-
-	/**
-	 * The site kit integration configuration data.
+	 * The Site Kit integration data.
 	 *
 	 * @var Site_Kit
 	 */
@@ -95,9 +79,7 @@ class Dashboard_Configuration {
 	 *                                                                                        repository.
 	 * @param Endpoints_Repository                 $endpoints_repository                 The endpoints repository.
 	 * @param Nonce_Repository                     $nonce_repository                     The nonce repository.
-	 * @param Google_Site_Kit_Feature_Conditional  $google_site_kit_conditional          The Google Site Kit conditional.
-	 * @param Options_Helper                       $options_helper                       The options helper.
-	 * @param Site_Kit                             $site_kit_integration_data            The site kit integration configuration data.
+	 * @param Site_Kit                             $site_kit_integration_data            The Site Kit integration data.
 	 */
 	public function __construct(
 		Content_Types_Repository $content_types_repository,
@@ -106,8 +88,6 @@ class Dashboard_Configuration {
 		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository,
 		Endpoints_Repository $endpoints_repository,
 		Nonce_Repository $nonce_repository,
-		Google_Site_Kit_Feature_Conditional $google_site_kit_conditional,
-		Options_Helper $options_helper,
 		Site_Kit $site_kit_integration_data
 	) {
 		$this->content_types_repository             = $content_types_repository;
@@ -116,8 +96,6 @@ class Dashboard_Configuration {
 		$this->enabled_analysis_features_repository = $enabled_analysis_features_repository;
 		$this->endpoints_repository                 = $endpoints_repository;
 		$this->nonce_repository                     = $nonce_repository;
-		$this->google_site_kit_conditional          = $google_site_kit_conditional;
-		$this->options_helper                       = $options_helper;
 		$this->site_kit_integration_data            = $site_kit_integration_data;
 	}
 

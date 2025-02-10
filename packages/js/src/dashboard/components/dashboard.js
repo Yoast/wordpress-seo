@@ -1,65 +1,51 @@
-import { Scores } from "../scores/components/scores";
+import { useCallback, useState } from "@wordpress/element";
 import { PageTitle } from "./page-title";
-import { SiteKitSetupWidget } from "./site-kit-setup-widget";
-import { get } from "lodash";
-import { useCallback } from "@wordpress/element";
-import { useToggleState } from "@yoast/ui-library";
-import { useSelect } from "@wordpress/data";
 
 /**
  * @type {import("../index").ContentType} ContentType
  * @type {import("../index").Features} Features
  * @type {import("../index").Endpoints} Endpoints
  * @type {import("../index").Links} Links
+ * @type {import("../index").WidgetType} WidgetType
+ * @type {import("../index").WidgetInstance} WidgetInstance
+ * @type {import("../services/widget-factory").WidgetFactory} WidgetFactory
  */
 
 /**
+ * @param {WidgetType} type The widget type.
+ * @returns {WidgetInstance} The widget instance.
+ */
+const prepareWidgetInstance = ( type ) => {
+	return { id: `widget--${ type }__${ Date.now() }`, type };
+};
+
+/**
+ * @param {WidgetFactory} widgetFactory The widget factory.
+ * @param {WidgetType[]} initialWidgets The initial widgets.
  * @param {ContentType[]} contentTypes The content types.
  * @param {string} userName The user name.
  * @param {Features} features Whether features are enabled.
- * @param {Endpoints} endpoints The endpoints.
- * @param {Object<string,string>} headers The headers for the score requests.
  * @param {Links} links The links.
  *
  * @returns {JSX.Element} The element.
  */
-// The complexity is cause by the google site kit feature flag which is temporary.
-// eslint-disable-next-line complexity
-export const Dashboard = ( { contentTypes, userName, features, endpoints, headers, links } ) => {
-	const siteKitConfiguration = get( window, "wpseoScriptData.dashboard.siteKitConfiguration", {
-		isInstalled: false,
-		isActive: false,
-		isSetupCompleted: false,
-		isConnected: false,
-		installUrl: "",
-		activateUrl: "",
-		setupUrl: "",
-		isFeatureEnabled: false,
-	} );
-	const [ showGoogleSiteKit, , , , setRemoveGoogleSiteKit ] = useToggleState( true );
-	const learnMorelink = useSelect( select => select( "@yoast/general" ).selectLink( "https://yoa.st/google-site-kit-learn-more" ), [] );
-	const handleRemovePermanently = useCallback( ()=>{
-		/* eslint-disable-next-line */
-		// TODO: Implement the remove permanently functionality.
-		setRemoveGoogleSiteKit();
-	}, [ setRemoveGoogleSiteKit ] );
+export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, features, links } ) => {
+	const [ widgets, setWidgets ] = useState( () => initialWidgets.map( prepareWidgetInstance ) );
+
+	// eslint-disable-next-line no-unused-vars
+	const addWidget = useCallback( ( type ) => {
+		setWidgets( ( currentWidgets ) => [ ...currentWidgets, prepareWidgetInstance( type ) ] );
+	}, [] );
+
+	const removeWidget = useCallback( ( type ) => {
+		setWidgets( ( currentWidgets ) => currentWidgets.filter( ( widget ) => widget.type !== type ) );
+	}, [] );
 
 	return (
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } />
-			{ showGoogleSiteKit && siteKitConfiguration.isFeatureEnabled && <SiteKitSetupWidget
-				{ ...siteKitConfiguration }
-				learnMoreLink={ learnMorelink }
-				onRemove={ setRemoveGoogleSiteKit }
-				onRemovePermanently={ handleRemovePermanently }
-			/> }
 			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
-				{ features.indexables && features.seoAnalysis && (
-					<Scores analysisType="seo" contentTypes={ contentTypes } endpoint={ endpoints.seoScores } headers={ headers } />
-				) }
-				{ features.indexables && features.readabilityAnalysis && (
-					<Scores analysisType="readability" contentTypes={ contentTypes } endpoint={ endpoints.readabilityScores } headers={ headers } />
-				) }
+				{ widgets.map( ( widget ) => widgetFactory.createWidget( widget, removeWidget ) ) }
 			</div>
 		</>
 	);
