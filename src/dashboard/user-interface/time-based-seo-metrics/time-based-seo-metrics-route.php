@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\User_Interface\Search_Rankings;
+namespace Yoast\WP\SEO\Dashboard\User_Interface\Time_Based_SEO_Metrics;
 
 use DateTime;
 use DateTimeZone;
@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * Abstract scores route.
  */
-final class Time_Based_Traffic_Route implements Route_Interface {
+final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 
 	/**
 	 * The namespace of the rout.
@@ -33,7 +33,7 @@ final class Time_Based_Traffic_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	public const ROUTE_NAME = '/time_based_traffic';
+	public const ROUTE_NAME = '/time_based_seo_metrics';
 
 	/**
 	 * The data provider for page based search rankings.
@@ -84,7 +84,7 @@ final class Time_Based_Traffic_Route implements Route_Interface {
 			[
 				[
 					'methods'             => 'GET',
-					'callback'            => [ $this, 'get_time_based_traffic' ],
+					'callback'            => [ $this, 'get_time_based_seo_metrics' ],
 					'permission_callback' => [ $this, 'permission_manage_options' ],
 					'args'                => [
 						'limit'   => [
@@ -115,14 +115,15 @@ final class Time_Based_Traffic_Route implements Route_Interface {
 	}
 
 	/**
-	 * Gets the time based traffic numbers for a specific amount of pages.
+	 * Gets the time based SEO metrics.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @throws Repository_Not_Found_Exception When the given widget name is not implemented yet.
+	 *
 	 * @return WP_REST_Response The success or failure response.
 	 */
-	public function get_time_based_traffic( WP_REST_Request $request ): WP_REST_Response {
+	public function get_time_based_seo_metrics( WP_REST_Request $request ): WP_REST_Response {
 		try {
 			$request_parameters = new Search_Console_Parameters();
 			$request_parameters->set_limit( $request->get_param( 'limit' ) );
@@ -136,11 +137,11 @@ final class Time_Based_Traffic_Route implements Route_Interface {
 			switch ( $widget_name ) {
 				case 'query':
 					$request_parameters->set_dimensions( [ 'query' ] );
-					$time_based_traffic_container = $this->top_query_repository->get_data( $request_parameters );
+					$time_based_seo_metrics_container = $this->top_query_repository->get_data( $request_parameters );
 					break;
 				case 'page':
 					$request_parameters->set_dimensions( [ 'page' ] );
-					$time_based_traffic_container = $this->top_page_repository->get_data( $request_parameters );
+					$time_based_seo_metrics_container = $this->top_page_repository->get_data( $request_parameters );
 					break;
 				default:
 					throw new Repository_Not_Found_Exception();
@@ -155,7 +156,7 @@ final class Time_Based_Traffic_Route implements Route_Interface {
 		}
 
 		return new WP_REST_Response(
-			$time_based_traffic_container->to_array(),
+			$time_based_seo_metrics_container->to_array(),
 			200
 		);
 	}
