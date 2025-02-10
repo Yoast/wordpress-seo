@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\Application\Search_Rankings;
+namespace Yoast\WP\SEO\Dashboard\Domain\Time_Based_SEO_Metrics;
 
 use Exception;
 
