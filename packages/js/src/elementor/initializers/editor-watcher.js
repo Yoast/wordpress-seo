@@ -31,8 +31,29 @@ function widgetHasMarks( widget ) {
  * Retrieves all Elementor widget containers.
  * @returns {jQuery[]} Elementor widget containers.
  */
+/**
+ * Find widget internal content dependent on Optimization switched on of off.
+ *
+ * @param {jQuery} element editor document element.
+ *
+ * @returns {jQuery[]} Elementor widget content elements.
+ */
+function findWidgetInternalContent( element ) {
+	let elements = element?.find( ".elementor-widget-container" );
+
+	if ( ! elements.length ) {
+		elements =  element?.find( ".elementor-widget" ).children().not( ".elementor-background-overlay .ui-resizable-handle" );
+	}
+
+	return elements ?? [];
+}
+
+/**
+ * Retrieves all Elementor widget containers.
+ * @returns {jQuery[]} Elementor widget containers.
+ */
 function getWidgetContainers() {
-	return elementor.documents.getCurrent().$element.find( ".elementor-widget-container" );
+	return findWidgetInternalContent( elementor.documents.getCurrent().$element );
 }
 
 /**
@@ -58,7 +79,9 @@ function removeMarks() {
 function getContent( editorDocument ) {
 	const content = [];
 
-	editorDocument.$element?.find( ".elementor-widget-container" ).each( ( index, element ) => {
+	const elements = findWidgetInternalContent( editorDocument.$element );
+
+	elements.each( ( index, element ) => {
 		// We remove \n and \t from the HTML as Elementor formats the HTML after saving.
 		// As this spacing is purely cosmetic, we can remove it for analysis purposes.
 		// When we apply the marks, we do need to make the same amendments.
