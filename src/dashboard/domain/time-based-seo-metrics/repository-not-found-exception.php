@@ -13,6 +13,6 @@ class Repository_Not_Found_Exception extends Exception {
 	 * Constructor of the exception.
 	 */
 	public function __construct() {
-		parent::__construct( 'Repository not found', 500 );
+		parent::__construct( 'Repository not found', 404 );
 	}
 }

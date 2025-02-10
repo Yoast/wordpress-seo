@@ -98,13 +98,11 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 						'options' => [
 							'type'       => 'object',
 							'required'   => true,
-
 							'properties' => [
 								'widget' => [
 									'type'              => 'string',
 									'required'          => true,
 									'sanitize_callback' => 'sanitize_text_field',
-									'enum'              => [ 'query', 'page' ],
 								],
 							],
 						],
