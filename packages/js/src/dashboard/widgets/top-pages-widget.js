@@ -54,7 +54,7 @@ const TopPagesTable = ( { data, children } ) => {
 			<TableWidget.Header className="yst-text-end">{ __( "Actions", "wordpress-seo" ) }</TableWidget.Header>
 		</TableWidget.Head>
 		<TableWidget.Body>
-			{ children || data.map( ( { subject, clicks, impressions, ctr, position, seoScore, editLink }, index ) => (
+			{ children || data.map( ( { subject, clicks, impressions, ctr, position, seoScore, links }, index ) => (
 				<TableWidget.Row key={ `most-popular-content-${ index }` } index={ index }>
 					<TableWidget.Cell className="yst-text-slate-900 yst-font-medium">{ subject }</TableWidget.Cell>
 					<TableWidget.Cell className="yst-text-end">{ clicks }</TableWidget.Cell>
@@ -67,10 +67,10 @@ const TopPagesTable = ( { data, children } ) => {
 							variant="tertiary"
 							size="small"
 							as="a"
-							href={ editLink }
+							href={ links?.edit }
 							className="yst-px-0 yst-me-1"
-							disabled={ ! editLink }
-							aria-disabled={ ! editLink }
+							disabled={ ! links?.edit }
+							aria-disabled={ ! links?.edit }
 							role="link"
 						>
 							<PencilIcon className="yst-w-4 yst-h-4 yst-me-1.5" />
@@ -94,7 +94,7 @@ export const createTopPageFormatter = ( dataFormatter ) => ( data = [] ) => data
 	ctr: dataFormatter.format( item.ctr, "ctr", { widget: "topPages" } ),
 	position: dataFormatter.format( item.position, "position", { widget: "topPages" } ),
 	seoScore: dataFormatter.format( item.seoScore, "seoScore", { widget: "topPages" } ),
-	editLink: item.links?.edit,
+	links: dataFormatter.format( item.links, "links", { widget: "topPages" } ),
 } ) );
 
 /**
