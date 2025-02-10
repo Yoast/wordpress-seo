@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Alert, SkeletonLoader } from "@yoast/ui-library";
+import { Alert, Button, SkeletonLoader } from "@yoast/ui-library";
+import { PencilIcon } from "@heroicons/react/outline";
 import { useRemoteData } from "../services/use-remote-data";
 import { TableWidget } from "./table-widget";
 import { Widget } from "./widget";
@@ -28,6 +29,11 @@ const TopPagesSkeletonLoaderRow = ( { index } ) => (
 				<SkeletonLoader className="yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full" />
 			</div>
 		</TableWidget.Cell>
+		<TableWidget.Cell>
+			<SkeletonLoader className="yst-ms-auto">
+				Edit
+			</SkeletonLoader>
+		</TableWidget.Cell>
 	</TableWidget.Row>
 );
 
@@ -45,9 +51,10 @@ const TopPagesTable = ( { data, children } ) => {
 			<TableWidget.Header className="yst-text-end">{ __( "CTR", "wordpress-seo" ) }</TableWidget.Header>
 			<TableWidget.Header className="yst-text-end">{ __( "Average position", "wordpress-seo" ) }</TableWidget.Header>
 			<TableWidget.Header className="yst-text-center">{ __( "SEO score", "wordpress-seo" ) }</TableWidget.Header>
+			<TableWidget.Header className="yst-text-end">{ __( "Actions", "wordpress-seo" ) }</TableWidget.Header>
 		</TableWidget.Head>
 		<TableWidget.Body>
-			{ children || data.map( ( { subject, clicks, impressions, ctr, position, seoScore }, index ) => (
+			{ children || data.map( ( { subject, clicks, impressions, ctr, position, seoScore, links }, index ) => (
 				<TableWidget.Row key={ `most-popular-content-${ index }` } index={ index }>
 					<TableWidget.Cell className="yst-text-slate-900 yst-font-medium">{ subject }</TableWidget.Cell>
 					<TableWidget.Cell className="yst-text-end">{ clicks }</TableWidget.Cell>
@@ -55,6 +62,21 @@ const TopPagesTable = ( { data, children } ) => {
 					<TableWidget.Cell className="yst-text-end">{ ctr }</TableWidget.Cell>
 					<TableWidget.Cell className="yst-text-end">{ position }</TableWidget.Cell>
 					<TableWidget.Cell><TableWidget.ScoreBullet score={ seoScore } /></TableWidget.Cell>
+					<TableWidget.Cell className="yst-text-end">
+						<Button
+							variant="tertiary"
+							size="small"
+							as="a"
+							href={ links?.edit }
+							className="yst-px-0 yst-me-1"
+							disabled={ ! links?.edit }
+							aria-disabled={ ! links?.edit }
+							role="link"
+						>
+							<PencilIcon className="yst-w-4 yst-h-4 yst-me-1.5" />
+							{ __( "Edit", "wordpress-seo" ) }
+						</Button>
+					</TableWidget.Cell>
 				</TableWidget.Row>
 			) ) }
 		</TableWidget.Body>
@@ -72,6 +94,7 @@ export const createTopPageFormatter = ( dataFormatter ) => ( data = [] ) => data
 	ctr: dataFormatter.format( item.ctr, "ctr", { widget: "topPages" } ),
 	position: dataFormatter.format( item.position, "position", { widget: "topPages" } ),
 	seoScore: dataFormatter.format( item.seoScore, "seoScore", { widget: "topPages" } ),
+	links: dataFormatter.format( item.links, "links", { widget: "topPages" } ),
 } ) );
 
 /**

@@ -12,7 +12,7 @@ describe( "TopPagesWidget", () => {
 		{ subject: "https://example.com/page-1", clicks: 100, impressions: 1000, ctr: 10, position: 1, seoScore: "ok" },
 		{ subject: "https://example.com/page-2", clicks: 101, impressions: 1001, ctr: 11, position: 2, seoScore: "good" },
 		{ subject: "https://example.com/page-3", clicks: 102, impressions: 1002, ctr: 12, position: 3, seoScore: "bad" },
-		{ subject: "https://example.com/page-4", clicks: 103, impressions: 1003, ctr: 13, position: 4, seoScore: "notAnalyzed" },
+		{ subject: "https://example.com/page-4", clicks: 103, impressions: 1003, ctr: 13, position: 4, seoScore: "notAnalyzed", links: { edit: "https://example.com/page-4/edit" } },
 	];
 	let dataProvider;
 	let remoteDataProvider;
@@ -34,7 +34,7 @@ describe( "TopPagesWidget", () => {
 
 	it( "should render the TopPagesWidget component", async() => {
 		remoteDataProvider.fetchJson.mockResolvedValue( data );
-		const { getByRole, getByText } = render( <TopPagesWidget
+		const { getByRole, getByText, getAllByRole } = render( <TopPagesWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
 			dataFormatter={ dataFormatter }
@@ -56,6 +56,19 @@ describe( "TopPagesWidget", () => {
 			expect( getByText( position ) ).toBeInTheDocument();
 			expect( getByText( SCORE_META[ seoScore ].label ) ).toBeInTheDocument();
 		} );
+
+		const editButtons = getAllByRole( "link", { name: "Edit" } );
+		expect( editButtons ).toHaveLength( 4 );
+
+		// Check last edit button.
+		const lastEditButton = editButtons[ 3 ];
+		expect( lastEditButton ).toHaveAttribute( "href", "https://example.com/page-4/edit" );
+		expect( lastEditButton ).toHaveAttribute( "aria-disabled", "false" );
+
+		const firstEditButton = editButtons[ 0 ];
+		expect( firstEditButton ).not.toHaveAttribute( "href" );
+		expect( firstEditButton ).toHaveAttribute( "disabled" );
+		expect( firstEditButton ).toHaveAttribute( "aria-disabled", "true" );
 	} );
 
 	it( "should render the TopPagesWidget component without data", async() => {
@@ -102,7 +115,7 @@ describe( "TopPagesWidget", () => {
 			expect( getByRole( "table" ) ).toBeInTheDocument();
 		} );
 
-		// Expect limit (1) row with 6 columns = 6 skeleton loaders.
-		expect( container.getElementsByClassName( "yst-skeleton-loader" ).length ).toBe( 6 );
+		// Expect limit (1) row with 7 columns = 7 skeleton loaders.
+		expect( container.getElementsByClassName( "yst-skeleton-loader" ).length ).toBe( 7 );
 	} );
 } );

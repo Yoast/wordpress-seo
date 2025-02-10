@@ -58,6 +58,11 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
+ * @typedef {Object} TopPageDataLinks The links.
+ * @property {string} edit The link for editing the content.
+ */
+
+/**
  * @typedef {Object} TopPageData The top page data.
  * @property {string} subject The landing page.
  * @property {number} clicks The number of clicks.
@@ -65,6 +70,7 @@ export { Dashboard } from "./components/dashboard";
  * @property {number} ctr The click-through rate.
  * @property {number} position The average position.
  * @property {ScoreType} seoScore The seo score.
+ * @property {TopPageDataLinks} links The links.
  */
 
 /**
