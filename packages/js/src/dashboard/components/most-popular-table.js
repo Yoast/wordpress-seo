@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { TableWidget } from "./table-widget";
+import { TableWidget } from "./widget-table";
 import { ArrowRightIcon } from "@heroicons/react/solid";
 import { Button, Paper, Title } from "@yoast/ui-library";
 import { InfoTooltip } from "./info-tooltip";
@@ -7,25 +7,6 @@ import { InfoTooltip } from "./info-tooltip";
 /**
  * @type {import("../index").MostPopularContent} Most popular content
  */
-
-const Info = ( { link } ) => (
-	<>
-		<p>
-			{ __(
-				"The top 5 URLs on your website with the highest number of clicks.",
-				"wordpress-seo"
-			) }
-		</p>
-		<Button
-			variant="tertiary"
-			href={ link }
-			className="yst-px-0 yst-flex yst-gap-1.5"
-		>
-			{ __( "Learn more", "wordpress-seo" ) }
-			<ArrowRightIcon className="yst-w-4 yst-h-4 yst-me-1 rtl:yst-rotate-180" />
-		</Button>
-	</>
-);
 
 
 /**

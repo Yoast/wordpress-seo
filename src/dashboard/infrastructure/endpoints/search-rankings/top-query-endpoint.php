@@ -19,7 +19,7 @@ class Top_Query_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_name(): string {
-		return 'topPageResults';
+		return 'topQueryResults';
 	}
 
 	/**

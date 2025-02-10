@@ -1,19 +1,21 @@
-import classNames from "classnames";
 import { Table } from "@yoast/ui-library";
+import classNames from "classnames";
 import { SCORE_META } from "../scores/score-meta";
+
+/**
+ * @type {import("../index").ScoreType} ScoreType
+ */
 
 /**
  * The score bullet component.
  *
- * @param {string} score The score.
+ * @param {ScoreType} score The score.
  * @returns {JSX.Element} The element.
  */
 const ScoreBullet = ( { score } ) => (
-	<div className="yst-flex yst-justify-end yst-items-center">
-		<div className="yst-flex yst-justify-center yst-w-16">
-			<span className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
-				<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
-			</span>
+	<div className="yst-flex yst-justify-center">
+		<div className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
+			<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
 		</div>
 	</div>
 );
@@ -55,17 +57,19 @@ const TableRow = ( { children, index } ) => {
  *
  * @returns {JSX.Element} The element.
  */
-export const TableWidget = ( { children } ) => (
-	<div className="yst-overflow-auto">
-		<Table variant="minimal">
-			{ children }
-		</Table>
-	</div>
-);
+export const WidgetTable = ( { children } ) => {
+	return (
+		<div className="yst-overflow-auto">
+			<Table variant="minimal">
+				{ children }
+			</Table>
+		</div>
+	);
+};
 
-TableWidget.Head = TableHead;
-TableWidget.Row = TableRow;
-TableWidget.ScoreBullet = ScoreBullet;
-TableWidget.Cell = Table.Cell;
-TableWidget.Header = Table.Header;
-TableWidget.Body = Table.Body;
+WidgetTable.Head = TableHead;
+WidgetTable.Row = TableRow;
+WidgetTable.ScoreBullet = ScoreBullet;
+WidgetTable.Cell = Table.Cell;
+WidgetTable.Header = Table.Header;
+WidgetTable.Body = Table.Body;
