@@ -135,7 +135,7 @@ const TitleBounded = styled( Title )`
 	text-overflow: ellipsis;
 `;
 
-const BreacrumbsContainer = styled.span`
+const BreadcrumbsContainer = styled.span`
 	display: inline-block;
 	max-width: 240px;
 	overflow: hidden;
@@ -672,9 +672,9 @@ export default class SnippetPreview extends PureComponent {
 					<UrlContentContainer screenMode={ mode }>
 						<SiteName screenMode={ mode }>{ siteName }</SiteName>
 						<UrlBaseContainer screenMode={ mode }>{ hostname }</UrlBaseContainer>
-						{ ! isMobileMode && <BreacrumbsContainer>
+						{ ! isMobileMode && <BreadcrumbsContainer>
 							{ breadcrumbs }
-						</BreacrumbsContainer> }
+						</BreadcrumbsContainer> }
 						{ ! isMobileMode && <VerticalDotsContainer>
 							<VerticalDots screenMode={ mode } />
 						</VerticalDotsContainer> }
