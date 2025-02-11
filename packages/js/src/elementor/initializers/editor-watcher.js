@@ -28,11 +28,7 @@ function widgetHasMarks( widget ) {
 }
 
 /**
- * Retrieves all Elementor widget containers.
- * @returns {jQuery[]} Elementor widget containers.
- */
-/**
- * Find widget internal content dependent on Optimization switched on of off.
+ * Find widget internal content.
  *
  * @param {jQuery} element editor document element.
  *
@@ -41,6 +37,7 @@ function widgetHasMarks( widget ) {
 function findWidgetInternalContent( element ) {
 	let elements = element?.find( ".elementor-widget-container" );
 
+	// Optimized Markup compatibility.
 	if ( ! elements || ! elements.length ) {
 		elements =  element?.find( ".elementor-widget" ).children().not( ".elementor-background-overlay .ui-resizable-handle" );
 	}
