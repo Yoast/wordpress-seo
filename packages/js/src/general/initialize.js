@@ -74,7 +74,7 @@ domReady( () => { // eslint-disable-line complexity
 	const links = {
 		dashboardLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-learn-more" ),
 		errorSupport: select( STORE_NAME ).selectAdminLink( "?page=wpseo_page_support" ),
-		siteKitLearnMorelink: select( STORE_NAME ).selectLink( "https://yoa.st/google-site-kit-learn-more" ),
+		siteKitLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/google-site-kit-learn-more" ),
 		topPagesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/top-pages-learn-more" ),
 	};
 

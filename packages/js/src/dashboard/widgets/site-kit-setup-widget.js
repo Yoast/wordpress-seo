@@ -54,7 +54,6 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
  */
 export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove } ) => {
 	const { config, grantConsent } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
-	const learnMorelink = dataProvider.getLink( "siteKitLearnMorelink" );
 
 	const handleOnRemove = useCallback( () => {
 		onRemove( "siteKitSetup" );
@@ -64,6 +63,8 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove
 		// Implement the remove permanently functionality.
 		handleOnRemove();
 	}, [ handleOnRemove ] );
+
+	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 
 	const stepsStatuses = [ config.isInstalled, config.isActive, config.isSetupCompleted, config.isConnected ];
 

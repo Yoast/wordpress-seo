@@ -59,7 +59,7 @@ export class MockDataProvider extends DataProvider {
 			links: {
 				dashboardLearnMore: "https://example.com/dashboard-learn-more",
 				errorSupport: "https://example.com/error-support",
-				siteKitLearnMorelink: "https://example.com/google-site-kit-learn-more",
+				siteKitLearnMore: "https://example.com/google-site-kit-learn-more",
 			},
 			siteKitConfiguration: {
 				isInstalled: false,
