@@ -51,6 +51,7 @@ export class MockDataProvider extends DataProvider {
 				seoScores: "https://example.com/seo-scores",
 				readabilityScores: "https://example.com/readability-scores",
 				topPages: "https://example.com/top-pages",
+				siteKitConsentManagement: "https://example.com/site-kit-consent-management",
 			},
 			headers: {
 				"X-Wp-Nonce": "123",

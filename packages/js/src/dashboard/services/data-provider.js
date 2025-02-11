@@ -89,4 +89,15 @@ export class DataProvider {
 	getSiteKitConfiguration() {
 		return this.#siteKitConfiguration;
 	}
+
+	/**
+	 * @param {boolean} isConnected Whether the site kit is connected.
+	 */
+	setSiteKitConnected( isConnected ) {
+		// This creates a new object to avoid mutation and force re-rendering.
+		this.#siteKitConfiguration = {
+			...this.#siteKitConfiguration,
+			isConnected,
+		};
+	}
 }

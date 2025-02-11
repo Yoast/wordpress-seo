@@ -1,10 +1,17 @@
-import { Button, Paper, Stepper, Title, DropdownMenu } from "@yoast/ui-library";
-import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
-import { __ } from "@wordpress/i18n";
+import { ArrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { ArrowRightIcon, XIcon, TrashIcon } from "@heroicons/react/outline";
-import { useCallback } from "@wordpress/element";
+import { useCallback, useState } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
+import { Button, DropdownMenu, Paper, Stepper, Title } from "@yoast/ui-library";
+import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 
+/**
+ * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
+ * @type {import("../services/data-provider").DataProvider} DataProvider
+ * @type {import("../services/remote-data-provider").RemoteDataProvider} RemoteDataProvider
+ */
+
+/** @type {string[]} */
 const steps = [
 	__( "INSTALL", "wordpress-seo" ),
 	__( "ACTIVATE", "wordpress-seo" ),
@@ -13,26 +20,42 @@ const steps = [
 ];
 
 /**
+ * @param {DataProvider} dataProvider The data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @returns {{config: SiteKitConfiguration, grantConsent: function(RequestInit)}} The site kit configuration and the grant consent function.
+ */
+const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
+	const [ config, setConfig ] = useState( () => dataProvider.getSiteKitConfiguration() );
+
+	const grantConsent = useCallback( ( options ) => {
+		remoteDataProvider.fetchJson(
+			dataProvider.getEndpoint( "siteKitConsentManagement" ),
+			{ consent: String( true ) },
+			{ ...options, method: "POST" }
+		).then( ( { success } ) => {
+			if ( success ) {
+				dataProvider.setSiteKitConnected( true );
+				setConfig( dataProvider.getSiteKitConfiguration() );
+			}
+		} ).catch( () => {} );
+	}, [ dataProvider, remoteDataProvider, setConfig ] );
+
+	return { config, grantConsent };
+};
+
+/**
  * The google site kit connection guide widget.
  *
- * @param {function} onRemove The function to call when the widget is removed.
  * @param {DataProvider} dataProvider The data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {function} onRemove The function to call when the widget is removed.
  *
  * @returns {JSX.Element} The widget.
  */
-export const SiteKitSetupWidget = ( {
-	onRemove,
-	dataProvider,
-} ) => {
-	const {
-		installUrl,
-		activateUrl,
-		setupUrl,
-		isConnected,
-		isActive,
-		isSetupCompleted,
-		isInstalled } = dataProvider.getSiteKitConfiguration();
+export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove } ) => {
+	const { config, grantConsent } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const learnMorelink = dataProvider.getLink( "siteKitLearnMorelink" );
+
 	const handleOnRemove = useCallback( () => {
 		onRemove( "siteKitSetup" );
 	}, [ onRemove ] );
@@ -42,7 +65,7 @@ export const SiteKitSetupWidget = ( {
 		handleOnRemove();
 	}, [ handleOnRemove ] );
 
-	const stepsStatuses = [ isInstalled, isActive, isSetupCompleted, isConnected ];
+	const stepsStatuses = [ config.isInstalled, config.isActive, config.isSetupCompleted, config.isConnected ];
 
 	let currentStep = stepsStatuses.findIndex( status => ! status );
 	const overAllCompleted = currentStep === -1;
@@ -54,21 +77,22 @@ export const SiteKitSetupWidget = ( {
 	const buttonProps = [
 		{
 			children: __( "Install Site Kit by Google", "wordpress-seo" ),
-			href: installUrl,
+			href: config.installUrl,
 			as: "a",
 		},
 		{
 			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
-			href: activateUrl,
+			href: config.activateUrl,
 			as: "a",
 		},
 		{
 			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-			href: setupUrl,
+			href: config.setupUrl,
 			as: "a",
 		},
 		{
 			children: __( "Connect Site Kit by Google", "wordpress-seo" ),
+			onClick: grantConsent,
 		},
 	];
 

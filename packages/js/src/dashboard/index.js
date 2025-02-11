@@ -48,6 +48,7 @@ export { Dashboard } from "./components/dashboard";
  * @typedef {Object} Endpoints The endpoints.
  * @property {string} seoScores The endpoint for SEO scores.
  * @property {string} readabilityScores The endpoint for readability scores.
+ * @property {string} siteKitConsentManagement The endpoint to manage the Site Kit consent.
  * @property {string} timeBasedSeoMetrics The endpoint to get a time based seo metrics.
  */
 

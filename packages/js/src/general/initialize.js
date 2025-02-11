@@ -63,6 +63,7 @@ domReady( () => { // eslint-disable-line complexity
 		seoScores: get( window, "wpseoScriptData.dashboard.endpoints.seoScores", "" ),
 		readabilityScores: get( window, "wpseoScriptData.dashboard.endpoints.readabilityScores", "" ),
 		timeBasedSeoMetrics: get( window, "wpseoScriptData.dashboard.endpoints.timeBasedSeoMetrics", "" ),
+		siteKitConsentManagement: get( window, "wpseoScriptData.dashboard.endpoints.siteKitConsentManagement", "" ),
 	};
 	/** @type {Object<string,string>} */
 	const headers = {
