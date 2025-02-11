@@ -672,7 +672,7 @@ export default class SnippetPreview extends PureComponent {
 					<UrlContentContainer screenMode={ mode }>
 						<SiteName screenMode={ mode }>{ siteName }</SiteName>
 						<UrlBaseContainer screenMode={ mode }>{ hostname }</UrlBaseContainer>
-						{ ! isMobileMode && <BreacrumbsContainer screenMode={ mode }>
+						{ ! isMobileMode && <BreacrumbsContainer>
 							{ breadcrumbs }
 						</BreacrumbsContainer> }
 						{ ! isMobileMode && <VerticalDotsContainer>
