@@ -64,8 +64,6 @@ const MAX_WIDTH                 = 600;
 const MAX_WIDTH_MOBILE          = 400;
 const WIDTH_PADDING             = 20;
 const DESCRIPTION_LIMIT         = 156;
-const DESKTOP_BREADCRUMBS_LIMIT = 240;
-const MOBILE_BREADCRUMBS_LIMIT  = 100;
 const MOBILE_SITENAME_LIMIT     = "300px";
 
 
@@ -139,7 +137,7 @@ const TitleBounded = styled( Title )`
 
 const BreacrumbsContainer = styled.span`
 	display: inline-block;
-	max-width: ${ props => props.screenMode === MODE_DESKTOP ? DESKTOP_BREADCRUMBS_LIMIT : MOBILE_BREADCRUMBS_LIMIT }px;
+	max-width: 240px;
 	overflow: hidden;
 	vertical-align: top;
 
@@ -674,9 +672,9 @@ export default class SnippetPreview extends PureComponent {
 					<UrlContentContainer screenMode={ mode }>
 						<SiteName screenMode={ mode }>{ siteName }</SiteName>
 						<UrlBaseContainer screenMode={ mode }>{ hostname }</UrlBaseContainer>
-						<BreacrumbsContainer screenMode={ mode }>
+						{ ! isMobileMode && <BreacrumbsContainer screenMode={ mode }>
 							{ breadcrumbs }
-						</BreacrumbsContainer>
+						</BreacrumbsContainer> }
 						{ ! isMobileMode && <VerticalDotsContainer>
 							<VerticalDots screenMode={ mode } />
 						</VerticalDotsContainer> }
