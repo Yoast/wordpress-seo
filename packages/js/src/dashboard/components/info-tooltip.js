@@ -13,7 +13,7 @@ export const InfoTooltip = ( { children } ) => (
 		<TooltipTrigger>
 			<InformationCircleIcon className="yst-w-5 yst-h-5 yst-text-slate-400" />
 		</TooltipTrigger>
-		<TooltipWithContext variant="light" className="yst-max-w-80 yst-p-4">
+		<TooltipWithContext variant="light" className="yst-max-w-80 yst-p-4" position="left">
 			{ children }
 		</TooltipWithContext>
 	</TooltipContainer>

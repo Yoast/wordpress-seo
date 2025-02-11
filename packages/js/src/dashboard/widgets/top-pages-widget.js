@@ -5,7 +5,7 @@ import { PencilIcon } from "@heroicons/react/outline";
 import { useRemoteData } from "../services/use-remote-data";
 import { WidgetTable } from "../components/widget-table";
 import { Widget, WidgetTitle } from "./widget";
-import { ArrowRightIcon } from "@heroicons/react/solid";
+import { ArrowNarrowRightIcon  } from "@heroicons/react/solid";
 import { InfoTooltip } from "../components/info-tooltip";
 
 
@@ -16,8 +16,14 @@ import { InfoTooltip } from "../components/info-tooltip";
 /** @type {string} */
 const TITLE = __( "Top 5 most popular content", "wordpress-seo" );
 
-
-const Info = ( { link } ) => (
+/**
+ * The content of the info tooltip.
+ *
+ * @param {string} url The learn more link.
+ *
+ * @returns {JSX.Element} The element.
+ */
+const Info = ( { url } ) => (
 	<>
 		<p>
 			{ __(
@@ -27,11 +33,19 @@ const Info = ( { link } ) => (
 		</p>
 		<Button
 			variant="tertiary"
-			href={ link }
-			className="yst-px-0 yst-flex yst-gap-1.5"
+			as="a"
+			target="_blank"
+			href={ url }
+			className="yst-px-0"
 		>
 			{ __( "Learn more", "wordpress-seo" ) }
-			<ArrowRightIcon className="yst-w-4 yst-h-4 yst-me-1 rtl:yst-rotate-180" />
+			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-me-1 rtl:yst-rotate-180 yst-ms-1.5" />
+			<span className="yst-sr-only">
+				{
+					/* translators: Hidden accessibility text. */
+					__( "(Opens in a new browser tab)", "wordpress-seo" )
+				}
+			</span>
 		</Button>
 	</>
 );
@@ -64,55 +78,47 @@ const TopPagesSkeletonLoaderRow = ( { index } ) => (
 /**
  * @param {TopPageData[]} data The data.
  * @param {JSX.Element} [children] The children. Use this to override the data rendering.
- * @param {string} learnMoreLink The learn more link.
+ *
  * @returns {JSX.Element} The element.
  */
-const TopPagesTable = ( { data, children, learnMoreLink } ) => {
-	return <Widget>
-		<div className="yst-flex yst-justify-between">
-			<WidgetTitle>{ TITLE }</WidgetTitle>
-			<InfoTooltip>
-				<Info link={ learnMoreLink } />
-			</InfoTooltip>
-		</div>
-		<WidgetTable>
-			<WidgetTable.Head>
-				<WidgetTable.Header>{ __( "Landing page", "wordpress-seo" ) }</WidgetTable.Header>
-				<WidgetTable.Header className="yst-text-end">{ __( "Clicks", "wordpress-seo" ) }</WidgetTable.Header>
-				<WidgetTable.Header className="yst-text-end">{ __( "Impressions", "wordpress-seo" ) }</WidgetTable.Header>
-				<WidgetTable.Header className="yst-text-end">{ __( "CTR", "wordpress-seo" ) }</WidgetTable.Header>
-				<WidgetTable.Header className="yst-text-end">{ __( "Average position", "wordpress-seo" ) }</WidgetTable.Header>
-				<WidgetTable.Header className="yst-text-center">{ __( "SEO score", "wordpress-seo" ) }</WidgetTable.Header>
-			</WidgetTable.Head>
-			<WidgetTable.Body>
-				{ children || data.map( ( { subject, clicks, impressions, ctr, position, seoScore, links }, index ) => (
-					<WidgetTable.Row key={ `most-popular-content-${ index }` } index={ index }>
-						<WidgetTable.Cell className="yst-text-slate-900 yst-font-medium">{ subject }</WidgetTable.Cell>
-						<WidgetTable.Cell className="yst-text-end">{ clicks }</WidgetTable.Cell>
-						<WidgetTable.Cell className="yst-text-end">{ impressions }</WidgetTable.Cell>
-						<WidgetTable.Cell className="yst-text-end">{ ctr }</WidgetTable.Cell>
-						<WidgetTable.Cell className="yst-text-end">{ position }</WidgetTable.Cell>
-						<WidgetTable.Cell><WidgetTable.ScoreBullet score={ seoScore } /></WidgetTable.Cell>
-						<WidgetTable.Cell className="yst-text-end">
-							<Button
-								variant="tertiary"
-								size="small"
-								as="a"
-								href={ links?.edit }
-								className="yst-px-0 yst-me-1"
-								disabled={ ! links?.edit }
-								aria-disabled={ ! links?.edit }
-								role="link"
-							>
-								<PencilIcon className="yst-w-4 yst-h-4 yst-me-1.5" />
-								{ __( "Edit", "wordpress-seo" ) }
-							</Button>
-						</WidgetTable.Cell>
-					</WidgetTable.Row>
-				) ) }
-			</WidgetTable.Body>
-		</WidgetTable>
-	</Widget>;
+const TopPagesTable = ( { data, children } ) => {
+	return <WidgetTable>
+		<WidgetTable.Head>
+			<WidgetTable.Header>{ __( "Landing page", "wordpress-seo" ) }</WidgetTable.Header>
+			<WidgetTable.Header className="yst-text-end">{ __( "Clicks", "wordpress-seo" ) }</WidgetTable.Header>
+			<WidgetTable.Header className="yst-text-end">{ __( "Impressions", "wordpress-seo" ) }</WidgetTable.Header>
+			<WidgetTable.Header className="yst-text-end">{ __( "CTR", "wordpress-seo" ) }</WidgetTable.Header>
+			<WidgetTable.Header className="yst-text-end">{ __( "Average position", "wordpress-seo" ) }</WidgetTable.Header>
+			<WidgetTable.Header className="yst-text-center">{ __( "SEO score", "wordpress-seo" ) }</WidgetTable.Header>
+		</WidgetTable.Head>
+		<WidgetTable.Body>
+			{ children || data.map( ( { subject, clicks, impressions, ctr, position, seoScore, links }, index ) => (
+				<WidgetTable.Row key={ `most-popular-content-${ index }` } index={ index }>
+					<WidgetTable.Cell className="yst-text-slate-900 yst-font-medium">{ subject }</WidgetTable.Cell>
+					<WidgetTable.Cell className="yst-text-end">{ clicks }</WidgetTable.Cell>
+					<WidgetTable.Cell className="yst-text-end">{ impressions }</WidgetTable.Cell>
+					<WidgetTable.Cell className="yst-text-end">{ ctr }</WidgetTable.Cell>
+					<WidgetTable.Cell className="yst-text-end">{ position }</WidgetTable.Cell>
+					<WidgetTable.Cell><WidgetTable.ScoreBullet score={ seoScore } /></WidgetTable.Cell>
+					<WidgetTable.Cell className="yst-text-end">
+						<Button
+							variant="tertiary"
+							size="small"
+							as="a"
+							href={ links?.edit }
+							className="yst-px-0 yst-me-1"
+							disabled={ ! links?.edit }
+							aria-disabled={ ! links?.edit }
+							role="link"
+						>
+							<PencilIcon className="yst-w-4 yst-h-4 yst-me-1.5" />
+							{ __( "Edit", "wordpress-seo" ) }
+						</Button>
+					</WidgetTable.Cell>
+				</WidgetTable.Row>
+			) ) }
+		</WidgetTable.Body>
+	</WidgetTable>;
 };
 
 /**
@@ -145,6 +151,8 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 		return remoteDataProvider.fetchJson( dataProvider.getEndpoint( "topPages" ), { limit: limit.toString( 10 ) }, options );
 	}, [ dataProvider, limit ] );
 
+	const infoLink = dataProvider.getLink( "topPagesInfoLearnMore" );
+
 	/**
 	 * @type {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
 	 */
@@ -152,37 +160,35 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 
 	const { data, error, isPending } = useRemoteData( getTopPages, formatTopPages );
 
-	if ( isPending ) {
-		return (
-			<TopPagesTable>
-				{ Array.from( { length: limit }, ( _, index ) => (
-					<TopPagesSkeletonLoaderRow key={ `top-pages-table--row__${ index }` } index={ index } />
-				) ) }
-			</TopPagesTable>
-		);
-	}
+	const renderContent = () => {
+		if ( isPending ) {
+			return (
+				<TopPagesTable>
+					{ Array.from( { length: limit }, ( _, index ) => (
+						<TopPagesSkeletonLoaderRow key={ `top-pages-table--row__${ index }` } index={ index } />
+					) ) }
+				</TopPagesTable>
+			);
+		}
 
-	if ( error ) {
-		return (
-			<Widget title={ TITLE }>
-				<Alert variant="error" className="yst-mt-4">
-					{ error.message }
-				</Alert>
-			</Widget>
-		);
-	}
+		if ( error ) {
+			return <Alert variant="error" className="yst-mt-4">{ error.message }</Alert>;
+		}
 
-	if ( data.length === 0 ) {
-		return (
-			<Widget title={ TITLE }>
-				<p className="yst-mt-4">
-					{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }
-				</p>
-			</Widget>
-		);
-	}
+		if ( data.length === 0 ) {
+			return <p className="yst-mt-4">{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }</p>;
+		}
 
-	return (
-		<TopPagesTable data={ data } />
-	);
+		return <TopPagesTable data={ data } />;
+	};
+
+	return <Widget>
+		<div className="yst-flex yst-justify-between">
+			<WidgetTitle>{ TITLE }</WidgetTitle>
+			<InfoTooltip>
+				<Info url={ infoLink } />
+			</InfoTooltip>
+		</div>
+		{ renderContent() }
+	</Widget>;
 };

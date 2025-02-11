@@ -55,6 +55,8 @@ export { Dashboard } from "./components/dashboard";
  * @typedef {Object} Links The links.
  * @property {string} dashboardLearnMore The dashboard information link.
  * @property {string} errorSupport The support link when errors occur.
+ * @property {string} siteKitLearnMorelink The Site Kit learn more link.
+ * @property {string} topPagesInfoLearnMore The top pages learn more link.
  */
 
 /**
