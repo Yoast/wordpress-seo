@@ -1,6 +1,7 @@
-import { Table } from "@yoast/ui-library";
+import { Table, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
 import classNames from "classnames";
 import { SCORE_META } from "../scores/score-meta";
+import { XIcon } from "@heroicons/react/solid";
 
 /**
  * @type {import("../index").ScoreType} ScoreType
@@ -14,9 +15,15 @@ import { SCORE_META } from "../scores/score-meta";
  */
 const ScoreBullet = ( { score } ) => (
 	<div className="yst-flex yst-justify-center">
-		<div className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
-			<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
-		</div>
+		<TooltipContainer>
+			<TooltipTrigger>
+				{ [ "indexablesOff", "seoAnalysisOff", "notEditable" ].includes( score )
+					? <XIcon className="yst-w-4 yst-h-4 yst-text-slate-400" /> : <div className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
+						<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
+					</div> }
+			</TooltipTrigger>
+			{ SCORE_META[ score ]?.tooltip && <TooltipWithContext position="left">{ SCORE_META[ score ].tooltip }</TooltipWithContext> }
+		</TooltipContainer>
 	</div>
 );
 
@@ -59,7 +66,7 @@ const TableRow = ( { children, index } ) => {
  */
 export const WidgetTable = ( { children } ) => {
 	return (
-		<div className="yst-overflow-auto">
+		<div className="yst-overflow-x-auto">
 			<Table variant="minimal">
 				{ children }
 			</Table>

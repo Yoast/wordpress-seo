@@ -30,6 +30,15 @@ export const SCORE_META = {
 		hex: "#cbd5e1",
 		tooltip: __( "We haven’t analyzed this content yet. Please open it in your editor, ensure a focus keyphrase is entered, and save it so we can start the analysis.", "wordpress-seo" ),
 	},
+	indexablesOff: {
+		tooltip: __( "We can’t analyze your content, because you’re in a non-production environment.", "wordpress-seo" ),
+	},
+	seoAnalysisOff: {
+		tooltip: __( "We can’t provide SEO scores, because the SEO analysis is disabled for your site.", "wordpress-seo" ),
+	},
+	notEditable: {
+		tooltip: __( "We can’t provide an SEO score for this page because it can’t be edited.", "wordpress-seo" ),
+	},
 };
 
 /**

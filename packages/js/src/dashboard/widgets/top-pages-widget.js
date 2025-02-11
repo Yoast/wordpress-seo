@@ -89,7 +89,11 @@ const TopPagesTable = ( { data, children } ) => {
 			<WidgetTable.Header className="yst-text-end">{ __( "Impressions", "wordpress-seo" ) }</WidgetTable.Header>
 			<WidgetTable.Header className="yst-text-end">{ __( "CTR", "wordpress-seo" ) }</WidgetTable.Header>
 			<WidgetTable.Header className="yst-text-end">{ __( "Average position", "wordpress-seo" ) }</WidgetTable.Header>
-			<WidgetTable.Header className="yst-text-center">{ __( "SEO score", "wordpress-seo" ) }</WidgetTable.Header>
+			<WidgetTable.Header className="yst-text-center">
+				<div>Yoast</div>
+				{ __( "SEO score", "wordpress-seo" ) }
+			</WidgetTable.Header>
+			<WidgetTable.Header className="yst-text-end">{ __( "Actions", "wordpress-seo" ) }</WidgetTable.Header>
 		</WidgetTable.Head>
 		<WidgetTable.Body>
 			{ children || data.map( ( { subject, clicks, impressions, ctr, position, seoScore, links }, index ) => (
@@ -123,15 +127,17 @@ const TopPagesTable = ( { data, children } ) => {
 
 /**
  * @param {import("../services/data-formatter")} dataFormatter The data formatter.
+ * @param {boolean} [isIndexablesEnabled] Whether indexables are enabled.
+ * @param {boolean} [isSEOAnalysisEnabled] Whether SEO analysis is enabled.
  * @returns {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
  */
-export const createTopPageFormatter = ( dataFormatter ) => ( data = [] ) => data.map( ( item ) => ( {
+export const createTopPageFormatter = ( dataFormatter, isIndexablesEnabled, isSEOAnalysisEnabled ) => ( data = [] ) => data.map( ( item ) => ( {
 	subject: dataFormatter.format( item.subject, "subject", { widget: "topPages" } ),
 	clicks: dataFormatter.format( item.clicks, "clicks", { widget: "topPages" } ),
 	impressions: dataFormatter.format( item.impressions, "impressions", { widget: "topPages" } ),
 	ctr: dataFormatter.format( item.ctr, "ctr", { widget: "topPages" } ),
 	position: dataFormatter.format( item.position, "position", { widget: "topPages" } ),
-	seoScore: dataFormatter.format( item.seoScore, "seoScore", { widget: "topPages" } ),
+	seoScore: dataFormatter.format( item.seoScore, "seoScore", { widget: "topPages", isIndexablesEnabled, isSEOAnalysisEnabled, isEditble: item.links.edit } ),
 	links: dataFormatter.format( item.links, "links", { widget: "topPages" } ),
 } ) );
 
@@ -153,10 +159,13 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 
 	const infoLink = dataProvider.getLink( "topPagesInfoLearnMore" );
 
+	const isIndexablesEnabled = dataProvider.hasFeature( "indexables" );
+	const isSEOAnalysisEnabled = dataProvider.hasFeature( "seoAnalysis" );
+
 	/**
 	 * @type {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
 	 */
-	const formatTopPages = useMemo( () => createTopPageFormatter( dataFormatter ), [ dataFormatter ] );
+	const formatTopPages = useMemo( () => createTopPageFormatter( dataFormatter, isIndexablesEnabled, isSEOAnalysisEnabled ), [ dataFormatter ] );
 
 	const { data, error, isPending } = useRemoteData( getTopPages, formatTopPages );
 
