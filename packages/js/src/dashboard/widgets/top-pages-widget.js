@@ -1,6 +1,7 @@
-import { useCallback } from "@wordpress/element";
+import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Alert, SkeletonLoader } from "@yoast/ui-library";
+import { Alert, Button, SkeletonLoader } from "@yoast/ui-library";
+import { PencilIcon } from "@heroicons/react/outline";
 import { useRemoteData } from "../services/use-remote-data";
 import { TableWidget } from "./table-widget";
 import { Widget } from "./widget";
@@ -28,6 +29,11 @@ const TopPagesSkeletonLoaderRow = ( { index } ) => (
 				<SkeletonLoader className="yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full" />
 			</div>
 		</TableWidget.Cell>
+		<TableWidget.Cell>
+			<SkeletonLoader className="yst-ms-auto">
+				Edit
+			</SkeletonLoader>
+		</TableWidget.Cell>
 	</TableWidget.Row>
 );
 
@@ -45,9 +51,10 @@ const TopPagesTable = ( { data, children } ) => {
 			<TableWidget.Header className="yst-text-end">{ __( "CTR", "wordpress-seo" ) }</TableWidget.Header>
 			<TableWidget.Header className="yst-text-end">{ __( "Average position", "wordpress-seo" ) }</TableWidget.Header>
 			<TableWidget.Header className="yst-text-center">{ __( "SEO score", "wordpress-seo" ) }</TableWidget.Header>
+			<TableWidget.Header className="yst-text-end">{ __( "Actions", "wordpress-seo" ) }</TableWidget.Header>
 		</TableWidget.Head>
 		<TableWidget.Body>
-			{ children || data.map( ( { subject, clicks, impressions, ctr, position, seoScore }, index ) => (
+			{ children || data.map( ( { subject, clicks, impressions, ctr, position, seoScore, links }, index ) => (
 				<TableWidget.Row key={ `most-popular-content-${ index }` } index={ index }>
 					<TableWidget.Cell className="yst-text-slate-900 yst-font-medium">{ subject }</TableWidget.Cell>
 					<TableWidget.Cell className="yst-text-end">{ clicks }</TableWidget.Cell>
@@ -55,6 +62,21 @@ const TopPagesTable = ( { data, children } ) => {
 					<TableWidget.Cell className="yst-text-end">{ ctr }</TableWidget.Cell>
 					<TableWidget.Cell className="yst-text-end">{ position }</TableWidget.Cell>
 					<TableWidget.Cell><TableWidget.ScoreBullet score={ seoScore } /></TableWidget.Cell>
+					<TableWidget.Cell className="yst-text-end">
+						<Button
+							variant="tertiary"
+							size="small"
+							as="a"
+							href={ links?.edit }
+							className="yst-px-0 yst-me-1"
+							disabled={ ! links?.edit }
+							aria-disabled={ ! links?.edit }
+							role="link"
+						>
+							<PencilIcon className="yst-w-4 yst-h-4 yst-me-1.5" />
+							{ __( "Edit", "wordpress-seo" ) }
+						</Button>
+					</TableWidget.Cell>
 				</TableWidget.Row>
 			) ) }
 		</TableWidget.Body>
@@ -62,17 +84,41 @@ const TopPagesTable = ( { data, children } ) => {
 };
 
 /**
+ * @param {import("../services/data-formatter")} dataFormatter The data formatter.
+ * @returns {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
+ */
+export const createTopPageFormatter = ( dataFormatter ) => ( data = [] ) => data.map( ( item ) => ( {
+	subject: dataFormatter.format( item.subject, "subject", { widget: "topPages" } ),
+	clicks: dataFormatter.format( item.clicks, "clicks", { widget: "topPages" } ),
+	impressions: dataFormatter.format( item.impressions, "impressions", { widget: "topPages" } ),
+	ctr: dataFormatter.format( item.ctr, "ctr", { widget: "topPages" } ),
+	position: dataFormatter.format( item.position, "position", { widget: "topPages" } ),
+	seoScore: dataFormatter.format( item.seoScore, "seoScore", { widget: "topPages" } ),
+	links: dataFormatter.format( item.links, "links", { widget: "topPages" } ),
+} ) );
+
+/**
  * @param {import("../services/data-provider")} dataProvider The data provider.
  * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
+ * @param {import("../services/data-formatter")} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  * @returns {JSX.Element} The element.
  */
-export const TopPagesWidget = ( { dataProvider, remoteDataProvider, limit = 5 } ) => {
+export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => {
+	/**
+	 * @param {RequestInit} options The options.
+	 * @returns {Promise<TopPageData[]|Error>} The promise of TopPageData or an Error.
+	 */
 	const getTopPages = useCallback( ( options ) => {
 		return remoteDataProvider.fetchJson( dataProvider.getEndpoint( "topPages" ), { limit: limit.toString( 10 ) }, options );
 	}, [ dataProvider, limit ] );
 
-	const { data, error, isPending } = useRemoteData( getTopPages );
+	/**
+	 * @type {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
+	 */
+	const formatTopPages = useMemo( () => createTopPageFormatter( dataFormatter ), [ dataFormatter ] );
+
+	const { data, error, isPending } = useRemoteData( getTopPages, formatTopPages );
 
 	if ( isPending ) {
 		return (
@@ -94,7 +140,7 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, limit = 5 } 
 		);
 	}
 
-	if ( ! data || data.length === 0 ) {
+	if ( data.length === 0 ) {
 		return (
 			<Widget title={ TITLE }>
 				<p className="yst-mt-4">
