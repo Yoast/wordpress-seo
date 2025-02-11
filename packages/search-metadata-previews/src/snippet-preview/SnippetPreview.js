@@ -263,7 +263,7 @@ const MobilePartContainer = styled.div`
 `;
 
 const SiteName = styled.div`
-	line-height: 18x;
+	line-height: 18px;
 	font-size: 14px;
 	color: black;
 	max-width: ${ props => props.screenMode === MODE_DESKTOP ? "100%" : MOBILE_SITENAME_LIMIT };
