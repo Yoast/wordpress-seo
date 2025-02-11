@@ -1,7 +1,6 @@
 import { Table } from "@yoast/ui-library";
 import classNames from "classnames";
 import { SCORE_META } from "../scores/score-meta";
-import { Widget } from "./widget";
 
 /**
  * @type {import("../index").ScoreType} ScoreType
@@ -54,26 +53,23 @@ const TableRow = ( { children, index } ) => {
 /**
  * The Site Kit table component.
  *
- * @param {string} title The table title.
  * @param {JSX.Element} children The table rows.
  *
  * @returns {JSX.Element} The element.
  */
-export const TableWidget = ( { title, children } ) => {
+export const WidgetTable = ( { children } ) => {
 	return (
-		<Widget title={ title }>
-			<div className="yst-overflow-auto">
-				<Table variant="minimal">
-					{ children }
-				</Table>
-			</div>
-		</Widget>
+		<div className="yst-overflow-auto">
+			<Table variant="minimal">
+				{ children }
+			</Table>
+		</div>
 	);
 };
 
-TableWidget.Head = TableHead;
-TableWidget.Row = TableRow;
-TableWidget.ScoreBullet = ScoreBullet;
-TableWidget.Cell = Table.Cell;
-TableWidget.Header = Table.Header;
-TableWidget.Body = Table.Body;
+WidgetTable.Head = TableHead;
+WidgetTable.Row = TableRow;
+WidgetTable.ScoreBullet = ScoreBullet;
+WidgetTable.Cell = Table.Cell;
+WidgetTable.Header = Table.Header;
+WidgetTable.Body = Table.Body;

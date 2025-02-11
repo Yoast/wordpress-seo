@@ -3,8 +3,11 @@ import { __ } from "@wordpress/i18n";
 import { Alert, Button, SkeletonLoader } from "@yoast/ui-library";
 import { PencilIcon } from "@heroicons/react/outline";
 import { useRemoteData } from "../services/use-remote-data";
-import { TableWidget } from "./table-widget";
-import { Widget } from "./widget";
+import { WidgetTable } from "../components/widget-table";
+import { Widget, WidgetTitle } from "./widget";
+import { ArrowNarrowRightIcon  } from "@heroicons/react/solid";
+import { InfoTooltip } from "../components/info-tooltip";
+
 
 /**
  * @type {import("../index").TopPageData} TopPageData
@@ -14,55 +17,90 @@ import { Widget } from "./widget";
 const TITLE = __( "Top 5 most popular content", "wordpress-seo" );
 
 /**
+ * The content of the info tooltip.
+ *
+ * @param {string} url The learn more link.
+ *
+ * @returns {JSX.Element} The element.
+ */
+const Info = ( { url } ) => (
+	<>
+		<p>
+			{ __(
+				"The top 5 URLs on your website with the highest number of clicks.",
+				"wordpress-seo"
+			) }
+		</p>
+		<Button
+			variant="tertiary"
+			as="a"
+			target="_blank"
+			href={ url }
+			className="yst-px-0"
+		>
+			{ __( "Learn more", "wordpress-seo" ) }
+			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-me-1 rtl:yst-rotate-180 yst-ms-1.5" />
+			<span className="yst-sr-only">
+				{
+					/* translators: Hidden accessibility text. */
+					__( "(Opens in a new browser tab)", "wordpress-seo" )
+				}
+			</span>
+		</Button>
+	</>
+);
+
+
+/**
  * @param {number} index The index.
  * @returns {JSX.Element} The element.
  */
 const TopPagesSkeletonLoaderRow = ( { index } ) => (
-	<TableWidget.Row index={ index }>
-		<TableWidget.Cell><SkeletonLoader>https://example.com/page</SkeletonLoader></TableWidget.Cell>
-		<TableWidget.Cell><SkeletonLoader className="yst-ms-auto">10</SkeletonLoader></TableWidget.Cell>
-		<TableWidget.Cell><SkeletonLoader className="yst-ms-auto">100</SkeletonLoader></TableWidget.Cell>
-		<TableWidget.Cell><SkeletonLoader className="yst-ms-auto">0.12</SkeletonLoader></TableWidget.Cell>
-		<TableWidget.Cell><SkeletonLoader className="yst-ms-auto">12.34</SkeletonLoader></TableWidget.Cell>
-		<TableWidget.Cell>
+	<WidgetTable.Row index={ index }>
+		<WidgetTable.Cell><SkeletonLoader>https://example.com/page</SkeletonLoader></WidgetTable.Cell>
+		<WidgetTable.Cell><SkeletonLoader className="yst-ms-auto">10</SkeletonLoader></WidgetTable.Cell>
+		<WidgetTable.Cell><SkeletonLoader className="yst-ms-auto">100</SkeletonLoader></WidgetTable.Cell>
+		<WidgetTable.Cell><SkeletonLoader className="yst-ms-auto">0.12</SkeletonLoader></WidgetTable.Cell>
+		<WidgetTable.Cell><SkeletonLoader className="yst-ms-auto">12.34</SkeletonLoader></WidgetTable.Cell>
+		<WidgetTable.Cell>
 			<div className="yst-flex yst-justify-center">
 				<SkeletonLoader className="yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full" />
 			</div>
-		</TableWidget.Cell>
-		<TableWidget.Cell>
+		</WidgetTable.Cell>
+		<WidgetTable.Cell>
 			<SkeletonLoader className="yst-ms-auto">
 				Edit
 			</SkeletonLoader>
-		</TableWidget.Cell>
-	</TableWidget.Row>
+		</WidgetTable.Cell>
+	</WidgetTable.Row>
 );
 
 /**
  * @param {TopPageData[]} data The data.
  * @param {JSX.Element} [children] The children. Use this to override the data rendering.
+ *
  * @returns {JSX.Element} The element.
  */
 const TopPagesTable = ( { data, children } ) => {
-	return <TableWidget title={ TITLE }>
-		<TableWidget.Head>
-			<TableWidget.Header>{ __( "Landing page", "wordpress-seo" ) }</TableWidget.Header>
-			<TableWidget.Header className="yst-text-end">{ __( "Clicks", "wordpress-seo" ) }</TableWidget.Header>
-			<TableWidget.Header className="yst-text-end">{ __( "Impressions", "wordpress-seo" ) }</TableWidget.Header>
-			<TableWidget.Header className="yst-text-end">{ __( "CTR", "wordpress-seo" ) }</TableWidget.Header>
-			<TableWidget.Header className="yst-text-end">{ __( "Average position", "wordpress-seo" ) }</TableWidget.Header>
-			<TableWidget.Header className="yst-text-center">{ __( "SEO score", "wordpress-seo" ) }</TableWidget.Header>
-			<TableWidget.Header className="yst-text-end">{ __( "Actions", "wordpress-seo" ) }</TableWidget.Header>
-		</TableWidget.Head>
-		<TableWidget.Body>
+	return <WidgetTable>
+		<WidgetTable.Head>
+			<WidgetTable.Header>{ __( "Landing page", "wordpress-seo" ) }</WidgetTable.Header>
+			<WidgetTable.Header className="yst-text-end">{ __( "Clicks", "wordpress-seo" ) }</WidgetTable.Header>
+			<WidgetTable.Header className="yst-text-end">{ __( "Impressions", "wordpress-seo" ) }</WidgetTable.Header>
+			<WidgetTable.Header className="yst-text-end">{ __( "CTR", "wordpress-seo" ) }</WidgetTable.Header>
+			<WidgetTable.Header className="yst-text-end">{ __( "Average position", "wordpress-seo" ) }</WidgetTable.Header>
+			<WidgetTable.Header className="yst-text-center">{ __( "SEO score", "wordpress-seo" ) }</WidgetTable.Header>
+		</WidgetTable.Head>
+		<WidgetTable.Body>
 			{ children || data.map( ( { subject, clicks, impressions, ctr, position, seoScore, links }, index ) => (
-				<TableWidget.Row key={ `most-popular-content-${ index }` } index={ index }>
-					<TableWidget.Cell className="yst-text-slate-900 yst-font-medium">{ subject }</TableWidget.Cell>
-					<TableWidget.Cell className="yst-text-end">{ clicks }</TableWidget.Cell>
-					<TableWidget.Cell className="yst-text-end">{ impressions }</TableWidget.Cell>
-					<TableWidget.Cell className="yst-text-end">{ ctr }</TableWidget.Cell>
-					<TableWidget.Cell className="yst-text-end">{ position }</TableWidget.Cell>
-					<TableWidget.Cell><TableWidget.ScoreBullet score={ seoScore } /></TableWidget.Cell>
-					<TableWidget.Cell className="yst-text-end">
+				<WidgetTable.Row key={ `most-popular-content-${ index }` } index={ index }>
+					<WidgetTable.Cell className="yst-text-slate-900 yst-font-medium">{ subject }</WidgetTable.Cell>
+					<WidgetTable.Cell className="yst-text-end">{ clicks }</WidgetTable.Cell>
+					<WidgetTable.Cell className="yst-text-end">{ impressions }</WidgetTable.Cell>
+					<WidgetTable.Cell className="yst-text-end">{ ctr }</WidgetTable.Cell>
+					<WidgetTable.Cell className="yst-text-end">{ position }</WidgetTable.Cell>
+					<WidgetTable.Cell><WidgetTable.ScoreBullet score={ seoScore } /></WidgetTable.Cell>
+					<WidgetTable.Cell className="yst-text-end">
 						<Button
 							variant="tertiary"
 							size="small"
@@ -76,11 +114,11 @@ const TopPagesTable = ( { data, children } ) => {
 							<PencilIcon className="yst-w-4 yst-h-4 yst-me-1.5" />
 							{ __( "Edit", "wordpress-seo" ) }
 						</Button>
-					</TableWidget.Cell>
-				</TableWidget.Row>
+					</WidgetTable.Cell>
+				</WidgetTable.Row>
 			) ) }
-		</TableWidget.Body>
-	</TableWidget>;
+		</WidgetTable.Body>
+	</WidgetTable>;
 };
 
 /**
@@ -113,6 +151,8 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 		return remoteDataProvider.fetchJson( dataProvider.getEndpoint( "topPages" ), { limit: limit.toString( 10 ) }, options );
 	}, [ dataProvider, limit ] );
 
+	const infoLink = dataProvider.getLink( "topPagesInfoLearnMore" );
+
 	/**
 	 * @type {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
 	 */
@@ -120,37 +160,35 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 
 	const { data, error, isPending } = useRemoteData( getTopPages, formatTopPages );
 
-	if ( isPending ) {
-		return (
-			<TopPagesTable>
-				{ Array.from( { length: limit }, ( _, index ) => (
-					<TopPagesSkeletonLoaderRow key={ `top-pages-table--row__${ index }` } index={ index } />
-				) ) }
-			</TopPagesTable>
-		);
-	}
+	const renderContent = () => {
+		if ( isPending ) {
+			return (
+				<TopPagesTable>
+					{ Array.from( { length: limit }, ( _, index ) => (
+						<TopPagesSkeletonLoaderRow key={ `top-pages-table--row__${ index }` } index={ index } />
+					) ) }
+				</TopPagesTable>
+			);
+		}
 
-	if ( error ) {
-		return (
-			<Widget title={ TITLE }>
-				<Alert variant="error" className="yst-mt-4">
-					{ error.message }
-				</Alert>
-			</Widget>
-		);
-	}
+		if ( error ) {
+			return <Alert variant="error" className="yst-mt-4">{ error.message }</Alert>;
+		}
 
-	if ( data.length === 0 ) {
-		return (
-			<Widget title={ TITLE }>
-				<p className="yst-mt-4">
-					{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }
-				</p>
-			</Widget>
-		);
-	}
+		if ( data.length === 0 ) {
+			return <p className="yst-mt-4">{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }</p>;
+		}
 
-	return (
-		<TopPagesTable data={ data } />
-	);
+		return <TopPagesTable data={ data } />;
+	};
+
+	return <Widget>
+		<div className="yst-flex yst-justify-between">
+			<WidgetTitle>{ TITLE }</WidgetTitle>
+			<InfoTooltip>
+				<Info url={ infoLink } />
+			</InfoTooltip>
+		</div>
+		{ renderContent() }
+	</Widget>;
 };
