@@ -13,11 +13,10 @@
 			before:yst-content-['']
 			before:yst-absolute
 			before:yst-border-8
-			before:yst-border-transparent;
-
-			&.yst-tooltip--dark {
-				@apply yst-bg-gray-800 yst-text-white;
-			}
+			before:yst-border-transparent 
+			yst-bg-gray-800 
+			yst-text-white;
+			
 
 			&.yst-tooltip--light {
 				@apply yst-bg-white
