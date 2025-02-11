@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\Application\Search_Rankings;
+namespace Yoast\WP\SEO\Dashboard\Domain\Time_Based_SEO_Metrics;
 
 use Exception;
 
@@ -13,6 +13,6 @@ class Repository_Not_Found_Exception extends Exception {
 	 * Constructor of the exception.
 	 */
 	public function __construct() {
-		parent::__construct( 'Repository not found', 500 );
+		parent::__construct( 'Repository not found', 404 );
 	}
 }

@@ -16,7 +16,7 @@ const rowClassNameMap = {
  * @returns {JSX.Element} The element.
  */
 const Cell = ( { children, className = "", ...props } ) => (
-	<td className={ classNames( "yst-table-cell yst-px-3 yst-py-4 yst-text-sm yst-text-slate-600", className ) } { ...props }>
+	<td className={ classNames( "yst-table-cell", className ) } { ...props }>
 		{ children }
 	</td>
 );
@@ -54,7 +54,7 @@ Row.propTypes = {
  */
 const Header = ( { children, className = "", ...props } ) => (
 	<th
-		className={ classNames( "yst-table-header yst-px-3 yst-py-4 yst-text-start yst-text-sm yst-font-semibold yst-text-slate-900", className ) }
+		className={ classNames( "yst-table-header", className ) }
 		{ ...props }
 	>
 		{ children }
@@ -73,7 +73,7 @@ Header.propTypes = {
  * @returns {JSX.Element} The element.
  */
 const Head = ( { children, className = "", ...props } ) => (
-	<thead className={ classNames( "yst-bg-slate-50", className ) } { ...props }>{ children }</thead>
+	<thead className={ className } { ...props }>{ children }</thead>
 );
 
 Head.propTypes = {
@@ -88,7 +88,7 @@ Head.propTypes = {
  * @returns {JSX.Element} The element.
  */
 const Body = ( { children, className = "", ...props } ) => (
-	<tbody className={ classNames( "yst-divide-y yst-divide-gray-200 yst-bg-white", className ) } { ...props }>{ children }</tbody>
+	<tbody className={ className } { ...props }>{ children }</tbody>
 );
 
 Body.propTypes = {
@@ -96,15 +96,21 @@ Body.propTypes = {
 	className: PropTypes.string,
 };
 
+const tableVariants = {
+	"default": "yst-table--default",
+	minimal: "yst-table--minimal",
+};
+
 /**
  * @param {JSX.node} children The content.
  * @param {string} [className] Optional class name.
+ * @param {string} [variant] The variant of the table.
  * @param {Object} [props] Optional table props.
  * @returns {JSX.Element} The element.
  */
-const Table = forwardRef( ( { children, className = "", ...props }, ref ) => (
-	<div className="yst-table-wrapper yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5">
-		<table className={ classNames( "yst-min-w-full yst-divide-y yst-divide-slate-300", className ) } { ...props } ref={ ref }>
+const Table = forwardRef( ( { children, className = "", variant = "default", ...props }, ref ) => (
+	<div className={ classNames( "yst-table-wrapper", tableVariants[ variant ] ) }>
+		<table className={ className } { ...props } ref={ ref }>
 			{ children }
 		</table>
 	</div>
@@ -114,9 +120,11 @@ Table.displayName = "Table";
 Table.propTypes = {
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
+	variant: PropTypes.string,
 };
 Table.defaultProps = {
 	className: "",
+	variant: "default",
 };
 
 Table.Head = Head;

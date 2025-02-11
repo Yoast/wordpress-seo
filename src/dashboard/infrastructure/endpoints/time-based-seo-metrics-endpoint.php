@@ -1,15 +1,15 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Search_Rankings;
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints;
 
 use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;
-use Yoast\WP\SEO\Dashboard\User_Interface\Search_Rankings\Time_Based_Traffic_Route;
+use Yoast\WP\SEO\Dashboard\User_Interface\Time_Based_SEO_Metrics\Time_Based_SEO_Metrics_Route;
 
 /**
- * Represents the time based traffic endpoint.
+ * Represents the time based SEO metrics endpoint.
  */
-class Time_Based_Traffic_Endpoint implements Endpoint_Interface {
+class Time_Based_SEO_Metrics_Endpoint implements Endpoint_Interface {
 
 	/**
 	 * Gets the name.
@@ -17,7 +17,7 @@ class Time_Based_Traffic_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_name(): string {
-		return 'timeBasedTraffic';
+		return 'timeBasedSeoMetrics';
 	}
 
 	/**
@@ -26,7 +26,7 @@ class Time_Based_Traffic_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_namespace(): string {
-		return Time_Based_Traffic_Route::ROUTE_NAMESPACE;
+		return Time_Based_SEO_Metrics_Route::ROUTE_NAMESPACE;
 	}
 
 	/**
@@ -35,7 +35,7 @@ class Time_Based_Traffic_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_route(): string {
-		return Time_Based_Traffic_Route::ROUTE_NAME;
+		return Time_Based_SEO_Metrics_Route::ROUTE_NAME;
 	}
 
 	/**
