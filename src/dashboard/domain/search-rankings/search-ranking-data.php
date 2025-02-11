@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Interface;
 /**
  * Domain object that represents a single Search Data record.
  */
-class Search_Data implements Data_Interface {
+class Search_Ranking_Data implements Data_Interface {
 
 	/**
 	 * The amount of clicks a `subject` gets.

@@ -9,7 +9,7 @@ use Google\Site_Kit\Modules\Search_Console;
 use Google\Site_Kit\Plugin;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Failed_Request_Exception;
-use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Data;
+use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Ranking_Data;
 
 /**
  * The site API adapter to make calls to the Search Console API, via the Site_Kit plugin.
@@ -55,16 +55,16 @@ class Site_Kit_Search_Console_Adapter {
 			'dimensions' => $parameters->get_dimensions(),
 		];
 
-		$data_rows = self::$search_console_module->get_data( 'searchanalytics', $api_parameters );
+		$response = self::$search_console_module->get_data( 'searchanalytics', $api_parameters );
 
-		if ( \is_wp_error( $data_rows ) ) {
-			$error_data        = $data_rows->get_error_data();
+		if ( \is_wp_error( $response ) ) {
+			$error_data        = $response->get_error_data();
 			$error_status_code = ( $error_data['status'] ?? 500 );
-			throw new Failed_Request_Exception( \wp_kses_post( $data_rows->get_error_message() ), (int) $error_status_code );
+			throw new Failed_Request_Exception( \wp_kses_post( $response->get_error_message() ), (int) $error_status_code );
 		}
 
-		$search_data_container = new Data_Container();
-		foreach ( $data_rows as $ranking ) {
+		$search_ranking_data_container = new Data_Container();
+		foreach ( $response as $ranking ) {
 			/**
 			 * Filter: 'wpseo_transform_dashboard_subject_for_testing' - Allows overriding subjects like URLs for the dashboard, to facilitate testing in local environments.
 			 *
@@ -74,9 +74,9 @@ class Site_Kit_Search_Console_Adapter {
 			 */
 			$subject = \apply_filters( 'wpseo_transform_dashboard_subject_for_testing', $ranking->keys[0] );
 
-			$search_data_container->add_data( new Search_Data( $ranking->clicks, $ranking->ctr, $ranking->impressions, $ranking->position, $subject ) );
+			$search_ranking_data_container->add_data( new Search_Ranking_Data( $ranking->clicks, $ranking->ctr, $ranking->impressions, $ranking->position, $subject ) );
 		}
 
-		return $search_data_container;
+		return $search_ranking_data_container;
 	}
 }
