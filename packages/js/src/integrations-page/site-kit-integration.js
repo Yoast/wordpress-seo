@@ -21,7 +21,7 @@ const integration = {
 			strong: <strong />,
 		}
 	),
-	learnMoreLink: "https://yoa.st/google-site-kit-learn-more",
+	learnMoreLink: "https://yoa.st/integrations-about-site-kit",
 	logoLink: "https://yoa.st/integrations-logo-google-site-kit",
 	slug: "google-site-kit",
 	description: __( "View traffic and search rankings on your dashboard by connecting your Google account.", "wordpress-seo" ),
