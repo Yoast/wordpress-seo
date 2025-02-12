@@ -67,11 +67,9 @@ export class DataFormatter {
 	 * @param {any} data The data to be formatted.
 	 * @param {string} name The name indicating the type of data.
 	 * @param {Object} [context={}] The context providing additional information for formatting.
-	 * @param {boolean} [context.isIndexablesEnabled] Indicates if indexables are enabled.
-	 * @param {boolean} [context.isSEOAnalysisEnabled] Indicates if SEO analysis is enabled.
-	 * @param {boolean} [context.isEditble] Indicates if the data is editable.
 	 * @returns {*} The formatted or original data.
 	 */
+	// eslint-disable-next-line no-unused-vars
 	format( data, name, context = {} ) { // eslint-disable-line complexity
 		switch ( name ) {
 			case "subject":
@@ -84,15 +82,6 @@ export class DataFormatter {
 			case "position":
 				return safeNumberFormat( data, this.#numberFormat.twoFractions );
 			case "seoScore":
-				if ( ! context.isIndexablesEnabled ) {
-					return "indexablesOff";
-				}
-				if ( ! context.isSEOAnalysisEnabled ) {
-					return "seoAnalysisOff";
-				}
-				if ( ! context.isEditble ) {
-					return "notEditable";
-				}
 				return Object.keys( SCORE_META ).includes( data ) ? data : "notAnalyzed";
 			default:
 				return data;

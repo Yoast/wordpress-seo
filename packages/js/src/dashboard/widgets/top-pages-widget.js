@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { Alert, Button, SkeletonLoader } from "@yoast/ui-library";
 import { PencilIcon } from "@heroicons/react/outline";
 import { useRemoteData } from "../services/use-remote-data";
-import { WidgetTable } from "../components/widget-table";
+import { WidgetTable, Score } from "../components/widget-table";
 import { Widget, WidgetTitle } from "./widget";
 import { ArrowNarrowRightIcon  } from "@heroicons/react/solid";
 import { InfoTooltip } from "../components/info-tooltip";
@@ -78,10 +78,12 @@ const TopPagesSkeletonLoaderRow = ( { index } ) => (
 /**
  * @param {TopPageData[]} data The data.
  * @param {JSX.Element} [children] The children. Use this to override the data rendering.
+ * @param {boolean} [isIndexablesEnabled] Whether indexables are enabled.
+ * @param {boolean} [isSeoAnalysisEnabled] Whether SEO analysis is enabled.
  *
  * @returns {JSX.Element} The element.
  */
-const TopPagesTable = ( { data, children } ) => {
+const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnalysisEnabled = true } ) => {
 	return <WidgetTable>
 		<WidgetTable.Head>
 			<WidgetTable.Header>{ __( "Landing page", "wordpress-seo" ) }</WidgetTable.Header>
@@ -103,7 +105,17 @@ const TopPagesTable = ( { data, children } ) => {
 					<WidgetTable.Cell className="yst-text-end">{ impressions }</WidgetTable.Cell>
 					<WidgetTable.Cell className="yst-text-end">{ ctr }</WidgetTable.Cell>
 					<WidgetTable.Cell className="yst-text-end">{ position }</WidgetTable.Cell>
-					<WidgetTable.Cell><WidgetTable.ScoreBullet score={ seoScore } /></WidgetTable.Cell>
+					<WidgetTable.Cell>
+						<div className="yst-flex yst-justify-center">
+							<Score
+								score={ seoScore }
+								isIndexablesEnabled={ isIndexablesEnabled }
+								isSeoAnalysisEnabled={ isSeoAnalysisEnabled }
+								isEditable={ links?.edit }
+							/>
+						</div>
+					</WidgetTable.Cell>
+
 					<WidgetTable.Cell className="yst-text-end">
 						<Button
 							variant="tertiary"
@@ -131,13 +143,13 @@ const TopPagesTable = ( { data, children } ) => {
  * @param {boolean} [isSEOAnalysisEnabled] Whether SEO analysis is enabled.
  * @returns {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
  */
-export const createTopPageFormatter = ( dataFormatter, isIndexablesEnabled, isSEOAnalysisEnabled ) => ( data = [] ) => data.map( ( item ) => ( {
+export const createTopPageFormatter = ( dataFormatter ) => ( data = [] ) => data.map( ( item ) => ( {
 	subject: dataFormatter.format( item.subject, "subject", { widget: "topPages" } ),
 	clicks: dataFormatter.format( item.clicks, "clicks", { widget: "topPages" } ),
 	impressions: dataFormatter.format( item.impressions, "impressions", { widget: "topPages" } ),
 	ctr: dataFormatter.format( item.ctr, "ctr", { widget: "topPages" } ),
 	position: dataFormatter.format( item.position, "position", { widget: "topPages" } ),
-	seoScore: dataFormatter.format( item.seoScore, "seoScore", { widget: "topPages", isIndexablesEnabled, isSEOAnalysisEnabled, isEditble: item.links.edit } ),
+	seoScore: dataFormatter.format( item.seoScore, "seoScore", { widget: "topPages" } ),
 	links: dataFormatter.format( item.links, "links", { widget: "topPages" } ),
 } ) );
 
@@ -160,12 +172,12 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 	const infoLink = dataProvider.getLink( "topPagesInfoLearnMore" );
 
 	const isIndexablesEnabled = dataProvider.hasFeature( "indexables" );
-	const isSEOAnalysisEnabled = dataProvider.hasFeature( "seoAnalysis" );
+	const isSeoAnalysisEnabled = dataProvider.hasFeature( "seoAnalysis" );
 
 	/**
 	 * @type {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
 	 */
-	const formatTopPages = useMemo( () => createTopPageFormatter( dataFormatter, isIndexablesEnabled, isSEOAnalysisEnabled ), [ dataFormatter ] );
+	const formatTopPages = useMemo( () => createTopPageFormatter( dataFormatter ), [ dataFormatter ] );
 
 	const { data, error, isPending } = useRemoteData( getTopPages, formatTopPages );
 
@@ -188,7 +200,7 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 			return <p className="yst-mt-4">{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }</p>;
 		}
 
-		return <TopPagesTable data={ data } />;
+		return <TopPagesTable data={ data } isIndexablesEnabled={ isIndexablesEnabled } isSeoAnalysisEnabled={ isSeoAnalysisEnabled } />;
 	};
 
 	return <Widget>

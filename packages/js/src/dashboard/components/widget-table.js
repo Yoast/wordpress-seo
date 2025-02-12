@@ -2,10 +2,29 @@ import { Table, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yo
 import classNames from "classnames";
 import { SCORE_META } from "../scores/score-meta";
 import { XIcon } from "@heroicons/react/solid";
+import { __ } from "@wordpress/i18n";
 
 /**
  * @type {import("../index").ScoreType} ScoreType
  */
+
+/**
+ * The disabled score component.
+ *
+ * @param {string} screenReaderLabel The screen reader label.
+ * @param {string} tooltip The tooltip.
+ *
+ * @returns {JSX.Element} The element.
+ */
+const DisabledScore = ( { screenReaderLabel, tooltip } ) => {
+	return <TooltipContainer>
+		<TooltipTrigger>
+			<XIcon className="yst-w-4 yst-h-4 yst-text-slate-400" />
+			<span className="yst-sr-only">{ screenReaderLabel }</span>
+		</TooltipTrigger>
+		{  tooltip && <TooltipWithContext position="left">{  tooltip }</TooltipWithContext> }
+	</TooltipContainer>;
+};
 
 /**
  * The score bullet component.
@@ -14,18 +33,47 @@ import { XIcon } from "@heroicons/react/solid";
  * @returns {JSX.Element} The element.
  */
 const ScoreBullet = ( { score } ) => (
-	<div className="yst-flex yst-justify-center">
-		<TooltipContainer>
-			<TooltipTrigger>
-				{ [ "indexablesOff", "seoAnalysisOff", "notEditable" ].includes( score )
-					? <XIcon className="yst-w-4 yst-h-4 yst-text-slate-400" /> : <div className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
-						<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
-					</div> }
-			</TooltipTrigger>
-			{ SCORE_META[ score ]?.tooltip && <TooltipWithContext position="left">{ SCORE_META[ score ].tooltip }</TooltipWithContext> }
-		</TooltipContainer>
-	</div>
+	<TooltipContainer>
+		<TooltipTrigger>
+			<div className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
+				<span className="yst-sr-only" role="note">{ SCORE_META[ score ].label }</span>
+			</div>
+		</TooltipTrigger>
+		{ SCORE_META[ score ]?.tooltip && <TooltipWithContext position="left">{ SCORE_META[ score ].tooltip }</TooltipWithContext> }
+	</TooltipContainer>
 );
+
+/**
+ * The score component.
+ *
+ * @param {ScoreType} score The score.
+ * @param {boolean} isIndexablesEnabled Whether indexables are enabled.
+ * @param {boolean} isSeoAnalysisEnabled Whether SEO analysis is enabled.
+ * @param {boolean} isEditable Whether the data is editable.
+ *
+ * @returns {JSX.Element} The element.
+ */
+export const Score = ( { score, isIndexablesEnabled, isSeoAnalysisEnabled, isEditable } ) => {
+	if ( ! isIndexablesEnabled ) {
+		return <DisabledScore
+			tooltip={ __( "We can’t analyze your content, because you’re in a non-production environment.", "wordpress-seo" ) }
+			screenReaderLabel={ __( "Indexables are disabled", "wordpress-seo" ) }
+		/>;
+	}
+	if ( ! isSeoAnalysisEnabled ) {
+		return <DisabledScore
+			tooltip={ __( "We can’t provide SEO scores, because the SEO analysis is disabled for your site.", "wordpress-seo" ) }
+			screenReaderLabel={ __( "SEO analysis is disabled", "wordpress-seo" ) }
+		/>;
+	}
+	if ( ! isEditable ) {
+		return <DisabledScore
+			tooltip={ __( "We can’t provide an SEO score for this page because it can’t be edited.", "wordpress-seo" ) }
+			screenReaderLabel={ __( "Not editable", "wordpress-seo" ) }
+		/>;
+	}
+	return <ScoreBullet score={ score } />;
+};
 
 /**
  * The table head component.
@@ -76,7 +124,6 @@ export const WidgetTable = ( { children } ) => {
 
 WidgetTable.Head = TableHead;
 WidgetTable.Row = TableRow;
-WidgetTable.ScoreBullet = ScoreBullet;
 WidgetTable.Cell = Table.Cell;
 WidgetTable.Header = Table.Header;
 WidgetTable.Body = Table.Body;
