@@ -36,7 +36,7 @@ const ScoreBullet = ( { score } ) => (
 	<TooltipContainer>
 		<TooltipTrigger>
 			<div className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
-				<span className="yst-sr-only" role="note">{ SCORE_META[ score ].label }</span>
+				<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
 			</div>
 		</TooltipTrigger>
 		{ SCORE_META[ score ]?.tooltip && <TooltipWithContext position="left">{ SCORE_META[ score ].tooltip }</TooltipWithContext> }

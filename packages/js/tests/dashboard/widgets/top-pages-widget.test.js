@@ -117,4 +117,49 @@ describe( "TopPagesWidget", () => {
 		// Expect limit (1) row with 7 columns = 7 skeleton loaders.
 		expect( container.getElementsByClassName( "yst-skeleton-loader" ).length ).toBe( 7 );
 	} );
+
+	it( "when the data provider has indexables disabled, should render the TopPagesWidget component with disabled tooltip", async() => {
+		remoteDataProvider.fetchJson.mockResolvedValue( data );
+		dataProvider = new MockDataProvider( {
+			features: {
+				indexables: false,
+				seoAnalysis: true,
+			},
+		} );
+		const { getAllByText } = render( <TopPagesWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
+		/> );
+
+		// Verify the disabled score message is present.
+		await waitFor( () => {
+			const tooltip = getAllByText( "We can’t analyze your content, because you’re in a non-production environment." );
+			const screenReaderLabels = getAllByText( "Indexables are disabled" );
+			expect( tooltip ).toHaveLength( 5 );
+			expect( screenReaderLabels ).toHaveLength( 5 );
+		} );
+	} );
+	it( "when the data provider has SEO analysis disabled, should render the TopPagesWidget component with disabled tooltip", async() => {
+		remoteDataProvider.fetchJson.mockResolvedValue( data );
+		dataProvider = new MockDataProvider( {
+			features: {
+				indexables: true,
+				seoAnalysis: false,
+			},
+		} );
+		const { getAllByText } = render( <TopPagesWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
+		/> );
+
+		// Verify the disabled score message is present.
+		await waitFor( () => {
+			const tooltip = getAllByText( "We can’t provide SEO scores, because the SEO analysis is disabled for your site." );
+			const screenReaderLabels = getAllByText( "SEO analysis is disabled" );
+			expect( tooltip ).toHaveLength( 5 );
+			expect( screenReaderLabels ).toHaveLength( 5 );
+		} );
+	} );
 } );
