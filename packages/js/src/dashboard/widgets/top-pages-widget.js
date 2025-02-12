@@ -139,8 +139,6 @@ const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnaly
 
 /**
  * @param {import("../services/data-formatter")} dataFormatter The data formatter.
- * @param {boolean} [isIndexablesEnabled] Whether indexables are enabled.
- * @param {boolean} [isSEOAnalysisEnabled] Whether SEO analysis is enabled.
  * @returns {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
  */
 export const createTopPageFormatter = ( dataFormatter ) => ( data = [] ) => data.map( ( item ) => ( {

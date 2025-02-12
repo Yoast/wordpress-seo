@@ -60,15 +60,6 @@ export class DataFormatter {
 	 * @param {Object} [context] Extra information to determine how to format.
 	 * @returns {*} The formatted or original data.
 	 */
-
-	/**
-	 * Formats the given data based on the specified name and context.
-	 *
-	 * @param {any} data The data to be formatted.
-	 * @param {string} name The name indicating the type of data.
-	 * @param {Object} [context={}] The context providing additional information for formatting.
-	 * @returns {*} The formatted or original data.
-	 */
 	// eslint-disable-next-line no-unused-vars
 	format( data, name, context = {} ) { // eslint-disable-line complexity
 		switch ( name ) {
