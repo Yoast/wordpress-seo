@@ -2,6 +2,7 @@ import { ArrowSmRightIcon } from "@heroicons/react/solid";
 import { __ } from "@wordpress/i18n";
 import { Button, Modal, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
+import { ReactComponent as SiteKitConsentImage } from "../../../images/yoast-connect-site-kit-consent.svg";
 import { OutboundLink } from "./outbound-link";
 
 /**
@@ -10,8 +11,7 @@ import { OutboundLink } from "./outbound-link";
  * @param {boolean} isOpen Whether the modal is open.
  * @param {function} onClose Callback to close the modal.
  * @param {function} onGrantConsent Callback to grant consent.
- * @param {string} learnMoreLink The learn more link.
- * @param {string} imageLink The image link.
+ * @param {string} [learnMoreLink] The learn more link.
  *
  * @returns {JSX.Element} The Site Kit consent modal component.
  */
@@ -19,8 +19,7 @@ export const SiteKitConsentModal = ( {
 	isOpen,
 	onClose,
 	onGrantConsent,
-	learnMoreLink = "http://yoa.st/sitekit-consent-learn-more",
-	imageLink = "",
+	learnMoreLink = "",
 } ) => {
 	const svgAriaProps = useSvgAria();
 
@@ -36,13 +35,7 @@ export const SiteKitConsentModal = ( {
 					screenReaderText={ __( "Close", "wordpress-seo" ) }
 				/>
 				<div className="yst-px-10 yst-pt-10 yst-bg-gradient-to-b yst-from-primary-500/25 yst-to-[80%] yst-text-center">
-					<img
-						className="yst-rounded-md yst-drop-shadow-md yst-bg-slate-100 yst-aspect-video"
-						alt=""
-						loading="lazy"
-						decoding="async"
-						src={ imageLink }
-					/>
+					<SiteKitConsentImage className="yst-rounded-md yst-drop-shadow-md yst-bg-slate-100 yst-aspect-video" />
 				</div>
 				<div className="yst-px-10 yst-pb-4 yst-flex yst-flex-col yst-items-center">
 					<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
@@ -84,5 +77,4 @@ SiteKitConsentModal.propTypes = {
 	onClose: PropTypes.func.isRequired,
 	onGrantConsent: PropTypes.func,
 	learnMoreLink: PropTypes.string,
-	imageLink: PropTypes.string,
 };
