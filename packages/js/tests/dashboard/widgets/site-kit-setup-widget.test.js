@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { SiteKitSetupWidget } from "../../../src/dashboard/widgets/site-kit-setup-widget";
-import { act, fireEvent, render, screen } from "../../test-utils";
+import { fireEvent, render, screen, waitFor } from "../../test-utils";
 import { MockDataProvider } from "../__mocks__/data-provider";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
 
@@ -66,7 +66,7 @@ describe( "SiteKitSetupWidget", () => {
 		expect( screen.getByRole( "button", { name: /Connect Site Kit by Google/i } ) ).toBeInTheDocument();
 	} );
 
-	it( "requests consent when clicking on connect", async() => {
+	it( "opens the grant consent modal when clicking on connect", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				isInstalled: true,
@@ -74,15 +74,28 @@ describe( "SiteKitSetupWidget", () => {
 				isSetupCompleted: true,
 			},
 		} );
-		remoteDataProvider.fetchJson.mockResolvedValue( { success: true } );
 		render( <SiteKitSetupWidget dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } onRemove={ onRemove } /> );
 		const connectButton = screen.getByRole( "button", { name: /Connect Site Kit by Google/i } );
+		fireEvent.click( connectButton );
+		expect( screen.getByRole( "button", { name: /Grant consent/i } ) ).toBeInTheDocument();
+	} );
 
-		// Await useEffect from the request.
-		await act( () => {
-			fireEvent.click( connectButton );
+	it( "requests consent when clicking on grant consent", async() => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: true,
+			},
 		} );
-		expect( screen.getByRole( "button", { name: /Dismiss/i } ) ).toBeInTheDocument();
+		remoteDataProvider.fetchJson.mockResolvedValueOnce( { success: true } );
+		render( <SiteKitSetupWidget dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } onRemove={ onRemove } /> );
+		fireEvent.click( screen.getByRole( "button", { name: /Connect Site Kit by Google/i } ) );
+
+		fireEvent.click( screen.getByRole( "button", { name: /Grant consent/i } ) );
+		await waitFor( () => {
+			expect( screen.getByRole( "button", { name: /Dismiss/i } ) ).toBeInTheDocument();
+		} );
 
 		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
 			"https://example.com/site-kit-consent-management",
@@ -91,7 +104,7 @@ describe( "SiteKitSetupWidget", () => {
 		);
 	} );
 
-	it( "stays on the connect when the consent request returns false", async() => {
+	it( "stays on the modal when the consent request returns false", async() => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				isInstalled: true,
@@ -99,15 +112,15 @@ describe( "SiteKitSetupWidget", () => {
 				isSetupCompleted: true,
 			},
 		} );
-		remoteDataProvider.fetchJson.mockResolvedValue( { success: false } );
+		remoteDataProvider.fetchJson.mockResolvedValueOnce( { success: false } );
 		render( <SiteKitSetupWidget dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } onRemove={ onRemove } /> );
-		const connectButton = screen.getByRole( "button", { name: /Connect Site Kit by Google/i } );
+		fireEvent.click( screen.getByRole( "button", { name: /Connect Site Kit by Google/i } ) );
 
-		// Await useEffect from the request.
-		await act( () => {
-			fireEvent.click( connectButton );
+		const grantConsentButton = screen.getByRole( "button", { name: /Grant consent/i } );
+		fireEvent.click( grantConsentButton );
+		await waitFor( () => {
+			expect( grantConsentButton ).toBeInTheDocument();
 		} );
-		expect( connectButton ).toBeInTheDocument();
 		expect( screen.queryByRole( "button", { name: /Dismiss/i } ) ).not.toBeInTheDocument();
 
 		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
@@ -117,7 +130,7 @@ describe( "SiteKitSetupWidget", () => {
 		);
 	} );
 
-	it( "stays on the connect when the consent request errors", async() => {
+	it( "stays on the modal when the consent request errors", async() => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				isInstalled: true,
@@ -125,15 +138,15 @@ describe( "SiteKitSetupWidget", () => {
 				isSetupCompleted: true,
 			},
 		} );
-		remoteDataProvider.fetchJson.mockRejectedValue( new Error( "Failed to fetch" ) );
+		remoteDataProvider.fetchJson.mockRejectedValueOnce( new Error( "Failed to fetch" ) );
 		render( <SiteKitSetupWidget dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } onRemove={ onRemove } /> );
-		const connectButton = screen.getByRole( "button", { name: /Connect Site Kit by Google/i } );
+		fireEvent.click( screen.getByRole( "button", { name: /Connect Site Kit by Google/i } ) );
 
-		// Await useEffect from the request.
-		await act( () => {
-			fireEvent.click( connectButton );
+		const grantConsentButton = screen.getByRole( "button", { name: /Grant consent/i } );
+		fireEvent.click( grantConsentButton );
+		await waitFor( () => {
+			expect( grantConsentButton ).toBeInTheDocument();
 		} );
-		expect( connectButton ).toBeInTheDocument();
 		expect( screen.queryByRole( "button", { name: /Dismiss/i } ) ).not.toBeInTheDocument();
 
 		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(

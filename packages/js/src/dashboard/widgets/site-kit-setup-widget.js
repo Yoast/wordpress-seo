@@ -2,8 +2,9 @@ import { ArrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Button, DropdownMenu, Paper, Stepper, Title } from "@yoast/ui-library";
+import { Button, DropdownMenu, Paper, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
+import { SiteKitConsentModal } from "../../shared-admin/components";
 
 /**
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
@@ -54,6 +55,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
  */
 export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove } ) => {
 	const { config, grantConsent } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
+	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const handleOnRemove = useCallback( () => {
 		onRemove( "siteKitSetup" );
@@ -64,6 +66,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove
 	}, [ handleOnRemove ] );
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
+	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
 
 	const stepsStatuses = [ config.isInstalled, config.isActive, config.isSetupCompleted, config.isConnected ];
 	let currentStep = stepsStatuses.findIndex( status => ! status );
@@ -90,7 +93,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove
 		},
 		{
 			children: __( "Connect Site Kit by Google", "wordpress-seo" ),
-			onClick: grantConsent,
+			onClick: openConsentModal,
 		},
 	];
 
@@ -163,6 +166,12 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove
 						{ __( "Learn more", "wordpress-seo" ) }
 						<ArrowRightIcon className="yst-w-3 yst-text-primary-500 rtl:yst-rotate-180" />
 					</Button>
+					<SiteKitConsentModal
+						isOpen={ currentStep === steps.length - 1 && isConsentModalOpen }
+						onClose={ closeConsentModal }
+						onGrantConsent={ grantConsent }
+						learnMoreLink={ consentLearnMoreLink }
+					/>
 				</>
 			}
 		</div>

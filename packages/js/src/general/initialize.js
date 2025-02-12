@@ -75,6 +75,7 @@ domReady( () => { // eslint-disable-line complexity
 		dashboardLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-learn-more" ),
 		errorSupport: select( STORE_NAME ).selectAdminLink( "?page=wpseo_page_support" ),
 		siteKitLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/google-site-kit-learn-more" ),
+		siteKitConsentLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-site-kit-consent-learn-more" ),
 		topPagesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/top-pages-learn-more" ),
 	};
 
