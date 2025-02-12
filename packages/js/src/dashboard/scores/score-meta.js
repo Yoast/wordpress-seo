@@ -32,12 +32,15 @@ export const SCORE_META = {
 	},
 	indexablesOff: {
 		tooltip: __( "We can’t analyze your content, because you’re in a non-production environment.", "wordpress-seo" ),
+		label: __( "Indexables are disabled", "wordpress-seo" ),
 	},
 	seoAnalysisOff: {
 		tooltip: __( "We can’t provide SEO scores, because the SEO analysis is disabled for your site.", "wordpress-seo" ),
+		label: __( "SEO analysis is disabled", "wordpress-seo" ),
 	},
 	notEditable: {
 		tooltip: __( "We can’t provide an SEO score for this page because it can’t be edited.", "wordpress-seo" ),
+		label: __( "Not editable", "wordpress-seo" ),
 	},
 };
 
