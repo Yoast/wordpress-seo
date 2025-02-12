@@ -66,7 +66,6 @@ const WIDTH_PADDING             = 20;
 const DESCRIPTION_LIMIT         = 156;
 const MOBILE_SITENAME_LIMIT     = "300px";
 
-
 const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: #fff;
 	font-family: arial, sans-serif;
@@ -137,7 +136,7 @@ const TitleBounded = styled( Title )`
 
 const BreadcrumbsContainer = styled.span`
 	display: inline-block;
-	max-width: 240px;
+	max-width: ${ ( 2 / 5 ) * MAX_WIDTH }px;
 	overflow: hidden;
 	vertical-align: top;
 
