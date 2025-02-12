@@ -48,39 +48,8 @@ class Site_Kit_Analytics_4_Adapter {
 	 * @throws Failed_Request_Exception When the query of getting score results fails.
 	 */
 	public function get_data( Analytics_4_Parameters $parameters ): Data_Container {
-		// @TODO: Maybe build the api parameters in a separate function.
-		$api_parameters = [
-			'slug'       => 'analytics-4',
-			'datapoint'  => 'report',
-			'startDate'  => $parameters->get_start_date(),
-			'endDate'    => $parameters->get_end_date(),
-		];
-		$is_comparison_request = false;
-
-		if ( ! empty( $parameters->get_dimension_filters() ) ) {
-			$api_parameters['dimensionFilters'] = $parameters->get_dimension_filters();
-		}
-
-		if ( ! empty( $parameters->get_dimensions() ) ) {
-			$api_parameters['dimensions'] = $parameters->get_dimensions();
-		}
-
-		if ( ! empty( $parameters->get_metrics() ) ) {
-			$api_parameters['metrics'] = $parameters->get_metrics();
-		}
-
-		if ( ! empty( $parameters->get_order_by() ) ) {
-			$api_parameters['orderby'] = $parameters->get_order_by();
-		}
-
-		if ( ! empty( $parameters->get_compare_start_date() && ! empty( $parameters->get_compare_end_date() ) ) ) {
-			$api_parameters['compareStartDate'] = $parameters->get_compare_start_date();
-			$api_parameters['compareEndDate']   = $parameters->get_compare_end_date();
-
-			$is_comparison_request = true;
-		}
-
-		$response = self::$analytics_4_module->get_data( 'report', $api_parameters );
+		$api_parameters = $this->build_parameters( $parameters );
+		$response       = self::$analytics_4_module->get_data( 'report', $api_parameters );
 
 		if ( \is_wp_error( $response ) ) {
 			$error_data        = $response->get_error_data();
@@ -88,7 +57,7 @@ class Site_Kit_Analytics_4_Adapter {
 			throw new Failed_Request_Exception( \wp_kses_post( $response->get_error_message() ), (int) $error_status_code );
 		}
 
-		if ( $is_comparison_request ) {
+		if ( $this->is_comparison_request( $parameters ) ) {
 			return $this->parse_comparison_response( $response );
 
 		}
@@ -146,5 +115,59 @@ class Site_Kit_Analytics_4_Adapter {
 		$data_container->add_data( new Comparison_Traffic_Data( $current_traffic_data, $previous_traffic_data ) );
 
 		return $data_container;
+	}
+
+	/**
+	 * Builds the parameters to be used in the Site Kit API request.
+	 *
+	 * @param Analytics_4_Parameters $parameters The parameters.
+	 *
+	 * @return array<string, array<string, string>> The Site Kit API parameters.
+	 */
+	protected function build_parameters( $parameters ): array {
+		$api_parameters = [
+			'slug'       => 'analytics-4',
+			'datapoint'  => 'report',
+			'startDate'  => $parameters->get_start_date(),
+			'endDate'    => $parameters->get_end_date(),
+		];
+
+		if ( ! empty( $parameters->get_dimension_filters() ) ) {
+			$api_parameters['dimensionFilters'] = $parameters->get_dimension_filters();
+		}
+
+		if ( ! empty( $parameters->get_dimensions() ) ) {
+			$api_parameters['dimensions'] = $parameters->get_dimensions();
+		}
+
+		if ( ! empty( $parameters->get_metrics() ) ) {
+			$api_parameters['metrics'] = $parameters->get_metrics();
+		}
+
+		if ( ! empty( $parameters->get_order_by() ) ) {
+			$api_parameters['orderby'] = $parameters->get_order_by();
+		}
+
+		if ( ! empty( $parameters->get_compare_start_date() && ! empty( $parameters->get_compare_end_date() ) ) ) {
+			$api_parameters['compareStartDate'] = $parameters->get_compare_start_date();
+			$api_parameters['compareEndDate']   = $parameters->get_compare_end_date();
+		}
+
+		return $api_parameters;
+	}
+
+	/**
+	 * Builds the parameters to be used in the Site Kit API request.
+	 *
+	 * @param Analytics_4_Parameters $parameters The parameters.
+	 *
+	 * @return bool Whether it's a comparison request.
+	 */
+	protected function is_comparison_request( $parameters ): bool {
+		if ( ! empty( $parameters->get_compare_start_date() && ! empty( $parameters->get_compare_end_date() ) ) ) {
+			return true;
+		}
+
+		return false;
 	}
 }
