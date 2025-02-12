@@ -135,10 +135,12 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	public function get_time_based_seo_metrics( WP_REST_Request $request ): WP_REST_Response {
 		try {
 			$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
-			$date->modify( '-27 days' );
-
+			$date->modify( '-28 days' );
 			$start_date = $date->format( 'Y-m-d' );
-			$end_date   = ( new DateTime( 'now', new DateTimeZone( 'UTC' ) ) )->format( 'Y-m-d' );
+
+			$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+			$date->modify( '-1 days' );
+			$end_date = $date->format( 'Y-m-d' );
 
 			$widget_name = $request->get_param( 'options' )['widget'];
 			switch ( $widget_name ) {
@@ -190,10 +192,10 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 					$request_parameters->set_end_date( $end_date );
 
 					$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
-					$date->modify( '-27 days' );
-		
+					$date->modify( '-29 days' );		
 					$compare_end_date = $date->format( 'Y-m-d' );
-					$date->modify( '-28 days' );
+
+					$date->modify( '-27 days' );
 					$compare_start_date = $date->format( 'Y-m-d' );
 					$request_parameters->set_compare_start_date( $compare_start_date );
 					$request_parameters->set_compare_end_date( $compare_end_date );
