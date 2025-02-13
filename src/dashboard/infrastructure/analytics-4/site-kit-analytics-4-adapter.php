@@ -62,29 +62,39 @@ class Site_Kit_Analytics_4_Adapter {
 
 		}
 
-		return $this->parse_response( $response );
+		return $this->parse_daily_response( $response );
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint  -- Reason: Parameter comes from Site Kit, no control over it.
 
 	/**
-	 * Parses a response for a Site Kit API request for Analytics 4.
+	 * Parses a response for a Site Kit API request that requests daily data for Analytics 4.
 	 *
 	 * @param mixed $response The response to parse.
 	 *
 	 * @return Data_Container The parsed response.
 	 */
-	protected function parse_response( $response ): Data_Container {
+	protected function parse_daily_response( $response ): Data_Container {
 		$data_container = new Data_Container();
-		$metric         = $response->metricHeaders[0]->name;
 
 		foreach ( $response->rows as $daily_traffic ) {
 			$traffic_data = new Traffic_Data();
 
-			if ( $metric === 'sessions' ) {
-				// @TODO: Maybe use class methods like getValue() instead of this.
-				$traffic_data->set_sessions( (int) $daily_traffic->metricValues[0]->value );
+			foreach ( $response->metricHeaders as $key => $metric ) {
+				$metric_name = $metric->name;
+
+				// @TODO: Maybe use class methods like getValue() instead of ->value.
+				$metric_value = $daily_traffic->metricValues[ $key ]->value;
+
+				if ( $metric_name === 'sessions' ) {
+					$traffic_data->set_sessions( (int) $metric_value );
+				}
+				elseif ( $metric_name === 'totalUsers' ) {
+					$traffic_data->set_total_users( (int) $metric_value );
+				}
 			}
+
+			// @TODO: consider safeguarding against dimensionValues[0]->value not being what we expect it to be, aka a date.
 			$data_container->add_data( new Daily_Traffic_Data( $daily_traffic->dimensionValues[0]->value, $traffic_data ) );
 		}
 
@@ -104,6 +114,7 @@ class Site_Kit_Analytics_4_Adapter {
 		$current_traffic_data  = new Traffic_Data();
 		$previous_traffic_data = new Traffic_Data();
 
+		// @TODO: Add support for multiple metrics, like in parse_daily_response().
 		if ( $metric === 'sessions' ) {
 			$current_traffic_data->set_sessions( (int) $response->rows[0]->metricValues[0]->value );
 			$previous_traffic_data->set_sessions( (int) $response->rows[1]->metricValues[0]->value );

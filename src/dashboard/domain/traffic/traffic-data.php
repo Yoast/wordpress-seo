@@ -17,21 +17,21 @@ class Traffic_Data implements Data_Interface {
 	private $sessions;
 
 	/**
-	 * The users.
+	 * The total users.
 	 *
-	 * @var int $users
+	 * @var int $total_users
 	 */
-	private $users;
+	private $total_users;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param int $sessions The sessions.
-	 * @param int $users    The users.
+	 * @param int $sessions    The sessions.
+	 * @param int $total_users The total users.
 	 */
-	public function __construct( ?int $sessions = null, ?int $users = null ) {
-		$this->sessions = $sessions;
-		$this->users    = $users;
+	public function __construct( ?int $sessions = null, ?int $total_users = null ) {
+		$this->sessions    = $sessions;
+		$this->total_users = $total_users;
 	}
 
 	/**
@@ -46,8 +46,8 @@ class Traffic_Data implements Data_Interface {
 			$result['sessions'] = $this->sessions;
 		}
 
-		if ( $this->users !== null ) {
-			$result['users'] = $this->users;
+		if ( $this->total_users !== null ) {
+			$result['total_users'] = $this->total_users;
 		}
 
 		return $result;
@@ -62,5 +62,16 @@ class Traffic_Data implements Data_Interface {
 	 */
 	public function set_sessions( int $sessions ): void {
 		$this->sessions = $sessions;
+	}
+
+	/**
+	 * Sets the total users.
+	 *
+	 * @param int $total_users The total users.
+	 *
+	 * @return void
+	 */
+	public function set_total_users( int $total_users ): void {
+		$this->total_users = $total_users;
 	}
 }
