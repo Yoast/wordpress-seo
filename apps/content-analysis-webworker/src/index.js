@@ -1,8 +1,6 @@
 import { AnalysisWorkerWrapper, Paper, interpreters } from "yoastseo";
 
 const loadWebWorker = ( language ) => {
-	// `url` needs to be the full URL to the script for the browser to know where to load the worker script from.
-	// This should be the script created by the previous code-snippet.
 	const workerUnwrapped = new Worker( new URL("./worker.js", import.meta.url) );
 	// Pass language so that the right researcher is loaded.
 	workerUnwrapped.postMessage( { language } );
@@ -61,7 +59,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		} ).catch( ( error ) => {
 			console.error( 'An error occurred while analyzing the text:' );
 			console.error( error );
-			resultPre.textContent = JSON.stringify( error );
 		} );
 	});
 });

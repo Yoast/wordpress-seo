@@ -17,7 +17,7 @@ module.exports = {
 			directory: path.join(__dirname, 'dist'),
 		},
 		compress: true,
-		port: 9000,
+		port: 8999,
 		watchFiles: [ 'src/index.html' ],
 	},
 }
