@@ -153,11 +153,8 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove
 		<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
 			{ overallCompleted
 				? <>
-					<Button>
-						{ __( "Take a quick tour", "wordpress-seo" ) }
-					</Button>
-					<Button variant="tertiary" onClick={ handleRemovePermanently }>
-						{ __( "Dismiss", "wordpress-seo" ) }
+					<Button onClick={ handleRemovePermanently }>
+						{ __( "Got it!", "wordpress-seo" ) }
 					</Button>
 				</>
 				: <>

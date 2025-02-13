@@ -94,7 +94,7 @@ describe( "SiteKitSetupWidget", () => {
 
 		fireEvent.click( screen.getByRole( "button", { name: /Grant consent/i } ) );
 		await waitFor( () => {
-			expect( screen.getByRole( "button", { name: /Dismiss/i } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "button", { name: /Got it!/i } ) ).toBeInTheDocument();
 		} );
 
 		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
@@ -121,7 +121,7 @@ describe( "SiteKitSetupWidget", () => {
 		await waitFor( () => {
 			expect( grantConsentButton ).toBeInTheDocument();
 		} );
-		expect( screen.queryByRole( "button", { name: /Dismiss/i } ) ).not.toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: /Got it!/i } ) ).not.toBeInTheDocument();
 
 		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
 			"https://example.com/site-kit-consent-management",
@@ -166,7 +166,7 @@ describe( "SiteKitSetupWidget", () => {
 			},
 		} );
 		render( <SiteKitSetupWidget dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } onRemove={ onRemove } /> );
-		const dismissButton = screen.getByRole( "button", { name: /Dismiss/i } );
+		const dismissButton = screen.getByRole( "button", { name: /Got it/i } );
 		expect( dismissButton ).toBeInTheDocument();
 		fireEvent.click( dismissButton );
 		expect( onRemove ).toHaveBeenCalled();
