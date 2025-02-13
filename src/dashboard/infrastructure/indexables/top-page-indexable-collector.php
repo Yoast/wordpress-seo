@@ -98,11 +98,11 @@ class Top_Page_Indexable_Collector {
 	 * @return string|null The edit link for the top page.
 	 */
 	protected function get_top_page_edit_link( Indexable $indexable ): ?string {
-		if ( $indexable->object_type === 'post' ) {
+		if ( $indexable->object_type === 'post' && \current_user_can( 'edit_post', $indexable->object_id ) ) {
 			return \get_edit_post_link( $indexable->object_id, '&' );
 		}
 
-		if ( $indexable->object_type === 'term' ) {
+		if ( $indexable->object_type === 'term' && \current_user_can( 'edit_term', $indexable->object_id ) ) {
 			return \get_edit_term_link( $indexable->object_id );
 		}
 

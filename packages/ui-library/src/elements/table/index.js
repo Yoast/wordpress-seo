@@ -120,7 +120,7 @@ Table.displayName = "Table";
 Table.propTypes = {
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
-	variant: PropTypes.string,
+	variant: PropTypes.oneOf( Object.keys( tableVariants ) ),
 };
 Table.defaultProps = {
 	className: "",
