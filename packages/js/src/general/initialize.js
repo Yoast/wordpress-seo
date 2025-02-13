@@ -98,12 +98,12 @@ domReady( () => { // eslint-disable-line complexity
 	const initialWidgets = [];
 
 	// If site kit feature is enabled, add the site kit setup widget.
-	if ( siteKitConfiguration.isFeatureEnabled ) {
+	if ( siteKitConfiguration.isFeatureEnabled && ! siteKitConfiguration.isConnected ) {
 		initialWidgets.push( "siteKitSetup" );
 	}
 
 	// If site kit feature is enabled and connected: add the top pages widget.
-	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isActive ) {
+	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isConnected ) {
 		initialWidgets.push( "topPages" );
 	}
 
