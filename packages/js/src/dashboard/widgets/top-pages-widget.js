@@ -148,7 +148,10 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 	 * @returns {Promise<TopPageData[]|Error>} The promise of TopPageData or an Error.
 	 */
 	const getTopPages = useCallback( ( options ) => {
-		return remoteDataProvider.fetchJson( dataProvider.getEndpoint( "topPages" ), { limit: limit.toString( 10 ) }, options );
+		return remoteDataProvider.fetchJson(
+			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
+			{ limit: limit.toString( 10 ), options: JSON.stringify( { widget: "page" } ) },
+			options );
 	}, [ dataProvider, limit ] );
 
 	const infoLink = dataProvider.getLink( "topPagesInfoLearnMore" );
