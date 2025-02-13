@@ -37,7 +37,7 @@ You can either use YoastSEO.js using the web worker API or use the internal comp
 
 ### Web Worker API
 
-Because a web worker must be a separate script in the browser you first need to create a script for inside the web worker:
+Because a web worker must be a separate script in the browser, you first need to create a script to use inside the web worker:
 
 ```js
 import { AnalysisWebWorker } from "yoastseo";
@@ -48,7 +48,7 @@ const worker = new AnalysisWebWorker( self, new EnglishResearcher() );
 worker.register();
 ```
 
-Then in a different script you have the following code:
+Then, in a different script, you have the following code:
 
 ```js
 import { AnalysisWorkerWrapper, createWorker, Paper } from "yoastseo";
@@ -57,7 +57,7 @@ import { AnalysisWorkerWrapper, createWorker, Paper } from "yoastseo";
 // This should be the script created by the previous code-snippet.
 const url = "https://my-site-url.com/path-to-webworker-script.js"
 
-const worker = new AnalysisWorkerWrapper( createWorker( url ) );
+const worker = new AnalysisWorkerWrapper( new Worker( url ) );
 
 worker.initialize( {
     logLevel: "TRACE", // Optional, see https://github.com/pimterry/loglevel#documentation
@@ -77,8 +77,8 @@ worker.initialize( {
 } );
 ```
 
-There is a basic example in the `apps/content-analysis-webworker` folder, which also contains a basic setup with Webpack.
-There is also a more involved example in the `apps/content-analysis` folder, which has a basic React implementation.
+There is a basic example [over here](https://github.com/Yoast/wordpress-seo/tree/trunk/apps/content-analysis-webworker), which also contains a basic setup with Webpack.
+There is also a more involved example [over here](https://github.com/Yoast/wordpress-seo/tree/trunk/apps/content-analysis), which has a basic React implementation.
 
 ### Usage of internal components
 
@@ -95,9 +95,7 @@ const researcher = new AbstractResearcher( paper );
 console.log( researcher.getResearch( "wordCountInText" ) );
 ```
 
-There is a basic example of this in the `apps/content-analysis-api` folder.
-
-**Note: This is currently a synchronous API, but will become an asynchronous API in the future.**
+There is a basic example of this setup [over here](https://github.com/Yoast/wordpress-seo/tree/trunk/apps/content-analysis-api).
 
 ## Supported languages
 
