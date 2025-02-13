@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+import { noop } from "lodash";
 import { ScoreWidget } from "../widgets/score-widget";
 import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
 import { TopPagesWidget } from "../widgets/top-pages-widget";
@@ -74,6 +75,11 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatter }
 				/>;
 			case "siteKitSetup":
+				// This check here makes sure we don't render the setup anymore if the user connected and then switches away from the dashboard.
+				// Then switches back to the dashboard, but does not refresh.
+				if ( this.#dataProvider.getSiteKitConfiguration().isConnected ) {
+					return null;
+				}
 				return <SiteKitSetupWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
