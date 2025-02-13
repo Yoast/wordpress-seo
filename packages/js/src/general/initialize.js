@@ -62,7 +62,7 @@ domReady( () => { // eslint-disable-line complexity
 	const endpoints = {
 		seoScores: get( window, "wpseoScriptData.dashboard.endpoints.seoScores", "" ),
 		readabilityScores: get( window, "wpseoScriptData.dashboard.endpoints.readabilityScores", "" ),
-		topPages: get( window, "wpseoScriptData.dashboard.endpoints.topPageResults", "" ),
+		timeBasedSeoMetrics: get( window, "wpseoScriptData.dashboard.endpoints.timeBasedSeoMetrics", "" ),
 	};
 	/** @type {Object<string,string>} */
 	const headers = {
