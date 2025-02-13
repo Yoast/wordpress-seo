@@ -150,7 +150,7 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 	const getTopPages = useCallback( ( options ) => {
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ limit: limit.toString( 10 ), options: JSON.stringify( { widget: "page" } ) },
+			{ limit: limit.toString( 10 ), options: { widget: "page" }  },
 			options );
 	}, [ dataProvider, limit ] );
 
