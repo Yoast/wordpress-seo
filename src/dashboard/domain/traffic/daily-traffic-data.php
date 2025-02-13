@@ -17,7 +17,7 @@ class Daily_Traffic_Data implements Data_Interface {
 	private $day;
 
 	/**
-	 * The traffic data of the day.
+	 * The traffic data for the day.
 	 *
 	 * @var Traffic_Data $traffic_data
 	 */
@@ -26,7 +26,8 @@ class Daily_Traffic_Data implements Data_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param string $day The day of the traffic data.
+	 * @param string       $day          The day of the traffic data.
+	 * @param Traffic_Data $traffic_data The traffic data for the day.
 	 */
 	public function __construct( string $day, Traffic_Data $traffic_data ) {
 		$this->day          = $day;
@@ -36,13 +37,12 @@ class Daily_Traffic_Data implements Data_Interface {
 	/**
 	 * The array representation of this domain object.
 	 *
-	 * @return array<string|float|int|string[]>
+	 * @return array<string,string,int>
 	 */
 	public function to_array(): array {
 		$result        = [];
 		$result['day'] = $this->day;
 
-
-		return array_merge( $result, $this->traffic_data->to_array() );
+		return \array_merge( $result, $this->traffic_data->to_array() );
 	}
 }

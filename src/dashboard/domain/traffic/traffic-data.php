@@ -37,7 +37,7 @@ class Traffic_Data implements Data_Interface {
 	/**
 	 * The array representation of this domain object.
 	 *
-	 * @return array<string|float|int|string[]>
+	 * @return array<string,int>
 	 */
 	public function to_array(): array {
 		$result = [];

@@ -7,8 +7,8 @@ use Google\Site_Kit\Core\Modules\Module;
 use Google\Site_Kit\Core\Modules\Modules;
 use Google\Site_Kit\Modules\Analytics_4;
 use Google\Site_Kit\Plugin;
-use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
+use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Traffic\Comparison_Traffic_Data;
 use Yoast\WP\SEO\Dashboard\Domain\Traffic\Daily_Traffic_Data;
 use Yoast\WP\SEO\Dashboard\Domain\Traffic\Traffic_Data;
@@ -32,8 +32,8 @@ class Site_Kit_Analytics_4_Adapter {
 	 */
 	public function __construct() {
 		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
-			$site_kit_plugin             = Plugin::instance();
-			$modules                     = new Modules( $site_kit_plugin->context() );
+			$site_kit_plugin          = Plugin::instance();
+			$modules                  = new Modules( $site_kit_plugin->context() );
 			self::$analytics_4_module = $modules->get_module( Analytics_4::MODULE_SLUG );
 		}
 	}
@@ -63,17 +63,16 @@ class Site_Kit_Analytics_4_Adapter {
 		}
 
 		return $this->parse_response( $response );
-
 	}
 
+	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint  -- Reason: Parameter comes from Site Kit, no control over it.
+
 	/**
-	 * The wrapper method to do a Site Kit API request for Analytics 4.
+	 * Parses a response for a Site Kit API request for Analytics 4.
 	 *
-	 * @param Analytics_4_Parameters $parameters The parameters.
+	 * @param mixed $response The response to parse.
 	 *
-	 * @return Data_Container The Site Kit API response.
-	 *
-	 * @throws Failed_Request_Exception When the query of getting score results fails.
+	 * @return Data_Container The parsed response.
 	 */
 	protected function parse_response( $response ): Data_Container {
 		$data_container = new Data_Container();
@@ -93,13 +92,11 @@ class Site_Kit_Analytics_4_Adapter {
 	}
 
 	/**
-	 * The wrapper method to do a Site Kit API request for Analytics 4.
+	 * Parses a response for a Site Kit API request for Analytics 4 that compares data ranges.
 	 *
-	 * @param Analytics_4_Parameters $parameters The parameters.
+	 * @param mixed $response The response to parse.
 	 *
-	 * @return Data_Container The Site Kit API response.
-	 *
-	 * @throws Failed_Request_Exception When the query of getting score results fails.
+	 * @return Data_Container The parsed response.
 	 */
 	protected function parse_comparison_response( $response ): Data_Container {
 		$data_container        = new Data_Container();
@@ -116,6 +113,8 @@ class Site_Kit_Analytics_4_Adapter {
 
 		return $data_container;
 	}
+
+	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
 
 	/**
 	 * Builds the parameters to be used in the Site Kit API request.
