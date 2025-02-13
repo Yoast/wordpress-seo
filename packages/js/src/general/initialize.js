@@ -63,6 +63,7 @@ domReady( () => { // eslint-disable-line complexity
 		seoScores: get( window, "wpseoScriptData.dashboard.endpoints.seoScores", "" ),
 		readabilityScores: get( window, "wpseoScriptData.dashboard.endpoints.readabilityScores", "" ),
 		timeBasedSeoMetrics: get( window, "wpseoScriptData.dashboard.endpoints.timeBasedSeoMetrics", "" ),
+		siteKitConsentManagement: get( window, "wpseoScriptData.dashboard.endpoints.siteKitConsentManagement", "" ),
 	};
 	/** @type {Object<string,string>} */
 	const headers = {
@@ -73,7 +74,8 @@ domReady( () => { // eslint-disable-line complexity
 	const links = {
 		dashboardLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-learn-more" ),
 		errorSupport: select( STORE_NAME ).selectAdminLink( "?page=wpseo_page_support" ),
-		siteKitLearnMorelink: select( STORE_NAME ).selectLink( "https://yoa.st/google-site-kit-learn-more" ),
+		siteKitLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-site-kit-learn-more" ),
+		siteKitConsentLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-site-kit-consent-learn-more" ),
 		topPagesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/top-pages-learn-more" ),
 	};
 
@@ -96,12 +98,12 @@ domReady( () => { // eslint-disable-line complexity
 	const initialWidgets = [];
 
 	// If site kit feature is enabled, add the site kit setup widget.
-	if ( siteKitConfiguration.isFeatureEnabled ) {
+	if ( siteKitConfiguration.isFeatureEnabled && ! siteKitConfiguration.isConnected ) {
 		initialWidgets.push( "siteKitSetup" );
 	}
 
 	// If site kit feature is enabled and connected: add the top pages widget.
-	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isActive ) {
+	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isConnected ) {
 		initialWidgets.push( "topPages" );
 	}
 

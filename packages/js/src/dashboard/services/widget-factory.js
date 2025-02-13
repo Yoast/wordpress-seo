@@ -50,12 +50,22 @@ export class WidgetFactory {
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
 					return null;
 				}
-				return <ScoreWidget key={ widget.id } analysisType="seo" dataProvider={ this.#dataProvider } remoteDataProvider={ this.#remoteDataProvider } />;
+				return <ScoreWidget
+					key={ widget.id }
+					analysisType="seo"
+					dataProvider={ this.#dataProvider }
+					remoteDataProvider={ this.#remoteDataProvider }
+				/>;
 			case "readabilityScores":
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "readabilityAnalysis" ) ) ) {
 					return null;
 				}
-				return <ScoreWidget key={ widget.id } analysisType="readability" dataProvider={ this.#dataProvider } remoteDataProvider={ this.#remoteDataProvider } />;
+				return <ScoreWidget
+					key={ widget.id }
+					analysisType="readability"
+					dataProvider={ this.#dataProvider }
+					remoteDataProvider={ this.#remoteDataProvider }
+				/>;
 			case "topPages":
 				return <TopPagesWidget
 					key={ widget.id }
@@ -64,7 +74,12 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatter }
 				/>;
 			case "siteKitSetup":
-				return <SiteKitSetupWidget key={ widget.id } dataProvider={ this.#dataProvider } onRemove={ onRemove } />;
+				return <SiteKitSetupWidget
+					key={ widget.id }
+					dataProvider={ this.#dataProvider }
+					remoteDataProvider={ this.#remoteDataProvider }
+					onRemove={ onRemove }
+				/>;
 			default:
 				return null;
 		}

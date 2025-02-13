@@ -3,8 +3,8 @@
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Integrations;
 
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
 use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Describes if the Site kit integration is enabled and configured.
@@ -14,19 +14,19 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 	private const SITE_KIT_FILE = 'google-site-kit/google-site-kit.php';
 
 	/**
-	 * The options helper.
+	 * The Site Kit consent repository.
 	 *
-	 * @var Options_Helper
+	 * @var Site_Kit_Consent_Repository_Interface
 	 */
-	private $options_helper;
+	private $site_kit_consent_repository;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Site_Kit_Consent_Repository_Interface $site_kit_consent_repository The Site Kit consent repository.
 	 */
-	public function __construct( Options_Helper $options_helper ) {
-		$this->options_helper = $options_helper;
+	public function __construct( Site_Kit_Consent_Repository_Interface $site_kit_consent_repository ) {
+		$this->site_kit_consent_repository = $site_kit_consent_repository;
 	}
 
 	/**
@@ -64,7 +64,7 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 			'isInstalled'      => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
 			'isActive'         => \is_plugin_active( self::SITE_KIT_FILE ),
 			'isSetupCompleted' => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
-			'isConnected'      => $this->options_helper->get( 'google_site_kit_connected', false ),
+			'isConnected'      => $this->site_kit_consent_repository->is_consent_granted(),
 			'isFeatureEnabled' => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'installUrl'       => $site_kit_install_url,
 			'activateUrl'      => $site_kit_activate_url,
