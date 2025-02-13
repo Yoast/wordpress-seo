@@ -120,7 +120,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove
 				</DropdownMenu.ButtonItem>
 			</DropdownMenu.List>
 		</DropdownMenu>
-		<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4"><YoastConnectSiteKit /></div>
+		<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4"><YoastConnectSiteKit width="252" height="60" /></div>
 		<Stepper steps={ steps } currentStep={ currentStep }>
 			{ steps.map( ( label, index ) => (
 				<Stepper.Step
