@@ -12,8 +12,8 @@ use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Page_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Query_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Traffic\Organic_Sessions_Repository;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Analytics_4_Parameters;
 use Yoast\WP\SEO\Dashboard\Domain\Time_Based_SEO_Metrics\Repository_Not_Found_Exception;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Analytics_4_Parameters;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -168,20 +168,8 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 					$request_parameters->set_metrics( [ 'sessions' ] );
 					$request_parameters->set_start_date( $start_date );
 					$request_parameters->set_end_date( $end_date );
-
-					$order_by = [
-						[
-							'dimension' => [
-								'dimensionName' => 'date', 
-							],
-						],
-					];
-					$request_parameters->set_order_by( $order_by );
-
-					$dimension_filter = [
-						'sessionDefaultChannelGrouping' => [ 'Organic Search' ]
-					];
-					$request_parameters->set_dimension_filters( $dimension_filter );
+					$request_parameters->set_dimension_filters( [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ] );
+					$request_parameters->set_order_by( 'dimension', 'date' );
 
 					$time_based_seo_metrics_container = $this->organic_sessions_repository->get_data( $request_parameters );
 					break;
@@ -190,20 +178,16 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 					$request_parameters->set_metrics( [ 'sessions' ] );
 					$request_parameters->set_start_date( $start_date );
 					$request_parameters->set_end_date( $end_date );
+					$request_parameters->set_dimension_filters( [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ] );
 
 					$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
-					$date->modify( '-29 days' );		
+					$date->modify( '-29 days' );
 					$compare_end_date = $date->format( 'Y-m-d' );
 
 					$date->modify( '-27 days' );
 					$compare_start_date = $date->format( 'Y-m-d' );
 					$request_parameters->set_compare_start_date( $compare_start_date );
 					$request_parameters->set_compare_end_date( $compare_end_date );
-
-					$dimension_filter = [
-						'sessionDefaultChannelGrouping' => [ 'Organic Search' ]
-					];
-					$request_parameters->set_dimension_filters( $dimension_filter );
 
 					$time_based_seo_metrics_container = $this->organic_sessions_repository->get_data( $request_parameters );
 					break;

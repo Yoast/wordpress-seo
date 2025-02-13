@@ -10,51 +10,39 @@ use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 class Analytics_4_Parameters extends Parameters {
 
 	/**
-	 * The compare start date.
-	 *
-	 * @var string $compare_start_date
-	 */
-	private $compare_start_date = null;
-
-	/**
-	 * The compare end date.
-	 *
-	 * @var string $compare_end_date
-	 */
-	private $compare_end_date = null;
-
-	/**
 	 * The dimensions to query.
 	 *
-	 * @var array<array<string>> $dimensions
+	 * @var array<array<string,string>> $dimensions
 	 */
-	private $dimensions = null;
+	private $dimensions;
 
 	/**
 	 * The dimensions filters.
 	 *
 	 * @var array<string, array<string>> $dimension_filters
 	 */
-	private $dimension_filters = null;
+	private $dimension_filters;
 
 	/**
 	 * The metrics.
 	 *
-	 * @var array<array<string>> $metrics
+	 * @var array<array<string,string>> $metrics
 	 */
-	private $metrics = null;
+	private $metrics;
 
 	/**
 	 * The order by.
 	 *
-	 * @var array<array<array<string<string>>> $order_by
+	 * @var array<array<string,array<string,string>>> $order_by
 	 */
-	private $order_by = null;
+	private $order_by;
 
 	/**
 	 * Sets the dimensions.
 	 *
-	 * @param array<array<string>> $dimensions The dimensions.
+	 * @link https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/Dimension
+	 *
+	 * @param array<string> $dimensions The dimensions.
 	 *
 	 * @return void
 	 */
@@ -67,51 +55,10 @@ class Analytics_4_Parameters extends Parameters {
 	/**
 	 * Getter for the dimensions.
 	 *
-	 * @return array<array<string>>
+	 * @return array<array<string,string>>
 	 */
 	public function get_dimensions(): ?array {
 		return $this->dimensions;
-	}
-
-	/**
-	 * Getter for the compare start date.
-	 *
-	 * @return string
-	 */
-	public function get_compare_start_date(): ?string {
-		return $this->compare_start_date;
-	}
-
-	/**
-	 * Getter for the compare end date.
-	 * The date format should be Y-M-D.
-	 *
-	 * @return string
-	 */
-	public function get_compare_end_date(): ?string {
-		return $this->compare_end_date;
-	}
-
-	/**
-	 * The compare start date setter.
-	 *
-	 * @param string $compare_start_date The compare start date.
-	 *
-	 * @return void
-	 */
-	public function set_compare_start_date( string $compare_start_date ): void {
-		$this->compare_start_date = $compare_start_date;
-	}
-
-	/**
-	 * The compare end date setter.
-	 *
-	 * @param string $compare_end_date The compare end date.
-	 *
-	 * @return void
-	 */
-	public function set_compare_end_date( string $compare_end_date ): void {
-		$this->compare_end_date = $compare_end_date;
 	}
 
 	/**
@@ -137,7 +84,9 @@ class Analytics_4_Parameters extends Parameters {
 	/**
 	 * Sets the metrics.
 	 *
-	 * @param array<array<string>> $dimension_filters The metrics.
+	 * @link https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/Metric
+	 *
+	 * @param array<string> $metrics The metrics.
 	 *
 	 * @return void
 	 */
@@ -150,7 +99,7 @@ class Analytics_4_Parameters extends Parameters {
 	/**
 	 * Getter for the metrics.
 	 *
-	 * @return array<array<string>>
+	 * @return array<array<string,string>>
 	 */
 	public function get_metrics(): ?array {
 		return $this->metrics;
@@ -159,18 +108,29 @@ class Analytics_4_Parameters extends Parameters {
 	/**
 	 * Sets the order by.
 	 *
-	 * @param array<array<array<string<string>>> $order_by The order by.
+	 * @link https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/OrderBy
+	 *
+	 * @param string $key  The key to order by.
+	 * @param string $name The name to order by.
 	 *
 	 * @return void
 	 */
-	public function set_order_by( array $order_by ): void {
+	public function set_order_by( string $key, string $name ): void {
+		$order_by = [
+			[
+				$key => [
+					$key . 'Name' => $name,
+				],
+			],
+		];
+
 		$this->order_by = $order_by;
 	}
 
 	/**
 	 * Getter for the order by.
 	 *
-	 * @return array<array<array<string<string>>>
+	 * @return array<array<string,array<string,string>>>
 	 */
 	public function get_order_by(): ?array {
 		return $this->order_by;
