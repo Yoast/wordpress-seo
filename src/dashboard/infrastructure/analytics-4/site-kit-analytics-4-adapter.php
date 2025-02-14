@@ -83,7 +83,10 @@ class Site_Kit_Analytics_4_Adapter {
 			foreach ( $response->metricHeaders as $key => $metric ) {
 				$metric_name = $metric->name;
 
-				// @TODO: Maybe use class methods like getValue() instead of ->value.
+				// @TODO: Maybe use class methods like MetricValue::getValue() instead of ->value.
+				// As per https://developers.google.com/analytics/devguides/reporting/data/v1/basics#read_the_response,
+				// the order of the columns is consistent in the request, header, and rows.
+				// So we can use the key of the header to get the correct metric value from the row.
 				$metric_value = $daily_traffic->metricValues[ $key ]->value;
 
 				if ( $metric_name === 'sessions' ) {
@@ -109,18 +112,39 @@ class Site_Kit_Analytics_4_Adapter {
 	 * @return Data_Container The parsed response.
 	 */
 	protected function parse_comparison_response( $response ): Data_Container {
-		$data_container        = new Data_Container();
-		$metric                = $response->metricHeaders[0]->name;
-		$current_traffic_data  = new Traffic_Data();
-		$previous_traffic_data = new Traffic_Data();
+		$data_container          = new Data_Container();
+		$comparison_traffic_data = new Comparison_Traffic_Data();
 
-		// @TODO: Add support for multiple metrics, like in parse_daily_response().
-		if ( $metric === 'sessions' ) {
-			$current_traffic_data->set_sessions( (int) $response->rows[0]->metricValues[0]->value );
-			$previous_traffic_data->set_sessions( (int) $response->rows[1]->metricValues[0]->value );
+		// First row is the current date range's data, second row is the previous date range's data.
+		foreach ( $response->rows as $date_range_key => $date_range_row ) {
+			$traffic_data = new Traffic_Data();
+
+			// Loop through all the metrics of the date range.
+			foreach ( $response->metricHeaders as $key => $metric ) {
+
+				// @TODO: Maybe use class methods like MetricValue::getValue() instead of ->value.
+				// As per https://developers.google.com/analytics/devguides/reporting/data/v1/basics#read_the_response,
+				// the order of the columns is consistent in the request, header, and rows.
+				// So we can use the key of the header to get the correct metric value from the row.
+				$metric_value = $date_range_row->metricValues[ $key ]->value;
+
+				if ( $metric->name === 'sessions' ) {
+					$traffic_data->set_sessions( (int) $metric_value );
+				}
+				elseif ( $metric->name === 'totalUsers' ) {
+					$traffic_data->set_total_users( (int) $metric_value );
+				}
+			}
+
+			if ( $date_range_key === 0 ) {
+				$comparison_traffic_data->set_current_traffic_data( $traffic_data );
+			}
+			elseif ( $date_range_key === 1 ) {
+				$comparison_traffic_data->set_previous_traffic_data( $traffic_data );
+			}
 		}
 
-		$data_container->add_data( new Comparison_Traffic_Data( $current_traffic_data, $previous_traffic_data ) );
+		$data_container->add_data( $comparison_traffic_data );
 
 		return $data_container;
 	}

@@ -29,8 +29,30 @@ class Comparison_Traffic_Data implements Data_Interface {
 	 * @param Traffic_Data $current_traffic_data  The current traffic data.
 	 * @param Traffic_Data $previous_traffic_data The previous traffic data.
 	 */
-	public function __construct( Traffic_Data $current_traffic_data, Traffic_Data $previous_traffic_data ) {
+	public function __construct( ?Traffic_Data $current_traffic_data = null, ?Traffic_Data $previous_traffic_data = null ) {
 		$this->current_traffic_data  = $current_traffic_data;
+		$this->previous_traffic_data = $previous_traffic_data;
+	}
+
+	/**
+	 * Sets the current traffic data.
+	 *
+	 * @param Traffic_Data $current_traffic_data The current traffic data.
+	 *
+	 * @return void
+	 */
+	public function set_current_traffic_data( Traffic_Data $current_traffic_data ): void {
+		$this->current_traffic_data = $current_traffic_data;
+	}
+
+	/**
+	 * Sets the previous traffic data.
+	 *
+	 * @param Traffic_Data $previous_traffic_data The previous traffic data.
+	 *
+	 * @return void
+	 */
+	public function set_previous_traffic_data( Traffic_Data $previous_traffic_data ): void {
 		$this->previous_traffic_data = $previous_traffic_data;
 	}
 
