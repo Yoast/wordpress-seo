@@ -172,19 +172,25 @@ describe( "SiteKitSetupWidget", () => {
 		expect( onRemove ).toHaveBeenCalled();
 	} );
 
-	it( "opens the menu and calls onRemove when 'Remove until next visit' is clicked", () => {
-		render( <SiteKitSetupWidget dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } onRemove={ onRemove } /> );
-		fireEvent.click( screen.getByRole( "button", { name: /Open Site Kit widget dropdown menu/i } ) );
-		const removeButton = screen.getByRole( "menuitem", { name: /Remove until next visit/i, type: "button" } );
-		fireEvent.click( removeButton );
-		expect( onRemove ).toHaveBeenCalled();
-	} );
-
-	it( "opens the menu and calls onRemovePermanently when 'Remove permanently' is clicked", () => {
+	it( "opens the menu and calls dismissPermanently and onRemove when 'Remove permanently' is clicked", async() => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: true,
+			},
+		} );
 		render( <SiteKitSetupWidget dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } onRemove={ onRemove } /> );
 		fireEvent.click( screen.getByRole( "button", { name: /Open Site Kit widget dropdown menu/i } ) );
 		const removeButton = screen.getByRole( "menuitem", { name: /Remove permanently/i, type: "button" } );
 		fireEvent.click( removeButton );
 		expect( onRemove ).toHaveBeenCalled();
+		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
+			"https://example.com/site-kit-configuration-dismissal",
+			// eslint-disable-next-line camelcase
+			{ is_dismissed: "true" },
+			expect.objectContaining( { method: "POST" } )
+		);
+		expect( dataProvider.setSiteKitConfigurationDismissed ).toHaveBeenCalledWith( true );
 	} );
 } );
