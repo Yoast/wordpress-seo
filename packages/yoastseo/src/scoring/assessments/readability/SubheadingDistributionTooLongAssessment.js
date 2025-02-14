@@ -13,14 +13,30 @@ import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParse
 import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
 
 /**
- * Represents the assessment for calculating the text after each subheading.
+ * Represents the assessment that checks whether a text has a good distribution of subheadings.
  */
 class SubheadingsDistributionTooLong extends Assessment {
 	/**
-	 * Sets the identifier and the config.
+	 * Creates an instance of SubheadingsDistributionTooLong.
+	 * @constructor
 	 *
-	 * @param {Object} config The configuration to use.
-	 *
+	 * @param {Object} [config] The configuration to use.
+	 * @param {Object} [config.parameters] The parameters to use.
+	 * @param {number} [config.parameters.recommendedMaximumLength=300] The maximum recommended length of a text without a subheading.
+	 * @param {number} [config.parameters.slightlyTooMany=300] The maximum length of a text without a subheading that is still acceptable.
+	 * @param {number} [config.parameters.farTooMany=350] The maximum length of a text without a subheading that is too long.
+	 * @param {string} [config.countCharacters=false] Whether to count characters instead of words.
+	 * @param {string} [config.urlTitle] The URL to an article about this assessment.
+	 * @param {string} [config.urlCallToAction] The URL to an article about this assessment.
+	 * @param {Object} [config.scores] The scores to use.
+	 * @param {number} [config.scores.goodShortTextNoSubheadings=9] The score to return when the text is short and has no subheadings.
+	 * @param {number} [config.scores.goodSubheadings=9] The score to return when the subheading distribution is good.
+	 * @param {number} [config.scores.okSubheadings=6] The score to return when the subheading distribution is okay.
+	 * @param {number} [config.scores.badSubheadings=3] The score to return when the subheading distribution is bad.
+	 * @param {number} [config.scores.badLongTextNoSubheadings=2] The score to return when the text is long and has no subheadings.
+	 * @param {number} [config.applicableIfTextLongerThan=300] The minimum text length for the assessment to be applicable.
+	 * @param {boolean} [config.shouldNotAppearInShortText=false] Whether the assessment should not appear in short texts.
+	 * @param {boolean} [config.cornerstoneContent=false] Whether the text being analyzed is a cornerstone content.
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
@@ -56,8 +72,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 *
 	 * @param {array} foundSubheadings  An array contains found subheading objects.
 	 *
-	 * @returns {{isVeryLong: boolean, isLong: boolean}}    An object containing an information
-	 *                                                      whether the text before the first subheading is long or very long.
+	 * @returns {{isVeryLong: boolean, isLong: boolean}} An object containing an information whether the text before the first subheading is long or very long.
 	 */
 	checkTextBeforeFirstSubheadingLength( foundSubheadings ) {
 		let textBeforeFirstSubheading = { isLong: false, isVeryLong: false };
@@ -77,8 +92,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Gets the text length from the paper. Remove unwanted element first before calculating.
 	 *
-	 * @param { Paper } paper The Paper object to analyse.
-	 * @param { Researcher } researcher The researcher to use.
+	 * @param {Paper} paper The Paper object to analyse.
+	 * @param {Researcher} researcher The researcher to use.
 	 * @returns {number} The length of the text.
 	 */
 	getTextLength( paper, researcher ) {
@@ -135,7 +150,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	}
 
 	/**
-	 * Check if there is language-specific config, and if so, overwrite the current config with it.
+	 * Checks if there is language-specific config, and if so, overwrite the current config with it.
 	 *
 	 * @param {Researcher} researcher The researcher to use.
 	 *
@@ -162,11 +177,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * @returns {boolean} True when there is text or when text is longer than the specified length and "shouldNotAppearInShortText" is set to true.
 	 */
 	isApplicable( paper, researcher ) {
-		/**
+		/*
 		 * If the assessment should not appear for shorter texts, only set the assessment as applicable if the text meets the minimum required length.
 		 * Language-specific length requirements and methods of counting text length may apply (e.g. for Japanese, the text should be counted in
 		 * characters instead of words, which also makes the minimum required length higher).
-		**/
+		*/
 		if ( this._config.shouldNotAppearInShortText ) {
 			if ( researcher.getConfig( "subheadingsTooLong" ) ) {
 				this._config = this.getLanguageSpecificConfig( researcher );
@@ -196,7 +211,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Creates a marker for each subheading that precedes a text that is too long.
 	 *
-	 * @returns {Array} All markers for the current text.
+	 * @returns {Mark[]} All markers for the current text.
 	 */
 	getMarks() {
 		const marks = map( this.getTooLongSubheadingTexts(), function( { subheading } ) {
@@ -382,7 +397,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 *
 	 * @param {Object} textBeforeFirstSubheading   An object containing information whether the text before the first subheading is long or very long.
 	 *
-	 * @returns {Object} The calculated result.
+	 * @returns {{resultText: string, score: number, hasMarks: boolean}} The calculated result.
 	 */
 	calculateResult( textBeforeFirstSubheading ) {
 		if ( this._textLength > this._config.applicableIfTextLongerThan ) {
