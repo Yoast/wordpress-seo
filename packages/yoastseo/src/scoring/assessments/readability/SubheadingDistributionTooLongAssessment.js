@@ -82,7 +82,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Checks if the text before the first subheading is long or very long.
 	 *
-	 * @param {array} foundSubheadings  An array contains found subheading objects.
+	 * @param {SubheadingText[]} foundSubheadings  An array containing found subheading objects.
 	 *
 	 * @returns {{isVeryLong: boolean, isLong: boolean}} An object containing an information whether the text before the first subheading is long or very long.
 	 */
@@ -159,7 +159,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 *
 	 * @param {Researcher} researcher The researcher to use.
 	 *
-	 * @returns {Object} The config that should be used.
+	 * @returns {SubheadingDistributionConfig} The config that should be used.
 	 */
 	getLanguageSpecificConfig( researcher ) {
 		const currentConfig = this._config;
@@ -236,7 +236,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Counts the number of subheading texts that are too long.
 	 *
-	 * @returns {Array} The array containing subheading texts that are too long.
+	 * @returns {SubheadingText[]} The array containing subheading texts that are too long.
 	 */
 	getTooLongSubheadingTexts() {
 		return this._subheadingTextsLength.filter( subheading => subheading.countLength > this._config.parameters.recommendedMaximumLength );
@@ -314,7 +314,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Calculates the score and creates a feedback string based on the subheading texts length for a long text without subheadings.
 	 *
-	 * @param {Object} textBeforeFirstSubheading  An object containing information whether the text before the first subheading is long or very long.
+	 * @param {{isVeryLong: boolean, isLong: boolean}} textBeforeFirstSubheading  An object containing information whether the text before the first subheading is long or very long.
 	 * @returns {{resultText: string, score: number, hasMarks: boolean}} The calculated result.
 	 */
 	calculateResultForLongTextWithoutSubheadings( textBeforeFirstSubheading ) {
@@ -398,7 +398,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Calculates the score and creates a feedback string based on the subheading texts length.
 	 *
-	 * @param {Object} textBeforeFirstSubheading   An object containing information whether the text before the first subheading is long or very long.
+	 * @param {{isVeryLong: boolean, isLong: boolean}} textBeforeFirstSubheading   An object containing information whether the text before the first subheading is long or very long.
 	 *
 	 * @returns {{resultText: string, score: number, hasMarks: boolean}} The calculated result.
 	 */
