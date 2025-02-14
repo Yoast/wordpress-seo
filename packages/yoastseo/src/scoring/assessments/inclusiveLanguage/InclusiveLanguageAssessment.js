@@ -102,7 +102,7 @@ export default class InclusiveLanguageAssessment {
 			"</a>"
 		);
 
-		// eslint-disable-next-line @wordpress/valid-sprintf
+		// eslint-disable-next-line @wordpress/valid-sprintf -- The sprintf function is used to replace placeholders in the feedbackFormat variable.
 		const text = sprintf(
 			this.feedbackFormat,
 			this.foundPhrases[ 0 ].phrase,

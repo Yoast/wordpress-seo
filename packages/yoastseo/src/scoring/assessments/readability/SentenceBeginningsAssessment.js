@@ -68,7 +68,7 @@ export default class SentenceBeginningsAssessment extends Assessment {
 			return {
 				score: 3,
 				hasMarks: true,
-				// eslint-disable-next-line @wordpress/valid-sprintf
+				// eslint-disable-next-line @wordpress/valid-sprintf -- The plural uses one extra argument.
 				text: sprintf(
 					/* translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
 					%3$d expands to the number of consecutive sentences starting with the same word,
