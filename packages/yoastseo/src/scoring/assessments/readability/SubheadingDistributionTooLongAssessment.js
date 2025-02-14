@@ -131,6 +131,10 @@ class SubheadingsDistributionTooLong extends Assessment {
 		if ( researcher.getConfig( "subheadingsTooLong" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
 		}
+		// Create the anchor tags for the feedback. Do this step here to make sure that we also create the anchor tags for the non-default urls.
+		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
+		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
+
 		// The configuration to use for Japanese texts.
 		this._config.countCharacters = !! researcher.getConfig( "countCharacters" );
 		this._hasSubheadings = this.hasSubheadings( paper );
