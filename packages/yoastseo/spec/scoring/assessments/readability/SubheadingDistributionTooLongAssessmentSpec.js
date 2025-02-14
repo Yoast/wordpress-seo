@@ -41,8 +41,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			"You are not using any subheadings, but your text is short enough and probably doesn't need them." );
 	} );
 
-	it( "Scores a text that's short (<300 words) after excluding shortodes," +
-		" and which does not have subheadings.", function() {
+	it( "Scores a text that's short (<300 words) after excluding shortcodes, and which does not have subheadings.", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
 			new Paper( shortText + "[shortcode] ".repeat( 150 ) + "[/shortcode] ".repeat( 150 ), { shortcodes: [ "shortcode" ] } ),
 			Factory.buildMockResearcher( [] )
