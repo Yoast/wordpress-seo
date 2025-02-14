@@ -1,15 +1,10 @@
 import globals from "globals";
 import yoastConfig from "eslint-config-yoast";
-import { fixupConfigRules } from "@eslint/compat";
-import { FlatCompat } from "@eslint/eslintrc";
-
-const flatCompat = new FlatCompat();
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
 	{ ignores: [ "build", "vendor", "examples" ] },
 	...yoastConfig,
-	...fixupConfigRules( flatCompat.extends( "plugin:@wordpress/eslint-plugin/i18n" ) ),
 	{
 		languageOptions: {
 			ecmaVersion: "latest",
