@@ -13,6 +13,56 @@ import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParse
 import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
 
 /**
+ * @typedef {import("../../../languageProcessing/researches/getSubheadingTextLengths").SubheadingText } SubheadingText
+ */
+
+/**
+ * @typedef {Object} SubheadingDistributionConfig The default configuration for the subheading distribution assessment.
+ * @property {Object} parameters The parameters for the assessment.
+ * @property {number} parameters.recommendedMaximumLength The maximum recommended value of the subheading text.
+ * @property {number} parameters.slightlyTooMany The slightly too many value of the subheading text.
+ * @property {number} parameters.farTooMany The far too many value of the subheading text.
+ * @property {string} urlTitle The URL for the help article for subheading distribution assessment used in the assessment's feedback title.
+ * @property {string} urlCallToAction The URL for the help article for subheading distribution assessment used in the assessment's feedback call-to-action.
+ * @property {Object} scores The scores for the assessment.
+ * @property {number} scores.goodShortTextNoSubheadings The score for a good short text without subheadings.
+ * @property {number} scores.goodSubheadings The score for good subheading distribution.
+ * @property {number} scores.okSubheadings The score for okay subheading distribution.
+ * @property {number} scores.badSubheadings The score for bad subheading distribution.
+ * @property {number} scores.badLongTextNoSubheadings The score for a bad long text without subheadings.
+ * @property {number} applicableIfTextLongerThan The minimum text length for the assessment to be applicable.
+ * @property {boolean} shouldNotAppearInShortText Whether the assessment should not appear in short texts.
+ * @property {boolean} cornerstoneContent Whether the text is cornerstone content.
+ * @property {boolean} countCharacters Whether to count characters instead of words.
+ */
+
+/**
+ * The default configuration for the subheading distribution assessment.
+ * @type {SubheadingDistributionConfig}
+ */
+const DEFAULT_CONFIG = {
+	parameters: {
+		// The maximum recommended value of the subheading text.
+		recommendedMaximumLength: 300,
+		slightlyTooMany: 300,
+		farTooMany: 350,
+	},
+	urlTitle: "https://yoa.st/34x",
+	urlCallToAction: "https://yoa.st/34y",
+	scores: {
+		goodShortTextNoSubheadings: 9,
+		goodSubheadings: 9,
+		okSubheadings: 6,
+		badSubheadings: 3,
+		badLongTextNoSubheadings: 2,
+	},
+	applicableIfTextLongerThan: 300,
+	shouldNotAppearInShortText: false,
+	cornerstoneContent: false,
+	countCharacters: false,
+};
+
+/**
  * Represents the assessment that checks whether a text has a good distribution of subheadings.
  */
 class SubheadingsDistributionTooLong extends Assessment {
@@ -20,51 +70,13 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * Creates an instance of SubheadingsDistributionTooLong.
 	 * @constructor
 	 *
-	 * @param {Object} [config] The configuration to use.
-	 * @param {Object} [config.parameters] The parameters to use.
-	 * @param {number} [config.parameters.recommendedMaximumLength=300] The maximum recommended length of a text without a subheading.
-	 * @param {number} [config.parameters.slightlyTooMany=300] The maximum length of a text without a subheading that is still acceptable.
-	 * @param {number} [config.parameters.farTooMany=350] The maximum length of a text without a subheading that is too long.
-	 * @param {string} [config.countCharacters=false] Whether to count characters instead of words.
-	 * @param {string} [config.urlTitle] The URL to an article about this assessment.
-	 * @param {string} [config.urlCallToAction] The URL to an article about this assessment.
-	 * @param {Object} [config.scores] The scores to use.
-	 * @param {number} [config.scores.goodShortTextNoSubheadings=9] The score to return when the text is short and has no subheadings.
-	 * @param {number} [config.scores.goodSubheadings=9] The score to return when the subheading distribution is good.
-	 * @param {number} [config.scores.okSubheadings=6] The score to return when the subheading distribution is okay.
-	 * @param {number} [config.scores.badSubheadings=3] The score to return when the subheading distribution is bad.
-	 * @param {number} [config.scores.badLongTextNoSubheadings=2] The score to return when the text is long and has no subheadings.
-	 * @param {number} [config.applicableIfTextLongerThan=300] The minimum text length for the assessment to be applicable.
-	 * @param {boolean} [config.shouldNotAppearInShortText=false] Whether the assessment should not appear in short texts.
-	 * @param {boolean} [config.cornerstoneContent=false] Whether the text being analyzed is a cornerstone content.
-	 * @returns {void}
+	 * @param {Object} [config={}] The configuration to use. This configuration will be merged with the default configuration.
 	 */
 	constructor( config = {} ) {
 		super();
 
-		const defaultConfig = {
-			parameters: {
-				// The maximum recommended value of the subheading text.
-				recommendedMaximumLength: 300,
-				slightlyTooMany: 300,
-				farTooMany: 350,
-			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/34x" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34y" ),
-			scores: {
-				goodShortTextNoSubheadings: 9,
-				goodSubheadings: 9,
-				okSubheadings: 6,
-				badSubheadings: 3,
-				badLongTextNoSubheadings: 2,
-			},
-			applicableIfTextLongerThan: 300,
-			shouldNotAppearInShortText: false,
-			cornerstoneContent: false,
-			countCharacters: false,
-		};
 		this.identifier = "subheadingsTooLong";
-		this._config = merge( defaultConfig, config );
+		this._config = merge( DEFAULT_CONFIG, config );
 	}
 
 	/**
