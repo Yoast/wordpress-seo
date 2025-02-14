@@ -213,7 +213,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * @returns {Mark[]} All markers for the current text.
 	 */
 	getMarks() {
-		const marks = map( this.getTooLongSubheadingTexts(), function( { subheading } ) {
+		const marks = this.getTooLongSubheadingTexts().map( ( { subheading } ) => {
 			subheading = stripTags( subheading );
 			const marked = marker( subheading );
 			return new Mark( {
@@ -224,7 +224,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		} );
 		// This is to ensure that an empty subheading doesn't receive marker tags.
 		// If an empty subheading string receives marker tags, clicking on the eye icon next to the assessment will lead to page crashing.
-		return filter( marks, ( mark ) => mark.getOriginal() !== "" );
+		return marks.filter( mark => mark.getOriginal() !== "" );
 	}
 
 	/**
@@ -233,9 +233,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * @returns {Array} The array containing subheading texts that are too long.
 	 */
 	getTooLongSubheadingTexts() {
-		return filter( this._subheadingTextsLength, function( subheading ) {
-			return subheading.countLength > this._config.parameters.recommendedMaximumLength;
-		}.bind( this ) );
+		return this._subheadingTextsLength.filter( subheading => subheading.countLength > this._config.parameters.recommendedMaximumLength );
 	}
 
 	/**
