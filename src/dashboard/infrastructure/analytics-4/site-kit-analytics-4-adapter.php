@@ -8,6 +8,7 @@ use Google\Site_Kit\Core\Modules\Modules;
 use Google\Site_Kit\Modules\Analytics_4;
 use Google\Site_Kit\Plugin;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
+use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Invalid_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Traffic\Comparison_Traffic_Data;
 use Yoast\WP\SEO\Dashboard\Domain\Traffic\Daily_Traffic_Data;
@@ -45,7 +46,7 @@ class Site_Kit_Analytics_4_Adapter {
 	 *
 	 * @return Data_Container The Site Kit API response.
 	 *
-	 * @throws Failed_Request_Exception When the query of getting score results fails.
+	 * @throws Failed_Request_Exception When the request responds with an error from Site Kit.
 	 */
 	public function get_data( Analytics_4_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
@@ -57,16 +58,71 @@ class Site_Kit_Analytics_4_Adapter {
 			throw new Failed_Request_Exception( \wp_kses_post( $response->get_error_message() ), (int) $error_status_code );
 		}
 
-		if ( $this->is_comparison_request( $parameters ) ) {
-			return $this->parse_comparison_response( $response );
-
-		}
-
-		return $this->parse_daily_response( $response );
+		return $this->parse_response( $response );
 	}
 
-	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint  -- Reason: Parameter comes from Site Kit, no control over it.
+	/**
+	 * Builds the parameters to be used in the Site Kit API request.
+	 *
+	 * @param Analytics_4_Parameters $parameters The parameters.
+	 *
+	 * @return array<string, array<string, string>> The Site Kit API parameters.
+	 */
+	protected function build_parameters( $parameters ): array {
+		$api_parameters = [
+			'slug'       => 'analytics-4',
+			'datapoint'  => 'report',
+			'startDate'  => $parameters->get_start_date(),
+			'endDate'    => $parameters->get_end_date(),
+		];
+
+		if ( ! empty( $parameters->get_dimension_filters() ) ) {
+			$api_parameters['dimensionFilters'] = $parameters->get_dimension_filters();
+		}
+
+		if ( ! empty( $parameters->get_dimensions() ) ) {
+			$api_parameters['dimensions'] = $parameters->get_dimensions();
+		}
+
+		if ( ! empty( $parameters->get_metrics() ) ) {
+			$api_parameters['metrics'] = $parameters->get_metrics();
+		}
+
+		if ( ! empty( $parameters->get_order_by() ) ) {
+			$api_parameters['orderby'] = $parameters->get_order_by();
+		}
+
+		if ( ! empty( $parameters->get_compare_start_date() && ! empty( $parameters->get_compare_end_date() ) ) ) {
+			$api_parameters['compareStartDate'] = $parameters->get_compare_start_date();
+			$api_parameters['compareEndDate']   = $parameters->get_compare_end_date();
+		}
+
+		return $api_parameters;
+	}
+
+	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint  -- Reason: Parameters comes from Site Kit, no control over it.
 	// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase  -- Reason: Object properties come from Site Kit, no control over it.
+
+	/**
+	 * Parses a response for a Site Kit API request for Analytics 4.
+	 *
+	 * @param mixed $response The response to parse.
+	 *
+	 * @return Data_Container The parsed response.
+	 *
+	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
+	 */
+	protected function parse_response( $response ): Data_Container {
+		if ( $this->is_daily_request( $response ) ) {
+			return $this->parse_daily_response( $response );
+		}
+
+		if ( $this->is_comparison_request( $response ) ) {
+			return $this->parse_comparison_response( $response );
+		}
+
+		throw new Invalid_Request_Exception( 'Unexpected parameters for the request' );
+	}
 
 	/**
 	 * Parses a response for a Site Kit API request that requests daily data for Analytics 4.
@@ -97,7 +153,7 @@ class Site_Kit_Analytics_4_Adapter {
 				}
 			}
 
-			// @TODO: consider safeguarding against dimensionValues[0]->value not being what we expect it to be, aka a date.
+			// Since we're here, we know that the first dimension is date, so we know that dimensionValues[0]->value is a date.
 			$data_container->add_data( new Daily_Traffic_Data( $daily_traffic->dimensionValues[0]->value, $traffic_data ) );
 		}
 
@@ -149,60 +205,36 @@ class Site_Kit_Analytics_4_Adapter {
 		return $data_container;
 	}
 
-	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
-	// phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-
 	/**
-	 * Builds the parameters to be used in the Site Kit API request.
+	 * Checks the response of the request to detect if it's a comparison request.
 	 *
-	 * @param Analytics_4_Parameters $parameters The parameters.
-	 *
-	 * @return array<string, array<string, string>> The Site Kit API parameters.
-	 */
-	protected function build_parameters( $parameters ): array {
-		$api_parameters = [
-			'slug'       => 'analytics-4',
-			'datapoint'  => 'report',
-			'startDate'  => $parameters->get_start_date(),
-			'endDate'    => $parameters->get_end_date(),
-		];
-
-		if ( ! empty( $parameters->get_dimension_filters() ) ) {
-			$api_parameters['dimensionFilters'] = $parameters->get_dimension_filters();
-		}
-
-		if ( ! empty( $parameters->get_dimensions() ) ) {
-			$api_parameters['dimensions'] = $parameters->get_dimensions();
-		}
-
-		if ( ! empty( $parameters->get_metrics() ) ) {
-			$api_parameters['metrics'] = $parameters->get_metrics();
-		}
-
-		if ( ! empty( $parameters->get_order_by() ) ) {
-			$api_parameters['orderby'] = $parameters->get_order_by();
-		}
-
-		if ( ! empty( $parameters->get_compare_start_date() && ! empty( $parameters->get_compare_end_date() ) ) ) {
-			$api_parameters['compareStartDate'] = $parameters->get_compare_start_date();
-			$api_parameters['compareEndDate']   = $parameters->get_compare_end_date();
-		}
-
-		return $api_parameters;
-	}
-
-	/**
-	 * Builds the parameters to be used in the Site Kit API request.
-	 *
-	 * @param Analytics_4_Parameters $parameters The parameters.
+	 * @param mixed $response The response.
 	 *
 	 * @return bool Whether it's a comparison request.
 	 */
-	protected function is_comparison_request( $parameters ): bool {
-		if ( ! empty( $parameters->get_compare_start_date() && ! empty( $parameters->get_compare_end_date() ) ) ) {
+	protected function is_comparison_request( $response ): bool {
+		if ( \count( $response->dimensionHeaders ) === 1 && $response->dimensionHeaders[0]->name === 'dateRange' ) {
 			return true;
 		}
 
 		return false;
 	}
+
+	/**
+	 * Checks the response of the request to detect if it's a daily request.
+	 *
+	 * @param mixed $response The response.
+	 *
+	 * @return bool Whether it's a daily request.
+	 */
+	protected function is_daily_request( $response ): bool {
+		if ( \count( $response->dimensionHeaders ) === 1 && $response->dimensionHeaders[0]->name === 'date' ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
+	// phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 }

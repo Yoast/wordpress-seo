@@ -43,7 +43,7 @@ class Site_Kit_Search_Console_Adapter {
 	 *
 	 * @return Data_Container The Site Kit API response.
 	 *
-	 * @throws Failed_Request_Exception When the query of getting score results fails.
+	 * @throws Failed_Request_Exception When the request responds with an error from Site Kit.
 	 */
 	public function get_data( Search_Console_Parameters $parameters ): Data_Container {
 		$api_parameters = [
