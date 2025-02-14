@@ -1,5 +1,4 @@
 /* eslint-disable complexity */
-import { noop } from "lodash";
 import { ScoreWidget } from "../widgets/score-widget";
 import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
 import { TopPagesWidget } from "../widgets/top-pages-widget";
