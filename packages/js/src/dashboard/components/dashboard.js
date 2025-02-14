@@ -32,7 +32,7 @@ const prepareWidgetInstance = ( type ) => {
 export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, features, links } ) => {
 	const [ widgets, setWidgets ] = useState( () => initialWidgets.map( prepareWidgetInstance ) );
 
-	// eslint-disable-next-line no-unused-vars
+
 	const addWidget = useCallback( ( type ) => {
 		setWidgets( ( currentWidgets ) => [ ...currentWidgets, prepareWidgetInstance( type ) ] );
 	}, [] );
@@ -45,7 +45,7 @@ export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, featu
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } />
 			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
-				{ widgets.map( ( widget ) => widgetFactory.createWidget( widget, removeWidget ) ) }
+				{ widgets.map( ( widget ) => widgetFactory.createWidget( widget, removeWidget, addWidget ) ) }
 			</div>
 		</>
 	);

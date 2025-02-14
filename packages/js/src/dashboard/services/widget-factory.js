@@ -42,9 +42,10 @@ export class WidgetFactory {
 	/**
 	 * @param {WidgetInstance} widget The widget to create.
 	 * @param {function} onRemove The remove handler.
+	 * @param {function} onAdd The add handler.
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
-	createWidget( widget, onRemove ) {
+	createWidget( widget, onRemove, onAdd ) {
 		switch ( widget.type ) {
 			case "seoScores":
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
@@ -84,7 +85,8 @@ export class WidgetFactory {
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
-					onRemove={ onRemove }
+					removeWidget={ onRemove }
+					addWidget={ onAdd }
 				/>;
 			default:
 				return null;
