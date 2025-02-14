@@ -141,7 +141,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		const calculatedResult = this.calculateResult( textBeforeFirstSubheading );
 
-		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 		assessmentResult.setHasMarks( calculatedResult.hasMarks );
