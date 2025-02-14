@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Dashboard\Domain\Search_Rankings;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Interface;
 
 /**
- * Domain object that represents a single Search Data record.
+ * Domain object that represents a single Search Ranking Data record.
  */
 class Search_Ranking_Data implements Data_Interface {
 

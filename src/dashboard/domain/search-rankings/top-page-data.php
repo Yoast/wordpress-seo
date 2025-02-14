@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups
 class Top_Page_Data implements Data_Interface {
 
 	/**
-	 * The search data for the top page.
+	 * The search ranking data for the top page.
 	 *
 	 * @var Search_Ranking_Data $search_ranking_data
 	 */
@@ -34,7 +34,7 @@ class Top_Page_Data implements Data_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Search_Ranking_Data        $search_ranking_data The search data for the top page.
+	 * @param Search_Ranking_Data        $search_ranking_data The search ranking data for the top page.
 	 * @param SEO_Score_Groups_Interface $seo_score_group     The SEO score group the top page belongs to.
 	 * @param string                     $edit_link           The edit link of the top page.
 	 */
