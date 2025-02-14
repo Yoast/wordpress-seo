@@ -2,7 +2,7 @@ import { filter, flatten, map, merge, partition, sortBy } from "lodash";
 import { _n, __, sprintf } from "@wordpress/i18n";
 
 import marker from "../../../markers/addMark";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
@@ -68,6 +68,7 @@ export default class SentenceBeginningsAssessment extends Assessment {
 			return {
 				score: 3,
 				hasMarks: true,
+				// eslint-disable-next-line @wordpress/valid-sprintf
 				text: sprintf(
 					/* translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
 					%3$d expands to the number of consecutive sentences starting with the same word,

@@ -69,6 +69,7 @@ describe( "Export of the inclusive language configuration", () => {
 				score: assessment.score === SCORES.POTENTIALLY_NON_INCLUSIVE ? "orange" : "red",
 				ruleDescription: assessment.ruleDescription,
 				caseSensitive: assessment.caseSensitive ? "yes" : "no",
+				// eslint-disable-next-line @wordpress/valid-sprintf
 				feedbackFormat: sprintf( assessment.feedbackFormat, "\"x\"", "\"y\"", "\"z\"" ).replace( /<\/?i>/g, "" ),
 				learnMoreUrl: retrieveAnchor( assessment.learnMoreUrl ),
 			} )
