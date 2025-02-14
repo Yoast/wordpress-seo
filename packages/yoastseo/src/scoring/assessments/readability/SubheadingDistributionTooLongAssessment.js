@@ -159,11 +159,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 		const currentConfig = this._config;
 		const languageSpecificConfig = researcher.getConfig( "subheadingsTooLong" );
 		// Check if a language has a default cornerstone configuration.
-		if ( currentConfig.cornerstoneContent === true && languageSpecificConfig.hasOwnProperty( "cornerstoneParameters" ) ) {
+		if ( currentConfig.cornerstoneContent === true && Object.hasOwn( languageSpecificConfig,  "cornerstoneParameters" ) ) {
 			return merge( currentConfig, languageSpecificConfig.cornerstoneParameters );
 		}
 
-		// Use the default language-specific config for non-cornerstone condition
+		// Use the default language-specific config for non-cornerstone condition.
 		return merge( currentConfig, languageSpecificConfig.defaultParameters );
 	}
 
