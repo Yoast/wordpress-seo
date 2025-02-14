@@ -66,6 +66,7 @@ class Site_Kit_Analytics_4_Adapter {
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint  -- Reason: Parameter comes from Site Kit, no control over it.
+	// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase  -- Reason: Object properties come from Site Kit, no control over it.
 
 	/**
 	 * Parses a response for a Site Kit API request that requests daily data for Analytics 4.
@@ -81,7 +82,6 @@ class Site_Kit_Analytics_4_Adapter {
 			$traffic_data = new Traffic_Data();
 
 			foreach ( $response->metricHeaders as $key => $metric ) {
-				$metric_name = $metric->name;
 
 				// @TODO: Maybe use class methods like MetricValue::getValue() instead of ->value.
 				// As per https://developers.google.com/analytics/devguides/reporting/data/v1/basics#read_the_response,
@@ -89,10 +89,10 @@ class Site_Kit_Analytics_4_Adapter {
 				// So we can use the key of the header to get the correct metric value from the row.
 				$metric_value = $daily_traffic->metricValues[ $key ]->value;
 
-				if ( $metric_name === 'sessions' ) {
+				if ( $metric->name === 'sessions' ) {
 					$traffic_data->set_sessions( (int) $metric_value );
 				}
-				elseif ( $metric_name === 'totalUsers' ) {
+				elseif ( $metric->name === 'totalUsers' ) {
 					$traffic_data->set_total_users( (int) $metric_value );
 				}
 			}
@@ -150,6 +150,7 @@ class Site_Kit_Analytics_4_Adapter {
 	}
 
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
+	// phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 	/**
 	 * Builds the parameters to be used in the Site Kit API request.
