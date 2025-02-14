@@ -121,26 +121,20 @@ class SubheadingsDistributionTooLong extends Assessment {
 		}
 		// The configuration to use for Japanese texts.
 		this._config.countCharacters = !! researcher.getConfig( "countCharacters" );
-
-		const assessmentResult = new AssessmentResult();
-		assessmentResult.setIdentifier( this.identifier );
-
 		this._hasSubheadings = this.hasSubheadings( paper );
-
 		this._tooLongTextsNumber = this.getTooLongSubheadingTexts().length;
-
 		this._textLength = this.getTextLength( paper, researcher );
 
 		// First check if there is text before the first subheading and check its length.
 		// It's important that this check is done before we sort the `this._subheadingTextsLength` array.
 		const textBeforeFirstSubheading = this.checkTextBeforeFirstSubheadingLength( this._subheadingTextsLength );
 
-		this._subheadingTextsLength = this._subheadingTextsLength.sort( function( a, b ) {
-			return b.countLength - a.countLength;
-		} );
+		this._subheadingTextsLength = this._subheadingTextsLength.sort( ( a, b ) => b.countLength - a.countLength );
 
 		const calculatedResult = this.calculateResult( textBeforeFirstSubheading );
 
+		const assessmentResult = new AssessmentResult();
+		assessmentResult.setIdentifier( this.identifier );
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 		assessmentResult.setHasMarks( calculatedResult.hasMarks );
@@ -239,7 +233,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Returns the feedback texts for the assessment when there is a long text without subheadings.
 	 *
-	 * @returns {{beginning: (function(*): string), nonBeginning: (function(*): string)}}
+	 * @returns {{beginning: (function(boolean): string), nonBeginning: (function(boolean): string)}} The feedback texts.
 	 */
 	getFeedbackTexts() {
 		return {
@@ -317,7 +311,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		if ( this._hasSubheadings ) {
 			if ( textBeforeFirstSubheading.isLong && this._tooLongTextsNumber < 2 ) {
 				/*
-				 * Orange indicator. Returns this feedback if the text preceding the first subheading is very long
+				 * Orange indicator. Returns this feedback if the text preceding the first subheading is long
 				 * and the total number of too long texts is less than 2.
 				 */
 				return {
