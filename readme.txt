@@ -278,6 +278,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-02-18
 
+Yoast SEO 24.5 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Issues a warning message when the image automatically selected for a post social preview is in the unsupported AVIF format.
