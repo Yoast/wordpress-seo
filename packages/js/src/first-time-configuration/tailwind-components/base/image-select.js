@@ -51,7 +51,7 @@ export default function ImageSelect( {
 			return (
 				<div className="yst-text-center">
 					<Spinner size="10" color="gray-400" className="yst-inline-block" />
-					<p className="yst-mt-3">{ __( "Uploading image...", "wordpress-seo" ) }</p>
+					<p className="yst-mt-3">{ __( "Uploading image…", "wordpress-seo" ) }</p>
 				</div>
 			);
 		} else if ( url ) {

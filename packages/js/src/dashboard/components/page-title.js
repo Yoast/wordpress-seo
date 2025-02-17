@@ -9,7 +9,7 @@ import { OutboundLink } from "../../shared-admin/components";
  */
 
 /**
- * @param {string} userName The user name.
+ * @param {string} userName The username.
  * @param {Features} features Whether features are enabled.
  * @param {Links} links The links.
  * @returns {JSX.Element} The element.
@@ -19,6 +19,7 @@ export const PageTitle = ( { userName, features, links } ) => (
 		<Paper.Content className="yst-flex yst-flex-col yst-gap-y-4 yst-max-w-screen-sm">
 			<Title as="h1">
 				{ sprintf(
+					/* translators: %s expands to the username. */
 					__( "Hi %s,", "wordpress-seo" ),
 					userName
 				) }
