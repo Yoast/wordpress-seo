@@ -8,8 +8,6 @@ import ScoreAggregator from "./ScoreAggregator";
  *
  * @type {number}
  * @const
- *
- * @memberOf module:parsedPaper/assess
  */
 const ScoreScale = 100;
 
@@ -21,15 +19,12 @@ const ScoreScale = 100;
  *
  * @type {number}
  * @const
- *
- * @memberOf module:parsedPaper/assess
  */
 const ScoreFactor = 9;
 
 /**
  * Aggregates SEO assessment results into a single score.
- *
- * @memberOf module:parsedPaper/assess
+ * @extends ScoreAggregator
  */
 class SEOScoreAggregator extends ScoreAggregator {
 	/**
@@ -44,7 +39,7 @@ class SEOScoreAggregator extends ScoreAggregator {
 
 		/*
 		 * Whenever the divide by part is 0 this can result in a `NaN` value. Then 0 should be returned as fallback.
-		 * This seemed better than the if check `results.length === 0`,
+		 * This seemed better than the check `results.length === 0`,
 		 * because it also protects against ScoreFactor being 0.
 		 */
 		return Math.round( ( score * ScoreScale ) / ( results.length * ScoreFactor ) ) || 0;

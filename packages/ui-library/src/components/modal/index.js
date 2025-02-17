@@ -47,6 +47,49 @@ Title.defaultProps = {
 };
 
 /**
+ * @param {string} [className] Additional classname for the button.
+ * @param {function} [onClick] Function that is called when the user clicks the button. Defaults to the onClose function from the context.
+ * @param {string} [screenReaderText] The screen reader text. Used when no children are provided.
+ * @param {JSX.node} [children] Possible to override the default screen reader text and X icon.
+ * @returns {JSX.Element} The close button.
+ */
+const CloseButton = forwardRef( ( { className, onClick, screenReaderText, children, ...props }, ref ) => {
+	const { onClose } = useModalContext();
+	const svgAriaProps = useSvgAria();
+
+	return (
+		<div className="yst-modal__close">
+			<button
+				ref={ ref }
+				type="button"
+				onClick={ onClick || onClose }
+				className={ classNames( "yst-modal__close-button", className ) }
+				{ ...props }
+			>
+				{ children || <>
+					<span className="yst-sr-only">{ screenReaderText }</span>
+					<XIcon className="yst-h-6 yst-w-6" { ...svgAriaProps } />
+				</> }
+			</button>
+		</div>
+	);
+} );
+
+CloseButton.displayName = "Modal.CloseButton";
+CloseButton.propTypes = {
+	className: PropTypes.string,
+	onClick: PropTypes.func.isRequired,
+	screenReaderText: PropTypes.string,
+	children: PropTypes.node,
+};
+CloseButton.defaultProps = {
+	className: "",
+	screenReaderText: "Close",
+	// eslint-disable-next-line no-undefined
+	children: undefined,
+};
+
+/**
  * @param {JSX.node} children Contents of the modal.
  * @param {string} [className] Additional class names.
  * @param {boolean} [hasCloseButton] Whether the modal has a close button.
@@ -55,25 +98,13 @@ Title.defaultProps = {
  * @returns {JSX.Element} The panel.
  */
 const Panel = forwardRef( ( { children, className = "", hasCloseButton = true, closeButtonScreenReaderText = "Close", ...props }, ref ) => {
-	const { onClose } = useModalContext();
-	const svgAriaProps = useSvgAria();
-
 	return (
 		<Dialog.Panel
 			ref={ ref }
 			className={ classNames( "yst-modal__panel", className ) }
 			{ ...props }
 		>
-			{ hasCloseButton && <div className="yst-modal__close">
-				<button
-					type="button"
-					onClick={ onClose }
-					className="yst-modal__close-button"
-				>
-					<span className="yst-sr-only">{ closeButtonScreenReaderText }</span>
-					<XIcon className="yst-h-6 yst-w-6" { ...svgAriaProps } />
-				</button>
-			</div> }
+			{ hasCloseButton && <CloseButton screenReaderText={ closeButtonScreenReaderText } /> }
 			{ children }
 		</Dialog.Panel>
 	);
@@ -178,6 +209,7 @@ Modal.defaultProps = {
 
 Modal.Panel = Panel;
 Modal.Title = Title;
+Modal.CloseButton = CloseButton;
 Modal.Description = Dialog.Description;
 Modal.Description.displayName = "Modal.Description";
 Modal.Container = Container;

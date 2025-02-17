@@ -5,7 +5,7 @@ import { getInitialState, getIsNetworkControlEnabled, updateIntegrationState, ge
 import { ReactComponent as AlgoliaLogo } from "../../images/algolia-logo.svg";
 import { ReactComponent as ElementorLogo } from "../../images/elementor-logo.svg";
 import { ReactComponent as JetpackLogo } from "../../images/jetpack-logo.svg";
-import { ReactComponent as WoocommerceSeoLogo } from "../../images/woocommerce-seo-logo.svg";
+import { ReactComponent as WoocommerceSeoLogo } from "../../images/woo-yoast-logo.svg";
 import { WoocommerceIntegration } from "./woocommerce-integration";
 import { AcfIntegration } from "./acf-integration";
 import { PluginIntegration } from "./plugin-integration";

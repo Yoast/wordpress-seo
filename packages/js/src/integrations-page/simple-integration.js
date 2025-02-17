@@ -5,6 +5,7 @@ import { ArrowSmRightIcon, CheckIcon } from "@heroicons/react/solid";
 import { PropTypes } from "prop-types";
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
+import { useSelect } from "@wordpress/data";
 
 /* eslint-disable complexity */
 /**
@@ -19,11 +20,14 @@ import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
 export const SimpleIntegration = ( { integration, isActive, children } ) => {
 	const IntegrationLogo = integration.logo;
 
+	const learnMoreLink = useSelect( select => select( "yoast-seo/settings" ).selectLink( integration.learnMoreLink ), [] );
+	const logoLink = useSelect( select => select( "yoast-seo/settings" ).selectLink( integration.logoLink ), [] );
+
 	return (
 		<Card>
 			<Card.Header>
 				<Link
-					href={ integration.logoLink }
+					href={ logoLink }
 					target="_blank"
 				>
 					{ integration.logo && <IntegrationLogo alt={ `${integration.name} logo` } className={ `${ isActive ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
@@ -55,11 +59,11 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 						} ) }
 					</ul> }
 					{ integration.learnMoreLink && <Link
-						href={ integration.learnMoreLink }
+						href={ learnMoreLink }
 						className="yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium"
 						target="_blank"
 					>
-						Learn more
+						{ __( "Learn more", "wordpress-seo" ) }
 						<span className="yst-sr-only">
 							{
 								/* translators: Hidden accessibility text. */
@@ -72,7 +76,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 			</Card.Content>
 			<Card.Footer>
 				{ ! getIsFreeIntegrationOrPremiumAvailable( integration ) && <Button
-					id={ `${ integration.name }-upsell-button` }
+					id={ `${ integration.slug }-upsell-button` }
 					type="button"
 					as="a"
 					href={ integration.upsellLink }

@@ -12,3 +12,4 @@ export { SidebarRecommendations } from "./sidebar-recommendations";
 export { UnsavedChangesModal } from "./unsaved-changes-modal";
 export { VideoFlow } from "./video-flow";
 export { ReactComponent as YoastLogo } from "./yoast-logo.svg";
+export { SiteKitConsentModal } from "./site-kit-consent-modal";

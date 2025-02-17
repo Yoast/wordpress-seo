@@ -371,7 +371,7 @@ class WPSEO_Replace_Vars {
 			// Returns a string.
 			$replacement = get_the_date();
 		}
-		elseif ( single_month_title( ' ', false ) && single_month_title( ' ', false ) !== '' ) {
+		elseif ( single_month_title( ' ', false ) ) {
 			// Returns a string.
 			$replacement = single_month_title( ' ', false );
 		}

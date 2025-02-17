@@ -118,6 +118,7 @@ class SocialPreviewEditor extends Component {
 			description,
 			descriptionInputPlaceholder,
 			imageUrl,
+			imageFallbackUrl,
 			alt,
 			title,
 			titleInputPlaceholder,
@@ -139,6 +140,7 @@ class SocialPreviewEditor extends Component {
 					onRemoveImageClick={ onRemoveImageClick }
 					imageSelected={ !! imageUrl }
 					imageUrl={ imageUrl }
+					imageFallbackUrl={ imageFallbackUrl }
 					imageAltText={ alt }
 					onTitleChange={ onTitleChange }
 					onSelectImageClick={ onSelectImageClick }
@@ -167,6 +169,7 @@ SocialPreviewEditor.propTypes = {
 	description: PropTypes.string.isRequired,
 	onDescriptionChange: PropTypes.func.isRequired,
 	imageUrl: PropTypes.string.isRequired,
+	imageFallbackUrl: PropTypes.string,
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
 	socialMediumName: PropTypes.string.isRequired,
@@ -183,6 +186,7 @@ SocialPreviewEditor.propTypes = {
 
 SocialPreviewEditor.defaultProps = {
 	imageWarnings: [],
+	imageFallbackUrl: "",
 	recommendedReplacementVariables: [],
 	replacementVariables: [],
 	isPremium: false,

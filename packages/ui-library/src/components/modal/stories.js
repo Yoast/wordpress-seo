@@ -5,8 +5,9 @@ import Modal, { classNameMap } from ".";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import Button from "../../elements/button";
 import TextInput from "../../elements/text-input";
+import { useModalContext } from "./hooks";
 
-const Template = ( { isOpen: initialIsOpen, onClose: _, children, ...props } ) => {
+const Template = ( { isOpen: initialIsOpen, onClose: _, children, panelProps, ...props } ) => {
 	const [ isOpen, setIsOpen ] = useState( initialIsOpen );
 	const openModal = useCallback( () => setIsOpen( true ), [] );
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
@@ -15,7 +16,7 @@ const Template = ( { isOpen: initialIsOpen, onClose: _, children, ...props } ) =
 		<>
 			<Button onClick={ openModal }>Open modal</Button>
 			<Modal { ...props } isOpen={ isOpen } onClose={ closeModal }>
-				<Modal.Panel>
+				<Modal.Panel { ...panelProps }>
 					{ children }
 				</Modal.Panel>
 			</Modal>
@@ -27,6 +28,7 @@ Template.propTypes = {
 	isOpen: PropTypes.bool,
 	onClose: PropTypes.func,
 	children: PropTypes.node.isRequired,
+	panelProps: PropTypes.object,
 };
 
 export const Factory = {
@@ -48,6 +50,57 @@ export const WithPanel = {
 	},
 	args: {
 		children: "Text inside a panel.",
+	},
+};
+
+const CustomCloseButton = ( props ) => {
+	const { onClose } = useModalContext();
+
+	return <Button { ...props } onClick={ onClose } />;
+};
+
+export const WithPanelAndAdjustedCloseButton = {
+	name: "With panel and adjusted close button",
+	parameters: {
+		controls: { disable: false },
+		docs: {
+			description: {
+				story: "Using the `Modal.Panel` component with an adjusted `Modal.CloseButton`.",
+			},
+		},
+	},
+	args: {
+		children: <>
+			<Modal.CloseButton className="yst-bg-transparent yst-text-gray-500 focus:yst-ring-offset-0" screenReaderText="Close" />
+			<p>Using the <strong>className</strong> prop to change the styling. Works nicely if the modal has a different background.</p>
+		</>,
+		panelProps: {
+			className: "yst-bg-gradient-to-b yst-from-primary-500/25 yst-to-[80%]",
+			hasCloseButton: false,
+		},
+	},
+};
+
+export const WithPanelAndCustomCloseButton = {
+	name: "With panel and custom close button",
+	parameters: {
+		controls: { disable: false },
+		docs: {
+			description: {
+				story: "Using the `Modal.Panel` component with a custom close button. The close button is a separate component and can be styled and positioned as needed.",
+			},
+		},
+	},
+	args: {
+		children: <div className="yst-flex yst-flex-col yst-gap-2">
+			<p>
+				Below is now the custom close button. It uses the <strong>useModalContext</strong> hook to get the <strong>onClose</strong> function.
+			</p>
+			<CustomCloseButton className="yst-w-fit yst-self-center" variant="primary">Close</CustomCloseButton>
+		</div>,
+		panelProps: {
+			hasCloseButton: false,
+		},
 	},
 };
 
@@ -175,7 +228,16 @@ export default {
 			description: {
 				component: "An uncontrolled modal component. For the purpose of this story, the `children`, `isOpen` and `onClose` are wrapped. So be aware that in the `Show code`, these are not reflected!",
 			},
-			page: () => <InteractiveDocsPage stories={ [ WithPanel, WithTitleAndDescription, WithContainer, InitialFocus ] } />,
+			page: () => <InteractiveDocsPage
+				stories={ [
+					WithPanel,
+					WithPanelAndAdjustedCloseButton,
+					WithPanelAndCustomCloseButton,
+					WithTitleAndDescription,
+					WithContainer,
+					InitialFocus,
+				] }
+			/>,
 		},
 	},
 	args: {

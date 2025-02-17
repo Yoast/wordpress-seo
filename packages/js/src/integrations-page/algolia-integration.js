@@ -96,7 +96,7 @@ export const AlgoliaIntegration = ( {
 							className="yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium"
 							target="_blank"
 						>
-							Learn more
+							{ __( "Learn more", "wordpress-seo" ) }
 							<span className="yst-sr-only">
 								{
 									/* translators: Hidden accessibility text. */
