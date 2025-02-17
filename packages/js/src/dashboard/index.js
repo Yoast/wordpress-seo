@@ -48,13 +48,18 @@ export { Dashboard } from "./components/dashboard";
  * @typedef {Object} Endpoints The endpoints.
  * @property {string} seoScores The endpoint for SEO scores.
  * @property {string} readabilityScores The endpoint for readability scores.
- * @property {string} topPages The endpoint to get the top pages.
+ * @property {string} siteKitConfigurationDismissal The endpoint to dismiss the Site Kit configuration.
+ * @property {string} siteKitConsentManagement The endpoint to manage the Site Kit consent.
+ * @property {string} timeBasedSeoMetrics The endpoint to get a time based seo metrics.
  */
 
 /**
  * @typedef {Object} Links The links.
  * @property {string} dashboardLearnMore The dashboard information link.
  * @property {string} errorSupport The support link when errors occur.
+ * @property {string} siteKitLearnMore The Site Kit learn more link.
+ * @property {string} siteKitConsentLearnMore The Site Kit consent learn more link.
+ * @property {string} topPagesInfoLearnMore The top pages learn more link.
  */
 
 /**
@@ -98,4 +103,5 @@ export { Dashboard } from "./components/dashboard";
  * @property {string} activateUrl The URL to activate Site Kit.
  * @property {string} setupUrl The URL to setup Site Kit.
  * @property {boolean} isFeatureEnabled Whether the feature is enabled.
+ * @property {boolean} isConfigurationDismissed Whether the configuration is dismissed.
  */

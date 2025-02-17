@@ -1,4 +1,4 @@
-import { defaultsDeep } from "lodash";
+import { defaultsDeep, forEach } from "lodash";
 import { fetchJson } from "../fetch/fetch-json";
 
 /**
@@ -25,9 +25,15 @@ export class RemoteDataProvider {
 	getUrl( endpoint, params ) {
 		const url = new URL( endpoint );
 
-		for ( const [ key, value ] of Object.entries( params ) ) {
-			url.searchParams.append( key, value );
-		}
+		forEach( params, ( value, key ) => {
+			if ( typeof value === "object" ) {
+				forEach( value, ( subValue, subKey ) => {
+					url.searchParams.append( `${ key }[${ subKey }]`, subValue );
+				} );
+			} else {
+				url.searchParams.append( key, value );
+			}
+		} );
 
 		return url;
 	}

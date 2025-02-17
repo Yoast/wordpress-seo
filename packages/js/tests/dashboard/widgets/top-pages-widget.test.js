@@ -9,10 +9,11 @@ import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
 
 describe( "TopPagesWidget", () => {
 	const data = [
-		{ subject: "https://example.com/page-1", clicks: 100, impressions: 1000, ctr: 10, position: 1, seoScore: "ok" },
-		{ subject: "https://example.com/page-2", clicks: 101, impressions: 1001, ctr: 11, position: 2, seoScore: "good" },
-		{ subject: "https://example.com/page-3", clicks: 102, impressions: 1002, ctr: 12, position: 3, seoScore: "bad" },
+		{ subject: "https://example.com/page-1", clicks: 100, impressions: 1000, ctr: 10, position: 1, seoScore: "ok", links: { edit: "https://example.com/page-1/edit" } },
+		{ subject: "https://example.com/page-2", clicks: 101, impressions: 1001, ctr: 11, position: 2, seoScore: "good", links: { edit: "https://example.com/page-2/edit" } },
+		{ subject: "https://example.com/page-3", clicks: 102, impressions: 1002, ctr: 12, position: 3, seoScore: "bad", links: { edit: "https://example.com/page-3/edit" } },
 		{ subject: "https://example.com/page-4", clicks: 103, impressions: 1003, ctr: 13, position: 4, seoScore: "notAnalyzed", links: { edit: "https://example.com/page-4/edit" } },
+		{ subject: "https://example.com/page-5", clicks: 104, impressions: 1004, ctr: 14, position: 5 },
 	];
 	let dataProvider;
 	let remoteDataProvider;
@@ -47,28 +48,26 @@ describe( "TopPagesWidget", () => {
 
 		// Verify the table is present.
 		expect( getByRole( "table" ) ).toBeInTheDocument();
+		const editButtons = getAllByRole( "link", { name: "Edit" } );
+		expect( editButtons ).toHaveLength( 5 );
 		// Verify rows are present.
-		forEach( formattedData, ( { subject, clicks, impressions, ctr, position, seoScore } ) => {
+		forEach( formattedData, ( { subject, clicks, impressions, ctr, position, seoScore, links }, index ) => {
 			expect( getByText( subject ) ).toBeInTheDocument();
 			expect( getByText( clicks ) ).toBeInTheDocument();
 			expect( getByText( impressions ) ).toBeInTheDocument();
 			expect( getByText( ctr ) ).toBeInTheDocument();
 			expect( getByText( position ) ).toBeInTheDocument();
-			expect( getByText( SCORE_META[ seoScore ].label ) ).toBeInTheDocument();
+			if ( links?.edit ) {
+				expect( getByText( SCORE_META[ seoScore ].label ) ).toBeInTheDocument();
+				expect( editButtons[ index ] ).toHaveAttribute( "href", links.edit );
+				expect( editButtons[ index ] ).toHaveAttribute( "aria-disabled", "false" );
+			} else {
+				expect( getByText( "Not editable" ) ).toBeInTheDocument();
+				expect( editButtons[ index ] ).not.toHaveAttribute( "href" );
+				expect( editButtons[ index ] ).toHaveAttribute( "disabled" );
+				expect( editButtons[ index ] ).toHaveAttribute( "aria-disabled", "true" );
+			}
 		} );
-
-		const editButtons = getAllByRole( "link", { name: "Edit" } );
-		expect( editButtons ).toHaveLength( 4 );
-
-		// Check last edit button.
-		const lastEditButton = editButtons[ 3 ];
-		expect( lastEditButton ).toHaveAttribute( "href", "https://example.com/page-4/edit" );
-		expect( lastEditButton ).toHaveAttribute( "aria-disabled", "false" );
-
-		const firstEditButton = editButtons[ 0 ];
-		expect( firstEditButton ).not.toHaveAttribute( "href" );
-		expect( firstEditButton ).toHaveAttribute( "disabled" );
-		expect( firstEditButton ).toHaveAttribute( "aria-disabled", "true" );
 	} );
 
 	it( "should render the TopPagesWidget component without data", async() => {
@@ -117,5 +116,50 @@ describe( "TopPagesWidget", () => {
 
 		// Expect limit (1) row with 7 columns = 7 skeleton loaders.
 		expect( container.getElementsByClassName( "yst-skeleton-loader" ).length ).toBe( 7 );
+	} );
+
+	it( "when the data provider has indexables disabled, should render the TopPagesWidget component with disabled tooltip", async() => {
+		remoteDataProvider.fetchJson.mockResolvedValue( data );
+		dataProvider = new MockDataProvider( {
+			features: {
+				indexables: false,
+				seoAnalysis: true,
+			},
+		} );
+		const { getAllByText } = render( <TopPagesWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
+		/> );
+
+		// Verify the disabled score message is present.
+		await waitFor( () => {
+			const tooltip = getAllByText( "We can’t analyze your content, because you’re in a non-production environment." );
+			const screenReaderLabels = getAllByText( "Indexables are disabled" );
+			expect( tooltip ).toHaveLength( 5 );
+			expect( screenReaderLabels ).toHaveLength( 5 );
+		} );
+	} );
+	it( "when the data provider has SEO analysis disabled, should render the TopPagesWidget component with disabled tooltip", async() => {
+		remoteDataProvider.fetchJson.mockResolvedValue( data );
+		dataProvider = new MockDataProvider( {
+			features: {
+				indexables: true,
+				seoAnalysis: false,
+			},
+		} );
+		const { getAllByText } = render( <TopPagesWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
+		/> );
+
+		// Verify the disabled score message is present.
+		await waitFor( () => {
+			const tooltip = getAllByText( "We can’t provide SEO scores, because the SEO analysis is disabled for your site." );
+			const screenReaderLabels = getAllByText( "SEO analysis is disabled" );
+			expect( tooltip ).toHaveLength( 5 );
+			expect( screenReaderLabels ).toHaveLength( 5 );
+		} );
 	} );
 } );

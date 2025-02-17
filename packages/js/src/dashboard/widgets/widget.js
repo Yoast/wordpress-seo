@@ -1,7 +1,7 @@
 import { Paper, Title } from "@yoast/ui-library";
 import classNames from "classnames";
 
-const WidgetTitle = ( { children, ...props } ) => (
+export const WidgetTitle = ( { children, ...props } ) => (
 	<Title as="h2" { ...props }>
 		{ children }
 	</Title>

@@ -8,6 +8,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Consent_Management_Endpoint;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
@@ -67,6 +68,13 @@ final class Integrations_Page_Integration_Test extends TestCase {
 	private $site_kit_configuration;
 
 	/**
+	 * The Site Kit consent management endpoint object.
+	 *
+	 * @var Mockery\MockInterface|Site_Kit_Consent_Management_Endpoint
+	 */
+	private $site_kit_consent_management_endpoint;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Integrations_Page
@@ -83,12 +91,13 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		if ( ! \defined( 'WP_PLUGIN_DIR' ) ) {
 			\define( 'WP_PLUGIN_DIR', '/' );
 		}
-		$this->options_helper         = Mockery::mock( Options_Helper::class );
-		$this->admin_asset_manager    = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->woocommerce_helper     = Mockery::mock( Woocommerce_Helper::class );
-		$this->elementor_conditional  = Mockery::mock( Elementor_Activated_Conditional::class );
-		$this->jetpack_conditional    = Mockery::mock( Jetpack_Conditional::class );
-		$this->site_kit_configuration = Mockery::mock( Site_Kit::class );
+		$this->options_helper                       = Mockery::mock( Options_Helper::class );
+		$this->admin_asset_manager                  = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->woocommerce_helper                   = Mockery::mock( Woocommerce_Helper::class );
+		$this->elementor_conditional                = Mockery::mock( Elementor_Activated_Conditional::class );
+		$this->jetpack_conditional                  = Mockery::mock( Jetpack_Conditional::class );
+		$this->site_kit_configuration               = Mockery::mock( Site_Kit::class );
+		$this->site_kit_consent_management_endpoint = Mockery::mock( Site_Kit_Consent_Management_Endpoint::class );
 
 		$this->instance = new Integrations_Page(
 			$this->admin_asset_manager,
@@ -96,7 +105,8 @@ final class Integrations_Page_Integration_Test extends TestCase {
 			$this->woocommerce_helper,
 			$this->elementor_conditional,
 			$this->jetpack_conditional,
-			$this->site_kit_configuration
+			$this->site_kit_configuration,
+			$this->site_kit_consent_management_endpoint
 		);
 	}
 
@@ -160,16 +170,19 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		$this->elementor_conditional->expects( 'is_met' )->andReturnFalse();
 		$this->jetpack_conditional->expects( 'is_met' )->andReturnFalse();
 		$site_kit_config = [
-			'isInstalled'      => false,
-			'isActive'         => false,
-			'isSetupCompleted' => false,
-			'isConnected'      => false,
-			'isFeatureEnabled' => false,
-			'installUrl'       => 'example.com',
-			'activateUrl'      => 'example.com',
-			'setupUrl'         => 'example.com',
+			'isInstalled'              => false,
+			'isActive'                 => false,
+			'isSetupCompleted'         => false,
+			'isConnected'              => false,
+			'isFeatureEnabled'         => false,
+			'installUrl'               => 'example.com',
+			'activateUrl'              => 'example.com',
+			'setupUrl'                 => 'example.com',
+			'isConfigurationDismissed' => false,
 		];
 		$this->site_kit_configuration->expects( 'to_array' )->andReturn( $site_kit_config );
+		$this->site_kit_consent_management_endpoint->expects( 'get_url' )
+			->andReturn( 'https://www.example.com/manage-consent' );
 
 		$this->admin_asset_manager->expects( 'localize_script' )->with(
 			'integrations-page',
@@ -201,6 +214,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'is_multisite'                       => false,
 				'plugin_url'                         => 'https://www.example.com',
 				'site_kit_configuration'             => $site_kit_config,
+				'site_kit_consent_management_url'    => 'https://www.example.com/manage-consent',
 			]
 		);
 

@@ -51,6 +51,8 @@ export class MockDataProvider extends DataProvider {
 				seoScores: "https://example.com/seo-scores",
 				readabilityScores: "https://example.com/readability-scores",
 				topPages: "https://example.com/top-pages",
+				siteKitConsentManagement: "https://example.com/site-kit-consent-management",
+				siteKitConfigurationDismissal: "https://example.com/site-kit-configuration-dismissal",
 			},
 			headers: {
 				"X-Wp-Nonce": "123",
@@ -58,7 +60,7 @@ export class MockDataProvider extends DataProvider {
 			links: {
 				dashboardLearnMore: "https://example.com/dashboard-learn-more",
 				errorSupport: "https://example.com/error-support",
-				siteKitLearnMorelink: "https://example.com/google-site-kit-learn-more",
+				siteKitLearnMore: "https://example.com/google-site-kit-learn-more",
 			},
 			siteKitConfiguration: {
 				isInstalled: false,
@@ -71,6 +73,7 @@ export class MockDataProvider extends DataProvider {
 				isFeatureEnabled: false,
 			},
 		} ) );
+		this.setSiteKitConfigurationDismissed = jest.fn();
 	}
 }
 

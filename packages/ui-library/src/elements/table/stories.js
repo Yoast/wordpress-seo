@@ -238,6 +238,9 @@ export default {
 	component: Table,
 	argTypes: {
 		children: { control: false },
+		variant: {
+			control: { type: "select" },
+		},
 	},
 	parameters: {
 		docs: {

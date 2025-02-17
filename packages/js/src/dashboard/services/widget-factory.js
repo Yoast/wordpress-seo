@@ -50,12 +50,22 @@ export class WidgetFactory {
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
 					return null;
 				}
-				return <ScoreWidget key={ widget.id } analysisType="seo" dataProvider={ this.#dataProvider } remoteDataProvider={ this.#remoteDataProvider } />;
+				return <ScoreWidget
+					key={ widget.id }
+					analysisType="seo"
+					dataProvider={ this.#dataProvider }
+					remoteDataProvider={ this.#remoteDataProvider }
+				/>;
 			case "readabilityScores":
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "readabilityAnalysis" ) ) ) {
 					return null;
 				}
-				return <ScoreWidget key={ widget.id } analysisType="readability" dataProvider={ this.#dataProvider } remoteDataProvider={ this.#remoteDataProvider } />;
+				return <ScoreWidget
+					key={ widget.id }
+					analysisType="readability"
+					dataProvider={ this.#dataProvider }
+					remoteDataProvider={ this.#remoteDataProvider }
+				/>;
 			case "topPages":
 				return <TopPagesWidget
 					key={ widget.id }
@@ -64,7 +74,18 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatter }
 				/>;
 			case "siteKitSetup":
-				return <SiteKitSetupWidget key={ widget.id } dataProvider={ this.#dataProvider } onRemove={ onRemove } />;
+				// This check here makes sure we don't render the setup anymore if the user connected and then switches away from the dashboard.
+				// Then switches back to the dashboard, but does not refresh.
+				if ( this.#dataProvider.getSiteKitConfiguration().isConnected ||
+				this.#dataProvider.getSiteKitConfiguration().isConfigurationDismissed ) {
+					return null;
+				}
+				return <SiteKitSetupWidget
+					key={ widget.id }
+					dataProvider={ this.#dataProvider }
+					remoteDataProvider={ this.#remoteDataProvider }
+					onRemove={ onRemove }
+				/>;
 			default:
 				return null;
 		}
