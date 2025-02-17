@@ -34,7 +34,7 @@ export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, featu
 
 
 	const addWidget = useCallback( ( type ) => {
-		setWidgets( ( currentWidgets ) => [ ...currentWidgets, prepareWidgetInstance( type ) ] );
+		setWidgets( ( currentWidgets ) => [ prepareWidgetInstance( type ), ...currentWidgets ] );
 	}, [] );
 
 	const removeWidget = useCallback( ( type ) => {
