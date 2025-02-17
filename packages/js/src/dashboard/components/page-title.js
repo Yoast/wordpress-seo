@@ -15,29 +15,23 @@ import { OutboundLink } from "../../shared-admin/components";
  * @param {boolean} sitekitFeatureEnabled Whether the site kit feature is enabled.
  * @returns {JSX.Element} The element.
  */
+// eslint-disable-next-line complexity
 export const PageTitle = ( { userName, features, links, sitekitFeatureEnabled } ) => {
-
 	const noAnalysisEnabledMessage = sitekitFeatureEnabled
-		?
 		/**
 		* translators: %1$s and %2$s expand to an opening and closing anchor tag, to the site features page.
 		* %3$s and %4$s expand to an opening and closing anchor tag, to the user profile page.
 		**/
-		 __( "Welcome to your dashboard! Check your content's SEO performance, readability, and overall strengths and opportunities. Get even more insights by enabling the ‘SEO analysis’ and the ‘Readability analysis’ in your %1$sSite features%2$s or your %3$suser profile settings%4$s.", "wordpress-seo" )
-		:
+		? __( "Welcome to your dashboard! Check your content's SEO performance, readability, and overall strengths and opportunities. Get even more insights by enabling the ‘SEO analysis’ and the ‘Readability analysis’ in your %1$sSite features%2$s or your %3$suser profile settings%4$s.", "wordpress-seo" )
 		/**
 		* translators: %1$s and %2$s expand to an opening and closing anchor tag, to the site features page.
 		* %3$s and %4$s expand to an opening and closing anchor tag, to the user profile page.
 		**/
-		 __( "It looks like the ‘SEO analysis’ and the ‘Readability analysis’ are currently disabled in your %1$sSite features%2$s or your %3$suser profile settings%4$s. Enable these features to start seeing all the insights you need right here!", "wordpress-seo" );
+		:  __( "It looks like the ‘SEO analysis’ and the ‘Readability analysis’ are currently disabled in your %1$sSite features%2$s or your %3$suser profile settings%4$s. Enable these features to start seeing all the insights you need right here!", "wordpress-seo" );
 
 	const noIndexablesEnabledMessage = sitekitFeatureEnabled
-		?
-		__( "Oops! You can’t see the overview of your SEO insights right now because you’re in a non-production environment.", "wordpress-seo" )
-		:
-		__( "Oops! You can’t see the overview of your SEO scores and readability scores right now because you’re in a non-production environment.", "wordpress-seo" );
-
-		
+		? __( "Oops! You can’t see the overview of your SEO insights right now because you’re in a non-production environment.", "wordpress-seo" )
+		: __( "Oops! You can’t see the overview of your SEO scores and readability scores right now because you’re in a non-production environment.", "wordpress-seo" );
 
 	return (
 		<Paper className="yst-shadow-md">
