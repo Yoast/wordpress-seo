@@ -45,7 +45,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addWidget ) 
 		).then( ( { success } ) => {
 			if ( success ) {
 				dataProvider.setSiteKitConnected( true );
-				addWidget( "topPages" );
+				addWidget( "topPages", 0 );
 				setConfig( dataProvider.getSiteKitConfiguration() );
 			}
 		} ).catch( noop );

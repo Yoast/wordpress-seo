@@ -104,13 +104,13 @@ domReady( () => { // eslint-disable-line complexity
 		initialWidgets.push( "siteKitSetup" );
 	}
 
-	initialWidgets.push( "seoScores" );
-	initialWidgets.push( "readabilityScores" );
-
 	// If site kit feature is enabled and connected: add the top pages widget.
 	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isConnected ) {
 		initialWidgets.push( "topPages" );
 	}
+
+	initialWidgets.push( "seoScores" );
+	initialWidgets.push( "readabilityScores" );
 
 	const router = createHashRouter(
 		createRoutesFromElements(
