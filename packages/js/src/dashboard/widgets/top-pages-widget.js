@@ -75,7 +75,7 @@ export const SeoScoreHeader = ( { isIndexablesEnabled, isSeoAnalysisEnabled } ) 
 
 	return <TooltipContainer>
 		<TooltipTrigger ariaDescribedby="yst-disabled-score-header-tooltip">
-			<span className="yst-border-b yst-border-dashed yst-border-slate-900">
+			<span className="yst-underline yst-decoration-dotted">
 				Yoast
 				<br />
 				{ __( "SEO score", "wordpress-seo" ) }
