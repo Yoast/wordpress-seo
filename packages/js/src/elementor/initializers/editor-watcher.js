@@ -43,7 +43,6 @@ function getWidgetContainers( currentDocument = elementor.documents.getCurrent()
 			.not( ".elementor-background-overlay, .elementor-element-overlay, .ui-resizable-handle" );
 	}
 
-	console.log( "containers", containers );
 	return containers;
 }
 
