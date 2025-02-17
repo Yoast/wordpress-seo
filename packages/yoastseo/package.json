@@ -32,7 +32,7 @@
     "pretest": "grunt get-premium-configuration",
     "export:inclusive-language": "jest exportInclusiveLanguage",
     "test": "jest",
-    "lint": "eslint . --max-warnings 21"
+    "lint": "eslint . --max-warnings 20"
   },
   "engines": {
     "node": ">=8.0.0"
