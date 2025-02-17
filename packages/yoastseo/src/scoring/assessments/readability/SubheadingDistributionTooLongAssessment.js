@@ -37,32 +37,6 @@ import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
  */
 
 /**
- * The default configuration for the subheading distribution assessment.
- * @type {SubheadingDistributionConfig}
- */
-const DEFAULT_CONFIG = {
-	parameters: {
-		// The maximum recommended value of the subheading text.
-		recommendedMaximumLength: 300,
-		slightlyTooMany: 300,
-		farTooMany: 350,
-	},
-	urlTitle: "https://yoa.st/34x",
-	urlCallToAction: "https://yoa.st/34y",
-	scores: {
-		goodShortTextNoSubheadings: 9,
-		goodSubheadings: 9,
-		okSubheadings: 6,
-		badSubheadings: 3,
-		badLongTextNoSubheadings: 2,
-	},
-	applicableIfTextLongerThan: 300,
-	shouldNotAppearInShortText: false,
-	cornerstoneContent: false,
-	countCharacters: false,
-};
-
-/**
  * Represents the assessment that checks whether a text has a good distribution of subheadings.
  */
 class SubheadingsDistributionTooLong extends Assessment {
@@ -75,6 +49,31 @@ class SubheadingsDistributionTooLong extends Assessment {
 	constructor( config = {} ) {
 		super();
 
+		/**
+		 * The default configuration for the subheading distribution assessment.
+		 * @type {SubheadingDistributionConfig}
+		 */
+		const DEFAULT_CONFIG = {
+			parameters: {
+				// The maximum recommended value of the subheading text.
+				recommendedMaximumLength: 300,
+				slightlyTooMany: 300,
+				farTooMany: 350,
+			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34x" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34y" ),
+			scores: {
+				goodShortTextNoSubheadings: 9,
+				goodSubheadings: 9,
+				okSubheadings: 6,
+				badSubheadings: 3,
+				badLongTextNoSubheadings: 2,
+			},
+			applicableIfTextLongerThan: 300,
+			shouldNotAppearInShortText: false,
+			cornerstoneContent: false,
+			countCharacters: false,
+		};
 		this.identifier = "subheadingsTooLong";
 		this._config = merge( DEFAULT_CONFIG, config );
 	}
@@ -131,9 +130,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 		if ( researcher.getConfig( "subheadingsTooLong" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
 		}
-		// Create the anchor tags for the feedback. Do this step here to make sure that we also create the anchor tags for the non-default urls.
-		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
-		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
 
 		// The configuration to use for Japanese texts.
 		this._config.countCharacters = !! researcher.getConfig( "countCharacters" );
