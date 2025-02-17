@@ -11,18 +11,18 @@ import { __ } from "@wordpress/i18n";
 /**
  * The disabled score component.
  *
- * @param {string} screenReaderLabel The screen reader label.
  * @param {string} tooltip The tooltip.
  *
  * @returns {JSX.Element} The element.
  */
-const DisabledScore = ( { screenReaderLabel, tooltip } ) => {
+const DisabledScore = ( { tooltip } ) => {
+	const uniqueId = `yst-disabled-score-tooltip-${Math.random().toString( 36 ).substring( 7 )}`;
 	return <TooltipContainer>
-		<TooltipTrigger>
+		<TooltipTrigger ariaDescribedby={ uniqueId }>
 			<XIcon className="yst-w-4 yst-h-4 yst-text-slate-400" />
-			<span className="yst-sr-only">{ screenReaderLabel }</span>
+			<span className="yst-sr-only">{ __( "Disabled", "wordpress-seo" ) }</span>
 		</TooltipTrigger>
-		{  tooltip && <TooltipWithContext position="left">{  tooltip }</TooltipWithContext> }
+		{  tooltip && <TooltipWithContext position="left" id={ uniqueId }>{  tooltip }</TooltipWithContext> }
 	</TooltipContainer>;
 };
 
@@ -55,21 +55,14 @@ const ScoreBullet = ( { score } ) => (
  */
 export const Score = ( { score, isIndexablesEnabled, isSeoAnalysisEnabled, isEditable } ) => {
 	if ( ! isIndexablesEnabled ) {
-		return <DisabledScore
-			tooltip={ __( "We can’t analyze your content, because you’re in a non-production environment.", "wordpress-seo" ) }
-			screenReaderLabel={ __( "Indexables are disabled", "wordpress-seo" ) }
-		/>;
+		return <DisabledScore />;
 	}
 	if ( ! isSeoAnalysisEnabled ) {
-		return <DisabledScore
-			tooltip={ __( "We can’t provide SEO scores, because the SEO analysis is disabled for your site.", "wordpress-seo" ) }
-			screenReaderLabel={ __( "SEO analysis is disabled", "wordpress-seo" ) }
-		/>;
+		return <DisabledScore />;
 	}
 	if ( ! isEditable ) {
 		return <DisabledScore
 			tooltip={ __( "We can’t provide an SEO score for this page because it can’t be edited.", "wordpress-seo" ) }
-			screenReaderLabel={ __( "Not editable", "wordpress-seo" ) }
 		/>;
 	}
 	return <ScoreBullet score={ score } />;
@@ -114,7 +107,7 @@ const TableRow = ( { children, index } ) => {
  */
 export const WidgetTable = ( { children } ) => {
 	return (
-		<div className="yst-overflow-x-auto">
+		<div className="yst-overflow-y-auto">
 			<Table variant="minimal">
 				{ children }
 			</Table>
