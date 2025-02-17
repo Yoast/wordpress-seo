@@ -32,16 +32,17 @@ const DisabledScore = ( { tooltip } ) => {
  * @param {ScoreType} score The score.
  * @returns {JSX.Element} The element.
  */
-const ScoreBullet = ( { score } ) => (
-	<TooltipContainer>
-		<TooltipTrigger>
+const ScoreBullet = ( { score } ) => {
+	const uniqueId = `yst-score-tooltip-${Math.random().toString( 36 ).substring( 7 )}`;
+	return <TooltipContainer>
+		<TooltipTrigger ariaDescribedby={ uniqueId }>
 			<div className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
 				<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
 			</div>
 		</TooltipTrigger>
-		{ SCORE_META[ score ]?.tooltip && <TooltipWithContext position="left">{ SCORE_META[ score ].tooltip }</TooltipWithContext> }
-	</TooltipContainer>
-);
+		{ SCORE_META[ score ]?.tooltip && <TooltipWithContext position="left" id={ uniqueId }>{ SCORE_META[ score ].tooltip }</TooltipWithContext> }
+	</TooltipContainer>;
+};
 
 /**
  * The score component.
