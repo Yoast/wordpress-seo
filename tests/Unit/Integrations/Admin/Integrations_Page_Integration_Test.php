@@ -170,14 +170,15 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		$this->elementor_conditional->expects( 'is_met' )->andReturnFalse();
 		$this->jetpack_conditional->expects( 'is_met' )->andReturnFalse();
 		$site_kit_config = [
-			'isInstalled'      => false,
-			'isActive'         => false,
-			'isSetupCompleted' => false,
-			'isConnected'      => false,
-			'isFeatureEnabled' => false,
-			'installUrl'       => 'example.com',
-			'activateUrl'      => 'example.com',
-			'setupUrl'         => 'example.com',
+			'isInstalled'              => false,
+			'isActive'                 => false,
+			'isSetupCompleted'         => false,
+			'isConnected'              => false,
+			'isFeatureEnabled'         => false,
+			'installUrl'               => 'example.com',
+			'activateUrl'              => 'example.com',
+			'setupUrl'                 => 'example.com',
+			'isConfigurationDismissed' => false,
 		];
 		$this->site_kit_configuration->expects( 'to_array' )->andReturn( $site_kit_config );
 		$this->site_kit_consent_management_endpoint->expects( 'get_url' )

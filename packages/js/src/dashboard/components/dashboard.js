@@ -44,7 +44,7 @@ export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, featu
 	return (
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } />
-			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
+			<div className="yst-grid yst-grid-cols-4 yst-gap-6 yst-my-6">
 				{ widgets.map( ( widget ) => widgetFactory.createWidget( widget, removeWidget ) ) }
 			</div>
 		</>

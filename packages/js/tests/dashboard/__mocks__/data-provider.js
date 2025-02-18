@@ -52,6 +52,7 @@ export class MockDataProvider extends DataProvider {
 				readabilityScores: "https://example.com/readability-scores",
 				topPages: "https://example.com/top-pages",
 				siteKitConsentManagement: "https://example.com/site-kit-consent-management",
+				siteKitConfigurationDismissal: "https://example.com/site-kit-configuration-dismissal",
 			},
 			headers: {
 				"X-Wp-Nonce": "123",
@@ -72,6 +73,7 @@ export class MockDataProvider extends DataProvider {
 				isFeatureEnabled: false,
 			},
 		} ) );
+		this.setSiteKitConfigurationDismissed = jest.fn();
 	}
 }
 

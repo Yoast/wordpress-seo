@@ -3,6 +3,7 @@ import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, DropdownMenu, Paper, Stepper, Title, useToggleState } from "@yoast/ui-library";
+import { noop } from "lodash";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { SiteKitConsentModal } from "../../shared-admin/components";
 
@@ -21,9 +22,16 @@ const steps = [
 ];
 
 /**
+ * @typedef {Object} UseSiteKitConfiguration
+ * @property {SiteKitConfiguration} config The site kit configuration.
+ * @property {function(RequestInit?)} grantConsent The grant consent function.
+ * @property {function(RequestInit?)} dismissPermanently The dismiss permanently function.
+ */
+
+/**
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @returns {{config: SiteKitConfiguration, grantConsent: function(RequestInit)}} The site kit configuration and the grant consent function.
+ * @returns {UseSiteKitConfiguration} The site kit configuration and helper methods.
  */
 const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 	const [ config, setConfig ] = useState( () => dataProvider.getSiteKitConfiguration() );
@@ -38,10 +46,21 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 				dataProvider.setSiteKitConnected( true );
 				setConfig( dataProvider.getSiteKitConfiguration() );
 			}
-		} ).catch( () => {} );
+		} ).catch( noop );
 	}, [ dataProvider, remoteDataProvider, setConfig ] );
 
-	return { config, grantConsent };
+	const dismissPermanently = useCallback( ( options ) => {
+		remoteDataProvider.fetchJson(
+			dataProvider.getEndpoint( "siteKitConfigurationDismissal" ),
+			// eslint-disable-next-line camelcase
+			{ is_dismissed: String( true ) },
+			{ ...options, method: "POST" }
+		).catch( noop );
+		// There is no point in waiting for the response, just remove the widget.
+		dataProvider.setSiteKitConfigurationDismissed( true );
+	}, [ remoteDataProvider, dataProvider ] );
+
+	return { config, grantConsent, dismissPermanently };
 };
 
 /**
@@ -54,16 +73,17 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
  * @returns {JSX.Element} The widget.
  */
 export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove } ) => {
-	const { config, grantConsent } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
+	const { config, grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const handleOnRemove = useCallback( () => {
 		onRemove( "siteKitSetup" );
 	}, [ onRemove ] );
+
 	const handleRemovePermanently = useCallback( () => {
-		// Implement the remove permanently functionality.
+		dismissPermanently();
 		handleOnRemove();
-	}, [ handleOnRemove ] );
+	}, [ handleOnRemove, dismissPermanently ] );
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
@@ -97,7 +117,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove
 		},
 	];
 
-	return <Paper className="yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative">
+	return <Paper className="yst-grow xl:yst-col-span-2 yst-col-span-4 yst-p-8 yst-shadow-md yst-relative">
 		<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
 			<DropdownMenu.IconTrigger
 				screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) }
@@ -153,7 +173,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove
 		<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
 			{ overallCompleted
 				? <>
-					<Button onClick={ handleRemovePermanently }>
+					<Button onClick={ handleOnRemove }>
 						{ __( "Got it!", "wordpress-seo" ) }
 					</Button>
 				</>

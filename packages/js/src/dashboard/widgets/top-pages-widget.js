@@ -204,7 +204,7 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 		return <TopPagesTable data={ data } isIndexablesEnabled={ isIndexablesEnabled } isSeoAnalysisEnabled={ isSeoAnalysisEnabled } />;
 	};
 
-	return <Widget>
+	return <Widget className="yst-paper__content yst-col-span-4">
 		<div className="yst-flex yst-justify-between">
 			<WidgetTitle>{ TITLE }</WidgetTitle>
 			<InfoTooltip>
