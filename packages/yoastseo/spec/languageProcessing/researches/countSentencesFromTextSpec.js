@@ -76,7 +76,7 @@ describe( "counts words in sentences from text", function() {
 
 		expect( sentences[ 0 ].sentenceLength ).toBe( 7 );
 		expect( sentences[ 1 ].sentenceLength ).toBe( 6 );
-		expect( sentences[ 2 ].sentenceLength ).toBe( 4 )
+		expect( sentences[ 2 ].sentenceLength ).toBe( 4 );
 		expect( sentences[ 3 ].sentenceLength ).toBe( 5 );
 	} );
 	it( "returns Japanese sentences with many spaces (2nd sentence with half-width, 1st and 3rd sentence with fullwidth spaces", function() {
@@ -86,7 +86,7 @@ describe( "counts words in sentences from text", function() {
 
 		const sentences = getSentences( mockPaper, mockResearcher );
 
-		expect( sentences[ 0 ].sentenceLength ).toBe( 7);
+		expect( sentences[ 0 ].sentenceLength ).toBe( 7 );
 		expect( sentences[ 1 ].sentenceLength ).toBe( 6 );
 		expect( sentences[ 2 ].sentenceLength ).toBe( 5 );
 	} );
@@ -100,7 +100,7 @@ describe( "counts words in sentences from text", function() {
 		expect( sentences[ 0 ].sentenceLength ).toBe( 6 );
 	} );
 	it( "returns Japanese sentence with an embedded video; character count excludes the HTML", function() {
-		const mockPaper = new Paper( "いつ終わるの<iframe width=\"420\" height=\"315\"" +
+		const mockPaper = new Paper( "いつ終わるの<iframe width=\"420\" height=\"315\" " +
 			"src=\"https://www.youtube.com/embed/tgbNymZ7vqY\"></iframe>。春がやってきます。" );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );

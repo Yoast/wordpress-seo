@@ -14,7 +14,7 @@ export default function( text ) {
 	text = removeURLs( text );
 	text = sanitizeString( text );
 	text = text.replace( /\s/g, "" );
-	text = text.replace ( /[。．？！…‥，、・〜：゠＝（）「」『』〝〟〔〕【】［］｛｝〈〉《》]/g, "" );
+	text = text.replace( /[。．？！…‥，、・〜：゠＝（）「」『』〝〟〔〕【】［］｛｝〈〉《》]/g, "" );
 
 	return text.length;
 }
