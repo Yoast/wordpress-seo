@@ -11,11 +11,11 @@ use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups
 class Top_Page_Data implements Data_Interface {
 
 	/**
-	 * The search data for the top page.
+	 * The search ranking data for the top page.
 	 *
-	 * @var Search_Data $search_data
+	 * @var Search_Ranking_Data $search_ranking_data
 	 */
-	private $search_data;
+	private $search_ranking_data;
 
 	/**
 	 * The SEO score group the top page belongs to.
@@ -34,18 +34,18 @@ class Top_Page_Data implements Data_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Search_Data                $search_data     The search data for the top page.
-	 * @param SEO_Score_Groups_Interface $seo_score_group The SEO score group the top page belongs to.
-	 * @param string                     $edit_link       The edit link of the top page.
+	 * @param Search_Ranking_Data        $search_ranking_data The search ranking data for the top page.
+	 * @param SEO_Score_Groups_Interface $seo_score_group     The SEO score group the top page belongs to.
+	 * @param string                     $edit_link           The edit link of the top page.
 	 */
 	public function __construct(
-		Search_Data $search_data,
+		Search_Ranking_Data $search_ranking_data,
 		SEO_Score_Groups_Interface $seo_score_group,
 		?string $edit_link = null
 	) {
-		$this->search_data     = $search_data;
-		$this->seo_score_group = $seo_score_group;
-		$this->edit_link       = $edit_link;
+		$this->search_ranking_data = $search_ranking_data;
+		$this->seo_score_group     = $seo_score_group;
+		$this->edit_link           = $edit_link;
 	}
 
 	/**
@@ -54,7 +54,7 @@ class Top_Page_Data implements Data_Interface {
 	 * @return array<string|float|int|string[]>
 	 */
 	public function to_array(): array {
-		$top_page_data             = $this->search_data->to_array();
+		$top_page_data             = $this->search_ranking_data->to_array();
 		$top_page_data['seoScore'] = $this->seo_score_group->get_name();
 		$top_page_data['links']    = [];
 

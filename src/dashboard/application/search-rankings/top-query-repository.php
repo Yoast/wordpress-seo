@@ -29,9 +29,9 @@ class Top_Query_Repository implements Dashboard_Repository_Interface {
 	}
 
 	/**
-	 * Method to get search related data from a provider.
+	 * Gets the top queries' data.
 	 *
-	 * @param Parameters $parameters The parameter to get the search data for.
+	 * @param Parameters $parameters The parameter to use for getting the top queries.
 	 *
 	 * @return Data_Container
 	 */
