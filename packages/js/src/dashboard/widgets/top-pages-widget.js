@@ -52,7 +52,7 @@ const Info = ( { url } ) => (
 /**
  * The header for the SEO score column when disabled.
  *
- * @param {boolean} isIndexablesDisabled The indexables disabled status.
+ * @param {boolean} isIndexablesEnabled Whether indexables are enabled.
  *
  * @returns {JSX.Element} The element.
  */
