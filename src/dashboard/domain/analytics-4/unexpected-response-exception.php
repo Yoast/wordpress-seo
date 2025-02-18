@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Dashboard\Domain\Analytics_4;
 use Exception;
 
 /**
- * Exception for when a search console request returns with an unexpected response.
+ * Exception for when an Analytics 4 request returns with an unexpected response.
  */
 class Unexpected_Response_Exception extends Exception {
 

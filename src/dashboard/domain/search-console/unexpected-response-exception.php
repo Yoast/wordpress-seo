@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Dashboard\Domain\Search_Console;
 use Exception;
 
 /**
- * Exception for when a search console request returns with an unexpected response.
+ * Exception for when a Search Console request returns with an unexpected response.
  */
 class Unexpected_Response_Exception extends Exception {
 
