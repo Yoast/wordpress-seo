@@ -274,6 +274,23 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 24.6 =
+
+Release date: 2025-03-04
+
+#### Enhancements
+
+* Provides support for the Optimized Markup feature in Elementor.
+* Removes the breadcrumbs from the Search snippet preview in Mobile mode.
+
+#### Bugfixes
+
+* Fixes a bug where invalid inner blocks would be removed when saving a post in the block editor.
+
+#### Other
+
+* Sets the minimum supported WordPress version to 6.6.
+
 = 24.5 =
 
 Release date: 2025-02-18
@@ -292,19 +309,6 @@ Yoast SEO 24.5 brings more enhancements and bugfixes. [Find more information abo
 
 * Simplifies calculating the `date` replacement variable before displaying it in the frontend. Props to [apermo](https://github.com/apermo).
 * Updates the Yoast WooCommerce SEO integration cards with the latest Woo logo.
-
-= 24.4 =
-
-Release date: 2025-02-04
-
-Yoast SEO 24.4 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Bugfixes
-
-* Fixes a bug where editing a link in the block editor would have unexpected consequences when using undo.
-* Fixes a bug where the `article:modified_time` meta tag would show an earlier time than the `article:published_time` meta tag for scheduled posts.
-* Fixes a bug where the Schema type of the product would not be locked when Yoast WooCommerce SEO is enabled.
-* Fixes a bug where using hyphens at the start or end of a sentence would cripple the content analysis when editing a post.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
