@@ -148,4 +148,60 @@ describe( "TopPagesWidget", () => {
 			expect( screenReaderLabels ).toHaveLength( 5 );
 		} );
 	} );
+
+	it( "should render the TopPagesWidget component with an general error state", async() => {
+		// Mock the fetchJson method to throw an error.
+		const error = new Error( "Network Error" );
+		error.status = 500;
+		remoteDataProvider.fetchJson.mockRejectedValue( error );
+
+		const { getByRole } = render( <TopPagesWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
+		/> );
+
+		await waitFor( () => {
+			expect( getByRole( "status" ) )
+				.toHaveTextContent( "Something went wrong. Try refreshing the page. If the problem persists, please check our Support page." );
+			expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "https://example.com/error-support" );
+		} );
+	} );
+
+	it( "should render the TopPagesWidget component with an time out error state", async() => {
+		// Mock the fetchJson method to throw an error.
+		const error = new Error( "TimeoutError" );
+		error.status = 408;
+		remoteDataProvider.fetchJson.mockRejectedValue( error );
+
+		const { getByRole } = render( <TopPagesWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
+		/> );
+
+		await waitFor( () => {
+			expect( getByRole( "status" ) )
+				.toHaveTextContent( "The request timed out. Try refreshing the page. If the problem persists, please check our Support page." );
+			expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "https://example.com/error-support" );
+		} );
+	} );
+
+	it( "should render the TopPagesWidget component with an no permission error state", async() => {
+		const error = new Error( "NoPermissionError" );
+		error.status = 403;
+		remoteDataProvider.fetchJson.mockRejectedValue( error );
+
+		const { getByRole } = render( <TopPagesWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
+		/> );
+
+		await waitFor( () => {
+			expect( getByRole( "status" ) )
+				.toHaveTextContent( "You don’t have permission to access this resource. Please contact your admin for access. In case you need further help, please check our Support page." );
+			expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "https://example.com/error-support" );
+		} );
+	} );
 } );
