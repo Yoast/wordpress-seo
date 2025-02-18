@@ -10,14 +10,14 @@ use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Interface;
 class Daily_Traffic_Data implements Data_Interface {
 
 	/**
-	 * The day of the traffic data, in YYYYMMDD format.
+	 * The date of the traffic data, in YYYYMMDD format.
 	 *
-	 * @var string $day
+	 * @var string $date
 	 */
-	private $day;
+	private $date;
 
 	/**
-	 * The traffic data for the day.
+	 * The traffic data for the date.
 	 *
 	 * @var Traffic_Data $traffic_data
 	 */
@@ -26,11 +26,11 @@ class Daily_Traffic_Data implements Data_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param string       $day          The day of the traffic data, in YYYYMMDD format.
-	 * @param Traffic_Data $traffic_data The traffic data for the day.
+	 * @param string       $date         The date of the traffic data, in YYYYMMDD format.
+	 * @param Traffic_Data $traffic_data The traffic data for the date.
 	 */
-	public function __construct( string $day, Traffic_Data $traffic_data ) {
-		$this->day          = $day;
+	public function __construct( string $date, Traffic_Data $traffic_data ) {
+		$this->date         = $date;
 		$this->traffic_data = $traffic_data;
 	}
 
@@ -40,8 +40,8 @@ class Daily_Traffic_Data implements Data_Interface {
 	 * @return array<string,string,int>
 	 */
 	public function to_array(): array {
-		$result        = [];
-		$result['day'] = $this->day;
+		$result         = [];
+		$result['date'] = $this->date;
 
 		return \array_merge( $result, $this->traffic_data->to_array() );
 	}
