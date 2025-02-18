@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Interface;
 class Daily_Traffic_Data implements Data_Interface {
 
 	/**
-	 * The day of the traffic data.
+	 * The day of the traffic data, in YYYYMMDD format.
 	 *
 	 * @var string $day
 	 */
@@ -26,7 +26,7 @@ class Daily_Traffic_Data implements Data_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param string       $day          The day of the traffic data.
+	 * @param string       $day          The day of the traffic data, in YYYYMMDD format.
 	 * @param Traffic_Data $traffic_data The traffic data for the day.
 	 */
 	public function __construct( string $day, Traffic_Data $traffic_data ) {
