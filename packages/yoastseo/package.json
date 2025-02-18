@@ -28,10 +28,11 @@
     "build": "yarn clean && yarn build:js && yarn build:types",
     "build:js": "babel src --copy-files --source-maps --out-dir build",
     "build:types": "tsc",
-    "clean": "rm -rf build",
+    "clean": "rm -rf build types",
     "pretest": "grunt get-premium-configuration",
+    "export:inclusive-language": "jest exportInclusiveLanguage",
     "test": "jest",
-    "lint": "eslint . --max-warnings 26"
+    "lint": "eslint . --max-warnings 21"
   },
   "engines": {
     "node": ">=8.0.0"
