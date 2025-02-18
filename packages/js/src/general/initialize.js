@@ -125,6 +125,7 @@ domReady( () => { // eslint-disable-line complexity
 								userName={ userName }
 								features={ features }
 								links={ links }
+								sitekitFeatureEnabled={ siteKitConfiguration.isFeatureEnabled }
 							/>
 							<ConnectedPremiumUpsellList />
 						</SidebarLayout>

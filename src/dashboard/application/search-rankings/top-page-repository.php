@@ -52,8 +52,8 @@ class Top_Page_Repository implements Dashboard_Repository_Interface {
 	 */
 	public function get_data( Parameters $parameters ): Data_Container {
 
-		$top_pages_search_data = $this->site_kit_search_console_adapter->get_data( $parameters );
-		$top_pages_full_data   = $this->top_page_indexable_collector->get_data( $top_pages_search_data );
+		$top_pages_search_ranking_data = $this->site_kit_search_console_adapter->get_data( $parameters );
+		$top_pages_full_data           = $this->top_page_indexable_collector->get_data( $top_pages_search_ranking_data );
 
 		return $top_pages_full_data;
 	}

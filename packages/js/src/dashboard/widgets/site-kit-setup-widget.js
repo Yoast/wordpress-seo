@@ -120,7 +120,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, removeWi
 		},
 	];
 
-	return <Paper className="yst-grow yst-max-w-screen-sm yst-p-8 yst-shadow-md yst-relative">
+	return <Paper className="yst-grow xl:yst-col-span-2 yst-col-span-4 yst-p-8 yst-shadow-md yst-relative">
 		<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
 			<DropdownMenu.IconTrigger
 				screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) }
