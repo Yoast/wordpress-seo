@@ -1,12 +1,13 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Alert, Button, SkeletonLoader } from "@yoast/ui-library";
+import { Button, SkeletonLoader } from "@yoast/ui-library";
 import { PencilIcon } from "@heroicons/react/outline";
 import { useRemoteData } from "../services/use-remote-data";
 import { WidgetTable, Score } from "../components/widget-table";
 import { Widget, WidgetTitle } from "./widget";
 import { ArrowNarrowRightIcon  } from "@heroicons/react/solid";
 import { InfoTooltip } from "../components/info-tooltip";
+import { ErrorAlert } from "../components/error-alert";
 
 
 /**
@@ -194,7 +195,7 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 		}
 
 		if ( error ) {
-			return <Alert variant="error" className="yst-mt-4">{ error.message }</Alert>;
+			return <ErrorAlert error={ error } supportLink={ dataProvider.getLink( "errorSupport" ) } className="yst-mt-4" />;
 		}
 
 		if ( data.length === 0 ) {

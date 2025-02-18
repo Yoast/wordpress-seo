@@ -18,17 +18,17 @@ const createLinkMessage = ( message, link ) => {
 /**
  * Get Error message according to error name.
  *
- * @param {string} name The error name.
+ * @param {number} status The error name.
  * @returns {JSX.node} The error message.
  */
-const getErrorMessage = ( name, link ) => {
-	switch ( name ) {
-		case "TimeoutError":
+const getErrorMessage = ( status, link ) => {
+	switch ( status ) {
+		case 408:
 			return createLinkMessage(
 				/* translators: %1$s expands to an anchor start tag, %2$s to an anchor end tag. */
 				__( "The request timed out. Try refreshing the page. If the problem persists, please check our %1$sSupport page%2$s.", "wordpress-seo" ),
 				link );
-		case "NoPermissionError":
+		case 403:
 			return createLinkMessage(
 				/* translators: %1$s expands to an anchor start tag, %2$s to an anchor end tag. */
 				__( "You don’t have permission to access this resource. Please contact your admin for access. In case you need further help, please check our %1$sSupport page%2$s.", "wordpress-seo" ),
@@ -57,7 +57,7 @@ export const ErrorAlert = ( { error, supportLink, className = "" } ) => {
 
 	return (
 		<Alert variant="error" className={ className }>
-			{ getErrorMessage( error.name, link ) }
+			{ getErrorMessage( error.status, link ) }
 		</Alert>
 	);
 };
