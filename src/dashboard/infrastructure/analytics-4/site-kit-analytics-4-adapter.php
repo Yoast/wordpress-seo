@@ -213,11 +213,7 @@ class Site_Kit_Analytics_4_Adapter {
 	 * @return bool Whether it's a comparison request.
 	 */
 	protected function is_comparison_request( $response ): bool {
-		if ( \count( $response->dimensionHeaders ) === 1 && $response->dimensionHeaders[0]->name === 'dateRange' ) {
-			return true;
-		}
-
-		return false;
+		return \count( $response->dimensionHeaders ) === 1 && $response->dimensionHeaders[0]->name === 'dateRange';
 	}
 
 	/**
@@ -228,11 +224,7 @@ class Site_Kit_Analytics_4_Adapter {
 	 * @return bool Whether it's a daily request.
 	 */
 	protected function is_daily_request( $response ): bool {
-		if ( \count( $response->dimensionHeaders ) === 1 && $response->dimensionHeaders[0]->name === 'date' ) {
-			return true;
-		}
-
-		return false;
+		return \count( $response->dimensionHeaders ) === 1 && $response->dimensionHeaders[0]->name === 'date';
 	}
 
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
