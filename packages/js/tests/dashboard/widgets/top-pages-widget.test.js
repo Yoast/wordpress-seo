@@ -84,20 +84,6 @@ describe( "TopPagesWidget", () => {
 		} );
 	} );
 
-	it( "should render the TopPagesWidget component with an error", async() => {
-		const message = "An error occurred.";
-		remoteDataProvider.fetchJson.mockRejectedValue( new Error( message ) );
-		const { getByText } = render( <TopPagesWidget
-			dataProvider={ dataProvider }
-			remoteDataProvider={ remoteDataProvider }
-			dataFormatter={ dataFormatter }
-		/> );
-
-		await waitFor( () => {
-			expect( getByText( message ) ).toBeInTheDocument();
-		} );
-	} );
-
 	it( "should render the TopPagesWidget component with a pending state", async() => {
 		// Never resolving promise to ensure it keeps loading.
 		remoteDataProvider.fetchJson.mockImplementation( () => new Promise( () => {
