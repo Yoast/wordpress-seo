@@ -1,11 +1,10 @@
-import { createInterpolateElement, useCallback, useEffect, useState } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Link } from "@yoast/ui-library";
+import { useCallback, useEffect, useState } from "@wordpress/element";
 import { useRemoteData } from "../../services/use-remote-data";
 import { SCORE_DESCRIPTIONS } from "../score-meta";
 import { ContentTypeFilter } from "./content-type-filter";
 import { ScoreContent } from "./score-content";
 import { TermFilter } from "./term-filter";
+import { ErrorAlert } from "../../components/error-alert";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -13,50 +12,6 @@ import { TermFilter } from "./term-filter";
  * @type {import("../index").Term} Term
  * @type {import("../index").AnalysisType} AnalysisType
  */
-
-/**
- * @param {string} message The message with placeholders.
- * @param {JSX.Element} link The link.
- * @returns {JSX.Element|string} The message.
- */
-const createLinkMessage = ( message, link ) => {
-	try {
-		return createInterpolateElement( sprintf( message, "<link>", "</link>" ), { link } );
-	} catch ( e ) {
-		return sprintf( message, "", "" );
-	}
-};
-
-/**
- * @param {Error?} [error] The error.
- * @param {string} supportLink The support link.
- * @returns {JSX.Element} The element.
- */
-const ErrorAlert = ( { error, supportLink } ) => {
-	if ( ! error ) {
-		return null;
-	}
-
-	// Added dummy space as content to prevent children prop warnings in the console.
-	const link = <Link variant="error" href={ supportLink }> </Link>;
-
-	return (
-		<Alert variant="error">
-			{ error?.name === "TimeoutError"
-				? createLinkMessage(
-					/* translators: %1$s and %2$s expand to an opening/closing tag for a link to the support page. */
-					__( "A timeout occurred, possibly due to a large number of posts or terms. In case you need further help, please take a look at our %1$sSupport page%2$s.", "wordpress-seo" ),
-					link
-				)
-				: createLinkMessage(
-					/* translators: %1$s and %2$s expand to an opening/closing tag for a link to the support page. */
-					__( "Something went wrong. In case you need further help, please take a look at our %1$sSupport page%2$s.", "wordpress-seo" ),
-					link
-				)
-			}
-		</Alert>
-	);
-};
 
 /**
  * @param {ContentType?} [contentType] The selected content type.
