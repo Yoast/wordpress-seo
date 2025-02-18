@@ -10,29 +10,18 @@ use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Interface;
 class Traffic_Data implements Data_Interface {
 
 	/**
-	 * The sessions.
+	 * The sessions, if any.
 	 *
-	 * @var int $sessions
+	 * @var int|null $sessions
 	 */
 	private $sessions;
 
 	/**
-	 * The total users.
+	 * The total users, if any.
 	 *
-	 * @var int $total_users
+	 * @var int|null $total_users
 	 */
 	private $total_users;
-
-	/**
-	 * The constructor.
-	 *
-	 * @param int $sessions    The sessions.
-	 * @param int $total_users The total users.
-	 */
-	public function __construct( ?int $sessions = null, ?int $total_users = null ) {
-		$this->sessions    = $sessions;
-		$this->total_users = $total_users;
-	}
 
 	/**
 	 * The array representation of this domain object.
