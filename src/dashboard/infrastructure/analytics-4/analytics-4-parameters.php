@@ -14,28 +14,28 @@ class Analytics_4_Parameters extends Parameters {
 	 *
 	 * @var array<array<string,string>> $dimensions
 	 */
-	private $dimensions;
+	private $dimensions = [];
 
 	/**
 	 * The dimensions filters.
 	 *
 	 * @var array<string, array<string>> $dimension_filters
 	 */
-	private $dimension_filters;
+	private $dimension_filters = [];
 
 	/**
 	 * The metrics.
 	 *
 	 * @var array<array<string,string>> $metrics
 	 */
-	private $metrics;
+	private $metrics = [];
 
 	/**
 	 * The order by.
 	 *
 	 * @var array<array<string,array<string,string>>> $order_by
 	 */
-	private $order_by;
+	private $order_by = [];
 
 	/**
 	 * Sets the dimensions.
@@ -57,7 +57,7 @@ class Analytics_4_Parameters extends Parameters {
 	 *
 	 * @return array<array<string,string>>
 	 */
-	public function get_dimensions(): ?array {
+	public function get_dimensions(): array {
 		return $this->dimensions;
 	}
 
@@ -77,7 +77,7 @@ class Analytics_4_Parameters extends Parameters {
 	 *
 	 * @return array<string, array<string>>
 	 */
-	public function get_dimension_filters(): ?array {
+	public function get_dimension_filters(): array {
 		return $this->dimension_filters;
 	}
 
@@ -101,7 +101,7 @@ class Analytics_4_Parameters extends Parameters {
 	 *
 	 * @return array<array<string,string>>
 	 */
-	public function get_metrics(): ?array {
+	public function get_metrics(): array {
 		return $this->metrics;
 	}
 
@@ -132,7 +132,7 @@ class Analytics_4_Parameters extends Parameters {
 	 *
 	 * @return array<array<string,array<string,string>>>
 	 */
-	public function get_order_by(): ?array {
+	public function get_order_by(): array {
 		return $this->order_by;
 	}
 }
