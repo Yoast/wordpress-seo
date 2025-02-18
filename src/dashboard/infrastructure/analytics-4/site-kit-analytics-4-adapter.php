@@ -7,8 +7,10 @@ use Google\Site_Kit\Core\Modules\Module;
 use Google\Site_Kit\Core\Modules\Modules;
 use Google\Site_Kit\Modules\Analytics_4;
 use Google\Site_Kit\Plugin;
+use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Invalid_Request_Exception;
+use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Unexpected_Response_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Traffic\Comparison_Traffic_Data;
 use Yoast\WP\SEO\Dashboard\Domain\Traffic\Daily_Traffic_Data;
@@ -47,6 +49,7 @@ class Site_Kit_Analytics_4_Adapter {
 	 * @return Data_Container The Site Kit API response.
 	 *
 	 * @throws Failed_Request_Exception When the request responds with an error from Site Kit.
+	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 */
 	public function get_data( Analytics_4_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
@@ -56,6 +59,10 @@ class Site_Kit_Analytics_4_Adapter {
 			$error_data        = $response->get_error_data();
 			$error_status_code = ( $error_data['status'] ?? 500 );
 			throw new Failed_Request_Exception( \wp_kses_post( $response->get_error_message() ), (int) $error_status_code );
+		}
+
+		if ( ! \is_a( $response, RunReportResponse::class ) ) {
+			throw new Unexpected_Response_Exception();
 		}
 
 		return $this->parse_response( $response );
@@ -100,19 +107,16 @@ class Site_Kit_Analytics_4_Adapter {
 		return $api_parameters;
 	}
 
-	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint  -- Reason: Parameters comes from Site Kit, no control over it.
-	// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase  -- Reason: Object properties come from Site Kit, no control over it.
-
 	/**
 	 * Parses a response for a Site Kit API request for Analytics 4.
 	 *
-	 * @param mixed $response The response to parse.
+	 * @param RunReportResponse $response The response to parse.
 	 *
 	 * @return Data_Container The parsed response.
 	 *
 	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
 	 */
-	protected function parse_response( $response ): Data_Container {
+	protected function parse_response( RunReportResponse $response ): Data_Container {
 		if ( $this->is_daily_request( $response ) ) {
 			return $this->parse_daily_response( $response );
 		}
@@ -127,23 +131,22 @@ class Site_Kit_Analytics_4_Adapter {
 	/**
 	 * Parses a response for a Site Kit API request that requests daily data for Analytics 4.
 	 *
-	 * @param mixed $response The response to parse.
+	 * @param RunReportResponse $response The response to parse.
 	 *
 	 * @return Data_Container The parsed response.
 	 */
-	protected function parse_daily_response( $response ): Data_Container {
+	protected function parse_daily_response( RunReportResponse $response ): Data_Container {
 		$data_container = new Data_Container();
 
-		foreach ( $response->rows as $daily_traffic ) {
+		foreach ( $response->getRows() as $daily_traffic ) {
 			$traffic_data = new Traffic_Data();
 
-			foreach ( $response->metricHeaders as $key => $metric ) {
+			foreach ( $response->getMetricHeaders() as $key => $metric ) {
 
-				// @TODO: Maybe use class methods like MetricValue::getValue() instead of ->value.
 				// As per https://developers.google.com/analytics/devguides/reporting/data/v1/basics#read_the_response,
 				// the order of the columns is consistent in the request, header, and rows.
 				// So we can use the key of the header to get the correct metric value from the row.
-				$metric_value = $daily_traffic->metricValues[ $key ]->value;
+				$metric_value = $daily_traffic->getMetricValues()[ $key ]->getValue();
 
 				if ( $metric->name === 'sessions' ) {
 					$traffic_data->set_sessions( (int) $metric_value );
@@ -154,7 +157,7 @@ class Site_Kit_Analytics_4_Adapter {
 			}
 
 			// Since we're here, we know that the first dimension is date, so we know that dimensionValues[0]->value is a date.
-			$data_container->add_data( new Daily_Traffic_Data( $daily_traffic->dimensionValues[0]->value, $traffic_data ) );
+			$data_container->add_data( new Daily_Traffic_Data( $daily_traffic->getDimensionValues()[0]->getValue(), $traffic_data ) );
 		}
 
 		return $data_container;
@@ -163,26 +166,25 @@ class Site_Kit_Analytics_4_Adapter {
 	/**
 	 * Parses a response for a Site Kit API request for Analytics 4 that compares data ranges.
 	 *
-	 * @param mixed $response The response to parse.
+	 * @param RunReportResponse $response The response to parse.
 	 *
 	 * @return Data_Container The parsed response.
 	 */
-	protected function parse_comparison_response( $response ): Data_Container {
+	protected function parse_comparison_response( RunReportResponse $response ): Data_Container {
 		$data_container          = new Data_Container();
 		$comparison_traffic_data = new Comparison_Traffic_Data();
 
 		// First row is the current date range's data, second row is the previous date range's data.
-		foreach ( $response->rows as $date_range_key => $date_range_row ) {
+		foreach ( $response->getRows() as $date_range_key => $date_range_row ) {
 			$traffic_data = new Traffic_Data();
 
 			// Loop through all the metrics of the date range.
-			foreach ( $response->metricHeaders as $key => $metric ) {
+			foreach ( $response->getMetricHeaders() as $key => $metric ) {
 
-				// @TODO: Maybe use class methods like MetricValue::getValue() instead of ->value.
 				// As per https://developers.google.com/analytics/devguides/reporting/data/v1/basics#read_the_response,
 				// the order of the columns is consistent in the request, header, and rows.
 				// So we can use the key of the header to get the correct metric value from the row.
-				$metric_value = $date_range_row->metricValues[ $key ]->value;
+				$metric_value = $date_range_row->getMetricValues()[ $key ]->getValue();
 
 				if ( $metric->name === 'sessions' ) {
 					$traffic_data->set_sessions( (int) $metric_value );
@@ -208,25 +210,22 @@ class Site_Kit_Analytics_4_Adapter {
 	/**
 	 * Checks the response of the request to detect if it's a comparison request.
 	 *
-	 * @param mixed $response The response.
+	 * @param RunReportResponse $response The response.
 	 *
 	 * @return bool Whether it's a comparison request.
 	 */
-	protected function is_comparison_request( $response ): bool {
-		return \count( $response->dimensionHeaders ) === 1 && $response->dimensionHeaders[0]->name === 'dateRange';
+	protected function is_comparison_request( RunReportResponse $response ): bool {
+		return \count( $response->getDimensionHeaders() ) === 1 && $response->getDimensionHeaders()[0]->getName() === 'dateRange';
 	}
 
 	/**
 	 * Checks the response of the request to detect if it's a daily request.
 	 *
-	 * @param mixed $response The response.
+	 * @param RunReportResponse $response The response.
 	 *
 	 * @return bool Whether it's a daily request.
 	 */
-	protected function is_daily_request( $response ): bool {
-		return \count( $response->dimensionHeaders ) === 1 && $response->dimensionHeaders[0]->name === 'date';
+	protected function is_daily_request( RunReportResponse $response ): bool {
+		return \count( $response->getDimensionHeaders() ) === 1 && $response->getDimensionHeaders()[0]->getName() === 'date';
 	}
-
-	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
-	// phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 }
