@@ -29,7 +29,7 @@ describe( "Search", () => {
 
 	it( "should have a search button", () => {
 		const button = screen.getByRole( "button" );
-		expect( button ).toHaveTextContent( "Quick search..." );
+		expect( button ).toHaveTextContent( "Quick search…" );
 		expect( button ).toMatchSnapshot();
 	} );
 
@@ -47,7 +47,7 @@ describe( "Search", () => {
 
 		it( "should contain a combobox", () => {
 			const input = screen.getByRole( "combobox" );
-			expect( input.placeholder ).toBe( "Search..." );
+			expect( input.placeholder ).toBe( "Search…" );
 			expect( input ).toHaveFocus();
 		} );
 
