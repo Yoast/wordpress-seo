@@ -27,7 +27,8 @@ const getErrorMessage = ( status, link ) => {
 			return createLinkMessage(
 				/* translators: %1$s expands to an anchor start tag, %2$s to an anchor end tag. */
 				__( "The request timed out. Try refreshing the page. If the problem persists, please check our %1$sSupport page%2$s.", "wordpress-seo" ),
-				link );
+				link
+			);
 		case 403:
 			return createLinkMessage(
 				/* translators: %1$s expands to an anchor start tag, %2$s to an anchor end tag. */
