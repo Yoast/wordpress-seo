@@ -26,10 +26,11 @@ const prepareWidgetInstance = ( type ) => {
  * @param {string} userName The user name.
  * @param {Features} features Whether features are enabled.
  * @param {Links} links The links.
+ * @param {boolean} sitekitFeatureEnabled Whether the site kit feature is enabled.
  *
  * @returns {JSX.Element} The element.
  */
-export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, features, links } ) => {
+export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, features, links, sitekitFeatureEnabled } ) => {
 	const [ widgets, setWidgets ] = useState( () => initialWidgets.map( prepareWidgetInstance ) );
 
 	// eslint-disable-next-line no-unused-vars
@@ -43,8 +44,8 @@ export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, featu
 
 	return (
 		<>
-			<PageTitle userName={ userName } features={ features } links={ links } />
-			<div className="yst-flex yst-flex-col @7xl:yst-flex-row yst-gap-6 yst-my-6">
+			<PageTitle userName={ userName } features={ features } links={ links } sitekitFeatureEnabled={ sitekitFeatureEnabled } />
+			<div className="yst-grid yst-grid-cols-4 yst-gap-6 yst-my-6">
 				{ widgets.map( ( widget ) => widgetFactory.createWidget( widget, removeWidget ) ) }
 			</div>
 		</>

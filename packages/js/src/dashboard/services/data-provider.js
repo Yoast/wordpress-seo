@@ -100,4 +100,15 @@ export class DataProvider {
 			isConnected,
 		};
 	}
+
+	/**
+	 * @param {boolean} isConfigurationDismissed Whether the site kit configuration is (permanently) dismissed.
+	 */
+	setSiteKitConfigurationDismissed( isConfigurationDismissed ) {
+		// This creates a new object to avoid mutation and force re-rendering.
+		this.#siteKitConfiguration = {
+			...this.#siteKitConfiguration,
+			isConfigurationDismissed,
+		};
+	}
 }

@@ -63,6 +63,7 @@ domReady( () => { // eslint-disable-line complexity
 		seoScores: get( window, "wpseoScriptData.dashboard.endpoints.seoScores", "" ),
 		readabilityScores: get( window, "wpseoScriptData.dashboard.endpoints.readabilityScores", "" ),
 		timeBasedSeoMetrics: get( window, "wpseoScriptData.dashboard.endpoints.timeBasedSeoMetrics", "" ),
+		siteKitConfigurationDismissal: get( window, "wpseoScriptData.dashboard.endpoints.siteKitConfigurationDismissal", "" ),
 		siteKitConsentManagement: get( window, "wpseoScriptData.dashboard.endpoints.siteKitConsentManagement", "" ),
 	};
 	/** @type {Object<string,string>} */
@@ -88,6 +89,7 @@ domReady( () => { // eslint-disable-line complexity
 		activateUrl: "",
 		setupUrl: "",
 		isFeatureEnabled: false,
+		isConfigurationDismissed: false,
 	} );
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
@@ -98,7 +100,7 @@ domReady( () => { // eslint-disable-line complexity
 	const initialWidgets = [];
 
 	// If site kit feature is enabled, add the site kit setup widget.
-	if ( siteKitConfiguration.isFeatureEnabled && ! siteKitConfiguration.isConnected ) {
+	if ( siteKitConfiguration.isFeatureEnabled && ! siteKitConfiguration.isConfigurationDismissed && ! siteKitConfiguration.isConnected ) {
 		initialWidgets.push( "siteKitSetup" );
 	}
 
@@ -124,6 +126,7 @@ domReady( () => { // eslint-disable-line complexity
 								userName={ userName }
 								features={ features }
 								links={ links }
+								sitekitFeatureEnabled={ siteKitConfiguration.isFeatureEnabled }
 							/>
 							<ConnectedPremiumUpsellList />
 						</SidebarLayout>
