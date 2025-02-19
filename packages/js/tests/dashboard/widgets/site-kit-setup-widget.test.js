@@ -9,6 +9,11 @@ describe( "SiteKitSetupWidget", () => {
 	const remoteDataProvider = new MockRemoteDataProvider( {} );
 	const removeWidget = jest.fn();
 	const addWidget = jest.fn();
+	const props = {
+		siteKitWidgets: [ "topPages" ],
+		removeWidget,
+		addWidget,
+	};
 
 	beforeEach( () => {
 		dataProvider = new MockDataProvider();
@@ -20,8 +25,7 @@ describe( "SiteKitSetupWidget", () => {
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
-			removeWidget={ removeWidget }
-			addWidget={ addWidget }
+			{ ...props }
 		/> );
 		const installLink = screen.getByRole( "link", { name: /Install Site Kit by Google/i } );
 		expect( installLink ).toBeInTheDocument();
@@ -32,8 +36,7 @@ describe( "SiteKitSetupWidget", () => {
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
-			removeWidget={ removeWidget }
-			addWidget={ addWidget }
+			{ ...props }
 		/> );
 		const learnMoreLink = screen.getByRole( "link", { name: /Learn more/i } );
 		expect( learnMoreLink ).toBeInTheDocument();
@@ -49,8 +52,7 @@ describe( "SiteKitSetupWidget", () => {
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
-			removeWidget={ removeWidget }
-			addWidget={ addWidget }
+			{ ...props }
 		/> );
 		const activateLink = screen.getByRole( "link", { name: /Activate Site Kit by Google/i } );
 		expect( activateLink ).toBeInTheDocument();
@@ -67,8 +69,7 @@ describe( "SiteKitSetupWidget", () => {
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
-			removeWidget={ removeWidget }
-			addWidget={ addWidget }
+			{ ...props }
 		/> );
 		const setupLink = screen.getByRole( "link", { name: /Set up Site Kit by Google/i } );
 		expect( setupLink ).toBeInTheDocument();
@@ -86,8 +87,7 @@ describe( "SiteKitSetupWidget", () => {
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
-			removeWidget={ removeWidget }
-			addWidget={ addWidget }
+			{ ...props }
 		/> );
 		expect( screen.getByRole( "button", { name: /Connect Site Kit by Google/i } ) ).toBeInTheDocument();
 	} );
@@ -103,8 +103,7 @@ describe( "SiteKitSetupWidget", () => {
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
-			removeWidget={ removeWidget }
-			addWidget={ addWidget }
+			{ ...props }
 		/> );
 		const connectButton = screen.getByRole( "button", { name: /Connect Site Kit by Google/i } );
 		fireEvent.click( connectButton );
@@ -121,10 +120,9 @@ describe( "SiteKitSetupWidget", () => {
 		} );
 		remoteDataProvider.fetchJson.mockResolvedValueOnce( { success: true } );
 		render( <SiteKitSetupWidget
+			{ ...props }
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
-			removeWidget={ removeWidget }
-			addWidget={ addWidget }
 		/> );
 		fireEvent.click( screen.getByRole( "button", { name: /Connect Site Kit by Google/i } ) );
 
@@ -152,8 +150,7 @@ describe( "SiteKitSetupWidget", () => {
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
-			removeWidget={ removeWidget }
-			addWidget={ addWidget }
+			{ ...props }
 		/> );
 		fireEvent.click( screen.getByRole( "button", { name: /Connect Site Kit by Google/i } ) );
 
@@ -163,6 +160,7 @@ describe( "SiteKitSetupWidget", () => {
 			expect( grantConsentButton ).toBeInTheDocument();
 		} );
 		expect( screen.queryByRole( "button", { name: /Got it!/i } ) ).not.toBeInTheDocument();
+		expect( addWidget ).toHaveBeenCalledWith( "topPages" );
 
 		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
 			"https://example.com/site-kit-consent-management",
@@ -183,8 +181,7 @@ describe( "SiteKitSetupWidget", () => {
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
-			removeWidget={ removeWidget }
-			addWidget={ addWidget }
+			{ ...props }
 		/> );
 		fireEvent.click( screen.getByRole( "button", { name: /Connect Site Kit by Google/i } ) );
 
@@ -203,6 +200,7 @@ describe( "SiteKitSetupWidget", () => {
 	} );
 
 	it( "renders the widget with dismiss button when connected", () => {
+		remoteDataProvider.fetchJson.mockResolvedValueOnce( { success: true } );
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				isInstalled: true,
@@ -214,14 +212,12 @@ describe( "SiteKitSetupWidget", () => {
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
-			removeWidget={ removeWidget }
-			addWidget={ addWidget }
+			{ ...props }
 		/> );
 		const dismissButton = screen.getByRole( "button", { name: /Got it/i } );
 		expect( dismissButton ).toBeInTheDocument();
 		fireEvent.click( dismissButton );
 		expect( removeWidget ).toHaveBeenCalledWith( "siteKitSetup" );
-		expect( addWidget ).toHaveBeenCalledWith( "topPages" );
 	} );
 
 	it( "opens the menu and calls dismissPermanently and removeWidget when 'Remove permanently' is clicked", async() => {
@@ -235,8 +231,7 @@ describe( "SiteKitSetupWidget", () => {
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
-			removeWidget={ removeWidget }
-			addWidget={ addWidget }
+			{ ...props }
 		/> );
 		fireEvent.click( screen.getByRole( "button", { name: /Open Site Kit widget dropdown menu/i } ) );
 		const removeButton = screen.getByRole( "menuitem", { name: /Remove permanently/i, type: "button" } );

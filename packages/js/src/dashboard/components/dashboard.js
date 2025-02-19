@@ -34,17 +34,8 @@ export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, featu
 	const [ widgets, setWidgets ] = useState( () => initialWidgets.map( prepareWidgetInstance ) );
 
 
-	const addWidget = useCallback( ( type, index = null ) => {
-		if ( typeof index !== "number" ) {
-			setWidgets( ( currentWidgets ) => [ ...currentWidgets, prepareWidgetInstance( type ) ] );
-			return;
-		}
-
-		setWidgets( ( currentWidgets ) => {
-			const newWidgets = [ ...currentWidgets ];
-			newWidgets.splice( index, 0, prepareWidgetInstance( type ) );
-			return newWidgets;
-		} );
+	const addWidget = useCallback( ( type ) => {
+		setWidgets( ( currentWidgets ) => [ prepareWidgetInstance( type ), ...currentWidgets ] );
 	}, [] );
 
 	const removeWidget = useCallback( ( type ) => {

@@ -5,7 +5,7 @@ import { TopPagesWidget } from "../widgets/top-pages-widget";
 
 /**
  * @type {import("../index").WidgetType} WidgetType
- * @type {import("../index").WidgetTypeInfo} WidgetTypeInfo
+ * @type {import("../index").WidgetTypes} WidgetTypes
  */
 
 /**
@@ -28,15 +28,15 @@ export class WidgetFactory {
 	}
 
 	/**
-	 * @returns {WidgetTypeInfo[]}
+	 * @returns {WidgetTypes} The widget types.
 	 */
-	static get widgetTypes() {
-		return [
-			{ type: "seoScores" },
-			{ type: "readabilityScores" },
-			{ type: "topPages" },
-			{ type: "siteKitSetup" },
-		];
+	static get types() {
+		return {
+			seoScores: "seoScores",
+			readabilityScores: "readabilityScores",
+			topPages: "topPages",
+			siteKitSetup: "siteKitSetup",
+		};
 	}
 
 	/**
@@ -47,7 +47,7 @@ export class WidgetFactory {
 	 */
 	createWidget( widget, onRemove, onAdd ) {
 		switch ( widget.type ) {
-			case "seoScores":
+			case WidgetFactory.types.seoScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
 					return null;
 				}
@@ -57,7 +57,7 @@ export class WidgetFactory {
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
-			case "readabilityScores":
+			case WidgetFactory.types.readabilityScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "readabilityAnalysis" ) ) ) {
 					return null;
 				}
@@ -67,14 +67,14 @@ export class WidgetFactory {
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
-			case "topPages":
+			case WidgetFactory.types.topPages:
 				return <TopPagesWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatter }
 				/>;
-			case "siteKitSetup":
+			case WidgetFactory.types.siteKitSetup:
 				// This check here makes sure we don't render the setup anymore if the user connected and then switches away from the dashboard.
 				// Then switches back to the dashboard, but does not refresh.
 				if ( this.#dataProvider.getSiteKitConfiguration().isConnected ||
@@ -87,6 +87,7 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 					removeWidget={ onRemove }
 					addWidget={ onAdd }
+					siteKitWidgets={ [ WidgetFactory.types.topPages ] }
 				/>;
 			default:
 				return null;

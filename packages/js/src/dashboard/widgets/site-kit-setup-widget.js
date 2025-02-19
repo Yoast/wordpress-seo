@@ -31,10 +31,10 @@ const steps = [
 /**
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @param {function} addWidget The function to call when a new widget is added.
+ * @param {function} addSiteKitWidgets The function add the site kit widgets.
  * @returns {UseSiteKitConfiguration} The site kit configuration and helper methods.
  */
-const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addWidget ) => {
+const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addSiteKitWidgets ) => {
 	const [ config, setConfig ] = useState( () => dataProvider.getSiteKitConfiguration() );
 
 	const grantConsent = useCallback( ( options ) => {
@@ -45,7 +45,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addWidget ) 
 		).then( ( { success } ) => {
 			if ( success ) {
 				dataProvider.setSiteKitConnected( true );
-				addWidget( "topPages", 0 );
+				addSiteKitWidgets();
 				setConfig( dataProvider.getSiteKitConfiguration() );
 			}
 		} ).catch( noop );
@@ -72,11 +72,16 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addWidget ) 
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
  * @param {function} removeWidget The function to call when the widget is removed.
  * @param {function} addWidget The function to call when a new widget is added.
+ * @param {WidgetType[]} siteKitWidgets The site kit widgets.
  *
  * @returns {JSX.Element} The widget.
  */
-export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, removeWidget, addWidget } ) => {
-	const { config, grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider, addWidget );
+export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, removeWidget, addWidget, siteKitWidgets } ) => {
+	const handleAddSiteKitWidgets = useCallback( () => {
+		siteKitWidgets.forEach( ( type ) => addWidget( type ) );
+	}, [ siteKitWidgets, addWidget ] );
+
+	const { config, grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider, handleAddSiteKitWidgets );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const handleOnRemove = useCallback( () => {
