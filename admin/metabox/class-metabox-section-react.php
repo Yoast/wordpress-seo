@@ -108,7 +108,9 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 			esc_attr( $this->name )
 		);
 		echo wp_kses_post( $this->content );
-		echo '<div id="wpseo-metabox-root" class="wpseo-metabox-root"></div>';
+		if ( 'content' === $this->name ) {
+			echo '<div id="wpseo-metabox-root" class="wpseo-metabox-root"></div>';
+		}
 		echo wp_kses_post( $this->html_after );
 		echo '</div>';
 
