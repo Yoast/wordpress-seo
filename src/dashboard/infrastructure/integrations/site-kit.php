@@ -78,6 +78,14 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 	private function is_connected() {
 		return $this->site_kit_consent_repository->is_consent_granted();
 	}
+	/**
+	 * If Google analytics is connected.
+	 *
+	 * @return bool If Google analytics is connected.
+	 */
+	public function is_ga_connected() {
+		return \in_array('analytics-4',\get_option( 'googlesitekit_active_modules', false ),true);
+	}
 
 	/**
 	 * If the entire onboarding has been completed.
@@ -115,6 +123,7 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 			'isActive'                 => $this->is_enabled(),
 			'isSetupCompleted'         => $this->is_setup_completed(),
 			'isConnected'              => $this->is_connected(),
+			'isGAConnected' => $this->is_ga_connected(),
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'installUrl'               => $site_kit_install_url,
 			'activateUrl'              => $site_kit_activate_url,
