@@ -2,6 +2,7 @@
 import { ScoreWidget } from "../widgets/score-widget";
 import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
 import { TopPagesWidget } from "../widgets/top-pages-widget";
+import { TopQueriesWidget } from "../widgets/top-queries-widget";
 
 /**
  * @type {import("../index").WidgetType} WidgetType
@@ -35,6 +36,7 @@ export class WidgetFactory {
 			readabilityScores: "readabilityScores",
 			topPages: "topPages",
 			siteKitSetup: "siteKitSetup",
+			topQueries: "topQueries",
 		};
 	}
 
@@ -86,6 +88,13 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 					removeWidget={ onRemove }
 					addWidget={ onAdd }
+				/>;
+			case WidgetFactory.types.topQueries:
+				return <TopQueriesWidget
+					key={ widget.id }
+					dataProvider={ this.#dataProvider }
+					remoteDataProvider={ this.#remoteDataProvider }
+					dataFormatter={ this.#dataFormatter }
 				/>;
 			default:
 				return null;
