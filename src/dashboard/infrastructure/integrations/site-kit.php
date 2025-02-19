@@ -62,6 +62,33 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 	}
 
 	/**
+	 * If the Google site kit setup has been completed.
+	 *
+	 * @return bool If the Google site kit setup has been completed.
+	 */
+	private function is_setup_completed() {
+		return \get_option( 'googlesitekit_has_connected_admins', false ) === '1';
+	}
+
+	/**
+	 * If consent has been granted.
+	 *
+	 * @return bool If consent has been granted.
+	 */
+	private function is_connected() {
+		return $this->site_kit_consent_repository->is_consent_granted();
+	}
+
+	/**
+	 * If the entire onboarding has been completed.
+	 *
+	 * @return bool If the entire onboarding has been completed.
+	 */
+	public function is_onboarded() {
+		return ( $this->is_connected() && $this->is_setup_completed() && $this->is_connected() );
+	}
+
+	/**
 	 * Return this object represented by a key value array.
 	 *
 	 * @return array<string,bool> Returns the name and if the feature is enabled.
@@ -85,9 +112,9 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 
 		return [
 			'isInstalled'              => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
-			'isActive'                 => \is_plugin_active( self::SITE_KIT_FILE ),
-			'isSetupCompleted'         => \get_option( 'googlesitekit_has_connected_admins', false ) === '1',
-			'isConnected'              => $this->site_kit_consent_repository->is_consent_granted(),
+			'isActive'                 => $this->is_enabled(),
+			'isSetupCompleted'         => $this->is_setup_completed(),
+			'isConnected'              => $this->is_connected(),
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'installUrl'               => $site_kit_install_url,
 			'activateUrl'              => $site_kit_activate_url,
