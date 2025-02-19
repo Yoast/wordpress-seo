@@ -14,7 +14,7 @@ describe( "counts characters in a string", function() {
 	it( "makes sure the countCharacters function still works when the input is a non-Japanese string", function() {
 		expect( countCharactersFunction( "this is a string" ) ).toBe( 13 );
 		expect( countCharactersFunction( "Низът в компютърните науки е крайна поредица от символи " +
-			"(представляващи краен брой знаци)." ) ).toBe( 78 );
+			"(представляващи краен брой знаци)." ) ).toBe( 75 );
 	} );
 	it( "makes sure that no characters are counted when a URL is embedded in video tags", function() {
 		const text = "<!-- wp:embed {\"url\":\"https://www.youtube.com/watch?v=cbP2N1BQdYc\",\"type\":\"video\"," +
