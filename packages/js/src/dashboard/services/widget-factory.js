@@ -6,6 +6,7 @@ import { TopPagesWidget } from "../widgets/top-pages-widget";
 /**
  * @type {import("../index").WidgetType} WidgetType
  * @type {import("../index").WidgetTypeInfo} WidgetTypeInfo
+ * @type {import("../index").WidgetInstance} WidgetInstance
  */
 
 /**
@@ -32,11 +33,26 @@ export class WidgetFactory {
 	 */
 	static get widgetTypes() {
 		return [
-			{ type: "seoScores" },
-			{ type: "readabilityScores" },
-			{ type: "topPages" },
-			{ type: "siteKitSetup" },
+			{ type: "seoScores", renderPriority: 1 },
+			{ type: "readabilityScores", renderPriority: 2 },
+			{ type: "topPages", renderPriority: 0 },
+			{ type: "siteKitSetup", renderPriority: 0 },
 		];
+	}
+
+	/**
+	 * Sort by render priority.
+	 *
+	 * @param {WidgetInstance[]} widgets The first widget.
+	 * @returns {WidgetInstance[]} The sort value.
+	 */
+	sortWidgetsByRenderPriority( widgets ) {
+		return widgets.sort( ( a, b ) => {
+			const aType = WidgetFactory.widgetTypes.find( ( widget ) => widget.type === a.type );
+			const bType = WidgetFactory.widgetTypes.find( ( widget ) => widget.type === b.type );
+
+			return aType.renderPriority - bType.renderPriority;
+		} );
 	}
 
 	/**

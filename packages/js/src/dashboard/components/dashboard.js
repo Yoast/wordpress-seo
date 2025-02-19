@@ -31,19 +31,12 @@ const prepareWidgetInstance = ( type ) => {
  * @returns {JSX.Element} The element.
  */
 export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, features, links, sitekitFeatureEnabled } ) => {
-	const [ widgets, setWidgets ] = useState( () => initialWidgets.map( prepareWidgetInstance ) );
+	const [ widgets, setWidgets ] = useState( () => widgetFactory.sortWidgetsByRenderPriority( initialWidgets.map( prepareWidgetInstance ) ) );
 
-
-	const addWidget = useCallback( ( type, index = null ) => {
-		if ( typeof index !== "number" ) {
-			setWidgets( ( currentWidgets ) => [ ...currentWidgets, prepareWidgetInstance( type ) ] );
-			return;
-		}
-
+	const addWidget = useCallback( ( type ) => {
 		setWidgets( ( currentWidgets ) => {
-			const newWidgets = [ ...currentWidgets ];
-			newWidgets.splice( index, 0, prepareWidgetInstance( type ) );
-			return newWidgets;
+			const newWidgets = [ ...currentWidgets, prepareWidgetInstance( type ) ];
+			return widgetFactory.sortWidgetsByRenderPriority( newWidgets );
 		} );
 	}, [] );
 
