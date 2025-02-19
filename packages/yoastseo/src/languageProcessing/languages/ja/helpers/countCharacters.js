@@ -14,7 +14,9 @@ export default function( text ) {
 	text = removeURLs( text );
 	text = sanitizeString( text );
 	text = text.replace( /\s/g, "" );
-	text = text.replace( /[。．？！…‥，、・〜：゠＝（）「」『』〝〟〔〕【】［］｛｝〈〉《》]/g, "" );
+	// 1st 〜: wave dash (U+301C); 2nd ～: fullwidth tilde (U+FF5E)
+	// The list includes a few "Western" punctuation marks, added at the end, because they pop up in online Japanese text from time to time.
+	text = text.replace( /[。．？！…‥，、・〜～：゠＝（）「」『』〝〟〔〕【】［］｛｝〈〉《》.?!:;()"'<>]/g, "" );
 
 	return text.length;
 }
