@@ -21,11 +21,6 @@ const steps = [
 	__( "CONNECT", "wordpress-seo" ),
 ];
 
-/** @type {string[]} */
-const siteKitWidgets = [
-	"topPages",
-];
-
 /**
  * @typedef {Object} UseSiteKitConfiguration
  * @property {SiteKitConfiguration} config The site kit configuration.
@@ -50,7 +45,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addWidget ) 
 		).then( ( { success } ) => {
 			if ( success ) {
 				dataProvider.setSiteKitConnected( true );
-				siteKitWidgets.map( widget => addWidget( widget ) );
+				addWidget( "topPages", 0 );
 				setConfig( dataProvider.getSiteKitConfiguration() );
 			}
 		} ).catch( noop );
