@@ -74,7 +74,7 @@ export const SeoScoreHeader = ( { isIndexablesEnabled, isSeoAnalysisEnabled } ) 
 		tooltipText = __( "We can’t provide SEO scores, because the SEO analysis is disabled for your site.", "wordpress-seo" );
 	}
 
-	return <TooltipContainer>
+	return <TooltipContainer className="yst-inline-block">
 		<TooltipTrigger
 			ariaDescribedby="yst-disabled-score-header-tooltip"
 			className="yst-cursor-help yst-underline yst-decoration-dotted yst-underline-offset-4"

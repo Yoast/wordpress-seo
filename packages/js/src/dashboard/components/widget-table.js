@@ -106,7 +106,7 @@ const TableRow = ( { children, index } ) => {
  */
 export const WidgetTable = ( { children } ) => {
 	return (
-		<div className="yst-overflow-y-auto">
+		<div className="yst-overflow-auto">
 			<Table variant="minimal">
 				{ children }
 			</Table>
