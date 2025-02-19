@@ -50,9 +50,10 @@ const Info = ( { url } ) => (
 );
 
 /**
- * The header for the SEO score column when disabled.
+ * The header for the SEO score column.
  *
  * @param {boolean} isIndexablesEnabled Whether indexables are enabled.
+ * @param {boolean} isSeoAnalysisEnabled Whether SEO analysis is enabled.
  *
  * @returns {JSX.Element} The element.
  */
@@ -74,12 +75,12 @@ export const SeoScoreHeader = ( { isIndexablesEnabled, isSeoAnalysisEnabled } ) 
 	}
 
 	return <TooltipContainer>
-		<TooltipTrigger ariaDescribedby="yst-disabled-score-header-tooltip">
-			<span className="yst-underline yst-decoration-dotted yst-underline-offset-4">
-				Yoast
-				<br />
-				{ __( "SEO score", "wordpress-seo" ) }
-			</span>
+		<TooltipTrigger
+			ariaDescribedby="yst-disabled-score-header-tooltip"
+			className="yst-cursor-help yst-underline yst-decoration-dotted yst-underline-offset-4"
+		>
+			<div>Yoast</div>
+			{ __( "SEO score", "wordpress-seo" ) }
 		</TooltipTrigger>
 		<TooltipWithContext position="left" id="yst-disabled-score-header-tooltip">
 			{ tooltipText }
@@ -143,6 +144,7 @@ const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnaly
 					<WidgetTable.Cell>
 						<div className="yst-flex yst-justify-center">
 							<Score
+								id={ `yst-top-pages-widget__seo-score-${ index }` }
 								score={ seoScore }
 								isIndexablesEnabled={ isIndexablesEnabled }
 								isSeoAnalysisEnabled={ isSeoAnalysisEnabled }

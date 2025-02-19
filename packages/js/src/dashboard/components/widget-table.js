@@ -12,37 +12,36 @@ import { __ } from "@wordpress/i18n";
  * The disabled score component.
  *
  * @param {string} tooltip The tooltip.
+ * @param {string} id The id.
  *
  * @returns {JSX.Element} The element.
  */
-const DisabledScore = ( { tooltip } ) => {
-	const uniqueId = `yst-disabled-score-tooltip-${Math.random().toString( 36 ).substring( 7 )}`;
-	return <TooltipContainer>
-		<TooltipTrigger ariaDescribedby={ uniqueId }>
+const DisabledScore = ( { tooltip, id } ) => (
+	<TooltipContainer>
+		<TooltipTrigger ariaDescribedby={ id }>
 			<XIcon className="yst-w-4 yst-h-4 yst-text-slate-400" />
 			<span className="yst-sr-only">{ __( "Disabled", "wordpress-seo" ) }</span>
 		</TooltipTrigger>
-		{  tooltip && <TooltipWithContext position="left" id={ uniqueId }>{  tooltip }</TooltipWithContext> }
-	</TooltipContainer>;
-};
+		{  tooltip && <TooltipWithContext position="left" id={ id }>{  tooltip }</TooltipWithContext> }
+	</TooltipContainer> );
 
 /**
  * The score bullet component.
  *
  * @param {ScoreType} score The score.
+ * @param {string} id The id.
+ *
  * @returns {JSX.Element} The element.
  */
-const ScoreBullet = ( { score } ) => {
-	const uniqueId = `yst-score-tooltip-${Math.random().toString( 36 ).substring( 7 )}`;
-	return <TooltipContainer>
-		<TooltipTrigger ariaDescribedby={ uniqueId }>
-			<div className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
-				<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
-			</div>
-		</TooltipTrigger>
-		{ SCORE_META[ score ]?.tooltip && <TooltipWithContext position="left" id={ uniqueId }>{ SCORE_META[ score ].tooltip }</TooltipWithContext> }
-	</TooltipContainer>;
-};
+const ScoreBullet = ( { score, id } ) => ( <TooltipContainer>
+	<TooltipTrigger ariaDescribedby={ id }>
+		<div className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
+			<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
+		</div>
+	</TooltipTrigger>
+	{ SCORE_META[ score ]?.tooltip && <TooltipWithContext position="left" id={ id }>{ SCORE_META[ score ].tooltip }</TooltipWithContext> }
+</TooltipContainer>
+);
 
 /**
  * The score component.
@@ -51,22 +50,21 @@ const ScoreBullet = ( { score } ) => {
  * @param {boolean} isIndexablesEnabled Whether indexables are enabled.
  * @param {boolean} isSeoAnalysisEnabled Whether SEO analysis is enabled.
  * @param {boolean} isEditable Whether the data is editable.
+ * @param {string} id The id.
  *
  * @returns {JSX.Element} The element.
  */
-export const Score = ( { score, isIndexablesEnabled, isSeoAnalysisEnabled, isEditable } ) => {
-	if ( ! isIndexablesEnabled ) {
-		return <DisabledScore />;
-	}
-	if ( ! isSeoAnalysisEnabled ) {
-		return <DisabledScore />;
+export const Score = ( { score, isIndexablesEnabled, isSeoAnalysisEnabled, isEditable, id } ) => {
+	if ( ! isIndexablesEnabled || ! isSeoAnalysisEnabled ) {
+		return <DisabledScore id={ id } />;
 	}
 	if ( ! isEditable ) {
 		return <DisabledScore
+			id={ id }
 			tooltip={ __( "We can’t provide an SEO score for this page because it can’t be edited.", "wordpress-seo" ) }
 		/>;
 	}
-	return <ScoreBullet score={ score } />;
+	return <ScoreBullet score={ score } id={ id } />;
 };
 
 /**
