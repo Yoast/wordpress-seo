@@ -70,9 +70,9 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addSiteKitWi
  *
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @param {function} removeWidget The function to call when the widget is removed.
- * @param {function} addWidget The function to call when a new widget is added.
- * @param {WidgetType[]} siteKitWidgets The site kit widgets.
+ * @param {function} removeWidget The function to remove a widget.
+ * @param {function} addWidget The function to add a widget.
+ * @param {WidgetType[]} siteKitWidgets The site kit widgets to add once connected.
  *
  * @returns {JSX.Element} The widget.
  */
