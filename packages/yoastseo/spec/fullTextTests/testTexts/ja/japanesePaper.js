@@ -112,7 +112,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
-			"1 section of your text is longer than 600 characters and is not separated by any subheadings. " +
+			"1 section of your text is longer than the recommended number of characters (600) and is not separated by any subheadings. " +
 			"<a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>.",
 	},
 	textParagraphTooLong: {
