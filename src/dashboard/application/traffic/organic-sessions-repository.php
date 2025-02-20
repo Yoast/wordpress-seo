@@ -50,7 +50,6 @@ class Organic_Sessions_Repository implements Dashboard_Repository_Interface {
 	 * @return Data_Container
 	 *
 	 * @throws Not_Onboarded_Exception When this repository is used without the needed prerequisites ready.
-	 * @throws Exception When getting the organic sessions' data fails.
 	 */
 	public function get_data( Parameters $parameters ): Data_Container {
 		if ( ! $this->site_kit_configuration->is_onboarded() && ! $this->site_kit_configuration->is_ga_connected() ) {

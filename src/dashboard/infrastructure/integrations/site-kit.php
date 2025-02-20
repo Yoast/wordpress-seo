@@ -3,7 +3,8 @@
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Integrations;
 
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
 use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
 
@@ -24,32 +25,34 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 	/**
 	 * The Site Kit consent repository.
 	 *
-	 * @var Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface
+	 * @var Configuration_Repository
 	 */
 	private $permanently_dismissed_site_kit_configuration_repository;
 
 	/**
+	 * The Site Kit adapter.
+	 *
+	 * @var Site_Kit_Analytics_4_Adapter
+	 */
+	private $site_kit_analytics_4_adapter;
+
+	/**
 	 * The constructor.
 	 *
-	 * @param Site_Kit_Consent_Repository_Interface                             $site_kit_consent_repository                             The
-	 *                                                                                                                                   Site
-	 *                                                                                                                                   Kit
-	 *                                                                                                                                   consent
-	 *                                                                                                                                   repository.
-	 * @param Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface $permanently_dismissed_site_kit_configuration_repository The
-	 *                                                                                                                                   Site
-	 *                                                                                                                                   Kit
-	 *                                                                                                                                   permanently
-	 *                                                                                                                                   dismissed
-	 *                                                                                                                                   configuration
-	 *                                                                                                                                   repository.
+	 * @param Site_Kit_Consent_Repository_Interface $site_kit_consent_repository  The Site Kit consent repository.
+	 * @param Configuration_Repository              $configuration_repository     The Site Kit permanently dismissed
+	 *                                                                            configuration repository.
+	 * @param Site_Kit_Analytics_4_Adapter          $site_kit_analytics_4_adapter The Site Kit adapter. Used to
+	 *                                                                            determine if the setup is completed.
 	 */
 	public function __construct(
 		Site_Kit_Consent_Repository_Interface $site_kit_consent_repository,
-		Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface $permanently_dismissed_site_kit_configuration_repository
+		Configuration_Repository $configuration_repository,
+		Site_Kit_Analytics_4_Adapter $site_kit_analytics_4_adapter
 	) {
 		$this->site_kit_consent_repository                             = $site_kit_consent_repository;
-		$this->permanently_dismissed_site_kit_configuration_repository = $permanently_dismissed_site_kit_configuration_repository;
+		$this->permanently_dismissed_site_kit_configuration_repository = $configuration_repository;
+		$this->site_kit_analytics_4_adapter                            = $site_kit_analytics_4_adapter;
 	}
 
 	/**
@@ -78,13 +81,14 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 	private function is_connected() {
 		return $this->site_kit_consent_repository->is_consent_granted();
 	}
+
 	/**
 	 * If Google analytics is connected.
 	 *
 	 * @return bool If Google analytics is connected.
 	 */
 	public function is_ga_connected() {
-		return \in_array('analytics-4',\get_option( 'googlesitekit_active_modules', false ),true);
+		return $this->site_kit_analytics_4_adapter->is_connected();
 	}
 
 	/**
@@ -123,7 +127,7 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 			'isActive'                 => $this->is_enabled(),
 			'isSetupCompleted'         => $this->is_setup_completed(),
 			'isConnected'              => $this->is_connected(),
-			'isGAConnected' => $this->is_ga_connected(),
+			'isGAConnected'            => $this->is_ga_connected(),
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'installUrl'               => $site_kit_install_url,
 			'activateUrl'              => $site_kit_activate_url,

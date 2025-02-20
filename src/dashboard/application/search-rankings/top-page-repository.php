@@ -59,7 +59,6 @@ class Top_Page_Repository implements Dashboard_Repository_Interface {
 	 * @param Parameters $parameters The parameter to use for getting the top pages.
 	 *
 	 * @throws Not_Onboarded_Exception When this repository is used without the needed prerequisites ready.
-	 * @throws Exception When getting the top pages' data fails.
 	 * @return Data_Container
 	 */
 	public function get_data( Parameters $parameters ): Data_Container {
