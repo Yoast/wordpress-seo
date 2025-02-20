@@ -76,7 +76,10 @@ class Site_Kit_Analytics_4_Adapter {
 	 * @return bool True if module is connected, false otherwise.
 	 */
 	public function is_connected(): bool {
-		return self::$analytics_4_module->is_connected();
+		if ( self::$analytics_4_module !== null ) {
+			return self::$analytics_4_module->is_connected();
+		}
+		return false;
 	}
 
 	/**
