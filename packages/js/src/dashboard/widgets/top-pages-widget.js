@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Button, SkeletonLoader } from "@yoast/ui-library";
+import { Alert, Button, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
 import { PencilIcon } from "@heroicons/react/outline";
 import { useRemoteData } from "../services/use-remote-data";
 import { WidgetTable, Score } from "../components/widget-table";
@@ -8,7 +8,6 @@ import { Widget, WidgetTitle } from "./widget";
 import { ArrowNarrowRightIcon  } from "@heroicons/react/solid";
 import { InfoTooltip } from "../components/info-tooltip";
 import { ErrorAlert } from "../components/error-alert";
-
 
 /**
  * @type {import("../index").TopPageData} TopPageData
@@ -51,6 +50,45 @@ const Info = ( { url } ) => (
 	</>
 );
 
+/**
+ * The header for the SEO score column.
+ *
+ * @param {boolean} isIndexablesEnabled Whether indexables are enabled.
+ * @param {boolean} isSeoAnalysisEnabled Whether SEO analysis is enabled.
+ *
+ * @returns {JSX.Element} The element.
+ */
+export const SeoScoreHeader = ( { isIndexablesEnabled, isSeoAnalysisEnabled } ) => {
+	if ( isIndexablesEnabled && isSeoAnalysisEnabled ) {
+		return <>
+			Yoast
+			<br />
+			{ __( "SEO score", "wordpress-seo" ) }
+		</>;
+	}
+
+	let tooltipText;
+
+	if ( ! isIndexablesEnabled ) {
+		tooltipText = __( "We can’t analyze your content, because you’re in a non-production environment.", "wordpress-seo" );
+	} else if ( ! isSeoAnalysisEnabled ) {
+		tooltipText = __( "We can’t provide SEO scores, because the SEO analysis is disabled for your site.", "wordpress-seo" );
+	}
+
+	return <TooltipContainer className="yst-inline-block">
+		<TooltipTrigger
+			ariaDescribedby="yst-disabled-score-header-tooltip"
+			className="yst-cursor-help yst-underline yst-decoration-dotted yst-underline-offset-4"
+		>
+			Yoast
+			<br />
+			{ __( "SEO score", "wordpress-seo" ) }
+		</TooltipTrigger>
+		<TooltipWithContext position="bottom" id="yst-disabled-score-header-tooltip" className="yst-w-52">
+			{ tooltipText }
+		</TooltipWithContext>
+	</TooltipContainer>;
+};
 
 /**
  * @param {number} index The index.
@@ -93,8 +131,7 @@ const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnaly
 			<WidgetTable.Header className="yst-text-end">{ __( "CTR", "wordpress-seo" ) }</WidgetTable.Header>
 			<WidgetTable.Header className="yst-text-end">{ __( "Average position", "wordpress-seo" ) }</WidgetTable.Header>
 			<WidgetTable.Header className="yst-text-center">
-				<div>Yoast</div>
-				{ __( "SEO score", "wordpress-seo" ) }
+				<SeoScoreHeader isIndexablesEnabled={ isIndexablesEnabled } isSeoAnalysisEnabled={ isSeoAnalysisEnabled } />
 			</WidgetTable.Header>
 			<WidgetTable.Header className="yst-text-end">{ __( "Actions", "wordpress-seo" ) }</WidgetTable.Header>
 		</WidgetTable.Head>
@@ -109,6 +146,7 @@ const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnaly
 					<WidgetTable.Cell>
 						<div className="yst-flex yst-justify-center">
 							<Score
+								id={ `yst-top-pages-widget__seo-score-${ index }` }
 								score={ seoScore }
 								isIndexablesEnabled={ isIndexablesEnabled }
 								isSeoAnalysisEnabled={ isSeoAnalysisEnabled }

@@ -83,11 +83,6 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {Object} WidgetTypeInfo The widget info. Should hold what the UI needs to let the user pick a widget.
- * @property {WidgetType} type The widget type.
- */
-
-/**
  * @typedef {Object} WidgetInstance The widget instance. Should hold what the UI needs to render the widget.
  * @property {string} id The unique identifier.
  * @property {WidgetType} type The widget type.
