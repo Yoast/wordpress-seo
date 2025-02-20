@@ -54,7 +54,7 @@ describe( "A test to count sentence lengths.", function() {
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
-		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper ), mockResearcher );
+		const sentenceLengths = sentencesLength( getSentencesFromTree( mockPaper.getTree() ), mockResearcher );
 
 		expect( sentenceLengths.length ).toEqual( 2 );
 		expect( sentenceLengths[ 0 ].sentenceLength ).toEqual( 7 );

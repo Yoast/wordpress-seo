@@ -2,7 +2,6 @@
 import { inRange, isEmpty } from "lodash";
 
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
-import { getParentNode } from "../helpers/sentence/getSentencesFromTree";
 import { createShortcodeTagsRegex } from "../helpers";
 
 
@@ -29,7 +28,7 @@ export default function( paper, researcher ) {
 	let paragraphs = researcher.getResearch( "getParagraphs" );
 	// Filter captions from non-Classic editors.
 	paragraphs = paragraphs.filter( paragraph => {
-		const parentNode = getParentNode( paper.getTree(), paragraph );
+		const parentNode = paragraph.getParentNode( paper.getTree() );
 		return ! ( paragraph.isImplicit && parentNode && parentNode.name === "figcaption" );
 	} );
 	// Filter captions from Classic editor and from classic block inside Block editor.
