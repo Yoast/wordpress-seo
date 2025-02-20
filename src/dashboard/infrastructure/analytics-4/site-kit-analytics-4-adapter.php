@@ -148,10 +148,10 @@ class Site_Kit_Analytics_4_Adapter {
 				// So we can use the key of the header to get the correct metric value from the row.
 				$metric_value = $daily_traffic->getMetricValues()[ $key ]->getValue();
 
-				if ( $metric->name === 'sessions' ) {
+				if ( $metric->getName() === 'sessions' ) {
 					$traffic_data->set_sessions( (int) $metric_value );
 				}
-				elseif ( $metric->name === 'totalUsers' ) {
+				elseif ( $metric->getName() === 'totalUsers' ) {
 					$traffic_data->set_total_users( (int) $metric_value );
 				}
 			}
@@ -186,10 +186,10 @@ class Site_Kit_Analytics_4_Adapter {
 				// So we can use the key of the header to get the correct metric value from the row.
 				$metric_value = $date_range_row->getMetricValues()[ $key ]->getValue();
 
-				if ( $metric->name === 'sessions' ) {
+				if ( $metric->getName() === 'sessions' ) {
 					$traffic_data->set_sessions( (int) $metric_value );
 				}
-				elseif ( $metric->name === 'totalUsers' ) {
+				elseif ( $metric->getName() === 'totalUsers' ) {
 					$traffic_data->set_total_users( (int) $metric_value );
 				}
 			}
