@@ -29,7 +29,7 @@ const getErrorMessage = ( error, link ) => {
 				__( "The request timed out. Try refreshing the page. If the problem persists, please check our %1$sSupport page%2$s.", "wordpress-seo" ),
 				link
 			);
-		case 403:
+		case error.status === 403:
 			return createLinkMessage(
 				/* translators: %1$s expands to an anchor start tag, %2$s to an anchor end tag. */
 				__( "You don’t have permission to access this resource. Please contact your admin for access. In case you need further help, please check our %1$sSupport page%2$s.", "wordpress-seo" ),
