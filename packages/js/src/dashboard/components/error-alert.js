@@ -3,6 +3,8 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Link } from "@yoast/ui-library";
 
 /**
+ * Create an interpolate element with the link.
+ *
  * @param {string} message The message with placeholders.
  * @param {JSX.Element} link The link.
  * @returns {JSX.Element|string} The message.
@@ -19,7 +21,8 @@ export const createLinkMessage = ( message, link ) => {
  * Get Error message according to error name or status.
  *
  * @param {Error} error The error object.
- * @returns {JSX.node} The error message.
+ * @param {string} [link] The link.
+ * @returns {JSX.Element|string} The error message.
  */
 const getErrorMessage = ( error, link ) => {
 	switch ( true ) {
