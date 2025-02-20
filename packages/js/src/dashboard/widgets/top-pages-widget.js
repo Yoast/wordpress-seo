@@ -83,7 +83,7 @@ export const SeoScoreHeader = ( { isIndexablesEnabled, isSeoAnalysisEnabled } ) 
 			<br />
 			{ __( "SEO score", "wordpress-seo" ) }
 		</TooltipTrigger>
-		<TooltipWithContext position="bottom" id="yst-disabled-score-header-tooltip">
+		<TooltipWithContext position="bottom" id="yst-disabled-score-header-tooltip" className="yst-w-52">
 			{ tooltipText }
 		</TooltipWithContext>
 	</TooltipContainer>;
