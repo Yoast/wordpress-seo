@@ -10,7 +10,7 @@ describe( "SiteKitSetupWidget", () => {
 	const removeWidget = jest.fn();
 	const addWidget = jest.fn();
 	const props = {
-		siteKitWidgets: [ "topPages" ],
+		siteKitWidgets: [ "siteKitSetup", "topPages" ],
 		removeWidget,
 		addWidget,
 	};

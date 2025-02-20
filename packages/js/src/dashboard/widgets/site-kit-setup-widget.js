@@ -77,15 +77,18 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addSiteKitWi
  * @returns {JSX.Element} The widget.
  */
 export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, removeWidget, addWidget, siteKitWidgets } ) => {
+	const currentWidgetType = siteKitWidgets[ 0 ];
 	const handleAddSiteKitWidgets = useCallback( () => {
-		siteKitWidgets.forEach( ( type ) => addWidget( type ) );
+		const widgetsAfterConnecting = [ ...siteKitWidgets ];
+		widgetsAfterConnecting.shift();
+		widgetsAfterConnecting.forEach( ( type ) => addWidget( type ) );
 	}, [ siteKitWidgets, addWidget ] );
 
 	const { config, grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider, handleAddSiteKitWidgets );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const handleOnRemove = useCallback( () => {
-		removeWidget( "siteKitSetup" );
+		removeWidget( currentWidgetType );
 	}, [ removeWidget ] );
 
 	const handleRemovePermanently = useCallback( () => {

@@ -87,7 +87,7 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 					removeWidget={ onRemove }
 					addWidget={ onAdd }
-					siteKitWidgets={ [ WidgetFactory.types.topPages ] }
+					siteKitWidgets={ [ widget.type, WidgetFactory.types.topPages ] }
 				/>;
 			default:
 				return null;
