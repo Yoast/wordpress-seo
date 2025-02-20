@@ -6,6 +6,7 @@ import { Button, DropdownMenu, Paper, Stepper, Title, useToggleState } from "@yo
 import { noop } from "lodash";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { SiteKitConsentModal } from "../../shared-admin/components";
+import { WidgetFactory } from "../services/widget-factory";
 
 /**
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
@@ -72,23 +73,19 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addSiteKitWi
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
  * @param {function} removeWidget The function to remove a widget.
  * @param {function} addWidget The function to add a widget.
- * @param {WidgetType[]} siteKitWidgets The site kit widgets to add once connected.
  *
  * @returns {JSX.Element} The widget.
  */
-export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, removeWidget, addWidget, siteKitWidgets } ) => {
-	const currentWidgetType = siteKitWidgets[ 0 ];
+export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, removeWidget, addWidget } ) => {
 	const handleAddSiteKitWidgets = useCallback( () => {
-		const widgetsAfterConnecting = [ ...siteKitWidgets ];
-		widgetsAfterConnecting.shift();
-		widgetsAfterConnecting.forEach( ( type ) => addWidget( type ) );
-	}, [ siteKitWidgets, addWidget ] );
+		[ WidgetFactory.types.topPages ].forEach( ( type ) => addWidget( type ) );
+	}, [ addWidget ] );
 
 	const { config, grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider, handleAddSiteKitWidgets );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const handleOnRemove = useCallback( () => {
-		removeWidget( currentWidgetType );
+		removeWidget( WidgetFactory.types.siteKitSetup );
 	}, [ removeWidget ] );
 
 	const handleRemovePermanently = useCallback( () => {

@@ -83,14 +83,6 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {Object} WidgetTypes The widget info. Should hold what the UI needs to let the user pick a widget.
- * @property {string} seoScores The seoScores widget type.
- * @property {string} readabilityScores The readabilityScores widget type.
- * @property {string} topPages The topPages widget type.
- * @property {string} siteKitSetup The siteKitSetup widget type.
- */
-
-/**
  * @typedef {Object} WidgetInstance The widget instance. Should hold what the UI needs to render the widget.
  * @property {string} id The unique identifier.
  * @property {WidgetType} type The widget type.

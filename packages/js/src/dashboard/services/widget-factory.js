@@ -5,7 +5,6 @@ import { TopPagesWidget } from "../widgets/top-pages-widget";
 
 /**
  * @type {import("../index").WidgetType} WidgetType
- * @type {import("../index").WidgetTypes} WidgetTypes
  */
 
 /**
@@ -28,7 +27,7 @@ export class WidgetFactory {
 	}
 
 	/**
-	 * @returns {WidgetTypes} The widget types.
+	 * @returns {Object} The widget types.
 	 */
 	static get types() {
 		return {
@@ -87,7 +86,6 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 					removeWidget={ onRemove }
 					addWidget={ onAdd }
-					siteKitWidgets={ [ widget.type, WidgetFactory.types.topPages ] }
 				/>;
 			default:
 				return null;
