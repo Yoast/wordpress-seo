@@ -27,7 +27,7 @@ describe( "WidgetFactory", () => {
 		[ "readabilityScores" ],
 		[ "topPages" ],
 	] )( "should have the widget type: %s", async( type ) => {
-		expect( WidgetFactory.widgetTypes.map( info => info?.type ) ).toContain( type );
+		expect( WidgetFactory.types[ type ] ).toBe( type );
 	} );
 
 	test.each( [

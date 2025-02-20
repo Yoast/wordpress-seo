@@ -6,6 +6,7 @@ import { Button, DropdownMenu, Paper, Stepper, Title, useToggleState } from "@yo
 import { noop } from "lodash";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { SiteKitConsentModal } from "../../shared-admin/components";
+import { WidgetFactory } from "../services/widget-factory";
 
 /**
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
@@ -31,9 +32,10 @@ const steps = [
 /**
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {function} addSiteKitWidgets The function add the site kit widgets.
  * @returns {UseSiteKitConfiguration} The site kit configuration and helper methods.
  */
-const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
+const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addSiteKitWidgets ) => {
 	const [ config, setConfig ] = useState( () => dataProvider.getSiteKitConfiguration() );
 
 	const grantConsent = useCallback( ( options ) => {
@@ -44,6 +46,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 		).then( ( { success } ) => {
 			if ( success ) {
 				dataProvider.setSiteKitConnected( true );
+				addSiteKitWidgets();
 				setConfig( dataProvider.getSiteKitConfiguration() );
 			}
 		} ).catch( noop );
@@ -68,17 +71,22 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
  *
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @param {function} onRemove The function to call when the widget is removed.
+ * @param {function} removeWidget The function to remove a widget.
+ * @param {function} addWidget The function to add a widget.
  *
  * @returns {JSX.Element} The widget.
  */
-export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove } ) => {
-	const { config, grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
+export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, removeWidget, addWidget } ) => {
+	const handleAddSiteKitWidgets = useCallback( () => {
+		[ WidgetFactory.types.topPages ].forEach( ( type ) => addWidget( type ) );
+	}, [ addWidget ] );
+
+	const { config, grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider, handleAddSiteKitWidgets );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const handleOnRemove = useCallback( () => {
-		onRemove( "siteKitSetup" );
-	}, [ onRemove ] );
+		removeWidget( WidgetFactory.types.siteKitSetup );
+	}, [ removeWidget ] );
 
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();

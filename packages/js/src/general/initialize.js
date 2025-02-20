@@ -101,17 +101,16 @@ domReady( () => { // eslint-disable-line complexity
 
 	// If site kit feature is enabled, add the site kit setup widget.
 	if ( siteKitConfiguration.isFeatureEnabled && ! siteKitConfiguration.isConfigurationDismissed && ! siteKitConfiguration.isConnected ) {
-		initialWidgets.push( "siteKitSetup" );
+		initialWidgets.push( WidgetFactory.types.siteKitSetup );
 	}
 
 	// If site kit feature is enabled and connected: add the top pages widget.
 	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isConnected ) {
-		initialWidgets.push( "topPages" );
+		initialWidgets.push( WidgetFactory.types.topPages );
 	}
 
-	initialWidgets.push( "seoScores" );
-	initialWidgets.push( "readabilityScores" );
-
+	initialWidgets.push( WidgetFactory.types.seoScores );
+	initialWidgets.push( WidgetFactory.types.readabilityScores );
 
 	const router = createHashRouter(
 		createRoutesFromElements(

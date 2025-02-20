@@ -33,9 +33,9 @@ const prepareWidgetInstance = ( type ) => {
 export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, features, links, sitekitFeatureEnabled } ) => {
 	const [ widgets, setWidgets ] = useState( () => initialWidgets.map( prepareWidgetInstance ) );
 
-	// eslint-disable-next-line no-unused-vars
+
 	const addWidget = useCallback( ( type ) => {
-		setWidgets( ( currentWidgets ) => [ ...currentWidgets, prepareWidgetInstance( type ) ] );
+		setWidgets( ( currentWidgets ) => [ prepareWidgetInstance( type ), ...currentWidgets ] );
 	}, [] );
 
 	const removeWidget = useCallback( ( type ) => {
@@ -46,7 +46,7 @@ export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, featu
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } sitekitFeatureEnabled={ sitekitFeatureEnabled } />
 			<div className="yst-grid yst-grid-cols-4 yst-gap-6 yst-my-6">
-				{ widgets.map( ( widget ) => widgetFactory.createWidget( widget, removeWidget ) ) }
+				{ widgets.map( ( widget ) => widgetFactory.createWidget( widget, removeWidget, addWidget ) ) }
 			</div>
 		</>
 	);
