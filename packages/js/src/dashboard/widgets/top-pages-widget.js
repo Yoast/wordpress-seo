@@ -1,53 +1,13 @@
+import { PencilIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Alert, Button, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
-import { PencilIcon } from "@heroicons/react/outline";
+import { Score, WidgetTable } from "../components/widget-table";
 import { useRemoteData } from "../services/use-remote-data";
-import { WidgetTable, Score } from "../components/widget-table";
-import { Widget, WidgetTitle } from "./widget";
-import { ArrowNarrowRightIcon  } from "@heroicons/react/solid";
-import { InfoTooltip } from "../components/info-tooltip";
-
+import { Widget } from "./widget";
 /**
  * @type {import("../index").TopPageData} TopPageData
  */
-
-/** @type {string} */
-const TITLE = __( "Top 5 most popular content", "wordpress-seo" );
-
-/**
- * The content of the info tooltip.
- *
- * @param {string} url The learn more link.
- *
- * @returns {JSX.Element} The element.
- */
-const Info = ( { url } ) => (
-	<>
-		<p>
-			{ __(
-				"The top 5 URLs on your website with the highest number of clicks.",
-				"wordpress-seo"
-			) }
-		</p>
-		<Button
-			variant="tertiary"
-			as="a"
-			target="_blank"
-			href={ url }
-			className="yst-px-0"
-		>
-			{ __( "Learn more", "wordpress-seo" ) }
-			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-me-1 rtl:yst-rotate-180 yst-ms-1.5" />
-			<span className="yst-sr-only">
-				{
-					/* translators: Hidden accessibility text. */
-					__( "(Opens in a new browser tab)", "wordpress-seo" )
-				}
-			</span>
-		</Button>
-	</>
-);
 
 /**
  * The header for the SEO score column.
@@ -118,11 +78,10 @@ const TopPagesSkeletonLoaderRow = ( { index } ) => (
  * @param {JSX.Element} [children] The children. Use this to override the data rendering.
  * @param {boolean} [isIndexablesEnabled] Whether indexables are enabled.
  * @param {boolean} [isSeoAnalysisEnabled] Whether SEO analysis is enabled.
- *
  * @returns {JSX.Element} The element.
  */
-const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnalysisEnabled = true } ) => {
-	return <WidgetTable>
+const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnalysisEnabled = true } ) => (
+	<WidgetTable>
 		<WidgetTable.Head>
 			<WidgetTable.Header>{ __( "Landing page", "wordpress-seo" ) }</WidgetTable.Header>
 			<WidgetTable.Header className="yst-text-end">{ __( "Clicks", "wordpress-seo" ) }</WidgetTable.Header>
@@ -172,8 +131,8 @@ const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnaly
 				</WidgetTable.Row>
 			) ) }
 		</WidgetTable.Body>
-	</WidgetTable>;
-};
+	</WidgetTable>
+);
 
 /**
  * @param {import("../services/data-formatter")} dataFormatter The data formatter.
@@ -204,7 +163,7 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 	const getTopPages = useCallback( ( options ) => {
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ limit: limit.toString( 10 ), options: { widget: "page" }  },
+			{ limit: limit.toString( 10 ), options: { widget: "page" } },
 			options );
 	}, [ dataProvider, limit ] );
 
@@ -230,11 +189,9 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 				</TopPagesTable>
 			);
 		}
-
 		if ( error ) {
 			return <Alert variant="error" className="yst-mt-4">{ error.message }</Alert>;
 		}
-
 		if ( data.length === 0 ) {
 			return <p className="yst-mt-4">{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }</p>;
 		}
@@ -242,13 +199,17 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 		return <TopPagesTable data={ data } isIndexablesEnabled={ isIndexablesEnabled } isSeoAnalysisEnabled={ isSeoAnalysisEnabled } />;
 	};
 
-	return <Widget className="yst-paper__content yst-col-span-4">
-		<div className="yst-flex yst-justify-between">
-			<WidgetTitle>{ TITLE }</WidgetTitle>
-			<InfoTooltip>
-				<Info url={ infoLink } />
-			</InfoTooltip>
-		</div>
-		{ renderContent() }
-	</Widget>;
+	return (
+		<Widget
+			className="yst-paper__content yst-col-span-4"
+			title={ __( "Top 5 most popular content", "wordpress-seo" ) }
+			tooltip={ __(
+				"The top 5 URLs on your website with the highest number of clicks.",
+				"wordpress-seo"
+			) }
+			tooltipLearnMoreLink={ infoLink }
+		>
+			{ renderContent() }
+		</Widget>
+	);
 };

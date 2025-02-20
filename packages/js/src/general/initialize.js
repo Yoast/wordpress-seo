@@ -107,12 +107,10 @@ domReady( () => { // eslint-disable-line complexity
 
 	// If site kit feature is enabled and connected: add the top pages widget.
 	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isConnected ) {
-		initialWidgets.push( WidgetFactory.types.topPages );
-		initialWidgets.push( WidgetFactory.types.topQueries );
+		initialWidgets.push( WidgetFactory.types.topPages, WidgetFactory.types.topQueries );
 	}
 
-	initialWidgets.push( WidgetFactory.types.seoScores );
-	initialWidgets.push( WidgetFactory.types.readabilityScores );
+	initialWidgets.push( WidgetFactory.types.seoScores, WidgetFactory.types.readabilityScores );
 
 	const router = createHashRouter(
 		createRoutesFromElements(

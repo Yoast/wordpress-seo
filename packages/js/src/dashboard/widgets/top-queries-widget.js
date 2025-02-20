@@ -1,11 +1,9 @@
-import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Alert, Button, SkeletonLoader } from "@yoast/ui-library";
-import { InfoTooltip } from "../components/info-tooltip";
+import { Alert, SkeletonLoader } from "@yoast/ui-library";
 import { WidgetTable } from "../components/widget-table";
 import { useRemoteData } from "../services/use-remote-data";
-import { Widget, WidgetTitle } from "./widget";
+import { Widget } from "./widget";
 
 /**
  * @type {import("../index").TopQueryData} TopQueryData
@@ -13,43 +11,6 @@ import { Widget, WidgetTitle } from "./widget";
  * @type {import("../services/remote-data-provider")} RemoteDataProvider
  * @type {import("../services/data-formatter")} DataFormatter
  */
-
-/** @type {string} */
-const TITLE = __( "Top 5 search queries", "wordpress-seo" );
-
-/**
- * The content of the info tooltip.
- *
- * @param {string} url The learn more link.
- *
- * @returns {JSX.Element} The element.
- */
-const Info = ( { url } ) => (
-	<>
-		<p>
-			{ __(
-				"The top 5 search queries on your website with the highest number of clicks.",
-				"wordpress-seo"
-			) }
-		</p>
-		<Button
-			variant="tertiary"
-			as="a"
-			target="_blank"
-			href={ url }
-			className="yst-px-0"
-		>
-			{ __( "Learn more", "wordpress-seo" ) }
-			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-me-1 rtl:yst-rotate-180 yst-ms-1.5" />
-			<span className="yst-sr-only">
-				{
-					/* translators: Hidden accessibility text. */
-					__( "(Opens in a new browser tab)", "wordpress-seo" )
-				}
-			</span>
-		</Button>
-	</>
-);
 
 /**
  * @param {number} index The index.
@@ -160,13 +121,15 @@ export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormat
 		return <TopQueriesTable data={ data } />;
 	};
 
-	return <Widget className="yst-paper__content yst-col-span-4">
-		<div className="yst-flex yst-justify-between">
-			<WidgetTitle>{ TITLE }</WidgetTitle>
-			<InfoTooltip>
-				<Info url={ infoLink } />
-			</InfoTooltip>
-		</div>
+	return <Widget
+		className="yst-paper__content yst-col-span-4"
+		title={ __( "Top 5 search queries", "wordpress-seo" ) }
+		tooltip={ __(
+			"The top 5 search queries on your website with the highest number of clicks.",
+			"wordpress-seo"
+		) }
+		tooltipLearnMoreLink={ infoLink }
+	>
 		{ renderContent() }
 	</Widget>;
 };
