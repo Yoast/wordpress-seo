@@ -1,5 +1,6 @@
-import { render } from "@testing-library/react";
+import { render } from "../../../tests/test-utils";
 import { ErrorAlert } from "../../../src/dashboard/components/error-alert";
+import { it, expect } from "@jest/globals";
 
 describe( "ErrorAlert", () => {
 	const supportLink = "admin.php?page=wpseo_page_support";
@@ -41,11 +42,24 @@ describe( "ErrorAlert", () => {
 	} );
 
 	it( "should render default error message", () => {
-		const error = new Error( "BAd request" );
+		const error = new Error( "Bad request" );
 		error.status = 500;
 		const { getByRole } = render( <ErrorAlert error={ error } supportLink={ supportLink } /> );
 		expect( getByRole( "status" ) )
 			.toHaveTextContent( "Something went wrong. Try refreshing the page. If the problem persists, please check our Support page." );
 		expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "admin.php?page=wpseo_page_support" );
+	} );
+
+	it( "should not render the alert when no error is provided", () => {
+		const { container } = render( <ErrorAlert supportLink={ supportLink } /> );
+		expect( container.firstChild ).toBeNull();
+	} );
+
+	it( "should render the alert when an error is provided but no link", () => {
+		const error = new Error( "Bad request" );
+		error.status = 500;
+		const { getByRole } = render( <ErrorAlert error={ error } /> );
+		expect( getByRole( "status" ) )
+			.toHaveTextContent( "Something went wrong. Try refreshing the page. If the problem persists, please check our Support page." );
 	} );
 } );
