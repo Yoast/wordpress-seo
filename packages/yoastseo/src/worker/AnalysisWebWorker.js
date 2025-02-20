@@ -1,12 +1,11 @@
 /* eslint-disable complexity */
 // External dependencies.
 import { enableFeatures } from "@yoast/feature-flag";
-import { __, setLocaleData, sprintf } from "@wordpress/i18n";
+import { setLocaleData } from "@wordpress/i18n";
 import { forEach, has, includes, isEmpty, isEqual, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash";
 import { getLogger } from "loglevel";
 
 // Internal dependencies.
-import AssessmentResult from "../values/AssessmentResult.js";
 import { build } from "../parse/build";
 import { configureShortlinker } from "../helpers/shortlinker";
 import InvalidTypeError from "../errors/invalidType.js";
@@ -28,9 +27,6 @@ import RelatedKeywordAssessor from "../scoring/assessors/relatedKeywordAssessor.
 import RelatedKeywordTaxonomyAssessor from "../scoring/assessors/relatedKeywordTaxonomyAssessor.js";
 import SEOAssessor from "../scoring/assessors/seoAssessor.js";
 import TaxonomyAssessor from "../scoring/assessors/taxonomyAssessor.js";
-
-// Tree assessor functionality.
-import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../scoring/scoreAggregators";
 
 const logger = getLogger( "yoast-analysis-worker" );
 logger.setDefaultLevel( "error" );
@@ -80,7 +76,7 @@ export default class AnalysisWebWorker {
 		this._inclusiveLanguageOptions = {};
 
 		/*
-		 * The cached analyses results.
+		 * The cached analysis results.
 		 *
 		 * A single result has the following structure:
 		 * {AssessmentResult[]} 	readability.results An array of assessment results; in serialized format.
@@ -113,8 +109,21 @@ export default class AnalysisWebWorker {
 		this._registeredMessageHandlers = {};
 		this._registeredParsers = [];
 
-		// Set up everything for the analysis on the tree.
-		this.setupTreeAnalysis();
+		// Custom assessor classes.
+		this._CustomSEOAssessorClasses = {};
+		this._CustomCornerstoneSEOAssessorClasses = {};
+		this._CustomContentAssessorClasses = {};
+		this._CustomCornerstoneContentAssessorClasses = {};
+		this._CustomRelatedKeywordAssessorClasses = {};
+		this._CustomCornerstoneRelatedKeywordAssessorClasses = {};
+
+		// Custom assessor options.
+		this._CustomSEOAssessorOptions = {};
+		this._CustomCornerstoneSEOAssessorOptions = {};
+		this._CustomContentAssessorOptions = {};
+		this._CustomCornerstoneContentAssessorOptions = {};
+		this._CustomRelatedKeywordAssessorOptions = {};
+		this._CustomCornerstoneRelatedKeywordAssessorOptions = {};
 
 		this.bindActions();
 
@@ -175,7 +184,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Sets a custom content assessor class.
 	 *
-	 * @param {Class}  ContentAssessorClass     A content assessor class.
+	 * @param {ContentAssessor}  ContentAssessorClass     A content assessor class.
 	 * @param {string} customAnalysisType       The type of analysis.
 	 * @param {Object} customAssessorOptions    The options to use.
 	 *
@@ -190,7 +199,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Sets a custom cornerstone content assessor class.
 	 *
-	 * @param {Class}  CornerstoneContentAssessorClass  A cornerstone content assessor class.
+	 * @param {CornerstoneContentAssessor}  CornerstoneContentAssessorClass  A cornerstone content assessor class.
 	 * @param {string} customAnalysisType               The type of analysis.
 	 * @param {Object} customAssessorOptions            The options to use.
 	 *
@@ -205,7 +214,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Sets a custom SEO assessor class.
 	 *
-	 * @param {Class}   SEOAssessorClass         An SEO assessor class.
+	 * @param {SEOAssessor}   SEOAssessorClass   An SEO assessor class.
 	 * @param {string}  customAnalysisType       The type of analysis.
 	 * @param {Object}  customAssessorOptions    The options to use.
 	 *
@@ -220,7 +229,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Sets a custom cornerstone SEO assessor class.
 	 *
-	 * @param {Class}   CornerstoneSEOAssessorClass  A cornerstone SEO assessor class.
+	 * @param {CornerstoneSEOAssessor}   CornerstoneSEOAssessorClass  A cornerstone SEO assessor class.
 	 * @param {string}  customAnalysisType           The type of analysis.
 	 * @param {Object}  customAssessorOptions        The options to use.
 	 *
@@ -235,7 +244,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Sets a custom related keyword assessor class.
 	 *
-	 * @param {Class}   RelatedKeywordAssessorClass A related keyword assessor class.
+	 * @param {RelatedKeywordAssessor}   RelatedKeywordAssessorClass A related keyword assessor class.
 	 * @param {string}  customAnalysisType          The type of analysis.
 	 * @param {Object}  customAssessorOptions       The options to use.
 	 *
@@ -250,7 +259,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Sets a custom cornerstone related keyword assessor class.
 	 *
-	 * @param {Class}   CornerstoneRelatedKeywordAssessorClass  A cornerstone related keyword assessor class.
+	 * @param {CornerstoneRelatedKeywordAssessor}   CornerstoneRelatedKeywordAssessorClass  A cornerstone related keyword assessor class.
 	 * @param {string}  customAnalysisType                      The type of analysis.
 	 * @param {Object}  customAssessorOptions                   The options to use.
 	 *
@@ -274,55 +283,7 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
-	 * Sets up the web worker for running the tree readability and SEO analysis.
-	 *
-	 * @returns {void}
-	 */
-	setupTreeAnalysis() {
-		// Researcher
-		/*
-		 * Disabled code:
-		 * this._treeResearcher = new TreeResearcher();
-		 */
-		this._treeResearcher = null;
-
-		// Assessors
-		this._contentTreeAssessor = null;
-		this._seoTreeAssessor = null;
-		this._relatedKeywordTreeAssessor = null;
-
-		// Custom assessor classes.
-		this._CustomSEOAssessorClasses = {};
-		this._CustomCornerstoneSEOAssessorClasses = {};
-		this._CustomContentAssessorClasses = {};
-		this._CustomCornerstoneContentAssessorClasses = {};
-		this._CustomRelatedKeywordAssessorClasses = {};
-		this._CustomCornerstoneRelatedKeywordAssessorClasses = {};
-
-		// Custom assessor options.
-		this._CustomSEOAssessorOptions = {};
-		this._CustomCornerstoneSEOAssessorOptions = {};
-		this._CustomContentAssessorOptions = {};
-		this._CustomCornerstoneContentAssessorOptions = {};
-		this._CustomRelatedKeywordAssessorOptions = {};
-		this._CustomCornerstoneRelatedKeywordAssessorOptions = {};
-
-		// Registered assessments
-		this._registeredTreeAssessments = [];
-
-		// Score aggregators
-		this._seoScoreAggregator = new SEOScoreAggregator();
-		this._contentScoreAggregator = new ReadabilityScoreAggregator();
-
-		// Tree representation of text to analyze
-		this._tree = null;
-
-		// Tree builder.
-		this._treeBuilder = null;
-	}
-
-	/**
-	 * Registers this web worker with the scope passed to it's constructor.
+	 * Registers this web worker with the scope passed to its constructor.
 	 *
 	 * @returns {void}
 	 */
@@ -412,7 +373,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the appropriate content assessor.
 	 *
-	 * @returns {null|Assessor} The chosen content assessor.
+	 * @returns {ContentAssessor|null} The chosen content assessor.
 	 */
 	createContentAssessor() {
 		const {
@@ -469,7 +430,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the appropriate SEO assessor.
 	 *
-	 * @returns {null|Assessor} The chosen SEO assessor.
+	 * @returns {SEOAssessor|null} The chosen SEO assessor.
 	 */
 	createSEOAssessor() {
 		const {
@@ -521,12 +482,12 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the appropriate inclusive language assessor.
 	 *
-	 * @returns {null|Assessor} The chosen inclusive language assessor.
+	 * @returns {InclusiveLanguageAssessor|null} The chosen inclusive language assessor.
 	 */
 	createInclusiveLanguageAssessor() {
 		const { inclusiveLanguageAnalysisActive } = this._configuration;
 
-		if ( inclusiveLanguageAnalysisActive === false ) {
+		if ( ! inclusiveLanguageAnalysisActive ) {
 			return null;
 		}
 
@@ -537,7 +498,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the appropriate SEO assessor for related keywords.
 	 *
-	 * @returns {null|Assessor} The chosen related keywords assessor.
+	 * @returns {RelatedKeywordAssessor|null} The chosen related keyword assessor.
 	 */
 	createRelatedKeywordsAssessor() {
 		const {
@@ -587,24 +548,6 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
-	 * Creates an SEO assessor for a tree, based on the given combination of cornerstone, taxonomy and related keyphrase flags.
-	 *
-	 * @param {Object}  assessorConfig                    The assessor configuration.
-	 * @param {boolean} [assessorConfig.relatedKeyphrase] If this assessor is for a related keyphrase, instead of the main one.
-	 * @param {boolean} [assessorConfig.taxonomy]         If this assessor is for a taxonomy page, instead of a regular page.
-	 * @param {boolean} [assessorConfig.cornerstone]      If this assessor is for cornerstone content.
-	 *
-	 * @returns {module:parsedPaper/assess.TreeAssessor} The created tree assessor.
-	 */
-
-	/*
-	 * Disabled code:
-	 * createSEOTreeAssessor( assessorConfig ) {
-	 * 	 return constructSEOAssessor( this._treeResearcher, assessorConfig );
-	 * }
-	 */
-
-	/**
 	 * Sends a message.
 	 *
 	 * @param {string} type      The message type.
@@ -628,12 +571,12 @@ export default class AnalysisWebWorker {
 	/**
 	 * Checks which assessors should update giving a configuration.
 	 *
-	 * @param {Object}   configuration          The configuration to check.
-	 * @param {Assessor} [contentAssessor=null] The content assessor.
-	 * @param {Assessor} [seoAssessor=null]     The SEO assessor.
-	 * @param {Assessor} [inclusiveLanguageAssessor=null] The inclusive language assessor.
+	 * @param {Object} configuration The configuration to check.
+	 * @param {ContentAssessor|null} [contentAssessor=null] The content assessor.
+	 * @param {SEOAssessor|null} [seoAssessor=null] The SEO assessor.
+	 * @param {InclusiveLanguageAssessor|null} [inclusiveLanguageAssessor=null] The inclusive language assessor.
 	 *
-	 * @returns {Object} Containing seo, readability, and inclusiveLanguage with true or false.
+	 * @returns {{seo: boolean, readability: boolean, inclusiveLanguage: boolean}} Whether each assessor should update.
 	 */
 	static shouldAssessorsUpdate(
 		configuration,
@@ -726,7 +669,7 @@ export default class AnalysisWebWorker {
 		}
 
 		if ( has( configuration, "enabledFeatures" ) ) {
-			// Make feature flags available inside of the web worker.
+			// Make feature flags available inside the web worker.
 			enableFeatures( configuration.enabledFeatures );
 			delete configuration.enabledFeatures;
 		}
@@ -735,26 +678,10 @@ export default class AnalysisWebWorker {
 
 		if ( update.readability ) {
 			this._contentAssessor = this.createContentAssessor();
-			/*
-			 * Disabled code:
-			 * this._contentTreeAssessor = constructReadabilityAssessor( this._treeResearcher, configuration.useCornerstone );
-			 */
-			this._contentTreeAssessor = null;
 		}
 		if ( update.seo ) {
 			this._seoAssessor = this.createSEOAssessor();
 			this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
-			// Tree assessors
-			/*
-			 * Disabled code:
-			 * const { useCornerstone, useTaxonomy } = this._configuration;
-			 * this._seoTreeAssessor = useTaxonomy
-			 * 	? this.createSEOTreeAssessor( { taxonomy: true } )
-			 * 	: this.createSEOTreeAssessor( { cornerstone: useCornerstone } );
-			 * this._relatedKeywordTreeAssessor = this.createSEOTreeAssessor( {
-			 * 	cornerstone: useCornerstone, relatedKeyphrase: true,
-			 * } );
-			 */
 		}
 
 		if ( update.inclusiveLanguage ) {
@@ -786,9 +713,9 @@ export default class AnalysisWebWorker {
 	 * Register an assessment for a specific plugin.
 	 *
 	 * @param {string}   name       The name of the assessment.
-	 * @param {function} assessment The function to run as an assessment.
+	 * @param {Assessment} assessment The assessment to add.
 	 * @param {string}   pluginName The name of the plugin associated with the assessment.
-	 * @param {string}   type       The type of the assessment. The default type is seo.
+	 * @param {string}   type       The type of the assessment. The default type is "seo".
 	 *
 	 * @returns {boolean} Whether registering the assessment was successful.
 	 */
@@ -835,7 +762,7 @@ export default class AnalysisWebWorker {
 	 * Register a message handler for a specific plugin.
 	 *
 	 * @param {string}   name       The name of the message handler.
-	 * @param {function} handler    The function to run as an message handler.
+	 * @param {function} handler    The function to run as a message handler.
 	 * @param {string}   pluginName The name of the plugin associated with the message handler.
 	 *
 	 * @returns {boolean} Whether registering the message handler was successful.
@@ -859,6 +786,8 @@ export default class AnalysisWebWorker {
 		name = pluginName + "-" + name;
 
 		this._registeredMessageHandlers[ name ] = handler;
+
+		return true;
 	}
 
 	/**
@@ -883,27 +812,8 @@ export default class AnalysisWebWorker {
 		}
 
 		this.clearCache();
-	}
 
-	/**
-	 * Register a parser that parses a formatted text
-	 * to a structured tree representation that can be further analyzed.
-	 *
-	 * @param {Object}   parser                              The parser to register.
-	 * @param {function(Paper): boolean} parser.isApplicable A method that checks whether this parser is applicable for a paper.
-	 * @param {function(Paper): module:parsedPaper/structure.Node } parser.parse A method that parses a paper to a structured tree representation.
-	 *
-	 * @returns {void}
-	 */
-	registerParser( parser ) {
-		if ( typeof parser.isApplicable !== "function" ) {
-			throw new InvalidTypeError( "Failed to register the custom parser. Expected parameter 'parser' to have a method 'isApplicable'." );
-		}
-		if ( typeof parser.parse !== "function" ) {
-			throw new InvalidTypeError( "Failed to register the custom parser. Expected parameter 'parser' to have a method 'parse'." );
-		}
-
-		this._registeredParsers.push( parser );
+		return true;
 	}
 
 	/**
@@ -1044,7 +954,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Updates the results for the additional assessor.
 	 *
-	 * @param {boolean} shouldCustomAssessorsUpdate Whether the results of the additional assessor should be updated.
+	 * @param {Object} shouldCustomAssessorsUpdate Whether the results of the additional assessor should be updated.
 	 * @returns {void}
 	 */
 	updateAdditionalAssessors( shouldCustomAssessorsUpdate ) {
@@ -1072,7 +982,7 @@ export default class AnalysisWebWorker {
 	 *
 	 * @param {number} id                        The request id.
 	 * @param {Object} payload                   The payload object.
-	 * @param {Object} payload.paper             The paper to analyze.
+	 * @param {Paper} payload.paper              The paper to analyze.
 	 * @param {Object} [payload.relatedKeywords] The related keywords.
 	 *
 	 * @returns {Object} The result, may not contain readability or seo.
@@ -1100,11 +1010,7 @@ export default class AnalysisWebWorker {
 			// Only assess the focus keyphrase if the paper has any changes.
 			if ( paperHasChanges ) {
 				// Assess the SEO of the content regarding the main keyphrase.
-				this._results.seo[ "" ] = await this.assess( this._paper, this._tree, {
-					oldAssessor: this._seoAssessor,
-					treeAssessor: this._seoTreeAssessor,
-					scoreAggregator: this._seoScoreAggregator,
-				} );
+				this._results.seo[ "" ] = await this.assess( this._paper, this._seoAssessor );
 			}
 
 			// Only assess the related keyphrases when they have been given.
@@ -1113,7 +1019,7 @@ export default class AnalysisWebWorker {
 				const requestedRelatedKeywordKeys = Object.keys( relatedKeywords );
 
 				// Analyze the SEO for each related keyphrase and wait for the results.
-				const relatedKeyphraseResults = await this.assessRelatedKeywords( paper, this._tree, relatedKeywords );
+				const relatedKeyphraseResults = await this.assessRelatedKeywords( paper, relatedKeywords );
 
 				// Put the related keyphrase results on the SEO results, under the right key.
 				relatedKeyphraseResults.forEach( result => {
@@ -1130,14 +1036,9 @@ export default class AnalysisWebWorker {
 		}
 
 		if ( this._configuration.contentAnalysisActive && this._contentAssessor && shouldReadabilityUpdate ) {
-			const analysisCombination = {
-				oldAssessor: this._contentAssessor,
-				treeAssessor: this._contentTreeAssessor,
-				scoreAggregator: this._contentScoreAggregator,
-			};
 			// Set the locale (we are more lenient for languages that have full analysis support).
-			analysisCombination.scoreAggregator.setLocale( this._configuration.locale );
-			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
+			this._contentAssessor.getScoreAggregator().setLocale( this._configuration.locale );
+			this._results.readability = await this.assess( this._paper, this._contentAssessor );
 		}
 
 		this.updateInclusiveLanguageAssessor( shouldInclusiveLanguageUpdate );
@@ -1148,52 +1049,25 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
-	 * Assesses a given paper and tree combination
-	 * using an original Assessor (that works on a string representation of the text)
-	 * and a new Tree Assessor (that works on a tree representation).
+	 * Assesses a given paper
+	 * using an original Assessor (that works on a string representation of the text).
 	 *
 	 * The results of both analyses are combined using the given score aggregator.
 	 *
 	 * @param {Paper}                      paper The paper to analyze.
-	 * @param {module:parsedPaper/structure.Node} tree  The tree to analyze.
-	 *
-	 * @param {Object}                             analysisCombination                 Which assessors and score aggregator to use.
-	 * @param {Assessor}                           analysisCombination.oldAssessor     The original assessor.
-	 * @param {module:parsedPaper/assess.TreeAssessor}    analysisCombination.treeAssessor    The new assessor.
-	 * @param {module:parsedPaper/assess.ScoreAggregator} analysisCombination.scoreAggregator The score aggregator to use.
+	 * @param {Assessor}                   assessor     The original assessor.
 	 *
 	 * @returns {Promise<{score: number, results: AssessmentResult[]}>} The analysis results.
 	 */
-	async assess( paper, tree, analysisCombination ) {
-		// Disabled code: The variable `treeAssessor` is removed from here.
-		const { oldAssessor, scoreAggregator } = analysisCombination;
+	async assess( paper, assessor ) {
 		/*
-		 * Assess the paper and the tree
-		 * using the original assessor and the tree assessor.
+		 * Assess the paper using the original assessor.
 		 */
-		oldAssessor.assess( paper );
-		const oldAssessmentResults = oldAssessor.results;
-
-		const treeAssessmentResults = [];
-
-		/*
-		 * Disable code:
-		 * // Only assess tree if it has been built.
-		 * if ( tree ) {
-		 * const treeAssessorResult = await treeAssessor.assess( paper, tree );
-		 * treeAssessmentResults = treeAssessorResult.results;
-		 * } else {
-		 * // Cannot assess the tree, generate errors on the assessments that use the tree assessor.
-		 * const treeAssessments = treeAssessor.getAssessments();
-		 * treeAssessmentResults = treeAssessments.map( assessment => this.generateAssessmentError( assessment ) );
-		 * }
-		 */
-
-		// Combine the results of the tree assessor and old assessor.
-		const results = [ ...treeAssessmentResults, ...oldAssessmentResults ];
+		assessor.assess( paper );
+		const results = assessor.results;
 
 		// Aggregate the results.
-		const score = scoreAggregator.aggregate( results );
+		const score = assessor.getScoreAggregator().aggregate( results );
 
 		return {
 			results: results,
@@ -1202,37 +1076,16 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
-	 * Generates an error message ("grey bullet") for the given assessment.
+	 * Assesses the SEO of a paper on the given related keyphrases and their synonyms.
 	 *
-	 * @param {module:parsedPaper/assess.Assessment} assessment The assessment to generate an error message for.
-	 *
-	 * @returns {AssessmentResult} The generated assessment result.
-	 */
-	generateAssessmentError( assessment ) {
-		const result = new AssessmentResult();
-
-		result.setScore( -1 );
-		result.setText( sprintf(
-			/* translators: %1$s expands to the name of the assessment. */
-			__( "An error occurred in the '%1$s' assessment", "wordpress-seo" ),
-			assessment.name
-		) );
-
-		return result;
-	}
-
-	/**
-	 * Assesses the SEO of a paper and tree combination on the given related keyphrases and their synonyms.
-	 *
-	 * The old assessor as well as the new tree assessor are used and their results are combined.
+	 * The old assessor is used and their results are combined.
 	 *
 	 * @param {Paper}                 paper           The paper to analyze.
-	 * @param {module:parsedPaper/structure} tree            The tree to analyze.
 	 * @param {Object}                relatedKeywords The related keyphrases to use in the analysis.
 	 *
 	 * @returns {Promise<[{results: {score: number, results: AssessmentResult[]}, key: string}]>} The results, one for each keyphrase.
 	 */
-	async assessRelatedKeywords( paper, tree, relatedKeywords ) {
+	async assessRelatedKeywords( paper, relatedKeywords ) {
 		const keywordKeys = Object.keys( relatedKeywords );
 		return await Promise.all( keywordKeys.map( key => {
 			this._relatedKeywords[ key ] = relatedKeywords[ key ];
@@ -1243,15 +1096,8 @@ export default class AnalysisWebWorker {
 				synonyms: this._relatedKeywords[ key ].synonyms,
 			} );
 
-			// Which combination of (tree) assessors and score aggregator to use.
-			const analysisCombination = {
-				oldAssessor: this._relatedKeywordAssessor,
-				treeAssessor: this._relatedKeywordTreeAssessor,
-				scoreAggregator: this._seoScoreAggregator,
-			};
-
 			// We need to remember the key, since the SEO results are stored in an object, not an array.
-			return this.assess( relatedPaper, tree, analysisCombination ).then(
+			return this.assess( relatedPaper, this._relatedKeywordAssessor ).then(
 				results => (
 					{ key: key, results: results }
 				)
@@ -1265,7 +1111,7 @@ export default class AnalysisWebWorker {
 	 * @param {number} id  The request id.
 	 * @param {string} url The url of the script to load;
 	 *
-	 * @returns {Object} An object containing whether or not the url was loaded, the url and possibly an error message.
+	 * @returns {Object} An object containing whether the url was loaded, the url and possibly an error message.
 	 */
 	loadScript( id, { url } ) {
 		if ( isUndefined( url ) ) {

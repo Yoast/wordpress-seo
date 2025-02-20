@@ -1,7 +1,7 @@
 import React from "react";
 import Table from ".";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
-import { component, tableBody, tableCell, tableHead, tableHeader, tableRow } from "./docs";
+import { component, tableBody, tableCell, tableHead, tableHeader, tableRow, minimal } from "./docs";
 
 export const Factory = {
 	parameters: {
@@ -199,16 +199,53 @@ export const TableCell = {
 	},
 };
 
+export const MinimalVariant = {
+	name: "Table variant minimal",
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: minimal } },
+	},
+	args: {
+		variant: "minimal",
+		children: (
+			<>
+				<Table.Head>
+					<Table.Row>
+						<Table.Header>Header 1</Table.Header>
+						<Table.Header>Header 2</Table.Header>
+						<Table.Header>Header 3</Table.Header>
+					</Table.Row>
+				</Table.Head>
+				<Table.Body>
+					<Table.Row>
+						<Table.Cell>Cell 1</Table.Cell>
+						<Table.Cell>Cell 2</Table.Cell>
+						<Table.Cell>Cell 3</Table.Cell>
+					</Table.Row>
+					<Table.Row>
+						<Table.Cell>Cell 1</Table.Cell>
+						<Table.Cell>Cell 2</Table.Cell>
+						<Table.Cell>Cell 3</Table.Cell>
+					</Table.Row>
+				</Table.Body>
+			</>
+		),
+	},
+};
+
 export default {
 	title: "1) Elements/Table",
 	component: Table,
 	argTypes: {
 		children: { control: false },
+		variant: {
+			control: { type: "select" },
+		},
 	},
 	parameters: {
 		docs: {
 			description: { component },
-			page: () => <InteractiveDocsPage stories={ [ TableHead, TableRow, TableHeader, TableBody, TableCell ] } />,
+			page: () => <InteractiveDocsPage stories={ [ TableHead, TableRow, TableHeader, TableBody, TableCell, MinimalVariant ] } />,
 		},
 	},
 };
