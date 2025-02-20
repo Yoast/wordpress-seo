@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Alert, Button, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
+import { Button, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
 import { PencilIcon } from "@heroicons/react/outline";
 import { useRemoteData } from "../services/use-remote-data";
 import { WidgetTable, Score } from "../components/widget-table";
