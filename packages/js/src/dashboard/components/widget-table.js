@@ -61,7 +61,7 @@ export const Score = ( { score, isIndexablesEnabled, isSeoAnalysisEnabled, isEdi
 	if ( ! isEditable ) {
 		return <DisabledScore
 			id={ id }
-			tooltip={ __( "We can’t provide an SEO score for this page because it can’t be edited.", "wordpress-seo" ) }
+			tooltip={ __( "We can’t provide an SEO score for this page.", "wordpress-seo" ) }
 		/>;
 	}
 	return <ScoreBullet score={ score } id={ id } />;
