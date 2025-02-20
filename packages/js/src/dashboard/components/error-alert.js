@@ -7,7 +7,7 @@ import { Alert, Link } from "@yoast/ui-library";
  * @param {JSX.Element} link The link.
  * @returns {JSX.Element|string} The message.
  */
-const createLinkMessage = ( message, link ) => {
+export const createLinkMessage = ( message, link ) => {
 	try {
 		return createInterpolateElement( sprintf( message, "<link>", "</link>" ), { link } );
 	} catch ( e ) {

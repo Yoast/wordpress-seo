@@ -1,6 +1,9 @@
 import { render } from "../../../tests/test-utils";
-import { ErrorAlert } from "../../../src/dashboard/components/error-alert";
+import { ErrorAlert, createLinkMessage } from "../../../src/dashboard/components/error-alert";
 import { it, expect } from "@jest/globals";
+import { createInterpolateElement } from "@wordpress/element";
+import { sprintf } from "@wordpress/i18n";
+import { Link } from "@yoast/ui-library";
 
 describe( "ErrorAlert", () => {
 	const supportLink = "admin.php?page=wpseo_page_support";
@@ -61,5 +64,25 @@ describe( "ErrorAlert", () => {
 		const { getByRole } = render( <ErrorAlert error={ error } /> );
 		expect( getByRole( "status" ) )
 			.toHaveTextContent( "Something went wrong. Try refreshing the page. If the problem persists, please check our Support page." );
+	} );
+
+	describe( "createLinkMessage", () => {
+		it( "should return interpolated element when message and link are provided", () => {
+			const message = "Check our %1$sSupport page%2$s.";
+			const link = <Link href="admin.php?page=wpseo_page_support">Support page</Link>;
+			const result = createLinkMessage( message, link );
+
+			expect( result ).toEqual(
+				createInterpolateElement( sprintf( message, "<link>", "</link>" ), { link } )
+			);
+		} );
+
+		it( "should return message without placeholders when an error occurs", () => {
+			const message = "Check our %1$sSupport page%2$s.";
+			const link = null;
+			const result = createLinkMessage( message, link );
+
+			expect( result ).toEqual( sprintf( message, "", "" ) );
+		} );
 	} );
 } );
