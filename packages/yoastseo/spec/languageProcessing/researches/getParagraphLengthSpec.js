@@ -16,7 +16,7 @@ describe( "a test for getting paragraph length", function() {
 	} );
 
 	it( "returns the paragraph length of a paragraph in Japanese between p tags", function() {
-		const mockPaper = new Paper( "<p>これに対し日本国有鉄道</p>" );
+		const mockPaper = new Paper( "<p>これに対し日本国有鉄道。</p>" );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
@@ -54,7 +54,7 @@ describe( "a test for getting paragraph length", function() {
 
 		const paragraphLengths = getParagraphLength( mockPaper, mockResearcher );
 
-		expect( paragraphLengths[ 0 ].paragraphLength ).toBe( 36 );
+		expect( paragraphLengths[ 0 ].paragraphLength ).toBe( 33 );
 	} );
 
 	it( "returns the paragraph length of 2 paragraphs, both between p tags", function() {
@@ -75,7 +75,7 @@ describe( "a test for getting paragraph length", function() {
 		const paragraphLengths = getParagraphLength( mockPaper, mockResearcher );
 
 		expect( paragraphLengths[ 0 ].paragraphLength ).toBe( 18 );
-		expect( paragraphLengths[ 1 ].paragraphLength ).toBe( 18 );
+		expect( paragraphLengths[ 1 ].paragraphLength ).toBe( 15 );
 	} );
 
 	it( "returns the paragraph length of 2 paragraphs, both between p tags, divided by double linebreaks", function() {
@@ -97,7 +97,7 @@ describe( "a test for getting paragraph length", function() {
 		const paragraphLengths = getParagraphLength( mockPaper, mockResearcher );
 
 		expect( paragraphLengths[ 0 ].paragraphLength ).toBe( 18 );
-		expect( paragraphLengths[ 1 ].paragraphLength ).toBe( 18 );
+		expect( paragraphLengths[ 1 ].paragraphLength ).toBe( 15 );
 	} );
 
 	it( "returns the paragraph length, with empty paragraphs", function() {

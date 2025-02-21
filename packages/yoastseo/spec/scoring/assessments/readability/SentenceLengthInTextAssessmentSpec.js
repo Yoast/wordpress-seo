@@ -11,6 +11,7 @@ import RussianResearcher from "../../../../src/languageProcessing/languages/ru/R
 import ItalianResearcher from "../../../../src/languageProcessing/languages/it/Researcher";
 import TurkishResearcher from "../../../../src/languageProcessing/languages/tr/Researcher";
 import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/sentenceLength";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 
 const shortSentenceDefault = "Word ".repeat( 18 ) + "word. ";
 const longSentenceDefault = "Word ".repeat( 20 ) + "word. ";
@@ -279,11 +280,15 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
-	/* it( "returns the score for 100% short sentences in Japanese", function() {
-		const mockPaper = new Paper( "" );
-		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
-			{ sentence: "", sentenceLength: 39 },
-		], false, false, japaneseConfig ) );
+	it( "returns the score for 100% short sentences in a language that should count sentence length in characters (Japanese)", function() {
+		const mockPaper = new Paper( "日本語では、完了の助動詞としては「つ」「ぬ」「たり」「り」が用いられた（「てけり」「にき」などの過去完了形も）。" );
+		const mockResearcher = new JapaneseResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const assessment = new SentenceLengthInTextAssessment( {
+			slightlyTooMany: 25,
+			farTooMany: 30,
+		}, false, false ).getResult( mockPaper, mockResearcher );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -304,7 +309,7 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
 		expect( assessment.hasMarks() ).toBe( true );
-	} );*/
+	} );
 
 	it( "is not applicable for empty papers", function() {
 		const mockPaper = new Paper();

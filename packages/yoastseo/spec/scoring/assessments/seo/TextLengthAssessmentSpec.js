@@ -289,8 +289,8 @@ describe( "A text length assessment", function() {
 } );
 
 describe( "Tests regular post content type in Japanese. " +
-	"The score should use language-specific boundaries and should be based on character length.", function() {
-	const character = "あ";
+	"The score should use language-specific boundaries and should be based on character length (punctuation excluded).", function() {
+	const character = "（あ）。";
 	const textVeryFarBelowMinimum = character.repeat( 199 );
 	const textFarBelowMinimum = character.repeat( 399 );
 	const textBelowMinimum = character.repeat( 499 );
