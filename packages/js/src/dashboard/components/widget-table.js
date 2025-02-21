@@ -17,7 +17,7 @@ import { __ } from "@wordpress/i18n";
  * @returns {JSX.Element} The element.
  */
 const DisabledScore = ( { tooltip, id } ) => (
-	<TooltipContainer>
+	<TooltipContainer className="yst-h-4">
 		<TooltipTrigger ariaDescribedby={ id }>
 			<XIcon className="yst-w-4 yst-h-4 yst-text-slate-400" />
 			<span className="yst-sr-only">{ __( "Disabled", "wordpress-seo" ) }</span>
@@ -33,13 +33,17 @@ const DisabledScore = ( { tooltip, id } ) => (
  *
  * @returns {JSX.Element} The element.
  */
-const ScoreBullet = ( { score, id } ) => ( <TooltipContainer>
+const ScoreBullet = ( { score, id } ) => ( <TooltipContainer className="yst-h-4 yst-flex yst-items-center yst-justify-center">
 	<TooltipTrigger ariaDescribedby={ id }>
 		<div className={ classNames( "yst-shrink-0 yst-w-3 yst-aspect-square yst-rounded-full", SCORE_META[ score ].color ) }>
 			<span className="yst-sr-only">{ SCORE_META[ score ].label }</span>
 		</div>
 	</TooltipTrigger>
-	{ SCORE_META[ score ]?.tooltip && <TooltipWithContext position="left" id={ id }>{ SCORE_META[ score ].tooltip }</TooltipWithContext> }
+	{ SCORE_META[ score ]?.tooltip && <TooltipWithContext position="left" id={ id }>
+		{ score === "notAnalyzed" ? __( "Content analysis hasn't started. Please open this page in your editor, enter a focus keyphrase and save.", "wordpress-seo" )
+			: SCORE_META[ score ].tooltip }
+
+	</TooltipWithContext> }
 </TooltipContainer>
 );
 
