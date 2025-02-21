@@ -19,7 +19,7 @@ import { cloneDeep } from "lodash";
  * @param {Sentence[]} sentences The array containing all sentences.
  * @returns {SentenceBeginning[]} The array containing the objects containing the first words and the corresponding counts.
  */
-const compareFirstWords = function( sentenceBeginnings, sentences ) {
+const compareFirstWords = ( sentenceBeginnings, sentences ) => {
 	const consecutiveFirstWords = [];
 	let currentSentences = [];
 
@@ -46,7 +46,7 @@ const compareFirstWords = function( sentenceBeginnings, sentences ) {
  *
  * @returns {string} The first word of the sentence.
  */
-function getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptions ) {
+const getSentenceBeginning = ( sentence, firstWordExceptions, secondWordExceptions ) => {
 	let words = getWordsFromTokens( sentence.tokens, false );
 	words = words.filter( word => stripSpaces( word ) !== " " );
 
@@ -64,7 +64,7 @@ function getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptio
 	}
 
 	return sentenceBeginning;
-}
+};
 
 /**
  * Gets the first word of each sentence from the text, and returns an object containing the first word of each sentence and the corresponding counts.
@@ -74,7 +74,7 @@ function getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptio
  *
  * @returns {SentenceBeginning[]} The object containing the first word of each sentence and the corresponding counts.
  */
-export default function( paper, researcher ) {
+export default ( paper, researcher ) => {
 	const firstWordExceptions = researcher.getConfig( "firstWordExceptions" );
 	const secondWordExceptions = researcher.getConfig( "secondWordExceptions" );
 
@@ -96,4 +96,4 @@ export default function( paper, researcher ) {
 
 	// Turn the sentence beginnings into an array that combines sentences beginning with the same word(s).
 	return compareFirstWords( sentenceBeginnings, sentences );
-}
+};
