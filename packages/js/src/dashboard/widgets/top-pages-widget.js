@@ -2,12 +2,9 @@ import { PencilIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
-import { PencilIcon } from "@heroicons/react/outline";
 import { useRemoteData } from "../services/use-remote-data";
 import { WidgetTable, Score } from "../components/widget-table";
-import { Widget, WidgetTitle } from "./widget";
-import { ArrowNarrowRightIcon  } from "@heroicons/react/solid";
-import { InfoTooltip } from "../components/info-tooltip";
+import { Widget } from "./widget";
 import { ErrorAlert } from "../components/error-alert";
 
 /**
