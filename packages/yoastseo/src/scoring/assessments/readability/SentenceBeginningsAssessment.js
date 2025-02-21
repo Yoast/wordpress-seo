@@ -64,6 +64,7 @@ export default class SentenceBeginningsAssessment extends Assessment {
 		if ( groupedSentenceBeginnings.total > 0 ) {
 			assessmentResult.setScore( 3 );
 			assessmentResult.setHasMarks( true );
+			// eslint-disable-next-line @wordpress/valid-sprintf -- The plural uses one extra argument.
 			assessmentResult.setText( sprintf(
 				/* translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
 				%3$d expands to the number of consecutive sentences starting with the same word,
