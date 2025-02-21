@@ -6,11 +6,12 @@ use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Dashboard_Repository_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Indexables\Top_Page_Indexable_Collector;
 
 /**
- * The data provider for top query data.
+ * The data provider for comparing search ranking related data.
  */
-class Top_Query_Repository implements Dashboard_Repository_Interface {
+class Search_Ranking_Compare_Repository implements Dashboard_Repository_Interface {
 
 	/**
 	 * The adapter.
@@ -24,19 +25,25 @@ class Top_Query_Repository implements Dashboard_Repository_Interface {
 	 *
 	 * @param Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter The adapter.
 	 */
-	public function __construct( Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter ) {
+	public function __construct(
+		Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter
+	) {
 		$this->site_kit_search_console_adapter = $site_kit_search_console_adapter;
 	}
 
 	/**
-	 * Gets the top queries' data.
+	 * Gets the comparing search ranking data.
 	 *
-	 * @param Parameters $parameters The parameter to use for getting the top queries.
+	 * @param Parameters $parameters The parameter to use for getting the comparing search ranking data.
 	 *
 	 * @return Data_Container
+	 *
+	 * @throws Exception When getting the comparing search ranking data fails.
 	 */
 	public function get_data( Parameters $parameters ): Data_Container {
 
-		return $this->site_kit_search_console_adapter->get_data( $parameters );
+		$compare_search_ranking_data = $this->site_kit_search_console_adapter->get_data( $parameters );
+
+		return $compare_search_ranking_data;
 	}
 }

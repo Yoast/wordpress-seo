@@ -77,6 +77,42 @@ class Search_Ranking_Data implements Data_Interface {
 	}
 
 	/**
+	 * Gets the clicks.
+	 *
+	 * @return string The clicks.
+	 */
+	public function get_clicks(): string {
+		return $this->clicks;
+	}
+
+	/**
+	 * Gets the click-through rate.
+	 *
+	 * @return string The click-through rate.
+	 */
+	public function get_ctr(): string {
+		return $this->ctr;
+	}
+
+	/**
+	 * Gets the impressions.
+	 *
+	 * @return string The impressions.
+	 */
+	public function get_impressions(): string {
+		return $this->impressions;
+	}
+
+	/**
+	 * Gets the position.
+	 *
+	 * @return string The position.
+	 */
+	public function get_position(): string {
+		return $this->position;
+	}
+
+	/**
 	 * Gets the subject.
 	 *
 	 * @return string The subject.

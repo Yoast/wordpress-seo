@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Unexpected_Response_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Ranking_Data;
+use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Comparison_Search_Ranking_Data;
 
 /**
  * The site API adapter to make calls to the Search Console API, via the Site_Kit plugin.
@@ -54,9 +55,20 @@ class Site_Kit_Search_Console_Adapter {
 			'datapoint'  => 'searchanalytics',
 			'startDate'  => $parameters->get_start_date(),
 			'endDate'    => $parameters->get_end_date(),
-			'limit'      => $parameters->get_limit(),
 			'dimensions' => $parameters->get_dimensions(),
 		];
+
+		$comparison_request = false;
+
+		if ( $parameters->get_limit() !== 0 ) {
+			$api_parameters['limit'] = $parameters->get_limit();
+		}
+
+		if ( ! empty( $parameters->get_compare_start_date() && ! empty( $parameters->get_compare_end_date() ) ) ) {
+			$api_parameters['startDate'] = $parameters->get_compare_start_date();
+
+			$comparison_request = true;
+		}
 
 		$response = self::$search_console_module->get_data( 'searchanalytics', $api_parameters );
 
@@ -70,7 +82,40 @@ class Site_Kit_Search_Console_Adapter {
 			throw new Unexpected_Response_Exception();
 		}
 
+		if ( $comparison_request ) {
+			return $this->parse_comparison_response( $response, $parameters->get_compare_end_date() );
+		}
+
 		return $this->parse_response( $response );
+	}
+
+	/**
+	 * Parses a response for a Site Kit API request for Search Analytics.
+	 *
+	 * @param ApiDataRow[] $response The response to parse.
+	 *
+	 * @return Data_Container The parsed Site Kit API response.
+	 *
+	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
+	 */
+	protected function parse_comparison_response( array $response, $compare_end_date ): Data_Container {
+		$data_container                 = new Data_Container();
+		$comparison_search_ranking_data = new Comparison_Search_Ranking_Data();
+
+		foreach ( $response as $ranking_date ) {
+			$ranking_data = new Search_Ranking_Data( $ranking_date->getClicks(), $ranking_date->getCtr(), $ranking_date->getImpressions(), $ranking_date->getPosition(), $ranking_date->getKeys()[0] );
+
+			if ( $ranking_date->getKeys()[0] <= $compare_end_date ) {
+				$comparison_search_ranking_data->add_previous_traffic_data( $ranking_data );
+			}
+			else {
+				$comparison_search_ranking_data->add_current_traffic_data( $ranking_data );
+			}
+		}
+
+		$data_container->add_data( $comparison_search_ranking_data );
+
+		return $data_container;
 	}
 
 	/**
