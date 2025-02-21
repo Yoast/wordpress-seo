@@ -33,10 +33,12 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "SEO scores", { id: "seo-scores-widget", type: "seoScores" }, "SEO scores" ],
 		[ "Readability scores", { id: "readability-scores-widget", type: "readabilityScores" }, "Readability scores" ],
+		[ "Site Kit setup", { id: "site-kit-setup-widget", type: "siteKitSetup" }, "Expand your dashboard with insights from Google!" ],
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" }, "Top 5 most popular content" ],
+		[ "Top queries", { id: "top-queries-widget", type: "topQueries" }, "Top 5 search queries" ],
 		[ "Unknown", { id: undefined, type: "unknown" }, undefined ],
 	] )( "should create a %s widget", async( _, widget, title ) => {
-		const element = widgetFactory.createWidget( widget, jest.fn() );
+		const element = widgetFactory.createWidget( widget, jest.fn(), jest.fn() );
 		expect( element?.key ).toBe( widget.id );
 		const { getByRole } = render( <>{ element }</> );
 
@@ -61,6 +63,18 @@ describe( "WidgetFactory", () => {
 		} );
 		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 
-		expect( widgetFactory.createWidget( widget, jest.fn() ) ).toBeNull();
+		expect( widgetFactory.createWidget( widget, jest.fn(), jest.fn() ) ).toBeNull();
+	} );
+
+	test.each( [
+		[ "isConnected", { isConnected: true } ],
+		[ "isConfigurationDismissed", { isConfigurationDismissed: true } ],
+	] )( "should not create the Site Kit setup widget if the data provider has %s set to true", ( _, config ) => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: config,
+		} );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+
+		expect( widgetFactory.createWidget( { id: "site-kite-setup-widget", type: "siteKitSetup" }, jest.fn(), jest.fn() ) ).toBeNull();
 	} );
 } );

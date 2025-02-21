@@ -71,6 +71,7 @@ export class MockDataProvider extends DataProvider {
 				activateUrl: "https://example.com/activate",
 				setupUrl: "https://example.com/isSetup",
 				isFeatureEnabled: false,
+				isConfigurationDismissed: false,
 			},
 		} ) );
 		this.setSiteKitConfigurationDismissed = jest.fn();

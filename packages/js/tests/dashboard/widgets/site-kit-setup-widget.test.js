@@ -160,6 +160,7 @@ describe( "SiteKitSetupWidget", () => {
 		} );
 		expect( screen.queryByRole( "button", { name: /Got it!/i } ) ).not.toBeInTheDocument();
 		expect( addWidget ).toHaveBeenCalledWith( "topPages" );
+		expect( addWidget ).toHaveBeenCalledWith( "topQueries" );
 
 		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
 			"https://example.com/site-kit-consent-management",
