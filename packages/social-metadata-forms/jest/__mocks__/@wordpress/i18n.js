@@ -24,7 +24,7 @@ function _n( single, plural, number ) {
 }
 
 function _nx( single, plural, number ) {
-	// eslint-disable-next-line no-restricted-syntax
+	// eslint-disable-next-line no-restricted-syntax,@wordpress/i18n-no-variables
 	return _n( single, plural, number );
 }
 

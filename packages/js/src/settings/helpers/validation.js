@@ -53,7 +53,7 @@ addMethod( number, "isMediaMimeTypeAllowed", function() {
 addMethod( string, "isValidTwitterUrlOrHandle", function() {
 	return this.test(
 		"isValidTwitterUrlOrHandle",
-		__( "The profile is not valid. Please use only 1-25 letters, numbers and underscores or enter a valid X URL.", "wordpress-seo" ),
+		__( "The profile is not valid. Please use only 1–25 letters, numbers and underscores or enter a valid X URL.", "wordpress-seo" ),
 		input => {
 			// Not required.
 			if ( ! input ) {
