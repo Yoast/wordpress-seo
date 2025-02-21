@@ -30,8 +30,8 @@ const getNoIndexOptions = ( editorContext ) => {
 		return [
 			{
 				name: sprintf(
-					/* translators: the first %s translates to "yes" or "no", the second %s translates to the content type label in plural form */
-					__( "%s (current default for %s)", "wordpress-seo" ),
+					/* translators: %1$s translates to "yes" or "no", %2$s translates to the content type label in plural form */
+					__( "%1$s (current default for %2$s)", "wordpress-seo" ),
 					noIndex,
 					editorContext.postTypeNamePlural
 				),
@@ -44,8 +44,8 @@ const getNoIndexOptions = ( editorContext ) => {
 	return [
 		{
 			name: sprintf(
-				/* translators: the first %s translates to "yes" or "no", the second %s translates to the content type label in plural form */
-				__( "%s (current default for %s)", "wordpress-seo" ),
+				/* translators: %1$s translates to "yes" or "no", %2$s translates to the content type label in plural form */
+				__( "%1$s (current default for %2$s)", "wordpress-seo" ),
 				noIndex,
 				editorContext.postTypeNamePlural
 			),

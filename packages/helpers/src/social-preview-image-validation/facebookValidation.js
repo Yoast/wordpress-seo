@@ -18,9 +18,9 @@ export const validateSize = ( image ) => {
 	const { width, height } = image;
 
 	const warningMessage = sprintf(
-		/* Translators: %d expands to the minimum width, %d expands to the minimum hight */
+		/* Translators: %1$d expands to the minimum width, %2$d expands to the minimum height */
 		__(
-			"Your image dimensions are not suitable. The minimum dimensions are %dx%d pixels.",
+			"Your image dimensions are not suitable. The minimum dimensions are %1$dx%2$d pixels.",
 			"wordpress-seo"
 		),
 		MIN_WIDTH, MIN_HEIGHT
@@ -41,9 +41,10 @@ export const validateType = ( image ) => {
 	const validTypes = [ "jpg", "png", "gif", "jpeg", "webp" ];
 
 	const warningMessage = sprintf(
-		/* Translators: %s expands to the jpg format, %s expands to the png format, %s expands to the gif format. */
+		/* Translators: %1$s expands to the jpg format, %2$s expands to the png format,
+		%3$s expands to the webp format, %4$s expands to the gif format. */
 		__(
-			"The format of the uploaded image is not supported. The supported formats are: %s, %s, %s and %s.",
+			"The format of the uploaded image is not supported. The supported formats are: %1$s, %2$s, %3$s and %4$s.",
 			"wordpress-seo"
 		),
 		"JPG", "PNG", "WEBP", "GIF"

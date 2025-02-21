@@ -21,9 +21,12 @@ const updateTextContentIfElementExists = ( root, selector, text ) => {
  * @returns {void}
  */
 export const updateNotificationsCount = ( total ) => {
-	// Note: these translation is the same as on the server side.
-	/* translators: Hidden accessibility text; %s: number of notifications. */
-	const screenReaderText = sprintf( _n( "%s notification", "%s notifications", total, "wordpress-seo" ), total );
+	// Note: this translation is the same as on the server side.
+	const screenReaderText = sprintf(
+		/* translators: Hidden accessibility text; %s: number of notifications. */
+		_n( "%s notification", "%s notifications", total, "wordpress-seo" ),
+		total
+	);
 
 	const menuItems = document.querySelectorAll( "#toplevel_page_wpseo_dashboard .update-plugins" );
 	for ( const menuItem of menuItems ) {

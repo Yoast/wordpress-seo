@@ -1,10 +1,15 @@
 import { PencilIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Alert, Button, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
-import { Score, WidgetTable } from "../components/widget-table";
+import { Button, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
+import { PencilIcon } from "@heroicons/react/outline";
 import { useRemoteData } from "../services/use-remote-data";
-import { Widget } from "./widget";
+import { WidgetTable, Score } from "../components/widget-table";
+import { Widget, WidgetTitle } from "./widget";
+import { ArrowNarrowRightIcon  } from "@heroicons/react/solid";
+import { InfoTooltip } from "../components/info-tooltip";
+import { ErrorAlert } from "../components/error-alert";
+
 /**
  * @type {import("../index").TopPageData} TopPageData
  */
@@ -190,7 +195,7 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 			);
 		}
 		if ( error ) {
-			return <Alert variant="error" className="yst-mt-4">{ error.message }</Alert>;
+			return <ErrorAlert error={ error } supportLink={ dataProvider.getLink( "errorSupport" ) } className="yst-mt-4" />;
 		}
 		if ( data.length === 0 ) {
 			return <p className="yst-mt-4">{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }</p>;

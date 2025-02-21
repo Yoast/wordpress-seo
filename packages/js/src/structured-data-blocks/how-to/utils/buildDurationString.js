@@ -28,13 +28,25 @@ function parseIntDefault( string, defaultInteger = 0 ) {
 function transformDurationsToStrings( { days, hours, minutes } ) {
 	const strings = [];
 	if ( days !== 0 ) {
-		strings.push( sprintf( _n( "%d day", "%d days", days, "wordpress-seo" ), days ) );
+		strings.push( sprintf(
+			/* translators: %d expands to the number of days. */
+			_n( "%d day", "%d days", days, "wordpress-seo" ),
+			days )
+		);
 	}
 	if ( hours !== 0 ) {
-		strings.push( sprintf( _n( "%d hour", "%d hours", hours, "wordpress-seo" ), hours ) );
+		strings.push( sprintf(
+			/* translators: %d expands to the number of hours. */
+			_n( "%d hour", "%d hours", hours, "wordpress-seo" ),
+			hours )
+		);
 	}
 	if ( minutes !== 0 ) {
-		strings.push( sprintf( _n( "%d minute", "%d minutes", minutes, "wordpress-seo" ), minutes ) );
+		strings.push( sprintf(
+			/* translators: %d expands to the number of minutes. */
+			_n( "%d minute", "%d minutes", minutes, "wordpress-seo" ),
+			minutes )
+		);
 	}
 	return strings;
 }
@@ -61,15 +73,15 @@ export default function buildDurationString( durations ) {
 	}
 	if ( elements.length === 2 ) {
 		return sprintf(
-			/* translators: %s expands to a unit of time (e.g. 1 day). */
-			__( "%s and %s", "wordpress-seo" ),
+			/* translators: %1$s and %2$s expand to units of time (e.g. 1 day). */
+			__( "%1$s and %2$s", "wordpress-seo" ),
 			...elements
 		);
 	}
 	if ( elements.length === 3 ) {
 		return sprintf(
-			/* translators: %s expands to a unit of time (e.g. 1 day). */
-			__( "%s, %s and %s", "wordpress-seo" ),
+			/* translators: %1$s, %2$s and %3$s expand to units of time (e.g. 1 day). */
+			__( "%1$s, %2$s and %3$s", "wordpress-seo" ),
 			...elements
 		);
 	}

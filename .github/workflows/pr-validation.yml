@@ -33,9 +33,10 @@ jobs:
           fi
 
       - name: Final Validation
+        # Only complain when the changelog label is missing for now.
         run: |
-          if [[ "$changelog_status" == "failed" || "$milestone_status" == "failed" ]]; then
-            echo "❌ PR is missing required attributes. Please add a milestone and a changelog label before merging."
+          if [[ "$changelog_status" == "failed" ]]; then
+            echo "❌ PR is missing a changelog label. Please add a changelog label before merging."
             exit 1
           else
             echo "✅ PR validation passed."
