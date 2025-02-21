@@ -40,7 +40,7 @@ const ScoreBullet = ( { score, id } ) => ( <TooltipContainer className="yst-h-4 
 		</div>
 	</TooltipTrigger>
 	{ SCORE_META[ score ]?.tooltip && <TooltipWithContext position="left" id={ id }>
-		{ score === "notAnalyzed" ? __( "Content analysis hasn't started. Plean open this page in your editor, enter a focus keyphrase, and save.", "wordpress-seo" )
+		{ score === "notAnalyzed" ? __( "Content analysis hasn't started. Please open this page in your editor, enter a focus keyphrase and save.", "wordpress-seo" )
 			: SCORE_META[ score ].tooltip }
 
 	</TooltipWithContext> }
