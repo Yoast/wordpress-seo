@@ -33,7 +33,7 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "SEO scores", { id: "seo-scores-widget", type: "seoScores" }, "SEO scores" ],
 		[ "Readability scores", { id: "readability-scores-widget", type: "readabilityScores" }, "Readability scores" ],
-		[ "Top pages", { id: "top-pages-widget", type: "topPages" }, "Top 5 most popular content" ],
+		// [ "Top pages", { id: "top-pages-widget", type: "topPages" }, "Top 5 most popular content" ],
 		[ "Unknown", { id: undefined, type: "unknown" }, undefined ],
 	] )( "should create a %s widget", async( _, widget, title ) => {
 		const element = widgetFactory.createWidget( widget, jest.fn() );
@@ -45,6 +45,38 @@ describe( "WidgetFactory", () => {
 			if ( title ) {
 				expect( getByRole( "heading", { name: title } ) ).toBeInTheDocument();
 			}
+		} );
+	} );
+
+	test( "should create the top pages widget", async() => {
+		dataProvider.setSiteKitConnected( true );
+		const element = widgetFactory.createWidget( { id: "top-pages-widget", type: "topPages" }, jest.fn() );
+		expect( element?.key ).toBe( "top-pages-widget" );
+		const { getByRole } = render( <>{ element }</> );
+
+		await waitFor( () => {
+			expect( getByRole( "heading", { name: "Top 5 most popular content" } ) ).toBeInTheDocument();
+		} );
+	} );
+
+	test( "should create the site kit set up widget", async() => {
+		const element = widgetFactory.createWidget( { id: "site-kit-setup-widget", type: "siteKitSetup" }, jest.fn() );
+		expect( element?.key ).toBe( "site-kit-setup-widget" );
+		const { getByRole } = render( <>{ element }</> );
+
+		await waitFor( () => {
+			expect( getByRole( "heading", { name: "Expand your dashboard with insights from Google!" } ) ).toBeInTheDocument();
+		} );
+	} );
+
+	test( "should not create the site kit set up widget", async() => {
+		dataProvider.setSiteKitConnected( true );
+		const element = widgetFactory.createWidget( { id: "site-kit-setup-widget", type: "siteKitSetup" }, jest.fn() );
+		expect( element?.key ).toBe( "site-kit-setup-widget" );
+		const { getByRole } = render( <>{ element }</> );
+
+		await waitFor( () => {
+			expect( getByRole( "heading", { name: "Expand your dashboard with insights from Google!" } ) ).toBeInTheDocument();
 		} );
 	} );
 

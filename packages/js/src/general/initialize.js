@@ -105,7 +105,7 @@ domReady( () => { // eslint-disable-line complexity
 	}
 
 	// If site kit feature is enabled and connected: add the top pages widget.
-	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isConnected ) {
+	if ( siteKitConfiguration.isFeatureEnabled ) {
 		initialWidgets.push( WidgetFactory.types.topPages );
 	}
 

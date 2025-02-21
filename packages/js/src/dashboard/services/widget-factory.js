@@ -44,6 +44,7 @@ export class WidgetFactory {
 	 * @param {function} onAdd The add handler.
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
+	// eslint-disable-next-line no-unused-vars
 	createWidget( widget, onRemove, onAdd ) {
 		switch ( widget.type ) {
 			case WidgetFactory.types.seoScores:
@@ -67,6 +68,9 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
 			case WidgetFactory.types.topPages:
+				if ( ! this.#dataProvider.getSiteKitConfiguration().isConnected ) {
+					return null;
+				}
 				return <TopPagesWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
@@ -76,8 +80,7 @@ export class WidgetFactory {
 			case WidgetFactory.types.siteKitSetup:
 				// This check here makes sure we don't render the setup anymore if the user connected and then switches away from the dashboard.
 				// Then switches back to the dashboard, but does not refresh.
-				if ( this.#dataProvider.getSiteKitConfiguration().isConnected ||
-				this.#dataProvider.getSiteKitConfiguration().isConfigurationDismissed ) {
+				if ( this.#dataProvider.getSiteKitConfiguration().isConfigurationDismissed ) {
 					return null;
 				}
 				return <SiteKitSetupWidget
@@ -85,7 +88,6 @@ export class WidgetFactory {
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					removeWidget={ onRemove }
-					addWidget={ onAdd }
 				/>;
 			default:
 				return null;
