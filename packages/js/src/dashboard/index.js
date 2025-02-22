@@ -84,6 +84,14 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
+ * @typedef {Object} ICSAData The impressions, clicks, site CTR, average position widget data
+ * @property {number} impressions The number of impressions.
+ * @property {number} clicks The number of clicks.
+ * @property {number} ctr The click-through rate.
+ * @property {number} position The average position.
+ */
+
+/**
  * @typedef {Object} TopQueryData The top page data.
  * @property {string} subject The landing page.
  * @property {number} clicks The number of clicks.
@@ -93,7 +101,7 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {"seoScores"|"readabilityScores"|"topPages"|"siteKitSetup"|"topQueries"|"organicSessions"} WidgetType The widget type.
+ * @typedef {"seoScores"|"readabilityScores"|"topPages"|"siteKitSetup"|"topQueries"} WidgetType The widget type.
  */
 
 /**

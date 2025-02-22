@@ -103,6 +103,23 @@ domReady( () => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}
 
+	const initialWidgets = [];
+
+	// If site kit feature is enabled, add the site kit setup widget.
+	if ( siteKitConfiguration.isFeatureEnabled && ! siteKitConfiguration.isConfigurationDismissed && ! siteKitConfiguration.isConnected ) {
+		initialWidgets.push( "siteKitSetup" );
+	}
+
+	// If site kit feature is enabled and connected: add the related widget.
+	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isConnected ) {
+		initialWidgets.push( "topPages" );
+		initialWidgets.push( "ICSA" );
+	}
+
+	initialWidgets.push( "seoScores" );
+	initialWidgets.push( "readabilityScores" );
+
+
 	const router = createHashRouter(
 		createRoutesFromElements(
 			<Route path="/" element={ <App /> } errorElement={ <RouteErrorFallback className="yst-m-8" /> }>
