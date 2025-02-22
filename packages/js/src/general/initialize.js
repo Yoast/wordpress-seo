@@ -104,9 +104,10 @@ domReady( () => { // eslint-disable-line complexity
 		initialWidgets.push( "siteKitSetup" );
 	}
 
-	// If site kit feature is enabled and connected: add the top pages widget.
+	// If site kit feature is enabled and connected: add the related widget.
 	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isConnected ) {
 		initialWidgets.push( "topPages" );
+		initialWidgets.push( "ICSA" );
 	}
 
 	initialWidgets.push( "seoScores" );

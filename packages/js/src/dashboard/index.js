@@ -79,7 +79,15 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {"seoScores"|"readabilityScores"|"topPages"|"siteKitSetup"} WidgetType The widget type.
+ * @typedef {Object} ICSAData The impressions, clicks, site CTR, average position widget data
+ * @property {number} impressions The number of impressions.
+ * @property {number} clicks The number of clicks.
+ * @property {number} ctr The click-through rate.
+ * @property {number} position The average position.
+ */
+
+/**
+ * @typedef {"seoScores"|"readabilityScores"|"topPages"|"ICSA"|"siteKitSetup"} WidgetType The widget type.
  */
 
 /**

@@ -2,6 +2,7 @@
 import { ScoreWidget } from "../widgets/score-widget";
 import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
 import { TopPagesWidget } from "../widgets/top-pages-widget";
+import { ICSAWidget} from "../widgets/icsa-widget";
 
 /**
  * @type {import("../index").WidgetType} WidgetType
@@ -35,6 +36,7 @@ export class WidgetFactory {
 			{ type: "seoScores" },
 			{ type: "readabilityScores" },
 			{ type: "topPages" },
+			{ type: "ICSA" },
 			{ type: "siteKitSetup" },
 		];
 	}
@@ -72,6 +74,12 @@ export class WidgetFactory {
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatter }
+				/>;
+			case "ICSA":
+				return <ICSAWidget
+					key={ widget.id }
+					dataProvider={ this.#dataProvider }
+					remoteDataProvider={ this.#remoteDataProvider}
 				/>;
 			case "siteKitSetup":
 				// This check here makes sure we don't render the setup anymore if the user connected and then switches away from the dashboard.
