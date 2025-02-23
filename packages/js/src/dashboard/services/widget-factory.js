@@ -78,7 +78,7 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatter }
 				/>;
 			case WidgetFactory.types.siteKitSetup:
-				// This check here makes sure we don't render the setup anymore if the user connected and then switches away from the dashboard.
+				// This check here makes sure we don't render the setup anymore if the user dismissed and then switches away from the dashboard.
 				// Then switches back to the dashboard, but does not refresh.
 				if ( this.#dataProvider.getSiteKitConfiguration().isConfigurationDismissed ) {
 					return null;
