@@ -20,7 +20,7 @@ export class WidgetFactory {
 	/**
 	 * @param {import("./data-provider").DataProvider} dataProvider
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider
-	 * @param {import("./data-formatter").DataFormatter} dataFormatter
+	 * @param {import("./top-pages-data-formatter").DataFormatter} dataFormatter
 	 */
 	constructor( dataProvider, remoteDataProvider, dataFormatter ) {
 		this.#dataProvider = dataProvider;
@@ -80,7 +80,7 @@ export class WidgetFactory {
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
-					dataFormatter={ this.#dataFormatter }
+					dataFormatter={ topPagesDataFormatter }
 				/>;
 			case WidgetFactory.types.siteKitSetup:
 				if ( ! isFeatureEnabled || isSetupWidgetDismissed ) {

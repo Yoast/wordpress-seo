@@ -191,7 +191,7 @@ const TopPagesWidgetContent = ( { data, isPending, limit, error, dataProvider } 
 /**
  * @param {import("../services/data-provider")} dataProvider The data provider.
  * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
- * @param {import("../services/data-formatter")} dataFormatter The data formatter.
+ * @param {import("../services/data-formatter-interface")} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  * @returns {JSX.Element} The element.
  */
