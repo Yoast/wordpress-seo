@@ -55,6 +55,43 @@ const TopQueriesTable = ( { data, children } ) => {
 	</WidgetTable>;
 };
 
+
+/**
+ * The content for TopQueriesWidget.
+ *
+ * @param {TopQueryData[]} [data]
+ * @param {boolean} [isPending]
+ * @param {Error} [error]
+ * @param {number} [limit=5]
+ *
+ * @returns {JSX.Element} The element.
+ */
+export const TopQueriesWidgetContent = ( { data, isPending, error, limit = 5 } ) => {
+	if ( isPending ) {
+		return (
+			<TopQueriesTable>
+				{ Array.from( { length: limit }, ( _, index ) => (
+					<TopQueriesSkeletonLoaderRow key={ `top-queries-table--row__${ index }` } index={ index } />
+				) ) }
+			</TopQueriesTable>
+		);
+	}
+	if ( error ) {
+		return (
+			<Alert variant="error" className="yst-mt-4">{ error.message }</Alert>
+		);
+	}
+	if ( data.length === 0 ) {
+		return (
+			<p className="yst-mt-4">
+				{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }
+			</p>
+		);
+	}
+
+	return <TopQueriesTable data={ data } />;
+};
+
 /**
  * @param {DataFormatter} dataFormatter The data formatter.
  * @returns {function(?TopQueryData[]): TopQueryData[]} Function to format the top queries data.
@@ -95,32 +132,6 @@ export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormat
 
 	const { data, error, isPending } = useRemoteData( getTopQueries, formatTopQueries );
 
-	const renderContent = () => {
-		if ( isPending ) {
-			return (
-				<TopQueriesTable>
-					{ Array.from( { length: limit }, ( _, index ) => (
-						<TopQueriesSkeletonLoaderRow key={ `top-queries-table--row__${ index }` } index={ index } />
-					) ) }
-				</TopQueriesTable>
-			);
-		}
-		if ( error ) {
-			return (
-				<Alert variant="error" className="yst-mt-4">{ error.message }</Alert>
-			);
-		}
-		if ( data.length === 0 ) {
-			return (
-				<p className="yst-mt-4">
-					{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }
-				</p>
-			);
-		}
-
-		return <TopQueriesTable data={ data } />;
-	};
-
 	return <Widget
 		className="yst-paper__content yst-col-span-4"
 		title={ __( "Top 5 search queries", "wordpress-seo" ) }
@@ -130,6 +141,11 @@ export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormat
 		) }
 		tooltipLearnMoreLink={ infoLink }
 	>
-		{ renderContent() }
+		<TopQueriesWidgetContent
+			data={ data }
+			isPending={ isPending }
+			limit={ limit }
+			error={ error }
+		/>
 	</Widget>;
 };
