@@ -11,8 +11,8 @@ use Google\Site_Kit_Dependencies\Google\Service\SearchConsole\ApiDataRow;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Unexpected_Response_Exception;
-use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Ranking_Data;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Comparison_Search_Ranking_Data;
+use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Ranking_Data;
 
 /**
  * The site API adapter to make calls to the Search Console API, via the Site_Kit plugin.
@@ -50,25 +50,7 @@ class Site_Kit_Search_Console_Adapter {
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 */
 	public function get_data( Search_Console_Parameters $parameters ): Data_Container {
-		$api_parameters = [
-			'slug'       => 'search-console',
-			'datapoint'  => 'searchanalytics',
-			'startDate'  => $parameters->get_start_date(),
-			'endDate'    => $parameters->get_end_date(),
-			'dimensions' => $parameters->get_dimensions(),
-		];
-
-		$comparison_request = false;
-
-		if ( $parameters->get_limit() !== 0 ) {
-			$api_parameters['limit'] = $parameters->get_limit();
-		}
-
-		if ( ! empty( $parameters->get_compare_start_date() && ! empty( $parameters->get_compare_end_date() ) ) ) {
-			$api_parameters['startDate'] = $parameters->get_compare_start_date();
-
-			$comparison_request = true;
-		}
+		$api_parameters = $this->build_parameters( $parameters );
 
 		$response = self::$search_console_module->get_data( 'searchanalytics', $api_parameters );
 
@@ -82,7 +64,7 @@ class Site_Kit_Search_Console_Adapter {
 			throw new Unexpected_Response_Exception();
 		}
 
-		if ( $comparison_request ) {
+		if ( $this->is_comparison_request( $parameters ) ) {
 			return $this->parse_comparison_response( $response, $parameters->get_compare_end_date() );
 		}
 
@@ -90,21 +72,67 @@ class Site_Kit_Search_Console_Adapter {
 	}
 
 	/**
-	 * Parses a response for a Site Kit API request for Search Analytics.
+	 * Builds the parameters to be used in the Site Kit API request.
 	 *
-	 * @param ApiDataRow[] $response The response to parse.
+	 * @param Search_Console_Parameters $parameters The parameters.
 	 *
-	 * @return Data_Container The parsed Site Kit API response.
-	 *
-	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
+	 * @return array<string, array<string, string>> The Site Kit API parameters.
 	 */
-	protected function parse_comparison_response( array $response, $compare_end_date ): Data_Container {
+	protected function build_parameters( $parameters ): array {
+		$api_parameters = [
+			'slug'       => 'search-console',
+			'datapoint'  => 'searchanalytics',
+			'startDate'  => $parameters->get_start_date(),
+			'endDate'    => $parameters->get_end_date(),
+			'dimensions' => $parameters->get_dimensions(),
+		];
+
+		if ( $parameters->get_limit() !== 0 ) {
+			$api_parameters['limit'] = $parameters->get_limit();
+		}
+
+		// If we're doing a comparison request, we need increase the date range to the start of the previous period. We'll later split the data into two periods.
+		if ( $this->is_comparison_request( $parameters ) ) {
+			$api_parameters['startDate'] = $parameters->get_compare_start_date();
+		}
+
+		return $api_parameters;
+	}
+
+	/**
+	 * Checks whether the request compares two periods.
+	 *
+	 * @param Search_Console_Parameters $parameters The parameters of the request.
+	 *
+	 * @return bool Whether the request compares two periods.
+	 */
+	protected function is_comparison_request( Search_Console_Parameters $parameters ): bool {
+		return ! empty( $parameters->get_compare_start_date() && ! empty( $parameters->get_compare_end_date() ) );
+	}
+
+	/**
+	 * Parses a response for a comparison Site Kit API request for Search Analytics.
+	 *
+	 * @param ApiDataRow[] $response         The response to parse.
+	 * @param string       $compare_end_date The compare end date.
+	 *
+	 * @return Data_Container The parsed comparison Site Kit API response.
+	 *
+	 * @throws Unexpected_Response_Exception When the comparison request responds with an unexpected format.
+	 */
+	protected function parse_comparison_response( array $response, ?string $compare_end_date ): Data_Container {
 		$data_container                 = new Data_Container();
 		$comparison_search_ranking_data = new Comparison_Search_Ranking_Data();
 
 		foreach ( $response as $ranking_date ) {
+
+			if ( ! \is_a( $ranking_date, ApiDataRow::class ) ) {
+				throw new Unexpected_Response_Exception();
+			}
+
 			$ranking_data = new Search_Ranking_Data( $ranking_date->getClicks(), $ranking_date->getCtr(), $ranking_date->getImpressions(), $ranking_date->getPosition(), $ranking_date->getKeys()[0] );
 
+			// Now split the data into two periods.
 			if ( $ranking_date->getKeys()[0] <= $compare_end_date ) {
 				$comparison_search_ranking_data->add_previous_traffic_data( $ranking_data );
 			}
