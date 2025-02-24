@@ -30,63 +30,59 @@ class Comparison_Search_Ranking_Data implements Data_Interface {
 	 *
 	 * @return void
 	 */
-	public function add_current_traffic_data( Search_Ranking_Data $search_ranking_data ): void {
-		array_push( $this->current_search_ranking_data, $search_ranking_data );
+	public function add_current_traffic_data( Search_Ranking_Data $current_search_ranking_data ): void {
+		\array_push( $this->current_search_ranking_data, $current_search_ranking_data );
 	}
 
 	/**
 	 * Sets the previous search ranking data.
 	 *
-	 * @param Search_Ranking_Data $current_search_ranking_data The previous search ranking data.
+	 * @param Search_Ranking_Data $previous_search_ranking_data The previous search ranking data.
 	 *
 	 * @return void
 	 */
-	public function add_previous_traffic_data( Search_Ranking_Data $search_ranking_data ): void {
-		array_push( $this->previous_search_ranking_data, $search_ranking_data );
+	public function add_previous_traffic_data( Search_Ranking_Data $previous_search_ranking_data ): void {
+		\array_push( $this->previous_search_ranking_data, $previous_search_ranking_data );
 	}
 
 	/**
 	 * The array representation of this domain object.
 	 *
-	 * @return array<string|float|int|string[]>
+	 * @return array<array<string,int>>
 	 */
 	public function to_array(): array {
-		$current_data  = [
-			'total_clicks'      => 0,
-			'total_impressions' => 0,
-			'average_ctr'       => 0,
-			'average_position'  => 0,
-		];
-		$previous_data = [
-			'total_clicks'      => 0,
-			'total_impressions' => 0,
-			'average_ctr'       => 0,
-			'average_position'  => 0,
-		];
-		$weighted_postion = 0;
-
-		foreach ( $this->current_search_ranking_data as $search_ranking_data ) {
-			$current_data['total_clicks']      += $search_ranking_data->get_clicks();
-			$current_data['total_impressions'] += $search_ranking_data->get_impressions();
-			$current_data['average_position']  += ( $search_ranking_data->get_position() / count( $this->current_search_ranking_data ) );
-			$weighted_postion                  += $search_ranking_data->get_position() * $search_ranking_data->get_impressions();
-		}
-		$current_data['average_ctr'] = ( $current_data['total_impressions'] !== 0 ) ? $current_data['total_clicks'] / $current_data['total_impressions'] : 0;
-		$current_data['average_position'] = ( $current_data['total_impressions'] !== 0 ) ? $weighted_postion / $current_data['total_impressions'] : 0;
-
-		$weighted_postion = 0;
-		foreach ( $this->previous_search_ranking_data as $search_ranking_data ) {
-			$previous_data['total_clicks']      += $search_ranking_data->get_clicks();
-			$previous_data['total_impressions'] += $search_ranking_data->get_impressions();
-			$previous_data['average_position']  += ( $search_ranking_data->get_position() / count( $this->previous_search_ranking_data ) );
-			$weighted_postion                   += $search_ranking_data->get_position() * $search_ranking_data->get_impressions();
-		}
-		$previous_data['average_ctr'] = ( $previous_data['total_impressions'] !== 0 ) ? $previous_data['total_clicks'] / $previous_data['total_impressions'] : 0;
-		$previous_data['average_position'] = ( $previous_data['total_impressions'] !== 0 ) ? $weighted_postion / $previous_data['total_impressions'] : 0;
-
 		return [
-			'current'  => $current_data,
-			'previous' => $previous_data,
+			'current'  => $this->parse_data( $this->current_search_ranking_data ),
+			'previous' => $this->parse_data( $this->previous_search_ranking_data ),
 		];
+	}
+
+	/**
+	 * Parses search ranking data into the expected format.
+	 *
+	 * @param Search_Ranking_Data[] $search_ranking_data The search ranking data to be parsed.
+	 *
+	 * @return array<string,int> The parsed data
+	 */
+	protected function parse_data( array $search_ranking_data ): array {
+		$parsed_data      = [
+			'total_clicks'      => 0,
+			'total_impressions' => 0,
+			'average_ctr'       => 0,
+			'average_position'  => 0,
+		];
+		$weighted_postion = 0;
+
+		foreach ( $search_ranking_data as $search_ranking ) {
+			$parsed_data['total_clicks']      += $search_ranking->get_clicks();
+			$parsed_data['total_impressions'] += $search_ranking->get_impressions();
+			$parsed_data['average_position']  += ( $search_ranking->get_position() / \count( $search_ranking_data ) );
+			$weighted_postion                 += ( $search_ranking->get_position() * $search_ranking->get_impressions() );
+		}
+
+		$parsed_data['average_ctr']      = ( $parsed_data['total_impressions'] !== 0 ) ? ( $parsed_data['total_clicks'] / $parsed_data['total_impressions'] ) : 0;
+		$parsed_data['average_position'] = ( $parsed_data['total_impressions'] !== 0 ) ? ( $weighted_postion / $parsed_data['total_impressions'] ) : 0;
+
+		return $parsed_data;
 	}
 }
