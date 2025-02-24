@@ -211,16 +211,15 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 
 	const { data, error, isPending } = useRemoteData( getTopPages, formatTopPages );
 
-	return 
-		<Widget
-			className="yst-paper__content yst-col-span-4"
-			title={ __( "Top 5 most popular content", "wordpress-seo" ) }
-			tooltip={ __(
-				"The top 5 URLs on your website with the highest number of clicks.",
-				"wordpress-seo"
-			) }
-			tooltipLearnMoreLink={ infoLink }
-		>
+	return <Widget
+		className="yst-paper__content yst-col-span-4"
+		title={ __( "Top 5 most popular content", "wordpress-seo" ) }
+		tooltip={ __(
+			"The top 5 URLs on your website with the highest number of clicks.",
+			"wordpress-seo"
+		) }
+		tooltipLearnMoreLink={ infoLink }
+	>
 		<TopPagesWidgetContent
 			data={ data }
 			isPending={ isPending }
