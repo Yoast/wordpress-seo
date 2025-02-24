@@ -1,6 +1,7 @@
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Link } from "@yoast/ui-library";
+import classNames from "classnames";
 
 /**
  * Create an interpolate element with the link.
@@ -62,7 +63,7 @@ export const ErrorAlert = ( { error, supportLink, className = "" } ) => {
 	const link = <Link variant="error" href={ supportLink }> </Link>;
 
 	return (
-		<Alert variant="error" className={ className }>
+		<Alert variant="error" className={ classNames( "yst-max-w-2xl", className ) }>
 			{ getErrorMessage( error, link ) }
 		</Alert>
 	);
