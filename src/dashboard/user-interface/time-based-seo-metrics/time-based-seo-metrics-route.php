@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Search_Ranking_Compare_Re
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Page_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Query_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Traffic\Organic_Sessions_Repository;
+use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Domain\Time_Based_SEO_Metrics\Repository_Not_Found_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Analytics_4_Parameters;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
@@ -145,40 +146,32 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	 */
 	public function get_time_based_seo_metrics( WP_REST_Request $request ): WP_REST_Response {
 		try {
-			$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
-			$date->modify( '-28 days' );
-			$start_date = $date->format( 'Y-m-d' );
-
-			$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
-			$date->modify( '-1 days' );
-			$end_date = $date->format( 'Y-m-d' );
-
 			$widget_name = $request->get_param( 'options' )['widget'];
 			switch ( $widget_name ) {
 				case 'query':
 					$request_parameters = new Search_Console_Parameters();
+
+					$request_parameters = $this->set_date_range_parameters( $request_parameters, false );
 					$request_parameters->set_limit( $request->get_param( 'limit' ) );
 					$request_parameters->set_dimensions( [ 'query' ] );
-					$request_parameters->set_start_date( $start_date );
-					$request_parameters->set_end_date( $end_date );
 
 					$time_based_seo_metrics_container = $this->top_query_repository->get_data( $request_parameters );
 					break;
 				case 'page':
 					$request_parameters = new Search_Console_Parameters();
+
+					$request_parameters = $this->set_date_range_parameters( $request_parameters, false );
 					$request_parameters->set_limit( $request->get_param( 'limit' ) );
 					$request_parameters->set_dimensions( [ 'page' ] );
-					$request_parameters->set_start_date( $start_date );
-					$request_parameters->set_end_date( $end_date );
 
 					$time_based_seo_metrics_container = $this->top_page_repository->get_data( $request_parameters );
 					break;
 				case 'οrganicSessionsDaily':
 					$request_parameters = new Analytics_4_Parameters();
+
+					$request_parameters = $this->set_date_range_parameters( $request_parameters, false );
 					$request_parameters->set_dimensions( [ 'date' ] );
 					$request_parameters->set_metrics( [ 'sessions' ] );
-					$request_parameters->set_start_date( $start_date );
-					$request_parameters->set_end_date( $end_date );
 					$request_parameters->set_dimension_filters( [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ] );
 					$request_parameters->set_order_by( 'dimension', 'date' );
 
@@ -186,36 +179,18 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 					break;
 				case 'οrganicSessionsCompare':
 					$request_parameters = new Analytics_4_Parameters();
+
+					$request_parameters = $this->set_date_range_parameters( $request_parameters, true );
 					$request_parameters->set_metrics( [ 'sessions' ] );
-					$request_parameters->set_start_date( $start_date );
-					$request_parameters->set_end_date( $end_date );
 					$request_parameters->set_dimension_filters( [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ] );
-
-					$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
-					$date->modify( '-29 days' );
-					$compare_end_date = $date->format( 'Y-m-d' );
-
-					$date->modify( '-27 days' );
-					$compare_start_date = $date->format( 'Y-m-d' );
-					$request_parameters->set_compare_start_date( $compare_start_date );
-					$request_parameters->set_compare_end_date( $compare_end_date );
 
 					$time_based_seo_metrics_container = $this->organic_sessions_repository->get_data( $request_parameters );
 					break;
 				case 'searchRankingCompare':
 					$request_parameters = new Search_Console_Parameters();
+
+					$request_parameters = $this->set_date_range_parameters( $request_parameters, true );
 					$request_parameters->set_dimensions( [ 'date' ] );
-					$request_parameters->set_start_date( $start_date );
-					$request_parameters->set_end_date( $end_date );
-
-					$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
-					$date->modify( '-29 days' );
-					$compare_end_date = $date->format( 'Y-m-d' );
-
-					$date->modify( '-27 days' );
-					$compare_start_date = $date->format( 'Y-m-d' );
-					$request_parameters->set_compare_start_date( $compare_start_date );
-					$request_parameters->set_compare_end_date( $compare_end_date );
 
 					$time_based_seo_metrics_container = $this->search_ranking_compare_repository->get_data( $request_parameters );
 					break;
@@ -235,6 +210,41 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 			$time_based_seo_metrics_container->to_array(),
 			200
 		);
+	}
+
+	/**
+	 * Sets date range parameters.
+	 *
+	 * @param Parameters $request_parameters    The request parameters.
+	 * @param bool       $is_comparison_request Whether the request compares date ranges.
+	 *
+	 * @return Parameters The request parameters with configured date range.
+	 */
+	public function set_date_range_parameters( Parameters $request_parameters, bool $is_comparison_request ): Parameters {
+		$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$date->modify( '-28 days' );
+		$start_date = $date->format( 'Y-m-d' );
+
+		$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$date->modify( '-1 days' );
+		$end_date = $date->format( 'Y-m-d' );
+
+		$request_parameters->set_start_date( $start_date );
+		$request_parameters->set_end_date( $end_date );
+
+		if ( $is_comparison_request ) {
+			$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+			$date->modify( '-29 days' );
+			$compare_end_date = $date->format( 'Y-m-d' );
+
+			$date->modify( '-27 days' );
+			$compare_start_date = $date->format( 'Y-m-d' );
+
+			$request_parameters->set_compare_start_date( $compare_start_date );
+			$request_parameters->set_compare_end_date( $compare_end_date );
+		}
+
+		return $request_parameters;
 	}
 
 	/**
