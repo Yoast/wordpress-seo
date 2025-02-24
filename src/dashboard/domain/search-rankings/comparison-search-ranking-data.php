@@ -78,8 +78,8 @@ class Comparison_Search_Ranking_Data implements Data_Interface {
 		}
 
 		if ( $parsed_data['total_impressions'] !== 0 ) {
-			$parsed_data['average_ctr']      = $parsed_data['total_clicks'] / $parsed_data['total_impressions'];
-			$parsed_data['average_position'] = $weighted_postion / $parsed_data['total_impressions'];
+			$parsed_data['average_ctr']      = ( $parsed_data['total_clicks'] / $parsed_data['total_impressions'] );
+			$parsed_data['average_position'] = ( $weighted_postion / $parsed_data['total_impressions'] );
 		}
 
 		return $parsed_data;
