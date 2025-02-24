@@ -151,6 +151,39 @@ export const createTopPageFormatter = ( dataFormatter ) => ( data = [] ) => data
 } ) );
 
 /**
+ * The content of the top pages widget.
+ *
+ * @param {TopPageData[]} data The data.
+ * @param {boolean} isPending Whether the data is pending.
+ * @param {number} limit The limit.
+ * @param {Error} error The error.
+ * @param {import("../services/data-provider")} dataProvider The data provider.
+ *
+ * @returns {JSX.Element} The element.
+ */
+const TopPagesWidgetContent = ( { data, isPending, limit, error, dataProvider } ) => {
+	if ( isPending ) {
+		return (
+			<TopPagesTable>
+				{ Array.from( { length: limit }, ( _, index ) => (
+					<TopPagesSkeletonLoaderRow key={ `top-pages-table--row__${ index }` } index={ index } />
+				) ) }
+			</TopPagesTable>
+		);
+	}
+
+	if ( error ) {
+		return <ErrorAlert error={ error } supportLink={ dataProvider.getLink( "errorSupport" ) } className="yst-mt-4" />;
+	}
+
+	if ( data.length === 0 ) {
+		return <p className="yst-mt-4">{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }</p>;
+	}
+
+	return <TopPagesTable data={ data } isIndexablesEnabled={ dataProvider.hasFeature( "indexables" ) } isSeoAnalysisEnabled={ dataProvider.hasFeature( "seoAnalysis" ) } />;
+};
+
+/**
  * @param {import("../services/data-provider")} dataProvider The data provider.
  * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
  * @param {import("../services/data-formatter")} dataFormatter The data formatter.
@@ -171,9 +204,6 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 
 	const infoLink = dataProvider.getLink( "topPagesInfoLearnMore" );
 
-	const isIndexablesEnabled = dataProvider.hasFeature( "indexables" );
-	const isSeoAnalysisEnabled = dataProvider.hasFeature( "seoAnalysis" );
-
 	/**
 	 * @type {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
 	 */
@@ -181,27 +211,7 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 
 	const { data, error, isPending } = useRemoteData( getTopPages, formatTopPages );
 
-	const renderContent = () => {
-		if ( isPending ) {
-			return (
-				<TopPagesTable>
-					{ Array.from( { length: limit }, ( _, index ) => (
-						<TopPagesSkeletonLoaderRow key={ `top-pages-table--row__${ index }` } index={ index } />
-					) ) }
-				</TopPagesTable>
-			);
-		}
-		if ( error ) {
-			return <ErrorAlert error={ error } supportLink={ dataProvider.getLink( "errorSupport" ) } className="yst-mt-4" />;
-		}
-		if ( data.length === 0 ) {
-			return <p className="yst-mt-4">{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }</p>;
-		}
-
-		return <TopPagesTable data={ data } isIndexablesEnabled={ isIndexablesEnabled } isSeoAnalysisEnabled={ isSeoAnalysisEnabled } />;
-	};
-
-	return (
+	return 
 		<Widget
 			className="yst-paper__content yst-col-span-4"
 			title={ __( "Top 5 most popular content", "wordpress-seo" ) }
@@ -211,7 +221,12 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 			) }
 			tooltipLearnMoreLink={ infoLink }
 		>
-			{ renderContent() }
-		</Widget>
-	);
+		<TopPagesWidgetContent
+			data={ data }
+			isPending={ isPending }
+			limit={ limit }
+			error={ error }
+			dataProvider={ dataProvider }
+		/>
+	</Widget>;
 };
