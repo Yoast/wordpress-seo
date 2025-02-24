@@ -68,8 +68,6 @@ class Comparison_Search_Ranking_Data implements Data_Interface {
 		$parsed_data      = [
 			'total_clicks'      => 0,
 			'total_impressions' => 0,
-			'average_ctr'       => 0,
-			'average_position'  => 0,
 		];
 		$weighted_postion = 0;
 
@@ -79,8 +77,10 @@ class Comparison_Search_Ranking_Data implements Data_Interface {
 			$weighted_postion                 += ( $search_ranking->get_position() * $search_ranking->get_impressions() );
 		}
 
-		$parsed_data['average_ctr']      = ( $parsed_data['total_impressions'] !== 0 ) ? ( $parsed_data['total_clicks'] / $parsed_data['total_impressions'] ) : 0;
-		$parsed_data['average_position'] = ( $parsed_data['total_impressions'] !== 0 ) ? ( $weighted_postion / $parsed_data['total_impressions'] ) : 0;
+		if ( $parsed_data['total_impressions'] !== 0 ) {
+			$parsed_data['average_ctr']      = $parsed_data['total_clicks'] / $parsed_data['total_impressions'];
+			$parsed_data['average_position'] = $weighted_postion / $parsed_data['total_impressions'];
+		}
 
 		return $parsed_data;
 	}
