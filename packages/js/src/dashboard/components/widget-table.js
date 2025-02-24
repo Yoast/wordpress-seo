@@ -80,7 +80,7 @@ export const Score = ( { score, isIndexablesEnabled, isSeoAnalysisEnabled, isEdi
 const TableHead = ( { children } ) => {
 	return <Table.Head>
 		<Table.Row>
-			<Table.Header className="yst-px-0">{ "" }</Table.Header>
+			<Table.Header className="yst-px-0 yst-w-5">{ "" }</Table.Header>
 			{ children }
 		</Table.Row>
 	</Table.Head>;

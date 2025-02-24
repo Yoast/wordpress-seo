@@ -2,6 +2,7 @@
 import { ScoreWidget } from "../widgets/score-widget";
 import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
 import { TopPagesWidget } from "../widgets/top-pages-widget";
+import { TopQueriesWidget } from "../widgets/top-queries-widget";
 
 /**
  * @type {import("../index").WidgetType} WidgetType
@@ -35,6 +36,7 @@ export class WidgetFactory {
 			readabilityScores: "readabilityScores",
 			topPages: "topPages",
 			siteKitSetup: "siteKitSetup",
+			topQueries: "topQueries",
 		};
 	}
 
@@ -76,8 +78,10 @@ export class WidgetFactory {
 			case WidgetFactory.types.siteKitSetup:
 				// This check here makes sure we don't render the setup anymore if the user connected and then switches away from the dashboard.
 				// Then switches back to the dashboard, but does not refresh.
-				if ( this.#dataProvider.getSiteKitConfiguration().isConnected ||
-				this.#dataProvider.getSiteKitConfiguration().isConfigurationDismissed ) {
+				if (
+					this.#dataProvider.getSiteKitConfiguration().isConnected ||
+					this.#dataProvider.getSiteKitConfiguration().isConfigurationDismissed
+				) {
 					return null;
 				}
 				return <SiteKitSetupWidget
@@ -86,6 +90,13 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 					removeWidget={ onRemove }
 					addWidget={ onAdd }
+				/>;
+			case WidgetFactory.types.topQueries:
+				return <TopQueriesWidget
+					key={ widget.id }
+					dataProvider={ this.#dataProvider }
+					remoteDataProvider={ this.#remoteDataProvider }
+					dataFormatter={ this.#dataFormatter }
 				/>;
 			default:
 				return null;
