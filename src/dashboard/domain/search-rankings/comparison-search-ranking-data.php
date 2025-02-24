@@ -76,7 +76,6 @@ class Comparison_Search_Ranking_Data implements Data_Interface {
 		foreach ( $search_ranking_data as $search_ranking ) {
 			$parsed_data['total_clicks']      += $search_ranking->get_clicks();
 			$parsed_data['total_impressions'] += $search_ranking->get_impressions();
-			$parsed_data['average_position']  += ( $search_ranking->get_position() / \count( $search_ranking_data ) );
 			$weighted_postion                 += ( $search_ranking->get_position() * $search_ranking->get_impressions() );
 		}
 
