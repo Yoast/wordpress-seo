@@ -39,7 +39,11 @@ const TopQueriesTable = ( { data, children } ) => {
 			<WidgetTable.Header className="yst-text-end">{ __( "Clicks", "wordpress-seo" ) }</WidgetTable.Header>
 			<WidgetTable.Header className="yst-text-end">{ __( "Impressions", "wordpress-seo" ) }</WidgetTable.Header>
 			<WidgetTable.Header className="yst-text-end">{ __( "CTR", "wordpress-seo" ) }</WidgetTable.Header>
-			<WidgetTable.Header className="yst-text-end">{ __( "Average position", "wordpress-seo" ) }</WidgetTable.Header>
+			<WidgetTable.Header>
+				<div className="yst-flex yst-justify-end">
+					<div className="yst-w-min yst-text-end">{ __( "Average position", "wordpress-seo" ) }</div>
+				</div>
+			</WidgetTable.Header>
 		</WidgetTable.Head>
 		<WidgetTable.Body>
 			{ children || data.map( ( { subject, clicks, impressions, ctr, position }, index ) => (
