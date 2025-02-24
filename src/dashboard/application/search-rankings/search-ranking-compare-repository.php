@@ -6,7 +6,6 @@ use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Dashboard_Repository_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Indexables\Top_Page_Indexable_Collector;
 
 /**
  * The data provider for comparing search ranking related data.
