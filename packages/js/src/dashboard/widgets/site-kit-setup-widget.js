@@ -6,7 +6,6 @@ import { Button, DropdownMenu, Paper, Stepper, Title, useToggleState } from "@yo
 import { noop } from "lodash";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { SiteKitConsentModal } from "../../shared-admin/components";
-import { WidgetFactory } from "../services/widget-factory";
 
 /**
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
@@ -71,27 +70,21 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, handleRerend
  *
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @param {function} removeWidget The function to remove a widget.
  *
  * @returns {JSX.Element} The widget.
  */
-export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, removeWidget } ) => {
+export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const handleOnRemove = useCallback( () => {
-		removeWidget( WidgetFactory.types.siteKitSetup );
 		dataProvider.setSiteKitConfigurationDismissed( true );
-	}, [ removeWidget ] );
+	}, [ dataProvider ] );
 
-	const handleRerenderWidgets = useCallback( () => {
-		removeWidget( "" );
-	}, [ removeWidget ] );
 
-	const { config, grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider, handleRerenderWidgets );
+	const { config, grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();
-		removeWidget( WidgetFactory.types.siteKitSetup );
-	}, [ removeWidget, dismissPermanently ] );
+	}, [ dismissPermanently ] );
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );

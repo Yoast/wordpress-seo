@@ -28,26 +28,26 @@ export class WidgetFactory {
 	}
 
 	/**
+	 * The widget types, also determaines the order in which they are displayed.!
+	 *
 	 * @returns {Object} The widget types.
 	 */
 	static get types() {
 		return {
+			siteKitSetup: "siteKitSetup",
+			topPages: "topPages",
+			topQueries: "topQueries",
 			seoScores: "seoScores",
 			readabilityScores: "readabilityScores",
-			topPages: "topPages",
-			siteKitSetup: "siteKitSetup",
-			topQueries: "topQueries",
 		};
 	}
 
 	/**
 	 * @param {WidgetInstance} widget The widget to create.
-	 * @param {function} onRemove The remove handler.
-	 * @param {function} onAdd The add handler.
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
-	// eslint-disable-next-line no-unused-vars
-	createWidget( widget, onRemove, onAdd ) {
+	createWidget( widget ) {
+		const { isFeatureEnabled, isConnected, isConfigurationDismissed } = this.#dataProvider.getSiteKitConfiguration();
 		switch ( widget.type ) {
 			case WidgetFactory.types.seoScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
@@ -70,7 +70,7 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
 			case WidgetFactory.types.topPages:
-				if ( ! this.#dataProvider.getSiteKitConfiguration().isConnected ) {
+				if ( ! isFeatureEnabled || ! isConnected ) {
 					return null;
 				}
 				return <TopPagesWidget
@@ -80,18 +80,18 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatter }
 				/>;
 			case WidgetFactory.types.siteKitSetup:
-				// This check here makes sure we don't render the setup anymore if the user dismissed and then switches away from the dashboard.
-				// Then switches back to the dashboard, but does not refresh.
-				if ( this.#dataProvider.getSiteKitConfiguration().isConfigurationDismissed ) {
+				if ( ! isFeatureEnabled || isConfigurationDismissed ) {
 					return null;
 				}
 				return <SiteKitSetupWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
-					removeWidget={ onRemove }
 				/>;
 			case WidgetFactory.types.topQueries:
+				if ( ! isFeatureEnabled || ! isConnected ) {
+					return null;
+				}
 				return <TopQueriesWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }

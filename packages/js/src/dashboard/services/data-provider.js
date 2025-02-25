@@ -18,6 +18,7 @@ export class DataProvider {
 	#headers;
 	#links;
 	#siteKitConfiguration;
+	#subscribers = new Set();
 
 	/**
 	 * @param {ContentType[]} contentTypes The content types.
@@ -36,6 +37,31 @@ export class DataProvider {
 		this.#headers = headers;
 		this.#links = links;
 		this.#siteKitConfiguration = siteKitConfiguration;
+	}
+
+	/**
+	 * Get the current snapshot of the site kit configuration.
+	 * @returns {SiteKitConfiguration} The current site kit configuration.
+	 */
+	getSnapshotSiteKitConfiguration() {
+		return this.#siteKitConfiguration;
+	}
+
+	/**
+     * Subscribe to changes in the site kit configuration.
+     * @param {Function} callback The callback to call when the configuration changes.
+     * @returns {Function} Unsubscribe function.
+     */
+	subscribe( callback ) {
+		this.#subscribers.add( callback );
+		return () => this.#subscribers.delete( callback );
+	}
+
+	/**
+     * Notify all subscribers of a change in the site kit configuration.
+     */
+	notifySubscribers() {
+		this.#subscribers.forEach( callback => callback() );
 	}
 
 	/**
@@ -99,6 +125,7 @@ export class DataProvider {
 			...this.#siteKitConfiguration,
 			isConnected,
 		};
+		this.notifySubscribers();
 	}
 
 	/**
@@ -110,5 +137,6 @@ export class DataProvider {
 			...this.#siteKitConfiguration,
 			isConfigurationDismissed,
 		};
+		this.notifySubscribers();
 	}
 }
