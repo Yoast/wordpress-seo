@@ -34,7 +34,7 @@ export class DataFormatterInterface {
 	 * @param {string} [locale] The locale.
 	 */
 	constructor( { locale = "en-US" } = {} ) {
-		if (new.target === DataFormatterInterface) {
+		if ( new.target === DataFormatterInterface ) {
 			throw new Error( "DataFormatterInterface cannot be instantiated directly." );
 		}
 
