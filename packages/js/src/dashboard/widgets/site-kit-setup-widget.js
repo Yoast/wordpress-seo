@@ -31,10 +31,9 @@ const steps = [
 /**
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @param {function} handleRerenderWidgets The function to rerender the dashboard.
  * @returns {UseSiteKitConfiguration} The site kit configuration and helper methods.
  */
-const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, handleRerenderWidgets ) => {
+const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 	const [ config, setConfig ] = useState( () => dataProvider.getSiteKitConfiguration() );
 
 	const grantConsent = useCallback( ( options ) => {
@@ -45,7 +44,6 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, handleRerend
 		).then( ( { success } ) => {
 			if ( success ) {
 				dataProvider.setSiteKitConnected( true );
-				handleRerenderWidgets();
 				setConfig( dataProvider.getSiteKitConfiguration() );
 			}
 		} ).catch( noop );
