@@ -6,6 +6,7 @@ use Exception;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
+use WPSEO_Capability_Utils;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
 use Yoast\WP\SEO\Main;
@@ -115,6 +116,6 @@ class Site_Kit_Consent_Management_Route implements Route_Interface {
 	 * @return bool
 	 */
 	public function check_capabilities() {
-		return \current_user_can( 'install_plugins' );
+		return WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' );
 	}
 }
