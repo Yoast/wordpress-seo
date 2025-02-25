@@ -936,7 +936,7 @@ body.folded .wpseo-admin-submit-fixed {
 }
 
 @media (min-width: 768px) {
-	.bulk-navigation {
+	.wpseo_table_page .tablenav.bottom {
 		margin-bottom: 40px;
 	}
 }

@@ -213,10 +213,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$order_by         = isset( $_GET['orderby'] ) && is_string( $_GET['orderby'] ) ? sanitize_text_field( wp_unslash( $_GET['orderby'] ) ) : '';
 		$order            = isset( $_GET['order'] ) && is_string( $_GET['order'] ) ? sanitize_text_field( wp_unslash( $_GET['order'] ) ) : '';
 		$post_type_filter = isset( $_GET['post_type_filter'] ) && is_string( $_GET['post_type_filter'] ) ? sanitize_text_field( wp_unslash( $_GET['post_type_filter'] ) ) : '';
-		$nav_class		= ( 'bottom' === $which ) ? 'bulk-navigation' : '';
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended;
 		?>
-		<div class="tablenav  <?php echo esc_attr( $which ); ?> <?php echo esc_attr( $nav_class ); ?>">
+		<div class="tablenav  <?php echo esc_attr( $which ); ?>">
 
 			<?php if ( $which === 'top' ) { ?>
 			<form id="posts-filter" action="" method="get">
