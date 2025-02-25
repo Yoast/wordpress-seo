@@ -29,12 +29,14 @@ const safeNumberFormat = ( data, numberFormat ) => {
  * Knows how to format data.
  */
 export class DataFormatter {
+	#locale;
 	#numberFormat = {};
 
 	/**
 	 * @param {string} [locale] The locale.
 	 */
 	constructor( { locale = "en-US" } = {} ) {
+		this.#locale = locale;
 		this.#numberFormat.nonFractional = new Intl.NumberFormat( locale, { maximumFractionDigits: 0 } );
 		this.#numberFormat.percentage = new Intl.NumberFormat( locale, { style: "percent", minimumFractionDigits: 2, maximumFractionDigits: 2 } );
 		this.#numberFormat.twoFractions = new Intl.NumberFormat( locale, { maximumFractionDigits: 2, minimumFractionDigits: 2 } );
@@ -75,11 +77,26 @@ export class DataFormatter {
 			case "impressions":
 				return safeNumberFormat( data, this.#numberFormat.nonFractional );
 			case "ctr":
+			case "difference":
 				return safeNumberFormat( data, this.#numberFormat.percentage );
 			case "position":
 				return safeNumberFormat( data, this.#numberFormat.twoFractions );
 			case "seoScore":
 				return Object.keys( SCORE_META ).includes( data ) ? data : "notAnalyzed";
+			case "date":
+				return new Date(
+					Date.UTC( data.slice( 0, 4 ), data.slice( 4, 6 ) - 1, data.slice( 6, 8 ) )
+				).toLocaleDateString(
+					this.#locale,
+					{ month: "short", day: "numeric" }
+				);
+			case "sessions":
+				switch ( context.type ) {
+					case "daily":
+						return Number( data ) || 0;
+					default:
+						return safeNumberFormat( data || 0, this.#numberFormat.nonFractional );
+				}
 			default:
 				return data;
 		}

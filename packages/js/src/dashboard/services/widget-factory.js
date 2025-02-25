@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+import { OrganicSessionsWidget } from "../widgets/organic-sessions-widget";
 import { ScoreWidget } from "../widgets/score-widget";
 import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
 import { TopPagesWidget } from "../widgets/top-pages-widget";
@@ -37,6 +38,7 @@ export class WidgetFactory {
 			topPages: "topPages",
 			siteKitSetup: "siteKitSetup",
 			topQueries: "topQueries",
+			organicSessions: "organicSessions",
 		};
 	}
 
@@ -93,6 +95,13 @@ export class WidgetFactory {
 				/>;
 			case WidgetFactory.types.topQueries:
 				return <TopQueriesWidget
+					key={ widget.id }
+					dataProvider={ this.#dataProvider }
+					remoteDataProvider={ this.#remoteDataProvider }
+					dataFormatter={ this.#dataFormatter }
+				/>;
+			case WidgetFactory.types.organicSessions:
+				return <OrganicSessionsWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }

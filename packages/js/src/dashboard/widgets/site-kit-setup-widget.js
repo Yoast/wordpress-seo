@@ -78,7 +78,11 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addSiteKitWi
  */
 export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, removeWidget, addWidget } ) => {
 	const handleAddSiteKitWidgets = useCallback( () => {
-		[ WidgetFactory.types.topQueries, WidgetFactory.types.topPages ].forEach( ( type ) => addWidget( type ) );
+		[
+			WidgetFactory.types.topQueries,
+			WidgetFactory.types.topPages,
+			WidgetFactory.types.organicSessions,
+		].forEach( ( type ) => addWidget( type ) );
 	}, [ addWidget ] );
 
 	const { config, grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider, handleAddSiteKitWidgets );
