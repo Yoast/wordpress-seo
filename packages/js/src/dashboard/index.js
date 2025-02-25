@@ -84,14 +84,6 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {Object} ICSAData The impressions, clicks, site CTR, average position widget data
- * @property {number} impressions The number of impressions.
- * @property {number} clicks The number of clicks.
- * @property {number} ctr The click-through rate.
- * @property {number} position The average position.
- */
-
-/**
  * @typedef {Object} TopQueryData The top page data.
  * @property {string} subject The landing page.
  * @property {number} clicks The number of clicks.
@@ -119,4 +111,18 @@ export { Dashboard } from "./components/dashboard";
  * @property {boolean} isAnalyticsConnected Whether Google Analytics is connected.
  * @property {boolean} isFeatureEnabled Whether the feature is enabled.
  * @property {boolean} isSetupWidgetDismissed Whether the configuration is dismissed.
+ */
+
+/**
+ * @typedef {Object} MetricData
+ * @property {number} value - The value of the metric.
+ * @property {number} delta - The delta of the metric.
+ */
+
+/**
+ * @typedef { "impressions"|"clicks"|"ctr"|"position" } Icsa The widget type.
+ */
+
+/**
+ * @typedef {Object<Icsa, MetricData>} IcsaData The ICSA data.
  */
