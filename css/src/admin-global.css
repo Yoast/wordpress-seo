@@ -934,4 +934,10 @@ body.folded .wpseo-admin-submit-fixed {
 	line-height: normal;
 	text-wrap: nowrap;
 }
+
+@media (min-width: 768px) {
+	.bulk-navigation {
+		margin-bottom: 40px;
+	}
+}
 /*# sourceMappingURL=admin-global.css.map */
