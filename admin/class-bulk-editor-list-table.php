@@ -215,7 +215,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$post_type_filter = isset( $_GET['post_type_filter'] ) && is_string( $_GET['post_type_filter'] ) ? sanitize_text_field( wp_unslash( $_GET['post_type_filter'] ) ) : '';
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended;
 		?>
-		<div class="tablenav  <?php echo esc_attr( $which ); ?>">
+		<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
 			<?php if ( $which === 'top' ) { ?>
 			<form id="posts-filter" action="" method="get">
