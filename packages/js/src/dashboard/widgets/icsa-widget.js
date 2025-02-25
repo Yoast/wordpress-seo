@@ -3,16 +3,16 @@ import { __ } from "@wordpress/i18n";
 import { Alert, SkeletonLoader } from "@yoast/ui-library";
 import { useRemoteData } from "../services/use-remote-data";
 import { Widget } from "./widget";
-import { ICSAMetric } from "../components/icsa-metric";
+import { IcsaMetric } from "../components/icsa-metric";
 
 /**
- * @type {import("../index").ICSAData} ICSAData
+ * @type {import("../index").MetricData} MetricData
  */
 
 /**
  * @returns {JSX.Element} The element.
  */
-const ICSASkeletonLoader = () => {
+const IcsaSkeletonLoader = () => {
 	return ( <div>
 		<SkeletonLoader>https://example.com/page</SkeletonLoader>
 		<SkeletonLoader className="yst-ms-auto">10</SkeletonLoader>
@@ -23,31 +23,28 @@ const ICSASkeletonLoader = () => {
 };
 
 /**
- * @param {import("../services/data-formatter")} dataFormatter The data formatter.
- * @returns {function(?ICSAData): ICSAData} Function to format the widget data.
+ * @param {import("../services/icsa-data-formatter")} dataFormatter The data formatter.
+ * @returns {function(?IcsaData): IcsaData} Function to format the widget data.
  */
-export const createICSADataFormatter = ( dataFormatter ) => ( data = [] ) => data.map( ( item ) => ( {
-	subject: dataFormatter.format( item.subject, "subject", { widget: "topPages" } ),
-	clicks: dataFormatter.format( item.clicks, "clicks", { widget: "topPages" } ),
-	impressions: dataFormatter.format( item.impressions, "impressions", { widget: "topPages" } ),
-	ctr: dataFormatter.format( item.ctr, "ctr", { widget: "topPages" } ),
-	position: dataFormatter.format( item.position, "position", { widget: "topPages" } ),
-	seoScore: dataFormatter.format( item.seoScore, "seoScore", { widget: "topPages" } ),
-	links: dataFormatter.format( item.links, "links", { widget: "topPages" } ),
-} ) );
+export const createIcsaDataFormatter = ( dataFormatter ) => ( data  ) =>  ( {
+	impressions: dataFormatter.format( data.impressions, "impressions" ),
+	clicks: dataFormatter.format( data.clicks, "clicks" ),
+	ctr: dataFormatter.format( data.ctr, "ctr" ),
+	position: dataFormatter.format( data.position, "position" ),
+} );
 
 /**
  * @param {import("../services/data-provider")} dataProvider The data provider.
  * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
- * @param {import("../services/data-formatter")} dataFormatter The data formatter.
+ * @param {import("../services/icsa-data-formatter")} dataFormatter The data formatter.
  * @returns {JSX.Element} The element.
  */
-export const ICSAWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
+export const IcsaWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
 	/**
 	 * @param {RequestInit} options The options.
-	 * @returns {Promise<ICSAData|Error>} The promise of ICSAData or an Error.
+	 * @returns {Promise<IcsaData|Error>} The promise of IcsaData or an Error.
 	 */
-	const getICSAData = useCallback( ( options ) => {
+	const getIcsaData = useCallback( ( options ) => {
 		/*
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
@@ -58,13 +55,32 @@ export const ICSAWidget = ( { dataProvider, remoteDataProvider, dataFormatter } 
 	}, [ dataProvider ] );
 
 	/**
-	 * @type {function(?ICSAData): ICSAData} Function to format the widget data.
-	 */
-	//const formatICSAData = useMemo( () => createICSADataFormatter( dataFormatter ), [ dataFormatter ] );
-
-	// const { data, error, isPending } = useRemoteData( getICSAData, formatICSAData );
+	 * @type {function(?IcsaData): IcsaData} Function to format the widget data.
+	 * */
+	const formatIcsaData = useMemo( () => createIcsaDataFormatter( dataFormatter ), [ dataFormatter ] );
+	const initData = {
+		impressions: {
+			value: 101232,
+			delta: 12.10,
+		},
+		clicks: {
+			value: 1000,
+			delta: 10.5,
+		},
+		ctr: {
+			value: 0.11,
+			delta: -7.7,
+		},
+		position: {
+			value: 6.2,
+			delta: 10.0,
+		},
+	};
+	// const { data, error, isPending } = useRemoteData( getIcsaData, formatIcsaData );
 	const error = false;
 	const isPending = false;
+	const data = formatIcsaData( initData );
+	/*
 	const data = [
 		{
 			current: {
@@ -74,23 +90,49 @@ export const ICSAWidget = ( { dataProvider, remoteDataProvider, dataFormatter } 
 				position: 10,
 			},
 			previous: {
-				sessions: 0,
+				impressions: 0,
 				clicks: 3,
 				ctr: 0.6,
 				position: 10,
 			},
 		},
 	];
+	*/
 	return <Widget className="yst-paper__content yst-col-span-4">
-		{ isPending && <ICSASkeletonLoader /> }
+		{ isPending && <IcsaSkeletonLoader /> }
 		{ error && <Alert variant="error" className="yst-mt-4">{ error.message }</Alert> }
-		{ data.length === 0 && <p className="yst-mt-4">{ __( "No data to display: CHANGE ME", "wordpress-seo" ) }</p> }
-		{ data.length > 0 && <div className="yst-flex yst-justify-between">
-			<ICSAMetric metricName="Impressions" value={ data[ 0 ].current.impressions } delta={ data[ 0 ].current.impressions - data[ 0 ].previous.impressions } />
-			<ICSAMetric metricName="Clicks" value={ data[ 0 ].current.clicks } delta={ data[ 0 ].current.clicks - data[ 0 ].previous.clicks } />
-			<ICSAMetric metricName="CTR" value={ data[ 0 ].current.ctr } delta={ data[ 0 ].current.ctr - data[ 0 ].previous.ctr } />
-			<ICSAMetric metricName="Position" value={ data[ 0 ].current.position } delta={ data[ 0 ].current.position - data[ 0 ].previous.position } />
-</div>
+		{ Object.keys( data ).length === 0 && <p className="yst-mt-4">{ __( "No data to display: CHANGE ME", "wordpress-seo" ) }</p> }
+		{ Object.keys( data ).length > 0 && <div className="yst-flex yst-justify-between">
+			<IcsaMetric
+				metricName="Impressions"
+				value={ data.impressions.value }
+				delta={ data.impressions.delta }
+				tooltipUrl="https://example.com"
+				tooltipLocalizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
+			/>
+			<IcsaMetric
+				metricName="Clicks"
+				value={ data.clicks.value }
+				delta={ data.clicks.delta }
+				tooltipUrl="https://example.com"
+				tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days. ", "wordpress-seo" ) }
+			/>
+			<IcsaMetric
+				metricName="CTR"
+				value={ data.ctr.value }
+				delta={ data.ctr.delta }
+				tooltipUrl="https://example.com"
+				tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days. ", "wordpress-seo" ) }
+			/>
+			<IcsaMetric
+				metricName="Position"
+				value={ data.position.value }
+				delta={ data.position.delta }
+				hasBorder={ false }
+				tooltipUrl="https://example.com"
+				tooltipLocalizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
+			/>
+	</div>
 		 }
 	</Widget>;
 };
