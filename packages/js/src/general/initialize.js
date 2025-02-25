@@ -113,7 +113,7 @@ domReady( () => {
 	// If site kit feature is enabled and connected: add the related widget.
 	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isConnected ) {
 		initialWidgets.push( "topPages" );
-		initialWidgets.push( "ICSA" );
+		initialWidgets.push( "icsa" );
 	}
 
 	initialWidgets.push( "seoScores" );

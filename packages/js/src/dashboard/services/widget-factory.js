@@ -4,6 +4,9 @@ import { ScoreWidget } from "../widgets/score-widget";
 import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
 import { TopPagesWidget } from "../widgets/top-pages-widget";
 import { TopQueriesWidget } from "../widgets/top-queries-widget";
+import { IcsaWidget} from "../widgets/icsa-widget";
+import { TopPagesDataFormatter } from "./top-pages-data-formatter";
+import { IcsaDataFormatter } from "./icsa-data-formatter";
 
 /**
  * @type {import("../index").WidgetType} WidgetType
@@ -15,17 +18,17 @@ import { TopQueriesWidget } from "../widgets/top-queries-widget";
 export class WidgetFactory {
 	#dataProvider;
 	#remoteDataProvider;
-	#dataFormatter;
+	#dataFormatters;
 
 	/**
 	 * @param {import("./data-provider").DataProvider} dataProvider
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider
-	 * @param {import("./top-pages-data-formatter").DataFormatter} dataFormatter
+	 * @param {object} dataFormatters
 	 */
-	constructor( dataProvider, remoteDataProvider, dataFormatter ) {
+	constructor( dataProvider, remoteDataProvider, dataFormatters ) {
 		this.#dataProvider = dataProvider;
 		this.#remoteDataProvider = remoteDataProvider;
-		this.#dataFormatter = dataFormatter;
+		this.#dataFormatters = dataFormatters;
 	}
 
 	/**
@@ -80,7 +83,7 @@ export class WidgetFactory {
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
-					dataFormatter={ topPagesDataFormatter }
+					dataFormatter={ this.#dataFormatters.topPagesDataFormatter }
 				/>;
 			case WidgetFactory.types.siteKitSetup:
 				if ( ! isFeatureEnabled || isSetupWidgetDismissed ) {
@@ -108,8 +111,8 @@ export class WidgetFactory {
 				return <OrganicSessionsWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
-					dataFormatter={ this.#dataFormatter }
+					remoteDataProvider={ this.#remoteDataProvider}
+					dataFormatter={ this.#dataFormatters.icsaDataFormatter }
 				/>;
 			default:
 				return null;
