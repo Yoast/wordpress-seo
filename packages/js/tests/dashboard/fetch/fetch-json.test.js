@@ -26,14 +26,14 @@ describe( "fetchJson", () => {
 	} );
 
 	it( "should reject if not ok", () => {
-		global.fetch.mockResolvedValue( { ok: false } );
+		global.fetch.mockResolvedValue( { ok: false, statusText: "Bad request" } );
 
 		const url = "https://example.com/";
 		const options = {
 			headers: { "Content-Type": "application/json" },
 		};
 
-		expect( fetchJson( url, options ) ).rejects.toThrow( "not ok" );
+		expect( fetchJson( url, options ) ).rejects.toThrow( "Bad request" );
 		expect( fetch ).toHaveBeenCalledWith( url, options );
 	} );
 

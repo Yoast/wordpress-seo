@@ -77,7 +77,8 @@ domReady( () => { // eslint-disable-line complexity
 		errorSupport: select( STORE_NAME ).selectAdminLink( "?page=wpseo_page_support" ),
 		siteKitLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-site-kit-learn-more" ),
 		siteKitConsentLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-site-kit-consent-learn-more" ),
-		topPagesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/top-pages-learn-more" ),
+		topPagesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-top-content-learn-more" ),
+		topQueriesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-top-queries-learn-more" ),
 	};
 
 	const siteKitConfiguration = get( window, "wpseoScriptData.dashboard.siteKitConfiguration", {
@@ -101,17 +102,15 @@ domReady( () => { // eslint-disable-line complexity
 
 	// If site kit feature is enabled, add the site kit setup widget.
 	if ( siteKitConfiguration.isFeatureEnabled && ! siteKitConfiguration.isConfigurationDismissed && ! siteKitConfiguration.isConnected ) {
-		initialWidgets.push( "siteKitSetup" );
+		initialWidgets.push( WidgetFactory.types.siteKitSetup );
 	}
 
 	// If site kit feature is enabled and connected: add the top pages widget.
 	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isConnected ) {
-		initialWidgets.push( "topPages" );
+		initialWidgets.push( WidgetFactory.types.topPages, WidgetFactory.types.topQueries );
 	}
 
-	initialWidgets.push( "seoScores" );
-	initialWidgets.push( "readabilityScores" );
-
+	initialWidgets.push( WidgetFactory.types.seoScores, WidgetFactory.types.readabilityScores );
 
 	const router = createHashRouter(
 		createRoutesFromElements(
