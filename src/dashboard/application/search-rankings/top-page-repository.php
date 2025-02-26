@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Dashboard\Application\Search_Rankings;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Dashboard_Repository_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
-use Yoast\WP\SEO\Dashboard\Domain\Time_Based_Seo_Metrics\Not_Onboarded_Exception;
+use Yoast\WP\SEO\Dashboard\Domain\Time_Based_Seo_Metrics\Data_Source_Not_Available_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Indexables\Top_Page_Indexable_Collector;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter;
@@ -58,12 +58,12 @@ class Top_Page_Repository implements Dashboard_Repository_Interface {
 	 *
 	 * @param Parameters $parameters The parameter to use for getting the top pages.
 	 *
-	 * @throws Not_Onboarded_Exception When this repository is used without the needed prerequisites ready.
+	 * @throws Data_Source_Not_Available_Exception When this repository is used without the needed prerequisites ready.
 	 * @return Data_Container
 	 */
 	public function get_data( Parameters $parameters ): Data_Container {
 		if ( ! $this->site_kit_configuration->is_onboarded() ) {
-			throw new Not_Onboarded_Exception();
+			throw new Data_Source_Not_Available_Exception( 'Top page repository' );
 		}
 		$top_pages_search_ranking_data = $this->site_kit_search_console_adapter->get_data( $parameters );
 		$top_pages_full_data           = $this->top_page_indexable_collector->get_data( $top_pages_search_ranking_data );

@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Dashboard\Application\Search_Rankings;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Dashboard_Repository_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
-use Yoast\WP\SEO\Dashboard\Domain\Time_Based_Seo_Metrics\Not_Onboarded_Exception;
+use Yoast\WP\SEO\Dashboard\Domain\Time_Based_Seo_Metrics\Data_Source_Not_Available_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter;
 
@@ -47,13 +47,13 @@ class Top_Query_Repository implements Dashboard_Repository_Interface {
 	 *
 	 * @param Parameters $parameters The parameter to use for getting the top queries.
 	 *
-	 * @throws Not_Onboarded_Exception When this repository is used without the needed prerequisites ready.
+	 * @throws Data_Source_Not_Available_Exception When this repository is used without the needed prerequisites ready.
 	 *
 	 * @return Data_Container
 	 */
 	public function get_data( Parameters $parameters ): Data_Container {
 		if ( ! $this->site_kit_configuration->is_onboarded() ) {
-			throw new Not_Onboarded_Exception();
+			throw new Data_Source_Not_Available_Exception( 'Top queries repository' );
 		}
 
 		return $this->site_kit_search_console_adapter->get_data( $parameters );

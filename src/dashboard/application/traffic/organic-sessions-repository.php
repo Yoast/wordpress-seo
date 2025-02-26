@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Dashboard\Application\Traffic;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Dashboard_Repository_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
-use Yoast\WP\SEO\Dashboard\Domain\Time_Based_Seo_Metrics\Not_Onboarded_Exception;
+use Yoast\WP\SEO\Dashboard\Domain\Time_Based_Seo_Metrics\Data_Source_Not_Available_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 
@@ -49,11 +49,11 @@ class Organic_Sessions_Repository implements Dashboard_Repository_Interface {
 	 *
 	 * @return Data_Container
 	 *
-	 * @throws Not_Onboarded_Exception When this repository is used without the needed prerequisites ready.
+	 * @throws Data_Source_Not_Available_Exception When this repository is used without the needed prerequisites ready.
 	 */
 	public function get_data( Parameters $parameters ): Data_Container {
-		if ( ! $this->site_kit_configuration->is_onboarded() && ! $this->site_kit_configuration->is_ga_connected() ) {
-			throw new Not_Onboarded_Exception();
+		if ( ! $this->site_kit_configuration->is_onboarded() || ! $this->site_kit_configuration->is_ga_connected() ) {
+			throw new Data_Source_Not_Available_Exception( 'Organic Sessions Repository' );
 		}
 		$organic_sessions_data = $this->site_kit_analytics_4_adapter->get_data( $parameters );
 

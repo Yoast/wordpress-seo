@@ -92,12 +92,21 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 	}
 
 	/**
+	 * If the Site Kit plugin is installed.
+	 *
+	 * @return bool If the Site Kit plugin is installed.
+	 */
+	private function is_site_kit_installed() {
+		return \class_exists( 'Google\Site_Kit\Plugin' );
+	}
+
+	/**
 	 * If the entire onboarding has been completed.
 	 *
 	 * @return bool If the entire onboarding has been completed.
 	 */
 	public function is_onboarded() {
-		return ( $this->is_connected() && $this->is_setup_completed() && $this->is_connected() );
+		return ( $this->is_site_kit_installed() && $this->is_setup_completed() && $this->is_connected() );
 	}
 
 	/**
