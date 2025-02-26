@@ -71,6 +71,7 @@ class Site_Kit_Analytics_4_Adapter implements Dashboard_Adapter_Interface {
 	 *
 	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
+	 * @throws Invalid_Request_Exception     When the request is invalid due to unexpected parameters.
 	 */
 	public function get_comparison_data( Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
@@ -91,6 +92,7 @@ class Site_Kit_Analytics_4_Adapter implements Dashboard_Adapter_Interface {
 	 *
 	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
+	 * @throws Invalid_Request_Exception     When the request is invalid due to unexpected parameters.
 	 */
 	public function get_daily_data( Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );

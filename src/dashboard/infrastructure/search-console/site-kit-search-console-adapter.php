@@ -62,7 +62,7 @@ class Site_Kit_Search_Console_Adapter implements Dashboard_Adapter_Interface {
 	}
 
 	/**
-	 * The wrapper method to do a Site Kit API request for Search Console.
+	 * The wrapper method to do a comparison Site Kit API request for Search Console.
 	 *
 	 * @param Parameters $parameters The parameters.
 	 *
