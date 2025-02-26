@@ -114,6 +114,22 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
+ * @typedef { "current"|"previous" } TimeFrame The time frame for the raw metric data.
+ */
+
+/**
+ * @typedef {Object} TimeFrameData
+ * @property {number} total_clicks The total number of clicks.
+ * @property {number} total_impressions The total number of impressions.
+ * @property {number} average_ctr The average click-through rate.
+ * @property {number} average_position The average position.
+ */
+
+/**
+ * @typedef {Object<TimeFrame, TimeFrameData>} TimeBasedData The time based data.
+ */
+
+/**
  * @typedef {Object} MetricData
  * @property {number} value - The value of the metric.
  * @property {number} delta - The delta of the metric.
