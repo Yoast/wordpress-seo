@@ -144,11 +144,11 @@ export const IcsaWidget = ( { dataProvider, remoteDataProvider, dataFormatter } 
 	const formatIcsaData = useMemo( () => createIcsaDataFormatter( transformData, dataFormatter ), [ transformData, dataFormatter ] );
 
 	const { data, error, isPending } = useRemoteData( getIcsaData, formatIcsaData );
+
 	return <Widget className="yst-paper__content yst-col-span-4">
 		{ isPending && <IcsaSkeletonLoader /> }
 		{ error && <Alert variant="error" className="yst-mt-4">{ error.message }</Alert> }
-		{ Object.keys( data ).length === 0 && <p className="yst-mt-4">{ __( "No data to display: CHANGE ME", "wordpress-seo" ) }</p> }
-		{ Object.keys( data ).length > 0 && <div className="yst-flex yst-justify-between">
+		{ data && Object.keys( data ).length > 0 && <div className="yst-flex yst-justify-between">
 			<IcsaMetric
 				metricName="Impressions"
 				value={ data.impressions.value }
@@ -178,7 +178,7 @@ export const IcsaWidget = ( { dataProvider, remoteDataProvider, dataFormatter } 
 				tooltipUrl="https://example.com"
 				tooltipLocalizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
 			/>
-	</div>
-		 }
+		</div>
+		}
 	</Widget>;
 };
