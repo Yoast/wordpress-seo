@@ -69,6 +69,10 @@ const CHART_OPTIONS = {
 				drawTicks: false,
 			},
 			ticks: {
+				font: {
+					size: 12,
+					weight: 400,
+				},
 				padding: 12,
 				maxRotation: 0,
 				// Limit the number of ticks to 14, which is half of the 28 days.
@@ -84,18 +88,24 @@ const CHART_OPTIONS = {
 			ticks: {
 				color: COLORS.slate500,
 				font: {
-					size: 12,
+					size: 14,
 					weight: 400,
 				},
-				padding: 12,
+				padding: 20,
+				// Set the offset for y-axis ticks
 				callback: function( value ) {
 					// Only show the label for whole numbers.
-					return value % 1 ? "" : this.getLabelForValue( value );
+					const number = value % 1 ? "" : this.getLabelForValue( value );
+					if ( number === "0" ) {
+						return number;
+					}
+					return number ? `${number}k` : "";
 				},
 			},
 		},
 	},
 	responsive: true,
+	maintainAspectRatio: false,
 	plugins: {
 		legend: false,
 		tooltip: {
@@ -132,12 +142,13 @@ export const createOrganicSessionsDailyFormatter = ( dataFormatter ) => ( data =
  */
 const OrganicSessionsChart = ( { data } ) => (
 	<>
-		<Line
-			aria-hidden={ true }
-			options={ CHART_OPTIONS }
-			data={ data }
-			height={ 50 }
-		/>
+		<div className="yst-w-full yst-h-[226px]">
+			<Line
+				aria-hidden={ true }
+				options={ CHART_OPTIONS }
+				data={ data }
+			/>
+		</div>
 		<table className="yst-sr-only">
 			<caption>{ __( "Organic sessions chart", "wordpress-seo" ) }</caption>
 			<thead>
@@ -196,7 +207,7 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataF
 export const OrganicSessionsDaily = ( { data, isPending, error, supportLink } ) => {
 	if ( isPending ) {
 		return (
-			<SkeletonLoader className="yst-w-full yst-h-[229px]" />
+			<SkeletonLoader className="yst-w-full yst-h-[226px]" />
 		);
 	}
 	if ( error ) {
