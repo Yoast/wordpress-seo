@@ -4908,12 +4908,12 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2.5 || ^8.0",
+        "php": "^7.4| ^8.0",
         "ext-filter": "*"
     },
     "platform-dev": {},
     "platform-overrides": {
-        "php": "7.2.5"
+        "php": "7.4"
     },
     "plugin-api-version": "2.6.0"
 }
