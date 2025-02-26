@@ -28,7 +28,7 @@ import { ALERT_CENTER_NAME } from "./store/alert-center";
  * @type {import("../index").Endpoints} Endpoints
  */
 
-domReady( () => { // eslint-disable-line complexity
+domReady( () => {
 	const root = document.getElementById( "yoast-seo-general" );
 	if ( ! root ) {
 		return;
@@ -93,24 +93,15 @@ domReady( () => { // eslint-disable-line complexity
 		isConfigurationDismissed: false,
 	} );
 
+	if ( siteKitConfiguration.isConnected ) {
+		siteKitConfiguration.isConfigurationDismissed = true;
+	}
+
+
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const dataFormatter = new DataFormatter( { locale: userLocale } );
 	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatter );
-
-	const initialWidgets = [];
-
-	// If site kit feature is enabled, add the site kit setup widget.
-	if ( siteKitConfiguration.isFeatureEnabled && ! siteKitConfiguration.isConfigurationDismissed && ! siteKitConfiguration.isConnected ) {
-		initialWidgets.push( WidgetFactory.types.siteKitSetup );
-	}
-
-	// If site kit feature is enabled and connected: add the top pages widget.
-	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isConnected ) {
-		initialWidgets.push( WidgetFactory.types.topPages, WidgetFactory.types.topQueries );
-	}
-
-	initialWidgets.push( WidgetFactory.types.seoScores, WidgetFactory.types.readabilityScores );
 
 	const router = createHashRouter(
 		createRoutesFromElements(
@@ -121,11 +112,11 @@ domReady( () => { // eslint-disable-line complexity
 						<SidebarLayout>
 							<Dashboard
 								widgetFactory={ widgetFactory }
-								initialWidgets={ initialWidgets }
 								userName={ userName }
 								features={ features }
 								links={ links }
 								sitekitFeatureEnabled={ siteKitConfiguration.isFeatureEnabled }
+								dataProvider={ dataProvider }
 							/>
 							<ConnectedPremiumUpsellList />
 						</SidebarLayout>

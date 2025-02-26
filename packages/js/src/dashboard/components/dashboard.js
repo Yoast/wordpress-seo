@@ -1,5 +1,7 @@
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback, useSyncExternalStore } from "@wordpress/element";
 import { PageTitle } from "./page-title";
+import { values } from "lodash";
+import { WidgetFactory } from "../services/widget-factory";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -21,32 +23,27 @@ const prepareWidgetInstance = ( type ) => {
 
 /**
  * @param {WidgetFactory} widgetFactory The widget factory.
- * @param {WidgetType[]} initialWidgets The initial widgets.
  * @param {ContentType[]} contentTypes The content types.
  * @param {string} userName The user name.
  * @param {Features} features Whether features are enabled.
  * @param {Links} links The links.
  * @param {boolean} sitekitFeatureEnabled Whether the site kit feature is enabled.
+ * @param {import("../services/data-provider")} dataProvider The data provider.
  *
  * @returns {JSX.Element} The element.
  */
-export const Dashboard = ( { widgetFactory, initialWidgets = [], userName, features, links, sitekitFeatureEnabled } ) => {
-	const [ widgets, setWidgets ] = useState( () => initialWidgets.map( prepareWidgetInstance ) );
-
-
-	const addWidget = useCallback( ( type ) => {
-		setWidgets( ( currentWidgets ) => [ prepareWidgetInstance( type ), ...currentWidgets ] );
-	}, [] );
-
-	const removeWidget = useCallback( ( type ) => {
-		setWidgets( ( currentWidgets ) => currentWidgets.filter( ( widget ) => widget.type !== type ) );
-	}, [] );
+export const Dashboard = ( { widgetFactory, userName, features, links, sitekitFeatureEnabled, dataProvider } ) => {
+	const getSnapshotSiteKitConfiguration = useCallback( () => dataProvider.getSiteKitConfiguration(), [ dataProvider ] );
+	const subscribeSiteKitConfiguration = useCallback( ( callback ) => {
+		return dataProvider.subscribe( callback );
+	}, [ dataProvider ] );
+	useSyncExternalStore( subscribeSiteKitConfiguration, getSnapshotSiteKitConfiguration );
 
 	return (
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } sitekitFeatureEnabled={ sitekitFeatureEnabled } />
 			<div className="yst-grid yst-grid-cols-4 yst-gap-6 yst-my-6">
-				{ widgets.map( ( widget ) => widgetFactory.createWidget( widget, removeWidget, addWidget ) ) }
+				{ values( WidgetFactory.types ).map( ( widget ) => widgetFactory.createWidget( prepareWidgetInstance( widget ) ) ) }
 			</div>
 		</>
 	);
