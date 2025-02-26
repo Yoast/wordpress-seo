@@ -23,7 +23,7 @@ final class Site_Kit_Configuration_Permanent_Dismissal_Route_Check_Capabilities_
 	public function test_check_capabilities() {
 		Functions\expect( 'current_user_can' )
 			->once()
-			->with( 'install_plugins' )->andReturn( true );
+			->with( 'wpseo_manage_options' )->andReturn( true );
 
 		$this->assertTrue( $this->instance->check_capabilities() );
 	}
