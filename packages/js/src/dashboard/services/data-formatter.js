@@ -60,11 +60,17 @@ export class DataFormatter {
 	 * @param {Object} [context] Extra information to determine how to format.
 	 * @returns {*} The formatted or original data.
 	 */
-	// eslint-disable-next-line no-unused-vars
 	format( data, name, context = {} ) { // eslint-disable-line complexity
 		switch ( name ) {
 			case "subject":
-				return this.formatLandingPage( data );
+				switch ( context.widget ) {
+					case "topPages":
+						return this.formatLandingPage( data );
+					case "topQueries":
+						return String( data );
+					default:
+						return data;
+				}
 			case "clicks":
 			case "impressions":
 				return safeNumberFormat( data, this.#numberFormat.nonFractional );

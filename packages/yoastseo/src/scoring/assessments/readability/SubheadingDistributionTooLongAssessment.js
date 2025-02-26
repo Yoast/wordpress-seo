@@ -4,7 +4,7 @@ import marker from "../../../markers/addMark";
 import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import { getSubheadings } from "../../../languageProcessing/helpers/html/getSubheadings";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
 import AssessmentResult from "../../../values/AssessmentResult";
@@ -281,6 +281,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			},
 			nonBeginning: useCharacter => {
 				const wordFeedback = sprintf(
+					/* translators: %1$s and %5$s expand to links on yoast.com, %2$s expands to the anchor end tag, %3$d expands to the number of sections that are too long, %4$s expands to the recommended maximum length of a text without subheading. */
 					_n(
 						"%1$sSubheading distribution%2$s: %3$d section of your text is longer than the recommended number of words (%4$d) and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 						"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than the recommended number of words (%4$d) and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
@@ -294,6 +295,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 					this._config.urlCallToAction
 				);
 				const characterFeedback = sprintf(
+					/* translators: %1$s and %5$s expand to links on yoast.com, %2$s expands to the anchor end tag, %3$d expands to the number of sections that are too long, %4$s expands to the recommended maximum length of a text without subheading. */
 					_n(
 						"%1$sSubheading distribution%2$s: %3$d section of your text is longer than the recommended number of characters (%4$d) and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 						"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than the recommended number of characters (%4$d) and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",

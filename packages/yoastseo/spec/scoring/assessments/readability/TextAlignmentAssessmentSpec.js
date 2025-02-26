@@ -275,6 +275,7 @@ describe( "tests for retrieving the feedback strings.", function() {
 		 */
 		const getResultTexts = ( { urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag, numberOfLongCenterAlignedTexts } ) => {
 			return {
+				// eslint-disable-next-line @wordpress/valid-sprintf -- The plural uses one extra argument.
 				rightToLeft: sprintf(
 					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 					%4$s expands to the number of the long center-aligned sections in the text */
@@ -289,6 +290,7 @@ describe( "tests for retrieving the feedback strings.", function() {
 					"</a>",
 					numberOfLongCenterAlignedTexts
 				),
+				// eslint-disable-next-line @wordpress/valid-sprintf -- The plural uses one extra argument.
 				leftToRight: sprintf(
 					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 						%4$s expands to the number of the long center-aligned sections in the text */

@@ -20,9 +20,9 @@ const UpdateWincherPlanLink = makeOutboundLink();
  */
 const WincherLimitReached = ( props ) => {
 	const message = sprintf(
-		/* translators: %d expands to the amount of allowed keyphrases on a free account, %s expands to a link to Wincher plans. */
+		/* translators: %1$d expands to the amount of allowed keyphrases on a free account, %2$s expands to a link to Wincher plans. */
 		__(
-			"You've reached the maximum amount of %d keyphrases you can add to your Wincher account. If you wish to add more keyphrases, please %s.",
+			"You've reached the maximum amount of %1$d keyphrases you can add to your Wincher account. If you wish to add more keyphrases, please %2$s.",
 			"wordpress-seo"
 		),
 		props.limit,
