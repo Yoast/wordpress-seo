@@ -4,6 +4,9 @@ import { Alert, SkeletonLoader } from "@yoast/ui-library";
 import { useRemoteData } from "../services/use-remote-data";
 import { Widget } from "./widget";
 import { IcsaMetric } from "../components/icsa-metric";
+import { InfoTooltip } from "../components/info-tooltip";
+import { TooltipContent } from "../components/tooltip-content";
+import classNames from "classnames";
 
 /**
  * @type {import("../index").MetricData} MetricData
