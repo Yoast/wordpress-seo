@@ -141,47 +141,9 @@ export const IcsaWidget = ( { dataProvider, remoteDataProvider, dataFormatter } 
 	/**
 	 * @type {function(?TimeBasedData[]): IcsaData} Function to format the widget data.
 	 * */
-	const formatIcsaData = useMemo( () => createIcsaDataFormatter( dataFormatter ), [ dataFormatter ] );
-	const initData = {
-		impressions: {
-			value: 101232,
-			delta: 12.10,
-		},
-		clicks: {
-			value: 1000,
-			delta: 10.5,
-		},
-		ctr: {
-			value: 0.11,
-			delta: -7.7,
-		},
-		position: {
-			value: 6.2,
-			delta: 10.0,
-		},
-	};
-	// const { data, error, isPending } = useRemoteData( getIcsaData, formatIcsaData );
-	const error = false;
-	const isPending = false;
-	const data = formatIcsaData( initData );
-	/*
-	const data = [
-		{
-			current: {
-				impressions: 10,
-				clicks: 10,
-				ctr: 0.4,
-				position: 10,
-			},
-			previous: {
-				impressions: 0,
-				clicks: 3,
-				ctr: 0.6,
-				position: 10,
-			},
-		},
-	];
-	*/
+	const formatIcsaData = useMemo( () => createIcsaDataFormatter( transformData, dataFormatter ), [ transformData, dataFormatter ] );
+
+	const { data, error, isPending } = useRemoteData( getIcsaData, formatIcsaData );
 	return <Widget className="yst-paper__content yst-col-span-4">
 		{ isPending && <IcsaSkeletonLoader /> }
 		{ error && <Alert variant="error" className="yst-mt-4">{ error.message }</Alert> }
