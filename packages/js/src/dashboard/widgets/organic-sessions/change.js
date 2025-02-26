@@ -108,16 +108,16 @@ export const OrganicSessionsChange = ( { data, isPending, error, supportLink } )
 	return (
 		<div className="yst-flex yst-flex-col yst-gap-1">
 			<div className="yst-flex yst-gap-3">
-				<Title as="h2" size="1">{ data.sessions }</Title>
+				<Title as="h2" size="1" className="yst-font-bold">{ data.sessions }</Title>
 				<div
 					className={ classNames(
-						"yst-flex yst-items-center",
+						"yst-flex yst-items-center yst-text-[14px] yst-font-semibold",
 						isNegative ? "yst-text-red-600" : "yst-text-green-600"
 					) }
 				>
 					<ArrowNarrowUpIcon
 						className={ classNames(
-							"yst-w-4 yst-shrink-0",
+							"yst-w-[18px] yst-shrink-0",
 							// Point the arrow downwards if negative.
 							isNegative && "yst-rotate-180"
 						) }
@@ -125,7 +125,7 @@ export const OrganicSessionsChange = ( { data, isPending, error, supportLink } )
 					{ isNegative ? "-" : "+" }{ data.formattedDifference }
 				</div>
 			</div>
-			<span>{ __( "Organic sessions in the last 28 days", "wordpress-seo" ) }</span>
+			<span className="yst-text-[14px]">{ __( "Organic sessions in the last 28 days", "wordpress-seo" ) }</span>
 		</div>
 	);
 };
