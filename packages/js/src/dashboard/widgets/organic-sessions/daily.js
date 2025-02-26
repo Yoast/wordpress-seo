@@ -147,6 +147,7 @@ const OrganicSessionsChart = ( { data } ) => (
 				aria-hidden={ true }
 				options={ CHART_OPTIONS }
 				data={ data }
+				className="-yst-ms-5"
 			/>
 		</div>
 		<table className="yst-sr-only">
