@@ -33,7 +33,7 @@ const prepareWidgetInstance = ( type ) => {
  * @returns {JSX.Element} The element.
  */
 export const Dashboard = ( { widgetFactory, userName, features, links, sitekitFeatureEnabled, dataProvider } ) => {
-	const getSnapshotSiteKitConfiguration = useCallback( () => dataProvider.getSnapshotSiteKitConfiguration(), [ dataProvider ] );
+	const getSnapshotSiteKitConfiguration = useCallback( () => dataProvider.getSiteKitConfiguration(), [ dataProvider ] );
 	const subscribeSiteKitConfiguration = useCallback( ( callback ) => {
 		return dataProvider.subscribe( callback );
 	}, [ dataProvider ] );

@@ -40,14 +40,6 @@ export class DataProvider {
 	}
 
 	/**
-	 * Get the current snapshot of the site kit configuration.
-	 * @returns {SiteKitConfiguration} The current site kit configuration.
-	 */
-	getSnapshotSiteKitConfiguration() {
-		return this.#siteKitConfiguration;
-	}
-
-	/**
      * Subscribe to changes in the site kit configuration.
      * @param {Function} callback The callback to call when the configuration changes.
      * @returns {Function} Unsubscribe function.
