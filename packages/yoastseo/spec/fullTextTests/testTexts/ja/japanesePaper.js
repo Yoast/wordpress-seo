@@ -66,7 +66,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 3022 characters. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 2734 characters. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -110,21 +110,21 @@ const expectedResults = {
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
-		score: 3,
+		score: 6,
 		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
-			"2 sections of your text are longer than the recommended number of characters (600) and are not separated by any subheadings. " +
+			"1 section of your text is longer than the recommended number of characters (600) and is not separated by any subheadings. " +
 			"<a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>.",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 4 of the paragraphs contain more " +
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain more " +
 			"than the recommended maximum number of characters (300). <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 51.6% of the sentences contain more than 40 characters, " +
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 46.8% of the sentences contain more than 40 characters, " +
 			"which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
