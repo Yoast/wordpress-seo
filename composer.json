@@ -32,7 +32,7 @@
 		"security": "https://yoast.com/security-program/"
 	},
 	"require": {
-		"php": "^7.2.5 || ^8.0",
+		"php": "^7.4| ^8.0",
 		"ext-filter": "*",
 		"composer/installers": "^1.12 || ^2.0",
 		"yoast/whip": "^2.0"
@@ -88,7 +88,7 @@
 			"dealerdirect/phpcodesniffer-composer-installer": true
 		},
 		"platform": {
-			"php": "7.2.5"
+			"php": "7.4"
 		}
 	},
 	"scripts": {
