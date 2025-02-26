@@ -79,18 +79,46 @@ const IcsaSkeletonLoader = () => {
 		</div>
 	);
 };
+
+/**
+ * @param {TimeBasedData[]} data The data.
+ * @returns {IcsaData} The transformed data.
+ */
+const transformData = ( data ) => {
+	return {
+		impressions: {
+			value: data[0].current.total_impressions,
+			delta: ( data[0].current.total_impressions - data[0].previous.total_impressions ),
+		},
+		clicks: {
+			value: data[0].current.total_clicks,
+			delta: ( data[0].current.total_clicks - data[0].previous.total_clicks ),
+		},
+		ctr: {
+			value: data[0].current.average_ctr,
+			delta: ( data[0].current.average_ctr - data[0].previous.average_ctr ),
+		},
+		position: {
+			value: data[0].current.average_position,
+			delta: ( data[0].current.average_position - data[0].previous.average_position ),
+		},
+	};
 };
 
 /**
+ * @param {function} dataTransformer The data transformer.
  * @param {import("../services/icsa-data-formatter")} dataFormatter The data formatter.
- * @returns {function(?IcsaData): IcsaData} Function to format the widget data.
+ * @returns {function(?TimeBasedData[]): IcsaData} Function to format the widget data.
  */
-export const createIcsaDataFormatter = ( dataFormatter ) => ( data  ) =>  ( {
-	impressions: dataFormatter.format( data.impressions, "impressions" ),
-	clicks: dataFormatter.format( data.clicks, "clicks" ),
-	ctr: dataFormatter.format( data.ctr, "ctr" ),
-	position: dataFormatter.format( data.position, "position" ),
-} );
+export const createIcsaDataFormatter = ( dataTransformer, dataFormatter ) => ( initData ) => {
+	const data = dataTransformer( initData );
+	return {
+		impressions: dataFormatter.format( data.impressions, "impressions" ),
+		clicks: dataFormatter.format( data.clicks, "clicks" ),
+		ctr: dataFormatter.format( data.ctr, "ctr" ),
+		position: dataFormatter.format( data.position, "position" ),
+	};
+};
 
 /**
  * @param {import("../services/data-provider")} dataProvider The data provider.
