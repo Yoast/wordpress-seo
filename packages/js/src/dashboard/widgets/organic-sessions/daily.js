@@ -136,6 +136,7 @@ const OrganicSessionsChart = ( { data } ) => (
 			aria-hidden={ true }
 			options={ CHART_OPTIONS }
 			data={ data }
+			height={ 50 }
 		/>
 		<table className="yst-sr-only">
 			<caption>{ __( "Organic sessions chart", "wordpress-seo" ) }</caption>
@@ -195,7 +196,7 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataF
 export const OrganicSessionsDaily = ( { data, isPending, error, supportLink } ) => {
 	if ( isPending ) {
 		return (
-			<SkeletonLoader className="yst-w-full yst-h-[353px]" />
+			<SkeletonLoader className="yst-w-full yst-h-[229px]" />
 		);
 	}
 	if ( error ) {
