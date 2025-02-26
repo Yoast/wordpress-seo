@@ -12,7 +12,8 @@ use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Search_Ranking_Compare_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Page_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Query_Repository;
-use Yoast\WP\SEO\Dashboard\Application\Traffic\Organic_Sessions_Repository;
+use Yoast\WP\SEO\Dashboard\Application\Traffic\Organic_Sessions_Compare_Repository;
+use Yoast\WP\SEO\Dashboard\Application\Traffic\Organic_Sessions_Daily_Repository;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Domain\Time_Based_SEO_Metrics\Repository_Not_Found_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Analytics_4_Parameters;
@@ -54,11 +55,18 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	private $top_query_repository;
 
 	/**
-	 * The data provider for organic session traffic.
+	 * The data provider for comparison organic session traffic.
 	 *
-	 * @var Organic_Sessions_Repository $organic_sessions_repository
+	 * @var Organic_Sessions_Compare_Repository $organic_sessions_compare_repository
 	 */
-	private $organic_sessions_repository;
+	private $organic_sessions_compare_repository;
+
+	/**
+	 * The data provider for daily organic session traffic.
+	 *
+	 * @var Organic_Sessions_Daily_Repository $organic_sessions_daily_repository
+	 */
+	private $organic_sessions_daily_repository;
 
 	/**
 	 * The data provider for searching ranking comparison.
@@ -79,21 +87,24 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Top_Page_Repository               $top_page_repository               The data provider for page based search rankings.
-	 * @param Top_Query_Repository              $top_query_repository              The data provider for query based search rankings.
-	 * @param Organic_Sessions_Repository       $organic_sessions_repository       The data provider for organic session traffic.
-	 * @param Search_Ranking_Compare_Repository $search_ranking_compare_repository The data provider for searching ranking comparison.
+	 * @param Top_Page_Repository                 $top_page_repository                 The data provider for page based search rankings.
+	 * @param Top_Query_Repository                $top_query_repository                The data provider for query based search rankings.
+	 * @param Organic_Sessions_Compare_Repository $organic_sessions_compare_repository The data provider for comparison organic session traffic.
+	 * @param Organic_Sessions_Daily_Repository   $organic_sessions_daily_repository   The data provider for daily organic session traffic.
+	 * @param Search_Ranking_Compare_Repository   $search_ranking_compare_repository   The data provider for searching ranking comparison.
 	 */
 	public function __construct(
 		Top_Page_Repository $top_page_repository,
 		Top_Query_Repository $top_query_repository,
-		Organic_Sessions_Repository $organic_sessions_repository,
+		Organic_Sessions_Compare_Repository $organic_sessions_compare_repository,
+		Organic_Sessions_Daily_Repository $organic_sessions_daily_repository,
 		Search_Ranking_Compare_Repository $search_ranking_compare_repository
 	) {
-		$this->top_page_repository               = $top_page_repository;
-		$this->top_query_repository              = $top_query_repository;
-		$this->organic_sessions_repository       = $organic_sessions_repository;
-		$this->search_ranking_compare_repository = $search_ranking_compare_repository;
+		$this->top_page_repository                 = $top_page_repository;
+		$this->top_query_repository                = $top_query_repository;
+		$this->organic_sessions_compare_repository = $organic_sessions_compare_repository;
+		$this->organic_sessions_daily_repository   = $organic_sessions_daily_repository;
+		$this->search_ranking_compare_repository   = $search_ranking_compare_repository;
 	}
 
 	/**
@@ -175,7 +186,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 					$request_parameters->set_dimension_filters( [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ] );
 					$request_parameters->set_order_by( 'dimension', 'date' );
 
-					$time_based_seo_metrics_container = $this->organic_sessions_repository->get_data( $request_parameters );
+					$time_based_seo_metrics_container = $this->organic_sessions_daily_repository->get_data( $request_parameters );
 					break;
 				case 'οrganicSessionsCompare':
 					$request_parameters = new Analytics_4_Parameters();
@@ -185,7 +196,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 					$request_parameters->set_metrics( [ 'sessions' ] );
 					$request_parameters->set_dimension_filters( [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ] );
 
-					$time_based_seo_metrics_container = $this->organic_sessions_repository->get_data( $request_parameters );
+					$time_based_seo_metrics_container = $this->organic_sessions_compare_repository->get_data( $request_parameters );
 					break;
 				case 'searchRankingCompare':
 					$request_parameters = new Search_Console_Parameters();

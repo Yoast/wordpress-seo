@@ -8,9 +8,9 @@ use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
 
 /**
- * The data provider for organic sessions data.
+ * The data provider for comparison organic sessions data.
  */
-class Organic_Sessions_Repository implements Dashboard_Repository_Interface {
+class Organic_Sessions_Compare_Repository implements Dashboard_Repository_Interface {
 
 	/**
 	 * The adapter.
@@ -31,18 +31,16 @@ class Organic_Sessions_Repository implements Dashboard_Repository_Interface {
 	}
 
 	/**
-	 * Gets the organic sessions' data.
+	 * Gets comparison organic sessions' data.
 	 *
-	 * @param Parameters $parameters The parameter to use for getting the organic sessions' data.
+	 * @param Parameters $parameters The parameter to use for getting the comparison organic sessions' data.
 	 *
 	 * @return Data_Container
 	 *
-	 * @throws Exception When getting the organic sessions' data fails.
+	 * @throws Exception When getting the comparison organic sessions' data fails.
 	 */
 	public function get_data( Parameters $parameters ): Data_Container {
 
-		$organic_sessions_data = $this->site_kit_analytics_4_adapter->get_data( $parameters );
-
-		return $organic_sessions_data;
+		return $this->site_kit_analytics_4_adapter->get_comparison_data( $parameters );
 	}
 }

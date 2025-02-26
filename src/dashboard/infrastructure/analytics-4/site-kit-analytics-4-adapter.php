@@ -11,7 +11,9 @@ use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Invalid_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Unexpected_Response_Exception;
+use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Dashboard_Adapter_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
+use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Domain\Traffic\Comparison_Traffic_Data;
 use Yoast\WP\SEO\Dashboard\Domain\Traffic\Daily_Traffic_Data;
 use Yoast\WP\SEO\Dashboard\Domain\Traffic\Traffic_Data;
@@ -19,7 +21,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Traffic\Traffic_Data;
 /**
  * The site API adapter to make calls to the Analytics 4 API, via the Site_Kit plugin.
  */
-class Site_Kit_Analytics_4_Adapter {
+class Site_Kit_Analytics_4_Adapter implements Dashboard_Adapter_Interface {
 
 	/**
 	 * The Analytics 4 module class from Site kit.
@@ -41,31 +43,63 @@ class Site_Kit_Analytics_4_Adapter {
 		}
 	}
 
+	// phpcs:disable Squiz.Commenting.FunctionComment.InvalidNoReturn -- Temporary issue until this function gets an actual implementation.
+	// phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Temporary issue until this function gets an actual implementation.
+
 	/**
-	 * The wrapper method to do a Site Kit API request for Analytics 4.
+	 * The wrapper method to do a normal Site Kit API request for Analytics 4.
+	 * Added here to satisfy the contract of the interface. Will be filled once we have an implementation for it.
 	 *
-	 * @param Analytics_4_Parameters $parameters The parameters.
+	 * @param Parameters $parameters The parameters.
 	 *
 	 * @return Data_Container The Site Kit API response.
 	 *
-	 * @throws Failed_Request_Exception When the request responds with an error from Site Kit.
+	 * @throws Invalid_Request_Exception This is an invalid request.
+	 */
+	public function get_data( Parameters $parameters ): Data_Container {
+		throw new Invalid_Request_Exception( 'No implementation of simple get data requests yet' );
+	}
+
+	// phpcs:enable
+
+	/**
+	 * The wrapper method to do a comparison Site Kit API request for Analytics.
+	 *
+	 * @param Parameters $parameters The parameters.
+	 *
+	 * @return Data_Container The Site Kit API response.
+	 *
+	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 */
-	public function get_data( Analytics_4_Parameters $parameters ): Data_Container {
+	public function get_comparison_data( Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
-		$response       = self::$analytics_4_module->get_data( 'report', $api_parameters );
 
-		if ( \is_wp_error( $response ) ) {
-			$error_data        = $response->get_error_data();
-			$error_status_code = ( $error_data['status'] ?? 500 );
-			throw new Failed_Request_Exception( \wp_kses_post( $response->get_error_message() ), (int) $error_status_code );
-		}
+		$response = self::$analytics_4_module->get_data( 'report', $api_parameters );
 
-		if ( ! \is_a( $response, RunReportResponse::class ) ) {
-			throw new Unexpected_Response_Exception();
-		}
+		$this->validate_response( $response );
 
-		return $this->parse_response( $response );
+		return $this->parse_comparison_response( $response );
+	}
+
+	/**
+	 * The wrapper method to do a daily Site Kit API request for Analytics.
+	 *
+	 * @param Parameters $parameters The parameters.
+	 *
+	 * @return Data_Container The Site Kit API response.
+	 *
+	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
+	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
+	 */
+	public function get_daily_data( Parameters $parameters ): Data_Container {
+		$api_parameters = $this->build_parameters( $parameters );
+
+		$response = self::$analytics_4_module->get_data( 'report', $api_parameters );
+
+		$this->validate_response( $response );
+
+		return $this->parse_daily_response( $response );
 	}
 
 	/**
@@ -75,7 +109,7 @@ class Site_Kit_Analytics_4_Adapter {
 	 *
 	 * @return array<string, array<string, string>> The Site Kit API parameters.
 	 */
-	protected function build_parameters( $parameters ): array {
+	protected function build_parameters( Analytics_4_Parameters $parameters ): array {
 		$api_parameters = [
 			'slug'       => 'analytics-4',
 			'datapoint'  => 'report',
@@ -108,7 +142,7 @@ class Site_Kit_Analytics_4_Adapter {
 	}
 
 	/**
-	 * Parses a response for a Site Kit API request for Analytics 4.
+	 * Parses a response for a Site Kit API request that requests daily data for Analytics 4.
 	 *
 	 * @param RunReportResponse $response The response to parse.
 	 *
@@ -116,26 +150,11 @@ class Site_Kit_Analytics_4_Adapter {
 	 *
 	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
 	 */
-	protected function parse_response( RunReportResponse $response ): Data_Container {
-		if ( $this->is_daily_request( $response ) ) {
-			return $this->parse_daily_response( $response );
-		}
-
-		if ( $this->is_comparison_request( $response ) ) {
-			return $this->parse_comparison_response( $response );
-		}
-
-		throw new Invalid_Request_Exception( 'Unexpected parameters for the request' );
-	}
-
-	/**
-	 * Parses a response for a Site Kit API request that requests daily data for Analytics 4.
-	 *
-	 * @param RunReportResponse $response The response to parse.
-	 *
-	 * @return Data_Container The parsed response.
-	 */
 	protected function parse_daily_response( RunReportResponse $response ): Data_Container {
+		if ( ! $this->is_daily_request( $response ) ) {
+			throw new Invalid_Request_Exception( 'Unexpected parameters for the request' );
+		}
+
 		$data_container = new Data_Container();
 
 		foreach ( $response->getRows() as $daily_traffic ) {
@@ -169,8 +188,14 @@ class Site_Kit_Analytics_4_Adapter {
 	 * @param RunReportResponse $response The response to parse.
 	 *
 	 * @return Data_Container The parsed response.
+	 *
+	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
 	 */
 	protected function parse_comparison_response( RunReportResponse $response ): Data_Container {
+		if ( ! $this->is_comparison_request( $response ) ) {
+			throw new Invalid_Request_Exception( 'Unexpected parameters for the request' );
+		}
+
 		$data_container          = new Data_Container();
 		$comparison_traffic_data = new Comparison_Traffic_Data();
 
@@ -228,4 +253,30 @@ class Site_Kit_Analytics_4_Adapter {
 	protected function is_daily_request( RunReportResponse $response ): bool {
 		return \count( $response->getDimensionHeaders() ) === 1 && $response->getDimensionHeaders()[0]->getName() === 'date';
 	}
+
+	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- We have no control over the response (in fact that's why this function exists).
+
+	/**
+	 * Validates the response coming from Google Analytics.
+	 *
+	 * @param mixed $response The response we want to validate.
+	 *
+	 * @return void.
+	 *
+	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
+	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
+	 */
+	protected function validate_response( $response ): void {
+		if ( \is_wp_error( $response ) ) {
+			$error_data        = $response->get_error_data();
+			$error_status_code = ( $error_data['status'] ?? 500 );
+			throw new Failed_Request_Exception( \wp_kses_post( $response->get_error_message() ), (int) $error_status_code );
+		}
+
+		if ( ! \is_a( $response, RunReportResponse::class ) ) {
+			throw new Unexpected_Response_Exception();
+		}
+	}
+
+	// phpcs:enable
 }

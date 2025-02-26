@@ -8,7 +8,9 @@ use Google\Site_Kit\Core\Modules\Modules;
 use Google\Site_Kit\Modules\Search_Console;
 use Google\Site_Kit\Plugin;
 use Google\Site_Kit_Dependencies\Google\Service\SearchConsole\ApiDataRow;
+use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Dashboard_Adapter_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
+use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Unexpected_Response_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Comparison_Search_Ranking_Data;
@@ -17,7 +19,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Ranking_Data;
 /**
  * The site API adapter to make calls to the Search Console API, via the Site_Kit plugin.
  */
-class Site_Kit_Search_Console_Adapter {
+class Site_Kit_Search_Console_Adapter implements Dashboard_Adapter_Interface {
 
 	/**
 	 * The search console module class from Site kit.
@@ -42,33 +44,44 @@ class Site_Kit_Search_Console_Adapter {
 	/**
 	 * The wrapper method to do a Site Kit API request for Search Console.
 	 *
-	 * @param Search_Console_Parameters $parameters The parameters.
+	 * @param Parameters $parameters The parameters.
 	 *
 	 * @return Data_Container The Site Kit API response.
 	 *
 	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 */
-	public function get_data( Search_Console_Parameters $parameters ): Data_Container {
+	public function get_data( Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
 		$response = self::$search_console_module->get_data( 'searchanalytics', $api_parameters );
 
-		if ( \is_wp_error( $response ) ) {
-			$error_data        = $response->get_error_data();
-			$error_status_code = ( $error_data['status'] ?? 500 );
-			throw new Failed_Request_Exception( \wp_kses_post( $response->get_error_message() ), (int) $error_status_code );
-		}
-
-		if ( ! \is_array( $response ) ) {
-			throw new Unexpected_Response_Exception();
-		}
-
-		if ( $this->is_comparison_request( $parameters ) ) {
-			return $this->parse_comparison_response( $response, $parameters->get_compare_end_date() );
-		}
+		$this->validate_response( $response );
 
 		return $this->parse_response( $response );
+	}
+
+	/**
+	 * The wrapper method to do a Site Kit API request for Search Console.
+	 *
+	 * @param Parameters $parameters The parameters.
+	 *
+	 * @return Data_Container The Site Kit API response.
+	 *
+	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
+	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
+	 */
+	public function get_comparison_data( Parameters $parameters ): Data_Container {
+		$api_parameters = $this->build_parameters( $parameters );
+
+		// Since we're doing a comparison request, we need to increase the date range to the start of the previous period. We'll later split the data into two periods.
+		$api_parameters['startDate'] = $parameters->get_compare_start_date();
+
+		$response = self::$search_console_module->get_data( 'searchanalytics', $api_parameters );
+
+		$this->validate_response( $response );
+
+		return $this->parse_comparison_response( $response, $parameters->get_compare_end_date() );
 	}
 
 	/**
@@ -78,7 +91,7 @@ class Site_Kit_Search_Console_Adapter {
 	 *
 	 * @return array<string, array<string, string>> The Site Kit API parameters.
 	 */
-	protected function build_parameters( $parameters ): array {
+	protected function build_parameters( Search_Console_Parameters $parameters ): array {
 		$api_parameters = [
 			'slug'       => 'search-console',
 			'datapoint'  => 'searchanalytics',
@@ -91,23 +104,7 @@ class Site_Kit_Search_Console_Adapter {
 			$api_parameters['limit'] = $parameters->get_limit();
 		}
 
-		// If we're doing a comparison request, we need increase the date range to the start of the previous period. We'll later split the data into two periods.
-		if ( $this->is_comparison_request( $parameters ) ) {
-			$api_parameters['startDate'] = $parameters->get_compare_start_date();
-		}
-
 		return $api_parameters;
-	}
-
-	/**
-	 * Checks whether the request compares two periods.
-	 *
-	 * @param Search_Console_Parameters $parameters The parameters of the request.
-	 *
-	 * @return bool Whether the request compares two periods.
-	 */
-	protected function is_comparison_request( Search_Console_Parameters $parameters ): bool {
-		return ! empty( $parameters->get_compare_start_date() && ! empty( $parameters->get_compare_end_date() ) );
 	}
 
 	/**
@@ -178,4 +175,30 @@ class Site_Kit_Search_Console_Adapter {
 
 		return $search_ranking_data_container;
 	}
+
+	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- We have no control over the response (in fact that's why this function exists).
+
+	/**
+	 * Validates the response coming from Search Console.
+	 *
+	 * @param mixed $response The response we want to validate.
+	 *
+	 * @return void.
+	 *
+	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
+	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
+	 */
+	protected function validate_response( $response ): void {
+		if ( \is_wp_error( $response ) ) {
+			$error_data        = $response->get_error_data();
+			$error_status_code = ( $error_data['status'] ?? 500 );
+			throw new Failed_Request_Exception( \wp_kses_post( $response->get_error_message() ), (int) $error_status_code );
+		}
+
+		if ( ! \is_array( $response ) ) {
+			throw new Unexpected_Response_Exception();
+		}
+	}
+
+	// phpcs:enable
 }

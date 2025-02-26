@@ -41,6 +41,6 @@ class Search_Ranking_Compare_Repository implements Dashboard_Repository_Interfac
 	 */
 	public function get_data( Parameters $parameters ): Data_Container {
 
-		return $this->site_kit_search_console_adapter->get_data( $parameters );
+		return $this->site_kit_search_console_adapter->get_comparison_data( $parameters );
 	}
 }
