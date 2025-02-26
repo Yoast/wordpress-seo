@@ -1,9 +1,10 @@
 import { ArrowNarrowUpIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Alert, SkeletonLoader, Title } from "@yoast/ui-library";
+import { SkeletonLoader, Title } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useRemoteData } from "../../services/use-remote-data";
+import { ErrorAlert } from "../../components/error-alert";
 
 /**
  * @type {import("../services/data-provider")} DataProvider
@@ -73,10 +74,11 @@ export const useOrganicSessionsChange = ( dataProvider, remoteDataProvider, data
  * @param {?OrganicSessionsChangeData} [data] The organic sessions change data.
  * @param {boolean} isPending Whether the data is pending.
  * @param {?Error} [error] The error.
+ * @param {string} supportLink The support link.
  * @returns {JSX.Element} The element.
  */
 // eslint-disable-next-line complexity -- We need this if/else state control somehow.
-export const OrganicSessionsChange = ( { data, isPending, error } ) => {
+export const OrganicSessionsChange = ( { data, isPending, error, supportLink } ) => {
 	if ( isPending ) {
 		return (
 			<div className="yst-flex yst-flex-col yst-gap-1">
@@ -90,7 +92,7 @@ export const OrganicSessionsChange = ( { data, isPending, error } ) => {
 	}
 	if ( error ) {
 		return (
-			<Alert variant="error" className="yst-mt-4">{ error.message }</Alert>
+			<ErrorAlert error={ error } className="yst-mt-4" supportLink={ supportLink } />
 		);
 	}
 	if ( ! data ) {

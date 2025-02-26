@@ -36,7 +36,7 @@ export class WidgetFactory {
 	static get types() {
 		return {
 			siteKitSetup: "siteKitSetup",
-            organicSessions: "organicSessions",
+			organicSessions: "organicSessions",
 			topPages: "topPages",
 			topQueries: "topQueries",
 			seoScores: "seoScores",
