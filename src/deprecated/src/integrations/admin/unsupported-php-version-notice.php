@@ -2,16 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use WPSEO_Shortlinker;
-use Yoast\WHIPv2\Exceptions\InvalidType;
-use Yoast\WHIPv2\Exceptions\InvalidVersionComparisonString;
-use Yoast\WHIPv2\Interfaces\Message;
-use Yoast\WHIPv2\MessageDismisser;
-use Yoast\WHIPv2\MessageFormatter;
-use Yoast\WHIPv2\Presenters\WPMessagePresenter;
-use Yoast\WHIPv2\RequirementsChecker;
-use Yoast\WHIPv2\VersionRequirement;
-use Yoast\WHIPv2\WPDismissOption;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -23,7 +13,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  * @deprecated 24.7
  * @codeCoverageIgnore
  */
-class Unsupported_PHP_Version_Notice implements Integration_Interface, Message {
+class Unsupported_PHP_Version_Notice implements Integration_Interface {
 
 	/**
 	 * Returns the conditionals based on which this integration should be active.
@@ -74,6 +64,6 @@ class Unsupported_PHP_Version_Notice implements Integration_Interface, Message {
 	 */
 	public function body() {
 		\_deprecated_function( __METHOD__, 'WPSEO 20.4' );
-		return "";
+		return '';
 	}
 }
