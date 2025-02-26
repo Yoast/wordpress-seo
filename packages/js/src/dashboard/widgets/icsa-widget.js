@@ -129,20 +129,17 @@ export const createIcsaDataFormatter = ( dataTransformer, dataFormatter ) => ( i
 export const IcsaWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
 	/**
 	 * @param {RequestInit} options The options.
-	 * @returns {Promise<IcsaData|Error>} The promise of IcsaData or an Error.
+	 * @returns {Promise<TimeBasedData|Error>} The promise of IcsaData or an Error.
 	 */
 	const getIcsaData = useCallback( ( options ) => {
-		/*
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ options: { widget: "icsa" }  },
+			{ options: { widget: "searchRankingCompare" }  },
 			options );
-		 */
-		return
 	}, [ dataProvider ] );
 
 	/**
-	 * @type {function(?IcsaData): IcsaData} Function to format the widget data.
+	 * @type {function(?TimeBasedData[]): IcsaData} Function to format the widget data.
 	 * */
 	const formatIcsaData = useMemo( () => createIcsaDataFormatter( dataFormatter ), [ dataFormatter ] );
 	const initData = {
