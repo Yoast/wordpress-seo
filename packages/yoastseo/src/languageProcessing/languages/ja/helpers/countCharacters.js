@@ -4,7 +4,7 @@ import removeURLs from "../../../helpers/sanitize/removeURLs.js";
 
 /**
  * Calculates the character count which serves as a measure of text length.
- * The character count includes letters, punctuation, and numbers. It doesn't include URLs, HTML tags, and spaces.
+ * The character count includes letters and numbers. It doesn't include URLs, HTML tags, spaces, and common punctuation characters.
  *
  * @param {string} text The text to be counted.
  *
@@ -14,6 +14,10 @@ export default function( text ) {
 	text = removeURLs( text );
 	text = sanitizeString( text );
 	text = text.replace( /\s/g, "" );
+	// 1st 〜: wave dash (U+301C); 2nd ～: fullwidth tilde (U+FF5E)
+	// The list includes a few "Western" punctuation marks, added at the end, because they pop up in online Japanese text from time to time.
+	text = text.replace( /[。．？！…‥，、・―〜～：゠＝（）「」『』〝〟〔〕【】［］｛｝〈〉《》.?!:;()"'<>]/g, "" );
 
 	return text.length;
 }
+

@@ -158,7 +158,7 @@ jobs:
             coverage: false
 
           - php_version: '8.1'
-            wp_version: '6.5'
+            wp_version: '6.6'
             multisite: true
             coverage: false
 
