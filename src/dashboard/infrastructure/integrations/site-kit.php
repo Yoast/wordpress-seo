@@ -6,12 +6,11 @@ use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
-use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
 
 /**
  * Describes if the Site kit integration is enabled and configured.
  */
-class Site_Kit implements Integration_Data_Provider_Interface {
+class Site_Kit {
 
 	private const SITE_KIT_FILE = 'google-site-kit/google-site-kit.php';
 
