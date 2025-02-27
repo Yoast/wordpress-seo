@@ -1,6 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
-import { OrganicSessionsChange } from "../../../src/dashboard/widgets/organic-sessions/change";
-import { render } from "../../test-utils";
+import { OrganicSessionsChange } from "../../../../src/dashboard/widgets/organic-sessions/change";
+import { render } from "../../../test-utils";
 
 describe( "OrganicSessionsChange", () => {
 	const data = {

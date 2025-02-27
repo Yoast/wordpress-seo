@@ -1,6 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
-import { OrganicSessionsDaily } from "../../../src/dashboard/widgets/organic-sessions/daily";
-import { render } from "../../test-utils";
+import { OrganicSessionsDaily } from "../../../../src/dashboard/widgets/organic-sessions/daily";
+import { render } from "../../../test-utils";
 import { forEach } from "lodash";
 
 describe( "OrganicSessionsDaily", () => {
