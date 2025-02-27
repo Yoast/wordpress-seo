@@ -213,7 +213,7 @@ export const OrganicSessionsDaily = ( { data, isPending, error, supportLink } ) 
 	}
 	if ( error ) {
 		return (
-			<ErrorAlert error={ error } className="yst-mt-4" supportLink={ supportLink } />
+			<ErrorAlert error={ error } supportLink={ supportLink } />
 		);
 	}
 	if ( data.labels.length === 0 ) {

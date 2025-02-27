@@ -92,12 +92,12 @@ export const OrganicSessionsChange = ( { data, isPending, error, supportLink } )
 	}
 	if ( error ) {
 		return (
-			<ErrorAlert error={ error } className="yst-mt-4" supportLink={ supportLink } />
+			<ErrorAlert error={ error } supportLink={ supportLink } />
 		);
 	}
 	if ( ! data ) {
 		return (
-			<p className="yst-mt-4">
+			<p>
 				{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }
 			</p>
 		);
@@ -125,7 +125,7 @@ export const OrganicSessionsChange = ( { data, isPending, error, supportLink } )
 					{ isNegative ? "-" : "+" }{ data.formattedDifference }
 				</div>
 			</div>
-			<span className="yst-text-[14px]">{ __( "Organic sessions in the last 28 days", "wordpress-seo" ) }</span>
+			<span className="yst-text-[14px]">{ __( "Last 28 days", "wordpress-seo" ) }</span>
 		</div>
 	);
 };

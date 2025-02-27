@@ -5,6 +5,8 @@ import { Widget, WidgetTooltip } from "./widget";
 import { ErrorAlert } from "../components/error-alert";
 import { isEqual } from "lodash";
 
+const TITLE = __( "Organic Sessions", "wordpress-seo" );
+
 /**
  * @type {import("../services/data-provider")} DataProvider
  * @type {import("../services/remote-data-provider")} RemoteDataProvider
@@ -22,15 +24,16 @@ export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataF
 	const supportLink = dataProvider.getLink( "errorSupport" );
 	const daily = useOrganicSessionsDaily( dataProvider, remoteDataProvider, dataFormatter );
 	const change = useOrganicSessionsChange( dataProvider, remoteDataProvider, dataFormatter );
+
 	if ( change.error && daily.error && isEqual( change.error, daily.error ) ) {
-		return <Widget className="yst-paper__content yst-col-span-4" title={ __( "Organic Sessions", "wordpress-seo" ) } tooltip={ __( "The number of organic sessions on your website.", "wordpress-seo" ) } tooltipLearnMoreLink={ infoLink }>
+		return <Widget className="yst-paper__content yst-col-span-4" title={ TITLE } tooltip={ __( "The number of organic sessions on your website.", "wordpress-seo" ) } tooltipLearnMoreLink={ infoLink }>
 			<ErrorAlert error={ change.error } className="yst-mt-4" supportLink={ supportLink } />
 		</Widget>;
 	}
-	return (
-		<Widget className="yst-paper__content yst-col-span-4">
 
-			<div className="yst-flex yst-justify-between yst-mb-2">
+	return (
+		<Widget className="yst-paper__content yst-col-span-4"  title={ TITLE }>
+			<div className="yst-flex yst-justify-between yst-mb-2 yst-mt-4">
 				<OrganicSessionsChange data={ change.data } error={ change.error } isPending={ change.isPending } supportLink={ supportLink } />
 				<WidgetTooltip learnMoreLink={ infoLink }>
 					{ __( "The number of organic sessions on your website.", "wordpress-seo" ) }
