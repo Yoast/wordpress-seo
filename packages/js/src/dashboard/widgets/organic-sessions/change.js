@@ -86,7 +86,7 @@ export const OrganicSessionsChange = ( { data, isPending, error, supportLink } )
 					<SkeletonLoader className="yst-title yst-title--1">10_000</SkeletonLoader>
 					<SkeletonLoader>^ +100%</SkeletonLoader>
 				</div>
-				<span>{ __( "Organic sessions in the last 28 days", "wordpress-seo" ) }</span>
+				<span>{ __( "Last 28 days", "wordpress-seo" ) }</span>
 			</div>
 		);
 	}
