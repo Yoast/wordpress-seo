@@ -142,7 +142,7 @@ export const createOrganicSessionsDailyFormatter = ( dataFormatter ) => ( data =
  */
 const OrganicSessionsChart = ( { data } ) => (
 	<>
-		<div className="yst-w-full yst-h-[226px]">
+		<div className="yst-w-full yst-h-60">
 			<Line
 				aria-hidden={ true }
 				options={ CHART_OPTIONS }
@@ -208,19 +208,12 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataF
 export const OrganicSessionsDaily = ( { data, isPending, error, supportLink } ) => {
 	if ( isPending ) {
 		return (
-			<SkeletonLoader className="yst-w-full yst-h-[226px]" />
+			<SkeletonLoader className="yst-w-full yst-h-52 yst-mt-8" />
 		);
 	}
 	if ( error ) {
 		return (
 			<ErrorAlert error={ error } supportLink={ supportLink } />
-		);
-	}
-	if ( data.labels.length === 0 ) {
-		return (
-			<p>
-				{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }
-			</p>
 		);
 	}
 

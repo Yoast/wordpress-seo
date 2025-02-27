@@ -185,12 +185,5 @@ describe( "OrganicSessionsDaily", () => {
 			.toHaveTextContent( "Something went wrong. Try refreshing the page. If the problem persists, please check our Support page." );
 		expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", supportLink );
 	} );
-
-	test( "renders component with no data", () => {
-		const { getByText } = render( <OrganicSessionsDaily
-			data={ { labels: [] } } isPending={ false } supportLink={ supportLink }
-		/> );
-		expect( getByText( "No data to display: Your site hasn't received any visitors yet." ) ).toBeInTheDocument();
-	} );
 } );
 

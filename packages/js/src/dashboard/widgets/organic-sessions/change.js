@@ -77,7 +77,6 @@ export const useOrganicSessionsChange = ( dataProvider, remoteDataProvider, data
  * @param {string} supportLink The support link.
  * @returns {JSX.Element} The element.
  */
-// eslint-disable-next-line complexity -- We need this if/else state control somehow.
 export const OrganicSessionsChange = ( { data, isPending, error, supportLink } ) => {
 	if ( isPending ) {
 		return (
@@ -93,13 +92,6 @@ export const OrganicSessionsChange = ( { data, isPending, error, supportLink } )
 	if ( error ) {
 		return (
 			<ErrorAlert error={ error } supportLink={ supportLink } />
-		);
-	}
-	if ( ! data ) {
-		return (
-			<p>
-				{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }
-			</p>
 		);
 	}
 
