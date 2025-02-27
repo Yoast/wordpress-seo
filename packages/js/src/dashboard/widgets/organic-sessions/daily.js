@@ -39,7 +39,7 @@ const COLORS = {
 
 // Using a memory canvas context. This prevents needing a React ref and creating these variables on-the-fly.
 // Using y 471 because that is the height of the chart.
-const CHART_GRADIENT = document.createElement( "canvas" )?.getContext( "2d" )?.createLinearGradient( 0, 0, 0, 471 );
+const CHART_GRADIENT = document.createElement( "canvas" )?.getContext( "2d" )?.createLinearGradient( 0, 0, 0, 225 );
 CHART_GRADIENT?.addColorStop( 0, COLORS.primary500Alpha20 );
 CHART_GRADIENT?.addColorStop( 1, COLORS.primary500Alpha0 );
 
