@@ -101,6 +101,9 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatter }
 				/>;
 			case WidgetFactory.types.organicSessions:
+				if ( ! isFeatureEnabled || ! isConnected ) {
+					return null;
+				}
 				return <OrganicSessionsWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }

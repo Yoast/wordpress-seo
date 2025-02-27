@@ -30,6 +30,9 @@ describe( "WidgetFactory", () => {
 		[ "seoScores" ],
 		[ "readabilityScores" ],
 		[ "topPages" ],
+		[ "topQueries" ],
+		[ "siteKitSetup" ],
+		[ "organicSessions" ],
 	] )( "should have the widget type: %s", async( type ) => {
 		expect( WidgetFactory.types[ type ] ).toBe( type );
 	} );
@@ -37,6 +40,7 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
+		[ "Organic sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
 	] )( "should not create a %s widget when site kit is not connected", async( _, widget ) => {
 		dataProvider.setSiteKitConnected( false );
 		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
@@ -64,6 +68,7 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" }, "Top 5 most popular content" ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" }, "Top 5 search queries" ],
+		[ "Organic sessions", { id: "organic-sessions-widget", type: "organicSessions" }, "Organic sessions" ],
 	] )( "should create a %s widget", async( _, widget, title ) => {
 		dataProvider.setSiteKitConnected( true );
 		const element = widgetFactory.createWidget( widget );
@@ -129,6 +134,7 @@ describe( "WidgetFactory", () => {
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
 		[ "siteKitSetup", { id: "site-kite-setup-widget", type: "siteKitSetup" } ],
+		[ "organicSessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
 	] )( "should not create a %s widget when site kit feature is disabled", async( _, widget ) => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isFeatureEnabled: false },

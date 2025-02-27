@@ -24,7 +24,7 @@ export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataF
 	const change = useOrganicSessionsChange( dataProvider, remoteDataProvider, dataFormatter );
 	const widgetProps = {
 		className: "yst-paper__content yst-col-span-4",
-		title: __( "Organic Sessions", "wordpress-seo" ),
+		title: __( "Organic sessions", "wordpress-seo" ),
 		tooltip: __( "The number of organic sessions on your website.", "wordpress-seo" ),
 		tooltipLearnMoreLink: dataProvider.getLink( "organicSessionsInfoLearnMore" ),
 	};
