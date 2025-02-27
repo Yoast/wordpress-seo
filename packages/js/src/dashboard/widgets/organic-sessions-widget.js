@@ -35,7 +35,7 @@ export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataF
 		</Widget>;
 	}
 
-	if ( ! change.data || daily.data.labels.length === 0 ) {
+	if ( daily.data?.labels.length === 0 ) {
 		return (
 			<Widget { ...widgetProps }>
 				<p className="yst-mt-4">{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }</p>
