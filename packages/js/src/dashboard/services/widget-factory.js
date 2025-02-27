@@ -102,7 +102,7 @@ export class WidgetFactory {
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
-					dataFormatter={ this.#dataFormatter }
+					dataFormatter={ this.#dataFormatters.topQueriesDataFormatter }
 				/>;
 			case WidgetFactory.types.organicSessions:
 				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! isAnalyticsConnected ) {
