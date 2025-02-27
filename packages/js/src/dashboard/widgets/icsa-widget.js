@@ -1,4 +1,4 @@
-import { useCallback, useMemo, Fragment } from "@wordpress/element";
+import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Alert, SkeletonLoader } from "@yoast/ui-library";
 import { useRemoteData } from "../services/use-remote-data";
@@ -6,7 +6,6 @@ import { Widget } from "./widget";
 import { IcsaMetric } from "../components/icsa-metric";
 import { InfoTooltip } from "../components/info-tooltip";
 import { TooltipContent } from "../components/tooltip-content";
-import classNames from "classnames";
 
 /**
  * @type {import("../index").MetricData} MetricData
@@ -24,7 +23,7 @@ const IcsaSkeletonLoader = () => {
 					<InfoTooltip>
 						<TooltipContent
 							url="https://example.com"
-							localizedString={__( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" )}
+							localizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
 						/>
 					</InfoTooltip>
 				</div>
@@ -34,12 +33,12 @@ const IcsaSkeletonLoader = () => {
 			</div>
 
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-[300px] yst-content-around">
-				<div className="yst-absolute yst-right-0 yst-top-1 yst-h-full yst-w-0 yst-border-r yst-border-slate-200"/>
+				<div className="yst-absolute yst-right-0 yst-top-1 yst-h-full yst-w-0 yst-border-r yst-border-slate-200" />
 				<div className="yst-absolute yst-end-6 yst-top-2">
 					<InfoTooltip>
 						<TooltipContent
 							url="https://example.com"
-							localizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days. ", "wordpress-seo" ) }
+							localizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
 						/>
 					</InfoTooltip>
 				</div>
@@ -49,12 +48,12 @@ const IcsaSkeletonLoader = () => {
 			</div>
 
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-[300px] yst-content-around">
-				<div className="yst-absolute yst-right-0 yst-top-1 yst-h-full yst-w-0 yst-border-r yst-border-slate-200"/>
+				<div className="yst-absolute yst-right-0 yst-top-1 yst-h-full yst-w-0 yst-border-r yst-border-slate-200" />
 				<div className="yst-absolute yst-end-6 yst-top-2">
 					<InfoTooltip>
 						<TooltipContent
 							url="https://example.com"
-							localizedString={ __( "The average click-through-rate for your website over the last 28 days. ", "wordpress-seo" ) }
+							localizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
 						/>
 					</InfoTooltip>
 				</div>
@@ -87,20 +86,20 @@ const IcsaSkeletonLoader = () => {
 const transformData = ( data ) => {
 	return {
 		impressions: {
-			value: data[0].current.total_impressions,
-			delta: ( data[0].current.total_impressions - data[0].previous.total_impressions ),
+			value: data[ 0 ].current.total_impressions,
+			delta: ( data[ 0 ].current.total_impressions - data[ 0 ].previous.total_impressions ),
 		},
 		clicks: {
-			value: data[0].current.total_clicks,
-			delta: ( data[0].current.total_clicks - data[0].previous.total_clicks ),
+			value: data[ 0 ].current.total_clicks,
+			delta: ( data[ 0 ].current.total_clicks - data[ 0 ].previous.total_clicks ),
 		},
 		ctr: {
-			value: data[0].current.average_ctr,
-			delta: ( data[0].current.average_ctr - data[0].previous.average_ctr ),
+			value: data[ 0 ].current.average_ctr,
+			delta: ( data[ 0 ].current.average_ctr - data[ 0 ].previous.average_ctr ),
 		},
 		position: {
-			value: data[0].current.average_position,
-			delta: ( data[0].current.average_position - data[0].previous.average_position ),
+			value: data[ 0 ].current.average_position,
+			delta: ( data[ 0 ].current.average_position - data[ 0 ].previous.average_position ),
 		},
 	};
 };
@@ -161,14 +160,14 @@ export const IcsaWidget = ( { dataProvider, remoteDataProvider, dataFormatter } 
 				value={ data.clicks.value }
 				delta={ data.clicks.delta }
 				tooltipUrl="https://example.com"
-				tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days. ", "wordpress-seo" ) }
+				tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
 			/>
 			<IcsaMetric
 				metricName="CTR"
 				value={ data.ctr.value }
 				delta={ data.ctr.delta }
 				tooltipUrl="https://example.com"
-				tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days. ", "wordpress-seo" ) }
+				tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
 			/>
 			<IcsaMetric
 				metricName="Position"

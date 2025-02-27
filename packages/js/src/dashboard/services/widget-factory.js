@@ -4,9 +4,7 @@ import { ScoreWidget } from "../widgets/score-widget";
 import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
 import { TopPagesWidget } from "../widgets/top-pages-widget";
 import { TopQueriesWidget } from "../widgets/top-queries-widget";
-import { IcsaWidget} from "../widgets/icsa-widget";
-import { TopPagesDataFormatter } from "./top-pages-data-formatter";
-import { IcsaDataFormatter } from "./icsa-data-formatter";
+import { IcsaWidget } from "../widgets/icsa-widget";
 
 /**
  * @type {import("../index").WidgetType} WidgetType
@@ -111,7 +109,7 @@ export class WidgetFactory {
 				return <OrganicSessionsWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider}
+					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.icsaDataFormatter }
 				/>;
 			default:
