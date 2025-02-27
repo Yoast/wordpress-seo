@@ -20,6 +20,8 @@ export class DataProvider {
 	#siteKitConfiguration;
 	#subscribers = new Set();
 
+	#stepsStatuses;
+
 	/**
 	 * @param {ContentType[]} contentTypes The content types.
 	 * @param {string} userName The user name.
@@ -37,6 +39,12 @@ export class DataProvider {
 		this.#headers = headers;
 		this.#links = links;
 		this.#siteKitConfiguration = siteKitConfiguration;
+		this.#stepsStatuses = [
+			this.#siteKitConfiguration.isInstalled,
+			this.#siteKitConfiguration.isActive,
+			this.#siteKitConfiguration.isSetupCompleted,
+			this.#siteKitConfiguration.isConnected,
+		]
 	}
 
 	/**
@@ -70,6 +78,12 @@ export class DataProvider {
 		return this.#userName;
 	}
 
+	/**
+	 * @returns {boolean} The possible stepper statuses.
+	 */
+	getStepsStatuses() {
+		return this.#stepsStatuses;
+	}
 	/**
 	 * @param {string} feature The feature to check.
 	 * @returns {boolean} Whether the feature is enabled.
@@ -106,6 +120,14 @@ export class DataProvider {
 	 */
 	getSiteKitConfiguration() {
 		return this.#siteKitConfiguration;
+	}
+
+	/**
+	 *
+	 * @return {number} The step that is currently unfinished. Returns -1 when all steps are finished.
+	 */
+	getSiteKitCurrentConnectionStep() {
+		return this.getStepsStatuses().findIndex( status => ! status );
 	}
 
 	/**

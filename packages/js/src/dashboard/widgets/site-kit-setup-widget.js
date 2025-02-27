@@ -87,9 +87,9 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
 
-	const stepsStatuses = [ config.isInstalled, config.isActive, config.isSetupCompleted, config.isConnected ];
-	let currentStep = stepsStatuses.findIndex( status => ! status );
+	let currentStep = dataProvider.getSiteKitCurrentConnectionStep();
 	const overallCompleted = currentStep === -1;
+
 	if ( overallCompleted ) {
 		currentStep = steps.length - 1;
 	}
@@ -145,7 +145,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				<Stepper.Step
 					key={ label }
 					isActive={ currentStep === index }
-					isComplete={ stepsStatuses[ index ] }
+					isComplete={ dataProvider.getStepsStatuses[ index ] }
 				>
 					{ label }
 				</Stepper.Step>
