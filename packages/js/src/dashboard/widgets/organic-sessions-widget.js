@@ -1,11 +1,10 @@
 import { __ } from "@wordpress/i18n";
 import { OrganicSessionsChange, useOrganicSessionsChange } from "./organic-sessions/change";
 import { OrganicSessionsDaily, useOrganicSessionsDaily } from "./organic-sessions/daily";
-import { Widget, WidgetTooltip } from "./widget";
+import { Widget } from "./widget";
 import { ErrorAlert } from "../components/error-alert";
 import { isEqual } from "lodash";
 
-const TITLE = __( "Organic Sessions", "wordpress-seo" );
 
 /**
  * @type {import("../services/data-provider")} DataProvider
@@ -20,24 +19,26 @@ const TITLE = __( "Organic Sessions", "wordpress-seo" );
  * @returns {JSX.Element} The element.
  */
 export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
-	const infoLink = dataProvider.getLink( "organicSessionsInfoLearnMore" );
 	const supportLink = dataProvider.getLink( "errorSupport" );
 	const daily = useOrganicSessionsDaily( dataProvider, remoteDataProvider, dataFormatter );
 	const change = useOrganicSessionsChange( dataProvider, remoteDataProvider, dataFormatter );
+	const widgetProps = {
+		className: "yst-paper__content yst-col-span-4",
+		title: __( "Organic Sessions", "wordpress-seo" ),
+		tooltip: __( "The number of organic sessions on your website.", "wordpress-seo" ),
+		tooltipLearnMoreLink: dataProvider.getLink( "organicSessionsInfoLearnMore" ),
+	};
 
 	if ( change.error && daily.error && isEqual( change.error, daily.error ) ) {
-		return <Widget className="yst-paper__content yst-col-span-4" title={ TITLE } tooltip={ __( "The number of organic sessions on your website.", "wordpress-seo" ) } tooltipLearnMoreLink={ infoLink }>
+		return <Widget { ...widgetProps }>
 			<ErrorAlert error={ change.error } className="yst-mt-4" supportLink={ supportLink } />
 		</Widget>;
 	}
 
 	return (
-		<Widget className="yst-paper__content yst-col-span-4"  title={ TITLE }>
-			<div className="yst-flex yst-justify-between yst-mb-2 yst-mt-4">
+		<Widget { ...widgetProps }>
+			<div className="yst-flex yst-justify-between yst-mt-4">
 				<OrganicSessionsChange data={ change.data } error={ change.error } isPending={ change.isPending } supportLink={ supportLink } />
-				<WidgetTooltip learnMoreLink={ infoLink }>
-					{ __( "The number of organic sessions on your website.", "wordpress-seo" ) }
-				</WidgetTooltip>
 			</div>
 			<OrganicSessionsDaily data={ daily.data } error={ daily.error } isPending={ daily.isPending } supportLink={ supportLink } />
 		</Widget>
