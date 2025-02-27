@@ -7,6 +7,9 @@ import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
 import { DataFormatter } from "../dashboard/services/data-formatter";
+import { IcsaDataFormatter } from "../dashboard/services/icsa-data-formatter";
+import { TopPagesDataFormatter } from "../dashboard/services/top-pages-data-formatter";
+import { TopQueriesDataFormatter } from "../dashboard/services/top-queries-data-formatter";
 import { DataProvider } from "../dashboard/services/data-provider";
 import { RemoteDataProvider } from "../dashboard/services/remote-data-provider";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
@@ -97,28 +100,16 @@ domReady( () => {
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
-	const dataFormatter = new DataFormatter( { locale: userLocale } );
-	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatter );
+	const dataFormatters = {
+		icsaDataFormatter: new IcsaDataFormatter( { locale: userLocale } ),
+		topPagesDataFormatter: new TopPagesDataFormatter( { locale: userLocale } ),
+		topQueriesDataFormatter: new TopQueriesDataFormatter( { locale: userLocale } ),
+	};
+
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
 	if ( dataProvider.isSiteKitConnectionCompleted() ) {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}
-
-	const initialWidgets = [];
-
-	// If site kit feature is enabled, add the site kit setup widget.
-	if ( siteKitConfiguration.isFeatureEnabled && ! siteKitConfiguration.isConfigurationDismissed && ! siteKitConfiguration.isConnected ) {
-		initialWidgets.push( "siteKitSetup" );
-	}
-
-	// If site kit feature is enabled and connected: add the related widget.
-	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isConnected ) {
-		initialWidgets.push( "topPages" );
-		initialWidgets.push( "icsa" );
-	}
-
-	initialWidgets.push( "seoScores" );
-	initialWidgets.push( "readabilityScores" );
-
 
 	const router = createHashRouter(
 		createRoutesFromElements(
