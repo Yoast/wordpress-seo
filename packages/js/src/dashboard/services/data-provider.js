@@ -123,11 +123,11 @@ export class DataProvider {
 	}
 
 	/**
-	 *
-	 * @return {number} The step that is currently unfinished. Returns -1 when all steps are finished.
+	 * Gets the first incomplete step.
+	 * @returns {number} The step that is currently unfinished. Returns -1 when all steps are finished.
 	 */
 	getSiteKitCurrentConnectionStep() {
-		return this.getStepsStatuses().findIndex( status => ! status );
+		return this.#stepsStatuses.findIndex( status => ! status );
 	}
 
 	/**
