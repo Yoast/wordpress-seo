@@ -11,6 +11,13 @@ const wordsToStem = [
 	[ "microondas", "microondas" ],
 	[ "jesús", "jesus" ],
 	[ "práxedes", "praxedes" ],
+	[ "inés", "ines" ],
+	[ "crisis", "crisis" ],
+	[ "tesis", "tesis" ],
+	[ "análisis", "analisis" ],
+	[ "atlas", "atlas" ],
+	[ "caos", "caos" ],
+	[ "campus", "campus" ],
 	// Input noun with: singular: -z, plural: -ces
 	[ "actriz", "actriz" ],
 	[ "actrices", "actriz" ],
@@ -75,6 +82,10 @@ const wordsToStem = [
 	// Input a word that ends in a common verb suffix.
 	[ "saltaron", "salt" ],
 	[ "revocares", "revoc" ],
+	[ "albatros", "albatr" ],
+	[ "objetivo", "objet" ],
+	[ "bisturí", "bistur" ],
+	[ "dominó", "domin" ],
 	// Input a word that ends in -os, -s, -a, -o, -á, -í,-ó, -é, -e.
 	[ "agostinas", "agostin" ],
 	[ "boboré", "bobor" ],
@@ -93,6 +104,9 @@ const wordsToStem = [
 	// [ "cabalgada", "cabalgad" ],
 	[ "abacería", "abaceri" ],
 	[ "lugar", "lugar" ],
+	[ "cántaro", "cantar" ],
+	[ "llanta", "llant" ],
+	[ "vela", "vel" ],
 	// Input a word that looks like a verb form and is on the list of stems that belong together.
 	[ "san", "san" ],
 	[ "virgen", "virgen" ],
