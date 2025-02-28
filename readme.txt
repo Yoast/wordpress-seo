@@ -278,6 +278,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-03-04
 
+Yoast SEO 24.6 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Provides support for the Optimized Markup feature in Elementor.
