@@ -85,7 +85,7 @@ export default class SentenceBeginningsAssessment extends Assessment {
 			assessmentResult.setScore( 9 );
 			assessmentResult.setHasMarks( false );
 			assessmentResult.setText( sprintf(
-				/* translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				__(
 					"%1$sConsecutive sentences%2$s: There is enough variety in your sentences. That's great!",
 					"wordpress-seo"
