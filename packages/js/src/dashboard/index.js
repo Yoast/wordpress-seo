@@ -93,7 +93,7 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {"seoScores"|"readabilityScores"|"topPages"|"siteKitSetup"|"topQueries"} WidgetType The widget type.
+ * @typedef {"seoScores"|"readabilityScores"|"topPages"|"siteKitSetup"|"topQueries"|"organicSessionsCompare"} WidgetType The widget type.
  */
 
 /**
@@ -136,9 +136,9 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef { "impressions"|"clicks"|"ctr"|"position" } Icsa The widget type.
+ * @typedef { "impressions"|"clicks"|"ctr"|"position" } OrganicSessionsCompareMetric The widget type.
  */
 
 /**
- * @typedef {Object<Icsa, MetricData>} IcsaData The ICSA data.
+ * @typedef {Object<OrganicSessionsCompareMetric, MetricData>} OrganicSessionsCompareData The organic sessions compare data.
  */

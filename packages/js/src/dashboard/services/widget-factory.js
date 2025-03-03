@@ -4,7 +4,7 @@ import { ScoreWidget } from "../widgets/score-widget";
 import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
 import { TopPagesWidget } from "../widgets/top-pages-widget";
 import { TopQueriesWidget } from "../widgets/top-queries-widget";
-import { IcsaWidget } from "../widgets/icsa-widget";
+import { OrganicSessionsCompareWidget } from "../widgets/organic-sessions-compare-widget";
 
 /**
  * @type {import("../index").WidgetType} WidgetType
@@ -38,6 +38,7 @@ export class WidgetFactory {
 		return {
 			siteKitSetup: "siteKitSetup",
 			organicSessions: "organicSessions",
+			organicSessionsCompare: "organicSessionsCompare",
 			topPages: "topPages",
 			topQueries: "topQueries",
 			seoScores: "seoScores",
@@ -101,6 +102,16 @@ export class WidgetFactory {
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.topQueriesDataFormatter }
+				/>;
+			case WidgetFactory.types.organicSessionsCompare:
+				if ( ! isFeatureEnabled || ! isConnected ) {
+					return null;
+				}
+				return <OrganicSessionsCompareWidget
+					key={ widget.id }
+					dataProvider={ this.#dataProvider }
+					remoteDataProvider={ this.#remoteDataProvider }
+					dataFormatter={ this.#dataFormatters.icsaDataFormatter }
 				/>;
 			case WidgetFactory.types.organicSessions:
 				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! isAnalyticsConnected ) {

@@ -3,12 +3,13 @@ import { __ } from "@wordpress/i18n";
 import { Alert, SkeletonLoader } from "@yoast/ui-library";
 import { useRemoteData } from "../services/use-remote-data";
 import { Widget } from "./widget";
-import { IcsaMetric } from "../components/icsa-metric";
+import { OrganicSessionsCompareMetric } from "../components/organic-sessions-compare-metric";
 import { InfoTooltip } from "../components/info-tooltip";
 import { TooltipContent } from "../components/tooltip-content";
 
 /**
  * @type {import("../index").MetricData} MetricData
+ * @type {import("../index").OrganicSessionsCompareData} OrganicSessionsCompareData
  */
 
 /**
@@ -84,6 +85,19 @@ const IcsaSkeletonLoader = () => {
  * @returns {IcsaData} The transformed data.
  */
 const transformData = ( data ) => {
+	if ( Object.keys( data[ 0 ].current ).length === 2 ) {
+		return {
+			impressions: {
+				value: data[0].current.total_impressions,
+				delta: ( data[0].current.total_impressions - data[0].previous.total_impressions ),
+			},
+			clicks: {
+				value: data[0].current.total_clicks,
+				delta: ( data[0].current.total_clicks - data[0].previous.total_clicks ),
+			},
+		};
+	}
+
 	return {
 		impressions: {
 			value: data[ 0 ].current.total_impressions,
@@ -107,10 +121,16 @@ const transformData = ( data ) => {
 /**
  * @param {function} dataTransformer The data transformer.
  * @param {import("../services/icsa-data-formatter")} dataFormatter The data formatter.
- * @returns {function(?TimeBasedData[]): IcsaData} Function to format the widget data.
+ * @returns {function(?TimeBasedData[]): OrganicSessionsCompareData} Function to format the widget data.
  */
 export const createIcsaDataFormatter = ( dataTransformer, dataFormatter ) => ( initData ) => {
 	const data = dataTransformer( initData );
+	if ( Object.keys( data ).length === 2 ) {
+		return {
+			impressions: dataFormatter.format( data.impressions, "impressions" ),
+			clicks: dataFormatter.format( data.clicks, "clicks" ),
+		};
+	}
 	return {
 		impressions: dataFormatter.format( data.impressions, "impressions" ),
 		clicks: dataFormatter.format( data.clicks, "clicks" ),
@@ -125,7 +145,7 @@ export const createIcsaDataFormatter = ( dataTransformer, dataFormatter ) => ( i
  * @param {import("../services/icsa-data-formatter")} dataFormatter The data formatter.
  * @returns {JSX.Element} The element.
  */
-export const IcsaWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
+export const OrganicSessionsCompareWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
 	/**
 	 * @param {RequestInit} options The options.
 	 * @returns {Promise<TimeBasedData|Error>} The promise of IcsaData or an Error.
@@ -148,31 +168,31 @@ export const IcsaWidget = ( { dataProvider, remoteDataProvider, dataFormatter } 
 		{ isPending && <IcsaSkeletonLoader /> }
 		{ error && <Alert variant="error" className="yst-mt-4">{ error.message }</Alert> }
 		{ data && Object.keys( data ).length > 0 && <div className="yst-flex yst-justify-between">
-			<IcsaMetric
+			<OrganicSessionsCompareMetric
 				metricName="Impressions"
 				value={ data.impressions.value }
 				delta={ data.impressions.delta }
 				tooltipUrl="https://example.com"
 				tooltipLocalizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
 			/>
-			<IcsaMetric
+			<OrganicSessionsCompareMetric
 				metricName="Clicks"
 				value={ data.clicks.value }
 				delta={ data.clicks.delta }
 				tooltipUrl="https://example.com"
 				tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
 			/>
-			<IcsaMetric
+			<OrganicSessionsCompareMetric
 				metricName="CTR"
-				value={ data.ctr.value }
-				delta={ data.ctr.delta }
+				value={ Object.keys( data ).length > 2 ? data.ctr.value : null }
+				delta={ Object.keys( data ).length > 2 ? data.ctr.delta : null }
 				tooltipUrl="https://example.com"
 				tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
 			/>
-			<IcsaMetric
+			<OrganicSessionsCompareMetric
 				metricName="Position"
-				value={ data.position.value }
-				delta={ data.position.delta }
+				value={ Object.keys( data ).length > 2 ? data.position.value : null }
+				delta={ Object.keys( data ).length > 2 ? data.position.delta : null }
 				hasBorder={ false }
 				tooltipUrl="https://example.com"
 				tooltipLocalizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
