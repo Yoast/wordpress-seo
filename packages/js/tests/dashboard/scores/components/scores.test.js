@@ -330,21 +330,21 @@ describe( "Scores", () => {
 		await waitFor( () => expect( fetchJson ).toHaveBeenCalledTimes( 3 ) );
 		expect( fetchJson ).toHaveBeenCalledWith(
 			expect.objectContaining( { href: "https://example.com/categories?search=nothing&_fields=id%2Cname" } ),
-			expect.any( Object ),
+			expect.any( Object )
 		);
 
 		// Verify the "Nothing found" message is present.
 		expect( getByRole( "listbox" ) ).toHaveTextContent( "Nothing found" );
 	} );
 
-	it( "should be possible to clear the term filter", async () => {
+	it( "should be possible to clear the term filter",async () => {
 		const { getByRole } = render(
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
 				dataProvider={ dataProvider }
 				remoteDataProvider={ remoteDataProvider }
-			/>,
+			/>
 		);
 
 		// Await the fetch calls: scores and terms.

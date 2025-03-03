@@ -44,7 +44,7 @@ export class DataProvider {
 			this.#siteKitConfiguration.isActive,
 			this.#siteKitConfiguration.isSetupCompleted,
 			this.#siteKitConfiguration.isConnected,
-		]
+		];
 	}
 
 	/**
