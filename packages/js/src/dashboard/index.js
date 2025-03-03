@@ -105,6 +105,7 @@ export { Dashboard } from "./components/dashboard";
  * @property {boolean} isActive Whether Site Kit is active.
  * @property {boolean} isSetupCompleted Whether Site Kit is setup.
  * @property {boolean} isConnected Whether Site Kit is connected.
+ * @property {boolean} isAnalyticsConnected Whether Google Analytics is connected.
  * @property {string} installUrl The URL to install Site Kit.
  * @property {string} activateUrl The URL to activate Site Kit.
  * @property {string} setupUrl The URL to setup Site Kit.

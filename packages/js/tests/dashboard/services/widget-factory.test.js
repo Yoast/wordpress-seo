@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, jest } from "@jest/globals";
+import { beforeAll, describe, expect, it, jest } from "@jest/globals";
 import { waitFor } from "@testing-library/react";
 import { WidgetFactory } from "../../../src/dashboard/services/widget-factory";
 import { render } from "../../test-utils";
@@ -83,7 +83,7 @@ describe( "WidgetFactory", () => {
 		} );
 	} );
 
-	test( "should create the site kit set up widget", async() => {
+	it( "should create the site kit set up widget", async() => {
 		const element = widgetFactory.createWidget( { id: "site-kit-setup-widget", type: "siteKitSetup" }, jest.fn() );
 		expect( element?.key ).toBe( "site-kit-setup-widget" );
 		const { getByRole } = render( <>{ element }</> );
@@ -93,7 +93,7 @@ describe( "WidgetFactory", () => {
 		} );
 	} );
 
-	test( "should not create the site kit set up widget", async() => {
+	it( "should not create the site kit set up widget", async() => {
 		dataProvider.setSiteKitConnected( true );
 		const element = widgetFactory.createWidget( { id: "site-kit-setup-widget", type: "siteKitSetup" } );
 		expect( element?.key ).toBe( "site-kit-setup-widget" );
@@ -120,8 +120,7 @@ describe( "WidgetFactory", () => {
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
 
-
-	test( "should not create the Site Kit setup widget if the data provider has isConfigurationDismissed set to true", () => {
+	it( "should not create the Site Kit setup widget if the data provider has isConfigurationDismissed set to true", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isConfigurationDismissed: true },
 		} );
@@ -133,14 +132,26 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
-		[ "siteKitSetup", { id: "site-kite-setup-widget", type: "siteKitSetup" } ],
-		[ "organicSessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
-	] )( "should not create a %s widget when site kit feature is disabled", async( _, widget ) => {
+		[ "Site Kit setup", { id: "site-kite-setup-widget", type: "siteKitSetup" } ],
+		[ "Organic Sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
+	] )( "should not create a %s widget when site kit feature is disabled", ( _, widget ) => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isFeatureEnabled: false },
 		} );
 		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
+	} );
+
+	test.each( [
+		[ "Site Kit is not connected", { isConnected: false } ],
+		[ "Analytics is not connected", { isAnalyticsConnected: false } ],
+	] )( "should not create a OrganicSessions widget when %s", ( _, config ) => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: config,
+		} );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+
+		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
 	} );
 } );

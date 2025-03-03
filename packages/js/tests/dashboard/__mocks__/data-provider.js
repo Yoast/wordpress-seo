@@ -69,6 +69,7 @@ export class MockDataProvider extends DataProvider {
 				isActive: false,
 				isSetupCompleted: false,
 				isConnected: false,
+				isAnalyticsConnected: true,
 				installUrl: "https://example.com/install",
 				activateUrl: "https://example.com/activate",
 				setupUrl: "https://example.com/isSetup",

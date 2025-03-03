@@ -92,7 +92,8 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 	}
 
 	/**
-	 * If the Site Kit plugin is installed. This is needed since we cannot check with `is_plugin_active` in rest requests. `Plugin.php` is only loaded on admin pages.
+	 * If the Site Kit plugin is installed. This is needed since we cannot check with `is_plugin_active` in rest
+	 * requests. `Plugin.php` is only loaded on admin pages.
 	 *
 	 * @return bool If the Site Kit plugin is installed.
 	 */
@@ -136,7 +137,7 @@ class Site_Kit implements Integration_Data_Provider_Interface {
 			'isActive'                 => $this->is_enabled(),
 			'isSetupCompleted'         => $this->is_setup_completed(),
 			'isConnected'              => $this->is_connected(),
-			'isGAConnected'            => $this->is_ga_connected(),
+			'isAnalyticsConnected'     => $this->is_ga_connected(),
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'installUrl'               => $site_kit_install_url,
 			'activateUrl'              => $site_kit_activate_url,

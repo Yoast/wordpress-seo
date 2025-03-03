@@ -29,7 +29,7 @@ export class WidgetFactory {
 	}
 
 	/**
-	 * The widget types, also determaines the order in which they are displayed.!
+	 * The widget types, also determines the order in which they are displayed.!
 	 *
 	 * @returns {Object} The widget types.
 	 */
@@ -49,7 +49,7 @@ export class WidgetFactory {
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
 	createWidget( widget ) {
-		const { isFeatureEnabled, isConnected, isConfigurationDismissed } = this.#dataProvider.getSiteKitConfiguration();
+		const { isFeatureEnabled, isConnected, isAnalyticsConnected, isConfigurationDismissed } = this.#dataProvider.getSiteKitConfiguration();
 		switch ( widget.type ) {
 			case WidgetFactory.types.seoScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
@@ -101,7 +101,7 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatter }
 				/>;
 			case WidgetFactory.types.organicSessions:
-				if ( ! isFeatureEnabled || ! isConnected ) {
+				if ( ! isFeatureEnabled || ! isConnected || ! isAnalyticsConnected ) {
 					return null;
 				}
 				return <OrganicSessionsWidget

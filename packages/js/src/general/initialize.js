@@ -87,6 +87,7 @@ domReady( () => {
 		isActive: false,
 		isSetupCompleted: false,
 		isConnected: false,
+		isAnalyticsConnected: false,
 		installUrl: "",
 		activateUrl: "",
 		setupUrl: "",
@@ -97,7 +98,6 @@ domReady( () => {
 	if ( siteKitConfiguration.isConnected ) {
 		siteKitConfiguration.isConfigurationDismissed = true;
 	}
-
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
