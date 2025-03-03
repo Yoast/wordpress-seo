@@ -3,8 +3,8 @@ import { __ } from "@wordpress/i18n";
 import { SkeletonLoader } from "@yoast/ui-library";
 import { Chart, Filler } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { useRemoteData } from "../../services/use-remote-data";
 import { ErrorAlert } from "../../components/error-alert";
+import { useRemoteData } from "../../services/use-remote-data";
 
 /**
  * @type {import("../services/data-provider")} DataProvider
@@ -60,6 +60,11 @@ const CHART_OPTIONS = {
 			borderWidth: 3,
 			borderColor: COLORS.primary500,
 			backgroundColor: CHART_GRADIENT || COLORS.transparent,
+		},
+	},
+	layout: {
+		padding: {
+			left: -20,
 		},
 	},
 	scales: {
@@ -147,7 +152,6 @@ const OrganicSessionsChart = ( { data } ) => (
 				aria-hidden={ true }
 				options={ CHART_OPTIONS }
 				data={ data }
-				className="-yst-ms-5"
 			/>
 		</div>
 		<table className="yst-sr-only">
