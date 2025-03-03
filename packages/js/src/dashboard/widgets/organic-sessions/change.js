@@ -1,10 +1,10 @@
-import { ArrowNarrowUpIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { SkeletonLoader, Title } from "@yoast/ui-library";
-import classNames from "classnames";
-import { useRemoteData } from "../../services/use-remote-data";
+import { DifferencePercentage } from "../../components/difference-percentage";
 import { ErrorAlert } from "../../components/error-alert";
+import { useRemoteData } from "../../services/use-remote-data";
+import { getDifference } from "../../transformers/difference";
 
 /**
  * @type {import("../services/data-provider")} DataProvider
@@ -93,27 +93,11 @@ export const OrganicSessionsChange = ( { data, isPending, error, supportLink } )
 		);
 	}
 
-	const isNegative = data.difference < 0;
-
 	return (
 		<div className="yst-flex yst-flex-col yst-gap-1">
 			<div className="yst-flex yst-gap-3">
 				<Title as="h2" size="1" className="yst-font-bold">{ data.sessions }</Title>
-				<div
-					className={ classNames(
-						"yst-flex yst-items-center yst-text-[14px] yst-font-semibold",
-						isNegative ? "yst-text-red-600" : "yst-text-green-600"
-					) }
-				>
-					<ArrowNarrowUpIcon
-						className={ classNames(
-							"yst-w-[18px] yst-shrink-0",
-							// Point the arrow downwards if negative.
-							isNegative && "yst-rotate-180"
-						) }
-					/>
-					{ isNegative ? "-" : "+" }{ data.formattedDifference }
-				</div>
+				<DifferencePercentage isNegative={ data.difference < 0 } formattedValue={ data.formattedDifference } />
 			</div>
 			<span className="yst-text-[14px]">{ __( "Last 28 days", "wordpress-seo" ) }</span>
 		</div>
