@@ -88,9 +88,8 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
 
 	let currentStep = dataProvider.getSiteKitCurrentConnectionStep();
-	const overallCompleted = currentStep === -1;
-
-	if ( overallCompleted ) {
+	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
+	if ( isSiteKitConnectionCompleted ) {
 		currentStep = steps.length - 1;
 	}
 
@@ -170,7 +169,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 			</li>
 		</ul>
 		<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
-			{ overallCompleted
+			{ isSiteKitConnectionCompleted
 				? <>
 					<Button onClick={ handleOnRemove }>
 						{ __( "Got it!", "wordpress-seo" ) }

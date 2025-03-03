@@ -97,9 +97,7 @@ domReady( () => {
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const dataFormatter = new DataFormatter( { locale: userLocale } );
 	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatter );
-	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
-	// -1 Means finished because there are no available steps to complete.
-	if ( isSiteKitConnectionCompleted ) {
+	if ( dataProvider.isSiteKitConnectionCompleted() ) {
 		siteKitConfiguration.isConfigurationDismissed = true;
 	}
 

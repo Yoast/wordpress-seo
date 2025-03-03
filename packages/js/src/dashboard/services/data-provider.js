@@ -130,6 +130,9 @@ export class DataProvider {
 		return this.#stepsStatuses.findIndex( status => ! status );
 	}
 
+	/**
+	 * @returns {boolean} If the Site Kit connection is completed.
+	 */
 	isSiteKitConnectionCompleted() {
 		return this.getSiteKitCurrentConnectionStep() === -1;
 	}
