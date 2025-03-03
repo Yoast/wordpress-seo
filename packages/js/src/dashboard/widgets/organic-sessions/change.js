@@ -69,6 +69,20 @@ export const useOrganicSessionsChange = ( dataProvider, remoteDataProvider, data
 };
 
 /**
+ * Shared layout between loading and actual.
+ * @param {ReactNode} children The sessions and difference.
+ * @returns {JSX.Element} The element.
+ */
+const Layout = ( { children } ) => (
+	<div className="yst-flex yst-flex-col yst-gap-1">
+		<div className="yst-flex yst-gap-3">
+			{ children }
+		</div>
+		<span>{ __( "Last 28 days", "wordpress-seo" ) }</span>
+	</div>
+);
+
+/**
  * @param {?OrganicSessionsChangeData} [data] The organic sessions change data.
  * @param {boolean} isPending Whether the data is pending.
  * @param {?Error} [error] The error.
@@ -78,13 +92,10 @@ export const useOrganicSessionsChange = ( dataProvider, remoteDataProvider, data
 export const OrganicSessionsChange = ( { data, isPending, error, supportLink } ) => {
 	if ( isPending ) {
 		return (
-			<div className="yst-flex yst-flex-col yst-gap-1">
-				<div className="yst-flex yst-gap-3">
-					<SkeletonLoader className="yst-title yst-title--1">10_000</SkeletonLoader>
-					<SkeletonLoader>^ +100%</SkeletonLoader>
-				</div>
-				<span>{ __( "Last 28 days", "wordpress-seo" ) }</span>
-			</div>
+			<Layout>
+				<SkeletonLoader className="yst-title yst-title--1">10_000</SkeletonLoader>
+				<SkeletonLoader>^ +100%</SkeletonLoader>
+			</Layout>
 		);
 	}
 	if ( error ) {
@@ -94,12 +105,9 @@ export const OrganicSessionsChange = ( { data, isPending, error, supportLink } )
 	}
 
 	return (
-		<div className="yst-flex yst-flex-col yst-gap-1">
-			<div className="yst-flex yst-gap-3">
-				<Title as="h2" size="1" className="yst-font-bold">{ data.sessions }</Title>
-				<DifferencePercentage isNegative={ data.difference < 0 } formattedValue={ data.formattedDifference } />
-			</div>
-			<span className="yst-text-[14px]">{ __( "Last 28 days", "wordpress-seo" ) }</span>
-		</div>
+		<Layout>
+			<Title as="h2" size="1" className="yst-font-bold">{ data.sessions }</Title>
+			<DifferencePercentage isNegative={ data.difference < 0 } formattedValue={ data.formattedDifference } />
+		</Layout>
 	);
 };
