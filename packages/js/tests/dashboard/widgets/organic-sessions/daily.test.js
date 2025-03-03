@@ -1,7 +1,13 @@
-import { describe, expect, test } from "@jest/globals";
+import { describe, expect, jest, test } from "@jest/globals";
+import { forEach } from "lodash";
 import { OrganicSessionsDaily } from "../../../../src/dashboard/widgets/organic-sessions/daily";
 import { render } from "../../../test-utils";
-import { forEach } from "lodash";
+
+// Mock the Chart.js library. Preventing the error:
+// > Failed to create chart: can't acquire context from the given item.
+// Note: this also prevents the canvas from being rendered.
+jest.mock( "chart.js" );
+jest.mock( "react-chartjs-2" );
 
 describe( "OrganicSessionsDaily", () => {
 	const data = {

@@ -1,9 +1,9 @@
+import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
+import { DataFormatter } from "../../../src/dashboard/services/data-formatter";
 import { OrganicSessionsWidget } from "../../../src/dashboard/widgets/organic-sessions-widget";
 import { render, waitFor } from "../../test-utils";
 import { MockDataProvider } from "../__mocks__/data-provider";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
-import { DataFormatter } from "../../../src/dashboard/services/data-formatter";
-import { expect, test } from "@jest/globals";
 
 describe( "OrganicSessionsWidget", () => {
 	let dataProvider;
@@ -17,7 +17,8 @@ describe( "OrganicSessionsWidget", () => {
 	beforeEach( () => {
 		remoteDataProvider.fetchJson.mockClear();
 	} );
-	test( "should render with heading", async() => {
+
+	it( "should render with heading", async() => {
 		const { getByRole } = render( <OrganicSessionsWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
@@ -27,12 +28,18 @@ describe( "OrganicSessionsWidget", () => {
 			expect( getByRole( "heading", { name: "Organic sessions" } ) ).toBeInTheDocument();
 		} );
 	} );
-	test( "should render with info button with tooltip with link", () => {
+
+	it( "should render with info button with tooltip with link", async() => {
 		const { getByRole, getByText } = render( <OrganicSessionsWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
 			dataFormatter={ dataFormatter }
 		/> );
+
+		// Suppress "not wrapped in act" warning due to fetch.
+		// Even though the tooltip is already there, regardless of the fetch.
+		await waitFor( () => {
+		} );
 
 		const tooltip = getByRole( "tooltip" );
 		const tooltipMessage = getByText( "The number of organic sessions on your website." );
@@ -45,7 +52,8 @@ describe( "OrganicSessionsWidget", () => {
 		expect( link ).toHaveAttribute( "rel", "noopener" );
 		expect( link ).toHaveAttribute( "target", "_blank" );
 	} );
-	test( "should render without data", async() => {
+
+	it( "should render without data", async() => {
 		remoteDataProvider.fetchJson.mockResolvedValue( [] );
 		const { getAllByText } = render( <OrganicSessionsWidget
 			dataProvider={ dataProvider }
@@ -57,7 +65,7 @@ describe( "OrganicSessionsWidget", () => {
 		} );
 	} );
 
-	test( "should render without error", async() => {
+	it( "should render without error", async() => {
 		const error = new Error( "Network Error" );
 		error.status = 500;
 		remoteDataProvider.fetchJson.mockRejectedValue( error );

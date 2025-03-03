@@ -113,6 +113,10 @@ describe( "SiteKitSetupWidget", () => {
 
 		fireEvent.click( screen.getByRole( "button", { name: /Grant consent/i } ) );
 
+		await waitFor( () => {
+			screen.getByRole( "button", { name: /Got it!/i } );
+		} );
+
 		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
 			"https://example.com/site-kit-consent-management",
 			{ consent: "true" },
