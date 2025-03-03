@@ -53,6 +53,13 @@ describe( "Scores", () => {
 			links: {
 				errorSupport: "admin.php?page=wpseo_page_support",
 			},
+			siteKitConfiguration: {
+				isFeatureEnabled: true,
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: true,
+				isConnected: true,
+			},
 		} );
 		remoteDataProvider = new RemoteDataProvider( {} );
 	} );

@@ -20,6 +20,9 @@ describe( "WidgetFactory", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				isFeatureEnabled: true,
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: true,
 			},
 		} );
 		remoteDataProvider = new MockRemoteDataProvider( {} );
