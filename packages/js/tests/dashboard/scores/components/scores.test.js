@@ -68,14 +68,14 @@ describe( "Scores", () => {
 		fetchJson.mockClear();
 	} );
 
-	it( "should render the component", async() => {
+	it( "should render the component", async () => {
 		const { container, getAllByRole, getByRole } = render(
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
 				dataProvider={ dataProvider }
 				remoteDataProvider={ remoteDataProvider }
-			/>
+			/>,
 		);
 
 		// Verify the filters are present.
@@ -89,11 +89,11 @@ describe( "Scores", () => {
 		await waitFor( () => expect( fetchJson ).toHaveBeenCalledTimes( 2 ) );
 		expect( fetchJson ).toHaveBeenCalledWith(
 			expect.objectContaining( { href: "https://example.com/seo_scores?contentType=post" } ),
-			expect.any( Object )
+			expect.any( Object ),
 		);
 		expect( fetchJson ).toHaveBeenCalledWith(
 			expect.objectContaining( { href: "https://example.com/categories?search=&_fields=id%2Cname" } ),
-			expect.any( Object )
+			expect.any( Object ),
 		);
 
 		// Ensure the skeleton loader is removed.
@@ -111,7 +111,7 @@ describe( "Scores", () => {
 		expect( listItems[ 3 ] ).toHaveTextContent( "Not analyzed" );
 	} );
 
-	it( "should show an error with a link to the support page", async() => {
+	it( "should show an error with a link to the support page", async () => {
 		const { getByRole } = render(
 			<Scores
 				analysisType="seo"
@@ -121,7 +121,7 @@ describe( "Scores", () => {
 					getEndpoint: () => "https://example.com/error",
 				} }
 				remoteDataProvider={ remoteDataProvider }
-			/>
+			/>,
 		);
 
 		// Await the fetch calls: scores and terms.
@@ -135,7 +135,7 @@ describe( "Scores", () => {
 		expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "admin.php?page=wpseo_page_support" );
 	} );
 
-	it( "should show a timeout error with a link to the support page", async() => {
+	it( "should show a timeout error with a link to the support page", async () => {
 		const { getByRole } = render(
 			<Scores
 				analysisType="seo"
@@ -145,7 +145,7 @@ describe( "Scores", () => {
 					getEndpoint: () => "https://example.com/timeout",
 				} }
 				remoteDataProvider={ remoteDataProvider }
-			/>
+			/>,
 		);
 
 		// Await the fetch calls: scores and terms.
@@ -159,14 +159,14 @@ describe( "Scores", () => {
 		expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "admin.php?page=wpseo_page_support" );
 	} );
 
-	it( "should not show the categories filter without taxonomies", async() => {
+	it( "should not show the categories filter without taxonomies", async () => {
 		const { getByRole, queryByRole } = render(
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
 				dataProvider={ dataProvider }
 				remoteDataProvider={ remoteDataProvider }
-			/>
+			/>,
 		);
 
 		// Await the fetch calls: scores and terms.
@@ -196,14 +196,14 @@ describe( "Scores", () => {
 		expect( queryByRole( "combobox", { name: "Categories" } ) ).toBeNull();
 	} );
 
-	it( "should request the (readability) scores for a specific term", async() => {
+	it( "should request the (readability) scores for a specific term", async () => {
 		const { getByRole } = render(
 			<Scores
 				analysisType="readability"
 				contentTypes={ contentTypes }
 				dataProvider={ dataProvider }
 				remoteDataProvider={ remoteDataProvider }
-			/>
+			/>,
 		);
 
 		// Await the fetch calls: scores and terms.
@@ -235,18 +235,18 @@ describe( "Scores", () => {
 		// Verify the taxonomy is "product_cat" and the term is the ID of "merchandise" (see data JSON).
 		expect( fetchJson ).toHaveBeenCalledWith(
 			expect.objectContaining( { href: "https://example.com/readability_scores?contentType=product&taxonomy=product_cat&term=18" } ),
-			expect.any( Object )
+			expect.any( Object ),
 		);
 	} );
 
-	it( "should filter the content types", async() => {
+	it( "should filter the content types", async () => {
 		const { getAllByRole, getByRole } = render(
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
 				dataProvider={ dataProvider }
 				remoteDataProvider={ remoteDataProvider }
-			/>
+			/>,
 		);
 
 		// Await the fetch calls: scores and terms.
@@ -261,14 +261,14 @@ describe( "Scores", () => {
 		expect( getAllByRole( "option" ) ).toHaveLength( 1 );
 	} );
 
-	it( "should search for terms", async() => {
+	it( "should search for terms", async () => {
 		const { getByRole } = render(
 			<Scores
 				analysisType="readability"
 				contentTypes={ contentTypes }
 				dataProvider={ dataProvider }
 				remoteDataProvider={ remoteDataProvider }
-			/>
+			/>,
 		);
 
 		// Await the fetch calls: scores and terms.
@@ -281,18 +281,18 @@ describe( "Scores", () => {
 		await waitFor( () => expect( fetchJson ).toHaveBeenCalledTimes( 3 ) );
 		expect( fetchJson ).toHaveBeenCalledWith(
 			expect.objectContaining( { href: "https://example.com/categories?search=thing&_fields=id%2Cname" } ),
-			expect.any( Object )
+			expect.any( Object ),
 		);
 	} );
 
-	it( "should show a loading indicator when searching for terms", async() => {
+	it( "should show a loading indicator when searching for terms", async () => {
 		const { getByRole } = render(
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
 				dataProvider={ dataProvider }
 				remoteDataProvider={ remoteDataProvider }
-			/>
+			/>,
 		);
 
 		// Await the fetch calls: scores and terms.
@@ -310,14 +310,14 @@ describe( "Scores", () => {
 		await waitFor( () => expect( fetchJson ).toHaveBeenCalledTimes( 3 ) );
 	} );
 
-	it( "should show a message when no terms are found", async() => {
+	it( "should show a message when no terms are found", async () => {
 		const { getByRole } = render(
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
 				dataProvider={ dataProvider }
 				remoteDataProvider={ remoteDataProvider }
-			/>
+			/>,
 		);
 
 		// Await the fetch calls: scores and terms.
@@ -330,21 +330,21 @@ describe( "Scores", () => {
 		await waitFor( () => expect( fetchJson ).toHaveBeenCalledTimes( 3 ) );
 		expect( fetchJson ).toHaveBeenCalledWith(
 			expect.objectContaining( { href: "https://example.com/categories?search=nothing&_fields=id%2Cname" } ),
-			expect.any( Object )
+			expect.any( Object ),
 		);
 
 		// Verify the "Nothing found" message is present.
 		expect( getByRole( "listbox" ) ).toHaveTextContent( "Nothing found" );
 	} );
 
-	it( "should be possible to clear the term filter", async() => {
+	it( "should be possible to clear the term filter", async () => {
 		const { getByRole } = render(
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
 				dataProvider={ dataProvider }
 				remoteDataProvider={ remoteDataProvider }
-			/>
+			/>,
 		);
 
 		// Await the fetch calls: scores and terms.
@@ -364,7 +364,7 @@ describe( "Scores", () => {
 		// Verify the search is empty.
 		expect( fetchJson ).toHaveBeenCalledWith(
 			expect.objectContaining( { href: "https://example.com/categories?search=&_fields=id%2Cname" } ),
-			expect.any( Object )
+			expect.any( Object ),
 		);
 	} );
 } );

@@ -47,7 +47,7 @@ export class WidgetFactory {
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
 	createWidget( widget ) {
-		const { isFeatureEnabled, isConnected, isConfigurationDismissed } = this.#dataProvider.getSiteKitConfiguration();
+		const { isFeatureEnabled, isConfigurationDismissed } = this.#dataProvider.getSiteKitConfiguration();
 		const isSiteKitConnectionCompleted = this.#dataProvider.isSiteKitConnectionCompleted();
 		switch ( widget.type ) {
 			case WidgetFactory.types.seoScores:

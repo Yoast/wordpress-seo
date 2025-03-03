@@ -93,9 +93,6 @@ domReady( () => {
 		isConfigurationDismissed: false,
 	} );
 
-
-
-
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const dataFormatter = new DataFormatter( { locale: userLocale } );
