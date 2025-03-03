@@ -1,10 +1,10 @@
 import { __ } from "@wordpress/i18n";
+import { isEqual } from "lodash";
+import { ErrorAlert } from "../components/error-alert";
+import { NoDataParagraph } from "../components/no-data-paragraph";
 import { OrganicSessionsChange, useOrganicSessionsChange } from "./organic-sessions/change";
 import { OrganicSessionsDaily, useOrganicSessionsDaily } from "./organic-sessions/daily";
 import { Widget } from "./widget";
-import { ErrorAlert } from "../components/error-alert";
-import { isEqual } from "lodash";
-
 
 /**
  * @type {import("../services/data-provider")} DataProvider
@@ -29,16 +29,20 @@ export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataF
 		tooltipLearnMoreLink: dataProvider.getLink( "organicSessionsInfoLearnMore" ),
 	};
 
+	// Collapse the errors if they are the same.
 	if ( change.error && daily.error && isEqual( change.error, daily.error ) ) {
-		return <Widget { ...widgetProps }>
-			<ErrorAlert error={ change.error } className="yst-mt-4" supportLink={ supportLink } />
-		</Widget>;
+		return (
+			<Widget { ...widgetProps }>
+				<ErrorAlert className="yst-mt-4" error={ change.error } supportLink={ supportLink } />
+			</Widget>
+		);
 	}
 
+	// Don't show the comparison when there is not data.
 	if ( daily.data?.labels.length === 0 ) {
 		return (
 			<Widget { ...widgetProps }>
-				<p className="yst-mt-4">{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }</p>
+				<NoDataParagraph />
 			</Widget>
 		);
 	}
