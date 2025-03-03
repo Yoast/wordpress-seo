@@ -208,6 +208,7 @@ class General_Page_Integration implements Integration_Interface {
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
 			],
+			'adminUrl'          => \admin_url( 'admin.php' ),
 			'linkParams'        => $this->shortlink_helper->get_query_params(),
 			'userEditUrl'       => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) ),
 			'alerts'            => $this->notification_helper->get_alerts(),

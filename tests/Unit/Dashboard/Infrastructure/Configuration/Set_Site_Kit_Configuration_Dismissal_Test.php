@@ -14,15 +14,16 @@ namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Configuration;
 final class Set_Site_Kit_Configuration_Dismissal_Test extends Abstract_Permanently_Dismissed_Site_Kit_Configuration_Repository_Test {
 
 	/**
-	 * Tests if the Site Kit configuration dismissal status can be retrieved.
+	 * Tests if the Site Kit configuration dismissal status can be set.
 	 *
 	 * @return void
 	 */
-	public function test_is_site_kit_configuration_dismissed() {
-		$this->options_helper->shouldReceive( 'get' )
-			->with( 'site_kit_configuration_permanently_dismissed', false )
+	public function test_set_site_kit_configuration_dismissal() {
+		$is_dismissed = true;
+		$this->options_helper->shouldReceive( 'set' )
+			->with( 'site_kit_configuration_permanently_dismissed', $is_dismissed )
 			->andReturn( true );
 
-		$this->assertTrue( $this->instance->is_site_kit_configuration_dismissed() );
+		$this->assertTrue( $this->instance->set_site_kit_configuration_dismissal( $is_dismissed ) );
 	}
 }

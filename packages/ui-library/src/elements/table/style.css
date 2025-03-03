@@ -47,7 +47,11 @@
 				}
 
 				.yst-table-cell {
-					@apply yst-py-2;
+					@apply yst-py-2 first:yst-ps-0 last:yst-pe-0;
+				}
+
+				.yst-table-header {
+					@apply first:yst-ps-0 last:yst-pe-0;
 				}
 
 				tbody {

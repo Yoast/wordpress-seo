@@ -35,14 +35,12 @@ const MORPHOLOGY_VERSIONS = {
  * @returns {Researcher} The Researcher instance.
  */
 const getResearcher = ( language ) => {
-	const dataVersion = MORPHOLOGY_VERSIONS[ language ];
+	// Retrieve the language-specific researcher
 	// eslint-disable-next-line global-require
 	const { "default": Researcher } = require( `yoastseo/build/languageProcessing/languages/${language}/Researcher` );
-	// eslint-disable-next-line global-require
-	const premiumData = require( `yoastseo/premium-configuration/data/morphologyData-${language}-${dataVersion}.json` );
-
 	const researcher = new Researcher();
-	researcher.addResearchData( "morphology", premiumData );
+
+	// Add Yoast SEO Premium researches/helpers/configs (optional)
 	researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
 	if ( getLanguagesWithWordComplexity().includes( language ) ) {
 		researcher.addResearch( "wordComplexity", wordComplexity );
@@ -50,6 +48,12 @@ const getResearcher = ( language ) => {
 		researcher.addConfig( "wordComplexity", helpers.getWordComplexityConfig( language ) );
 	}
 	researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
+
+	// Retrieve the morphology data (optional)
+	const dataVersion = MORPHOLOGY_VERSIONS[ language ];
+	// eslint-disable-next-line global-require
+	const premiumData = require( `yoastseo/premium-configuration/data/morphologyData-${language}-${dataVersion}.json` );
+	researcher.addResearchData( "morphology", premiumData );
 
 	return researcher;
 };

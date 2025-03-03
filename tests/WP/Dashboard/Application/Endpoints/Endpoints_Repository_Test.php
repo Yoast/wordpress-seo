@@ -7,6 +7,8 @@ use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Readability_Scores_Endpoint;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\SEO_Scores_Endpoint;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Configuration_Dismissal_Endpoint;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Consent_Management_Endpoint;
+
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -41,24 +43,33 @@ final class Endpoints_Repository_Test extends TestCase {
 		$readability_endpoint        = new Readability_Scores_Endpoint();
 		$seo_scores_endpoint         = new SEO_Scores_Endpoint();
 		$site_kit_dismissal_endpoint = new Site_Kit_Configuration_Dismissal_Endpoint();
+		$site_kit_consent_endpoint   = new Site_Kit_Consent_Management_Endpoint();
 
 		return [
-			'Seo and Readability endpoint' => [
-				'endpoints'     => [ $readability_endpoint, $seo_scores_endpoint, $site_kit_dismissal_endpoint ],
+			'All endpoints' => [
+				'endpoints'     => [ $readability_endpoint, $seo_scores_endpoint, $site_kit_dismissal_endpoint, $site_kit_consent_endpoint ],
 				'expected_list' => [
 					'readabilityScores'             => 'http://example.org/index.php?rest_route=/yoast/v1/readability_scores',
 					'seoScores'                     => 'http://example.org/index.php?rest_route=/yoast/v1/seo_scores',
 					'siteKitConfigurationDismissal' => 'http://example.org/index.php?rest_route=/yoast/v1/site_kit_configuration_permanent_dismissal',
+					'siteKitConsentManagement'      => 'http://example.org/index.php?rest_route=/yoast/v1/site_kit_manage_consent',
 				],
 			],
-			'Seo endpoint'                 => [
+			'Seo endpoint' => [
 				'endpoints'     => [ $seo_scores_endpoint ],
 				'expected_list' => [
 
 					'seoScores' => 'http://example.org/index.php?rest_route=/yoast/v1/seo_scores',
 				],
 			],
-			'no endpoints'                 => [
+			'Configuration endpoints' => [
+				'endpoints'     => [ $site_kit_dismissal_endpoint, $site_kit_consent_endpoint ],
+				'expected_list' => [
+					'siteKitConfigurationDismissal' => 'http://example.org/index.php?rest_route=/yoast/v1/site_kit_configuration_permanent_dismissal',
+					'siteKitConsentManagement'      => 'http://example.org/index.php?rest_route=/yoast/v1/site_kit_manage_consent',
+				],
+			],
+			'no endpoints' => [
 				'endpoints'     => [],
 				'expected_list' => [],
 			],

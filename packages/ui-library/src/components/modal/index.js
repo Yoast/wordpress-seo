@@ -78,12 +78,14 @@ const CloseButton = forwardRef( ( { className, onClick, screenReaderText, childr
 CloseButton.displayName = "Modal.CloseButton";
 CloseButton.propTypes = {
 	className: PropTypes.string,
-	onClick: PropTypes.func.isRequired,
+	onClick: PropTypes.func,
 	screenReaderText: PropTypes.string,
 	children: PropTypes.node,
 };
 CloseButton.defaultProps = {
 	className: "",
+	// eslint-disable-next-line no-undefined
+	onClick: undefined,
 	screenReaderText: "Close",
 	// eslint-disable-next-line no-undefined
 	children: undefined,

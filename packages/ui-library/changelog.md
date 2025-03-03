@@ -1,5 +1,28 @@
 # Changelog
 
+## 4.2.0
+
+Enhancements:
+
+* Adds a `useKeydown` hook to handle the `keydown` event listener subscription. [#21870](https://github.com/Yoast/wordpress-seo/pull/21870)
+* Adds a `TooltipContainer` component to provide a11y functionality around the Tooltip element. [#21870](https://github.com/Yoast/wordpress-seo/pull/21870)
+* Adds a new `Table` property `variant` to support a `minimal` style. [#21951](https://github.com/Yoast/wordpress-seo/pull/21951)
+* Exposes the `Modal.Panel`' close button as `Modal.CloseButton` to support styling overrides via its `className` prop. [#21984](https://github.com/Yoast/wordpress-seo/pull/21984)
+* Improves the RTL support. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
+* Upgrades the Root reset styling to match the Tailwind v3.4.16 preflight style. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
+* Adds optional `onClear` to the Autocomplete to support detecting of the difference between a `null` value and the user clearing the value. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
+* Improves the RTL support in the Pagination component to always have the LTR direction. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
+
+Bugfixes:
+
+* Fixes a bug where the Autocomplete would have an empty trailing space after the input, which would especially show when using `nullable`. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
+* Fixes a bug where the Tooltip would be positioned wrong when using a RTL language. [#21870](https://github.com/Yoast/wordpress-seo/pull/21870)
+
+Other:
+
+* Fixes a bug in the storybook where the RTL styling would not affect the dialogs. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
+* Improves contrast of default text color in `Table.Cell`. [#21916](https://github.com/Yoast/wordpress-seo/pull/21916)
+
 ## 4.1.0
 
 Enhancements:

@@ -3,16 +3,15 @@ import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component, withFlex } from "./docs";
 import { TooltipContainer, TooltipTrigger, TooltipWithContext } from "./index";
 
+
 export const Factory = {
 	parameters: {
 		controls: { disable: false },
 	},
-	args: {
-		children: <>
-			<TooltipTrigger ariaDescribedby="tooltip-factory">Element containing a tooltip.</TooltipTrigger>
-			<TooltipWithContext id="tooltip-factory">I&apos;m a tooltip</TooltipWithContext>
-		</>,
-	},
+	render: () => <TooltipContainer>
+		<TooltipTrigger ariaDescribedby="tooltip-factory">Element containing a tooltip.</TooltipTrigger>
+		<TooltipWithContext id="tooltip-factory">I&apos;m a tooltip</TooltipWithContext>
+	</TooltipContainer>,
 };
 
 export const Trigger = {

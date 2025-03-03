@@ -12,16 +12,15 @@ const baseArgs = {
 
 describe( "SnippetPreview", () => {
 	describe( "breadcrumbs", () => {
-		it( "properly renders multiple breadcrumbs in mobile view", () => {
+		it( "should not render breadcrumbs in mobile view", () => {
 			render( <SnippetPreview { ...baseArgs } url={ "http://www.google.nl/about" } mode={ MODE_MOBILE } /> );
 			const baseURL = screen.getByText( "www.google.nl" );
-			const subFolder = screen.getByText( "› about" );
 			expect( baseURL ).toBeInTheDocument();
-			expect( subFolder ).toBeInTheDocument();
+			expect( screen.queryByText( "› about" ) ).toBeNull();
 		} );
 
-		it( "doesn't percent encode characters that are percent encoded by node's url.parse in mobile view", () => {
-			render( <SnippetPreview { ...baseArgs } url={ "http://www.google.nl/`^ {}" } mode={ MODE_MOBILE } /> );
+		it( "doesn't percent encode characters that are percent encoded by node's url.parse in desktop view", () => {
+			render( <SnippetPreview { ...baseArgs } url={ "http://www.google.nl/`^ {}" } mode={ MODE_DESKTOP } /> );
 			const baseURL = screen.getByText( "www.google.nl" );
 			const subFolder = screen.getByText( "› `^ {}" );
 			expect( baseURL ).toBeInTheDocument();
@@ -44,26 +43,6 @@ describe( "SnippetPreview", () => {
 			expect( baseURL ).toBeInTheDocument();
 			expect( subFolder ).toBeInTheDocument();
 			expect( subFolderWithTrailingSlash ).not.toBeInTheDocument();
-		} );
-
-		it( "strips http protocol in mobile view", () => {
-			render( <SnippetPreview { ...baseArgs } url={ "http://www.google.nl/subdir" } mode={ MODE_MOBILE } /> );
-			const baseURL = screen.getByText( "www.google.nl" );
-			const baseUrlWithProtocol = screen.queryByText( "http://www.google.nl" );
-			const subFolder = screen.getByText( "› subdir" );
-			expect( baseURL ).toBeInTheDocument();
-			expect( baseUrlWithProtocol ).not.toBeInTheDocument();
-			expect( subFolder ).toBeInTheDocument();
-		} );
-
-		it( "strips https protocol in mobile view", () => {
-			render( <SnippetPreview { ...baseArgs } url={ "https://www.google.nl/subdir" } mode={ MODE_MOBILE } /> );
-			const baseURL = screen.getByText( "www.google.nl" );
-			const baseUrlWithProtocol = screen.queryByText( "https://www.google.nl" );
-			const subFolder = screen.getByText( "› subdir" );
-			expect( baseURL ).toBeInTheDocument();
-			expect( baseUrlWithProtocol ).not.toBeInTheDocument();
-			expect( subFolder ).toBeInTheDocument();
 		} );
 
 		it( "strips http protocol in desktop view", () => {
