@@ -337,7 +337,7 @@ describe( "Scores", () => {
 		expect( getByRole( "listbox" ) ).toHaveTextContent( "Nothing found" );
 	} );
 
-	it( "should be possible to clear the term filter",async () => {
+	it( "should be possible to clear the term filter", async() => {
 		const { getByRole } = render(
 			<Scores
 				analysisType="seo"
