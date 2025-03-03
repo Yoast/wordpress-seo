@@ -33,14 +33,14 @@ describe( "WidgetFactory", () => {
 		[ "seoScores" ],
 		[ "readabilityScores" ],
 		[ "topPages" ],
-	] )( "should have the widget type: %s", async ( type ) => {
+	] )( "should have the widget type: %s", async( type ) => {
 		expect( WidgetFactory.types[ type ] ).toBe( type );
 	} );
 
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
-	] )( "should not create a %s widget when site kit is not connected", async ( _, widget ) => {
+	] )( "should not create a %s widget when site kit is not connected", async( _, widget ) => {
 		dataProvider.setSiteKitConnected( false );
 		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
@@ -51,7 +51,7 @@ describe( "WidgetFactory", () => {
 		[ "Readability scores", { id: "readability-scores-widget", type: "readabilityScores" }, "Readability scores" ],
 		[ "Site Kit setup", { id: "site-kit-setup-widget", type: "siteKitSetup" }, "Expand your dashboard with insights from Google!" ],
 		[ "Unknown", { id: undefined, type: "unknown" }, undefined ],
-	] )( "should create a %s widget", async ( _, widget, title ) => {
+	] )( "should create a %s widget", async( _, widget, title ) => {
 		const element = widgetFactory.createWidget( widget );
 		expect( element?.key ).toBe( widget.id );
 		const { getByRole } = render( <>{ element }</> );
@@ -67,7 +67,7 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" }, "Top 5 most popular content" ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" }, "Top 5 search queries" ],
-	] )( "should create a %s widget", async ( _, widget, title ) => {
+	] )( "should create a %s widget", async( _, widget, title ) => {
 		dataProvider.setSiteKitConnected( true );
 		const element = widgetFactory.createWidget( widget );
 		expect( element?.key ).toBe( widget.id );
@@ -81,7 +81,7 @@ describe( "WidgetFactory", () => {
 		} );
 	} );
 
-	test( "should create the site kit set up widget", async () => {
+	test( "should create the site kit set up widget", async() => {
 		const element = widgetFactory.createWidget( { id: "site-kit-setup-widget", type: "siteKitSetup" }, jest.fn() );
 		expect( element?.key ).toBe( "site-kit-setup-widget" );
 		const { getByRole } = render( <>{ element }</> );
@@ -91,7 +91,7 @@ describe( "WidgetFactory", () => {
 		} );
 	} );
 
-	test( "should not create the site kit set up widget", async () => {
+	test( "should not create the site kit set up widget", async() => {
 		dataProvider.setSiteKitConnected( true );
 		const element = widgetFactory.createWidget( { id: "site-kit-setup-widget", type: "siteKitSetup" } );
 		expect( element?.key ).toBe( "site-kit-setup-widget" );
@@ -132,7 +132,7 @@ describe( "WidgetFactory", () => {
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
 		[ "siteKitSetup", { id: "site-kite-setup-widget", type: "siteKitSetup" } ],
-	] )( "should not create a %s widget when site kit feature is disabled", async ( _, widget ) => {
+	] )( "should not create a %s widget when site kit feature is disabled", async( _, widget ) => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isFeatureEnabled: false },
 		} );
