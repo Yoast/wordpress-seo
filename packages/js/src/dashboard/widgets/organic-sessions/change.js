@@ -34,14 +34,12 @@ import { ErrorAlert } from "../../components/error-alert";
 // eslint-disable-next-line complexity -- Fallbacks to zero, easy enough to read.
 export const createOrganicSessionsChangeFormatter = ( dataFormatter ) => ( [ data ] ) => {
 	const current = data?.current?.sessions || 0;
-	const previous = data?.previous?.sessions || 0;
-	// Delta / average.
-	const difference = Math.abs( current - previous ) / ( ( current + previous ) / 2 );
-	return ( {
+	const difference = getDifference( current, data?.previous?.sessions || 0 );
+	return {
 		sessions: dataFormatter.format( current, "sessions", { widget: "organicSessions", type: "change" } ),
 		difference,
 		formattedDifference: dataFormatter.format( difference, "difference", { widget: "organicSessions" } ),
-	} );
+	};
 };
 
 /**
