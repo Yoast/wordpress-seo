@@ -130,6 +130,10 @@ export class DataProvider {
 		return this.#stepsStatuses.findIndex( status => ! status );
 	}
 
+	isSiteKitConnectionCompleted() {
+		return this.getSiteKitCurrentConnectionStep() === -1;
+	}
+
 	/**
 	 * @param {boolean} isConnected Whether the site kit is connected.
 	 */
@@ -139,6 +143,7 @@ export class DataProvider {
 			...this.#siteKitConfiguration,
 			isConnected,
 		};
+		this.#stepsStatuses[ 3 ] = isConnected;
 		this.notifySubscribers();
 	}
 
