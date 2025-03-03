@@ -1,8 +1,8 @@
 import { describe, expect, test } from "@jest/globals";
-import { OrganicSessionsChange } from "../../../../src/dashboard/widgets/organic-sessions/change";
+import { OrganicSessionsCompare } from "../../../../src/dashboard/widgets/organic-sessions/compare";
 import { render } from "../../../test-utils";
 
-describe( "OrganicSessionsChange", () => {
+describe( "OrganicSessionsCompare", () => {
 	const data = {
 		sessions: "11",
 		difference: 1.1428571428571428,
@@ -11,7 +11,7 @@ describe( "OrganicSessionsChange", () => {
 	const supportLink = "https://yoa.st/support";
 
 	test( "renders component with data", () => {
-		const { getByRole, getByText } = render( <OrganicSessionsChange
+		const { getByRole, getByText } = render( <OrganicSessionsCompare
 			data={ data } isPending={ false } supportLink={ supportLink }
 		/> );
 		expect( getByRole( "heading", { name: "11" } ) ).toBeInTheDocument();
@@ -20,7 +20,7 @@ describe( "OrganicSessionsChange", () => {
 	} );
 
 	test( "renders component with pending state", () => {
-		const { getByText } = render( <OrganicSessionsChange
+		const { getByText } = render( <OrganicSessionsCompare
 			data={ data } isPending={ true } supportLink={ supportLink }
 		/> );
 		expect( getByText( "10_000" ) ).toBeInTheDocument();
@@ -30,7 +30,7 @@ describe( "OrganicSessionsChange", () => {
 
 	test( "renders component with error", () => {
 		const error = new Error( "An error occurred" );
-		const { getByRole } = render( <OrganicSessionsChange
+		const { getByRole } = render( <OrganicSessionsCompare
 			data={ data } isPending={ false } error={ error } supportLink={ supportLink }
 		/> );
 		expect( getByRole( "status" ) )

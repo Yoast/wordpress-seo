@@ -17,11 +17,11 @@ import { getDifference } from "../../transformers/difference";
  */
 
 /**
- * @typedef {Object<OrganicSessionsPeriod, Object<"sessions",number>>} RawOrganicSessionsChangeData The organic sessions change data.
+ * @typedef {Object<OrganicSessionsPeriod, Object<"sessions",number>>} RawOrganicSessionsCompareData The organic sessions compare data.
  */
 
 /**
- * @typedef {Object} OrganicSessionsChangeData The processed organic sessions change data.
+ * @typedef {Object} OrganicSessionsCompareData The processed organic sessions compare data.
  * @property {string} sessions The number of current sessions.
  * @property {number} difference The difference percentage.
  * @property {string} formattedDifference The formatted difference percentage.
@@ -29,14 +29,14 @@ import { getDifference } from "../../transformers/difference";
 
 /**
  * @param {DataFormatter} dataFormatter The data formatter.
- * @returns {function(?RawOrganicSessionsChangeData[]): OrganicSessionsChangeData} Function to format the organic sessions change data.
+ * @returns {function(?RawOrganicSessionsCompareData[]): OrganicSessionsCompareData} Function to format the organic sessions compare data.
  */
 // eslint-disable-next-line complexity -- Fallbacks to zero, easy enough to read.
-export const createOrganicSessionsChangeFormatter = ( dataFormatter ) => ( [ data ] ) => {
+export const createOrganicSessionsCompareFormatter = ( dataFormatter ) => ( [ data ] ) => {
 	const current = data?.current?.sessions || 0;
 	const difference = getDifference( current, data?.previous?.sessions || 0 );
 	return {
-		sessions: dataFormatter.format( current, "sessions", { widget: "organicSessions", type: "change" } ),
+		sessions: dataFormatter.format( current, "sessions", { widget: "organicSessions", type: "compare" } ),
 		difference,
 		formattedDifference: dataFormatter.format( difference, "difference", { widget: "organicSessions" } ),
 	};
@@ -48,24 +48,24 @@ export const createOrganicSessionsChangeFormatter = ( dataFormatter ) => ( [ dat
  * @param {DataFormatter} dataFormatter The data formatter.
  * @returns {{data: *, error: Error, isPending: boolean}} The remote data info.
  */
-export const useOrganicSessionsChange = ( dataProvider, remoteDataProvider, dataFormatter ) => {
+export const useOrganicSessionsCompare = ( dataProvider, remoteDataProvider, dataFormatter ) => {
 	/**
 	 * @param {RequestInit} options The options.
 	 * @returns {Promise<OrganicSessionsDailyData[]|Error>} The promise of OrganicSessionsData or an Error.
 	 */
-	const getOrganicSessionsChange = useCallback( ( options ) => {
+	const getOrganicSessionsCompare = useCallback( ( options ) => {
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ options: { widget: "οrganicSessionsChange" } },
+			{ options: { widget: "οrganicSessionsCompare" } },
 			options );
 	}, [ dataProvider ] );
 
 	/**
-	 * @type {function(?RawOrganicSessionsChangeData[]): OrganicSessionsChangeData} Function to format the organic sessions data.
+	 * @type {function(?RawOrganicSessionsCompareData[]): OrganicSessionsCompareData} Function to format the organic sessions data.
 	 */
-	const formatOrganicSessionsChange = useMemo( () => createOrganicSessionsChangeFormatter( dataFormatter ), [ dataFormatter ] );
+	const formatOrganicSessionsCompare = useMemo( () => createOrganicSessionsCompareFormatter( dataFormatter ), [ dataFormatter ] );
 
-	return useRemoteData( getOrganicSessionsChange, formatOrganicSessionsChange );
+	return useRemoteData( getOrganicSessionsCompare, formatOrganicSessionsCompare );
 };
 
 /**
@@ -83,13 +83,13 @@ const Layout = ( { children } ) => (
 );
 
 /**
- * @param {?OrganicSessionsChangeData} [data] The organic sessions change data.
+ * @param {?OrganicSessionsCompareData} [data] The organic sessions compare data.
  * @param {boolean} isPending Whether the data is pending.
  * @param {?Error} [error] The error.
  * @param {string} supportLink The support link.
  * @returns {JSX.Element} The element.
  */
-export const OrganicSessionsChange = ( { data, isPending, error, supportLink } ) => {
+export const OrganicSessionsCompare = ( { data, isPending, error, supportLink } ) => {
 	if ( isPending ) {
 		return (
 			<Layout>

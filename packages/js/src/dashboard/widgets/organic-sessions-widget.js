@@ -2,7 +2,7 @@ import { __ } from "@wordpress/i18n";
 import { isEqual } from "lodash";
 import { ErrorAlert } from "../components/error-alert";
 import { NoDataParagraph } from "../components/no-data-paragraph";
-import { OrganicSessionsChange, useOrganicSessionsChange } from "./organic-sessions/change";
+import { OrganicSessionsCompare, useOrganicSessionsCompare } from "./organic-sessions/compare";
 import { OrganicSessionsDaily, useOrganicSessionsDaily } from "./organic-sessions/daily";
 import { Widget } from "./widget";
 
@@ -21,7 +21,7 @@ import { Widget } from "./widget";
 export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
 	const supportLink = dataProvider.getLink( "errorSupport" );
 	const daily = useOrganicSessionsDaily( dataProvider, remoteDataProvider, dataFormatter );
-	const change = useOrganicSessionsChange( dataProvider, remoteDataProvider, dataFormatter );
+	const compare = useOrganicSessionsCompare( dataProvider, remoteDataProvider, dataFormatter );
 	const widgetProps = {
 		className: "yst-paper__content yst-col-span-4",
 		title: __( "Organic sessions", "wordpress-seo" ),
@@ -30,10 +30,10 @@ export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataF
 	};
 
 	// Collapse the errors if they are the same.
-	if ( change.error && daily.error && isEqual( change.error, daily.error ) ) {
+	if ( compare.error && daily.error && isEqual( compare.error, daily.error ) ) {
 		return (
 			<Widget { ...widgetProps }>
-				<ErrorAlert className="yst-mt-4" error={ change.error } supportLink={ supportLink } />
+				<ErrorAlert className="yst-mt-4" error={ compare.error } supportLink={ supportLink } />
 			</Widget>
 		);
 	}
@@ -50,7 +50,7 @@ export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataF
 	return (
 		<Widget { ...widgetProps }>
 			<div className="yst-flex yst-justify-between yst-mt-4">
-				<OrganicSessionsChange data={ change.data } error={ change.error } isPending={ change.isPending } supportLink={ supportLink } />
+				<OrganicSessionsCompare data={ compare.data } error={ compare.error } isPending={ compare.isPending } supportLink={ supportLink } />
 			</div>
 			<OrganicSessionsDaily data={ daily.data } error={ daily.error } isPending={ daily.isPending } supportLink={ supportLink } />
 		</Widget>
