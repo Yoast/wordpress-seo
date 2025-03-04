@@ -1,4 +1,4 @@
-import { describe, expect, test } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 import { OrganicSessionsCompare } from "../../../../src/dashboard/widgets/organic-sessions/compare";
 import { render } from "../../../test-utils";
 
@@ -10,7 +10,7 @@ describe( "OrganicSessionsCompare", () => {
 	};
 	const supportLink = "https://yoa.st/support";
 
-	test( "renders component with data", () => {
+	it( "renders component with data", () => {
 		const { getByRole, getByText } = render( <OrganicSessionsCompare
 			data={ data } isPending={ false } supportLink={ supportLink }
 		/> );
@@ -19,7 +19,7 @@ describe( "OrganicSessionsCompare", () => {
 		expect( getByText( "Last 28 days" ) ).toBeInTheDocument();
 	} );
 
-	test( "renders component with pending state", () => {
+	it( "renders component with pending state", () => {
 		const { getByText } = render( <OrganicSessionsCompare
 			data={ data } isPending={ true } supportLink={ supportLink }
 		/> );
@@ -28,7 +28,7 @@ describe( "OrganicSessionsCompare", () => {
 		expect( getByText( "Last 28 days" ) ).toBeInTheDocument();
 	} );
 
-	test( "renders component with error", () => {
+	it( "renders component with error", () => {
 		const error = new Error( "An error occurred" );
 		const { getByRole } = render( <OrganicSessionsCompare
 			data={ data } isPending={ false } error={ error } supportLink={ supportLink }

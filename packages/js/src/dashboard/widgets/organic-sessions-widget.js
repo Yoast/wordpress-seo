@@ -1,3 +1,4 @@
+import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { isEqual } from "lodash";
 import { ErrorAlert } from "../components/error-alert";
@@ -29,6 +30,12 @@ export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataF
 		tooltipLearnMoreLink: dataProvider.getLink( "organicSessionsInfoLearnMore" ),
 	};
 
+	// Creating a specific wrapper instead of passing the data formatter itself.
+	const formatSessionsForChartLabel = useCallback(
+		( value ) => dataFormatter.format( value, "sessions", { compact: true } ),
+		[ dataFormatter ]
+	);
+
 	// Collapse the errors if they are the same.
 	if ( compare.error && daily.error && isEqual( compare.error, daily.error ) ) {
 		return (
@@ -52,7 +59,13 @@ export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataF
 			<div className="yst-flex yst-justify-between yst-mt-4">
 				<OrganicSessionsCompare data={ compare.data } error={ compare.error } isPending={ compare.isPending } supportLink={ supportLink } />
 			</div>
-			<OrganicSessionsDaily data={ daily.data } error={ daily.error } isPending={ daily.isPending } supportLink={ supportLink } />
+			<OrganicSessionsDaily
+				data={ daily.data }
+				error={ daily.error }
+				isPending={ daily.isPending }
+				supportLink={ supportLink }
+				formatY={ formatSessionsForChartLabel }
+			/>
 		</Widget>
 	);
 };

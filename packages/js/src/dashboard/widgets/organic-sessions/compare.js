@@ -31,8 +31,8 @@ import { getDifference } from "../../transformers/difference";
  * @param {DataFormatter} dataFormatter The data formatter.
  * @returns {function(?RawOrganicSessionsCompareData[]): OrganicSessionsCompareData} Function to format the organic sessions compare data.
  */
-
-export const createOrganicSessionsCompareFormatter = ( dataFormatter ) => ( [ data ] ) => {
+// eslint-disable-next-line complexity
+const createOrganicSessionsCompareFormatter = ( dataFormatter ) => ( [ data ] ) => {
 	const current = data?.current?.sessions || NaN;
 	const difference = getDifference( current, data?.previous?.sessions || NaN );
 	return {
@@ -43,15 +43,21 @@ export const createOrganicSessionsCompareFormatter = ( dataFormatter ) => ( [ da
 };
 
 /**
+ * Handles the fetch and returns the data, error and pending status.
+ *
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
  * @param {DataFormatter} dataFormatter The data formatter.
- * @returns {{data: *, error: Error, isPending: boolean}} The remote data info.
+ *
+ * @returns {{data: OrganicSessionsCompareData?, error: Error, isPending: boolean}} The remote data info.
  */
 export const useOrganicSessionsCompare = ( dataProvider, remoteDataProvider, dataFormatter ) => {
 	/**
+	 * Fetches the organic sessions compare data.
+	 *
 	 * @param {RequestInit} options The options.
-	 * @returns {Promise<OrganicSessionsDailyData[]|Error>} The promise of OrganicSessionsData or an Error.
+	 *
+	 * @returns {Promise<OrganicSessionsCompareData|Error>} The promise of OrganicSessionsCompareData or an Error.
 	 */
 	const getOrganicSessionsCompare = useCallback( ( options ) => {
 		return remoteDataProvider.fetchJson(
@@ -61,10 +67,11 @@ export const useOrganicSessionsCompare = ( dataProvider, remoteDataProvider, dat
 	}, [ dataProvider ] );
 
 	/**
-	 * @type {function(?RawOrganicSessionsCompareData[]): OrganicSessionsCompareData} Function to format the organic sessions data.
+	 * @type {function(?RawOrganicSessionsCompareData[]): OrganicSessionsCompareData} Function to format the organic sessions compare data.
 	 */
 	const formatOrganicSessionsCompare = useMemo( () => createOrganicSessionsCompareFormatter( dataFormatter ), [ dataFormatter ] );
 
+	// Combine the fetch and format methods using the remote data hook, which triggers the fetch in a useEffect.
 	return useRemoteData( getOrganicSessionsCompare, formatOrganicSessionsCompare );
 };
 

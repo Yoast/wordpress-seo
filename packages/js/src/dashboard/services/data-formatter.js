@@ -38,6 +38,11 @@ export class DataFormatter {
 	constructor( { locale = "en-US" } = {} ) {
 		this.#locale = locale;
 		this.#numberFormat.nonFractional = new Intl.NumberFormat( locale, { maximumFractionDigits: 0 } );
+		this.#numberFormat.compactNonFractional = new Intl.NumberFormat( locale, {
+			maximumFractionDigits: 0,
+			notation: "compact",
+			compactDisplay: "short",
+		} );
 		this.#numberFormat.percentage = new Intl.NumberFormat( locale, { style: "percent", minimumFractionDigits: 2, maximumFractionDigits: 2 } );
 		this.#numberFormat.twoFractions = new Intl.NumberFormat( locale, { maximumFractionDigits: 2, minimumFractionDigits: 2 } );
 	}
@@ -91,6 +96,9 @@ export class DataFormatter {
 					{ month: "short", day: "numeric" }
 				);
 			case "sessions":
+				if ( context.compact ) {
+					return safeNumberFormat( data || 0, this.#numberFormat.compactNonFractional );
+				}
 				return safeNumberFormat( data || 0, this.#numberFormat.nonFractional );
 			default:
 				return data;

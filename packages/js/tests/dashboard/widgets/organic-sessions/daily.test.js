@@ -1,4 +1,4 @@
-import { describe, expect, jest, test } from "@jest/globals";
+import { describe, expect, it, jest } from "@jest/globals";
 import { forEach } from "lodash";
 import { OrganicSessionsDaily } from "../../../../src/dashboard/widgets/organic-sessions/daily";
 import { render } from "../../../test-utils";
@@ -163,30 +163,30 @@ describe( "OrganicSessionsDaily", () => {
 	};
 	const supportLink = "https://yoa.st/support";
 
-	test( "renders component with data", () => {
-		const { getByText } = render( <OrganicSessionsDaily
-			data={ data } isPending={ false } supportLink={ supportLink }
-		/> );
+	it( "renders component with data", () => {
+		const { getByText } = render(
+			<OrganicSessionsDaily data={ data } isPending={ false } supportLink={ supportLink } />
+		);
 
 		forEach( data.labels, ( label ) => {
 			expect( getByText( label ) ).toBeInTheDocument();
 		} );
 	} );
 
-	test( "renders component with pending state", () => {
-		const { queryByText } = render( <OrganicSessionsDaily
-			data={ data } isPending={ true } supportLink={ supportLink }
-		/> );
+	it( "renders component with pending state", () => {
+		const { queryByText } = render(
+			<OrganicSessionsDaily data={ data } isPending={ true } supportLink={ supportLink } />
+		);
 		forEach( data.labels, ( label ) => {
 			expect( queryByText( label ) ).not.toBeInTheDocument();
 		} );
 	} );
 
-	test( "renders component with error", () => {
+	it( "renders component with error", () => {
 		const error = new Error( "An error occurred" );
-		const { getByRole } = render( <OrganicSessionsDaily
-			data={ data } isPending={ false } error={ error } supportLink={ supportLink }
-		/> );
+		const { getByRole } = render(
+			<OrganicSessionsDaily data={ data } isPending={ false } error={ error } supportLink={ supportLink } />
+		);
 		expect( getByRole( "status" ) )
 			.toHaveTextContent( "Something went wrong. Try refreshing the page. If the problem persists, please check our Support page." );
 		expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", supportLink );

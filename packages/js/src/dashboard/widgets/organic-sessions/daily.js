@@ -43,7 +43,11 @@ const CHART_GRADIENT = document.createElement( "canvas" )?.getContext( "2d" )?.c
 CHART_GRADIENT?.addColorStop( 0, COLORS.primary500Alpha20 );
 CHART_GRADIENT?.addColorStop( 1, COLORS.primary500Alpha0 );
 
-const CHART_OPTIONS = {
+/**
+ * @param {function(number): string} formatY Formatter for the y-axis.
+ * @returns {Object} The chart options.
+ */
+const createChartOptions = ( formatY ) => ( {
 	parsing: {
 		xAxisKey: "date",
 		yAxisKey: "sessions",
@@ -96,15 +100,15 @@ const CHART_OPTIONS = {
 					size: 14,
 					weight: 400,
 				},
+				// Set the offset for y-axis ticks.
 				padding: 20,
-				// Set the offset for y-axis ticks
 				callback: function( value ) {
 					// Only show the label for whole numbers.
-					const number = value % 1 ? "" : this.getLabelForValue( value );
-					if ( number === "0" ) {
-						return number;
+					if ( value % 1 ) {
+						return "";
 					}
-					return number ? `${number}k` : "";
+					// Format here because the chart needs the raw number to understand it.
+					return formatY ? formatY( value ) : this.getLabelForValue( value );
 				},
 			},
 		},
@@ -121,7 +125,7 @@ const CHART_OPTIONS = {
 			},
 		},
 	},
-};
+} );
 
 /**
  * @param {OrganicSessionsDailyData[]} organicSessions The organic sessions data.
@@ -136,21 +140,23 @@ const transformOrganicSessionsDataToChartData = ( organicSessions ) => ( {
  * @param {DataFormatter} dataFormatter The data formatter.
  * @returns {function(?OrganicSessionsDailyData[]): OrganicSessionsDailyData[]} Function to format the organic sessions daily data.
  */
-export const createOrganicSessionsDailyFormatter = ( dataFormatter ) => ( data = [] ) => data.map( ( item ) => ( {
+const createOrganicSessionsDailyFormatter = ( dataFormatter ) => ( data = [] ) => data.map( ( item ) => ( {
 	date: dataFormatter.format( item.date, "date", { widget: "organicSessions" } ),
-	sessions: dataFormatter.format( item.sessions, "sessions", { widget: "organicSessions", type: "daily" } ),
+	// We need to keep this as a number (instead of a formatted string) so the chart can understand it.
+	sessions: Number( item.sessions ),
 } ) );
 
 /**
  * @param {ChartData} data The chart data.
+ * @param {Object} options The chart options.
  * @returns {JSX.Element} The chart.
  */
-const OrganicSessionsChart = ( { data } ) => (
+const OrganicSessionsChart = ( { data, options } ) => (
 	<>
 		<div className="yst-w-full yst-h-60">
 			<Line
 				aria-hidden={ true }
-				options={ CHART_OPTIONS }
+				options={ options }
 				data={ data }
 			/>
 		</div>
@@ -166,7 +172,8 @@ const OrganicSessionsChart = ( { data } ) => (
 			<tbody>
 				<tr>
 					{ data.datasets[ 0 ].data.map( ( { date, sessions } ) => (
-						<td key={ date }>{ sessions }</td>
+						// Converted to a string to handle exceptions like NaN or Infinite.
+						<td key={ date }>{ String( sessions ) }</td>
 					) ) }
 				</tr>
 			</tbody>
@@ -175,14 +182,20 @@ const OrganicSessionsChart = ( { data } ) => (
 );
 
 /**
+ * Handles the fetch and returns the data, error and pending status.
+ *
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
  * @param {DataFormatter} dataFormatter The data formatter.
- * @returns {{data: *, error: Error, isPending: boolean}} The remote data info.
+ *
+ * @returns {{data: ChartData?, error: Error, isPending: boolean}} The remote data info.
  */
 export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataFormatter ) => {
 	/**
+	 * Fetches the organic sessions daily data.
+	 *
 	 * @param {RequestInit} options The options.
+	 *
 	 * @returns {Promise<OrganicSessionsDailyData[]|Error>} The promise of OrganicSessionsData or an Error.
 	 */
 	const getOrganicSessionsDaily = useCallback( ( options ) => {
@@ -193,12 +206,20 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataF
 	}, [ dataProvider ] );
 
 	/**
+	 * Formats/prepares the request data into chart data.
+	 *
 	 * @type {function(?OrganicSessionsDailyData[]): ChartData} Function to format the organic sessions data into chart data.
 	 */
 	const formatOrganicSessionsDailyToChartData = useMemo( () => ( rawData = [] ) => {
-		return transformOrganicSessionsDataToChartData( createOrganicSessionsDailyFormatter( dataFormatter )( rawData ) );
+		// 3. Transform the formatted data into chart data.
+		return transformOrganicSessionsDataToChartData(
+			// 1. Create a formatter.
+			// 2. Format the data from the request.
+			createOrganicSessionsDailyFormatter( dataFormatter )( rawData )
+		);
 	}, [ dataFormatter ] );
 
+	// Combine the fetch and format methods using the remote data hook, which triggers the fetch in a useEffect.
 	return useRemoteData( getOrganicSessionsDaily, formatOrganicSessionsDailyToChartData );
 };
 
@@ -207,9 +228,12 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataF
  * @param {boolean} isPending Whether the data is pending.
  * @param {?Error} [error] The error.
  * @param {string} supportLink The support link.
+ * @param {function(number): string} [formatY] Formatter for the y-axis.
  * @returns {JSX.Element} The element.
  */
-export const OrganicSessionsDaily = ( { data, isPending, error, supportLink } ) => {
+export const OrganicSessionsDaily = ( { data, isPending, error, supportLink, formatY } ) => {
+	const options = useMemo( () => createChartOptions( formatY ), [ formatY ] );
+
 	if ( isPending ) {
 		return (
 			<SkeletonLoader className="yst-w-full yst-h-52 yst-mt-8" />
@@ -222,6 +246,6 @@ export const OrganicSessionsDaily = ( { data, isPending, error, supportLink } ) 
 	}
 
 	return (
-		<OrganicSessionsChart data={ data } />
+		<OrganicSessionsChart data={ data } options={ options } />
 	);
 };
