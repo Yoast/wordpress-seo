@@ -91,12 +91,7 @@ export class DataFormatter {
 					{ month: "short", day: "numeric" }
 				);
 			case "sessions":
-				switch ( context.type ) {
-					case "daily":
-						return Number( data ) || 0;
-					default:
-						return safeNumberFormat( data || 0, this.#numberFormat.nonFractional );
-				}
+				return safeNumberFormat( data || 0, this.#numberFormat.nonFractional );
 			default:
 				return data;
 		}

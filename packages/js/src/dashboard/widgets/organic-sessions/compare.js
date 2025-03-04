@@ -36,7 +36,7 @@ export const createOrganicSessionsCompareFormatter = ( dataFormatter ) => ( [ da
 	const current = data?.current?.sessions || NaN;
 	const difference = getDifference( current, data?.previous?.sessions || NaN );
 	return {
-		sessions: dataFormatter.format( current, "sessions", { widget: "organicSessions", type: "compare" } ),
+		sessions: dataFormatter.format( current, "sessions", { widget: "organicSessions" } ),
 		difference,
 		formattedDifference: dataFormatter.format( difference, "difference", { widget: "organicSessions" } ),
 	};
