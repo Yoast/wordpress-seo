@@ -177,7 +177,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 
 					$time_based_seo_metrics_container = $this->top_page_repository->get_data( $request_parameters );
 					break;
-				case 'οrganicSessionsDaily':
+				case 'organicSessionsDaily':
 					$request_parameters = new Analytics_4_Parameters();
 
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );
@@ -188,7 +188,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 
 					$time_based_seo_metrics_container = $this->organic_sessions_daily_repository->get_data( $request_parameters );
 					break;
-				case 'οrganicSessionsCompare':
+				case 'organicSessionsCompare':
 					$request_parameters = new Analytics_4_Parameters();
 
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );
