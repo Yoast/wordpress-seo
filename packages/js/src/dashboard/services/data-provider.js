@@ -141,11 +141,6 @@ export class DataProvider {
 	 * @param {boolean} isConnected Whether the site kit is connected.
 	 */
 	setSiteKitConnected( isConnected ) {
-		// This creates a new object to avoid mutation and force re-rendering.
-		this.#siteKitConfiguration = {
-			...this.#siteKitConfiguration,
-			isConnected,
-		};
 		this.#stepsStatuses[ 3 ] = isConnected;
 		this.notifySubscribers();
 	}
