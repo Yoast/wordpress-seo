@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { SkeletonLoader, Title } from "@yoast/ui-library";
-import { DifferencePercentage } from "../../components/difference-percentage";
 import { ErrorAlert } from "../../components/error-alert";
+import { Trend } from "../../components/trend";
 import { useRemoteData } from "../../services/use-remote-data";
 import { getDifference } from "../../transformers/difference";
 
@@ -31,10 +31,10 @@ import { getDifference } from "../../transformers/difference";
  * @param {DataFormatter} dataFormatter The data formatter.
  * @returns {function(?RawOrganicSessionsCompareData[]): OrganicSessionsCompareData} Function to format the organic sessions compare data.
  */
-// eslint-disable-next-line complexity -- Fallbacks to zero, easy enough to read.
+
 export const createOrganicSessionsCompareFormatter = ( dataFormatter ) => ( [ data ] ) => {
-	const current = data?.current?.sessions || 0;
-	const difference = getDifference( current, data?.previous?.sessions || 0 );
+	const current = data?.current?.sessions || NaN;
+	const difference = getDifference( current, data?.previous?.sessions || NaN );
 	return {
 		sessions: dataFormatter.format( current, "sessions", { widget: "organicSessions", type: "compare" } ),
 		difference,
@@ -107,7 +107,7 @@ export const OrganicSessionsCompare = ( { data, isPending, error, supportLink } 
 	return (
 		<Layout>
 			<Title as="h2" size="1" className="yst-font-bold">{ data.sessions }</Title>
-			<DifferencePercentage isNegative={ data.difference < 0 } formattedValue={ data.formattedDifference } />
+			<Trend value={ data.difference } formattedValue={ data.formattedDifference } />
 		</Layout>
 	);
 };
