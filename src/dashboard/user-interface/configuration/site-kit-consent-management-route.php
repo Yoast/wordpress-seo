@@ -6,9 +6,9 @@ use Exception;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
-use WPSEO_Capability_Utils;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -45,14 +45,24 @@ class Site_Kit_Consent_Management_Route implements Route_Interface {
 	private $site_kit_consent_repository;
 
 	/**
+	 * Holds the capabilit helper instance.
+	 *
+	 * @var Capability_Helper
+	 */
+	private $capability_helper;
+
+	/**
 	 * Constructs the class.
 	 *
 	 * @param Site_Kit_Consent_Repository_Interface $site_kit_consent_repository The repository.
+	 * @param Capability_Helper                     $capability_helper           The capability helper.
 	 */
 	public function __construct(
-		Site_Kit_Consent_Repository_Interface $site_kit_consent_repository
+		Site_Kit_Consent_Repository_Interface $site_kit_consent_repository,
+		Capability_Helper $capability_helper
 	) {
 		$this->site_kit_consent_repository = $site_kit_consent_repository;
+		$this->capability_helper           = $capability_helper;
 	}
 
 	/**
@@ -116,6 +126,6 @@ class Site_Kit_Consent_Management_Route implements Route_Interface {
 	 * @return bool
 	 */
 	public function check_capabilities() {
-		return WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' );
+		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
 	}
 }
