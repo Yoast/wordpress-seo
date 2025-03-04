@@ -1,6 +1,6 @@
 import { ArrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, DropdownMenu, Paper, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
@@ -31,11 +31,9 @@ const steps = [
 /**
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @returns {UseSiteKitConfiguration} The site kit configuration and helper methods.
+ * @returns {UseSiteKitConfiguration} The site kit helper methods.
  */
 const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
-	const [ config, setConfig ] = useState( () => dataProvider.getSiteKitConfiguration() );
-
 	const grantConsent = useCallback( ( options ) => {
 		remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "siteKitConsentManagement" ),
@@ -43,11 +41,10 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 			{ ...options, method: "POST" }
 		).then( ( { success } ) => {
 			if ( success ) {
-				dataProvider.setSiteKitConnected( true );
-				setConfig( dataProvider.getSiteKitConfiguration() );
+				dataProvider.setSiteKitConsentGranted( true );
 			}
 		} ).catch( noop );
-	}, [ dataProvider, remoteDataProvider, setConfig ] );
+	}, [ dataProvider, remoteDataProvider ] );
 
 	const dismissPermanently = useCallback( ( options ) => {
 		remoteDataProvider.fetchJson(
@@ -60,7 +57,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}, [ remoteDataProvider, dataProvider ] );
 
-	return { config, grantConsent, dismissPermanently };
+	return { grantConsent, dismissPermanently };
 };
 
 /**
@@ -76,8 +73,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}, [ dataProvider ] );
 
-
-	const { config, grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
+	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const handleRemovePermanently = useCallback( () => {
@@ -87,27 +83,26 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
 
-	const stepsStatuses = [ config.isInstalled, config.isActive, config.isSetupCompleted, config.isConnected ];
-	let currentStep = stepsStatuses.findIndex( status => ! status );
-	const overallCompleted = currentStep === -1;
-	if ( overallCompleted ) {
+	let currentStep = dataProvider.getSiteKitCurrentConnectionStep();
+	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
+	if ( isSiteKitConnectionCompleted ) {
 		currentStep = steps.length - 1;
 	}
 
 	const buttonProps = [
 		{
 			children: __( "Install Site Kit by Google", "wordpress-seo" ),
-			href: config.installUrl,
+			href: dataProvider.getLink( "installSiteKit" ),
 			as: "a",
 		},
 		{
 			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
-			href: config.activateUrl,
+			href: dataProvider.getLink( "activateSiteKit" ),
 			as: "a",
 		},
 		{
 			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-			href: config.setupUrl,
+			href: dataProvider.getLink( "setupSiteKit" ),
 			as: "a",
 		},
 		{
@@ -145,7 +140,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				<Stepper.Step
 					key={ label }
 					isActive={ currentStep === index }
-					isComplete={ stepsStatuses[ index ] }
+					isComplete={ dataProvider.getStepsStatuses()[ index ] }
 				>
 					{ label }
 				</Stepper.Step>
@@ -170,7 +165,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 			</li>
 		</ul>
 		<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
-			{ overallCompleted
+			{ isSiteKitConnectionCompleted
 				? <>
 					<Button onClick={ handleOnRemove }>
 						{ __( "Got it!", "wordpress-seo" ) }

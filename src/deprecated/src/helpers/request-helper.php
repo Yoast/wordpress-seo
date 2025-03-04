@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Helpers;
 /**
  * A helper object for the request state.
  *
+ * @deprecated 23.6
  * @codeCoverageIgnore Because of deprecation.
  */
 class Request_Helper {

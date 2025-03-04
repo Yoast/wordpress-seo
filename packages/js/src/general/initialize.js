@@ -79,30 +79,29 @@ domReady( () => {
 		siteKitConsentLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-site-kit-consent-learn-more" ),
 		topPagesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-top-content-learn-more" ),
 		topQueriesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-top-queries-learn-more" ),
+		installSiteKit: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.installUrl", "" ),
+		activateSiteKit: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.activateUrl", "" ),
+		setupSiteKit: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.setupUrl", "" ),
 		organicSessionsInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-organic-sessions-learn-more" ),
 	};
 
-	const siteKitConfiguration = get( window, "wpseoScriptData.dashboard.siteKitConfiguration", {
-		isInstalled: false,
-		isActive: false,
-		isSetupCompleted: false,
-		isConnected: false,
-		isAnalyticsConnected: false,
-		installUrl: "",
-		activateUrl: "",
-		setupUrl: "",
-		isFeatureEnabled: false,
-		isConfigurationDismissed: false,
-	} );
-
-	if ( siteKitConfiguration.isConnected ) {
-		siteKitConfiguration.isConfigurationDismissed = true;
-	}
+	const siteKitConfiguration = {
+		isInstalled: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isInstalled", false ),
+		isActive: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isActive", false ),
+		isSetupCompleted: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isSetupCompleted", false ),
+		isConsentGranted: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isConnected", false ),
+		isAnalyticsConnected: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isAnalyticsConnected", false ),
+		isFeatureEnabled: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isFeatureEnabled", false ),
+		isSetupWidgetDismissed: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isConfigurationDismissed", false ),
+	};
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const dataFormatter = new DataFormatter( { locale: userLocale } );
 	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatter );
+	if ( dataProvider.isSiteKitConnectionCompleted() ) {
+		dataProvider.setSiteKitConfigurationDismissed( true );
+	}
 
 	const router = createHashRouter(
 		createRoutesFromElements(

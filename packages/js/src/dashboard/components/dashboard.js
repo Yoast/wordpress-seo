@@ -38,6 +38,8 @@ export const Dashboard = ( { widgetFactory, userName, features, links, sitekitFe
 		return dataProvider.subscribe( callback );
 	}, [ dataProvider ] );
 	useSyncExternalStore( subscribeSiteKitConfiguration, getSnapshotSiteKitConfiguration );
+	const getSnapshotSiteKitSetupCompleted = useCallback( () => dataProvider.isSiteKitConnectionCompleted(), [ dataProvider ] );
+	useSyncExternalStore( subscribeSiteKitConfiguration, getSnapshotSiteKitSetupCompleted );
 
 	return (
 		<>

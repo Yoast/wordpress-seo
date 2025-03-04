@@ -20,6 +20,8 @@ export class DataProvider {
 	#siteKitConfiguration;
 	#subscribers = new Set();
 
+	#stepsStatuses;
+
 	/**
 	 * @param {ContentType[]} contentTypes The content types.
 	 * @param {string} userName The user name.
@@ -36,22 +38,32 @@ export class DataProvider {
 		this.#endpoints = endpoints;
 		this.#headers = headers;
 		this.#links = links;
-		this.#siteKitConfiguration = siteKitConfiguration;
+		this.#siteKitConfiguration = {
+			isFeatureEnabled: siteKitConfiguration.isFeatureEnabled,
+			isSetupWidgetDismissed: siteKitConfiguration.isSetupWidgetDismissed,
+			isAnalyticsConnected: siteKitConfiguration.isAnalyticsConnected,
+		};
+		this.#stepsStatuses = [
+			siteKitConfiguration.isInstalled,
+			siteKitConfiguration.isActive,
+			siteKitConfiguration.isSetupCompleted,
+			siteKitConfiguration.isConsentGranted,
+		];
 	}
 
 	/**
-     * Subscribe to changes in the site kit configuration.
-     * @param {Function} callback The callback to call when the configuration changes.
-     * @returns {Function} Unsubscribe function.
-     */
+	 * Subscribe to changes in the site kit configuration.
+	 * @param {Function} callback The callback to call when the configuration changes.
+	 * @returns {Function} Unsubscribe function.
+	 */
 	subscribe( callback ) {
 		this.#subscribers.add( callback );
 		return () => this.#subscribers.delete( callback );
 	}
 
 	/**
-     * Notify all subscribers of a change in the site kit configuration.
-     */
+	 * Notify all subscribers of a change in the site kit configuration.
+	 */
 	notifySubscribers() {
 		this.#subscribers.forEach( callback => callback() );
 	}
@@ -68,6 +80,13 @@ export class DataProvider {
 	 */
 	getUserName() {
 		return this.#userName;
+	}
+
+	/**
+	 * @returns {boolean} The possible stepper statuses.
+	 */
+	getStepsStatuses() {
+		return this.#stepsStatuses;
 	}
 
 	/**
@@ -109,25 +128,36 @@ export class DataProvider {
 	}
 
 	/**
-	 * @param {boolean} isConnected Whether the site kit is connected.
+	 * Gets the first incomplete step.
+	 * @returns {number} The step that is currently unfinished. Returns -1 when all steps are finished.
 	 */
-	setSiteKitConnected( isConnected ) {
-		// This creates a new object to avoid mutation and force re-rendering.
-		this.#siteKitConfiguration = {
-			...this.#siteKitConfiguration,
-			isConnected,
-		};
+	getSiteKitCurrentConnectionStep() {
+		return this.#stepsStatuses.findIndex( status => ! status );
+	}
+
+	/**
+	 * @returns {boolean} If the Site Kit connection is completed.
+	 */
+	isSiteKitConnectionCompleted() {
+		return this.getSiteKitCurrentConnectionStep() === -1;
+	}
+
+	/**
+	 * @param {boolean} isConsentGranted Whether the site kit consent is granted.
+	 */
+	setSiteKitConsentGranted( isConsentGranted ) {
+		this.#stepsStatuses[ 3 ] = isConsentGranted;
 		this.notifySubscribers();
 	}
 
 	/**
-	 * @param {boolean} isConfigurationDismissed Whether the site kit configuration is (permanently) dismissed.
+	 * @param {boolean} isSetupWidgetDismissed Whether the site kit configuration is (permanently) dismissed.
 	 */
-	setSiteKitConfigurationDismissed( isConfigurationDismissed ) {
+	setSiteKitConfigurationDismissed( isSetupWidgetDismissed ) {
 		// This creates a new object to avoid mutation and force re-rendering.
 		this.#siteKitConfiguration = {
 			...this.#siteKitConfiguration,
-			isConfigurationDismissed,
+			isSetupWidgetDismissed,
 		};
 		this.notifySubscribers();
 	}

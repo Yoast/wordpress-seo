@@ -85,7 +85,7 @@ if ( isSiteKitFeatureEnabled ) {
 		isInstalled={ get( window, "wpseoIntegrationsData.site_kit_configuration.isInstalled", false ) }
 		isActive={ get( window, "wpseoIntegrationsData.site_kit_configuration.isActive", false ) }
 		isSetupCompleted={ get( window, "wpseoIntegrationsData.site_kit_configuration.isSetupCompleted", false ) }
-		initialIsConnected={ get( window, "wpseoIntegrationsData.site_kit_configuration.isConnected", false ) }
+		initialIsConsentGranted={ get( window, "wpseoIntegrationsData.site_kit_configuration.isConnected", false ) }
 		installUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.installUrl", "" ) }
 		activateUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.activateUrl", "" ) }
 		setupUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.setupUrl", "" ) }

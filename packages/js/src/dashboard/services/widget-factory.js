@@ -49,7 +49,8 @@ export class WidgetFactory {
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
 	createWidget( widget ) {
-		const { isFeatureEnabled, isConnected, isAnalyticsConnected, isConfigurationDismissed } = this.#dataProvider.getSiteKitConfiguration();
+		const { isFeatureEnabled, isSetupWidgetDismissed, isAnalyticsConnected } = this.#dataProvider.getSiteKitConfiguration();
+		const isSiteKitConnectionCompleted = this.#dataProvider.isSiteKitConnectionCompleted();
 		switch ( widget.type ) {
 			case WidgetFactory.types.seoScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
@@ -72,7 +73,7 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
 			case WidgetFactory.types.topPages:
-				if ( ! isFeatureEnabled || ! isConnected ) {
+				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted ) {
 					return null;
 				}
 				return <TopPagesWidget
@@ -82,7 +83,7 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatter }
 				/>;
 			case WidgetFactory.types.siteKitSetup:
-				if ( ! isFeatureEnabled || isConfigurationDismissed ) {
+				if ( ! isFeatureEnabled || isSetupWidgetDismissed ) {
 					return null;
 				}
 				return <SiteKitSetupWidget
@@ -91,7 +92,7 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
 			case WidgetFactory.types.topQueries:
-				if ( ! isFeatureEnabled || ! isConnected ) {
+				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted ) {
 					return null;
 				}
 				return <TopQueriesWidget
@@ -101,7 +102,7 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatter }
 				/>;
 			case WidgetFactory.types.organicSessions:
-				if ( ! isFeatureEnabled || ! isConnected || ! isAnalyticsConnected ) {
+				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! isAnalyticsConnected ) {
 					return null;
 				}
 				return <OrganicSessionsWidget

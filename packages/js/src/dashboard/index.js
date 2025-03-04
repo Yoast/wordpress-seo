@@ -61,6 +61,9 @@ export { Dashboard } from "./components/dashboard";
  * @property {string} siteKitConsentLearnMore The Site Kit consent learn more link.
  * @property {string} topPagesInfoLearnMore The top pages learn more link.
  * @property {string} topQueriesInfoLearnMore The top queries learn more link.
+ * @property {string} installSiteKit The Site Kit installation link.
+ * @property {string} activateSiteKit The Site Kit activation link.
+ * @property {string} setupSiteKit The Site Kit setup link.
  * @property {string} organicSessionsInfoLearnMore The organic sessions learn more link.
  */
 
@@ -104,11 +107,8 @@ export { Dashboard } from "./components/dashboard";
  * @property {boolean} isInstalled Whether Site Kit is installed.
  * @property {boolean} isActive Whether Site Kit is active.
  * @property {boolean} isSetupCompleted Whether Site Kit is setup.
- * @property {boolean} isConnected Whether Site Kit is connected.
+ * @property {boolean} isConsentGranted Whether Site Kit is connected.
  * @property {boolean} isAnalyticsConnected Whether Google Analytics is connected.
- * @property {string} installUrl The URL to install Site Kit.
- * @property {string} activateUrl The URL to activate Site Kit.
- * @property {string} setupUrl The URL to setup Site Kit.
  * @property {boolean} isFeatureEnabled Whether the feature is enabled.
- * @property {boolean} isConfigurationDismissed Whether the configuration is dismissed.
+ * @property {boolean} isSetupWidgetDismissed Whether the configuration is dismissed.
  */

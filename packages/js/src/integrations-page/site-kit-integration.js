@@ -72,7 +72,7 @@ const SuccessfullyConnected = () => {
  * @param {boolean} isActive Whether the integration is active.
  * @param {boolean} isSetupCompleted Whether the integration has been set up.
  * @param {boolean} isInstalled Whether the integration is installed.
- * @param {boolean} initialIsConnected Whether the integration is connected.
+ * @param {boolean} initialIsConsentGranted Whether the integration is connected.
  * @param {string} installUrl The installation url.
  * @param {string} activateUrl The activation url.
  * @param {string} setupUrl The setup url.
@@ -84,7 +84,7 @@ export const SiteKitIntegration = ( {
 	isActive,
 	isSetupCompleted,
 	isInstalled,
-	initialIsConnected,
+	initialIsConsentGranted,
 	installUrl,
 	activateUrl,
 	setupUrl,
@@ -92,7 +92,7 @@ export const SiteKitIntegration = ( {
 } ) => {
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
 	const [ isDisconnectModalOpen, toggleDisconnectModal ] = useToggleState( false );
-	const [ isConnected, setConnected ] = useState( initialIsConnected );
+	const [ isConnected, setConnected ] = useState( initialIsConsentGranted );
 	const stepsStatuses = [ isInstalled, isActive, isSetupCompleted, isConnected ];
 	let currentStep = stepsStatuses.findIndex( status => ! status );
 	const successfullyConnected = currentStep === -1;
@@ -187,7 +187,7 @@ SiteKitIntegration.propTypes = {
 	isActive: PropTypes.bool.isRequired,
 	isSetupCompleted: PropTypes.bool.isRequired,
 	isInstalled: PropTypes.bool.isRequired,
-	initialIsConnected: PropTypes.bool.isRequired,
+	initialIsConsentGranted: PropTypes.bool.isRequired,
 	installUrl: PropTypes.string.isRequired,
 	activateUrl: PropTypes.string.isRequired,
 	setupUrl: PropTypes.string.isRequired,
