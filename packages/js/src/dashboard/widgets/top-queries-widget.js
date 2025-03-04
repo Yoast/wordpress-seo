@@ -1,10 +1,11 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Alert, SkeletonLoader } from "@yoast/ui-library";
+import { SkeletonLoader } from "@yoast/ui-library";
 import { NoDataParagraph } from "../components/no-data-paragraph";
 import { WidgetTable } from "../components/widget-table";
 import { useRemoteData } from "../services/use-remote-data";
 import { Widget } from "./widget";
+import { ErrorAlert } from "../components/error-alert";
 
 /**
  * @type {import("../index").TopQueryData} TopQueryData
@@ -64,14 +65,15 @@ const TopQueriesTable = ( { data, children } ) => {
 /**
  * The content for TopQueriesWidget.
  *
- * @param {TopQueryData[]} [data]
- * @param {boolean} [isPending]
- * @param {Error} [error]
- * @param {number} [limit=5]
+ * @param {TopQueryData[]} [data] The data.
+ * @param {boolean} [isPending] Whether the data is pending.
+ * @param {Error} [error] The error.
+ * @param {number} [limit=5] The limit.
+ * @param {string} [supportLink] The support link.
  *
  * @returns {JSX.Element} The element.
  */
-export const TopQueriesWidgetContent = ( { data, isPending, error, limit = 5 } ) => {
+export const TopQueriesWidgetContent = ( { data, isPending, error, limit = 5, supportLink } ) => {
 	if ( isPending ) {
 		return (
 			<TopQueriesTable>
@@ -82,7 +84,7 @@ export const TopQueriesWidgetContent = ( { data, isPending, error, limit = 5 } )
 		);
 	}
 	if ( error ) {
-		return <Alert variant="error" className="yst-mt-4">{ error.message }</Alert>;
+		return <ErrorAlert error={ error } supportLink={ supportLink } className="yst-mt-4" />;
 	}
 	if ( data.length === 0 ) {
 		return <NoDataParagraph />;
@@ -123,6 +125,7 @@ export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormat
 	}, [ dataProvider, limit ] );
 
 	const infoLink = dataProvider.getLink( "topQueriesInfoLearnMore" );
+	const supportLink = dataProvider.getLink( "errorSupport" );
 
 	/**
 	 * @type {function(?TopQueryData[]): TopQueryData[]} Function to format the top queries data.
@@ -145,6 +148,7 @@ export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormat
 			isPending={ isPending }
 			limit={ limit }
 			error={ error }
+			supportLink={ supportLink }
 		/>
 	</Widget>;
 };

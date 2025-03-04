@@ -8,6 +8,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -44,14 +45,24 @@ class Site_Kit_Configuration_Dismissal_Route implements Route_Interface {
 	private $permanently_dismissed_site_kit_configuration_repository;
 
 	/**
+	 * Holds the capabilit helper instance.
+	 *
+	 * @var Capability_Helper
+	 */
+	private $capability_helper;
+
+	/**
 	 * Constructs the class.
 	 *
 	 * @param Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface $permanently_dismissed_site_kit_configuration_repository The repository.
+	 * @param Capability_Helper                                                 $capability_helper                                       The capability helper.
 	 */
 	public function __construct(
-		Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface $permanently_dismissed_site_kit_configuration_repository
+		Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface $permanently_dismissed_site_kit_configuration_repository,
+		Capability_Helper $capability_helper
 	) {
 		$this->permanently_dismissed_site_kit_configuration_repository = $permanently_dismissed_site_kit_configuration_repository;
+		$this->capability_helper                                       = $capability_helper;
 	}
 
 	/**
@@ -115,6 +126,6 @@ class Site_Kit_Configuration_Dismissal_Route implements Route_Interface {
 	 * @return bool
 	 */
 	public function check_capabilities() {
-		return \current_user_can( 'install_plugins' );
+		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
 	}
 }
