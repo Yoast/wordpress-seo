@@ -1,10 +1,10 @@
 # YoastSEO.js
 
-Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
+YoastSEO.js is a text analysis and assessment library in JavaScript.
+This library is used in the Yoast SEO plugin for WordPress to analyze and assess the content of a post or page.
+This library can generate metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 
 ![Screenshot of the assessment of the given text](images/assessments.png)
-
-Also included is a preview of the Google search results which can be assessed using the library.
 
 ## Documentation
 * A list of all the [assessors](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessors/ASSESSORS%20OVERVIEW.md)
@@ -18,9 +18,7 @@ Also included is a preview of the Google search results which can be assessed us
 * Information on the design decisions within the package can be found [here](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/DESIGN%20DECISIONS.md).
 * Information on how morphology works in `yoastseo` package can be found [here](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/MORPHOLOGY.md).
 
-
 ## Installation
-
 You can install YoastSEO.js using npm:
 
 ```bash
@@ -37,16 +35,20 @@ yarn add yoastseo
 
 You can either use YoastSEO.js using the web worker API or use the internal components directly.
 
-Because a web worker must be a separate script in the browser you first need to create a script for inside the web worker:
+### Web Worker API
+
+Because a web worker must be a separate script in the browser, you first need to create a script to use inside the web worker:
 
 ```js
 import { AnalysisWebWorker } from "yoastseo";
+import EnglishResearcher from "yoastseo/build/languageProcessing/languages/en/Researcher";
 
-const worker = new AnalysisWebWorker( self );
+const worker = new AnalysisWebWorker( self, new EnglishResearcher() );
+// Any custom registration should be done here (or send messages via postMessage to the wrapper).
 worker.register();
 ```
 
-Then in a different script you have the following code:
+Then, in a different script, you have the following code:
 
 ```js
 import { AnalysisWorkerWrapper, createWorker, Paper } from "yoastseo";
@@ -55,13 +57,10 @@ import { AnalysisWorkerWrapper, createWorker, Paper } from "yoastseo";
 // This should be the script created by the previous code-snippet.
 const url = "https://my-site-url.com/path-to-webworker-script.js"
 
-const worker = new AnalysisWorkerWrapper( createWorker( url ) );
+const worker = new AnalysisWorkerWrapper( new Worker( url ) );
 
 worker.initialize( {
-    locale: "en_US",
-    contentAnalysisActive: true,
-    keywordAnalysisActive: true,
-    logLevel: "ERROR",
+    logLevel: "TRACE", // Optional, see https://github.com/pimterry/loglevel#documentation
 } ).then( () => {
     // The worker has been configured, we can now analyze a Paper.
     const paper = new Paper( "Text to analyze", {
@@ -78,6 +77,9 @@ worker.initialize( {
 } );
 ```
 
+There is a basic example [over here](https://github.com/Yoast/wordpress-seo/tree/trunk/apps/content-analysis-webworker), which also contains a basic setup with Webpack.
+There is also a more involved example [over here](https://github.com/Yoast/wordpress-seo/tree/trunk/apps/content-analysis), which has a basic React implementation.
+
 ### Usage of internal components
 
 If you want to have a more bare-bones API, or are in an environment without access to Web Worker you can use the internal objects:
@@ -93,7 +95,7 @@ const researcher = new AbstractResearcher( paper );
 console.log( researcher.getResearch( "wordCountInText" ) );
 ```
 
-**Note: This is currently a synchronous API, but will become an asynchronous API in the future.**
+There is a basic example of this setup [over here](https://github.com/Yoast/wordpress-seo/tree/trunk/apps/content-analysis-api).
 
 ## Supported languages
 

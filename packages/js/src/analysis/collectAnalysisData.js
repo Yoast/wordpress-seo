@@ -58,6 +58,19 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	let blocks = null;
 	if ( blockEditorDataModule ) {
 		blocks = blockEditorDataModule.getBlocks() || [];
+		/*
+		* We need to clone the blocks to prevent the original blocks from being modified.
+		* This is necessary because otherwise, invalid blocks will be removed from the editor.
+		* We are using JSON.parse and JSON.stringify to clone the blocks over lodash.cloneDeep or structuredClone for the following reasons:
+		* - lodash.cloneDeep cannot handle private members of classes from the blocks.
+		* - structuredClone failed in cloning invalid blocks.
+		* - Both methods will result in the analysis failing because the blocks are not cloned correctly.
+		*
+		* We are aware of the performance implications of using JSON.parse and JSON.stringify.
+		* However, considering the reasons we've mentioned above regarding the other methods, and we're running this once and not recursively,
+		* we consider the performance impact to be negligible.
+		* */
+		blocks = JSON.parse( JSON.stringify( blocks ) );
 		blocks = mapGutenbergBlocks( blocks );
 	}
 
