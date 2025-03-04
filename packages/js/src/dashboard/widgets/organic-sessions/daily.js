@@ -188,7 +188,7 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataF
 	const getOrganicSessionsDaily = useCallback( ( options ) => {
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ options: { widget: "οrganicSessionsDaily" } },
+			{ options: { widget: "organicSessionsDaily" } },
 			options );
 	}, [ dataProvider ] );
 

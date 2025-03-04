@@ -56,7 +56,7 @@ export const useOrganicSessionsCompare = ( dataProvider, remoteDataProvider, dat
 	const getOrganicSessionsCompare = useCallback( ( options ) => {
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ options: { widget: "οrganicSessionsCompare" } },
+			{ options: { widget: "organicSessionsCompare" } },
 			options );
 	}, [ dataProvider ] );
 
