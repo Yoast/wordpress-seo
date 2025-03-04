@@ -1,6 +1,6 @@
 import { ArrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, DropdownMenu, Paper, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
@@ -34,8 +34,6 @@ const steps = [
  * @returns {UseSiteKitConfiguration} The site kit configuration and helper methods.
  */
 const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
-	const [ config, setConfig ] = useState( () => dataProvider.getSiteKitConfiguration() );
-
 	const grantConsent = useCallback( ( options ) => {
 		remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "siteKitConsentManagement" ),
@@ -44,10 +42,9 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 		).then( ( { success } ) => {
 			if ( success ) {
 				dataProvider.setSiteKitConnected( true );
-				setConfig( dataProvider.getSiteKitConfiguration() );
 			}
 		} ).catch( noop );
-	}, [ dataProvider, remoteDataProvider, setConfig ] );
+	}, [ dataProvider, remoteDataProvider ] );
 
 	const dismissPermanently = useCallback( ( options ) => {
 		remoteDataProvider.fetchJson(
@@ -60,7 +57,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}, [ remoteDataProvider, dataProvider ] );
 
-	return { config, grantConsent, dismissPermanently };
+	return { grantConsent, dismissPermanently };
 };
 
 /**
@@ -75,9 +72,9 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const handleOnRemove = useCallback( () => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}, [ dataProvider ] );
+	const config = dataProvider.getSiteKitConfiguration();
 
-
-	const { config, grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
+	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const handleRemovePermanently = useCallback( () => {
