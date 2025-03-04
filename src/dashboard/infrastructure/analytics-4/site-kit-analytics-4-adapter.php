@@ -11,9 +11,7 @@ use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Invalid_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Unexpected_Response_Exception;
-use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Dashboard_Adapter_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
-use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Domain\Traffic\Comparison_Traffic_Data;
 use Yoast\WP\SEO\Dashboard\Domain\Traffic\Daily_Traffic_Data;
 use Yoast\WP\SEO\Dashboard\Domain\Traffic\Traffic_Data;
@@ -21,7 +19,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Traffic\Traffic_Data;
 /**
  * The site API adapter to make calls to the Analytics 4 API, via the Site_Kit plugin.
  */
-class Site_Kit_Analytics_4_Adapter implements Dashboard_Adapter_Interface {
+class Site_Kit_Analytics_4_Adapter {
 
 	/**
 	 * The Analytics 4 module class from Site kit.
@@ -43,29 +41,10 @@ class Site_Kit_Analytics_4_Adapter implements Dashboard_Adapter_Interface {
 		}
 	}
 
-	// phpcs:disable Squiz.Commenting.FunctionComment.InvalidNoReturn -- Temporary issue until this function gets an actual implementation.
-	// phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Temporary issue until this function gets an actual implementation.
-
-	/**
-	 * The wrapper method to do a normal Site Kit API request for Analytics 4.
-	 * Added here to satisfy the contract of the interface. Will be filled once we have an implementation for it.
-	 *
-	 * @param Parameters $parameters The parameters.
-	 *
-	 * @return Data_Container The Site Kit API response.
-	 *
-	 * @throws Invalid_Request_Exception This is an invalid request.
-	 */
-	public function get_data( Parameters $parameters ): Data_Container {
-		throw new Invalid_Request_Exception( 'No implementation of simple get data requests yet' );
-	}
-
-	// phpcs:enable
-
 	/**
 	 * The wrapper method to do a comparison Site Kit API request for Analytics.
 	 *
-	 * @param Parameters $parameters The parameters.
+	 * @param Analytics_4_Parameters $parameters The parameters.
 	 *
 	 * @return Data_Container The Site Kit API response.
 	 *
@@ -73,7 +52,7 @@ class Site_Kit_Analytics_4_Adapter implements Dashboard_Adapter_Interface {
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 * @throws Invalid_Request_Exception     When the request is invalid due to unexpected parameters.
 	 */
-	public function get_comparison_data( Parameters $parameters ): Data_Container {
+	public function get_comparison_data( Analytics_4_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
 		$response = self::$analytics_4_module->get_data( 'report', $api_parameters );
@@ -86,7 +65,7 @@ class Site_Kit_Analytics_4_Adapter implements Dashboard_Adapter_Interface {
 	/**
 	 * The wrapper method to do a daily Site Kit API request for Analytics.
 	 *
-	 * @param Parameters $parameters The parameters.
+	 * @param Analytics_4_Parameters $parameters The parameters.
 	 *
 	 * @return Data_Container The Site Kit API response.
 	 *
@@ -94,7 +73,7 @@ class Site_Kit_Analytics_4_Adapter implements Dashboard_Adapter_Interface {
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 * @throws Invalid_Request_Exception     When the request is invalid due to unexpected parameters.
 	 */
-	public function get_daily_data( Parameters $parameters ): Data_Container {
+	public function get_daily_data( Analytics_4_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
 		$response = self::$analytics_4_module->get_data( 'report', $api_parameters );

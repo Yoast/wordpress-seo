@@ -8,9 +8,7 @@ use Google\Site_Kit\Core\Modules\Modules;
 use Google\Site_Kit\Modules\Search_Console;
 use Google\Site_Kit\Plugin;
 use Google\Site_Kit_Dependencies\Google\Service\SearchConsole\ApiDataRow;
-use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Dashboard_Adapter_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
-use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Unexpected_Response_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Comparison_Search_Ranking_Data;
@@ -19,7 +17,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Search_Rankings\Search_Ranking_Data;
 /**
  * The site API adapter to make calls to the Search Console API, via the Site_Kit plugin.
  */
-class Site_Kit_Search_Console_Adapter implements Dashboard_Adapter_Interface {
+class Site_Kit_Search_Console_Adapter {
 
 	/**
 	 * The search console module class from Site kit.
@@ -44,14 +42,14 @@ class Site_Kit_Search_Console_Adapter implements Dashboard_Adapter_Interface {
 	/**
 	 * The wrapper method to do a Site Kit API request for Search Console.
 	 *
-	 * @param Parameters $parameters The parameters.
+	 * @param Search_Console_Parameters $parameters The parameters.
 	 *
 	 * @return Data_Container The Site Kit API response.
 	 *
 	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 */
-	public function get_data( Parameters $parameters ): Data_Container {
+	public function get_data( Search_Console_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
 		$response = self::$search_console_module->get_data( 'searchanalytics', $api_parameters );
@@ -64,14 +62,14 @@ class Site_Kit_Search_Console_Adapter implements Dashboard_Adapter_Interface {
 	/**
 	 * The wrapper method to do a comparison Site Kit API request for Search Console.
 	 *
-	 * @param Parameters $parameters The parameters.
+	 * @param Search_Console_Parameters $parameters The parameters.
 	 *
 	 * @return Data_Container The Site Kit API response.
 	 *
 	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 */
-	public function get_comparison_data( Parameters $parameters ): Data_Container {
+	public function get_comparison_data( Search_Console_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
 		// Since we're doing a comparison request, we need to increase the date range to the start of the previous period. We'll later split the data into two periods.
