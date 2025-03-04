@@ -91,7 +91,7 @@ class Site_Kit_Search_Console_Adapter implements Dashboard_Adapter_Interface {
 	 *
 	 * @return array<string, array<string, string>> The Site Kit API parameters.
 	 */
-	protected function build_parameters( Search_Console_Parameters $parameters ): array {
+	private function build_parameters( Search_Console_Parameters $parameters ): array {
 		$api_parameters = [
 			'slug'       => 'search-console',
 			'datapoint'  => 'searchanalytics',
@@ -117,7 +117,7 @@ class Site_Kit_Search_Console_Adapter implements Dashboard_Adapter_Interface {
 	 *
 	 * @throws Unexpected_Response_Exception When the comparison request responds with an unexpected format.
 	 */
-	protected function parse_comparison_response( array $response, ?string $compare_end_date ): Data_Container {
+	private function parse_comparison_response( array $response, ?string $compare_end_date ): Data_Container {
 		$data_container                 = new Data_Container();
 		$comparison_search_ranking_data = new Comparison_Search_Ranking_Data();
 
@@ -152,7 +152,7 @@ class Site_Kit_Search_Console_Adapter implements Dashboard_Adapter_Interface {
 	 *
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 */
-	protected function parse_response( array $response ): Data_Container {
+	private function parse_response( array $response ): Data_Container {
 		$search_ranking_data_container = new Data_Container();
 
 		foreach ( $response as $ranking ) {
@@ -188,7 +188,7 @@ class Site_Kit_Search_Console_Adapter implements Dashboard_Adapter_Interface {
 	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 */
-	protected function validate_response( $response ): void {
+	private function validate_response( $response ): void {
 		if ( \is_wp_error( $response ) ) {
 			$error_data        = $response->get_error_data();
 			$error_status_code = ( $error_data['status'] ?? 500 );

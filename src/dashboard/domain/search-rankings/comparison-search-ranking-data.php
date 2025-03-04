@@ -64,7 +64,7 @@ class Comparison_Search_Ranking_Data implements Data_Interface {
 	 *
 	 * @return array<string,int> The parsed data
 	 */
-	protected function parse_data( array $search_ranking_data ): array {
+	private function parse_data( array $search_ranking_data ): array {
 		$parsed_data      = [
 			'total_clicks'      => 0,
 			'total_impressions' => 0,

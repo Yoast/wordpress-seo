@@ -125,7 +125,7 @@ class Site_Kit_Analytics_4_Adapter implements Dashboard_Adapter_Interface {
 	 *
 	 * @return array<string, array<string, string>> The Site Kit API parameters.
 	 */
-	protected function build_parameters( Analytics_4_Parameters $parameters ): array {
+	private function build_parameters( Analytics_4_Parameters $parameters ): array {
 		$api_parameters = [
 			'slug'       => 'analytics-4',
 			'datapoint'  => 'report',
@@ -166,7 +166,7 @@ class Site_Kit_Analytics_4_Adapter implements Dashboard_Adapter_Interface {
 	 *
 	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
 	 */
-	protected function parse_daily_response( RunReportResponse $response ): Data_Container {
+	private function parse_daily_response( RunReportResponse $response ): Data_Container {
 		if ( ! $this->is_daily_request( $response ) ) {
 			throw new Invalid_Request_Exception( 'Unexpected parameters for the request' );
 		}
@@ -207,7 +207,7 @@ class Site_Kit_Analytics_4_Adapter implements Dashboard_Adapter_Interface {
 	 *
 	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
 	 */
-	protected function parse_comparison_response( RunReportResponse $response ): Data_Container {
+	private function parse_comparison_response( RunReportResponse $response ): Data_Container {
 		if ( ! $this->is_comparison_request( $response ) ) {
 			throw new Invalid_Request_Exception( 'Unexpected parameters for the request' );
 		}
@@ -255,7 +255,7 @@ class Site_Kit_Analytics_4_Adapter implements Dashboard_Adapter_Interface {
 	 *
 	 * @return bool Whether it's a comparison request.
 	 */
-	protected function is_comparison_request( RunReportResponse $response ): bool {
+	private function is_comparison_request( RunReportResponse $response ): bool {
 		return \count( $response->getDimensionHeaders() ) === 1 && $response->getDimensionHeaders()[0]->getName() === 'dateRange';
 	}
 
@@ -266,7 +266,7 @@ class Site_Kit_Analytics_4_Adapter implements Dashboard_Adapter_Interface {
 	 *
 	 * @return bool Whether it's a daily request.
 	 */
-	protected function is_daily_request( RunReportResponse $response ): bool {
+	private function is_daily_request( RunReportResponse $response ): bool {
 		return \count( $response->getDimensionHeaders() ) === 1 && $response->getDimensionHeaders()[0]->getName() === 'date';
 	}
 
@@ -282,7 +282,7 @@ class Site_Kit_Analytics_4_Adapter implements Dashboard_Adapter_Interface {
 	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 */
-	protected function validate_response( $response ): void {
+	private function validate_response( $response ): void {
 		if ( \is_wp_error( $response ) ) {
 			$error_data        = $response->get_error_data();
 			$error_status_code = ( $error_data['status'] ?? 500 );
