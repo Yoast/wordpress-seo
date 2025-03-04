@@ -58,7 +58,7 @@ describe( "Scores", () => {
 				isInstalled: true,
 				isActive: true,
 				isSetupCompleted: true,
-				isConnected: true,
+				isConsentGranted: true,
 			},
 		} );
 		remoteDataProvider = new RemoteDataProvider( {} );

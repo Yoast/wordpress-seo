@@ -34,7 +34,7 @@ describe( "SiteKitIntegration", () => {
 			isActive={ false }
 			isSetupCompleted={ false }
 			isInstalled={ false }
-			initialIsConnected={ false }
+			initialIsConsentGranted={ false }
 			{ ...urlsProps }
 		/> );
 		expect( screen.getByText( "Site Kit by Google" ) ).toBeInTheDocument();
@@ -44,12 +44,12 @@ describe( "SiteKitIntegration", () => {
 		[ "not installed, not active, not after setup, and not connected", false, false, false, false ],
 		[ "not installed, not active, after setup, and not connected", false, false, true, false ],
 		[ "not installed, not active, after setup, and connected", false, false, true, true ],
-	] )( "shows 'Install Site Kit by Google' link when not installed when %s", ( _title, isInstalled, isActive, isSetupCompleted, initialIsConnected = {} ) => {
+	] )( "shows 'Install Site Kit by Google' link when not installed when %s", ( _title, isInstalled, isActive, isSetupCompleted, initialIsConsentGranted = {} ) => {
 		render( <SiteKitIntegration
 			isActive={ isActive }
 			isSetupCompleted={ isSetupCompleted }
 			isInstalled={ isInstalled }
-			initialIsConnected={ initialIsConnected }
+			initialIsConsentGranted={ initialIsConsentGranted }
 			{ ...urlsProps }
 		/> );
 		const link = screen.getByRole( "link", { name: "Install Site Kit by Google" } );
@@ -61,12 +61,12 @@ describe( "SiteKitIntegration", () => {
 		[ "installed, not active, not after setup, and not connected", true, false, false, false ],
 		[ "installed, not active, after setup, and not connected", true, false, true, false ],
 		[ "installed, not active, after setup, and connected", true, false, true, true ],
-	] )( "shows 'Activate Site Kit by Google' button when installed but not active when %s", ( _title, isInstalled, isActive, isSetupCompleted, initialIsConnected = {} ) => {
+	] )( "shows 'Activate Site Kit by Google' button when installed but not active when %s", ( _title, isInstalled, isActive, isSetupCompleted, initialIsConsentGranted = {} ) => {
 		render( <SiteKitIntegration
 			isActive={ isActive }
 			isSetupCompleted={ isSetupCompleted }
 			isInstalled={ isInstalled }
-			initialIsConnected={ initialIsConnected }
+			initialIsConsentGranted={ initialIsConsentGranted }
 			{ ...urlsProps }
 		/> );
 		const link = screen.getByRole( "link", { name: "Activate Site Kit by Google" } );
@@ -77,7 +77,7 @@ describe( "SiteKitIntegration", () => {
 
 	it( "shows 'Set up Site Kit by Google' button when active but not set up", () => {
 		render( <SiteKitIntegration
-			isActive={ true } isSetupCompleted={ false } isInstalled={ true } initialIsConnected={ false } { ...urlsProps }
+			isActive={ true } isSetupCompleted={ false } isInstalled={ true } initialIsConsentGranted={ false } { ...urlsProps }
 		/> );
 		const link = screen.getByRole( "link", { name: "Set up Site Kit by Google" } );
 		expect( link ).toBeInTheDocument();
@@ -86,7 +86,7 @@ describe( "SiteKitIntegration", () => {
 
 	it( "shows 'Connect Site Kit by Google' button when set up but not connected", () => {
 		render( <SiteKitIntegration
-			isActive={ true } isSetupCompleted={ true } isInstalled={ true } initialIsConnected={ false } { ...urlsProps }
+			isActive={ true } isSetupCompleted={ true } isInstalled={ true } initialIsConsentGranted={ false } { ...urlsProps }
 		/> );
 		expect( screen.getByRole( "button", { name: "Connect Site Kit by Google" } ) ).toBeInTheDocument();
 	} );
@@ -94,7 +94,7 @@ describe( "SiteKitIntegration", () => {
 	it( "shows 'Disconnect' button when connected", () => {
 		render( <SiteKitIntegration
 			isActive={ true } isSetupCompleted={ true } isInstalled={ true }
-			initialIsConnected={ true } { ...urlsProps }
+			initialIsConsentGranted={ true } { ...urlsProps }
 		/> );
 		expect( screen.getByRole( "button", { name: "Disconnect" } ) ).toBeInTheDocument();
 		expect( screen.getByText( "Successfully connected" ) ).toBeInTheDocument();
@@ -106,7 +106,7 @@ describe( "SiteKitIntegration", () => {
 			isActive={ true }
 			isSetupCompleted={ true }
 			isInstalled={ true }
-			initialIsConnected={ false }
+			initialIsConsentGranted={ false }
 			{ ...urlsProps }
 		/> );
 		const connectButton = screen.getByRole( "button", { name: "Connect Site Kit by Google" } );
@@ -142,7 +142,7 @@ describe( "SiteKitIntegration", () => {
 			isActive={ true }
 			isSetupCompleted={ true }
 			isInstalled={ true }
-			initialIsConnected={ true }
+			initialIsConsentGranted={ true }
 			{ ...urlsProps }
 		/> );
 		const disconnectButton = screen.getByRole( "button", { name: "Disconnect" } );

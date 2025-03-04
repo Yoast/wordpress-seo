@@ -41,7 +41,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 			{ ...options, method: "POST" }
 		).then( ( { success } ) => {
 			if ( success ) {
-				dataProvider.setSiteKitConnected( true );
+				dataProvider.setSiteKitConsentGranted( true );
 			}
 		} ).catch( noop );
 	}, [ dataProvider, remoteDataProvider ] );
@@ -72,7 +72,6 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const handleOnRemove = useCallback( () => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}, [ dataProvider ] );
-	const config = dataProvider.getSiteKitConfiguration();
 
 	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
@@ -93,17 +92,17 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const buttonProps = [
 		{
 			children: __( "Install Site Kit by Google", "wordpress-seo" ),
-			href: config.installUrl,
+			href: dataProvider.getLink( "installSiteKit" ),
 			as: "a",
 		},
 		{
 			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
-			href: config.activateUrl,
+			href: dataProvider.getLink( "activateSiteKit" ),
 			as: "a",
 		},
 		{
 			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-			href: config.setupUrl,
+			href: dataProvider.getLink( "setupSiteKit" ),
 			as: "a",
 		},
 		{

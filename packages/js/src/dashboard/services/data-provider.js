@@ -38,12 +38,15 @@ export class DataProvider {
 		this.#endpoints = endpoints;
 		this.#headers = headers;
 		this.#links = links;
-		this.#siteKitConfiguration = siteKitConfiguration;
+		this.#siteKitConfiguration = {
+			isFeatureEnabled: siteKitConfiguration.isFeatureEnabled,
+			isSetupWidgetDismissed: siteKitConfiguration.isSetupWidgetDismissed,
+		};
 		this.#stepsStatuses = [
-			this.#siteKitConfiguration.isInstalled,
-			this.#siteKitConfiguration.isActive,
-			this.#siteKitConfiguration.isSetupCompleted,
-			this.#siteKitConfiguration.isConnected,
+			siteKitConfiguration.isInstalled,
+			siteKitConfiguration.isActive,
+			siteKitConfiguration.isSetupCompleted,
+			siteKitConfiguration.isConsentGranted,
 		];
 	}
 
@@ -138,21 +141,21 @@ export class DataProvider {
 	}
 
 	/**
-	 * @param {boolean} isConnected Whether the site kit is connected.
+	 * @param {boolean} isConsentGranted Whether the site kit consent is granted.
 	 */
-	setSiteKitConnected( isConnected ) {
-		this.#stepsStatuses[ 3 ] = isConnected;
+	setSiteKitConsentGranted( isConsentGranted ) {
+		this.#stepsStatuses[ 3 ] = isConsentGranted;
 		this.notifySubscribers();
 	}
 
 	/**
-	 * @param {boolean} isConfigurationDismissed Whether the site kit configuration is (permanently) dismissed.
+	 * @param {boolean} isSetupWidgetDismissed Whether the site kit configuration is (permanently) dismissed.
 	 */
-	setSiteKitConfigurationDismissed( isConfigurationDismissed ) {
+	setSiteKitConfigurationDismissed( isSetupWidgetDismissed ) {
 		// This creates a new object to avoid mutation and force re-rendering.
 		this.#siteKitConfiguration = {
 			...this.#siteKitConfiguration,
-			isConfigurationDismissed,
+			isSetupWidgetDismissed,
 		};
 		this.notifySubscribers();
 	}

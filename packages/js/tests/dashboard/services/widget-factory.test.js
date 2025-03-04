@@ -62,7 +62,7 @@ describe( "WidgetFactory", () => {
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" }, "Top 5 most popular content" ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" }, "Top 5 search queries" ],
 	] )( "should create a %s widget", async( _, widget, title ) => {
-		dataProvider.setSiteKitConnected( true );
+		dataProvider.setSiteKitConsentGranted( true );
 		const element = widgetFactory.createWidget( widget );
 		expect( element?.key ).toBe( widget.id );
 		const { getByRole } = render( <>{ element }</> );
@@ -92,9 +92,9 @@ describe( "WidgetFactory", () => {
 	} );
 
 
-	test( "should not create the Site Kit setup widget if the data provider has isConfigurationDismissed set to true", () => {
+	test( "should not create the Site Kit setup widget if the data provider has isSetupWidgetDismissed set to true", () => {
 		dataProvider = new MockDataProvider( {
-			siteKitConfiguration: { isConfigurationDismissed: true },
+			siteKitConfiguration: { isSetupWidgetDismissed: true },
 		} );
 		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 
@@ -116,14 +116,14 @@ describe( "WidgetFactory", () => {
 
 	describe( "should not create the site kit widgets and should create the site kit setup widget", () => {
 		test.each( [
-			[ "no step is completed", { isInstalled: false, isActive: false, isSetupCompleted: false, isConnected: false } ],
-			[ "only installed", { isInstalled: true, isActive: false, isSetupCompleted: false, isConnected: false } ],
-			[ "only installed and activated", { isInstalled: true, isActive: true, isSetupCompleted: false, isConnected: false } ],
-			[ "only not connected", { isInstalled: true, isActive: true, isSetupCompleted: true, isConnected: false } ],
-			[ "only connected", { isInstalled: false, isActive: false, isSetupCompleted: false, isConnected: true } ],
-			[ "only site kit setup completed and connected", { isInstalled: false, isActive: false, isSetupCompleted: true, isConnected: true } ],
-			[ "only not activated", { isInstalled: true, isActive: false, isSetupCompleted: true, isConnected: true } ],
-			[ "only site kit setup is not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, isConnected: true } ],
+			[ "no step is completed", { isInstalled: false, isActive: false, isSetupCompleted: false, isConsentGranted: false } ],
+			[ "only installed", { isInstalled: true, isActive: false, isSetupCompleted: false, isConsentGranted: false } ],
+			[ "only installed and activated", { isInstalled: true, isActive: true, isSetupCompleted: false, isConsentGranted: false } ],
+			[ "only not connected", { isInstalled: true, isActive: true, isSetupCompleted: true, isConsentGranted: false } ],
+			[ "only connected", { isInstalled: false, isActive: false, isSetupCompleted: false, isConsentGranted: true } ],
+			[ "only site kit setup completed and connected", { isInstalled: false, isActive: false, isSetupCompleted: true, isConsentGranted: true } ],
+			[ "only not activated", { isInstalled: true, isActive: false, isSetupCompleted: true, isConsentGranted: true } ],
+			[ "only site kit setup is not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, isConsentGranted: true } ],
 		] )( "when %s", async( _, siteKitConfiguration ) => {
 			const siteKitWidgets = [
 				{ id: "top-pages-widget", type: "topPages" },
