@@ -7,6 +7,12 @@ import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
 
 /**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../languageProcessing/researches/getSentenceBeginnings").SentenceBeginning } SentenceBeginning
+ * @typedef {import("../../../values/").Paper } Paper
+ */
+
+/**
  * The maximum number of consecutive sentences that can start with the same word.
  * @type {number}
  */
@@ -111,11 +117,8 @@ export default class SentenceBeginningsAssessment extends Assessment {
 		sentenceBeginnings = sentenceBeginnings.filter( sentenceBeginning => sentenceBeginning.count > MAX_SAME_BEGINNINGS );
 		const sentences = sentenceBeginnings.flatMap( sentenceBeginning => sentenceBeginning.sentences );
 		return sentences.map( sentence => {
-			const firstToken = sentence.tokens.find( ( { text } ) => text !== " " );
-			const lastToken = sentence.tokens.slice().reverse().find( ( { text } ) => text !== " " );
-
-			const startOffset = firstToken.sourceCodeRange.startOffset;
-			const endOffset = lastToken.sourceCodeRange.endOffset;
+			const startOffset = sentence.getFirstToken()?.sourceCodeRange.startOffset || 0;
+			const endOffset = sentence.getLastToken()?.sourceCodeRange.endOffset || 0;
 
 			return new Mark( {
 				position: {

@@ -1,4 +1,8 @@
 /**
+ * @typedef {import("../structure").Node} Node
+ */
+
+/**
  * Retrieves the parent node for a given node.
  * @param {Node} 	tree 	The current tree.
  * @param {Node} 	node 	The current node.

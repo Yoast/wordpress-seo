@@ -3,6 +3,10 @@ import SourceCodeLocation from "./SourceCodeLocation";
 import { isEmpty } from "lodash";
 
 /**
+ * @typedef {import(".").Text} Text
+ */
+
+/**
  * A node in the tree.
  */
 class Node {
@@ -50,7 +54,7 @@ class Node {
 	 * @param {boolean} 	recurseFoundNodes=false 	Whether to recurse into found nodes to see if the condition
 	 *  also applies to sub-nodes of the found node.
 	 *
-	 * @returns {(Node|Text|Paragraph|Heading)[]} The list of nodes that satisfy the condition.
+	 * @returns {(Node|Text)[]} The list of nodes that satisfy the condition.
 	 */
 	findAll( condition, recurseFoundNodes = false ) {
 		return findAllInTree( this, condition, recurseFoundNodes );

@@ -6,6 +6,13 @@ import filterTree from "../../parse/build/private/filterTree";
 import { cloneDeep } from "lodash";
 
 /**
+ * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../parse/structure/").Node} Node
+ * @typedef {import("../../parse/structure/Sentence").default} Sentence
+ * @typedef {import("../../values/").Paper } Paper
+ */
+
+/**
  * @typedef {Object} SentenceBeginning
  * @property {string} word The first word of the sentence.
  * @property {number} count The number of sentences that start with this word.

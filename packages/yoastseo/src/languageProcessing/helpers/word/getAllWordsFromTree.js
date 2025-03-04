@@ -3,6 +3,11 @@ import { flatMap } from "lodash";
 import removePunctuation from "../sanitize/removePunctuation";
 
 /**
+ * @typedef {import("../../../parse/structure/Token").default} Token
+ * @typedef {import("../../../values/").Paper } Paper
+ */
+
+/**
  * Merges words surrounding a separator into one word.
  *
  * @param {string[]} words The array of words to split and merge.
