@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, jest } from "@jest/globals";
+import { beforeAll, describe, expect, jest, test } from "@jest/globals";
 import { waitFor } from "@testing-library/react";
 import { WidgetFactory } from "../../../src/dashboard/services/widget-factory";
 import { render } from "../../test-utils";
@@ -29,27 +29,21 @@ describe( "WidgetFactory", () => {
 		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 	} );
 
-	test.each( [
-		[ "seoScores" ],
-		[ "readabilityScores" ],
-		[ "topPages" ],
-	] )( "should have the widget type: %s", async( type ) => {
-		expect( WidgetFactory.types[ type ] ).toBe( type );
-	} );
-
-	test.each( [
-		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
-		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
-	] )( "should not create a %s widget when site kit is not connected", async( _, widget ) => {
-		dataProvider.setSiteKitConnected( false );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
-		expect( widgetFactory.createWidget( widget ) ).toBeNull();
+	describe( "types", () => {
+		test.each( [
+			"seoScores",
+			"readabilityScores",
+			"topPages",
+			"topQueries",
+			"siteKitSetup",
+		] )( "should have the widget type: %s", async( type ) => {
+			expect( WidgetFactory.types[ type ] ).toBe( type );
+		} );
 	} );
 
 	test.each( [
 		[ "SEO scores", { id: "seo-scores-widget", type: "seoScores" }, "SEO scores" ],
 		[ "Readability scores", { id: "readability-scores-widget", type: "readabilityScores" }, "Readability scores" ],
-		[ "Site Kit setup", { id: "site-kit-setup-widget", type: "siteKitSetup" }, "Expand your dashboard with insights from Google!" ],
 		[ "Unknown", { id: undefined, type: "unknown" }, undefined ],
 	] )( "should create a %s widget", async( _, widget, title ) => {
 		const element = widgetFactory.createWidget( widget );
@@ -78,27 +72,6 @@ describe( "WidgetFactory", () => {
 			if ( title ) {
 				expect( getByRole( "heading", { name: title } ) ).toBeInTheDocument();
 			}
-		} );
-	} );
-
-	test( "should create the site kit set up widget", async() => {
-		const element = widgetFactory.createWidget( { id: "site-kit-setup-widget", type: "siteKitSetup" }, jest.fn() );
-		expect( element?.key ).toBe( "site-kit-setup-widget" );
-		const { getByRole } = render( <>{ element }</> );
-
-		await waitFor( () => {
-			expect( getByRole( "heading", { name: "Expand your dashboard with insights from Google!" } ) ).toBeInTheDocument();
-		} );
-	} );
-
-	test( "should not create the site kit set up widget", async() => {
-		dataProvider.setSiteKitConnected( true );
-		const element = widgetFactory.createWidget( { id: "site-kit-setup-widget", type: "siteKitSetup" } );
-		expect( element?.key ).toBe( "site-kit-setup-widget" );
-		const { getByRole } = render( <>{ element }</> );
-
-		await waitFor( () => {
-			expect( getByRole( "heading", { name: "Expand your dashboard with insights from Google!" } ) ).toBeInTheDocument();
 		} );
 	} );
 
@@ -139,5 +112,40 @@ describe( "WidgetFactory", () => {
 		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
+	} );
+
+	describe( "should not create the site kit widgets and should create the site kit setup widget", () => {
+		test.each( [
+			[ "no step is completed", { isInstalled: false, isActive: false, isSetupCompleted: false, isConnected: false } ],
+			[ "only installed", { isInstalled: true, isActive: false, isSetupCompleted: false, isConnected: false } ],
+			[ "only installed and activated", { isInstalled: true, isActive: true, isSetupCompleted: false, isConnected: false } ],
+			[ "only not connected", { isInstalled: true, isActive: true, isSetupCompleted: true, isConnected: false } ],
+			[ "only connected", { isInstalled: false, isActive: false, isSetupCompleted: false, isConnected: true } ],
+			[ "only site kit setup completed and connected", { isInstalled: false, isActive: false, isSetupCompleted: true, isConnected: true } ],
+			[ "only not activated", { isInstalled: true, isActive: false, isSetupCompleted: true, isConnected: true } ],
+			[ "only site kit setup is not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, isConnected: true } ],
+		] )( "when %s", async( _, siteKitConfiguration ) => {
+			const siteKitWidgets = [
+				{ id: "top-pages-widget", type: "topPages" },
+				{ id: "top-queries-widget", type: "topQueries" },
+			];
+			dataProvider = new MockDataProvider( {
+				siteKitConfiguration: { ... siteKitConfiguration, isFeatureEnabled: true },
+			} );
+
+			widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+			siteKitWidgets.forEach( ( widget ) => {
+				expect( widgetFactory.createWidget( widget ) ).toBeNull();
+			} );
+
+			const element = widgetFactory.createWidget( { id: "site-kit-setup-widget", type: "siteKitSetup" } );
+
+			expect( element?.key ).toBe( "site-kit-setup-widget" );
+			const { getByRole } = render( <>{ element }</> );
+
+			await waitFor( () => {
+				expect( getByRole( "heading", { name: "Expand your dashboard with insights from Google!" } ) ).toBeInTheDocument();
+			} );
+		} );
 	} );
 } );
