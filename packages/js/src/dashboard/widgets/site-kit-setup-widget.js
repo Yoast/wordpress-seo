@@ -31,7 +31,7 @@ const steps = [
 /**
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @returns {UseSiteKitConfiguration} The site kit configuration and helper methods.
+ * @returns {UseSiteKitConfiguration} The site kit helper methods.
  */
 const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 	const grantConsent = useCallback( ( options ) => {
