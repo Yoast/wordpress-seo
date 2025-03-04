@@ -185,7 +185,7 @@ describe( "SiteKitSetupWidget", () => {
 				isInstalled: true,
 				isActive: true,
 				isSetupCompleted: true,
-				isConnected: true,
+				isConsentGranted: true,
 			},
 		} );
 		render( <SiteKitSetupWidget
