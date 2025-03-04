@@ -2,8 +2,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Configuration;
 
-use Brain\Monkey\Functions;
-
 /**
  * Abstract class for the Permanently Dismissed Site Kit Configuration Repository tests.
  *
@@ -16,14 +14,15 @@ use Brain\Monkey\Functions;
 final class Site_Kit_Consent_Management_Route_Check_Capabilities_Test extends Abstract_Site_Kit_Consent_Management_Route_Test {
 
 	/**
-	 * Tests that the capability that is tested for is `administrator`.
+	 * Tests that the capability that is tested for is `wpseo_manage_options`.
 	 *
 	 * @return void
 	 */
 	public function test_check_capabilities() {
-		Functions\expect( 'current_user_can' )
+		$this->capability_helper->expects( 'current_user_can' )
 			->once()
-			->with( 'install_plugins' )->andReturn( true );
+			->with( 'wpseo_manage_options' )
+			->andReturn( true );
 
 		$this->assertTrue( $this->instance->check_capabilities() );
 	}
