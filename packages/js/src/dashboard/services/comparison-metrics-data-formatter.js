@@ -32,6 +32,15 @@ export class ComparisonMetricsDataFormatter extends DataFormatterInterface {
 					delta: data.delta,
 					formattedDelta: this.safeNumberFormat( data.delta, this.getNumberFormat().percentage ),
 				};
+			case "date":
+				return new Date(
+					Date.UTC( data.slice( 0, 4 ), data.slice( 4, 6 ) - 1, data.slice( 6, 8 ) )
+				).toLocaleDateString(
+					this.getLocale(),
+					{ month: "short", day: "numeric" }
+				);
+			case "sessions":
+				return this.safeNumberFormat( data || 0, this.getNumberFormat().nonFractional );
 			default:
 				return data;
 		}

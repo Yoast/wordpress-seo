@@ -12,6 +12,11 @@ describe( "ComparisonMetricsDataFormatter", () => {
 		[ "position", "position", {}, { value: 1234.567, delta: 1 }, { formattedValue: "1,234.57", delta: 1, formattedDelta: "100.00%" } ],
 		[ "position with negative delta", "position", {}, { value: 1234.567, delta: -0.41 }, { formattedValue: "1,234.57", delta: -0.41, formattedDelta: "-41.00%" } ],
 		[ "non-existent metric", "non-existent", {}, { value: 1234.567, delta: -0.41 }, { value: 1234.567, delta: -0.41 } ],
+		[ "date", "date", { widget: "organicSessions" }, "20250304", "Mar 4" ],
+		[ "sessions", "sessions", { widget: "organicSessions" }, 20_250_304.12, "20,250,304" ],
+		[ "sessions, NaN becomes zero", "sessions", { widget: "organicSessions" }, NaN, "0" ],
+		[ "sessions, undefined becomes zero", "sessions", { widget: "organicSessions" }, undefined, "0" ],
+		[ "sessions, null becomes zero", "sessions", { widget: "organicSessions" }, null, "0" ],
 	] )( "should format %s", ( _, name, context, data, expected, locale = "en-US" ) => {
 		const formatter = new ComparisonMetricsDataFormatter( { locale } );
 		expect( formatter.format( data, name, context ) ).toStrictEqual( expected );
