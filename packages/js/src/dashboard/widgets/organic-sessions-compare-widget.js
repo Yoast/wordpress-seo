@@ -15,7 +15,7 @@ import { getDifference } from "../transformers/difference";
 /**
  * @returns {JSX.Element} The element.
  */
-const OrganicSessionsCompareSkeletonLoader = () =>
+const OrganicSessionsCompareSkeletonLoader = () => {
 	return (
 		<div className="yst-flex yst-justify-between">
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-[300px] yst-content-around">
