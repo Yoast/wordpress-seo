@@ -85,7 +85,7 @@ function wpseo_import_external_select( $name, $plugins ) {
 
 		?>
 		<input type="submit" class="button button-primary" name="import_external"
-			value="<?php esc_attr_e( 'Import', 'wordpress-seo' ); ?>"/>
+			value="<?php esc_attr_e( 'Import', 'wordpress-seo' ); ?>" />
 	</form>
 </div>
 
