@@ -1,12 +1,11 @@
 import { ArrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, DropdownMenu, Paper, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { SiteKitConsentModal } from "../../shared-admin/components";
-import { WidgetFactory } from "../services/widget-factory";
 
 /**
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
@@ -32,12 +31,9 @@ const steps = [
 /**
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @param {function} addSiteKitWidgets The function add the site kit widgets.
- * @returns {UseSiteKitConfiguration} The site kit configuration and helper methods.
+ * @returns {UseSiteKitConfiguration} The site kit helper methods.
  */
-const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addSiteKitWidgets ) => {
-	const [ config, setConfig ] = useState( () => dataProvider.getSiteKitConfiguration() );
-
+const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 	const grantConsent = useCallback( ( options ) => {
 		remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "siteKitConsentManagement" ),
@@ -45,12 +41,10 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addSiteKitWi
 			{ ...options, method: "POST" }
 		).then( ( { success } ) => {
 			if ( success ) {
-				dataProvider.setSiteKitConnected( true );
-				addSiteKitWidgets();
-				setConfig( dataProvider.getSiteKitConfiguration() );
+				dataProvider.setSiteKitConsentGranted( true );
 			}
 		} ).catch( noop );
-	}, [ dataProvider, remoteDataProvider, setConfig ] );
+	}, [ dataProvider, remoteDataProvider ] );
 
 	const dismissPermanently = useCallback( ( options ) => {
 		remoteDataProvider.fetchJson(
@@ -63,7 +57,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addSiteKitWi
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}, [ remoteDataProvider, dataProvider ] );
 
-	return { config, grantConsent, dismissPermanently };
+	return { grantConsent, dismissPermanently };
 };
 
 /**
@@ -71,52 +65,44 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider, addSiteKitWi
  *
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @param {function} removeWidget The function to remove a widget.
- * @param {function} addWidget The function to add a widget.
  *
  * @returns {JSX.Element} The widget.
  */
-export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, removeWidget, addWidget } ) => {
-	const handleAddSiteKitWidgets = useCallback( () => {
-		[ WidgetFactory.types.topPages ].forEach( ( type ) => addWidget( type ) );
-	}, [ addWidget ] );
-
-	const { config, grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider, handleAddSiteKitWidgets );
-	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
-
+export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const handleOnRemove = useCallback( () => {
-		removeWidget( WidgetFactory.types.siteKitSetup );
-	}, [ removeWidget ] );
+		dataProvider.setSiteKitConfigurationDismissed( true );
+	}, [ dataProvider ] );
+
+	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
+	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();
-		handleOnRemove();
-	}, [ handleOnRemove, dismissPermanently ] );
+	}, [ dismissPermanently ] );
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
 
-	const stepsStatuses = [ config.isInstalled, config.isActive, config.isSetupCompleted, config.isConnected ];
-	let currentStep = stepsStatuses.findIndex( status => ! status );
-	const overallCompleted = currentStep === -1;
-	if ( overallCompleted ) {
+	let currentStep = dataProvider.getSiteKitCurrentConnectionStep();
+	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
+	if ( isSiteKitConnectionCompleted ) {
 		currentStep = steps.length - 1;
 	}
 
 	const buttonProps = [
 		{
 			children: __( "Install Site Kit by Google", "wordpress-seo" ),
-			href: config.installUrl,
+			href: dataProvider.getLink( "installSiteKit" ),
 			as: "a",
 		},
 		{
 			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
-			href: config.activateUrl,
+			href: dataProvider.getLink( "activateSiteKit" ),
 			as: "a",
 		},
 		{
 			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-			href: config.setupUrl,
+			href: dataProvider.getLink( "setupSiteKit" ),
 			as: "a",
 		},
 		{
@@ -131,16 +117,16 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, removeWi
 				screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) }
 				className="yst-float-end"
 			/>
-			<DropdownMenu.List className="yst-mt-6 yst-w-56">
+			<DropdownMenu.List className="yst-mt-8 yst-w-56">
 				<DropdownMenu.ButtonItem
-					className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4"
+					className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
 					onClick={ handleOnRemove }
 				>
 					<XIcon className="yst-w-4 yst-text-slate-400" />
 					{ __( "Remove until next visit", "wordpress-seo" ) }
 				</DropdownMenu.ButtonItem>
 				<DropdownMenu.ButtonItem
-					className="yst-text-red-500 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4"
+					className="yst-text-red-500 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
 					onClick={ handleRemovePermanently }
 				>
 					<TrashIcon className="yst-w-4" />
@@ -154,7 +140,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, removeWi
 				<Stepper.Step
 					key={ label }
 					isActive={ currentStep === index }
-					isComplete={ stepsStatuses[ index ] }
+					isComplete={ dataProvider.getStepsStatuses()[ index ] }
 				>
 					{ label }
 				</Stepper.Step>
@@ -179,7 +165,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, removeWi
 			</li>
 		</ul>
 		<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
-			{ overallCompleted
+			{ isSiteKitConnectionCompleted
 				? <>
 					<Button onClick={ handleOnRemove }>
 						{ __( "Got it!", "wordpress-seo" ) }

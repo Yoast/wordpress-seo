@@ -283,7 +283,7 @@ describe( "tests for retrieving the feedback strings.", function() {
 						"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it right-aligned%3$s.",
 						"%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. %2$sWe recommend making them right-aligned%3$s.",
 						numberOfLongCenterAlignedTexts,
-						"wordpress-seo-premium"
+						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					urlActionAnchorOpeningTag,
@@ -298,7 +298,7 @@ describe( "tests for retrieving the feedback strings.", function() {
 						"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it left-aligned%3$s.",
 						"%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. %2$sWe recommend making them left-aligned%3$s.",
 						numberOfLongCenterAlignedTexts,
-						"wordpress-seo-premium"
+						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					urlActionAnchorOpeningTag,

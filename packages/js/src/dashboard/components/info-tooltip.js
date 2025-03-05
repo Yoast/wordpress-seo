@@ -4,12 +4,12 @@ import { InformationCircleIcon } from "@heroicons/react/outline";
 /**
  * The info tooltip component.
  *
- * @param {JSX.Node} children The tooltip content.
+ * @param {ReactNode} children The tooltip content.
  *
  * @returns {JSX.Element} The element.
  */
 export const InfoTooltip = ( { children } ) => (
-	<TooltipContainer>
+	<TooltipContainer className="yst-h-fit yst-leading-[0]">
 		<TooltipTrigger>
 			<InformationCircleIcon className="yst-w-5 yst-h-5 yst-text-slate-400" />
 		</TooltipTrigger>

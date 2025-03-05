@@ -2,33 +2,49 @@ import { describe, expect } from "@jest/globals";
 import { DataFormatter } from "../../../src/dashboard/services/data-formatter";
 
 describe( "DataFormatter", () => {
+	// Use variable here so the memory address stays the same, so we can keep testing with toBe.
+	const testData = { foo: "bar" };
+
 	test.each( [
-		[ "subject, dropping protocol and hostname", "subject", "http://example.com/foo", "/foo" ],
+		[ "subject for topPages, dropping protocol and hostname", "subject", { widget: "topPages" }, "http://example.com/foo", "/foo" ],
 		[
-			"subject, dropping: protocol, hostname, port, search and hash",
+			"subject for topPages, dropping: protocol, hostname, port, search and hash",
 			"subject",
+			{ widget: "topPages" },
 			"https://user:password@www.example.com:8080/foo?query=bar#baz",
 			"/foo",
 		],
-		[ "subject, not a URL", "subject", "foo", "foo" ],
-		[ "clicks", "clicks", 1234, "1,234" ],
-		[ "clicks, negative number in string", "clicks", "-10", "-10" ],
-		[ "clicks, not a number", "clicks", {}, "NaN" ],
-		[ "clicks, Dutch => different separator", "clicks", 1234, "1.234", "nl-NL" ],
-		[ "impressions", "impressions", 1_234_567, "1,234,567" ],
-		[ "ctr, rounded up", "ctr", 0.345678, "34.57%" ],
-		[ "ctr, rounded down", "ctr", 0.00144, "0.14%" ],
-		[ "ctr, zero padding", "ctr", 0, "0.00%" ],
-		[ "position, rounded up", "position", 6548.567, "6,548.57" ],
-		[ "position, rounded down", "position", 1.234, "1.23" ],
-		[ "position, zero padding", "position", 1, "1.00" ],
-		[ "position, Dutch => different separator", "position", 6548.567, "6.548,57", "nl-NL" ],
-		[ "seoScore", "seoScore", "ok", "ok" ],
-		[ "seoScore", "seoScore", "foo", "notAnalyzed" ],
-		[ "unknown name", "unknown", "foo", "foo" ],
-	] )( "should format %s", ( _, name, data, expected, locale = "en-US" ) => {
+		[ "subject for topPages, not a URL", "subject", { widget: "topPages" }, "foo", "foo" ],
+		[ "subject for topQueries", "subject", { widget: "topQueries" }, "foo", "foo" ],
+		[ "subject for topQueries, number to string", "subject", { widget: "topQueries" }, 1234, "1234" ],
+		[ "subject for topQueries, boolean to string", "subject", { widget: "topQueries" }, true, "true" ],
+		[ "subject for topQueries, object to string", "subject", { widget: "topQueries" }, { working: "not really" }, "[object Object]" ],
+		[ "subject without context", "subject", {}, testData, testData ],
+		[ "clicks", "clicks", { widget: "topPages" }, 1234, "1,234" ],
+		[ "clicks", "clicks", { widget: "topPages" }, 1234, "1,234" ],
+		[ "clicks, negative number in string", "clicks", { widget: "topPages" }, "-10", "-10" ],
+		[ "clicks, not a number", "clicks", { widget: "topPages" }, {}, "NaN" ],
+		[ "clicks, Dutch => different separator", "clicks", { widget: "topPages" }, 1234, "1.234", "nl-NL" ],
+		[ "impressions", "impressions", { widget: "topPages" }, 1_234_567, "1,234,567" ],
+		[ "ctr, rounded up", "ctr", { widget: "topPages" }, 0.345678, "34.57%" ],
+		[ "ctr, rounded down", "ctr", { widget: "topPages" }, 0.00144, "0.14%" ],
+		[ "ctr, zero padding", "ctr", { widget: "topPages" }, 0, "0.00%" ],
+		[ "difference, rounded up", "difference", { widget: "organicSessions" }, 0.345678, "34.57%" ],
+		[ "position, rounded up", "position", { widget: "topPages" }, 6548.567, "6,548.57" ],
+		[ "position, rounded down", "position", { widget: "topPages" }, 1.234, "1.23" ],
+		[ "position, zero padding", "position", { widget: "topPages" }, 1, "1.00" ],
+		[ "position, Dutch => different separator", "position", { widget: "topPages" }, 6548.567, "6.548,57", "nl-NL" ],
+		[ "seoScore", "seoScore", { widget: "topPages" }, "ok", "ok" ],
+		[ "seoScore", "seoScore", { widget: "topPages" }, "foo", "notAnalyzed" ],
+		[ "unknown name", "unknown", { widget: "topPages" }, "foo", "foo" ],
+		[ "date", "date", { widget: "organicSessions" }, "20250304", "Mar 4" ],
+		[ "sessions", "sessions", { widget: "organicSessions" }, 20_250_304.12, "20,250,304" ],
+		[ "sessions, NaN becomes zero", "sessions", { widget: "organicSessions" }, NaN, "0" ],
+		[ "sessions, undefined becomes zero", "sessions", { widget: "organicSessions" }, undefined, "0" ],
+		[ "sessions, null becomes zero", "sessions", { widget: "organicSessions" }, null, "0" ],
+	] )( "should format %s", ( _, name, context, data, expected, locale = "en-US" ) => {
 		const formatter = new DataFormatter( { locale } );
 
-		expect( formatter.format( data, name, { widget: "topPages" } ) ).toBe( expected );
+		expect( formatter.format( data, name, context ) ).toBe( expected );
 	} );
 } );

@@ -67,41 +67,31 @@ describe( "counts words in sentences from text", function() {
 		expect( sentences[ 0 ].sentenceLength ).toBe( 4 );
 		expect( sentences[ 1 ].sentenceLength ).toBe( 2 );
 	} );
-	it( "returns sentences with question mark in Japanese", function() {
-		const mockPaper = new Paper( "雨が降っている。 いつ終わるの？ さようなら" );
+	it( "returns Japanese sentences ending with different punctuation marks; character count doesn't include punctuation", function() {
+		const mockPaper = new Paper( "雨が降っている。いつ終わるの？わかった！さようなら" );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
 		const sentences = getSentences( mockPaper, mockResearcher );
 
-		expect( sentences[ 0 ].sentenceLength ).toBe( 8 );
-		expect( sentences[ 1 ].sentenceLength ).toBe( 7 );
-		expect( sentences[ 2 ].sentenceLength ).toBe( 5 );
+		expect( sentences[ 0 ].sentenceLength ).toBe( 7 );
+		expect( sentences[ 1 ].sentenceLength ).toBe( 6 );
+		expect( sentences[ 2 ].sentenceLength ).toBe( 4 );
+		expect( sentences[ 3 ].sentenceLength ).toBe( 5 );
 	} );
-	it( "returns sentences with exclamation mark", function() {
-		const mockPaper = new Paper( "雨が降っている. いつ終わるの！さようなら" );
+	it( "returns Japanese sentences with many spaces (2nd sentence with half-width, 1st and 3rd sentence with fullwidth spaces", function() {
+		const mockPaper = new Paper( "雨　が　降っている。        いつ終わるの？　さようなら　" );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
 		const sentences = getSentences( mockPaper, mockResearcher );
 
-		expect( sentences[ 0 ].sentenceLength ).toBe( 8 );
-		expect( sentences[ 1 ].sentenceLength ).toBe( 7 );
+		expect( sentences[ 0 ].sentenceLength ).toBe( 7 );
+		expect( sentences[ 1 ].sentenceLength ).toBe( 6 );
 		expect( sentences[ 2 ].sentenceLength ).toBe( 5 );
 	} );
-	it( "returns sentences with many spaces", function() {
-		const mockPaper = new Paper( "雨が降っている。        いつ終わるの？ さようなら" );
-		const mockResearcher = new JapaneseResearcher( mockPaper );
-		buildTree( mockPaper, mockResearcher );
-
-		const sentences = getSentences( mockPaper, mockResearcher );
-
-		expect( sentences[ 0 ].sentenceLength ).toBe( 8 );
-		expect( sentences[ 1 ].sentenceLength ).toBe( 7 );
-		expect( sentences[ 2 ].sentenceLength ).toBe( 5 );
-	} );
-	it( "returns sentences with html-tags, should count characters in Japanese", function() {
-		const mockPaper = new Paper( "いつ終わるの <img src='image.jpg' alt='自分を大事にして下さい' />" );
+	it( "returns Japanese sentence with an HTML img tag; character count excludes the HTML and the text within", function() {
+		const mockPaper = new Paper( "いつ終わるの <img src='http://domain.com/image.jpg' alt='自分を大事にして下さい' />？！" );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
@@ -109,14 +99,15 @@ describe( "counts words in sentences from text", function() {
 
 		expect( sentences[ 0 ].sentenceLength ).toBe( 6 );
 	} );
-	it( "returns sentences with html-tags, should count characters in Japanese", function() {
-		const mockPaper = new Paper( "いつ終わるの <img src='http://domain.com/image.jpg' alt='自分を大事にして下さい' />. 春がやってきます。" );
+	it( "returns Japanese sentence with an embedded video; character count excludes the HTML", function() {
+		const mockPaper = new Paper( "いつ終わるの<iframe width=\"420\" height=\"315\" " +
+			"src=\"https://www.youtube.com/embed/tgbNymZ7vqY\"></iframe>。春がやってきます。" );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 
 		const sentences = getSentences( mockPaper, mockResearcher );
 
-		expect( sentences[ 0 ].sentenceLength ).toBe( 7 );
-		expect( sentences[ 1 ].sentenceLength ).toBe( 9 );
+		expect( sentences[ 0 ].sentenceLength ).toBe( 6 );
+		expect( sentences[ 1 ].sentenceLength ).toBe( 8 );
 	} );
 } );

@@ -28,7 +28,7 @@ import { ALERT_CENTER_NAME } from "./store/alert-center";
  * @type {import("../index").Endpoints} Endpoints
  */
 
-domReady( () => { // eslint-disable-line complexity
+domReady( () => {
 	const root = document.getElementById( "yoast-seo-general" );
 	if ( ! root ) {
 		return;
@@ -77,40 +77,31 @@ domReady( () => { // eslint-disable-line complexity
 		errorSupport: select( STORE_NAME ).selectAdminLink( "?page=wpseo_page_support" ),
 		siteKitLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-site-kit-learn-more" ),
 		siteKitConsentLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-site-kit-consent-learn-more" ),
-		topPagesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/top-pages-learn-more" ),
+		topPagesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-top-content-learn-more" ),
+		topQueriesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-top-queries-learn-more" ),
+		installSiteKit: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.installUrl", "" ),
+		activateSiteKit: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.activateUrl", "" ),
+		setupSiteKit: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.setupUrl", "" ),
+		organicSessionsInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-organic-sessions-learn-more" ),
 	};
 
-	const siteKitConfiguration = get( window, "wpseoScriptData.dashboard.siteKitConfiguration", {
-		isInstalled: false,
-		isActive: false,
-		isSetupCompleted: false,
-		isConnected: false,
-		installUrl: "",
-		activateUrl: "",
-		setupUrl: "",
-		isFeatureEnabled: false,
-		isConfigurationDismissed: false,
-	} );
+	const siteKitConfiguration = {
+		isInstalled: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isInstalled", false ),
+		isActive: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isActive", false ),
+		isSetupCompleted: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isSetupCompleted", false ),
+		isConsentGranted: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isConnected", false ),
+		isAnalyticsConnected: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isAnalyticsConnected", false ),
+		isFeatureEnabled: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isFeatureEnabled", false ),
+		isSetupWidgetDismissed: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isConfigurationDismissed", false ),
+	};
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const dataFormatter = new DataFormatter( { locale: userLocale } );
 	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatter );
-
-	const initialWidgets = [];
-
-	// If site kit feature is enabled, add the site kit setup widget.
-	if ( siteKitConfiguration.isFeatureEnabled && ! siteKitConfiguration.isConfigurationDismissed && ! siteKitConfiguration.isConnected ) {
-		initialWidgets.push( WidgetFactory.types.siteKitSetup );
+	if ( dataProvider.isSiteKitConnectionCompleted() ) {
+		dataProvider.setSiteKitConfigurationDismissed( true );
 	}
-
-	// If site kit feature is enabled and connected: add the top pages widget.
-	if ( siteKitConfiguration.isFeatureEnabled && siteKitConfiguration.isConnected ) {
-		initialWidgets.push( WidgetFactory.types.topPages );
-	}
-
-	initialWidgets.push( WidgetFactory.types.seoScores );
-	initialWidgets.push( WidgetFactory.types.readabilityScores );
 
 	const router = createHashRouter(
 		createRoutesFromElements(
@@ -121,11 +112,11 @@ domReady( () => { // eslint-disable-line complexity
 						<SidebarLayout>
 							<Dashboard
 								widgetFactory={ widgetFactory }
-								initialWidgets={ initialWidgets }
 								userName={ userName }
 								features={ features }
 								links={ links }
 								sitekitFeatureEnabled={ siteKitConfiguration.isFeatureEnabled }
+								dataProvider={ dataProvider }
 							/>
 							<ConnectedPremiumUpsellList />
 						</SidebarLayout>
