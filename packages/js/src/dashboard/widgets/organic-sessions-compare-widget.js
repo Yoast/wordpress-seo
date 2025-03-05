@@ -6,7 +6,7 @@ import { Widget } from "./widget";
 import { OrganicSessionsCompareMetric } from "../components/organic-sessions-compare-metric";
 import { InfoTooltip } from "../components/info-tooltip";
 import { TooltipContent } from "../components/tooltip-content";
-
+import { getDifference } from "../transformers/difference";
 /**
  * @type {import("../index").MetricData} MetricData
  * @type {import("../index").OrganicSessionsCompareData} OrganicSessionsCompareData
@@ -82,38 +82,38 @@ const IcsaSkeletonLoader = () => {
 
 /**
  * @param {TimeBasedData[]} data The data.
- * @returns {IcsaData} The transformed data.
+ * @returns {OrganicSessionsCompareData} The transformed data.
  */
 const transformData = ( data ) => {
 	if ( Object.keys( data[ 0 ].current ).length === 2 ) {
 		return {
 			impressions: {
-				value: data[0].current.total_impressions,
-				delta: ( data[0].current.total_impressions - data[0].previous.total_impressions ),
+				value: data[0].current.total_impressions || NaN,
+				delta: getDifference( data[0]?.current?.total_impressions || NaN, data[0]?.previous?.total_impressions || NaN ),
 			},
 			clicks: {
-				value: data[0].current.total_clicks,
-				delta: ( data[0].current.total_clicks - data[0].previous.total_clicks ),
+				value: data[0].current.total_clicks || NaN,
+				delta: getDifference( data[0]?.current?.total_clicks || NaN, data[0].previous.total_clicks || NaN ),
 			},
 		};
 	}
 
 	return {
 		impressions: {
-			value: data[ 0 ].current.total_impressions,
-			delta: ( data[ 0 ].current.total_impressions - data[ 0 ].previous.total_impressions ),
+			value: data[ 0 ].current.total_impressions || NaN,
+			delta: getDifference( data[ 0 ].current.total_impressions || NaN, data[ 0 ].previous.total_impressions || NaN ),
 		},
 		clicks: {
-			value: data[ 0 ].current.total_clicks,
-			delta: ( data[ 0 ].current.total_clicks - data[ 0 ].previous.total_clicks ),
+			value: data[ 0 ].current.total_clicks || NaN,
+			delta: getDifference( data[ 0 ].current.total_clicks || NaN, data[ 0 ].previous.total_clicks || NaN ),
 		},
 		ctr: {
-			value: data[ 0 ].current.average_ctr,
-			delta: ( data[ 0 ].current.average_ctr - data[ 0 ].previous.average_ctr ),
+			value: data[ 0 ].current.average_ctr || NaN,
+			delta: getDifference( data[ 0 ].current.average_ctr || NaN, data[ 0 ].previous.average_ctr || NaN ),
 		},
 		position: {
-			value: data[ 0 ].current.average_position,
-			delta: ( data[ 0 ].current.average_position - data[ 0 ].previous.average_position ),
+			value: data[ 0 ].current.average_position || NaN,
+			delta: getDifference( data[ 0 ].current.average_position || NaN, data[ 0 ].previous.average_position || NaN ),
 		},
 	};
 };
