@@ -9968,6 +9968,23 @@
     react-tabs "^2.3.0"
     styled-components "^4.2.0"
 
+"@yoast/eslint-config@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@yoast/eslint-config/-/eslint-config-8.0.0.tgz#5f79c989cd7308f628d304a622ba1f7109b03d5a"
+  integrity sha512-FpMcaPY4iI8hOSuCZU5kuENNPLyD0diZxfMTmIeCXEYsNTLNVQJ68fxR6MhIV315Xp4sYiWfoVOvs+xa0HkSGw==
+  dependencies:
+    "@eslint/compat" "^1.2.6"
+    "@eslint/eslintrc" "^3.2.0"
+    "@eslint/js" "^9.14.0"
+    "@stylistic/eslint-plugin" "^2.11.0"
+    "@wordpress/eslint-plugin" "^22.4.0"
+    eslint-plugin-import "^2.31.0"
+    eslint-plugin-jsdoc "^50.5.0"
+    eslint-plugin-jsx-a11y "^6.10.2"
+    eslint-plugin-n "^17.13.1"
+    eslint-plugin-react "^7.35.0"
+    globals "^15.12.0"
+
 "@yoast/grunt-plugin-tasks@^2.4":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-2.4.0.tgz#3aa8984bc11bc44d1e62119dd7c16888f25cccd2"

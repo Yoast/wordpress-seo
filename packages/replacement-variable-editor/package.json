@@ -50,9 +50,9 @@
     "@testing-library/react": "^14.0.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@yoast/browserslist-config": "^1.2.3",
+    "@yoast/eslint-config": "^8.0.0",
     "babel-plugin-styled-components": "^2.0.6",
     "eslint": "^9.16.0",
-    "eslint-config-yoast": "^7.0.0",
     "globals": "^15.13.0",
     "jest-styled-components": "^7.0.3",
     "react-test-renderer": "^18.2.0"
