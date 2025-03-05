@@ -45,7 +45,7 @@ export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataF
 		);
 	}
 
-	// Don't show the comparison when there is not data.
+	// Don't show the comparison when there is no data.
 	if ( daily.data?.labels.length === 0 ) {
 		return (
 			<Widget { ...widgetProps }>
