@@ -138,7 +138,7 @@ const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnaly
 );
 
 /**
- * @param {import("../services/data-formatter")} dataFormatter The data formatter.
+ * @param {import("../services/plain-metrics-data-formatter")} dataFormatter The data formatter.
  * @returns {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
  */
 export const createTopPageFormatter = ( dataFormatter ) => ( data = [] ) => data.map( ( item ) => ( {

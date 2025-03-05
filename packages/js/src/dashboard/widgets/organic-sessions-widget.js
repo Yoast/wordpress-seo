@@ -9,7 +9,7 @@ import { Widget } from "./widget";
 /**
  * @type {import("../services/data-provider")} DataProvider
  * @type {import("../services/remote-data-provider")} RemoteDataProvider
- * @type {import("../services/data-formatter")} DataFormatter
+ * @type {import("../services/comparison-metrics-data-formatter")} DataFormatter
  */
 
 /**
