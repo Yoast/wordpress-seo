@@ -1,6 +1,6 @@
 import { InfoTooltip } from "./info-tooltip";
 import { TooltipContent } from "./tooltip-content";
-import { Trend} from "./trend";
+import { Trend } from "./trend";
 
 /**
  *  Represents one of the organic sessions compare metrics.
