@@ -124,9 +124,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 					'args'                => [
 						'limit'   => [
 							'type'              => 'int',
-							'sanitize_callback' => static function ( $param ) {
-								return \intval( $param );
-							},
+							'sanitize_callback' => 'absint',
 							'default'           => 5,
 						],
 						'options' => [
