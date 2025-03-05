@@ -1,4 +1,3 @@
-import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { isEqual } from "lodash";
 import { ErrorAlert } from "../components/error-alert";
