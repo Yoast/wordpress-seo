@@ -3,6 +3,7 @@
  * Knows how to format data.
  */
 export class DataFormatterInterface {
+	#locale;
 	#numberFormat = {};
 
 	/**
@@ -38,7 +39,13 @@ export class DataFormatterInterface {
 			throw new Error( "DataFormatterInterface cannot be instantiated directly." );
 		}
 
+		this.#locale = locale;
 		this.#numberFormat.nonFractional = new Intl.NumberFormat( locale, { maximumFractionDigits: 0 } );
+		this.#numberFormat.compactNonFractional = new Intl.NumberFormat( locale, {
+			maximumFractionDigits: 0,
+			notation: "compact",
+			compactDisplay: "short",
+		} );
 		this.#numberFormat.percentage = new Intl.NumberFormat( locale, { style: "percent", minimumFractionDigits: 2, maximumFractionDigits: 2 } );
 		this.#numberFormat.twoFractions = new Intl.NumberFormat( locale, { maximumFractionDigits: 2, minimumFractionDigits: 2 } );
 	}
@@ -50,6 +57,15 @@ export class DataFormatterInterface {
 	 */
 	getNumberFormat() {
 		return this.#numberFormat;
+	}
+
+	/**
+	 * Getter for the private attribute #locale.
+	 *
+	 * @returns {string} The locale.
+	 */
+	getLocale() {
+		return this.#locale;
 	}
 
 	/**
