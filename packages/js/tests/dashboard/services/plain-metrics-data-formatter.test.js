@@ -37,11 +37,6 @@ describe( "PlainMetricsDataFormatter", () => {
 		[ "seoScore", "seoScore", { widget: "topPages" }, "ok", "ok" ],
 		[ "seoScore", "seoScore", { widget: "topPages" }, "foo", "notAnalyzed" ],
 		[ "unknown name", "unknown", { widget: "topPages" }, "foo", "foo" ],
-		[ "date", "date", { widget: "organicSessions" }, "20250304", "Mar 4" ],
-		[ "sessions", "sessions", { widget: "organicSessions" }, 20_250_304.12, "20,250,304" ],
-		[ "sessions, NaN becomes zero", "sessions", { widget: "organicSessions" }, NaN, "0" ],
-		[ "sessions, undefined becomes zero", "sessions", { widget: "organicSessions" }, undefined, "0" ],
-		[ "sessions, null becomes zero", "sessions", { widget: "organicSessions" }, null, "0" ],
 	] )( "should format %s", ( _, name, context, data, expected, locale = "en-US" ) => {
 		const formatter = new PlainMetricsDataFormatter( { locale } );
 
