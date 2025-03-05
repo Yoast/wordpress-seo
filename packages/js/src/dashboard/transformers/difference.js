@@ -1,8 +1,8 @@
 /**
  * @param {number} number The number to check.
- * @returns {boolean} True if not falsy except 0.
+ * @returns {boolean} True if falsy, except 0.
  */
-const isValidNumber = ( number ) => ! number && number !== 0;
+const isInvalidNumber = ( number ) => ! number && number !== 0;
 
 /**
  * @param {number} current The current.
@@ -12,7 +12,7 @@ const isValidNumber = ( number ) => ! number && number !== 0;
 export const getDifference = ( current, previous ) => {
 	// Invalid values (falsy except 0) => return NaN.
 	// Because there is nothing to say about the difference.
-	if ( isValidNumber( current ) || isValidNumber( previous ) ) {
+	if ( isInvalidNumber( current ) || isInvalidNumber( previous ) ) {
 		return NaN;
 	}
 
