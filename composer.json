@@ -32,10 +32,10 @@
 		"guzzlehttp/guzzle": "7.8.1",
 		"humbug/php-scoper": "^0.13.4",
 		"league/oauth2-client": "2.7.0",
-		"psr/container": "1.0.0",
+		"psr/container": "1.1.1",
 		"psr/log": "^1.0",
-		"symfony/config": "^3.4",
-		"symfony/dependency-injection": "^3.4",
+		"symfony/config": "^5.4",
+		"symfony/dependency-injection": "^5.4",
 		"yoast/wp-test-utils": "^1.2",
 		"yoast/yoastcs": "^3.1.0"
 	},
@@ -143,7 +143,8 @@
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/psr --config=config/php-scoper/psr.inc.php --force --quiet"
 		],
 		"prefix-symfony": [
-			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/dependency-injection --config=config/php-scoper/dependency-injection.inc.php --force --quiet"
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/dependency-injection --config=config/php-scoper/dependency-injection.inc.php --force --quiet",
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/service-contracts --config=config/php-scoper/service-contracts.inc.php --force --quiet"
 		],
 		"compile-di": [
 			"rm -f ./src/generated/container.php",
