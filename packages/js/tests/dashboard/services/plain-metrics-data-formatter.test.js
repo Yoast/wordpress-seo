@@ -1,7 +1,7 @@
 import { describe, expect } from "@jest/globals";
-import { DataFormatter } from "../../../src/dashboard/services/data-formatter";
+import { PlainMetricsDataFormatter } from "../../../src/dashboard/services/plain-metrics-data-formatter";
 
-describe( "DataFormatter", () => {
+describe( "PlainMetricsDataFormatter", () => {
 	// Use variable here so the memory address stays the same, so we can keep testing with toBe.
 	const testData = { foo: "bar" };
 
@@ -43,7 +43,7 @@ describe( "DataFormatter", () => {
 		[ "sessions, undefined becomes zero", "sessions", { widget: "organicSessions" }, undefined, "0" ],
 		[ "sessions, null becomes zero", "sessions", { widget: "organicSessions" }, null, "0" ],
 	] )( "should format %s", ( _, name, context, data, expected, locale = "en-US" ) => {
-		const formatter = new DataFormatter( { locale } );
+		const formatter = new PlainMetricsDataFormatter( { locale } );
 
 		expect( formatter.format( data, name, context ) ).toBe( expected );
 	} );
