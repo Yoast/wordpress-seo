@@ -120,7 +120,7 @@ const transformData = ( data ) => {
 
 /**
  * @param {function} dataTransformer The data transformer.
- * @param {import("../services/icsa-data-formatter")} dataFormatter The data formatter.
+ * @param {import("../services/comparison-metrics-data-formatter")} dataFormatter The data formatter.
  * @returns {function(?TimeBasedData[]): OrganicSessionsCompareData} Function to format the widget data.
  */
 export const createIcsaDataFormatter = ( dataTransformer, dataFormatter ) => ( initData ) => {
@@ -142,7 +142,7 @@ export const createIcsaDataFormatter = ( dataTransformer, dataFormatter ) => ( i
 /**
  * @param {import("../services/data-provider")} dataProvider The data provider.
  * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
- * @param {import("../services/icsa-data-formatter")} dataFormatter The data formatter.
+ * @param {import("../services/comparison-metrics-data-formatter")} dataFormatter The data formatter.
  * @returns {JSX.Element} The element.
  */
 export const OrganicSessionsCompareWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
@@ -150,7 +150,7 @@ export const OrganicSessionsCompareWidget = ( { dataProvider, remoteDataProvider
 	 * @param {RequestInit} options The options.
 	 * @returns {Promise<TimeBasedData|Error>} The promise of IcsaData or an Error.
 	 */
-	const getIcsaData = useCallback( ( options ) => {
+	const getData = useCallback( ( options ) => {
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{ options: { widget: "searchRankingCompare" }  },
@@ -158,11 +158,11 @@ export const OrganicSessionsCompareWidget = ( { dataProvider, remoteDataProvider
 	}, [ dataProvider ] );
 
 	/**
-	 * @type {function(?TimeBasedData[]): IcsaData} Function to format the widget data.
+	 * @type {function(?TimeBasedData[]): OrganicSessionsCompareData} Function to format the widget data.
 	 * */
 	const formatIcsaData = useMemo( () => createIcsaDataFormatter( transformData, dataFormatter ), [ transformData, dataFormatter ] );
 
-	const { data, error, isPending } = useRemoteData( getIcsaData, formatIcsaData );
+	const { data, error, isPending } = useRemoteData( getData, formatIcsaData );
 
 	return <Widget className="yst-paper__content yst-col-span-4">
 		{ isPending && <IcsaSkeletonLoader /> }
