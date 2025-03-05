@@ -2,7 +2,6 @@ import { describe, expect } from "@jest/globals";
 import { ComparisonMetricsDataFormatter } from "../../../src/dashboard/services/comparison-metrics-data-formatter";
 
 describe( "ComparisonMetricsDataFormatter", () => {
-
 	test.each( [
 		[ " impressions", "impressions", {}, { value: 1234, delta: 0.567 }, { formattedValue: "1,234", delta: 0.567, formattedDelta: "56.70%" } ],
 		[ " impressions with fractional value rounded down", "impressions", {}, { value: 1234.2, delta: 0.567 }, { formattedValue: "1,234", delta: 0.567, formattedDelta: "56.70%" } ],

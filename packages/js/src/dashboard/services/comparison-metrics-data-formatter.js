@@ -10,7 +10,7 @@ export class ComparisonMetricsDataFormatter extends DataFormatterInterface {
 	 * @param {Object} [context] Extra information to determine how to format.
 	 * @returns {*} The formatted or original data.
 	 */
-	// eslint-disable-next-line no-unused-vars
+	// eslint-disable-next-line no-unused-vars, complexity
 	format( data, name, context = {} ) {
 		switch ( name ) {
 			case "impressions":

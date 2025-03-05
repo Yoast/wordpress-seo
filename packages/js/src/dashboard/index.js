@@ -141,4 +141,8 @@ export { Dashboard } from "./components/dashboard";
 
 /**
  * @typedef {Object<OrganicSessionsCompareMetric, MetricData>} OrganicSessionsCompareData The organic sessions compare data.
+ * @property {MetricData} impressions - The impressions data.
+ * @property {MetricData} clicks - The clicks data.
+ * @property {MetricData} [ctr] - The click-through rate data (optional).
+ * @property {MetricData} [position] - The average position data (optional).
  */
