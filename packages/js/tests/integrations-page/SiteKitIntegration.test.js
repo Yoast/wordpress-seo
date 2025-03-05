@@ -28,6 +28,7 @@ describe( "SiteKitIntegration", () => {
 		activateUrl: "/wp-admin/plugins.php?action=activate&plugin=google-site-kit%2Fgoogle-site-kit.php&_wpnonce=0a752c1514",
 		setupUrl: "/wp-admin/admin.php?page=googlesitekit-splash",
 		consentManagementUrl: "/wp-json/yoast/v1/site_kit_manage_consent",
+		capabilities: { installPlugins: true, viewDashboard: true },
 	};
 	it( "renders the integration component", () => {
 		render( <SiteKitIntegration
@@ -170,5 +171,46 @@ describe( "SiteKitIntegration", () => {
 		} ) );
 		expect( disconnectDialog ).not.toBeInTheDocument();
 		expect( screen.getByRole( "button", { name: "Connect Site Kit by Google" } ) ).toBeInTheDocument();
+	} );
+
+	describe( "should show warning when user don't have permission to install plugins and should disable the link", () => {
+		it.each( [
+			[ "not installed", { isInstalled: false, isActive: false, isSetupCompleted: false, label: "Install Site Kit by Google"  } ],
+			[ "not active", { isInstalled: true, isActive: false, isSetupCompleted: false, label: "Activate Site Kit by Google" } ],
+		//	[ "setup not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, label: "Set up Site Kit by Google" } ],
+		] )( "when site kit plugin %s", ( _, { isInstalled, isActive, isSetupCompleted, label } ) => {
+			render( <SiteKitIntegration
+				isActive={ isActive }
+				isSetupCompleted={ isSetupCompleted }
+				isInstalled={ isInstalled }
+				initialIsConsentGranted={ false }
+				{ ...urlsProps }
+				capabilities={ { installPlugins: false, viewDashboard: false } }
+
+			/> );
+			const link = screen.getByText( label );
+			expect( link ).not.toHaveAttribute( "href" );
+			expect( screen.getByText( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin." ) ).toBeInTheDocument();
+		} );
+	} );
+
+	describe( "should show warning when user don't have permission to view dashboard and should disable the link", () => {
+		it.each( [
+			[ "no install plugins and no viewing dashboard", { installPlugins: false, viewDashboard: false } ],
+			[ "only no viewing dashboard", { installPlugins: true, viewDashboard: false } ],
+		] )( "when the capabilities are: %s", ( _, capabilities ) => {
+			render( <SiteKitIntegration
+				isInstalled={ true }
+				isActive={ true }
+				isSetupCompleted={ false }
+				initialIsConsentGranted={ false }
+				{ ...urlsProps }
+				capabilities={ capabilities }
+
+			/> );
+			const link = screen.getByText( "Set up Site Kit by Google" );
+			expect( link ).not.toHaveAttribute( "href" );
+			expect( screen.getByText( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up." ) ).toBeInTheDocument();
+		} );
 	} );
 } );

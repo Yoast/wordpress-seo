@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { CheckIcon } from "@heroicons/react/solid";
 import apiFetch from "@wordpress/api-fetch";
 import { useSelect } from "@wordpress/data";
@@ -8,6 +9,13 @@ import PropTypes from "prop-types";
 import { ReactComponent as SiteKitLogo } from "../../images/site-kit-logo.svg";
 import { SiteKitConsentModal, UnsavedChangesModal as DisconnectModal } from "../shared-admin/components";
 import { SimpleIntegration } from "./simple-integration";
+import classNames from "classnames";
+
+/**
+ * @typedef {Object} Capabilities The user capabilities.
+ * @property {boolean} installPlugins Whether the user can install plugins.
+ * @property {boolean} viewDashboard Whether the user can view the dashboard.
+ */
 
 const integration = {
 	name: __( "Site Kit by Google", "wordpress-seo" ),
@@ -51,19 +59,62 @@ const fetchJson = async( options ) => {
 };
 
 /**
+ * The wrapper for the top section of the footer.
+ *
+ * @param {JSX.Element} children The children.
+ * @param {string} className The class name.
+ * @returns {JSX.Element} The top footer wrapper.
+ */
+const TopFooterWrapper = ( { children, className = "" } ) => {
+	return <span className={ classNames( "yst-flex yst-justify-between yst-pb-4 yst-border-b yst-mb-6 yst-border-slate-200 yst--mt-2", className ) }>
+		{ children }
+	</span>;
+};
+
+TopFooterWrapper.propTypes = {
+	children: PropTypes.node.isRequired,
+	className: PropTypes.string,
+};
+
+/**
  * The successfully connected component.
  *
  * @returns {JSX.Element} The SuccessfullyConnected component.
  */
 const SuccessfullyConnected = () => {
-	return <span className="yst-flex yst-justify-between yst-pb-4 yst-border-b yst-mb-6 yst-border-slate-200 yst--mt-2">
-		<span className="yst-text-slate-700 yst-font-medium">
-			{ __( "Successfully connected", "wordpress-seo" ) }
-		</span>
+	return <TopFooterWrapper className="yst-text-slate-700 yst-font-medium">
+		{ __( "Successfully connected", "wordpress-seo" ) }
 		<CheckIcon
 			className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
 		/>
-	</span>;
+	</TopFooterWrapper>;
+};
+
+/**
+ * The no permission warning component.
+ *
+ * @param {Capabilities} capabilities The capabilities.
+ * @param {number} currentStep The current step.
+ *
+ * @returns {JSX.Element} The no permission warning component.
+ */
+const NoPermissionWarning = ( { capabilities, currentStep } ) => {
+	if ( ! capabilities.installPlugins && currentStep < 2 ) {
+		return <TopFooterWrapper className="yst-text-slate-500">
+			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
+		</TopFooterWrapper>;
+	}
+
+	if ( ! capabilities.viewDashboard && currentStep === 2 ) {
+		return <TopFooterWrapper className="yst-text-slate-500">
+			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
+		</TopFooterWrapper>;
+	}
+};
+
+NoPermissionWarning.propTypes = {
+	capabilities: PropTypes.objectOf( PropTypes.bool ).isRequired,
+	currentStep: PropTypes.number.isRequired,
 };
 
 /**
@@ -77,6 +128,7 @@ const SuccessfullyConnected = () => {
  * @param {string} activateUrl The activation url.
  * @param {string} setupUrl The setup url.
  * @param {string} consentManagementUrl The consent management url.
+ * @param {Capabilities} capabilities The user capabilities.
  *
  * @returns {WPElement} The Site Kit integration component.
  */
@@ -89,6 +141,7 @@ export const SiteKitIntegration = ( {
 	activateUrl,
 	setupUrl,
 	consentManagementUrl,
+	capabilities,
 } ) => {
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
 	const [ isDisconnectModalOpen, toggleDisconnectModal ] = useToggleState( false );
@@ -127,22 +180,30 @@ export const SiteKitIntegration = ( {
 	const buttonProps = [
 		{
 			children: __( "Install Site Kit by Google", "wordpress-seo" ),
-			href: installUrl,
+			href: capabilities.installPlugins ? installUrl : null,
 			as: "a",
+			disabled: ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
-			href: activateUrl,
+			href: capabilities.installPlugins ? activateUrl : null,
 			as: "a",
+			disabled: ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-			href: setupUrl,
+			href: capabilities.viewDashboard ? setupUrl : null,
 			as: "a",
+			disabled: ! capabilities.viewDashboard,
 		},
 		{
 			children: __( "Connect Site Kit by Google", "wordpress-seo" ),
 			onClick: toggleModal,
+		},
+		{
+			children: __( "Disconnect", "wordpress-seo" ),
+			variant: "secondary",
+			onClick: toggleDisconnectModal,
 		},
 	];
 
@@ -153,12 +214,17 @@ export const SiteKitIntegration = ( {
 				isActive={ successfullyConnected }
 			>
 				<span className="yst-flex yst-flex-col yst-flex-1">
-					{ successfullyConnected ? <>
-						<SuccessfullyConnected />
-						<Button className="yst-w-full" id="site-kit-integration__button" variant="secondary" onClick={ toggleDisconnectModal }>
-							{ __( "Disconnect", "wordpress-seo" ) }
-						</Button>
-					</> : <Button className="yst-w-full" id="site-kit-integration__button" { ...buttonProps[ currentStep ] } /> }
+					{ successfullyConnected && <SuccessfullyConnected /> }
+
+					{ currentStep < 3 && <NoPermissionWarning
+						capabilities={ capabilities }
+						currentStep={ currentStep }
+					/> }
+					<Button
+						className="yst-w-full"
+						id="site-kit-integration__button"
+						{ ...buttonProps[ successfullyConnected ? 4 : currentStep ] }
+					/>
 
 				</span>
 			</SimpleIntegration>
@@ -192,4 +258,5 @@ SiteKitIntegration.propTypes = {
 	activateUrl: PropTypes.string.isRequired,
 	setupUrl: PropTypes.string.isRequired,
 	consentManagementUrl: PropTypes.string.isRequired,
+	capabilities: PropTypes.objectOf( PropTypes.bool ).isRequired,
 };
