@@ -43,11 +43,7 @@ const CHART_GRADIENT = document.createElement( "canvas" )?.getContext( "2d" )?.c
 CHART_GRADIENT?.addColorStop( 0, COLORS.primary500Alpha20 );
 CHART_GRADIENT?.addColorStop( 1, COLORS.primary500Alpha0 );
 
-/**
- * @param {function(number): string} formatY Formatter for the y-axis.
- * @returns {Object} The chart options.
- */
-const createChartOptions = ( formatY ) => ( {
+const CHART_OPTIONS = {
 	parsing: {
 		xAxisKey: "date",
 		yAxisKey: "sessions",
@@ -108,7 +104,7 @@ const createChartOptions = ( formatY ) => ( {
 						return "";
 					}
 					// Format here because the chart needs the raw number to understand it.
-					return formatY ? formatY( value ) : this.getLabelForValue( value );
+					return this.getLabelForValue( value );
 				},
 			},
 		},
@@ -125,7 +121,7 @@ const createChartOptions = ( formatY ) => ( {
 			},
 		},
 	},
-} );
+};
 
 /**
  * @param {OrganicSessionsDailyData[]} organicSessions The organic sessions data.
@@ -148,15 +144,14 @@ const createOrganicSessionsDailyFormatter = ( dataFormatter ) => ( data = [] ) =
 
 /**
  * @param {ChartData} data The chart data.
- * @param {Object} options The chart options.
  * @returns {JSX.Element} The chart.
  */
-const OrganicSessionsChart = ( { data, options } ) => (
+const OrganicSessionsChart = ( { data } ) => (
 	<>
 		<div className="yst-w-full yst-h-60">
 			<Line
 				aria-hidden={ true }
-				options={ options }
+				options={ CHART_OPTIONS }
 				data={ data }
 			/>
 		</div>
@@ -228,12 +223,9 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataF
  * @param {boolean} isPending Whether the data is pending.
  * @param {?Error} [error] The error.
  * @param {string} supportLink The support link.
- * @param {function(number): string} [formatY] Formatter for the y-axis.
  * @returns {JSX.Element} The element.
  */
-export const OrganicSessionsDaily = ( { data, isPending, error, supportLink, formatY } ) => {
-	const options = useMemo( () => createChartOptions( formatY ), [ formatY ] );
-
+export const OrganicSessionsDaily = ( { data, isPending, error, supportLink } ) => {
 	if ( isPending ) {
 		return (
 			<SkeletonLoader className="yst-w-full yst-h-52 yst-mt-8" />
@@ -246,6 +238,6 @@ export const OrganicSessionsDaily = ( { data, isPending, error, supportLink, for
 	}
 
 	return (
-		<OrganicSessionsChart data={ data } options={ options } />
+		<OrganicSessionsChart data={ data } />
 	);
 };

@@ -96,9 +96,6 @@ export class DataFormatter {
 					{ month: "short", day: "numeric" }
 				);
 			case "sessions":
-				if ( context.compact ) {
-					return safeNumberFormat( data || 0, this.#numberFormat.compactNonFractional );
-				}
 				return safeNumberFormat( data || 0, this.#numberFormat.nonFractional );
 			default:
 				return data;

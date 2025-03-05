@@ -30,12 +30,6 @@ export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataF
 		tooltipLearnMoreLink: dataProvider.getLink( "organicSessionsInfoLearnMore" ),
 	};
 
-	// Creating a specific wrapper instead of passing the data formatter itself.
-	const formatSessionsForChartLabel = useCallback(
-		( value ) => dataFormatter.format( value, "sessions", { compact: true } ),
-		[ dataFormatter ]
-	);
-
 	// Collapse the errors if they are the same.
 	if ( compare.error && daily.error && isEqual( compare.error, daily.error ) ) {
 		return (
@@ -64,7 +58,6 @@ export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataF
 				error={ daily.error }
 				isPending={ daily.isPending }
 				supportLink={ supportLink }
-				formatY={ formatSessionsForChartLabel }
 			/>
 		</Widget>
 	);
