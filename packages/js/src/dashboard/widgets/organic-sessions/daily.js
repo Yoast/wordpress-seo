@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { SkeletonLoader } from "@yoast/ui-library";
-import { Chart, Filler } from "chart.js";
+import { CategoryScale, Chart, Filler, LinearScale, LineElement, PointElement, Tooltip } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { ErrorAlert } from "../../components/error-alert";
 import { useRemoteData } from "../../services/use-remote-data";
@@ -24,8 +24,23 @@ import { useRemoteData } from "../../services/use-remote-data";
  * @property {{data: OrganicSessionsDailyData, fill: string}[]} datasets The datasets.
  */
 
-// Register the Filler plugin to fill the area under the line in the chart.
-Chart.register( Filler );
+/**
+ * Register plugins:
+ * - Filler: to fill the area under the line in the chart
+ * - CategoryScale: needed for the X-axis (strings -- that represents dates)
+ * - LinearScale: needed for the Y-axis (numbers)
+ * - LineElement: to draw lines or to change how it draws?
+ * - PointElement: to draw the data points?
+ * - Tooltip: to have a tooltip when hovering over data points
+ */
+Chart.register(
+	Filler,
+	CategoryScale,
+	LinearScale,
+	LineElement,
+	PointElement,
+	Tooltip
+);
 
 const COLORS = {
 	primary500: "rgba(166, 30, 105, 1)",
