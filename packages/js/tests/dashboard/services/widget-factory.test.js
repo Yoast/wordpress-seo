@@ -28,9 +28,8 @@ describe( "WidgetFactory", () => {
 		} );
 		remoteDataProvider = new MockRemoteDataProvider( {} );
 		dataFormatters = {
-			icsaDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
-			topPagesDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
-			topQueriesDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
+			comparisonMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
+			plainMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
 		};
 		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
 	} );
@@ -43,6 +42,7 @@ describe( "WidgetFactory", () => {
 			"topQueries",
 			"siteKitSetup",
 			"organicSessions",
+			"organicSessionsCompare",
 		] )( "should have the widget type: %s", async( type ) => {
 			expect( WidgetFactory.types[ type ] ).toBe( type );
 		} );
@@ -51,13 +51,11 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
+		[ "Organic sessions compare", { id: "organic-sessions-compare-widget", type: "organicSessionsCompare" } ],
 		[ "Organic sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
-		[ "Icsa", { id: "icsa-widget", type: "icsa" } ],
 	] )( "should not create a %s widget when site kit is not connected", async( _, widget ) => {
-		dataProvider.setSiteKitConnected( false );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
 		dataProvider.setSiteKitConsentGranted( false );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
 
@@ -107,7 +105,7 @@ describe( "WidgetFactory", () => {
 				readabilityAnalysis: false,
 			},
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
 
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
@@ -124,7 +122,7 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
-		[ "Icsa", { id: "icsa-widget", type: "icsa" } ],
+		[ "organicSessionsCompare", { id: "organic-sessions-compare-widget", type: "organicSessionsCompare" } ],
 		[ "Site Kit setup", { id: "site-kite-setup-widget", type: "siteKitSetup" } ],
 		[ "Organic Sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
 	] )( "should not create a %s widget when site kit feature is disabled", ( _, widget ) => {
