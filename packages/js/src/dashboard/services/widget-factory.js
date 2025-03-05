@@ -37,8 +37,8 @@ export class WidgetFactory {
 	static get types() {
 		return {
 			siteKitSetup: "siteKitSetup",
-			organicSessions: "organicSessions",
 			organicSessionsCompare: "organicSessionsCompare",
+			organicSessions: "organicSessions",
 			topPages: "topPages",
 			topQueries: "topQueries",
 			seoScores: "seoScores",
@@ -104,7 +104,7 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case WidgetFactory.types.organicSessionsCompare:
-				if ( ! isFeatureEnabled || ! isConnected ) {
+				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! isAnalyticsConnected  ) {
 					return null;
 				}
 				return <OrganicSessionsCompareWidget
@@ -121,7 +121,7 @@ export class WidgetFactory {
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
-					dataFormatter={ this.#dataFormatters.icsaDataFormatter }
+					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			default:
 				return null;
