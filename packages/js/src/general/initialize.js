@@ -6,10 +6,8 @@ import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
-import { DataFormatter } from "../dashboard/services/data-formatter";
-import { IcsaDataFormatter } from "../dashboard/services/icsa-data-formatter";
-import { TopPagesDataFormatter } from "../dashboard/services/top-pages-data-formatter";
-import { TopQueriesDataFormatter } from "../dashboard/services/top-queries-data-formatter";
+import { ComparisonMetricsDataFormatter } from "../dashboard/services/comparison-metrics-data-formatter";
+import { PlainMetricsDataFormatter } from "../dashboard/services/plain-metrics-data-formatter";
 import { DataProvider } from "../dashboard/services/data-provider";
 import { RemoteDataProvider } from "../dashboard/services/remote-data-provider";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
@@ -101,9 +99,8 @@ domReady( () => {
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const dataFormatters = {
-		icsaDataFormatter: new IcsaDataFormatter( { locale: userLocale } ),
-		topPagesDataFormatter: new TopPagesDataFormatter( { locale: userLocale } ),
-		topQueriesDataFormatter: new TopQueriesDataFormatter( { locale: userLocale } ),
+		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
+		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
 	};
 
 	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );

@@ -82,7 +82,7 @@ export class WidgetFactory {
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
-					dataFormatter={ this.#dataFormatters.topPagesDataFormatter }
+					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case WidgetFactory.types.siteKitSetup:
 				if ( ! isFeatureEnabled || isSetupWidgetDismissed ) {
@@ -101,7 +101,7 @@ export class WidgetFactory {
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
-					dataFormatter={ this.#dataFormatters.topQueriesDataFormatter }
+					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case WidgetFactory.types.organicSessionsCompare:
 				if ( ! isFeatureEnabled || ! isConnected ) {
@@ -111,7 +111,7 @@ export class WidgetFactory {
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
-					dataFormatter={ this.#dataFormatters.icsaDataFormatter }
+					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			case WidgetFactory.types.organicSessions:
 				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! isAnalyticsConnected ) {

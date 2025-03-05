@@ -4,7 +4,7 @@ import { DataFormatterInterface } from "./data-formatter-interface";
 /**
  * Knows how to format data.
  */
-export class TopQueriesDataFormatter  extends DataFormatterInterface {
+export class PlainMetricsDataFormatter extends DataFormatterInterface {
 	/**
 	 * @param {*} data The data.
 	 * @param {string} name The name. Used to determine how to format.
