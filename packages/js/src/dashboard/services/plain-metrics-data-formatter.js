@@ -26,6 +26,7 @@ export class PlainMetricsDataFormatter extends DataFormatterInterface {
 			case "impressions":
 				return this.safeNumberFormat( data, this.getNumberFormat().nonFractional );
 			case "ctr":
+			case "difference":
 				return this.safeNumberFormat( data, this.getNumberFormat().percentage );
 			case "position":
 				return this.safeNumberFormat( data, this.getNumberFormat().twoFractions );
