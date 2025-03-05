@@ -64,6 +64,7 @@ export { Dashboard } from "./components/dashboard";
  * @property {string} installSiteKit The Site Kit installation link.
  * @property {string} activateSiteKit The Site Kit activation link.
  * @property {string} setupSiteKit The Site Kit setup link.
+ * @property {string} organicSessionsInfoLearnMore The organic sessions learn more link.
  */
 
 /**
@@ -92,7 +93,7 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {"seoScores"|"readabilityScores"|"topPages"|"siteKitSetup"|"topQueries"} WidgetType The widget type.
+ * @typedef {"seoScores"|"readabilityScores"|"topPages"|"siteKitSetup"|"topQueries"|"organicSessions"} WidgetType The widget type.
  */
 
 /**
@@ -107,6 +108,7 @@ export { Dashboard } from "./components/dashboard";
  * @property {boolean} isActive Whether Site Kit is active.
  * @property {boolean} isSetupCompleted Whether Site Kit is setup.
  * @property {boolean} isConsentGranted Whether Site Kit is connected.
+ * @property {boolean} isAnalyticsConnected Whether Google Analytics is connected.
  * @property {boolean} isFeatureEnabled Whether the feature is enabled.
  * @property {boolean} isSetupWidgetDismissed Whether the configuration is dismissed.
  */

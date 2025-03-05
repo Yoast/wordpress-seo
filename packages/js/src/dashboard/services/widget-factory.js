@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+import { OrganicSessionsWidget } from "../widgets/organic-sessions-widget";
 import { ScoreWidget } from "../widgets/score-widget";
 import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
 import { TopPagesWidget } from "../widgets/top-pages-widget";
@@ -28,13 +29,14 @@ export class WidgetFactory {
 	}
 
 	/**
-	 * The widget types, also determaines the order in which they are displayed.!
+	 * The widget types, also determines the order in which they are displayed.!
 	 *
 	 * @returns {Object} The widget types.
 	 */
 	static get types() {
 		return {
 			siteKitSetup: "siteKitSetup",
+			organicSessions: "organicSessions",
 			topPages: "topPages",
 			topQueries: "topQueries",
 			seoScores: "seoScores",
@@ -47,7 +49,7 @@ export class WidgetFactory {
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
 	createWidget( widget ) {
-		const { isFeatureEnabled, isSetupWidgetDismissed } = this.#dataProvider.getSiteKitConfiguration();
+		const { isFeatureEnabled, isSetupWidgetDismissed, isAnalyticsConnected } = this.#dataProvider.getSiteKitConfiguration();
 		const isSiteKitConnectionCompleted = this.#dataProvider.isSiteKitConnectionCompleted();
 		switch ( widget.type ) {
 			case WidgetFactory.types.seoScores:
@@ -94,6 +96,16 @@ export class WidgetFactory {
 					return null;
 				}
 				return <TopQueriesWidget
+					key={ widget.id }
+					dataProvider={ this.#dataProvider }
+					remoteDataProvider={ this.#remoteDataProvider }
+					dataFormatter={ this.#dataFormatter }
+				/>;
+			case WidgetFactory.types.organicSessions:
+				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! isAnalyticsConnected ) {
+					return null;
+				}
+				return <OrganicSessionsWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }

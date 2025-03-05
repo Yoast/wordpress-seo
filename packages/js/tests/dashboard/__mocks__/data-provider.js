@@ -53,6 +53,7 @@ export class MockDataProvider extends DataProvider {
 				topPages: "https://example.com/top-pages",
 				siteKitConsentManagement: "https://example.com/site-kit-consent-management",
 				siteKitConfigurationDismissal: "https://example.com/site-kit-configuration-dismissal",
+				timeBasedSeoMetrics: "https://example.com/time-based-seo-metrics",
 			},
 			headers: {
 				"X-Wp-Nonce": "123",
@@ -64,8 +65,14 @@ export class MockDataProvider extends DataProvider {
 				installSiteKit: "https://example.com/install",
 				activateSiteKit: "https://example.com/activate",
 				setupSiteKit: "https://example.com/isSetup",
+				organicSessionsInfoLearnMore: "https://example.com/organic-sessions-learn-more",
 			},
 			siteKitConfiguration: {
+				isInstalled: false,
+				isActive: false,
+				isSetupCompleted: false,
+				isConsentGranted: false,
+				isAnalyticsConnected: true,
 				isFeatureEnabled: false,
 				isSetupWidgetDismissed: false,
 			},
