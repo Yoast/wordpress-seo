@@ -169,32 +169,28 @@ export const OrganicSessionsCompareWidget = ( { dataProvider, remoteDataProvider
 		{ isPending && <OrganicSessionsCompareSkeletonLoader /> }
 		{ error && <Alert variant="error" className="yst-mt-4">{ error.message }</Alert> }
 		{ data && Object.keys( data ).length > 0 &&
-			<div className="yst-flex yst-flex-col yst-justify-center yst-items-center  2xl:yst-flex-row 2xl:yst-justify-between rtl:yst-flex-row-reverse ">
+			<div className="yst-flex yst-flex-col yst-justify-center yst-items-center  @6xl:yst-flex-row @6xl:yst-justify-between rtl:yst-flex-row-reverse ">
 				<OrganicSessionsCompareMetric
 					metricName="Impressions"
 					data={ data.impressions }
-					tooltipUrl="https://example.com"
 					tooltipLocalizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
 				/>
-				<div className="yst-h-px yst-w-16 yst-bg-slate-200 yst-my-4 2xl:yst-h-20 2xl:yst-w-px 2xl:yst-my-1" />
+				<div className="yst-h-px yst-w-16 yst-bg-slate-200 yst-my-4 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
 				<OrganicSessionsCompareMetric
 					metricName="Clicks"
 					data={ data.clicks }
-					tooltipUrl="https://example.com"
 					tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
 				/>
-				<div className=" yst-h-px yst-w-16 yst-bg-slate-200 yst-my-4 2xl:yst-h-20 2xl:yst-w-px 2xl:yst-my-1" />
+				<div className=" yst-h-px yst-w-16 yst-bg-slate-200 yst-my-4 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
 				<OrganicSessionsCompareMetric
 					metricName="CTR"
 					data={ data?.ctr ?? null }
-					tooltipUrl="https://example.com"
 					tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
 				/>
-				<div className="yst-h-px yst-w-16 yst-bg-slate-200 yst-my-4 2xl:yst-h-20 2xl:yst-w-px 2xl:yst-my-1" />
+				<div className="yst-h-px yst-w-16 yst-bg-slate-200 yst-my-4 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
 				<OrganicSessionsCompareMetric
 					metricName="Position"
 					data={ data?.position ?? null }
-					tooltipUrl="https://example.com"
 					tooltipLocalizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
 				/>
 			</div>
