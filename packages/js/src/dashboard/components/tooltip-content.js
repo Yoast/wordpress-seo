@@ -15,7 +15,7 @@ export const TooltipContent = ( { url, localizedString } ) => (
 		<p>
 			{ localizedString }
 		</p>
-		<Button
+		{ url && <Button
 			variant="tertiary"
 			as="a"
 			target="_blank"
@@ -30,6 +30,6 @@ export const TooltipContent = ( { url, localizedString } ) => (
 					__( "(Opens in a new browser tab)", "wordpress-seo" )
 				}
 			</span>
-		</Button>
+		</Button> }
 	</>
 );
