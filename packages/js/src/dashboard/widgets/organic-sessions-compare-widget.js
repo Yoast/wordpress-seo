@@ -17,13 +17,12 @@ import { getDifference } from "../transformers/difference";
  */
 const OrganicSessionsCompareSkeletonLoader = () => {
 	return (
-		<div
-			className="yst-flex yst-flex-col yst-justify-center yst-items-center  @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
+		<div className="yst-flex yst-flex-col yst-justify-center yst-items-center  @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
 					<InfoTooltip>
 						<TooltipContent
-							tooltipLocalizedString={__( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" )}
+							tooltipLocalizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
 						/>
 					</InfoTooltip>
 				</div>
@@ -37,7 +36,7 @@ const OrganicSessionsCompareSkeletonLoader = () => {
 				<div className="yst-absolute yst-end-6 yst-top-2">
 					<InfoTooltip>
 						<TooltipContent
-							tooltipLocalizedString={__( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" )}
+							tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
 						/>
 					</InfoTooltip>
 				</div>
@@ -51,7 +50,7 @@ const OrganicSessionsCompareSkeletonLoader = () => {
 				<div className="yst-absolute yst-end-6 yst-top-2">
 					<InfoTooltip>
 						<TooltipContent
-							tooltipLocalizedString={__( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" )}
+							tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
 						/>
 					</InfoTooltip>
 				</div>
@@ -65,7 +64,7 @@ const OrganicSessionsCompareSkeletonLoader = () => {
 				<div className="yst-absolute yst-end-6 yst-top-2">
 					<InfoTooltip>
 						<TooltipContent
-							tooltipLocalizedString={__( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" )}
+							tooltipLocalizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
 						/>
 					</InfoTooltip>
 				</div>
