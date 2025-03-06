@@ -17,64 +17,61 @@ import { getDifference } from "../transformers/difference";
  */
 const OrganicSessionsCompareSkeletonLoader = () => {
 	return (
-		<div className="yst-flex yst-justify-between">
-			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-[300px] yst-content-around">
-				<div className="yst-absolute yst-right-0 yst-top-1 yst-h-full yst-w-0 yst-border-r yst-border-slate-200" />
+		<div
+			className="yst-flex yst-flex-col yst-justify-center yst-items-center  @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
+			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
 					<InfoTooltip>
 						<TooltipContent
-							url="https://example.com"
-							localizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
+							tooltipLocalizedString={__( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" )}
 						/>
 					</InfoTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
-				<SkeletonLoader className="yst-text-center yst-mt-2">Dummy</SkeletonLoader>
-				<SkeletonLoader className="yst-text-center yst-text-sm yst-font-semibold">- 13%</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2 yst-font-semibold">- 13%</SkeletonLoader>
 			</div>
+			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1"/>
 
-			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-[300px] yst-content-around">
-				<div className="yst-absolute yst-right-0 yst-top-1 yst-h-full yst-w-0 yst-border-r yst-border-slate-200" />
+			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
 					<InfoTooltip>
 						<TooltipContent
-							url="https://example.com"
-							localizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
+							tooltipLocalizedString={__( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" )}
 						/>
 					</InfoTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
-				<SkeletonLoader className="yst-text-center yst-mt-2">Dummy</SkeletonLoader>
-				<SkeletonLoader className="yst-text-center yst-text-sm yst-font-semibold">- 13%</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2 yst-font-semibold">- 13%</SkeletonLoader>
 			</div>
+			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1"/>
 
-			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-[300px] yst-content-around">
-				<div className="yst-absolute yst-right-0 yst-top-1 yst-h-full yst-w-0 yst-border-r yst-border-slate-200" />
+			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
 					<InfoTooltip>
 						<TooltipContent
-							url="https://example.com"
-							localizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
+							tooltipLocalizedString={__( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" )}
 						/>
 					</InfoTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
-				<SkeletonLoader className="yst-text-center yst-mt-2">Dummy</SkeletonLoader>
-				<SkeletonLoader className="yst-text-center yst-text-sm yst-font-semibold">- 13%</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2 yst-font-semibold">- 13%</SkeletonLoader>
 			</div>
+			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1"/>
 
-			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-[300px] yst-content-around">
+			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
 					<InfoTooltip>
 						<TooltipContent
-							url="https://example.com"
-							localizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
+							tooltipLocalizedString={__( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" )}
 						/>
 					</InfoTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
-				<SkeletonLoader className="yst-text-center yst-mt-2">Dummy</SkeletonLoader>
-				<SkeletonLoader className="yst-text-center yst-text-sm yst-font-semibold">- 13%</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2 yst-font-semibold">- 13%</SkeletonLoader>
 			</div>
 		</div>
 	);
