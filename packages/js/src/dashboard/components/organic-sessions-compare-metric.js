@@ -20,17 +20,17 @@ export const OrganicSessionsCompareMetric = ( { metricName, data,  tooltipLocali
 			</InfoTooltip>
 		</div>
 		<div className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">
-			{ data.formattedValue === null ? "-" : data.formattedValue }
+			{ data === null ? "-" : data.formattedValue }
 		</div>
 		<div className="yst-text-center">
 			{ metricName }
 		</div>
-		<div className="yst-text-center yst-mt-2">
+		{ data !== null && <div className="yst-text-center yst-mt-2">
 			<Trend
 				value={ data.delta }
 				formattedValue={ data.formattedDelta }
 			/>
-		</div>
+		</div> }
 	</div>;
 };
 
