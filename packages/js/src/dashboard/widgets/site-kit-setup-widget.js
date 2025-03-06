@@ -1,8 +1,9 @@
+/* eslint-disable complexity */
 import { ArrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Button, DropdownMenu, Paper, Stepper, Title, useToggleState } from "@yoast/ui-library";
+import { Button, DropdownMenu, Paper, Stepper, Title, useToggleState, Alert } from "@yoast/ui-library";
 import { noop } from "lodash";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { SiteKitConsentModal } from "../../shared-admin/components";
@@ -61,6 +62,28 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 };
 
 /**
+ * The no permission warning component.
+ *
+ * @param {Capabilities} capabilities The capabilities.
+ * @param {number} currentStep The current step.
+ *
+ * @returns {JSX.Element} The no permission warning component.
+ */
+const NoPermissionWarning = ( { capabilities, currentStep } ) => {
+	if ( ! capabilities.installPlugins && currentStep < 3 ) {
+		return <Alert className="yst-mt-6" type="info">
+			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
+		</Alert>;
+	}
+
+	if ( ! capabilities.setupSiteKit && currentStep === 2 ) {
+		return <Alert className="yst-mt-6" type="info">
+			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
+		</Alert>;
+	}
+};
+
+/**
  * The google site kit connection guide widget.
  *
  * @param {DataProvider} dataProvider The data provider.
@@ -82,6 +105,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
+	const capabilities = dataProvider.getCapabilities();
 
 	let currentStep = dataProvider.getSiteKitCurrentConnectionStep();
 	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
@@ -92,18 +116,21 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const buttonProps = [
 		{
 			children: __( "Install Site Kit by Google", "wordpress-seo" ),
-			href: dataProvider.getLink( "installSiteKit" ),
+			href: capabilities.installPlugins ? dataProvider.getLink( "installSiteKit" ) : null,
 			as: "a",
+			disabled: ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
-			href: dataProvider.getLink( "activateSiteKit" ),
+			href: capabilities.installPlugins ? dataProvider.getLink( "activateSiteKit" ) : null,
 			as: "a",
+			disabled: ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-			href: dataProvider.getLink( "setupSiteKit" ),
+			href: capabilities.setupSiteKit ? dataProvider.getLink( "setupSiteKit" ) : null,
 			as: "a",
+			disabled: ! capabilities.setupSiteKit,
 		},
 		{
 			children: __( "Connect Site Kit by Google", "wordpress-seo" ),
@@ -164,6 +191,9 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				{ __( "Key performance metrics to fine-tune your website and optimize like a pro.", "wordpress-seo" ) }
 			</li>
 		</ul>
+
+		<NoPermissionWarning capabilities={ capabilities } currentStep={ currentStep } />
+
 		<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
 			{ isSiteKitConnectionCompleted
 				? <>

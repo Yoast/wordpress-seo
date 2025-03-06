@@ -95,8 +95,13 @@ domReady( () => {
 		isSetupWidgetDismissed: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isConfigurationDismissed", false ),
 	};
 
+	const capabilities = get( window, "wpseoScriptData.dashboard.capabilities", {
+		installPlugins: false,
+		setupSiteKit: false,
+	} );
+
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
-	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
+	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration, capabilities } );
 	const dataFormatter = new DataFormatter( { locale: userLocale } );
 	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatter );
 	if ( dataProvider.isSiteKitConnectionCompleted() ) {

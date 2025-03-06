@@ -5,6 +5,7 @@
  * @type {import("../index").Links} Links
  * @type {import("../index").TopPageData}
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
+ * @type {import("../index").Capabilities} Capabilities
  */
 
 /**
@@ -19,7 +20,7 @@ export class DataProvider {
 	#links;
 	#siteKitConfiguration;
 	#subscribers = new Set();
-
+	#capabilities;
 	#stepsStatuses;
 
 	/**
@@ -30,8 +31,9 @@ export class DataProvider {
 	 * @param {Object<string,string>} headers The headers for the WP requests.
 	 * @param {Links} links The links.
 	 * @param {SiteKitConfiguration} siteKitConfiguration The Site Kit configuration.
+	 * @param {Capabilities} capabilities The user capabilities.
 	 */
-	constructor( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } ) {
+	constructor( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration, capabilities } ) {
 		this.#contentTypes = contentTypes;
 		this.#userName = userName;
 		this.#features = features;
@@ -49,6 +51,7 @@ export class DataProvider {
 			siteKitConfiguration.isSetupCompleted,
 			siteKitConfiguration.isConsentGranted,
 		];
+		this.#capabilities = capabilities;
 	}
 
 	/**
@@ -133,6 +136,15 @@ export class DataProvider {
 	 */
 	getSiteKitCurrentConnectionStep() {
 		return this.#stepsStatuses.findIndex( status => ! status );
+	}
+
+	/**
+	 * Gets the user capabilities.
+	 *
+	 * @returns {Capabilities} The user capabilities.
+	 */
+	getCapabilities() {
+		return this.#capabilities;
 	}
 
 	/**
