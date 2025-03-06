@@ -93,7 +93,13 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {"seoScores"|"readabilityScores"|"topPages"|"siteKitSetup"|"topQueries"|"organicSessionsCompare"|"organicSessions"} WidgetType The widget type.
+ * @typedef {"seoScores" |
+ *           "readabilityScores" |
+ *           "topPages" |
+ *           "siteKitSetup" |
+ *           "topQueries" |
+ *           "organicSessionsCompare" |
+ *           "organicSessions"} WidgetType The widget type.
  */
 
 /**

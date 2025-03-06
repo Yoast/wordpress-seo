@@ -93,7 +93,7 @@ const transformData = ( data ) => {
 				delta: getDifference( data[ 0 ]?.current?.total_impressions || NaN, data[ 0 ]?.previous?.total_impressions || NaN ),
 			},
 			clicks: {
-				value: data[0].current.total_clicks || NaN,
+				value: data[ 0 ].current.total_clicks || NaN,
 				delta: getDifference( data[ 0 ]?.current?.total_clicks || NaN, data[ 0 ].previous.total_clicks || NaN ),
 			},
 		};
