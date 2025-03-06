@@ -41,6 +41,8 @@ export class ComparisonMetricsDataFormatter extends DataFormatterInterface {
 				);
 			case "sessions":
 				return this.safeNumberFormat( data || 0, this.getNumberFormat().nonFractional );
+			case "difference":
+				return this.safeNumberFormat( data, this.getNumberFormat().percentage );
 			default:
 				return data;
 		}
