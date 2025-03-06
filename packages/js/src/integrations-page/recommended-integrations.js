@@ -90,7 +90,10 @@ if ( isSiteKitFeatureEnabled ) {
 		activateUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.activateUrl", "" ) }
 		setupUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.setupUrl", "" ) }
 		consentManagementUrl={ get( window, "wpseoIntegrationsData.site_kit_consent_management_url", "" ) }
-		capabilities={ get( window, "wpseoIntegrationsData.capabilities", {} ) }
+		capabilities={ get( window, "wpseoIntegrationsData.capabilities", {
+			installPlugins: false,
+			setupSiteKit: false,
+		} ) }
 	/> );
 }
 

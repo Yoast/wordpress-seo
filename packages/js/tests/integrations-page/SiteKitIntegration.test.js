@@ -28,7 +28,7 @@ describe( "SiteKitIntegration", () => {
 		activateUrl: "/wp-admin/plugins.php?action=activate&plugin=google-site-kit%2Fgoogle-site-kit.php&_wpnonce=0a752c1514",
 		setupUrl: "/wp-admin/admin.php?page=googlesitekit-splash",
 		consentManagementUrl: "/wp-json/yoast/v1/site_kit_manage_consent",
-		capabilities: { installPlugins: true, viewDashboard: true },
+		capabilities: { installPlugins: true, setupSiteKit: true },
 	};
 	it( "renders the integration component", () => {
 		render( <SiteKitIntegration
@@ -185,7 +185,7 @@ describe( "SiteKitIntegration", () => {
 				isInstalled={ isInstalled }
 				initialIsConsentGranted={ false }
 				{ ...urlsProps }
-				capabilities={ { installPlugins: false, viewDashboard: false } }
+				capabilities={ { installPlugins: false, setupSiteKit: false } }
 
 			/> );
 			const link = screen.getByText( label );
@@ -196,8 +196,8 @@ describe( "SiteKitIntegration", () => {
 
 	describe( "should show warning when user don't have permission to view dashboard and should disable the link", () => {
 		it.each( [
-			[ "no install plugins and no viewing dashboard", { installPlugins: false, viewDashboard: false } ],
-			[ "only no viewing dashboard", { installPlugins: true, viewDashboard: false } ],
+			[ "no install plugins and no viewing dashboard", { installPlugins: false, setupSiteKit: false } ],
+			[ "only no viewing dashboard", { installPlugins: true, setupSiteKit: false } ],
 		] )( "when the capabilities are: %s", ( _, capabilities ) => {
 			render( <SiteKitIntegration
 				isInstalled={ true }

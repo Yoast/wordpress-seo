@@ -10,7 +10,6 @@ use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Consent_Management_Endpoint;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
-use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Integrations_Page;
@@ -76,13 +75,6 @@ final class Integrations_Page_Integration_Test extends TestCase {
 	private $site_kit_consent_management_endpoint;
 
 	/**
-	 * The capability helper.
-	 *
-	 * @var Mockery\MockInterface|Capability_Helper
-	 */
-	private $capability_helper;
-
-	/**
 	 * The instance under test.
 	 *
 	 * @var Integrations_Page
@@ -106,7 +98,6 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		$this->jetpack_conditional                  = Mockery::mock( Jetpack_Conditional::class );
 		$this->site_kit_configuration               = Mockery::mock( Site_Kit::class );
 		$this->site_kit_consent_management_endpoint = Mockery::mock( Site_Kit_Consent_Management_Endpoint::class );
-		$this->capability_helper                    = Mockery::mock( Capability_Helper::class );
 
 		$this->instance = new Integrations_Page(
 			$this->admin_asset_manager,
@@ -115,8 +106,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 			$this->elementor_conditional,
 			$this->jetpack_conditional,
 			$this->site_kit_configuration,
-			$this->site_kit_consent_management_endpoint,
-			$this->capability_helper
+			$this->site_kit_consent_management_endpoint
 		);
 	}
 
@@ -169,6 +159,14 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'get_site_url' )
 			->andReturn( 'https://www.example.com' );
 
+		Monkey\Functions\expect( 'current_user_can' )
+			->with( 'install_plugins' )
+			->andReturnTrue();
+
+		Monkey\Functions\expect( 'current_user_can' )
+			->with( 'googlesitekit_setup' )
+			->andReturnTrue();
+
 		Monkey\Functions\expect( 'is_plugin_active' )->times( 5 )->andReturnTrue();
 		Monkey\Functions\expect( 'wp_nonce_url' )->times( 3 )->andReturn( 'nonce' );
 		Monkey\Functions\expect( 'self_admin_url' )->times( 3 )->andReturn( 'https://www.example.com' );
@@ -193,10 +191,6 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		$this->site_kit_configuration->expects( 'to_array' )->andReturn( $site_kit_config );
 		$this->site_kit_consent_management_endpoint->expects( 'get_url' )
 			->andReturn( 'https://www.example.com/manage-consent' );
-
-		$this->capability_helper->expects( 'current_user_can' )->with( 'install_plugins' )->andReturnFalse();
-		$this->capability_helper->expects( 'current_user_can' )->with( 'googlesitekit_view_splash' )->andReturnFalse();
-		$this->capability_helper->expects( 'current_user_can' )->with( 'googlesitekit_view_dashboard' )->andReturnFalse();
 
 		$this->admin_asset_manager->expects( 'localize_script' )->with(
 			'integrations-page',
@@ -230,8 +224,8 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'site_kit_configuration'             => $site_kit_config,
 				'site_kit_consent_management_url'    => 'https://www.example.com/manage-consent',
 				'capabilities'                       => [
-					'installPlugins' => false,
-					'viewDashboard'  => false,
+					'installPlugins' => true,
+					'setupSiteKit'   => true,
 				],
 			]
 		);

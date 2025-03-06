@@ -13,7 +13,6 @@ use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Consent_Management_Endpoint;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
-use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -73,13 +72,6 @@ class Integrations_Page implements Integration_Interface {
 	private $site_kit_consent_management_endpoint;
 
 	/**
-	 * The capability helper.
-	 *
-	 * @var Capability_Helper
-	 */
-	private $capability_helper;
-
-	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -98,7 +90,6 @@ class Integrations_Page implements Integration_Interface {
 	 *                                                                                   configuration data.
 	 * @param Site_Kit_Consent_Management_Endpoint $site_kit_consent_management_endpoint The site kit consent
 	 *                                                                                   management endpoint.
-	 * @param Capability_Helper                    $capability_helper                    The capability helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
@@ -107,8 +98,7 @@ class Integrations_Page implements Integration_Interface {
 		Elementor_Activated_Conditional $elementor_conditional,
 		Jetpack_Conditional $jetpack_conditional,
 		Site_Kit $site_kit_integration_data,
-		Site_Kit_Consent_Management_Endpoint $site_kit_consent_management_endpoint,
-		Capability_Helper $capability_helper,
+		Site_Kit_Consent_Management_Endpoint $site_kit_consent_management_endpoint
 	) {
 		$this->admin_asset_manager                  = $admin_asset_manager;
 		$this->options_helper                       = $options_helper;
@@ -117,7 +107,6 @@ class Integrations_Page implements Integration_Interface {
 		$this->jetpack_conditional                  = $jetpack_conditional;
 		$this->site_kit_integration_data            = $site_kit_integration_data;
 		$this->site_kit_consent_management_endpoint = $site_kit_consent_management_endpoint;
-		$this->capability_helper                    = $capability_helper;
 	}
 
 	/**
@@ -246,8 +235,8 @@ class Integrations_Page implements Integration_Interface {
 				'site_kit_configuration'             => $this->site_kit_integration_data->to_array(),
 				'site_kit_consent_management_url'    => $this->site_kit_consent_management_endpoint->get_url(),
 				'capabilities'                       => [
-					'installPlugins' => $this->capability_helper->current_user_can( 'install_plugins' ),
-					'viewDashboard'  => $this->capability_helper->current_user_can( 'googlesitekit_view_splash' ) || $this->capability_helper->current_user_can( 'googlesitekit_view_dashboard' ),
+					'installPlugins' => \current_user_can( 'install_plugins' ),
+					'setupSiteKit'   => \current_user_can( 'googlesitekit_setup' ),
 				],
 			]
 		);

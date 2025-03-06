@@ -14,7 +14,7 @@ import classNames from "classnames";
 /**
  * @typedef {Object} Capabilities The user capabilities.
  * @property {boolean} installPlugins Whether the user can install plugins.
- * @property {boolean} viewDashboard Whether the user can view the dashboard.
+ * @property {boolean} setupSiteKit Whether the user can view the dashboard.
  */
 
 const integration = {
@@ -105,7 +105,7 @@ const NoPermissionWarning = ( { capabilities, currentStep } ) => {
 		</TopFooterWrapper>;
 	}
 
-	if ( ! capabilities.viewDashboard && currentStep === 2 ) {
+	if ( ! capabilities.setupSiteKit && currentStep === 2 ) {
 		return <TopFooterWrapper className="yst-text-slate-500">
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
 		</TopFooterWrapper>;
@@ -192,9 +192,9 @@ export const SiteKitIntegration = ( {
 		},
 		{
 			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-			href: capabilities.viewDashboard ? setupUrl : null,
+			href: capabilities.setupSiteKit ? setupUrl : null,
 			as: "a",
-			disabled: ! capabilities.viewDashboard,
+			disabled: ! capabilities.setupSiteKit,
 		},
 		{
 			children: __( "Connect Site Kit by Google", "wordpress-seo" ),
