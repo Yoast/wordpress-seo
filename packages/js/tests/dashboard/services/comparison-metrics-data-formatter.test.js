@@ -16,6 +16,7 @@ describe( "ComparisonMetricsDataFormatter", () => {
 		[ "sessions, NaN becomes zero", "sessions", { widget: "organicSessions" }, NaN, "0" ],
 		[ "sessions, undefined becomes zero", "sessions", { widget: "organicSessions" }, undefined, "0" ],
 		[ "sessions, null becomes zero", "sessions", { widget: "organicSessions" }, null, "0" ],
+		[ "difference, rounded up", "difference", { widget: "organicSessions" }, 0.345678, "34.57%" ],
 	] )( "should format %s", ( _, name, context, data, expected, locale = "en-US" ) => {
 		const formatter = new ComparisonMetricsDataFormatter( { locale } );
 		expect( formatter.format( data, name, context ) ).toStrictEqual( expected );

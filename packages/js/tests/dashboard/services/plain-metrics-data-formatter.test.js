@@ -29,7 +29,6 @@ describe( "PlainMetricsDataFormatter", () => {
 		[ "ctr, rounded up", "ctr", { widget: "topPages" }, 0.345678, "34.57%" ],
 		[ "ctr, rounded down", "ctr", { widget: "topPages" }, 0.00144, "0.14%" ],
 		[ "ctr, zero padding", "ctr", { widget: "topPages" }, 0, "0.00%" ],
-		[ "difference, rounded up", "difference", { widget: "organicSessions" }, 0.345678, "34.57%" ],
 		[ "position, rounded up", "position", { widget: "topPages" }, 6548.567, "6,548.57" ],
 		[ "position, rounded down", "position", { widget: "topPages" }, 1.234, "1.23" ],
 		[ "position, zero padding", "position", { widget: "topPages" }, 1, "1.00" ],
