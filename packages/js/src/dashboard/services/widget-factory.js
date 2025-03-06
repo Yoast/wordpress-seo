@@ -104,7 +104,7 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case WidgetFactory.types.organicSessionsCompare:
-				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! isAnalyticsConnected  ) {
+				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted ) {
 					return null;
 				}
 				return <OrganicSessionsCompareWidget
