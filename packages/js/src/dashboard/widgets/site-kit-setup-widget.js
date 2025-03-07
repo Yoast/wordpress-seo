@@ -80,7 +80,7 @@ const NoPermissionWarning = ( { capabilities, currentStep } ) => {
 		</Alert>;
 	}
 
-	if ( ! capabilities.viewSiteKitData && currentStep === 3 ) {
+	if ( ! capabilities.viewSearchConsoleData && currentStep === 3 ) {
 		return <Alert className="yst-mt-6" type="info">
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
 		</Alert>;
@@ -145,7 +145,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 		},
 		{
 			children: __( "Connect Site Kit by Google", "wordpress-seo" ),
-			disabled: ! capabilities.viewSiteKitData,
+			disabled: ! capabilities.viewSearchConsoleData,
 			onClick: openConsentModal,
 		},
 	];
