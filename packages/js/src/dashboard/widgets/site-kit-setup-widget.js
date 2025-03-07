@@ -1,4 +1,4 @@
-/* eslint-disable complexity */
+
 import { ArrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useCallback } from "@wordpress/element";
@@ -12,6 +12,7 @@ import { SiteKitConsentModal } from "../../shared-admin/components";
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
  * @type {import("../services/data-provider").DataProvider} DataProvider
  * @type {import("../services/remote-data-provider").RemoteDataProvider} RemoteDataProvider
+ * @type {import("../index").Capabilities} Capabilities
  */
 
 /** @type {string[]} */
@@ -69,13 +70,17 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
  * @returns {JSX.Element} The no permission warning component.
  */
 const NoPermissionWarning = ( { capabilities, currentStep } ) => {
+	if ( currentStep === -1 ) {
+		return null;
+	}
+
 	if ( ! capabilities.installPlugins && currentStep < 3 ) {
 		return <Alert className="yst-mt-6" type="info">
 			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
 		</Alert>;
 	}
 
-	if ( ! capabilities.setupSiteKit && currentStep === 2 ) {
+	if ( ! capabilities.viewSiteKitData && currentStep === 3 ) {
 		return <Alert className="yst-mt-6" type="info">
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
 		</Alert>;
@@ -98,13 +103,16 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
+	const siteKitConfiguration = dataProvider.getSiteKitConfiguration();
+	const capabilities = siteKitConfiguration.capabilities;
+
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();
 	}, [ dismissPermanently ] );
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
-	const capabilities = dataProvider.getCapabilities();
+
 
 	let currentStep = dataProvider.getSiteKitCurrentConnectionStep();
 	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
@@ -112,27 +120,32 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 		currentStep = steps.length - 1;
 	}
 
+	const checkCapability = ( url, capability = capabilities.installPlugins ) => {
+		return capability ? url : null;
+	};
+
 	const buttonProps = [
 		{
 			children: __( "Install Site Kit by Google", "wordpress-seo" ),
-			href: capabilities.installPlugins ? dataProvider.getLink( "installSiteKit" ) : null,
+			href: checkCapability( siteKitConfiguration.installUrl ),
 			as: "a",
 			disabled: ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
-			href: capabilities.installPlugins ? dataProvider.getLink( "activateSiteKit" ) : null,
+			href: checkCapability( siteKitConfiguration.activateUrl ),
 			as: "a",
 			disabled: ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-			href: capabilities.setupSiteKit ? dataProvider.getLink( "setupSiteKit" ) : null,
+			href: checkCapability( siteKitConfiguration.setupUrl ),
 			as: "a",
-			disabled: ! capabilities.setupSiteKit,
+			disabled: ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Connect Site Kit by Google", "wordpress-seo" ),
+			disabled: ! capabilities.viewSiteKitData,
 			onClick: openConsentModal,
 		},
 	];
