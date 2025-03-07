@@ -49,7 +49,7 @@ export class WidgetFactory {
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
 	createWidget( widget ) {
-		const { isFeatureEnabled, isSetupWidgetDismissed, isAnalyticsConnected } = this.#dataProvider.getSiteKitConfiguration();
+		const { isFeatureEnabled, isSetupWidgetDismissed, isAnalyticsConnected, capabilities } = this.#dataProvider.getSiteKitConfiguration();
 		const isSiteKitConnectionCompleted = this.#dataProvider.isSiteKitConnectionCompleted();
 		switch ( widget.type ) {
 			case WidgetFactory.types.seoScores:
@@ -102,7 +102,7 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatter }
 				/>;
 			case WidgetFactory.types.organicSessions:
-				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! isAnalyticsConnected ) {
+				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! isAnalyticsConnected || ! capabilities.viewAnalyticsData ) {
 					return null;
 				}
 				return <OrganicSessionsWidget
