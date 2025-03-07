@@ -140,7 +140,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				<Stepper.Step
 					key={ label }
 					isActive={ currentStep === index }
-					isComplete={ dataProvider.getStepsStatuses()[ index ] }
+					isComplete={ currentStep > index || isSiteKitConnectionCompleted }
 				>
 					{ label }
 				</Stepper.Step>
