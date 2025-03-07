@@ -6,6 +6,7 @@ use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
  * Describes if the Site kit integration is enabled and configured.
@@ -36,6 +37,13 @@ class Site_Kit {
 	private $site_kit_analytics_4_adapter;
 
 	/**
+	 * The capability helper.
+	 *
+	 * @var Capability_Helper
+	 */
+	private $capability_helper;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Site_Kit_Consent_Repository_Interface $site_kit_consent_repository  The Site Kit consent repository.
@@ -43,15 +51,18 @@ class Site_Kit {
 	 *                                                                            configuration repository.
 	 * @param Site_Kit_Analytics_4_Adapter          $site_kit_analytics_4_adapter The Site Kit adapter. Used to
 	 *                                                                            determine if the setup is completed.
+	 * @param Capability_Helper                     $capability_helper            The capability helper.
 	 */
 	public function __construct(
 		Site_Kit_Consent_Repository_Interface $site_kit_consent_repository,
 		Configuration_Repository $configuration_repository,
-		Site_Kit_Analytics_4_Adapter $site_kit_analytics_4_adapter
+		Site_Kit_Analytics_4_Adapter $site_kit_analytics_4_adapter,
+		Capability_Helper $capability_helper
 	) {
 		$this->site_kit_consent_repository                             = $site_kit_consent_repository;
 		$this->permanently_dismissed_site_kit_configuration_repository = $configuration_repository;
 		$this->site_kit_analytics_4_adapter                            = $site_kit_analytics_4_adapter;
+		$this->capability_helper                                       = $capability_helper;
 	}
 
 	/**
@@ -110,6 +121,15 @@ class Site_Kit {
 	}
 
 	/**
+	 * Can user read site kit data.
+	 */
+	public function can_read_data() {
+		$search_console_options = \get_option( 'googlesitekit_search-console_settings' );
+		$owner_id               = ( $search_console_options['ownerID'] ?? '' );
+		return $this->capability_helper->has( 'googlesitekit_read_shared_module_data' ) || $owner_id === \get_current_user_id();
+	}
+
+	/**
 	 * Return this object represented by a key value array.
 	 *
 	 * @return array<string,bool> Returns the name and if the feature is enabled.
@@ -142,6 +162,10 @@ class Site_Kit {
 			'activateUrl'              => $site_kit_activate_url,
 			'setupUrl'                 => $site_kit_setup_url,
 			'isConfigurationDismissed' => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
+			'capabilities'             => [
+				'installPlugins'  => $this->capability_helper->has( 'install_plugins' ),
+				'viewSiteKitData' => $this->can_read_data(),
+			],
 		];
 	}
 
