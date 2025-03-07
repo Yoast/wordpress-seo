@@ -255,7 +255,7 @@ describe( "Tests for phrases that are exclusionary UNLESS there is a condition w
 		];
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "targets words 'firemen' and 'policemen'", () => {
+	it( "targets words 'firemen', 'policemen', and 'pregnant women'", () => {
 		const testData = [
 			{
 				identifier: "firemen",
@@ -272,6 +272,15 @@ describe( "Tests for phrases that are exclusionary UNLESS there is a condition w
 				expectedFeedback: "Be careful when using <i>policemen</i> as it can be exclusionary. " +
 					"Unless you are sure that the group you refer to only consists of men, use an alternative, " +
 					"such as <i>police officers</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "pregnant women",
+				text: "Pregnant women shouldn't be lifting heavy objects.",
+				expectedFeedback: "Be careful when using <i>pregnant women</i> as it can be exclusionary. " +
+					"Unless you are sure that the group you refer to only consists of women, use an alternative, " +
+					"such as <i>pregnant people</i>. " +
 					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
