@@ -117,5 +117,6 @@ export { Dashboard } from "./components/dashboard";
 /**
  * @typedef {Object} Capabilities The user capabilities.
  * @property {boolean} installPlugins Whether the user can install plugins.
- * @property {boolean} viewSiteKitData Whether the user can view the site kit data.
+ * @property {boolean} viewSearchConsoleData Whether the user can view the search console data.
+ * @property {boolean} viewAnalyticsData Whether the user can view the analytics data
  */
