@@ -73,7 +73,7 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
 			case WidgetFactory.types.topPages:
-				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted ) {
+				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! capabilities.viewSearchConsoleData ) {
 					return null;
 				}
 				return <TopPagesWidget
@@ -92,7 +92,7 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
 			case WidgetFactory.types.topQueries:
-				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted ) {
+				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! capabilities.viewSearchConsoleData ) {
 					return null;
 				}
 				return <TopQueriesWidget
