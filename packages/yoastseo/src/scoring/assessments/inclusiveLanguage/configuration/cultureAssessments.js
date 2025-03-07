@@ -55,13 +55,17 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "exotic" ],
 		inclusiveAlternatives: "<i>unfamiliar, foreign, peculiar, fascinating, alluring, bizarre, non-native, introduced</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: beCarefulHarmful + " Unless you are referring to animals, " +
+		feedbackFormat: beCarefulHarmful + " Unless you are referring to animals or scientific terms, " +
 			"consider using an alternative, such as %2$s.",
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "longhair", "longhairs", "shorthair", "shorthairs" ] ) );
+				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "longhair", "longhairs", "shorthair", "shorthairs",
+					"blooms", "species", "florals", "botanicals", "leathers", "material", "timber", "composites", "atom",
+					"molecule", "hardon", "sphere", "star", "car", "sports car" ] ) );
 		},
-		ruleDescription: notFollowed( [ "longhair", "longhairs", "shorthair", "shorthairs" ] ),
+		ruleDescription: notFollowed( [ "longhair", "longhairs", "shorthair", "shorthairs", "blooms",
+			"species", "florals", "botanicals", "leathers", "material", "timber", "composites", "atom",
+			"molecule", "hardon", "sphere", "star", "car", "sports car" ] ),
 	},
 	{
 		identifier: "sherpa",
