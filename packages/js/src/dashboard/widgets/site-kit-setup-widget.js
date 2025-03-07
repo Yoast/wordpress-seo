@@ -24,7 +24,6 @@ const steps = [
 
 /**
  * @typedef {Object} UseSiteKitConfiguration
- * @property {SiteKitConfiguration} config The site kit configuration.
  * @property {function(RequestInit?)} grantConsent The grant consent function.
  * @property {function(RequestInit?)} dismissPermanently The dismiss permanently function.
  */
