@@ -76,7 +76,8 @@ export class MockDataProvider extends DataProvider {
 				isFeatureEnabled: false,
 				capabilities: {
 					installPlugins: true,
-					viewSiteKitData: true,
+					viewSearchConsoleData: true,
+					viewAnalyticsData: true,
 				},
 			},
 		} ) );
