@@ -42,7 +42,7 @@ describe( "WidgetFactory", () => {
 			"topQueries",
 			"siteKitSetup",
 			"organicSessions",
-			"organicSessionsCompare",
+			"searchRankingCompare",
 		] )( "should have the widget type: %s", async( type ) => {
 			expect( WidgetFactory.types[ type ] ).toBe( type );
 		} );
@@ -51,7 +51,7 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
-		[ "Organic sessions compare", { id: "organic-sessions-compare-widget", type: "organicSessionsCompare" } ],
+		[ "Search Ranking compare", { id: "search-ranking-compare-widget", type: "searchRankingCompare" } ],
 		[ "Organic sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
 	] )( "should not create a %s widget when site kit is not connected", async( _, widget ) => {
 		dataProvider.setSiteKitConsentGranted( false );
@@ -122,7 +122,7 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
-		[ "organicSessionsCompare", { id: "organic-sessions-compare-widget", type: "organicSessionsCompare" } ],
+		[ "searchRankingCompare", { id: "search-ranking-compare-widget", type: "searchRankingCompare" } ],
 		[ "Site Kit setup", { id: "site-kite-setup-widget", type: "siteKitSetup" } ],
 		[ "Organic Sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
 	] )( "should not create a %s widget when site kit feature is disabled", ( _, widget ) => {

@@ -10,7 +10,7 @@ import { Trend } from "./trend";
  *
  * @returns {JSX.Element}
  */
-export const OrganicSessionsCompareMetric = ( { metricName, data,  tooltipLocalizedString } ) => {
+export const SearchRankingCompareMetric = ( { metricName, data,  tooltipLocalizedString } ) => {
 	return <div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 		<div className="yst-absolute yst-end-6 yst-top-2">
 			<InfoTooltip>

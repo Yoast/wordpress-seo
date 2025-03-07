@@ -4,7 +4,7 @@ import { ScoreWidget } from "../widgets/score-widget";
 import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
 import { TopPagesWidget } from "../widgets/top-pages-widget";
 import { TopQueriesWidget } from "../widgets/top-queries-widget";
-import { OrganicSessionsCompareWidget } from "../widgets/organic-sessions-compare-widget";
+import { SearchRankingCompareWidget } from "../widgets/search-ranking-compare-widget";
 
 /**
  * @type {import("../index").WidgetType} WidgetType
@@ -37,7 +37,7 @@ export class WidgetFactory {
 	static get types() {
 		return {
 			siteKitSetup: "siteKitSetup",
-			organicSessionsCompare: "organicSessionsCompare",
+			searchRankingCompare: "searchRankingCompare",
 			organicSessions: "organicSessions",
 			topPages: "topPages",
 			topQueries: "topQueries",
@@ -103,11 +103,11 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
-			case WidgetFactory.types.organicSessionsCompare:
+			case WidgetFactory.types.searchRankingCompare:
 				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted ) {
 					return null;
 				}
-				return <OrganicSessionsCompareWidget
+				return <SearchRankingCompareWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }

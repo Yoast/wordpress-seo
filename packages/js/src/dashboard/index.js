@@ -98,7 +98,7 @@ export { Dashboard } from "./components/dashboard";
  *           "topPages" |
  *           "siteKitSetup" |
  *           "topQueries" |
- *           "organicSessionsCompare" |
+ *           "searchRankingCompare" |
  *           "organicSessions"} WidgetType The widget type.
  */
 
@@ -142,11 +142,11 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef { "impressions"|"clicks"|"ctr"|"position" } OrganicSessionsCompareMetric The widget type.
+ * @typedef { "impressions"|"clicks"|"ctr"|"position" } SearchRankingCompareMetric The widget type.
  */
 
 /**
- * @typedef {Object<OrganicSessionsCompareMetric, MetricData>} OrganicSessionsCompareData The organic sessions compare data.
+ * @typedef {Object<SearchRankingCompareMetric, MetricData>} SearchRankingCompareData The search ranking compare data.
  * @property {MetricData} impressions - The impressions data.
  * @property {MetricData} clicks - The clicks data.
  * @property {MetricData} [ctr] - The click-through rate data (optional).
