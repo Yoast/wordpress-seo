@@ -89,15 +89,17 @@ domReady( () => {
 		isInstalled: false,
 		isActive: false,
 		isSetupCompleted: false,
-		isConsentGranted: false,
+		isConsnected: false,
 		isAnalyticsConnected: false,
 		isFeatureEnabled: false,
 		isSetupWidgetDismissed: false,
 		capabilities: {
 			installPlugins: false,
-			viewSiteKitData: false,
+			viewSearchConsoleData: false,
+			viewAnalyticsData: false,
 		},
 	} );
+	siteKitConfiguration.isConsentGranted = siteKitConfiguration.isConnected;
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
