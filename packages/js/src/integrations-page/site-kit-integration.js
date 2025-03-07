@@ -14,7 +14,7 @@ import classNames from "classnames";
 /**
  * @typedef {Object} Capabilities The user capabilities.
  * @property {boolean} installPlugins Whether the user can install plugins.
- * @property {boolean} setupSiteKit Whether the user can view the dashboard.
+ * @property {boolean} viewSearchConsoleData Whether the user can view the search console data.
  */
 
 const integration = {
@@ -99,13 +99,13 @@ const SuccessfullyConnected = () => {
  * @returns {JSX.Element} The no permission warning component.
  */
 const NoPermissionWarning = ( { capabilities, currentStep } ) => {
-	if ( ! capabilities.installPlugins && currentStep < 2 ) {
+	if ( ! capabilities.installPlugins && currentStep < 3 && currentStep !== -1 ) {
 		return <TopFooterWrapper className="yst-text-slate-500">
 			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
 		</TopFooterWrapper>;
 	}
 
-	if ( ! capabilities.setupSiteKit && currentStep === 2 ) {
+	if ( ! capabilities.viewSearchConsoleData && ( currentStep > 2 || currentStep === -1 ) ) {
 		return <TopFooterWrapper className="yst-text-slate-500">
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
 		</TopFooterWrapper>;
@@ -192,17 +192,19 @@ export const SiteKitIntegration = ( {
 		},
 		{
 			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-			href: capabilities.setupSiteKit ? setupUrl : null,
+			href: capabilities.installPlugins ? setupUrl : null,
 			as: "a",
-			disabled: ! capabilities.setupSiteKit,
+			disabled: ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Connect Site Kit by Google", "wordpress-seo" ),
 			onClick: toggleModal,
+			disabled: ! capabilities.viewSearchConsoleData,
 		},
 		{
 			children: __( "Disconnect", "wordpress-seo" ),
 			variant: "secondary",
+			disabled: ! capabilities.viewSearchConsoleData,
 			onClick: toggleDisconnectModal,
 		},
 	];
@@ -214,12 +216,12 @@ export const SiteKitIntegration = ( {
 				isActive={ successfullyConnected }
 			>
 				<span className="yst-flex yst-flex-col yst-flex-1">
-					{ successfullyConnected && <SuccessfullyConnected /> }
+					{ successfullyConnected && capabilities.viewSearchConsoleData && <SuccessfullyConnected /> }
 
-					{ currentStep < 3 && <NoPermissionWarning
+					<NoPermissionWarning
 						capabilities={ capabilities }
 						currentStep={ currentStep }
-					/> }
+					/>
 					<Button
 						className="yst-w-full"
 						id="site-kit-integration__button"
