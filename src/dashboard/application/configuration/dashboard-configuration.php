@@ -118,10 +118,6 @@ class Dashboard_Configuration {
 			'endpoints'               => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			'nonce'                   => $this->nonce_repository->get_rest_nonce(),
 			'siteKitConfiguration'    => $this->site_kit_integration_data->to_array(),
-			'capabilities'            => [
-				'installPlugins' => \current_user_can( 'install_plugins' ),
-				'setupSiteKit'   => \current_user_can( 'googlesitekit_setup' ),
-			],
 		];
 	}
 }
