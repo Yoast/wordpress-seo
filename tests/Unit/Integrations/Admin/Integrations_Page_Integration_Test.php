@@ -159,14 +159,6 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'get_site_url' )
 			->andReturn( 'https://www.example.com' );
 
-		Monkey\Functions\expect( 'current_user_can' )
-			->with( 'install_plugins' )
-			->andReturnTrue();
-
-		Monkey\Functions\expect( 'current_user_can' )
-			->with( 'googlesitekit_setup' )
-			->andReturnTrue();
-
 		Monkey\Functions\expect( 'is_plugin_active' )->times( 5 )->andReturnTrue();
 		Monkey\Functions\expect( 'wp_nonce_url' )->times( 3 )->andReturn( 'nonce' );
 		Monkey\Functions\expect( 'self_admin_url' )->times( 3 )->andReturn( 'https://www.example.com' );
@@ -187,6 +179,10 @@ final class Integrations_Page_Integration_Test extends TestCase {
 			'activateUrl'              => 'example.com',
 			'setupUrl'                 => 'example.com',
 			'isConfigurationDismissed' => false,
+			'capabilities'             => [
+				'installPlugins'        => true,
+				'viewSearchConsoleData' => true,
+			],
 		];
 		$this->site_kit_configuration->expects( 'to_array' )->andReturn( $site_kit_config );
 		$this->site_kit_consent_management_endpoint->expects( 'get_url' )
@@ -223,10 +219,6 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'plugin_url'                         => 'https://www.example.com',
 				'site_kit_configuration'             => $site_kit_config,
 				'site_kit_consent_management_url'    => 'https://www.example.com/manage-consent',
-				'capabilities'                       => [
-					'installPlugins' => true,
-					'setupSiteKit'   => true,
-				],
 			]
 		);
 
