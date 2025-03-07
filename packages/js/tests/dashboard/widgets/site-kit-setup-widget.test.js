@@ -220,4 +220,53 @@ describe( "SiteKitSetupWidget", () => {
 		);
 		expect( dataProvider.setSiteKitConfigurationDismissed ).toHaveBeenCalledWith( true );
 	} );
+
+	describe( "should show warning and disable button when user doesn't have the capability to install plugins", () => {
+		it.each( [
+			[ "plugin not installed", { isInstalled: false, isActive: false, isSetupCompleted: false, label: "Install Site Kit by Google"  } ],
+			[ "plugin not active", { isInstalled: true, isActive: false, isSetupCompleted: false, label: "Activate Site Kit by Google" } ],
+			[ "setup not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, label: "Set up Site Kit by Google" } ],
+		] )( "when %s", ( _, { isInstalled, isActive, isSetupCompleted, label } ) => {
+			dataProvider = new MockDataProvider( {
+				siteKitConfiguration: {
+					isInstalled,
+					isActive,
+					isSetupCompleted,
+					capabilities: {
+						installPlugins: false,
+						viewSiteKitData: false,
+					},
+				},
+			} );
+			const { getByText } = render( <SiteKitSetupWidget
+				dataProvider={ dataProvider }
+				remoteDataProvider={ remoteDataProvider }
+			/> );
+			const link = screen.getByText( label );
+			expect( link ).not.toHaveAttribute( "href" );
+			expect( getByText( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin." ) ).toBeInTheDocument();
+		} );
+	} );
+
+	it( "should show warning and disable button before connecting if user doesn't have the capability to view site kit data", () => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: true,
+				capabilities: {
+					installPlugins: true,
+					viewSiteKitData: false,
+				},
+			},
+		} );
+		const { getByRole, getByText } = render( <SiteKitSetupWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+		/> );
+		const button = getByRole( "button", { name: /Connect Site Kit by Google/i } );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toBeDisabled();
+		expect( getByText( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up." ) ).toBeInTheDocument();
+	} );
 } );
