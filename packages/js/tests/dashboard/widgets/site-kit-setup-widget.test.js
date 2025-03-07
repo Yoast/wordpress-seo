@@ -234,7 +234,7 @@ describe( "SiteKitSetupWidget", () => {
 					isSetupCompleted,
 					capabilities: {
 						installPlugins: false,
-						viewSiteKitData: false,
+						viewSearchConsoleData: false,
 					},
 				},
 			} );
@@ -256,7 +256,7 @@ describe( "SiteKitSetupWidget", () => {
 				isSetupCompleted: true,
 				capabilities: {
 					installPlugins: true,
-					viewSiteKitData: false,
+					viewSearchConsoleData: false,
 				},
 			},
 		} );
