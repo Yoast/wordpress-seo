@@ -1,6 +1,10 @@
-import { findAllInTree, innerText } from "../traverse";
+import { findAllInTree, getParentNode, innerText } from "../traverse";
 import SourceCodeLocation from "./SourceCodeLocation";
 import { isEmpty } from "lodash";
+
+/**
+ * @typedef {import(".").Text} Text
+ */
 
 /**
  * A node in the tree.
@@ -50,10 +54,19 @@ class Node {
 	 * @param {boolean} 	recurseFoundNodes=false 	Whether to recurse into found nodes to see if the condition
 	 *  also applies to sub-nodes of the found node.
 	 *
-	 * @returns {(Node|Text|Paragraph|Heading)[]} The list of nodes that satisfy the condition.
+	 * @returns {(Node|Text)[]} The list of nodes that satisfy the condition.
 	 */
 	findAll( condition, recurseFoundNodes = false ) {
 		return findAllInTree( this, condition, recurseFoundNodes );
+	}
+
+	/**
+	 * Retrieves the parent node for the current node.
+	 * @param {Node} tree The full tree for this node.
+	 * @returns {Node} The parent node.
+	 */
+	getParentNode( tree ) {
+		return getParentNode( tree, this );
 	}
 
 	/**
@@ -63,6 +76,14 @@ class Node {
 	 */
 	innerText() {
 		return innerText( this );
+	}
+
+	/**
+	 * Retrieves the start offset for this node.
+	 * @returns {number} The start offset.
+	 */
+	getStartOffset() {
+		return this.sourceCodeLocation?.startTag?.endOffset || this.sourceCodeLocation?.startOffset || 0;
 	}
 }
 
