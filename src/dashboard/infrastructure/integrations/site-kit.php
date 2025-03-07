@@ -122,11 +122,20 @@ class Site_Kit {
 
 	/**
 	 * Can user read site kit data.
+	 *
+	 * @param string $slug The slug of the data.
+	 * @return bool If the user can read the data.
 	 */
-	public function can_read_data() {
-		$search_console_options = \get_option( 'googlesitekit_search-console_settings' );
+	private function can_read_data( $slug ) {
+		$dashboard_sharing    = \get_option( 'googlesitekit_dashboard_sharing' );
+		$search_console_roles = isset( $dashboard_sharing[ $slug ] ) ? $dashboard_sharing[ $slug ]['sharedRoles'] : [];
+
+		// check if current user has one of those roles.
+		$current_user_has_access = \array_intersect( \wp_get_current_user()->roles, $search_console_roles );
+
+		$search_console_options = \get_option( 'googlesitekit_' . $slug . '_settings' );
 		$owner_id               = ( $search_console_options['ownerID'] ?? '' );
-		return $this->capability_helper->has( 'googlesitekit_read_shared_module_data' ) || $owner_id === \get_current_user_id();
+		return $owner_id === \get_current_user_id() || $current_user_has_access;
 	}
 
 	/**
@@ -163,8 +172,9 @@ class Site_Kit {
 			'setupUrl'                 => $site_kit_setup_url,
 			'isConfigurationDismissed' => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
 			'capabilities'             => [
-				'installPlugins'  => $this->capability_helper->has( 'install_plugins' ),
-				'viewSiteKitData' => $this->can_read_data(),
+				'installPlugins'        => $this->capability_helper->has( 'install_plugins' ),
+				'viewSearchConsoleData' => $this->can_read_data( 'search-console' ),
+				'viewAnalyticsData'     => $this->can_read_data( 'analytics-4' ),
 			],
 		];
 	}
