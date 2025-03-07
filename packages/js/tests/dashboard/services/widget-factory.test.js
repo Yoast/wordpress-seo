@@ -175,4 +175,17 @@ describe( "WidgetFactory", () => {
 
 		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
 	} );
+
+	test.each( "should not create a OrganicSessions widget when user has no permmission", () => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				capabilities: {
+					viewAnalyticsData: false,
+				},
+			},
+		} );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+
+		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
+	} );
 } );
