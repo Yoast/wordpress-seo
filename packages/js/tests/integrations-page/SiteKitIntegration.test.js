@@ -23,12 +23,12 @@ jest.mock( "@wordpress/api-fetch", () => ( {
 const mockResponse = ( body, status = 200 ) => ( { json: () => body, status, ok: status >= 200 && status < 400 } );
 
 describe( "SiteKitIntegration", () => {
-	const urlsProps = {
+	const props = {
 		installUrl: "/wp-admin/update.php?action=install-plugin&plugin=google-site-kit&_wpnonce=8b2868f15d",
 		activateUrl: "/wp-admin/plugins.php?action=activate&plugin=google-site-kit%2Fgoogle-site-kit.php&_wpnonce=0a752c1514",
 		setupUrl: "/wp-admin/admin.php?page=googlesitekit-splash",
 		consentManagementUrl: "/wp-json/yoast/v1/site_kit_manage_consent",
-		capabilities: { installPlugins: true, setupSiteKit: true },
+		capabilities: { installPlugins: true, viewSearchConsoleData: true },
 	};
 	it( "renders the integration component", () => {
 		render( <SiteKitIntegration
@@ -36,7 +36,7 @@ describe( "SiteKitIntegration", () => {
 			isSetupCompleted={ false }
 			isInstalled={ false }
 			initialIsConsentGranted={ false }
-			{ ...urlsProps }
+			{ ...props }
 		/> );
 		expect( screen.getByText( "Site Kit by Google" ) ).toBeInTheDocument();
 	} );
@@ -51,7 +51,7 @@ describe( "SiteKitIntegration", () => {
 			isSetupCompleted={ isSetupCompleted }
 			isInstalled={ isInstalled }
 			initialIsConsentGranted={ initialIsConsentGranted }
-			{ ...urlsProps }
+			{ ...props }
 		/> );
 		const link = screen.getByRole( "link", { name: "Install Site Kit by Google" } );
 		expect( link ).toBeInTheDocument();
@@ -68,7 +68,7 @@ describe( "SiteKitIntegration", () => {
 			isSetupCompleted={ isSetupCompleted }
 			isInstalled={ isInstalled }
 			initialIsConsentGranted={ initialIsConsentGranted }
-			{ ...urlsProps }
+			{ ...props }
 		/> );
 		const link = screen.getByRole( "link", { name: "Activate Site Kit by Google" } );
 		expect( link ).toBeInTheDocument();
@@ -78,7 +78,7 @@ describe( "SiteKitIntegration", () => {
 
 	it( "shows 'Set up Site Kit by Google' button when active but not set up", () => {
 		render( <SiteKitIntegration
-			isActive={ true } isSetupCompleted={ false } isInstalled={ true } initialIsConsentGranted={ false } { ...urlsProps }
+			isActive={ true } isSetupCompleted={ false } isInstalled={ true } initialIsConsentGranted={ false } { ...props }
 		/> );
 		const link = screen.getByRole( "link", { name: "Set up Site Kit by Google" } );
 		expect( link ).toBeInTheDocument();
@@ -87,15 +87,18 @@ describe( "SiteKitIntegration", () => {
 
 	it( "shows 'Connect Site Kit by Google' button when set up but not connected", () => {
 		render( <SiteKitIntegration
-			isActive={ true } isSetupCompleted={ true } isInstalled={ true } initialIsConsentGranted={ false } { ...urlsProps }
+			isActive={ true } isSetupCompleted={ true } isInstalled={ true } initialIsConsentGranted={ false } { ...props }
 		/> );
 		expect( screen.getByRole( "button", { name: "Connect Site Kit by Google" } ) ).toBeInTheDocument();
 	} );
 
 	it( "shows 'Disconnect' button when connected", () => {
 		render( <SiteKitIntegration
-			isActive={ true } isSetupCompleted={ true } isInstalled={ true }
-			initialIsConsentGranted={ true } { ...urlsProps }
+			isActive={ true }
+			isSetupCompleted={ true }
+			isInstalled={ true }
+			initialIsConsentGranted={ true }
+			{ ...props }
 		/> );
 		expect( screen.getByRole( "button", { name: "Disconnect" } ) ).toBeInTheDocument();
 		expect( screen.getByText( "Successfully connected" ) ).toBeInTheDocument();
@@ -108,7 +111,7 @@ describe( "SiteKitIntegration", () => {
 			isSetupCompleted={ true }
 			isInstalled={ true }
 			initialIsConsentGranted={ false }
-			{ ...urlsProps }
+			{ ...props }
 		/> );
 		const connectButton = screen.getByRole( "button", { name: "Connect Site Kit by Google" } );
 
@@ -129,7 +132,7 @@ describe( "SiteKitIntegration", () => {
 		} );
 
 		expect( apiFetch ).toHaveBeenCalledWith( expect.objectContaining( {
-			url: urlsProps.consentManagementUrl,
+			url: props.consentManagementUrl,
 			method: "POST",
 			data: { consent: "true" },
 		} ) );
@@ -144,7 +147,7 @@ describe( "SiteKitIntegration", () => {
 			isSetupCompleted={ true }
 			isInstalled={ true }
 			initialIsConsentGranted={ true }
-			{ ...urlsProps }
+			{ ...props }
 		/> );
 		const disconnectButton = screen.getByRole( "button", { name: "Disconnect" } );
 
@@ -165,7 +168,7 @@ describe( "SiteKitIntegration", () => {
 		} );
 
 		expect( apiFetch ).toHaveBeenCalledWith( expect.objectContaining( {
-			url: urlsProps.consentManagementUrl,
+			url: props.consentManagementUrl,
 			method: "POST",
 			data: { consent: "false" },
 		} ) );
@@ -177,14 +180,14 @@ describe( "SiteKitIntegration", () => {
 		it.each( [
 			[ "not installed", { isInstalled: false, isActive: false, isSetupCompleted: false, label: "Install Site Kit by Google"  } ],
 			[ "not active", { isInstalled: true, isActive: false, isSetupCompleted: false, label: "Activate Site Kit by Google" } ],
-		//	[ "setup not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, label: "Set up Site Kit by Google" } ],
+			[ "setup not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, label: "Set up Site Kit by Google" } ],
 		] )( "when site kit plugin %s", ( _, { isInstalled, isActive, isSetupCompleted, label } ) => {
 			render( <SiteKitIntegration
 				isActive={ isActive }
 				isSetupCompleted={ isSetupCompleted }
 				isInstalled={ isInstalled }
 				initialIsConsentGranted={ false }
-				{ ...urlsProps }
+				{ ...props }
 				capabilities={ { installPlugins: false, setupSiteKit: false } }
 
 			/> );
@@ -194,23 +197,23 @@ describe( "SiteKitIntegration", () => {
 		} );
 	} );
 
-	describe( "should show warning when user don't have permission to view dashboard and should disable the link", () => {
-		it.each( [
-			[ "no install plugins and no viewing dashboard", { installPlugins: false, setupSiteKit: false } ],
-			[ "only no viewing dashboard", { installPlugins: true, setupSiteKit: false } ],
-		] )( "when the capabilities are: %s", ( _, capabilities ) => {
-			render( <SiteKitIntegration
-				isInstalled={ true }
-				isActive={ true }
-				isSetupCompleted={ false }
-				initialIsConsentGranted={ false }
-				{ ...urlsProps }
-				capabilities={ capabilities }
 
-			/> );
-			const link = screen.getByText( "Set up Site Kit by Google" );
-			expect( link ).not.toHaveAttribute( "href" );
-			expect( screen.getByText( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up." ) ).toBeInTheDocument();
-		} );
+	it.each( [
+		[ "not connected", { initialIsConsentGranted: false, label: "Connect Site Kit by Google" } ],
+		[ "connected", { initialIsConsentGranted: true, label: "Disconnect" } ],
+	] )( "should show warning and disable the button when user has no capability to view site kit data and %s.", ( _, { initialIsConsentGranted, label } ) => {
+		render( <SiteKitIntegration
+			isInstalled={ true }
+			isActive={ true }
+			isSetupCompleted={ true }
+			initialIsConsentGranted={ initialIsConsentGranted }
+			{ ...props }
+			capabilities={ { installPlugins: true, viewSearchConsoleData: false } }
+
+		/> );
+
+		const button = screen.getByRole( "button", { name: label } );
+		expect( button ).toBeDisabled();
+		expect( screen.getByText( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up." ) ).toBeInTheDocument();
 	} );
 } );
