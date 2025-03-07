@@ -1,6 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
 import { forEach } from "lodash";
-import { DataFormatter } from "../../../src/dashboard/services/data-formatter";
+import { PlainMetricsDataFormatter } from "../../../src/dashboard/services/plain-metrics-data-formatter";
 import { createTopQueriesFormatter, TopQueriesWidget } from "../../../src/dashboard/widgets/top-queries-widget";
 import { render, waitFor } from "../../test-utils";
 import { MockDataProvider } from "../__mocks__/data-provider";
@@ -23,7 +23,7 @@ describe( "TopQueriesWidget", () => {
 	beforeAll( () => {
 		dataProvider = new MockDataProvider();
 		remoteDataProvider = new MockRemoteDataProvider( {} );
-		dataFormatter = new DataFormatter();
+		dataFormatter = new PlainMetricsDataFormatter();
 		formatter = createTopQueriesFormatter( dataFormatter );
 		formattedData = formatter( data );
 	} );

@@ -93,7 +93,13 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {"seoScores"|"readabilityScores"|"topPages"|"siteKitSetup"|"topQueries"|"organicSessions"} WidgetType The widget type.
+ * @typedef {"seoScores" |
+ *           "readabilityScores" |
+ *           "topPages" |
+ *           "siteKitSetup" |
+ *           "topQueries" |
+ *           "searchRankingCompare" |
+ *           "organicSessions"} WidgetType The widget type.
  */
 
 /**
@@ -111,4 +117,38 @@ export { Dashboard } from "./components/dashboard";
  * @property {boolean} isAnalyticsConnected Whether Google Analytics is connected.
  * @property {boolean} isFeatureEnabled Whether the feature is enabled.
  * @property {boolean} isSetupWidgetDismissed Whether the configuration is dismissed.
+ */
+
+/**
+ * @typedef { "current"|"previous" } TimeFrame The time frame for the raw metric data.
+ */
+
+/**
+ * @typedef {Object} TimeFrameData
+ * @property {number} total_clicks The total number of clicks.
+ * @property {number} total_impressions The total number of impressions.
+ * @property {number} average_ctr The average click-through rate.
+ * @property {number} average_position The average position.
+ */
+
+/**
+ * @typedef {Object<TimeFrame, TimeFrameData>} TimeBasedData The time based data.
+ */
+
+/**
+ * @typedef {Object} MetricData
+ * @property {number} value - The value of the metric.
+ * @property {number} delta - The delta of the metric.
+ */
+
+/**
+ * @typedef { "impressions"|"clicks"|"ctr"|"position" } SearchRankingCompareMetric The widget type.
+ */
+
+/**
+ * @typedef {Object<SearchRankingCompareMetric, MetricData>} SearchRankingCompareData The search ranking compare data.
+ * @property {MetricData} impressions - The impressions data.
+ * @property {MetricData} clicks - The clicks data.
+ * @property {MetricData} [ctr] - The click-through rate data (optional).
+ * @property {MetricData} [position] - The average position data (optional).
  */
