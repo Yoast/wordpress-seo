@@ -44,7 +44,7 @@
     "@storybook/react-webpack5": "^8.3.6",
     "@storybook/theming": "^8.3.6",
     "@wordpress/jest-preset-default": "^8.0.1",
-    "@yoast/browserslist-config": "^1.2.3",
+    "@yoast/browserslist-config": "^1.2.4",
     "@yoast/eslint-config": "^8.0.0",
     "@yoast/jest-preset": "^1.0.1",
     "@yoast/postcss-preset": "^1.2.0",
