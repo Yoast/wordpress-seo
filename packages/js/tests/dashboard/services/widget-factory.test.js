@@ -175,4 +175,33 @@ describe( "WidgetFactory", () => {
 
 		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
 	} );
+
+	test.each( "should not create a OrganicSessions widget when user has no permmission", () => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				capabilities: {
+					viewAnalyticsData: false,
+				},
+			},
+		} );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+
+		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
+	} );
+
+	test.each( [
+		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
+		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
+	] )( "should not create a %s widget when site kit without viewing rights", ( _, widget ) => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				capabilities: {
+					viewSearchConsoleData: false,
+				},
+			},
+		} );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+
+		expect( widgetFactory.createWidget( widget ) ).toBeNull();
+	} );
 } );

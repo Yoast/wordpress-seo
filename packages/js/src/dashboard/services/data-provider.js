@@ -5,6 +5,7 @@
  * @type {import("../index").Links} Links
  * @type {import("../index").TopPageData}
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
+ * @type {import("../index").Capabilities} Capabilities
  */
 
 /**
@@ -19,7 +20,6 @@ export class DataProvider {
 	#links;
 	#siteKitConfiguration;
 	#subscribers = new Set();
-
 	#stepsStatuses;
 
 	/**
@@ -38,11 +38,7 @@ export class DataProvider {
 		this.#endpoints = endpoints;
 		this.#headers = headers;
 		this.#links = links;
-		this.#siteKitConfiguration = {
-			isFeatureEnabled: siteKitConfiguration.isFeatureEnabled,
-			isSetupWidgetDismissed: siteKitConfiguration.isSetupWidgetDismissed,
-			isAnalyticsConnected: siteKitConfiguration.isAnalyticsConnected,
-		};
+		this.#siteKitConfiguration = siteKitConfiguration;
 		this.#stepsStatuses = [
 			siteKitConfiguration.isInstalled,
 			siteKitConfiguration.isActive,
