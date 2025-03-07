@@ -30,7 +30,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
 				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2 yst-font-semibold">- 13%</SkeletonLoader>
 			</div>
-			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1"/>
+			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
 
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
@@ -44,7 +44,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
 				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2 yst-font-semibold">- 13%</SkeletonLoader>
 			</div>
-			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1"/>
+			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
 
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
@@ -58,7 +58,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
 				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2 yst-font-semibold">- 13%</SkeletonLoader>
 			</div>
-			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1"/>
+			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
 
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
