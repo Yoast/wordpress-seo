@@ -62,19 +62,22 @@ export class MockDataProvider extends DataProvider {
 				dashboardLearnMore: "https://example.com/dashboard-learn-more",
 				errorSupport: "https://example.com/error-support",
 				siteKitLearnMore: "https://example.com/google-site-kit-learn-more",
-				installSiteKit: "https://example.com/install",
-				activateSiteKit: "https://example.com/activate",
-				setupSiteKit: "https://example.com/isSetup",
 				organicSessionsInfoLearnMore: "https://example.com/organic-sessions-learn-more",
 			},
 			siteKitConfiguration: {
+				installUrl: "https://example.com/install",
+				activateUrl: "https://example.com/activate",
+				setupUrl: "https://example.com/isSetup",
 				isInstalled: false,
 				isActive: false,
 				isSetupCompleted: false,
 				isConsentGranted: false,
 				isAnalyticsConnected: true,
 				isFeatureEnabled: false,
-				isSetupWidgetDismissed: false,
+				capabilities: {
+					installPlugins: true,
+					viewSiteKitData: true,
+				},
 			},
 		} ) );
 		this.setSiteKitConfigurationDismissed = jest.fn();
