@@ -84,11 +84,8 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
 
-	let currentStep = dataProvider.getSiteKitCurrentConnectionStep();
+	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
 	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
-	if ( isSiteKitConnectionCompleted ) {
-		currentStep = steps.length - 1;
-	}
 
 	const buttonProps = [
 		{
@@ -136,8 +133,8 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 			</DropdownMenu.List>
 		</DropdownMenu>
 		<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4">
-			{ isSiteKitConnectionCompleted  ? <YoastConnectSiteKitSuccess width="252" height="60" /> :
-			<YoastConnectSiteKit width="252" height="60" /> }
+			{ isSiteKitConnectionCompleted  ? <YoastConnectSiteKitSuccess width="252" height="60" />
+				: <YoastConnectSiteKit width="252" height="60" /> }
 		</div>
 		<Stepper steps={ steps } currentStep={ currentStep }>
 			{ steps.map( ( label, index ) => (
@@ -170,11 +167,9 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 		</ul>
 		<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
 			{ isSiteKitConnectionCompleted
-				? <>
-					<Button onClick={ handleOnRemove }>
-						{ __( "Got it!", "wordpress-seo" ) }
-					</Button>
-				</>
+				? <Button onClick={ handleOnRemove }>
+					{ __( "Got it!", "wordpress-seo" ) }
+				</Button>
 				: <>
 					<Button { ...buttonProps[ currentStep ] } />
 					<Button as="a" variant="tertiary" href={ learnMoreLink } className="yst-flex yst-items-center yst-gap-1">
