@@ -25,14 +25,14 @@ export const WidgetTooltip = ( { children, dataSources } ) => (
 		<p className="yst-mb-2 yst-text-slate-600">{ children }</p>
 		{
 			dataSources && dataSources.length > 0 && (
-				<div class="yst-pb-2 yst-border-t yst-mt-3 yst-border-slate-200 yst-italic yst-text-[11px]">
+				<div className="yst-pb-2 yst-border-t yst-mt-3 yst-border-slate-200 yst-italic yst-text-[11px]">
 					<span className="yst-block yst-mt-4 yst-mb-4 yst-font-semibold yst-text-slate-800">{ __( "Data provided by:", "wordpress-seo" ) }</span>
 					<ul>
-						{ dataSources.map((dataSource) => (
-							<li className="yst-gap-2 yst-flex yst-mt-4 yst-text-slate-500">
+						{ dataSources.map( ( dataSource, index ) => (
+							<li className="yst-gap-2 yst-flex yst-mt-4 yst-text-slate-500" key={ index }>
 								{ dataSource.feature && (
 									<div>
-										<strong className="yst-font-semibold">{ dataSource.source } - </strong> {dataSource.feature}
+										<strong className="yst-font-semibold">{ dataSource.source } - </strong> { dataSource.feature }
 									</div>
 								) }
 								{ ! dataSource.feature && (
@@ -42,7 +42,7 @@ export const WidgetTooltip = ( { children, dataSources } ) => (
 								) }
 
 							</li>
-						)) }
+						) ) }
 					</ul>
 				</div>
 			)

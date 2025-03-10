@@ -18,7 +18,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 		<div className="yst-flex yst-flex-col yst-justify-center yst-items-center  @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
-					<WidgetTooltip dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }>{ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }</WidgetTooltip>
+					<WidgetTooltip dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) } ] }>{ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }</WidgetTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
 				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
@@ -28,7 +28,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
-					<WidgetTooltip dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }>{ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days. ", "wordpress-seo" ) }</WidgetTooltip>
+					<WidgetTooltip dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) } ] }>{ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }</WidgetTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
 				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
@@ -38,7 +38,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
-					<WidgetTooltip dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }>{ __( "The average click-through-rate for your website over the last 28 days. ", "wordpress-seo" ) }</WidgetTooltip>
+					<WidgetTooltip dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) } ] }>{ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }</WidgetTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
 				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
@@ -48,7 +48,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
-					<WidgetTooltip dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }>{ __( "Average position is the average position of your site in search results over the last 28 days. ", "wordpress-seo" ) }</WidgetTooltip>
+					<WidgetTooltip dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) } ] }>{ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }</WidgetTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
 				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>

@@ -1,6 +1,6 @@
 import { PencilIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { Button, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
 import { ErrorAlert } from "../components/error-alert";
 import { NoDataParagraph } from "../components/no-data-paragraph";
@@ -207,8 +207,6 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 			options );
 	}, [ dataProvider, limit ] );
 
-	const infoLink = dataProvider.getLink( "topPagesInfoLearnMore" );
-
 	/**
 	 * @type {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
 	 */
@@ -228,17 +226,17 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 				__( "%1$s score", "wordpress-seo" ),
 				"Yoast SEO"
 			),
-		}
+		},
 	];
 
 	return <Widget
 		className="yst-paper__content yst-col-span-4"
 		title={ __( "Top 5 most popular content", "wordpress-seo" ) }
 		tooltip={ __(
-			"The top 5 URLs on your website with the highest number of clicks.",
+			"The top 5 URLs on your website with the highest number of clicks over the last 28 days.",
 			"wordpress-seo"
 		) }
-		dataSources= { dataSources }
+		dataSources={ dataSources }
 	>
 		<TopPagesWidgetContent
 			data={ data }
