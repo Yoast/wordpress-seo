@@ -70,7 +70,7 @@ class Site_Kit {
 	 *
 	 * @return bool If the Google site kit setup has been completed.
 	 */
-	private function is_setup_completed() {
+	private function is_setup_completed(): bool {
 		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
 			$site_kit_plugin = Plugin::instance();
 			$authentication  = new Authentication( $site_kit_plugin->context() );
