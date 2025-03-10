@@ -1,193 +1,415 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
-We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
+We will follow [Semantic Versioning](http://semver.org/) from version 3.0.0 and onwards.
 
-## Future Release
-### Enhancements
-* Adds a missing array entry that caused time-related words in Dutch, English, Indonesian, Russian, and Spanish to not be counted as function words.
-* Registers the whole web worker with the scope.
-* Replaces assessment shortlinks that are passed to the assessment constructors in the product assessors with variables.
-* Adds functionality for the webworker to also set custom options when loading the custom assessors for the SEO analysis (regular/cornerstone), the SEO analysis for related keyphrases (regular/cornerstone), and the readability analysis (regular/cornerstone).
-* Adds custom config for TitleWidth assessment in all SEO assessors so that short title is not penalized with a bad score.
-* Expands Russian irregular nouns exception list.
-* Adds stemming rule for the most common perfective verbs.
-* Implements the passive voice assessment for Farsi.
-* Implements the consecutive sentences assessment for Farsi to ensure variety in a text.
-* Changes the maximum recommended sentence length in Farsi to 25 words.
-* Adds Farsi transition words and activates the transition words assessment.
-* Expands the list of function words for Farsi.
-* Removes the Farsi feature flag.
-* Removes hyphens from a keyphrase for the Keyphrase in slug assessment. Also removes the functionality that would look for the keyphrase in the unparsed slug if it was not found in the parsed slug, as it is made redundant by the new functionality.
-* Removes feature flag for Greek support to prepare Greek for release.
-* Adds a few entries to the list of `multipleWords` for French transition words.
-* Removes feature flag for Japanese support to prepare Japanese for release.
-* Adds Japanese configuration for meta description length.
-* Removes apostrophe before Turkish words are stemmed.
-* Improves feedback strings for the Keyphrase Length assessment by making them more explicit.
+## 3.0.0 (2025-03-07)
+### Enhancements:
+* Adds _так_ to the words recognized by the _transition words_ assessment in Russian. [#21440](https://github.com/Yoast/wordpress-seo/pull/21440)
+* Adds a condition in the worker to update the readability analysis assessor when the Paper's keyphrase changes. [#21530](https://github.com/Yoast/wordpress-seo/pull/21530)
+* Adds a score aggregator that only counts valid results. [#21941](https://github.com/Yoast/wordpress-seo/pull/21941)
+* Adds a separate check for German plural nouns containing umlaut. [#21796](https://github.com/Yoast/wordpress-seo/pull/21796)
+* Adds an additional step for stemming words ending in `-er` in English. [#21708](https://github.com/Yoast/wordpress-seo/pull/21708)
+* Adds logic to set `hasAIFixes` to `true` for a certain condition for _keyphrase in introduction_, _keyphrase in subheading_, _keyphrase density_, and _keyphrase distribution_ assessment's result. [#21348](https://github.com/Yoast/wordpress-seo/pull/21348)
+* Adds new property `hasAIFixes` in `AssessmentResult` class. [#21348](https://github.com/Yoast/wordpress-seo/pull/21348)
+* Converts _sentence length_ and _paragraph length_ assessments highlighting approach from search and replace to position-based approach. [#21866](https://github.com/Yoast/wordpress-seo/pull/21866)
+* Converts _sentence length_ and _paragraph length_ assessments to use HTML parser in their analysis. [#21866](https://github.com/Yoast/wordpress-seo/pull/21866)
+* Enables Yoast AI Optimize button for _sentence length_ and _paragraph length_ assessments. [#21866](https://github.com/Yoast/wordpress-seo/pull/21866)
+* Excludes the image caption inside a classic block from the _keyphrase in introduction_ assessment. [#21564](https://github.com/Yoast/wordpress-seo/pull/21564)
+* Expands and updates the transition words lists for Portuguese and English. [#21794](https://github.com/Yoast/wordpress-seo/pull/21794)
+* Improves the _word complexity_ assessment by not flagging the focus keyphrase or related keyphrases as complex words. [#21400](https://github.com/Yoast/wordpress-seo/pull/21400)
+* Improves the transition words lists for Turkish and English.  [#21616](https://github.com/Yoast/wordpress-seo/pull/21616)
+* Improves the verb suffixes recognition and stemming in Spanish. [#21999](https://github.com/Yoast/wordpress-seo/pull/21999)
+* Removes common punctuation from the character count for Japanese in `countCharacters.js`. [#22050](https://github.com/Yoast/wordpress-seo/pull/22050)
 
 ### Bugfixes
-* Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
-* Counts relative fragment links (`#some-id`) as a link to the same page.
-* Removes two items from the list of morphological passive suffixes for Greek due to their overlap with bigger word groups causing false positives detection.
-* Removes spaces before and after Japanese full stops when sanitizing strings.
-* Removes URLs from Japanese texts before computing text length in the `countCharacters` function.
-* Fixes a bug where the results of the SEO analysis of the focus keyphrase were removed when more than two related keyphrases were analyzed.
-
-### Non user facing
-* Now published as a transpiled package.
-* Fixes a bug where an invalid browser field in package.json would cause Vite to throw an error when building.
-* Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
-* Adds a feature-flag for Farsi support.
-* Makes Consecutive sentence, Passive voice and Transition words assessments available for Farsi when the Feature flag is enabled.
-* Adds a missing plural variant of a feedback string for the keyphrase length assessment in product pages.
-* Replaces Images assessment `countVideos` value that is passed to the assessment constructor in the product assessors with a variable.
-* Improves the Farsi passive voice assessment by expanding the list of passive verb forms.
-* Adds missing researcher parameter in assessors.
-* Updates `README.md` for Farsi support.
-* Adjusts Farsi full text tests papers.
-* Removes the Farsi feature flag.
-* Adjusts the English papers in full text tests for product pages.
-* Adds full text tests for product pages and collection pages assessments.
-* Implements the passive voice assessment for Farsi.
-* Implements the consecutive sentences assessment for Farsi to ensure variety in a text.
-* Changes the maximum recommended sentence length in Farsi to 25 words.
-* Adds Farsi transition words and activates the transition words assessment.
-* Fixes assessment result links that omit tracking parameters.
-* Makes it possible to tokenize sentences in Japanese.
-* Adds Japanese folder and Researcher.
-* Adds a feature-flag for Japanese support.
-* Implements the consecutive sentences assessment for Greek to ensure variety in a text.
-* Adds Greek transition words and activates the transition words assessment.
-* Adds a language folder and Researcher for Greek.
-* Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
-* Makes passive voice and function words in keyphrase assessments available for Greek.
-* Adds a paper and unit tests to test the assessments for Greek and edits a typo in the Greek morphologyData file path in `getMorphologyData.js`.
-* Adds a `getContentWords` helper and adds function words list for Japanese.
-* Updates README.md for Greek support.
-* Creates a helper for splitting a Japanese text into words using the TinySegmenter package, and adds Japanese punctuation to the removePunctuation helper. Also changes the global Jest testing environment from `node` to `jsdom`.
-* Adds external stemmer for Greek.
-* Improves keyphrase recognition in Greek by filtering out function words such as `στον`, `τρίτος`, `τέτοιους`, `ποιανής`.
-* Implements passive voice assessment for Greek.
-* Adapts `findTransitionWords` research for Japanese.
-* Adds Japanese transition words and activates the transition words assessment.
-* Adapts `getKeywordDensity` research for Japanese.
-* Adapts `functionWordsInKeyphrase` research for Japanese.
-* Creates Japanese helper file for matching word in text.
-* Changes the helper to match word in text for Japanese in `altTagCount`.
-* Adds a helper to create word forms for Japanese.
-* Adapts `matchKeywordInSubheadings` research for Japanese.
-* Adapts `keyphraseDistribution` research for Japanese and adds Japanese topic length criteria config.
-* Adapts `getSubheadingTextLengths` for Japanese.
-* Adds the option to pass a language-specific `getWords` helper to the `getSentenceBeginnings` research.
-* Adds Japanese sentence beginning exceptions.
-* Activates the consecutive sentences assessment for Japanese.
-* Adapts `getParagraphLength` research for Japanese.
-* Adapts the `sentencesCountFromText` research for Japanese.
-* Adapts the `getProminentWordsForInsights` research for Japanese.
-* Fixes the prominent words functionality in content-analysis app.
-* Adds unit tests that cover Japanese strings in `metaDescriptionLengthSpec` research file.
-* Adds the option to pass a custom matchWordInText helper and a helper for matching multiword keyphrases in the findKeywordInPageTitle research.
-* Creates a custom helper for finding exact matches of multiword keyphrases in title in Japanese.
-* Adds Japanese quotes to the function that checks whether a keyphrase is enclosed in double quotes in the findKeywordInPageTitle research.
-* Adds a custom `morphology` research for the Japanese language and edits an HTML tag typo in `matchStringWithRegexSpec.js`.
-* Adapts `getProminentWordsForInternalLinking` research for Japanese.
-* Adds `customGetStemmer` and `determineStem` helper for Japanese.
-* Cleans up spec descriptions for assessing text and paragraph length.
-* Updates `README.md` for Japanese support.
-* Adapt the `getKeywordDensity` research so that a `getWordsCustomHelper` is used when available and adds unitests for Japanese.
-* Adapts `getLinkStatistics` research for Japanese.
-* Improves the way keyphrase enclosed in double quotes is matched in Keyphrase in title assessment for Japanese.
-* Adapts Keyphrase in title assessment for Japanese and adds a custom Japanese `findKeywordInPageTitle` research file.
-* Moves `processExactMatchRequest` helper from `findKeywordInPageTitle.js` to a separate helper file.
-* Adds `position` of the matched keyphrase in the returned object of `matchTextWithArray.js` and `findKeywordFormsInString.js`.
-* Removes codes that are not relevant anymore which were introduced in [this PR](https://github.com/Yoast/wordpress-seo/pull/17577).
-* Adapts subheading distribution assessment for Japanese.
-* Fixes highlights for sentence length assessment for other editors.
-* Adapts the keyphrase length assessment for Japanese so that it uses custom scoring config and counts keyphrase length in characters instead of words.
-* Disables the keyphrase in slug assessment for Japanese.
-* Adds custom `keyphraseLength` research for Japanese.
-* Adapts the sentence length assessment for Japanese.
-* Adapts the text length assessment for Japanese.
-* Adapts the Paragraph length assessment for Japanese and adds a Japanese specific configuration file for the paragraph length assessment in non-product and product pages.
-* Changes the applicability criteria of the transition words, subheading distribution, and keyphrase density assessments for Japanese so that the minimum required text length is expressed in characters instead of words.
-* Adapts the functionality to mark words in a sentence for Japanese.
-* Adds a functionality in estimating reading time of a text to use characters per minute formula and adds the reading time score for Japanese.
-* Adds a step to exclude Table of Contents in `sanitizeString.js` helper and uses this helper in Japanese `countCharacters` and `getWords` helpers.
-* Replaces 'words' with 'characters' in the Japanese feedback strings for the Subheading distribution, Paragraph length, Sentence length, Keyphrase length, and Text length assessments.
-* Adds the option to pass a custom `matchWordInText` helper and a helper for matching Japanese keyphrases in the `findKeywordInFirstParagraph` research.
-* Fixes the Japanese full text test.
-* Adds a Japanese full text test.
-* Recognises internal link if the site's host is null but the site domain and the link host are the same.
-* Adds documentation of the scoring criteria of the assessments.
-* Edits the links to two documentation files and the size of the image displaying the assessments bullets.
-* Adds links between newly created readme files and edit two minor typos.
-* Refactors the `isInternalLink` helper to improve clarity.
-* Removes superfluous full text test papers for all languages in the yoastseo package.
-* Adds a spec file for `getLanguagesWithWordFormSupport.js`.
-
-
-## 1.92.0
-### Enhancements
-* Adds correct shortlinks to product assessors.
-* Adjusts recommended text length values for non-cornerstone collections pages so that they are lower than the cornerstone ones.
-* Adds a keyphrase distribution assessment to all relevant product-related assessors.
-* Adds assessors for collection pages and sets them in the `apps/content-analysis/src/analysis.worker.js` file.
-* Adds assessors for blog posts and pages, and sets them in `analysis.worker` in the content analysis app.
-* Adds shortlinks to the feedback text of the Lists assessment.
-* Creates `ImageAltTagsAssessment` for product pages.
-* Adds custom configuration for the keyphrase length assessment when used for product pages.
-* Adds language-specific configuration parameters for German, Dutch and Swedish.
-* Refactors the `paragraphTooLong` assessment into a class and adds custom config for the assessment when used for product pages.
-* Refactors the way that the right `config` is set for the sentence length assessment.
-* Passes appropriate `config` to the sentence length assessment class in the product page content assessors.
-* Adds an extra check in the `SubheadingsDistributionTooLong` assessment's applicability where we can adjust whether the assessment should appear in a short text analysis or not.
-* Adds assessors for store blogs.
-* Adds functionality for the webworker to load custom assessors for the SEO analysis (regular/cornerstone), the SEO analysis for related keyphrases (regular/cornerstone), and the readability analysis (regular/cornerstone).
-* Implements the consecutive sentence beginnings assessment for Slovak to ensure variety in a text.
-* Implements the passive voice assessment for Slovak.
-* Implements the transition words assessment for Slovak.
-* Improves keyphrase recognition in Slovak by filtering out function words such as `som, a, jedna, že`.
-* Adds external stemmer for Slovak.
-* Improves keyword detection for Norwegian by expanding the list of function words.
-* Implements the passive voice assessment for Norwegian.
-* Adds Norwegian transition words and activates the transition words assessment.
-* Activates the consecutive sentences assessment for Norwegian and adds a list of exception words to exclude from the assessment.
-* Adds `jak wiemy` to the list of Polish transition words.
-* Adds Czech stemmer.
-* Implements the passive voice assessment for Czech.
-* Adds function words for Czech.
-* Adds the sentence beginnings assessment for Czech.
-* Adds the transition words list for Czech and improves the list of function words with the most common irregular comparatives.
-* Changes the recommended maximum result of `portuguesePaper2` in `fullTextTests` folder and deletes a word that is also a preposition from participle list.
-* Adds diacritics to the list of full form non-passive exceptions for Turkish.
-* Adds more non-passive exception words to the list of full form non-passive exceptions for Turkish.
-* Improves code quality of the Spanish stemmer and changes the way we stem words ending in `-mente`.
-* Implements the new `Clause` and `SentenceNew` class to English folder, adds English Clause class, and adjusts related specs.
-* Adapts the language-specific files for passive voice assessment to the new structure for German, Dutch, French, Spanish, Italian, Portuguese, Polish, Hungarian, and Czech.
-* Refactors the `Sentence` and `SentencePart` classes.
-* Moves passive voice values and some helpers, and the `ProminentWord` value to different folders in order to improve file organization.
-* Moves an exception check specific to English from the general `getClauses` file to the English-specific `getClauses` file.
-* Deletes obsolete files and changes the `SentenceNew` class to `Sentence`. Also adds an additional check in `parse.js` to parse classes.
-* Fixes the stopwords list for Czech by adding the correct stopwords. Adds punctuation marks as sentence breakers.
-* Excludes Table of Contents from the analysis.
-* Filters out table block content from the `getSentenceBeginnings` research.
-* Makes `transitionWordsAssessment` not applicable when the text has less than 200 words.
-* Adds shortlinks to the feedback text of the Images and Image Keyphrase assessments.
-* Adds text length score boundaries config for product pages to the product page SEO assessors.
-* Adds custom config for `TitleWidth` assessment for product pages and adds extra feedback string in the assessment file for when short title width is not penalized with a bad score.
-* Creates a research file that checks if there are lists in the text, and an assessment file that returns a red bullet if there is no list and a green bullet if there is one.
-* Adds assessors for product pages.
-* Removes the outbound links and internal links assessments from the SEO analysis on product pages.
-* Removes the Flesch Reading Ease assessment and the consecutive sentences assessment from the readability analysis on product pages.
-* Includes videos in the `ImageCount` analysis when the `countVideos` value is true.
-* Passes custom configuration for the images assessment for product pages
-* Splits the `TextImagesAssessment` into two, `KeyphraseInImageTextAssessment` and `ImageCountAssessment`.
+* Fixes a bug where Arabic keyphrases containing certain function words were not correctly matched. [#21569](https://github.com/Yoast/wordpress-seo/pull/21569)
+* Fixes a bug where the content analysis would become unresponsive when processing very long keyphrases in Arabic and Hebrew. [#21807](https://github.com/Yoast/wordpress-seo/pull/21807)
 
 ### Other
-* Removes the Flesch Reading Ease assessment from the blog posts and pages assessors.
-* Removes the `Images` assessment from related keyphrase analysis in `productPages`.
+* Exposes all assessors and the helpers to retrieve the _word complexity_ configs and helpers. [#21337](https://github.com/Yoast/wordpress-seo/pull/21337)
+* Improves the feedback strings in _subheading distribution_ assessment for better translatability. [#22044](https://github.com/Yoast/wordpress-seo/pull/22044)
+* Outputs the feedback strings of the following assessments as a non-translation string by default: _image alt tags_, _keyphrase distribution_, _title_, _product SKU_, _product identifier_, _word complexity_, _lists_, and _text alignment_ assessments. The default feedback strings can be overridden through the assessment config `callbacks.getResultTexts`, for example with text in the form of translation strings. [#21567](https://github.com/Yoast/wordpress-seo/pull/21567)
+* Removes the product assessment registration from product assessors. These assessments must now be registered via the worker `worker.registerAssessment()`. [#21567](https://github.com/Yoast/wordpress-seo/pull/21567)
+* Removes unused code related to the tree parser. [#21941](https://github.com/Yoast/wordpress-seo/pull/21941)
+
+### Non user facing:
+* Adds TypeScript bindings. [#21717](https://github.com/Yoast/wordpress-seo/pull/21717)
+* Adds a `yarn` command to extract the inclusive language configuration. [#21987](https://github.com/Yoast/wordpress-seo/pull/21987)
+* Adds a rule description property to each inclusive language assessment that has a rule. [#21779](https://github.com/Yoast/wordpress-seo/pull/21779)
+* Adds additional key `endOffset` of a block when parsing the Gutenberg blocks. [#21520](https://github.com/Yoast/wordpress-seo/pull/21520)
+* Adds an overview and glossary for the terminology used throughout the package. [#21876](https://github.com/Yoast/wordpress-seo/pull/21876)
+* Adds enforcement of WordPress's i18n rules.  [#22042](https://github.com/Yoast/wordpress-seo/pull/22042)
+* Adds tests for converting Turkish keyphrases starting on capitalised İ and ı to lower case. [#21980](https://github.com/Yoast/wordpress-seo/pull/21980)
+* Allows transpiling all JavaScript files inside `src` and `vendor` into TypeScript and allows importing modules with an asterisk `*`. [#21971](https://github.com/Yoast/wordpress-seo/pull/21971)
+* Converts the _list_ assessment to use the HTML parser. [#21726](https://github.com/Yoast/wordpress-seo/pull/21726)
+* Exports the `LanguageProcessor`. [#21957](https://github.com/Yoast/wordpress-seo/pull/21957)
+* Improves the way that the passive auxiliaries list is organized, and the way it's used to create rules for disability assessments. [#21788](https://github.com/Yoast/wordpress-seo/pull/21788)
+* Outputs the parent block of the introduction node when the `findKeywordInFirstParagraph` research is run. [#21520](https://github.com/Yoast/wordpress-seo/pull/21520)
+* Removes the `matchStringWithRegex` helper from the index, as its use is discouraged. [#21721](https://github.com/Yoast/wordpress-seo/pull/21721)
+* Removes unnecessary inclusive language feedback string variables. [#21535](https://github.com/Yoast/wordpress-seo/pull/21535)
+* Rewrites JavaScript `prototype`-based classes into the newer `class` syntax. [#21325](https://github.com/Yoast/wordpress-seo/pull/21325)
+* Updates the package dependencies. [#21813](https://github.com/Yoast/wordpress-seo/pull/21813)
+* Updates the readability analysis result when there is a change in the list of Gutenberg blocks `wpBlocks`. [#21953](https://github.com/Yoast/wordpress-seo/pull/21953)
+* Uses the HTML parser for the _text alignment_ assessment. [#21721](https://github.com/Yoast/wordpress-seo/pull/21721)
+
+## 2.0.0-alpha.0 (2024-05-27) (changelog is likely incomplete)
+### Enhancements
+* Activates the consecutive sentences assessment for Norwegian and adds a list of exception words to exclude from the assessment.
+* Adapts _keyphrase density_ assessment to use the HTML parser. [#20139](https://github.com/Yoast/wordpress-seo/pull/20139)
+* Adapts the language-specific files for passive voice assessment to the new structure for German, Dutch, French, Spanish, Italian, Portuguese, Polish, Hungarian, and Czech.
+* Adds `<textarea>` element to ignored tags in the html parser. [#20212](https://github.com/Yoast/wordpress-seo/pull/20212)
+* Adds Czech stemmer.
+* Adds Farsi transition words and activates the transition words assessment.
+* Adds Japanese configuration for meta description length.
+* Adds Norwegian transition words and activates the transition words assessment.
+* Adds _Text alignment_ assessment to the Readability analysis. [#19881](https://github.com/Yoast/wordpress-seo/pull/19881)
+* Adds `TextTitleAssessment`. [#18990](https://github.com/Yoast/wordpress-seo/pull/18990)
+* Adds `jak wiemy` to the list of Polish transition words.
+* Adds a `getParagraphs` research that returns all paragraphs in a document. [#20546](https://github.com/Yoast/wordpress-seo/pull/20546)
+* Adds a check in the `wordComplexity` research file to exclude words included in the `functionWords` config. [#19390](https://github.com/Yoast/wordpress-seo/pull/19390)
+* Adds a condition to the SKU assessment that returns a grey bullet when the product variant data is not valid. [#18721](https://github.com/Yoast/wordpress-seo/pull/18721)
+* Adds a condition to the assessment that returns a grey bullet when the product variant data is not valid. [#18698](https://github.com/Yoast/wordpress-seo/pull/18698)
+* Adds a few entries to the list of `multipleWords` for French transition words.
+* Adds a function to exclude an HTML element by its attributes' `id` in `fiterHelpers.js`. [#20186](https://github.com/Yoast/wordpress-seo/pull/20186)
+* Adds a keyphrase distribution assessment to all relevant product-related assessors.
+* Adds a missing array entry that caused time-related words in Dutch, English, Indonesian, Russian, and Spanish to not be counted as function words.
+* Adds a new attribute `writingDirection` to the Paper. [#19881](https://github.com/Yoast/wordpress-seo/pull/19881)
+* Adds a step to check for the pre-sanitized version of the keyphrase to match in the findKeyphraseInSEOTitle research. [#19816](https://github.com/Yoast/wordpress-seo/pull/19816)
+* Adds a step to the `dehyphenateKeyphrase` function in the `keywordCountInUrl` research that allows to generate an array of dehyphenated keyphrase forms for keyphrases with multiple word forms. [#18460](https://github.com/Yoast/wordpress-seo/pull/18460)
+* Adds a word complexity research and assessment, with an implementation for English. [#18592](https://github.com/Yoast/wordpress-seo/pull/18592)
+* Adds additional setter and getter methods in `Mark` object for position information. [#20139](https://github.com/Yoast/wordpress-seo/pull/20139)
+* Adds an additional check to split text on ellipsis &#8230; only when the beginning of the next sentence is a valid one. [#18511](https://github.com/Yoast/wordpress-seo/pull/18511)
+* Adds an edit button to the assessment results of the SEO title width, Meta description length, Keyphrase in meta description, Keyphrase in slug, Keyphrase in SEO title, Keyphrase length, and Function words in keyphrase assessments when they return an orange or red bullet.  [#18674](https://github.com/Yoast/wordpress-seo/pull/18674)
+* Adds an edit button to the assessment results of the SKU and Product identifier assessments when they return an orange or red bullet. [#19886](https://github.com/Yoast/wordpress-seo/pull/19886)
+* Adds an extra check for matching keyphrase in SEO title for languages that have function word prefixes (i.e. Arabic and Hebrew). [#21150](https://github.com/Yoast/wordpress-seo/pull/21150)
+* Adds an extra check in the `SubheadingsDistributionTooLong` assessment's applicability where we can adjust whether the assessment should appear in a short text analysis or not.
+* Adds assessors for blog posts and pages, and sets them in `analysis.worker` in the content analysis app.
+* Adds assessors for collection pages and sets them in the `apps/content-analysis/src/analysis.worker.js` file.
+* Adds assessors for product pages.
+* Adds assessors for store blogs.
+* Adds correct shortlinks to product assessors.
+* Adds custom config for TitleWidth assessment in all SEO assessors so that short title is not penalized with a bad score.
+* Adds custom config for `TitleWidth` assessment for product pages and adds extra feedback string in the assessment file for when short title width is not penalized with a bad score.
+* Adds custom configuration for the keyphrase length assessment when used for product pages.
+* Adds diacritics to the list of full form non-passive exceptions for Turkish.
+* Adds external stemmer for Slovak.
+* Adds function words for Czech.
+* Adds functionality for the webworker to also set custom options when loading the custom assessors for the SEO analysis (regular/cornerstone), the SEO analysis for related keyphrases (regular/cornerstone), and the readability analysis (regular/cornerstone).
+* Adds functionality for the webworker to load custom assessors for the SEO analysis (regular/cornerstone), the SEO analysis for related keyphrases (regular/cornerstone), and the readability analysis (regular/cornerstone).
+* Adds helpers to retrieve the sentence and words from paragraph and heading nodes. [#20139](https://github.com/Yoast/wordpress-seo/pull/20139)
+* Adds highlighting for the _subheading distribution_ assessment and new feedback for content with a too long text before the first subheading.  [#18773](https://github.com/Yoast/wordpress-seo/pull/18773)
+* Adds language-specific configuration parameters for German, Dutch and Swedish.
+* Adds more non-passive exception words to the list of full form non-passive exceptions for Turkish.
+* Adds quotation marks followed by period as valid sentence endings. [#18530](https://github.com/Yoast/wordpress-seo/pull/18530)
+* Adds shortlinks to the feedback text of the Images and Image Keyphrase assessments.
+* Adds shortlinks to the feedback text of the Lists assessment.
+* Adds single-word transition words to the function words list for Arabic and Hebrew. [#20992](https://github.com/Yoast/wordpress-seo/pull/20992)
+* Adds stemming rule for the most common perfective verbs.
+* Adds text length score boundaries config for product pages to the product page SEO assessors.
+* Adds the full slug (in addition to each part of the slug divided on the hyphen/underscore) to the list of words from the paper. [#18460](https://github.com/Yoast/wordpress-seo/pull/18460)
+* Adds the html code (&amp) for the ampersand character (&) to the removePunctuation helper. [#18664](https://github.com/Yoast/wordpress-seo/pull/18664)
+* Adds the sentence beginnings assessment for Czech.
+* Adds the transition words list for Czech and improves the list of function words with the most common irregular comparatives.
+* Adds the word complexity assessment for Spanish, German and French. [#18684](https://github.com/Yoast/wordpress-seo/pull/18684)
+* Adjusts recommended text length values for non-cornerstone collections pages so that they are lower than the cornerstone ones.
+* Changes the maximum recommended sentence length in Farsi to 25 words.
+* Changes the recommended maximum result of `portuguesePaper2` in `fullTextTests` folder and deletes a word that is also a preposition from participle list.
+* Creates `ImageAltTagsAssessment` for product pages.
+* Creates a research file that checks if there are lists in the text, and an assessment file that returns a red bullet if there is no list and a green bullet if there is one.
+* Deletes obsolete files and changes the `SentenceNew` class to `Sentence`. Also adds an additional check in `parse.js` to parse classes.
+* Enables the Product identifiers assessment in WooCommerce. [#18698](https://github.com/Yoast/wordpress-seo/pull/18698)
+* Enables the SKU assessment in WooCommerce. [#18721](https://github.com/Yoast/wordpress-seo/pull/18721)
+* Excludes Estimated reading time from the analysis. [#18726](https://github.com/Yoast/wordpress-seo/pull/18726)
+* Excludes Table of Contents from the analysis.
+* Expands Russian irregular nouns exception list.
+* Expands the list of excluded HTML elements in `alwaysFilterElements.js`. [#20186](https://github.com/Yoast/wordpress-seo/pull/20186)
+* Expands the list of function words for Farsi.
+* Filters out table block content from the `getSentenceBeginnings` research.
+* Fixes the stopwords list for Czech by adding the correct stopwords. Adds punctuation marks as sentence breakers.
+* Implements the consecutive sentence beginnings assessment for Slovak to ensure variety in a text.
+* Implements the consecutive sentences assessment for Farsi to ensure variety in a text.
+* Implements the new `Clause` and `SentenceNew` class to English folder, adds English Clause class, and adjusts related specs.
+* Implements the passive voice assessment for Czech.
+* Implements the passive voice assessment for Farsi.
+* Implements the passive voice assessment for Norwegian.
+* Implements the passive voice assessment for Slovak.
+* Implements the transition words assessment for Slovak.
+* Improves code quality of the Spanish stemmer and changes the way we stem words ending in `-mente`.
+* Improves feedback strings for _keyphrase density_  assessment by replacing "focus keyphrase" with "keyphrase". [#20213](https://github.com/Yoast/wordpress-seo/pull/20213)
+* Improves feedback strings for the Keyphrase Length assessment by making them more explicit.
+* Improves feedback strings for the Keyphrase Length assessment by making them more explicit. [#18016](https://github.com/Yoast/wordpress-seo/pull/18016)
+* Improves keyphrase recognition in Slovak by filtering out function words such as `som, a, jedna, že`.
+* Improves keyword detection for Norwegian by expanding the list of function words.
+* Improves recognition of keyphrases appearing with em dashes. [#18459](https://github.com/Yoast/wordpress-seo/pull/18459)
+* Improves sentence recognition for German by disregarding ordinal numbers as potential sentence boundaries. [#18560](https://github.com/Yoast/wordpress-seo/pull/18560)
+* Improves the SentenceTokenizer performance by adding curly (“”) and angular quotation marks («»). [#18664](https://github.com/Yoast/wordpress-seo/pull/18664)
+* Improves the content analysis by excluding blockquote HTML elements. [#18528](https://github.com/Yoast/wordpress-seo/pull/18528)
+* Improves the regex used to remove URLs from the text so that it matches URLs containing semi-colons, and doesn't match domain names (e.g. yoast.com).  [#19137](https://github.com/Yoast/wordpress-seo/pull/19137)
+* Improves the sentence recognition by disregarding abbreviations as potential sentence boundaries. [#18505](https://github.com/Yoast/wordpress-seo/pull/18505)
+* Improves the sentence recognition by disregarding initials as potential sentence boundaries. [#18527](https://github.com/Yoast/wordpress-seo/pull/18527)
+* Improves the text analysis by supporting sentence detection for declarative sentences in quotation marks. [#18530](https://github.com/Yoast/wordpress-seo/pull/18530)
+* Improves tokenizing text into sentences by adding a new condition that next sentence should be preceded by a whitespace except in Japanese. [#18443](https://github.com/Yoast/wordpress-seo/pull/18443)
+* Includes videos in the `ImageCount` analysis when the `countVideos` value is true.
+* Introduces a robust HTML parser to improve the processing and analysis of text in HTML.  [#20367](https://github.com/Yoast/wordpress-seo/pull/20367)
+* Introduces more robust HTML processing and highlighting  [#20714](https://github.com/Yoast/wordpress-seo/pull/20714)
+* Makes `transitionWordsAssessment` not applicable when the text has less than 200 words.
+* Makes replacement of spaces, followed by a period, applicable only when the period is the last character in both stripSpaces files. [#19816](https://github.com/Yoast/wordpress-seo/pull/19816)
+* Makes the _SKU_ and _product identifiers_ assessments available for grouped products. [#18958](https://github.com/Yoast/wordpress-seo/pull/18958)
+* Moves Japanese Sentence Tokenizer out of `SentenceTokenizer.js`. [#18443](https://github.com/Yoast/wordpress-seo/pull/18443)
+* Moves an exception check specific to English from the general `getClauses` file to the English-specific `getClauses` file.
+* Moves passive voice values and some helpers, and the `ProminentWord` value to different folders in order to improve file organization.
+* Normalizes single quotes in Japanese sentences before looking for an exact match with the keyphrase. [#20650](https://github.com/Yoast/wordpress-seo/pull/20650)
+* Normalizes single quotes when creating tokens from sentences. [#20650](https://github.com/Yoast/wordpress-seo/pull/20650)
+* Passes appropriate `config` to the sentence length assessment class in the product page content assessors.
+* Passes custom configuration for the images assessment for product pages
+* Refactors `getSubheadingTexts` research to also return the text that follows a subheading. [#18773](https://github.com/Yoast/wordpress-seo/pull/18773)
+* Refactors the `Sentence` and `SentencePart` classes.
+* Refactors the `paragraphTooLong` assessment into a class and adds custom config for the assessment when used for product pages.
+* Refactors the way that the right `config` is set for the sentence length assessment.
+* Registers the whole web worker with the scope.
+* Removes URLs and email addresses from the text before calculating prominent words (for insights and for internal linking).  [#19137](https://github.com/Yoast/wordpress-seo/pull/19137)
+* Removes all spaces from the text before counting the number of characters in Japanese texts. [#19137](https://github.com/Yoast/wordpress-seo/pull/19137)
+* Removes apostrophe before Turkish words are stemmed. [#17981](https://github.com/Yoast/wordpress-seo/pull/17981)
+* Removes feature flag for Greek support to prepare Greek for release.
+* Removes feature flag for Japanese support to prepare Japanese for release.
+* Removes hyphens from a keyphrase for the Keyphrase in slug assessment. Also removes the functionality that would look for the keyphrase in the unparsed slug if it was not found in the parsed slug, as it is made redundant by the new functionality.
+* Removes non-transition words from the Arabic transition words list. [#19097](https://github.com/Yoast/wordpress-seo/pull/19097)
+* Removes semicolon from sentence delimiter list. [#18511](https://github.com/Yoast/wordpress-seo/pull/18511)
+* Removes the Farsi feature flag.
+* Removes the Flesch Reading Ease assessment and the consecutive sentences assessment from the readability analysis on product pages.
+* Removes the outbound links and internal links assessments from the SEO analysis on product pages.
+* Renames `keywordDensity` to `keyphraseDensity` in the assessment's class. [#20139](https://github.com/Yoast/wordpress-seo/pull/20139)
+* Replaces assessment shortlinks that are passed to the assessment constructors in the product assessors with variables.
+* Splits hyphenated function words into separate words and adds them to the list of function words. [#20992](https://github.com/Yoast/wordpress-seo/pull/20992)
+* Splits the `TextImagesAssessment` into two, `KeyphraseInImageTextAssessment` and `ImageCountAssessment`.
+* Switches the default setting of the `nofollow_rss_links` filter from `true` to `false` in order to disable the `rel=nofollow` attribute for RSS feed links. [#20693](https://github.com/Yoast/wordpress-seo/pull/20693)
+* Updates the documentation of _keyphrase in image_ and _keyphrase density_ assessments. [#20213](https://github.com/Yoast/wordpress-seo/pull/20213)
+* Uses language (e.g. `id`) instead of locale (e.g. `id_ID`) for language-specific checks that should be performed for all locale variants of a language. [#21268](https://github.com/Yoast/wordpress-seo/pull/21268)
+
+### Bugfixes
+* Adds `yoastmark` tags to matched keyphrase with different types of apostrophe. For example, when the keyphrase is "panda" and both "panda's" and "panda’s" are found in the text, `yoastmark` tags would be added to both occurrences. [#20947](https://github.com/Yoast/wordpress-seo/pull/20947)
+* Adds a step to filter out blocks that only contain paragraph tags in `getSentences.js`. [#18416](https://github.com/Yoast/wordpress-seo/pull/18416)
+* Adds a step to unify all whitespaces and non-breaking spaces in `sanitizeString.js` helper. [#18416](https://github.com/Yoast/wordpress-seo/pull/18416)
+* Adds a step to unify non-breaking spaces in `Paper.js` and before splitting it into words. [#18416](https://github.com/Yoast/wordpress-seo/pull/18416)
+* Adds a type label when registering a new assessment using the `registerAssessment` function in the `AnalysisWebWorker` file. [#19020](https://github.com/Yoast/wordpress-seo/pull/19020)
+* Adds the non-breaking space character (`&nbsp;`) to the removePunctuation helper to fix highlighting issues. [#18689](https://github.com/Yoast/wordpress-seo/pull/18689)
+* Counts relative fragment links (`#some-id`) as a link to the same page.
+* Don't count empty h1s when looking for h1s in the text in the `h1s.js` research. [#20663](https://github.com/Yoast/wordpress-seo/pull/20663)
+* Excludes applying `yoastmark` to anchor tag attributes. [#19688](https://github.com/Yoast/wordpress-seo/pull/19688)
+* Fixes a bug where an invalid browser field in package.json would cause Vite to throw an error when building. Props to [peeke](https://github.com/peeke). [#19361](https://github.com/Yoast/wordpress-seo/pull/19361)
+* Fixes a bug where shortcodes in the Block editor would be treated as words when analyzing content. [#19876](https://github.com/Yoast/wordpress-seo/pull/19876)
+* Fixes a bug where the _previously used keyword_ assessment would potentially link to an empty page of results when the focus keyphrase had been used across different post types. [#19800](https://github.com/Yoast/wordpress-seo/pull/19800)
+* Fixes a bug where the results of the SEO analysis of the focus keyphrase were removed when more than two related keyphrases were analyzed.
+* Fixes a bug with incorrect counting of the number of words in the text when using Cyrillic (Russian and Ukrainian). Props to [kudinovfedor](https://github.com/kudinovfedor). [#17774](https://github.com/Yoast/wordpress-seo/pull/17774)
+* Fixes a typo in the list of Spanish transition words. [#18442](https://github.com/Yoast/wordpress-seo/pull/18442)
+* Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
+* Removes URLs from Japanese texts before computing text length in the `countCharacters` function. [#17970](https://github.com/Yoast/wordpress-seo/pull/17970)
+* Removes spaces before and after Japanese full stops when sanitizing strings. [#17970](https://github.com/Yoast/wordpress-seo/pull/17970)
+* Removes two items from the list of morphological passive suffixes for Greek due to their overlap with bigger word groups causing false positives detection.
+
+### Other
+* Adds additional logic to register a readability assessment for cornerstone content. [#19812](https://github.com/Yoast/wordpress-seo/pull/19812)
+* Adds documentation about the inclusive language analysis. [#19092](https://github.com/Yoast/wordpress-seo/pull/19092)
+* Adds the _title assessment_ to the yoastseo package. [#19931](https://github.com/Yoast/wordpress-seo/pull/19931)
+* Creates methods for adding or checking a given config. [#19877](https://github.com/Yoast/wordpress-seo/pull/19877)
+* Fixes warnings from running `yarn lint`. [#20952](https://github.com/Yoast/wordpress-seo/pull/20952)
+* Moves the registration of _keyphrase distribution assessment_ and its research and helper outside of `yoastseo`. [#19824](https://github.com/Yoast/wordpress-seo/pull/19824)
+* Moves the registration of the _word complexity_ assessment and its research and helper outside of the `yoastseo` package. [#19812](https://github.com/Yoast/wordpress-seo/pull/19812)
+* Optimizes the English frequency list, for example by removing plural forms duplicates and words shorter than the length limit. [#19877](https://github.com/Yoast/wordpress-seo/pull/19877)
 * Refactors the transition words, passive voice, text presence, and sentence beginnings assessments into classes.
+* Removes `ProductSKUAssessment`, `ProductIdentifiersAssessment`, and `ImageAltTagsAssessment` from the assessments module. [#20025](https://github.com/Yoast/wordpress-seo/pull/20025)
+* Removes the Flesch Reading Ease assessment from the blog posts and pages assessors.
+* Removes the _word complexity_ assessment's config from the language-specific researcher. [#19877](https://github.com/Yoast/wordpress-seo/pull/19877)
+* Removes the `Images` assessment from related keyphrase analysis in `productPages`.
+* Removes the `templates` directory from the package. [#21312](https://github.com/Yoast/wordpress-seo/pull/21312)
+* Removes the beta badge from the result of the WordComplexityAssessment. [#19140](https://github.com/Yoast/wordpress-seo/pull/19140)
+* Removes the deprecated `SnippetPreview` from the `App`. [#21327](https://github.com/Yoast/wordpress-seo/pull/21327)
+* Removes the logic to initialize  _keyphrase distribution assessment_ from the worker and app. [#19824](https://github.com/Yoast/wordpress-seo/pull/19824)
+* Removes the logic to initialize the _word complexity_ assessment from the worker and the app. [#19812](https://github.com/Yoast/wordpress-seo/pull/19812)
+* Renames the 'Keyphrase in title' SEO assessment to 'Keyphrase in SEO title', including its research file from `findKeyphraseInPageTitle` to `findKeyphraseInSEOTitle`. [#18504](https://github.com/Yoast/wordpress-seo/pull/18504)
+* Replaces lodash-es dependency with lodash. [#21287](https://github.com/Yoast/wordpress-seo/pull/21287)
+* Resolves a typo in a feedback string in the `cultureAssessments.js` file. [#19070](https://github.com/Yoast/wordpress-seo/pull/19070)
+* Resolves a typo in the list of German transition words. [#21266](https://github.com/Yoast/wordpress-seo/pull/21266)
+* Updates documentation on scoring for the _keyphrase in image assessment_. [#20580](https://github.com/Yoast/wordpress-seo/pull/20580)
+* Updates the analysis documentation for transition words assessment. [#19104](https://github.com/Yoast/wordpress-seo/pull/19104)
+
+### Non user facing
+* Activates the consecutive sentences assessment for Japanese.
+* Adapt the `getKeywordDensity` research so that a `getWordsCustomHelper` is used when available and adds unitests for Japanese.
+* Adapts Keyphrase in title assessment for Japanese and adds a custom Japanese `findKeywordInPageTitle` research file.
+* Adapts _text competing links_ assessment to use the HTML parser. [#20072](https://github.com/Yoast/wordpress-seo/pull/20072)
+* Adapts `findTransitionWords` research for Japanese.
+* Adapts `functionWordsInKeyphrase` research for Japanese.
+* Adapts `getKeywordDensity` research for Japanese.
+* Adapts `getLinkStatistics` research for Japanese.
+* Adapts `getParagraphLength` research for Japanese.
+* Adapts `getProminentWordsForInternalLinking` research for Japanese.
+* Adapts `getSubheadingTextLengths` for Japanese.
+* Adapts `keyphraseDistribution` research for Japanese and adds Japanese topic length criteria config.
+* Adapts `matchKeywordInSubheadings` research for Japanese.
+* Adapts subheading distribution assessment for Japanese.
+* Adapts the Mark object to allow for position based highlighting. [#20073](https://github.com/Yoast/wordpress-seo/pull/20073)
+* Adapts the Paragraph length assessment for Japanese and adds a Japanese specific configuration file for the paragraph length assessment in non-product and product pages.
+* Adapts the `getProminentWordsForInsights` research for Japanese.
+* Adapts the `sentencesCountFromText` research for Japanese.
+* Adapts the functionality to mark words in a sentence for Japanese.
+* Adapts the keyphrase length assessment for Japanese so that it uses custom scoring config and counts keyphrase length in characters instead of words.
+* Adapts the sentence length assessment for Japanese.
+* Adapts the text length assessment for Japanese.
+* Adds "OCD" to the terms that are targeted by the _inclusive language assessment_. [#19327](https://github.com/Yoast/wordpress-seo/pull/19327)
+* Adds "normal" and "abnormal" to the terms that are targeted by the _inclusive language assessment_ in specific contexts. [#19354](https://github.com/Yoast/wordpress-seo/pull/19354)
+* Adds Farsi transition words and activates the transition words assessment.
+* Adds Greek transition words and activates the transition words assessment.
+* Adds Japanese folder and Researcher.
+* Adds Japanese quotes to the function that checks whether a keyphrase is enclosed in double quotes in the findKeywordInPageTitle research.
+* Adds Japanese sentence beginning exceptions.
+* Adds Japanese transition words and activates the transition words assessment.
+* Adds `customGetStemmer` and `determineStem` helper for Japanese.
+* Adds `position` of the matched keyphrase in the returned object of `matchTextWithArray.js` and `findKeywordFormsInString.js`.
+* Adds `textTitle` data to `Paper` attribute. [#18848](https://github.com/Yoast/wordpress-seo/pull/18848)
+* Adds a ESLint ignore rule to trigger the tests in the CI. [#20839](https://github.com/Yoast/wordpress-seo/pull/20839)
+* Adds a Japanese full text test.
+* Adds a `getContentWords` helper and adds function words list for Japanese.
+* Adds a custom `morphology` research for the Japanese language and edits an HTML tag typo in `matchStringWithRegexSpec.js`.
+* Adds a feature-flag for Farsi support.
+* Adds a feature-flag for Japanese support.
+* Adds a function to split sentences in tokens in Japanese without changing the position of characters. [#20381](https://github.com/Yoast/wordpress-seo/pull/20381)
+* Adds a function to split sentences in tokens without changing the position of characters. [#20087](https://github.com/Yoast/wordpress-seo/pull/20087)
+* Adds a functionality in estimating reading time of a text to use characters per minute formula and adds the reading time score for Japanese.
+* Adds a helper `checkIfWordIsFunction` for German. [#19898](https://github.com/Yoast/wordpress-seo/pull/19898)
+* Adds a helper to create word forms for Japanese.
+* Adds a helper to return the supported languages for Word complexity assessment. [#18680](https://github.com/Yoast/wordpress-seo/pull/18680)
+* Adds a language folder and Researcher for Greek.
+* Adds a missing plural variant of a feedback string for the keyphrase length assessment in product pages.
+* Adds a paper and unit tests to test the assessments for Greek and edits a typo in the Greek morphologyData file path in `getMorphologyData.js`.
+* Adds a rule to the inclusive language feedback string for 'Third World' so that it's not shown when 'Third World' is followed by 'country. [#18781](https://github.com/Yoast/wordpress-seo/pull/18781)
+* Adds a safeguard to check if `wpseoAdminL10n` is defined in the `createWorker.js`. [#19212](https://github.com/Yoast/wordpress-seo/pull/19212)
+* Adds a script implemented as a Jest test to export the inclusive language configuration into more readable formats. [#19081](https://github.com/Yoast/wordpress-seo/pull/19081)
+* Adds a spec file for `getLanguagesWithWordFormSupport.js`. [#18315](https://github.com/Yoast/wordpress-seo/pull/18315)
+* Adds a step to exclude Table of Contents in `sanitizeString.js` helper and uses this helper in Japanese `countCharacters` and `getWords` helpers.
+* Adds a word complexity research and assessment for German. [#18673](https://github.com/Yoast/wordpress-seo/pull/18673)
+* Adds a word complexity research and assessment for Spanish. [#18678](https://github.com/Yoast/wordpress-seo/pull/18678)
+* Adds additional entries for the inflectional forms of the current non-inclusive phrases, if applicable. [#19348](https://github.com/Yoast/wordpress-seo/pull/19348)
+* Adds an additional property to the `Mark` object, which can check which field to apply the marking to. [#19089](https://github.com/Yoast/wordpress-seo/pull/19089)
+* Adds custom `keyphraseLength` research for Japanese.
+* Adds documentation of the scoring criteria of the assessments.
+* Adds external stemmer for Greek.
+* Adds feedback and suggested alternatives for different phrases with "crazy" to the _inclusive language assessment_. [#19402](https://github.com/Yoast/wordpress-seo/pull/19402)
+* Adds full text tests for product pages and collection pages assessments.
+* Adds inclusive language assessments that are only not inclusive in the case they are followed by a function word (excl. nouns), a participle (or simple past tense) or a punctuation mark. [#19228](https://github.com/Yoast/wordpress-seo/pull/19228)
+* Adds links between newly created readme files and edit two minor typos. [#18189](https://github.com/Yoast/wordpress-seo/pull/18189)
+* Adds missing development dependency on `eslint-config-yoast`. [#20916](https://github.com/Yoast/wordpress-seo/pull/20916)
+* Adds missing researcher parameter in assessors.
+* Adds more words to the frequencyList for the Spanish Word complexity assessment. [#18685](https://github.com/Yoast/wordpress-seo/pull/18685)
+* Adds position information for tokens.  [#20131](https://github.com/Yoast/wordpress-seo/pull/20131)
+* Adds position information to nodes in the HTML tree. [#20026](https://github.com/Yoast/wordpress-seo/pull/20026)
+* Adds sentences to paragraph and heading nodes. [#20019](https://github.com/Yoast/wordpress-seo/pull/20019)
+* Adds the option to pass a custom `matchWordInText` helper and a helper for matching Japanese keyphrases in the `findKeywordInFirstParagraph` research.
+* Adds the option to pass a custom matchWordInText helper and a helper for matching multiword keyphrases in the findKeywordInPageTitle research.
+* Adds the option to pass a language-specific `getWords` helper to the `getSentenceBeginnings` research.
+* Adds the possibility to change the links to the "learn more" URLs in the Inclusive language assessments. [#19360](https://github.com/Yoast/wordpress-seo/pull/19360)
+* Adds type validation to the `registerResearch` method in `AnalysisWebWorker.js` and unit tests to test the method. [#19783](https://github.com/Yoast/wordpress-seo/pull/19783)
+* Adds unit tests for each phrase in the _inclusive language assessment_. [#19597](https://github.com/Yoast/wordpress-seo/pull/19597)
+* Adds unit tests that cover Japanese strings in `metaDescriptionLengthSpec` research file.
+* Adjusts Farsi full text tests papers.
+* Adjusts _Keyphrase distribution_ assessment's applicability to also take its research availability into account. [#19899](https://github.com/Yoast/wordpress-seo/pull/19899)
+* Adjusts a failing unit test and comments out unit tests that are temporarily failing. [#18653](https://github.com/Yoast/wordpress-seo/pull/18653)
+* Adjusts the English papers in full text tests for product pages.
+* Allows Marks to replace with position information.  [#20026](https://github.com/Yoast/wordpress-seo/pull/20026)
+* Also changes default config value for the assessVariants variable in the assessments to `true`, to consistently have the WooCommerce value as the default. [#18918](https://github.com/Yoast/wordpress-seo/pull/18918)
+* Avoids early conversion of the HTML entity `&nbsp;` to its reserved character when running the analysis and adds `#nbsp;` as a word delimiter. [#20950](https://github.com/Yoast/wordpress-seo/pull/20950)
+* Builds the tree in the worker using the unmodified `Paper._text`. [#20185](https://github.com/Yoast/wordpress-seo/pull/20185)
+* Changes applicability conditions for the SKU and Product identifier assessments.  [#18918](https://github.com/Yoast/wordpress-seo/pull/18918)
+* Changes the applicability criteria of the transition words, subheading distribution, and keyphrase density assessments for Japanese so that the minimum required text length is expressed in characters instead of words.
+* Changes the feedback of Flesch reading ease in the insights tab when there is not enough text. [#18631](https://github.com/Yoast/wordpress-seo/pull/18631)
+* Changes the feedback string for the non-inclusive phrase "binge".  [#19348](https://github.com/Yoast/wordpress-seo/pull/19348)
+* Changes the helper to match word in text for Japanese in `altTagCount`.
+* Changes the maximum recommended sentence length in Farsi to 25 words.
+* Cleans up spec descriptions for assessing text and paragraph length.
+* Correctly calculates token and sentence positions for texts containing HTML comments, `&lt;code&gt;`, `&lt;script&gt;`, and image elements. [#20185](https://github.com/Yoast/wordpress-seo/pull/20185)
+* Creates Japanese helper file for matching word in text.
+* Creates a custom helper for finding exact matches of multiword keyphrases in title in Japanese.
+* Creates a helper for splitting a Japanese text into words using the TinySegmenter package, and adds Japanese punctuation to the removePunctuation helper. Also changes the global Jest testing environment from `node` to `jsdom`.
+* Creates an interface to register helper in the worker, and to add custom helpers to the researcher. [#19783](https://github.com/Yoast/wordpress-seo/pull/19783)
+* Creates the anchor opening tag after merging the configs in _keyphrase distribution_ and _word complexity_ assessments. [#19913](https://github.com/Yoast/wordpress-seo/pull/19913)
+* Disables some new import ESLint rules for now, coming from `eslint-plugin-import`. [#20003](https://github.com/Yoast/wordpress-seo/pull/20003)
+* Disables the keyphrase in slug assessment for Japanese.
+* Do not try to get a descendant node's end tag in the `getSentencePositions` function if the node doesn't have an end tag. [#20121](https://github.com/Yoast/wordpress-seo/pull/20121)
+* Edits spec files by reorganising unit-tests to match the assessment files they appear in and renames unit-test titles and adds punctuation. [#19349](https://github.com/Yoast/wordpress-seo/pull/19349)
+* Edits the links to two documentation files and the size of the image displaying the assessments bullets. [#18234](https://github.com/Yoast/wordpress-seo/pull/18234)
+* Ensures matching of feedback strings to the severity of non-inclusiveness. [#19375](https://github.com/Yoast/wordpress-seo/pull/19375)
+* Filters out elements that we don't want to analyze before tokenizing them. [#20075](https://github.com/Yoast/wordpress-seo/pull/20075)
+* Fixes a bug where an invalid browser field in package.json would cause Vite to throw an error when building.
+* Fixes a bug where the inclusive language feedback in the publish box was not synchronized with the metabox in the classic editor. [#18813](https://github.com/Yoast/wordpress-seo/pull/18813)
+* Fixes a bug where the results of the SEO analysis of the focus keyphrase were removed when more than two related keyphrases were analyzed. [#17846](https://github.com/Yoast/wordpress-seo/pull/17846)
+* Fixes a failing test in English paper. [#18672](https://github.com/Yoast/wordpress-seo/pull/18672)
+* Fixes a failing unit test. [#18671](https://github.com/Yoast/wordpress-seo/pull/18671)
+* Fixes a small grammatical error in the feedback string of the wordcomplexity assessment. [#18644](https://github.com/Yoast/wordpress-seo/pull/18644)
+* Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
+* Fixes an unreleased bug where tokens would get the incorrect offsets if they were not in the first sentence of the paragraph. [#20197](https://github.com/Yoast/wordpress-seo/pull/20197)
+* Fixes assessment result links that omit tracking parameters.
+* Fixes highlights for sentence length assessment for other editors.
+* Fixes the Japanese full text test.
+* Fixes the error shown for Single title assessment in Block editor when one of the H1s doesn't have text. [#20649](https://github.com/Yoast/wordpress-seo/pull/20649)
+* Fixes the prominent words functionality in content-analysis app.
+* Fixes two failing tests possibly caused by the changes to passive voice detection made for [Portuguese](https://github.com/Yoast/wordpress-seo/pull/19411).
+* Implements a filter for the html tree. [#20024](https://github.com/Yoast/wordpress-seo/pull/20024)
+* Implements passive voice assessment for Greek.
+* Implements the Product identifier/Barcode assessment and temporarily disables it until the necessary data from Woo and Shopify become available. [#18609](https://github.com/Yoast/wordpress-seo/pull/18609)
+* Implements the SKU assessment and temporarily disables it until the necessary data from Woo and Shopify become available. [#18656](https://github.com/Yoast/wordpress-seo/pull/18656)
+* Implements the consecutive sentences assessment for Farsi to ensure variety in a text.
+* Implements the consecutive sentences assessment for Greek to ensure variety in a text.
+* Implements the passive voice assessment for Farsi.
+* Imports the e-Commerce assessors' dependencies from `index.js` if applicable. [#19921](https://github.com/Yoast/wordpress-seo/pull/19921)
+* Improves internal imports. [#20003](https://github.com/Yoast/wordpress-seo/pull/20003)
+* Improves keyphrase recognition in Greek by filtering out function words such as `στον`, `τρίτος`, `τέτοιους`, `ποιανής`.
+* Improves the Farsi passive voice assessment by expanding the list of passive verb forms.
+* Improves the feedback string for the potentially non-inclusive term 'minorities' in `otherAssessments.js`. [#20768](https://github.com/Yoast/wordpress-seo/pull/20768)
+* Improves the way keyphrase enclosed in double quotes is matched in Keyphrase in title assessment for Japanese.
+* Makes Consecutive sentence, Passive voice and Transition words assessments available for Farsi when the Feature flag is enabled.
+* Makes it possible to tokenize sentences in Japanese.
+* Makes passive voice and function words in keyphrase assessments available for Greek.
+* Makes spec helpers `hasResearch`, `hasConfig` and `hasHelper` available for tests in wordpress-seo-premium.  [#19912](https://github.com/Yoast/wordpress-seo/pull/19912)
+* Makes the SKU assessment not applicable when we cannot detect the SKU on products without variants. [#18905](https://github.com/Yoast/wordpress-seo/pull/18905)
+* Moves `processExactMatchRequest` helper from `findKeywordInPageTitle.js` to a separate helper file.
+* Moves some non-inclusive phrases away from the `otherAssessments.js` file to more specific locations and creates a new `sexualOrientationAssessments.js` file. [#19349](https://github.com/Yoast/wordpress-seo/pull/19349)
+* Moves the frequency lists of the _word complexity_ assessment out of the package. [#20695](https://github.com/Yoast/wordpress-seo/pull/20695)
+* Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
+* Moves the logic in `findList` research to the `ListAssessment`. [#19780](https://github.com/Yoast/wordpress-seo/pull/19780)
+* Moves the word "oriental" category to context-specific orange cases in _inclusive language analysis culture assessment_ and adds exceptions for phrases "exotic shorthair" and "exotic longhair". [#19328](https://github.com/Yoast/wordpress-seo/pull/19328)
+* Moves the word "oriental" category to context-specific orange cases in _inclusive language analysis_ culture assessment. [#19301](https://github.com/Yoast/wordpress-seo/pull/19301)
+* Now published as a transpiled package.
+* Only marks the subheading when a subheading text is too long in _subheading distribution_ assessment. [#19089](https://github.com/Yoast/wordpress-seo/pull/19089)
+* Parses WordPress block information and set them to the tree when building it. [#20330](https://github.com/Yoast/wordpress-seo/pull/20330)
+* Provides block information when creating Mark object for Single H1 assessment. This way, the position-based highlighting approach will be used in Block editor. [#20633](https://github.com/Yoast/wordpress-seo/pull/20633)
+* Recalibrates the recommended length of the text on taxonomy and collection pages for the _text length_ assessment. [#21259](https://github.com/Yoast/wordpress-seo/pull/21259)
+* Recognises internal link if the site's host is null but the site domain and the link host are the same. [#18014](https://github.com/Yoast/wordpress-seo/pull/18014)
+* Refactors the `isInternalLink` helper to improve clarity. [#18172](https://github.com/Yoast/wordpress-seo/pull/18172)
+* Refactors the unit tests for SEO, related keyphrase, and taxonomy assessors. [#20070](https://github.com/Yoast/wordpress-seo/pull/20070)
+* Refactors the unit tests for SEO, related to the Keyphrase in image text assessment. [#20102](https://github.com/Yoast/wordpress-seo/pull/20102)
+* Removes WordComplexity and KeyphraseDistribution assessments from productPages assessors.  [#19897](https://github.com/Yoast/wordpress-seo/pull/19897)
+* Removes _keyphrase distribution_ and _word complexity_ assessments from non-product eCommerce assessors. [#19913](https://github.com/Yoast/wordpress-seo/pull/19913)
+* Removes any HTML whitespace padding and replaces it with a single whitespace in getSentenceBeginning.js. [#18475](https://github.com/Yoast/wordpress-seo/pull/18475)
+* Removes codes that are not relevant anymore which were introduced in [this PR](https://github.com/Yoast/wordpress-seo/pull/17577).
+* Removes images from the text before tokenizing it into sentences in `getSentences.js`. [#19399](https://github.com/Yoast/wordpress-seo/pull/19399)
+* Removes superfluous full text test papers for all languages in the yoastseo package.
+* Removes superfluous full text test papers for all languages in the yoastseo package. [#18278](https://github.com/Yoast/wordpress-seo/pull/18278)
+* Removes the Farsi feature flag.
+* Removes the step to modify the `Paper._text` in the worker. [#20185](https://github.com/Yoast/wordpress-seo/pull/20185)
+* Removes the word "Ebonics" from the list of non-inclusive phrases. [#20755](https://github.com/Yoast/wordpress-seo/pull/20755)
+* Removes unnecessary language-specific tests for assessments and researchers, and comments out unnecessary-but-nice-to-have language-specific tests (they will be moved to separate files in a separate PR). [#18397](https://github.com/Yoast/wordpress-seo/pull/18397)
+* Replaces 'words' with 'characters' in the Japanese feedback strings for the Subheading distribution, Paragraph length, Sentence length, Keyphrase length, and Text length assessments.
+* Replaces Images assessment `countVideos` value that is passed to the assessment constructor in the product assessors with a variable.
+* Replaces the feedback strings for generalization/overgeneralization phrases with `potentiallyHarmful` feedback string in _inclusive language_ analysis. [#20767](https://github.com/Yoast/wordpress-seo/pull/20767)
+* Replaces the feedback strings for generalizing/overgeneralizing phrases with the potentiallyHarmful feedback string in inclusive language analysis. [#20766](https://github.com/Yoast/wordpress-seo/pull/20766)
+* Restores the `unifyNonBreakingSpace` santization step in `getSentences.js`. [#18739](https://github.com/Yoast/wordpress-seo/pull/18739)
+* Updates README.md for Greek support.
+* Updates `README.md` for Farsi support.
+* Updates `README.md` for Japanese support.
+* Updates the dependencies, improves the configuration and cleans up old code. [#20651](https://github.com/Yoast/wordpress-seo/pull/20651)
+* Updates the documentation for _single title_ assessment. [#19084](https://github.com/Yoast/wordpress-seo/pull/19084)
+* Uses direct imports when possible, instead of relying on the full exported object. [#20003](https://github.com/Yoast/wordpress-seo/pull/20003)
 
 ## 1.91.2 March 2nd, 2023
 ### Bugfixes

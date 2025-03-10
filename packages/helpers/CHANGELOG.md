@@ -7,6 +7,8 @@ We follow [Semantic Versioning](http://semver.org/).
 ## Future Release
 ### Non user facing
 * Now published as a transpiled package.
+* Now uses the latest version of `@yoast/eslint-config` instead of the deprecated `eslint-config-yoast`.
+* Uses a flat config for ESLint.
 
 ## 0.16.0 March 15th, 2021
 ### Bugfixes
