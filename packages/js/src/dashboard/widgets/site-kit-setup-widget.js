@@ -64,7 +64,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 /**
  * The no permission warning component.
  *
- * @param {Capabilities} capabilities The capabilities.
+ * @param {CapabilitiesForSiteKit} capabilities The capabilities.
  * @param {number} currentStep The current step.
  *
  * @returns {JSX.Element} The no permission warning component.
@@ -124,24 +124,28 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 		return capability ? url : null;
 	};
 
+
 	const buttonProps = [
 		{
 			children: __( "Install Site Kit by Google", "wordpress-seo" ),
 			href: checkCapability( siteKitConfiguration.installUrl ),
 			as: "a",
 			disabled: ! capabilities.installPlugins,
+			"aria-disabled": ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
 			href: checkCapability( siteKitConfiguration.activateUrl ),
 			as: "a",
 			disabled: ! capabilities.installPlugins,
+			"aria-disabled": ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
 			href: checkCapability( siteKitConfiguration.setupUrl ),
 			as: "a",
 			disabled: ! capabilities.installPlugins,
+			"aria-disabled": ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Connect Site Kit by Google", "wordpress-seo" ),

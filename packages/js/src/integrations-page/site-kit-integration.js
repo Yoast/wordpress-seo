@@ -93,7 +93,7 @@ const SuccessfullyConnected = () => {
 /**
  * The no permission warning component.
  *
- * @param {Capabilities} capabilities The capabilities.
+ * @param {CapabilitiesForSiteKit} capabilities The capabilities.
  * @param {number} currentStep The current step.
  *
  * @returns {JSX.Element} The no permission warning component.
@@ -128,7 +128,7 @@ NoPermissionWarning.propTypes = {
  * @param {string} activateUrl The activation url.
  * @param {string} setupUrl The setup url.
  * @param {string} consentManagementUrl The consent management url.
- * @param {Capabilities} capabilities The user capabilities.
+ * @param {CapabilitiesForSiteKit} capabilities The user capabilities.
  *
  * @returns {WPElement} The Site Kit integration component.
  */
@@ -183,18 +183,21 @@ export const SiteKitIntegration = ( {
 			href: capabilities.installPlugins ? installUrl : null,
 			as: "a",
 			disabled: ! capabilities.installPlugins,
+			"aria-disabled": ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
 			href: capabilities.installPlugins ? activateUrl : null,
 			as: "a",
 			disabled: ! capabilities.installPlugins,
+			"aria-disabled": ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
 			href: capabilities.installPlugins ? setupUrl : null,
 			as: "a",
 			disabled: ! capabilities.installPlugins,
+			"aria-disabled": ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Connect Site Kit by Google", "wordpress-seo" ),

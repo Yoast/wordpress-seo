@@ -244,6 +244,7 @@ describe( "SiteKitSetupWidget", () => {
 			/> );
 			const link = screen.getByText( label );
 			expect( link ).not.toHaveAttribute( "href" );
+			expect( link ).toHaveAttribute( "aria-disabled", "true" );
 			expect( getByText( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin." ) ).toBeInTheDocument();
 		} );
 	} );
