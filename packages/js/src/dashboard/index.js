@@ -111,11 +111,11 @@ export { Dashboard } from "./components/dashboard";
  * @property {boolean} isAnalyticsConnected Whether Google Analytics is connected.
  * @property {boolean} isFeatureEnabled Whether the feature is enabled.
  * @property {boolean} isSetupWidgetDismissed Whether the configuration is dismissed.
- * @property {Capabilities} capabilities The user capabilities.
+ * @property {CapabilitiesForSiteKit} capabilities The user capabilities for site kit.
  */
 
 /**
- * @typedef {Object} Capabilities The user capabilities.
+ * @typedef {Object} CapabilitiesForSiteKit The user capabilities for site kit.
  * @property {boolean} installPlugins Whether the user can install plugins.
  * @property {boolean} viewSearchConsoleData Whether the user can view the search console data.
  * @property {boolean} viewAnalyticsData Whether the user can view the analytics data
