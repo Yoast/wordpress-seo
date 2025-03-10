@@ -133,8 +133,10 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 			</DropdownMenu.List>
 		</DropdownMenu>
 		<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4">
-			{ isSiteKitConnectionCompleted  ? <YoastConnectSiteKitSuccess width="252" height="60" />
-				: <YoastConnectSiteKit width="252" height="60" /> }
+			{ isSiteKitConnectionCompleted
+				? <YoastConnectSiteKitSuccess width="252" height="60" />
+				: <YoastConnectSiteKit width="252" height="60" />
+			}
 		</div>
 		<Stepper steps={ steps } currentStep={ currentStep }>
 			{ steps.map( ( label, index ) => (
