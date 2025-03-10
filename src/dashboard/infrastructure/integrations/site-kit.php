@@ -2,6 +2,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Integrations;
 
+use Google\Site_Kit\Core\Authentication\Authentication;
+use Google\Site_Kit\Plugin;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
@@ -68,8 +70,14 @@ class Site_Kit {
 	 *
 	 * @return bool If the Google site kit setup has been completed.
 	 */
-	private function is_setup_completed() {
-		return \get_option( 'googlesitekit_has_connected_admins', false ) === '1';
+	private function is_setup_completed(): bool {
+		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
+			$site_kit_plugin = Plugin::instance();
+			$authentication  = new Authentication( $site_kit_plugin->context() );
+			return $authentication->is_setup_completed();
+		}
+
+		return false;
 	}
 
 	/**
