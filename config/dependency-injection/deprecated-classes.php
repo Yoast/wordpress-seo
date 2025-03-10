@@ -54,7 +54,7 @@ foreach ( $deprecated_classes as $original_class => $version ) {
 		->setAutowired( true )
 		->setAutoconfigured( true )
 		->setPublic( true )
-		->setDeprecated( true, "%service_id% is deprecated since version $version!" );
+		->setDeprecated( $original_class, $version, "%service_id% is deprecated since version $version!" );
 }
 
 // If the DI container is built by Composer these WordPress functions will not exist.
