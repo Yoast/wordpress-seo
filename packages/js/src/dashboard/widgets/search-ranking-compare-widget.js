@@ -2,10 +2,8 @@ import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Alert, SkeletonLoader } from "@yoast/ui-library";
 import { useRemoteData } from "../services/use-remote-data";
-import { Widget } from "./widget";
+import { Widget, WidgetTooltip } from "./widget";
 import { SearchRankingCompareMetric } from "../components/search-ranking-compare-metric";
-import { InfoTooltip } from "../components/info-tooltip";
-import { TooltipContent } from "../components/tooltip-content";
 import { getDifference } from "../transformers/difference";
 /**
  * @type {import("../index").MetricData} MetricData
@@ -20,11 +18,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 		<div className="yst-flex yst-flex-col yst-justify-center yst-items-center  @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
-					<InfoTooltip>
-						<TooltipContent
-							tooltipLocalizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
-						/>
-					</InfoTooltip>
+					<WidgetTooltip dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }>{ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }</WidgetTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
 				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
@@ -34,11 +28,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
-					<InfoTooltip>
-						<TooltipContent
-							tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
-						/>
-					</InfoTooltip>
+					<WidgetTooltip dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }>{ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days. ", "wordpress-seo" ) }</WidgetTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
 				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
@@ -48,11 +38,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
-					<InfoTooltip>
-						<TooltipContent
-							tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
-						/>
-					</InfoTooltip>
+					<WidgetTooltip dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }>{ __( "The average click-through-rate for your website over the last 28 days. ", "wordpress-seo" ) }</WidgetTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
 				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
@@ -62,11 +48,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 				<div className="yst-absolute yst-end-6 yst-top-2">
-					<InfoTooltip>
-						<TooltipContent
-							tooltipLocalizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
-						/>
-					</InfoTooltip>
+					<WidgetTooltip dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }>{ __( "Average position is the average position of your site in search results over the last 28 days. ", "wordpress-seo" ) }</WidgetTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
 				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
@@ -169,25 +151,29 @@ export const SearchRankingCompareWidget = ( { dataProvider, remoteDataProvider, 
 				<SearchRankingCompareMetric
 					metricName="Impressions"
 					data={ data.impressions }
-					tooltipLocalizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
+					tooltipContent={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
+					dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
 				/>
 				<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
 				<SearchRankingCompareMetric
 					metricName="Clicks"
 					data={ data.clicks }
-					tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
+					tooltipContent={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
+					dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
 				/>
 				<div className=" yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
 				<SearchRankingCompareMetric
 					metricName="CTR"
 					data={ data?.ctr ?? null }
-					tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
+					tooltipContent={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
+					dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
 				/>
 				<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
 				<SearchRankingCompareMetric
 					metricName="Position"
 					data={ data?.position ?? null }
-					tooltipLocalizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
+					tooltipContent={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
+					dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
 				/>
 			</div>
 		}

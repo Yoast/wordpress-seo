@@ -141,7 +141,11 @@ export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormat
 			"The top 5 search queries on your website with the highest number of clicks.",
 			"wordpress-seo"
 		) }
-		tooltipLearnMoreLink={ infoLink }
+		dataSources= { [
+			{
+				source: "Site Kit by Google"
+			}
+		] }
 	>
 		<TopQueriesWidgetContent
 			data={ data }

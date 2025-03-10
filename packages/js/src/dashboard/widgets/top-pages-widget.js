@@ -216,6 +216,21 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 
 	const { data, error, isPending } = useRemoteData( getTopPages, formatTopPages );
 
+	const dataSources = [
+		{
+			source: "Site Kit by Google",
+			feature: __( "Clicks, Impressions, CTR, Position", "wordpress-seo" ),
+		},
+		{
+			source: "Yoast SEO",
+			feature: sprintf(
+				/* translators: 1: Yoast SEO. */
+				__( "%1$s score", "wordpress-seo" ),
+				"Yoast SEO"
+			),
+		}
+	];
+
 	return <Widget
 		className="yst-paper__content yst-col-span-4"
 		title={ __( "Top 5 most popular content", "wordpress-seo" ) }
@@ -223,7 +238,7 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 			"The top 5 URLs on your website with the highest number of clicks.",
 			"wordpress-seo"
 		) }
-		tooltipLearnMoreLink={ infoLink }
+		dataSources= { dataSources }
 	>
 		<TopPagesWidgetContent
 			data={ data }

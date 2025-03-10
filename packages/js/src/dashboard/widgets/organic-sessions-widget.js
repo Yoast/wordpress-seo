@@ -26,7 +26,11 @@ export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataF
 		className: "yst-paper__content yst-col-span-4",
 		title: __( "Organic sessions", "wordpress-seo" ),
 		tooltip: __( "The number of organic sessions on your website.", "wordpress-seo" ),
-		tooltipLearnMoreLink: dataProvider.getLink( "organicSessionsInfoLearnMore" ),
+		dataSources: [
+			{
+				source: "Site Kit by Google"
+			}
+		]
 	};
 
 	// Collapse the errors if they are the same.
