@@ -150,7 +150,12 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 			) ) }
 		</Stepper>
 		<hr className="yst-bg-slate-200 yst-my-6" />
-		<Title size="2">{ isSiteKitConnectionCompleted ? __( "You’ve successfully connected your site with Site Kit by Google!", "wordpress-seo" ) : __( "Expand your dashboard with insights from Google!", "wordpress-seo" ) }</Title>
+		<Title size="2">
+			{ isSiteKitConnectionCompleted
+				? __( "You’ve successfully connected your site with Site Kit by Google!", "wordpress-seo" )
+				: __( "Expand your dashboard with insights from Google!", "wordpress-seo" )
+			}
+		</Title>
 		<p className="yst-my-4">
 			{ __( "Bring together powerful tools like Google Analytics and Search Console for a complete overview of your website's performance, all in one seamless dashboard.", "wordpress-seo" ) }
 		</p>
