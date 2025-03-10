@@ -99,7 +99,7 @@ export default function getKeyphraseCount( paper, researcher ) {
 		: paper.getText();
 
 	// When the custom helper is available, we're using the sentences retrieved from the text for the analysis.
-	const sentences = matchWordCustomHelper ? getSentences( text, customSentenceTokenizer ) : getSentencesFromTree( paper );
+	const sentences = matchWordCustomHelper ? getSentences( text, customSentenceTokenizer ) : getSentencesFromTree( paper.getTree() );
 	// Exact matching is requested when the keyphrase is enclosed in double quotes.
 	const isExactMatchRequested = isDoubleQuoted( paper.getKeyword() );
 
