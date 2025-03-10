@@ -160,7 +160,10 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 			{ __( "Bring together powerful tools like Google Analytics and Search Console for a complete overview of your website's performance, all in one seamless dashboard.", "wordpress-seo" ) }
 		</p>
 		<span className="yst-text-slate-800 yst-font-medium">
-			{ isSiteKitConnectionCompleted ? __( "You're all set, here are some benefits:", "wordpress-seo" ) : __( "Here's what you'll unlock:", "wordpress-seo" ) }
+			{ isSiteKitConnectionCompleted
+				? __( "You're all set, here are some benefits:", "wordpress-seo" )
+				: __( "Here's what you'll unlock:", "wordpress-seo" )
+			}
 		</span>
 		<ul>
 			<li className="yst-gap-2 yst-flex yst-mt-2 yst-items-start">
