@@ -11,7 +11,7 @@ import { ErrorAlert } from "../components/error-alert";
  * @type {import("../index").TopQueryData} TopQueryData
  * @type {import("../services/data-provider")} DataProvider
  * @type {import("../services/remote-data-provider")} RemoteDataProvider
- * @type {import("../services/data-formatter")} DataFormatter
+ * @type {import("../services/plain-metrics-data-formatter")} DataFormatter
  */
 
 /**

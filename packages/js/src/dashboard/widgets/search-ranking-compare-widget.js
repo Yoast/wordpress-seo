@@ -1,0 +1,196 @@
+import { useCallback, useMemo } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
+import { Alert, SkeletonLoader } from "@yoast/ui-library";
+import { useRemoteData } from "../services/use-remote-data";
+import { Widget } from "./widget";
+import { SearchRankingCompareMetric } from "../components/search-ranking-compare-metric";
+import { InfoTooltip } from "../components/info-tooltip";
+import { TooltipContent } from "../components/tooltip-content";
+import { getDifference } from "../transformers/difference";
+/**
+ * @type {import("../index").MetricData} MetricData
+ * @type {import("../index").SearchRankingCompareData} SearchRankingCompareData
+ */
+
+/**
+ * @returns {JSX.Element} The element.
+ */
+const SearchRankingCompareSkeletonLoader = () => {
+	return (
+		<div className="yst-flex yst-flex-col yst-justify-center yst-items-center  @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
+			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
+				<div className="yst-absolute yst-end-6 yst-top-2">
+					<InfoTooltip>
+						<TooltipContent
+							tooltipLocalizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
+						/>
+					</InfoTooltip>
+				</div>
+				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2 yst-font-semibold">- 13%</SkeletonLoader>
+			</div>
+			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
+
+			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
+				<div className="yst-absolute yst-end-6 yst-top-2">
+					<InfoTooltip>
+						<TooltipContent
+							tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
+						/>
+					</InfoTooltip>
+				</div>
+				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2 yst-font-semibold">- 13%</SkeletonLoader>
+			</div>
+			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
+
+			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
+				<div className="yst-absolute yst-end-6 yst-top-2">
+					<InfoTooltip>
+						<TooltipContent
+							tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
+						/>
+					</InfoTooltip>
+				</div>
+				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2 yst-font-semibold">- 13%</SkeletonLoader>
+			</div>
+			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
+
+			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
+				<div className="yst-absolute yst-end-6 yst-top-2">
+					<InfoTooltip>
+						<TooltipContent
+							tooltipLocalizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
+						/>
+					</InfoTooltip>
+				</div>
+				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2 yst-font-semibold">- 13%</SkeletonLoader>
+			</div>
+		</div>
+	);
+};
+
+/* eslint-disable complexity */
+/**
+ * @param {TimeBasedData[]} data The data.
+ * @returns {SearchRankingCompareData} The transformed data.
+ */
+const transformData = ( data ) => {
+	if ( Object.keys( data[ 0 ].current ).length === 2 ) {
+		return {
+			impressions: {
+				value: data[ 0 ].current.total_impressions || NaN,
+				delta: getDifference( data[ 0 ]?.current?.total_impressions || NaN, data[ 0 ]?.previous?.total_impressions || NaN ),
+			},
+			clicks: {
+				value: data[ 0 ].current.total_clicks || NaN,
+				delta: getDifference( data[ 0 ]?.current?.total_clicks || NaN, data[ 0 ].previous.total_clicks || NaN ),
+			},
+		};
+	}
+
+	return {
+		impressions: {
+			value: data[ 0 ].current.total_impressions || NaN,
+			delta: getDifference( data[ 0 ].current.total_impressions || NaN, data[ 0 ].previous.total_impressions || NaN ),
+		},
+		clicks: {
+			value: data[ 0 ].current.total_clicks || NaN,
+			delta: getDifference( data[ 0 ].current.total_clicks || NaN, data[ 0 ].previous.total_clicks || NaN ),
+		},
+		ctr: {
+			value: data[ 0 ].current.average_ctr || NaN,
+			delta: getDifference( data[ 0 ].current.average_ctr || NaN, data[ 0 ].previous.average_ctr || NaN ),
+		},
+		position: {
+			value: data[ 0 ].current.average_position || NaN,
+			delta: getDifference( data[ 0 ].current.average_position || NaN, data[ 0 ].previous.average_position || NaN ),
+		},
+	};
+};
+
+/**
+ * @param {function} dataTransformer The data transformer.
+ * @param {import("../services/comparison-metrics-data-formatter")} dataFormatter The data formatter.
+ * @returns {function(?TimeBasedData[]): SearchRankingCompareData} Function to format the widget data.
+ */
+export const createIcsaDataFormatter = ( dataTransformer, dataFormatter ) => ( initData ) => {
+	const data = dataTransformer( initData );
+	if ( Object.keys( data ).length === 2 ) {
+		return {
+			impressions: dataFormatter.format( data.impressions, "impressions" ),
+			clicks: dataFormatter.format( data.clicks, "clicks" ),
+		};
+	}
+	return {
+		impressions: dataFormatter.format( data.impressions, "impressions" ),
+		clicks: dataFormatter.format( data.clicks, "clicks" ),
+		ctr: dataFormatter.format( data.ctr, "ctr" ),
+		position: dataFormatter.format( data.position, "position" ),
+	};
+};
+
+/**
+ * @param {import("../services/data-provider")} dataProvider The data provider.
+ * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
+ * @param {import("../services/comparison-metrics-data-formatter")} dataFormatter The data formatter.
+ * @returns {JSX.Element} The element.
+ */
+export const SearchRankingCompareWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
+	/**
+	 * @param {RequestInit} options The options.
+	 * @returns {Promise<TimeBasedData|Error>} The promise of IcsaData or an Error.
+	 */
+	const getData = useCallback( ( options ) => {
+		return remoteDataProvider.fetchJson(
+			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
+			{ options: { widget: "searchRankingCompare" }  },
+			options );
+	}, [ dataProvider ] );
+
+	/**
+	 * @type {function(?TimeBasedData[]): SearchRankingCompareData} Function to format the widget data.
+	 * */
+	const formatIcsaData = useMemo( () => createIcsaDataFormatter( transformData, dataFormatter ), [ transformData, dataFormatter ] );
+
+	const { data, error, isPending } = useRemoteData( getData, formatIcsaData );
+
+	return <Widget className="yst-paper__content yst-col-span-4">
+		{ isPending && <SearchRankingCompareSkeletonLoader /> }
+		{ error && <Alert variant="error" className="yst-mt-4">{ error.message }</Alert> }
+		{ data && Object.keys( data ).length > 0 &&
+			<div className="yst-flex yst-flex-col yst-justify-center yst-items-center  @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
+				<SearchRankingCompareMetric
+					metricName="Impressions"
+					data={ data.impressions }
+					tooltipLocalizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
+				/>
+				<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
+				<SearchRankingCompareMetric
+					metricName="Clicks"
+					data={ data.clicks }
+					tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
+				/>
+				<div className=" yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
+				<SearchRankingCompareMetric
+					metricName="CTR"
+					data={ data?.ctr ?? null }
+					tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
+				/>
+				<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
+				<SearchRankingCompareMetric
+					metricName="Position"
+					data={ data?.position ?? null }
+					tooltipLocalizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
+				/>
+			</div>
+		}
+	</Widget>;
+};
+/* eslint-enable complexity */
