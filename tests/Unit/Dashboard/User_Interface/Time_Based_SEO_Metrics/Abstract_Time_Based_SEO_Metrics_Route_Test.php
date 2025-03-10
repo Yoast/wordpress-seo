@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Query_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Traffic\Organic_Sessions_Compare_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Traffic\Organic_Sessions_Daily_Repository;
 use Yoast\WP\SEO\Dashboard\User_Interface\Time_Based_SEO_Metrics\Time_Based_SEO_Metrics_Route;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -63,6 +64,13 @@ abstract class Abstract_Time_Based_SEO_Metrics_Route_Test extends TestCase {
 	protected $search_ranking_compare_repository;
 
 	/**
+	 * Holds the mock for the capability helper.
+	 *
+	 * @var Mockery\MockInterface|Capability_Helper
+	 */
+	protected $capability_helper;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -75,13 +83,15 @@ abstract class Abstract_Time_Based_SEO_Metrics_Route_Test extends TestCase {
 		$this->organic_sessions_compare_repository = Mockery::mock( Organic_Sessions_Compare_Repository::class );
 		$this->organic_sessions_daily_repository   = Mockery::mock( Organic_Sessions_Daily_Repository::class );
 		$this->search_ranking_compare_repository   = Mockery::mock( Search_Ranking_Compare_Repository::class );
+		$this->capability_helper                   = Mockery::mock( Capability_Helper::class );
 
 		$this->instance = new Time_Based_SEO_Metrics_Route(
 			$this->top_page_repository,
 			$this->top_query_repository,
 			$this->organic_sessions_compare_repository,
 			$this->organic_sessions_daily_repository,
-			$this->search_ranking_compare_repository
+			$this->search_ranking_compare_repository,
+			$this->capability_helper
 		);
 	}
 }

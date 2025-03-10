@@ -2,8 +2,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Time_Based_SEO_Metrics;
 
-use Brain\Monkey;
-
 /**
  * Test class for the permission_manage_options method.
  *
@@ -21,7 +19,8 @@ final class Time_Based_SEO_Metrics_Route_Check_Capabilities_Test extends Abstrac
 	 * @return void
 	 */
 	public function test_check_capabilities() {
-		Monkey\Functions\expect( 'current_user_can' )
+		$this->capability_helper->expects( 'current_user_can' )
+			->twice()
 			->with( 'wpseo_manage_options' )
 			->andReturn( true, false );
 
