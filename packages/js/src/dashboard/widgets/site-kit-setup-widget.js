@@ -2,11 +2,12 @@ import { ArrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Alert, Button, DropdownMenu, Paper, Stepper, Title, useToggleState } from "@yoast/ui-library";
+import { Alert, Button, DropdownMenu, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
 import { ReactComponent as YoastConnectSiteKitSuccess } from "../../../images/yoast-connect-google-site-kit-success.svg";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { SiteKitConsentModal } from "../../shared-admin/components";
+import { Widget } from "./widget";
 
 /**
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
@@ -179,7 +180,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	];
 
 	return (
-		<Paper className="yst-paper__content yst-relative @3xl:yst-col-span-2 yst-col-span-4 yst-shadow-md">
+		<Widget className="yst-paper__content yst-relative @3xl:yst-col-span-2 yst-col-span-4">
 			<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
 				<DropdownMenu.IconTrigger
 					screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) }
@@ -255,6 +256,6 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 					</>
 				}
 			</div>
-		</Paper>
+		</Widget>
 	);
 };
