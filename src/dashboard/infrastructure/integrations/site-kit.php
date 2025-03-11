@@ -121,21 +121,23 @@ class Site_Kit {
 	}
 
 	/**
-	 * Can user read site kit data.
+	 * Checks is current user can view dashboard data, which can the owner who set it up,
+	 * or user with one of the shared roles.
 	 *
-	 * @param string $slug The slug of the data.
+	 * @param string $key The key of the data.
 	 * @return bool If the user can read the data.
 	 */
-	private function can_read_data( $slug ) {
-		$dashboard_sharing    = \get_option( 'googlesitekit_dashboard_sharing' );
-		$search_console_roles = isset( $dashboard_sharing[ $slug ] ) ? $dashboard_sharing[ $slug ]['sharedRoles'] : [];
+	private function can_read_data( $key ) {
+		// Check if the current user has one of the shared roles.
+		$dashboard_sharing  = \get_option( 'googlesitekit_dashboard_sharing' );
+		$shared_roles       = isset( $dashboard_sharing[ $key ] ) ? $dashboard_sharing[ $key ]['sharedRoles'] : [];
+		$has_viewing_rights = \array_intersect( \wp_get_current_user()->roles, $shared_roles );
 
-		// check if current user has one of those roles.
-		$current_user_has_access = \array_intersect( \wp_get_current_user()->roles, $search_console_roles );
+		// Check if the current user is the owner.
+		$site_kit_settings = \get_option( 'googlesitekit_' . $key . '_settings' );
+		$is_owner          = ( $site_kit_settings['ownerID'] ?? '' ) === \get_current_user_id();
 
-		$search_console_options = \get_option( 'googlesitekit_' . $slug . '_settings' );
-		$owner_id               = ( $search_console_options['ownerID'] ?? '' );
-		return $owner_id === \get_current_user_id() || $current_user_has_access;
+		return $is_owner || $has_viewing_rights;
 	}
 
 	/**
@@ -172,7 +174,7 @@ class Site_Kit {
 				'viewSearchConsoleData' => $this->can_read_data( 'search-console' ),
 				'viewAnalyticsData'     => $this->can_read_data( 'analytics-4' ),
 			],
-			'connectionStepsStatuses'   => [
+			'connectionStepsStatuses'  => [
 				'isInstalled'      => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
 				'isActive'         => $this->is_enabled(),
 				'isSetupCompleted' => $this->is_setup_completed(),
