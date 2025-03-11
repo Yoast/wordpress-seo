@@ -269,7 +269,7 @@ describe( "SiteKitSetupWidget", () => {
 		} );
 	} );
 
-	it( "should show warning and disable button before connecting if user doesn't have the capability to view site kit data", () => {
+	it( "should show the warning and disable the button before connecting if a user doesn't have the permission to view site kit data", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				connectionStepsStatuses: {
