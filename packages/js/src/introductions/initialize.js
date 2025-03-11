@@ -13,7 +13,16 @@ const DATA_NAME = "wpseoIntroductions";
 
 domReady( () => {
 	const initialIntroductions = get( window, `${ DATA_NAME }.introductions`, [] );
+
 	if ( isEmpty( initialIntroductions ) ) {
+		return;
+	}
+
+	const initialComponents = {
+		// "ai-fix-assessments-upsell": Content,
+	};
+
+	if ( isEmpty( initialComponents ) ) {
 		return;
 	}
 
@@ -29,9 +38,7 @@ domReady( () => {
 	const rootContext = {
 		isRtl: Boolean( get( window, `${ DATA_NAME }.isRtl`, false ) ),
 	};
-	const initialComponents = {
-		"ai-fix-assessments-upsell": Content,
-	};
+
 
 	const root = document.createElement( "div" );
 	root.id = "wpseo-introductions";
