@@ -79,12 +79,10 @@ const transformData = ( data ) => {
 };
 
 /**
- * @param {function} dataTransformer The data transformer.
  * @param {import("../services/comparison-metrics-data-formatter")} dataFormatter The data formatter.
  * @returns {function(?TimeBasedData[]): SearchRankingCompareData} Function to format the widget data.
  */
-export const createIcsaDataFormatter = ( dataTransformer, dataFormatter ) => ( initData ) => {
-	const data = dataTransformer( initData );
+export const createDataFormatter = ( dataFormatter ) => ( data ) => {
 	if ( Object.keys( data ).length === 2 ) {
 		return {
 			impressions: dataFormatter.format( data.impressions, "impressions" ),
@@ -120,9 +118,8 @@ export const SearchRankingCompareWidget = ( { dataProvider, remoteDataProvider, 
 	/**
 	 * @type {function(?TimeBasedData[]): SearchRankingCompareData} Function to format the widget data.
 	 * */
-	const formatIcsaData = useMemo( () => createIcsaDataFormatter( transformData, dataFormatter ), [ dataFormatter ] );
-
-	const { data, error, isPending } = useRemoteData( getData, formatIcsaData );
+	const formatData  = useMemo( () => ( rawData ) => createDataFormatter( dataFormatter )( transformData( rawData ) ), [ dataFormatter ] );
+	const { data, error, isPending } = useRemoteData( getData, formatData  );
 
 	return <Widget className="yst-paper__content yst-col-span-4">
 		{ isPending && <SearchRankingCompareSkeletonLoader /> }
