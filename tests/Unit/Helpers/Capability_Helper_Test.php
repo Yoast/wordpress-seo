@@ -301,4 +301,25 @@ final class Capability_Helper_Test extends TestCase {
 
 		$this->assertTrue( $this->instance->has( 'installPlugins' ) );
 	}
+
+	/**
+	 * Test has any method.
+	 *
+	 * @covers ::has_any
+	 *
+	 * @return void
+	 */
+	public function test_has_ny() {
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->with( 'edit_posts' )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->with( 'installPlugins' )
+			->andReturn( true );
+
+		$this->assertTrue( $this->instance->has_any( [ 'edit_posts', 'installPlugins' ] ) );
+	}
 }

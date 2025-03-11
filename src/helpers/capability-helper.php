@@ -74,7 +74,7 @@ class Capability_Helper {
 	 *
 	 * @return bool True if the user has at least one capability.
 	 */
-	private function has_any( array $capabilities ) {
+	public function has_any( array $capabilities ) {
 		foreach ( $capabilities as $capability ) {
 			if ( \current_user_can( $capability ) ) {
 				return true;
