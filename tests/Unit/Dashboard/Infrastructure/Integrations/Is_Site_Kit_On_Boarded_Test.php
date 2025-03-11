@@ -57,7 +57,7 @@ final class Is_Site_Kit_On_Boarded_Test extends Abstract_Site_Kit_Test {
 	public static function generate_site_kit_onboarded_provider() {
 		yield 'Everything setup' => [
 			'is_site_kit_installed' => true,
-			'is_setup_completed'    => '1',
+			'is_setup_completed'    => true,
 			'is_consent_granted'    => true,
 			'expected'              => true,
 		];

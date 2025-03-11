@@ -34,7 +34,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 	public function test_to_array(
 		bool $is_site_kit_installed,
 		bool $is_site_kit_activated,
-		$is_setup_completed,
 		bool $is_consent_granted,
 		bool $is_ga_connected,
 		bool $is_config_dismissed,
@@ -45,9 +44,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 		Functions\expect( 'is_plugin_active' )
 			->andReturn( $is_site_kit_activated );
 
-		Functions\expect( 'get_option' )
-			->with( 'googlesitekit_has_connected_admins', false )
-			->andReturn( $is_setup_completed );
 
 		$this->site_kit_consent_repository->expects( 'is_consent_granted' )->once()->andReturn( $is_consent_granted );
 		$this->site_kit_analytics_4_adapter->expects( 'is_connected' )->once()->andReturn( $is_ga_connected );
@@ -89,16 +85,15 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 		yield 'Everything setup' => [
 			'is_site_kit_installed' => true,
 			'is_site_kit_activated' => true,
-			'is_setup_completed'    => '1',
 			'is_consent_granted'    => true,
 			'is_ga_connected'       => true,
 			'is_config_dismissed'   => true,
 			'expected'              => [
 				'isInstalled'              => true,
 				'isActive'                 => true,
-				'isSetupCompleted'         => true,
+				'isSetupCompleted'         => false,
 				'isConnected'              => true,
-				'isGAConnected'            => true,
+				'isAnalyticsConnected'            => true,
 				'isFeatureEnabled'         => false,
 				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
 				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
@@ -109,7 +104,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 		yield 'Installed not setup' => [
 			'is_site_kit_installed' => true,
 			'is_site_kit_activated' => false,
-			'is_setup_completed'    => false,
 			'is_consent_granted'    => false,
 			'is_ga_connected'       => false,
 			'is_config_dismissed'   => true,
@@ -118,7 +112,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'isActive'                 => false,
 				'isSetupCompleted'         => false,
 				'isConnected'              => false,
-				'isGAConnected'            => false,
+				'isAnalyticsConnected'            => false,
 				'isFeatureEnabled'         => false,
 				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
 				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
@@ -129,16 +123,15 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 		yield 'Setup but no longer installed' => [
 			'is_site_kit_installed' => false,
 			'is_site_kit_activated' => false,
-			'is_setup_completed'    => '1',
 			'is_consent_granted'    => true,
 			'is_ga_connected'       => true,
 			'is_config_dismissed'   => true,
 			'expected'              => [
 				'isInstalled'              => false,
 				'isActive'                 => false,
-				'isSetupCompleted'         => true,
+				'isSetupCompleted'         => false,
 				'isConnected'              => true,
-				'isGAConnected'            => true,
+				'isAnalyticsConnected'            => true,
 				'isFeatureEnabled'         => false,
 				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
 				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
