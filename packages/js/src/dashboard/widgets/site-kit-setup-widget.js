@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import { ArrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useCallback } from "@wordpress/element";
@@ -61,6 +60,25 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 
 	return { grantConsent, dismissPermanently };
 };
+
+/**
+ * The site kit setup widget title and description.
+ *
+ * @param {boolean} isSiteKitConnectionCompleted If the site kit connection is completed.
+ *
+ * @returns {JSX.Element} The title and description component.
+ */
+const SiteKitSetupWidgetTitleAndDescription = ( { isSiteKitConnectionCompleted } ) => ( <>
+	<Title size="2" className="yst-mb-4">
+		{ isSiteKitConnectionCompleted
+			? __( "You’ve successfully connected your site with Site Kit by Google!", "wordpress-seo" )
+			: __( "Expand your dashboard with insights from Google!", "wordpress-seo" )
+		}
+	</Title>
+	{ ! isSiteKitConnectionCompleted && <p className="yst-mb-4">
+		{ __( "Bring together powerful tools like Google Analytics and Search Console for a complete overview of your website's performance, all in one seamless dashboard.", "wordpress-seo" ) }
+	</p> }
+</> );
 
 /**
  * The google site kit connection guide widget.
@@ -151,15 +169,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 			) ) }
 		</Stepper>
 		<hr className="yst-bg-slate-200 yst-my-6" />
-		<Title size="2">
-			{ isSiteKitConnectionCompleted
-				? __( "You’ve successfully connected your site with Site Kit by Google!", "wordpress-seo" )
-				: __( "Expand your dashboard with insights from Google!", "wordpress-seo" )
-			}
-		</Title>
-		<p className="yst-my-4">
-			{ ! isSiteKitConnectionCompleted && __( "Bring together powerful tools like Google Analytics and Search Console for a complete overview of your website's performance, all in one seamless dashboard.", "wordpress-seo" ) }
-		</p>
+		<SiteKitSetupWidgetTitleAndDescription isSiteKitConnectionCompleted={ isSiteKitConnectionCompleted } />
 		<span className="yst-text-slate-800 yst-font-medium">
 			{ isSiteKitConnectionCompleted
 				? __( "You're all set, here are some benefits:", "wordpress-seo" )
