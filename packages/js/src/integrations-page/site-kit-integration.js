@@ -62,7 +62,7 @@ const fetchJson = async( options ) => {
  * @returns {JSX.Element} The top footer wrapper.
  */
 const ContentWithBottomDivider = ( { children, className = "" } ) => {
-	return <span className={ classNames( "yst-flex yst-justify-between yst-pb-4 yst-border-b yst-mb-6 yst-border-slate-200 yst--mt-2", className ) }>
+	return <span className={ classNames( "yst-pb-4 yst-border-b yst-mb-6 yst-border-slate-200 yst--mt-2", className ) }>
 		{ children }
 	</span>;
 };
@@ -78,7 +78,7 @@ ContentWithBottomDivider.propTypes = {
  * @returns {JSX.Element} The SuccessfullyConnected component.
  */
 const SuccessfullyConnected = () => {
-	return <ContentWithBottomDivider className="yst-text-slate-700 yst-font-medium">
+	return <ContentWithBottomDivider className="yst-text-slate-700 yst-font-medium yst-flex yst-justify-between">
 		{ __( "Successfully connected", "wordpress-seo" ) }
 		<CheckIcon
 			className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
