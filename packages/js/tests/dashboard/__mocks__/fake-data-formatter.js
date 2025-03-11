@@ -1,4 +1,4 @@
-import { DataFormatterInterface }	 from "../../../src/dashboard/services/data-formatter-interface";
+import { DataFormatterInterface } from "../../../src/dashboard/services/data-formatter-interface";
 
 /**
  * Fake implementation of the data formatter interface.
