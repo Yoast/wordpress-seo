@@ -284,7 +284,7 @@ Release date: 2025-03-18
 
 #### Bugfixes
 
-* Fixes a bug where the help beacon would be displayed over table pagination on Yoast admin pages.
+* Fixes a bug where the help beacon would be displayed over table pagination the bulk editor page.
 
 #### Other
 

@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { SkeletonLoader } from "@yoast/ui-library";
+import { NoDataParagraph } from "../components/no-data-paragraph";
 import { WidgetTable } from "../components/widget-table";
 import { useRemoteData } from "../services/use-remote-data";
 import { Widget } from "./widget";
@@ -83,16 +84,10 @@ export const TopQueriesWidgetContent = ( { data, isPending, error, limit = 5, su
 		);
 	}
 	if ( error ) {
-		return (
-			<ErrorAlert error={ error } supportLink={ supportLink } className="yst-mt-4" />
-		);
+		return <ErrorAlert error={ error } supportLink={ supportLink } className="yst-mt-4" />;
 	}
 	if ( data.length === 0 ) {
-		return (
-			<p className="yst-mt-4">
-				{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }
-			</p>
-		);
+		return <NoDataParagraph />;
 	}
 
 	return <TopQueriesTable data={ data } />;

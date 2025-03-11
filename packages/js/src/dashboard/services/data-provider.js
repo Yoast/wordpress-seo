@@ -41,6 +41,7 @@ export class DataProvider {
 		this.#siteKitConfiguration = {
 			isFeatureEnabled: siteKitConfiguration.isFeatureEnabled,
 			isSetupWidgetDismissed: siteKitConfiguration.isSetupWidgetDismissed,
+			isAnalyticsConnected: siteKitConfiguration.isAnalyticsConnected,
 		};
 		this.#stepsStatuses = [
 			siteKitConfiguration.isInstalled,
@@ -51,18 +52,18 @@ export class DataProvider {
 	}
 
 	/**
-     * Subscribe to changes in the site kit configuration.
-     * @param {Function} callback The callback to call when the configuration changes.
-     * @returns {Function} Unsubscribe function.
-     */
+	 * Subscribe to changes in the site kit configuration.
+	 * @param {Function} callback The callback to call when the configuration changes.
+	 * @returns {Function} Unsubscribe function.
+	 */
 	subscribe( callback ) {
 		this.#subscribers.add( callback );
 		return () => this.#subscribers.delete( callback );
 	}
 
 	/**
-     * Notify all subscribers of a change in the site kit configuration.
-     */
+	 * Notify all subscribers of a change in the site kit configuration.
+	 */
 	notifySubscribers() {
 		this.#subscribers.forEach( callback => callback() );
 	}
@@ -87,6 +88,7 @@ export class DataProvider {
 	getStepsStatuses() {
 		return this.#stepsStatuses;
 	}
+
 	/**
 	 * @param {string} feature The feature to check.
 	 * @returns {boolean} Whether the feature is enabled.

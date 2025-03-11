@@ -82,6 +82,7 @@ domReady( () => {
 		installSiteKit: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.installUrl", "" ),
 		activateSiteKit: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.activateUrl", "" ),
 		setupSiteKit: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.setupUrl", "" ),
+		organicSessionsInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-organic-sessions-learn-more" ),
 	};
 
 	const siteKitConfiguration = {
@@ -89,6 +90,7 @@ domReady( () => {
 		isActive: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isActive", false ),
 		isSetupCompleted: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isSetupCompleted", false ),
 		isConsentGranted: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isConnected", false ),
+		isAnalyticsConnected: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isAnalyticsConnected", false ),
 		isFeatureEnabled: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isFeatureEnabled", false ),
 		isSetupWidgetDismissed: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.isConfigurationDismissed", false ),
 	};

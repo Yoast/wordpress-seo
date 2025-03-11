@@ -17,7 +17,7 @@ export class RemoteDataProvider {
 
 	/**
 	 * @param {string|URL} endpoint The endpoint.
-	 * @param {Object<string,string>} [params] The query parameters.
+	 * @param {Object<string,string|Object<string,string>>} [params] The query parameters.
 	 * @throws {TypeError} If the URL is invalid.
 	 * @link https://developer.mozilla.org/en-US/docs/Web/API/URL
 	 * @returns {URL} The URL.
@@ -40,7 +40,7 @@ export class RemoteDataProvider {
 
 	/**
 	 * @param {string|URL} endpoint The endpoint.
-	 * @param {Object<string,string>} [params] The query parameters.
+	 * @param {Object<string,string|Object<string,string>>} [params] The query parameters.
 	 * @param {RequestInit} [options] The request options.
 	 * @returns {Promise<any|Error>} The promise of a result, or an error.
 	 */

@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, jest, test } from "@jest/globals";
+import { beforeAll, describe, expect, it, jest, test } from "@jest/globals";
 import { waitFor } from "@testing-library/react";
 import { WidgetFactory } from "../../../src/dashboard/services/widget-factory";
 import { render } from "../../test-utils";
@@ -36,9 +36,20 @@ describe( "WidgetFactory", () => {
 			"topPages",
 			"topQueries",
 			"siteKitSetup",
+			"organicSessions",
 		] )( "should have the widget type: %s", async( type ) => {
 			expect( WidgetFactory.types[ type ] ).toBe( type );
 		} );
+	} );
+
+	test.each( [
+		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
+		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
+		[ "Organic sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
+	] )( "should not create a %s widget when site kit is not connected", async( _, widget ) => {
+		dataProvider.setSiteKitConsentGranted( false );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
 
 	test.each( [
@@ -61,6 +72,7 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" }, "Top 5 most popular content" ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" }, "Top 5 search queries" ],
+		[ "Organic sessions", { id: "organic-sessions-widget", type: "organicSessions" }, "Organic sessions" ],
 	] )( "should create a %s widget", async( _, widget, title ) => {
 		dataProvider.setSiteKitConsentGranted( true );
 		const element = widgetFactory.createWidget( widget );
@@ -91,8 +103,7 @@ describe( "WidgetFactory", () => {
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
 
-
-	test( "should not create the Site Kit setup widget if the data provider has isSetupWidgetDismissed set to true", () => {
+	it( "should not create the Site Kit setup widget if the data provider has isSetupWidgetDismissed set to true", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isSetupWidgetDismissed: true },
 		} );
@@ -104,8 +115,9 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
-		[ "siteKitSetup", { id: "site-kite-setup-widget", type: "siteKitSetup" } ],
-	] )( "should not create a %s widget when site kit feature is disabled", async( _, widget ) => {
+		[ "Site Kit setup", { id: "site-kite-setup-widget", type: "siteKitSetup" } ],
+		[ "Organic Sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
+	] )( "should not create a %s widget when site kit feature is disabled", ( _, widget ) => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isFeatureEnabled: false },
 		} );
@@ -121,7 +133,10 @@ describe( "WidgetFactory", () => {
 			[ "only installed and activated", { isInstalled: true, isActive: true, isSetupCompleted: false, isConsentGranted: false } ],
 			[ "only not connected", { isInstalled: true, isActive: true, isSetupCompleted: true, isConsentGranted: false } ],
 			[ "only connected", { isInstalled: false, isActive: false, isSetupCompleted: false, isConsentGranted: true } ],
-			[ "only site kit setup completed and connected", { isInstalled: false, isActive: false, isSetupCompleted: true, isConsentGranted: true } ],
+			[
+				"only site kit setup completed and connected",
+				{ isInstalled: false, isActive: false, isSetupCompleted: true, isConsentGranted: true },
+			],
 			[ "only not activated", { isInstalled: true, isActive: false, isSetupCompleted: true, isConsentGranted: true } ],
 			[ "only site kit setup is not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, isConsentGranted: true } ],
 		] )( "when %s", async( _, siteKitConfiguration ) => {
@@ -130,7 +145,7 @@ describe( "WidgetFactory", () => {
 				{ id: "top-queries-widget", type: "topQueries" },
 			];
 			dataProvider = new MockDataProvider( {
-				siteKitConfiguration: { ... siteKitConfiguration, isFeatureEnabled: true },
+				siteKitConfiguration: { ...siteKitConfiguration, isFeatureEnabled: true },
 			} );
 
 			widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
@@ -147,5 +162,17 @@ describe( "WidgetFactory", () => {
 				expect( getByRole( "heading", { name: "Expand your dashboard with insights from Google!" } ) ).toBeInTheDocument();
 			} );
 		} );
+	} );
+
+	test.each( [
+		[ "Site Kit is not connected", { isConnected: false } ],
+		[ "Analytics is not connected", { isAnalyticsConnected: false } ],
+	] )( "should not create a OrganicSessions widget when %s", ( _, config ) => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: config,
+		} );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+
+		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
 	} );
 } );

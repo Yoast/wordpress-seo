@@ -2,6 +2,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Integrations;
 
+use Google\Site_Kit\Core\Authentication\Authentication;
+use Google\Site_Kit\Plugin;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
@@ -68,8 +70,14 @@ class Site_Kit {
 	 *
 	 * @return bool If the Google site kit setup has been completed.
 	 */
-	private function is_setup_completed() {
-		return \get_option( 'googlesitekit_has_connected_admins', false ) === '1';
+	private function is_setup_completed(): bool {
+		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
+			$site_kit_plugin = Plugin::instance();
+			$authentication  = new Authentication( $site_kit_plugin->context() );
+			return $authentication->is_setup_completed();
+		}
+
+		return false;
 	}
 
 	/**
@@ -91,7 +99,8 @@ class Site_Kit {
 	}
 
 	/**
-	 * If the Site Kit plugin is installed. This is needed since we cannot check with `is_plugin_active` in rest requests. `Plugin.php` is only loaded on admin pages.
+	 * If the Site Kit plugin is installed. This is needed since we cannot check with `is_plugin_active` in rest
+	 * requests. `Plugin.php` is only loaded on admin pages.
 	 *
 	 * @return bool If the Site Kit plugin is installed.
 	 */
@@ -135,7 +144,7 @@ class Site_Kit {
 			'isActive'                 => $this->is_enabled(),
 			'isSetupCompleted'         => $this->is_setup_completed(),
 			'isConnected'              => $this->is_connected(),
-			'isGAConnected'            => $this->is_ga_connected(),
+			'isAnalyticsConnected'     => $this->is_ga_connected(),
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'installUrl'               => $site_kit_install_url,
 			'activateUrl'              => $site_kit_activate_url,
