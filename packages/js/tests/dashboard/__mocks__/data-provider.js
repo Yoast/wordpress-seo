@@ -68,16 +68,18 @@ export class MockDataProvider extends DataProvider {
 				installUrl: "https://example.com/install",
 				activateUrl: "https://example.com/activate",
 				setupUrl: "https://example.com/isSetup",
-				isInstalled: false,
-				isActive: false,
-				isSetupCompleted: false,
-				isConsentGranted: false,
 				isAnalyticsConnected: true,
 				isFeatureEnabled: false,
 				capabilities: {
 					installPlugins: true,
 					viewSearchConsoleData: true,
 					viewAnalyticsData: true,
+				},
+				connectionStepsStatuses: {
+					isInstalled: false,
+					isActive: false,
+					isSetupCompleted: false,
+					isConsentGranted: false,
 				},
 			},
 		} ) );

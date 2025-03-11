@@ -32,10 +32,12 @@ describe( "SiteKitIntegration", () => {
 	};
 	it( "renders the integration component", () => {
 		render( <SiteKitIntegration
-			isActive={ false }
-			isSetupCompleted={ false }
-			isInstalled={ false }
-			initialIsConsentGranted={ false }
+			connectionStepsStatuses={ {
+				isActive: false,
+				isSetupCompleted: false,
+				isInstalled: false,
+				isConsentGranted: false,
+			} }
 			{ ...props }
 		/> );
 		expect( screen.getByText( "Site Kit by Google" ) ).toBeInTheDocument();
@@ -45,12 +47,14 @@ describe( "SiteKitIntegration", () => {
 		[ "not installed, not active, not after setup, and not connected", false, false, false, false ],
 		[ "not installed, not active, after setup, and not connected", false, false, true, false ],
 		[ "not installed, not active, after setup, and connected", false, false, true, true ],
-	] )( "shows 'Install Site Kit by Google' link when not installed when %s", ( _title, isInstalled, isActive, isSetupCompleted, initialIsConsentGranted = {} ) => {
+	] )( "shows 'Install Site Kit by Google' link when not installed when %s", ( _title, isInstalled, isActive, isSetupCompleted, isConsentGranted = {} ) => {
 		render( <SiteKitIntegration
-			isActive={ isActive }
-			isSetupCompleted={ isSetupCompleted }
-			isInstalled={ isInstalled }
-			initialIsConsentGranted={ initialIsConsentGranted }
+			connectionStepsStatuses={ {
+				isActive,
+				isSetupCompleted,
+				isInstalled,
+				isConsentGranted,
+			} }
 			{ ...props }
 		/> );
 		const link = screen.getByRole( "link", { name: "Install Site Kit by Google" } );
@@ -59,15 +63,17 @@ describe( "SiteKitIntegration", () => {
 	} );
 
 	it.each( [
-		[ "installed, not active, not after setup, and not connected", true, false, false, false ],
-		[ "installed, not active, after setup, and not connected", true, false, true, false ],
-		[ "installed, not active, after setup, and connected", true, false, true, true ],
-	] )( "shows 'Activate Site Kit by Google' button when installed but not active when %s", ( _title, isInstalled, isActive, isSetupCompleted, initialIsConsentGranted = {} ) => {
+		[ "not after setup, and not connected", true, false, false, false ],
+		[ "after setup, and not connected", true, false, true, false ],
+		[ "after setup, and connected", true, false, true, true ],
+	] )( "shows 'Activate Site Kit by Google' button when installed but not active and %s", ( _, isInstalled, isActive, isSetupCompleted, isConsentGranted = {} ) => {
 		render( <SiteKitIntegration
-			isActive={ isActive }
-			isSetupCompleted={ isSetupCompleted }
-			isInstalled={ isInstalled }
-			initialIsConsentGranted={ initialIsConsentGranted }
+			connectionStepsStatuses={ {
+				isInstalled,
+				isActive,
+				isSetupCompleted,
+				isConsentGranted,
+			} }
 			{ ...props }
 		/> );
 		const link = screen.getByRole( "link", { name: "Activate Site Kit by Google" } );
@@ -78,7 +84,13 @@ describe( "SiteKitIntegration", () => {
 
 	it( "shows 'Set up Site Kit by Google' button when active but not set up", () => {
 		render( <SiteKitIntegration
-			isActive={ true } isSetupCompleted={ false } isInstalled={ true } initialIsConsentGranted={ false } { ...props }
+			connectionStepsStatuses={ {
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: false,
+				isConsentGranted: false,
+			} }
+			{ ...props }
 		/> );
 		const link = screen.getByRole( "link", { name: "Set up Site Kit by Google" } );
 		expect( link ).toBeInTheDocument();
@@ -87,17 +99,25 @@ describe( "SiteKitIntegration", () => {
 
 	it( "shows 'Connect Site Kit by Google' button when set up but not connected", () => {
 		render( <SiteKitIntegration
-			isActive={ true } isSetupCompleted={ true } isInstalled={ true } initialIsConsentGranted={ false } { ...props }
+			connectionStepsStatuses={ {
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: true,
+				isConsentGranted: false,
+			} }
+			{ ...props }
 		/> );
 		expect( screen.getByRole( "button", { name: "Connect Site Kit by Google" } ) ).toBeInTheDocument();
 	} );
 
 	it( "shows 'Disconnect' button when connected", () => {
 		render( <SiteKitIntegration
-			isActive={ true }
-			isSetupCompleted={ true }
-			isInstalled={ true }
-			initialIsConsentGranted={ true }
+			connectionStepsStatuses={ {
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: true,
+				isConsentGranted: true,
+			} }
 			{ ...props }
 		/> );
 		expect( screen.getByRole( "button", { name: "Disconnect" } ) ).toBeInTheDocument();
@@ -107,10 +127,12 @@ describe( "SiteKitIntegration", () => {
 	it( "opens a modal to grant consent when clicking on 'Connect Site Kit by Google' button", async() => {
 		apiFetch.mockResolvedValueOnce( mockResponse( { success: true } ) );
 		render( <SiteKitIntegration
-			isActive={ true }
-			isSetupCompleted={ true }
-			isInstalled={ true }
-			initialIsConsentGranted={ false }
+			connectionStepsStatuses={ {
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: true,
+				isConsentGranted: false,
+			} }
 			{ ...props }
 		/> );
 		const connectButton = screen.getByRole( "button", { name: "Connect Site Kit by Google" } );
@@ -143,10 +165,12 @@ describe( "SiteKitIntegration", () => {
 	it( "opens a modal to disconnect when clicking on 'Disconnect' button when connected and dismissing the modal", async() => {
 		apiFetch.mockResolvedValueOnce( mockResponse( { success: true } ) );
 		render( <SiteKitIntegration
-			isActive={ true }
-			isSetupCompleted={ true }
-			isInstalled={ true }
-			initialIsConsentGranted={ true }
+			connectionStepsStatuses={ {
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: true,
+				isConsentGranted: true,
+			} }
 			{ ...props }
 		/> );
 		const disconnectButton = screen.getByRole( "button", { name: "Disconnect" } );
@@ -183,10 +207,12 @@ describe( "SiteKitIntegration", () => {
 			[ "setup not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, label: "Set up Site Kit by Google" } ],
 		] )( "when site kit plugin %s", ( _, { isInstalled, isActive, isSetupCompleted, label } ) => {
 			render( <SiteKitIntegration
-				isActive={ isActive }
-				isSetupCompleted={ isSetupCompleted }
-				isInstalled={ isInstalled }
-				initialIsConsentGranted={ false }
+				connectionStepsStatuses={ {
+					isInstalled,
+					isActive,
+					isSetupCompleted,
+					isConsentGranted: false,
+				} }
 				{ ...props }
 				capabilities={ { installPlugins: false, setupSiteKit: false } }
 
@@ -200,14 +226,16 @@ describe( "SiteKitIntegration", () => {
 
 
 	it.each( [
-		[ "not connected", { initialIsConsentGranted: false, label: "Connect Site Kit by Google" } ],
-		[ "connected", { initialIsConsentGranted: true, label: "Disconnect" } ],
-	] )( "should show warning and disable the button when user has no capability to view site kit data and %s.", ( _, { initialIsConsentGranted, label } ) => {
+		[ "not connected", { isConsentGranted: false, label: "Connect Site Kit by Google" } ],
+		[ "connected", { isConsentGranted: true, label: "Disconnect" } ],
+	] )( "should show warning and disable the button when user has no capability to view site kit data and %s.", ( _, { isConsentGranted, label } ) => {
 		render( <SiteKitIntegration
-			isInstalled={ true }
-			isActive={ true }
-			isSetupCompleted={ true }
-			initialIsConsentGranted={ initialIsConsentGranted }
+			connectionStepsStatuses={ {
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: true,
+				isConsentGranted,
+			} }
 			{ ...props }
 			capabilities={ { installPlugins: true, viewSearchConsoleData: false } }
 

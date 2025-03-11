@@ -1,3 +1,5 @@
+import { values } from "lodash";
+
 /**
  * @type {import("../index").ContentType} ContentType
  * @type {import("../index").Features} Features
@@ -20,7 +22,6 @@ export class DataProvider {
 	#links;
 	#siteKitConfiguration;
 	#subscribers = new Set();
-	#stepsStatuses;
 
 	/**
 	 * @param {ContentType[]} contentTypes The content types.
@@ -39,12 +40,6 @@ export class DataProvider {
 		this.#headers = headers;
 		this.#links = links;
 		this.#siteKitConfiguration = siteKitConfiguration;
-		this.#stepsStatuses = [
-			siteKitConfiguration.isInstalled,
-			siteKitConfiguration.isActive,
-			siteKitConfiguration.isSetupCompleted,
-			siteKitConfiguration.isConsentGranted,
-		];
 	}
 
 	/**
@@ -82,7 +77,7 @@ export class DataProvider {
 	 * @returns {boolean} The possible stepper statuses.
 	 */
 	getStepsStatuses() {
-		return this.#stepsStatuses;
+		return values( this.#siteKitConfiguration.connectionStepsStatuses );
 	}
 
 	/**
@@ -128,7 +123,7 @@ export class DataProvider {
 	 * @returns {number} The step that is currently unfinished. Returns -1 when all steps are finished.
 	 */
 	getSiteKitCurrentConnectionStep() {
-		return this.#stepsStatuses.findIndex( status => ! status );
+		return this.getStepsStatuses().findIndex( stepStatus => ! stepStatus );
 	}
 
 	/**
@@ -142,7 +137,14 @@ export class DataProvider {
 	 * @param {boolean} isConsentGranted Whether the site kit consent is granted.
 	 */
 	setSiteKitConsentGranted( isConsentGranted ) {
-		this.#stepsStatuses[ 3 ] = isConsentGranted;
+		// This creates a new object to avoid mutation and force re-rendering.
+		this.#siteKitConfiguration = {
+			...this.#siteKitConfiguration,
+			connectionStepsStatuses: {
+				...this.#siteKitConfiguration.connectionStepsStatuses,
+				isConsentGranted,
+			},
+		};
 		this.notifySubscribers();
 	}
 

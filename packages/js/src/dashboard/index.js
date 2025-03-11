@@ -104,10 +104,7 @@ export { Dashboard } from "./components/dashboard";
  * @property {string} installUrl The link to install Site Kit.
  * @property {string} activateUrl The link to activate Site Kit.
  * @property {string} setupUrl The link to setup Site Kit.
- * @property {boolean} isInstalled Whether Site Kit is installed.
- * @property {boolean} isActive Whether Site Kit is active.
- * @property {boolean} isSetupCompleted Whether Site Kit is setup.
- * @property {boolean} isConsentGranted Whether Site Kit is connected.
+ * @property {ConnectionStepsStatuses} connectionStepsStatuses The connection steps statuses.
  * @property {boolean} isAnalyticsConnected Whether Google Analytics is connected.
  * @property {boolean} isFeatureEnabled Whether the feature is enabled.
  * @property {boolean} isSetupWidgetDismissed Whether the configuration is dismissed.
@@ -119,4 +116,12 @@ export { Dashboard } from "./components/dashboard";
  * @property {boolean} installPlugins Whether the user can install plugins.
  * @property {boolean} viewSearchConsoleData Whether the user can view the search console data.
  * @property {boolean} viewAnalyticsData Whether the user can view the analytics data
+ */
+
+/**
+ * @typedef {Object} ConnectionStepsStatuses The connection steps statuses.
+ * @property {boolean} isInstalled Whether Site Kit plugin is installed.
+ * @property {boolean} isActive Whether Site Kit plugin is active.
+ * @property {boolean} isSetupCompleted Whether Site Kit setup is completed.
+ * @property {boolean} isConsentGranted Whether Site Kit is connected.
  */

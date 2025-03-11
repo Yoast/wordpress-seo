@@ -99,7 +99,6 @@ domReady( () => {
 			viewAnalyticsData: false,
 		},
 	} );
-	siteKitConfiguration.isConsentGranted = siteKitConfiguration.isConnected;
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );

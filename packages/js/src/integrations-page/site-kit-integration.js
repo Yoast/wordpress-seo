@@ -10,12 +10,8 @@ import { ReactComponent as SiteKitLogo } from "../../images/site-kit-logo.svg";
 import { SiteKitConsentModal, UnsavedChangesModal as DisconnectModal } from "../shared-admin/components";
 import { SimpleIntegration } from "./simple-integration";
 import classNames from "classnames";
-
-/**
- * @typedef {Object} Capabilities The user capabilities.
- * @property {boolean} installPlugins Whether the user can install plugins.
- * @property {boolean} viewSearchConsoleData Whether the user can view the search console data.
- */
+import { values } from "lodash";
+import { stepsNames } from "../dashboard/widgets/site-kit-setup-widget";
 
 const integration = {
 	name: __( "Site Kit by Google", "wordpress-seo" ),
@@ -65,13 +61,13 @@ const fetchJson = async( options ) => {
  * @param {string} className The class name.
  * @returns {JSX.Element} The top footer wrapper.
  */
-const TopFooterWrapper = ( { children, className = "" } ) => {
+const ContentWithBottomDivider = ( { children, className = "" } ) => {
 	return <span className={ classNames( "yst-flex yst-justify-between yst-pb-4 yst-border-b yst-mb-6 yst-border-slate-200 yst--mt-2", className ) }>
 		{ children }
 	</span>;
 };
 
-TopFooterWrapper.propTypes = {
+ContentWithBottomDivider.propTypes = {
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
 };
@@ -82,12 +78,12 @@ TopFooterWrapper.propTypes = {
  * @returns {JSX.Element} The SuccessfullyConnected component.
  */
 const SuccessfullyConnected = () => {
-	return <TopFooterWrapper className="yst-text-slate-700 yst-font-medium">
+	return <ContentWithBottomDivider className="yst-text-slate-700 yst-font-medium">
 		{ __( "Successfully connected", "wordpress-seo" ) }
 		<CheckIcon
 			className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
 		/>
-	</TopFooterWrapper>;
+	</ContentWithBottomDivider>;
 };
 
 /**
@@ -99,16 +95,16 @@ const SuccessfullyConnected = () => {
  * @returns {JSX.Element} The no permission warning component.
  */
 const NoPermissionWarning = ( { capabilities, currentStep } ) => {
-	if ( ! capabilities.installPlugins && currentStep < 3 && currentStep !== -1 ) {
-		return <TopFooterWrapper className="yst-text-slate-500">
+	if ( ! capabilities.installPlugins && currentStep < stepsNames.grantConsent && currentStep !== stepsNames.successfulyConnected ) {
+		return <ContentWithBottomDivider className="yst-text-slate-500">
 			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
-		</TopFooterWrapper>;
+		</ContentWithBottomDivider>;
 	}
 
-	if ( ! capabilities.viewSearchConsoleData && ( currentStep > 2 || currentStep === -1 ) ) {
-		return <TopFooterWrapper className="yst-text-slate-500">
+	if ( ! capabilities.viewSearchConsoleData && ( currentStep === stepsNames.grantConsent || currentStep === stepsNames.successfulyConnected ) ) {
+		return <ContentWithBottomDivider className="yst-text-slate-500">
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
-		</TopFooterWrapper>;
+		</ContentWithBottomDivider>;
 	}
 };
 
@@ -120,35 +116,29 @@ NoPermissionWarning.propTypes = {
 /**
  * The Site Kit integration component.
  *
- * @param {boolean} isActive Whether the integration is active.
- * @param {boolean} isSetupCompleted Whether the integration has been set up.
- * @param {boolean} isInstalled Whether the integration is installed.
- * @param {boolean} initialIsConsentGranted Whether the integration is connected.
+ * @param {import("../dashboard/index").ConnectionStepsStatuses} props The Site Kit configuration.
  * @param {string} installUrl The installation url.
  * @param {string} activateUrl The activation url.
  * @param {string} setupUrl The setup url.
  * @param {string} consentManagementUrl The consent management url.
- * @param {CapabilitiesForSiteKit} capabilities The user capabilities.
+ * @param {import("../dashboard/index").CapabilitiesForSiteKit} capabilities The user capabilities.
  *
  * @returns {WPElement} The Site Kit integration component.
  */
 export const SiteKitIntegration = ( {
-	isActive,
-	isSetupCompleted,
-	isInstalled,
-	initialIsConsentGranted,
 	installUrl,
 	activateUrl,
 	setupUrl,
 	consentManagementUrl,
 	capabilities,
+	connectionStepsStatuses,
 } ) => {
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
 	const [ isDisconnectModalOpen, toggleDisconnectModal ] = useToggleState( false );
-	const [ isConnected, setConnected ] = useState( initialIsConsentGranted );
-	const stepsStatuses = [ isInstalled, isActive, isSetupCompleted, isConnected ];
-	let currentStep = stepsStatuses.findIndex( status => ! status );
-	const successfullyConnected = currentStep === -1;
+	const [ isConsentGranted, setConnected ] = useState( connectionStepsStatuses.isConsentGranted );
+	const stepsStatuses = values( { ...connectionStepsStatuses, isConsentGranted } );
+	const currentStep = stepsStatuses.findIndex( status => ! status );
+	const successfullyConnected = currentStep === stepsNames.successfulyConnected;
 
 	const consentLearnMoreLink = useSelect(
 		select => select( "yoast-seo/settings" ).selectLink( "https://yoa.st/integrations-site-kit-consent-learn-more" ),
@@ -172,10 +162,6 @@ export const SiteKitIntegration = ( {
 	const revokeConsent = useCallback( () => {
 		manageConsent( false ).then( toggleDisconnectModal );
 	}, [ manageConsent, toggleDisconnectModal ] );
-
-	if ( currentStep === -1 ) {
-		currentStep = stepsStatuses.length - 1;
-	}
 
 	const buttonProps = [
 		{
@@ -255,13 +241,10 @@ export const SiteKitIntegration = ( {
 };
 
 SiteKitIntegration.propTypes = {
-	isActive: PropTypes.bool.isRequired,
-	isSetupCompleted: PropTypes.bool.isRequired,
-	isInstalled: PropTypes.bool.isRequired,
-	initialIsConsentGranted: PropTypes.bool.isRequired,
 	installUrl: PropTypes.string.isRequired,
 	activateUrl: PropTypes.string.isRequired,
 	setupUrl: PropTypes.string.isRequired,
 	consentManagementUrl: PropTypes.string.isRequired,
 	capabilities: PropTypes.objectOf( PropTypes.bool ).isRequired,
+	connectionStepsStatuses: PropTypes.objectOf( PropTypes.bool ).isRequired,
 };

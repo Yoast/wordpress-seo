@@ -161,20 +161,22 @@ class Site_Kit {
 		$site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
 
 		return [
-			'isInstalled'              => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
-			'isActive'                 => $this->is_enabled(),
-			'isSetupCompleted'         => $this->is_setup_completed(),
-			'isConnected'              => $this->is_connected(),
-			'isAnalyticsConnected'     => $this->is_ga_connected(),
-			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'installUrl'               => $site_kit_install_url,
 			'activateUrl'              => $site_kit_activate_url,
 			'setupUrl'                 => $site_kit_setup_url,
+			'isAnalyticsConnected'     => $this->is_ga_connected(),
+			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'isConfigurationDismissed' => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
 			'capabilities'             => [
 				'installPlugins'        => $this->capability_helper->has( 'install_plugins' ),
 				'viewSearchConsoleData' => $this->can_read_data( 'search-console' ),
 				'viewAnalyticsData'     => $this->can_read_data( 'analytics-4' ),
+			],
+			'connectionStepsStatuses'   => [
+				'isInstalled'      => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
+				'isActive'         => $this->is_enabled(),
+				'isSetupCompleted' => $this->is_setup_completed(),
+				'isConsentGranted' => $this->is_connected(),
 			],
 		];
 	}

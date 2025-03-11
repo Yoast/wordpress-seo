@@ -23,6 +23,15 @@ const steps = [
 	__( "CONNECT", "wordpress-seo" ),
 ];
 
+/** @type {Object<string, number>} */
+export const stepsNames = {
+	install: 0,
+	activate: 1,
+	setup: 2,
+	grantConsent: 3,
+	successfulyConnected: -1,
+};
+
 /**
  * @typedef {Object} UseSiteKitConfiguration
  * @property {function(RequestInit?)} grantConsent The grant consent function.
@@ -70,17 +79,17 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
  * @returns {JSX.Element} The no permission warning component.
  */
 const NoPermissionWarning = ( { capabilities, currentStep } ) => {
-	if ( currentStep === -1 ) {
+	if ( currentStep === stepsNames.successfulyConnected ) {
 		return null;
 	}
 
-	if ( ! capabilities.installPlugins && currentStep < 3 ) {
+	if ( ! capabilities.installPlugins && currentStep < stepsNames.grantConsent ) {
 		return <Alert className="yst-mt-6" type="info">
 			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
 		</Alert>;
 	}
 
-	if ( ! capabilities.viewSearchConsoleData && currentStep === 3 ) {
+	if ( ! capabilities.viewSearchConsoleData && currentStep === stepsNames.grantConsent ) {
 		return <Alert className="yst-mt-6" type="info">
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
 		</Alert>;
@@ -114,11 +123,8 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
 
 
-	let currentStep = dataProvider.getSiteKitCurrentConnectionStep();
+	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
 	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
-	if ( isSiteKitConnectionCompleted ) {
-		currentStep = steps.length - 1;
-	}
 
 	const checkCapability = ( url, capability = capabilities.installPlugins ) => {
 		return capability ? url : null;
@@ -183,7 +189,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				<Stepper.Step
 					key={ label }
 					isActive={ currentStep === index }
-					isComplete={ dataProvider.getStepsStatuses()[ index ] }
+					isComplete={ currentStep > index || isSiteKitConnectionCompleted }
 				>
 					{ label }
 				</Stepper.Step>
@@ -224,7 +230,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 						<ArrowRightIcon className="yst-w-3 yst-text-primary-500 rtl:yst-rotate-180" />
 					</Button>
 					<SiteKitConsentModal
-						isOpen={ currentStep === steps.length - 1 && isConsentModalOpen }
+						isOpen={ currentStep === stepsNames.grantConsent && isConsentModalOpen }
 						onClose={ closeConsentModal }
 						onGrantConsent={ grantConsent }
 						learnMoreLink={ consentLearnMoreLink }
