@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Test class for the get_view_link method.
  *
- * @group  Score_Group_Link_Collector
+ * @group Score_Group_Link_Collector
  *
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Score_Groups\Score_Group_Link_Collector::get_view_link
  *
@@ -44,7 +44,98 @@ final class Get_View_Link_Score_Group_Link_Collector_Test extends TestCase {
 	/**
 	 * Tests if the correct view link is generated.
 	 *
-	 * @dataProvider generate_get_view_link_provider
+	 * @return void
+	 */
+	public function test_get_view_link_without_taxonomy() {
+		$score_group  = new Ok_SEO_Score_Group();
+		$content_type = new Content_Type( 'ok', 'OK' );
+		$post_page    = 'edit.php';
+		Functions\expect( 'admin_url' )
+			->with( 'edit.php' )
+			->andReturn( $post_page );
+
+		Functions\expect( 'add_query_arg' )
+			->with(
+				[
+					'post_status'                  => 'publish',
+					'post_type'                    => $content_type->get_name(),
+					$score_group->get_filter_key() => $score_group->get_filter_value(),
+				]
+			)
+			->andReturn( 'edit.php?post_status=publish&page_type=' . $content_type->get_name() . '&' . $score_group->get_filter_key() . '=' . $score_group->get_filter_value() );
+
+		$this->assertSame( 'edit.php?post_status=publish&page_type=ok&seo_filter=ok', $this->instance->get_view_link( $score_group, $content_type, null, null ) );
+	}
+
+	/**
+	 * Tests if the correct view link is generated.
+	 *
+	 * @return void
+	 */
+	public function test_get_view_link_with_taxonomy() {
+		$score_group  = new Ok_SEO_Score_Group();
+		$content_type = new Content_Type( 'ok', 'OK' );
+		$taxonomy     = new Taxonomy( 'no query', 'No query', '' );
+
+		$term_id   = 1;
+		$post_page = 'edit.php';
+		Functions\expect( 'admin_url' )
+			->with( 'edit.php' )
+			->andReturn( $post_page );
+
+		$wp_tax            = Mockery::mock( WP_Taxonomy::class )->makePartial();
+		$wp_tax->query_var = 'query';
+		$wp_term           = Mockery::mock( WP_Term::class )->makePartial();
+		$wp_term->slug     = 'slug';
+		Functions\expect( 'get_taxonomy' )
+			->with( $taxonomy->get_name() )
+			->andReturn( $wp_tax );
+
+		Functions\expect( 'get_term' )
+			->with( $term_id )
+			->andReturn( $wp_term );
+
+		Functions\expect( 'add_query_arg' )
+			->with(
+				[
+					'post_status'                  => 'publish',
+					'post_type'                    => $content_type->get_name(),
+					$score_group->get_filter_key() => $score_group->get_filter_value(),
+				]
+			)
+			->andReturn( 'edit.php?post_status=publish&page_type=' . $content_type->get_name() . '&' . $score_group->get_filter_key() . '=' . $score_group->get_filter_value() . '&query=slug' );
+
+		$this->assertSame( 'edit.php?post_status=publish&page_type=ok&seo_filter=ok&query=slug', $this->instance->get_view_link( $score_group, $content_type, $taxonomy, $term_id ) );
+	}
+
+	/**
+	 * Provides data testing if the correct view link is generated.
+	 *
+	 * @return Generator Test data to use.
+	 */
+	public static function generate_get_view_link_with_tax_provider() {
+		yield 'Empty taxonomy' => [
+			'expected'           => null,
+			'score_group'        => new Ok_SEO_Score_Group(),
+			'content_type'       => new Content_Type( 'ok', 'OK' ),
+			'taxonomy'           => new Taxonomy( 'no query', 'No query', '' ),
+			'taxonomy_query_var' => false,
+			'term_id'            => 1,
+		];
+		yield 'Empty query var' => [
+			'expected'           => null,
+			'score_group'        => new Ok_SEO_Score_Group(),
+			'content_type'       => new Content_Type( 'ok', 'OK' ),
+			'taxonomy'           => new Taxonomy( 'query', 'Query', '' ),
+			'taxonomy_query_var' => '',
+			'term_id'            => 1,
+		];
+	}
+
+	/**
+	 * Tests if the correct view link is generated.
+	 *
+	 * @dataProvider generate_get_view_link_with_tax_provider
 	 *
 	 * @param string|null            $expected           The expected value.
 	 * @param Score_Groups_Interface $score_group        The score groups the link is generated for.
@@ -55,7 +146,7 @@ final class Get_View_Link_Score_Group_Link_Collector_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_get_view_link(
+	public function test_get_view_link_with_taxonomy_but_no_query_var(
 		?string $expected,
 		Score_Groups_Interface $score_group,
 		Content_Type $content_type,
@@ -68,91 +159,28 @@ final class Get_View_Link_Score_Group_Link_Collector_Test extends TestCase {
 			->with( 'edit.php' )
 			->andReturn( $post_page );
 
-		if ( $taxonomy === null || $term_id === null ) {
-			Functions\expect( 'add_query_arg' )
-				->with(
-					[
-						'post_status'                  => 'publish',
-						'post_type'                    => $content_type->get_name(),
-						$score_group->get_filter_key() => $score_group->get_filter_value(),
-					]
-				)
-				->andReturn( 'edit.php?post_status=publish&page_type=' . $content_type->get_name() . '&' . $score_group->get_filter_key() . '=' . $score_group->get_filter_value() );
-		}
-		if ( $taxonomy !== null ) {
-			$wp_tax            = Mockery::mock( WP_Taxonomy::class )->makePartial();
-			$wp_tax->query_var = $taxonomy_query_var;
-			$wp_term           = Mockery::mock( WP_Term::class )->makePartial();
-			$wp_term->slug     = 'slug';
-			Functions\expect( 'get_taxonomy' )
-				->with( $taxonomy->get_name() )
-				->andReturn( $wp_tax );
+		$wp_tax            = Mockery::mock( WP_Taxonomy::class )->makePartial();
+		$wp_tax->query_var = $taxonomy_query_var;
+		$wp_term           = Mockery::mock( WP_Term::class )->makePartial();
+		$wp_term->slug     = 'slug';
+		Functions\expect( 'get_taxonomy' )
+			->with( $taxonomy->get_name() )
+			->andReturn( $wp_tax );
 
-			if ( $taxonomy_query_var !== false ) {
-				Functions\expect( 'get_term' )
-					->with( $term_id )
-					->andReturn( $wp_term );
+		Functions\expect( 'get_term' )
+			->with( $term_id )
+			->andReturn( $wp_term );
 
-				Functions\expect( 'add_query_arg' )
-					->with(
-						[
-							'post_status'                  => 'publish',
-							'post_type'                    => $content_type->get_name(),
-							$score_group->get_filter_key() => $score_group->get_filter_value(),
-						]
-					)
-					->andReturn( 'edit.php?post_status=publish&page_type=' . $content_type->get_name() . '&' . $score_group->get_filter_key() . '=' . $score_group->get_filter_value() . '&' . $taxonomy_query_var . '=slug' );
-			}
-		}
+		Functions\expect( 'add_query_arg' )
+			->with(
+				[
+					'post_status'                  => 'publish',
+					'post_type'                    => $content_type->get_name(),
+					$score_group->get_filter_key() => $score_group->get_filter_value(),
+				]
+			)
+			->andReturn( 'edit.php?post_status=publish&page_type=' . $content_type->get_name() . '&' . $score_group->get_filter_key() . '=' . $score_group->get_filter_value() . '&' . $taxonomy_query_var . '=slug' );
 
 		$this->assertSame( $expected, $this->instance->get_view_link( $score_group, $content_type, $taxonomy, $term_id ) );
-	}
-
-	/**
-	 * Provides data testing if the Site Kit GA plugin is enabled.
-	 *
-	 * @return Generator Test data to use.
-	 */
-	public static function generate_get_view_link_provider() {
-		yield 'No term or tax' => [
-			'expected'           => 'edit.php?post_status=publish&page_type=ok&seo_filter=ok',
-			'score_group'        => new Ok_SEO_Score_Group(),
-			'content_type'       => new Content_Type( 'ok', 'OK' ),
-			'taxonomy'           => null,
-			'taxonomy_query_var' => '',
-			'term_id'            => null,
-		];
-		yield 'Taxonomy but no term_id' => [
-			'expected'           => 'edit.php?post_status=publish&page_type=ok&seo_filter=ok',
-			'score_group'        => new Ok_SEO_Score_Group(),
-			'content_type'       => new Content_Type( 'ok', 'OK' ),
-			'taxonomy'           => new Taxonomy( 'no query', 'No query', '' ),
-			'taxonomy_query_var' => '',
-			'term_id'            => null,
-		];
-		yield 'Empty taxonomy' => [
-			'expected'           => null,
-			'score_group'        => new Ok_SEO_Score_Group(),
-			'content_type'       => new Content_Type( 'ok', 'OK' ),
-			'taxonomy'           => new Taxonomy( 'no query', 'No query', '' ),
-			'taxonomy_query_var' => false,
-			'term_id'            => 1,
-		];
-		yield 'Taxonomy and term' => [
-			'expected'           => 'edit.php?post_status=publish&page_type=ok&seo_filter=ok&query=slug',
-			'score_group'        => new Ok_SEO_Score_Group(),
-			'content_type'       => new Content_Type( 'ok', 'OK' ),
-			'taxonomy'           => new Taxonomy( 'query', 'Query', '' ),
-			'taxonomy_query_var' => 'query',
-			'term_id'            => 1,
-		];
-		yield 'Empty query var' => [
-			'expected'           => null,
-			'score_group'        => new Ok_SEO_Score_Group(),
-			'content_type'       => new Content_Type( 'ok', 'OK' ),
-			'taxonomy'           => new Taxonomy( 'query', 'Query', '' ),
-			'taxonomy_query_var' => '',
-			'term_id'            => 1,
-		];
 	}
 }
