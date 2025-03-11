@@ -5,7 +5,7 @@ import { doAction } from "@wordpress/hooks";
 import { Root } from "@yoast/ui-library";
 import { get, isEmpty } from "lodash";
 import { LINK_PARAMS_NAME, PLUGIN_URL_NAME, WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
-import { Content, Introduction, IntroductionProvider, Modal } from "./components";
+import { Introduction, IntroductionProvider, Modal } from "./components";
 import { STORE_NAME_INTRODUCTIONS } from "./constants";
 import { registerStore } from "./store";
 
