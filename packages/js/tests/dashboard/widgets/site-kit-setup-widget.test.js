@@ -239,7 +239,7 @@ describe( "SiteKitSetupWidget", () => {
 		expect( dataProvider.setSiteKitConfigurationDismissed ).toHaveBeenCalledWith( true );
 	} );
 
-	describe( "should show warning and disable button when user doesn't have the capability to install plugins", () => {
+	describe( "should show the warning and disable the button when a user doesn't have the capability to install plugins", () => {
 		it.each( [
 			[ "plugin not installed", { isInstalled: false, isActive: false, isSetupCompleted: false, label: "Install Site Kit by Google"  } ],
 			[ "plugin not active", { isInstalled: true, isActive: false, isSetupCompleted: false, label: "Activate Site Kit by Google" } ],
