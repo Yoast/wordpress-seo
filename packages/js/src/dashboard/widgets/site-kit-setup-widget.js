@@ -178,11 +178,11 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 		</span>
 		<ul>
 			<li className="yst-gap-2 yst-flex yst-mt-2 yst-items-start">
-				<CheckCircleIcon className="yst-w-5 yst-text-green-400" />
+				<CheckCircleIcon className="yst-w-5 yst-text-green-400 yst-shrink-0" />
 				{ __( "Grow your audience with actionable SEO and user behavior insights.", "wordpress-seo" ) }
 			</li>
 			<li className="yst-gap-2 yst-flex yst-mt-2 yst-items-start">
-				<CheckCircleIcon className="yst-w-5 yst-text-green-400" />
+				<CheckCircleIcon className="yst-w-5 yst-text-green-400 yst-shrink-0" />
 				{ __( "Fine-tune your SEO and optimize your content using key performance metrics (KPI).", "wordpress-seo" ) }
 			</li>
 		</ul>
