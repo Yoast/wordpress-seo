@@ -178,7 +178,7 @@ describe( "WidgetFactory", () => {
 		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
 	} );
 
-	test.each( "should not create a OrganicSessions widget when user has no permmission", () => {
+	test.each( "should not create a OrganicSessions widget when a user has no view analytics data permission", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				capabilities: {
