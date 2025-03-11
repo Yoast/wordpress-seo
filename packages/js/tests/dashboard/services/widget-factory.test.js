@@ -194,7 +194,7 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
-	] )( "should not create a %s widget when site kit without viewing rights", ( _, widget ) => {
+	] )( "should not create a %s widget when a user has no view search console data permission", ( _, widget ) => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				capabilities: {
