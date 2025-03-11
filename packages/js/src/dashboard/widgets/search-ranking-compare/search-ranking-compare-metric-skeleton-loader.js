@@ -1,4 +1,4 @@
-import { WidgetTooltip } from "../widgets/widget";
+import { WidgetTooltip } from "../widget";
 import { SkeletonLoader } from "@yoast/ui-library";
 /**
  * Represents the skeleton loader for an organic sessions compare metric component.

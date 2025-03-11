@@ -1,5 +1,5 @@
-import { Trend } from "./trend";
-import { WidgetTooltip } from "../widgets/widget";
+import { Trend } from "../../components/trend";
+import { WidgetTooltip } from "../widget";
 
 /** Represents the divider between the organic sessions compare metrics.
  *

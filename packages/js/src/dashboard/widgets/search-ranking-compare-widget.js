@@ -3,9 +3,9 @@ import { __ } from "@wordpress/i18n";
 import { Alert } from "@yoast/ui-library";
 import { useRemoteData } from "../services/use-remote-data";
 import { Widget } from "./widget";
-import { SearchRankingCompareMetric, SearchRankingCompareMetricDivider } from "../components/search-ranking-compare-metric";
+import { SearchRankingCompareMetric, SearchRankingCompareMetricDivider } from "./search-ranking-compare/search-ranking-compare-metric";
 import { getDifference } from "../transformers/difference";
-import { SearchRankingCompareMetricSkeletonLoader } from "../components/search-ranking-compare-metric-skeleton-loader";
+import { SearchRankingCompareMetricSkeletonLoader } from "./search-ranking-compare/search-ranking-compare-metric-skeleton-loader";
 /**
  * @type {import("../index").MetricData} MetricData
  * @type {import("../index").SearchRankingCompareData} SearchRankingCompareData
@@ -120,7 +120,7 @@ export const SearchRankingCompareWidget = ( { dataProvider, remoteDataProvider, 
 	/**
 	 * @type {function(?TimeBasedData[]): SearchRankingCompareData} Function to format the widget data.
 	 * */
-	const formatIcsaData = useMemo( () => createIcsaDataFormatter( transformData, dataFormatter ), [ transformData, dataFormatter ] );
+	const formatIcsaData = useMemo( () => createIcsaDataFormatter( transformData, dataFormatter ), [ dataFormatter ] );
 
 	const { data, error, isPending } = useRemoteData( getData, formatIcsaData );
 
