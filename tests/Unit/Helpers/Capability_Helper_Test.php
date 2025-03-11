@@ -285,4 +285,20 @@ final class Capability_Helper_Test extends TestCase {
 
 		return $wp_roles;
 	}
+
+	/**
+	 * Test has method.
+	 *
+	 * @covers ::has
+	 *
+	 * @return void
+	 */
+	public function test_has() {
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->with( 'installPlugins' )
+			->andReturn( true );
+
+		$this->assertTrue( $this->instance->has( 'installPlugins' ) );
+	}
 }
