@@ -16,21 +16,21 @@ export class ComparisonMetricsDataFormatter extends DataFormatterInterface {
 			case "impressions":
 			case "clicks":
 				return {
-					formattedValue: this.safeNumberFormat( data.value, this.getNumberFormat().nonFractional ),
+					formattedValue: DataFormatterInterface.safeNumberFormat( data.value, this.getNumberFormat().nonFractional ),
 					delta: data.delta,
-					formattedDelta: this.safeNumberFormat( data.delta, this.getNumberFormat().percentage ),
+					formattedDelta: DataFormatterInterface.safeNumberFormat( data.delta, this.getNumberFormat().percentage ),
 				};
 			case "ctr":
 				return {
-					formattedValue: this.safeNumberFormat( data.value, this.getNumberFormat().percentage ),
+					formattedValue: DataFormatterInterface.safeNumberFormat( data.value, this.getNumberFormat().percentage ),
 					delta: data.delta,
-					formattedDelta: this.safeNumberFormat( data.delta, this.getNumberFormat().percentage ),
+					formattedDelta: DataFormatterInterface.safeNumberFormat( data.delta, this.getNumberFormat().percentage ),
 				};
 			case "position":
 				return {
-					formattedValue: this.safeNumberFormat( data.value, this.getNumberFormat().twoFractions ),
+					formattedValue: DataFormatterInterface.safeNumberFormat( data.value, this.getNumberFormat().twoFractions ),
 					delta: data.delta,
-					formattedDelta: this.safeNumberFormat( data.delta, this.getNumberFormat().percentage ),
+					formattedDelta: DataFormatterInterface.safeNumberFormat( data.delta, this.getNumberFormat().percentage ),
 				};
 			case "date":
 				return new Date(
@@ -40,9 +40,9 @@ export class ComparisonMetricsDataFormatter extends DataFormatterInterface {
 					{ month: "short", day: "numeric" }
 				);
 			case "sessions":
-				return this.safeNumberFormat( data || 0, this.getNumberFormat().nonFractional );
+				return DataFormatterInterface.safeNumberFormat( data || 0, this.getNumberFormat().nonFractional );
 			case "difference":
-				return this.safeNumberFormat( data, this.getNumberFormat().percentage );
+				return DataFormatterInterface.safeNumberFormat( data, this.getNumberFormat().percentage );
 			default:
 				return data;
 		}

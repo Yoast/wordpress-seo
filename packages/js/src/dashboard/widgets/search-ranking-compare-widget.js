@@ -19,7 +19,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72">
 				<div className="yst-absolute yst-end-6 yst-top-2">
 					<WidgetTooltip>
-						<p>{ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }</p>
+						{ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
 					</WidgetTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
@@ -31,7 +31,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72">
 				<div className="yst-absolute yst-end-6 yst-top-2">
 					<WidgetTooltip>
-						<p>{ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }</p>
+						{ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
 					</WidgetTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
@@ -43,7 +43,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72">
 				<div className="yst-absolute yst-end-6 yst-top-2">
 					<WidgetTooltip>
-						<p>{ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }</p>
+						{ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
 					</WidgetTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
@@ -55,7 +55,7 @@ const SearchRankingCompareSkeletonLoader = () => {
 			<div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72">
 				<div className="yst-absolute yst-end-6 yst-top-2">
 					<WidgetTooltip>
-						<p>{ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }</p>
+						{ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
 					</WidgetTooltip>
 				</div>
 				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>

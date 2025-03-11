@@ -7,31 +7,6 @@ export class DataFormatterInterface {
 	#numberFormat = {};
 
 	/**
-	 * @param {string} url The URL.
-	 * @returns {URL|null} The URL or null.
-	 */
-	safeUrl = ( url ) => {
-		try {
-			return new URL( url );
-		} catch {
-			return null;
-		}
-	};
-
-	/**
-	 * @param {number} data The data.
-	 * @param {NumberFormat} numberFormat The number formatter.
-	 * @returns {string} The formatted number or number as string.
-	 */
-	safeNumberFormat = ( data, numberFormat ) => {
-		try {
-			return numberFormat.format( data );
-		} catch {
-			return data.toString( 10 );
-		}
-	};
-
-	/**
 	 * @param {string} [locale] The locale.
 	 */
 	constructor( { locale = "en-US" } = {} ) {
@@ -49,6 +24,31 @@ export class DataFormatterInterface {
 		this.#numberFormat.percentage = new Intl.NumberFormat( locale, { style: "percent", minimumFractionDigits: 2, maximumFractionDigits: 2 } );
 		this.#numberFormat.twoFractions = new Intl.NumberFormat( locale, { maximumFractionDigits: 2, minimumFractionDigits: 2 } );
 	}
+
+	/**
+	 * @param {string} url The URL.
+	 * @returns {URL|null} The URL or null.
+	 */
+	static safeUrl = ( url ) => {
+		try {
+			return new URL( url );
+		} catch {
+			return null;
+		}
+	};
+
+	/**
+	 * @param {number} data The data.
+	 * @param {NumberFormat} numberFormat The number formatter.
+	 * @returns {string} The formatted number or number as string.
+	 */
+	static safeNumberFormat = ( data, numberFormat ) => {
+		try {
+			return numberFormat.format( data );
+		} catch {
+			return data.toString( 10 );
+		}
+	};
 
 	/**
 	 * Getter for the private attribute #numberFormat.
@@ -73,7 +73,7 @@ export class DataFormatterInterface {
 	 * @returns {string} The formatted or original link.
 	 */
 	formatLandingPage( link ) {
-		const url = this.safeUrl( link );
+		const url = DataFormatterInterface.safeUrl( link );
 		if ( url === null ) {
 			return link;
 		}

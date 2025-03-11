@@ -12,7 +12,7 @@ export const SearchRankingCompareMetric = ( { metricName, data, tooltipLocalized
 	return <div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72 yst-content-around">
 		<div className="yst-absolute yst-end-6 yst-top-2">
 			<WidgetTooltip>
-				<p>{ tooltipLocalizedString }</p>
+				{ tooltipLocalizedString }
 			</WidgetTooltip>
 		</div>
 		<div className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">

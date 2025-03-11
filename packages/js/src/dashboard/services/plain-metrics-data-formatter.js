@@ -24,11 +24,11 @@ export class PlainMetricsDataFormatter extends DataFormatterInterface {
 				}
 			case "clicks":
 			case "impressions":
-				return this.safeNumberFormat( data, this.getNumberFormat().nonFractional );
+				return DataFormatterInterface.safeNumberFormat( data, this.getNumberFormat().nonFractional );
 			case "ctr":
-				return this.safeNumberFormat( data, this.getNumberFormat().percentage );
+				return DataFormatterInterface.safeNumberFormat( data, this.getNumberFormat().percentage );
 			case "position":
-				return this.safeNumberFormat( data, this.getNumberFormat().twoFractions );
+				return DataFormatterInterface.safeNumberFormat( data, this.getNumberFormat().twoFractions );
 			case "seoScore":
 				return Object.keys( SCORE_META ).includes( data ) ? data : "notAnalyzed";
 			default:
