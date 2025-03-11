@@ -1,9 +1,9 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Alert, SkeletonLoader } from "@yoast/ui-library";
+import { Alert } from "@yoast/ui-library";
 import { useRemoteData } from "../services/use-remote-data";
-import { Widget, WidgetTooltip } from "./widget";
-import { SearchRankingCompareMetric } from "../components/search-ranking-compare-metric";
+import { Widget } from "./widget";
+import { SearchRankingCompareMetric, SearchRankingCompareMetricDivider } from "../components/search-ranking-compare-metric";
 import { getDifference } from "../transformers/difference";
 import { SearchRankingCompareMetricSkeletonLoader } from "../components/search-ranking-compare-metric-skeleton-loader";
 /**
@@ -16,21 +16,21 @@ import { SearchRankingCompareMetricSkeletonLoader } from "../components/search-r
  */
 const SearchRankingCompareSkeletonLoader = () => {
 	return (
-		<div className="yst-flex yst-flex-col yst-justify-center yst-items-center  @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
+		<div className="yst-flex yst-flex-col yst-justify-center yst-items-center @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
 			<SearchRankingCompareMetricSkeletonLoader
 				tooltipLocalizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
 			/>
-			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
+			<SearchRankingCompareMetricDivider />
 
 			<SearchRankingCompareMetricSkeletonLoader
 				tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
 			/>
-			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
+			<SearchRankingCompareMetricDivider />
 
 			<SearchRankingCompareMetricSkeletonLoader
 				tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
 			/>
-			<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
+			<SearchRankingCompareMetricDivider />
 
 			<SearchRankingCompareMetricSkeletonLoader
 				tooltipLocalizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
@@ -113,7 +113,7 @@ export const SearchRankingCompareWidget = ( { dataProvider, remoteDataProvider, 
 	const getData = useCallback( ( options ) => {
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ options: { widget: "searchRankingCompare" }  },
+			{ options: { widget: "searchRankingCompare" } },
 			options );
 	}, [ dataProvider ] );
 
@@ -128,25 +128,28 @@ export const SearchRankingCompareWidget = ( { dataProvider, remoteDataProvider, 
 		{ isPending && <SearchRankingCompareSkeletonLoader /> }
 		{ error && <Alert variant="error" className="yst-mt-4">{ error.message }</Alert> }
 		{ data && Object.keys( data ).length > 0 &&
-			<div className="yst-flex yst-flex-col yst-justify-center yst-items-center  @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
+			<div className="yst-flex yst-flex-col yst-justify-center yst-items-center @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
 				<SearchRankingCompareMetric
 					metricName="Impressions"
 					data={ data.impressions }
 					tooltipLocalizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
 				/>
-				<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
+				<SearchRankingCompareMetricDivider />
+
 				<SearchRankingCompareMetric
 					metricName="Clicks"
 					data={ data.clicks }
 					tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
 				/>
-				<div className=" yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
+				<SearchRankingCompareMetricDivider />
+
 				<SearchRankingCompareMetric
 					metricName="CTR"
 					data={ data?.ctr ?? null }
 					tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
 				/>
-				<div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />
+				<SearchRankingCompareMetricDivider />
+
 				<SearchRankingCompareMetric
 					metricName="Position"
 					data={ data?.position ?? null }

@@ -1,5 +1,14 @@
 import { Trend } from "./trend";
 import { WidgetTooltip } from "../widgets/widget";
+
+/** Represents the divider between the organic sessions compare metrics.
+ *
+ * @returns {JSX.Element}
+ */
+export const SearchRankingCompareMetricDivider = () => {
+	return <div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @6xl:yst-h-20 @6xl:yst-w-px @6xl:yst-my-1" />;
+};
+
 /**
  * Represents one of the organic sessions compare metrics.
  * @param {string} metricName The name of the metric.
