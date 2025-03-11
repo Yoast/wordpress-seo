@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { ArrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useCallback } from "@wordpress/element";
@@ -157,7 +158,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 			}
 		</Title>
 		<p className="yst-my-4">
-			{ __( "Bring together powerful tools like Google Analytics and Search Console for a complete overview of your website's performance, all in one seamless dashboard.", "wordpress-seo" ) }
+			{ ! isSiteKitConnectionCompleted && __( "Bring together powerful tools like Google Analytics and Search Console for a complete overview of your website's performance, all in one seamless dashboard.", "wordpress-seo" ) }
 		</p>
 		<span className="yst-text-slate-800 yst-font-medium">
 			{ isSiteKitConnectionCompleted
