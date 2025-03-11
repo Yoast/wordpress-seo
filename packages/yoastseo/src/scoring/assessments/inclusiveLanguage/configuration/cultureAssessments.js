@@ -60,12 +60,14 @@ const cultureAssessments = [
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "longhair", "longhairs", "shorthair", "shorthairs",
-					"blooms", "species", "florals", "botanicals", "leathers", "material", "timber", "composites", "atom",
-					"molecule", "hardon", "sphere", "star", "car", "sports car" ] ) );
+					"bloom", "blooms", "species", "florals", "botanical", "botanicals", "leather", "leathers", "material",
+					"materials", "timber", "timbers", "composite", "composites", "atom", "atoms", "molecule", "molecules",
+					"hadron", "hadrons", "sphere", "spheres", "star", "stars", "car", "cars", "sports car", "sports cars" ] ) );
 		},
-		ruleDescription: notFollowed( [ "longhair", "longhairs", "shorthair", "shorthairs", "blooms",
-			"species", "florals", "botanicals", "leathers", "material", "timber", "composites", "atom",
-			"molecule", "hardon", "sphere", "star", "car", "sports car" ] ),
+		ruleDescription: notFollowed( [ "longhair", "longhairs", "shorthair", "shorthairs",
+			"bloom", "blooms", "species", "florals", "botanical", "botanicals", "leather", "leathers", "material",
+			"materials", "timber", "timbers", "composite", "composites", "atom", "atoms", "molecule", "molecules",
+			"hadron", "hadrons", "sphere", "spheres", "star", "stars", "car", "cars", "sports car", "sports cars" ] ),
 	},
 	{
 		identifier: "sherpa",
