@@ -7,6 +7,7 @@ import { noop } from "lodash";
 import { ReactComponent as YoastConnectSiteKitSuccess } from "../../../images/yoast-connect-google-site-kit-success.svg";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { SiteKitConsentModal } from "../../shared-admin/components";
+import { LearnMoreLink } from "../components/learn-more-link";
 import { Widget } from "./widget";
 
 /**
@@ -243,10 +244,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 
 					: <>
 						<Button { ...buttonProps[ currentStep ] } />
-						<Button as="a" variant="tertiary" href={ learnMoreLink } className="yst-flex yst-items-center yst-gap-1">
-							{ __( "Learn more", "wordpress-seo" ) }
-							<ArrowRightIcon className="yst-w-3 yst-text-primary-500 rtl:yst-rotate-180" />
-						</Button>
+						<LearnMoreLink as={ Button } variant="tertiary" href={ learnMoreLink } />
 						<SiteKitConsentModal
 							isOpen={ currentStep === STEP_NAME.grantConsent && isConsentModalOpen }
 							onClose={ closeConsentModal }
