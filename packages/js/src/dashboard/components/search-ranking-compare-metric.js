@@ -3,7 +3,7 @@ import { TooltipContent } from "./tooltip-content";
 import { Trend } from "./trend";
 
 /**
- *  Represents one of the organic sessions compare metrics.
+ * Represents one of the organic sessions compare metrics.
  * @param {string} metricName The name of the metric.
  * @param {object} data The data of the metric.
  * @param {string} tooltipLocalizedString The content of the tooltip.
