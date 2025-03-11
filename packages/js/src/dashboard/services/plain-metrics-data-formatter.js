@@ -6,6 +6,20 @@ import { DataFormatterInterface } from "./data-formatter-interface";
  */
 export class PlainMetricsDataFormatter extends DataFormatterInterface {
 	/**
+	 * @param {string} link The link.
+	 * @returns {string} The formatted or original link.
+	 */
+	formatLandingPage( link ) {
+		const url = DataFormatterInterface.safeUrl( link );
+		if ( url === null ) {
+			return link;
+		}
+
+		// Dropping: hostname, protocol, port, search and hash.
+		return url.pathname;
+	}
+
+	/**
 	 * @param {*} data The data.
 	 * @param {string} name The name. Used to determine how to format.
 	 * @param {Object} [context] Extra information to determine how to format.
@@ -24,11 +38,11 @@ export class PlainMetricsDataFormatter extends DataFormatterInterface {
 				}
 			case "clicks":
 			case "impressions":
-				return DataFormatterInterface.safeNumberFormat( data, this.getNumberFormat().nonFractional );
+				return DataFormatterInterface.safeNumberFormat( data, this.numberFormat.nonFractional );
 			case "ctr":
-				return DataFormatterInterface.safeNumberFormat( data, this.getNumberFormat().percentage );
+				return DataFormatterInterface.safeNumberFormat( data, this.numberFormat.percentage );
 			case "position":
-				return DataFormatterInterface.safeNumberFormat( data, this.getNumberFormat().twoFractions );
+				return DataFormatterInterface.safeNumberFormat( data, this.numberFormat.twoFractions );
 			case "seoScore":
 				return Object.keys( SCORE_META ).includes( data ) ? data : "notAnalyzed";
 			default:

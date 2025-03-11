@@ -55,7 +55,7 @@ export class DataFormatterInterface {
 	 *
 	 * @returns {NumberFormat} The number format object.
 	 */
-	getNumberFormat() {
+	get numberFormat() {
 		return this.#numberFormat;
 	}
 
@@ -64,22 +64,8 @@ export class DataFormatterInterface {
 	 *
 	 * @returns {string} The locale.
 	 */
-	getLocale() {
+	get locale() {
 		return this.#locale;
-	}
-
-	/**
-	 * @param {string} link The link.
-	 * @returns {string} The formatted or original link.
-	 */
-	formatLandingPage( link ) {
-		const url = DataFormatterInterface.safeUrl( link );
-		if ( url === null ) {
-			return link;
-		}
-
-		// Dropping: hostname, protocol, port, search and hash.
-		return url.pathname;
 	}
 
 	/**
