@@ -83,15 +83,4 @@ class Capability_Helper {
 
 		return false;
 	}
-
-	/**
-	 * Checks if the user has a certain capability.
-	 *
-	 * @param string $capability Capability to check against.
-	 *
-	 * @return bool True if the user has the capability.
-	 */
-	public function has( $capability ) {
-		return \current_user_can( $capability );
-	}
 }
