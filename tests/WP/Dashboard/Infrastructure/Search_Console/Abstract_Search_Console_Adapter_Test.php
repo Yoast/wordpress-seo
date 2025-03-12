@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\WP\Doubles\Dashboard\Infrastructure\Search_Console\Search
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
- * Tests the search console adapter.
+ * Abstract of the tests of the search console adapter.
  *
  * @group search_console_adapter
  */

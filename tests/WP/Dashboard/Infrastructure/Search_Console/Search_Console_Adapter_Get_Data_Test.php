@@ -61,6 +61,10 @@ final class Search_Console_Adapter_Get_Data_Test extends Abstract_Search_Console
 		$search_console_parameters->set_end_date( $request_parameters['end_date'] );
 		$search_console_parameters->set_dimensions( $request_parameters['dimensions'] );
 
+		if ( isset( $request_parameters['limit'] ) ) {
+			$search_console_parameters->set_limit( $request_parameters['limit'] );
+		}
+
 		self::$search_console_module->expects( 'get_data' )
 			->with( 'searchanalytics', $expected_api_parameters )
 			->once()
@@ -130,6 +134,7 @@ final class Search_Console_Adapter_Get_Data_Test extends Abstract_Search_Console
 					'start_date' => '31-05-1988',
 					'end_date'   => '06-03-2025',
 					'dimensions' => [ 'query' ],
+					'limit'      => 5,
 				],
 				'expected_api_parameters' => [
 					'slug'       => 'search-console',
@@ -137,6 +142,7 @@ final class Search_Console_Adapter_Get_Data_Test extends Abstract_Search_Console
 					'startDate'  => '31-05-1988',
 					'endDate'    => '06-03-2025',
 					'dimensions' => [ 'query' ],
+					'limit'      => 5,
 				],
 				'request_results'         => [
 					[
