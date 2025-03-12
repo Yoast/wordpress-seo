@@ -103,13 +103,13 @@ const NoPermissionWarning = ( { capabilities, currentStep } ) => {
 	}
 
 	if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent ) {
-		return <Alert className="yst-mt-6" type="info">
+		return <Alert className="yst-mt-6">
 			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
 		</Alert>;
 	}
 
 	if ( ! capabilities.viewSearchConsoleData && currentStep === STEP_NAME.grantConsent ) {
-		return <Alert className="yst-mt-6" type="info">
+		return <Alert className="yst-mt-6">
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
 		</Alert>;
 	}
