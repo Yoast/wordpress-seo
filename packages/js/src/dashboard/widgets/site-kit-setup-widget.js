@@ -92,7 +92,7 @@ const SiteKitSetupWidgetTitleAndDescription = ( { isSiteKitConnectionCompleted }
 /**
  * The no permission warning component.
  *
- * @param {CapabilitiesForSiteKit} capabilities The capabilities.
+ * @param {CapabilitiesForSiteKit} capabilities The capabilities for the site kit.
  * @param {number} currentStep The current step.
  *
  * @returns {JSX.Element} The no permission warning component.
