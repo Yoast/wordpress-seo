@@ -55,7 +55,7 @@ const fetchJson = async( options ) => {
 };
 
 /**
- * The wrapper for the top section of the footer.
+ * The wrapper for content with bottom border.
  *
  * @param {JSX.Element} children The children.
  * @param {string} className The class name.
