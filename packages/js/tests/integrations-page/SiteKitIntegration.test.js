@@ -200,7 +200,7 @@ describe( "SiteKitIntegration", () => {
 		expect( screen.getByRole( "button", { name: "Connect Site Kit by Google" } ) ).toBeInTheDocument();
 	} );
 
-	describe( "should show warning and should disable the link when a user doesn't have permission to install plugins", () => {
+	describe( "should show a warning and should disable the link when a user doesn't have permission to install plugins", () => {
 		it.each( [
 			[ "not installed", { isInstalled: false, isActive: false, isSetupCompleted: false, label: "Install Site Kit by Google"  } ],
 			[ "not active", { isInstalled: true, isActive: false, isSetupCompleted: false, label: "Activate Site Kit by Google" } ],
