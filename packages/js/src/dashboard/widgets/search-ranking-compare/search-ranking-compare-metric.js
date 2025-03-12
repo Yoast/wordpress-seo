@@ -33,10 +33,7 @@ export const SearchRankingCompareMetric = ( { metricName, data, tooltipLocalized
 		<div className="yst-text-center yst-mt-2">
 			{ data === null
 				? "-"
-				: <Trend
-					value={ data.delta }
-					formattedValue={ data.formattedDelta }
-				/>
+				: <Trend value={ data.delta } formattedValue={ data.formattedDelta } />
 			}
 		</div>
 	</div>;
