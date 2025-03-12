@@ -29,34 +29,6 @@ import { SearchRankingCompareMetricSkeletonLoader } from "./search-ranking-compa
  * @property {MetricData} [position] - The average position data (optional).
  */
 
-/**
- * @returns {JSX.Element} The element.
- */
-const SearchRankingCompareSkeletonLoader = () => {
-	return (
-		<div className="yst-flex yst-flex-col yst-justify-center yst-items-center @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
-			<SearchRankingCompareMetricSkeletonLoader
-				tooltipLocalizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
-			/>
-			<SearchRankingCompareMetricDivider />
-
-			<SearchRankingCompareMetricSkeletonLoader
-				tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
-			/>
-			<SearchRankingCompareMetricDivider />
-
-			<SearchRankingCompareMetricSkeletonLoader
-				tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
-			/>
-			<SearchRankingCompareMetricDivider />
-
-			<SearchRankingCompareMetricSkeletonLoader
-				tooltipLocalizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
-			/>
-		</div>
-	);
-};
-
 /* eslint-disable complexity */
 /**
  * @param {TimeBasedData[]} data The data.
