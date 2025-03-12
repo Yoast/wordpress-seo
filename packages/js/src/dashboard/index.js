@@ -112,10 +112,11 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {Object<"installPlugins"|"viewSearchConsoleData"|"viewAnalyticsData", boolean>} CapabilitiesForSiteKit 
+ * @typedef {Object<"installPlugins"|"viewSearchConsoleData"|"viewAnalyticsData", boolean>} CapabilitiesForSiteKit
  * The user capabilities for site kit.
  */
 
 /**
- * @typedef {Object<"isInstalled"|"isActive"|"isSetupCompleted"|"isConsentGranted", boolean>} SiteKitConnectionStepsStatuses The connection steps statuses.
+ * @typedef {Object<"isInstalled"|"isActive"|"isSetupCompleted"|"isConsentGranted", boolean>} SiteKitConnectionStepsStatuses
+ * The connection steps statuses.
  */
