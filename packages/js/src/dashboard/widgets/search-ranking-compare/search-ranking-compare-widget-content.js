@@ -51,7 +51,6 @@ const SearchRankingCompareSkeletonLoader = () => {
 	);
 };
 
-/* eslint-disable complexity */
 /**
  * The content of the search ranking compare widget.
  * @param {import("./search-ranking-compare-widget").SearchRankingCompareData} data
@@ -104,4 +103,3 @@ export const SearchRankingCompareWidgetContent = ( { data, error, isPending } ) 
 		</div>;
 	}
 };
-/* eslint-enable complexity */
