@@ -91,14 +91,14 @@ export const SearchRankingCompareWidgetContent = ( { data, error, isPending } ) 
 
 			<SearchRankingCompareMetric
 				metricName="CTR"
-				data={ data?.ctr ?? null }
+				data={ data.ctr }
 				tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
 			/>
 			<SearchRankingCompareMetricDivider />
 
 			<SearchRankingCompareMetric
 				metricName="Position"
-				data={ data?.position ?? null }
+				data={ data.position }
 				tooltipLocalizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
 			/>
 		</div>;

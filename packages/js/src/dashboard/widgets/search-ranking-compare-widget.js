@@ -18,19 +18,22 @@ import { SearchRankingCompareWidgetContent } from "./search-ranking-compare/sear
  */
 
 /**
- * @typedef {Object<SearchRankingCompareMetric, MetricData>} SearchRankingCompareData The search ranking compare data.
+ * @typedef {Object<SearchRankingCompareMetric, MetricData | null>} SearchRankingCompareData The search ranking compare data.
  * @property {MetricData} impressions - The impressions data.
  * @property {MetricData} clicks - The clicks data.
- * @property {MetricData} [ctr] - The click-through rate data (optional).
- * @property {MetricData} [position] - The average position data (optional).
+ * @property {MetricData} ctr - The click-through rate data (optional).
+ * @property {MetricData} position - The average position data (optional).
  */
 
 /* eslint-disable complexity */
 /**
  * @param {TimeBasedData[]} data The data.
- * @returns {SearchRankingCompareData} The transformed data.
+ * @returns {SearchRankingCompareData|TimeBasedData[]} The transformed data.
  */
 const transformData = ( data ) => {
+	if ( data.length === 0 ) {
+		return data;
+	}
 	if ( Object.keys( data[ 0 ].current ).length === 2 ) {
 		return {
 			impressions: {
@@ -70,17 +73,14 @@ const transformData = ( data ) => {
  * @returns {function(?TimeBasedData[]): SearchRankingCompareData} Function to format the widget data.
  */
 export const createDataFormatter = ( dataFormatter ) => ( data ) => {
-	if ( Object.keys( data ).length === 2 ) {
-		return {
-			impressions: dataFormatter.format( data.impressions, "impressions" ),
-			clicks: dataFormatter.format( data.clicks, "clicks" ),
-		};
+	if ( data.length === 0 ) {
+		return data;
 	}
 	return {
 		impressions: dataFormatter.format( data.impressions, "impressions" ),
 		clicks: dataFormatter.format( data.clicks, "clicks" ),
-		ctr: dataFormatter.format( data.ctr, "ctr" ),
-		position: dataFormatter.format( data.position, "position" ),
+		ctr: ( "ctr" in data ) ? dataFormatter.format( data.ctr, "ctr" ) : null,
+		position: ( "position" in data ) ? dataFormatter.format( data.position, "position" ) : null,
 	};
 };
 
