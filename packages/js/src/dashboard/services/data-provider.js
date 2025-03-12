@@ -142,7 +142,7 @@ export class DataProvider {
 	 */
 	setSiteKitConsentGranted( isConsentGranted ) {
 		// This creates a new object to avoid mutation and force re-rendering.
-		const newSiteKitConfiguration = cloneDeep(this.#siteKitConfiguration);
+		const newSiteKitConfiguration = cloneDeep( this.#siteKitConfiguration );
 		newSiteKitConfiguration.connectionStepsStatuses.isConsentGranted = isConsentGranted;
 		this.#siteKitConfiguration = newSiteKitConfiguration;
 		this.notifySubscribers();
