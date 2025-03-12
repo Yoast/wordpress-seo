@@ -5,6 +5,7 @@ import { __ } from "@wordpress/i18n";
 import { Button, DropdownMenu, Paper, Stepper, Title, useToggleState, Alert } from "@yoast/ui-library";
 import { noop } from "lodash";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
+import { ReactComponent as YoastConnectSiteKitSuccess } from "../../../images/yoast-connect-google-site-kit-success.svg";
 import { SiteKitConsentModal } from "../../shared-admin/components";
 
 /**
@@ -70,6 +71,25 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 };
 
 /**
+ * The site kit setup widget title and description.
+ *
+ * @param {boolean} isSiteKitConnectionCompleted If the site kit connection is completed.
+ *
+ * @returns {JSX.Element} The title and description component.
+ */
+const SiteKitSetupWidgetTitleAndDescription = ( { isSiteKitConnectionCompleted } ) => ( <>
+	<Title size="2" className="yst-mb-4">
+		{ isSiteKitConnectionCompleted
+			? __( "You’ve successfully connected your site with Site Kit by Google!", "wordpress-seo" )
+			: __( "Expand your dashboard with insights from Google!", "wordpress-seo" )
+		}
+	</Title>
+	{ ! isSiteKitConnectionCompleted && <p className="yst-mb-4">
+		{ __( "Bring together powerful tools like Google Analytics and Search Console for a complete overview of your website's performance, all in one seamless dashboard.", "wordpress-seo" ) }
+	</p> }
+</> );
+
+/**
  * The no permission warning component.
  *
  * @param {CapabilitiesForSiteKit} capabilities The capabilities.
@@ -120,7 +140,6 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
-
 
 	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
 	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
@@ -182,7 +201,12 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				</DropdownMenu.ButtonItem>
 			</DropdownMenu.List>
 		</DropdownMenu>
-		<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4"><YoastConnectSiteKit width="252" height="60" /></div>
+		<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4">
+			{ isSiteKitConnectionCompleted
+				? <YoastConnectSiteKitSuccess width="252" height="60" />
+				: <YoastConnectSiteKit width="252" height="60" />
+			}
+		</div>
 		<Stepper steps={ steps } currentStep={ currentStep }>
 			{ steps.map( ( label, index ) => (
 				<Stepper.Step
@@ -195,21 +219,21 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 			) ) }
 		</Stepper>
 		<hr className="yst-bg-slate-200 yst-my-6" />
-		<Title size="2">{ __( "Expand your dashboard with insights from Google!", "wordpress-seo" ) }</Title>
-		<p className="yst-my-4">
-			{ __( "Bring together powerful tools like Google Analytics and Search Console for a complete overview of your website's performance, all in one seamless dashboard.", "wordpress-seo" ) }
-		</p>
+		<SiteKitSetupWidgetTitleAndDescription isSiteKitConnectionCompleted={ isSiteKitConnectionCompleted } />
 		<span className="yst-text-slate-800 yst-font-medium">
-			{ __( "What you'll get:", "wordpress-seo" ) }
+			{ isSiteKitConnectionCompleted
+				? __( "You're all set, here are some benefits:", "wordpress-seo" )
+				: __( "Here's what you'll unlock:", "wordpress-seo" )
+			}
 		</span>
 		<ul>
-			<li className="yst-gap-2 yst-flex yst-mt-2">
-				<CheckCircleIcon className="yst-w-5 yst-text-green-400" />
-				{ __( "Actionable insights into traffic, SEO, and user behavior to grow your audience.", "wordpress-seo" ) }
+			<li className="yst-gap-2 yst-flex yst-mt-2 yst-items-start">
+				<CheckCircleIcon className="yst-w-5 yst-text-green-400 yst-shrink-0" />
+				{ __( "Grow your audience with actionable SEO and user behavior insights.", "wordpress-seo" ) }
 			</li>
-			<li className="yst-gap-2 yst-flex yst-mt-2">
-				<CheckCircleIcon className="yst-w-5 yst-text-green-400" />
-				{ __( "Key performance metrics to fine-tune your website and optimize like a pro.", "wordpress-seo" ) }
+			<li className="yst-gap-2 yst-flex yst-mt-2 yst-items-start">
+				<CheckCircleIcon className="yst-w-5 yst-text-green-400 yst-shrink-0" />
+				{ __( "Fine-tune your SEO and optimize your content using key performance metrics (KPI).", "wordpress-seo" ) }
 			</li>
 		</ul>
 
@@ -218,7 +242,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 		<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
 			{ isSiteKitConnectionCompleted
 				? <Button onClick={ handleOnRemove }>
-						{ __( "Got it!", "wordpress-seo" ) }
+					{ __( "Got it!", "wordpress-seo" ) }
 				</Button>
 				: <>
 					<Button { ...buttonProps[ currentStep ] } />
