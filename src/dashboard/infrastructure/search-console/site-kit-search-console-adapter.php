@@ -40,6 +40,17 @@ class Site_Kit_Search_Console_Adapter {
 	}
 
 	/**
+	 * Sets the search console module. Used for tests.
+	 *
+	 * @param Module $module The search console module.
+	 *
+	 * @return void
+	 */
+	public static function set_search_console_module( $module ): void {
+		self::$search_console_module = $module;
+	}
+
+	/**
 	 * The wrapper method to do a Site Kit API request for Search Console.
 	 *
 	 * @param Search_Console_Parameters $parameters The parameters.

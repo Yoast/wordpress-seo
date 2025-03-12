@@ -13,7 +13,7 @@ abstract class TestCase extends WPTestUtils_TestCase {
 	/**
 	 * Plugin basename for any plugin dependencies the test may have.
 	 *
-	 * @var array|string
+	 * @var string
 	 */
 	public $prereq_plugin_basename = '';
 
@@ -70,7 +70,6 @@ abstract class TestCase extends WPTestUtils_TestCase {
 			if ( \is_string( $file ) && $file !== '' ) {
 				$file = $_plugins_dir . $file;
 
-				error_log( 'Activating plugin: ' . realpath( $_plugins_dir ) );
 				if ( \file_exists( $file ) ) {
 					require_once $file;
 				}
