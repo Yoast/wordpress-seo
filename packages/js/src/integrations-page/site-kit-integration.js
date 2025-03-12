@@ -116,7 +116,7 @@ NoPermissionWarning.propTypes = {
 /**
  * The Site Kit integration component.
  *
- * @param {import("../dashboard/index").ConnectionStepsStatuses} props The Site Kit configuration.
+ * @param {import("../dashboard/index").SiteKitConnectionStepsStatuses} connectionStepsStatuses The Site Kit configuration.
  * @param {string} installUrl The installation url.
  * @param {string} activateUrl The activation url.
  * @param {string} setupUrl The setup url.

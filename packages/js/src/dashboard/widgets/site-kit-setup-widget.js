@@ -12,7 +12,7 @@ import { SiteKitConsentModal } from "../../shared-admin/components";
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
  * @type {import("../services/data-provider").DataProvider} DataProvider
  * @type {import("../services/remote-data-provider").RemoteDataProvider} RemoteDataProvider
- * @type {import("../index").Capabilities} Capabilities
+ * @type {import("../index").CapabilitiesForSiteKit} Capabilities for site kit.
  */
 
 /** @type {string[]} */
@@ -218,11 +218,9 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 
 		<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
 			{ isSiteKitConnectionCompleted
-				? <>
-					<Button onClick={ handleOnRemove }>
+				? <Button onClick={ handleOnRemove }>
 						{ __( "Got it!", "wordpress-seo" ) }
-					</Button>
-				</>
+				</Button>
 				: <>
 					<Button { ...buttonProps[ currentStep ] } />
 					<Button as="a" variant="tertiary" href={ learnMoreLink } className="yst-flex yst-items-center yst-gap-1">
