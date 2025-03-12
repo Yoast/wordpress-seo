@@ -112,7 +112,8 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {Object<"installPlugins"|"viewSearchConsoleData"|"viewAnalyticsData", boolean>} CapabilitiesForSiteKit The user capabilities for site kit.
+ * @typedef {Object<"installPlugins"|"viewSearchConsoleData"|"viewAnalyticsData", boolean>} CapabilitiesForSiteKit 
+ * The user capabilities for site kit.
  */
 
 /**

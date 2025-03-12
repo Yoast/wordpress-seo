@@ -86,10 +86,6 @@ domReady( () => {
 		installUrl: "",
 		activateUrl: "",
 		setupUrl: "",
-		isInstalled: false,
-		isActive: false,
-		isSetupCompleted: false,
-		isConsnected: false,
 		isAnalyticsConnected: false,
 		isFeatureEnabled: false,
 		isSetupWidgetDismissed: false,
@@ -97,6 +93,12 @@ domReady( () => {
 			installPlugins: false,
 			viewSearchConsoleData: false,
 			viewAnalyticsData: false,
+		},
+		connectionStepsStatuses: {
+			isInstalled: false,
+			isActive: false,
+			isSetupCompleted: false,
+			isConsentGranted: false,
 		},
 	} );
 
