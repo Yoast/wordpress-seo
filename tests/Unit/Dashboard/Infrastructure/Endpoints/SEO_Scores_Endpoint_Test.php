@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group Endpoints
  *
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\SEO_Scores_Endpoint
+ * @coversDefaultClass Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\SEO_Scores_Endpoint
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */

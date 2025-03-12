@@ -3,24 +3,24 @@
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Endpoints;
 
 use Brain\Monkey\Functions;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Configuration_Dismissal_Endpoint;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Readability_Scores_Endpoint;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Test class for the Site_Kit_Configuration_Dismissal_Endpoint class.
+ * Test class for the Readability_Scores_Endpoint class.
  *
  * @group Endpoints
  *
- * @coversDefaultClass Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Configuration_Dismissal_Endpoint
+ * @coversDefaultClass Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Readability_Scores_Endpoint
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Site_Kit_Configuration_Dismissal_Endpoint_Test extends TestCase {
+final class Readability_Scores_Endpoint_Test extends TestCase {
 
 	/**
 	 * Holds the instance.
 	 *
-	 * @var Site_Kit_Configuration_Dismissal_Endpoint
+	 * @var Readability_Scores_Endpoint
 	 */
 	private $instance;
 
@@ -30,7 +30,7 @@ final class Site_Kit_Configuration_Dismissal_Endpoint_Test extends TestCase {
 	 * @return void
 	 */
 	public function set_up() {
-		$this->instance = new Site_Kit_Configuration_Dismissal_Endpoint();
+		$this->instance = new Readability_Scores_Endpoint();
 	}
 
 	/**
@@ -40,7 +40,7 @@ final class Site_Kit_Configuration_Dismissal_Endpoint_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_name() {
-		$this->assertSame( 'siteKitConfigurationDismissal', $this->instance->get_name() );
+		$this->assertSame( 'readabilityScores', $this->instance->get_name() );
 	}
 
 	/**
@@ -60,7 +60,7 @@ final class Site_Kit_Configuration_Dismissal_Endpoint_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_route() {
-		$this->assertSame( '/site_kit_configuration_permanent_dismissal', $this->instance->get_route() );
+		$this->assertSame( '/readability_scores', $this->instance->get_route() );
 	}
 
 	/**
@@ -73,8 +73,8 @@ final class Site_Kit_Configuration_Dismissal_Endpoint_Test extends TestCase {
 		Functions\expect( 'rest_url' )
 			->once()
 			->with(
-				'yoast/v1/site_kit_configuration_permanent_dismissal'
+				'yoast/v1/readability_scores'
 			)->andReturnFirstArg();
-		$this->assertSame( 'yoast/v1/site_kit_configuration_permanent_dismissal', $this->instance->get_url() );
+		$this->assertSame( 'yoast/v1/readability_scores', $this->instance->get_url() );
 	}
 }
