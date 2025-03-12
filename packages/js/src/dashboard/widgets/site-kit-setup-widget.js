@@ -1,4 +1,3 @@
-
 import { ArrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useCallback } from "@wordpress/element";
