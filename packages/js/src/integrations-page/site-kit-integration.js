@@ -190,13 +190,20 @@ export const SiteKitIntegration = ( {
 			onClick: toggleModal,
 			disabled: ! capabilities.viewSearchConsoleData,
 		},
-		{
-			children: __( "Disconnect", "wordpress-seo" ),
-			variant: "secondary",
-			disabled: ! capabilities.viewSearchConsoleData,
-			onClick: toggleDisconnectModal,
-		},
 	];
+
+	const getButtonProps = useCallback( ( step ) => {
+		if ( step === stepsNames.successfulyConnected ) {
+			return {
+				children: __( "Disconnect", "wordpress-seo" ),
+				variant: "secondary",
+				disabled: ! capabilities.viewSearchConsoleData,
+				onClick: toggleDisconnectModal,
+			};
+		}
+		return buttonProps[ step ];
+	}, [ capabilities ] );
+
 
 	return (
 		<>
@@ -214,7 +221,7 @@ export const SiteKitIntegration = ( {
 					<Button
 						className="yst-w-full"
 						id="site-kit-integration__button"
-						{ ...buttonProps[ successfullyConnected ? 4 : currentStep ] }
+						{ ...getButtonProps( currentStep ) }
 					/>
 
 				</span>
