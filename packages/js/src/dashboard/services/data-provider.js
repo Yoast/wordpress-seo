@@ -76,7 +76,12 @@ export class DataProvider {
 	 * @returns {boolean} The possible stepper statuses.
 	 */
 	getStepsStatuses() {
-		return values( this.#siteKitConfiguration.connectionStepsStatuses );
+		return [
+			this.#siteKitConfiguration.connectionStepsStatuses.isInstalled,
+			this.#siteKitConfiguration.connectionStepsStatuses.isActive,
+			this.#siteKitConfiguration.connectionStepsStatuses.isSetupCompleted,
+			this.#siteKitConfiguration.connectionStepsStatuses.isConsentGranted,
+		];
 	}
 
 	/**
