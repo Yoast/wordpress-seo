@@ -7,7 +7,6 @@ import { values } from "lodash";
  * @type {import("../index").Links} Links
  * @type {import("../index").TopPageData}
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
- * @type {import("../index").Capabilities} Capabilities
  */
 
 /**
