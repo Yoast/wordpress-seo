@@ -12,13 +12,13 @@ import { SearchRankingCompareMetricSkeletonLoader } from "./search-ranking-compa
  */
 
 /**
- * @typedef {Object} MetricData
- * @property {number} value - The value of the metric.
- * @property {number} delta - The delta of the metric.
+ * @typedef { "impressions"|"clicks"|"ctr"|"position" } SearchRankingCompareMetric The widget type.
  */
 
 /**
- * @typedef { "impressions"|"clicks"|"ctr"|"position" } SearchRankingCompareMetric The widget type.
+ * @typedef {Object} MetricData
+ * @property {number} value - The value of the metric.
+ * @property {number} delta - The delta of the metric.
  */
 
 /**
