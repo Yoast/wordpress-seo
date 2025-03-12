@@ -1,4 +1,4 @@
-import { values } from "lodash";
+import { cloneDeep } from "lodash";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -137,13 +137,9 @@ export class DataProvider {
 	 */
 	setSiteKitConsentGranted( isConsentGranted ) {
 		// This creates a new object to avoid mutation and force re-rendering.
-		this.#siteKitConfiguration = {
-			...this.#siteKitConfiguration,
-			connectionStepsStatuses: {
-				...this.#siteKitConfiguration.connectionStepsStatuses,
-				isConsentGranted,
-			},
-		};
+		const newSiteKitConfiguration = cloneDeep(this.#siteKitConfiguration);
+		newSiteKitConfiguration.connectionStepsStatuses.isConsentGranted = isConsentGranted;
+		this.#siteKitConfiguration = newSiteKitConfiguration;
 		this.notifySubscribers();
 	}
 
