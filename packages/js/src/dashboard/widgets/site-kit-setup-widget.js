@@ -24,7 +24,7 @@ const steps = [
 ];
 
 /** @type {Object<string, number>} */
-export const stepsNames = {
+export const STEP_NAME = {
 	install: 0,
 	activate: 1,
 	setup: 2,
@@ -98,17 +98,17 @@ const SiteKitSetupWidgetTitleAndDescription = ( { isSiteKitConnectionCompleted }
  * @returns {JSX.Element} The no permission warning component.
  */
 const NoPermissionWarning = ( { capabilities, currentStep } ) => {
-	if ( currentStep === stepsNames.successfulyConnected ) {
+	if ( currentStep === STEP_NAME.successfulyConnected ) {
 		return null;
 	}
 
-	if ( ! capabilities.installPlugins && currentStep < stepsNames.grantConsent ) {
+	if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent ) {
 		return <Alert className="yst-mt-6" type="info">
 			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
 		</Alert>;
 	}
 
-	if ( ! capabilities.viewSearchConsoleData && currentStep === stepsNames.grantConsent ) {
+	if ( ! capabilities.viewSearchConsoleData && currentStep === STEP_NAME.grantConsent ) {
 		return <Alert className="yst-mt-6" type="info">
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
 		</Alert>;
@@ -251,7 +251,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 						<ArrowRightIcon className="yst-w-3 yst-text-primary-500 rtl:yst-rotate-180" />
 					</Button>
 					<SiteKitConsentModal
-						isOpen={ currentStep === stepsNames.grantConsent && isConsentModalOpen }
+						isOpen={ currentStep === STEP_NAME.grantConsent && isConsentModalOpen }
 						onClose={ closeConsentModal }
 						onGrantConsent={ grantConsent }
 						learnMoreLink={ consentLearnMoreLink }

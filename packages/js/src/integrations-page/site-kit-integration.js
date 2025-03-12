@@ -11,7 +11,7 @@ import { SiteKitConsentModal, UnsavedChangesModal as DisconnectModal } from "../
 import { SimpleIntegration } from "./simple-integration";
 import classNames from "classnames";
 import { values } from "lodash";
-import { stepsNames } from "../dashboard/widgets/site-kit-setup-widget";
+import { STEP_NAME } from "../dashboard/widgets/site-kit-setup-widget";
 
 const integration = {
 	name: __( "Site Kit by Google", "wordpress-seo" ),
@@ -95,13 +95,13 @@ const SuccessfullyConnected = () => {
  * @returns {JSX.Element} The no permission warning component.
  */
 const NoPermissionWarning = ( { capabilities, currentStep } ) => {
-	if ( ! capabilities.installPlugins && currentStep < stepsNames.grantConsent && currentStep !== stepsNames.successfulyConnected ) {
+	if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent && currentStep !== STEP_NAME.successfulyConnected ) {
 		return <ContentWithBottomDivider className="yst-text-slate-500">
 			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
 		</ContentWithBottomDivider>;
 	}
 
-	if ( ! capabilities.viewSearchConsoleData && ( currentStep === stepsNames.grantConsent || currentStep === stepsNames.successfulyConnected ) ) {
+	if ( ! capabilities.viewSearchConsoleData && ( currentStep === STEP_NAME.grantConsent || currentStep === STEP_NAME.successfulyConnected ) ) {
 		return <ContentWithBottomDivider className="yst-text-slate-500">
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
 		</ContentWithBottomDivider>;
@@ -138,7 +138,7 @@ export const SiteKitIntegration = ( {
 	const [ isConsentGranted, setConnected ] = useState( connectionStepsStatuses.isConsentGranted );
 	const stepsStatuses = values( { ...connectionStepsStatuses, isConsentGranted } );
 	const currentStep = stepsStatuses.findIndex( status => ! status );
-	const successfullyConnected = currentStep === stepsNames.successfulyConnected;
+	const successfullyConnected = currentStep === STEP_NAME.successfulyConnected;
 
 	const consentLearnMoreLink = useSelect(
 		select => select( "yoast-seo/settings" ).selectLink( "https://yoa.st/integrations-site-kit-consent-learn-more" ),
@@ -193,7 +193,7 @@ export const SiteKitIntegration = ( {
 	];
 
 	const getButtonProps = useCallback( ( step ) => {
-		if ( step === stepsNames.successfulyConnected ) {
+		if ( step === STEP_NAME.successfulyConnected ) {
 			return {
 				children: __( "Disconnect", "wordpress-seo" ),
 				variant: "secondary",
