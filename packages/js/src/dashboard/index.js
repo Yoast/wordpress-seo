@@ -112,16 +112,9 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {Object} CapabilitiesForSiteKit The user capabilities for site kit.
- * @property {boolean} installPlugins Whether the user can install plugins.
- * @property {boolean} viewSearchConsoleData Whether the user can view the search console data.
- * @property {boolean} viewAnalyticsData Whether the user can view the analytics data
+ * @typedef {Object<"installPlugins"|"viewSearchConsoleData"|"viewAnalyticsData", boolean>} CapabilitiesForSiteKit The user capabilities for site kit.
  */
 
 /**
- * @typedef {Object} SiteKitConnectionStepsStatuses The connection steps statuses.
- * @property {boolean} isInstalled Whether Site Kit plugin is installed.
- * @property {boolean} isActive Whether Site Kit plugin is active.
- * @property {boolean} isSetupCompleted Whether Site Kit setup is completed.
- * @property {boolean} isConsentGranted Whether Site Kit is connected.
+ * @typedef {Object<"isInstalled"|"isActive"|"isSetupCompleted"|"isConsentGranted", boolean>} SiteKitConnectionStepsStatuses The connection steps statuses.
  */
