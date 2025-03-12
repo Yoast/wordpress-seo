@@ -6,9 +6,27 @@ import { Widget } from "./widget";
 import { SearchRankingCompareMetric, SearchRankingCompareMetricDivider } from "./search-ranking-compare/search-ranking-compare-metric";
 import { getDifference } from "../transformers/difference";
 import { SearchRankingCompareMetricSkeletonLoader } from "./search-ranking-compare/search-ranking-compare-metric-skeleton-loader";
+
 /**
- * @type {import("../index").MetricData} MetricData
- * @type {import("../index").SearchRankingCompareData} SearchRankingCompareData
+ * @typedef {Object<TimeFrame, TimeFrameData>} TimeBasedData The time based data.
+ */
+
+/**
+ * @typedef {Object} MetricData
+ * @property {number} value - The value of the metric.
+ * @property {number} delta - The delta of the metric.
+ */
+
+/**
+ * @typedef { "impressions"|"clicks"|"ctr"|"position" } SearchRankingCompareMetric The widget type.
+ */
+
+/**
+ * @typedef {Object<SearchRankingCompareMetric, MetricData>} SearchRankingCompareData The search ranking compare data.
+ * @property {MetricData} impressions - The impressions data.
+ * @property {MetricData} clicks - The clicks data.
+ * @property {MetricData} [ctr] - The click-through rate data (optional).
+ * @property {MetricData} [position] - The average position data (optional).
  */
 
 /**

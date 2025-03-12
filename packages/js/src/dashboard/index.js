@@ -130,25 +130,3 @@ export { Dashboard } from "./components/dashboard";
  * @property {number} average_ctr The average click-through rate.
  * @property {number} average_position The average position.
  */
-
-/**
- * @typedef {Object<TimeFrame, TimeFrameData>} TimeBasedData The time based data.
- */
-
-/**
- * @typedef {Object} MetricData
- * @property {number} value - The value of the metric.
- * @property {number} delta - The delta of the metric.
- */
-
-/**
- * @typedef { "impressions"|"clicks"|"ctr"|"position" } SearchRankingCompareMetric The widget type.
- */
-
-/**
- * @typedef {Object<SearchRankingCompareMetric, MetricData>} SearchRankingCompareData The search ranking compare data.
- * @property {MetricData} impressions - The impressions data.
- * @property {MetricData} clicks - The clicks data.
- * @property {MetricData} [ctr] - The click-through rate data (optional).
- * @property {MetricData} [position] - The average position data (optional).
- */
