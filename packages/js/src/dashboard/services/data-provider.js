@@ -1,3 +1,5 @@
+import { cloneDeep } from "lodash";
+
 /**
  * @type {import("../index").ContentType} ContentType
  * @type {import("../index").Features} Features
@@ -20,8 +22,6 @@ export class DataProvider {
 	#siteKitConfiguration;
 	#subscribers = new Set();
 
-	#stepsStatuses;
-
 	/**
 	 * @param {ContentType[]} contentTypes The content types.
 	 * @param {string} userName The user name.
@@ -38,17 +38,7 @@ export class DataProvider {
 		this.#endpoints = endpoints;
 		this.#headers = headers;
 		this.#links = links;
-		this.#siteKitConfiguration = {
-			isFeatureEnabled: siteKitConfiguration.isFeatureEnabled,
-			isSetupWidgetDismissed: siteKitConfiguration.isSetupWidgetDismissed,
-			isAnalyticsConnected: siteKitConfiguration.isAnalyticsConnected,
-		};
-		this.#stepsStatuses = [
-			siteKitConfiguration.isInstalled,
-			siteKitConfiguration.isActive,
-			siteKitConfiguration.isSetupCompleted,
-			siteKitConfiguration.isConsentGranted,
-		];
+		this.#siteKitConfiguration = siteKitConfiguration;
 	}
 
 	/**
@@ -86,7 +76,12 @@ export class DataProvider {
 	 * @returns {boolean} The possible stepper statuses.
 	 */
 	getStepsStatuses() {
-		return this.#stepsStatuses;
+		return [
+			this.#siteKitConfiguration.connectionStepsStatuses.isInstalled,
+			this.#siteKitConfiguration.connectionStepsStatuses.isActive,
+			this.#siteKitConfiguration.connectionStepsStatuses.isSetupCompleted,
+			this.#siteKitConfiguration.connectionStepsStatuses.isConsentGranted,
+		];
 	}
 
 	/**
@@ -132,7 +127,7 @@ export class DataProvider {
 	 * @returns {number} The step that is currently unfinished. Returns -1 when all steps are finished.
 	 */
 	getSiteKitCurrentConnectionStep() {
-		return this.#stepsStatuses.findIndex( status => ! status );
+		return this.getStepsStatuses().findIndex( stepStatus => ! stepStatus );
 	}
 
 	/**
@@ -146,7 +141,10 @@ export class DataProvider {
 	 * @param {boolean} isConsentGranted Whether the site kit consent is granted.
 	 */
 	setSiteKitConsentGranted( isConsentGranted ) {
-		this.#stepsStatuses[ 3 ] = isConsentGranted;
+		// This creates a new object to avoid mutation and force re-rendering.
+		const newSiteKitConfiguration = cloneDeep( this.#siteKitConfiguration );
+		newSiteKitConfiguration.connectionStepsStatuses.isConsentGranted = isConsentGranted;
+		this.#siteKitConfiguration = newSiteKitConfiguration;
 		this.notifySubscribers();
 	}
 

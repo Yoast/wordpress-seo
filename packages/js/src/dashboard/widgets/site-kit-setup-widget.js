@@ -2,7 +2,7 @@ import { ArrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Button, DropdownMenu, Paper, Stepper, Title, useToggleState } from "@yoast/ui-library";
+import { Button, DropdownMenu, Paper, Stepper, Title, useToggleState, Alert } from "@yoast/ui-library";
 import { noop } from "lodash";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { ReactComponent as YoastConnectSiteKitSuccess } from "../../../images/yoast-connect-google-site-kit-success.svg";
@@ -12,6 +12,7 @@ import { SiteKitConsentModal } from "../../shared-admin/components";
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
  * @type {import("../services/data-provider").DataProvider} DataProvider
  * @type {import("../services/remote-data-provider").RemoteDataProvider} RemoteDataProvider
+ * @type {import("../index").CapabilitiesForSiteKit} Capabilities for site kit.
  */
 
 /** @type {string[]} */
@@ -22,9 +23,17 @@ const steps = [
 	__( "CONNECT", "wordpress-seo" ),
 ];
 
+/** @type {Object<string, number>} */
+export const STEP_NAME = {
+	install: 0,
+	activate: 1,
+	setup: 2,
+	grantConsent: 3,
+	successfulyConnected: -1,
+};
+
 /**
  * @typedef {Object} UseSiteKitConfiguration
- * @property {SiteKitConfiguration} config The site kit configuration.
  * @property {function(RequestInit?)} grantConsent The grant consent function.
  * @property {function(RequestInit?)} dismissPermanently The dismiss permanently function.
  */
@@ -81,6 +90,32 @@ const SiteKitSetupWidgetTitleAndDescription = ( { isSiteKitConnectionCompleted }
 </> );
 
 /**
+ * The no permission warning component.
+ *
+ * @param {CapabilitiesForSiteKit} capabilities The capabilities for the site kit.
+ * @param {number} currentStep The current step.
+ *
+ * @returns {JSX.Element} The no permission warning component.
+ */
+const NoPermissionWarning = ( { capabilities, currentStep } ) => {
+	if ( currentStep === STEP_NAME.successfulyConnected ) {
+		return null;
+	}
+
+	if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent ) {
+		return <Alert className="yst-mt-6">
+			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
+		</Alert>;
+	}
+
+	if ( ! capabilities.viewSearchConsoleData && currentStep === STEP_NAME.grantConsent ) {
+		return <Alert className="yst-mt-6">
+			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
+		</Alert>;
+	}
+};
+
+/**
  * The google site kit connection guide widget.
  *
  * @param {DataProvider} dataProvider The data provider.
@@ -96,6 +131,9 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
+	const siteKitConfiguration = dataProvider.getSiteKitConfiguration();
+	const capabilities = siteKitConfiguration.capabilities;
+
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();
 	}, [ dismissPermanently ] );
@@ -106,24 +144,36 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
 	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
 
+	const checkCapability = ( url, capability = capabilities.installPlugins ) => {
+		return capability ? url : null;
+	};
+
+
 	const buttonProps = [
 		{
 			children: __( "Install Site Kit by Google", "wordpress-seo" ),
-			href: dataProvider.getLink( "installSiteKit" ),
+			href: checkCapability( siteKitConfiguration.installUrl ),
 			as: "a",
+			disabled: ! capabilities.installPlugins,
+			"aria-disabled": ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
-			href: dataProvider.getLink( "activateSiteKit" ),
+			href: checkCapability( siteKitConfiguration.activateUrl ),
 			as: "a",
+			disabled: ! capabilities.installPlugins,
+			"aria-disabled": ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-			href: dataProvider.getLink( "setupSiteKit" ),
+			href: checkCapability( siteKitConfiguration.setupUrl ),
 			as: "a",
+			disabled: ! capabilities.installPlugins,
+			"aria-disabled": ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Connect Site Kit by Google", "wordpress-seo" ),
+			disabled: ! capabilities.viewSearchConsoleData,
 			onClick: openConsentModal,
 		},
 	];
@@ -186,6 +236,9 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				{ __( "Fine-tune your SEO and optimize your content using key performance metrics (KPI).", "wordpress-seo" ) }
 			</li>
 		</ul>
+
+		<NoPermissionWarning capabilities={ capabilities } currentStep={ currentStep } />
+
 		<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
 			{ isSiteKitConnectionCompleted
 				? <Button onClick={ handleOnRemove }>
@@ -198,7 +251,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 						<ArrowRightIcon className="yst-w-3 yst-text-primary-500 rtl:yst-rotate-180" />
 					</Button>
 					<SiteKitConsentModal
-						isOpen={ currentStep === steps.length - 1 && isConsentModalOpen }
+						isOpen={ currentStep === STEP_NAME.grantConsent && isConsentModalOpen }
 						onClose={ closeConsentModal }
 						onGrantConsent={ grantConsent }
 						learnMoreLink={ consentLearnMoreLink }

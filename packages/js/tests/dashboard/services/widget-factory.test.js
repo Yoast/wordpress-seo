@@ -20,9 +20,11 @@ describe( "WidgetFactory", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				isFeatureEnabled: true,
-				isInstalled: true,
-				isActive: true,
-				isSetupCompleted: true,
+				connectionStepsStatuses: {
+					isInstalled: true,
+					isActive: true,
+					isSetupCompleted: true,
+				},
 			},
 		} );
 		remoteDataProvider = new MockRemoteDataProvider( {} );
@@ -174,5 +176,34 @@ describe( "WidgetFactory", () => {
 		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 
 		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
+	} );
+
+	test.each( "should not create a OrganicSessions widget when a user has no view analytics data permission", () => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				capabilities: {
+					viewAnalyticsData: false,
+				},
+			},
+		} );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+
+		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
+	} );
+
+	test.each( [
+		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
+		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
+	] )( "should not create a %s widget when a user has no view search console data permission", ( _, widget ) => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				capabilities: {
+					viewSearchConsoleData: false,
+				},
+			},
+		} );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+
+		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
 } );
