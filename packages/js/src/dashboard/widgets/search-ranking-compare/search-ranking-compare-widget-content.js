@@ -55,12 +55,12 @@ const SearchRankingCompareSkeletonLoader = () => {
 
 /**
  * The content of the search ranking compare widget.
- * @param {import("./search-ranking-compare-widget").SearchRankingCompareData} data
- * @param {Error} error
- * @param {boolean} isPending
- * @param {import("../services/data-provider").DataProvider} dataProvider
+ * @param {import("./search-ranking-compare-widget").SearchRankingCompareData} data the data to render.
+ * @param {Error} error the error object (if an error occurred).
+ * @param {boolean} isPending whether the data is still pending.
+ * @param {import("../services/data-provider").DataProvider} dataProvider the data provider.
+ *
  * @returns {JSX.Element}
- * @constructor
  */
 export const SearchRankingCompareWidgetContent = ( { data, error, isPending, dataProvider } ) => {
 	if ( isPending ) {
