@@ -442,9 +442,9 @@ final class Addon_Manager_Test extends TestCase {
 				[
 					'wordpress-seo/wp-seo.php' => [
 						'update' => [
-							'tested'       => '6.1.1',
-							'requires_php' => '7.2.5',
-							'requires'     => '6.0',
+							'tested'       => \YOAST_SEO_WP_TESTED,
+							'requires_php' => \YOAST_SEO_PHP_REQUIRED,
+							'requires'     => \YOAST_SEO_WP_REQUIRED,
 						],
 					],
 				]
@@ -571,7 +571,7 @@ final class Addon_Manager_Test extends TestCase {
 					'wordpress-seo/wp-seo.php' => [
 						'update' => [
 							'tested'       => \YOAST_SEO_WP_REQUIRED,
-							'requires_php' => '7.2.5',
+							'requires_php' => '7.4',
 						],
 					],
 				]
