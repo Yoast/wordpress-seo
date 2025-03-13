@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Usage_Tracking_Repository_Interface;
 
 /**
  * Describes if the Site kit integration is enabled and configured.
@@ -22,6 +23,13 @@ class Site_Kit {
 	 * @var Site_Kit_Consent_Repository_Interface
 	 */
 	private $site_kit_consent_repository;
+
+	/**
+	 * The Site Kit usage tracking repository.
+	 *
+	 * @var Site_Kit_Usage_Tracking_Repository_Interface
+	 */
+	private $site_kit_usage_tracking_repository;
 
 	/**
 	 * The Site Kit consent repository.
@@ -40,18 +48,21 @@ class Site_Kit {
 	/**
 	 * The constructor.
 	 *
-	 * @param Site_Kit_Consent_Repository_Interface $site_kit_consent_repository  The Site Kit consent repository.
-	 * @param Configuration_Repository              $configuration_repository     The Site Kit permanently dismissed
-	 *                                                                            configuration repository.
-	 * @param Site_Kit_Analytics_4_Adapter          $site_kit_analytics_4_adapter The Site Kit adapter. Used to
-	 *                                                                            determine if the setup is completed.
+	 * @param Site_Kit_Consent_Repository_Interface        $site_kit_consent_repository        The Site Kit consent repository.
+	 * @param Site_Kit_Usage_Tracking_Repository_Interface $site_kit_usage_tracking_repository The Site Kit usage tracking repository.
+	 * @param Configuration_Repository                     $configuration_repository           The Site Kit permanently dismissed
+	 *                                                                                         configuration repository.
+	 * @param Site_Kit_Analytics_4_Adapter                 $site_kit_analytics_4_adapter       The Site Kit adapter. Used to
+	 *                                                                                         determine if the setup is completed.
 	 */
 	public function __construct(
 		Site_Kit_Consent_Repository_Interface $site_kit_consent_repository,
+		Site_Kit_Usage_Tracking_Repository_Interface $site_kit_usage_tracking_repository,
 		Configuration_Repository $configuration_repository,
 		Site_Kit_Analytics_4_Adapter $site_kit_analytics_4_adapter
 	) {
 		$this->site_kit_consent_repository                             = $site_kit_consent_repository;
+		$this->site_kit_usage_tracking_repository                      = $site_kit_usage_tracking_repository;
 		$this->permanently_dismissed_site_kit_configuration_repository = $configuration_repository;
 		$this->site_kit_analytics_4_adapter                            = $site_kit_analytics_4_adapter;
 	}
@@ -139,6 +150,42 @@ class Site_Kit {
 	}
 
 	/**
+	 * If the Site Kit setup widget has been loaded.
+	 *
+	 * @return string "yes" on "no".
+	 */
+	public function get_setup_widget_loaded(): string {
+		return $this->site_kit_usage_tracking_repository->get_site_kit_usage_tracking( 'setup_widget_loaded' );
+	}
+
+	/**
+	 * Gets the stage of the first interaction.
+	 *
+	 * @return string The stage name.
+	 */
+	public function get_first_interaction_stage(): string {
+		return $this->site_kit_usage_tracking_repository->get_site_kit_usage_tracking( 'first_interaction_stage' );
+	}
+
+	/**
+	 * Gets the stage of the last interaction.
+	 *
+	 * @return string The stage name.
+	 */
+	public function get_last_interaction_stage(): string {
+		return $this->site_kit_usage_tracking_repository->get_site_kit_usage_tracking( 'last_interaction_stage' );
+	}
+
+	/**
+	 * If the setup widget has been dismissed.
+	 *
+	 * @return string "yes" , "no", or "permanently".
+	 */
+	public function get_setup_widget_dismissed(): string {
+		return $this->site_kit_usage_tracking_repository->get_site_kit_usage_tracking( 'setup_widget_dismissed' );
+	}
+
+	/**
 	 * Return this object represented by a key value array.
 	 *
 	 * @return array<string,bool> Returns the name and if the feature is enabled.
@@ -167,6 +214,10 @@ class Site_Kit {
 			'isAnalyticsConnected'     => $this->is_ga_connected(),
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'isConfigurationDismissed' => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
+			'setupWidgetLoaded'        => $this->get_setup_widget_loaded(),
+			'firstInteractionStage'    => $this->get_first_interaction_stage(),
+			'lastInteractionStage'     => $this->get_last_interaction_stage(),
+			'setupWidgetDismissed'     => $this->get_setup_widget_dismissed(),
 			'capabilities'             => [
 				'installPlugins'        => \current_user_can( 'install_plugins' ),
 				'viewSearchConsoleData' => $this->can_read_data( 'search-console' ),
