@@ -124,7 +124,6 @@ export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormat
 			options );
 	}, [ dataProvider, limit ] );
 
-	const infoLink = dataProvider.getLink( "topQueriesInfoLearnMore" );
 	const supportLink = dataProvider.getLink( "errorSupport" );
 
 	/**
@@ -134,14 +133,20 @@ export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormat
 
 	const { data, error, isPending } = useRemoteData( getTopQueries, formatTopQueries );
 
+	const dataSources = [
+		{
+			source: "Site Kit by Google",
+		},
+	];
+
 	return <Widget
 		className="yst-paper__content yst-col-span-4"
 		title={ __( "Top 5 search queries", "wordpress-seo" ) }
 		tooltip={ __(
-			"The top 5 search queries on your website with the highest number of clicks.",
+			"The top 5 search queries on your website with the highest number of clicks over the last 28 days.",
 			"wordpress-seo"
 		) }
-		tooltipLearnMoreLink={ infoLink }
+		dataSources={ dataSources }
 	>
 		<TopQueriesWidgetContent
 			data={ data }
