@@ -16,46 +16,51 @@ export const WidgetTitle = ( { children, ...props } ) => (
 WidgetTitle.displayName = "Widget.Title";
 
 /**
- * @param {ReactNode} children The content of the paragraph.
- * @param {Object[]} [dataSources] The sources of the data in the widget.
- * @returns {JSX.Element} The widget tooltip with paragraph and optional learn more link.
+ * @param {ReactNode} content The content of the tooltip.
+ * @param {ReactNode} children The rest of the tooltip.
+ * @returns {JSX.Element} The widget tooltip.
  */
-export const WidgetTooltip = ( { children, dataSources } ) => (
+export const WidgetTooltip = ( { content, children } ) => (
 	<InfoTooltip>
-		<p className="yst-mb-2 yst-text-slate-600">{ children }</p>
-		{
-			dataSources && dataSources.length > 0 && (
-				<div className="yst-leading-4 yst-border-t yst-mt-3 yst-border-slate-200 yst-italic yst-text-[11px]">
-					<span className="yst-block yst-mt-3 yst-font-semibold yst-text-slate-800">{ __( "Data provided by:", "wordpress-seo" ) }</span>
-					<ul>
-						{ dataSources.map( ( dataSource, index ) => (
-							<li className="yst-text-slate-500" key={ index }>
-								{ dataSource.feature && (
-									<div>
-										<strong className="yst-font-medium">{ dataSource.source } - </strong> { dataSource.feature }
-									</div>
-								) }
-								{ ! dataSource.feature && (
-									<div>
-										{ dataSource.source }
-									</div>
-								) }
-
-							</li>
-						) ) }
-					</ul>
-				</div>
-			)
-		}
+		<p className="yst-mb-2 yst-text-slate-600">{ content }</p>
+		{ children }
 	</InfoTooltip>
 );
 WidgetTooltip.displayName = "Widget.Tooltip";
 
 /**
+ * @param {Object[]} [dataSources] The sources of the data in the widget.
+ * @returns {JSX.Element} The sources of the data in the widget as a component.
+ */
+export const WidgetDataSources = ( { dataSources } ) => (
+	<div className="yst-leading-4 yst-border-t yst-mt-3 yst-border-slate-200 yst-italic yst-text-[11px]">
+		<span className="yst-block yst-mt-3 yst-font-semibold yst-text-slate-800">{ __( "Data provided by:", "wordpress-seo" ) }</span>
+		<ul>
+			{ dataSources.map( ( dataSource, index ) => (
+				<li className="yst-text-slate-500" key={ index }>
+					{ dataSource.feature && (
+						<div>
+							<strong className="yst-font-medium">{ dataSource.source } - </strong> { dataSource.feature }
+						</div>
+					) }
+					{ ! dataSource.feature && (
+						<div>
+							{ dataSource.source }
+						</div>
+					) }
+
+				</li>
+			) ) }
+		</ul>
+	</div>
+);
+WidgetDataSources.displayName = "Widget.DataSources";
+
+/**
  * @param {string} [className] The class name.
  * @param {string} [title] The title in an H2.
- * @param {string} [tooltip] The description in a tooltip of an info button.
- * @param {string[]} [dataSources] The sources of the data in the widget.
+ * @param {ReactNode} [tooltip] The widget description in a tooltip of an info button.
+ * @param {Object[]} [dataSources] The sources of the data in the widget.
  * @param {ReactNode} children The content.
  * @returns {JSX.Element} The widget.
  */
@@ -63,7 +68,11 @@ export const Widget = ( { className = "yst-paper__content", title, tooltip, data
 	<Paper className={ classNames( "yst-shadow-md", className ) }>
 		{ ( title || tooltip ) && <div className="yst-flex yst-justify-between">
 			{ title && <WidgetTitle>{ title }</WidgetTitle> }
-			{ tooltip && <WidgetTooltip dataSources={ dataSources }>{ tooltip }</WidgetTooltip> }
+			{ tooltip &&
+				<WidgetTooltip content={ tooltip }>
+					{ dataSources && dataSources.length > 0 && <WidgetDataSources dataSources={ dataSources } /> }
+				</WidgetTooltip>
+			}
 		</div> }
 		{ children }
 	</Paper>

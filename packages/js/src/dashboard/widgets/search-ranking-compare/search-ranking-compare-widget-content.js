@@ -2,11 +2,11 @@ import { Alert, SkeletonLoader } from "@yoast/ui-library";
 import { SearchRankingCompareMetric, SearchRankingCompareMetricDivider } from "./search-ranking-compare-metric";
 import { __ } from "@wordpress/i18n";
 import { NoDataParagraph } from "../../components/no-data-paragraph";
-import { WidgetTooltip } from "../widget";
+import { WidgetTooltip, WidgetDataSources } from "../widget";
 
 /**
  * Represents the skeleton loader for an organic sessions compare metric component.
- * @param {string} tooltipLocalizedString The content of the tooltip.
+ * @param {ReactNode} tooltipLocalizedString The content of the tooltip.
  * @param {object[]} dataSources The sources of the data in the widget.
  *
  * @returns {JSX.Element}
@@ -14,8 +14,8 @@ import { WidgetTooltip } from "../widget";
 const SearchRankingCompareMetricSkeletonLoader = ( { tooltipLocalizedString, dataSources } ) => {
 	return <div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72">
 		<div className="yst-absolute yst-end-6 yst-top-2">
-			<WidgetTooltip dataSources={ dataSources }>
-				<>{ tooltipLocalizedString }</>
+			<WidgetTooltip content={ tooltipLocalizedString }>
+				<WidgetDataSources dataSources={ dataSources } />
 			</WidgetTooltip>
 		</div>
 		<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
