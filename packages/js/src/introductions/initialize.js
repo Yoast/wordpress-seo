@@ -39,7 +39,6 @@ domReady( () => {
 		isRtl: Boolean( get( window, `${ DATA_NAME }.isRtl`, false ) ),
 	};
 
-
 	const root = document.createElement( "div" );
 	root.id = "wpseo-introductions";
 	document.body.appendChild( root );
