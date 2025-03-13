@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import { useRemoteData } from "../services/use-remote-data";
 import { Widget } from "./widget";
 import { getDifference } from "../transformers/difference";
@@ -120,11 +121,15 @@ export const SearchRankingCompareWidget = ( { dataProvider, remoteDataProvider, 
 	const formatData  = useMemo( () => ( rawData ) => createDataFormatter( dataFormatter )( transformData( rawData ) ), [ dataFormatter ] );
 	const { data, error, isPending } = useRemoteData( getData, formatData  );
 
-	return <Widget className="yst-paper__content yst-col-span-4">
+	return <Widget
+		className="yst-paper__content yst-col-span-4"
+		title={ ( ! isPending && ( error || data.length === 0 ) ) && __( "Impressions, Clicks, Site CTR, Average position", "wordpress-seo" ) }
+	>
 		<SearchRankingCompareWidgetContent
 			data={ data }
 			error={ error }
 			isPending={ isPending }
+			dataProvider={ dataProvider }
 		/>
 	</Widget>;
 };

@@ -3,6 +3,7 @@ import { SearchRankingCompareMetric, SearchRankingCompareMetricDivider } from ".
 import { __ } from "@wordpress/i18n";
 import { NoDataParagraph } from "../../components/no-data-paragraph";
 import { WidgetTooltip } from "../widget";
+import { ErrorAlert } from "../../components/error-alert";
 
 /**
  * Represents the skeleton loader for an organic sessions compare metric component.
@@ -56,16 +57,17 @@ const SearchRankingCompareSkeletonLoader = () => {
  * @param {import("./search-ranking-compare-widget").SearchRankingCompareData} data
  * @param {Error} error
  * @param {boolean} isPending
+ * @param {import("../services/data-provider").DataProvider} dataProvider
  * @returns {JSX.Element}
  * @constructor
  */
-export const SearchRankingCompareWidgetContent = ( { data, error, isPending } ) => {
+export const SearchRankingCompareWidgetContent = ( { data, error, isPending, dataProvider } ) => {
 	if ( isPending ) {
 		return <SearchRankingCompareSkeletonLoader />;
 	}
 
 	if ( error ) {
-		return <Alert variant="error" className="yst-mt-4">{ error.message }</Alert>;
+		return <ErrorAlert error={ error } supportLink={ dataProvider.getLink( "errorSupport" ) } className="yst-mt-4" />;
 	}
 
 	if ( data.length === 0 ) {
