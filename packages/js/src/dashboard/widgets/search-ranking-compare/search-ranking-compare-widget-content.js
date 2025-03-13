@@ -16,7 +16,7 @@ const SearchRankingCompareMetricSkeletonLoader = ( { tooltipLocalizedString } ) 
 	return <div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72">
 		<div className="yst-absolute yst-end-6 yst-top-2">
 			<WidgetTooltip>
-				<>{ tooltipLocalizedString }</>
+				{ tooltipLocalizedString }
 			</WidgetTooltip>
 		</div>
 		<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
