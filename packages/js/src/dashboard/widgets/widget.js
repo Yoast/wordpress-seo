@@ -64,6 +64,7 @@ WidgetDataSources.displayName = "Widget.DataSources";
  * @param {ReactNode} children The content.
  * @returns {JSX.Element} The widget.
  */
+// eslint-disable-next-line complexity
 export const Widget = ( { className = "yst-paper__content", title, tooltip, dataSources, children } ) => (
 	<Paper className={ classNames( "yst-shadow-md", className ) }>
 		{ ( title || tooltip ) && <div className="yst-flex yst-justify-between">
