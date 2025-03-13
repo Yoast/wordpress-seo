@@ -73,7 +73,7 @@ export const SearchRankingCompareWidgetContent = ( { data, error, isPending } ) 
 	}
 
 	if ( data ) {
-		return <div className="yst-flex yst-flex-col yst-justify-center yst-items-center @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
+		return <div className="yst-flex yst-flex-col yst-justify-center yst-items-center @7xl:yst-flex-row @7xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
 			<SearchRankingCompareMetric
 				metricName="Impressions"
 				data={ data.impressions }
