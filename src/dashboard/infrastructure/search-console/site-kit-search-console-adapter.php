@@ -29,6 +29,8 @@ class Site_Kit_Search_Console_Adapter {
 	/**
 	 * The register method that sets the instance in the adapter.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function __construct() {
@@ -41,6 +43,8 @@ class Site_Kit_Search_Console_Adapter {
 
 	/**
 	 * Sets the search console module. Used for tests.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param Module $module The search console module.
 	 *
