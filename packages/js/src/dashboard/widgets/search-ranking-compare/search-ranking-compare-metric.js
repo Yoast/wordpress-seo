@@ -13,14 +13,15 @@ export const SearchRankingCompareMetricDivider = () => {
  * Represents one of the organic sessions compare metrics.
  * @param {string} metricName The name of the metric.
  * @param {object} data The data of the metric.
+ * @param {object[]} dataSources The sources of the data in the widget.
  * @param {string} tooltipLocalizedString The content of the tooltip.
  *
  * @returns {JSX.Element}
  */
-export const SearchRankingCompareMetric = ( { metricName, data, tooltipLocalizedString } ) => {
+export const SearchRankingCompareMetric = ( { metricName, data, dataSources, tooltipLocalizedString } ) => {
 	return <div className="yst-flex yst-flex-col yst-relative yst-items-center yst-min-w-72 yst-content-around">
 		<div className="yst-absolute yst-end-6 yst-top-2">
-			<WidgetTooltip>
+			<WidgetTooltip dataSources={ dataSources }>
 				<>{ tooltipLocalizedString }</>
 			</WidgetTooltip>
 		</div>
