@@ -1,5 +1,6 @@
 import { Alert, SkeletonLoader } from "@yoast/ui-library";
-import { SearchRankingCompareMetric, SearchRankingCompareMetricDivider } from "./search-ranking-compare-metric";
+import { SearchRankingCompareMetric } from "./search-ranking-compare-metric";
+import { SearchRankingCompareMetricDivider } from "./search-ranking-compare-metric-divider";
 import { __ } from "@wordpress/i18n";
 import { NoDataParagraph } from "../../components/no-data-paragraph";
 import { WidgetTooltip } from "../widget";
