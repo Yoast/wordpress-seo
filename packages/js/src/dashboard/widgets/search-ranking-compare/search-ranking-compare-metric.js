@@ -17,16 +17,13 @@ export const SearchRankingCompareMetric = ( { metricName, data, tooltipLocalized
 			</WidgetTooltip>
 		</div>
 		<div className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">
-			{ data === null ? "-" : data.formattedValue }
+			{ data.formattedValue }
 		</div>
 		<div className="yst-text-center">
 			{ metricName }
 		</div>
 		<div className="yst-text-center yst-mt-2">
-			{ data === null
-				? "-"
-				: <Trend value={ data.delta } formattedValue={ data.formattedDelta } />
-			}
+			<Trend value={ data.delta } formattedValue={ data.formattedDelta } />
 		</div>
 	</div>;
 };
