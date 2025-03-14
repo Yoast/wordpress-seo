@@ -1,4 +1,4 @@
-import { Alert, SkeletonLoader } from "@yoast/ui-library";
+import { SkeletonLoader } from "@yoast/ui-library";
 import { SearchRankingCompareMetric } from "./search-ranking-compare-metric";
 import { SearchRankingCompareMetricDivider } from "./search-ranking-compare-metric-divider";
 import { __ } from "@wordpress/i18n";
