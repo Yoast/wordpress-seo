@@ -71,7 +71,7 @@ export const SearchRankingCompareWidgetContent = ( { data, error, isPending, dat
 		return <ErrorAlert error={ error } supportLink={ dataProvider.getLink( "errorSupport" ) } className="yst-mt-4" />;
 	}
 
-	if ( data.length === 0 ) {
+	if ( data === null ) {
 		return <NoDataParagraph />;
 	}
 
