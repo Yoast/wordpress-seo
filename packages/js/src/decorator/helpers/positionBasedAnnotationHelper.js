@@ -212,6 +212,13 @@ export function createAnnotationsFromPositionBasedMarks( mark, blockClientId, bl
 	if ( blockClientId === mark.getBlockClientId() ) {
 		let blockStartOffset = mark.getBlockPositionStart();
 		let blockEndOffset = mark.getBlockPositionEnd();
+		/*
+		 Convert NBSP unicode into HTML entity.
+		 We do this step here because inside the `yoastseo` package, the HTML entities are always processed as their extended version (e.g. `&nbsp;`).
+		 This means that the Mark's start and end offsets are also calculated based on the extended version of the HTML entities.
+		 Hence, we need to convert the NBSP unicode into the HTML entity to match the position information of the Mark.
+		 */
+		blockHtml = blockHtml.replace( /\u00a0/ig, "&nbsp;" );
 
 		// If the Mark is created for the first section of a Yoast sub-block, we need to adjust the block start and end offsets of the Mark.
 		if ( mark.isMarkForFirstBlockSection() ) {
