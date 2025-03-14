@@ -6,7 +6,8 @@ import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
-import { DataFormatter } from "../dashboard/services/data-formatter";
+import { ComparisonMetricsDataFormatter } from "../dashboard/services/comparison-metrics-data-formatter";
+import { PlainMetricsDataFormatter } from "../dashboard/services/plain-metrics-data-formatter";
 import { DataProvider } from "../dashboard/services/data-provider";
 import { RemoteDataProvider } from "../dashboard/services/remote-data-provider";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
@@ -104,8 +105,12 @@ domReady( () => {
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
-	const dataFormatter = new DataFormatter( { locale: userLocale } );
-	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatter );
+	const dataFormatters = {
+		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
+		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
+	};
+
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
 	if ( dataProvider.isSiteKitConnectionCompleted() ) {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}

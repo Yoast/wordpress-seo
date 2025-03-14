@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
-import { DataFormatter } from "../../../src/dashboard/services/data-formatter";
+import { ComparisonMetricsDataFormatter } from "../../../src/dashboard/services/comparison-metrics-data-formatter";
 import { OrganicSessionsWidget } from "../../../src/dashboard/widgets/organic-sessions-widget";
 import { render, waitFor } from "../../test-utils";
 import { MockDataProvider } from "../__mocks__/data-provider";
@@ -12,7 +12,7 @@ describe( "OrganicSessionsWidget", () => {
 	beforeAll( () => {
 		dataProvider = new MockDataProvider();
 		remoteDataProvider = new MockRemoteDataProvider( {} );
-		dataFormatter = new DataFormatter();
+		dataFormatter = new ComparisonMetricsDataFormatter();
 	} );
 	beforeEach( () => {
 		remoteDataProvider.fetchJson.mockClear();
