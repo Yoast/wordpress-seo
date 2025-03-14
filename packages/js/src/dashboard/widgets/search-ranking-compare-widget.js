@@ -77,8 +77,8 @@ const transformData = ( rawData ) => {
 
 	if (  rawData[ 0 ].current.average_ctr ) {
 		data.ctr = {
-			value: rawData[0].current.average_ctr,
-			delta: getDifference( rawData[0].current.average_ctr, rawData[0].previous.average_ctr),
+			value: rawData[ 0 ].current.average_ctr,
+			delta: getDifference( rawData[ 0 ].current.average_ctr, rawData[ 0 ].previous.average_ctr),
 		};
 	}
 
