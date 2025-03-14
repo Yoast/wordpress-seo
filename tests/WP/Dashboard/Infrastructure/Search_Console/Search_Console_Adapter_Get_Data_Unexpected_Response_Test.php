@@ -11,6 +11,8 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Paramete
  *
  * @group search_console_adapter
  *
+ * @requires PHP >= 7.4
+ *
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter::build_parameters
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter::get_data
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter::parse_response

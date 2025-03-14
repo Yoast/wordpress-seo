@@ -63,7 +63,7 @@ abstract class TestCase extends WPTestUtils_TestCase {
 	public function activate_prereq_plugin() {
 		static $_plugins_dir;
 
-		$_plugins_dir = __DIR__ . '../../../vendor/';
+		$_plugins_dir = \dirname( \WPSEO_FILE ) . '/vendor/';
 
 		$files = (array) $this->prereq_plugin_basename;
 		foreach ( $files as $file ) {
