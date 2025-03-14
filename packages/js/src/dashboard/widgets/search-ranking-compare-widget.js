@@ -96,8 +96,8 @@ const transformData = ( rawData ) => {
  * @returns {function(?SearchRankingCompareData): ?FormattedSearchRankingCompareData} Function to format the widget data.
  */
 export const createDataFormatter = ( dataFormatter ) => ( data ) => {
-	if ( data.length === 0 ) {
-		return data;
+	if ( data === null ) {
+		return null;
 	}
 	return {
 		impressions: dataFormatter.format( data.impressions, "impressions" ),
@@ -133,7 +133,7 @@ export const SearchRankingCompareWidget = ( { dataProvider, remoteDataProvider, 
 
 	return <Widget
 		className="yst-paper__content yst-col-span-4"
-		title={ ( ! isPending && ( error || data.length === 0 ) ) && __( "Impressions, Clicks, Site CTR, Average position", "wordpress-seo" ) }
+		title={ ( ! isPending && ( error || data === null ) ) && __( "Impressions, Clicks, Site CTR, Average position", "wordpress-seo" ) }
 	>
 		<SearchRankingCompareWidgetContent
 			data={ data }
