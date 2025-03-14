@@ -42,14 +42,25 @@ class Site_Kit_Analytics_4_Adapter {
 	}
 
 	/**
-	 * Sets the search console module. Used for tests.
+	 * Sets the analytics module. Used for tests.
 	 *
-	 * @param Module $module The search console module.
+	 * @param Module $module The analytics module.
 	 *
 	 * @return void
 	 */
 	public static function set_analytics_4_module( $module ): void {
 		self::$analytics_4_module = $module;
+	}
+
+	/**
+	 * Gets the analytics module. Used for tests.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return Module The analytics module.
+	 */
+	public static function get_analytics_4_module() {
+		return self::$analytics_4_module;
 	}
 
 	/**
