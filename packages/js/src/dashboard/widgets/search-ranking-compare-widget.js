@@ -93,7 +93,7 @@ const transformData = ( rawData ) => {
 
 /**
  * @param {import("../services/comparison-metrics-data-formatter")} dataFormatter The data formatter.
- * @returns {function(?TimeBasedData[]): SearchRankingCompareData} Function to format the widget data.
+ * @returns {function(?SearchRankingCompareData): ?FormattedSearchRankingCompareData} Function to format the widget data.
  */
 export const createDataFormatter = ( dataFormatter ) => ( data ) => {
 	if ( data.length === 0 ) {
@@ -116,7 +116,7 @@ export const createDataFormatter = ( dataFormatter ) => ( data ) => {
 export const SearchRankingCompareWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
 	/**
 	 * @param {RequestInit} options The options.
-	 * @returns {Promise<TimeBasedData|Error>} The promise of IcsaData or an Error.
+	 * @returns {Promise<TimeBasedData[]|Error>} The promise of IcsaData or an Error.
 	 */
 	const getData = useCallback( ( options ) => {
 		return remoteDataProvider.fetchJson(
@@ -126,7 +126,7 @@ export const SearchRankingCompareWidget = ( { dataProvider, remoteDataProvider, 
 	}, [ dataProvider ] );
 
 	/**
-	 * @type {function(?TimeBasedData[]): SearchRankingCompareData} Function to format the widget data.
+	 * @type {function(?TimeBasedData[]): FormattedSearchRankingCompareData} Function to format the widget data.
 	 * */
 	const formatData  = useMemo( () => ( rawData ) => createDataFormatter( dataFormatter )( transformData( rawData ) ), [ dataFormatter ] );
 	const { data, error, isPending } = useRemoteData( getData, formatData  );
