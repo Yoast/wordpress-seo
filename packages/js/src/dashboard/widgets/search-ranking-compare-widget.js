@@ -52,43 +52,44 @@ import { SearchRankingCompareWidgetContent } from "./search-ranking-compare/sear
  * @property {FormattedMetricData} ctr - The formatted click-through rate data (optional).
  * @property {FormattedMetricData} position - The formatted average position data (optional).
  */
-const transformData = ( data ) => {
-	if ( data.length === 0 ) {
-		return data;
+
+/**
+ * @param {TimeBasedData[]} rawData The raw data coming from the API call.
+ * @returns {?SearchRankingCompareData} The transformed data.
+ */
+const transformData = ( rawData ) => {
+	if ( rawData.length === 0 ) {
+		return null;
 	}
-	if ( Object.keys( data[ 0 ].current ).length === 2 ) {
-		return {
-			impressions: {
-				value: data[ 0 ].current.total_impressions || NaN,
-				delta: getDifference( data[ 0 ]?.current?.total_impressions || NaN, data[ 0 ]?.previous?.total_impressions || NaN ),
-			},
-			clicks: {
-				value: data[ 0 ].current.total_clicks || NaN,
-				delta: getDifference( data[ 0 ]?.current?.total_clicks || NaN, data[ 0 ].previous.total_clicks || NaN ),
-			},
+
+	const data = {
+		impressions: {
+			value: rawData[ 0 ].current.total_impressions,
+			delta: getDifference( rawData[ 0 ].current.total_impressions, rawData[ 0 ].previous.total_impressions ),
+		},
+		clicks: {
+			value: rawData[ 0 ].current.total_clicks,
+			delta: getDifference( rawData[ 0 ].current.total_clicks, rawData[ 0 ].previous.total_clicks ),
+		},
+		ctr: null,
+		position: null,
+	};
+
+	if (  rawData[ 0 ].current.average_ctr ) {
+		data.ctr = {
+			value: rawData[0].current.average_ctr,
+			delta: getDifference( rawData[0].current.average_ctr, rawData[0].previous.average_ctr),
 		};
 	}
 
-	return {
-		impressions: {
-			value: data[ 0 ].current.total_impressions || NaN,
-			delta: getDifference( data[ 0 ].current.total_impressions || NaN, data[ 0 ].previous.total_impressions || NaN ),
-		},
-		clicks: {
-			value: data[ 0 ].current.total_clicks || NaN,
-			delta: getDifference( data[ 0 ].current.total_clicks || NaN, data[ 0 ].previous.total_clicks || NaN ),
-		},
-		ctr: {
-			value: data[ 0 ].current.average_ctr || NaN,
-			delta: getDifference( data[ 0 ].current.average_ctr || NaN, data[ 0 ].previous.average_ctr || NaN ),
-		},
-		position: {
-			value: data[ 0 ].current.average_position || NaN,
-			delta: getDifference( data[ 0 ].current.average_position || NaN, data[ 0 ].previous.average_position || NaN ),
-		},
-	};
+	if ( rawData[ 0 ].current.average_position ) {
+		data.position = {
+			value: rawData[ 0 ].current.average_position,
+			delta: getDifference( rawData[ 0 ].current.average_position, rawData[ 0 ].previous.average_position ),
+		};
+	}
+	return data;
 };
-/* eslint-enable complexity */
 
 /**
  * @param {import("../services/comparison-metrics-data-formatter")} dataFormatter The data formatter.
