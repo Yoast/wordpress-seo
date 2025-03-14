@@ -48,7 +48,7 @@ class Site_Kit_Search_Console_Adapter {
 	 *
 	 * @return void
 	 */
-	public static function set_search_console_module($module ): void {
+	public static function set_search_console_module( $module ): void {
 		self::$search_console_module = $module;
 	}
 

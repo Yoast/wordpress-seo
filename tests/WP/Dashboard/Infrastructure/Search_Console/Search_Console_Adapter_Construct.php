@@ -9,6 +9,8 @@ use Google\Site_Kit\Core\Modules\Module;
  *
  * @group search_console_adapter
  *
+ * @requires PHP >= 7.4
+ *
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter::__construct
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
