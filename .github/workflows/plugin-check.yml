@@ -1,0 +1,57 @@
+name: 'Plugin Check'
+on:
+  pull_request:
+  push:
+    branches:
+    - main
+    - trunk
+    - 'release/**'
+
+jobs:
+  prepare:
+    name: "Build and check plugin"
+    # Don't run on forks.
+    if: github.repository_owner == 'Yoast'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.2
+          coverage: none
+
+      - name: Set up node and enable caching of dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      - name: Install Composer dependencies and run the prefixing script
+        uses: ramsey/composer-install@v2
+        with:
+          # Bust the cache at least once a week - output format: YYYY-MM-DD.
+          custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: "Grunt: create plugin"
+        run: |
+          grunt artifact
+          mv artifact wordpress-seo
+
+      - name: Run plugin check
+        uses: swissspidy/wp-plugin-check-action@main
+        with:
+            build-dir: ./wordpress-seo
+            exclude-directories: vendor_prefixed
+            exclude-checks: |
+                trademarks
+                late_escaping
+                plugin_updater
+                plugin_review_phpcs
