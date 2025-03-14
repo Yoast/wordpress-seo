@@ -138,7 +138,7 @@ jobs:
       matrix:
         include:
           - php_version: "7.2"
-            wp_version: "6.5"
+            wp_version: "6.6"
             multisite: true
             coverage: true
 
@@ -153,17 +153,17 @@ jobs:
             coverage: false
 
           - php_version: "8.0"
-            wp_version: "6.5"
+            wp_version: "6.6"
             multisite: false
             coverage: false
 
           - php_version: '8.1'
-            wp_version: '6.5'
+            wp_version: '6.6'
             multisite: true
             coverage: false
 
           - php_version: '8.2'
-            wp_version: '6.5'
+            wp_version: '6.6'
             multisite: true
             coverage: false
 

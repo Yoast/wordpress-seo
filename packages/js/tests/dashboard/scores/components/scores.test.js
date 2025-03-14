@@ -1,8 +1,9 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { fetchJson } from "../../../../src/dashboard/fetch/fetch-json";
-import { TimeoutError } from "../../../../src/dashboard/fetch/timeout-error";
 import { Scores } from "../../../../src/dashboard/scores/components/scores";
-import { fireEvent, render, waitFor } from "../../../test-utils";
+import { DataProvider } from "../../../../src/dashboard/services/data-provider";
+import { RemoteDataProvider } from "../../../../src/dashboard/services/remote-data-provider";
+import { act, fireEvent, render, waitFor } from "../../../test-utils";
 import categories from "./__data__/categories.json";
 import contentTypes from "./__data__/content-types.json";
 import productCategories from "./__data__/product_cat.json";
@@ -17,14 +18,21 @@ jest.mock( "react-chartjs-2" );
 // Mock fetchJson, providing the data for the tests.
 jest.mock( "../../../../src/dashboard/fetch/fetch-json" );
 
+
 describe( "Scores", () => {
+	let dataProvider;
+	let remoteDataProvider;
+
 	beforeAll( () => {
 		fetchJson.mockImplementation( ( url ) => {
+			const error = new Error( "An error" );
 			switch ( url.pathname ) {
 				case "/error":
 					return Promise.reject( new Error( "An error" ) );
 				case "/timeout":
-					return Promise.reject( new TimeoutError( "A timeout error" ) );
+					error.name = "TimeoutError";
+					error.status = 408;
+					return Promise.reject( error );
 				case "/categories":
 					if ( url.searchParams.get( "search" ) === "nothing" ) {
 						return Promise.resolve( [] );
@@ -36,6 +44,24 @@ describe( "Scores", () => {
 					return Promise.resolve( scores );
 			}
 		} );
+
+		dataProvider = new DataProvider( {
+			endpoints: {
+				seoScores: "https://example.com/seo_scores",
+				readabilityScores: "https://example.com/readability_scores",
+			},
+			links: {
+				errorSupport: "admin.php?page=wpseo_page_support",
+			},
+			siteKitConfiguration: {
+				isFeatureEnabled: true,
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: true,
+				isConsentGranted: true,
+			},
+		} );
+		remoteDataProvider = new RemoteDataProvider( {} );
 	} );
 
 	beforeEach( () => {
@@ -47,12 +73,10 @@ describe( "Scores", () => {
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
-				endpoint="https://example.com/seo_scores"
+				dataProvider={ dataProvider }
+				remoteDataProvider={ remoteDataProvider }
 			/>
 		);
-
-		// Verify the title is present.
-		expect( getByRole( "heading", { name: "SEO scores" } ) ).toBeInTheDocument();
 
 		// Verify the filters are present.
 		expect( getByRole( "combobox", { name: "Content type" } ) ).toBeInTheDocument();
@@ -92,7 +116,11 @@ describe( "Scores", () => {
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
-				endpoint="https://example.com/error"
+				dataProvider={ {
+					getLink: () => "admin.php?page=wpseo_page_support",
+					getEndpoint: () => "https://example.com/error",
+				} }
+				remoteDataProvider={ remoteDataProvider }
 			/>
 		);
 
@@ -101,7 +129,7 @@ describe( "Scores", () => {
 
 		// Verify the error is present.
 		expect( getByRole( "status" ) )
-			.toHaveTextContent( "Something went wrong. In case you need further help, please take a look at our Support page." );
+			.toHaveTextContent( "Something went wrong. Try refreshing the page. If the problem persists, please check our Support page." );
 
 		// Verify a link to the support page is present.
 		expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "admin.php?page=wpseo_page_support" );
@@ -112,7 +140,11 @@ describe( "Scores", () => {
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
-				endpoint="https://example.com/timeout"
+				dataProvider={ {
+					getLink: () => "admin.php?page=wpseo_page_support",
+					getEndpoint: () => "https://example.com/timeout",
+				} }
+				remoteDataProvider={ remoteDataProvider }
 			/>
 		);
 
@@ -121,7 +153,7 @@ describe( "Scores", () => {
 
 		// Verify the error is present.
 		expect( getByRole( "status" ) )
-			.toHaveTextContent( "A timeout occurred, possibly due to a large number of posts or terms. In case you need further help, please take a look at our Support page." );
+			.toHaveTextContent( "The request timed out. Try refreshing the page. If the problem persists, please check our Support page." );
 
 		// Verify a link to the support page is present.
 		expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "admin.php?page=wpseo_page_support" );
@@ -132,7 +164,8 @@ describe( "Scores", () => {
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
-				endpoint="https://example.com/seo_scores"
+				dataProvider={ dataProvider }
+				remoteDataProvider={ remoteDataProvider }
 			/>
 		);
 
@@ -149,8 +182,10 @@ describe( "Scores", () => {
 		const pagesOption = getByRole( "option", { name: "Pages" } );
 		expect( pagesOption ).toBeInTheDocument();
 
-		// Select the "Pages" option.
-		fireEvent.click( pagesOption );
+		await act( () => {
+			// Select the "Pages" option.
+			fireEvent.click( pagesOption );
+		} );
 
 		// Await new fetch call for the scores.
 		await waitFor( () => expect( fetchJson ).toHaveBeenCalledTimes( 3 ) );
@@ -166,12 +201,10 @@ describe( "Scores", () => {
 			<Scores
 				analysisType="readability"
 				contentTypes={ contentTypes }
-				endpoint="https://example.com/readability_scores"
+				dataProvider={ dataProvider }
+				remoteDataProvider={ remoteDataProvider }
 			/>
 		);
-
-		// Verify the title is present.
-		expect( getByRole( "heading", { name: "Readability scores" } ) ).toBeInTheDocument();
 
 		// Await the fetch calls: scores and terms.
 		await waitFor( () => expect( fetchJson ).toHaveBeenCalledTimes( 2 ) );
@@ -181,7 +214,9 @@ describe( "Scores", () => {
 
 		// Select the content type: "Products".
 		fireEvent.click( getByRole( "combobox", { name: "Content type" } ) );
-		fireEvent.click( getByRole( "option", { name: "Products" } ) );
+		await act( () => {
+			fireEvent.click( getByRole( "option", { name: "Products" } ) );
+		} );
 
 		// Await new fetch call for the scores and terms.
 		await waitFor( () => expect( fetchJson ).toHaveBeenCalledTimes( 4 ) );
@@ -191,7 +226,9 @@ describe( "Scores", () => {
 
 		// Select the product term: "merchandise".
 		fireEvent.click( getByRole( "combobox", { name: "Product categories" } ) );
-		fireEvent.click( getByRole( "option", { name: "merchandise" } ) );
+		await act( () => {
+			fireEvent.click( getByRole( "option", { name: "merchandise" } ) );
+		} );
 
 		// Await new fetch call for the scores.
 		await waitFor( () => expect( fetchJson ).toHaveBeenCalledTimes( 5 ) );
@@ -207,7 +244,8 @@ describe( "Scores", () => {
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
-				endpoint="https://example.com/seo_scores"
+				dataProvider={ dataProvider }
+				remoteDataProvider={ remoteDataProvider }
 			/>
 		);
 
@@ -228,7 +266,8 @@ describe( "Scores", () => {
 			<Scores
 				analysisType="readability"
 				contentTypes={ contentTypes }
-				endpoint="https://example.com/readability_scores"
+				dataProvider={ dataProvider }
+				remoteDataProvider={ remoteDataProvider }
 			/>
 		);
 
@@ -251,7 +290,8 @@ describe( "Scores", () => {
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
-				endpoint="https://example.com/seo_scores"
+				dataProvider={ dataProvider }
+				remoteDataProvider={ remoteDataProvider }
 			/>
 		);
 
@@ -275,7 +315,8 @@ describe( "Scores", () => {
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
-				endpoint="https://example.com/seo_scores"
+				dataProvider={ dataProvider }
+				remoteDataProvider={ remoteDataProvider }
 			/>
 		);
 
@@ -301,7 +342,8 @@ describe( "Scores", () => {
 			<Scores
 				analysisType="seo"
 				contentTypes={ contentTypes }
-				endpoint="https://example.com/seo_scores"
+				dataProvider={ dataProvider }
+				remoteDataProvider={ remoteDataProvider }
 			/>
 		);
 

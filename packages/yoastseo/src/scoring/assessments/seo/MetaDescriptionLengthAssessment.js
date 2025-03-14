@@ -1,7 +1,7 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
 import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
 import japaneseConfig from "../../../languageProcessing/languages/ja/config/metaDescriptionLength";
 
@@ -131,7 +131,7 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 			return sprintf(
 				/* translators:  %1$s and %2$s expand to a links on yoast.com, %3$s expands to the anchor end tag */
 				__(
-					"%1$sMeta description length%3$s:  No meta description has been specified. Search engines will display copy from the page instead. %2$sMake sure to write one%3$s!",
+					"%1$sMeta description length%3$s: No meta description has been specified. Search engines will display copy from the page instead. %2$sMake sure to write one%3$s!",
 					"wordpress-seo"
 				),
 				config.urlTitle,

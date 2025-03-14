@@ -182,7 +182,7 @@ describe( "a test for SKU assessment for Shopify", () => {
 					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
 						"%1$sSKU%2$s: Your product has a SKU. Good job!",
-						"yoast-woo-seo"
+						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					"</a>"
@@ -191,7 +191,7 @@ describe( "a test for SKU assessment for Shopify", () => {
 					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
 						"%1$sSKU%2$s: All your product variants have a SKU. Good job!",
-						"yoast-woo-seo"
+						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					"</a>"
@@ -202,7 +202,7 @@ describe( "a test for SKU assessment for Shopify", () => {
 					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
 					__(
 						"%1$sSKU%3$s: Your product is missing a SKU. %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
-						"yoast-woo-seo"
+						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					urlActionAnchorOpeningTag,
@@ -212,7 +212,7 @@ describe( "a test for SKU assessment for Shopify", () => {
 					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
 					__(
 						"%1$sSKU%3$s: Not all your product variants have a SKU. %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
-						"yoast-woo-seo"
+						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					urlActionAnchorOpeningTag,

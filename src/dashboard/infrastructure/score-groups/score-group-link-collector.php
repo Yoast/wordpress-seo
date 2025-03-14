@@ -37,7 +37,7 @@ class Score_Group_Link_Collector {
 		$taxonomy_object = \get_taxonomy( $taxonomy->get_name() );
 		$query_var       = $taxonomy_object->query_var;
 
-		if ( $query_var === false ) {
+		if ( ! $query_var ) {
 			return null;
 		}
 

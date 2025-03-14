@@ -1,5 +1,5 @@
 import globals from "globals";
-import yoastConfig, { reactConfig } from "eslint-config-yoast";
+import yoastConfig, { reactConfig } from "@yoast/eslint-config";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [

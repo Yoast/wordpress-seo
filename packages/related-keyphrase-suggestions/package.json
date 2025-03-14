@@ -44,14 +44,14 @@
     "@storybook/react-webpack5": "^8.3.6",
     "@storybook/theming": "^8.3.6",
     "@wordpress/jest-preset-default": "^8.0.1",
-    "@yoast/browserslist-config": "^1.2.3",
+    "@yoast/browserslist-config": "^1.2.4",
+    "@yoast/eslint-config": "^8.0.0",
     "@yoast/jest-preset": "^1.0.1",
     "@yoast/postcss-preset": "^1.2.0",
     "@yoast/tailwindcss-preset": "^2.3.0",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
     "eslint": "^9.16.0",
-    "eslint-config-yoast": "^7.0.0",
     "globals": "^15.13.0",
     "postcss": "^8.4.47",
     "postcss-loader": "^8.1.1",
@@ -68,7 +68,7 @@
     "prop-types": "^15.8.1"
   },
   "peerDependencies": {
-    "@yoast/ui-library": "^4.1.0",
+    "@yoast/ui-library": "^4.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

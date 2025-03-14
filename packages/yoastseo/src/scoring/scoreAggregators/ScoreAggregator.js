@@ -1,11 +1,21 @@
 /**
  * Aggregates assessment results into a single score.
  *
- * @memberOf module:parsedPaper/assess
- *
  * @abstract
  */
 class ScoreAggregator {
+	/**
+	 * Sets the locale of the content. We are more lenient on languages
+	 * that are fully supported in the readability analysis.
+	 *
+	 * @param {string} locale The locale of the content.
+	 *
+	 * @returns {void}
+	 */
+	setLocale( locale ) {
+		this.locale = locale;
+	}
+
 	/**
 	 * Aggregates the given assessment results into a single score.
 	 *
