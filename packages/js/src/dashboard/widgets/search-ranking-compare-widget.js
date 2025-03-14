@@ -26,22 +26,31 @@ import { SearchRankingCompareWidgetContent } from "./search-ranking-compare/sear
 
 /**
  * @typedef {Object} MetricData
- * @property {number} value - The value of the metric.
+ * @property {number} value - The value of a metric.
+ * @property {number} delta - The delta of a metric (i.e. the average difference between current value and the previousof a metric.
+ */
+
+/**
+ * @typedef {Object} FormattedMetricData
+ * @property {string} formattedValue - The value of the metric, formatted.
+ * @property {string} formattedDelta - The delta of the metric, formatted.
  * @property {number} delta - The delta of the metric.
  */
 
 /**
- * @typedef {Object<SearchRankingCompareMetric, MetricData | null>} SearchRankingCompareData The search ranking compare data.
+ * @typedef {Object<SearchRankingCompareMetric, MetricData>} SearchRankingCompareData The search ranking compare data.
  * @property {MetricData} impressions - The impressions data.
  * @property {MetricData} clicks - The clicks data.
- * @property {MetricData} ctr - The click-through rate data (optional).
- * @property {MetricData} position - The average position data (optional).
+ * @property {MetricData | null} ctr - The click-through rate data (optional).
+ * @property {MetricData | null} position - The average position data (optional).
  */
 
-/* eslint-disable complexity */
 /**
- * @param {TimeBasedData[]} data The data.
- * @returns {SearchRankingCompareData|TimeBasedData[]} The transformed data.
+ * @typedef {Object<SearchRankingCompareMetric, FormattedMetricData>} FormattedSearchRankingCompareData The formatted search ranking compare data.
+ * @property {FormattedMetricData} impressions - The formatted impressions data.
+ * @property {FormattedMetricData} clicks - The formatted clicks data.
+ * @property {FormattedMetricData} ctr - The formatted click-through rate data (optional).
+ * @property {FormattedMetricData} position - The formatted average position data (optional).
  */
 const transformData = ( data ) => {
 	if ( data.length === 0 ) {
