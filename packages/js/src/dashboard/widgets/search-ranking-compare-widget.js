@@ -102,8 +102,8 @@ export const createDataFormatter = ( dataFormatter ) => ( data ) => {
 	return {
 		impressions: dataFormatter.format( data.impressions, "impressions" ),
 		clicks: dataFormatter.format( data.clicks, "clicks" ),
-		ctr: ( "ctr" in data ) ? dataFormatter.format( data.ctr, "ctr" ) : null,
-		position: ( "position" in data ) ? dataFormatter.format( data.position, "position" ) : null,
+		ctr: dataFormatter.format( data.ctr, "ctr" ),
+		position: dataFormatter.format( data.position, "position" ),
 	};
 };
 
