@@ -17,11 +17,11 @@ import { SearchRankingCompareWidgetContent } from "./search-ranking-compare/sear
  */
 
 /**
- * @typedef {Object<TimeFrame, TimeFrameData>} TimeBasedData The time based data.
+ * @typedef {Object<TimeFrame, TimeFrameData>} TimeBasedData The data collected during a specific time frame.
  */
 
 /**
- * @typedef { "impressions"|"clicks"|"ctr"|"position" } SearchRankingCompareMetric The widget type.
+ * @typedef { "impressions"|"clicks"|"ctr"|"position" } SearchRankingCompareMetric The possible metrics.
  */
 
 /**
