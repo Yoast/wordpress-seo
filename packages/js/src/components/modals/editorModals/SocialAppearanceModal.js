@@ -11,6 +11,7 @@ import { useSelect } from "@wordpress/data";
 import EditorModal from "../../../containers/EditorModal";
 import FacebookEditor from "../../../containers/FacebookEditor";
 import ElementorFacebookEditor from "../../../elementor/containers/FacebookEditor";
+import ElementorTwitterEditor from "../../../elementor/containers/TwitterEditor";
 import TwitterEditor from "../../../containers/TwitterEditor";
 import ModalCollapsible from "../../ModalCollapsible";
 import { StyledDescription, StyledDescriptionTop } from "../../../helpers/styledDescription";
@@ -70,7 +71,7 @@ const SocialAppearanceModal = ( props ) => {
 				hasSeparator={ true }
 				initialIsOpen={ false }
 			>
-				<TwitterEditor />
+				{ isElementorEditor ? <ElementorTwitterEditor /> : <TwitterEditor /> }
 			</ModalCollapsible>
 			}
 			{ ( ! useOpenGraphData && useTwitterData ) &&
