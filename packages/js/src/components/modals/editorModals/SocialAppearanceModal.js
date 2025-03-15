@@ -5,10 +5,12 @@ import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { useSelect } from "@wordpress/data";
 
 /* Internal dependencies */
 import EditorModal from "../../../containers/EditorModal";
 import FacebookEditor from "../../../containers/FacebookEditor";
+import ElementorFacebookEditor from "../../../elementor/containers/FacebookEditor";
 import TwitterEditor from "../../../containers/TwitterEditor";
 import ModalCollapsible from "../../ModalCollapsible";
 import { StyledDescription, StyledDescriptionTop } from "../../../helpers/styledDescription";
@@ -38,6 +40,8 @@ const SocialAppearanceModal = ( props ) => {
 
 	const svgAriaProps = useSvgAria();
 
+	const isElementorEditor = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsElementorEditor(), [] );
+
 	return (
 		<EditorModal
 			/* translators: Social media appearance refers to a preview of how a page will be represented on social media. */
@@ -52,7 +56,7 @@ const SocialAppearanceModal = ( props ) => {
 						__( "Determine how your post should look on social media like Facebook, X, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
 							"wordpress-seo" )
 					}</StyledDescriptionTop>
-					<FacebookEditor />
+					{ isElementorEditor ? <ElementorFacebookEditor /> : <FacebookEditor /> }
 					{ useTwitterData && <StyledDescription>
 						{ __( "To customize the appearance of your post specifically for X, please fill out " +
 						"the 'X appearance' settings below. If you leave these settings untouched, the 'Social media appearance' settings " +
