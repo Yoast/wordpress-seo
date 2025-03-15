@@ -13,6 +13,8 @@ const editorData = {
 	excerpt: "",
 	slug: "",
 	imageUrl: "",
+	contentImage: "",
+	featuredImage: "",
 };
 
 const MARK_TAG = "yoastmark";
@@ -113,6 +115,8 @@ function getEditorData( editorDocument ) {
 		title: elementor.settings.page.model.get( "post_title" ),
 		excerpt: elementor.settings.page.model.get( "post_excerpt" ) || "",
 		imageUrl: getImageUrl( content ),
+		featuredImage: get( elementor.settings.page.model.get( "post_featured_image" ), "url", "" ),
+		contentImage: firstImageUrlInContent( content ),
 		status: elementor.settings.page.model.get( "post_status" ),
 	};
 }
@@ -162,6 +166,16 @@ function handleEditorChange() {
 	if ( data.imageUrl !== editorData.imageUrl ) {
 		editorData.imageUrl = data.imageUrl;
 		dispatch( "yoast-seo/editor" ).setEditorDataImageUrl( editorData.imageUrl );
+	}
+
+	if ( data.contentImage !== editorData.contentImage ) {
+		editorData.contentImage = data.contentImage;
+		dispatch( "yoast-seo/editor" ).setContentImage( editorData.contentImage );
+	}
+
+	if ( data.featuredImage !== editorData.featuredImage ) {
+		editorData.featuredImage = data.featuredImage;
+		dispatch( "yoast-seo/editor" ).updateData( { snippetPreviewImageURL: editorData.featuredImage } );
 	}
 }
 
