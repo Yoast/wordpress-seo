@@ -179,9 +179,9 @@ jobs:
 
     services:
       mysql:
-        # Use MySQL 5.7 for PHP 7.4, otherwise MySQL 8.0.
+        # Use MySQL 5.6 for PHP 7.4, use MySQL 5.7 for PHP 8.0, otherwise MySQL 8.0.
         # Also see: https://core.trac.wordpress.org/ticket/52496
-        image: mysql:${{ ( matrix.php_version == '7.4' && '5.7' ) || '8.0' }}
+        image: mysql:${{ ( matrix.php_version == '7.4' && '5.6' ) || ( matrix.php_version == '8.0' && '5.7' ) || '8.0' }}
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
         ports:
