@@ -134,6 +134,7 @@ export const SearchRankingCompareWidget = ( { dataProvider, remoteDataProvider, 
 	return <Widget
 		className="yst-paper__content yst-col-span-4"
 		title={ ( ! isPending && ( error || data === null ) ) && __( "Impressions, Clicks, Site CTR, Average position", "wordpress-seo" ) }
+		errorSupportLink={ dataProvider.getLink( "errorSupport" ) }
 	>
 		<SearchRankingCompareWidgetContent
 			data={ data }

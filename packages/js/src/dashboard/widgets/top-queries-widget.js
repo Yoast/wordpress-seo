@@ -147,6 +147,7 @@ export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormat
 			"wordpress-seo"
 		) }
 		dataSources={ dataSources }
+		errorSupportLink={ dataProvider.getLink( "errorSupport" ) }
 	>
 		<TopQueriesWidgetContent
 			data={ data }

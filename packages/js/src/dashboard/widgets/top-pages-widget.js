@@ -237,6 +237,7 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 			"wordpress-seo"
 		) }
 		dataSources={ dataSources }
+		errorSupportLink={ dataProvider.getLink( "errorSupport" ) }
 	>
 		<TopPagesWidgetContent
 			data={ data }

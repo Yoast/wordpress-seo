@@ -1,5 +1,7 @@
-import { Paper, Title } from "@yoast/ui-library";
+import { useCallback } from "@wordpress/element";
+import { ErrorBoundary, Paper, Title } from "@yoast/ui-library";
 import classNames from "classnames";
+import { ErrorAlert } from "../components/error-alert";
 import { InfoTooltip } from "../components/info-tooltip";
 import { __ } from "@wordpress/i18n";
 
@@ -51,14 +53,32 @@ WidgetDataSources.displayName = "Widget.DataSources";
 
 /**
  * @param {string} [className] The class name.
+ * @param {string} supportLink The support link.
+ * @param {ReactNode} children The content to wrap with an error boundary.
+ * @returns {JSX.Element}
+ */
+export const WidgetErrorBoundary = ( { className = "yst-mt-4", supportLink, children } ) => {
+	const ErrorBoundaryFallback = useCallback( ( { error } ) => (
+		<ErrorAlert error={ error } className={ className } supportLink={ supportLink } />
+	), [ className, supportLink ] );
+
+	return (
+		<ErrorBoundary FallbackComponent={ ErrorBoundaryFallback }>{ children }</ErrorBoundary>
+	);
+};
+WidgetErrorBoundary.displayName = "Widget.ErrorBoundary";
+
+/**
+ * @param {string} [className] The class name.
  * @param {string} [title] The title in an H2.
  * @param {ReactNode} [tooltip] The widget description in a tooltip of an info button.
  * @param {Object[]} [dataSources] The sources of the data in the widget.
+ * @param {string} [errorSupportLink] The support link, to show in the error fallback. If not provided, no error boundary is used.
  * @param {ReactNode} children The content.
  * @returns {JSX.Element} The widget.
  */
 // eslint-disable-next-line complexity
-export const Widget = ( { className = "yst-paper__content", title, tooltip, dataSources, children } ) => (
+export const Widget = ( { className = "yst-paper__content", title, tooltip, dataSources, children, errorSupportLink } ) => (
 	<Paper className={ classNames( "yst-shadow-md", className ) }>
 		{ ( title || tooltip ) && <div className="yst-flex yst-justify-between">
 			{ title && <WidgetTitle>{ title }</WidgetTitle> }
@@ -68,6 +88,9 @@ export const Widget = ( { className = "yst-paper__content", title, tooltip, data
 				</WidgetTooltip>
 			}
 		</div> }
-		{ children }
+		{ errorSupportLink
+			? <WidgetErrorBoundary supportLink={ errorSupportLink }>{ children }</WidgetErrorBoundary>
+			: children
+		}
 	</Paper>
 );
