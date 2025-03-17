@@ -308,6 +308,7 @@ function watchSelect( dropdown ) {
 
 		// Display the relevant text depending on which plugin is selected for import.
 		if ( dropdown === importDropdown ) {
+			// eslint-disable-next-line @wordpress/valid-sprintf -- The translation string is imported from PHP.
 			text = sprintf(
 				window.yoastImportData.assets.replacing_texts.select_header,
 				jQuery( this ).find( "option:selected" ).text()

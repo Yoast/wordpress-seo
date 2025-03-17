@@ -8,9 +8,9 @@ namespace Yoast\WP\SEO\Dashboard\Domain\Data_Provider;
 interface Dashboard_Repository_Interface {
 
 	/**
-	 * Method to get search related data from a provider.
+	 * Method to get dashboard related data from a provider.
 	 *
-	 * @param Parameters $parameters The parameter to get the search data for.
+	 * @param Parameters $parameters The parameter to get the dashboard data for.
 	 *
 	 * @return Data_Container
 	 */

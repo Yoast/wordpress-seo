@@ -140,7 +140,7 @@ const SiteBasics = () => {
 			 * translators: %1$s expands to an opening italics tag.
 			 * %2$s expands to a closing italics tag.
 			 */
-			__( "Select a page which describes the ownership structure of your organization. It should include information about  %1$sfunding%2$s and %1$sgrants%2$s.", "wordpress-seo" ),
+			__( "Select a page which describes the ownership structure of your organization. It should include information about %1$sfunding%2$s and %1$sgrants%2$s.", "wordpress-seo" ),
 			"<i>",
 			"</i>"
 		),

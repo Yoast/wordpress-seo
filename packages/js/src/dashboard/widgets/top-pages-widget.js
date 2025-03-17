@@ -1,55 +1,55 @@
+import { PencilIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Alert, Button, SkeletonLoader } from "@yoast/ui-library";
-import { PencilIcon } from "@heroicons/react/outline";
+import { Button, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
 import { useRemoteData } from "../services/use-remote-data";
 import { WidgetTable, Score } from "../components/widget-table";
-import { Widget, WidgetTitle } from "./widget";
-import { ArrowNarrowRightIcon  } from "@heroicons/react/solid";
-import { InfoTooltip } from "../components/info-tooltip";
-
+import { Widget } from "./widget";
+import { ErrorAlert } from "../components/error-alert";
 
 /**
  * @type {import("../index").TopPageData} TopPageData
  */
 
-/** @type {string} */
-const TITLE = __( "Top 5 most popular content", "wordpress-seo" );
-
 /**
- * The content of the info tooltip.
+ * The header for the SEO score column.
  *
- * @param {string} url The learn more link.
+ * @param {boolean} isIndexablesEnabled Whether indexables are enabled.
+ * @param {boolean} isSeoAnalysisEnabled Whether SEO analysis is enabled.
  *
  * @returns {JSX.Element} The element.
  */
-const Info = ( { url } ) => (
-	<>
-		<p>
-			{ __(
-				"The top 5 URLs on your website with the highest number of clicks.",
-				"wordpress-seo"
-			) }
-		</p>
-		<Button
-			variant="tertiary"
-			as="a"
-			target="_blank"
-			href={ url }
-			className="yst-px-0"
-		>
-			{ __( "Learn more", "wordpress-seo" ) }
-			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-me-1 rtl:yst-rotate-180 yst-ms-1.5" />
-			<span className="yst-sr-only">
-				{
-					/* translators: Hidden accessibility text. */
-					__( "(Opens in a new browser tab)", "wordpress-seo" )
-				}
-			</span>
-		</Button>
-	</>
-);
+export const SeoScoreHeader = ( { isIndexablesEnabled, isSeoAnalysisEnabled } ) => {
+	if ( isIndexablesEnabled && isSeoAnalysisEnabled ) {
+		return <>
+			Yoast
+			<br />
+			{ __( "SEO score", "wordpress-seo" ) }
+		</>;
+	}
 
+	let tooltipText;
+
+	if ( ! isIndexablesEnabled ) {
+		tooltipText = __( "We can’t analyze your content, because you’re in a non-production environment.", "wordpress-seo" );
+	} else if ( ! isSeoAnalysisEnabled ) {
+		tooltipText = __( "We can’t provide SEO scores, because the SEO analysis is disabled for your site.", "wordpress-seo" );
+	}
+
+	return <TooltipContainer className="yst-inline-block">
+		<TooltipTrigger
+			ariaDescribedby="yst-disabled-score-header-tooltip"
+			className="yst-cursor-help yst-underline yst-decoration-dotted yst-underline-offset-4"
+		>
+			Yoast
+			<br />
+			{ __( "SEO score", "wordpress-seo" ) }
+		</TooltipTrigger>
+		<TooltipWithContext position="bottom" id="yst-disabled-score-header-tooltip" className="yst-w-52">
+			{ tooltipText }
+		</TooltipWithContext>
+	</TooltipContainer>;
+};
 
 /**
  * @param {number} index The index.
@@ -80,11 +80,10 @@ const TopPagesSkeletonLoaderRow = ( { index } ) => (
  * @param {JSX.Element} [children] The children. Use this to override the data rendering.
  * @param {boolean} [isIndexablesEnabled] Whether indexables are enabled.
  * @param {boolean} [isSeoAnalysisEnabled] Whether SEO analysis is enabled.
- *
  * @returns {JSX.Element} The element.
  */
-const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnalysisEnabled = true } ) => {
-	return <WidgetTable>
+const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnalysisEnabled = true } ) => (
+	<WidgetTable>
 		<WidgetTable.Head>
 			<WidgetTable.Header>{ __( "Landing page", "wordpress-seo" ) }</WidgetTable.Header>
 			<WidgetTable.Header className="yst-text-end">{ __( "Clicks", "wordpress-seo" ) }</WidgetTable.Header>
@@ -92,8 +91,7 @@ const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnaly
 			<WidgetTable.Header className="yst-text-end">{ __( "CTR", "wordpress-seo" ) }</WidgetTable.Header>
 			<WidgetTable.Header className="yst-text-end">{ __( "Average position", "wordpress-seo" ) }</WidgetTable.Header>
 			<WidgetTable.Header className="yst-text-center">
-				<div>Yoast</div>
-				{ __( "SEO score", "wordpress-seo" ) }
+				<SeoScoreHeader isIndexablesEnabled={ isIndexablesEnabled } isSeoAnalysisEnabled={ isSeoAnalysisEnabled } />
 			</WidgetTable.Header>
 			<WidgetTable.Header className="yst-text-end">{ __( "Actions", "wordpress-seo" ) }</WidgetTable.Header>
 		</WidgetTable.Head>
@@ -108,6 +106,7 @@ const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnaly
 					<WidgetTable.Cell>
 						<div className="yst-flex yst-justify-center">
 							<Score
+								id={ `yst-top-pages-widget__seo-score-${ index }` }
 								score={ seoScore }
 								isIndexablesEnabled={ isIndexablesEnabled }
 								isSeoAnalysisEnabled={ isSeoAnalysisEnabled }
@@ -134,8 +133,8 @@ const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnaly
 				</WidgetTable.Row>
 			) ) }
 		</WidgetTable.Body>
-	</WidgetTable>;
-};
+	</WidgetTable>
+);
 
 /**
  * @param {import("../services/data-formatter")} dataFormatter The data formatter.
@@ -152,6 +151,39 @@ export const createTopPageFormatter = ( dataFormatter ) => ( data = [] ) => data
 } ) );
 
 /**
+ * The content of the top pages widget.
+ *
+ * @param {TopPageData[]} data The data.
+ * @param {boolean} isPending Whether the data is pending.
+ * @param {number} limit The limit.
+ * @param {Error} error The error.
+ * @param {import("../services/data-provider")} dataProvider The data provider.
+ *
+ * @returns {JSX.Element} The element.
+ */
+const TopPagesWidgetContent = ( { data, isPending, limit, error, dataProvider } ) => {
+	if ( isPending ) {
+		return (
+			<TopPagesTable>
+				{ Array.from( { length: limit }, ( _, index ) => (
+					<TopPagesSkeletonLoaderRow key={ `top-pages-table--row__${ index }` } index={ index } />
+				) ) }
+			</TopPagesTable>
+		);
+	}
+
+	if ( error ) {
+		return <ErrorAlert error={ error } supportLink={ dataProvider.getLink( "errorSupport" ) } className="yst-mt-4" />;
+	}
+
+	if ( data.length === 0 ) {
+		return <p className="yst-mt-4">{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }</p>;
+	}
+
+	return <TopPagesTable data={ data } isIndexablesEnabled={ dataProvider.hasFeature( "indexables" ) } isSeoAnalysisEnabled={ dataProvider.hasFeature( "seoAnalysis" ) } />;
+};
+
+/**
  * @param {import("../services/data-provider")} dataProvider The data provider.
  * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
  * @param {import("../services/data-formatter")} dataFormatter The data formatter.
@@ -166,14 +198,11 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 	const getTopPages = useCallback( ( options ) => {
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ limit: limit.toString( 10 ), options: { widget: "page" }  },
+			{ limit: limit.toString( 10 ), options: { widget: "page" } },
 			options );
 	}, [ dataProvider, limit ] );
 
 	const infoLink = dataProvider.getLink( "topPagesInfoLearnMore" );
-
-	const isIndexablesEnabled = dataProvider.hasFeature( "indexables" );
-	const isSeoAnalysisEnabled = dataProvider.hasFeature( "seoAnalysis" );
 
 	/**
 	 * @type {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
@@ -182,35 +211,21 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 
 	const { data, error, isPending } = useRemoteData( getTopPages, formatTopPages );
 
-	const renderContent = () => {
-		if ( isPending ) {
-			return (
-				<TopPagesTable>
-					{ Array.from( { length: limit }, ( _, index ) => (
-						<TopPagesSkeletonLoaderRow key={ `top-pages-table--row__${ index }` } index={ index } />
-					) ) }
-				</TopPagesTable>
-			);
-		}
-
-		if ( error ) {
-			return <Alert variant="error" className="yst-mt-4">{ error.message }</Alert>;
-		}
-
-		if ( data.length === 0 ) {
-			return <p className="yst-mt-4">{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }</p>;
-		}
-
-		return <TopPagesTable data={ data } isIndexablesEnabled={ isIndexablesEnabled } isSeoAnalysisEnabled={ isSeoAnalysisEnabled } />;
-	};
-
-	return <Widget className="yst-paper__content yst-col-span-4">
-		<div className="yst-flex yst-justify-between">
-			<WidgetTitle>{ TITLE }</WidgetTitle>
-			<InfoTooltip>
-				<Info url={ infoLink } />
-			</InfoTooltip>
-		</div>
-		{ renderContent() }
+	return <Widget
+		className="yst-paper__content yst-col-span-4"
+		title={ __( "Top 5 most popular content", "wordpress-seo" ) }
+		tooltip={ __(
+			"The top 5 URLs on your website with the highest number of clicks.",
+			"wordpress-seo"
+		) }
+		tooltipLearnMoreLink={ infoLink }
+	>
+		<TopPagesWidgetContent
+			data={ data }
+			isPending={ isPending }
+			limit={ limit }
+			error={ error }
+			dataProvider={ dataProvider }
+		/>
 	</Widget>;
 };

@@ -67,12 +67,7 @@ const ConnectToWincherWrapper = styled.p`
  */
 const viewLinkUrl = ( props ) => {
 	const { websiteId, id } = props;
-
-	return sprintf(
-		"https://app.wincher.com/websites/%s/keywords?serp=%s&utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
-		websiteId,
-		id
-	);
+	return `https://app.wincher.com/websites/${websiteId}/keywords?serp=${id}&utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast`;
 };
 
 /**
@@ -190,11 +185,9 @@ const WincherNetworkErrorAlert = () => {
 	return (
 		<Alert type="error" className={ "wincher-performance-report-alert" }>
 			{
-				sprintf(
-					__(
-						"Network Error: Unable to connect to the server. Please check your internet connection and try again later.",
-						"wordpress-seo"
-					)
+				__(
+					"Network Error: Unable to connect to the server. Please check your internet connection and try again later.",
+					"wordpress-seo"
 				)
 			}
 		</Alert>

@@ -217,7 +217,7 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 				className="yst-flex-none yst-w-5 yst-h-5 yst-me-3 yst-text-slate-400"
 				{ ...ariaSvgProps }
 			/>
-			<span className="yst-overflow-hidden yst-whitespace-nowrap yst-text-ellipsis">{ query || __( "Quick search...", "wordpress-seo" ) }</span>
+			<span className="yst-overflow-hidden yst-whitespace-nowrap yst-text-ellipsis">{ query || __( "Quick search…", "wordpress-seo" ) }</span>
 			{ platform?.type === "desktop" && (
 				<span className="yst-ms-auto yst-flex-none yst-text-xs yst-font-semibold yst-text-slate-400">
 					{ os?.name === "macOS" ? __( "⌘K", "wordpress-seo" ) : __( "CtrlK", "wordpress-seo" ) }
@@ -245,7 +245,7 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 						<Combobox.Input
 							ref={ inputRef }
 							id="input-search"
-							placeholder={ __( "Search...", "wordpress-seo" ) }
+							placeholder={ __( "Search…", "wordpress-seo" ) }
 							aria-label={ __( "Search", "wordpress-seo" ) }
 							value={ query }
 							onChange={ handleQueryChange }

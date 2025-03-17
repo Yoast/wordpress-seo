@@ -1,6 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { fetchJson } from "../../../../src/dashboard/fetch/fetch-json";
-import { TimeoutError } from "../../../../src/dashboard/fetch/timeout-error";
 import { Scores } from "../../../../src/dashboard/scores/components/scores";
 import { DataProvider } from "../../../../src/dashboard/services/data-provider";
 import { RemoteDataProvider } from "../../../../src/dashboard/services/remote-data-provider";
@@ -26,11 +25,14 @@ describe( "Scores", () => {
 
 	beforeAll( () => {
 		fetchJson.mockImplementation( ( url ) => {
+			const error = new Error( "An error" );
 			switch ( url.pathname ) {
 				case "/error":
 					return Promise.reject( new Error( "An error" ) );
 				case "/timeout":
-					return Promise.reject( new TimeoutError( "A timeout error" ) );
+					error.name = "TimeoutError";
+					error.status = 408;
+					return Promise.reject( error );
 				case "/categories":
 					if ( url.searchParams.get( "search" ) === "nothing" ) {
 						return Promise.resolve( [] );
@@ -120,7 +122,7 @@ describe( "Scores", () => {
 
 		// Verify the error is present.
 		expect( getByRole( "status" ) )
-			.toHaveTextContent( "Something went wrong. In case you need further help, please take a look at our Support page." );
+			.toHaveTextContent( "Something went wrong. Try refreshing the page. If the problem persists, please check our Support page." );
 
 		// Verify a link to the support page is present.
 		expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "admin.php?page=wpseo_page_support" );
@@ -144,7 +146,7 @@ describe( "Scores", () => {
 
 		// Verify the error is present.
 		expect( getByRole( "status" ) )
-			.toHaveTextContent( "A timeout occurred, possibly due to a large number of posts or terms. In case you need further help, please take a look at our Support page." );
+			.toHaveTextContent( "The request timed out. Try refreshing the page. If the problem persists, please check our Support page." );
 
 		// Verify a link to the support page is present.
 		expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "admin.php?page=wpseo_page_support" );

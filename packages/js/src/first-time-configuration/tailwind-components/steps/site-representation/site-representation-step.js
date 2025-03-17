@@ -78,7 +78,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				state.shouldForceCompany
 					? richResultsMessage
 					: <Fragment>
-						{ __( "Tell us! Is your site about an organization or a person? ", "wordpress-seo" ) }
+						{ __( "Tell us! Is your site about an organization or a person?", "wordpress-seo" ) }
 						{ richResultsMessage }
 					</Fragment>
 			}

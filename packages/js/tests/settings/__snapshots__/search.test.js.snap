@@ -75,7 +75,7 @@ exports[`Search modal should open 1`] = `
               class="yst-h-12 yst-w-full yst-border-0 yst-rounded-lg sm:yst-text-sm yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-500 focus:yst-outline-none focus:yst-ring-inset focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-border-primary-500"
               data-headlessui-state=""
               id="input-search"
-              placeholder="Search..."
+              placeholder="Search…"
               role="combobox"
               type="text"
               value=""
@@ -193,7 +193,7 @@ exports[`Search should have a search button 1`] = `
   <span
     class="yst-overflow-hidden yst-whitespace-nowrap yst-text-ellipsis"
   >
-    Quick search...
+    Quick search…
   </span>
   <span
     class="yst-ms-auto yst-flex-none yst-text-xs yst-font-semibold yst-text-slate-400"

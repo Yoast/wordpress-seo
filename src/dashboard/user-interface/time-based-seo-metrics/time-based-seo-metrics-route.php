@@ -11,7 +11,9 @@ use WPSEO_Capability_Utils;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Page_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Query_Repository;
+use Yoast\WP\SEO\Dashboard\Application\Traffic\Organic_Sessions_Repository;
 use Yoast\WP\SEO\Dashboard\Domain\Time_Based_SEO_Metrics\Repository_Not_Found_Exception;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Analytics_4_Parameters;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -22,7 +24,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 
 	/**
-	 * The namespace of the rout.
+	 * The namespace of the route.
 	 *
 	 * @var string
 	 */
@@ -50,6 +52,13 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	private $top_query_repository;
 
 	/**
+	 * The data provider for organic session traffic.
+	 *
+	 * @var Organic_Sessions_Repository $organic_sessions_repository
+	 */
+	private $organic_sessions_repository;
+
+	/**
 	 * Returns the needed conditionals.
 	 *
 	 * @return array<string> The conditionals that must be met to load this.
@@ -61,15 +70,18 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Top_Page_Repository  $top_page_repository  The data provider for page based search rankings.
-	 * @param Top_Query_Repository $top_query_repository The data provider for query based search rankings.
+	 * @param Top_Page_Repository         $top_page_repository         The data provider for page based search rankings.
+	 * @param Top_Query_Repository        $top_query_repository        The data provider for query based search rankings.
+	 * @param Organic_Sessions_Repository $organic_sessions_repository The data provider for organic session traffic.
 	 */
 	public function __construct(
 		Top_Page_Repository $top_page_repository,
-		Top_Query_Repository $top_query_repository
+		Top_Query_Repository $top_query_repository,
+		Organic_Sessions_Repository $organic_sessions_repository
 	) {
-		$this->top_page_repository  = $top_page_repository;
-		$this->top_query_repository = $top_query_repository;
+		$this->top_page_repository         = $top_page_repository;
+		$this->top_query_repository        = $top_query_repository;
+		$this->organic_sessions_repository = $organic_sessions_repository;
 	}
 
 	/**
@@ -88,7 +100,6 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 					'permission_callback' => [ $this, 'permission_manage_options' ],
 					'args'                => [
 						'limit'   => [
-							'required'          => true,
 							'type'              => 'int',
 							'sanitize_callback' => static function ( $param ) {
 								return \intval( $param );
@@ -123,23 +134,62 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	 */
 	public function get_time_based_seo_metrics( WP_REST_Request $request ): WP_REST_Response {
 		try {
-			$request_parameters = new Search_Console_Parameters();
-			$request_parameters->set_limit( $request->get_param( 'limit' ) );
 			$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
 			$date->modify( '-28 days' );
+			$start_date = $date->format( 'Y-m-d' );
 
-			$request_parameters->set_start_date( $date->format( 'Y-m-d' ) );
-			$request_parameters->set_end_date( ( new DateTime( 'now', new DateTimeZone( 'UTC' ) ) )->format( 'Y-m-d' ) );
+			$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+			$date->modify( '-1 days' );
+			$end_date = $date->format( 'Y-m-d' );
 
 			$widget_name = $request->get_param( 'options' )['widget'];
 			switch ( $widget_name ) {
 				case 'query':
+					$request_parameters = new Search_Console_Parameters();
+					$request_parameters->set_limit( $request->get_param( 'limit' ) );
 					$request_parameters->set_dimensions( [ 'query' ] );
+					$request_parameters->set_start_date( $start_date );
+					$request_parameters->set_end_date( $end_date );
+
 					$time_based_seo_metrics_container = $this->top_query_repository->get_data( $request_parameters );
 					break;
 				case 'page':
+					$request_parameters = new Search_Console_Parameters();
+					$request_parameters->set_limit( $request->get_param( 'limit' ) );
 					$request_parameters->set_dimensions( [ 'page' ] );
+					$request_parameters->set_start_date( $start_date );
+					$request_parameters->set_end_date( $end_date );
+
 					$time_based_seo_metrics_container = $this->top_page_repository->get_data( $request_parameters );
+					break;
+				case 'οrganicSessionsDaily':
+					$request_parameters = new Analytics_4_Parameters();
+					$request_parameters->set_dimensions( [ 'date' ] );
+					$request_parameters->set_metrics( [ 'sessions' ] );
+					$request_parameters->set_start_date( $start_date );
+					$request_parameters->set_end_date( $end_date );
+					$request_parameters->set_dimension_filters( [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ] );
+					$request_parameters->set_order_by( 'dimension', 'date' );
+
+					$time_based_seo_metrics_container = $this->organic_sessions_repository->get_data( $request_parameters );
+					break;
+				case 'οrganicSessionsChange':
+					$request_parameters = new Analytics_4_Parameters();
+					$request_parameters->set_metrics( [ 'sessions' ] );
+					$request_parameters->set_start_date( $start_date );
+					$request_parameters->set_end_date( $end_date );
+					$request_parameters->set_dimension_filters( [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ] );
+
+					$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+					$date->modify( '-29 days' );
+					$compare_end_date = $date->format( 'Y-m-d' );
+
+					$date->modify( '-27 days' );
+					$compare_start_date = $date->format( 'Y-m-d' );
+					$request_parameters->set_compare_start_date( $compare_start_date );
+					$request_parameters->set_compare_end_date( $compare_end_date );
+
+					$time_based_seo_metrics_container = $this->organic_sessions_repository->get_data( $request_parameters );
 					break;
 				default:
 					throw new Repository_Not_Found_Exception();

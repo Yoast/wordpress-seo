@@ -105,7 +105,7 @@ export default function YoastComboBox( { id, value, label, onChange, onQueryChan
 						</Combobox.Button>
 						{ ( filteredOptions.length > 0 ) && (
 							<Combobox.Options className="yst-absolute yst-z-10 yst-mt-1 yst-max-h-60 yst-w-full yst-overflow-auto yst-rounded-md yst-bg-white yst-text-base yst-shadow-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm">
-								{ isLoading && <div className="yst-flex yst-bg-white yst-sticky yst-z-20 yst-text-sm yst-italic yst-top-0 yst-py-2 yst-ps-3 yst-pe-9 yst-my-0"><Spinner className="yst-text-primary-500 yst-h-4 yst-w-4 yst-me-2 yst-self-center" />{ __( "Loading...", "wordpress-seo" ) }</div> }
+								{ isLoading && <div className="yst-flex yst-bg-white yst-sticky yst-z-20 yst-text-sm yst-italic yst-top-0 yst-py-2 yst-ps-3 yst-pe-9 yst-my-0"><Spinner className="yst-text-primary-500 yst-h-4 yst-w-4 yst-me-2 yst-self-center" />{ __( "Loading…", "wordpress-seo" ) }</div> }
 								{ filteredOptions.map( ( option ) => (
 									<Combobox.Option
 										key={ `yst-option-${ option.value }` }

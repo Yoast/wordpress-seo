@@ -424,6 +424,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		if ( suggestions.length ) {
 			this.debouncedA11ySpeak(
 				sprintf(
+					/* translators: %d expands to the number of results found. */
 					_n(
 						"%d result found, use up and down arrow keys to navigate",
 						"%d results found, use up and down arrow keys to navigate",

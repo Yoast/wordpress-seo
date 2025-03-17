@@ -1,4 +1,7 @@
 import globals from "globals";
+import { fixupConfigRules } from "@eslint/compat";
+// eslint-disable-next-line import/namespace -- We need to import the entire module to get the `FlatCompat` class.
+import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import reactPlugin from "eslint-plugin-react";
 import jsxA11YPlugin from "eslint-plugin-jsx-a11y";
@@ -7,10 +10,13 @@ import nodePlugin from "eslint-plugin-n";
 import importPlugin from "eslint-plugin-import";
 import stylisticPlugin from "@stylistic/eslint-plugin";
 
+const i18nRules = new FlatCompat().extends( "plugin:@wordpress/eslint-plugin/i18n" );
+
 /** @type {import('eslint').Linter.Config[]} */
 export default [
 	js.configs.recommended,
 	importPlugin.flatConfigs.recommended,
+	...fixupConfigRules( i18nRules ),
 	{
 		name: "yoast/recommended",
 		plugins: {

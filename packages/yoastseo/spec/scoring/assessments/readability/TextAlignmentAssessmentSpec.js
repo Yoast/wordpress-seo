@@ -275,6 +275,7 @@ describe( "tests for retrieving the feedback strings.", function() {
 		 */
 		const getResultTexts = ( { urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag, numberOfLongCenterAlignedTexts } ) => {
 			return {
+				// eslint-disable-next-line @wordpress/valid-sprintf -- The plural uses one extra argument.
 				rightToLeft: sprintf(
 					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 					%4$s expands to the number of the long center-aligned sections in the text */
@@ -282,13 +283,14 @@ describe( "tests for retrieving the feedback strings.", function() {
 						"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it right-aligned%3$s.",
 						"%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. %2$sWe recommend making them right-aligned%3$s.",
 						numberOfLongCenterAlignedTexts,
-						"wordpress-seo-premium"
+						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					urlActionAnchorOpeningTag,
 					"</a>",
 					numberOfLongCenterAlignedTexts
 				),
+				// eslint-disable-next-line @wordpress/valid-sprintf -- The plural uses one extra argument.
 				leftToRight: sprintf(
 					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 						%4$s expands to the number of the long center-aligned sections in the text */
@@ -296,7 +298,7 @@ describe( "tests for retrieving the feedback strings.", function() {
 						"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it left-aligned%3$s.",
 						"%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. %2$sWe recommend making them left-aligned%3$s.",
 						numberOfLongCenterAlignedTexts,
-						"wordpress-seo-premium"
+						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					urlActionAnchorOpeningTag,

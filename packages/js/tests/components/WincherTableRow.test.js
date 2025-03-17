@@ -43,7 +43,7 @@ describe( "WincherTableRow", () => {
 		const rows = screen.getAllByRole( "cell" );
 		expect( rows.length ).toBe( 4 );
 		expect( rows[ 1 ].textContent ).toContain( "woocommerce seo" );
-		const loadingText = screen.getByText( "Tracking the ranking position..." );
+		const loadingText = screen.getByText( "Tracking the ranking position…" );
 		expect( loadingText ).toBeInTheDocument();
 	} );
 

@@ -33,7 +33,7 @@ describe( "TopPagesWidget", () => {
 		remoteDataProvider.fetchJson.mockClear();
 	} );
 
-	it( "should render the TopPagesWidget component", async() => {
+	it( "should render the component", async() => {
 		remoteDataProvider.fetchJson.mockResolvedValue( data );
 		const { getByRole, getByText, getAllByRole } = render( <TopPagesWidget
 			dataProvider={ dataProvider }
@@ -62,7 +62,7 @@ describe( "TopPagesWidget", () => {
 				expect( editButtons[ index ] ).toHaveAttribute( "href", links.edit );
 				expect( editButtons[ index ] ).toHaveAttribute( "aria-disabled", "false" );
 			} else {
-				expect( getByText( "Not editable" ) ).toBeInTheDocument();
+				expect( getByText( "Disabled" ) ).toBeInTheDocument();
 				expect( editButtons[ index ] ).not.toHaveAttribute( "href" );
 				expect( editButtons[ index ] ).toHaveAttribute( "disabled" );
 				expect( editButtons[ index ] ).toHaveAttribute( "aria-disabled", "true" );
@@ -70,7 +70,7 @@ describe( "TopPagesWidget", () => {
 		} );
 	} );
 
-	it( "should render the TopPagesWidget component without data", async() => {
+	it( "should render without data", async() => {
 		remoteDataProvider.fetchJson.mockResolvedValue( [] );
 		const { getByText } = render( <TopPagesWidget
 			dataProvider={ dataProvider }
@@ -81,20 +81,6 @@ describe( "TopPagesWidget", () => {
 		// Verify no data message is present.
 		await waitFor( () => {
 			expect( getByText( "No data to display: Your site hasn't received any visitors yet." ) ).toBeInTheDocument();
-		} );
-	} );
-
-	it( "should render the TopPagesWidget component with an error", async() => {
-		const message = "An error occurred.";
-		remoteDataProvider.fetchJson.mockRejectedValue( new Error( message ) );
-		const { getByText } = render( <TopPagesWidget
-			dataProvider={ dataProvider }
-			remoteDataProvider={ remoteDataProvider }
-			dataFormatter={ dataFormatter }
-		/> );
-
-		await waitFor( () => {
-			expect( getByText( message ) ).toBeInTheDocument();
 		} );
 	} );
 
@@ -118,7 +104,7 @@ describe( "TopPagesWidget", () => {
 		expect( container.getElementsByClassName( "yst-skeleton-loader" ).length ).toBe( 7 );
 	} );
 
-	it( "when the data provider has indexables disabled, should render the TopPagesWidget component with disabled tooltip", async() => {
+	it( "should render one tooltip and screen reader text for scores, when the data provider has indexables disabled", async() => {
 		remoteDataProvider.fetchJson.mockResolvedValue( data );
 		dataProvider = new MockDataProvider( {
 			features: {
@@ -135,12 +121,12 @@ describe( "TopPagesWidget", () => {
 		// Verify the disabled score message is present.
 		await waitFor( () => {
 			const tooltip = getAllByText( "We can’t analyze your content, because you’re in a non-production environment." );
-			const screenReaderLabels = getAllByText( "Indexables are disabled" );
-			expect( tooltip ).toHaveLength( 5 );
+			const screenReaderLabels = getAllByText( "Disabled" );
+			expect( tooltip ).toHaveLength( 1 );
 			expect( screenReaderLabels ).toHaveLength( 5 );
 		} );
 	} );
-	it( "when the data provider has SEO analysis disabled, should render the TopPagesWidget component with disabled tooltip", async() => {
+	it( "should render one tooltip and screen reader text for scores, when the data provider has SEO analysis disabled", async() => {
 		remoteDataProvider.fetchJson.mockResolvedValue( data );
 		dataProvider = new MockDataProvider( {
 			features: {
@@ -157,9 +143,65 @@ describe( "TopPagesWidget", () => {
 		// Verify the disabled score message is present.
 		await waitFor( () => {
 			const tooltip = getAllByText( "We can’t provide SEO scores, because the SEO analysis is disabled for your site." );
-			const screenReaderLabels = getAllByText( "SEO analysis is disabled" );
-			expect( tooltip ).toHaveLength( 5 );
+			const screenReaderLabels = getAllByText( "Disabled" );
+			expect( tooltip ).toHaveLength( 1 );
 			expect( screenReaderLabels ).toHaveLength( 5 );
+		} );
+	} );
+
+	it( "should render the TopPagesWidget component with an general error state", async() => {
+		// Mock the fetchJson method to throw an error.
+		const error = new Error( "Network Error" );
+		error.status = 500;
+		remoteDataProvider.fetchJson.mockRejectedValue( error );
+
+		const { getByRole } = render( <TopPagesWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
+		/> );
+
+		await waitFor( () => {
+			expect( getByRole( "status" ) )
+				.toHaveTextContent( "Something went wrong. Try refreshing the page. If the problem persists, please check our Support page." );
+			expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "https://example.com/error-support" );
+		} );
+	} );
+
+	it( "should render the TopPagesWidget component with an time out error state", async() => {
+		// Mock the fetchJson method to throw an error.
+		const error = new Error( "TimeoutError" );
+		error.status = 408;
+		remoteDataProvider.fetchJson.mockRejectedValue( error );
+
+		const { getByRole } = render( <TopPagesWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
+		/> );
+
+		await waitFor( () => {
+			expect( getByRole( "status" ) )
+				.toHaveTextContent( "The request timed out. Try refreshing the page. If the problem persists, please check our Support page." );
+			expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "https://example.com/error-support" );
+		} );
+	} );
+
+	it( "should render the TopPagesWidget component with an no permission error state", async() => {
+		const error = new Error( "NoPermissionError" );
+		error.status = 403;
+		remoteDataProvider.fetchJson.mockRejectedValue( error );
+
+		const { getByRole } = render( <TopPagesWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
+		/> );
+
+		await waitFor( () => {
+			expect( getByRole( "status" ) )
+				.toHaveTextContent( "You don’t have permission to access this resource. Please contact your admin for access. In case you need further help, please check our Support page." );
+			expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "https://example.com/error-support" );
 		} );
 	} );
 } );

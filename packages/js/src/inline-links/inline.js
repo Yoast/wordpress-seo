@@ -277,6 +277,7 @@ function InlineLinkUI( {
 
 	const noFollowLabel = createInterpolateElement(
 		sprintf(
+			// translators: %1$s and %2$s are opening and closing code tags, %3$s is a help link.
 			__( "Search engines should ignore this link (mark as %1$snofollow%2$s)%3$s", "wordpress-seo" ),
 			"<code>",
 			"</code>",
@@ -290,6 +291,7 @@ function InlineLinkUI( {
 
 	const sponsoredLabel = createInterpolateElement(
 		sprintf(
+			// translators: %1$s and %2$s are opening and closing code tags, %3$s is a help link.
 			__( "This is a sponsored link or advert (mark as %1$ssponsored%2$s)%3$s", "wordpress-seo" ),
 			"<code>",
 			"</code>",

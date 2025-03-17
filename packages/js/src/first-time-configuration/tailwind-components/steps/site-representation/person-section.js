@@ -47,18 +47,22 @@ export function PersonSection( { dispatch, imageUrl, fallbackImageUrl, person, c
 		[ dispatch ]
 	);
 
+	// translators: %1$s is replaced by the selected user's name, and %2$s and %3$s are opening and closing anchor tags.
+	const canEditMessage = __(
+		"You have selected the user %1$s as the person this site represents. This user profile information will now be used in search results. %2$sUpdate this profile to make sure the information is correct%3$s.",
+		"wordpress-seo"
+	);
+
+	// translators: %1$s is replaced by the selected user's name, and %2$s and %3$s are opening and closing anchor tags.
+	const noEditMessage = __(
+		"You have selected the user %1$s as the person this site represents. This user profile information will now be used in search results. You're not allowed to update this user profile, so please ask this user or an admin to make sure the information is correct.",
+		"wordpress-seo"
+	);
+
 	const userMessage = useMemo( () => createInterpolateElement(
+		// eslint-disable-next-line @wordpress/valid-sprintf -- Variables are declared above.
 		sprintf(
-			// translators: %1$s is replaced by the selected user's name, and %2$s and %3$s are opening and closing anchor tags.
-			canEditUser
-				? __(
-					"You have selected the user %1$s as the person this site represents. This user profile information will now be used in search results. %2$sUpdate this profile to make sure the information is correct%3$s.",
-					"wordpress-seo"
-				)
-				: __(
-					"You have selected the user %1$s as the person this site represents. This user profile information will now be used in search results. You're not allowed to update this user profile, so please ask this user or an admin to make sure the information is correct.",
-					"wordpress-seo"
-				),
+			canEditUser ? canEditMessage : noEditMessage,
 			`<b>${ person.name }</b>`,
 			"<a>",
 			"</a>"

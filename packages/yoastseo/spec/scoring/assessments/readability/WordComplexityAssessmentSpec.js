@@ -239,7 +239,7 @@ describe( "tests for retrieving the feedback strings.", function() {
 							 %3$s expand to a link on yoast.com, %4$s expands to the anchor end tag. */
 					__(
 						"%1$sWord complexity%4$s: %2$s of the words in your text are considered complex. %3$sTry to use shorter and more familiar words to improve readability%4$s.",
-						"wordpress-seo-premium"
+						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					complexWordsPercentage + "%",
@@ -250,7 +250,7 @@ describe( "tests for retrieving the feedback strings.", function() {
 					/* translators: %1$s expands to an article on yoast.com and %4$s expands to the anchor end tag. */
 					__(
 						"%1$sWord complexity%2$s: You are not using too many complex words, which makes your text easy to read. Good job!",
-						"wordpress-seo-premium"
+						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					"</a>"

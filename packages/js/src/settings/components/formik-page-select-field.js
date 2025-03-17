@@ -116,7 +116,7 @@ const FormikPageSelectField = ( { name, id, ...props } ) => {
 									<DocumentAddIcon
 										className="yst-w-5 yst-h-5 yst-text-slate-400 group-hover:yst-text-white"
 									/>
-									<span>{ __( "Add new page...", "wordpress-seo" ) }</span>
+									<span>{ __( "Add new page…", "wordpress-seo" ) }</span>
 								</a>
 							</li>
 						) }
@@ -125,7 +125,7 @@ const FormikPageSelectField = ( { name, id, ...props } ) => {
 				{ status === ASYNC_ACTION_STATUS.loading && (
 					<PageSelectOptionsContent>
 						<Spinner variant="primary" />
-						{ __( "Searching pages...", "wordpress-seo" ) }
+						{ __( "Searching pages…", "wordpress-seo" ) }
 					</PageSelectOptionsContent>
 				) }
 				{ status === ASYNC_ACTION_STATUS.error && (

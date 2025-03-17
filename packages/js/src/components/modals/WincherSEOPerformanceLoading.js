@@ -12,7 +12,7 @@ import { SvgIcon } from "@yoast/components";
 const WincherSEOPerformanceLoading = () => {
 	return (
 		<p className="yoast-wincher-seo-performance-modal__loading-message">
-			{ __( "Tracking the ranking position...", "wordpress-seo" )	}
+			{ __( "Tracking the ranking position…", "wordpress-seo" )	}
 			&nbsp;
 			<SvgIcon icon="loading-spinner" />
 		</p>

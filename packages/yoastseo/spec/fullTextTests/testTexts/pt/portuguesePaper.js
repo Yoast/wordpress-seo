@@ -109,7 +109,7 @@ const expectedResults = {
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: 3 sections of your text are longer than 300 words" +
+		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: 3 sections of your text are longer than the recommended number of words (300)" +
 			" and are not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>.",
 	},
 	textParagraphTooLong: {
