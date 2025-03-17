@@ -28,7 +28,7 @@ const slice = createSlice( {
 /**
  * @param {function(RequestInit): any} doFetch The fetch function.
  * @param {function(any): any} prepareData Process data.
- * @returns {{data: any, error: Error, isPending: boolean}} The data state.
+ * @returns {{data?: any, error?: Error, isPending: boolean}} The data state.
  */
 export const useRemoteData = ( doFetch, prepareData = identity ) => {
 	const [ state, dispatch ] = useReducer( slice.reducer, {}, slice.getInitialState );

@@ -1,9 +1,8 @@
-import { useCallback, useMemo } from "@wordpress/element";
+import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { useRemoteData } from "../services/use-remote-data";
-import { Widget } from "./widget";
-import { getDifference } from "../transformers/difference";
 import { SearchRankingCompareWidgetContent } from "./search-ranking-compare/search-ranking-compare-widget-content";
+import { Widget } from "./widget";
+
 /**
  * @typedef { "current"|"previous" } TimeFrame The time frame for the raw metric data.
  */
@@ -54,93 +53,31 @@ import { SearchRankingCompareWidgetContent } from "./search-ranking-compare/sear
  */
 
 /**
- * @param {TimeBasedData[]} rawData The raw data coming from the API call.
- * @returns {?SearchRankingCompareData} The transformed data.
- */
-const transformData = ( rawData ) => {
-	if ( rawData.length === 0 ) {
-		return null;
-	}
-
-	const data = {
-		impressions: {
-			value: rawData[ 0 ].current.total_impressions,
-			delta: getDifference( rawData[ 0 ].current.total_impressions, rawData[ 0 ].previous.total_impressions ),
-		},
-		clicks: {
-			value: rawData[ 0 ].current.total_clicks,
-			delta: getDifference( rawData[ 0 ].current.total_clicks, rawData[ 0 ].previous.total_clicks ),
-		},
-		ctr: null,
-		position: null,
-	};
-
-	if (  rawData[ 0 ].current.average_ctr ) {
-		data.ctr = {
-			value: rawData[ 0 ].current.average_ctr,
-			delta: getDifference( rawData[ 0 ].current.average_ctr, rawData[ 0 ].previous.average_ctr ),
-		};
-	}
-
-	if ( rawData[ 0 ].current.average_position ) {
-		data.position = {
-			value: rawData[ 0 ].current.average_position,
-			delta: getDifference( rawData[ 0 ].current.average_position, rawData[ 0 ].previous.average_position ),
-		};
-	}
-	return data;
-};
-
-/**
- * @param {import("../services/comparison-metrics-data-formatter")} dataFormatter The data formatter.
- * @returns {function(?SearchRankingCompareData): ?FormattedSearchRankingCompareData} Function to format the widget data.
- */
-export const createDataFormatter = ( dataFormatter ) => ( data ) => {
-	if ( data === null ) {
-		return null;
-	}
-	return {
-		impressions: dataFormatter.format( data.impressions, "impressions" ),
-		clicks: dataFormatter.format( data.clicks, "clicks" ),
-		ctr: dataFormatter.format( data.ctr, "ctr" ),
-		position: dataFormatter.format( data.position, "position" ),
-	};
-};
-
-/**
+ * Wraps the search ranking compare into a widget.
+ * This contains minimal logic, in order to keep the error boundary more likely to catch errors.
+ *
  * @param {import("../services/data-provider")} dataProvider The data provider.
  * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
  * @param {import("../services/comparison-metrics-data-formatter")} dataFormatter The data formatter.
+ *
  * @returns {JSX.Element} The element.
  */
 export const SearchRankingCompareWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
-	/**
-	 * @param {RequestInit} options The options.
-	 * @returns {Promise<TimeBasedData[]|Error>} The promise of IcsaData or an Error.
-	 */
-	const getData = useCallback( ( options ) => {
-		return remoteDataProvider.fetchJson(
-			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ options: { widget: "searchRankingCompare" } },
-			options );
-	}, [ dataProvider ] );
-
-	/**
-	 * @type {function(?TimeBasedData[]): FormattedSearchRankingCompareData} Function to format the widget data.
-	 * */
-	const formatData  = useMemo( () => ( rawData ) => createDataFormatter( dataFormatter )( transformData( rawData ) ), [ dataFormatter ] );
-	const { data, error, isPending } = useRemoteData( getData, formatData  );
+	// Keep track of the title visibility. As it should only show when there is an error or no data (after loading is done).
+	// However, we want to have all the fetching logic inside the content for the error boundary.
+	// We could just render the with title state here, but that seems more complex than this approach.
+	const [ showTitle, setShowTitle ] = useState( false );
 
 	return <Widget
 		className="yst-paper__content yst-col-span-4"
-		title={ ( ! isPending && ( error || data === null ) ) && __( "Impressions, Clicks, Site CTR, Average position", "wordpress-seo" ) }
+		title={ showTitle && __( "Impressions, Clicks, Site CTR, Average position", "wordpress-seo" ) }
 		errorSupportLink={ dataProvider.getLink( "errorSupport" ) }
 	>
 		<SearchRankingCompareWidgetContent
-			data={ data }
-			error={ error }
-			isPending={ isPending }
 			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
+			setShowTitle={ setShowTitle }
 		/>
 	</Widget>;
 };
