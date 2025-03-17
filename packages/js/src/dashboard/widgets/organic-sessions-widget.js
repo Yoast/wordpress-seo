@@ -9,13 +9,13 @@ import { Widget } from "./widget";
 /**
  * @type {import("../services/data-provider")} DataProvider
  * @type {import("../services/remote-data-provider")} RemoteDataProvider
- * @type {import("../services/comparison-metrics-data-formatter")} DataFormatter
+ * @type {import("../services/data-formatter-interface")} DataFormatterInterface
  */
 
 /**
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @param {DataFormatter} dataFormatter The data formatter.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @returns {JSX.Element} The element.
  */
 export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
