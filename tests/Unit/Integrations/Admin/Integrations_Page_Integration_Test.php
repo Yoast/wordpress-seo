@@ -179,6 +179,10 @@ final class Integrations_Page_Integration_Test extends TestCase {
 			'activateUrl'              => 'example.com',
 			'setupUrl'                 => 'example.com',
 			'isConfigurationDismissed' => false,
+			'capabilities'             => [
+				'installPlugins'        => true,
+				'viewSearchConsoleData' => true,
+			],
 		];
 		$this->site_kit_configuration->expects( 'to_array' )->andReturn( $site_kit_config );
 		$this->site_kit_consent_management_endpoint->expects( 'get_url' )

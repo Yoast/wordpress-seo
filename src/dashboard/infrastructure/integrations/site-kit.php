@@ -118,6 +118,27 @@ class Site_Kit {
 	}
 
 	/**
+	 * Checks is current user can view dashboard data, which can the owner who set it up,
+	 * or user with one of the shared roles.
+	 *
+	 * @param string $key The key of the data.
+	 * @return bool If the user can read the data.
+	 */
+	private function can_read_data( $key ) {
+		$current_user = \wp_get_current_user();
+		// Check if the current user has one of the shared roles.
+		$dashboard_sharing  = \get_option( 'googlesitekit_dashboard_sharing' );
+		$shared_roles       = isset( $dashboard_sharing[ $key ] ) ? $dashboard_sharing[ $key ]['sharedRoles'] : [];
+		$has_viewing_rights = \array_intersect( $current_user->roles, $shared_roles );
+
+		// Check if the current user is the owner.
+		$site_kit_settings = \get_option( 'googlesitekit_' . $key . '_settings' );
+		$is_owner          = ( $site_kit_settings['ownerID'] ?? '' ) === $current_user->ID;
+
+		return $is_owner || $has_viewing_rights;
+	}
+
+	/**
 	 * Return this object represented by a key value array.
 	 *
 	 * @return array<string,bool> Returns the name and if the feature is enabled.
@@ -140,16 +161,23 @@ class Site_Kit {
 		$site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
 
 		return [
-			'isInstalled'              => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
-			'isActive'                 => $this->is_enabled(),
-			'isSetupCompleted'         => $this->is_setup_completed(),
-			'isConnected'              => $this->is_connected(),
-			'isAnalyticsConnected'     => $this->is_ga_connected(),
-			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'installUrl'               => $site_kit_install_url,
 			'activateUrl'              => $site_kit_activate_url,
 			'setupUrl'                 => $site_kit_setup_url,
+			'isAnalyticsConnected'     => $this->is_ga_connected(),
+			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'isConfigurationDismissed' => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
+			'capabilities'             => [
+				'installPlugins'        => \current_user_can( 'install_plugins' ),
+				'viewSearchConsoleData' => $this->can_read_data( 'search-console' ),
+				'viewAnalyticsData'     => $this->can_read_data( 'analytics-4' ),
+			],
+			'connectionStepsStatuses'  => [
+				'isInstalled'      => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
+				'isActive'         => $this->is_enabled(),
+				'isSetupCompleted' => $this->is_setup_completed(),
+				'isConsentGranted' => $this->is_connected(),
+			],
 		];
 	}
 

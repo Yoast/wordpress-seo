@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ce077c0a8093fbafe06749678422c4c",
+    "content-hash": "957a81cfc64a13b39a64a092f542b631",
     "packages": [
         {
             "name": "composer/installers",
@@ -4654,6 +4654,25 @@
             "time": "2024-03-25T16:39:00+00:00"
         },
         {
+            "name": "wpackagist-plugin/google-site-kit",
+            "version": "dev-trunk",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/google-site-kit/",
+                "reference": "trunk"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/google-site-kit.zip?timestamp=1740495659"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/google-site-kit/",
+            "time": "2025-02-25T15:00:59+00:00"
+        },
+        {
             "name": "yoast/phpunit-polyfills",
             "version": "1.1.2",
             "source": {
@@ -4850,14 +4869,16 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "wpackagist-plugin/google-site-kit": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^7.2.5 || ^8.0",
         "ext-filter": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "7.2.5"
     },

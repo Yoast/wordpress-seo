@@ -3,6 +3,7 @@ import { waitFor } from "@testing-library/react";
 import { WidgetFactory } from "../../../src/dashboard/services/widget-factory";
 import { render } from "../../test-utils";
 import { MockDataProvider } from "../__mocks__/data-provider";
+import { FakeDataFormatter } from "../__mocks__/fake-data-formatter";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
 
 // Mock the Chart.js library. Preventing the error:
@@ -15,18 +16,24 @@ describe( "WidgetFactory", () => {
 	let widgetFactory;
 	let dataProvider;
 	let remoteDataProvider;
-
+	let dataFormatters;
 	beforeAll( () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				isFeatureEnabled: true,
-				isInstalled: true,
-				isActive: true,
-				isSetupCompleted: true,
+				connectionStepsStatuses: {
+					isInstalled: true,
+					isActive: true,
+					isSetupCompleted: true,
+				},
 			},
 		} );
 		remoteDataProvider = new MockRemoteDataProvider( {} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		dataFormatters = {
+			comparisonMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
+			plainMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
+		};
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
 	} );
 
 	describe( "types", () => {
@@ -37,6 +44,7 @@ describe( "WidgetFactory", () => {
 			"topQueries",
 			"siteKitSetup",
 			"organicSessions",
+			"searchRankingCompare",
 		] )( "should have the widget type: %s", async( type ) => {
 			expect( WidgetFactory.types[ type ] ).toBe( type );
 		} );
@@ -45,10 +53,11 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
+		[ "Search Ranking compare", { id: "search-ranking-compare-widget", type: "searchRankingCompare" } ],
 		[ "Organic sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
 	] )( "should not create a %s widget when site kit is not connected", async( _, widget ) => {
 		dataProvider.setSiteKitConsentGranted( false );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
 
@@ -98,7 +107,7 @@ describe( "WidgetFactory", () => {
 				readabilityAnalysis: false,
 			},
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
 
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
@@ -107,7 +116,7 @@ describe( "WidgetFactory", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isSetupWidgetDismissed: true },
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
 
 		expect( widgetFactory.createWidget( { id: "site-kite-setup-widget", type: "siteKitSetup" } ) ).toBeNull();
 	} );
@@ -115,13 +124,14 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
+		[ "searchRankingCompare", { id: "search-ranking-compare-widget", type: "searchRankingCompare" } ],
 		[ "Site Kit setup", { id: "site-kite-setup-widget", type: "siteKitSetup" } ],
 		[ "Organic Sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
 	] )( "should not create a %s widget when site kit feature is disabled", ( _, widget ) => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isFeatureEnabled: false },
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
 
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
@@ -174,5 +184,34 @@ describe( "WidgetFactory", () => {
 		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 
 		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
+	} );
+
+	test.each( "should not create a OrganicSessions widget when a user has no view analytics data permission", () => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				capabilities: {
+					viewAnalyticsData: false,
+				},
+			},
+		} );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+
+		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
+	} );
+
+	test.each( [
+		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
+		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
+	] )( "should not create a %s widget when a user has no view search console data permission", ( _, widget ) => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				capabilities: {
+					viewSearchConsoleData: false,
+				},
+			},
+		} );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+
+		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
 } );
