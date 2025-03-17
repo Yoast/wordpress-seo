@@ -1,8 +1,10 @@
-import { Alert, SkeletonLoader } from "@yoast/ui-library";
-import { SearchRankingCompareMetric, SearchRankingCompareMetricDivider } from "./search-ranking-compare-metric";
+import { SkeletonLoader } from "@yoast/ui-library";
+import { SearchRankingCompareMetric } from "./search-ranking-compare-metric";
+import { SearchRankingCompareMetricDivider } from "./search-ranking-compare-metric-divider";
 import { __ } from "@wordpress/i18n";
 import { NoDataParagraph } from "../../components/no-data-paragraph";
 import { WidgetTooltip, WidgetDataSources } from "../widget";
+import { ErrorAlert } from "../../components/error-alert";
 
 /**
  * Represents the skeleton loader for an organic sessions compare metric component.
@@ -58,27 +60,28 @@ const SearchRankingCompareSkeletonLoader = () => {
 
 /**
  * The content of the search ranking compare widget.
- * @param {import("./search-ranking-compare-widget").SearchRankingCompareData} data
- * @param {Error} error
- * @param {boolean} isPending
+ * @param {import("./search-ranking-compare-widget").SearchRankingCompareData} data the data to render.
+ * @param {Error} error the error object (if an error occurred).
+ * @param {boolean} isPending whether the data is still pending.
+ * @param {import("../services/data-provider").DataProvider} dataProvider the data provider.
+ *
  * @returns {JSX.Element}
- * @constructor
  */
-export const SearchRankingCompareWidgetContent = ( { data, error, isPending } ) => {
+export const SearchRankingCompareWidgetContent = ( { data, error, isPending, dataProvider } ) => {
 	if ( isPending ) {
 		return <SearchRankingCompareSkeletonLoader />;
 	}
 
 	if ( error ) {
-		return <Alert variant="error" className="yst-mt-4">{ error.message }</Alert>;
+		return <ErrorAlert error={ error } supportLink={ dataProvider.getLink( "errorSupport" ) } className="yst-mt-4" />;
 	}
 
-	if ( data.length === 0 ) {
+	if ( data === null ) {
 		return <NoDataParagraph />;
 	}
 
 	if ( data ) {
-		return <div className="yst-flex yst-flex-col yst-justify-center yst-items-center @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
+		return <div className="yst-flex yst-flex-col yst-justify-center yst-items-center @7xl:yst-flex-row @7xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
 			<SearchRankingCompareMetric
 				metricName="Impressions"
 				data={ data.impressions }

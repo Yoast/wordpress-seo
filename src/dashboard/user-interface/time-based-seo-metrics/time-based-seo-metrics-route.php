@@ -7,7 +7,6 @@ use DateTimeZone;
 use Exception;
 use WP_REST_Request;
 use WP_REST_Response;
-use WPSEO_Capability_Utils;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Search_Ranking_Compare_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Page_Repository;
@@ -18,6 +17,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Domain\Time_Based_SEO_Metrics\Repository_Not_Found_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Analytics_4_Parameters;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -76,6 +76,13 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	private $search_ranking_compare_repository;
 
 	/**
+	 * Holds the capabilit helper instance.
+	 *
+	 * @var Capability_Helper
+	 */
+	private $capability_helper;
+
+	/**
 	 * Returns the needed conditionals.
 	 *
 	 * @return array<string> The conditionals that must be met to load this.
@@ -92,19 +99,22 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	 * @param Organic_Sessions_Compare_Repository $organic_sessions_compare_repository The data provider for comparison organic session traffic.
 	 * @param Organic_Sessions_Daily_Repository   $organic_sessions_daily_repository   The data provider for daily organic session traffic.
 	 * @param Search_Ranking_Compare_Repository   $search_ranking_compare_repository   The data provider for searching ranking comparison.
+	 * @param Capability_Helper                   $capability_helper                   The capability helper.
 	 */
 	public function __construct(
 		Top_Page_Repository $top_page_repository,
 		Top_Query_Repository $top_query_repository,
 		Organic_Sessions_Compare_Repository $organic_sessions_compare_repository,
 		Organic_Sessions_Daily_Repository $organic_sessions_daily_repository,
-		Search_Ranking_Compare_Repository $search_ranking_compare_repository
+		Search_Ranking_Compare_Repository $search_ranking_compare_repository,
+		Capability_Helper $capability_helper
 	) {
 		$this->top_page_repository                 = $top_page_repository;
 		$this->top_query_repository                = $top_query_repository;
 		$this->organic_sessions_compare_repository = $organic_sessions_compare_repository;
 		$this->organic_sessions_daily_repository   = $organic_sessions_daily_repository;
 		$this->search_ranking_compare_repository   = $search_ranking_compare_repository;
+		$this->capability_helper                   = $capability_helper;
 	}
 
 	/**
@@ -124,9 +134,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 					'args'                => [
 						'limit'   => [
 							'type'              => 'int',
-							'sanitize_callback' => static function ( $param ) {
-								return \intval( $param );
-							},
+							'sanitize_callback' => 'absint',
 							'default'           => 5,
 						],
 						'options' => [
@@ -274,6 +282,6 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	 * @return bool True when user has the 'wpseo_manage_options' capability.
 	 */
 	public function permission_manage_options() {
-		return WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' );
+		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
 	}
 }

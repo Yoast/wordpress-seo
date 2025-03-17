@@ -21,12 +21,26 @@ export class ComparisonMetricsDataFormatter extends DataFormatterInterface {
 					formattedDelta: DataFormatterInterface.safeNumberFormat( data.delta, this.numberFormat.percentage ),
 				};
 			case "ctr":
+				if ( data === null ) {
+					return {
+						formattedValue: "-",
+						delta: null,
+						formattedDelta: "-",
+					};
+				}
 				return {
 					formattedValue: DataFormatterInterface.safeNumberFormat( data.value, this.numberFormat.percentage ),
 					delta: data.delta,
 					formattedDelta: DataFormatterInterface.safeNumberFormat( data.delta, this.numberFormat.percentage ),
 				};
 			case "position":
+				if ( data === null ) {
+					return {
+						formattedValue: "-",
+						delta: null,
+						formattedDelta: "-",
+					};
+				}
 				return {
 					formattedValue: DataFormatterInterface.safeNumberFormat( data.value, this.numberFormat.twoFractions ),
 					delta: data.delta,

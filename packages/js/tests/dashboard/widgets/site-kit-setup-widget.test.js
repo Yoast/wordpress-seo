@@ -36,7 +36,9 @@ describe( "SiteKitSetupWidget", () => {
 	it( "renders the widget with activate button", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
-				isInstalled: true,
+				connectionStepsStatuses: {
+					isInstalled: true,
+				},
 			},
 		} );
 		render( <SiteKitSetupWidget
@@ -51,8 +53,10 @@ describe( "SiteKitSetupWidget", () => {
 	it( "renders the widget with setup button", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
-				isInstalled: true,
-				isActive: true,
+				connectionStepsStatuses: {
+					isInstalled: true,
+					isActive: true,
+				},
 			},
 		} );
 		render( <SiteKitSetupWidget
@@ -67,9 +71,11 @@ describe( "SiteKitSetupWidget", () => {
 	it( "renders the widget with connect button", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
-				isInstalled: true,
-				isActive: true,
-				isSetupCompleted: true,
+				connectionStepsStatuses: {
+					isInstalled: true,
+					isActive: true,
+					isSetupCompleted: true,
+				},
 			},
 		} );
 		render( <SiteKitSetupWidget
@@ -82,9 +88,11 @@ describe( "SiteKitSetupWidget", () => {
 	it( "opens the grant consent modal when clicking on connect", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
-				isInstalled: true,
-				isActive: true,
-				isSetupCompleted: true,
+				connectionStepsStatuses: {
+					isInstalled: true,
+					isActive: true,
+					isSetupCompleted: true,
+				},
 			},
 		} );
 		render( <SiteKitSetupWidget
@@ -99,9 +107,11 @@ describe( "SiteKitSetupWidget", () => {
 	it( "requests consent when clicking on grant consent", async() => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
-				isInstalled: true,
-				isActive: true,
-				isSetupCompleted: true,
+				connectionStepsStatuses: {
+					isInstalled: true,
+					isActive: true,
+					isSetupCompleted: true,
+				},
 			},
 		} );
 		remoteDataProvider.fetchJson.mockResolvedValueOnce( { success: true } );
@@ -123,9 +133,11 @@ describe( "SiteKitSetupWidget", () => {
 	it( "stays on the modal when the consent request returns false", async() => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
-				isInstalled: true,
-				isActive: true,
-				isSetupCompleted: true,
+				connectionStepsStatuses: {
+					isInstalled: true,
+					isActive: true,
+					isSetupCompleted: true,
+				},
 			},
 		} );
 		remoteDataProvider.fetchJson.mockResolvedValueOnce( { success: false } );
@@ -152,9 +164,11 @@ describe( "SiteKitSetupWidget", () => {
 	it( "stays on the modal when the consent request errors", async() => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
-				isInstalled: true,
-				isActive: true,
-				isSetupCompleted: true,
+				connectionStepsStatuses: {
+					isInstalled: true,
+					isActive: true,
+					isSetupCompleted: true,
+				},
 			},
 		} );
 		remoteDataProvider.fetchJson.mockRejectedValueOnce( new Error( "Failed to fetch" ) );
@@ -182,10 +196,12 @@ describe( "SiteKitSetupWidget", () => {
 		remoteDataProvider.fetchJson.mockResolvedValueOnce( { success: true } );
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
-				isInstalled: true,
-				isActive: true,
-				isSetupCompleted: true,
-				isConsentGranted: true,
+				connectionStepsStatuses: {
+					isInstalled: true,
+					isActive: true,
+					isSetupCompleted: true,
+					isConsentGranted: true,
+				},
 			},
 		} );
 		render( <SiteKitSetupWidget
@@ -200,9 +216,11 @@ describe( "SiteKitSetupWidget", () => {
 	it( "opens the menu and calls dismissPermanently and removeWidget when 'Remove permanently' is clicked", async() => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
-				isInstalled: true,
-				isActive: true,
-				isSetupCompleted: true,
+				connectionStepsStatuses: {
+					isInstalled: true,
+					isActive: true,
+					isSetupCompleted: true,
+				},
 			},
 		} );
 		render( <SiteKitSetupWidget
@@ -219,5 +237,59 @@ describe( "SiteKitSetupWidget", () => {
 			expect.objectContaining( { method: "POST" } )
 		);
 		expect( dataProvider.setSiteKitConfigurationDismissed ).toHaveBeenCalledWith( true );
+	} );
+
+	describe( "should show the warning and disable the button when a user doesn't have the capability to install plugins", () => {
+		it.each( [
+			[ "plugin not installed", { isInstalled: false, isActive: false, isSetupCompleted: false, label: "Install Site Kit by Google"  } ],
+			[ "plugin not active", { isInstalled: true, isActive: false, isSetupCompleted: false, label: "Activate Site Kit by Google" } ],
+			[ "setup not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, label: "Set up Site Kit by Google" } ],
+		] )( "when %s", ( _, { isInstalled, isActive, isSetupCompleted, label } ) => {
+			dataProvider = new MockDataProvider( {
+				siteKitConfiguration: {
+					connectionStepsStatuses: {
+						isInstalled,
+						isActive,
+						isSetupCompleted,
+					},
+					capabilities: {
+						installPlugins: false,
+						viewSearchConsoleData: false,
+					},
+				},
+			} );
+			const { getByText } = render( <SiteKitSetupWidget
+				dataProvider={ dataProvider }
+				remoteDataProvider={ remoteDataProvider }
+			/> );
+			const link = screen.getByText( label );
+			expect( link ).not.toHaveAttribute( "href" );
+			expect( link ).toHaveAttribute( "aria-disabled", "true" );
+			expect( getByText( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin." ) ).toBeInTheDocument();
+		} );
+	} );
+
+	it( "should show the warning and disable the button before connecting if a user doesn't have the permission to view site kit data", () => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				connectionStepsStatuses: {
+					isInstalled: true,
+					isActive: true,
+					isSetupCompleted: true,
+				},
+				capabilities: {
+					installPlugins: true,
+					viewSearchConsoleData: false,
+				},
+			},
+		} );
+		const { getByRole, getByText } = render( <SiteKitSetupWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+		/> );
+		const button = getByRole( "button", { name: /Connect Site Kit by Google/i } );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toBeDisabled();
+		expect( getByText( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up." ) ).toBeInTheDocument();
 	} );
 } );
