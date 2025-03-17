@@ -14,7 +14,7 @@ const htmlTagsRegex = /(<([a-z]|\/)[^<>]+>)/ig;
  * Regex to detect HTML entities.
  * @type {RegExp}
  */
-const { htmlEntitiesRegex } = helpers.htmlEntities;
+const { entitiesWithoutGTSRegex } = helpers.htmlEntities;
 
 /**
  * Adjusts the block start and end offset for a given Mark from the first section of a Yoast sub-block.
@@ -113,13 +113,64 @@ const adjustOffsetsForHtmlTags = ( slicedBlockHtmlToStartOffset, slicedBlockHtml
 /**
  * Adjusts the block start and end offsets of a given Mark when the block HTML contains HTML entities.
  *
- * @param {string}	slicedBlockHtmlToStartOffset	The block HTML from the 0 index to the index of the block start offset.
- * @param {string}	slicedBlockHtmlToEndOffset		The block HTML from the 0 index to the index of the block end offset.
- * @param {number}	blockStartOffset				The block start offset of the Mark to adjust.
- * @param {number}	blockEndOffset					The block end offset of the Mark to adjust.
+ * @param {string} html The block HTML.
+ * @param {number} offset The block start or end offset of the Mark to adjust.
+ * @param {string} richText The rich text of the block.
+ * @returns {number} The adjusted offset.
+ */
+const adjustOffsetsForHtmlEntities = ( html, offset, richText ) => {
+	const matchedHtmlEntities = [ ...html.matchAll( entitiesWithoutGTSRegex ) ];
+	forEachRight( matchedHtmlEntities, ( matchedEntity ) => {
+		/*
+		 * If the matchedEntity is `&amp;`, matchedEntityWithoutAmp (the second element in the array) is `amp;`.
+		 * To get the length of the HTML entity to be 1, we subtract the offset by the length of the matched entity minus the ampersand.
+		 */
+		const [ , matchedEntityWithoutAmp ] = matchedEntity;
+		offset -= matchedEntityWithoutAmp.length;
+	} );
+
+	// Special case for `&nbsp;` and `&gt;` entities.
+	// Non-breaking space sometimes is represented as its unicode character `\u00a0` in the block's HTML.
+	// In this case, we need to adjust the offset by the length of the HTML entity.
+	const nbspEntity = [ "&nbsp;", /\u00a0/ig ];
+	const matchedNbsp = html.match( nbspEntity[ 1 ] );
+	if ( matchedNbsp ) {
+		offset -= nbspEntity[ 0 ].length - 1;
+	}
+	// When adjusting the offset for `&gt;` entity, we need to consider only the entity that is found only in the rich text, and not in the HTML.
+	// This way, we minimize the risk of adjusting the offset incorrectly for the `&gt;` entity inside an HTML tag, e.g. `<strong>` or `<a>`.
+	const gtsEntity = [ "&gt;", /\u003e/ig ];
+	const matchedGts = richText.match( gtsEntity[ 1 ] );
+	if ( matchedGts ) {
+		offset -= gtsEntity[ 0 ].length - 1;
+	}
+	return offset;
+};
+
+/**
+ * Adjusts the block start and end offsets of a given Mark when the block HTML contains HTML tags or entities.
+ *
+ * @param {number}	blockStartOffset	The block start offset of the Mark to adjust.
+ * @param {number}	blockEndOffset		The block end offset of the Mark to adjust.
+ * @param {string}	blockHtml			The HTML of the block.
+ * @param {string}	richText			The rich text of the block.
  * @returns {{blockStartOffset: number, blockEndOffset: number}} The adjusted start offset and end offset of the Mark.
  */
-const adjustOffsetsForHtmlEntities = ( slicedBlockHtmlToStartOffset, slicedBlockHtmlToEndOffset, blockStartOffset, blockEndOffset ) => {
+const adjustMarkOffsets = ( blockStartOffset, blockEndOffset, blockHtml, richText ) => {
+	const slicedBlockHtmlToStartOffset = blockHtml.slice( 0, blockStartOffset );
+	const slicedBlockHtmlToEndOffset = blockHtml.slice( 0, blockEndOffset );
+
+	// Adjust the offsets when there are HTML tags found between the start of the HTML and the start/end offset of the Mark.
+	const adjustedOffsetsInCaseOfHtmlTags = adjustOffsetsForHtmlTags(
+		slicedBlockHtmlToStartOffset,
+		slicedBlockHtmlToEndOffset,
+		blockStartOffset,
+		blockEndOffset
+	);
+	blockStartOffset = adjustedOffsetsInCaseOfHtmlTags.blockStartOffset;
+	blockEndOffset = adjustedOffsetsInCaseOfHtmlTags.blockEndOffset;
+
+	// Adjust the offsets when there are HTML entities found between the start of the HTML and the start/end offset of the Mark.
 	/*
 	 * In `yoastseo`, we process the HTML entities so that their length is the length of their extended version.
 	 * For example, the ampersand `&` length is the length of `&amp;` => 5.
@@ -140,56 +191,8 @@ const adjustOffsetsForHtmlEntities = ( slicedBlockHtmlToStartOffset, slicedBlock
 	 * Only subtracting the end offset by the length of the HTML entities/tags found between the 0 index of the HTML
 	 * to the start offset of the Mark will result in incorrect position information.
 	 */
-	let matchedHtmlEntities = [ ...slicedBlockHtmlToStartOffset.matchAll( htmlEntitiesRegex ) ];
-	forEachRight( matchedHtmlEntities, ( matchedEntity ) => {
-		/*
-		 * If the matchedEntity is `&amp;`, matchedEntityWithoutAmp (the second element in the array) is `amp;`.
-		 * To get the length of the HTML entity to be 1, we subtract the offset by the length of the matched entity minus the ampersand.
-		 */
-		const [ , matchedEntityWithoutAmp ] = matchedEntity;
-		blockStartOffset -= matchedEntityWithoutAmp.length;
-	} );
-
-	matchedHtmlEntities = [ ...slicedBlockHtmlToEndOffset.matchAll( htmlEntitiesRegex ) ];
-	forEachRight( matchedHtmlEntities, ( matchedEntity ) => {
-		const [ , matchedEntityWithoutAmp ] = matchedEntity;
-		blockEndOffset -= matchedEntityWithoutAmp.length;
-	} );
-
-	return { blockStartOffset, blockEndOffset };
-};
-
-/**
- * Adjusts the block start and end offsets of a given Mark when the block HTML contains HTML tags or entities.
- *
- * @param {number}	blockStartOffset	The block start offset of the Mark to adjust.
- * @param {number}	blockEndOffset		The block end offset of the Mark to adjust.
- * @param {string}	blockHtml			The HTML of the block.
- * @returns {{blockStartOffset: number, blockEndOffset: number}} The adjusted start offset and end offset of the Mark.
- */
-const adjustMarkOffsets = ( blockStartOffset, blockEndOffset, blockHtml ) => {
-	const slicedBlockHtmlToStartOffset = blockHtml.slice( 0, blockStartOffset );
-	const slicedBlockHtmlToEndOffset = blockHtml.slice( 0, blockEndOffset );
-
-	// Adjust the offsets when there are HTML tags found between the start of the HTML and the start/end offset of the Mark.
-	const adjustedOffsetsInCaseOfHtmlTags = adjustOffsetsForHtmlTags(
-		slicedBlockHtmlToStartOffset,
-		slicedBlockHtmlToEndOffset,
-		blockStartOffset,
-		blockEndOffset
-	);
-	blockStartOffset = adjustedOffsetsInCaseOfHtmlTags.blockStartOffset;
-	blockEndOffset = adjustedOffsetsInCaseOfHtmlTags.blockEndOffset;
-
-	// Adjust the offsets when there are HTML entities found between the start of the HTML and the start/end offset of the Mark.
-	const adjustedOffsetsInCaseOfHtmlEntities = adjustOffsetsForHtmlEntities(
-		slicedBlockHtmlToStartOffset,
-		slicedBlockHtmlToEndOffset,
-		blockStartOffset,
-		blockEndOffset
-	);
-	blockStartOffset = adjustedOffsetsInCaseOfHtmlEntities.blockStartOffset;
-	blockEndOffset = adjustedOffsetsInCaseOfHtmlEntities.blockEndOffset;
+	blockStartOffset = adjustOffsetsForHtmlEntities( slicedBlockHtmlToStartOffset, blockStartOffset, richText );
+	blockEndOffset = adjustOffsetsForHtmlEntities( slicedBlockHtmlToEndOffset, blockEndOffset, richText );
 
 	return { blockStartOffset, blockEndOffset };
 };
@@ -212,13 +215,6 @@ export function createAnnotationsFromPositionBasedMarks( mark, blockClientId, bl
 	if ( blockClientId === mark.getBlockClientId() ) {
 		let blockStartOffset = mark.getBlockPositionStart();
 		let blockEndOffset = mark.getBlockPositionEnd();
-		/*
-		 Convert NBSP unicode into HTML entity.
-		 We do this step here because inside the `yoastseo` package, the HTML entities are always processed as their extended version (e.g. `&nbsp;`).
-		 This means that the Mark's start and end offsets are also calculated based on the extended version of the HTML entities.
-		 Hence, we need to convert the NBSP unicode into the HTML entity to match the position information of the Mark.
-		 */
-		blockHtml = blockHtml.replace( /\u00a0/ig, "&nbsp;" );
 
 		// If the Mark is created for the first section of a Yoast sub-block, we need to adjust the block start and end offsets of the Mark.
 		if ( mark.isMarkForFirstBlockSection() ) {
@@ -243,7 +239,7 @@ export function createAnnotationsFromPositionBasedMarks( mark, blockClientId, bl
 		}
 
 		// If not, adjust the offsets further by checking for HTML tags or entities.
-		const adjustedMarkOffsets = adjustMarkOffsets( blockStartOffset, blockEndOffset, blockHtml );
+		const adjustedMarkOffsets = adjustMarkOffsets( blockStartOffset, blockEndOffset, blockHtml, richText );
 		return [
 			{
 				startOffset: adjustedMarkOffsets.blockStartOffset,
