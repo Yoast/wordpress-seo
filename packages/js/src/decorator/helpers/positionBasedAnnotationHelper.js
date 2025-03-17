@@ -130,20 +130,24 @@ const adjustOffsetsForHtmlEntities = ( html, offset, richText ) => {
 	} );
 
 	// Special case for `&nbsp;` and `&gt;` entities.
-	// Non-breaking space sometimes is represented as its unicode character `\u00a0` in the block's HTML.
-	// In this case, we need to adjust the offset by the length of the HTML entity.
+	/*
+	 Non-breaking space sometimes is represented as its unicode character `\u00a0` in the block's HTML.
+	 In this case, we need to adjust the offset by the length of the HTML entity.
+	 */
 	const nbspEntity = [ "&nbsp;", /\u00a0/ig ];
 	const matchedNbsp = html.match( nbspEntity[ 1 ] );
-	if ( matchedNbsp ) {
+	forEachRight( matchedNbsp, () => {
 		offset -= nbspEntity[ 0 ].length - 1;
-	}
-	// When adjusting the offset for `&gt;` entity, we need to consider only the entity that is found only in the rich text, and not in the HTML.
-	// This way, we minimize the risk of adjusting the offset incorrectly for the `&gt;` entity inside an HTML tag, e.g. `<strong>` or `<a>`.
+	} );
+	/*
+	 When adjusting the offset for `&gt;` entity, we need to consider only the entity that is found only in the rich text, and not in the HTML.
+	 This way, we minimize the risk of adjusting the offset incorrectly for the `&gt;` entity inside an HTML tag, e.g. `<strong>` or `<a>`.
+	 */
 	const gtsEntity = [ "&gt;", /\u003e/ig ];
-	const matchedGts = richText.match( gtsEntity[ 1 ] );
-	if ( matchedGts ) {
+	const matchedGts = richText.slice( 0, offset ).match( gtsEntity[ 1 ] );
+	forEachRight( matchedGts, () => {
 		offset -= gtsEntity[ 0 ].length - 1;
-	}
+	} );
 	return offset;
 };
 
