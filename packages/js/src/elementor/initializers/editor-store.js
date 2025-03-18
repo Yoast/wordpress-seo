@@ -9,6 +9,8 @@ import * as analysisSelectors from "../redux/selectors/analysis";
 import * as snippetEditorSelectors from "../redux/selectors/snippet-editor";
 import * as wincherSelectors from "../redux/selectors/wincher-seo-performance";
 import { getCurrentReplacementVariablesForEditor } from "../replaceVars/elementor-replacevar-plugin";
+import { getInitialState as getSnippetEditorInitialState } from "../../redux/reducers/snippetEditor";
+
 /**
  * Populates the store.
  *
@@ -100,6 +102,7 @@ export default function initEditorStore() {
 		controls,
 		initialState: {
 			snippetEditor: {
+				...getSnippetEditorInitialState(),
 				replacementVariables: getCurrentReplacementVariablesForEditor(),
 			},
 		},
