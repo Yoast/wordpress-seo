@@ -39,14 +39,14 @@ export const WidgetDataSources = ( { dataSources } ) => (
 			{ dataSources.map( ( dataSource, index ) => (
 				<li className="yst-text-slate-500" key={ index }>
 					{ dataSource.feature && (
-						<div>
+						<>
 							<strong className="yst-font-medium">{ dataSource.source } - </strong>{ dataSource.feature }
-						</div>
+						</>
 					) }
 					{ ! dataSource.feature && (
-						<div>
+						<>
 							{ dataSource.source }
-						</div>
+						</>
 					) }
 
 				</li>
