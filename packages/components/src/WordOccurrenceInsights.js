@@ -20,6 +20,7 @@ import WordOccurrences from "./WordOccurrences";
  */
 const getKeywordResearchArticleLink = ( url ) => {
 	const keywordsResearchLinkTranslation = sprintf(
+		// translators: %1$s: opening link tag, %2$s: closing link tag
 		__(
 			"Read our %1$sultimate guide to keyword research%2$s to learn more about keyword research and keyword strategy.",
 			"wordpress-seo"
@@ -52,7 +53,7 @@ const getExplanation = keywords => {
 	}
 
 	return __(
-		"The following words occur the most in the content. These give an indication of what your content focuses on. If the words differ a lot from your topic, you might want to rewrite your content accordingly. ",
+		"The following words occur the most in the content. These give an indication of what your content focuses on. If the words differ a lot from your topic, you might want to rewrite your content accordingly.",
 		"wordpress-seo"
 	);
 };

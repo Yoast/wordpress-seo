@@ -68,22 +68,21 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
  *
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @param {function} onRemove The function to call when the widget is removed.
  *
  * @returns {JSX.Element} The widget.
  */
-export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove } ) => {
+export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
+	const handleOnRemove = useCallback( () => {
+		dataProvider.setSiteKitConfigurationDismissed( true );
+	}, [ dataProvider ] );
+
+
 	const { config, grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
-	const handleOnRemove = useCallback( () => {
-		onRemove( "siteKitSetup" );
-	}, [ onRemove ] );
-
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();
-		handleOnRemove();
-	}, [ handleOnRemove, dismissPermanently ] );
+	}, [ dismissPermanently ] );
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
@@ -123,16 +122,16 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, onRemove
 				screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) }
 				className="yst-float-end"
 			/>
-			<DropdownMenu.List className="yst-mt-6 yst-w-56">
+			<DropdownMenu.List className="yst-mt-8 yst-w-56">
 				<DropdownMenu.ButtonItem
-					className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4"
+					className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
 					onClick={ handleOnRemove }
 				>
 					<XIcon className="yst-w-4 yst-text-slate-400" />
 					{ __( "Remove until next visit", "wordpress-seo" ) }
 				</DropdownMenu.ButtonItem>
 				<DropdownMenu.ButtonItem
-					className="yst-text-red-500 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4"
+					className="yst-text-red-500 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
 					onClick={ handleRemovePermanently }
 				>
 					<TrashIcon className="yst-w-4" />

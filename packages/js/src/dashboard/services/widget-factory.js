@@ -2,10 +2,10 @@
 import { ScoreWidget } from "../widgets/score-widget";
 import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
 import { TopPagesWidget } from "../widgets/top-pages-widget";
+import { TopQueriesWidget } from "../widgets/top-queries-widget";
 
 /**
  * @type {import("../index").WidgetType} WidgetType
- * @type {import("../index").WidgetTypeInfo} WidgetTypeInfo
  */
 
 /**
@@ -28,25 +28,28 @@ export class WidgetFactory {
 	}
 
 	/**
-	 * @returns {WidgetTypeInfo[]}
+	 * The widget types, also determaines the order in which they are displayed.!
+	 *
+	 * @returns {Object} The widget types.
 	 */
-	static get widgetTypes() {
-		return [
-			{ type: "seoScores" },
-			{ type: "readabilityScores" },
-			{ type: "topPages" },
-			{ type: "siteKitSetup" },
-		];
+	static get types() {
+		return {
+			siteKitSetup: "siteKitSetup",
+			topPages: "topPages",
+			topQueries: "topQueries",
+			seoScores: "seoScores",
+			readabilityScores: "readabilityScores",
+		};
 	}
 
 	/**
 	 * @param {WidgetInstance} widget The widget to create.
-	 * @param {function} onRemove The remove handler.
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
-	createWidget( widget, onRemove ) {
+	createWidget( widget ) {
+		const { isFeatureEnabled, isConnected, isConfigurationDismissed } = this.#dataProvider.getSiteKitConfiguration();
 		switch ( widget.type ) {
-			case "seoScores":
+			case WidgetFactory.types.seoScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
 					return null;
 				}
@@ -56,7 +59,7 @@ export class WidgetFactory {
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
-			case "readabilityScores":
+			case WidgetFactory.types.readabilityScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "readabilityAnalysis" ) ) ) {
 					return null;
 				}
@@ -66,25 +69,34 @@ export class WidgetFactory {
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
-			case "topPages":
+			case WidgetFactory.types.topPages:
+				if ( ! isFeatureEnabled || ! isConnected ) {
+					return null;
+				}
 				return <TopPagesWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatter }
 				/>;
-			case "siteKitSetup":
-				// This check here makes sure we don't render the setup anymore if the user connected and then switches away from the dashboard.
-				// Then switches back to the dashboard, but does not refresh.
-				if ( this.#dataProvider.getSiteKitConfiguration().isConnected ||
-				this.#dataProvider.getSiteKitConfiguration().isConfigurationDismissed ) {
+			case WidgetFactory.types.siteKitSetup:
+				if ( ! isFeatureEnabled || isConfigurationDismissed ) {
 					return null;
 				}
 				return <SiteKitSetupWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
-					onRemove={ onRemove }
+				/>;
+			case WidgetFactory.types.topQueries:
+				if ( ! isFeatureEnabled || ! isConnected ) {
+					return null;
+				}
+				return <TopQueriesWidget
+					key={ widget.id }
+					dataProvider={ this.#dataProvider }
+					remoteDataProvider={ this.#remoteDataProvider }
+					dataFormatter={ this.#dataFormatter }
 				/>;
 			default:
 				return null;

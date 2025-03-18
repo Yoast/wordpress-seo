@@ -13,9 +13,10 @@ import { __, sprintf } from "@wordpress/i18n";
 export const useFallbackWarning = ( imageFallbackUrl, imageUrl, imageWarnings ) => {
 	const [ hasFallbackWarning, setHasFallbackWarning ] = useState( false );
 	const warningMessage = sprintf(
-		/* Translators: %s expands to the jpg format, %s expands to the png format, %s expands to the webp format, %s expands to the gif format. */
+		/* Translators: %1$s expands to the jpg format, %2$s expands to the png format,
+		%3$s expands to the webp format, %4$s expands to the gif format. */
 		__(
-			"No image was found that we can automatically set as your social image. Please use %s, %s, %s or %s formats to ensure it displays correctly on social media.",
+			"No image was found that we can automatically set as your social image. Please use %1$s, %2$s, %3$s or %4$s formats to ensure it displays correctly on social media.",
 			"wordpress-seo"
 		),
 		"JPG", "PNG", "WEBP", "GIF"

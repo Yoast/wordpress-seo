@@ -17,7 +17,11 @@ describe( "WidgetFactory", () => {
 	let remoteDataProvider;
 
 	beforeAll( () => {
-		dataProvider = new MockDataProvider();
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				isFeatureEnabled: true,
+			},
+		} );
 		remoteDataProvider = new MockRemoteDataProvider( {} );
 		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 	} );
@@ -27,16 +31,25 @@ describe( "WidgetFactory", () => {
 		[ "readabilityScores" ],
 		[ "topPages" ],
 	] )( "should have the widget type: %s", async( type ) => {
-		expect( WidgetFactory.widgetTypes.map( info => info?.type ) ).toContain( type );
+		expect( WidgetFactory.types[ type ] ).toBe( type );
+	} );
+
+	test.each( [
+		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
+		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
+	] )( "should not create a %s widget when site kit is not connected", async( _, widget ) => {
+		dataProvider.setSiteKitConnected( false );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
 
 	test.each( [
 		[ "SEO scores", { id: "seo-scores-widget", type: "seoScores" }, "SEO scores" ],
 		[ "Readability scores", { id: "readability-scores-widget", type: "readabilityScores" }, "Readability scores" ],
-		[ "Top pages", { id: "top-pages-widget", type: "topPages" }, "Top 5 most popular content" ],
+		[ "Site Kit setup", { id: "site-kit-setup-widget", type: "siteKitSetup" }, "Expand your dashboard with insights from Google!" ],
 		[ "Unknown", { id: undefined, type: "unknown" }, undefined ],
 	] )( "should create a %s widget", async( _, widget, title ) => {
-		const element = widgetFactory.createWidget( widget, jest.fn() );
+		const element = widgetFactory.createWidget( widget );
 		expect( element?.key ).toBe( widget.id );
 		const { getByRole } = render( <>{ element }</> );
 
@@ -45,6 +58,44 @@ describe( "WidgetFactory", () => {
 			if ( title ) {
 				expect( getByRole( "heading", { name: title } ) ).toBeInTheDocument();
 			}
+		} );
+	} );
+
+	test.each( [
+		[ "Top pages", { id: "top-pages-widget", type: "topPages" }, "Top 5 most popular content" ],
+		[ "Top queries", { id: "top-queries-widget", type: "topQueries" }, "Top 5 search queries" ],
+	] )( "should create a %s widget", async( _, widget, title ) => {
+		dataProvider.setSiteKitConnected( true );
+		const element = widgetFactory.createWidget( widget );
+		expect( element?.key ).toBe( widget.id );
+		const { getByRole } = render( <>{ element }</> );
+
+		await waitFor( () => {
+			// Verify the title is present.
+			if ( title ) {
+				expect( getByRole( "heading", { name: title } ) ).toBeInTheDocument();
+			}
+		} );
+	} );
+
+	test( "should create the site kit set up widget", async() => {
+		const element = widgetFactory.createWidget( { id: "site-kit-setup-widget", type: "siteKitSetup" }, jest.fn() );
+		expect( element?.key ).toBe( "site-kit-setup-widget" );
+		const { getByRole } = render( <>{ element }</> );
+
+		await waitFor( () => {
+			expect( getByRole( "heading", { name: "Expand your dashboard with insights from Google!" } ) ).toBeInTheDocument();
+		} );
+	} );
+
+	test( "should not create the site kit set up widget", async() => {
+		dataProvider.setSiteKitConnected( true );
+		const element = widgetFactory.createWidget( { id: "site-kit-setup-widget", type: "siteKitSetup" } );
+		expect( element?.key ).toBe( "site-kit-setup-widget" );
+		const { getByRole } = render( <>{ element }</> );
+
+		await waitFor( () => {
+			expect( getByRole( "heading", { name: "Expand your dashboard with insights from Google!" } ) ).toBeInTheDocument();
 		} );
 	} );
 
@@ -61,6 +112,29 @@ describe( "WidgetFactory", () => {
 		} );
 		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 
-		expect( widgetFactory.createWidget( widget, jest.fn() ) ).toBeNull();
+		expect( widgetFactory.createWidget( widget ) ).toBeNull();
+	} );
+
+
+	test( "should not create the Site Kit setup widget if the data provider has isConfigurationDismissed set to true", () => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: { isConfigurationDismissed: true },
+		} );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+
+		expect( widgetFactory.createWidget( { id: "site-kite-setup-widget", type: "siteKitSetup" } ) ).toBeNull();
+	} );
+
+	test.each( [
+		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
+		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
+		[ "siteKitSetup", { id: "site-kite-setup-widget", type: "siteKitSetup" } ],
+	] )( "should not create a %s widget when site kit feature is disabled", async( _, widget ) => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: { isFeatureEnabled: false },
+		} );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+
+		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
 } );
