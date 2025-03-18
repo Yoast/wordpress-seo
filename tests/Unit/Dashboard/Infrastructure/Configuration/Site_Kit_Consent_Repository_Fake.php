@@ -14,13 +14,20 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Reposit
 final class Site_Kit_Consent_Repository_Fake implements Site_Kit_Consent_Repository_Interface {
 
 	/**
+	 * The value `is_consent_granted` will return.
+	 *
+	 * @var bool $consent
+	 */
+	private $consent = true;
+
+	/**
 	 * Checks if the Site Kit consent has been granted..
 	 *
 	 * @return bool
 	 */
 	public function is_consent_granted(): bool {
 		// Return a fake value for testing purposes.
-		return true;
+		return $this->consent;
 	}
 
 	/**
@@ -32,6 +39,7 @@ final class Site_Kit_Consent_Repository_Fake implements Site_Kit_Consent_Reposit
 	 */
 	public function set_site_kit_consent( bool $consent ): bool {
 		// Return the passed value for testing purposes.
+		$this->consent = $consent;
 		return $consent;
 	}
 }
