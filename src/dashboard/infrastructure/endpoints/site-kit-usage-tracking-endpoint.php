@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints;
 
 use Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;
-use Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Usage_Tracking_Route;
+use Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Site_Kit_Usage_Tracking_Route;
 
 /**
  * Represents the Site Kit usage tracking endpoint.

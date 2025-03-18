@@ -1,13 +1,13 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\User_Interface\Configuration;
+namespace Yoast\WP\SEO\Dashboard\User_Interface\Tracking;
 
 use Exception;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Usage_Tracking_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Tracking\Site_Kit_Usage_Tracking_Repository_Interface;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
