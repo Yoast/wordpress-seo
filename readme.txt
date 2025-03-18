@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.7
-Stable tag: 24.6
+Stable tag: 24.7
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -278,13 +278,15 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-03-18
 
+Yoast SEO 24.7 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Improves the accuracy of assessments measuring character count for Japanese texts by removing common punctuation from the count.
 
 #### Bugfixes
 
-* Fixes a bug where the help beacon would be displayed over table pagination the bulk editor page.
+* Fixes a bug where the help beacon would be displayed over table pagination on the bulk editor page.
 
 #### Other
 
