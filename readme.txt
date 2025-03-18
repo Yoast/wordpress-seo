@@ -274,6 +274,19 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 24.8 =
+
+Release date: 2025-04-01
+
+#### Enhancements
+
+* Adds _pregnant women_ to the potentially non-inclusive phrases targeted by the inclusive language analysis.
+* Improves the inclusive language analysis feedback for the potentially non-inclusive word 'exotic', and prevents the feedback from appearing when 'exotic' is followed by words common in scientific contexts.
+
+#### Other
+
+* Removes the Yoast AI Optimize modals from the Yoast admin pages.
+
 = 24.7 =
 
 Release date: 2025-03-18
@@ -292,25 +305,6 @@ Yoast SEO 24.7 brings more enhancements and bugfixes. [Find more information abo
 
 * Improves the feedback strings of the _subheading distribution_ assessment for better translatability.
 * Removes extra span tags in the Post/Page overview. Props to [dilipbheda](https://github.com/dilipbheda).
-
-= 24.6 =
-
-Release date: 2025-03-04
-
-Yoast SEO 24.6 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Provides support for the Optimized Markup feature in Elementor.
-* Removes the breadcrumbs from the Search snippet preview in Mobile mode.
-
-#### Bugfixes
-
-* Fixes a bug where invalid inner blocks would be removed when saving a post in the block editor.
-
-#### Other
-
-* Sets the minimum supported WordPress version to 6.6.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
