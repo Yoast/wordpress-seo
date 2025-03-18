@@ -1,7 +1,8 @@
 import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { useToggleState } from "@yoast/ui-library";
 import { SearchRankingCompareWidgetContent } from "./search-ranking-compare/search-ranking-compare-widget-content";
-import { Widget } from "./widget";
+import { Widget, WidgetErrorBoundary } from "./widget";
 
 /**
  * @typedef { "current"|"previous" } TimeFrame The time frame for the raw metric data.
@@ -67,17 +68,23 @@ export const SearchRankingCompareWidget = ( { dataProvider, remoteDataProvider, 
 	// However, we want to have all the fetching logic inside the content for the error boundary.
 	// We could just render the with title state here, but that seems more complex than this approach.
 	const [ showTitle, setShowTitle ] = useState( false );
+	// Need this for the error boundary, to still show the widget title on an unexpected error.
+	const [ hasUnexpectedError, , , setHasUnexpectedErrorTrue ] = useToggleState( false );
 
 	return <Widget
 		className="yst-paper__content yst-col-span-4"
-		title={ showTitle && __( "Impressions, Clicks, Site CTR, Average position", "wordpress-seo" ) }
-		errorSupportLink={ dataProvider.getLink( "errorSupport" ) }
+		title={ ( showTitle || hasUnexpectedError ) && __( "Impressions, Clicks, Site CTR, Average position", "wordpress-seo" ) }
 	>
-		<SearchRankingCompareWidgetContent
-			dataProvider={ dataProvider }
-			remoteDataProvider={ remoteDataProvider }
-			dataFormatter={ dataFormatter }
-			setShowTitle={ setShowTitle }
-		/>
+		<WidgetErrorBoundary
+			supportLink={ dataProvider.getLink( "errorSupport" ) }
+			onError={ setHasUnexpectedErrorTrue }
+		>
+			<SearchRankingCompareWidgetContent
+				dataProvider={ dataProvider }
+				remoteDataProvider={ remoteDataProvider }
+				dataFormatter={ dataFormatter }
+				setShowTitle={ setShowTitle }
+			/>
+		</WidgetErrorBoundary>
 	</Widget>;
 };

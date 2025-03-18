@@ -55,15 +55,16 @@ WidgetDataSources.displayName = "Widget.DataSources";
  * @param {string} [className] The class name.
  * @param {string} supportLink The support link.
  * @param {ReactNode} children The content to wrap with an error boundary.
+ * @param {Object} [props] Any other props for the ErrorBoundary.
  * @returns {JSX.Element}
  */
-export const WidgetErrorBoundary = ( { className = "yst-mt-4", supportLink, children } ) => {
+export const WidgetErrorBoundary = ( { className = "yst-mt-4", supportLink, children, ...props } ) => {
 	const ErrorBoundaryFallback = useCallback( ( { error } ) => (
 		<ErrorAlert error={ error } className={ className } supportLink={ supportLink } />
 	), [ className, supportLink ] );
 
 	return (
-		<ErrorBoundary FallbackComponent={ ErrorBoundaryFallback }>{ children }</ErrorBoundary>
+		<ErrorBoundary { ...props } FallbackComponent={ ErrorBoundaryFallback }>{ children }</ErrorBoundary>
 	);
 };
 WidgetErrorBoundary.displayName = "Widget.ErrorBoundary";
