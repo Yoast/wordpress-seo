@@ -8,15 +8,15 @@ import { ErrorAlert } from "../../components/error-alert";
 
 /**
  * Represents the skeleton loader for an organic sessions compare metric component.
- * @param {ReactNode} tooltipLocalizedString The content of the tooltip.
+ * @param {ReactNode} tooltipLocalizedContent The content of the tooltip.
  * @param {object[]} dataSources The sources of the data in the widget.
  *
  * @returns {JSX.Element}
  */
-const SearchRankingCompareMetricSkeletonLoader = ( { tooltipLocalizedString, dataSources } ) => {
+const SearchRankingCompareMetricSkeletonLoader = ( { tooltipLocalizedContent, dataSources } ) => {
 	return <div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72">
 		<div className="yst-absolute yst-end-6 yst-top-2">
-			<WidgetTooltip content={ tooltipLocalizedString }>
+			<WidgetTooltip content={ tooltipLocalizedContent }>
 				<WidgetDataSources dataSources={ dataSources } />
 			</WidgetTooltip>
 		</div>
@@ -33,25 +33,25 @@ const SearchRankingCompareSkeletonLoader = () => {
 	return (
 		<div className="yst-flex yst-flex-col yst-justify-center yst-items-center @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
 			<SearchRankingCompareMetricSkeletonLoader
-				tooltipLocalizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
+				tooltipLocalizedContent={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
 				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
 			/>
 			<SearchRankingCompareMetricDivider />
 
 			<SearchRankingCompareMetricSkeletonLoader
-				tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
+				tooltipLocalizedContent={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
 				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
 			/>
 			<SearchRankingCompareMetricDivider />
 
 			<SearchRankingCompareMetricSkeletonLoader
-				tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
+				tooltipLocalizedContent={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
 				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
 			/>
 			<SearchRankingCompareMetricDivider />
 
 			<SearchRankingCompareMetricSkeletonLoader
-				tooltipLocalizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
+				tooltipLocalizedContent={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
 				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
 			/>
 		</div>
@@ -85,7 +85,7 @@ export const SearchRankingCompareWidgetContent = ( { data, error, isPending, dat
 			<SearchRankingCompareMetric
 				metricName="Impressions"
 				data={ data.impressions }
-				tooltipLocalizedString={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
+				tooltipLocalizedContent={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
 				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
 			/>
 			<SearchRankingCompareMetricDivider />
@@ -93,7 +93,7 @@ export const SearchRankingCompareWidgetContent = ( { data, error, isPending, dat
 			<SearchRankingCompareMetric
 				metricName="Clicks"
 				data={ data.clicks }
-				tooltipLocalizedString={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
+				tooltipLocalizedContent={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
 				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
 			/>
 			<SearchRankingCompareMetricDivider />
@@ -101,7 +101,7 @@ export const SearchRankingCompareWidgetContent = ( { data, error, isPending, dat
 			<SearchRankingCompareMetric
 				metricName="CTR"
 				data={ data.ctr }
-				tooltipLocalizedString={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
+				tooltipLocalizedContent={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
 				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
 			/>
 			<SearchRankingCompareMetricDivider />
@@ -109,7 +109,7 @@ export const SearchRankingCompareWidgetContent = ( { data, error, isPending, dat
 			<SearchRankingCompareMetric
 				metricName="Position"
 				data={ data.position }
-				tooltipLocalizedString={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
+				tooltipLocalizedContent={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
 				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
 			/>
 		</div>;
