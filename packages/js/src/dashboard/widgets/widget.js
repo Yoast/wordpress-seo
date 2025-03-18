@@ -40,7 +40,7 @@ export const WidgetDataSources = ( { dataSources } ) => (
 				<li className="yst-text-slate-500" key={ index }>
 					{ dataSource.feature && (
 						<>
-							<strong className="yst-font-medium">{ dataSource.source } - </strong>{ dataSource.feature }
+							<span className="yst-font-medium">{ dataSource.source } - </span>{ dataSource.feature }
 						</>
 					) }
 					{ ! dataSource.feature && (
