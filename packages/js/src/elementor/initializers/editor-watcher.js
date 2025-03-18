@@ -15,6 +15,9 @@ const editorData = {
 	imageUrl: "",
 };
 
+let featuredImage = "";
+let contentImage = "";
+
 const MARK_TAG = "yoastmark";
 
 /**
@@ -88,8 +91,7 @@ function getContent( editorDocument ) {
  * @returns {string} The image URL.
  */
 function getImageUrl( content ) {
-	const featuredImage = elementor.settings.page.model.get( "post_featured_image" );
-	const url = get( featuredImage, "url", "" );
+	const url = get( elementor.settings.page.model.get( "post_featured_image" ), "url", "" );
 
 	if ( url === "" ) {
 		return firstImageUrlInContent( content );
@@ -113,6 +115,8 @@ function getEditorData( editorDocument ) {
 		title: elementor.settings.page.model.get( "post_title" ),
 		excerpt: elementor.settings.page.model.get( "post_excerpt" ) || "",
 		imageUrl: getImageUrl( content ),
+		featuredImage: get( elementor.settings.page.model.get( "post_featured_image" ), "url", "" ),
+		contentImage: firstImageUrlInContent( content ),
 		status: elementor.settings.page.model.get( "post_status" ),
 	};
 }
@@ -157,11 +161,22 @@ function handleEditorChange() {
 	if ( data.excerpt !== editorData.excerpt ) {
 		editorData.excerpt = data.excerpt;
 		dispatch( "yoast-seo/editor" ).setEditorDataExcerpt( editorData.excerpt );
+		dispatch( "yoast-seo/editor" ).updateReplacementVariable( "excerpt", editorData.excerpt );
 	}
 
 	if ( data.imageUrl !== editorData.imageUrl ) {
 		editorData.imageUrl = data.imageUrl;
 		dispatch( "yoast-seo/editor" ).setEditorDataImageUrl( editorData.imageUrl );
+	}
+
+	if ( data.contentImage !== contentImage ) {
+		contentImage = data.contentImage;
+		dispatch( "yoast-seo/editor" ).setContentImage( contentImage );
+	}
+
+	if ( data.featuredImage !== featuredImage ) {
+		featuredImage = data.featuredImage;
+		dispatch( "yoast-seo/editor" ).updateData( { snippetPreviewImageURL: featuredImage } );
 	}
 }
 
