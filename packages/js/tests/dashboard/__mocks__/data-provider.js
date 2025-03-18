@@ -62,7 +62,6 @@ export class MockDataProvider extends DataProvider {
 				dashboardLearnMore: "https://example.com/dashboard-learn-more",
 				errorSupport: "https://example.com/error-support",
 				siteKitLearnMore: "https://example.com/google-site-kit-learn-more",
-				organicSessionsInfoLearnMore: "https://example.com/organic-sessions-learn-more",
 			},
 			siteKitConfiguration: {
 				installUrl: "https://example.com/install",

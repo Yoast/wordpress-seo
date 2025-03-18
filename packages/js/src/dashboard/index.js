@@ -59,9 +59,6 @@ export { Dashboard } from "./components/dashboard";
  * @property {string} errorSupport The support link when errors occur.
  * @property {string} siteKitLearnMore The Site Kit learn more link.
  * @property {string} siteKitConsentLearnMore The Site Kit consent learn more link.
- * @property {string} topPagesInfoLearnMore The top pages learn more link.
- * @property {string} topQueriesInfoLearnMore The top queries learn more link.
- * @property {string} organicSessionsInfoLearnMore The organic sessions learn more link.
  */
 
 /**
