@@ -33,7 +33,7 @@ WidgetTooltip.displayName = "Widget.Tooltip";
  * @returns {JSX.Element} The sources of the data in the widget as a component.
  */
 export const WidgetDataSources = ( { dataSources } ) => (
-	<div className="yst-leading-4 yst-border-t yst-mt-3 yst-border-slate-200 yst-italic yst-text-xxs">
+	<div className="yst-border-t yst-mt-3 yst-border-slate-200 yst-italic yst-text-xxs">
 		<div className="yst-mt-3 yst-font-semibold yst-text-slate-800">{ __( "Data provided by:", "wordpress-seo" ) }</div>
 		<ul>
 			{ dataSources.map( ( dataSource, index ) => (
