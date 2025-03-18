@@ -34,7 +34,7 @@ WidgetTooltip.displayName = "Widget.Tooltip";
  */
 export const WidgetDataSources = ( { dataSources } ) => (
 	<div className="yst-leading-4 yst-border-t yst-mt-3 yst-border-slate-200 yst-italic yst-text-[11px]">
-		<span className="yst-block yst-mt-3 yst-font-semibold yst-text-slate-800">{ __( "Data provided by:", "wordpress-seo" ) }</span>
+		<div className="yst-mt-3 yst-font-semibold yst-text-slate-800">{ __( "Data provided by:", "wordpress-seo" ) }</div>
 		<ul>
 			{ dataSources.map( ( dataSource, index ) => (
 				<li className="yst-text-slate-500" key={ index }>
