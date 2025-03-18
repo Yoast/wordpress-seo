@@ -9,7 +9,7 @@ namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Analytics_4;
  *
  * @requires PHP >= 7.4
  *
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Analytics_4_Adapter::is_connected
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter::is_connected
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
