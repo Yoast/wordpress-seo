@@ -44,6 +44,8 @@ class Site_Kit_Analytics_4_Adapter {
 	/**
 	 * Sets the analytics module. Used for tests.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param Module $module The analytics module.
 	 *
 	 * @return void
