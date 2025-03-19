@@ -1,4 +1,4 @@
-import { ArrowRightIcon } from "@heroicons/react/outline";
+import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { Link } from "@yoast/ui-library";
 
@@ -21,7 +21,7 @@ export const LearnMoreLink = ( { href, as: Component = Link, ...props } ) => (
 		{ ...props }
 	>
 		{ __( "Learn more", "wordpress-seo" ) }
-		<ArrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />
+		<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />
 		<span className="yst-sr-only">
 			{
 				/* translators: Hidden accessibility text. */
