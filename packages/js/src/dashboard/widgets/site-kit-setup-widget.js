@@ -1,6 +1,6 @@
 import { TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { useCallback } from "@wordpress/element";
+import { useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Alert, Button, DropdownMenu, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
@@ -38,6 +38,7 @@ export const STEP_NAME = {
  * @typedef {Object} UseSiteKitConfiguration
  * @property {function(RequestInit?)} grantConsent The grant consent function.
  * @property {function(RequestInit?)} dismissPermanently The dismiss permanently function.
+ * @property {function(string, string, RequestInit?)} trackSiteKitUsage The function used to track Site Kit usage.
  */
 
 /**
@@ -58,6 +59,17 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 		} ).catch( noop );
 	}, [ dataProvider, remoteDataProvider ] );
 
+	const trackSiteKitUsage = useCallback( ( element, value, options ) => {
+		remoteDataProvider.fetchJson(
+			dataProvider.getEndpoint( "siteKitUsageTracking" ),
+			// eslint-disable-next-line camelcase
+			{ element_name: element,
+				// eslint-disable-next-line camelcase
+				element_value: value },
+			{ ...options, method: "POST" }
+		).catch( noop );
+	}, [ remoteDataProvider, dataProvider ] );
+
 	const dismissPermanently = useCallback( ( options ) => {
 		remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "siteKitConfigurationDismissal" ),
@@ -69,7 +81,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}, [ remoteDataProvider, dataProvider ] );
 
-	return { grantConsent, dismissPermanently };
+	return { grantConsent, dismissPermanently, trackSiteKitUsage };
 };
 
 /**
@@ -126,11 +138,30 @@ const NoPermissionWarning = ( { capabilities, currentStep } ) => {
  * @returns {JSX.Element} The widget.
  */
 export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
+	const { grantConsent, dismissPermanently, trackSiteKitUsage } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
+	const currentConnectionStep = dataProvider.getSiteKitCurrentConnectionStep();
+	const lastCompletedStep = dataProvider.getStepsStatuses().lastIndexOf( true );
+
+	useEffect( () => {
+		if ( dataProvider.getSiteKitTrackingElement( "setupWidgetLoaded" ) === "" ) {
+			trackSiteKitUsage( "setup_widget_loaded", "yes" );
+		}
+		if ( dataProvider.getSiteKitTrackingElement( "setupWidgetDismissed" ) === "yes" ) {
+			trackSiteKitUsage( "setup_widget_dismissed", "no" );
+		}
+		if ( dataProvider.getSiteKitTrackingElement( "firstInteractionStage" ) === "" ) {
+			trackSiteKitUsage( "first_interaction_stage", steps[ currentConnectionStep ] );
+		}
+		if ( dataProvider.getSiteKitTrackingElement( "lastInteractionStage" ) !== steps[ lastCompletedStep ] ) {
+			trackSiteKitUsage( "last_interaction_stage", steps[ lastCompletedStep ] );
+		}
+	}, [ dataProvider, trackSiteKitUsage ] );
+
 	const handleOnRemove = useCallback( () => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
+		trackSiteKitUsage(  "setup_widget_dismissed", "yes" );
 	}, [ dataProvider ] );
 
-	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const siteKitConfiguration = dataProvider.getSiteKitConfiguration();
@@ -138,7 +169,8 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();
-	}, [ dismissPermanently ] );
+		trackSiteKitUsage(  "setup_widget_dismissed", "permanently" );
+	}, [ dismissPermanently, trackSiteKitUsage ] );
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
