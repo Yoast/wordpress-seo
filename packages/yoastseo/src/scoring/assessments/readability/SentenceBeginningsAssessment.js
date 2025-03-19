@@ -113,7 +113,7 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	 * @returns {Mark[]} All marked sentences.
 	 */
 	getMarks( paper, researcher ) {
-		let sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
+		const sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" )
 		sentenceBeginnings = sentenceBeginnings.filter( sentenceBeginning => sentenceBeginning.count > MAX_SAME_BEGINNINGS );
 		const sentences = sentenceBeginnings.flatMap( sentenceBeginning => sentenceBeginning.sentences );
 		return sentences.map( sentence => {
