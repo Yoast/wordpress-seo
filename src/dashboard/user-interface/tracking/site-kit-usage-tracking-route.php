@@ -142,8 +142,8 @@ class Site_Kit_Usage_Tracking_Route implements Route_Interface {
 
 		$valid_values = [
 			'setup_widget_loaded'     => [ 'yes', 'no' ],
-			'first_interaction_stage' => [ '1', '2', '3', '4' ],
-			'last_interaction_stage'  => [ '1', '2', '3', '4' ],
+			'first_interaction_stage' => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT' ],
+			'last_interaction_stage'  => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT' ],
 			'setup_widget_dismissed'  => [ 'yes', 'no', 'permanently' ],
 		];
 
