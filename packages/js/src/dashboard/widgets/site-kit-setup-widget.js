@@ -140,8 +140,7 @@ const NoPermissionWarning = ( { capabilities, currentStep } ) => {
 export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const { grantConsent, dismissPermanently, trackSiteKitUsage } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const currentConnectionStep = dataProvider.getSiteKitCurrentConnectionStep();
-	const lastCompletedStep = dataProvider.getStepsStatuses().lastIndexOf( true );
-
+	
 	useEffect( () => {
 		if ( dataProvider.getSiteKitTrackingElement( "setupWidgetLoaded" ) === "" ) {
 			trackSiteKitUsage( "setup_widget_loaded", "yes" );
@@ -152,8 +151,8 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 		if ( dataProvider.getSiteKitTrackingElement( "firstInteractionStage" ) === "" ) {
 			trackSiteKitUsage( "first_interaction_stage", steps[ currentConnectionStep ] );
 		}
-		if ( dataProvider.getSiteKitTrackingElement( "lastInteractionStage" ) !== steps[ lastCompletedStep ] ) {
-			trackSiteKitUsage( "last_interaction_stage", steps[ lastCompletedStep ] );
+		if ( dataProvider.getSiteKitTrackingElement( "lastInteractionStage" ) !== steps[ currentConnectionStep ] ) {
+			trackSiteKitUsage( "last_interaction_stage", steps[ currentConnectionStep ] );
 		}
 	}, [ dataProvider, trackSiteKitUsage ] );
 
