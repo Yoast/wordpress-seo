@@ -101,6 +101,13 @@ domReady( () => {
 		},
 	} );
 
+	const siteKitTracking = {
+		setupWidgetDismissed: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.setupWidgetDismissed", "" ),
+		setupWidgetLoaded: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.setupWidgetLoaded", "" ),
+		firstInteractionStage: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.firstInteractionStage", "" ),
+		lastInteractionStage: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.lastInteractionStage", "" ),
+	};
+
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const dataFormatters = {
