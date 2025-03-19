@@ -1,10 +1,12 @@
-import { SkeletonLoader } from "@yoast/ui-library";
-import { SearchRankingCompareMetric } from "./search-ranking-compare-metric";
-import { SearchRankingCompareMetricDivider } from "./search-ranking-compare-metric-divider";
+import { useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { SkeletonLoader } from "@yoast/ui-library";
+import { ErrorAlert } from "../../components/error-alert";
 import { NoDataParagraph } from "../../components/no-data-paragraph";
 import { WidgetTooltip, WidgetDataSources } from "../widget";
-import { ErrorAlert } from "../../components/error-alert";
+import { SearchRankingCompareMetric } from "./search-ranking-compare-metric";
+import { SearchRankingCompareMetricDivider } from "./search-ranking-compare-metric-divider";
+import { useSearchRankingCompare } from "./use-search-ranking-compare";
 
 /**
  * Represents the skeleton loader for an organic sessions compare metric component.
@@ -31,7 +33,7 @@ const SearchRankingCompareMetricSkeletonLoader = ( { tooltipLocalizedContent, da
  */
 const SearchRankingCompareSkeletonLoader = () => {
 	return (
-		<div className="yst-flex yst-flex-col yst-justify-center yst-items-center @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
+		<div className="yst-flex yst-flex-col yst-justify-center yst-items-center @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse">
 			<SearchRankingCompareMetricSkeletonLoader
 				tooltipLocalizedContent={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
 				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
@@ -60,14 +62,22 @@ const SearchRankingCompareSkeletonLoader = () => {
 
 /**
  * The content of the search ranking compare widget.
+ *
  * @param {import("./search-ranking-compare-widget").SearchRankingCompareData} data the data to render.
- * @param {Error} error the error object (if an error occurred).
- * @param {boolean} isPending whether the data is still pending.
  * @param {import("../services/data-provider").DataProvider} dataProvider the data provider.
+ * @param {import("../services/remote-data-provider").RemoteDataProvider} remoteDataProvider the remote data provider.
+ * @param {function} setShowTitle The function to update the title visibility.
  *
  * @returns {JSX.Element}
  */
-export const SearchRankingCompareWidgetContent = ( { data, error, isPending, dataProvider } ) => {
+export const SearchRankingCompareWidgetContent = ( { dataProvider, remoteDataProvider, dataFormatter, setShowTitle } ) => {
+	const { data, error, isPending } = useSearchRankingCompare( { dataProvider, remoteDataProvider, dataFormatter } );
+
+	useEffect( () => {
+		// Only show the title when the data is not pending and there is an error or no data.
+		setShowTitle( ! isPending && ( error || data === null ) );
+	}, [ data, error, isPending, setShowTitle ] );
+
 	if ( isPending ) {
 		return <SearchRankingCompareSkeletonLoader />;
 	}
@@ -81,7 +91,9 @@ export const SearchRankingCompareWidgetContent = ( { data, error, isPending, dat
 	}
 
 	if ( data ) {
-		return <div className="yst-flex yst-flex-col yst-justify-center yst-items-center @7xl:yst-flex-row @7xl:yst-justify-evenly rtl:yst-flex-row-reverse ">
+		return <div
+			className="yst-flex yst-flex-col yst-justify-center yst-items-center @7xl:yst-flex-row @7xl:yst-justify-evenly rtl:yst-flex-row-reverse "
+		>
 			<SearchRankingCompareMetric
 				metricName="Impressions"
 				data={ data.impressions }

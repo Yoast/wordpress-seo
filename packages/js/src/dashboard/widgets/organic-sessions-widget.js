@@ -9,50 +9,36 @@ import { Widget } from "./widget";
 /**
  * @type {import("../services/data-provider")} DataProvider
  * @type {import("../services/remote-data-provider")} RemoteDataProvider
- * @type {import("../services/comparison-metrics-data-formatter")} DataFormatter
+ * @type {import("../services/data-formatter-interface")} DataFormatterInterface
  */
 
 /**
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @param {DataFormatter} dataFormatter The data formatter.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @returns {JSX.Element} The element.
  */
-export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
+const OrganicSessionsContent = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
 	const supportLink = dataProvider.getLink( "errorSupport" );
 	const daily = useOrganicSessionsDaily( dataProvider, remoteDataProvider, dataFormatter );
 	const compare = useOrganicSessionsCompare( dataProvider, remoteDataProvider, dataFormatter );
-	const widgetProps = {
-		className: "yst-paper__content yst-col-span-4",
-		title: __( "Organic sessions", "wordpress-seo" ),
-		tooltip: __( "The number of organic sessions that began on your website.", "wordpress-seo" ),
-		dataSources: [
-			{
-				source: "Site Kit by Google",
-			},
-		],
-	};
 
 	// Collapse the errors if they are the same.
 	if ( compare.error && daily.error && isEqual( compare.error, daily.error ) ) {
 		return (
-			<Widget { ...widgetProps }>
-				<ErrorAlert className="yst-mt-4" error={ compare.error } supportLink={ supportLink } />
-			</Widget>
+			<ErrorAlert className="yst-mt-4" error={ compare.error } supportLink={ supportLink } />
 		);
 	}
 
 	// Don't show the comparison when there is no data.
 	if ( daily.data?.labels.length === 0 ) {
 		return (
-			<Widget { ...widgetProps }>
-				<NoDataParagraph />
-			</Widget>
+			<NoDataParagraph />
 		);
 	}
 
 	return (
-		<Widget { ...widgetProps }>
+		<>
 			<div className="yst-flex yst-justify-between yst-mt-4">
 				<OrganicSessionsCompare data={ compare.data } error={ compare.error } isPending={ compare.isPending } supportLink={ supportLink } />
 			</div>
@@ -62,6 +48,28 @@ export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataF
 				isPending={ daily.isPending }
 				supportLink={ supportLink }
 			/>
-		</Widget>
+		</>
 	);
 };
+
+/**
+ * @param {DataProvider} dataProvider The data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
+ * @returns {JSX.Element} The element.
+ */
+export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => (
+	<Widget
+		className="yst-paper__content yst-col-span-4"
+		title={ __( "Organic sessions", "wordpress-seo" ) }
+		tooltip={ __( "The number of organic sessions that began on your website.", "wordpress-seo" ) }
+		dataSources={ [
+			{
+				source: "Site Kit by Google",
+			},
+		] }
+		errorSupportLink={ dataProvider.getLink( "errorSupport" ) }
+	>
+		<OrganicSessionsContent dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } dataFormatter={ dataFormatter } />
+	</Widget>
+);

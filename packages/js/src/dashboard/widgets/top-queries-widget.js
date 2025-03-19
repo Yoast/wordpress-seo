@@ -1,17 +1,17 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { SkeletonLoader } from "@yoast/ui-library";
+import { ErrorAlert } from "../components/error-alert";
 import { NoDataParagraph } from "../components/no-data-paragraph";
 import { WidgetTable } from "../components/widget-table";
 import { useRemoteData } from "../services/use-remote-data";
 import { Widget } from "./widget";
-import { ErrorAlert } from "../components/error-alert";
 
 /**
  * @type {import("../index").TopQueryData} TopQueryData
  * @type {import("../services/data-provider")} DataProvider
  * @type {import("../services/remote-data-provider")} RemoteDataProvider
- * @type {import("../services/plain-metrics-data-formatter")} DataFormatter
+ * @type {import("../services/data-formatter-interface")} DataFormatterInterface
  */
 
 /**
@@ -61,40 +61,8 @@ const TopQueriesTable = ( { data, children } ) => {
 	</WidgetTable>;
 };
 
-
 /**
- * The content for TopQueriesWidget.
- *
- * @param {TopQueryData[]} [data] The data.
- * @param {boolean} [isPending] Whether the data is pending.
- * @param {Error} [error] The error.
- * @param {number} [limit=5] The limit.
- * @param {string} [supportLink] The support link.
- *
- * @returns {JSX.Element} The element.
- */
-export const TopQueriesWidgetContent = ( { data, isPending, error, limit = 5, supportLink } ) => {
-	if ( isPending ) {
-		return (
-			<TopQueriesTable>
-				{ Array.from( { length: limit }, ( _, index ) => (
-					<TopQueriesSkeletonLoaderRow key={ `top-queries-table--row__${ index }` } index={ index } />
-				) ) }
-			</TopQueriesTable>
-		);
-	}
-	if ( error ) {
-		return <ErrorAlert error={ error } supportLink={ supportLink } className="yst-mt-4" />;
-	}
-	if ( data.length === 0 ) {
-		return <NoDataParagraph />;
-	}
-
-	return <TopQueriesTable data={ data } />;
-};
-
-/**
- * @param {DataFormatter} dataFormatter The data formatter.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @returns {function(?TopQueryData[]): TopQueryData[]} Function to format the top queries data.
  */
 export const createTopQueriesFormatter = ( dataFormatter ) => ( data = [] ) => data.map( ( item ) => ( {
@@ -108,11 +76,11 @@ export const createTopQueriesFormatter = ( dataFormatter ) => ( data = [] ) => d
 /**
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @param {DataFormatter} dataFormatter The data formatter.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
- * @returns {JSX.Element} The element.
+ * @returns {{data?: TopPageData[], error?: Error, isPending: boolean}} The remote data info.
  */
-export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => {
+const useTopQueries = ( { dataProvider, remoteDataProvider, dataFormatter, limit } ) => {
 	/**
 	 * @param {RequestInit} options The options.
 	 * @returns {Promise<TopPageData[]|Error>} The promise of TopPageData or an Error.
@@ -124,36 +92,75 @@ export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormat
 			options );
 	}, [ dataProvider, limit ] );
 
-	const supportLink = dataProvider.getLink( "errorSupport" );
-
 	/**
 	 * @type {function(?TopQueryData[]): TopQueryData[]} Function to format the top queries data.
 	 */
 	const formatTopQueries = useMemo( () => createTopQueriesFormatter( dataFormatter ), [ dataFormatter ] );
 
-	const { data, error, isPending } = useRemoteData( getTopQueries, formatTopQueries );
+	return useRemoteData( getTopQueries, formatTopQueries );
+};
 
-	const dataSources = [
-		{
-			source: "Site Kit by Google",
-		},
-	];
+/**
+ * @param {DataProvider} dataProvider The data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
+ * @param {number} [limit=5] The limit.
+ * @param {string} [supportLink] The support link.
+ * @returns {JSX.Element} The element.
+ */
+export const TopQueriesWidgetContent = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => {
+	const { data, error, isPending } = useTopQueries( { dataProvider, remoteDataProvider, dataFormatter, limit } );
 
-	return <Widget
+	if ( isPending ) {
+		return (
+			<TopQueriesTable>
+				{ Array.from( { length: limit }, ( _, index ) => (
+					<TopQueriesSkeletonLoaderRow key={ `top-queries-table--row__${ index }` } index={ index } />
+				) ) }
+			</TopQueriesTable>
+		);
+	}
+	if ( error ) {
+		return <ErrorAlert error={ error } supportLink={ dataProvider.getLink( "errorSupport" ) } className="yst-mt-4" />;
+	}
+	if ( data.length === 0 ) {
+		return <NoDataParagraph />;
+	}
+
+	return <TopQueriesTable data={ data } />;
+};
+
+/**
+ * Wraps the top queries into a widget.
+ * This contains minimal logic, in order to keep the error boundary more likely to catch errors.
+ *
+ * @param {DataProvider} dataProvider The data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
+ * @param {number} [limit=5] The limit.
+ *
+ * @returns {JSX.Element} The element.
+ */
+export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => (
+	<Widget
 		className="yst-paper__content yst-col-span-4"
 		title={ __( "Top 5 search queries", "wordpress-seo" ) }
 		tooltip={ __(
 			"The top 5 search queries on your website with the highest number of clicks over the last 28 days.",
 			"wordpress-seo"
 		) }
-		dataSources={ dataSources }
+		dataSources={ [
+			{
+				source: "Site Kit by Google",
+			},
+		] }
+		errorSupportLink={ dataProvider.getLink( "errorSupport" ) }
 	>
 		<TopQueriesWidgetContent
-			data={ data }
-			isPending={ isPending }
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
 			limit={ limit }
-			error={ error }
-			supportLink={ supportLink }
 		/>
-	</Widget>;
-};
+	</Widget>
+);

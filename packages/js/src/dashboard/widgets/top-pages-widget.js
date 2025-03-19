@@ -10,6 +10,9 @@ import { Widget } from "./widget";
 
 /**
  * @type {import("../index").TopPageData} TopPageData
+ * @type {import("../services/data-provider")} DataProvider
+ * @type {import("../services/remote-data-provider")} RemoteDataProvider
+ * @type {import("../services/data-formatter-interface")} DataFormatterInterface
  */
 
 /**
@@ -152,17 +155,43 @@ export const createTopPageFormatter = ( dataFormatter ) => ( data = [] ) => data
 } ) );
 
 /**
- * The content of the top pages widget.
- *
- * @param {TopPageData[]} data The data.
- * @param {boolean} isPending Whether the data is pending.
- * @param {number} limit The limit.
- * @param {Error} error The error.
+ * @param {DataProvider} dataProvider The data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
+ * @param {number} [limit=5] The limit.
+ * @returns {{data?: TopPageData[], error?: Error, isPending: boolean}} The remote data info.
+ */
+const useTopPages = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => {
+	/**
+	 * @param {RequestInit} options The options.
+	 * @returns {Promise<TopPageData[]|Error>} The promise of TopPageData or an Error.
+	 */
+	const getTopPages = useCallback( ( options ) => {
+		return remoteDataProvider.fetchJson(
+			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
+			{ limit: limit.toString( 10 ), options: { widget: "page" } },
+			options );
+	}, [ dataProvider, limit ] );
+
+	/**
+	 * @type {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
+	 */
+	const formatTopPages = useMemo( () => createTopPageFormatter( dataFormatter ), [ dataFormatter ] );
+
+	return useRemoteData( getTopPages, formatTopPages );
+};
+
+/**
+ * @param {DataProvider} dataProvider The data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
+ * @param {number} [limit=5] The limit.
  * @param {import("../services/data-provider")} dataProvider The data provider.
- *
  * @returns {JSX.Element} The element.
  */
-const TopPagesWidgetContent = ( { data, isPending, limit, error, dataProvider } ) => {
+const TopPagesWidgetContent = ( { dataProvider, remoteDataProvider, dataFormatter, limit } ) => {
+	const { data, isPending, error } = useTopPages( { dataProvider, remoteDataProvider, dataFormatter, limit } );
+
 	if ( isPending ) {
 		return (
 			<TopPagesTable>
@@ -189,61 +218,45 @@ const TopPagesWidgetContent = ( { data, isPending, limit, error, dataProvider } 
 };
 
 /**
- * @param {import("../services/data-provider")} dataProvider The data provider.
- * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
- * @param {import("../services/data-formatter-interface")} dataFormatter The data formatter.
+ * Wraps the top pages into a widget.
+ * This contains minimal logic, in order to keep the error boundary more likely to catch errors.
+ *
+ * @param {DataProvider} dataProvider The data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
+ *
  * @returns {JSX.Element} The element.
  */
-export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => {
-	/**
-	 * @param {RequestInit} options The options.
-	 * @returns {Promise<TopPageData[]|Error>} The promise of TopPageData or an Error.
-	 */
-	const getTopPages = useCallback( ( options ) => {
-		return remoteDataProvider.fetchJson(
-			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ limit: limit.toString( 10 ), options: { widget: "page" } },
-			options );
-	}, [ dataProvider, limit ] );
-
-	/**
-	 * @type {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
-	 */
-	const formatTopPages = useMemo( () => createTopPageFormatter( dataFormatter ), [ dataFormatter ] );
-
-	const { data, error, isPending } = useRemoteData( getTopPages, formatTopPages );
-
-	const dataSources = [
-		{
-			source: "Site Kit by Google",
-			feature: __( "Clicks, Impressions, CTR, Position", "wordpress-seo" ),
-		},
-		{
-			source: "Yoast SEO",
-			feature: sprintf(
-				/* translators: 1: Yoast SEO. */
-				__( "%1$s score", "wordpress-seo" ),
-				"Yoast SEO"
-			),
-		},
-	];
-
-	return <Widget
+export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => (
+	<Widget
 		className="yst-paper__content yst-col-span-4"
 		title={ __( "Top 5 most popular content", "wordpress-seo" ) }
 		tooltip={ __(
 			"The top 5 URLs on your website with the highest number of clicks over the last 28 days.",
 			"wordpress-seo"
 		) }
-		dataSources={ dataSources }
+		dataSources={ [
+			{
+				source: "Site Kit by Google",
+				feature: __( "Clicks, Impressions, CTR, Position", "wordpress-seo" ),
+			},
+			{
+				source: "Yoast SEO",
+				feature: sprintf(
+					/* translators: 1: Yoast SEO. */
+					__( "%1$s score", "wordpress-seo" ),
+					"Yoast SEO"
+				),
+			},
+		] }
+		errorSupportLink={ dataProvider.getLink( "errorSupport" ) }
 	>
 		<TopPagesWidgetContent
-			data={ data }
-			isPending={ isPending }
-			limit={ limit }
-			error={ error }
 			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
+			limit={ limit }
 		/>
-	</Widget>;
-};
+	</Widget>
+);
