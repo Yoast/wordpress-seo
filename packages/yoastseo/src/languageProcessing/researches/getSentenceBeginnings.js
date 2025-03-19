@@ -55,7 +55,7 @@ const compareFirstWords = ( sentenceBeginnings, sentences ) => {
  */
 const getSentenceBeginning = ( sentence, firstWordExceptions, secondWordExceptions ) => {
 	const words = getWordsFromTokens( sentence.tokens, false )
-			.filter( word => stripSpaces( word ) !== " " );
+		.filter( word => stripSpaces( word ) !== " " );
 
 	if ( words.length === 0 ) {
 		return "";
