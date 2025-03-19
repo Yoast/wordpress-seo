@@ -115,7 +115,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			->andReturn( $user1 );
 
 		$this->assertSame( $expected, $this->instance->to_array() );
-		// $this->assertSame( $expected, $this->instance->to_legacy_array() );
 	}
 
 	/**
