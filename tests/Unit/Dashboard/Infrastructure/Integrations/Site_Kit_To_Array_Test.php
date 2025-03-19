@@ -12,6 +12,12 @@ use WP_User;
  * @group  Site_Kit
  *
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::to_array
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::to_legacy_array
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::can_read_data
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_enabled
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_ga_connected
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_connected
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_setup_completed
  *
  * @phpcs  :disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -109,6 +115,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			->andReturn( $user1 );
 
 		$this->assertSame( $expected, $this->instance->to_array() );
+		// $this->assertSame( $expected, $this->instance->to_legacy_array() );
 	}
 
 	/**

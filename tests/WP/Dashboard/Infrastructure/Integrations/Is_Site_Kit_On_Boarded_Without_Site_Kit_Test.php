@@ -11,9 +11,11 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test class for the is_onboarded method.
  *
- * @group  Site_Kit
+ * @group  site_kit
  *
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::__construct
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_onboarded
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_site_kit_installed
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
