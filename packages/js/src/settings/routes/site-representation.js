@@ -21,7 +21,6 @@ const FormikDummyAutocompleteField = withFormikDummySelectField( FormikAutocompl
  */
 const SiteRepresentation = () => {
 	const { values } = useFormikContext();
-	// eslint-disable-next-line camelcase
 	const {
 		website_name: websiteName,
 		company_or_person: companyOrPerson,
@@ -210,9 +209,9 @@ const SiteRepresentation = () => {
 									variant="square"
 									previewLabel={ createInterpolateElement(
 										sprintf(
-											// translators: %1$s expands to an opening strong tag.
-											// %2$s expands to a closing strong tag.
-											// %3$s expands to the recommended image size.
+											/* translators: %1$s expands to an opening strong tag.
+											   %2$s expands to a closing strong tag.
+											   %3$s expands to the recommended image size. */
 											__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 											"<strong>",
 											"</strong>",
@@ -262,7 +261,7 @@ const SiteRepresentation = () => {
 										id="input-wpseo_social-mastodon_url"
 										label={ __( "Mastodon", "wordpress-seo" ) }
 										placeholder={ __( "E.g. https://mastodon.social/@yoast", "wordpress-seo" ) }
-										labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+										labelSuffix={ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
 										isDummy={ ! isPremium }
 										description={ <>
 											{ __( "Get your site verified in your Mastodon profile.", "wordpress-seo" ) }
@@ -314,7 +313,7 @@ const SiteRepresentation = () => {
 											) ) }
 											{ /* eslint-disable-next-line react/jsx-no-bind */ }
 											<Button id="button-add-social-profile" variant="secondary" onClick={ ()=>handleAddProfile( arrayHelpers ) }>
-												<PlusIcon className="yst--ml-1 yst-mr-1 yst-h-5 yst-w-5 yst-text-slate-400" />
+												<PlusIcon className="yst--ms-1 yst-me-1 yst-h-5 yst-w-5 yst-text-slate-400" />
 												{ __( "Add another profile", "wordpress-seo" ) }
 											</Button>
 										</>
@@ -325,7 +324,7 @@ const SiteRepresentation = () => {
 							<FieldsetLayout
 								title={ <>
 									{ __( "Additional organization info", "wordpress-seo" ) }
-									{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+									{ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
 								</> }
 								description={ __( "Enrich your organization's profile by providing more in-depth information. The more details you share, the better Google understands your website.", "wordpress-seo" ) }
 							>
@@ -395,13 +394,13 @@ const SiteRepresentation = () => {
 										isDummy={ ! isPremium }
 										options={ [
 											{ value: "", label: "None" },
-											{ value: "1-10", label: __( "1-10 employees", "wordpress-seo" ) },
-											{ value: "11-50", label: __( "11-50 employees", "wordpress-seo" ) },
-											{ value: "51-200", label: __( "51-200 employees", "wordpress-seo" ) },
-											{ value: "201-500", label: __( "201-500 employees", "wordpress-seo" ) },
-											{ value: "501-1000", label: __( "501-1000 employees", "wordpress-seo" ) },
-											{ value: "1001-5000", label: __( "1001-5000 employees", "wordpress-seo" ) },
-											{ value: "5001-10000", label: __( "5001-10000 employees", "wordpress-seo" ) },
+											{ value: "1-10", label: __( "1–10 employees", "wordpress-seo" ) },
+											{ value: "11-50", label: __( "11–50 employees", "wordpress-seo" ) },
+											{ value: "51-200", label: __( "51–200 employees", "wordpress-seo" ) },
+											{ value: "201-500", label: __( "201–500 employees", "wordpress-seo" ) },
+											{ value: "501-1000", label: __( "501–1000 employees", "wordpress-seo" ) },
+											{ value: "1001-5000", label: __( "1001–5000 employees", "wordpress-seo" ) },
+											{ value: "5001-10000", label: __( "5001–10000 employees", "wordpress-seo" ) },
 										] }
 									/>
 
@@ -411,7 +410,7 @@ const SiteRepresentation = () => {
 							<FieldsetLayout
 								title={ <>
 									{ __( "Organization identifiers", "wordpress-seo" ) }
-									{ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+									{ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
 								</> }
 								description={ __( "Please tell us more about your organization’s identifiers. This information will help Google to display accurate and helpful details about your organization.", "wordpress-seo" ) }
 							>
@@ -497,9 +496,9 @@ const SiteRepresentation = () => {
 									<Alert id="alert-person-user-profile">
 										{ canEditUser && createInterpolateElement(
 											sprintf(
-												// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
-												// %3$s and %4$s are replaced by opening and closing <a> tags.
-												// %5$s is replaced by the selected user display name.
+												/* translators: %1$s and %2$s are replaced by opening and closing <span> tags.
+												   %3$s and %4$s are replaced by opening and closing <a> tags.
+												   %5$s is replaced by the selected user display name. */
 												__( "You have selected the user %1$s%5$s%2$s as the person this site represents. Their user profile information will now be used in search results. %3$sUpdate their profile to make sure the information is correct%4$s.", "wordpress-seo" ),
 												"<strong>",
 												"</strong>",
@@ -516,8 +515,8 @@ const SiteRepresentation = () => {
 											} ) }
 										{ ! canEditUser && createInterpolateElement(
 											sprintf(
-												// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
-												// %3$s is replaced by the selected user display name.
+												/* translators: %1$s and %2$s are replaced by opening and closing <span> tags.
+												   %3$s is replaced by the selected user display name. */
 												__( "You have selected the user %1$s%3$s%2$s as the person this site represents. Their user profile information will now be used in search results. We're sorry, you're not allowed to edit this user's profile. Please contact your admin or %1$s%3$s%2$s to check and/or update the profile.", "wordpress-seo" ),
 												"<strong>",
 												"</strong>",
@@ -534,9 +533,9 @@ const SiteRepresentation = () => {
 									variant="square"
 									previewLabel={ createInterpolateElement(
 										sprintf(
-											// translators: %1$s expands to an opening strong tag.
-											// %2$s expands to a closing strong tag.
-											// %3$s expands to the recommended image size.
+											/* translators: %1$s expands to an opening strong tag.
+											   %2$s expands to a closing strong tag.
+											   %3$s expands to the recommended image size. */
 											__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 											"<strong>",
 											"</strong>",

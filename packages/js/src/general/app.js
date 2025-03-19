@@ -1,5 +1,3 @@
-/* eslint-disable complexity */
-
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon, ChartPieIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelect } from "@wordpress/data";
@@ -140,7 +138,7 @@ const App = () => {
 												>
 													{ notice.content }
 												</Notice>
-												 )
+											)
 										}
 										</div> }
 									</div> }

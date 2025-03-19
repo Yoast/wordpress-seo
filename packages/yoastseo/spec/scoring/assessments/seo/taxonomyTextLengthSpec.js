@@ -20,13 +20,14 @@ describe( "A TextLengthAssessment for a taxonomy page in Japanese", function() {
 		expect( assessment._config.veryFarBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.veryFarBelowMinimum );
 	} );
 	it( "should return a good result for taxonomy pages in Japanese when the text is 60 characters or more", function() {
-		const paper = new Paper( "欧米では、かつては不吉の象徴とする迷信があり、魔女狩りなどによって黒猫が殺されることがあった。たとえばベルギー・ウェス。" );
+		const paper = new Paper( "欧米では、かつては不吉の象徴とする迷信があり、魔女狩りなどによって黒猫が殺されることがあった。その傾向は現在も続いており、" +
+			"特にイタリアで顕著だという。" );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const result = assessment.getResult( paper, japaneseResearcher );
 
 		expect( result.getScore() ).toEqual( 9 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>:" +
-			" The text contains 60 characters. Good job!" );
+			" The text contains 70 characters. Good job!" );
 	} );
 	it( "should return an okay result for taxonomy pages in Japanese when the text is between 20-60 characters", function() {
 		const paper = new Paper( "欧米では、かつては不吉の象徴とする迷信があり、魔女狩りなどによって黒猫が殺されることがあった。" );
@@ -35,7 +36,7 @@ describe( "A TextLengthAssessment for a taxonomy page in Japanese", function() {
 
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: " +
-			"The text contains 47 characters. This is slightly below the recommended minimum of 60 characters." +
+			"The text contains 44 characters. This is slightly below the recommended minimum of 60 characters." +
 			" <a href='https://yoa.st/34k' target='_blank'>Add more content</a>." );
 	} );
 	it( "should return a bad result for taxonomy pages in Japanese when the text is between 1-20 characters", function() {
@@ -44,7 +45,7 @@ describe( "A TextLengthAssessment for a taxonomy page in Japanese", function() {
 		const result = assessment.getResult( paper, japaneseResearcher );
 
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text contains 19 characters." +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text contains 17 characters." +
 			" This is below the recommended minimum of 60 characters. <a href='https://yoa.st/34k' target='_blank'>Add more content</a>." );
 	} );
 	it( "should return a really bad result for taxonomy pages in Japanese when the text is 0 characters", function() {

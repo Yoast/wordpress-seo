@@ -3,6 +3,7 @@ import { createElement } from "@wordpress/element";
 import { setLocaleData } from "@wordpress/i18n";
 import "jest-styled-components";
 import "raf/polyfill";
+// eslint-disable-next-line no-restricted-imports -- We need to import React to set up the global React object.
 import React from "react";
 
 setLocaleData( {
@@ -56,3 +57,17 @@ global.IntersectionObserver = class {
 };
 
 global.jQuery = jest.fn();
+
+global.HTMLCanvasElement.prototype.getContext = function( type ) {
+	if ( type === "2d" ) {
+		return {
+			// Mock methods and properties used by Chart.js
+			createLinearGradient: () => ( {
+				addColorStop: jest.fn(),
+			} ),
+			fillRect: jest.fn(),
+			clearRect: jest.fn(),
+		};
+	}
+	return null;
+};

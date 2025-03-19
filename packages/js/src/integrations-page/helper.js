@@ -1,7 +1,5 @@
 import apiFetch from "@wordpress/api-fetch";
 
-const isPremiumInstalled = Boolean( window.wpseoScriptData.isPremium );
-
 /**
  * Checks if an integration is active.
  *
@@ -56,10 +54,9 @@ export const getIsMultisiteAvailable = ( integration ) => {
  * @returns {bool} True if the integration is available to the user.
  */
 export const getIsFreeIntegrationOrPremiumAvailable = ( integration ) => {
-	return ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium;
+	return ( integration.isPremium && Boolean( window.wpseoScriptData.isPremium ) ) || ! integration.isPremium;
 };
 
-/* eslint-disable complexity */
 /**
  * Checks the conditions for which a card is active
  *
@@ -80,7 +77,6 @@ export const getIsCardActive = ( integration, activeState ) => {
 
 	return networkControlEnabled && multisiteAvailable;
 };
-/* eslint-enable complexity */
 
 /**
  * Updates an integration state.

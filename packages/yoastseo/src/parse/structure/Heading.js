@@ -1,6 +1,10 @@
 import Node from "./Node";
 
 /**
+ * @typedef {import(".").Text} Text
+ */
+
+/**
  * A heading in the tree.
  */
 class Heading extends Node {

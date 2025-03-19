@@ -47,7 +47,7 @@ const SuccessMessage = ( { variant, className = "" } ) => {
 			classNames( "yst-success-message yst-animate-appear-disappear",
 				`yst-success-message-${ variant }`,
 				className,
-			 ) }
+			) }
 	>
 		<SuccessIcon className="yst-success-icon" />
 		{ variants[ variant ].success.label }
@@ -78,9 +78,9 @@ export const TableButton = forwardRef( ( { variant = "add", className = "", ...p
 			className={ classNames(
 				"yst-table-button",
 				className,
-			 ) }
+			) }
 		>
-			<ButtonIcon className="yst-button-icon" />
+			<ButtonIcon className="yst-button-icon yst--mx-1" />
 			{ variants[ variant ].button.label }
 		</Button>
 	);

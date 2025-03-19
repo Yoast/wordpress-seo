@@ -15,7 +15,7 @@ import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 export const RequestLimitReached = ( { upsellLink, className = "" } ) => {
 	return (
 		<Alert variant="warning" className={ className }>
-			 <div className="yst-flex yst-flex-col yst-items-start">
+			<div className="yst-flex yst-flex-col yst-items-start">
 				{ sprintf(
 					/* translators: %s : Expands to "Semrush". */
 					__( "You've reached your request limit for today. Check back tomorrow or upgrade your plan over at %s.", "wordpress-seo" ),
@@ -36,7 +36,7 @@ export const RequestLimitReached = ( { upsellLink, className = "" } ) => {
 							"Semrush",
 						)
 					}
-					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-text-amber-900" />
+					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-text-amber-900 rtl:yst-rotate-180" />
 
 				</Button> }
 			</div>

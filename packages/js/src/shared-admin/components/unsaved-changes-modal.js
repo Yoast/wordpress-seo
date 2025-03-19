@@ -28,7 +28,7 @@ export const UnsavedChangesModal = ( { isOpen, onClose = noop, onDiscard = noop,
 				>
 					<ExclamationIcon className="yst-h-6 yst-w-6 yst-text-red-600" { ...svgAriaProps } />
 				</div>
-				<div className="yst-mt-3 yst-text-center sm:yst-mt-0 sm:yst-ml-4 sm:yst-text-left">
+				<div className="yst-mt-3 yst-text-center sm:yst-mt-0 sm:yst-ms-4 sm:yst-text-start">
 					<Modal.Title className="yst-text-lg yst-leading-6 yst-font-medium yst-text-slate-900 yst-mb-3">
 						{ title }
 					</Modal.Title>

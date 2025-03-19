@@ -36,12 +36,21 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	 * @returns {void}
 	 */
 	onModalOpen() {
-		if ( ! this.props.keyphrase.trim() ) {
-			this.props.onOpenWithNoKeyphrase();
+		const {
+			keyphrase,
+			onOpenWithNoKeyphrase,
+			onOpen,
+			location,
+			newRequest,
+			countryCode,
+		} = this.props;
+		if ( ! keyphrase.trim() ) {
+			onOpenWithNoKeyphrase();
 			return;
 		}
 
-		this.props.onOpen( this.props.location );
+		onOpen( location );
+		newRequest( countryCode, keyphrase );
 	}
 
 	/**
@@ -217,6 +226,7 @@ SEMrushRelatedKeyphrasesModal.propTypes = {
 	onAuthentication: PropTypes.func.isRequired,
 	countryCode: PropTypes.string,
 	learnMoreLink: PropTypes.string,
+	newRequest: PropTypes.func.isRequired,
 };
 
 SEMrushRelatedKeyphrasesModal.defaultProps = {

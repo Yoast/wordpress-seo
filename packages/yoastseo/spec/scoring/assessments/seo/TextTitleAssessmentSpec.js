@@ -1,6 +1,6 @@
 import TextTitleAssessment from "../../../../src/scoring/assessments/seo/TextTitleAssessment";
 
-import { values } from "yoastseo";
+import { values } from "../../../../src";
 
 const { Paper } = values;
 

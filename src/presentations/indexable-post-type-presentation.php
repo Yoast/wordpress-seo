@@ -285,7 +285,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return string The open graph article modified time.
 	 */
 	public function generate_open_graph_article_modified_time() {
-		if ( $this->source->post_modified_gmt !== $this->source->post_date_gmt ) {
+		if ( \strtotime( $this->source->post_modified_gmt ) > \strtotime( $this->source->post_date_gmt ) ) {
 			return $this->date->format( $this->source->post_modified_gmt );
 		}
 

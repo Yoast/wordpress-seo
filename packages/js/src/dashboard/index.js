@@ -48,9 +48,78 @@ export { Dashboard } from "./components/dashboard";
  * @typedef {Object} Endpoints The endpoints.
  * @property {string} seoScores The endpoint for SEO scores.
  * @property {string} readabilityScores The endpoint for readability scores.
+ * @property {string} siteKitConfigurationDismissal The endpoint to dismiss the Site Kit configuration.
+ * @property {string} siteKitConsentManagement The endpoint to manage the Site Kit consent.
+ * @property {string} timeBasedSeoMetrics The endpoint to get a time based seo metrics.
  */
 
 /**
  * @typedef {Object} Links The links.
  * @property {string} dashboardLearnMore The dashboard information link.
+ * @property {string} errorSupport The support link when errors occur.
+ * @property {string} siteKitLearnMore The Site Kit learn more link.
+ * @property {string} siteKitConsentLearnMore The Site Kit consent learn more link.
+ */
+
+/**
+ * @typedef {Object} TopPageDataLinks The links.
+ * @property {string} edit The link for editing the content.
+ */
+
+/**
+ * @typedef {Object} TopPageData The top page data.
+ * @property {string} subject The landing page.
+ * @property {number} clicks The number of clicks.
+ * @property {number} impressions The number of impressions.
+ * @property {number} ctr The click-through rate.
+ * @property {number} position The average position.
+ * @property {ScoreType} seoScore The seo score.
+ * @property {TopPageDataLinks} links The links.
+ */
+
+/**
+ * @typedef {Object} TopQueryData The top page data.
+ * @property {string} subject The landing page.
+ * @property {number} clicks The number of clicks.
+ * @property {number} impressions The number of impressions.
+ * @property {number} ctr The click-through rate.
+ * @property {number} position The average position.
+ */
+
+/**
+ * @typedef {"seoScores" |
+ *           "readabilityScores" |
+ *           "topPages" |
+ *           "siteKitSetup" |
+ *           "topQueries" |
+ *           "searchRankingCompare" |
+ *           "organicSessions"} WidgetType The widget type.
+ */
+
+/**
+ * @typedef {Object} WidgetInstance The widget instance. Should hold what the UI needs to render the widget.
+ * @property {string} id The unique identifier.
+ * @property {WidgetType} type The widget type.
+ */
+
+/**
+ * @typedef {Object} SiteKitConfiguration The Site Kit configuration.
+ * @property {string} installUrl The link to install Site Kit.
+ * @property {string} activateUrl The link to activate Site Kit.
+ * @property {string} setupUrl The link to setup Site Kit.
+ * @property {SiteKitConnectionStepsStatuses} connectionStepsStatuses The connection steps statuses.
+ * @property {boolean} isAnalyticsConnected Whether Google Analytics is connected.
+ * @property {boolean} isFeatureEnabled Whether the feature is enabled.
+ * @property {boolean} isSetupWidgetDismissed Whether the configuration is dismissed.
+ * @property {CapabilitiesForSiteKit} capabilities The user capabilities for site kit.
+ */
+
+/**
+ * @typedef {Object<"installPlugins"|"viewSearchConsoleData"|"viewAnalyticsData", boolean>} CapabilitiesForSiteKit
+ * The user capabilities for site kit.
+ */
+
+/**
+ * @typedef {Object<"isInstalled"|"isActive"|"isSetupCompleted"|"isConsentGranted", boolean>} SiteKitConnectionStepsStatuses
+ * The connection steps statuses.
  */

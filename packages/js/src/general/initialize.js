@@ -6,8 +6,12 @@ import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
-import { LINK_PARAMS_NAME } from "../shared-admin/store";
-import { ADMIN_NOTICES_NAME } from "./store/admin-notices";
+import { ComparisonMetricsDataFormatter } from "../dashboard/services/comparison-metrics-data-formatter";
+import { PlainMetricsDataFormatter } from "../dashboard/services/plain-metrics-data-formatter";
+import { DataProvider } from "../dashboard/services/data-provider";
+import { RemoteDataProvider } from "../dashboard/services/remote-data-provider";
+import { WidgetFactory } from "../dashboard/services/widget-factory";
+import { ADMIN_URL_NAME, LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
 import { RouteErrorFallback } from "./components";
 import { ConnectedPremiumUpsellList } from "./components/connected-premium-upsell-list";
@@ -15,6 +19,7 @@ import { SidebarLayout } from "./components/sidebar-layout";
 import { STORE_NAME } from "./constants";
 import { AlertCenter, FirstTimeConfiguration, ROUTES } from "./routes";
 import registerStore from "./store";
+import { ADMIN_NOTICES_NAME } from "./store/admin-notices";
 import { ALERT_CENTER_NAME } from "./store/alert-center";
 
 /**
@@ -31,6 +36,7 @@ domReady( () => {
 	}
 	registerStore( {
 		initialState: {
+			[ ADMIN_URL_NAME ]: get( window, "wpseoScriptData.adminUrl", "" ),
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
 			[ ALERT_CENTER_NAME ]: { alerts: get( window, "wpseoScriptData.alerts", [] ) },
 			currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
@@ -45,6 +51,7 @@ domReady( () => {
 	const contentTypes = get( window, "wpseoScriptData.dashboard.contentTypes", [] );
 	/** @type {string} */
 	const userName = get( window, "wpseoScriptData.dashboard.displayName", "User" );
+	const userLocale = document.getElementsByTagName( "html" )?.[ 0 ]?.getAttribute( "lang" ) || "en-US";
 	/** @type {Features} */
 	const features = {
 		indexables: get( window, "wpseoScriptData.dashboard.indexablesEnabled", false ),
@@ -56,16 +63,54 @@ domReady( () => {
 	const endpoints = {
 		seoScores: get( window, "wpseoScriptData.dashboard.endpoints.seoScores", "" ),
 		readabilityScores: get( window, "wpseoScriptData.dashboard.endpoints.readabilityScores", "" ),
+		timeBasedSeoMetrics: get( window, "wpseoScriptData.dashboard.endpoints.timeBasedSeoMetrics", "" ),
+		siteKitConfigurationDismissal: get( window, "wpseoScriptData.dashboard.endpoints.siteKitConfigurationDismissal", "" ),
+		siteKitConsentManagement: get( window, "wpseoScriptData.dashboard.endpoints.siteKitConsentManagement", "" ),
 	};
 	/** @type {Object<string,string>} */
 	const headers = {
 		"X-Wp-Nonce": get( window, "wpseoScriptData.dashboard.nonce", "" ),
 	};
 
-	/** @type {{dashboardLearnMore: string}} */
+	/** @type {Links} */
 	const links = {
 		dashboardLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-learn-more" ),
+		errorSupport: select( STORE_NAME ).selectAdminLink( "?page=wpseo_page_support" ),
+		siteKitLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-site-kit-learn-more" ),
+		siteKitConsentLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-site-kit-consent-learn-more" ),
 	};
+
+	const siteKitConfiguration = get( window, "wpseoScriptData.dashboard.siteKitConfiguration", {
+		installUrl: "",
+		activateUrl: "",
+		setupUrl: "",
+		isAnalyticsConnected: false,
+		isFeatureEnabled: false,
+		isSetupWidgetDismissed: false,
+		capabilities: {
+			installPlugins: false,
+			viewSearchConsoleData: false,
+			viewAnalyticsData: false,
+		},
+		connectionStepsStatuses: {
+			isInstalled: false,
+			isActive: false,
+			isSetupCompleted: false,
+			isConsentGranted: false,
+		},
+	} );
+
+	const remoteDataProvider = new RemoteDataProvider( { headers } );
+	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
+	const dataFormatters = {
+		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
+		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
+	};
+
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+	if ( dataProvider.isSiteKitConnectionCompleted() ) {
+		dataProvider.setSiteKitConfigurationDismissed( true );
+	}
 
 	const router = createHashRouter(
 		createRoutesFromElements(
@@ -75,12 +120,12 @@ domReady( () => {
 					element={
 						<SidebarLayout>
 							<Dashboard
-								contentTypes={ contentTypes }
+								widgetFactory={ widgetFactory }
 								userName={ userName }
 								features={ features }
-								endpoints={ endpoints }
-								headers={ headers }
 								links={ links }
+								sitekitFeatureEnabled={ siteKitConfiguration.isFeatureEnabled }
+								dataProvider={ dataProvider }
 							/>
 							<ConnectedPremiumUpsellList />
 						</SidebarLayout>

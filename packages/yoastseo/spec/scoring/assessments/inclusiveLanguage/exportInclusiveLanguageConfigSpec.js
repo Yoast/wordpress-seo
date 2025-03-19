@@ -69,6 +69,7 @@ describe( "Export of the inclusive language configuration", () => {
 				score: assessment.score === SCORES.POTENTIALLY_NON_INCLUSIVE ? "orange" : "red",
 				ruleDescription: assessment.ruleDescription,
 				caseSensitive: assessment.caseSensitive ? "yes" : "no",
+				// eslint-disable-next-line @wordpress/valid-sprintf -- The sprintf function is used to replace placeholders in the feedbackFormat variable.
 				feedbackFormat: sprintf( assessment.feedbackFormat, "\"x\"", "\"y\"", "\"z\"" ).replace( /<\/?i>/g, "" ),
 				learnMoreUrl: retrieveAnchor( assessment.learnMoreUrl ),
 			} )
@@ -79,9 +80,12 @@ describe( "Export of the inclusive language configuration", () => {
 		resultLines.unshift( header.join( ";" ) );
 
 		// Set doExport to true to write the results to a temporary file.
-		const doExport = false;
+		const doExport = true;
 		if ( doExport ) {
 			writeToTempFile( "inclusive-language-database.csv", resultLines.join( "\n" ) );
+			/* eslint-disable no-console */
+			console.log( `result=== \n${resultLines.join( "\n" )}` );
+			/* eslint-enable no-console */
 		}
 	} );
 

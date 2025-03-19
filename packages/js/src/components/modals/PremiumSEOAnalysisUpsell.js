@@ -26,8 +26,10 @@ const PremiumSEOAnalysisUpsell = ( props ) => {
 			title={ __( "Get more help with writing content that ranks", "wordpress-seo" ) }
 			description={ props.description }
 			benefitsTitle={
-				/* translators: %s expands to 'Yoast SEO Premium'. */
-				sprintf( "%s also gives you:", "Yoast SEO Premium" )
+				sprintf(
+					/* translators: %s expands to 'Yoast SEO Premium'. */
+					__( "%s also gives you:", "wordpress-seo" ),
+					"Yoast SEO Premium" )
 			}
 			benefits={ getPremiumBenefits() }
 			upsellButtonText={

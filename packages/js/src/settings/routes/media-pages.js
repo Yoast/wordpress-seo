@@ -88,7 +88,6 @@ const MediaPages = () => {
 					<FieldsetLayout
 						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
-							// eslint-disable-next-line max-len
 							// translators: %1$s expands to "media". %3$s expands to "Yoast SEO".
 							__( "Determine how your %1$s pages should look in search engines. You can always customize the settings for individual %1$s pages in the %2$s metabox.", "wordpress-seo" ),
 							labelLower,
@@ -144,7 +143,6 @@ const MediaPages = () => {
 					<FieldsetLayout
 						title={ __( "Schema", "wordpress-seo" ) }
 						description={ sprintf(
-							// eslint-disable-next-line max-len
 							// translators: %1$s expands to "media". %3$s expands to "Yoast SEO".
 							__( "Determine how your %1$s pages should be described by default in your site's Schema.org markup. You can always customize the settings for individual %1$s pages in the %2$s metabox.", "wordpress-seo" ),
 							labelLower,

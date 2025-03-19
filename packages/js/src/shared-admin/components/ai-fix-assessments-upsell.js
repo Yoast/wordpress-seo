@@ -24,7 +24,6 @@ export const AiFixAssessmentsUpsell = ( {
 	const { onClose, initialFocus } = useModalContext();
 
 	const learnMoreLinkStructure = {
-		// eslint-disable-next-line jsx-a11y/anchor-has-content
 		a: <OutboundLink
 			href={ learnMoreLink }
 			className="yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
@@ -43,7 +42,7 @@ export const AiFixAssessmentsUpsell = ( {
 						thumbnail={ thumbnail }
 						wistiaEmbedPermission={ wistiaEmbedPermission }
 					/>
-					<Badge className="yst-absolute yst-right-0 yst-mr-4 yst-text-center yst-justify-center" variant="info" style={ { top: "-8px" } }>
+					<Badge className="yst-absolute yst-end-4 yst-text-center yst-justify-center" variant="info" style={ { top: "-8px" } }>
 						{ __( "Beta", "wordpress-seo-premium" ) }
 					</Badge>
 				</div>
@@ -92,7 +91,7 @@ export const AiFixAssessmentsUpsell = ( {
 						target="_blank"
 						ref={ initialFocus }
 					>
-						<LockOpenIcon className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5" />
+						<LockOpenIcon className="yst--ms-1 yst-me-2 yst-h-5 yst-w-5" />
 						{ upsellLabel }
 						<span className="yst-sr-only">
 							{

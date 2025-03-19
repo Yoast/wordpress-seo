@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.7
-Stable tag: 24.0
+Stable tag: 24.7
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -274,46 +274,37 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 24.1 =
+= 24.8 =
 
-Release date: 2024-12-17
-
-#### Enhancements
-
-* Adds `Not analyzed` as a option in the readability filter in the posts page.
-* Enhances the existing `Needs improvement` option in the readability filter in the posts page, to include posts that don't have enough content as well.
-* Introduces Yoast dashboard, a place where site administrators can check the SEO and Readability performance of the site's posts.
-
-#### Bugfixes
-
-* Fixes a bug where posts that have been set to explicitly not be noindexed and had no keyword set would not appear in the relevant SEO filter in the posts page.
-
-#### Other
-
-* Improves the translatability of feedback for the _paragraph length_ and the _sentence length_ assessments.
-
-= 24.0 =
-
-Release date: 2024-12-03
-
-Yoast SEO 24.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-3-12-24).
+Release date: 2025-04-01
 
 #### Enhancements
 
-* Allows to set OpenGraph image HTML metadata `width`, `height`, and `type` to `null` in order not to show them. Props to [GiovanniMounir](https://github.com/GiovanniMounir).
-* Improves the _transition words_ assessment for Portuguese and English by updating the relevant lists of transition words. Props to [BrunoAseff](https://github.com/BrunoAseff).
-* Introduces an error message in the Yoast _General_ page in case of JavaScript errors.
-* Updates the design and translations of the country selector in the modal for related keyphrase suggestions.
-
-#### Bugfixes
-
-* Fixes a bug where the first step in the _First time configuration_ would not be considered finished unless the _Site representation_ step would be finished as well.
-* Fixes a bug where the settings for a post type are inaccessible when the permalink structure includes special characters that require encoding, e.g., when WooCommerce products are set to use the \"Shop base with category\" permalink structure.
-* Fixes a bug where the Yoast _General_ page would not reflect the active menu item properly if using a fallback.
+* Adds _pregnant women_ to the potentially non-inclusive phrases targeted by the inclusive language analysis.
+* Improves the inclusive language analysis feedback for the potentially non-inclusive word 'exotic', and prevents the feedback from appearing when 'exotic' is followed by words common in scientific contexts.
 
 #### Other
 
-* Improves the documentation for `wpseo_enable_tracking` filter. Props to [kkmuffme](https://github.com/kkmuffme).
+* Removes the Yoast AI Optimize modals from the Yoast admin pages.
+
+= 24.7 =
+
+Release date: 2025-03-18
+
+Yoast SEO 24.7 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
+#### Enhancements
+
+* Improves the accuracy of assessments measuring character count for Japanese texts by removing common punctuation from the count.
+
+#### Bugfixes
+
+* Fixes a bug where the help beacon would be displayed over table pagination on the bulk editor page.
+
+#### Other
+
+* Improves the feedback strings of the _subheading distribution_ assessment for better translatability.
+* Removes extra span tags in the Post/Page overview. Props to [dilipbheda](https://github.com/dilipbheda).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
