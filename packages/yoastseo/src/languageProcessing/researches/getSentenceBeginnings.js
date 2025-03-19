@@ -54,7 +54,7 @@ const compareFirstWords = ( sentenceBeginnings, sentences ) => {
  * @returns {string} The first word of the sentence.
  */
 const getSentenceBeginning = ( sentence, firstWordExceptions, secondWordExceptions ) => {
-	let words = getWordsFromTokens( sentence.tokens, false );
+	const words = getWordsFromTokens( sentence.tokens, false )
 	words = words.filter( word => stripSpaces( word ) !== " " );
 
 	if ( words.length === 0 ) {
