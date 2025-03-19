@@ -109,7 +109,7 @@ domReady( () => {
 	};
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
-	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
+	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration, siteKitTracking } );
 	const dataFormatters = {
 		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
 		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
