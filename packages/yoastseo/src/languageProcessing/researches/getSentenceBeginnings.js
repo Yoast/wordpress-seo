@@ -1,46 +1,42 @@
-import getWords from "../helpers/word/getWords.js";
-import getSentences from "../helpers/sentence/getSentences";
-import stripSpaces from "../helpers/sanitize/stripSpaces.js";
-import { stripFullTags as stripTags } from "../helpers/sanitize/stripHTMLTags.js";
-
-import { filter, forEach, isEmpty } from "lodash";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../helpers";
+import stripSpaces from "../helpers/sanitize/stripSpaces";
+import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
+import { getWordsFromTokens } from "../helpers/word/getAllWordsFromTree";
+import { elementHasClass, elementHasName } from "../../parse/build/private/filterHelpers";
+import filterTree from "../../parse/build/private/filterTree";
+import { cloneDeep } from "lodash";
 
 /**
- * Compares the first word of each sentence with the first word of the following sentence.
- *
- * @param {string} currentSentenceBeginning The first word of the current sentence.
- * @param {string} nextSentenceBeginning The first word of the next sentence.
- * @returns {boolean} Returns true if sentence beginnings match.
+ * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../parse/structure/").Node} Node
+ * @typedef {import("../../parse/structure/Sentence").default} Sentence
+ * @typedef {import("../../values/").Paper } Paper
  */
-const startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginning ) {
-	return ! isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning;
-};
+
+/**
+ * @typedef {Object} SentenceBeginning
+ * @property {string} word The first word of the sentence.
+ * @property {number} count The number of sentences that start with this word.
+ * @property {Sentence[]} sentences The sentences that start with this word.
+ */
 
 /**
  * Counts the number of similar sentence beginnings.
  *
- * @param {Array} sentenceBeginnings The array containing the first word of each sentence.
- * @param {Array} sentences The array containing all sentences.
- * @returns {Array} The array containing the objects containing the first words and the corresponding counts.
+ * @param {string[]} sentenceBeginnings The array containing the first word of each sentence.
+ * @param {Sentence[]} sentences The array containing all sentences.
+ * @returns {SentenceBeginning[]} The array containing the objects containing the first words and the corresponding counts.
  */
-const compareFirstWords = function( sentenceBeginnings, sentences ) {
+const compareFirstWords = ( sentenceBeginnings, sentences ) => {
 	const consecutiveFirstWords = [];
-	let foundSentences = [];
-	let sameBeginnings = 1;
+	let currentSentences = [];
 
-	forEach( sentenceBeginnings, function( beginning, i ) {
-		const currentSentenceBeginning = beginning;
-		const nextSentenceBeginning = sentenceBeginnings[ i + 1 ];
-		foundSentences.push( sentences[ i ] );
+	sentenceBeginnings.forEach( ( currentBeginning, i ) => {
+		const nextBeginning = sentenceBeginnings[ i + 1 ];
+		currentSentences.push( sentences[ i ] );
 
-		if ( startsWithSameWord( currentSentenceBeginning, nextSentenceBeginning ) ) {
-			sameBeginnings++;
-		} else {
-			consecutiveFirstWords.push( { word: currentSentenceBeginning, count: sameBeginnings, sentences: foundSentences } );
-			sameBeginnings = 1;
-			foundSentences = [];
+		if ( currentBeginning && currentBeginning !== nextBeginning ) {
+			consecutiveFirstWords.push( { word: currentBeginning, count: currentSentences.length, sentences: currentSentences } );
+			currentSentences = [];
 		}
 	} );
 
@@ -51,34 +47,31 @@ const compareFirstWords = function( sentenceBeginnings, sentences ) {
  * Retrieves the first word from the sentence. If the first or second word is on an exception list of words that should not be considered as sentence
  * beginnings, the following word is also retrieved.
  *
- * @param {string}  sentence                The sentence to retrieve the first word from.
- * @param {Array}   firstWordExceptions     First word exceptions to match against.
- * @param {Array}   secondWordExceptions    Second word exceptions to match against.
- * @param {function}	getWordsCustomHelper   The language-specific helper function to retrieve words from text.
+ * @param {Sentence} sentence The sentence to retrieve the first word from.
+ * @param {string[]} firstWordExceptions First word exceptions to match against.
+ * @param {string[]} secondWordExceptions Second word exceptions to match against.
  *
  * @returns {string} The first word of the sentence.
  */
-function getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptions, getWordsCustomHelper ) {
-	const stripped = stripTags( stripSpaces( sentence ) );
-	const words = getWordsCustomHelper ? getWordsCustomHelper( stripped ) : getWords( stripped );
+const getSentenceBeginning = ( sentence, firstWordExceptions, secondWordExceptions ) => {
+	const words = getWordsFromTokens( sentence.tokens, false )
+		.filter( word => stripSpaces( word ) !== " " );
 
 	if ( words.length === 0 ) {
 		return "";
 	}
 
-	let firstWord = words[ 0 ].toLocaleLowerCase();
+	let sentenceBeginning = words[ 0 ].toLowerCase();
 
-	if ( firstWordExceptions.indexOf( firstWord ) > -1 && words.length > 1 ) {
-		firstWord = firstWord + " " + words[ 1 ];
-		if ( secondWordExceptions ) {
-			if ( secondWordExceptions.includes( words[ 1 ] ) ) {
-				firstWord = firstWord + " " + words[ 2 ];
-			}
+	if ( firstWordExceptions.includes( sentenceBeginning ) && words.length > 1 ) {
+		sentenceBeginning += " " + words[ 1 ].toLowerCase();
+		if ( secondWordExceptions && secondWordExceptions.includes( words[ 1 ] ) ) {
+			sentenceBeginning += " " + words[ 2 ].toLowerCase();
 		}
 	}
 
-	return firstWord;
-}
+	return sentenceBeginning;
+};
 
 /**
  * Gets the first word of each sentence from the text, and returns an object containing the first word of each sentence and the corresponding counts.
@@ -86,39 +79,28 @@ function getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptio
  * @param {Paper}       paper       The Paper object to get the text from.
  * @param {Researcher}  researcher  The researcher this research is a part of.
  *
- * @returns {Object} The object containing the first word of each sentence and the corresponding counts.
+ * @returns {SentenceBeginning[]} The object containing the first word of each sentence and the corresponding counts.
  */
-export default function( paper, researcher ) {
+export default ( paper, researcher ) => {
 	const firstWordExceptions = researcher.getConfig( "firstWordExceptions" );
 	const secondWordExceptions = researcher.getConfig( "secondWordExceptions" );
-	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
-	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
-	let text = paper.getText();
-	text = removeHtmlBlocks( text );
-	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
+	// Filter out lists and tables from the tree.
+	const additionalFilters = [
+		elementHasName( "ol" ),
+		elementHasName( "ul" ),
+		elementHasName( "table" ),
+		elementHasClass( "wp-block-table" ),
+	];
 
-	// Remove any HTML whitespace padding and replace it with a single whitespace.
-	text = text.replace( /[\s\n]+/g, " " );
+	// Clone the tree, as filterTree will modify the tree.
+	let tree = cloneDeep( paper.getTree() );
+	tree = filterTree( tree, additionalFilters );
 
-	// Exclude text inside tables.
-	text = text.replace( /<figure class='wp-block-table'>.*<\/figure>/sg, "" );
+	// Get all sentences from the tree, and find their sentence beginnings.
+	const sentences = getSentencesFromTree( tree );
+	const sentenceBeginnings = sentences.map( sentence => getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptions ) );
 
-	// Exclude text inside list items.
-	text = text.replace( /<li(?:[^>]+)?>(.*?)<\/li>/ig, "" );
-
-	let sentences = getSentences( text, memoizedTokenizer );
-
-	let sentenceBeginnings = sentences.map( function( sentence ) {
-		return getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptions, getWordsCustomHelper );
-	} );
-
-	sentences = sentences.filter( function( sentence ) {
-		const stripped = stripSpaces( sentence );
-		const words = getWordsCustomHelper ? getWordsCustomHelper( stripped ) : getWords( stripped );
-		return words.length > 0;
-	} );
-	sentenceBeginnings = filter( sentenceBeginnings );
-
+	// Turn the sentence beginnings into an array that combines sentences beginning with the same word(s).
 	return compareFirstWords( sentenceBeginnings, sentences );
-}
+};
