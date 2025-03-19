@@ -1,4 +1,4 @@
-import { ArrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
+import { TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -220,22 +220,24 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				) ) }
 			</Stepper>
 			<hr className="yst-bg-slate-200 yst-my-6" />
-			<SiteKitSetupWidgetTitleAndDescription isSiteKitConnectionCompleted={ isSiteKitConnectionCompleted } />
-			<span className="yst-text-slate-800 yst-font-medium">{ isSiteKitConnectionCompleted
-				? __( "You're all set, here are some benefits:", "wordpress-seo" )
-				: __( "Here's what you'll unlock:", "wordpress-seo" )
-			}</span>
-			<ul>
-				<li className="yst-gap-2 yst-flex yst-mt-2yst-items-start">
-					<CheckCircleIcon className="yst-w-5 yst-text-green-400 yst-shrink-0" />
-					{ __( "Grow your audience with actionable SEO and user behavior insights.", "wordpress-seo" ) }
-				</li>
-				<li className="yst-gap-2 yst-flex yst-mt-2yst-items-start">
-					<CheckCircleIcon className="yst-w-5 yst-text-green-400 yst-shrink-0" />
-					{ __( "Fine-tune your SEO and optimize your content using key performance metrics (KPI).", "wordpress-seo" ) }
-				</li>
-			</ul>
-			<NoPermissionWarning capabilities={ capabilities } currentStep={ currentStep } />
+			<div className="yst-max-w-2xl">
+				<SiteKitSetupWidgetTitleAndDescription isSiteKitConnectionCompleted={ isSiteKitConnectionCompleted } />
+				<span className="yst-text-slate-800 yst-font-medium">{ isSiteKitConnectionCompleted
+					? __( "You're all set, here are some benefits:", "wordpress-seo" )
+					: __( "Here's what you'll unlock:", "wordpress-seo" )
+				}</span>
+				<ul>
+					<li className="yst-gap-2 yst-flex yst-mt-2 yst-items-start">
+						<CheckCircleIcon className="yst-w-5 yst-text-green-400 yst-shrink-0" />
+						{ __( "Grow your audience with actionable SEO and user behavior insights.", "wordpress-seo" ) }
+					</li>
+					<li className="yst-gap-2 yst-flex yst-mt-2 yst-items-start">
+						<CheckCircleIcon className="yst-w-5 yst-text-green-400 yst-shrink-0" />
+						{ __( "Fine-tune your SEO and optimize your content using key performance metrics (KPI).", "wordpress-seo" ) }
+					</li>
+				</ul>
+				<NoPermissionWarning capabilities={ capabilities } currentStep={ currentStep } />
+			</div>
 			<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
 				{ isSiteKitConnectionCompleted
 					? <Button onClick={ handleOnRemove }>
