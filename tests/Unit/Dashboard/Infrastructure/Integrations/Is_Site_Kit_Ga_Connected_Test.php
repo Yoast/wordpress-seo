@@ -7,7 +7,7 @@ use Generator;
 /**
  * Test class for the is_ga_connected method.
  *
- * @group Site_Kit
+ * @group site-kit
  *
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_ga_connected
  *

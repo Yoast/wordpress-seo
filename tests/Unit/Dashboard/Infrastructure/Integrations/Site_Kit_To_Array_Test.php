@@ -9,7 +9,7 @@ use WP_User;
 /**
  * Test class for the is_onboarded method.
  *
- * @group  Site_Kit
+ * @group  site-kit
  *
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::to_array
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::to_legacy_array

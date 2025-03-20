@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Abstract class for the Site Kit configuration object tests.
  *
- * @group Site_Kit
+ * @group site-kit
  *
  * @coversDefaultClass \Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit
  *

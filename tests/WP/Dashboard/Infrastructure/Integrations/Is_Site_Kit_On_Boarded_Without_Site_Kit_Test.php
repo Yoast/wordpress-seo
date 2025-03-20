@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test class for the is_onboarded method.
  *
- * @group  site_kit
+ * @group  site-kit
  *
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::__construct
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_onboarded

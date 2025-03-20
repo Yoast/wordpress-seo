@@ -8,7 +8,7 @@ use Generator;
 /**
  * Test class for the is_enabled method.
  *
- * @group Site_Kit
+ * @group site-kit
  *
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_enabled
  *
