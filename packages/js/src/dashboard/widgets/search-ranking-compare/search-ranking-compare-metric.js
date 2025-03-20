@@ -1,5 +1,51 @@
+import { SkeletonLoader } from "@yoast/ui-library";
 import { Trend } from "../../components/trend";
-import { WidgetTooltip, WidgetDataSources } from "../widget";
+import { WidgetDataSources, WidgetTooltip } from "../widget";
+
+/**
+ * @param {ReactNode} children The children.
+ * @returns {JSX.Element} The element.
+ */
+const SearchRankingCompareMetricLayout = ( { children } ) => (
+	<div className="yst-flex yst-gap-4 yst-self-center">
+		{ children }
+	</div>
+);
+
+/**
+ * @param {ReactNode} children The children.
+ * @returns {JSX.Element} The element.
+ */
+const SearchRankingCompareMetricValueLayout = ( { children } ) => (
+	<div className="yst-flex yst-flex-col yst-items-center yst-min-w-28 @3xl:yst-min-w-0">
+		{ children }
+	</div>
+);
+
+/**
+ * Represents the skeleton loader for an organic sessions compare metric component.
+ * @param {ReactNode} tooltipLocalizedContent The content of the tooltip.
+ * @param {object[]} dataSources The sources of the data in the widget.
+ *
+ * @returns {JSX.Element}
+ */
+export const SearchRankingCompareMetricSkeletonLoader = ( { tooltipLocalizedContent, dataSources } ) => {
+	return (
+		<SearchRankingCompareMetricLayout>
+			<div className="yst-w-5" />
+			<SearchRankingCompareMetricValueLayout>
+				<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
+				<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2 yst-font-semibold">- 13%</SkeletonLoader>
+			</SearchRankingCompareMetricValueLayout>
+			<div className="yst-mt-2">
+				<WidgetTooltip content={ tooltipLocalizedContent }>
+					<WidgetDataSources dataSources={ dataSources } />
+				</WidgetTooltip>
+			</div>
+		</SearchRankingCompareMetricLayout>
+	);
+};
 
 /**
  * Represents one of the organic sessions compare metrics.
@@ -11,21 +57,25 @@ import { WidgetTooltip, WidgetDataSources } from "../widget";
  * @returns {JSX.Element}
  */
 export const SearchRankingCompareMetric = ( { metricName, data, dataSources, tooltipLocalizedContent } ) => {
-	return <div className="yst-flex yst-flex-col yst-relative yst-items-center yst-min-w-72">
-		<div className="yst-absolute yst-end-6 yst-top-2">
-			<WidgetTooltip content={ tooltipLocalizedContent }>
-				<WidgetDataSources dataSources={ dataSources } />
-			</WidgetTooltip>
-		</div>
-		<div className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">
-			{ data.formattedValue }
-		</div>
-		<div className="yst-text-center">
-			{ metricName }
-		</div>
-		<div className="yst-text-center yst-mt-2">
-			<Trend value={ data.delta } formattedValue={ data.formattedDelta } />
-		</div>
-	</div>;
+	return (
+		<SearchRankingCompareMetricLayout>
+			<div className="yst-w-5" />
+			<SearchRankingCompareMetricValueLayout>
+				<div className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">
+					{ data.formattedValue }
+				</div>
+				<div className="yst-text-center">
+					{ metricName }
+				</div>
+				<div className="yst-text-center yst-mt-2">
+					<Trend value={ data.delta } formattedValue={ data.formattedDelta } />
+				</div>
+			</SearchRankingCompareMetricValueLayout>
+			<div className="yst-mt-2">
+				<WidgetTooltip content={ tooltipLocalizedContent }>
+					<WidgetDataSources dataSources={ dataSources } />
+				</WidgetTooltip>
+			</div>
+		</SearchRankingCompareMetricLayout>
+	);
 };
-

@@ -1,7 +1,7 @@
-/** Represents the divider between the organic sessions compare metrics.
- *
- * @returns {JSX.Element}
+/**
+ * Represents the divider between the organic sessions compare metrics.
+ * @returns {JSX.Element} The element.
  */
-export const SearchRankingCompareMetricDivider = () => {
-	return <div className="yst-h-px yst-w-full yst-bg-slate-200 yst-my-6 @7xl:yst-h-20 @7xl:yst-w-px @7xl:yst-my-1" />;
-};
+export const SearchRankingCompareMetricDivider = () => (
+	<div className="yst-h-px yst-w-full @3xl:yst-h-20 @3xl:yst-w-px yst-bg-slate-200" />
+);
