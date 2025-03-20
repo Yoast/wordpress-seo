@@ -63,6 +63,8 @@ final class Is_Site_Kit_On_Boarded_Test extends TestCase {
 	/**
 	 * Tests if Site kit consent is granted.
 	 *
+	 * @requires PHP >= 7.4
+	 *
 	 * @dataProvider generate_site_kit_onboarded_provider
 	 *
 	 * @param string $oauth_keys         Json representation of some fake API keys.
