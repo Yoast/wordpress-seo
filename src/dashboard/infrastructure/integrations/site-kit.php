@@ -182,7 +182,9 @@ class Site_Kit {
 	}
 
 	/**
-	 * Return this object represented by a key value array.
+	 * Return this object represented by a key value array. This is not used yet.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return array<string,bool> Returns the name and if the feature is enabled.
 	 */
