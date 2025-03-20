@@ -281,7 +281,7 @@ Release date: 2025-04-01
 #### Enhancements
 
 * Adds _pregnant women_ to the potentially non-inclusive phrases targeted by the inclusive language analysis.
-* Improves the inclusive language analysis feedback for the potentially non-inclusive word 'exotic', and prevents the feedback from appearing when 'exotic' is followed by words common in scientific contexts.
+* Improves the inclusive language analysis feedback for the potentially non-inclusive word _exotic_, and prevents the feedback from appearing when _exotic_ is followed by words common in scientific contexts.
 
 #### Other
 
