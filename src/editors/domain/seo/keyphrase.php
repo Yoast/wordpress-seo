@@ -10,14 +10,14 @@ class Keyphrase implements Seo_Plugin_Data_Interface {
 	/**
 	 * The keyphrase and the associated posts that use it.
 	 *
-	 * @var array<string> $keyword_usage_count
+	 * @var array<string>
 	 */
 	private $keyphrase_usage_count;
 
 	/**
 	 * The post types for the given post IDs.
 	 *
-	 * @var array<string> $keyword_usage_per_type
+	 * @var array<string>
 	 */
 	private $keyphrase_usage_per_type;
 

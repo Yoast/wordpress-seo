@@ -18,42 +18,42 @@ abstract class Base_Site_Information {
 	/**
 	 * The short link helper.
 	 *
-	 * @var Short_Link_Helper $shortlink_helper
+	 * @var Short_Link_Helper
 	 */
 	protected $short_link_helper;
 
 	/**
 	 * The wistia embed permission repository.
 	 *
-	 * @var Wistia_Embed_Permission_Repository $wistia_embed_permission_repository
+	 * @var Wistia_Embed_Permission_Repository
 	 */
 	protected $wistia_embed_permission_repository;
 
 	/**
 	 * The meta surface.
 	 *
-	 * @var Meta_Surface $meta
+	 * @var Meta_Surface
 	 */
 	protected $meta;
 
 	/**
 	 * The product helper.
 	 *
-	 * @var Product_Helper $product_helper
+	 * @var Product_Helper
 	 */
 	protected $product_helper;
 
 	/**
 	 * The options helper.
 	 *
-	 * @var Options_Helper $options_helper
+	 * @var Options_Helper
 	 */
 	protected $options_helper;
 
 	/**
 	 * The promotion manager.
 	 *
-	 * @var Promotion_Manager $promotion_manager
+	 * @var Promotion_Manager
 	 */
 	protected $promotion_manager;
 

@@ -19,7 +19,7 @@ class Cached_SEO_Score_Results_Collector implements Score_Results_Collector_Inte
 	/**
 	 * The actual collector implementation.
 	 *
-	 * @var SEO_Score_Results_Collector $seo_score_results_collector
+	 * @var SEO_Score_Results_Collector
 	 */
 	private $seo_score_results_collector;
 

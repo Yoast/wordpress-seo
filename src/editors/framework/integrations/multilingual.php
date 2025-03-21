@@ -15,21 +15,21 @@ class Multilingual implements Integration_Data_Provider_Interface {
 	/**
 	 * The WPML conditional.
 	 *
-	 * @var WPML_Conditional $wpml_conditional
+	 * @var WPML_Conditional
 	 */
 	private $wpml_conditional;
 
 	/**
 	 * The Polylang conditional.
 	 *
-	 * @var Polylang_Conditional $polylang_conditional
+	 * @var Polylang_Conditional
 	 */
 	private $polylang_conditional;
 
 	/**
 	 * The TranslatePress conditional.
 	 *
-	 * @var TranslatePress_Conditional $translate_press_conditional
+	 * @var TranslatePress_Conditional
 	 */
 	private $translate_press_conditional;
 

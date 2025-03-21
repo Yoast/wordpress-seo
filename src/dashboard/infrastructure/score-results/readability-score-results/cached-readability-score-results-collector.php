@@ -19,7 +19,7 @@ class Cached_Readability_Score_Results_Collector implements Score_Results_Collec
 	/**
 	 * The actual collector implementation.
 	 *
-	 * @var Readability_Score_Results_Collector $readability_score_results_collector
+	 * @var Readability_Score_Results_Collector
 	 */
 	private $readability_score_results_collector;
 

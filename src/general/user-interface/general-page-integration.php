@@ -69,14 +69,14 @@ class General_Page_Integration implements Integration_Interface {
 	/**
 	 * The promotion manager.
 	 *
-	 * @var Promotion_Manager $promotion_manager
+	 * @var Promotion_Manager
 	 */
 	private $promotion_manager;
 
 	/**
 	 * The alert dismissal action.
 	 *
-	 * @var Alert_Dismissal_Action $alert_dismissal_action
+	 * @var Alert_Dismissal_Action
 	 */
 	private $alert_dismissal_action;
 

@@ -15,7 +15,7 @@ class Integration_Information_Repository {
 	/**
 	 * All plugin integrations.
 	 *
-	 * @var Integration_Data_Provider_Interface[] $plugin_integrations
+	 * @var Integration_Data_Provider_Interface[]
 	 */
 	private $plugin_integrations;
 
