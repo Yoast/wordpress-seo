@@ -27,6 +27,7 @@ use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Helpers\Wordproof_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Disable_Concatenate_Scripts_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Old_Premium_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Unsupported_PHP_Version_Notice;
 use Yoast\WP\SEO\Integrations\Duplicate_Post_Integration;
 use Yoast\WP\SEO\Integrations\Third_Party\Wincher;
 use Yoast\WP\SEO\Integrations\Third_Party\Wordproof;
@@ -47,6 +48,7 @@ $deprecated_classes = [
 	Disable_Concatenate_Scripts_Integration::class                 => '23.2',
 	Duplicate_Post_Integration::class                              => '23.4',
 	Request_Helper::class                                          => '23.6',
+	Unsupported_PHP_Version_Notice::class                          => '25.0',
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {
