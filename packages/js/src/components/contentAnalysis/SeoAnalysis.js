@@ -19,7 +19,6 @@ import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
-import isBlockEditor from "../../helpers/isBlockEditor";
 import AIAssessmentFixesButton from "../../ai-assessment-fixes/components/ai-assessment-fixes-button";
 
 const AnalysisHeader = styled.span`
@@ -217,7 +216,7 @@ class SeoAnalysis extends Component {
 
 		// The reason of adding the check if Elementor is active or not is because `isBlockEditor` method also returns `true` for Elementor.
 		// The reason of adding the check if the Elementor editor is active, is to stop showing the buttons in the in-between screen.
-		return hasAIFixes && isBlockEditor() && isNotElementorPage && (
+		return hasAIFixes && isNotElementorPage && (
 			<AIAssessmentFixesButton id={ id } isPremium={ isPremium } />
 		);
 	};

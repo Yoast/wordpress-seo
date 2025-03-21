@@ -13,6 +13,7 @@ import { Paper } from "yoastseo";
 import { ModalContent } from "./modal-content";
 import { getAllBlocks } from "../../helpers/getAllBlocks";
 import { LockClosedIcon } from "@heroicons/react/solid";
+import { isTextViewActive } from "../../lib/tinymce";
 
 /**
  * The AI Assessment Fixes button component.
@@ -25,11 +26,17 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const aiFixesId = id + "AIFixes";
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const { activeMarker, editorMode, activeAIButtonId } = useSelect( ( select ) => ( {
+	const { activeMarker, activeAIButtonId, editorType } = useSelect( ( select ) => ( {
 		activeMarker: select( "yoast-seo/editor" ).getActiveMarker(),
-		editorMode: select( "core/edit-post" ).getEditorMode(),
 		activeAIButtonId: select( "yoast-seo/editor" ).getActiveAIFixesButton(),
+		editorType: select( "yoast-seo/editor" ).getEditorType(),
 	} ), [] );
+	let editorMode = "";
+	if ( editorType === "blockEditor" ) {
+		editorMode = useSelect( ( select ) => select( "core/edit-post" ).getEditorMode(), [] );
+	} else if ( editorType === "classicEditor" ) {
+		editorMode = isTextViewActive() ? "text" : "visual";
+	}
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
@@ -67,12 +74,17 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 				ariaLabel: htmlLabel,
 			};
 		}
-
-		const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
-		const allVisual = blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
+		if ( editorType === "blockEditor" ) {
+			const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
+			const allVisual = blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
+			return {
+				isEnabled: allVisual,
+				ariaLabel: allVisual ? defaultLabel : htmlLabel,
+			};
+		}
 		return {
-			isEnabled: allVisual,
-			ariaLabel: allVisual ? defaultLabel : htmlLabel,
+			isEnabled: true,
+			ariaLabel: defaultLabel,
 		};
 	}, [ isButtonPressed, activeAIButtonId, editorMode ] );
 
