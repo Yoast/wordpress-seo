@@ -1,12 +1,36 @@
 import { useEffect } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, _x } from "@wordpress/i18n";
 import { SkeletonLoader } from "@yoast/ui-library";
 import { ErrorAlert } from "../../components/error-alert";
 import { NoDataParagraph } from "../../components/no-data-paragraph";
-import { WidgetTooltip, WidgetDataSources } from "../widget";
+import { WidgetDataSources, WidgetTooltip } from "../widget";
 import { SearchRankingCompareMetric } from "./search-ranking-compare-metric";
 import { SearchRankingCompareMetricDivider } from "./search-ranking-compare-metric-divider";
 import { useSearchRankingCompare } from "./use-search-ranking-compare";
+
+// Preventing some duplication.
+const META = {
+	impressions: {
+		name: _x( "Impressions", "The number of times your website appeared in the Google search results", "wordpress-seo" ),
+		tooltip: __( "The number of times your website appeared in the Google search results over the last 28 days.", "wordpress-seo" ),
+		dataSources: [ { source: __( "Site Kit by Google", "wordpress-seo" ) } ],
+	},
+	clicks: {
+		name: _x( "Clicks", "The number of times users clicked on your website's link in the Google search results", "wordpress-seo" ),
+		tooltip: __( "The number of times users clicked on your website's link in the Google search results over the last 28 days.", "wordpress-seo" ),
+		dataSources: [ { source: __( "Site Kit by Google", "wordpress-seo" ) } ],
+	},
+	ctr: {
+		name: _x( "Average CTR", "Click-through-rate for your website in the Google search results", "wordpress-seo" ),
+		tooltip: __( "The average click-through-rate for your website in the Google search results over the last 28 days.", "wordpress-seo" ),
+		dataSources: [ { source: __( "Site Kit by Google", "wordpress-seo" ) } ],
+	},
+	position: {
+		name: _x( "Average position", "Average position of your website in the Google search results", "wordpress-seo" ),
+		tooltip: __( "The average position of your website in the Google search results over the last 28 days.", "wordpress-seo" ),
+		dataSources: [ { source: __( "Site Kit by Google", "wordpress-seo" ) } ],
+	},
+};
 
 /**
  * Represents the skeleton loader for an organic sessions compare metric component.
@@ -35,26 +59,26 @@ const SearchRankingCompareSkeletonLoader = () => {
 	return (
 		<div className="yst-flex yst-flex-col yst-justify-center yst-items-center @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse">
 			<SearchRankingCompareMetricSkeletonLoader
-				tooltipLocalizedContent={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
-				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
+				tooltipLocalizedContent={ META.impressions.tooltip }
+				dataSources={ META.impressions.dataSources }
 			/>
 			<SearchRankingCompareMetricDivider />
 
 			<SearchRankingCompareMetricSkeletonLoader
-				tooltipLocalizedContent={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
-				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
+				tooltipLocalizedContent={ META.clicks.tooltip }
+				dataSources={ META.clicks.dataSources }
 			/>
 			<SearchRankingCompareMetricDivider />
 
 			<SearchRankingCompareMetricSkeletonLoader
-				tooltipLocalizedContent={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
-				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
+				tooltipLocalizedContent={ META.ctr.tooltip }
+				dataSources={ META.ctr.dataSources }
 			/>
 			<SearchRankingCompareMetricDivider />
 
 			<SearchRankingCompareMetricSkeletonLoader
-				tooltipLocalizedContent={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
-				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
+				tooltipLocalizedContent={ META.position.tooltip }
+				dataSources={ META.position.dataSources }
 			/>
 		</div>
 	);
@@ -92,37 +116,37 @@ export const SearchRankingCompareWidgetContent = ( { dataProvider, remoteDataPro
 
 	if ( data ) {
 		return <div
-			className="yst-flex yst-flex-col yst-justify-center yst-items-center @7xl:yst-flex-row @7xl:yst-justify-evenly rtl:yst-flex-row-reverse "
+			className="yst-flex yst-flex-col yst-justify-center yst-items-center @7xl:yst-flex-row @7xl:yst-justify-evenly rtl:yst-flex-row-reverse"
 		>
 			<SearchRankingCompareMetric
-				metricName="Impressions"
+				metricName={ META.impressions.name }
 				data={ data.impressions }
-				tooltipLocalizedContent={ __( "The number of times your website appeared in Google search results over the last 28 days.", "wordpress-seo" ) }
-				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
+				tooltipLocalizedContent={ META.impressions.tooltip }
+				dataSources={ META.impressions.dataSources }
 			/>
 			<SearchRankingCompareMetricDivider />
 
 			<SearchRankingCompareMetric
-				metricName="Clicks"
+				metricName={ META.clicks.name }
 				data={ data.clicks }
-				tooltipLocalizedContent={ __( "The total number of times users clicked on your website's link in Google search results over the last 28 days.", "wordpress-seo" ) }
-				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
+				tooltipLocalizedContent={ META.clicks.tooltip }
+				dataSources={ META.clicks.dataSources }
 			/>
 			<SearchRankingCompareMetricDivider />
 
 			<SearchRankingCompareMetric
-				metricName="CTR"
+				metricName={ META.ctr.name }
 				data={ data.ctr }
-				tooltipLocalizedContent={ __( "The average click-through-rate for your website over the last 28 days.", "wordpress-seo" ) }
-				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
+				tooltipLocalizedContent={ META.ctr.tooltip }
+				dataSources={ META.ctr.dataSources }
 			/>
 			<SearchRankingCompareMetricDivider />
 
 			<SearchRankingCompareMetric
-				metricName="Position"
+				metricName={ META.position.name }
 				data={ data.position }
-				tooltipLocalizedContent={ __( "Average position is the average position of your site in search results over the last 28 days.", "wordpress-seo" ) }
-				dataSources={ [ { source: __( "Site Kit by Google", "wordpress-seo" ) }  ] }
+				tooltipLocalizedContent={ META.position.tooltip }
+				dataSources={ META.position.dataSources }
 			/>
 		</div>;
 	}
