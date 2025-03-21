@@ -13,7 +13,7 @@ class WPSEO_Custom_Taxonomies {
 	/**
 	 * Custom taxonomies cache.
 	 *
-	 * @var array
+	 * @var array|null
 	 */
 	protected static $custom_taxonomies = null;
 

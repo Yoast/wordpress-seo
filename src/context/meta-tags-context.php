@@ -675,7 +675,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Strips all nested dependencies from the debug info.
 	 *
-	 * @return array<Indexable,Indexable_Presentation>
+	 * @return array<Indexable|Indexable_Presentation>
 	 */
 	public function __debugInfo() {
 		return [

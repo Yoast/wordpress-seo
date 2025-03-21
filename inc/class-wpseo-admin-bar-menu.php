@@ -91,21 +91,21 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Whether SEO Score is enabled.
 	 *
-	 * @var bool
+	 * @var bool|null
 	 */
 	protected $is_seo_enabled = null;
 
 	/**
 	 * Whether readability is enabled.
 	 *
-	 * @var bool
+	 * @var bool|null
 	 */
 	protected $is_readability_enabled = null;
 
 	/**
 	 * The indexable for the current WordPress page, if found.
 	 *
-	 * @var bool|Indexable
+	 * @var Indexable|bool|null
 	 */
 	protected $current_indexable = null;
 

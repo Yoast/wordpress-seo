@@ -28,7 +28,7 @@ class Notification_Helper {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return array|Yoast_Notification[] Sorted Notifications
+	 * @return Yoast_Notification[] Sorted Notifications
 	 */
 	public function get_sorted_notifications() {
 		$notification_center = Yoast_Notification_Center::get();

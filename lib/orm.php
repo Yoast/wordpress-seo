@@ -82,7 +82,7 @@ class ORM implements ArrayAccess {
 	/**
 	 * Holds the alias for the table to be used in SELECT queries.
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	protected $table_alias = null;
 
@@ -152,14 +152,14 @@ class ORM implements ArrayAccess {
 	/**
 	 * LIMIT.
 	 *
-	 * @var int
+	 * @var int|null
 	 */
 	protected $limit = null;
 
 	/**
 	 * OFFSET.
 	 *
-	 * @var int
+	 * @var int|null
 	 */
 	protected $offset = null;
 
@@ -216,7 +216,7 @@ class ORM implements ArrayAccess {
 	 * Name of the column to use as the primary key for
 	 * this instance only. Overrides the config settings.
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	protected $instance_id_column = null;
 

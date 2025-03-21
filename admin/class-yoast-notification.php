@@ -115,7 +115,7 @@ class Yoast_Notification {
 	 * @deprecated 21.6
 	 * @codeCoverageIgnore
 	 *
-	 * @return WP_User The user to show this notification for.
+	 * @return WP_User|null The user to show this notification for.
 	 */
 	public function get_user() {
 		_deprecated_function( __METHOD__, 'Yoast SEO 21.6' );

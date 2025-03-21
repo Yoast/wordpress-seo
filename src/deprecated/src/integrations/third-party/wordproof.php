@@ -43,8 +43,8 @@ class Wordproof implements Integration_Interface {
 	 * @deprecated 22.10
 	 * @codeCoverageIgnore
 	 *
-	 * @param Wordproof_Helper          $wordproof     The WordProof helper instance.
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager The WPSEO admin asset manager instance.
+	 * @param Wordproof_Helper               $wordproof     The WordProof helper instance.
+	 * @param WPSEO_Admin_Asset_Manager|null $asset_manager The WPSEO admin asset manager instance.
 	 */
 	public function __construct( Wordproof_Helper $wordproof, ?WPSEO_Admin_Asset_Manager $asset_manager = null ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 22.10' );
