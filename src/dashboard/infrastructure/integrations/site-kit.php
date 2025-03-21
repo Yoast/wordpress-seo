@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Integrations;
 
 use Google\Site_Kit\Core\Authentication\Authentication;
+use Google\Site_Kit\Core\Modules\Modules;
 use Google\Site_Kit\Plugin;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
@@ -118,24 +119,58 @@ class Site_Kit {
 	}
 
 	/**
+	 * Checks if current user has viewing rights.
+	 *
+	 * @param string $module_slug The module slug to check for viewing rights.
+	 *
+	 * @return bool If current user has viewing rights.
+	 */
+	public function has_viewing_rights( $module_slug ) {
+		$current_user = \wp_get_current_user();
+
+		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
+			$site_kit_plugin = Plugin::instance();
+			$modules         = new Modules( $site_kit_plugin->context() );
+			$shared_roles    = $modules->get_module_sharing_settings()->get_shared_roles( $module_slug ); // @TODO: Make sure that this is the proper way to detect.
+
+			return ! empty( \array_intersect( $current_user->roles, $shared_roles ) );
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if current user is owner of the module.
+	 *
+	 * @param string $module_slug The module slug to check for owner.
+	 *
+	 * @return bool If current user is owner of the module.
+	 */
+	public function is_owner( $module_slug ) {
+		$current_user = \wp_get_current_user();
+
+		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
+			$site_kit_plugin = Plugin::instance();
+			$modules         = new Modules( $site_kit_plugin->context() );
+			$module          = $modules->get_module( $module_slug );
+			$owner_id        = $module->get_owner_id(); // @TODO: Make sure that this is the proper way to detect.
+
+			return $owner_id !== $current_user->ID;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Checks is current user can view dashboard data, which can the owner who set it up,
 	 * or user with one of the shared roles.
 	 *
-	 * @param string $key The key of the data.
+	 * @param string $module_slug The module we need to check.
+	 *
 	 * @return bool If the user can read the data.
 	 */
-	private function can_read_data( $key ) {
-		$current_user = \wp_get_current_user();
-		// Check if the current user has one of the shared roles.
-		$dashboard_sharing  = \get_option( 'googlesitekit_dashboard_sharing' );
-		$shared_roles       = isset( $dashboard_sharing[ $key ] ) ? $dashboard_sharing[ $key ]['sharedRoles'] : [];
-		$has_viewing_rights = \array_intersect( $current_user->roles, $shared_roles );
-
-		// Check if the current user is the owner.
-		$site_kit_settings = \get_option( 'googlesitekit_' . $key . '_settings' );
-		$is_owner          = ( $site_kit_settings['ownerID'] ?? '' ) === $current_user->ID;
-
-		return $is_owner || $has_viewing_rights;
+	private function can_read_data( $module_slug ) {
+		return $this->has_viewing_rights( $module_slug ) || $this->is_owner( $module_slug );
 	}
 
 	/**
