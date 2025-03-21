@@ -591,7 +591,7 @@ class Yoast_Form {
 	 * @return void
 	 */
 	public function hidden( $variable, $id = '', $val = null ) {
-		if ( is_null( $val ) ) {
+		if ( $val === null ) {
 			$val = $this->get_field_value( $variable, '' );
 		}
 

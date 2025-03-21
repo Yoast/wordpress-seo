@@ -480,7 +480,7 @@ class Current_Page_Helper {
 		$term     = $wp_query->get_queried_object();
 
 		$queried_terms = $wp_query->tax_query->queried_terms;
-		if ( \is_null( $term ) || empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
+		if ( $term === null || empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
 			return 0;
 		}
 

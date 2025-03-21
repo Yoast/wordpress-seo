@@ -277,7 +277,7 @@ class Meta_Surface {
 		if ( ! \is_a( $indexable, Indexable::class ) ) {
 			return false;
 		}
-		if ( \is_null( $page_type ) ) {
+		if ( $page_type === null ) {
 			$page_type = $this->indexable_helper->get_page_type_for_indexable( $indexable );
 		}
 
@@ -295,7 +295,7 @@ class Meta_Surface {
 	public function for_indexables( $indexables, $page_type = null ) {
 		$closure = function ( $indexable ) use ( $page_type ) {
 			$this_page_type = $page_type;
-			if ( \is_null( $this_page_type ) ) {
+			if ( $this_page_type === null ) {
 				$this_page_type = $this->indexable_helper->get_page_type_for_indexable( $indexable );
 			}
 

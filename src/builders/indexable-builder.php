@@ -382,7 +382,7 @@ class Indexable_Builder {
 			return $this->indexable_helper->save_indexable( $indexable, $indexable_before );
 		}
 		catch ( Source_Exception $exception ) {
-			if ( ! $this->is_type_with_no_id( $indexable->object_type ) && ( ! isset( $indexable->object_id ) || \is_null( $indexable->object_id ) ) ) {
+			if ( ! $this->is_type_with_no_id( $indexable->object_type ) && ! isset( $indexable->object_id ) ) {
 				return false;
 			}
 
