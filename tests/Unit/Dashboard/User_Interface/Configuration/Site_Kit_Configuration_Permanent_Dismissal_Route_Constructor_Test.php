@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Si
  *
  * @group site_kit_configuration_permanent_dismissal_route
  *
- * @covers Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Configuration_Permanent_Dismissal_Route::__construct
+ * @covers Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Configuration_Dismissal_Route::__construct
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
