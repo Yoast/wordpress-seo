@@ -219,18 +219,18 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 			<?php if ( $which === 'top' ) { ?>
 			<form id="posts-filter" action="" method="get">
-				<input type="hidden" name="nonce" value="<?php echo esc_attr( $this->nonce ); ?>"/>
-				<input type="hidden" name="page" value="wpseo_tools"/>
-				<input type="hidden" name="tool" value="bulk-editor"/>
-				<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>"/>
+				<input type="hidden" name="nonce" value="<?php echo esc_attr( $this->nonce ); ?>" />
+				<input type="hidden" name="page" value="wpseo_tools" />
+				<input type="hidden" name="tool" value="bulk-editor" />
+				<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>" />
 				<input type="hidden" name="orderby"
-					value="<?php echo esc_attr( $order_by ); ?>"/>
+					value="<?php echo esc_attr( $order_by ); ?>" />
 				<input type="hidden" name="order"
-					value="<?php echo esc_attr( $order ); ?>"/>
+					value="<?php echo esc_attr( $order ); ?>" />
 				<input type="hidden" name="post_type_filter"
-					value="<?php echo esc_attr( $post_type_filter ); ?>"/>
+					value="<?php echo esc_attr( $post_type_filter ); ?>" />
 				<?php if ( ! empty( $post_status ) ) { ?>
-					<input type="hidden" name="post_status" value="<?php echo esc_attr( $post_status ); ?>"/>
+					<input type="hidden" name="post_status" value="<?php echo esc_attr( $post_status ); ?>" />
 				<?php } ?>
 				<?php } ?>
 
