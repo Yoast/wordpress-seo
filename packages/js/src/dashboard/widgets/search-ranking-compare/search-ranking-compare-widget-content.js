@@ -21,12 +21,12 @@ const META = {
 		dataSources: [ { source: __( "Site Kit by Google", "wordpress-seo" ) } ],
 	},
 	ctr: {
-		name: _x( "CTR", "Click-through-rate for your website in the Google search results", "wordpress-seo" ),
+		name: _x( "Average CTR", "Click-through-rate for your website in the Google search results", "wordpress-seo" ),
 		tooltip: __( "The average click-through-rate for your website in the Google search results over the last 28 days.", "wordpress-seo" ),
 		dataSources: [ { source: __( "Site Kit by Google", "wordpress-seo" ) } ],
 	},
 	position: {
-		name: _x( "Position", "(Average) position of your website in the Google search results", "wordpress-seo" ),
+		name: _x( "Average position", "Average position of your website in the Google search results", "wordpress-seo" ),
 		tooltip: __( "The average position of your website in the Google search results over the last 28 days.", "wordpress-seo" ),
 		dataSources: [ { source: __( "Site Kit by Google", "wordpress-seo" ) } ],
 	},
