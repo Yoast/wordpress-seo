@@ -18,7 +18,6 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
  * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder
- * @covers \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  */
 final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 
@@ -232,7 +231,6 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 * @covers ::__construct
 	 * @covers ::set_dependencies
 	 * @covers ::build
-	 * @covers ::gather_images
 	 *
 	 * @return void
 	 */
@@ -388,7 +386,6 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 * Tests the build method when ignoring content scan.
 	 *
 	 * @covers ::build
-	 * @covers ::gather_images
 	 * @dataProvider provide_no_content_scan
 	 *
 	 * @param string $input_content The input content.
