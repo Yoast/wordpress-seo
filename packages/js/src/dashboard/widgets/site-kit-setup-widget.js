@@ -139,20 +139,25 @@ const NoPermissionWarning = ( { capabilities, currentStep } ) => {
  */
 export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const { grantConsent, dismissPermanently, trackSiteKitUsage } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
-	const currentConnectionStep = dataProvider.getSiteKitCurrentConnectionStep();
-	
+	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
+	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
+
 	useEffect( () => {
+
 		if ( dataProvider.getSiteKitTrackingElement( "setupWidgetLoaded" ) === "" ) {
 			trackSiteKitUsage( "setup_widget_loaded", "yes" );
 		}
+		// Reset the temporary dismissal status
 		if ( dataProvider.getSiteKitTrackingElement( "setupWidgetDismissed" ) === "yes" ) {
 			trackSiteKitUsage( "setup_widget_dismissed", "no" );
 		}
 		if ( dataProvider.getSiteKitTrackingElement( "firstInteractionStage" ) === "" ) {
-			trackSiteKitUsage( "first_interaction_stage", steps[ currentConnectionStep ] );
+			dataProvider.getStepsStatuses()[ 0 ] === false
+				? trackSiteKitUsage( "first_interaction_stage", steps[STEP_NAME.install] )
+				: trackSiteKitUsage( "first_interaction_stage", steps[ STEP_NAME.activate ] );
 		}
-		if ( dataProvider.getSiteKitTrackingElement( "lastInteractionStage" ) !== steps[ currentConnectionStep ] ) {
-			trackSiteKitUsage( "last_interaction_stage", steps[ currentConnectionStep ] );
+		if ( dataProvider.getSiteKitTrackingElement( "lastInteractionStage" ) !== steps[ currentStep ] ) {
+			trackSiteKitUsage( "last_interaction_stage", steps[ currentStep ] );
 		}
 	}, [ dataProvider, trackSiteKitUsage ] );
 
@@ -173,9 +178,6 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
-
-	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
-	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
 
 	const checkCapability = ( url, capability = capabilities.installPlugins ) => {
 		return capability ? url : null;
