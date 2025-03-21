@@ -155,7 +155,7 @@ class Site_Kit {
 			$module          = $modules->get_module( $module_slug );
 			$owner_id        = $module->get_owner_id(); // @TODO: Make sure that this is the proper way to detect.
 
-			return $owner_id !== $current_user->ID;
+			return $owner_id === $current_user->ID;
 		}
 
 		return false;
