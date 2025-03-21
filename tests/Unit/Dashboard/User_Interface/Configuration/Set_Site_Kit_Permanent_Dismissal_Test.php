@@ -11,7 +11,7 @@ use WP_REST_Response;
  *
  * @group site_kit_configuration_permanent_dismissal_route
  *
- * @covers Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Configuration_Permanent_Dismissal_Route::set_site_kit_configuration_permanent_dismissal
+ * @covers Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Configuration_Dismissal_Route::set_site_kit_configuration_permanent_dismissal
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
