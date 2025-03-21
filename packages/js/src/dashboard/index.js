@@ -123,3 +123,11 @@ export { Dashboard } from "./components/dashboard";
  * @typedef {Object<"isInstalled"|"isActive"|"isSetupCompleted"|"isConsentGranted", boolean>} SiteKitConnectionStepsStatuses
  * The connection steps statuses.
  */
+
+/**
+ * @typedef {Object} SiteKitTracking The Site Kit tracking data.
+ * @property {string} setupWidgetDismissed Stores if the Site Kit setup widget has been (permanently) dismissed..
+ * @property {string} setupWidgetLoaded Whether Site Kit setup widget is loaded.
+ * @property {string} firstInteractionStage The first stage of the Site Kit setup widget the user interacted with.
+ * @property {string} lastInteractionStage The last stage of the Site Kit setup widget the user interacted with.
+ */

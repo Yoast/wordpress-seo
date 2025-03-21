@@ -66,6 +66,7 @@ domReady( () => {
 		timeBasedSeoMetrics: get( window, "wpseoScriptData.dashboard.endpoints.timeBasedSeoMetrics", "" ),
 		siteKitConfigurationDismissal: get( window, "wpseoScriptData.dashboard.endpoints.siteKitConfigurationDismissal", "" ),
 		siteKitConsentManagement: get( window, "wpseoScriptData.dashboard.endpoints.siteKitConsentManagement", "" ),
+		siteKitUsageTracking: get( window, "wpseoScriptData.dashboard.endpoints.siteKitUsageTracking", "" ),
 	};
 	/** @type {Object<string,string>} */
 	const headers = {
@@ -100,8 +101,15 @@ domReady( () => {
 		},
 	} );
 
+	const siteKitTracking = {
+		setupWidgetDismissed: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.setupWidgetDismissed", "" ),
+		setupWidgetLoaded: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.setupWidgetLoaded", "" ),
+		firstInteractionStage: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.firstInteractionStage", "" ),
+		lastInteractionStage: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.lastInteractionStage", "" ),
+	};
+
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
-	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
+	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration, siteKitTracking } );
 	const dataFormatters = {
 		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
 		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),

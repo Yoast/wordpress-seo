@@ -1,6 +1,6 @@
 import { TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { useCallback } from "@wordpress/element";
+import { useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Alert, Button, DropdownMenu, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
@@ -38,6 +38,7 @@ export const STEP_NAME = {
  * @typedef {Object} UseSiteKitConfiguration
  * @property {function(RequestInit?)} grantConsent The grant consent function.
  * @property {function(RequestInit?)} dismissPermanently The dismiss permanently function.
+ * @property {function(string, string, RequestInit?)} trackSiteKitUsage The function used to track Site Kit usage.
  */
 
 /**
@@ -58,6 +59,17 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 		} ).catch( noop );
 	}, [ dataProvider, remoteDataProvider ] );
 
+	const trackSiteKitUsage = useCallback( ( element, value, options ) => {
+		remoteDataProvider.fetchJson(
+			dataProvider.getEndpoint( "siteKitUsageTracking" ),
+			// eslint-disable-next-line camelcase
+			{ element_name: element,
+				// eslint-disable-next-line camelcase
+				element_value: value },
+			{ ...options, method: "POST" }
+		).catch( noop );
+	}, [ remoteDataProvider, dataProvider ] );
+
 	const dismissPermanently = useCallback( ( options ) => {
 		remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "siteKitConfigurationDismissal" ),
@@ -69,7 +81,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}, [ remoteDataProvider, dataProvider ] );
 
-	return { grantConsent, dismissPermanently };
+	return { grantConsent, dismissPermanently, trackSiteKitUsage };
 };
 
 /**
@@ -126,11 +138,32 @@ const NoPermissionWarning = ( { capabilities, currentStep } ) => {
  * @returns {JSX.Element} The widget.
  */
 export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
+	const { grantConsent, dismissPermanently, trackSiteKitUsage } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
+	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
+	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
+
+	useEffect( () => {
+		if ( dataProvider.getSiteKitTrackingElement( "setupWidgetLoaded" ) === "" ) {
+			trackSiteKitUsage( "setup_widget_loaded", "yes" );
+		}
+		// Reset the temporary dismissal status
+		if ( dataProvider.getSiteKitTrackingElement( "setupWidgetDismissed" ) === "yes" ) {
+			trackSiteKitUsage( "setup_widget_dismissed", "no" );
+		}
+		if ( dataProvider.getSiteKitTrackingElement( "firstInteractionStage" ) === "" ) {
+			( dataProvider.getStepsStatuses()[ 0 ] === false ) ? trackSiteKitUsage( "first_interaction_stage", steps[ STEP_NAME.install ] )
+				: trackSiteKitUsage( "first_interaction_stage", steps[ STEP_NAME.activate ] );
+		}
+		if ( dataProvider.getSiteKitTrackingElement( "lastInteractionStage" ) !== steps[ currentStep ] ) {
+			trackSiteKitUsage( "last_interaction_stage", steps[ currentStep ] );
+		}
+	}, [ dataProvider, trackSiteKitUsage ] );
+
 	const handleOnRemove = useCallback( () => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
+		trackSiteKitUsage(  "setup_widget_dismissed", "yes" );
 	}, [ dataProvider ] );
 
-	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const siteKitConfiguration = dataProvider.getSiteKitConfiguration();
@@ -138,13 +171,11 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();
-	}, [ dismissPermanently ] );
+		trackSiteKitUsage(  "setup_widget_dismissed", "permanently" );
+	}, [ dismissPermanently, trackSiteKitUsage ] );
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
-
-	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
-	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
 
 	const checkCapability = ( url, capability = capabilities.installPlugins ) => {
 		return capability ? url : null;
