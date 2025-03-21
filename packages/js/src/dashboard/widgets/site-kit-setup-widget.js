@@ -143,7 +143,6 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
 
 	useEffect( () => {
-
 		if ( dataProvider.getSiteKitTrackingElement( "setupWidgetLoaded" ) === "" ) {
 			trackSiteKitUsage( "setup_widget_loaded", "yes" );
 		}
@@ -152,8 +151,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 			trackSiteKitUsage( "setup_widget_dismissed", "no" );
 		}
 		if ( dataProvider.getSiteKitTrackingElement( "firstInteractionStage" ) === "" ) {
-			dataProvider.getStepsStatuses()[ 0 ] === false
-				? trackSiteKitUsage( "first_interaction_stage", steps[STEP_NAME.install] )
+			( dataProvider.getStepsStatuses()[ 0 ] === false ) ? trackSiteKitUsage( "first_interaction_stage", steps[ STEP_NAME.install ] )
 				: trackSiteKitUsage( "first_interaction_stage", steps[ STEP_NAME.activate ] );
 		}
 		if ( dataProvider.getSiteKitTrackingElement( "lastInteractionStage" ) !== steps[ currentStep ] ) {

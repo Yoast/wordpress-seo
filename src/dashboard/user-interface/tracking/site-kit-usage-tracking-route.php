@@ -150,8 +150,8 @@ class Site_Kit_Usage_Tracking_Route implements Route_Interface {
 		if ( isset( $valid_values[ $element_name ] ) && \in_array( $element_value, $valid_values[ $element_name ], true ) ) {
 			return true;
 		}
-
-		return new WP_Error( 'rest_invalid_param', \sprintf( \__( 'The %s parameter is invalid.', 'text-domain' ), $param ) );
+		/* translators: %s expands to the name of the invalid parameter */
+		return new WP_Error( 'rest_invalid_param', \sprintf( \__( 'The %s parameter is invalid.', 'wordpress-seo' ), $param ) );
 	}
 
 	/**
