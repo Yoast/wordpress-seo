@@ -21,7 +21,6 @@ final class Set_Site_Kit_Permanent_Dismissal_Test extends Abstract_Site_Kit_Conf
 	 * Tests the set_introduction_seen route's happy path.
 	 *
 	 * @dataProvider set_site_kit_configuration_permanent_dismissal_data
-	 * @covers ::set_introduction_seen
 	 *
 	 * @param bool $is_dismissed    The value to set.
 	 * @param int  $expected_status The expected status code.

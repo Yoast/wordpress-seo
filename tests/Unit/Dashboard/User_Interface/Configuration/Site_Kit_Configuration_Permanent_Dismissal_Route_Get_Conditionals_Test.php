@@ -18,8 +18,6 @@ final class Site_Kit_Configuration_Permanent_Dismissal_Route_Get_Conditionals_Te
 	/**
 	 * Tests the get_conditionals function.
 	 *
-	 * @covers ::get_conditionals
-	 *
 	 * @return void
 	 */
 	public function test_get_conditionals() {
