@@ -41,6 +41,13 @@ class Site_Kit_Usage_Tracking_Repository implements Site_Kit_Usage_Tracking_Repo
 		return $this->options_helper->set( 'site_kit_usage_tracking', $usage_tracking );
 	}
 
+	/**
+	 * Gets an option inside the Site Kit usage options array.
+	 *
+	 * @param string $element_name The name of the option to get.
+	 *
+	 * @return string The value if present, empty string if not.
+	 */
 	public function get_site_kit_usage_tracking( string $element_name ): string {
 		$usage_tracking = $this->options_helper->get( 'site_kit_usage_tracking', [] );
 		return ( $usage_tracking[ $element_name ] ?? '' );
