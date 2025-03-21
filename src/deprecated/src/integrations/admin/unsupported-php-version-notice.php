@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  *
  * @package Yoast\WP\SEO\Integrations\Admin
  *
- * @deprecated 24.7
+ * @deprecated 25.0
  * @codeCoverageIgnore
  */
 class Unsupported_PHP_Version_Notice implements Integration_Interface {
@@ -18,13 +18,13 @@ class Unsupported_PHP_Version_Notice implements Integration_Interface {
 	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
-	 * @deprecated 24.7
+	 * @deprecated 25.0
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The array of conditionals.
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 24.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 25.0' );
 		return [
 			Yoast_Admin_And_Dashboard_Conditional::class,
 		];
@@ -33,37 +33,37 @@ class Unsupported_PHP_Version_Notice implements Integration_Interface {
 	/**
 	 * Register hooks.
 	 *
-	 * @deprecated 24.7
+	 * @deprecated 25.0
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_hooks() {
-		\_deprecated_function( __METHOD__, 'WPSEO 20.4' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 25.0' );
 	}
 
 	/**
 	 * Checks the current PHP version.
 	 *
-	 * @deprecated 24.7
+	 * @deprecated 25.0
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function check_php_version() {
-		\_deprecated_function( __METHOD__, 'WPSEO 20.4' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 25.0' );
 	}
 
 	/**
 	 * Composes the body of the message to display.
 	 *
-	 * @deprecated 24.7
+	 * @deprecated 25.0
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The message to display.
 	 */
 	public function body() {
-		\_deprecated_function( __METHOD__, 'WPSEO 20.4' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 25.0' );
 		return '';
 	}
 }
