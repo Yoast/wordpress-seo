@@ -48,7 +48,7 @@ $deprecated_classes = [
 	Disable_Concatenate_Scripts_Integration::class                 => '23.2',
 	Duplicate_Post_Integration::class                              => '23.4',
 	Request_Helper::class                                          => '23.6',
-	Unsupported_PHP_Version_Notice::class                          => '24.7',
+	Unsupported_PHP_Version_Notice::class                          => '25.0',
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {
