@@ -35,7 +35,8 @@ const META = {
  * @returns {JSX.Element} The element.
  */
 const SearchRankingCompareLayout = ( { children } ) => (
-	<div className="yst-flex yst-flex-col @3xl:yst-flex-row yst-gap-4 yst-justify-between rtl:yst-flex-row-reverse">
+	// The background color is used as the dividers, the metric has the white background.
+	<div className="yst-grid yst-grid-cols-4 yst-gap-px yst-bg-slate-200">
 		{ children }
 	</div>
 );
@@ -107,21 +108,18 @@ export const SearchRankingCompareWidgetContent = ( { dataProvider, remoteDataPro
 				tooltipLocalizedContent={ META.impressions.tooltip }
 				dataSources={ META.impressions.dataSources }
 			/>
-			<SearchRankingCompareMetricDivider />
 			<SearchRankingCompareMetric
 				metricName={ META.clicks.name }
 				data={ data.clicks }
 				tooltipLocalizedContent={ META.clicks.tooltip }
 				dataSources={ META.clicks.dataSources }
 			/>
-			<SearchRankingCompareMetricDivider />
 			<SearchRankingCompareMetric
 				metricName={ META.ctr.name }
 				data={ data.ctr }
 				tooltipLocalizedContent={ META.ctr.tooltip }
 				dataSources={ META.ctr.dataSources }
 			/>
-			<SearchRankingCompareMetricDivider />
 			<SearchRankingCompareMetric
 				metricName={ META.position.name }
 				data={ data.position }
