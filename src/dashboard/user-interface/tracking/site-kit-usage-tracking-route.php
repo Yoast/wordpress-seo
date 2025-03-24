@@ -80,19 +80,26 @@ class Site_Kit_Usage_Tracking_Route implements Route_Interface {
 					'callback'            => [ $this, 'track_site_kit_usage' ],
 					'permission_callback' => [ $this, 'check_capabilities' ],
 					'args'                => [
-						'element_name' => [
-							'required'          => true,
+						'setup_widget_loaded' => [
+							'required'          => false,
 							'type'              => 'string',
-							'enum'              => [ 'setup_widget_loaded', 'first_interaction_stage', 'last_interaction_stage', 'setup_widget_dismissed' ],
-							'sanitize_callback' => 'rest_sanitize_request_arg',
+							'enum'              => [ 'yes', 'no' ],
 						],
-						'element_value' => [
-							'required'          => true,
+						'first_interaction_stage' => [
+							'required'          => false,
 							'type'              => 'string',
-							'sanitize_callback' => 'rest_sanitize_request_arg',
-							'validate_callback' => [ $this, 'validate_element_value' ],
+							'enum'              => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT' ],
 						],
-
+						'last_interaction_stage' => [
+							'required'          => false,
+							'type'              => 'string',
+							'enum'              => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT' ],
+						],
+						'setup_widget_dismissed' => [
+							'required'          => false,
+							'type'              => 'string',
+							'enum'              => [ 'yes', 'no', 'permanently' ],
+						],
 					],
 				],
 			]
@@ -107,17 +114,40 @@ class Site_Kit_Usage_Tracking_Route implements Route_Interface {
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function track_site_kit_usage( WP_REST_Request $request ) {
-		$element_name  = $request->get_param( 'element_name' );
-		$element_value = $request->get_param( 'element_value' );
+		$data = \array_filter(
+			[
+				'setup_widget_loaded'     => $request->get_param( 'setup_widget_loaded' ),
+				'first_interaction_stage' => $request->get_param( 'first_interaction_stage' ),
+				'last_interaction_stage'  => $request->get_param( 'last_interaction_stage' ),
+				'setup_widget_dismissed'  => $request->get_param( 'setup_widget_dismissed' ),
+			],
+			static function ( $element_value ) {
+					return ! \is_null( $element_value );
+			}
+		);
 
-		try {
-			$result = $this->site_kit_usage_tracking_repository->set_site_kit_usage_tracking( $element_name, $element_value );
-		} catch ( Exception $exception ) {
+		if ( empty( $data ) ) {
 			return new WP_Error(
 				'wpseo_set_site_kit_usage_tracking',
-				$exception->getMessage(),
+				\__( 'No valid parameters were provided.', 'wordpress-seo' ),
 				(object) []
 			);
+		}
+
+		$result = true;
+		foreach ( $data as $element_name => $element_value ) {
+			try {
+				$result = $this->site_kit_usage_tracking_repository->set_site_kit_usage_tracking( $element_name, $element_value );
+			} catch ( Exception $exception ) {
+				return new WP_Error(
+					'wpseo_set_site_kit_usage_tracking',
+					$exception->getMessage(),
+					(object) []
+				);
+			}
+			if ( ! $result ) {
+				break;
+			}
 		}
 
 		return new WP_REST_Response(
@@ -126,32 +156,6 @@ class Site_Kit_Usage_Tracking_Route implements Route_Interface {
 			],
 			( $result ) ? 200 : 400
 		);
-	}
-
-	/**
-	 * Custom validation callback for element_value.
-	 *
-	 * @param string          $element_value The value of the parameter.
-	 * @param WP_REST_Request $request       The current request object.
-	 * @param string          $param         The parameter name.
-	 *
-	 * @return bool|WP_Error True if the value is valid, WP_Error otherwise.
-	 */
-	public function validate_element_value( string $element_value, WP_REST_Request $request, string $param ) {
-		$element_name = $request->get_param( 'element_name' );
-
-		$valid_values = [
-			'setup_widget_loaded'     => [ 'yes', 'no' ],
-			'first_interaction_stage' => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT' ],
-			'last_interaction_stage'  => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT' ],
-			'setup_widget_dismissed'  => [ 'yes', 'no', 'permanently' ],
-		];
-
-		if ( isset( $valid_values[ $element_name ] ) && \in_array( $element_value, $valid_values[ $element_name ], true ) ) {
-			return true;
-		}
-		/* translators: %s expands to the name of the invalid parameter */
-		return new WP_Error( 'rest_invalid_param', \sprintf( \__( 'The %s parameter is invalid.', 'wordpress-seo' ), $param ) );
 	}
 
 	/**
