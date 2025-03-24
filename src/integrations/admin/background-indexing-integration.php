@@ -126,7 +126,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	/**
 	 * Adds the filters that change the indexing limits.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function add_limit_filters() {
 		\add_filter( 'wpseo_post_indexation_limit', [ $this, 'throttle_cron_indexing' ] );
