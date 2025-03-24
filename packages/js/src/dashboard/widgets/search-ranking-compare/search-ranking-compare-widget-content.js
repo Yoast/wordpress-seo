@@ -3,7 +3,6 @@ import { __, _x } from "@wordpress/i18n";
 import { ErrorAlert } from "../../components/error-alert";
 import { NoDataParagraph } from "../../components/no-data-paragraph";
 import { SearchRankingCompareMetric, SearchRankingCompareMetricSkeletonLoader } from "./search-ranking-compare-metric";
-import { SearchRankingCompareMetricDivider } from "./search-ranking-compare-metric-divider";
 import { useSearchRankingCompare } from "./use-search-ranking-compare";
 
 // Preventing some duplication.
@@ -48,21 +47,22 @@ const SearchRankingCompareSkeletonLoader = () => {
 	return (
 		<SearchRankingCompareLayout>
 			<SearchRankingCompareMetricSkeletonLoader
+				className="@lg:yst-pe-4 @lg:yst-pb-4"
 				tooltipLocalizedContent={ META.impressions.tooltip }
 				dataSources={ META.impressions.dataSources }
 			/>
-			<SearchRankingCompareMetricDivider />
 			<SearchRankingCompareMetricSkeletonLoader
+				className="@lg:yst-ps-4 @lg:yst-pb-4"
 				tooltipLocalizedContent={ META.clicks.tooltip }
 				dataSources={ META.clicks.dataSources }
 			/>
-			<SearchRankingCompareMetricDivider />
 			<SearchRankingCompareMetricSkeletonLoader
+				className="@lg:yst-pe-4 @lg:yst-pt-4"
 				tooltipLocalizedContent={ META.ctr.tooltip }
 				dataSources={ META.ctr.dataSources }
 			/>
-			<SearchRankingCompareMetricDivider />
 			<SearchRankingCompareMetricSkeletonLoader
+				className="@lg:yst-ps-4 @lg:yst-pt-4"
 				tooltipLocalizedContent={ META.position.tooltip }
 				dataSources={ META.position.dataSources }
 			/>
@@ -103,24 +103,28 @@ export const SearchRankingCompareWidgetContent = ( { dataProvider, remoteDataPro
 	if ( data ) {
 		return <SearchRankingCompareLayout>
 			<SearchRankingCompareMetric
+				className="@lg:yst-pe-4 @lg:yst-pb-4"
 				metricName={ META.impressions.name }
 				data={ data.impressions }
 				tooltipLocalizedContent={ META.impressions.tooltip }
 				dataSources={ META.impressions.dataSources }
 			/>
 			<SearchRankingCompareMetric
+				className="@lg:yst-ps-4 @lg:yst-pb-4"
 				metricName={ META.clicks.name }
 				data={ data.clicks }
 				tooltipLocalizedContent={ META.clicks.tooltip }
 				dataSources={ META.clicks.dataSources }
 			/>
 			<SearchRankingCompareMetric
+				className="@lg:yst-pe-4 @lg:yst-pt-4"
 				metricName={ META.ctr.name }
 				data={ data.ctr }
 				tooltipLocalizedContent={ META.ctr.tooltip }
 				dataSources={ META.ctr.dataSources }
 			/>
 			<SearchRankingCompareMetric
+				className="@lg:yst-ps-4 @lg:yst-pt-4"
 				metricName={ META.position.name }
 				data={ data.position }
 				tooltipLocalizedContent={ META.position.tooltip }
