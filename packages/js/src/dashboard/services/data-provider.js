@@ -134,6 +134,9 @@ export class DataProvider {
 	 * @returns {boolean} If the Site Kit connection is completed.
 	 */
 	isSiteKitConnectionCompleted() {
+		if ( ! this.getSiteKitConfiguration().isVersionSupported ) {
+			return false;
+		}
 		return this.getSiteKitCurrentConnectionStep() === -1;
 	}
 

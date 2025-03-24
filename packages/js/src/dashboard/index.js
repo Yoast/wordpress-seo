@@ -112,6 +112,7 @@ export { Dashboard } from "./components/dashboard";
  * @property {boolean} isFeatureEnabled Whether the feature is enabled.
  * @property {boolean} isSetupWidgetDismissed Whether the configuration is dismissed.
  * @property {CapabilitiesForSiteKit} capabilities The user capabilities for site kit.
+ * @property {boolean} isVersionSupported Whether the version is supported.
  */
 
 /**

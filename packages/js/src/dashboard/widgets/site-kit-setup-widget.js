@@ -118,6 +118,24 @@ const NoPermissionWarning = ( { capabilities, currentStep } ) => {
 };
 
 /**
+ * Version not supported alert.
+ * 
+ * @paran {boolean} isConsentGranted Whether the consent is granted.
+ * 
+ * @returns {JSX.Element} The version not supported alert.
+ */
+const VersionNotSupportedAlert = ( { isConsentGranted } ) => {
+	if ( isConsentGranted ) {
+		return <Alert variant="error" className="yst-mt-6">
+			{ __( "Your current version of the Site Kit by Google plugin is no longer compatible with Yoast SEO. Please update to the latest version to restore the connection.", "wordpress-seo" ) }
+		</Alert>;
+	}
+	return <Alert className="yst-mt-6">
+	{ __( "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google.", "wordpress-seo" ) }
+		</Alert>;
+}
+
+/**
  * The google site kit connection guide widget.
  *
  * @param {DataProvider} dataProvider The data provider.
@@ -133,8 +151,14 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
-	const siteKitConfiguration = dataProvider.getSiteKitConfiguration();
-	const capabilities = siteKitConfiguration.capabilities;
+	const { capabilities, 
+		installUrl, 
+		activateUrl, 
+		setupUrl, 
+		isVersionSupported, 
+		updateUrl,
+		connectionStepsStatuses
+	 } = dataProvider.getSiteKitConfiguration();
 
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();
@@ -149,26 +173,26 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const checkCapability = ( url, capability = capabilities.installPlugins ) => {
 		return capability ? url : null;
 	};
-
+	console.log( isVersionSupported );
 
 	const buttonProps = [
 		{
 			children: __( "Install Site Kit by Google", "wordpress-seo" ),
-			href: checkCapability( siteKitConfiguration.installUrl ),
+			href: checkCapability( installUrl ),
 			as: "a",
 			disabled: ! capabilities.installPlugins,
 			"aria-disabled": ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
-			href: checkCapability( siteKitConfiguration.activateUrl ),
+			href: checkCapability( activateUrl ),
 			as: "a",
 			disabled: ! capabilities.installPlugins,
 			"aria-disabled": ! capabilities.installPlugins,
 		},
 		{
 			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-			href: checkCapability( siteKitConfiguration.setupUrl ),
+			href: checkCapability( setupUrl ),
 			as: "a",
 			disabled: ! capabilities.installPlugins,
 			"aria-disabled": ! capabilities.installPlugins,
@@ -208,7 +232,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				? <YoastConnectSiteKitSuccess className="yst-aspect-[21/5] yst-max-w-[252px]" />
 				: <YoastConnectSiteKit className="yst-aspect-[21/5] yst-max-w-[252px]" />
 			}</div>
-			<Stepper steps={ steps } currentStep={ currentStep }>
+			{ isVersionSupported && <Stepper steps={ steps } currentStep={ currentStep } className="yst-mb-6">
 				{ steps.map( ( label, index ) => (
 					<Stepper.Step
 						key={ label }
@@ -218,8 +242,8 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 						{ label }
 					</Stepper.Step>
 				) ) }
-			</Stepper>
-			<hr className="yst-bg-slate-200 yst-my-6" />
+			</Stepper> }
+			<hr className="yst-bg-slate-200 yst-mb-6" />
 			<div className="yst-max-w-2xl">
 				<SiteKitSetupWidgetTitleAndDescription isSiteKitConnectionCompleted={ isSiteKitConnectionCompleted } />
 				<span className="yst-text-slate-800 yst-font-medium">{ isSiteKitConnectionCompleted
@@ -237,6 +261,9 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 					</li>
 				</ul>
 				<NoPermissionWarning capabilities={ capabilities } currentStep={ currentStep } />
+
+				{ ! isVersionSupported && <VersionNotSupportedAlert isConsentGranted={ connectionStepsStatuses.isConsentGranted } /> }
+
 			</div>
 			<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
 				{ isSiteKitConnectionCompleted
@@ -245,7 +272,9 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 					</Button>
 
 					: <>
-						<Button { ...buttonProps[ currentStep ] } />
+						{ isVersionSupported ? <Button { ...buttonProps[ currentStep ] } /> : <Button as="a" href={ updateUrl } > 
+							{ __( "Update Site Kit by Google", "wordpress-seo" ) }
+							</Button> }
 						<LearnMoreLink as={ Button } variant="tertiary" href={ learnMoreLink } />
 						<SiteKitConsentModal
 							isOpen={ currentStep === STEP_NAME.grantConsent && isConsentModalOpen }
