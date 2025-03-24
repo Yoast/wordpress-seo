@@ -87,31 +87,43 @@ const SuccessfullyConnected = () => {
 };
 
 /**
- * The no permission warning component.
- *
+ * Status info component.
+ * 
  * @param {CapabilitiesForSiteKit} capabilities The capabilities.
  * @param {number} currentStep The current step.
- *
- * @returns {JSX.Element} The no permission warning component.
+ * @param {boolean} successfullyConnected Whether the connection was successful.
+ * @param {boolean} isVersionSupported Whether the version is supported.
+ * 
+ * @returns {JSX.Element} The status info component.
  */
-const NoPermissionWarning = ( { capabilities, currentStep } ) => {
+const StatusInfo = ( { capabilities, currentStep, successfullyConnected, isVersionSupported } ) => {
+
 	if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent && currentStep !== STEP_NAME.successfulyConnected ) {
-		return <ContentWithBottomDivider className="yst-text-slate-500">
+		return <ContentWithBottomDivider className="yst-text-slate-500 yst-italic">
 			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
 		</ContentWithBottomDivider>;
 	}
 
 	if ( ! capabilities.viewSearchConsoleData && ( currentStep === STEP_NAME.grantConsent || currentStep === STEP_NAME.successfulyConnected ) ) {
-		return <ContentWithBottomDivider className="yst-text-slate-500">
+		return <ContentWithBottomDivider className="yst-text-slate-500 yst-italic">
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
 		</ContentWithBottomDivider>;
 	}
-};
 
-NoPermissionWarning.propTypes = {
-	capabilities: PropTypes.objectOf( PropTypes.bool ).isRequired,
-	currentStep: PropTypes.number.isRequired,
-};
+	if( ! isVersionSupported ) {
+		return <ContentWithBottomDivider className="yst-text-slate-500 yst-italic">
+			{ sprintf(
+				/* translators: %s for Yoast SEO. */
+				 __( "Update Site Kit by Google to the latest version to connect %s.", "wordpress-seo" ),
+				 "Yoast SEO"
+				) }
+		</ContentWithBottomDivider>;
+	}
+
+	if ( successfullyConnected && capabilities.viewSearchConsoleData ) {
+		return <SuccessfullyConnected />;
+	}
+}
 
 /**
  * The Site Kit integration component.
@@ -120,8 +132,10 @@ NoPermissionWarning.propTypes = {
  * @param {string} installUrl The installation url.
  * @param {string} activateUrl The activation url.
  * @param {string} setupUrl The setup url.
+ * @param {string} updateUrl The update url.
  * @param {string} consentManagementUrl The consent management url.
  * @param {import("../dashboard/index").CapabilitiesForSiteKit} capabilities The user capabilities.
+ * @param {boolean} isVersionSupported Whether the version is supported.
  *
  * @returns {WPElement} The Site Kit integration component.
  */
@@ -129,9 +143,11 @@ export const SiteKitIntegration = ( {
 	installUrl,
 	activateUrl,
 	setupUrl,
+	updateUrl,
 	consentManagementUrl,
 	capabilities,
 	connectionStepsStatuses,
+	isVersionSupported,
 } ) => {
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
 	const [ isDisconnectModalOpen, toggleDisconnectModal ] = useToggleState( false );
@@ -212,17 +228,25 @@ export const SiteKitIntegration = ( {
 				isActive={ successfullyConnected }
 			>
 				<span className="yst-flex yst-flex-col yst-flex-1">
-					{ successfullyConnected && capabilities.viewSearchConsoleData && <SuccessfullyConnected /> }
-
-					<NoPermissionWarning
+					<StatusInfo
 						capabilities={ capabilities }
 						currentStep={ currentStep }
+						successfullyConnected={ successfullyConnected }
+						isVersionSupported={ isVersionSupported }
 					/>
-					<Button
+				
+					{ isVersionSupported ? <Button
 						className="yst-w-full"
 						id="site-kit-integration__button"
 						{ ...getButtonProps( currentStep ) }
-					/>
+					/> : <Button
+						className="yst-w-full"
+						id="site-kit-integration__button"
+						as="a"
+						href={ updateUrl }
+						> { __( "Update Site Kit by Google", "wordpress-seo" ) } 
+						</Button>
+					}
 
 				</span>
 			</SimpleIntegration>
