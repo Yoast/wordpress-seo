@@ -134,15 +134,8 @@ class WPSEO_Rewrite {
 
 		$category_rewrite = [];
 
-		$taxonomy            = get_taxonomy( 'category' );
-		$permalink_structure = get_option( 'permalink_structure' );
-
-		$blog_prefix = '';
-		if ( strpos( $permalink_structure, '/blog/' ) === 0 ) {
-			if ( ( is_multisite() && ! is_subdomain_install() ) || is_main_site() || is_main_network() ) {
-				$blog_prefix = 'blog/';
-			}
-		}
+		$taxonomy    = get_taxonomy( 'category' );
+		$blog_prefix = substr( $wp_rewrite->front, 1 );
 
 		$categories = get_categories( [ 'hide_empty' => false ] );
 		if ( is_array( $categories ) && $categories !== [] ) {
