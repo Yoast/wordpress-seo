@@ -18,21 +18,21 @@ class Top_Page_Repository implements Dashboard_Repository_Interface {
 	/**
 	 * The adapter.
 	 *
-	 * @var Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter
+	 * @var Site_Kit_Search_Console_Adapter
 	 */
 	private $site_kit_search_console_adapter;
 
 	/**
 	 * The top page indexable collector.
 	 *
-	 * @var Top_Page_Indexable_Collector $top_page_indexable_collector
+	 * @var Top_Page_Indexable_Collector
 	 */
 	private $top_page_indexable_collector;
 
 	/**
 	 * The site kit configuration object.
 	 *
-	 * @var Site_Kit $site_kit_configuration
+	 * @var Site_Kit
 	 */
 	private $site_kit_configuration;
 

@@ -68,7 +68,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Gets the raw value of a presentation.
 	 *
-	 * @return array<string,int> The raw value.
+	 * @return array<string, int> The raw value.
 	 */
 	public function get() {
 		$images = [];

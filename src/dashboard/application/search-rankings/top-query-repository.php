@@ -17,14 +17,14 @@ class Top_Query_Repository implements Dashboard_Repository_Interface {
 	/**
 	 * The adapter.
 	 *
-	 * @var Site_Kit_Search_Console_Adapter $site_kit_search_console_adapter
+	 * @var Site_Kit_Search_Console_Adapter
 	 */
 	private $site_kit_search_console_adapter;
 
 	/**
 	 * The site kit configuration object.
 	 *
-	 * @var Site_Kit $site_kit_configuration
+	 * @var Site_Kit
 	 */
 	private $site_kit_configuration;
 

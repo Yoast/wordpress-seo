@@ -43,35 +43,35 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	/**
 	 * The data provider for page based search rankings.
 	 *
-	 * @var Top_Page_Repository $top_page_repository
+	 * @var Top_Page_Repository
 	 */
 	private $top_page_repository;
 
 	/**
 	 * The data provider for query based search rankings.
 	 *
-	 * @var Top_Query_Repository $top_query_repository
+	 * @var Top_Query_Repository
 	 */
 	private $top_query_repository;
 
 	/**
 	 * The data provider for comparison organic session traffic.
 	 *
-	 * @var Organic_Sessions_Compare_Repository $organic_sessions_compare_repository
+	 * @var Organic_Sessions_Compare_Repository
 	 */
 	private $organic_sessions_compare_repository;
 
 	/**
 	 * The data provider for daily organic session traffic.
 	 *
-	 * @var Organic_Sessions_Daily_Repository $organic_sessions_daily_repository
+	 * @var Organic_Sessions_Daily_Repository
 	 */
 	private $organic_sessions_daily_repository;
 
 	/**
 	 * The data provider for searching ranking comparison.
 	 *
-	 * @var Search_Ranking_Compare_Repository $search_ranking_compare_repository
+	 * @var Search_Ranking_Compare_Repository
 	 */
 	private $search_ranking_compare_repository;
 

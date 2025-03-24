@@ -53,7 +53,7 @@ class Notification_Helper {
 	/**
 	 * Parses all the notifications to an array with just id, message, nonce, type and dismissed.
 	 *
-	 * @return array<string,string|bool>
+	 * @return array<string, string|bool>
 	 */
 	public function get_alerts(): array {
 		$all_notifications = $this->get_sorted_notifications();
