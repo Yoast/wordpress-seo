@@ -14,23 +14,6 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Tracking\Site_Kit_Usage_Tracking_Repos
 final class Site_Kit_Usage_Tracking_Repository_Fake implements Site_Kit_Usage_Tracking_Repository_Interface {
 
 	/**
-	 * The value `is_consent_granted` will return.
-	 *
-	 * @var bool $consent
-	 */
-	private $consent = true;
-
-	/**
-	 * Checks if the Site Kit consent has been granted..
-	 *
-	 * @return bool
-	 */
-	public function is_consent_granted(): bool {
-		// Return a fake value for testing purposes.
-		return $this->consent;
-	}
-
-	/**
 	 * Sets an element in the Site Kit usage tracking array.
 	 *
 	 * @param string $element_name  The name of the element to set.
