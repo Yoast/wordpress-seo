@@ -25,7 +25,7 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 	/**
 	 * The AIOSEO meta_keys to be cleaned up.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected $aioseo_postmeta_keys = [
 		'_aioseo_title',

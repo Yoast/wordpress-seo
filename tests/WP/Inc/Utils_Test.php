@@ -179,7 +179,7 @@ final class Utils_Test extends TestCase {
 	/**
 	 * Provides data to the sanitize_url test.
 	 *
-	 * @return array The test data.
+	 * @return array<string, array<string, string>>
 	 */
 	public static function sanitize_url_provider() {
 		return [

@@ -36,7 +36,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	/**
 	 * The map of aioseo to yoast meta.
 	 *
-	 * @var array
+	 * @var array<string, array<string, string|bool|array<string, string|bool>>>
 	 */
 	protected $aioseo_to_yoast_map = [
 		'title'               => [
