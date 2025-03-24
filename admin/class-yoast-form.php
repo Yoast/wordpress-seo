@@ -18,16 +18,18 @@ class Yoast_Form {
 	/**
 	 * Instance of this class
 	 *
-	 * @var Yoast_Form
 	 * @since 2.0
+	 *
+	 * @var Yoast_Form
 	 */
 	public static $instance;
 
 	/**
 	 * The short name of the option to use for the current page.
 	 *
-	 * @var string
 	 * @since 2.0
+	 *
+	 * @var string
 	 */
 	public $option_name;
 

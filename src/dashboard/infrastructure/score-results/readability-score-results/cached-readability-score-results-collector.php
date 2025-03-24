@@ -42,8 +42,9 @@ class Cached_Readability_Score_Results_Collector implements Score_Results_Collec
 	 * @param int|null                             $term_id            The ID of the term we're filtering for.
 	 * @param bool|null                            $is_troubleshooting Whether we're in troubleshooting mode.
 	 *
-	 * @throws Score_Results_Not_Found_Exception When the query of getting score results fails.
 	 * @return array<string, object|bool|float> The readability score results for a content type.
+	 *
+	 * @throws Score_Results_Not_Found_Exception When the query of getting score results fails.
 	 */
 	public function get_score_results(
 		array $score_groups,

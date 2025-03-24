@@ -47,9 +47,9 @@ class Top_Query_Repository implements Dashboard_Repository_Interface {
 	 *
 	 * @param Parameters $parameters The parameter to use for getting the top queries.
 	 *
-	 * @throws Data_Source_Not_Available_Exception When this repository is used without the needed prerequisites ready.
-	 *
 	 * @return Data_Container
+	 *
+	 * @throws Data_Source_Not_Available_Exception When this repository is used without the needed prerequisites ready.
 	 */
 	public function get_data( Parameters $parameters ): Data_Container {
 		if ( ! $this->site_kit_configuration->is_onboarded() ) {
