@@ -60,7 +60,6 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 	}, [ dataProvider, remoteDataProvider ] );
 
 	const trackSiteKitUsage = useCallback( ( params, options ) => {
-		console.log(params);
 		remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "siteKitUsageTracking" ),
 			params,
@@ -151,7 +150,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 		}
 		// Reset the temporary dismissal status
 		if ( dataProvider.getSiteKitTrackingElement( "setupWidgetDismissed" ) === "yes" ) {
-			trackSiteKitUsage( {setup_widget_dismissed: "no" } );
+			trackSiteKitUsage( { setup_widget_dismissed: "no" } );
 		}
 		if ( ( dataProvider.getSiteKitTrackingElement( "lastInteractionStage" ) !== steps[ currentStep ] ) &&
 			( dataProvider.getSiteKitTrackingElement( "setupWidgetLoaded" ) !== ""  ) ) {

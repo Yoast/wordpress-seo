@@ -32,6 +32,10 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 	 * @param bool               $is_site_kit_activated   If the Site Kit plugin is activated.
 	 * @param bool               $is_consent_granted      If consent is granted to our integration.
 	 * @param bool               $is_ga_connected         If the Google analytics setup is completed.
+	 * @param string             $setup_widget_loaded     The setup widget loaded status.
+	 * @param string             $first_interaction_stage The first interaction stage.
+	 * @param string             $last_interaction_stage  The last interaction stage.
+	 * @param string             $setup_widget_dismissed  The setup widget dismissed status.
 	 * @param bool               $is_config_dismissed     If the configuration widget is dismissed.
 	 * @param string             $access_role_needed      The needed role for using the widgets.
 	 * @param string             $access_role_user        The role the user has.
