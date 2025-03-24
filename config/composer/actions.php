@@ -432,8 +432,7 @@ TPL;
 		try {
 			$path = $generator->generate( $fqn );
 			\printf( 'Unit test generated at \'%s\'' . \PHP_EOL, $path );
-		}
-		catch ( Exception $exception ) {
+		} catch ( Exception $exception ) {
 			throw $exception;
 		}
 	}
