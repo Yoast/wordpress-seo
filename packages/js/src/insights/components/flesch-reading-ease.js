@@ -70,17 +70,14 @@ function getDescription( score, difficulty ) {
 	// A score of -1 signals that no valid FRE was calculated.
 
 	if ( score === -1 ) {
-		return sprintf(
-			__(
-				"Your text should be slightly longer to calculate your Flesch reading ease score.",
-				"wordpress-seo"
-			)
+		return __(
+			"Your text should be slightly longer to calculate your Flesch reading ease score.",
+			"wordpress-seo"
 		);
 	}
 	return sprintf(
 		/* Translators: %1$s expands to the numeric Flesch reading ease score,
-				%2$s expands to the easiness of reading (e.g. 'easy' or 'very difficult').
-			 */
+		%2$s expands to the easiness of reading (e.g. 'easy' or 'very difficult') */
 		__(
 			"The copy scores %1$s in the test, which is considered %2$s to read.",
 			"wordpress-seo"

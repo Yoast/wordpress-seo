@@ -19,7 +19,7 @@ const WooCommerceUpsell = ( { link, text } ) => {
 				target="_blank"
 				rel="noopener"
 			>
-				<LockOpenIcon className="yst-w-4 yst-h-4 yst--ml-1 yst-shrink-0" />
+				<LockOpenIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-shrink-0" />
 				{ sprintf(
 				/* translators: %1$s expands to Yoast WooCommerce SEO. */
 					__( "Unlock with %1$s", "wordpress-seo" ),

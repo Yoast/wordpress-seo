@@ -33,7 +33,7 @@
 		}
 
 		.yst-toggle-field__description {
-			@apply yst-mr-[4.25rem];
+			@apply yst-me-[4.25rem];
 		}
 	}
 }

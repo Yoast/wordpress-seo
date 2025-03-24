@@ -1,6 +1,6 @@
 {
   "name": "@yoast/helpers",
-  "version": "0.17.0-alpha.0",
+  "version": "0.17.0-alpha.1",
   "description": "All Yoast helper functions.",
   "main": "build/index.js",
   "files": [
@@ -38,8 +38,11 @@
     "@babel/core": "^7.17.10",
     "@babel/plugin-transform-react-jsx": "^7.17.3",
     "@babel/preset-env": "^7.16.11",
-    "@yoast/browserslist-config": "^1.2.3",
+    "@yoast/browserslist-config": "^1.2.4",
+    "@yoast/eslint-config": "^8.0.0",
     "babel-plugin-styled-components": "^2.0.6",
+    "eslint": "^9.16.0",
+    "globals": "^15.12.0",
     "jest-styled-components": "^7.0.3",
     "react-test-renderer": "^18.2.0"
   },

@@ -90,6 +90,8 @@ jobs:
           php-version: ${{ matrix.php_version }}
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           coverage: ${{ matrix.coverage == true && 'xdebug' || 'none' }}
+        env:
+          update: true
 
       # The PHP platform requirement would prevent updating the test utilities to the appropriate versions.
       # As long as the `composer update` is run selectively to only update the test utils, removing this is fine.
@@ -136,7 +138,7 @@ jobs:
       matrix:
         include:
           - php_version: "7.2"
-            wp_version: "6.5"
+            wp_version: "6.6"
             multisite: true
             coverage: true
 
@@ -151,17 +153,17 @@ jobs:
             coverage: false
 
           - php_version: "8.0"
-            wp_version: "6.5"
+            wp_version: "6.6"
             multisite: false
             coverage: false
 
           - php_version: '8.1'
-            wp_version: '6.5'
+            wp_version: '6.6'
             multisite: true
             coverage: false
 
           - php_version: '8.2'
-            wp_version: '6.5'
+            wp_version: '6.6'
             multisite: true
             coverage: false
 
@@ -220,6 +222,8 @@ jobs:
           php-version: ${{ matrix.php_version }}
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           coverage: ${{ matrix.coverage == true && 'xdebug' || 'none' }}
+        env:
+          update: true
 
       # The PHP platform requirement would prevent updating the test utilities to the appropriate versions.
       # As long as the `composer update` is run selectively to only update the test utils, removing this is fine.

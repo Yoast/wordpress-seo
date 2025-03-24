@@ -164,7 +164,7 @@ final class User_Helper_Test extends TestCase {
 	/**
 	 * Data provider for current_user_display_name_provider test.
 	 *
-	 * @return array<string,array<WP_User,null,string>>
+	 * @return array<array<WP_User|string|null>>
 	 */
 	public static function current_user_display_name_provider() {
 		$user1               = new WP_User();

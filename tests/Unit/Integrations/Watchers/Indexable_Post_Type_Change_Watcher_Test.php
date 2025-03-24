@@ -209,7 +209,7 @@ final class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	/**
 	 * Data provider for test_check_post_types_public_availability().
 	 *
-	 * @return array<string,string|int|bool|array<string>> The data.
+	 * @return array<string, array<string, int|bool|array<int|string, string>>> The data.
 	 */
 	public static function provider_check_post_types_public_availability() {
 

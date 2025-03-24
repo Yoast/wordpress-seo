@@ -4,7 +4,7 @@ import { isString } from "lodash";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 import addMark from "../../../markers/addMark";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import { getWords } from "../../../languageProcessing";
 
 import { includesConsecutiveWords } from "./helpers/includesConsecutiveWords";
@@ -38,7 +38,7 @@ export default class InclusiveLanguageAssessment {
 	 * @returns {void}
 	 */
 	constructor( { identifier, nonInclusivePhrases, inclusiveAlternatives,
-					 score, feedbackFormat, learnMoreUrl, rule, ruleDescription, caseSensitive, category } ) {
+		score, feedbackFormat, learnMoreUrl, rule, ruleDescription, caseSensitive, category } ) {
 		this.identifier = identifier;
 		this.nonInclusivePhrases = nonInclusivePhrases;
 		this.inclusiveAlternatives = inclusiveAlternatives;
@@ -102,6 +102,7 @@ export default class InclusiveLanguageAssessment {
 			"</a>"
 		);
 
+		// eslint-disable-next-line @wordpress/valid-sprintf -- The sprintf function is used to replace placeholders in the feedbackFormat variable.
 		const text = sprintf(
 			this.feedbackFormat,
 			this.foundPhrases[ 0 ].phrase,

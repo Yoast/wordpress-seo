@@ -78,7 +78,7 @@ final class WooCommerce_SEO_Test extends TestCase {
 	/**
 	 * Data provider for test_is_enabled.
 	 *
-	 * @return array<array<string,bool>>
+	 * @return array<string, array<string, bool>>
 	 */
 	public static function data_provider_is_enabled() {
 		return [

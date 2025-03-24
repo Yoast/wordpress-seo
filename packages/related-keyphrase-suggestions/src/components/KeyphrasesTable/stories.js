@@ -11,7 +11,9 @@ export const Factory = {
 	args: {
 		renderButton: ButtonFactory.render,
 		relatedKeyphrases: [],
+		isPending: false,
 		columnNames: [ "Keyword", "Search Volume", "Trends", "Keyword Difficulty Index", "Intent" ],
+		userLocale: "en",
 		data: [
 			[
 				"speed test",
@@ -93,7 +95,7 @@ export const Factory = {
 	render: ( args ) => <KeyphrasesTable { ...args } />,
 };
 
-export const LoadingTable = () => <KeyphrasesTable renderButton={ noop } />;
+export const LoadingTable = () => <KeyphrasesTable renderButton={ noop } isPending={ true } />;
 
 export const WithoutButtons = () => <KeyphrasesTable data={ Factory.args.data } columnNames={ Factory.args.columnNames } />;
 
@@ -112,4 +114,9 @@ export default {
 			</div>
 		),
 	],
+	argTypes: {
+		userLocale: {
+			description: "The locale used for formatting the search volume. Should be without country code, for example 'en' not 'en_US'. Fallback to the browser language.",
+		},
+	},
 };

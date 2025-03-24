@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import SubheadingsKeywordAssessment from "../../../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../../src/helpers/factory";

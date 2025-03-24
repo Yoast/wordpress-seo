@@ -13,7 +13,7 @@ class WooCommerce implements Integration_Data_Provider_Interface {
 	/**
 	 * The WooCommerce conditional.
 	 *
-	 * @var WooCommerce_Conditional $woocommerce_conditional
+	 * @var WooCommerce_Conditional
 	 */
 	private $woocommerce_conditional;
 

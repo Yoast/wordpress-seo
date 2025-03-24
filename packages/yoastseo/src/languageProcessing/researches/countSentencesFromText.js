@@ -1,19 +1,20 @@
-import getSentences from "../helpers/sentence/getSentences";
 import sentencesLength from "../helpers/sentence/sentencesLength.js";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../helpers";
+import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
 
 /**
- * Count sentences in the text.
+ * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../values/").Paper } Paper
+ */
+
+/**
+ * Gets the sentences from the text and calculates the length of each sentence.
+ *
  * @param {Paper} paper The Paper object to get text from.
  * @param {Researcher} 	researcher 	The researcher to use for analysis.
- * @returns {Array} The sentences from the text.
+ *
+ * @returns {SentenceLength[]} The sentences from the text.
  */
 export default function( paper, researcher ) {
-	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
-	let text = paper.getText();
-	text = removeHtmlBlocks( text );
-	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
-	const sentences = getSentences( text, memoizedTokenizer );
+	const sentences = getSentencesFromTree( paper.getTree() );
 	return sentencesLength( sentences, researcher );
 }

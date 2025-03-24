@@ -307,7 +307,7 @@ class WPSEO_Replace_Vars {
 				$replacement = $this->$method_name();
 			}
 			// Deal with externally defined variable names.
-			elseif ( isset( self::$external_replacements[ $var ] ) && ! is_null( self::$external_replacements[ $var ] ) ) {
+			elseif ( isset( self::$external_replacements[ $var ] ) && is_callable( self::$external_replacements[ $var ] ) ) {
 				$replacement = call_user_func( self::$external_replacements[ $var ], $var, $this->args );
 			}
 
@@ -371,7 +371,7 @@ class WPSEO_Replace_Vars {
 			// Returns a string.
 			$replacement = get_the_date();
 		}
-		elseif ( single_month_title( ' ', false ) && single_month_title( ' ', false ) !== '' ) {
+		elseif ( single_month_title( ' ', false ) ) {
 			// Returns a string.
 			$replacement = single_month_title( ' ', false );
 		}

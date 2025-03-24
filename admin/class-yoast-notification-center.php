@@ -22,7 +22,7 @@ class Yoast_Notification_Center {
 	/**
 	 * The singleton instance of this object.
 	 *
-	 * @var Yoast_Notification_Center
+	 * @var Yoast_Notification_Center|null
 	 */
 	private static $instance = null;
 
@@ -330,11 +330,11 @@ class Yoast_Notification_Center {
 
 			// If notification ID exists in notifications, don't add again.
 			$present_notification = $this->get_notification_by_id( $notification_id, $user_id );
-			if ( ! is_null( $present_notification ) ) {
+			if ( $present_notification !== null ) {
 				$this->remove_notification( $present_notification, false );
 			}
 
-			if ( is_null( $present_notification ) ) {
+			if ( $present_notification === null ) {
 				$this->new[] = $notification_id;
 			}
 		}
@@ -513,7 +513,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Return the notifications sorted on type and priority.
 	 *
-	 * @return array|Yoast_Notification[] Sorted Notifications
+	 * @return Yoast_Notification[] Sorted Notifications
 	 */
 	public function get_sorted_notifications() {
 		$notifications = $this->get_notifications_for_user( get_current_user_id() );
@@ -578,7 +578,7 @@ class Yoast_Notification_Center {
 	 * In other terms, it returns an associative array,
 	 * mapping user ID to a list of notifications for this user.
 	 *
-	 * @param array|Yoast_Notification[] $notifications The notifications to split.
+	 * @param Yoast_Notification[] $notifications The notifications to split.
 	 *
 	 * @return array The notifications, split on user ID.
 	 */
@@ -650,8 +650,8 @@ class Yoast_Notification_Center {
 	/**
 	 * Stores the notifications to its respective user's storage.
 	 *
-	 * @param array|Yoast_Notification[] $notifications The notifications to store.
-	 * @param int                        $user_id       The ID of the user for which to store the notifications.
+	 * @param Yoast_Notification[] $notifications The notifications to store.
+	 * @param int                  $user_id       The ID of the user for which to store the notifications.
 	 *
 	 * @return void
 	 */
@@ -663,7 +663,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Provide a way to verify present notifications.
 	 *
-	 * @return array|Yoast_Notification[] Registered notifications.
+	 * @return Yoast_Notification[] Registered notifications.
 	 */
 	public function get_notifications() {
 		if ( ! $this->notifications ) {

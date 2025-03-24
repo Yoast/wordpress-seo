@@ -50,7 +50,7 @@ const FormikPageSelectField = ( { name, id, ...props } ) => {
 	const debouncedFetchPages = useCallback( debounce( async search => {
 		try {
 			setStatus( ASYNC_ACTION_STATUS.loading );
-			// eslint-disable-next-line camelcase
+
 			const response = await fetchPages( { search } );
 
 			setQueriedPageIds( map( response.payload, "id" ) );
@@ -116,7 +116,7 @@ const FormikPageSelectField = ( { name, id, ...props } ) => {
 									<DocumentAddIcon
 										className="yst-w-5 yst-h-5 yst-text-slate-400 group-hover:yst-text-white"
 									/>
-									<span>{ __( "Add new page...", "wordpress-seo" ) }</span>
+									<span>{ __( "Add new page…", "wordpress-seo" ) }</span>
 								</a>
 							</li>
 						) }
@@ -125,7 +125,7 @@ const FormikPageSelectField = ( { name, id, ...props } ) => {
 				{ status === ASYNC_ACTION_STATUS.loading && (
 					<PageSelectOptionsContent>
 						<Spinner variant="primary" />
-						{ __( "Searching pages...", "wordpress-seo" ) }
+						{ __( "Searching pages…", "wordpress-seo" ) }
 					</PageSelectOptionsContent>
 				) }
 				{ status === ASYNC_ACTION_STATUS.error && (

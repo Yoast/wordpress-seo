@@ -2,7 +2,7 @@ import domReady from "@wordpress/dom-ready";
 import { __, sprintf } from "@wordpress/i18n";
 import { createInterpolateElement, createRoot } from "@wordpress/element";
 import { CheckIcon } from "@heroicons/react/solid";
-import { ArrowRightIcon } from "@heroicons/react/outline";
+import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 
 /**
  * The installation success page.
@@ -44,7 +44,7 @@ export function InstallationSuccessPage() {
 						</div>
 					</div>
 					<div>
-						<ArrowRightIcon className="yst-w-8 yst-text-gray-500" />
+						<ArrowNarrowRightIcon className="yst-w-8 yst-text-gray-500 rtl:yst-rotate-180" />
 					</div>
 					<div id="installation-success-card-configuration" className="yst-shrink-0 yst-shadow-xl yst-bg-primary-500 yst-rounded-lg yst-p-6 yst-flex yst-flex-col yst-max-w-sm yst-h-4/5 yst-leading-6">
 						<h2 className=" yst-text-white yst-text-2xl yst-leading-8 yst-font-extrabold">
@@ -74,20 +74,7 @@ export function InstallationSuccessPage() {
 								data-hiive-event-name="clicked_start_first_time_configuration"
 							>
 								{ __( "Start first-time configuration!", "wordpress-seo" ) }
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									className="yst-ml-3 yst-mr-1 yst-h-5 yst-w-5"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="M14 5l7 7m0 0l-7 7m7-7H3"
-									/>
-								</svg>
+								<ArrowNarrowRightIcon className="yst-w-5 yst-h-5 yst-ms-3 yst-me-1 rtl:yst-rotate-180" />
 							</a>
 						</div>
 					</div>

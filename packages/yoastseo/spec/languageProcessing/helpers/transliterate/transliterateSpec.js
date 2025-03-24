@@ -1,6 +1,5 @@
 import transliteration from "../../../../src/languageProcessing/helpers/transliterate/transliterate.js";
 
-// eslint-disable-next-line max-statements
 describe( "A test for removing special characters from text.", function() {
 	it( "returns a Spanish string without special characters.", function() {
 		expect( transliteration( "ñáéíóúüÑÁÉÍÓÚÜ", "es_AR" ) ).toBe( "naeiouuNAEIOUU" );

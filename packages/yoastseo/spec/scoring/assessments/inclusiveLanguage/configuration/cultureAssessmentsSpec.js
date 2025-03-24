@@ -46,7 +46,11 @@ describe( "A test for Culture Assessments", () => {
 
 	it( "should not target exotic when followed by exception words.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "exotic" ) );
-		[ "shorthair", "shorthairs", "longhair", "longhairs" ].map( ( exceptionWord ) => {
+		[ "longhair", "longhairs", "shorthair", "shorthairs",
+			"bloom", "blooms", "species", "florals", "botanical", "botanicals", "leather", "leathers", "material",
+			"materials", "timber", "timbers", "composite", "composites", "atom", "atoms", "molecule", "molecules",
+			"hadron", "hadrons", "sphere", "spheres", "star", "stars", "car", "cars", "sports car",
+			"sports cars" ].map( ( exceptionWord ) => {
 			const testSentence = `It is common to have exotic ${exceptionWord}.`;
 			const mockPaper = new Paper( testSentence );
 			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
@@ -55,7 +59,6 @@ describe( "A test for Culture Assessments", () => {
 	} );
 } );
 
-// eslint-disable-next-line max-statements
 describe( "a test for targeting non-inclusive phrases in culture assessments", () => {
 	it( "should return the appropriate score and feedback string for: 'Third World'", () => {
 		const testData = [
@@ -71,13 +74,13 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should return the appropriate score and feedback string for: 'Third World'", () => {
+	it( "should return the appropriate score and feedback string for: 'exotic'", () => {
 		const testData = [
 			{
 				identifier: "exotic",
 				text: "They are considered exotic here.",
-				expectedFeedback: "Be careful when using <i>exotic</i> as it is potentially harmful. Unless you are referring to animals, " +
-					"consider using an alternative, such as <i>unfamiliar, foreign, peculiar, fascinating, alluring, bizarre, non-native, " +
+				expectedFeedback: "Be careful when using <i>exotic</i> as it is potentially harmful. Unless you are referring to animals " +
+					"or scientific terms, consider using an alternative, such as <i>unfamiliar, foreign, peculiar, fascinating, alluring, bizarre, non-native, " +
 					"introduced</i>. <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},

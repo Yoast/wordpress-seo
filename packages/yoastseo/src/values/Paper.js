@@ -1,6 +1,10 @@
 import { defaults, isEmpty, isEqual, isNil } from "lodash";
 
 /**
+ * @typedef {import("../parse/structure").Node} Node
+ */
+
+/**
  * Default attributes to be used by the Paper if they are left undefined.
  * @type {{keyword: string, synonyms: string, description: string, title: string, titleWidth: number,
  * 		   slug: string, locale: string, permalink: string, date: string, customData: object, textTitle: string,

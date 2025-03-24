@@ -68,7 +68,7 @@ final class Post_Site_Information_Test extends TestCase {
 	/**
 	 * The options helper.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper $options_helper
+	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper;
 

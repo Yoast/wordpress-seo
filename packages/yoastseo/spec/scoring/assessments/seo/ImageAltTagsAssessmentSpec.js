@@ -130,7 +130,7 @@ describe( "tests for retrieving the feedback strings.", function() {
 					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
 						"%1$sImage alt tags%2$s: All images have alt attributes. Good job!",
-						"yoast-woo-seo"
+						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					"</a>"
@@ -139,7 +139,7 @@ describe( "tests for retrieving the feedback strings.", function() {
 					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						"%1$sImage alt tags%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
-						"yoast-woo-seo"
+						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					urlActionAnchorOpeningTag,
@@ -151,7 +151,7 @@ describe( "tests for retrieving the feedback strings.", function() {
 						"%3$sImage alt tags%5$s: %1$d image out of %2$d doesn't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
 						"%3$sImage alt tags%5$s: %1$d images out of %2$d don't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
 						numberOfImagesWithoutAlt,
-						"yoast-woo-seo"
+						"this-is-a-test-domain"
 					),
 					numberOfImagesWithoutAlt,
 					totalNumberOfImages,

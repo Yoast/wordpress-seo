@@ -12,21 +12,21 @@ class Cleanup_Service {
 	/**
 	 * The additional contactmethods collector.
 	 *
-	 * @var Additional_Contactmethods_Collector $additional_contactmethods_collector The additional contactmethods collector.
+	 * @var Additional_Contactmethods_Collector
 	 */
 	private $additional_contactmethods_collector;
 
 	/**
 	 * The custom meta collector.
 	 *
-	 * @var Custom_Meta_Collector $custom_meta_collector The custom meta collector.
+	 * @var Custom_Meta_Collector
 	 */
 	private $custom_meta_collector;
 
 	/**
 	 * The cleanup repository.
 	 *
-	 * @var Cleanup_Repository $custom_meta_collector The custom meta repository.
+	 * @var Cleanup_Repository
 	 */
 	private $cleanup_repository;
 

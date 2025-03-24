@@ -1,4 +1,5 @@
 import { get } from "lodash";
+import { select } from "@wordpress/data";
 import { getIsProduct, getIsProductTerm } from "./editorContext";
 
 /**
@@ -72,4 +73,15 @@ export const getIsWooSeoUpsellTerm = ( state ) => {
 	const isProductTerm = getIsProductTerm( state );
 
 	return ! isWooSeoActive && isWooCommerceActive && isProductTerm;
+};
+
+/**
+ * @deprecated This function is deprecated and will be removed in future versions.
+ * Please use the getIsAiFeatureEnabled from yoast-seo-premium store instead.
+ *
+ * @returns {boolean} Whether the AI feature is enabled.
+ */
+export const getIsAiFeatureEnabled = () => {
+	const getIsAiFeatureEnabledFromPremium = select( "yoast-seo-premium/editor" )?.getIsAiFeatureEnabled;
+	return getIsAiFeatureEnabledFromPremium ? getIsAiFeatureEnabledFromPremium() : Boolean( window.wpseoAdminL10n.isAiFeatureActive );
 };

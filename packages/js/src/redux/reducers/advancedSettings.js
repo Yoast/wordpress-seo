@@ -45,7 +45,7 @@ const advancedSettingsReducer = ( state = initialState, action ) => {
 			return { ...state, canonical: action.value };
 		case SET_BREADCRUMBS_TITLE:
 			return { ...state, breadcrumbsTitle: action.value };
-	  default:
+		default:
 			return state;
 	}
 };

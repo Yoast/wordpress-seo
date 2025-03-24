@@ -51,6 +51,13 @@ class WPSEO_Meta_Columns {
 	private $score_icon_helper;
 
 	/**
+	 * Holds the WPSEO_Admin_Asset_Manager instance.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
+	private $admin_asset_manager;
+
+	/**
 	 * When page analysis is enabled, just initialize the hooks.
 	 */
 	public function __construct() {
@@ -62,6 +69,7 @@ class WPSEO_Meta_Columns {
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 		$this->admin_columns_cache  = YoastSEO()->classes->get( Admin_Columns_Cache_Integration::class );
 		$this->score_icon_helper    = YoastSEO()->helpers->score_icon;
+		$this->admin_asset_manager  = YoastSEO()->classes->get( WPSEO_Admin_Asset_Manager::class );
 	}
 
 	/**
@@ -96,6 +104,9 @@ class WPSEO_Meta_Columns {
 			return $columns;
 		}
 
+		$this->admin_asset_manager->enqueue_script( 'edit-page' );
+		$this->admin_asset_manager->enqueue_style( 'edit-page' );
+
 		$added_columns = [];
 
 		if ( $this->analysis_seo->is_enabled() ) {
@@ -103,7 +114,7 @@ class WPSEO_Meta_Columns {
 											. esc_attr__( 'SEO score', 'wordpress-seo' )
 											. '"><span class="screen-reader-text">'
 											. __( 'SEO score', 'wordpress-seo' )
-											. '</span></span></span>';
+											. '</span></span>';
 		}
 
 		if ( $this->analysis_readability->is_enabled() ) {
@@ -111,7 +122,7 @@ class WPSEO_Meta_Columns {
 														. esc_attr__( 'Readability score', 'wordpress-seo' )
 														. '"><span class="screen-reader-text">'
 														. __( 'Readability score', 'wordpress-seo' )
-														. '</span></span></span>';
+														. '</span></span>';
 		}
 
 		$added_columns['wpseo-title']    = __( 'SEO Title', 'wordpress-seo' );

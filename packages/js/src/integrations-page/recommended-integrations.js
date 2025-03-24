@@ -1,9 +1,10 @@
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { get } from "lodash";
 import { ReactComponent as SemrushLogo } from "../../images/semrush-logo.svg";
 import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
 import { getInitialState, getIsMultisiteAvailable, getIsNetworkControlEnabled, updateIntegrationState } from "./helper";
-
+import { SiteKitIntegration } from "./site-kit-integration";
 import { ToggleableIntegration } from "./toggleable-integration";
 
 const integrations = [
@@ -61,7 +62,7 @@ const integrations = [
 	},
 ];
 
-export const RecommendedIntegrations = [
+const RecommendedIntegrations = [
 	integrations.map( ( integration, index ) => {
 		return (
 			<ToggleableIntegration
@@ -76,3 +77,26 @@ export const RecommendedIntegrations = [
 		);
 	} ),
 ];
+
+const isSiteKitFeatureEnabled = get( window, "wpseoIntegrationsData.site_kit_configuration.isFeatureEnabled", false );
+if ( isSiteKitFeatureEnabled ) {
+	RecommendedIntegrations.push( <SiteKitIntegration
+		key={ integrations.length }
+		installUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.installUrl", "" ) }
+		activateUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.activateUrl", "" ) }
+		setupUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.setupUrl", "" ) }
+		consentManagementUrl={ get( window, "wpseoIntegrationsData.site_kit_consent_management_url", "" ) }
+		capabilities={ get( window, "wpseoIntegrationsData.site_kit_configuration.capabilities", {
+			installPlugins: false,
+			viewSearchConsoleData: false,
+		} ) }
+		connectionStepsStatuses={ get( window, "wpseoIntegrationsData.site_kit_configuration.connectionStepsStatuses", {
+			isInstalled: false,
+			isActive: false,
+			isSetupCompleted: false,
+			isConsentGranted: false,
+		} ) }
+	/> );
+}
+
+export { RecommendedIntegrations };

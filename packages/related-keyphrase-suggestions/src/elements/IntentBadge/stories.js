@@ -8,18 +8,19 @@ export const Factory = {
 	},
 	args: {
 		value: "i",
+		id: "i",
 	},
 	argTypes: {
 		value: {
 			description: "Initial of the intent",
 		},
 	},
-	render: ( { value } ) => (
+	render: ( args ) => (
 		<>
-			<IntentBadge value={ value } />
-			<IntentBadge value="n" />
-			<IntentBadge value="c" />
-			<IntentBadge value="t" />
+			<IntentBadge { ...args } />
+			<IntentBadge value="n" id="n" />
+			<IntentBadge value="c" id="c" />
+			<IntentBadge value="t" id="t" />
 		</>
 	),
 };

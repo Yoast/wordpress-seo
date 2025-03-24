@@ -54,7 +54,7 @@ exports[`Search modal should open 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="yst-pointer-events-none yst-absolute yst-top-3.5 yst-left-4 yst-h-5 yst-w-5 yst-text-slate-400"
+              class="yst-pointer-events-none yst-absolute yst-top-3.5 yst-start-4 yst-h-5 yst-w-5 yst-text-slate-400"
               fill="none"
               role="img"
               stroke="currentColor"
@@ -75,7 +75,7 @@ exports[`Search modal should open 1`] = `
               class="yst-h-12 yst-w-full yst-border-0 yst-rounded-lg sm:yst-text-sm yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-500 focus:yst-outline-none focus:yst-ring-inset focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-border-primary-500"
               data-headlessui-state=""
               id="input-search"
-              placeholder="Search..."
+              placeholder="Search…"
               role="combobox"
               type="text"
               value=""
@@ -155,7 +155,7 @@ exports[`Search modal should show search results 1`] = `
     >
       <li
         aria-selected="false"
-        class="yst-group yst-block yst-no-underline yst-text-sm yst-text-slate-800 yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white yst-text-white yst-bg-primary-600"
+        class="yst-group yst-block yst-no-underline yst-text-sm  yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white yst-text-white yst-bg-primary-600"
         data-headlessui-state="active"
         id="headlessui-combobox-option-:rl:"
         role="option"
@@ -176,7 +176,7 @@ exports[`Search should have a search button 1`] = `
 >
   <svg
     aria-hidden="true"
-    class="yst-flex-none yst-w-5 yst-h-5 yst-mr-3 yst-text-slate-400"
+    class="yst-flex-none yst-w-5 yst-h-5 yst-me-3 yst-text-slate-400"
     fill="none"
     role="img"
     stroke="currentColor"
@@ -193,10 +193,10 @@ exports[`Search should have a search button 1`] = `
   <span
     class="yst-overflow-hidden yst-whitespace-nowrap yst-text-ellipsis"
   >
-    Quick search...
+    Quick search…
   </span>
   <span
-    class="yst-ml-auto yst-flex-none yst-text-xs yst-font-semibold yst-text-slate-400"
+    class="yst-ms-auto yst-flex-none yst-text-xs yst-font-semibold yst-text-slate-400"
   >
     ⌘K
   </span>

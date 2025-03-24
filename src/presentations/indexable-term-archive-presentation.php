@@ -92,7 +92,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	 * @return array The source.
 	 */
 	public function generate_source() {
-		if ( ! empty( $this->model->object_id ) || \is_null( \get_queried_object() ) ) {
+		if ( ! empty( $this->model->object_id ) || \get_queried_object() === null ) {
 			return \get_term( $this->model->object_id, $this->model->object_sub_type );
 		}
 

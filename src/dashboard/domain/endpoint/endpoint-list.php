@@ -10,7 +10,7 @@ class Endpoint_List {
 	/**
 	 * Holds the endpoints.
 	 *
-	 * @var array<Endpoint_Interface> $endpoints
+	 * @var array<Endpoint_Interface>
 	 */
 	private $endpoints = [];
 

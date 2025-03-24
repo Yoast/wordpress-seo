@@ -1,4 +1,4 @@
-/* eslint-disable complexity, react/jsx-max-depth */
+/* eslint-disable react/jsx-max-depth */
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { useSelect } from "@wordpress/data";
 import { createInterpolateElement, Fragment, useMemo } from "@wordpress/element";
@@ -83,8 +83,8 @@ export const App = () => {
 
 	return (
 		<div className="yst-p-4 min-[783px]:yst-p-8">
-			<div className={ classNames( "yst-flex yst-flex-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[17.5rem]" ) }>
-				<Paper as="main" className="yst-flex-grow yst-mb-8 xl:yst-mb-0">
+			<div className={ classNames( "yst-flex yst-flex-grow yst-flex-wrap", ! isPremium && "xl:yst-pe-[17.5rem]" ) }>
+				<Paper as="main" className="yst-max-w-page yst-flex-grow yst-mb-8 xl:yst-mb-0">
 					<Paper.Header>
 						<div className="yst-max-w-screen-sm">
 							<Title>{ __( "Support", "wordpress-seo" ) }</Title>
@@ -113,7 +113,7 @@ export const App = () => {
 													target="_blank"
 												>
 													{ title }
-													<ArrowNarrowRightIcon className="yst-inline-block yst-ml-1.5 yst-h-3 yst-w-3 yst-icon-rtl" />
+													<ArrowNarrowRightIcon className="yst-inline-block yst-ms-1.5 yst-h-3 yst-w-3 yst-icon-rtl" />
 												</Link>
 											</li>
 										</Fragment>
@@ -210,7 +210,7 @@ export const App = () => {
 									{ ...premiumUpsellConfig }
 								>
 									<div className={ classNames( "yst-flex", ! isPremium && "yst-opacity-50" ) }>
-										<div className="yst-mr-6">
+										<div className="yst-me-6">
 											<p>{ __( "Our support team is here to answer any questions you may have. Fill out the (pop-up) contact form, and we'll get back to you as soon as possible!", "wordpress-seo" ) }</p>
 											<Button
 												variant="secondary"
@@ -218,7 +218,7 @@ export const App = () => {
 												onClick={ openHelpScoutBeacon }
 											>
 												{ __( "Contact our support team", "wordpress-seo" ) }
-												<ArrowNarrowRightIcon className="yst-inline-block yst-ml-1.5 yst-h-3 yst-w-3 yst-icon-rtl" />
+												<ArrowNarrowRightIcon className="yst-inline-block yst-ms-1.5 yst-h-3 yst-w-3 yst-icon-rtl" />
 											</Button>
 										</div>
 										<img
@@ -236,7 +236,7 @@ export const App = () => {
 					</Paper.Content>
 				</Paper>
 				{ ! isPremium &&
-					<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[16rem]">
+					<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-end-8 xl:yst-w-[16rem]">
 						<SidebarRecommendations
 							premiumLink={ premiumLink }
 							premiumUpsellConfig={ premiumUpsellConfig }

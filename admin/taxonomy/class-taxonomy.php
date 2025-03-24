@@ -145,7 +145,7 @@ class WPSEO_Taxonomy {
 
 		if (
 			self::is_term_edit( $pagenow )
-			&& ! is_null( $tag_id )
+			&& $tag_id !== null
 		) {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
@@ -204,6 +204,7 @@ class WPSEO_Taxonomy {
 
 		if ( self::is_term_overview( $pagenow ) ) {
 			$asset_manager->enqueue_script( 'edit-page' );
+			$asset_manager->enqueue_style( 'edit-page' );
 		}
 	}
 

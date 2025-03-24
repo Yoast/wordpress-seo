@@ -593,7 +593,7 @@ const CrawlOptimization = () => {
 								id="input-wpseo-deny_google_extended_crawling"
 								label={ __( "Prevent Google Bard and Vertex AI bots from crawling", "wordpress-seo" ) }
 								description={ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling by the Google-Extended bot. Enabling this setting won’t prevent Google from indexing your website.", "wordpress-seo" ) }
-								labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+								labelSuffix={ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
 								className="yst-max-w-2xl"
 								isDummy={ ! isPremium }
 							/>
@@ -604,7 +604,7 @@ const CrawlOptimization = () => {
 								id="input-wpseo-deny_gptbot_crawling"
 								label={ __( "Prevent OpenAI GPTBot from crawling", "wordpress-seo" ) }
 								description={ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling by OpenAI GPTBot.", "wordpress-seo" ) }
-								labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+								labelSuffix={ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
 								className="yst-max-w-2xl"
 								isDummy={ ! isPremium }
 							/>
@@ -615,7 +615,7 @@ const CrawlOptimization = () => {
 								id="input-wpseo-deny_ccbot_crawling"
 								label={ __( "Prevent Common Crawl CCBot from crawling", "wordpress-seo" ) }
 								description={ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling by Common Crawl CCBot.", "wordpress-seo" ) }
-								labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+								labelSuffix={ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
 								className="yst-max-w-2xl"
 								isDummy={ ! isPremium }
 							/>
