@@ -16,6 +16,8 @@ final class Site_Kit_Usage_Tracking_Repository_Fake implements Site_Kit_Usage_Tr
 	/**
 	 * Sets an element in the Site Kit usage tracking array.
 	 *
+	 * @phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- This is a fake..
+	 *
 	 * @param string $element_name  The name of the element to set.
 	 * @param string $element_value The value of the element to set.
 	 *
@@ -29,7 +31,8 @@ final class Site_Kit_Usage_Tracking_Repository_Fake implements Site_Kit_Usage_Tr
 				'first_interaction_stage',
 				'last_interaction_stage',
 				'setup_widget_dismissed',
-			]
+			],
+			true
 		) ) {
 			return true;
 		}
