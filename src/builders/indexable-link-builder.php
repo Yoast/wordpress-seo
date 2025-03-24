@@ -110,10 +110,7 @@ class Indexable_Link_Builder {
 	 *
 	 * @return void
 	 */
-	public function set_dependencies(
-		Indexable_Repository $indexable_repository,
-		Image_Helper $image_helper
-	) {
+	public function set_dependencies( Indexable_Repository $indexable_repository, Image_Helper $image_helper ) {
 		$this->indexable_repository = $indexable_repository;
 		$this->image_helper         = $image_helper;
 	}

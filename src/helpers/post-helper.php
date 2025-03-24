@@ -39,10 +39,7 @@ class Post_Helper {
 	 * @param String_Helper    $string_helper    The string helper.
 	 * @param Post_Type_Helper $post_type_helper The string helper.
 	 */
-	public function __construct(
-		String_Helper $string_helper,
-		Post_Type_Helper $post_type_helper
-	) {
+	public function __construct( String_Helper $string_helper, Post_Type_Helper $post_type_helper ) {
 		$this->string    = $string_helper;
 		$this->post_type = $post_type_helper;
 	}

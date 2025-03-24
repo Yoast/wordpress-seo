@@ -54,10 +54,7 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell extends Ai_Fix_Ass
 	 * @param Product_Helper $product_helper The product helper.
 	 * @param Options_Helper $options_helper The options' helper.
 	 */
-	public function __construct(
-		Product_Helper $product_helper,
-		Options_Helper $options_helper
-	) {
+	public function __construct( Product_Helper $product_helper, Options_Helper $options_helper ) {
 		$this->product_helper = $product_helper;
 		$this->options_helper = $options_helper;
 	}
