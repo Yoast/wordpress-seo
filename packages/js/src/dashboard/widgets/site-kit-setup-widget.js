@@ -38,7 +38,7 @@ export const STEP_NAME = {
  * @typedef {Object} UseSiteKitConfiguration
  * @property {function(RequestInit?)} grantConsent The grant consent function.
  * @property {function(RequestInit?)} dismissPermanently The dismiss permanently function.
- * @property {function(string, string, RequestInit?)} trackSiteKitUsage The function used to track Site Kit usage.
+ * @property {function(object, RequestInit?)} trackSiteKitUsage The function used to track Site Kit usage.
  */
 
 /**
@@ -59,13 +59,11 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 		} ).catch( noop );
 	}, [ dataProvider, remoteDataProvider ] );
 
-	const trackSiteKitUsage = useCallback( ( element, value, options ) => {
+	const trackSiteKitUsage = useCallback( ( params, options ) => {
+		console.log(params);
 		remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "siteKitUsageTracking" ),
-			// eslint-disable-next-line camelcase
-			{ element_name: element,
-				// eslint-disable-next-line camelcase
-				element_value: value },
+			params,
 			{ ...options, method: "POST" }
 		).catch( noop );
 	}, [ remoteDataProvider, dataProvider ] );
@@ -144,24 +142,26 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 
 	useEffect( () => {
 		if ( dataProvider.getSiteKitTrackingElement( "setupWidgetLoaded" ) === "" ) {
-			trackSiteKitUsage( "setup_widget_loaded", "yes" );
+			trackSiteKitUsage( {
+				/* eslint-disable camelcase */
+				setup_widget_loaded: "yes",
+				first_interaction_stage: steps[ currentStep ],
+				last_interaction_stage: steps[ currentStep ],
+			} );
 		}
 		// Reset the temporary dismissal status
 		if ( dataProvider.getSiteKitTrackingElement( "setupWidgetDismissed" ) === "yes" ) {
-			trackSiteKitUsage( "setup_widget_dismissed", "no" );
+			trackSiteKitUsage( {setup_widget_dismissed: "no" } );
 		}
-		if ( dataProvider.getSiteKitTrackingElement( "firstInteractionStage" ) === "" ) {
-			( dataProvider.getStepsStatuses()[ 0 ] === false ) ? trackSiteKitUsage( "first_interaction_stage", steps[ STEP_NAME.install ] )
-				: trackSiteKitUsage( "first_interaction_stage", steps[ STEP_NAME.activate ] );
-		}
-		if ( dataProvider.getSiteKitTrackingElement( "lastInteractionStage" ) !== steps[ currentStep ] ) {
-			trackSiteKitUsage( "last_interaction_stage", steps[ currentStep ] );
+		if ( ( dataProvider.getSiteKitTrackingElement( "lastInteractionStage" ) !== steps[ currentStep ] ) &&
+			( dataProvider.getSiteKitTrackingElement( "setupWidgetLoaded" ) !== ""  ) ) {
+			trackSiteKitUsage( { last_interaction_stage: steps[ currentStep ] } );
 		}
 	}, [ dataProvider, trackSiteKitUsage ] );
 
 	const handleOnRemove = useCallback( () => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
-		trackSiteKitUsage(  "setup_widget_dismissed", "yes" );
+		trackSiteKitUsage(  { setup_widget_dismissed: "yes" } );
 	}, [ dataProvider ] );
 
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
@@ -171,7 +171,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();
-		trackSiteKitUsage(  "setup_widget_dismissed", "permanently" );
+		trackSiteKitUsage(  { setup_widget_dismissed: "permanently" } );
 	}, [ dismissPermanently, trackSiteKitUsage ] );
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
@@ -181,7 +181,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 		return capability ? url : null;
 	};
 
-
+	/* eslint-enable camelcase */
 	const buttonProps = [
 		{
 			children: __( "Install Site Kit by Google", "wordpress-seo" ),
