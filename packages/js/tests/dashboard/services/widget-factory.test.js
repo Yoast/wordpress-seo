@@ -124,7 +124,7 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
-		[ "searchRankingCompare", { id: "search-ranking-compare-widget", type: "searchRankingCompare" } ],
+		[ "Search ranking compare", { id: "search-ranking-compare-widget", type: "searchRankingCompare" } ],
 		[ "Site Kit setup", { id: "site-kite-setup-widget", type: "siteKitSetup" } ],
 		[ "Organic Sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
 	] )( "should not create a %s widget when site kit feature is disabled", ( _, widget ) => {
@@ -202,6 +202,7 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
+		[ "Search ranking compare", { id: "search-ranking-compare-widget", type: "searchRankingCompare" } ],
 	] )( "should not create a %s widget when a user has no view search console data permission", ( _, widget ) => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
