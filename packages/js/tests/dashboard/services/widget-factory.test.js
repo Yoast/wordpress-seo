@@ -81,8 +81,9 @@ describe( "WidgetFactory", () => {
 	test.each( [
 		[ "Top pages", { id: "top-pages-widget", type: "topPages" }, "Top 5 most popular content" ],
 		[ "Top queries", { id: "top-queries-widget", type: "topQueries" }, "Top 5 search queries" ],
+		[ "Search Ranking compare", { id: "search-ranking-compare-widget", type: "searchRankingCompare" }, "" ],
 		[ "Organic sessions", { id: "organic-sessions-widget", type: "organicSessions" }, "Organic sessions" ],
-	] )( "should create a %s widget", async( _, widget, title ) => {
+	] )( "should create a %s widget (that depend on Site Kit consent)", async( _, widget, title ) => {
 		dataProvider.setSiteKitConsentGranted( true );
 		const element = widgetFactory.createWidget( widget );
 		expect( element?.key ).toBe( widget.id );
@@ -186,7 +187,9 @@ describe( "WidgetFactory", () => {
 		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
 	} );
 
-	test.each( "should not create a OrganicSessions widget when a user has no view analytics data permission", () => {
+	test.each( [
+		[ "Organic Sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
+	] )( "should not create a %s widget when a user has no view analytics data permission", ( _, widget ) => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				capabilities: {
@@ -196,7 +199,7 @@ describe( "WidgetFactory", () => {
 		} );
 		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
 
-		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
+		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
 
 	test.each( [
