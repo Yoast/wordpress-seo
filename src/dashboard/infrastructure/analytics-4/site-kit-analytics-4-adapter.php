@@ -8,6 +8,8 @@ use Google\Site_Kit\Core\Modules\Modules;
 use Google\Site_Kit\Modules\Analytics_4;
 use Google\Site_Kit\Plugin;
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
+use WP_REST_Request;
+use WP_REST_Response;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Invalid_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Unexpected_Response_Exception;
@@ -20,6 +22,10 @@ use Yoast\WP\SEO\Dashboard\Domain\Traffic\Traffic_Data;
  * The site API adapter to make calls to the Analytics 4 API, via the Site_Kit plugin.
  */
 class Site_Kit_Analytics_4_Adapter {
+	/**
+	 * The Analytics 4 API route path.
+	 */
+	private const ANALYTICS_DATA_REPORT_ROUTE = '/google-site-kit/v1/modules/analytics-4/data/report';
 
 	/**
 	 * The Analytics 4 module class from Site kit.
@@ -55,11 +61,13 @@ class Site_Kit_Analytics_4_Adapter {
 	public function get_comparison_data( Analytics_4_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
-		$response = self::$analytics_4_module->get_data( 'report', $api_parameters );
+		$request = new WP_REST_Request( 'GET', self::ANALYTICS_DATA_REPORT_ROUTE );
+		$request->set_query_params( $api_parameters );
+		$response = \rest_do_request( $request );
 
 		$this->validate_response( $response );
 
-		return $this->parse_comparison_response( $response );
+		return $this->parse_comparison_response( $response->get_data() );
 	}
 
 	/**
@@ -76,11 +84,13 @@ class Site_Kit_Analytics_4_Adapter {
 	public function get_daily_data( Analytics_4_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
-		$response = self::$analytics_4_module->get_data( 'report', $api_parameters );
+		$request = new WP_REST_Request( 'GET', self::ANALYTICS_DATA_REPORT_ROUTE );
+		$request->set_query_params( $api_parameters );
+		$response = \rest_do_request( $request );
 
 		$this->validate_response( $response );
 
-		return $this->parse_daily_response( $response );
+		return $this->parse_daily_response( $response->get_data() );
 	}
 
 	/**
@@ -254,21 +264,21 @@ class Site_Kit_Analytics_4_Adapter {
 	/**
 	 * Validates the response coming from Google Analytics.
 	 *
-	 * @param mixed $response The response we want to validate.
+	 * @param WP_REST_Response $response The response we want to validate.
 	 *
 	 * @return void.
 	 *
 	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 */
-	private function validate_response( $response ): void {
-		if ( \is_wp_error( $response ) ) {
-			$error_data        = $response->get_error_data();
+	private function validate_response( WP_REST_Response $response ): void {
+		if ( $response->is_error() ) {
+			$error_data        = $response->as_error()->get_error_data();
 			$error_status_code = ( $error_data['status'] ?? 500 );
-			throw new Failed_Request_Exception( \wp_kses_post( $response->get_error_message() ), (int) $error_status_code );
+			throw new Failed_Request_Exception( \wp_kses_post( $response->as_error()->get_error_message() ), (int) $error_status_code );
 		}
 
-		if ( ! \is_a( $response, RunReportResponse::class ) ) {
+		if ( ! \is_a( $response->get_data(), RunReportResponse::class ) ) {
 			throw new Unexpected_Response_Exception();
 		}
 	}

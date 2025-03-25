@@ -166,6 +166,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	public function get_time_based_seo_metrics( WP_REST_Request $request ): WP_REST_Response {
 		try {
 			$widget_name = $request->get_param( 'options' )['widget'];
+
 			switch ( $widget_name ) {
 				case 'query':
 					$request_parameters = new Search_Console_Parameters();
