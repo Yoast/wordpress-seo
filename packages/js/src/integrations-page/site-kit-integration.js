@@ -97,25 +97,29 @@ const SuccessfullyConnected = () => {
  * @returns {JSX.Element} The status info component.
  */
 const StatusInfo = ( { capabilities, currentStep, successfullyConnected, isVersionSupported } ) => {
-	if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent && currentStep !== STEP_NAME.successfulyConnected ) {
-		return <ContentWithBottomDivider className="yst-text-slate-500 yst-italic">
-			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
-		</ContentWithBottomDivider>;
-	}
+	const getMessage = () => {
+		if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent && currentStep !== STEP_NAME.successfulyConnected ) {
+			return __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" );
+		}
 
-	if ( ! capabilities.viewSearchConsoleData && ( currentStep === STEP_NAME.grantConsent || currentStep === STEP_NAME.successfulyConnected ) ) {
-		return <ContentWithBottomDivider className="yst-text-slate-500 yst-italic">
-			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
-		</ContentWithBottomDivider>;
-	}
+		if ( ! capabilities.viewSearchConsoleData && ( currentStep === STEP_NAME.grantConsent || currentStep === STEP_NAME.successfulyConnected ) ) {
+			return __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" );
+		}
 
-	if ( ! isVersionSupported ) {
-		return <ContentWithBottomDivider className="yst-text-slate-500 yst-italic">
-			{ sprintf(
+		if ( ! isVersionSupported ) {
+			return sprintf(
 				/* translators: %s for Yoast SEO. */
 				__( "Update Site Kit by Google to the latest version to connect %s.", "wordpress-seo" ),
 				"Yoast SEO"
-			) }
+			);
+		}
+	};
+
+	const message = getMessage();
+
+	if ( message ) {
+		return <ContentWithBottomDivider className="yst-text-slate-500 yst-italic">
+			{ message }
 		</ContentWithBottomDivider>;
 	}
 
