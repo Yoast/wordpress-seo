@@ -1,7 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { fetchJson } from "../../../../src/dashboard/fetch/fetch-json";
 import { Scores } from "../../../../src/dashboard/scores/components/scores";
-import { DataProvider } from "../../../../src/dashboard/services/data-provider";
 import { MockDataProvider } from "../../__mocks__/data-provider";
 import { RemoteDataProvider } from "../../../../src/dashboard/services/remote-data-provider";
 import { act, fireEvent, render, waitFor } from "../../../test-utils";
