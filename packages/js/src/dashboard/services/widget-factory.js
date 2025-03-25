@@ -104,7 +104,7 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case WidgetFactory.types.searchRankingCompare:
-				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted ) {
+				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! capabilities.viewSearchConsoleData ) {
 					return null;
 				}
 				return <SearchRankingCompareWidget
