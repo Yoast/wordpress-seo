@@ -223,7 +223,7 @@ final class Indexable_Head_Action_Test extends TestCase {
 	/**
 	 * Data provider for the tests.
 	 *
-	 * @return array A mapping of methods and expected inputs.
+	 * @return array<array<string|int>> A mapping of methods and expected inputs.
 	 */
 	public static function method_provider() {
 		return [
@@ -238,8 +238,8 @@ final class Indexable_Head_Action_Test extends TestCase {
 	/**
 	 * Stub the Meta result.
 	 *
-	 * @param string $html The HTML setup.
-	 * @param string $json The JSON setup.
+	 * @param string                $html The HTML setup.
+	 * @param array<string, string> $json The JSON setup.
 	 *
 	 * @return object The mocked result.
 	 */

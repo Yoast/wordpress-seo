@@ -1,7 +1,7 @@
 import { describe, expect } from "@jest/globals";
-import { DataFormatter } from "../../../src/dashboard/services/data-formatter";
+import { PlainMetricsDataFormatter } from "../../../src/dashboard/services/plain-metrics-data-formatter";
 
-describe( "DataFormatter", () => {
+describe( "PlainMetricsDataFormatter", () => {
 	// Use variable here so the memory address stays the same, so we can keep testing with toBe.
 	const testData = { foo: "bar" };
 
@@ -29,7 +29,6 @@ describe( "DataFormatter", () => {
 		[ "ctr, rounded up", "ctr", { widget: "topPages" }, 0.345678, "34.57%" ],
 		[ "ctr, rounded down", "ctr", { widget: "topPages" }, 0.00144, "0.14%" ],
 		[ "ctr, zero padding", "ctr", { widget: "topPages" }, 0, "0.00%" ],
-		[ "difference, rounded up", "difference", { widget: "organicSessions" }, 0.345678, "34.57%" ],
 		[ "position, rounded up", "position", { widget: "topPages" }, 6548.567, "6,548.57" ],
 		[ "position, rounded down", "position", { widget: "topPages" }, 1.234, "1.23" ],
 		[ "position, zero padding", "position", { widget: "topPages" }, 1, "1.00" ],
@@ -37,13 +36,8 @@ describe( "DataFormatter", () => {
 		[ "seoScore", "seoScore", { widget: "topPages" }, "ok", "ok" ],
 		[ "seoScore", "seoScore", { widget: "topPages" }, "foo", "notAnalyzed" ],
 		[ "unknown name", "unknown", { widget: "topPages" }, "foo", "foo" ],
-		[ "date", "date", { widget: "organicSessions" }, "20250304", "Mar 4" ],
-		[ "sessions", "sessions", { widget: "organicSessions" }, 20_250_304.12, "20,250,304" ],
-		[ "sessions, NaN becomes zero", "sessions", { widget: "organicSessions" }, NaN, "0" ],
-		[ "sessions, undefined becomes zero", "sessions", { widget: "organicSessions" }, undefined, "0" ],
-		[ "sessions, null becomes zero", "sessions", { widget: "organicSessions" }, null, "0" ],
 	] )( "should format %s", ( _, name, context, data, expected, locale = "en-US" ) => {
-		const formatter = new DataFormatter( { locale } );
+		const formatter = new PlainMetricsDataFormatter( { locale } );
 
 		expect( formatter.format( data, name, context ) ).toBe( expected );
 	} );

@@ -6,7 +6,8 @@ import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
-import { DataFormatter } from "../dashboard/services/data-formatter";
+import { ComparisonMetricsDataFormatter } from "../dashboard/services/comparison-metrics-data-formatter";
+import { PlainMetricsDataFormatter } from "../dashboard/services/plain-metrics-data-formatter";
 import { DataProvider } from "../dashboard/services/data-provider";
 import { RemoteDataProvider } from "../dashboard/services/remote-data-provider";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
@@ -77,9 +78,6 @@ domReady( () => {
 		errorSupport: select( STORE_NAME ).selectAdminLink( "?page=wpseo_page_support" ),
 		siteKitLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-site-kit-learn-more" ),
 		siteKitConsentLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-site-kit-consent-learn-more" ),
-		topPagesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-top-content-learn-more" ),
-		topQueriesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-top-queries-learn-more" ),
-		organicSessionsInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-organic-sessions-learn-more" ),
 	};
 
 	const siteKitConfiguration = get( window, "wpseoScriptData.dashboard.siteKitConfiguration", {
@@ -104,8 +102,12 @@ domReady( () => {
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
-	const dataFormatter = new DataFormatter( { locale: userLocale } );
-	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatter );
+	const dataFormatters = {
+		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
+		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
+	};
+
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
 	if ( dataProvider.isSiteKitConnectionCompleted() ) {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}

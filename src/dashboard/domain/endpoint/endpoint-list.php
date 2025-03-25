@@ -10,7 +10,7 @@ class Endpoint_List {
 	/**
 	 * Holds the endpoints.
 	 *
-	 * @var array<Endpoint_Interface> $endpoints
+	 * @var array<Endpoint_Interface>
 	 */
 	private $endpoints = [];
 
@@ -28,7 +28,7 @@ class Endpoint_List {
 	/**
 	 * Converts the list to an array.
 	 *
-	 * @return array<string,string> The array of endpoints.
+	 * @return array<string, string> The array of endpoints.
 	 */
 	public function to_array(): array {
 		$result = [];

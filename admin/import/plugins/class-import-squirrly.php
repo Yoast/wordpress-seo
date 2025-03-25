@@ -135,7 +135,7 @@ class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
 		global $wpdb;
 
 		$result = $wpdb->get_var( "SHOW TABLES LIKE '{$this->table_name}'" );
-		if ( is_wp_error( $result ) || is_null( $result ) ) {
+		if ( is_wp_error( $result ) || $result === null ) {
 			return false;
 		}
 

@@ -68,7 +68,7 @@ final class Post_Site_Information_Test extends TestCase {
 	/**
 	 * The options helper.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper $options_helper
+	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper;
 
@@ -117,22 +117,21 @@ final class Post_Site_Information_Test extends TestCase {
 		$expected = [
 			'dismissedAlerts'            => false,
 			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'metabox'                    =>
-				[
-					'search_url'    => 'http://example.org/wp-admin/edit.php?seo_kw_filter={keyword}',
-					'post_edit_url' => 'http://example.org/wp-admin/post.php?post={id}&action=edit',
-					'base_url'      => 'http://example.org/',
-					'site_name'     => 'Test Blog',
-					'contentLocale' => 'en_US',
-					'userLocale'    => 'en_US',
-					'isRtl'         => false,
-					'isPremium'     => false,
-					'siteIconUrl'   => '',
-					'showSocial'    => [
-						'facebook' => true,
-						'twitter'  => true,
-					],
+			'metabox'                    => [
+				'search_url'    => 'http://example.org/wp-admin/edit.php?seo_kw_filter={keyword}',
+				'post_edit_url' => 'http://example.org/wp-admin/post.php?post={id}&action=edit',
+				'base_url'      => 'http://example.org/',
+				'site_name'     => 'Test Blog',
+				'contentLocale' => 'en_US',
+				'userLocale'    => 'en_US',
+				'isRtl'         => false,
+				'isPremium'     => false,
+				'siteIconUrl'   => '',
+				'showSocial'    => [
+					'facebook' => true,
+					'twitter'  => true,
 				],
+			],
 			'adminUrl'                   => 'http://example.org/wp-admin/admin.php',
 			'linkParams'                 => $this->short_link_helper->get_query_params(),
 			'pluginUrl'                  => 'http://example.org/wp-content/plugins/wordpress-seo',

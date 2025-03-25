@@ -1,9 +1,14 @@
 import { isEmpty } from "lodash";
 
 /**
+ * @typedef {import("../structure").Node} Node
+ * @typedef {import("../structure").Text} Text
+ */
+
+/**
  * Gathers the text content of the given node.
  *
- * @param {Object} node The node to gather the text content from.
+ * @param {Node|Text} node The node to gather the text content from.
  *
  * @returns {string} The text content.
  */

@@ -1,6 +1,7 @@
 {
   "redefinable-internals": [
     "file_exists",
-    "filesize"
+    "filesize",
+    "class_exists"
   ]
 }

@@ -13,7 +13,7 @@ class WPSEO_Custom_Fields {
 	/**
 	 * Custom fields cache.
 	 *
-	 * @var array
+	 * @var array|null
 	 */
 	protected static $custom_fields = null;
 
@@ -28,7 +28,7 @@ class WPSEO_Custom_Fields {
 		global $wpdb;
 
 		// Use cached value if available.
-		if ( ! is_null( self::$custom_fields ) ) {
+		if ( self::$custom_fields !== null ) {
 			return self::$custom_fields;
 		}
 

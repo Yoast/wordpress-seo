@@ -20,9 +20,7 @@ class Aioseo_Robots_Transformer_Service {
 	 *
 	 * @param Aioseo_Robots_Provider_Service $robots_provider The robots provider service.
 	 */
-	public function __construct(
-		Aioseo_Robots_Provider_Service $robots_provider
-	) {
+	public function __construct( Aioseo_Robots_Provider_Service $robots_provider ) {
 		$this->robots_provider = $robots_provider;
 	}
 

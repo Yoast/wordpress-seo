@@ -7,9 +7,9 @@ import { ErrorAlert } from "../../components/error-alert";
 import { useRemoteData } from "../../services/use-remote-data";
 
 /**
- * @type {import("../services/data-provider")} DataProvider
- * @type {import("../services/remote-data-provider")} RemoteDataProvider
- * @type {import("../services/data-formatter")} DataFormatter
+ * @type {import("../../services/data-provider")} DataProvider
+ * @type {import("../../services/remote-data-provider")} RemoteDataProvider
+ * @type {import("../../services/data-formatter-interface")} DataFormatterInterface
  */
 
 /**
@@ -148,7 +148,7 @@ const transformOrganicSessionsDataToChartData = ( organicSessions ) => ( {
 } );
 
 /**
- * @param {DataFormatter} dataFormatter The data formatter.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @returns {function(?OrganicSessionsDailyData[]): OrganicSessionsDailyData[]} Function to format the organic sessions daily data.
  */
 const createOrganicSessionsDailyFormatter = ( dataFormatter ) => ( data = [] ) => data.map( ( item ) => ( {
@@ -196,7 +196,7 @@ const OrganicSessionsChart = ( { data } ) => (
  *
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @param {DataFormatter} dataFormatter The data formatter.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
  *
  * @returns {{data: ChartData?, error: Error, isPending: boolean}} The remote data info.
  */

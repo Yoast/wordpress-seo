@@ -32,10 +32,7 @@ class Pagination_Helper {
 	 * @param WP_Rewrite_Wrapper $wp_rewrite_wrapper The rewrite wrapper.
 	 * @param WP_Query_Wrapper   $wp_query_wrapper   The query wrapper.
 	 */
-	public function __construct(
-		WP_Rewrite_Wrapper $wp_rewrite_wrapper,
-		WP_Query_Wrapper $wp_query_wrapper
-	) {
+	public function __construct( WP_Rewrite_Wrapper $wp_rewrite_wrapper, WP_Query_Wrapper $wp_query_wrapper ) {
 		$this->wp_rewrite_wrapper = $wp_rewrite_wrapper;
 		$this->wp_query_wrapper   = $wp_query_wrapper;
 	}

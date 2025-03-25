@@ -141,7 +141,7 @@ class Site_Kit {
 	/**
 	 * Return this object represented by a key value array.
 	 *
-	 * @return array<string,bool> Returns the name and if the feature is enabled.
+	 * @return array<string, bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
 		$site_kit_activate_url = \html_entity_decode(
@@ -182,9 +182,11 @@ class Site_Kit {
 	}
 
 	/**
-	 * Return this object represented by a key value array.
+	 * Return this object represented by a key value array. This is not used yet.
 	 *
-	 * @return array<string,bool> Returns the name and if the feature is enabled.
+	 * @codeCoverageIgnore
+	 *
+	 * @return array<string, bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_legacy_array(): array {
 		return $this->to_array();

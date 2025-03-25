@@ -33,10 +33,7 @@ class Schema_Generator implements Generator_Interface {
 	 * @param Helpers_Surface     $helpers                    The helpers surface.
 	 * @param Replace_Vars_Helper $schema_replace_vars_helper The replace vars helper.
 	 */
-	public function __construct(
-		Helpers_Surface $helpers,
-		Replace_Vars_Helper $schema_replace_vars_helper
-	) {
+	public function __construct( Helpers_Surface $helpers, Replace_Vars_Helper $schema_replace_vars_helper ) {
 		$this->helpers                    = $helpers;
 		$this->schema_replace_vars_helper = $schema_replace_vars_helper;
 	}

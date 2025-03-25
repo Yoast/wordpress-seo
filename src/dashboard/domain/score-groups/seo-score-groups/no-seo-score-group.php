@@ -38,7 +38,7 @@ class No_SEO_Score_Group extends Abstract_SEO_Score_Group {
 	/**
 	 * Gets the minimum score of the SEO score group.
 	 *
-	 * @return null The minimum score of the SEO score group.
+	 * @return int|null The minimum score of the SEO score group.
 	 */
 	public function get_min_score(): ?int {
 		return null;
@@ -47,7 +47,7 @@ class No_SEO_Score_Group extends Abstract_SEO_Score_Group {
 	/**
 	 * Gets the maximum score of the SEO score group.
 	 *
-	 * @return null The maximum score of the SEO score group.
+	 * @return int|null The maximum score of the SEO score group.
 	 */
 	public function get_max_score(): ?int {
 		return null;

@@ -140,7 +140,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	/**
 	 * Used for "caching" during pageload.
 	 *
-	 * @var string[]
+	 * @var string[]|null
 	 */
 	protected $enriched_defaults = null;
 

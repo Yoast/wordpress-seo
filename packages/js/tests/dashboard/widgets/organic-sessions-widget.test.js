@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
-import { DataFormatter } from "../../../src/dashboard/services/data-formatter";
+import { ComparisonMetricsDataFormatter } from "../../../src/dashboard/services/comparison-metrics-data-formatter";
 import { OrganicSessionsWidget } from "../../../src/dashboard/widgets/organic-sessions-widget";
 import { render, waitFor } from "../../test-utils";
 import { MockDataProvider } from "../__mocks__/data-provider";
@@ -12,7 +12,7 @@ describe( "OrganicSessionsWidget", () => {
 	beforeAll( () => {
 		dataProvider = new MockDataProvider();
 		remoteDataProvider = new MockRemoteDataProvider( {} );
-		dataFormatter = new DataFormatter();
+		dataFormatter = new ComparisonMetricsDataFormatter();
 	} );
 	beforeEach( () => {
 		remoteDataProvider.fetchJson.mockClear();
@@ -42,15 +42,11 @@ describe( "OrganicSessionsWidget", () => {
 		} );
 
 		const tooltip = getByRole( "tooltip" );
-		const tooltipMessage = getByText( "The number of organic sessions on your website." );
+		const tooltipMessage = getByText( "The number of organic sessions that began on your website." );
+		const tooltipDataSource = getByText( "Site Kit by Google" );
 		expect( tooltip ).toBeInTheDocument();
 		expect( tooltipMessage ).toBeInTheDocument();
-
-		const link = getByText( "Learn more" );
-		expect( link ).toBeInTheDocument();
-		expect( link ).toHaveAttribute( "href", "https://example.com/organic-sessions-learn-more" );
-		expect( link ).toHaveAttribute( "rel", "noopener" );
-		expect( link ).toHaveAttribute( "target", "_blank" );
+		expect( tooltipDataSource ).toBeInTheDocument();
 	} );
 
 	it( "should render without data", async() => {

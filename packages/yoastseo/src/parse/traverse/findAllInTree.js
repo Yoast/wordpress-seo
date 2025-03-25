@@ -1,4 +1,8 @@
 /**
+ * @typedef {import("../structure").Node} Node
+ */
+
+/**
  * Finds all nodes in the tree that satisfies the given condition.
  *
  * @param {Object} 		tree 						The tree.
@@ -34,7 +38,7 @@
  * In getTextElementPositions, you want to find all descendant nodes that have position information.
  * In this case you want to recurse into found nodes.
  *
- * @returns {Object[]} The list of nodes that satisfy the condition.
+ * @returns {Node[]} The list of nodes that satisfy the condition.
  */
 export default function findAllInTree( tree, condition, recurseFoundNodes = false ) {
 	const nodes = [];

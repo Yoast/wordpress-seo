@@ -71,7 +71,7 @@ final class Filter_Pairs_Repository_Test extends TestCase {
 	/**
 	 * The data provider for the `get_taxonomy` test.
 	 *
-	 * @return array<array<string,bool,null,Taxonomy>> The data.
+	 * @return array<string, array<Taxonomy|string|bool|null>> The data.
 	 */
 	public function data_get_taxonomy(): array {
 		return [
