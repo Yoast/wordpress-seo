@@ -91,6 +91,7 @@ const SiteKitSetupWidgetTitleAndDescription = ( { isSiteKitConnectionCompleted }
 	</p> }
 </> );
 
+/* eslint-disable complexity */
 /**
  * The no permission warning component.
  *
@@ -101,29 +102,36 @@ const SiteKitSetupWidgetTitleAndDescription = ( { isSiteKitConnectionCompleted }
  *
  * @returns {JSX.Element} The no permission warning component.
  */
-// eslint-disable-next-line complexity
 const SiteKitAlert = ( { capabilities, currentStep, isVersionSupported, isConsentGranted } ) => {
-	if ( currentStep === STEP_NAME.successfulyConnected ) {
+	const getAlertMessage = () => {
+		if ( ! isVersionSupported ) {
+			if ( isConsentGranted ) {
+				return __( "Your current version of the Site Kit by Google plugin is no longer compatible with Yoast SEO. Please update to the latest version to restore the connection.", "wordpress-seo" );
+			}
+			return __( "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google.", "wordpress-seo" );
+		}
+
+		if ( currentStep === STEP_NAME.successfulyConnected ) {
+			return null;
+		}
+
+		if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent ) {
+			return __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" );
+		}
+
+		if ( ! capabilities.viewSearchConsoleData && currentStep === STEP_NAME.grantConsent ) {
+			return __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" );
+		}
+	};
+
+	const message = getAlertMessage();
+
+	if ( ! message ) {
 		return null;
 	}
 
-	let message = "";
-	if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent ) {
-		message = __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" );
-	}
-
-	if ( ! capabilities.viewSearchConsoleData && currentStep === STEP_NAME.grantConsent ) {
-		message = __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" );
-	}
-
-	if ( ! isVersionSupported ) {
-		if ( isConsentGranted ) {
-			message = __( "Your current version of the Site Kit by Google plugin is no longer compatible with Yoast SEO. Please update to the latest version to restore the connection.", "wordpress-seo" );
-		}
-		message = __( "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google.", "wordpress-seo" );
-	}
-
-	return message && <Alert variant={ ( ! isVersionSupported && isConsentGranted ) ? "error" : "info" } className="yst-mt-6">
+	const variant = ( ! isVersionSupported && isConsentGranted ) ? "error" : "info";
+	return <Alert variant={ variant } className="yst-mt-6">
 		{ message }
 	</Alert>;
 };
