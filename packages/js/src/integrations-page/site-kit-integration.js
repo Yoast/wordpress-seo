@@ -215,6 +215,13 @@ export const SiteKitIntegration = ( {
 	];
 
 	const getButtonProps = useCallback( ( step ) => {
+		if ( ! isVersionSupported ) {
+			return {
+				children: __( "Update Site Kit by Google", "wordpress-seo" ),
+				as: "a",
+				href: updateUrl,
+			};
+		}
 		if ( step === STEP_NAME.successfulyConnected ) {
 			return {
 				children: __( "Disconnect", "wordpress-seo" ),
@@ -241,18 +248,11 @@ export const SiteKitIntegration = ( {
 						isVersionSupported={ isVersionSupported }
 					/>
 
-					{ isVersionSupported ? <Button
+					<Button
 						className="yst-w-full"
 						id="site-kit-integration__button"
 						{ ...getButtonProps( currentStep ) }
-					/> : <Button
-						className="yst-w-full"
-						id="site-kit-integration__button"
-						as="a"
-						href={ updateUrl }
-					> { __( "Update Site Kit by Google", "wordpress-seo" ) }
-					</Button>
-					}
+					/>
 
 				</span>
 			</SimpleIntegration>

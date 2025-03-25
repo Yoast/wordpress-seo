@@ -247,4 +247,22 @@ describe( "SiteKitIntegration", () => {
 		expect( button ).toBeDisabled();
 		expect( screen.getByText( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up." ) ).toBeInTheDocument();
 	} );
+
+	it( "should show warning and update button when version is not supported", () => {
+		render( <SiteKitIntegration
+			connectionStepsStatuses={ {
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: true,
+				isConsentGranted: true,
+			} }
+			{ ...props }
+			isVersionSupported={ false }
+		/> );
+
+		const button = screen.getByRole( "link", { name: "Update Site Kit by Google" } );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toHaveAttribute( "href", "/wp-admin/update.php?action=upgrade-plugin&plugin=google-site-kit%2Fgoogle-site-kit.php&_wpnonce=0a752c1514" );
+		expect( screen.getByText( "Update Site Kit by Google to the latest version to connect Yoast SEO." ) ).toBeInTheDocument();
+	} );
 } );
