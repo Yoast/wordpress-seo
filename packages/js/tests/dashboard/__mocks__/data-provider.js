@@ -81,6 +81,12 @@ export class MockDataProvider extends DataProvider {
 					isConsentGranted: false,
 				},
 			},
+			siteKitTracking: {
+				setupWidgetDismissed: "yes",
+				setupWidgetLoaded: "yes",
+				firstInteractionStage: "INSTALL",
+				lastInteractionStage: "SET UP",
+			},
 		} ) );
 		this.setSiteKitConfigurationDismissed = jest.fn();
 	}
