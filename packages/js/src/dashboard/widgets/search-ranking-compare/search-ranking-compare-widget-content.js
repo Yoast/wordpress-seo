@@ -1,11 +1,8 @@
 import { useEffect } from "@wordpress/element";
 import { __, _x } from "@wordpress/i18n";
-import { SkeletonLoader } from "@yoast/ui-library";
 import { ErrorAlert } from "../../components/error-alert";
 import { NoDataParagraph } from "../../components/no-data-paragraph";
-import { WidgetDataSources, WidgetTooltip } from "../widget";
-import { SearchRankingCompareMetric } from "./search-ranking-compare-metric";
-import { SearchRankingCompareMetricDivider } from "./search-ranking-compare-metric-divider";
+import { SearchRankingCompareMetric, SearchRankingCompareMetricSkeletonLoader } from "./search-ranking-compare-metric";
 import { useSearchRankingCompare } from "./use-search-ranking-compare";
 
 // Preventing some duplication.
@@ -33,54 +30,43 @@ const META = {
 };
 
 /**
- * Represents the skeleton loader for an organic sessions compare metric component.
- * @param {ReactNode} tooltipLocalizedContent The content of the tooltip.
- * @param {object[]} dataSources The sources of the data in the widget.
- *
- * @returns {JSX.Element}
+ * @param {ReactNode} children The children.
+ * @returns {JSX.Element} The element.
  */
-const SearchRankingCompareMetricSkeletonLoader = ( { tooltipLocalizedContent, dataSources } ) => {
-	return <div className="yst-flex yst-flex-col yst-relative yst-items-center yst-w-72">
-		<div className="yst-absolute yst-end-6 yst-top-2">
-			<WidgetTooltip content={ tooltipLocalizedContent }>
-				<WidgetDataSources dataSources={ dataSources } />
-			</WidgetTooltip>
-		</div>
-		<SkeletonLoader className="yst-text-center yst-text-2xl yst-font-bold yst-text-slate-900">12345</SkeletonLoader>
-		<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2">Dummy</SkeletonLoader>
-		<SkeletonLoader className="yst-text-center yst-text-sm yst-mt-2 yst-font-semibold">- 13%</SkeletonLoader>
-	</div>;
-};
+const SearchRankingCompareLayout = ( { children } ) => (
+	// The background color is used as the dividers, the metric has the white background.
+	<div className="yst-grid yst-grid-cols-4 yst-gap-px yst-bg-slate-200">
+		{ children }
+	</div>
+);
 
 /**
  * @returns {JSX.Element} The element.
  */
 const SearchRankingCompareSkeletonLoader = () => {
 	return (
-		<div className="yst-flex yst-flex-col yst-justify-center yst-items-center @6xl:yst-flex-row @6xl:yst-justify-evenly rtl:yst-flex-row-reverse">
+		<SearchRankingCompareLayout>
 			<SearchRankingCompareMetricSkeletonLoader
+				className="@lg:yst-pe-4 @lg:yst-pb-4"
 				tooltipLocalizedContent={ META.impressions.tooltip }
 				dataSources={ META.impressions.dataSources }
 			/>
-			<SearchRankingCompareMetricDivider />
-
 			<SearchRankingCompareMetricSkeletonLoader
+				className="@lg:yst-ps-4 @lg:yst-pb-4"
 				tooltipLocalizedContent={ META.clicks.tooltip }
 				dataSources={ META.clicks.dataSources }
 			/>
-			<SearchRankingCompareMetricDivider />
-
 			<SearchRankingCompareMetricSkeletonLoader
+				className="@lg:yst-pe-4 @lg:yst-pt-4"
 				tooltipLocalizedContent={ META.ctr.tooltip }
 				dataSources={ META.ctr.dataSources }
 			/>
-			<SearchRankingCompareMetricDivider />
-
 			<SearchRankingCompareMetricSkeletonLoader
+				className="@lg:yst-ps-4 @lg:yst-pt-4"
 				tooltipLocalizedContent={ META.position.tooltip }
 				dataSources={ META.position.dataSources }
 			/>
-		</div>
+		</SearchRankingCompareLayout>
 	);
 };
 
@@ -115,39 +101,35 @@ export const SearchRankingCompareWidgetContent = ( { dataProvider, remoteDataPro
 	}
 
 	if ( data ) {
-		return <div
-			className="yst-flex yst-flex-col yst-justify-center yst-items-center @7xl:yst-flex-row @7xl:yst-justify-evenly rtl:yst-flex-row-reverse"
-		>
+		return <SearchRankingCompareLayout>
 			<SearchRankingCompareMetric
+				className="@lg:yst-pe-4 @lg:yst-pb-4"
 				metricName={ META.impressions.name }
 				data={ data.impressions }
 				tooltipLocalizedContent={ META.impressions.tooltip }
 				dataSources={ META.impressions.dataSources }
 			/>
-			<SearchRankingCompareMetricDivider />
-
 			<SearchRankingCompareMetric
+				className="@lg:yst-ps-4 @lg:yst-pb-4"
 				metricName={ META.clicks.name }
 				data={ data.clicks }
 				tooltipLocalizedContent={ META.clicks.tooltip }
 				dataSources={ META.clicks.dataSources }
 			/>
-			<SearchRankingCompareMetricDivider />
-
 			<SearchRankingCompareMetric
+				className="@lg:yst-pe-4 @lg:yst-pt-4"
 				metricName={ META.ctr.name }
 				data={ data.ctr }
 				tooltipLocalizedContent={ META.ctr.tooltip }
 				dataSources={ META.ctr.dataSources }
 			/>
-			<SearchRankingCompareMetricDivider />
-
 			<SearchRankingCompareMetric
+				className="@lg:yst-ps-4 @lg:yst-pt-4"
 				metricName={ META.position.name }
 				data={ data.position }
 				tooltipLocalizedContent={ META.position.tooltip }
 				dataSources={ META.position.dataSources }
 			/>
-		</div>;
+		</SearchRankingCompareLayout>;
 	}
 };
