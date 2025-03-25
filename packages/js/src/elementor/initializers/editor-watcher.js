@@ -84,23 +84,6 @@ function getContent( editorDocument ) {
 }
 
 /**
- * Gets the image URL. Searches for the first image in the content as fallback.
- *
- * @param {string} content The content to get an image URL as fallback.
- *
- * @returns {string} The image URL.
- */
-function getImageUrl( content ) {
-	const url = get( elementor.settings.page.model.get( "post_featured_image" ), "url", "" );
-
-	if ( url === "" ) {
-		return firstImageUrlInContent( content );
-	}
-
-	return url;
-}
-
-/**
  * Gets the data that is specific to this editor.
  *
  * @param {Document} editorDocument The current document.
@@ -109,14 +92,16 @@ function getImageUrl( content ) {
  */
 function getEditorData( editorDocument ) {
 	const content = getContent( editorDocument );
+	const featuredImageUrl = get( elementor.settings.page.model.get( "post_featured_image" ), "url", "" );
+	const contentImageUrl = firstImageUrlInContent( content );
 
 	return {
 		content,
 		title: elementor.settings.page.model.get( "post_title" ),
 		excerpt: elementor.settings.page.model.get( "post_excerpt" ) || "",
-		imageUrl: getImageUrl( content ),
-		featuredImage: get( elementor.settings.page.model.get( "post_featured_image" ), "url", "" ),
-		contentImage: firstImageUrlInContent( content ),
+		imageUrl: featuredImageUrl || contentImageUrl,
+		featuredImage: featuredImageUrl,
+		contentImage: contentImageUrl,
 		status: elementor.settings.page.model.get( "post_status" ),
 	};
 }
