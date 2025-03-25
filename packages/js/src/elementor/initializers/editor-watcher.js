@@ -6,6 +6,8 @@ import { refreshDelay } from "../../analysis/constants";
 import firstImageUrlInContent from "../../helpers/firstImageUrlInContent";
 import { registerElementorUIHookAfter, registerElementorUIHookBefore } from "../helpers/hooks";
 import { isFormId, isFormIdEqualToDocumentId } from "../helpers/is-form-id";
+import { excerptFromContent } from "../../helpers/replacementVariableHelpers";
+import getContentLocale from "../../analysis/getContentLocale";
 
 const editorData = {
 	content: "",
@@ -13,10 +15,10 @@ const editorData = {
 	excerpt: "",
 	slug: "",
 	imageUrl: "",
+	featuredImage: "",
+	contentImage: "",
+	excerptOnly: "",
 };
-
-let featuredImage = "";
-let contentImage = "";
 
 const MARK_TAG = "yoastmark";
 
@@ -84,6 +86,30 @@ function getContent( editorDocument ) {
 }
 
 /**
+ * Gets the excerpt with fallback.
+ *
+ * @param {string} content The content.
+ * @param {boolean} onlyExcerpt Whether to only return the excerpt.
+ *
+ * @returns {string} The excerpt.
+ */
+function getExcerpt( content, onlyExcerpt = false ) {
+	let excerpt = elementor.settings.page.model.get( "post_excerpt" );
+
+	if ( onlyExcerpt ) {
+		return excerpt || "";
+	}
+
+	// Fallback to the first piece of the content.
+	if ( ! excerpt ) {
+		const limit = ( getContentLocale() === "ja" ) ? 80 : 156;
+		excerpt = excerptFromContent( content, limit );
+	}
+
+	return excerpt;
+}
+
+/**
  * Gets the data that is specific to this editor.
  *
  * @param {Document} editorDocument The current document.
@@ -98,7 +124,8 @@ function getEditorData( editorDocument ) {
 	return {
 		content,
 		title: elementor.settings.page.model.get( "post_title" ),
-		excerpt: elementor.settings.page.model.get( "post_excerpt" ) || "",
+		excerpt: getExcerpt( content ),
+		excerptOnly: getExcerpt( content, true ),
 		imageUrl: featuredImageUrl || contentImageUrl,
 		featuredImage: featuredImageUrl,
 		contentImage: contentImageUrl,
@@ -145,8 +172,10 @@ function handleEditorChange() {
 
 	if ( data.excerpt !== editorData.excerpt ) {
 		editorData.excerpt = data.excerpt;
+		editorData.excerptOnly = data.excerptOnly;
 		dispatch( "yoast-seo/editor" ).setEditorDataExcerpt( editorData.excerpt );
 		dispatch( "yoast-seo/editor" ).updateReplacementVariable( "excerpt", editorData.excerpt );
+		dispatch( "yoast-seo/editor" ).updateReplacementVariable( "excerpt_only", editorData.excerptOnly );
 	}
 
 	if ( data.imageUrl !== editorData.imageUrl ) {
@@ -154,14 +183,14 @@ function handleEditorChange() {
 		dispatch( "yoast-seo/editor" ).setEditorDataImageUrl( editorData.imageUrl );
 	}
 
-	if ( data.contentImage !== contentImage ) {
-		contentImage = data.contentImage;
-		dispatch( "yoast-seo/editor" ).setContentImage( contentImage );
+	if ( data.contentImage !== editorData.contentImage ) {
+		editorData.contentImage = data.contentImage;
+		dispatch( "yoast-seo/editor" ).setContentImage( editorData.contentImage );
 	}
 
-	if ( data.featuredImage !== featuredImage ) {
-		featuredImage = data.featuredImage;
-		dispatch( "yoast-seo/editor" ).updateData( { snippetPreviewImageURL: featuredImage } );
+	if ( data.featuredImage !== editorData.featuredImage ) {
+		editorData.featuredImage = data.featuredImage;
+		dispatch( "yoast-seo/editor" ).updateData( { snippetPreviewImageURL: editorData.featuredImage } );
 	}
 }
 
