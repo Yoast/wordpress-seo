@@ -6,6 +6,7 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapt
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Fake;
 use Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Fake;
+use Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Tracking\Site_Kit_Usage_Tracking_Repository_Fake;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -36,10 +37,11 @@ final class Is_Site_Kit_On_Boarded_Without_Site_Kit_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$site_kit_consent_repository  = new Site_Kit_Consent_Repository_Fake();
-		$configuration_repository     = new Permanently_Dismissed_Site_Kit_Configuration_Repository_Fake();
-		$site_kit_analytics_4_adapter = new Site_Kit_Analytics_4_Adapter();
-		$this->instance               = new Site_Kit( $site_kit_consent_repository, $configuration_repository, $site_kit_analytics_4_adapter );
+		$site_kit_consent_repository        = new Site_Kit_Consent_Repository_Fake();
+		$site_kit_usage_tracking_repository = new Site_Kit_Usage_Tracking_Repository_Fake();
+		$configuration_repository           = new Permanently_Dismissed_Site_Kit_Configuration_Repository_Fake();
+		$site_kit_analytics_4_adapter       = new Site_Kit_Analytics_4_Adapter();
+		$this->instance                     = new Site_Kit( $site_kit_consent_repository, $site_kit_usage_tracking_repository, $configuration_repository, $site_kit_analytics_4_adapter );
 	}
 
 	/**
