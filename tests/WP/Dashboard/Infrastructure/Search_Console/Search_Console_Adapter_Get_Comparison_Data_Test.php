@@ -29,10 +29,10 @@ final class Search_Console_Adapter_Get_Comparison_Data_Test extends Abstract_Sea
 	 *
 	 * @dataProvider data_get_comparison_data
 	 *
-	 * @param array<string,array<string>> $request_parameters      The request parameters.
-	 * @param array<string,array<string>> $expected_api_parameters The expected API parameters.
-	 * @param array<int,array<string>>    $request_results         The results.
-	 * @param array<int,string>           $expected_results        The expected results.
+	 * @param array<string, string|array<string>>            $request_parameters      The request parameters.
+	 * @param array<string, string|array<string>>            $expected_api_parameters The expected API parameters.
+	 * @param array<array<string, int|array<string>>>        $request_results         The results.
+	 * @param array<array<string, array<string, int|float>>> $expected_results        The expected results.
 	 *
 	 * @return void
 	 */
@@ -83,7 +83,7 @@ final class Search_Console_Adapter_Get_Comparison_Data_Test extends Abstract_Sea
 	/**
 	 * Data provider for test_get_comparison_data.
 	 *
-	 * @return array<array<bool,array<string>>>
+	 * @return array<string, array<string, array<string, string|array<string>>|array<array<string, int|array<string>>>|array<array<string, array<string, int|float>>>>>
 	 */
 	public static function data_get_comparison_data() {
 		return [

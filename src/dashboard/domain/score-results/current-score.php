@@ -62,7 +62,7 @@ class Current_Score {
 	/**
 	 * Gets the amount of the current score.
 	 *
-	 * @return string The amount of the current score.
+	 * @return int The amount of the current score.
 	 */
 	public function get_amount(): int {
 		return $this->amount;
@@ -80,7 +80,7 @@ class Current_Score {
 	/**
 	 * Gets the links of the current score in the expected key value representation.
 	 *
-	 * @return array<string,string> The links of the current score in the expected key value representation.
+	 * @return array<string, string> The links of the current score in the expected key value representation.
 	 */
 	public function get_links_to_array(): ?array {
 		$links = [];

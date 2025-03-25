@@ -104,10 +104,10 @@ class Wincher_Publish implements Integration_Interface {
 	/**
 	 * Determines whether the current request is a REST request.
 	 *
-	 * @return bool Whether the request is a REST request.
-	 *
 	 * @deprecated 23.6
 	 * @codeCoverageIgnore
+	 *
+	 * @return bool Whether the request is a REST request.
 	 */
 	public function is_rest_request() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 23.6', 'wp_is_serving_rest_request' );

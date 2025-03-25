@@ -28,7 +28,7 @@ if ( isset( $_POST['create_robots'] ) ) {
 			__( 'You cannot create a %s file.', 'wordpress-seo' ),
 			'robots.txt'
 		);
-		die( esc_html( $die_msg ) );
+		exit( esc_html( $die_msg ) );
 	}
 
 	check_admin_referer( 'wpseo_create_robots' );
@@ -49,7 +49,7 @@ if ( isset( $_POST['submitrobots'] ) ) {
 			__( 'You cannot edit the %s file.', 'wordpress-seo' ),
 			'robots.txt'
 		);
-		die( esc_html( $die_msg ) );
+		exit( esc_html( $die_msg ) );
 	}
 
 	check_admin_referer( 'wpseo-robotstxt' );
@@ -76,7 +76,7 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 			__( 'You cannot edit the %s file.', 'wordpress-seo' ),
 			'.htaccess'
 		);
-		die( esc_html( $die_msg ) );
+		exit( esc_html( $die_msg ) );
 	}
 
 	check_admin_referer( 'wpseo-htaccess' );
