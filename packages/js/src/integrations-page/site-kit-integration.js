@@ -88,16 +88,15 @@ const SuccessfullyConnected = () => {
 
 /**
  * Status info component.
- * 
+ *
  * @param {CapabilitiesForSiteKit} capabilities The capabilities.
  * @param {number} currentStep The current step.
  * @param {boolean} successfullyConnected Whether the connection was successful.
  * @param {boolean} isVersionSupported Whether the version is supported.
- * 
+ *
  * @returns {JSX.Element} The status info component.
  */
 const StatusInfo = ( { capabilities, currentStep, successfullyConnected, isVersionSupported } ) => {
-
 	if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent && currentStep !== STEP_NAME.successfulyConnected ) {
 		return <ContentWithBottomDivider className="yst-text-slate-500 yst-italic">
 			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
@@ -110,20 +109,27 @@ const StatusInfo = ( { capabilities, currentStep, successfullyConnected, isVersi
 		</ContentWithBottomDivider>;
 	}
 
-	if( ! isVersionSupported ) {
+	if ( ! isVersionSupported ) {
 		return <ContentWithBottomDivider className="yst-text-slate-500 yst-italic">
 			{ sprintf(
 				/* translators: %s for Yoast SEO. */
-				 __( "Update Site Kit by Google to the latest version to connect %s.", "wordpress-seo" ),
-				 "Yoast SEO"
-				) }
+				__( "Update Site Kit by Google to the latest version to connect %s.", "wordpress-seo" ),
+				"Yoast SEO"
+			) }
 		</ContentWithBottomDivider>;
 	}
 
 	if ( successfullyConnected && capabilities.viewSearchConsoleData ) {
 		return <SuccessfullyConnected />;
 	}
-}
+};
+
+StatusInfo.propTypes = {
+	capabilities: PropTypes.objectOf( PropTypes.bool ).isRequired,
+	currentStep: PropTypes.number.isRequired,
+	successfullyConnected: PropTypes.bool.isRequired,
+	isVersionSupported: PropTypes.bool.isRequired,
+};
 
 /**
  * The Site Kit integration component.
@@ -234,7 +240,7 @@ export const SiteKitIntegration = ( {
 						successfullyConnected={ successfullyConnected }
 						isVersionSupported={ isVersionSupported }
 					/>
-				
+
 					{ isVersionSupported ? <Button
 						className="yst-w-full"
 						id="site-kit-integration__button"
@@ -244,8 +250,8 @@ export const SiteKitIntegration = ( {
 						id="site-kit-integration__button"
 						as="a"
 						href={ updateUrl }
-						> { __( "Update Site Kit by Google", "wordpress-seo" ) } 
-						</Button>
+					> { __( "Update Site Kit by Google", "wordpress-seo" ) }
+					</Button>
 					}
 
 				</span>
@@ -275,7 +281,9 @@ SiteKitIntegration.propTypes = {
 	installUrl: PropTypes.string.isRequired,
 	activateUrl: PropTypes.string.isRequired,
 	setupUrl: PropTypes.string.isRequired,
+	updateUrl: PropTypes.string.isRequired,
 	consentManagementUrl: PropTypes.string.isRequired,
 	capabilities: PropTypes.objectOf( PropTypes.bool ).isRequired,
 	connectionStepsStatuses: PropTypes.objectOf( PropTypes.bool ).isRequired,
+	isVersionSupported: PropTypes.bool.isRequired,
 };

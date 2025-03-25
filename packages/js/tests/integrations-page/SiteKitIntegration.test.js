@@ -27,8 +27,10 @@ describe( "SiteKitIntegration", () => {
 		installUrl: "/wp-admin/update.php?action=install-plugin&plugin=google-site-kit&_wpnonce=8b2868f15d",
 		activateUrl: "/wp-admin/plugins.php?action=activate&plugin=google-site-kit%2Fgoogle-site-kit.php&_wpnonce=0a752c1514",
 		setupUrl: "/wp-admin/admin.php?page=googlesitekit-splash",
+		updateUrl: "/wp-admin/update.php?action=upgrade-plugin&plugin=google-site-kit%2Fgoogle-site-kit.php&_wpnonce=0a752c1514",
 		consentManagementUrl: "/wp-json/yoast/v1/site_kit_manage_consent",
 		capabilities: { installPlugins: true, viewSearchConsoleData: true },
+		isVersionSupported: true,
 	};
 	it( "renders the integration component", () => {
 		render( <SiteKitIntegration

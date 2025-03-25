@@ -96,44 +96,38 @@ const SiteKitSetupWidgetTitleAndDescription = ( { isSiteKitConnectionCompleted }
  *
  * @param {CapabilitiesForSiteKit} capabilities The capabilities for the site kit.
  * @param {number} currentStep The current step.
+ * @param {boolean} isVersionSupported Whether the version is supported.
+ * @param {boolean} isConsentGranted Whether the consent is granted.
  *
  * @returns {JSX.Element} The no permission warning component.
  */
-const NoPermissionWarning = ( { capabilities, currentStep } ) => {
+// eslint-disable-next-line complexity
+const SiteKitAlert = ( { capabilities, currentStep, isVersionSupported, isConsentGranted } ) => {
 	if ( currentStep === STEP_NAME.successfulyConnected ) {
 		return null;
 	}
 
+	let message = "";
 	if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent ) {
-		return <Alert className="yst-mt-6">
-			{ __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
-		</Alert>;
+		message = __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" );
 	}
 
 	if ( ! capabilities.viewSearchConsoleData && currentStep === STEP_NAME.grantConsent ) {
-		return <Alert className="yst-mt-6">
-			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
-		</Alert>;
+		message = __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" );
 	}
+
+	if ( ! isVersionSupported ) {
+		if ( isConsentGranted ) {
+			message = __( "Your current version of the Site Kit by Google plugin is no longer compatible with Yoast SEO. Please update to the latest version to restore the connection.", "wordpress-seo" );
+		}
+		message = __( "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google.", "wordpress-seo" );
+	}
+
+	return message && <Alert variant={ ( ! isVersionSupported && isConsentGranted ) ? "error" : "info" } className="yst-mt-6">
+		{ message }
+	</Alert>;
 };
 
-/**
- * Version not supported alert.
- * 
- * @paran {boolean} isConsentGranted Whether the consent is granted.
- * 
- * @returns {JSX.Element} The version not supported alert.
- */
-const VersionNotSupportedAlert = ( { isConsentGranted } ) => {
-	if ( isConsentGranted ) {
-		return <Alert variant="error" className="yst-mt-6">
-			{ __( "Your current version of the Site Kit by Google plugin is no longer compatible with Yoast SEO. Please update to the latest version to restore the connection.", "wordpress-seo" ) }
-		</Alert>;
-	}
-	return <Alert className="yst-mt-6">
-	{ __( "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google.", "wordpress-seo" ) }
-		</Alert>;
-}
 
 /**
  * The google site kit connection guide widget.
@@ -151,14 +145,14 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
-	const { capabilities, 
-		installUrl, 
-		activateUrl, 
-		setupUrl, 
-		isVersionSupported, 
+	const { capabilities,
+		installUrl,
+		activateUrl,
+		setupUrl,
+		isVersionSupported,
 		updateUrl,
-		connectionStepsStatuses
-	 } = dataProvider.getSiteKitConfiguration();
+		connectionStepsStatuses,
+	} = dataProvider.getSiteKitConfiguration();
 
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();
@@ -173,7 +167,6 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const checkCapability = ( url, capability = capabilities.installPlugins ) => {
 		return capability ? url : null;
 	};
-	console.log( isVersionSupported );
 
 	const buttonProps = [
 		{
@@ -203,6 +196,25 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 			onClick: openConsentModal,
 		},
 	];
+
+	const getButtonProps = () => {
+		if ( ! isVersionSupported ) {
+			return {
+				children: __( "Update Site Kit by Google", "wordpress-seo" ),
+				as: "a",
+				href: updateUrl,
+			};
+		}
+
+		if ( isSiteKitConnectionCompleted ) {
+			return {
+				children: __( "Got it!", "wordpress-seo" ),
+				onClick: handleOnRemove,
+			};
+		}
+
+		return buttonProps[ currentStep ];
+	};
 
 	return (
 		<Widget className="yst-paper__content yst-relative @3xl:yst-col-span-2 yst-col-span-4">
@@ -260,21 +272,20 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 						{ __( "Fine-tune your SEO and optimize your content using key performance metrics (KPI).", "wordpress-seo" ) }
 					</li>
 				</ul>
-				<NoPermissionWarning capabilities={ capabilities } currentStep={ currentStep } />
-
-				{ ! isVersionSupported && <VersionNotSupportedAlert isConsentGranted={ connectionStepsStatuses.isConsentGranted } /> }
+				<SiteKitAlert
+					capabilities={ capabilities }
+					currentStep={ currentStep }
+					isVersionSupported={ isVersionSupported }
+					isConsentGranted={ connectionStepsStatuses.isConsentGranted }
+				/>
 
 			</div>
 			<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
-				{ isSiteKitConnectionCompleted
-					? <Button onClick={ handleOnRemove }>
-						{ __( "Got it!", "wordpress-seo" ) }
-					</Button>
 
-					: <>
-						{ isVersionSupported ? <Button { ...buttonProps[ currentStep ] } /> : <Button as="a" href={ updateUrl } > 
-							{ __( "Update Site Kit by Google", "wordpress-seo" ) }
-							</Button> }
+				<Button { ...getButtonProps() } />
+
+				{ ! isSiteKitConnectionCompleted &&
+					<>
 						<LearnMoreLink as={ Button } variant="tertiary" href={ learnMoreLink } />
 						<SiteKitConsentModal
 							isOpen={ currentStep === STEP_NAME.grantConsent && isConsentModalOpen }
