@@ -107,6 +107,7 @@ export { Dashboard } from "./components/dashboard";
  * @property {string} installUrl The link to install Site Kit.
  * @property {string} activateUrl The link to activate Site Kit.
  * @property {string} setupUrl The link to setup Site Kit.
+ * @property {string} updateUrl The link to update Site Kit.
  * @property {SiteKitConnectionStepsStatuses} connectionStepsStatuses The connection steps statuses.
  * @property {boolean} isAnalyticsConnected Whether Google Analytics is connected.
  * @property {boolean} isFeatureEnabled Whether the feature is enabled.

@@ -98,11 +98,11 @@ const SuccessfullyConnected = () => {
  */
 const StatusInfo = ( { capabilities, currentStep, successfullyConnected, isVersionSupported } ) => {
 	const getMessage = () => {
-		if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent && currentStep !== STEP_NAME.successfulyConnected ) {
+		if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent && currentStep !== STEP_NAME.successfullyConnected ) {
 			return __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" );
 		}
 
-		if ( ! capabilities.viewSearchConsoleData && ( currentStep === STEP_NAME.grantConsent || currentStep === STEP_NAME.successfulyConnected ) ) {
+		if ( ! capabilities.viewSearchConsoleData && ( currentStep === STEP_NAME.grantConsent || currentStep === STEP_NAME.successfullyConnected ) ) {
 			return __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" );
 		}
 
@@ -164,7 +164,7 @@ export const SiteKitIntegration = ( {
 	const [ isConsentGranted, setConnected ] = useState( connectionStepsStatuses.isConsentGranted );
 	const stepsStatuses = values( { ...connectionStepsStatuses, isConsentGranted } );
 	const currentStep = stepsStatuses.findIndex( status => ! status );
-	const successfullyConnected = currentStep === STEP_NAME.successfulyConnected;
+	const successfullyConnected = currentStep === STEP_NAME.successfullyConnected;
 
 	const consentLearnMoreLink = useSelect(
 		select => select( "yoast-seo/settings" ).selectLink( "https://yoa.st/integrations-site-kit-consent-learn-more" ),
@@ -226,7 +226,7 @@ export const SiteKitIntegration = ( {
 				href: updateUrl,
 			};
 		}
-		if ( step === STEP_NAME.successfulyConnected ) {
+		if ( step === STEP_NAME.successfullyConnected ) {
 			return {
 				children: __( "Disconnect", "wordpress-seo" ),
 				variant: "secondary",
