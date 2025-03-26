@@ -24,9 +24,7 @@ class SEO_Score_Groups_Repository {
 	 *
 	 * @param SEO_Score_Groups_Interface ...$seo_score_groups All SEO score groups.
 	 */
-	public function __construct(
-		SEO_Score_Groups_Interface ...$seo_score_groups
-	) {
+	public function __construct( SEO_Score_Groups_Interface ...$seo_score_groups ) {
 		$this->seo_score_groups = $seo_score_groups;
 	}
 

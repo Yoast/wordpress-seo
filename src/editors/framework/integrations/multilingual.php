@@ -58,7 +58,7 @@ class Multilingual implements Integration_Data_Provider_Interface {
 	/**
 	 * Return this object represented by a key value array.
 	 *
-	 * @return array<string,bool> Returns the name and if the feature is enabled.
+	 * @return array<string, bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
 		return [ 'isMultilingualActive' => $this->is_enabled() ];
@@ -67,7 +67,7 @@ class Multilingual implements Integration_Data_Provider_Interface {
 	/**
 	 * Returns this object represented by a key value structure that is compliant with the script data array.
 	 *
-	 * @return array<string,bool> Returns the legacy key and if the feature is enabled.
+	 * @return array<string, bool> Returns the legacy key and if the feature is enabled.
 	 */
 	public function to_legacy_array(): array {
 		return [ 'multilingualPluginActive' => $this->is_enabled() ];

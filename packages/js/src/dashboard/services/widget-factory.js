@@ -54,8 +54,20 @@ export class WidgetFactory {
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
 	createWidget( widget ) {
-		const { isFeatureEnabled, isSetupWidgetDismissed, isAnalyticsConnected, capabilities } = this.#dataProvider.getSiteKitConfiguration();
+		const {
+			isFeatureEnabled,
+			isSetupWidgetDismissed,
+			isAnalyticsConnected,
+			capabilities,
+			isVersionSupported,
+		} = this.#dataProvider.getSiteKitConfiguration();
 		const isSiteKitConnectionCompleted = this.#dataProvider.isSiteKitConnectionCompleted();
+
+		// Common checks for Site Kit widgets.
+		const isSiteKitWidgetAllowed = isFeatureEnabled && isSiteKitConnectionCompleted && isVersionSupported;
+		const isSearchConsoleWidgetAllowed = isSiteKitWidgetAllowed && capabilities.viewSearchConsoleData;
+		const isAnalyticsWidgetAllowed = isSiteKitWidgetAllowed && isAnalyticsConnected && capabilities.viewAnalyticsData;
+
 		switch ( widget.type ) {
 			case WidgetFactory.types.seoScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
@@ -78,7 +90,7 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
 			case WidgetFactory.types.topPages:
-				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! capabilities.viewSearchConsoleData ) {
+				if ( ! isSearchConsoleWidgetAllowed ) {
 					return null;
 				}
 				return <TopPagesWidget
@@ -98,7 +110,7 @@ export class WidgetFactory {
 					dataTracker={ this.#dataTracker }
 				/>;
 			case WidgetFactory.types.topQueries:
-				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! capabilities.viewSearchConsoleData ) {
+				if ( ! isSearchConsoleWidgetAllowed ) {
 					return null;
 				}
 				return <TopQueriesWidget
@@ -108,7 +120,7 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case WidgetFactory.types.searchRankingCompare:
-				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted ) {
+				if ( ! isSearchConsoleWidgetAllowed ) {
 					return null;
 				}
 				return <SearchRankingCompareWidget
@@ -118,7 +130,7 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			case WidgetFactory.types.organicSessions:
-				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! isAnalyticsConnected || ! capabilities.viewAnalyticsData ) {
+				if ( ! isAnalyticsWidgetAllowed ) {
 					return null;
 				}
 				return <OrganicSessionsWidget

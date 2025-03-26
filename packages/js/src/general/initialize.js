@@ -67,7 +67,7 @@ domReady( () => {
 		timeBasedSeoMetrics: get( window, "wpseoScriptData.dashboard.endpoints.timeBasedSeoMetrics", "" ),
 		siteKitConfigurationDismissal: get( window, "wpseoScriptData.dashboard.endpoints.siteKitConfigurationDismissal", "" ),
 		siteKitConsentManagement: get( window, "wpseoScriptData.dashboard.endpoints.siteKitConsentManagement", "" ),
-		siteKitUsageTracking: get( window, "wpseoScriptData.dashboard.endpoints.siteKitUsageTracking", "" ),
+		setupStepsTracking: get( window, "wpseoScriptData.dashboard.endpoints.setupStepsTracking", "" ),
 	};
 	/** @type {Object<string,string>} */
 	const headers = {

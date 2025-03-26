@@ -35,7 +35,7 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	public const ROUTE_PREFIX = '/site_kit_usage_tracking';
+	public const ROUTE_PREFIX = '/setup_steps_tracking';
 
 	/**
 	 * Holds the repository instance.

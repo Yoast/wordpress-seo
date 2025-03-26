@@ -687,7 +687,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Retrieve the site logo ID from WordPress settings.
 	 *
-	 * @return false|int
+	 * @return int|false
 	 */
 	public function fallback_to_site_logo() {
 		$logo_id = \get_option( 'site_logo' );

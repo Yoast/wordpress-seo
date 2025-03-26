@@ -142,9 +142,9 @@ class General_Page_Integration implements Integration_Interface {
 	/**
 	 * Adds the page.
 	 *
-	 * @param array<string,array<string>> $pages The pages.
+	 * @param array<string, array<string>> $pages The pages.
 	 *
-	 * @return array<string,array<string>> The pages.
+	 * @return array<string, array<string>> The pages.
 	 */
 	public function add_page( $pages ) {
 		\array_splice(

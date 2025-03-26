@@ -85,6 +85,7 @@ if ( isSiteKitFeatureEnabled ) {
 		installUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.installUrl", "" ) }
 		activateUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.activateUrl", "" ) }
 		setupUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.setupUrl", "" ) }
+		updateUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.updateUrl", "" ) }
 		consentManagementUrl={ get( window, "wpseoIntegrationsData.site_kit_consent_management_url", "" ) }
 		capabilities={ get( window, "wpseoIntegrationsData.site_kit_configuration.capabilities", {
 			installPlugins: false,
@@ -96,6 +97,7 @@ if ( isSiteKitFeatureEnabled ) {
 			isSetupCompleted: false,
 			isConsentGranted: false,
 		} ) }
+		isVersionSupported={ get( window, "wpseoIntegrationsData.site_kit_configuration.isVersionSupported", false ) }
 	/> );
 }
 

@@ -230,7 +230,7 @@ class WPSEO_Sitemaps {
 	 */
 	public function sitemap_close() {
 		remove_all_actions( 'wp_footer' );
-		die();
+		exit();
 	}
 
 	/**

@@ -27,9 +27,7 @@ class Current_Scores_Repository {
 	 *
 	 * @param Score_Group_Link_Collector $score_group_link_collector The score group link collector.
 	 */
-	public function __construct(
-		Score_Group_Link_Collector $score_group_link_collector
-	) {
+	public function __construct( Score_Group_Link_Collector $score_group_link_collector ) {
 		$this->score_group_link_collector = $score_group_link_collector;
 	}
 
@@ -68,7 +66,7 @@ class Current_Scores_Repository {
 	 * @param Taxonomy|null          $taxonomy     The taxonomy of the term we're filtering for.
 	 * @param int|null               $term_id      The ID of the term we're filtering for.
 	 *
-	 * @return array<string,string> The current score links.
+	 * @return array<string, string> The current score links.
 	 */
 	protected function get_current_score_links( Score_Groups_Interface $score_group, Content_Type $content_type, ?Taxonomy $taxonomy, ?int $term_id ): array {
 		return [

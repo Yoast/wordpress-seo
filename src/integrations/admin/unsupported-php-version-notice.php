@@ -140,11 +140,9 @@ class Unsupported_PHP_Version_Notice implements Integration_Interface, Message {
 			$checker->check();
 
 			return $checker->hasMessages() === false;
-		}
-		catch ( InvalidVersionComparisonString $e ) {
+		} catch ( InvalidVersionComparisonString $e ) {
 			return true;
-		}
-		catch ( InvalidType $e ) {
+		} catch ( InvalidType $e ) {
 			return true;
 		}
 	}

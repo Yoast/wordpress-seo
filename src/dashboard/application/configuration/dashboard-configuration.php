@@ -113,7 +113,7 @@ class Dashboard_Configuration {
 	/**
 	 * Returns a configuration
 	 *
-	 * @return array<string,array<string>>
+	 * @return array<string, array<string>>
 	 */
 	public function get_configuration(): array {
 		return [

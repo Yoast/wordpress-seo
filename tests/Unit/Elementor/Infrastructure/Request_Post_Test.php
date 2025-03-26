@@ -91,7 +91,7 @@ final class Request_Post_Test extends TestCase {
 	/**
 	 * Provides test data for `test_get_post_id`.
 	 *
-	 * @return array<string,array<string,string|bool|int|null>> The test data.
+	 * @return array<string, array<string, string|bool|int|null>> The test data.
 	 */
 	public static function get_post_id_data_provider(): array {
 		return [
