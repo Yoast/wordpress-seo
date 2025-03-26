@@ -160,7 +160,7 @@ class Site_Kit {
 
 		$site_kit_update_url = \html_entity_decode(
 			\wp_nonce_url(
-				\self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . \rawurlencode( self::SITE_KIT_FILE ) ),
+				\self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . self::SITE_KIT_FILE ),
 				'upgrade-plugin_' . self::SITE_KIT_FILE
 			)
 		);
