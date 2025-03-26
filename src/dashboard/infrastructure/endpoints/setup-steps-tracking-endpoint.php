@@ -4,12 +4,12 @@ namespace Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints;
 
 use Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;
-use Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Site_Kit_Usage_Tracking_Route;
+use Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Setup_Steps_Tracking_Route;
 
 /**
- * Represents the Site Kit usage tracking endpoint.
+ * Represents the setup steps tracking endpoint.
  */
-class Site_Kit_Usage_Tracking_Endpoint implements Endpoint_Interface {
+class Setup_Steps_Tracking_Endpoint implements Endpoint_Interface {
 
 	/**
 	 * Gets the name.
@@ -17,7 +17,7 @@ class Site_Kit_Usage_Tracking_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_name(): string {
-		return 'siteKitUsageTracking';
+		return 'setupStepsTracking';
 	}
 
 	/**
@@ -26,7 +26,7 @@ class Site_Kit_Usage_Tracking_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_namespace(): string {
-		return Site_Kit_Usage_Tracking_Route::ROUTE_NAMESPACE;
+		return Setup_Steps_Tracking_Route::ROUTE_NAMESPACE;
 	}
 
 	/**
@@ -36,7 +36,7 @@ class Site_Kit_Usage_Tracking_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_route(): string {
-		return Site_Kit_Usage_Tracking_Route::ROUTE_PREFIX;
+		return Setup_Steps_Tracking_Route::ROUTE_PREFIX;
 	}
 
 	/**
