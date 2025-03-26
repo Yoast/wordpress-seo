@@ -39,6 +39,19 @@ class Site_Kit {
 	private $site_kit_analytics_4_adapter;
 
 	/**
+	 * The REST API endpoint paths.
+	 *
+	 * @var string[]
+	 */
+	private $paths = [
+		'/google-site-kit/v1/core/site/data/connection',
+		'/google-site-kit/v1/core/user/data/authentication',
+		'/google-site-kit/v1/modules/search-console/data/settings',
+		'/google-site-kit/v1/core/modules/data/list',
+
+	];
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Site_Kit_Consent_Repository_Interface $site_kit_consent_repository  The Site Kit consent repository.
@@ -195,11 +208,30 @@ class Site_Kit {
 
 		$site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
 
+		$preload_paths = apply_filters( 'googlesitekit_apifetch_preload_paths', array() );
+		$actual_paths  = array_intersect( $this->paths, $preload_paths );
+		$preloaded     = array_reduce(
+			array_unique( $preload_paths ),
+			'rest_preload_api_request',
+			array()
+		);
+
+		$is_setup_completed = $preloaded['/google-site-kit/v1/core/site/data/connection']['body']['setupCompleted'] ?? false;
+
+		$modules_data = $preloaded['/google-site-kit/v1/core/modules/data/list']['body'];
+
+		foreach ( $modules_data as $module ) {
+			if ( $module['slug'] === 'analytics-4' ) {
+				$is_ga_connected = $module['connected'];
+			}
+		}
+
+
 		return [
 			'installUrl'               => $site_kit_install_url,
 			'activateUrl'              => $site_kit_activate_url,
 			'setupUrl'                 => $site_kit_setup_url,
-			'isAnalyticsConnected'     => $this->is_ga_connected(),
+			'isAnalyticsConnected'     => $is_ga_connected,
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'isConfigurationDismissed' => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
 			'capabilities'             => [
@@ -210,7 +242,7 @@ class Site_Kit {
 			'connectionStepsStatuses'  => [
 				'isInstalled'      => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
 				'isActive'         => $this->is_enabled(),
-				'isSetupCompleted' => $this->is_setup_completed(),
+				'isSetupCompleted' => $is_setup_completed,
 				'isConsentGranted' => $this->is_connected(),
 			],
 		];
