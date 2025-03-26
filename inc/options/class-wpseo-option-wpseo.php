@@ -142,7 +142,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'site_kit_configuration_permanently_dismissed' => false,
 		'site_kit_connected'                           => false,
 		'site_kit_usage_tracking'                      => [
-			'setup_widget_loaded'     => '',
+			'setup_widget_loaded'     => 'no',
 			'first_interaction_stage' => '',
 			'last_interaction_stage'  => '',
 			'setup_widget_dismissed'  => '',
