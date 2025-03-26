@@ -11,6 +11,7 @@ import { LearnMoreLink } from "../components/learn-more-link";
 import { Widget } from "./widget";
 
 /**
+ * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
  * @type {import("../services/data-provider").DataProvider} DataProvider
  * @type {import("../services/remote-data-provider").RemoteDataProvider} RemoteDataProvider
  * @type {import("../index").CapabilitiesForSiteKit} Capabilities for site kit.
@@ -134,7 +135,7 @@ const SiteKitAlert = ( { capabilities, currentStep, isVersionSupported, isConsen
 
 /**
  * @param {number} currentStep The current step.
- * @param {import("../index").SiteKitConfiguration} config The Site Kit configuration.
+ * @param {SiteKitConfiguration} config The Site Kit configuration.
  * @param {boolean} isConnectionCompleted Whether the Site Kit connection is completed.
  * @param {function} onDismissWidget The callback to dismiss the setup widget.
  * @param {function} onShowConsent The callback to show the grant consent modal / connect Site Kit.
@@ -219,7 +220,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 
 	const config = dataProvider.getSiteKitConfiguration();
 	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
-	const isConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
+	const isConnectionCompleted = dataProvider.isSiteKitConnectionCompleted() && config.isVersionSupported;
 
 	return (
 		<Widget className="yst-paper__content yst-relative @3xl:yst-col-span-2 yst-col-span-4">
