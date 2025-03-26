@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Reposit
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Fake;
 use Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Fake;
-use Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Tracking\Site_Kit_Usage_Tracking_Repository_Fake;
+use Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Tracking\SetupSteps_Tracking_Repository_Fake;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -56,7 +56,7 @@ final class Is_Site_Kit_On_Boarded_Test extends TestCase {
 		parent::set_up();
 
 		$this->site_kit_consent_repository  = new Site_Kit_Consent_Repository_Fake();
-		$site_kit_usage_tracking_repository = new Site_Kit_Usage_Tracking_Repository_Fake();
+		$site_kit_usage_tracking_repository = new SetupSteps_Tracking_Repository_Fake();
 		$configuration_repository           = new Permanently_Dismissed_Site_Kit_Configuration_Repository_Fake();
 		$site_kit_analytics_4_adapter       = new Site_Kit_Analytics_4_Adapter();
 		$this->instance                     = new Site_Kit( $this->site_kit_consent_repository, $site_kit_usage_tracking_repository, $configuration_repository, $site_kit_analytics_4_adapter );
