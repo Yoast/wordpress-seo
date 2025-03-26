@@ -2,13 +2,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Integrations;
 
-use Google\Site_Kit\Core\Authentication\Authentication;
-use Google\Site_Kit\Core\Modules\Modules;
-use Google\Site_Kit\Plugin;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Connection\Site_Kit_Is_Connected_Call;
 
 /**
  * Describes if the Site kit integration is enabled and configured.
@@ -32,42 +29,41 @@ class Site_Kit {
 	private $permanently_dismissed_site_kit_configuration_repository;
 
 	/**
-	 * The Site Kit adapter.
-	 *
-	 * @var Site_Kit_Analytics_4_Adapter
-	 */
-	private $site_kit_analytics_4_adapter;
-
-	/**
 	 * The REST API endpoint paths.
 	 *
 	 * @var string[]
 	 */
 	private $paths = [
-		'/google-site-kit/v1/core/site/data/connection',
 		'/google-site-kit/v1/core/user/data/authentication',
+		'/google-site-kit/v1/core/user/data/permissions',
 		'/google-site-kit/v1/modules/search-console/data/settings',
 		'/google-site-kit/v1/core/modules/data/list',
-
 	];
+
+	/**
+	 * The call wrapper.
+	 *
+	 * @var Site_Kit_Is_Connected_Call
+	 */
+	private $site_kit_is_connected_call;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param Site_Kit_Consent_Repository_Interface $site_kit_consent_repository  The Site Kit consent repository.
-	 * @param Configuration_Repository              $configuration_repository     The Site Kit permanently dismissed
-	 *                                                                            configuration repository.
-	 * @param Site_Kit_Analytics_4_Adapter          $site_kit_analytics_4_adapter The Site Kit adapter. Used to
-	 *                                                                            determine if the setup is completed.
+	 * @param Site_Kit_Consent_Repository_Interface $site_kit_consent_repository The Site Kit consent repository.
+	 * @param Configuration_Repository              $configuration_repository    The Site Kit permanently dismissed
+	 *                                                                           configuration repository.
+	 * @param Site_Kit_Is_Connected_Call            $site_kit_is_connected_call  The api call to check if the site is
+	 *                                                                           connected.
 	 */
 	public function __construct(
 		Site_Kit_Consent_Repository_Interface $site_kit_consent_repository,
 		Configuration_Repository $configuration_repository,
-		Site_Kit_Analytics_4_Adapter $site_kit_analytics_4_adapter
+		Site_Kit_Is_Connected_Call $site_kit_is_connected_call
 	) {
 		$this->site_kit_consent_repository                             = $site_kit_consent_repository;
 		$this->permanently_dismissed_site_kit_configuration_repository = $configuration_repository;
-		$this->site_kit_analytics_4_adapter                            = $site_kit_analytics_4_adapter;
+		$this->site_kit_is_connected_call                              = $site_kit_is_connected_call;
 	}
 
 	/**
@@ -85,13 +81,7 @@ class Site_Kit {
 	 * @return bool If the Google site kit setup has been completed.
 	 */
 	private function is_setup_completed(): bool {
-		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
-			$site_kit_plugin = Plugin::instance();
-			$authentication  = new Authentication( $site_kit_plugin->context() );
-			return $authentication->is_setup_completed();
-		}
-
-		return false;
+		return $this->site_kit_is_connected_call->is_setup_completed();
 	}
 
 	/**
@@ -99,17 +89,17 @@ class Site_Kit {
 	 *
 	 * @return bool If consent has been granted.
 	 */
-	private function is_connected() {
+	private function is_connected(): bool {
 		return $this->site_kit_consent_repository->is_consent_granted();
 	}
 
 	/**
-	 * If Google analytics is connected.
+	 * If Google Analytics is connected.
 	 *
-	 * @return bool If Google analytics is connected.
+	 * @return bool If Google Analytics is connected.
 	 */
-	public function is_ga_connected() {
-		return $this->site_kit_analytics_4_adapter->is_connected();
+	public function is_ga_connected(): bool {
+		return $this->site_kit_is_connected_call->is_ga_connected();
 	}
 
 	/**
@@ -118,7 +108,7 @@ class Site_Kit {
 	 *
 	 * @return bool If the Site Kit plugin is installed.
 	 */
-	private function is_site_kit_installed() {
+	private function is_site_kit_installed(): bool {
 		return \class_exists( 'Google\Site_Kit\Plugin' );
 	}
 
@@ -127,48 +117,23 @@ class Site_Kit {
 	 *
 	 * @return bool If the entire onboarding has been completed.
 	 */
-	public function is_onboarded() {
+	public function is_onboarded(): bool {
 		return ( $this->is_site_kit_installed() && $this->is_setup_completed() && $this->is_connected() );
-	}
-
-	/**
-	 * Checks if current user has viewing rights.
-	 *
-	 * @param string $module_slug The module slug to check for viewing rights.
-	 *
-	 * @return bool If current user has viewing rights.
-	 */
-	public function has_viewing_rights( $module_slug ) {
-		$current_user = \wp_get_current_user();
-
-		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
-			$site_kit_plugin = Plugin::instance();
-			$modules         = new Modules( $site_kit_plugin->context() );
-			$shared_roles    = $modules->get_module_sharing_settings()->get_shared_roles( $module_slug ); // @TODO: Make sure that this is the proper way to detect.
-
-			return ! empty( \array_intersect( $current_user->roles, $shared_roles ) );
-		}
-
-		return false;
 	}
 
 	/**
 	 * Checks if current user is owner of the module.
 	 *
-	 * @param string $module_slug The module slug to check for owner.
+	 * @param array|null $module_owner The module to check for owner.
 	 *
 	 * @return bool If current user is owner of the module.
 	 */
-	public function is_owner( $module_slug ) {
+	public function is_owner( ?array $module_owner ): bool {
 		$current_user = \wp_get_current_user();
 
-		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
-			$site_kit_plugin = Plugin::instance();
-			$modules         = new Modules( $site_kit_plugin->context() );
-			$module          = $modules->get_module( $module_slug );
-			$owner_id        = $module->get_owner_id(); // @TODO: Make sure that this is the proper way to detect.
+		if ( $module_owner !== null ) {
+			return $module_owner['id'] === $current_user->ID;
 
-			return $owner_id === $current_user->ID;
 		}
 
 		return false;
@@ -178,12 +143,12 @@ class Site_Kit {
 	 * Checks is current user can view dashboard data, which can the owner who set it up,
 	 * or user with one of the shared roles.
 	 *
-	 * @param string $module_slug The module we need to check.
+	 * @param array<array|null> $module The module owner.
 	 *
 	 * @return bool If the user can read the data.
 	 */
-	private function can_read_data( $module_slug ) {
-		return $this->has_viewing_rights( $module_slug ) || $this->is_owner( $module_slug );
+	private function can_read_data( array $module ): bool {
+		return $module['permissions'] || $this->is_owner( $module['owner'] );
 	}
 
 	/**
@@ -208,41 +173,52 @@ class Site_Kit {
 
 		$site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
 
-		$preload_paths = apply_filters( 'googlesitekit_apifetch_preload_paths', array() );
-		$actual_paths  = array_intersect( $this->paths, $preload_paths );
-		$preloaded     = array_reduce(
-			array_unique( $preload_paths ),
+		$preload_paths = \apply_filters( 'googlesitekit_apifetch_preload_paths', [] );
+		$actual_paths  = \array_intersect( $this->paths, $preload_paths );
+		$preloaded     = \array_reduce(
+			\array_unique( $actual_paths ),
 			'rest_preload_api_request',
-			array()
+			[]
 		);
 
-		$is_setup_completed = $preloaded['/google-site-kit/v1/core/site/data/connection']['body']['setupCompleted'] ?? false;
+		$modules_data        = $preloaded['/google-site-kit/v1/core/modules/data/list']['body'];
+		$modules_permissions = $preloaded['/google-site-kit/v1/core/user/data/permissions']['body'];
 
-		$modules_data = $preloaded['/google-site-kit/v1/core/modules/data/list']['body'];
-
+		$search_console_module = [];
+		$ga_module             = [];
 		foreach ( $modules_data as $module ) {
 			if ( $module['slug'] === 'analytics-4' ) {
-				$is_ga_connected = $module['connected'];
+				$ga_module['owner']       = $module['owner'];
+				$ga_module['permissions'] = [];
+				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'] ) ) {
+					$ga_module['permissions'] = $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'];
+				}
+			}
+			if ( $module['slug'] === 'search-console' ) {
+				$search_console_module['owner']       = $module['owner'];
+				$search_console_module['permissions'] = [];
+				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'] ) ) {
+					$search_console_module['permissions'] = $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'];
+				}
 			}
 		}
-
 
 		return [
 			'installUrl'               => $site_kit_install_url,
 			'activateUrl'              => $site_kit_activate_url,
 			'setupUrl'                 => $site_kit_setup_url,
-			'isAnalyticsConnected'     => $is_ga_connected,
+			'isAnalyticsConnected'     => $this->is_ga_connected(),
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'isConfigurationDismissed' => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
 			'capabilities'             => [
 				'installPlugins'        => \current_user_can( 'install_plugins' ),
-				'viewSearchConsoleData' => $this->can_read_data( 'search-console' ),
-				'viewAnalyticsData'     => $this->can_read_data( 'analytics-4' ),
+				'viewSearchConsoleData' => $this->can_read_data( $search_console_module ),
+				'viewAnalyticsData'     => $this->can_read_data( $ga_module ),
 			],
 			'connectionStepsStatuses'  => [
 				'isInstalled'      => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
 				'isActive'         => $this->is_enabled(),
-				'isSetupCompleted' => $is_setup_completed,
+				'isSetupCompleted' => $this->is_setup_completed(),
 				'isConsentGranted' => $this->is_connected(),
 			],
 		];
