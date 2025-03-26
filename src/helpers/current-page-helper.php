@@ -24,9 +24,7 @@ class Current_Page_Helper {
 	 *
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wrapper for WP_Query.
 	 */
-	public function __construct(
-		WP_Query_Wrapper $wp_query_wrapper
-	) {
+	public function __construct( WP_Query_Wrapper $wp_query_wrapper ) {
 		$this->wp_query_wrapper = $wp_query_wrapper;
 	}
 

@@ -10,7 +10,7 @@ class Data_Container {
 	/**
 	 * All the data points.
 	 *
-	 * @var array<Data_Interface> $data_container
+	 * @var array<Data_Interface>
 	 */
 	private $data_container;
 
@@ -44,7 +44,7 @@ class Data_Container {
 	/**
 	 * Converts the data points into an array.
 	 *
-	 * @return array<string,string> The array of the data points.
+	 * @return array<string, string> The array of the data points.
 	 */
 	public function to_array(): array {
 		$result = [];

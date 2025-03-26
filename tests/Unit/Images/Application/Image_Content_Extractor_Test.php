@@ -85,7 +85,6 @@ final class Image_Content_Extractor_Test extends TestCase {
 				->once()
 				->with( 'wpseo_image_attribute_containing_id', 'class' )
 				->andReturn( 'class' );
-
 		}
 		if ( $should_content_regex ) {
 			Functions\expect( 'apply_filters' )

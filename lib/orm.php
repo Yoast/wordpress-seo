@@ -267,7 +267,7 @@ class ORM implements ArrayAccess {
 		/**
 		 * The global WordPress database variable.
 		 *
-		 * @var wpdb
+		 * @var wpdb $wpdb
 		 */
 		global $wpdb;
 

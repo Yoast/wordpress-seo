@@ -68,7 +68,7 @@ final class Open_Graph_Locale_Generator_Test extends TestCase {
 	/**
 	 * Provides data to the generate method.
 	 *
-	 * @return array The data to use for the test.
+	 * @return array<array<string, string>>
 	 */
 	public static function generate_provider() {
 		return [

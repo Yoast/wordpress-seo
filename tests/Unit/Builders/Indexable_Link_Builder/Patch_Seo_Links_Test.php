@@ -20,7 +20,7 @@ final class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCas
 	/**
 	 * Data provider for test_patch_seo_links;
 	 *
-	 * @return array
+	 * @return array<string, array<string, int|array<object>|null>>
 	 */
 	public static function patch_seo_links_provider() {
 		$object                                  = (object) [ 'type' => 'not SEO_Links' ];
@@ -89,11 +89,11 @@ final class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCas
 	 *
 	 * @dataProvider patch_seo_links_provider
 	 *
-	 * @param int|null $indexable_id                     The indexable id.
-	 * @param int|null $object_id                        The object id.
-	 * @param int      $links_times                      The times that find_all_by_target_post_id is executed.
-	 * @param array    $links                            The links.
-	 * @param int      $update_target_indexable_id_times The times that update_target_indexable_id is executed.
+	 * @param int|null           $indexable_id                     The indexable id.
+	 * @param int|null           $object_id                        The object id.
+	 * @param int                $links_times                      The times that find_all_by_target_post_id is executed.
+	 * @param array<object>|null $links                            The links.
+	 * @param int                $update_target_indexable_id_times The times that update_target_indexable_id is executed.
 	 *
 	 * @return void
 	 */

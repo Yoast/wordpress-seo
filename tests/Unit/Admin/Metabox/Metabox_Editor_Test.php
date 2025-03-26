@@ -43,7 +43,7 @@ final class Metabox_Editor_Test extends TestCase {
 	/**
 	 * Get the path to wordpress-seo
 	 *
-	 * @return false|string
+	 * @return string|false
 	 */
 	protected function get_wpseo_file() {
 		return \realpath( __DIR__ . '/../../../../wp-seo.php' );

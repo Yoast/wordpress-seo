@@ -35,7 +35,7 @@ final class Is_Site_Kit_On_Boarded_Test extends TestCase {
 	/**
 	 * The site kit consent repository fake.
 	 *
-	 * @var Site_Kit_Consent_Repository_Interface $site_kit_consent_repository
+	 * @var Site_Kit_Consent_Repository_Interface
 	 */
 	private $site_kit_consent_repository;
 

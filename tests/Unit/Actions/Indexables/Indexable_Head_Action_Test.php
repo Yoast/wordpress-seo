@@ -223,7 +223,7 @@ final class Indexable_Head_Action_Test extends TestCase {
 	/**
 	 * Data provider for the tests.
 	 *
-	 * @return array<string|int> A mapping of methods and expected inputs.
+	 * @return array<array<string|int>> A mapping of methods and expected inputs.
 	 */
 	public static function method_provider() {
 		return [

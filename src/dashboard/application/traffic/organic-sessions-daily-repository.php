@@ -17,14 +17,14 @@ class Organic_Sessions_Daily_Repository implements Dashboard_Repository_Interfac
 	/**
 	 * The adapter.
 	 *
-	 * @var Site_Kit_Analytics_4_Adapter $site_kit_analytics_4_adapter
+	 * @var Site_Kit_Analytics_4_Adapter
 	 */
 	private $site_kit_analytics_4_adapter;
 
 	/**
 	 * The site kit configuration object.
 	 *
-	 * @var Site_Kit $site_kit_configuration
+	 * @var Site_Kit
 	 */
 	private $site_kit_configuration;
 

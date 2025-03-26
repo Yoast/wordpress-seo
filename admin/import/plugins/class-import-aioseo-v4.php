@@ -62,9 +62,9 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 	/**
 	 * Mapping between the AiOSEO replace vars and the Yoast replace vars.
 	 *
-	 * @var array
-	 *
 	 * @see https://yoast.com/help/list-available-snippet-variables-yoast-seo/
+	 *
+	 * @var array
 	 */
 	protected $replace_vars = [
 		// They key is the AiOSEO replace var, the value is the Yoast replace var (see class-wpseo-replace-vars).
