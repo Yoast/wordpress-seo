@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Site_Kit_Usage_Tracking_Repository implements Site_Kit_Usage_Tracking_Repository_Interface {
+class Setup_Steps_Tracking_Repository implements Setup_Steps_Tracking_Repository_Interface {
 
 	/**
 	 * Holds the Options_Helper instance.
@@ -35,7 +35,7 @@ class Site_Kit_Usage_Tracking_Repository implements Site_Kit_Usage_Tracking_Repo
 	 *
 	 * @return bool False when the update failed, true when the update succeeded.
 	 */
-	public function set_site_kit_usage_tracking( string $element_name, string $element_value ): bool {
+	public function set_setup_steps_tracking_element( string $element_name, string $element_value ): bool {
 		$usage_tracking                  = $this->options_helper->get( 'site_kit_usage_tracking', [] );
 		$usage_tracking[ $element_name ] = $element_value;
 		return $this->options_helper->set( 'site_kit_usage_tracking', $usage_tracking );
@@ -48,7 +48,7 @@ class Site_Kit_Usage_Tracking_Repository implements Site_Kit_Usage_Tracking_Repo
 	 *
 	 * @return string The value if present, empty string if not.
 	 */
-	public function get_site_kit_usage_tracking( string $element_name ): string {
+	public function get_setup_steps_tracking_element( string $element_name ): string {
 		$usage_tracking = $this->options_helper->get( 'site_kit_usage_tracking', [] );
 		return ( $usage_tracking[ $element_name ] ?? '' );
 	}

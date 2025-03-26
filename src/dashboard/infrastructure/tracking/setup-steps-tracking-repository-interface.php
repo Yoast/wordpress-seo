@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\Dashboard\Infrastructure\Tracking;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-interface Site_Kit_Usage_Tracking_Repository_Interface {
+interface Setup_Steps_Tracking_Repository_Interface {
 
 	/**
 	 * Sets an option inside the Site Kit usage options array..
@@ -17,7 +17,7 @@ interface Site_Kit_Usage_Tracking_Repository_Interface {
 	 *
 	 * @return bool False when the update failed, true when the update succeeded.
 	 */
-	public function set_site_kit_usage_tracking( string $element_name, string $element_value ): bool;
+	public function set_setup_steps_tracking_element( string $element_name, string $element_value ): bool;
 
 	/**
 	 * Gets an option inside the Site Kit usage options array..
@@ -26,5 +26,5 @@ interface Site_Kit_Usage_Tracking_Repository_Interface {
 	 *
 	 * @return string The value if present, empty string if not.
 	 */
-	public function get_site_kit_usage_tracking( string $element_name ): string;
+	public function get_setup_steps_tracking_element( string $element_name ): string;
 }
