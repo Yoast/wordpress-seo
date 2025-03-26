@@ -189,7 +189,7 @@ class SeoAnalysis extends Component {
 		];
 	}
 
-	/* eslint-disable complexity */
+
 	/**
 	 * Renders the Yoast AI Optimize button.
 	 * The button is shown when:
@@ -212,15 +212,15 @@ class SeoAnalysis extends Component {
 		}
 
 		const isElementorEditorPageActive =  document.body.classList.contains( "elementor-editor-active" );
+		// Check if the current editor is either Elementor or the Elementor in-between screen. In that case, don't show the button.
 		const isNotElementorPage =  ! isElementor && ! isElementorEditorPageActive;
 
-		// The reason of adding the check if Elementor is active or not is because `isBlockEditor` method also returns `true` for Elementor.
-		// The reason of adding the check if the Elementor editor is active, is to stop showing the buttons in the in-between screen.
+		// Show the button if the assessment can be fixed through Yoast AI Optimize, and we are not in the Elementor editor.
 		return hasAIFixes && isNotElementorPage && (
 			<AIAssessmentFixesButton id={ id } isPremium={ isPremium } />
 		);
 	};
-	/* eslint-enable complexity */
+
 
 	/**
 	 * Renders the SEO Analysis component.
