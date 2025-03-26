@@ -7,7 +7,7 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Tracking\Site_Kit_Usage_Tracking_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Tracking\Setup_Steps_Tracking_Repository_Interface;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Site_Kit_Usage_Tracking_Route implements Route_Interface {
+class Setup_Steps_Tracking_Route implements Route_Interface {
 
 	use No_Conditionals;
 
@@ -40,9 +40,9 @@ class Site_Kit_Usage_Tracking_Route implements Route_Interface {
 	/**
 	 * Holds the repository instance.
 	 *
-	 * @var Site_Kit_Usage_Tracking_Repository_Interface
+	 * @var Setup_Steps_Tracking_Repository_Interface
 	 */
-	private $site_kit_usage_tracking_repository;
+	private $setup_steps_tracking_repository;
 
 	/**
 	 * Holds the capability helper instance.
@@ -54,15 +54,15 @@ class Site_Kit_Usage_Tracking_Route implements Route_Interface {
 	/**
 	 * Constructs the class.
 	 *
-	 * @param Site_Kit_Usage_Tracking_Repository_Interface $site_kit_usage_tracking_repository The repository.
-	 * @param Capability_Helper                            $capability_helper                  The capability helper.
+	 * @param Setup_Steps_Tracking_Repository_Interface $setup_steps_tracking_repository The repository.
+	 * @param Capability_Helper                         $capability_helper               The capability helper.
 	 */
 	public function __construct(
-		Site_Kit_Usage_Tracking_Repository_Interface $site_kit_usage_tracking_repository,
+		Setup_Steps_Tracking_Repository_Interface $setup_steps_tracking_repository,
 		Capability_Helper $capability_helper
 	) {
-		$this->site_kit_usage_tracking_repository = $site_kit_usage_tracking_repository;
-		$this->capability_helper                  = $capability_helper;
+		$this->setup_steps_tracking_repository = $setup_steps_tracking_repository;
+		$this->capability_helper               = $capability_helper;
 	}
 
 	/**
@@ -88,17 +88,17 @@ class Site_Kit_Usage_Tracking_Route implements Route_Interface {
 						'first_interaction_stage' => [
 							'required'          => false,
 							'type'              => 'string',
-							'enum'              => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT' ],
+							'enum'              => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT', 'COMPLETED' ],
 						],
 						'last_interaction_stage' => [
 							'required'          => false,
 							'type'              => 'string',
-							'enum'              => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT' ],
+							'enum'              => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT', 'COMPLETED' ],
 						],
 						'setup_widget_dismissed' => [
 							'required'          => false,
 							'type'              => 'string',
-							'enum'              => [ 'yes', 'no', 'permanently' ],
+							'enum'              => [ 'no', 'pageload', 'permanently' ],
 						],
 					],
 				],
@@ -137,7 +137,7 @@ class Site_Kit_Usage_Tracking_Route implements Route_Interface {
 		$result = true;
 		foreach ( $data as $element_name => $element_value ) {
 			try {
-				$result = $this->site_kit_usage_tracking_repository->set_site_kit_usage_tracking( $element_name, $element_value );
+				$result = $this->setup_steps_tracking_repository->set_setup_steps_tracking_element( $element_name, $element_value );
 			} catch ( Exception $exception ) {
 				return new WP_Error(
 					'wpseo_set_site_kit_usage_tracking',
