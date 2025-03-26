@@ -9,6 +9,7 @@ import { Dashboard } from "../dashboard";
 import { ComparisonMetricsDataFormatter } from "../dashboard/services/comparison-metrics-data-formatter";
 import { PlainMetricsDataFormatter } from "../dashboard/services/plain-metrics-data-formatter";
 import { DataProvider } from "../dashboard/services/data-provider";
+import { DataTracker } from "../dashboard/services/data-tracker";
 import { RemoteDataProvider } from "../dashboard/services/remote-data-provider";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
 import { ADMIN_URL_NAME, LINK_PARAMS_NAME } from "../shared-admin/store";
@@ -101,21 +102,22 @@ domReady( () => {
 		},
 	} );
 
-	const siteKitTracking = {
-		setupWidgetDismissed: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.setupWidgetDismissed", "" ),
-		setupWidgetLoaded: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.setupWidgetLoaded", "" ),
-		firstInteractionStage: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.firstInteractionStage", "" ),
-		lastInteractionStage: get( window, "wpseoScriptData.dashboard.siteKitConfiguration.lastInteractionStage", "" ),
+	const setupStepsTrackingData = {
+		setupWidgetLoaded: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetLoaded", "no" ),
+		firstInteractionStage: get( window, "wpseoScriptData.dashboard.setupStepsTracking.firstInteractionStage", "" ),
+		lastInteractionStage: get( window, "wpseoScriptData.dashboard.setupStepsTracking.lastInteractionStage", "" ),
+		setupWidgetDismissed: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetDismissed", "" ),
 	};
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
-	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration, siteKitTracking } );
+	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const dataFormatters = {
 		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
 		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
 	};
+	const dataTracker = new DataTracker( { setupStepsTrackingData: setupStepsTrackingData } );
 
-	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTracker );
 	if ( dataProvider.isSiteKitConnectionCompleted() ) {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}

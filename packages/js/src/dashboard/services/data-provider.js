@@ -7,7 +7,6 @@ import { cloneDeep } from "lodash";
  * @type {import("../index").Links} Links
  * @type {import("../index").TopPageData}
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
- * @type {import("../index").SiteKitTracking} SiteKitTracking
  */
 
 /**
@@ -21,7 +20,6 @@ export class DataProvider {
 	#headers;
 	#links;
 	#siteKitConfiguration;
-	#siteKitTracking;
 	#subscribers = new Set();
 
 	/**
@@ -32,21 +30,14 @@ export class DataProvider {
 	 * @param {Object<string,string>} headers The headers for the WP requests.
 	 * @param {Links} links The links.
 	 * @param {SiteKitConfiguration} siteKitConfiguration The Site Kit configuration.
-	 * @param {SiteKitTracking} siteKitTracking The Site Kit tracking data.
 	 */
-	constructor( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration, siteKitTracking } ) {
+	constructor( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration  } ) {
 		this.#contentTypes = contentTypes;
 		this.#userName = userName;
 		this.#features = features;
 		this.#endpoints = endpoints;
 		this.#headers = headers;
 		this.#links = links;
-		this.#siteKitTracking = {
-			setupWidgetDismissed: siteKitTracking.setupWidgetDismissed,
-			setupWidgetLoaded: siteKitTracking.setupWidgetLoaded,
-			firstInteractionStage: siteKitTracking.firstInteractionStage,
-			lastInteractionStage: siteKitTracking.lastInteractionStage,
-		};
 		this.#siteKitConfiguration = siteKitConfiguration;
 	}
 
@@ -129,14 +120,6 @@ export class DataProvider {
 	 */
 	getSiteKitConfiguration() {
 		return this.#siteKitConfiguration;
-	}
-
-	/**
-	 * @param {string} element
-	 * @returns {string} the value of the element.
-	 */
-	getSiteKitTrackingElement( element ) {
-		return this.#siteKitTracking?.[ element ];
 	}
 
 	/**
