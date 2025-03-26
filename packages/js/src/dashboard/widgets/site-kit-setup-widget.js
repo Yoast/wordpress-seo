@@ -131,36 +131,41 @@ const NoPermissionWarning = ( { capabilities, currentStep } ) => {
  *
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {DataTracker} dataTracker The data tracker.
  *
  * @returns {JSX.Element} The widget.
  */
-export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
+export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTracker } ) => {
 	const { grantConsent, dismissPermanently, trackSiteKitUsage } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
 	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
 
+	/* eslint-disable camelcase */
 	useEffect( () => {
-		if ( dataProvider.getSiteKitTrackingElement( "setupWidgetLoaded" ) === "" ) {
-			trackSiteKitUsage( {
-				/* eslint-disable camelcase */
-				setup_widget_loaded: "yes",
-				first_interaction_stage: steps[ currentStep ],
-				last_interaction_stage: steps[ currentStep ],
-			} );
+		if ( dataTracker.getSetupStepsTrackingElement( "setupWidgetLoaded" ) === "no" ) {
+			if ( currentStep === STEP_NAME.successfullyConnected ) {
+				trackSiteKitUsage( { last_interaction_stage: "COMPLETED" } );
+			} else {
+				trackSiteKitUsage( {
+					setup_widget_loaded: "yes",
+					first_interaction_stage: steps[currentStep],
+					last_interaction_stage: steps[currentStep],
+				} );
+			}
 		}
 		// Reset the temporary dismissal status
-		if ( dataProvider.getSiteKitTrackingElement( "setupWidgetDismissed" ) === "yes" ) {
+		if ( dataTracker.getSetupStepsTrackingElement( "setupWidgetDismissed" ) === "pageload" ) {
 			trackSiteKitUsage( { setup_widget_dismissed: "no" } );
 		}
-		if ( ( dataProvider.getSiteKitTrackingElement( "lastInteractionStage" ) !== steps[ currentStep ] ) &&
-			( dataProvider.getSiteKitTrackingElement( "setupWidgetLoaded" ) !== ""  ) ) {
-			trackSiteKitUsage( { last_interaction_stage: steps[ currentStep ] } );
+		if ( ( dataTracker.getSetupStepsTrackingElement( "lastInteractionStage" ) !== steps[ currentStep ] ) &&
+			( dataTracker.getSetupStepsTrackingElement( "setupWidgetLoaded" ) === "yes"  ) ) {
+			trackSiteKitUsage( { last_interaction_stage: stepName } );
 		}
 	}, [ dataProvider, trackSiteKitUsage ] );
 
 	const handleOnRemove = useCallback( () => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
-		trackSiteKitUsage(  { setup_widget_dismissed: "yes" } );
+		trackSiteKitUsage(  { setup_widget_dismissed: "pageload" } );
 	}, [ dataProvider ] );
 
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
