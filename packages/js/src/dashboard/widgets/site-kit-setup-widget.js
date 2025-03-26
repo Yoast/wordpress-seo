@@ -31,7 +31,7 @@ export const STEP_NAME = {
 	activate: 1,
 	setup: 2,
 	grantConsent: 3,
-	successfulyConnected: -1,
+	successfullyConnected: -1,
 };
 
 /**
@@ -109,7 +109,7 @@ const SiteKitSetupWidgetTitleAndDescription = ( { isSiteKitConnectionCompleted }
  * @returns {JSX.Element} The no permission warning component.
  */
 const NoPermissionWarning = ( { capabilities, currentStep } ) => {
-	if ( currentStep === STEP_NAME.successfulyConnected ) {
+	if ( currentStep === STEP_NAME.successfullyConnected ) {
 		return null;
 	}
 
