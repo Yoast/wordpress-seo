@@ -3,19 +3,29 @@ import { SiteKitSetupWidget } from "../../../src/dashboard/widgets/site-kit-setu
 import { fireEvent, render, screen, waitFor } from "../../test-utils";
 import { MockDataProvider } from "../__mocks__/data-provider";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
+import { MockDataTracker } from "../__mocks__/data-tracker";
 
 describe( "SiteKitSetupWidget", () => {
 	let dataProvider;
+	let dataTracker;
+	const dataTrackerData = {
+		setupWidgetDismissed: "yes",
+		setupWidgetLoaded: "yes",
+		firstInteractionStage: "INSTALL",
+		lastInteractionStage: "SET UP",
+	};
 	const remoteDataProvider = new MockRemoteDataProvider( {} );
 
 	beforeEach( () => {
 		dataProvider = new MockDataProvider();
+		dataTracker = new MockDataTracker();
 		remoteDataProvider.fetchJson.mockClear();
 	} );
 
 	it( "renders the widget with install button", () => {
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
 		const installLink = screen.getByRole( "link", { name: /Install Site Kit by Google/i } );
@@ -26,6 +36,7 @@ describe( "SiteKitSetupWidget", () => {
 	it( "renders the widget with learn more link", () => {
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
 		const learnMoreLink = screen.getByRole( "button", { name: /Learn more/i } );
@@ -43,6 +54,7 @@ describe( "SiteKitSetupWidget", () => {
 		} );
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
 		const activateLink = screen.getByRole( "link", { name: /Activate Site Kit by Google/i } );
@@ -61,6 +73,7 @@ describe( "SiteKitSetupWidget", () => {
 		} );
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
 		const setupLink = screen.getByRole( "link", { name: /Set up Site Kit by Google/i } );
@@ -80,6 +93,7 @@ describe( "SiteKitSetupWidget", () => {
 		} );
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
 		expect( screen.getByRole( "button", { name: /Connect Site Kit by Google/i } ) ).toBeInTheDocument();
@@ -97,6 +111,7 @@ describe( "SiteKitSetupWidget", () => {
 		} );
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
 		const connectButton = screen.getByRole( "button", { name: /Connect Site Kit by Google/i } );
@@ -117,6 +132,7 @@ describe( "SiteKitSetupWidget", () => {
 		remoteDataProvider.fetchJson.mockResolvedValueOnce( { success: true } );
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
 		fireEvent.click( screen.getByRole( "button", { name: /Connect Site Kit by Google/i } ) );
@@ -143,6 +159,7 @@ describe( "SiteKitSetupWidget", () => {
 		remoteDataProvider.fetchJson.mockResolvedValueOnce( { success: false } );
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
 		fireEvent.click( screen.getByRole( "button", { name: /Connect Site Kit by Google/i } ) );
@@ -174,6 +191,7 @@ describe( "SiteKitSetupWidget", () => {
 		remoteDataProvider.fetchJson.mockRejectedValueOnce( new Error( "Failed to fetch" ) );
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
 		fireEvent.click( screen.getByRole( "button", { name: /Connect Site Kit by Google/i } ) );
@@ -206,6 +224,7 @@ describe( "SiteKitSetupWidget", () => {
 		} );
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
 		const dismissButton = screen.getByRole( "button", { name: /Got it/i } );
@@ -225,6 +244,7 @@ describe( "SiteKitSetupWidget", () => {
 		} );
 		render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
 		fireEvent.click( screen.getByRole( "button", { name: /Open Site Kit widget dropdown menu/i } ) );
@@ -260,6 +280,7 @@ describe( "SiteKitSetupWidget", () => {
 			} );
 			const { getByText } = render( <SiteKitSetupWidget
 				dataProvider={ dataProvider }
+				dataTracker={ dataTracker }
 				remoteDataProvider={ remoteDataProvider }
 			/> );
 			const link = screen.getByText( label );
@@ -285,6 +306,7 @@ describe( "SiteKitSetupWidget", () => {
 		} );
 		const { getByRole, getByText } = render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
 		const button = getByRole( "button", { name: /Connect Site Kit by Google/i } );
@@ -318,6 +340,7 @@ describe( "SiteKitSetupWidget", () => {
 		} );
 		const { getByRole, getByText } = render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
 		const link = getByRole( "link", { name: /Update Site Kit by Google/i } );
