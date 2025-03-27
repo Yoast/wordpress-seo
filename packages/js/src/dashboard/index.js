@@ -59,9 +59,6 @@ export { Dashboard } from "./components/dashboard";
  * @property {string} errorSupport The support link when errors occur.
  * @property {string} siteKitLearnMore The Site Kit learn more link.
  * @property {string} siteKitConsentLearnMore The Site Kit consent learn more link.
- * @property {string} topPagesInfoLearnMore The top pages learn more link.
- * @property {string} topQueriesInfoLearnMore The top queries learn more link.
- * @property {string} organicSessionsInfoLearnMore The organic sessions learn more link.
  */
 
 /**
@@ -110,11 +107,13 @@ export { Dashboard } from "./components/dashboard";
  * @property {string} installUrl The link to install Site Kit.
  * @property {string} activateUrl The link to activate Site Kit.
  * @property {string} setupUrl The link to setup Site Kit.
+ * @property {string} updateUrl The link to update Site Kit.
  * @property {SiteKitConnectionStepsStatuses} connectionStepsStatuses The connection steps statuses.
  * @property {boolean} isAnalyticsConnected Whether Google Analytics is connected.
  * @property {boolean} isFeatureEnabled Whether the feature is enabled.
  * @property {boolean} isSetupWidgetDismissed Whether the configuration is dismissed.
  * @property {CapabilitiesForSiteKit} capabilities The user capabilities for site kit.
+ * @property {boolean} isVersionSupported Whether the current Site Kit plugin version is supported.
  */
 
 /**

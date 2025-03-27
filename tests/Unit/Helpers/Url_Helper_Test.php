@@ -515,7 +515,7 @@ final class Url_Helper_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_link_type( $url, $home_url, $is_image, $link_type, $message ) {
-		if ( \is_null( $home_url ) ) {
+		if ( $home_url === null ) {
 			Monkey\Functions\expect( 'home_url' )
 				->once()
 				->andReturn( 'home_url' );

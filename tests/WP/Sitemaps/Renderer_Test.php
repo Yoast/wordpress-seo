@@ -124,7 +124,7 @@ final class Renderer_Test extends TestCase {
 	 *
 	 * Note: the "expected" values should include any potential output escaping as per the `encode_and_escape()` method.
 	 *
-	 * @return array
+	 * @return array<string, array<string, string>>
 	 */
 	public static function data_encode_and_escape() {
 		return [

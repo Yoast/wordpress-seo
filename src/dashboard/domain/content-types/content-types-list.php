@@ -37,7 +37,7 @@ class Content_Types_List {
 	/**
 	 * Parses the content type list to the expected key value representation.
 	 *
-	 * @return array<array<string,array<string, array<string, array<string, string|null>>>>> The content type list presented as the expected key value representation.
+	 * @return array<array<string, array<string, array<string, array<string, string|null>>>>> The content type list presented as the expected key value representation.
 	 */
 	public function to_array(): array {
 		$array = [];

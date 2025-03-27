@@ -173,7 +173,7 @@ class Force_Rewrite_Title implements Integration_Interface {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return false|string The buffered output.
+	 * @return string|false The buffered output.
 	 */
 	protected function get_buffered_output() {
 		return \ob_get_clean();

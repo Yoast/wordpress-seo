@@ -158,7 +158,7 @@ final class Router_Test extends TestCase {
 	 * [2] WP_Query: WP_Query instance to set.
 	 * [3] bool:     The expected test result.
 	 *
-	 * @return array<array<array<string>,string,WP_Query,bool>> The test data.
+	 * @return array<array<array<string>|string|WP_Query|bool>> The test data.
 	 */
 	public static function data_needs_sitemap_index_redirect() {
 		$server_vars_sets = [

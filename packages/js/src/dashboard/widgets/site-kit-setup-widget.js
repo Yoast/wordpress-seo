@@ -1,12 +1,14 @@
-import { ArrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
+import { TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Button, DropdownMenu, Paper, Stepper, Title, useToggleState, Alert } from "@yoast/ui-library";
+import { Alert, Button, DropdownMenu, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
-import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { ReactComponent as YoastConnectSiteKitSuccess } from "../../../images/yoast-connect-google-site-kit-success.svg";
+import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { SiteKitConsentModal } from "../../shared-admin/components";
+import { LearnMoreLink } from "../components/learn-more-link";
+import { Widget } from "./widget";
 
 /**
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
@@ -29,7 +31,7 @@ export const STEP_NAME = {
 	activate: 1,
 	setup: 2,
 	grantConsent: 3,
-	successfulyConnected: -1,
+	successfullyConnected: -1,
 };
 
 /**
@@ -89,30 +91,108 @@ const SiteKitSetupWidgetTitleAndDescription = ( { isSiteKitConnectionCompleted }
 	</p> }
 </> );
 
+/* eslint-disable complexity */
 /**
  * The no permission warning component.
  *
  * @param {CapabilitiesForSiteKit} capabilities The capabilities for the site kit.
  * @param {number} currentStep The current step.
+ * @param {boolean} isVersionSupported Whether the version is supported.
+ * @param {boolean} isConsentGranted Whether the consent is granted.
  *
  * @returns {JSX.Element} The no permission warning component.
  */
-const NoPermissionWarning = ( { capabilities, currentStep } ) => {
-	if ( currentStep === STEP_NAME.successfulyConnected ) {
+const SiteKitAlert = ( { capabilities, currentStep, isVersionSupported, isConsentGranted } ) => {
+	const alertClass = "yst-mt-6";
+
+	if ( ! isVersionSupported ) {
+		if ( isConsentGranted ) {
+			return <Alert className={ alertClass } variant="error">
+				{ __( "Your current version of the Site Kit by Google plugin is no longer compatible with Yoast SEO. Please update to the latest version to restore the connection.", "wordpress-seo" ) }
+			</Alert>;
+		}
+		return <Alert className={ alertClass }>
+			{ __( "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google.", "wordpress-seo" ) }
+		</Alert>;
+	}
+
+	if ( currentStep === STEP_NAME.successfullyConnected ) {
 		return null;
 	}
 
 	if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent ) {
-		return <Alert className="yst-mt-6">
-			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
+		return <Alert className={ alertClass }>
+			{ __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
 		</Alert>;
 	}
 
 	if ( ! capabilities.viewSearchConsoleData && currentStep === STEP_NAME.grantConsent ) {
-		return <Alert className="yst-mt-6">
+		return <Alert className={ alertClass }>
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
 		</Alert>;
 	}
+};
+
+/**
+ * @param {number} currentStep The current step.
+ * @param {SiteKitConfiguration} config The Site Kit configuration.
+ * @param {boolean} isConnectionCompleted Whether the Site Kit connection is completed.
+ * @param {function} onDismissWidget The callback to dismiss the setup widget.
+ * @param {function} onShowConsent The callback to show the grant consent modal / connect Site Kit.
+ * @returns {JSX.Element} The element.
+ */
+const SiteKitSetupAction = ( { currentStep, config, isConnectionCompleted, onDismissWidget, onShowConsent } ) => {
+	const getUrl = useCallback( ( url, capability = "installPlugins" ) => config.capabilities?.[ capability ] ? url : null, [ config.capabilities ] );
+
+	if ( ! config.isVersionSupported ) {
+		return <Button as="a" href={ config.updateUrl }>
+			{ __( "Update Site Kit by Google", "wordpress-seo" ) }
+		</Button>;
+	}
+	if ( isConnectionCompleted ) {
+		return <Button onClick={ onDismissWidget }>
+			{ __( "Got it!", "wordpress-seo" ) }
+		</Button>;
+	}
+
+	switch ( currentStep ) {
+		case STEP_NAME.install:
+			return <Button
+				as="a"
+				href={ getUrl( config.installUrl ) }
+				disabled={ ! config.capabilities.installPlugins }
+				aria-disabled={ ! config.capabilities.installPlugins }
+			>
+				{ __( "Install Site Kit by Google", "wordpress-seo" ) }
+			</Button>;
+		case STEP_NAME.activate:
+			return <Button
+				as="a"
+				href={ getUrl( config.activateUrl ) }
+				disabled={ ! config.capabilities.installPlugins }
+				aria-disabled={ ! config.capabilities.installPlugins }
+			>
+				{ __( "Activate Site Kit by Google", "wordpress-seo" ) }
+			</Button>;
+		case STEP_NAME.setup:
+			return <Button
+				as="a"
+				href={ getUrl( config.setupUrl ) }
+				disabled={ ! config.capabilities.installPlugins }
+				aria-disabled={ ! config.capabilities.installPlugins }
+			>
+				{ __( "Set up Site Kit by Google", "wordpress-seo" ) }
+			</Button>;
+		case STEP_NAME.grantConsent:
+			return <Button
+				disabled={ ! config.capabilities.viewSearchConsoleData }
+				onClick={ onShowConsent }
+			>
+				{ __( "Connect Site Kit by Google", "wordpress-seo" ) }
+			</Button>;
+	}
+
+	return null;
 };
 
 /**
@@ -131,9 +211,6 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
-	const siteKitConfiguration = dataProvider.getSiteKitConfiguration();
-	const capabilities = siteKitConfiguration.capabilities;
-
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();
 	}, [ dismissPermanently ] );
@@ -141,123 +218,94 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
 
+	const config = dataProvider.getSiteKitConfiguration();
 	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
-	const isSiteKitConnectionCompleted = dataProvider.isSiteKitConnectionCompleted();
+	const isConnectionCompleted = dataProvider.isSiteKitConnectionCompleted() && config.isVersionSupported;
 
-	const checkCapability = ( url, capability = capabilities.installPlugins ) => {
-		return capability ? url : null;
-	};
+	return (
+		<Widget className="yst-paper__content yst-relative @3xl:yst-col-span-2 yst-col-span-4">
+			<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
+				<DropdownMenu.IconTrigger
+					screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) }
+					className="yst-float-end"
+				/>
+				<DropdownMenu.List className="yst-mt-8 yst-w-56">
+					<DropdownMenu.ButtonItem
+						className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
+						onClick={ handleOnRemove }
+					>
+						<XIcon className="yst-w-4 yst-text-slate-400" />
+						{ __( "Remove until next visit", "wordpress-seo" ) }
+					</DropdownMenu.ButtonItem>
+					<DropdownMenu.ButtonItem
+						className="yst-text-red-500 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
+						onClick={ handleRemovePermanently }
+					>
+						<TrashIcon className="yst-w-4" />
+						{ __( "Remove permanently", "wordpress-seo" ) }
+					</DropdownMenu.ButtonItem>
+				</DropdownMenu.List>
+			</DropdownMenu>
+			<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4">{ isConnectionCompleted
+				? <YoastConnectSiteKitSuccess className="yst-aspect-[21/5] yst-max-w-[252px]" />
+				: <YoastConnectSiteKit className="yst-aspect-[21/5] yst-max-w-[252px]" />
+			}</div>
+			{ config.isVersionSupported && <Stepper steps={ steps } currentStep={ currentStep } className="yst-mb-6">
+				{ steps.map( ( label, index ) => (
+					<Stepper.Step
+						key={ label }
+						isActive={ currentStep === index }
+						isComplete={ currentStep > index || isConnectionCompleted }
+					>
+						{ label }
+					</Stepper.Step>
+				) ) }
+			</Stepper> }
+			<hr className="yst-bg-slate-200 yst-mb-6" />
+			<div className="yst-max-w-2xl">
+				<SiteKitSetupWidgetTitleAndDescription isSiteKitConnectionCompleted={ isConnectionCompleted } />
+				<span className="yst-text-slate-800 yst-font-medium">{ isConnectionCompleted
+					? __( "You're all set, here are some benefits:", "wordpress-seo" )
+					: __( "Here's what you'll unlock:", "wordpress-seo" )
+				}</span>
+				<ul>
+					<li className="yst-gap-2 yst-flex yst-mt-2 yst-items-start">
+						<CheckCircleIcon className="yst-w-5 yst-text-green-400 yst-shrink-0" />
+						{ __( "Grow your audience with actionable SEO and user behavior insights.", "wordpress-seo" ) }
+					</li>
+					<li className="yst-gap-2 yst-flex yst-mt-2 yst-items-start">
+						<CheckCircleIcon className="yst-w-5 yst-text-green-400 yst-shrink-0" />
+						{ __( "Fine-tune your SEO and optimize your content using key performance metrics (KPI).", "wordpress-seo" ) }
+					</li>
+				</ul>
+				<SiteKitAlert
+					capabilities={ config.capabilities }
+					currentStep={ currentStep }
+					isVersionSupported={ config.isVersionSupported }
+					isConsentGranted={ config.connectionStepsStatuses.isConsentGranted }
+				/>
 
-
-	const buttonProps = [
-		{
-			children: __( "Install Site Kit by Google", "wordpress-seo" ),
-			href: checkCapability( siteKitConfiguration.installUrl ),
-			as: "a",
-			disabled: ! capabilities.installPlugins,
-			"aria-disabled": ! capabilities.installPlugins,
-		},
-		{
-			children: __( "Activate Site Kit by Google", "wordpress-seo" ),
-			href: checkCapability( siteKitConfiguration.activateUrl ),
-			as: "a",
-			disabled: ! capabilities.installPlugins,
-			"aria-disabled": ! capabilities.installPlugins,
-		},
-		{
-			children: __( "Set up Site Kit by Google", "wordpress-seo" ),
-			href: checkCapability( siteKitConfiguration.setupUrl ),
-			as: "a",
-			disabled: ! capabilities.installPlugins,
-			"aria-disabled": ! capabilities.installPlugins,
-		},
-		{
-			children: __( "Connect Site Kit by Google", "wordpress-seo" ),
-			disabled: ! capabilities.viewSearchConsoleData,
-			onClick: openConsentModal,
-		},
-	];
-
-	return <Paper className="yst-grow xl:yst-col-span-2 yst-col-span-4 yst-p-8 yst-shadow-md yst-relative">
-		<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
-			<DropdownMenu.IconTrigger
-				screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) }
-				className="yst-float-end"
-			/>
-			<DropdownMenu.List className="yst-mt-8 yst-w-56">
-				<DropdownMenu.ButtonItem
-					className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
-					onClick={ handleOnRemove }
-				>
-					<XIcon className="yst-w-4 yst-text-slate-400" />
-					{ __( "Remove until next visit", "wordpress-seo" ) }
-				</DropdownMenu.ButtonItem>
-				<DropdownMenu.ButtonItem
-					className="yst-text-red-500 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
-					onClick={ handleRemovePermanently }
-				>
-					<TrashIcon className="yst-w-4" />
-					{ __( "Remove permanently", "wordpress-seo" ) }
-				</DropdownMenu.ButtonItem>
-			</DropdownMenu.List>
-		</DropdownMenu>
-		<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4">
-			{ isSiteKitConnectionCompleted
-				? <YoastConnectSiteKitSuccess width="252" height="60" />
-				: <YoastConnectSiteKit width="252" height="60" />
-			}
-		</div>
-		<Stepper steps={ steps } currentStep={ currentStep }>
-			{ steps.map( ( label, index ) => (
-				<Stepper.Step
-					key={ label }
-					isActive={ currentStep === index }
-					isComplete={ currentStep > index || isSiteKitConnectionCompleted }
-				>
-					{ label }
-				</Stepper.Step>
-			) ) }
-		</Stepper>
-		<hr className="yst-bg-slate-200 yst-my-6" />
-		<SiteKitSetupWidgetTitleAndDescription isSiteKitConnectionCompleted={ isSiteKitConnectionCompleted } />
-		<span className="yst-text-slate-800 yst-font-medium">
-			{ isSiteKitConnectionCompleted
-				? __( "You're all set, here are some benefits:", "wordpress-seo" )
-				: __( "Here's what you'll unlock:", "wordpress-seo" )
-			}
-		</span>
-		<ul>
-			<li className="yst-gap-2 yst-flex yst-mt-2 yst-items-start">
-				<CheckCircleIcon className="yst-w-5 yst-text-green-400 yst-shrink-0" />
-				{ __( "Grow your audience with actionable SEO and user behavior insights.", "wordpress-seo" ) }
-			</li>
-			<li className="yst-gap-2 yst-flex yst-mt-2 yst-items-start">
-				<CheckCircleIcon className="yst-w-5 yst-text-green-400 yst-shrink-0" />
-				{ __( "Fine-tune your SEO and optimize your content using key performance metrics (KPI).", "wordpress-seo" ) }
-			</li>
-		</ul>
-
-		<NoPermissionWarning capabilities={ capabilities } currentStep={ currentStep } />
-
-		<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
-			{ isSiteKitConnectionCompleted
-				? <Button onClick={ handleOnRemove }>
-					{ __( "Got it!", "wordpress-seo" ) }
-				</Button>
-				: <>
-					<Button { ...buttonProps[ currentStep ] } />
-					<Button as="a" variant="tertiary" href={ learnMoreLink } className="yst-flex yst-items-center yst-gap-1">
-						{ __( "Learn more", "wordpress-seo" ) }
-						<ArrowRightIcon className="yst-w-3 yst-text-primary-500 rtl:yst-rotate-180" />
-					</Button>
-					<SiteKitConsentModal
-						isOpen={ currentStep === STEP_NAME.grantConsent && isConsentModalOpen }
-						onClose={ closeConsentModal }
-						onGrantConsent={ grantConsent }
-						learnMoreLink={ consentLearnMoreLink }
-					/>
-				</>
-			}
-		</div>
-	</Paper>;
+			</div>
+			<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
+				<SiteKitSetupAction
+					currentStep={ currentStep }
+					config={ config }
+					isConnectionCompleted={ isConnectionCompleted }
+					onDismissWidget={ handleOnRemove }
+					onShowConsent={ openConsentModal }
+				/>
+				{ ! isConnectionCompleted &&
+					<>
+						<LearnMoreLink as={ Button } variant="tertiary" href={ learnMoreLink } />
+						<SiteKitConsentModal
+							isOpen={ currentStep === STEP_NAME.grantConsent && isConsentModalOpen }
+							onClose={ closeConsentModal }
+							onGrantConsent={ grantConsent }
+							learnMoreLink={ consentLearnMoreLink }
+						/>
+					</>
+				}
+			</div>
+		</Widget>
+	);
 };

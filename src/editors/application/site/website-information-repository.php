@@ -16,14 +16,14 @@ class Website_Information_Repository {
 	/**
 	 * The post site information wrapper.
 	 *
-	 * @var Post_Site_Information $post_site_information
+	 * @var Post_Site_Information
 	 */
 	private $post_site_information;
 
 	/**
 	 * The term site information wrapper.
 	 *
-	 * @var Term_Site_Information $term_site_information
+	 * @var Term_Site_Information
 	 */
 	private $term_site_information;
 
