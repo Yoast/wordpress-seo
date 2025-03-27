@@ -100,36 +100,34 @@ export const SearchRankingCompareWidgetContent = ( { dataProvider, remoteDataPro
 		return <NoDataParagraph />;
 	}
 
-	if ( data ) {
-		return <SearchRankingCompareLayout>
-			<SearchRankingCompareMetric
-				className="@lg:yst-pe-4 @lg:yst-pb-4"
-				metricName={ META.impressions.name }
-				data={ data.impressions }
-				tooltipLocalizedContent={ META.impressions.tooltip }
-				dataSources={ META.impressions.dataSources }
-			/>
-			<SearchRankingCompareMetric
-				className="@lg:yst-ps-4 @lg:yst-pb-4"
-				metricName={ META.clicks.name }
-				data={ data.clicks }
-				tooltipLocalizedContent={ META.clicks.tooltip }
-				dataSources={ META.clicks.dataSources }
-			/>
-			<SearchRankingCompareMetric
-				className="@lg:yst-pe-4 @lg:yst-pt-4"
-				metricName={ META.ctr.name }
-				data={ data.ctr }
-				tooltipLocalizedContent={ META.ctr.tooltip }
-				dataSources={ META.ctr.dataSources }
-			/>
-			<SearchRankingCompareMetric
-				className="@lg:yst-ps-4 @lg:yst-pt-4"
-				metricName={ META.position.name }
-				data={ data.position }
-				tooltipLocalizedContent={ META.position.tooltip }
-				dataSources={ META.position.dataSources }
-			/>
-		</SearchRankingCompareLayout>;
-	}
+	return <SearchRankingCompareLayout>
+		<SearchRankingCompareMetric
+			className="@lg:yst-pe-4 @lg:yst-pb-4"
+			metricName={ META.impressions.name }
+			data={ data.impressions }
+			tooltipLocalizedContent={ META.impressions.tooltip }
+			dataSources={ META.impressions.dataSources }
+		/>
+		<SearchRankingCompareMetric
+			className="@lg:yst-ps-4 @lg:yst-pb-4"
+			metricName={ META.clicks.name }
+			data={ data.clicks }
+			tooltipLocalizedContent={ META.clicks.tooltip }
+			dataSources={ META.clicks.dataSources }
+		/>
+		<SearchRankingCompareMetric
+			className="@lg:yst-pe-4 @lg:yst-pt-4"
+			metricName={ META.ctr.name }
+			data={ data.ctr }
+			tooltipLocalizedContent={ META.ctr.tooltip }
+			dataSources={ META.ctr.dataSources }
+		/>
+		<SearchRankingCompareMetric
+			className="@lg:yst-ps-4 @lg:yst-pt-4"
+			metricName={ META.position.name }
+			data={ data.position }
+			tooltipLocalizedContent={ META.position.tooltip }
+			dataSources={ META.position.dataSources }
+		/>
+	</SearchRankingCompareLayout>;
 };

@@ -54,17 +54,6 @@ describe( "WidgetFactory", () => {
 	} );
 
 	test.each( [
-		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
-		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
-		[ "Search Ranking compare", { id: "search-ranking-compare-widget", type: "searchRankingCompare" } ],
-		[ "Organic sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
-	] )( "should not create a %s widget when site kit is not connected", async( _, widget ) => {
-		dataProvider.setSiteKitConsentGranted( false );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
-		expect( widgetFactory.createWidget( widget ) ).toBeNull();
-	} );
-
-	test.each( [
 		[ "SEO scores", { id: "seo-scores-widget", type: "seoScores" }, "SEO scores" ],
 		[ "Readability scores", { id: "readability-scores-widget", type: "readabilityScores" }, "Readability scores" ],
 		[ "Unknown", { id: undefined, type: "unknown" }, undefined ],
@@ -145,18 +134,21 @@ describe( "WidgetFactory", () => {
 			[ "no step is completed", { isInstalled: false, isActive: false, isSetupCompleted: false, isConsentGranted: false } ],
 			[ "only installed", { isInstalled: true, isActive: false, isSetupCompleted: false, isConsentGranted: false } ],
 			[ "only installed and activated", { isInstalled: true, isActive: true, isSetupCompleted: false, isConsentGranted: false } ],
-			[ "only not connected", { isInstalled: true, isActive: true, isSetupCompleted: true, isConsentGranted: false } ],
-			[ "only connected", { isInstalled: false, isActive: false, isSetupCompleted: false, isConsentGranted: true } ],
+			[ "only consent not granted", { isInstalled: true, isActive: true, isSetupCompleted: true, isConsentGranted: false } ],
+			[ "only consent granted", { isInstalled: false, isActive: false, isSetupCompleted: false, isConsentGranted: true } ],
 			[
-				"only site kit setup completed and connected",
+				"only site kit setup completed and consent granted",
 				{ isInstalled: false, isActive: false, isSetupCompleted: true, isConsentGranted: true },
 			],
 			[ "only not activated", { isInstalled: true, isActive: false, isSetupCompleted: true, isConsentGranted: true } ],
 			[ "only site kit setup is not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, isConsentGranted: true } ],
+			[ "site kit plugin version is not supported", { isInstalled: true, isActive: true, isSetupCompleted: true, isConsentGranted: true, isVersionSupported: false } ],
 		] )( "when %s", async( _, siteKitConfiguration ) => {
 			const siteKitWidgets = [
 				{ id: "top-pages-widget", type: "topPages" },
 				{ id: "top-queries-widget", type: "topQueries" },
+				{ id: "search-ranking-compare-widget", type: "searchRankingCompare" },
+				{ id: "organic-sessions-widget", type: "organicSessions" },
 			];
 			dataProvider = new MockDataProvider( {
 				siteKitConfiguration: { ...siteKitConfiguration, isFeatureEnabled: true },
@@ -179,8 +171,9 @@ describe( "WidgetFactory", () => {
 	} );
 
 	test.each( [
-		[ "Site Kit is not connected", { isConnected: false } ],
+		[ "Consent not granted", { isConsentGranted: false } ],
 		[ "Analytics is not connected", { isAnalyticsConnected: false } ],
+		[ "no permission to view analytics data", { capabilities: { viewAnalyticsData: false } } ],
 	] )( "should not create a OrganicSessions widget when %s", ( _, config ) => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: config,
@@ -188,21 +181,6 @@ describe( "WidgetFactory", () => {
 		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, {}, dataTracker );
 
 		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
-	} );
-
-	test.each( [
-		[ "Organic Sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
-	] )( "should not create a %s widget when a user has no view analytics data permission", ( _, widget ) => {
-		dataProvider = new MockDataProvider( {
-			siteKitConfiguration: {
-				capabilities: {
-					viewAnalyticsData: false,
-				},
-			},
-		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, {}, dataTracker );
-
-		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
 
 	test.each( [
