@@ -11,19 +11,19 @@ namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Tracking;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Setup_Steps_Tracking_Test extends Abstract_Setup_Steps_Tracking_Repository_Test {
+final class Get_Setup_Steps_Tracking_Element_Test extends Abstract_Setup_Steps_Tracking_Repository_Test {
 
 	/**
-	 * Tests if the Site Kit configuration dismissal status can be set.
+	 * Tests if an element of the site_kit_usage_tracking can be read.
 	 *
-	 * @dataProvider get_Setup_Steps_Tracking_provider
+	 * @dataProvider get_setup_steps_tracking_element_provider
 	 *
 	 * @param string $element_name  The name of the option to get.
 	 * @param string $element_value The value of the option to get.
 	 *
 	 * @return void
 	 */
-	public function test_set_Setup_Steps_Tracking_Element( string $element_name, string $element_value ): void {
+	public function test_get_setup_steps_tracking_element( string $element_name, string $element_value ): void {
 		$usage_tracking = [
 			'setup_widget_loaded'     => 'yes',
 			'first_interaction_stage' => 'SET UP',
@@ -31,14 +31,14 @@ final class Get_Setup_Steps_Tracking_Test extends Abstract_Setup_Steps_Tracking_
 			'setup_widget_dismissed'  => 'permanently',
 		];
 		$this->options_helper->shouldReceive( 'get' )
-			->with( 'Setup_Steps_Tracking', [] )
+			->with( 'site_kit_usage_tracking', [] )
 			->andReturn( $usage_tracking );
 
 		$this->assertEquals( $this->instance->get_setup_steps_tracking_element( $element_name ), $element_value );
 	}
 
 	/**
-	 * Data provider for the test_set_Setup_Steps_Tracking method.
+	 * Data provider for the test_get_setup_steps_tracking_element method.
 	 *
 	 * @return array<array<string>> The data to test.
 	 */

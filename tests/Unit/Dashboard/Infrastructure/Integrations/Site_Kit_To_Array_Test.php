@@ -32,10 +32,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 	 * @param bool               $is_site_kit_activated   If the Site Kit plugin is activated.
 	 * @param bool               $is_consent_granted      If consent is granted to our integration.
 	 * @param bool               $is_ga_connected         If the Google analytics setup is completed.
-	 * @param string             $setup_widget_loaded     The setup widget loaded status.
-	 * @param string             $first_interaction_stage The first interaction stage.
-	 * @param string             $last_interaction_stage  The last interaction stage.
-	 * @param string             $setup_widget_dismissed  The setup widget dismissed status.
 	 * @param bool               $is_config_dismissed     If the configuration widget is dismissed.
 	 * @param string             $access_role_needed      The needed role for using the widgets.
 	 * @param string             $access_role_user        The role the user has.
@@ -50,10 +46,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 		bool $is_site_kit_activated,
 		bool $is_consent_granted,
 		bool $is_ga_connected,
-		string $setup_widget_loaded,
-		string $first_interaction_stage,
-		string $last_interaction_stage,
-		string $setup_widget_dismissed,
 		bool $is_config_dismissed,
 		string $access_role_needed,
 		string $access_role_user,
@@ -68,26 +60,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 
 		$this->site_kit_consent_repository->expects( 'is_consent_granted' )->once()->andReturn( $is_consent_granted );
 		$this->site_kit_analytics_4_adapter->expects( 'is_connected' )->once()->andReturn( $is_ga_connected );
-
-		$this->site_kit_usage_tracking_repository->expects( 'get_site_kit_usage_tracking' )
-			->with( 'setup_widget_loaded' )
-			->once()
-			->andReturn( $setup_widget_loaded );
-
-		$this->site_kit_usage_tracking_repository->expects( 'get_site_kit_usage_tracking' )
-			->with( 'first_interaction_stage' )
-			->once()
-			->andReturn( $first_interaction_stage );
-
-		$this->site_kit_usage_tracking_repository->expects( 'get_site_kit_usage_tracking' )
-			->with( 'last_interaction_stage' )
-			->once()
-			->andReturn( $last_interaction_stage );
-
-		$this->site_kit_usage_tracking_repository->expects( 'get_site_kit_usage_tracking' )
-			->with( 'setup_widget_dismissed' )
-			->once()
-			->andReturn( $setup_widget_dismissed );
 
 		$this->configuration_repository->expects( 'is_site_kit_configuration_dismissed' )
 			->once()
@@ -165,10 +137,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_site_kit_activated'   => true,
 			'is_consent_granted'      => true,
 			'is_ga_connected'         => true,
-			'setup_widget_loaded'     => 'yes',
-			'first_interaction_stage' => 'INSTALL',
-			'last_interaction_stage'  => 'CONNECT',
-			'setup_widget_dismissed'  => 'yes',
 			'is_config_dismissed'     => true,
 			'access_role_needed'      => 'admin',
 			'access_role_user'        => 'admin',
@@ -182,10 +150,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'isAnalyticsConnected'     => true,
 				'isFeatureEnabled'         => false,
 				'isConfigurationDismissed' => true,
-				'setupWidgetLoaded'        => 'yes',
-				'firstInteractionStage'    => 'INSTALL',
-				'lastInteractionStage'     => 'CONNECT',
-				'setupWidgetDismissed'     => 'yes',
 				'capabilities'             => [
 					'installPlugins'        => true,
 					'viewSearchConsoleData' => true,
@@ -205,10 +169,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_site_kit_activated'   => false,
 			'is_consent_granted'      => false,
 			'is_ga_connected'         => false,
-			'setup_widget_loaded'     => 'yes',
-			'first_interaction_stage' => 'SET UP',
-			'last_interaction_stage'  => 'SET UP',
-			'setup_widget_dismissed'  => 'no',
 			'is_config_dismissed'     => true,
 			'access_role_needed'      => 'admin',
 			'access_role_user'        => 'admin',
@@ -222,10 +182,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'isAnalyticsConnected'     => false,
 				'isFeatureEnabled'         => false,
 				'isConfigurationDismissed' => true,
-				'setupWidgetLoaded'        => 'yes',
-				'firstInteractionStage'    => 'SET UP',
-				'lastInteractionStage'     => 'SET UP',
-				'setupWidgetDismissed'     => 'no',
 				'capabilities'             => [
 					'installPlugins'        => true,
 					'viewSearchConsoleData' => true,
@@ -245,10 +201,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_site_kit_activated'   => false,
 			'is_consent_granted'      => true,
 			'is_ga_connected'         => true,
-			'setup_widget_loaded'     => 'yes',
-			'first_interaction_stage' => 'INSTALL',
-			'last_interaction_stage'  => 'CONNECT',
-			'setup_widget_dismissed'  => 'permanently',
 			'is_config_dismissed'     => true,
 			'access_role_needed'      => 'admin',
 			'access_role_user'        => 'admin',
@@ -262,10 +214,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'isAnalyticsConnected'     => true,
 				'isFeatureEnabled'         => false,
 				'isConfigurationDismissed' => true,
-				'setupWidgetLoaded'        => 'yes',
-				'firstInteractionStage'    => 'INSTALL',
-				'lastInteractionStage'     => 'CONNECT',
-				'setupWidgetDismissed'     => 'permanently',
 				'capabilities'             => [
 					'installPlugins'        => true,
 					'viewSearchConsoleData' => true,
@@ -285,10 +233,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_site_kit_activated'   => false,
 			'is_consent_granted'      => true,
 			'is_ga_connected'         => true,
-			'setup_widget_loaded'     => 'yes',
-			'first_interaction_stage' => 'INSTALL',
-			'last_interaction_stage'  => 'CONNECT',
-			'setup_widget_dismissed'  => 'yes',
 			'is_config_dismissed'     => true,
 			'access_role_needed'      => 'admin',
 			'access_role_user'        => 'nothing',
@@ -303,10 +247,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'isFeatureEnabled'         => false,
 
 				'isConfigurationDismissed' => true,
-				'setupWidgetLoaded'        => 'yes',
-				'firstInteractionStage'    => 'INSTALL',
-				'lastInteractionStage'     => 'CONNECT',
-				'setupWidgetDismissed'     => 'yes',
 				'capabilities'             => [
 					'installPlugins'        => true,
 					'viewSearchConsoleData' => false,
@@ -326,10 +266,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_site_kit_activated'   => false,
 			'is_consent_granted'      => true,
 			'is_ga_connected'         => true,
-			'setup_widget_loaded'     => 'yes',
-			'first_interaction_stage' => 'INSTALL',
-			'last_interaction_stage'  => 'CONNECT',
-			'setup_widget_dismissed'  => 'yes',
 			'is_config_dismissed'     => true,
 			'access_role_needed'      => 'admin',
 			'access_role_user'        => 'admin',
@@ -343,10 +279,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'isAnalyticsConnected'     => true,
 				'isFeatureEnabled'         => false,
 				'isConfigurationDismissed' => true,
-				'setupWidgetLoaded'        => 'yes',
-				'firstInteractionStage'    => 'INSTALL',
-				'lastInteractionStage'     => 'CONNECT',
-				'setupWidgetDismissed'     => 'yes',
 				'capabilities'             => [
 					'installPlugins'        => true,
 					'viewSearchConsoleData' => true,
@@ -366,10 +298,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_site_kit_activated'   => false,
 			'is_consent_granted'      => true,
 			'is_ga_connected'         => true,
-			'setup_widget_loaded'     => 'yes',
-			'first_interaction_stage' => 'INSTALL',
-			'last_interaction_stage'  => 'CONNECT',
-			'setup_widget_dismissed'  => 'yes',
 			'is_config_dismissed'     => true,
 			'access_role_needed'      => 'admin',
 			'access_role_user'        => 'not-admin',
@@ -383,10 +311,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'isAnalyticsConnected'     => true,
 				'isFeatureEnabled'         => false,
 				'isConfigurationDismissed' => true,
-				'setupWidgetLoaded'        => 'yes',
-				'firstInteractionStage'    => 'INSTALL',
-				'lastInteractionStage'     => 'CONNECT',
-				'setupWidgetDismissed'     => 'yes',
 				'capabilities'             => [
 					'installPlugins'        => true,
 					'viewSearchConsoleData' => false,

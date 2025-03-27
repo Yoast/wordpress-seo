@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Tracking;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Site_Kit_Usage_Tracking_Route_Check_Capabilities_Test extends Abstract_Site_Kit_Usage_Tracking_Route_Test {
+final class Setup_Steps_Tracking_Route_Check_Capabilities_Test extends Abstract_Setup_Steps_Tracking_Route_Test {
 
 	/**
 	 * Tests that the capability that is tested for is `wpseo_manage_options`.

@@ -7,20 +7,20 @@ use WP_REST_Request;
 use WP_REST_Response;
 
 /**
- * Test class for the track_site_kit_usage method.
+ * Test class for the track_setup_steps method.
  *
  * @group site_kit_usage_tracking_route
  *
- * @covers Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Site_Kit_Usage_Tracking_Route::track_site_kit_usage
+ * @covers Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Site_Kit_Usage_Tracking_Route::track_setup_steps
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Track_Site_Kit_Usage_Test extends Abstract_Site_Kit_Usage_Tracking_Route_Test {
+final class Track_Setup_Steps_Test extends Abstract_Setup_Steps_Tracking_Route_Test {
 
 	/**
-	 * Tests the track_site_kit_usage route's happy path.
+	 * Tests the track_setup_steps route's happy path.
 	 *
-	 * @dataProvider track_site_kit_usage_provider
+	 * @dataProvider track_setup_steps_provider
 	 *
 	 * @param bool   $expected_success        If the request has been successful.
 	 * @param int    $expected_status         The expected status code.
@@ -31,7 +31,7 @@ final class Track_Site_Kit_Usage_Test extends Abstract_Site_Kit_Usage_Tracking_R
 	 *
 	 * @return void
 	 */
-	public function test_track_site_kit_usage( $expected_success, $expected_status, $setup_widget_loaded, $first_interaction_stage, $last_interaction_stage, $setup_widget_dismissed ) {
+	public function test_track_setup_steps( $expected_success, $expected_status, $setup_widget_loaded, $first_interaction_stage, $last_interaction_stage, $setup_widget_dismissed ) {
 
 		$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
 		$wp_rest_response_mock
@@ -67,7 +67,7 @@ final class Track_Site_Kit_Usage_Test extends Abstract_Site_Kit_Usage_Tracking_R
 
 		$this->assertInstanceOf(
 			'WP_REST_Response',
-			$this->instance->track_site_kit_usage( $wp_rest_request )
+			$this->instance->track_setup_steps( $wp_rest_request )
 		);
 	}
 
@@ -76,7 +76,7 @@ final class Track_Site_Kit_Usage_Test extends Abstract_Site_Kit_Usage_Tracking_R
 	 *
 	 * @return array<array<bool, int>>
 	 */
-	public static function track_site_kit_usage_provider() {
+	public static function track_setup_steps_provider() {
 		return [
 			'Update site_kit_usage_tracking succeeded' => [ true, 200, 'yes', 'SET UP', 'SET UP', 'no' ],
 			'Update site_kit_usage_tracking failed'    => [ true, 200, 'yes', null, null, null ],

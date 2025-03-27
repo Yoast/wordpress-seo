@@ -3,27 +3,27 @@
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Tracking;
 
 /**
- * Test class for the set_site_kit_usage_tracking method.
+ * Test class for the set_setup_steps_tracking_element method.
  *
- * @group Site_Kit_Usage_Tracking_Repository
+ * @group Setup_Steps_Tracking_Repository
  *
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Tracking\Site_Kit_Usage_Tracking_Repository::set_site_kit_usage_tracking
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Tracking\Setup_Steps_Tracking_Repository::set_setup_steps_tracking_element
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Set_SetupSteps_Tracking_Test extends Abstract_Setup_Steps_Tracking_Repository_Test {
+final class Set_Setup_Steps_Tracking_Element_Test extends Abstract_Setup_Steps_Tracking_Repository_Test {
 
 	/**
-	 * Tests if the Site Kit configuration dismissal status can be set.
+	 * Tests if an element of the site_kit_usage_tracking can be set.
 	 *
-	 * @dataProvider set_site_kit_usage_tracking_provider
+	 * @dataProvider set_setup_steps_tracking_element_provider
 	 *
 	 * @param string $element_name  The name of the option to set.
 	 * @param string $element_value The value of the option to set.
 	 *
 	 * @return void
 	 */
-	public function test_set_site_kit_usage_tracking( string $element_name, string $element_value ): void {
+	public function test_set_setup_steps_tracking_element( string $element_name, string $element_value ): void {
 		$usage_tracking = [
 			'setup_widget_loaded'     => '',
 			'first_interaction_stage' => '',
@@ -40,15 +40,15 @@ final class Set_SetupSteps_Tracking_Test extends Abstract_Setup_Steps_Tracking_R
 			->with( 'site_kit_usage_tracking', $usage_tracking )
 			->andReturn( true );
 
-		$this->assertTrue( $this->instance->set_site_kit_usage_tracking( $element_name, $element_value ) );
+		$this->assertTrue( $this->instance->set_setup_steps_tracking_element( $element_name, $element_value ) );
 	}
 
 	/**
-	 * Data provider for the test_set_site_kit_usage_tracking method.
+	 * Data provider for the test_set_setup_steps_tracking_element method.
 	 *
 	 * @return array<array<string>> The data to test.
 	 */
-	public static function set_site_kit_usage_tracking_provider(): array {
+	public static function set_setup_steps_tracking_element_provider(): array {
 		return [
 			[
 				'element_name'  => 'setup_widget_loaded',

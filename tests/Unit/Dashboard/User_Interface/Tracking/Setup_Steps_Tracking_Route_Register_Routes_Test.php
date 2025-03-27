@@ -7,13 +7,13 @@ use Brain\Monkey\Functions;
 /**
  * Test class for the register_routes method.
  *
- * @group site_kit_usage_tracking_route
+ * @group setup_steps_tracking_route
  *
- * @covers Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Site_Kit_Usage_Tracking_Route::register_routes
+ * @covers Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Setup_Steps_Tracking_Route::register_routes
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Site_Kit_Usage_Tracking_Route_Register_Routes_Test extends Abstract_Site_Kit_Usage_Tracking_Route_Test {
+final class Setup_Steps_Tracking_Route_Register_Routes_Test extends Abstract_Setup_Steps_Tracking_Route_Test {
 
 	/**
 	 * Tests the registration of the routes.
@@ -25,11 +25,11 @@ final class Site_Kit_Usage_Tracking_Route_Register_Routes_Test extends Abstract_
 			->once()
 			->with(
 				'yoast/v1',
-				'/site_kit_usage_tracking',
+				'/setup_steps_tracking',
 				[
 					[
 						'methods'             => 'POST',
-						'callback'            => [ $this->instance, 'track_site_kit_usage' ],
+						'callback'            => [ $this->instance, 'track_setup_steps' ],
 						'permission_callback' => [ $this->instance, 'check_capabilities' ],
 						'args'                => [
 							'setup_widget_loaded' => [
@@ -40,17 +40,17 @@ final class Site_Kit_Usage_Tracking_Route_Register_Routes_Test extends Abstract_
 							'first_interaction_stage' => [
 								'required'          => false,
 								'type'              => 'string',
-								'enum'              => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT' ],
+								'enum'              => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT', 'COMPLETED' ],
 							],
 							'last_interaction_stage' => [
 								'required'          => false,
 								'type'              => 'string',
-								'enum'              => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT' ],
+								'enum'              => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT', 'COMPLETED' ],
 							],
 							'setup_widget_dismissed' => [
 								'required'          => false,
 								'type'              => 'string',
-								'enum'              => [ 'yes', 'no', 'permanently' ],
+								'enum'              => [ 'no', 'pageload', 'permanently' ],
 							],
 						],
 					],

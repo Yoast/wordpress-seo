@@ -7,13 +7,13 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 /**
  * Test class for the constructor.
  *
- * @group Site_Kit_Usage_Tracking_Repository
+ * @group Setup_Steps_Tracking_Repository
  *
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Tracking\Site_Kit_Usage_Tracking_Repository::__construct
+ * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Tracking\Setup_Steps_Tracking_Repository::__construct
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class SetupSteps_Tracking_Repository_Constructor_Test extends Abstract_Setup_Steps_Tracking_Repository_Test {
+final class Setup_Steps_Tracking_Repository_Constructor_Test extends Abstract_Setup_Steps_Tracking_Repository_Test {
 
 	/**
 	 * Tests if the needed attributes are set correctly.
