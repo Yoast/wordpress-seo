@@ -227,8 +227,8 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 			} else {
 				trackSetupSteps( {
 					setup_widget_loaded: "yes",
-					first_interaction_stage: steps[currentStep],
-					last_interaction_stage: steps[currentStep],
+					first_interaction_stage: steps[ currentStep ],
+					last_interaction_stage: steps[ currentStep ],
 				} );
 			}
 		}
