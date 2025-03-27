@@ -77,7 +77,7 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 			[
 				[
 					'methods'             => 'POST',
-					'callback'            => [ $this, 'track_site_kit_usage' ],
+					'callback'            => [ $this, 'track_setup_steps' ],
 					'permission_callback' => [ $this, 'check_capabilities' ],
 					'args'                => [
 						'setup_widget_loaded' => [
@@ -113,7 +113,7 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
-	public function track_site_kit_usage( WP_REST_Request $request ) {
+	public function track_setup_steps( WP_REST_Request $request ) {
 		$data = \array_filter(
 			[
 				'setup_widget_loaded'     => $request->get_param( 'setup_widget_loaded' ),

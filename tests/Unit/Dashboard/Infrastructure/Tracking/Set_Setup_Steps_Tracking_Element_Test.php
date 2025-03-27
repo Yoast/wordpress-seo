@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Tracking;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Set_Site_Kit_Usage_Tracking_Test extends Abstract_Site_Kit_Usage_Tracking_Repository_Test {
+final class Set_SetupSteps_Tracking_Test extends Abstract_Setup_Steps_Tracking_Repository_Test {
 
 	/**
 	 * Tests if the Site Kit configuration dismissal status can be set.
