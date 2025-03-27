@@ -20,7 +20,6 @@ export class MockDataTracker extends DataTracker {
 			},
 		} ) );
 		this.getSetupStepsTrackingElement = jest.fn();
-
 	}
 }
 

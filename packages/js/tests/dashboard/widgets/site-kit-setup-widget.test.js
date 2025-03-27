@@ -8,12 +8,7 @@ import { MockDataTracker } from "../__mocks__/data-tracker";
 describe( "SiteKitSetupWidget", () => {
 	let dataProvider;
 	let dataTracker;
-	const dataTrackerData = {
-		setupWidgetDismissed: "yes",
-		setupWidgetLoaded: "yes",
-		firstInteractionStage: "INSTALL",
-		lastInteractionStage: "SET UP",
-	};
+
 	const remoteDataProvider = new MockRemoteDataProvider( {} );
 
 	beforeEach( () => {
