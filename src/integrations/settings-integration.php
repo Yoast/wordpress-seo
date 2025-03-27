@@ -343,7 +343,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	public function add_settings_saved_page( $pages ) {
 		\add_submenu_page(
-			'',
+			'Dummy settings saved page',
 			'',
 			'',
 			'wpseo_manage_options',
