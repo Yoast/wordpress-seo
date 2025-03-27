@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Dashboard\Application\tracking;
+namespace Yoast\WP\SEO\Dashboard\Application\Tracking;
 
 use Yoast\WP\SEO\Dashboard\Infrastructure\Tracking\Setup_Steps_Tracking_Repository_Interface;
 
