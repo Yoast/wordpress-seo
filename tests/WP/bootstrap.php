@@ -10,6 +10,8 @@ namespace Yoast\WP\SEO\Tests\WP;
 use RuntimeException;
 use Yoast\WPTestUtils\WPIntegration;
 
+\define( 'WERE_ARE_DOING_TESTS', true);
+
 require_once \dirname( __DIR__, 2 ) . '/vendor/yoast/wp-test-utils/src/WPIntegration/bootstrap-functions.php';
 
 
