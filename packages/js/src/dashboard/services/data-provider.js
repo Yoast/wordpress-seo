@@ -31,7 +31,7 @@ export class DataProvider {
 	 * @param {Links} links The links.
 	 * @param {SiteKitConfiguration} siteKitConfiguration The Site Kit configuration.
 	 */
-	constructor( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } ) {
+	constructor( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration  } ) {
 		this.#contentTypes = contentTypes;
 		this.#userName = userName;
 		this.#features = features;
@@ -73,7 +73,7 @@ export class DataProvider {
 	}
 
 	/**
-	 * @returns {boolean} The possible stepper statuses.
+	 * @returns {boolean[]} The possible stepper statuses.
 	 */
 	getStepsStatuses() {
 		return [
