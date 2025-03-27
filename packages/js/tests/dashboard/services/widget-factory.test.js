@@ -3,7 +3,7 @@ import { waitFor } from "@testing-library/react";
 import { WidgetFactory } from "../../../src/dashboard/services/widget-factory";
 import { render } from "../../test-utils";
 import { MockDataProvider } from "../__mocks__/data-provider";
-import { MockDataTracker} from "../__mocks__/data-tracker";
+import { MockDataTracker } from "../__mocks__/data-tracker";
 import { FakeDataFormatter } from "../__mocks__/fake-data-formatter";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
 
