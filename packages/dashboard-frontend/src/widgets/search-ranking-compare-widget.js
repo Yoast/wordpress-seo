@@ -1,4 +1,4 @@
-import { useState } from "@wordpress/element";
+import { useState } from "react";
 import { __ } from "@wordpress/i18n";
 import { useToggleState } from "@yoast/ui-library";
 import { SearchRankingCompareWidgetContent } from "./search-ranking-compare/search-ranking-compare-widget-content";

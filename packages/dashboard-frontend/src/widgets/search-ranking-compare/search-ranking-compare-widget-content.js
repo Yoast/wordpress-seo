@@ -1,4 +1,4 @@
-import { useEffect } from "@wordpress/element";
+import { useEffect } from "react";
 import { __, _x } from "@wordpress/i18n";
 import { ErrorAlert } from "../../components/error-alert";
 import { NoDataParagraph } from "../../components/no-data-paragraph";

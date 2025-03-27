@@ -1,6 +1,6 @@
 import { TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { useCallback } from "@wordpress/element";
+import { useCallback } from "react";
 import { __ } from "@wordpress/i18n";
 import { Alert, Button, DropdownMenu, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";

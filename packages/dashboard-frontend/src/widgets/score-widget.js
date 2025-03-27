@@ -1,4 +1,4 @@
-import { useEffect, useState } from "@wordpress/element";
+import { useEffect, useState } from "react";
 import { __ } from "@wordpress/i18n";
 import { Scores } from "../scores/components/scores";
 import { Widget } from "./widget";

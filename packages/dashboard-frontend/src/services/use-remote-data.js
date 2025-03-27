@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useEffect, useReducer, useRef } from "@wordpress/element";
+import { useEffect, useReducer, useRef } from "react";
 import { identity } from "lodash";
 
 const slice = createSlice( {

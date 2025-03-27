@@ -1,4 +1,4 @@
-import { useCallback } from "@wordpress/element";
+import { useCallback } from "react";
 import { ErrorBoundary, Paper, Title } from "@yoast/ui-library";
 import classNames from "classnames";
 import { ErrorAlert } from "../components/error-alert";

@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "@wordpress/element";
+import { useCallback, useMemo } from "react";
 import { useRemoteData } from "../../services/use-remote-data";
 import { getDifference } from "../../transformers/difference";
 

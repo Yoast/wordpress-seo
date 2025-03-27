@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "@wordpress/element";
+import { useCallback, useMemo } from "react";
 import { __ } from "@wordpress/i18n";
 import { SkeletonLoader } from "@yoast/ui-library";
 import { CategoryScale, Chart, Filler, LinearScale, LineElement, PointElement, Tooltip } from "chart.js";

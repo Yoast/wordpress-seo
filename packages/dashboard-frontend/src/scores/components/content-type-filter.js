@@ -1,4 +1,4 @@
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback, useState } from "react";
 import { __ } from "@wordpress/i18n";
 import { AutocompleteField } from "@yoast/ui-library";
 import { replace, unescape } from "lodash";

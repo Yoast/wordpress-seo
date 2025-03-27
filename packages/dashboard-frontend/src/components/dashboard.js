@@ -1,4 +1,4 @@
-import { useCallback, useSyncExternalStore } from "@wordpress/element";
+import { useCallback, useSyncExternalStore } from "react";
 import { PageTitle } from "./page-title";
 import { values } from "lodash";
 import { WidgetFactory } from "../services/widget-factory";

@@ -1,5 +1,5 @@
 import { PencilIcon } from "@heroicons/react/outline";
-import { useCallback, useMemo } from "@wordpress/element";
+import { useCallback, useMemo } from "react";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
 import { ErrorAlert } from "../components/error-alert";

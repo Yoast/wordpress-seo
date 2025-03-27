@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "@wordpress/element";
+import { useCallback, useEffect, useState } from "react";
 import { useRemoteData } from "../../services/use-remote-data";
 import { SCORE_DESCRIPTIONS } from "../score-meta";
 import { ContentTypeFilter } from "./content-type-filter";

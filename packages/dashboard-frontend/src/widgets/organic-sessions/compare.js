@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "@wordpress/element";
+import { useCallback, useMemo } from "react";
 import { __ } from "@wordpress/i18n";
 import { SkeletonLoader, Title } from "@yoast/ui-library";
 import { ErrorAlert } from "../../components/error-alert";
