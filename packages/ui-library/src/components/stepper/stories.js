@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from "react";
 import { Stepper } from ".";
-import { component } from "./docs";
+import { component, customStep } from "./docs";
 import { Button } from "../../index";
+import { CustomStep } from "./custom-step";
+
 
 export default {
 	title: "2) Components/Stepper",
@@ -111,6 +113,63 @@ export const WithStepList = {
 			<Button id="yst-stepper-button-with-list" onClick={ handleNext }>
 				{ currentStep < stepsList.length - 1 && "Next" }
 				{ currentStep === stepsList.length - 1 && ! isComplete && "Finish" }
+				{ isComplete && "Restart" }
+			</Button>
+		</>;
+	},
+};
+
+export const WithCustomStep = {
+	parameters: {
+		controls: { disable: false },
+		docs: {
+			description: {
+				story: customStep,
+			},
+		},
+	},
+	render: ( { className } ) =>{
+		const [ isComplete, setIsComplete ] = useState( false );
+		const defaultSteps = [ "INSTALL", "ACTIVATE", "SET UP" ];
+		const customSteps = [ "CONNECT" ];
+		const steps = [ ...defaultSteps, ...customSteps ];
+		const [ currentStep, setCurrentStep ] = useState( 0 );
+
+		const handleNext = useCallback( () => {
+			if ( currentStep < steps.length - 1 ) {
+				setIsComplete( false );
+				setCurrentStep( currentStep + 1 );
+			} else if ( currentStep === steps.length - 1 && ! isComplete ) {
+				setIsComplete( true );
+			} else if ( isComplete ) {
+				setIsComplete( false );
+				setCurrentStep( 0 );
+			}
+		}, [ setIsComplete, setCurrentStep, isComplete, currentStep ] );
+
+		return <>
+			<Stepper className={ className } currentStep={ currentStep }>
+				{ defaultSteps.map( ( step, index ) => <Stepper.Step
+					key={ step }
+					isComplete={ currentStep > index || isComplete }
+					isActive={ currentStep === index }
+				>
+					{ step }
+				</Stepper.Step> ) }
+
+				{ customSteps.map( ( step, index ) => <CustomStep
+					key={ step }
+					isComplete={ currentStep > index + defaultSteps.length || isComplete }
+					isActive={ currentStep === index + defaultSteps.length }
+				>
+					{ step }
+				</CustomStep> ) }
+
+			</Stepper>
+
+			<Button id="yst-stepper-button" onClick={ handleNext }>
+				{ currentStep < steps.length - 1 && "Next" }
+				{ currentStep === steps.length - 1 && ! isComplete && "Finish" }
 				{ isComplete && "Restart" }
 			</Button>
 		</>;
