@@ -54,14 +54,22 @@ Step.propTypes = {
 };
 
 /**
+ * @typeof Step {object} The step object.
+ * @property {JSX.Node} children The element or label of the step.
+ * @property {boolean} isComplete Is the step complete.
+ * @property {boolean} isActive Is the step active.
+ */
+
+/**
  *
- * @param {JSX.Node} children Content of the stepper.
+ * @param {JSX.Node} [children] Content of the stepper.
  * @param {number} [currentStep] The current step, starts from 0.
  * @param {string} [className] Optional extra className.
+ * @param {Step[]} [steps] The steps of the stepper.
  *
  * @returns {JSX.Element} The Stepper element.
  */
-export const Stepper = forwardRef( ( { children, currentStep, className = "" }, ref ) => {
+export const Stepper = forwardRef( ( { children, currentStep = 0, className = "", steps }, ref ) => {
 	const [ progressBarPosition, setProgressBarPosition ] = useState( {
 		left: 0,
 		right: 0,
@@ -85,7 +93,15 @@ export const Stepper = forwardRef( ( { children, currentStep, className = "" }, 
 		<StepperContext.Provider value={ { addStepRef } }>
 			<div className={ classNames( className, "yst-stepper" ) } ref={ ref }>
 
-				{ children }
+				{ children || steps.map( ( step, index ) => (
+					<Step
+						key={ `${ index }-step` }
+						isActive={ step.isActive }
+						isComplete={ step.isComplete }
+					>
+						{ step.children }
+					</Step>
+				) ) }
 
 				<ProgressBar
 					className="yst-absolute yst-top-3 yst-w-auto yst-h-0.5"
@@ -101,15 +117,22 @@ export const Stepper = forwardRef( ( { children, currentStep, className = "" }, 
 
 Stepper.displayName = "Stepper";
 Stepper.propTypes = {
-	currentStep: PropTypes.number.isRequired,
-	children: PropTypes.node.isRequired,
+	currentStep: PropTypes.number,
+	children: PropTypes.node,
 	className: PropTypes.string,
+	steps: PropTypes.arrayOf( PropTypes.shape( {
+		children: PropTypes.node.isRequired,
+		isComplete: PropTypes.bool,
+		isActive: PropTypes.bool,
+	} ) ),
 };
 Stepper.defaultProps = {
 	className: "",
+	steps: [],
+	children: null,
+	currentStep: 0,
 };
 
 Stepper.Step = Step;
 Stepper.Context = StepperContext;
 Stepper.Step.displayName = "Stepper.Step";
-
