@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Search_Console;
 
 use Mockery;
+use WP_REST_Response;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Unexpected_Response_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
 
@@ -27,8 +28,6 @@ final class Search_Console_Adapter_Get_Comparison_Data_Unexpected_Response_Test 
 	 * @return void
 	 */
 	public function test_validate_response_unexpected_response_not_apidatarows() {
-		self::$search_console_module = Mockery::mock( Search_Console_Module_Mock::class );
-		$this->instance->set_search_console_module( self::$search_console_module );
 
 		$request_parameters = new Search_Console_Parameters();
 		$request_parameters->set_start_date( '01-03-2025' );
@@ -38,9 +37,18 @@ final class Search_Console_Adapter_Get_Comparison_Data_Unexpected_Response_Test 
 
 		$expected_message = 'The response from Google Site Kit did not have an expected format.';
 
-		self::$search_console_module->expects( 'get_data' )
-			->once()
-			->andReturn( [ 'string and not an ApiDataRow' ] );
+		$api_response_mock = Mockery::mock( WP_REST_Response::class );
+		$api_response_mock->expects( 'get_data' )->once()->andReturn( [ 'string and not an ApiDataRow' ] );
+		$api_response_mock->expects( 'is_error' )->once()->andReturnFalse();
+
+		$expected_parameters = [
+			'startDate'  => '01-02-2025',
+			'endDate'    => '12-03-2025',
+			'dimensions' => [ 'date' ],
+		];
+		$this->search_console_api_call_mock->expects( 'do_request' )
+			->with( $expected_parameters )
+			->andReturn( $api_response_mock );
 
 		$this->expectException( Unexpected_Response_Exception::class );
 		$this->expectExceptionMessage( $expected_message );
