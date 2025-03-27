@@ -1,0 +1,44 @@
+{
+  "name": "@yoast/dashboard-frontend",
+  "version": "0.0.0",
+  "description": "The frontend for the Yoast Dashboard",
+  "main": "build/index.js",
+  "style": "build/css/style.css",
+  "files": [
+    "build",
+    "!*.map"
+  ],
+  "author": "Team Yoast <support@yoast.com>",
+  "license": "GPL-3.0",
+  "private": false,
+  "sideEffects": false,
+  "scripts": {
+    "clean:build": "rm -rf build",
+    "build": "yarn clean:build && yarn build:js",
+    "build:js": "babel src --out-dir build",
+    "watch": "yarn watch:js",
+    "watch:js": "yarn build:js --watch"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.25.9",
+    "@babel/core": "^7.26.0",
+    "@babel/plugin-transform-runtime": "^7.25.9",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9"
+  },
+  "dependencies": {
+    "@heroicons/react": "^1.0.6",
+    "@reduxjs/toolkit": "^1.8.3",
+    "@wordpress/i18n": "^5.0.1",
+    "classnames": "^2.5.1",
+    "lodash": "^4.17.21"
+  },
+  "peerDependencies": {
+    "@wordpress/element": "^6.0.1",
+    "@yoast/ui-library": "^4.2.0",
+    "chart.js": "^4.2.1",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
