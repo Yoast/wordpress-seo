@@ -33,7 +33,7 @@ abstract class Abstract_Setup_Steps_Tracking_Test extends TestCase {
 		Mockery::mock( WP_Error::class );
 
 		$this->instance = new Setup_Steps_Tracking(
-			new Setup_Steps_Tracking_Repository_Fake(),
+			new Setup_Steps_Tracking_Repository_Fake()
 		);
 	}
 }
