@@ -66,7 +66,7 @@ export const Factory = {
 	},
 };
 
-export const WithStepList = {
+export const StepsProp = {
 	parameters: {
 		controls: { disable: false },
 	},
