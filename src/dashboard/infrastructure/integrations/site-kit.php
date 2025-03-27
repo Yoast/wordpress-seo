@@ -124,7 +124,7 @@ class Site_Kit {
 	/**
 	 * Checks if current user is owner of the module.
 	 *
-	 * @param array|null $module_owner The module to check for owner.
+	 * @param array<string>|null $module_owner The module to check for owner.
 	 *
 	 * @return bool If current user is owner of the module.
 	 */
