@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { debounce, identity } from "lodash";
-import { FETCH_DELAY } from "../../shared-admin/constants";
+import { FETCH_DELAY } from "../constants";
 import { fetchJson } from "./fetch-json";
 
 /**
