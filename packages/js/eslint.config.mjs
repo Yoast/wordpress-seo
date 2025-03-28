@@ -29,7 +29,7 @@ export default [
 						// Ignore @yoast packages from this workspace, or we have to build the code before linting.
 						// Because `main` in `package.json` points to the `build/index.js`, which is not present before building.
 						// As we are dealing with our source, not the actual NPM download, due to the monorepo setup.
-						"^@yoast/(ui-library|style-guide|components|helpers|search-metadata-previews|social-metadata-forms|replacement-variable-editor|analysis-report|feature-flag|related-keyphrase-suggestions)$",
+						"^@yoast/(ui-library|style-guide|components|helpers|search-metadata-previews|social-metadata-forms|replacement-variable-editor|analysis-report|feature-flag|related-keyphrase-suggestions|dashboard-frontend)$",
 						"yoastseo",
 					],
 				},

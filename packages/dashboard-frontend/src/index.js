@@ -125,3 +125,9 @@ export { Dashboard } from "./components/dashboard";
  * @typedef {Object<"isInstalled"|"isActive"|"isSetupCompleted"|"isConsentGranted", boolean>} SiteKitConnectionStepsStatuses
  * The connection steps statuses.
  */
+
+export { TopPagesWidget } from "./widgets/top-pages-widget";
+export { TopQueriesWidget } from "./widgets/top-queries-widget";
+export { SearchRankingCompareWidget } from "./widgets/search-ranking-compare-widget";
+export { OrganicSessionsWidget } from "./widgets/organic-sessions-widget";
+export { ScoreWidget } from "./widgets/score-widget";

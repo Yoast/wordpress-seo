@@ -1,6 +1,6 @@
 {
   "name": "@yoast/dashboard-frontend",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "The frontend for the Yoast Dashboard",
   "main": "build/index.js",
   "style": "build/css/style.css",

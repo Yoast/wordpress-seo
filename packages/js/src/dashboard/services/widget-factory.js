@@ -1,10 +1,11 @@
 /* eslint-disable complexity */
-import { OrganicSessionsWidget } from "../widgets/organic-sessions-widget";
-import { ScoreWidget } from "../widgets/score-widget";
 import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
-import { TopPagesWidget } from "../widgets/top-pages-widget";
-import { TopQueriesWidget } from "../widgets/top-queries-widget";
-import { SearchRankingCompareWidget } from "../widgets/search-ranking-compare-widget";
+import {
+	TopPagesWidget,
+	TopQueriesWidget,
+	SearchRankingCompareWidget,
+	ScoreWidget,
+	OrganicSessionsWidget } from "@yoast/dashboard-frontend";
 
 /**
  * @type {import("../index").WidgetType} WidgetType
