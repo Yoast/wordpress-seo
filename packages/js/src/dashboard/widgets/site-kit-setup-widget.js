@@ -7,8 +7,7 @@ import { noop } from "lodash";
 import { ReactComponent as YoastConnectSiteKitSuccess } from "../../../images/yoast-connect-google-site-kit-success.svg";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { SiteKitConsentModal } from "../../shared-admin/components";
-import { LearnMoreLink } from "../components/learn-more-link";
-import { Widget } from "./widget";
+import { LearnMoreLink, Widget } from "@yoast/dashboard-frontend";
 
 /**
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration

@@ -1,5 +1,5 @@
 import { jest } from "@jest/globals";
-import { RemoteDataProvider } from "@yoast/dashboard-frontend";
+import { RemoteDataProvider } from "../../src/services/remote-data-provider";
 
 /**
  * Mock remote data provider.

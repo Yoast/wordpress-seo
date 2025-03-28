@@ -11,6 +11,7 @@ export default [
 			globals: {
 				...globals.browser,
 				...globals.jquery,
+				React: "readonly",
 				// Webpack maps `global` to the window.
 				global: false,
 			},
@@ -29,19 +30,14 @@ export default [
 						// Ignore @yoast packages from this workspace, or we have to build the code before linting.
 						// Because `main` in `package.json` points to the `build/index.js`, which is not present before building.
 						// As we are dealing with our source, not the actual NPM download, due to the monorepo setup.
-						"^@yoast/(ui-library|style-guide|components|helpers|search-metadata-previews|social-metadata-forms|replacement-variable-editor|analysis-report|feature-flag|related-keyphrase-suggestions|dashboard-frontend)$",
+						"^@yoast/(ui-library|style-guide|components|helpers|search-metadata-previews|social-metadata-forms|replacement-variable-editor|analysis-report|feature-flag|related-keyphrase-suggestions)$",
 						"yoastseo",
 					],
 				},
 			],
 			"no-restricted-imports": [
 				"error",
-				{
-					name: "react",
-					message: "Please use @wordpress/element instead. No need to import just for JSX.",
-
-				},
-				{
+								{
 					name: "react-dom",
 					message: "Please use @wordpress/element instead.",
 				},
@@ -49,7 +45,6 @@ export default [
 			// Disabled rules
 			// In the editor, we're using the pragma `wp.element.createElement`
 			"react/react-in-jsx-scope": "off",
-
 			// Deviate from the Yoast config to prohibit dangling commas in functions.
 			"stylistic/comma-dangle": [
 				"error",
@@ -86,6 +81,7 @@ export default [
 			"react/prop-types": "warn",
 			"react/require-default-props": "warn",
 			"no-prototype-builtins": "warn",
+			"react/prop-types": "off",
 		},
 	},
 	{
@@ -100,13 +96,6 @@ export default [
 		files: [ "tests/**" ],
 		rules: {
 			"no-undefined": "off",
-		},
-	},
-	// Ignore Proptypes in the dashboard.
-	{
-		files: [ "src/dashboard/**" ],
-		rules: {
-			"react/prop-types": "off",
 		},
 	},
 	{

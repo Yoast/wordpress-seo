@@ -1,11 +1,9 @@
 /* eslint-disable complexity */
-import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
-import {
-	TopPagesWidget,
-	TopQueriesWidget,
-	SearchRankingCompareWidget,
-	ScoreWidget,
-	OrganicSessionsWidget } from "@yoast/dashboard-frontend";
+import { OrganicSessionsWidget } from "../widgets/organic-sessions-widget";
+import { ScoreWidget } from "../widgets/score-widget";
+import { TopPagesWidget } from "../widgets/top-pages-widget";
+import { TopQueriesWidget } from "../widgets/top-queries-widget";
+import { SearchRankingCompareWidget } from "../widgets/search-ranking-compare-widget";
 
 /**
  * @type {import("../index").WidgetType} WidgetType
@@ -54,7 +52,6 @@ export class WidgetFactory {
 	createWidget( widget ) {
 		const {
 			isFeatureEnabled,
-			isSetupWidgetDismissed,
 			isAnalyticsConnected,
 			capabilities,
 			isVersionSupported,
@@ -96,15 +93,6 @@ export class WidgetFactory {
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
-				/>;
-			case WidgetFactory.types.siteKitSetup:
-				if ( ! isFeatureEnabled || isSetupWidgetDismissed ) {
-					return null;
-				}
-				return <SiteKitSetupWidget
-					key={ widget.id }
-					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
 			case WidgetFactory.types.topQueries:
 				if ( ! isSearchConsoleWidgetAllowed ) {

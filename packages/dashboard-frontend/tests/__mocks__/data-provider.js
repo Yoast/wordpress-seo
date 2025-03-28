@@ -1,5 +1,5 @@
 import { defaultsDeep } from "lodash";
-import { DataProvider } from "@yoast/dashboard-frontend";
+import { DataProvider } from "../../src/services/data-provider";
 
 /**
  * Mock data provider.
