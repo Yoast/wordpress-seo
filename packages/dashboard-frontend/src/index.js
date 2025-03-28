@@ -135,3 +135,4 @@ export { Widget } from "./widgets/widget";
 export { LearnMoreLink } from "./components/learn-more-link";
 export { PageTitle } from "./components/page-title";
 export { PlainMetricsDataFormatter } from "./services/plain-metrics-data-formatter";
+export { DataProvider } from "./services/data-provider";
