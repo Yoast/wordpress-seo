@@ -6,7 +6,7 @@
   "scripts": {
     "build": "cd ../.. && wp-scripts build --config config/webpack/webpack.config.js",
     "test": "jest",
-    "lint": "eslint . --max-warnings=62"
+    "lint": "eslint . --max-warnings=61"
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",

@@ -7,7 +7,7 @@ import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
 import { ComparisonMetricsDataFormatter } from "../dashboard/services/comparison-metrics-data-formatter";
-import { PlainMetricsDataFormatter } from "../dashboard/services/plain-metrics-data-formatter";
+import { PlainMetricsDataFormatter } from "@yoast/dashboard-frontend";
 import { DataProvider } from "../dashboard/services/data-provider";
 import { RemoteDataProvider } from "../dashboard/services/remote-data-provider";
 import { WidgetFactory } from "../dashboard/services/widget-factory";

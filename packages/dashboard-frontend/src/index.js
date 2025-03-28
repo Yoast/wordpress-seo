@@ -131,3 +131,7 @@ export { TopQueriesWidget } from "./widgets/top-queries-widget";
 export { SearchRankingCompareWidget } from "./widgets/search-ranking-compare-widget";
 export { OrganicSessionsWidget } from "./widgets/organic-sessions-widget";
 export { ScoreWidget } from "./widgets/score-widget";
+export { Widget } from "./widgets/widget";
+export { LearnMoreLink } from "./components/learn-more-link";
+export { PageTitle } from "./components/page-title";
+export { PlainMetricsDataFormatter } from "./services/plain-metrics-data-formatter";
