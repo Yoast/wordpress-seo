@@ -54,6 +54,7 @@ const Content = ( { terms } ) => terms.length === 0
  * @param {function(Term?)} onChange The callback. Expects it changes the `selected` prop.
  * @returns {JSX.Element} The element.
  */
+/* eslint-disable-next-line complexity */
 export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
 	const [ query, setQuery ] = useState( "" );
 	const { data: terms = [], error, isPending } = useFetch( {
