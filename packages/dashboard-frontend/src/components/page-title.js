@@ -1,7 +1,7 @@
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Link, Paper, Title } from "@yoast/ui-library";
-import { OutboundLink } from "../../shared-admin/components";
+import { OutboundLink } from "./outbound-link";
 
 /**
  * @type {import("../index").Features} Features
