@@ -136,3 +136,4 @@ export { LearnMoreLink } from "./components/learn-more-link";
 export { PageTitle } from "./components/page-title";
 export { PlainMetricsDataFormatter } from "./services/plain-metrics-data-formatter";
 export { DataProvider } from "./services/data-provider";
+export { RemoteDataProvider } from "./services/remote-data-provider";
