@@ -120,14 +120,14 @@ Below is a detailed overview of how scores for the readability assessments are c
 
 **Call to action URL**: [https://yoa.st/35a](https://yoast.com/transition-words-why-and-how-to-use-them/#utm_source=yoast-seo&utm_medium=software&utm_term=transition-words-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-|Traffic light	|Score	| Criterion                                                                                           |	Feedback|
-|-------|------	|-----------------------------------------------------------------------------------------------------|------- |
-|Red	|3| 	No transition words found in a long text (more than 200 words or 400 characters in Japanese)	      |**Transition words**: None of the sentences contain transition words. **Use some**.|
-|Red	|3| 	< 20% of sentences in a long text (more than 200 words or 400 characters in Japanese)	             |**Transition words**: Only X of the sentences contain them. This is not enough. **Use more transition words**.|
-|Orange	|6| 	Between 20 and 30% of sentences in a long text (more than 200 words or 400 characters in Japanese) |**Transition words**: Only X of the sentences contain them. This is not enough. **Use more transition words**.|
-|Green	|9| 	≥ 30% of sentences in a long text (more than 200 words or 400 characters in Japanese)              |**Transition words**: Well done!|
-|Green	|9| 	> 0% of sentences in a short text (less than 200 words or 400 characters in Japanese)              |**Transition words**: Well done!|
-|Green	|9| 	No transition words found in a short text (less than 200 words or 400 characters in Japanese)      |**Transition words**: You are not using any transition words, but your text is short enough and probably doesn't need them.|
+|Traffic light	|Score	| Criterion                                                                                                        |	Feedback|
+|-------|------	|------------------------------------------------------------------------------------------------------------------|------- |
+|Red	|3| 	No transition words found in a long text (more than 200 words or 400 characters in Japanese)	                   |**Transition words**: None of the sentences contain transition words. **Use some**.|
+|Red	|3| 	< 20% of sentences in a long text (more than 200 words or 400 characters in Japanese)	                          |**Transition words**: Only X of the sentences contain them. This is not enough. **Use more transition words**.|
+|Orange	|6| 	Between 20 and 30% of sentences in a long text (more than 200 words or 400 characters in Japanese)              |**Transition words**: Only X of the sentences contain them. This is not enough. **Use more transition words**.|
+|Green	|9| 	≥ 30% of sentences in a long text (more than 200 words or 400 characters in Japanese)                           |**Transition words**: Well done!|
+|Green	|9| 	At least one sentence with transition words in a short text (less than 200 words or 400 characters in Japanese) |**Transition words**: Well done!|
+|Green	|9| 	No transition words found in a short text (less than 200 words or 400 characters in Japanese)                   |**Transition words**: You are not using any transition words, but your text is short enough and probably doesn't need them.|
 
 
 
