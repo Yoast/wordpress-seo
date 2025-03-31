@@ -85,7 +85,7 @@ const getComplexWords = function( currentSentence, researcher, topicForms ) {
  * @returns {number} The percentage of the complex words compared to the total words in the text.
  */
 const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
-	if( words.length === 0 ) {
+	if ( words.length === 0 ) {
 		return 0;
 	}
 	const totalComplexWords = flatMap( complexWordsResults, result => result.complexWords );
