@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { DataFormatterInterface } from "../../../src/dashboard/services/data-formatter-interface";
+import { DataFormatterInterface } from "@yoast/dashboard-frontend";
 
 describe( "DataFormatterInterface", () => {
 	it( "should throw an error when instantiated directly", () => {
