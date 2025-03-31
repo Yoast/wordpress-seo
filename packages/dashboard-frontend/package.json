@@ -17,7 +17,7 @@
     "build": "yarn clean:build && yarn build:js",
     "build:js": "babel src --out-dir build",
     "lint": "eslint src tests --max-warnings=0",
-	"test": "jest",
+    "test": "jest",
     "watch": "yarn watch:js",
     "watch:js": "yarn build:js --watch"
   },
@@ -32,17 +32,16 @@
     "@testing-library/react": "^16.2.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@yoast/eslint-config": "^8.0.0",
+	"@yoast/jest-preset": "^1.0.1",
     "eslint": "^9.23.0",
     "globals": "^16.0.0",
-    "jest": "^27.5.1",
-    "jest-styled-components": "^7.2.0",
-    "raf": "^3.4.1"
+    "jest": "^29.7.0",
+	"jest-environment-jsdom": "^29.7.0"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "@reduxjs/toolkit": "^1.8.3",
     "@wordpress/i18n": "^5.0.1",
-    "@yoast/jest-preset": "^1.0.1",
     "classnames": "^2.5.1",
     "lodash": "^4.17.21"
   },
