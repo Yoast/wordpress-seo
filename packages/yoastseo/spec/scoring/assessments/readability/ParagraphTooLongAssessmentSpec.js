@@ -63,10 +63,12 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 			" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
-	it( "should return an empty assessment result for a paper without paragraphs.", function() {
+	it( "should return a good result for a paper without paragraphs.", function() {
 		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ ] ) );
-		expect( assessment.getScore() ).toBe( 0 );
-		expect( assessment.getText() ).toBe( "" );
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: " +
+			"There are no paragraphs that are too long. Great job!" );
+		expect( assessment.hasMarks() ).toBe( false );
 	} );
 } );
 

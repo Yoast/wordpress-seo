@@ -125,6 +125,17 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		];
 		expect( assessment.getMarks( runningPaper, researcher ) ).toEqual( expected );
 	} );
+	it( "should return with score 9 if there are no words in the text", function() {
+		const paper = new Paper( "" );
+		researcher.setPaper( paper );
+
+		const result = assessment.getResult( paper, researcher );
+
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: " +
+			"You are not using too many complex words, which makes your text easy to read. Good job!" );
+		expect( result.hasMarks() ).toBe( false );
+	} );
 } );
 
 describe( "tests for the assessment applicability", function() {
