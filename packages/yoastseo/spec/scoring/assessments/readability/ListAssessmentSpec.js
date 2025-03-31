@@ -6,8 +6,19 @@ import buildTree from "../../../specHelpers/parse/buildTree";
 const listAssessment = new ListAssessment();
 
 describe( "a test for an assessment that checks whether a paper contains a list or not", function() {
-	it( "assesses when there are no lists", function() {
+	it( "returns a bad score when there are no lists", function() {
 		const mockPaper = new Paper( "text with no list" );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const assessment = listAssessment.getResult( mockPaper );
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: " +
+			"No lists appear on this page. <a href='https://yoa.st/shopify39' target='_blank'>Add at least one ordered or unordered list</a>!" );
+	} );
+	it( "returns a bad score when there are is no text", function() {
+		const mockPaper = new Paper( "" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 

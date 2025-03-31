@@ -40,6 +40,13 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			"There is enough variety in your sentences. That's great!" );
 	} );
 
+	it( "returns a good score when there are no words in the text.", function() {
+		const assessment = new SentenceBeginningsAssessment().getResult( paper, Factory.buildMockResearcher( [] ) );
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
+			"There is enough variety in your sentences. That's great!" );
+	} );
+
 	it( "is applicable when the researcher that has the getSentenceBeginnings research.", function() {
 		paper = new Paper( "", { locale: "it_IT" } );
 		const assessment = new SentenceBeginningsAssessment().isApplicable( paper, new ItalianResearcher( paper ) );

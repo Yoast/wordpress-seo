@@ -28,6 +28,17 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			"You are not using any subheadings, but your text is short enough and probably doesn't need them." );
 	} );
 
+	it( "returns a good score when the paper has no text", function() {
+		const assessment = new SubheadingDistributionTooLong();
+		const result = assessment.getResult(
+			new Paper( "" ),
+			Factory.buildMockResearcher( [] )
+		);
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"You are not using any subheadings, but your text is short enough and probably doesn't need them." );
+	} );
+
 	it( "Scores a text that's short (<300 words) after excluding elements we don't want to analyze," +
 		" and which does not have subheadings.", function() {
 		const assessment = new SubheadingDistributionTooLong();

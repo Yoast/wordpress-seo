@@ -135,6 +135,16 @@ describe( "An assessment for checking the percentage of transition words in the 
 			" You are not using any transition words, but your text is short enough and probably doesn't need them." );
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
+	it( "returns a good score if the paper has no text", function() {
+		const mockPaper = new Paper( "" );
+		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 0,
+			transitionWordSentences: 0 } ) );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>:" +
+			" You are not using any transition words, but your text is short enough and probably doesn't need them." );
+		expect( assessment.hasMarks() ).toBe( false );
+	} );
 } );
 describe( "An assessment for checking the percentage of transition words in a Japanese text ", function() {
 	it( "returns the score for a short Japanese text with a low percentage of sentences with transition words.", function() {
