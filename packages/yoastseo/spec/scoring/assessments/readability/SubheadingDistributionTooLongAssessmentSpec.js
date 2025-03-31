@@ -4,7 +4,6 @@ import Factory from "../../../../src/helpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import CornerstoneContentAssessor from "../../../../src/scoring/assessors/cornerstone/contentAssessor.js";
 import ProductCornerstoneContentAssessor from "../../../../src/scoring/assessors/productPages/cornerstone/contentAssessor.js";
-import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher.js";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher.js";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
 import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/subheadingsTooLong.js";
@@ -408,75 +407,6 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		expect( hasSubheadings ).toBe( true );
 	} );
 } );
-
-describe( "A test for the assessment applicability", () => {
-	it( "Returns false from isApplicable to the paper without text", function() {
-		const paper = new Paper( "" );
-		const assessment = new SubheadingDistributionTooLong();
-		const isApplicable = assessment.isApplicable( paper, new DefaultResearcher( paper ) );
-		expect( isApplicable ).toBe( false );
-	} );
-
-	it( "Returns true from isApplicable to the paper with text longer than 50 characters", function() {
-		const paper = new Paper( shortText );
-		const assessment = new SubheadingDistributionTooLong();
-		const isApplicable = assessment.isApplicable( paper );
-		expect( isApplicable ).toBe( true );
-	} );
-
-	it( "returns false if the text is less than 50 characters", function() {
-		const paper = new Paper( "hallo" );
-		expect( new SubheadingDistributionTooLong().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "returns false if the text is less than 50 characters after excluding text inside elements we don't want to analyze", function() {
-		const paper = new Paper( "<blockquote>" + longText + "</blockquote>" );
-		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } );
-		expect( assessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "should return false for isApplicable for a paper with only an image.", function() {
-		const paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
-		expect( new SubheadingDistributionTooLong().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "should return false for isApplicable for a paper with only spaces.", function() {
-		const paper = new Paper( "        " );
-		expect( new SubheadingDistributionTooLong().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
-	} );
-	it( "Returns false when the assessment shouldn't appear in short text analysis and the paper is empty", function() {
-		const paper = new Paper( "" );
-		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } );
-		expect( assessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "Returns true when the assessment shouldn't appear in short text analysis but the text contains more than 300 words", function() {
-		const paper = new Paper( longText );
-		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } );
-		expect( assessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( true );
-	} );
-
-	it( "Returns false when the assessment shouldn't appear in short text analysis and the text contains less than 300 words", function() {
-		const paper = new Paper( shortText );
-		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } );
-		expect( assessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "Returns false when the assessment shouldn't appear in short text analysis and the text contains less " +
-		"than 600 characters in Japanese", function() {
-		const paper = new Paper( shortTextJapanese );
-		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } );
-		expect( assessment.isApplicable( paper, new JapaneseResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "Returns true when the assessment shouldn't appear in short text analysis but the text contains more " +
-		"than 600 characters in Japanese", function() {
-		const paper = new Paper( longTextJapanese );
-		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } );
-		expect( assessment.isApplicable( paper, new JapaneseResearcher( paper ) ) ).toBe( true );
-	} );
-} );
-
 
 describe( "Language-specific configuration for specific types of content is used: English", function() {
 	const mockPaper = new Paper( "" );

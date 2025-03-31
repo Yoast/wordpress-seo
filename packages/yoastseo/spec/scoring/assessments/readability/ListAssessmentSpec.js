@@ -91,26 +91,6 @@ describe( "a test for an assessment that checks whether a paper contains a list 
 	} );
 } );
 
-describe( "tests for the assessment applicability.", function() {
-	it( "returns false when the paper is empty.", function() {
-		const paper = new Paper( "" );
-		expect( listAssessment.isApplicable( paper ) ).toBe( false );
-	} );
-
-	it( "returns true when the paper is not empty.", function() {
-		const paper = new Paper( "sample keyword containing a minimum of fifty characters.", {
-			slug: "sample-with-keyword",
-			keyword: "kéyword",
-		} );
-		expect( listAssessment.isApplicable( paper ) ).toBe( true );
-	} );
-
-	it( "returns false if the text is too short", function() {
-		const paper = new Paper( "hallo" );
-		expect( listAssessment.isApplicable( paper ) ).toBe( false );
-	} );
-} );
-
 describe( "a test for retrieving the feedback texts", () => {
 	it( "should return the custom feedback texts when `callbacks.getResultTexts` is provided", () => {
 		const assessment = new ListAssessment( {

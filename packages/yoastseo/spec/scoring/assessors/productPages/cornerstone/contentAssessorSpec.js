@@ -33,7 +33,7 @@ describe( "A cornerstone product page content assessor", function() {
 			"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
 			"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
 			"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod." );
-		it( "Should have 5 available assessments for a fully supported language. " +
+		it( "Should have 6 available assessments for a fully supported language. " +
 			"This doesn't include Word complexity assessment since the registration is done from Shopify side.", function() {
 			const contentAssessor = new ContentAssessor( new EnglishResearcher( paper ), options );
 			contentAssessor.getPaper = function() {
@@ -41,18 +41,18 @@ describe( "A cornerstone product page content assessor", function() {
 			};
 
 			const actual = contentAssessor.getApplicableAssessments().length;
-			const expected = 5;
+			const expected = 6;
 			expect( actual ).toBe( expected );
 		} );
 
-		it( "Should have 3 available assessments for a basic supported language", function() {
+		it( "Should have 4 available assessments for a basic supported language", function() {
 			const contentAssessor = new ContentAssessor( new DefaultResearcher( paper ), options );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
 
 			const actual = contentAssessor.getApplicableAssessments().length;
-			const expected = 3;
+			const expected = 4;
 			expect( actual ).toBe( expected );
 		} );
 	} );
@@ -104,8 +104,6 @@ describe( "A cornerstone product page content assessor", function() {
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.shouldNotAppearInShortText ).toBeDefined();
-			expect( assessment._config.shouldNotAppearInShortText ).toBe( true );
 			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/1' target='_blank'>" );
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/2' target='_blank'>" );
 		} );

@@ -6,12 +6,14 @@ import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../../src/helpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 
-const shortTextJapanese = "熱".repeat( 399 );
+const shortText = "a ".repeat( 199 );
+const longText = "a ".repeat( 201 );
+const shortTextJapanese = "熱".repeat( 390 );
 const longTextJapanese = "熱".repeat( 400 );
 
-describe( "An assessment for transition word percentage", function() {
-	it( "returns the score for 0% of the sentences with transition words", function() {
-		const mockPaper = new Paper();
+describe( "An assessment for checking the percentage of transition words in the text", function() {
+	it( "returns the score for 0% of the sentences with transition words in a long text", function() {
+		const mockPaper = new Paper( longText );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
 			transitionWordSentences: 0 } ) );
 
@@ -21,8 +23,8 @@ describe( "An assessment for transition word percentage", function() {
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
 
-	it( "returns the score for a paper with text but no sentences (e.g. only images)", function() {
-		const mockPaper = new Paper();
+	it( "returns the score for a paper with a long text but no sentences (e.g. only images)", function() {
+		const mockPaper = new Paper( longText );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 0,
 			transitionWordSentences: 0 } ) );
 
@@ -32,8 +34,8 @@ describe( "An assessment for transition word percentage", function() {
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
 
-	it( "returns the score for 10.0% of the sentences with transition words", function() {
-		const mockPaper = new Paper();
+	it( "returns the score for 10.0% of the sentences with transition words in a long text", function() {
+		const mockPaper = new Paper( longText );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
 			transitionWordSentences: 1 } ) );
 
@@ -43,8 +45,8 @@ describe( "An assessment for transition word percentage", function() {
 			"target='_blank'>Use more of them</a>." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
-	it( "returns the score for 20.0% of the sentences with transition words", function() {
-		const mockPaper = new Paper();
+	it( "returns the score for 20.0% of the sentences with transition words in a long text", function() {
+		const mockPaper = new Paper( longText );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 5,
 			transitionWordSentences: 1 } ) );
 
@@ -54,8 +56,8 @@ describe( "An assessment for transition word percentage", function() {
 			"target='_blank'>Use more of them</a>." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
-	it( "returns the score for 25.0% of the sentences with transition words", function() {
-		const mockPaper = new Paper();
+	it( "returns the score for 25.0% of the sentences with transition words in a long text", function() {
+		const mockPaper = new Paper( longText );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 4,
 			transitionWordSentences: 1 } ) );
 
@@ -65,16 +67,16 @@ describe( "An assessment for transition word percentage", function() {
 			"target='_blank'>Use more of them</a>." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
-	it( "returns the score for 35.0% of the sentences with transition words", function() {
-		const mockPaper = new Paper();
+	it( "returns the score for 35.0% of the sentences with transition words in a long text", function() {
+		const mockPaper = new Paper( longText );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 20,
 			transitionWordSentences: 7 } ) );
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
-	it( "returns the score for 40% sentences with transition words", function() {
-		const mockPaper = new Paper();
+	it( "returns the score for 40% sentences with transition words in a long text", function() {
+		const mockPaper = new Paper( longText );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
 			transitionWordSentences: 4 } ) );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -82,8 +84,8 @@ describe( "An assessment for transition word percentage", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
-	it( "returns the score for 47% sentences with transition words", function() {
-		const mockPaper = new Paper();
+	it( "returns the score for 47% sentences with transition words in a long text", function() {
+		const mockPaper = new Paper( longText );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 100,
 			transitionWordSentences: 47 } ) );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -91,8 +93,8 @@ describe( "An assessment for transition word percentage", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
-	it( "returns the score for 66.7% of the sentences with transition words", function() {
-		const mockPaper = new Paper();
+	it( "returns the score for 66.7% of the sentences with transition words in a long text", function() {
+		const mockPaper = new Paper( longText );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 3,
 			transitionWordSentences: 2 } ) );
 
@@ -113,62 +115,62 @@ describe( "An assessment for transition word percentage", function() {
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
 	} );
 
-	it( "is not applicable for empty papers", function() {
-		const mockPaper = new Paper();
-		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
-		expect( assessment ).toBe( false );
+	it( "returns the score for a short text with a low percentage of sentences with transition words", function() {
+		const mockPaper = new Paper( shortText );
+		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
+			transitionWordSentences: 1 } ) );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
+		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
-	it( "is not applicable when the text is less than 200 words", function() {
-		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, ne sed agam oblique alterum. Eos percipit singulis no. No scripta graecis cum. " +
-			"Ut vim eius porro labore. Id quem civibus sit. Sed no primis urbanitas, aperiri laboramus voluptatibus ei per. Esse consul possim " +
-			"duo eu, eu duo natum ferri libris. Tritani percipit interpretaris ne ius. Mel prima definitionem eu, partem labores vim at. " +
-			"Prompta vivendum usu te. Indoctum philosophia definitiones usu ad, cum quodsi alienum et. " );
-		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
-		expect( assessment ).toBe( false );
-	} );
+	it( "returns the score for a short text with no transition words", function() {
+		const mockPaper = new Paper( shortText );
+		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
+			transitionWordSentences: 0 } ) );
 
-	it( "is not applicable when the text is more than 200 words but the text is inside an element we want to exclude from the analysis", function() {
-		const mockPaper = new Paper( "<blockquote>Lorem ipsum dolor sit amet, ne sed agam oblique alterum. Eos percipit singulis no." +
-			" No scripta graecis cum. Ut vim eius porro labore. Id quem civibus sit. Sed no primis urbanitas, aperiri laboramus voluptatibus" +
-			" ei per. Esse consul possim duo eu, eu duo natum ferri libris. Tritani percipit interpretaris ne ius. Mel prima definitionem eu," +
-			" partem labores vim at. Prompta vivendum usu te. Indoctum philosophia definitiones usu ad, cum quodsi alienum et. " +
-			"Sumo civibus appareat est ea, in iriure euismod dolores mel. Mea scripta senserit maluisset ei." +
-			" Vel id mollis delicata constituam, laoreet scriptorem his cu, " +
-			"facilis accusam quaerendum nam in. Adversarium philosophia deterruisset duo at, augue postulant ut eos, usu ne iuvaret docendi. " +
-			"Iudicabit eloquentiam usu no. Vide volumus pri ne. Eos ignota timeam ponderum ei, an postea principes prodesset sit, " +
-			"purto blandit offendit pro an. Ei vim ludus veniam mnesarchum. Ne modus consul dolorem his, solum alienum eu nec. " +
-			"Mea legendos deserunt quaerendum te, fierent fabellas eu per. Ei sea accumsan fabellas signiferumque. Veri ludus aperiri his at, " +
-			"meis dicant impedit an qui. Est error offendit ex, at affert mediocrem interpretaris nam. Percipit persecuti et mel, persecuti " +
-			"inciderint signiferumque cu usu, an sit nemore nusquam. Brute iracundia sea ei, ad esse dictas aliquam est, prompta ceteros " +
-			"aliquando ne vix. Fabulas voluptua eu vel. Ceteros euripidis has cu. Pro ea esse ignota perfecto, ius noluisse liberavisse ei. " +
-			"Has possim mediocritatem in. Paulo alienum accusamus pro cu, magna labore sit ad. Sumo paulo sea in, cum te latine " +
-			"labores inciderint.</blockquote>" );
-		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
-		expect( assessment ).toBe( false );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>:" +
+			" You are not using any transition words, but your text is short enough and probably doesn't need them." );
+		expect( assessment.hasMarks() ).toBe( false );
 	} );
+} );
+describe( "An assessment for checking the percentage of transition words in a Japanese text ", function() {
+	it( "returns the score for a short Japanese text with a low percentage of sentences with transition words.", function() {
+		const mockPaper = new Paper( "ならば。" + shortTextJapanese );
+		const mockResearcher = new JapaneseResearcher( mockPaper );
+		const assessment = new TransitionWordsAssessment().getResult( mockPaper, mockResearcher );
 
-	it( "should not be applicable if the text has more than 200 words, but part of the words are shortcodes", function() {
-		const mockPaper = new Paper( "Text " + "text ".repeat( 198 ) + "[shortcode]".repeat( 2 ), { shortcodes: [ "shortcode" ] } );
-		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
-		expect( assessment ).toBe( false );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
+		expect( assessment.hasMarks() ).toBe( true );
 	} );
+	it( "returns the score for a short Japanese text with no transition words.", function() {
+		const mockPaper = new Paper( shortTextJapanese );
+		const mockResearcher = new JapaneseResearcher( mockPaper );
+		const assessment = new TransitionWordsAssessment().getResult( mockPaper, mockResearcher );
 
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>:" +
+			" You are not using any transition words, but your text is short enough and probably doesn't need them." );
+		expect( assessment.hasMarks() ).toBe( false );
+	} );
+	it( "returns the score for a long Japanese text with no transition words.", function() {
+		const mockPaper = new Paper( longTextJapanese );
+		const mockResearcher = new JapaneseResearcher( mockPaper );
+		const assessment = new TransitionWordsAssessment().getResult( mockPaper, mockResearcher );
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
+			"None of the sentences contain transition words. <a href='https://yoa.st/35a' target='_blank'>Use some</a>." );
+		expect( assessment.hasMarks() ).toBe( false );
+	} );
+} );
+
+describe( "A test for applicability", function() {
 	it( "is applicable when used with a supported researcher, e.g. the English researcher", function() {
-		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, ne sed agam oblique alterum. Eos percipit singulis no. No scripta graecis cum. " +
-			"Ut vim eius porro labore. Id quem civibus sit. Sed no primis urbanitas, aperiri laboramus voluptatibus ei per. Esse consul possim " +
-			"duo eu, eu duo natum ferri libris. Tritani percipit interpretaris ne ius. Mel prima definitionem eu, partem labores vim at. " +
-			"Prompta vivendum usu te. Indoctum philosophia definitiones usu ad, cum quodsi alienum et. Sumo civibus appareat est ea, " +
-			"in iriure euismod dolores mel. Mea scripta senserit maluisset ei. Vel id mollis delicata constituam, laoreet scriptorem his cu, " +
-			"facilis accusam quaerendum nam in. Adversarium philosophia deterruisset duo at, augue postulant ut eos, usu ne iuvaret docendi. " +
-			"Iudicabit eloquentiam usu no. Vide volumus pri ne. Eos ignota timeam ponderum ei, an postea principes prodesset sit, " +
-			"purto blandit offendit pro an. Ei vim ludus veniam mnesarchum. Ne modus consul dolorem his, solum alienum eu nec. " +
-			"Mea legendos deserunt quaerendum te, fierent fabellas eu per. Ei sea accumsan fabellas signiferumque. Veri ludus aperiri his at, " +
-			"meis dicant impedit an qui. Est error offendit ex, at affert mediocrem interpretaris nam. Percipit persecuti et mel, persecuti " +
-			"inciderint signiferumque cu usu, an sit nemore nusquam. Brute iracundia sea ei, ad esse dictas aliquam est, prompta ceteros " +
-			"aliquando ne vix. Fabulas voluptua eu vel. Ceteros euripidis has cu. Pro ea esse ignota perfecto, ius noluisse liberavisse ei. " +
-			"Has possim mediocritatem in. Paulo alienum accusamus pro cu, magna labore sit ad. Sumo paulo sea in, cum te latine " +
-			"labores inciderint.", { locale: "en_US" } );
+		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, ne sed agam oblique alterum.", { locale: "en_US" } );
 		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
 		expect( assessment ).toBe( true );
 	} );
@@ -177,18 +179,6 @@ describe( "An assessment for transition word percentage", function() {
 		const mockPaper = new Paper( "This is a string", { locale: "xx_YY" } );
 		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new DefaultResearcher( mockPaper ) );
 		expect( assessment ).toBe( false );
-	} );
-
-	it( "is not applicable when the text is less than 400 characters in Japanese", function() {
-		const mockPaper = new Paper( shortTextJapanese );
-		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new JapaneseResearcher( mockPaper ) );
-		expect( assessment ).toBe( false );
-	} );
-
-	it( "is applicable when the text is 400 characters or longer in Japanese", function() {
-		const mockPaper = new Paper( longTextJapanese );
-		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new JapaneseResearcher( mockPaper ) );
-		expect( assessment ).toBe( true );
 	} );
 } );
 

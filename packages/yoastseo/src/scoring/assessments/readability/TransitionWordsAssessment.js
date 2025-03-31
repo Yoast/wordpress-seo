@@ -31,7 +31,7 @@ export default class TransitionWordsAssessment extends Assessment {
 		const defaultConfig = {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34z" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/35a" ),
-			applicableIfTextLongerThan: 200,
+			transitionWordsNeededIfTextLongerThan: 200,
 		};
 
 		this.identifier = "textTransitionWords";
@@ -81,13 +81,44 @@ export default class TransitionWordsAssessment extends Assessment {
 	 *
 	 * @param {object} transitionWordSentences  The object containing the total number of sentences and the number of sentences containing
 	 *                                          a transition word.
+	 * @param {number} textLength               The length of the text.
 	 *
 	 * @returns {object} Object containing score and text.
 	 */
-	calculateTransitionWordResult( transitionWordSentences ) {
+	calculateTransitionWordResult( transitionWordSentences, textLength ) {
 		const percentage = this.calculateTransitionWordPercentage( transitionWordSentences );
 		const score = this.calculateScoreFromPercentage( percentage );
 		const hasMarks   = ( percentage > 0 );
+
+		// If the text is shorter than the minimum required length for transition words, we always return a green traffic light.
+		if ( textLength < this._config.transitionWordsNeededIfTextLongerThan ) {
+			if ( percentage > 0 ) {
+				return {
+					score: formatNumber( 9 ),
+					hasMarks: hasMarks,
+					text: sprintf(
+						/* translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+						__(
+							"%1$sTransition words%2$s: Well done!",
+							"wordpress-seo"
+						),
+						this._config.urlTitle,
+						"</a>" ),
+				};
+			}
+			return {
+				score: formatNumber( 9 ),
+				hasMarks: hasMarks,
+				text: sprintf(
+					/* translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+					__(
+						"%1$sTransition words%2$s: You are not using any transition words, but your text is short enough and probably doesn't need them.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					"</a>" ),
+			};
+		}
 
 		if ( score < 7 && percentage === 0 ) {
 			return {
@@ -146,8 +177,19 @@ export default class TransitionWordsAssessment extends Assessment {
 	 * @returns {object} The Assessment result.
 	 */
 	getResult( paper, researcher ) {
+		const customCountLength = researcher.getHelper( "customCountLength" );
+		const customMinimumRequiredTextLength = researcher.getConfig( "assessmentApplicability" ).transitionWords;
+		if ( customMinimumRequiredTextLength ) {
+			this._config.transitionWordsNeededIfTextLongerThan = customMinimumRequiredTextLength;
+		}
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
+		const textLength = customCountLength ? customCountLength( text ) : getWords( text ).length;
+
 		const transitionWordSentences = researcher.getResearch( "findTransitionWords" );
-		const transitionWordResult = this.calculateTransitionWordResult( transitionWordSentences );
+
+		const transitionWordResult = this.calculateTransitionWordResult( transitionWordSentences, textLength );
 		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( transitionWordResult.score );
@@ -179,27 +221,14 @@ export default class TransitionWordsAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks if the transition words assessment is applicable to the paper. Language-specific length requirements and methods of counting text length
-	 * may apply (e.g. for Japanese, the text should be counted in characters instead of words, which also makes the minimum required length higher).
+	 * Checks if the transition words assessment is applicable to the paper.
 	 *
 	 * @param {Paper}       paper       The paper to check.
 	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} Returns true if the language is available, the paper is not empty and the text is longer than the minimum required length.
+	 * @returns {boolean} Returns true if the assessment is available in the researcher of the language.
 	 */
 	isApplicable( paper, researcher ) {
-		const customCountLength = researcher.getHelper( "customCountLength" );
-		const customApplicabilityConfig = researcher.getConfig( "assessmentApplicability" ).transitionWords;
-		if ( customApplicabilityConfig ) {
-			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
-		}
-		let text = paper.getText();
-		text = removeHtmlBlocks( text );
-		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
-		const textLength = customCountLength ? customCountLength( text ) : getWords( text ).length;
-
-		// Do not use hasEnoughContent in this assessment as it is mostly redundant with `textLength >= this._config.applicableIfTextLongerThan`
-		return textLength >= this._config.applicableIfTextLongerThan &&
-			researcher.hasResearch( "findTransitionWords" );
+		return researcher.hasResearch( "findTransitionWords" );
 	}
 }

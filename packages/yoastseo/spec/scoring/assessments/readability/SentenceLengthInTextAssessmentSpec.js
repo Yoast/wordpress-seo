@@ -310,24 +310,6 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
-
-	it( "is not applicable for empty papers", function() {
-		const mockPaper = new Paper();
-		const assessment = new SentenceLengthInTextAssessment().isApplicable( mockPaper );
-		expect( assessment ).toBe( false );
-	} );
-
-	it( "returns false if the text is too short", function() {
-		const paper = new Paper( "hallo" );
-		const assessment = new SentenceLengthInTextAssessment().isApplicable( paper );
-		expect( assessment ).toBe( false );
-	} );
-
-	it( "returns true if the text is long enough", function() {
-		const paper = new Paper( "hallo".repeat( 100 ) );
-		const assessment = new SentenceLengthInTextAssessment().isApplicable( paper );
-		expect( assessment ).toBe( true );
-	} );
 } );
 
 describe( "A test for getting the right scoring config", function() {

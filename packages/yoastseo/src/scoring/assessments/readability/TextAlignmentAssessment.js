@@ -96,11 +96,10 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher  The researcher used in the assessment.
 	 *
-	 * @returns {boolean} True when the paper has at least 50 characters (after sanitation)
-	 * and when the researcher has `getLongCenterAlignedText` research.
+	 * @returns {boolean} True when the researcher has `getLongCenterAlignedText` research.
 	 */
 	isApplicable( paper, researcher ) {
-		return this.hasEnoughContentForAssessment( paper ) && researcher.hasResearch( "getLongCenterAlignedTexts" );
+		return researcher.hasResearch( "getLongCenterAlignedTexts" );
 	}
 
 	/**
