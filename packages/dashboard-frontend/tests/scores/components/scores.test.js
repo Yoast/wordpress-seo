@@ -3,7 +3,7 @@ import { fetchJson } from "../../../src/fetch/fetch-json";
 import { Scores } from "../../../src/scores/components/scores";
 import { DataProvider } from "../../../src/services/data-provider";
 import { RemoteDataProvider } from "../../../src/services/remote-data-provider";
-import { act, fireEvent, render, waitFor } from "../../test-utils";
+import { act, fireEvent, render, waitFor } from "@testing-library/react";
 import categories from "./__data__/categories.json";
 import contentTypes from "./__data__/content-types.json";
 import productCategories from "./__data__/product_cat.json";

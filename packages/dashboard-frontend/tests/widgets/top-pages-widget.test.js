@@ -3,7 +3,7 @@ import { forEach } from "lodash";
 import { SCORE_META } from "../../src/scores/score-meta";
 import { PlainMetricsDataFormatter } from "../../src/services/plain-metrics-data-formatter";
 import { createTopPageFormatter, TopPagesWidget } from "../../src/widgets/top-pages-widget";
-import { render, waitFor } from "../test-utils";
+import { render, waitFor } from "@testing-library/react";
 import { MockDataProvider } from "../__mocks__/data-provider";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
 

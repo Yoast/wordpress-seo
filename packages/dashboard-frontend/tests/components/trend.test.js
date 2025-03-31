@@ -1,6 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
 import { Trend } from "../../src/components/trend";
-import { render } from "../test-utils";
+import { render } from "@testing-library/react";
 
 describe( "Trend", () => {
 	test.each( [

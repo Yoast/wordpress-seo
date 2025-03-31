@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { OrganicSessionsCompare } from "../../../src/widgets/organic-sessions/compare";
-import { render } from "../../test-utils";
+import { render } from "@testing-library/react";
 
 describe( "OrganicSessionsCompare", () => {
 	const data = {

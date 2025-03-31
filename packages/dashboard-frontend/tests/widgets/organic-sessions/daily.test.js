@@ -1,7 +1,7 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { forEach } from "lodash";
 import { OrganicSessionsDaily } from "../../../src/widgets/organic-sessions/daily";
-import { render } from "../../test-utils";
+import { render } from "@testing-library/react";
 
 // Mock the Chart.js library. Preventing the error:
 // > Failed to create chart: can't acquire context from the given item.

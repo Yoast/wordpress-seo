@@ -1,4 +1,4 @@
-import { render } from "../test-utils";
+import { render } from "@testing-library/react";
 import { ErrorAlert, createLinkMessage } from "../../src/components/error-alert";
 import { it, expect } from "@jest/globals";
 import { createInterpolateElement } from "@wordpress/element";

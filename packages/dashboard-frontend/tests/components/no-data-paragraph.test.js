@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { NoDataParagraph } from "../../src/components/no-data-paragraph";
-import { render } from "../test-utils";
+import { render } from "@testing-library/react";
 
 describe( "NoDataParagraph", () => {
 	it( "should render the copy in a paragraph", () => {
