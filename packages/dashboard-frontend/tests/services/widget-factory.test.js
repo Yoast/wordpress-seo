@@ -1,7 +1,6 @@
 import { beforeAll, describe, expect, it, jest, test } from "@jest/globals";
-import { waitFor } from "@testing-library/react";
+import { waitFor, render } from "@testing-library/react";
 import { WidgetFactory } from "../../src/services/widget-factory";
-import { render } from "@testing-library/react";
 import { MockDataProvider } from "../__mocks__/data-provider";
 import { FakeDataFormatter } from "../__mocks__/fake-data-formatter";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";

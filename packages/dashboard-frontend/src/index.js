@@ -102,29 +102,6 @@ export { Dashboard } from "./components/dashboard";
  * @property {WidgetType} type The widget type.
  */
 
-/**
- * @typedef {Object} SiteKitConfiguration The Site Kit configuration.
- * @property {string} installUrl The link to install Site Kit.
- * @property {string} activateUrl The link to activate Site Kit.
- * @property {string} setupUrl The link to setup Site Kit.
- * @property {string} updateUrl The link to update Site Kit.
- * @property {SiteKitConnectionStepsStatuses} connectionStepsStatuses The connection steps statuses.
- * @property {boolean} isAnalyticsConnected Whether Google Analytics is connected.
- * @property {boolean} isFeatureEnabled Whether the feature is enabled.
- * @property {boolean} isSetupWidgetDismissed Whether the configuration is dismissed.
- * @property {CapabilitiesForSiteKit} capabilities The user capabilities for site kit.
- * @property {boolean} isVersionSupported Whether the current Site Kit plugin version is supported.
- */
-
-/**
- * @typedef {Object<"installPlugins"|"viewSearchConsoleData"|"viewAnalyticsData", boolean>} CapabilitiesForSiteKit
- * The user capabilities for site kit.
- */
-
-/**
- * @typedef {Object<"isInstalled"|"isActive"|"isSetupCompleted"|"isConsentGranted", boolean>} SiteKitConnectionStepsStatuses
- * The connection steps statuses.
- */
 
 export { TopPagesWidget } from "./widgets/top-pages-widget";
 export { TopQueriesWidget } from "./widgets/top-queries-widget";
@@ -134,6 +111,11 @@ export { ScoreWidget } from "./widgets/score-widget";
 export { Widget } from "./widgets/widget";
 export { LearnMoreLink } from "./components/learn-more-link";
 export { PageTitle } from "./components/page-title";
+
 export { PlainMetricsDataFormatter } from "./services/plain-metrics-data-formatter";
-export { DataProvider } from "./services/data-provider";
+export { DataFormatterInterface } from "./services/data-formatter-interface";
+export { ComparisonMetricsDataFormatter } from "./services/comparison-metrics-data-formatter";
+
 export { RemoteDataProvider } from "./services/remote-data-provider";
+export { DataProvider } from "./services/data-provider";
+export { WidgetFactory } from "./services/widget-factory";
