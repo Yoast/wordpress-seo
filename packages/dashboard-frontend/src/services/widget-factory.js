@@ -33,7 +33,7 @@ export class WidgetFactory {
 	 *
 	 * @returns {Object} The widget types.
 	 */
-	static get types() {
+	get types() {
 		return {
 			searchRankingCompare: "searchRankingCompare",
 			organicSessions: "organicSessions",
@@ -50,7 +50,7 @@ export class WidgetFactory {
 	 */
 	createWidget( widget ) {
 		switch ( widget.type ) {
-			case WidgetFactory.types.seoScores:
+			case this.types.seoScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
 					return null;
 				}
@@ -60,7 +60,7 @@ export class WidgetFactory {
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
-			case WidgetFactory.types.readabilityScores:
+			case this.types.readabilityScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "readabilityAnalysis" ) ) ) {
 					return null;
 				}
@@ -70,28 +70,28 @@ export class WidgetFactory {
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
-			case WidgetFactory.types.topPages:
+			case this.types.topPages:
 				return <TopPagesWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
-			case WidgetFactory.types.topQueries:
+			case this.types.topQueries:
 				return <TopQueriesWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
-			case WidgetFactory.types.searchRankingCompare:
+			case this.types.searchRankingCompare:
 				return <SearchRankingCompareWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
-			case WidgetFactory.types.organicSessions:
+			case this.types.organicSessions:
 				return <OrganicSessionsWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }

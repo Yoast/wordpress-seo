@@ -1,25 +1,15 @@
 import { useCallback, useSyncExternalStore } from "@wordpress/element";
-import { PageTitle } from "@yoast/dashboard-frontend";
-import { values } from "lodash";
+import { PageTitle } from "./page-title";
 import { WidgetFactory } from "../services/widget-factory";
+import { Dashboard as DashboardWidgets } from "@yoast/dashboard-frontend";
 
 /**
  * @type {import("../index").ContentType} ContentType
  * @type {import("../index").Features} Features
  * @type {import("../index").Endpoints} Endpoints
  * @type {import("../index").Links} Links
- * @type {import("../index").WidgetType} WidgetType
- * @type {import("../index").WidgetInstance} WidgetInstance
  * @type {import("../services/widget-factory").WidgetFactory} WidgetFactory
  */
-
-/**
- * @param {WidgetType} type The widget type.
- * @returns {WidgetInstance} The widget instance.
- */
-const prepareWidgetInstance = ( type ) => {
-	return { id: `widget--${ type }__${ Date.now() }`, type };
-};
 
 /**
  * @param {WidgetFactory} widgetFactory The widget factory.
@@ -43,7 +33,7 @@ export const Dashboard = ( { widgetFactory, userName, features, links, sitekitFe
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } sitekitFeatureEnabled={ sitekitFeatureEnabled } />
 			<div className="yst-@container yst-grid yst-grid-cols-4 yst-gap-6 yst-my-6">
-				{ values( WidgetFactory.types ).map( ( widget ) => widgetFactory.createWidget( prepareWidgetInstance( widget ) ) ) }
+				<DashboardWidgets widgetFactory={ widgetFactory } />
 			</div>
 		</>
 	);

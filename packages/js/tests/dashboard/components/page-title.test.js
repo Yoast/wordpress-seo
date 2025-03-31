@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { PageTitle } from "../../src/components/page-title";
+import { PageTitle } from "../../../src/dashboard/components/page-title";
 import { render } from "@testing-library/react";
 
 /**

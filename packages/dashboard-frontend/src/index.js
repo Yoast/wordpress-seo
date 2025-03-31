@@ -1,5 +1,3 @@
-export { Dashboard } from "./components/dashboard";
-
 /**
  * @typedef {Object} Taxonomy A taxonomy.
  * @property {string} name The unique identifier.
@@ -109,8 +107,9 @@ export { SearchRankingCompareWidget } from "./widgets/search-ranking-compare-wid
 export { OrganicSessionsWidget } from "./widgets/organic-sessions-widget";
 export { ScoreWidget } from "./widgets/score-widget";
 export { Widget } from "./widgets/widget";
+
 export { LearnMoreLink } from "./components/learn-more-link";
-export { PageTitle } from "./components/page-title";
+export { Dashboard } from "./components/dashboard";
 
 export { PlainMetricsDataFormatter } from "./services/plain-metrics-data-formatter";
 export { DataFormatterInterface } from "./services/data-formatter-interface";

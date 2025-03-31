@@ -35,7 +35,7 @@ export class WidgetFactory {
 	 *
 	 * @returns {Object} The widget types.
 	 */
-	static get types() {
+	get types() {
 		return {
 			siteKitSetup: "siteKitSetup",
 			searchRankingCompare: "searchRankingCompare",
@@ -67,7 +67,7 @@ export class WidgetFactory {
 		const isAnalyticsWidgetAllowed = isSiteKitWidgetAllowed && isAnalyticsConnected && capabilities.viewAnalyticsData;
 
 		switch ( widget.type ) {
-			case WidgetFactory.types.seoScores:
+			case this.types.seoScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
 					return null;
 				}
@@ -77,7 +77,7 @@ export class WidgetFactory {
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
-			case WidgetFactory.types.readabilityScores:
+			case this.types.readabilityScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "readabilityAnalysis" ) ) ) {
 					return null;
 				}
@@ -87,7 +87,7 @@ export class WidgetFactory {
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
-			case WidgetFactory.types.topPages:
+			case this.types.topPages:
 				if ( ! isSearchConsoleWidgetAllowed ) {
 					return null;
 				}
@@ -97,7 +97,7 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
-			case WidgetFactory.types.siteKitSetup:
+			case this.types.siteKitSetup:
 				if ( ! isFeatureEnabled || isSetupWidgetDismissed ) {
 					return null;
 				}
@@ -106,7 +106,7 @@ export class WidgetFactory {
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
-			case WidgetFactory.types.topQueries:
+			case this.types.topQueries:
 				if ( ! isSearchConsoleWidgetAllowed ) {
 					return null;
 				}
@@ -116,7 +116,7 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
-			case WidgetFactory.types.searchRankingCompare:
+			case this.types.searchRankingCompare:
 				if ( ! isSearchConsoleWidgetAllowed ) {
 					return null;
 				}
@@ -126,7 +126,7 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
-			case WidgetFactory.types.organicSessions:
+			case this.types.organicSessions:
 				if ( ! isAnalyticsWidgetAllowed ) {
 					return null;
 				}

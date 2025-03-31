@@ -44,7 +44,7 @@ describe( "WidgetFactory", () => {
 			"organicSessions",
 			"searchRankingCompare",
 		] )( "should have the widget type: %s", async( type ) => {
-			expect( WidgetFactory.types[ type ] ).toBe( type );
+			expect( widgetFactory.types[ type ] ).toBe( type );
 		} );
 	} );
 
