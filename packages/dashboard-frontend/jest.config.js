@@ -3,12 +3,7 @@ module.exports = {
 	setupFilesAfterEnv: [ "<rootDir>/tests/setupTests.js" ],
 	testPathIgnorePatterns: [
 		"/tests/__mocks__/",
-		"/tests/dashboard/__mocks__/",
-		"/tests/containers/mockSelectors.js",
-		"/tests/helpers/factory.js",
 		"/tests/setupTests.js",
-		"/tests/decorator/__mocks__/@wordpress/rich-text/index.js",
-		"/tests/test-utils.js",
 	],
 	// https://testing-library.com/docs/react-testing-library/setup#jest-27
 	testEnvironment: "jest-environment-jsdom",
@@ -38,9 +33,9 @@ module.exports = {
 	],
 	testURL: "http://localhost/",
 	transformIgnorePatterns: [
-        "/node_modules/(?!memize|@wordpress/i18n).+\\.js$",
-    ],
-    transform: {
-        "^.+\\.[jt]sx?$": "babel-jest",
-    },
+		"/node_modules/(?!memize|@wordpress/i18n).+\\.js$",
+	],
+	transform: {
+		"^.+\\.[jt]sx?$": "babel-jest",
+	},
 };

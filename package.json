@@ -49,7 +49,7 @@
     "@yoast/grunt-plugin-tasks": "^2.4",
     "@yoast/postcss-preset": "^1.2.0",
     "@yoast/related-keyphrase-suggestions": "^0.1.0",
-	"@yoast/dashboard-frontend": "^0.1.0",
+    "@yoast/dashboard-frontend": "^0.1.0",
     "@yoast/tailwindcss-preset": "^2.3.0",
     "@yoast/ui-library": "^4.2.0",
     "colors": "1.4.0",
