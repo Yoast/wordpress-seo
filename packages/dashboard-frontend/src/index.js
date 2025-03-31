@@ -108,7 +108,6 @@ export { OrganicSessionsWidget } from "./widgets/organic-sessions-widget";
 export { ScoreWidget } from "./widgets/score-widget";
 export { Widget } from "./widgets/widget";
 
-export { LearnMoreLink } from "./components/learn-more-link";
 export { Dashboard } from "./components/dashboard";
 
 export { PlainMetricsDataFormatter } from "./services/plain-metrics-data-formatter";
