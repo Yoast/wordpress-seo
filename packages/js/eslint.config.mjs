@@ -16,14 +16,6 @@ export default [
 			},
 		},
 		rules: {
-			"import/no-extraneous-dependencies": [
-				"error",
-				{
-					ignore: [
-						"@yoast/dashboard-frontend",
-					],
-				},
-			],
 			// Account for webpack externals and potentially unbuilt packages in the monorepo setup.
 			"import/no-unresolved": [
 				"error",
