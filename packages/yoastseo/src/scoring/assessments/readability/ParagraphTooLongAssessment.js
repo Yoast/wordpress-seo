@@ -77,6 +77,10 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	 * @returns {number} The score.
 	 */
 	getScore( paragraphsLength, config ) {
+		if ( paragraphsLength.length === 0 ) {
+			return 9;
+		}
+
 		const sortedParagraphsLength = paragraphsLength.sort( ( a, b ) => b.paragraphLength - a.paragraphLength );
 
 		const longestParagraphLength = sortedParagraphsLength[ 0 ].paragraphLength;
@@ -110,10 +114,6 @@ export default class ParagraphTooLongAssessment extends Assessment {
 		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength, config );
 
 		const assessmentResult = new AssessmentResult();
-
-		if ( paragraphsLength.length === 0 ) {
-			return assessmentResult;
-		}
 
 		const score = this.getScore( paragraphsLength, config );
 
