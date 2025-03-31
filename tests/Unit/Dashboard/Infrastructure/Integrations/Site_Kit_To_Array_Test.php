@@ -28,15 +28,15 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 	 *
 	 * @dataProvider generate_site_kit_to_array_provider
 	 *
-	 * @param bool               $is_site_kit_installed If the Site Kit plugin is installed.
-	 * @param bool               $is_site_kit_activated If the Site Kit plugin is activated.
-	 * @param bool               $is_consent_granted    If consent is granted to our integration.
-	 * @param bool               $is_ga_connected       If the Google analytics setup is completed.
-	 * @param bool               $is_setup_completed    If the Google search console setup is completed.
-	 * @param bool               $is_config_dismissed   If the configuration widget is dismissed.
-	 * @param array              $data_list             The result of the module data API call.
-	 * @param array              $permissions           The result of the permissions API call.
-	 * @param array<bool|string> $expected              The expected value.
+	 * @param bool                 $is_site_kit_installed If the Site Kit plugin is installed.
+	 * @param bool                 $is_site_kit_activated If the Site Kit plugin is activated.
+	 * @param bool                 $is_consent_granted    If consent is granted to our integration.
+	 * @param bool                 $is_ga_connected       If the Google analytics setup is completed.
+	 * @param bool                 $is_setup_completed    If the Google search console setup is completed.
+	 * @param bool                 $is_config_dismissed   If the configuration widget is dismissed.
+	 * @param array<array<string>> $data_list             The result of the module data API call.
+	 * @param array<bool>          $permissions           The result of the permissions API call.
+	 * @param array<bool|string>   $expected              The expected value.
 	 *
 	 * @return void
 	 */
