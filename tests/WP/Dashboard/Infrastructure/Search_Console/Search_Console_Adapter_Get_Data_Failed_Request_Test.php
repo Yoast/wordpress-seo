@@ -27,7 +27,7 @@ final class Search_Console_Adapter_Get_Data_Failed_Request_Test extends Abstract
 	 * @return void
 	 */
 	public function test_get_data_no_permissions() {
-
+		$this->markTestSkipped( 'This test needs working Site Kit rest routes' );
 		$search_console_api_call = new Site_Kit_Search_Console_Api_Call();
 
 		$instance = new Site_Kit_Search_Console_Adapter( $search_console_api_call );
