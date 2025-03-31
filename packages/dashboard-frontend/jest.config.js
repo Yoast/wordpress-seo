@@ -11,7 +11,7 @@ module.exports = {
 		"/tests/test-utils.js",
 	],
 	// https://testing-library.com/docs/react-testing-library/setup#jest-27
-	testEnvironment: "jsdom",
+	testEnvironment: "jest-environment-jsdom",
 	moduleNameMapper: {
 		"\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
 		"\\.(svg)$": "<rootDir>/tests/__mocks__/svgMock.js",
@@ -38,9 +38,9 @@ module.exports = {
 	],
 	testURL: "http://localhost/",
 	transformIgnorePatterns: [
-		"/node_modules/(?!memize|@wordpress/i18n).+\\.js$",
-	],
-	transform: {
-		"^.+\\.[jt]sx?$": "babel-jest",
-	},
+        "/node_modules/(?!memize|@wordpress/i18n).+\\.js$",
+    ],
+    transform: {
+        "^.+\\.[jt]sx?$": "babel-jest",
+    },
 };
