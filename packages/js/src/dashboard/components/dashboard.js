@@ -1,6 +1,5 @@
 import { useCallback, useSyncExternalStore } from "@wordpress/element";
 import { PageTitle } from "./page-title";
-import { WidgetFactory } from "../services/widget-factory";
 import { Dashboard as DashboardWidgets } from "@yoast/dashboard-frontend";
 
 /**
