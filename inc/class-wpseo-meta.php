@@ -964,7 +964,7 @@ class WPSEO_Meta {
 		/**
 		 * The indexable repository.
 		 *
-		 * @var Indexable_Repository
+		 * @var Indexable_Repository $repository
 		 */
 		$repository = YoastSEO()->classes->get( Indexable_Repository::class );
 
@@ -1012,7 +1012,7 @@ class WPSEO_Meta {
 		/**
 		 * The indexable repository.
 		 *
-		 * @var Indexable_Repository
+		 * @var Indexable_Repository $repository
 		 */
 		$repository = YoastSEO()->classes->get( Indexable_Repository::class );
 

@@ -43,7 +43,7 @@ class Image_Helper {
 	 * @deprecated 22.4
 	 * @codeCoverageIgnore
 	 *
-	 * @param array<array<string,string|int>> $image The image array.
+	 * @param array<array<string, string|int>> $image The image array.
 	 *
 	 * @return bool Whether or not the URL is a valid image.
 	 */
@@ -94,7 +94,7 @@ class Image_Helper {
 	 *
 	 * @param int $attachment_id The attachment id.
 	 *
-	 * @return array<string,string|int>|false The image data when found, `false` when not.
+	 * @return array<string, string|int>|false The image data when found, `false` when not.
 	 */
 	public function get_image_by_id( $attachment_id ) {
 		if ( ! $this->image->is_valid_attachment( $attachment_id ) ) {

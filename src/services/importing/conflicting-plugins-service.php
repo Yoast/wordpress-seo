@@ -69,7 +69,7 @@ class Conflicting_Plugins_Service {
 	/**
 	 * Get a list of all plugins active in the current WordPress instance.
 	 *
-	 * @return false|array The names of all active plugins.
+	 * @return array|false The names of all active plugins.
 	 */
 	protected function get_active_plugins() {
 		// Request a list of active plugins from WordPress.

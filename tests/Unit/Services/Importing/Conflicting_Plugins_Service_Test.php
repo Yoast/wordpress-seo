@@ -153,7 +153,7 @@ final class Conflicting_Plugins_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_detect_deactivating_conflicting_plugins_plugin_is_int.
 	 *
-	 * @return array[] Data to use for test_detect_deactivating_conflicting_plugins_plugin_is_int.
+	 * @return array<string, array<string, string|int|array<string>|null>>
 	 */
 	public static function detect_deactivating_conflicting_plugins_dataprovider() {
 		$action_is_null       = [

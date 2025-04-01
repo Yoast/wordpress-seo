@@ -33,8 +33,9 @@ class Readability_Scores_Endpoint implements Endpoint_Interface {
 	/**
 	 * Gets the route.
 	 *
-	 * @throws Exception If the route prefix is not overwritten this throws.
 	 * @return string
+	 *
+	 * @throws Exception If the route prefix is not overwritten this throws.
 	 */
 	public function get_route(): string {
 		return Readability_Scores_Route::get_route_prefix();

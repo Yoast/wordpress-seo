@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Taxonomies;
 
 use WP_Taxonomy;
-use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
 
 /**
  * Class that validates taxonomies.

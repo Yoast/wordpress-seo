@@ -86,6 +86,8 @@ exports[`AiGenerateTitlesAndDescriptionsUpsell renders the component correctly f
     >
       <a
         class="yst-button yst-button--upsell yst-button--extra-large yst-grow"
+        data-action="load-nfd-ctb"
+        data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
         href="https://example.com/upsell"
         target="_blank"
       >
@@ -208,6 +210,8 @@ exports[`AiGenerateTitlesAndDescriptionsUpsell renders the component correctly f
     >
       <a
         class="yst-button yst-button--upsell yst-button--extra-large yst-grow"
+        data-action="load-nfd-ctb"
+        data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
         href="https://example.com/upsell"
         target="_blank"
       >

@@ -73,7 +73,7 @@ final class Elementor_Edit_Conditional_Test extends TestCase {
 	/**
 	 * Provides test data for test_is_met.
 	 *
-	 * @return array<string,array<string,string|bool|int|null>> The data for test_is_met.
+	 * @return array<string, array<string, string|bool|int|null>> The data for test_is_met.
 	 */
 	public static function is_met_data_provider(): array {
 		return [

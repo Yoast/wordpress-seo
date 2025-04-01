@@ -155,9 +155,9 @@ export default class WordComplexityAssessment extends Assessment {
 	 * @param {Paper}       paper       The paper to check.
 	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} Returns true if the paper has text and the researcher has word complexity research.
+	 * @returns {boolean} Returns true if the researcher has word complexity research.
 	 */
 	isApplicable( paper, researcher ) {
-		return this.hasEnoughContentForAssessment( paper ) && researcher.hasResearch( "wordComplexity" );
+		return researcher.hasResearch( "wordComplexity" );
 	}
 }

@@ -24,9 +24,7 @@ class Current_Page_Helper {
 	 *
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wrapper for WP_Query.
 	 */
-	public function __construct(
-		WP_Query_Wrapper $wp_query_wrapper
-	) {
+	public function __construct( WP_Query_Wrapper $wp_query_wrapper ) {
 		$this->wp_query_wrapper = $wp_query_wrapper;
 	}
 
@@ -480,7 +478,7 @@ class Current_Page_Helper {
 		$term     = $wp_query->get_queried_object();
 
 		$queried_terms = $wp_query->tax_query->queried_terms;
-		if ( \is_null( $term ) || empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
+		if ( $term === null || empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
 			return 0;
 		}
 

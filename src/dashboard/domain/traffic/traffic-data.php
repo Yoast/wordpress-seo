@@ -12,21 +12,21 @@ class Traffic_Data implements Data_Interface {
 	/**
 	 * The sessions, if any.
 	 *
-	 * @var int|null $sessions
+	 * @var int|null
 	 */
 	private $sessions;
 
 	/**
 	 * The total users, if any.
 	 *
-	 * @var int|null $total_users
+	 * @var int|null
 	 */
 	private $total_users;
 
 	/**
 	 * The array representation of this domain object.
 	 *
-	 * @return array<string,int>
+	 * @return array<string, int>
 	 */
 	public function to_array(): array {
 		$result = [];

@@ -55,7 +55,7 @@ class Twitter_Image_Generator implements Generator_Interface {
 	 *
 	 * @param Meta_Tags_Context $context The context.
 	 *
-	 * @return array<array<string,string|int>> The images.
+	 * @return array<array<string, string|int>> The images.
 	 */
 	public function generate( Meta_Tags_Context $context ) {
 		$image_container = $this->get_image_container();
