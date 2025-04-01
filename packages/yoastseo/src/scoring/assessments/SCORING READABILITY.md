@@ -53,11 +53,11 @@ Below is a detailed overview of how scores for the readability assessments are c
 
 **Call to action URL**: [https://yoa.st/35e](https://yoast.com/paragraph-length-check/#utm_source=yoast-seo&utm_medium=software&utm_term=paragraph-length-cta&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light 	 | Score	| Criterion | Feedback                                                                                                                     |
-|------------|------------------	|--------------------- |------------------------------------------------------------------------------------------------------------------------------|
-| Red        |3	                |> 200 words	   	          | **Paragraph length**: X of the paragraphs contain more than the recommended maximum of X words. **Shorten your paragraphs!** |
-| Orange     |6                 |Between 150 and 200 words    | **Paragraph length**: X of the paragraphs contain more than the recommended maximum of X words. **Shorten your paragraphs!** |
-| Green      |9                 |≤ 150 words	              | **Paragraph length**: There are no paragraphs that are too long. Great job!                                                  |
+| Traffic light 	 | Score	| Criterion | Feedback                                                                                                                              |
+|------------|------------------	|--------------------- |---------------------------------------------------------------------------------------------------------------------------------------|
+| Red        |3	                |> 200 words	   	          | **Paragraph length**: X of the paragraphs contain more than the recommended maximum number of words (X). **Shorten your paragraphs!** |
+| Orange     |6                 |Between 150 and 200 words    | **Paragraph length**: X of the paragraphs contain more than the recommended maximum number of words (X). **Shorten your paragraphs!** |
+| Green      |9                 |≤ 150 words	              | **Paragraph length**: There are no paragraphs that are too long. Great job!                                                           |
 
 ### 3) Sentence length
 **What it does**: Checks whether the sentences exceed the recommended maximum length (default: 20 words, IT: 25 words, RU: 15 words, HE: 15 words, TR: 15 words).
