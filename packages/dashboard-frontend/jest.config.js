@@ -1,5 +1,4 @@
 module.exports = {
-	preset: "@yoast/jest-preset",
 	setupFilesAfterEnv: [ "<rootDir>/tests/setupTests.js" ],
 	testPathIgnorePatterns: [
 		"/tests/__mocks__/",
@@ -11,9 +10,6 @@ module.exports = {
 		"\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
 		"\\.(svg)$": "<rootDir>/tests/__mocks__/svgMock.js",
 		"\\.(css|less)$": "<rootDir>/tests/__mocks__/styleMock.js",
-		"find-with-regex": "<rootDir>/node_modules/find-with-regex/lib/index.js",
-		"^lodash-es$": "lodash",
-		"^lodash-es/(.*)$": "lodash/$1",
 		"@yoast/ui-library": "<rootDir>/../ui-library/src",
 	},
 	moduleDirectories: [
