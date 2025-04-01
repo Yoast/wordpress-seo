@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter;
 
 /**
- * The data provider for search ranking related data.
+ * The data provider for top page data.
  */
 class Top_Page_Repository implements Dashboard_Repository_Interface {
 

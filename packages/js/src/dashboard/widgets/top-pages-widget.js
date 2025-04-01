@@ -2,10 +2,11 @@ import { PencilIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
-import { useRemoteData } from "../services/use-remote-data";
-import { WidgetTable, Score } from "../components/widget-table";
-import { Widget } from "./widget";
 import { ErrorAlert } from "../components/error-alert";
+import { NoDataParagraph } from "../components/no-data-paragraph";
+import { Score, WidgetTable } from "../components/widget-table";
+import { useRemoteData } from "../services/use-remote-data";
+import { Widget } from "./widget";
 
 /**
  * @type {import("../index").TopPageData} TopPageData
@@ -137,7 +138,7 @@ const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnaly
 );
 
 /**
- * @param {import("../services/data-formatter")} dataFormatter The data formatter.
+ * @param {import("../services/plain-metrics-data-formatter")} dataFormatter The data formatter.
  * @returns {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
  */
 export const createTopPageFormatter = ( dataFormatter ) => ( data = [] ) => data.map( ( item ) => ( {
@@ -171,22 +172,26 @@ const TopPagesWidgetContent = ( { data, isPending, limit, error, dataProvider } 
 			</TopPagesTable>
 		);
 	}
-
 	if ( error ) {
 		return <ErrorAlert error={ error } supportLink={ dataProvider.getLink( "errorSupport" ) } className="yst-mt-4" />;
 	}
-
 	if ( data.length === 0 ) {
-		return <p className="yst-mt-4">{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }</p>;
+		return <NoDataParagraph />;
 	}
 
-	return <TopPagesTable data={ data } isIndexablesEnabled={ dataProvider.hasFeature( "indexables" ) } isSeoAnalysisEnabled={ dataProvider.hasFeature( "seoAnalysis" ) } />;
+	return (
+		<TopPagesTable
+			data={ data }
+			isIndexablesEnabled={ dataProvider.hasFeature( "indexables" ) }
+			isSeoAnalysisEnabled={ dataProvider.hasFeature( "seoAnalysis" ) }
+		/>
+	);
 };
 
 /**
  * @param {import("../services/data-provider")} dataProvider The data provider.
  * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
- * @param {import("../services/data-formatter")} dataFormatter The data formatter.
+ * @param {import("../services/data-formatter-interface")} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  * @returns {JSX.Element} The element.
  */

@@ -1,6 +1,15 @@
 {
 	"name": "yoast/wordpress-seo",
 	"description": "Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.",
+	"repositories":[
+        {
+            "type":"composer",
+            "url":"https://wpackagist.org",
+            "only": [
+                "wpackagist-plugin/*"
+            ]
+        }
+    ],
 	"license": "GPL-2.0-or-later",
 	"type": "wordpress-plugin",
 	"keywords": [
@@ -37,7 +46,8 @@
 		"symfony/config": "^3.4",
 		"symfony/dependency-injection": "^3.4",
 		"yoast/wp-test-utils": "^1.2",
-		"yoast/yoastcs": "^3.1.0"
+		"yoast/yoastcs": "^3.1.0",
+		"wpackagist-plugin/google-site-kit": "dev-trunk"
 	},
 	"suggest": {
 		"ext-bcmath": "For more accurate calculations",
@@ -64,6 +74,13 @@
 			"config/"
 		]
 	},
+    "extra": {
+        "installer-paths": {
+            "vendor/{$name}": [
+                "wpackagist-plugin/google-site-kit"
+            ]
+        }
+    },
 	"config": {
 		"allow-plugins": {
 			"composer/installers": true,

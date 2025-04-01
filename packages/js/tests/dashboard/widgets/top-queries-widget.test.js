@@ -1,6 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
 import { forEach } from "lodash";
-import { DataFormatter } from "../../../src/dashboard/services/data-formatter";
+import { PlainMetricsDataFormatter } from "../../../src/dashboard/services/plain-metrics-data-formatter";
 import { createTopQueriesFormatter, TopQueriesWidget } from "../../../src/dashboard/widgets/top-queries-widget";
 import { render, waitFor } from "../../test-utils";
 import { MockDataProvider } from "../__mocks__/data-provider";
@@ -23,7 +23,7 @@ describe( "TopQueriesWidget", () => {
 	beforeAll( () => {
 		dataProvider = new MockDataProvider();
 		remoteDataProvider = new MockRemoteDataProvider( {} );
-		dataFormatter = new DataFormatter();
+		dataFormatter = new PlainMetricsDataFormatter();
 		formatter = createTopQueriesFormatter( dataFormatter );
 		formattedData = formatter( data );
 	} );
@@ -32,7 +32,7 @@ describe( "TopQueriesWidget", () => {
 		remoteDataProvider.fetchJson.mockClear();
 	} );
 
-	it( "should render the TopQueriesWidget component", async() => {
+	it( "should render the component", async() => {
 		remoteDataProvider.fetchJson.mockResolvedValue( data );
 		const { getByRole, getByText } = render( <TopQueriesWidget
 			dataProvider={ dataProvider }
@@ -57,7 +57,7 @@ describe( "TopQueriesWidget", () => {
 		} );
 	} );
 
-	it( "should render the TopQueriesWidget component without data", async() => {
+	it( "should render the component without data", async() => {
 		remoteDataProvider.fetchJson.mockResolvedValue( [] );
 		const { getByText } = render( <TopQueriesWidget
 			dataProvider={ dataProvider }
@@ -71,21 +71,46 @@ describe( "TopQueriesWidget", () => {
 		} );
 	} );
 
-	it( "should render the TopQueriesWidget component with an error", async() => {
-		const message = "An error occurred.";
-		remoteDataProvider.fetchJson.mockRejectedValue( new Error( message ) );
-		const { getByText } = render( <TopQueriesWidget
+	it.each( [
+		{
+			status: 408,
+			name: "Unauthorized",
+			message: "The request timed out. Try refreshing the page. If the problem persists, please check our Support page.",
+		},
+		{
+			status: 400,
+			name: "TimeoutError",
+			message: "The request timed out. Try refreshing the page. If the problem persists, please check our Support page.",
+		},
+		{
+			status: 403,
+			name: "Forbidden",
+			message: "You don’t have permission to access this resource. Please contact your admin for access. In case you need further help, please check our Support page.",
+		},
+		{
+			status: 500,
+			name: "Bad Request",
+			message: "Something went wrong. Try refreshing the page. If the problem persists, please check our Support page.",
+		},
+	] )( "should render the message for an error with status $status and error name $name.", async( { status, name, message } ) => {
+		const error = new Error( name );
+		error.status = status;
+		error.name = name;
+		remoteDataProvider.fetchJson.mockRejectedValue( error );
+		const { getByRole } = render( <TopQueriesWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
 			dataFormatter={ dataFormatter }
 		/> );
 
 		await waitFor( () => {
-			expect( getByText( message ) ).toBeInTheDocument();
+			expect( getByRole( "status" ) )
+				.toHaveTextContent( message );
+			expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "https://example.com/error-support" );
 		} );
 	} );
 
-	it( "should render the TopQueriesWidget component with a pending state", async() => {
+	it( "should render the component with a pending state", async() => {
 		// Never resolving promise to ensure it keeps loading.
 		remoteDataProvider.fetchJson.mockImplementation( () => new Promise( () => {
 		} ) );

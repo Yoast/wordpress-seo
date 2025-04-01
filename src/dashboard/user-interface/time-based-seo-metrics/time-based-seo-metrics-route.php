@@ -7,14 +7,17 @@ use DateTimeZone;
 use Exception;
 use WP_REST_Request;
 use WP_REST_Response;
-use WPSEO_Capability_Utils;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Search_Ranking_Compare_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Page_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Query_Repository;
-use Yoast\WP\SEO\Dashboard\Application\Traffic\Organic_Sessions_Repository;
+use Yoast\WP\SEO\Dashboard\Application\Traffic\Organic_Sessions_Compare_Repository;
+use Yoast\WP\SEO\Dashboard\Application\Traffic\Organic_Sessions_Daily_Repository;
+use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Domain\Time_Based_SEO_Metrics\Repository_Not_Found_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Analytics_4_Parameters;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -52,11 +55,32 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	private $top_query_repository;
 
 	/**
-	 * The data provider for organic session traffic.
+	 * The data provider for comparison organic session traffic.
 	 *
-	 * @var Organic_Sessions_Repository $organic_sessions_repository
+	 * @var Organic_Sessions_Compare_Repository $organic_sessions_compare_repository
 	 */
-	private $organic_sessions_repository;
+	private $organic_sessions_compare_repository;
+
+	/**
+	 * The data provider for daily organic session traffic.
+	 *
+	 * @var Organic_Sessions_Daily_Repository $organic_sessions_daily_repository
+	 */
+	private $organic_sessions_daily_repository;
+
+	/**
+	 * The data provider for searching ranking comparison.
+	 *
+	 * @var Search_Ranking_Compare_Repository $search_ranking_compare_repository
+	 */
+	private $search_ranking_compare_repository;
+
+	/**
+	 * Holds the capabilit helper instance.
+	 *
+	 * @var Capability_Helper
+	 */
+	private $capability_helper;
 
 	/**
 	 * Returns the needed conditionals.
@@ -70,18 +94,27 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Top_Page_Repository         $top_page_repository         The data provider for page based search rankings.
-	 * @param Top_Query_Repository        $top_query_repository        The data provider for query based search rankings.
-	 * @param Organic_Sessions_Repository $organic_sessions_repository The data provider for organic session traffic.
+	 * @param Top_Page_Repository                 $top_page_repository                 The data provider for page based search rankings.
+	 * @param Top_Query_Repository                $top_query_repository                The data provider for query based search rankings.
+	 * @param Organic_Sessions_Compare_Repository $organic_sessions_compare_repository The data provider for comparison organic session traffic.
+	 * @param Organic_Sessions_Daily_Repository   $organic_sessions_daily_repository   The data provider for daily organic session traffic.
+	 * @param Search_Ranking_Compare_Repository   $search_ranking_compare_repository   The data provider for searching ranking comparison.
+	 * @param Capability_Helper                   $capability_helper                   The capability helper.
 	 */
 	public function __construct(
 		Top_Page_Repository $top_page_repository,
 		Top_Query_Repository $top_query_repository,
-		Organic_Sessions_Repository $organic_sessions_repository
+		Organic_Sessions_Compare_Repository $organic_sessions_compare_repository,
+		Organic_Sessions_Daily_Repository $organic_sessions_daily_repository,
+		Search_Ranking_Compare_Repository $search_ranking_compare_repository,
+		Capability_Helper $capability_helper
 	) {
-		$this->top_page_repository         = $top_page_repository;
-		$this->top_query_repository        = $top_query_repository;
-		$this->organic_sessions_repository = $organic_sessions_repository;
+		$this->top_page_repository                 = $top_page_repository;
+		$this->top_query_repository                = $top_query_repository;
+		$this->organic_sessions_compare_repository = $organic_sessions_compare_repository;
+		$this->organic_sessions_daily_repository   = $organic_sessions_daily_repository;
+		$this->search_ranking_compare_repository   = $search_ranking_compare_repository;
+		$this->capability_helper                   = $capability_helper;
 	}
 
 	/**
@@ -101,9 +134,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 					'args'                => [
 						'limit'   => [
 							'type'              => 'int',
-							'sanitize_callback' => static function ( $param ) {
-								return \intval( $param );
-							},
+							'sanitize_callback' => 'absint',
 							'default'           => 5,
 						],
 						'options' => [
@@ -134,62 +165,55 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	 */
 	public function get_time_based_seo_metrics( WP_REST_Request $request ): WP_REST_Response {
 		try {
-			$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
-			$date->modify( '-28 days' );
-			$start_date = $date->format( 'Y-m-d' );
-
-			$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
-			$date->modify( '-1 days' );
-			$end_date = $date->format( 'Y-m-d' );
-
 			$widget_name = $request->get_param( 'options' )['widget'];
 			switch ( $widget_name ) {
 				case 'query':
 					$request_parameters = new Search_Console_Parameters();
+
+					$request_parameters = $this->set_date_range_parameters( $request_parameters );
 					$request_parameters->set_limit( $request->get_param( 'limit' ) );
 					$request_parameters->set_dimensions( [ 'query' ] );
-					$request_parameters->set_start_date( $start_date );
-					$request_parameters->set_end_date( $end_date );
 
 					$time_based_seo_metrics_container = $this->top_query_repository->get_data( $request_parameters );
 					break;
 				case 'page':
 					$request_parameters = new Search_Console_Parameters();
+
+					$request_parameters = $this->set_date_range_parameters( $request_parameters );
 					$request_parameters->set_limit( $request->get_param( 'limit' ) );
 					$request_parameters->set_dimensions( [ 'page' ] );
-					$request_parameters->set_start_date( $start_date );
-					$request_parameters->set_end_date( $end_date );
 
 					$time_based_seo_metrics_container = $this->top_page_repository->get_data( $request_parameters );
 					break;
-				case 'οrganicSessionsDaily':
+				case 'organicSessionsDaily':
 					$request_parameters = new Analytics_4_Parameters();
+
+					$request_parameters = $this->set_date_range_parameters( $request_parameters );
 					$request_parameters->set_dimensions( [ 'date' ] );
 					$request_parameters->set_metrics( [ 'sessions' ] );
-					$request_parameters->set_start_date( $start_date );
-					$request_parameters->set_end_date( $end_date );
 					$request_parameters->set_dimension_filters( [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ] );
 					$request_parameters->set_order_by( 'dimension', 'date' );
 
-					$time_based_seo_metrics_container = $this->organic_sessions_repository->get_data( $request_parameters );
+					$time_based_seo_metrics_container = $this->organic_sessions_daily_repository->get_data( $request_parameters );
 					break;
-				case 'οrganicSessionsChange':
+				case 'organicSessionsCompare':
 					$request_parameters = new Analytics_4_Parameters();
+
+					$request_parameters = $this->set_date_range_parameters( $request_parameters );
+					$request_parameters = $this->set_comparison_date_range_parameters( $request_parameters );
 					$request_parameters->set_metrics( [ 'sessions' ] );
-					$request_parameters->set_start_date( $start_date );
-					$request_parameters->set_end_date( $end_date );
 					$request_parameters->set_dimension_filters( [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ] );
 
-					$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
-					$date->modify( '-29 days' );
-					$compare_end_date = $date->format( 'Y-m-d' );
+					$time_based_seo_metrics_container = $this->organic_sessions_compare_repository->get_data( $request_parameters );
+					break;
+				case 'searchRankingCompare':
+					$request_parameters = new Search_Console_Parameters();
 
-					$date->modify( '-27 days' );
-					$compare_start_date = $date->format( 'Y-m-d' );
-					$request_parameters->set_compare_start_date( $compare_start_date );
-					$request_parameters->set_compare_end_date( $compare_end_date );
+					$request_parameters = $this->set_date_range_parameters( $request_parameters );
+					$request_parameters = $this->set_comparison_date_range_parameters( $request_parameters );
+					$request_parameters->set_dimensions( [ 'date' ] );
 
-					$time_based_seo_metrics_container = $this->organic_sessions_repository->get_data( $request_parameters );
+					$time_based_seo_metrics_container = $this->search_ranking_compare_repository->get_data( $request_parameters );
 					break;
 				default:
 					throw new Repository_Not_Found_Exception();
@@ -210,11 +234,54 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	}
 
 	/**
+	 * Sets date range parameters.
+	 *
+	 * @param Parameters $request_parameters The request parameters.
+	 *
+	 * @return Parameters The request parameters with configured date range.
+	 */
+	public function set_date_range_parameters( Parameters $request_parameters ): Parameters {
+		$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$date->modify( '-28 days' );
+		$start_date = $date->format( 'Y-m-d' );
+
+		$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$date->modify( '-1 days' );
+		$end_date = $date->format( 'Y-m-d' );
+
+		$request_parameters->set_start_date( $start_date );
+		$request_parameters->set_end_date( $end_date );
+
+		return $request_parameters;
+	}
+
+	/**
+	 * Sets comparison date range parameters.
+	 *
+	 * @param Parameters $request_parameters The request parameters.
+	 *
+	 * @return Parameters The request parameters with configured comparison date range.
+	 */
+	public function set_comparison_date_range_parameters( Parameters $request_parameters ): Parameters {
+		$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$date->modify( '-29 days' );
+		$compare_end_date = $date->format( 'Y-m-d' );
+
+		$date->modify( '-27 days' );
+		$compare_start_date = $date->format( 'Y-m-d' );
+
+		$request_parameters->set_compare_start_date( $compare_start_date );
+		$request_parameters->set_compare_end_date( $compare_end_date );
+
+		return $request_parameters;
+	}
+
+	/**
 	 * Permission callback.
 	 *
 	 * @return bool True when user has the 'wpseo_manage_options' capability.
 	 */
 	public function permission_manage_options() {
-		return WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' );
+		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
 	}
 }

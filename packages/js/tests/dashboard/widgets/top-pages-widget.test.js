@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
 import { forEach } from "lodash";
 import { SCORE_META } from "../../../src/dashboard/scores/score-meta";
-import { DataFormatter } from "../../../src/dashboard/services/data-formatter";
+import { PlainMetricsDataFormatter } from "../../../src/dashboard/services/plain-metrics-data-formatter";
 import { createTopPageFormatter, TopPagesWidget } from "../../../src/dashboard/widgets/top-pages-widget";
 import { render, waitFor } from "../../test-utils";
 import { MockDataProvider } from "../__mocks__/data-provider";
@@ -24,7 +24,7 @@ describe( "TopPagesWidget", () => {
 	beforeAll( () => {
 		dataProvider = new MockDataProvider();
 		remoteDataProvider = new MockRemoteDataProvider( {} );
-		dataFormatter = new DataFormatter();
+		dataFormatter = new PlainMetricsDataFormatter();
 		formatter = createTopPageFormatter( dataFormatter );
 		formattedData = formatter( data );
 	} );
@@ -84,7 +84,7 @@ describe( "TopPagesWidget", () => {
 		} );
 	} );
 
-	it( "should render the TopPagesWidget component with a pending state", async() => {
+	it( "should render the component with a pending state", async() => {
 		// Never resolving promise to ensure it keeps loading.
 		remoteDataProvider.fetchJson.mockImplementation( () => new Promise( () => {
 		} ) );
@@ -149,12 +149,32 @@ describe( "TopPagesWidget", () => {
 		} );
 	} );
 
-	it( "should render the TopPagesWidget component with an general error state", async() => {
-		// Mock the fetchJson method to throw an error.
-		const error = new Error( "Network Error" );
-		error.status = 500;
+	it.each( [
+		{
+			status: 408,
+			name: "Unauthorized",
+			message: "The request timed out. Try refreshing the page. If the problem persists, please check our Support page.",
+		},
+		{
+			status: 400,
+			name: "TimeoutError",
+			message: "The request timed out. Try refreshing the page. If the problem persists, please check our Support page.",
+		},
+		{
+			status: 403,
+			name: "Forbidden",
+			message: "You don’t have permission to access this resource. Please contact your admin for access. In case you need further help, please check our Support page.",
+		},
+		{
+			status: 500,
+			name: "Bad Request",
+			message: "Something went wrong. Try refreshing the page. If the problem persists, please check our Support page.",
+		},
+	] )( "should render the message for an error with status $status and error name $name.", async( { status, name, message } ) => {
+		const error = new Error( name );
+		error.status = status;
+		error.name = name;
 		remoteDataProvider.fetchJson.mockRejectedValue( error );
-
 		const { getByRole } = render( <TopPagesWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
@@ -163,44 +183,7 @@ describe( "TopPagesWidget", () => {
 
 		await waitFor( () => {
 			expect( getByRole( "status" ) )
-				.toHaveTextContent( "Something went wrong. Try refreshing the page. If the problem persists, please check our Support page." );
-			expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "https://example.com/error-support" );
-		} );
-	} );
-
-	it( "should render the TopPagesWidget component with an time out error state", async() => {
-		// Mock the fetchJson method to throw an error.
-		const error = new Error( "TimeoutError" );
-		error.status = 408;
-		remoteDataProvider.fetchJson.mockRejectedValue( error );
-
-		const { getByRole } = render( <TopPagesWidget
-			dataProvider={ dataProvider }
-			remoteDataProvider={ remoteDataProvider }
-			dataFormatter={ dataFormatter }
-		/> );
-
-		await waitFor( () => {
-			expect( getByRole( "status" ) )
-				.toHaveTextContent( "The request timed out. Try refreshing the page. If the problem persists, please check our Support page." );
-			expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "https://example.com/error-support" );
-		} );
-	} );
-
-	it( "should render the TopPagesWidget component with an no permission error state", async() => {
-		const error = new Error( "NoPermissionError" );
-		error.status = 403;
-		remoteDataProvider.fetchJson.mockRejectedValue( error );
-
-		const { getByRole } = render( <TopPagesWidget
-			dataProvider={ dataProvider }
-			remoteDataProvider={ remoteDataProvider }
-			dataFormatter={ dataFormatter }
-		/> );
-
-		await waitFor( () => {
-			expect( getByRole( "status" ) )
-				.toHaveTextContent( "You don’t have permission to access this resource. Please contact your admin for access. In case you need further help, please check our Support page." );
+				.toHaveTextContent( message );
 			expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "https://example.com/error-support" );
 		} );
 	} );

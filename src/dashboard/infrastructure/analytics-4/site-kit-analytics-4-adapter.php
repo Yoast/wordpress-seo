@@ -42,30 +42,45 @@ class Site_Kit_Analytics_4_Adapter {
 	}
 
 	/**
-	 * The wrapper method to do a Site Kit API request for Analytics 4.
+	 * The wrapper method to do a comparison Site Kit API request for Analytics.
 	 *
 	 * @param Analytics_4_Parameters $parameters The parameters.
 	 *
 	 * @return Data_Container The Site Kit API response.
 	 *
-	 * @throws Failed_Request_Exception When the request responds with an error from Site Kit.
+	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
+	 * @throws Invalid_Request_Exception     When the request is invalid due to unexpected parameters.
 	 */
-	public function get_data( Analytics_4_Parameters $parameters ): Data_Container {
+	public function get_comparison_data( Analytics_4_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
-		$response       = self::$analytics_4_module->get_data( 'report', $api_parameters );
 
-		if ( \is_wp_error( $response ) ) {
-			$error_data        = $response->get_error_data();
-			$error_status_code = ( $error_data['status'] ?? 500 );
-			throw new Failed_Request_Exception( \wp_kses_post( $response->get_error_message() ), (int) $error_status_code );
-		}
+		$response = self::$analytics_4_module->get_data( 'report', $api_parameters );
 
-		if ( ! \is_a( $response, RunReportResponse::class ) ) {
-			throw new Unexpected_Response_Exception();
-		}
+		$this->validate_response( $response );
 
-		return $this->parse_response( $response );
+		return $this->parse_comparison_response( $response );
+	}
+
+	/**
+	 * The wrapper method to do a daily Site Kit API request for Analytics.
+	 *
+	 * @param Analytics_4_Parameters $parameters The parameters.
+	 *
+	 * @return Data_Container The Site Kit API response.
+	 *
+	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
+	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
+	 * @throws Invalid_Request_Exception     When the request is invalid due to unexpected parameters.
+	 */
+	public function get_daily_data( Analytics_4_Parameters $parameters ): Data_Container {
+		$api_parameters = $this->build_parameters( $parameters );
+
+		$response = self::$analytics_4_module->get_data( 'report', $api_parameters );
+
+		$this->validate_response( $response );
+
+		return $this->parse_daily_response( $response );
 	}
 
 	/**
@@ -89,7 +104,7 @@ class Site_Kit_Analytics_4_Adapter {
 	 *
 	 * @return array<string, array<string, string>> The Site Kit API parameters.
 	 */
-	protected function build_parameters( $parameters ): array {
+	private function build_parameters( Analytics_4_Parameters $parameters ): array {
 		$api_parameters = [
 			'slug'       => 'analytics-4',
 			'datapoint'  => 'report',
@@ -122,7 +137,7 @@ class Site_Kit_Analytics_4_Adapter {
 	}
 
 	/**
-	 * Parses a response for a Site Kit API request for Analytics 4.
+	 * Parses a response for a Site Kit API request that requests daily data for Analytics 4.
 	 *
 	 * @param RunReportResponse $response The response to parse.
 	 *
@@ -130,26 +145,11 @@ class Site_Kit_Analytics_4_Adapter {
 	 *
 	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
 	 */
-	protected function parse_response( RunReportResponse $response ): Data_Container {
-		if ( $this->is_daily_request( $response ) ) {
-			return $this->parse_daily_response( $response );
+	private function parse_daily_response( RunReportResponse $response ): Data_Container {
+		if ( ! $this->is_daily_request( $response ) ) {
+			throw new Invalid_Request_Exception( 'Unexpected parameters for the request' );
 		}
 
-		if ( $this->is_comparison_request( $response ) ) {
-			return $this->parse_comparison_response( $response );
-		}
-
-		throw new Invalid_Request_Exception( 'Unexpected parameters for the request' );
-	}
-
-	/**
-	 * Parses a response for a Site Kit API request that requests daily data for Analytics 4.
-	 *
-	 * @param RunReportResponse $response The response to parse.
-	 *
-	 * @return Data_Container The parsed response.
-	 */
-	protected function parse_daily_response( RunReportResponse $response ): Data_Container {
 		$data_container = new Data_Container();
 
 		foreach ( $response->getRows() as $daily_traffic ) {
@@ -183,8 +183,14 @@ class Site_Kit_Analytics_4_Adapter {
 	 * @param RunReportResponse $response The response to parse.
 	 *
 	 * @return Data_Container The parsed response.
+	 *
+	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
 	 */
-	protected function parse_comparison_response( RunReportResponse $response ): Data_Container {
+	private function parse_comparison_response( RunReportResponse $response ): Data_Container {
+		if ( ! $this->is_comparison_request( $response ) ) {
+			throw new Invalid_Request_Exception( 'Unexpected parameters for the request' );
+		}
+
 		$data_container          = new Data_Container();
 		$comparison_traffic_data = new Comparison_Traffic_Data();
 
@@ -228,7 +234,7 @@ class Site_Kit_Analytics_4_Adapter {
 	 *
 	 * @return bool Whether it's a comparison request.
 	 */
-	protected function is_comparison_request( RunReportResponse $response ): bool {
+	private function is_comparison_request( RunReportResponse $response ): bool {
 		return \count( $response->getDimensionHeaders() ) === 1 && $response->getDimensionHeaders()[0]->getName() === 'dateRange';
 	}
 
@@ -239,7 +245,33 @@ class Site_Kit_Analytics_4_Adapter {
 	 *
 	 * @return bool Whether it's a daily request.
 	 */
-	protected function is_daily_request( RunReportResponse $response ): bool {
+	private function is_daily_request( RunReportResponse $response ): bool {
 		return \count( $response->getDimensionHeaders() ) === 1 && $response->getDimensionHeaders()[0]->getName() === 'date';
 	}
+
+	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- We have no control over the response (in fact that's why this function exists).
+
+	/**
+	 * Validates the response coming from Google Analytics.
+	 *
+	 * @param mixed $response The response we want to validate.
+	 *
+	 * @return void.
+	 *
+	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
+	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
+	 */
+	private function validate_response( $response ): void {
+		if ( \is_wp_error( $response ) ) {
+			$error_data        = $response->get_error_data();
+			$error_status_code = ( $error_data['status'] ?? 500 );
+			throw new Failed_Request_Exception( \wp_kses_post( $response->get_error_message() ), (int) $error_status_code );
+		}
+
+		if ( ! \is_a( $response, RunReportResponse::class ) ) {
+			throw new Unexpected_Response_Exception();
+		}
+	}
+
+	// phpcs:enable
 }

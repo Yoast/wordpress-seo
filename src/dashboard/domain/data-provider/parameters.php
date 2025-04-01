@@ -26,7 +26,7 @@ abstract class Parameters {
 	 *
 	 * @var int $limit
 	 */
-	private $limit;
+	private $limit = 0;
 
 	/**
 	 * The compare start date.
