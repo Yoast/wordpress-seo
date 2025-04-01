@@ -16,7 +16,7 @@
     "clean:build": "rm -rf build",
     "build": "yarn clean:build && yarn build:js",
     "build:js": "babel src --out-dir build",
-    "lint": "eslint src tests --max-warnings=0",
+    "lint": "eslint . --max-warnings=0",
     "test": "jest",
     "watch": "yarn watch:js",
     "watch:js": "yarn build:js --watch"
