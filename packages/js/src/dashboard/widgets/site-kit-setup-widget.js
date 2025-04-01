@@ -105,12 +105,13 @@ const SiteKitSetupWidgetTitleAndDescription = ( { isSiteKitConnectionCompleted }
 const SiteKitAlert = ( { capabilities, currentStep, isVersionSupported, isConsentGranted } ) => {
 	const alertClass = "yst-mt-6";
 
-	if ( ! isVersionSupported ) {
+	if ( ! isVersionSupported && ( currentStep > STEP_NAME.install || currentStep === STEP_NAME.successfullyConnected ) ) {
 		if ( isConsentGranted ) {
 			return <Alert className={ alertClass } variant="error">
 				{ __( "Your current version of the Site Kit by Google plugin is no longer compatible with Yoast SEO. Please update to the latest version to restore the connection.", "wordpress-seo" ) }
 			</Alert>;
 		}
+
 		return <Alert className={ alertClass }>
 			{ __( "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google.", "wordpress-seo" ) }
 		</Alert>;
@@ -144,7 +145,7 @@ const SiteKitAlert = ( { capabilities, currentStep, isVersionSupported, isConsen
 const SiteKitSetupAction = ( { currentStep, config, isConnectionCompleted, onDismissWidget, onShowConsent } ) => {
 	const getUrl = useCallback( ( url, capability = "installPlugins" ) => config.capabilities?.[ capability ] ? url : null, [ config.capabilities ] );
 
-	if ( ! config.isVersionSupported ) {
+	if ( ! config.isVersionSupported && ( currentStep > STEP_NAME.install || currentStep === STEP_NAME.successfullyConnected ) ) {
 		return <Button as="a" href={ config.updateUrl }>
 			{ __( "Update Site Kit by Google", "wordpress-seo" ) }
 		</Button>;

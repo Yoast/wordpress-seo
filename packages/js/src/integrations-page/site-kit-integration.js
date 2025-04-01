@@ -98,6 +98,17 @@ const SuccessfullyConnected = () => {
  */
 const StatusInfo = ( { capabilities, currentStep, successfullyConnected, isVersionSupported } ) => {
 	const warningClass = "yst-text-slate-500 yst-italic";
+
+	if ( ! isVersionSupported && ( currentStep > STEP_NAME.install || successfullyConnected ) ) {
+		return <ContentWithBottomDivider className={ warningClass }>
+			{ sprintf(
+			/* translators: %s for Yoast SEO. */
+				__( "Update Site Kit by Google to the latest version to connect %s.", "wordpress-seo" ),
+				"Yoast SEO"
+			) }
+		</ContentWithBottomDivider>;
+	}
+
 	if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent && currentStep !== STEP_NAME.successfullyConnected ) {
 		return <ContentWithBottomDivider className={ warningClass }>
 			{ __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
@@ -107,16 +118,6 @@ const StatusInfo = ( { capabilities, currentStep, successfullyConnected, isVersi
 	if ( ! capabilities.viewSearchConsoleData && ( currentStep === STEP_NAME.grantConsent || currentStep === STEP_NAME.successfullyConnected ) ) {
 		return <ContentWithBottomDivider className={ warningClass }>
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
-		</ContentWithBottomDivider>;
-	}
-
-	if ( ! isVersionSupported ) {
-		return <ContentWithBottomDivider className={ warningClass }>
-			{ sprintf(
-			/* translators: %s for Yoast SEO. */
-				__( "Update Site Kit by Google to the latest version to connect %s.", "wordpress-seo" ),
-				"Yoast SEO"
-			) }
 		</ContentWithBottomDivider>;
 	}
 
@@ -216,7 +217,7 @@ export const SiteKitIntegration = ( {
 	];
 
 	const getButtonProps = useCallback( ( step ) => {
-		if ( ! isVersionSupported ) {
+		if ( ! isVersionSupported && ( currentStep > STEP_NAME.install || successfullyConnected ) ) {
 			return {
 				children: __( "Update Site Kit by Google", "wordpress-seo" ),
 				as: "a",
