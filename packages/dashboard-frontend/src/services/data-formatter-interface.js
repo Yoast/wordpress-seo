@@ -1,3 +1,10 @@
+/**
+ * @typedef NumberFormats
+ * @property {NumberFormat} nonFractional The non-fractional number format.
+ * @property {NumberFormat} compactNonFractional The compact non-fractional number format.
+ * @property {NumberFormat} percentage The percentage number format.
+ * @property {NumberFormat} twoFractions The two fractions number format.
+ */
 
 /**
  * Knows how to format data.
@@ -53,7 +60,7 @@ export class DataFormatterInterface {
 	/**
 	 * Getter for the private attribute #numberFormat.
 	 *
-	 * @returns {NumberFormat} The number format object.
+	 * @returns {NumberFormats} The number formats.
 	 */
 	get numberFormat() {
 		return this.#numberFormat;
