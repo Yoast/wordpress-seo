@@ -18,7 +18,7 @@ import { ErrorAlert } from "../../components/error-alert";
  * @param {Term?} [term] The selected term.
  * @returns {{contentType: string, taxonomy?: string, term?: string}} The score query parameters.
  */
-const getScoreQueryParams = ( contentType, term ) => { // eslint-disable-line complexity
+const getScoreQueryParams = ( contentType, term ) => {
 	const params = {
 		contentType: contentType?.name,
 	};
@@ -43,7 +43,7 @@ const prepareScoreData = ( data ) => data?.scores;
  * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
  * @returns {JSX.Element} The element.
  */
-export const Scores = ( { analysisType, contentTypes, dataProvider, remoteDataProvider } ) => { // eslint-disable-line complexity
+export const Scores = ( { analysisType, contentTypes, dataProvider, remoteDataProvider } ) => {
 	const [ selectedContentType, setSelectedContentType ] = useState( contentTypes[ 0 ] );
 	/** @type {[Term?, function(Term?)]} */
 	const [ selectedTerm, setSelectedTerm ] = useState();
