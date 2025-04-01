@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import { __ } from "@wordpress/i18n";
+import { useEffect, useState } from "react";
+import { Widget } from "../components/widget";
 import { Scores } from "../scores/components/scores";
-import { Widget } from "./widget";
 
 /**
  * @type {import("../index").ContentType} ContentType

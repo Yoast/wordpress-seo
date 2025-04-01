@@ -2,9 +2,9 @@ import { __ } from "@wordpress/i18n";
 import { isEqual } from "lodash";
 import { ErrorAlert } from "../components/error-alert";
 import { NoDataParagraph } from "../components/no-data-paragraph";
+import { Widget } from "../components/widget";
 import { OrganicSessionsCompare, useOrganicSessionsCompare } from "./organic-sessions/compare";
 import { OrganicSessionsDaily, useOrganicSessionsDaily } from "./organic-sessions/daily";
-import { Widget } from "./widget";
 
 /**
  * @type {import("../services/data-provider")} DataProvider

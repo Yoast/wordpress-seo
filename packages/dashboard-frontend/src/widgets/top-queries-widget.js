@@ -1,11 +1,11 @@
-import { useCallback, useMemo } from "react";
 import { __ } from "@wordpress/i18n";
 import { SkeletonLoader } from "@yoast/ui-library";
+import { useCallback, useMemo } from "react";
 import { ErrorAlert } from "../components/error-alert";
 import { NoDataParagraph } from "../components/no-data-paragraph";
+import { Widget } from "../components/widget";
 import { WidgetTable } from "../components/widget-table";
 import { useRemoteData } from "../services/use-remote-data";
-import { Widget } from "./widget";
 
 /**
  * @type {import("../index").TopQueryData} TopQueryData
@@ -108,7 +108,7 @@ const useTopQueries = ( { dataProvider, remoteDataProvider, dataFormatter, limit
  * @param {string} [supportLink] The support link.
  * @returns {JSX.Element} The element.
  */
-export const TopQueriesWidgetContent = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => {
+const TopQueriesWidgetContent = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => {
 	const { data, error, isPending } = useTopQueries( { dataProvider, remoteDataProvider, dataFormatter, limit } );
 
 	if ( isPending ) {

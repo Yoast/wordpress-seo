@@ -1,12 +1,12 @@
 import { PencilIcon } from "@heroicons/react/outline";
-import { useCallback, useMemo } from "react";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
+import { useCallback, useMemo } from "react";
 import { ErrorAlert } from "../components/error-alert";
 import { NoDataParagraph } from "../components/no-data-paragraph";
+import { Widget } from "../components/widget";
 import { Score, WidgetTable } from "../components/widget-table";
 import { useRemoteData } from "../services/use-remote-data";
-import { Widget } from "./widget";
 
 /**
  * @type {import("../index").TopPageData} TopPageData
@@ -23,7 +23,7 @@ import { Widget } from "./widget";
  *
  * @returns {JSX.Element} The element.
  */
-export const SeoScoreHeader = ( { isIndexablesEnabled, isSeoAnalysisEnabled } ) => {
+const SeoScoreHeader = ( { isIndexablesEnabled, isSeoAnalysisEnabled } ) => {
 	if ( isIndexablesEnabled && isSeoAnalysisEnabled ) {
 		return <>
 			Yoast

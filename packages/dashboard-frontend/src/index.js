@@ -102,9 +102,9 @@ export { TopQueriesWidget } from "./widgets/top-queries-widget";
 export { SearchRankingCompareWidget } from "./widgets/search-ranking-compare-widget";
 export { OrganicSessionsWidget } from "./widgets/organic-sessions-widget";
 export { ScoreWidget } from "./widgets/score-widget";
-export { Widget } from "./widgets/widget";
 
 export { Dashboard } from "./components/dashboard";
+export { Widget, WidgetDataSources, WidgetErrorBoundary, WidgetTitle, WidgetTooltip } from "./components/widget";
 
 export { PlainMetricsDataFormatter } from "./services/plain-metrics-data-formatter";
 export { DataFormatterInterface } from "./services/data-formatter-interface";

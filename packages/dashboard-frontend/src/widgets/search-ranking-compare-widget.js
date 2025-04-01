@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { __ } from "@wordpress/i18n";
 import { useToggleState } from "@yoast/ui-library";
+import { useState } from "react";
+import { Widget, WidgetErrorBoundary } from "../components/widget";
 import { SearchRankingCompareWidgetContent } from "./search-ranking-compare/search-ranking-compare-widget-content";
-import { Widget, WidgetErrorBoundary } from "./widget";
 
 /**
  * @typedef { "current"|"previous" } TimeFrame The time frame for the raw metric data.

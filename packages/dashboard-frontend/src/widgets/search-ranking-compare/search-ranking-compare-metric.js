@@ -1,7 +1,7 @@
 import { SkeletonLoader } from "@yoast/ui-library";
 import classNames from "classnames";
 import { Trend } from "../../components/trend";
-import { WidgetDataSources, WidgetTooltip } from "../widget";
+import { WidgetDataSources, WidgetTooltip } from "../../components/widget";
 
 /**
  * @param {ReactNode} children The children.
