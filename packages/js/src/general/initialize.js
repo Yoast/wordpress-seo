@@ -86,7 +86,7 @@ domReady( () => {
 		setupUrl: "",
 		isAnalyticsConnected: false,
 		isFeatureEnabled: false,
-		isSetupWidgetDismissed: false,
+		isConfigurationDismissed: false,
 		capabilities: {
 			installPlugins: false,
 			viewSearchConsoleData: false,

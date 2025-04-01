@@ -155,7 +155,7 @@ export class DataProvider {
 		// This creates a new object to avoid mutation and force re-rendering.
 		this.#siteKitConfiguration = {
 			...this.#siteKitConfiguration,
-			isSetupWidgetDismissed,
+			isConfigurationDismissed: isSetupWidgetDismissed,
 		};
 		this.notifySubscribers();
 	}
