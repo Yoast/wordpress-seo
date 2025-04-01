@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.7
-Stable tag: 24.7
+Stable tag: 24.8
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -278,10 +278,12 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-04-01
 
+Yoast SEO 24.8 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Adds _pregnant women_ to the potentially non-inclusive phrases targeted by the inclusive language analysis.
-* Improves the inclusive language analysis feedback for the potentially non-inclusive word 'exotic', and prevents the feedback from appearing when 'exotic' is followed by words common in scientific contexts.
+* Improves the inclusive language analysis feedback for the potentially non-inclusive word _exotic_, and prevents the feedback from appearing when _exotic_ is followed by words common in scientific contexts.
 
 #### Other
 
