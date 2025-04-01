@@ -53,7 +53,7 @@ export class WidgetFactory {
 	createWidget( widget ) {
 		const {
 			isFeatureEnabled,
-			isConfigurationDismissed,
+			isSetupWidgetDismissed,
 			isAnalyticsConnected,
 			capabilities,
 			isVersionSupported,
@@ -97,7 +97,7 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case WidgetFactory.types.siteKitSetup:
-				if ( ! isFeatureEnabled || isConfigurationDismissed ) {
+				if ( ! isFeatureEnabled || isSetupWidgetDismissed ) {
 					return null;
 				}
 				return <SiteKitSetupWidget
