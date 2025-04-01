@@ -174,7 +174,7 @@ class Site_Kit {
 			'updateUrl'                => $site_kit_update_url,
 			'isAnalyticsConnected'     => $this->is_ga_connected(),
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
-			'isConfigurationDismissed' => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
+			'isSetupWidgetDismissed'   => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
 			'capabilities'             => [
 				'installPlugins'        => \current_user_can( 'install_plugins' ),
 				'viewSearchConsoleData' => $this->can_read_data( 'search-console' ),
