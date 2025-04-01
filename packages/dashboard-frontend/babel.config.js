@@ -1,11 +1,6 @@
 module.exports = ( api ) => ( {
 	presets: [
-		[
-			"@babel/preset-env",
-			{
-				modules: api.env( "test" ) ? "auto" : false,
-			},
-		],
+		"@babel/preset-env",
 		"@babel/preset-react",
 	],
 	plugins: [
