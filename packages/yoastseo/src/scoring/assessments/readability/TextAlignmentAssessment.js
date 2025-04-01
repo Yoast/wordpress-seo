@@ -91,7 +91,7 @@ export default class TextAlignmentAssessment extends Assessment {
 	/**
 	 * Checks whether the assessment is applicable.
 	 * The assessment is applicable when the paper has at least 50 characters (after sanitation)
-	 * and when the researcher has `getLongCenterAlignedText` research.
+	 * and when the researcher has `getLongCenterAlignedTexts` research.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher  The researcher used in the assessment.

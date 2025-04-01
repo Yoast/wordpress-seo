@@ -97,7 +97,7 @@ export default class TransitionWordsAssessment extends Assessment {
 					score: formatNumber( 9 ),
 					hasMarks: hasMarks,
 					text: sprintf(
-						/* translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+						/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 						__(
 							"%1$sTransition words%2$s: Well done!",
 							"wordpress-seo"
@@ -110,7 +110,7 @@ export default class TransitionWordsAssessment extends Assessment {
 				score: formatNumber( 9 ),
 				hasMarks: hasMarks,
 				text: sprintf(
-					/* translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
 						"%1$sTransition words%2$s: You are not using any transition words, but your text is short enough and probably doesn't need them.",
 						"wordpress-seo"
@@ -158,7 +158,7 @@ export default class TransitionWordsAssessment extends Assessment {
 			score: formatNumber( score ),
 			hasMarks: hasMarks,
 			text: sprintf(
-				/* translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+				/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 				__(
 					"%1$sTransition words%2$s: Well done!",
 					"wordpress-seo"

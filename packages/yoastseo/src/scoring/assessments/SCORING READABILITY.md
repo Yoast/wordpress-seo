@@ -79,7 +79,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 4) Consecutive sentences
 **What it does**: Checks whether there are more than 3 sentences in a row that start with the same word.
 
-**When applies**: When the researcher has a research (the assessment is support in the researcher's language).
+**When applies**: When the researcher has a research (the assessment is supported in the researcher's language).
 
 **Name in code**: SentenceBeginningsAssessment
 
@@ -95,7 +95,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 5) Passive voice
 **What it does**: Checks whether the number of sentences containing passive voice exceeds the recommended maximum amount.
 
-**When applies**: When the researcher has a research (the assessment is support in the researcher's language).
+**When applies**: When the researcher has a research (the assessment is supported in the researcher's language).
 
 **Name in code**: PassiveVoiceAssessment
 
@@ -112,7 +112,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 6) Transition words
 **What it does**: Checks whether there are enough sentences containing transition words.
 
-**When applies**: When the researcher has a research (the assessment is support in the researcher's language).
+**When applies**: When the researcher has a research (the assessment is supported in the researcher's language).
 
 **Name in code**: TransitionWordsAssessment
 
@@ -147,7 +147,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 8) Word complexity (only in Premium)
 **What it does**: Checks whether the text contains complex words. Word forms from the keyphrase are excluded.
 
-**When applies**: When the researcher has a research (the assessment is support in the researcher's language).
+**When applies**: When the researcher has a research (the assessment is supported in the researcher's language).
 
 **Name in code**: WordComplexityAssessment
 
