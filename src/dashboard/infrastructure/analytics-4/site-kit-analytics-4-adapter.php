@@ -8,7 +8,6 @@ use Google\Site_Kit\Core\Modules\Modules;
 use Google\Site_Kit\Modules\Analytics_4;
 use Google\Site_Kit\Plugin;
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
-use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Invalid_Request_Exception;
@@ -22,10 +21,6 @@ use Yoast\WP\SEO\Dashboard\Domain\Traffic\Traffic_Data;
  * The site API adapter to make calls to the Analytics 4 API, via the Site_Kit plugin.
  */
 class Site_Kit_Analytics_4_Adapter {
-	/**
-	 * The Analytics 4 API route path.
-	 */
-	private const ANALYTICS_DATA_REPORT_ROUTE = '/google-site-kit/v1/modules/analytics-4/data/report';
 
 	/**
 	 * The Analytics 4 module class from Site kit.
@@ -35,16 +30,26 @@ class Site_Kit_Analytics_4_Adapter {
 	private static $analytics_4_module;
 
 	/**
+	 * Holds the api call class.
+	 *
+	 * @var Site_Kit_Analytics_4_Api_Call $site_kit_analytics_4_api_call
+	 */
+	private $site_kit_search_console_api_call;
+
+	/**
 	 * The register method that sets the instance in the adapter.
+	 *
+	 * @param Site_Kit_Analytics_4_Api_Call $site_kit_analytics_4_api_call The api call class.
 	 *
 	 * @return void
 	 */
-	public function __construct() {
+	public function __construct( Site_Kit_Analytics_4_Api_Call $site_kit_analytics_4_api_call ) {
 		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
 			$site_kit_plugin          = Plugin::instance();
 			$modules                  = new Modules( $site_kit_plugin->context() );
 			self::$analytics_4_module = $modules->get_module( Analytics_4::MODULE_SLUG );
 		}
+		$this->site_kit_search_console_api_call = $site_kit_analytics_4_api_call;
 	}
 
 	/**
@@ -61,9 +66,7 @@ class Site_Kit_Analytics_4_Adapter {
 	public function get_comparison_data( Analytics_4_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
-		$request = new WP_REST_Request( 'GET', self::ANALYTICS_DATA_REPORT_ROUTE );
-		$request->set_query_params( $api_parameters );
-		$response = \rest_do_request( $request );
+		$response = $this->site_kit_search_console_api_call->do_request( $api_parameters );
 
 		$this->validate_response( $response );
 
@@ -84,9 +87,7 @@ class Site_Kit_Analytics_4_Adapter {
 	public function get_daily_data( Analytics_4_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
-		$request = new WP_REST_Request( 'GET', self::ANALYTICS_DATA_REPORT_ROUTE );
-		$request->set_query_params( $api_parameters );
-		$response = \rest_do_request( $request );
+		$response = $this->site_kit_search_console_api_call->do_request( $api_parameters );
 
 		$this->validate_response( $response );
 
