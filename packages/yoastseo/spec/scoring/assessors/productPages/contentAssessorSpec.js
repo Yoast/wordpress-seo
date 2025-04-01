@@ -20,7 +20,7 @@ const options = {
 
 describe( "A product page content assessor", function() {
 	describe( "Checks the applicable assessments for text containing less than 300 words", function() {
-		it( "Should have 5 available assessments for a fully supported language. " +
+		it( "Should have 6 available assessments for a fully supported language. " +
 			"This doesn't include Word complexity and Lists assessments since the registration is done from Shopify side.", function() {
 			const paper = new Paper( "Lorem ipsum dolor sit amet, voluptua probatus ullamcorper id vis, ceteros consetetur qui ea, " +
 				"nam movet populo aliquam te. His eu debitis fastidii. Pri ea amet dicant. Ut his suas corpora, eu reformidans " +
@@ -42,6 +42,7 @@ describe( "A product page content assessor", function() {
 			};
 			const actual = contentAssessor.getApplicableAssessments().map( result => result.identifier );
 			const expected = [
+				"subheadingsTooLong",
 				"textParagraphTooLong",
 				"textSentenceLength",
 				"textTransitionWords",
@@ -51,7 +52,7 @@ describe( "A product page content assessor", function() {
 			expect( actual ).toEqual( expected );
 		} );
 
-		it( "Should have 3 available assessments for a basic supported language", function() {
+		it( "Should have 4 available assessments for a basic supported language", function() {
 			// A text of at least 50 characters.
 			const longEnoughText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis. There is more";
 			const paper = new Paper( longEnoughText, { locale: "xx_XX" } );
@@ -63,6 +64,7 @@ describe( "A product page content assessor", function() {
 
 			const actual = contentAssessor.getApplicableAssessments().map( result => result.identifier );
 			const expected = [
+				"subheadingsTooLong",
 				"textParagraphTooLong",
 				"textSentenceLength",
 				"textPresence",
@@ -132,8 +134,6 @@ describe( "A product page content assessor", function() {
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.shouldNotAppearInShortText ).toBeDefined();
-			expect( assessment._config.shouldNotAppearInShortText ).toBe( true );
 			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/1' target='_blank'>" );
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/2' target='_blank'>" );
 		} );

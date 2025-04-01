@@ -24,7 +24,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 1) Subheading distribution
 **What it does**: Checks whether long texts are divided by subheadings.
 
-**When applies**: When the (sanitized) text has more than 50 characters.
+**When applies**: Always.
 
 **Name in code**: SubheadingsDistributionTooLong
 
@@ -45,7 +45,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 2) Paragraph length
 **What it does**: Checks whether the paragraphs exceed the recommended maximum length.
 
-**When applies**: When the (sanitized) text has more than 50 characters. This is tied to the TextPresenceAssessment.
+**When applies**: Always.
 
 **Name in code**: ParagraphTooLongAssessment
 
@@ -53,16 +53,16 @@ Below is a detailed overview of how scores for the readability assessments are c
 
 **Call to action URL**: [https://yoa.st/35e](https://yoast.com/paragraph-length-check/#utm_source=yoast-seo&utm_medium=software&utm_term=paragraph-length-cta&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light 	 | Score	| Criterion | Feedback |
-|------------|------------------	|--------------------- |---------------------|
-| Red        |3	                |> 200 words	   	          |**Paragraph length**: X of the paragraphs contain more than the recommended maximum of X words. **Shorten your paragraphs!**|
-| Orange     |6                 |Between 150 and 200 words    |**Paragraph length**: X of the paragraphs contain more than the recommended maximum of X words. **Shorten your paragraphs!**|
-| Green      |9                 |≤ 150 words	              |**Paragraph length**: none of the paragraphs are too long. Great job! |
+| Traffic light 	 | Score	| Criterion | Feedback                                                                                                                     |
+|------------|------------------	|--------------------- |------------------------------------------------------------------------------------------------------------------------------|
+| Red        |3	                |> 200 words	   	          | **Paragraph length**: X of the paragraphs contain more than the recommended maximum of X words. **Shorten your paragraphs!** |
+| Orange     |6                 |Between 150 and 200 words    | **Paragraph length**: X of the paragraphs contain more than the recommended maximum of X words. **Shorten your paragraphs!** |
+| Green      |9                 |≤ 150 words	              | **Paragraph length**: There are no paragraphs that are too long. Great job!                                                  |
 
 ### 3) Sentence length
 **What it does**: Checks whether the sentences exceed the recommended maximum length (default: 20 words, IT: 25 words, RU: 15 words, HE: 15 words, TR: 15 words).
 
-**When applies**: When the (sanitized) has more than 50 characters. This is tied to the TextPresenceAssessment.
+**When applies**: Always.
 
 **Name in code**: SentenceLengthInTextAssessment
 
@@ -79,7 +79,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 4) Consecutive sentences
 **What it does**: Checks whether there are more than 3 sentences in a row that start with the same word.
 
-**When applies**: When the (sanitized) text has more than 50 characters (this is tied to the TextPresenceAssessment), and the research has a result.
+**When applies**: When the researcher has a research (the assessment is supported in the researcher's language).
 
 **Name in code**: SentenceBeginningsAssessment
 
@@ -95,7 +95,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 5) Passive voice
 **What it does**: Checks whether the number of sentences containing passive voice exceeds the recommended maximum amount.
 
-**When applies**: When the (sanitized) text has more than 50 characters (this is tied to the TextPresenceAssessment), and the assessment is supported in the specific language (the researcher has a research).
+**When applies**: When the researcher has a research (the assessment is supported in the researcher's language).
 
 **Name in code**: PassiveVoiceAssessment
 
@@ -112,7 +112,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 6) Transition words
 **What it does**: Checks whether there are enough sentences containing transition words.
 
-**When applies**: When there is at least 200 words in the text
+**When applies**: When the researcher has a research (the assessment is supported in the researcher's language).
 
 **Name in code**: TransitionWordsAssessment
 
@@ -120,12 +120,16 @@ Below is a detailed overview of how scores for the readability assessments are c
 
 **Call to action URL**: [https://yoa.st/35a](https://yoast.com/transition-words-why-and-how-to-use-them/#utm_source=yoast-seo&utm_medium=software&utm_term=transition-words-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-|Traffic light	|Score	|Criterion|	Feedback|
-|-------|------	|----- |------- |
-|Red	|3|	No transition words found	   |**Transition words**: None of the sentences contain transition words. **Use some**.|
-|Red	|3|	< 20% of sentences	           |**Transition words**: Only X of the sentences contain them. This is not enough. **Use more transition words**.|
-|Orange	|6|	Between 20 and 30% of sentences|**Transition words**: Only X of the sentences contain them. This is not enough. **Use more transition words**.|
-|Green	|9|	≥ 30% of sentences             |**Transition words**: Well done!|
+|Traffic light	|Score	| Criterion                                                                                                        |	Feedback|
+|-------|------	|------------------------------------------------------------------------------------------------------------------|------- |
+|Red	|3| 	No transition words found in a long text (more than 200 words or 400 characters in Japanese)	                   |**Transition words**: None of the sentences contain transition words. **Use some**.|
+|Red	|3| 	< 20% of sentences in a long text (more than 200 words or 400 characters in Japanese)	                          |**Transition words**: Only X of the sentences contain them. This is not enough. **Use more transition words**.|
+|Orange	|6| 	Between 20 and 30% of sentences in a long text (more than 200 words or 400 characters in Japanese)              |**Transition words**: Only X of the sentences contain them. This is not enough. **Use more transition words**.|
+|Green	|9| 	≥ 30% of sentences in a long text (more than 200 words or 400 characters in Japanese)                           |**Transition words**: Well done!|
+|Green	|9| 	At least one sentence with transition words in a short text (less than 200 words or 400 characters in Japanese) |**Transition words**: Well done!|
+|Green	|9| 	No transition words found in a short text (less than 200 words or 400 characters in Japanese)                   |**Transition words**: You are not using any transition words, but your text is short enough and probably doesn't need them.|
+
+
 
 ### 7) Text presence
 **What it does**: Checks whether there is enough text in the copy
@@ -143,7 +147,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### 8) Word complexity (only in Premium)
 **What it does**: Checks whether the text contains complex words. Word forms from the keyphrase are excluded.
 
-**When applies**: When the (sanitized) text has more than 50 characters
+**When applies**: When the researcher has a research (the assessment is supported in the researcher's language).
 
 **Name in code**: WordComplexityAssessment
 
