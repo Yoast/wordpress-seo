@@ -11,7 +11,7 @@ import { SiteKitConsentModal, UnsavedChangesModal as DisconnectModal } from "../
 import { SimpleIntegration } from "./simple-integration";
 import classNames from "classnames";
 import { values } from "lodash";
-import { STEP_NAME } from "../dashboard/widgets/site-kit-setup-widget";
+import { STEP_NAME, isUpdatePluginStatus } from "../dashboard/widgets/site-kit-setup-widget";
 
 const integration = {
 	name: __( "Site Kit by Google", "wordpress-seo" ),
@@ -99,7 +99,7 @@ const SuccessfullyConnected = () => {
 const StatusInfo = ( { capabilities, currentStep, successfullyConnected, isVersionSupported } ) => {
 	const warningClass = "yst-text-slate-500 yst-italic";
 
-	if ( ! isVersionSupported && ( currentStep > STEP_NAME.install || successfullyConnected ) ) {
+	if ( isUpdatePluginStatus( currentStep, isVersionSupported ) ) {
 		return <ContentWithBottomDivider className={ warningClass }>
 			{ sprintf(
 			/* translators: %s for Yoast SEO. */
@@ -217,7 +217,7 @@ export const SiteKitIntegration = ( {
 	];
 
 	const getButtonProps = useCallback( ( step ) => {
-		if ( ! isVersionSupported && ( currentStep > STEP_NAME.install || successfullyConnected ) ) {
+		if ( isUpdatePluginStatus( currentStep, isVersionSupported ) ) {
 			return {
 				children: __( "Update Site Kit by Google", "wordpress-seo" ),
 				as: "a",
