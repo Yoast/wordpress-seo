@@ -276,7 +276,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 24.8.1 =
 
-Release date: 2025-04-01
+Release date: 2025-04-02
 
 #### Bugfixes
 
