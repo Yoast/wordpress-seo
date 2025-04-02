@@ -29,6 +29,7 @@ import { ALERT_CENTER_NAME } from "./store/alert-center";
  * @type {import("../index").Endpoints} Endpoints
  */
 
+// eslint-disable-next-line complexity
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-general" );
 	if ( ! root ) {
@@ -108,7 +109,7 @@ domReady( () => {
 	};
 
 	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
-	if ( dataProvider.isSiteKitConnectionCompleted() ) {
+	if ( dataProvider.isSiteKitConnectionCompleted() && siteKitConfiguration.isVersionSupported ) {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}
 
