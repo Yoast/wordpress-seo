@@ -1,0 +1,12 @@
+export const avoidDerogatory: "Avoid using <i>%1$s</i> as it is derogatory.";
+export const avoidHarmful: "Avoid using <i>%1$s</i> as it is potentially harmful.";
+export const beCarefulHarmful: "Be careful when using <i>%1$s</i> as it is potentially harmful.";
+export const alternative: "Consider using an alternative, such as %2$s.";
+export const preferredDescriptorIfKnown: "Alternatively, if talking about a specific person, use their preferred descriptor if known.";
+export const orangeNoUnless: string;
+export const orangeExclusionaryNoUnless: string;
+export const orangeUnlessAnimalsObjects: string;
+export const orangeUnlessSomeoneWants: string;
+export const redHarmful: string;
+export const redExclusionary: string;
+export const redPotentiallyExclusionary: string;
