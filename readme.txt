@@ -274,6 +274,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 24.8.1 =
+
+Release date: 2025-04-01
+
+#### Bugfixes
+
+* Fixes a potential fatal error on the dashboard page.
+
 = 24.8 =
 
 Release date: 2025-04-01
