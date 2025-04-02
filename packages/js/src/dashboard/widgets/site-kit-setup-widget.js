@@ -1,14 +1,13 @@
-import { TrashIcon, XIcon } from "@heroicons/react/outline";
+import { ArrowNarrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { Widget } from "@yoast/dashboard-frontend";
 import { Alert, Button, DropdownMenu, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
 import { ReactComponent as YoastConnectSiteKitSuccess } from "../../../images/yoast-connect-google-site-kit-success.svg";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { SiteKitConsentModal } from "../../shared-admin/components";
-import { LearnMoreLink } from "../components/learn-more-link";
-import { Widget } from "./widget";
 
 /**
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
@@ -308,7 +307,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 				/>
 
 			</div>
-			<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
+			<div className="yst-flex yst-gap-1.5 yst-mt-6 yst-items-center">
 				<SiteKitSetupAction
 					currentStep={ currentStep }
 					config={ config }
@@ -318,7 +317,23 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 				/>
 				{ ! isConnectionCompleted &&
 					<>
-						<LearnMoreLink as={ Button } variant="tertiary" href={ learnMoreLink } />
+						<Button
+							as="a"
+							href={ learnMoreLink }
+							variant="tertiary"
+							className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
+							target="_blank"
+							rel="noopener"
+						>
+							{ __( "Learn more", "wordpress-seo" ) }
+							<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />
+							<span className="yst-sr-only">
+								{
+									/* translators: Hidden accessibility text. */
+									__( "(Opens in a new browser tab)", "wordpress-seo" )
+								}
+							</span>
+						</Button>
 						<SiteKitConsentModal
 							isOpen={ currentStep === STEP_NAME.grantConsent && isConsentModalOpen }
 							onClose={ closeConsentModal }

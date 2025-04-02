@@ -34,7 +34,7 @@ describe( "SiteKitSetupWidget", () => {
 			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
-		const learnMoreLink = screen.getByRole( "button", { name: /Learn more/i } );
+		const learnMoreLink = screen.getByRole( "link", { name: /Learn more/i } );
 		expect( learnMoreLink ).toBeInTheDocument();
 		expect( learnMoreLink ).toHaveAttribute( "href", "https://example.com/google-site-kit-learn-more" );
 	} );

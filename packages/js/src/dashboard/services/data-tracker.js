@@ -69,7 +69,7 @@ export class DataTracker {
 		// We update the object in memory and perform a REST request only if the data has changed.
 		if ( hasDataChanged ) {
 			this.#setupStepsTracking = trackingData;
-			this.storeData(trackingData);
+			this.storeData( trackingData );
 		}
 	}
 
