@@ -121,11 +121,11 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 	public function track_setup_steps( WP_REST_Request $request ) {
 		$data = \array_filter(
 			[
-				'setup_widget_loaded'     => $request->get_param( 'setupWidgetLoaded' ),
-				'first_interaction_stage' => $request->get_param( 'firstInteractionStage' ),
-				'last_interaction_stage'  => $request->get_param( 'lastInteractionStage' ),
-				'setup_widget_temporarily_dismissed'  => $request->get_param( 'setupWidgetTemporarilyDismissed' ),
-				'setup_widget_permanently_dismissed'  => $request->get_param( 'setupWidgetPermanentlyDismissed' ),
+				'setup_widget_loaded'                => $request->get_param( 'setupWidgetLoaded' ),
+				'first_interaction_stage'            => $request->get_param( 'firstInteractionStage' ),
+				'last_interaction_stage'             => $request->get_param( 'lastInteractionStage' ),
+				'setup_widget_temporarily_dismissed' => $request->get_param( 'setupWidgetTemporarilyDismissed' ),
+				'setup_widget_permanently_dismissed' => $request->get_param( 'setupWidgetPermanentlyDismissed' ),
 			],
 			static function ( $element_value ) {
 					return ! \is_null( $element_value );

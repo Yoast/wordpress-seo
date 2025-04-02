@@ -77,11 +77,11 @@ class Setup_Steps_Tracking {
 	 */
 	public function to_array(): array {
 		return [
-			'setupWidgetLoaded'     => $this->get_setup_widget_loaded(),
-			'firstInteractionStage' => $this->get_first_interaction_stage(),
-			'lastInteractionStage'  => $this->get_last_interaction_stage(),
-			'setupWidgetTemporarilyDismissed'  => $this->get_setup_widget_temporarily_dismissed(),
-			'setupWidgetPermanentlyDismissed'  => $this->get_setup_widget_permanently_dismissed(),
+			'setupWidgetLoaded'               => $this->get_setup_widget_loaded(),
+			'firstInteractionStage'           => $this->get_first_interaction_stage(),
+			'lastInteractionStage'            => $this->get_last_interaction_stage(),
+			'setupWidgetTemporarilyDismissed' => $this->get_setup_widget_temporarily_dismissed(),
+			'setupWidgetPermanentlyDismissed' => $this->get_setup_widget_permanently_dismissed(),
 
 		];
 	}
