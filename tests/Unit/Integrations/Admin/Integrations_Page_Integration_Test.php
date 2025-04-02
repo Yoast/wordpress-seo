@@ -178,7 +178,6 @@ final class Integrations_Page_Integration_Test extends TestCase {
 			'installUrl'               => 'example.com',
 			'activateUrl'              => 'example.com',
 			'setupUrl'                 => 'example.com',
-			'isConfigurationDismissed' => false,
 			'capabilities'             => [
 				'installPlugins'        => true,
 				'viewSearchConsoleData' => true,
