@@ -43,9 +43,23 @@ class Site_Kit {
 	/**
 	 * The call wrapper.
 	 *
-	 * @var Site_Kit_Is_Connected_Call
+	 * @var Site_Kit_Is_Connected_Call $site_kit_is_connected_call
 	 */
 	private $site_kit_is_connected_call;
+
+	/**
+	 * The search console module data.
+	 *
+	 * @var array<string, bool> $search_console_module
+	 */
+	private $search_console_module;
+
+	/**
+	 * The analytics module data.
+	 *
+	 * @var array<string, bool> $ga_module
+	 */
+	private $ga_module;
 
 	/**
 	 * The constructor.
@@ -99,6 +113,10 @@ class Site_Kit {
 	 * @return bool If Google Analytics is connected.
 	 */
 	public function is_ga_connected(): bool {
+		if ( $this->ga_module !== null ) {
+			return $this->ga_module['connected'];
+		}
+
 		return $this->site_kit_is_connected_call->is_ga_connected();
 	}
 
@@ -180,35 +198,7 @@ class Site_Kit {
 
 		$site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
 
-		$preload_paths = \apply_filters( 'googlesitekit_apifetch_preload_paths', [] );
-		$actual_paths  = \array_intersect( $this->paths, $preload_paths );
-		$preloaded     = \array_reduce(
-			\array_unique( $actual_paths ),
-			'rest_preload_api_request',
-			[]
-		);
-
-		$modules_data        = $preloaded['/google-site-kit/v1/core/modules/data/list']['body'];
-		$modules_permissions = $preloaded['/google-site-kit/v1/core/user/data/permissions']['body'];
-
-		$search_console_module = [];
-		$ga_module             = [];
-		foreach ( $modules_data as $module ) {
-			if ( $module['slug'] === 'analytics-4' ) {
-				$ga_module['owner']       = $module['owner'];
-				$ga_module['permissions'] = [];
-				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'] ) ) {
-					$ga_module['permissions'] = $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'];
-				}
-			}
-			if ( $module['slug'] === 'search-console' ) {
-				$search_console_module['owner']       = $module['owner'];
-				$search_console_module['permissions'] = [];
-				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'] ) ) {
-					$search_console_module['permissions'] = $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'];
-				}
-			}
-		}
+		$this->parse_site_kit_data();
 
 		return [
 			'installUrl'               => $site_kit_install_url,
@@ -220,8 +210,8 @@ class Site_Kit {
 			'isConfigurationDismissed' => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
 			'capabilities'             => [
 				'installPlugins'        => \current_user_can( 'install_plugins' ),
-				'viewSearchConsoleData' => $this->can_read_data( $search_console_module ),
-				'viewAnalyticsData'     => $this->can_read_data( $ga_module ),
+				'viewSearchConsoleData' => $this->can_read_data( $this->search_console_module ),
+				'viewAnalyticsData'     => $this->can_read_data( $this->ga_module ),
 			],
 			'connectionStepsStatuses'  => [
 				'isInstalled'      => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
@@ -242,5 +232,45 @@ class Site_Kit {
 	 */
 	public function to_legacy_array(): array {
 		return $this->to_array();
+	}
+
+	/**
+	 * Parses the Site Kit configuration data.
+	 *
+	 * @return void
+	 */
+	public function parse_site_kit_data(): void {
+		$preload_paths = \apply_filters( 'googlesitekit_apifetch_preload_paths', [] );
+		$actual_paths  = \array_intersect( $this->paths, $preload_paths );
+		$preloaded     = \array_reduce(
+			\array_unique( $actual_paths ),
+			'rest_preload_api_request',
+			[]
+		);
+
+		$modules_data        = $preloaded['/google-site-kit/v1/core/modules/data/list']['body'];
+		$modules_permissions = $preloaded['/google-site-kit/v1/core/site/data/connection']['body'];
+
+		$this->search_console_module = [];
+		$this->ga_module             = [
+			'connected' => false,
+		];
+		foreach ( $modules_data as $module ) {
+			if ( $module['slug'] === 'analytics-4' ) {
+				$this->ga_module['owner']       = $module['owner'];
+				$this->ga_module['connected']   = $module['connected'];
+				$this->ga_module['permissions'] = [];
+				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'] ) ) {
+					$this->ga_module['permissions'] = $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'];
+				}
+			}
+			if ( $module['slug'] === 'search-console' ) {
+				$this->search_console_module['owner']       = $module['owner'];
+				$this->search_console_module['permissions'] = [];
+				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'] ) ) {
+					$this->search_console_module['permissions'] = $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'];
+				}
+			}
+		}
 	}
 }
