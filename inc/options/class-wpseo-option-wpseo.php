@@ -145,7 +145,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'setup_widget_loaded'     => 'no',
 			'first_interaction_stage' => '',
 			'last_interaction_stage'  => '',
-			'setup_widget_dismissed'  => '',
+			'setup_widget_temporarily_dismissed'  => 'no',
+			'setup_widget_permanently_dismissed'  => 'no',
 		],
 	];
 

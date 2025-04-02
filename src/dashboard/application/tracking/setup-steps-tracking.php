@@ -53,12 +53,21 @@ class Setup_Steps_Tracking {
 	}
 
 	/**
-	 * If the setup widget has been dismissed.
+	 * If the setup widget has been temporarily dismissed.
 	 *
-	 * @return string "no", "pageload", or "permanently".
+	 * @return string "yes" on "no".
 	 */
-	public function get_setup_widget_dismissed(): string {
-		return $this->setup_steps_tracking_repository->get_setup_steps_tracking_element( 'setup_widget_dismissed' );
+	public function get_setup_widget_temporarily_dismissed(): string {
+		return $this->setup_steps_tracking_repository->get_setup_steps_tracking_element( 'setup_widget_temporarily_dismissed' );
+	}
+
+	/**
+	 * If the setup widget has been permanently dismissed.
+	 *
+	 * @return string "yes" on "no".
+	 */
+	public function get_setup_widget_permanently_dismissed(): string {
+		return $this->setup_steps_tracking_repository->get_setup_steps_tracking_element( 'setup_widget_permanently_dismissed' );
 	}
 
 	/**
@@ -71,7 +80,9 @@ class Setup_Steps_Tracking {
 			'setupWidgetLoaded'     => $this->get_setup_widget_loaded(),
 			'firstInteractionStage' => $this->get_first_interaction_stage(),
 			'lastInteractionStage'  => $this->get_last_interaction_stage(),
-			'setupWidgetDismissed'  => $this->get_setup_widget_dismissed(),
+			'setupWidgetTemporarilyDismissed'  => $this->get_setup_widget_temporarily_dismissed(),
+			'setupWidgetPermanentlyDismissed'  => $this->get_setup_widget_permanently_dismissed(),
+
 		];
 	}
 }

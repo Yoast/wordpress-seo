@@ -88,17 +88,22 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 						'first_interaction_stage' => [
 							'required'          => false,
 							'type'              => 'string',
-							'enum'              => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT', 'COMPLETED' ],
+							'enum'              => [ 'install', 'activate', 'setup', 'grantConsent', 'successfullyConnected' ],
 						],
 						'last_interaction_stage' => [
 							'required'          => false,
 							'type'              => 'string',
-							'enum'              => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT', 'COMPLETED' ],
+							'enum'              => [ 'install', 'activate', 'setup', 'grantConsent', 'successfullyConnected' ],
 						],
-						'setup_widget_dismissed' => [
+						'setup_widget_temporarily_dismissed' => [
 							'required'          => false,
 							'type'              => 'string',
-							'enum'              => [ 'no', 'pageload', 'permanently' ],
+							'enum'              => [ 'yes', 'no' ],
+						],
+						'setup_widget_permanently_dismissed' => [
+							'required'          => false,
+							'type'              => 'string',
+							'enum'              => [ 'yes', 'no' ],
 						],
 					],
 				],
@@ -116,10 +121,11 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 	public function track_setup_steps( WP_REST_Request $request ) {
 		$data = \array_filter(
 			[
-				'setup_widget_loaded'     => $request->get_param( 'setup_widget_loaded' ),
-				'first_interaction_stage' => $request->get_param( 'first_interaction_stage' ),
-				'last_interaction_stage'  => $request->get_param( 'last_interaction_stage' ),
-				'setup_widget_dismissed'  => $request->get_param( 'setup_widget_dismissed' ),
+				'setup_widget_loaded'     => $request->get_param( 'setupWidgetLoaded' ),
+				'first_interaction_stage' => $request->get_param( 'firstInteractionStage' ),
+				'last_interaction_stage'  => $request->get_param( 'lastInteractionStage' ),
+				'setup_widget_temporarily_dismissed'  => $request->get_param( 'setupWidgetTemporarilyDismissed' ),
+				'setup_widget_permanently_dismissed'  => $request->get_param( 'setupWidgetPermanentlyDismissed' ),
 			],
 			static function ( $element_value ) {
 					return ! \is_null( $element_value );
