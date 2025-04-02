@@ -34,11 +34,16 @@ export const STEP_NAME = {
 	successfullyConnected: -1,
 };
 
+/* eslint-disable no-unused-vars */
+const getCurrentStepName = ( step ) => {
+	return Object.entries( STEP_NAME ).find( ( [ key, val ] ) => val === step )?.[ 0 ];
+};
+/* eslint-enable no-unused-vars */
+
 /**
  * @typedef {Object} UseSiteKitConfiguration
  * @property {function(RequestInit?)} grantConsent The grant consent function.
  * @property {function(RequestInit?)} dismissPermanently The dismiss permanently function.
- * @property {function(object, RequestInit?)} trackSetupSteps The function used to track Site Kit usage.
  */
 
 /**
@@ -59,14 +64,6 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 		} ).catch( noop );
 	}, [ dataProvider, remoteDataProvider ] );
 
-	const trackSetupSteps = useCallback( ( params, options ) => {
-		remoteDataProvider.fetchJson(
-			dataProvider.getEndpoint( "setupStepsTracking" ),
-			params,
-			{ ...options, method: "POST" }
-		).catch( noop );
-	}, [ remoteDataProvider, dataProvider ] );
-
 	const dismissPermanently = useCallback( ( options ) => {
 		remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "siteKitConfigurationDismissal" ),
@@ -78,7 +75,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}, [ remoteDataProvider, dataProvider ] );
 
-	return { grantConsent, dismissPermanently, trackSetupSteps };
+	return { grantConsent, dismissPermanently };
 };
 
 /**
@@ -214,45 +211,35 @@ const SiteKitSetupAction = ( { currentStep, config, isConnectionCompleted, onDis
  * @returns {JSX.Element} The widget.
  */
 export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTracker } ) => {
-	const { grantConsent, dismissPermanently, trackSetupSteps } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
+	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
 	const config = dataProvider.getSiteKitConfiguration();
 	const isConnectionCompleted = dataProvider.isSiteKitConnectionCompleted() && config.isVersionSupported;
 
-	/* eslint-disable camelcase */
 	useEffect( () => {
+		const stepName = getCurrentStepName( currentStep );
 		if ( dataTracker.getSetupStepsTrackingElement( "setupWidgetLoaded" ) === "no" ) {
-			if ( currentStep === STEP_NAME.successfullyConnected ) {
-				trackSetupSteps( { last_interaction_stage: "COMPLETED" } );
-			} else {
-				trackSetupSteps( {
-					setup_widget_loaded: "yes",
-					first_interaction_stage: steps[ currentStep ],
-					last_interaction_stage: steps[ currentStep ],
-				} );
-			}
+			dataTracker.track( {
+				setupWidgetLoaded: "yes",
+				firstInteractionStage: stepName,
+				lastInteractionStage: stepName,
+			} );
+		} else if ( dataTracker.getSetupStepsTrackingElement( "setupWidgetLoaded" ) === "yes" ) {
+			dataTracker.track( { lastInteractionStage: stepName } );
 		}
-		// Reset the temporary dismissal status
-		if ( dataTracker.getSetupStepsTrackingElement( "setupWidgetDismissed" ) === "pageload" ) {
-			trackSetupSteps( { setup_widget_dismissed: "no" } );
-		}
-		if ( ( dataTracker.getSetupStepsTrackingElement( "lastInteractionStage" ) !== steps[ currentStep ] ) &&
-			( dataTracker.getSetupStepsTrackingElement( "setupWidgetLoaded" ) === "yes"  ) ) {
-			trackSetupSteps( { last_interaction_stage: steps[ currentStep ] } );
-		}
-	}, [ dataProvider, trackSetupSteps ] );
+	}, [ dataTracker, currentStep ] );
 
 	const handleOnRemove = useCallback( () => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
-		trackSetupSteps(  { setup_widget_dismissed: "pageload" } );
+		dataTracker.track(  { setupWidgetTemporarilyDismissed: "yes" } );
 	}, [ dataProvider ] );
 
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();
-		trackSetupSteps(  { setup_widget_dismissed: "permanently" } );
-	}, [ dismissPermanently, trackSetupSteps ] );
+		dataTracker.track(  { setupWidgetPermanentlyDismissed: "yes" } );
+	}, [ dataTracker, currentStep ] );
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );

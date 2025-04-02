@@ -106,7 +106,8 @@ domReady( () => {
 		setupWidgetLoaded: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetLoaded", "no" ),
 		firstInteractionStage: get( window, "wpseoScriptData.dashboard.setupStepsTracking.firstInteractionStage", "" ),
 		lastInteractionStage: get( window, "wpseoScriptData.dashboard.setupStepsTracking.lastInteractionStage", "" ),
-		setupWidgetDismissed: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetDismissed", "" ),
+		setupWidgetTemporarilyDismissed: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetTemporarilyDismissed", "" ),
+		setupWidgetPermanentlyDismissed: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetPermanentlyDismissed", "" ),
 	};
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
@@ -115,7 +116,7 @@ domReady( () => {
 		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
 		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
 	};
-	const dataTracker = new DataTracker( { setupStepsTrackingData: setupStepsTrackingData } );
+	const dataTracker = new DataTracker( { setupStepsTrackingData: setupStepsTrackingData, dataProvider, remoteDataProvider } );
 
 	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTracker );
 	if ( dataProvider.isSiteKitConnectionCompleted() ) {
