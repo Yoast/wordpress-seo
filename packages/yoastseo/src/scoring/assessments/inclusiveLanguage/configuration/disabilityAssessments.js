@@ -370,7 +370,25 @@ const disabilityAssessments = [
 		feedbackFormat: redHarmful,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isNotPrecededByException( words, [ "deaf and" ] ) || isNotFollowedByException( words, nonInclusivePhrase, [ "down" ] ) );
+				.filter( isNotPrecededByException( words, [ "deaf and" ] ) )
+				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "down" ] ) );
+		},
+	},
+	{
+		identifier: "crazy",
+		nonInclusivePhrases: [ "crazy" ],
+		inclusiveAlternatives: "<i>wild, baffling, out of control, inexplicable, unbelievable, aggravating, shocking, intense, impulsive, chaotic, " +
+			"confused, mistaken, obsessed</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: redHarmful,
+		// Don't target when 'crazy' is part of a more specific phrase that we target.
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isNotPrecededByException( words, shouldNotPrecedeStandaloneCrazy ) )
+				.filter( isNotFollowedByException( words, nonInclusivePhrase, shouldNotFollowStandaloneCrazy ) )
+				.filter( isNotFollowedAndPrecededByException( words, nonInclusivePhrase,
+					shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
+					shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
 		},
 	},
 	{
