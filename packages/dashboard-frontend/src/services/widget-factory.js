@@ -1,11 +1,9 @@
 /* eslint-disable complexity */
-import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
-import {
-	TopPagesWidget,
-	TopQueriesWidget,
-	SearchRankingCompareWidget,
-	ScoreWidget,
-	OrganicSessionsWidget } from "@yoast/dashboard-frontend";
+import { OrganicSessionsWidget } from "../widgets/organic-sessions-widget";
+import { ScoreWidget } from "../widgets/score-widget";
+import { TopPagesWidget } from "../widgets/top-pages-widget";
+import { TopQueriesWidget } from "../widgets/top-queries-widget";
+import { SearchRankingCompareWidget } from "../widgets/search-ranking-compare-widget";
 
 /**
  * @type {import("../index").WidgetType} WidgetType
@@ -37,7 +35,6 @@ export class WidgetFactory {
 	 */
 	get types() {
 		return {
-			siteKitSetup: "siteKitSetup",
 			searchRankingCompare: "searchRankingCompare",
 			organicSessions: "organicSessions",
 			topPages: "topPages",
@@ -52,20 +49,6 @@ export class WidgetFactory {
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
 	createWidget( widget ) {
-		const {
-			isFeatureEnabled,
-			isSetupWidgetDismissed,
-			isAnalyticsConnected,
-			capabilities,
-			isVersionSupported,
-		} = this.#dataProvider.getSiteKitConfiguration();
-		const isSiteKitConnectionCompleted = this.#dataProvider.isSiteKitConnectionCompleted();
-
-		// Common checks for Site Kit widgets.
-		const isSiteKitWidgetAllowed = isFeatureEnabled && isSiteKitConnectionCompleted && isVersionSupported;
-		const isSearchConsoleWidgetAllowed = isSiteKitWidgetAllowed && capabilities.viewSearchConsoleData;
-		const isAnalyticsWidgetAllowed = isSiteKitWidgetAllowed && isAnalyticsConnected && capabilities.viewAnalyticsData;
-
 		switch ( widget.type ) {
 			case this.types.seoScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
@@ -88,28 +71,13 @@ export class WidgetFactory {
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
 			case this.types.topPages:
-				if ( ! isSearchConsoleWidgetAllowed ) {
-					return null;
-				}
 				return <TopPagesWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
-			case this.types.siteKitSetup:
-				if ( ! isFeatureEnabled || isSetupWidgetDismissed ) {
-					return null;
-				}
-				return <SiteKitSetupWidget
-					key={ widget.id }
-					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
-				/>;
 			case this.types.topQueries:
-				if ( ! isSearchConsoleWidgetAllowed ) {
-					return null;
-				}
 				return <TopQueriesWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
@@ -117,9 +85,6 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.searchRankingCompare:
-				if ( ! isSearchConsoleWidgetAllowed ) {
-					return null;
-				}
 				return <SearchRankingCompareWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }
@@ -127,9 +92,6 @@ export class WidgetFactory {
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			case this.types.organicSessions:
-				if ( ! isAnalyticsWidgetAllowed ) {
-					return null;
-				}
 				return <OrganicSessionsWidget
 					key={ widget.id }
 					dataProvider={ this.#dataProvider }

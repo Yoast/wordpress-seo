@@ -1,4 +1,4 @@
-import { DataFormatterInterface } from "@yoast/dashboard-frontend";
+import { DataFormatterInterface } from "../../src/services/data-formatter-interface";
 
 /**
  * Fake implementation of the data formatter interface.
