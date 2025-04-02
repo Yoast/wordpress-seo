@@ -128,8 +128,8 @@ class Site_Kit {
 		$current_user = \wp_get_current_user();
 		// Check if the current user has one of the shared roles.
 		$dashboard_sharing  = \get_option( 'googlesitekit_dashboard_sharing' );
-		$shared_roles       = isset( $dashboard_sharing[ $key ] ) ? $dashboard_sharing[ $key ]['sharedRoles'] : [];
-		$has_viewing_rights = \array_intersect( $current_user->roles, $shared_roles );
+		$shared_roles       = ( isset( $dashboard_sharing[ $key ]['sharedRoles'] ) ) ? $dashboard_sharing[ $key ]['sharedRoles'] : [];
+		$has_viewing_rights = ( \is_array( $shared_roles ) ) ? \array_intersect( $current_user->roles, $shared_roles ) : false;
 
 		// Check if the current user is the owner.
 		$site_kit_settings = \get_option( 'googlesitekit_' . $key . '_settings' );
