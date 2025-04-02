@@ -19,7 +19,7 @@ import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
 import { isWordComplexitySupported } from "../../helpers/assessmentUpsellHelpers";
 import { addQueryArgs } from "@wordpress/url";
 import getL10nObject from "../../analysis/getL10nObject";
-import AIAssessmentFixesButton from "../../ai-assessment-fixes/components/ai-assessment-fixes-button";
+import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -73,7 +73,7 @@ class ReadabilityAnalysis extends Component {
 					marksButtonStatus={ this.props.marksButtonStatus }
 					highlightingUpsellLink={ highlightingUpsellLink }
 					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
-					renderAIFixesButton={ this.renderAIFixesButton }
+					renderAIOptimizeButton={ this.renderAIOptimizeButton }
 				/>
 			</Fragment>
 		);
@@ -141,7 +141,7 @@ class ReadabilityAnalysis extends Component {
 	 *
 	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
 	 */
-	renderAIFixesButton = ( hasAIFixes, id ) => {
+	renderAIOptimizeButton = ( hasAIFixes, id ) => {
 		const { isElementor, isAiFeatureEnabled } = this.props;
 		const isPremium = getL10nObject().isPremium;
 
@@ -156,7 +156,7 @@ class ReadabilityAnalysis extends Component {
 
 		// Show the button if the assessment can be fixed through Yoast AI Optimize, and we are not in the Elementor editor.
 		return hasAIFixes && isNotElementorPage && (
-			<AIAssessmentFixesButton id={ id } isPremium={ isPremium } />
+			<AIOptimizeButton id={ id } isPremium={ isPremium } />
 		);
 	};
 

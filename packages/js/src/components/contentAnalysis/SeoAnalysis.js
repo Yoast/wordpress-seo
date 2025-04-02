@@ -19,7 +19,7 @@ import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
-import AIAssessmentFixesButton from "../../ai-assessment-fixes/components/ai-assessment-fixes-button";
+import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -203,7 +203,7 @@ class SeoAnalysis extends Component {
 	 *
 	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
 	 */
-	renderAIFixesButton = ( hasAIFixes, id ) => {
+	renderAIOptimizeButton = ( hasAIFixes, id ) => {
 		const { isElementor, isAiFeatureEnabled, isPremium } = this.props;
 
 		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
@@ -217,7 +217,7 @@ class SeoAnalysis extends Component {
 
 		// Show the button if the assessment can be fixed through Yoast AI Optimize, and we are not in the Elementor editor.
 		return hasAIFixes && isNotElementorPage && (
-			<AIAssessmentFixesButton id={ id } isPremium={ isPremium } />
+			<AIOptimizeButton id={ id } isPremium={ isPremium } />
 		);
 	};
 
@@ -280,7 +280,7 @@ class SeoAnalysis extends Component {
 												location={ location }
 												shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 												highlightingUpsellLink={ highlightingUpsellLink }
-												renderAIFixesButton={ this.renderAIFixesButton }
+												renderAIOptimizeButton={ this.renderAIOptimizeButton }
 											/>
 										</Collapsible>
 										{ this.renderTabIcon( location, score.className ) }

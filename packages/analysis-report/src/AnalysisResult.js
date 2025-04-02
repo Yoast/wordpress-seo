@@ -146,7 +146,7 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 						ariaLabel={ props.ariaLabelEdit }
 					/>
 				}
-				{ props.renderAIFixesButton( props.hasAIFixes, props.id ) }
+				{ props.renderAIOptimizeButton( props.hasAIFixes, props.id ) }
 			</ResultButtonsContainer>
 		</AnalysisResultBase>
 	);
@@ -181,7 +181,7 @@ AnalysisResult.propTypes = {
 	] ),
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
-	renderAIFixesButton: PropTypes.func,
+	renderAIOptimizeButton: PropTypes.func,
 };
 
 AnalysisResult.defaultProps = {
@@ -201,7 +201,7 @@ AnalysisResult.defaultProps = {
 	marker: noop,
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: noop,
-	renderAIFixesButton: noop,
+	renderAIOptimizeButton: noop,
 };
 
 export default AnalysisResult;

@@ -16,15 +16,17 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { isTextViewActive } from "../../lib/tinymce";
 
 /**
- * The AI Assessment Fixes button component.
+ * The AI Optimize button component.
  *
- * @param {string} id The assessment ID for which the AI fixes should be applied to.
- * @param {boolean} isPremium Whether the premium add-on is active.
+ * @param {string} id The assessment ID which AI Optimize should be applied to.
+ * @param {boolean} isPremium Whether the Premium add-on is active.
  *
- * @returns {JSX.Element} The AI Assessment Fixes button.
+ * @returns {JSX.Element} The AI Optimize button.
  */
-const AIAssessmentFixesButton = ( { id, isPremium } ) => {
-	const aiFixesId = id + "AIFixes";
+const AIOptimizeButton = ( { id, isPremium } ) => {
+	// The AI Optimize button ID is the same as the assessment ID, with "AIFixes" appended to it.
+	// We continue to use "AIFixes" in the ID to keep it consistent with the Premium implementation.
+	const aiOptimizeId = id + "AIFixes";
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
 	const { activeMarker, activeAIButtonId, editorType } = useSelect( ( select ) => ( {
 		activeMarker: select( "yoast-seo/editor" ).getActiveMarker(),
@@ -45,7 +47,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const htmlLabel = __( "Please switch to the visual editor to optimize with AI.", "wordpress-seo" );
 
 	// The button is pressed when the active AI button id is the same as the current button id.
-	const isButtonPressed = activeAIButtonId === aiFixesId;
+	const isButtonPressed = activeAIButtonId === aiOptimizeId;
 
 	// Enable the button when:
 	// (1) other AI buttons are not pressed.
@@ -61,10 +63,10 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		}
 
 		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
-		if ( Object.keys( disabledAIButtons ).includes( aiFixesId ) ) {
+		if ( Object.keys( disabledAIButtons ).includes( aiOptimizeId ) ) {
 			return {
 				isEnabled: false,
-				ariaLabel: disabledAIButtons[ aiFixesId ],
+				ariaLabel: disabledAIButtons[ aiOptimizeId ],
 			};
 		}
 
@@ -104,12 +106,12 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		/* If the current pressed button ID is the same as the active AI button id,
 		we want to set the active AI button to null and enable back the highlighting button that was disabled
 		when the AI button was pressed the first time. Otherwise, update the active AI button ID. */
-		if ( aiFixesId === activeAIButtonId ) {
+		if ( aiOptimizeId === activeAIButtonId ) {
 			setActiveAIFixesButton( null );
 			// Enable the highlighting button when the AI button is not pressed.
 			setMarkerStatus( "enabled" );
 		} else {
-			setActiveAIFixesButton( aiFixesId );
+			setActiveAIFixesButton( aiOptimizeId );
 			/*
 			Disable the highlighting button when the AI button is pressed.
 			This is because clicking on the highlighting button will remove the AI suggestion from the editor.
@@ -122,7 +124,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 
 	const handleClick = useCallback( () => {
 		if ( isPremium ) {
-			doAction( "yoast.ai.fixAssessments", aiFixesId );
+			doAction( "yoast.ai.fixAssessments", aiOptimizeId );
 			/* Only handle the pressed button state in Premium.
 			We don't want to change the background color of the button and other styling when it's pressed in Free.
 			This is because clicking on the button in Free will open the modal, and the button will not be in a pressed state. */
@@ -151,7 +153,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			ariaLabel={ ariaLabel }
 			onPointerEnter={ handleMouseEnter }
 			onPointerLeave={ handleMouseLeave }
-			id={ aiFixesId }
+			id={ aiOptimizeId }
 			className={ `ai-button ${buttonClass}` }
 			pressed={ isButtonPressed }
 			disabled={ ! isEnabled }
@@ -169,14 +171,14 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	);
 };
 
-AIAssessmentFixesButton.propTypes = {
+AIOptimizeButton.propTypes = {
 	id: PropTypes.string.isRequired,
 	isPremium: PropTypes.bool,
 };
 
-AIAssessmentFixesButton.defaultProps = {
+AIOptimizeButton.defaultProps = {
 	isPremium: false,
 };
 
-export default AIAssessmentFixesButton;
+export default AIOptimizeButton;
 

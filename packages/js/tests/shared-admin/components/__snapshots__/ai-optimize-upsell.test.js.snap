@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AiFixAssessmentsUpsell renders the component correctly 1`] = `
+exports[`AiOptimizeUpsell renders the component correctly 1`] = `
 <div>
   <div
     class="yst-px-10 yst-pt-10 yst-introduction-gradient yst-text-center"
