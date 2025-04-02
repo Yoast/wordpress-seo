@@ -16,6 +16,24 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { isTextViewActive } from "../../lib/tinymce";
 
 /**
+ * Returns the editor mode based on the editor type.
+ * @returns {string} The editor mode, either "visual" or "text".
+ */
+const getEditorMode = () => {
+	const editorType = useSelect( ( select ) => select( "yoast-seo/editor" ).getEditorType(), [] );
+
+	let editorMode = "";
+
+	if ( editorType === "blockEditor" ) {
+		editorMode = useSelect( ( select ) => select( "core/edit-post" ).getEditorMode(), [] );
+	} else if ( editorType === "classicEditor" ) {
+		editorMode = isTextViewActive() ? "text" : "visual";
+	}
+
+	return editorMode;
+};
+
+/**
  * The AI Optimize button component.
  *
  * @param {string} id The assessment ID which AI Optimize should be applied to.
@@ -33,12 +51,8 @@ const AIOptimizeButton = ( { id, isPremium } ) => {
 		activeAIButtonId: select( "yoast-seo/editor" ).getActiveAIFixesButton(),
 		editorType: select( "yoast-seo/editor" ).getEditorType(),
 	} ), [] );
-	let editorMode = "";
-	if ( editorType === "blockEditor" ) {
-		editorMode = useSelect( ( select ) => select( "core/edit-post" ).getEditorMode(), [] );
-	} else if ( editorType === "classicEditor" ) {
-		editorMode = isTextViewActive() ? "text" : "visual";
-	}
+	const editorMode = getEditorMode();
+
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
@@ -54,6 +68,7 @@ const AIOptimizeButton = ( { id, isPremium } ) => {
 	// (2) the AI button is not disabled.
 	// (3) the editor is in visual mode.
 	// (4) all blocks are in visual mode.
+	// eslint-disable-next-line complexity
 	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
 		if ( activeAIButtonId !== null && ! isButtonPressed ) {
 			return {
@@ -76,6 +91,7 @@ const AIOptimizeButton = ( { id, isPremium } ) => {
 				ariaLabel: htmlLabel,
 			};
 		}
+
 		if ( editorType === "blockEditor" ) {
 			const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
 			const allVisual = blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
@@ -84,6 +100,7 @@ const AIOptimizeButton = ( { id, isPremium } ) => {
 				ariaLabel: allVisual ? defaultLabel : htmlLabel,
 			};
 		}
+
 		return {
 			isEnabled: true,
 			ariaLabel: defaultLabel,

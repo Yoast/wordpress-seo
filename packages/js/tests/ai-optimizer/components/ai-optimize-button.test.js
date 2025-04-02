@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "../../test-utils";
 import { useSelect, useDispatch } from "@wordpress/data";
 
+import { isTextViewActive } from "../../../src/lib/tinymce";
 import AIOptimizeButton from "../../../src/ai-optimizer/components/ai-optimize-button";
 
 jest.mock( "@wordpress/data", () => {
@@ -10,6 +11,10 @@ jest.mock( "@wordpress/data", () => {
 		combineReducers: jest.fn(),
 	};
 } );
+
+jest.mock( "../../../src/lib/tinymce", () => ( {
+	isTextViewActive: jest.fn(),
+} ) );
 
 global.window.YoastSEO = {
 	analysis: {
@@ -26,16 +31,19 @@ global.window.YoastSEO = {
  * @param {string} activeMarker The active marker.
  * @returns {function} The mock.
  */
-const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockEditor", blocks = [], activeMarker ) =>
+const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockEditor", blocks = [], activeMarker = "" ) => {
 	useSelect.mockImplementation( select => select( () => ( {
 		getActiveAIFixesButton: () => activeAIButton,
 		getActiveMarker: () => activeMarker,
 		getDisabledAIFixesButtons: () => ( { keyphraseDistributionAIFixes: "Your text is too long." } ),
 		getBlocks: () => blocks,
-		getBlockMode: ( clientId ) => clientId === "htmlTest" ? "html" : "visual",
+		getBlockMode: ( clientId ) => clientId === "htmlTest" ? "text" : "visual",
 		getEditorMode: () => editorMode,
 		getEditorType: () => editorType,
 	} ) ) );
+
+	isTextViewActive.mockReturnValue( editorMode === "text" );
+};
 
 describe( "AIAssessmentFixesButton", () => {
 	let setActiveAIFixesButton;
@@ -103,6 +111,15 @@ describe( "AIAssessmentFixesButton", () => {
 		expect( button ).toHaveAttribute( "aria-label", "Optimize with AI" );
 	} );
 
+	test( "should be enabled under the default circumstances, in the classic editor", () => {
+		mockSelect( "keyphraseDensityAIFixes", "visual", "classicEditor" );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toBeEnabled();
+		expect( button ).toHaveAttribute( "aria-label", "Optimize with AI" );
+	} );
+
 	test( "should be disabled when listed in the disabled buttons", () => {
 		mockSelect( "keyphraseDistributionAIFixes" );
 		render( <AIOptimizeButton id="keyphraseDistribution" isPremium={ true } /> );
@@ -112,8 +129,17 @@ describe( "AIAssessmentFixesButton", () => {
 		expect( button ).toHaveAttribute( "aria-label", "Your text is too long." );
 	} );
 
-	test( "should be disabled in HTML editing mode", () => {
-		mockSelect( "keyphraseDensityAIFixes", "html", "blockEditor", [ { clientId: "test" } ] );
+	test( "should be disabled in HTML editing mode, for the block editor", () => {
+		mockSelect( "keyphraseDensityAIFixes", "text", "blockEditor", [ { clientId: "test" } ] );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toBeDisabled();
+		expect( button ).toHaveAttribute( "aria-label", "Please switch to the visual editor to optimize with AI." );
+	} );
+
+	test( "should be disabled in HTML editing mode, for the classic editor", () => {
+		mockSelect( "keyphraseDensityAIFixes", "text", "classicEditor" );
 		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
 		const button = screen.getByRole( "button" );
 		expect( button ).toBeInTheDocument();
