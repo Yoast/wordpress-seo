@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.7
-Stable tag: 24.8
+Stable tag: 24.8.1
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -299,7 +299,7 @@ Release date: 2025-04-15
 
 = 24.8.1 =
 
-Release date: 2025-04-01
+Release date: 2025-04-02
 
 #### Bugfixes
 
