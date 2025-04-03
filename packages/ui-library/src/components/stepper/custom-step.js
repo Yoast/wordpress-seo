@@ -19,7 +19,8 @@ export const CustomStep = ( { children, isComplete, isActive } ) => {
 	return (
 		<div
 			ref={ addStepRef }
-			className={ classNames( "yst-step",
+			className={ classNames(
+				"yst-step",
 				isComplete ? "yst-step--complete" : "",
 				isActive ? "yst-step--active yst-text-green-700" : "" ) }
 		>
