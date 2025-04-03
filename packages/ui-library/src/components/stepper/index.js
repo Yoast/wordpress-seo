@@ -71,7 +71,7 @@ Step.propTypes = {
  *
  * @returns {JSX.Element} The Stepper element.
  */
-export const Stepper = forwardRef( ( { children, currentStep = 0, className = "", steps }, ref ) => {
+export const Stepper = forwardRef( ( { children, currentStep = 0, className = "", steps = [] }, ref ) => {
 	const [ progressBarPosition, setProgressBarPosition ] = useState( {
 		left: 0,
 		right: 0,
@@ -131,7 +131,8 @@ Stepper.propTypes = {
 Stepper.defaultProps = {
 	className: "",
 	steps: [],
-	children: null,
+	// eslint-disable-next-line no-undefined
+	children: undefined,
 	currentStep: 0,
 };
 
