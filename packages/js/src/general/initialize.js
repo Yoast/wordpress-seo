@@ -115,7 +115,7 @@ domReady( () => {
 		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
 		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
 	};
-	const dataTracker = new DataTracker( { setupStepsTrackingData: setupStepsTrackingData, dataProvider, remoteDataProvider } );
+	const dataTracker = new DataTracker( setupStepsTrackingData, dataProvider, remoteDataProvider );
 
 	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTracker );
 	if ( dataProvider.isSiteKitConnectionCompleted() && siteKitConfiguration.isVersionSupported ) {

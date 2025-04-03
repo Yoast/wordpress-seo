@@ -18,11 +18,11 @@ export class DataTracker {
 	#remoteDataProvider;
 
 	/**
-	 * @param {SetupStepsTrackingData} setupStepsTrackingData The setup steps racking data.
+	 * @param {SetupStepsTrackingData} setupStepsTrackingData The setup steps tracking data.
 	 * @param {import("./data-provider").DataProvider} dataProvider The data provider.
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider The remote data provider.
 	 */
-	constructor( { setupStepsTrackingData, dataProvider, remoteDataProvider } ) {
+	constructor( setupStepsTrackingData, dataProvider, remoteDataProvider ) {
 		this.#setupStepsTracking = {
 			setupWidgetLoaded: setupStepsTrackingData.setupWidgetLoaded,
 			firstInteractionStage: setupStepsTrackingData.firstInteractionStage,
