@@ -36,7 +36,7 @@ describe( "WidgetFactory", () => {
 			comparisonMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
 			plainMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
 		};
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTracker );
 	} );
 
 	describe( "types", () => {
@@ -99,7 +99,7 @@ describe( "WidgetFactory", () => {
 				readabilityAnalysis: false,
 			},
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTracker );
 
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
@@ -108,7 +108,7 @@ describe( "WidgetFactory", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isSetupWidgetDismissed: true },
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTracker );
 
 		expect( widgetFactory.createWidget( "siteKitSetup" ) ).toBeNull();
 	} );
@@ -123,7 +123,7 @@ describe( "WidgetFactory", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isFeatureEnabled: false },
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTracker );
 
 		expect( widgetFactory.createWidget( widgetType ) ).toBeNull();
 	} );
