@@ -22,6 +22,9 @@ class Site_Kit_Is_Connected_Call {
 
 		$data = \rest_do_request( $request );
 
+		if ( $data->get_status() !== 200 ) {
+			return false;
+		}
 		return $data->get_data()['setupCompleted'];
 	}
 

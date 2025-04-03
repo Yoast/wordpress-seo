@@ -51,14 +51,22 @@ class Site_Kit {
 	 *
 	 * @var array<string, bool> $search_console_module
 	 */
-	private $search_console_module;
+	private $search_console_module = [
+		'owner'       => null,
+		'permissions' => false,
+		'connected'   => false,
+	];
 
 	/**
 	 * The analytics module data.
 	 *
 	 * @var array<string, bool> $ga_module
 	 */
-	private $ga_module;
+	private $ga_module = [
+		'owner'       => null,
+		'permissions' => false,
+		'connected'   => false,
+	];
 
 	/**
 	 * The constructor.
@@ -196,8 +204,9 @@ class Site_Kit {
 		);
 
 		$site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
-
-		$this->parse_site_kit_data();
+		if ( $this->is_enabled() ) {
+			$this->parse_site_kit_data();
+		}
 
 		return [
 			'installUrl'               => $site_kit_install_url,
@@ -250,23 +259,16 @@ class Site_Kit {
 		$modules_data        = $preloaded['/google-site-kit/v1/core/modules/data/list']['body'];
 		$modules_permissions = $preloaded['/google-site-kit/v1/core/user/data/permissions']['body'];
 		$is_authenticated    = $preloaded['/google-site-kit/v1/core/user/data/authentication']['body']['authenticated'];
-
-		$this->search_console_module = [];
-		$this->ga_module             = [
-			'connected' => false,
-		];
 		foreach ( $modules_data as $module ) {
 			if ( $module['slug'] === 'analytics-4' ) {
-				$this->ga_module['owner']       = $module['owner'];
-				$this->ga_module['connected']   = $module['connected'];
-				$this->ga_module['permissions'] = false;
+				$this->ga_module['owner']     = $module['owner'];
+				$this->ga_module['connected'] = $module['connected'];
 				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'] ) ) {
 					$this->ga_module['permissions'] = $is_authenticated || $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'];
 				}
 			}
 			if ( $module['slug'] === 'search-console' ) {
-				$this->search_console_module['owner']       = $module['owner'];
-				$this->search_console_module['permissions'] = false;
+				$this->search_console_module['owner'] = $module['owner'];
 				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'] ) ) {
 					$this->search_console_module['permissions'] = $is_authenticated || $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'];
 				}
