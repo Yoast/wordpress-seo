@@ -36,6 +36,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 	 * @param bool                 $is_config_dismissed   If the configuration widget is dismissed.
 	 * @param array<array<string>> $data_list             The result of the module data API call.
 	 * @param array<bool>          $permissions           The result of the permissions API call.
+	 * @param array<bool>          $authenticated         If the connection is authenticated.
 	 * @param array<bool|string>   $expected              The expected value.
 	 *
 	 * @return void
@@ -49,6 +50,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 		bool $is_config_dismissed,
 		array $data_list,
 		array $permissions,
+		array $authenticated,
 		array $expected
 	) {
 		Functions\expect( 'file_exists' )
@@ -57,7 +59,9 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			->andReturn( $is_site_kit_activated );
 
 		$this->site_kit_consent_repository->expects( 'is_consent_granted' )->once()->andReturn( $is_consent_granted );
-		$this->site_kit_is_connected_call->expects( 'is_ga_connected' )->once()->andReturn( $is_ga_connected );
+		if ( ! $is_site_kit_activated ) {
+			$this->site_kit_is_connected_call->expects( 'is_ga_connected' )->once()->andReturn( $is_ga_connected );
+		}
 		$this->site_kit_is_connected_call->expects( 'is_setup_completed' )->once()->andReturn( $is_setup_completed );
 
 		$this->configuration_repository->expects( 'is_site_kit_configuration_dismissed' )
@@ -99,39 +103,68 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			->with( 'install_plugins' )
 			->once()
 			->andReturnTrue();
-		Functions\expect( 'apply_filters' )->once()->with( 'googlesitekit_apifetch_preload_paths', [] )->andReturn(
-			[
-				'/google-site-kit/v1/core/modules/data/list',
-				'/google-site-kit/v1/core/user/data/permissions',
-			]
-		);
-		Functions\expect( 'rest_preload_api_request' )
-			->once()
-			->with( [], '/google-site-kit/v1/core/user/data/permissions' )
-			->andReturn(
+		if ( $is_site_kit_activated ) {
+			Functions\expect( 'apply_filters' )->once()->with( 'googlesitekit_apifetch_preload_paths', [] )->andReturn(
 				[
+					'/google-site-kit/v1/core/modules/data/list',
+					'/google-site-kit/v1/core/user/data/permissions',
+					'/google-site-kit/v1/core/user/data/authentication',
+				]
+			);
+
+			Functions\expect( 'rest_preload_api_request' )
+				->once()
+				->with( [], '/google-site-kit/v1/core/user/data/authentication' )
+				->andReturn(
+					[
+						'/google-site-kit/v1/core/user/data/authentication' => [
+							'body' => $authenticated,
+						],
+					]
+				);
+			Functions\expect( 'rest_preload_api_request' )->once()->with(
+				[
+					'/google-site-kit/v1/core/user/data/authentication' => [
+						'body' => $authenticated,
+					],
+				],
+				'/google-site-kit/v1/core/user/data/permissions'
+			)->andReturn(
+				[
+					'/google-site-kit/v1/core/user/data/authentication' => [
+						'body' => $authenticated,
+					],
 					'/google-site-kit/v1/core/user/data/permissions' => [
 						'body' => $permissions,
 					],
+
 				]
 			);
-		Functions\expect( 'rest_preload_api_request' )->once()->with(
-			[
-				'/google-site-kit/v1/core/user/data/permissions' => [
-					'body' => $permissions,
+
+			Functions\expect( 'rest_preload_api_request' )->once()->with(
+				[
+					'/google-site-kit/v1/core/user/data/authentication' => [
+						'body' => $authenticated,
+					],
+					'/google-site-kit/v1/core/user/data/permissions' => [
+						'body' => $permissions,
+					],
 				],
-			],
-			'/google-site-kit/v1/core/modules/data/list'
-		)->andReturn(
-			[
-				'/google-site-kit/v1/core/user/data/permissions' => [
-					'body' => $permissions,
-				],
-				'/google-site-kit/v1/core/modules/data/list'     => [
-					'body' => $data_list,
-				],
-			]
-		);
+				'/google-site-kit/v1/core/modules/data/list'
+			)->andReturn(
+				[
+					'/google-site-kit/v1/core/user/data/authentication' => [
+						'body' => $authenticated,
+					],
+					'/google-site-kit/v1/core/user/data/permissions' => [
+						'body' => $permissions,
+					],
+					'/google-site-kit/v1/core/modules/data/list' => [
+						'body' => $data_list,
+					],
+				]
+			);
+		}
 
 		$user1     = new WP_User();
 		$user1->ID = 1;
@@ -157,8 +190,9 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_config_dismissed'   => true,
 			'data_list'             => [
 				[
-					'slug'  => 'analytics-4',
-					'owner' => [ 'id' => 1 ],
+					'slug'      => 'analytics-4',
+					'owner'     => [ 'id' => 1 ],
+					'connected' => true,
 				],
 				[
 					'slug'  => 'search-console',
@@ -169,6 +203,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'googlesitekit_read_shared_module_data::["analytics-4"]'    => true,
 				'googlesitekit_read_shared_module_data::["search-console"]' => true,
 			],
+			'authenticated'         => [ 'authenticated' => true ],
 			'expected'              => [
 				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
 				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
@@ -200,8 +235,9 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_config_dismissed'   => true,
 			'data_list'             => [
 				[
-					'slug'  => 'analytics-4',
-					'owner' => [ 'id' => 1 ],
+					'slug'      => 'analytics-4',
+					'owner'     => [ 'id' => 1 ],
+					'connected' => true,
 				],
 				[
 					'slug'  => 'search-console',
@@ -212,6 +248,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'googlesitekit_read_shared_module_data::["analytics-4"]'    => true,
 				'googlesitekit_read_shared_module_data::["search-console"]' => true,
 			],
+			'authenticated'         => [ 'authenticated' => true ],
 			'expected'              => [
 				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
 				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
@@ -222,8 +259,8 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
-					'viewSearchConsoleData' => true,
-					'viewAnalyticsData'     => true,
+					'viewSearchConsoleData' => false,
+					'viewAnalyticsData'     => false,
 				],
 				'connectionStepsStatuses'  => [
 					'isInstalled'      => true,
@@ -243,8 +280,9 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_config_dismissed'   => true,
 			'data_list'             => [
 				[
-					'slug'  => 'analytics-4',
-					'owner' => [ 'id' => 1 ],
+					'slug'      => 'analytics-4',
+					'owner'     => [ 'id' => 1 ],
+					'connected' => true,
 				],
 				[
 					'slug'  => 'search-console',
@@ -255,136 +293,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'googlesitekit_read_shared_module_data::["analytics-4"]'    => true,
 				'googlesitekit_read_shared_module_data::["search-console"]' => true,
 			],
-			'expected'              => [
-				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
-				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'isAnalyticsConnected'     => true,
-				'isFeatureEnabled'         => false,
-				'isSetupWidgetDismissed'   => true,
-				'capabilities'             => [
-					'installPlugins'        => true,
-					'viewSearchConsoleData' => true,
-					'viewAnalyticsData'     => true,
-				],
-				'connectionStepsStatuses'  => [
-					'isInstalled'      => false,
-					'isActive'         => false,
-					'isSetupCompleted' => true,
-					'isConsentGranted' => true,
-				],
-				'isVersionSupported'       => false,
-			],
-		];
-		yield 'Setup complete not the right owner but reading permissions' => [
-			'is_site_kit_installed' => false,
-			'is_site_kit_activated' => false,
-			'is_consent_granted'    => true,
-			'is_ga_connected'       => true,
-			'is_setup_completed'    => true,
-			'is_config_dismissed'   => true,
-			'data_list'             => [
-				[
-					'slug'  => 'analytics-4',
-					'owner' => [ 'id' => 2 ],
-				],
-				[
-					'slug'  => 'search-console',
-					'owner' => [ 'id' => 2 ],
-				],
-			],
-			'permissions'           => [
-				'googlesitekit_read_shared_module_data::["analytics-4"]'    => true,
-				'googlesitekit_read_shared_module_data::["search-console"]' => true,
-			],
-			'expected'              => [
-				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
-				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'isAnalyticsConnected'     => true,
-				'isFeatureEnabled'         => false,
-
-				'isSetupWidgetDismissed'   => true,
-				'capabilities'             => [
-					'installPlugins'        => true,
-					'viewSearchConsoleData' => true,
-					'viewAnalyticsData'     => true,
-				],
-				'connectionStepsStatuses'  => [
-					'isInstalled'      => false,
-					'isActive'         => false,
-					'isSetupCompleted' => true,
-					'isConsentGranted' => true,
-				],
-				'isVersionSupported'       => false,
-			],
-		];
-		yield 'Setup complete the right owner but no reading permissions' => [
-			'is_site_kit_installed' => false,
-			'is_site_kit_activated' => false,
-			'is_consent_granted'    => true,
-			'is_ga_connected'       => true,
-			'is_setup_completed'    => true,
-			'is_config_dismissed'   => true,
-			'data_list'             => [
-				[
-					'slug'  => 'analytics-4',
-					'owner' => [ 'id' => 1 ],
-				],
-				[
-					'slug'  => 'search-console',
-					'owner' => [ 'id' => 1 ],
-				],
-			],
-			'permissions'           => [
-				'googlesitekit_read_shared_module_data::["analytics-4"]'    => false,
-				'googlesitekit_read_shared_module_data::["search-console"]' => false,
-			],
-			'expected'              => [
-				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
-				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'isAnalyticsConnected'     => true,
-				'isFeatureEnabled'         => false,
-				'isSetupWidgetDismissed'   => true,
-				'capabilities'             => [
-					'installPlugins'        => true,
-					'viewSearchConsoleData' => true,
-					'viewAnalyticsData'     => true,
-				],
-				'connectionStepsStatuses'  => [
-					'isInstalled'      => false,
-					'isActive'         => false,
-					'isSetupCompleted' => true,
-					'isConsentGranted' => true,
-				],
-				'isVersionSupported'       => false,
-			],
-		];
-		yield 'Setup complete not the right owner and no reading permissions' => [
-			'is_site_kit_installed' => false,
-			'is_site_kit_activated' => false,
-			'is_consent_granted'    => true,
-			'is_ga_connected'       => true,
-			'is_setup_completed'    => true,
-			'is_config_dismissed'   => true,
-			'data_list'             => [
-				[
-					'slug'  => 'analytics-4',
-					'owner' => [ 'id' => 2 ],
-				],
-				[
-					'slug'  => 'search-console',
-					'owner' => [ 'id' => 2 ],
-				],
-			],
-			'permissions'           => [
-				'googlesitekit_read_shared_module_data::["analytics-4"]'    => false,
-				'googlesitekit_read_shared_module_data::["search-console"]' => false,
-			],
+			'authenticated'         => [ 'authenticated' => true ],
 			'expected'              => [
 				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
 				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
@@ -405,6 +314,189 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 					'isConsentGranted' => true,
 				],
 				'isVersionSupported'       => false,
+			],
+		];
+		yield 'Setup complete not the right owner but reading permissions' => [
+			'is_site_kit_installed' => true,
+			'is_site_kit_activated' => true,
+			'is_consent_granted'    => true,
+			'is_ga_connected'       => true,
+			'is_setup_completed'    => true,
+			'is_config_dismissed'   => true,
+			'data_list'             => [
+				[
+					'slug'      => 'analytics-4',
+					'owner'     => [ 'id' => 2 ],
+					'connected' => true,
+				],
+				[
+					'slug'  => 'search-console',
+					'owner' => [ 'id' => 2 ],
+				],
+			],
+			'permissions'           => [
+				'googlesitekit_read_shared_module_data::["analytics-4"]'    => true,
+				'googlesitekit_read_shared_module_data::["search-console"]' => true,
+			],
+			'authenticated'         => [ 'authenticated' => false ],
+			'expected'              => [
+				'installUrl'              => 'update.php?action=install-plugin&plugin=google-site-kit',
+				'activateUrl'             => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'setupUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'updateUrl'               => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'isAnalyticsConnected'    => true,
+				'isFeatureEnabled'        => false,
+
+				'isSetupWidgetDismissed'  => true,
+				'capabilities'            => [
+					'installPlugins'        => true,
+					'viewSearchConsoleData' => true,
+					'viewAnalyticsData'     => true,
+				],
+				'connectionStepsStatuses' => [
+					'isInstalled'      => true,
+					'isActive'         => true,
+					'isSetupCompleted' => true,
+					'isConsentGranted' => true,
+				],
+				'isVersionSupported'      => false,
+			],
+		];
+
+		yield 'Setup complete the right owner but no reading permissions' => [
+			'is_site_kit_installed' => true,
+			'is_site_kit_activated' => true,
+			'is_consent_granted'    => true,
+			'is_ga_connected'       => true,
+			'is_setup_completed'    => true,
+			'is_config_dismissed'   => true,
+			'data_list'             => [
+				[
+					'slug'      => 'analytics-4',
+					'owner'     => [ 'id' => 1 ],
+					'connected' => true,
+				],
+				[
+					'slug'  => 'search-console',
+					'owner' => [ 'id' => 1 ],
+				],
+			],
+			'permissions'           => [
+				'googlesitekit_read_shared_module_data::["analytics-4"]'    => false,
+				'googlesitekit_read_shared_module_data::["search-console"]' => false,
+			],
+			'authenticated'         => [ 'authenticated' => true ],
+			'expected'              => [
+				'installUrl'              => 'update.php?action=install-plugin&plugin=google-site-kit',
+				'activateUrl'             => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'setupUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'updateUrl'               => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'isAnalyticsConnected'    => true,
+				'isFeatureEnabled'        => false,
+				'isSetupWidgetDismissed'  => true,
+				'capabilities'            => [
+					'installPlugins'        => true,
+					'viewSearchConsoleData' => true,
+					'viewAnalyticsData'     => true,
+				],
+				'connectionStepsStatuses' => [
+					'isInstalled'      => true,
+					'isActive'         => true,
+					'isSetupCompleted' => true,
+					'isConsentGranted' => true,
+				],
+				'isVersionSupported'      => false,
+			],
+		];
+
+		yield 'Setup complete not the right owner and no reading permissions but connected via second admin' => [
+			'is_site_kit_installed' => true,
+			'is_site_kit_activated' => true,
+			'is_consent_granted'    => true,
+			'is_ga_connected'       => true,
+			'is_setup_completed'    => true,
+			'is_config_dismissed'   => true,
+			'data_list'             => [
+				[
+					'slug'      => 'analytics-4',
+					'owner'     => [ 'id' => 2 ],
+					'connected' => true,
+				],
+				[
+					'slug'  => 'search-console',
+					'owner' => [ 'id' => 2 ],
+				],
+			],
+			'permissions'           => [
+				'googlesitekit_read_shared_module_data::["analytics-4"]'    => false,
+				'googlesitekit_read_shared_module_data::["search-console"]' => false,
+			],
+			'authenticated'         => [ 'authenticated' => true ],
+			'expected'              => [
+				'installUrl'              => 'update.php?action=install-plugin&plugin=google-site-kit',
+				'activateUrl'             => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'setupUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'updateUrl'               => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'isAnalyticsConnected'    => true,
+				'isFeatureEnabled'        => false,
+				'isSetupWidgetDismissed'  => true,
+				'capabilities'            => [
+					'installPlugins'        => true,
+					'viewSearchConsoleData' => true,
+					'viewAnalyticsData'     => true,
+				],
+				'connectionStepsStatuses' => [
+					'isInstalled'      => true,
+					'isActive'         => true,
+					'isSetupCompleted' => true,
+					'isConsentGranted' => true,
+				],
+				'isVersionSupported'      => false,
+			],
+		];
+		yield 'Setup complete not the right owner and no reading permissions and not setup via second admin' => [
+			'is_site_kit_installed' => true,
+			'is_site_kit_activated' => true,
+			'is_consent_granted'    => true,
+			'is_ga_connected'       => true,
+			'is_setup_completed'    => true,
+			'is_config_dismissed'   => true,
+			'data_list'             => [
+				[
+					'slug'      => 'analytics-4',
+					'owner'     => [ 'id' => 2 ],
+					'connected' => true,
+				],
+				[
+					'slug'  => 'search-console',
+					'owner' => [ 'id' => 2 ],
+				],
+			],
+			'permissions'           => [
+				'googlesitekit_read_shared_module_data::["analytics-4"]'    => false,
+				'googlesitekit_read_shared_module_data::["search-console"]' => false,
+			],
+			'authenticated'         => [ 'authenticated' => false ],
+			'expected'              => [
+				'installUrl'              => 'update.php?action=install-plugin&plugin=google-site-kit',
+				'activateUrl'             => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'setupUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'updateUrl'               => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'isAnalyticsConnected'    => true,
+				'isFeatureEnabled'        => false,
+				'isSetupWidgetDismissed'  => true,
+				'capabilities'            => [
+					'installPlugins'        => true,
+					'viewSearchConsoleData' => false,
+					'viewAnalyticsData'     => false,
+				],
+				'connectionStepsStatuses' => [
+					'isInstalled'      => true,
+					'isActive'         => true,
+					'isSetupCompleted' => true,
+					'isConsentGranted' => true,
+				],
+				'isVersionSupported'      => false,
 			],
 		];
 	}

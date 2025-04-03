@@ -155,7 +155,6 @@ class Site_Kit {
 	 */
 	public function is_owner( ?array $module_owner ): bool {
 		$current_user = \wp_get_current_user();
-
 		if ( $module_owner !== null ) {
 			return $module_owner['id'] === $current_user->ID;
 
@@ -248,14 +247,13 @@ class Site_Kit {
 	 * @return void
 	 */
 	public function parse_site_kit_data(): void {
-		$preload_paths = \apply_filters( 'googlesitekit_apifetch_preload_paths', [] );
-		$actual_paths  = \array_intersect( $this->paths, $preload_paths );
-		$preloaded     = \array_reduce(
+		$preload_paths       = \apply_filters( 'googlesitekit_apifetch_preload_paths', [] );
+		$actual_paths        = \array_intersect( $this->paths, $preload_paths );
+		$preloaded           = \array_reduce(
 			\array_unique( $actual_paths ),
 			'rest_preload_api_request',
 			[]
 		);
-
 		$modules_data        = $preloaded['/google-site-kit/v1/core/modules/data/list']['body'];
 		$modules_permissions = $preloaded['/google-site-kit/v1/core/user/data/permissions']['body'];
 		$is_authenticated    = $preloaded['/google-site-kit/v1/core/user/data/authentication']['body']['authenticated'];
