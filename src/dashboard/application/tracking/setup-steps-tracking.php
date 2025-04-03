@@ -82,7 +82,6 @@ class Setup_Steps_Tracking {
 			'lastInteractionStage'            => $this->get_last_interaction_stage(),
 			'setupWidgetTemporarilyDismissed' => $this->get_setup_widget_temporarily_dismissed(),
 			'setupWidgetPermanentlyDismissed' => $this->get_setup_widget_permanently_dismissed(),
-
 		];
 	}
 }
