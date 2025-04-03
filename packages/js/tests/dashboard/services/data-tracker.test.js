@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, jest, test } from "@jest/globals";
 import { MockDataProvider } from "../__mocks__/data-provider";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
-import {DataTracker} from "../../../src/dashboard/services/data-tracker";
+import { DataTracker } from "../../../src/dashboard/services/data-tracker";
 
 describe( "DataTracker", () => {
 	let dataProvider;
@@ -59,7 +59,7 @@ describe( "DataTracker", () => {
 
 		dataTracker.track( newStepsData );
 
-		expect(storeDataSpy).toHaveBeenCalled();
+		expect( storeDataSpy ).toHaveBeenCalled();
 		storeDataSpy.mockRestore();
 	} );
 
@@ -77,7 +77,7 @@ describe( "DataTracker", () => {
 
 		dataTracker.track( newStepsData );
 
-		expect(storeDataSpy).toHaveBeenCalledTimes( 0 );
+		expect( storeDataSpy ).toHaveBeenCalledTimes( 0 );
 		storeDataSpy.mockRestore();
 	} );
 
