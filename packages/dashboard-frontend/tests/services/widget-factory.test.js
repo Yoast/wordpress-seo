@@ -49,16 +49,15 @@ describe( "WidgetFactory", () => {
 	} );
 
 	test.each( [
-		[ "SEO scores", { id: "seo-scores-widget", type: "seoScores" }, "SEO scores" ],
-		[ "Readability scores", { id: "readability-scores-widget", type: "readabilityScores" }, "Readability scores" ],
-		[ "Top pages", { id: "top-pages-widget", type: "topPages" }, "Top 5 most popular content" ],
-		[ "Top queries", { id: "top-queries-widget", type: "topQueries" }, "Top 5 search queries" ],
-		[ "Search Ranking compare", { id: "search-ranking-compare-widget", type: "searchRankingCompare" }, "" ],
-		[ "Organic sessions", { id: "organic-sessions-widget", type: "organicSessions" }, "Organic sessions" ],
-		[ "Unknown", { id: undefined, type: "unknown" }, undefined ],
-	] )( "should create a %s widget", async( _, widget, title ) => {
-		const element = widgetFactory.createWidget( widget );
-		expect( element?.key ).toBe( widget.id );
+		[ "SEO scores", "seoScores", "SEO scores" ],
+		[ "Readability scores", "readabilityScores", "Readability scores" ],
+		[ "Top pages", "topPages", "Top 5 most popular content" ],
+		[ "Top queries", "topQueries", "Top 5 search queries" ],
+		[ "Search Ranking compare", "searchRankingCompare", "" ],
+		[ "Organic sessions", "organicSessions", "Organic sessions" ],
+	] )( "should create a %s widget", async( _, widgetType, title ) => {
+		const element = widgetFactory.createWidget( widgetType );
+		expect( element?.key ).toBe( widgetType );
 		const { getByRole } = render( <>{ element }</> );
 
 		await waitFor( () => {
@@ -67,5 +66,10 @@ describe( "WidgetFactory", () => {
 				expect( getByRole( "heading", { name: title } ) ).toBeInTheDocument();
 			}
 		} );
+	} );
+
+	test( "should not create a widget if the type is not supported", async() => {
+		const element = widgetFactory.createWidget( "unsupportedWidgetType" );
+		expect( element ).toBeNull();
 	} );
 } );
