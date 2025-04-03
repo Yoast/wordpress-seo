@@ -230,26 +230,26 @@ const disabilityAssessments = [
 	{
 		identifier: "lame",
 		nonInclusivePhrases: [ "lame" ],
-		inclusiveAlternatives: "<i>boring, lousy, unimpressive, sad, corny</i>, <i>person with a disability, person who has difficulty with walking</i>",
+		inclusiveAlternatives: [ "<i>boring, lousy, unimpressive, sad, corny</i>", "<i>person with a disability, person who has difficulty with walking</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
-		"Unless you are referring to an object, considering using an alternative. For example, %1$s. If referring to someone's disability, use an alternative such as %2$s." ],
+		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
+		"Unless you are referring to an object, considering using an alternative. For example, %2$s. If referring to someone's disability, use an alternative such as %3$s.",
 	},
 	{
 		identifier: "lamer",
 		nonInclusivePhrases: [ "lamer" ],
-		inclusiveAlternatives: "<i>more boring, lousier, more unimpressive, sadder, cornier</i>, <i>person with a disability, person who has difficulty with walking</i>",
+		inclusiveAlternatives: "<i>more boring, lousier, more unimpressive, sadder, cornier</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
-		"Unless you are referring to an object, considering using an alternative. For example, %1$s. If referring to someone's disability, use an alternative such as %2$s." ],
+		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
+		"Unless you are referring to an object, considering using an alternative. For example, %2$s.",
 	},
 	{
 		identifier: "lamest",
 		nonInclusivePhrases: [ "lamest" ],
-		inclusiveAlternatives: "<i>most boring, lousiest, most unimpressive, saddest, corniest</i>, <i>person with a disability, person who has difficulty with walking</i>",
+		inclusiveAlternatives: "<i>most boring, lousiest, most unimpressive, saddest, corniest</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
-		"Unless you are referring to an object, considering using an alternative. For example, %1$s. If referring to someone's disability, use an alternative such as %2$s." ],
+		"Unless you are referring to an object, considering using an alternative. For example, %2$s." ],
 	},
 	{
 		identifier: "commitSuicide",
@@ -337,9 +337,43 @@ const disabilityAssessments = [
 	},
 	{
 		identifier: "dumbDown",
-		nonInclusivePhrases: [ "dumb down", "dumbing down", "dumbed down", "dumb it down", "dumbing it down",
-			"dumbed it down" ],
+		nonInclusivePhrases: [ "dumb down" ],
 		inclusiveAlternatives: "<i>oversimplify</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: redHarmful,
+	},
+	{
+		identifier: "dumbDown",
+		nonInclusivePhrases: [ "dumbing down" ],
+		inclusiveAlternatives: "<i>oversimplifying</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: redHarmful,
+	},
+	{
+		identifier: "dumbDown",
+		nonInclusivePhrases: [ "dumbed down" ],
+		inclusiveAlternatives: "<i>oversimplified</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: redHarmful,
+	},
+	{
+		identifier: "dumbDown",
+		nonInclusivePhrases: [ "dumb it down" ],
+		inclusiveAlternatives: "<i>oversimplify it</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: redHarmful,
+	},
+	{
+		identifier: "dumbDown",
+		nonInclusivePhrases: [ "dumbing it down" ],
+		inclusiveAlternatives: "<i>oversimplifying it</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: redHarmful,
+	},
+	{
+		identifier: "dumbDown",
+		nonInclusivePhrases: [ "dumbed it down" ],
+		inclusiveAlternatives: "<i>oversimplified it</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: redHarmful,
 	},
@@ -351,7 +385,25 @@ const disabilityAssessments = [
 		feedbackFormat: redHarmful,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isNotPrecededByException( words, [ "deaf and" ] ) );
+				.filter( isNotPrecededByException( words, [ "deaf and" ] ) )
+				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "down" ] ) );
+		},
+	},
+	{
+		identifier: "crazy",
+		nonInclusivePhrases: [ "crazy" ],
+		inclusiveAlternatives: "<i>wild, baffling, out of control, inexplicable, unbelievable, aggravating, shocking, intense, impulsive, chaotic, " +
+			"confused, mistaken, obsessed</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: redHarmful,
+		// Don't target when 'crazy' is part of a more specific phrase that we target.
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isNotPrecededByException( words, shouldNotPrecedeStandaloneCrazy ) )
+				.filter( isNotFollowedByException( words, nonInclusivePhrase, shouldNotFollowStandaloneCrazy ) )
+				.filter( isNotFollowedAndPrecededByException( words, nonInclusivePhrase,
+					shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
+					shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
 		},
 		ruleDescription: notPreceded( [ "deaf and" ] ),
 	},
