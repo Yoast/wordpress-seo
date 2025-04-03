@@ -144,34 +144,11 @@ class Site_Kit {
 	 * @return array<string, bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
-		$site_kit_activate_url = \html_entity_decode(
-			\wp_nonce_url(
-				\self_admin_url( 'plugins.php?action=activate&plugin=' . self::SITE_KIT_FILE ),
-				'activate-plugin_' . self::SITE_KIT_FILE
-			)
-		);
-
-		$site_kit_install_url = \html_entity_decode(
-			\wp_nonce_url(
-				\self_admin_url( 'update.php?action=install-plugin&plugin=google-site-kit' ),
-				'install-plugin_google-site-kit'
-			)
-		);
-
-		$site_kit_update_url = \html_entity_decode(
-			\wp_nonce_url(
-				\self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . self::SITE_KIT_FILE ),
-				'upgrade-plugin_' . self::SITE_KIT_FILE
-			)
-		);
-
-		$site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
-
 		return [
-			'installUrl'               => $site_kit_install_url,
-			'activateUrl'              => $site_kit_activate_url,
-			'setupUrl'                 => $site_kit_setup_url,
-			'updateUrl'                => $site_kit_update_url,
+			'installUrl'               => $this->get_install_url(),
+			'activateUrl'              => $this->get_activate_url(),
+			'setupUrl'                 => $this->get_setup_url(),
+			'updateUrl'                => $this->get_update_url(),
 			'isAnalyticsConnected'     => $this->is_ga_connected(),
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'isConfigurationDismissed' => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
@@ -199,5 +176,56 @@ class Site_Kit {
 	 */
 	public function to_legacy_array(): array {
 		return $this->to_array();
+	}
+
+	/**
+	 * Creates a valid activation URL for the Site Kit plugin.
+	 *
+	 * @return string
+	 */
+	public function get_activate_url(): string {
+		return \html_entity_decode(
+			\wp_nonce_url(
+				\self_admin_url( 'plugins.php?action=activate&plugin=' . self::SITE_KIT_FILE ),
+				'activate-plugin_' . self::SITE_KIT_FILE
+			)
+		);
+	}
+
+	/**
+	 *  Creates a valid install URL for the Site Kit plugin.
+	 *
+	 * @return string
+	 */
+	public function get_install_url(): string {
+		return \html_entity_decode(
+			\wp_nonce_url(
+				\self_admin_url( 'update.php?action=install-plugin&plugin=google-site-kit' ),
+				'install-plugin_google-site-kit'
+			)
+		);
+	}
+
+	/**
+	 *  Creates a valid update URL for the Site Kit plugin.
+	 *
+	 * @return string
+	 */
+	public function get_update_url(): string {
+		return \html_entity_decode(
+			\wp_nonce_url(
+				\self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . self::SITE_KIT_FILE ),
+				'upgrade-plugin_' . self::SITE_KIT_FILE
+			)
+		);
+	}
+
+	/**
+	 *  Creates a valid setup URL for the Site Kit plugin.
+	 *
+	 * @return string
+	 */
+	public function get_setup_url(): string {
+		return \self_admin_url( 'admin.php?page=googlesitekit-splash' );
 	}
 }
