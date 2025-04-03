@@ -10,6 +10,12 @@ describe( "SiteKitSetupWidget", () => {
 	let dataTracker;
 
 	const remoteDataProvider = new MockRemoteDataProvider( {} );
+	const steps = [
+		"INSTALL",
+		"ACTIVATE",
+		"SET UP",
+		"CONNECT",
+	];
 
 	beforeEach( () => {
 		dataProvider = new MockDataProvider();
@@ -312,11 +318,31 @@ describe( "SiteKitSetupWidget", () => {
 
 	it.each(
 		[
+			[ "not granted and not activated", {
+				isInstalled: true,
+				isActive: false,
+				isSetupCompleted: false,
+				isConsentGranted: false,
+				alertMessage: "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google.",
+			} ],
+			[ "not granted and setup was not completed", {
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: false,
+				isConsentGranted: false,
+				alertMessage: "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google.",
+			} ],
 			[ "not granted", {
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: true,
 				isConsentGranted: false,
 				alertMessage: "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google.",
 			} ],
 			[ "granted", {
+				isInstalled: true,
+				isActive: true,
+				isSetupCompleted: true,
 				isConsentGranted: true,
 				alertMessage: "Your current version of the Site Kit by Google plugin is no longer compatible with Yoast SEO. Please update to the latest version to restore the connection.",
 			} ],
@@ -333,14 +359,64 @@ describe( "SiteKitSetupWidget", () => {
 				},
 			},
 		} );
-		const { getByRole, getByText } = render( <SiteKitSetupWidget
+		const { getByRole, getByText, queryByText } = render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
 			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
+
+		// Check that the widget copy is always for the unconnected state.
+		const unconnectedText = getByText( "Here's what you'll unlock:" );
+		expect( unconnectedText ).toBeInTheDocument();
+		const title = getByText( "Expand your dashboard with insights from Google!" );
+		expect( title ).toBeInTheDocument();
+		const description = getByText( "Bring together powerful tools like Google Analytics and Search Console for a complete overview of your website's performance, all in one seamless dashboard." );
+		expect( description ).toBeInTheDocument();
+
+		// Check stepper is not rendered.
+		steps.forEach( ( step ) => {
+			expect( queryByText( step ) ).not.toBeInTheDocument();
+		} );
+
 		const link = getByRole( "link", { name: /Update Site Kit by Google/i } );
 		expect( link ).toBeInTheDocument();
 		expect( link ).toHaveAttribute( "href", "https://example.com/update" );
 		expect( getByText( alertMessage ) ).toBeInTheDocument();
+	} );
+
+	it.each(
+		[
+			[ "site kit plugin is not yet activated", {
+				isInstalled: true,
+				isActive: false,
+			} ],
+			[ "site kit plugin is not installed", {
+				isInstalled: false,
+				isActive: false,
+			} ],
+		]
+	)( "should not show alert and update button when version is not supported and %s", ( _, { isInstalled, isActive } ) => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				isVersionSupported: false,
+				connectionStepsStatuses: {
+					isInstalled,
+					isActive,
+					isSetupCompleted: false,
+					isConsentGranted: false,
+				},
+			},
+		} );
+		const { queryByRole, queryByText, getByText } = render( <SiteKitSetupWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+		/> );
+
+		// Check stepper is rendered.
+		steps.forEach( ( step ) => {
+			expect( getByText( step ) ).toBeInTheDocument();
+		} );
+		expect( queryByRole( "link", { name: /Update Site Kit by Google/i } ) ).not.toBeInTheDocument();
+		expect( queryByText( "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google." ) ).not.toBeInTheDocument();
 	} );
 } );

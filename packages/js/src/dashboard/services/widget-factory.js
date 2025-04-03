@@ -8,7 +8,7 @@ import {
 	OrganicSessionsWidget } from "@yoast/dashboard-frontend";
 
 /**
- * @type {import("../index").WidgetType} WidgetType
+ * @type {import("../index").WidgetType} The widget type.
  */
 
 /**
@@ -51,10 +51,10 @@ export class WidgetFactory {
 	}
 
 	/**
-	 * @param {WidgetInstance} widget The widget to create.
+	 * @param {WidgetType} widgetType The widget type to create.
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
-	createWidget( widget ) {
+	createWidget( widgetType ) {
 		const {
 			isFeatureEnabled,
 			isSetupWidgetDismissed,
@@ -69,13 +69,13 @@ export class WidgetFactory {
 		const isSearchConsoleWidgetAllowed = isSiteKitWidgetAllowed && capabilities.viewSearchConsoleData;
 		const isAnalyticsWidgetAllowed = isSiteKitWidgetAllowed && isAnalyticsConnected && capabilities.viewAnalyticsData;
 
-		switch ( widget.type ) {
+		switch ( widgetType ) {
 			case this.types.seoScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
 					return null;
 				}
 				return <ScoreWidget
-					key={ widget.id }
+					key={ widgetType }
 					analysisType="seo"
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
@@ -85,7 +85,7 @@ export class WidgetFactory {
 					return null;
 				}
 				return <ScoreWidget
-					key={ widget.id }
+					key={ widgetType }
 					analysisType="readability"
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
@@ -95,7 +95,7 @@ export class WidgetFactory {
 					return null;
 				}
 				return <TopPagesWidget
-					key={ widget.id }
+					key={ widgetType }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
@@ -105,7 +105,7 @@ export class WidgetFactory {
 					return null;
 				}
 				return <SiteKitSetupWidget
-					key={ widget.id }
+					key={ widgetType }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataTracker={ this.#dataTracker }
@@ -115,7 +115,7 @@ export class WidgetFactory {
 					return null;
 				}
 				return <TopQueriesWidget
-					key={ widget.id }
+					key={ widgetType }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
@@ -125,7 +125,7 @@ export class WidgetFactory {
 					return null;
 				}
 				return <SearchRankingCompareWidget
-					key={ widget.id }
+					key={ widgetType }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
@@ -135,7 +135,7 @@ export class WidgetFactory {
 					return null;
 				}
 				return <OrganicSessionsWidget
-					key={ widget.id }
+					key={ widgetType }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
