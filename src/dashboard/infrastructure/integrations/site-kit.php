@@ -36,7 +36,6 @@ class Site_Kit {
 	private $paths = [
 		'/google-site-kit/v1/core/user/data/authentication',
 		'/google-site-kit/v1/core/user/data/permissions',
-		'/google-site-kit/v1/modules/search-console/data/settings',
 		'/google-site-kit/v1/core/modules/data/list',
 	];
 
@@ -250,6 +249,7 @@ class Site_Kit {
 
 		$modules_data        = $preloaded['/google-site-kit/v1/core/modules/data/list']['body'];
 		$modules_permissions = $preloaded['/google-site-kit/v1/core/user/data/permissions']['body'];
+		$is_authenticated    = $preloaded['/google-site-kit/v1/core/user/data/authentication']['body']['authenticated'];
 
 		$this->search_console_module = [];
 		$this->ga_module             = [
@@ -261,14 +261,14 @@ class Site_Kit {
 				$this->ga_module['connected']   = $module['connected'];
 				$this->ga_module['permissions'] = false;
 				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'] ) ) {
-					$this->ga_module['permissions'] = $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'];
+					$this->ga_module['permissions'] = $is_authenticated || $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'];
 				}
 			}
 			if ( $module['slug'] === 'search-console' ) {
 				$this->search_console_module['owner']       = $module['owner'];
 				$this->search_console_module['permissions'] = false;
 				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'] ) ) {
-					$this->search_console_module['permissions'] = $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'];
+					$this->search_console_module['permissions'] = $is_authenticated || $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'];
 				}
 			}
 		}
