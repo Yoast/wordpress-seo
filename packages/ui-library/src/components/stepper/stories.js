@@ -21,8 +21,9 @@ const CustomStep = ( { children, isComplete, isActive } ) => {
 			ref={ addStepRef }
 			className={ classNames(
 				"yst-step",
-				isComplete ? "yst-step--complete" : "",
-				isActive ? "yst-step--active yst-text-green-700" : "" ) }
+				isComplete && "yst-step--complete",
+				isActive && "yst-step--active yst-text-green-700",
+			) }
 		>
 			<div
 				className={ classNames( "yst-step__circle yst-ring-green-500",

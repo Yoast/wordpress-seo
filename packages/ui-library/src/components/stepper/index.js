@@ -26,9 +26,11 @@ const Step = ( { children, isComplete, isActive } ) => {
 	return (
 		<div
 			ref={ addStepRef }
-			className={ classNames( "yst-step",
-				isComplete ? "yst-step--complete" : "",
-				isActive ? "yst-step--active" : "" ) }
+			className={ classNames(
+				"yst-step",
+				isComplete && "yst-step--complete",
+				isActive && "yst-step--active",
+			) }
 		>
 			<div className="yst-step__circle">
 				{ isComplete && <CheckIcon
