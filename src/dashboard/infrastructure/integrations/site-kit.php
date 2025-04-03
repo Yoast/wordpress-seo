@@ -120,7 +120,7 @@ class Site_Kit {
 	 * @return bool If Google Analytics is connected.
 	 */
 	public function is_ga_connected(): bool {
-		if ( $this->ga_module !== null ) {
+		if ( $this->ga_module['owner'] !== null ) {
 			return $this->ga_module['connected'];
 		}
 
