@@ -1,0 +1,50 @@
+body:has(.yst-popover-container) { overflow: hidden; }
+
+@layer components {
+	.yst-root {
+		.yst-popover-container {
+			@apply yst-inline-block;
+
+		}
+
+		.yst-popover-backdrop {
+			@apply yst-fixed
+			yst-inset-0
+			yst-bg-black/10
+			yst-z-[5]
+			yst-pointer-events-none;
+		}
+
+		.yst-popover-content {
+			@apply yst-absolute
+				yst-p-5
+				yst-rounded-lg
+				yst-whitespace-normal
+				yst-w-max
+				yst-z-10
+				yst-bg-white;
+
+			    right: 21%;
+				transform: translateY(-35%);
+				border: 1px solid #ccc;
+				box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+				white-space: nowrap;
+
+			&::before {
+				@apply yst-absolute
+				yst-block
+				yst-w-0
+				yst-h-0;
+
+				content: "";
+				right: 100%;
+				top: 50%;
+				transform: translateY(-50%);
+				border-right: 10px solid #fff;
+				border-top: 10px solid transparent;
+				border-bottom: 10px solid transparent;
+			}
+		}
+	}
+}
+
