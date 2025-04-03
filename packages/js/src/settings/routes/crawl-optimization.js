@@ -591,7 +591,7 @@ const CrawlOptimization = () => {
 								type="checkbox"
 								name="wpseo.deny_google_extended_crawling"
 								id="input-wpseo-deny_google_extended_crawling"
-								label={ __( "Prevent Google Bard and Vertex AI bots from crawling", "wordpress-seo" ) }
+								label={ __( "Prevent Google Gemini and Vertex AI bots from crawling", "wordpress-seo" ) }
 								description={ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling by the Google-Extended bot. Enabling this setting won’t prevent Google from indexing your website.", "wordpress-seo" ) }
 								labelSuffix={ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
 								className="yst-max-w-2xl"

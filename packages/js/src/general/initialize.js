@@ -6,10 +6,8 @@ import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
-import { ComparisonMetricsDataFormatter } from "../dashboard/services/comparison-metrics-data-formatter";
-import { PlainMetricsDataFormatter } from "../dashboard/services/plain-metrics-data-formatter";
 import { DataProvider } from "../dashboard/services/data-provider";
-import { RemoteDataProvider } from "../dashboard/services/remote-data-provider";
+import { PlainMetricsDataFormatter, RemoteDataProvider, ComparisonMetricsDataFormatter } from "@yoast/dashboard-frontend";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
 import { ADMIN_URL_NAME, LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
@@ -29,6 +27,7 @@ import { ALERT_CENTER_NAME } from "./store/alert-center";
  * @type {import("../index").Endpoints} Endpoints
  */
 
+// eslint-disable-next-line complexity
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-general" );
 	if ( ! root ) {
@@ -108,7 +107,7 @@ domReady( () => {
 	};
 
 	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
-	if ( dataProvider.isSiteKitConnectionCompleted() ) {
+	if ( dataProvider.isSiteKitConnectionCompleted() && siteKitConfiguration.isVersionSupported ) {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}
 

@@ -176,7 +176,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
 				'isFeatureEnabled'         => false,
-				'isConfigurationDismissed' => true,
+				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
 					'viewSearchConsoleData' => true,
@@ -219,7 +219,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => false,
 				'isFeatureEnabled'         => false,
-				'isConfigurationDismissed' => true,
+				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
 					'viewSearchConsoleData' => true,
@@ -262,7 +262,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
 				'isFeatureEnabled'         => false,
-				'isConfigurationDismissed' => true,
+				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
 					'viewSearchConsoleData' => true,
@@ -305,7 +305,8 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
 				'isFeatureEnabled'         => false,
-				'isConfigurationDismissed' => true,
+
+				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
 					'viewSearchConsoleData' => true,
@@ -348,7 +349,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
 				'isFeatureEnabled'         => false,
-				'isConfigurationDismissed' => true,
+				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
 					'viewSearchConsoleData' => true,
@@ -391,7 +392,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
 				'isFeatureEnabled'         => false,
-				'isConfigurationDismissed' => true,
+				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
 					'viewSearchConsoleData' => false,
