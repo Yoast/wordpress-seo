@@ -249,7 +249,7 @@ class Site_Kit {
 		);
 
 		$modules_data        = $preloaded['/google-site-kit/v1/core/modules/data/list']['body'];
-		$modules_permissions = $preloaded['/google-site-kit/v1/core/site/data/connection']['body'];
+		$modules_permissions = $preloaded['/google-site-kit/v1/core/user/data/permissions']['body'];
 
 		$this->search_console_module = [];
 		$this->ga_module             = [
