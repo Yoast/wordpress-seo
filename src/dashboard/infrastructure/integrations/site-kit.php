@@ -259,14 +259,14 @@ class Site_Kit {
 			if ( $module['slug'] === 'analytics-4' ) {
 				$this->ga_module['owner']       = $module['owner'];
 				$this->ga_module['connected']   = $module['connected'];
-				$this->ga_module['permissions'] = [];
+				$this->ga_module['permissions'] = false;
 				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'] ) ) {
 					$this->ga_module['permissions'] = $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'];
 				}
 			}
 			if ( $module['slug'] === 'search-console' ) {
 				$this->search_console_module['owner']       = $module['owner'];
-				$this->search_console_module['permissions'] = [];
+				$this->search_console_module['permissions'] = false;
 				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'] ) ) {
 					$this->search_console_module['permissions'] = $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'];
 				}
