@@ -16,8 +16,6 @@ const options = {
 	passiveVoiceCTAUrl: "https://yoast.com/10",
 	textPresenceUrlTitle: "https://yoast.com/11",
 	textPresenceCTAUrl: "https://yoast.com/12",
-	listsUrlTitle: "https://yoast.com/13",
-	listsCTAUrl: "https://yoast.com/14",
 };
 
 describe( "A cornerstone product page content assessor", function() {
@@ -61,25 +59,25 @@ describe( "A cornerstone product page content assessor", function() {
 
 	describe( "Checks the applicable assessments for text that contains more than 300 words", function() {
 		const paper = new Paper( "a tortie cat ".repeat( 150 ) );
-		it( "Should have 7 available assessments for a fully supported language", function() {
+		it( "Should have 6 available assessments for a fully supported language", function() {
 			const contentAssessor = new ContentAssessor( new EnglishResearcher( paper ), options );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
 
 			const actual = contentAssessor.getApplicableAssessments().length;
-			const expected = 7;
+			const expected = 6;
 			expect( actual ).toBe( expected );
 		} );
 
-		it( "Should have 5 available assessments for a basic supported language", function() {
+		it( "Should have 4 available assessments for a basic supported language", function() {
 			const contentAssessor = new ContentAssessor( new DefaultResearcher( paper ), options );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
 
 			const actual = contentAssessor.getApplicableAssessments().length;
-			const expected = 5;
+			const expected = 4;
 			expect( actual ).toBe( expected );
 		} );
 	} );
@@ -99,8 +97,6 @@ describe( "A cornerstone product page content assessor", function() {
 			passiveVoiceCTAUrl: "https://yoast.com/10",
 			textPresenceUrlTitle: "https://yoast.com/11",
 			textPresenceCTAUrl: "https://yoast.com/12",
-			listsUrlTitle: "https://yoast.com/13",
-			listsCTAUrl: "https://yoast.com/14",
 		} );
 
 		test( "SubheadingsDistributionTooLong", () => {
@@ -108,8 +104,6 @@ describe( "A cornerstone product page content assessor", function() {
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.shouldNotAppearInShortText ).toBeDefined();
-			expect( assessment._config.shouldNotAppearInShortText ).toBe( true );
 			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/1' target='_blank'>" );
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/2' target='_blank'>" );
 		} );
@@ -163,15 +157,6 @@ describe( "A cornerstone product page content assessor", function() {
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/11' target='_blank'>" );
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/12' target='_blank'>" );
-		} );
-
-		test( "ListsPresence", () => {
-			const assessment = assessor.getAssessment( "listsPresence" );
-
-			expect( assessment ).toBeDefined();
-			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/13' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/14' target='_blank'>" );
 		} );
 	} );
 } );

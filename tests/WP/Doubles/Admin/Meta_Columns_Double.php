@@ -78,7 +78,7 @@ final class Meta_Columns_Double extends WPSEO_Meta_Columns {
 	 * @return string
 	 */
 	public function get_current_post_type() {
-		if ( ! \is_null( $this->current_post_type ) ) {
+		if ( $this->current_post_type !== null ) {
 			return $this->current_post_type;
 		}
 		else {

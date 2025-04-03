@@ -6,9 +6,11 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Consent_Management_Endpoint;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Integrations_Page;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -40,9 +42,37 @@ final class Integrations_Page_Integration_Test extends TestCase {
 	/**
 	 * The admin asset manager.
 	 *
-	 * @var WPSEO_Admin_Asset_Manager
+	 * @var Mockery\MockInterface|WPSEO_Admin_Asset_Manager
 	 */
 	private $admin_asset_manager;
+
+	/**
+	 * The elementor conditional.
+	 *
+	 * @var Mockery\MockInterface|Elementor_Activated_Conditional
+	 */
+	private $elementor_conditional;
+
+	/**
+	 * The jetpack conditional.
+	 *
+	 * @var Mockery\MockInterface|Jetpack_Conditional
+	 */
+	private $jetpack_conditional;
+
+	/**
+	 * The Site Kit configuration object.
+	 *
+	 * @var Mockery\MockInterface|Site_Kit
+	 */
+	private $site_kit_configuration;
+
+	/**
+	 * The Site Kit consent management endpoint object.
+	 *
+	 * @var Mockery\MockInterface|Site_Kit_Consent_Management_Endpoint
+	 */
+	private $site_kit_consent_management_endpoint;
 
 	/**
 	 * The instance under test.
@@ -61,14 +91,22 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		if ( ! \defined( 'WP_PLUGIN_DIR' ) ) {
 			\define( 'WP_PLUGIN_DIR', '/' );
 		}
-		$this->options_helper      = Mockery::mock( Options_Helper::class );
-		$this->admin_asset_manager = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->woocommerce_helper  = Mockery::mock( Woocommerce_Helper::class );
+		$this->options_helper                       = Mockery::mock( Options_Helper::class );
+		$this->admin_asset_manager                  = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->woocommerce_helper                   = Mockery::mock( Woocommerce_Helper::class );
+		$this->elementor_conditional                = Mockery::mock( Elementor_Activated_Conditional::class );
+		$this->jetpack_conditional                  = Mockery::mock( Jetpack_Conditional::class );
+		$this->site_kit_configuration               = Mockery::mock( Site_Kit::class );
+		$this->site_kit_consent_management_endpoint = Mockery::mock( Site_Kit_Consent_Management_Endpoint::class );
 
 		$this->instance = new Integrations_Page(
 			$this->admin_asset_manager,
 			$this->options_helper,
-			$this->woocommerce_helper
+			$this->woocommerce_helper,
+			$this->elementor_conditional,
+			$this->jetpack_conditional,
+			$this->site_kit_configuration,
+			$this->site_kit_consent_management_endpoint
 		);
 	}
 
@@ -121,20 +159,6 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'get_site_url' )
 			->andReturn( 'https://www.example.com' );
 
-		$short_link = Mockery::mock( Short_Link_Helper::class );
-		$short_link->expects( 'get' )->times( 3 )->andReturn( 'https://www.example.com?some=var' );
-		$url_helper = Mockery::mock( Url_Helper::class );
-		$url_helper->expects()->get_url_host( 'https://www.example.com' )->andReturn( 'https://www.example.com' );
-		$container = $this->create_container_with(
-			[
-				Url_Helper::class        => $url_helper,
-				Short_Link_Helper::class => $short_link,
-			]
-		);
-
-		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
-
 		Monkey\Functions\expect( 'is_plugin_active' )->times( 5 )->andReturnTrue();
 		Monkey\Functions\expect( 'wp_nonce_url' )->times( 3 )->andReturn( 'nonce' );
 		Monkey\Functions\expect( 'self_admin_url' )->times( 3 )->andReturn( 'https://www.example.com' );
@@ -142,6 +166,26 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://www.example.com' );
 
 		$this->options_helper->expects( 'get' )->times( 5 )->andReturnTrue();
+
+		$this->elementor_conditional->expects( 'is_met' )->andReturnFalse();
+		$this->jetpack_conditional->expects( 'is_met' )->andReturnFalse();
+		$site_kit_config = [
+			'isInstalled'              => false,
+			'isActive'                 => false,
+			'isSetupCompleted'         => false,
+			'isConnected'              => false,
+			'isFeatureEnabled'         => false,
+			'installUrl'               => 'example.com',
+			'activateUrl'              => 'example.com',
+			'setupUrl'                 => 'example.com',
+			'capabilities'             => [
+				'installPlugins'        => true,
+				'viewSearchConsoleData' => true,
+			],
+		];
+		$this->site_kit_configuration->expects( 'to_array' )->andReturn( $site_kit_config );
+		$this->site_kit_consent_management_endpoint->expects( 'get_url' )
+			->andReturn( 'https://www.example.com/manage-consent' );
 
 		$this->admin_asset_manager->expects( 'localize_script' )->with(
 			'integrations-page',
@@ -153,8 +197,8 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'allow_algolia_integration'          => true,
 				'wincher_integration_active'         => true,
 				'allow_wincher_integration'          => null,
-				'elementor_integration_active'       => true,
-				'jetpack_integration_active'         => true,
+				'elementor_integration_active'       => false,
+				'jetpack_integration_active'         => false,
 				'woocommerce_seo_installed'          => false,
 				'woocommerce_seo_active'             => true,
 				'woocommerce_active'                 => false,
@@ -172,13 +216,8 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'mastodon_active'                    => false,
 				'is_multisite'                       => false,
 				'plugin_url'                         => 'https://www.example.com',
-
-				'jetpack-boost_active'               => false,
-				'jetpack-boost_premium'              => false,
-				'jetpack-boost_logo_link'            => 'https://www.example.com?some=var',
-				'jetpack-boost_get_link'             => 'https://www.example.com?some=var',
-				'jetpack-boost_upgrade_link'         => 'https://www.example.com?some=var',
-				'jetpack-boost_learn_more_link'      => 'https://www.example.com',
+				'site_kit_configuration'             => $site_kit_config,
+				'site_kit_consent_management_url'    => 'https://www.example.com/manage-consent',
 			]
 		);
 

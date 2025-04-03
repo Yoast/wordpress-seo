@@ -16,8 +16,8 @@ const WincherReadMoreLink = makeOutboundLink();
  */
 const WincherExplanation = () => {
 	const message = sprintf(
+		/* translators: %1$s expands to a link to Wincher, %2$s expands to a link to the keyphrase tracking article on Yoast.com */
 		__(
-			/* translators: %1$s expands to a link to Wincher, %2$s expands to a link to the keyphrase tracking article on Yoast.com */
 			"With %1$s you can track the ranking position of your page in the search results based on your keyphrase(s). %2$s",
 			"wordpress-seo"
 		),

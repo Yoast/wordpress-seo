@@ -50,6 +50,27 @@ class Enabled_Analysis_Features_Repository {
 				$this->enabled_analysis_features->add_feature( $analysis_feature );
 			}
 		}
+
 		return $this->enabled_analysis_features;
+	}
+
+	/**
+	 * Returns the analysis list for the given names.
+	 *
+	 * @param array<string> $feature_names The feature names to include.
+	 *
+	 * @return Analysis_Features_List The analysis list.
+	 */
+	public function get_features_by_keys( array $feature_names ): Analysis_Features_List {
+		$enabled_analysis_features = new Analysis_Features_List();
+
+		foreach ( $this->plugin_features as $plugin_feature ) {
+			if ( \in_array( $plugin_feature->get_name(), $feature_names, true ) ) {
+				$analysis_feature = new Analysis_Feature( $plugin_feature->is_enabled(), $plugin_feature->get_name(), $plugin_feature->get_legacy_key() );
+				$enabled_analysis_features->add_feature( $analysis_feature );
+			}
+		}
+
+		return $enabled_analysis_features;
 	}
 }

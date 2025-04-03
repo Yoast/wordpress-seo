@@ -40,6 +40,9 @@ export { default as TagField } from "./components/tag-field";
 export { default as TextField } from "./components/text-field";
 export { default as TextareaField } from "./components/textarea-field";
 export { default as ToggleField } from "./components/toggle-field";
+export { TooltipContainer, TooltipTrigger, TooltipWithContext, useTooltipContext } from "./components/tooltip-container";
+export { DropdownMenu } from "./components/dropdown-menu";
+export { Stepper } from "./components/stepper";
 
 export * from "./hooks";
 export * from "./constants";

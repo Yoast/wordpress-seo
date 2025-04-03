@@ -61,7 +61,7 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 							{ __( "Premium SEO analysis", "wordpress-seo" ) }
 						</MetaboxButton.Text>
 						<Badge size="small" variant="upsell">
-							<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-mr-1 yst-shrink-0" { ...svgAriaProps } />
+							<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-me-1 yst-shrink-0" { ...svgAriaProps } />
 							<span>Premium</span>
 						</Badge>
 					</MetaboxButton>

@@ -137,8 +137,13 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			// If it's not the last element and we have a url.
 			$link      .= '<' . $this->get_element() . '>';
 			$title_attr = isset( $breadcrumb['title'] ) ? ' title="' . \esc_attr( $breadcrumb['title'] ) . '"' : '';
-			$link      .= '<a href="' . \esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
-			$link      .= '</' . $this->get_element() . '>';
+			$link      .= '<a';
+
+			if ( $this->should_link_target_blank() ) {
+				$link .= ' target="_blank"';
+			}
+			$link .= ' href="' . \esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
+			$link .= '</' . $this->get_element() . '>';
 		}
 		elseif ( $index === ( $total - 1 ) ) {
 			// If it's the last element.
@@ -255,5 +260,22 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		return $this->element;
+	}
+
+	/**
+	 * This is needed because when the editor is loaded in an Iframe the link needs to open in a different browser window.
+	 * We don't want this behaviour in the front-end and the way to check this is to check if the block is rendered in a REST request with the `context` set as 'edit'. Thus being in the editor.
+	 *
+	 * @return bool returns if the breadcrumb should be opened in another window.
+	 */
+	private function should_link_target_blank(): bool {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['context'] ) && \is_string( $_GET['context'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only strictly comparing.
+			if ( \wp_unslash( $_GET['context'] ) === 'edit' ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

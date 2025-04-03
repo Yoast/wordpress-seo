@@ -1,4 +1,3 @@
-import React from "react";
 import { fireEvent, render, screen } from "../../test-utils";
 import { useSelect, useDispatch } from "@wordpress/data";
 

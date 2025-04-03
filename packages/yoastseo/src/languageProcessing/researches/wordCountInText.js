@@ -6,8 +6,9 @@ import { filterShortcodesFromHTML } from "../helpers";
  * A result of the word count calculation.
  *
  * @typedef WordCountResult
- * @param {number} count The number of words found in the text.
- * @param {"word"} unit The unit used in the text length calculations, always "word".
+ * @property {string} text The text with all HTML blocks removed and shortcodes filtered out.
+ * @property {number} count The number of words found in the text.
+ * @property {string} unit The unit used in the text length calculations, always "word".
  */
 
 /**

@@ -71,6 +71,11 @@ const sendJQueryRequest = ( url, requestParams ) => {
 const parseHeaders = ( type, config ) => {
 	if ( type === "jquery" ) {
 		Object.assign( config, {
+			/**
+			 * Adds configured headers to the request.
+			 *
+			 * @param {XMLHttpRequest} xhr The XMLHttpRequest object.
+			 */
 			beforeSend: ( xhr ) => {
 				jQuery.each( config.headers, ( headerName, headerValue ) => {
 					xhr.setRequestHeader( headerName, headerValue );
@@ -96,7 +101,7 @@ const parseHeaders = ( type, config ) => {
  */
 const overwriteObjectWithDefaultValues = ( target, defaults ) => {
 	for ( const key in defaults ) {
-		if ( defaults.hasOwnProperty( key ) ) {
+		if ( Object.hasOwn( defaults, key ) ) {
 			if ( typeof target[ key ] === "undefined" || target[ key ] === "" ) {
 				target[ key ] = defaults[ key ];
 			}

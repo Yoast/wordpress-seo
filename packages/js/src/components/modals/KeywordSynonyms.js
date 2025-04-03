@@ -19,8 +19,10 @@ const KeywordSynonyms = ( props ) => (
 			"Yoast SEO Premium"
 		) }
 		benefitsTitle={
-			/* translators: %s expands to 'Yoast SEO Premium'. */
-			sprintf( "%s also gives you:", "Yoast SEO Premium" )
+			sprintf(
+				/* translators: %s expands to 'Yoast SEO Premium'. */
+				__( "%s also gives you:", "wordpress-seo" ),
+				"Yoast SEO Premium" )
 		}
 		benefits={ getPremiumBenefits() }
 		upsellButtonText={

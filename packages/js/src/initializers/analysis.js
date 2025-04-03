@@ -95,11 +95,12 @@ function applyAnalysisModifications( analysisData ) {
  * @returns {Object} The analysis data.
  */
 export function collectData() {
-	const { getAnalysisData, getEditorDataTitle } = select( "yoast-seo/editor" );
+	const { getAnalysisData, getEditorDataTitle, getIsFrontPage } = select( "yoast-seo/editor" );
 	let data = getAnalysisData();
 	data = {
 		...data,
 		textTitle: getEditorDataTitle(),
+		isFrontPage: getIsFrontPage(),
 	};
 
 	const analysisData = applyAnalysisModifications( data );

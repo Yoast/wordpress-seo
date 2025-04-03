@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-
+import { sprintf } from "@wordpress/i18n";
 import { sanitizeString } from "../../languageProcessing";
 import { filterShortcodesFromHTML, removeHtmlBlocks } from "../../languageProcessing/helpers";
 
@@ -45,6 +45,18 @@ class Assessment {
 		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 
 		return sanitizeString( text ).length >= contentNeededForAssessment;
+	}
+
+	/**
+	 * Formats a string with the URL to the article about a specific assessment.
+	 *
+	 * @param {string} resultText The string to format.
+	 * @param {string} urlTitle The URL to the article about a specific assessment.
+	 * @param {string} urlCallToAction The URL to the help article for a specific assessment.
+	 * @returns {string} The formatted string.
+	 */
+	formatResultText( resultText, urlTitle, urlCallToAction ) {
+		return sprintf( resultText, urlTitle, urlCallToAction, "</a>" );
 	}
 }
 

@@ -272,8 +272,7 @@ final class Wincher_Publish_Test extends TestCase {
 	public function test_track_after_post_request() {
 		$post = Mockery::mock( WP_Post::class );
 
-		$this->instance
-			->expects( 'is_rest_request' )
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
 			->once()
 			->andReturnFalse();
 
@@ -295,8 +294,7 @@ final class Wincher_Publish_Test extends TestCase {
 	public function test_track_after_post_request_during_rest_request() {
 		$post = Mockery::mock( WP_Post::class );
 
-		$this->instance
-			->expects( 'is_rest_request' )
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
 			->once()
 			->andReturnTrue();
 

@@ -1,10 +1,10 @@
-import PropTypes from "prop-types";
 import { useSelect } from "@wordpress/data";
 import { useCallback, useEffect } from "@wordpress/element";
-import { disableMetaboxTabs } from "../helpers/disableMetaboxTabs";
-import ScoreIconPortal from "./portals/ScoreIconPortal";
 import { Root } from "@yoast/ui-library";
-import { ErrorFallback } from "../shared-admin/components/error-fallback";
+import PropTypes from "prop-types";
+import { disableMetaboxTabs } from "../helpers/disableMetaboxTabs";
+import { ErrorFallback } from "../shared-admin/components";
+import ScoreIconPortal from "./portals/ScoreIconPortal";
 
 /**
  * @param {Object} error The error instance.

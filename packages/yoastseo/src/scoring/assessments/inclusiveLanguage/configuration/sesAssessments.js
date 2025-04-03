@@ -2,6 +2,7 @@ import { redHarmful, orangeUnlessSomeoneWants } from "./feedbackStrings/generalF
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
+import { nonInclusiveWhenStandalone } from "../helpers/createRuleDescriptions";
 
 const sesAssessments = [
 	{
@@ -98,6 +99,7 @@ const sesAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
+		ruleDescription: nonInclusiveWhenStandalone,
 	},
 	{
 		identifier: "theUndocumented",
@@ -109,6 +111,7 @@ const sesAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
+		ruleDescription: nonInclusiveWhenStandalone,
 	},
 	{
 		identifier: "thePoor",
@@ -120,6 +123,7 @@ const sesAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
+		ruleDescription: nonInclusiveWhenStandalone,
 	},
 ];
 

@@ -66,10 +66,11 @@ final class Notice_Presenter_Test extends TestCase {
 			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
-			. '<h2 class="notice-yoast__header-heading">title</h2>'
+			. '<h2 class="notice-yoast__header-heading yoast-notice-migrated-header">title</h2>'
 			. '</div>'
+			. '<div class="notice-yoast-content">'
 			. '<p>content</p>'
-			. '</div>'
+			. '</div></div>'
 			. '</div></div>';
 
 		Monkey\Functions\expect( 'esc_html' )->andReturn( 'title' );
@@ -94,10 +95,11 @@ final class Notice_Presenter_Test extends TestCase {
 			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
-			. '<h2 class="notice-yoast__header-heading">title</h2>'
+			. '<h2 class="notice-yoast__header-heading yoast-notice-migrated-header">title</h2>'
 			. '</div>'
+			. '<div class="notice-yoast-content">'
 			. '<p>content</p>'
-			. '</div>'
+			. '</div></div>'
 			. '<img src="images/image.png" alt="" height="60" width="75"/>'
 			. '</div></div>';
 
@@ -124,10 +126,11 @@ final class Notice_Presenter_Test extends TestCase {
 			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
-			. '<h2 class="notice-yoast__header-heading">title</h2>'
+			. '<h2 class="notice-yoast__header-heading yoast-notice-migrated-header">title</h2>'
 			. '</div>'
+			. '<div class="notice-yoast-content">'
 			. '<p>content</p>'
-			. '</div>'
+			. '</div></div>'
 			. '</div></div>';
 
 		Monkey\Functions\expect( 'esc_html' )->andReturn( '' );
@@ -153,10 +156,11 @@ final class Notice_Presenter_Test extends TestCase {
 			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
-			. '<h2 class="notice-yoast__header-heading">title</h2>'
+			. '<h2 class="notice-yoast__header-heading yoast-notice-migrated-header">title</h2>'
 			. '</div>'
+			. '<div class="notice-yoast-content">'
 			. '<p>content</p>'
-			. '</div>'
+			. '</div></div>'
 			. '<img src="images/image.png" alt="" height="60" width="75"/>'
 			. '</div></div>';
 
@@ -185,11 +189,12 @@ final class Notice_Presenter_Test extends TestCase {
 			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
-			. '<h2 class="notice-yoast__header-heading">title</h2>'
+			. '<h2 class="notice-yoast__header-heading yoast-notice-migrated-header">title</h2>'
 			. '</div>'
+			. '<div class="notice-yoast-content">'
 			. '<p>content</p>'
 			. '<p><a class="yoast-button yoast-button-upsell" href="https://yoa.st/somewhere">Some text</a></p>'
-			. '</div>'
+			. '</div></div>'
 			. '<img src="images/image.png" alt="" height="60" width="75"/>'
 			. '</div></div>';
 

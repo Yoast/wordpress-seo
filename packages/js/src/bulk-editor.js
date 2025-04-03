@@ -70,7 +70,6 @@ import jQuery from "jquery";
 
 				var data = {
 					action: saveAllMethod,
-					// eslint-disable-next-line
 					_ajax_nonce: wpseoBulkEditorNonce,
 				};
 
@@ -170,7 +169,7 @@ import jQuery from "jquery";
 
 		return instance;
 	};
-	// eslint-disable-next-line
+
 	window.bulk_editor = bulkEditor;
 	window.bulkEditor = bulkEditor;
 

@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-len
 import { generateCorrectStemWithTAndDEnding } from "../../../../../../src/languageProcessing/languages/nl/helpers/internal/getStemWordsWithTAndDEnding";
 import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 

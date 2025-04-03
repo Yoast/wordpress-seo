@@ -83,25 +83,27 @@ const expectedResults = {
 		isApplicable: false,
 	},
 	subheadingsTooLong: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify68' target='_blank'>Subheading distribution</a>: You are not using any subheadings," +
+			" but your text is short enough and probably doesn't need them.",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify66' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		resultText: "<a href='https://yoa.st/shopify66' target='_blank'>Paragraph length</a>: There are no paragraphs that are too long. Great job!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 50% of the sentences contain more " +
+		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 45.5% of the sentences contain more " +
 			"than 20 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/shopify49' target='_blank'>" +
 			"Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 25% of the sentences contain " +
-			"transition words, which is not enough. <a href='https://yoa.st/shopify45' target='_blank'>Use more of them</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
 		isApplicable: true,

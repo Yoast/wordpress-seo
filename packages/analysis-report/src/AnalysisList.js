@@ -71,7 +71,7 @@ export default function AnalysisList( props ) {
 
 			let ariaLabelMarks = "";
 			if ( props.marksButtonStatus === "disabled" ) {
-				ariaLabelMarks = __( "Marks are disabled in current view", "wordpress-seo" );
+				ariaLabelMarks = __( "Highlighting is currently disabled", "wordpress-seo" );
 			} else if ( isMarkButtonPressed ) {
 				ariaLabelMarks = __( "Remove highlight from the text", "wordpress-seo" );
 			} else {

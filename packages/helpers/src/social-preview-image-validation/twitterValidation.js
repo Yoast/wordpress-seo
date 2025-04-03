@@ -23,10 +23,10 @@ const MIN_HEIGHT_LARGE = 157;
  */
 export const validateSize = ( image, isLarge ) => {
 	const { width, height } = image;
-	/* Translators: %d expands to the minimum width, %d expands to the minimum height,
-	%d expands to the maximum width, %d expands to the maximum height. */
+	/* Translators: %1$d expands to the minimum width, %2$d expands to the minimum height,
+	%3$d expands to the maximum width, %4$d expands to the maximum height. */
 	const warningString = __(
-		"Your image dimensions are not suitable. The minimum dimensions are %dx%d pixels. The maximum dimensions are %dx%d pixels.",
+		"Your image dimensions are not suitable. The minimum dimensions are %1$dx%2$d pixels. The maximum dimensions are %3$dx%4$d pixels.",
 		"wordpress-seo"
 	);
 
@@ -54,18 +54,19 @@ export const validateType = ( image ) => {
 	const validTypes = [ "jpg", "jpeg", "png", "webp" ];
 
 	const gifMessage = sprintf(
-		/* Translators: %s expands to the gif format, %s expands to the gif format. */
+		/* Translators: %1$s expands to the gif format, %2$s expands to the gif format. */
 		__(
-			"You have uploaded a %s. Please note that, if it’s an animated %s, only the first frame will be used.",
+			"You have uploaded a %1$s. Please note that, if it’s an animated %2$s, only the first frame will be used.",
 			"wordpress-seo"
 		),
 		"GIF", "GIF"
 	);
 
 	const warningMessage = sprintf(
-		/* Translators: %s expands to the jpg format, %s expands to the png format, %s expands to the gif format. */
+		/* Translators: %1$s expands to the jpg format, %2$s expands to the png format,
+		%3$s expands to the webp format, %4$s expands to the gif format. */
 		__(
-			"The format of the uploaded image is not supported. The supported formats are: %s, %s, %s and %s.",
+			"The format of the uploaded image is not supported. The supported formats are: %1$s, %2$s, %3$s and %4$s.",
 			"wordpress-seo"
 		),
 		"JPG", "PNG", "WEBP", "GIF"
@@ -92,9 +93,9 @@ export const validatesBytes = ( image ) => {
 	const { bytes } = image;
 
 	const warningMessage = sprintf(
-		/* translators: %s expands to X, %s expands to the 5MB size. */
+		/* translators: %1$s expands to X, %2$s expands to the 5MB size. */
 		__(
-			"The file size of the uploaded image is too large for %s. File size must be less than %s.",
+			"The file size of the uploaded image is too large for %1$s. File size must be less than %2$s.",
 			"wordpress-seo"
 		),
 		"X", "5MB"

@@ -138,9 +138,8 @@ describe( "previously used keyphrase when postTypeToDisplay is defined and count
 
 describe( "Test previouslyUsedKeywords when app is undefined", () => {
 	it( "should throw an error if app is undefined", () => {
-		// eslint-disable-next-line no-undefined
 		expect( () => {
-			// eslint-disable-next-line no-new,no-undefined
+			// eslint-disable-next-line no-undefined
 			new PreviouslyUsedKeywords( undefined, {} );
 		} ).toThrow( MissingArgumentError );
 	} );

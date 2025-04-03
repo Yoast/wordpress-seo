@@ -1,12 +1,13 @@
 /* global elementor, YoastSEO */
 import { dispatch, select } from "@wordpress/data";
-import { cleanForSlug } from "@wordpress/url";
-import { debounce, get } from "lodash";
+import { debounce, get, noop } from "lodash";
 import { markers, Paper } from "yoastseo";
 import { refreshDelay } from "../../analysis/constants";
 import firstImageUrlInContent from "../../helpers/firstImageUrlInContent";
 import { registerElementorUIHookAfter, registerElementorUIHookBefore } from "../helpers/hooks";
 import { isFormId, isFormIdEqualToDocumentId } from "../helpers/is-form-id";
+import { excerptFromContent } from "../../helpers/replacementVariableHelpers";
+import getContentLocale from "../../analysis/getContentLocale";
 
 const editorData = {
 	content: "",
@@ -14,6 +15,9 @@ const editorData = {
 	excerpt: "",
 	slug: "",
 	imageUrl: "",
+	featuredImage: "",
+	contentImage: "",
+	excerptOnly: "",
 };
 
 const MARK_TAG = "yoastmark";
@@ -32,8 +36,19 @@ function widgetHasMarks( widget ) {
  * Retrieves all Elementor widget containers.
  * @returns {jQuery[]} Elementor widget containers.
  */
-function getWidgetContainers() {
-	return elementor.documents.getCurrent().$element.find( ".elementor-widget-container" );
+function getWidgetContainers( currentDocument = elementor.documents.getCurrent() ) {
+	// Before the optimized markup feature, we used to find the widget containers using the .elementor-widget-container class.
+	let containers = currentDocument.$element?.find( ".elementor-widget-container" );
+
+	// With the optimized markup feature turned on, the surrounding .elementor-widget-container div is no longer used.
+	// Instead, we grab the direct children of the .elementor-widget div, excluding any background overlays and resizable handles.
+	if ( ! containers?.length ) {
+		containers = currentDocument.$element?.find( ".elementor-widget" )
+			.children()
+			.not( ".elementor-background-overlay, .elementor-element-overlay, .ui-resizable-handle" );
+	}
+
+	return containers;
 }
 
 /**
@@ -59,7 +74,7 @@ function removeMarks() {
 function getContent( editorDocument ) {
 	const content = [];
 
-	editorDocument.$element.find( ".elementor-widget-container" ).each( ( index, element ) => {
+	getWidgetContainers( editorDocument )?.each( ( index, element ) => {
 		// We remove \n and \t from the HTML as Elementor formats the HTML after saving.
 		// As this spacing is purely cosmetic, we can remove it for analysis purposes.
 		// When we apply the marks, we do need to make the same amendments.
@@ -71,21 +86,27 @@ function getContent( editorDocument ) {
 }
 
 /**
- * Gets the image URL. Searches for the first image in the content as fallback.
+ * Gets the excerpt with fallback.
  *
- * @param {string} content The content to get an image URL as fallback.
+ * @param {string} content The content.
+ * @param {boolean} onlyExcerpt Whether to only return the excerpt.
  *
- * @returns {string} The image URL.
+ * @returns {string} The excerpt.
  */
-function getImageUrl( content ) {
-	const featuredImage = elementor.settings.page.model.get( "post_featured_image" );
-	const url = get( featuredImage, "url", "" );
+function getExcerpt( content, onlyExcerpt = false ) {
+	let excerpt = elementor.settings.page.model.get( "post_excerpt" );
 
-	if ( url === "" ) {
-		return firstImageUrlInContent( content );
+	if ( onlyExcerpt ) {
+		return excerpt || "";
 	}
 
-	return url;
+	// Fallback to the first piece of the content.
+	if ( ! excerpt ) {
+		const limit = ( getContentLocale() === "ja" ) ? 80 : 156;
+		excerpt = excerptFromContent( content, limit );
+	}
+
+	return excerpt;
 }
 
 /**
@@ -97,12 +118,17 @@ function getImageUrl( content ) {
  */
 function getEditorData( editorDocument ) {
 	const content = getContent( editorDocument );
+	const featuredImageUrl = get( elementor.settings.page.model.get( "post_featured_image" ), "url", "" );
+	const contentImageUrl = firstImageUrlInContent( content );
 
 	return {
 		content,
 		title: elementor.settings.page.model.get( "post_title" ),
-		excerpt: elementor.settings.page.model.get( "post_excerpt" ) || "",
-		imageUrl: getImageUrl( content ),
+		excerpt: getExcerpt( content ),
+		excerptOnly: getExcerpt( content, true ),
+		imageUrl: featuredImageUrl || contentImageUrl,
+		featuredImage: featuredImageUrl,
+		contentImage: contentImageUrl,
 		status: elementor.settings.page.model.get( "post_status" ),
 	};
 }
@@ -115,7 +141,9 @@ function getEditorData( editorDocument ) {
  */
 function handleEditorChange() {
 	const currentDocument = elementor.documents.getCurrent();
-	if ( ! currentDocument.$element ) {
+
+	// Don't update the editor data when the form ID is not equal to the document ID.
+	if ( ! isFormIdEqualToDocumentId() ) {
 		return;
 	}
 
@@ -140,20 +168,29 @@ function handleEditorChange() {
 	if ( data.title !== editorData.title ) {
 		editorData.title = data.title;
 		dispatch( "yoast-seo/editor" ).setEditorDataTitle( editorData.title );
-
-		if ( data.status === "draft" || data.status === "auto-draft" ) {
-			dispatch( "yoast-seo/editor" ).updateData( { slug: cleanForSlug( editorData.title ) } );
-		}
 	}
 
 	if ( data.excerpt !== editorData.excerpt ) {
 		editorData.excerpt = data.excerpt;
+		editorData.excerptOnly = data.excerptOnly;
 		dispatch( "yoast-seo/editor" ).setEditorDataExcerpt( editorData.excerpt );
+		dispatch( "yoast-seo/editor" ).updateReplacementVariable( "excerpt", editorData.excerpt );
+		dispatch( "yoast-seo/editor" ).updateReplacementVariable( "excerpt_only", editorData.excerptOnly );
 	}
 
 	if ( data.imageUrl !== editorData.imageUrl ) {
 		editorData.imageUrl = data.imageUrl;
 		dispatch( "yoast-seo/editor" ).setEditorDataImageUrl( editorData.imageUrl );
+	}
+
+	if ( data.contentImage !== editorData.contentImage ) {
+		editorData.contentImage = data.contentImage;
+		dispatch( "yoast-seo/editor" ).setContentImage( editorData.contentImage );
+	}
+
+	if ( data.featuredImage !== editorData.featuredImage ) {
+		editorData.featuredImage = data.featuredImage;
+		dispatch( "yoast-seo/editor" ).updateData( { snippetPreviewImageURL: editorData.featuredImage } );
 	}
 }
 
@@ -177,18 +214,32 @@ function resetMarks() {
 const debouncedHandleEditorChange = debounce( handleEditorChange, refreshDelay );
 
 /**
- * Observes changes to the whole document through a MutationObserver.
+ * Creates a MutationObserver to observe changes to the document.
  *
- * @returns {void}
+ * @param {function} callback The callback to execute when a change is detected.
+ *
+ * @returns {function} A function to disconnect the observer.
  */
-function observeChanges() {
-	const observer = new MutationObserver( () => {
-		if ( isFormIdEqualToDocumentId() ) {
-			debouncedHandleEditorChange();
-		}
-	} );
-	observer.observe( document, { attributes: true, childList: true, subtree: true, characterData: true } );
-}
+const createMutationObserver = ( callback ) => {
+	const observer = new MutationObserver( callback );
+
+	/**
+	 * Observes changes in the document.
+	 *
+	 * @param {Node} [target=document] A DOM Node (which may be an Element) within the DOM tree to watch for changes.
+	 *
+	 * @returns {function} The disconnect function.
+	 */
+	return ( target = document ) => {
+		observer.observe( target, { attributes: true, childList: true, subtree: true, characterData: true } );
+
+		/**
+		 * Disconnects the observer.
+		 * @returns {void}
+		 */
+		return () => observer.disconnect();
+	};
+};
 
 /**
  * Initializes the watcher by coupling the change handlers to the change events.
@@ -201,10 +252,35 @@ export default function initialize() {
 	// This hook will fire just before the document is saved.
 	registerElementorUIHookBefore( "document/save/save", "yoast-seo/marks/reset-on-save", resetMarks, ( { document } ) => isFormId( document?.id || elementor.documents.getCurrent().id ) );
 
+	const startObserver = createMutationObserver( debouncedHandleEditorChange );
+	let stopObserver = noop;
+
+	/**
+	 * Stops the observer and cancels any pending changes.
+	 * @returns {void}
+	 */
+	const stopObserverAndPendingChanges = () => {
+		// Stop listening to the document.
+		stopObserver();
+		stopObserver = noop;
+		// Stop any pending debounced editor change calls.
+		debouncedHandleEditorChange.cancel();
+	};
+
+	registerElementorUIHookAfter(
+		"editor/documents/close",
+		"yoast-seo/content-scraper/stop",
+		stopObserverAndPendingChanges,
+		( { id } ) => isFormId( id )
+	);
 	// This hook will fire when the Elementor preview becomes available.
-	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo/content-scraper/initial", debouncedHandleEditorChange, isFormIdEqualToDocumentId );
-	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo/content-scraper", debounce( observeChanges, refreshDelay ), isFormIdEqualToDocumentId );
+	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo/content-scraper/start", () => {
+		stopObserver = startObserver();
+	}, isFormIdEqualToDocumentId );
 
 	// This hook will fire when the contents of the editor are modified.
 	registerElementorUIHookAfter( "document/save/set-is-modified", "yoast-seo/content-scraper/on-modified", debouncedHandleEditorChange, ( { document } ) => isFormId( document?.id || elementor.documents.getCurrent().id ) );
+
+	// Set the initial editor data (note: content is not there yet due to $element loading in later).
+	handleEditorChange();
 }

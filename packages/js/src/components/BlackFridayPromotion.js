@@ -23,15 +23,15 @@ export const BlackFridayPromotion = ( {
 	const linkParams = useSelect( select => select( store ).selectLinkParams(), [ store ] );
 	const title = location === "sidebar"
 		? sprintf(
-			/* translators: %1$s expands to YOAST SEO PREMIUM */
-			__( "BLACK FRIDAY SALE: %1$s", "wordpress-seo" ),
-			"YOAST SEO PREMIUM"
+			/* translators: %1$s expands to Yoast SEO Premium */
+			__( "Now with 30%% OFF: %1$s", "wordpress-seo" ),
+			"Yoast SEO Premium"
 		)
 		: createInterpolateElement(
 			sprintf(
-				/* translators: %1$s expands to YOAST SEO PREMIUM, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
-				__( "BLACK FRIDAY SALE: %1$s %2$sBuy now!%3$s", "wordpress-seo" ),
-				"YOAST SEO PREMIUM",
+				/* translators: %1$s expands to Yoast SEO Premium, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+				__( "Now with 30%% OFF: %1$s %2$sBuy now!%3$s", "wordpress-seo" ),
+				"Yoast SEO Premium",
 				"<a>",
 				"</a>"
 			),
@@ -42,15 +42,14 @@ export const BlackFridayPromotion = ( {
 		);
 	return isPremium ? null : (
 		<TimeConstrainedNotification
-			id={ `black-friday-2023-promotion-${ location }` }
-			promoId="black-friday-2023-promotion"
-			alertKey="black-friday-2023-promotion"
+			id={ `black-friday-2024-promotion-${ location }` }
+			promoId="black-friday-2024-promotion"
+			alertKey="black-friday-2024-promotion"
 			store={ store }
 			title={ title }
-			image={ Image }
 			{ ...props }
 		>
-			<span className="yoast-bf-sale-badge">{ __( "30% OFF!", "wordpress-seo" ) } </span>
+			<span className="yoast-bf-sale-badge">{ __( "BLACK FRIDAY SALE", "wordpress-seo" ) } </span>
 			{ location === "sidebar" && <a
 				// Styling is to counteract the WP paragraph margin-bottom.
 				className="yst-block yst--mb-[1em]"

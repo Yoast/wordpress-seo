@@ -7,7 +7,6 @@ import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
 import StepHeader from "./step-header";
 import { FadeInAlert } from "../tailwind-components/base/alert";
 
-/* eslint-disable complexity */
 const {
 	slideDuration,
 	delayBeforeOpening,
@@ -27,9 +26,9 @@ const StepperContext = createContext();
 export function useStepperContext() {
 	const context = useContext( StepperContext );
 	if ( ! context ) {
-	  throw new Error(
+		throw new Error(
 			"Stepper compound components cannot be rendered outside the Stepper component"
-	  );
+		);
 	}
 	return context;
 }
@@ -135,11 +134,11 @@ export function Step( { children } ) {
 		{ stepIndex !== lastStepIndex &&
 			<Fragment>
 				<div
-					className={ "yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-h-full yst-bg-slate-300 yst--bottom-6" }
+					className={ "yst--ms-px yst-absolute yst-start-4 yst-w-0.5 yst-h-full yst-bg-slate-300 yst--bottom-6" }
 					aria-hidden="true"
 				/>
 				<div
-					className={ `yst-h-12 yst-transition-transform ${ delayUntilStepFaded } yst-ease-linear ${ slideDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-scale-y-0" } yst-origin-top yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
+					className={ `yst-h-12 yst-transition-transform ${ delayUntilStepFaded } yst-ease-linear ${ slideDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-scale-y-0" } yst-origin-top yst--ms-px yst-absolute yst-start-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
 					aria-hidden="true"
 				/>
 			</Fragment>
@@ -223,7 +222,7 @@ function Content( { children } ) {
 				easing="ease-in-out"
 				duration={ slideDuration }
 			>
-				<div className={ `yst-transition-opacity ${ fadeDuration } yst-relative yst-ml-12 yst-mt-4 yst-pb-1 ${ isFaded ? "yst-opacity-0 yst-pointer-events-none" : "yst-opacity-100" }` }>
+				<div className={ `yst-transition-opacity ${ fadeDuration } yst-relative yst-ms-12 yst-mt-4 yst-pb-1 ${ isFaded ? "yst-opacity-0 yst-pointer-events-none" : "yst-opacity-100" }` }>
 					{ children }
 				</div>
 			</AnimateHeight>
@@ -274,4 +273,3 @@ Step.Error = StepError;
 Step.Header = StepHeader;
 Step.GoButton = GoButton;
 Step.EditButton = EditButton;
-/* eslint-enable complexity */

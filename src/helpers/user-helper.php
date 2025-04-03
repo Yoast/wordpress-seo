@@ -66,6 +66,20 @@ class User_Helper {
 	}
 
 	/**
+	 * Returns the current users display_name.
+	 *
+	 * @return string
+	 */
+	public function get_current_user_display_name(): string {
+		$user = \wp_get_current_user();
+		if ( $user && $user->display_name ) {
+			return $user->display_name;
+		}
+
+		return '';
+	}
+
+	/**
 	 * Updates user meta field for a user.
 	 *
 	 * Use the $prev_value parameter to differentiate between meta fields with the

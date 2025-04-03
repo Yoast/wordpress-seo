@@ -98,7 +98,7 @@ class Results extends Component {
 			/>
 			{ this.props.shouldUpsellHighlighting &&
 				<div className="yst-root">
-					<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--right-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
+					<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
 						<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false } />
 					</Badge>
 				</div>

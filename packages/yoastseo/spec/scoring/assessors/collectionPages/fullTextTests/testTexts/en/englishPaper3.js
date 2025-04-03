@@ -91,13 +91,12 @@ const expectedResults = {
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify66' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		resultText: "<a href='https://yoa.st/shopify66' target='_blank'>Paragraph length</a>: There are no paragraphs that are too long. Great job!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
-		score: 3,
-
-		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 32% of the sentences contain more than 20 words, " +
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 26.9% of the sentences contain more than 20 words, " +
 			"which is more than the recommended maximum of 25%. <a href='https://yoa.st/shopify49' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {

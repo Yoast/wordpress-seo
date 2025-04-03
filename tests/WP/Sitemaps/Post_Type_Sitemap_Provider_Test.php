@@ -102,9 +102,9 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 */
 	public function test_get_index_links_empty_bucket() {
 
-		$this->factory->post->create();
-		$this->excluded_posts = [ $this->factory->post->create() ]; // Remove this post.
-		$this->factory->post->create();
+		self::factory()->post->create( [ 'post_date' => '2024-01-01 00:00:01' ] );
+		$this->excluded_posts = [ self::factory()->post->create( [ 'post_date' => '2024-01-01 00:00:02' ] ) ]; // Remove this post.
+		self::factory()->post->create( [ 'post_date' => '2024-01-01 00:00:03' ] );
 
 		\add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'exclude_post' ] );
 		\add_filter( 'wpseo_sitemap_entries_per_page', [ $this, 'return_one' ] );

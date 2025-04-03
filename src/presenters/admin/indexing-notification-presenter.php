@@ -53,8 +53,8 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 	 * @return string The HTML string representation of the notification.
 	 */
 	public function present() {
-		$notification_text  = '<p>' . $this->get_message( $this->reason ) . '</p>';
-		$notification_text .= '<p>' . $this->get_time_estimate( $this->total_unindexed ) . '</p>';
+		$notification_text  = '<p>' . $this->get_message( $this->reason );
+		$notification_text .= $this->get_time_estimate( $this->total_unindexed ) . '</p>';
 		$notification_text .= '<a class="button" href="' . \get_admin_url( null, 'admin.php?page=wpseo_tools&start-indexation=true' ) . '">';
 		$notification_text .= \esc_html__( 'Start SEO data optimization', 'wordpress-seo' );
 		$notification_text .= '</a>';
@@ -84,16 +84,16 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 				$text = \esc_html__( 'Because of a change in your tag base setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;
 			case Indexing_Reasons::REASON_POST_TYPE_MADE_PUBLIC:
-				$text = \esc_html__( 'We need to re-analyze some of your SEO data because of a change in the visibility of your post types. Please help us do that by running the SEO data optimization. ', 'wordpress-seo' );
+				$text = \esc_html__( 'We need to re-analyze some of your SEO data because of a change in the visibility of your post types. Please help us do that by running the SEO data optimization.', 'wordpress-seo' );
 				break;
 			case Indexing_Reasons::REASON_TAXONOMY_MADE_PUBLIC:
-				$text = \esc_html__( 'We need to re-analyze some of your SEO data because of a change in the visibility of your taxonomies. Please help us do that by running the SEO data optimization. ', 'wordpress-seo' );
+				$text = \esc_html__( 'We need to re-analyze some of your SEO data because of a change in the visibility of your taxonomies. Please help us do that by running the SEO data optimization.', 'wordpress-seo' );
 				break;
 			case Indexing_Reasons::REASON_ATTACHMENTS_MADE_ENABLED:
-				$text = \esc_html__( 'It looks like you\'ve enabled media pages. We recommend that you help us to re-analyze your site by running the SEO data optimization. ', 'wordpress-seo' );
+				$text = \esc_html__( 'It looks like you\'ve enabled media pages. We recommend that you help us to re-analyze your site by running the SEO data optimization.', 'wordpress-seo' );
 				break;
 			default:
-				$text = \esc_html__( 'You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. ', 'wordpress-seo' );
+				$text = \esc_html__( 'You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored.', 'wordpress-seo' );
 		}
 
 		/**
@@ -114,14 +114,14 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 	 */
 	protected function get_time_estimate( $total_unindexed ) {
 		if ( $total_unindexed < 400 ) {
-			return \esc_html__( 'We estimate this will take less than a minute.', 'wordpress-seo' );
+			return \esc_html__( ' We estimate this will take less than a minute.', 'wordpress-seo' );
 		}
 
 		if ( $total_unindexed < 2500 ) {
-			return \esc_html__( 'We estimate this will take a couple of minutes.', 'wordpress-seo' );
+			return \esc_html__( ' We estimate this will take a couple of minutes.', 'wordpress-seo' );
 		}
 
-		$estimate  = \esc_html__( 'We estimate this could take a long time, due to the size of your site. As an alternative to waiting, you could:', 'wordpress-seo' );
+		$estimate  = \esc_html__( ' We estimate this could take a long time, due to the size of your site. As an alternative to waiting, you could:', 'wordpress-seo' );
 		$estimate .= '<ul class="ul-disc">';
 		$estimate .= '<li>';
 		$estimate .= \sprintf(

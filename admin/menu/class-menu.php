@@ -89,7 +89,6 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 				break;
 
 			default:
-				require_once WPSEO_PATH . 'admin/pages/dashboard.php';
 				break;
 		}
 	}

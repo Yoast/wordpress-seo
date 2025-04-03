@@ -14,50 +14,57 @@ export const ModalContent = () => {
 	const upsellLinkPremium = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell" ), [] );
 	const upsellLinkWooPremiumBundle = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo-premium-bundle" ), [] );
 	const upsellLinkWoo = useSelect( select => select( STORE ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo" ), [] );
-	const isPremium = useSelect( select => select( STORE ).getIsPremium(), [] );
-	const isWooSeoUpsell = useSelect( select => select( STORE ).getIsWooSeoUpsell(), [] );
-	const isProduct = useSelect( select => select( STORE ).getIsProduct(), [] );
-	const wooSeoNoPremium = isProduct && ! isWooSeoUpsell && ! isPremium;
-	const isProductCopy = !! ( isWooSeoUpsell || wooSeoNoPremium );
-	const postModalprops = {
-		isProductCopy,
+
+	const isPremiumActive = useSelect( select => select( STORE ).getIsPremium(), [] );
+	const isWooSeoActive = useSelect( select => select( STORE ).getIsWooSeoActive(), [] );
+	const isWooCommerceActive = useSelect( select => select( STORE ).getIsWooCommerceActive(), [] );
+
+	const isProductPost = useSelect( select => select( STORE ).getIsProduct(), [] );
+	const isProductTerm = useSelect( select => select( STORE ).getIsProductTerm(), [] );
+
+	const upsellProps = {
 		upsellLink: upsellLinkPremium,
 	};
 
-	if ( isProductCopy ) {
+	// Use specific copy for product posts.
+	if ( isWooCommerceActive && isProductPost ) {
+		upsellProps.title = __( "Generate product titles & descriptions with AI!", "wordpress-seo" );
+		upsellProps.isProductCopy = true;
+	}
+
+	// Use specific copy for product posts and terms, otherwise revert to the defaults.
+	if ( isWooCommerceActive && ( isProductPost || isProductTerm ) ) {
 		const upsellPremiumWooLabel = sprintf(
 			/* translators: %1$s expands to Yoast SEO Premium, %2$s expands to Yoast WooCommerce SEO. */
 			__( "%1$s + %2$s", "wordpress-seo" ),
 			"Yoast SEO Premium",
 			"Yoast WooCommerce SEO"
 		);
-		postModalprops.newToText = sprintf(
+		upsellProps.newToText = sprintf(
 			/* translators: %1$s expands to Yoast SEO Premium and Yoast WooCommerce SEO. */
 			__( "New in %1$s", "wordpress-seo" ),
 			upsellPremiumWooLabel
 		);
-		postModalprops.title = __( "Generate product titles & descriptions with AI!", "wordpress-seo" );
-		if ( ! isPremium && isWooSeoUpsell ) {
-			postModalprops.upsellLabel = `${ sprintf(
-				/* translators: %1$s expands to Woo Premium bundle. */
-				__( "Unlock with the %1$s", "wordpress-seo" ),
-				"Woo Premium bundle"
-			)}*`;
-			postModalprops.bundleNote = <div className="yst-text-xs yst-text-slate-500 yst-mt-2">
-				{ `*${upsellPremiumWooLabel}` }
-			</div>;
-			postModalprops.upsellLink = upsellLinkWooPremiumBundle;
-		}
-		if ( isPremium ) {
-			postModalprops.upsellLabel = sprintf(
+
+		if ( isPremiumActive ) {
+			upsellProps.upsellLabel = sprintf(
 				/* translators: %1$s expands to Yoast WooCommerce SEO. */
 				__( "Unlock with %1$s", "wordpress-seo" ),
 				"Yoast WooCommerce SEO"
 			);
-			postModalprops.upsellLink = upsellLinkWoo;
+			upsellProps.upsellLink = upsellLinkWoo;
+		} else if ( ! isWooSeoActive ) {
+			upsellProps.upsellLabel = `${sprintf(
+				/* translators: %1$s expands to Woo Premium bundle. */
+				__( "Unlock with the %1$s", "wordpress-seo" ),
+				"Woo Premium bundle"
+			)}*`;
+			upsellProps.bundleNote = <div className="yst-text-xs yst-text-slate-500 yst-mt-2">
+				{ `*${upsellPremiumWooLabel}` }
+			</div>;
+			upsellProps.upsellLink = upsellLinkWooPremiumBundle;
 		}
 	}
-
 
 	const imageLink = useSelect( select => select( STORE ).selectImageLink( "ai-generator-preview.png" ), [] );
 	const thumbnail = useMemo( () => ( {
@@ -71,13 +78,12 @@ export const ModalContent = () => {
 	const { setWistiaEmbedPermission: set } = useDispatch( STORE );
 	const wistiaEmbedPermission = useMemo( () => ( { value, status, set } ), [ value, status, set ] );
 
-
 	return (
 		<AiGenerateTitlesAndDescriptionsUpsell
 			learnMoreLink={ learnMoreLink }
 			thumbnail={ thumbnail }
 			wistiaEmbedPermission={ wistiaEmbedPermission }
-			{ ...postModalprops }
+			{ ...upsellProps }
 		/>
 	);
 };

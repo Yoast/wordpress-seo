@@ -141,7 +141,7 @@ final class Cache_Data_Test extends TestCase {
 	/**
 	 * Data provider.
 	 *
-	 * @return array
+	 * @return array<string, array<string, string>>
 	 */
 	public static function data_set_status_string() {
 		return [

@@ -144,12 +144,12 @@ const expectedResults = {
 		isApplicable: true,
 		score: 3,
 		resultText: "<a href='https://yoa.st/shopify66' target='_blank'>Paragraph length</a>: 1 of the paragraphs contains " +
-			"more than the recommended maximum of 70 words. <a href='https://yoa.st/shopify67' target='_blank'>Shorten your paragraphs</a>!",
+			"more than the recommended maximum number of words (70). <a href='https://yoa.st/shopify67' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 50% of the sentences contain more than 20 words, " +
+		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 46.7% of the sentences contain more than 20 words, " +
 			"which is more than the recommended maximum of 20%. <a href='https://yoa.st/shopify49' target='_blank'>" +
 			"Try to shorten the sentences</a>.",
 	},

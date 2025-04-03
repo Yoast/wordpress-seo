@@ -1,6 +1,5 @@
 import {
-	filteredAuxiliaries as filteredPassiveAuxiliaries,
-	notFilteredAuxiliaries as notFilteredPassiveAuxiliaries,
+	all as passiveAuxiliaries,
 } from "./internal/passiveVoiceAuxiliaries.js";
 import { singleWords as transitionWords } from "./transitionWords.js";
 import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
@@ -139,7 +138,7 @@ export const filteredAtBeginningAndEnding = transformWordsWithHyphens( [].concat
 
 // These word categories are filtered everywhere within word combinations.
 export const filteredAnywhere = transformWordsWithHyphens( [].concat( transitionWords, adverbialGenitives, personalPronounsNominative,
-	personalPronounsAccusative, reflexivePronouns, interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries,
+	personalPronounsAccusative, reflexivePronouns, interjections, cardinalNumerals, passiveAuxiliaries, otherAuxiliaries,
 	copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers,
 	interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, pronominalAdverbs,
 	recipeWords, timeWords, vagueNouns ) );
@@ -163,8 +162,8 @@ export const cannotBeBetweenPassiveAuxiliaryAndParticiple = transformWordsWithHy
 export const nonNouns = transformWordsWithHyphens( [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns,
 	possessivePronouns, reflexivePronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs,
 	indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
-	pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries,
-	otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
+	pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, passiveAuxiliaries, otherAuxiliaries, copula, prepositions,
+	coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
 	transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
 	recipeWords, miscellaneous, titlesFollowing ) );
 
@@ -172,8 +171,8 @@ export const nonNouns = transformWordsWithHyphens( [].concat( articles, cardinal
 export const all = transformWordsWithHyphens( [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 	reflexivePronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs,
 	indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
-	pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries,
-	otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
+	pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, passiveAuxiliaries, otherAuxiliaries, copula,
+	prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
 	transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
 	recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding, titlesFollowing ) );
 

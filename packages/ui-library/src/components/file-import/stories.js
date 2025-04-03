@@ -167,7 +167,7 @@ export const Success = {
 				<Alert variant="success" role="alert" className="yst-mb-2">SEO data successfully imported!</Alert>
 				<Alert variant="warning" role="alert">
 					However, there were some slight problems with the following data:
-					<ul className="yst-list-disc yst-ml-4 yst-mt-4 yst-space-y-2">
+					<ul className="yst-list-disc yst-ms-4 yst-mt-4 yst-space-y-2">
 						<li>This went wrong</li>
 						<li>This also went wrong</li>
 					</ul>

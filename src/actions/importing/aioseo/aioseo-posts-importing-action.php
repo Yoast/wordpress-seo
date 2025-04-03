@@ -36,7 +36,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	/**
 	 * The map of aioseo to yoast meta.
 	 *
-	 * @var array
+	 * @var array<string, array<string, string|bool|array<string, string|bool>>>
 	 */
 	protected $aioseo_to_yoast_map = [
 		'title'               => [
@@ -423,8 +423,9 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	/**
 	 * Creates a query for gathering AiOSEO data from the database.
 	 *
-	 * @param int  $limit       The maximum number of unimported objects to be returned.
-	 * @param bool $just_detect Whether we want to just detect if there are unimported objects. If false, we want to actually import them too.
+	 * @param int|false $limit       The maximum number of unimported objects to be returned.
+	 *                               False for "no limit".
+	 * @param bool      $just_detect Whether we want to just detect if there are unimported objects. If false, we want to actually import them too.
 	 *
 	 * @return string The query to use for importing or counting the number of items to import.
 	 */

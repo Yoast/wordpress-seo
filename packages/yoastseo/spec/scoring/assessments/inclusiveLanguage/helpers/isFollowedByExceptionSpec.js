@@ -11,7 +11,6 @@ describe( "Test isFollowedByException", () => {
 		const callback = isFollowedByException( words, consecutiveWords, exceptions );
 		const index = 1;
 
-		// eslint-disable-next-line callback-return
 		expect( callback( index ) ).toEqual( true );
 	} );
 	it( "returns the right value when term is not followed by an exception", () => {
@@ -21,7 +20,6 @@ describe( "Test isFollowedByException", () => {
 		const callback = isFollowedByException( words, consecutiveWords, exceptions );
 		const index = 1;
 
-		// eslint-disable-next-line callback-return
 		expect( callback( index ) ).toEqual( false );
 	} );
 } );

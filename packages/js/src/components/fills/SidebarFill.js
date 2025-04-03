@@ -21,6 +21,8 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import KeywordUpsell from "../modals/KeywordUpsell";
+import isBlockEditor from "../../helpers/isBlockEditor";
+import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
 
 /* eslint-disable complexity */
 /**
@@ -37,6 +39,10 @@ import KeywordUpsell from "../modals/KeywordUpsell";
 export default function SidebarFill( { settings } ) {
 	const webinarIntroUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
 	const FirstEligibleNotification = useFirstEligibleNotification( { webinarIntroUrl } );
+
+	if ( isBlockEditor() ) {
+		useToggleMarkerStatus();
+	}
 
 	return (
 		<Fragment>

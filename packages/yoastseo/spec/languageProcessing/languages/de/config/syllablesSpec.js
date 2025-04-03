@@ -1,7 +1,6 @@
 import countSyllableFunction from "../../../../../src/languageProcessing/helpers/syllables/countSyllables.js";
 import germanSyllables from "../../../../../src/languageProcessing/languages/de/config/syllables.json";
 
-// eslint-disable-next-line max-statements
 describe( "a syllable counter for German text strings", function() {
 	it( "returns the number of syllables of words containing the subtract syllable ouil", function() {
 		expect( countSyllableFunction( "bouillon", germanSyllables ) ).toBe( 2 );

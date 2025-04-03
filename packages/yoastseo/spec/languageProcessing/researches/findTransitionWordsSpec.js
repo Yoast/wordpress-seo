@@ -1,11 +1,23 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import transitionWordsResearch from "../../../src/languageProcessing/researches/findTransitionWords.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
+import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
+import DutchResearcher from "../../../src/languageProcessing/languages/nl/Researcher";
+import SpanishResearcher from "../../../src/languageProcessing/languages/es/Researcher";
+import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
+import PortugueseResearcher from "../../../src/languageProcessing/languages/pt/Researcher";
+import CatalanResearcher from "../../../src/languageProcessing/languages/ca/Researcher";
+import PolishResearcher from "../../../src/languageProcessing/languages/pl/Researcher";
+import HungarianResearcher from "../../../src/languageProcessing/languages/hu/Researcher";
+import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";
+import IndonesianResearcher from "../../../src/languageProcessing/languages/id/Researcher";
+import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
+import RussianResearcher from "../../../src/languageProcessing/languages/ru/Researcher";
+import HebrewResearcher from "../../../src/languageProcessing/languages/he/Researcher";
+import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
 
-// eslint-disable-next-line max-statements
 describe( "a test for finding transition words from a string", function() {
 	let mockPaper, result;
 
@@ -41,7 +53,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 
-	it( "returns 1 when a two-part transition word  is found in a sentence (English)", function() {
+	it( "returns 1 when a two-part transition word is found in a sentence (English)", function() {
 		// Transition word: either...or.
 		mockPaper = new Paper( "I will either tell you a story, or read you a novel.", { locale: "en_US" } );
 		result = transitionWordsResearch( mockPaper, new EnglishResearcher( mockPaper ) );
@@ -49,7 +61,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 
-	it( "returns 1 when a two-part transition word  is found in a sentence, and no transition word in another sentence. (English)", function() {
+	it( "returns 1 when a two-part transition word is found in a sentence, and no transition word in another sentence. (English)", function() {
 		// Transition word: either...or.
 		mockPaper = new Paper( "I will either tell you a story, or read you a novel. Okay?", { locale: "en_US" } );
 		result = transitionWordsResearch( mockPaper, new EnglishResearcher( mockPaper ) );
@@ -57,7 +69,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 
-	it( "returns 2 when a two-part transition word  is found in a sentence, and a transition word in another sentence. (English)", function() {
+	it( "returns 2 when a two-part transition word is found in a sentence, and a transition word in another sentence. (English)", function() {
 		// Transition words: either...or, unless.
 		mockPaper = new Paper( "I will either tell you a story, or read you a novel. Unless it is about a boy.", { locale: "en_US" } );
 		result = transitionWordsResearch( mockPaper, new EnglishResearcher( mockPaper ) );
@@ -66,8 +78,8 @@ describe( "a test for finding transition words from a string", function() {
 	} );
 
 	it( "returns 2 when a two-part transition word is found in two sentences. (English)", function() {
-		// Transition words: either...or, if...then.
-		mockPaper = new Paper( "I will either tell you a story, or read you a novel. If you want, then I will.", { locale: "en_US" } );
+		// Transition words: either...or, both...and.
+		mockPaper = new Paper( "I will either tell you a story, or read you a novel. She was both furious and disappointed.", { locale: "en_US" } );
 		result = transitionWordsResearch( mockPaper, new EnglishResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 2 );
 		expect( result.transitionWordSentences ).toBe( 2 );
@@ -75,9 +87,9 @@ describe( "a test for finding transition words from a string", function() {
 
 	it( "returns 2 when a two-part transition word is found in two sentences, " +
 		"and an additional transition word is found in one of them. (English)", function() {
-		// Transition words: either...or, if ...then, as soon as.
+		// Transition words: either...or, both...and, as soon as.
 		mockPaper = new Paper( "I will either tell you a story about a boy, or read you a novel. " +
-			"If you want, then I will start as soon as you're ready.", { locale: "en_US" } );
+			"I can read it to both you and her as soon as you're ready.", { locale: "en_US" } );
 		result = transitionWordsResearch( mockPaper, new EnglishResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 2 );
 		expect( result.transitionWordSentences ).toBe( 2 );
@@ -159,7 +171,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
 
-	/*it( "returns 1 when a transition word is found in a sentence (German)", function() {
+	it( "returns 1 when a transition word is found in a sentence (German)", function() {
 		// Transition word: zuerst.
 		mockPaper = new Paper( "Zuerst werde ich versuchen zu verstehen, warum er so denkt.", { locale: "de_DE" } );
 		result = transitionWordsResearch( mockPaper, new GermanResearcher( mockPaper ) );
@@ -190,8 +202,8 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
-*/
-	/*	it( "returns 1 when a transition word is found in a sentence (French)", function() {
+
+	it( "returns 1 when a transition word is found in a sentence (French)", function() {
 		// Transition word: deuxièmement.
 		mockPaper = new Paper( "Deuxièmement, il convient de reconnaître la complexité des tâches à entreprendre.", { locale: "fr_FR" } );
 		result = transitionWordsResearch( mockPaper, new FrenchResearcher( mockPaper ) );
@@ -205,7 +217,7 @@ describe( "a test for finding transition words from a string", function() {
 		result = transitionWordsResearch( mockPaper, new FrenchResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
-	} );*/
+	} );
 
 	it( "returns 1 when a transition word with an apostrophe is found in a sentence (French)", function() {
 		// Transition word: quoi qu’il en soit.
@@ -215,7 +227,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 
-	/*it( "returns 0 when no transition words are present in a sentence (French)", function() {
+	it( "returns 0 when no transition words are present in a sentence (French)", function() {
 		mockPaper = new Paper( "Une, deux, trois.", { locale: "fr_FR" } );
 		result = transitionWordsResearch( mockPaper, new FrenchResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
@@ -353,8 +365,8 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
-*/
-	/*it( "returns 1 when a transition word with a punt volat (·) is found in a sentence (Catalan)", function() {
+
+	it( "returns 1 when a transition word with a punt volat (·) is found in a sentence (Catalan)", function() {
 		// Transition word: per il·lustrar.
 		mockPaper = new Paper( "Roma proposa un concurs de curtmetratges per il·lustrar com ha de ser la ciutat ideal", { locale: "ca_ES" } );
 		result = transitionWordsResearch( mockPaper, new CatalanResearcher( mockPaper ) );
@@ -442,8 +454,9 @@ describe( "a test for finding transition words from a string", function() {
 		result = transitionWordsResearch( mockPaper, new HungarianResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
-	} );*/
-	/*it( "returns 1 when a three-part transition word is found in a sentence (Hungarian)", function() {
+	} );
+
+	it( "returns 1 when a three-part transition word is found in a sentence (Hungarian)", function() {
 		// Transition word: nemcsak, hanem, is
 		mockPaper = new Paper( "Nemcsak a csokoládét szeretem, hanem a süteményt is.", { locale: "hu_HU" } );
 		result = transitionWordsResearch( mockPaper, new HungarianResearcher( mockPaper ) );
@@ -487,7 +500,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
 
-	it( "returns 1 when a transition word is found in a sentence (Turkish)", function() {
+	it( "returns 1 when a single word transition word is found in a sentence (Turkish)", function() {
 		// Transition word: ama.
 		mockPaper = new Paper( "Ama durum bu olmayabilir.", { locale: "tr_TR" } );
 		result = transitionWordsResearch( mockPaper, new TurkishResearcher( mockPaper ) );
@@ -495,9 +508,17 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 
+	it( "returns 1 when two multiple word transition words are found in a sentence (Turkish)", function() {
+		// Transition words: bir yandan, diğer yandan.
+		mockPaper = new Paper( "Bir yandan bunu hissediyor, diğer yandan içimden geçenlerin hepsinin boş birer hayal olduğunu düşünüyordum.", { locale: "tr_TR" } );
+		result = transitionWordsResearch( mockPaper, new TurkishResearcher( mockPaper ) );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
 	it( "returns 1 when a two-part transition word is found in a sentence (Turkish)", function() {
-		// Transition word: hem, hem de.
-		mockPaper = new Paper( "Hem şapka hem de ceket dolapta.", { locale: "tr_TR" } );
+		// Transition word: olsun, olmasın.
+		mockPaper = new Paper( "Тaşıt koltuklarına takılmış olsun veya olmasın baş yastıkların onayı.", { locale: "tr_TR" } );
 		result = transitionWordsResearch( mockPaper, new TurkishResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
@@ -571,7 +592,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
-*/
+
 	it( "returns 1 when a (multiple) transition word is found in a language that uses a custom" +
 		" match transition word helper (Japanese)", function() {
 		// Transition word: ゆえに (tokenized: [ "ゆえ", "に" ])

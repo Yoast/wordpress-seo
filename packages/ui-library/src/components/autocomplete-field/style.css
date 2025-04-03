@@ -1,5 +1,16 @@
 @layer components {
 	.yst-root {
+		.yst-autocomplete-field--disabled {
+			.yst-autocomplete-field__label,
+			.yst-autocomplete-field__description {
+				@apply yst-opacity-50;
+			}
+
+			.yst-autocomplete-field__label {
+				@apply yst-cursor-not-allowed;
+			}
+		}
+
 		.yst-autocomplete-field__description {
 			@apply yst-mt-2;
 		}

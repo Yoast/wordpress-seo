@@ -39,6 +39,30 @@ const Component = () => {
 
     return <div />;
 };
+~~~
+
+## useKeydown
+The `useKeydown` hook adds and removes a listener to the document' `keydown` event.
+The hook accepts a callback function that is called when the event is triggered.
+The callback function receives the KeyboardEvent as an argument.
+
+### Related
+* https://developer.mozilla.org/en-US/docs/Web/API/Element/keydown_event
+* https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent
+
+### Usage/Examples
+~~~javascript
+import { useKeydown } from from "@yoast/ui-library";
+
+const Component = () => {
+  useKeydown( ( event ) => {
+    if ( event.key === "Escape" ) {
+      console.log( "Escape key pressed" );
+    }
+  }, document );
+
+  return <div/>;
+};
 
 ~~~
 

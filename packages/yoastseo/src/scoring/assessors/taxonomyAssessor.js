@@ -1,4 +1,3 @@
-import { inherits } from "util";
 import Assessor from "./assessor.js";
 import IntroductionKeywordAssessment from "../assessments/seo/IntroductionKeywordAssessment.js";
 import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment.js";
@@ -12,13 +11,14 @@ import PageTitleWidthAssessment from "../assessments/seo/PageTitleWidthAssessmen
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
 import SingleH1Assessment from "../assessments/seo/SingleH1Assessment.js";
 import { createAnchorOpeningTag } from "../../helpers";
+import SEOScoreAggregator from "../scoreAggregators/SEOScoreAggregator";
 
 /**
  * Returns the text length assessment to use.
  *
  * @returns {TextLengthAssessment} The text length assessment (with taxonomy configuration) to use.
  */
-export const getTextLengthAssessment = function() {
+export const getTextLengthAssessment = () => {
 	// Export so it can be used in tests.
 	return new TextLengthAssessment( {
 		recommendedMinimum: 30,
@@ -31,37 +31,38 @@ export const getTextLengthAssessment = function() {
 };
 
 /**
- * Creates the Assessor used for taxonomy pages.
- *
- * @param {Researcher} researcher   The researcher used for the analysis.
- * @param {Object?} options         The options for this assessor.
- * @constructor
+ * The TaxonomyAssessor is used for the assessment of terms.
  */
-const TaxonomyAssessor = function( researcher, options ) {
-	Assessor.call( this, researcher, options );
-	this.type = "taxonomyAssessor";
+export default class TaxonomyAssessor extends Assessor {
+	/**
+	 * Creates a new TaxonomyAssessor instance.
+	 * @param {Researcher}	researcher	The researcher to use.
+	 * @param {Object}		[options]	The assessor options.
+	 */
+	constructor( researcher, options ) {
+		super( researcher, options );
+		this.type = "taxonomyAssessor";
 
-	this._assessments = [
-		new IntroductionKeywordAssessment(),
-		new KeyphraseLengthAssessment(),
-		new KeyphraseDensityAssessment(),
-		new MetaDescriptionKeywordAssessment(),
-		new MetaDescriptionLengthAssessment(),
-		getTextLengthAssessment(),
-		new KeyphraseInSEOTitleAssessment(),
-		new PageTitleWidthAssessment(
-			{
-				scores: {
-					widthTooShort: 9,
-				},
-			}, true
-		),
-		new SlugKeywordAssessment(),
-		new FunctionWordsInKeyphrase(),
-		new SingleH1Assessment(),
-	];
-};
+		this._assessments = [
+			new IntroductionKeywordAssessment(),
+			new KeyphraseLengthAssessment(),
+			new KeyphraseDensityAssessment(),
+			new MetaDescriptionKeywordAssessment(),
+			new MetaDescriptionLengthAssessment(),
+			getTextLengthAssessment(),
+			new KeyphraseInSEOTitleAssessment(),
+			new PageTitleWidthAssessment(
+				{
+					scores: {
+						widthTooShort: 9,
+					},
+				}, true
+			),
+			new SlugKeywordAssessment(),
+			new FunctionWordsInKeyphrase(),
+			new SingleH1Assessment(),
+		];
 
-inherits( TaxonomyAssessor, Assessor );
-
-export default TaxonomyAssessor;
+		this._scoreAggregator = new SEOScoreAggregator();
+	}
+}

@@ -1,19 +1,11 @@
-import passiveAuxiliaries from "../../../../languageProcessing/languages/en/config/internal/passiveVoiceAuxiliaries";
+import { formsOfToBe, negatedFormsOfToBe, formsOfToGet } from "../../../../languageProcessing/languages/en/config/internal/passiveVoiceAuxiliaries";
 import { flatMap } from "lodash";
 
 const intensifiersAndAdverbs = [ "so", "very", "a bit", "really", "pretty", "kind of", "that", "too", "totally", "completely", "absolutely", "even",
 	"also", "as" ];
 const formsOfToDrive = [ "driving", "drive", "drove", "drives", "driven" ];
 const objectPronouns = [ "me", "you", "them", "him", "her", "someone", "somebody", "anyone", "anybody", "everyone", "everybody" ];
-// Remove 'having' and 'what's' from the auxiliaries. We don't want to use them for any rules.
-const formsOfToBeAndToGet = passiveAuxiliaries.slice( 0, -2 );
-/*
- * Move the negated forms ("isn't", "weren't", "wasn't", "aren't") to a separate array "negatedFormsOfToBe".
- * The .splice() method is a mutating method.
- * It means that after invoking this method on "formsOfToBeAndToGet" list, the "formsOfToBeAndToGet" will also be mutated.
- * In this case, the negated forms ("isn't", "weren't", "wasn't", "aren't") will also be removed from the array.
- */
-const negatedFormsOfToBe = formsOfToBeAndToGet.splice( 19, 4 );
+const formsOfToBeAndToGet = formsOfToBe.concat( formsOfToGet );
 
 /**
  * Creates an array of all possible combinations of strings from two arrays.
@@ -40,10 +32,10 @@ export const formsOfToBeWithOptionalIntensifier = combinationsOfToBeAndIntensifi
  * Create an array of strings that should precede the negated version of 'crazy about'.
  * It includes all forms of 'to be/to get', followed by 'not/'nt' and an optional intensifier or specific adverb (e.g., 'is not', 'aren't even').
  */
-let formsOfToBeNot = flatMap( formsOfToBeAndToGet, verbTobe => `${verbTobe} not` );
-formsOfToBeNot = formsOfToBeNot.concat( negatedFormsOfToBe );
-const combinationsOfToBeNotAndIntensifier = createCombinationsFromTwoArrays( formsOfToBeNot, intensifiersAndAdverbs );
-export const formsOfToBeNotWithOptionalIntensifier = combinationsOfToBeNotAndIntensifier.concat( formsOfToBeNot );
+let negatedFormsOfToBeAndToGet = flatMap( formsOfToBeAndToGet, verb => `${verb} not` );
+negatedFormsOfToBeAndToGet = negatedFormsOfToBeAndToGet.concat( negatedFormsOfToBe );
+const combinationsOfToBeNotAndIntensifier = createCombinationsFromTwoArrays( negatedFormsOfToBeAndToGet, intensifiersAndAdverbs );
+export const formsOfToBeNotWithOptionalIntensifier = combinationsOfToBeNotAndIntensifier.concat( negatedFormsOfToBeAndToGet );
 
 /*
  * Create an array of strings that should precede 'OCD'.

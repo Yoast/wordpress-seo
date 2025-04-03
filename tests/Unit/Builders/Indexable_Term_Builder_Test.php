@@ -34,7 +34,7 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	/**
 	 * The options being mocked.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected $mocked_options = [ 'wpseo', 'wpseo_titles', 'wpseo_social', 'wpseo_ms' ];
 

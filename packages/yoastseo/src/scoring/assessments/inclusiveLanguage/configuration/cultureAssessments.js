@@ -9,8 +9,9 @@ import {
 	orangeUnlessAnimalsObjects,
 } from "./feedbackStrings/generalFeedbackStrings";
 import {
-	orangeUnlessCultureOfOrigin,
+	orangeUnlessCultureOfOrigin, orangeUnlessCultureUsesTerm,
 } from "./feedbackStrings/cultureAssessmentStrings";
+import { notFollowed } from "../helpers/createRuleDescriptions";
 
 const cultureAssessments = [
 	{
@@ -22,6 +23,7 @@ const cultureAssessments = [
 		caseSensitive: true,
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "War", "war", "Assembly", "assembly" ] ) ),
+		ruleDescription: notFollowed( [ "War", "war", "Assembly", "assembly" ] ),
 	},
 	{
 		identifier: "thirdWorld",
@@ -32,40 +34,40 @@ const cultureAssessments = [
 		caseSensitive: true,
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "War", "war", "Quarterly", "quarterly", "country" ] ) ),
+		ruleDescription: notFollowed( [ "War", "war", "Quarterly", "quarterly", "country" ] ),
 	},
 	{
 		identifier: "tribe",
 		nonInclusivePhrases: [ "tribe" ],
 		inclusiveAlternatives: "<i>group, cohort, crew, league, guild, team, union</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		/*
-		 * Replace 'the culture in which this term originated' with 'a culture that uses this term' in the 'unless you are
-		 * referring to...' part of the orangeUnlessCultureOfOrigin string.
-		 */
-		feedbackFormat: orangeUnlessCultureOfOrigin.slice( 0, -42 ) + "a culture that uses this term.",
+		feedbackFormat: orangeUnlessCultureUsesTerm,
 	},
 	{
 		identifier: "tribes",
 		nonInclusivePhrases: [ "tribes" ],
 		inclusiveAlternatives: "<i>groups, cohorts, crews, leagues, guilds, teams, unions</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		/*
-		 * Replace 'the culture in which this term originated' with 'a culture that uses this term' in the 'unless you are
-		 * referring to...' part of the orangeUnlessCultureOfOrigin string.
-		 */
-		feedbackFormat: orangeUnlessCultureOfOrigin.slice( 0, -42 ) + "a culture that uses this term.",
+		feedbackFormat: orangeUnlessCultureUsesTerm,
 	},
 	{
 		identifier: "exotic",
 		nonInclusivePhrases: [ "exotic" ],
 		inclusiveAlternatives: "<i>unfamiliar, foreign, peculiar, fascinating, alluring, bizarre, non-native, introduced</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: beCarefulHarmful + " Unless you are referring to animals, " +
+		feedbackFormat: beCarefulHarmful + " Unless you are referring to animals or scientific terms, " +
 			"consider using an alternative, such as %2$s.",
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "longhair", "longhairs", "shorthair", "shorthairs" ] ) );
+				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "longhair", "longhairs", "shorthair", "shorthairs",
+					"bloom", "blooms", "species", "florals", "botanical", "botanicals", "leather", "leathers", "material",
+					"materials", "timber", "timbers", "composite", "composites", "atom", "atoms", "molecule", "molecules",
+					"hadron", "hadrons", "sphere", "spheres", "star", "stars", "car", "cars", "sports car", "sports cars" ] ) );
 		},
+		ruleDescription: notFollowed( [ "longhair", "longhairs", "shorthair", "shorthairs",
+			"bloom", "blooms", "species", "florals", "botanical", "botanicals", "leather", "leathers", "material",
+			"materials", "timber", "timbers", "composite", "composites", "atom", "atoms", "molecule", "molecules",
+			"hadron", "hadrons", "sphere", "spheres", "star", "stars", "car", "cars", "sports car", "sports cars" ] ),
 	},
 	{
 		identifier: "sherpa",

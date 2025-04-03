@@ -10,6 +10,7 @@ import { useDescribedBy } from "../../hooks";
  * @param {Object} validation The validation state.
  * @param {string} [className] Optional CSS class.
  * @param {string} label Label.
+ * @param {Boolean} [disabled] Disabled state.
  * @param {JSX.node} [description] Optional description.
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} AutocompleteField component.
@@ -17,6 +18,7 @@ import { useDescribedBy } from "../../hooks";
 const AutocompleteField = forwardRef( ( {
 	id,
 	label,
+	disabled,
 	description,
 	validation,
 	className,
@@ -25,7 +27,7 @@ const AutocompleteField = forwardRef( ( {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
 
 	return (
-		<div className={ classNames( "yst-autocomplete-field", className ) }>
+		<div className={ classNames( "yst-autocomplete-field", disabled && "yst-autocomplete-field--disabled", className ) }>
 			<Autocomplete
 				ref={ ref }
 				id={ id }
@@ -37,6 +39,7 @@ const AutocompleteField = forwardRef( ( {
 				validation={ validation }
 				className="yst-autocomplete-field__select"
 				buttonProps={ { "aria-describedby": describedBy } }
+				disabled={ disabled }
 				{ ...props }
 			/>
 			{ validation?.message && (
@@ -55,6 +58,7 @@ AutocompleteField.displayName = "AutocompleteField";
 AutocompleteField.propTypes = {
 	id: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
+	disabled: PropTypes.bool,
 	description: PropTypes.node,
 	validation: PropTypes.shape( {
 		variant: PropTypes.string,
@@ -63,6 +67,7 @@ AutocompleteField.propTypes = {
 	className: PropTypes.string,
 };
 AutocompleteField.defaultProps = {
+	disabled: false,
 	description: null,
 	validation: {},
 	className: "",

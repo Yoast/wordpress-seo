@@ -12,7 +12,7 @@ exports[`AiGenerateTitlesAndDescriptionsUpsell renders the component correctly f
         class="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white"
       >
         <div
-          class="yst-absolute yst-w-full yst-h-full yst-top-0 yst-left-0"
+          class="yst-absolute yst-w-full yst-h-full yst-top-0 yst-right-0"
         >
           <div
             class="wistia_embed wistia_async_vmrahpfjxp videoFoam=true"
@@ -20,7 +20,7 @@ exports[`AiGenerateTitlesAndDescriptionsUpsell renders the component correctly f
         </div>
       </div>
       <span
-        class="yst-badge yst-badge--info yst-absolute yst-top-0 yst-right-2 yst-mt-2 yst-ml-2"
+        class="yst-badge yst-badge--info yst-absolute yst-top-2 yst-end-4"
       >
         Beta
       </span>
@@ -86,12 +86,14 @@ exports[`AiGenerateTitlesAndDescriptionsUpsell renders the component correctly f
     >
       <a
         class="yst-button yst-button--upsell yst-button--extra-large yst-grow"
+        data-action="load-nfd-ctb"
+        data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
         href="https://example.com/upsell"
         target="_blank"
       >
         <svg
           aria-hidden="true"
-          class="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5"
+          class="yst--ms-1 yst-me-2 yst-h-5 yst-w-5"
           fill="none"
           stroke="currentColor"
           stroke-width="2"
@@ -134,7 +136,7 @@ exports[`AiGenerateTitlesAndDescriptionsUpsell renders the component correctly f
         class="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white"
       >
         <div
-          class="yst-absolute yst-w-full yst-h-full yst-top-0 yst-left-0"
+          class="yst-absolute yst-w-full yst-h-full yst-top-0 yst-right-0"
         >
           <div
             class="wistia_embed wistia_async_vmrahpfjxp videoFoam=true"
@@ -142,7 +144,7 @@ exports[`AiGenerateTitlesAndDescriptionsUpsell renders the component correctly f
         </div>
       </div>
       <span
-        class="yst-badge yst-badge--info yst-absolute yst-top-0 yst-right-2 yst-mt-2 yst-ml-2"
+        class="yst-badge yst-badge--info yst-absolute yst-top-2 yst-end-4"
       >
         Beta
       </span>
@@ -208,12 +210,14 @@ exports[`AiGenerateTitlesAndDescriptionsUpsell renders the component correctly f
     >
       <a
         class="yst-button yst-button--upsell yst-button--extra-large yst-grow"
+        data-action="load-nfd-ctb"
+        data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
         href="https://example.com/upsell"
         target="_blank"
       >
         <svg
           aria-hidden="true"
-          class="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5"
+          class="yst--ms-1 yst-me-2 yst-h-5 yst-w-5"
           fill="none"
           stroke="currentColor"
           stroke-width="2"

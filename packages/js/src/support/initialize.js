@@ -20,6 +20,7 @@ domReady( () => {
 		initialState: {
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
 			[ PREFERENCES_NAME ]: get( window, "wpseoScriptData.preferences", {} ),
+			currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
 		},
 	} );
 	fixWordPressMenuScrolling();

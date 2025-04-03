@@ -5,6 +5,7 @@ import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
+import { nonInclusiveWhenStandalone, notPrecededAndNotFollowed } from "../helpers/createRuleDescriptions";
 
 const ageAssessments = [
 	{
@@ -60,6 +61,8 @@ const ageAssessments = [
 				.filter( isNotPrecededByException( words, [ "high school", "college", "graduating", "juniors and" ] ) )
 				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "in high school", "in college", "who are graduating" ] ) );
 		},
+		ruleDescription: notPrecededAndNotFollowed( [ "high school", "college", "graduating", "juniors and" ],
+			[ "in high school", "in college", "who are graduating" ] ),
 	},
 	{
 		identifier: "theAged",
@@ -71,6 +74,7 @@ const ageAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
+		ruleDescription: nonInclusiveWhenStandalone,
 	},
 ];
 

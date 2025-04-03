@@ -7,7 +7,7 @@
  * @returns {Object} Mocked image class that always loads successfully.
  */
 export function createSuccessfulImage( width, height ) {
-	/* eslint-disable require-jsdoc */
+	/* eslint-disable jsdoc/require-jsdoc */
 	class MockedImage {
 		get src() {
 			return this._src;
@@ -23,7 +23,7 @@ export function createSuccessfulImage( width, height ) {
 			}
 		}
 	}
-	/* eslint-enable require-jsdoc */
+	/* eslint-enable */
 
 	return MockedImage;
 }
@@ -37,7 +37,7 @@ export function createSuccessfulImage( width, height ) {
  * @returns {Object} Mocked image class that always fails to load.
  */
 export function createFailingImage() {
-	/* eslint-disable require-jsdoc */
+	/* eslint-disable jsdoc/require-jsdoc */
 	class MockedImage {
 		get src() {
 			return this._src;
@@ -51,7 +51,7 @@ export function createFailingImage() {
 			}
 		}
 	}
-	/* eslint-enable require-jsdoc */
+	/* eslint-enable */
 
 	return MockedImage;
 }

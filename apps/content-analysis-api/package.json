@@ -3,11 +3,11 @@
     "version": "0.1.0",
     "main": "index.js",
     "scripts": {
-        "postinstall": "yarn --cwd node_modules/yoastseo build",
-        "start": "node index.js"
+        "postinstall": "yarn --cwd node_modules/yoastseo build && yarn --cwd node_modules/yoastseo pretest",
+        "start": "node --watch index.js"
     },
     "dependencies": {
-        "express": "^4.19.2",
+        "express": "^5.0.1",
         "yoastseo": "link:../../packages/yoastseo"
     }
 }

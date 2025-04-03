@@ -251,7 +251,7 @@ final class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * Provides data for the generate test.
 	 *
-	 * @return array<array<string,int>> The data to use.
+	 * @return array<string, array<string, string|int>> The data to use.
 	 */
 	public static function generate_provider() {
 		return [
@@ -351,7 +351,7 @@ final class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * Provides data to test_with_date_archive.
 	 *
-	 * @return array<array<string,int,string[]>> Test data to use.
+	 * @return array<string, array<string, string|int|array<string[]>>> Test data to use.
 	 */
 	public static function date_archive_provider() {
 		return [

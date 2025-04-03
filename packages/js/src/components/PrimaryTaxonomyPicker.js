@@ -244,7 +244,7 @@ class PrimaryTaxonomyPicker extends Component {
 					id={ fieldId }
 					terms={ this.state.selectedTerms }
 				/>
-				<ExternalLink href={ learnMoreLink }>
+				<ExternalLink className="yst-inline-block yst-mt-2" href={ learnMoreLink }>
 					{ __( "Learn more", "wordpress-seo" ) }
 					<span className="screen-reader-text">
 						{ __( "Learn more about the primary category.", "wordpress-seo" ) }

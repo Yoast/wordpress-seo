@@ -44,6 +44,7 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 		$model->type = SEO_Links::TYPE_INTERNAL_IMAGE;
 
 		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
+		$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [ 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5' => 2 ] );
 
 		Functions\stubs(
 			[
@@ -122,6 +123,7 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 		$model->target_post_id = 2;
 
 		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
+		$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [ 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5' => 2 ] );
 
 		// Executed in build->create_links->create_internal_link.
 		Functions\stubs(
@@ -154,12 +156,6 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 
 		// Executed in build->create_links->create_internal_link.
 		$this->expect_seo_links_repository_query_create( $indexable, $model );
-
-		// Executed in build->create_links->create_internal_link->WPSEO_Image_Utils::get_attachment_by_url.
-		Functions\expect( 'wp_get_upload_dir' )
-			->with( 'http://basic.wordpress.test/wp-content/uploads' )
-			->once()
-			->andReturn( [ 'baseurl' => 'http://basic.wordpress.test/wp-content/uploads' ] );
 
 		$this->expect_build_permalink( 'http://basic.wordpress.test' );
 
@@ -203,6 +199,7 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 		$model->width          = null;
 
 		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
+		$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [ 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5' => 2 ] );
 
 		// Executed in build->create_links->create_internal_link.
 		Functions\stubs(
@@ -268,6 +265,7 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 		$model->target_post_id = 3;
 
 		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
+		$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [ 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5' => 2 ] );
 
 		Functions\stubs(
 			[
@@ -348,6 +346,7 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 		$model->target_post_id = 2;
 
 		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
+		$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [ 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5' => 2 ] );
 
 		Functions\stubs(
 			[

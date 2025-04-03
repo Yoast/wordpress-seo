@@ -25,8 +25,11 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const aiFixesId = id + "AIFixes";
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const activeAIButtonId = useSelect( select => select( "yoast-seo/editor" ).getActiveAIFixesButton(), [] );
-	const activeMarker = useSelect( select => select( "yoast-seo/editor" ).getActiveMarker(), [] );
+	const { activeMarker, editorMode, activeAIButtonId } = useSelect( ( select ) => ( {
+		activeMarker: select( "yoast-seo/editor" ).getActiveMarker(),
+		editorMode: select( "core/edit-post" ).getEditorMode(),
+		activeAIButtonId: select( "yoast-seo/editor" ).getActiveAIFixesButton(),
+	} ), [] );
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
@@ -58,7 +61,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			};
 		}
 
-		const editorMode = select( "core/edit-post" ).getEditorMode();
 		if ( editorMode !== "visual" ) {
 			return {
 				isEnabled: false,
@@ -72,7 +74,7 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			isEnabled: allVisual,
 			ariaLabel: allVisual ? defaultLabel : htmlLabel,
 		};
-	}, [ isButtonPressed, activeAIButtonId ] );
+	}, [ isButtonPressed, activeAIButtonId, editorMode ] );
 
 	/**
 	 * Handles the button press state.
@@ -102,7 +104,6 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			 */
 			setMarkerStatus( "disabled" );
 		}
-
 		// Dismiss the tooltip when the button is pressed.
 		setButtonClass( "" );
 	};

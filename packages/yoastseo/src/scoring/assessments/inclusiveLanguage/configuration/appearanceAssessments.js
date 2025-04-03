@@ -5,6 +5,7 @@ import { redHarmful,
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
+import { nonInclusiveWhenStandalone } from "../helpers/createRuleDescriptions";
 
 const appearanceAssessments = [
 	{
@@ -24,6 +25,7 @@ const appearanceAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
+		ruleDescription: nonInclusiveWhenStandalone,
 	},
 	{
 		identifier: "obese",

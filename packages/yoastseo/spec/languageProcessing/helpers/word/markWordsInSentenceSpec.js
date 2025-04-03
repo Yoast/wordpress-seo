@@ -166,7 +166,7 @@ describe( "Adds Yoast marks to specific words in a sentence for languages with c
 			new Mark( {
 				marked: "<yoastmark class='yoast-text-mark'>小さい花の刺繍</yoastmark>しかし、それは在庫切れでしたマキシドレス。",
 				original: "小さい花の刺繍しかし、それは在庫切れでしたマキシドレス。" } ),
-		 ]
+		]
 		);
 	} );
 

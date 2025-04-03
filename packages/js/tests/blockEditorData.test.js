@@ -3,7 +3,6 @@ global.jQuery = {};
 
 import BlockEditorData from "../src/analysis/blockEditorData.js";
 
-// eslint-disable-next-line require-jsdoc
 const refresh = () => {
 	return true;
 };
@@ -42,7 +41,6 @@ const data = new BlockEditorData( refresh, store );
 
 describe( "setRefresh", () => {
 	it( "sets the refresh function", () => {
-		// eslint-disable-next-line require-jsdoc
 		const expected = () => {
 			return "refresh";
 		};

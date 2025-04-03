@@ -26,7 +26,8 @@ final class Get_Permalink_Test extends Abstract_Indexable_Link_Builder_TestCase 
 			$this->url_helper,
 			$this->post_helper,
 			$this->options_helper,
-			$this->indexable_helper
+			$this->indexable_helper,
+			$this->image_content_extractor
 		);
 
 		$this->instance->set_dependencies( $this->indexable_repository, $this->image_helper );
@@ -35,7 +36,7 @@ final class Get_Permalink_Test extends Abstract_Indexable_Link_Builder_TestCase 
 	/**
 	 * Data provider for test_get_permalink.
 	 *
-	 * @return array
+	 * @return array<string, array<string, string|array<string, string>>>
 	 */
 	public static function data_provider_get_permalink() {
 		return [
@@ -94,10 +95,10 @@ final class Get_Permalink_Test extends Abstract_Indexable_Link_Builder_TestCase 
 	 *
 	 * @dataProvider data_provider_get_permalink
 	 *
-	 * @param string $link           The link to test.
-	 * @param array  $home_url       The home URL schema and host.
-	 * @param string $set_url_scheme The URL scheme.
-	 * @param string $expected       The expected permalink.
+	 * @param string                $link           The link to test.
+	 * @param array<string, string> $home_url       The home URL schema and host.
+	 * @param string                $set_url_scheme The URL scheme.
+	 * @param string                $expected       The expected permalink.
 	 *
 	 * @return void
 	 */

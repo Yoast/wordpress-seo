@@ -1,5 +1,10 @@
 import { dirname, join } from "path";
 
+/**
+ * Get the absolute path of an installed package.
+ * @param {string} value The package name.
+ * @returns {string} The absolute path to the package.
+ */
 function getAbsolutePath( value ) {
 	return dirname( require.resolve( join( value, "package.json" ) ) );
 }

@@ -114,13 +114,13 @@ const expectedResults = {
 		isApplicable: true,
 		score: 3,
 		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: " +
-			"1 of the paragraphs contains more than the recommended maximum of 150 words." +
+			"1 of the paragraphs contains more than the recommended maximum number of words (150)." +
 			" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 66.7% of the sentences contain more than 15 words," +
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 78.9% of the sentences contain more than 15 words," +
 			" which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {

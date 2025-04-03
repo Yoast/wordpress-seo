@@ -1,4 +1,4 @@
-/* eslint-disable max-statements,complexity */
+/* eslint-disable complexity */
 /*
  * The MIT License (MIT)
  *

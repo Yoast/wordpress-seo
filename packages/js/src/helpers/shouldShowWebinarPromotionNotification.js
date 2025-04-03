@@ -26,8 +26,8 @@ const shouldShowWebinarPromotionNotificationInDashboard = ( store = "yoast-seo/e
 	 * @returns {boolean} Whether the Webinar promotion should be shown.
 	 */
 const shouldShowWebinarPromotionNotificationInSidebar = ( store = "yoast-seo/editor" ) => {
-	const isBlackFridayPromotionActive = select( store ).isPromotionActive( "black-friday-2023-promotion" );
-	const isBlackFridayPromotionAlertDismissed = select( store ).isAlertDismissed( "black-friday-2023-promotion" );
+	const isBlackFridayPromotionActive = select( store ).isPromotionActive( "black-friday-2024-promotion" );
+	const isBlackFridayPromotionAlertDismissed = select( store ).isAlertDismissed( "black-friday-2024-promotion" );
 
 	if ( isBlackFridayPromotionActive ) {
 		return isBlackFridayPromotionAlertDismissed;

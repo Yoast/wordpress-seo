@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /**
  * WordPress dependencies
  */
@@ -169,6 +170,7 @@ export const link = {
 								activeAttributes={ activeAttributes }
 								value={ value }
 								onChange={ onChange }
+								contentRef={ this.props.contentRef }
 							/>
 						) }
 					</Fragment>

@@ -12,6 +12,8 @@ use Yoast\WP\SEO\Helpers\Product_Helper;
  */
 class Inclusive_Language_Analysis implements Analysis_Feature_Interface {
 
+	public const NAME = 'inclusiveLanguageAnalysis';
+
 	/**
 	 * The options helper.
 	 *
@@ -102,7 +104,7 @@ class Inclusive_Language_Analysis implements Analysis_Feature_Interface {
 	 * @return string The name.
 	 */
 	public function get_name(): string {
-		return 'inclusiveLanguageAnalysis';
+		return self::NAME;
 	}
 
 	/**

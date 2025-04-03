@@ -1,5 +1,4 @@
 /* global ajaxurl */
-
 import { __ } from "@wordpress/i18n";
 import { debounce } from "lodash";
 
@@ -77,7 +76,7 @@ export default function initAdmin( jQuery ) {
 	 *
 	 * @returns {void}
 	 */
-	 function setInitialActiveTab() {
+	function setInitialActiveTab() {
 		var activeTabId = window.location.hash.replace( "#top#", "" );
 		/* In some cases, the second # gets replace by %23, which makes the tab
 		 * switching not work unless we do this. */
@@ -108,7 +107,7 @@ export default function initAdmin( jQuery ) {
 	jQuery( window ).on( "hashchange", function() {
 		setInitialActiveTab();
 		wpseoSetTabHash();
-	 } );
+	} );
 
 	/**
 	 * Hides or shows the Author without posts toggle.
@@ -216,10 +215,8 @@ export default function initAdmin( jQuery ) {
 
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
-	// eslint-disable-next-line
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
-	// eslint-disable-next-line
 	jQuery( document ).ready( function() {
 		/**
 		 * When the hash changes, get the base url from the action and then add the current hash.

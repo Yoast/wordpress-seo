@@ -8,6 +8,7 @@ on:
       - packages/e2e-tests/**
       - packages/helpers/**
       - packages/style-guide/**
+      - packages/eslint-config-yoast/**
 
 # Cancels all previous workflow runs for the same branch that have not yet completed.
 concurrency:
@@ -25,7 +26,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Place a comment on the PR
-        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
+        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b # v3.0.1
         with:
           message: |
             @${{ github.actor }} Please be aware that following packages have been abandoned and are not actively maintained anymore:
@@ -37,6 +38,7 @@ jobs:
             | @yoast/helpers | [packages/helpers](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/helpers) |
             | @yoast/jest-preset | [packages/jest-preset](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/jest-preset) |
             | @yoast/style-guide | [packages/style-guide](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/style-guide) |
+            | eslint-config-yoast | [packages/esling-config-yoast](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/eslint-config-yoast) |
 
             Please consider using [the other packages](https://github.com/Yoast/wordpress-seo/tree/trunk/packages) instead.
           comment_tag: deprecation-check

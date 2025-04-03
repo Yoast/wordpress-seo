@@ -8,6 +8,8 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
  * Unit Test Class.
+ *
+ * @covers WPSEO_Term_Metabox_Formatter
  */
 final class Term_Metabox_Formatter_Test extends TestCase {
 
@@ -40,9 +42,6 @@ final class Term_Metabox_Formatter_Test extends TestCase {
 	/**
 	 * Test the formatter without a term, taxonomy and options.
 	 *
-	 * @covers WPSEO_Term_Metabox_Formatter::__construct
-	 * @covers WPSEO_Term_Metabox_Formatter::get_values
-	 *
 	 * @return void
 	 */
 	public function test_no_taxonomy_no_term_and_no_options() {
@@ -56,15 +55,6 @@ final class Term_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Test the formatter when there is a taxonomy and term object and without any options.
-	 *
-	 * @covers WPSEO_Term_Metabox_Formatter::get_values
-	 * @covers WPSEO_Term_Metabox_Formatter::search_url
-	 * @covers WPSEO_Term_Metabox_Formatter::edit_url
-	 * @covers WPSEO_Term_Metabox_Formatter::base_url_for_js
-	 * @covers WPSEO_Term_Metabox_Formatter::get_focus_keyword_usage
-	 * @covers WPSEO_Term_Metabox_Formatter::get_title_template
-	 * @covers WPSEO_Term_Metabox_Formatter::get_metadesc_template
-	 * @covers WPSEO_Term_Metabox_Formatter::get_template
 	 *
 	 * @return void
 	 */
@@ -84,10 +74,6 @@ final class Term_Metabox_Formatter_Test extends TestCase {
 	/**
 	 * Test the formatter when there is a taxonomy and term object and without any options.
 	 *
-	 * @covers WPSEO_Term_Metabox_Formatter::get_title_template
-	 * @covers WPSEO_Term_Metabox_Formatter::get_metadesc_template
-	 * @covers WPSEO_Term_Metabox_Formatter::get_template
-	 *
 	 * @return void
 	 */
 	public function test_with_taxonomy_term_and_options() {
@@ -103,10 +89,6 @@ final class Term_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Test the formatter when there is a taxonomy and term object and without any options.
-	 *
-	 * @covers WPSEO_Term_Metabox_Formatter::get_title_template
-	 * @covers WPSEO_Term_Metabox_Formatter::get_metadesc_template
-	 * @covers WPSEO_Term_Metabox_Formatter::get_template
 	 *
 	 * @return void
 	 */

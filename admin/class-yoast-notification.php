@@ -115,7 +115,7 @@ class Yoast_Notification {
 	 * @deprecated 21.6
 	 * @codeCoverageIgnore
 	 *
-	 * @return WP_User The user to show this notification for.
+	 * @return WP_User|null The user to show this notification for.
 	 */
 	public function get_user() {
 		_deprecated_function( __METHOD__, 'Yoast SEO 21.6' );
@@ -356,6 +356,15 @@ class Yoast_Notification {
 	}
 
 	/**
+	 * Get the message for the notification.
+	 *
+	 * @return string The message.
+	 */
+	public function get_message() {
+		return wpautop( $this->message );
+	}
+
+	/**
 	 * Wraps the message with a Yoast SEO icon.
 	 *
 	 * @param string $message The message to wrap.
@@ -379,7 +388,7 @@ class Yoast_Notification {
 	/**
 	 * Get the JSON if provided.
 	 *
-	 * @return false|string
+	 * @return string|false
 	 */
 	public function get_json() {
 		if ( empty( $this->options['data_json'] ) ) {

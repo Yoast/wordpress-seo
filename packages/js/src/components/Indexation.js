@@ -338,7 +338,7 @@ class Indexation extends Component {
 				value={ this.state.processed }
 			/>
 			<p style={ { color: colors.$palette_grey_text } }>
-				{ __( "Optimizing SEO data... This may take a while.", "wordpress-seo" ) }
+				{ __( "Optimizing SEO data… This may take a while.", "wordpress-seo" ) }
 			</p>
 		</Fragment>;
 	}

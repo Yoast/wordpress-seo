@@ -185,13 +185,13 @@ describe( "A test for content assessor for English", function() {
 			expect( assessments.length ).toBe( expected );
 			expect( assessments.map( ( { identifier } ) => identifier ) ).toEqual(
 				[
-					"subheadingsTooLong",
 					"textParagraphTooLong",
-					"textSentenceLength",
 					"textTransitionWords",
 					"passiveVoice",
 					"textPresence",
 					"sentenceBeginnings",
+					"subheadingsTooLong",
+					"textSentenceLength",
 					"wordComplexity",
 				]
 			);
@@ -323,10 +323,10 @@ describe( "calculateOverallScore for non-English that uses Default researcher", 
 			expect( assessments.length ).toBe( expected );
 			expect( assessments.map( ( { identifier } ) => identifier ) ).toEqual(
 				[
-					"subheadingsTooLong",
 					"textParagraphTooLong",
-					"textSentenceLength",
 					"textPresence",
+					"subheadingsTooLong",
+					"textSentenceLength",
 				]
 			);
 		} );

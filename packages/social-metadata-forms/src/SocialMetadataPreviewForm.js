@@ -51,9 +51,9 @@ const Caret = styled.div`
 		height: 24px;
 		background-image: url(
 		${ props => getDirectionalStyle(
-		angleRight( getCaretColor( props.isActive ) ),
-		angleLeft( getCaretColor( props.isActive ) )
-	) }
+			angleRight( getCaretColor( props.isActive ) ),
+			angleLeft( getCaretColor( props.isActive ) )
+		) }
 		);
 		color: ${ props => getCaretColor( props.isActive ) };
 		background-size: 24px;
@@ -218,6 +218,7 @@ class SocialMetadataPreviewForm extends Component {
 			recommendedReplacementVariables,
 			imageWarnings,
 			imageUrl,
+			imageFallbackUrl,
 			imageAltText,
 			idSuffix,
 		} = this.props;
@@ -243,6 +244,7 @@ class SocialMetadataPreviewForm extends Component {
 					isActive={ activeField === "image" }
 					isHovered={ hoveredField === "image" }
 					imageUrl={ imageUrl }
+					usingFallback={ ! imageUrl && imageFallbackUrl !== "" }
 					imageAltText={ imageAltText }
 					hasPreview={ ! isPremium }
 					imageUrlInputId={ join( [ lowerCaseSocialMediumName, "url-input", idSuffix ] ) }
@@ -311,6 +313,7 @@ SocialMetadataPreviewForm.propTypes = {
 	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
 	imageWarnings: PropTypes.array,
 	imageUrl: PropTypes.string,
+	imageFallbackUrl: PropTypes.string,
 	imageAltText: PropTypes.string,
 	titleInputPlaceholder: PropTypes.string,
 	descriptionInputPlaceholder: PropTypes.string,
@@ -328,6 +331,7 @@ SocialMetadataPreviewForm.defaultProps = {
 	onSelect: () => {},
 	onReplacementVariableSearchChange: null,
 	imageUrl: "",
+	imageFallbackUrl: "",
 	imageAltText: "",
 	titleInputPlaceholder: "",
 	descriptionInputPlaceholder: "",

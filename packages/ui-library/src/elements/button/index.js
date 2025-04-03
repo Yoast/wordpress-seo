@@ -57,7 +57,7 @@ const Button = forwardRef( ( {
 		) }
 		{ ...props }
 	>
-		{ isLoading && <Spinner size={ size === "small" ? "3" : "4" } className="yst--ml-1 yst-mr-2" /> }
+		{ isLoading && <Spinner size={ size === "small" ? "3" : "4" } className="yst-button--loading" /> }
 		{ children }
 	</Component>
 ) );

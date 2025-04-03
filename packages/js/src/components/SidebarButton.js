@@ -22,10 +22,10 @@ const SidebarButton = ( props ) => {
 					style={ { fill: `${ props.prefixIcon && props.prefixIcon.color || "" }` } }
 				>
 					{
-						 <SvgIcon
+						<SvgIcon
 							size={ props.prefixIcon.size }
 							icon={ props.prefixIcon.icon }
-						 />
+						/>
 					}
 				</span> ) }
 

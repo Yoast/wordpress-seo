@@ -421,7 +421,7 @@ final class Settings_Integration_Test extends TestCase {
 	/**
 	 * Data provider for test_get_defaults_from_local_seo.
 	 *
-	 * @return array<string,array<string,bool,int>>
+	 * @return array<string, array<string, string|bool|int|array<string, array<string, string>>>>
 	 */
 	public static function data_provider_get_defaults_from_local_seo() {
 		$shared_info_expected = [

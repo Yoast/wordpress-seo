@@ -32,7 +32,6 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 	const { onClose, initialFocus } = useModalContext();
 
 	const learnMoreLinkStructure = {
-		// eslint-disable-next-line jsx-a11y/anchor-has-content
 		a: <OutboundLink
 			href={ learnMoreLink }
 			className="yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
@@ -50,7 +49,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 						thumbnail={ thumbnail }
 						wistiaEmbedPermission={ wistiaEmbedPermission }
 					/>
-					<Badge className="yst-absolute yst-top-0 yst-right-2 yst-mt-2 yst-ml-2" variant="info">Beta</Badge>
+					<Badge className="yst-absolute yst-top-2 yst-end-4" variant="info">Beta</Badge>
 				</div>
 				<div className="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center">
 					<span className="yst-introduction-modal-uppercase yst-flex yst-gap-2 yst-items-center">
@@ -103,9 +102,11 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 						variant="upsell"
 						href={ upsellLink }
 						target="_blank"
+						data-action="load-nfd-ctb"
+						data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
 						ref={ initialFocus }
 					>
-						<LockOpenIcon className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5" />
+						<LockOpenIcon className="yst--ms-1 yst-me-2 yst-h-5 yst-w-5" />
 						{ upsellLabel }
 						<span className="yst-sr-only">
 							{

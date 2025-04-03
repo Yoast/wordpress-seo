@@ -15,8 +15,10 @@ const MultipleKeywords = ( props ) => (
 		title={ __( "Reach a wider audience", "wordpress-seo" ) }
 		description={ __( "Get help optimizing for up to 5 related keyphrases. This helps you reach a wider audience and get more traffic.", "wordpress-seo" ) }
 		benefitsTitle={
-			/* translators: %s expands to 'Yoast SEO Premium'. */
-			sprintf( "%s also gives you:", "Yoast SEO Premium" )
+			sprintf(
+				/* translators: %s expands to 'Yoast SEO Premium'. */
+				__( "%s also gives you:", "wordpress-seo" ),
+				"Yoast SEO Premium" )
 		}
 		benefits={ getPremiumBenefits() }
 		upsellButtonText={

@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Editors\Framework\Site;
 
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
@@ -17,47 +18,41 @@ class Post_Site_Information extends Base_Site_Information {
 	/**
 	 * The permalink.
 	 *
-	 * @var string $permalink
+	 * @var string
 	 */
 	private $permalink;
 
 	/**
 	 * The alert dismissal action.
 	 *
-	 * @var Alert_Dismissal_Action $alert_dismissal_action
+	 * @var Alert_Dismissal_Action
 	 */
 	private $alert_dismissal_action;
 
 	/**
-	 * The promotion manager.
-	 *
-	 * @var Promotion_Manager $promotion_manager
-	 */
-	private $promotion_manager;
-
-	/**
 	 * Constructs the class.
 	 *
-	 * @param Promotion_Manager                  $promotion_manager                  The promotion manager.
 	 * @param Short_Link_Helper                  $short_link_helper                  The short link helper.
 	 * @param Wistia_Embed_Permission_Repository $wistia_embed_permission_repository The wistia embed permission
 	 *                                                                               repository.
 	 * @param Meta_Surface                       $meta                               The meta surface.
 	 * @param Product_Helper                     $product_helper                     The product helper.
 	 * @param Alert_Dismissal_Action             $alert_dismissal_action             The alert dismissal action.
+	 * @param Options_Helper                     $options_helper                     The options helper.
+	 * @param Promotion_Manager                  $promotion_manager                  The promotion manager.
 	 *
 	 * @return void
 	 */
 	public function __construct(
-		Promotion_Manager $promotion_manager,
 		Short_Link_Helper $short_link_helper,
 		Wistia_Embed_Permission_Repository $wistia_embed_permission_repository,
 		Meta_Surface $meta,
 		Product_Helper $product_helper,
-		Alert_Dismissal_Action $alert_dismissal_action
+		Alert_Dismissal_Action $alert_dismissal_action,
+		Options_Helper $options_helper,
+		Promotion_Manager $promotion_manager
 	) {
-		parent::__construct( $short_link_helper, $wistia_embed_permission_repository, $meta, $product_helper );
-		$this->promotion_manager      = $promotion_manager;
+		parent::__construct( $short_link_helper, $wistia_embed_permission_repository, $meta, $product_helper, $options_helper, $promotion_manager );
 		$this->alert_dismissal_action = $alert_dismissal_action;
 	}
 
@@ -75,16 +70,14 @@ class Post_Site_Information extends Base_Site_Information {
 	/**
 	 * Returns post specific site information together with the generic site information.
 	 *
-	 * @return array<string|string,string[]>
+	 * @return array<string, string|array<string, string>>
 	 */
 	public function get_legacy_site_information(): array {
 		$dismissed_alerts = $this->alert_dismissal_action->all_dismissed();
 
 		$data = [
 			'dismissedAlerts'            => $dismissed_alerts,
-			'currentPromotions'          => $this->promotion_manager->get_current_promotions(),
 			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'blackFridayBlockEditorUrl'  => ( $this->promotion_manager->is( 'black-friday-2023-checklist' ) ) ? $this->short_link_helper->get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'metabox'                    => [
 				'search_url'    => $this->search_url(),
 				'post_edit_url' => $this->edit_url(),
@@ -98,16 +91,14 @@ class Post_Site_Information extends Base_Site_Information {
 	/**
 	 * Returns post specific site information together with the generic site information.
 	 *
-	 * @return array<string|string,string[]>
+	 * @return array<string, string|string[]>
 	 */
 	public function get_site_information(): array {
 		$dismissed_alerts = $this->alert_dismissal_action->all_dismissed();
 
 		$data = [
 			'dismissedAlerts'            => $dismissed_alerts,
-			'currentPromotions'          => $this->promotion_manager->get_current_promotions(),
 			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'blackFridayBlockEditorUrl'  => ( $this->promotion_manager->is( 'black-friday-2023-checklist' ) ) ? $this->short_link_helper->get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'search_url'                 => $this->search_url(),
 			'post_edit_url'              => $this->edit_url(),
 			'base_url'                   => $this->base_url_for_js(),

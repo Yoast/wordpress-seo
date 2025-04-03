@@ -4,8 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 6.6
-Stable tag: 23.3
+Tested up to: 6.7
+Stable tag: 24.8
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -30,9 +30,9 @@ Empower search engines to fully understand your website using our Schema.org str
 
 Yoast SEO offers comprehensive analysis tools that help elevate your content's SEO and readability. Get powerful insights and actionable recommendations to craft helpful content that resonates with readers and search engines.
 
-**Premium Yoast AI features** Get suggestions for your titles and descriptions at the click of a button. The [Yoast AI features] (https://yoa.st/51c) save you time and optimize for higher click-through-rates.
+**Premium Yoast AI features** Get suggestions for your titles and descriptions at the click of a button. The [Yoast AI features](https://yoa.st/51c) save you time and optimize for higher click-through-rates.
 
-* Yoast AI Generate enables users to generate meta descriptions and titles for your pages, blog posts and social posts. Great! Even better, when you also have [Yoast WooCommerce SEO](https://yoa.st/3rh), you can recieve suggestions for product SEO titles and descriptions too! The best part, if you don't like the 5 suggestions, you can generate five more at a click. 
+* Yoast AI Generate enables users to generate meta descriptions and titles for your pages, blog posts and social posts. Great! Even better, when you also have [Yoast WooCommerce SEO](https://yoa.st/3rh), you can receive suggestions for product SEO titles and descriptions too! The best part, if you don't like the 5 suggestions, you can generate five more at a click.
 * Yoast AI Optimize helps you optimize existing content for search engines. Optimize three of the assessments in the Yoast SEO Analysis; Keyphrase in introduction, Keyphrase distribution and Keyphrase density, with easy dismiss or apply options.
 
 
@@ -132,7 +132,7 @@ If you're looking for a structured learning path, our [Yoast SEO academy](https:
 
 Not only do you get many additional benefits by upgrading to [Yoast SEO Premium](https://yoa.st/1v8), but you'll also get 24/7 personalized support that takes away your worry.
 
-* Unlock our [AI features] (https://yoa.st/51c); Yoast AI Optimize and Yoast AI Generate. Perfect for marketing professionals, freelance writers, and content strategists, Yoast AI features enable customers of all technical levels to apply SEO best practice to their content at the click of a button.
+* Unlock our [AI features](https://yoa.st/51c); Yoast AI Optimize and Yoast AI Generate. Perfect for marketing professionals, freelance writers, and content strategists, Yoast AI features enable customers of all technical levels to apply SEO best practice to their content at the click of a button.
 
 * Optimize for up to five keyword synonyms by adding variants. Add up to four related synonyms of your keyword to expand your possibilities. You get the full SEO analysis for each.
 
@@ -274,42 +274,51 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 23.4 =
+= 24.9 =
 
-Release date: 2024-09-03
+Release date: 2025-04-15
 
 #### Enhancements
 
-* Adds support for discarding the changes when switching to a post, using the Top bar feature in Elementor.
-* Adds _так_ to the words recognized by the _transition words_ assessment in Russian. Props to @pavelmai83.
-* Improves the schema output by following the specification for the _SearchAction_ more strictly.
-* Re-enables the script concatenation that was disabled to prevent a bug with WordPress 5.5.
+* Changes the applicability criteria of readability assessments so that they are shown even if there is little or no text.
+* Improves the recognition of transition words for Farsi.
+* Introduces more robust HTML processing and highlighting for the _consecutive sentences_ assessment.
 
 #### Bugfixes
 
-* Fixes a bug where an image caption inside a classic block would be considered the introduction when using the _keyphrase in introduction_ assessment in the default editor.
-* Fixes a bug where the first tag instead of the primary tag would be shown in a permalink when adding a link in the Classic editor.
-* Fixes a bug where the Yoast tab would disappear when opening and closing the Site Settings in Elementor.
-* Fixes a bug where the Yoast user settings would be wiped out after a user profile update when the respective global settings were disabled.
-* Fixes a bug where two admin links would not be resolvable when using a custom admin URL.
+* Fixes a bug where long sentences would be incorrectly highlighted in _sentence length_ assessment in the default editor when they were part of a block that contained non-breaking spaces or closing tags (`>`).
+* Fixes a bug where the advanced replacement variables would not be visible when editing social previews in Elementor.
+* Fixes a bug where the content image would not show on social previews when editing it in Elementor.
+* Fixes a bug where Yoast modals would not be visible when using Astra plugins.
+* Fixes a potential fatal error on the dashboard page.
 
 #### Other
 
-* Adds a learn more link to the primary category picker.
-* Deprecates some functions in the `Yoast_Input_Validation` class.
-* Deprecates the `Disable_Concatenate_Scripts_Integration` class.
-* Deprecates the `Duplicate_Post_Integration` class.
-* Deprecates the `WPSEO_Admin_User_Profile::user_profile()` method and the `admin/views/user-profile.php` file.
+* Adds a space before the closing slash in self-closing HTML tags to comply with recommended coding standards. Props to [laxman1192](https://github.com/laxman1192).
+* Updates the Google AI bot name in the _crawl optimization_ settings from _Google Bard_ to _Google Gemini_.
 
-= 23.3 =
+= 24.8.1 =
 
-Release date: 2024-08-20
+Release date: 2025-04-01
 
-Yoast SEO 23.3 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/release-20-8-24).
+#### Bugfixes
+
+* Fixes a potential fatal error on the dashboard page.
+
+= 24.8 =
+
+Release date: 2025-04-01
+
+Yoast SEO 24.8 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
+#### Enhancements
+
+* Adds _pregnant women_ to the potentially non-inclusive phrases targeted by the inclusive language analysis.
+* Improves the inclusive language analysis feedback for the potentially non-inclusive word _exotic_, and prevents the feedback from appearing when _exotic_ is followed by words common in scientific contexts.
 
 #### Other
 
-* This release only contains non-user-facing maintenance changes.
+* Removes the Yoast AI Optimize modals from the Yoast admin pages.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

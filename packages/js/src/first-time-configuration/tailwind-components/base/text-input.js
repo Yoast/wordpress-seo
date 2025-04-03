@@ -17,11 +17,11 @@ import MultiLineText from "./multi-line-text";
  */
 function FeedbackIcon( { hasError, hasSuccess } ) {
 	if ( hasError ) {
-		return <div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-3">
+		return <div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-end-0 yst-me-3">
 			<ExclamationCircleIcon className="yst-pointer-events-none yst-h-5 yst-w-5 yst-text-red-500" />
 		</div>;
 	} else if ( hasSuccess ) {
-		return <div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-3">
+		return <div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-end-0 yst-me-3">
 			<CheckCircleIcon className="yst-pointer-events-none yst-h-5 yst-w-5 yst-text-emerald-600" />
 		</div>;
 	}

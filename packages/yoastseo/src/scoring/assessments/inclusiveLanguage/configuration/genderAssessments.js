@@ -16,6 +16,7 @@ import { orangeExclusionaryUnless,
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
+import { nonInclusiveWhenStandalone } from "../helpers/createRuleDescriptions";
 
 const genderAssessments = [
 	{
@@ -281,6 +282,15 @@ const genderAssessments = [
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
+		ruleDescription: nonInclusiveWhenStandalone,
+	},
+	{
+		identifier: "pregnant women",
+		nonInclusivePhrases: [ "pregnant women" ],
+		inclusiveAlternatives: "<i>pregnant people</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: "Be careful when using <i>%1$s</i> as it can be exclusionary. Unless you are sure that the group" +
+			" you refer to only consists of women, use an alternative, such as %2$s.",
 	},
 ];
 

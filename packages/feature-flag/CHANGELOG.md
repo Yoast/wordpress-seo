@@ -7,6 +7,8 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Non user facing
 * Now published as a transpiled package.
 * Adds missing development dependency on `@yoast/browserslist-config`. [#20916](https://github.com/Yoast/wordpress-seo/pull/20916)
+* Now uses the latest version of `@yoast/eslint-config` instead of the deprecated `eslint-config-yoast`.
+* Uses a flat config for ESLint.
 
 ## 0.1.0
 ### Added

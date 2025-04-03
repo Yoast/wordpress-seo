@@ -30,7 +30,7 @@ const Mobile = ( {
 			<div className="yst-mobile-navigation__dialog">
 				<div className="yst-fixed yst-inset-0 yst-bg-slate-600 yst-bg-opacity-75 yst-z-30" aria-hidden="true" />
 				<Dialog.Panel className="yst-relative yst-flex yst-flex-1 yst-flex-col yst-max-w-xs yst-w-full yst-z-40 yst-bg-slate-100">
-					<div className="yst-absolute yst-top-0 yst-right-0 yst--mr-14 yst-p-1">
+					<div className="yst-absolute yst-top-0 yst-end-0 yst--me-14 yst-p-1">
 						<button
 							type="button"
 							id={ closeButtonId }

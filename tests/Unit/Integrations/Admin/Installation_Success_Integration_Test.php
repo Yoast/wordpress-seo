@@ -50,9 +50,13 @@ final class Installation_Success_Integration_Test extends TestCase {
 
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 		$this->product_helper = Mockery::mock( Product_Helper::class );
-		$this->instance       = Mockery::mock(
+
+		$this->instance = Mockery::mock(
 			Installation_Success_Integration::class,
-			[ $this->options_helper, $this->product_helper ]
+			[
+				$this->options_helper,
+				$this->product_helper,
+			]
 		)->makePartial();
 	}
 

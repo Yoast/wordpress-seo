@@ -8,12 +8,11 @@ use TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema;
 use WP_Recipe_Maker;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
-use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Active_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Consent_Management_Endpoint;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -45,6 +44,34 @@ class Integrations_Page implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * The elementor conditional.
+	 *
+	 * @var Elementor_Activated_Conditional
+	 */
+	private $elementor_conditional;
+
+	/**
+	 * The jetpack conditional.
+	 *
+	 * @var Jetpack_Conditional
+	 */
+	private $jetpack_conditional;
+
+	/**
+	 * The site kit integration configuration data.
+	 *
+	 * @var Site_Kit
+	 */
+	private $site_kit_integration_data;
+
+	/**
+	 * The site kit consent management endpoint.
+	 *
+	 * @var Site_Kit_Consent_Management_Endpoint
+	 */
+	private $site_kit_consent_management_endpoint;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -54,18 +81,32 @@ class Integrations_Page implements Integration_Interface {
 	/**
 	 * Workouts_Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
-	 * @param Options_Helper            $options_helper      The options helper.
-	 * @param Woocommerce_Helper        $woocommerce_helper  The WooCommerce helper.
+	 * @param WPSEO_Admin_Asset_Manager            $admin_asset_manager                  The admin asset manager.
+	 * @param Options_Helper                       $options_helper                       The options helper.
+	 * @param Woocommerce_Helper                   $woocommerce_helper                   The WooCommerce helper.
+	 * @param Elementor_Activated_Conditional      $elementor_conditional                The elementor conditional.
+	 * @param Jetpack_Conditional                  $jetpack_conditional                  The Jetpack conditional.
+	 * @param Site_Kit                             $site_kit_integration_data            The site kit integration
+	 *                                                                                   configuration data.
+	 * @param Site_Kit_Consent_Management_Endpoint $site_kit_consent_management_endpoint The site kit consent
+	 *                                                                                   management endpoint.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		Options_Helper $options_helper,
-		Woocommerce_Helper $woocommerce_helper
+		Woocommerce_Helper $woocommerce_helper,
+		Elementor_Activated_Conditional $elementor_conditional,
+		Jetpack_Conditional $jetpack_conditional,
+		Site_Kit $site_kit_integration_data,
+		Site_Kit_Consent_Management_Endpoint $site_kit_consent_management_endpoint
 	) {
-		$this->admin_asset_manager = $admin_asset_manager;
-		$this->options_helper      = $options_helper;
-		$this->woocommerce_helper  = $woocommerce_helper;
+		$this->admin_asset_manager                  = $admin_asset_manager;
+		$this->options_helper                       = $options_helper;
+		$this->woocommerce_helper                   = $woocommerce_helper;
+		$this->elementor_conditional                = $elementor_conditional;
+		$this->jetpack_conditional                  = $jetpack_conditional;
+		$this->site_kit_integration_data            = $site_kit_integration_data;
+		$this->site_kit_consent_management_endpoint = $site_kit_consent_management_endpoint;
 	}
 
 	/**
@@ -115,18 +156,12 @@ class Integrations_Page implements Integration_Interface {
 
 		$this->admin_asset_manager->enqueue_script( 'integrations-page' );
 
-		$elementor_conditional                 = new Elementor_Activated_Conditional();
-		$jetpack_conditional                   = new Jetpack_Conditional();
-		$jetpack_boost_active_conditional      = new Jetpack_Boost_Active_Conditional();
-		$jetpack_boost_not_premium_conditional = new Jetpack_Boost_Not_Premium_Conditional();
-
 		$woocommerce_seo_file = 'wpseo-woocommerce/wpseo-woocommerce.php';
 		$acf_seo_file         = 'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php';
 		$acf_seo_file_github  = 'yoast-acf-analysis/yoast-acf-analysis.php';
 		$algolia_file         = 'wp-search-with-algolia/algolia.php';
 		$old_algolia_file     = 'search-by-algolia-instant-relevant-results/algolia.php';
 
-		$host                      = \YoastSEO()->helpers->url->get_url_host( \get_site_url() );
 		$addon_manager             = new WPSEO_Addon_Manager();
 		$woocommerce_seo_installed = $addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG );
 
@@ -139,8 +174,6 @@ class Integrations_Page implements Integration_Interface {
 		$acf_active               = \class_exists( 'acf' );
 		$algolia_active           = \is_plugin_active( $algolia_file );
 		$edd_active               = \class_exists( Easy_Digital_Downloads::class );
-		$jetpack_boost_active     = $jetpack_boost_active_conditional->is_met();
-		$jetpack_boost_premium    = ( ! $jetpack_boost_not_premium_conditional->is_met() );
 		$old_algolia_active       = \is_plugin_active( $old_algolia_file );
 		$tec_active               = \class_exists( Events_Schema::class );
 		$ssp_active               = \class_exists( PodcastEpisode::class );
@@ -180,8 +213,8 @@ class Integrations_Page implements Integration_Interface {
 				'allow_algolia_integration'          => $this->options_helper->get( 'allow_algolia_integration_active', true ),
 				'wincher_integration_active'         => $this->options_helper->get( 'wincher_integration_active', true ),
 				'allow_wincher_integration'          => null,
-				'elementor_integration_active'       => $elementor_conditional->is_met(),
-				'jetpack_integration_active'         => $jetpack_conditional->is_met(),
+				'elementor_integration_active'       => $this->elementor_conditional->is_met(),
+				'jetpack_integration_active'         => $this->jetpack_conditional->is_met(),
 				'woocommerce_seo_installed'          => $woocommerce_seo_installed,
 				'woocommerce_seo_active'             => $woocommerce_seo_active,
 				'woocommerce_active'                 => $woocommerce_active,
@@ -199,12 +232,8 @@ class Integrations_Page implements Integration_Interface {
 				'mastodon_active'                    => $mastodon_active,
 				'is_multisite'                       => \is_multisite(),
 				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
-				'jetpack-boost_active'               => $jetpack_boost_active,
-				'jetpack-boost_premium'              => $jetpack_boost_premium,
-				'jetpack-boost_logo_link'            => WPSEO_Shortlinker::get( 'https://yoa.st/integrations-logo-jetpack-boost' ),
-				'jetpack-boost_get_link'             => WPSEO_Shortlinker::get( 'https://yoa.st/integrations-get-jetpack-boost?domain=' . $host ),
-				'jetpack-boost_upgrade_link'         => WPSEO_Shortlinker::get( 'https://yoa.st/integrations-upgrade-jetpack-boost?domain=' . $host ),
-				'jetpack-boost_learn_more_link'      => \admin_url( 'admin.php?page=jetpack-boost' ),
+				'site_kit_configuration'             => $this->site_kit_integration_data->to_array(),
+				'site_kit_consent_management_url'    => $this->site_kit_consent_management_endpoint->get_url(),
 			]
 		);
 	}

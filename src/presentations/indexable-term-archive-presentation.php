@@ -39,10 +39,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wp query wrapper.
 	 * @param Taxonomy_Helper  $taxonomy         The Taxonomy helper.
 	 */
-	public function __construct(
-		WP_Query_Wrapper $wp_query_wrapper,
-		Taxonomy_Helper $taxonomy
-	) {
+	public function __construct( WP_Query_Wrapper $wp_query_wrapper, Taxonomy_Helper $taxonomy ) {
 		$this->wp_query_wrapper = $wp_query_wrapper;
 		$this->taxonomy         = $taxonomy;
 	}
@@ -92,7 +89,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	 * @return array The source.
 	 */
 	public function generate_source() {
-		if ( ! empty( $this->model->object_id ) || \is_null( \get_queried_object() ) ) {
+		if ( ! empty( $this->model->object_id ) || \get_queried_object() === null ) {
 			return \get_term( $this->model->object_id, $this->model->object_sub_type );
 		}
 

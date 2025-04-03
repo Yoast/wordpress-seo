@@ -15,7 +15,10 @@ function getDefaultState() {
 		noIndex: get( window, "wpseoAdminL10n.noIndex", "0" ) === "1",
 		postTypeNameSingular: get( window, "wpseoAdminL10n.postTypeNameSingular", "" ),
 		postTypeNamePlural: get( window, "wpseoAdminL10n.postTypeNamePlural", "" ),
+		termType: get( window, "wpseoScriptData.termType", "" ),
 		postStatus: get( window, "wpseoScriptData.postStatus", "" ),
+		isFrontPage: get( window, "wpseoScriptData.isFrontPage", "0" ) === "1",
+		postType: get( window, "wpseoScriptData.postType", "" ),
 	};
 }
 
