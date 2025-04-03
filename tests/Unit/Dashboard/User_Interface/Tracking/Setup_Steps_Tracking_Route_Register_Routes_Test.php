@@ -40,17 +40,22 @@ final class Setup_Steps_Tracking_Route_Register_Routes_Test extends Abstract_Set
 							'first_interaction_stage' => [
 								'required'          => false,
 								'type'              => 'string',
-								'enum'              => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT', 'COMPLETED' ],
+								'enum'              => [ 'install', 'activate', 'setup', 'grantConsent', 'successfullyConnected' ],
 							],
 							'last_interaction_stage' => [
 								'required'          => false,
 								'type'              => 'string',
-								'enum'              => [ 'INSTALL', 'ACTIVATE', 'SET UP', 'CONNECT', 'COMPLETED' ],
+								'enum'              => [ 'install', 'activate', 'setup', 'grantConsent', 'successfullyConnected' ],
 							],
-							'setup_widget_dismissed' => [
+							'setup_widget_temporarily_dismissed' => [
 								'required'          => false,
 								'type'              => 'string',
-								'enum'              => [ 'no', 'pageload', 'permanently' ],
+								'enum'              => [ 'yes', 'no' ],
+							],
+							'setup_widget_permanently_dismissed' => [
+								'required'          => false,
+								'type'              => 'string',
+								'enum'              => [ 'yes', 'no' ],
 							],
 						],
 					],

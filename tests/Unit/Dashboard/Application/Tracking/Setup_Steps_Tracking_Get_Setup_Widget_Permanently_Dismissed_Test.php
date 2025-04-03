@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Application\Tracking;
 
 /**
- * Test class for the get_setup_widget_dismissed method.
+ * Test class for the get_setup_widget_permanently_dismissed method.
  *
  * @group setup_steps_tracking
  *
@@ -11,14 +11,14 @@ namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Application\Tracking;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Setup_Steps_Tracking_Get_Setup_Widget_Temporarily_Dismissed_Test extends Abstract_Setup_Steps_Tracking_Test {
+final class Setup_Steps_Tracking_Get_Setup_Widget_Permanently_Dismissed_Test extends Abstract_Setup_Steps_Tracking_Test {
 
 	/**
-	 * Tests the retrieval of the setup widget temporarily dismissed status.
+	 * Tests the retrieval of the setup widget permanently dismissed status.
 	 *
 	 * @return void
 	 */
-	public function test_get_setup_widget_temporarily_dismissed() {
-		$this->assertEquals( 'no', $this->instance->get_setup_widget_temporarily_dismissed() );
+	public function test_get_setup_widget_permanently_dismissed() {
+		$this->assertEquals( 'no', $this->instance->get_setup_widget_permanently_dismissed() );
 	}
 }

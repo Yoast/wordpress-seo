@@ -30,7 +30,8 @@ final class Setup_Steps_Tracking_Repository_Fake implements Setup_Steps_Tracking
 				'setup_widget_loaded',
 				'first_interaction_stage',
 				'last_interaction_stage',
-				'setup_widget_dismissed',
+				'setup_widget_temporarily_dismissed',
+				'setup_widget_permanently_dismissed',
 			],
 			true
 		) ) {
@@ -54,7 +55,8 @@ final class Setup_Steps_Tracking_Repository_Fake implements Setup_Steps_Tracking
 				return 'INSTALL';
 			case 'last_interaction_stage':
 				return 'CONNECT';
-			case 'setup_widget_dismissed':
+			case 'setup_widget_temporarily_dismissed':
+			case 'setup_widget_permanently_dismissed':
 				return 'no';
 			default:
 				return '';

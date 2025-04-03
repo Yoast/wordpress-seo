@@ -20,10 +20,11 @@ final class Setup_Steps_Tracking_To_Array_Test extends Abstract_Setup_Steps_Trac
 	 */
 	public function test_to_array() {
 		$expected = [
-			'setupWidgetLoaded'     => 'yes',
-			'firstInteractionStage' => 'INSTALL',
-			'lastInteractionStage'  => 'CONNECT',
-			'setupWidgetDismissed'  => 'no',
+			'setupWidgetLoaded'               => 'yes',
+			'firstInteractionStage'           => 'INSTALL',
+			'lastInteractionStage'            => 'CONNECT',
+			'setupWidgetTemporarilyDismissed' => 'no',
+			'setupWidgetPermanentlyDismissed' => 'no',
 		];
 
 		$this->assertEquals( $expected, $this->instance->to_array() );
