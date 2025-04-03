@@ -1,5 +1,4 @@
-import {useCallback} from "@wordpress/element";
-import {noop} from "lodash";
+import { noop } from "lodash";
 
 /**
  * @typedef {Object} SetupStepsTrackingData The setup steps tracking data.
@@ -85,9 +84,5 @@ export class DataTracker {
 			data,
 			{ ...options, method: "POST" }
 		).catch( noop );
-	}
-
-	getData() {
-		return this.#setupStepsTracking;
 	}
 }

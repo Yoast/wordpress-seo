@@ -409,6 +409,7 @@ describe( "SiteKitSetupWidget", () => {
 		} );
 		const { queryByRole, queryByText, getByText } = render( <SiteKitSetupWidget
 			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
 
