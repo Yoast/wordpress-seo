@@ -31,7 +31,6 @@ import { getDifference } from "../../transformers/difference";
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @returns {function(?RawOrganicSessionsCompareData[]): OrganicSessionsCompareData} Function to format the organic sessions compare data.
  */
-// eslint-disable-next-line complexity
 const createOrganicSessionsCompareFormatter = ( dataFormatter ) => ( [ data ] ) => {
 	const current = data?.current?.sessions || NaN;
 	const difference = getDifference( current, data?.previous?.sessions || NaN );

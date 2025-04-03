@@ -3,6 +3,7 @@ import yoastConfig, { reactConfig } from "@yoast/eslint-config";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+	{ ignores: [ "build" ] },
 	...yoastConfig,
 	...reactConfig,
 	{
@@ -10,14 +11,13 @@ export default [
 			ecmaVersion: "latest",
 			globals: {
 				...globals.browser,
-				...globals.jquery,
 				React: "readonly",
 				// Webpack maps `global` to the window.
 				global: false,
 			},
 		},
 		rules: {
-			// Account for webpack externals and potentially unbuilt packages in the monorepo setup.
+			// Account for webpack externals and potentially un-built packages in the monorepo setup.
 			"import/no-unresolved": [
 				"error",
 				{
@@ -45,26 +45,8 @@ export default [
 			// Deviate from the Yoast config to allow for not using the error that is caught.
 			"no-unused-vars": [ "error", { caughtErrors: "none" } ],
 
-			// Deviate from the Yoast config to allow longer template literals.
-			"stylistic/max-len": [
-				"error",
-				{
-					code: 150,
-					ignoreStrings: true,
-					ignoreTemplateLiterals: true,
-					ignorePattern: "[\t]*<path [\\w\\W]*/>\n",
-				},
-			],
-
-			// Deviate from the Yoast config to allow existing violations. New occurrences are still disallowed.
-			complexity: [ "warn", 6 ],
-			"no-shadow": "warn",
-			"jsdoc/require-jsdoc": "warn",
-			"react/jsx-no-bind": "warn",
-			"react/no-access-state-in-setstate": "warn",
-			"react/no-unused-prop-types": "warn",
-			"react/require-default-props": "warn",
-			"no-prototype-builtins": "warn",
+			// Deviate from the Yoast config to allow existing violations.
+			// In the future, the prop-types won't be supported by React anymore.
 			"react/prop-types": "off",
 		},
 	},
