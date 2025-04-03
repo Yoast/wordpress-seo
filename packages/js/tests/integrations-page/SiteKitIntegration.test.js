@@ -248,21 +248,50 @@ describe( "SiteKitIntegration", () => {
 		expect( screen.getByText( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up." ) ).toBeInTheDocument();
 	} );
 
-	it( "should show warning and update button when version is not supported", () => {
-		render( <SiteKitIntegration
-			connectionStepsStatuses={ {
-				isInstalled: true,
-				isActive: true,
-				isSetupCompleted: true,
-				isConsentGranted: true,
-			} }
-			{ ...props }
-			isVersionSupported={ false }
-		/> );
+	describe( "supported version", () => {
+		it.each(
+			[
+				[ "set up not completed", { isSetupCompleted: false, isConsentGranted: false } ],
+				[ "not connected", { isSetupCompleted: true, isConsentGranted: false } ],
+				[ "connected", { isSetupCompleted: true, isConsentGranted: true } ],
+			]
+		)( "should show warning and update button when version is not supported and %s", ( _, { isSetupCompleted, isConsentGranted } ) => {
+			render( <SiteKitIntegration
+				connectionStepsStatuses={ {
+					isInstalled: true,
+					isActive: true,
+					isSetupCompleted,
+					isConsentGranted,
+				} }
+				{ ...props }
+				isVersionSupported={ false }
+			/> );
 
-		const button = screen.getByRole( "link", { name: "Update Site Kit by Google" } );
-		expect( button ).toBeInTheDocument();
-		expect( button ).toHaveAttribute( "href", "/wp-admin/update.php?action=upgrade-plugin&plugin=google-site-kit%2Fgoogle-site-kit.php&_wpnonce=0a752c1514" );
-		expect( screen.getByText( "Update Site Kit by Google to the latest version to connect Yoast SEO." ) ).toBeInTheDocument();
+			const button = screen.getByRole( "link", { name: "Update Site Kit by Google" } );
+			expect( button ).toBeInTheDocument();
+			expect( button ).toHaveAttribute( "href", "/wp-admin/update.php?action=upgrade-plugin&plugin=google-site-kit%2Fgoogle-site-kit.php&_wpnonce=0a752c1514" );
+			expect( screen.getByText( "Update Site Kit by Google to the latest version to connect Yoast SEO." ) ).toBeInTheDocument();
+		} );
+		it.each(
+			[
+				[ "not installed", { isInstalled: false } ],
+				[ "installed but not activated", { isInstalled: true } ],
+			]
+		)( "should not show warning and update button when version is not supported and %s", ( _, { isInstalled } ) => {
+			render( <SiteKitIntegration
+				connectionStepsStatuses={ {
+					isInstalled,
+					isActive: false,
+					isSetupCompleted: false,
+					isConsentGranted: false,
+				} }
+				{ ...props }
+				isVersionSupported={ false }
+			/> );
+
+			const button = screen.queryByRole( "link", { name: "Update Site Kit by Google" } );
+			expect( button ).not.toBeInTheDocument();
+			expect( screen.queryByText( "Update Site Kit by Google to the latest version to connect Yoast SEO." ) ).not.toBeInTheDocument();
+		} );
 	} );
 } );
