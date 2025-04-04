@@ -4,6 +4,7 @@ import { component, customStep } from "./docs";
 import { Button } from "../../index";
 import classNames from "classnames";
 import { CheckIcon } from "@heroicons/react/solid";
+import { useArgs } from "@storybook/preview-api";
 
 /**
  * Custom step component for stepper story.
@@ -65,25 +66,28 @@ export const Factory = {
 	parameters: {
 		controls: { disable: false },
 	},
-	render: ( { className } ) =>{
+	args: {
+		currentStep: 0,
+	},
+	render: ( args ) =>{
 		const [ isComplete, setIsComplete ] = useState( false );
 		const STEPS = [ "INSTALL", "ACTIVATE", "SET UP", "CONNECT" ];
-		const [ currentStep, setCurrentStep ] = useState( 0 );
+		const [ { currentStep }, updateArgs ] = useArgs();
 
 		const handleNext = useCallback( () => {
 			if ( currentStep < STEPS.length - 1 ) {
 				setIsComplete( false );
-				setCurrentStep( currentStep + 1 );
+				updateArgs( { currentStep: currentStep + 1 } );
 			} else if ( currentStep === STEPS.length - 1 && ! isComplete ) {
 				setIsComplete( true );
 			} else if ( isComplete ) {
 				setIsComplete( false );
-				setCurrentStep( 0 );
+				updateArgs( { currentStep: 0 } );
 			}
-		}, [ setIsComplete, setCurrentStep, isComplete, currentStep ] );
+		}, [ setIsComplete, updateArgs, isComplete, currentStep ] );
 
 		return <>
-			<Stepper className={ className } currentStep={ currentStep }>
+			<Stepper { ...args }>
 				{ STEPS.map( ( step, index ) => <Stepper.Step
 					key={ step }
 					isComplete={ currentStep > index || isComplete }
