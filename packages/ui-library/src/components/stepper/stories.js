@@ -59,9 +59,6 @@ export default {
 			description: { component },
 		},
 	},
-	args: {
-		className: "yst-mb-5",
-	},
 };
 
 export const Factory = {
@@ -70,14 +67,14 @@ export const Factory = {
 	},
 	render: ( { className } ) =>{
 		const [ isComplete, setIsComplete ] = useState( false );
-		const steps = [ "INSTALL", "ACTIVATE", "SET UP", "CONNECT" ];
+		const STEPS = [ "INSTALL", "ACTIVATE", "SET UP", "CONNECT" ];
 		const [ currentStep, setCurrentStep ] = useState( 0 );
 
 		const handleNext = useCallback( () => {
-			if ( currentStep < steps.length - 1 ) {
+			if ( currentStep < STEPS.length - 1 ) {
 				setIsComplete( false );
 				setCurrentStep( currentStep + 1 );
-			} else if ( currentStep === steps.length - 1 && ! isComplete ) {
+			} else if ( currentStep === STEPS.length - 1 && ! isComplete ) {
 				setIsComplete( true );
 			} else if ( isComplete ) {
 				setIsComplete( false );
@@ -87,7 +84,7 @@ export const Factory = {
 
 		return <>
 			<Stepper className={ className } currentStep={ currentStep }>
-				{ steps.map( ( step, index ) => <Stepper.Step
+				{ STEPS.map( ( step, index ) => <Stepper.Step
 					key={ step }
 					isComplete={ currentStep > index || isComplete }
 					isActive={ currentStep === index }
@@ -97,9 +94,9 @@ export const Factory = {
 
 			</Stepper>
 
-			<Button id="yst-stepper-button" onClick={ handleNext }>
-				{ currentStep < steps.length - 1 && "Next" }
-				{ currentStep === steps.length - 1 && ! isComplete && "Finish" }
+			<Button className="yst-mt-5" onClick={ handleNext }>
+				{ currentStep < STEPS.length - 1 && "Next" }
+				{ currentStep === STEPS.length - 1 && ! isComplete && "Finish" }
 				{ isComplete && "Restart" }
 			</Button>
 		</>;
@@ -110,7 +107,7 @@ export const StepsProp = {
 	parameters: {
 		controls: { disable: false },
 	},
-	render: ( { className } ) => {
+	render: ( args ) => {
 		const [ isComplete, setIsComplete ] = useState( false );
 		const [ currentStep, setCurrentStep ] = useState( 0 );
 		const [ stepsList, setStepsList ] = useState( [
@@ -148,9 +145,9 @@ export const StepsProp = {
 		}, [ setIsComplete, setStepsList, setCurrentStep, currentStep, stepsList, isComplete ] );
 
 		return <>
-			<Stepper className={ className } currentStep={ currentStep } steps={ stepsList } />
+			<Stepper currentStep={ currentStep } steps={ stepsList } />
 
-			<Button id="yst-stepper-button-with-list" onClick={ handleNext }>
+			<Button className="yst-mt-5" onClick={ handleNext }>
 				{ currentStep < stepsList.length - 1 && "Next" }
 				{ currentStep === stepsList.length - 1 && ! isComplete && "Finish" }
 				{ isComplete && "Restart" }
@@ -168,7 +165,7 @@ export const WithCustomStep = {
 			},
 		},
 	},
-	render: ( { className } ) =>{
+	render: ( args ) =>{
 		const [ isComplete, setIsComplete ] = useState( false );
 		const defaultSteps = [ "INSTALL", "ACTIVATE", "SET UP" ];
 		const customSteps = [ "CONNECT" ];
@@ -188,7 +185,7 @@ export const WithCustomStep = {
 		}, [ setIsComplete, setCurrentStep, isComplete, currentStep ] );
 
 		return <>
-			<Stepper className={ className } currentStep={ currentStep }>
+			<Stepper currentStep={ currentStep }>
 				{ defaultSteps.map( ( step, index ) => <Stepper.Step
 					key={ step }
 					isComplete={ currentStep > index || isComplete }
@@ -207,7 +204,7 @@ export const WithCustomStep = {
 
 			</Stepper>
 
-			<Button id="yst-stepper-button" onClick={ handleNext }>
+			<Button className="yst-mt-5" onClick={ handleNext }>
 				{ currentStep < steps.length - 1 && "Next" }
 				{ currentStep === steps.length - 1 && ! isComplete && "Finish" }
 				{ isComplete && "Restart" }
