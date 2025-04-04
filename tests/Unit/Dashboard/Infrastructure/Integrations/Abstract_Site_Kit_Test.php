@@ -3,9 +3,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Integrations;
 
 use Mockery;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Connection\Site_Kit_Is_Connected_Call;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -42,11 +42,11 @@ abstract class Abstract_Site_Kit_Test extends TestCase {
 	protected $configuration_repository;
 
 	/**
-	 * Holds the site kit analytics adapter.
+	 * Holds the site kit connected calls.
 	 *
-	 * @var Mockery\MockInterface|Site_Kit_Analytics_4_Adapter
+	 * @var Mockery\MockInterface|Site_Kit_Is_Connected_Call
 	 */
-	protected $site_kit_analytics_4_adapter;
+	protected $site_kit_is_connected_call;
 
 	/**
 	 * Sets up the test fixtures.
@@ -58,10 +58,10 @@ abstract class Abstract_Site_Kit_Test extends TestCase {
 		if ( ! \defined( 'WP_PLUGIN_DIR' ) ) {
 			\define( 'WP_PLUGIN_DIR', '/' );
 		}
-		$this->site_kit_consent_repository  = Mockery::mock( Site_Kit_Consent_Repository::class );
-		$this->configuration_repository     = Mockery::mock( Configuration_Repository::class );
-		$this->site_kit_analytics_4_adapter = Mockery::mock( Site_Kit_Analytics_4_Adapter::class );
+		$this->site_kit_consent_repository = Mockery::mock( Site_Kit_Consent_Repository::class );
+		$this->configuration_repository    = Mockery::mock( Configuration_Repository::class );
+		$this->site_kit_is_connected_call  = Mockery::mock( Site_Kit_Is_Connected_Call::class );
 
-		$this->instance = new Site_Kit( $this->site_kit_consent_repository, $this->configuration_repository, $this->site_kit_analytics_4_adapter );
+		$this->instance = new Site_Kit( $this->site_kit_consent_repository, $this->configuration_repository, $this->site_kit_is_connected_call );
 	}
 }
