@@ -1,65 +1,168 @@
-import React, { useState, useCallback } from "react";
-import { useArgs } from "@storybook/preview-api";
+import React, { useState, useCallback, useContext } from "react";
 import { Stepper } from ".";
-import { component } from "./docs";
+import { component, customStep } from "./docs";
 import { Button } from "../../index";
+import classNames from "classnames";
+import { CheckIcon } from "@heroicons/react/solid";
+import { useArgs } from "@storybook/preview-api";
+
+/**
+ * Custom step component for stepper story.
+ *
+ * @param {JSX.Node} children The step label or children.
+ * @param {boolean} isComplete Is the step complete.
+ * @param {boolean} isActive Is the step
+ *
+ * @returns {JSX.Element} The step element.
+ */
+const CustomStep = ( { children, index } ) => {
+	const { addStepRef, currentStep } = useContext( Stepper.Context );
+	const isActive = index === currentStep;
+	const isComplete = index < currentStep;
+	return (
+		<div
+			ref={ addStepRef }
+			className={ classNames(
+				"yst-step",
+				isComplete && "yst-step--complete",
+				isActive && "yst-step--active yst-text-green-700",
+			) }
+		>
+			<div
+				className={ classNames( "yst-step__circle yst-ring-green-500",
+					isComplete ? "yst-bg-green-500 yst-ring-green-500" : "yst-bg-white",
+				) }
+			>
+				{ isComplete && <CheckIcon
+					className="yst-step__icon yst-w-4 yst-z-50"
+				/> }
+
+				<div
+					className={
+						classNames( "yst-step__icon yst-bg-green-500 yst-w-2 yst-h-2 yst-rounded-full yst-delay-500",
+							! isComplete && isActive ? "yst-opacity-100" : "yst-opacity-0" ) }
+				/>
+			</div>
+			<div className="yst-font-semibold yst-text-xxs yst-mt-3">{ children }</div>
+		</div>
+	);
+};
+
+export default {
+	title: "2) Components/Stepper",
+	component: Stepper,
+	parameters: {
+		docs: {
+			description: { component },
+		},
+	},
+};
 
 export const Factory = {
-	parameters: {
-		controls: { disable: false },
+	args: {
+		currentStep: 0,
 	},
 	render: ( args ) =>{
-		const [ isComplete, setIsComplete ] = useState( false );
-		const steps = [ "INSTALL", "ACTIVATE", "SET UP", "CONNECT" ];
-		const [ { className, currentStep }, updateArgs ] = useArgs();
+		const STEPS = [ "INSTALL", "ACTIVATE", "SET UP", "CONNECT" ];
+		const [ { currentStep }, updateArgs ] = useArgs();
 
 		const handleNext = useCallback( () => {
-			if ( currentStep < steps.length - 1 ) {
-				setIsComplete( false );
+			if ( currentStep <= STEPS.length - 1 ) {
 				updateArgs( { currentStep: currentStep + 1 } );
-			} else if ( currentStep === steps.length - 1 && ! isComplete ) {
-				setIsComplete( true );
-			} else if ( isComplete ) {
-				setIsComplete( false );
+			} else if ( currentStep > STEPS.length - 1 ) {
 				updateArgs( { currentStep: 0 } );
 			}
-		}, [ setIsComplete, updateArgs, isComplete, currentStep ] );
+		}, [ updateArgs, currentStep ] );
 
 		return <>
-			<Stepper className={ className } currentStep={ currentStep }>
-				{ steps.map( ( step, index ) => <Stepper.Step
+			<Stepper { ...args }>
+				{ STEPS.map( ( step, index ) => <Stepper.Step
 					key={ step }
-					isComplete={ currentStep > index || isComplete }
-					isActive={ currentStep === index }
+					index={ index }
 				>
 					{ step }
 				</Stepper.Step> ) }
 
 			</Stepper>
 
-			<Button id="yst-stepper-button" onClick={ handleNext }>
-				{ currentStep < steps.length - 1 && "Next" }
-				{ currentStep === steps.length - 1 && ! isComplete && "Finish" }
-				{ isComplete && "Restart" }
+			<Button className="yst-mt-5" onClick={ handleNext }>
+				{ currentStep < STEPS.length - 1 && "Next" }
+				{ currentStep === STEPS.length - 1 && "Finish" }
+				{ currentStep > STEPS.length - 1 && "Restart" }
 			</Button>
 		</>;
 	},
 };
 
-export default {
-	title: "2) Components/Stepper",
-	component: Stepper,
-	argTypes: {
-		className: { control: "text" },
-		currentStep: { control: "number" },
+export const StepsProp = {
+	render: () => {
+		const [ currentStep, setCurrentStep ] = useState( 0 );
+		const steps = [ "INSTALL", "ACTIVATE", "SET UP", "CONNECT" ];
+		const handleNext = useCallback( () => {
+			if ( currentStep < steps.length ) {
+				setCurrentStep( currentStep + 1 );
+			} else if ( currentStep === steps.length ) {
+				setCurrentStep( 0 );
+			}
+		}, [ currentStep, setCurrentStep ] );
+
+		return <>
+			<Stepper currentStep={ currentStep } steps={ steps } />
+
+			<Button className="yst-mt-5" onClick={ handleNext }>
+				{ currentStep < steps.length - 1 && "Next" }
+				{ currentStep === steps.length - 1 && "Finish" }
+				{ currentStep === steps.length && "Restart" }
+			</Button>
+		</>;
 	},
+};
+
+export const WithCustomStep = {
 	parameters: {
 		docs: {
-			description: { component },
+			description: {
+				story: customStep,
+			},
 		},
 	},
-	args: {
-		className: "yst-mb-5",
-		currentStep: 0,
+	render: ( args ) =>{
+		const defaultSteps = [ "INSTALL", "ACTIVATE", "SET UP" ];
+		const customSteps = [ "CONNECT" ];
+		const STEPS = [ ...defaultSteps, ...customSteps ];
+		const [ currentStep, setCurrentStep ] = useState( 0 );
+
+		const handleNext = useCallback( () => {
+			if ( currentStep <= STEPS.length - 1 ) {
+				setCurrentStep( currentStep + 1 );
+			} else if ( currentStep > STEPS.length - 1 ) {
+				setCurrentStep( 0 );
+			}
+		}, [ setCurrentStep, currentStep ] );
+
+		return <>
+			<Stepper currentStep={ currentStep }>
+				{ defaultSteps.map( ( step, index ) => <Stepper.Step
+					key={ step }
+					index={ index }
+				>
+					{ step }
+				</Stepper.Step> ) }
+
+				{ customSteps.map( ( step, index ) => <CustomStep
+					key={ step }
+					index={ defaultSteps.length + index }
+				>
+					{ step }
+				</CustomStep> ) }
+
+			</Stepper>
+
+			<Button className="yst-mt-5" onClick={ handleNext }>
+				{ currentStep < STEPS.length - 1 && "Next" }
+				{ currentStep === STEPS.length - 1 && "Finish" }
+				{ currentStep > STEPS.length - 1 && "Restart" }
+			</Button>
+		</>;
 	},
 };
