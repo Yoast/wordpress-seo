@@ -1008,16 +1008,15 @@ class WPSEO_Meta {
 	 * @return array The post types.
 	 */
 	public static function post_types_for_ids( $post_ids ) {
-
-		/**
-		 * The indexable repository.
-		 *
-		 * @var Indexable_Repository $repository
-		 */
-		$repository = YoastSEO()->classes->get( Indexable_Repository::class );
-
 		// Check if post ids is not empty.
 		if ( ! empty( $post_ids ) ) {
+			/**
+			 * The indexable repository.
+			 *
+			 * @var Indexable_Repository $repository
+			 */
+			$repository = YoastSEO()->classes->get( Indexable_Repository::class );
+
 			// Get the post subtypes for the posts that share the keyword.
 			$post_types = $repository->query()
 				->select( 'object_sub_type' )
