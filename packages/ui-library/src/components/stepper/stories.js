@@ -49,12 +49,6 @@ const CustomStep = ( { children, isComplete, isActive } ) => {
 export default {
 	title: "2) Components/Stepper",
 	component: Stepper,
-	argTypes: {
-		className: { control: "text" },
-		currentStep: { control: "number" },
-		steps: { control: "object" },
-		children: { control: "text" },
-	},
 	parameters: {
 		docs: {
 			description: { component },
