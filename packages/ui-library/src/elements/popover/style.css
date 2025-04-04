@@ -1,0 +1,64 @@
+@layer components {
+	.yst-root {
+		.yst-popover-container {
+			@apply yst-inline-block
+			yst-max-w-48;
+		}
+
+		.yst-popover-backdrop {
+			@apply yst-fixed
+			yst-inset-0
+			yst-bg-black/10
+			yst-z-[5]
+			yst-pointer-events-none;
+		}
+
+		.yst-popover {
+			@apply yst-absolute
+				yst-p-5
+				yst-rounded-lg
+				yst-whitespace-normal
+				yst-w-max
+				yst-max-w-sm
+				yst-z-10
+				yst-bg-white
+				yst-border
+				yst-shadow-md
+				yst-whitespace-nowrap
+				yst--translate-y-1/2;
+
+			&::before {
+				@apply
+				yst-content-['']
+				yst-absolute
+				yst-block
+				yst-w-0
+				yst-h-0
+				yst-right-full
+				yst-top-1/2;
+
+				transform: translateY(-50%);
+				border-right: 10px solid #fff;
+				border-top: 10px solid transparent;
+				border-bottom: 10px solid transparent;
+			}
+		}
+
+		/*.yst-popover--top {*/
+		/*	@apply yst--translate-x-1/2*/
+		/*	rtl:yst-translate-x-1/2*/
+		/*	yst--translate-y-full*/
+		/*	yst-start-1/2*/
+		/*	yst-top-0*/
+		/*	yst--mt-3 !* Negative margin to move the tooltip up *!*/
+		/*		!* Style properties for the tooltip arrow *!*/
+		/*	before:yst-start-1/2*/
+		/*	before:yst-top-full !* Arrow positioned at the bottom of the tooltip *!*/
+		/*	before:yst--translate-x-1/2*/
+		/*	rtl:before:yst-translate-x-1/2*/
+		/*	before:yst-translate-y-0*/
+		/*	before:yst-border-t-gray-800;*/
+		/*}*/
+	}
+}
+
