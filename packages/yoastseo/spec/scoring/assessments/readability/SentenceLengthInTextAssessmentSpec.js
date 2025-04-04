@@ -32,6 +32,19 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
 
+	it( "returns a good score if there is no text", function() {
+		const mockPaper = new Paper( "" );
+		const mockResearcher = new DefaultResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, mockResearcher );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
+		expect( assessment.hasMarks() ).toBe( false );
+	} );
+
 	it( "returns the score for 50% long sentences using the default config", function() {
 		const mockPaper = new Paper( shortSentenceDefault + longSentenceDefault );
 		const mockResearcher = new DefaultResearcher( mockPaper );
@@ -309,24 +322,6 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
 		expect( assessment.hasMarks() ).toBe( true );
-	} );
-
-	it( "is not applicable for empty papers", function() {
-		const mockPaper = new Paper();
-		const assessment = new SentenceLengthInTextAssessment().isApplicable( mockPaper );
-		expect( assessment ).toBe( false );
-	} );
-
-	it( "returns false if the text is too short", function() {
-		const paper = new Paper( "hallo" );
-		const assessment = new SentenceLengthInTextAssessment().isApplicable( paper );
-		expect( assessment ).toBe( false );
-	} );
-
-	it( "returns true if the text is long enough", function() {
-		const paper = new Paper( "hallo".repeat( 100 ) );
-		const assessment = new SentenceLengthInTextAssessment().isApplicable( paper );
-		expect( assessment ).toBe( true );
 	} );
 } );
 

@@ -128,8 +128,8 @@ class Site_Kit {
 		$current_user = \wp_get_current_user();
 		// Check if the current user has one of the shared roles.
 		$dashboard_sharing  = \get_option( 'googlesitekit_dashboard_sharing' );
-		$shared_roles       = isset( $dashboard_sharing[ $key ] ) ? $dashboard_sharing[ $key ]['sharedRoles'] : [];
-		$has_viewing_rights = \array_intersect( $current_user->roles, $shared_roles );
+		$shared_roles       = ( isset( $dashboard_sharing[ $key ]['sharedRoles'] ) ) ? $dashboard_sharing[ $key ]['sharedRoles'] : [];
+		$has_viewing_rights = ( \is_array( $shared_roles ) ) ? \array_intersect( $current_user->roles, $shared_roles ) : false;
 
 		// Check if the current user is the owner.
 		$site_kit_settings = \get_option( 'googlesitekit_' . $key . '_settings' );
@@ -174,7 +174,7 @@ class Site_Kit {
 			'updateUrl'                => $site_kit_update_url,
 			'isAnalyticsConnected'     => $this->is_ga_connected(),
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
-			'isConfigurationDismissed' => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
+			'isSetupWidgetDismissed'   => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
 			'capabilities'             => [
 				'installPlugins'        => \current_user_can( 'install_plugins' ),
 				'viewSearchConsoleData' => $this->can_read_data( 'search-console' ),
