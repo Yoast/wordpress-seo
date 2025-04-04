@@ -15,8 +15,10 @@ import { useArgs } from "@storybook/preview-api";
  *
  * @returns {JSX.Element} The step element.
  */
-const CustomStep = ( { children, isComplete, isActive } ) => {
-	const { addStepRef } = useContext( Stepper.Context );
+const CustomStep = ( { children, index } ) => {
+	const { addStepRef, currentStep } = useContext( Stepper.Context );
+	const isActive = index === currentStep;
+	const isComplete = index < currentStep;
 	return (
 		<div
 			ref={ addStepRef }
@@ -76,8 +78,7 @@ export const Factory = {
 			<Stepper { ...args }>
 				{ STEPS.map( ( step, index ) => <Stepper.Step
 					key={ step }
-					isComplete={ currentStep > index || currentStep === STEPS.length }
-					isActive={ currentStep === index }
+					index={ index }
 				>
 					{ step }
 				</Stepper.Step> ) }
@@ -95,54 +96,23 @@ export const Factory = {
 
 export const StepsProp = {
 	render: () => {
-		const [ args, setArgs ] = useState( {
-			currentStep: 0,
-			steps: [
-				{ children: "INSTALL", isComplete: false, isActive: true },
-				{ children: "ACTIVATE", isComplete: false, isActive: false },
-				{ children: "SET UP", isComplete: false, isActive: false },
-				{ children: "CONNECT", isComplete: false, isActive: false },
-			] } );
+		const [ currentStep, setCurrentStep ] = useState( 0 );
+		const steps = [ "INSTALL", "ACTIVATE", "SET UP", "CONNECT" ];
 		const handleNext = useCallback( () => {
-			const { currentStep, steps } = args;
-			if ( currentStep < steps.length - 1 ) {
-				const tempSteps = [ ...steps ];
-				tempSteps[ currentStep ].isComplete = true;
-				tempSteps[ currentStep ].isActive = false;
-				tempSteps[ currentStep + 1 ].isActive = true;
-				setArgs( {
-					currentStep: currentStep + 1,
-					steps: tempSteps,
-				} );
-			} else if ( currentStep === steps.length - 1 && ! steps[ currentStep ].isComplete ) {
-				const tempSteps = [ ...steps ];
-				tempSteps[ currentStep ].isComplete = true;
-				tempSteps[ currentStep ].isActive = false;
-				setArgs( {
-					currentStep,
-					steps: tempSteps,
-				} );
-			} else if ( steps[ steps.length - 1 ].isComplete ) {
-				const tempSteps = steps.map( ( step ) => ( {
-					...step,
-					isComplete: false,
-					isActive: false,
-				} ) );
-				tempSteps[ 0 ].isActive = true;
-				setArgs( {
-					currentStep: 0,
-					steps: tempSteps,
-				} );
+			if ( currentStep < steps.length ) {
+				setCurrentStep( currentStep + 1 );
+			} else if ( currentStep === steps.length ) {
+				setCurrentStep( 0 );
 			}
-		}, [ args, setArgs ] );
+		}, [ currentStep, setCurrentStep ] );
 
 		return <>
-			<Stepper { ...args } />
+			<Stepper currentStep={ currentStep } steps={ steps } />
 
 			<Button className="yst-mt-5" onClick={ handleNext }>
-				{ args.currentStep < args.steps.length - 1 && "Next" }
-				{ args.currentStep === args.steps.length - 1 && ! args.steps[ args.steps.length - 1 ].isComplete && "Finish" }
-				{ args.steps[ args.steps.length - 1 ].isComplete && "Restart" }
+				{ currentStep < steps.length - 1 && "Next" }
+				{ currentStep === steps.length - 1 && "Finish" }
+				{ currentStep === steps.length && "Restart" }
 			</Button>
 		</>;
 	},
@@ -174,16 +144,14 @@ export const WithCustomStep = {
 			<Stepper currentStep={ currentStep }>
 				{ defaultSteps.map( ( step, index ) => <Stepper.Step
 					key={ step }
-					isComplete={ currentStep > index || currentStep === STEPS.length }
-					isActive={ currentStep === index }
+					index={ index }
 				>
 					{ step }
 				</Stepper.Step> ) }
 
 				{ customSteps.map( ( step, index ) => <CustomStep
 					key={ step }
-					isComplete={ currentStep > index + defaultSteps.length || currentStep === STEPS.length }
-					isActive={ currentStep === index + defaultSteps.length }
+					index={ defaultSteps.length + index }
 				>
 					{ step }
 				</CustomStep> ) }

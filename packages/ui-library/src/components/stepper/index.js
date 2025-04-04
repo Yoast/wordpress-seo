@@ -16,13 +16,15 @@ const StepperContext = createContext( {
  * Step component.
  *
  * @param {JSX.Node} children The step label or children.
- * @param {boolean} isComplete Is the step complete.
- * @param {boolean} isActive Is the step
+ * @param {number} index The index of the step.
  *
  * @returns {JSX.Element} The step element.
  */
-const Step = ( { children, isComplete, isActive } ) => {
-	const { addStepRef } = useContext( StepperContext );
+const Step = ( { children, index } ) => {
+	const { addStepRef, currentStep } = useContext( StepperContext );
+	const isActive = index === currentStep;
+	const isComplete = index < currentStep;
+
 	return (
 		<div
 			ref={ addStepRef }
@@ -51,8 +53,7 @@ const Step = ( { children, isComplete, isActive } ) => {
 Step.displayName = "Step";
 Step.propTypes = {
 	children: PropTypes.node.isRequired,
-	isActive: PropTypes.bool.isRequired,
-	isComplete: PropTypes.bool.isRequired,
+	index: PropTypes.number.isRequired,
 };
 
 /**
@@ -92,16 +93,15 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 	const addStepRef = useCallback( ( el ) => ( stepRef.current.push( el ) ), [ stepRef.current ] );
 
 	return (
-		<StepperContext.Provider value={ { addStepRef } }>
+		<StepperContext.Provider value={ { addStepRef, currentStep } }>
 			<div className={ classNames( className, "yst-stepper" ) } ref={ ref }>
 
 				{ children || steps.map( ( step, index ) => (
 					<Step
 						key={ `${ index }-step` }
-						isActive={ step.isActive }
-						isComplete={ step.isComplete }
+						index={ index }
 					>
-						{ step.children }
+						{ step }
 					</Step>
 				) ) }
 
@@ -109,7 +109,7 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 					className="yst-absolute yst-top-3 yst-w-auto yst-h-0.5"
 					style={ progressBarPosition }
 					min={ 0 }
-					max={ stepRef.current.length - 1 }
+					max={ stepRef.current?.length - 1 }
 					progress={ currentStep }
 				/>
 			</div>
