@@ -63,9 +63,6 @@ export default {
 };
 
 export const Factory = {
-	parameters: {
-		controls: { disable: false },
-	},
 	args: {
 		currentStep: 0,
 	},
@@ -108,9 +105,6 @@ export const Factory = {
 };
 
 export const StepsProp = {
-	parameters: {
-		controls: { disable: false },
-	},
 	render: ( args ) => {
 		const [ isComplete, setIsComplete ] = useState( false );
 		const [ currentStep, setCurrentStep ] = useState( 0 );
@@ -162,7 +156,6 @@ export const StepsProp = {
 
 export const WithCustomStep = {
 	parameters: {
-		controls: { disable: false },
 		docs: {
 			description: {
 				story: customStep,
