@@ -19,8 +19,7 @@ import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
 import { isWordComplexitySupported } from "../../helpers/assessmentUpsellHelpers";
 import { addQueryArgs } from "@wordpress/url";
 import getL10nObject from "../../analysis/getL10nObject";
-import isBlockEditor from "../../helpers/isBlockEditor";
-import AIAssessmentFixesButton from "../../ai-assessment-fixes/components/ai-assessment-fixes-button";
+import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -74,7 +73,7 @@ class ReadabilityAnalysis extends Component {
 					marksButtonStatus={ this.props.marksButtonStatus }
 					highlightingUpsellLink={ highlightingUpsellLink }
 					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
-					renderAIFixesButton={ this.renderAIFixesButton }
+					renderAIOptimizeButton={ this.renderAIOptimizeButton }
 				/>
 			</Fragment>
 		);
@@ -128,7 +127,7 @@ class ReadabilityAnalysis extends Component {
 		];
 	}
 
-	/* eslint-disable complexity */
+
 	/**
 	 * Renders the Yoast AI Optimize button.
 	 * The button is shown when:
@@ -142,7 +141,7 @@ class ReadabilityAnalysis extends Component {
 	 *
 	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
 	 */
-	renderAIFixesButton = ( hasAIFixes, id ) => {
+	renderAIOptimizeButton = ( hasAIFixes, id ) => {
 		const { isElementor, isAiFeatureEnabled } = this.props;
 		const isPremium = getL10nObject().isPremium;
 
@@ -152,15 +151,15 @@ class ReadabilityAnalysis extends Component {
 		}
 
 		const isElementorEditorPageActive =  document.body.classList.contains( "elementor-editor-active" );
+		// Check if the current editor is either Elementor or the Elementor in-between screen. In that case, don't show the button.
 		const isNotElementorPage =  ! isElementor && ! isElementorEditorPageActive;
 
-		// The reason of adding the check if Elementor is active or not is because `isBlockEditor` method also returns `true` for Elementor.
-		// The reason of adding the check if the Elementor editor is active, is to stop showing the buttons in the in-between screen.
-		return hasAIFixes && isBlockEditor() && isNotElementorPage && (
-			<AIAssessmentFixesButton id={ id } isPremium={ isPremium } />
+		// Show the button if the assessment can be fixed through Yoast AI Optimize, and we are not in the Elementor editor.
+		return hasAIFixes && isNotElementorPage && (
+			<AIOptimizeButton id={ id } isPremium={ isPremium } />
 		);
 	};
-	/* eslint-enable complexity */
+
 
 	/**
 	 * Renders the Readability Analysis component.

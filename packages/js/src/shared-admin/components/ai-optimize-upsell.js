@@ -14,7 +14,7 @@ import { OutboundLink, VideoFlow } from ".";
  * @param {string} upsellLabel The upsell label.
  * @returns {JSX.Element} The element.
  */
-export const AiFixAssessmentsUpsell = ( {
+export const AIOptimizeUpsell = ( {
 	learnMoreLink,
 	thumbnail,
 	wistiaEmbedPermission,
@@ -115,7 +115,7 @@ export const AiFixAssessmentsUpsell = ( {
 		</>
 	);
 };
-AiFixAssessmentsUpsell.propTypes = {
+AIOptimizeUpsell.propTypes = {
 	learnMoreLink: PropTypes.string.isRequired,
 	upsellLink: PropTypes.string.isRequired,
 	thumbnail: PropTypes.shape( {
@@ -131,7 +131,7 @@ AiFixAssessmentsUpsell.propTypes = {
 	upsellLabel: PropTypes.string,
 };
 
-AiFixAssessmentsUpsell.defaultProps = {
+AIOptimizeUpsell.defaultProps = {
 	upsellLabel: sprintf(
 		/* translators: %1$s expands to Yoast SEO Premium. */
 		__( "Unlock with %1$s", "wordpress-seo" ),

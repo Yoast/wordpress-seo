@@ -110,7 +110,7 @@ export default function AnalysisList( props ) {
 				onResultChange={ props.onResultChange }
 				markButtonFactory={ props.markButtonFactory }
 				shouldUpsellHighlighting={ props.shouldUpsellHighlighting }
-				renderAIFixesButton={ props.renderAIFixesButton }
+				renderAIOptimizeButton={ props.renderAIOptimizeButton }
 				renderHighlightingUpsell={ props.renderHighlightingUpsell }
 			/>;
 		} ) }
@@ -130,7 +130,7 @@ AnalysisList.propTypes = {
 	onResultChange: PropTypes.func,
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
-	renderAIFixesButton: PropTypes.func,
+	renderAIOptimizeButton: PropTypes.func,
 };
 
 AnalysisList.defaultProps = {
@@ -144,5 +144,5 @@ AnalysisList.defaultProps = {
 	onResultChange: noop,
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: noop,
-	renderAIFixesButton: noop,
+	renderAIOptimizeButton: noop,
 };
