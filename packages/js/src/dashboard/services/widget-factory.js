@@ -18,16 +18,19 @@ export class WidgetFactory {
 	#dataProvider;
 	#remoteDataProvider;
 	#dataFormatters;
+	#dataTracker;
 
 	/**
 	 * @param {import("./data-provider").DataProvider} dataProvider
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider
 	 * @param {object} dataFormatters
+	 * @param {import("./data-tracker").DataTracker} dataTracker
 	 */
-	constructor( dataProvider, remoteDataProvider, dataFormatters ) {
+	constructor( dataProvider, remoteDataProvider, dataFormatters, dataTracker ) {
 		this.#dataProvider = dataProvider;
 		this.#remoteDataProvider = remoteDataProvider;
 		this.#dataFormatters = dataFormatters;
+		this.#dataTracker = dataTracker;
 	}
 
 	/**
@@ -105,6 +108,7 @@ export class WidgetFactory {
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
+					dataTracker={ this.#dataTracker }
 				/>;
 			case this.types.topQueries:
 				if ( ! isSearchConsoleWidgetAllowed ) {

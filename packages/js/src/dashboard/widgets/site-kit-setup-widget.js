@@ -1,6 +1,6 @@
 import { ArrowNarrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { useCallback } from "@wordpress/element";
+import { useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Widget } from "@yoast/dashboard-frontend";
 import { Alert, Button, DropdownMenu, Stepper, Title, useToggleState } from "@yoast/ui-library";
@@ -32,6 +32,12 @@ export const STEP_NAME = {
 	grantConsent: 3,
 	successfullyConnected: -1,
 };
+
+/* eslint-disable no-unused-vars */
+const getCurrentStepName = ( step ) => {
+	return Object.entries( STEP_NAME ).find( ( [ key, val ] ) => val === step )?.[ 0 ];
+};
+/* eslint-enable no-unused-vars */
 
 /**
  * @param {number} currentStep The current step.
@@ -211,27 +217,43 @@ const SiteKitSetupAction = ( { currentStep, config, isConnectionCompleted, onDis
  *
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {DataTracker} dataTracker The data tracker.
  *
  * @returns {JSX.Element} The widget.
  */
-export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
+export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTracker } ) => {
+	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
+	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
+	const config = dataProvider.getSiteKitConfiguration();
+	const isConnectionCompleted = dataProvider.isSiteKitConnectionCompleted() && config.isVersionSupported;
+
+	useEffect( () => {
+		const stepName = getCurrentStepName( currentStep );
+		if ( dataTracker.getSetupStepsTrackingElement( "setupWidgetLoaded" ) === "no" ) {
+			dataTracker.track( {
+				setupWidgetLoaded: "yes",
+				firstInteractionStage: stepName,
+				lastInteractionStage: stepName,
+			} );
+		} else if ( dataTracker.getSetupStepsTrackingElement( "setupWidgetLoaded" ) === "yes" ) {
+			dataTracker.track( { lastInteractionStage: stepName } );
+		}
+	}, [ dataTracker, currentStep ] );
+
 	const handleOnRemove = useCallback( () => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
+		dataTracker.track(  { setupWidgetTemporarilyDismissed: "yes" } );
 	}, [ dataProvider ] );
 
-	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();
-	}, [ dismissPermanently ] );
+		dataTracker.track(  { setupWidgetPermanentlyDismissed: "yes" } );
+	}, [ dataTracker, currentStep ] );
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
-
-	const config = dataProvider.getSiteKitConfiguration();
-	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
-	const isConnectionCompleted = dataProvider.isSiteKitConnectionCompleted() && config.isVersionSupported;
 
 	return (
 		<Widget className="yst-paper__content yst-relative @3xl:yst-col-span-2 yst-col-span-4">

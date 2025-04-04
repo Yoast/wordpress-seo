@@ -3,6 +3,7 @@ import { waitFor } from "@testing-library/react";
 import { WidgetFactory } from "../../../src/dashboard/services/widget-factory";
 import { render } from "../../test-utils";
 import { MockDataProvider } from "../__mocks__/data-provider";
+import { MockDataTracker } from "../__mocks__/data-tracker";
 import { FakeDataFormatter } from "../__mocks__/fake-data-formatter";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
 
@@ -15,9 +16,11 @@ jest.mock( "react-chartjs-2" );
 describe( "WidgetFactory", () => {
 	let widgetFactory;
 	let dataProvider;
+	let dataTracker;
 	let remoteDataProvider;
 	let dataFormatters;
 	beforeAll( () => {
+		dataTracker = new MockDataTracker();
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				isFeatureEnabled: true,
@@ -33,7 +36,7 @@ describe( "WidgetFactory", () => {
 			comparisonMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
 			plainMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
 		};
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTracker );
 	} );
 
 	describe( "types", () => {
@@ -96,7 +99,7 @@ describe( "WidgetFactory", () => {
 				readabilityAnalysis: false,
 			},
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTracker );
 
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
@@ -105,7 +108,7 @@ describe( "WidgetFactory", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isSetupWidgetDismissed: true },
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTracker );
 
 		expect( widgetFactory.createWidget( "siteKitSetup" ) ).toBeNull();
 	} );
@@ -120,7 +123,7 @@ describe( "WidgetFactory", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isFeatureEnabled: false },
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTracker );
 
 		expect( widgetFactory.createWidget( widgetType ) ).toBeNull();
 	} );
@@ -150,7 +153,7 @@ describe( "WidgetFactory", () => {
 				siteKitConfiguration: { ...siteKitConfiguration, isFeatureEnabled: true },
 			} );
 
-			widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+			widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, {}, dataTracker );
 			siteKitWidgets.forEach( ( widget ) => {
 				expect( widgetFactory.createWidget( widget ) ).toBeNull();
 			} );
@@ -174,7 +177,7 @@ describe( "WidgetFactory", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: config,
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, {}, dataTracker );
 
 		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
 	} );
@@ -191,7 +194,7 @@ describe( "WidgetFactory", () => {
 				},
 			},
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, {}, dataTracker );
 
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
