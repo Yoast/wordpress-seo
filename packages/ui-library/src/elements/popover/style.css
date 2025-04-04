@@ -1,10 +1,8 @@
-body:has(.yst-popover-container) { overflow: hidden; }
-
 @layer components {
 	.yst-root {
 		.yst-popover-container {
-			@apply yst-inline-block;
-
+			@apply yst-inline-block
+			yst-max-w-48;
 		}
 
 		.yst-popover-backdrop {
@@ -15,36 +13,52 @@ body:has(.yst-popover-container) { overflow: hidden; }
 			yst-pointer-events-none;
 		}
 
-		.yst-popover-content {
+		.yst-popover {
 			@apply yst-absolute
 				yst-p-5
 				yst-rounded-lg
 				yst-whitespace-normal
 				yst-w-max
+				yst-max-w-sm
 				yst-z-10
-				yst-bg-white;
-
-			    right: 21%;
-				transform: translateY(-35%);
-				border: 1px solid #ccc;
-				box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-				white-space: nowrap;
+				yst-bg-white
+				yst-border
+				yst-shadow-md
+				yst-whitespace-nowrap
+				yst--translate-y-1/2;
 
 			&::before {
-				@apply yst-absolute
+				@apply
+				yst-content-['']
+				yst-absolute
 				yst-block
 				yst-w-0
-				yst-h-0;
+				yst-h-0
+				yst-right-full
+				yst-top-1/2;
 
-				content: "";
-				right: 100%;
-				top: 50%;
 				transform: translateY(-50%);
 				border-right: 10px solid #fff;
 				border-top: 10px solid transparent;
 				border-bottom: 10px solid transparent;
 			}
 		}
+
+		/*.yst-popover--top {*/
+		/*	@apply yst--translate-x-1/2*/
+		/*	rtl:yst-translate-x-1/2*/
+		/*	yst--translate-y-full*/
+		/*	yst-start-1/2*/
+		/*	yst-top-0*/
+		/*	yst--mt-3 !* Negative margin to move the tooltip up *!*/
+		/*		!* Style properties for the tooltip arrow *!*/
+		/*	before:yst-start-1/2*/
+		/*	before:yst-top-full !* Arrow positioned at the bottom of the tooltip *!*/
+		/*	before:yst--translate-x-1/2*/
+		/*	rtl:before:yst-translate-x-1/2*/
+		/*	before:yst-translate-y-0*/
+		/*	before:yst-border-t-gray-800;*/
+		/*}*/
 	}
 }
 
