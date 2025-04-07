@@ -290,7 +290,6 @@ Release date: 2025-04-15
 * Fixes a bug where the advanced replacement variables would not be visible when editing social previews in Elementor.
 * Fixes a bug where the content image would not show on social previews when editing it in Elementor.
 * Fixes a bug where Yoast modals would not be visible when using Astra plugins.
-* Fixes a potential fatal error on the dashboard page.
 
 #### Other
 
