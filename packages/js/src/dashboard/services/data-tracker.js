@@ -1,60 +1,43 @@
-import { noop } from "lodash";
+import { cloneDeep, noop } from "lodash";
 
 /**
- * @typedef {Object} SetupStepsTrackingData The setup steps tracking data.
- * @property {string} [setupWidgetLoaded] Whether Site Kit setup widget is loaded.
- * @property {string} [firstInteractionStage] The first stage of the Site Kit setup widget the user interacted with.
- * @property {string} [lastInteractionStage] The last stage of the Site Kit setup widget the user interacted with.
- * @property {string} [setupWidgetTemporarilyDismissed] Stores if the Site Kit setup widget has been temporarily dismissed.
- * @property {string} [setupWidgetPermanentlyDismissed] Stores if the Site Kit setup widget has been temporarily dismissed.
+ * @typedef {Object} trackingRoute A tracking route definition.
+ * @property {object} data The data to track.
+ * @property {string} endpoint The route endpoint.
  */
 
 /**
  * Represents data that we want to track.
  */
 export class DataTracker {
-	#setupStepsTracking;
-	#dataProvider;
+	#data;
+	#endpoint;
 	#remoteDataProvider;
 
 	/**
-	 * @param {SetupStepsTrackingData} setupStepsTrackingData The setup steps tracking data.
-	 * @param {import("./data-provider").DataProvider} dataProvider The data provider.
+	 * @param {import("../index").trackingRoute} trackingRoute The data to track.
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider The remote data provider.
 	 */
-	constructor( setupStepsTrackingData, dataProvider, remoteDataProvider ) {
-		this.#setupStepsTracking = {
-			setupWidgetLoaded: setupStepsTrackingData.setupWidgetLoaded,
-			firstInteractionStage: setupStepsTrackingData.firstInteractionStage,
-			lastInteractionStage: setupStepsTrackingData.lastInteractionStage,
-			setupWidgetTemporarilyDismissed: setupStepsTrackingData.setupWidgetTemporarilyDismissed,
-			setupWidgetPermanentlyDismissed: setupStepsTrackingData.setupWidgetPermanentlyDismissed,
-
-		};
-		this.#dataProvider = dataProvider;
+	constructor( trackingRoute, remoteDataProvider ) {
+		this.#data = trackingRoute.data;
+		this.#endpoint = trackingRoute.endpoint;
 		this.#remoteDataProvider = remoteDataProvider;
 	}
 
 	/**
-	 * @param {string} element
+	 * @param {string} element The element to get the value for.
 	 * @returns {string} the value of the element.
 	 */
-	getSetupStepsTrackingElement( element ) {
-		return this.#setupStepsTracking?.[ element ];
+	getTrackingElement( element ) {
+		return this.#data?.[ element ];
 	}
 
 	/**
 	 *
-	 * @param {SetupStepsTrackingData} values
+	 * @param {object} values The data to track.
 	 */
 	track( values ) {
-		const trackingData = {
-			setupWidgetLoaded: this.#setupStepsTracking.setupWidgetLoaded,
-			firstInteractionStage: this.#setupStepsTracking.firstInteractionStage,
-			lastInteractionStage: this.#setupStepsTracking.lastInteractionStage,
-			setupWidgetTemporarilyDismissed: this.#setupStepsTracking.setupWidgetTemporarilyDismissed,
-			setupWidgetPermanentlyDismissed: this.#setupStepsTracking.setupWidgetPermanentlyDismissed,
-		};
+		const trackingData = cloneDeep( this.#data );
 
 		let hasDataChanged = false;
 		/* eslint-disable no-undefined */
@@ -67,7 +50,7 @@ export class DataTracker {
 
 		// We update the object in memory and perform a REST request only if the data has changed.
 		if ( hasDataChanged ) {
-			this.#setupStepsTracking = trackingData;
+			this.#data = trackingData;
 			this.storeData( trackingData );
 		}
 	}
@@ -75,12 +58,12 @@ export class DataTracker {
 	/**
 	 * Store the setup steps tracking data.
 	 *
-	 * @param {SetupStepsTrackingData} data The setup steps tracking data.
-	 * @param {Object} [options] The HTTP options.
+	 * @param {object} data The setup steps tracking data.
+	 * @param {object} [options] The HTTP options.
 	 */
-	storeData( data, options  ) {
+	storeData( data, options ) {
 		this.#remoteDataProvider.fetchJson(
-			this.#dataProvider.getEndpoint( "setupStepsTracking" ),
+			this.#endpoint,
 			data,
 			{ ...options, method: "POST" }
 		).catch( noop );

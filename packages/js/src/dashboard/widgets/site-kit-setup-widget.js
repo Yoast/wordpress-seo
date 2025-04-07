@@ -229,13 +229,13 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 
 	useEffect( () => {
 		const stepName = getCurrentStepName( currentStep );
-		if ( dataTracker.getSetupStepsTrackingElement( "setupWidgetLoaded" ) === "no" ) {
+		if ( dataTracker.getTrackingElement( "setupWidgetLoaded" ) === "no" ) {
 			dataTracker.track( {
 				setupWidgetLoaded: "yes",
 				firstInteractionStage: stepName,
 				lastInteractionStage: stepName,
 			} );
-		} else if ( dataTracker.getSetupStepsTrackingElement( "setupWidgetLoaded" ) === "yes" ) {
+		} else if ( dataTracker.getTrackingElement( "setupWidgetLoaded" ) === "yes" ) {
 			dataTracker.track( { lastInteractionStage: stepName } );
 		}
 	}, [ dataTracker, currentStep ] );

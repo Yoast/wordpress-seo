@@ -101,6 +101,13 @@ domReady( () => {
 		},
 	} );
 
+	const remoteDataProvider = new RemoteDataProvider( { headers } );
+	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
+	const dataFormatters = {
+		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
+		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
+	};
+
 	const setupStepsTrackingData = {
 		setupWidgetLoaded: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetLoaded", "no" ),
 		firstInteractionStage: get( window, "wpseoScriptData.dashboard.setupStepsTracking.firstInteractionStage", "" ),
@@ -109,15 +116,16 @@ domReady( () => {
 		setupWidgetPermanentlyDismissed: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetPermanentlyDismissed", "" ),
 	};
 
-	const remoteDataProvider = new RemoteDataProvider( { headers } );
-	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
-	const dataFormatters = {
-		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
-		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
+	const setupStepsTrackingRoute = {
+		data: setupStepsTrackingData,
+		endpoint: dataProvider.getEndpoint( "setupStepsTracking" ),
 	};
-	const dataTracker = new DataTracker( setupStepsTrackingData, dataProvider, remoteDataProvider );
 
-	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTracker );
+	const dataTrackers = {
+		setupWidgetDataTracker: new DataTracker( setupStepsTrackingRoute, remoteDataProvider ),
+	};
+
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
 	if ( dataProvider.isSiteKitConnectionCompleted() && siteKitConfiguration.isVersionSupported ) {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}
