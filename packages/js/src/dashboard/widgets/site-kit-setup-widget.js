@@ -1,14 +1,13 @@
-import { TrashIcon, XIcon } from "@heroicons/react/outline";
+import { ArrowNarrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { Widget } from "@yoast/dashboard-frontend";
 import { Alert, Button, DropdownMenu, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
 import { ReactComponent as YoastConnectSiteKitSuccess } from "../../../images/yoast-connect-google-site-kit-success.svg";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { SiteKitConsentModal } from "../../shared-admin/components";
-import { LearnMoreLink } from "../components/learn-more-link";
-import { Widget } from "./widget";
 
 /**
  * @type {import("../index").SiteKitConfiguration} SiteKitConfiguration
@@ -32,6 +31,17 @@ export const STEP_NAME = {
 	setup: 2,
 	grantConsent: 3,
 	successfullyConnected: -1,
+};
+
+/**
+ * @param {number} currentStep The current step.
+ * @param {boolean} isVersionSupported Whether the version is supported.
+ *
+ * @returns {boolean} Whether should show update alert and button.
+ */
+export const isUpdatePluginStatus = ( currentStep, isVersionSupported ) => {
+	const stepsToShowUpdateAlert = [ STEP_NAME.setup, STEP_NAME.grantConsent, STEP_NAME.successfullyConnected ];
+	return stepsToShowUpdateAlert.includes( currentStep ) && ! isVersionSupported;
 };
 
 /**
@@ -105,12 +115,13 @@ const SiteKitSetupWidgetTitleAndDescription = ( { isSiteKitConnectionCompleted }
 const SiteKitAlert = ( { capabilities, currentStep, isVersionSupported, isConsentGranted } ) => {
 	const alertClass = "yst-mt-6";
 
-	if ( ! isVersionSupported ) {
+	if ( isUpdatePluginStatus( currentStep, isVersionSupported ) ) {
 		if ( isConsentGranted ) {
 			return <Alert className={ alertClass } variant="error">
 				{ __( "Your current version of the Site Kit by Google plugin is no longer compatible with Yoast SEO. Please update to the latest version to restore the connection.", "wordpress-seo" ) }
 			</Alert>;
 		}
+
 		return <Alert className={ alertClass }>
 			{ __( "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google.", "wordpress-seo" ) }
 		</Alert>;
@@ -144,7 +155,7 @@ const SiteKitAlert = ( { capabilities, currentStep, isVersionSupported, isConsen
 const SiteKitSetupAction = ( { currentStep, config, isConnectionCompleted, onDismissWidget, onShowConsent } ) => {
 	const getUrl = useCallback( ( url, capability = "installPlugins" ) => config.capabilities?.[ capability ] ? url : null, [ config.capabilities ] );
 
-	if ( ! config.isVersionSupported ) {
+	if ( isUpdatePluginStatus( currentStep, config.isVersionSupported ) ) {
 		return <Button as="a" href={ config.updateUrl }>
 			{ __( "Update Site Kit by Google", "wordpress-seo" ) }
 		</Button>;
@@ -250,7 +261,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				? <YoastConnectSiteKitSuccess className="yst-aspect-[21/5] yst-max-w-[252px]" />
 				: <YoastConnectSiteKit className="yst-aspect-[21/5] yst-max-w-[252px]" />
 			}</div>
-			{ config.isVersionSupported && <Stepper steps={ steps } currentStep={ currentStep } className="yst-mb-6">
+			{ ! isUpdatePluginStatus( currentStep, config.isVersionSupported ) && <Stepper steps={ steps } currentStep={ currentStep } className="yst-mb-6">
 				{ steps.map( ( label, index ) => (
 					<Stepper.Step
 						key={ label }
@@ -286,7 +297,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				/>
 
 			</div>
-			<div className="yst-flex yst-gap-1 yst-mt-6 yst-items-center">
+			<div className="yst-flex yst-gap-1.5 yst-mt-6 yst-items-center">
 				<SiteKitSetupAction
 					currentStep={ currentStep }
 					config={ config }
@@ -296,7 +307,23 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				/>
 				{ ! isConnectionCompleted &&
 					<>
-						<LearnMoreLink as={ Button } variant="tertiary" href={ learnMoreLink } />
+						<Button
+							as="a"
+							href={ learnMoreLink }
+							variant="tertiary"
+							className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
+							target="_blank"
+							rel="noopener"
+						>
+							{ __( "Learn more", "wordpress-seo" ) }
+							<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />
+							<span className="yst-sr-only">
+								{
+									/* translators: Hidden accessibility text. */
+									__( "(Opens in a new browser tab)", "wordpress-seo" )
+								}
+							</span>
+						</Button>
 						<SiteKitConsentModal
 							isOpen={ currentStep === STEP_NAME.grantConsent && isConsentModalOpen }
 							onClose={ closeConsentModal }
