@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Api_C
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Analytics_4_Adapter_Construct extends Abstract_Analytics_4_Adapter_Test {
+final class Analytics_4_Adapter_Construct_Test extends Abstract_Analytics_4_Adapter_Test {
 
 	/**
 	 * Tests __construct().

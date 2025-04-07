@@ -13,7 +13,7 @@ namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Analytics_4;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Analytics_4_Adapter_Is_Connected extends Abstract_Analytics_4_Adapter_Test {
+final class Analytics_4_Adapter_Is_Connected_Test extends Abstract_Analytics_4_Adapter_Test {
 
 	/**
 	 * Tests is_connected() returns true.
