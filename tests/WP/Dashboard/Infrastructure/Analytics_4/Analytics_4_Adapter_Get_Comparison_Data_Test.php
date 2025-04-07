@@ -8,6 +8,7 @@ use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\MetricValue;
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\Row;
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
 use Mockery;
+use WP_REST_Response;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Analytics_4_Parameters;
 
@@ -46,8 +47,7 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Test extends Abstract_Analyt
 		$request_results,
 		$expected_results
 	) {
-		self::$analytics_4_module = Mockery::mock( Analytics_4_Module_Mock::class );
-		$this->instance->set_analytics_4_module( self::$analytics_4_module );
+		$api_response_mock = Mockery::mock( WP_REST_Response::class );
 
 		$response = new RunReportResponse();
 
@@ -71,6 +71,9 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Test extends Abstract_Analyt
 
 		$response->setRows( [ $row_0, $row_1 ] );
 
+		$api_response_mock->expects( 'get_data' )->once()->andReturn( $response );
+		$api_response_mock->expects( 'is_error' )->once()->andReturnFalse();
+
 		$analytics_4_parameters = new Analytics_4_Parameters();
 
 		$analytics_4_parameters->set_start_date( $request_parameters['start_date'] );
@@ -89,10 +92,9 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Test extends Abstract_Analyt
 			$analytics_4_parameters->set_compare_end_date( $request_parameters['compare_end_date'] );
 		}
 
-		self::$analytics_4_module->expects( 'get_data' )
-			->with( 'report', $expected_api_parameters )
-			->once()
-			->andReturn( $response );
+		$this->analytics_4_api_call_mock->expects( 'do_request' )
+			->with( $expected_api_parameters )
+			->andReturn( $api_response_mock );
 
 		$result = $this->instance->get_comparison_data( $analytics_4_parameters );
 

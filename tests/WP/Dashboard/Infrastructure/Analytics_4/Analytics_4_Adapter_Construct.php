@@ -2,7 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Analytics_4;
 
-use Google\Site_Kit\Core\Modules\Module;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Api_Call;
 
 /**
  * Test class for the __construct() method.
@@ -23,11 +23,9 @@ final class Analytics_4_Adapter_Construct extends Abstract_Analytics_4_Adapter_T
 	 * @return void
 	 */
 	public function test_construct() {
-		$module = $this->instance->get_analytics_4_module();
-
 		$this->assertInstanceOf(
-			Module::class,
-			$module
+			Site_Kit_Analytics_4_Api_Call::class,
+			$this->getPropertyValue( $this->instance, 'site_kit_search_console_api_call' )
 		);
 	}
 }

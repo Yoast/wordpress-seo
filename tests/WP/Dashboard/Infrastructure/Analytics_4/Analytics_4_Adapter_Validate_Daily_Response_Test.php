@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Analytics_4;
 
 use Mockery;
 use WP_Error;
+use WP_REST_Response;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Unexpected_Response_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Analytics_4_Parameters;
@@ -28,16 +29,17 @@ final class Analytics_4_Adapter_Validate_Daily_Response_Test extends Abstract_An
 	 * @return void
 	 */
 	public function test_validate_response_unexpected_response_not_array() {
-		self::$analytics_4_module = Mockery::mock( Analytics_4_Module_Mock::class );
-		$this->instance->set_analytics_4_module( self::$analytics_4_module );
 
 		$request_parameters = $this->create_analytics_4_parameters();
 
 		$expected_message = 'The response from Google Site Kit did not have an expected format.';
 
-		self::$analytics_4_module->expects( 'get_data' )
-			->once()
-			->andReturn( 'not a RunReportResponse object' );
+		$api_response_mock = Mockery::mock( WP_REST_Response::class );
+		$api_response_mock->expects( 'get_data' )->once()->andReturn( 'not a RunReportResponse object' );
+		$api_response_mock->expects( 'is_error' )->once()->andReturnFalse();
+
+		$this->analytics_4_api_call_mock->expects( 'do_request' )
+			->andReturn( $api_response_mock );
 
 		$this->expectException( Unexpected_Response_Exception::class );
 		$this->expectExceptionMessage( $expected_message );
@@ -51,8 +53,6 @@ final class Analytics_4_Adapter_Validate_Daily_Response_Test extends Abstract_An
 	 * @return void
 	 */
 	public function test_validate_response_failed_request() {
-		self::$analytics_4_module = Mockery::mock( Search_Console_Module_Mock::class );
-		$this->instance->set_analytics_4_module( self::$analytics_4_module );
 
 		$request_parameters = $this->create_analytics_4_parameters();
 
@@ -64,9 +64,13 @@ final class Analytics_4_Adapter_Validate_Daily_Response_Test extends Abstract_An
 			]
 		);
 
-		self::$analytics_4_module->expects( 'get_data' )
-			->once()
-			->andReturn( $error_response );
+		$api_response_mock = Mockery::mock( WP_REST_Response::class );
+		$api_response_mock->expects( 'get_data' )->once()->andReturn( 'not a RunReportResponse object' );
+		$api_response_mock->expects( 'is_error' )->once()->andReturnTrue();
+		$api_response_mock->expects( 'as_error' )->once()->andReturn( $error_response );
+
+		$this->analytics_4_api_call_mock->expects( 'do_request' )
+			->andReturn( $api_response_mock );
 
 		$this->expectException( Failed_Request_Exception::class );
 		$this->expectExceptionMessage( 'this is an error' );

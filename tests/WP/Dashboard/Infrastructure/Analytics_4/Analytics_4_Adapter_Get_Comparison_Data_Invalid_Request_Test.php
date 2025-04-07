@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Analytics_4;
 
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
 use Mockery;
+use WP_REST_Response;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Invalid_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Analytics_4_Parameters;
 
@@ -30,8 +31,7 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Invalid_Request_Test extends
 	 * @return void
 	 */
 	public function test_validate_response_unexpected_response_not_apidatarows() {
-		self::$analytics_4_module = Mockery::mock( Analytics_4_Module_Mock::class );
-		$this->instance->set_analytics_4_module( self::$analytics_4_module );
+		$api_response_mock = Mockery::mock( WP_REST_Response::class );
 
 		$request_parameters = new Analytics_4_Parameters();
 
@@ -46,9 +46,11 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Invalid_Request_Test extends
 
 		$result = new RunReportResponse();
 
-		self::$analytics_4_module->expects( 'get_data' )
-			->once()
-			->andReturn( $result );
+		$api_response_mock->expects( 'get_data' )->once()->andReturn( $result );
+		$api_response_mock->expects( 'is_error' )->once()->andReturnFalse();
+
+		$this->analytics_4_api_call_mock->expects( 'do_request' )
+			->andReturn( $api_response_mock );
 
 		$this->expectException( Invalid_Request_Exception::class );
 		$this->expectExceptionMessage( $expected_message );

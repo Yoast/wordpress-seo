@@ -66,17 +66,6 @@ class Site_Kit_Analytics_4_Adapter {
 	}
 
 	/**
-	 * Gets the analytics module. Used for tests.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return Module The analytics module.
-	 */
-	public static function get_analytics_4_module() {
-		return self::$analytics_4_module;
-	}
-
-	/**
 	 * The wrapper method to do a comparison Site Kit API request for Analytics.
 	 *
 	 * @param Analytics_4_Parameters $parameters The parameters.

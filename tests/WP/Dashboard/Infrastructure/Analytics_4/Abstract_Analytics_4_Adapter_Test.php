@@ -3,8 +3,9 @@
 
 namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Analytics_4;
 
+use Mockery;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
-use Yoast\WP\SEO\Tests\WP\Doubles\Dashboard\Infrastructure\Analytics_4\Analytics_4_Module_Mock;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Api_Call;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -15,11 +16,11 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 abstract class Abstract_Analytics_4_Adapter_Test extends TestCase {
 
 	/**
-	 * The analytics 4 module.
+	 * The api call mock.
 	 *
-	 * @var Analytics_4_Module_Mock
+	 * @var Site_Kit_Analytics_4_Api_Call
 	 */
-	protected static $analytics_4_module;
+	protected $analytics_4_api_call_mock;
 
 	/**
 	 * Plugin basename of the plugin dependency this group of tests has.
@@ -42,7 +43,8 @@ abstract class Abstract_Analytics_4_Adapter_Test extends TestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
+		$this->analytics_4_api_call_mock = Mockery::mock( Site_Kit_Analytics_4_Api_Call::class );
 
-		$this->instance = new Site_Kit_Analytics_4_Adapter();
+		$this->instance = new Site_Kit_Analytics_4_Adapter( $this->analytics_4_api_call_mock );
 	}
 }
