@@ -286,7 +286,6 @@ Release date: 2025-04-15
 
 #### Bugfixes
 
-* Fixes a bug where long sentences would be incorrectly highlighted in _sentence length_ assessment in the default editor when they were part of a block that contained non-breaking spaces or closing tags (`>`).
 * Fixes a bug where the advanced replacement variables would not be visible when editing social previews in Elementor.
 * Fixes a bug where the content image would not show on social previews when editing it in Elementor.
 * Fixes a bug where Yoast modals would not be visible when using Astra plugins.
