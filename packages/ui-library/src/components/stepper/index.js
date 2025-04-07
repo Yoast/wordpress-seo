@@ -57,18 +57,11 @@ Step.propTypes = {
 };
 
 /**
- * @typeof Step {object} The step object.
- * @property {JSX.Node} children The element or label of the step.
- * @property {boolean} isComplete Is the step complete.
- * @property {boolean} isActive Is the step active.
- */
-
-/**
  *
  * @param {JSX.Node} [children] Content of the stepper.
  * @param {number} [currentStep] The current step, starts from 0.
  * @param {string} [className] Optional extra className.
- * @param {Step[]} [steps] The steps of the stepper.
+ * @param {JSX.Node[]} [steps] The steps of the stepper.
  *
  * @returns {JSX.Element} The Stepper element.
  */
@@ -109,7 +102,7 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 					className="yst-absolute yst-top-3 yst-w-auto yst-h-0.5"
 					style={ progressBarPosition }
 					min={ 0 }
-					max={ stepRef.current?.length - 1 }
+					max={ stepRef.current.length - 1 }
 					progress={ currentStep }
 				/>
 			</div>
@@ -122,11 +115,7 @@ Stepper.propTypes = {
 	currentStep: PropTypes.number,
 	children: PropTypes.node,
 	className: PropTypes.string,
-	steps: PropTypes.arrayOf( PropTypes.shape( {
-		children: PropTypes.node.isRequired,
-		isComplete: PropTypes.bool,
-		isActive: PropTypes.bool,
-	} ) ),
+	steps: PropTypes.arrayOf( PropTypes.node ),
 };
 Stepper.defaultProps = {
 	className: "",
