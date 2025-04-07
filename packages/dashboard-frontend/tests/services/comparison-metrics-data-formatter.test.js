@@ -1,5 +1,5 @@
 import { describe, expect } from "@jest/globals";
-import { ComparisonMetricsDataFormatter } from "../../src/services/comparison-metrics-data-formatter";
+import { ComparisonMetricsDataFormatter } from "../../src";
 
 describe( "ComparisonMetricsDataFormatter", () => {
 	test.each( [
