@@ -349,7 +349,7 @@ final class Asset_Manager_Test extends TestCase {
 	/**
 	 * Data provider.
 	 *
-	 * @return array
+	 * @return array<array<string>>
 	 */
 	public static function flatten_version_provider() {
 		return [

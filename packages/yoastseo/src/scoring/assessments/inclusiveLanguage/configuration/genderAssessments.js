@@ -284,6 +284,14 @@ const genderAssessments = [
 		},
 		ruleDescription: nonInclusiveWhenStandalone,
 	},
+	{
+		identifier: "pregnant women",
+		nonInclusivePhrases: [ "pregnant women" ],
+		inclusiveAlternatives: "<i>pregnant people</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: "Be careful when using <i>%1$s</i> as it can be exclusionary. Unless you are sure that the group" +
+			" you refer to only consists of women, use an alternative, such as %2$s.",
+	},
 ];
 
 genderAssessments.forEach( assessment => {

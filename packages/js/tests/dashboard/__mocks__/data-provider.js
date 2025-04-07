@@ -53,6 +53,7 @@ export class MockDataProvider extends DataProvider {
 				topPages: "https://example.com/top-pages",
 				siteKitConsentManagement: "https://example.com/site-kit-consent-management",
 				siteKitConfigurationDismissal: "https://example.com/site-kit-configuration-dismissal",
+				timeBasedSeoMetrics: "https://example.com/time-based-seo-metrics",
 			},
 			headers: {
 				"X-Wp-Nonce": "123",
@@ -61,13 +62,24 @@ export class MockDataProvider extends DataProvider {
 				dashboardLearnMore: "https://example.com/dashboard-learn-more",
 				errorSupport: "https://example.com/error-support",
 				siteKitLearnMore: "https://example.com/google-site-kit-learn-more",
-				installSiteKit: "https://example.com/install",
-				activateSiteKit: "https://example.com/activate",
-				setupSiteKit: "https://example.com/isSetup",
 			},
 			siteKitConfiguration: {
+				installUrl: "https://example.com/install",
+				activateUrl: "https://example.com/activate",
+				setupUrl: "https://example.com/isSetup",
+				isAnalyticsConnected: true,
 				isFeatureEnabled: false,
-				isSetupWidgetDismissed: false,
+				capabilities: {
+					installPlugins: true,
+					viewSearchConsoleData: true,
+					viewAnalyticsData: true,
+				},
+				connectionStepsStatuses: {
+					isInstalled: false,
+					isActive: false,
+					isSetupCompleted: false,
+					isConsentGranted: false,
+				},
 			},
 		} ) );
 		this.setSiteKitConfigurationDismissed = jest.fn();

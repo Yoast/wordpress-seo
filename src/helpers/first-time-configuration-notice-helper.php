@@ -34,10 +34,7 @@ class First_Time_Configuration_Notice_Helper {
 	 * @param Options_Helper  $options_helper  The options helper.
 	 * @param Indexing_Helper $indexing_helper The indexing helper.
 	 */
-	public function __construct(
-		Options_Helper $options_helper,
-		Indexing_Helper $indexing_helper
-	) {
+	public function __construct( Options_Helper $options_helper, Indexing_Helper $indexing_helper ) {
 		$this->options_helper         = $options_helper;
 		$this->indexing_helper        = $indexing_helper;
 		$this->show_alternate_message = false;

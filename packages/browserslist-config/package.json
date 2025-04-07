@@ -1,6 +1,6 @@
 {
   "name": "@yoast/browserslist-config",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/yoast/javascript",
@@ -26,9 +26,9 @@
     "url": "https://github.com/Yoast/javascript/issues"
   },
   "devDependencies": {
+    "@yoast/eslint-config": "^8.0.0",
     "browserslist": "^4.7.3",
     "eslint": "^9.16.0",
-    "eslint-config-yoast": "^7.0.0",
     "globals": "^15.13.0",
     "jest": "^29.7.0"
   }

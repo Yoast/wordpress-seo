@@ -217,12 +217,12 @@ class WPSEO_Plugin_Availability {
 	/**
 	 * Determines whether or not a plugin is active.
 	 *
+	 * @deprecated 23.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $plugin The plugin slug to check.
 	 *
 	 * @return bool Whether or not the plugin is active.
-	 *
-	 * @deprecated 23.4
-	 * @codeCoverageIgnore
 	 */
 	public function is_active( $plugin ) {
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.4', 'is_plugin_active' );
@@ -233,10 +233,10 @@ class WPSEO_Plugin_Availability {
 	/**
 	 * Gets all the possibly available plugins.
 	 *
-	 * @return array Array containing the information about the plugins.
-	 *
 	 * @deprecated 23.4
 	 * @codeCoverageIgnore
+	 *
+	 * @return array Array containing the information about the plugins.
 	 */
 	public function get_plugins() {
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.4', 'WPSEO_Addon_Manager::get_addon_filenames' );
@@ -247,12 +247,12 @@ class WPSEO_Plugin_Availability {
 	/**
 	 * Gets a specific plugin. Returns an empty array if it cannot be found.
 	 *
+	 * @deprecated 23.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $plugin The plugin to search for.
 	 *
 	 * @return array The plugin properties.
-	 *
-	 * @deprecated 23.4
-	 * @codeCoverageIgnore
 	 */
 	public function get_plugin( $plugin ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- needed for BC reasons
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.4', 'WPSEO_Addon_Manager::get_plugin_file' );
@@ -266,12 +266,12 @@ class WPSEO_Plugin_Availability {
 	/**
 	 * Gets the version of the plugin.
 	 *
+	 * @deprecated 23.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param array $plugin The information available about the plugin.
 	 *
 	 * @return string The version associated with the plugin.
-	 *
-	 * @deprecated 23.4
-	 * @codeCoverageIgnore
 	 */
 	public function get_version( $plugin ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- needed for BC reasons
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.4', 'WPSEO_Addon_Manager::get_installed_addons_versions' );
@@ -285,11 +285,12 @@ class WPSEO_Plugin_Availability {
 	/**
 	 * Checks whether a dependency is available.
 	 *
+	 * @deprecated 22.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param array $dependency The information about the dependency to look for.
 	 *
 	 * @return bool Whether or not the dependency is available.
-	 * @deprecated 22.4
-	 * @codeCoverageIgnore
 	 */
 	public function is_dependency_available( $dependency ) {
 		_deprecated_function( __METHOD__, 'Yoast SEO 22.4' );
@@ -300,11 +301,12 @@ class WPSEO_Plugin_Availability {
 	/**
 	 * Gets the names of the dependencies.
 	 *
+	 * @deprecated 23.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param array $plugin The plugin to get the dependency names from.
 	 *
 	 * @return array Array containing the names of the associated dependencies.
-	 * @deprecated 23.4
-	 * @codeCoverageIgnore
 	 */
 	public function get_dependency_names( $plugin ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- needed for BC reasons
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.4' );
@@ -318,12 +320,12 @@ class WPSEO_Plugin_Availability {
 	/**
 	 * Determines whether or not a plugin is a Premium product.
 	 *
+	 * @deprecated 23.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param array $plugin The plugin to check.
 	 *
 	 * @return bool Whether or not the plugin is a Premium product.
-	 *
-	 * @deprecated 23.4
-	 * @codeCoverageIgnore
 	 */
 	public function is_premium( $plugin ) {
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.4' );
@@ -334,10 +336,10 @@ class WPSEO_Plugin_Availability {
 	/**
 	 * Gets all installed plugins.
 	 *
-	 * @return array The installed plugins.
-	 *
 	 * @deprecated 23.4
 	 * @codeCoverageIgnore
+	 *
+	 * @return array The installed plugins.
 	 */
 	public function get_installed_plugins() {
 

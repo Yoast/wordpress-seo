@@ -12,7 +12,7 @@ class Search_Console_Parameters extends Parameters {
 	/**
 	 * The search dimensions to query.
 	 *
-	 * @var string[] $dimensions
+	 * @var string[]
 	 */
 	private $dimensions;
 

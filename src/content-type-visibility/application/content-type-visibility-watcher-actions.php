@@ -141,7 +141,7 @@ class Content_Type_Visibility_Watcher_Actions implements Integration_Interface {
 	 */
 	public function maybe_add_notification() {
 		$notification = $this->notification_center->get_notification_by_id( 'content-types-made-public' );
-		if ( \is_null( $notification ) ) {
+		if ( $notification === null ) {
 			$this->add_notification();
 		}
 	}

@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
 import { forEach } from "lodash";
 import { SCORE_META } from "../../../src/dashboard/scores/score-meta";
-import { DataFormatter } from "../../../src/dashboard/services/data-formatter";
+import { PlainMetricsDataFormatter } from "../../../src/dashboard/services/plain-metrics-data-formatter";
 import { createTopPageFormatter, TopPagesWidget } from "../../../src/dashboard/widgets/top-pages-widget";
 import { render, waitFor } from "../../test-utils";
 import { MockDataProvider } from "../__mocks__/data-provider";
@@ -24,7 +24,7 @@ describe( "TopPagesWidget", () => {
 	beforeAll( () => {
 		dataProvider = new MockDataProvider();
 		remoteDataProvider = new MockRemoteDataProvider( {} );
-		dataFormatter = new DataFormatter();
+		dataFormatter = new PlainMetricsDataFormatter();
 		formatter = createTopPageFormatter( dataFormatter );
 		formattedData = formatter( data );
 	} );

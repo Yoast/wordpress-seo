@@ -6,12 +6,13 @@ import { Link } from "@yoast/ui-library";
  * A link with the text "Learn more" and an arrow icon.
  *
  * @param {string} href The link.
+ * @param {JSX.ElementType} [as=Link] The component to use for the link.
  * @param {Object} [props] Extra props.
  *
  * @returns {JSX.Element} The learn more link.
  */
-export const LearnMoreLink = ( { href, ...props } ) => (
-	<Link
+export const LearnMoreLink = ( { href, as: Component = Link, ...props } ) => (
+	<Component
 		href={ href }
 		variant="primary"
 		className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
@@ -27,5 +28,5 @@ export const LearnMoreLink = ( { href, ...props } ) => (
 				__( "(Opens in a new browser tab)", "wordpress-seo" )
 			}
 		</span>
-	</Link>
+	</Component>
 );

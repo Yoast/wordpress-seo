@@ -46,10 +46,7 @@ class Indexable_System_Page_Builder {
 	 * @param Options_Helper             $options  The options helper.
 	 * @param Indexable_Builder_Versions $versions The latest version of each Indexable Builder.
 	 */
-	public function __construct(
-		Options_Helper $options,
-		Indexable_Builder_Versions $versions
-	) {
+	public function __construct( Options_Helper $options, Indexable_Builder_Versions $versions ) {
 		$this->options = $options;
 		$this->version = $versions->get_latest_version_for_type( 'system-page' );
 	}

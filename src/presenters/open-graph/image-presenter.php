@@ -68,7 +68,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Gets the raw value of a presentation.
 	 *
-	 * @return array<string,int> The raw value.
+	 * @return array<string, int> The raw value.
 	 */
 	public function get() {
 		$images = [];
@@ -88,9 +88,9 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the image content through the `wpseo_opengraph_image` filter.
 	 *
-	 * @param array<string,int> $image The image.
+	 * @param array<string, string|int> $image The image.
 	 *
-	 * @return array<string,int> The filtered image.
+	 * @return array<string, string|int> The filtered image.
 	 */
 	protected function filter( $image ) {
 		/**

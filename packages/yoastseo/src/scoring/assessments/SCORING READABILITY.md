@@ -127,25 +127,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 |Orange	|6|	Between 20 and 30% of sentences|**Transition words**: Only X of the sentences contain them. This is not enough. **Use more transition words**.|
 |Green	|9|	≥ 30% of sentences             |**Transition words**: Well done!|
 
-### 7) Flesch Reading Ease
-**What it does**: Checks how easy to read the text is according to the Flesch Reading Ease test
-
-**When applies**: When the (sanitized) text has more than 50 characters (this is tied to the TextPresenceAssessment), and the assessment is supported in the specific language (the researcher has a research).
-
-**Name in code**: FleschReadingEaseAssessment
-
-**Title URL**: [https://yoa.st/34r](https://yoast.com/flesch-reading-ease-score/#utm_source=yoast-seo&utm_medium=software&utm_term=flesch-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
-
-**Call to action URL**: [https://yoa.st/34s](https://yoast.com/flesch-reading-ease-score/#utm_source=yoast-seo&utm_medium=software&utm_term=flesch-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
-
-|Traffic light	|Score	|Criterion|	Feedback|
-|-------|------	|----- |------- |
-|Red	|3 |	< 30	          |**Flesch Reading Ease**: The copy scores X in the test, which is considered X to read. **Try to make shorter sentences, using less difficult words to improve readability**.|
-|Red	|3 |	Between 30 and 50 |**Flesch Reading Ease**: The copy scores X in the test, which is considered X to read. **Try to make shorter sentences, using less difficult words to improve readability**.|
-|Orange	|6 |	Between 50 and 60 |**Flesch Reading Ease**: The copy scores X in the test, which is considered X to read. **Try to make shorter sentences to improve readability**.|
-|Green	|9 |	> 60              |**Flesch Reading Ease**: The copy scores X in the test, which is considered X to read. Good job! |
-
-### 8) Text presence
+### 7) Text presence
 **What it does**: Checks whether there is enough text in the copy
 
 **Name in code**: TextPresenceAssessment
@@ -158,7 +140,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 |-------|------	|----- |------- |
 |Red	|3	|< 50 characters	|**Not enough content**: **please add some content to enable a good analysis**.|
 
-### 9) Word complexity (only in Premium)
+### 8) Word complexity (only in Premium)
 **What it does**: Checks whether the text contains complex words. Word forms from the keyphrase are excluded.
 
 **When applies**: When the (sanitized) text has more than 50 characters
@@ -174,7 +156,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 | Orange (cornerstone: red) | 6 (cornerstone: 3) | If the complex words are more than 10% in the text | **Word complexity**: X% of the words in your text are considered complex. **Try to use shorter and more familiar words to improve readability**. |
 | Green                     | 9                  | If the complex words are less than 10% in the text | **Word complexity**: You are not using too many complex words, which makes your text easy to read. Good job!                                     |
 
-### 10) Text alignment (only in Premium)
+### 9) Text alignment (only in Premium)
 **What it does**: Checks whether there is an over-use of center-alignment in the text.
 
 **When applies**: When the (sanitized) text has more than 50 characters and at least one paragraph or heading with center-alignment.

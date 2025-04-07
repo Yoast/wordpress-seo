@@ -55,10 +55,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
 	 * @param Image_Helper              $image_helper  The image helper.
 	 */
-	public function __construct(
-		WPSEO_Admin_Asset_Manager $asset_manager,
-		Image_Helper $image_helper
-	) {
+	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager, Image_Helper $image_helper ) {
 		$this->asset_manager = $asset_manager;
 		$this->image_helper  = $image_helper;
 	}

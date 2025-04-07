@@ -46,7 +46,7 @@ final class Analysis_Features_List_Test extends TestCase {
 	 * Tests the to array.
 	 *
 	 * @covers ::add_feature
-	 * @covers ::parse_to_array
+	 * @covers ::to_array
 	 *
 	 * @return void
 	 */

@@ -38,13 +38,11 @@ export const Dashboard = ( { widgetFactory, userName, features, links, sitekitFe
 		return dataProvider.subscribe( callback );
 	}, [ dataProvider ] );
 	useSyncExternalStore( subscribeSiteKitConfiguration, getSnapshotSiteKitConfiguration );
-	const getSnapshotSiteKitSetupCompleted = useCallback( () => dataProvider.isSiteKitConnectionCompleted(), [ dataProvider ] );
-	useSyncExternalStore( subscribeSiteKitConfiguration, getSnapshotSiteKitSetupCompleted );
 
 	return (
 		<>
 			<PageTitle userName={ userName } features={ features } links={ links } sitekitFeatureEnabled={ sitekitFeatureEnabled } />
-			<div className="yst-grid yst-grid-cols-4 yst-gap-6 yst-my-6">
+			<div className="yst-@container yst-grid yst-grid-cols-4 yst-gap-6 yst-my-6">
 				{ values( WidgetFactory.types ).map( ( widget ) => widgetFactory.createWidget( prepareWidgetInstance( widget ) ) ) }
 			</div>
 		</>

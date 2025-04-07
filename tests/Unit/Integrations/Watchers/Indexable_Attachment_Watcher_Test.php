@@ -110,7 +110,7 @@ final class Indexable_Attachment_Watcher_Test extends TestCase {
 	/**
 	 * Data provider for test_check_option.
 	 *
-	 * @return array<string,string|int|array<string>|null>
+	 * @return array<string, array<string, int|array<string, string|bool>|null>>
 	 */
 	public static function check_option_provider() {
 		return [

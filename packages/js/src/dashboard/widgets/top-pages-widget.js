@@ -1,14 +1,18 @@
 import { PencilIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { Button, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
-import { useRemoteData } from "../services/use-remote-data";
-import { WidgetTable, Score } from "../components/widget-table";
-import { Widget } from "./widget";
 import { ErrorAlert } from "../components/error-alert";
+import { NoDataParagraph } from "../components/no-data-paragraph";
+import { Score, WidgetTable } from "../components/widget-table";
+import { useRemoteData } from "../services/use-remote-data";
+import { Widget } from "./widget";
 
 /**
  * @type {import("../index").TopPageData} TopPageData
+ * @type {import("../services/data-provider")} DataProvider
+ * @type {import("../services/remote-data-provider")} RemoteDataProvider
+ * @type {import("../services/data-formatter-interface")} DataFormatterInterface
  */
 
 /**
@@ -137,7 +141,7 @@ const TopPagesTable = ( { data, children, isIndexablesEnabled = true, isSeoAnaly
 );
 
 /**
- * @param {import("../services/data-formatter")} dataFormatter The data formatter.
+ * @param {import("../services/plain-metrics-data-formatter")} dataFormatter The data formatter.
  * @returns {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
  */
 export const createTopPageFormatter = ( dataFormatter ) => ( data = [] ) => data.map( ( item ) => ( {
@@ -151,46 +155,13 @@ export const createTopPageFormatter = ( dataFormatter ) => ( data = [] ) => data
 } ) );
 
 /**
- * The content of the top pages widget.
- *
- * @param {TopPageData[]} data The data.
- * @param {boolean} isPending Whether the data is pending.
- * @param {number} limit The limit.
- * @param {Error} error The error.
- * @param {import("../services/data-provider")} dataProvider The data provider.
- *
- * @returns {JSX.Element} The element.
- */
-const TopPagesWidgetContent = ( { data, isPending, limit, error, dataProvider } ) => {
-	if ( isPending ) {
-		return (
-			<TopPagesTable>
-				{ Array.from( { length: limit }, ( _, index ) => (
-					<TopPagesSkeletonLoaderRow key={ `top-pages-table--row__${ index }` } index={ index } />
-				) ) }
-			</TopPagesTable>
-		);
-	}
-
-	if ( error ) {
-		return <ErrorAlert error={ error } supportLink={ dataProvider.getLink( "errorSupport" ) } className="yst-mt-4" />;
-	}
-
-	if ( data.length === 0 ) {
-		return <p className="yst-mt-4">{ __( "No data to display: Your site hasn't received any visitors yet.", "wordpress-seo" ) }</p>;
-	}
-
-	return <TopPagesTable data={ data } isIndexablesEnabled={ dataProvider.hasFeature( "indexables" ) } isSeoAnalysisEnabled={ dataProvider.hasFeature( "seoAnalysis" ) } />;
-};
-
-/**
- * @param {import("../services/data-provider")} dataProvider The data provider.
- * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
- * @param {import("../services/data-formatter")} dataFormatter The data formatter.
+ * @param {DataProvider} dataProvider The data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
- * @returns {JSX.Element} The element.
+ * @returns {{data?: TopPageData[], error?: Error, isPending: boolean}} The remote data info.
  */
-export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => {
+const useTopPages = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => {
 	/**
 	 * @param {RequestInit} options The options.
 	 * @returns {Promise<TopPageData[]|Error>} The promise of TopPageData or an Error.
@@ -202,30 +173,90 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 			options );
 	}, [ dataProvider, limit ] );
 
-	const infoLink = dataProvider.getLink( "topPagesInfoLearnMore" );
-
 	/**
 	 * @type {function(?TopPageData[]): TopPageData[]} Function to format the top pages data.
 	 */
 	const formatTopPages = useMemo( () => createTopPageFormatter( dataFormatter ), [ dataFormatter ] );
 
-	const { data, error, isPending } = useRemoteData( getTopPages, formatTopPages );
+	return useRemoteData( getTopPages, formatTopPages );
+};
 
-	return <Widget
+/**
+ * @param {DataProvider} dataProvider The data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
+ * @param {number} [limit=5] The limit.
+ * @param {import("../services/data-provider")} dataProvider The data provider.
+ * @returns {JSX.Element} The element.
+ */
+const TopPagesWidgetContent = ( { dataProvider, remoteDataProvider, dataFormatter, limit } ) => {
+	const { data, isPending, error } = useTopPages( { dataProvider, remoteDataProvider, dataFormatter, limit } );
+
+	if ( isPending ) {
+		return (
+			<TopPagesTable>
+				{ Array.from( { length: limit }, ( _, index ) => (
+					<TopPagesSkeletonLoaderRow key={ `top-pages-table--row__${ index }` } index={ index } />
+				) ) }
+			</TopPagesTable>
+		);
+	}
+	if ( error ) {
+		return <ErrorAlert error={ error } supportLink={ dataProvider.getLink( "errorSupport" ) } className="yst-mt-4" />;
+	}
+	if ( data.length === 0 ) {
+		return <NoDataParagraph />;
+	}
+
+	return (
+		<TopPagesTable
+			data={ data }
+			isIndexablesEnabled={ dataProvider.hasFeature( "indexables" ) }
+			isSeoAnalysisEnabled={ dataProvider.hasFeature( "seoAnalysis" ) }
+		/>
+	);
+};
+
+/**
+ * Wraps the top pages into a widget.
+ * This contains minimal logic, in order to keep the error boundary more likely to catch errors.
+ *
+ * @param {DataProvider} dataProvider The data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
+ * @param {number} [limit=5] The limit.
+ *
+ * @returns {JSX.Element} The element.
+ */
+export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => (
+	<Widget
 		className="yst-paper__content yst-col-span-4"
 		title={ __( "Top 5 most popular content", "wordpress-seo" ) }
 		tooltip={ __(
-			"The top 5 URLs on your website with the highest number of clicks.",
+			"The top 5 URLs on your website with the highest number of clicks over the last 28 days.",
 			"wordpress-seo"
 		) }
-		tooltipLearnMoreLink={ infoLink }
+		dataSources={ [
+			{
+				source: "Site Kit by Google",
+				feature: __( "Clicks, Impressions, CTR, Position", "wordpress-seo" ),
+			},
+			{
+				source: "Yoast SEO",
+				feature: sprintf(
+					/* translators: 1: Yoast SEO. */
+					__( "%1$s score", "wordpress-seo" ),
+					"Yoast SEO"
+				),
+			},
+		] }
+		errorSupportLink={ dataProvider.getLink( "errorSupport" ) }
 	>
 		<TopPagesWidgetContent
-			data={ data }
-			isPending={ isPending }
-			limit={ limit }
-			error={ error }
 			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
+			limit={ limit }
 		/>
-	</Widget>;
-};
+	</Widget>
+);

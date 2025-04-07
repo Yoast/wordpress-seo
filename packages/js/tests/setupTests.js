@@ -57,3 +57,17 @@ global.IntersectionObserver = class {
 };
 
 global.jQuery = jest.fn();
+
+global.HTMLCanvasElement.prototype.getContext = function( type ) {
+	if ( type === "2d" ) {
+		return {
+			// Mock methods and properties used by Chart.js
+			createLinearGradient: () => ( {
+				addColorStop: jest.fn(),
+			} ),
+			fillRect: jest.fn(),
+			clearRect: jest.fn(),
+		};
+	}
+	return null;
+};

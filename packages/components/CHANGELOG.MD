@@ -9,14 +9,16 @@ We follow [Semantic Versioning](http://semver.org/).
 * Adds component `SparklesIcon`. [#21449](https://github.com/Yoast/wordpress-seo/pull/21449)
 * Adds component `IconButtonBase`. [#21348](https://github.com/Yoast/wordpress-seo/pull/21348)
 * Adds component `IconAIFixesButton`. [#21348](https://github.com/Yoast/wordpress-seo/pull/21348)
+* Refactors the logic used by `ImageSelect` to determine which styling to apply. [#21962](https://github.com/Yoast/wordpress-seo/pull/21962)
 
 ### Other
 * Adds a way to change the link in the `WordOccurenceInsights` component.
 
 ### Non user facing
 * Now published as a transpiled package.
+* Now uses the latest version of `@yoast/eslint-config` instead of the deprecated `eslint-config-yoast`.
+* Uses a flat config for ESLint.
 * Changes the `imageAltText` prop from the `ImageSelect` component to no longer be required.
-
 
 ## 2.20.0
 ### Enhancements

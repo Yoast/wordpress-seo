@@ -82,14 +82,20 @@ const isSiteKitFeatureEnabled = get( window, "wpseoIntegrationsData.site_kit_con
 if ( isSiteKitFeatureEnabled ) {
 	RecommendedIntegrations.push( <SiteKitIntegration
 		key={ integrations.length }
-		isInstalled={ get( window, "wpseoIntegrationsData.site_kit_configuration.isInstalled", false ) }
-		isActive={ get( window, "wpseoIntegrationsData.site_kit_configuration.isActive", false ) }
-		isSetupCompleted={ get( window, "wpseoIntegrationsData.site_kit_configuration.isSetupCompleted", false ) }
-		initialIsConsentGranted={ get( window, "wpseoIntegrationsData.site_kit_configuration.isConnected", false ) }
 		installUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.installUrl", "" ) }
 		activateUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.activateUrl", "" ) }
 		setupUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.setupUrl", "" ) }
 		consentManagementUrl={ get( window, "wpseoIntegrationsData.site_kit_consent_management_url", "" ) }
+		capabilities={ get( window, "wpseoIntegrationsData.site_kit_configuration.capabilities", {
+			installPlugins: false,
+			viewSearchConsoleData: false,
+		} ) }
+		connectionStepsStatuses={ get( window, "wpseoIntegrationsData.site_kit_configuration.connectionStepsStatuses", {
+			isInstalled: false,
+			isActive: false,
+			isSetupCompleted: false,
+			isConsentGranted: false,
+		} ) }
 	/> );
 }
 

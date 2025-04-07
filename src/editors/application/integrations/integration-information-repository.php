@@ -15,7 +15,7 @@ class Integration_Information_Repository {
 	/**
 	 * All plugin integrations.
 	 *
-	 * @var Integration_Data_Provider_Interface[] $plugin_integrations
+	 * @var Integration_Data_Provider_Interface[]
 	 */
 	private $plugin_integrations;
 
@@ -31,7 +31,7 @@ class Integration_Information_Repository {
 	/**
 	 * Returns the analysis list.
 	 *
-	 * @return array<array<string,bool>> The parsed list.
+	 * @return array<array<string, bool>> The parsed list.
 	 */
 	public function get_integration_information(): array {
 		$array = [];
