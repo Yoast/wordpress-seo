@@ -28,6 +28,7 @@ final class Analytics_4_Adapter_Get_Daily_Data_Failed_Request_Test extends Abstr
 	 * @return void
 	 */
 	public function test_get_daily_data_no_permissions() {
+		$this->markTestSkipped( 'This test needs working Site Kit rest routes' );
 		$search_console_api_call = new Site_Kit_Analytics_4_Api_Call();
 
 		$instance           = new Site_Kit_Analytics_4_Adapter( $search_console_api_call );
