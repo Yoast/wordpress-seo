@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { DataFormatterInterface } from "../../src/services/data-formatter-interface";
+import { DataFormatterInterface } from "../../src";
 
 describe( "DataFormatterInterface", () => {
 	it( "should throw an error when instantiated directly", () => {

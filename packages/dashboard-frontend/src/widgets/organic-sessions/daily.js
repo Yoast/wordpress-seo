@@ -1,7 +1,7 @@
-import { useCallback, useMemo } from "react";
 import { __ } from "@wordpress/i18n";
 import { SkeletonLoader } from "@yoast/ui-library";
 import { CategoryScale, Chart, Filler, LinearScale, LineElement, PointElement, Tooltip } from "chart.js";
+import { useCallback, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { ErrorAlert } from "../../components/error-alert";
 import { useRemoteData } from "../../services/use-remote-data";
@@ -212,7 +212,8 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataF
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{ options: { widget: "organicSessionsDaily" } },
-			options );
+			options
+		);
 	}, [ dataProvider ] );
 
 	/**
