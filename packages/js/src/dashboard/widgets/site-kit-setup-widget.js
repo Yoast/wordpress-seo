@@ -210,8 +210,23 @@ const SiteKitSetupAction = ( { currentStep, config, isConnectionCompleted, onDis
 	return null;
 };
 
+const useTracking = ( dataTracker, currentStep ) => {
+	useEffect( () => {
+		const stepName = getCurrentStepName( currentStep );
+		if ( dataTracker.getTrackingElement( "setupWidgetLoaded" ) === "no" ) {
+			dataTracker.track( {
+				setupWidgetLoaded: "yes",
+				firstInteractionStage: stepName,
+				lastInteractionStage: stepName,
+			} );
+		} else if ( dataTracker.getTrackingElement( "setupWidgetLoaded" ) === "yes" ) {
+			dataTracker.track( { lastInteractionStage: stepName } );
+		}
+	}, [ dataTracker, currentStep ] );
+};
+
 /**
- * The google site kit connection guide widget.
+ * The Google site kit connection guide widget.
  *
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
@@ -225,18 +240,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 	const config = dataProvider.getSiteKitConfiguration();
 	const isConnectionCompleted = dataProvider.isSiteKitConnectionCompleted() && config.isVersionSupported;
 
-	useEffect( () => {
-		const stepName = getCurrentStepName( currentStep );
-		if ( dataTracker.getTrackingElement( "setupWidgetLoaded" ) === "no" ) {
-			dataTracker.track( {
-				setupWidgetLoaded: "yes",
-				firstInteractionStage: stepName,
-				lastInteractionStage: stepName,
-			} );
-		} else if ( dataTracker.getTrackingElement( "setupWidgetLoaded" ) === "yes" ) {
-			dataTracker.track( { lastInteractionStage: stepName } );
-		}
-	}, [ dataTracker, currentStep ] );
+	useTracking( dataTracker, currentStep );
 
 	const handleOnRemove = useCallback( () => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
