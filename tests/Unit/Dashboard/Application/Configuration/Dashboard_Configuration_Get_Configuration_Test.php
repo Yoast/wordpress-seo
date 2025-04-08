@@ -17,10 +17,6 @@ use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Features_List;
  */
 final class Dashboard_Configuration_Get_Configuration_Test extends Abstract_Dashboard_Configuration_Test {
 
-	public function set_up() {
-		parent::set_up();
-	}
-
 	/**
 	 * Tests if the needed attributes are set correctly.
 	 *

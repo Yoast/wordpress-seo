@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Tracking;
 
+use Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Tracking\Setup_Steps_Tracking_Repository_Interface;
 
 /**
@@ -27,8 +28,16 @@ final class Setup_Steps_Tracking_Repository_Fake implements Setup_Steps_Tracking
 	 */
 	private $should_set_raise_exception;
 
-	public function __construct ( bool $should_set_fail = false, bool $should_set_raise_exception = false ) {
-		$this->should_set_fail = $should_set_fail;
+	/**
+	 * Class constructor.
+	 *
+	 * @param bool $should_set_fail            Whether set_setup_steps_tracking_element should return false.
+	 * @param bool $should_set_raise_exception Whether set_setup_steps_tracking_element should throw an exception.
+	 *
+	 * @return void
+	 */
+	public function __construct( bool $should_set_fail = false, bool $should_set_raise_exception = false ) {
+		$this->should_set_fail            = $should_set_fail;
 		$this->should_set_raise_exception = $should_set_raise_exception;
 	}
 
@@ -41,13 +50,15 @@ final class Setup_Steps_Tracking_Repository_Fake implements Setup_Steps_Tracking
 	 * @param string $element_value The value of the element to set.
 	 *
 	 * @return bool False when the update failed, true when the update succeeded.
+	 *
+	 * @throws Exception When unable to save data.
 	 */
 	public function set_setup_steps_tracking_element( string $element_name, string $element_value ): bool {
 		if ( $this->should_set_fail ) {
 			return false;
 		}
 		if ( $this->should_set_raise_exception ) {
-			throw new \Exception( 'Unable to save data.' );
+			throw new Exception( 'Unable to save data.' );
 		}
 		return true;
 	}

@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Tracking;
 use Mockery;
 use WP_Error;
 use WP_REST_Request;
-use WP_REST_Response;
 use Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Setup_Steps_Tracking_Route;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Tracking\Setup_Steps_Tracking_Repository_Fake;
@@ -61,9 +60,6 @@ final class Track_Setup_Steps_Set_Data_Throws_Exception_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_track_setup_steps() {
-
-		$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
-
 		$wp_rest_request = Mockery::mock( WP_REST_Request::class );
 		$wp_rest_request
 			->expects( 'get_param' )
