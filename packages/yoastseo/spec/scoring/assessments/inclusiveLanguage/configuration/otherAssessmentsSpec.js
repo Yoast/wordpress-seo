@@ -86,7 +86,7 @@ describe( "Checks various conditions for the 'normal' and 'abnormal' assessments
 	} );
 	it( "targets potentially harmful phrases that include the word 'abnormal'", () => {
 		const testData = [
-			 {
+			{
 				identifier: "behaviorallyAbnormal",
 				text: "I'm afraid this is behaviorally abnormal.",
 				expectedFeedback: "Be careful when using <i>behaviorally abnormal</i> as it is potentially harmful. " +

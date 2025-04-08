@@ -16,6 +16,7 @@ import OutboundLinks from "../assessments/seo/OutboundLinksAssessment";
 import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
+import SEOScoreAggregator from "../scoreAggregators/SEOScoreAggregator";
 
 /**
  * The SEOAssessor class is used for the general SEO analysis.
@@ -53,5 +54,7 @@ export default class SEOAssessor extends Assessor {
 			new FunctionWordsInKeyphrase(),
 			new SingleH1Assessment(),
 		];
+
+		this._scoreAggregator = new SEOScoreAggregator();
 	}
 }

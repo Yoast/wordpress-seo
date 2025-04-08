@@ -34,7 +34,7 @@ export default function FinishStep() {
 							__( "Great work! Thanks to the details you've provided, %1$s has enhanced your site for search engines, giving them a clearer picture of what your site is all about.", "wordpress-seo" ),
 							"Yoast"
 						)
-					 }
+					}
 				</p>
 				<p className="yst-text-sm yst-mb-6">
 					{ __( "If your goal is to increase your rankings, you need to work on your SEO regularly. That can be overwhelming, so let's tackle it one step at a time!", "wordpress-seo" ) }

@@ -161,7 +161,7 @@ final class General_Page_Integration_Test extends TestCase {
 	/**
 	 * Provider for test_register_hooks
 	 *
-	 * @return array<string,array<string>>
+	 * @return array<string, array<string, string|int>>
 	 */
 	public static function register_hooks_provider() {
 		return [
@@ -297,7 +297,7 @@ final class General_Page_Integration_Test extends TestCase {
 	/**
 	 * Expectations for get_script_data.
 	 *
-	 * @return array<string,array<string>> The expected data.
+	 * @return array<string, string> The expected data.
 	 */
 	public function expect_get_script_data() {
 		$link_params = [
@@ -317,7 +317,7 @@ final class General_Page_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_rtl' )->once()->andReturn( false );
 		Monkey\Functions\expect( 'add_query_arg' )->once();
-		Monkey\Functions\expect( 'admin_url' )->once();
+		Monkey\Functions\expect( 'admin_url' )->twice();
 		Monkey\Functions\expect( 'plugins_url' )
 			->once()
 			->andReturn( 'http://basic.wordpress.test/wp-content/worspress-seo' );

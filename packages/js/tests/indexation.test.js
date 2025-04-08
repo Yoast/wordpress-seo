@@ -58,7 +58,7 @@ describe( "Indexation", () => {
 		render( <Indexation /> );
 		fireEvent.click( screen.getByRole( "button" ) );
 
-		const optimizing = screen.queryByText( "Optimizing SEO data... This may take a while." );
+		const optimizing = screen.queryByText( "Optimizing SEO data… This may take a while." );
 		expect( optimizing ).toBeInTheDocument();
 
 		const progressBar = document.getElementsByTagName( "progress" )[ 0 ];

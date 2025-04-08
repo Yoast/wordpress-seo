@@ -55,13 +55,19 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "exotic" ],
 		inclusiveAlternatives: "<i>unfamiliar, foreign, peculiar, fascinating, alluring, bizarre, non-native, introduced</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: beCarefulHarmful + " Unless you are referring to animals, " +
+		feedbackFormat: beCarefulHarmful + " Unless you are referring to animals or scientific terms, " +
 			"consider using an alternative, such as %2$s.",
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "longhair", "longhairs", "shorthair", "shorthairs" ] ) );
+				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "longhair", "longhairs", "shorthair", "shorthairs",
+					"bloom", "blooms", "species", "florals", "botanical", "botanicals", "leather", "leathers", "material",
+					"materials", "timber", "timbers", "composite", "composites", "atom", "atoms", "molecule", "molecules",
+					"hadron", "hadrons", "sphere", "spheres", "star", "stars", "car", "cars", "sports car", "sports cars" ] ) );
 		},
-		ruleDescription: notFollowed( [ "longhair", "longhairs", "shorthair", "shorthairs" ] ),
+		ruleDescription: notFollowed( [ "longhair", "longhairs", "shorthair", "shorthairs",
+			"bloom", "blooms", "species", "florals", "botanical", "botanicals", "leather", "leathers", "material",
+			"materials", "timber", "timbers", "composite", "composites", "atom", "atoms", "molecule", "molecules",
+			"hadron", "hadrons", "sphere", "spheres", "star", "stars", "car", "cars", "sports car", "sports cars" ] ),
 	},
 	{
 		identifier: "sherpa",

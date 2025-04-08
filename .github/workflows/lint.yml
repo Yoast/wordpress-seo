@@ -73,6 +73,8 @@ jobs:
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           coverage: none
           tools: cs2pr
+        env:
+          update: true
 
       - name: Lint against parse errors
         run: composer lint -- --checkstyle | cs2pr

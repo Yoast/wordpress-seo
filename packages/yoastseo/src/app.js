@@ -814,7 +814,6 @@ class App {
 	 * @returns {void}
 	 */
 	switchAssessors( useCornerStone ) {
-		// eslint-disable-next-line no-console
 		console.warn( "Switch assessor is deprecated since YoastSEO.js version 1.35.0" );
 
 		this.changeAssessorOptions( {

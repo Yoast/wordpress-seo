@@ -82,7 +82,7 @@ final class Register_Capabilities_Test extends TestCase {
 	 * [1] string: The access setting value to test.
 	 * [2] bool:   The expected test result.
 	 *
-	 * @return array The test data.
+	 * @return array<array<string|bool>>
 	 */
 	public static function data_filter_user_has_wpseo_manage_options_cap() {
 		return [

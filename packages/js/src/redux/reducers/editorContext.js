@@ -18,6 +18,7 @@ function getDefaultState() {
 		termType: get( window, "wpseoScriptData.termType", "" ),
 		postStatus: get( window, "wpseoScriptData.postStatus", "" ),
 		isFrontPage: get( window, "wpseoScriptData.isFrontPage", "0" ) === "1",
+		postType: get( window, "wpseoScriptData.postType", "" ),
 	};
 }
 

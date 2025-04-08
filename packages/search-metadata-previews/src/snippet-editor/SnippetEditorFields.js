@@ -189,7 +189,7 @@ class SnippetEditorFields extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	 onFocusTitle() {
+	onFocusTitle() {
 		this.props.onFocus( "title" );
 	}
 
@@ -229,7 +229,7 @@ class SnippetEditorFields extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	 onChangeSlug( event ) {
+	onChangeSlug( event ) {
 		this.props.onChange( "slug", event.target.value );
 	}
 
@@ -238,7 +238,7 @@ class SnippetEditorFields extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	 onFocusDescription() {
+	onFocusDescription() {
 		this.props.onFocus( "description" );
 	}
 

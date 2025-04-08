@@ -380,9 +380,8 @@ class Indexable_Builder {
 			}
 
 			return $this->indexable_helper->save_indexable( $indexable, $indexable_before );
-		}
-		catch ( Source_Exception $exception ) {
-			if ( ! $this->is_type_with_no_id( $indexable->object_type ) && ( ! isset( $indexable->object_id ) || \is_null( $indexable->object_id ) ) ) {
+		} catch ( Source_Exception $exception ) {
+			if ( ! $this->is_type_with_no_id( $indexable->object_type ) && ! isset( $indexable->object_id ) ) {
 				return false;
 			}
 
@@ -407,8 +406,7 @@ class Indexable_Builder {
 			$indexable = $this->version_manager->set_latest( $indexable );
 
 			return $this->indexable_helper->save_indexable( $indexable, $indexable_before );
-		}
-		catch ( Not_Built_Exception $exception ) {
+		} catch ( Not_Built_Exception $exception ) {
 			return false;
 		}
 	}

@@ -1,5 +1,3 @@
-/* eslint-disable complexity */
-
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon, ChartPieIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelect } from "@wordpress/data";
@@ -114,7 +112,7 @@ const App = () => {
 							<Menu />
 						</SidebarNavigation.Sidebar>
 					</aside>
-					<div className="yst-grow">
+					<div className="yst-grow yst-max-w-page">
 						<div className="yst-space-y-6 yst-mb-8 xl:yst-mb-0">
 							<main>
 								<Transition
@@ -140,7 +138,7 @@ const App = () => {
 												>
 													{ notice.content }
 												</Notice>
-												 )
+											)
 										}
 										</div> }
 									</div> }

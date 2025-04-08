@@ -7,7 +7,6 @@ import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
 import StepHeader from "./step-header";
 import { FadeInAlert } from "../tailwind-components/base/alert";
 
-/* eslint-disable complexity */
 const {
 	slideDuration,
 	delayBeforeOpening,
@@ -27,9 +26,9 @@ const StepperContext = createContext();
 export function useStepperContext() {
 	const context = useContext( StepperContext );
 	if ( ! context ) {
-	  throw new Error(
+		throw new Error(
 			"Stepper compound components cannot be rendered outside the Stepper component"
-	  );
+		);
 	}
 	return context;
 }
@@ -274,4 +273,3 @@ Step.Error = StepError;
 Step.Header = StepHeader;
 Step.GoButton = GoButton;
 Step.EditButton = EditButton;
-/* eslint-enable complexity */

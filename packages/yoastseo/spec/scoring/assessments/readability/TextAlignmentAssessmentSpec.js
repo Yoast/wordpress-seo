@@ -275,6 +275,7 @@ describe( "tests for retrieving the feedback strings.", function() {
 		 */
 		const getResultTexts = ( { urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag, numberOfLongCenterAlignedTexts } ) => {
 			return {
+				// eslint-disable-next-line @wordpress/valid-sprintf -- The plural uses one extra argument.
 				rightToLeft: sprintf(
 					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 					%4$s expands to the number of the long center-aligned sections in the text */
@@ -282,13 +283,14 @@ describe( "tests for retrieving the feedback strings.", function() {
 						"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it right-aligned%3$s.",
 						"%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. %2$sWe recommend making them right-aligned%3$s.",
 						numberOfLongCenterAlignedTexts,
-						"wordpress-seo-premium"
+						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					urlActionAnchorOpeningTag,
 					"</a>",
 					numberOfLongCenterAlignedTexts
 				),
+				// eslint-disable-next-line @wordpress/valid-sprintf -- The plural uses one extra argument.
 				leftToRight: sprintf(
 					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 						%4$s expands to the number of the long center-aligned sections in the text */
@@ -296,7 +298,7 @@ describe( "tests for retrieving the feedback strings.", function() {
 						"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it left-aligned%3$s.",
 						"%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. %2$sWe recommend making them left-aligned%3$s.",
 						numberOfLongCenterAlignedTexts,
-						"wordpress-seo-premium"
+						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					urlActionAnchorOpeningTag,
@@ -321,20 +323,13 @@ describe( "tests for retrieving the feedback strings.", function() {
 } );
 
 describe( "tests for the assessment's applicability.", function() {
-	it( "returns false when the paper is empty.", function() {
-		const paperWithNoText = new Paper( "" );
-		const researcher = new EnglishResearcher( paperWithNoText );
-		researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
-		expect( textAlignmentAssessment.isApplicable( paperWithNoText, researcher ) ).toBe( false );
-	} );
-
 	it( "returns false when the researcher doesn't have the research.", function() {
 		const mockPaper = new Paper( "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters.</p>" );
 		const researcher = new EnglishResearcher( mockPaper );
 		expect( textAlignmentAssessment.isApplicable( mockPaper, researcher ) ).toBe( false );
 	} );
 
-	it( "returns true when the paper has more than 50 characters and the researcher has the research.", function() {
+	it( "returns true when the researcher has the research.", function() {
 		const mockPaper = new Paper( "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters.</p>" );
 		const researcher = new EnglishResearcher( mockPaper );
 		researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );

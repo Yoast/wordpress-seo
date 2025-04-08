@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.7
-Stable tag: 24.1
+Stable tag: 24.8.1
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -274,43 +274,49 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 24.2 =
+= 24.9 =
 
-Release date: 2024-12-31
-
-#### Enhancements
-
-* Improves the tooltips accessibility in the related keyphrase suggestions modal.
-
-#### Bugfixes
-
-* Fixes a bug where a deprecation message would appear in PHP 8+ when saving a post containing images with invalid sources. Props to [kkmuffme](https://github.com/kkmuffme).
-* Fixes a bug where TypeError would occur when checking for capabilities of SEO Manager user role when the roles were not passed as an array. Props to [kfeinUI](https://github.com/kfeinUI).
-
-#### Other
-
-* Changes the title text on the Yoast installation success page.
-* Fixes a console warning about ReactDOM.render being no longer supported in React 18.
-
-= 24.1 =
-
-Release date: 2024-12-18
-
-Yoast SEO 24.1 adds the Yoast SEO Dashboard to monitor your site's SEO performance in one overview. Find more about Yoast SEO 24.1 in [our release post](https://yoa.st/release-18-12-24)!
+Release date: 2025-04-15
 
 #### Enhancements
 
-* Introduces the Yoast Dashboard, a place where site administrators can check the SEO and Readability performance of the site's posts.
-* Adds `Not analyzed` as an option in the readability filter in the posts page.
-* Enhances the existing `Needs improvement` option in the readability filter in the posts page, to include posts that don't have enough content as well.
+* Changes the applicability criteria of readability assessments so that they are shown even if there is little or no text.
+* Improves the recognition of transition words for Farsi.
+* Introduces more robust HTML processing and highlighting for the _consecutive sentences_ assessment.
 
 #### Bugfixes
 
-* Fixes a bug where posts that have been set to explicitly not be noindexed and had no keyword set would not appear in the relevant SEO filter in the posts page.
+* Fixes a bug where the advanced replacement variables would not be visible when editing social previews in Elementor.
+* Fixes a bug where the content image would not show on social previews when editing it in Elementor.
+* Fixes a bug where Yoast modals would not be visible when using Astra plugins.
 
 #### Other
 
-* Improves the translatability of feedback for the _paragraph length_ and the _sentence length_ assessments.
+* Adds a space before the closing slash in self-closing HTML tags to comply with recommended coding standards. Props to [laxman1192](https://github.com/laxman1192).
+* Updates the Google AI bot name in the _crawl optimization_ settings from _Google Bard_ to _Google Gemini_.
+
+= 24.8.1 =
+
+Release date: 2025-04-02
+
+#### Bugfixes
+
+* Fixes a potential fatal error on the dashboard page.
+
+= 24.8 =
+
+Release date: 2025-04-01
+
+Yoast SEO 24.8 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
+#### Enhancements
+
+* Adds _pregnant women_ to the potentially non-inclusive phrases targeted by the inclusive language analysis.
+* Improves the inclusive language analysis feedback for the potentially non-inclusive word _exotic_, and prevents the feedback from appearing when _exotic_ is followed by words common in scientific contexts.
+
+#### Other
+
+* Removes the Yoast AI Optimize modals from the Yoast admin pages.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

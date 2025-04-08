@@ -1,4 +1,6 @@
 const { Paper } = require( "yoastseo" );
+const { build } = require( "yoastseo/build/parse/build" );
+const { LanguageProcessor } = require( "yoastseo/build/parse/language" );
 const { getResearcher } = require( "../helpers/get-researcher" );
 
 module.exports = function( app ) {
@@ -45,10 +47,11 @@ module.exports = function( app ) {
 			request.body.text || "",
 			request.body || {}
 		);
+		paper.setTree( build( paper, new LanguageProcessor( researcher ), paper._attributes && paper._attributes.shortcodes ) );
 		researcher.setPaper( paper );
 		const sentenceLengths = researcher.getResearch( "countSentencesFromText" );
 
-		const responseBody = sentenceLengths.map( sentence => ( { sentence: sentence.sentence, length: sentence.sentenceLength } ) );
+		const responseBody = sentenceLengths.map( sentence => ( { sentence: sentence.sentence.text, length: sentence.sentenceLength } ) );
 		response.json( responseBody );
 	} );
 
@@ -59,10 +62,11 @@ module.exports = function( app ) {
 			request.body.text || "",
 			request.body || {}
 		);
+		paper.setTree( build( paper, new LanguageProcessor( researcher ), paper._attributes && paper._attributes.shortcodes ) );
 		researcher.setPaper( paper );
 		const paragraphLengths = researcher.getResearch( "getParagraphLength" );
 
-		const responseBody = paragraphLengths.map( paragraph => ( { paragraph: paragraph.text, length: paragraph.countLength } ) );
+		const responseBody = paragraphLengths.map( paragraph => ( { length: paragraph.paragraphLength } ) );
 		response.json( responseBody );
 	} );
 }

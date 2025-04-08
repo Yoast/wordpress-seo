@@ -18,12 +18,15 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 	return <div className="yst-@container">
 		<div className="yst-flex yst-flex-col @lg:yst-flex-row yst-gap-6 yst-mb-8">
 			<p className="yst-text-sm yst-whitespace-pre-line">
-				{ __(
-					"Let's start by running the SEO data optimization. That means we'll scan your site and create a database with " +
-					"optimized SEO data. It won't change any content or settings on your site and you don't need to do anything, just hit start!\n" +
-					"\nNote: If you have a lot of content, this optimization could take a moment. But trust us, it's worth it!",
-					"wordpress-seo"
-				) }
+				{
+					// eslint-disable-next-line @wordpress/i18n-no-collapsible-whitespace -- This is a multiline string.
+					__(
+						"Let's start by running the SEO data optimization. That means we'll scan your site and create a database with " +
+						"optimized SEO data. It won't change any content or settings on your site and you don't need to do anything, just hit start!\n" +
+						"\nNote: If you have a lot of content, this optimization could take a moment. But trust us, it's worth it!",
+						"wordpress-seo"
+					)
+				}
 			</p>
 			<ConfigurationStartImage className="yst-shrink-0 yst-h-28 yst-w-24" />
 		</div>

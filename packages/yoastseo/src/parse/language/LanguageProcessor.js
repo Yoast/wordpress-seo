@@ -8,7 +8,7 @@ const whitespaceRegex = /^\s+$/;
 /**
  * Contains language-specific logic for splitting a text into sentences and tokens.
  */
-class LanguageProcessor {
+export default class LanguageProcessor {
 	/**
 	 * Creates a new language processor.
 	 *
@@ -71,4 +71,3 @@ class LanguageProcessor {
 		return tokenTexts.map( tokenText => new Token( tokenText ) );
 	}
 }
-export default LanguageProcessor;

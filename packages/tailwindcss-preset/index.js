@@ -41,6 +41,9 @@ module.exports = {
 			strokeWidth: {
 				3: "3px",
 			},
+			maxWidth: {
+				page: "2048px",
+			},
 		},
 	},
 	important: true,

@@ -94,7 +94,7 @@ function processResult( mappedResult, mappedResults ) {
  *
  * @returns {Object} The icon and color for the score.
  */
-export function getIconForScore( score ) { // eslint-disable-line complexity
+export function getIconForScore( score ) {
 	switch ( score ) {
 		case "loading":
 			return { icon: "loading-spinner", color: colors.$color_green_medium_light };

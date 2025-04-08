@@ -37,8 +37,8 @@ class Option_Titles_Watcher implements Integration_Interface {
 	/**
 	 * Checks if one of the relevant options has been changed.
 	 *
-	 * @param array<string,int,bool> $old_value The old value of the option.
-	 * @param array<string,int,bool> $new_value The new value of the option.
+	 * @param array<string|int|bool> $old_value The old value of the option.
+	 * @param array<string|int|bool> $new_value The new value of the option.
 	 *
 	 * @return bool Whether or not the ancestors are removed.
 	 */

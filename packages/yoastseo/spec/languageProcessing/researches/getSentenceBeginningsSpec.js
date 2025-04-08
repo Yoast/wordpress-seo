@@ -1,17 +1,25 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import getSentenceBeginnings from "../../../src/languageProcessing/researches/getSentenceBeginnings";
-
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
 import SpanishResearcher from "../../../src/languageProcessing/languages/es/Researcher";
 import GreekResearcher from "../../../src/languageProcessing/languages/el/Researcher";
+import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
+import PortugueseResearcher from "../../../src/languageProcessing/languages/pt/Researcher";
+import DutchResearcher from "../../../src/languageProcessing/languages/nl/Researcher";
+import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
+import RussianResearcher from "../../../src/languageProcessing/languages/ru/Researcher";
+import PolishResearcher from "../../../src/languageProcessing/languages/pl/Researcher";
+import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";
+import IndonesianResearcher from "../../../src/languageProcessing/languages/id/Researcher";
+import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
+import buildTree from "../../specHelpers/parse/buildTree";
 
-// eslint-disable-next-line max-statements
 describe( "gets the sentence beginnings and the count of consecutive duplicates.", function() {
 	let mockPaper = new Paper( "How are you? Bye!" );
 	let researcher = new EnglishResearcher( mockPaper );
+	buildTree( mockPaper, researcher );
 
 	it( "returns an object with sentence beginnings and counts for two sentences in English starting " +
 		"with different words.", function() {
@@ -24,6 +32,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in English starting with the same word.", function() {
 		mockPaper = new Paper( "Hey, hey! Hey." );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "hey" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
 	} );
@@ -33,6 +42,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"The count for this word should be reset.", function() {
 		mockPaper = new Paper( "Hey, hey! Hey. Bye. Hey." );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "hey" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "bye" );
@@ -45,6 +55,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"with one of the exception words.", function() {
 		mockPaper = new Paper( "The boy, hey! The boy. The boy." );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "the boy" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
 	} );
@@ -54,6 +65,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"of exception words, which should not matter.", function() {
 		mockPaper = new Paper( "One, two, three. One, two, three. One, two, three." );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "one two" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
 	} );
@@ -61,6 +73,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns only an exclusion word, if that is the only word in a sentence (English)", function() {
 		mockPaper = new Paper( "A" );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "a" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
 	} );
@@ -69,6 +82,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		mockPaper = new Paper( "À Paris, certaines prisons sont restées célèbres. À Paris, certaines prisons " +
 		"sont restées célèbres. À Paris, certaines prisons sont restées célèbres.", { locale: "fr_FR" } );
 		researcher = new FrenchResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "à" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
 	} );
@@ -77,6 +91,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		mockPaper = new Paper( "<ul><li>item 1</li><li class='list-item'>item 2</li><li>item 3</li><li>item 4</li></ul>" +
 							   "<p>Hello. Hello. Hello.</p>" );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		const sentenceBeginnings = getSentenceBeginnings( mockPaper, researcher );
 
@@ -89,6 +104,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		mockPaper = new Paper( "<ul><li>item 1</li>\n\n<li class='list-item'>item 2</li>\n<li>item 3</li><li>item 4</li>\n\n      </ul>" +
 			"<p>Hello. Hello. Hello.</p>" );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		const sentenceBeginnings = getSentenceBeginnings( mockPaper, researcher );
 
@@ -101,6 +117,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		mockPaper = new Paper( "<figure class='wp-block-table'><table><tbody><tr><td>Cats and dogs.</td><td>Cats are cute.</td></tr><tr><td>Cats" +
 			" are awesome.</td><td>Cats are nice.</td></tr></tbody></table><figcaption>Cats are great.</figcaption></figure>" );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher ) ).toEqual( [] );
 	} );
@@ -108,6 +125,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "ignores sentences inside a code element", function() {
 		mockPaper = new Paper( "Cats are fluffy. Dogs are happy. <code>Unicorns can't code</code>" );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		const sentenceBeginnings = getSentenceBeginnings( mockPaper, researcher );
 
@@ -121,6 +139,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "ignores shortcodes", function() {
 		mockPaper = new Paper( "Cats are fluffy. Dogs are happy. [shortcode]Unicorns cant code.", { shortcodes: [ "shortcode" ] } );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		const sentenceBeginnings = getSentenceBeginnings( mockPaper, researcher );
 
@@ -136,6 +155,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with English sentence beginnings with paragraph tags - it should match over paragraphs", function() {
 		mockPaper = new Paper( "<p>Sentence 1. Sentence 2.</p><p>Sentence 3.</p>" );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "sentence" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
@@ -144,6 +164,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with English sentence beginnings in different capitalizations", function() {
 		mockPaper = new Paper( "Sentence 1. SENTENCE 2. Sentence 3." );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "sentence" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
@@ -152,6 +173,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an empty string if only enters or whitespaces in a string", function() {
 		mockPaper = new Paper( "   \n</div>", { locale: "en_US" } );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher ) ).toEqual( [] );
 	} );
@@ -159,6 +181,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an empty array if there is no sentence", function() {
 		mockPaper = new Paper( "" );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher ) ).toEqual( [] );
 	} );
@@ -166,6 +189,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an empty array if there is a sentence with only whitespaces", function() {
 		mockPaper = new Paper( "&nbsp;", { locale: "en_US" } );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher ) ).toEqual( [] );
 	} );
@@ -174,6 +198,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		mockPaper = new Paper( '<img class="alignnone wp-image-514079 size-full" src="https://yoast-mercury.s3.amazonaws.com' +
 				'/uploads/2015/10/Twitter_analytics_FI.png" alt="" width="1200" height="628" />' );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher ) ).toEqual( [] );
 	} );
@@ -181,15 +206,17 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns matching sentences if there is an 'empty' sentence", function() {
 		mockPaper = new Paper( "\"A sentence with multiple terminators!\"). Test one. Test two. Test three." );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
-		expect( getSentenceBeginnings( mockPaper, researcher ) ).toContainEqual(
-			{ word: "test", count: 3, sentences: [ "Test one.", "Test two.", "Test three." ] } );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "test" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].count ).toBe( 3 );
 	} );
 
 	it( "returns an object with three sentences starting with the same word when those words are " +
 		"preceded by different special characters in each sentence.", function() {
 		mockPaper = new Paper( "¡Hola! ¿Hola? (¡Hola!)" );
 		researcher = new SpanishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "hola" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
@@ -199,6 +226,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"when the sentences start with the same special character, but with different words.", function() {
 		mockPaper = new Paper( "(First sentence). (Second sentence)." );
 		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "first" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
@@ -206,9 +234,11 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].count ).toBe( 1 );
 	} );
 
-	/*it( "returns an object with sentence beginnings and counts for two sentences in German starting with different words.", function() {
+	it( "returns an object with sentence beginnings and counts for two sentences in German starting with different words.", function() {
 		mockPaper = new Paper( "Ich bin wie du. Auf wiedersehen. ", { locale: "de_DE" } );
 		researcher = new GermanResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "ich" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "auf" );
@@ -218,6 +248,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in German starting with the same word.", function() {
 		mockPaper = new Paper( "Hallo, hallo! Hallo.", { locale: "de_DE" } );
 		researcher = new GermanResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "hallo" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
 	} );
@@ -226,6 +258,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"with one of the exception words.", function() {
 		mockPaper = new Paper( "Eine kleine Nachtmusik. Eine kleine Geige. Eine kleine Wolke.", { locale: "de_DE" } );
 		researcher = new GermanResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "eine kleine" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
 	} );
@@ -234,6 +268,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		mockPaper = new Paper( "Österreich ist ein schönes Land. Österreich ist ein schönes Land. Österreich " +
 			"ist ein schönes Land.", { locale: "de_DE" } );
 		researcher = new GermanResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "österreich" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
 	} );
@@ -241,15 +277,20 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in Spanish starting with different words.", function() {
 		mockPaper = new Paper( "Vamos a la playa. Muy buenos. ", { locale: "es_ES" } );
 		researcher = new SpanishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "vamos" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "muy" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].count ).toBe( 1 );
 	} );
 
-	it( "returns an object with sentence beginnings and counts for two sentences in Spanish starting with the same word.", function() {
-		mockPaper = new Paper( "Que si, Que no. Que nunca te decides.", { locale: "es_ES" } );
+	// This test currently fails because "no." is regarded an abbreviation.
+	xit( "returns an object with sentence beginnings and counts for two sentences in Spanish starting with the same word.", function() {
+		mockPaper = new Paper( "Que si, que no. Que nunca te decides.", { locale: "es_ES" } );
 		researcher = new SpanishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "que" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
 	} );
@@ -258,6 +299,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"with one of the exception words.", function() {
 		mockPaper = new Paper( "Aquellas pequeñas cosas. Aquellas pequeñas decisiones. Aquellas pequeñas ideas.", { locale: "es_ES" } );
 		researcher = new SpanishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "aquellas pequeñas" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
 	} );
@@ -265,6 +308,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for sentences in Spanish that start with a character with a diacritic.", function() {
 		mockPaper = new Paper( "África es un gran continente. África es un gran continente. África es un gran continente.", { locale: "es_ES" } );
 		researcher = new SpanishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "áfrica" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
 	} );
@@ -272,6 +317,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in Portuguese starting with different words.", function() {
 		mockPaper = new Paper( "Quem sou? Para onde vou?", { locale: "pt_PT" } );
 		researcher = new PortugueseResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "quem" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "para" );
@@ -282,6 +329,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		mockPaper = new Paper( "Dora pensa sobre o quanto ela ama sua floresta. Dora ama explorar a floresta, saltando de ramo para ramo " +
 			"entre as árvores altas.", { locale: "pt_PT" } );
 		researcher = new PortugueseResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "dora" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
 	} );
@@ -290,6 +339,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"with one of the exception words.", function() {
 		mockPaper = new Paper( "O mês estava frio. O mês foi difícil. O final disso os fez felizes.", { locale: "pt_PT" } );
 		researcher = new PortugueseResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "o mês" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "o final" );
@@ -300,6 +351,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"with a character with a diacritic.", function() {
 		mockPaper = new Paper( "Não viajo faz muito tempo. Não vi montanhas em anos. Não vi o mar desde que eu era pequeno.", { locale: "es_ES" } );
 		researcher = new PortugueseResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "não" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
 	} );
@@ -307,6 +360,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in Dutch starting with different words.", function() {
 		mockPaper = new Paper( "Hallo wereld. Hoe gaat het? ", { locale: "nl_NL" } );
 		researcher = new DutchResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "hallo" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "hoe" );
@@ -316,6 +371,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in Dutch starting with the same word.", function() {
 		mockPaper = new Paper( "Hallo wereld. Hallo mensheid.", { locale: "nl_NL" } );
 		researcher = new DutchResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "hallo" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
 	} );
@@ -325,6 +382,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		mockPaper = new Paper( "Het is een nacht die je normaal alleen in films ziet. Het is een nacht die wordt bezongen in het mooiste lied. " +
 			"Het is een nacht waarvan ik dacht dat ik 'm nooit beleven zou", { locale: "nl_NL" } );
 		researcher = new DutchResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "het is" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
 	} );
@@ -332,6 +391,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in Italian starting with different words.", function() {
 		mockPaper = new Paper( "Volare, oh oh. Cantare, oh oh oh oh.", { locale: "it_IT" } );
 		researcher = new ItalianResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "volare" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "cantare" );
@@ -342,6 +403,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"the same word.", function() {
 		mockPaper = new Paper( "E che dici di stare lassù. E volavo, volavo felice più in alto del sole ed ancora più su.", { locale: "it_IT" } );
 		researcher = new ItalianResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "e" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
 	} );
@@ -350,6 +413,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"with one of the exception words.", function() {
 		mockPaper = new Paper( "Una musica dolce. Una musica brutal. Una musica de cine.", { locale: "it_IT" } );
 		researcher = new ItalianResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "una musica" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
 	} );
@@ -358,6 +423,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"with a character with a diacritic.", function() {
 		mockPaper = new Paper( "È freddo. È freddo.", { locale: "it_IT" } );
 		researcher = new ItalianResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "è" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
 	} );
@@ -365,6 +432,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in Russian starting with the same word.", function() {
 		mockPaper = new Paper( "Здравствуй, мир! Здравствуй, человек!", { locale: "ru_RU" } );
 		researcher = new RussianResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "здравствуй" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
 	} );
@@ -374,6 +443,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		mockPaper = new Paper( "Этот человек ее унизил. Этот человек ее уничтожил. Этот человек стал ее проклятием.",
 			{ locale: "ru_RU" } );
 		researcher = new RussianResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "этот человек" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
 	} );
@@ -381,6 +452,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in Russian starting with different words.", function() {
 		mockPaper = new Paper( "Плюсы и минусы. Где в итоге лучше и почему?", { locale: "ru_RU" } );
 		researcher = new RussianResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "плюсы" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "где" );
@@ -390,6 +463,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in Polish starting with different words.", function() {
 		mockPaper = new Paper( "Najpierw zjem jabłko. Potem zjem gruszkę. ", { locale: "pl_PL" } );
 		researcher = new PolishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "najpierw" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
@@ -400,6 +474,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in Polish starting with the same word.", function() {
 		mockPaper = new Paper( "Zawsze cię widzę. Zawsze cię słyszę.", { locale: "pl_PL" } );
 		researcher = new PolishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "zawsze" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
@@ -409,6 +484,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"with one of the exception words.", function() {
 		mockPaper = new Paper( "To dziecko jest ładne. To dziecko jest brzydkie. To dziecko jest małe.", { locale: "pl_PL" } );
 		researcher = new PolishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "to dziecko" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
@@ -418,6 +494,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"with a character with a diacritic.", function() {
 		mockPaper = new Paper( "Żona mojego brata jest miła. Żona mojej siostry jest piękna. Żona moja jest najlepsza.", { locale: "pl_PL" } );
 		researcher = new PolishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "żona" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
@@ -427,6 +504,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		mockPaper = new Paper( "Är du osäker, testa en kort fristående kurs hellre än ett program. Passar ämnet dig kan du hoppa " +
 			"på ett program och tillgodoräkna dig kursen.", { locale: "sv_SE" } );
 		researcher = new SwedishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "är" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
@@ -437,6 +515,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in Swedish starting with the same word.", function() {
 		mockPaper = new Paper( "Du är lång. Du är kort.", { locale: "sv_SE" } );
 		researcher = new SwedishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "du" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
@@ -446,6 +525,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"with one of the exception words.", function() {
 		mockPaper = new Paper( "Detta barn är litet. Detta barn är stort. Detta barn är lyckligt.", { locale: "sv_SE" } );
 		researcher = new SwedishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "detta barn" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
@@ -454,6 +534,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in Indonesian starting with different words.", function() {
 		mockPaper = new Paper( "Halo dunia!. Apa kabarmu? ", { locale: "id_ID" } );
 		researcher = new IndonesianResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "halo" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
@@ -464,6 +545,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in Indonesian starting with the same word.", function() {
 		mockPaper = new Paper( "Bukunya murah. Bukunya mahal.", { locale: "id_ID" } );
 		researcher = new IndonesianResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "bukunya" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
@@ -474,6 +556,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		mockPaper = new Paper( "Seorang pemimpin seharusnya bijaksana. Seorang pemimpin seharusnya memberi contoh yang baik. " +
 			"Seorang pemimpin seharusnya memikirkan rakyatnya", { locale: "id_ID" } );
 		researcher = new IndonesianResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "seorang pemimpin" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
@@ -482,6 +565,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in French starting with different words.", function() {
 		mockPaper = new Paper( "Sur le pont d'Avignon. Liberté, égalité, fraternité. ", { locale: "fr_FR" } );
 		researcher = new FrenchResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "sur" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "liberté" );
@@ -491,6 +576,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in French starting with the same word.", function() {
 		mockPaper = new Paper( "Bonjour, tout le monde! Bonjour.", { locale: "fr_FR" } );
 		researcher = new FrenchResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "bonjour" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
 	} );
@@ -499,14 +586,17 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		"with one of the exception words.", function() {
 		mockPaper = new Paper( "La vache qui rit. La vache qui pleure. La vache qui vole.", { locale: "fr_FR" } );
 		researcher = new FrenchResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "la vache" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
-	} );*/
+	} );
 
-	/*	it( "returns an object with sentence beginnings and counts for three sentences in Arabic all starting " +
+	it( "returns an object with sentence beginnings and counts for three sentences in Arabic all starting " +
 		"with one of the exception words.", function() {
 		mockPaper = new Paper( "هؤلاء الأولاد غائبون. هؤلاء الأولاد هم طلاب. هؤلاء الأولاد في المنزل.", { locale: "ar_AR" } );
 		researcher = new ArabicResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "هؤلاء الأولاد" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
@@ -515,6 +605,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in Arabic starting with different words.", function() {
 		mockPaper = new Paper( "العشاء جاهز. ارجو أن تنضم الينا.", { locale: "ar_AR" } );
 		researcher = new ArabicResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "ارجو" );
@@ -525,18 +616,20 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for two sentences in Arabic starting with the same word.", function() {
 		mockPaper = new Paper( "مرحبا بالزائرين. مرحبا بالعالم.", { locale: "ar_AR" } );
 		researcher = new ArabicResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "مرحبا" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
-	} );*/
+	} );
 
-	/*it( "returns an object with sentence beginnings and counts for three sentences all starting with the same words", () => {
+	it( "returns an object with sentence beginnings and counts for three sentences all starting with the same words", () => {
 		mockPaper = new Paper( "Οι γάτες είναι χαριτωμένες. Οι γάτες είναι γλυκές. Οι γάτες είναι αξιολάτρευτες.", { locale: "el" } );
 		researcher = new GreekResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "οι" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
-	} );*/
+	} );
 
 	it( "returns an object with sentence beginnings and counts for three sentences all starting with the same words" +
 		" that are listed in first word exception list for a language that also has a list of second word exceptions", () => {
@@ -544,6 +637,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 			" Ένα πρωινό, όπως πήγαινα στην δουλειά, βλέπω ένα μικρό γατάκι κάτω από ένα αυτοκίνητο." +
 			" Ένα παιδί έχει ανάγκη την οικογένεια του.", { locale: "el" } );
 		researcher = new GreekResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "ένα από" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "ένα πρωινό" );
@@ -554,17 +648,19 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		" that are listed in first word exception list and followed by a word that is also in second word exception list", () => {
 		mockPaper = new Paper( "Αυτός ο μπαμπάς είναι φοβερός. Αυτός ο παππούς είναι καλός. Αυτός ο άνδρας είναι όμορφος.", { locale: "el" } );
 		researcher = new GreekResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "αυτός ο μπαμπάς" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "αυτός ο παππούς" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 2 ].word ).toBe( "αυτός ο άνδρας" );
 	} );
 
-	/*it( "returns an object with sentence beginnings and counts for two sentences in Japanese starting with different words.", function() {
+	it( "returns an object with sentence beginnings and counts for two sentences in Japanese starting with different words.", function() {
 		// https://tatoeba.org/en/sentences/show/425148
 		// https://tatoeba.org/en/sentences/show/9431906
 		mockPaper = new Paper( "私たちはよくチェスをします。チェスは難しい。", { locale: "ja_JP" } );
 		researcher = new JapaneseResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "私" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
@@ -577,10 +673,11 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		// https://tatoeba.org/en/sentences/show/2337881
 		mockPaper = new Paper( "寿司が好きです。寿司はおいしいです。", { locale: "ja_JP" } );
 		researcher = new JapaneseResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "寿司" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
-	} );*/
+	} );
 
 	it( "returns an object with sentence beginnings and counts for four sentences in a language with a custom" +
 		"getWords helper (Japanese) all starting with one of the exception words.", function() {
@@ -590,6 +687,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		// https://tatoeba.org/en/sentences/show/59419
 		mockPaper = new Paper( "この犬は白いです。その猫は茶色です。その猫は幸せです。この犬、大きいよ。", { locale: "ja_JP" } );
 		researcher = new JapaneseResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "この 犬" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );

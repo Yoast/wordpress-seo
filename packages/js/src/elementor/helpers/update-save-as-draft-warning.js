@@ -16,7 +16,6 @@ export const updateSaveAsDraftWarning = ( hasUnsavedSeoChanges ) => {
 		message = sprintf(
 			/* translators: %1$s translates to the Post Label in singular form */
 			__(
-				// eslint-disable-next-line max-len
 				"Unfortunately we cannot save changes to your SEO settings while you are working on a draft of an already-published %1$s. If you want to save your SEO changes, make sure to click 'Update', or wait to make your SEO changes until you are ready to update the %1$s.",
 				"wordpress-seo"
 			),

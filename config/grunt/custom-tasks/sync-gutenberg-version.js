@@ -10,7 +10,7 @@ module.exports = function( grunt ) {
 	 *
 	 * @returns {void}
 	 */
-	 function setVersion( file, pattern, version ) {
+	function setVersion( file, pattern, version ) {
 		const contents = grunt.file.read( file ).replace(
 			pattern,
 			version

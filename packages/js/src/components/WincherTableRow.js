@@ -246,11 +246,9 @@ export function getPositionalDataByState( props ) {
 
 	const isEnabled          = ! isEmpty( rowData );
 	const hasFreshData = rowData && rowData.updated_at && moment( rowData.updated_at ) >= moment().subtract( 7, "days" );
-	const viewLinkURL        = ( rowData ) ? sprintf(
-		"https://app.wincher.com/websites/%s/keywords?serp=%s&utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
-		websiteId,
-		rowData.id
-	) : null;
+	const viewLinkURL = rowData
+		? `https://app.wincher.com/websites/${websiteId}/keywords?serp=${rowData.id}&utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast`
+		: null;
 
 	if ( ! isEnabled ) {
 		return (
@@ -283,7 +281,7 @@ export function getPositionalDataByState( props ) {
 				</PositionOverTimeButton>
 			</td>
 			<td>{ formatLastUpdated( rowData.updated_at ) }</td>
-		 </Fragment>
+		</Fragment>
 	);
 }
 

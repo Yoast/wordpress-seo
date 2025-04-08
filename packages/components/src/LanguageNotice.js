@@ -47,15 +47,19 @@ export default class LanguageNotice extends PureComponent {
 		}
 
 		// Determine the correct text.
-		/* Translators: %s expands to the actual language. */
-		let text = __( "Your site language is set to %s. ", "wordpress-seo" );
-		if ( ! canChangeLanguage ) {
+		let text = sprintf(
 			/* Translators: %s expands to the actual language. */
-			text = __( "Your site language is set to %s. If this is not correct, contact your site administrator.", "wordpress-seo" );
-		}
+			__( "Your site language is set to %s.", "wordpress-seo" ),
+			`{{strong}}${ language }{{/strong}}`
+		);
 
-		// Replace the %s with a strong marked language.
-		text = sprintf( text, `{{strong}}${ language }{{/strong}}` );
+		if ( ! canChangeLanguage ) {
+			text = sprintf(
+				/* Translators: %s expands to the actual language. */
+				__( "Your site language is set to %s. If this is not correct, contact your site administrator.", "wordpress-seo" ),
+				`{{strong}}${ language }{{/strong}}`
+			);
+		}
 
 		// Replace the strong marking with an actual ReactComponent.
 		text = interpolateComponents( {

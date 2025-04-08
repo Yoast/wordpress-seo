@@ -19,7 +19,7 @@ const ImageSelectButtons = ( props ) => {
 		replaceImageButtonId,
 		removeImageButtonId,
 		isDisabled,
-	 } = props;
+	} = props;
 
 	const removeImage = useCallback( ( event ) => {
 		event.target.previousElementSibling.focus();

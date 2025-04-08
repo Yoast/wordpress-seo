@@ -69,14 +69,14 @@ class General_Page_Integration implements Integration_Interface {
 	/**
 	 * The promotion manager.
 	 *
-	 * @var Promotion_Manager $promotion_manager
+	 * @var Promotion_Manager
 	 */
 	private $promotion_manager;
 
 	/**
 	 * The alert dismissal action.
 	 *
-	 * @var Alert_Dismissal_Action $alert_dismissal_action
+	 * @var Alert_Dismissal_Action
 	 */
 	private $alert_dismissal_action;
 
@@ -142,9 +142,9 @@ class General_Page_Integration implements Integration_Interface {
 	/**
 	 * Adds the page.
 	 *
-	 * @param array<string,array<string>> $pages The pages.
+	 * @param array<string, array<string>> $pages The pages.
 	 *
-	 * @return array<string,array<string>> The pages.
+	 * @return array<string, array<string>> The pages.
 	 */
 	public function add_page( $pages ) {
 		\array_splice(
@@ -195,7 +195,7 @@ class General_Page_Integration implements Integration_Interface {
 	/**
 	 * Creates the script data.
 	 *
-	 * @return array<string,array<string|bool,array<string>>> The script data.
+	 * @return array The script data.
 	 */
 	private function get_script_data() {
 		return [
@@ -208,6 +208,7 @@ class General_Page_Integration implements Integration_Interface {
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
 			],
+			'adminUrl'          => \admin_url( 'admin.php' ),
 			'linkParams'        => $this->shortlink_helper->get_query_params(),
 			'userEditUrl'       => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) ),
 			'alerts'            => $this->notification_helper->get_alerts(),

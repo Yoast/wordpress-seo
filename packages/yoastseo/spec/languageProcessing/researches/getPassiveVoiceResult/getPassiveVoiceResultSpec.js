@@ -18,7 +18,7 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 1 );
 	} );
 
-	 // For now the specs for Arabic and Hungarian are skipped. The shouldn't be skipped once Arabic and Hungarian passive voice are refactored.
+	// For now the specs for Arabic and Hungarian are skipped. The shouldn't be skipped once Arabic and Hungarian passive voice are refactored.
 	it( "returns active voice for morphological language", function() {
 		const paper = new Paper( "كتب الولد الخطاب.", { locale: "ar" } );
 		const researcher = new ArabicResearcher( paper );

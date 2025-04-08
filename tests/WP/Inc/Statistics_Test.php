@@ -21,7 +21,7 @@ final class Statistics_Test extends TestCase {
 	/**
 	 * Default arguments to use to create a post for the tests in this class.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	private $default_post_args = [
 		'post_status' => 'publish',

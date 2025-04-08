@@ -30,8 +30,8 @@ const getNoIndexOptions = ( editorContext ) => {
 		return [
 			{
 				name: sprintf(
-					/* translators: the first %s translates to "yes" or "no", the second %s translates to the content type label in plural form */
-					__( "%s (current default for %s)", "wordpress-seo" ),
+					/* translators: %1$s translates to "yes" or "no", %2$s translates to the content type label in plural form */
+					__( "%1$s (current default for %2$s)", "wordpress-seo" ),
 					noIndex,
 					editorContext.postTypeNamePlural
 				),
@@ -44,8 +44,8 @@ const getNoIndexOptions = ( editorContext ) => {
 	return [
 		{
 			name: sprintf(
-				/* translators: the first %s translates to "yes" or "no", the second %s translates to the content type label in plural form */
-				__( "%s (current default for %s)", "wordpress-seo" ),
+				/* translators: %1$s translates to "yes" or "no", %2$s translates to the content type label in plural form */
+				__( "%1$s (current default for %2$s)", "wordpress-seo" ),
 				noIndex,
 				editorContext.postTypeNamePlural
 			),
@@ -73,7 +73,6 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 					isPrivateBlog &&
 					<Alert type="warning">
 						{ __(
-							// eslint-disable-next-line max-len
 							"Even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won't have an effect.",
 							"wordpress-seo"
 						) }

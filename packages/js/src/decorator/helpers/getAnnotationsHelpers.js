@@ -140,9 +140,9 @@ const getAnnotationsFromBlockAttributes = ( annotatableAttributesFromBlock, mark
 		const secondSectionHtml = annotatableAttribute[ `json${ secondSectionKeyName }` ];
 
 		const { marksForFirstSection, marksForSecondSection } = getMarksForYoastBlock( marks, annotatableAttribute );
-		// eslint-disable-next-line max-len
+		// eslint-disable-next-line stylistic/max-len
 		const firstSectionAnnotations = createAnnotations( firstSectionHtml, firstSectionIdentifier, attributeWithAnnotationSupport, block, marksForFirstSection );
-		// eslint-disable-next-line max-len
+		// eslint-disable-next-line stylistic/max-len
 		const secondSectionAnnotations = createAnnotations( secondSectionHtml, secondSectionIdentifier, attributeWithAnnotationSupport, block, marksForSecondSection );
 
 		return firstSectionAnnotations.concat( secondSectionAnnotations );

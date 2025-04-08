@@ -571,7 +571,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @param int    $policy   The policy id to check.
 	 * @param string $key      The option key name.
 	 *
-	 * @return array<int,string> The policy data.
+	 * @return array<int, string> The policy data.
 	 */
 	private function maybe_add_policy( $policies, $policy, $key ) {
 		$policy_array = [

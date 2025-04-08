@@ -165,8 +165,7 @@ abstract class Abstract_Main {
 	protected function is_development() {
 		try {
 			return WPSEO_Utils::is_development_mode();
-		}
-		catch ( Exception $exception ) {
+		} catch ( Exception $exception ) {
 			// E.g. when WordPress and/or WordPress SEO are not loaded.
 			return \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT === 'development';
 		}

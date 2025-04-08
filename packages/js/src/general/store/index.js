@@ -1,13 +1,31 @@
 // eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
+import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { merge } from "lodash";
-import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkParamsReducer, linkParamsSelectors } from "../../shared-admin/store";
-import { STORE_NAME } from "../constants";
-import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
-import { reducers, selectors, actions } from "@yoast/externals/redux";
 import * as dismissedAlertsControls from "../../redux/controls/dismissedAlerts";
-import { alertCenterReducer, alertCenterActions, alertCenterSelectors, getInitialAlertCenterState, alertCenterControls, ALERT_CENTER_NAME } from "./alert-center";
-import { adminNoticesActions, adminNoticesReducer, adminNoticesSelectors, ADMIN_NOTICES_NAME, getInitialAdminNoticesState } from "./admin-notices";
+import {
+	ADMIN_URL_NAME,
+	adminUrlActions,
+	adminUrlReducer,
+	adminUrlSelectors,
+	getInitialAdminUrlState,
+	getInitialLinkParamsState,
+	LINK_PARAMS_NAME,
+	linkParamsActions,
+	linkParamsReducer,
+	linkParamsSelectors,
+} from "../../shared-admin/store";
+import { STORE_NAME } from "../constants";
+import { ADMIN_NOTICES_NAME, adminNoticesActions, adminNoticesReducer, adminNoticesSelectors, getInitialAdminNoticesState } from "./admin-notices";
+import {
+	ALERT_CENTER_NAME,
+	alertCenterActions,
+	alertCenterControls,
+	alertCenterReducer,
+	alertCenterSelectors,
+	getInitialAlertCenterState,
+} from "./alert-center";
+import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 
 const { currentPromotions, dismissedAlerts, isPremium } = reducers;
 const { isAlertDismissed, getIsPremium, isPromotionActive } = selectors;
@@ -22,6 +40,7 @@ const { dismissAlert, setCurrentPromotions, setDismissedAlerts, setIsPremium } =
 const createStore = ( { initialState } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions: {
+			...adminUrlActions,
 			...linkParamsActions,
 			...preferencesActions,
 			...alertCenterActions,
@@ -32,6 +51,7 @@ const createStore = ( { initialState } ) => {
 			...adminNoticesActions,
 		},
 		selectors: {
+			...adminUrlSelectors,
 			...linkParamsSelectors,
 			...preferencesSelectors,
 			...alertCenterSelectors,
@@ -43,6 +63,7 @@ const createStore = ( { initialState } ) => {
 		initialState: merge(
 			{},
 			{
+				[ ADMIN_URL_NAME ]: getInitialAdminUrlState(),
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				preferences: createInitialPreferencesState(),
 				[ ALERT_CENTER_NAME ]: getInitialAlertCenterState(),
@@ -52,6 +73,7 @@ const createStore = ( { initialState } ) => {
 			initialState
 		),
 		reducer: combineReducers( {
+			[ ADMIN_URL_NAME ]: adminUrlReducer,
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			preferences,
 			[ ALERT_CENTER_NAME ]: alertCenterReducer,

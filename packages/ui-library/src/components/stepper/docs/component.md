@@ -1,0 +1,1 @@
+The stepper element takes takes the number of steps and current step and has Step component to render each step.

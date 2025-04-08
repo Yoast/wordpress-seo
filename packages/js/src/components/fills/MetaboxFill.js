@@ -24,6 +24,8 @@ import KeywordUpsell from "../modals/KeywordUpsell";
 import { BlackFridayProductEditorChecklistPromotion } from "../BlackFridayProductEditorChecklistPromotion";
 import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
+import isBlockEditor from "../../helpers/isBlockEditor";
+import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
 
 const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
@@ -37,11 +39,17 @@ const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( B
  * @returns {wp.Element} The Metabox component.
  */
 export default function MetaboxFill( { settings } ) {
-	const isTerm = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsTerm(), [] );
-	const isProduct = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsProduct(), [] );
-	const isWooCommerceActive = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsWooCommerceActive(), [] );
+	const { isTerm, isProduct, isWooCommerceActive } = useSelect( ( select ) => ( {
+		isTerm: select( "yoast-seo/editor" ).getIsTerm(),
+		isProduct: select( "yoast-seo/editor" ).getIsProduct(),
+		isWooCommerceActive: select( "yoast-seo/editor" ).getIsWooCommerceActive(),
+	} ), [] );
 
 	const shouldShowWooCommerceChecklistPromo = isProduct && isWooCommerceActive;
+
+	if ( isBlockEditor() ) {
+		useToggleMarkerStatus();
+	}
 
 	return (
 		<>

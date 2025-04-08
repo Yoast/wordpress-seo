@@ -1,18 +1,33 @@
 @layer components {
 	.yst-root {
 		.yst-tooltip {
-			display: var(--yst-display-tooltip, inline-block);
 			@apply yst-absolute
 			yst-z-10
 			yst-px-2.5
 			yst-py-2
-			yst-bg-gray-800
-			yst-text-white
 			yst-text-xs
 			yst-rounded-lg
 			yst-whitespace-normal
 			yst-w-max
-			yst-max-w-sm;
+			yst-max-w-sm
+			before:yst-content-['']
+			before:yst-absolute
+			before:yst-border-8
+			before:yst-border-transparent 
+			yst-bg-gray-800 
+			yst-text-white;
+			
+
+			&.yst-tooltip--light {
+				@apply yst-bg-white
+				yst-text-slate-600 
+				yst-border-slate-200 
+				yst-border
+				after:yst-content-['']
+				after:yst-absolute
+				after:yst-border-8
+				after:yst-border-transparent;
+			}
 		}
 
 		.yst-tooltip--top {
@@ -21,22 +36,23 @@
 			yst--translate-y-full
 			yst-start-1/2
 			yst-top-0
-			yst--mt-3; /* Negative margin to move the tooltip up */
-
+			yst--mt-3 /* Negative margin to move the tooltip up */
 			/* Style properties for the tooltip arrow */
+			before:yst-start-1/2
+			before:yst-top-full /* Arrow positioned at the bottom of the tooltip */
+			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
+			before:yst-translate-y-0
+			before:yst-border-t-gray-800;
 
-			&::before {
-				@apply yst-content-['']
-				yst-absolute
-				yst-start-1/2
-				yst-top-full /* Arrow positioned at the bottom of the tooltip */
-				yst--translate-x-1/2
-				rtl:yst-translate-x-1/2
-				yst-translate-y-0
-				yst-border-8
-				yst-border-x-transparent
-				yst-border-b-transparent
-				yst-border-t-gray-800;
+			&.yst-tooltip--light {
+				@apply before:yst-border-t-slate-200
+				after:yst-start-1/2
+				after:yst-top-[99%]
+				after:yst--translate-x-1/2
+				rtl:after:yst-translate-x-1/2
+				after:yst-translate-y-0
+				after:yst-border-t-white;
 			}
 		}
 
@@ -46,21 +62,22 @@
 			yst--translate-y-0
 			yst-start-1/2
 			yst-top-full
-			yst-mt-3;
-
+			yst-mt-3
 			/* Style properties for the tooltip arrow */
+			before:yst-start-1/2
+			before:yst-bottom-full /* Arrow positioned at the top of the tooltip */
+			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
+			before:yst-border-8
+			before:yst-border-b-gray-800;
 
-			&::before {
-				@apply yst-content-['']
-				yst-absolute
-				yst-start-1/2
-				yst-bottom-full /* Arrow positioned at the top of the tooltip */
-				yst--translate-x-1/2
-				rtl:yst-translate-x-1/2
-				yst-border-8
-				yst-border-x-transparent
-				yst-border-t-transparent
-				yst-border-b-gray-800;
+			&.yst-tooltip--light {
+				@apply before:yst-border-b-slate-200
+				after:yst-start-1/2
+				after:yst-bottom-[96%]
+				after:yst--translate-x-1/2
+				rtl:after:yst-translate-x-1/2
+				after:yst-border-b-white;
 			}
 		}
 
@@ -69,21 +86,18 @@
 			yst--translate-y-1/2
 			yst-start-full
 			yst-top-1/2
-			yst-ms-3;
+			yst-ms-3
+			before:yst-end-full
+			before:yst-top-1/2
+			before:yst--translate-y-1/2
+			before:yst-border-e-gray-800;
 
-			/* Style properties for the tooltip arrow */
-
-			&::before {
-				@apply yst-content-['']
-				yst-absolute
-				yst-end-full /* Arrow positioned at the left of the tooltip */
-				yst-top-1/2
-				yst--translate-y-1/2
-				yst-border-8
-				yst-border-s-transparent
-				yst-border-t-transparent
-				yst-border-b-transparent
-				yst-border-e-gray-800;
+			&.yst-tooltip--light {
+				@apply before:yst-border-e-slate-200
+				after:yst-end-[99%]
+				after:yst-top-1/2
+				after:yst--translate-y-1/2
+				after:yst-border-e-white;
 			}
 		}
 
@@ -91,21 +105,19 @@
 			@apply yst--translate-y-1/2
 			yst-end-full
 			yst-top-1/2
-			yst-me-3;
-
+			yst-me-3
 			/* Style properties for the tooltip arrow */
+			before:yst-start-full /* Arrow positioned at the right of the tooltip */
+			before:yst-top-1/2
+			before:yst--translate-y-1/2
+			before:yst-border-s-gray-800;
 
-			&::before {
-				@apply yst-content-['']
-				yst-absolute
-				yst-start-full /* Arrow positioned at the right of the tooltip */
-				yst-top-1/2
-				yst--translate-y-1/2
-				yst-border-8
-				yst-border-e-transparent
-				yst-border-t-transparent
-				yst-border-b-transparent
-				yst-border-s-gray-800;
+			&.yst-tooltip--light {
+				@apply before:yst-border-s-slate-200
+				after:yst-start-[99%]
+				after:yst-top-1/2
+				after:yst--translate-y-1/2
+				after:yst-border-s-white;
 			}
 		}
 	}

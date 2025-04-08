@@ -106,13 +106,13 @@ const expectedResults = {
 		isApplicable: true,
 		score: 3,
 		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: 2 sections of your text are " +
-			"longer than 300 words and are not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>" +
+			"longer than the recommended number of words (300) and are not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>" +
 			"Add subheadings to improve readability</a>.",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: There are no paragraphs that are too long. Great job!",
 	},
 	textSentenceLength: {
 		isApplicable: true,

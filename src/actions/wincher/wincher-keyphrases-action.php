@@ -331,7 +331,7 @@ class Wincher_Keyphrases_Action {
 			$keyphrases = [ $keyphrases ];
 		}
 
-		if ( \is_null( $limits->limit ) ) {
+		if ( $limits->limit === null ) {
 			return false;
 		}
 

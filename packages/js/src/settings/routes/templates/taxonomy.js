@@ -177,7 +177,6 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) =>
 					<FieldsetLayout
 						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
-							// eslint-disable-next-line max-len
 							// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to "Yoast SEO".
 							__( "Determine what your %1$s should look like in the search results by default. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
 							labelLower,
@@ -232,7 +231,6 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) =>
 							{ isPremium && <Badge variant="upsell">Premium</Badge> }
 						</div> }
 						description={ sprintf(
-						// eslint-disable-next-line max-len
 						// translators: %1$s expands to the taxonomy plural, e.g. Categories. %2$s expand to Yoast SEO.
 							__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
 							labelLower,

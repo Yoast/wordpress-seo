@@ -1,0 +1,57 @@
+@layer components {
+	.yst-root {
+
+		.yst-stepper {
+			@apply yst-relative yst-flex yst-justify-between yst-items-center;
+
+			.yst-progress-bar__progress {
+				@apply yst-duration-500;
+			}
+
+		}
+
+		.yst-step {
+			@apply yst-flex yst-flex-col yst-items-center;
+		}
+
+		.yst-step__circle {
+			@apply yst-bg-white 
+			yst-ring-slate-300 
+			yst-w-6
+			yst-h-6
+			yst-ring-2
+			yst-rounded-full
+			yst-z-10
+			yst-relative;
+		}
+
+		.yst-step__icon {
+			@apply yst-absolute yst-top-1/2 yst-left-1/2 yst-transform -yst-translate-x-1/2 -yst-translate-y-1/2;
+		}
+
+		.yst-step--active {
+			@apply yst-text-primary-500;
+
+			.yst-step__circle {
+				@apply 
+				yst-bg-white
+				yst-text-white
+				yst-ring-primary-500
+				yst-transition-all
+				yst-ease-in
+				yst-delay-500;
+			}
+
+			.yst-step__icon{
+				@apply yst-transition-all yst-ease-in;
+			}
+		}
+		
+		.yst-step--complete {
+			@apply yst-text-slate-900;
+			.yst-step__circle {
+				@apply yst-bg-primary-500 yst-text-white yst-ring-primary-500 yst-transition-none yst-delay-0;
+			}
+		}
+	}
+}

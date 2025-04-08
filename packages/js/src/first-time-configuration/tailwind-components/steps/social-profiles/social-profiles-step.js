@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import SocialInputSection from "./social-input-section";
 import Alert from "../../base/alert";
 
-/* eslint-disable max-len, react/prop-types */
 /**
  * Social profiles step component
  *
@@ -83,7 +82,9 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 			{ /* No person has been selected in step 2 */ }
 			<Alert type="info" className="yst-mt-5">
 				{
-					// translators: please note that "Site representation" here refers to the name of a step in the first-time configuration, so this occurrence needs to be translated in the same manner as that step's heading.
+					/* translators: please note that "Site representation" here refers to the name of a step in the first-time configuration,
+					 * so this occurrence needs to be translated in the same manner as that step's heading.
+					 */
 					__(
 						"Please select a user in the Site representation step.",
 						"wordpress-seo"

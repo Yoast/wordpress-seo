@@ -1,7 +1,6 @@
 // Make sure the Jed object is globally available
 const Jed = require( "jed" );
 
-// eslint-disable-next-line require-jsdoc
 const FactoryProto = function() {};
 
 FactoryProto.prototype.buildJed = function() {

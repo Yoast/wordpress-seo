@@ -120,7 +120,6 @@ const InclusiveLanguageAnalysis = ( props ) => {
 	 */
 	function renderMultilingualPluginDetectedNotice() {
 		const notice = __(
-			// eslint-disable-next-line max-len
 			"We noticed that you are using a multilingual plugin. Please be aware that this analysis feedback is intended only for texts written in English.",
 			"wordpress-seo"
 		);
@@ -233,7 +232,6 @@ const InclusiveLanguageAnalysis = ( props ) => {
 InclusiveLanguageAnalysis.propTypes = {
 	results: PropTypes.array,
 	// `marksButtonStatus` is used, but not recognized by ESLint.
-	// eslint-disable-next-line react/no-unused-prop-types
 	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled", "hidden" ] ).isRequired,
 	overallScore: PropTypes.number,
 	shouldUpsellHighlighting: PropTypes.bool,

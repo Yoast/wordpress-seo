@@ -34,7 +34,7 @@ function getDefaultState() {
 		isWincherIntegrationActive: isWincherIntegrationActive(),
 		isInsightsEnabled: get( window, "wpseoScriptData.metabox.isInsightsEnabled", false ),
 		isNewsEnabled: get( window, "wpseoScriptData.metabox.isNewsSeoActive", false ),
-		 // The check for AI feature is deprecated, used as fallback. Should be removed once we stop supporting older versions of premium.
+		// The check for AI feature is deprecated, used as fallback. Should be removed once we stop supporting older versions of premium.
 		isAiFeatureActive: getIsAiFeatureEnabled(),
 		isWooCommerceSeoActive: get( window, "wpseoScriptData.metabox.isWooCommerceSeoActive", false ),
 		isWooCommerceActive: get( window, "wpseoScriptData.metabox.isWooCommerceActive", false ),
