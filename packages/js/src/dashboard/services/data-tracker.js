@@ -15,7 +15,7 @@ export class DataTracker {
 	#remoteDataProvider;
 
 	/**
-	 * @param {import("../index").trackingRoute} trackingRoute The data to track.
+	 * @param {trackingRoute} trackingRoute The data to track.
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider The remote data provider.
 	 */
 	constructor( trackingRoute, remoteDataProvider ) {
@@ -26,7 +26,7 @@ export class DataTracker {
 
 	/**
 	 * @param {string} element The element to get the value for.
-	 * @returns {string} the value of the element.
+	 * @returns {*} the value of the element.
 	 */
 	getTrackingElement( element ) {
 		return this.#data?.[ element ];
