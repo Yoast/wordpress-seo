@@ -33,11 +33,9 @@ export const STEP_NAME = {
 	successfullyConnected: -1,
 };
 
-/* eslint-disable no-unused-vars */
 const getCurrentStepName = ( step ) => {
-	return Object.entries( STEP_NAME ).find( ( [ key, val ] ) => val === step )?.[ 0 ];
+	return Object.entries( STEP_NAME ).find( ( [ , val ] ) => val === step )?.[ 0 ];
 };
-/* eslint-enable no-unused-vars */
 
 /**
  * @param {number} currentStep The current step.
