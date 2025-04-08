@@ -142,7 +142,7 @@ class ReadabilityAnalysis extends Component {
 	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
 	 */
 	renderAIOptimizeButton = ( hasAIFixes, id ) => {
-		const { isElementor, isAiFeatureEnabled } = this.props;
+		const { isElementor, isAiFeatureEnabled, isWooCommerceProduct, isTerm } = this.props;
 		const isPremium = getL10nObject().isPremium;
 
 		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
@@ -154,8 +154,9 @@ class ReadabilityAnalysis extends Component {
 		// Check if the current editor is either Elementor or the Elementor in-between screen. In that case, don't show the button.
 		const isNotElementorPage =  ! isElementor && ! isElementorEditorPageActive;
 
-		// Show the button if the assessment can be fixed through Yoast AI Optimize, and we are not in the Elementor editor.
-		return hasAIFixes && isNotElementorPage && (
+		// Show the button if the assessment can be fixed through Yoast AI Optimize, and we are not in the Elementor editor,
+		// WooCommerce Product pages or Taxonomy
+		return hasAIFixes && isNotElementorPage && ! isWooCommerceProduct && ! isTerm && (
 			<AIOptimizeButton id={ id } isPremium={ isPremium } />
 		);
 	};
@@ -227,6 +228,8 @@ ReadabilityAnalysis.propTypes = {
 	shouldUpsellHighlighting: PropTypes.bool,
 	isAiFeatureEnabled: PropTypes.bool,
 	isElementor: PropTypes.bool,
+	isTerm: PropTypes.bool,
+	isWooCommerceProduct: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
@@ -235,6 +238,8 @@ ReadabilityAnalysis.defaultProps = {
 	shouldUpsellHighlighting: false,
 	isAiFeatureEnabled: false,
 	isElementor: false,
+	isTerm: false,
+	isWooCommerceProduct: false,
 };
 
 export default withSelect( select => {
@@ -243,6 +248,9 @@ export default withSelect( select => {
 		getMarkButtonStatus,
 		getIsElementorEditor,
 		getIsAiFeatureEnabled,
+		getIsTerm,
+		getIsProduct,
+		getIsWooCommerceActive,
 	} = select( "yoast-seo/editor" );
 
 	return {
@@ -250,5 +258,7 @@ export default withSelect( select => {
 		marksButtonStatus: getMarkButtonStatus(),
 		isElementor: getIsElementorEditor(),
 		isAiFeatureEnabled: getIsAiFeatureEnabled(),
+		isTerm: getIsTerm(),
+		isWooCommerceProduct: getIsProduct() && getIsWooCommerceActive(),
 	};
 } )( ReadabilityAnalysis );
