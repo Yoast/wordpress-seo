@@ -20,6 +20,7 @@ import { isWordComplexitySupported } from "../../helpers/assessmentUpsellHelpers
 import { addQueryArgs } from "@wordpress/url";
 import getL10nObject from "../../analysis/getL10nObject";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
+import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -142,23 +143,17 @@ class ReadabilityAnalysis extends Component {
 	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
 	 */
 	renderAIOptimizeButton = ( hasAIFixes, id ) => {
-		const { isElementor, isAiFeatureEnabled, isWooCommerceProduct, isTerm } = this.props;
+		const { isElementor, isAiFeatureEnabled, isContentTypeSupported } = this.props;
 		const isPremium = getL10nObject().isPremium;
 
 		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
 		if ( isPremium && ! isAiFeatureEnabled ) {
 			return;
 		}
-
-		const isElementorEditorPageActive =  document.body.classList.contains( "elementor-editor-active" );
-		// Check if the current editor is either Elementor or the Elementor in-between screen. In that case, don't show the button.
-		const isNotElementorPage =  ! isElementor && ! isElementorEditorPageActive;
-
+		const shouldRenderAIButton = shouldRenderAIOptimizeButton( hasAIFixes, isElementor, isContentTypeSupported );
 		// Show the button if the assessment can be fixed through Yoast AI Optimize, and we are not in the Elementor editor,
 		// WooCommerce Product pages or Taxonomy
-		return hasAIFixes && isNotElementorPage && ! isWooCommerceProduct && ! isTerm && (
-			<AIOptimizeButton id={ id } isPremium={ isPremium } />
-		);
+		return shouldRenderAIButton && ( <AIOptimizeButton id={ id } isPremium={ isPremium } /> );
 	};
 
 
@@ -228,8 +223,7 @@ ReadabilityAnalysis.propTypes = {
 	shouldUpsellHighlighting: PropTypes.bool,
 	isAiFeatureEnabled: PropTypes.bool,
 	isElementor: PropTypes.bool,
-	isTerm: PropTypes.bool,
-	isWooCommerceProduct: PropTypes.bool,
+	isContentTypeSupported: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
@@ -238,8 +232,7 @@ ReadabilityAnalysis.defaultProps = {
 	shouldUpsellHighlighting: false,
 	isAiFeatureEnabled: false,
 	isElementor: false,
-	isTerm: false,
-	isWooCommerceProduct: false,
+	isContentTypeSupported: false,
 };
 
 export default withSelect( select => {
@@ -258,7 +251,6 @@ export default withSelect( select => {
 		marksButtonStatus: getMarkButtonStatus(),
 		isElementor: getIsElementorEditor(),
 		isAiFeatureEnabled: getIsAiFeatureEnabled(),
-		isTerm: getIsTerm(),
-		isWooCommerceProduct: getIsProduct() && getIsWooCommerceActive(),
+		isContentTypeSupported: ! getIsTerm() && ! getIsProduct() && ! getIsWooCommerceActive(),
 	};
 } )( ReadabilityAnalysis );
