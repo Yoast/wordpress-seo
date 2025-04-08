@@ -11,7 +11,7 @@ use WP_REST_Response;
  *
  * @group site_kit_usage_tracking_route
  *
- * @covers Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Site_Kit_Usage_Tracking_Route::track_setup_steps
+ * @covers Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Setup_Steps_Tracking_Route::track_setup_steps
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */

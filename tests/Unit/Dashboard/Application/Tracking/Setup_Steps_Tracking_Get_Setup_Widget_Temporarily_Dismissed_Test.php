@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Application\Tracking;
  *
  * @group setup_steps_tracking
  *
- * @covers Yoast\WP\SEO\Dashboard\Application\Tracking\Setup_Steps_Tracking::get_setup_widget_dismissed
+ * @covers Yoast\WP\SEO\Dashboard\Application\Tracking\Setup_Steps_Tracking::get_setup_widget_temporarily_dismissed
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */

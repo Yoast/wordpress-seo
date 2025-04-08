@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Tracking;
  *
  * @group site_kit_usage_tracking_route
  *
- * @covers Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Site_Kit_Usage_Tracking_Route::check_capabilities
+ * @covers Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Setup_Steps_Tracking_Route::check_capabilities
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */

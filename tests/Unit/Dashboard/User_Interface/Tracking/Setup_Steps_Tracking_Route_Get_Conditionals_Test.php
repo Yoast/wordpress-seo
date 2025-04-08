@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Setup_Steps_Tracking_Route;
  *
  * @group setup_steps_tracking_route
  *
- * @covers Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Setup_Steps_Tracking_Route::get_conditionals
+ * @covers Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Setup_Steps_Tracking_Route::get_conditionals
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
