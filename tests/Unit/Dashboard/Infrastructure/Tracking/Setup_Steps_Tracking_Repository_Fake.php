@@ -14,6 +14,25 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Tracking\Setup_Steps_Tracking_Reposito
 final class Setup_Steps_Tracking_Repository_Fake implements Setup_Steps_Tracking_Repository_Interface {
 
 	/**
+	 * Whether set_setup_steps_tracking_element should return false.
+	 *
+	 * @var bool
+	 */
+	private $should_set_fail;
+
+	/**
+	 * Whether set_setup_steps_tracking_element should throw an exception.
+	 *
+	 * @var bool
+	 */
+	private $should_set_raise_exception;
+
+	public function __construct ( bool $should_set_fail = false, bool $should_set_raise_exception = false ) {
+		$this->should_set_fail = $should_set_fail;
+		$this->should_set_raise_exception = $should_set_raise_exception;
+	}
+
+	/**
 	 * Sets an element in the Site Kit usage tracking array.
 	 *
 	 * @phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- This is a fake..
@@ -24,20 +43,13 @@ final class Setup_Steps_Tracking_Repository_Fake implements Setup_Steps_Tracking
 	 * @return bool False when the update failed, true when the update succeeded.
 	 */
 	public function set_setup_steps_tracking_element( string $element_name, string $element_value ): bool {
-		if ( \in_array(
-			$element_name,
-			[
-				'setup_widget_loaded',
-				'first_interaction_stage',
-				'last_interaction_stage',
-				'setup_widget_temporarily_dismissed',
-				'setup_widget_permanently_dismissed',
-			],
-			true
-		) ) {
-			return true;
+		if ( $this->should_set_fail ) {
+			return false;
 		}
-		return false;
+		if ( $this->should_set_raise_exception ) {
+			throw new \Exception( 'Unable to save data.' );
+		}
+		return true;
 	}
 
 	/**
