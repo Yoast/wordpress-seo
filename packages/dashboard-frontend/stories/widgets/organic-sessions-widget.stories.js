@@ -9,7 +9,7 @@ const remoteDataProvider = new RemoteDataProvider( {}, fetchMock );
 const dataFormatter = new ComparisonMetricsDataFormatter();
 
 export default {
-	title: "Widgets/Organic Sessions Widget",
+	title: "Widgets/Organic Sessions widget",
 	component: OrganicSessionsWidget,
 	args: {
 		dataProvider,
