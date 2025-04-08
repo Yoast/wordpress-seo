@@ -251,6 +251,6 @@ export default withSelect( select => {
 		marksButtonStatus: getMarkButtonStatus(),
 		isElementor: getIsElementorEditor(),
 		isAiFeatureEnabled: getIsAiFeatureEnabled(),
-		isContentTypeSupported: ! getIsTerm() && ! getIsProduct() && ! getIsWooCommerceActive(),
+		isContentTypeSupported: ! getIsTerm() && ! ( getIsProduct() && getIsWooCommerceActive() ),
 	};
 } )( ReadabilityAnalysis );

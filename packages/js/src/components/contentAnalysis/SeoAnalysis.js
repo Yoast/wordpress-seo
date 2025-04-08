@@ -342,6 +342,6 @@ export default withSelect( ( select, ownProps ) => {
 		isElementor: getIsElementorEditor(),
 		isPremium: getIsPremium(),
 		isAiFeatureEnabled: getIsAiFeatureEnabled(),
-		isContentTypeSupported: ! getIsTerm() && ! getIsProduct() && ! getIsWooCommerceActive(),
+		isContentTypeSupported: ! getIsTerm() && ! ( getIsProduct() && getIsWooCommerceActive() ),
 	};
 } )( SeoAnalysis );
