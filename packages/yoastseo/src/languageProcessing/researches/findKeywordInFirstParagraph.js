@@ -32,10 +32,10 @@ export default function( paper, researcher ) {
 		const parentNode = paragraph.getParentNode( tree );
 		return ! ( paragraph.isImplicit && parentNode && parentNode.name === "figcaption" );
 	} );
-	// Filter captions from Classic editor and from classic block inside Block editor.
+	// Filter captions and gallery shortcodes from Classic editor and from classic block inside Block editor.
 	paragraphs = paragraphs.filter( paragraph => {
 		return ! ( paragraph.childNodes && paragraph.childNodes[ 0 ] &&
-			createShortcodeTagsRegex( [ "caption" ] ).test( paragraph.childNodes[ 0 ].value ) );
+			createShortcodeTagsRegex( [ "caption", "gallery" ] ).test( paragraph.childNodes[ 0 ].value ) );
 	} );
 	const firstParagraph = paragraphs[ 0 ];
 
