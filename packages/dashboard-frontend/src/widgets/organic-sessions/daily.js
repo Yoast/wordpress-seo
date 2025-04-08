@@ -170,7 +170,7 @@ const OrganicSessionsChart = ( { data } ) => (
 				data={ data }
 			/>
 		</div>
-		<table className="yst-sr-only">
+		<table className="yst-sr-only yst-table-fixed">
 			<caption>{ __( "Organic sessions chart", "wordpress-seo" ) }</caption>
 			<thead>
 				<tr>
