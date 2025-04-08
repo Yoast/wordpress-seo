@@ -205,14 +205,14 @@ class SeoAnalysis extends Component {
 	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
 	 */
 	renderAIOptimizeButton = ( hasAIFixes, id ) => {
-		const { isElementor, isAiFeatureEnabled, isContentTypeSupported, isPremium } = this.props;
+		const { isElementor, isAiFeatureEnabled, isPremium } = this.props;
 
 		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
 		if ( isPremium && ! isAiFeatureEnabled ) {
 			return;
 		}
 
-		const shouldRenderAIButton = shouldRenderAIOptimizeButton( hasAIFixes, isElementor, isContentTypeSupported );
+		const shouldRenderAIButton = shouldRenderAIOptimizeButton( hasAIFixes, isElementor );
 		// Show the button if the assessment can be fixed through Yoast AI Optimize, and we are not in the Elementor editor,
 		// WooCommerce Product pages or Taxonomy
 		return shouldRenderAIButton && ( <AIOptimizeButton id={ id } isPremium={ isPremium } /> );
@@ -303,7 +303,6 @@ SeoAnalysis.propTypes = {
 	isElementor: PropTypes.bool,
 	isAiFeatureEnabled: PropTypes.bool,
 	isPremium: PropTypes.bool,
-	isContentTypeSupported: PropTypes.bool,
 };
 
 SeoAnalysis.defaultProps = {
@@ -317,7 +316,6 @@ SeoAnalysis.defaultProps = {
 	isElementor: false,
 	isAiFeatureEnabled: false,
 	isPremium: false,
-	isContentTypeSupported: false,
 };
 
 export default withSelect( ( select, ownProps ) => {
@@ -328,9 +326,6 @@ export default withSelect( ( select, ownProps ) => {
 		getIsElementorEditor,
 		getIsPremium,
 		getIsAiFeatureEnabled,
-		getIsTerm,
-		getIsProduct,
-		getIsWooCommerceActive,
 	} = select( "yoast-seo/editor" );
 
 	const keyword = getFocusKeyphrase();
@@ -342,6 +337,5 @@ export default withSelect( ( select, ownProps ) => {
 		isElementor: getIsElementorEditor(),
 		isPremium: getIsPremium(),
 		isAiFeatureEnabled: getIsAiFeatureEnabled(),
-		isContentTypeSupported: ! getIsTerm() && ! ( getIsProduct() && getIsWooCommerceActive() ),
 	};
 } )( SeoAnalysis );
