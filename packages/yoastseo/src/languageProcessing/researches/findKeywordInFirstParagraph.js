@@ -26,9 +26,10 @@ import { createShortcodeTagsRegex } from "../helpers";
  */
 export default function( paper, researcher ) {
 	let paragraphs = researcher.getResearch( "getParagraphs" );
+	const tree = paper.getTree();
 	// Filter captions from non-Classic editors.
 	paragraphs = paragraphs.filter( paragraph => {
-		const parentNode = paragraph.getParentNode( paper.getTree() );
+		const parentNode = paragraph.getParentNode( tree );
 		return ! ( paragraph.isImplicit && parentNode && parentNode.name === "figcaption" );
 	} );
 	// Filter captions from Classic editor and from classic block inside Block editor.
@@ -43,6 +44,7 @@ export default function( paper, researcher ) {
 	const locale = paper.getLocale();
 	const startOffset = firstParagraph && firstParagraph.sourceCodeLocation.startOffset;
 
+	// Block editor-specific processing to retrieve the parent block of the introduction node.
 	const mappedBlocks = paper._attributes.wpBlocks;
 	const filteredIntroductionBlock = mappedBlocks && mappedBlocks.filter( block => inRange( startOffset, block.startOffset, block.endOffset ) )[ 0 ];
 	const result = {
@@ -50,7 +52,8 @@ export default function( paper, researcher ) {
 		foundInParagraph: false,
 		keyphraseOrSynonym: "",
 		introduction: firstParagraph,
-		parentBlock: filteredIntroductionBlock || null,
+		// In case of non-Block editor, we return the introduction's parent node.
+		parentBlock: filteredIntroductionBlock || firstParagraph.getParentNode( tree ),
 	};
 
 	if ( isEmpty( firstParagraph ) ) {
