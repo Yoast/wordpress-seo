@@ -48,13 +48,13 @@ export default function( paper, researcher ) {
 	const mappedBlocks = paper._attributes.wpBlocks;
 	const filteredIntroductionBlock = mappedBlocks && mappedBlocks.filter( block => inRange( startOffset, block.startOffset, block.endOffset ) )[ 0 ];
 	// In case of non-Block editor, we return the introduction's parent node.
-	const parentNode = firstParagraph?.getParentNode( tree );
+	const introductionParentNode = firstParagraph?.getParentNode( tree );
 	const result = {
 		foundInOneSentence: false,
 		foundInParagraph: false,
 		keyphraseOrSynonym: "",
 		introduction: firstParagraph,
-		parentBlock: filteredIntroductionBlock || parentNode,
+		parentBlock: filteredIntroductionBlock || introductionParentNode,
 	};
 
 	if ( isEmpty( firstParagraph ) ) {
