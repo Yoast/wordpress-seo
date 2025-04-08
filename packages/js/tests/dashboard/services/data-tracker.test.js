@@ -1,22 +1,13 @@
 import { beforeAll, describe, expect, jest, test } from "@jest/globals";
-import { MockDataProvider } from "../__mocks__/data-provider";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
 import { DataTracker } from "../../../src/dashboard/services/data-tracker";
 
 describe( "DataTracker", () => {
 	let remoteDataProvider;
 	let trackingRoute;
-	let stepsData;
 	let dataTracker;
 	beforeAll( () => {
 		remoteDataProvider = new MockRemoteDataProvider( {} );
-		stepsData = {
-			setupWidgetLoaded: "yes",
-			firstInteractionStage: "install",
-			lastInteractionStage: "setup",
-			setupWidgetTemporarilyDismissed: "yes",
-			setupWidgetPermanentlyDismissed: "no",
-		};
 		trackingRoute = {
 			data: {
 				setupWidgetLoaded: "yes",
