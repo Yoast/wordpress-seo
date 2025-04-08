@@ -1,5 +1,6 @@
 import { defaultsDeep } from "lodash";
 import { DataTracker } from "../../../src/dashboard/services/data-tracker";
+import { MockRemoteDataProvider } from "./remote-data-provider";
 
 /**
  * Mock data provider.
@@ -12,14 +13,17 @@ export class MockDataTracker extends DataTracker {
 	 */
 	constructor( options = {} ) {
 		super( defaultsDeep( options, {
-			setupStepsTrackingData: {
-				setupWidgetDismissed: "yes",
+			data: {
+				setupWidgetTemporarilyDismissed: "yes",
+				setupWidgetPermanentlyDismissed: "no",
 				setupWidgetLoaded: "yes",
-				firstInteractionStage: "INSTALL",
-				lastInteractionStage: "SET UP",
+				firstInteractionStage: "install",
+				lastInteractionStage: "setup",
 			},
-		} ) );
-		this.getSetupStepsTrackingElement = jest.fn();
+			endpoint: "dummyEndpoint",
+		} ), new MockRemoteDataProvider() );
+		this.getTrackingElement = jest.fn();
+		this.track = jest.fn();
 	}
 }
 

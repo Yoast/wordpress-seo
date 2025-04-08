@@ -4,21 +4,11 @@ import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
 import { DataTracker } from "../../../src/dashboard/services/data-tracker";
 
 describe( "DataTracker", () => {
-	let dataProvider;
 	let remoteDataProvider;
+	let trackingRoute;
 	let stepsData;
 	let dataTracker;
 	beforeAll( () => {
-		dataProvider = new MockDataProvider( {
-			siteKitConfiguration: {
-				isFeatureEnabled: true,
-				connectionStepsStatuses: {
-					isInstalled: true,
-					isActive: true,
-					isSetupCompleted: true,
-				},
-			},
-		} );
 		remoteDataProvider = new MockRemoteDataProvider( {} );
 		stepsData = {
 			setupWidgetLoaded: "yes",
@@ -27,7 +17,17 @@ describe( "DataTracker", () => {
 			setupWidgetTemporarilyDismissed: "yes",
 			setupWidgetPermanentlyDismissed: "no",
 		};
-		dataTracker = new DataTracker( stepsData, dataProvider, remoteDataProvider );
+		trackingRoute = {
+			data: {
+				setupWidgetLoaded: "yes",
+				firstInteractionStage: "install",
+				lastInteractionStage: "setup",
+				setupWidgetTemporarilyDismissed: "yes",
+				setupWidgetPermanentlyDismissed: "no",
+			},
+			endpoint: "dummyEndpoint",
+		};
+		dataTracker = new DataTracker( trackingRoute, remoteDataProvider );
 	} );
 
 
@@ -39,9 +39,9 @@ describe( "DataTracker", () => {
 			setupWidgetTemporarilyDismissed: "yes",
 			setupWidgetPermanentlyDismissed: "no",
 		};
-		dataTracker = new DataTracker( stepsData, dataProvider, remoteDataProvider );
+		dataTracker = new DataTracker( trackingRoute, remoteDataProvider );
 		dataTracker.track( newStepsData );
-		expect( dataTracker.getSetupStepsTrackingElement( "setupWidgetLoaded" ) ).toBe( "no" );
+		expect( dataTracker.getTrackingElement( "setupWidgetLoaded" ) ).toBe( "no" );
 	} );
 
 
@@ -54,7 +54,7 @@ describe( "DataTracker", () => {
 			setupWidgetPermanentlyDismissed: "no",
 		};
 
-		dataTracker = new DataTracker( stepsData, dataProvider, remoteDataProvider );
+		dataTracker = new DataTracker( trackingRoute, remoteDataProvider );
 		const storeDataSpy = jest.spyOn( dataTracker, "storeData" );
 
 		dataTracker.track( newStepsData );
@@ -72,7 +72,7 @@ describe( "DataTracker", () => {
 			setupWidgetPermanentlyDismissed: "no",
 		};
 
-		dataTracker = new DataTracker( stepsData, dataProvider, remoteDataProvider );
+		dataTracker = new DataTracker( trackingRoute, remoteDataProvider );
 		const storeDataSpy = jest.spyOn( dataTracker, "storeData" );
 
 		dataTracker.track( newStepsData );
@@ -88,8 +88,8 @@ describe( "DataTracker", () => {
 		[ "setupWidgetTemporarilyDismissed", "yes" ],
 		[ "setupWidgetPermanentlyDismissed", "no" ],
 	] )( "should correctly retrieve %s", ( element, expected ) => {
-		dataTracker = new DataTracker( stepsData, dataProvider, remoteDataProvider );
+		dataTracker = new DataTracker( trackingRoute, remoteDataProvider );
 
-		expect( dataTracker.getSetupStepsTrackingElement( element ) ).toBe( expected );
+		expect( dataTracker.getTrackingElement( element ) ).toBe( expected );
 	} );
 } );
