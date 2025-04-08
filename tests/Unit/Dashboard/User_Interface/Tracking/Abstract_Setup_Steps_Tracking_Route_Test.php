@@ -40,6 +40,8 @@ abstract class Abstract_Setup_Steps_Tracking_Route_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubTranslationFunctions();
+
 		Mockery::mock( WP_Error::class );
 		$this->capability_helper = Mockery::mock( Capability_Helper::class );
 
