@@ -150,7 +150,7 @@ class Site_Kit {
 			'installUrl'               => $this->get_install_url(),
 			'activateUrl'              => $this->get_activate_url(),
 			'setupUrl'                 => $this->get_setup_url(),
-			'updateUrl'                => $this->get_update_url(),
+			'updateUrl'                => \self_admin_url('update.php?page=wpseo_page_site_kit_set_up&redirect_setup_url=').urlencode($this->get_update_url()),
 			'dashboardUrl'             => \self_admin_url( 'admin.php?page=googlesitekit-dashboard' ),
 			'isAnalyticsConnected'     => $this->is_ga_connected(),
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
