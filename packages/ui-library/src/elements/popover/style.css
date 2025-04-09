@@ -1,10 +1,5 @@
 @layer components {
 	.yst-root {
-		.yst-popover-container {
-			@apply yst-inline-block
-			yst-max-w-48;
-		}
-
 		.yst-popover-backdrop {
 			@apply yst-fixed
 			yst-inset-0
@@ -15,50 +10,111 @@
 
 		.yst-popover {
 			@apply yst-absolute
-				yst-p-5
-				yst-rounded-lg
-				yst-whitespace-normal
-				yst-w-max
-				yst-max-w-sm
-				yst-z-10
-				yst-bg-white
-				yst-border
-				yst-shadow-md
-				yst-whitespace-nowrap
-				yst--translate-y-1/2;
+			yst-inline-block
+			yst-p-5
+			yst-rounded-lg
+			yst-whitespace-normal
+			yst-w-max
+			yst-max-w-sm
+			yst-z-10
+			yst-bg-white
+			yst-border
+			yst-shadow-xl
+			before:yst-content-['']
+			before:yst-absolute
+			before:yst-border-transparent;
+		}
+
+		.yst-popover--right {
+			@apply
+			yst-translate-x-1/3
+			yst--translate-y-1/2
+			yst-top-1/2
+			before:yst-block
+			before:yst-end-full
+			before:yst-top-1/2
+			before:yst-right-full
+			before:yst--translate-y-1/2;
 
 			&::before {
-				@apply
-				yst-content-['']
-				yst-absolute
-				yst-block
-				yst-w-0
-				yst-h-0
-				yst-right-full
-				yst-top-1/2;
-
-				transform: translateY(-50%);
-				border-right: 10px solid #fff;
-				border-top: 10px solid transparent;
-				border-bottom: 10px solid transparent;
+				border-right: 14px solid #fff;
+				border-top: 14px solid transparent;
+				border-bottom: 14px solid transparent;
 			}
 		}
 
-		/*.yst-popover--top {*/
-		/*	@apply yst--translate-x-1/2*/
-		/*	rtl:yst-translate-x-1/2*/
-		/*	yst--translate-y-full*/
-		/*	yst-start-1/2*/
-		/*	yst-top-0*/
-		/*	yst--mt-3 !* Negative margin to move the tooltip up *!*/
-		/*		!* Style properties for the tooltip arrow *!*/
-		/*	before:yst-start-1/2*/
-		/*	before:yst-top-full !* Arrow positioned at the bottom of the tooltip *!*/
-		/*	before:yst--translate-x-1/2*/
-		/*	rtl:before:yst-translate-x-1/2*/
-		/*	before:yst-translate-y-0*/
-		/*	before:yst-border-t-gray-800;*/
-		/*}*/
+		.yst-popover--top {
+			@apply
+			yst--translate-y-full
+			yst-translate-x-1/2
+			rtl:yst-translate-x-1/2
+			yst-end-1/2
+			yst--top-5
+			before:yst-content-['']
+			before:yst-start-1/2
+			before:yst-top-full
+			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
+			before:yst-translate-y-0;
+
+			&::before {
+				border-right: 14px solid transparent;
+				border-top: 14px solid #fff;
+				border-left: 14px solid transparent;
+			}
+		}
+
+		.yst-popover--left {
+			@apply
+			yst--translate-x-full
+			yst--translate-y-1/2
+			yst-top-1/2
+			yst--start-1/2
+			before:yst-block
+			before:yst-start-full
+			before:yst-top-1/2
+			before:yst-right-full
+			before:yst--translate-y-1/2;
+
+			&::before {
+				border-top: 14px solid transparent;
+				border-bottom: 14px solid transparent;
+				border-left: 14px solid #fff;
+			}
+		}
+
+		.yst-popover--bottom {
+			@apply
+			yst--translate-x-1/2
+			rtl:yst-translate-x-1/2
+			yst--translate-y-0
+			yst-start-1/2
+			yst-mt-3
+			before:yst-content-['']
+			before:yst-start-1/2
+			before:yst-bottom-full
+			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
+			before:yst-translate-y-0
+			before:yst-border-transparent;
+
+			&::before {
+				border-right: 14px solid transparent;
+				border-bottom: 14px solid #fff;
+				border-left: 14px solid transparent;
+			}
+		}
 	}
 }
 
+/* Styles to use the anchor positioning with more browser support */
+/*#anchor-popover {*/
+/*	anchor-name: --anchor-popover;*/
+/*}*/
+/*[role="dialog"]#popover {*/
+/*	position-anchor: --anchor-popover;*/
+/*	position-area: left center;*/
+/*	position-try-fallbacks: top;*/
+
+/*	margin: 2rem;*/
+/*}*/

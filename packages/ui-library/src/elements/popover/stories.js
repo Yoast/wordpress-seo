@@ -1,57 +1,48 @@
 import React, { useState } from "react";
-import Popover from "./index";
+import Popover, { usePopoverContext } from "./index";
 import { component } from "./docs";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import Button from "../../elements/button";
-import { title } from "../toast/docs";
-import { useToggleState } from "../../hooks";
+import { noop } from "lodash";
 
-
-const Template = ( { isVisible: initialVisible, setIsVisible: _, position, children, ...props } ) => {
-	const [ isVisible, toggleToast, , openToast ] = useToggleState( initialVisible );
+const Template = ( {  position, children, ...props } ) => {
 	return (
-		<>
+		<div className="yst-relative">
 			<Popover
+				id={ "popover" }
+				position={ position }
 				{ ...props }
-				isVisible={ isVisible }
-				setIsVisible={ openToast }
-				onDismiss={ toggleToast }
-				className="yst-max-w-96"
-			/>
-		</>
+			>
+				{ children }
+			</Popover>
+		</div>
 	);
 };
+Template.displayName = "Popover";
 
-// export const Factory = {
-// 	component: Template,
-// 	parameters: {
-// 		controls: { disable: false },
-// 	},
-// };
-
-
+const DismissButton = () => {
+	const { handleDismiss } = usePopoverContext();
+	return <Button type="button" variant="primary" onClick={ handleDismiss } className="yst-self-end">Got it!</Button>;
+};
 export const Factory = {
-	render: ( args ) => {
-		return (
-			<>
-				<Popover { ...args } isOpen={ true } />
-			</>
-		);
-	},
+	component: Template,
 	parameters: {
 		controls: { disable: false },
 	},
 	args: {
-		children: "I am just a popover",
+		children: (
+			<>
+				<Popover.Content
+					content={ "Hey! I am a popover" }
+				/>
+			</>
+		),
 	},
 };
 
+
 export const WithMoreContent = {
-	component: Factory,
-	parameters: {
-		controls: { disable: false },
-		docs: { description: { story: title } },
-	},
+	name: "With more content",
 	args: {
 		children: (
 			<>
@@ -61,9 +52,14 @@ export const WithMoreContent = {
 						<Popover.CloseButton dismissScreenReaderLabel="Dismiss" />
 					</div>
 					<div className="yst-self-start yst-flex-wrap">
-						<Popover.Content content={ "Improve your content SEO.The content of the popover. dajrsoasidfjasldfja;osdifja;sldfkmja;osldfjaosijfda;sldfja;olsdfja;lsdfj;aosdifja;lsdfjasojifd" } className="yst-text-wrap" />
+						<Popover.Content
+							content={ "Improve your content SEO. The content of the popover. " +
+								"Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
+								"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
+								"when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+							}
+						/>
 					</div>
-					<Button type="button" variant="primary" className="yst-self-end">Got it!</Button>
 				</div>
 			</>
 		),
@@ -71,17 +67,19 @@ export const WithMoreContent = {
 };
 
 export const ButtonWithAPopover = {
-
 	render: ( args ) => {
 		const [ isOpen, setIsOpen ] = useState( args.isOpen );
 		const handleClick = () => setIsOpen( ! isOpen );
 
 		return (
 			<>
-				<Button type="button" onClick={ handleClick } className="yst-relative">
+				<Button
+					variant="primary"
+					onClick={ handleClick } className="yst-relative"
+				>
 					Toggle Popover
+					<Popover { ...args } isOpen={ isOpen } />
 				</Button>
-				<Popover { ...args } isOpen={ isOpen } />
 			</>
 		);
 	},
@@ -97,34 +95,103 @@ export const ButtonWithAPopover = {
 						<Popover.CloseButton dismissScreenReaderLabel="Dismiss" />
 					</div>
 					<div className="yst-self-start yst-flex-wrap">
-						<Popover.Content content={ "Improve your content SEO.The content of the popover. dajrsoasidfjasldfja;osdifja;sldfkmja;osldfjaosijfda;sldfja;olsdfja;lsdfj;aosdifja;lsdfjasojifd" } className="yst-text-wrap" />
+						<Popover.Content
+							content={ "Improve your content SEO. The content of the popover. " +
+								"Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
+								"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
+								"when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+							}
+						/>
 					</div>
-					<Button type="button" variant="primary" className="yst-self-end">Got it!</Button>
+					<DismissButton />
 				</div>
 			</>
 		),
 	},
 };
+
 export default {
 	title: "1) Elements/Popover",
-	component: Popover,
+	component: Template,
 	argTypes: {
 		isOpen: { control: "boolean" },
+		children: {
+			control: "text",
+			type: { required: true },
+			table: { type: { summary: "node" } },
+		},
+		id: { control: "text" },
+		isVisible: {
+			control: { disable: true },
+			type: { required: true },
+			table: { type: { summary: "bool" } },
+		},
+		setIsVisible: {
+			control: { disable: true },
+			type: { required: true },
+			table: { type: { summary: "func" } },
+		},
+		className: {
+			control: "text",
+			table: {
+				type: { summary: "string" },
+				defaultValue: { summary: "" },
+			},
+		},
+		position: {
+			options: [ "top", "right", "bottom", "left" ],
+			type: "select",
+			description: "The position of the popover relative to it's parent.",
+			table: {
+				defaultValue: { summary: "right" },
+			},
+		},
 	},
 	tags: [ "autodocs" ],
+	args: {
+		id: "popover",
+		isVisible: true,
+		setIsVisible: noop,
+		children: "",
+		position: "right",
+	},
 	parameters: {
 		docs: {
 			description: { component },
 			page: () => (
-				<InteractiveDocsPage stories={ [ ButtonWithAPopover ] } />
+				<InteractiveDocsPage stories={ [ Factory, WithMoreContent, ButtonWithAPopover ] } />
 			),
 		},
 	},
 	decorators: [
 		( Story ) => (
-			<div className="yst-m-20 yst-flex yst-justify-center">
+			<div className="yst-m-40 yst-flex yst-justify-center yst-items-center">
 				<Story />
 			</div>
 		),
 	],
 };
+
+// export default {
+// 	title: "1) Elements/Popover",
+// 	component: Template,
+// 	argTypes: {
+// 		isOpen: { control: "boolean" },
+// 	},
+// 	tags: [ "autodocs" ],
+// 	parameters: {
+// 		docs: {
+// 			description: { component },
+// 			page: () => (
+// 				<InteractiveDocsPage stories={ [ ButtonWithAPopover ] } />
+// 			),
+// 		},
+// 	},
+// 	decorators: [
+// 		( Story ) => (
+// 			<div className="yst-m-40 yst-flex yst-justify-center">
+// 				<Story />
+// 			</div>
+// 		),
+// 	],
+// };

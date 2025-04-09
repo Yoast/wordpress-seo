@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { XIcon } from "@heroicons/react/outline";
-import React, { createContext, forwardRef, useContext, useCallback } from "react";
+import React, { createContext, forwardRef, useCallback, useContext } from "react";
 import { isArray, noop } from "lodash";
 
 const PopoverContext = createContext( { handleDismiss: noop } );
@@ -15,7 +15,7 @@ const positionClassNameMap = {
 	top: "yst-popover--top",
 	right: "yst-popover--right",
 	bottom: "yst-popover--bottom",
-	left: "yst-popover",
+	left: "yst-popover--left",
 };
 
 /**
@@ -26,11 +26,19 @@ const positionClassNameMap = {
 const CloseButton = ( {
 	dismissScreenReaderLabel,
 } ) => {
-	const { handleDismiss } = usePopoverContext();
+	const { popoverRef } = usePopoverContext();
+
+	const handleDismiss = () => {
+		if ( popoverRef?.current ) {
+			popoverRef.current.hidePopover();
+		}
+	};
+
 	return (
 		<div className="yst-flex-shrink-0 yst-flex yst-self-start">
 			<button
 				type="button"
+				/* eslint-disable-next-line react/jsx-no-bind */
 				onClick={ handleDismiss }
 				className="yst-bg-transparent yst-rounded-md yst-inline-flex yst-text-slate-400 hover:yst-text-slate-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
 			>
@@ -62,7 +70,7 @@ const Content = ( {
 			) ) }
 		</ul>
 	) : (
-		<p className={ className }>{ content }</p>
+		<p className={ classNames( "yst-overflow-hidden", className ) }>{ content }</p>
 	);
 };
 
@@ -92,61 +100,51 @@ Title.propTypes = {
 
 /**
  * @param {JSX.node} children Children of the popover.
+ * @param {string} id The popover id.
  * @param {string|JSX.Element} [as] Base component.
  * @param {string} [className] Additional CSS classes.
  * @param {string} [position] The position of the popover.
  * @param {string} [variant] Variant of the popover.
  * @param {Function} [onDismiss] Function to dismiss the popover.
  * @param {boolean} isVisible Whether the popover is visible.
+ * @param {Function} setIsVisible Function to set the visibility of the element.
  * @returns {JSX.Element} The popover component.
  */
 
 const Popover = forwardRef( ( {
 	children,
+	id,
 	as: Component,
 	className,
+	onDismiss = noop,
+	isVisible,
+	setIsVisible,
 	isOpen,
 	position,
-	onDismiss = noop,
 	...props
 }, ref ) => {
 	// Prevent rendering if not open
 	if ( ! isOpen ) {
 		return null;
 	}
-	const handleDismiss = useCallback( () => {
-		if ( ref?.current ) {
-			onDismiss( ref.current );
-		}
-	}, [ onDismiss, ref ] );
 
-	// Prevent body to be scrollable when the popover is open
-	// useEffect( () => {
-	// 	document.body.style.overflow = "hidden";
-	//
-	// 	// Cleanup function to reset overflow when Popover unmounts
-	// 	return () => {
-	// 		document.body.style.overflow = "";
-	// 	};
-	// }, [] );
+	const handleDismiss = useCallback( () => {
+		setIsVisible( false );
+	}, [ onDismiss, id ] );
 
 	return (
-		<PopoverContext.Provider value={ { handleDismiss } }>
+		<PopoverContext.Provider value={ { handleDismiss, popoverRef: ref } }>
 			<div className="yst-popover-backdrop" />
 			<Component
-				className={ classNames( "yst-popover-container", positionClassNameMap[ position ],
-					className ) }
-				isOpen={ isOpen }
+				ref={ ref }
+				id="popover"
+				role="dialog"
+				isVisible={ isVisible }
+				aria-modal={ isOpen ? "true" : "false" }
+				className={ classNames( "yst-popover", positionClassNameMap[ position ], className ) }
+				{ ...props }
 			>
-				<div
-					role="dialog"
-					ref={ ref }
-					className={ classNames( "yst-popover", className ) }
-					aria-modal={ isOpen ? "true" : "false" }
-					{ ...props }
-				>
-					{ children }
-				</div>
+				{ children }
 			</Component>
 		</PopoverContext.Provider>
 	);
@@ -157,9 +155,11 @@ Popover.displayName = "Popover";
 Popover.propTypes = {
 	as: PropTypes.elementType,
 	children: PropTypes.node,
-	id: PropTypes.string.isRequired,
+	id: PropTypes.string,
 	className: PropTypes.string,
 	isOpen: PropTypes.bool,
+	isVisible: PropTypes.bool.isRequired,
+	setIsVisible: PropTypes.func.isRequired,
 	// eslint-disable-next-line react/require-default-props
 	onDismiss: PropTypes.func,
 	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ),
@@ -168,7 +168,8 @@ Popover.propTypes = {
 
 Popover.defaultProps = {
 	as: "div",
-	isOpen: false,
+	id: "",
+	isOpen: true,
 	children: "",
 	className: "",
 	position: "left",
