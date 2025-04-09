@@ -22,7 +22,6 @@ export class MockDataTracker extends DataTracker {
 			},
 			endpoint: "dummyEndpoint",
 		} ), new MockRemoteDataProvider() );
-		this.getTrackingElement = jest.fn();
 		this.track = jest.fn();
 	}
 }

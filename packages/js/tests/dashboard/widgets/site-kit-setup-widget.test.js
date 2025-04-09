@@ -446,4 +446,75 @@ describe( "SiteKitSetupWidget", () => {
 		expect( queryByRole( "link", { name: /Update Site Kit by Google/i } ) ).not.toBeInTheDocument();
 		expect( queryByText( "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google." ) ).not.toBeInTheDocument();
 	} );
+
+	describe( "should track the current step on widget load when setup was already loaded", () => {
+		it.each( [
+			[ "plugin not installed", { isInstalled: false, isActive: false, isSetupCompleted: false, stepName: "install" } ],
+			[ "plugin not active", { isInstalled: true, isActive: false, isSetupCompleted: false, stepName: "activate" } ],
+			[ "setup not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, stepName: "setup" } ],
+			[ "consent not granted", { isInstalled: true, isActive: true, isSetupCompleted: true, stepName: "grantConsent" } ],
+		] )( "should track configuration step on load when %s", ( _, { isInstalled, isActive, isSetupCompleted, stepName } ) => {
+			dataProvider = new MockDataProvider( {
+				siteKitConfiguration: {
+					connectionStepsStatuses: {
+						isInstalled,
+						isActive,
+						isSetupCompleted,
+						isConsentGranted: false,
+					},
+				},
+			} );
+			render( <SiteKitSetupWidget
+				dataProvider={ dataProvider }
+				dataTracker={ dataTracker }
+				remoteDataProvider={ remoteDataProvider }
+			/> );
+
+			expect( dataTracker.track ).toHaveBeenCalledWith( { lastInteractionStage: stepName } );
+		} );
+
+		describe( "should track the current step on widget load when setup was not loaded before", () => {
+			it.each( [
+				[ "plugin not installed", { isInstalled: false, isActive: false, isSetupCompleted: false, stepName: "install" } ],
+				[ "plugin not active", { isInstalled: true, isActive: false, isSetupCompleted: false, stepName: "activate" } ],
+				[ "setup not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, stepName: "setup" } ],
+				[ "consent not granted", { isInstalled: true, isActive: true, isSetupCompleted: true, stepName: "grantConsent" } ],
+			] )( "should track configuration step on load when %s", ( _, { isInstalled, isActive, isSetupCompleted, stepName } ) => {
+				dataProvider = new MockDataProvider( {
+					siteKitConfiguration: {
+						connectionStepsStatuses: {
+							isInstalled,
+							isActive,
+							isSetupCompleted,
+							isConsentGranted: false,
+						},
+					},
+				} );
+				dataTracker = new MockDataTracker(
+					{
+						data: {
+							setupWidgetTemporarilyDismissed: "yes",
+							setupWidgetPermanentlyDismissed: "no",
+							setupWidgetLoaded: "no",
+							firstInteractionStage: "install",
+							lastInteractionStage: "install",
+						},
+						endpoint: dataProvider.getEndpoint( "setupStepsTracking" ),
+					},
+					remoteDataProvider
+				);
+				render( <SiteKitSetupWidget
+					dataProvider={ dataProvider }
+					dataTracker={ dataTracker }
+					remoteDataProvider={ remoteDataProvider }
+				/> );
+
+				expect( dataTracker.track ).toHaveBeenCalledWith(  {
+					setupWidgetLoaded: "yes",
+					firstInteractionStage: stepName,
+					lastInteractionStage: stepName,
+				} );
+			} );
+		} );
+	} );
 } );
