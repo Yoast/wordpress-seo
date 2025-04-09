@@ -238,6 +238,8 @@ class Site_Kit_Analytics_4_Adapter {
 	 * @param Row $date_range_row The response row.
 	 *
 	 * @return string 'current' for the current period, 'previous' for the previous period.
+	 *
+	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
 	 */
 	private function get_date_range( Row $date_range_row ): string {
 		foreach ( $date_range_row->getDimensionValues() as $dimension_value ) {
@@ -248,6 +250,8 @@ class Site_Kit_Analytics_4_Adapter {
 				return 'previous';
 			}
 		}
+
+		throw new Invalid_Request_Exception( 'Unexpected date range names' );
 	}
 
 	/**
