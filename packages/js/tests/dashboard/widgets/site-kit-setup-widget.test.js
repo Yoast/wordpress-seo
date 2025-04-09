@@ -211,7 +211,7 @@ describe( "SiteKitSetupWidget", () => {
 		);
 	} );
 
-	it( "renders the widget with dismiss button when connected", () => {
+	it( "should render the widget with dismiss button when connected and dismiss the widget when 'Got it' button is clicked", () => {
 		remoteDataProvider.fetchJson.mockResolvedValueOnce( { success: true } );
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
@@ -231,6 +231,9 @@ describe( "SiteKitSetupWidget", () => {
 		const dismissButton = screen.getByRole( "button", { name: /Got it/i } );
 		expect( dismissButton ).toBeInTheDocument();
 		fireEvent.click( dismissButton );
+
+		expect( dataTracker.track ).not.toHaveBeenCalledWith( { setupWidgetTemporarilyDismissed: "yes" } );
+		expect( dataProvider.setSiteKitConfigurationDismissed ).toHaveBeenCalledWith( true );
 	} );
 
 	it( "should permanently dismiss the widget and track the it when 'Remove permanently' is clicked", async() => {
@@ -282,7 +285,6 @@ describe( "SiteKitSetupWidget", () => {
 
 		expect( dataProvider.setSiteKitConfigurationDismissed ).toHaveBeenCalledWith( true );
 	} );
-
 
 	describe( "should show the warning and disable the button when a user doesn't have the capability to install plugins", () => {
 		it.each( [
