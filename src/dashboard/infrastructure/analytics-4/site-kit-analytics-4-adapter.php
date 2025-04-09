@@ -231,13 +231,13 @@ class Site_Kit_Analytics_4_Adapter {
 	}
 
 	/**
-	 * Parses the response row and gets whether it's about the current period or the previous period.
+	 * Parses the response row and returns whether it's about the current period or the previous period.
 	 *
 	 * @see https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/DateRange
 	 *
 	 * @param Row $date_range_row The response row.
 	 *
-	 * @return string 'current' for the current period, 'previous' for the previous period.
+	 * @return string The key associated with the current or the previous period.
 	 *
 	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
 	 */
