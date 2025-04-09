@@ -215,12 +215,12 @@ class Site_Kit_Analytics_4_Adapter {
 				}
 			}
 
-			$date_range = $this->get_date_range( $date_range_row );
+			$period = $this->get_period( $date_range_row );
 
-			if ( $date_range === Comparison_Traffic_Data::CURRENT_KEY ) {
+			if ( $period === Comparison_Traffic_Data::CURRENT_PERIOD_KEY ) {
 				$comparison_traffic_data->set_current_traffic_data( $traffic_data );
 			}
-			elseif ( $date_range === Comparison_Traffic_Data::PREVIOUS_KEY ) {
+			elseif ( $period === Comparison_Traffic_Data::PREVIOUS_PERIOD_KEY ) {
 				$comparison_traffic_data->set_previous_traffic_data( $traffic_data );
 			}
 		}
@@ -241,13 +241,13 @@ class Site_Kit_Analytics_4_Adapter {
 	 *
 	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
 	 */
-	private function get_date_range( Row $date_range_row ): string {
+	private function get_period( Row $date_range_row ): string {
 		foreach ( $date_range_row->getDimensionValues() as $dimension_value ) {
 			if ( $dimension_value->getValue() === 'date_range_0' ) {
-				return Comparison_Traffic_Data::CURRENT_KEY;
+				return Comparison_Traffic_Data::CURRENT_PERIOD_KEY;
 			}
 			elseif ( $dimension_value->getValue() === 'date_range_1' ) {
-				return Comparison_Traffic_Data::PREVIOUS_KEY;
+				return Comparison_Traffic_Data::PREVIOUS_PERIOD_KEY;
 			}
 		}
 

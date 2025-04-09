@@ -9,8 +9,8 @@ use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Interface;
  */
 class Comparison_Traffic_Data implements Data_Interface {
 
-	const CURRENT_KEY  = 'current';
-	const PREVIOUS_KEY = 'previous';
+	public const CURRENT_PERIOD_KEY  = 'current';
+	public const PREVIOUS_PERIOD_KEY = 'previous';
 
 	/**
 	 * The current traffic data.
