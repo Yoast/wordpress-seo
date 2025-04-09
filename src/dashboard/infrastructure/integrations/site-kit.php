@@ -74,6 +74,7 @@ class Site_Kit {
 		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
 			$site_kit_plugin = Plugin::instance();
 			$authentication  = new Authentication( $site_kit_plugin->context() );
+
 			return $authentication->is_setup_completed();
 		}
 
@@ -122,6 +123,7 @@ class Site_Kit {
 	 * or user with one of the shared roles.
 	 *
 	 * @param string $key The key of the data.
+	 *
 	 * @return bool If the user can read the data.
 	 */
 	private function can_read_data( $key ) {
@@ -149,6 +151,7 @@ class Site_Kit {
 			'activateUrl'              => $this->get_activate_url(),
 			'setupUrl'                 => $this->get_setup_url(),
 			'updateUrl'                => $this->get_update_url(),
+			'dashboardUrl'             => \self_admin_url( 'admin.php?page=googlesitekit-dashboard' ),
 			'isAnalyticsConnected'     => $this->is_ga_connected(),
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'isConfigurationDismissed' => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
@@ -164,6 +167,8 @@ class Site_Kit {
 				'isConsentGranted' => $this->is_connected(),
 			],
 			'isVersionSupported'       => \defined( 'GOOGLESITEKIT_VERSION' ) ? \version_compare( \GOOGLESITEKIT_VERSION, '1.148.0', '>=' ) : false,
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			'isRedirectedFromSiteKit'  => isset( $_GET['redirected_from_site_kit'] ),
 		];
 	}
 

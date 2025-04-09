@@ -1,6 +1,6 @@
 import { ArrowNarrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { useCallback } from "@wordpress/element";
+import { createInterpolateElement, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Widget } from "@yoast/dashboard-frontend";
 import { Alert, Button, DropdownMenu, Stepper, Title, useToggleState } from "@yoast/ui-library";
@@ -49,7 +49,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 		remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "siteKitConsentManagement" ),
 			{ consent: String( true ) },
-			{ ...options, method: "POST" }
+			{ ...options, method: "POST" },
 		).then( ( { success } ) => {
 			if ( success ) {
 				dataProvider.setSiteKitConsentGranted( true );
@@ -130,6 +130,32 @@ const SiteKitAlert = ( { capabilities, currentStep, isVersionSupported, isConsen
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
 		</Alert>;
 	}
+};
+
+/**
+ * The alert to call back to Site Kit.
+ *
+ * @param {string} dashboardUrl The dashboard url.
+ *
+ * @returns {JSX.Element} The no permission warning component.
+ */
+const SiteKitRedirectBackAlert = ( { dashboardUrl } ) => {
+	return <Alert className={ "yst-mb-4" }>
+		{ createInterpolateElement( sprintf(
+				/* translators: %1$s and %2$s: Expands to an opening and closing link tag. */
+				__(
+					"You’re back in Yoast SEO. If you still have tasks to finish in Site Kit by Google, you can %1$s return to their dashboard%2$s anytime.",
+					"wordpress-seo",
+				),
+				"<a>",
+				"</a>",
+			),
+			{
+				// eslint-disable-next-line
+				a: <a href={ dashboardUrl } />,
+			},
+		) }
+	</Alert>;
 };
 
 /**
@@ -261,6 +287,8 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				) ) }
 			</Stepper> }
 			<hr className="yst-bg-slate-200 yst-mb-6" />
+			{ config.isRedirectedFromSiteKit && <SiteKitRedirectBackAlert dashboardUrl={ config.dashboardUrl } /> }
+
 			<div className="yst-max-w-2xl">
 				<SiteKitSetupWidgetTitleAndDescription isSiteKitConnectionCompleted={ isConnectionCompleted } />
 				<span className="yst-text-slate-800 yst-font-medium">{ isConnectionCompleted
