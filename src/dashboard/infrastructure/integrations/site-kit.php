@@ -144,6 +144,10 @@ class Site_Kit {
 	 * @return array<string, bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
+		if ( ! ( new Google_Site_Kit_Feature_Conditional() )->is_met() ) {
+			return [];
+		}
+
 		$site_kit_activate_url = \html_entity_decode(
 			\wp_nonce_url(
 				\self_admin_url( 'plugins.php?action=activate&plugin=' . self::SITE_KIT_FILE ),
