@@ -10,7 +10,7 @@ import { useRemoteData } from "../services/use-remote-data";
 /**
  * @type {import("../index").TopQueryData} TopQueryData
  * @type {import("../services/data-provider")} DataProvider
- * @type {import("../services/remote-data-provider")} RemoteDataProvider
+ * @type {import("../services/remote-cached-data-provider")} RemoteCachedDataProvider
  * @type {import("../services/data-formatter-interface")} DataFormatterInterface
  */
 
@@ -75,20 +75,26 @@ export const createTopQueriesFormatter = ( dataFormatter ) => ( data = [] ) => d
 
 /**
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {RemoteCachedDataProvider} remoteCachedDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  * @returns {{data?: TopPageData[], error?: Error, isPending: boolean}} The remote data info.
  */
-const useTopQueries = ( { dataProvider, remoteDataProvider, dataFormatter, limit } ) => {
+const useTopQueries = ( { dataProvider, remoteCachedDataProvider, dataFormatter, limit } ) => {
 	/**
 	 * @param {RequestInit} options The options.
 	 * @returns {Promise<TopPageData[]|Error>} The promise of TopPageData or an Error.
 	 */
-	const getTopQueries = useCallback( ( options ) => {
-		return remoteDataProvider.fetchJson(
+	const getTopQueries = useCallback( async ( options ) => {
+		// const { cacheHit, value, isError } = await getItem( cacheKey );
+
+		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ limit: limit.toString( 10 ), options: { widget: "query" } },
+			{
+				limit: limit.toString( 10 ),
+				options: { widget: "query" }
+				// cachedData: value
+			},
 			options );
 	}, [ dataProvider, limit ] );
 
@@ -102,14 +108,14 @@ const useTopQueries = ( { dataProvider, remoteDataProvider, dataFormatter, limit
 
 /**
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {RemoteCachedDataProvider} remoteCachedDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  * @param {string} [supportLink] The support link.
  * @returns {JSX.Element} The element.
  */
-const TopQueriesWidgetContent = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => {
-	const { data, error, isPending } = useTopQueries( { dataProvider, remoteDataProvider, dataFormatter, limit } );
+const TopQueriesWidgetContent = ( { dataProvider, remoteCachedDataProvider, dataFormatter, limit = 5 } ) => {
+	const { data, error, isPending } = useTopQueries( { dataProvider, remoteCachedDataProvider, dataFormatter, limit } );
 
 	if ( isPending ) {
 		return (
@@ -135,13 +141,13 @@ const TopQueriesWidgetContent = ( { dataProvider, remoteDataProvider, dataFormat
  * This contains minimal logic, in order to keep the error boundary more likely to catch errors.
  *
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {RemoteCachedDataProvider} remoteCachedDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  *
  * @returns {JSX.Element} The element.
  */
-export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => (
+export const TopQueriesWidget = ( { dataProvider, remoteCachedDataProvider, dataFormatter, limit = 5 } ) => (
 	<Widget
 		className="yst-paper__content yst-col-span-4"
 		title={ __( "Top 5 search queries", "wordpress-seo" ) }
@@ -158,7 +164,7 @@ export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormat
 	>
 		<TopQueriesWidgetContent
 			dataProvider={ dataProvider }
-			remoteDataProvider={ remoteDataProvider }
+			remoteCachedDataProvider={ remoteCachedDataProvider }
 			dataFormatter={ dataFormatter }
 			limit={ limit }
 		/>

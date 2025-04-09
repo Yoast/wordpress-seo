@@ -148,6 +148,41 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 								],
 							],
 						],
+						'cachedData' => [
+							'type'       => 'object',
+							'required'   => false,
+							// 'properties' => [
+							// 	'clicks' => [
+							// 		'type'              => 'int',
+							// 		'required'          => true,
+							// 		'sanitize_callback' => 'absint',
+							// 	],
+							// 	'impressions' => [
+							// 		'type'              => 'int',
+							// 		'required'          => true,
+							// 		'sanitize_callback' => 'absint',
+							// 	],
+							// 	'ctr' => [
+							// 		'type'              => 'number',
+							// 		'required'          => true,
+							// 		'sanitize_callback' => function ( $param, $request, $key ) {
+							// 			return floatval( $param );
+							// 		},
+							// 	],
+							// 	'position' => [
+							// 		'type'              => 'number',
+							// 		'required'          => true,
+							// 		'sanitize_callback' => function ( $param, $request, $key ) {
+							// 			return floatval( $param );
+							// 		},
+							// 	],
+							// 	'subject' => [
+							// 		'type'              => 'string',
+							// 		'required'          => true,
+							// 		'sanitize_callback' => 'sanitize_text_field',
+							// 	],
+							// ],
+						],
 					],
 				],
 			]
@@ -170,6 +205,8 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 				case 'query':
 					$request_parameters = new Search_Console_Parameters();
 
+					$cached_data = $request->get_param( 'cachedData' );
+
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );
 					$request_parameters->set_limit( $request->get_param( 'limit' ) );
 					$request_parameters->set_dimensions( [ 'query' ] );
@@ -178,6 +215,8 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 					break;
 				case 'page':
 					$request_parameters = new Search_Console_Parameters();
+
+					$cached_data = $request->get_param( 'cachedData' );
 
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );
 					$request_parameters->set_limit( $request->get_param( 'limit' ) );

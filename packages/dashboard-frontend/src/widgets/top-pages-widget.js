@@ -7,11 +7,18 @@ import { NoDataParagraph } from "../components/no-data-paragraph";
 import { Widget } from "../components/widget";
 import { Score, WidgetTable } from "../components/widget-table";
 import { useRemoteData } from "../services/use-remote-data";
+import {
+	deleteItem,
+	getItem,
+	getKeys,
+	setItem,
+	STORAGE_KEY_PREFIX_ROOT,
+} from '.././services/cache';
 
 /**
  * @type {import("../index").TopPageData} TopPageData
  * @type {import("../services/data-provider")} DataProvider
- * @type {import("../services/remote-data-provider")} RemoteDataProvider
+ * @type {import("../services/remote-cached-data-provider")} RemoteCachedDataProvider
  * @type {import("../services/data-formatter-interface")} DataFormatterInterface
  */
 
@@ -156,20 +163,26 @@ export const createTopPageFormatter = ( dataFormatter ) => ( data = [] ) => data
 
 /**
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {RemoteCachedDataProvider} remoteCachedDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  * @returns {{data?: TopPageData[], error?: Error, isPending: boolean}} The remote data info.
  */
-const useTopPages = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => {
+const useTopPages = ( { dataProvider, remoteCachedDataProvider, dataFormatter, limit = 5 } ) => {
 	/**
 	 * @param {RequestInit} options The options.
 	 * @returns {Promise<TopPageData[]|Error>} The promise of TopPageData or an Error.
 	 */
-	const getTopPages = useCallback( ( options ) => {
-		return remoteDataProvider.fetchJson(
+	const getTopPages = useCallback( async ( options ) => {
+		// const { cacheHit, value, isError } = await getItem( cacheKey );
+
+		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ limit: limit.toString( 10 ), options: { widget: "page" } },
+			{
+				limit: limit.toString( 10 ),
+				options: { widget: "page" }
+				// cachedData: value
+			},
 			options );
 	}, [ dataProvider, limit ] );
 
@@ -183,14 +196,14 @@ const useTopPages = ( { dataProvider, remoteDataProvider, dataFormatter, limit =
 
 /**
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {RemoteCachedDataProvider} remoteCachedDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  * @param {import("../services/data-provider")} dataProvider The data provider.
  * @returns {JSX.Element} The element.
  */
-const TopPagesWidgetContent = ( { dataProvider, remoteDataProvider, dataFormatter, limit } ) => {
-	const { data, isPending, error } = useTopPages( { dataProvider, remoteDataProvider, dataFormatter, limit } );
+const TopPagesWidgetContent = ( { dataProvider, remoteCachedDataProvider, dataFormatter, limit } ) => {
+	const { data, isPending, error } = useTopPages( { dataProvider, remoteCachedDataProvider, dataFormatter, limit } );
 
 	if ( isPending ) {
 		return (
@@ -222,13 +235,13 @@ const TopPagesWidgetContent = ( { dataProvider, remoteDataProvider, dataFormatte
  * This contains minimal logic, in order to keep the error boundary more likely to catch errors.
  *
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {RemoteCachedDataProvider} remoteCachedDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  *
  * @returns {JSX.Element} The element.
  */
-export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => (
+export const TopPagesWidget = ( { dataProvider, remoteCachedDataProvider, dataFormatter, limit = 5 } ) => (
 	<Widget
 		className="yst-paper__content yst-col-span-4"
 		title={ __( "Top 5 most popular content", "wordpress-seo" ) }
@@ -254,7 +267,7 @@ export const TopPagesWidget = ( { dataProvider, remoteDataProvider, dataFormatte
 	>
 		<TopPagesWidgetContent
 			dataProvider={ dataProvider }
-			remoteDataProvider={ remoteDataProvider }
+			remoteCachedDataProvider={ remoteCachedDataProvider }
 			dataFormatter={ dataFormatter }
 			limit={ limit }
 		/>

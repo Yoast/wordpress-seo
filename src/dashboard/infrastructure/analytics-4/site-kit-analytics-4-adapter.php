@@ -171,7 +171,7 @@ class Site_Kit_Analytics_4_Adapter {
 			}
 
 			// Since we're here, we know that the first dimension is date, so we know that dimensionValues[0]->value is a date.
-			$data_container->add_data( new Daily_Traffic_Data( $daily_traffic->getDimensionValues()[0]->getValue(), $traffic_data ) );
+			$data_container->add_cacheable_data( new Daily_Traffic_Data( $daily_traffic->getDimensionValues()[0]->getValue(), $traffic_data ) );
 		}
 
 		return $data_container;
@@ -222,7 +222,7 @@ class Site_Kit_Analytics_4_Adapter {
 			}
 		}
 
-		$data_container->add_data( $comparison_traffic_data );
+		$data_container->add_cacheable_data( $comparison_traffic_data );
 
 		return $data_container;
 	}

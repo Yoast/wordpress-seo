@@ -58,17 +58,17 @@ const createDataFormatter = ( dataFormatter ) => ( data ) => {
 
 /**
  * @param {import("../services/data-provider")} dataProvider The data provider.
- * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
+ * @param {import("../services/remote-cached-data-provider")} remoteCachedDataProvider The remote cached data provider.
  * @param {import("../services/comparison-metrics-data-formatter")} dataFormatter The data formatter.
  * @returns {{data?: FormattedSearchRankingCompareData, error?: Error, isPending: boolean}} The remote data info.
  */
-export const useSearchRankingCompare = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
+export const useSearchRankingCompare = ( { dataProvider, remoteCachedDataProvider, dataFormatter } ) => {
 	/**
 	 * @param {RequestInit} options The options.
 	 * @returns {Promise<TimeBasedData[]|Error>} The promise of TimeBasedData[] or an Error.
 	 */
 	const getData = useCallback( ( options ) => {
-		return remoteDataProvider.fetchJson(
+		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{ options: { widget: "searchRankingCompare" } },
 			options );

@@ -8,7 +8,7 @@ import { useRemoteData } from "../../services/use-remote-data";
 
 /**
  * @type {import("../../services/data-provider")} DataProvider
- * @type {import("../../services/remote-data-provider")} RemoteDataProvider
+ * @type {import("../../services/remote-cached-data-provider")} RemoteCachedDataProvider
  * @type {import("../../services/data-formatter-interface")} DataFormatterInterface
  */
 
@@ -195,12 +195,12 @@ const OrganicSessionsChart = ( { data } ) => (
  * Handles the fetch and returns the data, error and pending status.
  *
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {RemoteCachedDataProvider} remoteCachedDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  *
  * @returns {{data: ChartData?, error: Error, isPending: boolean}} The remote data info.
  */
-export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataFormatter ) => {
+export const useOrganicSessionsDaily = ( dataProvider, remoteCachedDataProvider, dataFormatter ) => {
 	/**
 	 * Fetches the organic sessions daily data.
 	 *
@@ -209,7 +209,7 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataF
 	 * @returns {Promise<OrganicSessionsDailyData[]|Error>} The promise of OrganicSessionsData or an Error.
 	 */
 	const getOrganicSessionsDaily = useCallback( ( options ) => {
-		return remoteDataProvider.fetchJson(
+		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{ options: { widget: "organicSessionsDaily" } },
 			options );

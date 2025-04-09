@@ -51,9 +51,7 @@ class Top_Page_Indexable_Collector {
 	 * @return Data_Container Data about SEO scores of top pages.
 	 */
 	public function get_data( Data_Container $top_pages ): Data_Container {
-		$top_page_data_container = new Data_Container();
-
-		foreach ( $top_pages->get_data() as $top_page ) {
+		foreach ( $top_pages->get_cacheable_data() as $top_page ) {
 			$url = $top_page->get_subject();
 
 			$indexable = $this->get_top_page_indexable( $url );
@@ -62,16 +60,16 @@ class Top_Page_Indexable_Collector {
 				$seo_score_group = $this->seo_score_groups_repository->get_seo_score_group( $indexable->primary_focus_keyword_score );
 				$edit_link       = $this->get_top_page_edit_link( $indexable );
 
-				$top_page_data_container->add_data( new Top_Page_Data( $top_page, $seo_score_group, $edit_link ) );
+				$top_pages->add_uncacheable_data( new Top_Page_Data( $top_page, $seo_score_group, $edit_link ) );
 
 				continue;
 			}
 
 			$seo_score_group = new No_SEO_Score_Group();
-			$top_page_data_container->add_data( new Top_Page_Data( $top_page, $seo_score_group ) );
+			$top_pages->add_uncacheable_data( new Top_Page_Data( $top_page, $seo_score_group ) );
 		}
 
-		return $top_page_data_container;
+		return $top_pages;
 	}
 
 	/**

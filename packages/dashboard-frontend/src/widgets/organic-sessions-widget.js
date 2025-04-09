@@ -14,14 +14,14 @@ import { OrganicSessionsDaily, useOrganicSessionsDaily } from "./organic-session
 
 /**
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {RemoteCachedDataProvider} remoteCachedDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @returns {JSX.Element} The element.
  */
-const OrganicSessionsContent = ( { dataProvider, remoteDataProvider, dataFormatter } ) => {
+const OrganicSessionsContent = ( { dataProvider, remoteCachedDataProvider, dataFormatter } ) => {
 	const supportLink = dataProvider.getLink( "errorSupport" );
-	const daily = useOrganicSessionsDaily( dataProvider, remoteDataProvider, dataFormatter );
-	const compare = useOrganicSessionsCompare( dataProvider, remoteDataProvider, dataFormatter );
+	const daily = useOrganicSessionsDaily( dataProvider, remoteCachedDataProvider, dataFormatter );
+	const compare = useOrganicSessionsCompare( dataProvider, remoteCachedDataProvider, dataFormatter );
 
 	// Collapse the errors if they are the same.
 	if ( compare.error && daily.error && isEqual( compare.error, daily.error ) ) {
@@ -54,11 +54,11 @@ const OrganicSessionsContent = ( { dataProvider, remoteDataProvider, dataFormatt
 
 /**
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {RemoteCachedDataProvider} remoteCachedDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @returns {JSX.Element} The element.
  */
-export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataFormatter } ) => (
+export const OrganicSessionsWidget = ( { dataProvider, remoteCachedDataProvider, dataFormatter } ) => (
 	<Widget
 		className="yst-paper__content yst-col-span-4"
 		title={ __( "Organic sessions", "wordpress-seo" ) }
@@ -70,6 +70,6 @@ export const OrganicSessionsWidget = ( { dataProvider, remoteDataProvider, dataF
 		] }
 		errorSupportLink={ dataProvider.getLink( "errorSupport" ) }
 	>
-		<OrganicSessionsContent dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } dataFormatter={ dataFormatter } />
+		<OrganicSessionsContent dataProvider={ dataProvider } remoteCachedDataProvider={ remoteCachedDataProvider } dataFormatter={ dataFormatter } />
 	</Widget>
 );

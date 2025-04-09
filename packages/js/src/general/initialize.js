@@ -7,7 +7,7 @@ import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
 import { DataProvider } from "../dashboard/services/data-provider";
-import { PlainMetricsDataFormatter, RemoteDataProvider, ComparisonMetricsDataFormatter } from "@yoast/dashboard-frontend";
+import { PlainMetricsDataFormatter, RemoteDataProvider, RemoteCachedDataProvider, ComparisonMetricsDataFormatter } from "@yoast/dashboard-frontend";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
 import { ADMIN_URL_NAME, LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
@@ -100,13 +100,14 @@ domReady( () => {
 	} );
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
+	const remoteCachedDataProvider = new RemoteCachedDataProvider( { headers } )
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const dataFormatters = {
 		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
 		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
 	};
 
-	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, remoteCachedDataProvider, dataFormatters );
 	if ( dataProvider.isSiteKitConnectionCompleted() && siteKitConfiguration.isVersionSupported ) {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}

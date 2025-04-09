@@ -17,16 +17,19 @@ import {
 export class WidgetFactory {
 	#dataProvider;
 	#remoteDataProvider;
+	#remoteCachedDataProvider;
 	#dataFormatters;
 
 	/**
 	 * @param {import("./data-provider").DataProvider} dataProvider
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider
+	 * @param {import("./remote-cached-data-provider").RemoteDataProvider} remoteCachedDataProvider
 	 * @param {object} dataFormatters
 	 */
-	constructor( dataProvider, remoteDataProvider, dataFormatters ) {
+	constructor( dataProvider, remoteDataProvider, remoteCachedDataProvider, dataFormatters ) {
 		this.#dataProvider = dataProvider;
 		this.#remoteDataProvider = remoteDataProvider;
+		this.#remoteCachedDataProvider = remoteCachedDataProvider;
 		this.#dataFormatters = dataFormatters;
 	}
 
@@ -94,7 +97,7 @@ export class WidgetFactory {
 				return <TopPagesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteCachedDataProvider={ this.#remoteCachedDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.siteKitSetup:
@@ -113,7 +116,7 @@ export class WidgetFactory {
 				return <TopQueriesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteCachedDataProvider={ this.#remoteCachedDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.searchRankingCompare:
@@ -123,7 +126,7 @@ export class WidgetFactory {
 				return <SearchRankingCompareWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteCachedDataProvider={ this.#remoteCachedDataProvider }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			case this.types.organicSessions:
@@ -133,7 +136,7 @@ export class WidgetFactory {
 				return <OrganicSessionsWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteCachedDataProvider={ this.#remoteCachedDataProvider }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			default:

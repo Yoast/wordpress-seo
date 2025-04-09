@@ -1,6 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useEffect, useReducer, useRef } from "react";
 import { identity } from "lodash";
+import {
+	deleteItem,
+	getItem,
+	getKeys,
+	setItem,
+	STORAGE_KEY_PREFIX_ROOT,
+} from './cache';
 
 const slice = createSlice( {
 	name: "data",
@@ -44,6 +51,7 @@ export const useRemoteData = ( doFetch, prepareData = identity ) => {
 		doFetch( { signal: controller.current?.signal } )
 			.then( ( response ) => dispatch( slice.actions.setData( prepareData( response ) ) ) )
 			.catch( ( e ) => {
+				console.log( "Error:", e );
 				// Ignore abort errors, because they are expected and not to be reflected in the UI.
 				if ( e?.name !== "AbortError" ) {
 					dispatch( slice.actions.setError( e ) );

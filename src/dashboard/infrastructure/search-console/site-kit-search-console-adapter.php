@@ -160,7 +160,7 @@ class Site_Kit_Search_Console_Adapter {
 			}
 		}
 
-		$data_container->add_data( $comparison_search_ranking_data );
+		$data_container->add_cacheable_data( $comparison_search_ranking_data );
 
 		return $data_container;
 	}
@@ -192,7 +192,7 @@ class Site_Kit_Search_Console_Adapter {
 			 */
 			$subject = \apply_filters( 'wpseo_transform_dashboard_subject_for_testing', $ranking->getKeys()[0] );
 
-			$search_ranking_data_container->add_data( new Search_Ranking_Data( $ranking->getClicks(), $ranking->getCtr(), $ranking->getImpressions(), $ranking->getPosition(), $subject ) );
+			$search_ranking_data_container->add_cacheable_data( new Search_Ranking_Data( $ranking->getClicks(), $ranking->getCtr(), $ranking->getImpressions(), $ranking->getPosition(), $subject ) );
 		}
 
 		return $search_ranking_data_container;
