@@ -217,10 +217,10 @@ class Site_Kit_Analytics_4_Adapter {
 
 			$date_range = $this->get_date_range( $date_range_row );
 
-			if ( $date_range === 'current' ) {
+			if ( $date_range === Comparison_Traffic_Data::CURRENT_KEY ) {
 				$comparison_traffic_data->set_current_traffic_data( $traffic_data );
 			}
-			elseif ( $date_range === 'previous' ) {
+			elseif ( $date_range === Comparison_Traffic_Data::PREVIOUS_KEY ) {
 				$comparison_traffic_data->set_previous_traffic_data( $traffic_data );
 			}
 		}
@@ -244,10 +244,10 @@ class Site_Kit_Analytics_4_Adapter {
 	private function get_date_range( Row $date_range_row ): string {
 		foreach ( $date_range_row->getDimensionValues() as $dimension_value ) {
 			if ( $dimension_value->getValue() === 'date_range_0' ) {
-				return 'current';
+				return Comparison_Traffic_Data::CURRENT_KEY;
 			}
 			elseif ( $dimension_value->getValue() === 'date_range_1' ) {
-				return 'previous';
+				return Comparison_Traffic_Data::PREVIOUS_KEY;
 			}
 		}
 
