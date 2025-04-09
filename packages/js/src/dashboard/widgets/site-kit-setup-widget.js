@@ -244,8 +244,12 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 
 	const handleOnRemove = useCallback( () => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
-		dataTracker.track(  { setupWidgetTemporarilyDismissed: "yes" } );
 	}, [ dataProvider ] );
+
+	const handleOnRemoveTemporarily = useCallback( () => {
+		handleOnRemove();
+		dataTracker.track(  { setupWidgetTemporarilyDismissed: "yes" } );
+	}, [ dataTracker, handleOnRemove ] );
 
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
@@ -267,7 +271,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 				<DropdownMenu.List className="yst-mt-8 yst-w-56">
 					<DropdownMenu.ButtonItem
 						className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
-						onClick={ handleOnRemove }
+						onClick={ handleOnRemoveTemporarily }
 					>
 						<XIcon className="yst-w-4 yst-text-slate-400" />
 						{ __( "Remove until next visit", "wordpress-seo" ) }
