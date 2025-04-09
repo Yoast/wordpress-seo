@@ -97,7 +97,7 @@ domReady( () => {
 			isSetupCompleted: false,
 			isConsentGranted: false,
 		},
-		isRedirectedFromSiteKit: false
+		isRedirectedFromSiteKit: false,
 	} );
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );

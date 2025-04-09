@@ -1,7 +1,7 @@
 import { ArrowNarrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { createInterpolateElement, useCallback } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { Widget } from "@yoast/dashboard-frontend";
 import { Alert, Button, DropdownMenu, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
@@ -49,7 +49,7 @@ const useSiteKitConfiguration = ( dataProvider, remoteDataProvider ) => {
 		remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "siteKitConsentManagement" ),
 			{ consent: String( true ) },
-			{ ...options, method: "POST" },
+			{ ...options, method: "POST" }
 		).then( ( { success } ) => {
 			if ( success ) {
 				dataProvider.setSiteKitConsentGranted( true );
@@ -142,18 +142,18 @@ const SiteKitAlert = ( { capabilities, currentStep, isVersionSupported, isConsen
 const SiteKitRedirectBackAlert = ( { dashboardUrl } ) => {
 	return <Alert className={ "yst-mb-4" }>
 		{ createInterpolateElement( sprintf(
-				/* translators: %1$s and %2$s: Expands to an opening and closing link tag. */
-				__(
-					"You’re back in Yoast SEO. If you still have tasks to finish in Site Kit by Google, you can %1$s return to their dashboard%2$s anytime.",
-					"wordpress-seo",
-				),
-				"<a>",
-				"</a>",
+			/* translators: %1$s and %2$s: Expands to an opening and closing link tag. */
+			__(
+				"You’re back in Yoast SEO. If you still have tasks to finish in Site Kit by Google, you can %1$s return to their dashboard%2$s anytime.",
+				"wordpress-seo"
 			),
-			{
-				// eslint-disable-next-line
+			"<a>",
+			"</a>"
+		),
+		{
+			// eslint-disable-next-line
 				a: <a href={ dashboardUrl } />,
-			},
+		}
 		) }
 	</Alert>;
 };
