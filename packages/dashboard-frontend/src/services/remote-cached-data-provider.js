@@ -59,7 +59,7 @@ export class RemoteCachedDataProvider {
 		console.log( "response", response );
 
 		if ( Array.isArray( response.uncacheableData ) && Array.isArray( response.cacheableData ) ) {
-			// await setItem( widget, response.to_be_cached );
+			await setItem( params.options.widget, response.cacheableData );
 			if ( response.uncacheableData.length > 0 ) {
 				return response.uncacheableData;
 			}

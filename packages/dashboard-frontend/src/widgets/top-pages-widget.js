@@ -15,6 +15,8 @@ import {
 	STORAGE_KEY_PREFIX_ROOT,
 } from '.././services/cache';
 
+const widgetName = "page";
+
 /**
  * @type {import("../index").TopPageData} TopPageData
  * @type {import("../services/data-provider")} DataProvider
@@ -174,14 +176,17 @@ const useTopPages = ( { dataProvider, remoteCachedDataProvider, dataFormatter, l
 	 * @returns {Promise<TopPageData[]|Error>} The promise of TopPageData or an Error.
 	 */
 	const getTopPages = useCallback( async ( options ) => {
-		// const { cacheHit, value, isError } = await getItem( cacheKey );
+		const { cacheHit, value, isError } = await getItem( widgetName );
+
+		console.log('value', value);
+		console.log('encodeURIComponent( JSON.stringify(test) )', encodeURIComponent( JSON.stringify( value ) ) );
 
 		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
 				limit: limit.toString( 10 ),
-				options: { widget: "page" }
-				// cachedData: value
+				options: { widget: widgetName },
+				cachedData: ( cacheHit && ! isError ) ?  encodeURIComponent( JSON.stringify( value ) ) : {}
 			},
 			options );
 	}, [ dataProvider, limit ] );

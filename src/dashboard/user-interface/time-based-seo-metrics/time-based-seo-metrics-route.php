@@ -149,7 +149,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 							],
 						],
 						'cachedData' => [
-							'type'       => 'object',
+							'type'       => 'string',
 							'required'   => false,
 							// 'properties' => [
 							// 	'clicks' => [
@@ -205,24 +205,24 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 				case 'query':
 					$request_parameters = new Search_Console_Parameters();
 
-					$cached_data = $request->get_param( 'cachedData' );
+					$cached_data = json_decode( urldecode( $request->get_param( 'cachedData' ) ), true );
 
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );
 					$request_parameters->set_limit( $request->get_param( 'limit' ) );
 					$request_parameters->set_dimensions( [ 'query' ] );
 
-					$time_based_seo_metrics_container = $this->top_query_repository->get_data( $request_parameters );
+					$time_based_seo_metrics_container = $this->top_query_repository->get_data( $request_parameters, $cached_data );
 					break;
 				case 'page':
 					$request_parameters = new Search_Console_Parameters();
 
-					$cached_data = $request->get_param( 'cachedData' );
+					$cached_data = json_decode( urldecode( $request->get_param( 'cachedData' ) ), true );
 
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );
 					$request_parameters->set_limit( $request->get_param( 'limit' ) );
 					$request_parameters->set_dimensions( [ 'page' ] );
 
-					$time_based_seo_metrics_container = $this->top_page_repository->get_data( $request_parameters );
+					$time_based_seo_metrics_container = $this->top_page_repository->get_data( $request_parameters, $cached_data );
 					break;
 				case 'organicSessionsDaily':
 					$request_parameters = new Analytics_4_Parameters();

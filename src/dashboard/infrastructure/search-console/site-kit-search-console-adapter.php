@@ -73,7 +73,19 @@ class Site_Kit_Search_Console_Adapter {
 	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 */
-	public function get_data( Search_Console_Parameters $parameters ): Data_Container {
+	public function get_data( Search_Console_Parameters $parameters, $cached_data ): Data_Container {
+		if ( !empty( $cached_data ) && is_array( $cached_data ) ) {
+			$cached_data_container = new Data_Container();
+
+			foreach ( $cached_data as $cached_data_item ) {
+				$search_ranking_data = new Search_Ranking_Data();
+				$search_ranking_data->from_array( $cached_data_item );
+				$cached_data_container->add_cacheable_data( $search_ranking_data );
+			}
+
+			return $cached_data_container;
+		}
+
 		$api_parameters = $this->build_parameters( $parameters );
 
 		$response = self::$search_console_module->get_data( 'searchanalytics', $api_parameters );

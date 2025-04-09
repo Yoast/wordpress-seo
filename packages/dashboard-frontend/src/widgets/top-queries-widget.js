@@ -6,6 +6,15 @@ import { NoDataParagraph } from "../components/no-data-paragraph";
 import { Widget } from "../components/widget";
 import { WidgetTable } from "../components/widget-table";
 import { useRemoteData } from "../services/use-remote-data";
+import {
+	deleteItem,
+	getItem,
+	getKeys,
+	setItem,
+	STORAGE_KEY_PREFIX_ROOT,
+} from '.././services/cache';
+
+const widgetName = "query";
 
 /**
  * @type {import("../index").TopQueryData} TopQueryData
@@ -86,14 +95,14 @@ const useTopQueries = ( { dataProvider, remoteCachedDataProvider, dataFormatter,
 	 * @returns {Promise<TopPageData[]|Error>} The promise of TopPageData or an Error.
 	 */
 	const getTopQueries = useCallback( async ( options ) => {
-		// const { cacheHit, value, isError } = await getItem( cacheKey );
+		const { cacheHit, value, isError } = await getItem( widgetName );
 
 		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
 				limit: limit.toString( 10 ),
-				options: { widget: "query" }
-				// cachedData: value
+				options: { widget: widgetName },
+				cachedData: ( cacheHit && ! isError ) ?  encodeURIComponent( JSON.stringify( value ) ) : {}
 			},
 			options );
 	}, [ dataProvider, limit ] );
