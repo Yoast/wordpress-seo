@@ -8,6 +8,7 @@ use Google\Site_Kit\Core\Modules\Modules;
 use Google\Site_Kit\Modules\Analytics_4;
 use Google\Site_Kit\Plugin;
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
+use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\Row;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Invalid_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Unexpected_Response_Exception;
@@ -214,10 +215,12 @@ class Site_Kit_Analytics_4_Adapter {
 				}
 			}
 
-			if ( $date_range_key === 0 ) {
+			$date_range = $this->get_date_range( $date_range_row );
+
+			if ( $date_range === 'current' ) {
 				$comparison_traffic_data->set_current_traffic_data( $traffic_data );
 			}
-			elseif ( $date_range_key === 1 ) {
+			elseif ( $date_range === 'previous' ) {
 				$comparison_traffic_data->set_previous_traffic_data( $traffic_data );
 			}
 		}
@@ -225,6 +228,24 @@ class Site_Kit_Analytics_4_Adapter {
 		$data_container->add_data( $comparison_traffic_data );
 
 		return $data_container;
+	}
+
+	/**
+	 * Parses the response row and gets whether it's about the current period or the previous period.
+	 *
+	 * @param Row $date_range_row The response row.
+	 *
+	 * @return string 'current' for the current period, 'previous' for the previous period.
+	 */
+	private function get_date_range( Row $date_range_row ): string {
+		foreach ( $date_range_row->getDimensionValues() as $dimension_value ) {
+			if ( $dimension_value->getValue() === 'date_range_0' ) {
+				return 'current';
+			}
+			elseif ( $dimension_value->getValue() === 'date_range_1' ) {
+				return 'previous';
+			}
+		}
 	}
 
 	/**
