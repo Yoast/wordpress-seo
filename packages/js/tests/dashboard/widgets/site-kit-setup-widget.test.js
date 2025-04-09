@@ -237,9 +237,7 @@ describe( "SiteKitSetupWidget", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				connectionStepsStatuses: {
-					isInstalled: true,
-					isActive: true,
-					isSetupCompleted: true,
+					isInstalled: false,
 				},
 			},
 		} );
@@ -262,6 +260,29 @@ describe( "SiteKitSetupWidget", () => {
 
 		expect( dataProvider.setSiteKitConfigurationDismissed ).toHaveBeenCalledWith( true );
 	} );
+
+	it( "should dismiss the widget until next visit and track it when 'Remove until next visit' is clicked", async() => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				connectionStepsStatuses: {
+					isInstalled: false,
+				},
+			},
+		} );
+		render( <SiteKitSetupWidget
+			dataProvider={ dataProvider }
+			dataTracker={ dataTracker }
+			remoteDataProvider={ remoteDataProvider }
+		/> );
+		fireEvent.click( screen.getByRole( "button", { name: /Open Site Kit widget dropdown menu/i } ) );
+		const removeButton = screen.getByRole( "menuitem", { name: /Remove until next visit/i, type: "button" } );
+		fireEvent.click( removeButton );
+		// Check the tracker is called with the correct parameters.
+		expect( dataTracker.track ).toHaveBeenCalledWith( { setupWidgetTemporarilyDismissed: "yes" } );
+
+		expect( dataProvider.setSiteKitConfigurationDismissed ).toHaveBeenCalledWith( true );
+	} );
+
 
 	describe( "should show the warning and disable the button when a user doesn't have the capability to install plugins", () => {
 		it.each( [
