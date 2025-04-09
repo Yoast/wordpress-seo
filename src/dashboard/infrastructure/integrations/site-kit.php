@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\User_Interface\Setup\Setup_Url_Interceptor;
 
 /**
  * Describes if the Site kit integration is enabled and configured.
@@ -147,10 +148,10 @@ class Site_Kit {
 	 */
 	public function to_array(): array {
 		return [
-			'installUrl'               => $this->get_install_url(),
-			'activateUrl'              => $this->get_activate_url(),
-			'setupUrl'                 => $this->get_setup_url(),
-			'updateUrl'                => \self_admin_url('update.php?page=wpseo_page_site_kit_set_up&redirect_setup_url=').urlencode($this->get_update_url()),
+			'installUrl'               => \self_admin_url( 'update.php?page=' . Setup_Url_Interceptor::PAGE . '&redirect_setup_url=' ) . \rawurlencode( $this->get_install_url() ),
+			'activateUrl'              => \self_admin_url( 'update.php?page=' . Setup_Url_Interceptor::PAGE . '&redirect_setup_url=' ) . \rawurlencode( $this->get_activate_url() ),
+			'setupUrl'                 => \self_admin_url( 'update.php?page=' . Setup_Url_Interceptor::PAGE . '&redirect_setup_url=' ) . \rawurlencode( $this->get_setup_url() ),
+			'updateUrl'                => \self_admin_url( 'update.php?page=' . Setup_Url_Interceptor::PAGE . '&redirect_setup_url=' ) . \rawurlencode( $this->get_update_url() ),
 			'dashboardUrl'             => \self_admin_url( 'admin.php?page=googlesitekit-dashboard' ),
 			'isAnalyticsConnected'     => $this->is_ga_connected(),
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),

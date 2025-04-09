@@ -111,15 +111,16 @@ class Setup_Url_Interceptor implements Integration_Interface {
 			$this->site_kit_configuration->get_setup_url(),
 			$this->site_kit_configuration->get_update_url(),
 		];
+
 		// Are we on the in-between page?
 		if ( $this->current_page_helper->get_current_yoast_seo_page() === self::PAGE ) {
 			// Check if parameter is there and is valid.
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
-			if ( isset( $_GET['redirect_setup_url'] ) && \in_array( \sanitize_text_field( \wp_unslash( $_GET['redirect_setup_url'] ) ), $allowed_setup_links, true ) ) {
+			if ( isset( $_GET['redirect_setup_url'] ) && \in_array( \wp_unslash( $_GET['redirect_setup_url'] ), $allowed_setup_links, true ) ) {
 				// We overwrite the transient for each time this redirect is hit to keep refreshing the time.
 				\set_transient( self::SITE_KIT_SETUP_TRANSIENT, 1, ( \MINUTE_IN_SECONDS * 15 ) );
-				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: Only allowed pre verified links can end up here..
-				$redirect_url = \sanitize_text_field( \wp_unslash( $_GET['redirect_setup_url'] ) );
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Only allowed pre verified links can end up here.
+				$redirect_url = \wp_unslash( $_GET['redirect_setup_url'] );
 				$this->redirect_helper->do_safe_redirect( $redirect_url, 302, 'Yoast SEO' );
 
 			}
