@@ -7,8 +7,8 @@ use Google\Site_Kit\Core\Modules\Module;
 use Google\Site_Kit\Core\Modules\Modules;
 use Google\Site_Kit\Modules\Analytics_4;
 use Google\Site_Kit\Plugin;
-use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\Row;
+use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Invalid_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Unexpected_Response_Exception;
@@ -196,7 +196,7 @@ class Site_Kit_Analytics_4_Adapter {
 		$comparison_traffic_data = new Comparison_Traffic_Data();
 
 		// First row is the current date range's data, second row is the previous date range's data.
-		foreach ( $response->getRows() as $date_range_key => $date_range_row ) {
+		foreach ( $response->getRows() as $date_range_row ) {
 			$traffic_data = new Traffic_Data();
 
 			// Loop through all the metrics of the date range.
@@ -232,6 +232,8 @@ class Site_Kit_Analytics_4_Adapter {
 
 	/**
 	 * Parses the response row and gets whether it's about the current period or the previous period.
+	 *
+	 * @see https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/DateRange
 	 *
 	 * @param Row $date_range_row The response row.
 	 *
