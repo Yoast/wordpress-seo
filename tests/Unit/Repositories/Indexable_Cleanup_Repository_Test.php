@@ -392,6 +392,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 			FROM wp_yoast_indexable JOIN wp_posts on wp_yoast_indexable.object_id = wp_posts.id
 			WHERE object_type='post'
 			AND wp_yoast_indexable.author_id <> wp_posts.post_author
+			GROUP BY wp_yoast_indexable.author_id, wp_posts.post_author
 			ORDER BY wp_yoast_indexable.author_id
 			LIMIT %d",
 				$this->limit

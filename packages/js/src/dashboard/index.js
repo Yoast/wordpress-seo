@@ -97,12 +97,6 @@ export { Dashboard } from "./components/dashboard";
  */
 
 /**
- * @typedef {Object} WidgetInstance The widget instance. Should hold what the UI needs to render the widget.
- * @property {string} id The unique identifier.
- * @property {WidgetType} type The widget type.
- */
-
-/**
  * @typedef {Object} SiteKitConfiguration The Site Kit configuration.
  * @property {string} installUrl The link to install Site Kit.
  * @property {string} activateUrl The link to activate Site Kit.

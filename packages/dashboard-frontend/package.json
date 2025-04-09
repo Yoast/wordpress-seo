@@ -16,7 +16,7 @@
     "clean:build": "rm -rf build",
     "build": "yarn clean:build && yarn build:js",
     "build:js": "babel src --out-dir build",
-    "lint": "eslint src tests --max-warnings=0",
+    "lint": "eslint . --max-warnings=0",
     "test": "jest",
     "watch": "yarn watch:js",
     "watch:js": "yarn build:js --watch"
@@ -32,7 +32,6 @@
     "@testing-library/react": "^16.2.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@yoast/eslint-config": "^8.0.0",
-    "@yoast/jest-preset": "^1.0.1",
     "eslint": "^9.23.0",
     "globals": "^16.0.0",
     "jest": "^27.5.1"

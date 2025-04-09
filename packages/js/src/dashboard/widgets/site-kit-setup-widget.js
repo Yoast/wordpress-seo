@@ -34,6 +34,17 @@ export const STEP_NAME = {
 };
 
 /**
+ * @param {number} currentStep The current step.
+ * @param {boolean} isVersionSupported Whether the version is supported.
+ *
+ * @returns {boolean} Whether should show update alert and button.
+ */
+export const isUpdatePluginStatus = ( currentStep, isVersionSupported ) => {
+	const stepsToShowUpdateAlert = [ STEP_NAME.setup, STEP_NAME.grantConsent, STEP_NAME.successfullyConnected ];
+	return stepsToShowUpdateAlert.includes( currentStep ) && ! isVersionSupported;
+};
+
+/**
  * @typedef {Object} UseSiteKitConfiguration
  * @property {function(RequestInit?)} grantConsent The grant consent function.
  * @property {function(RequestInit?)} dismissPermanently The dismiss permanently function.
@@ -104,12 +115,13 @@ const SiteKitSetupWidgetTitleAndDescription = ( { isSiteKitConnectionCompleted }
 const SiteKitAlert = ( { capabilities, currentStep, isVersionSupported, isConsentGranted } ) => {
 	const alertClass = "yst-mt-6";
 
-	if ( ! isVersionSupported ) {
+	if ( isUpdatePluginStatus( currentStep, isVersionSupported ) ) {
 		if ( isConsentGranted ) {
 			return <Alert className={ alertClass } variant="error">
 				{ __( "Your current version of the Site Kit by Google plugin is no longer compatible with Yoast SEO. Please update to the latest version to restore the connection.", "wordpress-seo" ) }
 			</Alert>;
 		}
+
 		return <Alert className={ alertClass }>
 			{ __( "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google.", "wordpress-seo" ) }
 		</Alert>;
@@ -169,7 +181,7 @@ const SiteKitRedirectBackAlert = ( { dashboardUrl } ) => {
 const SiteKitSetupAction = ( { currentStep, config, isConnectionCompleted, onDismissWidget, onShowConsent } ) => {
 	const getUrl = useCallback( ( url, capability = "installPlugins" ) => config.capabilities?.[ capability ] ? url : null, [ config.capabilities ] );
 
-	if ( ! config.isVersionSupported ) {
+	if ( isUpdatePluginStatus( currentStep, config.isVersionSupported ) ) {
 		return <Button as="a" href={ config.updateUrl }>
 			{ __( "Update Site Kit by Google", "wordpress-seo" ) }
 		</Button>;
@@ -275,7 +287,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				? <YoastConnectSiteKitSuccess className="yst-aspect-[21/5] yst-max-w-[252px]" />
 				: <YoastConnectSiteKit className="yst-aspect-[21/5] yst-max-w-[252px]" />
 			}</div>
-			{ config.isVersionSupported && <Stepper steps={ steps } currentStep={ currentStep } className="yst-mb-6">
+			{ ! isUpdatePluginStatus( currentStep, config.isVersionSupported ) && <Stepper steps={ steps } currentStep={ currentStep } className="yst-mb-6">
 				{ steps.map( ( label, index ) => (
 					<Stepper.Step
 						key={ label }

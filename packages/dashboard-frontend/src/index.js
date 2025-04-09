@@ -90,13 +90,6 @@
  *           "organicSessions"} WidgetType The widget type.
  */
 
-/**
- * @typedef {Object} WidgetInstance The widget instance. Should hold what the UI needs to render the widget.
- * @property {string} id The unique identifier.
- * @property {WidgetType} type The widget type.
- */
-
-
 export { TopPagesWidget } from "./widgets/top-pages-widget";
 export { TopQueriesWidget } from "./widgets/top-queries-widget";
 export { SearchRankingCompareWidget } from "./widgets/search-ranking-compare-widget";
