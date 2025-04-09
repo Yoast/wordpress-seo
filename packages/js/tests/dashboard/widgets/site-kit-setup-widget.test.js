@@ -233,7 +233,7 @@ describe( "SiteKitSetupWidget", () => {
 		fireEvent.click( dismissButton );
 	} );
 
-	it( "opens the menu and calls dismissPermanently and removeWidget when 'Remove permanently' is clicked", async() => {
+	it( "should permanently dismiss the widget and track the it when 'Remove permanently' is clicked", async() => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				connectionStepsStatuses: {
@@ -257,6 +257,9 @@ describe( "SiteKitSetupWidget", () => {
 			{ is_dismissed: "true" },
 			expect.objectContaining( { method: "POST" } )
 		);
+		// Check the tracker is called with the correct parameters.
+		expect( dataTracker.track ).toHaveBeenCalledWith( { setupWidgetPermanentlyDismissed: "yes" } );
+
 		expect( dataProvider.setSiteKitConfigurationDismissed ).toHaveBeenCalledWith( true );
 	} );
 
