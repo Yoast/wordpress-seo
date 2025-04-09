@@ -3,6 +3,7 @@ import { waitFor } from "@testing-library/react";
 import { WidgetFactory } from "../../../src/dashboard/services/widget-factory";
 import { render } from "../../test-utils";
 import { MockDataProvider } from "../__mocks__/data-provider";
+import { MockDataTracker } from "../__mocks__/data-tracker";
 import { FakeDataFormatter } from "../__mocks__/fake-data-formatter";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
 
@@ -15,9 +16,11 @@ jest.mock( "react-chartjs-2" );
 describe( "WidgetFactory", () => {
 	let widgetFactory;
 	let dataProvider;
+	let dataTrackers;
 	let remoteDataProvider;
 	let dataFormatters;
 	beforeAll( () => {
+		dataTrackers = { setupWidgetDataTracker: new MockDataTracker() };
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				isFeatureEnabled: true,
@@ -33,7 +36,7 @@ describe( "WidgetFactory", () => {
 			comparisonMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
 			plainMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
 		};
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
 	} );
 
 	describe( "types", () => {
@@ -96,7 +99,7 @@ describe( "WidgetFactory", () => {
 				readabilityAnalysis: false,
 			},
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
 
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
@@ -105,7 +108,7 @@ describe( "WidgetFactory", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isSetupWidgetDismissed: true },
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
 
 		expect( widgetFactory.createWidget( "siteKitSetup" ) ).toBeNull();
 	} );
@@ -120,7 +123,7 @@ describe( "WidgetFactory", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isFeatureEnabled: false },
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
 
 		expect( widgetFactory.createWidget( widgetType ) ).toBeNull();
 	} );
@@ -138,7 +141,10 @@ describe( "WidgetFactory", () => {
 			],
 			[ "only not activated", { isInstalled: true, isActive: false, isSetupCompleted: true, isConsentGranted: true } ],
 			[ "only site kit setup is not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, isConsentGranted: true } ],
-			[ "site kit plugin version is not supported", { isInstalled: true, isActive: true, isSetupCompleted: true, isConsentGranted: true, isVersionSupported: false } ],
+			[
+				"site kit plugin version is not supported",
+				{ isInstalled: true, isActive: true, isSetupCompleted: true, isConsentGranted: true, isVersionSupported: false },
+			],
 		] )( "when %s", async( _, siteKitConfiguration ) => {
 			const siteKitWidgets = [
 				"topPages",
@@ -150,7 +156,7 @@ describe( "WidgetFactory", () => {
 				siteKitConfiguration: { ...siteKitConfiguration, isFeatureEnabled: true },
 			} );
 
-			widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+			widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
 			siteKitWidgets.forEach( ( widget ) => {
 				expect( widgetFactory.createWidget( widget ) ).toBeNull();
 			} );
@@ -174,7 +180,7 @@ describe( "WidgetFactory", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: config,
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, {}, dataTrackers );
 
 		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
 	} );
@@ -191,7 +197,7 @@ describe( "WidgetFactory", () => {
 				},
 			},
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, {}, dataTrackers );
 
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
