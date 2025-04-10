@@ -29,7 +29,7 @@ class Daily_Traffic_Data implements Data_Interface {
 	 * @param string       $date         The date of the traffic data, in YYYYMMDD format.
 	 * @param Traffic_Data $traffic_data The traffic data for the date.
 	 */
-	public function __construct( string $date, Traffic_Data $traffic_data ) {
+	public function __construct( ?string $date = null, ?Traffic_Data $traffic_data = null ) {
 		$this->date         = $date;
 		$this->traffic_data = $traffic_data;
 	}
@@ -44,5 +44,22 @@ class Daily_Traffic_Data implements Data_Interface {
 		$result['date'] = $this->date;
 
 		return \array_merge( $result, $this->traffic_data->to_array() );
+	}
+
+	/**
+	 * The object representation of this domain array.
+	 *
+	 * @return void
+	 */
+	public function from_array( $array ): void {
+		if ( is_array( $array ) === false ) {
+			return;
+		}
+
+		$traffic_data = new Traffic_Data();
+		$traffic_data->from_array( $array );
+		
+		$this->traffic_data = $traffic_data;
+		$this->date = $array['date'] ?? null;
 	}
 }

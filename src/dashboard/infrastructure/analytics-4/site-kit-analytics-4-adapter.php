@@ -85,7 +85,19 @@ class Site_Kit_Analytics_4_Adapter {
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 * @throws Invalid_Request_Exception     When the request is invalid due to unexpected parameters.
 	 */
-	public function get_daily_data( Analytics_4_Parameters $parameters ): Data_Container {
+	public function get_daily_data( Analytics_4_Parameters $parameters, $cached_data ): Data_Container {
+		if ( ! empty( $cached_data ) && is_array( $cached_data ) ) {
+			$cached_data_container = new Data_Container();
+
+			foreach ( $cached_data as $cached_data_item ) {
+				$daily_traffic_data = new Daily_Traffic_Data();
+				$daily_traffic_data->from_array( $cached_data_item );
+				$cached_data_container->add_cacheable_data( $daily_traffic_data );
+			}
+
+			return $cached_data_container;
+		}
+
 		$api_parameters = $this->build_parameters( $parameters );
 
 		$response = self::$analytics_4_module->get_data( 'report', $api_parameters );

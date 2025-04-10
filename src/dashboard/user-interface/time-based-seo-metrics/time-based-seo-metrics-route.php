@@ -227,13 +227,15 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 				case 'organicSessionsDaily':
 					$request_parameters = new Analytics_4_Parameters();
 
+					$cached_data = json_decode( urldecode( $request->get_param( 'cachedData' ) ), true );
+
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );
 					$request_parameters->set_dimensions( [ 'date' ] );
 					$request_parameters->set_metrics( [ 'sessions' ] );
 					$request_parameters->set_dimension_filters( [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ] );
 					$request_parameters->set_order_by( 'dimension', 'date' );
 
-					$time_based_seo_metrics_container = $this->organic_sessions_daily_repository->get_data( $request_parameters );
+					$time_based_seo_metrics_container = $this->organic_sessions_daily_repository->get_data( $request_parameters, $cached_data );
 					break;
 				case 'organicSessionsCompare':
 					$request_parameters = new Analytics_4_Parameters();
