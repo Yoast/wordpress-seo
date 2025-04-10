@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.7
-Stable tag: 24.8
+Stable tag: 24.8.1
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -286,11 +286,9 @@ Release date: 2025-04-15
 
 #### Bugfixes
 
-* Fixes a bug where long sentences would be incorrectly highlighted in _sentence length_ assessment in the default editor when they were part of a block that contained non-breaking spaces or closing tags (`>`).
 * Fixes a bug where the advanced replacement variables would not be visible when editing social previews in Elementor.
 * Fixes a bug where the content image would not show on social previews when editing it in Elementor.
 * Fixes a bug where Yoast modals would not be visible when using Astra plugins.
-* Fixes a potential fatal error on the dashboard page.
 
 #### Other
 
@@ -299,7 +297,7 @@ Release date: 2025-04-15
 
 = 24.8.1 =
 
-Release date: 2025-04-01
+Release date: 2025-04-02
 
 #### Bugfixes
 
