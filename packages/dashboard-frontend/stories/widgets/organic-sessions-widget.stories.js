@@ -3,6 +3,8 @@ import { createRemoteDataProvider } from "./organic-sessions-widget/create-remot
 import description from "./organic-sessions-widget/description.md";
 import { getCompareData } from "./organic-sessions-widget/get-compare-data";
 import { getDailyData } from "./organic-sessions-widget/get-daily-data";
+import { getRandom } from "./organic-sessions-widget/get-random";
+import noDifference from "./organic-sessions-widget/no-difference.md";
 
 export default {
 	title: "Widgets/Organic Sessions widget",
@@ -65,5 +67,12 @@ export const WithCompareError = {
 export const WithDailyError = {
 	args: {
 		remoteDataProvider: createRemoteDataProvider( getCompareData(), "Error" ),
+	},
+};
+
+export const NoDifference = {
+	parameters: { docs: { description: { story: noDifference } } },
+	args: {
+		remoteDataProvider: createRemoteDataProvider( getCompareData( getRandom( 1 ), 0 ), getDailyData() ),
 	},
 };
