@@ -9,6 +9,7 @@ use Google\Site_Kit\Modules\Analytics_4;
 use Google\Site_Kit\Plugin;
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\Row;
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
+use WP_REST_Response;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Invalid_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Unexpected_Response_Exception;
@@ -30,16 +31,26 @@ class Site_Kit_Analytics_4_Adapter {
 	private static $analytics_4_module;
 
 	/**
+	 * Holds the api call class.
+	 *
+	 * @var Site_Kit_Analytics_4_Api_Call $site_kit_analytics_4_api_call
+	 */
+	private $site_kit_search_console_api_call;
+
+	/**
 	 * The register method that sets the instance in the adapter.
+	 *
+	 * @param Site_Kit_Analytics_4_Api_Call $site_kit_analytics_4_api_call The api call class.
 	 *
 	 * @return void
 	 */
-	public function __construct() {
+	public function __construct( Site_Kit_Analytics_4_Api_Call $site_kit_analytics_4_api_call ) {
 		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
 			$site_kit_plugin          = Plugin::instance();
 			$modules                  = new Modules( $site_kit_plugin->context() );
 			self::$analytics_4_module = $modules->get_module( Analytics_4::MODULE_SLUG );
 		}
+		$this->site_kit_search_console_api_call = $site_kit_analytics_4_api_call;
 	}
 
 	/**
@@ -56,11 +67,11 @@ class Site_Kit_Analytics_4_Adapter {
 	public function get_comparison_data( Analytics_4_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
-		$response = self::$analytics_4_module->get_data( 'report', $api_parameters );
+		$response = $this->site_kit_search_console_api_call->do_request( $api_parameters );
 
 		$this->validate_response( $response );
 
-		return $this->parse_comparison_response( $response );
+		return $this->parse_comparison_response( $response->get_data() );
 	}
 
 	/**
@@ -77,11 +88,11 @@ class Site_Kit_Analytics_4_Adapter {
 	public function get_daily_data( Analytics_4_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
-		$response = self::$analytics_4_module->get_data( 'report', $api_parameters );
+		$response = $this->site_kit_search_console_api_call->do_request( $api_parameters );
 
 		$this->validate_response( $response );
 
-		return $this->parse_daily_response( $response );
+		return $this->parse_daily_response( $response->get_data() );
 	}
 
 	/**
@@ -276,29 +287,25 @@ class Site_Kit_Analytics_4_Adapter {
 		return \count( $response->getDimensionHeaders() ) === 1 && $response->getDimensionHeaders()[0]->getName() === 'date';
 	}
 
-	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- We have no control over the response (in fact that's why this function exists).
-
 	/**
 	 * Validates the response coming from Google Analytics.
 	 *
-	 * @param mixed $response The response we want to validate.
+	 * @param WP_REST_Response $response The response we want to validate.
 	 *
 	 * @return void
 	 *
 	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 */
-	private function validate_response( $response ): void {
-		if ( \is_wp_error( $response ) ) {
-			$error_data        = $response->get_error_data();
+	private function validate_response( WP_REST_Response $response ): void {
+		if ( $response->is_error() ) {
+			$error_data        = $response->as_error()->get_error_data();
 			$error_status_code = ( $error_data['status'] ?? 500 );
-			throw new Failed_Request_Exception( \wp_kses_post( $response->get_error_message() ), (int) $error_status_code );
+			throw new Failed_Request_Exception( \wp_kses_post( $response->as_error()->get_error_message() ), (int) $error_status_code );
 		}
 
-		if ( ! \is_a( $response, RunReportResponse::class ) ) {
+		if ( ! \is_a( $response->get_data(), RunReportResponse::class ) ) {
 			throw new Unexpected_Response_Exception();
 		}
 	}
-
-	// phpcs:enable
 }
