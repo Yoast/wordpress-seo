@@ -3,6 +3,7 @@ import { useArgs } from "@storybook/preview-api";
 import classNames from "classnames";
 import React, { useCallback, useContext } from "react";
 import { Stepper } from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { Button } from "../../index";
 import { component, customStep } from "./docs";
 
@@ -44,19 +45,6 @@ const CustomStep = ( { children, index } ) => {
 			<div className="yst-font-semibold yst-text-xxs yst-mt-3">{ children }</div>
 		</div>
 	);
-};
-
-export default {
-	title: "2) Components/Stepper",
-	component: Stepper,
-	parameters: {
-		docs: {
-			description: { component },
-		},
-	},
-	argTypes: {
-		children: { control: { disable: true } },
-	},
 };
 
 /**
@@ -128,4 +116,18 @@ export const WithCustomStep = {
 		},
 	},
 	decorators: [ DecorateWithStepButton ],
+};
+
+export default {
+	title: "2) Components/Stepper",
+	component: Stepper,
+	parameters: {
+		docs: {
+			description: { component },
+			page: () => <InteractiveDocsPage stories={ [ StepsAsChildren, WithCustomStep ] } />,
+		},
+	},
+	argTypes: {
+		children: { control: { disable: true } },
+	},
 };
