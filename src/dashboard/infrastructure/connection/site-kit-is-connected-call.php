@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Connection;
 
+use Google\Site_Kit\Core\REST_API\REST_Routes;
 use WP_REST_Request;
 
 /**
@@ -18,7 +19,11 @@ class Site_Kit_Is_Connected_Call {
 	 * @return bool
 	 */
 	public function is_setup_completed(): bool {
-		$request = new WP_REST_Request( 'GET', '/google-site-kit/v1/core/site/data/connection' );
+		if ( ! \class_exists( REST_Routes::class ) ) {
+			return false;
+		}
+
+		$request = new WP_REST_Request( 'GET', '/' . REST_Routes::REST_ROOT . '/core/site/data/connection' );
 
 		$response = \rest_do_request( $request );
 
@@ -34,7 +39,10 @@ class Site_Kit_Is_Connected_Call {
 	 * @return bool
 	 */
 	public function is_ga_connected(): bool {
-		$request  = new WP_REST_Request( 'GET', '/google-site-kit/v1/core/modules/data/list' );
+		if ( ! \class_exists( REST_Routes::class ) ) {
+			return false;
+		}
+		$request  = new WP_REST_Request( 'GET', '/' . REST_Routes::REST_ROOT . '/core/modules/data/list' );
 		$response = \rest_do_request( $request );
 
 		if ( $response->is_error() ) {

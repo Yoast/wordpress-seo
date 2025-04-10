@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Integrations;
 
+use Google\Site_Kit\Core\REST_API\REST_Routes;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
@@ -281,7 +282,7 @@ class Site_Kit {
 	 */
 	public function get_preload_paths(): array {
 
-		$rest_root = ( \class_exists( 'Google\Site_Kit\Core\REST_API\REST_Routes' ) ) ? \Google\Site_Kit\Core\REST_API\REST_Routes::REST_ROOT : '';
+		$rest_root = ( \class_exists( REST_Routes::class ) ) ? REST_Routes::REST_ROOT : '';
 		return [
 			'authentication' => '/' . $rest_root . '/core/user/data/authentication',
 			'permissions'    => '/' . $rest_root . '/core/user/data/permissions',
