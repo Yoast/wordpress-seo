@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Dashboard\Application\Configuration;
 
 use Yoast\WP\SEO\Dashboard\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository;
-use Yoast\WP\SEO\Dashboard\Application\tracking\Setup_Steps_Tracking;
+use Yoast\WP\SEO\Dashboard\Application\Tracking\Setup_Steps_Tracking;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
@@ -130,8 +130,11 @@ class Dashboard_Configuration {
 			'nonce'                   => $this->nonce_repository->get_rest_nonce(),
 			'setupStepsTracking'      => $this->setup_steps_tracking->to_array(),
 		];
-		if ( ! empty( $this->site_kit_integration_data->to_array() ) ) {
-			$configuration ['siteKitConfiguration'] = $this->site_kit_integration_data->to_array();
+
+		$site_kit_integration_data = $this->site_kit_integration_data->to_array();
+
+		if ( ! empty( $site_kit_integration_data ) ) {
+			$configuration ['siteKitConfiguration'] = $site_kit_integration_data;
 		}
 		return $configuration;
 	}
