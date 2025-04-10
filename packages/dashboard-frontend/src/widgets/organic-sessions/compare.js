@@ -5,6 +5,13 @@ import { ErrorAlert } from "../../components/error-alert";
 import { Trend } from "../../components/trend";
 import { useRemoteData } from "../../services/use-remote-data";
 import { getDifference } from "../../transformers/difference";
+import {
+	deleteItem,
+	getItem,
+	getKeys,
+	setItem,
+	STORAGE_KEY_PREFIX_ROOT,
+} from '../.././services/cache';
 
 /**
  * @type {import("../../services/data-provider")} DataProvider
@@ -26,6 +33,8 @@ import { getDifference } from "../../transformers/difference";
  * @property {number} difference The difference percentage.
  * @property {string} formattedDifference The formatted difference percentage.
  */
+
+const widgetName = "organicSessionsCompare";
 
 /**
  * @param {DataFormatterInterface} dataFormatter The data formatter.
@@ -58,10 +67,15 @@ export const useOrganicSessionsCompare = ( dataProvider, remoteCachedDataProvide
 	 *
 	 * @returns {Promise<OrganicSessionsCompareData|Error>} The promise of OrganicSessionsCompareData or an Error.
 	 */
-	const getOrganicSessionsCompare = useCallback( ( options ) => {
+	const getOrganicSessionsCompare = useCallback( async ( options ) => {
+		const { cacheHit, value, isError } = await getItem( widgetName );
+
 		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ options: { widget: "organicSessionsCompare" } },
+			{
+				options: { widget: widgetName },
+				cachedData: ( cacheHit && ! isError ) ?  encodeURIComponent( JSON.stringify( value ) ) : {}
+			},
 			options );
 	}, [ dataProvider ] );
 

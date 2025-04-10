@@ -56,6 +56,6 @@ class Organic_Sessions_Compare_Repository implements Dashboard_Repository_Interf
 			throw new Data_Source_Not_Available_Exception( 'Comparison organic sessions repository' );
 		}
 
-		return $this->site_kit_analytics_4_adapter->get_comparison_data( $parameters );
+		return $this->site_kit_analytics_4_adapter->get_comparison_data( $parameters, $cached_data );
 	}
 }
