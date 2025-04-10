@@ -161,18 +161,15 @@ class Site_Kit_Search_Console_Adapter {
 		return $search_ranking_data_container;
 	}
 
-	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- We have no control over the response (in fact that's why this function exists).
-
 	/**
 	 * Validates the response coming from Search Console.
 	 *
-	 * @param mixed $response The response we want to validate.
+	 * @param WP_REST_Response $response The response we want to validate.
 	 *
 	 * @return void.
 	 *
 	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
-	 * @return void.
 	 */
 	private function validate_response( WP_REST_Response $response ): void {
 		if ( $response->is_error() ) {
@@ -191,6 +188,4 @@ class Site_Kit_Search_Console_Adapter {
 			throw new Unexpected_Response_Exception();
 		}
 	}
-
-	// phpcs:enable
 }
