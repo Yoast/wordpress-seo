@@ -56,6 +56,6 @@ class Search_Ranking_Compare_Repository implements Dashboard_Repository_Interfac
 			throw new Data_Source_Not_Available_Exception( 'Comparison search ranking repository' );
 		}
 
-		return $this->site_kit_search_console_adapter->get_comparison_data( $parameters );
+		return $this->site_kit_search_console_adapter->get_comparison_data( $parameters, $cached_data );
 	}
 }

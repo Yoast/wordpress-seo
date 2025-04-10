@@ -247,12 +247,14 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 					break;
 				case 'searchRankingCompare':
 					$request_parameters = new Search_Console_Parameters();
+					
+					$cached_data = json_decode( urldecode( $request->get_param( 'cachedData' ) ), true );
 
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );
 					$request_parameters = $this->set_comparison_date_range_parameters( $request_parameters );
 					$request_parameters->set_dimensions( [ 'date' ] );
 
-					$time_based_seo_metrics_container = $this->search_ranking_compare_repository->get_data( $request_parameters );
+					$time_based_seo_metrics_container = $this->search_ranking_compare_repository->get_data( $request_parameters, $cached_data );
 					break;
 				default:
 					throw new Repository_Not_Found_Exception();

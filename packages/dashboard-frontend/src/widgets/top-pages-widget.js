@@ -178,9 +178,6 @@ const useTopPages = ( { dataProvider, remoteCachedDataProvider, dataFormatter, l
 	const getTopPages = useCallback( async ( options ) => {
 		const { cacheHit, value, isError } = await getItem( widgetName );
 
-		console.log('value', value);
-		console.log('encodeURIComponent( JSON.stringify(test) )', encodeURIComponent( JSON.stringify( value ) ) );
-
 		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{

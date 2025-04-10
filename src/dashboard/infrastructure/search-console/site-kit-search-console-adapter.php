@@ -105,7 +105,19 @@ class Site_Kit_Search_Console_Adapter {
 	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 */
-	public function get_comparison_data( Search_Console_Parameters $parameters ): Data_Container {
+	public function get_comparison_data( Search_Console_Parameters $parameters, $cached_data ): Data_Container {
+		if ( ! empty( $cached_data ) && is_array( $cached_data ) ) {
+			$cached_data_container = new Data_Container();
+
+			foreach ( $cached_data as $cached_data_item ) {
+				$comparison_search_ranking_data = new Comparison_Search_Ranking_Data();
+				$comparison_search_ranking_data->parse_from_array( $cached_data_item );
+				$cached_data_container->add_cacheable_data( $comparison_search_ranking_data );
+			}
+
+			return $cached_data_container;
+		}
+
 		$api_parameters = $this->build_parameters( $parameters );
 
 		// Since we're doing a comparison request, we need to increase the date range to the start of the previous period. We'll later split the data into two periods.

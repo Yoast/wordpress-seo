@@ -24,6 +24,20 @@ class Comparison_Search_Ranking_Data implements Data_Interface {
 	private $previous_search_ranking_data = [];
 
 	/**
+	 * The parsed previous search ranking data.
+	 *
+	 * @var array<string, int>
+	 */
+	private $parsed_current_data = [];
+
+	/**
+	 * The parsed current search ranking data.
+	 *
+	 * @var array<string, int>
+	 */
+	private $parsed_previous_data = [];
+
+	/**
 	 * Sets the current search ranking data.
 	 *
 	 * @param Search_Ranking_Data $current_search_ranking_data The current search ranking data.
@@ -52,9 +66,23 @@ class Comparison_Search_Ranking_Data implements Data_Interface {
 	 */
 	public function to_array(): array {
 		return [
-			'current'  => $this->parse_data( $this->current_search_ranking_data ),
-			'previous' => $this->parse_data( $this->previous_search_ranking_data ),
+			'current'  => $this->parse_data( $this->current_search_ranking_data, $this->parsed_current_data ),
+			'previous' => $this->parse_data( $this->previous_search_ranking_data, $this->parsed_previous_data ),
 		];
+	}
+
+	/**
+	 * The array representation of this domain object.
+	 *
+	 * @return void
+	 */
+	public function parse_from_array( $array ): void {
+		if ( is_array( $array ) === false ) {
+			return;
+		}
+
+		$this->parsed_current_data  = $array['current'] ?? null;
+		$this->parsed_previous_data = $array['previous'] ?? null;
 	}
 
 	/**
@@ -64,7 +92,11 @@ class Comparison_Search_Ranking_Data implements Data_Interface {
 	 *
 	 * @return array<string, int> The parsed data
 	 */
-	private function parse_data( array $search_ranking_data ): array {
+	private function parse_data( array $search_ranking_data, array $parsed_data ): array {
+		if ( ! empty( $parsed_data ) ) {
+			return $parsed_data;
+		}
+
 		$parsed_data      = [
 			'total_clicks'      => 0,
 			'total_impressions' => 0,
