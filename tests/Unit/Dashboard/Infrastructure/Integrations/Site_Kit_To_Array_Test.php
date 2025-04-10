@@ -153,6 +153,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
+				'isFeatureEnabled' => true,
 				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
@@ -184,6 +185,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => false,
+				'isFeatureEnabled' => true,
 				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
@@ -215,6 +217,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
+				'isFeatureEnabled' => true,
 				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
@@ -246,7 +249,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
-
+				'isFeatureEnabled' => true,
 				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
@@ -278,6 +281,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
+				'isFeatureEnabled' => true,
 				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
@@ -309,6 +313,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
+				'isFeatureEnabled' => true,
 				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
