@@ -30,8 +30,6 @@ import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
  * @property {number} scores.okSubheadings The score for okay subheading distribution.
  * @property {number} scores.badSubheadings The score for bad subheading distribution.
  * @property {number} scores.badLongTextNoSubheadings The score for a bad long text without subheadings.
- * @property {number} applicableIfTextLongerThan The minimum text length for the assessment to be applicable.
- * @property {boolean} shouldNotAppearInShortText Whether the assessment should not appear in short texts.
  * @property {boolean} cornerstoneContent Whether the text is cornerstone content.
  * @property {boolean} countCharacters Whether to count characters instead of words.
  */
@@ -69,8 +67,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 				badSubheadings: 3,
 				badLongTextNoSubheadings: 2,
 			},
-			applicableIfTextLongerThan: 300,
-			shouldNotAppearInShortText: false,
 			cornerstoneContent: false,
 			countCharacters: false,
 		};
@@ -171,34 +167,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		// Use the default language-specific config for non-cornerstone condition.
 		return merge( currentConfig, languageSpecificConfig.defaultParameters );
-	}
-
-	/**
-	 * Checks the applicability of the assessment based on the presence of text, and, if required, text length.
-	 *
-	 * @param {Paper}       paper       The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The language-specific or default researcher.
-	 *
-	 * @returns {boolean} True when there is text or when text is longer than the specified length and "shouldNotAppearInShortText" is set to true.
-	 */
-	isApplicable( paper, researcher ) {
-		/*
-		 * If the assessment should not appear for shorter texts, only set the assessment as applicable if the text meets the minimum required length.
-		 * Language-specific length requirements and methods of counting text length may apply (e.g. for Japanese, the text should be counted in
-		 * characters instead of words, which also makes the minimum required length higher).
-		*/
-		if ( this._config.shouldNotAppearInShortText ) {
-			if ( researcher.getConfig( "subheadingsTooLong" ) ) {
-				this._config = this.getLanguageSpecificConfig( researcher );
-			}
-
-			const textLength = this.getTextLength( paper, researcher );
-
-			// Do not use hasEnoughContentForAssessment as it is redundant with textLength > this._config.applicableIfTextLongerThan.
-			return textLength > this._config.applicableIfTextLongerThan;
-		}
-
-		return this.hasEnoughContentForAssessment( paper );
 	}
 
 	/**
@@ -405,7 +373,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * @returns {{resultText: string, score: number, hasMarks: boolean}} The calculated result.
 	 */
 	calculateResult( textBeforeFirstSubheading ) {
-		if ( this._textLength > this._config.applicableIfTextLongerThan ) {
+		if ( this._textLength > this._config.parameters.recommendedMaximumLength ) {
 			return this.calculateResultForLongTextWithoutSubheadings( textBeforeFirstSubheading );
 		}
 		if ( this._hasSubheadings ) {

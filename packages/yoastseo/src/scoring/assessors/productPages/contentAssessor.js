@@ -22,7 +22,6 @@ export default class ProductContentAssessor extends ContentAssessor {
 
 		this._assessments = [
 			new SubheadingDistributionTooLongAssessment( {
-				shouldNotAppearInShortText: true,
 				urlTitle: createAnchorOpeningTag( options.subheadingUrlTitle ),
 				urlCallToAction: createAnchorOpeningTag( options.subheadingCTAUrl ),
 			} ),

@@ -3,6 +3,7 @@ import { waitFor } from "@testing-library/react";
 import { WidgetFactory } from "../../../src/dashboard/services/widget-factory";
 import { render } from "../../test-utils";
 import { MockDataProvider } from "../__mocks__/data-provider";
+import { MockDataTracker } from "../__mocks__/data-tracker";
 import { FakeDataFormatter } from "../__mocks__/fake-data-formatter";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
 
@@ -15,9 +16,11 @@ jest.mock( "react-chartjs-2" );
 describe( "WidgetFactory", () => {
 	let widgetFactory;
 	let dataProvider;
+	let dataTrackers;
 	let remoteDataProvider;
 	let dataFormatters;
 	beforeAll( () => {
+		dataTrackers = { setupWidgetDataTracker: new MockDataTracker() };
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
 				isFeatureEnabled: true,
@@ -33,7 +36,7 @@ describe( "WidgetFactory", () => {
 			comparisonMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
 			plainMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
 		};
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
 	} );
 
 	describe( "types", () => {
@@ -46,28 +49,16 @@ describe( "WidgetFactory", () => {
 			"organicSessions",
 			"searchRankingCompare",
 		] )( "should have the widget type: %s", async( type ) => {
-			expect( WidgetFactory.types[ type ] ).toBe( type );
+			expect( widgetFactory.types[ type ] ).toBe( type );
 		} );
 	} );
 
 	test.each( [
-		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
-		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
-		[ "Search Ranking compare", { id: "search-ranking-compare-widget", type: "searchRankingCompare" } ],
-		[ "Organic sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
-	] )( "should not create a %s widget when site kit is not connected", async( _, widget ) => {
-		dataProvider.setSiteKitConsentGranted( false );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
-		expect( widgetFactory.createWidget( widget ) ).toBeNull();
-	} );
-
-	test.each( [
-		[ "SEO scores", { id: "seo-scores-widget", type: "seoScores" }, "SEO scores" ],
-		[ "Readability scores", { id: "readability-scores-widget", type: "readabilityScores" }, "Readability scores" ],
-		[ "Unknown", { id: undefined, type: "unknown" }, undefined ],
-	] )( "should create a %s widget", async( _, widget, title ) => {
-		const element = widgetFactory.createWidget( widget );
-		expect( element?.key ).toBe( widget.id );
+		[ "SEO scores", "seoScores", "SEO scores" ],
+		[ "Readability scores", "readabilityScores", "Readability scores" ],
+	] )( "should create a %s widget", async( _, widgetType, title ) => {
+		const element = widgetFactory.createWidget( widgetType );
+		expect( element?.key ).toBe( widgetType );
 		const { getByRole } = render( <>{ element }</> );
 
 		await waitFor( () => {
@@ -79,13 +70,14 @@ describe( "WidgetFactory", () => {
 	} );
 
 	test.each( [
-		[ "Top pages", { id: "top-pages-widget", type: "topPages" }, "Top 5 most popular content" ],
-		[ "Top queries", { id: "top-queries-widget", type: "topQueries" }, "Top 5 search queries" ],
-		[ "Organic sessions", { id: "organic-sessions-widget", type: "organicSessions" }, "Organic sessions" ],
-	] )( "should create a %s widget", async( _, widget, title ) => {
+		[ "Top pages", "topPages", "Top 5 most popular content" ],
+		[ "Top queries", "topQueries", "Top 5 search queries" ],
+		[ "Search Ranking compare", "searchRankingCompare", "" ],
+		[ "Organic sessions", "organicSessions", "Organic sessions" ],
+	] )( "should create a %s widget (that depend on Site Kit consent)", async( _, widgetType, title ) => {
 		dataProvider.setSiteKitConsentGranted( true );
-		const element = widgetFactory.createWidget( widget );
-		expect( element?.key ).toBe( widget.id );
+		const element = widgetFactory.createWidget( widgetType );
+		expect( element?.key ).toBe( widgetType );
 		const { getByRole } = render( <>{ element }</> );
 
 		await waitFor( () => {
@@ -97,8 +89,8 @@ describe( "WidgetFactory", () => {
 	} );
 
 	test.each( [
-		[ "SEO scores", { id: "seo-scores-widget", type: "seoScores" } ],
-		[ "Readability scores", { id: "readability-scores-widget", type: "readabilityScores" } ],
+		[ "SEO scores", "seoScores" ],
+		[ "Readability scores", "readabilityScores" ],
 	] )( "should not create the %s widget if the data provider does not have the features", ( _, widget ) => {
 		dataProvider = new MockDataProvider( {
 			features: {
@@ -107,7 +99,7 @@ describe( "WidgetFactory", () => {
 				readabilityAnalysis: false,
 			},
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
 
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
 	} );
@@ -116,24 +108,24 @@ describe( "WidgetFactory", () => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isSetupWidgetDismissed: true },
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
 
-		expect( widgetFactory.createWidget( { id: "site-kite-setup-widget", type: "siteKitSetup" } ) ).toBeNull();
+		expect( widgetFactory.createWidget( "siteKitSetup" ) ).toBeNull();
 	} );
 
 	test.each( [
-		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
-		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
-		[ "searchRankingCompare", { id: "search-ranking-compare-widget", type: "searchRankingCompare" } ],
-		[ "Site Kit setup", { id: "site-kite-setup-widget", type: "siteKitSetup" } ],
-		[ "Organic Sessions", { id: "organic-sessions-widget", type: "organicSessions" } ],
-	] )( "should not create a %s widget when site kit feature is disabled", ( _, widget ) => {
+		[ "Top pages", "topPages" ],
+		[ "Top queries", "topQueries" ],
+		[ "Search ranking compare", "searchRankingCompare" ],
+		[ "Site Kit setup", "siteKitSetup" ],
+		[ "Organic Sessions", "organicSessions" ],
+	] )( "should not create a %s widget when site kit feature is disabled", ( _, widgetType ) => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: { isFeatureEnabled: false },
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
 
-		expect( widgetFactory.createWidget( widget ) ).toBeNull();
+		expect( widgetFactory.createWidget( widgetType ) ).toBeNull();
 	} );
 
 	describe( "should not create the site kit widgets and should create the site kit setup widget", () => {
@@ -141,31 +133,37 @@ describe( "WidgetFactory", () => {
 			[ "no step is completed", { isInstalled: false, isActive: false, isSetupCompleted: false, isConsentGranted: false } ],
 			[ "only installed", { isInstalled: true, isActive: false, isSetupCompleted: false, isConsentGranted: false } ],
 			[ "only installed and activated", { isInstalled: true, isActive: true, isSetupCompleted: false, isConsentGranted: false } ],
-			[ "only not connected", { isInstalled: true, isActive: true, isSetupCompleted: true, isConsentGranted: false } ],
-			[ "only connected", { isInstalled: false, isActive: false, isSetupCompleted: false, isConsentGranted: true } ],
+			[ "only consent not granted", { isInstalled: true, isActive: true, isSetupCompleted: true, isConsentGranted: false } ],
+			[ "only consent granted", { isInstalled: false, isActive: false, isSetupCompleted: false, isConsentGranted: true } ],
 			[
-				"only site kit setup completed and connected",
+				"only site kit setup completed and consent granted",
 				{ isInstalled: false, isActive: false, isSetupCompleted: true, isConsentGranted: true },
 			],
 			[ "only not activated", { isInstalled: true, isActive: false, isSetupCompleted: true, isConsentGranted: true } ],
 			[ "only site kit setup is not completed", { isInstalled: true, isActive: true, isSetupCompleted: false, isConsentGranted: true } ],
+			[
+				"site kit plugin version is not supported",
+				{ isInstalled: true, isActive: true, isSetupCompleted: true, isConsentGranted: true, isVersionSupported: false },
+			],
 		] )( "when %s", async( _, siteKitConfiguration ) => {
 			const siteKitWidgets = [
-				{ id: "top-pages-widget", type: "topPages" },
-				{ id: "top-queries-widget", type: "topQueries" },
+				"topPages",
+				"topQueries",
+				"searchRankingCompare",
+				"organicSessions",
 			];
 			dataProvider = new MockDataProvider( {
 				siteKitConfiguration: { ...siteKitConfiguration, isFeatureEnabled: true },
 			} );
 
-			widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+			widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
 			siteKitWidgets.forEach( ( widget ) => {
 				expect( widgetFactory.createWidget( widget ) ).toBeNull();
 			} );
 
-			const element = widgetFactory.createWidget( { id: "site-kit-setup-widget", type: "siteKitSetup" } );
+			const element = widgetFactory.createWidget( "siteKitSetup" );
 
-			expect( element?.key ).toBe( "site-kit-setup-widget" );
+			expect( element?.key ).toBe( "siteKitSetup" );
 			const { getByRole } = render( <>{ element }</> );
 
 			await waitFor( () => {
@@ -175,33 +173,22 @@ describe( "WidgetFactory", () => {
 	} );
 
 	test.each( [
-		[ "Site Kit is not connected", { isConnected: false } ],
+		[ "Consent not granted", { isConsentGranted: false } ],
 		[ "Analytics is not connected", { isAnalyticsConnected: false } ],
+		[ "no permission to view analytics data", { capabilities: { viewAnalyticsData: false } } ],
 	] )( "should not create a OrganicSessions widget when %s", ( _, config ) => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: config,
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
-
-		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
-	} );
-
-	test.each( "should not create a OrganicSessions widget when a user has no view analytics data permission", () => {
-		dataProvider = new MockDataProvider( {
-			siteKitConfiguration: {
-				capabilities: {
-					viewAnalyticsData: false,
-				},
-			},
-		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, {}, dataTrackers );
 
 		expect( widgetFactory.createWidget( { id: "organic-sessions-widget", type: "organicSessions" } ) ).toBeNull();
 	} );
 
 	test.each( [
-		[ "Top pages", { id: "top-pages-widget", type: "topPages" } ],
-		[ "Top queries", { id: "top-queries-widget", type: "topQueries" } ],
+		[ "Top pages", "topPages" ],
+		[ "Top queries", "topQueries" ],
+		[ "Search ranking compare", "searchRankingCompare" ],
 	] )( "should not create a %s widget when a user has no view search console data permission", ( _, widget ) => {
 		dataProvider = new MockDataProvider( {
 			siteKitConfiguration: {
@@ -210,8 +197,13 @@ describe( "WidgetFactory", () => {
 				},
 			},
 		} );
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, {}, dataTrackers );
 
 		expect( widgetFactory.createWidget( widget ) ).toBeNull();
+	} );
+
+	test( "should not create a widget if the type is not supported", async() => {
+		const element = widgetFactory.createWidget( "unsupportedWidgetType" );
+		expect( element ).toBeNull();
 	} );
 } );

@@ -149,9 +149,9 @@ export default class PassiveVoiceAssessment extends Assessment {
 	 * @param {Paper}       paper       The paper to check.
 	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} Returns true if the language is available and the paper is not empty.
+	 * @returns {boolean} Returns true if the researcher has the passive voice research.
 	 */
 	isApplicable( paper, researcher ) {
-		return this.hasEnoughContentForAssessment( paper ) && researcher.hasResearch( "getPassiveVoiceResult" );
+		return researcher.hasResearch( "getPassiveVoiceResult" );
 	}
 }

@@ -40,34 +40,20 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			"There is enough variety in your sentences. That's great!" );
 	} );
 
-	it( "is not applicable for a paper without text and a researcher that has the getSentenceBeginnings research.", function() {
-		paper = new Paper( "", { locale: "it_IT" } );
-		const assessment = new SentenceBeginningsAssessment().isApplicable( paper, new ItalianResearcher( paper ) );
-		expect( assessment ).toBe( false );
+	it( "returns a good score when there are no words in the text.", function() {
+		const assessment = new SentenceBeginningsAssessment().getResult( paper, Factory.buildMockResearcher( [] ) );
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
+			"There is enough variety in your sentences. That's great!" );
 	} );
 
-	it( "is applicable for an paper with text and a researcher that has the getSentenceBeginnings research.", function() {
-		paper = new Paper( "Era una gatta, assai trita, e non era d’alcuno, e, vecchia, aveva un suo gattino.", { locale: "it_IT" } );
+	it( "is applicable when the researcher that has the getSentenceBeginnings research.", function() {
+		paper = new Paper( "", { locale: "it_IT" } );
 		const assessment = new SentenceBeginningsAssessment().isApplicable( paper, new ItalianResearcher( paper ) );
 		expect( assessment ).toBe( true );
 	} );
 
-	it( "returns false if the text is too short", function() {
-		paper = new Paper( "hallo" );
-		expect( new SentenceBeginningsAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "should return false for isApplicable for a paper with only an image.", function() {
-		paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
-		expect( new SentenceBeginningsAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "should return false for isApplicable for a paper with only spaces.", function() {
-		paper = new Paper( "        " );
-		expect( new SentenceBeginningsAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "is not applicable for a paper with text and a researcher without sentence beginning support.", function() {
+	it( "is not applicable when the researcher doesn't have the sentence beginning support.", function() {
 		paper = new Paper( "hello", { locale: "jv_ID" } );
 		const assessment = new SentenceBeginningsAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
 		expect( assessment ).toBe( false );

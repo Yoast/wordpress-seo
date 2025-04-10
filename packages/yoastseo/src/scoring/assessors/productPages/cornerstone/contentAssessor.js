@@ -19,8 +19,6 @@ export default class ProductCornerstoneContentAssessor extends ProductContentAss
 
 		this.addAssessment( "subheadingsTooLong", new SubheadingDistributionTooLongAssessment( {
 			parameters: { slightlyTooMany: 250, farTooMany: 300, recommendedMaximumLength: 250 },
-			applicableIfTextLongerThan: 250,
-			shouldNotAppearInShortText: true,
 			urlTitle: createAnchorOpeningTag( options.subheadingUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.subheadingCTAUrl ),
 			cornerstoneContent: true,

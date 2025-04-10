@@ -617,7 +617,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-deny_google_extended_crawling",
-			fieldLabel: __( "Prevent Google Bard and Vertex AI bots from crawling", "wordpress-seo" ),
+			fieldLabel: __( "Prevent Google Gemini and Vertex AI bots from crawling", "wordpress-seo" ),
 			keywords: [ "robots" ],
 		},
 		deny_gptbot_crawling: {

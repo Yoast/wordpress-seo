@@ -6,10 +6,9 @@ import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
-import { ComparisonMetricsDataFormatter } from "../dashboard/services/comparison-metrics-data-formatter";
-import { PlainMetricsDataFormatter } from "../dashboard/services/plain-metrics-data-formatter";
 import { DataProvider } from "../dashboard/services/data-provider";
-import { RemoteDataProvider } from "../dashboard/services/remote-data-provider";
+import { DataTracker } from "../dashboard/services/data-tracker";
+import { PlainMetricsDataFormatter, RemoteDataProvider, ComparisonMetricsDataFormatter } from "@yoast/dashboard-frontend";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
 import { ADMIN_URL_NAME, LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
@@ -29,6 +28,7 @@ import { ALERT_CENTER_NAME } from "./store/alert-center";
  * @type {import("../index").Endpoints} Endpoints
  */
 
+// eslint-disable-next-line complexity
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-general" );
 	if ( ! root ) {
@@ -66,6 +66,7 @@ domReady( () => {
 		timeBasedSeoMetrics: get( window, "wpseoScriptData.dashboard.endpoints.timeBasedSeoMetrics", "" ),
 		siteKitConfigurationDismissal: get( window, "wpseoScriptData.dashboard.endpoints.siteKitConfigurationDismissal", "" ),
 		siteKitConsentManagement: get( window, "wpseoScriptData.dashboard.endpoints.siteKitConsentManagement", "" ),
+		setupStepsTracking: get( window, "wpseoScriptData.dashboard.endpoints.setupStepsTracking", "" ),
 	};
 	/** @type {Object<string,string>} */
 	const headers = {
@@ -107,8 +108,25 @@ domReady( () => {
 		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
 	};
 
-	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
-	if ( dataProvider.isSiteKitConnectionCompleted() ) {
+	const setupStepsTrackingData = {
+		setupWidgetLoaded: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetLoaded", "no" ),
+		firstInteractionStage: get( window, "wpseoScriptData.dashboard.setupStepsTracking.firstInteractionStage", "" ),
+		lastInteractionStage: get( window, "wpseoScriptData.dashboard.setupStepsTracking.lastInteractionStage", "" ),
+		setupWidgetTemporarilyDismissed: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetTemporarilyDismissed", "" ),
+		setupWidgetPermanentlyDismissed: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetPermanentlyDismissed", "" ),
+	};
+
+	const setupStepsTrackingRoute = {
+		data: setupStepsTrackingData,
+		endpoint: dataProvider.getEndpoint( "setupStepsTracking" ),
+	};
+
+	const dataTrackers = {
+		setupWidgetDataTracker: new DataTracker( setupStepsTrackingRoute, remoteDataProvider ),
+	};
+
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
+	if ( dataProvider.isSiteKitConnectionCompleted() && siteKitConfiguration.isVersionSupported ) {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}
 

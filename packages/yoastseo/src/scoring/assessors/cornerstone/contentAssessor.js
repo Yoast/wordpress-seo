@@ -17,7 +17,6 @@ export default class CornerstoneContentAssessor extends ContentAssessor {
 
 		this.addAssessment( "subheadingsTooLong", new SubheadingDistributionTooLong( {
 			parameters: { slightlyTooMany: 250, farTooMany: 300, recommendedMaximumLength: 250 },
-			applicableIfTextLongerThan: 250,
 			cornerstoneContent: true,
 		} ) );
 		this.addAssessment( "textSentenceLength", new SentenceLengthInText( {

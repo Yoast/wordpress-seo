@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { PageTitle } from "../../../src/dashboard/components/page-title";
-import { render } from "../../test-utils";
+import { render } from "@testing-library/react";
 
 /**
  * @param {Container} container The container.

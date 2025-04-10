@@ -154,9 +154,9 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	 * @param {Paper}       paper       The paper to check.
 	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} Returns true if the paper has enough content for the assessment and the researcher has the required research.
+	 * @returns {boolean} Returns true if the researcher has the sentence beginnings research.
 	 */
 	isApplicable( paper, researcher ) {
-		return this.hasEnoughContentForAssessment( paper ) && researcher.hasResearch( "getSentenceBeginnings" );
+		return researcher.hasResearch( "getSentenceBeginnings" );
 	}
 }
