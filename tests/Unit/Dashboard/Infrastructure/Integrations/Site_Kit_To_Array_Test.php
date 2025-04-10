@@ -61,9 +61,10 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 		$this->site_kit_consent_repository->expects( 'is_consent_granted' )->once()->andReturn( $is_consent_granted );
 		if ( ! $is_site_kit_activated ) {
 			$this->site_kit_is_connected_call->expects( 'is_ga_connected' )->once()->andReturn( $is_ga_connected );
+			$this->site_kit_is_connected_call->expects( 'is_setup_completed' )
+				->once()
+				->andReturn( $is_setup_completed );
 		}
-		$this->site_kit_is_connected_call->expects( 'is_setup_completed' )->once()->andReturn( $is_setup_completed );
-
 		$this->configuration_repository->expects( 'is_site_kit_configuration_dismissed' )
 			->once()
 			->andReturn( $is_config_dismissed );
@@ -106,61 +107,25 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 		if ( $is_site_kit_activated ) {
 			Functions\expect( 'apply_filters' )->once()->with( 'googlesitekit_apifetch_preload_paths', [] )->andReturn(
 				[
-					'/google-site-kit/v1/core/modules/data/list',
-					'/google-site-kit/v1/core/user/data/permissions',
-					'/google-site-kit/v1/core/user/data/authentication',
+					'//core/modules/data/list',
+					'//core/user/data/permissions',
+					'//core/user/data/authentication',
+					'//core/site/data/connection',
 				]
 			);
-
-			Functions\expect( 'rest_preload_api_request' )
-				->once()
-				->with( [], '/google-site-kit/v1/core/user/data/authentication' )
-				->andReturn(
-					[
-						'/google-site-kit/v1/core/user/data/authentication' => [
-							'body' => $authenticated,
-						],
-					]
-				);
-			Functions\expect( 'rest_preload_api_request' )->once()->with(
+			Functions\expect( 'rest_preload_api_request' )->andReturn(
 				[
-					'/google-site-kit/v1/core/user/data/authentication' => [
+					'//core/user/data/authentication' => [
 						'body' => $authenticated,
 					],
-				],
-				'/google-site-kit/v1/core/user/data/permissions'
-			)->andReturn(
-				[
-					'/google-site-kit/v1/core/user/data/authentication' => [
-						'body' => $authenticated,
-					],
-					'/google-site-kit/v1/core/user/data/permissions' => [
+					'//core/user/data/permissions' => [
 						'body' => $permissions,
 					],
-
-				]
-			);
-
-			Functions\expect( 'rest_preload_api_request' )->once()->with(
-				[
-					'/google-site-kit/v1/core/user/data/authentication' => [
-						'body' => $authenticated,
-					],
-					'/google-site-kit/v1/core/user/data/permissions' => [
-						'body' => $permissions,
-					],
-				],
-				'/google-site-kit/v1/core/modules/data/list'
-			)->andReturn(
-				[
-					'/google-site-kit/v1/core/user/data/authentication' => [
-						'body' => $authenticated,
-					],
-					'/google-site-kit/v1/core/user/data/permissions' => [
-						'body' => $permissions,
-					],
-					'/google-site-kit/v1/core/modules/data/list' => [
+					'//core/modules/data/list' => [
 						'body' => $data_list,
+					],
+					'//core/site/data/connection' => [
+						'body' => [ 'setupCompleted' => $is_setup_completed ],
 					],
 				]
 			);

@@ -15,6 +15,13 @@ class Site_Kit {
 	private const SITE_KIT_FILE = 'google-site-kit/google-site-kit.php';
 
 	/**
+	 * Variable to locally cache the setup completed value.
+	 *
+	 * @var bool $setup_completed
+	 */
+	private $setup_completed;
+
+	/**
 	 * The Site Kit consent repository.
 	 *
 	 * @var Site_Kit_Consent_Repository_Interface
@@ -29,17 +36,6 @@ class Site_Kit {
 	private $permanently_dismissed_site_kit_configuration_repository;
 
 	/**
-	 * The REST API endpoint paths.
-	 *
-	 * @var string[]
-	 */
-	private $paths = [
-		'/google-site-kit/v1/core/user/data/authentication',
-		'/google-site-kit/v1/core/user/data/permissions',
-		'/google-site-kit/v1/core/modules/data/list',
-	];
-
-	/**
 	 * The call wrapper.
 	 *
 	 * @var Site_Kit_Is_Connected_Call $site_kit_is_connected_call
@@ -52,9 +48,8 @@ class Site_Kit {
 	 * @var array<string, bool> $search_console_module
 	 */
 	private $search_console_module = [
-		'owner'       => null,
-		'permissions' => false,
-		'connected'   => false,
+		'owner'    => null,
+		'can_view' => false,
 	];
 
 	/**
@@ -63,9 +58,9 @@ class Site_Kit {
 	 * @var array<string, bool> $ga_module
 	 */
 	private $ga_module = [
-		'owner'       => null,
-		'permissions' => false,
-		'connected'   => false,
+		'owner'     => null,
+		'can_view'  => false,
+		'connected' => null,
 	];
 
 	/**
@@ -102,6 +97,10 @@ class Site_Kit {
 	 * @return bool If the Google site kit setup has been completed.
 	 */
 	private function is_setup_completed(): bool {
+		if ( $this->setup_completed !== null ) {
+			return $this->setup_completed;
+		}
+
 		return $this->site_kit_is_connected_call->is_setup_completed();
 	}
 
@@ -120,7 +119,7 @@ class Site_Kit {
 	 * @return bool If Google Analytics is connected.
 	 */
 	public function is_ga_connected(): bool {
-		if ( $this->ga_module['owner'] !== null ) {
+		if ( $this->ga_module['connected'] !== null ) {
 			return $this->ga_module['connected'];
 		}
 
@@ -156,7 +155,7 @@ class Site_Kit {
 	public function is_owner( ?array $module_owner ): bool {
 		$current_user = \wp_get_current_user();
 		if ( $module_owner !== null ) {
-			return $module_owner['id'] === $current_user->ID;
+			return (int) $module_owner['id'] === $current_user->ID;
 
 		}
 
@@ -172,7 +171,7 @@ class Site_Kit {
 	 * @return bool If the user can read the data.
 	 */
 	private function can_read_data( array $module ): bool {
-		return $module['permissions'] || $this->is_owner( $module['owner'] );
+		return $module['can_view'] || $this->is_owner( $module['owner'] );
 	}
 
 	/**
@@ -208,25 +207,25 @@ class Site_Kit {
 		}
 
 		return [
-			'installUrl'               => $site_kit_install_url,
-			'activateUrl'              => $site_kit_activate_url,
-			'setupUrl'                 => $site_kit_setup_url,
-			'updateUrl'                => $site_kit_update_url,
-			'isAnalyticsConnected'     => $this->is_ga_connected(),
-			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
-			'isSetupWidgetDismissed'   => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
-			'capabilities'             => [
+			'installUrl'              => $site_kit_install_url,
+			'activateUrl'             => $site_kit_activate_url,
+			'setupUrl'                => $site_kit_setup_url,
+			'updateUrl'               => $site_kit_update_url,
+			'isAnalyticsConnected'    => $this->is_ga_connected(),
+			'isFeatureEnabled'        => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
+			'isSetupWidgetDismissed'  => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
+			'capabilities'            => [
 				'installPlugins'        => \current_user_can( 'install_plugins' ),
 				'viewSearchConsoleData' => $this->can_read_data( $this->search_console_module ),
 				'viewAnalyticsData'     => $this->can_read_data( $this->ga_module ),
 			],
-			'connectionStepsStatuses'  => [
+			'connectionStepsStatuses' => [
 				'isInstalled'      => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
 				'isActive'         => $this->is_enabled(),
 				'isSetupCompleted' => $this->is_setup_completed(),
 				'isConsentGranted' => $this->is_connected(),
 			],
-			'isVersionSupported'       => \defined( 'GOOGLESITEKIT_VERSION' ) ? \version_compare( \GOOGLESITEKIT_VERSION, '1.148.0', '>=' ) : false,
+			'isVersionSupported'      => \defined( 'GOOGLESITEKIT_VERSION' ) ? \version_compare( \GOOGLESITEKIT_VERSION, '1.148.0', '>=' ) : false,
 		];
 	}
 
@@ -247,30 +246,65 @@ class Site_Kit {
 	 * @return void
 	 */
 	public function parse_site_kit_data(): void {
-		$preload_paths       = \apply_filters( 'googlesitekit_apifetch_preload_paths', [] );
-		$actual_paths        = \array_intersect( $this->paths, $preload_paths );
-		$preloaded           = \array_reduce(
+		$paths     = $this->get_preload_paths();
+		$preloaded = $this->get_preloaded_data( $paths );
+		if ( empty( $preloaded ) ) {
+			return;
+		}
+		$modules_data          = $preloaded[ $paths['modules'] ]['body'];
+		$modules_permissions   = $preloaded[ $paths['permissions'] ]['body'];
+		$is_authenticated      = $preloaded[ $paths['authentication'] ]['body']['authenticated'];
+		$this->setup_completed = $preloaded[ $paths['connection'] ]['body']['setupCompleted'];
+		foreach ( $modules_data as $module ) {
+			$slug = $module['slug'];
+			if ( $slug === 'analytics-4' ) {
+				$this->ga_module['owner']     = ( $module['owner'] ?? null );
+				$this->ga_module['connected'] = ( $module['connected'] ?? false );
+				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'] ) ) {
+					$this->ga_module['can_view'] = $is_authenticated || $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'];
+				}
+			}
+			if ( $slug === 'search-console' ) {
+				$this->search_console_module['owner'] = ( $module['owner'] ?? null );
+
+				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'] ) ) {
+					$this->search_console_module['can_view'] = $is_authenticated || $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'];
+				}
+			}
+		}
+	}
+
+	/**
+	 * Holds the parsed preload paths for preloading some Site Kit API data.
+	 *
+	 * @return string[]
+	 */
+	public function get_preload_paths(): array {
+
+		$rest_root = ( \class_exists( 'Google\Site_Kit\Core\REST_API\REST_Routes' ) ) ? Google\Site_Kit\Core\REST_API\REST_Routes::REST_ROOT : '';
+		return [
+			'authentication' => '/' . $rest_root . '/core/user/data/authentication',
+			'permissions'    => '/' . $rest_root . '/core/user/data/permissions',
+			'modules'        => '/' . $rest_root . '/core/modules/data/list',
+			'connection'     => '/' . $rest_root . '/core/site/data/connection',
+		];
+	}
+
+	/**
+	 * Runs the given paths through the `rest_preload_api_request` method.
+	 *
+	 * @param string[] $paths The paths to add to `rest_preload_api_request`.
+	 *
+	 * @return array<array|null> The array with all the now filled in preloaded data.
+	 */
+	public function get_preloaded_data( array $paths ): array {
+		$preload_paths = \apply_filters( 'googlesitekit_apifetch_preload_paths', [] );
+		$actual_paths  = \array_intersect( $paths, $preload_paths );
+
+		return \array_reduce(
 			\array_unique( $actual_paths ),
 			'rest_preload_api_request',
 			[]
 		);
-		$modules_data        = $preloaded['/google-site-kit/v1/core/modules/data/list']['body'];
-		$modules_permissions = $preloaded['/google-site-kit/v1/core/user/data/permissions']['body'];
-		$is_authenticated    = $preloaded['/google-site-kit/v1/core/user/data/authentication']['body']['authenticated'];
-		foreach ( $modules_data as $module ) {
-			if ( $module['slug'] === 'analytics-4' ) {
-				$this->ga_module['owner']     = $module['owner'];
-				$this->ga_module['connected'] = $module['connected'];
-				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'] ) ) {
-					$this->ga_module['permissions'] = $is_authenticated || $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'];
-				}
-			}
-			if ( $module['slug'] === 'search-console' ) {
-				$this->search_console_module['owner'] = $module['owner'];
-				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'] ) ) {
-					$this->search_console_module['permissions'] = $is_authenticated || $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'];
-				}
-			}
-		}
 	}
 }

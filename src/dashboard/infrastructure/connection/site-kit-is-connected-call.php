@@ -20,12 +20,12 @@ class Site_Kit_Is_Connected_Call {
 	public function is_setup_completed(): bool {
 		$request = new WP_REST_Request( 'GET', '/google-site-kit/v1/core/site/data/connection' );
 
-		$data = \rest_do_request( $request );
+		$response = \rest_do_request( $request );
 
-		if ( $data->get_status() !== 200 ) {
+		if ( $response->is_error() ) {
 			return false;
 		}
-		return $data->get_data()['setupCompleted'];
+		return $response->get_data()['setupCompleted'];
 	}
 
 	/**
@@ -34,11 +34,14 @@ class Site_Kit_Is_Connected_Call {
 	 * @return bool
 	 */
 	public function is_ga_connected(): bool {
-		$request = new WP_REST_Request( 'GET', '/google-site-kit/v1/core/modules/data/list' );
-		$data    = \rest_do_request( $request )->get_data();
+		$request  = new WP_REST_Request( 'GET', '/google-site-kit/v1/core/modules/data/list' );
+		$response = \rest_do_request( $request );
 
+		if ( $response->is_error() ) {
+			return false;
+		}
 		$connected = false;
-		foreach ( $data as $module ) {
+		foreach ( $response->get_data() as $module ) {
 			if ( $module['slug'] === 'analytics-4' ) {
 				$connected = $module['connected'];
 			}
