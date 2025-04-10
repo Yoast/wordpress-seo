@@ -13,9 +13,13 @@ export const usePopoverContext = () => useContext( PopoverContext );
 
 const positionClassNameMap = {
 	top: "yst-popover--top",
+	topLeft: "yst-popover--top-left",
+	topRight: "yst-popover--top-right",
 	right: "yst-popover--right",
 	bottom: "yst-popover--bottom",
 	left: "yst-popover--left",
+	bottomLeft: "yst-popover--bottom-left",
+	bottomRight: "yst-popover--bottom-right",
 };
 
 /**
@@ -154,7 +158,7 @@ Popover.displayName = "Popover";
 
 Popover.propTypes = {
 	as: PropTypes.elementType,
-	children: PropTypes.node,
+	children: PropTypes.node.isRequired,
 	id: PropTypes.string,
 	className: PropTypes.string,
 	isOpen: PropTypes.bool,
@@ -170,9 +174,8 @@ Popover.defaultProps = {
 	as: "div",
 	id: "",
 	isOpen: true,
-	children: "",
 	className: "",
-	position: "left",
+	position: "",
 };
 
 export default Popover;
