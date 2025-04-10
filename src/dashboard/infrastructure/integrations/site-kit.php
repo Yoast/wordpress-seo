@@ -281,7 +281,7 @@ class Site_Kit {
 	 */
 	public function get_preload_paths(): array {
 
-		$rest_root = ( \class_exists( 'Google\Site_Kit\Core\REST_API\REST_Routes' ) ) ? Google\Site_Kit\Core\REST_API\REST_Routes::REST_ROOT : '';
+		$rest_root = ( \class_exists( 'Google\Site_Kit\Core\REST_API\REST_Routes' ) ) ? \Google\Site_Kit\Core\REST_API\REST_Routes::REST_ROOT : '';
 		return [
 			'authentication' => '/' . $rest_root . '/core/user/data/authentication',
 			'permissions'    => '/' . $rest_root . '/core/user/data/permissions',
