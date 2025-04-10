@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4;
 
+use Google\Site_Kit\Core\REST_API\REST_Routes;
 use WP_REST_Request;
 use WP_REST_Response;
 
@@ -16,7 +17,7 @@ class Site_Kit_Analytics_4_Api_Call {
 	/**
 	 * The Analytics 4 API route path.
 	 */
-	private const ANALYTICS_DATA_REPORT_ROUTE = '/google-site-kit/v1/modules/analytics-4/data/report';
+	private const ANALYTICS_DATA_REPORT_ROUTE = '/' . REST_Routes::REST_ROOT . '/modules/analytics-4/data/report';
 
 	/**
 	 * Runs the internal REST api call.
@@ -26,7 +27,7 @@ class Site_Kit_Analytics_4_Api_Call {
 	 * @return WP_REST_Response
 	 */
 	public function do_request( array $api_parameters ): WP_REST_Response {
-		$request = new WP_REST_Request( 'GET', self::SEARCH_CONSOLE_DATA_SEARCH_ANALYTICS_ROUTE );
+		$request = new WP_REST_Request( 'GET', self::ANALYTICS_DATA_REPORT_ROUTE );
 		$request->set_query_params( $api_parameters );
 		return \rest_do_request( $request );
 	}
