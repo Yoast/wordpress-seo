@@ -443,6 +443,19 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 
 		testInclusiveLanguageAssessments( testData );
 	} );
+	it( "should return the appropriate score and feedback string for: 'birth defect'", () => {
+		const testData = [
+			{
+				identifier: "birthDefect",
+				text: "The birth defect can't be fully treated",
+				expectedFeedback: "Be careful when using <i>birth defect</i> to describe someone's specific condition. " +
+					"Consider using an alternative, such as <i>congenital disability, born with a disability, disability since birth</i>, unless referring to how you characterize your own condition. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
 	it( "should return the appropriate score and feedback string for: 'crippled' and 'cripple'", () => {
 		const testData = [
 			{
@@ -549,9 +562,9 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			{
 				identifier: "lame",
 				text: "Such a lame excuse!",
-				expectedFeedback: "Avoid using <i>lame</i> as it is potentially harmful. Consider using an alternative, such as <i>boring, lousy, " +
-					"unimpressive, sad, corny</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
+				expectedFeedback: "Be careful when using <i>lame</i> as it is potentially harmful. Unless you are using it as a noun to refer to an object (such as the kitchen tool), consider using an alternative. For example, <i>boring, lousy, " +
+					"unimpressive, sad, corny</i>. If referring to someone's disability, use an alternative such as <i>person with a disability, person who has difficulty with walking</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
 			},
 			{
 				identifier: "lamer",
@@ -573,6 +586,45 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		];
 
 		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'spaz' and its other forms", () => {
+		const testData = [
+			{
+				identifier: "spaz",
+				text: "another spaz",
+				expectedFeedback: "Avoid using <i>spaz</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>erratic person, inept person, hyperactive person, agitated person, amateur, incompetent person, unqualified person, ignorant person</i> when referring to a person, or <i>lose control, flip out, " +
+					"throw a tantrum, behave erratically, go on the fritz, twitch, lose control, move clumsily, move awkwardly</i> when referring to an action. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+			identifier: "spazzes",
+				text: "as long as no one spazzes",
+				expectedFeedback: "Avoid using <i>spazzes</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>erratic people, inept people, hyperactive people, agitated people, amateurs, incompetent people, unqualified people, ignorant people</i> when referring to a person, or " +
+			"<i>loses control, flips out, throws a tantrum, behave erratically, goes on the fritz, loses control, twitches, moves clumsily, moves awkwardly</i> when referring to an action. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+		},
+			{
+				identifier: "spazzing",
+				text: "no one expects spazzing out on stage",
+				expectedFeedback: "Avoid using <i>spazzing</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>flipping out, throwing a tantrum, behaving erratically, going on the fritz, losing control, twitching, moving clumsily, moving awkwardly</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should not show feedback for 'spaz' when 'spaz out' is being used instead", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "spaz" ) );
+
+		const testSentence = "He apologized for spazzing out.";
+		const mockPaper = new Paper( testSentence );
+		const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
+
+		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
 	} );
 	it( "should return the appropriate score and feedback string for: 'commit suicide' and its other forms", () => {
 		const testData = [
@@ -703,6 +755,50 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				expectedScore: 3,
 			},
 		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should not target 'dumb' if followed by 'down'.", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "dumb" ) );
+
+		const testSentence = "They're not used to dumbing down their articles.";
+		const mockPaper = new Paper( testSentence );
+		const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
+
+		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
+	} );
+	it( "should return the appropriate score and feedback string for both 'dumb it down' and 'dumb down' and their other forms", () => {
+		const testData = [
+			{
+				identifier: "dumbItDown",
+				text: "It's boring to have to dumb it down all the time.",
+				expectedFeedback: "Avoid using <i>dumb it down</i> as it is potentially harmful. Consider using an alternative, such as <i>oversimplify it</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "dumbedItDown",
+				text: "They dumbed it down unnecessarily.",
+				expectedFeedback: "Avoid using <i>dumbed it down</i> as it is potentially harmful. Consider using an alternative, such as <i>oversimplified it</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			// Different forms of "dumb down" (with different alternative forms) were added under one identifier
+			{
+				identifier: "dumbedDown",
+				text: "The summary was dumbed down out of consideration.",
+				expectedFeedback: "Avoid using <i>dumbed down</i> as it is potentially harmful. Consider using an alternative, such as <i>oversimplified</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "dumbingDown",
+				text: "It's a pity to be dumbing down so much of the content.",
+				expectedFeedback: "Avoid using <i>dumbing down</i> as it is potentially harmful. Consider using an alternative, such as <i>oversimplifying</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
 		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'dumb' and its other forms", () => {
