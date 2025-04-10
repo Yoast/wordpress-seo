@@ -7,6 +7,7 @@ use Google\Site_Kit\Core\Modules\Module;
 use Google\Site_Kit\Core\Modules\Modules;
 use Google\Site_Kit\Modules\Analytics_4;
 use Google\Site_Kit\Plugin;
+use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\Row;
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Invalid_Request_Exception;
@@ -195,7 +196,7 @@ class Site_Kit_Analytics_4_Adapter {
 		$comparison_traffic_data = new Comparison_Traffic_Data();
 
 		// First row is the current date range's data, second row is the previous date range's data.
-		foreach ( $response->getRows() as $date_range_key => $date_range_row ) {
+		foreach ( $response->getRows() as $date_range_row ) {
 			$traffic_data = new Traffic_Data();
 
 			// Loop through all the metrics of the date range.
@@ -214,10 +215,12 @@ class Site_Kit_Analytics_4_Adapter {
 				}
 			}
 
-			if ( $date_range_key === 0 ) {
+			$period = $this->get_period( $date_range_row );
+
+			if ( $period === Comparison_Traffic_Data::CURRENT_PERIOD_KEY ) {
 				$comparison_traffic_data->set_current_traffic_data( $traffic_data );
 			}
-			elseif ( $date_range_key === 1 ) {
+			elseif ( $period === Comparison_Traffic_Data::PREVIOUS_PERIOD_KEY ) {
 				$comparison_traffic_data->set_previous_traffic_data( $traffic_data );
 			}
 		}
@@ -225,6 +228,30 @@ class Site_Kit_Analytics_4_Adapter {
 		$data_container->add_data( $comparison_traffic_data );
 
 		return $data_container;
+	}
+
+	/**
+	 * Parses the response row and returns whether it's about the current period or the previous period.
+	 *
+	 * @see https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/DateRange
+	 *
+	 * @param Row $date_range_row The response row.
+	 *
+	 * @return string The key associated with the current or the previous period.
+	 *
+	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
+	 */
+	private function get_period( Row $date_range_row ): string {
+		foreach ( $date_range_row->getDimensionValues() as $dimension_value ) {
+			if ( $dimension_value->getValue() === 'date_range_0' ) {
+				return Comparison_Traffic_Data::CURRENT_PERIOD_KEY;
+			}
+			elseif ( $dimension_value->getValue() === 'date_range_1' ) {
+				return Comparison_Traffic_Data::PREVIOUS_PERIOD_KEY;
+			}
+		}
+
+		throw new Invalid_Request_Exception( 'Unexpected date range names' );
 	}
 
 	/**
