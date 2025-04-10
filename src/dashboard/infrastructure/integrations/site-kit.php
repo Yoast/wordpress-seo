@@ -177,7 +177,7 @@ class Site_Kit {
 			'setupUrl'                 => $site_kit_setup_url,
 			'updateUrl'                => $site_kit_update_url,
 			'isAnalyticsConnected'     => $this->is_ga_connected(),
-			'isFeatureEnabled' => true,
+			'isFeatureEnabled'         => true,
 			'isSetupWidgetDismissed'   => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
 			'capabilities'             => [
 				'installPlugins'        => \current_user_can( 'install_plugins' ),
