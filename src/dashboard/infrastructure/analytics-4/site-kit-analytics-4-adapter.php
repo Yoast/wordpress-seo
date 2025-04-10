@@ -287,8 +287,6 @@ class Site_Kit_Analytics_4_Adapter {
 		return \count( $response->getDimensionHeaders() ) === 1 && $response->getDimensionHeaders()[0]->getName() === 'date';
 	}
 
-	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- We have no control over the response (in fact that's why this function exists).
-
 	/**
 	 * Validates the response coming from Google Analytics.
 	 *
@@ -310,6 +308,4 @@ class Site_Kit_Analytics_4_Adapter {
 			throw new Unexpected_Response_Exception();
 		}
 	}
-
-	// phpcs:enable
 }
