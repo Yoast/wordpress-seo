@@ -22,15 +22,12 @@ import { isTextViewActive } from "../../lib/tinymce";
 const getEditorMode = () => {
 	const editorType = useSelect( ( select ) => select( "yoast-seo/editor" ).getEditorType(), [] );
 
-	let editorMode = "";
-
 	if ( editorType === "blockEditor" ) {
-		editorMode = useSelect( ( select ) => select( "core/edit-post" ).getEditorMode(), [] );
+		return useSelect( ( select ) => select( "core/edit-post" ).getEditorMode(), [] );
 	} else if ( editorType === "classicEditor" ) {
-		editorMode = isTextViewActive() ? "text" : "visual";
+		return isTextViewActive() ? "text" : "visual";
 	}
-
-	return editorMode;
+	return "";
 };
 
 /**
