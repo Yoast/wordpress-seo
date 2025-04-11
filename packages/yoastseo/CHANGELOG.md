@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 3.0.0 and onwards.
 
+## 3.1.0 (2025-04-11)
+### Enhancements:
+* Adds _pregnant women_ to the potentially non-inclusive phrases targeted by the inclusive language analysis. [#22086](https://github.com/Yoast/wordpress-seo/pull/22086)
+* Converts the _consecutive sentences_ assessment highlighting approach from search and replace to position-based approach. [#21974](https://github.com/Yoast/wordpress-seo/pull/21974)
+* Converts the _consecutive sentences_ assessment to use HTML parser in its analysis. [#21974](https://github.com/Yoast/wordpress-seo/pull/21974)
+* Improves the inclusive language analysis feedback for the potentially non-inclusive word _exotic_, and prevents the feedback from appearing when _exotic_ is followed by words common in scientific contexts. [#22087](https://github.com/Yoast/wordpress-seo/pull/22087)
+* Removes applicability criteria from readability assessments that are related to a minimum text length. [#22156](https://github.com/Yoast/wordpress-seo/pull/22156)
+
+### Other:
+* Improves the translatability of feedback strings for the keyphrase length assessment. [#22173](https://github.com/Yoast/wordpress-seo/pull/22173)
+
 ## 3.0.0 (2025-03-07)
 ### Enhancements:
 * Adds _так_ to the words recognized by the _transition words_ assessment in Russian. [#21440](https://github.com/Yoast/wordpress-seo/pull/21440)
