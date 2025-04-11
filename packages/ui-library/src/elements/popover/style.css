@@ -66,16 +66,18 @@
 		}
 		.yst-popover--top-right {
 			@apply
-			yst--translate-y-full
-			yst-translate-x-full
-			yst-end-1/2
-			yst--top-5
+			yst--top-full
 			before:yst-content-['']
 			before:yst-absolute
-			before:yst-end-24
+			before:yst-start-8
 			before:yst-top-full
 			before:yst--translate-x-1/2
 			before:yst-translate-y-0;
+
+			transform: translate(-13%, -96%);
+			[dir='rtl'] & {
+				transform: translate(98%, -15%);
+			}
 
 			&::before {
 				border-right: 14px solid transparent;
@@ -86,17 +88,17 @@
 
 		.yst-popover--top-left {
 			@apply
-			yst--bottom-1/2
+			yst-bottom-full
 			before:yst-content-['']
 			before:yst-absolute
-			before:yst-start-1/2
+			before:yst-end-0
 			before:yst-top-full
 			before:yst--translate-x-1/2
 			before:yst-translate-y-0;
 
-			transform: translate(-75%);
+			transform: translate(-97%, -14%);
 			[dir='rtl'] & {
-				transform: translate(92%, 15%);
+				transform: translate(97%, -14%);
 			}
 
 			&::before {
@@ -197,15 +199,3 @@
 		}
 	}
 }
-
-/* Styles to use the anchor positioning with more browser support */
-/*#anchor-popover {*/
-/*	anchor-name: --anchor-popover;*/
-/*}*/
-/*[role="dialog"]#popover {*/
-/*	position-anchor: --anchor-popover;*/
-/*	position-area: left center;*/
-/*	position-try-fallbacks: top;*/
-
-/*	margin: 2rem;*/
-/*}*/

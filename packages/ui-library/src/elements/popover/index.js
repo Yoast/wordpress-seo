@@ -74,7 +74,7 @@ const Content = ( {
 			) ) }
 		</ul>
 	) : (
-		<p className={ classNames( "yst-overflow-hidden", className ) }>{ content }</p>
+		<p className={ classNames( "yst-overflow-wrap", className ) }>{ content }</p>
 	);
 };
 

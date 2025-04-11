@@ -4,10 +4,6 @@ import { component } from "./docs";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import Button from "../../elements/button";
 import { noop } from "lodash";
-import Badge from "../badge";
-import { Icon } from "../../components/sidebar-navigation/icon";
-import { YoastIcon } from "@yoast/related-keyphrase-suggestions/src/components/Modal/YoastIcon";
-import { YoastLogo } from "@yoast/wordpress-seo/src/shared-admin/components";
 
 const Template = ( {  isVisible: initialVisible, setIsVisible: _, position, children, ...props } ) => {
 	return (
@@ -127,6 +123,7 @@ export const ButtonWithAPopover = {
 								"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
 								"when an unknown printer took a galley of type and scrambled it to make a type specimen book."
 							}
+							className={ "yst-text-slate-800 yst-font-normal yst-text-left" }
 						/>
 					</div>
 					<DismissButton />
