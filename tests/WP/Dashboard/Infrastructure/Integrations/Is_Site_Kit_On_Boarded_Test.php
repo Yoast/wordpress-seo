@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Integrations;
 
 use Generator;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Api_Call;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Connection\Site_Kit_Is_Connected_Call;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
