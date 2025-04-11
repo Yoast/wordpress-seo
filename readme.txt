@@ -278,6 +278,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-04-15
 
+Yoast SEO 24.9 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Changes the applicability criteria of readability assessments so that they are shown even if there is little or no text.
