@@ -5,29 +5,21 @@ import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import Button from "../../elements/button";
 import { noop } from "lodash";
 
-const Template = ( {  isVisible: initialVisible, setIsVisible: _, position, children, ...props } ) => {
-	return (
-		<div className="yst-relative">
-			<Popover
-				id={ "popover" }
-				position={ position }
-				{ ...props }
-			>
-				{ children }
-			</Popover>
-		</div>
-	);
-};
-Template.displayName = "Popover";
-
 const DismissButton = () => {
 	const { handleDismiss } = usePopoverContext();
 	return <Button type="button" variant="primary" onClick={ handleDismiss } className="yst-self-end">Got it!</Button>;
 };
 export const Factory = {
-	component: Template,
+	component: Popover,
+	render: ( args ) => {
+		return (
+			<div className="yst-relative">
+				<Popover { ...args } />
+			</div>
+		);
+	},
 	parameters: {
-		controls: { disable: false },
+		controls: { disable: true },
 	},
 	args: {
 		children: (
@@ -36,23 +28,21 @@ export const Factory = {
 			</>
 		),
 	},
-	decorators: [
-		( Story ) => (
-			<div className="yst-flex yst-justify-center yst-items-center">
-				<Story />
-			</div>
-		),
-	],
 };
 
 export const WithMoreContent = {
 	render: ( args ) => {
+		const [ isVisible, setIsVisible ] = useState( true );
+
 		return (
-			<>
-				<div className="yst-relative">
-					<Popover { ...args } position="right" />
-				</div>
-			</>
+			<div className="yst-relative">
+				{ isVisible && <Popover
+					{ ...args }
+					isVisible={ isVisible }
+					setIsVisible={ setIsVisible }
+					isOpen={ isVisible }
+				/> }
+			</div>
 		);
 	},
 	args: {
@@ -80,13 +70,6 @@ export const WithMoreContent = {
 	parameters: {
 		controls: { disable: true },
 	},
-	decorators: [
-		( Story ) => (
-			<div className="yst-m-40 yst-flex yst-justify-center yst-items-center">
-				<Story />
-			</div>
-		),
-	],
 };
 
 export const ButtonWithAPopover = {
@@ -96,12 +79,14 @@ export const ButtonWithAPopover = {
 
 		return (
 			<>
-				<button
+				<Button
+					variant="primary"
+					/* eslint-disable-next-line react/jsx-no-bind */
 					onClick={ handleClick } className="yst-relative yst-border yst-bg-primary-500 yst-p-2 yst-rounded-lg yst-text-white yst-font-semibold"
 				>
-					Toggle
-					<Popover { ...args } isOpen={ isOpen } position={ "topLeft" } />
-				</button>
+					Toggle popover
+					<Popover { ...args } isOpen={ isOpen } position={ "bottomLeft" }  />
+				</Button>
 			</>
 		);
 	},
@@ -123,7 +108,7 @@ export const ButtonWithAPopover = {
 								"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
 								"when an unknown printer took a galley of type and scrambled it to make a type specimen book."
 							}
-							className={ "yst-text-slate-800 yst-font-normal yst-text-left" }
+							className={ "yst-text-slate-700 yst-font-normal yst-text-left" }
 						/>
 					</div>
 					<DismissButton />
@@ -131,24 +116,17 @@ export const ButtonWithAPopover = {
 			</>
 		),
 	},
-	decorators: [
-		( Story ) => (
-			<div className="yst-m-40 yst-flex yst-justify-center yst-items-center">
-				<Story />
-			</div>
-		),
-	],
 };
 
 export default {
 	title: "1) Elements/Popover",
-	component: Template,
+	component: Popover,
 	argTypes: {
 		isOpen: { control: "boolean" },
 		children: {
 			control: "text",
 			type: { required: true },
-			table: { type: { summary: "node" } },
+			// table: { type: { summary: "node" } },
 		},
 		id: { control: "text" },
 		isVisible: {
@@ -172,13 +150,14 @@ export default {
 			type: "select",
 			description: "The position of the popover.",
 			table: {
-				defaultValue: { summary: "" },
+				defaultValue: { summary: "right" },
 			},
 		},
 	},
 	tags: [ "autodocs" ],
 	args: {
 		id: "popover",
+		isOpen: true,
 		isVisible: true,
 		setIsVisible: noop,
 		children: "",
@@ -194,7 +173,7 @@ export default {
 	},
 	decorators: [
 		( Story ) => (
-			<div className="yst-m-40 yst-flex yst-justify-center yst-items-center">
+			<div className="yst-m-56 yst-flex yst-justify-center yst-items-center">
 				<Story />
 			</div>
 		),

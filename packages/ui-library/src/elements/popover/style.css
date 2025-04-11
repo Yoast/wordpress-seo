@@ -9,13 +9,12 @@
 		}
 
 		.yst-popover {
-			@apply yst-absolute
-			yst--translate-x-1/2
-			yst-translate-y-1/2
+			@apply
+			yst-absolute
+			yst-whitespace-normal
 			yst-inline-block
 			yst-p-4
 			yst-rounded-lg
-			yst-whitespace-normal
 			yst-w-max
 			yst-max-w-sm
 			yst-z-10
