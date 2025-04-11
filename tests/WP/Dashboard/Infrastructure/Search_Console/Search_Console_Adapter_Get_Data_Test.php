@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Search_Console;
 
 use Google\Site_Kit_Dependencies\Google\Service\SearchConsole\ApiDataRow;
 use Mockery;
+use WP_REST_Response;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
 
@@ -41,11 +42,8 @@ final class Search_Console_Adapter_Get_Data_Test extends Abstract_Search_Console
 		$request_results,
 		$expected_results
 	) {
-		self::$search_console_module = Mockery::mock( Search_Console_Module_Mock::class );
-
-		$this->instance->set_search_console_module( self::$search_console_module );
-
-		$response = [];
+		$api_response_mock = Mockery::mock( WP_REST_Response::class );
+		$response          = [];
 		foreach ( $request_results as $request_result ) {
 			$response_row = new ApiDataRow();
 			$response_row->setClicks( $request_result['clicks'] );
@@ -56,6 +54,8 @@ final class Search_Console_Adapter_Get_Data_Test extends Abstract_Search_Console
 
 			$response[] = $response_row;
 		}
+		$api_response_mock->expects( 'get_data' )->once()->andReturn( $response );
+		$api_response_mock->expects( 'is_error' )->once()->andReturnFalse();
 
 		$search_console_parameters = new Search_Console_Parameters();
 
@@ -67,10 +67,9 @@ final class Search_Console_Adapter_Get_Data_Test extends Abstract_Search_Console
 			$search_console_parameters->set_limit( $request_parameters['limit'] );
 		}
 
-		self::$search_console_module->expects( 'get_data' )
-			->with( 'searchanalytics', $expected_api_parameters )
-			->once()
-			->andReturn( $response );
+		$this->search_console_api_call_mock->expects( 'do_request' )
+			->with( $expected_api_parameters )
+			->andReturn( $api_response_mock );
 
 		$result = $this->instance->get_data( $search_console_parameters );
 
@@ -92,8 +91,6 @@ final class Search_Console_Adapter_Get_Data_Test extends Abstract_Search_Console
 					'dimensions' => [ 'page' ],
 				],
 				'expected_api_parameters' => [
-					'slug'       => 'search-console',
-					'datapoint'  => 'searchanalytics',
 					'startDate'  => '31-05-1988',
 					'endDate'    => '06-03-2025',
 					'dimensions' => [ 'page' ],
@@ -139,8 +136,6 @@ final class Search_Console_Adapter_Get_Data_Test extends Abstract_Search_Console
 					'limit'      => 5,
 				],
 				'expected_api_parameters' => [
-					'slug'       => 'search-console',
-					'datapoint'  => 'searchanalytics',
 					'startDate'  => '31-05-1988',
 					'endDate'    => '06-03-2025',
 					'dimensions' => [ 'query' ],
