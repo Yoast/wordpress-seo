@@ -8,20 +8,35 @@ import { inRangeEndInclusive, inRangeStartEndInclusive } from "../../helpers/ass
 import processExactMatchRequest from "../../../languageProcessing/helpers/match/processExactMatchRequest";
 
 /**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
+
+/**
+ * Enumerator for the different types of counting methods for this assessment.
+ * @type {Readonly<{WORDS: string, CONTENT_WORDS: string, CHARACTERS: string}>}
+ */
+const COUNT_TEXT_IN = Object.freeze( {
+	WORDS: "words",
+	CONTENT_WORDS: "content words",
+	CHARACTERS: "characters",
+} );
+
+/**
  * Assessment to check whether the keyphrase has a good length.
  */
-class KeyphraseLengthAssessment extends Assessment {
+export default class KeyphraseLengthAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} [config] The configuration to use.
 	 * @param {boolean} isProductPage Whether product page scoring is used or not.
+	 * @param {Object} [config] The configuration to use.
+	 * @param {Object} [config.parameters] The parameters to use for the assessment.
 	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum length of the keyphrase (in words).
 	 * @param {number} [config.parameters.acceptableMaximum] The acceptable maximum length of the keyphrase (in words).
+	 * @param {Object} [config.scores] The scores to use for the assessment.
 	 * @param {number} [config.scores.veryBad] The score to return if the length of the keyphrase is below recommended minimum.
 	 * @param {number} [config.scores.consideration] The score to return if the length of the keyphrase is above acceptable maximum.
-	 *
-	 * @returns {void}
 	 */
 	constructor( config, isProductPage = false ) {
 		super();
@@ -42,7 +57,7 @@ class KeyphraseLengthAssessment extends Assessment {
 				okay: 6,
 				good: 9,
 			},
-			countTextIn: "words",
+			countTextIn: COUNT_TEXT_IN.WORDS,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33i" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33j" ),
 			isRelatedKeyphrase: false,
@@ -67,7 +82,7 @@ class KeyphraseLengthAssessment extends Assessment {
 
 		const countTextInCharacters = researcher.getConfig( "countCharacters" );
 		if ( countTextInCharacters ) {
-			this._config.countTextIn = "characters";
+			this._config.countTextIn = COUNT_TEXT_IN.CHARACTERS;
 		}
 
 		/*
@@ -76,7 +91,7 @@ class KeyphraseLengthAssessment extends Assessment {
 		 * */
 		const keyphrase = paper.getKeyword();
 		if ( this._keyphraseLengthData.functionWords.length > 0 && ! processExactMatchRequest( keyphrase ).exactMatchRequested ) {
-			this._config.countTextIn = "content words";
+			this._config.countTextIn = COUNT_TEXT_IN.CONTENT_WORDS;
 		}
 
 		/*
@@ -167,9 +182,9 @@ class KeyphraseLengthAssessment extends Assessment {
 					this._config.urlTitle,
 					"</a>"
 				);
-				if ( countTextIn === "words" ) {
+				if ( countTextIn === COUNT_TEXT_IN.WORDS ) {
 					return wordFeedback;
-				} else if ( countTextIn === "content words" ) {
+				} else if ( countTextIn === COUNT_TEXT_IN.CONTENT_WORDS ) {
 					return contentWordFeedback;
 				}
 				return characterFeedback;
@@ -214,9 +229,9 @@ class KeyphraseLengthAssessment extends Assessment {
 					this._config.urlCallToAction,
 					"</a>"
 				);
-				if ( countTextIn === "words" ) {
+				if ( countTextIn === COUNT_TEXT_IN.WORDS ) {
 					return wordFeedback;
-				} else if ( countTextIn === "content words" ) {
+				} else if ( countTextIn === COUNT_TEXT_IN.CONTENT_WORDS ) {
 					return contentWordFeedback;
 				}
 				return characterFeedback;
@@ -261,9 +276,9 @@ class KeyphraseLengthAssessment extends Assessment {
 					this._config.urlCallToAction,
 					"</a>"
 				);
-				if ( countTextIn === "words" ) {
+				if ( countTextIn === COUNT_TEXT_IN.WORDS ) {
 					return wordFeedback;
-				} else if ( countTextIn === "content words" ) {
+				} else if ( countTextIn === COUNT_TEXT_IN.CONTENT_WORDS ) {
 					return contentWordFeedback;
 				}
 				return characterFeedback;
@@ -308,9 +323,9 @@ class KeyphraseLengthAssessment extends Assessment {
 					this._config.urlCallToAction,
 					"</a>"
 				);
-				if ( countTextIn === "words" ) {
+				if ( countTextIn === COUNT_TEXT_IN.WORDS ) {
 					return wordFeedback;
-				} else if ( countTextIn === "content words" ) {
+				} else if ( countTextIn === COUNT_TEXT_IN.CONTENT_WORDS ) {
 					return contentWordFeedback;
 				}
 				return characterFeedback;
@@ -355,9 +370,9 @@ class KeyphraseLengthAssessment extends Assessment {
 					this._config.urlCallToAction,
 					"</a>"
 				);
-				if ( countTextIn === "words" ) {
+				if ( countTextIn === COUNT_TEXT_IN.WORDS ) {
 					return wordFeedback;
-				} else if ( countTextIn === "content words" ) {
+				} else if ( countTextIn === COUNT_TEXT_IN.CONTENT_WORDS ) {
 					return contentWordFeedback;
 				}
 				return characterFeedback;
@@ -367,40 +382,12 @@ class KeyphraseLengthAssessment extends Assessment {
 
 	/**
 	 * Calculates the result for product pages based on the keyphraseLength research.
-	 *
-	 * @returns {Object} Object with score and text.
+	 * @returns {{score: number, resultText: string}} The score and feedback for a product page.
 	 */
 	calculateResultForProduct() {
 		// Calculates very bad score for product pages.
 		if ( this._keyphraseLengthData.keyphraseLength === 0 ) {
-			if ( this._config.isRelatedKeyphrase ) {
-				return {
-					score: this._config.scores.veryBad,
-					resultText: sprintf(
-						/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-						__(
-							"%1$sKeyphrase length%3$s: %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
-							"wordpress-seo"
-						),
-						this._config.urlTitle,
-						this._config.urlCallToAction,
-						"</a>"
-					),
-				};
-			}
-			return {
-				score: this._config.scores.veryBad,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					__(
-						"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
-			};
+			return this.getNoKeyphraseFeedback();
 		}
 
 		// Calculates good score for product pages.
@@ -454,9 +441,43 @@ class KeyphraseLengthAssessment extends Assessment {
 	}
 
 	/**
+	 * Returns the feedback when no keyphrase was set.
+	 * @returns {{score: number, resultText: string}} The score and feedback for when no keyphrase is set.
+	 */
+	getNoKeyphraseFeedback() {
+		if ( this._config.isRelatedKeyphrase ) {
+			return {
+				score: this._config.scores.veryBad,
+				resultText: sprintf(
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					__(
+						"%1$sKeyphrase length%3$s: %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+		return {
+			score: this._config.scores.veryBad,
+			resultText: sprintf(
+				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				__(
+					"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
+					"wordpress-seo"
+				),
+				this._config.urlTitle,
+				this._config.urlCallToAction,
+				"</a>"
+			),
+		};
+	}
+
+	/**
 	 * Calculates the result based on the keyphraseLength research.
-	 *
-	 * @returns {Object} Object with score and text.
+	 * @returns {{score: number, resultText: string}} The score and feedback for a regular post.
 	 */
 	calculateResult() {
 		if ( this._isProductPage ) {
@@ -465,34 +486,7 @@ class KeyphraseLengthAssessment extends Assessment {
 
 		// Calculates scores for regular pages.
 		if ( this._keyphraseLengthData.keyphraseLength < this._boundaries.recommendedMinimum ) {
-			if ( this._config.isRelatedKeyphrase ) {
-				return {
-					score: this._config.scores.veryBad,
-					resultText: sprintf(
-						/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-						__(
-							"%1$sKeyphrase length%3$s: %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
-							"wordpress-seo"
-						),
-						this._config.urlTitle,
-						this._config.urlCallToAction,
-						"</a>"
-					),
-				};
-			}
-			return {
-				score: this._config.scores.veryBad,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					__(
-						"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
-			};
+			return this.getNoKeyphraseFeedback();
 		}
 		if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMinimum, this._boundaries.recommendedMaximum + 1 ) ) {
 			return {
@@ -526,5 +520,3 @@ class KeyphraseLengthAssessment extends Assessment {
 		};
 	}
 }
-
-export default KeyphraseLengthAssessment;
