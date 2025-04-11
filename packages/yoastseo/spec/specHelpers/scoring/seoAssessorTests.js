@@ -41,12 +41,12 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		defaultAssessments.pop();
 	}
 
-	let requiresTextAssessments = [ "images", "externalLinks", "internalLinks" ];
+	let commonAssessments = [ "images", "externalLinks", "internalLinks" ];
 	if ( isCollection || isStoreBlog || isTaxonomy ) {
-		requiresTextAssessments = [];
+		commonAssessments = [];
 	}
 	if ( isProduct ) {
-		requiresTextAssessments = [ "images" ];
+		commonAssessments = [ "images" ];
 	}
 
 	const requiresKeyphraseAssessments = [ "introductionKeyword" ];
@@ -54,27 +54,28 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		requiresKeyphraseAssessments.pop();
 	}
 
-	const mostAssessments = [ ...defaultAssessments, ...requiresTextAssessments, ...requiresKeyphraseAssessments ];
+	const textAssessments = [ ...defaultAssessments, ...commonAssessments ];
+	const mostAssessments = [ ...textAssessments, ...requiresKeyphraseAssessments ];
 
 	it( "runs assessments without any specific requirements", function() {
 		const paper = new Paper( "" );
 		const assessments = assess( paper );
 
-		expect( assessments.sort() ).toEqual( defaultAssessments.sort() );
+		expect( assessments.sort() ).toEqual( textAssessments.sort() );
 	} );
 
 	it( "additionally runs assessments that only require a text", function() {
 		const paper = new Paper( "text" );
 		const assessments = assess( paper );
 
-		expect( assessments.sort() ).toEqual( [ ...defaultAssessments, ...requiresTextAssessments ].sort() );
+		expect( assessments.sort() ).toEqual( textAssessments.sort() );
 	} );
 
 	it( "additionally runs singleH1assessment if the text contains two H1s", function() {
 		const paper = new Paper( "<h1>First title</h1><h1>Second title</h1>" );
 		const assessments = assess( paper );
 
-		const expected = isStoreBlog ? defaultAssessments : [ ...defaultAssessments, ...requiresTextAssessments ].concat( "singleH1" );
+		const expected = isStoreBlog ? defaultAssessments : [ ...defaultAssessments, ...commonAssessments ].concat( "singleH1" );
 		expect( assessments.sort() ).toEqual( expected.sort() );
 	} );
 
@@ -89,7 +90,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		const paper = new Paper( "", { keyword: "a" } );
 		const assessments = assess( paper );
 
-		expect( assessments.sort() ).toEqual( defaultAssessments.concat( "functionWordsInKeyphrase" ).sort() );
+		expect( assessments.sort() ).toEqual( textAssessments.concat( "functionWordsInKeyphrase" ).sort() );
 	} );
 
 	it( "additionally runs assessments that require text and a keyword", function() {
@@ -113,7 +114,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 			{ slug: "a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug" } );
 		const assessments = assess( paper );
 
-		expect( assessments.sort() ).toEqual( [ ...defaultAssessments, ...requiresTextAssessments ].sort() );
+		expect( assessments.sort() ).toEqual( textAssessments.sort() );
 	} );
 
 	it( "additionally runs assessments that require a text, a slug and a keyword", function() {
