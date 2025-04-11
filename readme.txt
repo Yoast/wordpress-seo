@@ -288,6 +288,7 @@ Yoast SEO 24.9 brings more enhancements and bugfixes. [Find more information abo
 
 #### Bugfixes
 
+* Fixes a bug where long sentences would be incorrectly highlighted in _sentence length_ assessment in the default editor when they were part of a block that contained non-breaking spaces or closing tags (`>`).
 * Fixes a bug where the advanced replacement variables would not be visible when editing social previews in Elementor.
 * Fixes a bug where the content image would not show on social previews when editing it in Elementor.
 * Fixes a bug where Yoast modals would not be visible when using Astra plugins.
@@ -295,6 +296,7 @@ Yoast SEO 24.9 brings more enhancements and bugfixes. [Find more information abo
 #### Other
 
 * Adds a space before the closing slash in self-closing HTML tags to comply with recommended coding standards. Props to [laxman1192](https://github.com/laxman1192).
+* Sets the _WordPress tested up to_ version to 6.8.
 * Updates the Google AI bot name in the _crawl optimization_ settings from _Google Bard_ to _Google Gemini_.
 
 = 24.8.1 =
