@@ -1,4 +1,4 @@
-import { defaultsDeep, forEach } from "lodash";
+import { defaultsDeep } from "lodash";
 import { fetchJson } from "../fetch/fetch-json";
 import {
 	deleteItem,
@@ -7,56 +7,25 @@ import {
 	setItem,
 	STORAGE_KEY_PREFIX_ROOT,
 } from './cache';
+import { RemoteDataProvider } from "./remote-data-provider";
 
 /**
- * Provides the mechanism to fetch data from a remote source.
+ * Provides the mechanism to fetch cached data from a remote source.
  */
-export class RemoteCachedDataProvider {
-	#options;
-
-	/**
-	 * @param {RequestInit} options The fetch options.
-	 * @throws {TypeError} If the baseUrl is invalid.
-	 */
-	constructor( options ) {
-		this.#options = options;
-	}
-
-	/**
-	 * @param {string|URL} endpoint The endpoint.
-	 * @param {Object<string,string|Object<string,string>>} [params] The query parameters.
-	 * @throws {TypeError} If the URL is invalid.
-	 * @link https://developer.mozilla.org/en-US/docs/Web/API/URL
-	 * @returns {URL} The URL.
-	 */
-	getUrl( endpoint, params ) {
-		const url = new URL( endpoint );
-
-		forEach( params, ( value, key ) => {
-			if ( typeof value === "object" ) {
-				forEach( value, ( subValue, subKey ) => {
-					url.searchParams.append( `${ key }[${ subKey }]`, subValue );
-				} );
-			} else {
-				url.searchParams.append( key, value );
-			}
-		} );
-
-		return url;
-	}
+export class RemoteCachedDataProvider extends RemoteDataProvider {
 
 	/**
 	 * @param {string|URL} endpoint The endpoint.
 	 * @param {Object<string,string|Object<string,string>>} [params] The query parameters.
 	 * @param {RequestInit} [options] The request options.
-	 * @returns {Promise<any|Error>} The promise of a result, or an error.
+	 * @returns {Object} The response.
 	 */
 	async fetchJson( endpoint, params, options ) {
+		// @TODO: We no longer return a promise since we now await, so we might have to cascade this change to the rest of the codebase where the RemoteCachedDataProvider is used.
 		const response = await fetchJson(
 			this.getUrl( endpoint, params ),
-			defaultsDeep( options, this.#options, { headers: { "Content-Type": "application/json" } } )
+			defaultsDeep( options, this.getOptions(), { headers: { "Content-Type": "application/json" } } )
 		);
-		console.log( "response", response );
 
 		if ( Array.isArray( response.uncacheableData ) && Array.isArray( response.cacheableData ) ) {
 			await setItem( params.options.widget, response.cacheableData );
