@@ -1,18 +1,9 @@
 @layer components {
 	.yst-root {
-		.yst-popover-backdrop {
-			@apply yst-fixed
-			yst-inset-0
-			yst-bg-black/10
-			yst-z-[5]
-			yst-pointer-events-none;
-		}
-
 		.yst-popover {
-			@apply yst-absolute
-			yst--translate-x-1/2
-			yst-translate-y-1/2
-			yst-inline-block
+			@apply
+			yst-relative
+			/*yst-overflow-hidden*/
 			yst-p-4
 			yst-rounded-lg
 			yst-whitespace-normal
@@ -22,22 +13,30 @@
 			yst-bg-white
 			yst-border
 			yst-shadow-2xl
-			yst-gap-3;
+			yst-gap-3
+			/*overwrite default values of the popover API*/
+			/*yst-m-0*/
+			/*yst-inset-0*/
+			;
+
+			&::backdrop {
+				@apply
+				yst-bg-gray-100;
+			}
+
 		}
 
 		.yst-popover--right {
 			@apply
-			yst-top-1/2
-			before:yst-content-['']
 			before:yst-absolute
+			before:yst-content-['']
 			before:yst-block
 			before:yst-end-full
 			before:yst-top-1/2
 			before:yst-right-full
-			before:yst--translate-y-1/2;
-
-			transform: translate(8%,-50%);
-
+			before:yst--translate-y-1/2
+			/*transform: translate(8%,-50%);*/
+			;
 			&::before {
 				border-right: 14px solid #fff;
 				border-top: 14px solid transparent;
@@ -45,167 +44,168 @@
 			}
 		}
 
-		.yst-popover--top {
-			@apply
-			yst--translate-y-full
-			yst-translate-x-1/2
-			yst-end-1/2
-			yst--top-5
-			before:yst-content-['']
-			before:yst-absolute
-			before:yst-start-1/2
-			before:yst-top-full
-			before:yst--translate-x-1/2
-			before:yst-translate-y-0;
+		/*.yst-popover--top {*/
+		/*	@apply*/
+		/*	yst--translate-y-full*/
+		/*	yst-translate-x-1/2*/
+		/*	yst-end-1/2*/
+		/*	yst--top-5*/
+		/*	before:yst-content-['']*/
+		/*	before:yst-absolute*/
+		/*	before:yst-start-1/2*/
+		/*	before:yst-top-full*/
+		/*	before:yst--translate-x-1/2*/
+		/*	before:yst-translate-y-0;*/
 
-			&::before {
-				border-right: 14px solid transparent;
-				border-top: 14px solid #fff;
-				border-left: 14px solid transparent;
-			}
-		}
-		.yst-popover--top-right {
-			@apply
-			yst--translate-y-full
-			yst-translate-x-full
-			yst-end-1/2
-			yst--top-5
-			before:yst-content-['']
-			before:yst-absolute
-			before:yst-end-24
-			before:yst-top-full
-			before:yst--translate-x-1/2
-			before:yst-translate-y-0;
+		/*	&::before {*/
+		/*		border-right: 14px solid transparent;*/
+		/*		border-top: 14px solid #fff;*/
+		/*		border-left: 14px solid transparent;*/
+		/*	}*/
+		/*}*/
+		/*.yst-popover--top-right {*/
+		/*	@apply*/
+		/*	yst--translate-y-full*/
+		/*	yst-translate-x-full*/
+		/*	yst-end-1/2*/
+		/*	yst--top-5*/
+		/*	before:yst-content-['']*/
+		/*	before:yst-absolute*/
+		/*	before:yst-end-24*/
+		/*	before:yst-top-full*/
+		/*	before:yst--translate-x-1/2*/
+		/*	before:yst-translate-y-0;*/
 
-			&::before {
-				border-right: 14px solid transparent;
-				border-top: 14px solid #fff;
-				border-left: 14px solid transparent;
-			}
-		}
+		/*	&::before {*/
+		/*		border-right: 14px solid transparent;*/
+		/*		border-top: 14px solid #fff;*/
+		/*		border-left: 14px solid transparent;*/
+		/*	}*/
+		/*}*/
 
-		.yst-popover--top-left {
-			@apply
-			yst--bottom-1/2
-			before:yst-content-['']
-			before:yst-absolute
-			before:yst-start-1/2
-			before:yst-top-full
-			before:yst--translate-x-1/2
-			before:yst-translate-y-0;
+		/*.yst-popover--top-left {*/
+		/*	@apply*/
+		/*	yst--bottom-1/2*/
+		/*	before:yst-content-['']*/
+		/*	before:yst-absolute*/
+		/*	before:yst-start-1/2*/
+		/*	before:yst-top-full*/
+		/*	before:yst--translate-x-1/2*/
+		/*	before:yst-translate-y-0;*/
 
-			transform: translate(-75%);
-			[dir='rtl'] & {
-				transform: translate(92%, 15%);
-			}
+		/*	transform: translate(-75%);*/
+		/*	[dir='rtl'] & {*/
+		/*		transform: translate(92%, 15%);*/
+		/*	}*/
 
-			&::before {
-				border-right: 14px solid transparent;
-				border-top: 14px solid #fff;
-				border-left: 14px solid transparent;
-			}
-		}
+		/*	&::before {*/
+		/*		border-right: 14px solid transparent;*/
+		/*		border-top: 14px solid #fff;*/
+		/*		border-left: 14px solid transparent;*/
+		/*	}*/
+		/*}*/
 
-		.yst-popover--left {
-			@apply
-			yst-top-1/2
-			yst--start-1/2
-			before:yst-content-['']
-			before:yst-absolute
-			before:yst-block
-			before:yst-start-full
-			before:yst-top-1/2
-			before:yst-right-full
-			before:yst--translate-y-1/2;
+		/*.yst-popover--left {*/
+		/*	@apply*/
+		/*	yst-top-1/2*/
+		/*	yst--start-1/2*/
+		/*	before:yst-content-['']*/
+		/*	before:yst-absolute*/
+		/*	before:yst-block*/
+		/*	before:yst-start-full*/
+		/*	before:yst-top-1/2*/
+		/*	before:yst-right-full*/
+		/*	before:yst--translate-y-1/2;*/
 
-			transform: translate(-92%,-50%);
+		/*	transform: translate(-92%,-50%);*/
 
-			&::before {
-				border-top: 14px solid transparent;
-				border-bottom: 14px solid transparent;
-				border-left: 14px solid #fff;
-			}
-		}
+		/*	&::before {*/
+		/*		border-top: 14px solid transparent;*/
+		/*		border-bottom: 14px solid transparent;*/
+		/*		border-left: 14px solid #fff;*/
+		/*	}*/
+		/*}*/
 
-		.yst-popover--bottom {
-			@apply
-			yst-start-1/2
-			yst-mt-3
-			before:yst-content-['']
-			before:yst-absolute
-			before:yst-start-1/2
-			before:yst-bottom-full
-			before:yst--translate-x-1/2
-			before:yst-translate-y-0
-			before:yst-border-transparent;
+		/*.yst-popover--bottom {*/
+		/*	@apply*/
+		/*	yst-start-1/2*/
+		/*	yst-mt-3*/
+		/*	before:yst-content-['']*/
+		/*	before:yst-absolute*/
+		/*	before:yst-start-1/2*/
+		/*	before:yst-bottom-full*/
+		/*	before:yst--translate-x-1/2*/
+		/*	before:yst-translate-y-0*/
+		/*	before:yst-border-transparent;*/
 
-			transform: translate(-50%,15%);
+		/*	transform: translate(-50%,15%);*/
 
-			&::before {
-				border-right: 14px solid transparent;
-				border-bottom: 14px solid #fff;
-				border-left: 14px solid transparent;
-			}
-		}
+		/*	&::before {*/
+		/*		border-right: 14px solid transparent;*/
+		/*		border-bottom: 14px solid #fff;*/
+		/*		border-left: 14px solid transparent;*/
+		/*	}*/
+		/*}*/
 
-		.yst-popover--bottom-left {
-			@apply
-			yst-start-1/2
-			yst-mt-3
-			before:yst-content-['']
-			before:yst-absolute
-			before:yst-end-0
-			before:yst-bottom-full
-			before:yst--translate-x-1/2
-			before:yst-translate-y-0
-			before:yst-border-transparent;
+		/*.yst-popover--bottom-left {*/
+		/*	@apply*/
+		/*	yst-start-1/2*/
+		/*	yst-mt-3*/
+		/*	before:yst-content-['']*/
+		/*	before:yst-absolute*/
+		/*	before:yst-end-0*/
+		/*	before:yst-bottom-full*/
+		/*	before:yst--translate-x-1/2*/
+		/*	before:yst-translate-y-0*/
+		/*	before:yst-border-transparent;*/
 
-			transform: translate(-92%,15%);
-			[dir='rtl'] & {
-				transform: translate(92%, 15%);
-			}
+		/*	transform: translate(-92%,15%);*/
+		/*	[dir='rtl'] & {*/
+		/*		transform: translate(92%, 15%);*/
+		/*	}*/
 
-			&::before {
-				border-right: 14px solid transparent;
-				border-bottom: 14px solid #fff;
-				border-left: 14px solid transparent;
-			}
-		}
+		/*	&::before {*/
+		/*		border-right: 14px solid transparent;*/
+		/*		border-bottom: 14px solid #fff;*/
+		/*		border-left: 14px solid transparent;*/
+		/*	}*/
+		/*}*/
 
-		.yst-popover--bottom-right {
-			@apply
-			yst-start-1/2
-			yst-mt-3
-			before:yst-content-['']
-			before:yst-absolute
-			before:yst-start-8
-			before:yst-bottom-full
-			before:yst--translate-x-1/2
-			before:yst-translate-y-0
-			before:yst-border-transparent;
+		/*.yst-popover--bottom-right {*/
+		/*	@apply*/
+		/*	yst-start-1/2*/
+		/*	yst-mt-3*/
+		/*	before:yst-content-['']*/
+		/*	before:yst-absolute*/
+		/*	before:yst-start-8*/
+		/*	before:yst-bottom-full*/
+		/*	before:yst--translate-x-1/2*/
+		/*	before:yst-translate-y-0*/
+		/*	before:yst-border-transparent;*/
 
-			transform: translate(-8%, 15%);
-			[dir='rtl'] & {
-				transform: translate(8%, 15%);
-			}
+		/*	transform: translate(-8%, 15%);*/
+		/*	[dir='rtl'] & {*/
+		/*		transform: translate(8%, 15%);*/
+		/*	}*/
 
-			&::before {
-				border-right: 14px solid transparent;
-				border-bottom: 14px solid #fff;
-				border-left: 14px solid transparent;
-			}
-		}
+		/*	&::before {*/
+		/*		border-right: 14px solid transparent;*/
+		/*		border-bottom: 14px solid #fff;*/
+		/*		border-left: 14px solid transparent;*/
+		/*	}*/
+		/*}*/
 	}
 }
 
 /* Styles to use the anchor positioning with more browser support */
 /*#anchor-popover {*/
-/*	anchor-name: --anchor-popover;*/
+/*	anchor-name: --popover-trigger;*/
 /*}*/
-/*[role="dialog"]#popover {*/
-/*	position-anchor: --anchor-popover;*/
-/*	position-area: left center;*/
-/*	position-try-fallbacks: top;*/
+
+/*[role="dialog"]#yst-popover {*/
+/*	position-anchor: --popover-trigger;*/
+/*	position-area: right;*/
+/*	!*position-try-fallbacks: top;*!*/
 
 /*	margin: 2rem;*/
 /*}*/
