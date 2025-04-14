@@ -88,6 +88,7 @@ domReady( () => {
 		isAnalyticsConnected: false,
 		isFeatureEnabled: false,
 		isSetupWidgetDismissed: false,
+		isVersionSupported: false,
 		capabilities: {
 			installPlugins: false,
 			viewSearchConsoleData: false,

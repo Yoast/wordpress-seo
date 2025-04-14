@@ -19,7 +19,7 @@ use WP_User;
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_connected
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_setup_completed
  *
- * @phpcs  :disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 
@@ -53,6 +53,11 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 		int $ga_owner_id,
 		array $expected
 	) {
+
+		if ( ! \defined( 'YOAST_SEO_GOOGLE_SITE_KIT_FEATURE' ) ) {
+			\define( 'YOAST_SEO_GOOGLE_SITE_KIT_FEATURE', true );
+		}
+
 		Functions\expect( 'file_exists' )
 			->andReturn( $is_site_kit_installed );
 		Functions\expect( 'is_plugin_active' )
@@ -148,7 +153,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
-				'isFeatureEnabled'         => false,
+				'isFeatureEnabled'         => true,
 				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
@@ -180,7 +185,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => false,
-				'isFeatureEnabled'         => false,
+				'isFeatureEnabled'         => true,
 				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
@@ -212,7 +217,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
-				'isFeatureEnabled'         => false,
+				'isFeatureEnabled'         => true,
 				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
@@ -244,8 +249,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
-				'isFeatureEnabled'         => false,
-
+				'isFeatureEnabled'         => true,
 				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
@@ -277,7 +281,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
-				'isFeatureEnabled'         => false,
+				'isFeatureEnabled'         => true,
 				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,
@@ -309,7 +313,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
 				'isAnalyticsConnected'     => true,
-				'isFeatureEnabled'         => false,
+				'isFeatureEnabled'         => true,
 				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
 					'installPlugins'        => true,

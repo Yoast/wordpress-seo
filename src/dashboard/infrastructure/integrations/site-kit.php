@@ -144,6 +144,10 @@ class Site_Kit {
 	 * @return array<string, bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
+		if ( ! ( new Google_Site_Kit_Feature_Conditional() )->is_met() ) {
+			return [];
+		}
+
 		$site_kit_activate_url = \html_entity_decode(
 			\wp_nonce_url(
 				\self_admin_url( 'plugins.php?action=activate&plugin=' . self::SITE_KIT_FILE ),
@@ -173,7 +177,7 @@ class Site_Kit {
 			'setupUrl'                 => $site_kit_setup_url,
 			'updateUrl'                => $site_kit_update_url,
 			'isAnalyticsConnected'     => $this->is_ga_connected(),
-			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
+			'isFeatureEnabled'         => true,
 			'isSetupWidgetDismissed'   => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
 			'capabilities'             => [
 				'installPlugins'        => \current_user_can( 'install_plugins' ),
