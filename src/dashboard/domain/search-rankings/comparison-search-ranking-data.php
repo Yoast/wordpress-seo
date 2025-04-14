@@ -76,7 +76,7 @@ class Comparison_Search_Ranking_Data implements Data_Interface {
 	 *
 	 * @return void
 	 */
-	public function parse_from_array( $array ): void {
+	public function from_array( $array ): void {
 		if ( is_array( $array ) === false ) {
 			return;
 		}

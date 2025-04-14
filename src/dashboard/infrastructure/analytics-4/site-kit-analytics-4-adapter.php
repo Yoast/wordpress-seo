@@ -64,8 +64,8 @@ class Site_Kit_Analytics_4_Adapter {
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 * @throws Invalid_Request_Exception     When the request is invalid due to unexpected parameters.
 	 */
-	public function get_comparison_data( Analytics_4_Parameters $parameters, $cached_data ): Data_Container {
-		if ( ! empty( $cached_data ) && is_array( $cached_data ) ) {
+	public function get_comparison_data( Analytics_4_Parameters $parameters, array $cached_data ): Data_Container {
+		if ( count( $cached_data ) !== 0 ) {
 			$cached_data_container = new Data_Container();
 
 			foreach ( $cached_data as $cached_data_item ) {
@@ -97,8 +97,8 @@ class Site_Kit_Analytics_4_Adapter {
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 * @throws Invalid_Request_Exception     When the request is invalid due to unexpected parameters.
 	 */
-	public function get_daily_data( Analytics_4_Parameters $parameters, $cached_data ): Data_Container {
-		if ( ! empty( $cached_data ) && is_array( $cached_data ) ) {
+	public function get_daily_data( Analytics_4_Parameters $parameters, array $cached_data ): Data_Container {
+		if ( count( $cached_data ) !== 0 ) {
 			$cached_data_container = new Data_Container();
 
 			foreach ( $cached_data as $cached_data_item ) {

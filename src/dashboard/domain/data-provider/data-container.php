@@ -52,15 +52,6 @@ class Data_Container {
 	}
 
 	/**
-	 * Method to get all the uncachable data points.
-	 *
-	 * @return Data_Interface[] All the data points.
-	 */
-	public function get_data(): array {
-		return $this->uncachable_data_container;
-	}
-
-	/**
 	 * Method to get all the cacheable data points.
 	 *
 	 * @return Data_Interface[] All the cacheable data points.

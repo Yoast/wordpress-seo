@@ -151,6 +151,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 						'cachedData' => [
 							'type'       => 'array',
 							'required'   => false,
+							'default'    => [],
 						],
 					],
 				],

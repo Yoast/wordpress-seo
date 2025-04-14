@@ -62,7 +62,7 @@ class Top_Page_Repository implements Dashboard_Repository_Interface {
 	 *
 	 * @throws Data_Source_Not_Available_Exception When this repository is used without the needed prerequisites ready.
 	 */
-	public function get_data( Parameters $parameters, $cached_data ): Data_Container {
+	public function get_data( Parameters $parameters, array $cached_data ): Data_Container {
 		if ( ! $this->site_kit_configuration->is_onboarded() ) {
 			throw new Data_Source_Not_Available_Exception( 'Top page repository' );
 		}

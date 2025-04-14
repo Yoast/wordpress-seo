@@ -41,8 +41,8 @@ class Site_Kit_Search_Console_Adapter {
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 * @return Data_Container The Site Kit API response.
 	 */
-	public function get_data( Search_Console_Parameters $parameters, $cached_data ): Data_Container {
-		if ( !empty( $cached_data ) && is_array( $cached_data ) ) {
+	public function get_data( Search_Console_Parameters $parameters, array $cached_data ): Data_Container {
+		if ( count( $cached_data ) !== 0 ) {
 			$cached_data_container = new Data_Container();
 
 			foreach ( $cached_data as $cached_data_item ) {
@@ -72,8 +72,8 @@ class Site_Kit_Search_Console_Adapter {
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 * @return Data_Container The Site Kit API response.
 	 */
-	public function get_comparison_data( Search_Console_Parameters $parameters, $cached_data ): Data_Container {
-		if ( ! empty( $cached_data ) && is_array( $cached_data ) ) {
+	public function get_comparison_data( Search_Console_Parameters $parameters, array $cached_data ): Data_Container {
+		if ( count( $cached_data ) !== 0 ) {
 			$cached_data_container = new Data_Container();
 
 			foreach ( $cached_data as $cached_data_item ) {

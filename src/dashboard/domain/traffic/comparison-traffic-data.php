@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Dashboard\Domain\Traffic;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Interface;
 
 /**
- * Domain object that represents a single Comparison Traffic record.
+ * Domain object that represents a single Comparison Traffic data record.
  */
 class Comparison_Traffic_Data implements Data_Interface {
 
