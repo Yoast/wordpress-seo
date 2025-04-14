@@ -28,7 +28,7 @@ describe( "SiteKitSetupWidget", () => {
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
 		/> );
-		const learnMoreLink = screen.getByRole( "link", { name: /Learn more/i } );
+		const learnMoreLink = screen.getByRole( "button", { name: /Learn more/i } );
 		expect( learnMoreLink ).toBeInTheDocument();
 		expect( learnMoreLink ).toHaveAttribute( "href", "https://example.com/google-site-kit-learn-more" );
 	} );
@@ -291,5 +291,38 @@ describe( "SiteKitSetupWidget", () => {
 		expect( button ).toBeInTheDocument();
 		expect( button ).toBeDisabled();
 		expect( getByText( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up." ) ).toBeInTheDocument();
+	} );
+
+	it.each(
+		[
+			[ "not granted", {
+				isConsentGranted: false,
+				alertMessage: "You are using an outdated version of the Site Kit by Google plugin. Please update to the latest version to connect Yoast SEO with Site Kit by Google.",
+			} ],
+			[ "granted", {
+				isConsentGranted: true,
+				alertMessage: "Your current version of the Site Kit by Google plugin is no longer compatible with Yoast SEO. Please update to the latest version to restore the connection.",
+			} ],
+		]
+	)( "should show alert and update button when version is not supported and consent was %s", ( _, { isConsentGranted, alertMessage } ) => {
+		dataProvider = new MockDataProvider( {
+			siteKitConfiguration: {
+				isVersionSupported: false,
+				connectionStepsStatuses: {
+					isInstalled: true,
+					isActive: true,
+					isSetupCompleted: true,
+					isConsentGranted,
+				},
+			},
+		} );
+		const { getByRole, getByText } = render( <SiteKitSetupWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+		/> );
+		const link = getByRole( "link", { name: /Update Site Kit by Google/i } );
+		expect( link ).toBeInTheDocument();
+		expect( link ).toHaveAttribute( "href", "https://example.com/update" );
+		expect( getByText( alertMessage ) ).toBeInTheDocument();
 	} );
 } );

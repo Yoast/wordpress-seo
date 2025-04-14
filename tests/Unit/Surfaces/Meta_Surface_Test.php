@@ -582,7 +582,7 @@ final class Meta_Surface_Test extends TestCase {
 	/**
 	 * Data provider for the url test.
 	 *
-	 * @return array The test parameters.
+	 * @return array<string, array<string|int|bool|null>>
 	 */
 	public static function for_url_provider() {
 		return [
@@ -625,7 +625,7 @@ final class Meta_Surface_Test extends TestCase {
 	/**
 	 * Data provider for the test_for_url_with_unexpected_value test.
 	 *
-	 * @return array The test parameters.
+	 * @return array<string, array<string>>
 	 */
 	public static function data_for_url_with_unexpected_value() {
 		return [

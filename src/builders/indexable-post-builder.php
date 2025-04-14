@@ -183,7 +183,7 @@ class Indexable_Post_Builder {
 	 * @param string $post_type The post type.
 	 * @param int    $post_id   The post ID.
 	 *
-	 * @return false|string|WP_Error The permalink.
+	 * @return WP_Error|string|false The permalink.
 	 */
 	protected function get_permalink( $post_type, $post_id ) {
 		if ( $post_type !== 'attachment' ) {

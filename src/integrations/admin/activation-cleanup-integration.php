@@ -35,10 +35,7 @@ class Activation_Cleanup_Integration implements Integration_Interface {
 	 * @param Options_Helper   $options_helper   The options helper.
 	 * @param Indexable_Helper $indexable_helper The indexable helper.
 	 */
-	public function __construct(
-		Options_Helper $options_helper,
-		Indexable_Helper $indexable_helper
-	) {
+	public function __construct( Options_Helper $options_helper, Indexable_Helper $indexable_helper ) {
 		$this->options_helper   = $options_helper;
 		$this->indexable_helper = $indexable_helper;
 	}

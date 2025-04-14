@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Builder_Double;
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
+ * @coversDefaultClass \Yoast\WP\SEO\Helpers\Indexable_Helper
  */
 final class Save_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
 

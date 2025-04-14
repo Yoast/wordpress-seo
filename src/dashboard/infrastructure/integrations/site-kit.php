@@ -141,7 +141,7 @@ class Site_Kit {
 	/**
 	 * Return this object represented by a key value array.
 	 *
-	 * @return array<string,bool> Returns the name and if the feature is enabled.
+	 * @return array<string, bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
 		$site_kit_activate_url = \html_entity_decode(
@@ -158,12 +158,20 @@ class Site_Kit {
 			)
 		);
 
+		$site_kit_update_url = \html_entity_decode(
+			\wp_nonce_url(
+				\self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . self::SITE_KIT_FILE ),
+				'upgrade-plugin_' . self::SITE_KIT_FILE
+			)
+		);
+
 		$site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
 
 		return [
 			'installUrl'               => $site_kit_install_url,
 			'activateUrl'              => $site_kit_activate_url,
 			'setupUrl'                 => $site_kit_setup_url,
+			'updateUrl'                => $site_kit_update_url,
 			'isAnalyticsConnected'     => $this->is_ga_connected(),
 			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
 			'isConfigurationDismissed' => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
@@ -178,13 +186,16 @@ class Site_Kit {
 				'isSetupCompleted' => $this->is_setup_completed(),
 				'isConsentGranted' => $this->is_connected(),
 			],
+			'isVersionSupported'       => \defined( 'GOOGLESITEKIT_VERSION' ) ? \version_compare( \GOOGLESITEKIT_VERSION, '1.148.0', '>=' ) : false,
 		];
 	}
 
 	/**
-	 * Return this object represented by a key value array.
+	 * Return this object represented by a key value array. This is not used yet.
 	 *
-	 * @return array<string,bool> Returns the name and if the feature is enabled.
+	 * @codeCoverageIgnore
+	 *
+	 * @return array<string, bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_legacy_array(): array {
 		return $this->to_array();

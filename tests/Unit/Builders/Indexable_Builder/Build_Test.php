@@ -144,7 +144,6 @@ final class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	 *
 	 * @covers ::build
 	 * @covers ::deep_copy_indexable
-	 * @covers ::save_indexable
 	 *
 	 * @return void
 	 */

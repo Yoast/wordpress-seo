@@ -190,7 +190,7 @@ final class Short_Link_Helper_Test extends TestCase {
 		$this->assertEquals( $query_params['software'], $expected['software'] );
 		$this->assertEquals( $query_params['platform'], $expected['platform'] );
 
-		if ( ! \is_null( $page ) ) {
+		if ( $page !== null ) {
 			$this->assertContains( 'screen', $query_param_keys );
 		}
 	}

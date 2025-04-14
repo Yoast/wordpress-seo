@@ -232,7 +232,7 @@ final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	/**
 	 * Data provider for test_maybe_show_search_engines_discouraged_notice.
 	 *
-	 * @return array Data for test_maybe_show_search_engines_discouraged_notice.
+	 * @return array<string, array<string, string|bool>> Data for test_maybe_show_search_engines_discouraged_notice.
 	 */
 	public static function maybe_show_search_engines_discouraged_notice_dataprovider() {
 		$should_show_notice             = [
@@ -376,7 +376,7 @@ final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	/**
 	 * Data provider for manage_search_engines_discouraged_notification.
 	 *
-	 * @return array data for manage_search_engines_discouraged_notification.
+	 * @return array<string, array<string, string|bool>> Data for manage_search_engines_discouraged_notification.
 	 */
 	public static function manage_search_engines_discouraged_notification_dataprovider() {
 		$should_add_notification        = [
@@ -440,7 +440,7 @@ final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	/**
 	 * Data provider for test_restore_ignore_option.
 	 *
-	 * @return array<string,array<string,string|integer> Data for test_restore_ignore_option.
+	 * @return array<string, array<string, string|int>> Data for test_restore_ignore_option.
 	 */
 	public static function data_provider_restore_ignore_option() {
 		return [

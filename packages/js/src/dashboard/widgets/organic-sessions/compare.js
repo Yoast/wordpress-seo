@@ -7,9 +7,9 @@ import { useRemoteData } from "../../services/use-remote-data";
 import { getDifference } from "../../transformers/difference";
 
 /**
- * @type {import("../services/data-provider")} DataProvider
- * @type {import("../services/remote-data-provider")} RemoteDataProvider
- * @type {import("../services/data-formatter")} DataFormatter
+ * @type {import("../../services/data-provider")} DataProvider
+ * @type {import("../../services/remote-data-provider")} RemoteDataProvider
+ * @type {import("../../services/data-formatter-interface")} DataFormatterInterface
  */
 
 /**
@@ -28,7 +28,7 @@ import { getDifference } from "../../transformers/difference";
  */
 
 /**
- * @param {DataFormatter} dataFormatter The data formatter.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @returns {function(?RawOrganicSessionsCompareData[]): OrganicSessionsCompareData} Function to format the organic sessions compare data.
  */
 // eslint-disable-next-line complexity
@@ -47,7 +47,7 @@ const createOrganicSessionsCompareFormatter = ( dataFormatter ) => ( [ data ] ) 
  *
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
- * @param {DataFormatter} dataFormatter The data formatter.
+ * @param {DataFormatterInterface} dataFormatter The data formatter.
  *
  * @returns {{data: OrganicSessionsCompareData?, error: Error, isPending: boolean}} The remote data info.
  */

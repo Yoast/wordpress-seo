@@ -223,7 +223,7 @@ final class Metabox_Test extends TestCase {
 	/**
 	 * Provided data to the save metabox test.
 	 *
-	 * @return array The data to use.
+	 * @return array<array<string, string>>
 	 */
 	public static function save_metabox_field_provider() {
 		return [

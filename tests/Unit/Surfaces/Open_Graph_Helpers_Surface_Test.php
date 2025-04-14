@@ -152,7 +152,7 @@ final class Open_Graph_Helpers_Surface_Test extends TestCase {
 	/**
 	 * Data provider.
 	 *
-	 * @return array
+	 * @return array<string, array<string, string>>
 	 */
 	public static function provide_classes() {
 		return [

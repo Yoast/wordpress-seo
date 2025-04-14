@@ -39,9 +39,9 @@ final class Get_Scores_Test extends Abstract_SEO_Scores_Test {
 	 *
 	 * @dataProvider data_provider_get_seo_scores
 	 *
-	 * @param array<array<string,string|false>> $inserted_posts   The posts to be insterted.
-	 * @param bool                              $taxonomy_filter  Whether there's a taxonomy filter.
-	 * @param array<string,int>                 $expected_amounts The amounts of the scores that are expected to be returned.
+	 * @param array<array<string, bool|array<string, string>>> $inserted_posts   The posts to be insterted.
+	 * @param bool                                             $taxonomy_filter  Whether there's a taxonomy filter.
+	 * @param array<string, int>                               $expected_amounts The amounts of the scores that are expected to be returned.
 	 *
 	 * @return void
 	 */
@@ -127,7 +127,7 @@ final class Get_Scores_Test extends Abstract_SEO_Scores_Test {
 	/**
 	 * Data provider for test_get_seo_scores.
 	 *
-	 * @return array<string,bool>
+	 * @return array<string, array<string, array<array<string, bool|array<string, string>>>|bool|array<string, int>>>
 	 */
 	public static function data_provider_get_seo_scores() {
 

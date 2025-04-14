@@ -83,7 +83,7 @@ final class Yoast_Admin_Conditional_Test extends TestCase {
 	/**
 	 * Provides the data for `test_is_met`.
 	 *
-	 * @return array The data.
+	 * @return array<string, array<string, bool>>
 	 */
 	public static function is_met_data() {
 		return [

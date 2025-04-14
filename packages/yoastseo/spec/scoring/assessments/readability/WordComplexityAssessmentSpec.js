@@ -125,6 +125,17 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		];
 		expect( assessment.getMarks( runningPaper, researcher ) ).toEqual( expected );
 	} );
+	it( "should return with score 9 if there are no words in the text", function() {
+		const paper = new Paper( "" );
+		researcher.setPaper( paper );
+
+		const result = assessment.getResult( paper, researcher );
+
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: " +
+			"You are not using too many complex words, which makes your text easy to read. Good job!" );
+		expect( result.hasMarks() ).toBe( false );
+	} );
 } );
 
 describe( "tests for the assessment applicability", function() {
@@ -139,54 +150,18 @@ describe( "tests for the assessment applicability", function() {
 			researcher.addResearchData( "morphology", morphologyData );
 		} );
 
-		it( "returns false if there is no text available.", function() {
-			const paper = new Paper( "" );
-			researcher.setPaper( paper );
-			expect( assessment.isApplicable( paper, researcher ) ).toBe( false );
-		} );
-
-		it( "returns false if the text is too short", function() {
-			const paper = new Paper( "hallo" );
-			researcher.setPaper( paper );
-
-			expect( assessment.isApplicable( paper, researcher ) ).toBe( false );
-		} );
-
-		it( "should return false for isApplicable for a paper with only an image.", function() {
-			const paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
-			researcher.setPaper( paper );
-
-			expect( assessment.isApplicable( paper, researcher ) ).toBe( false );
-		} );
-
-		it( "should return false for isApplicable for a paper with only spaces.", function() {
-			const paper = new Paper( "        " );
-			researcher.setPaper( paper );
-
-			expect( assessment.isApplicable( paper, researcher ) ).toBe( false );
-		} );
-
-		it( "should return true for isApplicable if the paper has enough content and the researcher has the wordComplexity research", () => {
+		it( "should return true for isApplicable if the researcher has the wordComplexity research", () => {
 			const paper = new Paper( "Also called torties for short, tortoiseshell cats combine two colors other than white, " +
-				"either closely mixed or in larger patches." +
-				" The colors are often described as red and black, but the \"red\" patches can instead be orange, yellow, or cream," +
-				" and the \"black\" can instead be chocolate, gray, tabby, or blue. Tortoiseshell cats with the tabby " +
-				"pattern as one of their colors " +
-				"are sometimes referred to as a torbie. Cats having torbie coats are sometimes referred to as torbie cats.\n" +
-				"\"Tortoiseshell\" is typically reserved for particolored cats with relatively small or no white markings. " );
+				"either closely mixed or in larger patches." );
 			researcher.setPaper( paper );
 
 			expect( assessment.isApplicable( paper, researcher ) ).toBe( true );
 		} );
 	} );
 
-	it( "should return false for isApplicable if the paper has enough content but the researcher doesn't have the wordComplexity research", () => {
+	it( "should return false for isApplicable if the the researcher doesn't have the wordComplexity research", () => {
 		const paper = new Paper( "Also called torties for short, tortoiseshell cats combine two colors other than white, " +
-			"either closely mixed or in larger patches." +
-			" The colors are often described as red and black, but the \"red\" patches can instead be orange, yellow, or cream," +
-			" and the \"black\" can instead be chocolate, gray, tabby, or blue. Tortoiseshell cats with the tabby pattern as one of their colors " +
-			"are sometimes referred to as a torbie. Cats having torbie coats are sometimes referred to as torbie cats.\n" +
-			"\"Tortoiseshell\" is typically reserved for particolored cats with relatively small or no white markings. " );
+			"either closely mixed or in larger patches." );
 		expect( assessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 } );

@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Configuration;
  *
  * @group site_kit_configuration_permanent_dismissal_route
  *
- * @covers Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Configuration_Permanent_Dismissal_Route::check_capabilities
+ * @covers Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Configuration_Dismissal_Route::check_capabilities
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */

@@ -39,9 +39,9 @@ final class Get_Scores_Test extends Abstract_Readability_Scores_Test {
 	 *
 	 * @dataProvider data_provider_get_readability_scores
 	 *
-	 * @param array<array<string,string|false>> $inserted_posts   The posts to be insterted.
-	 * @param bool                              $taxonomy_filter  Whether there's a taxonomy filter.
-	 * @param array<string,int>                 $expected_amounts The amounts of the scores that are expected to be returned.
+	 * @param array<array<string, array<string, string>|bool>> $inserted_posts   The posts to be insterted.
+	 * @param bool                                             $taxonomy_filter  Whether there's a taxonomy filter.
+	 * @param array<string, int>                               $expected_amounts The amounts of the scores that are expected to be returned.
 	 *
 	 * @return void
 	 */
@@ -127,7 +127,7 @@ final class Get_Scores_Test extends Abstract_Readability_Scores_Test {
 	/**
 	 * Data provider for test_get_readability_scores.
 	 *
-	 * @return array<string,bool>
+	 * @return array<string, array<string, array<array<string, array<string, string>|bool>>|false|array<string, int>>>
 	 */
 	public static function data_provider_get_readability_scores() {
 

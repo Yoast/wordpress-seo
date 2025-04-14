@@ -28,7 +28,7 @@ class Notification_Helper {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return array|Yoast_Notification[] Sorted Notifications
+	 * @return Yoast_Notification[] Sorted Notifications
 	 */
 	public function get_sorted_notifications() {
 		$notification_center = Yoast_Notification_Center::get();
@@ -39,10 +39,10 @@ class Notification_Helper {
 	/**
 	 * Check if the user has dismissed a notification. (wrapper function)
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param Yoast_Notification $notification The notification to check for dismissal.
 	 * @param int|null           $user_id      User ID to check on.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */
@@ -53,7 +53,7 @@ class Notification_Helper {
 	/**
 	 * Parses all the notifications to an array with just id, message, nonce, type and dismissed.
 	 *
-	 * @return array<string,string|bool>
+	 * @return array<string, string|bool>
 	 */
 	public function get_alerts(): array {
 		$all_notifications = $this->get_sorted_notifications();

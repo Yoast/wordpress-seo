@@ -12,14 +12,14 @@ class Comparison_Search_Ranking_Data implements Data_Interface {
 	/**
 	 * The current search ranking data.
 	 *
-	 * @var Search_Ranking_Data[] $current_search_ranking_data
+	 * @var Search_Ranking_Data[]
 	 */
 	private $current_search_ranking_data = [];
 
 	/**
 	 * The previous search ranking data.
 	 *
-	 * @var Search_Ranking_Data[] $previous_search_ranking_data
+	 * @var Search_Ranking_Data[]
 	 */
 	private $previous_search_ranking_data = [];
 
@@ -48,7 +48,7 @@ class Comparison_Search_Ranking_Data implements Data_Interface {
 	/**
 	 * The array representation of this domain object.
 	 *
-	 * @return array<array<string,int>>
+	 * @return array<array<string, int>>
 	 */
 	public function to_array(): array {
 		return [
@@ -62,7 +62,7 @@ class Comparison_Search_Ranking_Data implements Data_Interface {
 	 *
 	 * @param Search_Ranking_Data[] $search_ranking_data The search ranking data to be parsed.
 	 *
-	 * @return array<string,int> The parsed data
+	 * @return array<string, int> The parsed data
 	 */
 	private function parse_data( array $search_ranking_data ): array {
 		$parsed_data      = [

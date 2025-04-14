@@ -15,7 +15,6 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  */
 class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action_Interface, Limited_Indexing_Action_Interface {
 
-
 	/**
 	 * The transient cache key.
 	 */
@@ -72,7 +71,8 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	/**
 	 * Returns the total number of unindexed post type archives.
 	 *
-	 * @param int $limit Limit the number of counted objects.
+	 * @param int|false $limit Limit the number of counted objects.
+	 *                         False for "no limit".
 	 *
 	 * @return int The total number of unindexed post type archives.
 	 */

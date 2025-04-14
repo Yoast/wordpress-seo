@@ -28,8 +28,10 @@ export const Trend = ( { value, formattedValue } ) => {
 					! isPositive && "yst-rotate-180"
 				) }
 			/>
-			{ isPositive && "+" }
-			{ formattedValue }
+			{
+				// Add as a single string to avoid unnecessary space (easier for testing).
+				[ isPositive ? "+" : "", formattedValue ].join( "" )
+			}
 		</div>
 	);
 };

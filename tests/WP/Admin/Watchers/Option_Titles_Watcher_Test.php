@@ -55,7 +55,7 @@ final class Option_Titles_Watcher_Test extends TestCase {
 	/**
 	 * Data provider for test_category.
 	 *
-	 * @return array<array<bool,array<string>>>
+	 * @return array<string, array<string, bool|array<string, string>>>
 	 */
 	public static function data_provider_category() {
 		return [

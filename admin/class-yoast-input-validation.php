@@ -95,15 +95,14 @@ class Yoast_Input_Validation {
 	/**
 	 * Sets the error descriptions.
 	 *
-	 * @since 12.1
-	 *
-	 * @param array<string, string> $descriptions An associative array of error descriptions.
-	 *                            For each entry, the key must be the setting variable.
-	 *
-	 * @return void
-	 *
+	 * @since      12.1
 	 * @deprecated 23.3
 	 * @codeCoverageIgnore
+	 *
+	 * @param array<string, string> $descriptions An associative array of error descriptions.
+	 *                                            For each entry, the key must be the setting variable.
+	 *
+	 * @return void
 	 */
 	public static function set_error_descriptions( $descriptions = [] ) { // @phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable, Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Needed for BC.
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
@@ -112,8 +111,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets all the error descriptions.
 	 *
-	 * @since 12.1
-	 *
+	 * @since      12.1
 	 * @deprecated 23.3
 	 * @codeCoverageIgnore
 	 *
@@ -222,14 +220,13 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets an invalid submitted value.
 	 *
-	 * @since 12.1
+	 * @since      12.1
+	 * @deprecated 23.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 *
 	 * @return string The submitted invalid input field value.
-	 *
-	 * @deprecated 23.3
-	 * @codeCoverageIgnore
 	 */
 	public static function get_dirty_value( $error_code ) {  // @phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable, Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Needed for BC.
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
@@ -239,14 +236,13 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets a specific invalid value message.
 	 *
-	 * @since 12.1
+	 * @since      12.1
+	 * @deprecated 23.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 *
 	 * @return string The error invalid value message or empty string.
-	 *
-	 * @deprecated 23.3
-	 * @codeCoverageIgnore
 	 */
 	public static function get_dirty_value_message( $error_code ) { // @phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable, Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Needed for BC.
 		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );

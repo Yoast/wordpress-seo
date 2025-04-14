@@ -323,20 +323,13 @@ describe( "tests for retrieving the feedback strings.", function() {
 } );
 
 describe( "tests for the assessment's applicability.", function() {
-	it( "returns false when the paper is empty.", function() {
-		const paperWithNoText = new Paper( "" );
-		const researcher = new EnglishResearcher( paperWithNoText );
-		researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
-		expect( textAlignmentAssessment.isApplicable( paperWithNoText, researcher ) ).toBe( false );
-	} );
-
 	it( "returns false when the researcher doesn't have the research.", function() {
 		const mockPaper = new Paper( "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters.</p>" );
 		const researcher = new EnglishResearcher( mockPaper );
 		expect( textAlignmentAssessment.isApplicable( mockPaper, researcher ) ).toBe( false );
 	} );
 
-	it( "returns true when the paper has more than 50 characters and the researcher has the research.", function() {
+	it( "returns true when the researcher has the research.", function() {
 		const mockPaper = new Paper( "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters.</p>" );
 		const researcher = new EnglishResearcher( mockPaper );
 		researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );

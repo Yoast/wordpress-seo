@@ -1,6 +1,10 @@
 import Node from "./Node";
 
 /**
+ * @typedef {import(".").Text} Text
+ */
+
+/**
  * A paragraph in the tree.
  *
  * @see https://html.spec.whatwg.org/dev/dom.html#paragraphs

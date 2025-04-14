@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 6.7
+Tested up to: 6.8
 Stable tag: 24.8.1
 Requires PHP: 7.2.5
 
@@ -274,6 +274,33 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 24.9 =
+
+Release date: 2025-04-15
+
+Yoast SEO 24.9 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
+#### Enhancements
+
+* Changes the applicability criteria of readability assessments so that they are shown even if there is little or no text.
+* Improves the recognition of transition words for Farsi.
+* Introduces more robust HTML processing and highlighting for the _consecutive sentences_ assessment.
+* Improves recognition of function words for Farsi. Props to [nshayanfar](https://github.com/nshayanfar).
+
+#### Bugfixes
+
+* Fixes a bug where long sentences would be incorrectly highlighted in _sentence length_ assessment in the default editor when they were part of a block that contained non-breaking spaces or closing tags (`>`).
+* Fixes a bug where the advanced replacement variables would not be visible when editing social previews in Elementor.
+* Fixes a bug where the content image would not show on social previews when editing it in Elementor.
+* Fixes a bug where Yoast modals would not be visible when using Astra plugins.
+* Fixes a bug where function words with spaces were not recognised in Farsi. 
+
+#### Other
+
+* Adds a space before the closing slash in self-closing HTML tags to comply with recommended coding standards. Props to [laxman1192](https://github.com/laxman1192).
+* Sets the _WordPress tested up to_ version to 6.8.
+* Updates the Google AI bot name in the _crawl optimization_ settings from _Google Bard_ to _Google Gemini_.
+
 = 24.8.1 =
 
 Release date: 2025-04-02
@@ -296,25 +323,6 @@ Yoast SEO 24.8 brings more enhancements and bugfixes. [Find more information abo
 #### Other
 
 * Removes the Yoast AI Optimize modals from the Yoast admin pages.
-
-= 24.7 =
-
-Release date: 2025-03-18
-
-Yoast SEO 24.7 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Improves the accuracy of assessments measuring character count for Japanese texts by removing common punctuation from the count.
-
-#### Bugfixes
-
-* Fixes a bug where the help beacon would be displayed over table pagination on the bulk editor page.
-
-#### Other
-
-* Improves the feedback strings of the _subheading distribution_ assessment for better translatability.
-* Removes extra span tags in the Post/Page overview. Props to [dilipbheda](https://github.com/dilipbheda).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

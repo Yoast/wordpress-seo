@@ -72,10 +72,10 @@ final class Aioseo_Cleanup_Action_Test extends TestCase {
 	 * @dataProvider provider_get_unindexed
 	 * @covers ::get_total_unindexed
 	 *
-	 * @param bool  $table_exists        Whether the AIOSEO table exists.
-	 * @param array $completed_option    The persistent completed option.
-	 * @param int   $get_completed_times The times we're gonna get the persistent completed option.
-	 * @param int   $expected_result     The expected result.
+	 * @param bool                       $table_exists        Whether the AIOSEO table exists.
+	 * @param array<string, bool|string> $completed_option    The persistent completed option.
+	 * @param int                        $get_completed_times The times we're gonna get the persistent completed option.
+	 * @param int                        $expected_result     The expected result.
 	 *
 	 * @return void
 	 */
@@ -127,12 +127,12 @@ final class Aioseo_Cleanup_Action_Test extends TestCase {
 	 * @covers ::truncate_query
 	 * @covers ::get_postmeta_table
 	 *
-	 * @param array     $completed_option   The persistent completed option.
-	 * @param int       $query_times        The times we're gonna run the cleanup queries.
-	 * @param int       $set_complete_times The times we're gonna set the persistent completed option.
-	 * @param int|false $postmeta_cleanup   The result of the postmeta cleanup query.
-	 * @param bool      $truncate_cleanup   The result of the truncate query.
-	 * @param array     $expected_result    The expected result.
+	 * @param array<string, bool>     $completed_option   The persistent completed option.
+	 * @param int                     $query_times        The times we're gonna run the cleanup queries.
+	 * @param int                     $set_complete_times The times we're gonna set the persistent completed option.
+	 * @param int|false               $postmeta_cleanup   The result of the postmeta cleanup query.
+	 * @param bool                    $truncate_cleanup   The result of the truncate query.
+	 * @param array<string, int|bool> $expected_result    The expected result.
 	 *
 	 * @return void
 	 */
@@ -204,7 +204,7 @@ final class Aioseo_Cleanup_Action_Test extends TestCase {
 	/**
 	 * Data provider for test_index().
 	 *
-	 * @return array
+	 * @return array<array<array<string, bool>|int|bool|string|array<string, int|bool>>>
 	 */
 	public static function provider_index() {
 		$successful_result = [
@@ -221,7 +221,7 @@ final class Aioseo_Cleanup_Action_Test extends TestCase {
 	/**
 	 * Data provider for test_get_total_unindexed() and test_get_limited_unindexed_count().
 	 *
-	 * @return array
+	 * @return array<array<bool|int|array<string, bool|string>>>
 	 */
 	public static function provider_get_unindexed() {
 		$completed                 = [

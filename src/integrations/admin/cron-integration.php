@@ -30,9 +30,7 @@ class Cron_Integration implements Integration_Interface {
 	 *
 	 * @param Date_Helper $date_helper The date helper.
 	 */
-	public function __construct(
-		Date_Helper $date_helper
-	) {
+	public function __construct( Date_Helper $date_helper ) {
 		$this->date_helper = $date_helper;
 	}
 

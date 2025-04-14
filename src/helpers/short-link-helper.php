@@ -27,10 +27,7 @@ class Short_Link_Helper {
 	 * @param Options_Helper $options_helper The options helper.
 	 * @param Product_Helper $product_helper The product helper.
 	 */
-	public function __construct(
-		Options_Helper $options_helper,
-		Product_Helper $product_helper
-	) {
+	public function __construct( Options_Helper $options_helper, Product_Helper $product_helper ) {
 		$this->options_helper = $options_helper;
 		$this->product_helper = $product_helper;
 	}

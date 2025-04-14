@@ -19,7 +19,7 @@ import { firstToUpperCase } from "../../helpers/stringHelpers";
  *
  * @returns {Object} The initial state.
  */
-function getInitialState() {
+export function getInitialState() {
 	return {
 		mode: "mobile",
 		data: {

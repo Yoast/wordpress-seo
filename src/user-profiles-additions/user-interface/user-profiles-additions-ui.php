@@ -33,10 +33,7 @@ class User_Profiles_Additions_Ui implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager  The WPSEO_Admin_Asset_Manager.
 	 * @param Product_Helper            $product_helper The Product_Helper.
 	 */
-	public function __construct(
-		WPSEO_Admin_Asset_Manager $asset_manager,
-		Product_Helper $product_helper
-	) {
+	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager, Product_Helper $product_helper ) {
 		$this->asset_manager  = $asset_manager;
 		$this->product_helper = $product_helper;
 	}

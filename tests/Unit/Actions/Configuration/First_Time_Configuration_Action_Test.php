@@ -79,11 +79,11 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @dataProvider site_representation_provider
 	 *
-	 * @param array  $params                The parameters.
-	 * @param int    $times                 The number of times the Options_Helper::set is expected to be called.
-	 * @param bool[] $yoast_options_results The array of expected results.
-	 * @param bool   $wp_option_result      The result of the update_option call.
-	 * @param object $expected              The expected result object.
+	 * @param array<string, string|int> $params                The parameters.
+	 * @param int                       $times                 The number of times the Options_Helper::set is expected to be called.
+	 * @param bool[]                    $yoast_options_results The array of expected results.
+	 * @param bool                      $wp_option_result      The result of the update_option call.
+	 * @param object                    $expected              The expected result object.
 	 *
 	 * @return void
 	 */
@@ -114,7 +114,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	/**
 	 * Dataprovider for test_set_site_representation function.
 	 *
-	 * @return array Data for test_set_site_representation function.
+	 * @return array<string, array<string, array<string, string|int>|int|bool|object|array<bool>>>
 	 */
 	public static function site_representation_provider() {
 		$success_company = [
@@ -182,9 +182,9 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @dataProvider social_profiles_provider
 	 *
-	 * @param array  $set_profiles_results The expected results for set_organization_social_profiles().
-	 * @param array  $get_profiles_results The expected results for get_organization_social_profile_fields().
-	 * @param object $expected             The expected result object.
+	 * @param array<string>         $set_profiles_results The expected results for set_organization_social_profiles().
+	 * @param array<string, string> $get_profiles_results The expected results for get_organization_social_profile_fields().
+	 * @param object                $expected             The expected result object.
 	 *
 	 * @return void
 	 */
@@ -218,7 +218,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	/**
 	 * Dataprovider for test_set_social_profiles function.
 	 *
-	 * @return array Data for test_set_social_profiles function.
+	 * @return array<string, array<string, array<string>|array<string, string>|object>>
 	 */
 	public static function social_profiles_provider() {
 		$success_all = [
@@ -278,11 +278,11 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @dataProvider enable_tracking_provider
 	 *
-	 * @param array  $params        The parameters.
-	 * @param bool   $old_value     The existing value for the option.
-	 * @param int    $times         The number of times the Options_Helper::set is expected to be called.
-	 * @param bool   $option_result The success state of the option setting operation.
-	 * @param object $expected      The expected result object.
+	 * @param array<string, bool> $params        The parameters.
+	 * @param bool                $old_value     The existing value for the option.
+	 * @param int                 $times         The number of times the Options_Helper::set is expected to be called.
+	 * @param bool                $option_result The success state of the option setting operation.
+	 * @param object              $expected      The expected result object.
 	 *
 	 * @return void
 	 */
@@ -305,7 +305,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	/**
 	 * Dataprovider for test_set_enable_tracking function.
 	 *
-	 * @return array Data for test_set_enable_tracking function.
+	 * @return array<string, array<string, array<string, bool>|bool|int|object>>
 	 */
 	public static function enable_tracking_provider() {
 		$false_to_true = [
@@ -411,7 +411,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	/**
 	 * Dataprovider for test_check_capability function.
 	 *
-	 * @return array Data for test_check_capability function.
+	 * @return array<string, array<string, int|bool|object>>
 	 */
 	public static function check_capability_provider() {
 		$success = [
@@ -445,10 +445,10 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @dataProvider configuration_provider
 	 *
-	 * @param array  $params                The parameters.
-	 * @param int    $times                 The number of times the Options_Helper::set is expected to be called.
-	 * @param bool[] $yoast_options_results The array of expected results.
-	 * @param object $expected              The expected result object.
+	 * @param array<string, array<string>> $params                The parameters.
+	 * @param int                          $times                 The number of times the Options_Helper::set is expected to be called.
+	 * @param bool[]                       $yoast_options_results The array of expected results.
+	 * @param object                       $expected              The expected result object.
 	 *
 	 * @return void
 	 */
@@ -471,7 +471,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	/**
 	 * Dataprovider for save_configuration_state function.
 	 *
-	 * @return array Data for save_configuration_state function.
+	 * @return array<string, array<string, array<string, array<string>>|int|array<bool>|object>>
 	 */
 	public static function configuration_provider() {
 		$success_save = [

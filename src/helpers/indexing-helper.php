@@ -123,9 +123,7 @@ class Indexing_Helper {
 	 *
 	 * @return void
 	 */
-	public function set_indexable_repository(
-		Indexable_Repository $indexable_repository
-	) {
+	public function set_indexable_repository( Indexable_Repository $indexable_repository ) {
 		$this->indexable_repository = $indexable_repository;
 	}
 

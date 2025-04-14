@@ -84,7 +84,7 @@ export const App = () => {
 	return (
 		<div className="yst-p-4 min-[783px]:yst-p-8">
 			<div className={ classNames( "yst-flex yst-flex-grow yst-flex-wrap", ! isPremium && "xl:yst-pe-[17.5rem]" ) }>
-				<Paper as="main" className="yst-flex-grow yst-mb-8 xl:yst-mb-0">
+				<Paper as="main" className="yst-max-w-page yst-flex-grow yst-mb-8 xl:yst-mb-0">
 					<Paper.Header>
 						<div className="yst-max-w-screen-sm">
 							<Title>{ __( "Support", "wordpress-seo" ) }</Title>

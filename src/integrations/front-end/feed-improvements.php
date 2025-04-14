@@ -34,10 +34,7 @@ class Feed_Improvements implements Integration_Interface {
 	 * @param Options_Helper $options The options helper.
 	 * @param Meta_Surface   $meta    The meta surface.
 	 */
-	public function __construct(
-		Options_Helper $options,
-		Meta_Surface $meta
-	) {
+	public function __construct( Options_Helper $options, Meta_Surface $meta ) {
 		$this->options = $options;
 		$this->meta    = $meta;
 	}

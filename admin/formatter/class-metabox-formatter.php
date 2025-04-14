@@ -33,7 +33,7 @@ class WPSEO_Metabox_Formatter {
 	/**
 	 * Returns the values.
 	 *
-	 * @return array<string,string|array<string|int|bool>|bool|int>
+	 * @return array<string, string|array<string|int|bool>|bool|int>
 	 */
 	public function get_values() {
 		$defaults = $this->get_defaults();
@@ -45,7 +45,7 @@ class WPSEO_Metabox_Formatter {
 	/**
 	 * Returns array with all the values always needed by a scraper object.
 	 *
-	 * @return array<string,string|array<string|int|bool>|bool|int> Default settings for the metabox.
+	 * @return array<string, string|array<string|int|bool>|bool|int> Default settings for the metabox.
 	 */
 	private function get_defaults() {
 		$schema_types = new Schema_Types();

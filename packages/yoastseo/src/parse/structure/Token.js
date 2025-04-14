@@ -1,6 +1,10 @@
 import { normalizeSingle } from "../../languageProcessing";
 
 /**
+ * @typedef {import("./SourceCodeLocation").SourceCodeRange} SourceCodeRange
+ */
+
+/**
  * A token representing a word, whitespace or punctuation in the sentence.
  */
 class Token {

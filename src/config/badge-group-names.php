@@ -53,7 +53,7 @@ class Badge_Group_Names {
 
 		$group_version = $this::GROUP_NAMES[ $group ];
 
-		if ( \is_null( $current_version ) ) {
+		if ( $current_version === null ) {
 			$current_version = $this->version;
 		}
 

@@ -51,10 +51,7 @@ final class WooCommerce_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_is_enabled(
-		bool $woocommerce_enabled,
-		bool $expected
-	) {
+	public function test_is_enabled( bool $woocommerce_enabled, bool $expected ) {
 
 		$this->woocommerce_conditional
 			->expects( 'is_met' )
@@ -75,10 +72,7 @@ final class WooCommerce_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_to_array(
-		bool $woocommerce_enabled,
-		bool $expected
-	) {
+	public function test_to_array( bool $woocommerce_enabled, bool $expected ) {
 
 		$this->woocommerce_conditional
 			->expects( 'is_met' )

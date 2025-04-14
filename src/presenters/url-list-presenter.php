@@ -54,9 +54,9 @@ class Url_List_Presenter extends Abstract_Presenter {
 				$output .= ' target = "_blank"';
 			}
 			$output .= ' href="' . $link['permalink'] . '">' . $link['title'] . '</a></li>';
-
 		}
 		$output .= '</ul>';
+
 		return $output;
 	}
 }

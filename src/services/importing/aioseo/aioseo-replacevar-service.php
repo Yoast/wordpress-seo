@@ -11,9 +11,9 @@ class Aioseo_Replacevar_Service {
 	/**
 	 * Mapping between the AiOSEO replace vars and the Yoast replace vars.
 	 *
-	 * @var array
-	 *
 	 * @see https://yoast.com/help/list-available-snippet-variables-yoast-seo/
+	 *
+	 * @var array
 	 */
 	protected $replace_vars_map = [
 		// The key is the AiOSEO replace var, the value is the Yoast replace var (see class-wpseo-replace-vars).

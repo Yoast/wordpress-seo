@@ -54,7 +54,7 @@ class Wincher_Account_Action {
 			$history = $results['limits']['history_days'];
 
 			return (object) [
-				'canTrack'    => \is_null( $limit ) || $usage < $limit,
+				'canTrack'    => ( $limit === null || $usage < $limit ),
 				'limit'       => $limit,
 				'usage'       => $usage,
 				'historyDays' => $history,

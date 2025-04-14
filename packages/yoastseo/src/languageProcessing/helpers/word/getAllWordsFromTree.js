@@ -3,6 +3,11 @@ import { flatMap } from "lodash";
 import removePunctuation from "../sanitize/removePunctuation";
 
 /**
+ * @typedef {import("../../../parse/structure/Token").default} Token
+ * @typedef {import("../../../values/").Paper } Paper
+ */
+
+/**
  * Merges words surrounding a separator into one word.
  *
  * @param {string[]} words The array of words to split and merge.
@@ -56,7 +61,7 @@ export function getWordsFromTokens( tokens, splitOnHyphens = true ) {
  * @returns {string[]} Array of words retrieved from the tree.
  */
 export default function( paper ) {
-	const sentences = getSentencesFromTree( paper );
+	const sentences = getSentencesFromTree( paper.getTree() );
 	// Get all the tokens from each sentence.
 	const tokens = flatMap( sentences.map( sentence => sentence.tokens ) );
 	return getWordsFromTokens( tokens );

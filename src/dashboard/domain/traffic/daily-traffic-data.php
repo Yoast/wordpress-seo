@@ -12,14 +12,14 @@ class Daily_Traffic_Data implements Data_Interface {
 	/**
 	 * The date of the traffic data, in YYYYMMDD format.
 	 *
-	 * @var string $date
+	 * @var string
 	 */
 	private $date;
 
 	/**
 	 * The traffic data for the date.
 	 *
-	 * @var Traffic_Data $traffic_data
+	 * @var Traffic_Data
 	 */
 	private $traffic_data;
 
@@ -37,7 +37,7 @@ class Daily_Traffic_Data implements Data_Interface {
 	/**
 	 * The array representation of this domain object.
 	 *
-	 * @return array<string,string,int>
+	 * @return array<string, string|int>
 	 */
 	public function to_array(): array {
 		$result         = [];

@@ -89,7 +89,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 *
 	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
-	 * @return array<array<int,string>> An array of associative arrays that each have a 'text' and a 'url'.
+	 * @return array<array<int, string>> An array of associative arrays that each have a 'text' and a 'url'.
 	 */
 	public function generate( Meta_Tags_Context $context ) {
 		$static_ancestors = [];
@@ -202,7 +202,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @param string[]  $crumb    The crumb.
 	 * @param Indexable $ancestor The indexable.
 	 *
-	 * @return array<int,string> The crumb.
+	 * @return array<int, string> The crumb.
 	 */
 	private function get_post_crumb( $crumb, $ancestor ) {
 		$crumb['id'] = $ancestor->object_id;
@@ -270,7 +270,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @param string[]  $crumb    The crumb.
 	 * @param Indexable $ancestor The indexable.
 	 *
-	 * @return array<int,string> The crumb.
+	 * @return array<int, string> The crumb.
 	 */
 	private function get_term_crumb( $crumb, $ancestor ) {
 		$crumb['term_id']  = $ancestor->object_id;

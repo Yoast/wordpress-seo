@@ -18,14 +18,14 @@ class Post_Site_Information extends Base_Site_Information {
 	/**
 	 * The permalink.
 	 *
-	 * @var string $permalink
+	 * @var string
 	 */
 	private $permalink;
 
 	/**
 	 * The alert dismissal action.
 	 *
-	 * @var Alert_Dismissal_Action $alert_dismissal_action
+	 * @var Alert_Dismissal_Action
 	 */
 	private $alert_dismissal_action;
 
@@ -70,7 +70,7 @@ class Post_Site_Information extends Base_Site_Information {
 	/**
 	 * Returns post specific site information together with the generic site information.
 	 *
-	 * @return array<string|string,string[]>
+	 * @return array<string, string|array<string, string>>
 	 */
 	public function get_legacy_site_information(): array {
 		$dismissed_alerts = $this->alert_dismissal_action->all_dismissed();
@@ -91,7 +91,7 @@ class Post_Site_Information extends Base_Site_Information {
 	/**
 	 * Returns post specific site information together with the generic site information.
 	 *
-	 * @return array<string|string,string[]>
+	 * @return array<string, string|string[]>
 	 */
 	public function get_site_information(): array {
 		$dismissed_alerts = $this->alert_dismissal_action->all_dismissed();

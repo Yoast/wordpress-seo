@@ -76,17 +76,6 @@ export default class ListAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has text.
-	 *
-	 * @param {Paper}       paper       The paper to use for the assessment.
-	 *
-	 * @returns {boolean} True when there is text.
-	 */
-	isApplicable( paper ) {
-		return this.hasEnoughContentForAssessment( paper );
-	}
-
-	/**
 	 * Calculate the result based on the availability of lists in the text.
 	 *
 	 * @returns {Object} The calculated result.

@@ -12,14 +12,14 @@ class Comparison_Traffic_Data implements Data_Interface {
 	/**
 	 * The current traffic data.
 	 *
-	 * @var Traffic_Data $current_traffic_data
+	 * @var Traffic_Data
 	 */
 	private $current_traffic_data;
 
 	/**
 	 * The previous traffic data.
 	 *
-	 * @var Traffic_Data $previous_traffic_data
+	 * @var Traffic_Data
 	 */
 	private $previous_traffic_data;
 

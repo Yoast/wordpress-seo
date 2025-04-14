@@ -5,6 +5,7 @@ import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../../src/helpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import buildTree from "../../../specHelpers/parse/buildTree";
 
 let paper = new Paper();
 
@@ -39,56 +40,52 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			"There is enough variety in your sentences. That's great!" );
 	} );
 
-	it( "is not applicable for a paper without text and a researcher that has the getSentenceBeginnings research.", function() {
-		paper = new Paper( "", { locale: "it_IT" } );
-		const assessment = new SentenceBeginningsAssessment().isApplicable( paper, new ItalianResearcher( paper ) );
-		expect( assessment ).toBe( false );
+	it( "returns a good score when there are no words in the text.", function() {
+		const assessment = new SentenceBeginningsAssessment().getResult( paper, Factory.buildMockResearcher( [] ) );
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
+			"There is enough variety in your sentences. That's great!" );
 	} );
 
-	it( "is applicable for an paper with text and a researcher that has the getSentenceBeginnings research.", function() {
-		paper = new Paper( "Era una gatta, assai trita, e non era d’alcuno, e, vecchia, aveva un suo gattino.", { locale: "it_IT" } );
+	it( "is applicable when the researcher that has the getSentenceBeginnings research.", function() {
+		paper = new Paper( "", { locale: "it_IT" } );
 		const assessment = new SentenceBeginningsAssessment().isApplicable( paper, new ItalianResearcher( paper ) );
 		expect( assessment ).toBe( true );
 	} );
 
-	it( "returns false if the text is too short", function() {
-		paper = new Paper( "hallo" );
-		expect( new SentenceBeginningsAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "should return false for isApplicable for a paper with only an image.", function() {
-		paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
-		expect( new SentenceBeginningsAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "should return false for isApplicable for a paper with only spaces.", function() {
-		paper = new Paper( "        " );
-		expect( new SentenceBeginningsAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "is not applicable for a paper with text and a researcher without sentence beginning support.", function() {
+	it( "is not applicable when the researcher doesn't have the sentence beginning support.", function() {
 		paper = new Paper( "hello", { locale: "jv_ID" } );
 		const assessment = new SentenceBeginningsAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
 		expect( assessment ).toBe( false );
 	} );
 } );
 
-describe( "A test for marking the sentences", function() {
+describe( "A test for marking consecutive sentences", function() {
 	it( "returns markers", function() {
-		const sentenceBeginnings = Factory.buildMockResearcher( [ { word: "hey", count: 4,
-			sentences: [ "Hey, hello.", "Hey, hey.", "Hey you.", "Hey." ] } ] );
+		paper = new Paper( "Hey, hello. Hey, hey. Hey you. Hey. " );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+		const assessment = new SentenceBeginningsAssessment();
+
 		const expected = [
-			new Mark( { original: "Hey, hello.", marked: "<yoastmark class='yoast-text-mark'>Hey, hello.</yoastmark>" } ),
-			new Mark( { original: "Hey, hey.", marked: "<yoastmark class='yoast-text-mark'>Hey, hey.</yoastmark>" } ),
-			new Mark( { original: "Hey you.", marked: "<yoastmark class='yoast-text-mark'>Hey you.</yoastmark>" } ),
-			new Mark( { original: "Hey.", marked: "<yoastmark class='yoast-text-mark'>Hey.</yoastmark>" } ),
+			new Mark( { position: { startOffset: 0, endOffset: 11 } } ),
+			new Mark( { position: { startOffset: 12, endOffset: 21 } } ),
+			new Mark( { position: { startOffset: 22, endOffset: 30 } } ),
+			new Mark( { position: { startOffset: 31, endOffset: 35 } } ),
 		];
-		expect( new SentenceBeginningsAssessment().getMarks( paper, sentenceBeginnings ) ).toEqual( expected );
+
+		const marks = assessment.getMarks( paper, researcher );
+		marks.forEach( ( mark, i ) => {
+			expect( mark ).toMatchObject( expected[ i ] );
+		} );
 	} );
 
-	it( "returns no markers", function() {
-		const sentenceBeginnings = Factory.buildMockResearcher( [ { word: "hey", count: 2, sentences: [ "Hey, hello.", "Hey, hey." ] } ] );
-		const expected = [];
-		expect( new SentenceBeginningsAssessment().getMarks( paper, sentenceBeginnings ) ).toEqual( expected );
+	it( "returns no markers if there are not too many repetitions", function() {
+		paper = new Paper( "Hey, hello. Hey, hey. Yes you. Hey there! Hey, everything alright?" );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+		const assessment = new SentenceBeginningsAssessment();
+		const marks = assessment.getMarks( paper, researcher );
+		expect( marks ).toEqual( [] );
 	} );
 } );

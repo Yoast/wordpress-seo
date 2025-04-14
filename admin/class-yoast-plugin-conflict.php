@@ -52,7 +52,7 @@ class Yoast_Plugin_Conflict {
 	 */
 	public static function get_instance( $class_name = '' ) {
 
-		if ( is_null( self::$instance ) ) {
+		if ( self::$instance === null ) {
 			if ( ! is_string( $class_name ) || $class_name === '' ) {
 				$class_name = self::class;
 			}

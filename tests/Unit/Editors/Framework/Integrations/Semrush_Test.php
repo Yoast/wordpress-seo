@@ -61,11 +61,7 @@ final class Semrush_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_is_enabled(
-		bool $semrush_enabled,
-		bool $expected
-	) {
-
+	public function test_is_enabled( bool $semrush_enabled, bool $expected ) {
 		$this->options
 			->expects( 'get' )
 			->with( 'semrush_integration_active', true )

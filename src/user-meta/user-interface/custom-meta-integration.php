@@ -16,7 +16,7 @@ class Custom_Meta_Integration implements Integration_Interface {
 	/**
 	 * The custom meta collector.
 	 *
-	 * @var Custom_Meta_Collector $custom_meta_collector The custom meta collector.
+	 * @var Custom_Meta_Collector
 	 */
 	private $custom_meta_collector;
 

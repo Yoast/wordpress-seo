@@ -137,7 +137,6 @@ abstract class WPSEO_Option {
 	 */
 	protected static $instance;
 
-
 	/* *********** INSTANTIATION METHODS *********** */
 
 	/**

@@ -60,7 +60,7 @@ final class Indexables_Head_Route_Test extends TestCase {
 	/**
 	 * Data provider for test_get_head.
 	 *
-	 * @return array<string,bool>
+	 * @return array<string, string|bool>
 	 */
 	public static function data_provider_get_head() {
 		yield 'Home URL' => [

@@ -68,7 +68,7 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M14 5l7 7m0 0l-7 7m7-7H3"
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
@@ -104,17 +104,18 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
             >
               Start first-time configuration!
               <svg
-                class="yst-ms-3 yst-me-1 yst-h-5 yst-w-5 rtl:yst-rotate-180"
+                aria-hidden="true"
+                class="yst-w-5 yst-h-5 yst-ms-3 yst-me-1 rtl:yst-rotate-180"
                 fill="none"
                 stroke="currentColor"
+                stroke-width="2"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  stroke-width="2"
                 />
               </svg>
             </a>

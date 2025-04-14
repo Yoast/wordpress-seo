@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Editors\Framework\Seo\Terms;
 use Yoast\WP\SEO\Editors\Domain\Seo\Seo_Plugin_Data_Interface;
 use Yoast\WP\SEO\Editors\Domain\Seo\Title;
 use Yoast\WP\SEO\Editors\Framework\Seo\Title_Data_Provider_Interface;
+
 /**
  * Describes if the title SEO data.
  */

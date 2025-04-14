@@ -85,7 +85,7 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface, 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
 		$count = ( $query === '' ) ? 0 : $this->wpdb->get_var( $query );
 
-		if ( \is_null( $count ) ) {
+		if ( $count === null ) {
 			return false;
 		}
 

@@ -14,7 +14,7 @@ final class Option_WPSEO_Test extends TestCase {
 	/**
 	 * Features which can be disabled via the network settings.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected $feature_vars = [
 		'disableadvanced_meta',

@@ -63,7 +63,7 @@ class Request_Post {
 	/**
 	 * Returns the server request method.
 	 *
-	 * @return string The server request method, in upper case.
+	 * @return string|null The server request method, in upper case.
 	 */
 	private function get_server_request_method(): ?string {
 		if ( ! isset( $_SERVER['REQUEST_METHOD'] ) ) {

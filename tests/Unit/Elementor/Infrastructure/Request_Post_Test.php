@@ -58,13 +58,13 @@ final class Request_Post_Test extends TestCase {
 	 * @covers ::get_post_action
 	 * @covers ::get_document_id
 	 *
-	 * @param mixed $request_method        The value of $_SERVER['REQUEST_METHOD'].
-	 * @param mixed $get_post_variable     The value of $_GET['post'].
-	 * @param bool  $doing_ajax            What wp_doing_ajax should return.
-	 * @param mixed $post_action_variable  The value of $_POST['action'].
-	 * @param mixed $post_post_id_variable The value of $_POST['post_id'].
-	 * @param mixed $post_actions_variable The value of $_POST['actions'].
-	 * @param ?int  $return_value          The expected return value.
+	 * @param mixed    $request_method        The value of $_SERVER['REQUEST_METHOD'].
+	 * @param mixed    $get_post_variable     The value of $_GET['post'].
+	 * @param bool     $doing_ajax            What wp_doing_ajax should return.
+	 * @param mixed    $post_action_variable  The value of $_POST['action'].
+	 * @param mixed    $post_post_id_variable The value of $_POST['post_id'].
+	 * @param mixed    $post_actions_variable The value of $_POST['actions'].
+	 * @param int|null $return_value          The expected return value.
 	 *
 	 * @return void
 	 */
@@ -91,7 +91,7 @@ final class Request_Post_Test extends TestCase {
 	/**
 	 * Provides test data for `test_get_post_id`.
 	 *
-	 * @return array<string,array<string,string|bool|int|null>> The test data.
+	 * @return array<string, array<string, string|bool|int|null>> The test data.
 	 */
 	public static function get_post_id_data_provider(): array {
 		return [

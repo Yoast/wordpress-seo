@@ -18,14 +18,14 @@ class Top_Page_Indexable_Collector {
 	/**
 	 * The indexable repository.
 	 *
-	 * @var Indexable_Repository $indexable_repository
+	 * @var Indexable_Repository
 	 */
 	private $indexable_repository;
 
 	/**
 	 * The SEO score groups repository.
 	 *
-	 * @var SEO_Score_Groups_Repository $seo_score_groups_repository
+	 * @var SEO_Score_Groups_Repository
 	 */
 	private $seo_score_groups_repository;
 

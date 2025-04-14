@@ -23,7 +23,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	 *
 	 * This can be either the featured image or the first image in the content of the page.
 	 *
-	 * @return false|array Image Schema.
+	 * @return array|false Image Schema.
 	 */
 	public function generate() {
 		$image_id = $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH;

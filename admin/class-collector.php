@@ -46,7 +46,7 @@ class WPSEO_Collector {
 	/**
 	 * Returns the collected data as a JSON encoded string.
 	 *
-	 * @return false|string The encode string.
+	 * @return string|false The encode string.
 	 */
 	public function get_as_json() {
 		return WPSEO_Utils::format_json_encode( $this->collect() );

@@ -8,7 +8,6 @@ import SnippetPreviewSection from "../../components/SnippetPreviewSection";
 import withLocation from "../../helpers/withLocation";
 import { strings } from "@yoast/helpers";
 import { applyModifications } from "../../initializers/pluggable";
-import { getCurrentReplacementVariablesForEditor } from "../replaceVars/elementor-replacevar-plugin";
 
 const { stripHTMLTags } = strings;
 
@@ -121,6 +120,7 @@ export default compose( [
 			isCornerstoneContent,
 			getContentLocale,
 			getSiteName,
+			getReplaceVars,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -133,7 +133,7 @@ export default compose( [
 			mobileImageSrc: getEditorDataImageUrl(),
 			mode: getSnippetEditorMode(),
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
-			replacementVariables: getCurrentReplacementVariablesForEditor(),
+			replacementVariables: getReplaceVars(),
 			wordsToHighlight: getSnippetEditorWordsToHighlight(),
 			isCornerstone: isCornerstoneContent(),
 			locale: getContentLocale(),

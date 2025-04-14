@@ -14,7 +14,7 @@ final class Asset_Dev_Server_Location_Test extends TestCase {
 	/**
 	 * Default arguments to use for creating a new Admin_Asset.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	private $asset_defaults = [
 		'name' => 'commons',

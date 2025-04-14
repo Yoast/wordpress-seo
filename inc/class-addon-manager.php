@@ -345,7 +345,7 @@ class WPSEO_Addon_Manager {
 			// If the add-on's version is the latest, we have to do no further checks.
 			if ( version_compare( $installed_plugin['Version'], $plugin_data->new_version, '<' ) ) {
 				// If we haven't retrieved the Yoast Free requirements for the WP version yet, do nothing. The next run will probably get us that information.
-				if ( is_null( $plugin_data->requires ) ) {
+				if ( $plugin_data->requires === null ) {
 					continue;
 				}
 

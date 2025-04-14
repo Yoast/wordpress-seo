@@ -19,8 +19,6 @@ final class Time_Based_SEO_Metrics_Route_Get_Conditionals_Test extends Abstract_
 	/**
 	 * Tests the get_conditionals function.
 	 *
-	 * @covers ::get_conditionals
-	 *
 	 * @return void
 	 */
 	public function test_get_conditionals() {

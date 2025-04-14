@@ -17,7 +17,7 @@ class Keyphrase_Data_Provider extends Abstract_Post_Seo_Data_Provider implements
 	/**
 	 *  The meta helper.
 	 *
-	 * @var Meta_Helper $meta_helper
+	 * @var Meta_Helper
 	 */
 	private $meta_helper;
 

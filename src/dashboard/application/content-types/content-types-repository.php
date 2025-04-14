@@ -42,7 +42,7 @@ class Content_Types_Repository {
 	/**
 	 * Returns the content types array.
 	 *
-	 * @return array<array<string,array<string, array<string, array<string, string|null>>>>> The content types array.
+	 * @return array<array<string, array<string, array<string, array<string, string|null>>>>> The content types array.
 	 */
 	public function get_content_types(): array {
 		$content_types_list = $this->content_types_collector->get_content_types();

@@ -1,9 +1,17 @@
 import { getWordsFromTokens } from "../word/getAllWordsFromTree";
 
 /**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default} Researcher
+ * @typedef {import("../../../parse/structure/Sentence").default} Sentence
+ * @typedef {import("../../../parse/structure/Token").default} Token
+ */
+
+/**
  * @typedef {Object} SentenceLength
  * @property {Sentence} sentence The sentence.
  * @property {number} sentenceLength The length of the sentence.
+ * @property {Token} firstToken The first token of the sentence.
+ * @property {Token} lastToken The last token of the sentence.
  */
 
 /**
@@ -18,18 +26,14 @@ export default function( sentences, researcher ) {
 	const customLengthHelper = researcher.getHelper( "customCountLength" );
 
 	return sentences.map( sentence => {
-		const { tokens } = sentence;
-		const length = customLengthHelper ? customLengthHelper( sentence.text ) : getWordsFromTokens( tokens, false ).length;
+		const length = customLengthHelper ? customLengthHelper( sentence.text ) : getWordsFromTokens( sentence.tokens, false ).length;
 
 		if ( length > 0 ) {
-			const firstToken = tokens.find( ( { text } ) => text !== " " );
-			const lastToken = tokens.slice().reverse().find( ( { text } ) => text !== " " );
-
 			return {
 				sentence: sentence,
 				sentenceLength: length,
-				firstToken: firstToken ? firstToken : null,
-				lastToken: lastToken ? lastToken : null,
+				firstToken: sentence.getFirstToken() || null,
+				lastToken: sentence.getLastToken() || null,
 			};
 		}
 	} ).filter( Boolean );

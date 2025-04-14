@@ -34,14 +34,13 @@ final class Cleanup_Repository_Test extends TestCase {
 	}
 
 	/**
-	 * Tests cleanup_selected_empty_usermeta.
+	 * Tests delete_empty_usermeta_query.
 	 *
-	 * @covers ::cleanup_selected_empty_usermeta
-	 * @covers ::get_meta_to_check
+	 * @covers ::delete_empty_usermeta_query
 	 *
 	 * @return void
 	 */
-	public function test_cleanup_selected_empty_usermeta() {
+	public function test_delete_empty_usermeta_query() {
 		$wpdb           = Mockery::mock( wpdb::class );
 		$wpdb->usermeta = 'wp_usermeta';
 
