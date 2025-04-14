@@ -21,12 +21,19 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 	 */
 	async fetchJson( endpoint, params, options ) {
 		const { cacheHit, value, isError } = await getItem( params.options.widget );
-		params.cachedData = ( cacheHit && ! isError ) ?  encodeURIComponent( JSON.stringify( value ) ) : {};
+		params.cachedData = ( cacheHit && ! isError ) ? value : {};
 
-		// @TODO: We no longer return a promise since we now await, so we might have to cascade this change to the rest of the codebase where the RemoteCachedDataProvider is used.
 		const response = await fetchJson(
-			this.getUrl( endpoint, params ),
-			defaultsDeep( options, this.getOptions(), { headers: { "Content-Type": "application/json" } } )
+			this.getUrl( endpoint ),
+			defaultsDeep(
+				options,
+				this.getOptions(),
+				{
+					method: 'POST',
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify( params )
+				}
+			)
 		);
 
 		if ( Array.isArray( response.uncacheableData ) && Array.isArray( response.cacheableData ) ) {
