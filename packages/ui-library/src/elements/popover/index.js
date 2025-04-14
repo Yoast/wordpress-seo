@@ -148,7 +148,7 @@ Popover.displayName = "Popover";
 Popover.propTypes = {
 	as: PropTypes.elementType,
 	children: PropTypes.node.isRequired,
-	id: PropTypes.string.isRequired,
+	id: PropTypes.string,
 	className: PropTypes.string,
 	isOpen: PropTypes.bool,
 	isVisible: PropTypes.bool.isRequired,
@@ -158,6 +158,7 @@ Popover.propTypes = {
 
 Popover.defaultProps = {
 	as: "div",
+	id: "yst-popover",
 	isOpen: false,
 	className: "",
 	position: "",
