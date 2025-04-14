@@ -6,34 +6,32 @@ import DefaultResearcher from "../../../../src/languageProcessing/languages/_def
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
 describe( "An assessment for scoring passive voice.", function() {
-	const paper = new Paper();
+	const paper = new Paper( "" );
+	const goodFeedback = "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You are not using too much passive voice. That's great!";
+
 	it( "returns result when the text is empty", function() {
 		const assessment = new PassiveVoiceAssessment().getResult( paper, Factory.buildMockResearcher( { total: 0, passives: [] } ) );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough" +
-			" active voice. That's great!" );
+		expect( assessment.getText() ).toBe( goodFeedback );
 	} );
 
 	it( "scores 0 passive sentences - 0%", function() {
 		const assessment = new PassiveVoiceAssessment().getResult( paper, Factory.buildMockResearcher( { total: 20, passives: [] } ) );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough" +
-			" active voice. That's great!" );
+		expect( assessment.getText() ).toBe( goodFeedback );
 	} );
 
 	it( "scores 1 passive sentence - 5%", function() {
 		const assessment = new PassiveVoiceAssessment().getResult( paper, Factory.buildMockResearcher( { total: 20, passives: [ 1 ] } ) );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough" +
-			" active voice. That's great!" );
+		expect( assessment.getText() ).toBe( goodFeedback );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
 	it( "scores 2 passive sentences - 10%", function() {
 		const assessment = new PassiveVoiceAssessment().getResult( paper, Factory.buildMockResearcher( { total: 20, passives: [ 1, 2 ] } ) );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough" +
-			" active voice. That's great!" );
+		expect( assessment.getText() ).toBe( goodFeedback );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 

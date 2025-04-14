@@ -48,6 +48,6 @@ describe( "An assessor running the linkStatistics for internal links", function(
 
 	it( "A paper without text", function() {
 		const isApplicableResult = new InternalLinksAssessment().isApplicable( new Paper( "", { keyword: "some keyword" } ) );
-		expect( isApplicableResult ).toBe( false );
+		expect( isApplicableResult ).toBe( true );
 	} );
 } );
