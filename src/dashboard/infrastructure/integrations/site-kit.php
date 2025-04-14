@@ -252,10 +252,15 @@ class Site_Kit {
 		if ( empty( $preloaded ) ) {
 			return;
 		}
-		$modules_data          = $preloaded[ $paths['modules'] ]['body'];
-		$modules_permissions   = $preloaded[ $paths['permissions'] ]['body'];
-		$is_authenticated      = $preloaded[ $paths['authentication'] ]['body']['authenticated'];
+
+		$modules_data        = ! empty( $preloaded[ $paths['modules'] ]['body'] ) ? $preloaded[ $paths['modules'] ]['body'] : [];
+		$modules_permissions = ! empty( $preloaded[ $paths['permissions'] ]['body'] ) ? $preloaded[ $paths['permissions'] ]['body'] : [];
+		$is_authenticated    = false;
+		if ( ! empty( $preloaded[ $paths['authentication'] ]['body']['authenticated'] ) ) {
+			$is_authenticated = $preloaded[ $paths['authentication'] ]['body']['authenticated'];
+		}
 		$this->setup_completed = $preloaded[ $paths['connection'] ]['body']['setupCompleted'];
+
 		foreach ( $modules_data as $module ) {
 			$slug = $module['slug'];
 			if ( $slug === 'analytics-4' ) {
@@ -283,6 +288,7 @@ class Site_Kit {
 	public function get_preload_paths(): array {
 
 		$rest_root = ( \class_exists( REST_Routes::class ) ) ? REST_Routes::REST_ROOT : '';
+
 		return [
 			'authentication' => '/' . $rest_root . '/core/user/data/authentication',
 			'permissions'    => '/' . $rest_root . '/core/user/data/permissions',

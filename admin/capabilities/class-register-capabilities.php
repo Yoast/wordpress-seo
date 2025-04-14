@@ -5,6 +5,8 @@
  * @package WPSEO\Admin\Capabilities
  */
 
+use Google\Site_Kit\Core\Permissions\Permissions;
+
 /**
  * Capabilities registration class.
  */
@@ -41,6 +43,10 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 
 		$manager->register( 'wpseo_manage_options', [ 'administrator', 'wpseo_manager' ] );
 		$manager->register( 'view_site_health_checks', [ 'wpseo_manager' ] );
+		if ( class_exists( Permissions::class ) ) {
+			$manager->register( Permissions::SETUP, [ 'wpseo_manager' ] );
+			$manager->register( Permissions::VIEW_DASHBOARD, [ 'wpseo_manager' ] );
+		}
 	}
 
 	/**
