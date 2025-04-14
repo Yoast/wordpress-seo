@@ -1,13 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { useRemoteData } from "../../services/use-remote-data";
 import { getDifference } from "../../transformers/difference";
-import {
-	deleteItem,
-	getItem,
-	getKeys,
-	setItem,
-	STORAGE_KEY_PREFIX_ROOT,
-} from '../.././services/cache';
 
 const widgetName = "searchRankingCompare";
 /**
@@ -75,14 +68,12 @@ export const useSearchRankingCompare = ( { dataProvider, remoteCachedDataProvide
 	 * @param {RequestInit} options The options.
 	 * @returns {Promise<TimeBasedData[]|Error>} The promise of TimeBasedData[] or an Error.
 	 */
-	const getData = useCallback( async ( options ) => {
-		const { cacheHit, value, isError } = await getItem( widgetName );
+	const getData = useCallback( ( options ) => {
 
 		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
-				options: { widget: widgetName },
-				cachedData: ( cacheHit && ! isError ) ?  encodeURIComponent( JSON.stringify( value ) ) : {}
+				options: { widget: widgetName }
 			},
 			options );
 	}, [ dataProvider ] );

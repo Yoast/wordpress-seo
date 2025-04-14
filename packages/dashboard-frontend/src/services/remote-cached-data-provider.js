@@ -1,7 +1,6 @@
 import { defaultsDeep } from "lodash";
 import { fetchJson } from "../fetch/fetch-json";
 import {
-	deleteItem,
 	getItem,
 	getKeys,
 	setItem,
@@ -21,6 +20,9 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 	 * @returns {Object} The response.
 	 */
 	async fetchJson( endpoint, params, options ) {
+		const { cacheHit, value, isError } = await getItem( params.options.widget );
+		params.cachedData = ( cacheHit && ! isError ) ?  encodeURIComponent( JSON.stringify( value ) ) : {};
+
 		// @TODO: We no longer return a promise since we now await, so we might have to cascade this change to the rest of the codebase where the RemoteCachedDataProvider is used.
 		const response = await fetchJson(
 			this.getUrl( endpoint, params ),

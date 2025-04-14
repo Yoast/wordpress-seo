@@ -1,13 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useEffect, useReducer, useRef } from "react";
 import { identity } from "lodash";
-import {
-	deleteItem,
-	getItem,
-	getKeys,
-	setItem,
-	STORAGE_KEY_PREFIX_ROOT,
-} from './cache';
 
 const slice = createSlice( {
 	name: "data",

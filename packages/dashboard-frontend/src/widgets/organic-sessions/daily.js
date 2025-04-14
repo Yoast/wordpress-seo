@@ -5,13 +5,6 @@ import { CategoryScale, Chart, Filler, LinearScale, LineElement, PointElement, T
 import { Line } from "react-chartjs-2";
 import { ErrorAlert } from "../../components/error-alert";
 import { useRemoteData } from "../../services/use-remote-data";
-import {
-	deleteItem,
-	getItem,
-	getKeys,
-	setItem,
-	STORAGE_KEY_PREFIX_ROOT,
-} from '../.././services/cache';
 
 /**
  * @type {import("../../services/data-provider")} DataProvider
@@ -217,14 +210,12 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteCachedDataProvider,
 	 *
 	 * @returns {Promise<OrganicSessionsDailyData[]|Error>} The promise of OrganicSessionsData or an Error.
 	 */
-	const getOrganicSessionsDaily = useCallback( async ( options ) => {
-		const { cacheHit, value, isError } = await getItem( widgetName );
+	const getOrganicSessionsDaily = useCallback( ( options ) => {
 
 		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
-				options: { widget: widgetName },
-				cachedData: ( cacheHit && ! isError ) ?  encodeURIComponent( JSON.stringify( value ) ) : {}
+				options: { widget: widgetName }
 			},
 			options );
 	}, [ dataProvider ] );

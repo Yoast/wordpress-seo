@@ -232,40 +232,6 @@ export const setItem = async (
 };
 
 /**
- * Removes cached data by key.
- *
- * Remove one piece of cached data from the persistent storage cache, by key.
- *
- * @since 1.5.0
- *
- * @param {string} key Name of cache key.
- * @return {Promise} A promise: resolves to `true` if the value was deleted; `false` if not (usually because no storage method was available).
- */
-export const deleteItem = async ( key ) => {
-	const storage = await getStorage();
-
-	if ( storage ) {
-		try {
-			const fullKey = key.startsWith( STORAGE_KEY_PREFIX_ROOT )
-				? key
-				: `${ STORAGE_KEY_PREFIX }${ key }`;
-
-			storage.removeItem( fullKey );
-
-			return true;
-		} catch ( error ) {
-			global.console.warn(
-				'Encountered an unexpected storage error:',
-				error
-			);
-			return false;
-		}
-	}
-
-	return false;
-};
-
-/**
  * Gets all cache keys created by Site Kit.
  *
  * @since 1.5.0
@@ -296,27 +262,4 @@ export const getKeys = async () => {
 	}
 
 	return [];
-};
-
-/**
- * Removes the entire cache created by Site Kit.
- *
- * @since 1.5.0
- *
- * @return {Promise} A promise: resolves to `true` if the cache was cleared; `false` if there was an error.
- */
-export const clearCache = async () => {
-	const storage = await getStorage();
-
-	if ( storage ) {
-		const keys = await getKeys();
-
-		for ( const key of keys ) {
-			await deleteItem( key );
-		}
-
-		return true;
-	}
-
-	return false;
 };
