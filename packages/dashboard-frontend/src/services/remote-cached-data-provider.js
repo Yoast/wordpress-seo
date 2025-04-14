@@ -1,11 +1,6 @@
 import { defaultsDeep } from "lodash";
 import { fetchJson } from "../fetch/fetch-json";
-import {
-	getItem,
-	getKeys,
-	setItem,
-	STORAGE_KEY_PREFIX_ROOT,
-} from './cache';
+import { getItem, setItem } from "./cache";
 import { RemoteDataProvider } from "./remote-data-provider";
 
 /**
@@ -45,9 +40,9 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 				options,
 				this.getOptions(),
 				{
-					method: 'POST',
+					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify( params )
+					body: JSON.stringify( params ),
 				}
 			)
 		);
@@ -59,8 +54,8 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 			}
 
 			return response.cacheableData;
-		} else {
-			return response;
 		}
+
+		return response;
 	}
 }

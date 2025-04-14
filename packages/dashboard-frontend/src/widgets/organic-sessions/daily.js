@@ -211,11 +211,10 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteCachedDataProvider,
 	 * @returns {Promise<OrganicSessionsDailyData[]|Error>} The promise of OrganicSessionsData or an Error.
 	 */
 	const getOrganicSessionsDaily = useCallback( ( options ) => {
-
 		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
-				options: { widget: widgetName }
+				options: { widget: widgetName },
 			},
 			options );
 	}, [ dataProvider ] );

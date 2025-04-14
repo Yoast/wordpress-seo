@@ -88,12 +88,11 @@ const useTopQueries = ( { dataProvider, remoteCachedDataProvider, dataFormatter,
 	 * @returns {Promise<TopPageData[]|Error>} The promise of TopPageData or an Error.
 	 */
 	const getTopQueries = useCallback( ( options ) => {
-
 		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
 				limit: limit.toString( 10 ),
-				options: { widget: widgetName }
+				options: { widget: widgetName },
 			},
 			options );
 	}, [ dataProvider, limit ] );

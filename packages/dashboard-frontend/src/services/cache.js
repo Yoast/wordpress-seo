@@ -1,11 +1,11 @@
 /**
  * Initially forked from Site Kit's own implementation
- * 
+ *
  * @see https://github.com/google/site-kit-wp/blob/dc2f9ee544b116ada6ae2dbdf40253ca3db647cc/assets/js/googlesitekit/api/cache.js
- * 
+ *
  */
 
-const defaultOrder = [ 'sessionStorage', 'localStorage' ];
+const defaultOrder = [ "sessionStorage", "localStorage" ];
 let storageBackend;
 let storageOrder = [ ...defaultOrder ];
 
@@ -37,7 +37,7 @@ export const setSelectedStorageBackend = ( backend ) => {
  */
 export const setStorageOrder = ( order ) => {
 	storageOrder = [ ...order ];
-	setSelectedStorageBackend( undefined );
+	setSelectedStorageBackend( undefined ); // eslint-disable-line no-undefined
 };
 
 /**
@@ -52,7 +52,7 @@ export const setStorageOrder = ( order ) => {
  */
 export const resetDefaultStorageOrder = () => {
 	storageOrder = [ ...defaultOrder ];
-	setSelectedStorageBackend( undefined );
+	setSelectedStorageBackend( undefined ); // eslint-disable-line no-undefined
 };
 
 /**
@@ -62,10 +62,9 @@ export const resetDefaultStorageOrder = () => {
  * @private
  *
  * @param {string} type Browser storage to test. Should be one of `localStorage` or `sessionStorage`.
- * @return {Promise<string>} True if the given storage is available, false otherwise.
+ * @returns {Promise<string>} True if the given storage is available, false otherwise.
  */
-// eslint-disable-next-line require-await
-export const isStorageAvailable = async ( type ) => {
+export const isStorageAvailable = async( type ) => {
 	const storage = global[ type ];
 
 	if ( ! storage ) {
@@ -73,7 +72,7 @@ export const isStorageAvailable = async ( type ) => {
 	}
 
 	try {
-		const x = '__storage_test__';
+		const x = "__storage_test__";
 
 		storage.setItem( x, x );
 		storage.removeItem( x );
@@ -87,9 +86,9 @@ export const isStorageAvailable = async ( type ) => {
 				1014 === e.code ||
 				// test name field too, because code might not be present
 				// everything except Firefox
-				'QuotaExceededError' === e.name ||
+				"QuotaExceededError" === e.name ||
 				// Firefox
-				'NS_ERROR_DOM_QUOTA_REACHED' === e.name ) &&
+				"NS_ERROR_DOM_QUOTA_REACHED" === e.name ) &&
 			// acknowledge QuotaExceededError only if there's something already stored
 			0 !== storage.length
 		);
@@ -105,7 +104,7 @@ export const isStorageAvailable = async ( type ) => {
  * @returns {Promise<string>} A storage mechanism (`localStorage` or `sessionStorage`) if available; otherwise returns `null`.
  */
 export async function getStorage() {
-	if ( storageBackend !== undefined ) {
+	if ( storageBackend !== undefined ) { // eslint-disable-line no-undefined
 		return storageBackend;
 	}
 
@@ -120,7 +119,7 @@ export async function getStorage() {
 		}
 	}
 
-	if ( storageBackend === undefined ) {
+	if ( storageBackend === undefined ) { // eslint-disable-line no-undefined
 		storageBackend = null;
 	}
 
@@ -135,9 +134,9 @@ export async function getStorage() {
  * @since 1.5.0
  *
  * @param {string} key Name of cache key.
- * @return {Promise} A promise returned, containing an object with the cached value (if found) and whether or not there was a cache hit.
+ * @returns {Promise} A promise returned, containing an object with the cached value (if found) and whether or not there was a cache hit.
  */
-export const getItem = async ( key ) => {
+export const getItem = async( key ) => {
 	const storage = await getStorage();
 
 	if ( storage ) {
@@ -152,12 +151,13 @@ export const getItem = async ( key ) => {
 			// false-y if `0`, `null`, etc.)
 			if (
 				timestamp &&
-				( ! ttl || // Ensure the cached data isn't too old.
-					// The cache dates shouldn't rely on reference
-					// dates for cache expiration. This is a case
-					// where we actually want to rely on
-					// the _actual_ date/time the data was set.
-					Math.round( Date.now() / 1000 ) - timestamp < ttl ) // eslint-disable-line sitekit/no-direct-date
+				// Ensure the cached data isn't too old.
+				// The cache dates shouldn't rely on reference
+				// dates for cache expiration. This is a case
+				// where we actually want to rely on
+				// the _actual_ date/time the data was set.
+				( ! ttl ||
+					Math.round( Date.now() / 1000 ) - timestamp < ttl )
 			) {
 				return {
 					cacheHit: true,
@@ -170,7 +170,7 @@ export const getItem = async ( key ) => {
 
 	return {
 		cacheHit: false,
-		value: undefined,
+		value: undefined, // eslint-disable-line no-undefined
 	};
 };
 
@@ -188,17 +188,17 @@ export const getItem = async ( key ) => {
  * @param {number}  [args.ttl]       Optional. Validity of the cached item in seconds.
  * @param {number}  [args.timestamp] Optional. Timestamp when the cached item was created.
  * @param {boolean} [args.isError]   Optional. Whether the cached item is an error.
- * @return {Promise} A promise: resolves to `true` if the value was saved; `false` if not (usually because no storage method was available).
+ * @returns {Promise} A promise: resolves to `true` if the value was saved; `false` if not (usually because no storage method was available).
  */
-export const setItem = async (
+export const setItem = async(
 	key,
 	value,
 	{
-		ttl = 60 * 60, // HOUR_IN_SECONDS
+		ttl = 60 * 60,
 		// Cached times should rely on real times, not the reference date,
 		// so the cache timeouts are consistent even when changing
 		// the reference dates when developing/testing.
-		timestamp = Math.round( Date.now() / 1000 ), // eslint-disable-line sitekit/no-direct-date
+		timestamp = Math.round( Date.now() / 1000 ),
 		isError = false,
 	} = {}
 ) => {
@@ -219,7 +219,7 @@ export const setItem = async (
 			return true;
 		} catch ( error ) {
 			global.console.warn(
-				'Encountered an unexpected storage error:',
+				"Encountered an unexpected storage error:",
 				error
 			);
 			return false;

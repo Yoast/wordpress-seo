@@ -69,11 +69,10 @@ export const useSearchRankingCompare = ( { dataProvider, remoteCachedDataProvide
 	 * @returns {Promise<TimeBasedData[]|Error>} The promise of TimeBasedData[] or an Error.
 	 */
 	const getData = useCallback( ( options ) => {
-
 		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
-				options: { widget: widgetName }
+				options: { widget: widgetName },
 			},
 			options );
 	}, [ dataProvider ] );
