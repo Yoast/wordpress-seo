@@ -12,6 +12,21 @@ import { RemoteDataProvider } from "./remote-data-provider";
  * Provides the mechanism to fetch cached data from a remote source.
  */
 export class RemoteCachedDataProvider extends RemoteDataProvider {
+	#storagePrefix;
+	#yoastVersion;
+
+	/**
+	 * @param {RequestInit} options The fetch options.
+	 * @param {string} storagePrefix The storage prefix.
+	 * @param {string} yoastVersion The Yoast version.
+	 * @throws {TypeError} If the baseUrl is invalid.
+	 */
+	constructor( options, storagePrefix, yoastVersion ) {
+		super( options );
+
+		this.#storagePrefix = storagePrefix;
+		this.#yoastVersion = yoastVersion;
+	}
 
 	/**
 	 * @param {string|URL} endpoint The endpoint.
@@ -20,7 +35,8 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 	 * @returns {Object} The response.
 	 */
 	async fetchJson( endpoint, params, options ) {
-		const { cacheHit, value, isError } = await getItem( params.options.widget );
+		const cacheKey = "yoastseo_" + this.#yoastVersion + "_" + this.#storagePrefix + "_" + params.options.widget;
+		const { cacheHit, value, isError } = await getItem( cacheKey );
 		params.cachedData = ( cacheHit && ! isError ) ? value : {};
 
 		const response = await fetchJson(
@@ -37,7 +53,7 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 		);
 
 		if ( Array.isArray( response.uncacheableData ) && Array.isArray( response.cacheableData ) ) {
-			await setItem( params.options.widget, response.cacheableData );
+			await setItem( cacheKey, response.cacheableData );
 			if ( response.uncacheableData.length > 0 ) {
 				return response.uncacheableData;
 			}

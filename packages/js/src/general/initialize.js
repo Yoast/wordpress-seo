@@ -99,10 +99,12 @@ domReady( () => {
 			isSetupCompleted: false,
 			isConsentGranted: false,
 		},
+		storagePrefix: "",
+		yoastVersion: "",
 	} );
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
-	const remoteCachedDataProvider = new RemoteCachedDataProvider( { headers } )
+	const remoteCachedDataProvider = new RemoteCachedDataProvider( { headers }, `${ siteKitConfiguration.storagePrefix }` , `${ siteKitConfiguration.yoastVersion }` );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const dataFormatters = {
 		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),

@@ -139,6 +139,23 @@ class Site_Kit {
 	}
 
 	/**
+	 * Gets the prefix for the client side cache key.
+	 *
+	 * Cache key is scoped to user session and blog_id to isolate the
+	 * cache between users and sites (in multisite).
+	 *
+	 * @return string
+	 */
+	private function get_storage_prefix() {
+		$current_user  = \wp_get_current_user();
+		$auth_cookie   = \wp_parse_auth_cookie();
+		$blog_id       = \get_current_blog_id();
+		$session_token = isset( $auth_cookie['token'] ) ? $auth_cookie['token'] : '';
+
+		return \wp_hash( $current_user->user_login . '|' . $session_token . '|' . $blog_id );
+	}
+
+	/**
 	 * Return this object represented by a key value array.
 	 *
 	 * @return array<string, bool> Returns the name and if the feature is enabled.
@@ -187,6 +204,8 @@ class Site_Kit {
 				'isConsentGranted' => $this->is_connected(),
 			],
 			'isVersionSupported'       => \defined( 'GOOGLESITEKIT_VERSION' ) ? \version_compare( \GOOGLESITEKIT_VERSION, '1.148.0', '>=' ) : false,
+			'storagePrefix'            => $this->get_storage_prefix(),
+			'yoastVersion'             => \WPSEO_VERSION,
 		];
 	}
 

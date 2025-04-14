@@ -4,8 +4,6 @@
  * @see https://github.com/google/site-kit-wp/blob/dc2f9ee544b116ada6ae2dbdf40253ca3db647cc/assets/js/googlesitekit/api/cache.js
  * 
  */
-export const STORAGE_KEY_PREFIX_ROOT = 'yoastseo_';
-export const STORAGE_KEY_PREFIX = `${ STORAGE_KEY_PREFIX_ROOT }yoastseoVersion_prefixBasedOnTokenAndBlogID_`;
 
 const defaultOrder = [ 'sessionStorage', 'localStorage' ];
 let storageBackend;
@@ -143,7 +141,7 @@ export const getItem = async ( key ) => {
 	const storage = await getStorage();
 
 	if ( storage ) {
-		const cachedData = storage.getItem( `${ STORAGE_KEY_PREFIX }${ key }` );
+		const cachedData = storage.getItem( key );
 
 		if ( cachedData ) {
 			const parsedData = JSON.parse( cachedData );
@@ -209,7 +207,7 @@ export const setItem = async (
 	if ( storage ) {
 		try {
 			storage.setItem(
-				`${ STORAGE_KEY_PREFIX }${ key }`,
+				key,
 				JSON.stringify( {
 					timestamp,
 					ttl,
@@ -229,37 +227,4 @@ export const setItem = async (
 	}
 
 	return false;
-};
-
-/**
- * Gets all cache keys created by Site Kit.
- *
- * @since 1.5.0
- *
- * @return {Promise} A promise: resolves to an array of all keys.
- */
-export const getKeys = async () => {
-	const storage = await getStorage();
-
-	if ( storage ) {
-		try {
-			const keys = [];
-			for ( let i = 0; i < storage.length; i++ ) {
-				const itemKey = storage.key( i );
-				if ( itemKey.indexOf( STORAGE_KEY_PREFIX_ROOT ) === 0 ) {
-					keys.push( itemKey );
-				}
-			}
-
-			return keys;
-		} catch ( error ) {
-			global.console.warn(
-				'Encountered an unexpected storage error:',
-				error
-			);
-			return [];
-		}
-	}
-
-	return [];
 };
