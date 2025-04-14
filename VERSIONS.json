@@ -13,8 +13,8 @@
     },
     "php": {
       "name": "PHP",
-      "GH-Actions_version": "7.2",
-      "GH-Actions-comment": "This is hard code ATM in the GH-actions and is currently below the version we use to release",
+      "GH-Actions_version": "7.4",
+      "GH-Actions-comment": "This is hard code ATM in the GH-actions",
       "version": "7.4",
       "possible version values": [
         "7.4",
