@@ -500,7 +500,7 @@ final class Indexable_Repository_Test extends TestCase {
 		/**
 		 * Mock indexable.
 		 *
-		 * @var Mockery\MockInterface|Indexable
+		 * @var Mockery\MockInterface|Indexable $indexable
 		 */
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->permalink   = null;

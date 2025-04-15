@@ -22,21 +22,21 @@ class Dashboard_Configuration {
 	/**
 	 * The content types repository.
 	 *
-	 * @var Content_Types_Repository $content_types_repository
+	 * @var Content_Types_Repository
 	 */
 	private $content_types_repository;
 
 	/**
 	 * The indexable helper.
 	 *
-	 * @var Indexable_Helper $indexable_helper
+	 * @var Indexable_Helper
 	 */
 	private $indexable_helper;
 
 	/**
 	 * The user helper.
 	 *
-	 * @var User_Helper $user_helper
+	 * @var User_Helper
 	 */
 	private $user_helper;
 
@@ -102,7 +102,7 @@ class Dashboard_Configuration {
 	/**
 	 * Returns a configuration
 	 *
-	 * @return array<string,array<string>>
+	 * @return array<string, array<string>>
 	 */
 	public function get_configuration(): array {
 		return [

@@ -42,15 +42,11 @@ describe( "OrganicSessionsWidget", () => {
 		} );
 
 		const tooltip = getByRole( "tooltip" );
-		const tooltipMessage = getByText( "The number of organic sessions on your website." );
+		const tooltipMessage = getByText( "The number of organic sessions that began on your website." );
+		const tooltipDataSource = getByText( "Site Kit by Google" );
 		expect( tooltip ).toBeInTheDocument();
 		expect( tooltipMessage ).toBeInTheDocument();
-
-		const link = getByText( "Learn more" );
-		expect( link ).toBeInTheDocument();
-		expect( link ).toHaveAttribute( "href", "https://example.com/organic-sessions-learn-more" );
-		expect( link ).toHaveAttribute( "rel", "noopener" );
-		expect( link ).toHaveAttribute( "target", "_blank" );
+		expect( tooltipDataSource ).toBeInTheDocument();
 	} );
 
 	it( "should render without data", async() => {

@@ -256,7 +256,7 @@ class Site_Kit_Analytics_4_Adapter {
 	 *
 	 * @param mixed $response The response we want to validate.
 	 *
-	 * @return void.
+	 * @return void
 	 *
 	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.

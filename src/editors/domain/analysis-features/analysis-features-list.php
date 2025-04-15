@@ -28,7 +28,7 @@ class Analysis_Features_List {
 	/**
 	 * Parses the feature list to a legacy ready array representation.
 	 *
-	 * @return array<string,bool> The list presented as a key value representation.
+	 * @return array<string, bool> The list presented as a key value representation.
 	 */
 	public function parse_to_legacy_array(): array {
 		$array = [];
@@ -42,7 +42,7 @@ class Analysis_Features_List {
 	/**
 	 * Parses the feature list to an array representation.
 	 *
-	 * @return array<string,bool> The list presented as a key value representation.
+	 * @return array<string, bool> The list presented as a key value representation.
 	 */
 	public function to_array(): array {
 		$array = [];

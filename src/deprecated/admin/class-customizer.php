@@ -35,10 +35,10 @@ class WPSEO_Customizer {
 	/**
 	 * Function to support WordPress Customizer.
 	 *
-	 * @param WP_Customize_Manager $wp_customize Manager class instance.
-	 *
 	 * @codeCoverageIgnore
 	 * @deprecated 22.8
+	 *
+	 * @param WP_Customize_Manager $wp_customize Manager class instance.
 	 *
 	 * @return void
 	 */

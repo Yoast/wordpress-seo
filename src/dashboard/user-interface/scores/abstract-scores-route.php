@@ -74,9 +74,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 	 *
 	 * @return void
 	 */
-	public function set_collectors(
-		Content_Types_Collector $content_types_collector
-	) {
+	public function set_collectors( Content_Types_Collector $content_types_collector ) {
 		$this->content_types_collector = $content_types_collector;
 	}
 
@@ -240,7 +238,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 	 * @param int|null      $term_id  The term ID to be validated.
 	 * @param Taxonomy|null $taxonomy The taxonomy.
 	 *
-	 * @return bool The validated term ID.
+	 * @return int|null The validated term ID.
 	 *
 	 * @throws Exception When the term id is invalidated.
 	 */

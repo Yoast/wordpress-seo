@@ -9,7 +9,7 @@ use Brain\Monkey\Functions;
  *
  * @group site_kit_consent_management_route
  *
- * @covers Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Consent_Management::register_routes
+ * @covers Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Consent_Management_Route::register_routes
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */

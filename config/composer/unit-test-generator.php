@@ -92,7 +92,7 @@ class Unit_Test_Generator {
 	 *
 	 * @param string $file_path The path to the class for which to generate a unit test.
 	 *
-	 * @return false|int returns 1 if the unit test is in Premium, 0 if it does not, or FALSE if an error occurred.
+	 * @return int|false returns 1 if the unit test is in Premium, 0 if it does not, or FALSE if an error occurred.
 	 */
 	protected function is_premium_class( $file_path ) {
 		return \preg_match( '/\/premium\/src\/.*\.php$/', $file_path );

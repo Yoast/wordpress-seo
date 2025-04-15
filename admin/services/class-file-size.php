@@ -28,8 +28,7 @@ class WPSEO_File_Size_Service {
 				],
 				200
 			);
-		}
-		catch ( WPSEO_File_Size_Exception $exception ) {
+		} catch ( WPSEO_File_Size_Exception $exception ) {
 			return new WP_REST_Response(
 				[
 					'type'     => 'failure',

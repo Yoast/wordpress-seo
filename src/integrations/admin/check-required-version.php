@@ -40,9 +40,9 @@ class Check_Required_Version implements Integration_Interface {
 	 *
 	 * The code is partly inspired by Plugin_Upgrader::check_package() in wp-admin/includes/class-plugin-upgrader.php.
 	 *
-	 * @param string      $source        File source location.
-	 * @param string      $remote_source Remote file source location.
-	 * @param WP_Upgrader $upgrader      WP_Upgrader instance.
+	 * @param string           $source        File source location.
+	 * @param string|null      $remote_source Remote file source location.
+	 * @param WP_Upgrader|null $upgrader      WP_Upgrader instance.
 	 *
 	 * @return string|WP_Error The source location or a WP_Error object if the required version is not installed.
 	 */

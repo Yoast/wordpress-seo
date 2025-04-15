@@ -137,7 +137,7 @@ final class Inclusive_Language_Analysis_Test extends TestCase {
 	/**
 	 * Data provider for test_is_enabled.
 	 *
-	 * @return array<array<string|bool,string>>
+	 * @return array<string, array<string, string|bool>>
 	 */
 	public static function data_provider_is_enabled(): array {
 		return [

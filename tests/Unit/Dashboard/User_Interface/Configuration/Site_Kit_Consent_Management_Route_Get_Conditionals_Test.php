@@ -18,8 +18,6 @@ final class Site_Kit_Consent_Management_Route_Get_Conditionals_Test extends Abst
 	/**
 	 * Tests the get_conditionals function.
 	 *
-	 * @covers ::get_conditionals
-	 *
 	 * @return void
 	 */
 	public function test_get_conditionals() {

@@ -27,8 +27,9 @@ export const ScoreWidget = ( { analysisType, dataProvider, remoteDataProvider } 
 
 	return (
 		<Widget
-			className="yst-paper__content yst-@container 2xl:yst-col-span-2 yst-col-span-4"
+			className="yst-paper__content yst-@container @3xl:yst-col-span-2 yst-col-span-4"
 			title={ analysisType === "readability" ? __( "Readability scores", "wordpress-seo" ) : __( "SEO scores", "wordpress-seo" ) }
+			errorSupportLink={ dataProvider.getLink( "errorSupport" ) }
 		>
 			<Scores
 				analysisType={ analysisType }

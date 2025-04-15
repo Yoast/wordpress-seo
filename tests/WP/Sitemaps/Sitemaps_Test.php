@@ -55,7 +55,7 @@ final class Sitemaps_Test extends TestCase {
 	/**
 	 * Data provider for the `test_post_sitemap()` test.
 	 *
-	 * @return array
+	 * @return array<array<string>>
 	 */
 	public static function data_post_sitemap() {
 		return [
@@ -91,7 +91,7 @@ final class Sitemaps_Test extends TestCase {
 	/**
 	 * Data provider for the `test_main_sitemap()` test.
 	 *
-	 * @return array
+	 * @return array<array<string>>
 	 */
 	public static function data_main_sitemap() {
 		return [
