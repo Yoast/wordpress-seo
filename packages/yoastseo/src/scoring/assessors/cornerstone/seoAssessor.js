@@ -32,9 +32,6 @@ export default class CornerstoneSEOAssessor extends SEOAssessor {
 			scores: { belowMinimum: -20, farBelowMinimum: -20 },
 			cornerstoneContent: true,
 		} ) );
-		this.addAssessment( "externalLinks", new OutboundLinksAssessment( {
-			scores: { noLinks: 3 },
-		} ) );
 		this.addAssessment( "titleWidth", new PageTitleWidthAssessment( {
 			scores: { widthTooShort: 9 },
 		}, true ) );
