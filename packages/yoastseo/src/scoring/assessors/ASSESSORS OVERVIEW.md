@@ -13,13 +13,13 @@ Overview of the used SEO assessors in the `yoastseo` package:
 - Internal links (`InternalLinksAssessment`)
 - Page title keyphrase assessment (`KeyphraseInSEOTitleAssessment`)
 - Slug keyphrase assessment (`SlugKeywordAssessment`)
-- Length of meta description (`MetaDescriptionLengthAssessment`) -> [Cornerstone scores!](https://github.com/Yoast/wordpress-seo/blob/LINGO-498-move-documentation-from-wiki-to-readme-files-on-repo/packages/yoastseo/src/scoring/assessments/seo/README.md#meta-description-length)
+- Length of meta description (`MetaDescriptionLengthAssessment`) -> [Cornerstone scores!](SCORING%20SEO.md#5-meta-description-length)
 - Keyphrase in subheadings (`SubHeadingsKeywordAssessment`)
 - Images (`ImageCountAssessment`)
-- Keyphrase in image alt attributes (`ImageKeyphraseAssessment`) -> [Cornerstone scores!](https://github.com/Yoast/javascript/wiki/Scoring-SEO-analysis#8-keyphrase-in-text-images)
-- Text length (`TextLengthAssessment`) -> [Cornerstone scores and boundaries!](https://github.com/Yoast/wordpress-seo/blob/LINGO-498-move-documentation-from-wiki-to-readme-files-on-repo/packages/yoastseo/src/scoring/assessments/seo/README.md#text-length)
-- Outbound links (`OutboundLinksAssessment`) -> [Cornerstone scores!](https://github.com/Yoast/wordpress-seo/blob/LINGO-498-move-documentation-from-wiki-to-readme-files-on-repo/packages/yoastseo/src/scoring/assessments/seo/README.md#outbound-links)
-- Title width (`PageTitleWidthAssesment`) -> [Cornerstone scores!](https://github.com/Yoast/wordpress-seo/blob/LINGO-498-move-documentation-from-wiki-to-readme-files-on-repo/packages/yoastseo/src/scoring/assessments/seo/README.md#seo-title-width)
+- Image keyphrase (`ImageKeyphraseAssessment`) -> [Cornerstone scores!](SCORING%20SEO.md#7-image-keyphrase)
+- Text length (`TextLengthAssessment`) -> [Cornerstone scores and boundaries!](SCORING%20SEO.md#1-text-length)
+- Outbound links (`OutboundLinksAssessment`)
+- Title width (`PageTitleWidthAssesment`)
 - Keyphrase consists of function words only (`FunctionWordsInKeyphrase`)
 - Previously used keyphrase (`previouslyUsedKeywords`)
 - Single H1 assessment
@@ -56,9 +56,9 @@ Overview of the used SEO assessors in the `yoastseo` package:
 
 ## Content Assessors
 ### Standard Content (Readability) assessor
-- Subheading distribution (`SubheadingDistributionTooLong`) -> [Cornerstone scores!](https://github.com/Yoast/wordpress-seo/blob/LINGO-498-move-documentation-from-wiki-to-readme-files-on-repo/packages/yoastseo/src/scoring/assessments/SCORING%20READABILITY.md#1-subheading-distribution)
+- Subheading distribution (`SubheadingDistributionTooLong`) -> [Cornerstone scores!](SCORING%20READABILITY.md#1-subheading-distribution)
 - Paragraph length (`ParagraphTooLongAssessment`)
-- Sentence length (`SentenceLengthInTextAssessment`) -> [Cornerstone values!](https://github.com/Yoast/wordpress-seo/blob/LINGO-498-move-documentation-from-wiki-to-readme-files-on-repo/packages/yoastseo/src/scoring/assessments/SCORING%20READABILITY.md#3-sentence-length)
+- Sentence length (`SentenceLengthInTextAssessment`) -> [Cornerstone values!](SCORING%20READABILITY.md#1-subheading-distribution)
 - Consecutive sentences (`SentenceBeginningsAssessment`)
 - Transition words (`TransitionWordsAssessment`)
 - Passive voice (`PassiveVoiceAssessment`)
