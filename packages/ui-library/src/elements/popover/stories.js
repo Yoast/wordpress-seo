@@ -25,7 +25,7 @@ export const Factory = {
 	args: {
 		children: (
 			<>
-				<Popover.Content content={ "Hey! I am a popover" } />
+				<Popover.Content id={ "popover-content" } content={ "Hey! I am a popover" } />
 			</>
 		),
 	},
@@ -52,11 +52,12 @@ export const WithMoreContent = {
 			<>
 				<div className="yst-flex yst-flex-col yst-gap-4">
 					<div className="yst-flex yst-justify-between">
-						<Popover.Title title={ "Popover title" } />
+						<Popover.Title title={ "Popover title" }  id={ "popover-title" } />
 						<Popover.CloseButton dismissScreenReaderLabel="Dismiss" />
 					</div>
 					<div className="yst-self-start yst-flex-wrap">
 						<Popover.Content
+							id={ "popover-content" }
 							content={ "Improve your content SEO. The content of the popover. " +
 								"Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
 								"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
@@ -82,8 +83,9 @@ export const WithMoreContent = {
 
 export const ButtonWithAPopover = {
 	render: ( args ) => {
-		const [ isOpen, setIsOpen ] = useState( args.isOpen );
-		const handleClick = () => setIsOpen( ! isOpen );
+		const [ isVisible, setIsVisible ] = useState( false );
+
+		const handleClick = () => setIsVisible( ! isVisible );
 
 		return (
 			<>
@@ -92,7 +94,12 @@ export const ButtonWithAPopover = {
 					onClick={ handleClick } className="yst-relative yst-border yst-bg-primary-500 yst-p-2 yst-rounded-lg yst-text-white yst-font-semibold"
 				>
 					Toggle popover
-					<Popover { ...args } isOpen={ isOpen } position={ args.position || "topLeft" } />
+					<Popover
+						{ ...args }
+						isVisible={ isVisible }
+						setIsVisible={ setIsVisible }
+						position={ args.position || "topLeft" }
+					/>
 				</button>
 			</>
 		);
@@ -109,9 +116,10 @@ export const ButtonWithAPopover = {
 					</div>
 					<div className="yst-flex-1">
 						<div className="yst-mb-5 yst-flex yst-justify-start">
-							<Popover.Title title={ "Popover title" } />
+							<Popover.Title title={ "Popover title" } id={ "popover-title" } />
 						</div>
 						<Popover.Content
+							id={ "popover-content" }
 							content={ "Improve your content SEO. The content of the popover. " +
 								"Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
 								"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
@@ -143,7 +151,6 @@ export default {
 	title: "1) Elements/Popover",
 	component: Popover,
 	argTypes: {
-		isOpen: { control: "boolean" },
 		children: {
 			control: "text",
 			type: { required: true },
@@ -178,7 +185,6 @@ export default {
 	tags: [ "autodocs" ],
 	args: {
 		id: "popover",
-		isOpen: false,
 		isVisible: true,
 		setIsVisible: noop,
 		children: "",

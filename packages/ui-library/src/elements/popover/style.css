@@ -54,6 +54,7 @@
 			before:yst-start-1/2
 			before:yst-top-full
 			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
 			before:yst-translate-y-0;
 
 			&::before {
@@ -72,6 +73,7 @@
 			before:yst-start-[86%]  /* move arrow to the right */
 			before:yst-top-full
 			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
 			before:yst-translate-y-0;
 
 			&::before {
@@ -91,6 +93,7 @@
 			before:yst-start-[14%] /* move arrow to the left */
 			before:yst-top-full
 			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
 			before:yst-translate-y-0;
 
 			&::before {
@@ -126,6 +129,7 @@
 			before:yst-start-1/2
 			before:yst-bottom-full
 			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
 			before:yst-translate-y-0;
 
 			transform: translate(-50%,15%);
@@ -144,6 +148,7 @@
 			before:yst-end-0
 			before:yst-bottom-full
 			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
 			before:yst-translate-y-0
 			before:yst-border-transparent;
 
@@ -166,6 +171,7 @@
 			before:yst-start-8
 			before:yst-bottom-full
 			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
 			before:yst-translate-y-0
 			before:yst-border-transparent;
 

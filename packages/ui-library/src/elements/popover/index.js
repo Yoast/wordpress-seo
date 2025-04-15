@@ -52,45 +52,51 @@ CloseButton.propTypes = {
 
 /**
  * @param {string|string[]} content The popover content.
+ * @param {string } id The id of the content for accessibility.
  * @param {string} [className] The additional class name.
  * @returns {JSX.Element} The content.
  */
 const Content = ( {
 	content,
+	id,
 	className = "",
 } ) => {
 	return isArray( content ) ? (
-		<ul className={ classNames( "yst-list-disc yst-ms-4", className ) }>
+		<ul id={ id } className={ classNames( "yst-list-disc yst-ms-4", className ) }>
 			{ content.map( ( text, index ) => (
 				<li className="yst-pt-1" key={ `${ text }-${ index }` }>{ text }</li>
 			) ) }
 		</ul>
 	) : (
-		<p className={ classNames( "yst-overflow-wrap", className ) }>{ content }</p>
+		<p id={ id } className={ classNames( "yst-overflow-wrap", className ) }>{ content }</p>
 	);
 };
 
 Content.propTypes = {
 	content: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
+	id: PropTypes.string,
 	className: PropTypes.string,
 };
 
 /**
  * @param {string} title The popover title.
+ * @param {string} id The id of the title.
  * @param {string} [className] The additional class name.
  * @returns {JSX.Element} The title.
  */
 const Title = ( {
 	title,
+	id,
 	className = "",
 } ) => {
-	return <h1 className={ classNames( "yst-text-sm yst-font-medium yst-text-slate-800", className ) }>
+	return <h1 id={ id } className={ classNames( "yst-text-sm yst-font-medium yst-text-slate-800", className ) }>
 		{ title }
 	</h1>;
 };
 
 Title.propTypes = {
 	title: PropTypes.string.isRequired,
+	id: PropTypes.string,
 	className: PropTypes.string,
 };
 
@@ -112,28 +118,28 @@ const Popover = forwardRef(  ( {
 	className = "",
 	isVisible,
 	setIsVisible,
-	isOpen,
 	position,
 	...props
 }, ref ) => {
-	// Prevent rendering if not open
-	if ( ! isOpen ) {
+	// Prevent rendering if not visible
+	if ( ! isVisible ) {
 		return null;
 	}
 
 	const handleDismiss = useCallback( () => {
-		setIsVisible( false );
+		setIsVisible?.( false );
 	}, [ setIsVisible ] );
 
 	return (
 		<PopoverContext.Provider value={ { handleDismiss } }>
-			{ open && <div className="yst-popover-backdrop" /> }
+			{ isVisible && <div className="yst-popover-backdrop" /> }
 			<Component
 				ref={ ref }
 				id={ id }
 				role="dialog"
-				isVisible={ isVisible }
-				aria-modal={ isOpen ? "true" : "false" }
+				aria-modal={ "true" }
+				aria-labelledby="popover-title"
+				aria-describedby="popover-content"
 				className={ classNames( "yst-popover", positionClassNameMap[ position ], className ) }
 				{ ...props }
 			>
@@ -150,7 +156,6 @@ Popover.propTypes = {
 	children: PropTypes.node.isRequired,
 	id: PropTypes.string,
 	className: PropTypes.string,
-	isOpen: PropTypes.bool,
 	isVisible: PropTypes.bool.isRequired,
 	setIsVisible: PropTypes.func.isRequired,
 	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ),
@@ -159,7 +164,6 @@ Popover.propTypes = {
 Popover.defaultProps = {
 	as: "div",
 	id: "yst-popover",
-	isOpen: false,
 	className: "",
 	position: "",
 };
