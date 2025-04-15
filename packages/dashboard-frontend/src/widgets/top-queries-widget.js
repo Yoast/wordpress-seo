@@ -7,8 +7,6 @@ import { Widget } from "../components/widget";
 import { WidgetTable } from "../components/widget-table";
 import { useRemoteData } from "../services/use-remote-data";
 
-const widgetName = "query";
-
 /**
  * @type {import("../index").TopQueryData} TopQueryData
  * @type {import("../services/data-provider")} DataProvider
@@ -92,9 +90,11 @@ const useTopQueries = ( { dataProvider, remoteCachedDataProvider, dataFormatter,
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
 				limit: limit.toString( 10 ),
-				options: { widget: widgetName },
+				options: { widget: dataProvider.getSiteKitWidgets().topQueries.widgetName },
 			},
-			options );
+			options,
+			dataProvider.getSiteKitWidgets().topQueries.ttl
+		);
 	}, [ dataProvider, limit ] );
 
 	/**

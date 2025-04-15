@@ -8,8 +8,6 @@ import { Widget } from "../components/widget";
 import { Score, WidgetTable } from "../components/widget-table";
 import { useRemoteData } from "../services/use-remote-data";
 
-const widgetName = "page";
-
 /**
  * @type {import("../index").TopPageData} TopPageData
  * @type {import("../services/data-provider")} DataProvider
@@ -173,9 +171,11 @@ const useTopPages = ( { dataProvider, remoteCachedDataProvider, dataFormatter, l
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
 				limit: limit.toString( 10 ),
-				options: { widget: widgetName },
+				options: { widget: dataProvider.getSiteKitWidgets().topPages.widgetName },
 			},
-			options );
+			options,
+			dataProvider.getSiteKitWidgets().topPages.ttl
+		);
 	}, [ dataProvider, limit ] );
 
 	/**

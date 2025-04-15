@@ -27,8 +27,6 @@ import { getDifference } from "../../transformers/difference";
  * @property {string} formattedDifference The formatted difference percentage.
  */
 
-const widgetName = "organicSessionsCompare";
-
 /**
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @returns {function(?RawOrganicSessionsCompareData[]): OrganicSessionsCompareData} Function to format the organic sessions compare data.
@@ -64,9 +62,11 @@ export const useOrganicSessionsCompare = ( dataProvider, remoteCachedDataProvide
 		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
-				options: { widget: widgetName },
+				options: { widget: dataProvider.getSiteKitWidgets().organicSessionsCompare.widgetName },
 			},
-			options );
+			options,
+			dataProvider.getSiteKitWidgets().organicSessionsCompare.ttl
+		);
 	}, [ dataProvider ] );
 
 	/**

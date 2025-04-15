@@ -156,6 +156,36 @@ class Site_Kit {
 	}
 
 	/**
+	 * Gets sitekit widgets and their info.
+	 *
+	 * @return string
+	 */
+	private function get_sitekit_widgets() {
+		return [
+			'topPages' => [
+				'widgetName' => 'page',
+				'ttl'  => 1 * MINUTE_IN_SECONDS,
+			],
+			'topQueries' => [
+				'widgetName' => 'query',
+				'ttl'  => 24 * HOUR_IN_SECONDS,
+			],
+			'searchRankingCompare' => [
+				'widgetName' => 'searchRankingCompare',
+				'ttl'  => 24 * HOUR_IN_SECONDS,
+			],
+			'organicSessionsDaily' => [
+				'widgetName' => 'organicSessionsDaily',
+				'ttl'  => 24 * HOUR_IN_SECONDS,
+			],
+			'organicSessionsCompare' => [
+				'widgetName' => 'organicSessionsCompare',
+				'ttl'  => 24 * HOUR_IN_SECONDS,
+			],
+		];
+	}
+
+	/**
 	 * Return this object represented by a key value array.
 	 *
 	 * @return array<string, bool> Returns the name and if the feature is enabled.
@@ -206,6 +236,7 @@ class Site_Kit {
 			'isVersionSupported'       => \defined( 'GOOGLESITEKIT_VERSION' ) ? \version_compare( \GOOGLESITEKIT_VERSION, '1.148.0', '>=' ) : false,
 			'storagePrefix'            => $this->get_storage_prefix(),
 			'yoastVersion'             => \WPSEO_VERSION,
+			'siteKitWidgets'           => $this->get_sitekit_widgets(),
 		];
 	}
 

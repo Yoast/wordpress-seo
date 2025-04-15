@@ -9,6 +9,7 @@ import { RemoteDataProvider } from "./remote-data-provider";
 export class RemoteCachedDataProvider extends RemoteDataProvider {
 	#storagePrefix;
 	#yoastVersion;
+	#ttl;
 
 	/**
 	 * @param {RequestInit} options The fetch options.
@@ -27,9 +28,10 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 	 * @param {string|URL} endpoint The endpoint.
 	 * @param {Object<string,string|Object<string,string>>} [params] The query parameters.
 	 * @param {RequestInit} [options] The request options.
+	 * @param {number} [ttl] The time to live in seconds.
 	 * @returns {Object} The response.
 	 */
-	async fetchJson( endpoint, params, options ) {
+	async fetchJson( endpoint, params, options, ttl ) {
 		const cacheKey = "yoastseo_" + this.#yoastVersion + "_" + this.#storagePrefix + "_" + params.options.widget;
 		const { cacheHit, value, isError } = await getItem( cacheKey );
 		if ( cacheHit && ! isError ) {
@@ -41,7 +43,7 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 			defaultsDeep( options, this.getOptions(), { headers: { "Content-Type": "application/json" } } )
 		);
 
-		await setItem( cacheKey, response );
+		await setItem( cacheKey, response, { ttl: ttl } );
 
 		return response;
 	}

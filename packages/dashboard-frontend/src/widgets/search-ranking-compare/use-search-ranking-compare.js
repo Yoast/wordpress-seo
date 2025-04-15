@@ -2,7 +2,6 @@ import { useCallback, useMemo } from "react";
 import { useRemoteData } from "../../services/use-remote-data";
 import { getDifference } from "../../transformers/difference";
 
-const widgetName = "searchRankingCompare";
 /**
  * @param {TimeBasedData[]} rawData The raw data coming from the API call.
  * @returns {?SearchRankingCompareData} The transformed data.
@@ -72,9 +71,11 @@ export const useSearchRankingCompare = ( { dataProvider, remoteCachedDataProvide
 		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
-				options: { widget: widgetName },
+				options: { widget: dataProvider.getSiteKitWidgets().searchRankingCompare.widgetName },
 			},
-			options );
+			options,
+			dataProvider.getSiteKitWidgets().searchRankingCompare.ttl
+		);
 	}, [ dataProvider ] );
 
 	/**

@@ -24,8 +24,6 @@ import { useRemoteData } from "../../services/use-remote-data";
  * @property {{data: OrganicSessionsDailyData, fill: string}[]} datasets The datasets.
  */
 
-const widgetName = "organicSessionsDaily";
-
 /**
  * Register plugins:
  * - Filler: to fill the area under the line in the chart
@@ -214,9 +212,11 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteCachedDataProvider,
 		return remoteCachedDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
-				options: { widget: widgetName },
+				options: { widget: dataProvider.getSiteKitWidgets().organicSessionsDaily.widgetName },
 			},
-			options );
+			options,
+			dataProvider.getSiteKitWidgets().organicSessionsDaily.ttl
+		);
 	}, [ dataProvider ] );
 
 	/**

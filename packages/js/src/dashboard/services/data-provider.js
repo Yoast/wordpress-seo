@@ -21,6 +21,7 @@ export class DataProvider {
 	#links;
 	#siteKitConfiguration;
 	#subscribers = new Set();
+	#siteKitWidgets;
 
 	/**
 	 * @param {ContentType[]} contentTypes The content types.
@@ -30,6 +31,7 @@ export class DataProvider {
 	 * @param {Object<string,string>} headers The headers for the WP requests.
 	 * @param {Links} links The links.
 	 * @param {SiteKitConfiguration} siteKitConfiguration The Site Kit configuration.
+	 * @param {Object<string,string|number} siteKitWidgets The Site Kit widgets.
 	 */
 	constructor( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } ) {
 		this.#contentTypes = contentTypes;
@@ -39,6 +41,7 @@ export class DataProvider {
 		this.#headers = headers;
 		this.#links = links;
 		this.#siteKitConfiguration = siteKitConfiguration;
+		this.#siteKitWidgets = siteKitConfiguration.siteKitWidgets;
 	}
 
 	/**
@@ -82,6 +85,13 @@ export class DataProvider {
 			this.#siteKitConfiguration.connectionStepsStatuses.isSetupCompleted,
 			this.#siteKitConfiguration.connectionStepsStatuses.isConsentGranted,
 		];
+	}
+
+	/**
+	 * @returns {Object<string,string|number>} The Site Kit widgets.
+	 */
+	getSiteKitWidgets() {
+		return this.#siteKitWidgets;
 	}
 
 	/**
