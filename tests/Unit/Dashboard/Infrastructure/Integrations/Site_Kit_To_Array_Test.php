@@ -71,35 +71,10 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			->andReturn( $is_config_dismissed );
 
 		Functions\expect( 'self_admin_url' )
-			->with( 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php' )
-			->andReturn( 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php' );
-
-		Functions\expect( 'self_admin_url' )
-			->with( 'update.php?action=install-plugin&plugin=google-site-kit' )
-			->andReturn( 'update.php?action=install-plugin&plugin=google-site-kit' );
-
-		Functions\expect( 'self_admin_url' )
-			->with( 'update.php?action=upgrade-plugin&plugin=google-site-kit' )
-			->andReturn( 'update.php?action=upgrade-plugin&plugin=google-site-kit' );
-
-		Functions\expect( 'self_admin_url' )
-			->with( 'admin.php?page=googlesitekit-splash' )
-			->andReturn( 'admin.php?page=googlesitekit-splash' );
+			->andReturn( 'url=' );
 
 		Functions\expect( 'wp_nonce_url' )
-			->with( 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php', 'activate-plugin_google-site-kit/google-site-kit.php' )
-			->once()
-			->andReturn( 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php' );
-
-		Functions\expect( 'wp_nonce_url' )
-			->with( 'update.php?action=install-plugin&plugin=google-site-kit', 'install-plugin_google-site-kit' )
-			->once()
-			->andReturn( 'update.php?action=install-plugin&plugin=google-site-kit' );
-
-		Functions\expect( 'wp_nonce_url' )
-			->with( 'update.php?action=upgrade-plugin&plugin=google-site-kit', 'upgrade-plugin_google-site-kit' )
-			->once()
-			->andReturn( 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php' );
+			->andReturn( 'url' );
 
 		Functions\expect( 'current_user_can' )
 			->with( 'install_plugins' )
@@ -148,10 +123,11 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'search_console_owner_id' => 1,
 			'ga_owner_id'             => 1,
 			'expected'                => [
-				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
-				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'installUrl'               => 'url=url',
+				'activateUrl'              => 'url=url',
+				'setupUrl'                 => 'url=url%3D',
+				'updateUrl'                => 'url=url',
+				'dashboardUrl'             => 'url=',
 				'isAnalyticsConnected'     => true,
 				'isFeatureEnabled'         => true,
 				'isSetupWidgetDismissed'   => true,
@@ -167,6 +143,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 					'isConsentGranted' => true,
 				],
 				'isVersionSupported'       => false,
+				'isRedirectedFromSiteKit'  => false,
 			],
 		];
 		yield 'Installed not setup' => [
@@ -180,10 +157,11 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'search_console_owner_id' => 1,
 			'ga_owner_id'             => 1,
 			'expected'                => [
-				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
-				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'installUrl'               => 'url=url',
+				'activateUrl'              => 'url=url',
+				'setupUrl'                 => 'url=url%3D',
+				'updateUrl'                => 'url=url',
+				'dashboardUrl'             => 'url=',
 				'isAnalyticsConnected'     => false,
 				'isFeatureEnabled'         => true,
 				'isSetupWidgetDismissed'   => true,
@@ -199,6 +177,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 					'isConsentGranted' => false,
 				],
 				'isVersionSupported'       => false,
+				'isRedirectedFromSiteKit'  => false,
 			],
 		];
 		yield 'Setup but no longer installed' => [
@@ -212,10 +191,11 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'search_console_owner_id' => 1,
 			'ga_owner_id'             => 1,
 			'expected'                => [
-				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
-				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'installUrl'               => 'url=url',
+				'activateUrl'              => 'url=url',
+				'setupUrl'                 => 'url=url%3D',
+				'updateUrl'                => 'url=url',
+				'dashboardUrl'             => 'url=',
 				'isAnalyticsConnected'     => true,
 				'isFeatureEnabled'         => true,
 				'isSetupWidgetDismissed'   => true,
@@ -231,6 +211,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 					'isConsentGranted' => true,
 				],
 				'isVersionSupported'       => false,
+				'isRedirectedFromSiteKit'  => false,
 			],
 		];
 		yield 'Setup complete not the right role' => [
@@ -244,10 +225,11 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'search_console_owner_id' => 1,
 			'ga_owner_id'             => 1,
 			'expected'                => [
-				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
-				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'installUrl'               => 'url=url',
+				'activateUrl'              => 'url=url',
+				'setupUrl'                 => 'url=url%3D',
+				'updateUrl'                => 'url=url',
+				'dashboardUrl'             => 'url=',
 				'isAnalyticsConnected'     => true,
 				'isFeatureEnabled'         => true,
 				'isSetupWidgetDismissed'   => true,
@@ -263,6 +245,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 					'isConsentGranted' => true,
 				],
 				'isVersionSupported'       => false,
+				'isRedirectedFromSiteKit'  => false,
 			],
 		];
 		yield 'Setup complete not the right owner but correct role' => [
@@ -276,10 +259,11 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'search_console_owner_id' => 2,
 			'ga_owner_id'             => 2,
 			'expected'                => [
-				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
-				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'installUrl'               => 'url=url',
+				'activateUrl'              => 'url=url',
+				'setupUrl'                 => 'url=url%3D',
+				'updateUrl'                => 'url=url',
+				'dashboardUrl'             => 'url=',
 				'isAnalyticsConnected'     => true,
 				'isFeatureEnabled'         => true,
 				'isSetupWidgetDismissed'   => true,
@@ -295,6 +279,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 					'isConsentGranted' => true,
 				],
 				'isVersionSupported'       => false,
+				'isRedirectedFromSiteKit'  => false,
 			],
 		];
 		yield 'Setup complete not the right owner or correct role' => [
@@ -308,10 +293,11 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'search_console_owner_id' => 2,
 			'ga_owner_id'             => 2,
 			'expected'                => [
-				'installUrl'               => 'update.php?action=install-plugin&plugin=google-site-kit',
-				'activateUrl'              => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'setupUrl'                 => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
-				'updateUrl'                => 'plugins.php?action=activate&plugin=google-site-kit/google-site-kit.php',
+				'installUrl'               => 'url=url',
+				'activateUrl'              => 'url=url',
+				'setupUrl'                 => 'url=url%3D',
+				'updateUrl'                => 'url=url',
+				'dashboardUrl'             => 'url=',
 				'isAnalyticsConnected'     => true,
 				'isFeatureEnabled'         => true,
 				'isSetupWidgetDismissed'   => true,
@@ -327,6 +313,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 					'isConsentGranted' => true,
 				],
 				'isVersionSupported'       => false,
+				'isRedirectedFromSiteKit'  => false,
 			],
 		];
 	}
