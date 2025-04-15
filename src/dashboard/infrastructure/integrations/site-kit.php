@@ -147,6 +147,10 @@ class Site_Kit {
 	 * @return array<string, bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
+		if ( ! ( new Google_Site_Kit_Feature_Conditional() )->is_met() ) {
+			return [];
+		}
+
 		return [
 			'installUrl'               => \self_admin_url( 'update.php?page=' . Setup_Url_Interceptor::PAGE . '&redirect_setup_url=' ) . \rawurlencode( $this->get_install_url() ),
 			'activateUrl'              => \self_admin_url( 'update.php?page=' . Setup_Url_Interceptor::PAGE . '&redirect_setup_url=' ) . \rawurlencode( $this->get_activate_url() ),
@@ -154,7 +158,7 @@ class Site_Kit {
 			'updateUrl'                => \self_admin_url( 'update.php?page=' . Setup_Url_Interceptor::PAGE . '&redirect_setup_url=' ) . \rawurlencode( $this->get_update_url() ),
 			'dashboardUrl'             => \self_admin_url( 'admin.php?page=googlesitekit-dashboard' ),
 			'isAnalyticsConnected'     => $this->is_ga_connected(),
-			'isFeatureEnabled'         => ( new Google_Site_Kit_Feature_Conditional() )->is_met(),
+			'isFeatureEnabled'         => true,
 			'isSetupWidgetDismissed'   => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
 			'capabilities'             => [
 				'installPlugins'        => \current_user_can( 'install_plugins' ),
