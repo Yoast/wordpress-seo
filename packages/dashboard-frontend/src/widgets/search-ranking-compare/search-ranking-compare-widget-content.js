@@ -75,13 +75,13 @@ const SearchRankingCompareSkeletonLoader = () => {
  *
  * @param {import("./search-ranking-compare-widget").SearchRankingCompareData} data the data to render.
  * @param {import("../services/data-provider").DataProvider} dataProvider the data provider.
- * @param {import("../services/remote-cached-data-provider").RemoteCachedDataProvider} remoteCachedDataProvider the remote cached data provider.
+ * @param {import("../services/remote-cached-data-provider").RemoteCachedDataProvider} remoteDataProvider the remote cached data provider.
  * @param {function} setShowTitle The function to update the title visibility.
  *
  * @returns {JSX.Element}
  */
-export const SearchRankingCompareWidgetContent = ( { dataProvider, remoteCachedDataProvider, dataFormatter, setShowTitle } ) => {
-	const { data, error, isPending } = useSearchRankingCompare( { dataProvider, remoteCachedDataProvider, dataFormatter } );
+export const SearchRankingCompareWidgetContent = ( { dataProvider, remoteDataProvider, dataFormatter, setShowTitle } ) => {
+	const { data, error, isPending } = useSearchRankingCompare( { dataProvider, remoteDataProvider, dataFormatter } );
 
 	useEffect( () => {
 		// Only show the title when the data is not pending and there is an error or no data.

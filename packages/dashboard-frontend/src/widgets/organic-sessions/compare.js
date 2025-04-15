@@ -45,12 +45,12 @@ const createOrganicSessionsCompareFormatter = ( dataFormatter ) => ( [ data ] ) 
  * Handles the fetch and returns the data, error and pending status.
  *
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteCachedDataProvider} remoteCachedDataProvider The remote cached data provider.
+ * @param {RemoteCachedDataProvider} remoteDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  *
  * @returns {{data: OrganicSessionsCompareData?, error: Error, isPending: boolean}} The remote data info.
  */
-export const useOrganicSessionsCompare = ( dataProvider, remoteCachedDataProvider, dataFormatter ) => {
+export const useOrganicSessionsCompare = ( dataProvider, remoteDataProvider, dataFormatter ) => {
 	/**
 	 * Fetches the organic sessions compare data.
 	 *
@@ -59,7 +59,7 @@ export const useOrganicSessionsCompare = ( dataProvider, remoteCachedDataProvide
 	 * @returns {Promise<OrganicSessionsCompareData|Error>} The promise of OrganicSessionsCompareData or an Error.
 	 */
 	const getOrganicSessionsCompare = useCallback( ( options ) => {
-		return remoteCachedDataProvider.fetchJson(
+		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
 				options: { widget: dataProvider.getSiteKitWidgets().organicSessionsCompare.widgetName },

@@ -195,12 +195,12 @@ const OrganicSessionsChart = ( { data } ) => (
  * Handles the fetch and returns the data, error and pending status.
  *
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteCachedDataProvider} remoteCachedDataProvider The remote cached data provider.
+ * @param {RemoteCachedDataProvider} remoteDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  *
  * @returns {{data: ChartData?, error: Error, isPending: boolean}} The remote data info.
  */
-export const useOrganicSessionsDaily = ( dataProvider, remoteCachedDataProvider, dataFormatter ) => {
+export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataFormatter ) => {
 	/**
 	 * Fetches the organic sessions daily data.
 	 *
@@ -209,7 +209,7 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteCachedDataProvider,
 	 * @returns {Promise<OrganicSessionsDailyData[]|Error>} The promise of OrganicSessionsData or an Error.
 	 */
 	const getOrganicSessionsDaily = useCallback( ( options ) => {
-		return remoteCachedDataProvider.fetchJson(
+		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
 				options: { widget: dataProvider.getSiteKitWidgets().organicSessionsDaily.widgetName },

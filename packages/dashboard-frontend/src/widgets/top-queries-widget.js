@@ -75,18 +75,18 @@ export const createTopQueriesFormatter = ( dataFormatter ) => ( data = [] ) => d
 
 /**
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteCachedDataProvider} remoteCachedDataProvider The remote cached data provider.
+ * @param {RemoteCachedDataProvider} remoteDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  * @returns {{data?: TopPageData[], error?: Error, isPending: boolean}} The remote data info.
  */
-const useTopQueries = ( { dataProvider, remoteCachedDataProvider, dataFormatter, limit } ) => {
+const useTopQueries = ( { dataProvider, remoteDataProvider, dataFormatter, limit } ) => {
 	/**
 	 * @param {RequestInit} options The options.
 	 * @returns {Promise<TopPageData[]|Error>} The promise of TopPageData or an Error.
 	 */
 	const getTopQueries = useCallback( ( options ) => {
-		return remoteCachedDataProvider.fetchJson(
+		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
 				limit: limit.toString( 10 ),
@@ -107,14 +107,14 @@ const useTopQueries = ( { dataProvider, remoteCachedDataProvider, dataFormatter,
 
 /**
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteCachedDataProvider} remoteCachedDataProvider The remote cached data provider.
+ * @param {RemoteCachedDataProvider} remoteDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  * @param {string} [supportLink] The support link.
  * @returns {JSX.Element} The element.
  */
-const TopQueriesWidgetContent = ( { dataProvider, remoteCachedDataProvider, dataFormatter, limit = 5 } ) => {
-	const { data, error, isPending } = useTopQueries( { dataProvider, remoteCachedDataProvider, dataFormatter, limit } );
+const TopQueriesWidgetContent = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => {
+	const { data, error, isPending } = useTopQueries( { dataProvider, remoteDataProvider, dataFormatter, limit } );
 
 	if ( isPending ) {
 		return (
@@ -140,13 +140,13 @@ const TopQueriesWidgetContent = ( { dataProvider, remoteCachedDataProvider, data
  * This contains minimal logic, in order to keep the error boundary more likely to catch errors.
  *
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteCachedDataProvider} remoteCachedDataProvider The remote cached data provider.
+ * @param {RemoteCachedDataProvider} remoteDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  *
  * @returns {JSX.Element} The element.
  */
-export const TopQueriesWidget = ( { dataProvider, remoteCachedDataProvider, dataFormatter, limit = 5 } ) => (
+export const TopQueriesWidget = ( { dataProvider, remoteDataProvider, dataFormatter, limit = 5 } ) => (
 	<Widget
 		className="yst-paper__content yst-col-span-4"
 		title={ __( "Top 5 search queries", "wordpress-seo" ) }
@@ -163,7 +163,7 @@ export const TopQueriesWidget = ( { dataProvider, remoteCachedDataProvider, data
 	>
 		<TopQueriesWidgetContent
 			dataProvider={ dataProvider }
-			remoteCachedDataProvider={ remoteCachedDataProvider }
+			remoteDataProvider={ remoteDataProvider }
 			dataFormatter={ dataFormatter }
 			limit={ limit }
 		/>

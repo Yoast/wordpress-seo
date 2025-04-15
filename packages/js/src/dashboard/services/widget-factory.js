@@ -24,7 +24,7 @@ export class WidgetFactory {
 	/**
 	 * @param {import("./data-provider").DataProvider} dataProvider
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider
-	 * @param {import("./remote-cached-data-provider").RemoteDataProvider} remoteCachedDataProvider
+	 * @param {import("./remote-cached-data-provider").RemoteCachedDataProvider} remoteCachedDataProvider
 	 * @param {object} dataFormatters
 	 * @param {object} dataTrackers
 	 */
@@ -100,7 +100,7 @@ export class WidgetFactory {
 				return <TopPagesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteCachedDataProvider={ this.#remoteCachedDataProvider }
+					remoteDataProvider={ this.#remoteCachedDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.siteKitSetup:
@@ -120,7 +120,7 @@ export class WidgetFactory {
 				return <TopQueriesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteCachedDataProvider={ this.#remoteCachedDataProvider }
+					remoteDataProvider={ this.#remoteCachedDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.searchRankingCompare:
@@ -130,7 +130,7 @@ export class WidgetFactory {
 				return <SearchRankingCompareWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteCachedDataProvider={ this.#remoteCachedDataProvider }
+					remoteDataProvider={ this.#remoteCachedDataProvider }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			case this.types.organicSessions:
@@ -140,7 +140,7 @@ export class WidgetFactory {
 				return <OrganicSessionsWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteCachedDataProvider={ this.#remoteCachedDataProvider }
+					remoteDataProvider={ this.#remoteCachedDataProvider }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			default:
