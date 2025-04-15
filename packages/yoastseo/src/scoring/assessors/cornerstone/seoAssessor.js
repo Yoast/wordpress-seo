@@ -2,7 +2,6 @@ import SEOAssessor from "../seoAssessor";
 import MetaDescriptionLengthAssessment from "../../assessments/seo/MetaDescriptionLengthAssessment";
 import KeyphraseInImagesAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment";
 import TextLengthAssessment from "../../assessments/seo/TextLengthAssessment";
-import OutboundLinksAssessment from "../../assessments/seo/OutboundLinksAssessment";
 import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssessment";
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
 
