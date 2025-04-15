@@ -182,3 +182,21 @@ Below is a detailed overview of how scores for the readability assessments are c
 **Notes**:
 * LTR: The feedback shown for languages written from left to right.
 * RTL: The feedback shown for languages written from right to left.
+
+### 10) Lists (only on product pages in Yoast WooCommerce SEO and Yoast SEO for Shopify)
+**What it does**: Checks if there is a list in the text.
+
+**When applies**: Always.
+
+**Name in code**: ListAssessment
+
+**Title URL**: https://yoa.st/4fe (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/4ff (link placement is in bold in the feedback strings)
+
+| Traffic light | Score   | Criterion         | Feedback                                                                                   |
+|---------------|---------|-------------------|--------------------------------------------------------------------------------------------|
+| Red           | 3     	 | No list	         | **Lists**: No lists appear on this page. **Add at least one ordered or unordered list**.   |
+| Green         | 9     	 | At least one list | **Lists**: There is at least one list on this page. Great!                                 |
+
+
