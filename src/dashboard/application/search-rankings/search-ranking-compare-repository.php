@@ -51,11 +51,11 @@ class Search_Ranking_Compare_Repository implements Dashboard_Repository_Interfac
 	 *
 	 * @throws Data_Source_Not_Available_Exception When getting the comparing search ranking data fails.
 	 */
-	public function get_data( Parameters $parameters, array $cached_data ): Data_Container {
+	public function get_data( Parameters $parameters ): Data_Container {
 		if ( ! $this->site_kit_configuration->is_onboarded() ) {
 			throw new Data_Source_Not_Available_Exception( 'Comparison search ranking repository' );
 		}
 
-		return $this->site_kit_search_console_adapter->get_comparison_data( $parameters, $cached_data );
+		return $this->site_kit_search_console_adapter->get_comparison_data( $parameters );
 	}
 }

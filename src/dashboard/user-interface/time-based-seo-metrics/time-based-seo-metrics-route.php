@@ -128,7 +128,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 			self::ROUTE_NAME,
 			[
 				[
-					'methods'             => 'POST',
+					'methods'             => 'GET',
 					'callback'            => [ $this, 'get_time_based_seo_metrics' ],
 					'permission_callback' => [ $this, 'permission_manage_options' ],
 					'args'                => [
@@ -147,11 +147,6 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 									'sanitize_callback' => 'sanitize_text_field',
 								],
 							],
-						],
-						'cachedData' => [
-							'type'       => 'array',
-							'required'   => false,
-							'default'    => [],
 						],
 					],
 				],
@@ -176,29 +171,23 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 				case 'query':
 					$request_parameters = new Search_Console_Parameters();
 
-					$cached_data = $request->get_param( 'cachedData' );
-
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );
 					$request_parameters->set_limit( $request->get_param( 'limit' ) );
 					$request_parameters->set_dimensions( [ 'query' ] );
 
-					$time_based_seo_metrics_container = $this->top_query_repository->get_data( $request_parameters, $cached_data );
+					$time_based_seo_metrics_container = $this->top_query_repository->get_data( $request_parameters );
 					break;
 				case 'page':
 					$request_parameters = new Search_Console_Parameters();
-
-					$cached_data = $request->get_param( 'cachedData' );
 
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );
 					$request_parameters->set_limit( $request->get_param( 'limit' ) );
 					$request_parameters->set_dimensions( [ 'page' ] );
 
-					$time_based_seo_metrics_container = $this->top_page_repository->get_data( $request_parameters, $cached_data );
+					$time_based_seo_metrics_container = $this->top_page_repository->get_data( $request_parameters );
 					break;
 				case 'organicSessionsDaily':
 					$request_parameters = new Analytics_4_Parameters();
-
-					$cached_data = $request->get_param( 'cachedData' );
 
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );
 					$request_parameters->set_dimensions( [ 'date' ] );
@@ -206,30 +195,26 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 					$request_parameters->set_dimension_filters( [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ] );
 					$request_parameters->set_order_by( 'dimension', 'date' );
 
-					$time_based_seo_metrics_container = $this->organic_sessions_daily_repository->get_data( $request_parameters, $cached_data );
+					$time_based_seo_metrics_container = $this->organic_sessions_daily_repository->get_data( $request_parameters );
 					break;
 				case 'organicSessionsCompare':
 					$request_parameters = new Analytics_4_Parameters();
-
-					$cached_data = $request->get_param( 'cachedData' );
 
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );
 					$request_parameters = $this->set_comparison_date_range_parameters( $request_parameters );
 					$request_parameters->set_metrics( [ 'sessions' ] );
 					$request_parameters->set_dimension_filters( [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ] );
 
-					$time_based_seo_metrics_container = $this->organic_sessions_compare_repository->get_data( $request_parameters, $cached_data );
+					$time_based_seo_metrics_container = $this->organic_sessions_compare_repository->get_data( $request_parameters );
 					break;
 				case 'searchRankingCompare':
 					$request_parameters = new Search_Console_Parameters();
-
-					$cached_data = $request->get_param( 'cachedData' );
 
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );
 					$request_parameters = $this->set_comparison_date_range_parameters( $request_parameters );
 					$request_parameters->set_dimensions( [ 'date' ] );
 
-					$time_based_seo_metrics_container = $this->search_ranking_compare_repository->get_data( $request_parameters, $cached_data );
+					$time_based_seo_metrics_container = $this->search_ranking_compare_repository->get_data( $request_parameters );
 					break;
 				default:
 					throw new Repository_Not_Found_Exception();

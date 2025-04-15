@@ -41,19 +41,7 @@ class Site_Kit_Search_Console_Adapter {
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 * @return Data_Container The Site Kit API response.
 	 */
-	public function get_data( Search_Console_Parameters $parameters, array $cached_data ): Data_Container {
-		if ( count( $cached_data ) !== 0 ) {
-			$cached_data_container = new Data_Container();
-
-			foreach ( $cached_data as $cached_data_item ) {
-				$search_ranking_data = new Search_Ranking_Data();
-				$search_ranking_data->from_array( $cached_data_item );
-				$cached_data_container->add_cacheable_data( $search_ranking_data );
-			}
-
-			return $cached_data_container;
-		}
-
+	public function get_data( Search_Console_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
 		$response = $this->site_kit_search_console_api_call->do_request( $api_parameters );
@@ -72,19 +60,7 @@ class Site_Kit_Search_Console_Adapter {
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 * @return Data_Container The Site Kit API response.
 	 */
-	public function get_comparison_data( Search_Console_Parameters $parameters, array $cached_data ): Data_Container {
-		if ( count( $cached_data ) !== 0 ) {
-			$cached_data_container = new Data_Container();
-
-			foreach ( $cached_data as $cached_data_item ) {
-				$comparison_search_ranking_data = new Comparison_Search_Ranking_Data();
-				$comparison_search_ranking_data->parse_from_array( $cached_data_item );
-				$cached_data_container->add_cacheable_data( $comparison_search_ranking_data );
-			}
-
-			return $cached_data_container;
-		}
-
+	public function get_comparison_data( Search_Console_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
 		// Since we're doing a comparison request, we need to increase the date range to the start of the previous period. We'll later split the data into two periods.
@@ -148,7 +124,7 @@ class Site_Kit_Search_Console_Adapter {
 			}
 		}
 
-		$data_container->add_cacheable_data( $comparison_search_ranking_data );
+		$data_container->add_data( $comparison_search_ranking_data );
 
 		return $data_container;
 	}
@@ -179,7 +155,7 @@ class Site_Kit_Search_Console_Adapter {
 			 */
 			$subject = \apply_filters( 'wpseo_transform_dashboard_subject_for_testing', $ranking->getKeys()[0] );
 
-			$search_ranking_data_container->add_cacheable_data( new Search_Ranking_Data( $ranking->getClicks(), $ranking->getCtr(), $ranking->getImpressions(), $ranking->getPosition(), $subject ) );
+			$search_ranking_data_container->add_data( new Search_Ranking_Data( $ranking->getClicks(), $ranking->getCtr(), $ranking->getImpressions(), $ranking->getPosition(), $subject ) );
 		}
 
 		return $search_ranking_data_container;

@@ -14,5 +14,5 @@ interface Dashboard_Repository_Interface {
 	 *
 	 * @return Data_Container
 	 */
-	public function get_data( Parameters $parameters, array $cached_data ): Data_Container;
+	public function get_data( Parameters $parameters ): Data_Container;
 }

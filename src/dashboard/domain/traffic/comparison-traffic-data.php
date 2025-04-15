@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Dashboard\Domain\Traffic;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Interface;
 
 /**
- * Domain object that represents a single Comparison Traffic data record.
+ * Domain object that represents a single Comparison Traffic record.
  */
 class Comparison_Traffic_Data implements Data_Interface {
 
@@ -69,27 +69,5 @@ class Comparison_Traffic_Data implements Data_Interface {
 			'current'  => $this->current_traffic_data->to_array(),
 			'previous' => $this->previous_traffic_data->to_array(),
 		];
-	}
-
-	/**
-	 * The object representation of this domain array.
-	 *
-	 * @return void
-	 */
-	public function from_array( $array ): void {
-		if ( is_array( $array ) === false ) {
-			return;
-		}
-
-		foreach ( $array as $key => $value ) {
-			$traffic_data = new Traffic_Data();
-			$traffic_data->from_array( $value );
-
-			if ( $key === 'current' ) {
-				$this->set_current_traffic_data( $traffic_data );
-			} else if ( $key === 'previous' ) {
-				$this->set_previous_traffic_data( $traffic_data );
-			}
-		}
 	}
 }

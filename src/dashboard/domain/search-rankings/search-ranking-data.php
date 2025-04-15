@@ -53,7 +53,7 @@ class Search_Ranking_Data implements Data_Interface {
 	 * @param float  $position    The position.
 	 * @param string $subject     The subject of the data.
 	 */
-	public function __construct( int $clicks = 0, float $ctr = 0.0, int $impressions = 0, float $position = 0.0, string $subject = '' ) {
+	public function __construct( int $clicks, float $ctr, int $impressions, float $position, string $subject ) {
 		$this->clicks      = $clicks;
 		$this->ctr         = $ctr;
 		$this->impressions = $impressions;
@@ -74,23 +74,6 @@ class Search_Ranking_Data implements Data_Interface {
 			'position'    => $this->position,
 			'subject'     => $this->subject,
 		];
-	}
-
-	/**
-	 * The object representation of this domain array.
-	 *
-	 * @return array<string|float|int|string[]>
-	 */
-	public function from_array( $array ): void {
-		if ( is_array( $array ) === false ) {
-			return;
-		}
-
-		$this->clicks      = $array['clicks'] ?? null;
-		$this->ctr         = $array['ctr'] ?? null;
-		$this->impressions = $array['impressions'] ?? null;
-		$this->position    = $array['position'] ?? null;
-		$this->subject     = $array['subject'] ?? null;
 	}
 
 	/**

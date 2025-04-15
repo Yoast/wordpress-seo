@@ -32,29 +32,16 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 	async fetchJson( endpoint, params, options ) {
 		const cacheKey = "yoastseo_" + this.#yoastVersion + "_" + this.#storagePrefix + "_" + params.options.widget;
 		const { cacheHit, value, isError } = await getItem( cacheKey );
-		params.cachedData = ( cacheHit && ! isError ) ? value : {};
+		if ( cacheHit && ! isError ) {
+			return value;
+		}
 
 		const response = await fetchJson(
-			this.getUrl( endpoint ),
-			defaultsDeep(
-				options,
-				this.getOptions(),
-				{
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify( params ),
-				}
-			)
+			this.getUrl( endpoint, params ),
+			defaultsDeep( options, this.getOptions(), { headers: { "Content-Type": "application/json" } } )
 		);
 
-		if ( Array.isArray( response.uncacheableData ) && Array.isArray( response.cacheableData ) ) {
-			await setItem( cacheKey, response.cacheableData );
-			if ( response.uncacheableData.length > 0 ) {
-				return response.uncacheableData;
-			}
-
-			return response.cacheableData;
-		}
+		await setItem( cacheKey, response );
 
 		return response;
 	}

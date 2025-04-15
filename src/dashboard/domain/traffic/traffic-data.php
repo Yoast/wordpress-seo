@@ -43,20 +43,6 @@ class Traffic_Data implements Data_Interface {
 	}
 
 	/**
-	 * The object representation of this domain array.
-	 *
-	 * @return array<string|float|int|string[]>
-	 */
-	public function from_array( $array ): void {
-		if ( is_array( $array ) === false ) {
-			return;
-		}
-
-		$this->sessions    = $array['sessions'] ?? null;
-		$this->total_users = $array['total_users'] ?? null;
-	}
-
-	/**
 	 * Sets the sessions.
 	 *
 	 * @param int $sessions The sessions.
