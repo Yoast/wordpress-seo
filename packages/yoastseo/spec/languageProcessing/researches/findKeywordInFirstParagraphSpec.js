@@ -86,6 +86,45 @@ describe( "a test for excluded elements", function() {
 		} );
 		expect( firstParagraph( paper, researcher ).introduction.sentences[ 0 ].text ).toEqual( "The Braunvieh (German, \"brown cattle\") or Swiss Brown is a breed or group of breeds of domestic cattle originating in Switzerland and distributed throughout the Alpine region." );
 	} );
+	it( "should not recognize gallery shortcode as the introduction if it occurs at the beginning of the post: classic editor", function() {
+		const paper = new Paper( "<p>[gallery ids=\"1425,1281\"]</p><p>The deadliest cat on <strong>Earth</strong> isn't a shaggy-maned lion, a sleek leopard or a stealthy tiger.</p>", { keyword: "the deadliest cat" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+		expect( firstParagraph( paper, researcher ).introduction.sentences[ 0 ].text ).toEqual( "The deadliest cat on Earth isn't a shaggy-maned lion, a sleek leopard or a stealthy tiger." );
+	} );
+	it( "should not recognize embed shortcode as the introduction if it occurs at the beginning of the post: classic editor", function() {
+		const paper = new Paper( "<p>[embed]https://youtube.com/shorts/FjhU7wtp4_c?si=YWJBva3N6VvNJnVy[/embed]</p><p>The deadliest cat on <strong>Earth</strong> isn't a shaggy-maned lion, a sleek leopard or a stealthy tiger.</p>", { keyword: "the deadliest cat" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+		expect( firstParagraph( paper, researcher ).introduction.sentences[ 0 ].text ).toEqual( "The deadliest cat on Earth isn't a shaggy-maned lion, a sleek leopard or a stealthy tiger." );
+	} );
+	it( "should not recognize playlist shortcode as the introduction if it occurs at the beginning of the post: classic editor", function() {
+		const paper = new Paper( "<p>[playlist type=\"video\" ids=\"1209,1208\"]</p><p>The deadliest cat on <strong>Earth</strong> isn't a shaggy-maned lion, a sleek leopard or a stealthy tiger.</p>", { keyword: "the deadliest cat" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+		expect( firstParagraph( paper, researcher ).introduction.sentences[ 0 ].text ).toEqual( "The deadliest cat on Earth isn't a shaggy-maned lion, a sleek leopard or a stealthy tiger." );
+	} );
 } );
 
 describe( "checks for the content words from the keyphrase in the first paragraph (English)", function() {
