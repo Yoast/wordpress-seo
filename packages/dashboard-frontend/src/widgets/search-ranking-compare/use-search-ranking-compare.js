@@ -72,7 +72,7 @@ export const useSearchRankingCompare = ( { dataProvider, remoteDataProvider, dat
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
-				options: { widget: widgetName }
+				options: { widget: widgetName },
 			},
 			options,
 			widgetName

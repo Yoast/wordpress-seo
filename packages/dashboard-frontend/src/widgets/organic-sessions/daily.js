@@ -213,7 +213,7 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataF
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
-				options: { widget: widgetName }
+				options: { widget: widgetName },
 			},
 			options,
 			widgetName

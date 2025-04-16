@@ -77,28 +77,28 @@ export class WidgetFactory {
 				return <TopPagesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteCachedDataProviders[widgetType] }
+					remoteDataProvider={ this.#remoteCachedDataProviders[ widgetType ] }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.topQueries:
 				return <TopQueriesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteCachedDataProviders[widgetType] }
+					remoteDataProvider={ this.#remoteCachedDataProviders[ widgetType ] }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.searchRankingCompare:
 				return <SearchRankingCompareWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteCachedDataProviders[widgetType] }
+					remoteDataProvider={ this.#remoteCachedDataProviders[ widgetType ] }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			case this.types.organicSessions:
 				return <OrganicSessionsWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteCachedDataProviders[widgetType] }
+					remoteDataProvider={ this.#remoteCachedDataProviders[ widgetType ] }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			default:
