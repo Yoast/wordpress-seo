@@ -102,12 +102,14 @@ export { Dashboard } from "./components/dashboard";
  * @property {string} activateUrl The link to activate Site Kit.
  * @property {string} setupUrl The link to setup Site Kit.
  * @property {string} updateUrl The link to update Site Kit.
+ * @property {string} dashboardUrl The link to Site Kit dashboard.
  * @property {SiteKitConnectionStepsStatuses} connectionStepsStatuses The connection steps statuses.
  * @property {boolean} isAnalyticsConnected Whether Google Analytics is connected.
  * @property {boolean} isFeatureEnabled Whether the feature is enabled.
  * @property {boolean} isSetupWidgetDismissed Whether the configuration is dismissed.
  * @property {CapabilitiesForSiteKit} capabilities The user capabilities for site kit.
  * @property {boolean} isVersionSupported Whether the current Site Kit plugin version is supported.
+ * @property {boolean} isRedirectedFromSiteKit Whether the setup widget is shown after redirecting back from Site Kit.
  * @property {string} storagePrefix The prefix for the client side cache key.
  * @property {string} yoastVersion The Yoast version.
  */
