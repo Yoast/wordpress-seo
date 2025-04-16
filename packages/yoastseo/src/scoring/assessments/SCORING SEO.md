@@ -56,12 +56,12 @@ Thus, this calculation make the overall score work on a 0-100/0-10 scale rather 
 
 **Call to action URL**: [https://yoa.st/33j](https://yoast.com/why-keyphrase-length-matters/#utm_source=yoast-seo&utm_medium=software&utm_term=keyphrase-length-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	      | Score	     | Criterion | Feedback |
-|------------	|------------------	|---------------------	|---------------	|
-| Red   	      | -999	     | No focus keyword set		 | **Keyphrase length**: No focus keyphrase was set for this page. **Set a focus keyphrase in order to calculate your SEO score**. |
-| Red   	      | 3		     | Keyphrase length > 8 words (> 9 for languages without function words support)	 | **Keyphrase length**: The keyphrase contains x (content) words. That's way more than the recommended maximum of 4 (content) words. **Make it shorter!**|
-| Orange   	      | 6	     | Keyphrase length between 5-8 words (7-9 for languages without function words support)		 | **Keyphrase length**: The keyphrase contains x (content) words. That's more than the recommended maximum of 4 (content) words. **Make it shorter!**|
-| Green   	      | 9	     | Keyphrase length between 1-4 words (1-6 or languages without function words support)		 | **Keyphrase length**: Good job! |
+| Traffic light   	      | Score	     | Criterion                                                                                                                 | Feedback                                                                                                                                                                      |
+|------------	|------------------	|---------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red   	      | -999	     | No focus keyword set		                                                                                                    | **Keyphrase length**: No focus keyphrase was set for this page. **Set a focus keyphrase in order to calculate your SEO score**.                                               |
+| Red   	      | 3		     | Keyphrase length > 8 words (> 9 for languages without function words support, > 18 characters for Japanese)	          | **Keyphrase length**: The keyphrase contains X (content) words/characters. That's way more than the recommended maximum of X (content) words/characters. **Make it shorter!** |
+| Orange   	      | 6	     | Keyphrase length between 5-8 words (7-9 for languages without function words support, 13-18 characters for Japanese)		 | **Keyphrase length**: The keyphrase contains X (content) words/characters. That's more than the recommended maximum of X (content) words/characters. **Make it shorter!**     |
+| Green   	      | 9	     | Keyphrase length between 1-4 words (1-6 for languages without function words support, 1-12 characters for Japanese)		 | **Keyphrase length**: Good job!                                                                                                                                               |
 
 ### 3) Keyphrase density
 **What it does**: Checks whether the (content) words from the keyphrase are used in the text and whether they are used often enough (but not too often). For a match to be found, all content words should occur in one sentence. Multiple occurrences of all content words within one sentence are considered multiple matches.
@@ -217,7 +217,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 9	| For short keyphrases (1-2 content words): All content words are in the slug			| **Keyphrase in slug**: Great work! |
 | Green	| 9	| For longer keyphrases (>2 content words): More than half content words are in the slug		| **Keyphrase in slug**: More than half of your keyphrase appears in the slug. That's great! |
 
-### 10) Previously used keywords
+### 10) Previously used keyphrase
 **What it does**: Checks if the words from the keyphrase were previously used in a keyphrase for a different post.
 
 **Uses synonyms**: no
@@ -268,13 +268,13 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Call to action URL**: [https://yoa.st/34o](https://yoast.com/blog-post-word-count-seo/#utm_source=yoast-seo&utm_medium=software&utm_term=text-length-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	      | Score	     | Criterion | Feedback |
-|------------	|------------------	|---------------------	|---------------	|
-| Red	| -20	| Between 0 and 99 words (cornerstone: between 0 and 0)		| **Text length**: the text contains X words. This is far below the recommended minimum of 300 words. **Add more content.** |
-| Red	| -10 (cornerstone: -20)		| Between 100 and 199 words (cornerstone: between 0 and 299)		| **Text length**: the text contains X words. This is far below the recommended minimum of 300 words. **Add more content.** |
-| Red	| 3 (cornerstone: -20)		| Between 200 and and 249 words (cornerstone: between 300 and 399)			| **Text length**: the text contains X words. This is below the recommended minimum of 300 words. **Add more content.** |
-| Orange	| 6	| Between 250 and 299 words (cornerstone: between 400 and 899)		| **Text length**: the text contains X words. This is slightly below the recommended minimum of 300 words. **Add a bit more copy.** (cornerstone: **Text length**: the text contains X words. This is below the recommended minimum of 900 words. **Add more content.**) |
-| Green	| 9	| More than or exactly 300 words (cornerstone: 900)		| **Text length**: the text contains X words. Good job! |
+| Traffic light   	      | Score	     | Criterion                                                                                                                                | Feedback                                                                                                                                                                                                                                                                                                                     |
+|------------	|------------------	|------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red	| -20	| Between 0 and 99 words (_cornerstone_: between 0 and 0, _Japanese_: 0-199)		                                                             | **Text length**: The text contains X words/characters. This is far below the recommended minimum of 300 words (cornerstone: 900 words, JA: 600 characters, JA cornerstone: 1800 characters). **Add more content.**                                                                                                           |
+| Red	| -10 (cornerstone: -20)		| Between 100 and 199 words (cornerstone: between 0 and 299, Japanese: 200-399 characters, Japanese cornerstone: 0-599 characters)		       | **Text length**: The text contains X words/characters. This is far below the recommended minimum of X words/characters. **Add more content.**                                                                                                                                                                                |
+| Red	| 3 (cornerstone: -20)		| Between 200 and 249 words (cornerstone: between 300 and 399, Japanese: 400-499 characters, Japanese cornerstone: 600-799 characters)			 | **Text length**: The text contains X words/characters. This is below the recommended minimum of X words/characters. **Add more content.**                                                                                                                                                                                    |
+| Orange	| 6	| Between 250 and 299 words (cornerstone: between 400 and 899, Japanese: 500-599 characters, Japanese cornerstone: 800-1799 characters)		  | **Text length**: The text contains X words/characters. This is slightly below the recommended minimum of 300 words (JA: 600 characters). **Add a bit more copy.** (cornerstone: **Text length**: The text contains X words. This is below the recommended minimum of 900 words (JA: 1800 characters). **Add more content.**) |
+| Green	| 9	| More than or exactly 300 words (cornerstone: 900, Japanese: 600 characters, Japanese cornerstone: 1800 characters)		                     | **Text length**: The text contains X words/characters. Good job!                                                                                                                                                                                                                                                             |
 
 ### 2) Outbound links
 **What it does**: Checks if outbound links are present and followed.
@@ -340,12 +340,12 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Call to action URL**: [https://yoa.st/34e](https://yoast.com/meta-descriptions/#utm_source=yoast-seo&utm_medium=software&utm_term=length-meta-description-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	      | Score	     | Criterion | Feedback |
-|------------	|------------------	|---------------------	|---------------	|
-| Red	| 1	| No meta description		| **Meta description length**: No meta description has been specified. Search engines will display copy from the page instead. **Make sure to write one!** |
-| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description (incl. the date)  ≤ 120 characters		| **Meta description length**: The meta description is too short (under X characters). Up to X characters are available. **Use the space!** |
-| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description (incl. the date)  ≥ 157 characters		| **Meta description length**: The meta description is over X characters. **To ensure the entire description will be visible, you should reduce the length!**	|
-| Green	| 9	| Meta description (incl. the date) > 120 and < 157		| **Meta description length**: Well done! |
+| Traffic light   	      | Score	     | Criterion                                                                               | Feedback |
+|------------	|------------------	|-----------------------------------------------------------------------------------------|---------------	|
+| Red	| 1	| No meta description		                                                                   | **Meta description length**: No meta description has been specified. Search engines will display copy from the page instead. **Make sure to write one!** |
+| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description (incl. the date)  ≤ 120 characters (Japanese: ≤ 60 characters)		       | **Meta description length**: The meta description is too short (under X characters). Up to X characters are available. **Use the space!** |
+| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description (incl. the date)  ≥ 157 characters (Japanese: ≥ 80 characters) 		      | **Meta description length**: The meta description is over X characters. **To ensure the entire description will be visible, you should reduce the length!**	|
+| Green	| 9	| Meta description (incl. the date) > 120 and < 157 characters	(Japanese: > 60 and < 80)	 | **Meta description length**: Well done! |
 
 ### 6) Single title
 **What it does**: Checks if there are multiple H1 headings present in the text.
@@ -408,5 +408,3 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 |---------|-------------|---------------------	|---------------	|
 | Red	  | -10000	    | No title		        | **Title**: Your page does not have a title yet. **Add one!** |
 | Green	  | 9	        | There is a title		| **Title**: Your page has a title. Well done! |
-
-
