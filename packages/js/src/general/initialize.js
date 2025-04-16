@@ -101,23 +101,27 @@ domReady( () => {
 		},
 		storagePrefix: "",
 		yoastVersion: "",
+		widgetsCacheTtl: {},
 	} );
-
-	/** @type {Object<string,string|number>} */
-	const siteKitWidgets = get( window, "wpseoScriptData.dashboard.siteKitConfiguration.siteKitWidgets", {} );
+	
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
-	const shortLivedCachedProvider = new RemoteCachedDataProvider( { headers }, `${ siteKitConfiguration.storagePrefix }` , `${ siteKitConfiguration.yoastVersion }`, true );
-	const longLivedCachedProvider = new RemoteCachedDataProvider( { headers }, `${ siteKitConfiguration.storagePrefix }` , `${ siteKitConfiguration.yoastVersion }`, false );
-	const remoteCachedDataProviders = [
-		shortLivedCachedProvider,
-		longLivedCachedProvider,
-	];
-	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration, siteKitWidgets } );
+
+	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const dataFormatters = {
 		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
 		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
 	};
+
+	const remoteCachedDataProviders = Object.entries( siteKitConfiguration.widgetsCacheTtl ).reduce( ( providers, [ key, value ] ) => {
+		providers[ key ] = new RemoteCachedDataProvider(
+			{ headers },
+			siteKitConfiguration.storagePrefix,
+			siteKitConfiguration.yoastVersion,
+			value.ttl
+		);
+		return providers;
+	}, {} );
 
 	const setupStepsTrackingData = {
 		setupWidgetLoaded: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetLoaded", "no" ),

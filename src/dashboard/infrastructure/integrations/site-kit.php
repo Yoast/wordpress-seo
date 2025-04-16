@@ -156,31 +156,23 @@ class Site_Kit {
 	}
 
 	/**
-	 * Gets sitekit widgets and their info.
+	 * Gets the Time To Live for each widget's cache.
 	 *
 	 * @return string
 	 */
-	private function get_sitekit_widgets() {
+	private function get_widgets_cache_ttl() {
 		return [
 			'topPages' => [
-				'widgetName' => 'page',
 				'ttl'  => 1 * MINUTE_IN_SECONDS,
 			],
 			'topQueries' => [
-				'widgetName' => 'query',
-				'ttl'  => 1 * DAY_IN_SECONDS,
+				'ttl'  => 1 * HOUR_IN_SECONDS,
 			],
 			'searchRankingCompare' => [
-				'widgetName' => 'searchRankingCompare',
-				'ttl'  => 1 * DAY_IN_SECONDS,
+				'ttl'  => 1 * HOUR_IN_SECONDS,
 			],
-			'organicSessionsDaily' => [
-				'widgetName' => 'organicSessionsDaily',
-				'ttl'  => 1 * DAY_IN_SECONDS,
-			],
-			'organicSessionsCompare' => [
-				'widgetName' => 'organicSessionsCompare',
-				'ttl'  => 1 * DAY_IN_SECONDS,
+			'organicSessions' => [
+				'ttl'  => 1 * HOUR_IN_SECONDS,
 			],
 		];
 	}
@@ -236,7 +228,7 @@ class Site_Kit {
 			'isVersionSupported'       => \defined( 'GOOGLESITEKIT_VERSION' ) ? \version_compare( \GOOGLESITEKIT_VERSION, '1.148.0', '>=' ) : false,
 			'storagePrefix'            => $this->get_storage_prefix(),
 			'yoastVersion'             => \WPSEO_VERSION,
-			'siteKitWidgets'           => $this->get_sitekit_widgets(),
+			'widgetsCacheTtl'          => $this->get_widgets_cache_ttl(),
 		];
 	}
 

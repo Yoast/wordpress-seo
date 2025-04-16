@@ -9,21 +9,21 @@ import { RemoteDataProvider } from "./remote-data-provider";
 export class RemoteCachedDataProvider extends RemoteDataProvider {
 	#storagePrefix;
 	#yoastVersion;
-	#isShortLived;
+	#ttl;
 
 	/**
 	 * @param {RequestInit} options The fetch options.
 	 * @param {string} storagePrefix The storage prefix.
 	 * @param {string} yoastVersion The Yoast version.
-	 * @param {boolean} isShortLived Whether the data is short lived.
+	 * @param {number} ttl The cache's TTL.
 	 * @throws {TypeError} If the baseUrl is invalid.
 	 */
-	constructor( options, storagePrefix, yoastVersion, isShortLived ) {
+	constructor( options, storagePrefix, yoastVersion, ttl ) {
 		super( options );
 
 		this.#storagePrefix = storagePrefix;
 		this.#yoastVersion = yoastVersion;
-		this.#isShortLived = isShortLived;
+		this.#ttl = ttl;
 	}
 
 	/**
@@ -45,8 +45,7 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 			defaultsDeep( options, this.getOptions(), { headers: { "Content-Type": "application/json" } } )
 		);
 
-		const ttl = this.#isShortLived ? 60 : 24 * 60 * 60; // 1 hour or 1 day.
-		await setItem( cacheKey, response, { ttl: ttl } );
+		await setItem( cacheKey, response, { ttl: this.#ttl } );
 
 		return response;
 	}
