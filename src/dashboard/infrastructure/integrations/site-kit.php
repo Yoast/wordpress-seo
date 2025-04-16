@@ -6,8 +6,8 @@ use Google\Site_Kit\Core\REST_API\REST_Routes;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
-use Yoast\WP\SEO\Dashboard\User_Interface\Setup\Setup_Url_Interceptor;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Connection\Site_Kit_Is_Connected_Call;
+use Yoast\WP\SEO\Dashboard\User_Interface\Setup\Setup_Url_Interceptor;
 
 /**
  * Describes if the Site kit integration is enabled and configured.
@@ -202,7 +202,7 @@ class Site_Kit {
 				'viewSearchConsoleData' => $this->can_read_data( $this->search_console_module ),
 				'viewAnalyticsData'     => $this->can_read_data( $this->ga_module ),
 			],
-			'connectionStepsStatuses' => [
+			'connectionStepsStatuses'  => [
 				'isInstalled'      => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
 				'isActive'         => $this->is_enabled(),
 				'isSetupCompleted' => $this->is_setup_completed(),
