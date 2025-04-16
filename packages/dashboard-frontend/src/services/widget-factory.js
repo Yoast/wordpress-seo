@@ -15,19 +15,19 @@ import { SearchRankingCompareWidget } from "../widgets/search-ranking-compare-wi
 export class WidgetFactory {
 	#dataProvider;
 	#remoteDataProvider;
-	#remoteCachedDataProvider;
+	#remoteCachedDataProviders;
 	#dataFormatters;
 
 	/**
 	 * @param {import("./data-provider").DataProvider} dataProvider
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider
-	 * @param {import("./remote-cached-data-provider").RemoteDataProvider} remoteCachedDataProvider
+	 * @param {Array<import("./remote-cached-data-provider").RemoteCachedDataProvider>} remoteCachedDataProviders
 	 * @param {object} dataFormatters
 	 */
-	constructor( dataProvider, remoteDataProvider, remoteCachedDataProvider, dataFormatters ) {
+	constructor( dataProvider, remoteDataProvider, remoteCachedDataProviders, dataFormatters ) {
 		this.#dataProvider = dataProvider;
 		this.#remoteDataProvider = remoteDataProvider;
-		this.#remoteCachedDataProvider = remoteCachedDataProvider;
+		this.#remoteCachedDataProviders = remoteCachedDataProviders;
 		this.#dataFormatters = dataFormatters;
 	}
 
@@ -77,28 +77,28 @@ export class WidgetFactory {
 				return <TopPagesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteCachedDataProvider }
+					remoteDataProvider={ this.#remoteCachedDataProviders[ 0 ] }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.topQueries:
 				return <TopQueriesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteCachedDataProvider }
+					remoteDataProvider={ this.#remoteCachedDataProviders[ 1 ] }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.searchRankingCompare:
 				return <SearchRankingCompareWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteCachedDataProvider }
+					remoteDataProvider={ this.#remoteCachedDataProviders[ 1 ] }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			case this.types.organicSessions:
 				return <OrganicSessionsWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteCachedDataProvider }
+					remoteDataProvider={ this.#remoteCachedDataProviders[ 1 ] }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			default:

@@ -68,13 +68,14 @@ export const useSearchRankingCompare = ( { dataProvider, remoteDataProvider, dat
 	 * @returns {Promise<TimeBasedData[]|Error>} The promise of TimeBasedData[] or an Error.
 	 */
 	const getData = useCallback( ( options ) => {
+		const widgetName = "searchRankingCompare";
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
-				options: { widget: dataProvider.getSiteKitWidgets().searchRankingCompare.widgetName },
+				options: { widget: widgetName }
 			},
 			options,
-			dataProvider.getSiteKitWidgets().searchRankingCompare.ttl
+			widgetName
 		);
 	}, [ dataProvider ] );
 

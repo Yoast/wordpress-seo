@@ -167,14 +167,15 @@ const useTopPages = ( { dataProvider, remoteDataProvider, dataFormatter, limit =
 	 * @returns {Promise<TopPageData[]|Error>} The promise of TopPageData or an Error.
 	 */
 	const getTopPages = useCallback( ( options ) => {
+		const widgetName = "page";
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
 			{
 				limit: limit.toString( 10 ),
-				options: { widget: dataProvider.getSiteKitWidgets().topPages.widgetName },
+				options: { widget: widgetName },
 			},
 			options,
-			dataProvider.getSiteKitWidgets().topPages.ttl
+			widgetName
 		);
 	}, [ dataProvider, limit ] );
 

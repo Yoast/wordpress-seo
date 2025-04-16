@@ -168,19 +168,19 @@ class Site_Kit {
 			],
 			'topQueries' => [
 				'widgetName' => 'query',
-				'ttl'  => 24 * HOUR_IN_SECONDS,
+				'ttl'  => 1 * DAY_IN_SECONDS,
 			],
 			'searchRankingCompare' => [
 				'widgetName' => 'searchRankingCompare',
-				'ttl'  => 24 * HOUR_IN_SECONDS,
+				'ttl'  => 1 * DAY_IN_SECONDS,
 			],
 			'organicSessionsDaily' => [
 				'widgetName' => 'organicSessionsDaily',
-				'ttl'  => 24 * HOUR_IN_SECONDS,
+				'ttl'  => 1 * DAY_IN_SECONDS,
 			],
 			'organicSessionsCompare' => [
 				'widgetName' => 'organicSessionsCompare',
-				'ttl'  => 24 * HOUR_IN_SECONDS,
+				'ttl'  => 1 * DAY_IN_SECONDS,
 			],
 		];
 	}

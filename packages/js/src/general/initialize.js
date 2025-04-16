@@ -107,7 +107,12 @@ domReady( () => {
 	const siteKitWidgets = get( window, "wpseoScriptData.dashboard.siteKitConfiguration.siteKitWidgets", {} );
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
-	const remoteCachedDataProvider = new RemoteCachedDataProvider( { headers }, `${ siteKitConfiguration.storagePrefix }` , `${ siteKitConfiguration.yoastVersion }` );
+	const shortLivedCachedProvider = new RemoteCachedDataProvider( { headers }, `${ siteKitConfiguration.storagePrefix }` , `${ siteKitConfiguration.yoastVersion }`, true );
+	const longLivedCachedProvider = new RemoteCachedDataProvider( { headers }, `${ siteKitConfiguration.storagePrefix }` , `${ siteKitConfiguration.yoastVersion }`, false );
+	const remoteCachedDataProviders = [
+		shortLivedCachedProvider,
+		longLivedCachedProvider,
+	];
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration, siteKitWidgets } );
 	const dataFormatters = {
 		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
@@ -131,7 +136,7 @@ domReady( () => {
 		setupWidgetDataTracker: new DataTracker( setupStepsTrackingRoute, remoteDataProvider ),
 	};
 
-	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, remoteCachedDataProvider, dataFormatters, dataTrackers );
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, remoteCachedDataProviders, dataFormatters, dataTrackers );
 	if ( dataProvider.isSiteKitConnectionCompleted() && siteKitConfiguration.isVersionSupported ) {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}
