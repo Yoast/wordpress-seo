@@ -106,7 +106,6 @@ domReady( () => {
 		yoastVersion: "",
 		widgetsCacheTtl: {},
 	} );
-	
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 
