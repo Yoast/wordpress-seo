@@ -6,6 +6,7 @@ use Google\Site_Kit\Core\REST_API\REST_Routes;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\User_Interface\Setup\Setup_Url_Interceptor;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Connection\Site_Kit_Is_Connected_Call;
 
 /**
@@ -184,42 +185,19 @@ class Site_Kit {
 		if ( ! ( new Google_Site_Kit_Feature_Conditional() )->is_met() ) {
 			return [];
 		}
-
-		$site_kit_activate_url = \html_entity_decode(
-			\wp_nonce_url(
-				\self_admin_url( 'plugins.php?action=activate&plugin=' . self::SITE_KIT_FILE ),
-				'activate-plugin_' . self::SITE_KIT_FILE
-			)
-		);
-
-		$site_kit_install_url = \html_entity_decode(
-			\wp_nonce_url(
-				\self_admin_url( 'update.php?action=install-plugin&plugin=google-site-kit' ),
-				'install-plugin_google-site-kit'
-			)
-		);
-
-		$site_kit_update_url = \html_entity_decode(
-			\wp_nonce_url(
-				\self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . self::SITE_KIT_FILE ),
-				'upgrade-plugin_' . self::SITE_KIT_FILE
-			)
-		);
-
-		$site_kit_setup_url = \self_admin_url( 'admin.php?page=googlesitekit-splash' );
 		if ( $this->is_enabled() ) {
 			$this->parse_site_kit_data();
 		}
-
 		return [
-			'installUrl'              => $site_kit_install_url,
-			'activateUrl'             => $site_kit_activate_url,
-			'setupUrl'                => $site_kit_setup_url,
-			'updateUrl'               => $site_kit_update_url,
-			'isAnalyticsConnected'    => $this->is_ga_connected(),
-			'isFeatureEnabled'        => true,
-			'isSetupWidgetDismissed'  => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
-			'capabilities'            => [
+			'installUrl'               => \self_admin_url( 'update.php?page=' . Setup_Url_Interceptor::PAGE . '&redirect_setup_url=' ) . \rawurlencode( $this->get_install_url() ),
+			'activateUrl'              => \self_admin_url( 'update.php?page=' . Setup_Url_Interceptor::PAGE . '&redirect_setup_url=' ) . \rawurlencode( $this->get_activate_url() ),
+			'setupUrl'                 => \self_admin_url( 'update.php?page=' . Setup_Url_Interceptor::PAGE . '&redirect_setup_url=' ) . \rawurlencode( $this->get_setup_url() ),
+			'updateUrl'                => \self_admin_url( 'update.php?page=' . Setup_Url_Interceptor::PAGE . '&redirect_setup_url=' ) . \rawurlencode( $this->get_update_url() ),
+			'dashboardUrl'             => \self_admin_url( 'admin.php?page=googlesitekit-dashboard' ),
+			'isAnalyticsConnected'     => $this->is_ga_connected(),
+			'isFeatureEnabled'         => true,
+			'isSetupWidgetDismissed'   => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
+			'capabilities'             => [
 				'installPlugins'        => \current_user_can( 'install_plugins' ),
 				'viewSearchConsoleData' => $this->can_read_data( $this->search_console_module ),
 				'viewAnalyticsData'     => $this->can_read_data( $this->ga_module ),
@@ -230,7 +208,9 @@ class Site_Kit {
 				'isSetupCompleted' => $this->is_setup_completed(),
 				'isConsentGranted' => $this->is_connected(),
 			],
-			'isVersionSupported'      => \defined( 'GOOGLESITEKIT_VERSION' ) ? \version_compare( \GOOGLESITEKIT_VERSION, '1.148.0', '>=' ) : false,
+			'isVersionSupported'       => \defined( 'GOOGLESITEKIT_VERSION' ) ? \version_compare( \GOOGLESITEKIT_VERSION, '1.148.0', '>=' ) : false,
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			'isRedirectedFromSiteKit'  => isset( $_GET['redirected_from_site_kit'] ),
 		];
 	}
 
@@ -317,5 +297,56 @@ class Site_Kit {
 			'rest_preload_api_request',
 			[]
 		);
+	}
+
+	/**
+	 * Creates a valid activation URL for the Site Kit plugin.
+	 *
+	 * @return string
+	 */
+	public function get_activate_url(): string {
+		return \html_entity_decode(
+			\wp_nonce_url(
+				\self_admin_url( 'plugins.php?action=activate&plugin=' . self::SITE_KIT_FILE ),
+				'activate-plugin_' . self::SITE_KIT_FILE
+			)
+		);
+	}
+
+	/**
+	 *  Creates a valid install URL for the Site Kit plugin.
+	 *
+	 * @return string
+	 */
+	public function get_install_url(): string {
+		return \html_entity_decode(
+			\wp_nonce_url(
+				\self_admin_url( 'update.php?action=install-plugin&plugin=google-site-kit' ),
+				'install-plugin_google-site-kit'
+			)
+		);
+	}
+
+	/**
+	 *  Creates a valid update URL for the Site Kit plugin.
+	 *
+	 * @return string
+	 */
+	public function get_update_url(): string {
+		return \html_entity_decode(
+			\wp_nonce_url(
+				\self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . self::SITE_KIT_FILE ),
+				'upgrade-plugin_' . self::SITE_KIT_FILE
+			)
+		);
+	}
+
+	/**
+	 *  Creates a valid setup URL for the Site Kit plugin.
+	 *
+	 * @return string
+	 */
+	public function get_setup_url(): string {
+		return \self_admin_url( 'admin.php?page=googlesitekit-splash' );
 	}
 }

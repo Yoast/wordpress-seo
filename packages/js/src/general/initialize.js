@@ -2,13 +2,13 @@ import { SlotFillProvider } from "@wordpress/components";
 import { select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
+import { ComparisonMetricsDataFormatter, PlainMetricsDataFormatter, RemoteDataProvider } from "@yoast/dashboard-frontend";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
 import { DataProvider } from "../dashboard/services/data-provider";
 import { DataTracker } from "../dashboard/services/data-tracker";
-import { PlainMetricsDataFormatter, RemoteDataProvider, ComparisonMetricsDataFormatter } from "@yoast/dashboard-frontend";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
 import { ADMIN_URL_NAME, LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
@@ -85,6 +85,7 @@ domReady( () => {
 		installUrl: "",
 		activateUrl: "",
 		setupUrl: "",
+		dashboardUrl: "",
 		isAnalyticsConnected: false,
 		isFeatureEnabled: false,
 		isSetupWidgetDismissed: false,
@@ -100,6 +101,7 @@ domReady( () => {
 			isSetupCompleted: false,
 			isConsentGranted: false,
 		},
+		isRedirectedFromSiteKit: false,
 	} );
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
