@@ -1,59 +1,13 @@
 /**
- * Initially forked from Site Kit's own implementation
+ * Initially forked from Site Kit's own implementation and modified to fit our needs.
  *
  * @see https://github.com/google/site-kit-wp/blob/dc2f9ee544b116ada6ae2dbdf40253ca3db647cc/assets/js/googlesitekit/api/cache.js
  *
  */
 
 const defaultOrder = [ "sessionStorage", "localStorage" ];
+const storageOrder = [ ...defaultOrder ];
 let storageBackend;
-let storageOrder = [ ...defaultOrder ];
-
-/**
- * Overrides the storage backend.
- *
- * Largely used for tests. Should not be used directly.
- *
- * @since 1.5.0
- * @private
- *
- * @param {*} backend Backend to set for the cache.
- */
-export const setSelectedStorageBackend = ( backend ) => {
-	storageBackend = backend;
-};
-
-/**
- * Overrides the priority of storage mechanisms.
- *
- * Largely used for tests. Implicitly resets the selected storage backend,
- * causing `_getStorage` to re-run its checks for the best available
- * storage backend.
- *
- * @since 1.5.0
- * @private
- *
- * @param {Array} order Ordered array of storage backends to use.
- */
-export const setStorageOrder = ( order ) => {
-	storageOrder = [ ...order ];
-	setSelectedStorageBackend( undefined ); // eslint-disable-line no-undefined
-};
-
-/**
- * Resets the storage mechanism order.
- *
- * Largely used for tests. Implicitly resets the selected storage backend,
- * causing `_getStorage` to re-run its checks for the best available
- * storage backend.
- *
- * @since 1.5.0
- * @private
- */
-export const resetDefaultStorageOrder = () => {
-	storageOrder = [ ...defaultOrder ];
-	setSelectedStorageBackend( undefined ); // eslint-disable-line no-undefined
-};
 
 /**
  * Detects whether browser storage is both supported and available.
