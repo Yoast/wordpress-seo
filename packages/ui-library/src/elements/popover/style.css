@@ -1,10 +1,35 @@
 @layer components {
 	.yst-root {
+
+		.yst-close-button-wrapper {
+			@apply
+			yst-flex-shrink-0
+			yst-flex yst-self-start;
+
+			& button {
+				@apply
+				yst-bg-transparent
+				yst-rounded-md
+				yst-inline-flex
+				yst-text-slate-400
+				hover:yst-text-slate-500
+				focus:yst-outline-none
+				focus:yst-ring-2
+				focus:yst-ring-primary-500;
+			}
+		}
+
+		.yst-popover-title {
+			@apply
+			yst-text-sm yst-font-medium
+			yst-text-slate-800;
+		}
+
 		.yst-popover-backdrop {
 			@apply yst-fixed
 			yst-inset-0
 			yst-bg-black/5
-			yst-z-[10]
+			yst-z-10
 			yst-pointer-events-none;
 		}
 
@@ -50,7 +75,7 @@
 			yst--translate-y-full
 			yst-translate-x-1/2
 			yst-end-1/2
-			yst--top-5
+			yst--top-4
 			before:yst-start-1/2
 			before:yst-top-full
 			before:yst--translate-x-1/2
@@ -64,10 +89,10 @@
 			}
 		}
 
-		.yst-popover--top-right {
+		.yst-popover--top-left {
 			@apply
 			yst--translate-y-full
-			yst--top-5
+			yst--top-4
 			yst-start-auto
 			yst-end-0  /* move horizontally to the left */
 			before:yst-start-[86%]  /* move arrow to the right */
@@ -84,10 +109,10 @@
 			}
 		}
 
-		.yst-popover--top-left {
+		.yst-popover--top-right {
 			@apply
 			yst--translate-y-full
-			yst--top-5
+			yst--top-4
 			yst-start-0   /* move horizontally to the right */
 			yst-end-auto
 			before:yst-start-[14%] /* move arrow to the left */
@@ -125,7 +150,6 @@
 		.yst-popover--bottom {
 			@apply
 			yst-start-1/2
-			yst-mt-2
 			before:yst-start-1/2
 			before:yst-bottom-full
 			before:yst--translate-x-1/2
@@ -144,7 +168,6 @@
 		.yst-popover--bottom-left {
 			@apply
 			yst-start-1/2
-			yst-mt-2
 			before:yst-end-0
 			before:yst-bottom-full
 			before:yst--translate-x-1/2
@@ -167,7 +190,6 @@
 		.yst-popover--bottom-right {
 			@apply
 			yst-start-1/2
-			yst-mt-2
 			before:yst-start-8
 			before:yst-bottom-full
 			before:yst--translate-x-1/2

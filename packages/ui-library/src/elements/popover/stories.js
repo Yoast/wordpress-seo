@@ -14,9 +14,7 @@ export const Factory = {
 	component: Popover,
 	render: ( args ) => {
 		return (
-			<div className="yst-relative">
-				<Popover { ...args } isOpen={ true } position={ args.position } />
-			</div>
+			<Popover { ...args } id="yst-popover" />
 		);
 	},
 	parameters: {
@@ -24,9 +22,24 @@ export const Factory = {
 	},
 	args: {
 		children: (
-			<>
-				<Popover.Content id={ "popover-content" } content={ "Hey! I am a popover" } />
-			</>
+			<Popover.Content id="popover-content" content="Hey! I am a popover" />
+		),
+	},
+};
+
+export const WithBackdrop = {
+	component: Popover,
+	render: ( args ) => {
+		return (
+			<Popover { ...args } id="yst-popover"  backdrop="true" />
+		);
+	},
+	parameters: {
+		controls: { disable: true },
+	},
+	args: {
+		children: (
+			<Popover.Content id="popover-content" content="Hey! I am a popover" />
 		),
 	},
 };
@@ -36,7 +49,7 @@ export const WithMoreContent = {
 		const [ isVisible, setIsVisible ] = useState( true );
 
 		return (
-			<div className="yst-relative">
+			<>
 				{ isVisible && <Popover
 					{ ...args }
 					isVisible={ isVisible }
@@ -44,7 +57,7 @@ export const WithMoreContent = {
 					isOpen={ isVisible }
 					position={ args.position }
 				/> }
-			</div>
+			</>
 		);
 	},
 	args: {
@@ -52,17 +65,16 @@ export const WithMoreContent = {
 			<>
 				<div className="yst-flex yst-flex-col yst-gap-4">
 					<div className="yst-flex yst-justify-between">
-						<Popover.Title title={ "Popover title" }  id={ "popover-title" } />
+						<Popover.Title title="Popover title"  id="popover-title" />
 						<Popover.CloseButton dismissScreenReaderLabel="Dismiss" />
 					</div>
 					<div className="yst-self-start yst-flex-wrap">
 						<Popover.Content
-							id={ "popover-content" }
-							content={ "Improve your content SEO. The content of the popover. " +
-								"Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-								"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
-								"when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-							}
+							id="popover-content"
+							content="Improve your content SEO. The content of the popover.
+								Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+								Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+								when an unknown printer took a galley of type and scrambled it to make a type specimen book."
 						/>
 					</div>
 				</div>
@@ -74,7 +86,7 @@ export const WithMoreContent = {
 	},
 	decorators: [
 		( Story ) => (
-			<div className="yst-min-h-[15rem]">
+			<div className="yst-min-h-64">
 				<Story />
 			</div>
 		),
@@ -116,15 +128,14 @@ export const ButtonWithAPopover = {
 					</div>
 					<div className="yst-flex-1">
 						<div className="yst-mb-5 yst-flex yst-justify-start">
-							<Popover.Title title={ "Popover title" } id={ "popover-title" } />
+							<Popover.Title title="Popover title" id="popover-title" />
 						</div>
 						<Popover.Content
-							id={ "popover-content" }
-							content={ "Improve your content SEO. The content of the popover. " +
-								"Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-								"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
-								"when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-							}
+							id="popover-content"
+							content="Improve your content SEO. The content of the popover.
+								Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+								Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+								when an unknown printer took a galley of type and scrambled it to make a type specimen book."
 							className="yst-text-slate-700 yst-font-normal yst-text-left"
 						/>
 					</div>
@@ -151,57 +162,52 @@ export default {
 	title: "1) Elements/Popover",
 	component: Popover,
 	argTypes: {
+		as: { options: [ "div", "span" ] },
 		children: {
 			control: "text",
 			type: { required: true },
 			table: { type: { summary: "node" } },
 		},
-		id: { control: "text" },
 		isVisible: {
-			control: { disable: true },
-			type: { required: true },
-			table: { type: { summary: "bool" } },
-		},
-		setIsVisible: {
 			control: { disable: false },
 			type: { required: true },
-			table: { type: { summary: "func" } },
-		},
-		className: {
-			control: "text",
 			table: {
-				type: { summary: "string" },
+				type: { summary: "bool" },
+				defaultValue: { summary: true },
 			},
 		},
-		position: {
-			options: [ "top", "topLeft", "topRight", "right", "bottom", "left", "bottomLeft", "bottomRight" ],
-			type: "select",
-			description: "The position of the popover.",
+		backdrop: {
+			control: { type: "boolean" },
+			defaultValue: false,
+			type: { required: false },
 			table: {
-				defaultValue: { summary: "" },
+				type: { summary: "bool" },
+				defaultValue: { summary: false },
 			},
 		},
 	},
-	tags: [ "autodocs" ],
 	args: {
-		id: "popover",
+		id: "yst-popover",
 		isVisible: true,
 		setIsVisible: noop,
 		children: "",
 		position: "",
+		backdrop: false,
 	},
 	parameters: {
 		docs: {
 			description: { component },
 			page: () => (
-				<InteractiveDocsPage stories={ [ Factory, WithMoreContent, ButtonWithAPopover ] } />
+				<InteractiveDocsPage stories={ [ WithBackdrop, WithMoreContent, ButtonWithAPopover ] } />
 			),
 		},
 	},
 	decorators: [
 		( Story ) => (
-			<div className="yst-min-h-[21rem] yst-flex yst-justify-center yst-items-center">
-				<Story />
+			<div className="yst-min-h-64 yst-flex yst-justify-center yst-items-center">
+				<div className="yst-relative">
+					<Story />
+				</div>
 			</div>
 		),
 	],
