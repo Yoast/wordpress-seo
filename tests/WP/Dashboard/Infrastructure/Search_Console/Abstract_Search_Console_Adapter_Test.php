@@ -3,8 +3,9 @@
 
 namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Search_Console;
 
+use Mockery;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter;
-use Yoast\WP\SEO\Tests\WP\Doubles\Dashboard\Infrastructure\Search_Console\Search_Console_Module_Mock;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Api_Call;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -15,11 +16,11 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 abstract class Abstract_Search_Console_Adapter_Test extends TestCase {
 
 	/**
-	 * The search console module.
+	 * The api call mock.
 	 *
-	 * @var Search_Console_Module_Mock
+	 * @var Site_Kit_Search_Console_Api_Call
 	 */
-	protected static $search_console_module;
+	protected $search_console_api_call_mock;
 
 	/**
 	 * Plugin basename of the plugin dependency this group of tests has.
@@ -42,7 +43,8 @@ abstract class Abstract_Search_Console_Adapter_Test extends TestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
+		$this->search_console_api_call_mock = Mockery::mock( Site_Kit_Search_Console_Api_Call::class );
 
-		$this->instance = new Site_Kit_Search_Console_Adapter();
+		$this->instance = new Site_Kit_Search_Console_Adapter( $this->search_console_api_call_mock );
 	}
 }

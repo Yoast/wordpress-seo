@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Dashboard\Application\Configuration;
 
 use Yoast\WP\SEO\Dashboard\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository;
+use Yoast\WP\SEO\Dashboard\Application\Tracking\Setup_Steps_Tracking;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
@@ -69,6 +70,13 @@ class Dashboard_Configuration {
 	private $site_kit_integration_data;
 
 	/**
+	 * The setup steps tracking data.
+	 *
+	 * @var Setup_Steps_Tracking
+	 */
+	private $setup_steps_tracking;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Content_Types_Repository             $content_types_repository             The content types repository.
@@ -80,6 +88,7 @@ class Dashboard_Configuration {
 	 * @param Endpoints_Repository                 $endpoints_repository                 The endpoints repository.
 	 * @param Nonce_Repository                     $nonce_repository                     The nonce repository.
 	 * @param Site_Kit                             $site_kit_integration_data            The Site Kit integration data.
+	 * @param Setup_Steps_Tracking                 $setup_steps_tracking                 The setup steps tracking data.
 	 */
 	public function __construct(
 		Content_Types_Repository $content_types_repository,
@@ -88,7 +97,8 @@ class Dashboard_Configuration {
 		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository,
 		Endpoints_Repository $endpoints_repository,
 		Nonce_Repository $nonce_repository,
-		Site_Kit $site_kit_integration_data
+		Site_Kit $site_kit_integration_data,
+		Setup_Steps_Tracking $setup_steps_tracking
 	) {
 		$this->content_types_repository             = $content_types_repository;
 		$this->indexable_helper                     = $indexable_helper;
@@ -97,6 +107,7 @@ class Dashboard_Configuration {
 		$this->endpoints_repository                 = $endpoints_repository;
 		$this->nonce_repository                     = $nonce_repository;
 		$this->site_kit_integration_data            = $site_kit_integration_data;
+		$this->setup_steps_tracking                 = $setup_steps_tracking;
 	}
 
 	/**
@@ -105,7 +116,7 @@ class Dashboard_Configuration {
 	 * @return array<string, array<string>>
 	 */
 	public function get_configuration(): array {
-		return [
+		$configuration = [
 			'contentTypes'            => $this->content_types_repository->get_content_types(),
 			'indexablesEnabled'       => $this->indexable_helper->should_index_indexables(),
 			'displayName'             => $this->user_helper->get_current_user_display_name(),
@@ -117,7 +128,14 @@ class Dashboard_Configuration {
 			)->to_array(),
 			'endpoints'               => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			'nonce'                   => $this->nonce_repository->get_rest_nonce(),
-			'siteKitConfiguration'    => $this->site_kit_integration_data->to_array(),
+			'setupStepsTracking'      => $this->setup_steps_tracking->to_array(),
 		];
+
+		$site_kit_integration_data = $this->site_kit_integration_data->to_array();
+
+		if ( ! empty( $site_kit_integration_data ) ) {
+			$configuration ['siteKitConfiguration'] = $site_kit_integration_data;
+		}
+		return $configuration;
 	}
 }

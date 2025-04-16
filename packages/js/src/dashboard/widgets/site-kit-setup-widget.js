@@ -1,7 +1,7 @@
 import { ArrowNarrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { useCallback } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { createInterpolateElement, useCallback, useEffect } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
 import { Widget } from "@yoast/dashboard-frontend";
 import { Alert, Button, DropdownMenu, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
@@ -31,6 +31,10 @@ export const STEP_NAME = {
 	setup: 2,
 	grantConsent: 3,
 	successfullyConnected: -1,
+};
+
+const getCurrentStepName = ( step ) => {
+	return Object.entries( STEP_NAME ).find( ( [ , val ] ) => val === step )?.[ 0 ];
 };
 
 /**
@@ -145,6 +149,32 @@ const SiteKitAlert = ( { capabilities, currentStep, isVersionSupported, isConsen
 };
 
 /**
+ * The alert to call back to Site Kit.
+ *
+ * @param {string} dashboardUrl The dashboard url.
+ *
+ * @returns {JSX.Element} The no permission warning component.
+ */
+const SiteKitRedirectBackAlert = ( { dashboardUrl } ) => {
+	return <Alert className={ "yst-mb-4" }>
+		{ createInterpolateElement( sprintf(
+			/* translators: %1$s and %2$s: Expands to an opening and closing link tag. */
+			__(
+				"You’re back in Yoast SEO. If you still have tasks to finish in Site Kit by Google, you can %1$s return to their dashboard%2$s anytime.",
+				"wordpress-seo"
+			),
+			"<a>",
+			"</a>"
+		),
+		{
+			// eslint-disable-next-line
+				a: <a href={ dashboardUrl } />,
+		}
+		) }
+	</Alert>;
+};
+
+/**
  * @param {number} currentStep The current step.
  * @param {SiteKitConfiguration} config The Site Kit configuration.
  * @param {boolean} isConnectionCompleted Whether the Site Kit connection is completed.
@@ -206,32 +236,56 @@ const SiteKitSetupAction = ( { currentStep, config, isConnectionCompleted, onDis
 	return null;
 };
 
+const useTracking = ( dataTracker, currentStep ) => {
+	useEffect( () => {
+		const stepName = getCurrentStepName( currentStep );
+		if ( dataTracker.getTrackingElement( "setupWidgetLoaded" ) === "no" ) {
+			dataTracker.track( {
+				setupWidgetLoaded: "yes",
+				firstInteractionStage: stepName,
+				lastInteractionStage: stepName,
+			} );
+		} else if ( dataTracker.getTrackingElement( "setupWidgetLoaded" ) === "yes" ) {
+			dataTracker.track( { lastInteractionStage: stepName } );
+		}
+	}, [ dataTracker, currentStep ] );
+};
+
 /**
- * The google site kit connection guide widget.
+ * The Google site kit connection guide widget.
  *
  * @param {DataProvider} dataProvider The data provider.
  * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {DataTracker} dataTracker The data tracker.
  *
  * @returns {JSX.Element} The widget.
  */
-export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
+export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTracker } ) => {
+	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
+	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
+	const config = dataProvider.getSiteKitConfiguration();
+	const isConnectionCompleted = dataProvider.isSiteKitConnectionCompleted() && config.isVersionSupported;
+
+	useTracking( dataTracker, currentStep );
+
 	const handleOnRemove = useCallback( () => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}, [ dataProvider ] );
 
-	const { grantConsent, dismissPermanently } = useSiteKitConfiguration( dataProvider, remoteDataProvider );
+	const handleOnRemoveTemporarily = useCallback( () => {
+		handleOnRemove();
+		dataTracker.track(  { setupWidgetTemporarilyDismissed: "yes" } );
+	}, [ dataTracker, handleOnRemove ] );
+
 	const [ isConsentModalOpen, , , openConsentModal, closeConsentModal ] = useToggleState( false );
 
 	const handleRemovePermanently = useCallback( () => {
 		dismissPermanently();
-	}, [ dismissPermanently ] );
+		dataTracker.track(  { setupWidgetPermanentlyDismissed: "yes" } );
+	}, [ dataTracker, currentStep ] );
 
 	const learnMoreLink = dataProvider.getLink( "siteKitLearnMore" );
 	const consentLearnMoreLink = dataProvider.getLink( "siteKitConsentLearnMore" );
-
-	const config = dataProvider.getSiteKitConfiguration();
-	const currentStep = dataProvider.getSiteKitCurrentConnectionStep();
-	const isConnectionCompleted = dataProvider.isSiteKitConnectionCompleted() && config.isVersionSupported;
 
 	return (
 		<Widget className="yst-paper__content yst-relative @3xl:yst-col-span-2 yst-col-span-4">
@@ -243,7 +297,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				<DropdownMenu.List className="yst-mt-8 yst-w-56">
 					<DropdownMenu.ButtonItem
 						className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
-						onClick={ handleOnRemove }
+						onClick={ handleOnRemoveTemporarily }
 					>
 						<XIcon className="yst-w-4 yst-text-slate-400" />
 						{ __( "Remove until next visit", "wordpress-seo" ) }
@@ -273,6 +327,8 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider } ) => {
 				) ) }
 			</Stepper> }
 			<hr className="yst-bg-slate-200 yst-mb-6" />
+			{ config.isRedirectedFromSiteKit && <SiteKitRedirectBackAlert dashboardUrl={ config.dashboardUrl } /> }
+
 			<div className="yst-max-w-2xl">
 				<SiteKitSetupWidgetTitleAndDescription isSiteKitConnectionCompleted={ isConnectionCompleted } />
 				<span className="yst-text-slate-800 yst-font-medium">{ isConnectionCompleted
