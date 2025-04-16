@@ -96,20 +96,6 @@ class Site_Kit_Analytics_4_Adapter {
 	}
 
 	/**
-	 * Checks whether the module is connected.
-	 *
-	 * A module being connected means that all steps required as part of its activation are completed.
-	 *
-	 * @return bool True if module is connected, false otherwise.
-	 */
-	public function is_connected(): bool {
-		if ( self::$analytics_4_module !== null ) {
-			return self::$analytics_4_module->is_connected();
-		}
-		return false;
-	}
-
-	/**
 	 * Builds the parameters to be used in the Site Kit API request.
 	 *
 	 * @param Analytics_4_Parameters $parameters The parameters.
