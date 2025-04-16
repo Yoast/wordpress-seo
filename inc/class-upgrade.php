@@ -91,7 +91,6 @@ class WPSEO_Upgrade {
 			'20.7-RC0'   => 'upgrade_207',
 			'20.8-RC0'   => 'upgrade_208',
 			'22.6-RC0'   => 'upgrade_226',
-			'22.9-RC0'   => 'upgrade_229',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -939,8 +938,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 17.2 upgrade. Cleans out any unnecessary indexables. See $cleanup_integration->get_cleanup_tasks()
-	 * to see what will be cleaned out.
+	 * Performs the 17.2 upgrade. Cleans out any unnecessary indexables. See $cleanup_integration->get_cleanup_tasks() to see what will be cleaned out.
 	 *
 	 * @return void
 	 */
@@ -1145,18 +1143,6 @@ class WPSEO_Upgrade {
 		if ( get_option( Cleanup_Integration::CURRENT_TASK_OPTION ) === false ) {
 			$cleanup_integration = YoastSEO()->classes->get( Cleanup_Integration::class );
 			$cleanup_integration->start_cron_job( 'clean_selected_empty_usermeta', DAY_IN_SECONDS );
-		}
-	}
-
-	/**
-	 * Performs the 22.9 upgrade routine.
-	 * Makes sure all needed Site Kit capabilities are registered.
-	 *
-	 * @return void
-	 */
-	private function upgrade_229() {
-		if ( class_exists( 'Google\Site_Kit\Plugin' ) ) {
-			do_action( 'wpseo_register_capabilities' );
 		}
 	}
 
