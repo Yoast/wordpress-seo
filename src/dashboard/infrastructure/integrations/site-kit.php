@@ -166,16 +166,16 @@ class Site_Kit {
 	private function get_widgets_cache_ttl() {
 		return [
 			'topPages' => [
-				'ttl'  => 1 * MINUTE_IN_SECONDS,
+				'ttl'  => ( 1 * \MINUTE_IN_SECONDS ),
 			],
 			'topQueries' => [
-				'ttl'  => 1 * HOUR_IN_SECONDS,
+				'ttl'  => ( 1 * \HOUR_IN_SECONDS ),
 			],
 			'searchRankingCompare' => [
-				'ttl'  => 1 * HOUR_IN_SECONDS,
+				'ttl'  => ( 1 * \HOUR_IN_SECONDS ),
 			],
 			'organicSessions' => [
-				'ttl'  => 1 * HOUR_IN_SECONDS,
+				'ttl'  => ( 1 * \HOUR_IN_SECONDS ),
 			],
 		];
 	}
