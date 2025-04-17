@@ -59,4 +59,4 @@ In this document, only the shortlinks used in WordPress are listed.
 
 ### Unavailable assessments
 The following assessments are not available for product pages:
-* Consecutive sentences
+* Consecutive sentences (removed because we expect product pages to have more descriptive texts, in which repetition is okay)
