@@ -141,3 +141,8 @@ _In Shopify_: When a product doesn't have variants.
 | Orange	           | 6	     | One or multiple variants are missing a SKU		                                                                                        | **SKU**: Not all your product variants have a SKU. **Include it if you can, as it will help search engines to better understand your content.** |
 | Green	            | 9	     | SKU is filled in for a simple product or (in Woo) SKU is filled in for a variable product that doesn't have variations set		        | **SKU**: Your product has a SKU. Good job!                                                                                                      |
 | Green	            | 9	     | If there is at least one variant and a SKU is filled in for each variant (regardless of whether the default is filled in or not).		 | **SKU**: All your product variants have a SKU. Good job!                                                                                        |
+
+### Unavailable assessments
+The following assessments are not available for product pages:
+* Outbound links
+* Internal links

@@ -55,3 +55,7 @@ In this document, only the shortlinks used in WordPress are listed.
 |---------------|---------|-------------------|--------------------------------------------------------------------------------------------|
 | Red           | 3     	 | No list	         | **Lists**: No lists appear on this page. **Add at least one ordered or unordered list**.   |
 | Green         | 9     	 | At least one list | **Lists**: There is at least one list on this page. Great!                                 |
+
+### Unavailable assessments
+The following assessments are not available for product pages:
+* Consecutive sentences
