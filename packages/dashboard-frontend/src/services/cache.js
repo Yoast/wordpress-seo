@@ -12,9 +12,6 @@ let storageBackend;
 /**
  * Detects whether browser storage is both supported and available.
  *
- * @since 1.5.0
- * @private
- *
  * @param {string} type Browser storage to test. Should be one of `localStorage` or `sessionStorage`.
  * @returns {Promise<string>} True if the given storage is available, false otherwise.
  */
@@ -52,9 +49,6 @@ export const isStorageAvailable = async( type ) => {
 /**
  * Gets the storage object to use.
  *
- * @since 1.5.0
- * @private
- *
  * @returns {Promise<string>} A storage mechanism (`localStorage` or `sessionStorage`) if available; otherwise returns `null`.
  */
 export async function getStorage() {
@@ -84,8 +78,6 @@ export async function getStorage() {
  * Gets cached data.
  *
  * Get cached data from the persistent storage cache.
- *
- * @since 1.5.0
  *
  * @param {string} key Name of cache key.
  * @returns {Promise} A promise returned, containing an object with the cached value (if found) and whether or not there was a cache hit.
@@ -133,8 +125,6 @@ export const getItem = async( key ) => {
  *
  * Save data to the relevant local storage mechanism, if available.
  * By default, data is saved with a one hour (60 minute) TTL.
- *
- * @since 1.5.0
  *
  * @param {string}  key              Name of cache key.
  * @param {*}       value            Value to store in the cache.
