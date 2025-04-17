@@ -146,3 +146,7 @@ _In Shopify_: When a product doesn't have variants.
 The following assessments are not available for product pages:
 * Outbound links
 * Internal links
+
+When a user is on a product page, the main action you want them to perform is to buy that product.
+So that's why we don't actively encourage linking away to other pages.
+(On informative blog posts, conversely, it does make sense to have links such as “continue reading another post” or “find more information here”.)

@@ -29,3 +29,7 @@ For information on how the assessments scoring system works, check out these exp
 - Images
 - Previously used keyphrase
 - Title
+
+The assessments related to images are unavailable because they might not make sense for this type of content
+from an SEO perspective, as we based the collection pages on taxonomy pages analysis where images are not assessed.
+In addition, in a collection page, it is advised to have very little content.
