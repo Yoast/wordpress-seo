@@ -113,7 +113,7 @@ export const OrganicSessionsCompare = ( { data, isPending, error, supportLink } 
 	return (
 		<Layout>
 			<Title as="h2" size="1" className="yst-font-bold">{ data.sessions }</Title>
-			<Trend value={ data.difference } formattedValue={ data.formattedDifference } />
+			<Trend value={ data.difference } formattedValue={ data.formattedDifference } moreIsGood={ true } />
 		</Layout>
 	);
 };
