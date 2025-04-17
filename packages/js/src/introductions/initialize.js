@@ -18,14 +18,6 @@ domReady( () => {
 		return;
 	}
 
-	const initialComponents = {
-		// "ai-fix-assessments-upsell": Content,
-	};
-
-	if ( isEmpty( initialComponents ) ) {
-		return;
-	}
-
 	registerStore( {
 		[ LINK_PARAMS_NAME ]: get( window, `${ DATA_NAME }.linkParams`, {} ),
 		[ PLUGIN_URL_NAME ]: get( window, `${ DATA_NAME }.pluginUrl`, "" ),
@@ -38,6 +30,7 @@ domReady( () => {
 	const rootContext = {
 		isRtl: Boolean( get( window, `${ DATA_NAME }.isRtl`, false ) ),
 	};
+	const initialComponents = {};
 
 	const root = document.createElement( "div" );
 	root.id = "wpseo-introductions";
