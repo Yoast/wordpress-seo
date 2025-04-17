@@ -1,5 +1,3 @@
-import { defaultsDeep } from "lodash";
-import { fetchJson } from "../fetch/fetch-json";
 import { getItem, setItem } from "./cache";
 import { RemoteDataProvider } from "./remote-data-provider";
 
