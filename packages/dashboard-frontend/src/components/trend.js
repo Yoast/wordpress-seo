@@ -1,4 +1,3 @@
-import { ArrowNarrowUpIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 
 /**
