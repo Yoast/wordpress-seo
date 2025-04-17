@@ -1,4 +1,5 @@
 # Overview of the Readability assessments scoring criteria
+These are the scoring criteria applied when using the product pages content assessor.
 
 Readability analysis is a collection of assessments that check how easy to read a text is.
 
