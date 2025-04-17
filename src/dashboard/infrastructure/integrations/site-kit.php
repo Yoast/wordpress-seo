@@ -161,7 +161,7 @@ class Site_Kit {
 	/**
 	 * Gets the Time To Live for each widget's cache.
 	 *
-	 * @return string
+	 * @return array<string, array<string, int>> The cache TTL for each widget.
 	 */
 	private function get_widgets_cache_ttl() {
 		return [

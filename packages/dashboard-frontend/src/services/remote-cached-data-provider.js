@@ -30,22 +30,19 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 	 * @param {string|URL} endpoint The endpoint.
 	 * @param {Object<string,string|Object<string,string>>} [params] The query parameters.
 	 * @param {RequestInit} [options] The request options.
-	 * @param {string} [key] The key.
+	 * @param {string} [cacheKey] The cache key.
 	 * @returns {Object} The response.
 	 */
-	async fetchJson( endpoint, params, options, key ) {
-		const cacheKey = "yoastseo_" + this.#yoastVersion + "_" + this.#storagePrefix + "_" + key;
-		const { cacheHit, value, isError } = await getItem( cacheKey );
+	async fetchJson( endpoint, params, options, cacheKey ) {
+		const finalCacheKey = "yoastseo_" + this.#yoastVersion + "_" + this.#storagePrefix + "_" + cacheKey;
+		const { cacheHit, value, isError } = await getItem( finalCacheKey );
 		if ( cacheHit && ! isError ) {
 			return value;
 		}
 
-		const response = await fetchJson(
-			this.getUrl( endpoint, params ),
-			defaultsDeep( options, this.getOptions(), { headers: { "Content-Type": "application/json" } } )
-		);
+		const response = await super.fetchJson( endpoint, params, options );
 
-		await setItem( cacheKey, response, { ttl: this.#ttl } );
+		await setItem( finalCacheKey, response, { ttl: this.#ttl } );
 
 		return response;
 	}
