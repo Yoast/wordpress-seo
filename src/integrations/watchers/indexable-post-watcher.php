@@ -300,7 +300,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		/**
 		 * The related indexables.
 		 *
-		 * @var Indexable[] $related_indexables .
+		 * @var Indexable[] $related_indexables
 		 */
 		$related_indexables   = [];
 		$related_indexables[] = $this->repository->find_by_id_and_type( $post->post_author, 'user', false );

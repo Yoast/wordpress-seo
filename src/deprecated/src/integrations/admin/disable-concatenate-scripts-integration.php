@@ -18,9 +18,9 @@ class Disable_Concatenate_Scripts_Integration implements Integration_Interface {
 	 *
 	 * In this case: when on an admin page.
 	 *
-	 * @return array The conditionals.
-	 *
 	 * @deprecated 23.2
+	 *
+	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -29,8 +29,9 @@ class Disable_Concatenate_Scripts_Integration implements Integration_Interface {
 	/**
 	 * Registers an action to disable script concatenation.
 	 *
-	 * @return void
 	 * @deprecated 23.2
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 23.2' );

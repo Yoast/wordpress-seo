@@ -93,7 +93,7 @@ final class Author_Test extends TestCase {
 	/**
 	 * Mock Person schema piece.
 	 *
-	 * @var array
+	 * @var array<string, string|array<string>|array<string, string>>
 	 */
 	private $person_data = [
 		'@type'  => [

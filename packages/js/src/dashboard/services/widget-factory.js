@@ -1,13 +1,14 @@
 /* eslint-disable complexity */
-import { OrganicSessionsWidget } from "../widgets/organic-sessions-widget";
-import { ScoreWidget } from "../widgets/score-widget";
 import { SiteKitSetupWidget } from "../widgets/site-kit-setup-widget";
-import { TopPagesWidget } from "../widgets/top-pages-widget";
-import { TopQueriesWidget } from "../widgets/top-queries-widget";
-import { SearchRankingCompareWidget } from "../widgets/search-ranking-compare-widget";
+import {
+	TopPagesWidget,
+	TopQueriesWidget,
+	SearchRankingCompareWidget,
+	ScoreWidget,
+	OrganicSessionsWidget } from "@yoast/dashboard-frontend";
 
 /**
- * @type {import("../index").WidgetType} WidgetType
+ * @type {import("../index").WidgetType} The widget type.
  */
 
 /**
@@ -17,16 +18,19 @@ export class WidgetFactory {
 	#dataProvider;
 	#remoteDataProvider;
 	#dataFormatters;
+	#dataTrackers;
 
 	/**
 	 * @param {import("./data-provider").DataProvider} dataProvider
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider
 	 * @param {object} dataFormatters
+	 * @param {object} dataTrackers
 	 */
-	constructor( dataProvider, remoteDataProvider, dataFormatters ) {
+	constructor( dataProvider, remoteDataProvider, dataFormatters, dataTrackers ) {
 		this.#dataProvider = dataProvider;
 		this.#remoteDataProvider = remoteDataProvider;
 		this.#dataFormatters = dataFormatters;
+		this.#dataTrackers = dataTrackers;
 	}
 
 	/**
@@ -34,7 +38,7 @@ export class WidgetFactory {
 	 *
 	 * @returns {Object} The widget types.
 	 */
-	static get types() {
+	get types() {
 		return {
 			siteKitSetup: "siteKitSetup",
 			searchRankingCompare: "searchRankingCompare",
@@ -47,78 +51,91 @@ export class WidgetFactory {
 	}
 
 	/**
-	 * @param {WidgetInstance} widget The widget to create.
+	 * @param {WidgetType} widgetType The widget type to create.
 	 * @returns {JSX.Element|null} The widget or null.
 	 */
-	createWidget( widget ) {
-		const { isFeatureEnabled, isSetupWidgetDismissed, isAnalyticsConnected, capabilities } = this.#dataProvider.getSiteKitConfiguration();
+	createWidget( widgetType ) {
+		const {
+			isFeatureEnabled,
+			isSetupWidgetDismissed,
+			isAnalyticsConnected,
+			capabilities,
+			isVersionSupported,
+		} = this.#dataProvider.getSiteKitConfiguration();
 		const isSiteKitConnectionCompleted = this.#dataProvider.isSiteKitConnectionCompleted();
-		switch ( widget.type ) {
-			case WidgetFactory.types.seoScores:
+
+		// Common checks for Site Kit widgets.
+		const isSiteKitWidgetAllowed = isFeatureEnabled && isSiteKitConnectionCompleted && isVersionSupported;
+		const isSearchConsoleWidgetAllowed = isSiteKitWidgetAllowed && capabilities.viewSearchConsoleData;
+		const isAnalyticsWidgetAllowed = isSiteKitWidgetAllowed && isAnalyticsConnected && capabilities.viewAnalyticsData;
+
+		switch ( widgetType ) {
+			case this.types.seoScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "seoAnalysis" ) ) ) {
 					return null;
 				}
 				return <ScoreWidget
-					key={ widget.id }
+					key={ widgetType }
 					analysisType="seo"
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
-			case WidgetFactory.types.readabilityScores:
+			case this.types.readabilityScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "readabilityAnalysis" ) ) ) {
 					return null;
 				}
 				return <ScoreWidget
-					key={ widget.id }
+					key={ widgetType }
 					analysisType="readability"
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 				/>;
-			case WidgetFactory.types.topPages:
-				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! capabilities.viewSearchConsoleData ) {
+			case this.types.topPages:
+				if ( ! isSearchConsoleWidgetAllowed ) {
 					return null;
 				}
 				return <TopPagesWidget
-					key={ widget.id }
+					key={ widgetType }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
-			case WidgetFactory.types.siteKitSetup:
+			case this.types.siteKitSetup:
 				if ( ! isFeatureEnabled || isSetupWidgetDismissed ) {
 					return null;
 				}
 				return <SiteKitSetupWidget
-					key={ widget.id }
+					key={ widgetType }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
+					dataTracker={ this.#dataTrackers.setupWidgetDataTracker }
 				/>;
-			case WidgetFactory.types.topQueries:
-				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! capabilities.viewSearchConsoleData ) {
+			case this.types.topQueries:
+				if ( ! isSearchConsoleWidgetAllowed ) {
 					return null;
 				}
 				return <TopQueriesWidget
-					key={ widget.id }
+					key={ widgetType }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
-			case WidgetFactory.types.searchRankingCompare:
-				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted ) {
+			case this.types.searchRankingCompare:
+				if ( ! isSearchConsoleWidgetAllowed ) {
 					return null;
 				}
 				return <SearchRankingCompareWidget
-					key={ widget.id }
+					key={ widgetType }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
-			case WidgetFactory.types.organicSessions:
-				if ( ! isFeatureEnabled || ! isSiteKitConnectionCompleted || ! isAnalyticsConnected || ! capabilities.viewAnalyticsData ) {
+			case this.types.organicSessions:
+				if ( ! isAnalyticsWidgetAllowed ) {
 					return null;
 				}
 				return <OrganicSessionsWidget
-					key={ widget.id }
+					key={ widgetType }
 					dataProvider={ this.#dataProvider }
 					remoteDataProvider={ this.#remoteDataProvider }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }

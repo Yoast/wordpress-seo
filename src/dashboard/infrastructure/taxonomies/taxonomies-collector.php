@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Dashboard\Infrastructure\Taxonomies;
 
 use WP_Taxonomy;
 use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
+
 /**
  * Class that collects taxonomies and relevant information.
  */
@@ -22,9 +23,7 @@ class Taxonomies_Collector {
 	 *
 	 * @param Taxonomy_Validator $taxonomy_validator The taxonomy validator.
 	 */
-	public function __construct(
-		Taxonomy_Validator $taxonomy_validator
-	) {
+	public function __construct( Taxonomy_Validator $taxonomy_validator ) {
 		$this->taxonomy_validator = $taxonomy_validator;
 	}
 

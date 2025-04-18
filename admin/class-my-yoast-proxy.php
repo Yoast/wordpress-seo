@@ -90,8 +90,7 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 
 		try {
 			echo $this->get_remote_url_body( $proxy_options['url'] );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			/*
 			 * Reset the file headers because the loading failed.
 			 *

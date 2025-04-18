@@ -29,10 +29,7 @@ class Robots_Helper {
 	 * @param Post_Type_Helper $post_type_helper The Post_Type_Helper.
 	 * @param Taxonomy_Helper  $taxonomy_helper  The Taxonomy_Helper.
 	 */
-	public function __construct(
-		Post_Type_Helper $post_type_helper,
-		Taxonomy_Helper $taxonomy_helper
-	) {
+	public function __construct( Post_Type_Helper $post_type_helper, Taxonomy_Helper $taxonomy_helper ) {
 		$this->post_type_helper = $post_type_helper;
 		$this->taxonomy_helper  = $taxonomy_helper;
 	}

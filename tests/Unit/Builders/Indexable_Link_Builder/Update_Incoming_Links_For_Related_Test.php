@@ -38,7 +38,7 @@ final class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Li
 	/**
 	 * Data provider for test_update_incoming_links_for_related_indexables.
 	 *
-	 * @return array
+	 * @return array<string, array<string, array<int>|array<array<string, int>>|int>>
 	 */
 	public static function data_provider_update_incoming_links_for_related_indexables() {
 		return [
@@ -85,9 +85,9 @@ final class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Li
 	 *
 	 * @dataProvider data_provider_update_incoming_links_for_related_indexables
 	 *
-	 * @param int[] $related_indexable_ids                            The IDs of all related indexables.
-	 * @param array $expected_counts                                  The expected counts.
-	 * @param int   $get_incoming_link_counts_for_indexable_ids_times The number of times the method should be called.
+	 * @param int[]                     $related_indexable_ids                            The IDs of all related indexables.
+	 * @param array<array<string, int>> $expected_counts                                  The expected counts.
+	 * @param int                       $get_incoming_link_counts_for_indexable_ids_times The number of times the method should be called.
 	 *
 	 * @return void
 	 */

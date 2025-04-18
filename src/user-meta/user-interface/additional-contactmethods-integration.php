@@ -16,7 +16,7 @@ class Additional_Contactmethods_Integration implements Integration_Interface {
 	/**
 	 * The additional contactmethods collector.
 	 *
-	 * @var Additional_Contactmethods_Collector $additional_contactmethods_collector The additional contactmethods collector.
+	 * @var Additional_Contactmethods_Collector
 	 */
 	private $additional_contactmethods_collector;
 

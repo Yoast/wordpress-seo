@@ -32,7 +32,6 @@ final class Build_For_System_Page_Test extends Abstract_Indexable_Builder_TestCa
 	 * @covers ::build_for_system_page
 	 * @covers ::ensure_indexable
 	 * @covers ::build
-	 * @covers ::save_indexable
 	 *
 	 * @return void
 	 */

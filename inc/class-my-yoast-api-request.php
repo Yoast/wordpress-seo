@@ -69,8 +69,7 @@ class WPSEO_MyYoast_Api_Request {
 			$this->response = $this->decode_response( $response );
 
 			return true;
-		}
-		catch ( WPSEO_MyYoast_Bad_Request_Exception $bad_request_exception ) {
+		} catch ( WPSEO_MyYoast_Bad_Request_Exception $bad_request_exception ) {
 			$this->error_message = $bad_request_exception->getMessage();
 
 			return false;

@@ -13,7 +13,7 @@ class Top_Page_Data implements Data_Interface {
 	/**
 	 * The search ranking data for the top page.
 	 *
-	 * @var Search_Ranking_Data $search_ranking_data
+	 * @var Search_Ranking_Data
 	 */
 	private $search_ranking_data;
 
@@ -27,7 +27,7 @@ class Top_Page_Data implements Data_Interface {
 	/**
 	 * The edit link of the top page.
 	 *
-	 * @var string $edit_link
+	 * @var string
 	 */
 	private $edit_link;
 

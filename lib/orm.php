@@ -82,7 +82,7 @@ class ORM implements ArrayAccess {
 	/**
 	 * Holds the alias for the table to be used in SELECT queries.
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	protected $table_alias = null;
 
@@ -152,14 +152,14 @@ class ORM implements ArrayAccess {
 	/**
 	 * LIMIT.
 	 *
-	 * @var int
+	 * @var int|null
 	 */
 	protected $limit = null;
 
 	/**
 	 * OFFSET.
 	 *
-	 * @var int
+	 * @var int|null
 	 */
 	protected $offset = null;
 
@@ -216,7 +216,7 @@ class ORM implements ArrayAccess {
 	 * Name of the column to use as the primary key for
 	 * this instance only. Overrides the config settings.
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	protected $instance_id_column = null;
 
@@ -267,7 +267,7 @@ class ORM implements ArrayAccess {
 		/**
 		 * The global WordPress database variable.
 		 *
-		 * @var wpdb
+		 * @var wpdb $wpdb
 		 */
 		global $wpdb;
 
@@ -332,7 +332,7 @@ class ORM implements ArrayAccess {
 	 */
 	public function create( $data = null ) {
 		$this->is_new = true;
-		if ( ! \is_null( $data ) ) {
+		if ( $data !== null ) {
 			$this->hydrate( $data )->force_all_dirty();
 		}
 
@@ -381,7 +381,7 @@ class ORM implements ArrayAccess {
 	 * @return bool|Model
 	 */
 	public function find_one( $id = null ) {
-		if ( ! \is_null( $id ) ) {
+		if ( $id !== null ) {
 			$this->where_id_is( $id );
 		}
 		$this->limit( 1 );
@@ -618,7 +618,7 @@ class ORM implements ArrayAccess {
 	 * @return ORM
 	 */
 	protected function add_result_column( $expr, $alias = null ) {
-		if ( ! \is_null( $alias ) ) {
+		if ( $alias !== null ) {
 			$expr .= ' AS ' . $this->quote_identifier( $alias );
 		}
 		if ( $this->using_default_result_columns ) {
@@ -645,7 +645,7 @@ class ORM implements ArrayAccess {
 			return \count( \array_filter( $this->id(), 'is_null' ) );
 		}
 		else {
-			return \is_null( $this->id() ) ? 1 : 0;
+			return ( $this->id() === null ) ? 1 : 0;
 		}
 	}
 
@@ -809,7 +809,7 @@ class ORM implements ArrayAccess {
 		$join_operator = \trim( "{$join_operator} JOIN" );
 		$table         = $this->quote_identifier( $table );
 		// Add table alias if present.
-		if ( ! \is_null( $table_alias ) ) {
+		if ( $table_alias !== null ) {
 			$table_alias = $this->quote_identifier( $table_alias );
 			$table      .= " {$table_alias}";
 		}
@@ -838,7 +838,7 @@ class ORM implements ArrayAccess {
 	 */
 	public function raw_join( $table, $constraint, $table_alias, $parameters = [] ) {
 		// Add table alias if present.
-		if ( ! \is_null( $table_alias ) ) {
+		if ( $table_alias !== null ) {
 			$table_alias = $this->quote_identifier( $table_alias );
 			$table      .= " {$table_alias}";
 		}
@@ -1107,7 +1107,7 @@ class ORM implements ArrayAccess {
 			// Add the table name in case of ambiguous columns.
 			if ( \count( $result->join_sources ) > 0 && \strpos( $key, '.' ) === false ) {
 				$table = $result->table_name;
-				if ( ! \is_null( $result->table_alias ) ) {
+				if ( $result->table_alias !== null ) {
 					$table = $result->table_alias;
 				}
 				$key = "{$table}.{$key}";
@@ -1758,7 +1758,7 @@ class ORM implements ArrayAccess {
 			$result_columns = 'DISTINCT ' . $result_columns;
 		}
 		$fragment .= "{$result_columns} FROM " . $this->quote_identifier( $this->table_name );
-		if ( ! \is_null( $this->table_alias ) ) {
+		if ( $this->table_alias !== null ) {
 			$fragment .= ' ' . $this->quote_identifier( $this->table_alias );
 		}
 
@@ -1850,7 +1850,7 @@ class ORM implements ArrayAccess {
 	 * @return string
 	 */
 	protected function build_limit() {
-		if ( ! \is_null( $this->limit ) ) {
+		if ( $this->limit !== null ) {
 			return "LIMIT {$this->limit}";
 		}
 
@@ -1863,7 +1863,7 @@ class ORM implements ArrayAccess {
 	 * @return string
 	 */
 	protected function build_offset() {
-		if ( ! \is_null( $this->offset ) ) {
+		if ( $this->offset !== null ) {
 			return 'OFFSET ' . $this->offset;
 		}
 
@@ -2033,7 +2033,7 @@ class ORM implements ArrayAccess {
 	 * @return string The primary key ID of the row.
 	 */
 	protected function get_id_column_name() {
-		if ( ! \is_null( $this->instance_id_column ) ) {
+		if ( $this->instance_id_column !== null ) {
 			return $this->instance_id_column;
 		}
 
@@ -2277,7 +2277,7 @@ class ORM implements ArrayAccess {
 					}
 
 					// Only register the value if it is not null.
-					if ( ! \is_null( $model->orm->dirty_fields[ $dirty_column ] ) ) {
+					if ( $model->orm->dirty_fields[ $dirty_column ] !== null ) {
 						$model_values[] = $model->orm->dirty_fields[ $dirty_column ];
 					}
 				}
@@ -2483,7 +2483,7 @@ class ORM implements ArrayAccess {
 	 */
 	#[ReturnTypeWillChange]
 	public function offsetSet( $offset, $value ) {
-		if ( \is_null( $offset ) ) {
+		if ( $offset === null ) {
 			return;
 		}
 		$this->set( $offset, $value );

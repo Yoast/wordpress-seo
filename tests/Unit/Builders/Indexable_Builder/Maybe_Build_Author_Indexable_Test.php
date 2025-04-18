@@ -49,7 +49,6 @@ final class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder
 	 * @covers ::maybe_build_author_indexable
 	 * @covers ::build
 	 * @covers ::ensure_indexable
-	 * @covers ::save_indexable
 	 *
 	 * @return void
 	 */
@@ -90,7 +89,6 @@ final class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder
 	 * @covers ::maybe_build_author_indexable
 	 * @covers ::build
 	 * @covers ::ensure_indexable
-	 * @covers ::save_indexable
 	 * @covers ::deep_copy_indexable
 	 *
 	 * @return void

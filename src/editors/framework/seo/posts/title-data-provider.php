@@ -16,7 +16,7 @@ class Title_Data_Provider extends Abstract_Post_Seo_Data_Provider implements Tit
 	/**
 	 * The options helper.
 	 *
-	 * @var Options_Helper $options_helper
+	 * @var Options_Helper
 	 */
 	private $options_helper;
 

@@ -73,17 +73,6 @@ class SentenceLengthInTextAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has text.
-	 *
-	 * @param {Paper} paper The paper to use for the assessment.
-	 *
-	 * @returns {boolean} True when there is text.
-	 */
-	isApplicable( paper ) {
-		return this.hasEnoughContentForAssessment( paper );
-	}
-
-	/**
 	 * Mark the sentences.
 	 *
 	 * @param {Paper} paper The paper to use for the marking.

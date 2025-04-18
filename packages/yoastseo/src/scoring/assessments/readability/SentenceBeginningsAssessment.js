@@ -93,7 +93,7 @@ export default class SentenceBeginningsAssessment extends Assessment {
 			assessmentResult.setText( sprintf(
 				/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				__(
-					"%1$sConsecutive sentences%2$s: There is enough variety in your sentences. That's great!",
+					"%1$sConsecutive sentences%2$s: There are no repetitive sentence beginnings. That's great!",
 					"wordpress-seo"
 				),
 				this._config.urlTitle,
@@ -154,9 +154,9 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	 * @param {Paper}       paper       The paper to check.
 	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} Returns true if the paper has enough content for the assessment and the researcher has the required research.
+	 * @returns {boolean} Returns true if the researcher has the sentence beginnings research.
 	 */
 	isApplicable( paper, researcher ) {
-		return this.hasEnoughContentForAssessment( paper ) && researcher.hasResearch( "getSentenceBeginnings" );
+		return researcher.hasResearch( "getSentenceBeginnings" );
 	}
 }

@@ -4,20 +4,21 @@ namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Search_Console;
 
 use Google\Site_Kit_Dependencies\Google\Service\SearchConsole\ApiDataRow;
 use Mockery;
+use WP_REST_Response;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
 
 /**
  * Test class for the get_comparison_data() method.
  *
- * @group search_console_adapter
+ * @group    search_console_adapter
  *
  * @requires PHP >= 7.4
  *
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter::build_parameters
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter::get_comparison_data
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter::validate_response
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter::parse_comparison_response
+ * @covers   Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter::build_parameters
+ * @covers   Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter::get_comparison_data
+ * @covers   Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter::validate_response
+ * @covers   Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter::parse_comparison_response
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -28,10 +29,10 @@ final class Search_Console_Adapter_Get_Comparison_Data_Test extends Abstract_Sea
 	 *
 	 * @dataProvider data_get_comparison_data
 	 *
-	 * @param array<string,array<string>> $request_parameters      The request parameters.
-	 * @param array<string,array<string>> $expected_api_parameters The expected API parameters.
-	 * @param array<int,array<string>>    $request_results         The results.
-	 * @param array<int,string>           $expected_results        The expected results.
+	 * @param array<string, string|array<string>>            $request_parameters      The request parameters.
+	 * @param array<string, string|array<string>>            $expected_api_parameters The expected API parameters.
+	 * @param array<array<string, int|array<string>>>        $request_results         The results.
+	 * @param array<array<string, array<string, int|float>>> $expected_results        The expected results.
 	 *
 	 * @return void
 	 */
@@ -41,9 +42,8 @@ final class Search_Console_Adapter_Get_Comparison_Data_Test extends Abstract_Sea
 		$request_results,
 		$expected_results
 	) {
-		self::$search_console_module = Mockery::mock( Search_Console_Module_Mock::class );
 
-		$this->instance->set_search_console_module( self::$search_console_module );
+		$api_response_mock = Mockery::mock( WP_REST_Response::class );
 
 		$response = [];
 		foreach ( $request_results as $request_result ) {
@@ -56,6 +56,8 @@ final class Search_Console_Adapter_Get_Comparison_Data_Test extends Abstract_Sea
 
 			$response[] = $response_row;
 		}
+		$api_response_mock->expects( 'get_data' )->once()->andReturn( $response );
+		$api_response_mock->expects( 'is_error' )->once()->andReturnFalse();
 
 		$search_console_parameters = new Search_Console_Parameters();
 
@@ -69,11 +71,9 @@ final class Search_Console_Adapter_Get_Comparison_Data_Test extends Abstract_Sea
 			$search_console_parameters->set_limit( $request_parameters['limit'] );
 		}
 
-		self::$search_console_module->expects( 'get_data' )
-			->with( 'searchanalytics', $expected_api_parameters )
-			->once()
-			->andReturn( $response );
-
+		$this->search_console_api_call_mock->expects( 'do_request' )
+			->with( $expected_api_parameters )
+			->andReturn( $api_response_mock );
 		$result = $this->instance->get_comparison_data( $search_console_parameters );
 
 		$this->assertInstanceOf( Data_Container::class, $result );
@@ -83,7 +83,7 @@ final class Search_Console_Adapter_Get_Comparison_Data_Test extends Abstract_Sea
 	/**
 	 * Data provider for test_get_comparison_data.
 	 *
-	 * @return array<array<bool,array<string>>>
+	 * @return array<string, array<string, array<string, string|array<string>>|array<array<string, int|array<string>>>|array<array<string, array<string, int|float>>>>>
 	 */
 	public static function data_get_comparison_data() {
 		return [
@@ -96,8 +96,6 @@ final class Search_Console_Adapter_Get_Comparison_Data_Test extends Abstract_Sea
 					'dimensions'         => [ 'date' ],
 				],
 				'expected_api_parameters' => [
-					'slug'       => 'search-console',
-					'datapoint'  => 'searchanalytics',
 					'startDate'  => '01-03-2025',
 					'endDate'    => '02-03-2025',
 					'dimensions' => [ 'date' ],
@@ -120,7 +118,7 @@ final class Search_Console_Adapter_Get_Comparison_Data_Test extends Abstract_Sea
 				],
 				'expected_results'        => [
 					[
-						'current' => [
+						'current'  => [
 							'total_clicks'      => 2,
 							'total_impressions' => 4,
 							'average_ctr'       => 0.5,

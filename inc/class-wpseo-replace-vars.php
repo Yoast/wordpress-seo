@@ -307,7 +307,7 @@ class WPSEO_Replace_Vars {
 				$replacement = $this->$method_name();
 			}
 			// Deal with externally defined variable names.
-			elseif ( isset( self::$external_replacements[ $var ] ) && ! is_null( self::$external_replacements[ $var ] ) ) {
+			elseif ( isset( self::$external_replacements[ $var ] ) && is_callable( self::$external_replacements[ $var ] ) ) {
 				$replacement = call_user_func( self::$external_replacements[ $var ], $var, $this->args );
 			}
 
