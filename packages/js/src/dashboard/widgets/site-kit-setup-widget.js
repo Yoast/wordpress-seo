@@ -315,17 +315,12 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 				? <YoastConnectSiteKitSuccess className="yst-aspect-[21/5] yst-max-w-[252px]" />
 				: <YoastConnectSiteKit className="yst-aspect-[21/5] yst-max-w-[252px]" />
 			}</div>
-			{ ! isUpdatePluginStatus( currentStep, config.isVersionSupported ) && <Stepper steps={ steps } currentStep={ currentStep } className="yst-mb-6">
-				{ steps.map( ( label, index ) => (
-					<Stepper.Step
-						key={ label }
-						isActive={ currentStep === index }
-						isComplete={ currentStep > index || isConnectionCompleted }
-					>
-						{ label }
-					</Stepper.Step>
-				) ) }
-			</Stepper> }
+			{ ! isUpdatePluginStatus( currentStep, config.isVersionSupported ) && <Stepper
+				steps={ steps }
+				currentStep={ currentStep === STEP_NAME.successfullyConnected ? steps.length : currentStep }
+				className="yst-mb-6"
+			/>
+			}
 			<hr className="yst-bg-slate-200 yst-mb-6" />
 			{ config.isRedirectedFromSiteKit && <SiteKitRedirectBackAlert dashboardUrl={ config.dashboardUrl } /> }
 

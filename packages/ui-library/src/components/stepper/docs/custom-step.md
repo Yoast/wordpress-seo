@@ -1,0 +1,1 @@
+Create custom step by using the stepper context to get `addStepRef` (`Stepper.Context`) and apply it to the `ref` in the custom step component.

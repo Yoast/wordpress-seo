@@ -16,19 +16,23 @@ const StepperContext = createContext( {
  * Step component.
  *
  * @param {JSX.Node} children The step label or children.
- * @param {boolean} isComplete Is the step complete.
- * @param {boolean} isActive Is the step
+ * @param {number} index The index of the step.
  *
  * @returns {JSX.Element} The step element.
  */
-const Step = ( { children, isComplete, isActive } ) => {
-	const { addStepRef } = useContext( StepperContext );
+const Step = ( { children, index } ) => {
+	const { addStepRef, currentStep } = useContext( StepperContext );
+	const isActive = index === currentStep;
+	const isComplete = index < currentStep;
+
 	return (
 		<div
 			ref={ addStepRef }
-			className={ classNames( "yst-step",
-				isComplete ? "yst-step--complete" : "",
-				isActive ? "yst-step--active" : "" ) }
+			className={ classNames(
+				"yst-step",
+				isComplete && "yst-step--complete",
+				isActive && "yst-step--active",
+			) }
 		>
 			<div className="yst-step__circle">
 				{ isComplete && <CheckIcon
@@ -49,19 +53,19 @@ const Step = ( { children, isComplete, isActive } ) => {
 Step.displayName = "Step";
 Step.propTypes = {
 	children: PropTypes.node.isRequired,
-	isActive: PropTypes.bool.isRequired,
-	isComplete: PropTypes.bool.isRequired,
+	index: PropTypes.number.isRequired,
 };
 
 /**
  *
- * @param {JSX.Node} children Content of the stepper.
+ * @param {JSX.Node} [children] Content of the stepper.
  * @param {number} [currentStep] The current step, starts from 0.
  * @param {string} [className] Optional extra className.
+ * @param {JSX.Node[]} [steps] The steps of the stepper.
  *
  * @returns {JSX.Element} The Stepper element.
  */
-export const Stepper = forwardRef( ( { children, currentStep, className = "" }, ref ) => {
+export const Stepper = forwardRef( ( { children, currentStep = 0, className = "", steps = [] }, ref ) => {
 	const [ progressBarPosition, setProgressBarPosition ] = useState( {
 		left: 0,
 		right: 0,
@@ -82,10 +86,17 @@ export const Stepper = forwardRef( ( { children, currentStep, className = "" }, 
 	const addStepRef = useCallback( ( el ) => ( stepRef.current.push( el ) ), [ stepRef.current ] );
 
 	return (
-		<StepperContext.Provider value={ { addStepRef } }>
+		<StepperContext.Provider value={ { addStepRef, currentStep } }>
 			<div className={ classNames( className, "yst-stepper" ) } ref={ ref }>
 
-				{ children }
+				{ children || steps.map( ( step, index ) => (
+					<Step
+						key={ `${ index }-step` }
+						index={ index }
+					>
+						{ step }
+					</Step>
+				) ) }
 
 				<ProgressBar
 					className="yst-absolute yst-top-3 yst-w-auto yst-h-0.5"
@@ -101,15 +112,19 @@ export const Stepper = forwardRef( ( { children, currentStep, className = "" }, 
 
 Stepper.displayName = "Stepper";
 Stepper.propTypes = {
-	currentStep: PropTypes.number.isRequired,
-	children: PropTypes.node.isRequired,
+	currentStep: PropTypes.number,
+	children: PropTypes.node,
 	className: PropTypes.string,
+	steps: PropTypes.arrayOf( PropTypes.node ),
 };
 Stepper.defaultProps = {
 	className: "",
+	steps: [],
+	// eslint-disable-next-line no-undefined
+	children: undefined,
+	currentStep: 0,
 };
 
 Stepper.Step = Step;
 Stepper.Context = StepperContext;
 Stepper.Step.displayName = "Stepper.Step";
-
