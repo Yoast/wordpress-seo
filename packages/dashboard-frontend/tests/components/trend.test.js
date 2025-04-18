@@ -23,7 +23,7 @@ describe( "Trend", () => {
 		[ "null", null ],
 		[ "undefined", undefined ],
 	] )( "should not render when falsy: %s", ( _, value ) => {
-		const { container } = render( <Trend value={ value } formattedValue=""  /> );
+		const { container } = render( <Trend value={ value } formattedValue="" /> );
 		expect( container.firstChild ).toBeNull();
 	} );
 } );
