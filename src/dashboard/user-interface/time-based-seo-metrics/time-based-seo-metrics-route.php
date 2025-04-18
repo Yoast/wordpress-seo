@@ -8,6 +8,7 @@ use Exception;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Site_Kit_Conditional;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Search_Ranking_Compare_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Page_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Query_Repository;
@@ -76,7 +77,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	private $search_ranking_compare_repository;
 
 	/**
-	 * Holds the capabilit helper instance.
+	 * Holds the capability helper instance.
 	 *
 	 * @var Capability_Helper
 	 */
@@ -88,7 +89,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	 * @return array<string> The conditionals that must be met to load this.
 	 */
 	public static function get_conditionals(): array {
-		return [ Google_Site_Kit_Feature_Conditional::class ];
+		return [ Google_Site_Kit_Feature_Conditional::class, Site_Kit_Conditional::class ];
 	}
 
 	/**

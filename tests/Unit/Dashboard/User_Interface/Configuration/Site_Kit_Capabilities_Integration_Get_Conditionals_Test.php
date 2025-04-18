@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Configuration;
 
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Site_Kit_Conditional;
 use Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Capabilities_Integration;
 
 /**
@@ -22,6 +23,6 @@ final class Site_Kit_Capabilities_Integration_Get_Conditionals_Test extends Abst
 	 * @return void
 	 */
 	public function test_get_conditionals() {
-		$this->assertEquals( [ Google_Site_Kit_Feature_Conditional::class ], Site_Kit_Capabilities_Integration::get_conditionals() );
+		$this->assertEquals( [ Google_Site_Kit_Feature_Conditional::class, Site_Kit_Conditional::class ], Site_Kit_Capabilities_Integration::get_conditionals() );
 	}
 }
