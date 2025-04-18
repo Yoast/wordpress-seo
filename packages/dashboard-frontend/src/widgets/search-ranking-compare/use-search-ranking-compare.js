@@ -34,7 +34,7 @@ const transformData = ( rawData ) => {
 	if ( rawData[ 0 ].current.average_position ) {
 		data.position = {
 			value: rawData[ 0 ].current.average_position,
-			delta: getDifference( rawData[ 0 ].current.average_position, rawData[ 0 ].previous.average_position ),
+			delta: rawData[ 0 ].current.average_position - rawData[ 0 ].previous.average_position,
 		};
 	}
 	return data;
