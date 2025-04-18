@@ -1,5 +1,5 @@
 import { describe, expect, it, jest } from "@jest/globals";
-import { useFetch } from "../../src/fetch/use-fetch";
+import { useFetch } from "../../src";
 import { renderHook, waitFor } from "@testing-library/react";
 
 describe( "useFetch", () => {

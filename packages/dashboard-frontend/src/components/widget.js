@@ -6,7 +6,7 @@ import { InfoTooltip } from "../components/info-tooltip";
 import { __ } from "@wordpress/i18n";
 
 /**
- * @param {ReactNode} children The content of the title.
+ * @param {React.ReactNode} children The content of the title.
  * @param {Object} [props] Any title props.
  * @returns {JSX.Element} The widget title.
  */
@@ -18,8 +18,8 @@ export const WidgetTitle = ( { children, ...props } ) => (
 WidgetTitle.displayName = "Widget.Title";
 
 /**
- * @param {ReactNode} content The content of the tooltip.
- * @param {ReactNode} children The rest of the tooltip.
+ * @param {React.ReactNode} content The content of the tooltip.
+ * @param {React.ReactNode} children The rest of the tooltip.
  * @returns {JSX.Element} The widget tooltip.
  */
 export const WidgetTooltip = ( { content, children } ) => (
@@ -54,7 +54,7 @@ WidgetDataSources.displayName = "Widget.DataSources";
 /**
  * @param {string} [className] The class name.
  * @param {string} supportLink The support link.
- * @param {ReactNode} children The content to wrap with an error boundary.
+ * @param {React.ReactNode} children The content to wrap with an error boundary.
  * @param {Object} [props] Any other props for the ErrorBoundary.
  * @returns {JSX.Element}
  */
@@ -72,10 +72,10 @@ WidgetErrorBoundary.displayName = "Widget.ErrorBoundary";
 /**
  * @param {string} [className] The class name.
  * @param {string} [title] The title in an H2.
- * @param {ReactNode} [tooltip] The widget description in a tooltip of an info button.
+ * @param {React.ReactNode} [tooltip] The widget description in a tooltip of an info button.
  * @param {Object[]} [dataSources] The sources of the data in the widget.
  * @param {string} [errorSupportLink] The support link, to show in the error fallback. If not provided, no error boundary is used.
- * @param {ReactNode} children The content.
+ * @param {React.ReactNode} children The content.
  * @returns {JSX.Element} The widget.
  */
 export const Widget = ( { className = "yst-paper__content", title, tooltip, dataSources, children, errorSupportLink } ) => (

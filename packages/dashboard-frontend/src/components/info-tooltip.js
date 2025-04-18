@@ -4,7 +4,7 @@ import { InformationCircleIcon } from "@heroicons/react/outline";
 /**
  * The info tooltip component.
  *
- * @param {ReactNode} children The tooltip content.
+ * @param {React.ReactNode} children The tooltip content.
  *
  * @returns {JSX.Element} The element.
  */

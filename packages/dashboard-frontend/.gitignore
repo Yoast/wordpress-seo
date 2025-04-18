@@ -7,3 +7,6 @@ node_modules/
 build/
 # Coverage
 coverage/
+# Storybook
+storybook-static/
+*storybook.log

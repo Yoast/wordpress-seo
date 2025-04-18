@@ -1,7 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
-import { ComparisonMetricsDataFormatter } from "../../src/services/comparison-metrics-data-formatter";
-import { OrganicSessionsWidget } from "../../src/widgets/organic-sessions-widget";
 import { render, waitFor } from "@testing-library/react";
+import { ComparisonMetricsDataFormatter, OrganicSessionsWidget } from "../../src";
 import { MockDataProvider } from "../__mocks__/data-provider";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
 

@@ -1,5 +1,5 @@
 import { defaultsDeep } from "lodash";
-import { DataProvider } from "../../src/services/data-provider";
+import { DataProvider } from "../../src";
 
 /**
  * Mock data provider.

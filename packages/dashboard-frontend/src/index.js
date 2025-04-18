@@ -106,3 +106,6 @@ export { ComparisonMetricsDataFormatter } from "./services/comparison-metrics-da
 export { RemoteDataProvider } from "./services/remote-data-provider";
 export { DataProvider } from "./services/data-provider";
 export { WidgetFactory } from "./services/widget-factory";
+
+export { fetchJson } from "./fetch/fetch-json";
+export { useFetch } from "./fetch/use-fetch";
