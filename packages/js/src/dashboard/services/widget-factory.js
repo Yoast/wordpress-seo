@@ -17,18 +17,21 @@ import {
 export class WidgetFactory {
 	#dataProvider;
 	#remoteDataProvider;
+	#remoteCachedDataProviders;
 	#dataFormatters;
 	#dataTrackers;
 
 	/**
 	 * @param {import("./data-provider").DataProvider} dataProvider
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider
+	 * @param {object<import("./remote-cached-data-provider").RemoteCachedDataProvider>} remoteCachedDataProviders
 	 * @param {object} dataFormatters
 	 * @param {object} dataTrackers
 	 */
-	constructor( dataProvider, remoteDataProvider, dataFormatters, dataTrackers ) {
+	constructor( dataProvider, remoteDataProvider, remoteCachedDataProviders, dataFormatters, dataTrackers ) {
 		this.#dataProvider = dataProvider;
 		this.#remoteDataProvider = remoteDataProvider;
+		this.#remoteCachedDataProviders = remoteCachedDataProviders;
 		this.#dataFormatters = dataFormatters;
 		this.#dataTrackers = dataTrackers;
 	}
@@ -97,7 +100,7 @@ export class WidgetFactory {
 				return <TopPagesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.#remoteCachedDataProviders[ widgetType ] }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.siteKitSetup:
@@ -117,7 +120,7 @@ export class WidgetFactory {
 				return <TopQueriesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.#remoteCachedDataProviders[ widgetType ] }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.searchRankingCompare:
@@ -127,7 +130,7 @@ export class WidgetFactory {
 				return <SearchRankingCompareWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.#remoteCachedDataProviders[ widgetType ] }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			case this.types.organicSessions:
@@ -137,7 +140,7 @@ export class WidgetFactory {
 				return <OrganicSessionsWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.#remoteCachedDataProviders[ widgetType ] }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			default:

@@ -2,7 +2,7 @@ import { SlotFillProvider } from "@wordpress/components";
 import { select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
-import { ComparisonMetricsDataFormatter, PlainMetricsDataFormatter, RemoteDataProvider } from "@yoast/dashboard-frontend";
+import { ComparisonMetricsDataFormatter, PlainMetricsDataFormatter, RemoteCachedDataProvider, RemoteDataProvider } from "@yoast/dashboard-frontend";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
@@ -102,14 +102,28 @@ domReady( () => {
 			isConsentGranted: false,
 		},
 		isRedirectedFromSiteKit: false,
+		storagePrefix: "",
+		yoastVersion: "",
+		widgetsCacheTtl: {},
 	} );
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
+
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const dataFormatters = {
 		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
 		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
 	};
+
+	const remoteCachedDataProviders = Object.entries( siteKitConfiguration.widgetsCacheTtl ).reduce( ( providers, [ key, value ] ) => {
+		providers[ key ] = new RemoteCachedDataProvider(
+			{ headers },
+			siteKitConfiguration.storagePrefix,
+			siteKitConfiguration.yoastVersion,
+			value.ttl
+		);
+		return providers;
+	}, {} );
 
 	const setupStepsTrackingData = {
 		setupWidgetLoaded: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetLoaded", "no" ),
@@ -128,7 +142,7 @@ domReady( () => {
 		setupWidgetDataTracker: new DataTracker( setupStepsTrackingRoute, remoteDataProvider ),
 	};
 
-	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, remoteCachedDataProviders, dataFormatters, dataTrackers );
 	if ( dataProvider.isSiteKitConnectionCompleted() && siteKitConfiguration.isVersionSupported ) {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}

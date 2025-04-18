@@ -4,6 +4,7 @@ import { WidgetFactory } from "../../src/services/widget-factory";
 import { MockDataProvider } from "../__mocks__/data-provider";
 import { FakeDataFormatter } from "../__mocks__/fake-data-formatter";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
+import { MockRemoteCachedDataProvider } from "../__mocks__/remote-cached-data-provider";
 
 // Mock the Chart.js library. Preventing the error:
 // > Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package).
@@ -15,6 +16,7 @@ describe( "WidgetFactory", () => {
 	let widgetFactory;
 	let dataProvider;
 	let remoteDataProvider;
+	let remoteCachedDataProviders;
 	let dataFormatters;
 	beforeAll( () => {
 		dataProvider = new MockDataProvider( {
@@ -28,11 +30,17 @@ describe( "WidgetFactory", () => {
 			},
 		} );
 		remoteDataProvider = new MockRemoteDataProvider( {} );
+		remoteCachedDataProviders = {
+			topPages: new MockRemoteCachedDataProvider( {} ),
+			topQueries: new MockRemoteCachedDataProvider( {} ),
+			organicSessions: new MockRemoteCachedDataProvider( {} ),
+			searchRankingCompare: new MockRemoteCachedDataProvider( {} ),
+		};
 		dataFormatters = {
 			comparisonMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
 			plainMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),
 		};
-		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters );
+		widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, remoteCachedDataProviders, dataFormatters );
 	} );
 
 	describe( "types", () => {

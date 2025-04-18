@@ -16,6 +16,13 @@ export class RemoteDataProvider {
 	}
 
 	/**
+	 * @returns {RequestInit} The fetch options.
+	 */
+	getOptions() {
+		return this.#options;
+	}
+
+	/**
 	 * @param {string|URL} endpoint The endpoint.
 	 * @param {Object<string,string|Object<string,string>>} [params] The query parameters.
 	 * @throws {TypeError} If the URL is invalid.

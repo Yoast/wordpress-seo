@@ -8,7 +8,7 @@ import { getDifference } from "../../transformers/difference";
 
 /**
  * @type {import("../../services/data-provider")} DataProvider
- * @type {import("../../services/remote-data-provider")} RemoteDataProvider
+ * @type {import("../../services/remote-cached-data-provider")} RemoteCachedDataProvider
  * @type {import("../../services/data-formatter-interface")} DataFormatterInterface
  */
 
@@ -45,7 +45,7 @@ const createOrganicSessionsCompareFormatter = ( dataFormatter ) => ( [ data ] ) 
  * Handles the fetch and returns the data, error and pending status.
  *
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
+ * @param {RemoteCachedDataProvider} remoteDataProvider The remote cached data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  *
  * @returns {{data: OrganicSessionsCompareData?, error: Error, isPending: boolean}} The remote data info.
@@ -59,10 +59,15 @@ export const useOrganicSessionsCompare = ( dataProvider, remoteDataProvider, dat
 	 * @returns {Promise<OrganicSessionsCompareData|Error>} The promise of OrganicSessionsCompareData or an Error.
 	 */
 	const getOrganicSessionsCompare = useCallback( ( options ) => {
+		const widgetName = "organicSessionsCompare";
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ options: { widget: "organicSessionsCompare" } },
-			options );
+			{
+				options: { widget: widgetName },
+			},
+			options,
+			widgetName
+		);
 	}, [ dataProvider ] );
 
 	/**
