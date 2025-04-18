@@ -494,7 +494,7 @@ const disabilityAssessments = [
 	},
 	{
 		identifier: "to go crazy",
-		nonInclusivePhrases: [ "crazy", "insane", "mad", "nuts", "bananas" ],
+		nonInclusivePhrases: [ "crazy" ],
 		inclusiveAlternatives: "<i>to go wild, to go out of control, to go up the wall, to be aggravated," +
 			" to get confused</i>",
 		score: SCORES.NON_INCLUSIVE,
@@ -507,8 +507,64 @@ const disabilityAssessments = [
 		ruleDescription: isPreceded( formsOfToGo ),
 	},
 	{
+		identifier: "to go insane",
+		nonInclusivePhrases: [ "insane" ],
+		inclusiveAlternatives: "<i>to go wild, to go out of control, to go up the wall, to be aggravated," +
+			" to get confused</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: [ "Avoid using <i>to go insane</i> as it is potentially harmful.", alternative ].join( " " ),
+		// Target only when preceded by a form of "to go" (e.g. 'going crazy').
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isPrecededByException( words, formsOfToGo ) );
+		},
+		ruleDescription: isPreceded( formsOfToGo ),
+	},
+	{
+		identifier: "to go mad",
+		nonInclusivePhrases: [ "mad" ],
+		inclusiveAlternatives: "<i>to go wild, to go out of control, to go up the wall, to be aggravated," +
+			" to get confused</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: [ "Avoid using <i>to go mad</i> as it is potentially harmful.", alternative ].join( " " ),
+		// Target only when preceded by a form of "to go" (e.g. 'going crazy').
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isPrecededByException( words, formsOfToGo ) );
+		},
+		ruleDescription: isPreceded( formsOfToGo ),
+	},
+	{
+		identifier: "to go nuts",
+		nonInclusivePhrases: [ "nuts" ],
+		inclusiveAlternatives: "<i>to go wild, to go out of control, to go up the wall, to be aggravated," +
+			" to get confused</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: [ "Avoid using <i>to go nuts</i> as it is potentially harmful.", alternative ].join( " " ),
+		// Target only when preceded by a form of "to go" (e.g. 'going crazy').
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isPrecededByException( words, formsOfToGo ) );
+		},
+		ruleDescription: isPreceded( formsOfToGo ),
+	},
+	{
+		identifier: "to go bananas",
+		nonInclusivePhrases: [ "bananas" ],
+		inclusiveAlternatives: "<i>to go wild, to go out of control, to go up the wall, to be aggravated," +
+			" to get confused</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: [ "Avoid using <i>to go bananas</i> as it is potentially harmful.", alternative ].join( " " ),
+		// Target only when preceded by a form of "to go" (e.g. 'going crazy').
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isPrecededByException( words, formsOfToGo ) );
+		},
+		ruleDescription: isPreceded( formsOfToGo ),
+	},
+	{
 		identifier: "to drive crazy",
-		nonInclusivePhrases: [ "crazy", "insane", "mad", "nuts", "bananas" ],
+		nonInclusivePhrases: [ "crazy" ],
 		inclusiveAlternatives: "<i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
 			"to make one's blood boil, to exasperate, to get into one's head</i>",
 		score: SCORES.NON_INCLUSIVE,
@@ -521,13 +577,69 @@ const disabilityAssessments = [
 		ruleDescription: "Targeted when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me')",
 	},
 	{
-		identifier: "crazy",
-		nonInclusivePhrases: [ "crazy" ],
+		identifier: "to drive insane",
+		nonInclusivePhrases: [ "insane" ],
+		inclusiveAlternatives: "<i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
+			"to make one's blood boil, to exasperate, to get into one's head</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: [ "Avoid using <i>to drive insane</i> as it is potentially harmful.", alternative ].join( " " ),
+		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isPrecededByException( words, combinationsOfDriveAndObjectPronoun ) );
+		},
+		ruleDescription: "Targeted when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me')",
+	},
+	{
+		identifier: "to drive mad",
+		nonInclusivePhrases: [ "mad" ],
+		inclusiveAlternatives: "<i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
+			"to make one's blood boil, to exasperate, to get into one's head</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: [ "Avoid using <i>to drive mad</i> as it is potentially harmful.", alternative ].join( " " ),
+		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isPrecededByException( words, combinationsOfDriveAndObjectPronoun ) );
+		},
+		ruleDescription: "Targeted when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me')",
+	},
+	{
+		identifier: "to drive nuts",
+		nonInclusivePhrases: [ "nuts" ],
+		inclusiveAlternatives: "<i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
+			"to make one's blood boil, to exasperate, to get into one's head</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: [ "Avoid using <i>to drive nuts</i> as it is potentially harmful.", alternative ].join( " " ),
+		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isPrecededByException( words, combinationsOfDriveAndObjectPronoun ) );
+		},
+		ruleDescription: "Targeted when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me')",
+	},
+	{
+		identifier: "to drive bananas",
+		nonInclusivePhrases: [ "bananas" ],
+		inclusiveAlternatives: "<i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
+			"to make one's blood boil, to exasperate, to get into one's head</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: [ "Avoid using <i>to drive bananas</i> as it is potentially harmful.", alternative ].join( " " ),
+		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isPrecededByException( words, combinationsOfDriveAndObjectPronoun ) );
+		},
+		ruleDescription: "Targeted when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me')",
+	},
+	{
+		identifier: "nuts",
+		nonInclusivePhrases: [ "nuts" ],
 		inclusiveAlternatives: "<i>wild, baffling, out of control, inexplicable, unbelievable, aggravating, shocking, intense, impulsive, chaotic, " +
 			"confused, mistaken, obsessed</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: redHarmful,
-		// Don't target when 'crazy' is part of a more specific phrase that we target.
+		// Only target 'nuts' and 'bananas' when preceded by is/he's/she's and an optional intensifier. Don't target when it's part of the phrase 'to be nuts/bananas about...'
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, shouldNotPrecedeStandaloneCrazy ) )
@@ -536,12 +648,10 @@ const disabilityAssessments = [
 					shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
 					shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
 		},
-		ruleDescription: "Not targeted with this feedback when part of a more specific phrase that we target ('to drive crazy', " +
-			"to go crazy', 'to (not) be crazy about', 'crazy in love').",
 	},
 	{
-		identifier: "nuts",
-		nonInclusivePhrases: [ "nuts", "bananas" ],
+		identifier: "bananas",
+		nonInclusivePhrases: [ "bananas" ],
 		inclusiveAlternatives: "<i>wild, baffling, out of control, inexplicable, unbelievable, aggravating, shocking, intense, impulsive, chaotic, " +
 			"confused, mistaken, obsessed</i>",
 		score: SCORES.NON_INCLUSIVE,
@@ -655,8 +765,8 @@ const disabilityAssessments = [
 	{
 		identifier: "spaz",
 		nonInclusivePhrases: [ "spaz", "spazz" ],
-		inclusiveAlternatives: [ "<i>erratic person, inept person, hyperactive person, agitated person, amateur, incompetent person, unqualified person, ignorant person</i>", "<i>lose control, flip out, " +
-		"throw a tantrum, behave erratically, go on the fritz, twitch, lose control, move clumsily, move awkwardly</i>" ],
+		inclusiveAlternatives: [ "<i>incompetent person, erratic person, inept person, hyperactive person, agitated person, amateur, unqualified person, ignorant person</i>", "<i>lose control, flip out, " +
+		"throw a tantrum, behave erratically, go on the fritz, twitch, move clumsily, move awkwardly</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat:  "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as %2$s when referring to a person, or %3$s when referring to an action.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
@@ -665,8 +775,8 @@ const disabilityAssessments = [
 	{
 		identifier: "spazzes",
 		nonInclusivePhrases: [ "spazzes" ],
-		inclusiveAlternatives: [ "<i>erratic people, inept people, hyperactive people, agitated people, amateurs, incompetent people, unqualified people, ignorant people</i>", "<i>loses control, flips out, throws a " +
-		"tantrum, behave erratically, goes on the fritz, loses control, twitches, moves clumsily, moves awkwardly</i>" ],
+		inclusiveAlternatives: [ "<i>incompetent people, erratic people, inept people, hyperactive people, agitated people, amateurs, unqualified people, ignorant people</i>", "<i>loses control, flips out, throws a " +
+		"tantrum, behaves erratically, goes on the fritz, twitches, moves clumsily, moves awkwardly</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat:  "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as %2$s when referring to a person, or %3$s when referring to an action.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
