@@ -31,17 +31,19 @@ export const isStorageAvailable = async( type ) => {
 	} catch ( e ) {
 		return (
 			e instanceof DOMException &&
-			// everything except Firefox
-			( 22 === e.code ||
-				// Firefox
-				1014 === e.code ||
-				// test name field too, because code might not be present
-				// everything except Firefox
-				"QuotaExceededError" === e.name ||
-				// Firefox
-				"NS_ERROR_DOM_QUOTA_REACHED" === e.name ) &&
-			// acknowledge QuotaExceededError only if there's something already stored
-			0 !== storage.length
+			(
+				// Everything except Firefox.
+				e.code === 22 ||
+				// Firefox.
+				e.code === 1014 ||
+				// Test name field too, because code might not be present.
+				// Everything except Firefox.
+				e.name === "QuotaExceededError" ||
+				// Firefox.
+				e.name === "NS_ERROR_DOM_QUOTA_REACHED"
+			) &&
+			// Acknowledge QuotaExceededError only if there's something already stored.
+			storage.length !== 0
 		);
 	}
 };
