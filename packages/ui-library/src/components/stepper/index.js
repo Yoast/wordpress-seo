@@ -10,7 +10,6 @@ import { noop } from "lodash";
  */
 const StepperContext = createContext( {
 	addStepRef: noop,
-	removeStepRef: noop,
 	currentStep: 0,
 } );
 
@@ -86,7 +85,7 @@ const calculateStepsLengthPercentage = ( stepRef, firstStepRect, progressBarLeng
 		if ( index >= stepRef.length - 1 ) {
 			return 100;
 		}
-		const parcel = step.getBoundingClientRect().right - startingPoint - step.getBoundingClientRect().width / 2;
+		const parcel = step?.getBoundingClientRect().right - startingPoint - step?.getBoundingClientRect().width / 2;
 		return ( parcel / progressBarLength ) * 100;
 	} );
 };
@@ -111,8 +110,8 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 
 	useLayoutEffect( () => {
 		if ( stepRef.current.length > 0 ) {
-			const firstStepRect = stepRef.current[ 0 ].getBoundingClientRect();
-			const lastStepRect = stepRef.current[ stepRef.current.length - 1 ].getBoundingClientRect();
+			const firstStepRect = stepRef.current[ 0 ]?.getBoundingClientRect();
+			const lastStepRect = stepRef.current[ stepRef.current.length - 1 ]?.getBoundingClientRect();
 
 			const progressBarLength = calculateProgressBarLength( firstStepRect, lastStepRect );
 			const StepsLengthPercentage = calculateStepsLengthPercentage( stepRef.current, firstStepRect, progressBarLength );
@@ -126,10 +125,34 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 		}
 	}, [ stepRef.current ] );
 
+	useLayoutEffect( () => {
+		if ( ! stepRef?.current?.length ) {
+			return;
+		}
+		// Cleanup stepRef for steps prop.
+		if ( steps.length && ( stepRef.current.length !== steps.length || currentStep )  ) {
+			const current = steps.map( ( step ) => {
+				const matchingStepRef = stepRef.current.find( ( el ) => el && el.innerText === step );
+				if ( matchingStepRef ) {
+					return matchingStepRef;
+				}
+			} );
+			stepRef.current = current;
+		}
+
+		// Cleanup stepRef for children prop.
+		if ( children && ( stepRef.current.length !== React.Children.count( children ) || currentStep ) ) {
+			const current = React.Children.map( children, ( child ) => {
+				const matchingStepRef = stepRef.current.find( ( el ) => el && el.innerText === child.props.children );
+				if ( matchingStepRef ) {
+					return matchingStepRef;
+				}
+			} );
+			stepRef.current = current;
+		}
+	}, [ steps, children, currentStep ] );
+
 	const addStepRef = useCallback( ( el ) => ( stepRef.current.push( el ) ), [ stepRef.current ] );
-	const removeStepRef = useCallback( ( index ) => {
-		stepRef.current = stepRef.current.filter((el, i) => i !== index);
-	}, [ stepRef.current ] );
 
 	/**
 	 * Get the percentage of the current step's progress.
@@ -151,7 +174,7 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 	}
 
 	return (
-		<StepperContext.Provider value={ { addStepRef, removeStepRef, currentStep } }>
+		<StepperContext.Provider value={ { addStepRef, currentStep } }>
 			<div className={ classNames( className, "yst-stepper" ) } ref={ ref }>
 
 				{ children || steps.map( ( step, index ) => (
