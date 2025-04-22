@@ -37,7 +37,6 @@
 			@apply
 			yst-absolute
 			yst-whitespace-normal
-			yst-inline-block
 			yst-p-4
 			yst-rounded-lg
 			yst-w-max
@@ -47,13 +46,14 @@
 			yst-shadow-2xl
 			yst-gap-3
 			yst-border
-			before:yst-content-['']
 			before:yst-absolute;
 		}
 
 		.yst-popover--right {
 			@apply
 			yst-top-1/2
+			yst-start-[90%]
+			before:yst-content-['']
 			before:yst-block
 			before:yst-end-full
 			before:yst-top-1/2
@@ -76,6 +76,7 @@
 			yst-translate-x-1/2
 			yst-end-1/2
 			yst--top-4
+			before:yst-content-['']
 			before:yst-start-1/2
 			before:yst-top-full
 			before:yst--translate-x-1/2
@@ -95,6 +96,7 @@
 			yst--top-4
 			yst-start-auto
 			yst-end-0  /* move horizontally to the left */
+			before:yst-content-['']
 			before:yst-start-[86%]  /* move arrow to the right */
 			before:yst-top-full
 			before:yst--translate-x-1/2
@@ -115,6 +117,7 @@
 			yst--top-4
 			yst-start-0   /* move horizontally to the right */
 			yst-end-auto
+			before:yst-content-['']
 			before:yst-start-[14%] /* move arrow to the left */
 			before:yst-top-full
 			before:yst--translate-x-1/2
@@ -131,7 +134,8 @@
 		.yst-popover--left {
 			@apply
 			yst-top-1/2
-			yst--start-1/2
+			yst--start-[40%]
+			before:yst-content-['']
 			before:yst-start-full
 			before:yst-top-1/2
 			before:yst-right-full
@@ -149,14 +153,14 @@
 
 		.yst-popover--bottom {
 			@apply
-			yst-start-1/2
+			yst--end-[116%]
+			yst-top-14
+			before:yst-content-['']
 			before:yst-start-1/2
 			before:yst-bottom-full
 			before:yst--translate-x-1/2
 			rtl:before:yst-translate-x-1/2
 			before:yst-translate-y-0;
-
-			transform: translate(-50%,15%);
 
 			&::before {
 				border-right: 14px solid transparent;
@@ -167,18 +171,15 @@
 
 		.yst-popover--bottom-left {
 			@apply
-			yst-start-1/2
+			yst-end-[26%]
+			yst-top-14
+			before:yst-content-['']
 			before:yst-end-0
 			before:yst-bottom-full
 			before:yst--translate-x-1/2
 			rtl:before:yst-translate-x-1/2
 			before:yst-translate-y-0
 			before:yst-border-transparent;
-
-			transform: translate(-92%,15%);
-			[dir='rtl'] & {
-				transform: translate(92%, 15%);
-			}
 
 			&::before {
 				border-right: 14px solid transparent;
@@ -189,18 +190,15 @@
 
 		.yst-popover--bottom-right {
 			@apply
-			yst-start-1/2
+			yst-start-[20%]
+			yst-top-14
+			before:yst-content-['']
 			before:yst-start-8
 			before:yst-bottom-full
 			before:yst--translate-x-1/2
 			rtl:before:yst-translate-x-1/2
 			before:yst-translate-y-0
 			before:yst-border-transparent;
-
-			transform: translate(-8%, 15%);
-			[dir='rtl'] & {
-				transform: translate(8%, 15%);
-			}
 
 			&::before {
 				border-right: 14px solid transparent;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Popover, { usePopoverContext } from "./index";
 import { component } from "./docs";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
-import Button from "../../elements/button";
+import Button from "../button";
 import { noop } from "lodash";
 import { ValidationIcon } from "../validation";
 
@@ -27,23 +27,6 @@ export const Factory = {
 	},
 };
 
-export const WithBackdrop = {
-	component: Popover,
-	render: ( args ) => {
-		return (
-			<Popover { ...args } id="yst-popover"  backdrop="true" />
-		);
-	},
-	parameters: {
-		controls: { disable: true },
-	},
-	args: {
-		children: (
-			<Popover.Content id="popover-content" content="Hey! I am a popover" />
-		),
-	},
-};
-
 export const WithMoreContent = {
 	render: ( args ) => {
 		const [ isVisible, setIsVisible ] = useState( true );
@@ -54,7 +37,6 @@ export const WithMoreContent = {
 					{ ...args }
 					isVisible={ isVisible }
 					setIsVisible={ setIsVisible }
-					isOpen={ isVisible }
 					position={ args.position }
 				/> }
 			</>
@@ -100,20 +82,20 @@ export const ButtonWithAPopover = {
 		const handleClick = () => setIsVisible( ! isVisible );
 
 		return (
-			<>
+			<div className="yst-relative">
 				<button
 					/* eslint-disable-next-line react/jsx-no-bind */
-					onClick={ handleClick } className="yst-relative yst-border yst-bg-primary-500 yst-p-2 yst-rounded-lg yst-text-white yst-font-semibold"
+					onClick={ handleClick } className="yst-border yst-bg-primary-500 yst-p-2 yst-rounded-lg yst-text-white yst-font-semibold"
 				>
 					Toggle popover
-					<Popover
-						{ ...args }
-						isVisible={ isVisible }
-						setIsVisible={ setIsVisible }
-						position={ args.position || "topLeft" }
-					/>
 				</button>
-			</>
+				<Popover
+					{ ...args }
+					isVisible={ isVisible }
+					setIsVisible={ setIsVisible }
+					position={ args.position || "topLeft" }
+				/>
+			</div>
 		);
 	},
 	parameters: {
@@ -144,7 +126,7 @@ export const ButtonWithAPopover = {
 					</div>
 				</div>
 				<div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
-					<DismissButton />
+					{ /* <DismissButton /> */ }
 				</div>
 			</>
 		),
@@ -191,14 +173,13 @@ export default {
 		isVisible: true,
 		setIsVisible: noop,
 		children: "",
-		position: "",
 		backdrop: false,
 	},
 	parameters: {
 		docs: {
 			description: { component },
 			page: () => (
-				<InteractiveDocsPage stories={ [ WithBackdrop, WithMoreContent, ButtonWithAPopover ] } />
+				<InteractiveDocsPage stories={ [ WithMoreContent, ButtonWithAPopover ] } />
 			),
 		},
 	},
