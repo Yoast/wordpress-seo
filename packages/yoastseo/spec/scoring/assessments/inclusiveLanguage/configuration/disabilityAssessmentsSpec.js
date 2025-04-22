@@ -607,7 +607,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		},
 			{
 				identifier: "spazzing",
-				text: "no one expects spazzing out on stage",
+				text: "no one expects spazzing on stage",
 				expectedFeedback: "Avoid using <i>spazzing</i> as it is potentially harmful. Consider using an alternative, " +
 					"such as <i>losing control, flipping out, throwing a tantrum, behaving erratically, going on the fritz, twitching, moving clumsily, moving awkwardly</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
