@@ -93,8 +93,7 @@ const useTopQueries = ( { dataProvider, remoteDataProvider, dataFormatter, limit
 				limit: limit.toString( 10 ),
 				options: { widget: widgetName },
 			},
-			options,
-			widgetName
+			options
 		);
 	}, [ dataProvider, limit ] );
 

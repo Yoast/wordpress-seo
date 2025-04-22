@@ -215,8 +215,7 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataF
 			{
 				options: { widget: widgetName },
 			},
-			options,
-			widgetName
+			options
 		);
 	}, [ dataProvider ] );
 

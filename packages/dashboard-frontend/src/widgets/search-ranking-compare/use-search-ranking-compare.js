@@ -74,8 +74,7 @@ export const useSearchRankingCompare = ( { dataProvider, remoteDataProvider, dat
 			{
 				options: { widget: widgetName },
 			},
-			options,
-			widgetName
+			options
 		);
 	}, [ dataProvider ] );
 

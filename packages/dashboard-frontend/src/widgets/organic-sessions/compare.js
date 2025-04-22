@@ -65,8 +65,7 @@ export const useOrganicSessionsCompare = ( dataProvider, remoteDataProvider, dat
 			{
 				options: { widget: widgetName },
 			},
-			options,
-			widgetName
+			options
 		);
 	}, [ dataProvider ] );
 
