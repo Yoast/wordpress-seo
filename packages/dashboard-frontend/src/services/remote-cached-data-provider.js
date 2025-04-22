@@ -32,7 +32,8 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 	 * @returns {Object} The response.
 	 */
 	async fetchJson( endpoint, params, options, cacheKey ) {
-		const finalCacheKey = "yoastseo_" + this.#yoastVersion + "_" + this.#storagePrefix + "_" + cacheKey;
+		const yoastPrefix = "yoastseo";
+		const finalCacheKey = yoastPrefix + "_" + this.#yoastVersion + "_" + this.#storagePrefix + "_" + cacheKey;
 		const { cacheHit, value, isError } = await getItem( finalCacheKey );
 		if ( cacheHit && ! isError ) {
 			return value;
