@@ -593,7 +593,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "spaz",
 				text: "another spaz",
 				expectedFeedback: "Avoid using <i>spaz</i> as it is potentially harmful. Consider using an alternative, " +
-					"such as <i>erratic person, inept person, hyperactive person, agitated person, amateur, incompetent person, unqualified person, ignorant person</i> when referring to a person, or <i>lose control, flip out, " +
+					"such as <i>incompetent person, erratic person, inept person, hyperactive person, agitated person, amateur, unqualified person, ignorant person</i> when referring to a person, or <i>flip out, " +
 					"throw a tantrum, behave erratically, go on the fritz, twitch, lose control, move clumsily, move awkwardly</i> when referring to an action. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -601,8 +601,8 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			identifier: "spazzes",
 				text: "as long as no one spazzes",
 				expectedFeedback: "Avoid using <i>spazzes</i> as it is potentially harmful. Consider using an alternative, " +
-			"such as <i>erratic people, inept people, hyperactive people, agitated people, amateurs, incompetent people, unqualified people, ignorant people</i> when referring to a person, or " +
-			"<i>loses control, flips out, throws a tantrum, behave erratically, goes on the fritz, loses control, twitches, moves clumsily, moves awkwardly</i> when referring to an action. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			"such as <i>incompetent people, erratic people, inept people, hyperactive people, agitated people, amateurs, unqualified people, ignorant people</i> when referring to a person, or " +
+			"<i>loses control, flips out, throws a tantrum, behaves erratically, goes on the fritz, loses control, twitches, moves clumsily, moves awkwardly</i> when referring to an action. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 		},
 			{
@@ -990,7 +990,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		];
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should return the appropriate score and feedback string for: the non-negated phrase of 'crazy about'", () => {
+	it( "should return the appropriate score and feedback string for: the non-negated phrase of 'crazy about' and 'nuts about'", () => {
 		const testData = [
 			// The non-negated phrase for 'crazy about' without an intensifier.
 			{
@@ -1013,7 +1013,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		];
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should not show the feedback for the non-negated form of 'crazy about' when the negated form is used.", () => {
+	it( "should not show the feedback for the non-negated form of 'crazy about' and 'nuts about' when the negated form is used.", () => {
 		const mockPaper = new Paper( "I am not so crazy about this album." );
 		const mockResearcher = Factory.buildMockResearcher( [ "I am not so crazy about this album." ] );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "to be crazy about" ) );
@@ -1066,13 +1066,29 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		expect( isApplicable ).toBeFalsy();
 	} );
-	it( "should return the appropriate score and feedback string for: 'to go crazy' and its other forms", () => {
+	it( "should not show the feedback for standalone insane when it's used as part of a more specific phrase.", () => {
+		const mockPaper = new Paper( "One can go insane over this." );
+		const mockResearcher = Factory.buildMockResearcher( [ "One can go insane over this.." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "insane" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeFalsy();
+	} );
+	it( "should return the appropriate score and feedback string for: 'to go crazy' , 'to go insane', 'to go mad', 'to go nuts', 'to go bananas' and its other forms", () => {
 		const testData = [
 			// Form: going crazy.
 			{
 				identifier: "to go crazy",
 				text: "It's going crazy out here.",
 				expectedFeedback: "Avoid using <i>to go crazy</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, " +
+					"to be aggravated, to get confused</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			// Form: going nuts.
+			{
+				identifier: "to go nuts",
+				text: "They are going nuts out here.",
+				expectedFeedback: "Avoid using <i>to go nuts</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, " +
 					"to be aggravated, to get confused</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
@@ -1086,11 +1102,29 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 					"to be aggravated, to get confused</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
+			// Form: go insane.
+			{
+				identifier: "to go insane",
+				text: "They go insane in there.",
+				expectedFeedback: "Avoid using <i>to go insane</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, " +
+					"to be aggravated, to get confused</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
 			// Form: goes crazy.
 			{
 				identifier: "to go crazy",
 				text: "He goes crazy out here.",
 				expectedFeedback: "Avoid using <i>to go crazy</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, " +
+					"to be aggravated, to get confused</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			// Form: goes bananas
+			{
+				identifier: "to go bananas",
+				text: "He goes bananas over this movie.",
+				expectedFeedback: "Avoid using <i>to go bananas</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, " +
 					"to be aggravated, to get confused</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
@@ -1137,23 +1171,41 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			marked: "<yoastmark class='yoast-text-mark'>They seem crazy in love.</yoastmark>",
 		} ) ] );
 	} );
-	it( "should return the appropriate score and feedback string for: 'to drive crazy' and its other forms", () => {
+	it( "should return the appropriate score and feedback string for: 'to drive crazy', 'to drive insane', 'to drive mad', 'to drive nuts', 'to drive bananas' and their other forms", () => {
 		const testData = [
-			// Form: driving (someone) crazy.
+			// For: driving (someone) insane
+			{
+				identifier: "to drive insane",
+				text: "This math problem has been driving me insane.",
+				expectedFeedback: "Avoid using <i>to drive insane</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
+					"to make one's blood boil, to exasperate, to get into one's head</i>." +
+					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			},
+			// For: driving (someone) crazy
 			{
 				identifier: "to drive crazy",
-				text: "This math problem is driving me crazy.",
+				text: "This math problem has been driving me crazy.",
 				expectedFeedback: "Avoid using <i>to drive crazy</i> as it is potentially harmful. Consider using an alternative, " +
 					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
 					"to make one's blood boil, to exasperate, to get into one's head</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
 			},
 			// Form: drive (someone) crazy.
 			{
 				identifier: "to drive crazy",
 				text: "They drive everyone crazy.",
 				expectedFeedback: "Avoid using <i>to drive crazy</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
+					"to make one's blood boil, to exasperate, to get into one's head</i>." +
+					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			// Form: drive (someone) mad
+			{
+				identifier: "to drive mad",
+				text: "They drive everyone mad.",
+				expectedFeedback: "Avoid using <i>to drive mad</i> as it is potentially harmful. Consider using an alternative, " +
 					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
 					"to make one's blood boil, to exasperate, to get into one's head</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
@@ -1169,6 +1221,16 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
+			// Form: drove (someone) bananas.
+			{
+				identifier: "to drive bananas",
+				text: "They drove him bananas.",
+				expectedFeedback: "Avoid using <i>to drive bananas</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
+					"to make one's blood boil, to exasperate, to get into one's head</i>." +
+					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
 			// Form: drives (someone) crazy.
 			{
 				identifier: "to drive crazy",
@@ -1179,11 +1241,31 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
+			// Form: drives (someone) nuts.
+			{
+				identifier: "to drive nuts",
+				text: "She drives somebody nuts.",
+				expectedFeedback: "Avoid using <i>to drive nuts</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
+					"to make one's blood boil, to exasperate, to get into one's head</i>." +
+					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
 			// Form: driven (someone) crazy.
 			{
 				identifier: "to drive crazy",
 				text: "He has driven them crazy.",
 				expectedFeedback: "Avoid using <i>to drive crazy</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
+					"to make one's blood boil, to exasperate, to get into one's head</i>." +
+					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			// Form: driven (someone) insane.
+			{
+				identifier: "to drive insane",
+				text: "He has driven them insane.",
+				expectedFeedback: "Avoid using <i>to drive insane</i> as it is potentially harmful. Consider using an alternative, " +
 					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
 					"to make one's blood boil, to exasperate, to get into one's head</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",

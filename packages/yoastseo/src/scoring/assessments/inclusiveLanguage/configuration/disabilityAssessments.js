@@ -170,6 +170,14 @@ const disabilityAssessments = [
 			"unbelievable, amazing, incomprehensible, nonsensical, outrageous, ridiculous</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: redHarmful,
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isNotPrecededByException( words, shouldNotPrecedeStandaloneCrazy ) )
+				.filter( isNotFollowedByException( words, nonInclusivePhrase, shouldNotFollowStandaloneCrazy ) )
+				.filter( isNotFollowedAndPrecededByException( words, nonInclusivePhrase,
+					shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
+					shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
+		},
 	},
 	{
 		identifier: "insanely",
@@ -399,7 +407,8 @@ const disabilityAssessments = [
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, [ "deaf and" ] ) )
-				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "down" ] ) );
+				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "down" ] ) )
+				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "it down" ] ) );
 		},
 		ruleDescription: notPreceded( [ "deaf and" ] ),
 	},
@@ -583,7 +592,7 @@ const disabilityAssessments = [
 			"to make one's blood boil, to exasperate, to get into one's head</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ "Avoid using <i>to drive insane</i> as it is potentially harmful.", alternative ].join( " " ),
-		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
+		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me insane', 'drove everyone insane').
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, combinationsOfDriveAndObjectPronoun ) );
@@ -788,6 +797,8 @@ const disabilityAssessments = [
 		inclusiveAlternatives: "<i>flipping out, throwing a tantrum, behaving erratically, going on the fritz, losing control, twitching, moving clumsily, moving awkwardly</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: redHarmful,
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "out" ] ) ),
 	},
 	{
 		identifier: "spazzed",
