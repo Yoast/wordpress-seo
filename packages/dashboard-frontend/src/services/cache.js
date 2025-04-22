@@ -5,9 +5,46 @@
  *
  */
 
-const defaultOrder = [ "sessionStorage", "localStorage" ];
-const storageOrder = [ ...defaultOrder ];
+const DEFAULT_ORDER = [ "sessionStorage", "localStorage" ];
+let storageOrder = [ ...DEFAULT_ORDER ];
 let storageBackend;
+
+/**
+ * Overrides the storage backend.
+ *
+ * Largely used for tests. Should not be used directly.
+ *
+ * @param {*} backend Backend to set for the cache.
+ */
+export const setSelectedStorageBackend = ( backend ) => {
+	storageBackend = backend;
+};
+
+/**
+ * Overrides the priority of storage mechanisms.
+ *
+ * Largely used for tests. Implicitly resets the selected storage backend,
+ * causing `_getStorage` to re-run its checks for the best available
+ * storage backend.
+ *
+ * @param {Array} order Ordered array of storage backends to use.
+ */
+export const setStorageOrder = ( order ) => {
+	storageOrder = [ ...order ];
+	setSelectedStorageBackend( undefined ); // eslint-disable-line no-undefined
+};
+
+/**
+ * Resets the storage mechanism order.
+ *
+ * Largely used for tests. Implicitly resets the selected storage backend,
+ * causing `_getStorage` to re-run its checks for the best available
+ * storage backend.
+ */
+export const resetDefaultStorageOrder = () => {
+	storageOrder = [ ...DEFAULT_ORDER ];
+	setSelectedStorageBackend( undefined ); // eslint-disable-line no-undefined
+};
 
 /**
  * Detects whether browser storage is both supported and available.
