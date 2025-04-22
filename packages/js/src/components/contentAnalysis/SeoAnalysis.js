@@ -19,8 +19,8 @@ import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
-import isBlockEditor from "../../helpers/isBlockEditor";
-import AIAssessmentFixesButton from "../../ai-assessment-fixes/components/ai-assessment-fixes-button";
+import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
+import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -190,7 +190,7 @@ class SeoAnalysis extends Component {
 		];
 	}
 
-	/* eslint-disable complexity */
+
 	/**
 	 * Renders the Yoast AI Optimize button.
 	 * The button is shown when:
@@ -204,7 +204,7 @@ class SeoAnalysis extends Component {
 	 *
 	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
 	 */
-	renderAIFixesButton = ( hasAIFixes, id ) => {
+	renderAIOptimizeButton = ( hasAIFixes, id ) => {
 		const { isElementor, isAiFeatureEnabled, isPremium } = this.props;
 
 		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
@@ -212,16 +212,12 @@ class SeoAnalysis extends Component {
 			return;
 		}
 
-		const isElementorEditorPageActive =  document.body.classList.contains( "elementor-editor-active" );
-		const isNotElementorPage =  ! isElementor && ! isElementorEditorPageActive;
-
-		// The reason of adding the check if Elementor is active or not is because `isBlockEditor` method also returns `true` for Elementor.
-		// The reason of adding the check if the Elementor editor is active, is to stop showing the buttons in the in-between screen.
-		return hasAIFixes && isBlockEditor() && isNotElementorPage && (
-			<AIAssessmentFixesButton id={ id } isPremium={ isPremium } />
-		);
+		const shouldRenderAIButton = shouldRenderAIOptimizeButton( hasAIFixes, isElementor );
+		// Show the button if the assessment can be fixed through Yoast AI Optimize, and we are not in the Elementor editor,
+		// WooCommerce Product pages or Taxonomy
+		return shouldRenderAIButton && ( <AIOptimizeButton id={ id } isPremium={ isPremium } /> );
 	};
-	/* eslint-enable complexity */
+
 
 	/**
 	 * Renders the SEO Analysis component.
@@ -281,7 +277,7 @@ class SeoAnalysis extends Component {
 												location={ location }
 												shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 												highlightingUpsellLink={ highlightingUpsellLink }
-												renderAIFixesButton={ this.renderAIFixesButton }
+												renderAIOptimizeButton={ this.renderAIOptimizeButton }
 											/>
 										</Collapsible>
 										{ this.renderTabIcon( location, score.className ) }
