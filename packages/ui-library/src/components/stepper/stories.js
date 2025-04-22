@@ -4,8 +4,8 @@ import classNames from "classnames";
 import React, { useCallback, useContext } from "react";
 import { Stepper } from ".";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
-import { Button } from "../../index";
-import { component, customStep } from "./docs";
+import { Button, ProgressBar } from "../../index";
+import { component, customStep, customProgressBar } from "./docs";
 
 /**
  * Custom step component for stepper story.
@@ -118,13 +118,50 @@ export const WithCustomStep = {
 	decorators: [ DecorateWithStepButton ],
 };
 
+/**
+ * Custom Progress bar component for the stepper story.
+ *
+ * @param {Object} style The style object containing `left` and `right` positions.
+ * @param {number} progress The progress percentage (0-100).
+ *
+ * @returns {JSX.Element} The progress bar element.
+ */
+const CustomProgressBar = ( { progress, style } ) => {
+	return (
+		<ProgressBar
+			className="yst-absolute yst-top-3 yst-w-auto yst-h-0.5 yst-bg-green-400"
+			style={ style }
+			min={ 0 }
+			max={ 100 }
+			progress={ progress }
+		/>
+	);
+};
+
+export const WithCustomProgressBar = {
+	args: {
+		currentStep: 0,
+		steps: [ "INSTALL", "ACTIVATE", "SET UP", "CONNECT" ],
+		CustomProgressBar,
+		children: null,
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: customProgressBar,
+			},
+		},
+	},
+	decorators: [ DecorateWithStepButton ],
+};
+
 export default {
 	title: "2) Components/Stepper",
 	component: Stepper,
 	parameters: {
 		docs: {
 			description: { component },
-			page: () => <InteractiveDocsPage stories={ [ StepsAsChildren, WithCustomStep ] } />,
+			page: () => <InteractiveDocsPage stories={ [ StepsAsChildren, WithCustomStep, WithCustomProgressBar ] } />,
 		},
 	},
 	argTypes: {

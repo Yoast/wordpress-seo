@@ -57,6 +57,39 @@ Step.propTypes = {
 };
 
 /**
+ * Calculate the length of the progress bar.
+ *
+ * @param {DOMRect} firstStepRect The bounding rectangle of the first step.
+ * @param {DOMRect} lastStepRect The bounding rectangle of the last step.
+ * @returns {number} The length of the progress bar.
+ */
+const calculateProgressBarLength = ( firstStepRect, lastStepRect ) => {
+	return lastStepRect.right - firstStepRect.left - ( firstStepRect.width / 2 ) - ( lastStepRect.width / 2 );
+};
+
+/**
+ * Calculate the length of each step in percentage.
+ *
+ * @param {HTMLElement[]} stepRef The list of step elements.
+ * @param {DOMRect} firstStepRect The bounding rectangle of the first step.
+ * @param {number} progressBarLength The length of the progress bar.
+ * @returns {number[]} The length of each step in percentage.
+ */
+const calculateStepsLengthPercentage = ( stepRef, firstStepRect, progressBarLength ) => {
+	const startingPoint = firstStepRect.left + firstStepRect.width / 2;
+	return stepRef.map( ( step, index ) => {
+		if ( index === 0 ) {
+			return 0;
+		}
+		if ( index >= stepRef.length - 1 ) {
+			return 100;
+		}
+		const parcel = step.getBoundingClientRect().right - startingPoint - step.getBoundingClientRect().width / 2;
+		return ( parcel / progressBarLength ) * 100;
+	} );
+};
+
+/**
  *
  * @param {JSX.Node} [children] Content of the stepper.
  * @param {number} [currentStep] The current step, starts from 0.
@@ -65,10 +98,12 @@ Step.propTypes = {
  *
  * @returns {JSX.Element} The Stepper element.
  */
-export const Stepper = forwardRef( ( { children, currentStep = 0, className = "", steps = [] }, ref ) => {
+export const Stepper = forwardRef( ( { children, currentStep = 0, className = "", steps = [], CustomProgressBar }, ref ) => {
 	const [ progressBarPosition, setProgressBarPosition ] = useState( {
 		left: 0,
 		right: 0,
+		StepsLengthPercentage: 0,
+		progressBarLength: 0,
 	} );
 	const stepRef = useRef( [] );
 
@@ -76,14 +111,35 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 		if ( stepRef.current.length > 0 ) {
 			const firstStepRect = stepRef.current[ 0 ].getBoundingClientRect();
 			const lastStepRect = stepRef.current[ stepRef.current.length - 1 ].getBoundingClientRect();
+
+			const progressBarLength = calculateProgressBarLength( firstStepRect, lastStepRect );
+			const StepsLengthPercentage = calculateStepsLengthPercentage( stepRef.current, firstStepRect, progressBarLength );
+
 			setProgressBarPosition( {
 				left: firstStepRect.width / 2,
 				right: lastStepRect.width / 2,
+				StepsLengthPercentage,
+				progressBarLength,
 			} );
 		}
 	}, [ stepRef.current ] );
 
 	const addStepRef = useCallback( ( el ) => ( stepRef.current.push( el ) ), [ stepRef.current ] );
+
+	/**
+	 * Get the percentage of the current step's progress.
+	 *
+	 * @param {number[]} StepsLengthPercentage Array of step lengths in percentage.
+	 * @param {number} currentStep The index of the current step (starting from 0).
+	 * @returns {number} The percentage of the current step's progress.
+	 */
+	const getCurrentStepPercentage = ( StepsLengthPercentage, currentStep ) => {
+		if ( currentStep && StepsLengthPercentage ) {
+			return StepsLengthPercentage[ currentStep ] ?? 100;
+		}
+
+		return 0;
+	};
 
 	return (
 		<StepperContext.Provider value={ { addStepRef, currentStep } }>
@@ -98,13 +154,26 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 					</Step>
 				) ) }
 
-				<ProgressBar
-					className="yst-absolute yst-top-3 yst-w-auto yst-h-0.5"
-					style={ progressBarPosition }
-					min={ 0 }
-					max={ stepRef.current.length - 1 }
-					progress={ currentStep }
-				/>
+				{ CustomProgressBar ? (
+					<CustomProgressBar
+						style={ {
+							right: progressBarPosition?.right,
+							left: progressBarPosition?.left,
+						} }
+						progress={ getCurrentStepPercentage( progressBarPosition?.StepsLengthPercentage, currentStep ) }
+					/>
+				) : (
+					<ProgressBar
+						className="yst-absolute yst-top-3 yst-w-auto yst-h-0.5"
+						style={ {
+							right: progressBarPosition?.right,
+							left: progressBarPosition?.left,
+						} }
+						min={ 0 }
+						max={ 100 }
+						progress={ getCurrentStepPercentage( progressBarPosition?.StepsLengthPercentage , currentStep ) }
+					/>
+				) }
 			</div>
 		</StepperContext.Provider>
 	);
@@ -116,6 +185,7 @@ Stepper.propTypes = {
 	children: PropTypes.node,
 	className: PropTypes.string,
 	steps: PropTypes.arrayOf( PropTypes.node ),
+	CustomProgressBar: PropTypes.elementType,
 };
 Stepper.defaultProps = {
 	className: "",
@@ -123,6 +193,8 @@ Stepper.defaultProps = {
 	// eslint-disable-next-line no-undefined
 	children: undefined,
 	currentStep: 0,
+	// eslint-disable-next-line no-undefined
+	CustomProgressBar: undefined,
 };
 
 Stepper.Step = Step;
