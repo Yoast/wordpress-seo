@@ -34,8 +34,8 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 		const yoastPrefix = "yoastseo";
 		const finalCacheKey = yoastPrefix + "_" + this.#yoastVersion + "_" + this.#storagePrefix + "_" + params.options.widget;
 
-		const { cacheHit, value, isError } = await getItem( finalCacheKey );
-		if ( cacheHit && ! isError ) {
+		const { cacheHit, value } = await getItem( finalCacheKey );
+		if ( cacheHit ) {
 			return value;
 		}
 

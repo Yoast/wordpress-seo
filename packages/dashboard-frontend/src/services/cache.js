@@ -90,7 +90,7 @@ export const getItem = async( key ) => {
 
 		if ( cachedData ) {
 			const parsedData = JSON.parse( cachedData );
-			const { timestamp, ttl, value, isError } = parsedData;
+			const { timestamp, ttl, value } = parsedData;
 
 			// Ensure a timestamp is found, otherwise this isn't a valid cache hit.
 			// (We don't check for a truthy `value`, because it could be legitimately
@@ -108,7 +108,6 @@ export const getItem = async( key ) => {
 				return {
 					cacheHit: true,
 					value,
-					isError,
 				};
 			}
 		}
@@ -128,10 +127,9 @@ export const getItem = async( key ) => {
  *
  * @param {string}  key              Name of cache key.
  * @param {*}       value            Value to store in the cache.
- * @param {Object}  args             Optional object containing ttl, timestamp and isError keys.
+ * @param {Object}  args             Optional object containing ttl and timestamp keys.
  * @param {number}  [args.ttl]       Optional. Validity of the cached item in seconds.
  * @param {number}  [args.timestamp] Optional. Timestamp when the cached item was created.
- * @param {boolean} [args.isError]   Optional. Whether the cached item is an error.
  * @returns {Promise} A promise: resolves to `true` if the value was saved; `false` if not (usually because no storage method was available).
  */
 export const setItem = async(
@@ -143,7 +141,6 @@ export const setItem = async(
 		// so the cache timeouts are consistent even when changing
 		// the reference dates when developing/testing.
 		timestamp = Math.round( Date.now() / 1000 ),
-		isError = false,
 	} = {}
 ) => {
 	const storage = await getStorage();
@@ -156,7 +153,6 @@ export const setItem = async(
 					timestamp,
 					ttl,
 					value,
-					isError,
 				} )
 			);
 
