@@ -794,7 +794,7 @@ const disabilityAssessments = [
 	{
 		identifier: "spazzing",
 		nonInclusivePhrases: [ "spazzing" ],
-		inclusiveAlternatives: "<i>flipping out, throwing a tantrum, behaving erratically, going on the fritz, losing control, twitching, moving clumsily, moving awkwardly</i>",
+		inclusiveAlternatives: "<i>losing control, flipping out, throwing a tantrum, behaving erratically, going on the fritz, twitching, moving clumsily, moving awkwardly</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: redHarmful,
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
@@ -803,7 +803,7 @@ const disabilityAssessments = [
 	{
 		identifier: "spazzed",
 		nonInclusivePhrases: [ "spazzed" ],
-		inclusiveAlternatives: "<i>flipped out, threw a tantrum, behaved erratically, went on the fritz, lost control, twitched, moved clumsily, moved awkwardly</i>",
+		inclusiveAlternatives: "<i>lost control, flipped out, threw a tantrum, behaved erratically, went on the fritz, twitched, moved clumsily, moved awkwardly</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: redHarmful,
 	},

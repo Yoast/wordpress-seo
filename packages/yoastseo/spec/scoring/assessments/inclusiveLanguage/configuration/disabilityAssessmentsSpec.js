@@ -593,8 +593,8 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "spaz",
 				text: "another spaz",
 				expectedFeedback: "Avoid using <i>spaz</i> as it is potentially harmful. Consider using an alternative, " +
-					"such as <i>incompetent person, erratic person, inept person, hyperactive person, agitated person, amateur, unqualified person, ignorant person</i> when referring to a person, or <i>flip out, " +
-					"throw a tantrum, behave erratically, go on the fritz, twitch, lose control, move clumsily, move awkwardly</i> when referring to an action. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+					"such as <i>incompetent person, erratic person, inept person, hyperactive person, agitated person, amateur, unqualified person, ignorant person</i> when referring to a person, or <i>lose control, flip out, " +
+					"throw a tantrum, behave erratically, go on the fritz, twitch, move clumsily, move awkwardly</i> when referring to an action. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 			{
@@ -602,14 +602,14 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "as long as no one spazzes",
 				expectedFeedback: "Avoid using <i>spazzes</i> as it is potentially harmful. Consider using an alternative, " +
 			"such as <i>incompetent people, erratic people, inept people, hyperactive people, agitated people, amateurs, unqualified people, ignorant people</i> when referring to a person, or " +
-			"<i>loses control, flips out, throws a tantrum, behaves erratically, goes on the fritz, loses control, twitches, moves clumsily, moves awkwardly</i> when referring to an action. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			"<i>loses control, flips out, throws a tantrum, behaves erratically, goes on the fritz, twitches, moves clumsily, moves awkwardly</i> when referring to an action. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 		},
 			{
 				identifier: "spazzing",
 				text: "no one expects spazzing out on stage",
 				expectedFeedback: "Avoid using <i>spazzing</i> as it is potentially harmful. Consider using an alternative, " +
-					"such as <i>flipping out, throwing a tantrum, behaving erratically, going on the fritz, losing control, twitching, moving clumsily, moving awkwardly</i>. " +
+					"such as <i>losing control, flipping out, throwing a tantrum, behaving erratically, going on the fritz, twitching, moving clumsily, moving awkwardly</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -1181,6 +1181,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
 					"to make one's blood boil, to exasperate, to get into one's head</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
 			},
 			// For: driving (someone) crazy
 			{
@@ -1190,6 +1191,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
 					"to make one's blood boil, to exasperate, to get into one's head</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
 			},
 			// Form: drive (someone) crazy.
 			{
