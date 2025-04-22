@@ -10,6 +10,7 @@ import { noop } from "lodash";
  */
 const StepperContext = createContext( {
 	addStepRef: noop,
+	currentStep: 0,
 } );
 
 /**
@@ -130,16 +131,20 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 	 * Get the percentage of the current step's progress.
 	 *
 	 * @param {number[]} StepsLengthPercentage Array of step lengths in percentage.
-	 * @param {number} currentStep The index of the current step (starting from 0).
+	 * @param {number} step The index of the current step (starting from 0).
 	 * @returns {number} The percentage of the current step's progress.
 	 */
-	const getCurrentStepPercentage = ( StepsLengthPercentage, currentStep ) => {
-		if ( currentStep && StepsLengthPercentage ) {
-			return StepsLengthPercentage[ currentStep ] ?? 100;
+	const getCurrentStepPercentage = ( StepsLengthPercentage, step ) => {
+		if ( step && StepsLengthPercentage ) {
+			return StepsLengthPercentage[ step ] ?? 100;
 		}
 
 		return 0;
 	};
+
+	if ( steps.length === 0 && ! children  ) {
+		return null;
+	}
 
 	return (
 		<StepperContext.Provider value={ { addStepRef, currentStep } }>
@@ -171,7 +176,7 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 						} }
 						min={ 0 }
 						max={ 100 }
-						progress={ getCurrentStepPercentage( progressBarPosition?.StepsLengthPercentage , currentStep ) }
+						progress={ getCurrentStepPercentage( progressBarPosition?.StepsLengthPercentage, currentStep ) }
 					/>
 				) }
 			</div>
