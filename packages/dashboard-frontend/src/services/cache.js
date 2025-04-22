@@ -12,7 +12,7 @@ let storageBackend;
 /**
  * Detects whether browser storage is both supported and available.
  *
- * @param {string} type Browser storage to test. Should be one of `localStorage` or `sessionStorage`.
+ * @param {"localStorage"|"sessionStorage"} type Browser storage to test. Should be one of `localStorage` or `sessionStorage`.
  * @returns {Promise<string>} True if the given storage is available, false otherwise.
  */
 export const isStorageAvailable = async( type ) => {
