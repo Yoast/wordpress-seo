@@ -21,8 +21,8 @@ export class WidgetFactory {
 	/**
 	 * @param {import("./data-provider").DataProvider} dataProvider
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider
-	 * @param {object<import("./remote-cached-data-provider").RemoteCachedDataProvider>} remoteCachedDataProviders
-	 * @param {object} dataFormatters
+	 * @param {Object<WidgetType,import("./remote-cached-data-provider").RemoteCachedDataProvider>} remoteCachedDataProviders
+	 * @param {Object} dataFormatters
 	 */
 	constructor( dataProvider, remoteDataProvider, remoteCachedDataProviders, dataFormatters ) {
 		this.#dataProvider = dataProvider;
