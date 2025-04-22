@@ -10,6 +10,7 @@ import { noop } from "lodash";
  */
 const StepperContext = createContext( {
 	addStepRef: noop,
+	removeStepRef: noop,
 	currentStep: 0,
 } );
 
@@ -126,6 +127,9 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 	}, [ stepRef.current ] );
 
 	const addStepRef = useCallback( ( el ) => ( stepRef.current.push( el ) ), [ stepRef.current ] );
+	const removeStepRef = useCallback( ( index ) => {
+		stepRef.current = stepRef.current.filter((el, i) => i !== index);
+	}, [ stepRef.current ] );
 
 	/**
 	 * Get the percentage of the current step's progress.
@@ -147,7 +151,7 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 	}
 
 	return (
-		<StepperContext.Provider value={ { addStepRef, currentStep } }>
+		<StepperContext.Provider value={ { addStepRef, removeStepRef, currentStep } }>
 			<div className={ classNames( className, "yst-stepper" ) } ref={ ref }>
 
 				{ children || steps.map( ( step, index ) => (
