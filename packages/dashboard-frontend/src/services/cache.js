@@ -51,7 +51,7 @@ export const isStorageAvailable = async( type ) => {
 /**
  * Gets the storage object to use.
  *
- * @returns {Promise<string>} A storage mechanism (`localStorage` or `sessionStorage`) if available; otherwise returns `null`.
+ * @returns {Promise<Storage|null>} A storage mechanism (`localStorage` or `sessionStorage`) if available; otherwise returns `null`.
  */
 export const getStorage = async() => {
 	if ( storageBackend !== undefined ) { // eslint-disable-line no-undefined
