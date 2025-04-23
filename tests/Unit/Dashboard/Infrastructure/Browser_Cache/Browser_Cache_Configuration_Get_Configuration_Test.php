@@ -5,8 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Browser_Cache;
 use Brain\Monkey\Functions;
 use Generator;
 use WP_User;
-use Yoast\WP\SEO\Dashboard\Infrastructure\Browser_Cache\Browser_Cache_Configuration;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Test class getting the configuration.
@@ -19,41 +17,25 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Browser_Cache_Configuration_Get_Configuration_Test extends TestCase {
-
-	/**
-	 * Holds the instance.
-	 *
-	 * @var Browser_Cache_Configuration
-	 */
-	protected $instance;
-
-	/**
-	 * Sets up the test fixtures.
-	 *
-	 * @return void
-	 */
-	protected function set_up() {
-		parent::set_up();
-
-		$this->instance = new Browser_Cache_Configuration();
-	}
+final class Browser_Cache_Configuration_Get_Configuration_Test extends Abstract_Browser_Cache_Configuration_Test {
 
 	/**
 	 * Tests getting the configuration.
 	 *
 	 * @dataProvider get_configuration_data
 	 *
-	 * @param string                                                  $user_login  The user login.
-	 * @param array<string>                                           $auth_cookie The auth cookie.
-	 * @param int                                                     $blog_id     The blog ID.
-	 * @param string                                                  $to_hash     The string to hash.
-	 * @param string                                                  $hash        The hash.
-	 * @param array<string, string|array<string, array<string, int>>> $expected    The expected configuration.
+	 * @param bool                                                    $met_conditional The conditional met.
+	 * @param string                                                  $user_login      The user login.
+	 * @param array<string>                                           $auth_cookie     The auth cookie.
+	 * @param int                                                     $blog_id         The blog ID.
+	 * @param string                                                  $to_hash         The string to hash.
+	 * @param string                                                  $hash            The hash.
+	 * @param array<string, string|array<string, array<string, int>>> $expected        The expected configuration.
 	 *
 	 * @return void
 	 */
 	public function test_get_configuration(
+		$met_conditional,
 		$user_login,
 		$auth_cookie,
 		$blog_id,
@@ -61,6 +43,11 @@ final class Browser_Cache_Configuration_Get_Configuration_Test extends TestCase 
 		$hash,
 		$expected
 	) {
+		$this->google_site_kit_feature_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( $met_conditional );
+
 		$user1             = new WP_User();
 		$user1->user_login = $user_login;
 
@@ -105,44 +92,47 @@ final class Browser_Cache_Configuration_Get_Configuration_Test extends TestCase 
 		];
 
 		yield 'Logged in user' => [
-			'user_login'  => 'admin',
-			'auth_cookie' => [
+			'met_conditional' => true,
+			'user_login'      => 'admin',
+			'auth_cookie'     => [
 				'username' => 'test',
 				'token'    => 'randoM_TokeN_123',
 			],
-			'blog_id'     => 1,
-			'to_hash'     => 'admin|randoM_TokeN_123|1',
-			'hash'        => 'raNdoM_HasH_12345',
-			'expected'    => [
+			'blog_id'         => 1,
+			'to_hash'         => 'admin|randoM_TokeN_123|1',
+			'hash'            => 'raNdoM_HasH_12345',
+			'expected'        => [
 				'storagePrefix'   => 'raNdoM_HasH_12345',
 				'yoastVersion'    => \WPSEO_VERSION,
 				'widgetsCacheTtl' => $ttls,
 			],
 		];
 		yield 'Logged in user with no token' => [
-			'user_login'  => 'admin',
-			'auth_cookie' => [
+			'met_conditional' => true,
+			'user_login'      => 'admin',
+			'auth_cookie'     => [
 				'username' => 'test',
 			],
-			'blog_id'     => 1,
-			'to_hash'     => 'admin||1',
-			'hash'        => 'Other_raNdoM_HasH_12345',
-			'expected'    => [
+			'blog_id'         => 1,
+			'to_hash'         => 'admin||1',
+			'hash'            => 'Other_raNdoM_HasH_12345',
+			'expected'        => [
 				'storagePrefix'   => 'Other_raNdoM_HasH_12345',
 				'yoastVersion'    => \WPSEO_VERSION,
 				'widgetsCacheTtl' => $ttls,
 			],
 		];
 		yield 'Logged in user in subsite' => [
-			'user_login'  => 'admin',
-			'auth_cookie' => [
+			'met_conditional' => true,
+			'user_login'      => 'admin',
+			'auth_cookie'     => [
 				'username' => 'test',
 				'token'    => 'randoM_TokeN_1234',
 			],
-			'blog_id'     => 2,
-			'to_hash'     => 'admin|randoM_TokeN_1234|2',
-			'hash'        => 'Other_raNdoM_HasH_12345',
-			'expected'    => [
+			'blog_id'         => 2,
+			'to_hash'         => 'admin|randoM_TokeN_1234|2',
+			'hash'            => 'Other_raNdoM_HasH_12345',
+			'expected'        => [
 				'storagePrefix'   => 'Other_raNdoM_HasH_12345',
 				'yoastVersion'    => \WPSEO_VERSION,
 				'widgetsCacheTtl' => $ttls,

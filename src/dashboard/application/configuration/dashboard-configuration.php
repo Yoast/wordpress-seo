@@ -140,14 +140,18 @@ class Dashboard_Configuration {
 			'endpoints'               => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			'nonce'                   => $this->nonce_repository->get_rest_nonce(),
 			'setupStepsTracking'      => $this->setup_steps_tracking->to_array(),
-			'browserCache'            => $this->browser_cache_configuration->get_configuration(),
 		];
 
 		$site_kit_integration_data = $this->site_kit_integration_data->to_array();
-
 		if ( ! empty( $site_kit_integration_data ) ) {
 			$configuration ['siteKitConfiguration'] = $site_kit_integration_data;
 		}
+
+		$browser_cache_configuration = $this->browser_cache_configuration->get_configuration();
+		if ( ! empty( $browser_cache_configuration ) ) {
+			$configuration ['browserCache'] = $browser_cache_configuration;
+		}
+
 		return $configuration;
 	}
 }
