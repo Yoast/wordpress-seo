@@ -102,9 +102,6 @@ domReady( () => {
 			isConsentGranted: false,
 		},
 		isRedirectedFromSiteKit: false,
-		storagePrefix: "",
-		yoastVersion: "",
-		widgetsCacheTtl: {},
 	} );
 
 	const cacheConfig = {
@@ -114,7 +111,6 @@ domReady( () => {
 	};
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
-
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const dataFormatters = {
 		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
