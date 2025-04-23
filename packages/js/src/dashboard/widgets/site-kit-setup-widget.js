@@ -18,10 +18,10 @@ import { SiteKitConsentModal } from "../../shared-admin/components";
 
 /** @type {string[]} */
 const steps = [
-	__( "INSTALL", "wordpress-seo" ),
-	__( "ACTIVATE", "wordpress-seo" ),
-	__( "SET UP", "wordpress-seo" ),
-	__( "CONNECT", "wordpress-seo" ),
+	{ children: __( "INSTALL", "wordpress-seo" ), id: "install" },
+	{ children: __( "ACTIVATE", "wordpress-seo" ), id: "activate" },
+	{ children: __( "SET UP", "wordpress-seo" ), id: "setup" },
+	{ children: __( "CONNECT", "wordpress-seo" ), id: "connect" },
 ];
 
 /** @type {Object<string, number>} */

@@ -220,7 +220,10 @@ Stepper.propTypes = {
 	currentStep: PropTypes.number,
 	children: PropTypes.node,
 	className: PropTypes.string,
-	steps: PropTypes.arrayOf( PropTypes.node ),
+	steps: PropTypes.arrayOf( PropTypes.shape( {
+		id: PropTypes.string.isRequired,
+		children: PropTypes.node.isRequired,
+	} ) ),
 	CustomProgressBar: PropTypes.elementType,
 };
 Stepper.defaultProps = {
