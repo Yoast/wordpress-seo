@@ -7,15 +7,15 @@ import { noop } from "lodash";
 const PopoverContext = createContext( { handleDismiss: noop  } );
 
 const positionClassNameMap = {
-	noArrow: "yst-popover",
+	"no-arrow": "yst-popover",
 	top: "yst-popover--top",
-	topLeft: "yst-popover--top-left",
-	topRight: "yst-popover--top-right",
+	"top-left": "yst-popover--top-left",
+	"top-right": "yst-popover--top-right",
 	right: "yst-popover--right",
 	bottom: "yst-popover--bottom",
 	left: "yst-popover--left",
-	bottomLeft: "yst-popover--bottom-left",
-	bottomRight: "yst-popover--bottom-right",
+	"bottom-left": "yst-popover--bottom-left",
+	"bottom-right": "yst-popover--bottom-right",
 };
 
 /**
@@ -179,7 +179,7 @@ Popover.propTypes = {
 Popover.defaultProps = {
 	as: "div",
 	className: "",
-	position: "noArrow",
+	position: "no-arrow",
 	backdrop: false,
 };
 
