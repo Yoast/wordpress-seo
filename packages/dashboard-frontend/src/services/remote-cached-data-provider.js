@@ -38,14 +38,14 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 		const yoastPrefix = "yoastseo";
 		const finalCacheKey = yoastPrefix + "_" + this.#yoastVersion + "_" + this.#storagePrefix + "_" + params.options.widget;
 
-		const { cacheHit, value } = await getItem( finalCacheKey );
+		const { cacheHit, value } = getItem( finalCacheKey );
 		if ( cacheHit ) {
 			return value;
 		}
 
 		const response = await super.fetchJson( endpoint, params, options );
 
-		await setItem( finalCacheKey, response, { ttl: this.#ttl } );
+		setItem( finalCacheKey, response, { ttl: this.#ttl } );
 
 		return response;
 	}

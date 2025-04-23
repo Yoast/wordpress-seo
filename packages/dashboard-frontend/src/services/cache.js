@@ -50,9 +50,9 @@ export const resetDefaultStorageOrder = () => {
  * Detects whether browser storage is both supported and available.
  *
  * @param {"localStorage"|"sessionStorage"} type Browser storage to test. Should be one of `localStorage` or `sessionStorage`.
- * @returns {Promise<boolean>} True if the given storage is available, false otherwise.
+ * @returns {boolean} True if the given storage is available, false otherwise.
  */
-export const isStorageAvailable = async( type ) => {
+export const isStorageAvailable = ( type ) => {
 	const storage = global[ type ];
 
 	if ( ! storage ) {
@@ -88,9 +88,9 @@ export const isStorageAvailable = async( type ) => {
 /**
  * Gets the storage object to use.
  *
- * @returns {Promise<Storage|null>} A storage mechanism (`localStorage` or `sessionStorage`) if available; otherwise returns `null`.
+ * @returns {Storage|null} A storage mechanism (`localStorage` or `sessionStorage`) if available; otherwise returns `null`.
  */
-export const getStorage = async() => {
+export const getStorage = () => {
 	if ( storageBackend !== undefined ) { // eslint-disable-line no-undefined
 		return storageBackend;
 	}
@@ -101,7 +101,7 @@ export const getStorage = async() => {
 			continue;
 		}
 
-		if ( await isStorageAvailable( backend ) ) {
+		if ( isStorageAvailable( backend ) ) {
 			storageBackend = global[ backend ];
 		}
 	}
@@ -119,10 +119,10 @@ export const getStorage = async() => {
  * Get cached data from the persistent storage cache.
  *
  * @param {string} key Name of cache key.
- * @returns {Promise} A promise returned, containing an object with the cached value (if found) and whether or not there was a cache hit.
+ * @returns {Object} The cached value (if found) and whether or not there was a cache hit.
  */
-export const getItem = async( key ) => {
-	const storage = await getStorage();
+export const getItem = ( key ) => {
+	const storage = getStorage();
 
 	if ( storage ) {
 		const cachedData = storage.getItem( key );
@@ -169,9 +169,9 @@ export const getItem = async( key ) => {
  * @param {Object}  args             Optional object containing ttl and timestamp keys.
  * @param {number}  [args.ttl]       Optional. Validity of the cached item in seconds.
  * @param {number}  [args.timestamp] Optional. Timestamp when the cached item was created.
- * @returns {Promise} A promise: resolves to `true` if the value was saved; `false` if not (usually because no storage method was available).
+ * @returns {boolean} `true` if the value was saved; `false` if not (usually because no storage method was available).
  */
-export const setItem = async(
+export const setItem = (
 	key,
 	value,
 	{
@@ -182,7 +182,7 @@ export const setItem = async(
 		timestamp = Math.round( Date.now() / 1000 ),
 	} = {}
 ) => {
-	const storage = await getStorage();
+	const storage = getStorage();
 
 	if ( storage ) {
 		try {
