@@ -50,7 +50,7 @@ export const resetDefaultStorageOrder = () => {
  * Detects whether browser storage is both supported and available.
  *
  * @param {"localStorage"|"sessionStorage"} type Browser storage to test. Should be one of `localStorage` or `sessionStorage`.
- * @returns {Promise<string>} True if the given storage is available, false otherwise.
+ * @returns {Promise<boolean>} True if the given storage is available, false otherwise.
  */
 export const isStorageAvailable = async( type ) => {
 	const storage = global[ type ];
