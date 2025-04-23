@@ -107,6 +107,12 @@ domReady( () => {
 		widgetsCacheTtl: {},
 	} );
 
+	const cacheConfig = {
+		storagePrefix: get( window, "wpseoScriptData.dashboard.browserCache.storagePrefix", "" ),
+		yoastVersion: get( window, "wpseoScriptData.dashboard.browserCache.yoastVersion", "" ),
+		widgetsCacheTtl: get( window, "wpseoScriptData.dashboard.browserCache.widgetsCacheTtl", {} ),
+	};
+
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
@@ -115,11 +121,11 @@ domReady( () => {
 		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
 	};
 
-	const remoteCachedDataProviders = Object.entries( siteKitConfiguration.widgetsCacheTtl ).reduce( ( providers, [ key, value ] ) => {
+	const remoteCachedDataProviders = Object.entries( cacheConfig.widgetsCacheTtl ).reduce( ( providers, [ key, value ] ) => {
 		providers[ key ] = new RemoteCachedDataProvider(
 			{ headers },
-			siteKitConfiguration.storagePrefix,
-			siteKitConfiguration.yoastVersion,
+			cacheConfig.storagePrefix,
+			cacheConfig.yoastVersion,
 			value.ttl
 		);
 		return providers;

@@ -177,45 +177,6 @@ class Site_Kit {
 	}
 
 	/**
-	 * Gets the prefix for the client side cache key.
-	 *
-	 * Cache key is scoped to user session and blog_id to isolate the
-	 * cache between users and sites (in multisite).
-	 *
-	 * @return string
-	 */
-	private function get_storage_prefix() {
-		$current_user  = \wp_get_current_user();
-		$auth_cookie   = \wp_parse_auth_cookie();
-		$blog_id       = \get_current_blog_id();
-		$session_token = isset( $auth_cookie['token'] ) ? $auth_cookie['token'] : '';
-
-		return \wp_hash( $current_user->user_login . '|' . $session_token . '|' . $blog_id );
-	}
-
-	/**
-	 * Gets the Time To Live for each widget's cache.
-	 *
-	 * @return array<string, array<string, int>> The cache TTL for each widget.
-	 */
-	private function get_widgets_cache_ttl() {
-		return [
-			'topPages' => [
-				'ttl'  => ( 1 * \MINUTE_IN_SECONDS ),
-			],
-			'topQueries' => [
-				'ttl'  => ( 1 * \HOUR_IN_SECONDS ),
-			],
-			'searchRankingCompare' => [
-				'ttl'  => ( 1 * \HOUR_IN_SECONDS ),
-			],
-			'organicSessions' => [
-				'ttl'  => ( 1 * \HOUR_IN_SECONDS ),
-			],
-		];
-	}
-
-	/**
 	 * Return this object represented by a key value array.
 	 *
 	 * @return array<string, bool> Returns the name and if the feature is enabled.
@@ -250,9 +211,6 @@ class Site_Kit {
 			'isVersionSupported'       => \defined( 'GOOGLESITEKIT_VERSION' ) ? \version_compare( \GOOGLESITEKIT_VERSION, '1.148.0', '>=' ) : false,
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			'isRedirectedFromSiteKit'  => isset( $_GET['redirected_from_site_kit'] ),
-			'storagePrefix'            => $this->get_storage_prefix(),
-			'yoastVersion'             => \WPSEO_VERSION,
-			'widgetsCacheTtl'          => $this->get_widgets_cache_ttl(),
 		];
 	}
 

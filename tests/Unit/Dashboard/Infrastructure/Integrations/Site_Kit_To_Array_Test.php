@@ -18,8 +18,6 @@ use WP_User;
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_ga_connected
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_connected
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_setup_completed
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::get_storage_prefix
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::get_widgets_cache_ttl
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -43,7 +41,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 	 * @param array<array<string>> $data_list               The result of the module data API call.
 	 * @param array<bool>          $permissions             The result of the permissions API call.
 	 * @param array<bool>          $authenticated           If the connection is authenticated.
-	 * @param string               $hash                    The hash for the storage prefix.
 	 * @param array<bool|string>   $expected                The expected value.
 	 *
 	 * @return void
@@ -62,7 +59,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 		array $data_list,
 		array $permissions,
 		array $authenticated,
-		string $hash,
 		array $expected
 	) {
 
@@ -123,30 +119,11 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			);
 		}
 
-		$user1             = new WP_User();
-		$user1->ID         = 1;
-		$user1->user_login = 'admin';
+		$user1     = new WP_User();
+		$user1->ID = 1;
 
 		Functions\expect( 'wp_get_current_user' )
 			->andReturn( $user1 );
-
-		$parsed_auth_cookie = [
-			'username'   => 'test_name',
-			'expiration' => 1233456,
-			'token'      => 'randoM_TokeN_123',
-		];
-		Functions\expect( 'wp_parse_auth_cookie' )
-			->once()
-			->andReturn( $parsed_auth_cookie );
-
-		Functions\expect( 'get_current_blog_id' )
-			->once()
-			->andReturn( 1 );
-
-		Functions\expect( 'wp_hash' )
-			->once()
-			->with( 'admin|randoM_TokeN_123|1', )
-			->andReturn( $hash );
 
 		$this->assertSame( $expected, $this->instance->to_array() );
 	}
@@ -157,21 +134,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 	 * @return Generator Test data to use.
 	 */
 	public static function generate_site_kit_to_array_provider() {
-		$ttls = [
-			'topPages' => [
-				'ttl'  => 60,
-			],
-			'topQueries' => [
-				'ttl'  => 3600,
-			],
-			'searchRankingCompare' => [
-				'ttl'  => 3600,
-			],
-			'organicSessions' => [
-				'ttl'  => 3600,
-			],
-		];
-
 		yield 'Everything setup' => [
 			'is_site_kit_installed'   => true,
 			'is_site_kit_activated'   => true,
@@ -199,7 +161,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'googlesitekit_read_shared_module_data::["search-console"]' => true,
 			],
 			'authenticated'           => [ 'authenticated' => true ],
-			'hash'                    => 'raNdoM_HasH_12345',
 			'expected'                => [
 				'installUrl'               => 'url=url',
 				'activateUrl'              => 'url=url',
@@ -222,9 +183,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				],
 				'isVersionSupported'       => false,
 				'isRedirectedFromSiteKit'  => false,
-				'storagePrefix'            => 'raNdoM_HasH_12345',
-				'yoastVersion'             => \WPSEO_VERSION,
-				'widgetsCacheTtl'          => $ttls,
 			],
 		];
 		yield 'Installed not setup' => [
@@ -254,7 +212,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'googlesitekit_read_shared_module_data::["search-console"]' => true,
 			],
 			'authenticated'           => [ 'authenticated' => true ],
-			'hash'                    => 'raNdoM_HasH_23456',
 			'expected'                => [
 				'installUrl'               => 'url=url',
 				'activateUrl'              => 'url=url',
@@ -277,9 +234,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				],
 				'isVersionSupported'       => false,
 				'isRedirectedFromSiteKit'  => false,
-				'storagePrefix'            => 'raNdoM_HasH_23456',
-				'yoastVersion'             => \WPSEO_VERSION,
-				'widgetsCacheTtl'          => $ttls,
 			],
 		];
 		yield 'Setup but no longer installed' => [
@@ -309,7 +263,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'googlesitekit_read_shared_module_data::["search-console"]' => true,
 			],
 			'authenticated'           => [ 'authenticated' => true ],
-			'hash'                    => 'raNdoM_HasH_23456',
 			'expected'                => [
 				'installUrl'               => 'url=url',
 				'activateUrl'              => 'url=url',
@@ -332,9 +285,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				],
 				'isVersionSupported'       => false,
 				'isRedirectedFromSiteKit'  => false,
-				'storagePrefix'            => 'raNdoM_HasH_23456',
-				'yoastVersion'             => \WPSEO_VERSION,
-				'widgetsCacheTtl'          => $ttls,
 			],
 		];
 		yield 'Setup complete not the right owner but reading permissions' => [
@@ -364,7 +314,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'googlesitekit_read_shared_module_data::["search-console"]' => true,
 			],
 			'authenticated'           => [ 'authenticated' => false ],
-			'hash'                    => 'raNdoM_HasH_23456',
 			'expected'                => [
 				'installUrl'               => 'url=url',
 				'activateUrl'              => 'url=url',
@@ -387,9 +336,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				],
 				'isVersionSupported'       => false,
 				'isRedirectedFromSiteKit'  => false,
-				'storagePrefix'            => 'raNdoM_HasH_23456',
-				'yoastVersion'             => \WPSEO_VERSION,
-				'widgetsCacheTtl'          => $ttls,
 			],
 		];
 
@@ -420,7 +366,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'googlesitekit_read_shared_module_data::["search-console"]' => false,
 			],
 			'authenticated'           => [ 'authenticated' => true ],
-			'hash'                    => 'raNdoM_HasH_23456',
 			'expected'                => [
 				'installUrl'               => 'url=url',
 				'activateUrl'              => 'url=url',
@@ -443,9 +388,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				],
 				'isVersionSupported'       => false,
 				'isRedirectedFromSiteKit'  => false,
-				'storagePrefix'            => 'raNdoM_HasH_23456',
-				'yoastVersion'             => \WPSEO_VERSION,
-				'widgetsCacheTtl'          => $ttls,
 			],
 		];
 
@@ -476,7 +418,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'googlesitekit_read_shared_module_data::["search-console"]' => false,
 			],
 			'authenticated'           => [ 'authenticated' => true ],
-			'hash'                    => 'raNdoM_HasH_23456',
 			'expected'                => [
 				'installUrl'               => 'url=url',
 				'activateUrl'              => 'url=url',
@@ -499,9 +440,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				],
 				'isVersionSupported'       => false,
 				'isRedirectedFromSiteKit'  => false,
-				'storagePrefix'            => 'raNdoM_HasH_23456',
-				'yoastVersion'             => \WPSEO_VERSION,
-				'widgetsCacheTtl'          => $ttls,
 			],
 		];
 		yield 'Setup complete not the right owner and no reading permissions and not setup via second admin' => [
@@ -531,7 +469,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'googlesitekit_read_shared_module_data::["search-console"]' => false,
 			],
 			'authenticated'           => [ 'authenticated' => false ],
-			'hash'                    => 'raNdoM_HasH_23456',
 			'expected'                => [
 				'installUrl'                                        => 'url=url',
 				'activateUrl'                                       => 'url=url',
@@ -555,9 +492,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				],
 				'isVersionSupported'                                => false,
 				'isRedirectedFromSiteKit'                           => false,
-				'storagePrefix'                                     => 'raNdoM_HasH_23456',
-				'yoastVersion'                                      => \WPSEO_VERSION,
-				'widgetsCacheTtl'                                   => $ttls,
 			],
 		];
 	}

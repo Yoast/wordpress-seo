@@ -110,8 +110,6 @@ export { Dashboard } from "./components/dashboard";
  * @property {CapabilitiesForSiteKit} capabilities The user capabilities for site kit.
  * @property {boolean} isVersionSupported Whether the current Site Kit plugin version is supported.
  * @property {boolean} isRedirectedFromSiteKit Whether the setup widget is shown after redirecting back from Site Kit.
- * @property {string} storagePrefix The prefix for the client side cache key.
- * @property {string} yoastVersion The Yoast version.
  */
 
 /**
