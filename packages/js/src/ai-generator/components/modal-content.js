@@ -53,6 +53,7 @@ export const ModalContent = () => {
 				"Yoast WooCommerce SEO"
 			);
 			upsellProps.upsellLink = upsellLinkWoo;
+			upsellProps.ctbId = "5b32250e-e6f0-44ae-ad74-3cefc8e427f9";
 		} else if ( ! isWooSeoActive ) {
 			upsellProps.upsellLabel = `${sprintf(
 				/* translators: %1$s expands to Woo Premium bundle. */
@@ -63,6 +64,7 @@ export const ModalContent = () => {
 				{ `*${upsellPremiumWooLabel}` }
 			</div>;
 			upsellProps.upsellLink = upsellLinkWooPremiumBundle;
+			upsellProps.ctbId = "c7e7baa1-2020-420c-a427-89701700b607";
 		}
 	}
 
