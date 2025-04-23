@@ -21,7 +21,7 @@ const StepperContext = createContext( {
  *
  * @returns {JSX.Element} The step element.
  */
-const Step = ( { children, index } ) => {
+const Step = ( { children, index, id } ) => {
 	const { addStepRef, currentStep } = useContext( StepperContext );
 	const isActive = index === currentStep;
 	const isComplete = index < currentStep;
@@ -34,6 +34,7 @@ const Step = ( { children, index } ) => {
 				isComplete && "yst-step--complete",
 				isActive && "yst-step--active",
 			) }
+			id={ id }
 		>
 			<div className="yst-step__circle">
 				{ isComplete && <CheckIcon
@@ -55,6 +56,7 @@ Step.displayName = "Step";
 Step.propTypes = {
 	children: PropTypes.node.isRequired,
 	index: PropTypes.number.isRequired,
+	id: PropTypes.string.isRequired,
 };
 
 /**
@@ -129,10 +131,11 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 		if ( ! stepRef?.current?.length ) {
 			return;
 		}
+
 		// Cleanup stepRef for steps prop.
 		if ( steps.length && ( stepRef.current.length !== steps.length || currentStep )  ) {
 			const current = steps.map( ( step ) => {
-				const matchingStepRef = stepRef.current.find( ( el ) => el && el.innerText === step );
+				const matchingStepRef = stepRef.current.find( ( el ) => el && el.id === step.id );
 				if ( matchingStepRef ) {
 					return matchingStepRef;
 				}
@@ -143,7 +146,7 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 		// Cleanup stepRef for children prop.
 		if ( children && ( stepRef.current.length !== React.Children.count( children ) || currentStep ) ) {
 			const current = React.Children.map( children, ( child ) => {
-				const matchingStepRef = stepRef.current.find( ( el ) => el && el.innerText === child.props.children );
+				const matchingStepRef = stepRef.current.find( ( el ) => el && el.id === child.props.id );
 				if ( matchingStepRef ) {
 					return matchingStepRef;
 				}
@@ -179,10 +182,11 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 
 				{ children || steps.map( ( step, index ) => (
 					<Step
-						key={ `${ index }-step` }
+						key={ `${ step.id }-step` }
 						index={ index }
+						id={ step.id }
 					>
-						{ step }
+						{ step.children }
 					</Step>
 				) ) }
 

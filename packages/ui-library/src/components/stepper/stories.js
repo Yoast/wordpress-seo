@@ -78,7 +78,22 @@ const DecorateWithStepButton = ( Story ) => {
 export const Factory = {
 	args: {
 		currentStep: 0,
-		steps: [ "INSTALL", "ACTIVATE", "SET UP", "CONNECT" ],
+		steps: [ {
+			children: "INSTALL",
+			id: "install",
+		},
+		{
+			children: "ACTIVATE",
+			id: "activate",
+		},
+		{
+			children: "SET UP",
+			id: "setup",
+		},
+		{
+			children: "CONNECT",
+			id: "connect",
+		} ],
 	},
 	decorators: [ DecorateWithStepButton ],
 };
@@ -90,6 +105,7 @@ export const StepsAsChildren = {
 			<Stepper.Step
 				key={ step }
 				index={ index }
+				id={ `${ step }-with-children` }
 			>
 				{ step }
 			</Stepper.Step>
@@ -102,10 +118,10 @@ export const WithCustomStep = {
 	args: {
 		currentStep: 0,
 		children: [
-			<Stepper.Step key="install" index={ 0 }>INSTALL</Stepper.Step>,
-			<Stepper.Step key="activate" index={ 1 }>ACTIVATE</Stepper.Step>,
-			<Stepper.Step key="setup" index={ 2 }>SET UP</Stepper.Step>,
-			<CustomStep key="connect" index={ 3 }>CONNECT</CustomStep>,
+			<Stepper.Step key="install" index={ 0 } id={ "install-custom" }>INSTALL</Stepper.Step>,
+			<Stepper.Step key="activate" index={ 1 } id={ "activate-custom" }>ACTIVATE</Stepper.Step>,
+			<Stepper.Step key="setup" index={ 2 } id={ "setup-custom" }>SET UP</Stepper.Step>,
+			<CustomStep key="connect" index={ 3 } id={ "connect-custom" }>CONNECT</CustomStep>,
 		],
 	},
 	parameters: {
@@ -141,7 +157,22 @@ const CustomProgressBar = ( { progress, style } ) => {
 export const WithCustomProgressBar = {
 	args: {
 		currentStep: 0,
-		steps: [ "INSTALL", "ACTIVATE", "SET UP", "CONNECT" ],
+		steps: [ {
+			children: "INSTALL",
+			id: "install-wuth-custom-progress-bar",
+		},
+		{
+			children: "ACTIVATE",
+			id: "activate-wuth-custom-progress-bar",
+		},
+		{
+			children: "SET UP",
+			id: "setup-wuth-custom-progress-bar",
+		},
+		{
+			children: "CONNECT",
+			id: "connect-wuth-custom-progress-bar",
+		} ],
 		CustomProgressBar,
 		children: null,
 	},

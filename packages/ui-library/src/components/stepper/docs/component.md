@@ -6,7 +6,8 @@ The `Stepper` includes the `Stepper.Context` that provides the `addStepRef` func
 
 The `Stepper` component can be used in two ways:
 1. Render the steps yourself as children of the `Stepper` component using the `Step` component.
-   - The `Step` component takes the props `index` and `children`.
+   - The `Step` component takes the props `index`, `id` and `children`.
+   - The `id` is used to track changes in the number of steps.
    - Internally the `addStepRef` from the `Stepper.Context` is used to provide the `ref` to the Stepper to calculate the progress bar.
    - Internally the `currentStep` from the `Stepper.Context` is used to determine if the step is active or complete. A step is complete when the `index` is less than the `currentStep` and active when the `index` is equal to the `currentStep`.
    - You can also create your own custom step component, as long as you provide the `ref` to the `addStepRef` function.
