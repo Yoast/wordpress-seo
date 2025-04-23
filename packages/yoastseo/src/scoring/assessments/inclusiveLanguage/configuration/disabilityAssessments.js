@@ -779,7 +779,7 @@ const disabilityAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat:  "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as %2$s when referring to a person, or %3$s when referring to an action.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
-		.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "out" ] ) ),
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "out" ] ) ),
 	},
 	{
 		identifier: "spazzes",

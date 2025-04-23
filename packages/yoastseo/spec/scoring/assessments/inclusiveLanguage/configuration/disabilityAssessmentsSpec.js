@@ -598,13 +598,13 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				expectedScore: 3,
 			},
 			{
-			identifier: "spazzes",
+				identifier: "spazzes",
 				text: "as long as no one spazzes",
 				expectedFeedback: "Avoid using <i>spazzes</i> as it is potentially harmful. Consider using an alternative, " +
 			"such as <i>incompetent people, erratic people, inept people, hyperactive people, agitated people, amateurs, unqualified people, ignorant people</i> when referring to a person, or " +
 			"<i>loses control, flips out, throws a tantrum, behaves erratically, goes on the fritz, twitches, moves clumsily, moves awkwardly</i> when referring to an action. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
-		},
+			},
 			{
 				identifier: "spazzing",
 				text: "no one expects spazzing on stage",
