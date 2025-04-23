@@ -1,3 +1,4 @@
+import { get } from "lodash";
 import { beforeAll, describe, expect, it, jest, test } from "@jest/globals";
 import { waitFor } from "@testing-library/react";
 import { WidgetFactory } from "../../../src/dashboard/services/widget-factory";
@@ -21,6 +22,11 @@ describe( "WidgetFactory", () => {
 	let remoteDataProvider;
 	let remoteCachedDataProviders;
 	let dataFormatters;
+
+	const headers = {
+		"X-Wp-Nonce": get( window, "wpseoScriptData.dashboard.nonce", "" ),
+	};
+
 	beforeAll( () => {
 		dataTrackers = { setupWidgetDataTracker: new MockDataTracker() };
 		dataProvider = new MockDataProvider( {
@@ -35,10 +41,10 @@ describe( "WidgetFactory", () => {
 		} );
 		remoteDataProvider = new MockRemoteDataProvider( {} );
 		remoteCachedDataProviders = {
-			topPages: new MockRemoteCachedDataProvider( {} ),
-			topQueries: new MockRemoteCachedDataProvider( {} ),
-			organicSessions: new MockRemoteCachedDataProvider( {} ),
-			searchRankingCompare: new MockRemoteCachedDataProvider( {} ),
+			topPages: new MockRemoteCachedDataProvider( { headers }, "storagePrefix", "yoastVersion", 3600 ),
+			topQueries: new MockRemoteCachedDataProvider( { headers }, "storagePrefix", "yoastVersion", 3600 ),
+			organicSessions: new MockRemoteCachedDataProvider( { headers }, "storagePrefix", "yoastVersion", 3600 ),
+			searchRankingCompare: new MockRemoteCachedDataProvider( { headers }, "storagePrefix", "yoastVersion", 3600 ),
 		};
 		dataFormatters = {
 			comparisonMetricsDataFormatter: new FakeDataFormatter( { locale: "en-US" } ),

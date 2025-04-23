@@ -14,13 +14,17 @@ export class RemoteCachedDataProvider extends RemoteDataProvider {
 	 * @param {string} storagePrefix The storage prefix.
 	 * @param {string} yoastVersion The Yoast version.
 	 * @param {number} ttl The cache's TTL.
-	 * @throws {TypeError} If the baseUrl is invalid.
+	 * @throws {TypeError} If the TTL value is invalid.
 	 */
 	constructor( options, storagePrefix, yoastVersion, ttl ) {
 		super( options );
 
 		this.#storagePrefix = storagePrefix;
 		this.#yoastVersion = yoastVersion;
+
+		if ( ! Number.isInteger( ttl ) || ttl <= 0 ) {
+			throw new TypeError( "The TTL provided must be a positive integer." );
+		}
 		this.#ttl = ttl;
 	}
 
