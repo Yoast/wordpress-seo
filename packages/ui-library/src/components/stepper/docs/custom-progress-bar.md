@@ -8,9 +8,9 @@ The custom progress bar allows you to override the default progress bar with you
 
 #### Usage
 
-The custom progress bar is passed to the `Stepper` component via the `CustomProgressBar` prop. The `CustomProgressBar` component receives the following props:
+The custom progress bar is passed to the `Stepper` component via the `ProgressBar` prop. The `ProgressBar` component receives the following props:
 
 - `style`: An object containing the `left` and `right` positions for start and end points of the progress bar based on the center point of the frst and last step.
 - `progress`: A number representing the progress percentage (0-100).
 
-Without `CustomProgressBar`, the `Stepper` will default to its own progress bar.
+Without `ProgressBar`, the `Stepper` will default to its own progress bar.
