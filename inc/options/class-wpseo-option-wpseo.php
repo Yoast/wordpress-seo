@@ -148,6 +148,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'setup_widget_temporarily_dismissed' => 'no',
 			'setup_widget_permanently_dismissed' => 'no',
 		],
+		'google_site_kit_feature_enabled'              => false,
 	];
 
 	/**
@@ -519,6 +520,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'show_new_content_type_notification'
 				 *  'site_kit_configuration_permanently_dismissed',
 				 * 'site_kit_connected',
+				 * 'google_site_kit_feature_enabled',
 				 *  and most of the feature variables.
 				 */
 				default:
@@ -587,6 +589,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'search_cleanup_patterns'            => false,
 			'redirect_search_pretty_urls'        => false,
 			'algolia_integration_active'         => false,
+			'google_site_kit_feature_enabled'    => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.
