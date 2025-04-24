@@ -133,25 +133,13 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 		}
 
 		// Cleanup stepRef for steps prop.
-		if ( steps.length && ( stepRef.current.length !== steps.length || currentStep )  ) {
-			const current = steps.map( ( step ) => {
-				const matchingStepRef = stepRef.current.find( ( el ) => el && el.id === step.id );
-				if ( matchingStepRef ) {
-					return matchingStepRef;
-				}
-			} );
-			stepRef.current = current;
+		if ( steps.length > 0 ) {
+			stepRef.current = steps.map( ( step ) => stepRef.current.find( ( el ) => el && el.id === step.id ) );
 		}
 
 		// Cleanup stepRef for children prop.
-		if ( children && ( stepRef.current.length !== React.Children.count( children ) || currentStep ) ) {
-			const current = React.Children.map( children, ( child ) => {
-				const matchingStepRef = stepRef.current.find( ( el ) => el && el.id === child.props.id );
-				if ( matchingStepRef ) {
-					return matchingStepRef;
-				}
-			} );
-			stepRef.current = current;
+		if ( children ) {
+			stepRef.current = React.Children.map( children, ( child ) => stepRef.current.find( ( el ) => el && el.id === child.props.id ) );
 		}
 	}, [ steps, children, currentStep ] );
 
