@@ -10,7 +10,7 @@ import { useRemoteData } from "../services/use-remote-data";
 /**
  * @type {import("../index").TopQueryData} TopQueryData
  * @type {import("../services/data-provider")} DataProvider
- * @type {import("../services/remote-cached-data-provider")} RemoteCachedDataProvider
+ * @type {import("../services/remote-data-provider")} RemoteDataProvider
  * @type {import("../services/data-formatter-interface")} DataFormatterInterface
  */
 
@@ -75,7 +75,7 @@ export const createTopQueriesFormatter = ( dataFormatter ) => ( data = [] ) => d
 
 /**
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteCachedDataProvider} remoteDataProvider The remote cached data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  * @returns {{data?: TopPageData[], error?: Error, isPending: boolean}} The remote data info.
@@ -107,7 +107,7 @@ const useTopQueries = ( { dataProvider, remoteDataProvider, dataFormatter, limit
 
 /**
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteCachedDataProvider} remoteDataProvider The remote cached data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  * @param {string} [supportLink] The support link.
@@ -140,7 +140,7 @@ const TopQueriesWidgetContent = ( { dataProvider, remoteDataProvider, dataFormat
  * This contains minimal logic, in order to keep the error boundary more likely to catch errors.
  *
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteCachedDataProvider} remoteDataProvider The remote cached data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @param {number} [limit=5] The limit.
  *

@@ -75,7 +75,7 @@ const SearchRankingCompareSkeletonLoader = () => {
  *
  * @param {import("./search-ranking-compare-widget").SearchRankingCompareData} data the data to render.
  * @param {import("../services/data-provider").DataProvider} dataProvider the data provider.
- * @param {import("../services/remote-cached-data-provider").RemoteCachedDataProvider} remoteDataProvider the remote cached data provider.
+ * @param {import("../services/remote-data-provider").RemoteDataProvider} remoteDataProvider the remote data provider.
  * @param {function} setShowTitle The function to update the title visibility.
  *
  * @returns {JSX.Element}

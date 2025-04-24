@@ -14,7 +14,7 @@ import { OrganicSessionsDaily, useOrganicSessionsDaily } from "./organic-session
 
 /**
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteCachedDataProvider} remoteDataProvider The remote cached data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @returns {JSX.Element} The element.
  */
@@ -54,7 +54,7 @@ const OrganicSessionsContent = ( { dataProvider, remoteDataProvider, dataFormatt
 
 /**
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteCachedDataProvider} remoteDataProvider The remote cached data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  * @returns {JSX.Element} The element.
  */
