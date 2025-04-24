@@ -6,6 +6,7 @@ import { __, sprintf } from "@wordpress/i18n";
 
 const STORE = "yoast-seo/editor";
 
+/* eslint-disable max-statements */
 /**
  * @returns {JSX.Element} The element.
  */
@@ -89,3 +90,4 @@ export const ModalContent = () => {
 		/>
 	);
 };
+/* eslint-enable max-statements */
