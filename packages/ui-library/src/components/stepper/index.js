@@ -105,7 +105,7 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 	const [ progressBarPosition, setProgressBarPosition ] = useState( {
 		left: 0,
 		right: 0,
-		StepsLengthPercentage: 0,
+		stepsLengthPercentage: 0,
 		progressBarLength: 0,
 	} );
 	const stepRef = useRef( [] );
@@ -116,16 +116,16 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 			const lastStepRect = stepRef.current[ stepRef.current.length - 1 ]?.getBoundingClientRect();
 
 			const progressBarLength = calculateProgressBarLength( firstStepRect, lastStepRect );
-			const StepsLengthPercentage = calculateStepsLengthPercentage( stepRef.current, firstStepRect, progressBarLength );
+			const stepsLengthPercentage = calculateStepsLengthPercentage( stepRef.current, firstStepRect, progressBarLength );
 
 			setProgressBarPosition( {
 				left: firstStepRect.width / 2,
 				right: lastStepRect.width / 2,
-				StepsLengthPercentage,
+				stepsLengthPercentage,
 				progressBarLength,
 			} );
 		}
-	}, [ stepRef.current ] );
+	}, [] );
 
 	useLayoutEffect( () => {
 		if ( ! stepRef?.current?.length ) {
@@ -160,13 +160,13 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 	/**
 	 * Get the percentage of the current step's progress.
 	 *
-	 * @param {number[]} StepsLengthPercentage Array of step lengths in percentage.
+	 * @param {number[]} percentage Array of step lengths in percentage.
 	 * @param {number} step The index of the current step (starting from 0).
 	 * @returns {number} The percentage of the current step's progress.
 	 */
-	const getCurrentStepPercentage = ( StepsLengthPercentage, step ) => {
-		if ( step && StepsLengthPercentage ) {
-			return StepsLengthPercentage[ step ] ?? 100;
+	const getCurrentStepPercentage = ( percentage, step ) => {
+		if ( step && percentage ) {
+			return percentage[ step ] ?? 100;
 		}
 
 		return 0;
@@ -196,7 +196,7 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 							right: progressBarPosition?.right,
 							left: progressBarPosition?.left,
 						} }
-						progress={ getCurrentStepPercentage( progressBarPosition?.StepsLengthPercentage, currentStep ) }
+						progress={ getCurrentStepPercentage( progressBarPosition?.stepsLengthPercentage, currentStep ) }
 					/>
 				) : (
 					<ProgressBar
@@ -207,7 +207,7 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 						} }
 						min={ 0 }
 						max={ 100 }
-						progress={ getCurrentStepPercentage( progressBarPosition?.StepsLengthPercentage, currentStep ) }
+						progress={ getCurrentStepPercentage( progressBarPosition?.stepsLengthPercentage, currentStep ) }
 					/>
 				) }
 			</div>
