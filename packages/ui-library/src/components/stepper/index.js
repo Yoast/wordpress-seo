@@ -125,7 +125,7 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 				progressBarLength,
 			} );
 		}
-	}, [] );
+	}, [ stepRef.current ] );
 
 	useLayoutEffect( () => {
 		if ( ! stepRef?.current?.length ) {
