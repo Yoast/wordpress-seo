@@ -2,7 +2,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef, useRef, useState, useCallback, createContext, useContext, useLayoutEffect } from "react";
 import { CheckIcon } from "@heroicons/react/solid";
-import { ProgressBar } from "../../index";
+import { StepperProgressBar } from "./progress-bar";
 import { noop } from "lodash";
 
 /**
@@ -101,7 +101,7 @@ const calculateStepsLengthPercentage = ( stepRef, firstStepRect, progressBarLeng
  *
  * @returns {JSX.Element} The Stepper element.
  */
-export const Stepper = forwardRef( ( { children, currentStep = 0, className = "", steps = [], CustomProgressBar }, ref ) => {
+export const Stepper = forwardRef( ( { children, currentStep = 0, className = "", steps = [], ProgressBar }, ref ) => {
 	const [ progressBarPosition, setProgressBarPosition ] = useState( {
 		left: 0,
 		right: 0,
@@ -178,26 +178,15 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 					</Step>
 				) ) }
 
-				{ CustomProgressBar ? (
-					<CustomProgressBar
-						style={ {
-							right: progressBarPosition?.right,
-							left: progressBarPosition?.left,
-						} }
-						progress={ getCurrentStepPercentage( progressBarPosition?.stepsLengthPercentage, currentStep ) }
-					/>
-				) : (
-					<ProgressBar
-						className="yst-absolute yst-top-3 yst-w-auto yst-h-0.5"
-						style={ {
-							right: progressBarPosition?.right,
-							left: progressBarPosition?.left,
-						} }
-						min={ 0 }
-						max={ 100 }
-						progress={ getCurrentStepPercentage( progressBarPosition?.stepsLengthPercentage, currentStep ) }
-					/>
-				) }
+				<ProgressBar
+					as={ ProgressBar }
+					style={ {
+						right: progressBarPosition?.right,
+						left: progressBarPosition?.left,
+					} }
+					progress={ getCurrentStepPercentage( progressBarPosition?.stepsLengthPercentage, currentStep ) }
+				/>
+
 			</div>
 		</StepperContext.Provider>
 	);
@@ -212,7 +201,7 @@ Stepper.propTypes = {
 		id: PropTypes.string.isRequired,
 		children: PropTypes.node.isRequired,
 	} ) ),
-	CustomProgressBar: PropTypes.elementType,
+	ProgressBar: PropTypes.elementType,
 };
 Stepper.defaultProps = {
 	className: "",
@@ -220,8 +209,7 @@ Stepper.defaultProps = {
 	// eslint-disable-next-line no-undefined
 	children: undefined,
 	currentStep: 0,
-	// eslint-disable-next-line no-undefined
-	CustomProgressBar: undefined,
+	ProgressBar: StepperProgressBar,
 };
 
 Stepper.Step = Step;

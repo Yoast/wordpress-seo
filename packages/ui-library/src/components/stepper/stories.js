@@ -175,7 +175,7 @@ export const WithCustomProgressBar = {
 			children: "CONNECT",
 			id: "connect-wuth-custom-progress-bar",
 		} ],
-		CustomProgressBar,
+		ProgressBar: CustomProgressBar,
 		children: null,
 	},
 	parameters: {
