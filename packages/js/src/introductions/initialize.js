@@ -1,7 +1,6 @@
 import { dispatch } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
-import { doAction } from "@wordpress/hooks";
 import { Root } from "@yoast/ui-library";
 import { get, isEmpty } from "lodash";
 import { LINK_PARAMS_NAME, PLUGIN_URL_NAME, WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
@@ -46,9 +45,6 @@ domReady( () => {
 				</IntroductionProvider>
 			</Root>
 		),
-		root,
-		() => {
-			doAction( "yoast.introductions.ready" );
-		}
+		root
 	);
 } );
