@@ -15,7 +15,7 @@ import { OutboundLink, VideoFlow } from ".";
  * @param {string} title The title.
  * @param {string} upsellLabel The upsell label.
  * @param {string} newToText The new to text.
- * @param {string|JSX.Element } bundleNote The bundle note.
+ * @param {string|JSX.Element} bundleNote The bundle note.
  * @param {string } ctbId The click to buy to register for this upsell instance.
  * @returns {JSX.Element} The element.
  */
