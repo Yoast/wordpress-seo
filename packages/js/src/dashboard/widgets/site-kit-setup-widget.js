@@ -16,7 +16,7 @@ import { SiteKitConsentModal } from "../../shared-admin/components";
  * @type {import("../index").CapabilitiesForSiteKit} Capabilities for site kit.
  */
 
-/** @type {string[]} */
+/** @type {{ children: React.ReactNode, id: string }[]} */
 const steps = [
 	{ children: __( "INSTALL", "wordpress-seo" ), id: "install" },
 	{ children: __( "ACTIVATE", "wordpress-seo" ), id: "activate" },
