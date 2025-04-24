@@ -12,15 +12,17 @@ import { component, customStep, customProgressBar } from "./docs";
  *
  * @param {JSX.Node} children The step label or children.
  * @param {number} index The index of the step.
+ * @param {string} id The id of the step.
  *
  * @returns {JSX.Element} The step element.
  */
-const CustomStep = ( { children, index } ) => {
+const CustomStep = ( { children, index, id } ) => {
 	const { addStepRef, currentStep } = useContext( Stepper.Context );
 	const isActive = index === currentStep;
 	const isComplete = index < currentStep;
 	return (
 		<div
+			id={ id }
 			ref={ addStepRef }
 			className={ classNames(
 				"yst-step",
