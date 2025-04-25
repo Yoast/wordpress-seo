@@ -4,7 +4,7 @@ import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get, isEmpty } from "lodash";
 import { LINK_PARAMS_NAME, PLUGIN_URL_NAME, WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
-import { Introduction, IntroductionProvider, Modal } from "./components";
+import { Introduction, IntroductionProvider } from "./components";
 import { STORE_NAME_INTRODUCTIONS } from "./constants";
 import { registerStore } from "./store";
 
@@ -39,9 +39,7 @@ domReady( () => {
 		(
 			<Root context={ rootContext }>
 				<IntroductionProvider initialComponents={ initialComponents }>
-					<Modal>
-						<Introduction />
-					</Modal>
+					<Introduction />
 				</IntroductionProvider>
 			</Root>
 		),
