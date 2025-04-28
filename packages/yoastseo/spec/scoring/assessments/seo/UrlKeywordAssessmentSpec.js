@@ -90,6 +90,45 @@ describe( "A keyword in slug count assessment", function() {
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
 			"(Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!" );
 	} );
+
+	it( "assesses a paper with no keyphrase and no slug", function() {
+		const paper = new Paper( "", );
+		const assessment = keywordCountInSlug.getResult(
+			paper,
+			Factory.buildMockResearcher()
+		);
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
+			"<a href='https://yoa.st/33p' target='_blank'>Please add both a keyphrase and a slug containing the keyphrase</a>." );
+		expect( assessment.hasJumps() ).toBeFalsy();
+	} );
+
+	it( "assesses a paper with no keyphrase", function() {
+		const paper = new Paper( "", { slug: "sample-with-keyword" });
+		const assessment = keywordCountInSlug.getResult(
+			paper,
+			Factory.buildMockResearcher()
+		);
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
+			"<a href='https://yoa.st/33p' target='_blank'>Please add both a keyphrase and a slug containing the keyphrase</a>." );
+		expect( assessment.hasJumps() ).toBeFalsy();
+	} );
+
+	it( "assesses a paper with no slug", function() {
+		const paper = new Paper( "", { keyphrase: "keyphrase" });
+		const assessment = keywordCountInSlug.getResult(
+			paper,
+			Factory.buildMockResearcher()
+		);
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
+			"<a href='https://yoa.st/33p' target='_blank'>Please add both a keyphrase and a slug containing the keyphrase</a>." );
+		expect( assessment.hasJumps() ).toBeFalsy();
+	} );
 } );
 
 describe( "tests for the assessment applicability.", function() {
@@ -97,11 +136,11 @@ describe( "tests for the assessment applicability.", function() {
 		window.wpseoScriptData = { };
 	} );
 
-	it( "returns false when there is no keyword and slug found.", function() {
+	it( "returns true when there is no keyword and slug found.", function() {
 		const paper = new Paper( "sample keyword" );
 		const researcher = new DefaultResearcher( paper );
 
-		expect( keywordCountInSlug.isApplicable( paper, researcher ) ).toBe( false );
+		expect( keywordCountInSlug.isApplicable( paper, researcher ) ).toBe( true );
 	} );
 
 	it( "returns true when the paper has keyword and slug.", function() {

@@ -52,17 +52,17 @@ export default class IntroductionKeywordAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const assessmentResult = new AssessmentResult();
-		let shouldSetAIFixes = false;
+		this._canAssess = false;
 
 		if ( paper.hasKeyword() && paper.hasText() ) {
 			this._firstParagraphMatches = researcher.getResearch( "findKeywordInFirstParagraph" );
-			shouldSetAIFixes = true;
+			this._canAssess = true;
 		}
 		const calculatedResult = this.calculateResult();
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		if ( calculatedResult.score < 9 && shouldSetAIFixes ) {
+		if ( calculatedResult.score < 9 && this._canAssess ) {
 			assessmentResult.setHasAIFixes( true );
 		}
 		return assessmentResult;
@@ -74,7 +74,7 @@ export default class IntroductionKeywordAssessment extends Assessment {
 	 * @returns {{score: number, resultText: string}} result object with a score and translation text.
 	 */
 	calculateResult() {
-		if ( ! this._firstParagraphMatches ) {
+		if ( ! this._canAssess ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(

@@ -70,12 +70,12 @@ export default class KeyphraseInSEOTitleAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const language = getLanguage( paper.getLocale() );
-		let shouldSetJumps = false;
+		this._canAssess = false;
 
 		if ( paper.hasKeyword() && paper.hasTitle() ) {
 			this._keyphraseMatches = researcher.getResearch( "findKeyphraseInSEOTitle" );
 			this._keyphrase = escape( paper.getKeyword() );
-			shouldSetJumps = true;
+			this._canAssess = true;
 		}
 
 		const assessmentResult = new AssessmentResult();
@@ -83,7 +83,7 @@ export default class KeyphraseInSEOTitleAssessment extends Assessment {
 		const calculatedResult = this.calculateResult( this._keyphrase, language );
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		if ( assessmentResult.getScore() < 9 && shouldSetJumps ) {
+		if ( assessmentResult.getScore() < 9 && this._canAssess ) {
 			assessmentResult.setHasJumps( true );
 			assessmentResult.setEditFieldName( __( "SEO title", "wordpress-seo" ) );
 		}
@@ -104,7 +104,7 @@ export default class KeyphraseInSEOTitleAssessment extends Assessment {
 	calculateResult( keyphrase, language ) {
 		const assessmentLink = this._config.urlTitle + this.name + "</a>";
 
-		if( ! this._keyphraseMatches ) {
+		if( ! this._canAssess ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(

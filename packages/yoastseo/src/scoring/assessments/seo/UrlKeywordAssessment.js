@@ -2,24 +2,35 @@ import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
 
 import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
+
+/**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
 
 /**
  * Represents the Slug keyword assessment. This assessment checks if the keyword is present in the slug.
  */
-class SlugKeywordAssessment extends Assessment {
+export default class SlugKeywordAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} config   The configuration to use.
-	 * @returns {void}
+	 * @param {Object} [config.scores] The scores to use.
+	 * @param {number} [config.scores.bad] The score to return if there is no keyphrase and/or slug.
+	 * @param {number} [config.scores.okay] The score to return if not all content words are found in the slug.
+	 * @param {number} [config.scores.good] The score to return if all content words are found in the slug.
+	 * @param {string} [config.urlTitle] The URL to the relevant article on Yoast.com to add to the title of the assessment in the feedback.
+	 * @param {string} [config.urlCallToAction] The URL to the relevant article on Yoast.com to add to the call to action in the assessment feedback.
 	 */
 	constructor( config = {} ) {
 		super();
 
 		const defaultConfig = {
 			scores: {
+				bad: 3,
 				okay: 6,
 				good: 9,
 			},
@@ -40,14 +51,19 @@ class SlugKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher ) {
-		this._keywordInSlug = researcher.getResearch( "keywordCountInSlug" );
+		this._canAssess = false;
+
+		if ( paper.hasKeyword() && paper.hasSlug() ) {
+			this._keywordInSlug = researcher.getResearch("keywordCountInSlug");
+			this._canAssess = true;
+		}
 
 		const assessmentResult = new AssessmentResult();
 
 		const calculatedResult = this.calculateResult();
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		if ( assessmentResult.getScore() < 9  ) {
+		if ( assessmentResult.getScore() < 9 && this._canAssess ) {
 			assessmentResult.setHasJumps( true );
 			assessmentResult.setEditFieldName( __( "slug", "wordpress-seo" ) );
 		}
@@ -55,24 +71,40 @@ class SlugKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has a keyword and a slug.
+	 * Checks whether the assessment is applicable to the paper.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} True if the paper contains a keyword and a slug, and if the keywordCountInSlug research is available on the researcher.
+	 * @returns {boolean} True if the edited page is not a front page, and if the keywordCountInSlug research is available on the researcher.
 	 */
 	isApplicable( paper, researcher ) {
-		return ! paper.isFrontPage() && paper.hasKeyword() && paper.hasSlug() && researcher.hasResearch( "keywordCountInSlug" );
+		return ! paper.isFrontPage() && researcher.hasResearch( "keywordCountInSlug" );
 	}
 
 	/**
 	 * Determines the score and the result text based on whether or not there's a keyword in the slug.
 	 *
 	 *
-	 * @returns {Object} The object with calculated score and resultText.
+	 * @returns {{score: number, resultText: string}} The object with calculated score and resultText.
 	 */
 	calculateResult() {
+		if( ! this._canAssess ) {
+			return {
+				score: this._config.scores.bad,
+				resultText: sprintf(
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					__(
+						"%1$sKeyphrase in slug%3$s: %2$sPlease add both a keyphrase and a slug containing the keyphrase%3$s.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+
 		if ( this._keywordInSlug.keyphraseLength < 3 ) {
 			if ( this._keywordInSlug.percentWordMatches === 100 ) {
 				return {
@@ -159,5 +191,3 @@ export {
 	SlugKeywordAssessment,
 	UrlKeywordAssessment,
 };
-
-export default SlugKeywordAssessment;
