@@ -17,6 +17,13 @@ class Site_Kit {
 	private const SITE_KIT_FILE = 'google-site-kit/google-site-kit.php';
 
 	/**
+	 * The Site Kit feature conditional.
+	 *
+	 * @var Google_Site_Kit_Feature_Conditional
+	 */
+	protected $site_kit_feature_conditional;
+
+	/**
 	 * Variable to locally cache the setup completed value.
 	 *
 	 * @var bool $setup_completed
@@ -68,20 +75,23 @@ class Site_Kit {
 	/**
 	 * The constructor.
 	 *
-	 * @param Site_Kit_Consent_Repository_Interface $site_kit_consent_repository The Site Kit consent repository.
-	 * @param Configuration_Repository              $configuration_repository    The Site Kit permanently dismissed
-	 *                                                                           configuration repository.
-	 * @param Site_Kit_Is_Connected_Call            $site_kit_is_connected_call  The api call to check if the site is
-	 *                                                                           connected.
+	 * @param Site_Kit_Consent_Repository_Interface $site_kit_consent_repository  The Site Kit consent repository.
+	 * @param Configuration_Repository              $configuration_repository     The Site Kit permanently dismissed
+	 *                                                                            configuration repository.
+	 * @param Site_Kit_Is_Connected_Call            $site_kit_is_connected_call   The api call to check if the site is
+	 *                                                                            connected.
+	 * @param Google_Site_Kit_Feature_Conditional   $site_kit_feature_conditional The Site Kit feature conditional.
 	 */
 	public function __construct(
 		Site_Kit_Consent_Repository_Interface $site_kit_consent_repository,
 		Configuration_Repository $configuration_repository,
-		Site_Kit_Is_Connected_Call $site_kit_is_connected_call
+		Site_Kit_Is_Connected_Call $site_kit_is_connected_call,
+		Google_Site_Kit_Feature_Conditional $site_kit_feature_conditional
 	) {
 		$this->site_kit_consent_repository                             = $site_kit_consent_repository;
 		$this->permanently_dismissed_site_kit_configuration_repository = $configuration_repository;
 		$this->site_kit_is_connected_call                              = $site_kit_is_connected_call;
+		$this->site_kit_feature_conditional                            = $site_kit_feature_conditional;
 	}
 
 	/**
@@ -182,7 +192,7 @@ class Site_Kit {
 	 * @return array<string, bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
-		if ( ! ( new Google_Site_Kit_Feature_Conditional() )->is_met() ) {
+		if ( ! $this->site_kit_feature_conditional->is_met() ) {
 			return [];
 		}
 		if ( $this->is_enabled() ) {
