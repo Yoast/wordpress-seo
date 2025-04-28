@@ -1,3 +1,7 @@
+body[backdrop-active] * {
+	pointer-events: none; /* Disable interaction with background elements when backdrop is active */
+}
+
 @layer components {
 	.yst-root {
 
@@ -28,9 +32,10 @@
 		.yst-popover-backdrop {
 			@apply yst-fixed
 			yst-inset-0
-			yst-bg-black/5
-			yst-z-10
-			yst-pointer-events-none;
+			yst-bg-slate-500
+			yst-bg-opacity-40
+			yst-z-40
+			yst-pointer-events-auto;
 		}
 
 		.yst-popover {
@@ -41,7 +46,7 @@
 			yst-rounded-lg
 			yst-w-max
 			yst-max-w-sm
-			yst-z-10
+			yst-z-50
 			yst-bg-white
 			yst-shadow-2xl
 			yst-gap-3
@@ -171,7 +176,7 @@
 
 		.yst-popover--bottom-left {
 			@apply
-			yst-end-[26%]
+			yst-end-0
 			yst-top-14
 			before:yst-content-['']
 			before:yst-end-0

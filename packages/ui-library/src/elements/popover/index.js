@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { XIcon } from "@heroicons/react/outline";
-import React, { createContext, forwardRef, useCallback, useContext } from "react";
+import React, { createContext, forwardRef, useCallback, useContext, useEffect, useRef } from "react";
 import { noop } from "lodash";
 
 const PopoverContext = createContext( { handleDismiss: noop  } );
@@ -32,11 +32,13 @@ const CloseButton = ( {
 	dismissScreenReaderLabel,
 } ) => {
 	const { handleDismiss } = usePopoverContext();
+	const closeButtonRef = useRef( null );
 
 	return (
 		<div className="yst-close-button-wrapper">
 			<button
 				type="button"
+				ref={ closeButtonRef }
 				onClick={ handleDismiss }
 			>
 				<span className="yst-sr-only">{ dismissScreenReaderLabel }</span>
@@ -98,11 +100,19 @@ Content.propTypes = {
 
 /**
  * @param {string} [className] The additional class name.
+ * @param {boolean} isVisible Whether the backdrop is visible.
  * @returns {JSX.Element} The backdrop.
  */
 const Backdrop = ( {
-	className,
+	className, isVisible,
 } ) => {
+	useEffect( () => {
+		if ( isVisible ) {
+			document.body.classList.add( "backdrop-active" );
+		} else {
+			document.body.classList.remove( "backdrop-active" );
+		}
+	}, [ isVisible ] );
 	return (
 		<div className={ classNames( "yst-popover-backdrop", className ) } />
 	);
@@ -110,11 +120,13 @@ const Backdrop = ( {
 
 Backdrop.propTypes = {
 	className: PropTypes.string,
+	isVisible: PropTypes.bool.isRequired,
 };
 
 /**
  * @param {JSX.node} children Children of the popover.
  * @param {string} id The popover id.
+ * @param {string} role The role of the popover.
  * @param {string|JSX.Element} [as] Base component.
  * @param {string} [className] Additional CSS classes.
  * @param {string} [position] The position of the popover.
@@ -124,15 +136,16 @@ Backdrop.propTypes = {
  * @returns {JSX.Element} The popover component.
  */
 
-const Popover = forwardRef(  ( {
+const Popover = forwardRef( ( {
 	children,
 	id,
-	as: Component,
-	className,
+	role,
+	as: Component = "div",
+	className = "",
 	isVisible,
 	setIsVisible,
-	position,
-	backdrop,
+	position = "no-arrow",
+	backdrop = false,
 	...props
 }, ref ) => {
 	const handleDismiss = useCallback( () => {
@@ -146,11 +159,11 @@ const Popover = forwardRef(  ( {
 
 	return (
 		<PopoverContext.Provider value={ { handleDismiss } }>
-			{ backdrop && <Backdrop /> }
+			{ backdrop && <Backdrop isVisible={ true } /> }
 			<Component
 				ref={ ref }
 				id={ id }
-				role="dialog"
+				role={ role || "dialog" }
 				aria-modal="true"
 				aria-labelledby={ children.id }
 				aria-describedby={ children.id }
@@ -166,21 +179,15 @@ const Popover = forwardRef(  ( {
 Popover.displayName = "Popover";
 
 Popover.propTypes = {
-	as: PropTypes.elementType,
+	as: PropTypes.elementType.isRequired,
 	children: PropTypes.node.isRequired,
 	id: PropTypes.string.isRequired,
-	className: PropTypes.string,
+	role: PropTypes.string.isRequired,
+	className: PropTypes.string.isRequired,
 	isVisible: PropTypes.bool.isRequired,
 	setIsVisible: PropTypes.func.isRequired,
-	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ),
-	backdrop: PropTypes.bool,
-};
-
-Popover.defaultProps = {
-	as: "div",
-	className: "",
-	position: "no-arrow",
-	backdrop: false,
+	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ).isRequired,
+	backdrop: PropTypes.bool.isRequired,
 };
 
 Popover.Title = Title;
