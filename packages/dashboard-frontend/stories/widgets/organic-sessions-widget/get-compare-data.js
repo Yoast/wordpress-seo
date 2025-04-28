@@ -9,8 +9,12 @@ import { getRandom } from "./get-random";
  */
 
 /**
+ * Gets (random by default) organic sessions compare data.
+ * Used in the organic sessions widget stories.
+ *
  * @param {number} [current] The current number of sessions.
  * @param {number} [previous] The previous number of sessions.
+ *
  * @returns {[RawOrganicSessionsCompareData]} The compare data.
  */
 export const getCompareData = ( current = getRandom(), previous = getRandom() ) => [
