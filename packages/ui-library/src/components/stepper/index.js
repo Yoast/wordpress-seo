@@ -1,63 +1,9 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import React, { forwardRef, useRef, useState, useCallback, createContext, useContext, useLayoutEffect } from "react";
-import { CheckIcon } from "@heroicons/react/solid";
+import React, { forwardRef, useCallback, useLayoutEffect, useRef, useState } from "react";
+import { StepperContext } from "./context";
 import { StepperProgressBar } from "./progress-bar";
-import { noop } from "lodash";
-
-/**
- * Context for the stepper. Used to add a reference to the step.
- */
-const StepperContext = createContext( {
-	addStepRef: noop,
-	currentStep: 0,
-} );
-
-/**
- * Step component.
- *
- * @param {JSX.Node} children The step label or children.
- * @param {number} index The index of the step.
- *
- * @returns {JSX.Element} The step element.
- */
-const Step = ( { children, index, id } ) => {
-	const { addStepRef, currentStep } = useContext( StepperContext );
-	const isActive = index === currentStep;
-	const isComplete = index < currentStep;
-
-	return (
-		<div
-			ref={ addStepRef }
-			className={ classNames(
-				"yst-step",
-				isComplete && "yst-step--complete",
-				isActive && "yst-step--active",
-			) }
-			id={ id }
-		>
-			<div className="yst-step__circle">
-				{ isComplete && <CheckIcon
-					className="yst-step__icon yst-w-4 yst-z-50"
-				/> }
-
-				<div
-					className={
-						classNames( "yst-step__icon yst-bg-primary-500 yst-w-2 yst-h-2 yst-rounded-full yst-delay-500",
-							! isComplete && isActive ? "yst-opacity-100" : "yst-opacity-0" ) }
-				/>
-			</div>
-			<div className="yst-font-semibold yst-text-xxs yst-mt-3">{ children }</div>
-		</div>
-	);
-};
-
-Step.displayName = "Step";
-Step.propTypes = {
-	children: PropTypes.node.isRequired,
-	index: PropTypes.number.isRequired,
-	id: PropTypes.string.isRequired,
-};
+import { Step } from "./step";
 
 /**
  * Calculate the length of the progress bar.
@@ -101,7 +47,7 @@ const calculateStepsLengthPercentage = ( stepRef, firstStepRect, progressBarLeng
  *
  * @returns {JSX.Element} The Stepper element.
  */
-export const Stepper = forwardRef( ( { children, currentStep = 0, className = "", steps = [], ProgressBar }, ref ) => {
+export const Stepper = forwardRef( ( { children, currentStep = 0, className = "", steps = [], ProgressBar = StepperProgressBar }, ref ) => {
 	const [ progressBarPosition, setProgressBarPosition ] = useState( {
 		left: 0,
 		right: 0,
@@ -160,7 +106,7 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 		return 0;
 	};
 
-	if ( steps.length === 0 && ! children  ) {
+	if ( steps.length === 0 && ! children ) {
 		return null;
 	}
 
@@ -212,6 +158,6 @@ Stepper.defaultProps = {
 	ProgressBar: StepperProgressBar,
 };
 
-Stepper.Step = Step;
 Stepper.Context = StepperContext;
-Stepper.Step.displayName = "Stepper.Step";
+Stepper.ProgressBar = StepperProgressBar;
+Stepper.Step = Step;
