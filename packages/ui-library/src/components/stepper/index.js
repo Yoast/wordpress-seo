@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import React, { forwardRef, useCallback, useLayoutEffect, useRef, useState } from "react";
+import React, { forwardRef, useCallback, useLayoutEffect, useState } from "react";
 import { StepperContext } from "./context";
 import { StepperProgressBar } from "./progress-bar";
 import { Step } from "./step";
@@ -19,18 +19,18 @@ const calculateProgressBarLength = ( firstStepRect, lastStepRect ) => {
 /**
  * Calculate the length of each step in percentage.
  *
- * @param {HTMLElement[]} stepRef The list of step elements.
+ * @param {HTMLElement[]} stepRefs The list of step elements.
  * @param {DOMRect} firstStepRect The bounding rectangle of the first step.
  * @param {number} progressBarLength The length of the progress bar.
  * @returns {number[]} The length of each step in percentage.
  */
-const calculateStepsLengthPercentage = ( stepRef, firstStepRect, progressBarLength ) => {
+const calculateStepsLengthPercentage = ( stepRefs, firstStepRect, progressBarLength ) => {
 	const startingPoint = firstStepRect.left + firstStepRect.width / 2;
-	return stepRef.map( ( step, index ) => {
+	return stepRefs.map( ( step, index ) => {
 		if ( index === 0 ) {
 			return 0;
 		}
-		if ( index >= stepRef.length - 1 ) {
+		if ( index >= stepRefs.length - 1 ) {
 			return 100;
 		}
 		const parcel = step?.getBoundingClientRect().right - startingPoint - step?.getBoundingClientRect().width / 2;
@@ -63,48 +63,56 @@ const getCurrentStepPercentage = ( percentage, step ) => {
  * @returns {JSX.Element} The Stepper element.
  */
 export const Stepper = forwardRef( ( { children, currentStep = 0, className = "", steps = [], ProgressBar = StepperProgressBar }, ref ) => {
-	const [ progressBarPosition, setProgressBarPosition ] = useState( {
-		left: 0,
-		right: 0,
-		stepsLengthPercentage: 0,
-		progressBarLength: 0,
-	} );
-	const stepRef = useRef( [] );
+	const [ progressBarPosition, setProgressBarPosition ] = useState( { left: 0, right: 0, stepsLengthPercentage: [] } );
+	const [ stepRefs, setStepRefs ] = useState( [] );
 
+	// Check if the stepRefs are still valid. Important: do this before the progress bar calculation.
 	useLayoutEffect( () => {
-		if ( stepRef.current.length > 0 ) {
-			const firstStepRect = stepRef.current[ 0 ]?.getBoundingClientRect();
-			const lastStepRect = stepRef.current[ stepRef.current.length - 1 ]?.getBoundingClientRect();
+		let newStepRefs = [];
 
-			const progressBarLength = calculateProgressBarLength( firstStepRect, lastStepRect );
-			const stepsLengthPercentage = calculateStepsLengthPercentage( stepRef.current, firstStepRect, progressBarLength );
-
-			setProgressBarPosition( {
-				left: firstStepRect.width / 2,
-				right: lastStepRect.width / 2,
-				stepsLengthPercentage,
-				progressBarLength,
-			} );
+		// Cleanup stepRefs for steps prop.
+		if ( steps.length > 0 ) {
+			newStepRefs = steps.map( ( step ) => stepRefs.find( ( el ) => el && el.id === step.id ) );
 		}
-	}, [ stepRef.current ] );
+
+		// Cleanup stepRefs for children prop.
+		if ( children ) {
+			newStepRefs = React.Children.map( children, ( child ) => stepRefs.find( ( el ) => el && el.id === child.props.id ) );
+		}
+
+		setStepRefs( newStepRefs.filter( Boolean ) );
+	}, [ steps, children, currentStep ] );
 
 	useLayoutEffect( () => {
-		if ( ! stepRef?.current?.length ) {
+		if ( stepRefs.length === 0 ) {
+			// Reset the progress bar position if there are no steps.
+			setProgressBarPosition( {
+				left: 0,
+				right: 0,
+				stepsLengthPercentage: [],
+			} );
 			return;
 		}
 
-		// Cleanup stepRef for steps prop.
-		if ( steps.length > 0 ) {
-			stepRef.current = steps.map( ( step ) => stepRef.current.find( ( el ) => el && el.id === step.id ) );
-		}
+		const firstStepRect = stepRefs[ 0 ].getBoundingClientRect();
+		const lastStepRect = stepRefs[ stepRefs.length - 1 ].getBoundingClientRect();
 
-		// Cleanup stepRef for children prop.
-		if ( children ) {
-			stepRef.current = React.Children.map( children, ( child ) => stepRef.current.find( ( el ) => el && el.id === child.props.id ) );
-		}
-	}, [ steps, children, currentStep ] );
+		const progressBarLength = calculateProgressBarLength( firstStepRect, lastStepRect );
+		const stepsLengthPercentage = calculateStepsLengthPercentage( stepRefs, firstStepRect, progressBarLength );
 
-	const addStepRef = useCallback( ( el ) => ( stepRef.current.push( el ) ), [ stepRef.current ] );
+		setProgressBarPosition( {
+			left: firstStepRect.width / 2,
+			right: lastStepRect.width / 2,
+			stepsLengthPercentage,
+		} );
+	}, [ stepRefs ] );
+
+	const addStepRef = useCallback( ( el ) => {
+		// Only add if truthy and not already in the list.
+		if ( el && ! stepRefs.includes( el ) ) {
+			setStepRefs( ( refs ) => [ ...refs, el ] );
+		}
+	}, [ stepRefs ] );
 
 	if ( steps.length === 0 && ! children ) {
 		return null;
@@ -126,10 +134,10 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 
 				<ProgressBar
 					style={ {
-						right: progressBarPosition?.right,
-						left: progressBarPosition?.left,
+						right: progressBarPosition.right,
+						left: progressBarPosition.left,
 					} }
-					progress={ getCurrentStepPercentage( progressBarPosition?.stepsLengthPercentage, currentStep ) }
+					progress={ getCurrentStepPercentage( progressBarPosition.stepsLengthPercentage, currentStep ) }
 				/>
 
 			</div>
