@@ -70,6 +70,7 @@ export default class KeyphraseInSEOTitleAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const language = getLanguage( paper.getLocale() );
+		// Whether the paper has the data needed to return meaningful feedback (keyphrase and SEO title).
 		this._canAssess = false;
 
 		if ( paper.hasKeyword() && paper.hasTitle() ) {
@@ -104,7 +105,7 @@ export default class KeyphraseInSEOTitleAssessment extends Assessment {
 	calculateResult( keyphrase, language ) {
 		const assessmentLink = this._config.urlTitle + this.name + "</a>";
 
-		if( ! this._canAssess ) {
+		if ( ! this._canAssess ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
@@ -116,7 +117,7 @@ export default class KeyphraseInSEOTitleAssessment extends Assessment {
 					),
 					assessmentLink,
 					this._config.urlCallToAction,
-					"</a>",
+					"</a>"
 				),
 			};
 		}

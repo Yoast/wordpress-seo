@@ -51,10 +51,11 @@ export default class SlugKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher ) {
+		// Whether the paper has the data needed to return meaningful feedback (keyphrase and slug).
 		this._canAssess = false;
 
 		if ( paper.hasKeyword() && paper.hasSlug() ) {
-			this._keywordInSlug = researcher.getResearch("keywordCountInSlug");
+			this._keywordInSlug = researcher.getResearch( "keywordCountInSlug" );
 			this._canAssess = true;
 		}
 
@@ -89,7 +90,7 @@ export default class SlugKeywordAssessment extends Assessment {
 	 * @returns {{score: number, resultText: string}} The object with calculated score and resultText.
 	 */
 	calculateResult() {
-		if( ! this._canAssess ) {
+		if ( ! this._canAssess ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(

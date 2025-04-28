@@ -85,7 +85,7 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 	} );
 
 	it( "returns feedback when there is no keyphrase and no text", function() {
-		const paper = new Paper( "");
+		const paper = new Paper( "" );
 		const researcher = Factory.buildMockResearcher( {} );
 		const assessment = new IntroductionKeywordAssessment().getResult( paper, researcher );
 
@@ -95,7 +95,7 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 	} );
 
 	it( "returns feedback when no keyphrase is set", function() {
-		const paper = new Paper( "Some text with some keyword. A keyphrase comes here.");
+		const paper = new Paper( "Some text with some keyword. A keyphrase comes here." );
 		const researcher = Factory.buildMockResearcher( {} );
 		const assessment = new IntroductionKeywordAssessment().getResult( paper, researcher );
 

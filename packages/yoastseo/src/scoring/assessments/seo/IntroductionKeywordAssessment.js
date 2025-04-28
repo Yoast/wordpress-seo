@@ -52,6 +52,7 @@ export default class IntroductionKeywordAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const assessmentResult = new AssessmentResult();
+		// Whether the paper has the data needed to return meaningful feedback (keyphrase and text).
 		this._canAssess = false;
 
 		if ( paper.hasKeyword() && paper.hasText() ) {

@@ -49,10 +49,10 @@ export default class MetaDescriptionKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher ) {
+		// Whether the paper has the data needed to return meaningful feedback (keyphrase and meta description).
 		this._canAssess = false;
 
 		if ( paper.hasKeyword() && paper.hasDescription() ) {
-			console.log( "has keyword and description" );
 			this._keyphraseCounts = researcher.getResearch( "metaDescriptionKeyword" );
 			this._canAssess = true;
 		}
@@ -76,7 +76,7 @@ export default class MetaDescriptionKeywordAssessment extends Assessment {
 	 * @returns {{score: number, resultText: string}} Result object with score and text.
 	 */
 	calculateResult() {
-		if( ! this._canAssess ) {
+		if ( ! this._canAssess ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(

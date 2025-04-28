@@ -92,7 +92,7 @@ describe( "A keyword in slug count assessment", function() {
 	} );
 
 	it( "assesses a paper with no keyphrase and no slug", function() {
-		const paper = new Paper( "", );
+		const paper = new Paper( "" );
 		const assessment = keywordCountInSlug.getResult(
 			paper,
 			Factory.buildMockResearcher()
@@ -105,7 +105,7 @@ describe( "A keyword in slug count assessment", function() {
 	} );
 
 	it( "assesses a paper with no keyphrase", function() {
-		const paper = new Paper( "", { slug: "sample-with-keyword" });
+		const paper = new Paper( "", { slug: "sample-with-keyword" } );
 		const assessment = keywordCountInSlug.getResult(
 			paper,
 			Factory.buildMockResearcher()
@@ -118,7 +118,7 @@ describe( "A keyword in slug count assessment", function() {
 	} );
 
 	it( "assesses a paper with no slug", function() {
-		const paper = new Paper( "", { keyphrase: "keyphrase" });
+		const paper = new Paper( "", { keyphrase: "keyphrase" } );
 		const assessment = keywordCountInSlug.getResult(
 			paper,
 			Factory.buildMockResearcher()

@@ -152,7 +152,7 @@ describe( "an assessment to check if the keyword is in the SEO title", function(
 	} );
 
 	it( "returns a bad result when the paper has no keyphrase", function() {
-		const paper = new Paper( "", { title: "title"} );
+		const paper = new Paper( "", { title: "title" } );
 		const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, Factory.buildMockResearcher() );
 
 		expect( assessment.getScore() ).toBe( 2 );
@@ -164,7 +164,7 @@ describe( "an assessment to check if the keyword is in the SEO title", function(
 	} );
 
 	it( "returns a bad result when the paper has no title", function() {
-		const paper = new Paper( "", { keyphrase: "keyphrase"} );
+		const paper = new Paper( "", { keyphrase: "keyphrase" } );
 		const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, Factory.buildMockResearcher() );
 
 		expect( assessment.getScore() ).toBe( 2 );
