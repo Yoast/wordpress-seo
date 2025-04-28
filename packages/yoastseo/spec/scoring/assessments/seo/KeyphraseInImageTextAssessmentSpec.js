@@ -1,11 +1,43 @@
 import KeyphraseInImagesAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../../src/helpers/factory.js";
+import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 // import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";   // Variable is used in language specific test (and thus removed)
 
 const keyphraseInImagesAssessment = new KeyphraseInImagesAssessment();
 
 describe( "An image count assessment", function() {
+	it( "should show feedback for a page without a text", function() {
+		const paper = new Paper( "" );
+		const researcher = Factory.buildMockResearcher( {} );
+		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>:  This page does not have images, a keyphrase, or both. " +
+			"<a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
+	} );
+
+	it( "should show feedback for a page without a text and keyphrase", function() {
+		const paper = new Paper( "", { keyword: "" } );
+		const researcher = Factory.buildMockResearcher( {} );
+		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>:  This page does not have images, a keyphrase, or both. " +
+			"<a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
+	} );
+
+	it( "should show feedback for a page with a keyphrase and without a text", function() {
+		const paper = new Paper( "These are just five words.", { keyword: "" } );
+		const researcher = Factory.buildMockResearcher( {} );
+		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>:  This page does not have images, a keyphrase, or both. " +
+			"<a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
+	} );
+
 	it( "assesses a single image, without a keyword, but with an alt-tag set", function() {
 		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='image' />" );
 
