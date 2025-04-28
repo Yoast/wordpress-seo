@@ -52,18 +52,18 @@ export default class IntroductionKeywordAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const assessmentResult = new AssessmentResult();
-		let hasAIFixes = false;
+		let shouldSetAIFixes = false;
 
 		if ( paper.hasKeyword() && paper.hasText() ) {
 			this._firstParagraphMatches = researcher.getResearch( "findKeywordInFirstParagraph" );
-			hasAIFixes = true;
+			shouldSetAIFixes = true;
 		}
 		const calculatedResult = this.calculateResult();
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		if ( calculatedResult.score < 9 ) {
-			assessmentResult.setHasAIFixes( hasAIFixes );
+		if ( calculatedResult.score < 9 && shouldSetAIFixes ) {
+			assessmentResult.setHasAIFixes( true );
 		}
 		return assessmentResult;
 	}
