@@ -190,7 +190,7 @@ describe( "TopPagesWidget", () => {
 
 	it( "should decode the subject URL", async() => {
 		remoteDataProvider.fetchJson.mockResolvedValue( data );
-		const { getByText } = render( <TopPagesWidget
+		const { getByText, queryByText } = render( <TopPagesWidget
 			dataProvider={ dataProvider }
 			remoteDataProvider={ remoteDataProvider }
 			dataFormatter={ dataFormatter }
@@ -198,6 +198,8 @@ describe( "TopPagesWidget", () => {
 
 		await waitFor( () => {
 			expect( getByText( "/מדע-ההגשמה-העצמית/" ) ).toBeInTheDocument();
+			expect( queryByText( "/%D7%9E%D7%93%D7%A2-%D7%94%D7%94%D7%92%D7%A9%D7%9E%D7%94-%D7%94%D7%A2%D7%A6%D7%9E%D7%99%D7%AA/" ) ).not.toBeInTheDocument();
+			expect( getByText( "/page-1" ) ).toBeInTheDocument();
 		} );
 	} );
 } );
