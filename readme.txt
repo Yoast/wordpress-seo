@@ -282,7 +282,7 @@ Yoast SEO 25.0 brings more enhancements and bugfixes. [Find more information abo
 
 #### Enhancements
 
-* Fixes an issue where running the `wp yoast cleanup` CLI command would hang when it reaches the `update_indexables_author_to_reassigned` step (for very large data sets). Props to [eddiesshop](https://github.com/eddiesshop).
+* Optimizes the `wp yoast cleanup` CLI command  `update_indexables_author_to_reassigned` step, which can become very slow for very large data sets. Props to [eddiesshop](https://github.com/eddiesshop).
 * Improves the feedback texts for the _passive voice_ and _consecutive sentences_ assessments in case there is nothing to report.
 * Makes the _images_, _internal links_, and _external links_ assessments available when no content has been added.
 
