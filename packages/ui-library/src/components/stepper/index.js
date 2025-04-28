@@ -125,7 +125,6 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 				) ) }
 
 				<ProgressBar
-					as={ ProgressBar }
 					style={ {
 						right: progressBarPosition?.right,
 						left: progressBarPosition?.left,
