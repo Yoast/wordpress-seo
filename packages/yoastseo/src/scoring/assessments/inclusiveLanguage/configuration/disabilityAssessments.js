@@ -173,11 +173,11 @@ const disabilityAssessments = [
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, shouldNotPrecedeStandaloneCrazy ) )
-				.filter( isNotFollowedByException( words, nonInclusivePhrase, shouldNotFollowStandaloneCrazy ) )
 				.filter( isNotFollowedAndPrecededByException( words, nonInclusivePhrase,
 					shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
 					shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
 		},
+		ruleDescription: "Not targeted with this feedback when part of a more specific phrase that we target ('to drive insane', 'to go insane').",
 	},
 	{
 		identifier: "insanely",
@@ -483,11 +483,24 @@ const disabilityAssessments = [
 	},
 	{
 		identifier: "to be crazy about",
-		nonInclusivePhrases: [ "crazy about", "nuts about" ],
+		nonInclusivePhrases: [ "crazy about" ],
 		inclusiveAlternatives: "<i>to love, to be obsessed with, to be infatuated with</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ "Avoid using <i>to be crazy about</i> as it is potentially harmful.", alternative ].join( " " ),
 		// Target only when preceded by a form of "to be" and an optional intensifier (e.g. "am so crazy about")
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isPrecededByException( words, formsOfToBeWithOptionalIntensifier ) );
+		},
+		ruleDescription: "Targeted when preceded by a form of 'to be' or 'to get' and an optional intensifier.",
+	},
+	{
+		identifier: "to be nuts about",
+		nonInclusivePhrases: [ "nuts about" ],
+		inclusiveAlternatives: "<i>to love, to be obsessed with, to be infatuated with</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: [ "Avoid using <i>to be nuts about</i> as it is potentially harmful.", alternative ].join( " " ),
+		// Target only when preceded by a form of "to be" and an optional intensifier (e.g. "am so nuts about")
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, formsOfToBeWithOptionalIntensifier ) );
@@ -522,7 +535,7 @@ const disabilityAssessments = [
 			" to get confused</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ "Avoid using <i>to go insane</i> as it is potentially harmful.", alternative ].join( " " ),
-		// Target only when preceded by a form of "to go" (e.g. 'going crazy').
+		// Target only when preceded by a form of "to go" (e.g. 'going insane').
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, formsOfToGo ) );
@@ -536,7 +549,7 @@ const disabilityAssessments = [
 			" to get confused</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ "Avoid using <i>to go mad</i> as it is potentially harmful.", alternative ].join( " " ),
-		// Target only when preceded by a form of "to go" (e.g. 'going crazy').
+		// Target only when preceded by a form of "to go" (e.g. 'going mad').
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, formsOfToGo ) );
@@ -550,7 +563,7 @@ const disabilityAssessments = [
 			" to get confused</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ "Avoid using <i>to go nuts</i> as it is potentially harmful.", alternative ].join( " " ),
-		// Target only when preceded by a form of "to go" (e.g. 'going crazy').
+		// Target only when preceded by a form of "to go" (e.g. 'going nuts').
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, formsOfToGo ) );
@@ -564,7 +577,7 @@ const disabilityAssessments = [
 			" to get confused</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ "Avoid using <i>to go bananas</i> as it is potentially harmful.", alternative ].join( " " ),
-		// Target only when preceded by a form of "to go" (e.g. 'going crazy').
+		// Target only when preceded by a form of "to go" (e.g. 'going bananas').
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, formsOfToGo ) );
@@ -606,7 +619,7 @@ const disabilityAssessments = [
 			"to make one's blood boil, to exasperate, to get into one's head</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ "Avoid using <i>to drive mad</i> as it is potentially harmful.", alternative ].join( " " ),
-		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
+		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me mad', 'drove everyone mad').
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, combinationsOfDriveAndObjectPronoun ) );
@@ -620,7 +633,7 @@ const disabilityAssessments = [
 			"to make one's blood boil, to exasperate, to get into one's head</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ "Avoid using <i>to drive nuts</i> as it is potentially harmful.", alternative ].join( " " ),
-		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
+		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me nuts', 'drove everyone nuts').
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, combinationsOfDriveAndObjectPronoun ) );
@@ -634,7 +647,7 @@ const disabilityAssessments = [
 			"to make one's blood boil, to exasperate, to get into one's head</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ "Avoid using <i>to drive bananas</i> as it is potentially harmful.", alternative ].join( " " ),
-		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
+		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me bananas', 'drove everyone bananas').
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, combinationsOfDriveAndObjectPronoun ) );
@@ -652,11 +665,11 @@ const disabilityAssessments = [
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, shouldNotPrecedeStandaloneCrazy ) )
-				.filter( isNotFollowedByException( words, nonInclusivePhrase, shouldNotFollowStandaloneCrazy ) )
 				.filter( isNotFollowedAndPrecededByException( words, nonInclusivePhrase,
 					shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
 					shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
 		},
+		ruleDescription: "Not targeted with this feedback when part of a more specific phrase that we target ('to go nuts', 'to drive nuts', 'to be nuts about').",
 	},
 	{
 		identifier: "bananas",
@@ -669,11 +682,11 @@ const disabilityAssessments = [
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, shouldNotPrecedeStandaloneCrazy ) )
-				.filter( isNotFollowedByException( words, nonInclusivePhrase, shouldNotFollowStandaloneCrazy ) )
 				.filter( isNotFollowedAndPrecededByException( words, nonInclusivePhrase,
 					shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
 					shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
 		},
+		ruleDescription: "Not targeted with this feedback when part of a more specific phrase that we target ('to go bananas', 'to drive bananas', 'to be bananas about').",
 	},
 	{
 		identifier: "crazier",
@@ -780,6 +793,7 @@ const disabilityAssessments = [
 		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as %2$s when referring to a person, or %3$s when referring to an action.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "out" ] ) ),
+		ruleDescription: notFollowed( [ "out" ] ),
 	},
 	{
 		identifier: "spazzes",
@@ -790,6 +804,7 @@ const disabilityAssessments = [
 		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as %2$s when referring to a person, or %3$s when referring to an action.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "out" ] ) ),
+		ruleDescription: notFollowed( [ "out" ] ),
 	},
 	{
 		identifier: "spazzing",
@@ -799,6 +814,7 @@ const disabilityAssessments = [
 		feedbackFormat: redHarmful,
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "out" ] ) ),
+		ruleDescription: notFollowed( [ "out" ] ),
 	},
 	{
 		identifier: "spazzed",
