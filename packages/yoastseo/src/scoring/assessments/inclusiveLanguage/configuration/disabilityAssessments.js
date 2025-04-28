@@ -777,7 +777,7 @@ const disabilityAssessments = [
 		inclusiveAlternatives: [ "<i>incompetent person, erratic person, inept person, hyperactive person, agitated person, amateur, unqualified person, ignorant person</i>", "<i>lose control, flip out, " +
 		"throw a tantrum, behave erratically, go on the fritz, twitch, move clumsily, move awkwardly</i>" ],
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat:  "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as %2$s when referring to a person, or %3$s when referring to an action.",
+		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as %2$s when referring to a person, or %3$s when referring to an action.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "out" ] ) ),
 	},
@@ -787,7 +787,7 @@ const disabilityAssessments = [
 		inclusiveAlternatives: [ "<i>incompetent people, erratic people, inept people, hyperactive people, agitated people, amateurs, unqualified people, ignorant people</i>", "<i>loses control, flips out, throws a " +
 		"tantrum, behaves erratically, goes on the fritz, twitches, moves clumsily, moves awkwardly</i>" ],
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat:  "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as %2$s when referring to a person, or %3$s when referring to an action.",
+		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as %2$s when referring to a person, or %3$s when referring to an action.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "out" ] ) ),
 	},
