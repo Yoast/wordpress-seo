@@ -52,16 +52,6 @@ export default class PreviouslyUsedKeyword {
 	registerPlugin() {
 		this.app.registerAssessment( "usedKeywords", {
 			getResult: this.assess.bind( this ),
-			/**
-			 * Checks if the paper has a keyphrase, which is a prerequisite for the assessment to run.
-			 *
-			 * @param {Paper} paper The paper.
-			 *
-			 * @returns {boolean} Whether the paper has a keyphrase.
-			 */
-			isApplicable: function( paper ) {
-				return paper.hasKeyword();
-			},
 		}, "previouslyUsedKeywords" );
 	}
 
@@ -86,6 +76,21 @@ export default class PreviouslyUsedKeyword {
 	 * @returns {{text: string, score: number}} The result object with a feedback text and a score.
 	 */
 	scoreAssessment( previouslyUsedKeywords, paper ) {
+		if ( Object.keys( previouslyUsedKeywords ).length === 0 ) {
+			return {
+				text: sprintf(
+					/* translators:
+					%1$s and %2$s expand to a link to an article on yoast.com,
+					%3$s expands to an anchor end tag. */
+					__( "%1$sPreviously used keyphrase%3$s: No focus keyphrase was set for this page. " +
+						"%2$sPlease add a focus keyphrase you haven't used before on other content%3$s.", "wordpress-seo" ),
+					this.urlTitle,
+					this.urlCallToAction,
+					"</a>"
+				),
+				score: 1,
+			};
+		}
 		const count = previouslyUsedKeywords.count;
 		const id = previouslyUsedKeywords.id;
 		const postTypeToDisplay = previouslyUsedKeywords.postTypeToDisplay;
@@ -150,10 +155,15 @@ export default class PreviouslyUsedKeyword {
 	 * Researches the previously used keywords, based on the used keywords and the keyword in the paper.
 	 *
 	 * @param {Paper} paper The paper object to research.
-	 * @returns {{id: number, count: number}} The object with the count and the id of the previously used keyword
+	 * @returns {{id: number, count: number} || {}} The object with the count and the id of the previously used keyword,
+	 * 												or an empty object if the paper has no keyphrase.
 	 */
 	researchPreviouslyUsedKeywords( paper ) {
 		const keyword = paper.getKeyword();
+		if ( ! keyword ) {
+			return {};
+		}
+
 		let count = 0;
 		let postTypeToDisplay = "";
 		let id = 0;

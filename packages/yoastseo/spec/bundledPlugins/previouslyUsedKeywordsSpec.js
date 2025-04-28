@@ -44,6 +44,14 @@ describe( "checks for keyword doubles", function() {
 			"<a href='http://search?keyword%2Fbla&post_type=post' target='_blank'>multiple times before</a>. " +
 			"<a href='https://yoa.st/33y' target='_blank'>Do not use your keyphrase more than once</a>." );
 	} );
+
+	it( "returns feedback when there is no keyphrase", function() {
+		const paper = new Paper( "text", { keyword: "" } );
+		const plugin = new PreviouslyUsedKeywords( app, args );
+		expect( plugin.scoreAssessment( {}, paper ).text ).toBe( "<a href='https://yoa.st/33x' " +
+			"target='_blank'>Previously used keyphrase</a>: No focus keyphrase was set for this page. " +
+			"<a href='https://yoa.st/33y' target='_blank'>Please add a focus keyphrase you haven't used before on other content</a>." );
+	} );
 } );
 
 describe( "checks for keyword doubles2", function() {
