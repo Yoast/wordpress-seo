@@ -32,6 +32,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 				withAltNonKeyword: 6,
 				withAlt: 6,
 				noAlt: 6,
+				noImagesOrKeyphrase: 6,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4f7" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4f6" ),
@@ -64,19 +65,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 
 		return assessmentResult;
 	}
-
-	/**
-	 * Checks whether the paper has text with at least 1 image.
-	 *
-	 * @param {Paper}       paper       The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
-	 *
-	 * @returns {boolean} True when there is text.
-	 */
-	isApplicable( paper, researcher ) {
-		this.imageCount = researcher.getResearch( "imageCount" );
-		return paper.hasText() && this.imageCount > 0;
-	}
+	// Checks whether a keyphrase is set
 
 	/**
 	 * Checks whether there are too few alt tags with keywords. This check is applicable when there are
@@ -116,11 +105,30 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 
 
 	/**
-	 * Calculate the result based on the current image count and current image alt-tag count.
+	 * Calculate the result based on whether there is a keyphrase, the current image count, and current image alt-tag count.
+	 *
+	 * @param {Paper} paper The paper to use for the assessment.
+	 *
+	 * @returns {boolean} True if the paper has a keyword.
 	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult() {
+	calculateResult( paper  ) {
+		// No images added or no keyphrase set
+		if ( ! paper.hasKeyword() || this.imageCount === 0  )
+			return {
+				score: this._config.scores.noImagesOrKeyphrase,
+				resultText: sprintf(
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					__(
+						"%1$sImage Keyphrase%3$s:  This page does not have images, a keyphrase, or both. %2$sAdd some images with alt attributes that include the keyphrase or synonyms%3$s!",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
 		// Has alt-tags, but no keyword is set.
 		if ( this.altProperties.withAlt > 0 ) {
 			return {

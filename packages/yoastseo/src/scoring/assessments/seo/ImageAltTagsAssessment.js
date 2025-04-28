@@ -60,19 +60,6 @@ export default class ImageAltTagsAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has text with at least 1 image.
-	 *
-	 * @param {Paper}       paper       The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
-	 *
-	 * @returns {boolean} True when there is text.
-	 */
-	isApplicable( paper, researcher ) {
-		this.imageCount = researcher.getResearch( "imageCount" );
-		return paper.hasText() && this.imageCount > 0;
-	}
-
-	/**
 	 * Calculates the result based on the availability of images in the text.
 	 *
 	 * @returns {Object} The calculated result.
@@ -80,7 +67,16 @@ export default class ImageAltTagsAssessment extends Assessment {
 	calculateResult() {
 		// The number of images with no alt tags.
 		const imagesNoAlt = this.altTagsProperties.noAlt;
-		const { good: goodResultText, noneHasAltBad, someHaveAltBad } = this.getFeedbackStrings();
+		const { good: goodResultText,  noneHaveImagesBad, noneHasAltBad, someHaveAltBad } = this.getFeedbackStrings();
+
+		// There are no images
+		if ( this.imageCount === 0 ) {
+			return {
+				score: this._config.scores.bad,
+				resultText: noneHaveImagesBad,
+			};
+		}
+
 
 		// None of the images has alt tags.
 		if ( imagesNoAlt === this.imageCount ) {
@@ -110,10 +106,11 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
 	 * This callback function should return an object with the following properties:
 	 * - good: string
+	 * - noneHaveImagesBad: string
 	 * - noneHasAltBad: string
 	 * - someHaveAltBad: string
 	 *
-	 * @returns {{good: string, noneHasAltBad: string, someHaveAltBad: string}} The feedback strings.
+	 * @returns {{good: string, noneHaveImagesBad: string, noneHasAltBad: string, someHaveAltBad: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
 		// `urlTitleAnchorOpeningTag` represents the anchor opening tag with the URL to the article about this assessment.
@@ -129,6 +126,9 @@ export default class ImageAltTagsAssessment extends Assessment {
 				noneHasAltBad: "%1$sImage alt tags%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
 				someHaveAltBad: "%1$sImage alt tags%3$s: Some images don't have alt attributes. %2$sAdd alt attributes to your images%3$s!",
 			};
+			if (  this.imageCount === 0 ) {
+				defaultResultTexts.noneHaveImagesBad = "%1$sImage alt attributes%3$s: This page does not have images with alt attributes. %2$sAdd some%3$s!";
+			}
 			if ( numberOfImagesWithoutAlt === 1 ) {
 				defaultResultTexts.someHaveAltBad = "%1$sImage alt tags%3$s: One image doesn't have alt attributes. %2$sAdd alt attributes to your images%3$s!";
 			}
