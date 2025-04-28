@@ -39,6 +39,21 @@ const calculateStepsLengthPercentage = ( stepRef, firstStepRect, progressBarLeng
 };
 
 /**
+ * Get the percentage of the current step's progress.
+ *
+ * @param {number[]} percentage Array of step lengths in percentage.
+ * @param {number} step The index of the current step (starting from 0).
+ * @returns {number} The percentage of the current step's progress.
+ */
+const getCurrentStepPercentage = ( percentage, step ) => {
+	if ( step && percentage ) {
+		return percentage[ step ] ?? 100;
+	}
+
+	return 0;
+};
+
+/**
  *
  * @param {JSX.Node} [children] Content of the stepper.
  * @param {number} [currentStep] The current step, starts from 0.
@@ -90,21 +105,6 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 	}, [ steps, children, currentStep ] );
 
 	const addStepRef = useCallback( ( el ) => ( stepRef.current.push( el ) ), [ stepRef.current ] );
-
-	/**
-	 * Get the percentage of the current step's progress.
-	 *
-	 * @param {number[]} percentage Array of step lengths in percentage.
-	 * @param {number} step The index of the current step (starting from 0).
-	 * @returns {number} The percentage of the current step's progress.
-	 */
-	const getCurrentStepPercentage = ( percentage, step ) => {
-		if ( step && percentage ) {
-			return percentage[ step ] ?? 100;
-		}
-
-		return 0;
-	};
 
 	if ( steps.length === 0 && ! children ) {
 		return null;
