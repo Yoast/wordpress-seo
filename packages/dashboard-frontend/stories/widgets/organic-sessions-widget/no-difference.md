@@ -1,5 +1,5 @@
 The difference percentage is not shown when:
 
-* there is no difference between the current and previous sessions
-* if the previous sessions is `0`
-* if any sessions is invalid (e.g. `NaN`)
+* There is no difference between the current and previous number of sessions
+* If the previous number of sessions is `0`
+* If any sessions value is invalid (e.g. `NaN`)

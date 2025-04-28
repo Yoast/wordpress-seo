@@ -14,6 +14,6 @@ It needs the `remoteDataProvider` API:
 It needs the `dataFormatter` API:
 
 - `format` to format the data to be displayed in the widget:
-  - `sessions` for the `organiceSessionsCompare` number of sessions.
+  - `sessions` for the `organicSessionsCompare` number of sessions.
   - `difference` for the `organicSessionsCompare` delta percentage.
   - `date` for the `organicSessionsDaily` date.
