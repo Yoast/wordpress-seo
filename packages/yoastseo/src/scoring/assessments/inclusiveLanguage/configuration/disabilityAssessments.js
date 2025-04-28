@@ -22,6 +22,7 @@ import {
 	shouldNotFollowStandaloneCrazyWhenPrecededByToBe,
 	shouldNotPrecedeStandaloneCrazy,
 	shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
+	shouldPrecedeNutsBananasWithIntensifier,
 } from "./disabilityRulesData";
 import { sprintf } from "@wordpress/i18n";
 import {
@@ -664,12 +665,12 @@ const disabilityAssessments = [
 		// Only target 'nuts' and 'bananas' when preceded by is/he's/she's and an optional intensifier. Don't target when it's part of the phrase 'to be nuts/bananas about...'
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isNotPrecededByException( words, shouldNotPrecedeStandaloneCrazy ) )
+				.filter( isPrecededByException( words, shouldPrecedeNutsBananasWithIntensifier ) )
 				.filter( isNotFollowedAndPrecededByException( words, nonInclusivePhrase,
 					shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
 					shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
 		},
-		ruleDescription: "Not targeted with this feedback when part of a more specific phrase that we target ('to go nuts', 'to drive nuts', 'to be nuts about').",
+		ruleDescription: "Targeted when preceded by is/he's/she's and an optional intensifier and when it's not part of a more specific phrase that we target ('to go nuts', 'to drive nuts', 'to be nuts about').",
 	},
 	{
 		identifier: "bananas",
@@ -681,12 +682,12 @@ const disabilityAssessments = [
 		// Only target 'nuts' and 'bananas' when preceded by is/he's/she's and an optional intensifier. Don't target when it's part of the phrase 'to be nuts/bananas about...'
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isNotPrecededByException( words, shouldNotPrecedeStandaloneCrazy ) )
+				.filter( isPrecededByException( words, shouldPrecedeNutsBananasWithIntensifier ) )
 				.filter( isNotFollowedAndPrecededByException( words, nonInclusivePhrase,
 					shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
 					shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
 		},
-		ruleDescription: "Not targeted with this feedback when part of a more specific phrase that we target ('to go bananas', 'to drive bananas', 'to be bananas about').",
+		ruleDescription: "Targeted when preceded by is/he's/she's and an optional intensifier and when it's not part of a more specific phrase that we target ('to go bananas', 'to drive bananas', 'to be bananas about').",
 	},
 	{
 		identifier: "crazier",

@@ -1151,6 +1151,46 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 
 		testInclusiveLanguageAssessments( testData );
 	} );
+	it( "should show the feedback for 'nuts' and 'bananas' when they are not part of a more specific phrase and they are preceded by is/she's/he's with optional intensifier", () => {
+		const testData = [
+			{
+				identifier: "nuts",
+				text: "It is absolutely nuts out here.",
+				expectedFeedback: "Avoid using <i>nuts</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>wild, baffling, out of control, inexplicable, unbelievable, aggravating, shocking, intense, impulsive, chaotic, confused, mistaken, obsessed</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "bananas",
+				text: "She's bananas everywhere.",
+				expectedFeedback: "Avoid using <i>bananas</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>wild, baffling, out of control, inexplicable, unbelievable, aggravating, shocking, intense, impulsive, chaotic, confused, mistaken, obsessed</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should not show the feedback for 'nuts' when they are part of a more specific phrase.", () => {
+		const mockPaper = new Paper( "She's so nuts about this album." );
+		const mockResearcher = Factory.buildMockResearcher( [ "She's so nuts about this album." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "nuts" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeFalsy();
+	} );
+	it( "should not show the feedback for 'bananas' when they are part of a more specific phrase: 'bananas about'.", () => {
+		const mockPaper = new Paper( "He's bananas about this album." );
+		const mockResearcher = Factory.buildMockResearcher( [ "He's bananas about this album." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "bananas" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeFalsy();
+	} );
+	it( "should not show feedback for 'nuts' when it's preceded by 'to be' that is not is/he's/she's but not followed by 'about'.", () => {
+		const mockPaper = new Paper( "They are nuts." );
+		const mockResearcher = Factory.buildMockResearcher( [ "They are nuts." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "nuts" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeFalsy();
+	} );
 	it( "should target the phrase 'crazy in love' and retrieve correct feedback.", () => {
 		const mockPaper = new Paper( "They seem crazy in love." );
 		const mockResearcher = Factory.buildMockResearcher( [ "They seem crazy in love." ] );
