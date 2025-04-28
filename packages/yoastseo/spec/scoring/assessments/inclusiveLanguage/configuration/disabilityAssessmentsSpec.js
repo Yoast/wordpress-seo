@@ -1001,11 +1001,11 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
-			// The non-negated phrase for 'crazy about' with an intensifier.
+			// The non-negated phrase for 'nuts about' with an intensifier.
 			{
-				identifier: "to be crazy about",
-				text: "I am so crazy about this album.",
-				expectedFeedback: "Avoid using <i>to be crazy about</i> as it is potentially harmful. " +
+				identifier: "to be nuts about",
+				text: "I am so nuts about this album.",
+				expectedFeedback: "Avoid using <i>to be nuts about</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>to love, to be obsessed with, to be infatuated with</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
