@@ -278,6 +278,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-04-29
 
+Yoast SEO 25.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Fixes an issue where running the `wp yoast cleanup` CLI command would hang when it reaches the `update_indexables_author_to_reassigned` step (for very large data sets). Props to [eddiesshop](https://github.com/eddiesshop).
