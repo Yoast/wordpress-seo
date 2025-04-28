@@ -97,6 +97,9 @@ export const Factory = {
 			id: "connect",
 		} ],
 	},
+	parameters: {
+		controls: { disable: false },
+	},
 	decorators: [ DecorateWithStepButton ],
 };
 
@@ -113,6 +116,9 @@ export const StepsAsChildren = {
 			</Stepper.Step>
 		) ),
 	},
+	parameters: {
+		controls: { disable: false },
+	},
 	decorators: [ DecorateWithStepButton ],
 };
 
@@ -127,6 +133,7 @@ export const WithCustomStep = {
 		],
 	},
 	parameters: {
+		controls: { disable: false },
 		docs: {
 			description: {
 				story: customStep,
@@ -161,24 +168,25 @@ export const WithCustomProgressBar = {
 		currentStep: 0,
 		steps: [ {
 			children: "INSTALL",
-			id: "install-wuth-custom-progress-bar",
+			id: "install-with-custom-progress-bar",
 		},
 		{
 			children: "ACTIVATE",
-			id: "activate-wuth-custom-progress-bar",
+			id: "activate-with-custom-progress-bar",
 		},
 		{
 			children: "SET UP",
-			id: "setup-wuth-custom-progress-bar",
+			id: "setup-with-custom-progress-bar",
 		},
 		{
 			children: "CONNECT",
-			id: "connect-wuth-custom-progress-bar",
+			id: "connect-with-custom-progress-bar",
 		} ],
 		ProgressBar: CustomProgressBar,
 		children: null,
 	},
 	parameters: {
+		controls: { disable: false },
 		docs: {
 			description: {
 				story: customProgressBar,
@@ -199,5 +207,6 @@ export default {
 	},
 	argTypes: {
 		children: { control: { disable: true } },
+		ProgressBar: { control: { disable: true } },
 	},
 };
