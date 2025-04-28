@@ -8,20 +8,35 @@ import { inRangeEndInclusive, inRangeStartEndInclusive } from "../../helpers/ass
 import processExactMatchRequest from "../../../languageProcessing/helpers/match/processExactMatchRequest";
 
 /**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
+
+/**
+ * Enumerator for the different types of counting methods for this assessment.
+ * @type {Readonly<{WORDS: string, CONTENT_WORDS: string, CHARACTERS: string}>}
+ */
+const COUNT_TEXT_IN = Object.freeze( {
+	WORDS: "words",
+	CONTENT_WORDS: "content words",
+	CHARACTERS: "characters",
+} );
+
+/**
  * Assessment to check whether the keyphrase has a good length.
  */
-class KeyphraseLengthAssessment extends Assessment {
+export default class KeyphraseLengthAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} [config] The configuration to use.
 	 * @param {boolean} isProductPage Whether product page scoring is used or not.
+	 * @param {Object} [config] The configuration to use.
+	 * @param {Object} [config.parameters] The parameters to use for the assessment.
 	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum length of the keyphrase (in words).
 	 * @param {number} [config.parameters.acceptableMaximum] The acceptable maximum length of the keyphrase (in words).
+	 * @param {Object} [config.scores] The scores to use for the assessment.
 	 * @param {number} [config.scores.veryBad] The score to return if the length of the keyphrase is below recommended minimum.
 	 * @param {number} [config.scores.consideration] The score to return if the length of the keyphrase is above acceptable maximum.
-	 *
-	 * @returns {void}
 	 */
 	constructor( config, isProductPage = false ) {
 		super();
@@ -42,10 +57,7 @@ class KeyphraseLengthAssessment extends Assessment {
 				okay: 6,
 				good: 9,
 			},
-			countTextIn: {
-				singular: __( "word", "wordpress-seo" ),
-				plural: __( "words", "wordpress-seo" ),
-			},
+			countTextIn: COUNT_TEXT_IN.WORDS,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33i" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33j" ),
 			isRelatedKeyphrase: false,
@@ -70,8 +82,7 @@ class KeyphraseLengthAssessment extends Assessment {
 
 		const countTextInCharacters = researcher.getConfig( "countCharacters" );
 		if ( countTextInCharacters ) {
-			this._config.countTextIn.singular = __( "character", "wordpress-seo" );
-			this._config.countTextIn.plural = __( "characters", "wordpress-seo" );
+			this._config.countTextIn = COUNT_TEXT_IN.CHARACTERS;
 		}
 
 		/*
@@ -80,8 +91,7 @@ class KeyphraseLengthAssessment extends Assessment {
 		 * */
 		const keyphrase = paper.getKeyword();
 		if ( this._keyphraseLengthData.functionWords.length > 0 && ! processExactMatchRequest( keyphrase ).exactMatchRequested ) {
-			this._config.countTextIn.singular = __( "content word", "wordpress-seo" );
-			this._config.countTextIn.plural = __( "content words", "wordpress-seo" );
+			this._config.countTextIn = COUNT_TEXT_IN.CONTENT_WORDS;
 		}
 
 		/*
@@ -119,7 +129,7 @@ class KeyphraseLengthAssessment extends Assessment {
 	getCustomConfig( researcher ) {
 		const customKeyphraseLengthConfig = researcher.getConfig( "keyphraseLength" );
 
-		if ( this._isProductPage && customKeyphraseLengthConfig.hasOwnProperty( "productPages" ) ) {
+		if ( this._isProductPage && Object.hasOwn( customKeyphraseLengthConfig, "productPages" ) ) {
 			// If a language has specific configuration for keyphrase length in product pages, that configuration is used.
 			return merge( this._config, customKeyphraseLengthConfig.productPages );
 		}
@@ -129,140 +139,257 @@ class KeyphraseLengthAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculates the result for product pages based on the keyphraseLength research.
+	 * Returns the feedback texts for the conditions when the keyphrase is too long or too short.
 	 *
-	 * @returns {Object} Object with score and text.
+	 * @returns {{lessThanMinimum: (function(string, string): string), firstSentence: (function(string): string), moreThanMinimum: (function(string, string): string), wayMoreThanMinimum: (function(string, string): string), wayLessThanMinimum: (function(string, string): string)}}
 	 */
-	calculateResultForProduct() {
-		// Calculates very bad score for product pages.
-		if ( this._keyphraseLengthData.keyphraseLength === 0 ) {
-			if ( this._config.isRelatedKeyphrase ) {
-				return {
-					score: this._config.scores.veryBad,
-					resultText: sprintf(
-						/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-						__(
-							"%1$sKeyphrase length%3$s: %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
-							"wordpress-seo"
-						),
-						this._config.urlTitle,
-						this._config.urlCallToAction,
-						"</a>"
-					),
-				};
-			}
-			return {
-				score: this._config.scores.veryBad,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					__(
-						"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
-			};
-		}
-		// Calculates bad score for product pages.
-		if ( this._keyphraseLengthData.keyphraseLength <= this._boundaries.acceptableMinimum ) {
-			return {
-				score: this._config.scores.bad,
-				resultText: sprintf(
-					/* translators:
-					%1$d expands to the number of words / characters in the keyphrase,
-					%2$d expands to the recommended maximum of words / characters in the keyphrase,
-					%3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
-					%6$s expands to the word 'word' or 'character' or 'content word',
-					%7$s expands to the word 'words' or 'characters' or 'content words'. */
+	getFeedbackTexts() {
+		return {
+			firstSentence: ( countTextIn ) => {
+				const wordFeedback = sprintf(
+					/* translators: %1$d expands to the number of words, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 					_n(
-						"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's way less than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
-						"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %7$s. That's way less than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
+						"%2$sKeyphrase length%3$s: The keyphrase contains %1$d word.",
+						"%2$sKeyphrase length%3$s: The keyphrase contains %1$d words.",
 						this._keyphraseLengthData.keyphraseLength,
 						"wordpress-seo"
 					),
 					this._keyphraseLengthData.keyphraseLength,
-					this._boundaries.recommendedMinimum,
 					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>",
-					this._config.countTextIn.singular,
-					this._config.countTextIn.plural
-				),
-			};
-		}
-		if ( this._keyphraseLengthData.keyphraseLength > this._boundaries.acceptableMaximum ) {
-			return {
-				score: this._config.scores.bad,
-				resultText: sprintf(
-					/* translators:
-					%1$d expands to the number of words / characters in the keyphrase,
-					%2$d expands to the recommended maximum of words / characters in the keyphrase,
-					%3$s and %4$s expand to links on yoast.com,
-					%5$s expands to the anchor end tag,
-					%6$s expands to the word 'words' or 'characters' or 'content words'. */
-					__(
-						"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's way more than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
+					"</a>"
+				);
+				const contentWordFeedback = sprintf(
+					/* translators: %1$d expands to the number of content words, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+					_n(
+						"%2$sKeyphrase length%3$s: The keyphrase contains %1$d content word.",
+						"%2$sKeyphrase length%3$s: The keyphrase contains %1$d content words.",
+						this._keyphraseLengthData.keyphraseLength,
 						"wordpress-seo"
 					),
 					this._keyphraseLengthData.keyphraseLength,
+					this._config.urlTitle,
+					"</a>"
+				);
+				const characterFeedback = sprintf(
+					/* translators: %1$d expands to the number of characters, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+					_n(
+						"%2$sKeyphrase length%3$s: The keyphrase contains %1$d character.",
+						"%2$sKeyphrase length%3$s: The keyphrase contains %1$d characters.",
+						this._keyphraseLengthData.keyphraseLength,
+						"wordpress-seo"
+					),
+					this._keyphraseLengthData.keyphraseLength,
+					this._config.urlTitle,
+					"</a>"
+				);
+				if ( countTextIn === COUNT_TEXT_IN.WORDS ) {
+					return wordFeedback;
+				} else if ( countTextIn === COUNT_TEXT_IN.CONTENT_WORDS ) {
+					return contentWordFeedback;
+				}
+				return characterFeedback;
+			},
+			moreThanMinimum: ( countTextIn, keyphraseContains ) => {
+				const wordFeedback = sprintf(
+					/* translators: %1$d expands to the number of words, %2$s expands to the sentence "The keyphrase contains X word(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s That's more than the recommended maximum of %1$d word. %3$sMake it shorter%4$s!",
+						"%2$s That's more than the recommended maximum of %1$d words. %3$sMake it shorter%4$s!",
+						this._boundaries.recommendedMaximum,
+						"wordpress-seo"
+					),
 					this._boundaries.recommendedMaximum,
-					this._config.urlTitle,
+					keyphraseContains,
 					this._config.urlCallToAction,
-					"</a>",
-					this._config.countTextIn.plural
-				),
-			};
-		}
-		// Calculates okay score for product pages.
-		if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.acceptableMinimum, this._boundaries.recommendedMinimum ) ) {
-			return {
-				score: this._config.scores.okay,
-				resultText: sprintf(
-					/* translators:
-					%1$d expands to the number of words / characters in the keyphrase,
-					%2$d expands to the recommended maximum of words / characters in the keyphrase,
-					%3$s and %4$s expand to links on yoast.com,
-					%5$s expands to the anchor end tag,
-					%6$s expands to the word 'words' or 'characters' or 'content words'. */
-					__(
-						"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's less than the recommended minimum of %2$d %6$s. %4$sMake it longer%5$s!",
+					"</a>"
+				);
+				const contentWordFeedback = sprintf(
+					/* translators: %1$d expands to the number of content words, %2$s expands to the sentence "The keyphrase contains X content word(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s That's more than the recommended maximum of %1$d content word. %3$sMake it shorter%4$s!",
+						"%2$s That's more than the recommended maximum of %1$d content words. %3$sMake it shorter%4$s!",
+						this._boundaries.recommendedMaximum,
 						"wordpress-seo"
 					),
-					this._keyphraseLengthData.keyphraseLength,
-					this._boundaries.recommendedMinimum,
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>",
-					this._config.countTextIn.plural
-				),
-			};
-		}
-		if ( inRangeEndInclusive( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMaximum,
-			this._boundaries.acceptableMaximum ) ) {
-			return {
-				score: this._config.scores.okay,
-				resultText: sprintf(
-					/* translators:
-					%1$d expands to the number of words / characters in the keyphrase,
-					%2$d expands to the recommended maximum of words / characters in the keyphrase,
-					%3$s and %4$s expand to links on yoast.com,
-					%5$s expands to the anchor end tag,
-					%6$s expands to the word 'words' or 'characters' or 'content words'. */
-					__(
-						"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's more than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
-						"wordpress-seo"
-					),
-					this._keyphraseLengthData.keyphraseLength,
 					this._boundaries.recommendedMaximum,
-					this._config.urlTitle,
+					keyphraseContains,
 					this._config.urlCallToAction,
-					"</a>",
-					this._config.countTextIn.plural
-				),
-			};
+					"</a>"
+				);
+				const characterFeedback = sprintf(
+					/* translators: %1$d expands to the number of characters, %2$s expands to the sentence "The keyphrase contains X character(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s That's more than the recommended maximum of %1$d character. %3$sMake it shorter%4$s!",
+						"%2$s That's more than the recommended maximum of %1$d characters. %3$sMake it shorter%4$s!",
+						this._boundaries.recommendedMaximum,
+						"wordpress-seo"
+					),
+					this._boundaries.recommendedMaximum,
+					keyphraseContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				if ( countTextIn === COUNT_TEXT_IN.WORDS ) {
+					return wordFeedback;
+				} else if ( countTextIn === COUNT_TEXT_IN.CONTENT_WORDS ) {
+					return contentWordFeedback;
+				}
+				return characterFeedback;
+			},
+			wayMoreThanMinimum: ( countTextIn, keyphraseContains ) => {
+				const wordFeedback = sprintf(
+					/* translators: %1$d expands to the number of words, %2$s expands to the sentence "The keyphrase contains X word(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s That's way more than the recommended maximum of %1$d word. %3$sMake it shorter%4$s!",
+						"%2$s That's way more than the recommended maximum of %1$d words. %3$sMake it shorter%4$s!",
+						this._boundaries.recommendedMaximum,
+						"wordpress-seo"
+					),
+					this._boundaries.recommendedMaximum,
+					keyphraseContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				const contentWordFeedback = sprintf(
+					/* translators: %1$d expands to the number of content words, %2$s expands to the sentence "The keyphrase contains X content word(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s That's way more than the recommended maximum of %1$d content word. %3$sMake it shorter%4$s!",
+						"%2$s That's way more than the recommended maximum of %1$d content words. %3$sMake it shorter%4$s!",
+						this._boundaries.recommendedMaximum,
+						"wordpress-seo"
+					),
+					this._boundaries.recommendedMaximum,
+					keyphraseContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				const characterFeedback = sprintf(
+					/* translators: %1$d expands to the number of characters, %2$s expands to the sentence "The keyphrase contains X character(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s That's way more than the recommended maximum of %1$d character. %3$sMake it shorter%4$s!",
+						"%2$s That's way more than the recommended maximum of %1$d characters. %3$sMake it shorter%4$s!",
+						this._boundaries.recommendedMaximum,
+						"wordpress-seo"
+					),
+					this._boundaries.recommendedMaximum,
+					keyphraseContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				if ( countTextIn === COUNT_TEXT_IN.WORDS ) {
+					return wordFeedback;
+				} else if ( countTextIn === COUNT_TEXT_IN.CONTENT_WORDS ) {
+					return contentWordFeedback;
+				}
+				return characterFeedback;
+			},
+			lessThanMinimum: ( countTextIn, keyphraseContains ) => {
+				const wordFeedback = sprintf(
+					/* translators: %1$d expands to the number of words, %2$s expands to the sentence "The keyphrase contains X word(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s That's less than the recommended minimum of %1$d word. %3$sMake it longer%4$s!",
+						"%2$s That's less than the recommended minimum of %1$d words. %3$sMake it longer%4$s!",
+						this._boundaries.recommendedMinimum,
+						"wordpress-seo"
+					),
+					this._boundaries.recommendedMinimum,
+					keyphraseContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				const contentWordFeedback = sprintf(
+					/* translators: %1$d expands to the number of content words, %2$s expands to the sentence "The keyphrase contains X content word(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s That's less than the recommended minimum of %1$d content word. %3$sMake it longer%4$s!",
+						"%2$s That's less than the recommended minimum of %1$d content words. %3$sMake it longer%4$s!",
+						this._boundaries.recommendedMinimum,
+						"wordpress-seo"
+					),
+					this._boundaries.recommendedMinimum,
+					keyphraseContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				const characterFeedback = sprintf(
+					/* translators: %1$d expands to the number of characters, %2$s expands to the sentence "The keyphrase contains X character(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s That's less than the recommended minimum of %1$d character. %3$sMake it longer%4$s!",
+						"%2$s That's less than the recommended minimum of %1$d characters. %3$sMake it longer%4$s!",
+						this._boundaries.recommendedMinimum,
+						"wordpress-seo"
+					),
+					this._boundaries.recommendedMinimum,
+					keyphraseContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				if ( countTextIn === COUNT_TEXT_IN.WORDS ) {
+					return wordFeedback;
+				} else if ( countTextIn === COUNT_TEXT_IN.CONTENT_WORDS ) {
+					return contentWordFeedback;
+				}
+				return characterFeedback;
+			},
+			wayLessThanMinimum: ( countTextIn, keyphraseContains ) => {
+				const wordFeedback = sprintf(
+					/* translators: %1$d expands to the number of words, %2$s expands to the sentence "The keyphrase contains X word(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s That's way less than the recommended minimum of %1$d word. %3$sMake it longer%4$s!",
+						"%2$s That's way less than the recommended minimum of %1$d words. %3$sMake it longer%4$s!",
+						this._boundaries.recommendedMinimum,
+						"wordpress-seo"
+					),
+					this._boundaries.recommendedMinimum,
+					keyphraseContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				const contentWordFeedback = sprintf(
+					/* translators: %1$d expands to the number of content words, %2$s expands to the sentence "The keyphrase contains X content word(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s That's way less than the recommended minimum of %1$d content word. %3$sMake it longer%4$s!",
+						"%2$s That's way less than the recommended minimum of %1$d content words. %3$sMake it longer%4$s!",
+						this._boundaries.recommendedMinimum,
+						"wordpress-seo"
+					),
+					this._boundaries.recommendedMinimum,
+					keyphraseContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				const characterFeedback = sprintf(
+					/* translators: %1$d expands to the number of characters, %2$s expands to the sentence "The keyphrase contains X character(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s That's way less than the recommended minimum of %1$d character. %3$sMake it longer%4$s!",
+						"%2$s That's way less than the recommended minimum of %1$d characters. %3$sMake it longer%4$s!",
+						this._boundaries.recommendedMinimum,
+						"wordpress-seo"
+					),
+					this._boundaries.recommendedMinimum,
+					keyphraseContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				if ( countTextIn === COUNT_TEXT_IN.WORDS ) {
+					return wordFeedback;
+				} else if ( countTextIn === COUNT_TEXT_IN.CONTENT_WORDS ) {
+					return contentWordFeedback;
+				}
+				return characterFeedback;
+			},
+		};
+	}
+
+	/**
+	 * Calculates the result for product pages based on the keyphraseLength research.
+	 * @returns {{score: number, resultText: string}} The score and feedback for a product page.
+	 */
+	calculateResultForProduct() {
+		// Calculates very bad score for product pages.
+		if ( this._keyphraseLengthData.keyphraseLength === 0 ) {
+			return this.getNoKeyphraseFeedback();
 		}
+
 		// Calculates good score for product pages.
 		if ( inRangeStartEndInclusive( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMinimum,
 			this._boundaries.recommendedMaximum ) ) {
@@ -279,41 +406,52 @@ class KeyphraseLengthAssessment extends Assessment {
 				),
 			};
 		}
+
+		// Gets functions used to create feedback strings for the 'okay' and 'bad' assessment scores.
+		const feedbackTexts = this.getFeedbackTexts();
+		const firstSentence = feedbackTexts.firstSentence( this._config.countTextIn );
+
+		// Calculates bad score for product pages.
+		if ( this._keyphraseLengthData.keyphraseLength <= this._boundaries.acceptableMinimum ) {
+			return {
+				score: this._config.scores.bad,
+				resultText: feedbackTexts.wayLessThanMinimum( this._config.countTextIn, firstSentence ),
+			};
+		}
+		if ( this._keyphraseLengthData.keyphraseLength > this._boundaries.acceptableMaximum ) {
+			return {
+				score: this._config.scores.bad,
+				resultText: feedbackTexts.wayMoreThanMinimum( this._config.countTextIn, firstSentence ),
+			};
+		}
+		// Calculates okay score for product pages.
+		if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.acceptableMinimum, this._boundaries.recommendedMinimum ) ) {
+			return {
+				score: this._config.scores.okay,
+				resultText: feedbackTexts.lessThanMinimum( this._config.countTextIn, firstSentence ),
+			};
+		}
+		if ( inRangeEndInclusive( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMaximum,
+			this._boundaries.acceptableMaximum ) ) {
+			return {
+				score: this._config.scores.okay,
+				resultText: feedbackTexts.moreThanMinimum( this._config.countTextIn, firstSentence ),
+			};
+		}
 	}
 
 	/**
-	 * Calculates the result based on the keyphraseLength research.
-	 *
-	 * @returns {Object} Object with score and text.
+	 * Returns the feedback when no keyphrase was set.
+	 * @returns {{score: number, resultText: string}} The score and feedback for when no keyphrase is set.
 	 */
-	calculateResult() {
-		if ( this._isProductPage ) {
-			return this.calculateResultForProduct();
-		}
-
-		// Calculates scores for regular pages
-		if ( this._keyphraseLengthData.keyphraseLength < this._boundaries.recommendedMinimum ) {
-			if ( this._config.isRelatedKeyphrase ) {
-				return {
-					score: this._config.scores.veryBad,
-					resultText: sprintf(
-						/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-						__(
-							"%1$sKeyphrase length%3$s: %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
-							"wordpress-seo"
-						),
-						this._config.urlTitle,
-						this._config.urlCallToAction,
-						"</a>"
-					),
-				};
-			}
+	getNoKeyphraseFeedback() {
+		if ( this._config.isRelatedKeyphrase ) {
 			return {
 				score: this._config.scores.veryBad,
 				resultText: sprintf(
 					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
-						"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
+						"%1$sKeyphrase length%3$s: %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -321,6 +459,34 @@ class KeyphraseLengthAssessment extends Assessment {
 					"</a>"
 				),
 			};
+		}
+		return {
+			score: this._config.scores.veryBad,
+			resultText: sprintf(
+				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				__(
+					"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
+					"wordpress-seo"
+				),
+				this._config.urlTitle,
+				this._config.urlCallToAction,
+				"</a>"
+			),
+		};
+	}
+
+	/**
+	 * Calculates the result based on the keyphraseLength research.
+	 * @returns {{score: number, resultText: string}} The score and feedback for a regular post.
+	 */
+	calculateResult() {
+		if ( this._isProductPage ) {
+			return this.calculateResultForProduct();
+		}
+
+		// Calculates scores for regular pages.
+		if ( this._keyphraseLengthData.keyphraseLength < this._boundaries.recommendedMinimum ) {
+			return this.getNoKeyphraseFeedback();
 		}
 		if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMinimum, this._boundaries.recommendedMaximum + 1 ) ) {
 			return {
@@ -336,52 +502,21 @@ class KeyphraseLengthAssessment extends Assessment {
 				),
 			};
 		}
+
+		// Gets functions used to create feedback strings for the 'okay' and 'bad' assessment scores.
+		const feedbackTexts = this.getFeedbackTexts();
+		const firstSentence = feedbackTexts.firstSentence( this._config.countTextIn );
+
 		if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMaximum + 1, this._boundaries.acceptableMaximum + 1 ) ) {
 			return {
 				score: this._config.scores.okay,
-				resultText: sprintf(
-					/* translators:
-					%1$d expands to the number of words / characters in the keyphrase,
-					%2$d expands to the recommended maximum of words / characters in the keyphrase,
-					%3$s and %4$s expand to links on yoast.com,
-					%5$s expands to the anchor end tag,
-					%6$s expands to the word 'words' or 'characters' or 'content words'. */
-					__(
-						"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's more than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
-						"wordpress-seo"
-					),
-					this._keyphraseLengthData.keyphraseLength,
-					this._boundaries.recommendedMaximum,
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>",
-					this._config.countTextIn.plural
-				),
+				resultText: feedbackTexts.moreThanMinimum( this._config.countTextIn, firstSentence ),
 			};
 		}
 
 		return {
 			score: this._config.scores.bad,
-			resultText: sprintf(
-				/* translators:
-				%1$d expands to the number of words / characters in the keyphrase,
-				%2$d expands to the recommended maximum of words / characters in the keyphrase,
-				%3$s and %4$s expand to links on yoast.com,
-				%5$s expands to the anchor end tag,
-				%6$s expands to the word 'words' or 'characters' or 'content words'. */
-				__(
-					"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's way more than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
-					"wordpress-seo"
-				),
-				this._keyphraseLengthData.keyphraseLength,
-				this._boundaries.recommendedMaximum,
-				this._config.urlTitle,
-				this._config.urlCallToAction,
-				"</a>",
-				this._config.countTextIn.plural
-			),
+			resultText: feedbackTexts.wayMoreThanMinimum( this._config.countTextIn, firstSentence ),
 		};
 	}
 }
-
-export default KeyphraseLengthAssessment;

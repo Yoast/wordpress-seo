@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Search_Console;
 
 use Mockery;
 use WP_Error;
+use WP_REST_Response;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Unexpected_Response_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
@@ -28,16 +29,17 @@ final class Search_Console_Adapter_Validate_Response_Test extends Abstract_Searc
 	 * @return void
 	 */
 	public function test_validate_response_unexpected_response_not_array() {
-		self::$search_console_module = Mockery::mock( Search_Console_Module_Mock::class );
-		$this->instance->set_search_console_module( self::$search_console_module );
 
 		$request_parameters = $this->create_search_console_parameters();
 
 		$expected_message = 'The response from Google Site Kit did not have an expected format.';
 
-		self::$search_console_module->expects( 'get_data' )
-			->once()
-			->andReturn( 'not an array' );
+		$api_response_mock = Mockery::mock( WP_REST_Response::class );
+		$api_response_mock->expects( 'get_data' )->once()->andReturn( 'not an array' );
+		$api_response_mock->expects( 'is_error' )->once()->andReturnFalse();
+
+		$this->search_console_api_call_mock->expects( 'do_request' )
+			->andReturn( $api_response_mock );
 
 		$this->expectException( Unexpected_Response_Exception::class );
 		$this->expectExceptionMessage( $expected_message );
@@ -51,8 +53,6 @@ final class Search_Console_Adapter_Validate_Response_Test extends Abstract_Searc
 	 * @return void
 	 */
 	public function test_validate_response_failed_request() {
-		self::$search_console_module = Mockery::mock( Search_Console_Module_Mock::class );
-		$this->instance->set_search_console_module( self::$search_console_module );
 
 		$request_parameters = $this->create_search_console_parameters();
 
@@ -64,9 +64,13 @@ final class Search_Console_Adapter_Validate_Response_Test extends Abstract_Searc
 			]
 		);
 
-		self::$search_console_module->expects( 'get_data' )
-			->once()
-			->andReturn( $error_response );
+		$api_response_mock = Mockery::mock( WP_REST_Response::class );
+		$api_response_mock->expects( 'get_data' )->once()->andReturn( 'not an array' );
+		$api_response_mock->expects( 'is_error' )->once()->andReturnTrue();
+		$api_response_mock->expects( 'as_error' )->once()->andReturn( $error_response );
+
+		$this->search_console_api_call_mock->expects( 'do_request' )
+			->andReturn( $api_response_mock );
 
 		$this->expectException( Failed_Request_Exception::class );
 		$this->expectExceptionMessage( 'this is an error' );

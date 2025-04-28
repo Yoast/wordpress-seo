@@ -120,8 +120,7 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify5' target='_blank'>Consecutive sentences</a>: There is enough " +
-			"variety in your sentences. That's great!",
+		resultText: "<a href='https://yoa.st/shopify5' target='_blank'>Consecutive sentences</a>: There are no repetitive sentence beginnings. That's great!",
 	},
 	wordComplexity: {
 		isApplicable: true,

@@ -694,6 +694,7 @@ class Indexable_Cleanup_Repository {
 			FROM {$indexable_table} JOIN {$posts_table} on {$indexable_table}.object_id = {$posts_table}.id
 			WHERE object_type='post'
 			AND {$indexable_table}.author_id <> {$posts_table}.post_author
+			GROUP BY {$indexable_table}.author_id, {$posts_table}.post_author
 			ORDER BY {$indexable_table}.author_id
 			LIMIT %d",
 			$limit

@@ -279,7 +279,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 2) Outbound links
 **What it does**: Checks if outbound links are present and followed.
 
-**When it applies**: If there is a text.
+**When it applies**: Always.
 
 **Name in code**: OutboundLinksAssessment
 
@@ -287,17 +287,17 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Call to action URL**: [https://yoa.st/34g](https://yoast.com/outbound-links/#utm_source=yoast-seo&utm_medium=software&utm_term=outbound-links-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	      | Score	     | Criterion | Feedback |
-|------------	|------------------	|---------------------	|---------------	|
-| Red	| 3	| No links		| **Outbound links**: No outbound links appear in this page. **Add some!** |
-| Orange	| 7	| All links are no-followed		|  **Outbound links**: All outbound links on this page are nofollowed. **Add some normal links.** |
-| Green	| 8	| There are both followed and no-followed links		| **Outbound links**: There are both nofollowed and normal outbound links on this page. Good job! |
-| Green	| 9	| All links are followed		| **Outbound links**: Good job! |
+| Traffic light | Score | Criterion                                     | Feedback                                                                                        |
+|---------------|-------|-----------------------------------------------|-------------------------------------------------------------------------------------------------|
+| Red           | 3     | No links                                      | **Outbound links**: No outbound links appear in this page. **Add some!**                        |
+| Orange        | 7     | All links are no-followed                     | **Outbound links**: All outbound links on this page are nofollowed. **Add some normal links.**  |
+| Green         | 8     | There are both followed and no-followed links | **Outbound links**: There are both nofollowed and normal outbound links on this page. Good job! |
+| Green         | 9     | All links are followed                        | **Outbound links**: Good job!                                                                   |
 
 ### 3) Internal links
 **What it does**: Checks if internal links are present and followed.
 
-**When it applies**: If there is a text.
+**When it applies**: Always.
 
 **Name in code**: InternalLinksAssessment
 
@@ -305,12 +305,12 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Call to action URL**: [https://yoa.st/34a](https://yoast.com/internal-linking-for-seo-why-and-how/#utm_source=yoast-seo&utm_medium=software&utm_term=internal-links-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	      | Score	     | Criterion | Feedback |
-|------------	|------------------	|---------------------	|---------------	|
-| Red	| 3	| No internal links		| **Internal links**: No internal links appear in this page, **make sure to add some!** |
-| Orange	| 7	| Only no-followed internal links		| **Internal links**: The internal links in this page are all nofollowed. **Add some good internal links.** |
-| Green	| 8	| There are both followed and no-followed internal links		| **Internal links**: There are both nofollowed and normal internal links on this page. Good job! |
-| Green	| 9	| All internal links are followed		| **Internal links**: You have enough internal links. Good job! |
+| Traffic light | Score | Criterion                                              | Feedback                                                                                                  |
+|---------------|-------|--------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| Red           | 3     | No internal links                                      | **Internal links**: No internal links appear in this page, **make sure to add some!**                     |
+| Orange        | 7     | Only no-followed internal links                        | **Internal links**: The internal links in this page are all nofollowed. **Add some good internal links.** |
+| Green         | 8     | There are both followed and no-followed internal links | **Internal links**: There are both nofollowed and normal internal links on this page. Good job!           |
+| Green         | 9     | All internal links are followed                        | **Internal links**: You have enough internal links. Good job!                                             |
 
 ### 4) SEO Title width
 **What it does**: Checks if the SEO title has a good length. Note that this assessment checks the SEO title as it appears in the snippet preview. Therefore, it also takes into account the content from replacement variables. However, we exclude the separator and the site title replacement variables from the calculation.
@@ -380,7 +380,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 8) Images
 **What it does**: Checks the presence of images in the text.
 
-**When it applies**: If there is a text with at least one image present.
+**When it applies**: Always.
 
 **Name in code**: ImageCountAssessment
 
@@ -388,10 +388,10 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Call to action URL**: [https://yoa.st/4f5](https://yoast.com/using-images-in-your-blog-post/#utm_source=yoast-seo&utm_medium=software&utm_term=images-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	      | Score	     | Criterion | Feedback |
-|------------	|------------------	|---------------------	|---------------	|
-| Red	| 3	| No images		| **Images**: No images appear on this page. **Add some!** |
-| Green	| 9	| There are at least 1 image		| **Images**: Good job! |
+| Traffic light | Score | Criterion                  | Feedback                                                 |
+|---------------|-------|----------------------------|----------------------------------------------------------|
+| Red           | 3     | No images                  | **Images**: No images appear on this page. **Add some!** |
+| Green         | 9     | There are at least 1 image | **Images**: Good job!                                    |
 
 ### 9) Title (only in Premium)
 **What it does**: Checks for the presence of a title.

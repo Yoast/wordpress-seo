@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.8
 Stable tag: 24.9
-Requires PHP: 7.2.5
+Requires PHP: 7.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -274,6 +274,23 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 25.0 =
+
+Release date: 2025-04-29
+
+Yoast SEO 25.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
+#### Enhancements
+
+* Optimizes the `wp yoast cleanup` CLI command  `update_indexables_author_to_reassigned` step, which can become very slow for very large data sets. Props to [eddiesshop](https://github.com/eddiesshop).
+* Improves the feedback texts for the _passive voice_ and _consecutive sentences_ assessments in case there is nothing to report.
+* Makes the _images_, _internal links_, and _external links_ assessments available when no content has been added.
+
+#### Other
+
+* Drops compatibility with PHP 7.2 and 7.3.
+* Improves the translatability of feedback strings for the keyphrase length assessment.
+
 = 24.9 =
 
 Release date: 2025-04-15
@@ -285,7 +302,6 @@ Yoast SEO 24.9 brings more enhancements and bugfixes. [Find more information abo
 * Changes the applicability criteria of readability assessments so that they are shown even if there is little or no text.
 * Improves the recognition of transition words for Farsi.
 * Introduces more robust HTML processing and highlighting for the _consecutive sentences_ assessment.
-* Improves recognition of function words for Farsi. Props to [nshayanfar](https://github.com/nshayanfar).
 
 #### Bugfixes
 
@@ -293,36 +309,12 @@ Yoast SEO 24.9 brings more enhancements and bugfixes. [Find more information abo
 * Fixes a bug where the advanced replacement variables would not be visible when editing social previews in Elementor.
 * Fixes a bug where the content image would not show on social previews when editing it in Elementor.
 * Fixes a bug where Yoast modals would not be visible when using Astra plugins.
-* Fixes a bug where function words with spaces were not recognised in Farsi. 
 
 #### Other
 
 * Adds a space before the closing slash in self-closing HTML tags to comply with recommended coding standards. Props to [laxman1192](https://github.com/laxman1192).
 * Sets the _WordPress tested up to_ version to 6.8.
 * Updates the Google AI bot name in the _crawl optimization_ settings from _Google Bard_ to _Google Gemini_.
-
-= 24.8.1 =
-
-Release date: 2025-04-02
-
-#### Bugfixes
-
-* Fixes a potential fatal error on the dashboard page.
-
-= 24.8 =
-
-Release date: 2025-04-01
-
-Yoast SEO 24.8 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Adds _pregnant women_ to the potentially non-inclusive phrases targeted by the inclusive language analysis.
-* Improves the inclusive language analysis feedback for the potentially non-inclusive word _exotic_, and prevents the feedback from appearing when _exotic_ is followed by words common in scientific contexts.
-
-#### Other
-
-* Removes the Yoast AI Optimize modals from the Yoast admin pages.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

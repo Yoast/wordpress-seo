@@ -37,14 +37,14 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "couch", count: 1 } ] ) );
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
-			"There is enough variety in your sentences. That's great!" );
+			"There are no repetitive sentence beginnings. That's great!" );
 	} );
 
 	it( "returns a good score when there are no words in the text.", function() {
 		const assessment = new SentenceBeginningsAssessment().getResult( paper, Factory.buildMockResearcher( [] ) );
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
-			"There is enough variety in your sentences. That's great!" );
+			"There are no repetitive sentence beginnings. That's great!" );
 	} );
 
 	it( "is applicable when the researcher that has the getSentenceBeginnings research.", function() {

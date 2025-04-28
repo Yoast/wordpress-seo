@@ -54,6 +54,7 @@ export class MockDataProvider extends DataProvider {
 				siteKitConsentManagement: "https://example.com/site-kit-consent-management",
 				siteKitConfigurationDismissal: "https://example.com/site-kit-configuration-dismissal",
 				timeBasedSeoMetrics: "https://example.com/time-based-seo-metrics",
+				setupStepsTracking: "https://example.com/setup-steps-tracking",
 			},
 			headers: {
 				"X-Wp-Nonce": "123",
