@@ -14,10 +14,5 @@ export default class CollectionCornerstoneRelatedKeywordAssessor extends Collect
 	constructor( researcher, options ) {
 		super( researcher, options );
 		this.type = "collectionRelatedKeywordAssessor";
-
-		this.addAssessment( "metaDescriptionKeyword", new MetaDescriptionKeywordAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
-		} ) );
 	}
 }

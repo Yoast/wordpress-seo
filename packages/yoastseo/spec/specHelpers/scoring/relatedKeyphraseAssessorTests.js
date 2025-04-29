@@ -22,7 +22,12 @@ export function checkAssessmentAvailability( assessor ) {
 		assessor.assess( new Paper( "", { keyword: "a" } ) );
 		const assessments = getResults( assessor.getValidResults() );
 
-		expect( assessments ).toContain( "functionWordsInKeyphrase" );
+		expect( assessments ).toEqual( [
+			"introductionKeyword",
+			"keyphraseLength",
+			"metaDescriptionKeyword",
+			"functionWordsInKeyphrase",
+		] );
 	} );
 
 	it( "additionally runs assessments that require a text of at least 100 words and a keyword", function() {
