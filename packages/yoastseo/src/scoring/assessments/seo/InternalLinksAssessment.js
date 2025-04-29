@@ -2,25 +2,31 @@ import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
 
 import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
+
+/**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../languageProcessing/researches/getLinkStatistics").LinkStatistics} LinkStatistics
+ * @typedef {import("../../../values/").Paper } Paper
+ */
 
 /**
  * Assessment to check whether the text has internal links and whether they are followed or no-followed.
  */
-class InternalLinksAssessment extends Assessment {
+export default class InternalLinksAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
+	 * @param {Object} [config.parameters] The parameters to use.
 	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum number of internal links in the text.
+	 * @param {Object} [config.scores] The scores to use.
 	 * @param {number} [config.scores.allInternalFollow] The score to return if all internal links are do-follow.
 	 * @param {number} [config.scores.someInternalFollow] The score to return if some but not all internal links are do-follow.
 	 * @param {number} [config.scores.noneInternalFollow] The score to return if all internal links are no-follow.
 	 * @param {number} [config.scores.noInternal] The score to return if there are no internal links.
 	 * @param {string} [config.url] The URL to the relevant KB article.
-	 *
-	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
@@ -63,20 +69,9 @@ class InternalLinksAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks if assessment is applicable to the paper.
-	 *
-	 * @param {Paper} paper The paper to be analyzed.
-	 *
-	 * @returns {boolean} Whether the paper has text.
-	 */
-	isApplicable( paper ) {
-		return paper.hasText();
-	}
-
-	/**
 	 * Returns a score and text based on the linkStatistics object.
 	 *
-	 * @returns {Object} ResultObject with score and text
+	 * @returns {{score: number, resultText: string}} ResultObject with score and text
 	 */
 	calculateResult() {
 		if ( this.linkStatistics.internalTotal === 0 ) {
@@ -136,5 +131,3 @@ class InternalLinksAssessment extends Assessment {
 		};
 	}
 }
-
-export default InternalLinksAssessment;

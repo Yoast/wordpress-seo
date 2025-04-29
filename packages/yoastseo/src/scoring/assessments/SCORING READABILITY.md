@@ -53,11 +53,11 @@ Below is a detailed overview of how scores for the readability assessments are c
 
 **Call to action URL**: [https://yoa.st/35e](https://yoast.com/paragraph-length-check/#utm_source=yoast-seo&utm_medium=software&utm_term=paragraph-length-cta&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light 	 | Score	| Criterion | Feedback                                                                                                                     |
-|------------|------------------	|--------------------- |------------------------------------------------------------------------------------------------------------------------------|
-| Red        |3	                |> 200 words	   	          | **Paragraph length**: X of the paragraphs contain more than the recommended maximum of X words. **Shorten your paragraphs!** |
-| Orange     |6                 |Between 150 and 200 words    | **Paragraph length**: X of the paragraphs contain more than the recommended maximum of X words. **Shorten your paragraphs!** |
-| Green      |9                 |≤ 150 words	              | **Paragraph length**: There are no paragraphs that are too long. Great job!                                                  |
+| Traffic light 	 | Score	| Criterion | Feedback                                                                                                                                 |
+|------------|------------------	|--------------------- |------------------------------------------------------------------------------------------------------------------------------------------|
+| Red        |3	                |> 200 words	   	          | **Paragraph length**: X of the paragraphs contain(s) more than the recommended maximum number of words (X). **Shorten your paragraphs!** |
+| Orange     |6                 |Between 150 and 200 words    | **Paragraph length**: X of the paragraphs contain(s) more than the recommended maximum number of words (X). **Shorten your paragraphs!** |
+| Green      |9                 |≤ 150 words	              | **Paragraph length**: There are no paragraphs that are too long. Great job!                                                              |
 
 ### 3) Sentence length
 **What it does**: Checks whether the sentences exceed the recommended maximum length (default: 20 words, IT: 25 words, RU: 15 words, HE: 15 words, TR: 15 words).
@@ -87,10 +87,10 @@ Below is a detailed overview of how scores for the readability assessments are c
 
 **Call to action URL**: [https://yoa.st/35g](https://yoast.com/consecutive-sentences-check-yoast-seo/#utm_source=yoast-seo&utm_medium=software&utm_term=sentence-beginnings-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-|Traffic light	|Score|	Criterion	|Feedback|
-|------------------  |------------------	|--------------------- |--------------------- |
-|Red	|3 |3 or more consecutive sentences start with the same word	|**Consecutive sentences**: the text contains X consecutive sentences starting with the same word. **Try to mix things up!**|
-|Green	|9 |Less than 3 consecutive sentences start with the same word	|**Consecutive sentences**: there is enough variety in your sentences. That's great!|
+| Traffic light | Score | Criterion                                                  | Feedback                                                                                                                    |
+|---------------|-------|------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| Red           | 3     | 3 or more consecutive sentences start with the same word   | **Consecutive sentences**: The text contains X consecutive sentences starting with the same word. **Try to mix things up!** |
+| Green         | 9     | Less than 3 consecutive sentences start with the same word | **Consecutive sentences**: There are no repetitive sentence beginnings. That's great!                                       |
 
 ### 5) Passive voice
 **What it does**: Checks whether the number of sentences containing passive voice exceeds the recommended maximum amount.
@@ -103,11 +103,11 @@ Below is a detailed overview of how scores for the readability assessments are c
 
 **Call to action URL**: [https://yoa.st/34u](https://yoast.com/the-passive-voice-what-is-it-and-how-to-avoid-it/#utm_source=yoast-seo&utm_medium=software&utm_term=passive-voice-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-|Traffic light	|Score |	Criterion|	Feedback|
-|-------|------	|----- |------- |
-|Red	|3	|> 15% of sentences              |**Passive voice**: X of the sentences contain passive voice, which is more than the recommended maximum of X. **Try to use their active counterparts**. |
-|Orange	|6	|Between 10 and 15% of sentences |**Passive voice**: X of the sentences contain passive voice, which is more than the recommended maximum of X. **Try to use their active counterparts**.|
-|Green	|9	|≤ 10% of sentences              |**Passive voice**: you're using enough active voice. That's great!|
+| Traffic light | Score | Criterion                       | Feedback                                                                                                                                                |
+|---------------|-------|---------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red           | 3     | > 15% of sentences              | **Passive voice**: X of the sentences contain passive voice, which is more than the recommended maximum of X. **Try to use their active counterparts**. |
+| Orange        | 6     | Between 10 and 15% of sentences | **Passive voice**: X of the sentences contain passive voice, which is more than the recommended maximum of X. **Try to use their active counterparts**. |
+| Green         | 9     | ≤ 10% of sentences              | **Passive voice**: You are not using too much passive voice. That's great!                                                                              |
 
 ### 6) Transition words
 **What it does**: Checks whether there are enough sentences containing transition words.

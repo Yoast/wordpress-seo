@@ -3,21 +3,30 @@ import getAnchors from "../helpers/link/getAnchorsFromText.js";
 import getLinkType from "../helpers/link/getLinkType.js";
 
 /**
+ * @typedef {import("../../values/").Paper } Paper
+ */
+
+/**
+ * @typedef LinkStatistics
+ * @type {object}
+ * @property {number} total The total number of links found.
+ * @property {number} internalTotal The total number of links that are internal.
+ * @property {number} internalDofollow The internal links without a nofollow attribute.
+ * @property {number} internalNofollow The internal links with a nofollow attribute.
+ * @property {number} externalTotal The total number of links that are external.
+ * @property {number} externalDofollow The external links without a nofollow attribute.
+ * @property {number} externalNofollow The external links with a nofollow attribute.
+ * @property {number} otherTotal All links that are not HTTP or HTTPS.
+ * @property {number} otherDofollow Other links without a nofollow attribute.
+ * @property {number} otherNofollow Other links with a nofollow attribute.
+ */
+
+/**
  * Counts the links found in the text.
  *
  * @param {Paper} paper The paper object containing text, keyword and url.
  *
- * @returns {object} The object containing all linktypes.
- * total: the total number of links found.
- * internalTotal: the total number of links that are internal.
- * internalDofollow: the internal links without a nofollow attribute.
- * internalNofollow: the internal links with a nofollow attribute.
- * externalTotal: the total number of links that are external.
- * externalDofollow: the external links without a nofollow attribute.
- * externalNofollow: the internal links with a dofollow attribute.
- * otherTotal: all links that are not HTTP or HTTPS.
- * otherDofollow: other links without a nofollow attribute.
- * otherNofollow: other links with a nofollow attribute.
+ * @returns {LinkStatistics} The object containing all link types.
  */
 export default function( paper ) {
 	const anchors = getAnchors( paper.getText() );
