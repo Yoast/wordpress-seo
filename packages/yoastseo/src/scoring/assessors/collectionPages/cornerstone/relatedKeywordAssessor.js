@@ -1,6 +1,4 @@
 import CollectionRelatedKeywordAssessor from "../relatedKeywordAssessor.js";
-import MetaDescriptionKeywordAssessment from "../../../assessments/seo/MetaDescriptionKeywordAssessment.js";
-import { createAnchorOpeningTag } from "../../../../helpers";
 
 /**
  * The CollectionCornerstoneRelatedKeywordAssessor class is used for the related keyword analysis for cornerstone collections.
