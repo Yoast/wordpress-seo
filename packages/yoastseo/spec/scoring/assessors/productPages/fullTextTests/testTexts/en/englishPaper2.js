@@ -126,7 +126,7 @@ const expectedResults = {
 	imageAltTags: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt tags</a>: None of the images has alt attributes. " +
+		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt attributes</a>: None of the images have alt attributes. " +
 			"<a href='https://yoa.st/shopify41' target='_blank'>Add alt attributes to your images</a>!",
 	},
 	keyphraseDistribution: {
