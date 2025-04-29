@@ -41,7 +41,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 	// 1. defaultAssessments - Assessments that are available in (almost) all assessors, as they don't require any specific attributes on the Paper.
 	// 2. keyphraseRequiredAssessments - The assessments that additionally require a keyword attribute on the Paper.
 
-	let defaultAssessments = [ "keyphraseLength", "metaDescriptionLength", "titleWidth", "textLength" ];
+	let defaultAssessments = [ "keyphraseLength", "metaDescriptionLength", "titleWidth", "textLength", "imageKeyphrase" ];
 	if ( isStoreBlog ) {
 		defaultAssessments.pop();
 	}
@@ -49,6 +49,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 	let extraDefaultAssessments = [ "images", "externalLinks", "internalLinks" ];
 	if ( isCollection || isStoreBlog || isTaxonomy ) {
 		extraDefaultAssessments = [];
+		defaultAssessments.pop();
 	}
 	if ( isProduct ) {
 		extraDefaultAssessments = [ "images" ];
