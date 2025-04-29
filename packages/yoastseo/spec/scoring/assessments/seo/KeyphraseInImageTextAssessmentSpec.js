@@ -1,8 +1,8 @@
 import KeyphraseInImagesAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../../src/helpers/factory.js";
-import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import buildTree from "../../../specHelpers/parse/buildTree";
 // import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";   // Variable is used in language specific test (and thus removed)
 
 const keyphraseInImagesAssessment = new KeyphraseInImagesAssessment();
@@ -10,45 +10,69 @@ const keyphraseInImagesAssessment = new KeyphraseInImagesAssessment();
 describe( "An image count assessment", function() {
 	it( "should show feedback for a page without a text", function() {
 		const paper = new Paper( "" );
-		const researcher = Factory.buildMockResearcher( {} );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
 		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>:  This page does not have images, a keyphrase, or both. " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: This page does not have images, a keyphrase, or both. " +
 			"<a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
 	} );
 
 	it( "should show feedback for a page without a text and keyphrase", function() {
 		const paper = new Paper( "", { keyword: "" } );
-		const researcher = Factory.buildMockResearcher( {} );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+
 		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>:  This page does not have images, a keyphrase, or both. " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: This page does not have images, a keyphrase, or both. " +
+			"<a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
+	} );
+
+	it( "should show feedback for a page with a text and without a keyphrase", function() {
+		const paper = new Paper( "These are just five words.", { keyword: "" } );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+
+		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: This page does not have images, a keyphrase, or both. " +
 			"<a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
 	} );
 
 	it( "should show feedback for a page with a keyphrase and without a text", function() {
-		const paper = new Paper( "These are just five words.", { keyword: "" } );
-		const researcher = Factory.buildMockResearcher( {} );
+		const paper = new Paper( "", { keyword: "keyword" } );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+
 		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>:  This page does not have images, a keyphrase, or both. " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: This page does not have images, a keyphrase, or both. " +
+			"<a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
+	} );
+
+	it( "should show feedback for a page without a keyphrase and with an image without alt tag", function() {
+		const paper = new Paper( "These are just five words <img src='image.jpg' alt='' />", { keyword: "" } );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+
+		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: This page does not have images, a keyphrase, or both. " +
 			"<a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
 	} );
 
 	it( "assesses a single image, without a keyword, but with an alt-tag set", function() {
-		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='image' />" );
+		const paper = new Paper( "These are just five words <img src='image.jpg' alt='image' />" );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
 
-		const assessment = keyphraseInImagesAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
-			imageCount: 1,
-			altTagCount: {
-				withAlt: 1,
-				withAltKeyword: 0,
-				withAltNonKeyword: 0,
-			},
-		}, true ) );
+		const assessment = keyphraseInImagesAssessment.getResult( paper, researcher );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
@@ -347,21 +371,21 @@ describe( "An image count assessment", function() {
 } );
 
 describe( "tests for the assessment applicability.", function() {
-	it( "returns false when the paper is empty.", function() {
+	it( "returns true even when the paper is empty.", function() {
 		const paper = new Paper( "" );
 		expect( keyphraseInImagesAssessment.isApplicable( paper, Factory.buildMockResearcher( {
 			imageCount: 0,
-		}, true ) ) ).toBe( false );
+		}, false ) ) ).toBe( true );
 	} );
 
-	it( "returns false when the paper is not empty but there is no image present.", function() {
+	it( "returns true when the paper is not empty but there is no image present.", function() {
 		const paper = new Paper( "sample keyword", {
 			slug: "sample-with-keyword",
 			keyword: "kéyword",
 		} );
 		expect( keyphraseInImagesAssessment.isApplicable( paper, Factory.buildMockResearcher( {
 			imageCount: 0,
-		}, true ) ) ).toBe( false );
+		}, false ) ) ).toBe( true );
 	} );
 
 	it( "returns true when the paper is not empty and there is an image present.", function() {

@@ -114,35 +114,38 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 	calculateResult( paper  ) {
 		// No images added or no keyphrase set
 		if ( ! paper.hasKeyword() || this.imageCount === 0  ) {
-			return {
-				score: this._config.scores.noImagesOrKeyphrase,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					__(
-						"%1$sImage Keyphrase%3$s: This page does not have images, a keyphrase, or both. %2$sAdd some images with alt attributes that include the keyphrase or synonyms%3$s!",
-						"wordpress-seo"
+			// Has alt-tags, but no keyword is set.
+			if ( this.altProperties.withAlt > 0 ) {
+				return {
+					score: this._config.scores.withAlt,
+					resultText: sprintf(
+						/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+						__(
+							"%1$sImage Keyphrase%3$s: Images on this page have alt attributes, but you have not set your keyphrase. %2$sFix that%3$s!",
+							"wordpress-seo"
+						),
+						this._config.urlTitle,
+						this._config.urlCallToAction,
+						"</a>"
 					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
-			};
-		}
-		// Has alt-tags, but no keyword is set.
-		if ( this.altProperties.withAlt > 0 ) {
-			return {
-				score: this._config.scores.withAlt,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					__(
-						"%1$sImage Keyphrase%3$s: Images on this page have alt attributes, but you have not set your keyphrase. %2$sFix that%3$s!",
-						"wordpress-seo"
+				};
+			}
+			// No images and/or no keyphrase set.
+			if ( this.imageCount === 0 ) {
+				return {
+					score: this._config.scores.noImagesOrKeyphrase,
+					resultText: sprintf(
+						/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+						__(
+							"%1$sImage Keyphrase%3$s: This page does not have images, a keyphrase, or both. %2$sAdd some images with alt attributes that include the keyphrase or synonyms%3$s!",
+							"wordpress-seo"
+						),
+						this._config.urlTitle,
+						this._config.urlCallToAction,
+						"</a>"
 					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
-			};
+				};
+			}
 		}
 
 		// Has alt-tags, but no keywords while a keyword is set.
