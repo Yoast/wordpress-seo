@@ -5,15 +5,15 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
- * Represents the assessment that checks if all images have alt tags (only applicable for product pages).
+ * Represents the assessment that checks if all images have alt attributes (only applicable for product pages).
  */
 export default class ImageAltTagsAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
 	 * @param {object}  config      The configuration to use.
-	 * @param {number}  [config.scores.bad]   The score to return if not all images have alt tags.
-	 * @param {number}  [config.scores.good]  The score to return if all images have alt tags.
+	 * @param {number}  [config.scores.bad]   The score to return if not all images have alt attributes.
+	 * @param {number}  [config.scores.good]  The score to return if all images have alt attributes.
 	 * @param {string}  [config.urlTitle]     The URL to the article about this assessment.
 	 * @param {string}  [config.urlCallToAction]  The URL to the help article for this assessment.
 	 * @param {object} [config.callbacks] The callbacks to use for the assessment.
@@ -50,7 +50,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 		this.altTagsProperties = researcher.getResearch( "altTagCount" );
 		this.imageCount = researcher.getResearch( "imageCount" );
 
-		const calculatedScore = this.calculateResult();
+		const calculatedScore = this.calculateResult( paper );
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedScore.score );
@@ -62,23 +62,25 @@ export default class ImageAltTagsAssessment extends Assessment {
 	/**
 	 * Calculates the result based on the availability of images in the text.
 	 *
+	 * @param {Paper}       paper       The Paper object to assess.
+	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult() {
-		// The number of images with no alt tags.
+	calculateResult( paper ) {
+		// The number of images with no alt attributes.
 		const imagesNoAlt = this.altTagsProperties.noAlt;
-		const { good: goodResultText,  noneHaveImagesBad, noneHasAltBad, someHaveAltBad } = this.getFeedbackStrings();
+		const { good: goodResultText,  noImagesBad, noneHasAltBad, someHaveAltBad } = this.getFeedbackStrings();
 
-		// There are no images
-		if ( this.imageCount === 0 ) {
+		// There are no images or no text
+		if ( paper.hasKeyword( "" ) || this.imageCount === 0 ) {
 			return {
 				score: this._config.scores.bad,
-				resultText: noneHaveImagesBad,
+				resultText: noImagesBad,
 			};
 		}
 
 
-		// None of the images has alt tags.
+		// None of the images has alt attributes.
 		if ( imagesNoAlt === this.imageCount ) {
 			return {
 				score: this._config.scores.bad,
@@ -86,7 +88,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 			};
 		}
 
-		// Not all images have alt tags.
+		// Not all images have alt attributes.
 		if ( imagesNoAlt > 0 ) {
 			return {
 				score: this._config.scores.bad,
@@ -94,7 +96,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 			};
 		}
 
-		// All images have alt tags.
+		// All images have alt attributes.
 		return {
 			score: this._config.scores.good,
 			resultText: goodResultText,
@@ -106,11 +108,11 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
 	 * This callback function should return an object with the following properties:
 	 * - good: string
-	 * - noneHaveImagesBad: string
+	 * - noImagesBad: string
 	 * - noneHasAltBad: string
 	 * - someHaveAltBad: string
 	 *
-	 * @returns {{good: string, noneHaveImagesBad: string, noneHasAltBad: string, someHaveAltBad: string}} The feedback strings.
+	 * @returns {{good: string, noImagesBad: string, noneHasAltBad: string, someHaveAltBad: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
 		// `urlTitleAnchorOpeningTag` represents the anchor opening tag with the URL to the article about this assessment.
@@ -122,15 +124,16 @@ export default class ImageAltTagsAssessment extends Assessment {
 
 		if ( ! this._config.callbacks.getResultTexts ) {
 			const defaultResultTexts = {
-				good: "%1$sImage alt tags%3$s: All images have alt attributes. Good job!",
-				noneHasAltBad: "%1$sImage alt tags%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
-				someHaveAltBad: "%1$sImage alt tags%3$s: Some images don't have alt attributes. %2$sAdd alt attributes to your images%3$s!",
+				good: "%1$sImage alt attributes%3$s: All images have alt attributes. Good job!",
+				noneHasAltBad: "%1$sImage alt attributes%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
+				noImagesBad: "%1$sImage alt attributes%3$s: This page does not have images with alt attributes. %2$sAdd some%3$s!",
+				someHaveAltBad: "%1$sImage alt attributes%3$s: Some images don't have alt attributes. %2$sAdd alt attributes to your images%3$s!",
 			};
 			if (  this.imageCount === 0 ) {
-				defaultResultTexts.noneHaveImagesBad = "%1$sImage alt attributes%3$s: This page does not have images with alt attributes. %2$sAdd some%3$s!";
+				defaultResultTexts.noImagesBad = "%1$sImage alt attributes%3$s: This page does not have images with alt attributes. %2$sAdd some%3$s!";
 			}
 			if ( numberOfImagesWithoutAlt === 1 ) {
-				defaultResultTexts.someHaveAltBad = "%1$sImage alt tags%3$s: One image doesn't have alt attributes. %2$sAdd alt attributes to your images%3$s!";
+				defaultResultTexts.someHaveAltBad = "%1$sImage alt attributes%3$s: One image doesn't have alt attributes. %2$sAdd alt attributes to your images%3$s!";
 			}
 			return mapValues(
 				defaultResultTexts,

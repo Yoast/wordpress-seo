@@ -57,7 +57,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 		this._minNumberOfKeywordMatches = Math.ceil( this.imageCount * this._config.parameters.lowerBoundary );
 		this._maxNumberOfKeywordMatches = Math.floor( this.imageCount * this._config.parameters.upperBoundary );
 
-		const calculatedScore = this.calculateResult();
+		const calculatedScore = this.calculateResult( paper );
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedScore.score );
