@@ -17,7 +17,7 @@ describe( "test to check if all images have alt tags", function() {
 		}, true ) );
 
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt attributes</a>: None of the images has alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!" );
+		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt attributes</a>: None of the images have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!" );
 	} );
 
 	it( "shows the assessment when the page is empty", function() {
@@ -45,7 +45,7 @@ describe( "test to check if all images have alt tags", function() {
 			},
 		}, true ) );
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt attributes</a>: None of the images has alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!" );
+		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt attributes</a>: None of the images have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!" );
 	} );
 
 	it( "assesses text with 4 images and 1 of the doesn't have alt tags", function() {
@@ -111,7 +111,7 @@ describe( "tests for retrieving the feedback strings.", function() {
 		expect( assessment.getFeedbackStrings() ).toEqual( {
 			good: "<a href='' target='_blank'>Image alt attributes</a>: All images have alt attributes. Good job!",
 			noImagesBad: "<a href='' target='_blank'>Image alt attributes</a>: This page does not have images with alt attributes. <a href='' target='_blank'>Add some</a>!",
-			noneHasAltBad: "<a href='' target='_blank'>Image alt attributes</a>: None of the images has alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!",
+			noneHasAltBad: "<a href='' target='_blank'>Image alt attributes</a>: None of the images have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!",
 			someHaveAltBad: "<a href='' target='_blank'>Image alt attributes</a>: Some images don't have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!",
 		} );
 	} );
