@@ -274,6 +274,16 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 25.1 =
+
+Release date: 2025-05-13
+
+#### Enhancements
+
+* Adds more phrases regarding disability to the _inclusive language assessment_.
+* Improves the feedback for \"lame\" in the _inclusive language assessment_.
+* Optimizes the function used to fetch post IDs which share the same focus keyphrase. Props to [dilipbheda](https://github.com/dilipbheda).
+
 = 25.0 =
 
 Release date: 2025-04-29
@@ -290,31 +300,6 @@ Yoast SEO 25.0 brings more enhancements and bugfixes. [Find more information abo
 
 * Drops compatibility with PHP 7.2 and 7.3.
 * Improves the translatability of feedback strings for the keyphrase length assessment.
-
-= 24.9 =
-
-Release date: 2025-04-15
-
-Yoast SEO 24.9 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Changes the applicability criteria of readability assessments so that they are shown even if there is little or no text.
-* Improves the recognition of transition words for Farsi.
-* Introduces more robust HTML processing and highlighting for the _consecutive sentences_ assessment.
-
-#### Bugfixes
-
-* Fixes a bug where long sentences would be incorrectly highlighted in _sentence length_ assessment in the default editor when they were part of a block that contained non-breaking spaces or closing tags (`>`).
-* Fixes a bug where the advanced replacement variables would not be visible when editing social previews in Elementor.
-* Fixes a bug where the content image would not show on social previews when editing it in Elementor.
-* Fixes a bug where Yoast modals would not be visible when using Astra plugins.
-
-#### Other
-
-* Adds a space before the closing slash in self-closing HTML tags to comply with recommended coding standards. Props to [laxman1192](https://github.com/laxman1192).
-* Sets the _WordPress tested up to_ version to 6.8.
-* Updates the Google AI bot name in the _crawl optimization_ settings from _Google Bard_ to _Google Gemini_.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
