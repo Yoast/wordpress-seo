@@ -509,6 +509,19 @@ const disabilityAssessments = [
 		ruleDescription: "Targeted when preceded by a form of 'to be' or 'to get' and an optional intensifier.",
 	},
 	{
+		identifier: "to be bananas about",
+		nonInclusivePhrases: [ "bananas about" ],
+		inclusiveAlternatives: "<i>to love, to be obsessed with, to be infatuated with</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: [ "Avoid using <i>to be bananas about</i> as it is potentially harmful.", alternative ].join( " " ),
+		// Target only when preceded by a form of "to be" and an optional intensifier (e.g. "am so bananas about")
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isPrecededByException( words, formsOfToBeWithOptionalIntensifier ) );
+		},
+		ruleDescription: "Targeted when preceded by a form of 'to be' or 'to get' and an optional intensifier.",
+	},
+	{
 		identifier: "crazy in love",
 		nonInclusivePhrases: [ "crazy in love" ],
 		inclusiveAlternatives: "<i>wildly in love, head over heels, infatuated</i>",

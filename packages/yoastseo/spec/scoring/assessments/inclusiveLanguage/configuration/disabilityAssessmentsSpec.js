@@ -990,7 +990,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		];
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should return the appropriate score and feedback string for: the non-negated phrase of 'crazy about' and 'nuts about'", () => {
+	it( "should return the appropriate score and feedback string for: the non-negated phrase of 'crazy about', 'nuts about' and 'bananas about'", () => {
 		const testData = [
 			// The non-negated phrase for 'crazy about' without an intensifier.
 			{
@@ -1006,6 +1006,15 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "to be nuts about",
 				text: "I am so nuts about this album.",
 				expectedFeedback: "Avoid using <i>to be nuts about</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>to love, to be obsessed with, to be infatuated with</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			// The non-negated phrase for 'bananas about' with an intensifier.
+			{
+				identifier: "to be bananas about",
+				text: "I am so bananas about this album.",
+				expectedFeedback: "Avoid using <i>to be bananas about</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>to love, to be obsessed with, to be infatuated with</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
