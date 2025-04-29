@@ -32,7 +32,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 				withAltNonKeyword: 6,
 				withAlt: 6,
 				noAlt: 6,
-				noImagesOrKeyphrase: 6,
+				noImagesOrKeyphrase: 3,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4f7" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4f6" ),
@@ -131,6 +131,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 				};
 			}
 			// No images and/or no keyphrase set.
+			// We give a score of 3 if there are no images or no keyphrase set, the same score for other assessments with the same condition.
 			if ( this.imageCount === 0 ) {
 				return {
 					score: this._config.scores.noImagesOrKeyphrase,
