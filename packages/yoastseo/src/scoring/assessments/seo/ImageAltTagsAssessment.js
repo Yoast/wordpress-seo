@@ -62,7 +62,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 	/**
 	 * Calculates the result based on the availability of images in the text.
 	 *
-	 * @param {Paper}       paper       The Paper object to assess.
+	 * @param {Paper} paper The Paper object to assess.
 	 *
 	 * @returns {Object} The calculated result.
 	 */
@@ -72,13 +72,12 @@ export default class ImageAltTagsAssessment extends Assessment {
 		const { good: goodResultText,  noImagesBad, noneHasAltBad, someHaveAltBad } = this.getFeedbackStrings();
 
 		// There are no images or no text
-		if ( paper.hasKeyword( "" ) || this.imageCount === 0 ) {
+		if ( this.imageCount === 0 || paper.getText().length === 0 ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: noImagesBad,
 			};
 		}
-
 
 		// None of the images has alt attributes.
 		if ( imagesNoAlt === this.imageCount ) {
@@ -125,7 +124,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 		if ( ! this._config.callbacks.getResultTexts ) {
 			const defaultResultTexts = {
 				good: "%1$sImage alt attributes%3$s: All images have alt attributes. Good job!",
-				noneHasAltBad: "%1$sImage alt attributes%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
+				noneHasAltBad: "%1$sImage alt attributes%3$s: None of the images have alt attributes. %2$sAdd alt attributes to your images%3$s!",
 				noImagesBad: "%1$sImage alt attributes%3$s: This page does not have images with alt attributes. %2$sAdd some%3$s!",
 				someHaveAltBad: "%1$sImage alt attributes%3$s: Some images don't have alt attributes. %2$sAdd alt attributes to your images%3$s!",
 			};
