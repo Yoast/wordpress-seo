@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.8
-Stable tag: 24.9
+Stable tag: 25.0
 Requires PHP: 7.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -278,9 +278,11 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-04-29
 
+Yoast SEO 25.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
-* Fixes an issue where running the `wp yoast cleanup` CLI command would hang when it reaches the `update_indexables_author_to_reassigned` step (for very large data sets). Props to [eddiesshop](https://github.com/eddiesshop).
+* Optimizes the `wp yoast cleanup` CLI command  `update_indexables_author_to_reassigned` step, which can become very slow for very large data sets. Props to [eddiesshop](https://github.com/eddiesshop).
 * Improves the feedback texts for the _passive voice_ and _consecutive sentences_ assessments in case there is nothing to report.
 * Makes the _images_, _internal links_, and _external links_ assessments available when no content has been added.
 
