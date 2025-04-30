@@ -47,7 +47,7 @@ export const WithMoreContent = {
 			<>
 				<div className="yst-flex yst-flex-col yst-gap-4">
 					<div className="yst-flex yst-justify-between">
-						<Popover.Title title="Popover title"  id="popover-title" />
+						<Popover.Title title="Popover title" id="popover-title" />
 						<Popover.CloseButton dismissScreenReaderLabel="Dismiss" />
 					</div>
 					<div className="yst-self-start yst-flex-wrap">
@@ -93,7 +93,7 @@ export const ButtonWithAPopover = {
 					{ ...args }
 					isVisible={ isVisible }
 					setIsVisible={ setIsVisible }
-					position={ args.position || "topLeft" }
+					position={ args.position || "right" }
 				/>
 			</div>
 		);
@@ -102,11 +102,13 @@ export const ButtonWithAPopover = {
 		controls: { disable: false },
 	},
 	args: {
+		backdrop: true,
 		children: (
 			<>
 				<div className="yst-flex yst-gap-4">
 					<div className="yst-flex-shrink-0">
 						<ValidationIcon className="yst-w-5 yst-h-5" />
+						<span className="yst-logo-icon" aria-label="Yoast Logo" role="img" />
 					</div>
 					<div className="yst-flex-1">
 						<div className="yst-mb-5 yst-flex yst-justify-start">
@@ -126,7 +128,7 @@ export const ButtonWithAPopover = {
 					</div>
 				</div>
 				<div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
-					{ /* <DismissButton /> */ }
+					<DismissButton />
 				</div>
 			</>
 		),

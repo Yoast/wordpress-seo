@@ -1,10 +1,16 @@
+body[backdrop-active] * {/* Disable interaction with background elements when backdrop is active */
+	pointer-events: none;
+
+}
+
 @layer components {
 	.yst-root {
 
 		.yst-close-button-wrapper {
 			@apply
 			yst-flex-shrink-0
-			yst-flex yst-self-start;
+			yst-flex
+			yst-self-start;
 
 			& button {
 				@apply
@@ -21,16 +27,20 @@
 
 		.yst-popover-title {
 			@apply
-			yst-text-sm yst-font-medium
-			yst-text-slate-800;
+			yst-text-sm
+			yst-font-medium
+			yst-text-slate-800
+			rtl:yst-text-right;
 		}
 
 		.yst-popover-backdrop {
-			@apply yst-fixed
+			@apply
+			yst-fixed
 			yst-inset-0
-			yst-bg-black/5
-			yst-z-10
-			yst-pointer-events-none;
+			yst-bg-slate-500
+			yst-bg-opacity-75
+			yst-z-20
+			yst-pointer-events-auto;
 		}
 
 		.yst-popover {
@@ -41,7 +51,7 @@
 			yst-rounded-lg
 			yst-w-max
 			yst-max-w-sm
-			yst-z-10
+			yst-z-30
 			yst-bg-white
 			yst-shadow-2xl
 			yst-gap-3
@@ -58,9 +68,10 @@
 			before:yst-end-full
 			before:yst-top-1/2
 			before:yst-right-full
-			before:yst--translate-y-1/2;
+			before:yst--translate-y-1/2
+			rtl:before:yst-translate-x-1/2;
 
-			transform: translate(8%,-50%);
+			transform: translate(8%, -50%);
 
 			&::before {
 				border-left: 14px solid transparent;
@@ -95,7 +106,7 @@
 			yst--translate-y-full
 			yst--top-4
 			yst-start-auto
-			yst-end-0  /* move horizontally to the left */
+			yst-end-0  /* move arrow to the left */
 			before:yst-content-['']
 			before:yst-start-[86%]  /* move arrow to the right */
 			before:yst-top-full
@@ -115,7 +126,7 @@
 			@apply
 			yst--translate-y-full
 			yst--top-4
-			yst-start-0   /* move horizontally to the right */
+			yst-start-0   /* move arrow to the right */
 			yst-end-auto
 			before:yst-content-['']
 			before:yst-start-[14%] /* move arrow to the left */
@@ -139,7 +150,8 @@
 			before:yst-start-full
 			before:yst-top-1/2
 			before:yst-right-full
-			before:yst--translate-y-1/2;
+			before:yst--translate-y-1/2
+			rtl:before:yst-translate-x-1/2;
 
 			transform: translate(-92%,-50%);
 
@@ -171,7 +183,7 @@
 
 		.yst-popover--bottom-left {
 			@apply
-			yst-end-[26%]
+			yst-end-0
 			yst-top-14
 			before:yst-content-['']
 			before:yst-end-0
