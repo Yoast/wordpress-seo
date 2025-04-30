@@ -5,6 +5,11 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
+
+/**
  * Represents the assessment that checks if all images have alt attributes (only applicable for product pages).
  */
 export default class ImageAltTagsAssessment extends Assessment {
@@ -12,14 +17,13 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {object}  config      The configuration to use.
+	 * @param {object}  [config.scores] The scores to use for the assessment.
 	 * @param {number}  [config.scores.bad]   The score to return if not all images have alt attributes.
 	 * @param {number}  [config.scores.good]  The score to return if all images have alt attributes.
 	 * @param {string}  [config.urlTitle]     The URL to the article about this assessment.
 	 * @param {string}  [config.urlCallToAction]  The URL to the help article for this assessment.
 	 * @param {object} [config.callbacks] The callbacks to use for the assessment.
 	 * @param {function}  [config.callbacks.getResultTexts]  The function that returns the result texts.
-	 *
-	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
@@ -64,7 +68,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The Paper object to assess.
 	 *
-	 * @returns {Object} The calculated result.
+	 * @returns {{score: number, resultText: string}} The calculated result.
 	 */
 	calculateResult( paper ) {
 		// The number of images with no alt attributes.

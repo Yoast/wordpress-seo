@@ -7,6 +7,11 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
+
+/**
  * Represents the assessment that checks if there are keyphrase or synonyms in the alt attributes of images.
  */
 export default class KeyphraseInImagesAssessment extends Assessment {
@@ -14,8 +19,17 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {object} config The configuration to use.
-	 *
-	 * @returns {void}
+	 * @param {object} [config.parameters] The parameters to use for the assessment.
+	 * @param {number} [config.parameters.lowerBoundary] The lower boundary for the number of keyphrase matches.
+	 * @param {number} [config.parameters.upperBoundary] The upper boundary for the number of keyphrase matches.
+	 * @param {object} [config.scores] The scores to use for the assessment.
+	 * @param {number} [config.scores.withAltGoodNumberOfKeywordMatches] The score to return if there is a good number of keyphrase matches.
+	 * @param {number} [config.scores.withAltTooFewKeywordMatches] The score to return if there are too few keyphrase matches.
+	 * @param {number} [config.scores.withAltTooManyKeywordMatches] The score to return if there are too many keyphrase matches.
+	 * @param {number} [config.scores.withAltNonKeyword] The score to return if there are alt tags without keyphrase.
+	 * @param {number} [config.scores.withAlt] The score to return if there are alt tags with keyphrase.
+	 * @param {number} [config.scores.noAlt] The score to return if there are no alt tags.
+	 * @param {number} [config.scores.noImagesOrKeyphrase] The score to return if there are no images or no keyphrase.
 	 */
 	constructor( config = {} ) {
 		super();
@@ -65,7 +79,6 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 
 		return assessmentResult;
 	}
-	// Checks whether a keyphrase is set
 
 	/**
 	 * Checks whether there are too few alt tags with keywords. This check is applicable when there are
@@ -109,7 +122,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
-	 * @returns {Object} The calculated result.
+	 * @returns {{score: number, resultText: string}} The calculated result.
 	 */
 	calculateResult( paper  ) {
 		// No images added or no keyphrase set
