@@ -24,6 +24,16 @@ use WP_User;
 final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 
 	/**
+	 * Sets up the test fixtures.
+	 *
+	 * @return void
+	 */
+	protected function setUp(): void {
+		parent::setUp();
+		$this->site_kit_conditional->expects( 'is_met' )->andReturn( true );
+	}
+
+	/**
 	 * Tests if to_array generated correctly.
 	 *
 	 * @dataProvider generate_site_kit_to_array_provider
@@ -61,11 +71,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 		array $authenticated,
 		array $expected
 	) {
-
-		if ( ! \defined( 'YOAST_SEO_GOOGLE_SITE_KIT_FEATURE' ) ) {
-			\define( 'YOAST_SEO_GOOGLE_SITE_KIT_FEATURE', true );
-		}
-
 		Functions\expect( 'file_exists' )
 			->andReturn( $is_site_kit_installed );
 		Functions\expect( 'is_plugin_active' )

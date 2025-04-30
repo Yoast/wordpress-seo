@@ -90,6 +90,8 @@ export const AIOptimizeUpsell = ( {
 						href={ upsellLink }
 						target="_blank"
 						ref={ initialFocus }
+						data-action="load-nfd-ctb"
+						data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
 					>
 						<LockOpenIcon className="yst--ms-1 yst-me-2 yst-h-5 yst-w-5" />
 						{ upsellLabel }

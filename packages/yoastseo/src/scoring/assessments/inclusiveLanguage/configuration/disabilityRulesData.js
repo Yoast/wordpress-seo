@@ -60,6 +60,9 @@ export const shouldNotPrecedeStandaloneCrazy = combinationsOfDriveAndObjectProno
 export const shouldNotFollowStandaloneCrazy = [ "in love" ];
 export const shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout = formsOfToBeWithOptionalIntensifier.concat( formsOfToBeNotWithOptionalIntensifier );
 export const shouldNotFollowStandaloneCrazyWhenPrecededByToBe = [ "about" ];
+const shouldPrecedeStandaloneNutsBananas = [ "is", "she's", "he's" ];
+export const shouldPrecedeNutsBananasWithIntensifier = createCombinationsFromTwoArrays( shouldPrecedeStandaloneNutsBananas, intensifiersAndAdverbs )
+	.concat( shouldPrecedeStandaloneNutsBananas );
 
 export default {
 	formsOfToBeWithOptionalIntensifier,
@@ -71,4 +74,5 @@ export default {
 	shouldNotFollowStandaloneCrazy,
 	shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
 	shouldNotFollowStandaloneCrazyWhenPrecededByToBe,
+	shouldPrecedeNutsBananasWithIntensifier,
 };

@@ -15,17 +15,28 @@ import { SearchRankingCompareWidget } from "../widgets/search-ranking-compare-wi
 export class WidgetFactory {
 	#dataProvider;
 	#remoteDataProvider;
+	#remoteCachedDataProviders;
 	#dataFormatters;
 
 	/**
 	 * @param {import("./data-provider").DataProvider} dataProvider
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider
-	 * @param {object} dataFormatters
+	 * @param {Object<WidgetType,import("./remote-cached-data-provider").RemoteCachedDataProvider>} remoteCachedDataProviders
+	 * @param {Object} dataFormatters
 	 */
-	constructor( dataProvider, remoteDataProvider, dataFormatters ) {
+	constructor( dataProvider, remoteDataProvider, remoteCachedDataProviders, dataFormatters ) {
 		this.#dataProvider = dataProvider;
 		this.#remoteDataProvider = remoteDataProvider;
+		this.#remoteCachedDataProviders = remoteCachedDataProviders;
 		this.#dataFormatters = dataFormatters;
+	}
+
+	/**
+	 * @param {WidgetType} widgetType The widget type.
+	 * @returns {import("./remote-data-provider").RemoteDataProvider} The remote data provider for that widget type.
+	 */
+	getRemoteDataProvider( widgetType ) {
+		return this.#remoteCachedDataProviders[ widgetType ] ?? this.#remoteDataProvider;
 	}
 
 	/**
@@ -58,7 +69,7 @@ export class WidgetFactory {
 					key={ widgetType }
 					analysisType="seo"
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 				/>;
 			case this.types.readabilityScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "readabilityAnalysis" ) ) ) {
@@ -68,34 +79,34 @@ export class WidgetFactory {
 					key={ widgetType }
 					analysisType="readability"
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 				/>;
 			case this.types.topPages:
 				return <TopPagesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.topQueries:
 				return <TopQueriesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.searchRankingCompare:
 				return <SearchRankingCompareWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			case this.types.organicSessions:
 				return <OrganicSessionsWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			default:
