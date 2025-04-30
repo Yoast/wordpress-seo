@@ -29,7 +29,7 @@ Thus, this calculation make the overall score work on a 0-100/0-10 scale rather 
 
 **Uses synonyms**: yes
 
-**When it applies**: If there is a text and a keyword.
+**When it applies**: Always.
 
 **Name in code**: IntroductionKeywordAssessment
 
@@ -37,11 +37,12 @@ Thus, this calculation make the overall score work on a 0-100/0-10 scale rather 
 
 **Call to action URL**: [https://yoa.st/33f](https://yoast.com/focus-keyphrase-in-introduction/#utm_source=yoast-seo&utm_medium=software&utm_term=introduction-has-keyword-cta&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	      | Score	     | Criterion | Feedback |
-|------------	|------------------	|---------------------	|---------------	|
-| Red   	      | 3	     | Not all content words are found in the first paragraph	 | **Keyphrase in introduction**: Your keyphrase or its synonyms do not appear in the first paragraph. **Make sure the topic is clear immediately**. |
-| Orange   	      | 6	     | All content words are found in the first paragraph, but not in the same sentence	 | **Keyphrase in introduction**: Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. **Fix that**! |
-| Green   	      | 9	     | All content words from the keyphrase or synonym phrase are within one sentence in the first paragraph	 | **Keyphrase in introduction**: Well done! |
+| Traffic light   	      | Score	     | Criterion                                                                                             | Feedback                                                                                                                                            |
+|------------	|------------------	|-------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red   	      | 3	     | There is no keyphrase and/or content	                                                                 | **Keyphrase in introduction**: **Please add both a keyphrase and an introduction containing the keyphrase**.                                        |
+| Red   	      | 3	     | Not all content words are found in the first paragraph	                                               | **Keyphrase in introduction**: Your keyphrase or its synonyms do not appear in the first paragraph. **Make sure the topic is clear immediately**.   |
+| Orange   	      | 6	     | All content words are found in the first paragraph, but not in the same sentence	                     | **Keyphrase in introduction**: Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. **Fix that**! |
+| Green   	      | 9	     | All content words from the keyphrase or synonym phrase are within one sentence in the first paragraph	 | **Keyphrase in introduction**: Well done!                                                                                                           |
 
 ### 2) Keyphrase length
 **What it does**: Checks whether the number of (content) words in the keyphrase is within the recommended limit. For languages with function word support only content words are considered. For languages without function word support all words are considered.
@@ -92,7 +93,7 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 
 **Uses synonyms**: yes
 
-**When it applies**: If there is a meta description and a keyword.
+**When it applies**: Always.
 
 **Name in code**: MetaDescriptionKeywordAssessment
 
@@ -100,11 +101,12 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 
 **Call to action URL**: [https://yoa.st/33l](https://yoast.com/meta-descriptions/#utm_source=yoast-seo&utm_medium=software&utm_term=metadescriptionkeyword-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	      | Score	     | Criterion | Feedback |
-|------------	|------------------	|---------------------	|---------------	|
-| Red	| 3	| 0 keyword matches		| **Keyphrase in meta description**: The metadescription has been specified, but it does not contain the keyphrase. **Fix that!** |
-| Red	| 3	| >2 found matches		| **Keyphrase in meta description**: The meta description contains the keyphrase __ times, which is over the advised maximum of 2 times. **Limit that!** |
-| Green	| 9	| 1-2 sentences with a found match		| **Keyphrase in meta description**: Keyphrase or synonym appear in the metadescription. Well done! |
+| Traffic light   	      | Score	     | Criterion                                       | Feedback                                                                                                                                               |
+|------------	|------------------	|-------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red	| 3	| There is no keyphrase and/or meta description		 | **Keyphrase in meta description**: **Please add both a keyphrase and a meta description containing the keyphrase.**                                    |
+| Red	| 3	| 0 keyword matches		                             | **Keyphrase in meta description**: The metadescription has been specified, but it does not contain the keyphrase. **Fix that!**                        |
+| Red	| 3	| >2 found matches		                              | **Keyphrase in meta description**: The meta description contains the keyphrase __ times, which is over the advised maximum of 2 times. **Limit that!** |
+| Green	| 9	| 1-2 sentences with a found match		              | **Keyphrase in meta description**: Keyphrase or synonym appear in the metadescription. Well done!                                                      |
 
 ### 5) Keyphrase in subheadings
 **What it does**: Checks whether H2 and H3 subheadings reflect the topic of the copy (based on keyphrase or synonyms). For languages with function word support, a subheading is considered to reflect the topic if at least half of words from the keyphrase are used in it. For languages without function word support, a subheading is considered to reflect the topic if all content words from the keyphrase are used in it.
@@ -183,7 +185,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Uses synonyms**: no
 
-**When it applies**: If there is a title and a keyword.
+**When it applies**: Always.
 
 **Name in code**: TitleKeywordAssessment
 
@@ -191,20 +193,21 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Call to action URL**: [https://yoa.st/33h](https://yoast.com/page-titles-seo/#utm_source=yoast-seo&utm_medium=software&utm_term=title-keyword-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	      | Score	     | Criterion | Feedback |
-|------------	|------------------	|---------------------	|---------------	|
-| Red	| 2	| You haven't used all the content words from your keyphrase and your keyphrase isn’t at the beginning		| **Keyphrase in SEO title**: Not all the words from your keyphrase 'your_keyphrase_here' appear in the SEO title. **For the best SEO results write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title.** |
-| Red	| 2	| You haven’t used your exact keyphrase, when the keyphrase is enclosed in quotation marks		| **Keyphrase in SEO title**: Does not contain the exact match. **Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title.** |
-| Orange	| 6	| The exact match of the keyphrase doesn’t appear at the beginning of the SEO title		| **Keyphrase in SEO title**: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. **Move it to the beginning for the best results.** |
-| Orange	| 6	| SEO title does not contain an exact match of your keyphrase		| **Keyphrase in SEO title**: Does not contain the exact match. **Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title.** |
-| Green	| 9	| SEO title contains the exact match of the focus keyphrase at beginning		| **Keyphrase in SEO title**: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job! |
+| Traffic light   	      | Score	     | Criterion                                                                                              | Feedback                                                                                                                                                                                                                                                     |
+|------------	|------------------	|--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red	| 2	| There is no keyphrase and/or SEO title		                                                               | **Keyphrase in SEO title**: **Please add both a keyphrase and an SEO title beginning with the keyphrase**.                                                                                                                                                   |
+| Red	| 2	| You haven't used all the content words from your keyphrase and your keyphrase isn’t at the beginning		 | **Keyphrase in SEO title**: Not all the words from your keyphrase 'your_keyphrase_here' appear in the SEO title. **For the best SEO results write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title.** |
+| Red	| 2	| You haven’t used your exact keyphrase, when the keyphrase is enclosed in quotation marks		             | **Keyphrase in SEO title**: Does not contain the exact match. **Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title.**                                                                                  |
+| Orange	| 6	| The exact match of the keyphrase doesn’t appear at the beginning of the SEO title		                    | **Keyphrase in SEO title**: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. **Move it to the beginning for the best results.**                                                                                    |
+| Orange	| 6	| SEO title does not contain an exact match of your keyphrase		                                          | **Keyphrase in SEO title**: Does not contain the exact match. **Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title.**                                                                                  |
+| Green	| 9	| SEO title contains the exact match of the focus keyphrase at beginning		                               | **Keyphrase in SEO title**: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!                                                                                                                                      |
 
 ### 9) Keyphrase in slug
 **What it does**: Checks if the keyphrase is used in the slug.
 
 **Uses synonyms**: no
 
-**When it applies**: If there is a slug and a keyword.
+**When it applies**: Always.
 
 **Name in code**: SlugKeywordAssessment
 
@@ -212,13 +215,14 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Call to action URL**: [https://yoa.st/33p](https://yoast.com/slug/#utm_source=yoast-seo&utm_medium=software&utm_term=urlkeyword-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	      | Score	     | Criterion | Feedback |
-|------------	|------------------	|---------------------	|---------------	|
-| Orange (in cornerstone: Red)		| 6 (in cornerstone: 3)		| Not all content words are in the slug		| **Keyphrase in slug**: (Part of) your keyphrase does not appear in the slug. **Change that!** |
-| Green	| 9	| For short keyphrases (1-2 content words): All content words are in the slug			| **Keyphrase in slug**: Great work! |
-| Green	| 9	| For longer keyphrases (>2 content words): More than half content words are in the slug		| **Keyphrase in slug**: More than half of your keyphrase appears in the slug. That's great! |
+| Traffic light   	              | Score	                  | Criterion                                                                                | Feedback                                                                                      |
+|--------------------------------|-------------------------|------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| Red		                          | 3		                     | There is no keyphrase and/or slug		                                                      | **Keyphrase in slug**: **Please add both a keyphrase and a slug containing the keyphrase**.   |
+| Orange (in cornerstone: Red)		 | 6 (in cornerstone: 3)		 | Not all content words are in the slug		                                                  | **Keyphrase in slug**: (Part of) your keyphrase does not appear in the slug. **Change that!** |
+| Green	                         | 9	                      | For short keyphrases (1-2 content words): All content words are in the slug			           | **Keyphrase in slug**: Great work!                                                            |
+| Green	                         | 9	                      | For longer keyphrases (>2 content words): More than half content words are in the slug		 | **Keyphrase in slug**: More than half of your keyphrase appears in the slug. That's great!    |
 
-### 10) Previously used keywords
+### 10) Previously used keywords (only in WordPress)
 **What it does**: Checks if the words from the keyphrase were previously used in a keyphrase for a different post.
 
 **Uses synonyms**: no
@@ -231,11 +235,12 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Call to action URL**: [https://yoa.st/33y](https://yoast.com/use-focus-keyword-once/#utm_source=yoast-seo&utm_medium=software&utm_term=previously-used-keywords-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	      | Score	     | Criterion | Feedback |
-|------------	|------------------	|---------------------	|---------------	|
-| Red	| 1	| The keyphrase is previously used more than once	| **Previously used keyphrase**: You've used this keyphrase X times before. **Do not use your keyphrase more than once.**	|
-| Orange	| 6	| The keyphrase is previously used once	| **Previously used keyphrase**: You've used this keyphrase once before. **Do not use your keyphrase more than once.**	|
-| Green	| 9	| The keyphrase hasn't been used before	|  **Previously used keyphrase**: You've not used this keyphrase before, very good.	|
+| Traffic light   	      | Score	     | Criterion                                        | Feedback                                                                                                                                             |
+|------------	|------------------	|--------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red	| 1	| There is no keyphrase	                           | **Previously used keyphrase**: No focus keyphrase was set for this page. **Please add a focus keyphrase you haven't used before on other content**.	 |
+| Red	| 1	| The keyphrase is previously used more than once	 | **Previously used keyphrase**: You've used this keyphrase X times before. **Do not use your keyphrase more than once.**	                             |
+| Orange	| 6	| The keyphrase is previously used once	           | **Previously used keyphrase**: You've used this keyphrase once before. **Do not use your keyphrase more than once.**	                                |
+| Green	| 9	| The keyphrase hasn't been used before	           | **Previously used keyphrase**: You've not used this keyphrase before, very good.	                                                                    |
 
 ### 11) Keyphrase distribution (only in Premium)
 **What it does**: Checks how well the words from the keyphrase are distributed throughout the text. For exact implementation check out https://github.com/Yoast/YoastSEO.js/issues/1558 and https://github.com/Yoast/YoastSEO.js/issues/1868.

@@ -59,10 +59,14 @@ export const useOrganicSessionsCompare = ( dataProvider, remoteDataProvider, dat
 	 * @returns {Promise<OrganicSessionsCompareData|Error>} The promise of OrganicSessionsCompareData or an Error.
 	 */
 	const getOrganicSessionsCompare = useCallback( ( options ) => {
+		const widgetName = "organicSessionsCompare";
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ options: { widget: "organicSessionsCompare" } },
-			options );
+			{
+				options: { widget: widgetName },
+			},
+			options
+		);
 	}, [ dataProvider ] );
 
 	/**

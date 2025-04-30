@@ -11,62 +11,23 @@ export function checkAssessmentAvailability( assessor ) {
 		assessor.assess( new Paper( "" ) );
 		const assessments = getResults( assessor.getValidResults() );
 
-		const defaultAssessments = [ "keyphraseLength", "imageKeyphrase" ];
+		const defaultAssessments = [ "introductionKeyword", "keyphraseLength", "metaDescriptionKeyword",
+			"imageKeyphrase" ];
 		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
 			defaultAssessments.pop();
 		}
 		expect( assessments ).toEqual( defaultAssessments );
 	} );
 
-	it( "runs assessments that only require a keyword", function() {
-		assessor.assess( new Paper( "", { keyword: "keyword" } ) );
-		const assessments = getResults( assessor.getValidResults() );
-
-		const defaultAssessments = [ "keyphraseLength", "imageKeyphrase" ];
-		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
-			defaultAssessments.pop();
-		}
-		expect( assessments ).toEqual( defaultAssessments );
-	} );
-
-	it( "runs assessments that only require a keyword that consists of function words only", function() {
+	it( "additionally runs assessments that only require a keyword that consists of function words only", function() {
 		assessor.assess( new Paper( "", { keyword: "a" } ) );
-		const assessments = getResults( assessor.getValidResults() );
-
-		const defaultAssessments = [
-			"keyphraseLength",
-			"functionWordsInKeyphrase",
-			"imageKeyphrase",
-		];
-		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
-			defaultAssessments.pop();
-		}
-		expect( assessments ).toEqual( defaultAssessments );
-	} );
-
-	it( "additionally runs assessments that require a text and a keyword", function() {
-		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
-		const assessments = getResults( assessor.getValidResults() );
-
-		const defaultAssessments = [
-			"introductionKeyword",
-			"keyphraseLength",
-			"imageKeyphrase",
-		];
-		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
-			defaultAssessments.pop();
-		}
-		expect( assessments ).toEqual( defaultAssessments );
-	} );
-
-	it( "additionally runs assessments that require a text, a keyword, and a meta description", function() {
-		assessor.assess( new Paper( "text", { keyword: "keyword", description: "description" } ) );
 		const assessments = getResults( assessor.getValidResults() );
 
 		const defaultAssessments = [
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionKeyword",
+			"functionWordsInKeyphrase",
 			"imageKeyphrase",
 		];
 		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
@@ -91,6 +52,7 @@ export function checkAssessmentAvailability( assessor ) {
 			"introductionKeyword",
 			"keyphraseLength",
 			"keyphraseDensity",
+			"metaDescriptionKeyword",
 			"imageKeyphrase",
 		];
 		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
