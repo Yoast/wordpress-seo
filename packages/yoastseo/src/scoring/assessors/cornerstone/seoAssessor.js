@@ -2,7 +2,6 @@ import SEOAssessor from "../seoAssessor";
 import MetaDescriptionLengthAssessment from "../../assessments/seo/MetaDescriptionLengthAssessment";
 import KeyphraseInImagesAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment";
 import TextLengthAssessment from "../../assessments/seo/TextLengthAssessment";
-import OutboundLinksAssessment from "../../assessments/seo/OutboundLinksAssessment";
 import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssessment";
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
 
@@ -31,9 +30,6 @@ export default class CornerstoneSEOAssessor extends SEOAssessor {
 			belowMinimum: 300,
 			scores: { belowMinimum: -20, farBelowMinimum: -20 },
 			cornerstoneContent: true,
-		} ) );
-		this.addAssessment( "externalLinks", new OutboundLinksAssessment( {
-			scores: { noLinks: 3 },
 		} ) );
 		this.addAssessment( "titleWidth", new PageTitleWidthAssessment( {
 			scores: { widthTooShort: 9 },

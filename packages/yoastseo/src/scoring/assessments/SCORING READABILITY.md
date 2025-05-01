@@ -1,6 +1,8 @@
 # Overview of the Readability assessments scoring criteria
 
-Readability analysis is a collection of assessments that check how easy to read a text is. Some of the readability assessments are language-independent (e.g. paragraph length, subheading presence, and distribution), but many are language-specific (e.g. passive voice, transition words) and are made available for different languages on a case-by-case basis.
+Readability analysis is a collection of assessments that check how easy to read a text is.
+
+Some of the readability assessments are language-independent (e.g. paragraph length, subheading distribution), but many are language-specific (e.g. passive voice, transition words) and are made available for different languages on a case-by-case basis.
 For more information on each language, you can check the documentation on [which language-specific assessments have been adapted to which languages](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoastseo/README.md#readability-analysis).
 
 ## How are individual traffic lights assigned?
@@ -18,7 +20,6 @@ For more information on each language, you can check the documentation on [which
 | 4 (partial: 2)         |60		            |6	                               |
 | <4 (partial: < 2)	     |90                    |9                                 |
 
-Below is a detailed overview of how scores for the readability assessments are calculated, as well as the feedback that each assessment returns. Note: some of the assessment criteria are different for texts marked as cornerstone; these will be indicated when applicable. Also, some assessment criteria (e.g. recommended sentence length) differ depending on the specific language. These are not specified below for the sake of space-saving.
 
 ## Scoring criteria for the readability assessments
 ### 1) Subheading distribution
@@ -53,14 +54,14 @@ Below is a detailed overview of how scores for the readability assessments are c
 
 **Call to action URL**: [https://yoa.st/35e](https://yoast.com/paragraph-length-check/#utm_source=yoast-seo&utm_medium=software&utm_term=paragraph-length-cta&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light 	 | Score	| Criterion | Feedback                                                                                                                                 |
-|------------|------------------	|--------------------- |------------------------------------------------------------------------------------------------------------------------------------------|
-| Red        |3	                |> 200 words	   	          | **Paragraph length**: X of the paragraphs contain(s) more than the recommended maximum number of words (X). **Shorten your paragraphs!** |
-| Orange     |6                 |Between 150 and 200 words    | **Paragraph length**: X of the paragraphs contain(s) more than the recommended maximum number of words (X). **Shorten your paragraphs!** |
-| Green      |9                 |≤ 150 words	              | **Paragraph length**: There are no paragraphs that are too long. Great job!                                                              |
+| Traffic light 	 | Score	| Criterion                                                | Feedback                                                                                                                                            |
+|------------|------------------	|----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red        |3	                | > 200 words (Japanese: 400 characters)	   	              | **Paragraph length**: X of the paragraphs contain(s) more than the recommended maximum number of words/characters (X). **Shorten your paragraphs!** |
+| Orange     |6                 | Between 150 and 200 words (Japanese: 300-400 characters) | **Paragraph length**: X of the paragraphs contain(s) more than the recommended maximum number of words/characters (X). **Shorten your paragraphs!** |
+| Green      |9                 | ≤ 150 words (Japanese: 300 characters)	                  | **Paragraph length**: There are no paragraphs that are too long. Great job!                                                                         |
 
 ### 3) Sentence length
-**What it does**: Checks whether the sentences exceed the recommended maximum length (default: 20 words, IT: 25 words, RU: 15 words, HE: 15 words, TR: 15 words).
+**What it does**: Checks whether the sentences exceed the recommended maximum length (default: 20 words, CA, ES, FA, IT, PT: 25 words, HE, RU, TR: 15 words, JA: 40 characters).
 
 **When applies**: Always.
 
@@ -70,11 +71,11 @@ Below is a detailed overview of how scores for the readability assessments are c
 
 **Call to action URL**: [https://yoa.st/34w](https://yoast.com/the-sentence-length-check/#utm_source=yoast-seo&utm_medium=software&utm_term=sentence-length-in-text-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-|Traffic light |	Score |	Criterion |	Feedback |
-|------------------  |------------------	|--------------------- |--------------------- |
-|Red	| 3 |> 30% (cornerstone: 25%)                                                  |**Sentence length**: X of the sentences contain more than X words, which is more than the recommended maximum of X. **Try to shorten the sentences**. |
-|Orange	| 6 |Between 25 and 30% (cornerstone: 20-25%, Turkish: 20-25%, Polish: 15-20%) |**Sentence length**: X of the sentences contain more than X words, which is more than the recommended maximum of X. **Try to shorten the sentences**. |
-|Green	| 9 |≤ 25% (cornerstone: ≤ 20%; Polish: ≤ 15%)                                 |**Sentence length**: great! |
+|Traffic light |	Score |	Criterion | 	Feedback                                                                                                                                                         |
+|------------------  |------------------	|--------------------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Red	| 3 |> 30% (cornerstone: 25%)                                                  | **Sentence length**: X of the sentences contain more than X words/characters, which is more than the recommended maximum of X%. **Try to shorten the sentences**. |
+|Orange	| 6 |Between 25 and 30% (cornerstone: 20-25%, Turkish: 20-25%, Polish: 15-20%) | **Sentence length**: X of the sentences contain more than X words/characters, which is more than the recommended maximum of X%. **Try to shorten the sentences**. |
+|Green	| 9 |≤ 25% (cornerstone: ≤ 20%; Polish: ≤ 15%)                                 | **Sentence length**: great!                                                                                                                                       |
 
 ### 4) Consecutive sentences
 **What it does**: Checks whether there are more than 3 sentences in a row that start with the same word.
@@ -128,7 +129,6 @@ Below is a detailed overview of how scores for the readability assessments are c
 |Green	|9| 	≥ 30% of sentences in a long text (more than 200 words or 400 characters in Japanese)                           |**Transition words**: Well done!|
 |Green	|9| 	At least one sentence with transition words in a short text (less than 200 words or 400 characters in Japanese) |**Transition words**: Well done!|
 |Green	|9| 	No transition words found in a short text (less than 200 words or 400 characters in Japanese)                   |**Transition words**: You are not using any transition words, but your text is short enough and probably doesn't need them.|
-
 
 
 ### 7) Text presence
