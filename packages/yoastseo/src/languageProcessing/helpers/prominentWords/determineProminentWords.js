@@ -159,11 +159,11 @@ function computeProminentWords( words, abbreviations, stemmer, functionWords ) {
 }
 
 /**
- * Compute hash for array of words.
+ * Compute hash for an array of words.
  *
  * @param {string[]} arr An array of words.
  *
- * @returns {string} A calculated hash.
+ * @returns {number} A calculated hash.
  */
 const computeHash = ( arr ) => {
 	let hash = 0;
