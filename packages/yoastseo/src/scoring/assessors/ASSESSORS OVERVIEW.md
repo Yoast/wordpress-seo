@@ -13,7 +13,7 @@ Overview of the used SEO assessors in the `yoastseo` package:
 - Internal links (`InternalLinksAssessment`)
 - Keyphrase in SEO title (`KeyphraseInSEOTitleAssessment`)
 - Keyphrase in slug (`UrlKeywordAssessment`)
-- Meta description length (`MetaDescriptionLengthAssessment`) -> [Cornerstone scores!](SCORING%20SEO.md#5-meta-description-length)
+- Meta description length (`MetaDescriptionLengthAssessment`) -> [Cornerstone scores!](../assessments/SCORING%20SEO.md#5-meta-description-length)
 - Keyphrase in subheadings (`SubHeadingsKeywordAssessment`)
 - Images (`ImageCountAssessment`)
 - Image keyphrase (`KeyphraseInImageTextAssessment`) -> [Cornerstone scores!](SCORING%20SEO.md#7-image-keyphrase)
