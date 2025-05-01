@@ -25,7 +25,7 @@ final class Is_Site_Kit_Ga_Connected_Test extends Abstract_Site_Kit_Test {
 	 * @return void
 	 */
 	public function test_is_site_kit_ga_connected( bool $expected ) {
-		$this->site_kit_analytics_4_adapter->expects( 'is_connected' )->once()->andReturn( $expected );
+		$this->site_kit_is_connected_call->expects( 'is_ga_connected' )->once()->andReturn( $expected );
 
 		$this->assertSame( $expected, $this->instance->is_ga_connected() );
 	}

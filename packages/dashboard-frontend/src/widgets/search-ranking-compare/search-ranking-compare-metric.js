@@ -72,10 +72,11 @@ export const SearchRankingCompareMetricSkeletonLoader = ( { className, tooltipLo
  * @param {object} data The data of the metric.
  * @param {object[]} dataSources The sources of the data in the widget.
  * @param {ReactNode} tooltipLocalizedContent The content of the tooltip.
+ * @param {boolean} moreIsGood This determines is a positive result will show the green color.
  *
  * @returns {JSX.Element}
  */
-export const SearchRankingCompareMetric = ( { className, metricName, data, dataSources, tooltipLocalizedContent } ) => {
+export const SearchRankingCompareMetric = ( { className, metricName, data, dataSources, tooltipLocalizedContent, moreIsGood } ) => {
 	return (
 		<SearchRankingCompareMetricLayout className={ className }>
 			<div className="yst-w-5" />
@@ -87,7 +88,7 @@ export const SearchRankingCompareMetric = ( { className, metricName, data, dataS
 					{ metricName }
 				</div>
 				<div className="yst-text-center yst-mt-2">
-					<Trend value={ data.delta } formattedValue={ data.formattedDelta } />
+					<Trend value={ data.delta } formattedValue={ data.formattedDelta } moreIsGood={ moreIsGood } />
 				</div>
 			</SearchRankingCompareMetricValueLayout>
 			<div className="yst-mt-2">

@@ -1,7 +1,7 @@
 import { ArrowNarrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { useCallback, useEffect } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { createInterpolateElement, useCallback, useEffect } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
 import { Widget } from "@yoast/dashboard-frontend";
 import { Alert, Button, DropdownMenu, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
@@ -16,12 +16,12 @@ import { SiteKitConsentModal } from "../../shared-admin/components";
  * @type {import("../index").CapabilitiesForSiteKit} Capabilities for site kit.
  */
 
-/** @type {string[]} */
+/** @type {{ children: React.ReactNode, id: string }[]} */
 const steps = [
-	__( "INSTALL", "wordpress-seo" ),
-	__( "ACTIVATE", "wordpress-seo" ),
-	__( "SET UP", "wordpress-seo" ),
-	__( "CONNECT", "wordpress-seo" ),
+	{ children: __( "INSTALL", "wordpress-seo" ), id: "install" },
+	{ children: __( "ACTIVATE", "wordpress-seo" ), id: "activate" },
+	{ children: __( "SET UP", "wordpress-seo" ), id: "setup" },
+	{ children: __( "CONNECT", "wordpress-seo" ), id: "connect" },
 ];
 
 /** @type {Object<string, number>} */
@@ -146,6 +146,32 @@ const SiteKitAlert = ( { capabilities, currentStep, isVersionSupported, isConsen
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
 		</Alert>;
 	}
+};
+
+/**
+ * The alert to call back to Site Kit.
+ *
+ * @param {string} dashboardUrl The dashboard url.
+ *
+ * @returns {JSX.Element} The no permission warning component.
+ */
+const SiteKitRedirectBackAlert = ( { dashboardUrl } ) => {
+	return <Alert className={ "yst-mb-4" }>
+		{ createInterpolateElement( sprintf(
+			/* translators: %1$s and %2$s: Expands to an opening and closing link tag. */
+			__(
+				"You’re back in Yoast SEO. If you still have tasks to finish in Site Kit by Google, you can %1$s return to their dashboard%2$s anytime.",
+				"wordpress-seo"
+			),
+			"<a>",
+			"</a>"
+		),
+		{
+			// eslint-disable-next-line
+				a: <a href={ dashboardUrl } />,
+		}
+		) }
+	</Alert>;
 };
 
 /**
@@ -289,18 +315,15 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 				? <YoastConnectSiteKitSuccess className="yst-aspect-[21/5] yst-max-w-[252px]" />
 				: <YoastConnectSiteKit className="yst-aspect-[21/5] yst-max-w-[252px]" />
 			}</div>
-			{ ! isUpdatePluginStatus( currentStep, config.isVersionSupported ) && <Stepper steps={ steps } currentStep={ currentStep } className="yst-mb-6">
-				{ steps.map( ( label, index ) => (
-					<Stepper.Step
-						key={ label }
-						isActive={ currentStep === index }
-						isComplete={ currentStep > index || isConnectionCompleted }
-					>
-						{ label }
-					</Stepper.Step>
-				) ) }
-			</Stepper> }
+			{ ! isUpdatePluginStatus( currentStep, config.isVersionSupported ) && <Stepper
+				steps={ steps }
+				currentStep={ currentStep === STEP_NAME.successfullyConnected ? steps.length : currentStep }
+				className="yst-mb-6"
+			/>
+			}
 			<hr className="yst-bg-slate-200 yst-mb-6" />
+			{ config.isRedirectedFromSiteKit && <SiteKitRedirectBackAlert dashboardUrl={ config.dashboardUrl } /> }
+
 			<div className="yst-max-w-2xl">
 				<SiteKitSetupWidgetTitleAndDescription isSiteKitConnectionCompleted={ isConnectionCompleted } />
 				<span className="yst-text-slate-800 yst-font-medium">{ isConnectionCompleted

@@ -2,13 +2,13 @@ import { SlotFillProvider } from "@wordpress/components";
 import { select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
+import { ComparisonMetricsDataFormatter, PlainMetricsDataFormatter, RemoteCachedDataProvider, RemoteDataProvider } from "@yoast/dashboard-frontend";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
 import { DataProvider } from "../dashboard/services/data-provider";
 import { DataTracker } from "../dashboard/services/data-tracker";
-import { PlainMetricsDataFormatter, RemoteDataProvider, ComparisonMetricsDataFormatter } from "@yoast/dashboard-frontend";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
 import { ADMIN_URL_NAME, LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
@@ -85,6 +85,7 @@ domReady( () => {
 		installUrl: "",
 		activateUrl: "",
 		setupUrl: "",
+		dashboardUrl: "",
 		isAnalyticsConnected: false,
 		isFeatureEnabled: false,
 		isSetupWidgetDismissed: false,
@@ -100,7 +101,14 @@ domReady( () => {
 			isSetupCompleted: false,
 			isConsentGranted: false,
 		},
+		isRedirectedFromSiteKit: false,
 	} );
+
+	const cacheConfig = {
+		storagePrefix: get( window, "wpseoScriptData.dashboard.browserCache.storagePrefix", "" ),
+		yoastVersion: get( window, "wpseoScriptData.dashboard.browserCache.yoastVersion", "" ),
+		widgetsCacheTtl: get( window, "wpseoScriptData.dashboard.browserCache.widgetsCacheTtl", {} ),
+	};
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
@@ -108,6 +116,16 @@ domReady( () => {
 		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
 		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
 	};
+
+	const remoteCachedDataProviders = Object.entries( cacheConfig.widgetsCacheTtl ).reduce( ( providers, [ key, value ] ) => {
+		providers[ key ] = new RemoteCachedDataProvider(
+			{ headers },
+			cacheConfig.storagePrefix,
+			cacheConfig.yoastVersion,
+			value.ttl
+		);
+		return providers;
+	}, {} );
 
 	const setupStepsTrackingData = {
 		setupWidgetLoaded: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetLoaded", "no" ),
@@ -126,7 +144,7 @@ domReady( () => {
 		setupWidgetDataTracker: new DataTracker( setupStepsTrackingRoute, remoteDataProvider ),
 	};
 
-	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, remoteCachedDataProviders, dataFormatters, dataTrackers );
 	if ( dataProvider.isSiteKitConnectionCompleted() && siteKitConfiguration.isVersionSupported ) {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}
