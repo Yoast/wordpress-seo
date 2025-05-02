@@ -13,11 +13,11 @@ Overview of the used SEO assessors in the `yoastseo` package:
 - Internal links (`InternalLinksAssessment`)
 - Keyphrase in SEO title (`KeyphraseInSEOTitleAssessment`)
 - Keyphrase in slug (`UrlKeywordAssessment`)
-- Meta description length (`MetaDescriptionLengthAssessment`) -> [Cornerstone scores!](SCORING%20SEO.md#5-meta-description-length)
+- Meta description length (`MetaDescriptionLengthAssessment`) -> [Cornerstone scores!](../assessments/SCORING%20SEO.md#5-meta-description-length)
 - Keyphrase in subheadings (`SubHeadingsKeywordAssessment`)
 - Images (`ImageCountAssessment`)
-- Image keyphrase (`KeyphraseInImageTextAssessment`) -> [Cornerstone scores!](SCORING%20SEO.md#7-image-keyphrase)
-- Text length (`TextLengthAssessment`) -> [Cornerstone scores and boundaries!](SCORING%20SEO.md#1-text-length)
+- Image keyphrase (`KeyphraseInImageTextAssessment`) -> [Cornerstone scores!](../assessments/SCORING%20SEO.md#7-image-keyphrase)
+- Text length (`TextLengthAssessment`) -> [Cornerstone scores and boundaries!](../assessments/SCORING%20SEO.md#1-text-length)
 - Outbound links (`OutboundLinksAssessment`)
 - SEO title width (`PageTitleWidthAssesment`)
 - Function words in keyphrase (`FunctionWordsInKeyphraseAssessment`)
@@ -41,7 +41,7 @@ Overview of the used SEO assessors in the `yoastseo` package:
 - Keyphrase length (`KeyphraseLengthAssessment`)
 - Keyphrase density (`KeywordDensityAssessment`)
 - Keyphrase in meta description (`MetaDescriptionKeywordAssessment`)
-- Image keyphrase (`KeyphraseInImageTextAssessment`) -> [Cornerstone scores!](SCORING%20SEO.md#7-image-keyphrase)
+- Image keyphrase (`KeyphraseInImageTextAssessment`) -> [Cornerstone scores!](../assessments/SCORING%20SEO.md#7-image-keyphrase)
 - Competing links (`TextCompetingLinksAssessment`)
 - Previously used keyphrase (`previouslyUsedKeywords`)
 ### Related keywords taxonomy
@@ -56,15 +56,15 @@ Overview of the used SEO assessors in the `yoastseo` package:
 
 ## Content Assessors
 ### Standard Content (Readability) assessor
-- Subheading distribution (`SubheadingDistributionTooLongAssessment`) -> [Cornerstone scores!](SCORING%20READABILITY.md#1-subheading-distribution)
+- Subheading distribution (`SubheadingDistributionTooLongAssessment`) -> [Cornerstone scores!](../assessments/SCORING%20READABILITY.md#1-subheading-distribution)
 - Paragraph length (`ParagraphTooLongAssessment`)
-- Sentence length (`SentenceLengthInTextAssessment`) -> [Cornerstone values!](SCORING%20READABILITY.md#1-subheading-distribution)
+- Sentence length (`SentenceLengthInTextAssessment`) -> [Cornerstone values!](../assessments/SCORING%20READABILITY.md#3-sentence-length)
 - Consecutive sentences (`SentenceBeginningsAssessment`)
 - Transition words (`TransitionWordsAssessment`)
 - Passive voice (`PassiveVoiceAssessment`)
 - Text presence (`TextPresenceAssessment`)
 ### Premium
-- Word complexity (`WordComplexityAssessment`) -> [Cornerstone values!](SCORING%20READABILITY.md#8-word-complexity)
+- Word complexity (`WordComplexityAssessment`) -> [Cornerstone values!](../assessments/SCORING%20READABILITY.md#8-word-complexity-only-in-premium)
 - Alignment (`TextAlignmentAssessment`)
 
 ## Inclusive language assessor
