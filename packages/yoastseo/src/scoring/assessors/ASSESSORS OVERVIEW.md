@@ -58,13 +58,13 @@ Overview of the used SEO assessors in the `yoastseo` package:
 ### Standard Content (Readability) assessor
 - Subheading distribution (`SubheadingDistributionTooLongAssessment`) -> [Cornerstone scores!](../assessments/SCORING%20READABILITY.md#1-subheading-distribution)
 - Paragraph length (`ParagraphTooLongAssessment`)
-- Sentence length (`SentenceLengthInTextAssessment`) -> [Cornerstone values!](../assessments/SCORING%20READABILITY.md#1-subheading-distribution)
+- Sentence length (`SentenceLengthInTextAssessment`) -> [Cornerstone values!](../assessments/SCORING%20READABILITY.md#3-sentence-length)
 - Consecutive sentences (`SentenceBeginningsAssessment`)
 - Transition words (`TransitionWordsAssessment`)
 - Passive voice (`PassiveVoiceAssessment`)
 - Text presence (`TextPresenceAssessment`)
 ### Premium
-- Word complexity (`WordComplexityAssessment`) -> [Cornerstone values!](../assessments/SCORING%20READABILITY.md#8-word-complexity)
+- Word complexity (`WordComplexityAssessment`) -> [Cornerstone values!](../assessments/SCORING%20READABILITY.md#8-word-complexity-only-in-premium)
 - Alignment (`TextAlignmentAssessment`)
 
 ## Inclusive language assessor
