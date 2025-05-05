@@ -289,7 +289,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 
 	return (
 		<Widget className="yst-paper__content yst-relative @3xl:yst-col-span-2 yst-col-span-4">
-			<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
+			<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4 yst-z-20">
 				<DropdownMenu.IconTrigger
 					screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) }
 					className="yst-float-end"
@@ -318,7 +318,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 			{ ! isUpdatePluginStatus( currentStep, config.isVersionSupported ) && <Stepper
 				steps={ steps }
 				currentStep={ currentStep === STEP_NAME.successfullyConnected ? steps.length : currentStep }
-				className="yst-mb-6"
+				className="yst-mb-6 yst-z-10"
 			/>
 			}
 			<hr className="yst-bg-slate-200 yst-mb-6" />
