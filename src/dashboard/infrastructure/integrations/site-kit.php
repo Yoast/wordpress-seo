@@ -57,8 +57,7 @@ class Site_Kit {
 	 * @var array<string, bool> $search_console_module
 	 */
 	private $search_console_module = [
-		'owner'    => null,
-		'can_view' => false,
+		'can_view' => null,
 	];
 
 	/**
@@ -67,8 +66,7 @@ class Site_Kit {
 	 * @var array<string, bool> $ga_module
 	 */
 	private $ga_module = [
-		'owner'     => null,
-		'can_view'  => false,
+		'can_view'  => null,
 		'connected' => null,
 	];
 
@@ -158,32 +156,14 @@ class Site_Kit {
 	}
 
 	/**
-	 * Checks if current user is owner of the module.
+	 * Checks if current user can view dashboard data for a module
 	 *
-	 * @param array<string>|null $module_owner The module to check for owner.
-	 *
-	 * @return bool If current user is owner of the module.
-	 */
-	public function is_owner( ?array $module_owner ): bool {
-		$current_user = \wp_get_current_user();
-		if ( $module_owner !== null ) {
-			return (int) $module_owner['id'] === $current_user->ID;
-
-		}
-
-		return false;
-	}
-
-	/**
-	 * Checks is current user can view dashboard data, which can the owner who set it up,
-	 * or user with one of the shared roles.
-	 *
-	 * @param array<array|null> $module The module owner.
+	 * @param array<array|null> $module The module.
 	 *
 	 * @return bool If the user can read the data.
 	 */
 	private function can_read_data( array $module ): bool {
-		return $module['can_view'] || $this->is_owner( $module['owner'] );
+		return ( ! \is_null( $module['can_view'] ) ? $module['can_view'] : false );
 	}
 
 	/**
@@ -249,27 +229,26 @@ class Site_Kit {
 
 		$modules_data        = ! empty( $preloaded[ $paths['modules'] ]['body'] ) ? $preloaded[ $paths['modules'] ]['body'] : [];
 		$modules_permissions = ! empty( $preloaded[ $paths['permissions'] ]['body'] ) ? $preloaded[ $paths['permissions'] ]['body'] : [];
-		$is_authenticated    = false;
-		if ( ! empty( $preloaded[ $paths['authentication'] ]['body']['authenticated'] ) ) {
-			$is_authenticated = $preloaded[ $paths['authentication'] ]['body']['authenticated'];
-		}
+
+		$can_view_dashboard = ( $modules_permissions['googlesitekit_view_dashboard'] ?? false );
+
 		$this->setup_completed = $preloaded[ $paths['connection'] ]['body']['setupCompleted'];
 
 		foreach ( $modules_data as $module ) {
-			$slug = $module['slug'];
-			if ( $slug === 'analytics-4' ) {
-				$this->ga_module['owner']     = ( $module['owner'] ?? null );
-				$this->ga_module['connected'] = ( $module['connected'] ?? false );
-				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'] ) ) {
-					$this->ga_module['can_view'] = $is_authenticated || $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'];
-				}
-			}
-			if ( $slug === 'search-console' ) {
-				$this->search_console_module['owner'] = ( $module['owner'] ?? null );
+			$slug           = $module['slug'];
+			$is_recoverable = ( $module['recoverable'] ?? null );
 
-				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'] ) ) {
-					$this->search_console_module['can_view'] = $is_authenticated || $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'];
-				}
+			if ( $slug === 'analytics-4' ) {
+				$can_read_shared_module_data = ( $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'] ?? false );
+
+				$this->ga_module['can_view']  = $can_view_dashboard || ( $can_read_shared_module_data && ! $is_recoverable );
+				$this->ga_module['connected'] = ( $module['connected'] ?? false );
+			}
+
+			if ( $slug === 'search-console' ) {
+				$can_read_shared_module_data = ( $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'] ?? false );
+
+				$this->search_console_module['can_view'] = $can_view_dashboard || ( $can_read_shared_module_data && ! $is_recoverable );
 			}
 		}
 	}
