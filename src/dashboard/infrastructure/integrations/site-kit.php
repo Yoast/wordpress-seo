@@ -263,7 +263,6 @@ class Site_Kit {
 		$rest_root = ( \class_exists( REST_Routes::class ) ) ? REST_Routes::REST_ROOT : '';
 
 		return [
-			'authentication' => '/' . $rest_root . '/core/user/data/authentication',
 			'permissions'    => '/' . $rest_root . '/core/user/data/permissions',
 			'modules'        => '/' . $rest_root . '/core/modules/data/list',
 			'connection'     => '/' . $rest_root . '/core/site/data/connection',
