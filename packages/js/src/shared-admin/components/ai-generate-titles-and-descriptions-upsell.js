@@ -1,7 +1,7 @@
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { __, sprintf } from "@wordpress/i18n";
-import { safeCreateInterpolateElement } from "../../../helpers/i18n";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Badge, Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { OutboundLink, VideoFlow } from ".";
