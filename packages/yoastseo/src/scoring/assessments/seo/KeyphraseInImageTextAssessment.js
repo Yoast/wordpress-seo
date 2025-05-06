@@ -138,22 +138,6 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 	calculateResult( paper  ) {
 		// No images added or no keyphrase set
 		if ( ! paper.hasKeyword() || this.imageCount === 0  ) {
-			// Has alt attributes, but no keyphrase is set.
-			if ( this.altProperties?.withAlt > 0 ) {
-				return {
-					score: this._config.scores.withAlt,
-					resultText: sprintf(
-						/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-						__(
-							"%1$sKeyphrase in image alt attributes%3$s: Images on this page have alt attributes, but you have not set your keyphrase. %2$sFix that%3$s!",
-							"wordpress-seo"
-						),
-						this._config.urlTitle,
-						this._config.urlCallToAction,
-						"</a>"
-					),
-				};
-			}
 			// No images and/or no keyphrase set.
 			// We give a score of 3 if there are no images or no keyphrase set, the same score for other assessments with the same condition.
 			return {

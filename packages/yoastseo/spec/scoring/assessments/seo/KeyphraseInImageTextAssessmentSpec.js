@@ -61,13 +61,11 @@ describe( "An image count assessment", function() {
 
 		const assessment = keyphraseInImagesAssessment.getResult( paper, researcher );
 
-		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: " +
-			"Images on this page have alt attributes, but you have not set your keyphrase. " +
-			"<a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!" );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. <a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
 	} );
 
-	it( "assesses 4 images, without a keyword, but with an alt-tag set", function() {
+	it( "assesses 4 images, without a keyphrase, but with an alt-tag set", function() {
 		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='image' /> " +
 			"<img src='image.jpg' alt='image2' /> <img src='image.jpg' alt='image3' /> <img src='image.jpg' alt='image4' />" );
 
@@ -80,10 +78,8 @@ describe( "An image count assessment", function() {
 			},
 		}, true ) );
 
-		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: " +
-			"Images on this page have alt attributes, but you have not set your keyphrase. " +
-			"<a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!" );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. <a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
 	} );
 
 	it( "assesses a single image, with an alt-tag without the presence of a keyword", function() {
