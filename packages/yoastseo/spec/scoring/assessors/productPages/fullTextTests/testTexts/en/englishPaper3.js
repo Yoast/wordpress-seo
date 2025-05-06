@@ -113,7 +113,7 @@ const expectedResults = {
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Image Keyphrase</a>: Good job!",
+		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Keyphrase in image alt attributes</a>: Good job!",
 	},
 	imageCount: {
 		isApplicable: true,

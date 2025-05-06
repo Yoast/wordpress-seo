@@ -146,7 +146,7 @@ const expectedResults = {
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: This page does not have images, a keyphrase, or both. <a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!",
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. <a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!",
 	},
 	imageCount: {
 		isApplicable: true,
