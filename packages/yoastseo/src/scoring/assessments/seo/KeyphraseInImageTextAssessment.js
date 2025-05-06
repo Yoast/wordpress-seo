@@ -3,7 +3,7 @@ import { merge } from "lodash";
 
 import Assessment from "../assessment";
 import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange.js";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
