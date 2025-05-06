@@ -29,7 +29,7 @@ export const Step = ( { children, index, id } ) => {
 		>
 			<div className="yst-step__circle">
 				{ isComplete && <CheckIcon
-					className="yst-step__icon yst-w-4 yst-z-50"
+					className="yst-step__icon yst-w-4"
 				/> }
 
 				<div
