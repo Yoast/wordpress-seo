@@ -6,7 +6,7 @@ import Factory from "../../../../src/helpers/factory.js";
 const imageAltTagsAssessment = new ImageAltTagsAssessment();
 
 describe( "test to check if all images have alt tags", function() {
-	it( "shows the assessment when there is an image but no text", function() {
+	it( "shows the assessment when there is an image but no text and gives the correct feedback", function() {
 		const mockPaper = new Paper( "<img src='image.jpg' />" );
 		const result = imageAltTagsAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 1,
@@ -20,8 +20,22 @@ describe( "test to check if all images have alt tags", function() {
 		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt attributes</a>: None of the images have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!" );
 	} );
 
-	it( "shows the assessment when the page is empty", function() {
+	it( "shows the assessment when the page is empty and gives the correct feedback", function() {
 		const mockPaper = new Paper( "" );
+		const result = imageAltTagsAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 0,
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 0,
+			},
+		}, true ) );
+
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt attributes</a>: This page does not have images with alt attributes. <a href='' target='_blank'>Add some</a>!" );
+	} );
+
+	it( "assesses a paper with text but no images is found", () => {
+		const mockPaper = new Paper( "This is a test paper" );
 		const result = imageAltTagsAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 0,
 			altTagCount: {

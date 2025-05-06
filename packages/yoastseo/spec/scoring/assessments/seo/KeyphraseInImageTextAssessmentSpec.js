@@ -8,22 +8,10 @@ import buildTree from "../../../specHelpers/parse/buildTree";
 const keyphraseInImagesAssessment = new KeyphraseInImagesAssessment();
 
 describe( "An image count assessment", function() {
-	it( "should show feedback for a page without a text", function() {
+	it( "should show feedback for a page without a text and a keyphrase", function() {
 		const paper = new Paper( "" );
 		const researcher = new EnglishResearcher( paper );
 		buildTree( paper, researcher );
-		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
-
-		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: This page does not have images, a keyphrase, or both. " +
-			"<a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
-	} );
-
-	it( "should show feedback for a page without a text and keyphrase", function() {
-		const paper = new Paper( "", { keyword: "" } );
-		const researcher = new EnglishResearcher( paper );
-		buildTree( paper, researcher );
-
 		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
 
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -62,8 +50,8 @@ describe( "An image count assessment", function() {
 
 		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
 
-		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes that reflect the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of relevant images</a>!" );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: This page does not have images, a keyphrase, or both. <a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
 	} );
 
 	it( "assesses a single image, without a keyword, but with an alt-tag set", function() {
