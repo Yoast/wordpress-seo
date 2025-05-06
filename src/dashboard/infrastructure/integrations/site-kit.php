@@ -24,13 +24,6 @@ class Site_Kit {
 	protected $site_kit_feature_conditional;
 
 	/**
-	 * Variable to locally cache the setup completed value.
-	 *
-	 * @var bool $setup_completed
-	 */
-	private $setup_completed;
-
-	/**
 	 * The Site Kit consent repository.
 	 *
 	 * @var Site_Kit_Consent_Repository_Interface
@@ -107,10 +100,6 @@ class Site_Kit {
 	 * @return bool If the Google site kit setup has been completed.
 	 */
 	private function is_setup_completed(): bool {
-		if ( $this->setup_completed !== null ) {
-			return $this->setup_completed;
-		}
-
 		return $this->site_kit_is_connected_call->is_setup_completed();
 	}
 
@@ -152,6 +141,7 @@ class Site_Kit {
 	 * @return bool If the entire onboarding has been completed.
 	 */
 	public function is_onboarded(): bool {
+		// @TODO: Consider replacing the `is_setup_completed()` check with a `can_read_data( $module )` check (and possibly rename the method to something more genric eg. is_ready() ).
 		return ( $this->is_site_kit_installed() && $this->is_setup_completed() && $this->is_connected() );
 	}
 
@@ -195,7 +185,7 @@ class Site_Kit {
 			'connectionStepsStatuses'  => [
 				'isInstalled'      => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
 				'isActive'         => $this->is_enabled(),
-				'isSetupCompleted' => $this->is_setup_completed(),
+				'isSetupCompleted' => $this->can_read_data( $this->search_console_module ) || $this->can_read_data( $this->ga_module ),
 				'isConsentGranted' => $this->is_connected(),
 			],
 			'isVersionSupported'       => \defined( 'GOOGLESITEKIT_VERSION' ) ? \version_compare( \GOOGLESITEKIT_VERSION, '1.148.0', '>=' ) : false,
@@ -232,8 +222,6 @@ class Site_Kit {
 
 		$can_view_dashboard = ( $modules_permissions['googlesitekit_view_authenticated_dashboard'] ?? false );
 
-		$this->setup_completed = $preloaded[ $paths['connection'] ]['body']['setupCompleted'];
-
 		foreach ( $modules_data as $module ) {
 			$slug = $module['slug'];
 			// We have to also check if the module is recoverable, because if we rely on the module being shared, we have to make also sure the module owner is still connected.
@@ -266,7 +254,6 @@ class Site_Kit {
 		return [
 			'permissions'    => '/' . $rest_root . '/core/user/data/permissions',
 			'modules'        => '/' . $rest_root . '/core/modules/data/list',
-			'connection'     => '/' . $rest_root . '/core/site/data/connection',
 		];
 	}
 

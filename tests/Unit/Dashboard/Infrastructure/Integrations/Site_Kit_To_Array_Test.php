@@ -17,7 +17,6 @@ use WP_User;
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_enabled
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_ga_connected
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_connected
- * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit::is_setup_completed
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -42,7 +41,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 	 * @param bool                 $is_site_kit_activated If the Site Kit plugin is activated.
 	 * @param bool                 $is_consent_granted    If consent is granted to our integration.
 	 * @param bool                 $is_ga_connected       If the Google analytics setup is completed.
-	 * @param bool                 $is_setup_completed    If the Google search console setup is completed.
 	 * @param bool                 $is_config_dismissed   If the configuration widget is dismissed.
 	 * @param string               $access_role_needed    The needed role for using the widgets.
 	 * @param string               $access_role_user      The role the user has.
@@ -57,7 +55,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 		bool $is_site_kit_activated,
 		bool $is_consent_granted,
 		bool $is_ga_connected,
-		bool $is_setup_completed,
 		bool $is_config_dismissed,
 		string $access_role_needed,
 		string $access_role_user,
@@ -73,9 +70,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 		$this->site_kit_consent_repository->expects( 'is_consent_granted' )->once()->andReturn( $is_consent_granted );
 		if ( ! $is_site_kit_activated ) {
 			$this->site_kit_is_connected_call->expects( 'is_ga_connected' )->once()->andReturn( $is_ga_connected );
-			$this->site_kit_is_connected_call->expects( 'is_setup_completed' )
-				->once()
-				->andReturn( $is_setup_completed );
 		}
 		$this->configuration_repository->expects( 'is_site_kit_configuration_dismissed' )
 			->once()
@@ -107,9 +101,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 					'//core/modules/data/list' => [
 						'body' => $data_list,
 					],
-					'//core/site/data/connection' => [
-						'body' => [ 'setupCompleted' => $is_setup_completed ],
-					],
 				]
 			);
 		}
@@ -133,7 +124,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_site_kit_installed'   => true,
 			'is_site_kit_activated'   => true,
 			'is_consent_granted'      => true,
-			'is_setup_completed'      => true,
 			'is_ga_connected'         => true,
 			'is_config_dismissed'     => true,
 			'access_role_needed'      => 'admin',
@@ -178,11 +168,10 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'isRedirectedFromSiteKit'  => false,
 			],
 		];
-		yield 'Installed not setup' => [
+		yield 'Installed not activated' => [
 			'is_site_kit_installed'   => true,
 			'is_site_kit_activated'   => false,
 			'is_consent_granted'      => false,
-			'is_setup_completed'      => true,
 			'is_ga_connected'         => false,
 			'is_config_dismissed'     => true,
 			'access_role_needed'      => 'admin',
@@ -209,7 +198,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'setupUrl'                 => 'url=url%3D',
 				'updateUrl'                => 'url=url',
 				'dashboardUrl'             => 'url=',
-				'isAnalyticsConnected'     => true,
+				'isAnalyticsConnected'     => false,
 				'isFeatureEnabled'         => true,
 				'isSetupWidgetDismissed'   => true,
 				'capabilities'             => [
@@ -231,7 +220,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_site_kit_installed'   => false,
 			'is_site_kit_activated'   => false,
 			'is_consent_granted'      => true,
-			'is_setup_completed'      => true,
 			'is_ga_connected'         => true,
 			'is_config_dismissed'     => true,
 			'access_role_needed'      => 'admin',
@@ -269,7 +257,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'connectionStepsStatuses'  => [
 					'isInstalled'      => false,
 					'isActive'         => false,
-					'isSetupCompleted' => true,
+					'isSetupCompleted' => false,
 					'isConsentGranted' => true,
 				],
 				'isVersionSupported'       => false,
@@ -280,7 +268,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_site_kit_installed'   => true,
 			'is_site_kit_activated'   => true,
 			'is_consent_granted'      => true,
-			'is_setup_completed'      => true,
 			'is_ga_connected'         => true,
 			'is_config_dismissed'     => true,
 			'access_role_needed'      => 'admin',
@@ -329,7 +316,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_site_kit_installed'   => true,
 			'is_site_kit_activated'   => true,
 			'is_consent_granted'      => true,
-			'is_setup_completed'      => true,
 			'is_ga_connected'         => true,
 			'is_config_dismissed'     => true,
 			'access_role_needed'      => 'admin',
@@ -367,7 +353,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'connectionStepsStatuses'  => [
 					'isInstalled'      => true,
 					'isActive'         => true,
-					'isSetupCompleted' => true,
+					'isSetupCompleted' => false,
 					'isConsentGranted' => true,
 				],
 				'isVersionSupported'       => false,
@@ -379,7 +365,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_site_kit_installed'   => true,
 			'is_site_kit_activated'   => true,
 			'is_consent_granted'      => true,
-			'is_setup_completed'      => true,
 			'is_ga_connected'         => true,
 			'is_config_dismissed'     => true,
 			'access_role_needed'      => 'admin',
@@ -429,7 +414,6 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 			'is_site_kit_installed'   => true,
 			'is_site_kit_activated'   => true,
 			'is_consent_granted'      => true,
-			'is_setup_completed'      => true,
 			'is_ga_connected'         => true,
 			'is_config_dismissed'     => true,
 			'access_role_needed'      => 'admin',
@@ -468,7 +452,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				'connectionStepsStatuses'                           => [
 					'isInstalled'      => true,
 					'isActive'         => true,
-					'isSetupCompleted' => true,
+					'isSetupCompleted' => false,
 					'isConsentGranted' => true,
 				],
 				'isVersionSupported'                                => false,
