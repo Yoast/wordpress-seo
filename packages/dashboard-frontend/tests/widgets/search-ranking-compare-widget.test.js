@@ -43,7 +43,7 @@ describe( "SearchRankingCompareWidget", () => {
 				[ "Impressions", "59", "+15.69%" ],
 				[ "Clicks", "6", "-33.33%" ],
 				[ "Average CTR", "10.17%", "-42.37%" ],
-				[ "Average position", "36.29", "+5.33%" ],
+				[ "Average position", "36.29", "+1.84" ],
 			],
 		],
 		[
