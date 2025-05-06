@@ -77,10 +77,10 @@ Additionally, Dutch, German and Swedish trigger an orange/red bullet with shorte
 
 
 ### Assessments unique to product pages
-### 1) Image alt tags
+### 1) Image alt attributes
 **What it does**: Checks if all images have alt attributes.
 
-**When it applies**:  If there is a text with at least one image.
+**When it applies**: Always.
 
 **Name in code**: ImageAltTagsAssessment
 
@@ -88,11 +88,12 @@ Additionally, Dutch, German and Swedish trigger an orange/red bullet with shorte
 
 **Call to action URL**: https://yoa.st/33d (link placement is in bold in the feedback strings)
 
-| Traffic light   	 | Score	| Criterion                                 | Feedback                                                                                                 |
-|-------------------|--------|-------------------------------------------|----------------------------------------------------------------------------------------------------------|
-| Red	             | 3	    | None of the images have alt attributes		| **Image alt tags**: None of the images has alt attributes. **Add alt attributes to your images!**        |
-| Red	             | 3	    | Not all of the images have alt attributes	| **Image alt tags**: X images out of Y don’t have alt attributes. **Add alt attributes to your images!**  |
-| Green	           | 9	    | All of the images have alt attributes		  | **Image alt tags**: All images have alt attributes. Good job!                                            |
+| Traffic light   	 | Score	| Criterion                               | Feedback                                                                                                      |
+|-------------------|--------|-----------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| Red	             | 3	    | No images	                              | **Image alt attributes**: This page does not have images with alt attributes. **Add some!**                   |
+| Red	             | 3	    | None of the images have alt attributes		 | **Image alt attributes**: None of the images have alt attributes. **Add alt attributes to your images!**      |
+| Red	             | 3	    | Not all of the images have alt attributes	 | **Image alt attributes**: X images out of Y don’t have alt attributes. **Add alt attributes to your images!** |
+| Green	           | 9	    | All of the images have alt attributes		 | **Image alt attributes**: All images have alt attributes. Good job!                                           |
 
 ### 2) Product identifier
 **Name in code**: ProductIdentifiersAssessment
