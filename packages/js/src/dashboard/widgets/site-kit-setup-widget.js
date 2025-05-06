@@ -289,7 +289,17 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 
 	return (
 		<Widget className="yst-paper__content yst-relative @3xl:yst-col-span-2 yst-col-span-4">
-			<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4 yst-z-20">
+			<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4">{ isConnectionCompleted
+				? <YoastConnectSiteKitSuccess className="yst-aspect-[21/5] yst-max-w-[252px]" />
+				: <YoastConnectSiteKit className="yst-aspect-[21/5] yst-max-w-[252px]" />
+			}</div>
+			{ ! isUpdatePluginStatus( currentStep, config.isVersionSupported ) && <Stepper
+				steps={ steps }
+				currentStep={ currentStep === STEP_NAME.successfullyConnected ? steps.length : currentStep }
+				className="yst-mb-6"
+			/>
+			}
+			<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
 				<DropdownMenu.IconTrigger
 					screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) }
 					className="yst-float-end"
@@ -311,16 +321,6 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 					</DropdownMenu.ButtonItem>
 				</DropdownMenu.List>
 			</DropdownMenu>
-			<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4">{ isConnectionCompleted
-				? <YoastConnectSiteKitSuccess className="yst-aspect-[21/5] yst-max-w-[252px]" />
-				: <YoastConnectSiteKit className="yst-aspect-[21/5] yst-max-w-[252px]" />
-			}</div>
-			{ ! isUpdatePluginStatus( currentStep, config.isVersionSupported ) && <Stepper
-				steps={ steps }
-				currentStep={ currentStep === STEP_NAME.successfullyConnected ? steps.length : currentStep }
-				className="yst-mb-6 yst-z-10"
-			/>
-			}
 			<hr className="yst-bg-slate-200 yst-mb-6" />
 			{ config.isRedirectedFromSiteKit && <SiteKitRedirectBackAlert dashboardUrl={ config.dashboardUrl } /> }
 
