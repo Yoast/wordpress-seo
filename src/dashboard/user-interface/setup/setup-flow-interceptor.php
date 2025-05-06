@@ -16,7 +16,8 @@ class Setup_Flow_Interceptor implements Integration_Interface {
 	/**
 	 * The page name of the Site Kit Setup finished page.
 	 */
-	private const GOOGLE_SITE_KIT_SETUP_FINISHED_PAGE = 'googlesitekit-splash';
+	private const GOOGLE_SITE_KIT_SEARCH_CONSOLE_SETUP_FINISHED_PAGE = 'googlesitekit-splash';
+	private const GOOGLE_SITE_KIT_ANALYTICS_SETUP_FINISHED_PAGE      = 'googlesitekit-dashboard';
 
 	/**
 	 * Holds the Current_Page_Helper.
@@ -80,10 +81,14 @@ class Setup_Flow_Interceptor implements Integration_Interface {
 	 * @return bool
 	 */
 	private function is_site_kit_setup_completed_page(): bool {
-		$on_setup_page = $this->current_page_helper->get_current_yoast_seo_page() === self::GOOGLE_SITE_KIT_SETUP_FINISHED_PAGE;
+		$current_page                 = $this->current_page_helper->get_current_yoast_seo_page();
+		$on_search_console_setup_page = $current_page === self::GOOGLE_SITE_KIT_SEARCH_CONSOLE_SETUP_FINISHED_PAGE;
+		$on_analytics_setup_page      = $current_page === self::GOOGLE_SITE_KIT_ANALYTICS_SETUP_FINISHED_PAGE;
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$authentication_success_notification = isset( $_GET['notification'] ) && \sanitize_text_field( \wp_unslash( $_GET['notification'] ) ) === 'authentication_success';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		$analytics_4_slug = isset( $_GET['slug'] ) && \sanitize_text_field( \wp_unslash( $_GET['slug'] ) ) === 'analytics-4';
 
-		return $on_setup_page && $authentication_success_notification;
+		return ( $on_search_console_setup_page && $authentication_success_notification ) || ( $on_analytics_setup_page && $authentication_success_notification && $analytics_4_slug );
 	}
 }
