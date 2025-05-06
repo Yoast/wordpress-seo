@@ -309,14 +309,14 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 						className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
 						onClick={ handleOnRemoveTemporarily }
 					>
-						<XIcon className="yst-w-4 yst-text-slate-400" />
+						<XIcon className="yst-w-4 yst-text-slate-400 yst-shrink-0" />
 						{ __( "Remove until next visit", "wordpress-seo" ) }
 					</DropdownMenu.ButtonItem>
 					<DropdownMenu.ButtonItem
 						className="yst-text-red-500 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
 						onClick={ handleRemovePermanently }
 					>
-						<TrashIcon className="yst-w-4" />
+						<TrashIcon className="yst-w-4 yst-shrink-0" />
 						{ __( "Remove permanently", "wordpress-seo" ) }
 					</DropdownMenu.ButtonItem>
 				</DropdownMenu.List>
