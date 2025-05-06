@@ -156,21 +156,19 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 			}
 			// No images and/or no keyphrase set.
 			// We give a score of 3 if there are no images or no keyphrase set, the same score for other assessments with the same condition.
-			if ( this.imageCount === 0 ) {
-				return {
-					score: this._config.scores.noImagesOrKeyphrase,
-					resultText: sprintf(
-						/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-						__(
-							"%1$sImage Keyphrase%3$s: This page does not have images, a keyphrase, or both. %2$sAdd some images with alt attributes that include the keyphrase or synonyms%3$s!",
-							"wordpress-seo"
-						),
-						this._config.urlTitle,
-						this._config.urlCallToAction,
-						"</a>"
+			return {
+				score: this._config.scores.noImagesOrKeyphrase,
+				resultText: sprintf(
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					__(
+						"%1$sImage Keyphrase%3$s: This page does not have images, a keyphrase, or both. %2$sAdd some images with alt attributes that include the keyphrase or synonyms%3$s!",
+						"wordpress-seo"
 					),
-				};
-			}
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
 		}
 
 		// Has alt attributes, but they don't contain the keyphrase even though the keyphrase is set.
