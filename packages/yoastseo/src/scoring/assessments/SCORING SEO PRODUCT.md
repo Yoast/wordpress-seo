@@ -15,7 +15,7 @@ In this document, only the shortlinks used in WordPress are listed.
 - [Keyphrase in meta description](SCORING%20SEO.md#4-keyphrase-in-meta-description)
 - [Keyphrase in subheadings](SCORING%20SEO.md#5-keyphrase-in-subheadings)
 - [Competing links (link keyphrase)](SCORING%20SEO.md#6-competing-links-link-keyphrase)
-- [Image keyphrase](SCORING%20SEO.md#7-image-keyphrase)
+- [Keyphrase in image alt attributes](SCORING%20SEO.md#7-keyphrase-in-image-alt-attributes)
 - [Keyphrase in SEO title](SCORING%20SEO.md#8-keyphrase-in-seo-title)
 - [Keyphrase in slug](SCORING%20SEO.md#9-keyphrase-in-slug)
 - [Previously used keyphrase](SCORING%20SEO.md#10-previously-used-keyphrase)
