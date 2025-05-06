@@ -28,15 +28,15 @@ export const Step = ( { children, index, id } ) => {
 			id={ id }
 		>
 			<div className="yst-step__circle">
-				{ isComplete && <CheckIcon
-					className="yst-step__icon yst-w-4"
-				/> }
-
 				<div
 					className={
 						classNames( "yst-step__icon yst-bg-primary-500 yst-w-2 yst-h-2 yst-rounded-full yst-delay-500",
 							! isComplete && isActive ? "yst-opacity-100" : "yst-opacity-0" ) }
 				/>
+
+				{ isComplete && <CheckIcon
+					className="yst-step__icon yst-w-4"
+				/> }
 			</div>
 			<div className="yst-font-semibold yst-text-xxs yst-mt-3">{ children }</div>
 		</div>
