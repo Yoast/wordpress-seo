@@ -54,7 +54,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 		this.altTagsProperties = researcher.getResearch( "altTagCount" );
 		this.imageCount = researcher.getResearch( "imageCount" );
 
-		const calculatedScore = this.calculateResult( paper );
+		const calculatedScore = this.calculateResult();
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedScore.score );
@@ -66,17 +66,15 @@ export default class ImageAltTagsAssessment extends Assessment {
 	/**
 	 * Calculates the result based on the availability of images in the text.
 	 *
-	 * @param {Paper} paper The Paper object to assess.
-	 *
 	 * @returns {{score: number, resultText: string}} The calculated result.
 	 */
-	calculateResult( paper ) {
+	calculateResult() {
 		// The number of images with no alt attributes.
 		const imagesNoAlt = this.altTagsProperties.noAlt;
 		const { good: goodResultText,  noImagesBad, noneHasAltBad, someHaveAltBad } = this.getFeedbackStrings();
 
 		// There are no images or no text
-		if ( this.imageCount === 0 || paper.getText().length === 0 ) {
+		if ( this.imageCount === 0 ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: noImagesBad,
@@ -132,9 +130,6 @@ export default class ImageAltTagsAssessment extends Assessment {
 				noImagesBad: "%1$sImage alt attributes%3$s: This page does not have images with alt attributes. %2$sAdd some%3$s!",
 				someHaveAltBad: "%1$sImage alt attributes%3$s: Some images don't have alt attributes. %2$sAdd alt attributes to your images%3$s!",
 			};
-			if (  this.imageCount === 0 ) {
-				defaultResultTexts.noImagesBad = "%1$sImage alt attributes%3$s: This page does not have images with alt attributes. %2$sAdd some%3$s!";
-			}
 			if ( numberOfImagesWithoutAlt === 1 ) {
 				defaultResultTexts.someHaveAltBad = "%1$sImage alt attributes%3$s: One image doesn't have alt attributes. %2$sAdd alt attributes to your images%3$s!";
 			}
