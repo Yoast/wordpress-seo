@@ -150,7 +150,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				],
 			],
 			'permissions'             => [
-				'googlesitekit_view_dashboard' => true,
+				'googlesitekit_view_authenticated_dashboard' => true,
 				'googlesitekit_read_shared_module_data::["analytics-4"]' => true,
 				'googlesitekit_read_shared_module_data::["search-console"]' => true,
 			],
@@ -199,7 +199,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				],
 			],
 			'permissions'             => [
-				'googlesitekit_view_dashboard' => true,
+				'googlesitekit_view_authenticated_dashboard' => true,
 				'googlesitekit_read_shared_module_data::["analytics-4"]' => true,
 				'googlesitekit_read_shared_module_data::["search-console"]' => true,
 			],
@@ -248,7 +248,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				],
 			],
 			'permissions'             => [
-				'googlesitekit_view_dashboard' => true,
+				'googlesitekit_view_authenticated_dashboard' => true,
 				'googlesitekit_read_shared_module_data::["analytics-4"]' => true,
 				'googlesitekit_read_shared_module_data::["search-console"]' => true,
 			],
@@ -297,7 +297,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				],
 			],
 			'permissions'             => [
-				'googlesitekit_view_dashboard' => false,
+				'googlesitekit_view_authenticated_dashboard' => false,
 				'googlesitekit_read_shared_module_data::["analytics-4"]' => true,
 				'googlesitekit_read_shared_module_data::["search-console"]' => true,
 			],
@@ -346,7 +346,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				],
 			],
 			'permissions'             => [
-				'googlesitekit_view_dashboard' => false,
+				'googlesitekit_view_authenticated_dashboard' => false,
 				'googlesitekit_read_shared_module_data::["analytics-4"]' => true,
 				'googlesitekit_read_shared_module_data::["search-console"]' => true,
 			],
@@ -396,7 +396,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				],
 			],
 			'permissions'             => [
-				'googlesitekit_view_dashboard' => true,
+				'googlesitekit_view_authenticated_dashboard' => true,
 				'googlesitekit_read_shared_module_data::["analytics-4"]' => false,
 				'googlesitekit_read_shared_module_data::["search-console"]' => false,
 			],
@@ -446,7 +446,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 				],
 			],
 			'permissions'             => [
-				'googlesitekit_view_dashboard' => false,
+				'googlesitekit_view_authenticated_dashboard' => false,
 				'googlesitekit_read_shared_module_data::["analytics-4"]' => false,
 				'googlesitekit_read_shared_module_data::["search-console"]' => false,
 			],

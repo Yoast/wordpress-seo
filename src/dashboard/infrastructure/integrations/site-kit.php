@@ -230,12 +230,13 @@ class Site_Kit {
 		$modules_data        = ! empty( $preloaded[ $paths['modules'] ]['body'] ) ? $preloaded[ $paths['modules'] ]['body'] : [];
 		$modules_permissions = ! empty( $preloaded[ $paths['permissions'] ]['body'] ) ? $preloaded[ $paths['permissions'] ]['body'] : [];
 
-		$can_view_dashboard = ( $modules_permissions['googlesitekit_view_dashboard'] ?? false );
+		$can_view_dashboard = ( $modules_permissions['googlesitekit_view_authenticated_dashboard'] ?? false );
 
 		$this->setup_completed = $preloaded[ $paths['connection'] ]['body']['setupCompleted'];
 
 		foreach ( $modules_data as $module ) {
-			$slug           = $module['slug'];
+			$slug = $module['slug'];
+			// We have to also check if the module is recoverable, because if we rely on the module being shared, we have to make also sure the module owner is still connected.
 			$is_recoverable = ( $module['recoverable'] ?? null );
 
 			if ( $slug === 'analytics-4' ) {
