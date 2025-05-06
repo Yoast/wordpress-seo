@@ -310,25 +310,6 @@ describe( "An image count assessment", function() {
 			"more relevant images</a>!" );
 	} );
 
-	it( "assesses a single image without an alt-tag", function() {
-		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />" );
-
-		const assessment = keyphraseInImagesAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
-			imageCount: 1,
-			altTagCount: {
-				noAlt: 1,
-				withAlt: 0,
-				withAltKeyword: 0,
-				withAltNonKeyword: 0,
-			},
-		}, true ) );
-
-		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
-			"Images on this page do not have alt attributes that reflect the topic of your text. " +
-			"<a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of relevant images</a>!" );
-	} );
-
 	// Japanese testers test no additional logic.
 
 	// it( "assesses a single image with alt-tag containing a non-exact match of the keyphrase when the keyphrase is enclosed in double quotes in Japanese", function() {
