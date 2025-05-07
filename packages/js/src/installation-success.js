@@ -1,8 +1,9 @@
 import domReady from "@wordpress/dom-ready";
 import { __, sprintf } from "@wordpress/i18n";
-import { createInterpolateElement, createRoot } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
 import { CheckIcon } from "@heroicons/react/solid";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import { safeCreateInterpolateElement } from "./helpers/i18n";
 
 /**
  * The installation success page.
@@ -14,7 +15,7 @@ export function InstallationSuccessPage() {
 		<div className="yst-root yst-my-auto yst-flex yst-flex-col yst-h-[90vh] yst-justify-center">
 			<h1 className="yst-text-4xl yst-text-gray-900 yst-w-[350px] yst-font-extrabold yst-leading-10 yst-mx-auto yst-mt-6 yst-mb-16 yst-text-center yst-tracking-tight">
 				{
-					createInterpolateElement(
+					safeCreateInterpolateElement(
 						sprintf(
 							/* translators: %s expands to Yoast SEO. */
 							__( "You've successfully installed %s!", "wordpress-seo" ),

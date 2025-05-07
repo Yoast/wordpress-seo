@@ -1,7 +1,7 @@
 /* global wpseoAdminL10n */
 /* External components */
 import { withSelect } from "@wordpress/data";
-import { Fragment, createInterpolateElement } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { isNil } from "lodash";
 import PropTypes from "prop-types";
@@ -18,6 +18,7 @@ import HelpLink from "../HelpLink";
 import Portal from "../portals/Portal";
 import { Alert, SvgIcon } from "@yoast/components";
 import isMultilingualPluginActive from "../../analysis/isMultilingualPluginActive";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -98,7 +99,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 		);
 	}
 
-	const goodJobFeedback = createInterpolateElement(
+	const goodJobFeedback = safeCreateInterpolateElement(
 		sprintf(
 			/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 			__( "%1$sInclusive language%2$s: We haven't detected any potentially non-inclusive phrases. Great work!", "wordpress-seo" ),

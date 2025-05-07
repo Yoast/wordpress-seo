@@ -1,4 +1,4 @@
-import { createInterpolateElement } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 
 import { getInitialState, getIsNetworkControlEnabled, updateIntegrationState, getIsMultisiteAvailable } from "./helper";
@@ -10,7 +10,7 @@ const integrations = [];
 
 const mastodonIntegration =	{
 	name: "Mastodon",
-	claim: createInterpolateElement(
+	claim: safeCreateInterpolateElement(
 		sprintf(
 			/* translators: 1: bold open tag; 2: Mastodon; 3: bold close tag. */
 			__( "Verify your site on %1$s%2$s%3$s", "wordpress-seo" ),
