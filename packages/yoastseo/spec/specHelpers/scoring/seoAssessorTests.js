@@ -37,13 +37,12 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		} ) );
 	}
 
-	// Now, let's define two different sets of assessments:
-	// 1. defaultAssessments - Assessments that are available in (almost) all assessors, as they don't require any specific attributes on the Paper.
-	// 2. keyphraseRequiredAssessments - The assessments that additionally require a keyword attribute on the Paper.
-
-	let defaultAssessments = [ "keyphraseLength", "metaDescriptionLength", "titleWidth", "textLength" ];
+	// defaultAssessments - Assessments that are available in (almost) all assessors, as they don't require any specific attributes on the Paper.
+	let defaultAssessments = [ "introductionKeyword", "keyphraseInSEOTitle", "keyphraseLength", "metaDescriptionKeyword",
+		"metaDescriptionLength", "slugKeyword", "titleWidth", "textLength" ];
 	if ( isStoreBlog ) {
-		defaultAssessments.pop();
+		// The introduction keyword and text length assessments are not available on store blogs.
+		defaultAssessments = defaultAssessments.slice( 1, -1 );
 	}
 
 	let extraDefaultAssessments = [ "images", "externalLinks", "internalLinks" ];
@@ -55,11 +54,6 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 	}
 
 	defaultAssessments = [ ...defaultAssessments, ...extraDefaultAssessments ];
-
-	const keyphraseRequiredAssessments = defaultAssessments.concat( "introductionKeyword" );
-	if ( isStoreBlog ) {
-		keyphraseRequiredAssessments.pop();
-	}
 
 	// Now, let's run those tests!
 
@@ -78,13 +72,6 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		expect( assessments.sort() ).toEqual( expected.sort() );
 	} );
 
-	it( "additionally runs assessments that only require a text and a keyword", function() {
-		const paper = new Paper( "text", { keyword: "keyword" } );
-		const assessments = assess( paper );
-
-		expect( assessments.sort() ).toEqual( keyphraseRequiredAssessments.sort() );
-	} );
-
 	it( "additionally runs assessments that only require a keyword that contains function words only", function() {
 		const paper = new Paper( "", { keyword: "a" } );
 		const assessments = assess( paper );
@@ -97,23 +84,8 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		const paper = new Paper( text, { keyword: "keyword", synonyms: "synonym" } );
 		const assessments = assess( paper );
 
-		const expected = isStoreBlog ? keyphraseRequiredAssessments : keyphraseRequiredAssessments.concat( "keyphraseDensity" );
+		const expected = isStoreBlog ? defaultAssessments : defaultAssessments.concat( "keyphraseDensity" );
 		expect( assessments.sort() ).toEqual( expected.sort() );
-	} );
-
-	it( "additionally runs assessments that require a text and a super-long slug with stop words", function() {
-		const paper = new Paper( "text",
-			{ slug: "a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug" } );
-		const assessments = assess( paper );
-
-		expect( assessments.sort() ).toEqual( defaultAssessments.sort() );
-	} );
-
-	it( "additionally runs assessments that require a text, a slug and a keyword", function() {
-		const paper = new Paper( "text", { keyword: "keyword", slug: "sample-slug" } );
-		const assessments = assess( paper );
-
-		expect( assessments.sort() ).toEqual( keyphraseRequiredAssessments.concat( "slugKeyword" ).sort() );
 	} );
 
 	// These specifications will additionally trigger the largest keyword distance assessment.
@@ -134,7 +106,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		const assessments = assess( paper );
 
 		const keyphraseAssessments = isProductAssessor ? [ "keyphraseDistribution", "keyphraseDensity" ] : [ "keyphraseDensity" ];
-		const expected = isStoreBlog ? keyphraseRequiredAssessments : [ ...keyphraseRequiredAssessments, ...keyphraseAssessments ];
+		const expected = isStoreBlog ? defaultAssessments : [ ...defaultAssessments, ...keyphraseAssessments ];
 		expect( assessments.sort() ).toEqual( expected.sort() );
 	} );
 
@@ -155,7 +127,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		const assessments = assess( paper );
 
 		const keyphraseAssessments = isProductAssessor ? [ "keyphraseDistribution", "keyphraseDensity" ] : [ "keyphraseDensity" ];
-		const expected = isStoreBlog ? keyphraseRequiredAssessments : [ ...keyphraseRequiredAssessments, ...keyphraseAssessments ];
+		const expected = isStoreBlog ? defaultAssessments : [ ...defaultAssessments, ...keyphraseAssessments ];
 		expect( assessments.sort() ).toEqual( expected.sort() );
 	} );
 }

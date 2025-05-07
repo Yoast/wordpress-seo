@@ -8,7 +8,7 @@ import { getDifference } from "../../transformers/difference";
 
 /**
  * @type {import("../../services/data-provider")} DataProvider
- * @type {import("../../services/remote-cached-data-provider")} RemoteCachedDataProvider
+ * @type {import("../../services/remote-data-provider")} RemoteDataProvider
  * @type {import("../../services/data-formatter-interface")} DataFormatterInterface
  */
 
@@ -45,7 +45,7 @@ const createOrganicSessionsCompareFormatter = ( dataFormatter ) => ( [ data ] ) 
  * Handles the fetch and returns the data, error and pending status.
  *
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteCachedDataProvider} remoteDataProvider The remote cached data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  *
  * @returns {{data: OrganicSessionsCompareData?, error: Error, isPending: boolean}} The remote data info.
@@ -117,7 +117,7 @@ export const OrganicSessionsCompare = ( { data, isPending, error, supportLink } 
 	return (
 		<Layout>
 			<Title as="h2" size="1" className="yst-font-bold">{ data.sessions }</Title>
-			<Trend value={ data.difference } formattedValue={ data.formattedDifference } />
+			<Trend value={ data.difference } formattedValue={ data.formattedDifference } moreIsGood={ true } />
 		</Layout>
 	);
 };

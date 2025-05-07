@@ -8,7 +8,7 @@ import { useRemoteData } from "../../services/use-remote-data";
 
 /**
  * @type {import("../../services/data-provider")} DataProvider
- * @type {import("../../services/remote-cached-data-provider")} RemoteCachedDataProvider
+ * @type {import("../../services/remote-data-provider")} RemoteDataProvider
  * @type {import("../../services/data-formatter-interface")} DataFormatterInterface
  */
 
@@ -170,7 +170,7 @@ const OrganicSessionsChart = ( { data } ) => (
 				data={ data }
 			/>
 		</div>
-		<table className="yst-sr-only">
+		<table className="yst-sr-only yst-table-fixed">
 			<caption>{ __( "Organic sessions chart", "wordpress-seo" ) }</caption>
 			<thead>
 				<tr>
@@ -195,7 +195,7 @@ const OrganicSessionsChart = ( { data } ) => (
  * Handles the fetch and returns the data, error and pending status.
  *
  * @param {DataProvider} dataProvider The data provider.
- * @param {RemoteCachedDataProvider} remoteDataProvider The remote cached data provider.
+ * @param {RemoteDataProvider} remoteDataProvider The remote data provider.
  * @param {DataFormatterInterface} dataFormatter The data formatter.
  *
  * @returns {{data: ChartData?, error: Error, isPending: boolean}} The remote data info.

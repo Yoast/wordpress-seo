@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRemoteData } from "../../services/use-remote-data";
-import { SCORE_DESCRIPTIONS } from "../score-meta";
+import { SCORE_DESCRIPTIONS, SCORE_TOOLTIPS } from "../score-meta";
 import { ContentTypeFilter } from "./content-type-filter";
 import { ScoreContent } from "./score-content";
 import { TermFilter } from "./term-filter";
@@ -86,6 +86,7 @@ export const Scores = ( { analysisType, contentTypes, dataProvider, remoteDataPr
 						scores={ scores }
 						isLoading={ isPending }
 						descriptions={ SCORE_DESCRIPTIONS[ analysisType ] }
+						tooltips={ SCORE_TOOLTIPS[ analysisType ] }
 						idSuffix={ analysisType }
 					/>
 				) }

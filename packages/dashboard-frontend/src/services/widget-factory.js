@@ -32,6 +32,14 @@ export class WidgetFactory {
 	}
 
 	/**
+	 * @param {WidgetType} widgetType The widget type.
+	 * @returns {import("./remote-data-provider").RemoteDataProvider} The remote data provider for that widget type.
+	 */
+	getRemoteDataProvider( widgetType ) {
+		return this.#remoteCachedDataProviders[ widgetType ] ?? this.#remoteDataProvider;
+	}
+
+	/**
 	 * The widget types, also determines the order in which they are displayed.!
 	 *
 	 * @returns {Object} The widget types.
@@ -61,7 +69,7 @@ export class WidgetFactory {
 					key={ widgetType }
 					analysisType="seo"
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 				/>;
 			case this.types.readabilityScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "readabilityAnalysis" ) ) ) {
@@ -71,34 +79,34 @@ export class WidgetFactory {
 					key={ widgetType }
 					analysisType="readability"
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 				/>;
 			case this.types.topPages:
 				return <TopPagesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteCachedDataProviders[ widgetType ] }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.topQueries:
 				return <TopQueriesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteCachedDataProviders[ widgetType ] }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.searchRankingCompare:
 				return <SearchRankingCompareWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteCachedDataProviders[ widgetType ] }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			case this.types.organicSessions:
 				return <OrganicSessionsWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteCachedDataProviders[ widgetType ] }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			default:

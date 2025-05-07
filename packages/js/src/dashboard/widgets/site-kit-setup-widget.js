@@ -1,10 +1,11 @@
 import { ArrowNarrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { createInterpolateElement, useCallback, useEffect } from "@wordpress/element";
+import { useCallback, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Widget } from "@yoast/dashboard-frontend";
 import { Alert, Button, DropdownMenu, Stepper, Title, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { ReactComponent as YoastConnectSiteKitSuccess } from "../../../images/yoast-connect-google-site-kit-success.svg";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { SiteKitConsentModal } from "../../shared-admin/components";
@@ -16,12 +17,12 @@ import { SiteKitConsentModal } from "../../shared-admin/components";
  * @type {import("../index").CapabilitiesForSiteKit} Capabilities for site kit.
  */
 
-/** @type {string[]} */
+/** @type {{ children: React.ReactNode, id: string }[]} */
 const steps = [
-	__( "INSTALL", "wordpress-seo" ),
-	__( "ACTIVATE", "wordpress-seo" ),
-	__( "SET UP", "wordpress-seo" ),
-	__( "CONNECT", "wordpress-seo" ),
+	{ children: __( "INSTALL", "wordpress-seo" ), id: "install" },
+	{ children: __( "ACTIVATE", "wordpress-seo" ), id: "activate" },
+	{ children: __( "SET UP", "wordpress-seo" ), id: "setup" },
+	{ children: __( "CONNECT", "wordpress-seo" ), id: "connect" },
 ];
 
 /** @type {Object<string, number>} */
@@ -157,7 +158,7 @@ const SiteKitAlert = ( { capabilities, currentStep, isVersionSupported, isConsen
  */
 const SiteKitRedirectBackAlert = ( { dashboardUrl } ) => {
 	return <Alert className={ "yst-mb-4" }>
-		{ createInterpolateElement( sprintf(
+		{ safeCreateInterpolateElement( sprintf(
 			/* translators: %1$s and %2$s: Expands to an opening and closing link tag. */
 			__(
 				"You’re back in Yoast SEO. If you still have tasks to finish in Site Kit by Google, you can %1$s return to their dashboard%2$s anytime.",
@@ -289,6 +290,16 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 
 	return (
 		<Widget className="yst-paper__content yst-relative @3xl:yst-col-span-2 yst-col-span-4">
+			<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4">{ isConnectionCompleted
+				? <YoastConnectSiteKitSuccess className="yst-aspect-[21/5] yst-max-w-[252px]" />
+				: <YoastConnectSiteKit className="yst-aspect-[21/5] yst-max-w-[252px]" />
+			}</div>
+			{ ! isUpdatePluginStatus( currentStep, config.isVersionSupported ) && <Stepper
+				steps={ steps }
+				currentStep={ currentStep === STEP_NAME.successfullyConnected ? steps.length : currentStep }
+				className="yst-mb-6"
+			/>
+			}
 			<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
 				<DropdownMenu.IconTrigger
 					screenReaderTriggerLabel={ __( "Open Site Kit widget dropdown menu", "wordpress-seo" ) }
@@ -299,33 +310,18 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 						className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
 						onClick={ handleOnRemoveTemporarily }
 					>
-						<XIcon className="yst-w-4 yst-text-slate-400" />
+						<XIcon className="yst-w-4 yst-text-slate-400 yst-shrink-0" />
 						{ __( "Remove until next visit", "wordpress-seo" ) }
 					</DropdownMenu.ButtonItem>
 					<DropdownMenu.ButtonItem
 						className="yst-text-red-500 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
 						onClick={ handleRemovePermanently }
 					>
-						<TrashIcon className="yst-w-4" />
+						<TrashIcon className="yst-w-4 yst-shrink-0" />
 						{ __( "Remove permanently", "wordpress-seo" ) }
 					</DropdownMenu.ButtonItem>
 				</DropdownMenu.List>
 			</DropdownMenu>
-			<div className="yst-flex yst-justify-center yst-mb-6 yst-mt-4">{ isConnectionCompleted
-				? <YoastConnectSiteKitSuccess className="yst-aspect-[21/5] yst-max-w-[252px]" />
-				: <YoastConnectSiteKit className="yst-aspect-[21/5] yst-max-w-[252px]" />
-			}</div>
-			{ ! isUpdatePluginStatus( currentStep, config.isVersionSupported ) && <Stepper steps={ steps } currentStep={ currentStep } className="yst-mb-6">
-				{ steps.map( ( label, index ) => (
-					<Stepper.Step
-						key={ label }
-						isActive={ currentStep === index }
-						isComplete={ currentStep > index || isConnectionCompleted }
-					>
-						{ label }
-					</Stepper.Step>
-				) ) }
-			</Stepper> }
 			<hr className="yst-bg-slate-200 yst-mb-6" />
 			{ config.isRedirectedFromSiteKit && <SiteKitRedirectBackAlert dashboardUrl={ config.dashboardUrl } /> }
 

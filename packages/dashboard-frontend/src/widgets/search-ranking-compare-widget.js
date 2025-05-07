@@ -58,7 +58,7 @@ import { SearchRankingCompareWidgetContent } from "./search-ranking-compare/sear
  * This contains minimal logic, in order to keep the error boundary more likely to catch errors.
  *
  * @param {import("../services/data-provider")} dataProvider The data provider.
- * @param {import("../services/remote-cached-data-provider")} remoteDataProvider The remote cached data provider.
+ * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
  * @param {import("../services/comparison-metrics-data-formatter")} dataFormatter The data formatter.
  *
  * @returns {JSX.Element} The element.

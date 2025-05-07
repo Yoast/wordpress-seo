@@ -34,7 +34,7 @@ const transformData = ( rawData ) => {
 	if ( rawData[ 0 ].current.average_position ) {
 		data.position = {
 			value: rawData[ 0 ].current.average_position,
-			delta: getDifference( rawData[ 0 ].current.average_position, rawData[ 0 ].previous.average_position ),
+			delta: rawData[ 0 ].current.average_position - rawData[ 0 ].previous.average_position,
 		};
 	}
 	return data;
@@ -58,7 +58,7 @@ const createDataFormatter = ( dataFormatter ) => ( data ) => {
 
 /**
  * @param {import("../services/data-provider")} dataProvider The data provider.
- * @param {import("../services/remote-cached-data-provider")} remoteDataProvider The remote cached data provider.
+ * @param {import("../services/remote-data-provider")} remoteDataProvider The remote data provider.
  * @param {import("../services/comparison-metrics-data-formatter")} dataFormatter The data formatter.
  * @returns {{data?: FormattedSearchRankingCompareData, error?: Error, isPending: boolean}} The remote data info.
  */
