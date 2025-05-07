@@ -1,6 +1,5 @@
 body[backdrop-active] * {/* Disable interaction with background elements when backdrop is active */
 	pointer-events: none;
-
 }
 
 @layer components {
@@ -50,7 +49,8 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 			yst-p-4
 			yst-rounded-lg
 			yst-w-max
-			yst-max-w-sm
+			yst-max-w-xs
+			sm:yst-max-w-sm
 			yst-z-30
 			yst-bg-white
 			yst-shadow-2xl
@@ -61,8 +61,10 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 
 		.yst-popover--right {
 			@apply
+			yst--translate-x-0
+			yst--translate-y-1/2
 			yst-top-1/2
-			yst-start-[90%]
+			yst-start-full
 			before:yst-content-['']
 			before:yst-block
 			before:yst-end-full
@@ -71,7 +73,7 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 			before:yst--translate-y-1/2
 			rtl:before:yst-translate-x-1/2;
 
-			transform: translate(8%, -50%);
+			transform: translate(9%, -50%);
 
 			&::before {
 				border-left: 14px solid transparent;
@@ -85,8 +87,10 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 			@apply
 			yst--translate-y-full
 			yst-translate-x-1/2
+			rtl:yst--translate-x-1/2
 			yst-end-1/2
-			yst--top-4
+			yst--top-5
+			/*yst--mt-3*/
 			before:yst-content-['']
 			before:yst-start-1/2
 			before:yst-top-full
@@ -104,11 +108,11 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 		.yst-popover--top-left {
 			@apply
 			yst--translate-y-full
-			yst--top-4
-			yst-start-auto
-			yst-end-0  /* move arrow to the left */
+			yst--top-5
+			yst-end-10
+			yst-translate-x-1/4
 			before:yst-content-['']
-			before:yst-start-[86%]  /* move arrow to the right */
+			before:yst-start-[80%]  /* move arrow to the right */
 			before:yst-top-full
 			before:yst--translate-x-1/2
 			rtl:before:yst-translate-x-1/2
@@ -125,11 +129,10 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 		.yst-popover--top-right {
 			@apply
 			yst--translate-y-full
-			yst--top-4
-			yst-start-0   /* move arrow to the right */
+			yst--top-5
 			yst-end-auto
 			before:yst-content-['']
-			before:yst-start-[14%] /* move arrow to the left */
+			before:yst-start-[20%] /* move arrow to the left */
 			before:yst-top-full
 			before:yst--translate-x-1/2
 			rtl:before:yst-translate-x-1/2
@@ -165,7 +168,9 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 
 		.yst-popover--bottom {
 			@apply
-			yst--end-[116%]
+			yst--translate-x-1/2
+			rtl:yst-translate-x-1/2
+			yst-start-1/2
 			yst-top-14
 			before:yst-content-['']
 			before:yst-start-1/2
@@ -202,7 +207,7 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 
 		.yst-popover--bottom-right {
 			@apply
-			yst-start-[20%]
+			yst-start-0
 			yst-top-14
 			before:yst-content-['']
 			before:yst-start-8
