@@ -27,7 +27,6 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 	 * @param {number} [config.scores.withAltTooFewKeywordMatches] The score to return if there are too few keyphrase matches.
 	 * @param {number} [config.scores.withAltTooManyKeywordMatches] The score to return if there are too many keyphrase matches.
 	 * @param {number} [config.scores.withAltNonKeyword] The score to return if there are alt attributes without keyphrase.
-	 * @param {number} [config.scores.withAlt] The score to return if there are alt attributes with keyphrase.
 	 * @param {number} [config.scores.noAlt] The score to return if there are no alt attributes.
 	 * @param {number} [config.scores.noImagesOrKeyphrase] The score to return if there are no images or no keyphrase.
 	 */
@@ -44,7 +43,6 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 				withAltTooFewKeywordMatches: 6,
 				withAltTooManyKeywordMatches: 6,
 				withAltNonKeyword: 6,
-				withAlt: 6,
 				noAlt: 6,
 				noImagesOrKeyphrase: 3,
 			},

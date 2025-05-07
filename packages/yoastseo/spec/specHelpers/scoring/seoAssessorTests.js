@@ -156,7 +156,6 @@ export function checkConfigOverrides( assessor ) {
 		expect( assessment._config ).toBeDefined();
 		expect( assessment._config.scores ).toBeDefined();
 		expect( assessment._config.scores.withAltNonKeyword ).toBe( 3 );
-		expect( assessment._config.scores.withAlt ).toBe( 3 );
 		expect( assessment._config.scores.noAlt ).toBe( 3 );
 	} );
 
