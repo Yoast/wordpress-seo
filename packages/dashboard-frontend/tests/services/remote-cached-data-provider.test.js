@@ -1,5 +1,4 @@
 import { describe, expect, it } from "@jest/globals";
-import { waitFor } from "@testing-library/react";
 import { fetchJson } from "../../src/fetch/fetch-json";
 import { getItem, setItem } from "../../src/services/cache";
 import { RemoteCachedDataProvider } from "../../src/services/remote-cached-data-provider";
@@ -67,7 +66,7 @@ describe( "RemoteCachedDataProvider", () => {
 		const result = await provider.fetchJson( url, options );
 
 		expect( getItem ).toHaveBeenCalledWith( "yoastseo_yoastVersion_storagePrefix_testWidget" );
-		await waitFor( () => expect( fetchJson ).toHaveBeenCalledTimes( 1 ) );
+		expect( fetchJson ).toHaveBeenCalledTimes( 1 );
 		expect( result ).toEqual( "result" );
 		expect( setItem ).toHaveBeenCalledWith(
 			"yoastseo_yoastVersion_storagePrefix_testWidget",
