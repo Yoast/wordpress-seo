@@ -36,6 +36,11 @@ describe( "getStorage", () => {
 
 		resetDefaultStorageOrder();
 	} );
+
+	it( "should return null when instructed to get a non-existing storage", () => {
+		setStorageOrder( [ "nonExistingStorage" ] );
+		expect( getStorage() ).toEqual( null );
+	} );
 } );
 
 describe.each( [ [ "localStorage" ], [ "sessionStorage" ] ] )(
@@ -184,3 +189,34 @@ describe.each( [ [ "localStorage" ], [ "sessionStorage" ] ] )(
 		} );
 	}
 );
+describe( "No-op caching (Null backend)", () => {
+	beforeAll( () => {
+		// Set the backend storage mechanism to nothing; this will cause all
+		// caching to be skipped.
+		setSelectedStorageBackend( null );
+	} );
+
+	afterAll( () => {
+		// Reset the backend storage mechanism.
+		setSelectedStorageBackend( undefined );
+	} );
+
+	describe( "get", () => {
+		it( "should return nothing when no storage is available", () => {
+			setItem( "key1", "data" );
+
+			const cacheData = getItem( "key1" );
+			expect( cacheData ).toEqual( {
+				cacheHit: false,
+				value: undefined,
+			} );
+		} );
+	} );
+
+	describe( "set", () => {
+		it( "should not save when no storage is available", () => {
+			const didSave = setItem( "key1", "data" );
+			expect( didSave ).toEqual( false );
+		} );
+	} );
+} );
