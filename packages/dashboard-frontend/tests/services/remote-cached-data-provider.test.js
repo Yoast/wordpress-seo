@@ -51,6 +51,7 @@ describe( "RemoteCachedDataProvider", () => {
 		expect( getItem ).toHaveBeenCalledWith( "yoastseo_yoastVersion_storagePrefix_testWidget" );
 		expect( result ).toEqual( { data: "cachedData" } );
 		expect( setItem ).not.toHaveBeenCalled();
+		expect( fetchJson ).not.toHaveBeenCalled();
 	} );
 
 	it( "should fetch data and cache it if not in cache", async() => {
