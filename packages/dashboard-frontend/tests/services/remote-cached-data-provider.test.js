@@ -7,19 +7,11 @@ jest.mock( "../../src/services/cache", () => ( {
 	getItem: jest.fn(),
 	setItem: jest.fn(),
 } ) );
-jest.mock( "../../src/fetch/fetch-json" );
+jest.mock( "../../src/fetch/fetch-json", () => ( {
+	fetchJson: jest.fn().mockImplementation( () => Promise.resolve( "result" ) ),
+} ) );
 
 describe( "RemoteCachedDataProvider", () => {
-	beforeAll( () => {
-		fetchJson.mockImplementation( () => {
-			return Promise.resolve( "result" );
-		} );
-	} );
-
-	beforeEach( () => {
-		fetchJson.mockClear();
-	} );
-
 	test.each( [
 		[ "a TTL equal to zero", 0 ],
 		[ "a negative TTL", -1 ],
