@@ -59,9 +59,16 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 			before:yst-absolute;
 		}
 
+		.yst-popover--no-arrow {
+			@apply
+			yst--translate-x-1/2
+			yst-start-1/2
+		}
+
 		.yst-popover--right {
 			@apply
-			yst--translate-x-0
+			yst-translate-x-5
+			rtl:yst--translate-x-5
 			yst--translate-y-1/2
 			yst-top-1/2
 			yst-start-full
@@ -72,8 +79,6 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 			before:yst-right-full
 			before:yst--translate-y-1/2
 			rtl:before:yst-translate-x-1/2;
-
-			transform: translate(9%, -50%);
 
 			&::before {
 				border-left: 14px solid transparent;
@@ -90,7 +95,6 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 			rtl:yst--translate-x-1/2
 			yst-end-1/2
 			yst--top-5
-			/*yst--mt-3*/
 			before:yst-content-['']
 			before:yst-start-1/2
 			before:yst-top-full
@@ -109,17 +113,17 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 			@apply
 			yst--translate-y-full
 			yst--top-5
-			yst-end-10
-			yst-translate-x-1/4
+			yst-end-0
+			yst-translate-x-0
 			before:yst-content-['']
-			before:yst-start-[80%]  /* move arrow to the right */
+			before:yst-end-2  /* move arrow to the right */
 			before:yst-top-full
 			before:yst--translate-x-1/2
 			rtl:before:yst-translate-x-1/2
-			before:yst-translate-y-0;
+			before:yst-translate-y-0
+			before:yst-border-transparent;
 
 			&::before {
-				border-bottom: 14px solid transparent;
 				border-right: 14px solid transparent;
 				border-top: 14px solid #fff;
 				border-left: 14px solid transparent;
@@ -130,13 +134,14 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 			@apply
 			yst--translate-y-full
 			yst--top-5
-			yst-end-auto
+			yst--start-0
 			before:yst-content-['']
-			before:yst-start-[20%] /* move arrow to the left */
+			before:yst-start-8 /* move arrow to the left */
 			before:yst-top-full
 			before:yst--translate-x-1/2
 			rtl:before:yst-translate-x-1/2
-			before:yst-translate-y-0;
+			before:yst-translate-y-0
+			before:yst-border-transparent;
 
 			&::before {
 				border-right: 14px solid transparent;
@@ -148,15 +153,19 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 		.yst-popover--left {
 			@apply
 			yst-top-1/2
-			yst--start-[40%]
+			yst-end-full
+			yst--start-5
+			yst--translate-x-full
+			yst--translate-y-1/2
+			rtl:yst-start-full
+			rtl:yst--end-5
+			rtl:yst-translate-x-full
 			before:yst-content-['']
 			before:yst-start-full
 			before:yst-top-1/2
 			before:yst-right-full
 			before:yst--translate-y-1/2
 			rtl:before:yst-translate-x-1/2;
-
-			transform: translate(-92%,-50%);
 
 			&::before {
 				border-right: 14px solid transparent;
@@ -169,7 +178,6 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 		.yst-popover--bottom {
 			@apply
 			yst--translate-x-1/2
-			rtl:yst-translate-x-1/2
 			yst-start-1/2
 			yst-top-14
 			before:yst-content-['']

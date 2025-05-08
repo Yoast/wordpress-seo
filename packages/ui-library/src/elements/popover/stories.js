@@ -14,7 +14,11 @@ export const Factory = {
 	component: Popover,
 	render: ( args ) => {
 		return (
-			<Popover { ...args } id="yst-popover" />
+			<>
+				<div className="yst-relative">Element</div>
+				<Popover { ...args } id="yst-popover" />
+			</>
+
 		);
 	},
 	parameters: {

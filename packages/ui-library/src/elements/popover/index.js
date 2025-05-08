@@ -8,7 +8,7 @@ import { noop } from "lodash";
 const PopoverContext = createContext( { handleDismiss: noop } );
 
 const positionClassNameMap = {
-	"no-arrow": "yst-popover",
+	"no-arrow": "yst-popover--no-arrow",
 	top: "yst-popover--top",
 	"top-left": "yst-popover--top-left",
 	"top-right": "yst-popover--top-right",
@@ -153,13 +153,13 @@ Backdrop.propTypes = {
 const Popover = forwardRef( ( {
 	children,
 	id,
-	role = "dialog",
-	as: Component = "div",
-	className = "",
+	role,
+	as: Component,
+	className,
 	isVisible,
 	setIsVisible,
-	position = "no-arrow",
-	backdrop = false,
+	position,
+	backdrop,
 	...props
 }, ref ) => {
 	const handleDismiss = useCallback( () => {
@@ -199,17 +199,26 @@ const Popover = forwardRef( ( {
 } );
 
 Popover.displayName = "Popover";
-
 Popover.propTypes = {
-	as: PropTypes.elementType.isRequired,
+	as: PropTypes.elementType,
 	children: PropTypes.node.isRequired,
 	id: PropTypes.string.isRequired,
-	role: PropTypes.string.isRequired,
-	className: PropTypes.string.isRequired,
-	isVisible: PropTypes.bool.isRequired,
-	setIsVisible: PropTypes.func.isRequired,
-	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ).isRequired,
-	backdrop: PropTypes.bool.isRequired,
+	role: PropTypes.string,
+	className: PropTypes.string,
+	isVisible: PropTypes.bool,
+	setIsVisible: PropTypes.func,
+	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ),
+	backdrop: PropTypes.bool,
+};
+
+Popover.defaultProps = {
+	as: "div",
+	role: "dialog",
+	isVisible: false,
+	setIsVisible: false,
+	position: "no-arrow",
+	backdrop: false,
+	className: "",
 };
 
 Popover.Title = Title;
