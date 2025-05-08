@@ -14,7 +14,11 @@ export const Factory = {
 	component: Popover,
 	render: ( args ) => {
 		return (
-			<Popover { ...args } id="yst-popover" />
+			<>
+				<div className="yst-relative">Element</div>
+				<Popover { ...args } id="yst-popover" />
+			</>
+
 		);
 	},
 	parameters: {
@@ -53,10 +57,8 @@ export const WithMoreContent = {
 					<div className="yst-self-start yst-flex-wrap">
 						<Popover.Content
 							id="popover-content"
-							content="Improve your content SEO. The content of the popover.
-								Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-								Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-								when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+							content="The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+							Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
 						/>
 					</div>
 				</div>
@@ -116,10 +118,7 @@ export const ButtonWithAPopover = {
 						</div>
 						<Popover.Content
 							id="popover-content"
-							content="Improve your content SEO. The content of the popover.
-								Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-								Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-								when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+							content="The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry."
 							className="yst-text-slate-700 yst-font-normal yst-text-left"
 						/>
 					</div>
