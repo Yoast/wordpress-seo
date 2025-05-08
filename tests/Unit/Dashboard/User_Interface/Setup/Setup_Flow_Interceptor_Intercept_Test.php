@@ -23,9 +23,35 @@ final class Setup_Flow_Interceptor_Intercept_Test extends Abstract_Setup_Flow_In
 	 * @return void
 	 */
 	public function test_intercept_site_kit_setup_flow_everything_setup() {
-
 		$this->current_page_helper->expects( 'get_current_yoast_seo_page' )->andReturn( 'googlesitekit-splash' );
 		$_GET['notification'] = 'authentication_success';
+		Functions\expect( 'get_transient' )
+			->once()
+			->with( 'wpseo_site_kit_set_up_transient' )
+			->andReturn( '1' );
+		Functions\expect( 'delete_transient' )
+			->once()
+			->with( 'wpseo_site_kit_set_up_transient' );
+
+		Functions\expect( 'self_admin_url' )
+			->once()
+			->with( 'admin.php?page=wpseo_dashboard&redirected_from_site_kit' )
+			->andReturn( 'admin.php?page=wpseo_dashboard&redirected_from_site_kit' );
+		$this->redirect_helper->expects( 'do_safe_redirect' )
+			->with( 'admin.php?page=wpseo_dashboard&redirected_from_site_kit', 302, 'Yoast SEO' );
+		$this->instance->intercept_site_kit_setup_flow();
+	}
+
+	/**
+	 * Tests the intercept_site_kit_setup_flow route's happy path for analytics.
+	 *
+	 * @return void
+	 */
+	public function test_intercept_site_kit_setup_flow_everything_setup_analytics() {
+		$this->current_page_helper->expects( 'get_current_yoast_seo_page' )->andReturn( 'googlesitekit-dashboard' );
+		$this->site_kit->expects( 'is_ga_connected' )->andReturn( true );
+		$_GET['notification'] = 'authentication_success';
+		$_GET['slug']         = 'analytics-4';
 		Functions\expect( 'get_transient' )
 			->once()
 			->with( 'wpseo_site_kit_set_up_transient' )
@@ -74,7 +100,7 @@ final class Setup_Flow_Interceptor_Intercept_Test extends Abstract_Setup_Flow_In
 	 * @return void
 	 */
 	public function test_intercept_site_kit_setup_flow_no_notification() {
-		$this->current_page_helper->expects( 'get_current_yoast_seo_page' )->andReturn( 'googlesitekit-dashboard' );
+		$this->current_page_helper->expects( 'get_current_yoast_seo_page' )->andReturn( 'googlesitekit-something' );
 		Functions\expect( 'get_transient' )
 			->once()
 			->with( 'wpseo_site_kit_set_up_transient' )
@@ -93,7 +119,7 @@ final class Setup_Flow_Interceptor_Intercept_Test extends Abstract_Setup_Flow_In
 	 */
 	public static function generate_setup_interceptor_pages_provider() {
 		yield 'Wrong page' => [
-			'page'         => 'googlesitekit-dashboard',
+			'page'         => 'googlesitekit-something',
 			'notification' => 'authentication_success',
 		];
 
@@ -143,7 +169,7 @@ final class Setup_Flow_Interceptor_Intercept_Test extends Abstract_Setup_Flow_In
 			'notification'    => 'authentication_success',
 		];
 		yield 'Wrong transient boolean false' => [
-			'transient_value' => true,
+			'transient_value' => false,
 			'page'            => 'googlesitekit-splash',
 			'notification'    => 'authentication_success',
 		];
