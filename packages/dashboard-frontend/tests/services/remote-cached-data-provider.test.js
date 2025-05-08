@@ -20,15 +20,13 @@ describe( "RemoteCachedDataProvider", () => {
 		fetchJson.mockClear();
 	} );
 
-	it( "should throw an error when instantiated with a TTL equal to zero", () => {
+	test.each( [
+		[ "a TTL equal to zero", 0 ],
+		[ "a negative TTL", -1 ],
+		[ "an invalid number TTL", NaN ],
+	] )( "should throw an error when instantiated with %s", ( _, ttl ) => {
 		expect( () => {
-			new RemoteCachedDataProvider( {}, "storagePrefix", "yoastVersion", 0 );
-		} ).toThrow( "The TTL provided must be a positive integer." );
-	} );
-
-	it( "should throw an error when instantiated with a negative TTL", () => {
-		expect( () => {
-			new RemoteCachedDataProvider( {}, "storagePrefix", "yoastVersion", 0 );
+			new RemoteCachedDataProvider( {}, "storagePrefix", "yoastVersion", ttl );
 		} ).toThrow( "The TTL provided must be a positive integer." );
 	} );
 
