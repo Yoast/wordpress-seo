@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 3.0.0 and onwards.
 
+## 3.3.0 (2025-05-09)
+
+### Enhancements:
+* Allows overriding the classes that are used to center elements in the _text alignment_ assessment. [#22242](https://github.com/Yoast/wordpress-seo/pull/22242)
+
 ## 3.2.0 (2025-05-02)
 
 ### Enhancements:
