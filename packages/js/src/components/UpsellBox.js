@@ -1,6 +1,7 @@
 /* External dependencies */
 import { select } from "@wordpress/data";
-import { Component, Fragment, createInterpolateElement } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { makeOutboundLink } from "@yoast/helpers";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -95,7 +96,7 @@ class UpsellBox extends Component {
 			<StyledList role="list">
 				{ benefits.map( ( benefit, index ) => {
 					return <li key={ `upsell-benefit-${ index }` }>
-						{ createInterpolateElement( benefit, { strong: <strong /> } ) }
+						{ safeCreateInterpolateElement( benefit, { strong: <strong /> } ) }
 					</li>;
 				} ) }
 			</StyledList>

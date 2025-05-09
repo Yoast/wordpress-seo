@@ -1,7 +1,8 @@
 /* eslint-disable complexity */
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link } from "@yoast/ui-library";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { useFormikContext } from "formik";
 import {
 	FieldsetLayout,
@@ -41,7 +42,7 @@ const FormatArchives = () => {
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 	const exampleUrl = useSelectSettings( "selectExampleUrl", [], "/format/example/" );
 
-	const recommendedSize = useMemo( () => createInterpolateElement(
+	const recommendedSize = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening strong tag.
@@ -57,7 +58,7 @@ const FormatArchives = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
-	const description = useMemo( () => createInterpolateElement(
+	const description = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
 			__( "(e.g., %1$s)", "wordpress-seo" ),

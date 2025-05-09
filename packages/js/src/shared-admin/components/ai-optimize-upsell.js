@@ -1,7 +1,7 @@
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
-import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Badge, Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { OutboundLink, VideoFlow } from ".";
@@ -65,7 +65,7 @@ export const AIOptimizeUpsell = ( {
 						}
 					</h3>
 					<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
-						{ createInterpolateElement(
+						{ safeCreateInterpolateElement(
 							sprintf(
 								/* translators: %1$s is a break tag; %2$s and %3$s are anchor tags; %4$s is the arrow icon. */
 								__(
