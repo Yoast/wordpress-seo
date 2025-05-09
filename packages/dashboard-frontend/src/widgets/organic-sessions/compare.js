@@ -1,6 +1,6 @@
-import { useCallback, useMemo } from "react";
 import { __ } from "@wordpress/i18n";
 import { SkeletonLoader, Title } from "@yoast/ui-library";
+import { useCallback, useMemo } from "react";
 import { ErrorAlert } from "../../components/error-alert";
 import { Trend } from "../../components/trend";
 import { useRemoteData } from "../../services/use-remote-data";
@@ -80,7 +80,7 @@ export const useOrganicSessionsCompare = ( dataProvider, remoteDataProvider, dat
 
 /**
  * Shared layout between loading and actual.
- * @param {ReactNode} children The sessions and difference.
+ * @param {React.ReactNode} children The sessions and difference.
  * @returns {JSX.Element} The element.
  */
 const Layout = ( { children } ) => (
