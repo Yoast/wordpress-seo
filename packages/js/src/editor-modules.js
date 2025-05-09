@@ -23,13 +23,13 @@ import SEMrushRelatedKeyphrases from "./containers/SEMrushRelatedKeyphrases";
 import WincherSEOPerformance from "./containers/WincherSEOPerformance";
 import * as ajaxHelper from "./helpers/ajaxHelper";
 import createWatcher from "./helpers/create-watcher";
-import createInterpolateElement from "./helpers/createInterpolateElement";
-import * as i18n from "./helpers/i18n";
+import { setTextdomainL10n, safeCreateInterpolateElement } from "./helpers/i18n";
 import isBlockEditor from "./helpers/isBlockEditor";
 import * as replacementVariableHelpers from "./helpers/replacementVariableHelpers";
 import { update as updateAdminBar } from "./ui/adminBar";
 import { createScoresInPublishBox, scrollToCollapsible, updateScore } from "./ui/publishBox";
 import { update as updateTrafficLight } from "./ui/trafficLight";
+import { createInterpolateElement } from "@wordpress/element";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -76,10 +76,13 @@ window.yoast.editorModules = {
 	},
 	helpers: {
 		ajaxHelper,
-		createInterpolateElement,
+		// To support the legacy code, we need to use the old function name.
+		createInterpolateElement: safeCreateInterpolateElement,
 		createWatcher,
 		isBlockEditor,
-		i18n,
+		i18n: {
+			setTextdomainL10n,
+		},
 		replacementVariableHelpers,
 		publishBox: {
 			updateScore,
