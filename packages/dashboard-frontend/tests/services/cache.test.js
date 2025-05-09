@@ -37,6 +37,41 @@ describe( "getStorage", () => {
 		resetDefaultStorageOrder();
 	} );
 
+	it( "should return the storage also when quota exceeded", () => {
+		global.FakeStorage = {
+			setItem: jest.fn().mockImplementation( () => {
+				throw new DOMException( "code 22", "QuotaExceededError" );
+			} ),
+			length: 1,
+		};
+		setStorageOrder( [ "FakeStorage" ] );
+
+		try {
+			expect( getStorage() ).toEqual( global.FakeStorage );
+			expect( global.FakeStorage.setItem ).toHaveBeenCalled();
+		} finally {
+			// Clean up the fake storage.
+			delete global.FakeStorage;
+		}
+	} );
+
+	it( "should not return the storage when trying to set an item fails not because of exceeding quotas ", () => {
+		global.FakeStorage = {
+			setItem: jest.fn().mockImplementation( () => {
+				throw new Error( "non-quota error" );
+			} ),
+		};
+		setStorageOrder( [ "FakeStorage" ] );
+
+		try {
+			expect( getStorage() ).toEqual( null );
+			expect( global.FakeStorage.setItem ).toHaveBeenCalled();
+		} finally {
+			// Clean up the fake storage.
+			delete global.FakeStorage;
+		}
+	} );
+
 	it( "should return null when instructed to get a non-existing storage", () => {
 		setStorageOrder( [ "nonExistingStorage" ] );
 		expect( getStorage() ).toEqual( null );
