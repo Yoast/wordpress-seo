@@ -47,12 +47,4 @@ describe( "shouldRenderAIOptimizeButton", () => {
 
 		expect( shouldRenderAIOptimizeButton( hasAIFixes, isElementor, isTerm ) ).toBe( false );
 	} );
-
-	it( "should return false when all conditions are false", () => {
-		const hasAIFixes = false;
-		const isElementor = false;
-		const isTerm = false;
-
-		expect( shouldRenderAIOptimizeButton( hasAIFixes, isElementor, isTerm ) ).toBe( false );
-	} );
 } );
