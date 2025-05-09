@@ -1,5 +1,6 @@
 import { useSelect } from "@wordpress/data";
 import { createContext, useCallback, useContext, useEffect, useState } from "@wordpress/element";
+import { doAction } from "@wordpress/hooks";
 import { find } from "lodash";
 import PropTypes from "prop-types";
 import { STORE_NAME_INTRODUCTIONS } from "../constants";
@@ -36,6 +37,9 @@ export const IntroductionProvider = ( { children, initialComponents } ) => {
 	useEffect( () => {
 		// Update the global window registration method.
 		window.YoastSEO._registerIntroductionComponent = registerComponent;
+
+		// Signal that the introductions API is ready.
+		doAction( "yoast.introductions.ready" );
 	}, [ registerComponent ] );
 
 
