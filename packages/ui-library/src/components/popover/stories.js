@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Popover, { usePopoverContext } from "./index";
 import { component } from "./docs";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
-import Button from "../button";
+import Button from "../../elements/button";
 import { noop } from "lodash";
-import { ValidationIcon } from "../validation";
+import { ValidationIcon } from "../../elements/validation";
 
 const DismissButton = () => {
 	const { handleDismiss } = usePopoverContext();
@@ -68,13 +68,6 @@ export const WithMoreContent = {
 	parameters: {
 		controls: { disable: true },
 	},
-	decorators: [
-		( Story ) => (
-			<div className="yst-min-h-64">
-				<Story />
-			</div>
-		),
-	],
 };
 
 export const ButtonWithAPopover = {
@@ -132,42 +125,13 @@ export const ButtonWithAPopover = {
 			</>
 		),
 	},
-	decorators: [
-		( Story ) => (
-			<div className="yst-m-72 yst-flex yst-justify-center">
-				<Story />
-			</div>
-		),
-	],
 };
 
 export default {
-	title: "1) Elements/Popover",
+	title: "2) Components/Popover",
 	component: Popover,
 	argTypes: {
-		as: { options: [ "div", "span" ] },
-		children: {
-			control: "text",
-			type: { required: true },
-			table: { type: { summary: "node" } },
-		},
-		isVisible: {
-			control: { disable: false },
-			type: { required: true },
-			table: {
-				type: { summary: "bool" },
-				defaultValue: { summary: true },
-			},
-		},
-		backdrop: {
-			control: { type: "boolean" },
-			defaultValue: false,
-			type: { required: false },
-			table: {
-				type: { summary: "bool" },
-				defaultValue: { summary: false },
-			},
-		},
+		children: { control: "text" },
 	},
 	args: {
 		id: "yst-popover",
@@ -186,7 +150,7 @@ export default {
 	},
 	decorators: [
 		( Story ) => (
-			<div className="yst-min-h-64 yst-flex yst-justify-center yst-items-center">
+			<div className="yst-min-h-96 yst-flex yst-justify-center yst-items-center">
 				<div className="yst-relative">
 					<Story />
 				</div>
