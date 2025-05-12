@@ -22,11 +22,13 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 			$credentials = \request_filesystem_credentials( \site_url() . '/wp-admin/' );
 			if ( \WP_Filesystem( $credentials ) ) {
 				global $wp_filesystem;
-				$wp_filesystem->put_contents(
-					\get_home_path() . 'llms.txt',
-					$content,
-					\FS_CHMOD_FILE
-				);
+				if ( ! $wp_filesystem->exists( \get_home_path() . 'llms.txt' ) ) {
+					$wp_filesystem->put_contents(
+						\get_home_path() . 'llms.txt',
+						$content,
+						\FS_CHMOD_FILE
+					);
+				}
 			}
 		}
 	}

@@ -43,7 +43,7 @@ class Populate_File_Command_Handler {
 	 */
 	public function handle() {
 
-		$content = '';
+		$content = '# Yoast SEO.';
 		$this->file_system_adapter->create_file( $content );
 		// Maybe move this to a class if we need to handle this option more often.
 		$this->options_helper->set( 'llms_txt_content_hash', \md5( $content ) );
