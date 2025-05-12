@@ -30,7 +30,7 @@ const META = {
 };
 
 /**
- * @param {ReactNode} children The children.
+ * @param {React.ReactNode} children The children.
  * @returns {JSX.Element} The element.
  */
 const SearchRankingCompareLayout = ( { children } ) => (

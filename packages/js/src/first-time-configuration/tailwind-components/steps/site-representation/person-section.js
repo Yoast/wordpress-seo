@@ -1,5 +1,6 @@
 import apiFetch from "@wordpress/api-fetch";
-import { useCallback, useMemo, createInterpolateElement, Fragment } from "@wordpress/element";
+import { useCallback, useMemo, Fragment } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
@@ -59,7 +60,7 @@ export function PersonSection( { dispatch, imageUrl, fallbackImageUrl, person, c
 		"wordpress-seo"
 	);
 
-	const userMessage = useMemo( () => createInterpolateElement(
+	const userMessage = useMemo( () => safeCreateInterpolateElement(
 		// eslint-disable-next-line @wordpress/valid-sprintf -- Variables are declared above.
 		sprintf(
 			canEditUser ? canEditMessage : noEditMessage,

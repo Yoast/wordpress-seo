@@ -1,7 +1,7 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
-import { createInterpolateElement } from "@wordpress/element";
 import { addQueryArgs } from "@wordpress/url";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 
 import { ReactComponent as DefaultImage } from "../../../../images/succes_marieke_bubble_optm.svg";
 import { TimeConstrainedNotification } from "./TimeConstrainedNotification";
@@ -27,7 +27,7 @@ export const BlackFridayProductEditorChecklistPromotion = () => {
 			title={ title }
 			image={ DefaultImage }
 		>
-			{ createInterpolateElement(
+			{ safeCreateInterpolateElement(
 				sprintf(
 					/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 					__( "The Yoast %1$sultimate Black Friday checklist%2$s helps you prepare in time, so you can boost your results during this sale.", "wordpress-seo" ),

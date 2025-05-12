@@ -1,5 +1,5 @@
-import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Alert, Link, Paper, Title } from "@yoast/ui-library";
 import { OutboundLink } from "../../shared-admin/components";
 
@@ -45,7 +45,7 @@ export const PageTitle = ( { userName, features, links, sitekitFeatureEnabled } 
 				</Title>
 				<p className="yst-text-tiny">
 					{ features.indexables && ! features.seoAnalysis && ! features.readabilityAnalysis
-						? createInterpolateElement(
+						? safeCreateInterpolateElement(
 							sprintf(
 								noAnalysisEnabledMessage,
 								"<link>",
@@ -59,7 +59,7 @@ export const PageTitle = ( { userName, features, links, sitekitFeatureEnabled } 
 								profilelink: <Link href="profile.php"> </Link>,
 							}
 						)
-						: createInterpolateElement(
+						: safeCreateInterpolateElement(
 							sprintf(
 								/* translators: %1$s and %2$s expand to an opening and closing anchor tag. */
 								__( "Welcome to your dashboard! Check your content's SEO performance, readability, and overall strengths and opportunities. %1$sLearn more about the dashboard%2$s.", "wordpress-seo" ),

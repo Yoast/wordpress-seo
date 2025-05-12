@@ -1,4 +1,5 @@
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { useMemo } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { Link, SelectField, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
@@ -35,7 +36,7 @@ const MediaPages = () => {
 		"noindex-attachment": isAttachmentPagesNoIndex,
 	} = values.wpseo_titles;
 
-	const description = useMemo( () => createInterpolateElement(
+	const description = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s and %2$s are replaced by opening and closing <a> tags.

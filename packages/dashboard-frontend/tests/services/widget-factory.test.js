@@ -1,7 +1,7 @@
 import { get } from "lodash";
 import { beforeAll, describe, expect, jest, test } from "@jest/globals";
 import { waitFor, render } from "@testing-library/react";
-import { WidgetFactory } from "../../src/services/widget-factory";
+import { WidgetFactory } from "../../src";
 import { MockDataProvider } from "../__mocks__/data-provider";
 import { FakeDataFormatter } from "../__mocks__/fake-data-formatter";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
