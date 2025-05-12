@@ -5,42 +5,52 @@ namespace Yoast\WP\SEO\Llms_Txt\User_Interface;
 use Yoast\WP\SEO\Conditionals\Traits\Admin_Conditional_Trait;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Remove_File_Command;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Remove_File_Command_Handler;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
 
 
 /**
- *
+ * Handles the cron when the plugin is activated.
  */
 class Schedule_Population_On_Activation_Integration implements Integration_Interface {
 
 	use Admin_Conditional_Trait;
 
 	/**
-	 * @var Remove_File_Command_Handler The command handler.
+	 * The command handler.
+	 *
+	 * @var Remove_File_Command_Handler $command_handler
 	 */
 	private $command_handler;
 
 	/**
-	 * @var Options_Helper $options_helper The options helper.
+	 * The options helper.
+	 *
+	 * @var Options_Helper $options_helper
 	 */
 	private $options_helper;
 
 	/**
-	 * @var Llms_Txt_Cron_Scheduler $scheduler The scheduler.
+	 * The scheduler.
+	 *
+	 * @var Llms_Txt_Cron_Scheduler $scheduler
 	 */
 	private $scheduler;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param Llms_Txt_Cron_Scheduler $scheduler      The cron scheduler.
-	 * @param Options_Helper          $options_helper The options helper.
+	 * @param Llms_Txt_Cron_Scheduler     $scheduler       The cron scheduler.
+	 * @param Options_Helper              $options_helper  The options helper.
+	 * @param Remove_File_Command_Handler $command_handler The command handler.
 	 */
-	public function __construct( Llms_Txt_Cron_Scheduler $scheduler, Options_Helper $options_helper, Remove_File_Command_Handler $command_handler) {
-		$this->scheduler      = $scheduler;
-		$this->options_helper = $options_helper;
+	public function __construct(
+		Llms_Txt_Cron_Scheduler $scheduler,
+		Options_Helper $options_helper,
+		Remove_File_Command_Handler $command_handler
+	) {
+		$this->scheduler       = $scheduler;
+		$this->options_helper  = $options_helper;
 		$this->command_handler = $command_handler;
 	}
 
@@ -64,7 +74,7 @@ class Schedule_Population_On_Activation_Integration implements Integration_Inter
 		}
 		else {
 			$this->scheduler->unschedule_llms_txt_population();
-			$this->command_handler->handle( new Remove_File_Command( \ABSPATH . 'llms.txt' ) );
+			$this->command_handler->handle();
 		}
 	}
 }

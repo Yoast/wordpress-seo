@@ -5,12 +5,13 @@ namespace Yoast\WP\SEO\Llms_Txt\User_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Populate_File_Command;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Populate_File_Command_Handler;
-use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Remove_File_Command;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Remove_File_Command_Handler;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
 
+/**
+ * Cron Callback integration. This handles the actual process of populating the llms.txt on a cron trigger.
+ */
 class Llms_Txt_Cron_Callback_Integration implements Integration_Interface {
 
 	use No_Conditionals;
@@ -86,11 +87,10 @@ class Llms_Txt_Cron_Callback_Integration implements Integration_Interface {
 	public function populate_file(): void {
 		if ( \wp_doing_cron() && $this->options_helper->get( 'enable_llms_txt', true ) !== true ) {
 			$this->scheduler->unschedule_llms_txt_population();
-			$this->remove_file_command_handler->handle( new Remove_File_Command( \ABSPATH . 'llms.txt' ) );
-			// Also remove the file here since the llms_txt option is now disabled
+			$this->remove_file_command_handler->handle();
 			return;
 		}
 
-		$this->populate_file_command_handler->handle( new Populate_File_Command( \ABSPATH . 'llms.txt' ) );
+		$this->populate_file_command_handler->handle();
 	}
 }

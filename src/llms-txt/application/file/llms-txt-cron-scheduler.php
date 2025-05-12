@@ -1,9 +1,12 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Llms_Txt\Application\File;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
+/**
+ * Responsible for scheduling and unscheduling the cron.
+ */
 class Llms_Txt_Cron_Scheduler {
 
 	/**
