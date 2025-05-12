@@ -151,7 +151,7 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 			);
 		}
 
-			$result = true;
+		$result = true;
 		foreach ( $data as $key => $value ) {
 			try {
 				$result = $this->setup_steps_tracking_repository->set_setup_steps_tracking_element( $key, $value );
