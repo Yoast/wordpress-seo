@@ -81,7 +81,7 @@ describe( "AIOptimizeButton", () => {
 		expect( lockIcon ).toBeInTheDocument();
 	} );
 
-	test( "should find the button, but also a lock icon when Yoast WooCommerce SEO (on products)", () => {
+	test( "should find the button, but also a lock icon when Yoast WooCommerce SEO is not activated (on products)", () => {
 		mockSelect( "keyphraseDensityAIFixes", "visual", "blockEditor", [], "", true );
 		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
 
