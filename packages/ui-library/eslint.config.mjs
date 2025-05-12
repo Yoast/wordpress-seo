@@ -48,7 +48,6 @@ export default [
 			"no-unused-vars": "off",
 			"require-jsdoc": "off",
 			"valid-jsdoc": "off",
-			"react/prop-types": "off",
 		},
 	},
 	{
