@@ -66,4 +66,3 @@ class Code_Verifier_Service {
 		return $code_verifier->get_code();
 	}
 }
-}
