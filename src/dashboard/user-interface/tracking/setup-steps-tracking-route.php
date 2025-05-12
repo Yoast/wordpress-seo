@@ -126,49 +126,39 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function track_setup_steps( WP_REST_Request $request ) {
-		$data = \array_filter(
-			[
+			$data = [
 				'setup_widget_loaded'                => $request->get_param( 'setupWidgetLoaded' ),
 				'first_interaction_stage'            => $request->get_param( 'firstInteractionStage' ),
 				'last_interaction_stage'             => $request->get_param( 'lastInteractionStage' ),
 				'setup_widget_temporarily_dismissed' => $request->get_param( 'setupWidgetTemporarilyDismissed' ),
 				'setup_widget_permanently_dismissed' => $request->get_param( 'setupWidgetPermanentlyDismissed' ),
-			],
-			static function ( $element_value ) {
-					return ! \is_null( $element_value );
-			}
-		);
+			];
 
-		if ( empty( $data ) ) {
-			return new WP_Error(
-				'wpseo_set_site_kit_usage_tracking',
-				\__( 'No valid parameters were provided.', 'wordpress-seo' ),
-				(object) []
-			);
-		}
-
-		$result = true;
-		foreach ( $data as $element_name => $element_value ) {
 			try {
-				$result = $this->setup_steps_tracking_repository->set_setup_steps_tracking_element( $element_name, $element_value );
+				foreach ( $data as $key => $value ) {
+					if ( $value !== null ) {
+						$success = $this->setup_steps_tracking_repository->set_setup_steps_tracking_element( $key, $value );
+						if ( ! $success ) {
+							return new WP_Error(
+								'wpseo_set_site_kit_usage_tracking',
+								\sprintf( \__( 'Failed to save the tracking data for: %s.', 'wordpress-seo' ), $key ),
+								[ 'status' => 400 ]
+							);
+						}
+					}
+				}
 			} catch ( Exception $exception ) {
 				return new WP_Error(
 					'wpseo_set_site_kit_usage_tracking',
-					$exception->getMessage(),
-					(object) []
+					\__( 'An error occurred while saving the tracking data.', 'wordpress-seo' ),
+					[
+						'status'    => 500,
+						'exception' => $exception->getMessage(),
+					]
 				);
 			}
-			if ( ! $result ) {
-				break;
-			}
-		}
 
-		return new WP_REST_Response(
-			[
-				'success' => $result,
-			],
-			( $result ) ? 200 : 400
-		);
+			return new WP_REST_Response( [ 'success' => true ], 200 );
 	}
 
 	/**
