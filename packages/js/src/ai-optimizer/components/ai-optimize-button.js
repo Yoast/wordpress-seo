@@ -43,12 +43,15 @@ const AIOptimizeButton = ( { id, isPremium } ) => {
 	// We continue to use "AIFixes" in the ID to keep it consistent with the Premium implementation.
 	const aiOptimizeId = id + "AIFixes";
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const { activeMarker, activeAIButtonId, editorType } = useSelect( ( select ) => ( {
+	const { activeMarker, activeAIButtonId, editorType, isWooSeoUpsellPost } = useSelect( ( select ) => ( {
 		activeMarker: select( "yoast-seo/editor" ).getActiveMarker(),
 		activeAIButtonId: select( "yoast-seo/editor" ).getActiveAIFixesButton(),
 		editorType: select( "yoast-seo/editor" ).getEditorType(),
+		isWooSeoUpsellPost: select( "yoast-seo/editor" ).getIsWooSeoUpsell(),
 	} ), [] );
 	const editorMode = getEditorMode();
+
+	const shouldShowUpsell = ! isPremium || isWooSeoUpsellPost;
 
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
@@ -137,11 +140,12 @@ const AIOptimizeButton = ( { id, isPremium } ) => {
 	};
 
 	const handleClick = useCallback( () => {
-		if ( isPremium ) {
+		// eslint-disable-next-line no-negated-condition -- Let's handle the happy path first.
+		if ( ! shouldShowUpsell ) {
 			doAction( "yoast.ai.fixAssessments", aiOptimizeId );
 			/* Only handle the pressed button state in Premium.
 			We don't want to change the background color of the button and other styling when it's pressed in Free.
-			This is because clicking on the button in Free will open the modal, and the button will not be in a pressed state. */
+			This is because clicking on the button in Free will open an upsell modal, and the button will not be in a pressed state. */
 			handlePressedButton();
 		} else {
 			setIsModalOpenTrue();
@@ -172,7 +176,7 @@ const AIOptimizeButton = ( { id, isPremium } ) => {
 			pressed={ isButtonPressed }
 			disabled={ ! isEnabled }
 		>
-			{ ! isPremium && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
+			{ shouldShowUpsell && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
 			<SparklesIcon pressed={ isButtonPressed } />
 			{
 				isModalOpen && <Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
