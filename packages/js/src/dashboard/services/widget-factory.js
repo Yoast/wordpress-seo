@@ -17,20 +17,31 @@ import {
 export class WidgetFactory {
 	#dataProvider;
 	#remoteDataProvider;
+	#remoteCachedDataProviders;
 	#dataFormatters;
 	#dataTrackers;
 
 	/**
 	 * @param {import("./data-provider").DataProvider} dataProvider
 	 * @param {import("./remote-data-provider").RemoteDataProvider} remoteDataProvider
-	 * @param {object} dataFormatters
-	 * @param {object} dataTrackers
+	 * @param {Object<WidgetType,import("./remote-cached-data-provider").RemoteCachedDataProvider>} remoteCachedDataProviders
+	 * @param {Object} dataFormatters
+	 * @param {Object} dataTrackers
 	 */
-	constructor( dataProvider, remoteDataProvider, dataFormatters, dataTrackers ) {
+	constructor( dataProvider, remoteDataProvider, remoteCachedDataProviders, dataFormatters, dataTrackers ) {
 		this.#dataProvider = dataProvider;
 		this.#remoteDataProvider = remoteDataProvider;
+		this.#remoteCachedDataProviders = remoteCachedDataProviders;
 		this.#dataFormatters = dataFormatters;
 		this.#dataTrackers = dataTrackers;
+	}
+
+	/**
+	 * @param {WidgetType} widgetType The widget type.
+	 * @returns {import("./remote-data-provider").RemoteDataProvider} The remote data provider for that widget type.
+	 */
+	getRemoteDataProvider( widgetType ) {
+		return this.#remoteCachedDataProviders[ widgetType ] ?? this.#remoteDataProvider;
 	}
 
 	/**
@@ -78,7 +89,7 @@ export class WidgetFactory {
 					key={ widgetType }
 					analysisType="seo"
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 				/>;
 			case this.types.readabilityScores:
 				if ( ! ( this.#dataProvider.hasFeature( "indexables" ) && this.#dataProvider.hasFeature( "readabilityAnalysis" ) ) ) {
@@ -88,7 +99,7 @@ export class WidgetFactory {
 					key={ widgetType }
 					analysisType="readability"
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 				/>;
 			case this.types.topPages:
 				if ( ! isSearchConsoleWidgetAllowed ) {
@@ -97,7 +108,7 @@ export class WidgetFactory {
 				return <TopPagesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.siteKitSetup:
@@ -107,7 +118,7 @@ export class WidgetFactory {
 				return <SiteKitSetupWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 					dataTracker={ this.#dataTrackers.setupWidgetDataTracker }
 				/>;
 			case this.types.topQueries:
@@ -117,7 +128,7 @@ export class WidgetFactory {
 				return <TopQueriesWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 					dataFormatter={ this.#dataFormatters.plainMetricsDataFormatter }
 				/>;
 			case this.types.searchRankingCompare:
@@ -127,7 +138,7 @@ export class WidgetFactory {
 				return <SearchRankingCompareWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			case this.types.organicSessions:
@@ -137,7 +148,7 @@ export class WidgetFactory {
 				return <OrganicSessionsWidget
 					key={ widgetType }
 					dataProvider={ this.#dataProvider }
-					remoteDataProvider={ this.#remoteDataProvider }
+					remoteDataProvider={ this.getRemoteDataProvider( widgetType ) }
 					dataFormatter={ this.#dataFormatters.comparisonMetricsDataFormatter }
 				/>;
 			default:

@@ -44,7 +44,7 @@ export class ComparisonMetricsDataFormatter extends DataFormatterInterface {
 				return {
 					formattedValue: DataFormatterInterface.safeNumberFormat( data.value, this.numberFormat.twoFractions ),
 					delta: data.delta,
-					formattedDelta: DataFormatterInterface.safeNumberFormat( data.delta, this.numberFormat.percentage ),
+					formattedDelta: DataFormatterInterface.safeNumberFormat( data.delta, this.numberFormat.twoFractions ),
 				};
 			case "date":
 				return new Date(

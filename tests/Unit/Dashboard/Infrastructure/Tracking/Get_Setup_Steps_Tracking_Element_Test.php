@@ -31,8 +31,8 @@ final class Get_Setup_Steps_Tracking_Element_Test extends Abstract_Setup_Steps_T
 			'setup_widget_dismissed'  => 'permanently',
 		];
 		$this->options_helper->shouldReceive( 'get' )
-			->with( 'site_kit_usage_tracking', [] )
-			->andReturn( $usage_tracking );
+			->with( 'site_kit_tracking_' . $element_name, '' )
+			->andReturn( $usage_tracking[ $element_name ] );
 
 		$this->assertEquals( $this->instance->get_setup_steps_tracking_element( $element_name ), $element_value );
 	}

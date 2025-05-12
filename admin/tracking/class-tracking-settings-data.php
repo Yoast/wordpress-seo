@@ -233,6 +233,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'last_known_no_unindexed',
 		'site_kit_connected',
 		'site_kit_usage_tracking',
+		'google_site_kit_feature_enabled',
 	];
 
 	/**

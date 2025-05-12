@@ -86,6 +86,9 @@ class Assessor {
 	 * @returns {boolean} Whether or not the Assessment is applicable.
 	 */
 	isApplicable( assessment, paper, researcher ) {
+		if ( typeof assessment.isApplicable === "undefined" ) {
+			return true;
+		}
 		return assessment.isApplicable( paper, researcher );
 	}
 

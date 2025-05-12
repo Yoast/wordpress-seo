@@ -31,13 +31,13 @@ final class Set_Setup_Steps_Tracking_Element_Test extends Abstract_Setup_Steps_T
 			'setup_widget_dismissed'  => '',
 		];
 		$this->options_helper->shouldReceive( 'get' )
-			->with( 'site_kit_usage_tracking', [] )
-			->andReturn( $usage_tracking );
+			->with( 'site_kit_tracking_' . $element_name, '' )
+			->andReturn( $usage_tracking[ $element_name ] );
 
 		$usage_tracking[ $element_name ] = $element_value;
 
 		$this->options_helper->shouldReceive( 'set' )
-			->with( 'site_kit_usage_tracking', $usage_tracking )
+			->with( 'site_kit_tracking_' . $element_name, $element_value )
 			->andReturn( true );
 
 		$this->assertTrue( $this->instance->set_setup_steps_tracking_element( $element_name, $element_value ) );

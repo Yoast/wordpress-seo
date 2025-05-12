@@ -22,18 +22,19 @@ final class Dashboard_Configuration_Get_Configuration_Test extends Abstract_Dash
 	 *
 	 * @dataProvider get_configuration_data
 	 *
-	 * @param array<string> $content_types             The content types.
-	 * @param bool          $indexables_enabled        The indexables enabled.
-	 * @param string        $display_name              The display name.
-	 * @param array<string> $enabled_analysis_features The enabled analysis features.
-	 * @param array<string> $endpoints                 The endpoints.
-	 * @param string        $nonce                     The nonce.
-	 * @param array<string> $site_kit_configuration    The site kit configuration.
-	 * @param array<string> $setup_steps_tracking      The setup steps tracking.
+	 * @param array<string>                                           $content_types             The content types.
+	 * @param bool                                                    $indexables_enabled        The indexables enabled.
+	 * @param string                                                  $display_name              The display name.
+	 * @param array<string>                                           $enabled_analysis_features The enabled analysis features.
+	 * @param array<string>                                           $endpoints                 The endpoints.
+	 * @param string                                                  $nonce                     The nonce.
+	 * @param array<string>                                           $site_kit_configuration    The site kit configuration.
+	 * @param array<string>                                           $setup_steps_tracking      The setup steps tracking.
+	 * @param array<string, string|array<string, array<string, int>>> $cache_configuration       The cache configuration.
 	 *
 	 * @return void
 	 */
-	public function test_get_configuration( $content_types, $indexables_enabled, $display_name, $enabled_analysis_features, $endpoints, $nonce, $site_kit_configuration, $setup_steps_tracking ) {
+	public function test_get_configuration( $content_types, $indexables_enabled, $display_name, $enabled_analysis_features, $endpoints, $nonce, $site_kit_configuration, $setup_steps_tracking, $cache_configuration ) {
 		$feature_list  = Mockery::mock( Analysis_Features_List::class );
 		$endpoint_list = Mockery::mock( Endpoint_List::class );
 		$feature_list->shouldReceive( 'to_array' )->once()->andReturn( $enabled_analysis_features );
@@ -46,6 +47,7 @@ final class Dashboard_Configuration_Get_Configuration_Test extends Abstract_Dash
 		$this->nonce_repository->shouldReceive( 'get_rest_nonce' )->once()->andReturn( $nonce );
 		$this->site_kit_integration_data->shouldReceive( 'to_array' )->once()->andReturn( $site_kit_configuration );
 		$this->setup_steps_tracking->shouldReceive( 'to_array' )->once()->andReturn( $setup_steps_tracking );
+		$this->browser_cache_configuration->shouldReceive( 'get_configuration' )->once()->andReturn( $cache_configuration );
 
 		$this->assertEquals(
 			[
@@ -57,6 +59,7 @@ final class Dashboard_Configuration_Get_Configuration_Test extends Abstract_Dash
 				'nonce'                   => $nonce,
 				'siteKitConfiguration'    => $site_kit_configuration,
 				'setupStepsTracking'      => $setup_steps_tracking,
+				'browserCache'            => $cache_configuration,
 			],
 			$this->instance->get_configuration()
 		);
@@ -86,6 +89,16 @@ final class Dashboard_Configuration_Get_Configuration_Test extends Abstract_Dash
 				'setupStepsTracking'      => [
 					'data3' => 'value3',
 					'data4' => 'value4',
+				],
+				'cache_configuration'     => [
+					'storagePrefix'   => 'storagePrefix',
+					'yoastVersion'    => \WPSEO_VERSION,
+					'widgetsCacheTtl' => [
+						'topPages'             => [ 'ttl' => 60 ],
+						'topQueries'           => [ 'ttl' => 3600 ],
+						'searchRankingCompare' => [ 'ttl' => 3600 ],
+						'organicSessions'      => [ 'ttl' => 3600 ],
+					],
 				],
 			],
 		];

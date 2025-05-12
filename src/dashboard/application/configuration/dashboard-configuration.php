@@ -7,6 +7,7 @@ namespace Yoast\WP\SEO\Dashboard\Application\Configuration;
 use Yoast\WP\SEO\Dashboard\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Tracking\Setup_Steps_Tracking;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Browser_Cache\Browser_Cache_Configuration;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
@@ -77,6 +78,13 @@ class Dashboard_Configuration {
 	private $setup_steps_tracking;
 
 	/**
+	 * The browser cache configuration.
+	 *
+	 * @var Browser_Cache_Configuration
+	 */
+	private $browser_cache_configuration;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Content_Types_Repository             $content_types_repository             The content types repository.
@@ -89,6 +97,7 @@ class Dashboard_Configuration {
 	 * @param Nonce_Repository                     $nonce_repository                     The nonce repository.
 	 * @param Site_Kit                             $site_kit_integration_data            The Site Kit integration data.
 	 * @param Setup_Steps_Tracking                 $setup_steps_tracking                 The setup steps tracking data.
+	 * @param Browser_Cache_Configuration          $browser_cache_configuration          The browser cache configuration.
 	 */
 	public function __construct(
 		Content_Types_Repository $content_types_repository,
@@ -98,7 +107,8 @@ class Dashboard_Configuration {
 		Endpoints_Repository $endpoints_repository,
 		Nonce_Repository $nonce_repository,
 		Site_Kit $site_kit_integration_data,
-		Setup_Steps_Tracking $setup_steps_tracking
+		Setup_Steps_Tracking $setup_steps_tracking,
+		Browser_Cache_Configuration $browser_cache_configuration
 	) {
 		$this->content_types_repository             = $content_types_repository;
 		$this->indexable_helper                     = $indexable_helper;
@@ -108,12 +118,13 @@ class Dashboard_Configuration {
 		$this->nonce_repository                     = $nonce_repository;
 		$this->site_kit_integration_data            = $site_kit_integration_data;
 		$this->setup_steps_tracking                 = $setup_steps_tracking;
+		$this->browser_cache_configuration          = $browser_cache_configuration;
 	}
 
 	/**
 	 * Returns a configuration
 	 *
-	 * @return array<string, array<string>>
+	 * @return array<string, array<string>|array<string, string|array<string, array<string, int>>>>
 	 */
 	public function get_configuration(): array {
 		$configuration = [
@@ -132,10 +143,15 @@ class Dashboard_Configuration {
 		];
 
 		$site_kit_integration_data = $this->site_kit_integration_data->to_array();
-
 		if ( ! empty( $site_kit_integration_data ) ) {
 			$configuration ['siteKitConfiguration'] = $site_kit_integration_data;
 		}
+
+		$browser_cache_configuration = $this->browser_cache_configuration->get_configuration();
+		if ( ! empty( $browser_cache_configuration ) ) {
+			$configuration ['browserCache'] = $browser_cache_configuration;
+		}
+
 		return $configuration;
 	}
 }

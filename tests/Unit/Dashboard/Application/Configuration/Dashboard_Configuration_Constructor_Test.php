@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Application\Configuration;
 use Yoast\WP\SEO\Dashboard\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Tracking\Setup_Steps_Tracking;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Browser_Cache\Browser_Cache_Configuration;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
@@ -60,6 +61,10 @@ final class Dashboard_Configuration_Constructor_Test extends Abstract_Dashboard_
 		$this->assertInstanceOf(
 			Setup_Steps_Tracking::class,
 			$this->getPropertyValue( $this->instance, 'setup_steps_tracking' )
+		);
+		$this->assertInstanceOf(
+			Browser_Cache_Configuration::class,
+			$this->getPropertyValue( $this->instance, 'browser_cache_configuration' )
 		);
 	}
 }

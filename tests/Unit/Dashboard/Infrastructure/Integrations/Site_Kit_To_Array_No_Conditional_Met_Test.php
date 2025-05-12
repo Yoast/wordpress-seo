@@ -51,6 +51,7 @@ final class Site_Kit_To_Array_No_Conditional_Met_Test extends Abstract_Site_Kit_
 		int $ga_owner_id,
 		array $expected
 	) {
+		$this->site_kit_conditional->expects( 'is_met' )->andReturn( false );
 
 		$this->assertSame( $expected, $this->instance->to_array() );
 	}

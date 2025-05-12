@@ -34,7 +34,7 @@ const transformData = ( rawData ) => {
 	if ( rawData[ 0 ].current.average_position ) {
 		data.position = {
 			value: rawData[ 0 ].current.average_position,
-			delta: getDifference( rawData[ 0 ].current.average_position, rawData[ 0 ].previous.average_position ),
+			delta: rawData[ 0 ].current.average_position - rawData[ 0 ].previous.average_position,
 		};
 	}
 	return data;
@@ -68,10 +68,14 @@ export const useSearchRankingCompare = ( { dataProvider, remoteDataProvider, dat
 	 * @returns {Promise<TimeBasedData[]|Error>} The promise of TimeBasedData[] or an Error.
 	 */
 	const getData = useCallback( ( options ) => {
+		const widgetName = "searchRankingCompare";
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ options: { widget: "searchRankingCompare" } },
-			options );
+			{
+				options: { widget: widgetName },
+			},
+			options
+		);
 	}, [ dataProvider ] );
 
 	/**

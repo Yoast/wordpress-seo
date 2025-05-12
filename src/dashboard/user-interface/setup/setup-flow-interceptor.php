@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Dashboard\User_Interface\Setup;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -16,7 +17,15 @@ class Setup_Flow_Interceptor implements Integration_Interface {
 	/**
 	 * The page name of the Site Kit Setup finished page.
 	 */
-	private const GOOGLE_SITE_KIT_SETUP_FINISHED_PAGE = 'googlesitekit-splash';
+	private const GOOGLE_SITE_KIT_SEARCH_CONSOLE_SETUP_FINISHED_PAGE = 'googlesitekit-splash';
+	private const GOOGLE_SITE_KIT_ANALYTICS_SETUP_FINISHED_PAGE      = 'googlesitekit-dashboard';
+
+	/**
+	 * The Site Kit configuration object.
+	 *
+	 * @var Site_Kit $site_kit_configuration
+	 */
+	private $site_kit_configuration;
 
 	/**
 	 * Holds the Current_Page_Helper.
@@ -35,12 +44,14 @@ class Setup_Flow_Interceptor implements Integration_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Current_Page_Helper $current_page_helper The current page helper.
-	 * @param Redirect_Helper     $redirect_helper     The redirect helper to abstract away the actual redirecting.
+	 * @param Current_Page_Helper $current_page_helper    The current page helper.
+	 * @param Redirect_Helper     $redirect_helper        The redirect helper to abstract away the actual redirecting.
+	 * @param Site_Kit            $site_kit_configuration The Site Kit configuration object.
 	 */
-	public function __construct( Current_Page_Helper $current_page_helper, Redirect_Helper $redirect_helper ) {
-		$this->current_page_helper = $current_page_helper;
-		$this->redirect_helper     = $redirect_helper;
+	public function __construct( Current_Page_Helper $current_page_helper, Redirect_Helper $redirect_helper, Site_Kit $site_kit_configuration ) {
+		$this->current_page_helper    = $current_page_helper;
+		$this->redirect_helper        = $redirect_helper;
+		$this->site_kit_configuration = $site_kit_configuration;
 	}
 
 	/**
@@ -80,10 +91,19 @@ class Setup_Flow_Interceptor implements Integration_Interface {
 	 * @return bool
 	 */
 	private function is_site_kit_setup_completed_page(): bool {
-		$on_setup_page = $this->current_page_helper->get_current_yoast_seo_page() === self::GOOGLE_SITE_KIT_SETUP_FINISHED_PAGE;
+		$current_page                 = $this->current_page_helper->get_current_yoast_seo_page();
+		$on_search_console_setup_page = $current_page === self::GOOGLE_SITE_KIT_SEARCH_CONSOLE_SETUP_FINISHED_PAGE;
+		$on_analytics_setup_page      = $current_page === self::GOOGLE_SITE_KIT_ANALYTICS_SETUP_FINISHED_PAGE;
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$authentication_success_notification = isset( $_GET['notification'] ) && \sanitize_text_field( \wp_unslash( $_GET['notification'] ) ) === 'authentication_success';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		$analytics_4_slug = isset( $_GET['slug'] ) && \sanitize_text_field( \wp_unslash( $_GET['slug'] ) ) === 'analytics-4';
 
-		return $on_setup_page && $authentication_success_notification;
+		/**
+		 * This checks two scenarios
+		 * 1. The user only wants Search Console. In this case just checking if you are on the thank-you page from Site Kit is enough.
+		 * 2. The user also wants analytics. So we need to check another page and also check if the analytics 4 connection is finalized.
+		 */
+		return ( $on_search_console_setup_page && $authentication_success_notification ) || ( $on_analytics_setup_page && $authentication_success_notification && $analytics_4_slug && $this->site_kit_configuration->is_ga_connected() );
 	}
 }

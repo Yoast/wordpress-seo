@@ -53,9 +53,10 @@ const ScoreListItemContent = ( { score } ) => (
 /**
  * @param {Score} score The score.
  * @param {string} idSuffix The suffix for the IDs.
+ * @param {string} tooltip The tooltip.
  * @returns {JSX.Element} The element.
  */
-const ScoreListItemContentWithTooltip = ( { score, idSuffix } ) => {
+const ScoreListItemContentWithTooltip = ( { score, idSuffix, tooltip } ) => {
 	const id = `tooltip--${ idSuffix }__${ score.name }`;
 
 	return (
@@ -64,7 +65,7 @@ const ScoreListItemContentWithTooltip = ( { score, idSuffix } ) => {
 				<ScoreListItemContent score={ score } />
 			</TooltipTrigger>
 			<TooltipWithContext id={ id } className="max-[784px]:yst-max-w-full">
-				{ SCORE_META[ score.name ].tooltip }
+				{ tooltip }
 			</TooltipWithContext>
 		</TooltipContainer>
 	);
@@ -73,14 +74,15 @@ const ScoreListItemContentWithTooltip = ( { score, idSuffix } ) => {
 /**
  * @param {Score} score The score.
  * @param {string} idSuffix The suffix for the IDs.
+ * @param {Object.<string,string>} tooltips The tooltips.
  * @returns {JSX.Element} The element.
  */
-const ScoreListItem = ( { score, idSuffix } ) => {
-	const Content = SCORE_META[ score.name ].tooltip ? ScoreListItemContentWithTooltip : ScoreListItemContent;
+const ScoreListItem = ( { score, idSuffix, tooltips  } ) => {
+	const Content = tooltips[ score.name ] ? ScoreListItemContentWithTooltip : ScoreListItemContent;
 
 	return (
 		<li className={ CLASSNAMES.listItem }>
-			<Content score={ score } idSuffix={ idSuffix } />
+			<Content score={ score } idSuffix={ idSuffix } tooltip={ tooltips[ score.name ] } />
 			{ score.links.view && (
 				<Button as="a" variant="secondary" size="small" href={ score.links.view } className="yst-ms-auto">{ __( "View", "wordpress-seo" ) }</Button>
 			) }
@@ -92,10 +94,11 @@ const ScoreListItem = ( { score, idSuffix } ) => {
  * @param {string} [className] The class name for the UL.
  * @param {Score[]} scores The scores.
  * @param {string} idSuffix The suffix for the IDs.
+ * @param {Object.<string,string>} tooltips The tooltips.
  * @returns {JSX.Element} The element.
  */
-export const ScoreList = ( { className, scores, idSuffix } ) => (
+export const ScoreList = ( { className, scores, idSuffix, tooltips } ) => (
 	<ul className={ className }>
-		{ scores.map( ( score ) => <ScoreListItem key={ score.name } score={ score } idSuffix={ idSuffix } /> ) }
+		{ scores.map( ( score ) => <ScoreListItem key={ score.name } score={ score } idSuffix={ idSuffix } tooltips={ tooltips } /> ) }
 	</ul>
 );

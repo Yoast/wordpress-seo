@@ -12,47 +12,21 @@ export function checkAssessmentAvailability( assessor ) {
 		const assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
-			"keyphraseLength",
-		] );
-	} );
-
-	it( "runs assessments that only require a keyword", function() {
-		assessor.assess( new Paper( "", { keyword: "keyword" } ) );
-		const assessments = getResults( assessor.getValidResults() );
-
-		expect( assessments ).toEqual( [
-			"keyphraseLength",
-		] );
-	} );
-
-	it( "runs assessments that only require a keyword that consists of function words only", function() {
-		assessor.assess( new Paper( "", { keyword: "a" } ) );
-		const assessments = getResults( assessor.getValidResults() );
-
-		expect( assessments ).toEqual( [
-			"keyphraseLength",
-			"functionWordsInKeyphrase",
-		] );
-	} );
-
-	it( "additionally runs assessments that require a text and a keyword", function() {
-		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
-		const assessments = getResults( assessor.getValidResults() );
-
-		expect( assessments ).toEqual( [
 			"introductionKeyword",
 			"keyphraseLength",
+			"metaDescriptionKeyword",
 		] );
 	} );
 
-	it( "additionally runs assessments that require a text, a keyword, and a meta description", function() {
-		assessor.assess( new Paper( "text", { keyword: "keyword", description: "description" } ) );
+	it( "additionally runs assessments that only require a keyword that consists of function words only", function() {
+		assessor.assess( new Paper( "", { keyword: "a" } ) );
 		const assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionKeyword",
+			"functionWordsInKeyphrase",
 		] );
 	} );
 
@@ -72,6 +46,7 @@ export function checkAssessmentAvailability( assessor ) {
 			"introductionKeyword",
 			"keyphraseLength",
 			"keyphraseDensity",
+			"metaDescriptionKeyword",
 		] );
 	} );
 }

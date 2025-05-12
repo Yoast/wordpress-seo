@@ -6,7 +6,7 @@ use Exception;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Tracking\Setup_Steps_Tracking_Repository_Interface;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
@@ -20,8 +20,6 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Setup_Steps_Tracking_Route implements Route_Interface {
-
-	use No_Conditionals;
 
 	/**
 	 *  The namespace for this route.
@@ -50,6 +48,15 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 	 * @var Capability_Helper
 	 */
 	private $capability_helper;
+
+	/**
+	 * Returns the needed conditionals.
+	 *
+	 * @return array<string> The conditionals that must be met to load this.
+	 */
+	public static function get_conditionals(): array {
+		return [ Google_Site_Kit_Feature_Conditional::class ];
+	}
 
 	/**
 	 * Constructs the class.
@@ -119,31 +126,35 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function track_setup_steps( WP_REST_Request $request ) {
-		$data = \array_filter(
-			[
+			$data = [
 				'setup_widget_loaded'                => $request->get_param( 'setupWidgetLoaded' ),
 				'first_interaction_stage'            => $request->get_param( 'firstInteractionStage' ),
 				'last_interaction_stage'             => $request->get_param( 'lastInteractionStage' ),
 				'setup_widget_temporarily_dismissed' => $request->get_param( 'setupWidgetTemporarilyDismissed' ),
 				'setup_widget_permanently_dismissed' => $request->get_param( 'setupWidgetPermanentlyDismissed' ),
-			],
-			static function ( $element_value ) {
-					return ! \is_null( $element_value );
-			}
-		);
+			];
 
+			// Filter out null values from the data array.
+			$data = \array_filter(
+				$data,
+				static function ( $value ) {
+					return $value !== null;
+				}
+			);
+
+			// Check if all values are null then return an error that no valid params were passed.
 		if ( empty( $data ) ) {
 			return new WP_Error(
 				'wpseo_set_site_kit_usage_tracking',
-				\__( 'No valid parameters were provided.', 'wordpress-seo' ),
-				(object) []
+				\__( 'No valid parameters were passed.', 'wordpress-seo' ),
+				[ 'status' => 400 ]
 			);
 		}
 
 		$result = true;
-		foreach ( $data as $element_name => $element_value ) {
+		foreach ( $data as $key => $value ) {
 			try {
-				$result = $this->setup_steps_tracking_repository->set_setup_steps_tracking_element( $element_name, $element_value );
+				$result = $this->setup_steps_tracking_repository->set_setup_steps_tracking_element( $key, $value );
 			} catch ( Exception $exception ) {
 				return new WP_Error(
 					'wpseo_set_site_kit_usage_tracking',

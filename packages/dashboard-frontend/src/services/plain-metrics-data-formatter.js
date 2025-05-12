@@ -16,7 +16,7 @@ export class PlainMetricsDataFormatter extends DataFormatterInterface {
 		}
 
 		// Dropping: hostname, protocol, port, search and hash.
-		return url.pathname;
+		return decodeURI( url.pathname );
 	}
 
 	/**

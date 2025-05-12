@@ -104,5 +104,6 @@ export { DataFormatterInterface } from "./services/data-formatter-interface";
 export { ComparisonMetricsDataFormatter } from "./services/comparison-metrics-data-formatter";
 
 export { RemoteDataProvider } from "./services/remote-data-provider";
+export { RemoteCachedDataProvider } from "./services/remote-cached-data-provider";
 export { DataProvider } from "./services/data-provider";
 export { WidgetFactory } from "./services/widget-factory";

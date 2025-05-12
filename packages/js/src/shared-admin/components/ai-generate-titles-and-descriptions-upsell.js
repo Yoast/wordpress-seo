@@ -15,7 +15,8 @@ import { OutboundLink, VideoFlow } from ".";
  * @param {string} title The title.
  * @param {string} upsellLabel The upsell label.
  * @param {string} newToText The new to text.
- * @param {string|JSX.Element } bundleNote The bundle note.
+ * @param {string|JSX.Element} bundleNote The bundle note.
+ * @param {string} ctbId The click to buy to register for this upsell instance.
  * @returns {JSX.Element} The element.
  */
 export const AiGenerateTitlesAndDescriptionsUpsell = ( {
@@ -28,6 +29,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 	upsellLabel,
 	newToText,
 	bundleNote,
+	ctbId,
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
@@ -103,6 +105,8 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 						href={ upsellLink }
 						target="_blank"
 						ref={ initialFocus }
+						data-action="load-nfd-ctb"
+						data-ctb-id={ ctbId }
 					>
 						<LockOpenIcon className="yst--ms-1 yst-me-2 yst-h-5 yst-w-5" />
 						{ upsellLabel }
@@ -148,6 +152,7 @@ AiGenerateTitlesAndDescriptionsUpsell.propTypes = {
 		PropTypes.string,
 		PropTypes.element,
 	] ),
+	ctbId: PropTypes.string,
 };
 
 AiGenerateTitlesAndDescriptionsUpsell.defaultProps = {
@@ -160,4 +165,5 @@ AiGenerateTitlesAndDescriptionsUpsell.defaultProps = {
 	newToText: "Yoast SEO Premium",
 	isProductCopy: false,
 	bundleNote: "",
+	ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 };

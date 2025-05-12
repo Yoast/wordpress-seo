@@ -13,7 +13,7 @@ describe( "TopPagesWidget", () => {
 		{ subject: "https://example.com/page-2", clicks: 101, impressions: 1001, ctr: 11, position: 2, seoScore: "good", links: { edit: "https://example.com/page-2/edit" } },
 		{ subject: "https://example.com/page-3", clicks: 102, impressions: 1002, ctr: 12, position: 3, seoScore: "bad", links: { edit: "https://example.com/page-3/edit" } },
 		{ subject: "https://example.com/page-4", clicks: 103, impressions: 1003, ctr: 13, position: 4, seoScore: "notAnalyzed", links: { edit: "https://example.com/page-4/edit" } },
-		{ subject: "https://example.com/page-5", clicks: 104, impressions: 1004, ctr: 14, position: 5 },
+		{ subject: "https://example.com/%D7%9E%D7%93%D7%A2-%D7%94%D7%94%D7%92%D7%A9%D7%9E%D7%94-%D7%94%D7%A2%D7%A6%D7%9E%D7%99%D7%AA/", clicks: 104, impressions: 1004, ctr: 14, position: 5 },
 	];
 	let dataProvider;
 	let remoteDataProvider;
@@ -185,6 +185,21 @@ describe( "TopPagesWidget", () => {
 			expect( getByRole( "status" ) )
 				.toHaveTextContent( message );
 			expect( getByRole( "link", { name: "Support page" } ) ).toHaveAttribute( "href", "https://example.com/error-support" );
+		} );
+	} );
+
+	it( "should decode the subject URL", async() => {
+		remoteDataProvider.fetchJson.mockResolvedValue( data );
+		const { getByText, queryByText } = render( <TopPagesWidget
+			dataProvider={ dataProvider }
+			remoteDataProvider={ remoteDataProvider }
+			dataFormatter={ dataFormatter }
+		/> );
+
+		await waitFor( () => {
+			expect( getByText( "/מדע-ההגשמה-העצמית/" ) ).toBeInTheDocument();
+			expect( queryByText( "/%D7%9E%D7%93%D7%A2-%D7%94%D7%94%D7%92%D7%A9%D7%9E%D7%94-%D7%94%D7%A2%D7%A6%D7%9E%D7%99%D7%AA/" ) ).not.toBeInTheDocument();
+			expect( getByText( "/page-1" ) ).toBeInTheDocument();
 		} );
 	} );
 } );
