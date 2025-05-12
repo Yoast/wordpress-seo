@@ -38,6 +38,7 @@ class Remove_File_Command_Handler {
 
 	/**
 	 * Runs the command.
+	 *
 	 * @return void
 	 */
 	public function handle() {
