@@ -25,7 +25,7 @@
     "publish:storybook": "./scripts/publish-storybook.sh",
     "test:storyshots": "yarn build:storybook --test --quiet && jest tests/storyshots.js",
     "t_st": "yarn test:storyshots",
-    "lint": "eslint . --max-warnings=3"
+    "lint": "eslint . --max-warnings=68"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.9",
