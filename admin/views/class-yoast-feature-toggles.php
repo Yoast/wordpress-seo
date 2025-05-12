@@ -67,13 +67,13 @@ class Yoast_Feature_Toggles {
 		$xml_sitemap_extra = false;
 		if ( WPSEO_Options::get( 'enable_xml_sitemap' ) ) {
 			$xml_sitemap_extra = '<a href="' . esc_url( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) )
-								 . '" target="_blank">' . esc_html__( 'See the XML sitemap.', 'wordpress-seo' ) . '</a>';
+								. '" target="_blank">' . esc_html__( 'See the XML sitemap.', 'wordpress-seo' ) . '</a>';
 		}
 
 		$llms_txt_extra = false;
 		if ( WPSEO_Options::get( 'enable_llms_txt' ) ) {
 			$llms_txt_extra = '<a href="' . esc_url( home_url( 'llms.txt' ) )
-							  . '" target="_blank">' . esc_html__( 'See the Llms.txt.', 'wordpress-seo' ) . '</a>';
+								. '" target="_blank">' . esc_html__( 'See the Llms.txt.', 'wordpress-seo' ) . '</a>';
 		}
 
 		$feature_toggles = [
@@ -259,8 +259,8 @@ class Yoast_Feature_Toggles {
 			sprintf( esc_html__( 'Disabling Yoast SEO\'s XML sitemaps will not disable WordPress\' core sitemaps. In some cases, this %1$s may result in SEO errors on your site%2$s. These may be reported in Google Search Console and other tools.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/44z' ) . '">', '</a>' ),
 			'warning'
 		);
-		$out   .= $alert->present();
-		$out   .= '</div>';
+		$out .= $alert->present();
+		$out .= '</div>';
 
 		return $out;
 	}
