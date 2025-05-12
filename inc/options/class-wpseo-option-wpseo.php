@@ -149,6 +149,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'setup_widget_permanently_dismissed' => 'no',
 		],
 		'google_site_kit_feature_enabled'              => false,
+		'enable_llms_txt'                              => true,
 	];
 
 	/**
@@ -519,8 +520,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'should_redirect_after_install_free'
 				 *  'show_new_content_type_notification'
 				 *  'site_kit_configuration_permanently_dismissed',
-				 * 'site_kit_connected',
-				 * 'google_site_kit_feature_enabled',
+				 *  'site_kit_connected',
+				 *  'google_site_kit_feature_enabled',
+				 *  'enable_llms_txt',
 				 *  and most of the feature variables.
 				 */
 				default:
@@ -590,6 +592,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'redirect_search_pretty_urls'        => false,
 			'algolia_integration_active'         => false,
 			'google_site_kit_feature_enabled'    => false,
+			'enable_llms_txt'                    => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

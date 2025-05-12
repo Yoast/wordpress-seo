@@ -421,6 +421,16 @@ const SiteFeatures = () => {
 								<p>{ __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-index-now" link="https://yoa.st/index-now-feature" ariaLabel={ __( "IndexNow", "wordpress-seo" ) } />
 							</FeatureCard>
+							<FeatureCard
+								name="wpseo.enable_llms_txt"
+								cardId="card-wpseo-enable_llms_txt"
+								inputId="input-wpseo-enable_llms_txt"
+								imageSrc="/images/insights.png"
+								title={ __( "LLMs.txt", "wordpress-seo" ) }
+							>
+								<p>{ __( "Placeholder text", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-llms-txt" link="#" ariaLabel={ __( "LLMs.txt", "wordpress-seo" ) } />
+							</FeatureCard>
 						</div>
 					</fieldset>
 				</div>

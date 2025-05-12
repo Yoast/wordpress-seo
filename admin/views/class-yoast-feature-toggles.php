@@ -213,6 +213,17 @@ class Yoast_Feature_Toggles {
 				'premium_upsell_url' => 'https://yoa.st/get-ai-generator',
 				'order'              => 115,
 			],
+			(object) [
+				'name'               => __( 'LLMs.txt', 'wordpress-seo' ),
+				'premium'            => true,
+				'setting'            => 'enable_llms_txt',
+				'label'              => __( 'Placeholder text2', 'wordpress-seo' ),
+				'read_more_label'    => __( 'Learn more', 'wordpress-seo' ),
+				'read_more_url'      => '#',
+				'premium_url'        => '#',
+				'premium_upsell_url' => '#',
+				'order'              => 120,
+			],
 		];
 
 		/**
