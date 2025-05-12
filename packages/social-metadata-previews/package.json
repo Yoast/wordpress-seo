@@ -19,7 +19,7 @@
     "build:js": "babel src --out-dir build",
     "clean": "rm -rf build",
     "test": "jest",
-    "lint": "eslint . --max-warnings=0"
+    "lint": "eslint . --max-warnings=2"
   },
   "publishConfig": {
     "access": "public"

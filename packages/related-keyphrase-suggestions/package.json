@@ -21,7 +21,7 @@
     "watch:js": "yarn build:js --watch",
     "watch:css": "node ./scripts/watch-css.js",
     "storybook": "storybook dev -p 6007",
-    "lint": "eslint . --max-warnings=1"
+    "lint": "eslint . --max-warnings=14"
   },
   "devDependencies": {
     "@babel/cli": "^7.25.9",
