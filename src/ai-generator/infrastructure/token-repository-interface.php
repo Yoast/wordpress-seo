@@ -4,9 +4,9 @@ namespace Yoast\WP\SEO\Ai_Generator\infrastructure;
 
 /**
  * Interface Token_Repository_Interface
- *
  */
 interface Token_Repository_Interface {
+
 	/**
 	 * Get the token for a user.
 	 *
