@@ -167,12 +167,12 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 			}
 		}
 
-			return new WP_REST_Response(
-				[
-					'success' => $result,
-				],
-				( $result ) ? 200 : 400
-			);
+		return new WP_REST_Response(
+			[
+				'success' => $result,
+			],
+			( $result ) ? 200 : 400
+		);
 	}
 
 	/**
