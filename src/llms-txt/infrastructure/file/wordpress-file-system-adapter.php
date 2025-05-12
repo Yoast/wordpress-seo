@@ -17,8 +17,8 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	 * @return void
 	 */
 	public function create_file( string $content ) {
-		if ( ! function_exists( 'get_filesystem_method' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
+		if ( ! \function_exists( 'get_filesystem_method' ) ) {
+			require_once \ABSPATH . 'wp-admin/includes/file.php';
 		}
 		$access_type = \get_filesystem_method();
 		if ( $access_type === 'direct' ) {
@@ -42,8 +42,8 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	 * @return void
 	 */
 	public function remove_file() {
-		if ( ! function_exists( 'get_filesystem_method' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
+		if ( ! \function_exists( 'get_filesystem_method' ) ) {
+			require_once \ABSPATH . 'wp-admin/includes/file.php';
 		}
 		$access_type = \get_filesystem_method();
 		if ( $access_type === 'direct' ) {
