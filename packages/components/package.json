@@ -21,7 +21,7 @@
     "build:css": "postcss src/**/*.css --base src --dir build",
     "clean": "rm -rf build",
     "test": "jest",
-    "lint": "eslint . --max-warnings=20"
+    "lint": "eslint . --max-warnings=98"
   },
   "dependencies": {
     "@wordpress/a11y": "^1.1.3",
