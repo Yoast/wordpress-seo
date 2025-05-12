@@ -34,7 +34,7 @@ describe( "test to check if all images have alt tags", function() {
 		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt attributes</a>: This page does not have images with alt attributes. <a href='' target='_blank'>Add some</a>!" );
 	} );
 
-	it( "assesses a paper with text but no images is found", () => {
+	it( "assesses a paper with text but no images found", () => {
 		const mockPaper = new Paper( "This is a test paper" );
 		const result = imageAltTagsAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 0,

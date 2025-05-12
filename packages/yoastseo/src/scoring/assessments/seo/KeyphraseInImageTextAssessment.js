@@ -134,9 +134,8 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 	 * @returns {{score: number, resultText: string}} The calculated result.
 	 */
 	calculateResult( paper  ) {
-		// No images added or no keyphrase set
+		// No images added or no keyphrase set.
 		if ( ! paper.hasKeyword() || this.imageCount === 0  ) {
-			// No images and/or no keyphrase set.
 			// We give a score of 3 if there are no images or no keyphrase set, the same score for other assessments with the same condition.
 			return {
 				score: this._config.scores.noImagesOrKeyphrase,
