@@ -87,12 +87,22 @@ export default ( iconSet ) => {
 	/**
 	 * Renders an SVG icon.
 	 *
-	 * @param {object} props The component props.
+	 * @param {Object} props The component props.
+	 * @param {string} props.icon The icon name.
+	 * @param {string} [props.className=""] The CSS class.
+	 * @param {string} [props.color="currentColor"] The icon color.
+	 * @param {string} [props.size="16px"] The icon size.
 	 *
 	 * @returns {React.Element} The react element.
 	 */
-	const SvgIcon = ( props ) => {
-		return <SvgIconSet { ...props } iconSet={ iconSet } />;
+	const SvgIcon = ( { icon, className = "", color = "currentColor", size = "16px" } ) => {
+		return <SvgIconSet
+			iconSet={ iconSet }
+			icon={ icon }
+			className={ className }
+			color={ color }
+			size={ size }
+		/>;
 	};
 
 	SvgIcon.propTypes = {
@@ -100,12 +110,6 @@ export default ( iconSet ) => {
 		color: PropTypes.string,
 		size: PropTypes.string,
 		className: PropTypes.string,
-	};
-
-	SvgIcon.defaultProps = {
-		size: "16px",
-		color: "currentColor",
-		className: "",
 	};
 
 	return SvgIcon;
