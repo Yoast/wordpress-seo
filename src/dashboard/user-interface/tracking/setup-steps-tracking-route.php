@@ -134,31 +134,45 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 				'setup_widget_permanently_dismissed' => $request->get_param( 'setupWidgetPermanentlyDismissed' ),
 			];
 
-			try {
-				foreach ( $data as $key => $value ) {
-					if ( $value !== null ) {
-						$success = $this->setup_steps_tracking_repository->set_setup_steps_tracking_element( $key, $value );
-						if ( ! $success ) {
-							return new WP_Error(
-								'wpseo_set_site_kit_usage_tracking',
-								\sprintf( \__( 'Failed to save the tracking data for: %s.', 'wordpress-seo' ), $key ),
-								[ 'status' => 400 ]
-							);
-						}
-					}
+			// Filter out null values from the data array.
+			$data = \array_filter(
+				$data,
+				static function ( $value ) {
+					return $value !== null;
 				}
+			);
+
+			// Check if all values are null then return an error that no valid params were passed.
+		if ( empty( $data ) ) {
+			return new WP_Error(
+				'wpseo_set_site_kit_usage_tracking',
+				\__( 'No valid parameters were passed.', 'wordpress-seo' ),
+				[ 'status' => 400 ]
+			);
+		}
+
+			$result = true;
+		foreach ( $data as $key => $value ) {
+			try {
+				$result = $this->setup_steps_tracking_repository->set_setup_steps_tracking_element( $key, $value );
 			} catch ( Exception $exception ) {
 				return new WP_Error(
 					'wpseo_set_site_kit_usage_tracking',
-					\__( 'An error occurred while saving the tracking data.', 'wordpress-seo' ),
-					[
-						'status'    => 500,
-						'exception' => $exception->getMessage(),
-					]
+					$exception->getMessage(),
+					(object) []
 				);
 			}
+			if ( ! $result ) {
+				break;
+			}
+		}
 
-			return new WP_REST_Response( [ 'success' => true ], 200 );
+			return new WP_REST_Response(
+				[
+					'success' => $result,
+				],
+				( $result ) ? 200 : 400
+			);
 	}
 
 	/**
