@@ -60,10 +60,10 @@ class KeyphraseDensityAssessment extends Assessment {
 				overMaximum: -10,
 				correctDensity: 9,
 				underMinimum: 4,
+				noKeyphraseOrText: 1,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33v" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33w" ),
-			applicableIfTextLongerThan: 100,
 		};
 
 		this.identifier = "keyphraseDensity";
@@ -106,7 +106,12 @@ class KeyphraseDensityAssessment extends Assessment {
 
 		const assessmentResult = new AssessmentResult();
 
-		this._keyphraseDensity = researcher.getResearch( "getKeyphraseDensity" );
+		// Whether the paper has the data needed to return meaningful feedback (keyphrase and text).
+		this._canAssess = false;
+
+		if( paper.hasKeyword() && paper.hasText() ){
+			this._keyphraseDensity = researcher.getResearch( "getKeyphraseDensity" );
+		}
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
@@ -118,8 +123,9 @@ class KeyphraseDensityAssessment extends Assessment {
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
 		assessmentResult.setHasMarks( this._keyphraseCount.count > 0 );
-		// Only shows the AI button when there is not enough keyphrase density.
-		if ( calculatedScore.score === this._config.scores.underMinimum ) {
+
+		// Only shows the AI button when there is a text with a keyphrase and not enough keyphrase density.
+		if ( calculatedScore.score === this._config.scores.underMinimum  && this._canAssess ) {
 			assessmentResult.setHasAIFixes( true );
 		}
 		return assessmentResult;
@@ -184,6 +190,22 @@ class KeyphraseDensityAssessment extends Assessment {
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
 	calculateResult() {
+		if ( ! this._canAssess ) {
+			return {
+				score: this._config.scores.bad,
+				resultText: sprintf(
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
+					__(
+						"%1$sKeyphrase density%3$s: %2$sPlease add both a keyphrase and some text so that we can check keyphrase density%3$s.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+
 		if ( this.hasNoMatches() ) {
 			return {
 				score: this._config.scores.underMinimum,
@@ -305,29 +327,6 @@ class KeyphraseDensityAssessment extends Assessment {
 	 */
 	getMarks() {
 		return this._keyphraseCount.markings;
-	}
-
-
-	/**
-	 * Checks whether the paper has a text of the minimum required length and a keyphrase is set. Language-specific length requirements and methods
-	 * of counting text length may apply (e.g. for Japanese, the text should be counted in characters instead of words, which also makes the minimum
-	 * required length higher).
-	 *
-	 * @param {Paper} 		paper 		The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The paper to use for the assessment.
-	 *
-	 * @returns {boolean} True if applicable.
-	 */
-	isApplicable( paper, researcher ) {
-		const customCountLength = researcher.getHelper( "customCountLength" );
-		const customApplicabilityConfig = researcher.getConfig( "assessmentApplicability" ).keyphraseDensity;
-		if ( customApplicabilityConfig ) {
-			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
-		}
-
-		const textLength = customCountLength ? customCountLength( paper.getText() ) : getAllWordsFromTree( paper ).length;
-
-		return paper.hasText() && paper.hasKeyword() && textLength >= this._config.applicableIfTextLongerThan;
 	}
 }
 
