@@ -274,6 +274,23 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 25.2 =
+
+Release date: 2025-05-27
+
+#### Enhancements
+
+* Makes the _keyphrase in image alt attributes_ assessment  available when no content has been added.
+* Renames _image keyphrase_ assessment to _keyphrase in image alt attributes_ assessment.
+
+#### Bugfixes
+
+* Fixes a bug in the retrieval of post categories titles where a non-existent term might be referenced. Props to [@bor0](https://github.com/bor0).
+
+#### Other
+
+* Excludes gallery, embed and playlist shortcodes from the _keyphrase in introduction_ analysis in Classic editor.
+
 = 25.1 =
 
 Release date: 2025-05-13
@@ -286,23 +303,6 @@ Yoast SEO 25.1 brings more enhancements and bugfixes. [Find more information abo
 * Improves the feedback for \"lame\" in the _inclusive language assessment_.
 * Makes the following SEO assessments available in the analysis by default, even when no content has been added: _keyphrase in introduction_, _keyphrase in meta description_, _keyphrase in SEO title_, _keyphrase in slug_ and _previously used keyphrase_.
 * Optimizes the function used to fetch post IDs which share the same focus keyphrase. Props to [dilipbheda](https://github.com/dilipbheda).
-
-= 25.0 =
-
-Release date: 2025-04-29
-
-Yoast SEO 25.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Optimizes the `wp yoast cleanup` CLI command  `update_indexables_author_to_reassigned` step, which can become very slow for very large data sets. Props to [eddiesshop](https://github.com/eddiesshop).
-* Improves the feedback texts for the _passive voice_ and _consecutive sentences_ assessments in case there is nothing to report.
-* Makes the _images_, _internal links_, and _external links_ assessments available when no content has been added.
-
-#### Other
-
-* Drops compatibility with PHP 7.2 and 7.3.
-* Improves the translatability of feedback strings for the keyphrase length assessment.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
