@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Llms_Txt\Application\File\Commands;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builder;
+use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Markdown_Builder;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\File\WordPress_File_System_Adapter;
 
 /**
