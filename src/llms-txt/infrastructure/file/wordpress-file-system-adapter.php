@@ -17,16 +17,21 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	 * @return void
 	 */
 	public function create_file( string $content ) {
+		if ( ! \function_exists( 'get_filesystem_method' ) ) {
+			require_once \ABSPATH . 'wp-admin/includes/file.php';
+		}
 		$access_type = \get_filesystem_method();
 		if ( $access_type === 'direct' ) {
 			$credentials = \request_filesystem_credentials( \site_url() . '/wp-admin/' );
 			if ( \WP_Filesystem( $credentials ) ) {
 				global $wp_filesystem;
-				$wp_filesystem->put_contents(
-					\get_home_path() . 'llms.txt',
-					$content,
-					\FS_CHMOD_FILE
-				);
+				if ( ! $wp_filesystem->exists( \get_home_path() . 'llms.txt' ) ) {
+					$wp_filesystem->put_contents(
+						\get_home_path() . 'llms.txt',
+						$content,
+						\FS_CHMOD_FILE
+					);
+				}
 			}
 		}
 	}
@@ -37,6 +42,9 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	 * @return void
 	 */
 	public function remove_file() {
+		if ( ! \function_exists( 'get_filesystem_method' ) ) {
+			require_once \ABSPATH . 'wp-admin/includes/file.php';
+		}
 		$access_type = \get_filesystem_method();
 		if ( $access_type === 'direct' ) {
 			$credentials = \request_filesystem_credentials( \site_url() . '/wp-admin/' );

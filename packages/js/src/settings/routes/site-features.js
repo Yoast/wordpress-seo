@@ -171,9 +171,10 @@ LearnMoreLink.propTypes = {
 const SiteFeatures = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
+	const llmsTxtUrl = useSelectSettings( "selectPreference", [], "llmsTxtUrl" );
 	const { values, initialValues } = useFormikContext();
-	const { enable_xml_sitemap: enableXmlSitemap } = values.wpseo;
-	const { enable_xml_sitemap: initialEnableXmlSitemap } = initialValues.wpseo;
+	const { enable_xml_sitemap: enableXmlSitemap, enable_llms_txt: enableLlmsTxt } = values.wpseo;
+	const { enable_xml_sitemap: initialEnableXmlSitemap, enable_llms_txt: initialEnableLlmsTxt } = initialValues.wpseo;
 
 	// grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	// yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-2 lg:yst-grid-cols-3 xl:yst-grid-cols-4
@@ -429,6 +430,18 @@ const SiteFeatures = () => {
 								title={ __( "LLMs.txt", "wordpress-seo" ) }
 							>
 								<p>{ __( "Placeholder text", "wordpress-seo" ) }</p>
+								{ initialEnableLlmsTxt && enableLlmsTxt && <Button
+									as="a"
+									id="link-xml-sitemaps"
+									href={ llmsTxtUrl }
+									variant="secondary"
+									target="_blank"
+									rel="noopener"
+									className="yst-self-start"
+								>
+									{ __( "View the Llms.txt", "wordpress-seo" ) }
+									<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
+								</Button> }
 								<LearnMoreLink id="link-llms-txt" link="#" ariaLabel={ __( "LLMs.txt", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>

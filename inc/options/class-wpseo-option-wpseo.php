@@ -149,7 +149,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'setup_widget_permanently_dismissed' => 'no',
 		],
 		'google_site_kit_feature_enabled'              => false,
-		'enable_llms_txt'                              => true,
+		'enable_llms_txt'                              => false,
 		'llms_txt_content_hash'                        => '',
 	];
 
