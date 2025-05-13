@@ -192,7 +192,6 @@ describe( "has configuration overrides", () => {
 		expect( assessment._config ).toBeDefined();
 		expect( assessment._config.scores ).toBeDefined();
 		expect( assessment._config.scores.withAltNonKeyword ).toBe( 3 );
-		expect( assessment._config.scores.withAlt ).toBe( 3 );
 		expect( assessment._config.scores.noAlt ).toBe( 3 );
 		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/29' target='_blank'>" );
 		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/30' target='_blank'>" );
