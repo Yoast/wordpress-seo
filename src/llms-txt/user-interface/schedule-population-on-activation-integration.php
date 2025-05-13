@@ -70,7 +70,7 @@ class Schedule_Population_On_Activation_Integration implements Integration_Inter
 	 */
 	public function schedule_llms_txt_population() {
 		if ( $this->options_helper->get( 'enable_llms_txt', true ) === true ) {
-			$this->scheduler->schedule_llms_txt_population();
+			$this->scheduler->schedule_quick_llms_txt_population();
 		}
 		else {
 			$this->scheduler->unschedule_llms_txt_population();
