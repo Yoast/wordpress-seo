@@ -12,7 +12,7 @@ class Link implements Item_Interface {
 	 *
 	 * @var string
 	 */
-	private $link_text;
+	private $text;
 
 	/**
 	 * The anchor text.

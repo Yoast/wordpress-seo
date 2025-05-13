@@ -32,7 +32,7 @@ class Title_Adapter {
 	/**
 	 * Gets the title.
 	 *
-	 * @return string The title.
+	 * @return Title The title.
 	 */
 	public function get_title(): Title {
 		$this->default_tagline_runner->run();
