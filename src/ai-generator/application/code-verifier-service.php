@@ -1,10 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Ai_Generator\application;
+namespace Yoast\WP\SEO\AI_Generator\application;
 
 use RuntimeException;
-use Yoast\WP\SEO\Ai_Generator\Domain\Code_Verifier;
-use Yoast\WP\SEO\Ai_Generator\Infrastructure\Code_Verifier_Repository;
+use Yoast\WP\SEO\AI_Generator\Domain\Code_Verifier;
+use Yoast\WP\SEO\AI_Generator\Infrastructure\Code_Verifier_Repository;
 
 /**
  * Class Code_Verifier_Service

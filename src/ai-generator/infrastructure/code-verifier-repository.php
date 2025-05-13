@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\WP\SEO\Ai_Generator\infrastructure;
+namespace Yoast\WP\SEO\AI_Generator\infrastructure;
 
-use Yoast\WP\SEO\Ai_Generator\Domain\Code_Verifier;
+use Yoast\WP\SEO\AI_Generator\Domain\Code_Verifier;
 
 /**
  * Class Code_Verifier_Repository

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Ai_Generator\Domain;
+namespace Yoast\WP\SEO\AI_Generator\Domain;
 
 /**
  * Class Code_Verifier
