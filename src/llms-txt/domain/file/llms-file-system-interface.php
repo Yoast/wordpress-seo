@@ -8,13 +8,13 @@ namespace Yoast\WP\SEO\Llms_Txt\Domain\File;
 interface Llms_File_System_Interface {
 
 	/**
-	 * Method to create the llms.txt file on the actual file system.
+	 * Method to set the llms.txt file content.
 	 *
 	 * @param string $content The content for the file.
 	 *
 	 * @return void
 	 */
-	public function create_file( string $content );
+	public function set_file_content( string $content );
 
 	/**
 	 * Method to remove the llms.txt file from the file system.
@@ -22,4 +22,11 @@ interface Llms_File_System_Interface {
 	 * @return void
 	 */
 	public function remove_file();
+
+	/**
+	 * Gets the contents of the current llms.txt file.
+	 *
+	 * @return string
+	 */
+	public function get_file_contents(): string;
 }

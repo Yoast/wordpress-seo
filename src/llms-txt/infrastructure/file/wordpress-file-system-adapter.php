@@ -16,23 +16,15 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	 *
 	 * @return void
 	 */
-	public function create_file( string $content ) {
-		if ( ! \function_exists( 'get_filesystem_method' ) ) {
-			require_once \ABSPATH . 'wp-admin/includes/file.php';
-		}
-		$access_type = \get_filesystem_method();
-		if ( $access_type === 'direct' ) {
-			$credentials = \request_filesystem_credentials( \site_url() . '/wp-admin/' );
-			if ( \WP_Filesystem( $credentials ) ) {
-				global $wp_filesystem;
-				if ( ! $wp_filesystem->exists( \get_home_path() . 'llms.txt' ) ) {
-					$wp_filesystem->put_contents(
-						\get_home_path() . 'llms.txt',
-						$content,
-						\FS_CHMOD_FILE
-					);
-				}
-			}
+	public function set_file_content( string $content ) {
+		if ( $this->is_file_system_available() ) {
+			global $wp_filesystem;
+			$wp_filesystem->put_contents(
+				\get_home_path() . 'llms.txt',
+				$content,
+				\FS_CHMOD_FILE
+			);
+
 		}
 	}
 
@@ -42,16 +34,67 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	 * @return void
 	 */
 	public function remove_file() {
+		if ( $this->is_file_system_available() ) {
+			global $wp_filesystem;
+			$wp_filesystem->delete( \get_home_path() . 'llms.txt' );
+		}
+	}
+
+	/**
+	 * Gets the contents of the current llms.txt file.
+	 *
+	 * @return string The content of the file.
+	 */
+	public function get_file_contents(): string {
+		if ( $this->is_file_system_available() ) {
+			global $wp_filesystem;
+
+			return $wp_filesystem->get_contents( \get_home_path() . 'llms.txt' );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Gets the contents of the current llms.txt file.
+	 *
+	 * @return string The content of the file.
+	 */
+	public function file_exists(): string {
+		if ( $this->is_file_system_available() ) {
+			global $wp_filesystem;
+
+			return $wp_filesystem->exists( \get_home_path() . 'llms.txt' );
+		}
+
+		return false;
+	}
+
+	/**
+	 * Gets the current file system method.
+	 *
+	 * @return string The current file system method.
+	 */
+	public function get_filesystem_method() {
 		if ( ! \function_exists( 'get_filesystem_method' ) ) {
 			require_once \ABSPATH . 'wp-admin/includes/file.php';
 		}
-		$access_type = \get_filesystem_method();
-		if ( $access_type === 'direct' ) {
+
+		return \get_filesystem_method();
+	}
+
+	/**
+	 * Checks if the file system is available.
+	 *
+	 * @return bool If the file system is available.
+	 */
+	private function is_file_system_available(): bool {
+		if ( $this->get_filesystem_method() === 'direct' ) {
 			$credentials = \request_filesystem_credentials( \site_url() . '/wp-admin/' );
-			if ( \WP_Filesystem( $credentials ) ) {
-				global $wp_filesystem;
-				$wp_filesystem->delete( \get_home_path() . 'llms.txt' );
-			}
+
+			return \WP_Filesystem( $credentials );
 		}
+
+		return false;
 	}
 }
