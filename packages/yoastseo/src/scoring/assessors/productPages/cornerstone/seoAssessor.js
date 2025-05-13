@@ -40,7 +40,7 @@ export default class ProductCornerstoneSEOAssessor extends ProductSEOAssessor {
 			urlCallToAction: createAnchorOpeningTag( options.urlKeyphraseCTAUrl ),
 		} ) );
 		this.addAssessment( "imageKeyphrase", new ImageKeyphraseAssessment( {
-			scores: { withAltNonKeyword: 3, withAlt: 3, noAlt: 3 },
+			scores: { withAltNonKeyword: 3, noAlt: 3 },
 			urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
 		} ) );
