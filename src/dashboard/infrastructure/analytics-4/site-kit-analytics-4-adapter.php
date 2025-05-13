@@ -3,10 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4;
 
-use Google\Site_Kit\Core\Modules\Module;
-use Google\Site_Kit\Core\Modules\Modules;
-use Google\Site_Kit\Modules\Analytics_4;
-use Google\Site_Kit\Plugin;
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\Row;
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
 use WP_REST_Response;
@@ -24,13 +20,6 @@ use Yoast\WP\SEO\Dashboard\Domain\Traffic\Traffic_Data;
 class Site_Kit_Analytics_4_Adapter {
 
 	/**
-	 * The Analytics 4 module class from Site kit.
-	 *
-	 * @var Module
-	 */
-	private static $analytics_4_module;
-
-	/**
 	 * Holds the api call class.
 	 *
 	 * @var Site_Kit_Analytics_4_Api_Call $site_kit_analytics_4_api_call
@@ -45,11 +34,6 @@ class Site_Kit_Analytics_4_Adapter {
 	 * @return void
 	 */
 	public function __construct( Site_Kit_Analytics_4_Api_Call $site_kit_analytics_4_api_call ) {
-		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
-			$site_kit_plugin          = Plugin::instance();
-			$modules                  = new Modules( $site_kit_plugin->context() );
-			self::$analytics_4_module = $modules->get_module( Analytics_4::MODULE_SLUG );
-		}
 		$this->site_kit_search_console_api_call = $site_kit_analytics_4_api_call;
 	}
 
@@ -93,20 +77,6 @@ class Site_Kit_Analytics_4_Adapter {
 		$this->validate_response( $response );
 
 		return $this->parse_daily_response( $response->get_data() );
-	}
-
-	/**
-	 * Checks whether the module is connected.
-	 *
-	 * A module being connected means that all steps required as part of its activation are completed.
-	 *
-	 * @return bool True if module is connected, false otherwise.
-	 */
-	public function is_connected(): bool {
-		if ( self::$analytics_4_module !== null ) {
-			return self::$analytics_4_module->is_connected();
-		}
-		return false;
 	}
 
 	/**

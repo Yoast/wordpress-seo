@@ -303,16 +303,9 @@ function ajax_get_keyword_usage_and_post_types() {
 
 	$post_ids = WPSEO_Meta::keyword_usage( $keyword, $post_id );
 
-	if ( ! empty( $post_ids ) ) {
-		$post_types = WPSEO_Meta::post_types_for_ids( $post_ids );
-	}
-	else {
-		$post_types = [];
-	}
-
 	$return_object = [
 		'keyword_usage' => $post_ids,
-		'post_types'    => $post_types,
+		'post_types'    => WPSEO_Meta::post_types_for_ids( $post_ids ),
 	];
 
 	wp_die(
