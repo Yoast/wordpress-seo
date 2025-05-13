@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders;
 
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content_Types_Collector;
+use Yoast\WP\SEO\Llms_Txt\Infrastructure\Terms_Collector;
 
 
 /**
@@ -19,12 +20,24 @@ class Link_Lists_Builder {
 	private $content_types_collector;
 
 	/**
+	 * The terms collector.
+	 *
+	 * @var Terms_Collector
+	 */
+	private $terms_collector;
+
+	/**
 	 * Constructs the class.
 	 *
 	 * @param Content_Types_Collector $content_types_collector The content types collector.
+	 * @param Terms_Collector         $terms_collector         The terms collector.
 	 */
-	public function __construct( Content_Types_Collector $content_types_collector ) {
+	public function __construct(
+		Content_Types_Collector $content_types_collector,
+		Terms_Collector $terms_collector
+	) {
 		$this->content_types_collector = $content_types_collector;
+		$this->terms_collector         = $terms_collector;
 	}
 
 	/**
@@ -33,6 +46,9 @@ class Link_Lists_Builder {
 	 * @return Link_List[] The link list sections.
 	 */
 	public function build_link_lists(): array {
-		return $this->content_types_collector->get_content_types_lists();
+		return \array_merge(
+			$this->content_types_collector->get_content_types_lists(),
+			$this->terms_collector->get_terms_lists()
+		);
 	}
 }
