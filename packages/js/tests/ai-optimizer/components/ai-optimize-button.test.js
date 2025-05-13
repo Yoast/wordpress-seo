@@ -29,9 +29,10 @@ global.window.YoastSEO = {
  * @param {string} editorType The editor type.
  * @param {object[]} blocks The blocks.
  * @param {string} activeMarker The active marker.
+ * @param {boolean} shouldUpsellWoo Whether to show the Yoast WooCommerce SEO upsell.
  * @returns {function} The mock.
  */
-const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockEditor", blocks = [], activeMarker = "" ) => {
+const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockEditor", blocks = [], activeMarker = "", shouldUpsellWoo = false ) => {
 	useSelect.mockImplementation( select => select( () => ( {
 		getActiveAIFixesButton: () => activeAIButton,
 		getActiveMarker: () => activeMarker,
@@ -40,12 +41,13 @@ const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockE
 		getBlockMode: ( clientId ) => clientId === "htmlTest" ? "text" : "visual",
 		getEditorMode: () => editorMode,
 		getEditorType: () => editorType,
+		getIsWooSeoUpsell: () => shouldUpsellWoo,
 	} ) ) );
 
 	isTextViewActive.mockReturnValue( editorMode === "text" );
 };
 
-describe( "AIAssessmentFixesButton", () => {
+describe( "AIOptimizeButton", () => {
 	let setActiveAIFixesButton;
 	let setActiveMarker;
 	let setMarkerPauseStatus;
@@ -69,19 +71,33 @@ describe( "AIAssessmentFixesButton", () => {
 		jest.clearAllMocks();
 	} );
 
-	test( "should find the correct aria-label in the document", () => {
+	test( "should find the button, but also a lock icon when Yoast SEO Premium is not activated", () => {
 		mockSelect( "keyphraseDensityAIFixes" );
 		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ false } /> );
 
 		const labelText = document.querySelector( 'button[aria-label="Optimize with AI"]' );
 		expect( labelText ).toBeInTheDocument();
+		const lockIcon = document.querySelector( ".yst-fixes-button__lock-icon" );
+		expect( lockIcon ).toBeInTheDocument();
 	} );
 
-	test( "should find the correct button id", () => {
+	test( "should find the button, but also a lock icon when Yoast WooCommerce SEO is not activated (on products)", () => {
+		mockSelect( "keyphraseDensityAIFixes", "visual", "blockEditor", [], "", true );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+
+		const labelText = document.querySelector( 'button[aria-label="Optimize with AI"]' );
+		expect( labelText ).toBeInTheDocument();
+		const lockIcon = document.querySelector( ".yst-fixes-button__lock-icon" );
+		expect( lockIcon ).toBeInTheDocument();
+	} );
+
+	test( "should find the button without a lock if no upsell is needed", () => {
 		mockSelect( "keyphraseDensityAIFixes" );
 		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
 		const button = screen.getByRole( "button" );
 		expect( button ).toBeInTheDocument();
+		const lockIcon = document.querySelector( ".yst-fixes-button__lock-icon" );
+		expect( lockIcon ).not.toBeInTheDocument();
 	} );
 
 	test( "should find the button without tooltip when the button is NOT hovered", () => {
@@ -182,7 +198,7 @@ describe( "AIAssessmentFixesButton", () => {
 		expect( setMarkerStatus ).toHaveBeenCalledWith( "enabled" );
 	} );
 	test( "should remove the active marker if it's available when the AI button is clicked", () => {
-		mockSelect( "keyphraseDensityAIFixes", "visual", "blockEditor", [ { clientId: "test" } ], "test", "keyphraseDensity" );
+		mockSelect( "keyphraseDensityAIFixes", "visual", "blockEditor", [ { clientId: "test" } ], "test" );
 		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
 		const button = screen.getByRole( "button" );
 
