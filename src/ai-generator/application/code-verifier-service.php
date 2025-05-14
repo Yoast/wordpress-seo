@@ -56,7 +56,7 @@ class Code_Verifier_Service {
 	 *
 	 * @throws RuntimeException If the code verifier is expired or invalid.
 	 */
-	public function validate_code_verifier( int $user_id ): string {
+	public function validate( int $user_id ): string {
 		$code_verifier = $this->code_verifier_repository->get_code_verifier( $user_id );
 
 		if ( $code_verifier === null || $code_verifier->is_expired( self::VALIDITY_IN_SECONDS ) ) {
