@@ -1,7 +1,7 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-namespace Yoast\WP\SEO\Llms_Txt\Infrastructure;
+namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services;
 
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Title;
 use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Runner;

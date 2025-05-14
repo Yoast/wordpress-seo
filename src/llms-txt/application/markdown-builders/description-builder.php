@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders;
 
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Description;
-use Yoast\WP\SEO\Llms_Txt\Infrastructure\Description_Adapter;
+use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Description_Adapter;
 
 /**
  * The builder of the description section.

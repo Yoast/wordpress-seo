@@ -1,7 +1,7 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-namespace Yoast\WP\SEO\Llms_Txt\Infrastructure;
+namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services;
 
 use WPSEO_Options;
 use WPSEO_Sitemaps_Router;

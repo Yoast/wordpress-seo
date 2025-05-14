@@ -3,8 +3,8 @@
 namespace Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders;
 
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
-use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content_Types_Collector;
-use Yoast\WP\SEO\Llms_Txt\Infrastructure\Terms_Collector;
+use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector;
+use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Terms_Collector;
 
 
 /**
