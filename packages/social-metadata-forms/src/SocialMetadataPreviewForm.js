@@ -75,34 +75,38 @@ Caret.defaultProps = {
 
 /**
  * Adds Caret to a component.
- * @param {React.Element} WithoutCaretComponent The component to add a Caret to.
+ * @param {React.ComponentType} WithoutCaretComponent The component to add a Caret to.
  *
- * @returns {React.Element} A component with added Caret.
+ * @returns {React.ComponentType} A component with added Caret.
  */
 export const withCaretStyle = ( WithoutCaretComponent ) => {
-	return function ComponentWithCaret( props ) {
-		// Define function props.
-		ComponentWithCaret.propTypes = {
-			isActive: PropTypes.bool.isRequired,
-			isHovered: PropTypes.bool.isRequired,
-			isPremium: PropTypes.bool,
-		};
-
-		// Destructure the props.
-		const {
-			isActive,
-			isHovered,
-			isPremium,
-			...withoutCaretProps
-		} = props;
-
+	/**
+	 * Adding a Caret around a component.
+	 *
+	 * @param {boolean} isActive Whether the component is active.
+	 * @param {boolean} isHovered Whether the component is hovered.
+	 * @param {boolean} [isPremium=false] Whether the component is premium.
+	 * @param {Object} [withoutCaretProps] The props for the component.
+	 *
+	 * @returns {JSX.Element} The component with a Caret.
+	 */
+	function ComponentWithCaret( { isActive, isHovered, isPremium = false, ...withoutCaretProps } ) {
 		return (
 			<CaretContainer isPremium={ isPremium }>
 				<Caret isActive={ isActive } isHovered={ isHovered } />
 				<WithoutCaretComponent { ...withoutCaretProps } />
 			</CaretContainer>
 		);
+	}
+
+	// Define function props.
+	ComponentWithCaret.propTypes = {
+		isActive: PropTypes.bool.isRequired,
+		isHovered: PropTypes.bool.isRequired,
+		isPremium: PropTypes.bool,
 	};
+
+	return ComponentWithCaret;
 };
 
 const ImageSelectWithCaret = withCaretStyle( ImageSelect );
