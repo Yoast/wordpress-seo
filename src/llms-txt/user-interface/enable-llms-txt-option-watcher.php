@@ -69,6 +69,8 @@ class Enable_Llms_Txt_Option_Watcher implements Integration_Interface {
 	 *
 	 * @param array<string|int|bool|array<string|int|bool>> $old_value The old value of the option.
 	 * @param array<string|int|bool|array<string|int|bool>> $new_value The new value of the option.
+	 *
+	 * @return void
 	 */
 	public function check_toggle_llms_txt( $old_value, $new_value ): void {
 		$option_name = 'enable_llms_txt';
