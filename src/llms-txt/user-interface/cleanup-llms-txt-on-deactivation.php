@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Llms_Txt\User_Interface;
 use Yoast\WP\SEO\Conditionals\Traits\Admin_Conditional_Trait;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Remove_File_Command_Handler;
+use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
 
 /**
  * Trys to clean up the llms.txt file when the plugin is deactivated.
@@ -21,12 +22,24 @@ class Cleanup_Llms_Txt_On_Deactivation implements Integration_Interface {
 	private $command_handler;
 
 	/**
+	 * The cron scheduler.
+	 *
+	 * @var Llms_Txt_Cron_Scheduler
+	 */
+	private $cron_scheduler;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Remove_File_Command_Handler $command_handler The command handler.
+	 * @param Llms_Txt_Cron_Scheduler     $cron_scheduler  The scheduler.
 	 */
-	public function __construct( Remove_File_Command_Handler $command_handler ) {
+	public function __construct(
+		Remove_File_Command_Handler $command_handler,
+		Llms_Txt_Cron_Scheduler $cron_scheduler
+	) {
 		$this->command_handler = $command_handler;
+		$this->cron_scheduler  = $cron_scheduler;
 	}
 
 	/**
@@ -43,7 +56,8 @@ class Cleanup_Llms_Txt_On_Deactivation implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function maybe_remove_llms_file() {
+	public function maybe_remove_llms_file(): void {
 		$this->command_handler->handle();
+		$this->cron_scheduler->unschedule_llms_txt_population();
 	}
 }
