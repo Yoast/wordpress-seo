@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\application;
+namespace Yoast\WP\SEO\AI_Generator\Application;
 
 use RuntimeException;
 use Yoast\WP\SEO\AI_Generator\Domain\Code_Verifier;
