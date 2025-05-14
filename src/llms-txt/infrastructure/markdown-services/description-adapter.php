@@ -37,6 +37,8 @@ class Description_Adapter {
 	public function get_description(): Description {
 		$meta_description = $this->meta->for_home_page()->meta_description;
 
+		// In a lot of cases, the homepage's meta description falls back to the site's tagline.
+		// But that is already used for the title section, so let's try to not have duplicate content.
 		if ( $meta_description === \get_bloginfo( 'description' ) ) {
 			return new Description( '' );
 		}
