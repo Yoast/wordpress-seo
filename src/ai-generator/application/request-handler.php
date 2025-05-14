@@ -18,7 +18,6 @@ use Yoast\WP\SEO\AI_Generator\Infrastructure\Exceptions\WP_Request_Exception;
 
 /**
  * Class Request_Handler
- *
  * Handles the request to Yoast AI API.
  */
 class Request_Handler {

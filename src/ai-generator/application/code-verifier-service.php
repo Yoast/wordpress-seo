@@ -8,6 +8,7 @@ use Yoast\WP\SEO\AI_Generator\Infrastructure\Code_Verifier_Repository;
 
 /**
  * Class Code_Verifier_Service
+ * Handles the generation and validation of code verifiers for users.
  */
 class Code_Verifier_Service {
 	private const VALIDITY_IN_SECONDS = 300; // 5 minutes

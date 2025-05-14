@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
  * Class Access_Token_Repository
+ * Handles the storage and retrieval of access tokens for users.
  */
 class Access_Token_Repository implements Token_Repository_Interface {
 

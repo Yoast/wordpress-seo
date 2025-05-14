@@ -6,9 +6,11 @@ use WPSEO_Utils;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\Exceptions\WP_Request_Exception;
 
 /**
- * Class to manage the API client.
+ * Class API_Client
+ * Handles the API requests to the AI Generator API.
+ *
  */
-class Api_Client {
+class API_Client {
 
 	/**
 	 * The base URL for the API.

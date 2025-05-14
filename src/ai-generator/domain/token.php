@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\AI_Generator\Domain;
 
 /**
  * Class Token
+ * Represents a token used for authentication with the AI Generator API.
  */
 class Token {
 

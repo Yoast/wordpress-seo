@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\AI_Generator\Domain;
 
 /**
  * Class Request
- *
  * Represents a request to the AI Generator API.
  */
 class Request {

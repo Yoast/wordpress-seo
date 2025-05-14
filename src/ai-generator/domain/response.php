@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\AI_Generator\Domain;
 
 /**
  * Class Response
+ * Represents a response from the AI Generator API.
  */
 class Response {
 
