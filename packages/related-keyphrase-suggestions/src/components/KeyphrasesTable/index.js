@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Table, SkeletonLoader } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
+import { SkeletonLoader, Table } from "@yoast/ui-library";
 import { isFunction } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
 import { DifficultyBullet, IntentBadge, TrendGraph } from "../..";
 
 /**
@@ -13,13 +13,22 @@ import { DifficultyBullet, IntentBadge, TrendGraph } from "../..";
  * @param {number[]} [trends=[]] An array of trends for 12 months.
  * @param {number} [keywordDifficultyIndex=-1] The keyword difficulty index.
  * @param {string[]} [intent=[]] An array of intent initials.
- * @param {Function} [renderButton] The render button function.
- * @param {Object[]} [relatedKeyphrases] The related keyphrases.
+ * @param {Function?} [renderButton=null] The render button function.
+ * @param {Object[]} [relatedKeyphrases=[]] The related keyphrases.
  * @param {string} id The id of the row.
  *
  * @returns {JSX.Element} The row.
  */
-const KeyphrasesTableRow = ( { keyword = "", searchVolume = "", trends = [], keywordDifficultyIndex = -1, intent = [], renderButton, relatedKeyphrases, id } ) => {
+const KeyphrasesTableRow = ( {
+	keyword = "",
+	searchVolume = "",
+	trends = [],
+	keywordDifficultyIndex = -1,
+	intent = [],
+	renderButton = null,
+	relatedKeyphrases = [],
+	id,
+} ) => {
 	return (
 		<Table.Row id={ id }>
 			<Table.Cell>
@@ -152,16 +161,25 @@ const prepareRow = ( columnNames, row, searchVolumeFormat ) => {
  *
  * @param {string[]} [columnNames=[]] The column names.
  * @param {string[]} [data] The rows to display in the table.
- * @param {Function} [renderButton] The render button function.
+ * @param {Function?} [renderButton=null] The render button function.
  * @param {Object[]} [relatedKeyphrases=[]] The related keyphrases.
  * @param {string} [className=""] The class name for the table.
  * @param {boolean} [isPending=false] Whether the data is still pending.
- * @param {string} [userLocale] The user locale, only the first part, for example "en" not "en_US".
+ * @param {string} [userLocale="en"] The user locale, only the first part, for example "en" not "en_US".
  * @param {string} [idPrefix=""] The idPrefix for the id of the row.
  *
  * @returns {JSX.Element} The keyphrases table.
  */
-export const KeyphrasesTable = ( { columnNames = [], data, renderButton, relatedKeyphrases = [], className = "", userLocale, isPending = false, idPrefix = "yoast-seo" } ) => {
+export const KeyphrasesTable = ( {
+	columnNames = [],
+	data = [],
+	renderButton = null,
+	relatedKeyphrases = [],
+	className = "",
+	userLocale = "en",
+	isPending = false,
+	idPrefix = "yoast-seo",
+} ) => {
 	let searchVolumeFormat;
 	try {
 		searchVolumeFormat = new Intl.NumberFormat( userLocale, { notation: "compact", compactDisplay: "short" } );
@@ -169,7 +187,7 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 		// Fallback to the browser language.
 		searchVolumeFormat = new Intl.NumberFormat( navigator.language.split( "-" )[ 0 ], { notation: "compact", compactDisplay: "short" } );
 	}
-	const rows = data?.map( row => prepareRow(  columnNames, row, searchVolumeFormat ) );
+	const rows = data?.map( row => prepareRow( columnNames, row, searchVolumeFormat ) );
 
 	if ( ( ! rows || rows.length === 0 ) && ! isPending ) {
 		return null;
@@ -221,7 +239,7 @@ export const KeyphrasesTable = ( { columnNames = [], data, renderButton, related
 			}
 
 			{ isPending && Array.from( { length: 10 }, ( _, index ) => (
-				<LoadingKeyphrasesTableRow key={ `loading-row-${ index }` } withButton={ isFunction( renderButton ) }  /> ) )
+				<LoadingKeyphrasesTableRow key={ `loading-row-${ index }` } withButton={ isFunction( renderButton ) } /> ) )
 			}
 		</Table.Body>
 	</Table>;

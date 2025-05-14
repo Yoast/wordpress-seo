@@ -133,25 +133,23 @@ const COUNTRIES = [
 /**
  * The Country Selector component.
  *
- * @param {string} [countryCode="en"] The country code.
- * @param {string} [activeCountryCode="en"] The active country code.
+ * @param {string} [countryCode="us"] The country code.
+ * @param {string} [activeCountryCode="us"] The active country code.
  * @param {Function} onChange The change handler for the select.
  * @param {Function} onClick The click handler for the button.
  * @param {string} [className] The class name.
- * @param {string} [userLocale] The user locale, only the language code.
+ * @param {string} [userLocale="en"] The user locale, only the language code.
  *
  * @returns {JSX.Element} The country selector.
  */
-export const CountrySelector = (
-	{
-		countryCode = "us",
-		activeCountryCode = "us",
-		onChange,
-		onClick,
-		className,
-		userLocale,
-	},
-) => {
+export const CountrySelector = ( {
+	countryCode = "us",
+	activeCountryCode = "us",
+	onChange,
+	onClick,
+	className = "",
+	userLocale = "en",
+} ) => {
 	let regionNames;
 	try {
 		regionNames = new Intl.DisplayNames( [ userLocale ], { type: "region" } );
