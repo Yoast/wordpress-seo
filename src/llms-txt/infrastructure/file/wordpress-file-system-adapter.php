@@ -71,30 +71,15 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	}
 
 	/**
-	 * Gets the current file system method.
-	 *
-	 * @return string The current file system method.
-	 */
-	public function get_filesystem_method() {
-		if ( ! \function_exists( 'get_filesystem_method' ) ) {
-			require_once \ABSPATH . 'wp-admin/includes/file.php';
-		}
-
-		return \get_filesystem_method();
-	}
-
-	/**
 	 * Checks if the file system is available.
 	 *
 	 * @return bool If the file system is available.
 	 */
-	private function is_file_system_available(): bool {
-		if ( $this->get_filesystem_method() === 'direct' ) {
-			$credentials = \request_filesystem_credentials( \site_url() . '/wp-admin/' );
-
-			return \WP_Filesystem( $credentials );
+	public function is_file_system_available(): bool {
+		if ( ! \function_exists( 'WP_Filesystem' ) ) {
+			require_once \ABSPATH . 'wp-admin/includes/file.php';
 		}
 
-		return false;
+		return \WP_Filesystem();
 	}
 }

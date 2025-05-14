@@ -47,7 +47,7 @@ class WordPress_Llms_Txt_Permission_Gate implements Llms_Txt_Permission_Gate_Int
 		$stored_hash = $this->options_helper->get( 'llms_txt_content_hash', '' );
 
 		// Check file editing permissions.
-		if ( $this->file_system_adapter->get_filesystem_method() !== 'direct' ) {
+		if ( !$this->file_system_adapter->is_file_system_available() ) {
 			return false;
 		}
 
