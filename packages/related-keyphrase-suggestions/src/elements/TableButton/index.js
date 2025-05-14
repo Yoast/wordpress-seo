@@ -62,7 +62,7 @@ SuccessMessage.propTypes = {
 /**
  *
  * @param {string} variant Whether it is an add button or not.
- * @param {string} className The class name.
+ * @param {string} [className=""] The class name.
  *
  * @returns {JSX.Element} The button.
  */
