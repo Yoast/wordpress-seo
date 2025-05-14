@@ -5,7 +5,6 @@ import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import Button from "../../elements/button";
 import { noop } from "lodash";
 import { ValidationIcon } from "../../elements/validation";
-
 const DismissButton = () => {
 	const { handleDismiss } = usePopoverContext();
 	return <Button type="button" variant="primary" onClick={ handleDismiss } className="yst-self-end">Got it!</Button>;
@@ -26,7 +25,9 @@ export const Factory = {
 	},
 	args: {
 		children: (
-			<Popover.Content id="popover-content" content="Hey! I am a popover" />
+			<Popover.Content id="popover-content">
+				Hey! I am the popover.
+			</Popover.Content>
 		),
 	},
 };
@@ -51,15 +52,17 @@ export const WithMoreContent = {
 			<>
 				<div className="yst-flex yst-flex-col yst-gap-4">
 					<div className="yst-flex yst-justify-between">
-						<Popover.Title title="Popover title" id="popover-title" />
-						<Popover.CloseButton dismissScreenReaderLabel="Dismiss" />
+						<Popover.Title> The title </Popover.Title>
+						<Popover.CloseButton screenReaderLabel="Dismiss" />
 					</div>
 					<div className="yst-self-start yst-flex-wrap">
 						<Popover.Content
 							id="popover-content"
-							content="The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-							Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-						/>
+						>
+							The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+							Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer
+							took a galley of type and scrambled it to make a type specimen book.
+						</Popover.Content>
 					</div>
 				</div>
 			</>
@@ -107,16 +110,17 @@ export const ButtonWithAPopover = {
 					</div>
 					<div className="yst-flex-1">
 						<div className="yst-mb-5 yst-flex yst-justify-start">
-							<Popover.Title title="Popover title" id="popover-title" />
+							<Popover.Title> Popover title </Popover.Title>
 						</div>
 						<Popover.Content
 							id="popover-content"
-							content="The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry."
 							className="yst-text-slate-700 yst-font-normal yst-text-left"
-						/>
+						>
+							The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+						</Popover.Content>
 					</div>
 					<div>
-						<Popover.CloseButton dismissScreenReaderLabel="Dismiss" />
+						<Popover.CloseButton screenReaderLabel="Dismiss" />
 					</div>
 				</div>
 				<div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">

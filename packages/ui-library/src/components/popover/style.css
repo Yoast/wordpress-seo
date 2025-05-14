@@ -5,13 +5,14 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 @layer components {
 	.yst-root {
 
-		.yst-close-button-wrapper {
+		.yst-popover__close {
 			@apply
 			yst-flex-shrink-0
 			yst-flex
 			yst-self-start;
+		}
 
-			& button {
+		.yst-popover__close-button {
 				@apply
 				yst-bg-transparent
 				yst-rounded-md
@@ -21,10 +22,9 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 				focus:yst-outline-none
 				focus:yst-ring-2
 				focus:yst-ring-primary-500;
-			}
 		}
 
-		.yst-popover-title {
+		.yst-popover__title {
 			@apply
 			yst-text-sm
 			yst-font-medium
@@ -32,7 +32,13 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 			rtl:yst-text-right;
 		}
 
-		.yst-popover-backdrop {
+		.yst-popover__content {
+			@apply
+			yst-overflow-hidden
+			rtl:yst-text-right;
+		}
+
+		.yst-popover__backdrop {
 			@apply
 			yst-fixed
 			yst-inset-0
@@ -54,7 +60,6 @@ body[backdrop-active] * {/* Disable interaction with background elements when ba
 			yst-z-30
 			yst-bg-white
 			yst-shadow-2xl
-			yst-gap-3
 			yst-border
 			before:yst-absolute;
 		}
