@@ -5,6 +5,7 @@ use Yoast\WP\SEO\AI_Generator\Domain\Response;
 
 /**
  * Class ResponseParser
+ * Parses the response from the AI API and creates a Response object.
  */
 class Response_Parser {
 
