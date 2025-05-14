@@ -77,7 +77,7 @@ class Enable_Llms_Txt_Option_Watcher implements Integration_Interface {
 
 		if ( \array_key_exists( $option_name, $old_value ) && \array_key_exists( $option_name, $new_value ) && $old_value[ $option_name ] !== $new_value[ $option_name ] ) {
 			if ( $new_value[ $option_name ] === true ) {
-				$this->scheduler->schedule_llms_txt_population();
+				$this->scheduler->schedule_weekly_llms_txt_population();
 				$this->populate_file_command_handler->handle();
 			}
 			else {

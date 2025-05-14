@@ -37,7 +37,22 @@ class Llms_Txt_Cron_Scheduler {
 	 *
 	 * @return void
 	 */
-	public function schedule_llms_txt_population(): void {
+	public function schedule_weekly_llms_txt_population(): void {
+		if ( $this->options_helper->get( 'enable_llms_txt', true ) !== true ) {
+			return;
+		}
+
+		if ( ! \wp_next_scheduled( self::LLMS_TXT_POPULATION ) ) {
+			\wp_schedule_event( ( \time() + \WEEK_IN_SECONDS ), 'weekly', self::LLMS_TXT_POPULATION );
+		}
+	}
+
+	/**
+	 * Schedules the llms txt population cron.
+	 *
+	 * @return void
+	 */
+	public function schedule_quick_llms_txt_population(): void {
 		if ( $this->options_helper->get( 'enable_llms_txt', true ) !== true ) {
 			return;
 		}
