@@ -34,12 +34,12 @@ const variants = {
 /**
  * The success message for the table buttons.
  *
- * @param {string} variant The variant of the success message.
+ * @param {string} [variant="add"] The variant of the success message.
  * @param {string} className The class name.
  *
  * @returns {JSX.Element} The success message.
  */
-const SuccessMessage = ( { variant, className = "" } ) => {
+const SuccessMessage = ( { variant = "add", className = "" } ) => {
 	const SuccessIcon = variants[ variant ].success.Icon;
 	return <div
 		role="alert"
