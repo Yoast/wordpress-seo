@@ -88,7 +88,7 @@ export const TableButton = forwardRef( ( { variant = "add", className = "", ...p
 
 TableButton.propTypes = {
 	variant: PropTypes.oneOf( [ "add", "remove" ] ).isRequired,
-	className: PropTypes.string, // eslint-disable-line react/require-default-props
+	className: PropTypes.string,
 };
 
 TableButton.displayName = "TableButton";

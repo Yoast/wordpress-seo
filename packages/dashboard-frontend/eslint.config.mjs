@@ -45,10 +45,6 @@ export default [
 
 			// Deviate from the Yoast config to allow for not using the error that is caught.
 			"no-unused-vars": [ "error", { caughtErrors: "none" } ],
-
-			// Deviate from the Yoast config to allow existing violations.
-			// In the future, the prop-types won't be supported by React anymore.
-			"react/prop-types": "off",
 		},
 	},
 	{

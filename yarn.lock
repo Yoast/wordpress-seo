@@ -10088,10 +10088,10 @@
     js-yaml "^3.10.0"
     tslib "^2.4.0"
 
-"@yoast/eslint-config@^8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@yoast/eslint-config/-/eslint-config-8.0.0.tgz#5f79c989cd7308f628d304a622ba1f7109b03d5a"
-  integrity sha512-FpMcaPY4iI8hOSuCZU5kuENNPLyD0diZxfMTmIeCXEYsNTLNVQJ68fxR6MhIV315Xp4sYiWfoVOvs+xa0HkSGw==
+"@yoast/eslint-config@^8.1.0":
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/@yoast/eslint-config/-/eslint-config-8.1.0.tgz#85887d6e5b7b2d3b634938c7f7f025c41d81bbdc"
+  integrity sha512-cb3jIAxoZ5Zg6zRKKQv4YIrtMA3X7Yb8qYBrrd61iilcmY1nUOi6+hzZJ0IWgNDR0VS5MpvH5w6YD9c82ocJIA==
   dependencies:
     "@eslint/compat" "^1.2.6"
     "@eslint/eslintrc" "^3.2.0"
