@@ -9,4 +9,67 @@
   margin-left: 87.5%;
 }
 
+.yst-traffic-light {
+  width: 19px;
+  height: 30px;
+  margin: 0 0 0 5px;
+}
+
+.yst-traffic-light .traffic-light-color {
+  display: none;
+}
+
+.yst-traffic-light.init .traffic-light-init {
+  display: inline;
+}
+
+.yst-traffic-light.bad .traffic-light-red {
+  display: inline;
+}
+
+.yst-traffic-light.ok .traffic-light-orange {
+  display: inline;
+}
+
+.yst-traffic-light.good .traffic-light-green {
+  display: inline;
+}
+
+.yst-traffic-light.na .traffic-light-empty {
+  display: inline;
+}
+
+/**
+* Content and SEO score in publish bar
+*/
+.yoast-seo-score .yoast-logo.svg {
+  float: left;
+  width: 18px;
+  margin-right: 7px;
+  height: 18px;
+  background: var(--yoast-svg-icon-yoast) no-repeat;
+  background-size: 18px;
+  flex-shrink: 0;
+}
+
+.yoast-seo-score .yoast-logo.svg.good {
+  background-image: var(--yoast-svg-icon-yoast-good);
+}
+
+.yoast-seo-score .yoast-logo.svg.ok {
+  background-image: var(--yoast-svg-icon-yoast-ok);
+}
+
+.yoast-seo-score .yoast-logo.svg.bad {
+  background-image: var(--yoast-svg-icon-yoast-bad);
+}
+
+.yoast-seo-score .yoast-logo.svg.na {
+  background-image: var(--yoast-svg-icon-yoast);
+}
+
+.yoast-seo-score .yoast-logo.svg.noindex {
+  background-image: var(--yoast-svg-icon-yoast);
+}
+
 /*# sourceMappingURL=yst_seo_score.css.map */
