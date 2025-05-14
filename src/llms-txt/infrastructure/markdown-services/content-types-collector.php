@@ -45,19 +45,14 @@ class Content_Types_Collector {
 			}
 
 			$posts = $this->get_relevant_posts( $post_type_object );
-			if ( empty( $posts ) ) {
-				continue;
-			}
 
-			$post_links = [];
+			$post_links = new Link_List( $post_type_object->label, [] );
 			foreach ( $posts as $post ) {
-				$post_link    = new Link( $post->post_title, \get_permalink( $post->ID ) );
-				$post_links[] = $post_link;
+				$post_link = new Link( $post->post_title, \get_permalink( $post->ID ) );
+				$post_links->add_link( $post_link );
 			}
 
-			if ( ! empty( $post_links ) ) {
-				$link_list[] = new Link_List( $post_type_object->label, $post_links );
-			}
+			$link_list[] = $post_links;
 		}
 
 		return $link_list;

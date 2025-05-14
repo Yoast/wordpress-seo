@@ -51,15 +51,13 @@ class Terms_Collector {
 				]
 			);
 
-			$term_links = [];
+			$term_links = new Link_List( $taxonomy, [] );
 			foreach ( $terms as $term ) {
-				$term_link    = new Link( $term->name, \get_term_link( $term, $taxonomy ) );
-				$term_links[] = $term_link;
+				$term_link = new Link( $term->name, \get_term_link( $term, $taxonomy ) );
+				$term_links->add_link( $term_link );
 			}
 
-			if ( ! empty( $term_links ) ) {
-				$link_list[] = new Link_List( $taxonomy, $term_links );
-			}
+			$link_list[] = $term_links;
 		}
 
 		return $link_list;
