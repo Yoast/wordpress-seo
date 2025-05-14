@@ -70,7 +70,7 @@ class Content_Types_Collector {
 				'post_type'      => $post_type_object->name,
 				'posts_per_page' => 5,
 				'post_status'    => 'publish',
-				'orderby'        => 'date',
+				'orderby'        => 'modified',
 				'order'          => 'DESC',
 				'has_password'   => false,
 			];
