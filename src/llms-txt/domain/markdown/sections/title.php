@@ -58,6 +58,6 @@ class Title implements Section_Interface {
 			return $this->site_tagline;
 		}
 
-		return $this->site_title . ': ' . $this->site_tagline;
+		return "$this->site_title: $this->site_tagline";
 	}
 }
