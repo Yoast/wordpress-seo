@@ -149,6 +149,9 @@ class WPSEO_Taxonomy {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
 			$asset_manager->enqueue_style( 'metabox-css' );
+			if ( $this->analysis_readability->is_enabled() ) {
+				$asset_manager->enqueue_style( 'scoring' );
+			}
 			$asset_manager->enqueue_style( 'ai-generator' );
 			$asset_manager->enqueue_script( 'term-edit' );
 
@@ -200,9 +203,6 @@ class WPSEO_Taxonomy {
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
 			$asset_manager->enqueue_user_language_script();
 
-			if ( $this->analysis_readability->is_enabled() ) {
-				$asset_manager->enqueue_style( 'scoring' );
-			}
 		}
 
 		if ( self::is_term_overview( $pagenow ) ) {
