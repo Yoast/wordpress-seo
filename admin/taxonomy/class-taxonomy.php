@@ -138,7 +138,6 @@ class WPSEO_Taxonomy {
 		}
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_style( 'scoring' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
 		$tag_id = $this::get_tag_id();
@@ -200,6 +199,10 @@ class WPSEO_Taxonomy {
 
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
 			$asset_manager->enqueue_user_language_script();
+
+			if ( $this->analysis_readability->is_enabled() ) {
+				$asset_manager->enqueue_style( 'scoring' );
+			}
 		}
 
 		if ( self::is_term_overview( $pagenow ) ) {

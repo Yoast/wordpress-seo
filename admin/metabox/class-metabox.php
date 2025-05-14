@@ -832,7 +832,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$asset_manager->enqueue_style( 'metabox-css' );
-		$asset_manager->enqueue_style( 'scoring' );
 		$asset_manager->enqueue_style( 'monorepo' );
 		$asset_manager->enqueue_style( 'ai-generator' );
 		$asset_manager->enqueue_style( 'ai-fix-assessments' );
@@ -908,6 +907,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$asset_manager->localize_script( $post_edit_handle, 'wpseoScriptData', $script_data );
+
+		if ( $this->readability_analysis->is_enabled() ) {
+			$asset_manager->enqueue_style( 'scoring' );
+		}
 		$asset_manager->enqueue_user_language_script();
 	}
 
