@@ -1,11 +1,12 @@
 import { __ } from "@wordpress/i18n";
+import { ImageSelect } from "@yoast/components";
 import { getDirectionalStyle, join } from "@yoast/helpers";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
-import { ImageSelect } from "@yoast/components";
 
 /**
  * Sets the color based on whether the caret is active or not (usually hovered).
@@ -29,8 +30,7 @@ const CaretContainer = styled.div`
 			max-height: 130px;
 		}
 	` };
-`
-;
+`;
 
 CaretContainer.propTypes = {
 	isPremium: PropTypes.bool,
@@ -332,7 +332,7 @@ SocialMetadataPreviewForm.defaultProps = {
 	imageWarnings: [],
 	hoveredField: "",
 	activeField: "",
-	onSelect: () => {},
+	onSelect: noop,
 	onReplacementVariableSearchChange: null,
 	imageUrl: "",
 	imageFallbackUrl: "",
@@ -340,8 +340,8 @@ SocialMetadataPreviewForm.defaultProps = {
 	titleInputPlaceholder: "",
 	descriptionInputPlaceholder: "",
 	isPremium: false,
-	setEditorRef: () => {},
-	onMouseHover: () => {},
+	setEditorRef: noop,
+	onMouseHover: noop,
 	idSuffix: "",
 };
 
