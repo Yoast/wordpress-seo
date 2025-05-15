@@ -85,11 +85,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
 		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
-
-		if ( $this->readability_analysis->is_enabled() ) {
-			$this->editor = new WPSEO_Metabox_Editor();
-			$this->editor->register_hooks();
-		}
 	}
 
 	/**
@@ -809,6 +804,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function enqueue() {
 		global $pagenow;
+
+		if ( $this->readability_analysis->is_enabled() ) {
+			$this->editor = new WPSEO_Metabox_Editor();
+			$this->editor->register_hooks();
+		}
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 
