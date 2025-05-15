@@ -70,12 +70,6 @@ class Yoast_Feature_Toggles {
 								. '" target="_blank">' . esc_html__( 'See the XML sitemap.', 'wordpress-seo' ) . '</a>';
 		}
 
-		$llms_txt_extra = false;
-		if ( WPSEO_Options::get( 'enable_llms_txt' ) ) {
-			$llms_txt_extra = '<a href="' . esc_url( home_url( 'llms.txt' ) )
-								. '" target="_blank">' . esc_html__( 'See the Llms.txt.', 'wordpress-seo' ) . '</a>';
-		}
-
 		$feature_toggles = [
 			(object) [
 				'name'            => __( 'SEO analysis', 'wordpress-seo' ),
@@ -218,18 +212,6 @@ class Yoast_Feature_Toggles {
 				'premium_url'        => 'https://yoa.st/ai-generator-feature',
 				'premium_upsell_url' => 'https://yoa.st/get-ai-generator',
 				'order'              => 115,
-			],
-			(object) [
-				'name'               => __( 'LLMs.txt', 'wordpress-seo' ),
-				'premium'            => true,
-				'setting'            => 'enable_llms_txt',
-				'label'              => __( 'Placeholder text2', 'wordpress-seo' ),
-				'read_more_label'    => __( 'Learn more', 'wordpress-seo' ),
-				'extra'              => $llms_txt_extra,
-				'read_more_url'      => '#',
-				'premium_url'        => '#',
-				'premium_upsell_url' => '#',
-				'order'              => 120,
 			],
 		];
 
