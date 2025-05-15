@@ -16,9 +16,9 @@ use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Request;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\Access_Token_User_Meta_Repository;
 use  Yoast\WP\SEO\AI_Generator\Infrastructure\Refresh_Token_User_Meta_Repository;
-use Yoast\WP\SEO\AI_Generator\Application\Request_Handler;
+use Yoast\WP\SEO\AI_Generator\Infrastructure\Verification_Code_User_Meta_Repository;
 use Yoast\WP\SEO\Helpers\User_Helper;
-use Yoast\WP\SEO\AI_Generator\Application\Code_Verifier;
+
 class Token_Manager {
 	/**
 	 * The access token repository.
@@ -26,6 +26,20 @@ class Token_Manager {
 	 * @var Access_Token_User_Meta_Repository
 	 */
 	private $access_token_repository;
+
+	/**
+	 * The code verifier service.
+	 *
+	 * @var Code_Verifier
+	 */
+	private $code_verifier;
+
+	/**
+	 * The consent handler.
+	 *
+	 * @var Consent_Handler
+	 */
+	private $consent_handler;
 
 	/**
 	 * The refresh token repository.
@@ -42,23 +56,35 @@ class Token_Manager {
 	private $user_helper;
 
 	/**
+	 * The verification code repository.
+	 *
+	 * @var Verification_Code_User_Meta_Repository
+	 */
+	private $verification_code_repository;
+
+	/**
 	 * The request handler.
 	 *
 	 * @var Request_Handler
 	 */
-
 	private $request_handler;
 
 	public function __construct(
 		Access_Token_User_Meta_Repository $access_token_repository,
+		Code_Verifier $code_verifier,
+		Consent_Handler $consent_handler,
 		Refresh_Token_User_Meta_Repository $refresh_token_repository,
 		User_Helper $user_helper,
-		Request_Handler $request_handler
+		Request_Handler $request_handler,
+		Verification_Code_User_Meta_Repository $verification_code_repository
 	) {
 		$this->access_token_repository = $access_token_repository;
+		$this->code_verifier            = $code_verifier;
+		$this->consent_handler          = $consent_handler;
 		$this->refresh_token_repository = $refresh_token_repository;
 		$this->user_helper             = $user_helper;
 		$this->request_handler         = $request_handler;
+		$this->verification_code_repository = $verification_code_repository;
 	}
 
 	/**
@@ -134,12 +160,12 @@ class Token_Manager {
 		// Ensure the user has given consent.
 		if ( $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_consent', true ) !== '1' ) {
 			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
-			throw $this->handle_consent_revoked( $user->ID );
+			throw $this->consent_handler->handle_consent_revoked( $user->ID );
 			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		// Generate a verification code and store it in the database.
-		$code_verifier = $this->ai_generator_helper->generate_code_verifier( $user );
+		$code_verifier = $this->code_verifier->generate( $user->ID, $user->user_email );
 		$this->ai_generator_helper->set_code_verifier( $user->ID, $code_verifier );
 
 		$request_body = [
@@ -220,5 +246,46 @@ class Token_Manager {
 		}
 
 		return $json->exp < \time();
+	}
+
+	/**
+	 * Retrieves the access token.
+	 *
+	 * @param WP_User $user The WP user.
+	 *
+	 * @throws Bad_Request_Exception Bad_Request_Exception.
+	 * @throws Forbidden_Exception Forbidden_Exception.
+	 * @throws Internal_Server_Error_Exception Internal_Server_Error_Exception.
+	 * @throws Not_Found_Exception Not_Found_Exception.
+	 * @throws Payment_Required_Exception Payment_Required_Exception.
+	 * @throws Request_Timeout_Exception Request_Timeout_Exception.
+	 * @throws Service_Unavailable_Exception Service_Unavailable_Exception.
+	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
+	 * @throws Unauthorized_Exception Unauthorized_Exception.
+	 * @throws RuntimeException Unable to retrieve the access or refresh token.
+	 * @return string The access token.
+	 *
+	 */
+	protected function get_or_request_access_token( WP_User $user ): string {
+		$access_jwt = $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt', true );
+		if ( ! \is_string( $access_jwt ) || $access_jwt === '' ) {
+			$this->token_refresh( $user );
+			$access_jwt = $this->access_token_repository->get_token( $user->ID );
+		}
+		elseif ( $this->has_token_expired( $access_jwt ) ) {
+			try {
+				$this->token_refresh( $user );
+			} catch ( Unauthorized_Exception $exception ) {
+				$this->token_request( $user );
+			} catch ( Forbidden_Exception $exception ) {
+				// Follow the API in the consent being revoked (Use case: user sent an e-mail to revoke?).
+				// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
+				throw $this->consent_handler->handle_consent_revoked( $user->ID, $exception->getCode() );
+				// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+			}
+			$access_jwt = $this->access_token_repository->get_token( $user->ID );
+		}
+
+		return $access_jwt;
 	}
 }

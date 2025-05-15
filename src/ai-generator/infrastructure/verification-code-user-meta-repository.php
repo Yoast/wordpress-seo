@@ -21,7 +21,7 @@ class Verification_Code_User_Meta_Repository {
 	public function store_code_verifier( string $code, int $user_id, int $created_at ): void {
 		\update_user_meta(
 			$user_id,
-			'yoast_wpseo_ai_generator_code_verifier',
+			'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id(),
 			[
 				'code'       => $code,
 				'created_at' => $created_at,
