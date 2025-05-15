@@ -10,7 +10,7 @@ use Yoast\WP\SEO\AI_Generator\Infrastructure\Verification_Code_User_Meta_Reposit
  * Class Code_Verifier_Service
  * Handles the generation and validation of code verifiers for users.
  */
-class Code_Verifier_Service {
+class Code_Verifier {
 	private const VALIDITY_IN_SECONDS = 300; // 5 minutes
 
 	/**

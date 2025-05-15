@@ -5,10 +5,8 @@ namespace Yoast\WP\SEO\AI_Generator\Domain;
 /**
  * Class Code_Verifier representing a challenge code and its creation time.
  * This is used during the authorization process to verify the user requesting a token.
- *
- * @package Yoast\WP\SEO\Ai_Generator\Domain
  */
-class Code_Verifier {
+class Verification_Code {
 
 	/**
 	 * The code.
