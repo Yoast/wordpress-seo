@@ -147,6 +147,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'site_kit_tracking_setup_widget_temporarily_dismissed' => 'no',
 		'site_kit_tracking_setup_widget_permanently_dismissed' => 'no',
 		'google_site_kit_feature_enabled'                      => false,
+		'enable_llms_txt'                                      => false,
+		'llms_txt_content_hash'                                => '',
 	];
 
 	/**
@@ -335,6 +337,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'wincher_website_id':
 				case 'clean_permalinks_extra_variables':
 				case 'indexables_overview_state':
+				case 'llms_txt_content_hash':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
@@ -521,8 +524,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'should_redirect_after_install_free'
 				 *  'show_new_content_type_notification'
 				 *  'site_kit_configuration_permanently_dismissed',
-				 * 'site_kit_connected',
-				 * 'google_site_kit_feature_enabled',
+				 *  'site_kit_connected',
+				 *  'google_site_kit_feature_enabled',
+				 *  'enable_llms_txt',
 				 *  and most of the feature variables.
 				 */
 				default:
@@ -592,6 +596,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'redirect_search_pretty_urls'        => false,
 			'algolia_integration_active'         => false,
 			'google_site_kit_feature_enabled'    => false,
+			'enable_llms_txt'                    => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

@@ -171,9 +171,10 @@ LearnMoreLink.propTypes = {
 const SiteFeatures = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
+	const llmsTxtUrl = useSelectSettings( "selectPreference", [], "llmsTxtUrl" );
 	const { values, initialValues } = useFormikContext();
-	const { enable_xml_sitemap: enableXmlSitemap } = values.wpseo;
-	const { enable_xml_sitemap: initialEnableXmlSitemap } = initialValues.wpseo;
+	const { enable_xml_sitemap: enableXmlSitemap, enable_llms_txt: enableLlmsTxt } = values.wpseo;
+	const { enable_xml_sitemap: initialEnableXmlSitemap, enable_llms_txt: initialEnableLlmsTxt } = initialValues.wpseo;
 
 	// grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	// yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-2 lg:yst-grid-cols-3 xl:yst-grid-cols-4
@@ -420,6 +421,28 @@ const SiteFeatures = () => {
 							>
 								<p>{ __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-index-now" link="https://yoa.st/index-now-feature" ariaLabel={ __( "IndexNow", "wordpress-seo" ) } />
+							</FeatureCard>
+							<FeatureCard
+								name="wpseo.enable_llms_txt"
+								cardId="card-wpseo-enable_llms_txt"
+								inputId="input-wpseo-enable_llms_txt"
+								imageSrc="/images/insights.png"
+								title={ __( "LLMs.txt", "wordpress-seo" ) }
+							>
+								<p>{ __( "Placeholder text", "wordpress-seo" ) }</p>
+								{ initialEnableLlmsTxt && enableLlmsTxt && <Button
+									as="a"
+									id="link-xml-sitemaps"
+									href={ llmsTxtUrl }
+									variant="secondary"
+									target="_blank"
+									rel="noopener"
+									className="yst-self-start"
+								>
+									{ __( "View the Llms.txt", "wordpress-seo" ) }
+									<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
+								</Button> }
+								<LearnMoreLink id="link-llms-txt" link="#" ariaLabel={ __( "LLMs.txt", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>
 					</fieldset>
