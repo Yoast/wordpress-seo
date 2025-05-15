@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\infrastructure;
+namespace Yoast\WP\SEO\AI_Generator\Infrastructure;
 
 use Yoast\WP\SEO\AI_Generator\Domain\Verification_Code;
 
