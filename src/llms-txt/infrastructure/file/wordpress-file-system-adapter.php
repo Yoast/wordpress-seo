@@ -20,7 +20,7 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 		if ( $this->is_file_system_available() ) {
 			global $wp_filesystem;
 			$wp_filesystem->put_contents(
-				\get_home_path() . 'llms.txt',
+				$this->get_llms_file_path(),
 				$content,
 				\FS_CHMOD_FILE
 			);
@@ -36,7 +36,7 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	public function remove_file() {
 		if ( $this->is_file_system_available() ) {
 			global $wp_filesystem;
-			$wp_filesystem->delete( \get_home_path() . 'llms.txt' );
+			$wp_filesystem->delete( $this->get_llms_file_path() );
 		}
 	}
 
@@ -49,7 +49,7 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 		if ( $this->is_file_system_available() ) {
 			global $wp_filesystem;
 
-			return $wp_filesystem->get_contents( \get_home_path() . 'llms.txt' );
+			return $wp_filesystem->get_contents( $this->get_llms_file_path() );
 		}
 
 		return '';
@@ -64,7 +64,7 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 		if ( $this->is_file_system_available() ) {
 			global $wp_filesystem;
 
-			return $wp_filesystem->exists( \get_home_path() . 'llms.txt' );
+			return $wp_filesystem->exists( $this->get_llms_file_path() );
 		}
 
 		return false;
@@ -81,5 +81,14 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 		}
 
 		return \WP_Filesystem();
+	}
+
+	/**
+	 * Creates the path to the llms.txt file.
+	 *
+	 * @return string
+	 */
+	private function get_llms_file_path(): string {
+		return \trailingslashit( \get_home_path() ) . 'llms.txt';
 	}
 }
