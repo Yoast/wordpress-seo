@@ -1,10 +1,10 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-namespace Yoast\WP\SEO\Llms_Txt\Application;
+namespace Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders;
 
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Intro;
-use Yoast\WP\SEO\Llms_Txt\Infrastructure\Sitemap_Link_Collector;
+use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Sitemap_Link_Collector;
 
 /**
  * The builder of the intro section.

@@ -1170,7 +1170,7 @@ class WPSEO_Upgrade {
 		$file_remove_handler = YoastSEO()->classes->get( Remove_File_Command_Handler::class );
 		$is_llms_txt_enabled = WPSEO_Options::get( 'enable_llms_txt' );
 		if ( $is_llms_txt_enabled ) {
-			$cron_scheduler->schedule_llms_txt_population();
+			$cron_scheduler->schedule_quick_llms_txt_population();
 		}
 		else {
 			$cron_scheduler->unschedule_llms_txt_population();

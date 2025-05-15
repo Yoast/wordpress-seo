@@ -1,9 +1,9 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-namespace Yoast\WP\SEO\Llms_Txt\Application;
+namespace Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders;
 
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Title;
-use Yoast\WP\SEO\Llms_Txt\Infrastructure\Title_Adapter;
+use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Title_Adapter;
 
 
 /**

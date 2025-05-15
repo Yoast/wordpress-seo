@@ -1,11 +1,10 @@
 import { dispatch } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
-import { doAction } from "@wordpress/hooks";
 import { Root } from "@yoast/ui-library";
 import { get, isEmpty } from "lodash";
 import { LINK_PARAMS_NAME, PLUGIN_URL_NAME, WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
-import { Introduction, IntroductionProvider, Modal } from "./components";
+import { Introduction, IntroductionProvider } from "./components";
 import { STORE_NAME_INTRODUCTIONS } from "./constants";
 import { registerStore } from "./store";
 
@@ -15,14 +14,6 @@ domReady( () => {
 	const initialIntroductions = get( window, `${ DATA_NAME }.introductions`, [] );
 
 	if ( isEmpty( initialIntroductions ) ) {
-		return;
-	}
-
-	const initialComponents = {
-		// "ai-fix-assessments-upsell": Content,
-	};
-
-	if ( isEmpty( initialComponents ) ) {
 		return;
 	}
 
@@ -38,6 +29,7 @@ domReady( () => {
 	const rootContext = {
 		isRtl: Boolean( get( window, `${ DATA_NAME }.isRtl`, false ) ),
 	};
+	const initialComponents = {};
 
 	const root = document.createElement( "div" );
 	root.id = "wpseo-introductions";
@@ -47,15 +39,10 @@ domReady( () => {
 		(
 			<Root context={ rootContext }>
 				<IntroductionProvider initialComponents={ initialComponents }>
-					<Modal>
-						<Introduction />
-					</Modal>
+					<Introduction />
 				</IntroductionProvider>
 			</Root>
 		),
-		root,
-		() => {
-			doAction( "yoast.introductions.ready" );
-		}
+		root
 	);
 } );

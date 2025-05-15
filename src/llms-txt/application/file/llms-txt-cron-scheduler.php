@@ -33,18 +33,35 @@ class Llms_Txt_Cron_Scheduler {
 	}
 
 	/**
-	 * Schedules the llms txt population cron.
+	 * Schedules the llms txt population cron a week from now.
 	 *
 	 * @return void
 	 */
-	public function schedule_llms_txt_population(): void {
-		if ( $this->options_helper->get( 'enable_llms_txt', true ) !== true ) {
+	public function schedule_weekly_llms_txt_population(): void {
+		if ( $this->options_helper->get( 'enable_llms_txt', false ) !== true ) {
 			return;
 		}
 
 		if ( ! \wp_next_scheduled( self::LLMS_TXT_POPULATION ) ) {
-			\wp_schedule_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), 'weekly', self::LLMS_TXT_POPULATION );
+			\wp_schedule_event( ( \time() + \WEEK_IN_SECONDS ), 'weekly', self::LLMS_TXT_POPULATION );
 		}
+	}
+
+	/**
+	 * Schedules the llms txt population cron 5 minutes from now.
+	 *
+	 * @return void
+	 */
+	public function schedule_quick_llms_txt_population(): void {
+		if ( $this->options_helper->get( 'enable_llms_txt', false ) !== true ) {
+			return;
+		}
+
+		if ( \wp_next_scheduled( self::LLMS_TXT_POPULATION ) ) {
+			$this->unschedule_llms_txt_population();
+		}
+
+		\wp_schedule_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), 'weekly', self::LLMS_TXT_POPULATION );
 	}
 
 	/**

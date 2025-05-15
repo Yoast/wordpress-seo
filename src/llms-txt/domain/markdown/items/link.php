@@ -12,7 +12,7 @@ class Link implements Item_Interface {
 	 *
 	 * @var string
 	 */
-	private $link_text;
+	private $text;
 
 	/**
 	 * The anchor text.
@@ -38,6 +38,6 @@ class Link implements Item_Interface {
 	 * @return string
 	 */
 	public function render(): string {
-		return '[' . $this->text . '](' . $this->anchor . ')';
+		return "[$this->text]($this->anchor)";
 	}
 }

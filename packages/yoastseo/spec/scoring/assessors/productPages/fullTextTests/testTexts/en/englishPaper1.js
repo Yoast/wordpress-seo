@@ -106,7 +106,7 @@ const expectedResults = {
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Image Keyphrase</a>: Good job!",
+		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Keyphrase in image alt attributes</a>: Good job!",
 	},
 	imageCount: {
 		isApplicable: true,
@@ -116,7 +116,7 @@ const expectedResults = {
 	imageAltTags: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt tags</a>: One image doesn't have alt attributes." +
+		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt attributes</a>: One image doesn't have alt attributes." +
 			" <a href='https://yoa.st/shopify41' target='_blank'>Add alt attributes to your images</a>!",
 	},
 	keyphraseDistribution: {

@@ -70,24 +70,20 @@ class Enable_Llms_Txt_Option_Watcher implements Integration_Interface {
 	 * @param array<string|int|bool|array<string|int|bool>> $old_value The old value of the option.
 	 * @param array<string|int|bool|array<string|int|bool>> $new_value The new value of the option.
 	 *
-	 * @return bool Whether the option is set.
+	 * @return void
 	 */
-	public function check_toggle_llms_txt( $old_value, $new_value ) {
+	public function check_toggle_llms_txt( $old_value, $new_value ): void {
 		$option_name = 'enable_llms_txt';
 
 		if ( \array_key_exists( $option_name, $old_value ) && \array_key_exists( $option_name, $new_value ) && $old_value[ $option_name ] !== $new_value[ $option_name ] ) {
 			if ( $new_value[ $option_name ] === true ) {
-				$this->scheduler->schedule_llms_txt_population();
+				$this->scheduler->schedule_weekly_llms_txt_population();
 				$this->populate_file_command_handler->handle();
 			}
 			else {
 				$this->scheduler->unschedule_llms_txt_population();
 				$this->remove_file_command_handler->handle();
 			}
-
-			return true;
 		}
-
-		return false;
 	}
 }

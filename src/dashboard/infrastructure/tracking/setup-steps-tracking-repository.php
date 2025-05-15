@@ -36,9 +36,7 @@ class Setup_Steps_Tracking_Repository implements Setup_Steps_Tracking_Repository
 	 * @return bool False when the update failed, true when the update succeeded.
 	 */
 	public function set_setup_steps_tracking_element( string $element_name, string $element_value ): bool {
-		$usage_tracking                  = $this->options_helper->get( 'site_kit_usage_tracking', [] );
-		$usage_tracking[ $element_name ] = $element_value;
-		return $this->options_helper->set( 'site_kit_usage_tracking', $usage_tracking );
+		return $this->options_helper->set( 'site_kit_tracking_' . $element_name, $element_value );
 	}
 
 	/**
@@ -49,7 +47,6 @@ class Setup_Steps_Tracking_Repository implements Setup_Steps_Tracking_Repository
 	 * @return string The value if present, empty string if not.
 	 */
 	public function get_setup_steps_tracking_element( string $element_name ): string {
-		$usage_tracking = $this->options_helper->get( 'site_kit_usage_tracking', [] );
-		return ( $usage_tracking[ $element_name ] ?? '' );
+		return $this->options_helper->get( 'site_kit_tracking_' . $element_name, '' );
 	}
 }

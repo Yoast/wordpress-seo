@@ -12,14 +12,20 @@ import { OutboundLink, VideoFlow } from ".";
  * @param {Object} wistiaEmbedPermission The value, status and set for the Wistia embed permission.
  * @param {string} upsellLink The upsell link.
  * @param {string} upsellLabel The upsell label.
+ * @param {string} newToText The new to text.
+ * @param {string|JSX.Element} bundleNote The bundle note.
+ * @param {string} ctbId The click to buy to register for this upsell instance.
  * @returns {JSX.Element} The element.
  */
-export const AiFixAssessmentsUpsell = ( {
+export const AIOptimizeUpsell = ( {
 	learnMoreLink,
 	thumbnail,
 	wistiaEmbedPermission,
 	upsellLink,
 	upsellLabel,
+	newToText,
+	bundleNote,
+	ctbId,
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
@@ -49,7 +55,7 @@ export const AiFixAssessmentsUpsell = ( {
 				<div className="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center">
 					<span className="yst-introduction-modal-uppercase yst-flex yst-gap-2 yst-items-center">
 						<span className="yst-logo-icon" />
-						Yoast SEO Premium
+						{ newToText }
 					</span>
 				</div>
 			</div>
@@ -91,7 +97,7 @@ export const AiFixAssessmentsUpsell = ( {
 						target="_blank"
 						ref={ initialFocus }
 						data-action="load-nfd-ctb"
-						data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
+						data-ctb-id={ ctbId }
 					>
 						<LockOpenIcon className="yst--ms-1 yst-me-2 yst-h-5 yst-w-5" />
 						{ upsellLabel }
@@ -103,6 +109,7 @@ export const AiFixAssessmentsUpsell = ( {
 						</span>
 					</Button>
 				</div>
+				{ bundleNote }
 				<Button
 					as="a"
 					className="yst-mt-4"
@@ -115,7 +122,7 @@ export const AiFixAssessmentsUpsell = ( {
 		</>
 	);
 };
-AiFixAssessmentsUpsell.propTypes = {
+AIOptimizeUpsell.propTypes = {
 	learnMoreLink: PropTypes.string.isRequired,
 	upsellLink: PropTypes.string.isRequired,
 	thumbnail: PropTypes.shape( {
@@ -129,12 +136,21 @@ AiFixAssessmentsUpsell.propTypes = {
 		set: PropTypes.func.isRequired,
 	} ).isRequired,
 	upsellLabel: PropTypes.string,
+	newToText: PropTypes.string,
+	bundleNote: PropTypes.oneOfType( [
+		PropTypes.string,
+		PropTypes.element,
+	] ),
+	ctbId: PropTypes.string,
 };
 
-AiFixAssessmentsUpsell.defaultProps = {
+AIOptimizeUpsell.defaultProps = {
 	upsellLabel: sprintf(
 		/* translators: %1$s expands to Yoast SEO Premium. */
 		__( "Unlock with %1$s", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	),
+	newToText: "Yoast SEO Premium",
+	bundleNote: "",
+	ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 };
