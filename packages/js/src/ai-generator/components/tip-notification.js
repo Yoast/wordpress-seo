@@ -2,11 +2,10 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Notifications, useToggleState } from "@yoast/ui-library";
-import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
-import { CONTENT_TYPE, EDIT_TYPE, MIN_CHARACTERS_DEFAULT, MIN_CHARACTERS_IRREGULAR } from "../constants";
-import { useTypeContext } from "../hooks";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
+import { CONTENT_TYPE, EDIT_TYPE, MIN_CHARACTERS_DEFAULT, MIN_CHARACTERS_IRREGULAR, STORE_NAME_EDITOR } from "../constants";
 import { isWooActiveAndProductPostType } from "../helpers/is-woo-active-and-product-post-type";
-import { safeCreateInterpolateElement } from "../../helpers/safeCreateInterpolateElement";
+import { useTypeContext } from "../hooks";
 
 const ALERT_KEY = "wpseo_premium_ai_generator";
 
@@ -28,12 +27,12 @@ const getMinimumContentLength = ( postType, contentType, isWooCommerceActive ) =
  * @returns {JSX.Element} The element.
  */
 export const TipNotification = () => {
-	const isDismissed = useSelect( select => select( STORE_NAME_EDITOR.free ).isAlertDismissed( ALERT_KEY ), [] );
-	const content = useSelect( select => select( STORE_NAME_EDITOR.free ).getEditorDataContent(), [] );
-	const isWooCommerceActive = useSelect( select => select( STORE_NAME_EDITOR.free ).getIsWooCommerceActive(), [] );
+	const isDismissed = useSelect( select => select( STORE_NAME_EDITOR ).isAlertDismissed( ALERT_KEY ), [] );
+	const content = useSelect( select => select( STORE_NAME_EDITOR ).getEditorDataContent(), [] );
+	const isWooCommerceActive = useSelect( select => select( STORE_NAME_EDITOR ).getIsWooCommerceActive(), [] );
 	const [ isIgnored, , , setIgnoredTrue ] = useToggleState( false );
 	const { editType, postType, contentType } = useTypeContext();
-	const { dismissAlert } = useDispatch( STORE_NAME_EDITOR.free );
+	const { dismissAlert } = useDispatch( STORE_NAME_EDITOR );
 
 	const handleDismiss = useCallback( () => {
 		dismissAlert( ALERT_KEY );
@@ -44,13 +43,13 @@ export const TipNotification = () => {
 			/* translators: %1$s and %2$s expand to opening and closing of a span in order to emphasise the word. */
 			return __(
 				"%1$sTip%2$s: Improve the accuracy of your generated AI descriptions by writing more content in your page.",
-				"wordpress-seo-premium",
+				"wordpress-seo-premium"
 			);
 		}
 		/* translators: %1$s and %2$s expand to opening and closing of a span in order to emphasise the word. */
 		return __(
 			"%1$sTip%2$s: Improve the accuracy of your generated AI titles by writing more content in your page.",
-			"wordpress-seo-premium",
+			"wordpress-seo-premium"
 		);
 	}, [ editType ] );
 
@@ -73,7 +72,7 @@ export const TipNotification = () => {
 				sprintf( tip, "<span>", "</span>" ),
 				{
 					span: <span className="yst-font-medium yst-text-slate-800" />,
-				},
+				}
 			) }
 			<div className="yst-flex yst-mt-3 yst--ms-3 yst-gap-1">
 				<Button type="button" variant="tertiary" onClick={ handleDismiss }>

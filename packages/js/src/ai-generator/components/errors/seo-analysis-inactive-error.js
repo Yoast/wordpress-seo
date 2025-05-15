@@ -2,9 +2,9 @@ import { useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, useModalContext } from "@yoast/ui-library";
+import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { OutboundLink } from "../../../shared-admin/components";
 import { STORE_NAME_AI } from "../../constants";
-import { safeCreateInterpolateElement } from "../../../helpers/safeCreateInterpolateElement";
 
 /**
  * @returns {JSX.Element} The element.
@@ -31,20 +31,19 @@ export const SeoAnalysisInactiveError = () => {
 							 * %1$s expands to Yoast SEO.
 							 * %2$s and %3$s expand to an opening and closing anchor tag, respectively, that links to the settings page.
 							 * %4$s expands to Yoast AI.
-							*/
+							 */
 							__(
-								// eslint-disable-next-line max-len
 								"%4$s requires the SEO analysis to be enabled. To enable it, please navigate to %2$sSite features%3$s in %1$s, turn on the SEO analysis, and click 'Save changes'. If it's disabled in your WordPress user profile, access your profile and enable it there. Please contact your administrator if you don't have access to these settings.",
-								"wordpress-seo-premium",
+								"wordpress-seo-premium"
 							),
 							"Yoast SEO",
 							"<a>",
 							"</a>",
-							"Yoast AI",
+							"Yoast AI"
 						),
 						{
 							a: <OutboundLink variant="error" href={ seoAnalysisFeatureToggleLink } />,
-						},
+						}
 					) }
 				</p>
 			</Alert>

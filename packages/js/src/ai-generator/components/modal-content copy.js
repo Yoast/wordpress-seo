@@ -8,6 +8,7 @@ import { Badge, Button, Label, Modal, Notifications, Pagination, useModalContext
 import { map, noop } from "lodash";
 import PropTypes from "prop-types";
 import { SparksLimitNotification, SuggestionError, SuggestionsList, SuggestionsListSkeleton, TipNotification } from ".";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import {
 	ASYNC_ACTION_STATUS,
 	EDIT_TYPE,
@@ -31,7 +32,6 @@ import {
 import { useModalApplyButtonLabel } from "../hooks/use-modal-apply-button-label";
 import { useModalSuggestionsTitle } from "../hooks/use-modal-suggestions-title";
 import { useSetTitleOrDescription } from "../hooks/use-set-title-or-description";
-import { safeCreateInterpolateElement } from "../../helpers/safeCreateInterpolateElement";
 
 /**
  * Aims to capture the text between badges.
@@ -91,7 +91,7 @@ export const ModalContent = ( { height } ) => {
 		() => editType === EDIT_TYPE.description
 			? suggestions.selected
 			: applyReplacementVariables( descriptionTemplate, { editType: EDIT_TYPE.description } ),
-		[ applyReplacementVariables, descriptionTemplate, editType, suggestions.selected ],
+		[ applyReplacementVariables, descriptionTemplate, editType, suggestions.selected ]
 	);
 	const createTitleSuggestion = useCallback( suggestion => applyReplacementVariables( titleTemplate, {
 		overrides: { [ TITLE_VARIABLE[ contentType ] ]: suggestion },
@@ -122,7 +122,7 @@ export const ModalContent = ( { height } ) => {
 			// Replace the tags with HTML/elements.
 			label = safeCreateInterpolateElement( label, {
 				// Note that there is a space inside the badge, this is just so we do not get a React prop warning.
-				// eslint-disable-next-line react/self-closing-comp
+
 				badge: <Badge className="yst-me-2 last:yst-me-0" variant="plain"> </Badge>,
 				span: <span className="yst-flex yst-items-center yst-me-2 last:yst-me-0" />,
 			} );
@@ -203,18 +203,18 @@ export const ModalContent = ( { height } ) => {
 				{ showSuggestions && (
 					showLoading
 						? <SuggestionsListSkeleton
-								idSuffix={ location }
-								suggestionClassNames={ editType === EDIT_TYPE.title
-									? [
-										[ "yst-h-3 yst-w-9/12" ],
-										[ "yst-h-3 yst-w-7/12" ],
-										[ "yst-h-3 yst-w-10/12" ],
-										[ "yst-h-3 yst-w-11/12" ],
-										[ "yst-h-3 yst-w-8/12" ],
-									]
+							idSuffix={ location }
+							suggestionClassNames={ editType === EDIT_TYPE.title
+								? [
+									[ "yst-h-3 yst-w-9/12" ],
+									[ "yst-h-3 yst-w-7/12" ],
+									[ "yst-h-3 yst-w-10/12" ],
+									[ "yst-h-3 yst-w-11/12" ],
+									[ "yst-h-3 yst-w-8/12" ],
+								]
 								// eslint-disable-next-line no-undefined
-									: undefined
-								}
+								: undefined
+							}
 						/>
 						: ( <>
 							<div className="yst-flex yst-space-y-4">
@@ -316,11 +316,11 @@ export const ModalContent = ( { height } ) => {
 			</Modal.Container.Footer>
 			<Notifications
 				className={
-				// Margin tricks to break out of the container. Transition to prevent sudden location jumps when loading new suggestions.
+					// Margin tricks to break out of the container. Transition to prevent sudden location jumps when loading new suggestions.
 					"yst-mx-[calc(50%-50vw)] yst-transition-all"
 				}
 				style={ {
-				// Margin tricks to break out of the container.
+					// Margin tricks to break out of the container.
 					marginTop: margin,
 				} }
 				position="bottom-left"
@@ -330,7 +330,7 @@ export const ModalContent = ( { height } ) => {
 				/> }
 				{ ( suggestions.status === ASYNC_ACTION_STATUS.success || suggestions.status === ASYNC_ACTION_STATUS.loading ) &&
 					<TipNotification />
-				 }
+				}
 			</Notifications>
 		</Fragment>
 	);

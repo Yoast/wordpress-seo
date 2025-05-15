@@ -4,8 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { Label } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { GooglePreview, GooglePreviewSkeleton, LengthProgressBar, PreviewModePicker } from ".";
-import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
-import { ASYNC_ACTION_STATUS, EDIT_TYPE } from "../constants";
+import { ASYNC_ACTION_STATUS, EDIT_TYPE, STORE_NAME_EDITOR } from "../constants";
 import { useLocation, useTitleOrDescriptionLengthProgress, useTypeContext } from "../hooks";
 
 /**
@@ -18,7 +17,7 @@ import { useLocation, useTitleOrDescriptionLengthProgress, useTypeContext } from
  * @returns {JSX.Element} The element.
  */
 export const GoogleContent = ( { title, description, status, titleForLength, showPreviewSkeleton, showLengthProgress } ) => {
-	const initialMode = useSelect( select => select( STORE_NAME_EDITOR.free ).getSnippetEditorMode(), [] );
+	const initialMode = useSelect( select => select( STORE_NAME_EDITOR ).getSnippetEditorMode(), [] );
 	const [ mode, setMode ] = useState( initialMode );
 	const { editType } = useTypeContext();
 	const location = useLocation();

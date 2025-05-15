@@ -1,5 +1,5 @@
 import { createContext } from "@wordpress/element";
-import { EDIT_TYPE, PREVIEW_TYPE, POST_TYPE, CONTENT_TYPE } from "../constants";
+import { CONTENT_TYPE, EDIT_TYPE, POST_TYPE, PREVIEW_TYPE } from "../constants";
 
 const defaultTypeContext = {
 	editType: EDIT_TYPE.title,

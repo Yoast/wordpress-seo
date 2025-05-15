@@ -1,8 +1,7 @@
 import { select } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { constant } from "lodash";
-import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
-import { PREVIEW_TYPE } from "../constants";
+import { PREVIEW_TYPE, STORE_NAME_EDITOR } from "../constants";
 import { useTypeContext } from "./use-type-context";
 
 /**
@@ -14,11 +13,11 @@ export const useGetDescriptionTemplate = () => {
 	return useMemo( () => {
 		switch ( previewType ) {
 			case PREVIEW_TYPE.google:
-				return () => select( STORE_NAME_EDITOR.free ).getSnippetEditorData().description;
+				return () => select( STORE_NAME_EDITOR ).getSnippetEditorData().description;
 			case PREVIEW_TYPE.social:
-				return select( STORE_NAME_EDITOR.free ).getFacebookDescriptionOrFallback;
+				return select( STORE_NAME_EDITOR ).getFacebookDescriptionOrFallback;
 			case PREVIEW_TYPE.twitter:
-				return select( STORE_NAME_EDITOR.free ).getTwitterDescriptionOrFallback;
+				return select( STORE_NAME_EDITOR ).getTwitterDescriptionOrFallback;
 			default:
 				return constant( "" );
 		}

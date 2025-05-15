@@ -1,8 +1,7 @@
 import { useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
 import { escapeRegExp, get } from "lodash";
-import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
-import { CONTENT_TYPE, EDIT_TYPE } from "../constants";
+import { CONTENT_TYPE, EDIT_TYPE, STORE_NAME_EDITOR } from "../constants";
 import { applyPluggableReplacementVariables } from "../helpers";
 
 /**
@@ -10,7 +9,7 @@ import { applyPluggableReplacementVariables } from "../helpers";
  */
 export const useApplyReplacementVariables = () => {
 	const replacementVariables = useSelect( select => {
-		const replaceVars = select( STORE_NAME_EDITOR.free ).getReplaceVars();
+		const replaceVars = select( STORE_NAME_EDITOR ).getReplaceVars();
 		// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
 		replaceVars.forEach( ( replaceVariable ) => {
 			if ( replaceVariable.value === "" && ! [ "title", "excerpt", "excerpt_only" ].includes( replaceVariable.name ) ) {
@@ -35,7 +34,7 @@ export const useApplyReplacementVariables = () => {
 			for ( const replacementVariable of replacementVariables ) {
 				content = content.replace(
 					new RegExp( "%%" + escapeRegExp( replacementVariable.name ) + "%%", "g" ),
-					get( overrides, replacementVariable.name, replacementVariable[ key ] ),
+					get( overrides, replacementVariable.name, replacementVariable[ key ] )
 				);
 			}
 			// For terms, remove the "Archives" part from the content if present.

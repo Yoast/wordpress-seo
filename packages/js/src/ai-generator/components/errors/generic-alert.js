@@ -1,16 +1,16 @@
 import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/ui-library";
+import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { OutboundLink } from "../../../shared-admin/components";
-import { STORE_NAME_EDITOR } from "../../../shared-admin/constants";
-import { safeCreateInterpolateElement } from "../../../helpers/safeCreateInterpolateElement";
+import { STORE_NAME_EDITOR } from "../../constants";
 
 /**
  * @returns {JSX.Element} The element.
  */
 export const GenericAlert = () => {
-	const commonErrorsLink = useSelect( select => select( STORE_NAME_EDITOR.free ).selectLink( "https://yoa.st/ai-common-errors" ), [] );
-	const supportLink = useSelect( select => select( STORE_NAME_EDITOR.free ).selectAdminLink( "?page=wpseo_page_support" ), [] );
+	const commonErrorsLink = useSelect( select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-common-errors" ), [] );
+	const supportLink = useSelect( select => select( STORE_NAME_EDITOR ).selectAdminLink( "?page=wpseo_page_support" ), [] );
 
 	return (
 		<Alert variant="error">
@@ -20,17 +20,16 @@ export const GenericAlert = () => {
 					sprintf(
 						/* translators: %1$s and %3$s expand to an opening tag. %2$s and %4$s expand to a closing tag. */
 						__(
-							// eslint-disable-next-line max-len
 							"Please try again later. If this issue persists, you can learn more about possible reasons for this error on our page about %1$scommon AI feature problems and errors%2$s. In case you need further help, please %3$scontact our support team%4$s.", "wordpress-seo-premium" ),
 						"<a1>",
 						"</a1>",
 						"<a2>",
-						"</a2>",
+						"</a2>"
 					),
 					{
 						a1: <OutboundLink variant="error" href={ commonErrorsLink } />,
 						a2: <OutboundLink variant="error" href={ supportLink } />,
-					},
+					}
 				) }
 			</p>
 		</Alert>

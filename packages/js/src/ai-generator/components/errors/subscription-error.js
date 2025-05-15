@@ -3,10 +3,10 @@ import { useSelect } from "@wordpress/data";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, useModalContext } from "@yoast/ui-library";
-import { OutboundLink } from "../../../shared-admin/components";
-import { STORE_NAME_EDITOR } from "../../../shared-admin/constants";
 import PropTypes from "prop-types";
-import { safeCreateInterpolateElement } from "../../../helpers/safeCreateInterpolateElement";
+import { safeCreateInterpolateElement } from "../../../helpers/i18n";
+import { OutboundLink } from "../../../shared-admin/components";
+import { STORE_NAME_EDITOR } from "../../constants";
 
 /**
  * @param {array} invalidSubscriptions The array with the names of products with invalid subscription.
@@ -14,29 +14,29 @@ import { safeCreateInterpolateElement } from "../../../helpers/safeCreateInterpo
  */
 export const SubscriptionError = ( { invalidSubscriptions } ) => {
 	const activatePremiumLink = useSelect(
-		select => select( STORE_NAME_EDITOR.free ).selectLink( "https://yoa.st/ai-generator-activate-premium" ),
-		[],
+		select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-activate-premium" ),
+		[]
 	);
 	const newPremiumLink = useSelect(
-		select => select( STORE_NAME_EDITOR.free ).selectLink( "https://yoa.st/ai-generator-new-premium" ),
+		select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-new-premium" ),
 		[] );
 	const activateYoastWooLink = useSelect(
-		select => select( STORE_NAME_EDITOR.free ).selectLink( "https://yoa.st/ai-generator-activate-yoast-woocommerce" ),
-		[],
+		select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-activate-yoast-woocommerce" ),
+		[]
 	);
 	const newYoastWooLink = useSelect(
-		select => select( STORE_NAME_EDITOR.free ).selectLink( "https://yoa.st/ai-generator-new-yoast-woocommerce" ),
+		select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-new-yoast-woocommerce" ),
 		[] );
 	const activatePremiumWooBundleLink = useSelect(
-		select => select( STORE_NAME_EDITOR.free ).selectLink( "https://yoa.st/ai-generator-activate-woocommerce-premium-bundle" ),
-		[],
+		select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-activate-woocommerce-premium-bundle" ),
+		[]
 	);
 	const newPremiumWooBundleLink = useSelect(
-		select => select( STORE_NAME_EDITOR.free ).selectLink( "https://yoa.st/ai-generator-new-woocommerce-premium-bundle" ),
+		select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-new-woocommerce-premium-bundle" ),
 		[] );
 	const { onClose } = useModalContext();
 
-	const handleRefresh = useCallback( async () => {
+	const handleRefresh = useCallback( async() => {
 		try {
 			await apiFetch( {
 				path: "yoast/v1/ai_generator/bust_subscription_cache",
@@ -73,21 +73,20 @@ export const SubscriptionError = ( { invalidSubscriptions } ) => {
 			 * %5$s and %6$s expand to an opening and closing anchor tag, respectively, to get a new subscription.
 			 **/
 			__(
-				// eslint-disable-next-line max-len
 				"To access this feature, you need an active %1$s subscription. Please %3$sactivate your subscription in %2$s%4$s or %5$sget a new %1$s subscription%6$s. Afterward, refresh this page. It may take up to 30 seconds for the feature to function correctly.",
-				"wordpress-seo-premium",
+				"wordpress-seo-premium"
 			),
 			addonProduct,
 			"MyYoast",
 			"<Activate>",
 			"</Activate>",
 			"<New>",
-			"</New>",
+			"</New>"
 		),
 		{
 			Activate: <OutboundLink variant="error" href={ activateSubscriptionLink } />,
 			New: <OutboundLink variant="error" href={ newSubscriptionLink } />,
-		},
+		}
 	);
 
 	const errorMessageNoPremiumAndWoo = safeCreateInterpolateElement(
@@ -102,9 +101,8 @@ export const SubscriptionError = ( { invalidSubscriptions } ) => {
 			 * %7$s and %8$s expand to an opening and closing anchor tag, respectively, to get a new subscription.
 			 **/
 			__(
-				// eslint-disable-next-line max-len
 				"To access this feature, you need active %2$s and %3$s subscriptions. Please %5$sactivate your subscriptions in %1$s%6$s or %7$sget a new %4$s%8$s. Afterward, refresh this page. It may take up to 30 seconds for the feature to function correctly.",
-				"wordpress-seo-premium",
+				"wordpress-seo-premium"
 			),
 			"MyYoast",
 			"Yoast SEO Premium",
@@ -113,12 +111,12 @@ export const SubscriptionError = ( { invalidSubscriptions } ) => {
 			"<Activate>",
 			"</Activate>",
 			"<New>",
-			"</New>",
+			"</New>"
 		),
 		{
 			Activate: <OutboundLink variant="error" href={ activatePremiumWooBundleLink } />,
 			New: <OutboundLink variant="error" href={ newPremiumWooBundleLink } />,
-		},
+		}
 	);
 
 	return (

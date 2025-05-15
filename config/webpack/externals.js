@@ -18,15 +18,22 @@ const additionalPackages = [
 	"chart.js",
 ];
 
+// Yoast packages to exclude. Resulting in them being bundled per entry.
+const excludePackages = [
+	"@yoast/ai-frontend",
+];
+
 const YOAST_PACKAGE_NAMESPACE = "@yoast/";
 
 // Fetch all packages from the dependencies list.
-const yoastPackages = Object.keys( dependencies ).filter(
-	( packageName ) =>
-		packageName.startsWith( YOAST_PACKAGE_NAMESPACE ) ||
-		legacyYoastPackages.includes( packageName ) ||
-		additionalPackages.includes( packageName )
-);
+const yoastPackages = Object.keys( dependencies )
+	.filter(
+		( packageName ) =>
+			packageName.startsWith( YOAST_PACKAGE_NAMESPACE ) ||
+			legacyYoastPackages.includes( packageName ) ||
+			additionalPackages.includes( packageName )
+	)
+	.filter( ( name ) => ! excludePackages.includes( name ) );
 
 /**
  * Convert Yoast packages to externals configuration.

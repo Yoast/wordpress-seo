@@ -7,6 +7,12 @@ import { mapValues } from "lodash";
 export const STORE_NAME_AI = "yoast-seo/ai-generator";
 
 /**
+ * The Redux store name of the editor.
+ * @type {string}
+ */
+export const STORE_NAME_EDITOR = "yoast-seo/editor";
+
+/**
  * The preview type. Used to determine the platform for the preview.
  * @type {{google: string, social: string, twitter: string}}
  */
