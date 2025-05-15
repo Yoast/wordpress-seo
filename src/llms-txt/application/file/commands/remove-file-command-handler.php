@@ -56,7 +56,7 @@ class Remove_File_Command_Handler {
 	 * @return void
 	 */
 	public function handle() {
-		if ( $this->permission_gate->can_regenerate() ) {
+		if ( $this->permission_gate->is_managed_by_yoast_seo() ) {
 			$this->file_system_adapter->remove_file();
 			// Maybe move this to a class if we need to handle this option more often.
 			$this->options_helper->set( 'llms_txt_content_hash', '' );

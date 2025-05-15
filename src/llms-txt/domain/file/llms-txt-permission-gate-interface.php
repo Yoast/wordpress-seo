@@ -8,9 +8,9 @@ namespace Yoast\WP\SEO\Llms_Txt\Domain\File;
 interface Llms_Txt_Permission_Gate_Interface {
 
 	/**
-	 * Checks if the llms.txt can be regenerated.
+	 * Checks if Yoast SEO manages the llms.txt.
 	 *
-	 * @return bool If the llms.txt can be regenerated.
+	 * @return bool Checks if Yoast SEO manages the llms.txt.
 	 */
-	public function can_regenerate(): bool;
+	public function is_managed_by_yoast_seo(): bool;
 }
