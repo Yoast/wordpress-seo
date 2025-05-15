@@ -2,19 +2,19 @@
 
 namespace Yoast\WP\SEO\AI_Generator\Application;
 
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Bad_Request_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Forbidden_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Internal_Server_Error_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Not_Found_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Payment_Required_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Request_Timeout_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Service_Unavailable_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Too_Many_Requests_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Unauthorized_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Bad_Request_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Forbidden_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Internal_Server_Error_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Not_Found_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Payment_Required_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Request_Timeout_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Service_Unavailable_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Too_Many_Requests_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Unauthorized_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\WP_Request_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Request;
 use Yoast\WP\SEO\AI_Generator\Domain\Response;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\API_Client;
-use Yoast\WP\SEO\AI_Generator\Infrastructure\Exceptions\WP_Request_Exception;
 
 /**
  * Class Request_Handler
