@@ -1,0 +1,88 @@
+import { useDispatch, useSelect } from "@wordpress/data";
+import { useCallback, useMemo } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import { Button, Notifications, useToggleState } from "@yoast/ui-library";
+import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
+import { CONTENT_TYPE, EDIT_TYPE, MIN_CHARACTERS_DEFAULT, MIN_CHARACTERS_IRREGULAR } from "../constants";
+import { useTypeContext } from "../hooks";
+import { isWooActiveAndProductPostType } from "../helpers/is-woo-active-and-product-post-type";
+import { safeCreateInterpolateElement } from "../../helpers/safeCreateInterpolateElement";
+
+const ALERT_KEY = "wpseo_premium_ai_generator";
+
+/**
+ * Returns the minimum content length in characters for the given post type and content type.
+ * @param {string} postType The current post type.
+ * @param {string} contentType The current content type.
+ * @param {boolean} isWooCommerceActive Whether WooCommerce is active.
+ * @returns {number} The minimum content length.
+ */
+const getMinimumContentLength = ( postType, contentType, isWooCommerceActive ) =>
+	isWooActiveAndProductPostType( isWooCommerceActive, postType ) || contentType === CONTENT_TYPE.term
+		? MIN_CHARACTERS_IRREGULAR
+		: MIN_CHARACTERS_DEFAULT;
+
+/**
+ * The tip notification for increasing the content.
+ *
+ * @returns {JSX.Element} The element.
+ */
+export const TipNotification = () => {
+	const isDismissed = useSelect( select => select( STORE_NAME_EDITOR.free ).isAlertDismissed( ALERT_KEY ), [] );
+	const content = useSelect( select => select( STORE_NAME_EDITOR.free ).getEditorDataContent(), [] );
+	const isWooCommerceActive = useSelect( select => select( STORE_NAME_EDITOR.free ).getIsWooCommerceActive(), [] );
+	const [ isIgnored, , , setIgnoredTrue ] = useToggleState( false );
+	const { editType, postType, contentType } = useTypeContext();
+	const { dismissAlert } = useDispatch( STORE_NAME_EDITOR.free );
+
+	const handleDismiss = useCallback( () => {
+		dismissAlert( ALERT_KEY );
+	}, [ dismissAlert ] );
+
+	const tip = useMemo( () => {
+		if ( editType === EDIT_TYPE.description ) {
+			/* translators: %1$s and %2$s expand to opening and closing of a span in order to emphasise the word. */
+			return __(
+				"%1$sTip%2$s: Improve the accuracy of your generated AI descriptions by writing more content in your page.",
+				"wordpress-seo-premium",
+			);
+		}
+		/* translators: %1$s and %2$s expand to opening and closing of a span in order to emphasise the word. */
+		return __(
+			"%1$sTip%2$s: Improve the accuracy of your generated AI titles by writing more content in your page.",
+			"wordpress-seo-premium",
+		);
+	}, [ editType ] );
+
+	const minimumContentLength = useMemo( () => getMinimumContentLength( postType, contentType, isWooCommerceActive ),
+		[ postType, contentType, isWooCommerceActive ] );
+
+	// If the tip is dismissed or ignored, or the content length is greater than the minimum required, don't show the tip.
+	if ( isDismissed || isIgnored || content.length > minimumContentLength ) {
+		// Bail to not show the tip notification.
+		return null;
+	}
+
+	return (
+		<Notifications.Notification
+			id="ai-generator-content-tip"
+			variant="info"
+			dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo-premium" ) }
+		>
+			{ safeCreateInterpolateElement(
+				sprintf( tip, "<span>", "</span>" ),
+				{
+					span: <span className="yst-font-medium yst-text-slate-800" />,
+				},
+			) }
+			<div className="yst-flex yst-mt-3 yst--ms-3 yst-gap-1">
+				<Button type="button" variant="tertiary" onClick={ handleDismiss }>
+					{ __( "Don’t show again", "wordpress-seo-premium" ) }
+				</Button>
+				<Button type="button" variant="tertiary" className="yst-text-slate-800" onClick={ setIgnoredTrue }>
+					{ __( "Dismiss", "wordpress-seo-premium" ) }
+				</Button>
+			</div>
+		</Notifications.Notification>
+	);
+};
