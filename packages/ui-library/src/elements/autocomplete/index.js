@@ -14,12 +14,12 @@ const AutocompleteButton = forwardRef( ( props, ref ) => <Combobox.Button as="di
 AutocompleteButton.displayName = "AutocompleteButton";
 
 /**
- * @param {JSX.node} children The children.
+ * @param {React.ReactNode} [children=null] The children.
  * @param {string} value The value.
  * @returns {JSX.Element} The Option component.
  */
 const Option = ( {
-	children,
+	children = null,
 	value,
 } ) => {
 	const svgAriaProps = useSvgAria();

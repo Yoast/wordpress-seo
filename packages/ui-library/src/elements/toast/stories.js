@@ -16,7 +16,7 @@ const positionClassNameMap = {
 		"top-center": "yst-notifications--top-center",
 	},
 };
-const Template = ( { isVisible: initialVisible, setIsVisible: _, position, children, ...props } ) => {
+const Template = ( { isVisible: initialVisible = false, setIsVisible: _ = noop, position, children, ...props } ) => {
 	const [ isVisible, toggleToast, , openToast ] = useToggleState( initialVisible );
 
 	return (

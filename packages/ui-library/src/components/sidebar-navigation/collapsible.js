@@ -8,13 +8,20 @@ import { Icon } from "./icon";
 /**
  * @param {JSX.ElementClass} [as="div"] The component.
  * @param {string} label The label.
- * @param {JSX.ElementClass} [icon] Optional icon to put before the label.
- * @param {JSX.node} [children] The content.
- * @param {boolean} [defaultOpen] Whether the sub menu starts opened.
- * @param {Object} [props] Extra props.
+ * @param {JSX.ElementClass?} [icon=null] Optional icon to put before the label.
+ * @param {React.ReactNode} [children=null] The content.
+ * @param {boolean} [defaultOpen=true] Whether the sub menu starts opened.
+ * @param {...any} [props] Extra props.
  * @returns {JSX.Element} The element.
  */
-export const Collapsible = ( { as: Component = "div", label, icon, children, defaultOpen = true, ...props } ) => {
+export const Collapsible = ( {
+	as: Component = "div",
+	label,
+	icon = null,
+	children = null,
+	defaultOpen = true,
+	...props
+} ) => {
 	const [ isOpen, toggleOpen ] = useToggleState( defaultOpen );
 
 	return (
