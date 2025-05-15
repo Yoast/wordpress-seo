@@ -7,7 +7,7 @@ use Yoast\WP\SEO\AI_Generator\Domain\Verification_Code;
 /**
  * Class Code_Verifier_Repository
  */
-class Code_Verifier_Repository {
+class Verification_Code_User_Meta_Repository {
 
 	/**
 	 * Store the code verifier for a user.
