@@ -14,18 +14,21 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	 *
 	 * @param string $content The content to write into the file.
 	 *
-	 * @return void
+	 * @return bool True on success, false on failure.
 	 */
-	public function set_file_content( string $content ) {
+	public function set_file_content( string $content ): bool {
 		if ( $this->is_file_system_available() ) {
 			global $wp_filesystem;
-			$wp_filesystem->put_contents(
+			$result = $wp_filesystem->put_contents(
 				$this->get_llms_file_path(),
 				$content,
 				\FS_CHMOD_FILE
 			);
 
+			return $result;
 		}
+
+		return false;
 	}
 
 	/**
@@ -75,7 +78,7 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	 *
 	 * @return bool If the file system is available.
 	 */
-	public function is_file_system_available(): bool {
+	private function is_file_system_available(): ?bool {
 		if ( ! \function_exists( 'WP_Filesystem' ) ) {
 			require_once \ABSPATH . 'wp-admin/includes/file.php';
 		}

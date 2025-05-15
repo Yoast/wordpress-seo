@@ -12,9 +12,9 @@ interface Llms_File_System_Interface {
 	 *
 	 * @param string $content The content for the file.
 	 *
-	 * @return void
+	 * @return bool True on success, false on failure.
 	 */
-	public function set_file_content( string $content );
+	public function set_file_content( string $content ): bool;
 
 	/**
 	 * Method to remove the llms.txt file from the file system.
