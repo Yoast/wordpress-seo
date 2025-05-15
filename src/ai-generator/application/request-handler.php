@@ -63,7 +63,6 @@ class Request_Handler {
 	 * @throws Service_Unavailable_Exception When the response code is 503.
 	 * @throws Too_Many_Requests_Exception When the response code is 429.
 	 * @throws Unauthorized_Exception When the response code is 401.
-	 * @throws WP_Request_Exception When the wp_remote_post() returns an error.
 	 */
 	public function handle( Request $request ): Response {
 		try {
