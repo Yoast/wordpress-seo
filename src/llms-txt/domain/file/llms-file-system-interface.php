@@ -29,4 +29,11 @@ interface Llms_File_System_Interface {
 	 * @return string
 	 */
 	public function get_file_contents(): string;
+
+	/**
+	 * Checks if the llms.txt file exists.
+	 *
+	 * @return bool The whether the llms.txt file exists.
+	 */
+	public function file_exists(): bool;
 }
