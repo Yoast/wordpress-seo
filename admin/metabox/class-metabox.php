@@ -79,15 +79,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'edit_attachment', [ $this, 'save_postdata' ] );
 		add_action( 'add_attachment', [ $this, 'save_postdata' ] );
 
-		$this->editor = new WPSEO_Metabox_Editor();
-		$this->editor->register_hooks();
-
 		$this->social_is_enabled            = WPSEO_Options::get( 'opengraph', false, [ 'wpseo_social' ] ) || WPSEO_Options::get( 'twitter', false, [ 'wpseo_social' ] );
 		$this->is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta', null, [ 'wpseo' ] ) === false;
 
 		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
 		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
+
+		if ( $this->readability_analysis->is_enabled() ) {
+			$this->editor = new WPSEO_Metabox_Editor();
+			$this->editor->register_hooks();
+		}
 	}
 
 	/**
