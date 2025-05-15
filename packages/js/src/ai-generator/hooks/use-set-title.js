@@ -1,8 +1,7 @@
 import { useDispatch } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { noop } from "lodash";
-import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
-import { PREVIEW_TYPE } from "../constants";
+import { PREVIEW_TYPE, STORE_NAME_EDITOR } from "../constants";
 import { useTypeContext } from "./use-type-context";
 
 /**
@@ -10,7 +9,7 @@ import { useTypeContext } from "./use-type-context";
  */
 export const useSetTitle = () => {
 	const { previewType } = useTypeContext();
-	const { updateData, setFacebookPreviewTitle, setTwitterPreviewTitle } = useDispatch( STORE_NAME_EDITOR.free );
+	const { updateData, setFacebookPreviewTitle, setTwitterPreviewTitle } = useDispatch( STORE_NAME_EDITOR );
 
 	return useMemo( () => {
 		switch ( previewType ) {

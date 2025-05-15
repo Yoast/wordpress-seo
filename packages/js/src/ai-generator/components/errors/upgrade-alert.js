@@ -1,9 +1,8 @@
 import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/ui-library";
+import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { OutboundLink } from "../../../shared-admin/components";
-import { STORE_NAME_AI } from "../../constants";
-import { safeCreateInterpolateElement } from "../../../helpers/safeCreateInterpolateElement";
 
 /**
  * @returns {JSX.Element} The element.
@@ -21,11 +20,11 @@ export const UpgradeAlert = () => {
 						__( "The version of %1$s is outdated. Please upgrade %1$s %2$shere%3$s!", "wordpress-seo-premium" ),
 						"Yoast SEO Premium",
 						"<a>",
-						"</a>",
+						"</a>"
 					),
 					{
 						a: <OutboundLink variant="error" href={ pluginsLink } />,
-					},
+					}
 				) }
 			</p>
 		</Alert>

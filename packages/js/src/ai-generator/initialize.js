@@ -1,15 +1,12 @@
 import { Fill } from "@wordpress/components";
-import { select } from "@wordpress/data";
-import { useCallback, useRef } from "@wordpress/element";
 import { addFilter } from "@wordpress/hooks";
-import { __ } from "@wordpress/i18n";
-import { Modal, useToggleState } from "@yoast/ui-library";
-import PropTypes from "prop-types";
-import { ModalContent } from "./components/modal-content";
+import { Root } from "@yoast/ui-library";
+import { get } from "lodash";
+import { ADMIN_URL_NAME, HAS_AI_GENERATOR_CONSENT_NAME } from "../shared-admin/store";
+import { App, TypeProvider } from "./components";
+import { POST_TYPE, PREVIEW_TYPE } from "./constants";
 import { registerStore } from "./store";
 import { PRODUCT_SUBSCRIPTIONS_NAME } from "./store/product-subscriptions";
-import { ADMIN_URL_NAME, HAS_AI_GENERATOR_CONSENT_NAME } from "../shared-admin/store";
-import { get } from "lodash";
 
 let hasInteractedWithFeature = false;
 /**
@@ -34,7 +31,7 @@ const IGNORED_POST_TYPES = [ POST_TYPE.attachment ];
  */
 function getPreviewType( fieldId ) {
 	if ( fieldId.startsWith( "yoast-google-preview" ) ) {
-	  return PREVIEW_TYPE.google;
+		return PREVIEW_TYPE.google;
 	} else if ( fieldId.startsWith( "social" ) ) {
 		return PREVIEW_TYPE.social;
 	} else if ( fieldId.startsWith( "x-" ) ) {
@@ -52,56 +49,57 @@ function getPreviewType( fieldId ) {
  * @returns {JSX.node[]} The buttons.
  */
 const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editType } ) => {
-	const postType = get( window, "wpseoPremiumAiGenerator.postType", "" );
-	const contentType = get( window, "wpseoPremiumAiGenerator.contentType", "" );
-	const isWooSeoUpsell = wpSelect( "yoast-seo/editor" ).getIsWooSeoUpsell() ||
-		wpSelect( "yoast-seo/editor" ).getIsWooSeoUpsellTerm();
-
-	if ( IGNORED_POST_TYPES.includes( postType ) || isWooSeoUpsell ) {
+	const postType = get( window, "wpseoAiGenerator.postType", "" );
+	if ( IGNORED_POST_TYPES.includes( postType ) ) {
 		return buttons;
 	}
 
 	const previewType = getPreviewType( fieldId );
-
 	if ( ! previewType ) {
 		// Unknown preview type.
 		return buttons;
 	}
 
-	const isRtl = get( window, "wpseoScriptData.metabox.isRtl", false );
+	const rootContext = {
+		isRtl: get( window, "wpseoScriptData.metabox.isRtl", false ),
+	};
+	const typeContext = {
+		editType,
+		previewType,
+		postType,
+		contentType: get( window, "wpseoAiGenerator.contentType", "" ),
+	};
+
 	buttons.push(
 		<Fill name={ `yoast.replacementVariableEditor.additionalButtons.${ fieldId }` }>
-			<Root context={ { isRtl } }>
-				<TypeProvider value={ { editType, previewType, postType, contentType } }>
+			<Root context={ rootContext }>
+				<TypeProvider value={ typeContext }>
 					<App onUseAi={ updateInteractedWithFeature } />
 				</TypeProvider>
 			</Root>
-		</Fill>,
+		</Fill>
 	);
 
 	return buttons;
 };
 
-
-const STORE = "yoast-seo/editor";
-
 /**
- * Initializes the AI Generator upsell.
+ * Initializes the AI Generator.
  *
  * @returns {void}
  */
 const initializeAiGenerator = () => {
+	registerStore( {
+		[ ADMIN_URL_NAME ]: get( window, "wpseoAiGenerator.adminUrl", "" ),
+		[ HAS_AI_GENERATOR_CONSENT_NAME ]: get( window, "wpseoAiGenerator.hasConsent", false ) === "1",
+		[ PRODUCT_SUBSCRIPTIONS_NAME ]: get( window, "wpseoAiGenerator.productSubscriptions", {} ),
+	} );
+
 	addFilter(
 		"yoast.replacementVariableEditor.additionalButtons",
-		"yoast/yoast-seo-premium/AiGenerator",
-		filterReplacementVariableEditorButtons,
+		"yoast/yoast-seo/AiGenerator",
+		filterReplacementVariableEditorButtons
 	);
-
-	registerStore( {
-		[ ADMIN_URL_NAME ]: get( window, "wpseoPremiumAiGenerator.adminUrl", "" ),
-		[ HAS_AI_GENERATOR_CONSENT_NAME ]: get( window, "wpseoPremiumAiGenerator.hasConsent", false ) === "1",
-		[ PRODUCT_SUBSCRIPTIONS_NAME ]: get( window, "wpseoPremiumAiGenerator.productSubscriptions", {} ),
-	} );
 };
 
 export default initializeAiGenerator;

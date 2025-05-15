@@ -1,11 +1,11 @@
-import PropTypes from "prop-types";
-import { SeoAnalysisInactiveError, SubscriptionError } from "./errors";
-import { Modal } from "@yoast/ui-library";
-import { useTypeContext } from "../hooks";
 import { useSelect } from "@wordpress/data";
-import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
 import { useMemo } from "@wordpress/element";
+import { Modal } from "@yoast/ui-library";
+import PropTypes from "prop-types";
+import { STORE_NAME_EDITOR } from "../constants";
 import { isWooActiveAndProductPostType } from "../helpers/is-woo-active-and-product-post-type";
+import { useTypeContext } from "../hooks";
+import { SeoAnalysisInactiveError, SubscriptionError } from "./errors";
 
 /**
  * @param {object} currentSubscriptions An object containing the information of product subscriptions validity status.
@@ -16,7 +16,7 @@ import { isWooActiveAndProductPostType } from "../helpers/is-woo-active-and-prod
  */
 export const FeatureError = ( { currentSubscriptions, isSeoAnalysisActive } ) => {
 	const { postType } = useTypeContext();
-	const isWooCommerceActive = useSelect( select => select( STORE_NAME_EDITOR.free ).getIsWooCommerceActive(), [] );
+	const isWooCommerceActive = useSelect( select => select( STORE_NAME_EDITOR ).getIsWooCommerceActive(), [] );
 	const missingWooSeo = useMemo( () => {
 		return ! currentSubscriptions.wooCommerceSubscription && isWooActiveAndProductPostType( isWooCommerceActive, postType );
 	}, [ isWooCommerceActive, postType, currentSubscriptions.wooCommerceSubscription ] );

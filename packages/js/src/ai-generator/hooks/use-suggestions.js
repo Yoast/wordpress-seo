@@ -1,18 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useSelect } from "@wordpress/data";
 import { useCallback, useReducer } from "@wordpress/element";
-import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
+import { languageProcessing } from "yoastseo";
 import {
 	ASYNC_ACTION_STATUS,
 	CONTENT_TYPE,
 	EDIT_TYPE,
-	FETCH_RESPONSE_STATUS, POST_TYPE,
+	FETCH_RESPONSE_STATUS,
+	POST_TYPE,
 	PREVIEW_TYPE,
 	STORE_NAME_AI,
+	STORE_NAME_EDITOR,
 } from "../constants";
 import { fetchSuggestions as pureFetchSuggestions, removesLocaleVariantSuffixes } from "../helpers";
 import { useTypeContext } from "./use-type-context";
-import { languageProcessing } from "yoastseo";
 
 const slice = createSlice( {
 	name: "suggestions",
@@ -93,7 +94,7 @@ const getSuggestionType = ( editType, isWooCommerceActive, postType, contentType
 		typeStr = "taxonomy-";
 	}
 
-	return `${typeStr}${editTypeStr}`;
+	return `${ typeStr }${ editTypeStr }`;
 };
 
 /**
@@ -104,11 +105,11 @@ export const useSuggestions = () => {
 	const { editType, previewType, postType, contentType } = useTypeContext();
 	const promptContent = useSelect( select => select( STORE_NAME_AI ).selectPromptContent(), [] );
 	const { contentLocale, focusKeyphrase, isWooCommerceActive, isGutenberg, isElementor } = useSelect( select => ( {
-		contentLocale: select( STORE_NAME_EDITOR.free ).getContentLocale(),
-		focusKeyphrase: select( STORE_NAME_EDITOR.free ).getFocusKeyphrase(),
-		isWooCommerceActive: select( STORE_NAME_EDITOR.free ).getIsWooCommerceActive(),
-		isGutenberg: select( STORE_NAME_EDITOR.free ).getIsBlockEditor(),
-		isElementor: select( STORE_NAME_EDITOR.free ).getIsElementorEditor(),
+		contentLocale: select( STORE_NAME_EDITOR ).getContentLocale(),
+		focusKeyphrase: select( STORE_NAME_EDITOR ).getFocusKeyphrase(),
+		isWooCommerceActive: select( STORE_NAME_EDITOR ).getIsWooCommerceActive(),
+		isGutenberg: select( STORE_NAME_EDITOR ).getIsBlockEditor(),
+		isElementor: select( STORE_NAME_EDITOR ).getIsElementorEditor(),
 	} ), [] );
 
 	let keyphrase = languageProcessing.helpers.processExactMatchRequest( focusKeyphrase ).keyphrase;
@@ -131,7 +132,7 @@ export const useSuggestions = () => {
 	// Set the type of suggestions to fetch.
 	const type = getSuggestionType( editType, isWooCommerceActive, postType, contentType );
 
-	const fetchSuggestions = useCallback( async ( canAbort = true ) => {
+	const fetchSuggestions = useCallback( async( canAbort = true ) => {
 		dispatch( slice.actions.setLoading() );
 		const { status, payload } = await pureFetchSuggestions( {
 			endpoint: "yoast/v1/ai_generator/get_suggestions/",
