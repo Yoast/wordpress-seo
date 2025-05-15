@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\Infrastructure;
+namespace Yoast\WP\SEO\AI_Generator\infrastructure;
 
 use RuntimeException;
 use Yoast\WP\SEO\Helpers\User_Helper;
