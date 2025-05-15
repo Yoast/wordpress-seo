@@ -42,6 +42,10 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 		ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />,
 	};
 
+	const handleConsent = () => {
+		console.log( "Consent given" );
+	};
+
 	return (
 		<>
 			<div className="yst-px-10 yst-pt-10 yst-introduction-gradient yst-text-center">
@@ -117,6 +121,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 							}
 						</span>
 					</Button>
+					<Button onClick={ handleConsent }>Or use AI for free!</Button>
 				</div>
 				{ bundleNote }
 				<Button
