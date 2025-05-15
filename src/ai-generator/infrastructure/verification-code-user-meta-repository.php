@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\AI_Generator\infrastructure;
 
-use Yoast\WP\SEO\AI_Generator\Domain\Code_Verifier;
+use Yoast\WP\SEO\AI_Generator\Domain\Verification_Code;
 
 /**
  * Class Code_Verifier_Repository
@@ -34,16 +34,16 @@ class Code_Verifier_Repository {
 	 *
 	 * @param int $user_id The user ID.
 	 *
-	 * @return Code_Verifier|null The code verifier or null if not found.
+	 * @return Verification_Code|null The code verifier or null if not found.
 	 */
-	public function get_code_verifier( int $user_id ): ?Code_Verifier {
+	public function get_code_verifier( int $user_id ): ?Verification_Code {
 		$data = \get_user_meta( $user_id, 'yoast_wpseo_ai_generator_code_verifier', true );
 
 		if ( ! \is_array( $data ) || empty( $data['code'] ) || empty( $data['created_at'] ) ) {
 			return null;
 		}
 
-		return new Code_Verifier( $data['code'], $data['created_at'] );
+		return new Verification_Code( $data['code'], $data['created_at'] );
 	}
 
 	/**

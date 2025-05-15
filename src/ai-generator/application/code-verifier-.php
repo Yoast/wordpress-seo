@@ -3,8 +3,8 @@
 namespace Yoast\WP\SEO\AI_Generator\application;
 
 use RuntimeException;
-use Yoast\WP\SEO\AI_Generator\Domain\Code_Verifier;
-use Yoast\WP\SEO\AI_Generator\Infrastructure\Code_Verifier_Repository;
+use Yoast\WP\SEO\AI_Generator\Domain\Verification_Code;
+use Yoast\WP\SEO\AI_Generator\Infrastructure\Verification_Code_User_Meta_Repository;
 
 /**
  * Class Code_Verifier_Service
@@ -16,16 +16,16 @@ class Code_Verifier_Service {
 	/**
 	 * The code verifier repository.
 	 *
-	 * @var Code_Verifier_Repository
+	 * @var Verification_Code_User_Meta_Repository
 	 */
 	private $code_verifier_repository;
 
 	/**
 	 * Code_Verifier_Service constructor.
 	 *
-	 * @param Code_Verifier_Repository $code_verifier_repository The code verifier repository.
+	 * @param Verification_Code_User_Meta_Repository $code_verifier_repository The code verifier repository.
 	 */
-	public function __construct( Code_Verifier_Repository $code_verifier_repository ) {
+	public function __construct( Verification_Code_User_Meta_Repository $code_verifier_repository ) {
 		$this->code_verifier_repository = $code_verifier_repository;
 	}
 
@@ -35,16 +35,16 @@ class Code_Verifier_Service {
 	 * @param int    $user_id    The user ID.
 	 * @param string $user_email The user email.
 	 *
-	 * @return Code_Verifier The generated code verifier.
+	 * @return Verification_Code The generated code verifier.
 	 */
-	public function generate( int $user_id, string $user_email ): Code_Verifier {
+	public function generate( int $user_id, string $user_email ): Verification_Code {
 		$random_string = \substr( \str_shuffle( '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' ), 1, 10 );
 		$code          = \hash( 'sha256', $user_email . $random_string );
 		$created_at    = \time();
 
 		$this->code_verifier_repository->store_code_verifier( $user_id, $code, $created_at );
 
-		return new Code_Verifier( $code, $created_at );
+		return new Verification_Code( $code, $created_at );
 	}
 
 	/**
