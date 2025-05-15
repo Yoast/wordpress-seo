@@ -432,14 +432,14 @@ const SiteFeatures = () => {
 								<p>{ __( "Boost the visibility of your content in AI searches. Automatically create an llms.txt file that lists a selection of your site's content. This helps LLMs access and provide your site's information more easily.", "wordpress-seo" ) }</p>
 								{ initialEnableLlmsTxt && enableLlmsTxt && <Button
 									as="a"
-									id="link-xml-sitemaps"
+									id="link-llms"
 									href={ llmsTxtUrl }
 									variant="secondary"
 									target="_blank"
 									rel="noopener"
 									className="yst-self-start"
 								>
-									{ __( "View the Llms.txt", "wordpress-seo" ) }
+									{ __( "View the llms.txt", "wordpress-seo" ) }
 									<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
 								</Button> }
 								<LearnMoreLink id="link-llms-txt" link="https://yoa.st/site-features-llmstxt-learn-more" ariaLabel={ __( "LLMs.txt", "wordpress-seo" ) } />
