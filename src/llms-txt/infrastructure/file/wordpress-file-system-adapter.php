@@ -61,7 +61,7 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	/**
 	 * Checks if the llms.txt file exists.
 	 *
-	 * @return bool The whether the llms.txt file exists.
+	 * @return bool Whether the llms.txt file exists.
 	 */
 	public function file_exists(): bool {
 		if ( $this->is_file_system_available() ) {
