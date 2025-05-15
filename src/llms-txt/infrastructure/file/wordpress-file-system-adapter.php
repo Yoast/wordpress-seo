@@ -56,11 +56,11 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	}
 
 	/**
-	 * Gets the contents of the current llms.txt file.
+	 * Checks if the llms.txt file exists.
 	 *
-	 * @return string The content of the file.
+	 * @return bool The whether the llms.txt file exists.
 	 */
-	public function file_exists(): string {
+	public function file_exists(): bool {
 		if ( $this->is_file_system_available() ) {
 			global $wp_filesystem;
 
