@@ -44,7 +44,7 @@ class WordPress_Llms_Txt_Permission_Gate implements Llms_Txt_Permission_Gate_Int
 	 * @return bool Checks if Yoast SEO manages the llms.txt.
 	 */
 	public function is_managed_by_yoast_seo(): bool {
-		$stored_hash = $this->options_helper->get( 'llms_txt_content_hash', '' );
+		$stored_hash = \get_option( 'wpseo_llms_txt_content_hash', '' );
 
 		// If the file does not exist yet, we always regenerate/create it.
 		if ( ! $this->file_system_adapter->file_exists() ) {

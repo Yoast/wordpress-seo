@@ -73,7 +73,7 @@ class Populate_File_Command_Handler {
 
 			if ( $file_written ) {
 				// Maybe move this to a class if we need to handle this option more often.
-				$this->options_helper->set( 'llms_txt_content_hash', \md5( $content ) );
+				\update_option( 'wpseo_llms_txt_content_hash', \md5( $content ) );
 			}
 		}
 	}
