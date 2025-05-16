@@ -51,8 +51,6 @@ class Code_Verifier {
 		$code          = \hash( 'sha256', $user_email . $random_string );
 		$created_at    = $this->date_helper->current_time();
 
-		$this->code_verifier_repository->store_code_verifier( $user_id, $code, $created_at );
-
 		return new Verification_Code( $code, $created_at );
 	}
 
