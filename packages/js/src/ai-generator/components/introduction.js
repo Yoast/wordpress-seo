@@ -1,8 +1,8 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { ConsentModal } from "@yoast/ai-frontend";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
+import { AiConsent } from "../../shared-admin/components";
 
 /**
  * @param {function} onStartGenerating Callback to signal the generating should start.
@@ -32,7 +32,7 @@ export const Introduction = ( { onStartGenerating } ) => {
 	};
 
 	return (
-		<ConsentModal
+		<AiConsent
 			{ ...props }
 		/>
 	);

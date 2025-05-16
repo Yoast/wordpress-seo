@@ -4,7 +4,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Button, useModalContext, useToggleState } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { OutboundLink } from ".";
-import { safeCreateInterpolateElement } from "../../helpers/safeCreateInterpolateElement";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /**
  * Introduction modal for the AI generation of titles and descriptions.
