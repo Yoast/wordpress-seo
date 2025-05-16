@@ -1,11 +1,6 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import {
-	ADMIN_URL_NAME,
-	adminUrlActions,
-	adminUrlReducer,
-	adminUrlSelectors,
-	getInitialAdminUrlState,
 	getInitialHasAiGeneratorConsentState,
 	HAS_AI_GENERATOR_CONSENT_NAME,
 	hasAiGeneratorConsentActions,
@@ -74,7 +69,6 @@ import {
 const createStore = ( initialState ) => {
 	return createReduxStore( STORE_NAME_AI, {
 		actions: {
-			...adminUrlActions,
 			...hasAiGeneratorConsentActions,
 			...appliedSuggestionsActions,
 			...productSubscriptionsActions,
@@ -85,7 +79,6 @@ const createStore = ( initialState ) => {
 			...aiOptimizeNotificationStatusActions,
 		},
 		selectors: {
-			...adminUrlSelectors,
 			...hasAiGeneratorConsentSelectors,
 			...appliedSuggestionsSelectors,
 			...productSubscriptionsSelectors,
@@ -98,7 +91,6 @@ const createStore = ( initialState ) => {
 		initialState: merge(
 			{},
 			{
-				[ ADMIN_URL_NAME ]: getInitialAdminUrlState(),
 				[ HAS_AI_GENERATOR_CONSENT_NAME ]: getInitialHasAiGeneratorConsentState(),
 				[ APPLIED_SUGGESTIONS_NAME ]: getInitialAppliedSuggestionsState(),
 				[ PRODUCT_SUBSCRIPTIONS_NAME ]: getInitialProductSubscriptionsState(),
@@ -111,7 +103,6 @@ const createStore = ( initialState ) => {
 			initialState,
 		),
 		reducer: combineReducers( {
-			[ ADMIN_URL_NAME ]: adminUrlReducer,
 			[ HAS_AI_GENERATOR_CONSENT_NAME ]: hasAiGeneratorConsentReducer,
 			[ APPLIED_SUGGESTIONS_NAME ]: appliedSuggestionsReducer,
 			[ PRODUCT_SUBSCRIPTIONS_NAME ]: productSubscriptionsReducer,

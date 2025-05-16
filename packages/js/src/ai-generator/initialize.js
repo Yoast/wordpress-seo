@@ -1,8 +1,8 @@
 import { Fill } from "@wordpress/components";
-import { addFilter } from "@wordpress/hooks";
+import { addFilter, addAction } from "@wordpress/hooks";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
-import { ADMIN_URL_NAME, HAS_AI_GENERATOR_CONSENT_NAME } from "../shared-admin/store";
+import { HAS_AI_GENERATOR_CONSENT_NAME } from "../shared-admin/store";
 import { App, TypeProvider } from "./components";
 import { POST_TYPE, PREVIEW_TYPE, STORE_NAME_EDITOR } from "./constants";
 import { registerStore } from "./store";
