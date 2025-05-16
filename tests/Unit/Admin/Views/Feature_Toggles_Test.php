@@ -98,11 +98,6 @@ final class Feature_Toggles_Test extends TestCase {
 			'has_read_more' => true,
 			'has_after'     => false,
 		],
-		15 => [
-			'name'          => 'LLMs.txt',
-			'has_read_more' => true,
-			'has_after'     => false,
-		],
 	];
 
 	/**
@@ -184,7 +179,6 @@ final class Feature_Toggles_Test extends TestCase {
 			12 => 'Enhanced Slack sharing',
 			13 => 'IndexNow',
 			14 => 'AI title & description generator',
-			15 => 'LLMs.txt',
 		];
 
 		$this->stubEscapeFunctions();

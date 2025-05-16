@@ -128,7 +128,6 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}search_cleanup_patterns"            => true,
 			"{$allow_prefix}redirect_search_pretty_urls"        => true,
 			"{$allow_prefix}algolia_integration_active"         => true,
-			"{$allow_prefix}enable_llms_txt"                    => true,
 		];
 
 		if ( is_multisite() ) {
