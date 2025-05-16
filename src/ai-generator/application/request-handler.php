@@ -11,7 +11,6 @@ use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Request_Timeout_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Service_Unavailable_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Unauthorized_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\WP_Request_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Request;
 use Yoast\WP\SEO\AI_Generator\Domain\Response;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\API_Client;
@@ -21,6 +20,8 @@ use Yoast\WP\SEO\AI_Generator\Infrastructure\API_Client;
  * Handles the request to Yoast AI API.
  */
 class Request_Handler {
+
+	private const TIMEOUT = 60;
 
 	/**
 	 * The API client.
@@ -65,16 +66,12 @@ class Request_Handler {
 	 * @throws Unauthorized_Exception When the response code is 401.
 	 */
 	public function handle( Request $request ): Response {
-		try {
 			$api_response = $this->api_client->perform_request(
 				$request->get_action_path(),
 				$request->get_body(),
 				$request->get_headers(),
 				$request->is_post()
 			);
-		} catch ( WP_Request_Exception $exception ) {
-			throw $exception;
-		}
 
 		$response = $this->response_parser->parse( $api_response );
 
