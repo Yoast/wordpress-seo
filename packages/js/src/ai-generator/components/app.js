@@ -57,12 +57,7 @@ export const App = ( { onUseAi } ) => {
 	const handlePanelMeasureChange = useCallback( entry => setPanelHeight( entry.borderBoxSize[ 0 ].blockSize ), [ setPanelHeight ] );
 	const panelRef = useMeasuredRef( handlePanelMeasureChange );
 
-	const arePreconditionsMet = hasValidSubscriptions(
-		postType,
-		hasValidPremiumSubscription,
-		hasValidWooSubscription,
-		isSeoAnalysisActive,
-		isWooCommerceActive );
+	const arePreconditionsMet = isSeoAnalysisActive;
 
 	const MainModalCommonProps = {
 		onClose: closeModal,
