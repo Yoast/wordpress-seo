@@ -19,9 +19,9 @@ interface Llms_File_System_Interface {
 	/**
 	 * Method to remove the llms.txt file from the file system.
 	 *
-	 * @return void
+	 * @return bool True on success, false on failure.
 	 */
-	public function remove_file();
+	public function remove_file(): bool;
 
 	/**
 	 * Gets the contents of the current llms.txt file.

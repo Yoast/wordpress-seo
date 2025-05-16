@@ -32,15 +32,19 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	}
 
 	/**
-	 * Removes the llms.txt from the filesystem if direct access is available.
+	 * Removes the llms.txt from the filesystem.
 	 *
-	 * @return void
+	 * @return bool True on success, false on failure.
 	 */
-	public function remove_file() {
+	public function remove_file(): bool {
 		if ( $this->is_file_system_available() ) {
 			global $wp_filesystem;
-			$wp_filesystem->delete( $this->get_llms_file_path() );
+			$result = $wp_filesystem->delete( $this->get_llms_file_path() );
+
+			return $result;
 		}
+
+		return false;
 	}
 
 	/**
