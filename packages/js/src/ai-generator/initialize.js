@@ -84,6 +84,10 @@ const initializeAiGenerator = () => {
 		[ PRODUCT_SUBSCRIPTIONS_NAME ]: get( window, "wpseoAiGenerator.productSubscriptions", {} ),
 	} );
 
+	window.jQuery( window ).on( "YoastSEO:ready", () => {
+		initializePromptContent();
+	} );
+
 	addFilter(
 		"yoast.replacementVariableEditor.additionalButtons",
 		"yoast/yoast-seo/AiGenerator",
