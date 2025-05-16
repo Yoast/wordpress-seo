@@ -1,120 +1,340 @@
-import { useDispatch, useSelect } from "@wordpress/data";
-import { useMemo } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
-import { AiGenerateTitlesAndDescriptionsUpsell } from "../../shared-admin/components";
-import { STORE_NAME_EDITOR } from "../constants";
+/* eslint-disable complexity, max-statements */
+import CheckIcon from "@heroicons/react/outline/esm/CheckIcon";
+import RefreshIcon from "@heroicons/react/outline/esm/RefreshIcon";
+import { useDispatch } from "@wordpress/data";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
+import { Badge, Button, Label, Modal, Notifications, Pagination, useModalContext, usePrevious } from "@yoast/ui-library";
+import { map, noop } from "lodash";
+import PropTypes from "prop-types";
+import { SparksLimitNotification, SuggestionError, SuggestionsList, SuggestionsListSkeleton, TipNotification } from ".";
+import {
+	ASYNC_ACTION_STATUS,
+	EDIT_TYPE,
+	FETCH_RESPONSE_STATUS,
+	STORE_NAME_AI,
+	SUGGESTIONS_PER_PAGE,
+	TITLE_VARIABLE,
+	TITLE_VARIABLE_REPLACE,
+} from "../constants";
+import {
+	useApplyReplacementVariables,
+	useDescriptionTemplate,
+	useLocation,
+	useMeasuredRef,
+	usePagination,
+	usePreviewContent,
+	useSuggestions,
+	useTitleTemplate,
+	useTypeContext,
+} from "../hooks";
+import { useModalApplyButtonLabel } from "../hooks/use-modal-apply-button-label";
+import { useModalSuggestionsTitle } from "../hooks/use-modal-suggestions-title";
+import { useSetTitleOrDescription } from "../hooks/use-set-title-or-description";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /**
- * The upsell props.
- * @typedef {Object} UpsellProps
- * @property {string} upsellLink The URL for the upsell.
- * @property {string} [upsellLabel] The label for the upsell.
- * @property {string} [newToText] The "new to" text for the upsell.
- * @property {JSX.Element} [bundleNote] A note about the bundle upsell.
- * @property {string} [ctbId] The CTB ID for the upsell.
- * @property {boolean} [isProductCopy] Whether the upsell is for product copy.
+ * Aims to capture the text between badges.
+ *
+ * Start: </badge> or the start of the string (if not <badge>).
+ * Text: anything in between.
+ * End: <badge> or the end of the string.
+ *
+ * @type {RegExp}
  */
+const BETWEEN_BADGES = /(?<start><\/badge>|^(?!<badge>))(?<wrap>[\s\S]+?)(?<end><badge>|$)/g;
 
 /**
- * Retrieves the upsell props based on the active licenses.
- * @param {Object} upsellLinks An object containing the upsell links and their associated data.
- * @param {string} upsellLinks.premium The Yoast SEO Premium upsell link .
- * @param {string} upsellLinks.woo The Yoast WooCommerce SEO upsell link.
- * @param {string} upsellLinks.bundle The bundle upsell link.
- * @returns {UpsellProps} The upsell props.
- */
-export const getUpsellProps = ( upsellLinks ) => {
-	const isPremiumActive = useSelect( select => select( STORE_NAME_EDITOR ).getIsPremium(), [] );
-	const isWooSeoActive = useSelect( select => select( STORE_NAME_EDITOR ).getIsWooSeoActive(), [] );
-	const isWooCommerceActive = useSelect( select => select( STORE_NAME_EDITOR ).getIsWooCommerceActive(), [] );
-
-	const isProductPost = useSelect( select => select( STORE_NAME_EDITOR ).getIsProduct(), [] );
-	const isProductTerm = useSelect( select => select( STORE_NAME_EDITOR ).getIsProductTerm(), [] );
-
-	const upsellProps = {
-		upsellLink: upsellLinks.premium,
-		// The default ctbId is passed as a prop to the AiGenerateTitlesAndDescriptionsUpsell component.
-	};
-
-	// Use specific copy for product posts and terms, otherwise revert to the defaults.
-	if ( isWooCommerceActive && ( isProductPost || isProductTerm ) ) {
-		const upsellPremiumWooLabel = sprintf(
-			/* translators: %1$s expands to Yoast SEO Premium, %2$s expands to Yoast WooCommerce SEO. */
-			__( "%1$s + %2$s", "wordpress-seo" ),
-			"Yoast SEO Premium",
-			"Yoast WooCommerce SEO"
-		);
-		upsellProps.newToText = sprintf(
-			/* translators: %1$s expands to Yoast SEO Premium and Yoast WooCommerce SEO. */
-			__( "New in %1$s", "wordpress-seo" ),
-			upsellPremiumWooLabel
-		);
-
-		if ( isPremiumActive ) {
-			upsellProps.upsellLabel = sprintf(
-				/* translators: %1$s expands to Yoast WooCommerce SEO. */
-				__( "Unlock with %1$s", "wordpress-seo" ),
-				"Yoast WooCommerce SEO"
-			);
-			upsellProps.upsellLink = upsellLinks.woo;
-			upsellProps.ctbId = "5b32250e-e6f0-44ae-ad74-3cefc8e427f9";
-		} else if ( ! isWooSeoActive ) {
-			upsellProps.upsellLabel = `${ sprintf(
-				/* translators: %1$s expands to Woo Premium bundle. */
-				__( "Unlock with the %1$s", "wordpress-seo" ),
-				"Woo Premium bundle"
-			) }*`;
-			upsellProps.bundleNote = <div className="yst-text-xs yst-text-slate-500 yst-mt-2">
-				{ `*${ upsellPremiumWooLabel }` }
-			</div>;
-			upsellProps.upsellLink = upsellLinks.bundle;
-			upsellProps.ctbId = "c7e7baa1-2020-420c-a427-89701700b607";
-		}
-	}
-	return upsellProps;
-};
-
-/**
+ * @param {number} height The height of the scrolling container above.
  * @returns {JSX.Element} The element.
  */
-export const ModalContent = () => {
-	const upsellLinks = {
-		premium: useSelect( select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-upsell" ), [] ),
-		bundle: useSelect( select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo-premium-bundle" ), [] ),
-		woo: useSelect( select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo" ), [] ),
-	};
+export const ModalContent = ( { height } ) => {
+	const [ initialFetch, setInitialFetch ] = useState( "" );
+	const { onClose } = useModalContext();
+	const { editType, previewType, contentType } = useTypeContext();
+	const suggestionsTitle = useModalSuggestionsTitle();
+	const applyButtonLabel = useModalApplyButtonLabel();
+	const location = useLocation();
+	const { suggestions, fetchSuggestions, setSelectedSuggestion } = useSuggestions();
+	const Preview = usePreviewContent();
+	const { addAppliedSuggestion, addUsageCount, fetchUsageCount } = useDispatch( STORE_NAME_AI );
 
-	const upsellProps = getUpsellProps( upsellLinks );
+	// Used in an attempt to prevent the tip notification from moving too much when generating more suggestions.
+	const previousHeight = usePrevious( height );
+	const currentHeight = suggestions.status === ASYNC_ACTION_STATUS.success ? height : previousHeight;
+	const margin = `calc(${ currentHeight === 0 ? "50%" : currentHeight / 2 + "px" } - 40vh)`;
 
-	// Use specific copy for product posts.
-	const isWooCommerceActive = useSelect( select => select( STORE_NAME_EDITOR ).getIsWooCommerceActive(), [] );
-	const isProductPost = useSelect( select => select( STORE_NAME_EDITOR ).getIsProduct(), [] );
+	const [ contentIsScrolling, setContentIsScrolling ] = useState( false );
+	const handleContentMeasureChange = useCallback( entry => {
+		setContentIsScrolling( entry.target.offsetHeight !== entry.target.scrollHeight );
+	}, [ setContentIsScrolling ] );
+	const contentRef = useMeasuredRef( handleContentMeasureChange );
 
-	if ( isWooCommerceActive && isProductPost ) {
-		upsellProps.title = __( "Generate product titles & descriptions with AI!", "wordpress-seo" );
-		upsellProps.isProductCopy = true;
+	const titleTemplate = useTitleTemplate();
+	const descriptionTemplate = useDescriptionTemplate();
+
+	const applyReplacementVariables = useApplyReplacementVariables();
+	const overrides = useMemo( () => editType === EDIT_TYPE.title ? { [ TITLE_VARIABLE[ contentType ] ]: suggestions.selected } : {},
+		[ editType, contentType, suggestions.selected ] );
+
+	const title = useMemo( () => applyReplacementVariables( titleTemplate, { overrides, contentType } ),
+		[ applyReplacementVariables, titleTemplate, editType, contentType, suggestions.selected ] );
+	const titleForLength = useMemo( () => {
+		// Exclude the separator and site name for the title length calculation.
+		const lengthOverrides = {
+			sep: "",
+			sitename: "",
+		};
+		return applyReplacementVariables( titleTemplate, { overrides: { ...overrides, ...lengthOverrides }, contentType } );
+	}, [ applyReplacementVariables, titleTemplate, editType, contentType, suggestions.selected ] );
+	const description = useMemo(
+		() => editType === EDIT_TYPE.description
+			? suggestions.selected
+			: applyReplacementVariables( descriptionTemplate, { editType: EDIT_TYPE.description } ),
+		[ applyReplacementVariables, descriptionTemplate, editType, suggestions.selected ]
+	);
+	const createTitleSuggestion = useCallback( suggestion => applyReplacementVariables( titleTemplate, {
+		overrides: { [ TITLE_VARIABLE[ contentType ] ]: suggestion },
+		key: "badge",
+		applyPluggable: false,
+		contentType,
+	} ), [ applyReplacementVariables, titleTemplate, contentType ] );
+
+
+	const { currentPage, setCurrentPage, isOnLastPage, totalPages, getItemsOnCurrentPage } = usePagination( {
+		totalItems: suggestions.status === ASYNC_ACTION_STATUS.loading || suggestions.status === ASYNC_ACTION_STATUS.error
+			// Add an extra page in preparation (loading) or for the error.
+			? suggestions.entities.length + SUGGESTIONS_PER_PAGE
+			: suggestions.entities.length,
+		perPage: SUGGESTIONS_PER_PAGE,
+	} );
+	const suggestionsOnCurrentPage = useMemo( () => map( getItemsOnCurrentPage( suggestions.entities ), suggestion => {
+		let label = suggestion;
+		if ( editType === EDIT_TYPE.title ) {
+			// Use the template with the replacement variables replaced with their label, wrapped by badge.
+			label = createTitleSuggestion( suggestion );
+			// Wrap the text between the badges in spans.
+			label = label.replace( BETWEEN_BADGES, ( match, g1, g2, g3, index, input, { start, wrap, end } ) => {
+				const trimmedWrap = wrap.trim();
+				// Do not wrap empty space, it makes for bigger gaps.
+				return trimmedWrap.length === 0 ? `${ start }${ wrap }${ end }` : `${ start }<span>${ trimmedWrap }</span>${ end }`;
+			} );
+			// Replace the tags with HTML/elements.
+			label = safeCreateInterpolateElement( label, {
+				// Note that there is a space inside the badge, this is just so we do not get a React prop warning.
+
+				badge: <Badge className="yst-me-2 last:yst-me-0" variant="plain"> </Badge>,
+				span: <span className="yst-flex yst-items-center yst-me-2 last:yst-me-0" />,
+			} );
+		}
+		return ( { value: suggestion, label } );
+	} ), [ suggestions.entities, getItemsOnCurrentPage, editType, createTitleSuggestion ] );
+
+	const showSuggestions = useMemo( () => (
+		// When not an error.
+		suggestions.status !== ASYNC_ACTION_STATUS.error ||
+		// Or when an error, but not on the last page.
+		( suggestions.status === ASYNC_ACTION_STATUS.error && ! isOnLastPage )
+	), [ suggestions.status, isOnLastPage ] );
+	const showLoading = useMemo( () => suggestions.status === ASYNC_ACTION_STATUS.loading && isOnLastPage, [ suggestions.status, isOnLastPage ] );
+	const showError = useMemo( () => suggestions.status === ASYNC_ACTION_STATUS.error && isOnLastPage, [ suggestions.status, isOnLastPage ] );
+
+	const handleGenerateMore = useCallback( () => {
+		/*
+		 * This is before the request to give the effect of the new page loading.
+		 * Total pages is not yet updated at this point.
+		 * Do not add one when the last generate resulted in an error, because the total pages is adjusted for that.
+		 */
+		setCurrentPage( suggestions.status === ASYNC_ACTION_STATUS.error ? totalPages : totalPages + 1 );
+		addUsageCount();
+		fetchSuggestions();
+	}, [ fetchSuggestions, suggestions.status, totalPages, setCurrentPage, setSelectedSuggestion ] );
+	const handleRetryInitialFetch = useCallback( () => setInitialFetch( "" ), [ setInitialFetch ] );
+
+	const setTitleOrDescription = useSetTitleOrDescription();
+	const handleApplySuggestion = useCallback( () => {
+		const data = editType === EDIT_TYPE.title
+			// For terms, remove the "Archives" part from the titleTemplate if present.
+			? titleTemplate.replace( new RegExp( TITLE_VARIABLE_REPLACE[ contentType ] + "( Archives)?" ), suggestions.selected )
+			: suggestions.selected;
+		setTitleOrDescription( data );
+		addAppliedSuggestion( { editType, previewType, suggestion: suggestions.selected } );
+		onClose();
+	}, [ setTitleOrDescription, editType, previewType, suggestions.selected, titleTemplate, onClose, addAppliedSuggestion ] );
+
+	useEffect( () => {
+		if ( initialFetch === "" ) {
+			fetchSuggestions().then( status => {
+				setInitialFetch( status );
+				if ( status === FETCH_RESPONSE_STATUS.success ) {
+					fetchUsageCount();
+				}
+			} );
+		}
+	}, [ initialFetch, setInitialFetch, fetchSuggestions ] );
+
+	// Initial fetch gone wrong OR subscription error on any request.
+	if ( initialFetch === FETCH_RESPONSE_STATUS.error || ( suggestions.status === ASYNC_ACTION_STATUS.error && suggestions.error.code === 402 ) ) {
+		return (
+			<div className="yst-flex yst-flex-col yst-space-y-6 yst-mt-6">
+				<SuggestionError
+					errorCode={ suggestions.error.code }
+					errorIdentifier={ suggestions.error.errorIdentifier }
+					invalidSubscriptions={ suggestions.error.missingLicenses }
+					showActions={ true }
+					onRetry={ handleRetryInitialFetch }
+					errorMessage={ suggestions.error.message }
+				/>
+			</div>
+		);
 	}
 
-	const learnMoreLink = useSelect( select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-learn-more" ), [] );
-
-	const imageLink = useSelect( select => select( STORE_NAME_EDITOR ).selectImageLink( "ai-generator-preview.png" ), [] );
-	const thumbnail = useMemo( () => ( {
-		src: imageLink,
-		width: "432",
-		height: "244",
-	} ), [ imageLink ] );
-
-	const value = useSelect( select => select( STORE_NAME_EDITOR ).selectWistiaEmbedPermissionValue(), [] );
-	const status = useSelect( select => select( STORE_NAME_EDITOR ).selectWistiaEmbedPermissionStatus(), [] );
-	const { setWistiaEmbedPermission: set } = useDispatch( STORE_NAME_EDITOR );
-	const wistiaEmbedPermission = useMemo( () => ( { value, status, set } ), [ value, status, set ] );
-
 	return (
-		<AiGenerateTitlesAndDescriptionsUpsell
-			learnMoreLink={ learnMoreLink }
-			thumbnail={ thumbnail }
-			wistiaEmbedPermission={ wistiaEmbedPermission }
-			{ ...upsellProps }
-		/>
+		<Fragment>
+			<Modal.Container.Content ref={ contentRef } className="yst-flex yst-flex-col yst-py-6 yst-space-y-2">
+				<Preview
+					title={ title }
+					description={ description }
+					status={ suggestions.status }
+					titleForLength={ titleForLength }
+					showPreviewSkeleton={ initialFetch === "" }
+					showLengthProgress={ ! showLoading }
+				/>
+				{ showSuggestions && (
+					showLoading
+						? <SuggestionsListSkeleton
+								idSuffix={ location }
+								suggestionClassNames={ editType === EDIT_TYPE.title
+								? [
+									[ "yst-h-3 yst-w-9/12" ],
+									[ "yst-h-3 yst-w-7/12" ],
+									[ "yst-h-3 yst-w-10/12" ],
+									[ "yst-h-3 yst-w-11/12" ],
+									[ "yst-h-3 yst-w-8/12" ],
+								]
+								// eslint-disable-next-line no-undefined
+								: undefined
+							}
+						/>
+						: ( <>
+							<div className="yst-flex yst-space-y-4">
+								<Label as="span" className="yst-flex-grow yst-cursor-default yst-mt-auto">
+									{ suggestionsTitle }
+								</Label>
+
+								<Button
+									variant="secondary"
+									size="small"
+									onClick={ suggestions.status === ASYNC_ACTION_STATUS.loading ? noop : handleGenerateMore }
+									isLoading={ suggestions.status === ASYNC_ACTION_STATUS.loading }
+								>
+									{ suggestions.status !== ASYNC_ACTION_STATUS.loading && (
+										<RefreshIcon className="yst--ms-1 yst-me-2 yst-h-4 yst-w-4 yst-text-gray-400" />
+									) }
+									{ __( "Generate 5 more", "wordpress-seo-premium" ) }
+								</Button>
+							</div>
+
+							<SuggestionsList
+								idSuffix={ location }
+								suggestions={ suggestionsOnCurrentPage }
+								selected={ suggestions.selected }
+								onChange={ setSelectedSuggestion }
+							/>
+							<div className="yst-flex yst-justify-between yst-gap-x-2 yst-items-start">
+								<p className="yst-text-slate-500 yst-text-[11px] yst-mt-1">
+									{ __( "Text generated by AI may be offensive or inaccurate.", "wordpress-seo-premium" ) }
+								</p>
+								{ totalPages > 1 && (
+									<Pagination
+										className="yst-shrink-0"
+										current={ currentPage }
+										total={ totalPages }
+										onNavigate={ setCurrentPage }
+										disabled={ suggestions.status === ASYNC_ACTION_STATUS.loading }
+										variant="text"
+										/* translators: Hidden accessibility text. */
+										screenReaderTextPrevious={ __( "Previous", "wordpress-seo-premium" ) }
+										/* translators: Hidden accessibility text. */
+										screenReaderTextNext={ __( "Next", "wordpress-seo-premium" ) }
+									/>
+								) }
+							</div>
+						</>
+						)
+				) }
+				{ ( suggestions.status === ASYNC_ACTION_STATUS.error && isOnLastPage ) && (
+					<SuggestionError
+						errorCode={ suggestions.error.code }
+						errorIdentifier={ suggestions.error.errorIdentifier }
+						invalidSubscriptions={ suggestions.error.missingLicenses }
+						errorMessage={ suggestions.error.message }
+					/>
+				) }
+			</Modal.Container.Content>
+			<Modal.Container.Footer>
+				{ contentIsScrolling && (
+					// Prevent the fade from going over the scrollbar: margin-right of the padding of the content, minus the border width.
+					<div
+						className={
+							"yst-absolute yst-inset-x-0 yst--mt-10 yst-me-[calc(2.5rem-1px)] yst-h-10 yst-pointer-events-none " +
+							"yst-bg-gradient-to-t yst-from-slate-50"
+						}
+					/>
+				) }
+				<hr className="yst-mb-6 yst--mx-6" />
+				<div className="sm:yst-flex sm:yst-justify-end sm:yst-space-x-2 sm:rtl:yst-space-x-reverse">
+					<div className="yst-hidden sm:yst-inline">
+						<Button variant="secondary" onClick={ onClose }>
+							{ __( "Close", "wordpress-seo-premium" ) }
+						</Button>
+					</div>
+					<div className="yst-block sm:yst-inline">
+						<Button
+							className="yst-w-full sm:yst-w-auto"
+							variant="primary"
+							onClick={ handleApplySuggestion }
+							disabled={
+								// When no suggestion is selected.
+								suggestions.selected === "" ||
+								// Or when loading.
+								suggestions.status === ASYNC_ACTION_STATUS.loading ||
+								// Or when an error occurred and viewing the last page.
+								showError
+							}
+						>
+							<CheckIcon className="yst--ms-1 yst-me-1 yst-h-4 yst-w-4 yst-text-white" />
+							{ applyButtonLabel }
+						</Button>
+					</div>
+					<div className="yst-mt-3 sm:yst-hidden">
+						<Button variant="secondary" onClick={ onClose } className="yst-w-full sm:yst-w-auto">
+							{ __( "Close", "wordpress-seo-premium" ) }
+						</Button>
+					</div>
+				</div>
+			</Modal.Container.Footer>
+			<Notifications
+				className={
+				// Margin tricks to break out of the container. Transition to prevent sudden location jumps when loading new suggestions.
+					"yst-mx-[calc(50%-50vw)] yst-transition-all"
+				}
+				style={ {
+				// Margin tricks to break out of the container.
+					marginTop: margin,
+				} }
+				position="bottom-left"
+			>
+				{ suggestions.status !== ASYNC_ACTION_STATUS.loading && <SparksLimitNotification
+					className="yst-mx-[calc(50%-50vw)] yst-transition-all"
+				/> }
+				{ ( suggestions.status === ASYNC_ACTION_STATUS.success || suggestions.status === ASYNC_ACTION_STATUS.loading ) &&
+					<TipNotification />
+				}
+			</Notifications>
+		</Fragment>
 	);
+};
+ModalContent.propTypes = {
+	height: PropTypes.number.isRequired,
 };
