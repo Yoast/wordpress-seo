@@ -16,7 +16,7 @@ class Response_Parser {
 	 *
 	 * @return Response The parsed response.
 	 */
-	public function parse( $response ): Response {
+	public function parse( Response $response ): Response {
 		$response_code    = ( \wp_remote_retrieve_response_code( $response ) !== '' ) ? \wp_remote_retrieve_response_code( $response ) : 0;
 		$response_message = \esc_html( \wp_remote_retrieve_response_message( $response ) );
 		$error_code       = '';
