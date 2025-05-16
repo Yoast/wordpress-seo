@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\AI_Generator\Application;
 
 use RuntimeException;
 use WP_User;
+use WPSEO_Utils;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Bad_Request_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Internal_Server_Error_Exception;
@@ -15,11 +16,16 @@ use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Request;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\Access_Token_User_Meta_Repository;
-use  Yoast\WP\SEO\AI_Generator\Infrastructure\Refresh_Token_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Generator\Infrastructure\Refresh_Token_User_Meta_Repository;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\Verification_Code_User_Meta_Repository;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
+/**
+ * Class Token_Manager
+ * Handles the management of JWT tokens used in the authorization process.
+ */
 class Token_Manager {
+
 	/**
 	 * The access token repository.
 	 *
@@ -69,6 +75,17 @@ class Token_Manager {
 	 */
 	private $request_handler;
 
+	/**
+	 * Token_Manager constructor.
+	 *
+	 * @param Access_Token_User_Meta_Repository      $access_token_repository      The access token repository.
+	 * @param Code_Verifier                          $code_verifier                The code verifier service.
+	 * @param Consent_Handler                        $consent_handler              The consent handler.
+	 * @param Refresh_Token_User_Meta_Repository     $refresh_token_repository     The refresh token repository.
+	 * @param User_Helper                            $user_helper                  The user helper.
+	 * @param Request_Handler                        $request_handler              The request handler.
+	 * @param Verification_Code_User_Meta_Repository $verification_code_repository The verification code repository.
+	 */
 	public function __construct(
 		Access_Token_User_Meta_Repository $access_token_repository,
 		Code_Verifier $code_verifier,
@@ -78,12 +95,12 @@ class Token_Manager {
 		Request_Handler $request_handler,
 		Verification_Code_User_Meta_Repository $verification_code_repository
 	) {
-		$this->access_token_repository = $access_token_repository;
-		$this->code_verifier            = $code_verifier;
-		$this->consent_handler          = $consent_handler;
-		$this->refresh_token_repository = $refresh_token_repository;
-		$this->user_helper             = $user_helper;
-		$this->request_handler         = $request_handler;
+		$this->access_token_repository      = $access_token_repository;
+		$this->code_verifier                = $code_verifier;
+		$this->consent_handler              = $consent_handler;
+		$this->refresh_token_repository     = $refresh_token_repository;
+		$this->user_helper                  = $user_helper;
+		$this->request_handler              = $request_handler;
 		$this->verification_code_repository = $verification_code_repository;
 	}
 
@@ -118,7 +135,6 @@ class Token_Manager {
 		];
 
 		try {
-			//$this->ai_generator_helper->request( '/token/invalidate', $request_body, $request_headers );
 			$this->request_handler->handle(
 				new Request(
 					'/token/invalidate',
@@ -166,18 +182,19 @@ class Token_Manager {
 
 		// Generate a verification code and store it in the database.
 		$code_verifier = $this->code_verifier->generate( $user->ID, $user->user_email );
-		$this->ai_generator_helper->set_code_verifier( $user->ID, $code_verifier );
+		$this->verification_code_repository->store_code_verifier( $user->ID, $code_verifier->get_code(), $code_verifier->get_created_at() );
 
 		$request_body = [
 			'service'              => 'openai',
-			'code_challenge'       => \hash( 'sha256', $code_verifier ),
-			'license_site_url'     => $this->ai_generator_helper->get_license_url(),
+			'code_challenge'       => \hash( 'sha256', $code_verifier->get_code() ),
+			'license_site_url'     => WPSEO_Utils::get_home_url(),
 			'user_id'              => (string) $user->ID,
-			'callback_url'         => $this->ai_generator_helper->get_callback_url(),
-			'refresh_callback_url' => $this->ai_generator_helper->get_refresh_callback_url(),
+			// @TODO these need to be changed once the routes are ported
+			'callback_url'         => \get_rest_url( null, 'yoast/v1/ai_generator/callback' ),
+			'refresh_callback_url' => \get_rest_url( null, 'yoast/v1/ai_generator/refresh_callback' ),
 		];
 
-		$this->ai_generator_helper->request( '/token/request', $request_body );
+		$this->request_handler->handle( new Request( '/token/request', $request_body ) );
 
 		// The callback saves the metadata. Because that is in another session, we need to delete the current cache here. Or we may get the old token.
 		\wp_cache_delete( $user->ID, 'user_meta' );
@@ -208,17 +225,17 @@ class Token_Manager {
 		$refresh_jwt = $this->refresh_token_repository->get_token( $user->ID );
 
 		// Generate a verification code and store it in the database.
-		$code_verifier = $this->ai_generator_helper->generate_code_verifier( $user );
-		$this->ai_generator_helper->set_code_verifier( $user->ID, $code_verifier );
+		$verification_code = $this->code_verifier->generate( $user->ID, $user->user_email );
+		$this->verification_code_repository->store_code_verifier( $user->ID, $verification_code->get_code(), $verification_code->get_created_at() );
 
 		$request_body    = [
-			'code_challenge' => \hash( 'sha256', $code_verifier ),
+			'code_challenge' => \hash( 'sha256', $verification_code->get_code() ),
 		];
 		$request_headers = [
 			'Authorization' => "Bearer $refresh_jwt",
 		];
 
-		$this->ai_generator_helper->request( '/token/refresh', $request_body, $request_headers );
+		$this->request_handler->handle( new Request( '/token/refresh', $request_body, $request_headers ) );
 
 		// The callback saves the metadata. Because that is in another session, we need to delete the current cache here. Or we may get the old token.
 		\wp_cache_delete( $user->ID, 'user_meta' );
@@ -264,7 +281,6 @@ class Token_Manager {
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
 	 * @throws RuntimeException Unable to retrieve the access or refresh token.
 	 * @return string The access token.
-	 *
 	 */
 	protected function get_or_request_access_token( WP_User $user ): string {
 		$access_jwt = $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt', true );
