@@ -34,6 +34,17 @@ export function getIsProduct( state ) {
 }
 
 /**
+ * Returns post type.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string} The post type.
+ */
+export function getPostType( state ) {
+	return get( state, "editorContext.postType" );
+}
+
+/**
  * Returns whether you're editing a product term.
  *
  * @param {Object} state The state.

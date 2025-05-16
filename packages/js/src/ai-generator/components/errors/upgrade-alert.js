@@ -3,12 +3,13 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/ui-library";
 import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { OutboundLink } from "../../../shared-admin/components";
+import { STORE_NAME_EDITOR } from "../../constants";
 
 /**
  * @returns {JSX.Element} The element.
  */
 export const UpgradeAlert = () => {
-	const pluginsLink = useSelect( select => select( STORE_NAME_AI ).selectAdminLink( "plugins.php" ), [] );
+	const pluginsLink = useSelect( select => select( STORE_NAME_EDITOR ).selectAdminLink( "plugins.php" ), [] );
 
 	return (
 		<Alert variant="error">
