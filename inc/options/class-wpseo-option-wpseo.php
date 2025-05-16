@@ -148,7 +148,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'site_kit_tracking_setup_widget_permanently_dismissed' => 'no',
 		'google_site_kit_feature_enabled'                      => false,
 		'enable_llms_txt'                                      => false,
-		'llms_txt_content_hash'                                => '',
 	];
 
 	/**
@@ -337,7 +336,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'wincher_website_id':
 				case 'clean_permalinks_extra_variables':
 				case 'indexables_overview_state':
-				case 'llms_txt_content_hash':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
