@@ -43,6 +43,15 @@ class Verification_Code {
 	}
 
 	/**
+	 * Get the creation time of the code.
+	 *
+	 * @return int The creation time of the code.
+	 */
+	public function get_created_at(): int {
+		return $this->created_at;
+	}
+
+	/**
 	 * Check if the code is expired.
 	 *
 	 * @param int $validity_in_seconds The validity of the code in seconds.
