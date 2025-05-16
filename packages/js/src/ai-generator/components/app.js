@@ -34,7 +34,7 @@ function hasValidSubscriptions( postType, hasValidPremiumSubscription, hasValidW
  * @returns {JSX.Element} The element.
  */
 export const App = ( { onUseAi } ) => {
-	const { editType, postType } = useTypeContext();
+	const { editType } = useTypeContext();
 	const location = useLocation();
 	const title = useModalTitle();
 	const [ isModalOpen, , , openModal, closeModal ] = useToggleState( false );
@@ -46,10 +46,8 @@ export const App = ( { onUseAi } ) => {
 	const hasConsent = useSelect( select => select( STORE_NAME_AI ).selectHasAiGeneratorConsent(), [] );
 	const promptContentInitialized = useSelect( select => select( STORE_NAME_AI ).selectPromptContentInitialized(), [] );
 	const currentSubscriptions = useSelect( select => select( STORE_NAME_AI ).selectProductSubscriptions(), [] );
-	const hasValidPremiumSubscription = useSelect( select => select( STORE_NAME_AI ).selectPremiumSubscription(), [] );
-	const hasValidWooSubscription = useSelect( select => select( STORE_NAME_AI ).selectWooCommerceSubscription(), [] );
 	const isSeoAnalysisActive = useSelect( select => select( STORE_NAME_EDITOR ).getPreference( "isKeywordAnalysisActive", true ), [] );
-	const isWooCommerceActive = useSelect( select => select( STORE_NAME_EDITOR ).getIsWooCommerceActive(), [] );
+
 	/* translators: Hidden accessibility text. */
 	const closeButtonScreenReaderText = __( "Close modal", "wordpress-seo-premium" );
 	const svgAriaProps = useSvgAria();
