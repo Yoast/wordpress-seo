@@ -7,18 +7,7 @@ import { App, TypeProvider } from "./components";
 import { POST_TYPE, PREVIEW_TYPE } from "./constants";
 import { registerStore } from "./store";
 import { PRODUCT_SUBSCRIPTIONS_NAME } from "./store/product-subscriptions";
-
-let hasInteractedWithFeature = false;
-/**
- * Used to keep track of whether the user interacted with this feature.
- * @returns {void}
- */
-const updateInteractedWithFeature = () => {
-	if ( hasInteractedWithFeature ) {
-		return;
-	}
-	hasInteractedWithFeature = true;
-};
+import { initializePromptContent, filterFocusKeyphraseErrors, updateInteractedWithFeature } from "./initialize/index";
 
 // Ignore these post types. Attachments will require a different prompt.
 const IGNORED_POST_TYPES = [ POST_TYPE.attachment ];
@@ -100,6 +89,10 @@ const initializeAiGenerator = () => {
 		"yoast/yoast-seo/AiGenerator",
 		filterReplacementVariableEditorButtons
 	);
+
+	addFilter( "yoast.focusKeyphrase.errors", "yoast/yoast-seo-premium/AiGenerator", filterFocusKeyphraseErrors );
+
+	addAction( "yoast.elementor.loaded", "yoast/yoast-seo-premium/AiGenerator", initializePromptContent );
 };
 
 export default initializeAiGenerator;
