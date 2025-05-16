@@ -1,6 +1,8 @@
 import { get, noop } from "lodash";
 import { Paper } from "yoastseo";
-import { CONTENT_TYPE, MAX_TOKENS_DEFAULT, MAX_TOKENS_IRREGULAR, POST_TYPE } from "../constants";
+import { MAX_TOKENS_DEFAULT, MAX_TOKENS_IRREGULAR } from "../constants";
+import { select } from "@wordpress/data";
+import { STORE_NAME_EDITOR } from "../constants";
 
 /**
  * Sanitize the text by replacing new lines amd carriage returns with space.
@@ -18,16 +20,16 @@ const sanitizeText = ( text ) => text.replace( /[\n\r]+/g, " " );
  * @returns {void}
  */
 export const preparePromptContent = ( setOnStore ) => {
-	const isProduct = get( window, "wpseoPremiumAiGenerator.postType", "" ) === POST_TYPE.product;
-	const isTerm = get( window, "wpseoPremiumAiGenerator.contentType", "" ) === CONTENT_TYPE.term;
-
+	const isProduct = select( STORE_NAME_EDITOR ).getIsProduct();
+	const isTerm = select( STORE_NAME_EDITOR ).getIsTerm();;
+	
 	/**
 	 * The maximum number of tokens we add to the 'content' variable in the prompt.
 	 * For products and terms, we stick to the first 150 tokens, for all other post types, we consider 300 tokens.
 	 * Note that we include whitespace or punctuation tokens in this count.
 	 * @type {number}
 	 */
-	const isWooCommerceActive = get( window, "wpseoScriptData.isWooCommerceActive", false );
+	const isWooCommerceActive = select( STORE_NAME_EDITOR ).getIsWooCommerceActive();
 	const maxTokens = ( isProduct && isWooCommerceActive ) || isTerm ? MAX_TOKENS_IRREGULAR : MAX_TOKENS_DEFAULT;
 	const runResearch = get( window, "YoastSEO.analysis.worker.runResearch", noop );
 	const collectData = get( window, "YoastSEO.analysis.collectData", false );

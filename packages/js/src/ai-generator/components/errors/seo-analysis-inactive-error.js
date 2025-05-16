@@ -4,13 +4,13 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, useModalContext } from "@yoast/ui-library";
 import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { OutboundLink } from "../../../shared-admin/components";
-import { STORE_NAME_AI } from "../../constants";
+import { STORE_NAME_EDITOR } from "../../constants";
 
 /**
  * @returns {JSX.Element} The element.
  */
 export const SeoAnalysisInactiveError = () => {
-	const seoAnalysisFeatureToggleLink = useSelect( select => select( STORE_NAME_AI )
+	const seoAnalysisFeatureToggleLink = useSelect( select => select( STORE_NAME_EDITOR )
 		.selectAdminLink( "?page=wpseo_page_settings#/site-features#card-wpseo-keyword_analysis_active" ), [] );
 
 	const handleRefresh = useCallback( () => {

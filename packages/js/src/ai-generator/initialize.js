@@ -4,10 +4,11 @@ import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { ADMIN_URL_NAME, HAS_AI_GENERATOR_CONSENT_NAME } from "../shared-admin/store";
 import { App, TypeProvider } from "./components";
-import { POST_TYPE, PREVIEW_TYPE } from "./constants";
+import { POST_TYPE, PREVIEW_TYPE, STORE_NAME_EDITOR } from "./constants";
 import { registerStore } from "./store";
 import { PRODUCT_SUBSCRIPTIONS_NAME } from "./store/product-subscriptions";
 import { initializePromptContent, filterFocusKeyphraseErrors, updateInteractedWithFeature } from "./initialize/index";
+import { select } from "@wordpress/data";
 
 // Ignore these post types. Attachments will require a different prompt.
 const IGNORED_POST_TYPES = [ POST_TYPE.attachment ];
@@ -38,7 +39,7 @@ function getPreviewType( fieldId ) {
  * @returns {JSX.node[]} The buttons.
  */
 const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editType } ) => {
-	const postType = get( window, "wpseoAiGenerator.postType", "" );
+	const postType = select ( STORE_NAME_EDITOR ).getPostType();
 	if ( IGNORED_POST_TYPES.includes( postType ) ) {
 		return buttons;
 	}
@@ -50,13 +51,13 @@ const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editT
 	}
 
 	const rootContext = {
-		isRtl: get( window, "wpseoScriptData.metabox.isRtl", false ),
+		isRtl: select( STORE_NAME_EDITOR ).getPreference( "isRtl" ),
 	};
 	const typeContext = {
 		editType,
 		previewType,
 		postType,
-		contentType: get( window, "wpseoAiGenerator.contentType", "" ),
+		contentType: select( STORE_NAME_EDITOR ).getIsTerm() ? "term" : "post",
 	};
 
 	buttons.push(
@@ -79,7 +80,6 @@ const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editT
  */
 const initializeAiGenerator = () => {
 	registerStore( {
-		[ ADMIN_URL_NAME ]: get( window, "wpseoAiGenerator.adminUrl", "" ),
 		[ HAS_AI_GENERATOR_CONSENT_NAME ]: get( window, "wpseoAiGenerator.hasConsent", false ) === "1",
 		[ PRODUCT_SUBSCRIPTIONS_NAME ]: get( window, "wpseoAiGenerator.productSubscriptions", {} ),
 	} );
@@ -90,9 +90,9 @@ const initializeAiGenerator = () => {
 		filterReplacementVariableEditorButtons
 	);
 
-	addFilter( "yoast.focusKeyphrase.errors", "yoast/yoast-seo-premium/AiGenerator", filterFocusKeyphraseErrors );
+	addFilter( "yoast.focusKeyphrase.errors", "yoast/yoast-seo/AiGenerator", filterFocusKeyphraseErrors );
 
-	addAction( "yoast.elementor.loaded", "yoast/yoast-seo-premium/AiGenerator", initializePromptContent );
+	addAction( "yoast.elementor.loaded", "yoast/yoast-seo/AiGenerator", initializePromptContent );
 };
 
 export default initializeAiGenerator;
