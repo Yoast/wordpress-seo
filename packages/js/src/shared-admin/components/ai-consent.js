@@ -42,21 +42,21 @@ export const AiConsent = ( {
 		sprintf(
 			/* translators: %1$s and %2$s are a set of anchor tags and %3$s and %4$s are a set of anchor tags. */
 			__(
-				// eslint-disable-next-line max-len
+
 				"I approve the %1$sTerms of Service%2$s & %3$sPrivacy Policy%4$s of the Yoast AI service. This includes consenting to the collection and use of data to improve user experience.",
-				"wordpress-seo-premium",
+				"wordpress-seo-premium"
 			),
 			"<a1>",
 			"</a1>",
 			"<a2>",
-			"</a2>",
+			"</a2>"
 		),
 		{
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
+
 			a1: <OutboundLink href={ termsOfServiceLink } />,
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
+
 			a2: <OutboundLink href={ privacyPolicyLink } />,
-		},
+		}
 	);
 
 	return (
@@ -78,7 +78,7 @@ export const AiConsent = ( {
 						{ sprintf(
 						/* translators: %s expands to Yoast AI. */
 							__( "Grant consent for %s", "wordpress-seo-premium" ),
-							"Yoast AI",
+							"Yoast AI"
 						) }
 					</h3>
 					<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
@@ -86,17 +86,17 @@ export const AiConsent = ( {
 							sprintf(
 							/* translators: %1$s is a break tag; %2$s and %3$s are anchor tag; %4$s is the arrow icon. */
 								__(
-								// eslint-disable-next-line max-len
+
 									"Enable AI-powered SEO! Use all AI Generate and Optimize features to boost your efficiency. Just give us the green light. %1$s%2$sLearn more%3$s%4$s",
-									"wordpress-seo-premium",
+									"wordpress-seo-premium"
 								),
 								"<br/>",
 								"<a>",
 								"<ArrowNarrowRightIcon />",
-								"</a>",
+								"</a>"
 							),
 							{
-							// eslint-disable-next-line jsx-a11y/anchor-has-content
+
 								a: <OutboundLink
 									href={ learnMoreLink }
 									className="yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
@@ -104,7 +104,7 @@ export const AiConsent = ( {
 								/>,
 								ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />,
 								br: <br />,
-							},
+							}
 						) }
 					</div>
 				</div>

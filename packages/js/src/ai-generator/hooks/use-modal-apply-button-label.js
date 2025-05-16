@@ -21,7 +21,7 @@ export const useModalApplyButtonLabel = () => {
 			return sprintf(
 				/* translators: %s is the type of title. */
 				__( "Apply %s title", "wordpress-seo-premium" ),
-				previewLabel,
+				previewLabel
 			);
 		case EDIT_TYPE.description:
 			if ( previewType === PREVIEW_TYPE.google ) {
@@ -30,7 +30,7 @@ export const useModalApplyButtonLabel = () => {
 			return sprintf(
 				/* translators: %s is the type of description. */
 				__( "Apply %s description", "wordpress-seo-premium" ),
-				previewLabel,
+				previewLabel
 			);
 	}
 };

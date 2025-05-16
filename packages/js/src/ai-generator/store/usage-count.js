@@ -46,10 +46,10 @@ export const UsageCountSelectors = {
  * @returns {Object} Success or error action object.
  */
 export function* fetchUsageCount() {
-	yield { type: `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }` };
+	yield{ type: `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }` };
 	try {
 		// Trigger the fetch users control flow.
-		const counts = yield {
+		const counts = yield{
 			type: FETCH_USAGE_COUNT_ACTION_NAME,
 		};
 		return { type: `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, payload: counts };
@@ -64,7 +64,7 @@ export const usageCountActions = {
 };
 
 export const usageCountControls = {
-	[ FETCH_USAGE_COUNT_ACTION_NAME ]: async () => apiFetch( {
+	[ FETCH_USAGE_COUNT_ACTION_NAME ]: async() => apiFetch( {
 		method: "POST",
 		path: "yoast/v1/ai_generator/get_usage",
 	} ),

@@ -39,7 +39,7 @@ function getPreviewType( fieldId ) {
  * @returns {JSX.node[]} The buttons.
  */
 const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editType } ) => {
-	const postType = select ( STORE_NAME_EDITOR ).getPostType();
+	const postType = select( STORE_NAME_EDITOR ).getPostType();
 	if ( IGNORED_POST_TYPES.includes( postType ) ) {
 		return buttons;
 	}

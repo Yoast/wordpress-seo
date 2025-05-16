@@ -189,6 +189,14 @@ export const ModalContent = ( { height } ) => {
 		);
 	}
 
+	const suggestionClassNames = [
+		[ "yst-h-3 yst-w-9/12" ],
+		[ "yst-h-3 yst-w-7/12" ],
+		[ "yst-h-3 yst-w-10/12" ],
+		[ "yst-h-3 yst-w-11/12" ],
+		[ "yst-h-3 yst-w-8/12" ],
+	];
+
 	return (
 		<Fragment>
 			<Modal.Container.Content ref={ contentRef } className="yst-flex yst-flex-col yst-py-6 yst-space-y-2">
@@ -201,21 +209,11 @@ export const ModalContent = ( { height } ) => {
 					showLengthProgress={ ! showLoading }
 				/>
 				{ showSuggestions && (
-					showLoading
-						? <SuggestionsListSkeleton
-								idSuffix={ location }
-								suggestionClassNames={ editType === EDIT_TYPE.title
-								? [
-									[ "yst-h-3 yst-w-9/12" ],
-									[ "yst-h-3 yst-w-7/12" ],
-									[ "yst-h-3 yst-w-10/12" ],
-									[ "yst-h-3 yst-w-11/12" ],
-									[ "yst-h-3 yst-w-8/12" ],
-								]
-								// eslint-disable-next-line no-undefined
-								: undefined
-							}
-						/>
+					showLoading ? <SuggestionsListSkeleton
+						idSuffix={ location }
+						// eslint-disable-next-line no-undefined
+						suggestionClassNames={ editType === EDIT_TYPE.title ? suggestionClassNames : undefined }
+					/>
 						: ( <>
 							<div className="yst-flex yst-space-y-4">
 								<Label as="span" className="yst-flex-grow yst-cursor-default yst-mt-auto">

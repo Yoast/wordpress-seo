@@ -1,6 +1,7 @@
 import { isConsideredEmpty } from "../helpers";
 import { select as wpSelect } from "@wordpress/data";
 import { STORE_NAME_AI } from "../constants";
+import { __ } from "@wordpress/i18n";
 
 let hasInteractedWithFeature = false;
 /**

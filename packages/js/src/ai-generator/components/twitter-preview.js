@@ -1,5 +1,5 @@
 import { useSelect } from "@wordpress/data";
-import { TwitterPreview as PureTwitterPreview } from "@yoast/social-metadata-previews";
+import { TwitterPreview as PureTwitterPreview } from "../../../../social-metadata-previews/src";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import { STORE_NAME_EDITOR } from "../constants";

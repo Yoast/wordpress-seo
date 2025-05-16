@@ -15,13 +15,13 @@ const STORE_AI_GENERATOR_CONSENT_ACTION_NAME = `${ HAS_AI_GENERATOR_CONSENT_NAME
 function* storeAiGeneratorConsent( consent ) {
 	try {
 		// Trigger the control flow.
-		yield { type: STORE_AI_GENERATOR_CONSENT_ACTION_NAME, payload: consent };
+		yield{ type: STORE_AI_GENERATOR_CONSENT_ACTION_NAME, payload: consent };
 	} catch ( e ) {
 		// Ignore the error, the user will just get the question again next time.
 		return false;
 	}
 	// Update the store right away, there is no need to wait on the request.
-	yield { type: `${ HAS_AI_GENERATOR_CONSENT_NAME }/giveAiGeneratorConsent`, payload: consent };
+	yield{ type: `${ HAS_AI_GENERATOR_CONSENT_NAME }/giveAiGeneratorConsent`, payload: consent };
 	return true;
 }
 
@@ -45,7 +45,7 @@ export const hasAiGeneratorConsentActions = {
 };
 
 export const hasAiGeneratorConsentControls = {
-	[ STORE_AI_GENERATOR_CONSENT_ACTION_NAME ]: async ( { payload } ) => {
+	[ STORE_AI_GENERATOR_CONSENT_ACTION_NAME ]: async( { payload } ) => {
 		const response = await apiFetch( {
 			path: "yoast/v1/ai_generator/consent",
 			method: "POST",

@@ -19,14 +19,14 @@ const updatePromptContent = () => {
  * @returns {function} The watcher function.
  */
 const createSubscriber = () => {
-    const { getEditorDataContent } = wpSelect( STORE_NAME_EDITOR );
-    const createWatcher = get( window, "yoast.editorModules.helpers.createWatcher", noop );
-    const updater = updatePromptContent();
+	const { getEditorDataContent } = wpSelect( STORE_NAME_EDITOR );
+	const createWatcher = get( window, "yoast.editorModules.helpers.createWatcher", noop );
+	const updater = updatePromptContent();
 
-    // Force an initial update after 1.5 seconds.
-    setTimeout( updater, 1500 );
+	// Force an initial update after 1.5 seconds.
+	setTimeout( updater, 1500 );
 
-    return createWatcher( getEditorDataContent, updater );
+	return createWatcher( getEditorDataContent, updater );
 };
 
 /**

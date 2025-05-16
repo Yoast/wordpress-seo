@@ -12,7 +12,7 @@ const LOCALE_VARIANTS = [ "_formal", "_informal", "_ao90" ];
  * @param {Response} error The error response.
  * @returns {Promise<Object>} The promise of the error data.
  */
-const getAdditionalErrorData = async ( error ) => {
+const getAdditionalErrorData = async( error ) => {
 	try {
 		const errorBodyStreamReader = error.body.getReader();
 		const { value } = await errorBodyStreamReader.read();
@@ -45,7 +45,7 @@ export const removesLocaleVariantSuffixes = ( locale ) => {
  * @param {object} data The data that .will be sent to the endpoint.
  * @returns {Promise<{status: string, payload: any}|{status: string}>} The promise of a response.
  */
-export const fetchSuggestions = async ( { endpoint, data } ) => {
+export const fetchSuggestions = async( { endpoint, data } ) => {
 	let timerId;
 	const TIMEOUT_IN_MS = get( window, "wpseoPremiumAiGenerator.requestTimeout", 30 ) * 1000;
 

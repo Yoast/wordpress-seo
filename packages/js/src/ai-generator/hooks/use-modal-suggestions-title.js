@@ -21,7 +21,7 @@ export const useModalSuggestionsTitle = () => {
 			return sprintf(
 				/* translators: %s is the type of title. */
 				__( "Generated %s titles", "wordpress-seo-premium" ),
-				previewLabel,
+				previewLabel
 			);
 		case EDIT_TYPE.description:
 			if ( previewType === PREVIEW_TYPE.google ) {
@@ -30,7 +30,7 @@ export const useModalSuggestionsTitle = () => {
 			return sprintf(
 				/* translators: %s is the type of description. */
 				__( "Generated %s descriptions", "wordpress-seo-premium" ),
-				previewLabel,
+				previewLabel
 			);
 	}
 };

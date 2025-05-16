@@ -37,9 +37,9 @@ export const SparksLimitNotification = ( { className = "", size = "" } ) => {
 					"You've used %s spark this month.",
 					"You've used %s sparks this month.",
 					limit,
-					"wordpress-seo-premium",
+					"wordpress-seo-premium"
 				),
-				limit,
+				limit
 			) }
 			className={ className }
 		>
