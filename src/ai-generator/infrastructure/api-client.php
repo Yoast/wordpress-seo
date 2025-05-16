@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\AI_Generator\infrastructure;
 
 use WPSEO_Utils;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\WP_Request_Exception;
-use Yoast\WP\SEO\AI_Generator\Infrastructure\Exceptions\WP_Request_Exception;
 
 /**
  * Class API_Client
