@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\AI_Generator\infrastructure;
 
 use WPSEO_Utils;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\WP_Request_Exception;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\Exceptions\WP_Request_Exception;
 
 /**
@@ -40,6 +41,8 @@ class API_Client {
 	 * @throws WP_Request_Exception When the wp_remote_post() returns an error.
 	 */
 	public function perform_request( string $action_path, $body, $headers, bool $is_post ): object {
+		// Our API expects JSON.
+		// The request times out after 30 seconds.
 		$headers   = \array_merge( $headers, [ 'Content-Type' => 'application/json' ] );
 		$arguments = [
 			'timeout' => $this->get_request_timeout(),
@@ -53,9 +56,7 @@ class API_Client {
 
 		/**
 		 * Filter: 'Yoast\WP\SEO\ai_api_url' - Replaces the default URL for the AI API with a custom one.
-		 **
 		 *
-		 * @since 21.0
 		 * @internal
 		 *
 		 * @param string $url The default URL for the AI API.
@@ -85,6 +86,6 @@ class API_Client {
 		 *
 		 * @param int $timeout The default timeout in seconds.
 		 */
-		return \apply_filters( 'Yoast\WP\SEO\ai_suggestions_timeout', 60 );
+		return (int) \apply_filters( 'Yoast\WP\SEO\ai_suggestions_timeout', 60 );
 	}
 }

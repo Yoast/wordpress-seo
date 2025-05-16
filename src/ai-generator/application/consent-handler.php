@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\AI_Generator\Application;
 
 use RuntimeException;
-use Yoast\WP\SEO\AI_Generator\Application\Token_Manager;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Bad_Request_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Internal_Server_Error_Exception;
@@ -14,6 +13,10 @@ use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Service_Unavailable_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
+/**
+ * Class Consent_Handler
+ * Handles the consent given or revoked by the user.
+ */
 class Consent_Handler {
 
 	/**
@@ -33,11 +36,12 @@ class Consent_Handler {
 	/**
 	 * Class constructor.
 	 *
-	 * @param User_Helper $user_helper The user helper.
+	 * @param Token_Manager $token_manager The token manager.
+	 * @param User_Helper   $user_helper   The user helper.
 	 */
 	public function __construct( Token_Manager $token_manager, User_Helper $user_helper ) {
 		$this->token_manager = $token_manager;
-		$this->user_helper = $user_helper;
+		$this->user_helper   = $user_helper;
 	}
 
 	/**
