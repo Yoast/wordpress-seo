@@ -1,7 +1,7 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { AIOptimizeUpsell } from "../../shared-admin/components";
-import { getUpsellProps } from "../../ai-generator/components/modal-content";
+import { getUpsellProps } from "../../ai-generator/components/upsell-modal-content";
 
 const STORE = "yoast-seo/editor";
 
