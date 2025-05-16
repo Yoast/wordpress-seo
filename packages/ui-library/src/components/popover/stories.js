@@ -5,12 +5,12 @@ import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import Button from "../../elements/button";
 import { noop } from "lodash";
 import { ValidationIcon } from "../../elements/validation";
+
 const DismissButton = () => {
 	const { handleDismiss } = usePopoverContext();
 	return <Button type="button" variant="primary" onClick={ handleDismiss } className="yst-self-end">Got it!</Button>;
 };
 export const Factory = {
-	component: Popover,
 	render: ( args ) => {
 		return (
 			<>
@@ -91,7 +91,7 @@ export const ButtonWithAPopover = {
 					{ ...args }
 					isVisible={ isVisible }
 					setIsVisible={ setIsVisible }
-					position={ args.position || "right" }
+					position={ args.position || "top-right" }
 				/>
 			</div>
 		);

@@ -32,7 +32,6 @@ export const usePopoverContext = () => useContext( PopoverContext );
  * @param {JSX.node} [children] Possible to override the default screen reader text and X icon.
  * @returns {JSX.Element} The close button.
  */
-// eslint-disable-next-line react/display-name
 const CloseButton = forwardRef( ( {
 	screenReaderLabel,
 	onClick,
@@ -62,6 +61,7 @@ const CloseButton = forwardRef( ( {
 	);
 } );
 
+CloseButton.displayName = "Popover.CloseButton";
 CloseButton.propTypes = {
 	screenReaderLabel: PropTypes.string,
 	onClick: PropTypes.func,
@@ -98,6 +98,7 @@ const Title = ( {
 	</Tag> );
 };
 
+Title.displayName = "Popover.Title";
 Title.propTypes = {
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
@@ -124,6 +125,7 @@ const Content = ( {
 	);
 };
 
+Content.displayName = "Popover.Content";
 Content.propTypes = {
 	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
 	id: PropTypes.string,
@@ -164,6 +166,7 @@ const Backdrop = ( {
 	);
 };
 
+Backdrop.displayName = "Popover.Backdrop";
 Backdrop.propTypes = {
 	className: PropTypes.string,
 	isVisible: PropTypes.bool.isRequired,
