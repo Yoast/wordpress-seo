@@ -13,6 +13,7 @@ import { STORE_NAME_EDITOR } from "../constants";
  * @property {JSX.Element} [bundleNote] A note about the bundle upsell.
  * @property {string} [ctbId] The CTB ID for the upsell.
  * @property {boolean} [isProductCopy] Whether the upsell is for product copy.
+ * @property {function} setTryAi Callback to signal the generating should start.
  */
 
 /**

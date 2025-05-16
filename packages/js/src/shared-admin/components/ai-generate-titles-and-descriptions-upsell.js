@@ -4,6 +4,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Badge, Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";
+import { useCallback } from "@wordpress/element";
 import { OutboundLink, VideoFlow } from ".";
 
 /**
@@ -17,6 +18,7 @@ import { OutboundLink, VideoFlow } from ".";
  * @param {string} newToText The new to text.
  * @param {string|JSX.Element} bundleNote The bundle note.
  * @param {string} ctbId The click to buy to register for this upsell instance.
+ * @param {function} setTryAi The function to set the try AI state.
  * @returns {JSX.Element} The element.
  */
 export const AiGenerateTitlesAndDescriptionsUpsell = ( {
@@ -30,6 +32,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 	newToText,
 	bundleNote,
 	ctbId,
+	setTryAi,
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
@@ -42,9 +45,9 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 		ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />,
 	};
 
-	const handleConsent = () => {
-		console.log( "Consent given" );
-	};
+	const handleTryAi = useCallback( () => {
+		setTryAi( true );
+	}, [ setTryAi ] );
 
 	return (
 		<>
@@ -100,7 +103,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 						}
 					</div>
 				</div>
-				<div className="yst-w-full yst-flex yst-mt-10">
+				<div className="yst-w-full yst-flex yst-mt-10 yst-flex-col">
 					<Button
 						as="a"
 						className="yst-grow"
@@ -121,7 +124,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 							}
 						</span>
 					</Button>
-					<Button onClick={ handleConsent }>Or use AI for free!</Button>
+					<Button onClick={ handleTryAi }>Or try AI for free!</Button>
 				</div>
 				{ bundleNote }
 				<Button
@@ -158,6 +161,7 @@ AiGenerateTitlesAndDescriptionsUpsell.propTypes = {
 		PropTypes.element,
 	] ),
 	ctbId: PropTypes.string,
+	setTryAi: PropTypes.func.isRequired,
 };
 
 AiGenerateTitlesAndDescriptionsUpsell.defaultProps = {

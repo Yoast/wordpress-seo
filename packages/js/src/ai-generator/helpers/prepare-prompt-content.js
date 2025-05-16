@@ -1,8 +1,7 @@
 import { get, noop } from "lodash";
 import { Paper } from "yoastseo";
-import { MAX_TOKENS_DEFAULT, MAX_TOKENS_IRREGULAR } from "../constants";
+import { MAX_TOKENS_DEFAULT, MAX_TOKENS_IRREGULAR, STORE_NAME_EDITOR } from "../constants";
 import { select } from "@wordpress/data";
-import { STORE_NAME_EDITOR } from "../constants";
 
 /**
  * Sanitize the text by replacing new lines amd carriage returns with space.
@@ -21,8 +20,8 @@ const sanitizeText = ( text ) => text.replace( /[\n\r]+/g, " " );
  */
 export const preparePromptContent = ( setOnStore ) => {
 	const isProduct = select( STORE_NAME_EDITOR ).getIsProduct();
-	const isTerm = select( STORE_NAME_EDITOR ).getIsTerm();;
-	
+	const isTerm = select( STORE_NAME_EDITOR ).getIsTerm();
+
 	/**
 	 * The maximum number of tokens we add to the 'content' variable in the prompt.
 	 * For products and terms, we stick to the first 150 tokens, for all other post types, we consider 300 tokens.

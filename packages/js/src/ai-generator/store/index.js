@@ -100,7 +100,7 @@ const createStore = ( initialState ) => {
 				[ USAGE_COUNT_NAME ]: getInitialUsageCount(),
 				[ AI_OPTIMIZE_NOTIFICATION_STATUS_NAME ]: getInitialNotificationStatusState(),
 			},
-			initialState,
+			initialState
 		),
 		reducer: combineReducers( {
 			[ HAS_AI_GENERATOR_CONSENT_NAME ]: hasAiGeneratorConsentReducer,

@@ -13,7 +13,7 @@ export const useTitleTemplate = () => {
 	const getTitleTemplate = useGetTitleTemplate();
 	const appliedSuggestion = useSelect(
 		select => select( STORE_NAME_AI ).selectAppliedSuggestionFor( { editType, previewType } ),
-		[ editType, previewType ],
+		[ editType, previewType ]
 	);
 
 	return useMemo( () => {

@@ -26,7 +26,7 @@ appliedSuggestionsSelectors.selectAppliedSuggestionFor = createSelector(
 		appliedSuggestionsSelectors.selectAppliedSuggestions,
 		( state, scope ) => scope,
 	],
-	( suggestions, { editType, previewType } ) => get( suggestions, [ previewType, editType ], "" ),
+	( suggestions, { editType, previewType } ) => get( suggestions, [ previewType, editType ], "" )
 );
 
 export const appliedSuggestionsActions = slice.actions;

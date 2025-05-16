@@ -7,10 +7,10 @@ import { Badge, Link, Modal, useSvgAria, useToggleState } from "@yoast/ui-librar
 import PropTypes from "prop-types";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
 import { focusFocusKeyphraseInput, isConsideredEmpty } from "../helpers";
-import { isWooActiveAndProductPostType } from "../helpers/is-woo-active-and-product-post-type";
 import { useLocation, useMeasuredRef, useModalTitle, useTypeContext } from "../hooks";
 import { FeatureError } from "./feature-error";
 import { Introduction } from "./introduction";
+import { UpsellModalContent } from "./upsell-modal-content";
 import { ModalContent } from "./modal-content";
 
 /**
@@ -23,11 +23,6 @@ import { ModalContent } from "./modal-content";
  * @param {boolean} isWooCommerceActive Whether the WooCommerce plugin is active.
  * @returns {boolean} whether all required subscriptions are valid.
  */
-function hasValidSubscriptions( postType, hasValidPremiumSubscription, hasValidWooSubscription, isSeoAnalysisActive, isWooCommerceActive ) {
-	return isWooActiveAndProductPostType( isWooCommerceActive, postType )
-		? ( hasValidPremiumSubscription && hasValidWooSubscription && isSeoAnalysisActive )
-		: ( hasValidPremiumSubscription && isSeoAnalysisActive );
-}
 
 /**
  * @param {function} onUseAi Callback for when the user clicks on the use AI button.
@@ -44,6 +39,8 @@ export const App = ( { onUseAi } ) => {
 		.selectLink( "https://yoa.st/ai-generator-help-button-modal" ), [] );
 	const { closeEditorModal } = useDispatch( STORE_NAME_EDITOR );
 	const hasConsent = useSelect( select => select( STORE_NAME_AI ).selectHasAiGeneratorConsent(), [] );
+	const [ tryAi, setTryAi ] = useState( hasConsent );
+
 	const promptContentInitialized = useSelect( select => select( STORE_NAME_AI ).selectPromptContentInitialized(), [] );
 	const currentSubscriptions = useSelect( select => select( STORE_NAME_AI ).selectProductSubscriptions(), [] );
 	const isSeoAnalysisActive = useSelect( select => select( STORE_NAME_EDITOR ).getPreference( "isKeywordAnalysisActive", true ), [] );
@@ -117,17 +114,18 @@ export const App = ( { onUseAi } ) => {
 						className="yst-max-w-lg yst-p-0 yst-rounded-3xl"
 						closeButtonScreenReaderText={ closeButtonScreenReaderText }
 					>
-						{ /* TODO:
+						{ /* WIP:
 						 * Check if user is premium show directly Introduction and it's not a product page.
 						 * If user is free and didn't grant consent show the upsell.
 						 * If user is free and granted consent show the introduction.
 						 * If user is premium and and it's a product page but user has no woo seo and didn't grant consent then show the upsell.
 						 * If user is premium and and it's a product page but user has woo seo and didn't grant consent then show the introduction.
 						 */ }
-						<Introduction
+
+						{ tryAi ? <Introduction
 							onStartGenerating={ handleStartGenerating }
 							focusElementRef={ focusElementRef }
-						/>
+						/> : <UpsellModalContent setTryAi={ setTryAi } /> }
 					</Modal.Panel>
 				</Modal>
 

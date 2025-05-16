@@ -1,5 +1,5 @@
 import { useSelect } from "@wordpress/data";
-import { FacebookPreview } from "@yoast/social-metadata-previews";
+import { FacebookPreview } from "../../../../social-metadata-previews/src";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import { STORE_NAME_EDITOR } from "../constants";

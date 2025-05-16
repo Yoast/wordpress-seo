@@ -24,7 +24,7 @@ const Suggestion = ( { id, name, suggestion, isChecked, onChange } ) => {
 			htmlFor={ id }
 			className={ classNames(
 				"yst-flex yst-p-4 yst-items-center yst-border first:yst-rounded-t-md last:yst-rounded-b-md",
-				isChecked && "yst-z-10 yst-border-primary-500",
+				isChecked && "yst-z-10 yst-border-primary-500"
 			) }
 		>
 			<input
@@ -39,7 +39,7 @@ const Suggestion = ( { id, name, suggestion, isChecked, onChange } ) => {
 			<div
 				className={ classNames(
 					"yst-label yst-radio__label yst-flex yst-flex-wrap yst-items-center",
-					! isChecked && "yst-text-slate-600",
+					! isChecked && "yst-text-slate-600"
 				) }
 			>
 				{ suggestion.label }

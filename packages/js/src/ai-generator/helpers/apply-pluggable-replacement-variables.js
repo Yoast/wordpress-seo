@@ -16,7 +16,7 @@ export const applyPluggableReplacementVariables = ( content, editType = EDIT_TYP
 			url: data.url,
 			title: languageProcessing.stripHTMLTags( data.title ),
 			description: languageProcessing.stripHTMLTags( data.description ),
-		} ),
+		} )
 	);
 	const CleanContent = languageProcessing.stripSpaces( content );
 	const replaced = applyReplaceUsingPlugin( {
