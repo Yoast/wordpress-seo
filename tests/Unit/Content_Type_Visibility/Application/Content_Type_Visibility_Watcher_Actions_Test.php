@@ -2,15 +2,15 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Content_Type_Visibility\Application;
 
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast_Notification_Center;
 use Brain\Monkey;
 use Mockery;
 use WP_User;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * Class Content_Type_Visibility_Watcher_Actions_Test
@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dis
  *
  * @coversDefaultClass \Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions
  */
-class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
+final class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 
 	/**
 	 * Holds the admin user mock instance.
@@ -58,6 +58,8 @@ class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 
 	/**
 	 * Set up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -82,6 +84,8 @@ class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 	 * Tests the __construct method.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -107,6 +111,8 @@ class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 	 * Tests the get_conditionals method.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$expected = [ Admin_Conditional::class ];
@@ -118,6 +124,8 @@ class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 	 * Testing the registration of actions.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 
@@ -134,6 +142,8 @@ class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 	 *
 	 * @covers ::new_post_type
 	 * @covers ::maybe_add_notification
+	 *
+	 * @return void
 	 */
 	public function test_new_post_type() {
 
@@ -176,7 +186,7 @@ class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 				'cleaned_taxonomies'          => [ 0 => 'post_tag' ],
 				'clean_times'                 => 1,
 			],
-			'new removed taxonomies' => [
+			'new non public taxonomies' => [
 				'newly_made_none_public'      => [ 'category' ],
 				'new_taxonomies'              => [ 'category' ],
 				'cleaned_taxonomies'          => [],
@@ -195,6 +205,8 @@ class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 	 * @param array $new_taxonomies         The new taxonomies.
 	 * @param array $cleaned_taxonomies     The cleaned taxonomies.
 	 * @param int   $clean_times            The amount of times the options helper should be called.
+	 *
+	 * @return void
 	 */
 	public function test_clean_new_public_taxonomy( $newly_made_none_public, $new_taxonomies, $cleaned_taxonomies, $clean_times ) {
 
@@ -235,7 +247,7 @@ class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 				'cleaned_post types'          => [ 0 => 'post' ],
 				'clean_times'                 => 1,
 			],
-			'new removed post types' => [
+			'new non public post types' => [
 				'newly_made_none_public'      => [ 'book' ],
 				'new_post types'              => [ 'book' ],
 				'cleaned_post types'          => [],
@@ -254,6 +266,8 @@ class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 	 * @param array $new_post_types         The new post types.
 	 * @param array $cleaned_post_types     The cleaned post types.
 	 * @param int   $clean_times            The number of times the options should be cleaned.
+	 *
+	 * @return void
 	 */
 	public function test_clean_new_public_post_type( $newly_made_none_public, $new_post_types, $cleaned_post_types, $clean_times ) {
 
@@ -280,6 +294,8 @@ class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 	 *
 	 * @covers ::new_taxonomy
 	 * @covers ::maybe_add_notification
+	 *
+	 * @return void
 	 */
 	public function test_new_taxonomy() {
 
@@ -308,6 +324,8 @@ class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 	 *
 	 * @covers ::maybe_add_notification
 	 * @covers ::add_notification
+	 *
+	 * @return void
 	 */
 	public function test_maybe_add_notification() {
 

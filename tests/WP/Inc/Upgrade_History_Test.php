@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group upgrades
  */
-class Upgrade_History_Test extends TestCase {
+final class Upgrade_History_Test extends TestCase {
 
 	/**
 	 * Option name.
@@ -30,6 +30,8 @@ class Upgrade_History_Test extends TestCase {
 
 	/**
 	 * Removes the used option.
+	 *
+	 * @return void
 	 */
 	public function tear_down() {
 		\delete_option( self::$option_name );
@@ -41,6 +43,8 @@ class Upgrade_History_Test extends TestCase {
 	 * Tests the constructor with the default option name.
 	 *
 	 * @covers WPSEO_Upgrade_History::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct_with_default_option_name() {
 		$instance = new WPSEO_Upgrade_History();
@@ -52,6 +56,8 @@ class Upgrade_History_Test extends TestCase {
 	 * Tests the constructor with the given option name.
 	 *
 	 * @covers WPSEO_Upgrade_History::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct_with_given_option_name() {
 		$instance = new WPSEO_Upgrade_History( 'my_option_name' );
@@ -63,6 +69,8 @@ class Upgrade_History_Test extends TestCase {
 	 * Tests whether $history is an array and is empty.
 	 *
 	 * @covers WPSEO_Upgrade_History::get
+	 *
+	 * @return void
 	 */
 	public function test_get_empty() {
 		$upgrade_history = $this->get_instance();
@@ -79,6 +87,8 @@ class Upgrade_History_Test extends TestCase {
 	 * @covers WPSEO_Upgrade_History::get_options_data
 	 * @covers WPSEO_Upgrade_History::get
 	 * @covers WPSEO_Upgrade_History::set
+	 *
+	 * @return void
 	 */
 	public function test_add() {
 		// This must contain something.
@@ -103,6 +113,8 @@ class Upgrade_History_Test extends TestCase {
 	 * Tests the situation where no options are added.
 	 *
 	 * @covers WPSEO_Upgrade_History::add
+	 *
+	 * @return void
 	 */
 	public function test_add_no_options() {
 		$upgrade_history = $this->get_instance();
@@ -122,6 +134,8 @@ class Upgrade_History_Test extends TestCase {
 	 * Tests to see if an empty option does not add a new history entry.
 	 *
 	 * @covers WPSEO_Upgrade_History::add
+	 *
+	 * @return void
 	 */
 	public function test_add_empty_option() {
 		$upgrade_history = $this->get_instance();

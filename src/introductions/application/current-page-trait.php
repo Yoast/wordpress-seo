@@ -34,7 +34,7 @@ trait Current_Page_Trait {
 	private function get_page() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, only using it in strict comparison.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, only using it in strict comparison.
 			return \wp_unslash( $_GET['page'] );
 		}
 

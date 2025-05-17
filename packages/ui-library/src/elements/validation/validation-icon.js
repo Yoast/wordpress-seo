@@ -1,9 +1,9 @@
-import { useMemo } from "@wordpress/element";
-import PropTypes from "prop-types";
-import { values } from "lodash";
 import classNames from "classnames";
+import { values } from "lodash";
+import PropTypes from "prop-types";
+import React, { useMemo } from "react";
 import { useSvgAria } from "../../hooks";
-import { VALIDATION_VARIANTS, VALIDATION_ICON_MAP } from "./constants";
+import { VALIDATION_ICON_MAP, VALIDATION_VARIANTS } from "./constants";
 
 const CLASSNAME_MAP = {
 	variant: {

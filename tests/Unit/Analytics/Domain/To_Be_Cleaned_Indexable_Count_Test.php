@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Count
  */
-class To_Be_Cleaned_Indexable_Count_Test extends TestCase {
+final class To_Be_Cleaned_Indexable_Count_Test extends TestCase {
 
 	/**
 	 * The sut.
@@ -26,8 +26,8 @@ class To_Be_Cleaned_Indexable_Count_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function setUp(): void {
-		parent::setUp();
+	protected function set_up(): void {
+		parent::set_up();
 
 		$this->sut = new To_Be_Cleaned_Indexable_Count( 'cleanup_name', 0 );
 	}

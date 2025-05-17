@@ -7,7 +7,7 @@ use WPSEO_Image_Utils;
 /**
  * Test Helper Class.
  */
-class Image_Utils_Double extends WPSEO_Image_Utils {
+final class Image_Utils_Double extends WPSEO_Image_Utils {
 
 	/**
 	 * Retrieves the first possible image url from an array of images.

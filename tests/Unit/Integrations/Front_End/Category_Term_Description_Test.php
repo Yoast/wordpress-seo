@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class Category_Term_Description_Test extends TestCase {
+final class Category_Term_Description_Test extends TestCase {
 
 	/**
 	 * The test instance.
@@ -26,6 +26,8 @@ class Category_Term_Description_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ class Category_Term_Description_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -49,6 +53,8 @@ class Category_Term_Description_Test extends TestCase {
 	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -61,6 +67,8 @@ class Category_Term_Description_Test extends TestCase {
 	 * Tests the add shortcode support functionality.
 	 *
 	 * @covers ::add_shortcode_support
+	 *
+	 * @return void
 	 */
 	public function test_add_shortcode_support() {
 		Monkey\Functions\when( 'do_shortcode' )

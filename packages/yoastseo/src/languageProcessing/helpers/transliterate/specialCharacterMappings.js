@@ -1,4 +1,4 @@
-import { filter, includes, isEqual, memoize } from "lodash-es";
+import { filter, includes, isEqual, memoize } from "lodash";
 import getWords from "../word/getWords";
 
 /**

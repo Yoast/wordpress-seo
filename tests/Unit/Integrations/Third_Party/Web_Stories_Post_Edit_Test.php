@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group third-party
  */
-class Web_Stories_Post_Edit_Test extends TestCase {
+final class Web_Stories_Post_Edit_Test extends TestCase {
 
 	/**
 	 * The Web Stories integration.
@@ -27,6 +27,8 @@ class Web_Stories_Post_Edit_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -38,6 +40,8 @@ class Web_Stories_Post_Edit_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -50,6 +54,8 @@ class Web_Stories_Post_Edit_Test extends TestCase {
 	 * Tests register hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -61,6 +67,8 @@ class Web_Stories_Post_Edit_Test extends TestCase {
 	 * Tests add_admin_l10n integration.
 	 *
 	 * @covers ::add_admin_l10n
+	 *
+	 * @return void
 	 */
 	public function test_add_admin_l10n() {
 		Monkey\Functions\expect( 'get_post_type' )

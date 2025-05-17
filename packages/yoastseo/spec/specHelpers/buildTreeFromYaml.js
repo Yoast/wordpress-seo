@@ -117,7 +117,7 @@ class TreeFromYaml {
 	 *
 	 * @returns {module:parsedPaper/structure.Node} The parsed tree.
 	 */
-	parse( parameters ) { // eslint-disable-line complexity
+	parse( parameters ) {
 		/*
 		  Type of node to add.
 		  The type should be the first (and only) key of the JSON object.

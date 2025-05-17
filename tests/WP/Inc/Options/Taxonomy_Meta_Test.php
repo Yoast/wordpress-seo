@@ -9,12 +9,14 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Taxonomy_Meta_Test extends TestCase {
+final class Taxonomy_Meta_Test extends TestCase {
 
 	/**
 	 * Tests the method without a term object.
 	 *
 	 * @covers WPSEO_Taxonomy_Meta::get_meta_without_term
+	 *
+	 * @return void
 	 */
 	public function test_get_meta_without_term_when_no_term_is_set() {
 		$this->assertFalse( WPSEO_Taxonomy_Meta::get_meta_without_term( 'meta_field' ) );
@@ -24,6 +26,8 @@ class Taxonomy_Meta_Test extends TestCase {
 	 * Tests the method with a term object that has no taxonomy.
 	 *
 	 * @covers WPSEO_Taxonomy_Meta::get_meta_without_term
+	 *
+	 * @return void
 	 */
 	public function test_get_meta_without_term_when_taxonomy_is_missing() {
 		$GLOBALS['wp_query']->queried_object = self::factory()
@@ -41,6 +45,8 @@ class Taxonomy_Meta_Test extends TestCase {
 	 * Tests the method with a valid term object.
 	 *
 	 * @covers WPSEO_Taxonomy_Meta::get_meta_without_term
+	 *
+	 * @return void
 	 */
 	public function test_get_meta_with_valid_term() {
 		$GLOBALS['wp_query']->queried_object = self::factory()
@@ -58,6 +64,8 @@ class Taxonomy_Meta_Test extends TestCase {
 	 * Tests if data with backslashes and double quotes remains the same after validating.
 	 *
 	 * @covers WPSEO_Taxonomy_Meta::validate_term_meta_data
+	 *
+	 * @return void
 	 */
 	public function test_validate_term_meta_data() {
 		/*
@@ -94,6 +102,8 @@ class Taxonomy_Meta_Test extends TestCase {
 	 * Tests if data gets validated as expected.
 	 *
 	 * @covers WPSEO_Taxonomy_Meta::validate_term_meta_data
+	 *
+	 * @return void
 	 */
 	public function test_validation_of_term_meta_data() {
 		/*

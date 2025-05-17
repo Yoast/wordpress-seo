@@ -1,4 +1,6 @@
+import classNames from "classnames";
 import PropTypes from "prop-types";
+import React from "react";
 
 /**
  * @param {JSX.node} children The menu items.
@@ -6,7 +8,7 @@ import PropTypes from "prop-types";
  * @returns {JSX.Element} The sidebar element.
  */
 const Sidebar = ( { children, className = "" } ) => (
-	<nav className={ className }>{ children }</nav>
+	<nav className={ classNames( "yst-sidebar-navigation__sidebar", className ) }>{ children }</nav>
 );
 
 Sidebar.propTypes = {

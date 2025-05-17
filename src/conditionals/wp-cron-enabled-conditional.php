@@ -13,6 +13,6 @@ class WP_CRON_Enabled_Conditional implements Conditional {
 	 * @return bool True when WP_CRON is enabled.
 	 */
 	public function is_met() {
-		return ! ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON );
+		return ! ( \defined( 'DISABLE_WP_CRON' ) && \DISABLE_WP_CRON );
 	}
 }

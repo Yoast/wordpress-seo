@@ -14,12 +14,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group adjacent
  */
-class Archive_Adjacent_Test extends TestCase {
+final class Archive_Adjacent_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -31,6 +33,8 @@ class Archive_Adjacent_Test extends TestCase {
 	 * Tests the situation where the rel adjacent is disabled.
 	 *
 	 * @covers ::generate_rel_prev
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_prev_is_disabled() {
 		$this->pagination
@@ -45,6 +49,8 @@ class Archive_Adjacent_Test extends TestCase {
 	 * Tests the situation where the current page is the first page.
 	 *
 	 * @covers ::generate_rel_prev
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_prev_is_first_page() {
 		$this->pagination
@@ -64,6 +70,8 @@ class Archive_Adjacent_Test extends TestCase {
 	 * Tests the situation where the previous page is the first page.
 	 *
 	 * @covers ::generate_rel_prev
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_prev_is_second_page() {
 		$this->indexable->permalink = 'https://example.com/permalink/';
@@ -98,6 +106,8 @@ class Archive_Adjacent_Test extends TestCase {
 	 * Tests the situation where the current page is the third (or more) page.
 	 *
 	 * @covers ::generate_rel_prev
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_prev_is_third_page() {
 		$this->indexable->permalink = 'https://example.com/permalink/';
@@ -138,6 +148,8 @@ class Archive_Adjacent_Test extends TestCase {
 	 * Tests the situation where the rel adjacent is disabled.
 	 *
 	 * @covers ::generate_rel_next
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_next_is_disabled() {
 		$this->pagination
@@ -152,6 +164,8 @@ class Archive_Adjacent_Test extends TestCase {
 	 * Tests the situation where the current page is the last page.
 	 *
 	 * @covers ::generate_rel_next
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_prev_is_last_page() {
 		$this->pagination
@@ -176,6 +190,8 @@ class Archive_Adjacent_Test extends TestCase {
 	 * Tests the situation where the current page is not the last page.
 	 *
 	 * @covers ::generate_rel_next
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_prev_is_not_the_last_page() {
 		$this->indexable->permalink = 'https://example.com/permalink/';

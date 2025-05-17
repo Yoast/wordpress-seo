@@ -18,11 +18,12 @@
 			yst-leading-6
 			yst-py-2
 			yst-px-3
-			yst-text-left
+			yst-text-start
 			yst-text-slate-800
 			yst-bg-white
-			yst-border
-			yst-border-slate-300
+			yst-ring-1
+			yst-ring-inset
+			yst-ring-slate-300
 			yst-rounded-md
 			yst-shadow-sm
 			yst-cursor-default
@@ -37,7 +38,7 @@
 		}
 
 		.yst-select__button-icon {
-			@apply yst-absolute yst-top-2.5 yst-right-2.5 yst-text-slate-400 yst-pointer-events-none yst-w-5 yst-h-5;
+			@apply yst-absolute yst-top-2.5 yst-end-2.5 yst-text-slate-400 yst-pointer-events-none yst-w-5 yst-h-5;
 		}
 
 		.yst-select__options {

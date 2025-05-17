@@ -8,12 +8,14 @@ use Yoast_Network_Settings_API;
 /**
  * Unit Test Class.
  */
-class Network_Settings_API_Test extends TestCase {
+final class Network_Settings_API_Test extends TestCase {
 
 	/**
 	 * Tests registering a setting.
 	 *
 	 * @covers Yoast_Network_Settings_API::register_setting
+	 *
+	 * @return void
 	 */
 	public function test_register_setting() {
 		$api = new Yoast_Network_Settings_API();
@@ -32,6 +34,8 @@ class Network_Settings_API_Test extends TestCase {
 	 * Tests getting registered settings.
 	 *
 	 * @covers Yoast_Network_Settings_API::get_registered_settings
+	 *
+	 * @return void
 	 */
 	public function test_get_registered_settings() {
 		$group = 'yst_ms_group';
@@ -54,6 +58,8 @@ class Network_Settings_API_Test extends TestCase {
 	 * Tests getting whitelisted options.
 	 *
 	 * @covers Yoast_Network_Settings_API::get_whitelist_options
+	 *
+	 * @return void
 	 */
 	public function test_get_whitelist_options() {
 		$registered_group   = 'yst_ms_group';
@@ -74,6 +80,8 @@ class Network_Settings_API_Test extends TestCase {
 	 * Tests filtering setting sanitization.
 	 *
 	 * @covers Yoast_Network_Settings_API::filter_sanitize_option
+	 *
+	 * @return void
 	 */
 	public function test_filter_sanitize_option() {
 		$api = new Yoast_Network_Settings_API();
@@ -90,6 +98,8 @@ class Network_Settings_API_Test extends TestCase {
 	 * Tests filtering setting default.
 	 *
 	 * @covers Yoast_Network_Settings_API::filter_default_option
+	 *
+	 * @return void
 	 */
 	public function test_filter_default_option() {
 		$api = new Yoast_Network_Settings_API();
@@ -109,6 +119,8 @@ class Network_Settings_API_Test extends TestCase {
 	 * Tests the singleton getter.
 	 *
 	 * @covers Yoast_Network_Settings_API::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$this->assertInstanceOf( Yoast_Network_Settings_API::class, Yoast_Network_Settings_API::get() );
@@ -118,6 +130,8 @@ class Network_Settings_API_Test extends TestCase {
 	 * Tests checking requirements for the network settings API.
 	 *
 	 * @covers Yoast_Network_Settings_API::meets_requirements
+	 *
+	 * @return void
 	 */
 	public function test_meets_requirements() {
 		$api = new Yoast_Network_Settings_API();

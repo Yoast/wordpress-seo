@@ -28,7 +28,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Commands\Index_Command
  * @covers \Yoast\WP\SEO\Commands\Index_Command
  */
-class Index_Command_Test extends TestCase {
+final class Index_Command_Test extends TestCase {
 
 	/**
 	 * The post indexation action.
@@ -102,6 +102,8 @@ class Index_Command_Test extends TestCase {
 
 	/**
 	 * Prepares the test by setting up the needed properties.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -135,6 +137,8 @@ class Index_Command_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		self::assertInstanceOf(
@@ -164,6 +168,8 @@ class Index_Command_Test extends TestCase {
 	 *
 	 * @covers ::index
 	 * @covers ::run_indexation_action
+	 *
+	 * @return void
 	 */
 	public function test_execute() {
 		$indexation_actions = [
@@ -208,6 +214,8 @@ class Index_Command_Test extends TestCase {
 	 *
 	 * @covers ::index
 	 * @covers ::run_indexation_action
+	 *
+	 * @return void
 	 */
 	public function test_execute_staging() {
 		$indexation_actions = [
@@ -251,6 +259,8 @@ class Index_Command_Test extends TestCase {
 	 * @covers ::index
 	 * @covers ::run_indexation_action
 	 * @covers ::clear
+	 *
+	 * @return void
 	 */
 	public function test_execute_with_reindexing() {
 		$indexation_actions = [
@@ -344,6 +354,8 @@ class Index_Command_Test extends TestCase {
 	 *
 	 * @covers ::index
 	 * @covers ::run_indexation_action
+	 *
+	 * @return void
 	 */
 	public function test_execute_multisite() {
 		Monkey\Functions\expect( 'get_sites' )
@@ -415,6 +427,8 @@ class Index_Command_Test extends TestCase {
 	 * Tests the get_namespace function.
 	 *
 	 * @covers ::get_namespace
+	 *
+	 * @return void
 	 */
 	public function test_get_namespace() {
 		$this->assertEquals( Main::WP_CLI_NAMESPACE, Index_Command::get_namespace() );

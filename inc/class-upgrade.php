@@ -8,6 +8,7 @@
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
+use Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher;
 
 /**
  * This code handles the option upgrades.
@@ -89,6 +90,7 @@ class WPSEO_Upgrade {
 			'20.5-RC0'   => 'upgrade_205',
 			'20.7-RC0'   => 'upgrade_207',
 			'20.8-RC0'   => 'upgrade_208',
+			'22.6-RC0'   => 'upgrade_226',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -101,14 +103,10 @@ class WPSEO_Upgrade {
 			add_action( 'init', [ $this, 'upgrade_125' ] );
 		}
 
-		// Since 3.7.
-		$upsell_notice = new WPSEO_Product_Upsell_Notice();
-		$upsell_notice->set_upgrade_notice();
-
 		/**
 		 * Filter: 'wpseo_run_upgrade' - Runs the upgrade hook which are dependent on Yoast SEO.
 		 *
-		 * @api string - The current version of Yoast SEO
+		 * @param string $version The current version of Yoast SEO
 		 */
 		do_action( 'wpseo_run_upgrade', $version );
 
@@ -135,6 +133,8 @@ class WPSEO_Upgrade {
 	 *
 	 * @param string $current_version The old version from which we are upgrading.
 	 * @param string $new_version     The version we are upgrading to.
+	 *
+	 * @return void
 	 */
 	protected function add_upgrade_history( $current_version, $new_version ) {
 		$upgrade_history = new WPSEO_Upgrade_History();
@@ -150,9 +150,9 @@ class WPSEO_Upgrade {
 	 */
 	protected function finish_up( $previous_version = null ) {
 		if ( $previous_version ) {
-			WPSEO_Options::set( 'previous_version', $previous_version );
+			WPSEO_Options::set( 'previous_version', $previous_version, 'wpseo' );
 		}
-		WPSEO_Options::set( 'version', WPSEO_VERSION );
+		WPSEO_Options::set( 'version', WPSEO_VERSION, 'wpseo' );
 
 		// Just flush rewrites, always, to at least make them work after an upgrade.
 		add_action( 'shutdown', 'flush_rewrite_rules' );
@@ -168,6 +168,8 @@ class WPSEO_Upgrade {
 	 * Run the Yoast SEO 1.5 upgrade routine.
 	 *
 	 * @param string $version Current plugin version.
+	 *
+	 * @return void
 	 */
 	private function upgrade_15( $version ) {
 		// Clean up options and meta.
@@ -177,6 +179,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Moves options that moved position in WPSEO 2.0.
+	 *
+	 * @return void
 	 */
 	private function upgrade_20() {
 		/**
@@ -194,6 +198,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Detects if taxonomy terms were split and updates the corresponding taxonomy meta's accordingly.
+	 *
+	 * @return void
 	 */
 	private function upgrade_21() {
 		$taxonomies = get_option( 'wpseo_taxonomy_meta', [] );
@@ -217,6 +223,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs upgrade functions to Yoast SEO 2.2.
+	 *
+	 * @return void
 	 */
 	private function upgrade_22() {
 		// Unschedule our tracking.
@@ -227,6 +235,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Schedules upgrade function to Yoast SEO 2.3.
+	 *
+	 * @return void
 	 */
 	private function upgrade_23() {
 		add_action( 'wp', [ $this, 'upgrade_23_query' ], 90 );
@@ -235,8 +245,12 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs upgrade query to Yoast SEO 2.3.
+	 *
+	 * @return void
 	 */
 	public function upgrade_23_query() {
+		// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Reason: executed only during the upgrade routine.
+		// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Reason: executed only during the upgrade routine.
 		$wp_query = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_sitemap-include&meta_value=never&order=ASC' );
 
 		if ( ! empty( $wp_query->posts ) ) {
@@ -266,6 +280,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs upgrade functions to Yoast SEO 3.0.
+	 *
+	 * @return void
 	 */
 	private function upgrade_30() {
 		// Remove the meta fields for sitemap prio.
@@ -274,6 +290,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs upgrade functions to Yoast SEO 3.3.
+	 *
+	 * @return void
 	 */
 	private function upgrade_33() {
 		// Notification dismissals have been moved to User Meta instead of global option.
@@ -282,16 +300,27 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs upgrade functions to Yoast SEO 3.6.
+	 *
+	 * @return void
 	 */
-	private function upgrade_36() {
+	protected function upgrade_36() {
 		global $wpdb;
 
 		// Between 3.2 and 3.4 the sitemap options were saved with autoloading enabled.
-		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%" AND autoload = "yes"' );
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		$wpdb->query(
+			$wpdb->prepare(
+				'DELETE FROM %i WHERE %i LIKE %s AND autoload IN ("on", "yes")',
+				[ $wpdb->options, 'option_name', 'wpseo_sitemap_%' ]
+			)
+		);
 	}
 
 	/**
 	 * Removes the about notice when its still in the database.
+	 *
+	 * @return void
 	 */
 	private function upgrade_40() {
 		$center = Yoast_Notification_Center::get();
@@ -300,6 +329,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Moves the content-analysis-active and keyword-analysis-acive options from wpseo-titles to wpseo.
+	 *
+	 * @return void
 	 */
 	private function upgrade_44() {
 		$wpseo_titles = $this->get_option_from_database( 'wpseo_titles' );
@@ -313,11 +344,15 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Renames the meta name for the cornerstone content. It was a public meta field and it has to be private.
+	 *
+	 * @return void
 	 */
 	private function upgrade_47() {
 		global $wpdb;
 
 		// The meta key has to be private, so prefix it.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		$wpdb->query(
 			$wpdb->prepare(
 				'UPDATE ' . $wpdb->postmeta . ' SET meta_key = %s WHERE meta_key = "yst_is_cornerstone"',
@@ -328,8 +363,10 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Removes the 'wpseo-dismiss-about' notice for every user that still has it.
+	 *
+	 * @return void
 	 */
-	private function upgrade_49() {
+	protected function upgrade_49() {
 		global $wpdb;
 
 		/*
@@ -342,15 +379,16 @@ class WPSEO_Upgrade {
 
 		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		$usermetas = $wpdb->get_results(
 			$wpdb->prepare(
 				'
-				SELECT user_id, meta_value
-				FROM ' . $wpdb->usermeta . '
-				WHERE meta_key = %s AND meta_value LIKE %s
+				SELECT %i, %i
+				FROM %i
+				WHERE %i = %s AND %i LIKE %s
 				',
-				$meta_key,
-				'%wpseo-dismiss-about%'
+				[ 'user_id', 'meta_value', $wpdb->usermeta, 'meta_key', $meta_key, 'meta_value', '%wpseo-dismiss-about%' ]
 			),
 			ARRAY_A
 		);
@@ -391,16 +429,28 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Adds the yoast_seo_links table to the database.
+	 *
+	 * @return void
 	 */
-	private function upgrade_50() {
+	protected function upgrade_50() {
 		global $wpdb;
 
 		// Deletes the post meta value, which might created in the RC.
-		$wpdb->query( 'DELETE FROM ' . $wpdb->postmeta . ' WHERE meta_key = "_yst_content_links_processed"' );
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM %i
+				WHERE %i = '_yst_content_links_processed'",
+				[ $wpdb->postmeta, 'meta_key' ]
+			)
+		);
 	}
 
 	/**
 	 * Register new capabilities and roles.
+	 *
+	 * @return void
 	 */
 	private function upgrade_55() {
 		// Register roles.
@@ -487,6 +537,8 @@ class WPSEO_Upgrade {
 
 		// Moves the user meta for excluding from the XML sitemap to a noindex.
 		global $wpdb;
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		$wpdb->query( "UPDATE $wpdb->usermeta SET meta_key = 'wpseo_noindex_author' WHERE meta_key = 'wpseo_excludeauthorsitemap'" );
 	}
 
@@ -516,6 +568,8 @@ class WPSEO_Upgrade {
 	private function upgrade_73() {
 		global $wpdb;
 		// We've moved the cornerstone checkbox to our proper namespace.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		$wpdb->query( "UPDATE $wpdb->postmeta SET meta_key = '_yoast_wpseo_is_cornerstone' WHERE meta_key = '_yst_is_cornerstone'" );
 
 		// Remove the previous Whip dismissed message, as this is a new one regarding PHP 5.2.
@@ -527,7 +581,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade_74() {
+	protected function upgrade_74() {
 		$this->remove_sitemap_validators();
 	}
 
@@ -579,7 +633,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade_90() {
+	protected function upgrade_90() {
 		global $wpdb;
 
 		// Invalidate all sitemap cache transients.
@@ -588,7 +642,15 @@ class WPSEO_Upgrade {
 		// Removes all scheduled tasks for hitting the sitemap index.
 		wp_clear_scheduled_hook( 'wpseo_hit_sitemap_index' );
 
-		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%"' );
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		$wpdb->query(
+			$wpdb->prepare(
+				'DELETE FROM %i
+				WHERE %i LIKE %s',
+				[ $wpdb->options, 'option_name', 'wpseo_sitemap_%' ]
+			)
+		);
 	}
 
 	/**
@@ -623,6 +685,8 @@ class WPSEO_Upgrade {
 	 * Performs the 12.3 upgrade.
 	 *
 	 * Removes the about notice when its still in the database.
+	 *
+	 * @return void
 	 */
 	private function upgrade_123() {
 		$plugins = [
@@ -644,6 +708,8 @@ class WPSEO_Upgrade {
 	 * Performs the 12.4 upgrade.
 	 *
 	 * Removes the Google plus defaults from the database.
+	 *
+	 * @return void
 	 */
 	private function upgrade_124() {
 		$this->cleanup_option_data( 'wpseo_social' );
@@ -651,6 +717,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 12.5 upgrade.
+	 *
+	 * @return void
 	 */
 	public function upgrade_125() {
 		// Disables the force rewrite title when the theme supports it through WordPress.
@@ -659,7 +727,15 @@ class WPSEO_Upgrade {
 		}
 
 		global $wpdb;
-		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key = 'wp_yoast_promo_hide_premium_upsell_admin_block'" );
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		$wpdb->query(
+			$wpdb->prepare(
+				'DELETE FROM %i
+				WHERE %i = %s',
+				[ $wpdb->usermeta, 'meta_key', 'wp_yoast_promo_hide_premium_upsell_admin_block' ]
+			)
+		);
 
 		// Removes the WordPress update notification, because it is no longer necessary when WordPress 5.3 is released.
 		$center = Yoast_Notification_Center::get();
@@ -668,6 +744,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 12.8 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_128() {
 		// Re-save wpseo to make sure bf_banner_2019_dismissed key is gone.
@@ -679,6 +757,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 13.2 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_132() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-tagline-notice' );
@@ -715,6 +795,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Perform the 14.0.3 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_1403() {
 		WPSEO_Options::set( 'ignore_indexation_warning', false );
@@ -722,6 +804,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 14.1 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_141() {
 		/*
@@ -738,6 +822,8 @@ class WPSEO_Upgrade {
 	 * Performs the 14.2 upgrade.
 	 *
 	 * Removes the yoast-acf-analysis notice when it's still in the database.
+	 *
+	 * @return void
 	 */
 	private function upgrade_142() {
 		add_action( 'init', [ $this, 'remove_acf_notification_for_142' ] );
@@ -745,6 +831,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 14.5 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_145() {
 		add_action( 'init', [ $this, 'set_indexation_completed_option_for_145' ] );
@@ -752,6 +840,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 14.9 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_149() {
 		$version = get_option( 'wpseo_license_server_version', 2 );
@@ -815,19 +905,23 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 15.9.1 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_1591() {
-		$enabled_auto_updates = \get_option( 'auto_update_plugins' );
-		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$enabled_auto_updates = get_option( 'auto_update_plugins' );
+		$addon_update_watcher = YoastSEO()->classes->get( Addon_Update_Watcher::class );
 		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', [], $enabled_auto_updates );
 	}
 
 	/**
 	 * Performs the 16.2 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_162() {
-		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
-		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$enabled_auto_updates = get_site_option( 'auto_update_plugins' );
+		$addon_update_watcher = YoastSEO()->classes->get( Addon_Update_Watcher::class );
 		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
 	}
 
@@ -849,25 +943,29 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_172() {
-		\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
-		\wp_unschedule_hook( 'wpseo_cleanup_indexables' );
+		wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
+		wp_unschedule_hook( 'wpseo_cleanup_indexables' );
 
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
 	/**
 	 * Performs the 17.7.1 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_1771() {
-		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
-		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$enabled_auto_updates = get_site_option( 'auto_update_plugins' );
+		$addon_update_watcher = YoastSEO()->classes->get( Addon_Update_Watcher::class );
 		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
 	}
 
 	/**
 	 * Performs the 17.9 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_179() {
 		WPSEO_Options::set( 'wincher_integration_active', true );
@@ -875,6 +973,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 18.3 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_183() {
 		$this->delete_post_meta( 'yoast-structured-data-blocks-images-cache' );
@@ -882,6 +982,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 18.6 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_186() {
 		if ( is_multisite() ) {
@@ -891,6 +993,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 18.9 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_189() {
 		// Make old users not get the Installation Success page after upgrading.
@@ -912,7 +1016,7 @@ class WPSEO_Upgrade {
 
 		// Transfer the progress of the old Configuration Workout.
 		$workout_data      = WPSEO_Options::get( 'workouts_data' );
-		$old_conf_progress = isset( $workout_data['configuration']['finishedSteps'] ) ? $workout_data['configuration']['finishedSteps'] : [];
+		$old_conf_progress = ( $workout_data['configuration']['finishedSteps'] ?? [] );
 
 		if ( in_array( 'optimizeSeoData', $old_conf_progress, true ) && in_array( 'siteRepresentation', $old_conf_progress, true ) ) {
 			// If completed ‘SEO optimization’ and ‘Site representation’ step, we assume the workout was completed.
@@ -927,6 +1031,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 19.1 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_191() {
 		if ( is_multisite() ) {
@@ -936,6 +1042,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 19.3 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_193() {
 		if ( empty( get_option( 'wpseo_premium', [] ) ) ) {
@@ -946,6 +1054,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 19.6 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_196() {
 		WPSEO_Options::set( 'ryte_indexability', false );
@@ -955,19 +1065,23 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 19.11 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_1911() {
-		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_post_types' ] );
-		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_taxonomies' ] );
+		add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_post_types' ] );
+		add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_taxonomies' ] );
 		$this->deduplicate_unindexed_indexable_rows();
 		$this->remove_indexable_rows_for_disabled_authors_archive();
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
 	/**
 	 * Performs the 20.2 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_202() {
 		if ( WPSEO_Options::get( 'disable-attachment', true ) ) {
@@ -979,18 +1093,20 @@ class WPSEO_Upgrade {
 
 		$this->clean_unindexed_indexable_rows_with_no_object_id();
 
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
 			// This schedules the cleanup routine cron again, since in combination of premium cleans up the prominent words table. We also want to cleanup possible orphaned hierarchies from the above cleanups.
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
 	/**
 	 * Performs the 20.5 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_205() {
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
@@ -998,6 +1114,8 @@ class WPSEO_Upgrade {
 	 * Performs the 20.7 upgrade routine.
 	 * Removes the metadata related to the settings page introduction modal for all the users.
 	 * Also, schedules another cleanup scheduled action.
+	 *
+	 * @return void
 	 */
 	private function upgrade_207() {
 		add_action( 'shutdown', [ $this, 'delete_user_introduction_meta' ] );
@@ -1006,10 +1124,25 @@ class WPSEO_Upgrade {
 	/**
 	 * Performs the 20.8 upgrade routine.
 	 * Schedules another cleanup scheduled action.
+	 *
+	 * @return void
 	 */
 	private function upgrade_208() {
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		if ( ! wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		}
+	}
+
+	/**
+	 * Performs the 22.6 upgrade routine.
+	 * Schedules another cleanup scheduled action, but starting from the last cleanup action we just added (if there aren't any running cleanups already).
+	 *
+	 * @return void
+	 */
+	private function upgrade_226() {
+		if ( get_option( Cleanup_Integration::CURRENT_TASK_OPTION ) === false ) {
+			$cleanup_integration = YoastSEO()->classes->get( Cleanup_Integration::class );
+			$cleanup_integration->start_cron_job( 'clean_selected_empty_usermeta', DAY_IN_SECONDS );
 		}
 	}
 
@@ -1041,6 +1174,8 @@ class WPSEO_Upgrade {
 	 * Checks if the indexable indexation is completed.
 	 * If so, sets the `indexables_indexation_completed` option to `true`,
 	 * else to `false`.
+	 *
+	 * @return void
 	 */
 	public function set_indexation_completed_option_for_145() {
 		WPSEO_Options::set( 'indexables_indexation_completed', YoastSEO()->helpers->indexing->get_limited_filtered_unindexed_count( 1 ) === 0 );
@@ -1048,6 +1183,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Cleans up the private taxonomies from the indexables table for the upgrade routine to 14.1.
+	 *
+	 * @return void
 	 */
 	public function clean_up_private_taxonomies_for_141() {
 		global $wpdb;
@@ -1057,31 +1194,34 @@ class WPSEO_Upgrade {
 		$wpdb->show_errors = false;
 
 		// Clean up indexables of private taxonomies.
-		$private_taxonomies = \get_taxonomies( [ 'public' => false ], 'names' );
+		$private_taxonomies = get_taxonomies( [ 'public' => false ], 'names' );
 
 		if ( empty( $private_taxonomies ) ) {
 			return;
 		}
 
-		$indexable_table = Model::get_table_name( 'Indexable' );
+		$replacements = array_merge( [ Model::get_table_name( 'Indexable' ), 'object_type', 'object_sub_type' ], $private_taxonomies );
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
-		$query = $wpdb->prepare(
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
-			"DELETE FROM $indexable_table
-			WHERE object_type = 'term'
-			AND object_sub_type IN ("
-				. \implode( ', ', \array_fill( 0, \count( $private_taxonomies ), '%s' ) )
-				. ')',
-			$private_taxonomies
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM %i
+				WHERE %i = 'term'
+				AND %i IN ("
+					. implode( ', ', array_fill( 0, count( $private_taxonomies ), '%s' ) )
+					. ')',
+				$replacements
+			)
 		);
-		$wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 
 		$wpdb->show_errors = $show_errors;
 	}
 
 	/**
 	 * Resets the permalinks of attachments to `null` in the indexable table for the upgrade routine to 14.1.
+	 *
+	 * @return void
 	 */
 	private function reset_permalinks_of_attachments_for_141() {
 		global $wpdb;
@@ -1091,9 +1231,14 @@ class WPSEO_Upgrade {
 		$wpdb->show_errors = false;
 
 		// Reset the permalinks of the attachments in the indexable table.
-		$indexable_table = Model::get_table_name( 'Indexable' );
-		$query           = "UPDATE $indexable_table SET permalink = NULL WHERE object_type = 'post' AND object_sub_type = 'attachment'";
-		$wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: There is no user input.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		$wpdb->query(
+			$wpdb->prepare(
+				"UPDATE %i SET %i = NULL WHERE %i = 'post' AND %i = 'attachment'",
+				[ Model::get_table_name( 'Indexable' ), 'permalink', 'object_type', 'object_sub_type' ]
+			)
+		);
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -1165,7 +1310,14 @@ class WPSEO_Upgrade {
 		global $wpdb;
 
 		// Remove all sitemap validators.
-		$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'wpseo_sitemap%validator%'" );
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		$wpdb->query(
+			$wpdb->prepare(
+				'DELETE FROM %i WHERE %i LIKE %s',
+				[ $wpdb->options, 'option_name', 'wpseo_sitemap%validator%' ]
+			)
+		);
 	}
 
 	/**
@@ -1173,14 +1325,22 @@ class WPSEO_Upgrade {
 	 *
 	 * @param string $option_name Option to retrieve.
 	 *
-	 * @return array|mixed The content of the option if exists, otherwise an empty array.
+	 * @return int|string|bool|float|array<string|int|bool|float> The content of the option if exists, otherwise an empty array.
 	 */
 	protected function get_option_from_database( $option_name ) {
 		global $wpdb;
 
 		// Load option directly from the database, to avoid filtering and sanitization.
-		$sql     = $wpdb->prepare( 'SELECT option_value FROM ' . $wpdb->options . ' WHERE option_name = %s', $option_name );
-		$results = $wpdb->get_results( $sql, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is is already prepared.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT %i FROM %i WHERE %i = %s',
+				[ 'option_value', $wpdb->options, 'option_name', $option_name ]
+			),
+			ARRAY_A
+		);
+
 		if ( ! empty( $results ) ) {
 			return maybe_unserialize( $results[0]['option_value'] );
 		}
@@ -1213,9 +1373,9 @@ class WPSEO_Upgrade {
 	/**
 	 * Saves an option setting to where it should be stored.
 	 *
-	 * @param array       $source_data    The option containing the value to be migrated.
-	 * @param string      $source_setting Name of the key in the "from" option.
-	 * @param string|null $target_setting Name of the key in the "to" option.
+	 * @param int|string|bool|float|array<string|int|bool|float> $source_data    The option containing the value to be migrated.
+	 * @param string                                             $source_setting Name of the key in the "from" option.
+	 * @param string|null                                        $target_setting Name of the key in the "to" option.
 	 *
 	 * @return void
 	 */
@@ -1422,31 +1582,33 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$included_post_types = \YoastSEO()->helpers->post_type->get_indexable_post_types();
+		$included_post_types = YoastSEO()->helpers->post_type->get_indexable_post_types();
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
-			$delete_query = "
-				DELETE FROM $indexable_table
-				WHERE object_type = 'post'
-				AND object_sub_type IS NOT NULL";
-		}
-		else {
-			$delete_query = $wpdb->prepare(
-				"DELETE FROM $indexable_table
-				WHERE object_type = 'post'
-				AND object_sub_type IS NOT NULL
-				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_post_types ), '%s' ) ) . ' )',
-				$included_post_types
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+			$wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM %i
+					WHERE %i = 'post'
+					AND %i IS NOT NULL",
+					[ $indexable_table, 'object_type', 'object_sub_type' ]
+				)
 			);
 		}
-		// phpcs:enable
-
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
-		$wpdb->query( $delete_query );
-		// phpcs:enable
+		else {
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+			$wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM %i
+					WHERE %i = 'post'
+					AND %i IS NOT NULL
+					AND %i NOT IN ( " . implode( ', ', array_fill( 0, count( $included_post_types ), '%s' ) ) . ' )',
+					array_merge( [ $indexable_table, 'object_type', 'object_sub_type', 'object_sub_type' ], $included_post_types )
+				)
+			);
+		}
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -1466,30 +1628,33 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$included_taxonomies = \YoastSEO()->helpers->taxonomy->get_indexable_taxonomies();
+		$included_taxonomies = YoastSEO()->helpers->taxonomy->get_indexable_taxonomies();
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_taxonomies ) ) {
-			$delete_query = "DELETE FROM $indexable_table
-				WHERE object_type = 'term'
-				AND object_sub_type IS NOT NULL";
-		}
-		else {
-			$delete_query = $wpdb->prepare(
-				"DELETE FROM $indexable_table
-				WHERE object_type = 'term'
-				AND object_sub_type IS NOT NULL
-				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_taxonomies ), '%s' ) ) . ' )',
-				$included_taxonomies
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+			$wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM %i
+					WHERE %i = 'term'
+					AND %i IS NOT NULL",
+					[ $indexable_table, 'object_type', 'object_sub_type' ]
+				)
 			);
 		}
-		// phpcs:enable
-
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
-		$wpdb->query( $delete_query );
-		// phpcs:enable
+		else {
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+			$wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM %i
+					WHERE %i = 'term'
+					AND %i IS NOT NULL
+					AND %i NOT IN ( " . implode( ', ', array_fill( 0, count( $included_taxonomies ), '%s' ) ) . ' )',
+					array_merge( [ $indexable_table, 'object_type', 'object_sub_type', 'object_sub_type' ], $included_taxonomies )
+				)
+			);
+		}
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -1499,22 +1664,24 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function deduplicate_unindexed_indexable_rows() {
+	protected function deduplicate_unindexed_indexable_rows() {
 		global $wpdb;
 
 		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 
-		$indexable_table = Model::get_table_name( 'Indexable' );
-
-		$query = "
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		$duplicates = $wpdb->get_results(
+			$wpdb->prepare(
+				"
 			SELECT
 				MAX(id) as newest_id,
 				object_id,
 				object_type
 			FROM
-				$indexable_table
+				%i
 			WHERE
 				post_status = 'unindexed'
 				AND object_type IN ( 'term', 'post', 'user' )
@@ -1522,13 +1689,11 @@ class WPSEO_Upgrade {
 				object_id,
 				object_type
 			HAVING
-				count(*) > 1";
-
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
-		$duplicates = $wpdb->get_results( $query, ARRAY_A );
-		// phpcs:enable
+				count(*) > 1",
+				[ Model::get_table_name( 'Indexable' ) ]
+			),
+			ARRAY_A
+		);
 
 		if ( empty( $duplicates ) ) {
 			$wpdb->show_errors = $show_errors;
@@ -1561,25 +1726,24 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function clean_unindexed_indexable_rows_with_no_object_id() {
+	protected function clean_unindexed_indexable_rows_with_no_object_id() {
 		global $wpdb;
 
 		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 
-		$indexable_table = Model::get_table_name( 'Indexable' );
-
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: No user input, just a table name.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		$wpdb->query(
-			"DELETE FROM $indexable_table
-			WHERE post_status = 'unindexed'
-			AND object_type NOT IN ( 'home-page', 'date-archive', 'post-type-archive', 'system-page' )
-			AND object_id IS NULL"
+			$wpdb->prepare(
+				"DELETE FROM %i
+				WHERE %i = 'unindexed'
+				AND %i NOT IN ( 'home-page', 'date-archive', 'post-type-archive', 'system-page' )
+				AND %i IS NULL",
+				[ Model::get_table_name( 'Indexable' ), 'post_status', 'object_type', 'object_id' ]
+			)
 		);
-		// phpcs:enable
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -1589,10 +1753,10 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function remove_indexable_rows_for_disabled_authors_archive() {
+	protected function remove_indexable_rows_for_disabled_authors_archive() {
 		global $wpdb;
 
-		if ( ! \YoastSEO()->helpers->author_archive->are_disabled() ) {
+		if ( ! YoastSEO()->helpers->author_archive->are_disabled() ) {
 			return;
 		}
 
@@ -1600,16 +1764,14 @@ class WPSEO_Upgrade {
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 
-		$indexable_table = Model::get_table_name( 'Indexable' );
-
-		$delete_query = "DELETE FROM $indexable_table WHERE object_type = 'user'";
-		// phpcs:enable
-
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
-		$wpdb->query( $delete_query );
-		// phpcs:enable
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM %i WHERE %i = 'user'",
+				[ Model::get_table_name( 'Indexable' ), 'object_type' ]
+			)
+		);
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -1617,16 +1779,14 @@ class WPSEO_Upgrade {
 	/**
 	 * Creates a query for de-duplicating indexables for a particular type.
 	 *
-	 * @param string $object_type The object type to deduplicate.
-	 * @param array  $duplicates  The result of the duplicate query.
-	 * @param wpdb   $wpdb        The wpdb object.
+	 * @param string                              $object_type The object type to deduplicate.
+	 * @param string|array<array<int,int,string>> $duplicates  The result of the duplicate query.
+	 * @param wpdb                                $wpdb        The wpdb object.
 	 *
 	 * @return string The query that removes all but one duplicate for each object of the object type.
 	 */
-	private function get_indexable_deduplication_query_for_type( $object_type, $duplicates, $wpdb ) {
-		$indexable_table = Model::get_table_name( 'Indexable' );
-
-		$filtered_duplicates = \array_filter(
+	protected function get_indexable_deduplication_query_for_type( $object_type, $duplicates, $wpdb ) {
+		$filtered_duplicates = array_filter(
 			$duplicates,
 			static function ( $duplicate ) use ( $object_type ) {
 				return $duplicate['object_type'] === $object_type;
@@ -1640,18 +1800,20 @@ class WPSEO_Upgrade {
 		$object_ids           = wp_list_pluck( $filtered_duplicates, 'object_id' );
 		$newest_indexable_ids = wp_list_pluck( $filtered_duplicates, 'newest_id' );
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
-		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
+		$replacements   = array_merge( [ Model::get_table_name( 'Indexable' ), 'object_id' ], array_values( $object_ids ), array_values( $newest_indexable_ids ) );
+		$replacements[] = $object_type;
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		return $wpdb->prepare(
-			"DELETE FROM
-				$indexable_table
+			'DELETE FROM
+				%i
 			WHERE
-				object_id IN ( " . \implode( ', ', \array_fill( 0, \count( $filtered_duplicates ), '%d' ) ) . ' )
-				AND id NOT IN ( ' . \implode( ', ', \array_fill( 0, \count( $filtered_duplicates ), '%d' ) ) . ' )
+				%i IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
+				AND id NOT IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
 				AND object_type = %s',
-			array_merge( array_values( $object_ids ), array_values( $newest_indexable_ids ), [ $object_type ] )
+			$replacements
 		);
-		// phpcs:enable
 	}
 
 	/**

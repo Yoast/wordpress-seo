@@ -12,10 +12,12 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Builder_Double;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-class Is_Type_With_No_Id_Test extends Abstract_Indexable_Builder_TestCase {
+final class Is_Type_With_No_Id_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
 	 * Sets up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -43,7 +45,7 @@ class Is_Type_With_No_Id_Test extends Abstract_Indexable_Builder_TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function is_type_with_no_id_provider() {
+	public static function is_type_with_no_id_provider() {
 		return [
 			'Home page type' => [
 				'type'     => 'home-page',

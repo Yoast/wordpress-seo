@@ -5,7 +5,6 @@ import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Resea
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import buildTree from "../../specHelpers/parse/buildTree";
 
-// eslint-disable-next-line max-statements
 describe( "a test for finding transition words from a string", function() {
 	let mockPaper, result;
 	const mockResearcher = new EnglishResearcher( mockPaper );
@@ -55,7 +54,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 
-	it( "returns 1 when a two-part transition word  is found in a sentence (English)", function() {
+	it( "returns 1 when a two-part transition word is found in a sentence (English)", function() {
 		// Transition word: either...or.
 		mockPaper = new Paper( "I will either tell you a story, or read you a novel.", { locale: "en_US" } );
 		buildTree( mockPaper, mockResearcher );
@@ -64,7 +63,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 
-	it( "returns 1 when a two-part transition word  is found in a sentence, and no transition word in another sentence. (English)", function() {
+	it( "returns 1 when a two-part transition word is found in a sentence, and no transition word in another sentence. (English)", function() {
 		// Transition word: either...or.
 		mockPaper = new Paper( "I will either tell you a story, or read you a novel. Okay?", { locale: "en_US" } );
 		buildTree( mockPaper, mockResearcher );
@@ -73,7 +72,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 
-	it( "returns 2 when a two-part transition word  is found in a sentence, and a transition word in another sentence. (English)", function() {
+	it( "returns 2 when a two-part transition word is found in a sentence, and a transition word in another sentence. (English)", function() {
 		// Transition words: either...or, unless.
 		mockPaper = new Paper( "I will either tell you a story, or read you a novel. Unless it is about a boy.", { locale: "en_US" } );
 		buildTree( mockPaper, mockResearcher );
@@ -83,8 +82,8 @@ describe( "a test for finding transition words from a string", function() {
 	} );
 
 	it( "returns 2 when a two-part transition word is found in two sentences. (English)", function() {
-		// Transition words: either...or, if...then.
-		mockPaper = new Paper( "I will either tell you a story, or read you a novel. If you want, then I will.", { locale: "en_US" } );
+		// Transition words: either...or, both...and.
+		mockPaper = new Paper( "I will either tell you a story, or read you a novel. She was both furious and disappointed.", { locale: "en_US" } );
 		buildTree( mockPaper, mockResearcher );
 		result = transitionWordsResearch( mockPaper, mockResearcher );
 		expect( result.totalSentences ).toBe( 2 );
@@ -93,9 +92,9 @@ describe( "a test for finding transition words from a string", function() {
 
 	it( "returns 2 when a two-part transition word is found in two sentences, " +
 		"and an additional transition word is found in one of them. (English)", function() {
-		// Transition words: either...or, if ...then, as soon as.
+		// Transition words: either...or, both...and, as soon as.
 		mockPaper = new Paper( "I will either tell you a story about a boy, or read you a novel. " +
-			"If you want, then I will start as soon as you're ready.", { locale: "en_US" } );
+			"I can read it to both you and her as soon as you're ready.", { locale: "en_US" } );
 		buildTree( mockPaper, mockResearcher );
 		result = transitionWordsResearch( mockPaper, mockResearcher );
 		expect( result.totalSentences ).toBe( 2 );

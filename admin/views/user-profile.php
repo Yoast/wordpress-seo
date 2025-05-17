@@ -7,6 +7,8 @@
  * @uses object $user
  */
 
+_deprecated_file( __FILE__, 'Yoast SEO 23.4' );
+
 /* translators: %1$s expands to Yoast SEO */
 $wpseo_up_settings_header    = sprintf( __( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
 $wpseo_no_index_author_label = sprintf(
@@ -23,7 +25,7 @@ $wpseo_no_index_author_label = sprintf(
 	<?php if ( ! WPSEO_Options::get( 'disable-author' ) ) : ?>
 	<label for="wpseo_author_title"><?php esc_html_e( 'Title to use for Author page', 'wordpress-seo' ); ?></label>
 	<input class="yoast-settings__text regular-text" type="text" id="wpseo_author_title" name="wpseo_author_title"
-		value="<?php echo esc_attr( get_the_author_meta( 'wpseo_title', $user->ID ) ); ?>"/><br>
+		value="<?php echo esc_attr( get_the_author_meta( 'wpseo_title', $user->ID ) ); ?>" /><br>
 
 	<label for="wpseo_author_metadesc"><?php esc_html_e( 'Meta description to use for Author page', 'wordpress-seo' ); ?></label>
 	<textarea rows="5" cols="30" id="wpseo_author_metadesc"

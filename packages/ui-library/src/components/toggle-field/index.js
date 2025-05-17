@@ -1,9 +1,9 @@
 import { Switch } from "@headlessui/react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Label from "../../elements/label";
 import Toggle from "../../elements/toggle";
-import { forwardRef } from "@wordpress/element";
 
 /**
  * @param {JSX.node} children Children are rendered below the checkbox group.
@@ -57,7 +57,8 @@ const ToggleField = forwardRef( ( {
 	</Switch.Group>
 ) );
 
-const propTypes = {
+ToggleField.displayName = "ToggleField";
+ToggleField.propTypes = {
 	id: PropTypes.string.isRequired,
 	children: PropTypes.node,
 	label: PropTypes.string.isRequired,
@@ -69,21 +70,13 @@ const propTypes = {
 	className: PropTypes.string,
 	"aria-label": PropTypes.string,
 };
-
-ToggleField.propTypes = propTypes;
-
 ToggleField.defaultProps = {
 	children: null,
 	labelSuffix: null,
 	description: null,
 	disabled: false,
 	className: "",
+	"aria-label": null,
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <ToggleField { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = ToggleField.defaultProps;
-StoryComponent.displayName = "ToggleField";
 
 export default ToggleField;

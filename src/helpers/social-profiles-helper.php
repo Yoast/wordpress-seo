@@ -112,7 +112,7 @@ class Social_Profiles_Helper {
 	/**
 	 * Gets the organization social profiles stored in the database.
 	 *
-	 * @return array The social profiles for the organization.
+	 * @return array<string, string> The social profiles for the organization.
 	 */
 	public function get_organization_social_profiles() {
 		$organization_social_profiles_fields = \array_keys( $this->get_organization_social_profile_fields() );
@@ -132,7 +132,7 @@ class Social_Profiles_Helper {
 			}
 
 			if ( $field_name === 'twitter_site' && $social_profile_value !== '' ) {
-				$organization_social_profiles[ $field_name ] = 'https://twitter.com/' . $social_profile_value;
+				$organization_social_profiles[ $field_name ] = 'https://x.com/' . $social_profile_value;
 				continue;
 			}
 
@@ -224,7 +224,7 @@ class Social_Profiles_Helper {
 			if ( $field_name === 'other_social_urls' ) {
 				$other_social_urls = \array_filter(
 					$social_profiles[ $field_name ],
-					static function( $other_social_url ) {
+					static function ( $other_social_url ) {
 						return $other_social_url !== '';
 					}
 				);
@@ -240,7 +240,7 @@ class Social_Profiles_Helper {
 				 */
 				if ( $field_name === 'twitter_site' ) {
 					$current_option = $this->options_helper->get( $field_name );
-					if ( ! \strpos( $social_profiles[ $field_name ], 'twitter.com/' . $current_option ) ) {
+					if ( ! \strpos( $social_profiles[ $field_name ], 'twitter.com/' . $current_option ) && ! \strpos( $social_profiles[ $field_name ], 'x.com/' . $current_option ) ) {
 						$failures[] = $field_name;
 					}
 				}
@@ -326,35 +326,5 @@ class Social_Profiles_Helper {
 		}
 
 		return [ $twitter_setting ];
-	}
-
-	/* DEPRECATED METHODS */
-
-	/**
-	 * Gets the person social profile fields supported by us after WP filtering.
-	 *
-	 * @deprecated 20.1
-	 * @codeCoverageIgnore
-	 *
-	 * @return array The supported social profile fields.
-	 */
-	public function get_supported_person_social_profile_fields() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 20.1' );
-		return [];
-	}
-
-	/**
-	 * Checks if the current user has the capability to edit a specific user.
-	 *
-	 * @deprecated 20.2
-	 * @codeCoverageIgnore
-	 *
-	 * @param int $person_id The id of the person to edit.
-	 *
-	 * @return bool
-	 */
-	public function can_edit_profile( $person_id ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 20.2' );
-		return \current_user_can( 'edit_user', $person_id );
 	}
 }

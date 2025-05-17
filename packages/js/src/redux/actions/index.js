@@ -1,10 +1,12 @@
-import { linkParamsActions, pluginUrlActions, wistiaEmbedPermissionActions } from "../../shared-admin/store";
+import { adminUrlActions, linkParamsActions, pluginUrlActions, wistiaEmbedPermissionActions } from "../../shared-admin/store";
 
+export const { setAdminUrl } = adminUrlActions;
 export const { setLinkParams } = linkParamsActions;
 export const { setPluginUrl } = pluginUrlActions;
 export const { setWistiaEmbedPermission, setWistiaEmbedPermissionValue } = wistiaEmbedPermissionActions;
 export * from "../../insights/redux/actions";
 export * from "./activeMarker";
+export * from "./AIButton";
 export * from "./advancedSettings";
 export * from "./analysis";
 export * from "./checklist";

@@ -1,4 +1,4 @@
-import { merge, isUndefined, isEmpty } from "lodash-es";
+import { merge, isUndefined, isEmpty } from "lodash";
 
 import InvalidTypeError from "../errors/invalidType";
 import MissingArgument from "../errors/missingArgument";
@@ -41,7 +41,7 @@ import wordCountInText from "./researches/wordCountInText.js";
 import memoizedTokenizer from "./helpers/sentence/memoizedSentenceTokenizer";
 
 /**
- * The researcher contains all the researches.
+ * The researcher contains all the researches, helpers, data, and config.
  */
 export default class AbstractResearcher {
 	/**
@@ -100,7 +100,10 @@ export default class AbstractResearcher {
 			memoizedTokenizer,
 		};
 
-		this.config = {};
+		this.config = {
+			areHyphensWordBoundaries: true,
+			centerClasses: [ "has-text-align-center" ],
+		};
 	}
 
 	/**
@@ -137,6 +140,18 @@ export default class AbstractResearcher {
 		}
 
 		this.customResearches[ name ] = research;
+	}
+
+	/**
+	 * Add research data to the researcher by the research name.
+	 *
+	 * @param {string} research The identifier of the research.
+	 * @param {Object} data     The data object.
+	 *
+	 * @returns {void}.
+	 */
+	addResearchData( research, data ) {
+		this._data[ research ] = data;
 	}
 
 	/**
@@ -177,7 +192,7 @@ export default class AbstractResearcher {
 			throw new MissingArgument( "Failed to add the custom researcher config. Config name cannot be empty." );
 		}
 
-		if ( isUndefined( config ) || isEmpty( config ) ) {
+		if ( isUndefined( config ) || ( isEmpty( config ) && config === Object( config ) ) ) {
 			throw new MissingArgument( "Failed to add the custom researcher config. Config cannot be empty." );
 		}
 
@@ -227,6 +242,20 @@ export default class AbstractResearcher {
 	}
 
 	/**
+	 * Check whether the research data is known by the Researcher.
+	 *
+	 * @param {string} name The name to reference the research data by.
+	 *
+	 * @returns {boolean} Whether or not the research data is known by the Researcher.
+	 */
+	hasResearchData( name ) {
+		return Object.keys( this.getAvailableResearchData() ).filter(
+			function( data ) {
+				return data === name;
+			} ).length > 0;
+	}
+
+	/**
 	 * Return all available researches.
 	 *
 	 * @returns {Object} An object containing all available researches.
@@ -254,6 +283,15 @@ export default class AbstractResearcher {
 	}
 
 	/**
+	 * Return all available research data.
+	 *
+	 * @returns {Object} An object containing all available research data.
+	 */
+	getAvailableResearchData() {
+		return this._data;
+	}
+
+	/**
 	 * Return the Research by name.
 	 *
 	 * @param {string} name The name to reference the research by.
@@ -275,18 +313,6 @@ export default class AbstractResearcher {
 	}
 
 	/**
-	 * Add research data to the researcher by the research name.
-	 *
-	 * @param {string} research The identifier of the research.
-	 * @param {Object} data     The data object.
-	 *
-	 * @returns {void}.
-	 */
-	addResearchData( research, data ) {
-		this._data[ research ] = data;
-	}
-
-	/**
 	 * Return the research data from a research data provider by research name.
 	 *
 	 * @param {string} research The identifier of the research.
@@ -294,7 +320,7 @@ export default class AbstractResearcher {
 	 * @returns {*} The data provided by the provider, false if the data do not exist
 	 */
 	getData( research ) {
-		if ( this._data.hasOwnProperty( research ) ) {
+		if ( this.hasResearchData( research ) ) {
 			return this._data[ research ];
 		}
 
@@ -309,7 +335,7 @@ export default class AbstractResearcher {
 	 * @returns {*} The configuration, false if the configuration does not exist.
 	 */
 	getConfig( name ) {
-		if ( this.config.hasOwnProperty( name ) ) {
+		if ( this.hasConfig( name ) ) {
 			return this.config[ name ];
 		}
 
@@ -324,7 +350,7 @@ export default class AbstractResearcher {
 	 * @returns {*} The helper, false if the helper does not exist.
 	 */
 	getHelper( name ) {
-		if ( this.helpers.hasOwnProperty( name ) ) {
+		if ( this.hasHelper( name ) ) {
 			return this.helpers[ name ];
 		}
 

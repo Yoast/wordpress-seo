@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder;
 
+use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
@@ -14,14 +15,14 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  */
-class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCase {
+final class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCase {
 
 	/**
 	 * Data provider for test_patch_seo_links;
 	 *
-	 * @return array
+	 * @return array<string, array<string, int|array<object>|null>>
 	 */
-	public function patch_seo_links_provider() {
+	public static function patch_seo_links_provider() {
 		$object                                  = (object) [ 'type' => 'not SEO_Links' ];
 		$seo_link                                = new SEO_Links_Mock();
 		$seo_link->target_indexable_id           = null;
@@ -88,11 +89,13 @@ class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 *
 	 * @dataProvider patch_seo_links_provider
 	 *
-	 * @param int|null $indexable_id                     The indexable id.
-	 * @param int|null $object_id                        The object id.
-	 * @param int      $links_times                      The times that find_all_by_target_post_id is executed.
-	 * @param array    $links                            The links.
-	 * @param int      $update_target_indexable_id_times The times that update_target_indexable_id is executed.
+	 * @param int|null           $indexable_id                     The indexable id.
+	 * @param int|null           $object_id                        The object id.
+	 * @param int                $links_times                      The times that find_all_by_target_post_id is executed.
+	 * @param array<object>|null $links                            The links.
+	 * @param int                $update_target_indexable_id_times The times that update_target_indexable_id is executed.
+	 *
+	 * @return void
 	 */
 	public function test_patch_seo_links( $indexable_id, $object_id, $links_times, $links, $update_target_indexable_id_times ) {
 		$indexable            = Mockery::mock( Indexable_Mock::class );
@@ -116,6 +119,9 @@ class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCase {
 			->expects( 'get_incoming_link_counts_for_indexable_ids' )
 			->times( $update_target_indexable_id_times )
 			->andReturn( [] );
+
+		Functions\expect( 'wp_cache_supports' )->times( $update_target_indexable_id_times )->andReturnTrue();
+		Functions\expect( 'wp_cache_flush_group' )->times( $update_target_indexable_id_times )->andReturnTrue();
 
 		$this->instance->patch_seo_links( $indexable );
 	}

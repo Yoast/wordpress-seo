@@ -1,0 +1,44 @@
+name: Deprecation check
+
+on:
+  pull_request:
+    paths:
+      - packages/babel-preset/**
+      - packages/components/**
+      - packages/e2e-tests/**
+      - packages/helpers/**
+      - packages/style-guide/**
+      - packages/eslint-config-yoast/**
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  notify-of-deprecations:
+    name: 'notify of changes in deprecated packages'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Place a comment on the PR
+        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b # v3.0.1
+        with:
+          message: |
+            @${{ github.actor }} Please be aware that following packages have been abandoned and are not actively maintained anymore:
+            | Package name  | Path |
+            | ------------- | ------------- |
+            | @yoast/babel-preset | [packages/babel-preset](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/babel-preset) |
+            | @yoast/components | [packages/components](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/components) |
+            | @yoast/e2e-tests  | [packages/e2e-tests ](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/e2e-tests ) |
+            | @yoast/helpers | [packages/helpers](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/helpers) |
+            | @yoast/jest-preset | [packages/jest-preset](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/jest-preset) |
+            | @yoast/style-guide | [packages/style-guide](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/style-guide) |
+            | eslint-config-yoast | [packages/esling-config-yoast](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/eslint-config-yoast) |
+
+            Please consider using [the other packages](https://github.com/Yoast/wordpress-seo/tree/trunk/packages) instead.
+          comment_tag: deprecation-check

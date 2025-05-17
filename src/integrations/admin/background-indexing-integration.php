@@ -2,13 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
-use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\WP_CRON_Enabled_Conditional;
@@ -25,53 +20,11 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Background_Indexing_Integration implements Integration_Interface {
 
 	/**
-	 * The post indexing action.
-	 *
-	 * @var Indexable_Post_Indexation_Action
-	 */
-	protected $post_indexation;
-
-	/**
-	 * The term indexing action.
-	 *
-	 * @var Indexable_Term_Indexation_Action
-	 */
-	protected $term_indexation;
-
-	/**
-	 * The post type archive indexing action.
-	 *
-	 * @var Indexable_Post_Type_Archive_Indexation_Action
-	 */
-	protected $post_type_archive_indexation;
-
-	/**
-	 * Represents the general indexing.
-	 *
-	 * @var Indexable_General_Indexation_Action
-	 */
-	protected $general_indexation;
-
-	/**
 	 * Represents the indexing completed action.
 	 *
 	 * @var Indexable_Indexing_Complete_Action
 	 */
 	protected $complete_indexation_action;
-
-	/**
-	 * The post link indexing action.
-	 *
-	 * @var Post_Link_Indexing_Action
-	 */
-	protected $post_link_indexing_action;
-
-	/**
-	 * The term link indexing action.
-	 *
-	 * @var Term_Link_Indexing_Action
-	 */
-	protected $term_link_indexing_action;
 
 	/**
 	 * Represents the indexing helper.
@@ -86,6 +39,13 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @var Yoast_Admin_And_Dashboard_Conditional
 	 */
 	protected $yoast_admin_and_dashboard_conditional;
+
+	/**
+	 * All available indexing actions.
+	 *
+	 * @var Indexation_Action_Interface[]
+	 */
+	protected $indexing_actions;
 
 	/**
 	 * An object that checks if we are handling a GET request.
@@ -109,6 +69,35 @@ class Background_Indexing_Integration implements Integration_Interface {
 	private $indexable_helper;
 
 	/**
+	 * Shutdown_Indexing_Integration constructor.
+	 *
+	 * @param Indexable_Indexing_Complete_Action    $complete_indexation_action            The complete indexing action.
+	 * @param Indexing_Helper                       $indexing_helper                       The indexing helper.
+	 * @param Indexable_Helper                      $indexable_helper                      The indexable helper.
+	 * @param Yoast_Admin_And_Dashboard_Conditional $yoast_admin_and_dashboard_conditional An object that checks if we are on the Yoast admin or on the dashboard page.
+	 * @param Get_Request_Conditional               $get_request_conditional               An object that checks if we are handling a GET request.
+	 * @param WP_CRON_Enabled_Conditional           $wp_cron_enabled_conditional           An object that checks if WP_CRON is enabled.
+	 * @param Indexation_Action_Interface           ...$indexing_actions                   A list of all available indexing actions.
+	 */
+	public function __construct(
+		Indexable_Indexing_Complete_Action $complete_indexation_action,
+		Indexing_Helper $indexing_helper,
+		Indexable_Helper $indexable_helper,
+		Yoast_Admin_And_Dashboard_Conditional $yoast_admin_and_dashboard_conditional,
+		Get_Request_Conditional $get_request_conditional,
+		WP_CRON_Enabled_Conditional $wp_cron_enabled_conditional,
+		Indexation_Action_Interface ...$indexing_actions
+	) {
+		$this->indexing_actions                      = $indexing_actions;
+		$this->complete_indexation_action            = $complete_indexation_action;
+		$this->indexing_helper                       = $indexing_helper;
+		$this->indexable_helper                      = $indexable_helper;
+		$this->yoast_admin_and_dashboard_conditional = $yoast_admin_and_dashboard_conditional;
+		$this->get_request_conditional               = $get_request_conditional;
+		$this->wp_cron_enabled_conditional           = $wp_cron_enabled_conditional;
+	}
+
+	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
 	 * @return array The array of conditionals.
@@ -120,51 +109,9 @@ class Background_Indexing_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Shutdown_Indexing_Integration constructor.
-	 *
-	 * @param Indexable_Post_Indexation_Action              $post_indexation                       The post indexing action.
-	 * @param Indexable_Term_Indexation_Action              $term_indexation                       The term indexing action.
-	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation          The post type archive indexing action.
-	 * @param Indexable_General_Indexation_Action           $general_indexation                    The general indexing action.
-	 * @param Indexable_Indexing_Complete_Action            $complete_indexation_action            The complete indexing action.
-	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action             The post indexing action.
-	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action             The term indexing action.
-	 * @param Indexing_Helper                               $indexing_helper                       The indexing helper.
-	 * @param Indexable_Helper                              $indexable_helper                      The indexable helper.
-	 * @param Yoast_Admin_And_Dashboard_Conditional         $yoast_admin_and_dashboard_conditional An object that checks if we are on the Yoast admin or on the dashboard page.
-	 * @param Get_Request_Conditional                       $get_request_conditional               An object that checks if we are handling a GET request.
-	 * @param WP_CRON_Enabled_Conditional                   $wp_cron_enabled_conditional           An object that checks if WP_CRON is enabled.
-	 */
-	public function __construct(
-		Indexable_Post_Indexation_Action $post_indexation,
-		Indexable_Term_Indexation_Action $term_indexation,
-		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
-		Indexable_General_Indexation_Action $general_indexation,
-		Indexable_Indexing_Complete_Action $complete_indexation_action,
-		Post_Link_Indexing_Action $post_link_indexing_action,
-		Term_Link_Indexing_Action $term_link_indexing_action,
-		Indexing_Helper $indexing_helper,
-		Indexable_Helper $indexable_helper,
-		Yoast_Admin_And_Dashboard_Conditional $yoast_admin_and_dashboard_conditional,
-		Get_Request_Conditional $get_request_conditional,
-		WP_CRON_Enabled_Conditional $wp_cron_enabled_conditional
-	) {
-		$this->post_indexation                       = $post_indexation;
-		$this->term_indexation                       = $term_indexation;
-		$this->post_type_archive_indexation          = $post_type_archive_indexation;
-		$this->general_indexation                    = $general_indexation;
-		$this->complete_indexation_action            = $complete_indexation_action;
-		$this->post_link_indexing_action             = $post_link_indexing_action;
-		$this->term_link_indexing_action             = $term_link_indexing_action;
-		$this->indexing_helper                       = $indexing_helper;
-		$this->indexable_helper                      = $indexable_helper;
-		$this->yoast_admin_and_dashboard_conditional = $yoast_admin_and_dashboard_conditional;
-		$this->get_request_conditional               = $get_request_conditional;
-		$this->wp_cron_enabled_conditional           = $wp_cron_enabled_conditional;
-	}
-
-	/**
 	 * Register hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'register_shutdown_indexing' ] );
@@ -179,7 +126,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	/**
 	 * Adds the filters that change the indexing limits.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function add_limit_filters() {
 		\add_filter( 'wpseo_post_indexation_limit', [ $this, 'throttle_cron_indexing' ] );
@@ -212,12 +159,9 @@ class Background_Indexing_Integration implements Integration_Interface {
 			return;
 		}
 
-		$this->post_indexation->index();
-		$this->term_indexation->index();
-		$this->general_indexation->index();
-		$this->post_type_archive_indexation->index();
-		$this->post_link_indexing_action->index();
-		$this->term_link_indexing_action->index();
+		foreach ( $this->indexing_actions as $indexation_action ) {
+			$indexation_action->index();
+		}
 
 		if ( $this->indexing_helper->get_limited_filtered_unindexed_count_background( 1 ) === 0 ) {
 			// We set this as complete, even though prominent words might not be complete. But that's the way we always treated that.
@@ -238,7 +182,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		}
 
 		$schedules['fifteen_minutes'] = [
-			'interval' => ( 15 * MINUTE_IN_SECONDS ),
+			'interval' => ( 15 * \MINUTE_IN_SECONDS ),
 			'display'  => \esc_html__( 'Every fifteen minutes', 'wordpress-seo' ),
 		];
 
@@ -255,7 +199,8 @@ class Background_Indexing_Integration implements Integration_Interface {
 		 * Filter: 'wpseo_unindexed_count_queries_ran' - Informs whether the expensive unindexed count queries have been ran already.
 		 *
 		 * @internal
-		 * @api bool
+		 *
+		 * @param bool $have_queries_ran
 		 */
 		$have_queries_ran = \apply_filters( 'wpseo_unindexed_count_queries_ran', false );
 
@@ -280,7 +225,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 			/**
 			 * Filter: 'wpseo_cron_indexing_limit_size' - Adds the possibility to limit the number of items that are indexed when in cron action.
 			 *
-			 * @api int $limit Maximum number of indexables to be indexed per indexing action.
+			 * @param int $limit Maximum number of indexables to be indexed per indexing action.
 			 */
 			return \apply_filters( 'wpseo_cron_indexing_limit_size', 15 );
 		}
@@ -300,7 +245,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 			/**
 			 * Filter: 'wpseo_cron_link_indexing_limit_size' - Adds the possibility to limit the number of links that are indexed when in cron action.
 			 *
-			 * @api int $limit Maximum number of link indexables to be indexed per link indexing action.
+			 * @param int $limit Maximum number of link indexables to be indexed per link indexing action.
 			 */
 			return \apply_filters( 'wpseo_cron_link_indexing_limit_size', 3 );
 		}
@@ -363,7 +308,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		/**
 		 * Filter 'wpseo_shutdown_indexation_limit' - Allow filtering the number of objects that can be indexed during shutdown.
 		 *
-		 * @api int The maximum number of objects indexed.
+		 * @param int $limit The maximum number of objects indexed.
 		 */
 		return \apply_filters( 'wpseo_shutdown_indexation_limit', 25 );
 	}

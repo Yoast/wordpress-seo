@@ -8,6 +8,7 @@ use Mockery;
 use wpdb;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -21,26 +22,33 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action
  */
-class Post_Link_Indexing_Action_Test extends TestCase {
+final class Post_Link_Indexing_Action_Test extends TestCase {
 
 	/**
-	 * The link builder.
+	 * Represents the link builder.
 	 *
-	 * @var Indexable_Link_Builder
+	 * @var Mockery\MockInterface|Indexable_Link_Builder
 	 */
 	protected $link_builder;
 
 	/**
-	 * The post type helper.
+	 * Represents the post type helper.
 	 *
-	 * @var Post_Type_Helper
+	 * @var Mockery\MockInterface|Post_Type_Helper
 	 */
 	protected $post_type_helper;
 
 	/**
-	 * The indexable repository.
+	 * Represents the indexable helper.
 	 *
-	 * @var Indexable_Repository
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
+	 * Represents the indexable repository.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
 	protected $repository;
 
@@ -60,6 +68,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -70,12 +80,14 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 
 		$this->link_builder     = Mockery::mock( Indexable_Link_Builder::class );
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
+		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
 		$this->repository       = Mockery::mock( Indexable_Repository::class );
 		$this->wpdb             = Mockery::mock( wpdb::class );
 		$this->wpdb->posts      = 'wp_posts';
 
 		$this->instance = new Post_Link_Indexing_Action(
 			$this->link_builder,
+			$this->indexable_helper,
 			$this->repository,
 			$this->wpdb
 		);
@@ -86,11 +98,13 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * Tests setting the helper.
 	 *
 	 * @covers ::set_helper
+	 *
+	 * @return void
 	 */
 	public function test_set_helper() {
 		$this->instance->set_helper( Mockery::mock( Post_Type_Helper::class ) );
 
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Post_Type_Helper::class,
 			$this->getPropertyValue( $this->instance, 'post_type_helper' )
 		);
@@ -101,6 +115,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 *
 	 * @covers ::get_count_query
 	 * @covers \Yoast\WP\SEO\Actions\Indexing\Abstract_Link_Indexing_Action::get_total_unindexed
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed() {
 		Functions\expect( 'get_transient' )
@@ -155,6 +171,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * @covers ::get_count_query
 	 * @covers ::get_total_unindexed
 	 * @covers ::get_limited_unindexed_count
+	 *
+	 * @return void
 	 */
 	public function test_get_limited_unindexed_count() {
 		Functions\expect( 'get_transient' )
@@ -207,6 +225,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * Tests the index function.
 	 *
 	 * @covers ::get_objects
+	 *
+	 * @return void
 	 */
 	public function test_index() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
@@ -264,7 +284,11 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 		foreach ( $posts as $post ) {
 			$indexable             = Mockery::mock( Indexable_Mock::class );
 			$indexable->link_count = 10;
-			$indexable->expects( 'save' )->once();
+
+			$this->indexable_helper
+				->expects( 'save_indexable' )
+				->with( $indexable )
+				->once();
 
 			$this->link_builder->expects( 'build' )->with( $indexable, $post->post_content );
 
@@ -280,6 +304,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * Tests the index function.
 	 *
 	 * @covers ::get_objects
+	 *
+	 * @return void
 	 */
 	public function test_index_without_link_count() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
@@ -336,7 +362,11 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 
 		$indexable             = Mockery::mock( Indexable_Mock::class );
 		$indexable->link_count = null;
-		$indexable->expects( 'save' )->times( 3 );
+
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->with( $indexable )
+			->times( 3 );
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( $indexable );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' )->andReturn( $indexable );
@@ -352,6 +382,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * Tests that the transients are not deleted when no indexables have been created.
 	 *
 	 * @covers ::get_objects
+	 *
+	 * @return void
 	 */
 	public function test_index_no_indexables_created() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );

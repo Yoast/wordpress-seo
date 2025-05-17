@@ -10,11 +10,14 @@
 @import "../src/elements/radio/style.css";
 @import "../src/elements/select/style.css";
 @import "../src/elements/skeleton-loader/style.css";
+@import "../src/elements/table/style.css";
 @import "../src/elements/tag-input/style.css";
 @import "../src/elements/text-input/style.css";
 @import "../src/elements/textarea/style.css";
 @import "../src/elements/title/style.css";
+@import "../src/elements/toast/style.css";
 @import "../src/elements/toggle/style.css";
+@import "../src/elements/tooltip/style.css";
 @import "../src/elements/file-input/style.css";
 @import "../src/elements/autocomplete/style.css";
 @import "../src/elements/validation/style.css";
@@ -27,6 +30,7 @@
 @import "../src/components/modal/style.css";
 @import "../src/components/notifications/style.css";
 @import "../src/components/pagination/style.css";
+@import "../src/components/popover/style.css";
 @import "../src/components/radio-group/style.css";
 @import "../src/components/root/style.css";
 @import "../src/components/select-field/style.css";
@@ -35,6 +39,9 @@
 @import "../src/components/text-field/style.css";
 @import "../src/components/textarea-field/style.css";
 @import "../src/components/toggle-field/style.css";
+@import "../src/components/tooltip-container/style.css";
+@import "../src/components/dropdown-menu/style.css";
+@import "../src/components/stepper/style.css";
 
 @tailwind base;
 @tailwind components;

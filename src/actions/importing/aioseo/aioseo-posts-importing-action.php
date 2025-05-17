@@ -26,17 +26,17 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	/**
 	 * The plugin of the action.
 	 */
-	const PLUGIN = 'aioseo';
+	public const PLUGIN = 'aioseo';
 
 	/**
 	 * The type of the action.
 	 */
-	const TYPE = 'posts';
+	public const TYPE = 'posts';
 
 	/**
 	 * The map of aioseo to yoast meta.
 	 *
-	 * @var array
+	 * @var array<string, array<string, string|bool|array<string, string|bool>>>
 	 */
 	protected $aioseo_to_yoast_map = [
 		'title'               => [
@@ -188,7 +188,8 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 		Aioseo_Replacevar_Service $replacevar_handler,
 		Aioseo_Robots_Provider_Service $robots_provider,
 		Aioseo_Robots_Transformer_Service $robots_transformer,
-		Aioseo_Social_Images_Provider_Service $social_images_provider ) {
+		Aioseo_Social_Images_Provider_Service $social_images_provider
+	) {
 		parent::__construct( $import_cursor, $options, $sanitization, $replacevar_handler, $robots_provider, $robots_transformer );
 
 		$this->indexable_repository   = $indexable_repository;
@@ -283,7 +284,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 
 			if ( $this->indexable_helper->check_if_default_indexable( $indexable, $check_defaults_fields ) ) {
 				$indexable = $this->map( $indexable, $aioseo_indexable );
-				$indexable->save();
+				$this->indexable_helper->save_indexable( $indexable );
 
 				// To ensure that indexables can be rebuild after a reset, we have to store the data in the postmeta table too.
 				$this->indexable_to_postmeta->map_to_postmeta( $indexable );
@@ -379,7 +380,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 		/**
 		 * Filter 'wpseo_aioseo_post_indexation_limit' - Allow filtering the number of posts indexed during each indexing pass.
 		 *
-		 * @api int The maximum number of posts indexed.
+		 * @param int $max_posts The maximum number of posts indexed.
 		 */
 		$limit = \apply_filters( 'wpseo_aioseo_post_indexation_limit', 25 );
 
@@ -422,8 +423,9 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	/**
 	 * Creates a query for gathering AiOSEO data from the database.
 	 *
-	 * @param int  $limit       The maximum number of unimported objects to be returned.
-	 * @param bool $just_detect Whether we want to just detect if there are unimported objects. If false, we want to actually import them too.
+	 * @param int|false $limit       The maximum number of unimported objects to be returned.
+	 *                               False for "no limit".
+	 * @param bool      $just_detect Whether we want to just detect if there are unimported objects. If false, we want to actually import them too.
 	 *
 	 * @return string The query to use for importing or counting the number of items to import.
 	 */
@@ -444,7 +446,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 		/**
 		 * Filter 'wpseo_aioseo_post_cursor' - Allow filtering the value of the aioseo post import cursor.
 		 *
-		 * @api int The value of the aioseo post import cursor.
+		 * @param int $import_cursor The value of the aioseo post import cursor.
 		 */
 		$cursor = \apply_filters( 'wpseo_aioseo_post_import_cursor', $cursor );
 

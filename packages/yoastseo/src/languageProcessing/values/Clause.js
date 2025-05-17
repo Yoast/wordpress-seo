@@ -97,7 +97,7 @@ class Clause {
 	 *
 	 * @returns {Clause} The parsed Clause.
 	 */
-	parse( serialized ) {
+	static parse( serialized ) {
 		const clause = new Clause( serialized.clauseText, serialized.auxiliaries );
 		clause.setPassive( serialized.isPassive );
 

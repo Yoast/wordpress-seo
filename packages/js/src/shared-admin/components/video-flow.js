@@ -46,6 +46,7 @@ export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission } ) => {
 			<div className="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white">
 				{ videoFlow === VIDEO_FLOW.showPlay && (
 					<button
+						type="button"
 						className="yst-absolute yst-inset-0 yst-button yst-p-0 yst-border-none yst-bg-white yst-transition-opacity yst-duration-1000 yst-opacity-100"
 						onClick={ handleRequestPlay }
 					>
@@ -90,7 +91,7 @@ export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission } ) => {
 					</div>
 				) }
 				{ ( wistiaEmbedPermission.value && videoFlow === VIDEO_FLOW.isPlaying ) && (
-					<div className="yst-absolute yst-w-full yst-h-full yst-top-0 yst-left-0">
+					<div className="yst-absolute yst-w-full yst-h-full yst-top-0 yst-right-0">
 						{ videoId === null && <Spinner className="yst-h-full yst-mx-auto" /> }
 						{ videoId !== null && <div className={ `wistia_embed wistia_async_${ videoId } videoFoam=true` } /> }
 					</div>

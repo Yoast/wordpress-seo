@@ -1,8 +1,6 @@
-import SnippetEditor from "../src/snippet-editor/SnippetEditor";
 import React from "react";
-import { mount } from "enzyme";
-// eslint-disable-next-line import/named -- this concerns a mock
-import { focus } from "@yoast/replacement-variable-editor";
+import SnippetEditor from "../src/snippet-editor/SnippetEditor";
+import { fireEvent, render, screen } from "./test-utils";
 
 const defaultData = {
 	title: "Test title",
@@ -12,267 +10,56 @@ const defaultData = {
 
 const defaultArgs = {
 	baseUrl: "http://example.org/",
+	siteName: "Test site name",
 	data: defaultData,
-	onChange: () => {},
-};
-
-/**
- * Mounts the snippet editor component with changed arguments.
- *
- * @param {Object} changedArgs The changed arguments.
- *
- * @returns {ReactElement} The SnippetEditor component.
- */
-const mountWithArgs = ( changedArgs ) => {
-	const args = { ...defaultArgs, ...changedArgs };
-	return mount( <SnippetEditor { ...args } /> );
+	isOpen: true,
+	onChange: jest.fn(),
 };
 
 describe( "SnippetEditor", () => {
-	it( "closes when calling close()", () => {
-		focus.mockClear();
-		const editor = mountWithArgs( {} );
+	it( "Mobile mode", async() => {
+		const { container } = render( <SnippetEditor { ...defaultArgs } /> );
+		const desktopRadioInput = screen.getByLabelText( "Desktop result" );
+		const mobileRadioInput = screen.getByLabelText( "Mobile result" );
+		expect( desktopRadioInput ).not.toBeChecked();
+		expect( mobileRadioInput ).toBeChecked();
+		expect( container ).toMatchSnapshot();
+	} );
+	it( "Desktop mode and should switch to mobile", async() => {
+		const { container } = render( <SnippetEditor { ...defaultArgs } mode="desktop" /> );
+		const desktopRadioInput = screen.getByLabelText( "Desktop result" );
+		const mobileRadioInput = screen.getByLabelText( "Mobile result" );
+		expect( desktopRadioInput ).toBeChecked();
+		expect( mobileRadioInput ).not.toBeChecked();
+		expect( container ).toMatchSnapshot();
 
-		editor.instance().open();
-		editor.update();
-
-		editor.instance().setFieldFocus( "title" );
-		expect( focus ).toHaveBeenCalledTimes( 1 );
+		fireEvent.click( mobileRadioInput );
+		expect( defaultArgs.onChange ).toHaveBeenCalledWith( "mode", "mobile" );
 	} );
 
-	it( "highlights the active ReplacementVariableEditor when calling setFieldFocus", () => {
-		focus.mockClear();
-
-		const editor = mountWithArgs( {} );
-
-		editor.instance().open();
-		editor.instance().setFieldFocus( "title" );
-		editor.instance().setFieldFocus( "description" );
-		editor.update();
-
-		expect( focus ).toHaveBeenCalledTimes( 2 );
+	it( "Without close snippet editor button", async() => {
+		render( <SnippetEditor { ...defaultArgs } showCloseButton={ false } /> );
+		expect( screen.queryByText( "Edit snippet" ) ).not.toBeInTheDocument();
 	} );
 
-	it( "switches modes when changing mode switcher input", () => {
-		const onChange = jest.fn();
-		const editor = mountWithArgs( { onChange } );
-
-		// Click the mobile button.
-		editor.find( "ModeSwitcher__Switcher" ).find( "input" ).at( 0 ).simulate( "change" );
-
-		expect( onChange ).toBeCalledWith( "mode", "mobile" );
-
-		// Click the desktop button.
-		editor.find( "ModeSwitcher__Switcher" ).find( "input" ).at( 1 ).simulate( "change" );
-
-		expect( onChange ).toBeCalledWith( "mode", "desktop" );
-	} );
-
-	describe( "shallowCompareData", () => {
-		it( "returns false when there is no new data", () => {
-			const editor = mountWithArgs( {} );
-
-			const data = {
-				data: {
-					title: "old title",
-					description: "old description",
-					slug: "old slug",
-				},
-				replacementVariables: [
-					{
-						name: "test1",
-						label: "Test1",
-						value: "first",
-						description: "First",
-					},
-					{
-						name: "test2",
-						label: "Test2",
-						value: "second",
-						description: "Second",
-					},
-				],
-			};
-
-			const isDirty = editor.instance().shallowCompareData( data, data );
-
-			expect( isDirty ).toBe( false );
-		} );
-
-		it( "returns true when one data point has changed", () => {
-			const editor = mountWithArgs( {} );
-
-			const prev = {
-				data: {
-					title: "old title",
-					description: "old description",
-					slug: "old slug",
-				},
-				replacementVariables: [
-					{
-						name: "test1",
-						label: "Test1",
-						value: "first",
-						description: "First",
-					},
-					{
-						name: "test2",
-						label: "Test2",
-						value: "second",
-						description: "Second",
-					},
-				],
-			};
-			const next = {
-				data: {
-					title: "new title",
-					description: "old description",
-					slug: "old slug",
-				},
-				replacementVariables: [
-					{
-						name: "test1",
-						label: "Test1",
-						value: "first",
-						description: "First",
-					},
-					{
-						name: "test2",
-						label: "Test2",
-						value: "second",
-						description: "Second",
-					},
-				],
-			};
-
-			const isDirty = editor.instance().shallowCompareData( prev, next );
-
-			expect( isDirty ).toBe( true );
-		} );
-
-		it( "returns true when one replacement variable has changed", () => {
-			const editor = mountWithArgs( {} );
-
-			const prev = {
-				data: {
-					title: "old title",
-					description: "old description",
-					slug: "old slug",
-				},
-				replacementVariables: [
-					{
-						name: "test1",
-						label: "Test1",
-						value: "first",
-						description: "First",
-					},
-					{
-						name: "test2",
-						label: "Test2",
-						value: "second",
-						description: "Second",
-					},
-				],
-			};
-			const next = {
-				data: {
-					title: "new title",
-					description: "old description",
-					slug: "old slug",
-				},
-				replacementVariables: [
-					{
-						name: "test1",
-						label: "Test1",
-						value: "first to change",
-						description: "First",
-					},
-					{
-						name: "test2",
-						label: "Test2",
-						value: "second",
-						description: "Second",
-					},
-				],
-			};
-
-			const isDirty = editor.instance().shallowCompareData( prev, next );
-
-			expect( isDirty ).toBe( true );
-		} );
-
-		it( "returns true when multiple data points have changed", () => {
-			const editor = mountWithArgs( {} );
-
-			const prev = {
-				data: {
-					title: "old title",
-					description: "old description",
-					slug: "old slug",
-				},
-				replacementVariables: [
-					{
-						name: "test1",
-						label: "Test1",
-						value: "first",
-						description: "First",
-					},
-					{
-						name: "test2",
-						label: "Test2",
-						value: "second",
-						description: "Second",
-					},
-				],
-			};
-			const next = {
-				data: {
-					title: "new title",
-					description: "new description",
-					slug: "old slug",
-				},
-				replacementVariables: [
-					{
-						name: "test1",
-						label: "Test1",
-						value: "first",
-						description: "First",
-					},
-					{
-						name: "test2",
-						label: "Test2",
-						value: "second but now third",
-						description: "Second",
-					},
-				],
-			};
-
-			const isDirty = editor.instance().shallowCompareData( prev, next );
-
-			expect( isDirty ).toBe( true );
-		} );
-	} );
-	describe( "mapDataToMeasurements", () => {
-		let editor, data;
+	describe( "Snippet editor defaults", () => {
 		beforeEach( () => {
-			editor = mountWithArgs( {} );
-			data = {
-				title: "Tortoiseshell cats %%sep%% %%sitename%%",
-				description: "   The cool tortie everyone loves!   ",
-				slug: "tortie-cats",
-			};
+			render( <SnippetEditor { ...defaultArgs } /> );
 		} );
-		it( "returns the filtered SEO title without separator and site title", () => {
-			expect( editor.instance().mapDataToMeasurements( data ).filteredSEOTitle ).toBe( "Tortoiseshell cats  " );
-			editor.unmount();
+		it( "Close snippet editor with button", async() => {
+			const openSnippetEditorButton = screen.getByText( "Edit snippet" );
+			expect( openSnippetEditorButton ).toBeInTheDocument();
+			fireEvent.click( openSnippetEditorButton );
+			const closeSnippetEditorButton = screen.getByText( "Close snippet editor" );
+			expect( closeSnippetEditorButton ).toBeInTheDocument();
+			fireEvent.click( closeSnippetEditorButton );
+			expect( closeSnippetEditorButton ).not.toBeInTheDocument();
 		} );
-		it( "returns the correct url: baseURL + slug", () => {
-			expect( editor.instance().mapDataToMeasurements( data ).url ).toBe( "http://example.org/tortie-cats" );
-			editor.unmount();
-		} );
-		it( "returns the description with multiple spaces stripped", () => {
-			expect( editor.instance().mapDataToMeasurements( data ).description ).toBe( "The cool tortie everyone loves!" );
-			editor.unmount();
+
+		it( "should switch to desktop mode", () => {
+			const desktopRadioInput = screen.getByLabelText( "Desktop result" );
+			fireEvent.click( desktopRadioInput );
+			expect( defaultArgs.onChange ).toHaveBeenCalledWith( "mode", "desktop" );
 		} );
 	} );
 } );

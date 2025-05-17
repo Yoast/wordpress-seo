@@ -84,14 +84,13 @@ Now uncomment and update the extension_dir in your php.ini:
 ## Linting
 
 ### Syntax errors
-To check for syntax errors, run `find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l`
+To check for syntax errors, run `composer lint`
 
 ### Codestyle
 We use a combination of coding standards to check our code against: WPCS, PHPCompatibility, and [our own YoastCS sniffs](https://github.com/Yoast/yoastcs).
 
 ### Configuration
-1. `composer install`
-2. `composer config-yoastcs`. 
+`composer install`
 
 ### Running the codestyle
 - To check everything: `composer check-cs`

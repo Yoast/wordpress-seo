@@ -15,12 +15,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group canonical
  */
-class Canonical_Test extends TestCase {
+final class Canonical_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -32,6 +34,8 @@ class Canonical_Test extends TestCase {
 	 * Tests the situation where the canonical is given.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_with_canonical() {
 		$this->indexable->canonical = 'https://example.com/canonical/';
@@ -43,6 +47,8 @@ class Canonical_Test extends TestCase {
 	 * Tests the situation where the permalink is given.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_with_permalink() {
 		$this->indexable->permalink = 'https://example.com/permalink/';
@@ -67,6 +73,8 @@ class Canonical_Test extends TestCase {
 	 * Tests the situation where an empty value is returned.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_without_canonical_or_permalink() {
 		$this->indexable_helper
@@ -89,6 +97,8 @@ class Canonical_Test extends TestCase {
 	 * Tests the situation where the permalink is given and dynamic permalinks are enabled
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_with_permalink_with_dynamic_permalinks() {
 		$this->indexable->permalink = 'https://example.com/permalink/';
@@ -111,6 +121,8 @@ class Canonical_Test extends TestCase {
 	 * Tests the situation where the permalink is given and we are in a date archive.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_with_permalink_on_date_archive() {
 		$this->indexable->permalink = '';
@@ -135,6 +147,8 @@ class Canonical_Test extends TestCase {
 	 * Tests the situation where the permalink is given and we are in an attachment page.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_with_permalink_on_attachment_page() {
 		$wp          = Mockery::mock( WP::class );

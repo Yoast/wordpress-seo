@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Values\Open_Graph\Images;
  * @group open-graph
  * @group open-graph-image
  */
-class Images_Test extends TestCase {
+final class Images_Test extends TestCase {
 
 	/**
 	 * Represents the open graph image helper.
@@ -50,6 +50,8 @@ class Images_Test extends TestCase {
 
 	/**
 	 * Setup the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -69,6 +71,8 @@ class Images_Test extends TestCase {
 	 * Test adding an image by id.
 	 *
 	 * @covers ::add_image_by_id
+	 *
+	 * @return void
 	 */
 	public function test_add_image_by_id() {
 		$this->open_graph_image
@@ -93,6 +97,8 @@ class Images_Test extends TestCase {
 	 * Test adding an image by id with no image being found.
 	 *
 	 * @covers ::add_image_by_id
+	 *
+	 * @return void
 	 */
 	public function test_add_image_by_id_no_image_found() {
 		$this->open_graph_image

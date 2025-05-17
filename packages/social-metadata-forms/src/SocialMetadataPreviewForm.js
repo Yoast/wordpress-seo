@@ -1,4 +1,4 @@
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import { getDirectionalStyle, join } from "@yoast/helpers";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
@@ -51,9 +51,9 @@ const Caret = styled.div`
 		height: 24px;
 		background-image: url(
 		${ props => getDirectionalStyle(
-		angleRight( getCaretColor( props.isActive ) ),
-		angleLeft( getCaretColor( props.isActive ) )
-	) }
+			angleRight( getCaretColor( props.isActive ) ),
+			angleLeft( getCaretColor( props.isActive ) )
+		) }
 		);
 		color: ${ props => getCaretColor( props.isActive ) };
 		background-size: 24px;
@@ -164,6 +164,37 @@ class SocialMetadataPreviewForm extends Component {
 	}
 
 	/**
+	 * Returns the titles for the fields based on the social medium name.
+	 *
+	 * @param {String} socialMediumName The name of the social medium.
+	 *
+	 * @returns {Object} The titles for the fields.
+	 */
+	getFieldsTitles( socialMediumName ) {
+		if ( socialMediumName === "Twitter" ) {
+			return {
+				imageSelectTitle: __( "Twitter image", "wordpress-seo" ),
+				titleEditorTitle: __( "Twitter title", "wordpress-seo" ),
+				descEditorTitle: __( "Twitter description", "wordpress-seo" ),
+			};
+		}
+
+		if ( socialMediumName === "X" ) {
+			return {
+				imageSelectTitle: __( "X image", "wordpress-seo" ),
+				titleEditorTitle: __( "X title", "wordpress-seo" ),
+				descEditorTitle: __( "X description", "wordpress-seo" ),
+			};
+		}
+
+		return {
+			imageSelectTitle: __( "Social image", "wordpress-seo" ),
+			titleEditorTitle: __( "Social title", "wordpress-seo" ),
+			descEditorTitle: __( "Social description", "wordpress-seo" ),
+		};
+	}
+
+	/**
 	 * Renders the component.
 	 *
 	 * @returns {React.Element} The rend
@@ -187,19 +218,16 @@ class SocialMetadataPreviewForm extends Component {
 			recommendedReplacementVariables,
 			imageWarnings,
 			imageUrl,
+			imageFallbackUrl,
 			imageAltText,
 			idSuffix,
 		} = this.props;
 
+		const titles = this.getFieldsTitles( socialMediumName );
 		const imageSelected = !! imageUrl;
-
-		/* Translators: %s expands to the social image. */
-		/* Translators: %s expands to the social medium name, i.e. Social or Twitter. */
-		const imageSelectTitle = sprintf( __( "%s image", "wordpress-seo" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Social or Twitter. */
-		const titleEditorTitle = sprintf( __( "%s title", "wordpress-seo" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Social or Twitter. */
-		const descEditorTitle = sprintf( __( "%s description", "wordpress-seo" ), socialMediumName );
+		const imageSelectTitle = titles.imageSelectTitle;
+		const titleEditorTitle = titles.titleEditorTitle;
+		const descEditorTitle = titles.descEditorTitle;
 
 		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
 
@@ -216,6 +244,7 @@ class SocialMetadataPreviewForm extends Component {
 					isActive={ activeField === "image" }
 					isHovered={ hoveredField === "image" }
 					imageUrl={ imageUrl }
+					usingFallback={ ! imageUrl && imageFallbackUrl !== "" }
 					imageAltText={ imageAltText }
 					hasPreview={ ! isPremium }
 					imageUrlInputId={ join( [ lowerCaseSocialMediumName, "url-input", idSuffix ] ) }
@@ -268,7 +297,7 @@ class SocialMetadataPreviewForm extends Component {
 }
 
 SocialMetadataPreviewForm.propTypes = {
-	socialMediumName: PropTypes.oneOf( [ "Twitter", "Social" ] ).isRequired,
+	socialMediumName: PropTypes.oneOf( [ "Twitter", "X", "Social" ] ).isRequired,
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,
@@ -284,6 +313,7 @@ SocialMetadataPreviewForm.propTypes = {
 	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
 	imageWarnings: PropTypes.array,
 	imageUrl: PropTypes.string,
+	imageFallbackUrl: PropTypes.string,
 	imageAltText: PropTypes.string,
 	titleInputPlaceholder: PropTypes.string,
 	descriptionInputPlaceholder: PropTypes.string,
@@ -301,6 +331,7 @@ SocialMetadataPreviewForm.defaultProps = {
 	onSelect: () => {},
 	onReplacementVariableSearchChange: null,
 	imageUrl: "",
+	imageFallbackUrl: "",
 	imageAltText: "",
 	titleInputPlaceholder: "",
 	descriptionInputPlaceholder: "",

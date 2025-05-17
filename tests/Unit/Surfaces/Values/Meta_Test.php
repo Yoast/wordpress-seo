@@ -19,7 +19,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @group surfaces
  */
-class Meta_Test extends TestCase {
+final class Meta_Test extends TestCase {
 
 	/**
 	 * The context
@@ -77,6 +77,8 @@ class Meta_Test extends TestCase {
 	 * @dataProvider data_declared_inaccessible_properties
 	 *
 	 * @param string $name Property name.
+	 *
+	 * @return void
 	 */
 	public function test_get_on_inaccessible_property_returns_null( $name ) {
 		$this->assertNull( $this->instance->$name );
@@ -93,6 +95,8 @@ class Meta_Test extends TestCase {
 	 * @dataProvider data_undeclared_properties
 	 *
 	 * @param string $name Property name.
+	 *
+	 * @return void
 	 */
 	public function test_set_is_forbidden( $name ) {
 		$this->expectException( Forbidden_Property_Mutation_Exception::class );
@@ -111,6 +115,8 @@ class Meta_Test extends TestCase {
 	 * @dataProvider data_undeclared_properties
 	 *
 	 * @param string $name Property name.
+	 *
+	 * @return void
 	 */
 	public function test_unset_is_forbidden( $name ) {
 		$this->expectException( Forbidden_Property_Mutation_Exception::class );
@@ -124,7 +130,7 @@ class Meta_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_declared_inaccessible_properties() {
+	public static function data_declared_inaccessible_properties() {
 		return [
 			'container'      => [ 'container' ],
 			'context'        => [ 'context' ],
@@ -140,7 +146,7 @@ class Meta_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_undeclared_properties() {
+	public static function data_undeclared_properties() {
 		return [
 			'xyz'     => [ 'xyz' ],
 			'unknown' => [ 'unknown' ],

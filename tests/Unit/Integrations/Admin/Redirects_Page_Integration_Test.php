@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Redirects_Page_Integration_Test extends TestCase {
+final class Redirects_Page_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -27,6 +27,8 @@ class Redirects_Page_Integration_Test extends TestCase {
 
 	/**
 	 * Set up the fixtures for the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -38,9 +40,11 @@ class Redirects_Page_Integration_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Admin_Conditional::class,
 				Premium_Inactive_Conditional::class,
@@ -53,6 +57,8 @@ class Redirects_Page_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -63,6 +69,8 @@ class Redirects_Page_Integration_Test extends TestCase {
 	 * Tests the addition of a submenu page.
 	 *
 	 * @covers ::add_submenu_page
+	 *
+	 * @return void
 	 */
 	public function test_add_submenu_page() {
 		Monkey\Functions\expect( '__' )

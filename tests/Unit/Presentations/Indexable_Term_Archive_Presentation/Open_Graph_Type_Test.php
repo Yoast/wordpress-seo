@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group open-graph
  */
-class Open_Graph_Type_Test extends TestCase {
+final class Open_Graph_Type_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ class Open_Graph_Type_Test extends TestCase {
 	 * Tests the situation where the Open Graph type is given.
 	 *
 	 * @covers ::generate_open_graph_type
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_type() {
 		$this->assertEquals( 'article', $this->instance->generate_open_graph_type() );

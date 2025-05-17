@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Wincher\Wincher_Login_Action
  */
-class Wincher_Login_Action_Test extends TestCase {
+final class Wincher_Login_Action_Test extends TestCase {
 
 	/**
 	 * The instance.
@@ -43,6 +43,8 @@ class Wincher_Login_Action_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -59,6 +61,8 @@ class Wincher_Login_Action_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -76,6 +80,8 @@ class Wincher_Login_Action_Test extends TestCase {
 	 * Tests a valid authentication with Wincher.
 	 *
 	 * @covers ::authenticate
+	 *
+	 * @return void
 	 */
 	public function test_valid_authentication() {
 		$token_data = [
@@ -125,6 +131,8 @@ class Wincher_Login_Action_Test extends TestCase {
 	 * Tests an invalid authentication with Wincher.
 	 *
 	 * @covers ::authenticate
+	 *
+	 * @return void
 	 */
 	public function test_invalid_authentication() {
 		// Expected returned class by client.

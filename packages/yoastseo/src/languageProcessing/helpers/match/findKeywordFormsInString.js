@@ -1,4 +1,4 @@
-import { isEmpty, sum } from "lodash-es";
+import { isEmpty, sum } from "lodash";
 import matchTextWithArray from "./matchTextWithArray.js";
 
 /**
@@ -17,16 +17,19 @@ const findWordFormsInString = function( keywordForms, text, locale, matchWordCus
 	const wordNumber = keywordForms.length;
 	const foundWords = Array( wordNumber );
 	let positions = [];
+	let matches = [];
 
 	for ( let i = 0; i < wordNumber; i++ ) {
 		const matchedKeyphrase = matchTextWithArray( text, keywordForms[ i ], locale, matchWordCustomHelper );
 		foundWords[ i ] = matchedKeyphrase.count > 0 ? 1 : 0;
 		positions.push( matchedKeyphrase.position );
+		matches = matches.concat( matchedKeyphrase.matches );
 	}
 	const foundNumberOfWords = sum( foundWords );
 	const result = {
 		countWordMatches: foundNumberOfWords,
 		percentWordMatches: 0,
+		matches: matches,
 	};
 
 	if ( wordNumber > 0 ) {

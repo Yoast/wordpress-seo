@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Routes\Supported_Features_Route
  */
-class Supported_Features_Route_Test extends TestCase {
+final class Supported_Features_Route_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -28,6 +28,8 @@ class Supported_Features_Route_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		$this->instance = new Supported_Features_Route();
@@ -37,6 +39,8 @@ class Supported_Features_Route_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -49,6 +53,8 @@ class Supported_Features_Route_Test extends TestCase {
 	 * Tests the registration of the routes.
 	 *
 	 * @covers ::register_routes
+	 *
+	 * @return void
 	 */
 	public function test_register_routes() {
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -70,6 +76,8 @@ class Supported_Features_Route_Test extends TestCase {
 	 * Tests the get_supported_features route.
 	 *
 	 * @covers ::get_supported_features
+	 *
+	 * @return void
 	 */
 	public function test_get_supported_features() {
 		Mockery::mock( 'overload:' . WP_REST_Response::class );

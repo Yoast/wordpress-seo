@@ -10,12 +10,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Unit Test Class.
  */
-class Role_Manager_Test extends TestCase {
+final class Role_Manager_Test extends TestCase {
 
 	/**
 	 * Tests the registration of a role.
 	 *
 	 * @covers WPSEO_Abstract_Role_Manager::register
+	 *
+	 * @return void
 	 */
 	public function test_register() {
 		$instance = new Role_Manager_Mock();
@@ -31,6 +33,8 @@ class Role_Manager_Test extends TestCase {
 	 * Tests the retrieval of the capabilities.
 	 *
 	 * @covers WPSEO_Abstract_Role_Manager::get_capabilities
+	 *
+	 * @return void
 	 */
 	public function test_get_capabilities() {
 		$instance = new Role_Manager_Mock();
@@ -51,6 +55,8 @@ class Role_Manager_Test extends TestCase {
 	 * Tests retrieval of capabilities with bad input given.
 	 *
 	 * @covers WPSEO_Abstract_Role_Manager::get_capabilities
+	 *
+	 * @return void
 	 */
 	public function test_get_capabilities_bad_input() {
 		$instance = new Role_Manager_Mock();

@@ -19,6 +19,8 @@ class DeleteDuplicateIndexables extends Migration {
 
 	/**
 	 * Migration up.
+	 *
+	 * @return void
 	 */
 	public function up() {
 		$table_name = $this->get_table_name();
@@ -32,6 +34,8 @@ class DeleteDuplicateIndexables extends Migration {
 
 	/**
 	 * Migration down.
+	 *
+	 * @return void
 	 */
 	public function down() {
 		// Nothing to do.

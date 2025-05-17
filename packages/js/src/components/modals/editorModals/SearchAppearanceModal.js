@@ -1,13 +1,14 @@
 /* External dependencies */
 import { SearchIcon } from "@heroicons/react/solid";
+import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { useSvgAria } from "@yoast/ui-library/src";
 import styled from "styled-components";
 
 /* Internal dependencies */
 import EditorModal from "../../../containers/EditorModal";
-import SnippetEditorWrapper from "../../../containers/SnippetEditor";
-
+import BlockEditorSnippetEditor from "../../../containers/SnippetEditor";
+import ElementorSnippetEditor from "../../../elementor/containers/SnippetEditor";
 
 const StyledHeroIcon = styled( SearchIcon )`
 	width: 18px;
@@ -22,6 +23,7 @@ const StyledHeroIcon = styled( SearchIcon )`
  */
 const SearchAppearanceModal = () => {
 	const svgAriaProps = useSvgAria();
+	const isElementorEditor = useSelect( select => select( "yoast-seo/editor" ).getIsElementorEditor(), [] );
 
 	return (
 		<EditorModal
@@ -30,7 +32,8 @@ const SearchAppearanceModal = () => {
 			shouldCloseOnClickOutside={ false }
 			SuffixHeroIcon={ <StyledHeroIcon className="yst-text-slate-500" { ...svgAriaProps } /> }
 		>
-			<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
+			{ isElementorEditor === true && <ElementorSnippetEditor showCloseButton={ false } hasPaperStyle={ false } /> }
+			{ isElementorEditor === false && <BlockEditorSnippetEditor showCloseButton={ false } hasPaperStyle={ false } /> }
 		</EditorModal>
 	);
 };

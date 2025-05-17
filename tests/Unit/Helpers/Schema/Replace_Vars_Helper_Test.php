@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper
  */
-class Replace_Vars_Helper_Test extends TestCase {
+final class Replace_Vars_Helper_Test extends TestCase {
 
 	/**
 	 * Meta_Tags_Context_Memoizer mock.
@@ -62,6 +62,8 @@ class Replace_Vars_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -83,6 +85,8 @@ class Replace_Vars_Helper_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::register_replace_vars
 	 * @covers ::register_replacement
+	 *
+	 * @return void
 	 */
 	public function test_register_replace_vars() {
 		$indexable            = Mockery::mock( Indexable_Mock::class );
@@ -120,6 +124,8 @@ class Replace_Vars_Helper_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::register_replace_vars
 	 * @covers ::register_replacement
+	 *
+	 * @return void
 	 */
 	public function test_registers_the_right_replace_vars() {
 		$replace_vars = [
@@ -183,6 +189,8 @@ class Replace_Vars_Helper_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::register_replace_vars
 	 * @covers ::register_replacement
+	 *
+	 * @return void
 	 */
 	public function test_registers_the_right_replace_vars_on_non_post() {
 		$replace_vars = [
@@ -234,6 +242,8 @@ class Replace_Vars_Helper_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::replace
+	 *
+	 * @return void
 	 */
 	public function test_replace() {
 		$schema_data = [
@@ -272,6 +282,8 @@ class Replace_Vars_Helper_Test extends TestCase {
 	 * Tests that the `get_identity_function` returns an identity function.
 	 *
 	 * @covers ::get_identity_function
+	 *
+	 * @return void
 	 */
 	public function test_get_identity_function() {
 		$instance = new Replace_Vars_Helper_Double(

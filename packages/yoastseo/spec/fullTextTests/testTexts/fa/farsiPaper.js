@@ -113,13 +113,13 @@ const expectedResults = {
 		isApplicable: true,
 		score: 3,
 		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: 3 sections of your text are longer than" +
-			" 300 words and are not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve" +
+			" the recommended number of words (300) and are not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve" +
 			" readability</a>.",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain more than the recommended maximum number of words (150). <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
@@ -147,13 +147,13 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. " +
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There are no repetitive sentence beginnings. " +
 			"That's great!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes that reflect" +
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Images on this page do not have alt attributes that reflect" +
 			" the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags " +
 			"of relevant images</a>!",
 	},

@@ -81,6 +81,8 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) && isset( $_SERVER['REQUEST_URI'] 
  *
  * @param WPSEO_Bulk_List_Table $table The table to render.
  * @param string                $id    The id for the tab.
+ *
+ * @return void
  */
 function wpseo_get_rendered_tab( $table, $id ) {
 	?>

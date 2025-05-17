@@ -1,7 +1,7 @@
 import combineIntoImplicitParagraphs from "./combineIntoImplicitParagraphs";
 import adaptAttributes from "./adaptAttributes";
 import isPhrasingContent from "./isPhrasingContent";
-import { isEmpty } from "lodash-es";
+import { isEmpty } from "lodash";
 import { Paragraph, Text, Heading, Node } from "../../structure";
 
 /**

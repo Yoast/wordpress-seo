@@ -6,11 +6,11 @@ use Brain\Monkey;
 use Mockery;
 use stdClass;
 use WPSEO_Utils;
-use Yoast_Notification;
 use Yoast\WP\SEO\Helpers\Product_Helper;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Addon_Manager_Double;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Addon_Manager_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification;
 
 /**
  * Unit Test Class.
@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group MyYoast
  */
-class Addon_Manager_Test extends TestCase {
+final class Addon_Manager_Test extends TestCase {
 
 	/**
 	 * Dummy future date for use by the tests.
@@ -44,6 +44,8 @@ class Addon_Manager_Test extends TestCase {
 
 	/**
 	 * Setup the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -59,6 +61,8 @@ class Addon_Manager_Test extends TestCase {
 	 *
 	 * @covers ::get_subscriptions
 	 * @covers ::get_site_information
+	 *
+	 * @return void
 	 */
 	public function test_get_subscriptions_with_no_installed_addons() {
 		$this->instance
@@ -83,6 +87,8 @@ class Addon_Manager_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Addon_Manager::get_subscriptions
 	 * @covers WPSEO_Addon_Manager::get_site_information
+	 *
+	 * @return void
 	 */
 	public function test_get_subscriptions_with_site_transient() {
 		$this->instance
@@ -107,6 +113,8 @@ class Addon_Manager_Test extends TestCase {
 	 *
 	 * @covers ::get_subscriptions
 	 * @covers ::get_site_information
+	 *
+	 * @return void
 	 */
 	public function test_get_subscriptions_with_current_sites() {
 		$this->instance
@@ -162,6 +170,8 @@ class Addon_Manager_Test extends TestCase {
 	 *
 	 * @covers ::get_subscriptions
 	 * @covers ::get_site_information
+	 *
+	 * @return void
 	 */
 	public function test_get_subscriptions_with_no_current_sites_found() {
 		$this->instance
@@ -195,6 +205,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests retrieval of a subscription
 	 *
 	 * @covers ::get_subscription
+	 *
+	 * @return void
 	 */
 	public function test_get_subscription() {
 		$subscription = (object) [
@@ -218,6 +230,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests retrieval of an non-existing subscription.
 	 *
 	 * @covers ::get_subscription
+	 *
+	 * @return void
 	 */
 	public function test_get_subscription_not_found() {
 		$subscription = (object) [
@@ -238,6 +252,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests the retrieval of subscriptions for the active addons.
 	 *
 	 * @covers ::get_subscriptions_for_active_addons
+	 *
+	 * @return void
 	 */
 	public function test_get_subscriptions_for_active_addons() {
 		$this->instance
@@ -292,6 +308,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests the retrieval of addons and their filenames.
 	 *
 	 * @covers ::get_addon_filenames
+	 *
+	 * @return void
 	 */
 	public function test_get_addon_filenames() {
 		$actual = $this->instance->get_addon_filenames();
@@ -312,6 +330,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests the lookup of a plugin slug to a plugin file.
 	 *
 	 * @covers ::get_plugin_file
+	 *
+	 * @return void
 	 */
 	public function test_get_plugin_file() {
 		$this->instance
@@ -334,6 +354,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests the lookup of a plugin slug to a plugin file.
 	 *
 	 * @covers ::get_plugin_file
+	 *
+	 * @return void
 	 */
 	public function test_get_plugin_file_nonexistent_plugin() {
 		$this->instance
@@ -356,6 +378,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests the retrieval of installed addon versions.
 	 *
 	 * @covers ::get_installed_addons_versions
+	 *
+	 * @return void
 	 */
 	public function test_get_installed_addons_versions() {
 		$this->instance
@@ -401,6 +425,8 @@ class Addon_Manager_Test extends TestCase {
 	 * @param array  $args     The arguments to pass to the method.
 	 * @param mixed  $expected Expected value.
 	 * @param string $message  The message when test fails.
+	 *
+	 * @return void
 	 */
 	public function test_get_plugin_information( $action, $args, $expected, $message ) {
 		$this->stubTranslationFunctions();
@@ -416,9 +442,9 @@ class Addon_Manager_Test extends TestCase {
 				[
 					'wordpress-seo/wp-seo.php' => [
 						'update' => [
-							'tested'       => '6.1.1',
-							'requires_php' => '7.2.5',
-							'requires'     => '6.0',
+							'tested'       => \YOAST_SEO_WP_TESTED,
+							'requires_php' => \YOAST_SEO_PHP_REQUIRED,
+							'requires'     => \YOAST_SEO_WP_REQUIRED,
 						],
 					],
 				]
@@ -435,6 +461,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests the validation of a valid subscription.
 	 *
 	 * @covers ::has_valid_subscription
+	 *
+	 * @return void
 	 */
 	public function test_has_valid_subscription() {
 		$this->instance
@@ -452,6 +480,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests the validation of an invalid subscription.
 	 *
 	 * @covers ::has_valid_subscription
+	 *
+	 * @return void
 	 */
 	public function test_has_valid_subscription_with_an_expired_subscription() {
 		$this->instance
@@ -469,6 +499,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests the validation of an unknown subscription.
 	 *
 	 * @covers ::has_valid_subscription
+	 *
+	 * @return void
 	 */
 	public function test_has_valid_subscription_with_an_unknown_subscription() {
 		$this->instance
@@ -493,6 +525,8 @@ class Addon_Manager_Test extends TestCase {
 	 * @param array  $data     Data being send to the method.
 	 * @param mixed  $expected The expected value.
 	 * @param string $message  Message to show when test fails.
+	 *
+	 * @return void
 	 */
 	public function test_check_for_updates( $addons, $data, $expected, $message ) {
 		$this->stubTranslationFunctions();
@@ -537,7 +571,7 @@ class Addon_Manager_Test extends TestCase {
 					'wordpress-seo/wp-seo.php' => [
 						'update' => [
 							'tested'       => \YOAST_SEO_WP_REQUIRED,
-							'requires_php' => '7.2.5',
+							'requires_php' => '7.4',
 						],
 					],
 				]
@@ -549,7 +583,7 @@ class Addon_Manager_Test extends TestCase {
 
 		// Now check that the Premium plugin won't show updates, if the requirement for the WP version coming from Yoast free, is not met.
 		if ( isset( $addons['wp-seo-premium.php'] ) ) {
-			$wp_version = '6.1';
+			$wp_version = '6.5';
 			$updates    = $this->instance->check_for_updates( $data );
 
 			$this->assertTrue( isset( $updates->no_update['wp-seo-premium.php'] ) );
@@ -560,6 +594,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests checking if given value is a Yoast addon.
 	 *
 	 * @covers ::is_yoast_addon
+	 *
+	 * @return void
 	 */
 	public function test_is_yoast_addon() {
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
@@ -583,6 +619,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests retrieval of slug for given plugin file.
 	 *
 	 * @covers ::get_slug_by_plugin_file
+	 *
+	 * @return void
 	 */
 	public function test_get_slug_by_plugin_file() {
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
@@ -605,58 +643,93 @@ class Addon_Manager_Test extends TestCase {
 	/**
 	 * Tests the conversion from a subscription to a plugin array.
 	 *
+	 * @dataProvider convert_subscription_to_plugin_dataprovider
+	 *
 	 * @covers ::convert_subscription_to_plugin
+	 *
+	 * @param object $subscription    The subscription to convert.
+	 * @param object $expected_result The expected result.
+	 *
+	 * @return void
 	 */
-	public function test_convert_subscription_to_plugin() {
-		$this->stubTranslationFunctions();
+	public function test_convert_subscription_to_plugin( $subscription, $expected_result ) {
 
-		$this->assertEquals(
-			(object) [
-				'new_version'      => '10.0',
-				'name'             => 'Extension',
-				'slug'             => 'yoast-seo-wordpress-premium',
-				'plugin'           => '',
-				'url'              => 'https://example.org/store',
-				'last_update'      => 'yesterday',
-				'homepage'         => 'https://example.org/store',
-				'download_link'    => 'https://example.org/extension.zip',
-				'package'          => 'https://example.org/extension.zip',
-				'sections'         => [
-					'changelog' => 'changelog',
-					'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
-				],
-				'icons'            => [
-					'2x' => 'https://yoa.st/yoast-seo-icon',
-				],
-				'update_supported' => true,
-				'banners'          => [
-					'high' => 'https://yoa.st/yoast-seo-banner-premium',
-					'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
-				],
-				'tested'           => \YOAST_SEO_WP_TESTED,
-				'requires_php'     => \YOAST_SEO_PHP_REQUIRED,
-				'requires'         => null,
+		$result = $this->instance->convert_subscription_to_plugin( $subscription );
+		$this->assertEquals( $expected_result, $result );
+	}
+
+	/**
+	 * Data provider for test_convert_subscription_to_plugin.
+	 *
+	 * @return array<string, array<string, object>> The data for test_convert_subscription_to_plugin.
+	 */
+	public static function convert_subscription_to_plugin_dataprovider() {
+		$full_subscription    = [
+			'version'      => '10.0',
+			'name'         => 'Extension',
+			'slug'         => 'yoast-seo-wordpress-premium',
+			'last_updated' => 'yesterday',
+			'store_url'    => 'https://example.org/store',
+			'download'     => 'https://example.org/extension.zip',
+			'changelog'    => 'changelog',
+		];
+		$partial_subscription = $full_subscription;
+		unset( $partial_subscription['changelog'] );
+		unset( $partial_subscription['version'] );
+
+		$expected_plugin_conversion_with_proper_subscription_data  = [
+			'new_version'      => '10.0',
+			'name'             => 'Extension',
+			'slug'             => 'yoast-seo-wordpress-premium',
+			'plugin'           => '',
+			'url'              => 'https://example.org/store',
+			'last_update'      => 'yesterday',
+			'homepage'         => 'https://example.org/store',
+			'download_link'    => 'https://example.org/extension.zip',
+			'package'          => 'https://example.org/extension.zip',
+			'sections'         => [
+				'changelog' => 'changelog',
+				'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
 			],
-			$this->instance->convert_subscription_to_plugin(
-				(object) [
-					'product' => (object) [
-						'version'      => '10.0',
-						'name'         => 'Extension',
-						'slug'         => 'yoast-seo-wordpress-premium',
-						'last_updated' => 'yesterday',
-						'store_url'    => 'https://example.org/store',
-						'download'     => 'https://example.org/extension.zip',
-						'changelog'    => 'changelog',
-					],
-				]
-			)
-		);
+			'icons'            => [
+				'2x' => 'https://yoa.st/yoast-seo-icon',
+			],
+			'update_supported' => true,
+			'banners'          => [
+				'high' => 'https://yoa.st/yoast-seo-banner-premium',
+				'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
+			],
+			'tested'           => \YOAST_SEO_WP_TESTED,
+			'requires_php'     => \YOAST_SEO_PHP_REQUIRED,
+			'requires'         => null,
+		];
+		$expected_plugin_conversion_with_partial_subscription_data = $expected_plugin_conversion_with_proper_subscription_data;
+
+		$expected_plugin_conversion_with_partial_subscription_data['sections']['changelog'] = '';
+		$expected_plugin_conversion_with_partial_subscription_data['new_version']           = '';
+
+		return [
+			'Converting a subscription with full data'    => [
+				'subscription'    => (object) [
+					'product' => (object) $full_subscription,
+				],
+				'expected_result' => (object) $expected_plugin_conversion_with_proper_subscription_data,
+			],
+			'Converting a subscription with partial data' => [
+				'subscription'    => (object) [
+					'product' => (object) $partial_subscription,
+				],
+				'expected_result' => (object) $expected_plugin_conversion_with_partial_subscription_data,
+			],
+		];
 	}
 
 	/**
 	 * Tests get_installed_plugins with no Yoast addons installed.
 	 *
 	 * @covers ::get_installed_addons
+	 *
+	 * @return void
 	 */
 	public function test_get_installed_addons_with_no_yoast_addons_installed() {
 		$this->instance
@@ -693,6 +766,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests get_installed_plugins with no Yoast addons installed.
 	 *
 	 * @covers ::has_installed_addons
+	 *
+	 * @return void
 	 */
 	public function test_has_installed_addons() {
 		$this->instance
@@ -713,6 +788,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests get_installed_plugins with one Yoast addon installed.
 	 *
 	 * @covers WPSEO_Addon_Manager::get_installed_addons
+	 *
+	 * @return void
 	 */
 	public function test_get_installed_addons_with_yoast_addon_installed() {
 		$this->instance
@@ -753,6 +830,8 @@ class Addon_Manager_Test extends TestCase {
 	 * Tests get_installed_plugins with no Yoast addons installed.
 	 *
 	 * @covers ::get_active_addons
+	 *
+	 * @return void
 	 */
 	public function test_get_active_addons() {
 		$this->instance
@@ -799,7 +878,7 @@ class Addon_Manager_Test extends TestCase {
 	 *
 	 * @return array Values for the test.
 	 */
-	public function check_for_updates_provider() {
+	public static function check_for_updates_provider() {
 		return [
 			[
 				'addons'   => [],
@@ -897,7 +976,7 @@ class Addon_Manager_Test extends TestCase {
 	 *
 	 * @return array Values for the test.
 	 */
-	public function get_plugin_information_provider() {
+	public static function get_plugin_information_provider() {
 		return [
 			[
 				'action'   => 'wrong_action',
@@ -1034,6 +1113,8 @@ class Addon_Manager_Test extends TestCase {
 	 * @param bool   $call_quick       Whether the quick transient will be used.
 	 * @param mixed  $transient_return The value the transient should return.
 	 * @param mixed  $return_value     The return value.
+	 *
+	 * @return void
 	 */
 	public function test_get_myyoast_site_information( $pagenow_new, $page, $call_quick, $transient_return, $return_value ) {
 		global $pagenow;
@@ -1057,7 +1138,7 @@ class Addon_Manager_Test extends TestCase {
 	 *
 	 * @return array[] The data for test_get_myyoast_site_information.
 	 */
-	public function get_myyoast_site_information_dataprovider() {
+	public static function get_myyoast_site_information_dataprovider() {
 		$normal_call            = [
 			'pagenow_new'      => 'plugins.php',
 			'page'             => 'wpseo_licences',
@@ -1137,6 +1218,8 @@ class Addon_Manager_Test extends TestCase {
 	 *
 	 * @param string $product_name The product name.
 	 * @param string $short_link   The short link.
+	 *
+	 * @return void
 	 */
 	public function test_create_notification( $product_name, $short_link ) {
 
@@ -1175,7 +1258,6 @@ class Addon_Manager_Test extends TestCase {
 			'id'           => 'wpseo-dismiss-' . $product_name,
 			'capabilities' => 'wpseo_manage_options',
 		];
-
 
 		$expected = new Yoast_Notification(
 			'<strong> ' . $product_name . ' isn\'t working as expected </strong> and you are not receiving updates or support! Make sure to <a href="' . $short_link . '" target="_blank"> activate your product subscription in MyYoast</a> to unlock all the features of ' . $product_name . '.',

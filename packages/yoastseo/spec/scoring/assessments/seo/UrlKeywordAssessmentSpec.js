@@ -2,7 +2,7 @@ import { SlugKeywordAssessment, UrlKeywordAssessment } from "../../../../src/sco
 import Paper from "../../../../src/values/Paper.js";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
 
 const keywordCountInSlug = new SlugKeywordAssessment();
 
@@ -90,14 +90,57 @@ describe( "A keyword in slug count assessment", function() {
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
 			"(Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!" );
 	} );
+
+	it( "assesses a paper with no keyphrase and no slug", function() {
+		const paper = new Paper( "" );
+		const assessment = keywordCountInSlug.getResult(
+			paper,
+			Factory.buildMockResearcher()
+		);
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
+			"<a href='https://yoa.st/33p' target='_blank'>Please add both a keyphrase and a slug containing the keyphrase</a>." );
+		expect( assessment.hasJumps() ).toBeFalsy();
+	} );
+
+	it( "assesses a paper with no keyphrase", function() {
+		const paper = new Paper( "", { slug: "sample-with-keyword" } );
+		const assessment = keywordCountInSlug.getResult(
+			paper,
+			Factory.buildMockResearcher()
+		);
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
+			"<a href='https://yoa.st/33p' target='_blank'>Please add both a keyphrase and a slug containing the keyphrase</a>." );
+		expect( assessment.hasJumps() ).toBeFalsy();
+	} );
+
+	it( "assesses a paper with no slug", function() {
+		const paper = new Paper( "", { keyphrase: "keyphrase" } );
+		const assessment = keywordCountInSlug.getResult(
+			paper,
+			Factory.buildMockResearcher()
+		);
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
+			"<a href='https://yoa.st/33p' target='_blank'>Please add both a keyphrase and a slug containing the keyphrase</a>." );
+		expect( assessment.hasJumps() ).toBeFalsy();
+	} );
 } );
 
 describe( "tests for the assessment applicability.", function() {
-	it( "returns false when there is no keyword and slug found.", function() {
+	afterEach( () => {
+		window.wpseoScriptData = { };
+	} );
+
+	it( "returns true when there is no keyword and slug found.", function() {
 		const paper = new Paper( "sample keyword" );
 		const researcher = new DefaultResearcher( paper );
 
-		expect( keywordCountInSlug.isApplicable( paper, researcher ) ).toBe( false );
+		expect( keywordCountInSlug.isApplicable( paper, researcher ) ).toBe( true );
 	} );
 
 	it( "returns true when the paper has keyword and slug.", function() {
@@ -122,6 +165,17 @@ describe( "tests for the assessment applicability.", function() {
 		expect( keywordCountInSlug.isApplicable( paper, researcher ) ).toBe( false );
 	} );
 
+	it( "returns false when the page is the front page.", function() {
+		const paper = new Paper( "sample keyword", {
+			slug: "sample-with-keyword",
+			keyword: "keyword",
+			isFrontPage: true,
+		} );
+
+		const researcher = new DefaultResearcher( paper );
+		expect( keywordCountInSlug.isApplicable( paper, researcher ) ).toBe( false );
+	} );
+
 	it( "returns true when the researcher has the keywordCountInSlug research.", function() {
 		const paper = new Paper( "sample keyword", {
 			slug: "sample-with-keyword",
@@ -130,7 +184,6 @@ describe( "tests for the assessment applicability.", function() {
 
 		// The default researcher has the keywordCountInSlug research.
 		const researcher = new DefaultResearcher( paper );
-
 		expect( keywordCountInSlug.isApplicable( paper, researcher ) ).toBe( true );
 	} );
 } );

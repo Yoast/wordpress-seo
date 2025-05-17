@@ -71,7 +71,7 @@ export default function AnalysisList( props ) {
 
 			let ariaLabelMarks = "";
 			if ( props.marksButtonStatus === "disabled" ) {
-				ariaLabelMarks = __( "Marks are disabled in current view", "wordpress-seo" );
+				ariaLabelMarks = __( "Highlighting is currently disabled", "wordpress-seo" );
 			} else if ( isMarkButtonPressed ) {
 				ariaLabelMarks = __( "Remove highlight from the text", "wordpress-seo" );
 			} else {
@@ -93,6 +93,7 @@ export default function AnalysisList( props ) {
 				bulletColor={ color }
 				hasMarksButton={ result.hasMarks }
 				hasEditButton={ result.hasJumps }
+				hasAIFixes={ result.hasAIFixes }
 				ariaLabelMarks={ ariaLabelMarks }
 				ariaLabelEdit={ ariaLabelEdit }
 				pressed={ isMarkButtonPressed }
@@ -108,6 +109,9 @@ export default function AnalysisList( props ) {
 				isPremium={ props.isPremium }
 				onResultChange={ props.onResultChange }
 				markButtonFactory={ props.markButtonFactory }
+				shouldUpsellHighlighting={ props.shouldUpsellHighlighting }
+				renderAIOptimizeButton={ props.renderAIOptimizeButton }
+				renderHighlightingUpsell={ props.renderHighlightingUpsell }
 			/>;
 		} ) }
 	</AnalysisListBase>;
@@ -124,6 +128,9 @@ AnalysisList.propTypes = {
 	onEditButtonClick: PropTypes.func,
 	isPremium: PropTypes.bool,
 	onResultChange: PropTypes.func,
+	shouldUpsellHighlighting: PropTypes.bool,
+	renderHighlightingUpsell: PropTypes.func,
+	renderAIOptimizeButton: PropTypes.func,
 };
 
 AnalysisList.defaultProps = {
@@ -135,4 +142,7 @@ AnalysisList.defaultProps = {
 	onEditButtonClick: noop,
 	isPremium: false,
 	onResultChange: noop,
+	shouldUpsellHighlighting: false,
+	renderHighlightingUpsell: noop,
+	renderAIOptimizeButton: noop,
 };

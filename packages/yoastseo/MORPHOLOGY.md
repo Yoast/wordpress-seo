@@ -61,7 +61,7 @@ The morphology research:
 }
 ````
 ### Who calls whom
-1. The plugin picks a language-specific Researcher based on the site language that the user set. If a Researcher is not available for a specific language, the default Researcher will be used instead (see [here](https://github.com/Yoast/wordpress-seo/blob/81b13cd9eba09d82e0f0b6262b716aa288e5cc29/src/helpers/language-helper.php#L46)). The language-specific Researcher contains all the necessary data for that language:
+1. The plugin picks a language-specific Researcher based on the site language that the user has set. If a Researcher is not available for a specific language, the default Researcher will be used instead (see [here](https://github.com/Yoast/wordpress-seo/blob/81b13cd9eba09d82e0f0b6262b716aa288e5cc29/src/helpers/language-helper.php#L46)). The language-specific Researcher contains all the necessary data for that language:
    * Configurations, e.g. function word list, transition word list, etc.
    * Helper functions, e.g. language-specific stemmer function, passive voice detection function etc.
 2. The plugin [requires morphological data](https://github.com/Yoast/my-yoast/issues/1918) from the private repository `Yoast/YoastSEO.js-premium-configuration` and [supplies these data](https://github.com/Yoast/YoastSEO.js/issues/1809) to the webworker as a `researchData`.

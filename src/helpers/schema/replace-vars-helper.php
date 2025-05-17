@@ -110,6 +110,8 @@ class Replace_Vars_Helper {
 	 *
 	 * @param string $variable The replace variable.
 	 * @param string $value    The value that the variable should be replaced with.
+	 *
+	 * @return void
 	 */
 	protected function register_replacement( $variable, $value ) {
 		$this->replace_vars->safe_register_replacement(
@@ -126,7 +128,7 @@ class Replace_Vars_Helper {
 	 * @return Closure A function that returns the given value.
 	 */
 	protected function get_identity_function( $value ) {
-		return static function() use ( $value ) {
+		return static function () use ( $value ) {
 			return $value;
 		};
 	}

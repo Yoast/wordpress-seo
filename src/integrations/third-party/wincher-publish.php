@@ -104,9 +104,13 @@ class Wincher_Publish implements Integration_Interface {
 	/**
 	 * Determines whether the current request is a REST request.
 	 *
+	 * @deprecated 23.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool Whether the request is a REST request.
 	 */
 	public function is_rest_request() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 23.6', 'wp_is_serving_rest_request' );
 		return \defined( 'REST_REQUEST' ) && \REST_REQUEST;
 	}
 
@@ -153,7 +157,7 @@ class Wincher_Publish implements Integration_Interface {
 	 * @return void
 	 */
 	public function track_after_post_request( $post_id, $post ) {
-		if ( $this->is_rest_request() ) {
+		if ( \wp_is_serving_rest_request() ) {
 			return;
 		}
 

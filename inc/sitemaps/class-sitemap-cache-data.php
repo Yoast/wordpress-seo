@@ -28,6 +28,8 @@ class WPSEO_Sitemap_Cache_Data implements Serializable, WPSEO_Sitemap_Cache_Data
 	 * Set the sitemap XML data
 	 *
 	 * @param string $sitemap XML Content of the sitemap.
+	 *
+	 * @return void
 	 */
 	public function set_sitemap( $sitemap ) {
 

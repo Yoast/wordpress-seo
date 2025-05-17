@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { noop } from "lodash";
-
 import { SvgIcon, IconButtonToggle, IconCTAEditButton, BetaBadge } from "@yoast/components";
 import { strings } from "@yoast/helpers";
 
@@ -10,20 +9,31 @@ const { stripTagsFromHtmlString } = strings;
 
 const ALLOWED_TAGS = [ "a", "b", "strong", "em", "i" ];
 
+const ResultButtonsContainer = styled.div`
+	display: grid;
+	grid-template-rows: 1fr;
+	max-width: 32px;
+	// This gap value is half the gap value between assessment result list items, which is 12px.
+	gap: 6px;
+`;
+
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
 	min-height: 24px;
+	margin-bottom: 12px;
 	padding: 0;
 	display: flex;
 	align-items: flex-start;
+	position: relative;
+	gap: 12px;
 `;
 
 const ScoreIcon = styled( SvgIcon )`
-	margin: 3px 11px 0 0; // icon 13 + 11 right margin = 24 for the 8px grid.
+	margin: 3px 0 0 0;
 `;
 
 const AnalysisResultText = styled.p`
-	margin: 0 16px 0 0;
+	margin: 0;
 	flex: 1 1 auto;
 	color: ${ props => props.suppressedText ? "rgba(30,30,30,0.5)" : "inherit" };
 `;
@@ -43,12 +53,13 @@ const areMarkButtonsHidden = function( props ) {
 /**
  * Factory method which creates a new instance of the default mark button.
  *
- * @param {String} ariaLabel The button aria-label.
- * @param {String} id The button id.
- * @param {String} className The button class name.
- * @param {String} status Status of the buttons. Supports: "enabled", "disabled".
- * @param {Function} onClick Onclick handler.
- * @param {Boolean} isPressed Whether the button is in a pressed state.
+ * @param {string} ariaLabel 	The button aria-label.
+ * @param {string} id 			The button id.
+ * @param {string} className 	The button class name.
+ * @param {string} status 		Status of the buttons. Supports: "enabled", "disabled", "hidden".
+ * @param {function} onClick 	Onclick handler.
+ * @param {boolean} isPressed 	Whether the button is in a pressed state.
+ *
  * @returns {JSX.Element} A new mark button.
  */
 const createMarkButton = ( {
@@ -79,19 +90,49 @@ const createMarkButton = ( {
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
 const AnalysisResult = ( { markButtonFactory, ...props } ) => {
+	const {
+		ariaLabelMarks,
+		ariaLabelEdit,
+		bulletColor,
+		buttonIdMarks,
+		buttonIdEdit,
+		editButtonClassName,
+		hasAIFixes,
+		hasBetaBadgeLabel,
+		hasEditButton,
+		hasMarksButton,
+		id,
+		isPremium,
+		marker,
+		marksButtonStatus,
+		marksButtonClassName,
+		onButtonClickMarks,
+		onButtonClickEdit,
+		onResultChange,
+		pressed,
+		renderHighlightingUpsell,
+		renderAIOptimizeButton,
+		shouldUpsellHighlighting,
+		suppressedText,
+		text,
+	} = props;
+	const [ isOpen, setIsOpen ] = useState( false );
+
+	const closeModal = useCallback( () => setIsOpen( false ), [] );
+	const openModal = useCallback( () => setIsOpen( true ), [] );
+
 	markButtonFactory = markButtonFactory || createMarkButton;
-	const { id, marker, hasMarksButton } = props;
 
 	let marksButton = null;
 	if ( ! areMarkButtonsHidden( props ) ) {
 		marksButton = markButtonFactory(
 			{
-				onClick: props.onButtonClickMarks,
-				status: props.marksButtonStatus,
-				className: props.marksButtonClassName,
-				id: props.buttonIdMarks,
-				isPressed: props.pressed,
-				ariaLabel: props.ariaLabelMarks,
+				onClick: shouldUpsellHighlighting ? openModal : onButtonClickMarks,
+				status: marksButtonStatus,
+				className: marksButtonClassName,
+				id: buttonIdMarks,
+				isPressed: pressed,
+				ariaLabel: ariaLabelMarks,
 			}
 		);
 	}
@@ -103,31 +144,35 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 	 * c) the information whether there is an object to be marked for the current result.
 	 */
 	useEffect( () => {
-		props.onResultChange( id, marker, hasMarksButton );
+		onResultChange( id, marker, hasMarksButton );
 	}, [ id, marker, hasMarksButton ] );
 
 	return (
 		<AnalysisResultBase>
 			<ScoreIcon
 				icon="circle"
-				color={ props.bulletColor }
+				color={ bulletColor }
 				size="13px"
 			/>
-			<AnalysisResultText suppressedText={ props.suppressedText }>
-				{ props.hasBetaBadgeLabel && <BetaBadge /> }
-				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( props.text, ALLOWED_TAGS ) } } />
+			<AnalysisResultText suppressedText={ suppressedText }>
+				{ hasBetaBadgeLabel && <BetaBadge /> }
+				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( text, ALLOWED_TAGS ) } } />
 			</AnalysisResultText>
-			{ marksButton }
-			{
-				props.hasEditButton && props.isPremium &&
-				<IconCTAEditButton
-					className={ props.editButtonClassName }
-					onClick={ props.onButtonClickEdit }
-					id={ props.buttonIdEdit }
-					icon="edit"
-					ariaLabel={ props.ariaLabelEdit }
-				/>
-			}
+			<ResultButtonsContainer>
+				{ marksButton }
+				{ renderHighlightingUpsell( isOpen, closeModal ) }
+				{
+					hasEditButton && isPremium &&
+					<IconCTAEditButton
+						className={ editButtonClassName }
+						onClick={ onButtonClickEdit }
+						id={ buttonIdEdit }
+						icon="edit"
+						ariaLabel={ ariaLabelEdit }
+					/>
+				}
+				{ renderAIOptimizeButton( hasAIFixes, id ) }
+			</ResultButtonsContainer>
 		</AnalysisResultBase>
 	);
 };
@@ -138,6 +183,8 @@ AnalysisResult.propTypes = {
 	bulletColor: PropTypes.string.isRequired,
 	hasMarksButton: PropTypes.bool.isRequired,
 	hasEditButton: PropTypes.bool,
+	hasAIButton: PropTypes.bool,
+	hasAIFixes: PropTypes.bool,
 	buttonIdMarks: PropTypes.string.isRequired,
 	buttonIdEdit: PropTypes.string,
 	pressed: PropTypes.bool.isRequired,
@@ -157,6 +204,9 @@ AnalysisResult.propTypes = {
 		PropTypes.func,
 		PropTypes.array,
 	] ),
+	shouldUpsellHighlighting: PropTypes.bool,
+	renderHighlightingUpsell: PropTypes.func,
+	renderAIOptimizeButton: PropTypes.func,
 };
 
 AnalysisResult.defaultProps = {
@@ -166,6 +216,7 @@ AnalysisResult.defaultProps = {
 	editButtonClassName: "",
 	hasBetaBadgeLabel: false,
 	hasEditButton: false,
+	hasAIFixes: false,
 	buttonIdEdit: "",
 	ariaLabelEdit: "",
 	onButtonClickEdit: noop,
@@ -173,6 +224,9 @@ AnalysisResult.defaultProps = {
 	onResultChange: noop,
 	id: "",
 	marker: noop,
+	shouldUpsellHighlighting: false,
+	renderHighlightingUpsell: noop,
+	renderAIOptimizeButton: noop,
 };
 
 export default AnalysisResult;

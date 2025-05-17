@@ -11,7 +11,7 @@ on:
       - 'composer.lock'
       - '.phpcs.xml.dist'
       - 'phpcs.xml.dist'
-      - '.github/workflows/cs.yml'
+      - '.github/workflows/**'
   pull_request:
     paths:
       - '**.php' # Includes config/*.php files.
@@ -19,7 +19,7 @@ on:
       - 'composer.lock'
       - '.phpcs.xml.dist'
       - 'phpcs.xml.dist'
-      - '.github/workflows/cs.yml'
+      - '.github/workflows/**'
   # Allow manually triggering the workflow.
   workflow_dispatch:
 
@@ -30,6 +30,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  actionlint:
+    name: 'Lint GH Action workflows'
+    uses: Yoast/.github/.github/workflows/reusable-actionlint.yml@main
+
   checkcs:
     name: 'Check code style'
     runs-on: ubuntu-latest
@@ -44,11 +48,11 @@ jobs:
           BASE_REF: ${{ github.base_ref }}
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "NAME=$BASE_REF" >> $GITHUB_OUTPUT
-            echo "REF=origin/$BASE_REF" >> $GITHUB_OUTPUT
+            echo "NAME=$BASE_REF" >> "$GITHUB_OUTPUT"
+            echo "REF=origin/$BASE_REF" >> "$GITHUB_OUTPUT"
           else
-            echo 'NAME=trunk' >> $GITHUB_OUTPUT
-            echo "REF=origin/trunk" >> $GITHUB_OUTPUT
+            echo 'NAME=trunk' >> "$GITHUB_OUTPUT"
+            echo "REF=origin/trunk" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Fetch base branch
@@ -57,7 +61,7 @@ jobs:
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: 'latest'
           coverage: none
           tools: cs2pr
 
@@ -69,21 +73,29 @@ jobs:
       # Install dependencies and handle caching in one go.
       # @link https://github.com/marketplace/actions/install-php-dependencies-with-composer
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
         with:
           # Bust the cache at least once a week - output format: YYYY-MM-DD.
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
 
       # Check the codestyle of the files against a threshold of expected errors and warnings.
+      # Keep track of the exit code as it determines whether to run the branch check or not.
+      # Exit code 128 means the thresholds needs to be lowered. Other exit codes imply CS errors.
       - name: Check PHP code style against the thresholds
-        run: composer check-cs-thresholds
+        id: thresholds
+        run: |
+          set +e
+          composer check-cs-thresholds
+          exitcode="$?"
+          echo "EXITCODE=$exitcode" >> "$GITHUB_OUTPUT"
+          exit "$exitcode"
 
       # Check the codestyle only of the files which were changed in the current branch.
       # This step will only be executed if the threshold check exited with a failure status.
       # The results of this CS check will be shown inline in the PR via the CS2PR tool.
       # @link https://github.com/staabm/annotate-pull-request-from-checkstyle/
       - name: Check PHP code style for the changes made in the branch only
-        if: ${{ failure() }}
+        if: ${{ failure() && steps.thresholds.outputs.EXITCODE != 128 }}
         id: phpcs
         run: composer check-branch-cs -- ${{ steps.base_branch.outputs.REF }}
 

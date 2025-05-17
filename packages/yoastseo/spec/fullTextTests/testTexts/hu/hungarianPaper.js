@@ -106,13 +106,13 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: 1 section of your text is longer " +
-			"than 300 words and is not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>" +
+			"than the recommended number of words (300) and is not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>" +
 			"Add subheadings to improve readability</a>.",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: There are no paragraphs that are too long. Great job!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
@@ -128,7 +128,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You are not using too much passive voice. That's great!",
 	},
 	textPresence: {
 		isApplicable: true,
@@ -138,13 +138,12 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety " +
-			"in your sentences. That's great!",
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There are no repetitive sentence beginnings. That's great!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes with at least" +
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Images on this page do not have alt attributes with at least" +
 			" half of the words from your keyphrase. <a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!",
 	},
 	imageCount: {

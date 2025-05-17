@@ -21,6 +21,8 @@ class WPSEO_Import_Plugins_Detector {
 
 	/**
 	 * Detects whether we need to import anything.
+	 *
+	 * @return void
 	 */
 	public function detect() {
 		foreach ( WPSEO_Plugin_Importers::get() as $importer_class ) {

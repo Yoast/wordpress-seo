@@ -1,30 +1,27 @@
 // External dependencies
-import { forEach, isArray, isNumber, isObject } from "lodash-es";
+import { forEach, isArray, isNumber, isObject } from "lodash";
 import { getLogger } from "loglevel";
 
 // Internal dependencies
-import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
+import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker.js";
 import { createShortlink } from "../../src/helpers/shortlinker";
-import Assessment from "../../src/scoring/assessments/assessment";
-import SEOAssessor from "../../src/scoring/seoAssessor";
-import contentAssessor from "../../src/scoring/contentAssessor";
-import { SEOScoreAggregator } from "../../src/parsedPaper/assess/scoreAggregators";
+import Assessment from "../../src/scoring/assessments/assessment.js";
+import SEOAssessor from "../../src/scoring/assessors/seoAssessor.js";
+import ContentAssessor from "../../src/scoring/assessors/contentAssessor.js";
+import { SEOScoreAggregator } from "../../src/scoring/scoreAggregators";
 import { TreeResearcher } from "../../src/parsedPaper/research";
-import AssessmentResult from "../../src/values/AssessmentResult";
-import Paper from "../../src/values/Paper";
-import InvalidTypeError from "../../src/errors/invalidType";
-import { StructuredNode } from "../../src/parsedPaper/structure/tree";
-
+import AssessmentResult from "../../src/values/AssessmentResult.js";
+import Paper from "../../src/values/Paper.js";
 
 // Full-length texts to test
 import testTexts from "../fullTextTests/testTexts";
 
 // Test helpers
-import TestResearch from "../specHelpers/tree/TestResearch";
-import getMorphologyData from "../specHelpers/getMorphologyData";
-import TestAssessment from "../specHelpers/tree/TestAssessment";
+import TestResearch from "../specHelpers/tree/TestResearch.js";
+import getMorphologyData from "../specHelpers/getMorphologyData.js";
+import TestAssessment from "../specHelpers/tree/TestAssessment.js";
 
-import EnglishResearcher from "../../src/languageProcessing/languages/en/Researcher";
+import EnglishResearcher from "../../src/languageProcessing/languages/en/Researcher.js";
 let researcher = new EnglishResearcher();
 const morphologyData = getMorphologyData( "en" );
 
@@ -167,7 +164,7 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "calls logger debug", () => {
 				const logger = getLogger( "yoast-analysis-worker" );
-				const spy = spyOn( logger, "debug" );
+				const spy = jest.spyOn( logger, "debug" );
 
 				scope.onmessage( createMessage( "initialize" ) );
 				expect( spy ).toHaveBeenCalledTimes( 2 );
@@ -464,12 +461,18 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "calls analyze", done => {
 				const paper = new Paper( "This is the content." );
-				const spy = spyOn( worker, "analyze" );
+				const spy = jest.spyOn( worker, "analyze" );
 
 				worker.analyzeDone = () => {
-					expect( spy ).toHaveBeenCalledTimes( 1 );
-					expect( spy ).toHaveBeenCalledWith( 0, { paper } );
-					done();
+					try {
+						expect( spy ).toHaveBeenCalledTimes( 1 );
+						// eslint-disable-next-line no-unused-vars -- Pulling the _tree out of the paper because it will be filled in the worker.
+						const { _tree, ...expectedPaper } = paper;
+						expect( spy ).toHaveBeenCalledWith( 0, { paper: expect.objectContaining( expectedPaper ) } );
+						done();
+					} catch ( e ) {
+						done( e );
+					}
 				};
 
 				scope.onmessage( createMessage( "initialize" ) );
@@ -619,7 +622,6 @@ describe( "AnalysisWebWorker", () => {
 				// Mock the console to see if it is used and to not output anything for real.
 				// eslint-disable-next-line no-console
 				console.log = jest.fn();
-				// eslint-disable-next-line no-console
 				console.error = jest.fn();
 
 				// Mock the first function call in analyze to throw an error.
@@ -634,7 +636,6 @@ describe( "AnalysisWebWorker", () => {
 					expect( result.error ).toBe( "An error occurred while running the analysis.\n\tError: Simulated error!" );
 					// eslint-disable-next-line no-console
 					expect( console.log ).toHaveBeenCalled();
-					// eslint-disable-next-line no-console
 					expect( console.error ).toHaveBeenCalled();
 					done();
 				};
@@ -732,12 +733,18 @@ describe( "AnalysisWebWorker", () => {
 			test( "calls analyzeRelatedKeywords", done => {
 				const paper = new Paper( "This is the content." );
 				const relatedKeywords = { a: { keyword: "content", synonyms: "" } };
-				const spy = spyOn( worker, "analyzeRelatedKeywords" );
+				const spy = jest.spyOn( worker, "analyzeRelatedKeywords" );
 
 				worker.analyzeRelatedKeywordsDone = () => {
-					expect( spy ).toHaveBeenCalledTimes( 1 );
-					expect( spy ).toHaveBeenCalledWith( 0, { paper, relatedKeywords } );
-					done();
+					try {
+						expect( spy ).toHaveBeenCalledTimes( 1 );
+						// eslint-disable-next-line no-unused-vars -- Pulling the _tree out of the paper because it will be filled in the worker.
+						const { _tree, ...expectedPaper } = paper;
+						expect( spy ).toHaveBeenCalledWith( 0, { paper: expect.objectContaining( expectedPaper ), relatedKeywords } );
+						done();
+					} catch ( e ) {
+						done( e );
+					}
 				};
 
 				scope.onmessage( createMessage( "initialize" ) );
@@ -858,7 +865,7 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "calls loadScript", done => {
 				const payload = { url: "http://example.com" };
-				const spy = spyOn( worker, "loadScript" );
+				const spy = jest.spyOn( worker, "loadScript" );
 
 				worker.loadScriptDone = () => {
 					expect( spy ).toHaveBeenCalledTimes( 1 );
@@ -958,7 +965,7 @@ describe( "AnalysisWebWorker", () => {
 			test( "calls customMessage", done => {
 				const name = "test";
 				const payload = { name, data: { test: true } };
-				const spy = spyOn( worker, "customMessage" );
+				const spy = jest.spyOn( worker, "customMessage" );
 
 				worker._registeredMessageHandlers[ name ] = ( data ) => data;
 				worker.customMessageDone = () => {
@@ -1070,7 +1077,7 @@ describe( "AnalysisWebWorker", () => {
 			test( "calls runResearch", done => {
 				const name = "test";
 				const payload = { name };
-				const spy = spyOn( worker, "runResearch" );
+				const spy = jest.spyOn( worker, "runResearch" );
 
 				worker.runResearchDone = () => {
 					expect( spy ).toHaveBeenCalledTimes( 1 );
@@ -1336,7 +1343,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType and sets the custom SEO assessor if available", () => {
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the SEO assessor for the content assessor.
-			worker._CustomSEOAssessorClasses.type1 = contentAssessor;
+			worker._CustomSEOAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Custom assessor used.
 			expect( assessor.type ).toBe( "contentAssessor" );
@@ -1345,7 +1352,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType but returns the default SEO assessor if no matching custom assessor is available", () => {
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the SEO assessor for the content assessor.
-			worker._CustomSEOAssessorClasses.type2 = contentAssessor;
+			worker._CustomSEOAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "SEOAssessor" );
@@ -1354,7 +1361,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType but returns the default SEO assessor if no custom analysis type is set", () => {
 			worker._configuration.customAnalysisType = "";
 			// Swapping the SEO assessor for the content assessor.
-			worker._CustomSEOAssessorClasses.type2 = contentAssessor;
+			worker._CustomSEOAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "SEOAssessor" );
@@ -1364,7 +1371,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the cornerstone SEO assessor for the content assessor.
-			worker._CustomCornerstoneSEOAssessorClasses.type1 = contentAssessor;
+			worker._CustomCornerstoneSEOAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Custom assessor used.
 			expect( assessor.type ).toBe( "contentAssessor" );
@@ -1374,7 +1381,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the cornerstone SEO assessor for the content assessor.
-			worker._CustomCornerstoneSEOAssessorClasses.type2 = contentAssessor;
+			worker._CustomCornerstoneSEOAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
@@ -1384,7 +1391,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "";
 			// Swapping the cornerstone SEO assessor for the content assessor.
-			worker._CustomCornerstoneSEOAssessorClasses.type1 = contentAssessor;
+			worker._CustomCornerstoneSEOAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
@@ -1411,7 +1418,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType and sets the custom related keyword assessor if available", () => {
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the related keyword assessor for the content assessor.
-			worker._CustomRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			worker._CustomRelatedKeywordAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Custom assessor used.
 			expect( assessor.type ).toBe( "contentAssessor" );
@@ -1420,7 +1427,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType but returns the default related keyword assessor if no matching custom assessor is available", () => {
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the related keyword assessor for the content assessor.
-			worker._CustomRelatedKeywordAssessorClasses.type2 = contentAssessor;
+			worker._CustomRelatedKeywordAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "relatedKeywordAssessor" );
@@ -1429,7 +1436,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType but returns the default related keyword assessor if no custom analysis type is set", () => {
 			worker._configuration.customAnalysisType = "";
 			// Swapping the related keyword assessor for the content assessor.
-			worker._CustomRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			worker._CustomRelatedKeywordAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "relatedKeywordAssessor" );
@@ -1439,7 +1446,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the cornerstone related keyword assessor for the content assessor.
-			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Custom assessor used.
 			expect( assessor.type ).toBe( "contentAssessor" );
@@ -1449,7 +1456,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the cornerstone related keyword assessor for the content assessor.
-			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type2 = contentAssessor;
+			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneRelatedKeywordAssessor" );
@@ -1459,7 +1466,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "";
 			// Swapping the cornerstone related keyword assessor for the content assessor.
-			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneRelatedKeywordAssessor" );
@@ -1774,6 +1781,25 @@ describe( "AnalysisWebWorker", () => {
 			worker._paper = new Paper( "This is the content." );
 			expect( worker.shouldReadabilityUpdate( paper ) ).toBe( false );
 		} );
+
+		test( "returns true when the keyphrase is different", () => {
+			const paper = new Paper( "This is the content.", { keyword: "cats" } );
+			worker._paper = new Paper( "This is the content.", { keyword: "dogs" } );
+			expect( worker.shouldReadabilityUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns true when the client IDs of the blocks inside attributes changes", () => {
+			const paper = new Paper( "This is the content.", { wpBlocks: [
+				{ name: "block1", clientId: "1234" },
+				{ name: "block2", clientId: "5678" },
+			] } );
+
+			worker._paper = new Paper( "This is the content.", { wpBlocks: [
+				{ name: "block1", clientId: "6783" },
+				{ name: "block2", clientId: "0636" },
+			] } );
+			expect( worker.shouldReadabilityUpdate( paper ) ).toBe( true );
+		} );
 	} );
 
 	describe( "shouldSeoUpdate", () => {
@@ -1900,79 +1926,6 @@ describe( "AnalysisWebWorker", () => {
 					done();
 				}
 			);
-		} );
-	} );
-
-	describe( "registerParser", () => {
-		/**
-		 * A mock parser.
-		 */
-		class MockParser {
-			/**
-			 * Checks if this parser is applicable.
-			 *
-			 * @returns {boolean} Whether the parser is applicable.
-			 */
-			isApplicable() {
-				return true;
-			}
-
-			/**
-			 * Parses the paper.
-			 *
-			 * @returns {module:parsedPaper/structure.StructuredNode} The tree structure.
-			 */
-			parse() {
-				return new StructuredNode( "some-tag" );
-			}
-		}
-
-		beforeEach( () => {
-			scope = createScope();
-			worker = new AnalysisWebWorker( scope, researcher );
-		} );
-
-		it( "can register a custom parser, if it is class-based and has the appropriate methods.", () => {
-			const mockParser = new MockParser();
-
-			worker.registerParser( mockParser );
-
-			expect( worker._registeredParsers ).toHaveLength( 1 );
-			expect( worker._registeredParsers[ 0 ] ).toEqual( mockParser );
-		} );
-
-		it( "can register a custom parser, if it has an `isApplicable` and a `parse` method.", () => {
-			const mockParser = {
-				isApplicable: () => true,
-				parse: () => new StructuredNode( "Hello!" ),
-			};
-
-			worker.registerParser( mockParser );
-
-			expect( worker._registeredParsers ).toHaveLength( 1 );
-			expect( worker._registeredParsers[ 0 ] ).toEqual( mockParser );
-		} );
-
-		it( "throws an error when registering a custom parser, if it does not have an `isApplicable` method.", () => {
-			const mockParser = {
-				parse: () => new StructuredNode( "Hello!" ),
-			};
-
-			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
-		} );
-
-		it( "throws an error when registering a custom parser, if it does not have a `parse` method.", () => {
-			const mockParser = {
-				isApplicable: () => true,
-			};
-
-			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
-		} );
-
-		it( "throws an error when registering a custom parser, if it neither has `isApplicable` method nor `parse` method.", () => {
-			const mockParser = {};
-
-			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
 		} );
 	} );
 

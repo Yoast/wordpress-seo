@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Introductions\User_Interface;
 
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Conditionals\Admin\Yoast_Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -19,7 +19,7 @@ class Introductions_Integration implements Integration_Interface {
 
 	use Current_Page_Trait;
 
-	const SCRIPT_HANDLE = 'introductions';
+	public const SCRIPT_HANDLE = 'introductions';
 
 	/**
 	 * Holds the admin asset manager.
@@ -67,9 +67,11 @@ class Introductions_Integration implements Integration_Interface {
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * In this case: when on an admin page.
+	 *
+	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		return [ Yoast_Admin_Conditional::class ];
+		return [ Admin_Conditional::class ];
 	}
 
 	/**
@@ -112,6 +114,8 @@ class Introductions_Integration implements Integration_Interface {
 
 	/**
 	 * Enqueue the new features assets.
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		$user_id       = $this->user_helper->get_current_user_id();

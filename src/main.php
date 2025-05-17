@@ -29,14 +29,14 @@ class Main extends Abstract_Main {
 	 *
 	 * @var string
 	 */
-	const API_V1_NAMESPACE = 'yoast/v1';
+	public const API_V1_NAMESPACE = 'yoast/v1';
 
 	/**
 	 * The WP CLI namespace constant.
 	 *
 	 * @var string
 	 */
-	const WP_CLI_NAMESPACE = 'yoast';
+	public const WP_CLI_NAMESPACE = 'yoast';
 
 	/**
 	 * {@inheritDoc}

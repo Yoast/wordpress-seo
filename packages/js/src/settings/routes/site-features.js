@@ -67,7 +67,7 @@ const FeatureCard = ( {
 					decoding="async"
 				/>
 				{ shouldRenderBadgeContainer && (
-					<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+					<div className="yst-absolute yst-top-2 yst-end-2 yst-flex yst-gap-1.5">
 						{ isDisabled && <Badge size="small" variant="plain">{ message }</Badge> }
 						{ isPremium && isPremiumFeature && hasPremiumBadge && <Badge size="small" variant="upsell">Premium</Badge> }
 						{ isBetaFeature && <Badge size="small" variant="info">Beta</Badge> }
@@ -100,7 +100,7 @@ const FeatureCard = ( {
 						rel="noopener"
 						{ ...premiumUpsellConfig }
 					>
-						<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
+						<LockOpenIcon className="yst-w-5 yst-h-5 yst--ms-1 yst-shrink-0" { ...svgAriaProps } />
 						{ sprintf(
 							/* translators: %1$s expands to Premium. */
 							__( "Unlock with %1$s", "wordpress-seo" ),
@@ -137,7 +137,6 @@ const LearnMoreLink = ( { id, link, ariaLabel, ...props } ) => {
 	const href = useSelectSettings( "selectLink", [ link ], link );
 
 	return (
-		// eslint-disable-next-line react/jsx-no-target-blank
 		<Link
 			id={ id }
 			href={ href }
@@ -239,9 +238,9 @@ const SiteFeatures = () => {
 								hasPremiumBadge={ false }
 								isBetaFeature={ true }
 								isPremiumLink="https://yoa.st/get-ai-generator"
-								title={ __( "AI title & description generator", "wordpress-seo" ) }
+								title={ "Yoast AI" }
 							>
-								<p>{ __( "Use the power of Yoast AI to automatically generate compelling titles and descriptions for your posts and pages.", "wordpress-seo" ) }</p>
+								<p>{ __( "The AI features help you create better content by providing optimization suggestions that you can apply as you wish.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-ai-generator" link="https://yoa.st/ai-generator-feature" ariaLabel={ __( "AI title & description generator", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
@@ -291,9 +290,9 @@ const SiteFeatures = () => {
 								isPremiumFeature={ true }
 								hasPremiumBadge={ true }
 								isPremiumLink="https://yoa.st/get-link-suggestions"
-								title={ __( "Link suggestions", "wordpress-seo" ) }
+								title={ __( "Internal linking suggestions", "wordpress-seo" ) }
 							>
-								<p>{ __( "Get recommendations for relevant posts to link to and set up a great internal linking structure by connecting related content.", "wordpress-seo" ) }</p>
+								<p>{ __( "No need to figure out what to link to. You get linking suggestions for relevant posts and pages to make your website easier to navigate.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-suggestions-link" link={ isPremium ? "https://yoa.st/17g" : "https://yoa.st/4ev" } ariaLabel={ __( "Link suggestions", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>
@@ -322,10 +321,10 @@ const SiteFeatures = () => {
 								cardId="card-wpseo_social-twitter"
 								inputId="input-wpseo_social-twitter"
 								imageSrc="/images/twitter_card.png"
-								title={ __( "Twitter card data", "wordpress-seo" ) }
+								title={ __( "X card data", "wordpress-seo" ) }
 							>
-								<p>{ __( "Allows for Twitter to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-twitter-card-data" link="https://yoa.st/site-features-twitter-card-data" ariaLabel={ __( "Twitter card data", "wordpress-seo" ) } />
+								<p>{ __( "Allows for X to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-twitter-card-data" link="https://yoa.st/site-features-twitter-card-data" ariaLabel={ __( "X card data", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo.enable_enhanced_slack_sharing"
@@ -405,7 +404,7 @@ const SiteFeatures = () => {
 									className="yst-self-start"
 								>
 									{ __( "View the XML sitemap", "wordpress-seo" ) }
-									<ExternalLinkIcon className="yst--mr-1 yst-ml-1 yst-h-5 yst-w-5 yst-text-slate-400" />
+									<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
 								</Button> }
 								<LearnMoreLink id="link-xml-sitemaps-learn-more" link="https://yoa.st/2a-" ariaLabel={ __( "XML sitemaps", "wordpress-seo" ) } />
 							</FeatureCard>

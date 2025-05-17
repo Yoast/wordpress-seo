@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group Metabox
  */
-class Metabox_Section_Additional_Test extends TestCase {
+final class Metabox_Section_Additional_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.
@@ -32,6 +32,8 @@ class Metabox_Section_Additional_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Section_Additional::display_content
 	 *
 	 * @param string $expected Substring expected to be found in the actual output.
+	 *
+	 * @return void
 	 */
 	public function test_display_content( $expected ) {
 		$section = new WPSEO_Metabox_Section_Additional( 'additional-tab', 'Additional Tab', 'Additional Content' );
@@ -46,7 +48,7 @@ class Metabox_Section_Additional_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_display_content() {
+	public static function data_display_content() {
 		return [
 			[ 'Additional Content' ],
 			[ 'id="wpseo-meta-section-additional-tab"' ],
@@ -64,6 +66,8 @@ class Metabox_Section_Additional_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Section_Additional::display_link
 	 *
 	 * @param string $expected Substring expected to be found in the actual output.
+	 *
+	 * @return void
 	 */
 	public function test_display_link( $expected ) {
 		$section = new WPSEO_Metabox_Section_Additional(
@@ -86,7 +90,7 @@ class Metabox_Section_Additional_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_display_link() {
+	public static function data_display_link() {
 		return [
 			[ 'Additional Tab' ],
 			[ 'id="wpseo-meta-tab-additional-tab"' ],
@@ -102,6 +106,8 @@ class Metabox_Section_Additional_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Metabox_Section_Additional::__construct
 	 * @covers WPSEO_Metabox_Section_Additional::display_link
+	 *
+	 * @return void
 	 */
 	public function test_display_link_no_aria_label() {
 		$section = new WPSEO_Metabox_Section_Additional(

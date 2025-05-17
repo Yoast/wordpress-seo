@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Admin\Posts_Overview_Or_Ajax_Conditional
  */
-class Posts_Overview_Or_Ajax_Conditional_Test extends TestCase {
+final class Posts_Overview_Or_Ajax_Conditional_Test extends TestCase {
 
 	/**
 	 * The breadcrumbs enabled conditional.
@@ -24,6 +24,8 @@ class Posts_Overview_Or_Ajax_Conditional_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -36,6 +38,8 @@ class Posts_Overview_Or_Ajax_Conditional_Test extends TestCase {
 	 * and wp_doing_ajax returns false.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met() {
 		global $pagenow;
@@ -50,6 +54,8 @@ class Posts_Overview_Or_Ajax_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when pagenow is edit.php.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met() {
 		global $pagenow;
@@ -62,6 +68,8 @@ class Posts_Overview_Or_Ajax_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when wp_doing_ajax returns true.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_ajax() {
 		global $pagenow;

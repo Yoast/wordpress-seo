@@ -17,21 +17,21 @@ class WPSEO_Sitemaps_Cache_Validator {
 	 *
 	 * @var string
 	 */
-	const STORAGE_KEY_PREFIX = 'yst_sm_';
+	public const STORAGE_KEY_PREFIX = 'yst_sm_';
 
 	/**
 	 * Name of the option that holds the global validation value.
 	 *
 	 * @var string
 	 */
-	const VALIDATION_GLOBAL_KEY = 'wpseo_sitemap_cache_validator_global';
+	public const VALIDATION_GLOBAL_KEY = 'wpseo_sitemap_cache_validator_global';
 
 	/**
 	 * The format which creates the key of the option that holds the type validation value.
 	 *
 	 * @var string
 	 */
-	const VALIDATION_TYPE_KEY_FORMAT = 'wpseo_sitemap_%s_cache_validator';
+	public const VALIDATION_TYPE_KEY_FORMAT = 'wpseo_sitemap_%s_cache_validator';
 
 	/**
 	 * Get the cache key for a certain type and page.
@@ -50,7 +50,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 	public static function get_storage_key( $type = null, $page = 1 ) {
 
 		// Using SITEMAP_INDEX_TYPE for sitemap index cache.
-		$type = is_null( $type ) ? WPSEO_Sitemaps::SITEMAP_INDEX_TYPE : $type;
+		$type = ( $type === null ) ? WPSEO_Sitemaps::SITEMAP_INDEX_TYPE : $type;
 
 		$global_cache_validator = self::get_validator();
 		$type_cache_validator   = self::get_validator( $type );
@@ -141,7 +141,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 		$old_validator = null;
 
 		// Get the current type validator.
-		if ( ! is_null( $type ) ) {
+		if ( $type !== null ) {
 			$old_validator = self::get_validator( $type );
 		}
 
@@ -170,7 +170,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 
 		global $wpdb;
 
-		if ( is_null( $type ) ) {
+		if ( $type === null ) {
 			// Clear all cache if no type is provided.
 			$like = sprintf( '%s%%', self::STORAGE_KEY_PREFIX );
 		}
@@ -189,8 +189,15 @@ class WPSEO_Sitemaps_Cache_Validator {
 		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_timeout_' . $like, '_' ) );
 
 		// Delete transients.
-		$query = sprintf( 'DELETE FROM %1$s WHERE %2$s', $wpdb->options, implode( ' OR ', $where ) );
-		$wpdb->query( $query );
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		$wpdb->query(
+			$wpdb->prepare(
+			//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+				'DELETE FROM %i WHERE ' . implode( ' OR ', array_fill( 0, count( $where ), '%s' ) ),
+				array_merge( [ $wpdb->options ], $where )
+			)
+		);
 
 		wp_cache_delete( 'alloptions', 'options' );
 	}
@@ -214,7 +221,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 		$key = self::get_validator_key( $type );
 
 		$current = get_option( $key, null );
-		if ( ! is_null( $current ) ) {
+		if ( $current !== null ) {
 			return $current;
 		}
 

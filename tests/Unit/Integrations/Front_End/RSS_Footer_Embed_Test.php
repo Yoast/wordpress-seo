@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class RSS_Footer_Embed_Test extends TestCase {
+final class RSS_Footer_Embed_Test extends TestCase {
 
 	/**
 	 * The instance to test against.
@@ -35,6 +35,8 @@ class RSS_Footer_Embed_Test extends TestCase {
 
 	/**
 	 * Setup the class instance.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -49,6 +51,8 @@ class RSS_Footer_Embed_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -61,6 +65,8 @@ class RSS_Footer_Embed_Test extends TestCase {
 	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -74,6 +80,8 @@ class RSS_Footer_Embed_Test extends TestCase {
 	 *
 	 * @covers ::embed_rssfooter
 	 * @covers ::include_rss_footer
+	 *
+	 * @return void
 	 */
 	public function test_embed_rssfooter_not_on_feed_page() {
 		Monkey\Functions\expect( 'is_feed' )->andReturn( false );
@@ -89,6 +97,8 @@ class RSS_Footer_Embed_Test extends TestCase {
 	 *
 	 * @covers ::embed_rssfooter
 	 * @covers ::include_rss_footer
+	 *
+	 * @return void
 	 */
 	public function test_embed_rssfooter_disabled_by_filter() {
 		Monkey\Functions\expect( 'is_feed' )->andReturn( true );
@@ -109,6 +119,8 @@ class RSS_Footer_Embed_Test extends TestCase {
 	 * @covers ::embed_rssfooter
 	 * @covers ::include_rss_footer
 	 * @covers ::is_configured
+	 *
+	 * @return void
 	 */
 	public function test_embed_rss_footer_with_no_set_option_values() {
 		Monkey\Functions\expect( 'is_feed' )->andReturn( true );
@@ -132,6 +144,8 @@ class RSS_Footer_Embed_Test extends TestCase {
 	 * @covers ::embed_rssfooter
 	 * @covers ::rss_replace_vars
 	 * @covers ::get_link_template
+	 *
+	 * @return void
 	 */
 	public function test_embed_rss_footer() {
 		$post = (object) [ 'post_author' => 'Yoast' ];
@@ -170,6 +184,8 @@ class RSS_Footer_Embed_Test extends TestCase {
 	 * Tests the embedding of the RSS footer excerpt with disabled feature.
 	 *
 	 * @covers ::embed_rssfooter_excerpt
+	 *
+	 * @return void
 	 */
 	public function test_embed_rss_footer_excerpt_is_disabled() {
 		$this->instance->expects( 'include_rss_footer' )->once()->andReturnFalse();
@@ -186,6 +202,8 @@ class RSS_Footer_Embed_Test extends TestCase {
 	 * @covers ::embed_rssfooter_excerpt
 	 * @covers ::get_link_template
 	 * @covers ::rss_replace_vars
+	 *
+	 * @return void
 	 */
 	public function test_embed_rss_footer_excerpt() {
 		$post = (object) [ 'post_author' => 'Yoast' ];

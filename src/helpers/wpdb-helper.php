@@ -33,9 +33,9 @@ class Wpdb_Helper {
 	 * @return bool Whether the table exists.
 	 */
 	public function table_exists( $table ) {
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		$table_exists = $this->wpdb->get_var( "SHOW TABLES LIKE '{$table}'" );
-		if ( \is_wp_error( $table_exists ) || \is_null( $table_exists ) ) {
+		if ( \is_wp_error( $table_exists ) || $table_exists === null ) {
 			return false;
 		}
 

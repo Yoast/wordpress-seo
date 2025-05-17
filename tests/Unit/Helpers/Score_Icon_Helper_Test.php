@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Score_Icon_Helper
  */
-class Score_Icon_Helper_Test extends TestCase {
+final class Score_Icon_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the Score_Icon_Helper.
@@ -34,6 +34,8 @@ class Score_Icon_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -49,6 +51,8 @@ class Score_Icon_Helper_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -67,6 +71,8 @@ class Score_Icon_Helper_Test extends TestCase {
 	 * @param int    $score       The score.
 	 * @param string $extra_class The extra class.
 	 * @param string $expected    The expected present output.
+	 *
+	 * @return void
 	 */
 	public function test_for_readability( $score, $extra_class, $expected ) {
 		$actual = $this->instance->for_readability( $score, $extra_class );
@@ -80,7 +86,7 @@ class Score_Icon_Helper_Test extends TestCase {
 	 *
 	 * @return array The readability data.
 	 */
-	public function readability_provider() {
+	public static function readability_provider() {
 		return [
 			'not available' => [
 				'score'       => 0,
@@ -120,6 +126,8 @@ class Score_Icon_Helper_Test extends TestCase {
 	 * @param int    $score       The score.
 	 * @param string $extra_class The extra class.
 	 * @param string $expected    The expected present output.
+	 *
+	 * @return void
 	 */
 	public function test_for_inclusive_language( $score, $extra_class, $expected ) {
 		$actual = $this->instance->for_inclusive_language( $score, $extra_class );
@@ -133,7 +141,7 @@ class Score_Icon_Helper_Test extends TestCase {
 	 *
 	 * @return array The inclusive language data.
 	 */
-	public function inclusive_language_provider() {
+	public static function inclusive_language_provider() {
 		return [
 			'not available' => [
 				'score'       => 0,
@@ -176,6 +184,8 @@ class Score_Icon_Helper_Test extends TestCase {
 	 * @param string $extra_class    The extra class.
 	 * @param string $no_index_title The title when noindex.
 	 * @param string $expected       The expected present output.
+	 *
+	 * @return void
 	 */
 	public function test_for_seo( $is_indexable, $keyphrase, $score, $extra_class, $no_index_title, $expected ) {
 		$indexable = $this->create_indexable_and_set_mocks_for_seo( $is_indexable, $keyphrase, $score );
@@ -190,7 +200,7 @@ class Score_Icon_Helper_Test extends TestCase {
 	 *
 	 * @return array The SEO data.
 	 */
-	public function seo_provider() {
+	public static function seo_provider() {
 		return [
 			'not available'      => [
 				'is_indexable'   => true,

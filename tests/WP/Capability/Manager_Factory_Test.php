@@ -8,12 +8,14 @@ use Yoast\WPTestUtils\WPIntegration\TestCase;
 /**
  * Unit Test Class.
  */
-class Manager_Factory_Test extends TestCase {
+final class Manager_Factory_Test extends TestCase {
 
 	/**
 	 * Tests whether the same factory instance is returned when the get function is called twice.
 	 *
 	 * @covers WPSEO_Capability_Manager_Factory::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$instance  = WPSEO_Capability_Manager_Factory::get();

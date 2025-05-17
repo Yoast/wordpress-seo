@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group title
  */
-class Title_Test extends TestCase {
+final class Title_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ class Title_Test extends TestCase {
 	 * Tests the situation where the title is set.
 	 *
 	 * @covers ::generate_title
+	 *
+	 * @return void
 	 */
 	public function test_with_title() {
 		$this->indexable->title = 'Homepage title';
@@ -40,6 +44,8 @@ class Title_Test extends TestCase {
 	 * Tests the situation where the title is not set and we fall back to the options title.
 	 *
 	 * @covers ::generate_title
+	 *
+	 * @return void
 	 */
 	public function test_with_default_fallback() {
 		$this->options

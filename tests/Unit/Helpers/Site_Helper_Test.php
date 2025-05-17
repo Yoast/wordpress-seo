@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Site_Helper
  */
-class Site_Helper_Test extends TestCase {
+final class Site_Helper_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -24,6 +24,8 @@ class Site_Helper_Test extends TestCase {
 
 	/**
 	 * Set up.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ class Site_Helper_Test extends TestCase {
 	 * Tests retrieval of the site name.
 	 *
 	 * @covers ::get_site_name
+	 *
+	 * @return void
 	 */
 	public function test_get_site_name() {
 		Monkey\Functions\expect( 'wp_strip_all_tags' )
@@ -54,6 +58,8 @@ class Site_Helper_Test extends TestCase {
 	 * Checks the result of is_multisite_and_switched.
 	 *
 	 * @covers ::is_multisite_and_switched
+	 *
+	 * @return void
 	 */
 	public function test_is_multisite_and_switched() {
 		Monkey\Functions\stubs(

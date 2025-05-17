@@ -223,7 +223,7 @@ class Meta_Surface {
 		$indexables = \array_filter( $indexables );
 
 		return \array_map(
-			function( $indexable ) {
+			function ( $indexable ) {
 				return $this->build_meta( $this->context_memoizer->get( $indexable, 'Post_Type' ) );
 			},
 			$indexables
@@ -277,7 +277,7 @@ class Meta_Surface {
 		if ( ! \is_a( $indexable, Indexable::class ) ) {
 			return false;
 		}
-		if ( \is_null( $page_type ) ) {
+		if ( $page_type === null ) {
 			$page_type = $this->indexable_helper->get_page_type_for_indexable( $indexable );
 		}
 
@@ -293,9 +293,9 @@ class Meta_Surface {
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_indexables( $indexables, $page_type = null ) {
-		$closure = function( $indexable ) use ( $page_type ) {
+		$closure = function ( $indexable ) use ( $page_type ) {
 			$this_page_type = $page_type;
-			if ( \is_null( $this_page_type ) ) {
+			if ( $this_page_type === null ) {
 				$this_page_type = $this->indexable_helper->get_page_type_for_indexable( $indexable );
 			}
 

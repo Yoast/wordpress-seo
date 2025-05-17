@@ -13,12 +13,14 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group sitemaps
  */
-class Cache_Validator_Test extends TestCase {
+final class Cache_Validator_Test extends TestCase {
 
 	/**
 	 * Test the building of cache keys.
 	 *
 	 * @covers ::get_validator_key
+	 *
+	 * @return void
 	 */
 	public function test_get_validator_key_global() {
 
@@ -31,6 +33,8 @@ class Cache_Validator_Test extends TestCase {
 	 * Test the building of cache keys.
 	 *
 	 * @covers ::get_validator_key
+	 *
+	 * @return void
 	 */
 	public function test_get_validator_key_type() {
 
@@ -46,6 +50,8 @@ class Cache_Validator_Test extends TestCase {
 	 * Normal cache key retrieval.
 	 *
 	 * @covers ::get_storage_key
+	 *
+	 * @return void
 	 */
 	public function test_get_storage_key() {
 
@@ -79,6 +85,8 @@ class Cache_Validator_Test extends TestCase {
 	 * be autoloaded every request.
 	 *
 	 * @covers ::get_storage_key
+	 *
+	 * @return void
 	 */
 	public function test_get_storage_key_very_long_type() {
 
@@ -96,6 +104,8 @@ class Cache_Validator_Test extends TestCase {
 	 * Test base 10 to base 61 converter.
 	 *
 	 * @covers ::convert_base10_to_base61
+	 *
+	 * @return void
 	 */
 	public function test_base_10_to_base_61() {
 
@@ -117,6 +127,8 @@ class Cache_Validator_Test extends TestCase {
 	 * Tests whether an exception is thrown when a non numeric value is passed.
 	 *
 	 * @covers ::convert_base10_to_base61
+	 *
+	 * @return void
 	 */
 	public function test_base_10_to_base_61_non_integer() {
 		$this->expectException( InvalidArgumentException::class );

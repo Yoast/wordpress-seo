@@ -44,7 +44,6 @@ describe( "test hasEnoughContentForAssessment", () => {
 
 	it( "should return false if text is 49 chars and an image and no specification for contentNeededForAssessment", () => {
 		const mockPaper = new Paper( "This text contains forty-nine characterssssssssss" +
-			// eslint-disable-next-line max-len
 			"<figure class=\"wp-block-image size-large\"><img src=\"http://basic.wordpress.test/wp-content/uploads/2022/05/70860665-c6b2-4b40-82e9-37b4bea5648e-3-1024x682.jpeg\" alt=\"\" class=\"wp-image-148\"/></figure>" );
 		const mockAssessment = new Assessment();
 
@@ -63,6 +62,17 @@ describe( "test hasEnoughContentForAssessment", () => {
 		const mockAssessment = new Assessment();
 
 		expect( mockAssessment.hasEnoughContentForAssessment( mockPaper, 22 ) ).toBe( false );
+	} );
+} );
+
+describe( "test formatResultText", () => {
+	it( "should return a formatted string", () => {
+		const mockAssessment = new Assessment();
+		const resultText = "This is a test string with a %1$s and a %2$s";
+		const urlTitle = "www.example.com";
+		const urlCallToAction = "www.example2.com";
+
+		expect( mockAssessment.formatResultText( resultText, urlTitle, urlCallToAction ) ).toBe( "This is a test string with a www.example.com and a www.example2.com" );
 	} );
 } );
 

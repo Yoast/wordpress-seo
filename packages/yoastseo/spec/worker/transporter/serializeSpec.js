@@ -64,6 +64,7 @@ describe( "serialize", () => {
 		expect( serialize( thing ) ).toEqual( {
 			_hasBetaBadge: false,
 			_hasJumps: false,
+			_hasAIFixes: false,
 			_parseClass: "AssessmentResult",
 			editFieldName: "",
 			identifier: "",
@@ -100,6 +101,8 @@ describe( "serialize", () => {
 			customData: { hasGlobalIdentifier: true, hasVariants: true },
 			textTitle: "The title of the text",
 			writingDirection: "LTR",
+			wpBlocks: [],
+			isFrontPage: false,
 		} );
 	} );
 

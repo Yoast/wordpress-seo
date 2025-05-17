@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group generators
  * @group breadcrumbs
  */
-class Breadcrumbs_Generator_Test extends TestCase {
+final class Breadcrumbs_Generator_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -90,13 +90,16 @@ class Breadcrumbs_Generator_Test extends TestCase {
 
 	/**
 	 * Method that is called before each individual test case.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->repository        = Mockery::mock( Indexable_Repository::class );
-		$this->options           = Mockery::mock( Options_Helper::class );
-		$this->current_page      = Mockery::mock( Current_Page_Helper::class );
+		$this->repository   = Mockery::mock( Indexable_Repository::class );
+		$this->options      = Mockery::mock( Options_Helper::class );
+		$this->current_page = Mockery::mock( Current_Page_Helper::class );
+
 		$this->post_type_helper  = Mockery::mock( Post_Type_Helper::class );
 		$this->url_helper        = Mockery::mock( Url_Helper::class );
 		$this->pagination_helper = Mockery::mock( Pagination_Helper::class );
@@ -118,6 +121,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 * @param bool   $breadcrumb_home Show the home breadcrumbs.
 	 * @param int    $front_page_id   The front page ID.
 	 * @param string $message         Message to show when test fails.
+	 *
+	 * @return void
 	 */
 	public function test_generate( $scenario, $page_for_posts, $breadcrumb_home, $front_page_id, $message ) {
 		$this->indexable                   = Mockery::mock( Indexable_Mock::class );
@@ -127,7 +132,6 @@ class Breadcrumbs_Generator_Test extends TestCase {
 		$this->indexable->permalink        = 'https://example.com/post';
 		$this->indexable->breadcrumb_title = 'post';
 		$this->context->indexable          = $this->indexable;
-
 		$this->set_scenario( $scenario );
 
 		$is_simple_page = false;
@@ -180,12 +184,6 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				->andReturn( $this->indexable );
 		}
 
-		$this->repository
-			->expects( 'get_ancestors' )
-			->once()
-			->with( $this->indexable )
-			->andReturn( $this->get_ancestors() );
-
 		if ( $scenario !== 'on-home-page' ) {
 			$this->current_page
 				->expects( 'get_front_page_id' )
@@ -199,9 +197,16 @@ class Breadcrumbs_Generator_Test extends TestCase {
 			$page_type       = 'Home_Page';
 			$first_link_text = 'home';
 		}
+		else {
+			$this->repository
+				->expects( 'get_ancestors' )
+				->once()
+				->with( $this->indexable )
+				->andReturn( $this->get_ancestors() );
+		}
 		$this->current_page
 			->expects( 'get_page_type' )
-			->once()
+			->twice()
 			->andReturn( $page_type );
 
 		$this->current_page
@@ -214,7 +219,6 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				->once()
 				->andReturnFalse();
 		}
-
 		$expected = [
 			[
 				'url'       => 'https://example.com/post-type',
@@ -227,6 +231,15 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				'id'   => 1,
 			],
 		];
+		if ( $scenario === 'on-home-page' ) {
+			$expected = [
+				[
+					'url'  => 'https://example.com/post',
+					'text' => 'home',
+					'id'   => 1,
+				],
+			];
+		}
 
 		$this->assertEquals(
 			$expected,
@@ -238,9 +251,9 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * Provides data for the generate test.
 	 *
-	 * @return array The data to use.
+	 * @return array<string, array<string, string|int>> The data to use.
 	 */
-	public function generate_provider() {
+	public static function generate_provider() {
 		return [
 			'hide-blog-page' => [
 				'scenario'         => 'hide-blog-page',
@@ -317,10 +330,12 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 * @covers ::get_date_archive_crumb
 	 * @covers ::add_paged_crumb
 	 *
-	 * @param string $scenario     Scenario to test (day, month, year).
-	 * @param bool   $is_paged     Is the page being paged.
-	 * @param int    $current_page The current page number.
-	 * @param array  $expected     The expected output.
+	 * @param string   $scenario     Scenario to test (day, month, year).
+	 * @param bool     $is_paged     Is the page being paged.
+	 * @param int      $current_page The current page number.
+	 * @param string[] $expected     The expected output.
+	 *
+	 * @return void
 	 */
 	public function test_with_date_archive( $scenario, $is_paged, $current_page, $expected ) {
 		$this->stubEscapeFunctions();
@@ -336,9 +351,9 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * Provides data to test_with_date_archive.
 	 *
-	 * @return array[] Test data to use.
+	 * @return array<string, array<string, string|int|array<string[]>>> Test data to use.
 	 */
-	public function date_archive_provider() {
+	public static function date_archive_provider() {
 		return [
 			'for_day' => [
 				'scenario'     => 'day',
@@ -457,6 +472,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 * @param string $scenario     The scenario to set.
 	 * @param bool   $is_paged     When the page is paged.
 	 * @param bool   $current_page The current page number.
+	 *
+	 * @return void
 	 */
 	protected function setup_expectations_for_date_archive( $scenario, $is_paged, $current_page ) {
 		$this->indexable                   = Mockery::mock( Indexable_Mock::class );
@@ -519,6 +536,10 @@ class Breadcrumbs_Generator_Test extends TestCase {
 		$this->current_page
 			->expects( 'is_paged' )
 			->andReturn( $is_paged );
+		$this->current_page
+			->expects( 'get_page_type' )
+			->once()
+			->andReturn( 'date-archive' );
 
 		if ( $is_paged ) {
 			$this->pagination_helper
@@ -561,6 +582,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 * Sets expectations based on the given scenario.
 	 *
 	 * @param string $scenario The scenario.
+	 *
+	 * @return void
 	 */
 	private function set_scenario( $scenario ) {
 		if ( $scenario === 'hide-blog-page' ) {

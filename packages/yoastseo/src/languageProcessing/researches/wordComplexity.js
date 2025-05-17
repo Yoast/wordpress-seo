@@ -1,7 +1,10 @@
-import { flatMap, get } from "lodash-es";
-import { languageProcessing } from "yoastseo";
+import { flatMap, get } from "lodash";
 
-const { getWords, getSentences, helpers } = languageProcessing;
+import getSentences from "../helpers/sentence/getSentences";
+import getWords from "../helpers/word/getWords";
+import removeHtmlBlocks from "../helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../helpers";
+import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
 
 /**
  * An object containing the results of the complex words research for a single sentence.
@@ -23,10 +26,19 @@ const { getWords, getSentences, helpers } = languageProcessing;
  *
  * @param {string} 		currentSentence	The current sentence.
  * @param {Researcher} 	researcher		The researcher object.
+ * @param {Object}      topicForms       The object with word forms of all (content) words from the keyphrase and eventually synonyms,
+ * comes in a shape {
+ *                     keyphraseForms: [[ form1, form2, ... ], [ form1, form2, ... ]],
+ *                     synonymsForms: [
+ *                          [[ form1, form2, ... ], [ form1, form2, ... ]],
+ *                          [[ form1, form2, ... ], [ form1, form2, ... ]],
+ *                          [[ form1, form2, ... ], [ form1, form2, ... ]],
+ *                     ],
+ *                  }
  *
  * @returns {ComplexWordsResult} An object containing all complex words in a given sentence.
  */
-const getComplexWords = function( currentSentence, researcher ) {
+const getComplexWords = function( currentSentence, researcher, topicForms ) {
 	const language = researcher.getConfig( "language" );
 	const checkIfWordIsComplex = researcher.getHelper( "checkIfWordIsComplex" );
 	const functionWords = researcher.getConfig( "functionWords" );
@@ -34,10 +46,18 @@ const getComplexWords = function( currentSentence, researcher ) {
 	const checkIfWordIsFunction = researcher.getHelper( "checkIfWordIsFunction" );
 	const premiumData = get( researcher.getData( "morphology" ), language, false );
 
-	const allWords = getWords( currentSentence );
+	// Retrieve all words from the sentence.
+	let words = getWords( currentSentence );
+
+	// Filters out keyphrase forms (but not synonyms) because we consider them not to be complex.
+	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
+	const foundTopicForms = findTopicFormsInString( topicForms, currentSentence, false, researcher.paper.getLocale(), matchWordCustomHelper );
+	words = words.filter( word => ! foundTopicForms.matches.includes( word ) );
+
 	// Filters out function words because function words are not complex.
 	// Words are converted to lowercase before processing to avoid excluding function words that start with a capital letter.
-	const words = allWords.filter( word => ! ( checkIfWordIsFunction ? checkIfWordIsFunction( word ) : functionWords.includes( word ) ) );
+	words = words.filter( word => ! ( checkIfWordIsFunction ? checkIfWordIsFunction( word ) : functionWords.includes( word ) ) );
+
 	const result = {
 		complexWords: [],
 		sentence: currentSentence,
@@ -65,6 +85,9 @@ const getComplexWords = function( currentSentence, researcher ) {
  * @returns {number} The percentage of the complex words compared to the total words in the text.
  */
 const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
+	if ( words.length === 0 ) {
+		return 0;
+	}
 	const totalComplexWords = flatMap( complexWordsResults, result => result.complexWords );
 	const percentage = ( totalComplexWords.length / words.length ) * 100;
 
@@ -86,12 +109,13 @@ const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
 export default function wordComplexity( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	let text = paper.getText();
-	text = helpers.removeHtmlBlocks( text );
-	text = helpers.filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
+	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	const sentences = getSentences( text, memoizedTokenizer );
 
+	const topicForms = researcher.getResearch( "morphology" );
 	// Find the complex words in each sentence.
-	let results = sentences.map( sentence => getComplexWords( sentence, researcher ) );
+	let results = sentences.map( sentence => getComplexWords( sentence, researcher, topicForms ) );
 
 	// Remove sentences without complex words.
 	results = results.filter( result => result.complexWords.length !== 0 );

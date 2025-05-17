@@ -26,14 +26,10 @@ module.exports = function( grunt ) {
 				"<%= files.grunt %>",
 				"!js",
 			],
-			jsDontLint: [
-				"!src/templates.js",
-			],
 			jsTests: [
 				"spec/**/*.js",
 			],
 			scss: "css/*.scss",
-			templates: "templates/*.jst",
 			jed: "node_modules/jed/jed.js",
 			/**
 			 * Gets the wildcard to get the grunt config files.

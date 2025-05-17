@@ -9,12 +9,12 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Option_WPSEO_Test extends TestCase {
+final class Option_WPSEO_Test extends TestCase {
 
 	/**
 	 * Features which can be disabled via the network settings.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected $feature_vars = [
 		'disableadvanced_meta',
@@ -26,7 +26,6 @@ class Option_WPSEO_Test extends TestCase {
 		'enable_xml_sitemap',
 		'enable_text_link_counter',
 		'semrush_integration_active',
-		'zapier_integration_active',
 	];
 
 	/**
@@ -35,14 +34,15 @@ class Option_WPSEO_Test extends TestCase {
 	 * @group  ms-required
 	 * @covers WPSEO_Option::validate
 	 * @covers WPSEO_Option::prevent_disabled_options_update
+	 *
+	 * @return void
 	 */
 	public function test_verify_features_against_network() {
 		$this->skipWithoutMultisite();
 
-		$options                               = WPSEO_Options::get_option( 'wpseo' );
-		$expected                              = \array_fill_keys( $this->feature_vars, true );
-		$expected['zapier_integration_active'] = false;
-		$expected['ryte_indexability']         = false;
+		$options                       = WPSEO_Options::get_option( 'wpseo' );
+		$expected                      = \array_fill_keys( $this->feature_vars, true );
+		$expected['ryte_indexability'] = false;
 		$this->assertEqualSets( $expected, \array_intersect_key( $options, $expected ) );
 
 		// Ensure the variables are disabled via the network.

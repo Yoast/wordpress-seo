@@ -8,7 +8,8 @@ import { getWords } from "../../../../languageProcessing";
 
 // Some punctuation marks are still removed in getWords, as they are not in our punctuation list.
 // Those are filtered here out to prevent getWords returning an empty list.
-const filteredPunctuationList = punctuationList.filter( punctuationMark => getWords( punctuationMark, false ).length > 0  );
+const filteredPunctuationList = punctuationList.filter( punctuationMark => getWords( punctuationMark,
+	"\\s", false ).length > 0  );
 
 /**
  * Returns a callback that checks whether a non-inclusive word is standalone:

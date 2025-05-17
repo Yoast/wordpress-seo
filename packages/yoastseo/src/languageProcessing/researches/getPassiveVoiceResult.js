@@ -2,7 +2,7 @@ import getSentences from "../helpers/sentence/getSentences.js";
 import { stripFullTags as stripHTMLTags } from "../helpers/sanitize/stripHTMLTags.js";
 import Sentence from "../../languageProcessing/values/Sentence.js";
 
-import { forEach } from "lodash-es";
+import { forEach } from "lodash";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
 import { filterShortcodesFromHTML } from "../helpers";
 

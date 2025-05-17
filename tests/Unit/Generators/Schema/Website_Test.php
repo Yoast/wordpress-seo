@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Website
  */
-class Website_Test extends TestCase {
+final class Website_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -59,6 +59,8 @@ class Website_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -88,6 +90,8 @@ class Website_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::add_alternate_name
 	 * @covers ::internal_search_section
+	 *
+	 * @return void
 	 */
 	public function test_generate() {
 		$this->meta_tags_context->alternate_site_name       = '';
@@ -103,7 +107,7 @@ class Website_Test extends TestCase {
 		$this->language->expects( 'add_piece_language' )
 			->once()
 			->andReturnUsing(
-				static function( $data ) {
+				static function ( $data ) {
 					$data['inLanguage'] = 'language';
 
 					return $data;
@@ -124,7 +128,11 @@ class Website_Test extends TestCase {
 						'@type'       => 'EntryPoint',
 						'urlTemplate' => 'https://example.com/?s={search_term_string}',
 					],
-					'query-input' => 'required name=search_term_string',
+					'query-input' => [
+						'@type'          => 'PropertyValueSpecification',
+						'valueRequired'  => true,
+						'valueName'      => 'search_term_string',
+					],
 				],
 			],
 			'inLanguage'      => 'language',
@@ -140,6 +148,8 @@ class Website_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::add_alternate_name
 	 * @covers ::internal_search_section
+	 *
+	 * @return void
 	 */
 	public function test_generate_does_not_add_internal_search_when_filter_disables_it() {
 		Monkey\Filters\expectApplied( 'disable_wpseo_json_ld_search' )
@@ -159,7 +169,7 @@ class Website_Test extends TestCase {
 		$this->language->expects( 'add_piece_language' )
 			->once()
 			->andReturnUsing(
-				static function( $data ) {
+				static function ( $data ) {
 					$data['inLanguage'] = 'language';
 
 					return $data;
@@ -183,6 +193,8 @@ class Website_Test extends TestCase {
 	 * Tests that the webpage graph piece is always needed.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_needed() {
 		// The website graph piece is always needed.

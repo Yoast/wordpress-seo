@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group sitemaps
  */
-class Image_Parser_Test extends TestCase {
+final class Image_Parser_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -22,6 +22,8 @@ class Image_Parser_Test extends TestCase {
 
 	/**
 	 * Set up our double class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -33,6 +35,8 @@ class Image_Parser_Test extends TestCase {
 	 * Tests the get_images function.
 	 *
 	 * @covers WPSEO_Sitemap_Image_Parser::get_images
+	 *
+	 * @return void
 	 */
 	public function test_get_images() {
 
@@ -53,6 +57,8 @@ class Image_Parser_Test extends TestCase {
 	 * @covers WPSEO_Sitemap_Image_Parser::get_gallery_attachments
 	 *
 	 * @link https://github.com/Yoast/wordpress-seo/issues/8634
+	 *
+	 * @return void
 	 */
 	public function test_parse_galleries() {
 		/**
@@ -67,7 +73,7 @@ class Image_Parser_Test extends TestCase {
 		$image_parser
 			->expects( $this->once() )
 			->method( 'get_content_galleries' )
-			->will( $this->returnValue( [ [ 'id' => 1 ] ] ) );
+			->willReturn( [ [ 'id' => 1 ] ] );
 
 		$a = (object) [ 'a', 'b' ];
 		$b = (object) 1234;
@@ -78,7 +84,7 @@ class Image_Parser_Test extends TestCase {
 		$image_parser
 			->expects( $this->once() )
 			->method( 'get_gallery_attachments' )
-			->will( $this->returnValue( $attachments ) );
+			->willReturn( $attachments );
 
 		$attachments = $image_parser->parse_galleries( '' );
 

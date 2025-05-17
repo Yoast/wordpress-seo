@@ -1,4 +1,5 @@
 import { setLocaleData } from "@wordpress/i18n";
+import { createInterpolateElement } from "@wordpress/element";
 import { get } from "lodash";
 
 /**
@@ -26,3 +27,19 @@ export function setTextdomainL10n( textdomain, l10nNamespace = "wpseoYoastJSL10n
 		setLocaleData( translations, textdomain );
 	}
 }
+
+/**
+ * Wrapper function for `createInterpolateElement` to catch errors.
+ *
+ * @param {string} interpolatedString The interpolated string.
+ * @param {Object<string, JSX.Element>} conversionMap The conversion map object.
+ * @returns {JSX.Element|string} The interpolated element or string if it failed.
+ */
+export const safeCreateInterpolateElement = ( interpolatedString, conversionMap ) => {
+	try {
+		return createInterpolateElement( interpolatedString, conversionMap );
+	} catch ( error ) {
+		console.error( "Error in translation for:", interpolatedString, error );
+		return interpolatedString;
+	}
+};

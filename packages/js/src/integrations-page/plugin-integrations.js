@@ -1,11 +1,11 @@
-import { createInterpolateElement } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 
 import { getInitialState, getIsNetworkControlEnabled, updateIntegrationState, getIsMultisiteAvailable } from "./helper";
 import { ReactComponent as AlgoliaLogo } from "../../images/algolia-logo.svg";
 import { ReactComponent as ElementorLogo } from "../../images/elementor-logo.svg";
 import { ReactComponent as JetpackLogo } from "../../images/jetpack-logo.svg";
-import { ReactComponent as WoocommerceSeoLogo } from "../../images/woocommerce-seo-logo.svg";
+import { ReactComponent as WoocommerceSeoLogo } from "../../images/woo-yoast-logo.svg";
 import { WoocommerceIntegration } from "./woocommerce-integration";
 import { AcfIntegration } from "./acf-integration";
 import { PluginIntegration } from "./plugin-integration";
@@ -14,7 +14,7 @@ import { AlgoliaIntegration } from "./algolia-integration";
 const integrations = {
 	elementor: {
 		name: "Elementor",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: Yoast SEO; 2: bold open tag; 3: Elementor; 4: bold close tag. */
 				__( "Get %1$s tools and functionality in %2$s%3$s%4$s", "wordpress-seo" ),
@@ -37,7 +37,7 @@ const integrations = {
 	},
 	jetpack: {
 		name: "Jetpack",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: Jetpack; 3: bold close tag; 4: Yoast. */
 				__( "Get the most out of %1$s%2$s%3$s and %4$s, together", "wordpress-seo" ),
@@ -60,7 +60,7 @@ const integrations = {
 	},
 	algolia: {
 		name: "Algolia",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: Algolia; 3: bold close tag. */
 				__( "Improve your internal search results with %1$s%2$s%3$s", "wordpress-seo" ),
@@ -88,7 +88,7 @@ const integrations = {
 	},
 	woocommerce: {
 		name: "WooCommerce",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: WooCommerce; 3: bold close tag. */
 				__( "Upgrade your %1$s%2$s%3$s SEO", "wordpress-seo" ),
@@ -111,7 +111,7 @@ const integrations = {
 	},
 	acf: {
 		name: "ACF",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: ACF; 3: bold close tag. */
 				__( "Integrate your custom fields and SEO data from %1$s%2$s%3$s", "wordpress-seo" ),

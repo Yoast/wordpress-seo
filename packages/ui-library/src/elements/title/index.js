@@ -1,7 +1,7 @@
 /* eslint-disable no-undefined */
-import PropTypes from "prop-types";
 import classNames from "classnames";
-import { forwardRef } from "@wordpress/element";
+import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 
 export const classNameMap = {
 	size: {
@@ -39,25 +39,17 @@ const Title = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+Title.displayName = "Title";
+Title.propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
 	size: PropTypes.oneOf( Object.keys( classNameMap.size ) ),
 	className: PropTypes.string,
 };
-
-Title.propTypes = propTypes;
-
 Title.defaultProps = {
 	as: "h1",
 	size: undefined,
 	className: "",
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Title { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Title.defaultProps;
-StoryComponent.displayName = "Title";
 
 export default Title;

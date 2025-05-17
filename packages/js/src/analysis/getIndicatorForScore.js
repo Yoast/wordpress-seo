@@ -14,9 +14,9 @@ function getIndicatorForRating( rating ) {
 		case "feedback":
 			return {
 				className: "na",
-				screenReaderText: __( "Feedback", "wordpress-seo" ),
-				screenReaderReadabilityText: "",
-				screenReaderInclusiveLanguageText: "",
+				screenReaderText: __( "Not available", "wordpress-seo" ),
+				screenReaderReadabilityText: __( "Not available", "wordpress-seo" ),
+				screenReaderInclusiveLanguageText: __( "Not available", "wordpress-seo" ),
 			};
 		case "bad":
 			return {

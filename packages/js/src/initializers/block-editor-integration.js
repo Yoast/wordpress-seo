@@ -14,7 +14,6 @@ import { registerFormatType } from "@wordpress/rich-text";
 import { Root } from "@yoast/externals/contexts";
 import { actions } from "@yoast/externals/redux";
 import { get } from "lodash";
-import initializeWordProofForBlockEditor from "../../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/blockEditor";
 import getL10nObject from "../analysis/getL10nObject";
 import YoastIcon from "../components/PluginIcon";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
@@ -26,7 +25,6 @@ import PrePublish from "../containers/PrePublish";
 import SidebarFill from "../containers/SidebarFill";
 import WincherPostPublish from "../containers/WincherPostPublish";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
-import { isWordProofIntegrationActive } from "../helpers/wordproof";
 import { link } from "../inline-links/edit-link";
 
 /**
@@ -64,6 +62,7 @@ function registerFormats() {
 			__( "Marking links with nofollow/sponsored has been disabled for WordPress installs < 5.4.", "wordpress-seo" ) +
 			" " +
 			sprintf(
+				// translators: %1$s expands to Yoast SEO.
 				__( "Please upgrade your WordPress version or install the Gutenberg plugin to get this %1$s feature.", "wordpress-seo" ),
 				"Yoast SEO"
 			)
@@ -77,10 +76,34 @@ function registerFormats() {
  * @returns {void}
  */
 function initiallyOpenDocumentSettings() {
-	const openedPanels = select( "core/preferences" ).get( "core/edit-post", "openPanels" );
-	const firstLoad = ! openedPanels.includes( "yoast-seo/document-panel" );
-	if ( firstLoad ) {
-		dispatch( "core/edit-post" ).toggleEditorPanelOpened( "yoast-seo/document-panel" );
+	const PANEL_NAME = "yoast-seo/document-panel";
+
+	/**
+	 * In WP 6.5 the toggleEditorPanelOpened function was added to the core/editor store.
+	 * Using this knowledge to detect which selector we should use to get the opened panels.
+	 *
+	 * We can remove this logic path when WP 6.4 is no longer supported!
+	 */
+	const isNewerGutenberg = Boolean( dispatch( "core/editor" )?.toggleEditorPanelOpened );
+
+	if ( ! isNewerGutenberg ) {
+		/**
+		 * Using WP < 6.5 logic.
+		 * @see https://github.com/WordPress/gutenberg/pull/57529
+		 *
+		 * Using `core/edit-post` instead of `core` (select) and `core/editor` (dispatch).
+		 */
+		if ( ! select( "core/preferences" )?.get( "core/edit-post", "openPanels" )?.includes( PANEL_NAME ) ) {
+			dispatch( "core/edit-post" )?.toggleEditorPanelOpened( PANEL_NAME );
+		}
+		return;
+	}
+
+	// Still using a fallback in here because there is window for error between Gutenberg 17.4.1 and 17.5.0.
+	const openPanels = select( "core/preferences" )?.get( "core", "openPanels" ) || select( "core/preferences" )?.get( "core/edit-post", "openPanels" );
+
+	if ( ! openPanels.includes( PANEL_NAME ) ) {
+		dispatch( "core/editor" )?.toggleEditorPanelOpened( PANEL_NAME );
 	}
 }
 
@@ -197,8 +220,4 @@ export default function initBlockEditorIntegration( store ) {
 	registerFills( store );
 	registerFormats();
 	initializeAnnotations( store );
-
-	if ( isWordProofIntegrationActive() ) {
-		initializeWordProofForBlockEditor();
-	}
 }

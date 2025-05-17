@@ -27,7 +27,6 @@ import refreshAnalysis, { initializationDone } from "../analysis/refreshAnalysis
 import collectAnalysisData from "../analysis/collectAnalysisData";
 import PostDataCollector from "../analysis/PostDataCollector";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
-import getTranslations from "../analysis/getTranslations";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
@@ -52,7 +51,6 @@ import isBlockEditor from "../helpers/isBlockEditor";
 
 const {
 	setFocusKeyword,
-	setMarkerStatus,
 	updateData,
 	setCornerstoneContent,
 	refreshSnippetEditor,
@@ -106,7 +104,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 */
 	jQuery( document ).on( "ajaxComplete", function( ev, response, ajaxOptions ) {
 		const ajaxEndPoint = "/admin-ajax.php";
-		if ( ajaxEndPoint !== ajaxOptions.url.substr( 0 - ajaxEndPoint.length ) ) {
+		if ( ajaxEndPoint !== ajaxOptions.url.substring( ajaxOptions.url.length - ajaxEndPoint.length ) ) {
 			return;
 		}
 
@@ -124,30 +122,6 @@ export default function initPostScraper( $, store, editorData ) {
 			store.dispatch( updateData( snippetEditorData ) );
 		}
 	} );
-
-	/**
-	 * Determines if markers should be shown.
-	 *
-	 * @returns {boolean} True when markers should be shown.
-	 */
-	function displayMarkers() {
-		return ! isBlockEditor() && wpseoScriptData.metabox.show_markers;
-	}
-
-	/**
-	 * Updates the store to indicate if the markers should be hidden.
-	 *
-	 * @param {Object} store The store.
-	 *
-	 * @returns {void}
-	 */
-	function updateMarkerStatus( store ) {
-		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
-		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
-		if ( typeof window.tinyMCE === "undefined" || ! displayMarkers() ) {
-			store.dispatch( setMarkerStatus( "disabled" ) );
-		}
-	}
 
 	/**
 	 * Initializes keyword analysis.
@@ -254,7 +228,6 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {Object} The arguments to initialize the app
 	 */
 	function getAppArgs( store ) {
-		updateMarkerStatus( store );
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
@@ -273,7 +246,6 @@ export default function initPostScraper( $, store, editorData ) {
 			marker: getApplyMarks( store ),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
-			hasSnippetPreview: false,
 			debouncedRefresh: false,
 			// eslint-disable-next-line new-cap
 			researcher: new window.yoast.Researcher.default(),
@@ -301,10 +273,6 @@ export default function initPostScraper( $, store, editorData ) {
 
 		titleElement = $( "#title" );
 
-		const translations = getTranslations();
-		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
-			args.translations = translations;
-		}
 		return args;
 	}
 
@@ -389,24 +357,6 @@ export default function initPostScraper( $, store, editorData ) {
 				},
 			} );
 		}
-	}
-
-	/**
-	 * Toggles the markers status in the state, based on the editor mode.
-	 *
-	 * @param {string} editorMode The editor mode.
-	 * @param {Object} store      The store to update.
-	 *
-	 * @returns {void}
-	 */
-	function toggleMarkers( editorMode, store ) {
-		if ( editorMode === "visual" ) {
-			store.dispatch( setMarkerStatus( "enabled" ) );
-
-			return;
-		}
-
-		store.dispatch( setMarkerStatus( "disabled" ) );
 	}
 
 	/**
@@ -598,9 +548,6 @@ export default function initPostScraper( $, store, editorData ) {
 
 		if ( isBlockEditor() ) {
 			let editorMode = getEditorMode();
-
-			toggleMarkers( editorMode, store );
-
 			subscribe( () => {
 				const currentEditorMode = getEditorMode();
 
@@ -609,7 +556,6 @@ export default function initPostScraper( $, store, editorData ) {
 				}
 
 				editorMode = currentEditorMode;
-				toggleMarkers( editorMode, store );
 			} );
 		}
 

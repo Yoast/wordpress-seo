@@ -15,12 +15,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group canonical
  */
-class Canonical_Test extends TestCase {
+final class Canonical_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -33,6 +35,8 @@ class Canonical_Test extends TestCase {
 	 *
 	 * @covers ::generate_canonical
 	 * @covers ::is_multiple_terms_query
+	 *
+	 * @return void
 	 */
 	public function test_multiple_terms_query() {
 		$this->setup_multiple_terms_query( true );
@@ -45,6 +49,8 @@ class Canonical_Test extends TestCase {
 	 *
 	 * @covers ::generate_canonical
 	 * @covers ::is_multiple_terms_query
+	 *
+	 * @return void
 	 */
 	public function test_with_canonical() {
 		$this->setup_multiple_terms_query();
@@ -59,6 +65,8 @@ class Canonical_Test extends TestCase {
 	 *
 	 * @covers ::generate_canonical
 	 * @covers ::is_multiple_terms_query
+	 *
+	 * @return void
 	 */
 	public function test_without_permalink() {
 		$this->setup_multiple_terms_query();
@@ -84,6 +92,8 @@ class Canonical_Test extends TestCase {
 	 *
 	 * @covers ::generate_canonical
 	 * @covers ::is_multiple_terms_query
+	 *
+	 * @return void
 	 */
 	public function test_without_pagination() {
 		$this->setup_multiple_terms_query();
@@ -116,6 +126,8 @@ class Canonical_Test extends TestCase {
 	 *
 	 * @covers ::generate_canonical
 	 * @covers ::is_multiple_terms_query
+	 *
+	 * @return void
 	 */
 	public function test_with_pagination() {
 		$this->setup_multiple_terms_query();
@@ -154,6 +166,8 @@ class Canonical_Test extends TestCase {
 	 *
 	 * @covers ::generate_canonical
 	 * @covers ::is_multiple_terms_query
+	 *
+	 * @return void
 	 */
 	public function test_without_pagination_with_dynamic_permalinks() {
 		$this->setup_multiple_terms_query();
@@ -184,6 +198,8 @@ class Canonical_Test extends TestCase {
 	 *
 	 * @covers ::generate_canonical
 	 * @covers ::is_multiple_terms_query
+	 *
+	 * @return void
 	 */
 	public function test_with_pagination_with_dynamic_permalinks() {
 		$this->setup_multiple_terms_query();
@@ -219,6 +235,8 @@ class Canonical_Test extends TestCase {
 	 * Sets up the tests to indicate the multiple terms query. Defaults to single term.
 	 *
 	 * @param bool $is_multiple Optional. Determines if the WP query contains multiple terms or not.
+	 *
+	 * @return void
 	 */
 	private function setup_multiple_terms_query( $is_multiple = false ) {
 		$this->instance->source = (object) [ 'taxonomy' => 'my-taxonomy' ];

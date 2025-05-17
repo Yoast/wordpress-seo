@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Social_Profiles_Helper
  */
-class Social_Profiles_Helper_Test extends TestCase {
+final class Social_Profiles_Helper_Test extends TestCase {
 
 	/**
 	 * The Social_Profiles_Helper instance to be tested.
@@ -31,6 +31,8 @@ class Social_Profiles_Helper_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -55,6 +57,8 @@ class Social_Profiles_Helper_Test extends TestCase {
 	 * @param int   $validate_twitter_id_times   The times we're gonna validate twitter ids.
 	 * @param int   $update_user_meta_times      The times we're gonna set the the social profiles.
 	 * @param array $expected                    The expected field names which failed to be saved in the db.
+	 *
+	 * @return void
 	 */
 	public function test_set_person_social_profiles( $social_profiles, $validate_social_url_results, $validate_social_url_times, $validate_twitter_id_results, $validate_twitter_id_times, $update_user_meta_times, $expected ) {
 		$person_id = 123;
@@ -96,7 +100,7 @@ class Social_Profiles_Helper_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_person_social_profiles function.
 	 */
-	public function set_person_social_profiles() {
+	public static function set_person_social_profiles() {
 		$success_all = [
 			'social_profiles'             => [
 				'facebook'   => 'https://facebook.com/janedoe',
@@ -206,6 +210,8 @@ class Social_Profiles_Helper_Test extends TestCase {
 	 * @param int   $validate_twitter_id_times   The times we're gonna validate twitter ids.
 	 * @param int   $set_option_times            The times we're gonna set the social profiles.
 	 * @param array $expected                    The expected field names which failed to be saved in the db.
+	 *
+	 * @return void
 	 */
 	public function test_set_organization_social_profiles( $social_profiles, $validate_social_url_results, $validate_social_url_times, $validate_twitter_id_results, $validate_twitter_id_times, $set_option_times, $expected ) {
 		$fields = [
@@ -228,7 +234,7 @@ class Social_Profiles_Helper_Test extends TestCase {
 			if ( $field === 'other_social_urls' ) {
 				$social_profiles[ $field ] = \array_filter(
 					$social_profiles[ $field ],
-					static function( $other_social_url ) {
+					static function ( $other_social_url ) {
 						return $other_social_url !== '';
 					}
 				);
@@ -254,7 +260,7 @@ class Social_Profiles_Helper_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_organization_social_profiles function.
 	 */
-	public function set_organization_social_profiles() {
+	public static function set_organization_social_profiles() {
 		$success_all = [
 			'social_profiles'             => [
 				'facebook_site'          => '',
@@ -328,6 +334,98 @@ class Social_Profiles_Helper_Test extends TestCase {
 			'Failed set with not valid Facebook'          => $failure_fb,
 			'Failed set with not valid Twitter'           => $failure_twitter,
 			'Failed set with not valid other social urls' => $failure_other_social,
+		];
+	}
+
+	/**
+	 * Checks getting the values for the organization's social profiles.
+	 *
+	 * @covers ::get_organization_social_profiles
+	 * @covers ::get_organization_social_profile_fields
+	 *
+	 * @dataProvider get_organization_social_profiles_provider
+	 *
+	 * @param array<string, string|array<string>>      $social_profiles The array of the organization's social profiles to be set.
+	 * @param array<string, string|array<int, string>> $default_value   The default values for the social profiles.
+	 * @param array<string, string|array<string>>      $expected        The expected field names which failed to be saved in the db.
+	 *
+	 * @return void
+	 */
+	public function test_get_organization_social_profiles( $social_profiles, $default_value, $expected ) {
+		$fields = [
+			'facebook_site',
+			'twitter_site',
+			'other_social_urls',
+		];
+
+		$organization_social_profile_fields = [
+			'facebook_site'     => 'get_non_valid_url',
+			'twitter_site'      => 'get_non_valid_twitter',
+			'other_social_urls' => 'get_non_valid_url_array',
+		];
+
+		Monkey\Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'wpseo_organization_social_profile_fields', $organization_social_profile_fields )
+			->andReturn( $organization_social_profile_fields );
+
+		foreach ( $fields as $field ) {
+			$this->options_helper
+				->expects( 'get' )
+				->with( $field, $default_value[ $field ] )
+				->andReturn( $social_profiles[ $field ] );
+		}
+
+		$actual = $this->instance->get_organization_social_profiles();
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Dataprovider for test_get_organization_social_profiles function.
+	 *
+	 * @return array<string, array<string, string|array<string, string>>> Data for test_get_organization_social_profiles function.
+	 */
+	public static function get_organization_social_profiles_provider() {
+		yield 'Successful get with all valid values' => [
+			'social_profiles' => [
+				'facebook_site'     => 'https://facebook.com/janedoe',
+				'twitter_site'      => 'janedoe',
+				'other_social_urls' => [
+					'https://youtube.com/janedoe',
+					'https://instagram.com/janedoe',
+				],
+			],
+			'default_value' => [
+				'facebook_site'     => '',
+				'twitter_site'      => '',
+				'other_social_urls' => [],
+			],
+			'expected'        => [
+				'facebook_site'     => 'https://facebook.com/janedoe',
+				'twitter_site'      => 'https://x.com/janedoe',
+				'other_social_urls' => [
+					'https://youtube.com/janedoe',
+					'https://instagram.com/janedoe',
+				],
+			],
+		];
+
+		yield 'Empty get with all empty values' => [
+			'social_profiles' => [
+				'facebook_site'     => '',
+				'twitter_site'      => '',
+				'other_social_urls' => [],
+			],
+			'default_value' => [
+				'facebook_site'     => '',
+				'twitter_site'      => '',
+				'other_social_urls' => [],
+			],
+			'expected'        => [
+				'facebook_site'     => '',
+				'twitter_site'      => '',
+				'other_social_urls' => [],
+			],
 		];
 	}
 }

@@ -18,6 +18,9 @@ import HelpLink from "../HelpLink";
 import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
 import { isWordComplexitySupported } from "../../helpers/assessmentUpsellHelpers";
 import { addQueryArgs } from "@wordpress/url";
+import getL10nObject from "../../analysis/getL10nObject";
+import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
+import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -46,6 +49,8 @@ class ReadabilityAnalysis extends Component {
 	 * @returns {wp.Element} The Readability Analysis results.
 	 */
 	renderResults( upsellResults ) {
+		const highlightingUpsellLink = "shortlinks.upsell.sidebar.highlighting_readability_analysis";
+
 		return (
 			<Fragment>
 				<AnalysisHeader>
@@ -67,6 +72,9 @@ class ReadabilityAnalysis extends Component {
 					upsellResults={ upsellResults }
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ this.props.marksButtonStatus }
+					highlightingUpsellLink={ highlightingUpsellLink }
+					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+					renderAIOptimizeButton={ this.renderAIOptimizeButton }
 				/>
 			</Fragment>
 		);
@@ -119,6 +127,35 @@ class ReadabilityAnalysis extends Component {
 			},
 		];
 	}
+
+
+	/**
+	 * Renders the Yoast AI Optimize button.
+	 * The button is shown when:
+	 * - The assessment can be fixed through Yoast AI Optimize.
+	 * - The AI feature is enabled (for Yoast SEO Premium users; for Free users, the button is shown with an upsell).
+	 * - We are in the block editor.
+	 * - We are not in the Elementor editor, nor in the Elementor in-between screen.
+	 *
+	 * @param {boolean} hasAIFixes Whether the assessment can be fixed through Yoast AI Optimize.
+	 * @param {string} id The assessment ID.
+	 *
+	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
+	 */
+	renderAIOptimizeButton = ( hasAIFixes, id ) => {
+		const { isElementor, isAiFeatureEnabled, isTerm } = this.props;
+		const isPremium = getL10nObject().isPremium;
+
+		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
+		if ( isPremium && ! isAiFeatureEnabled ) {
+			return;
+		}
+		const shouldRenderAIButton = shouldRenderAIOptimizeButton( hasAIFixes, isElementor, isTerm );
+		// Show the button if the assessment can be fixed through Yoast AI Optimize, and we are not in the Elementor editor,
+		// WooCommerce Product pages or Taxonomy
+		return shouldRenderAIButton && ( <AIOptimizeButton id={ id } isPremium={ isPremium } /> );
+	};
+
 
 	/**
 	 * Renders the Readability Analysis component.
@@ -183,21 +220,35 @@ ReadabilityAnalysis.propTypes = {
 	marksButtonStatus: PropTypes.string.isRequired,
 	overallScore: PropTypes.number,
 	shouldUpsell: PropTypes.bool,
+	shouldUpsellHighlighting: PropTypes.bool,
+	isAiFeatureEnabled: PropTypes.bool,
+	isElementor: PropTypes.bool,
+	isTerm: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
 	overallScore: null,
 	shouldUpsell: false,
+	shouldUpsellHighlighting: false,
+	isAiFeatureEnabled: false,
+	isElementor: false,
+	isTerm: false,
 };
 
 export default withSelect( select => {
 	const {
 		getReadabilityResults,
 		getMarkButtonStatus,
+		getIsElementorEditor,
+		getIsAiFeatureEnabled,
+		getIsTerm,
 	} = select( "yoast-seo/editor" );
 
 	return {
 		...getReadabilityResults(),
 		marksButtonStatus: getMarkButtonStatus(),
+		isElementor: getIsElementorEditor(),
+		isAiFeatureEnabled: getIsAiFeatureEnabled(),
+		isTerm: getIsTerm(),
 	};
 } )( ReadabilityAnalysis );

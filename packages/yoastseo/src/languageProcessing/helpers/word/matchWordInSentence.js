@@ -1,5 +1,5 @@
 import wordBoundaries from "../../../config/wordBoundaries.js";
-import { escapeRegExp } from "lodash-es";
+import { escapeRegExp } from "lodash";
 import addWordBoundary from "./addWordboundary.js";
 
 const WORD_BOUNDARIES = new Set( wordBoundaries() );

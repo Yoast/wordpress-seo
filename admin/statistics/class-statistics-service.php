@@ -15,7 +15,7 @@ class WPSEO_Statistics_Service {
 	 *
 	 * @var string
 	 */
-	const CACHE_TRANSIENT_KEY = 'wpseo-statistics-totals';
+	public const CACHE_TRANSIENT_KEY = 'wpseo-statistics-totals';
 
 	/**
 	 * Class that generates interesting statistics about things.
@@ -47,7 +47,7 @@ class WPSEO_Statistics_Service {
 	 */
 	public function get_statistics() {
 		// Switch to the user locale with fallback to the site locale.
-		switch_to_locale( \get_user_locale() );
+		switch_to_locale( get_user_locale() );
 
 		$this->labels = $this->labels();
 		$statistics   = $this->statistic_items();

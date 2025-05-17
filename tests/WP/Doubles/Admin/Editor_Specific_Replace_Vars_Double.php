@@ -7,7 +7,7 @@ use WPSEO_Admin_Editor_Specific_Replace_Vars;
 /**
  * Test Helper Class.
  */
-class Editor_Specific_Replace_Vars_Double extends WPSEO_Admin_Editor_Specific_Replace_Vars {
+final class Editor_Specific_Replace_Vars_Double extends WPSEO_Admin_Editor_Specific_Replace_Vars {
 
 	/**
 	 * Adds the replavement variables for the given page types.

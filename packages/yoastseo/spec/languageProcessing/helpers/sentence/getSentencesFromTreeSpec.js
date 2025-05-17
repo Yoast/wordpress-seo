@@ -1,7 +1,9 @@
+import { cloneDeep } from "lodash";
 import Paper from "../../../../src/values/Paper";
 import getSentencesFromTree from "../../../../src/languageProcessing/helpers/sentence/getSentencesFromTree";
 import buildTree from "../../../specHelpers/parse/buildTree";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import filterTree from "../../../../src/parse/build/private/filterTree";
 
 describe( "test to get sentences from the tree", () => {
 	let researcher;
@@ -14,7 +16,7 @@ describe( "test to get sentences from the tree", () => {
 			"</h3><h4>A subheading 4</h4></div>" );
 		researcher.setPaper( paper );
 		buildTree( paper, researcher );
-		expect( getSentencesFromTree( paper ) ).toEqual( [
+		expect( getSentencesFromTree( paper.getTree() ) ).toEqual( [
 			{
 				sourceCodeRange: { startOffset: 8, endOffset: 49 },
 				parentStartOffset: 8,
@@ -98,7 +100,7 @@ describe( "test to get sentences from the tree", () => {
 			" width=\"200\" height=\"300\" /> elephant[/caption]", { shortcodes: [ "caption" ] } );
 		researcher.setPaper( paper );
 		buildTree( paper, researcher );
-		expect( getSentencesFromTree( paper ) ).toEqual( [
+		expect( getSentencesFromTree( paper.getTree() ) ).toEqual( [
 			{
 				isParentFirstSectionOfBlock: false,
 				parentAttributeId: "",
@@ -154,7 +156,7 @@ describe( "test to get sentences from the tree", () => {
 			" is a small mammal native to the eastern Himalayas and southwestern China</blockquote>" );
 		researcher.setPaper( paper );
 		buildTree( paper, researcher );
-		expect( getSentencesFromTree( paper ) ).toEqual( [
+		expect( getSentencesFromTree( paper.getTree() ) ).toEqual( [
 			{ sourceCodeRange: { startOffset: 3, endOffset: 19 },
 				text: "A cute red panda",
 				tokens: [
@@ -183,7 +185,7 @@ describe( "test to get sentences from the tree", () => {
 			"is this giant panda</p> </div> </div>" );
 		researcher.setPaper( paper );
 		buildTree( paper, researcher );
-		expect( getSentencesFromTree( paper ) ).toEqual(
+		expect( getSentencesFromTree( paper.getTree() ) ).toEqual(
 			[
 				{
 					text: "What is giant panda",
@@ -285,6 +287,17 @@ describe( "test to get sentences from the tree", () => {
 			" is a small mammal native to the eastern Himalayas and southwestern China</blockquote>" );
 		researcher.setPaper( paper );
 		buildTree( paper, researcher );
-		expect( getSentencesFromTree( paper ) ).toEqual( [] );
+		expect( getSentencesFromTree( paper.getTree() ) ).toEqual( [] );
+	} );
+	it( "should return empty array if all sentences appear in filtered nodes", () => {
+		const paper = new Paper( "<ol><li>This is a test.</li><li>This is another test.</li></ol>" );
+		researcher.setPaper( paper );
+		buildTree( paper, researcher );
+		expect( getSentencesFromTree( paper.getTree() ).length ).toEqual( 2 );
+
+		let clonedTree = cloneDeep( paper.getTree() );
+		const additionalFilters = [ ( node ) => node.name === "ol" ];
+		clonedTree = filterTree( clonedTree, additionalFilters );
+		expect( getSentencesFromTree( clonedTree ).length ).toEqual( 0 );
 	} );
 } );

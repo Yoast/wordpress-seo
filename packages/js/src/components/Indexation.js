@@ -1,5 +1,5 @@
 /* global yoastIndexingData */
-import { Component, Fragment } from "@wordpress/element";
+import { Component, flushSync, Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Alert, NewButton, ProgressBar } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
@@ -137,19 +137,23 @@ class Indexation extends Component {
 				const response = await this.doIndexingRequest( url, this.settings.restApi.nonce );
 				await this.doPostIndexingAction( endpoint, response );
 
-				this.setState( previousState => (
-					{
-						processed: previousState.processed + response.objects.length,
-						firstTime: false,
-					}
-				) );
+				flushSync( () => {
+					this.setState( previousState => (
+						{
+							processed: previousState.processed + response.objects.length,
+							firstTime: false,
+						}
+					) );
+				} );
 
 				url = response.next_url;
 			} catch ( error ) {
-				this.setState( {
-					state: STATE.ERRORED,
-					error: error,
-					firstTime: false,
+				flushSync( () => {
+					this.setState( {
+						state: STATE.ERRORED,
+						error: error,
+						firstTime: false,
+					} );
 				} );
 			}
 		}
@@ -334,7 +338,7 @@ class Indexation extends Component {
 				value={ this.state.processed }
 			/>
 			<p style={ { color: colors.$palette_grey_text } }>
-				{ __( "Optimizing SEO data... This may take a while.", "wordpress-seo" ) }
+				{ __( "Optimizing SEO data… This may take a while.", "wordpress-seo" ) }
 			</p>
 		</Fragment>;
 	}

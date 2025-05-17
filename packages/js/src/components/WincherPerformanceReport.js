@@ -55,7 +55,7 @@ const WincherSEOPerformanceTableBlurredCell = styled.div`
 const ConnectToWincherWrapper = styled.p`
 	top: 47%;
 	left: 50%;
-	position: absolute; 
+	position: absolute;
 `;
 
 /**
@@ -67,12 +67,7 @@ const ConnectToWincherWrapper = styled.p`
  */
 const viewLinkUrl = ( props ) => {
 	const { websiteId, id } = props;
-
-	return sprintf(
-		"https://app.wincher.com/websites/%s/keywords?serp=%s&utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
-		websiteId,
-		id
-	);
+	return `https://app.wincher.com/websites/${websiteId}/keywords?serp=${id}&utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast`;
 };
 
 /**
@@ -190,12 +185,9 @@ const WincherNetworkErrorAlert = () => {
 	return (
 		<Alert type="error" className={ "wincher-performance-report-alert" }>
 			{
-				sprintf(
-					__(
-						// eslint-disable-next-line max-len
-						"Network Error: Unable to connect to the server. Please check your internet connection and try again later.",
-						"wordpress-seo"
-					)
+				__(
+					"Network Error: Unable to connect to the server. Please check your internet connection and try again later.",
+					"wordpress-seo"
 				)
 			}
 		</Alert>
@@ -219,7 +211,6 @@ const WincherConnectSuccessAlert = ( props ) => {
 					sprintf(
 						/* translators: %1$s and %2$s: Expands to "Wincher". */
 						__(
-							// eslint-disable-next-line max-len
 							"You have successfully connected with %1$s. Your %2$s account does not contain any keyphrases for this website yet. You can track keyphrases by using the \"Track SEO Performance\" button in the post editor.",
 							"wordpress-seo"
 						),
@@ -237,7 +228,6 @@ const WincherConnectSuccessAlert = ( props ) => {
 				sprintf(
 					/* translators: %s: Expands to "Wincher". */
 					__(
-						// eslint-disable-next-line max-len
 						"You have successfully connected with %s.",
 						"wordpress-seo"
 					),
@@ -328,14 +318,12 @@ GetUserMessage.propTypes = {
 const TableExplanation = ( { isLoggedIn } ) => {
 	const loggedInMessage = sprintf(
 		/* translators: %s expands to a link to Wincher login */
-		// eslint-disable-next-line max-len
 		__( "This overview only shows you keyphrases added to Yoast SEO. There may be other keyphrases added to your %s.", "wordpress-seo" ),
 		"{{wincherAccountLink/}}"
 	);
 
 	const notLoggedInMessage = sprintf(
 		/* translators: %s expands to a link to Wincher login */
-		// eslint-disable-next-line max-len
 		__( "This overview will show you your top performing keyphrases in Google. Connect with %s to get started.", "wordpress-seo" ),
 		"{{wincherLink/}}"
 	);
@@ -356,15 +344,7 @@ const TableExplanation = ( { isLoggedIn } ) => {
 							)
 						}
 					</WincherAccountLink>,
-					wincherLink: <WincherLink href={ wpseoAdminGlobalL10n[ "links.wincher.about" ] }>
-						{
-							sprintf(
-								/* translators: %s : Expands to "Wincher". */
-								__( "%s", "wordpress-seo" ),
-								"Wincher"
-							)
-						}
-					</WincherLink>,
+					wincherLink: <WincherLink href={ wpseoAdminGlobalL10n[ "links.wincher.about" ] }>Wincher</WincherLink>,
 				},
 			} )
 		}

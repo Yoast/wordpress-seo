@@ -1,4 +1,5 @@
-import { createInterpolateElement, useMemo, useCallback, useEffect } from "@wordpress/element";
+import { useMemo, useCallback, useEffect } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
@@ -52,7 +53,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) =>
 		}
 	}, [ name, updateTaxonomyReviewStatus ] );
 
-	const recommendedSize = useMemo( () => createInterpolateElement(
+	const recommendedSize = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening strong tag.
@@ -69,7 +70,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) =>
 		}
 	), [] );
 
-	const stripCategoryBaseDescription = useMemo( () => createInterpolateElement(
+	const stripCategoryBaseDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %s expands to <code>/category/</code> */
 			__( "Category URLs in WordPress contain a prefix, usually %s. Show or hide that prefix in category URLs.", "wordpress-seo" ),
@@ -80,7 +81,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) =>
 		}
 	), [] );
 
-	const taxonomyMultiplePostTypesMessage = useMemo( () => createInterpolateElement(
+	const taxonomyMultiplePostTypesMessage = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s and %2$s expand to post type plurals in code blocks, e.g. Posts Pages and Custom Post Type.
@@ -101,7 +102,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) =>
 		}
 	), [ label, initialPostTypeValues, lastPostTypeValue ] );
 
-	const taxonomySinglePostTypeMessage = useMemo( () => createInterpolateElement(
+	const taxonomySinglePostTypeMessage = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to the post type plural in code block, e.g. Posts.
@@ -144,7 +145,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) =>
 	}, [ name, stripCategoryBaseDescription ] );
 
 	const taxonomyNameMessage = useMemo( () => {
-		return createInterpolateElement(
+		return safeCreateInterpolateElement(
 			sprintf(
 				/**
 				 * translators: %1$s expands to the name of the taxonomy.
@@ -177,7 +178,6 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) =>
 					<FieldsetLayout
 						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
-							// eslint-disable-next-line max-len
 							// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to "Yoast SEO".
 							__( "Determine what your %1$s should look like in the search results by default. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
 							labelLower,
@@ -232,7 +232,6 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) =>
 							{ isPremium && <Badge variant="upsell">Premium</Badge> }
 						</div> }
 						description={ sprintf(
-						// eslint-disable-next-line max-len
 						// translators: %1$s expands to the taxonomy plural, e.g. Categories. %2$s expand to Yoast SEO.
 							__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
 							labelLower,

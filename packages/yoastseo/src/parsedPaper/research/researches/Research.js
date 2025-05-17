@@ -1,4 +1,4 @@
-import { flatten } from "lodash-es";
+import { flatten } from "lodash";
 import { LeafNode } from "../../structure/tree";
 
 /**
@@ -17,7 +17,7 @@ class Research {
 	 * @returns {boolean} If the given node is considered a leaf node for this research.
 	 *
 	 */
-	isLeafNode( node ) { // eslint-disable-line no-unused-vars
+	isLeafNode( node ) {
 		return node instanceof LeafNode;
 	}
 
@@ -42,7 +42,7 @@ class Research {
 	 *
 	 * @returns {*} The merged results.
 	 */
-	mergeChildrenResults( results ) { // eslint-disable-line no-unused-vars
+	mergeChildrenResults( results ) {
 		return flatten( results );
 	}
 }

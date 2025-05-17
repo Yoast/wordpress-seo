@@ -3,15 +3,16 @@
 
 import { useCallback, useState } from "@wordpress/element";
 import { InformationCircleIcon, ExclamationIcon, XCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import classNames from "classnames";
 import AnimateHeight from "react-animate-height";
 
 /**
  * Renders the alert component.
  *
- * @param {String} type The type of the alert.
+ * @param {string} type The type of the alert.
  * @param {*} children The content of the alert.
+ * @param {string} className The class name for the alert.
  *
  * @returns {React.Component} The Alert.
  */
@@ -41,7 +42,7 @@ export default function Alert( { type, children, className } ) {
 	return (
 		<div className={ classNames( "yst-flex yst-p-4 yst-rounded-md", color, className ) }>
 			{ icon }
-			<div className="yst-flex-1 yst-ml-3 yst-text-sm">
+			<div className="yst-flex-1 yst-ms-3 yst-text-sm">
 				{ children }
 			</div>
 		</div>
@@ -70,7 +71,7 @@ export function FadeInAlert( { id, isVisible, expandDuration, type, children, cl
 	const [ alertOpacity, setAlertOpacity ] = useState( isVisible ? "yst-opacity-100" : "yst-opacity-0" );
 	const startOpacityTransition = useCallback( () => {
 		setAlertOpacity( "yst-opacity-100" );
-	} );
+	}, [] );
 
 	return <AnimateHeight
 		id={ id }

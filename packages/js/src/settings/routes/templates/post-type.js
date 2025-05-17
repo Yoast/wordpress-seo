@@ -1,8 +1,9 @@
 /* eslint-disable max-statements */
 /* eslint-disable complexity */
-import { createInterpolateElement, useMemo, useEffect } from "@wordpress/element";
+import { useMemo, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, FeatureUpsell, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
+import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { Field, useFormikContext } from "formik";
 import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
@@ -19,10 +20,10 @@ import {
 	RouteLayout,
 } from "../../components";
 import { safeToLocaleLower } from "../../helpers";
-import { withFormikDummyField } from "../../hocs";
+import { withFormikDummyField, withFormikDummyTagField } from "../../hocs";
 import { useSelectSettings, useDispatchSettings } from "../../hooks";
 
-const FormikTagFieldWithDummy = withFormikDummyField( FormikTagField );
+const FormikTagFieldWithDummy = withFormikDummyTagField( FormikTagField );
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
 /**
@@ -54,6 +55,13 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const pageAnalysisPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-custom-fields" );
 	const schemaLink = useSelectSettings( "selectLink", [], "https://yoa.st/post-type-schema" );
 	const { updatePostTypeReviewStatus } = useDispatchSettings();
+	const isWooCommerceSEOActive = useSelectSettings( "selectPreference", [], "isWooCommerceSEOActive" );
+	const shouldDisablePageTypeSelect = isWooCommerceSEOActive && name === "product";
+	const disabledPageTypeSelectorDescription =  sprintf(
+		/* translators: %1$s expands to Yoast WooCommerce SEO. */
+		__( "You have %1$s activated on your site, automatically setting the Page type for your products to 'Item Page'. As a result, the Page type selection is disabled.", "wordpress-seo" ),
+		"Yoast WooCommerce SEO"
+	);
 
 	useEffect( () => {
 		if ( isNew ) {
@@ -63,7 +71,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 
 	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
 	const singularLabelLower = useMemo( () => safeToLocaleLower( singularLabel, userLocale ), [ singularLabel, userLocale ] );
-	const recommendedSize = useMemo( () => createInterpolateElement(
+	const recommendedSize = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening strong tag.
@@ -105,7 +113,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 			"link-edit-woocommerce-shop-page"
 		);
 	}, [ hasWooCommerceShopPage, wooCommerceShopPageSettingUrl, editWooCommerceShopPageUrl ] );
-	const customFieldsDescription = useMemo( () => createInterpolateElement(
+	const customFieldsDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			// translators: %1$s and %2$s are replaced by opening and closing <em> tags.
 			__( "You can add multiple custom fields and separate them by using %1$senter%2$s or %1$scomma%2$s.", "wordpress-seo" ),
@@ -118,8 +126,9 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	), [] );
 	const schemaDescription = useMemo( () => addLinkToString(
 		sprintf(
-			// eslint-disable-next-line max-len
-			// translators: %1$s expands to the post type plural, e.g. posts. %2$s and %3$s expand to opening and closing anchor tag. %4$s expands to "Yoast SEO".
+			/* translators: %1$s expands to the post type plural, e.g. posts.
+			 * %2$s and %3$s expand to opening and closing anchor tag. %4$s expands to "Yoast SEO".
+			 */
 			__( "Determine how your %1$s should be described by default in %2$syour site's Schema.org markup%3$s. You can always change the settings for individual %1$s in the %4$s sidebar or metabox.", "wordpress-seo" ),
 			labelLower,
 			"<a>",
@@ -148,7 +157,6 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					<FieldsetLayout
 						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
-							// eslint-disable-next-line max-len
 							// translators: %1$s expands to the post type plural, e.g. posts. %2$s expands to "Yoast SEO".
 							__( "Determine what your %1$s should look like in the search results by default. You can always customize the settings for individual %1$s in the %2$s sidebar or metabox.", "wordpress-seo" ),
 							labelLower,
@@ -203,7 +211,6 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							{ isPremium && <Badge variant="upsell">Premium</Badge> }
 						</div> }
 						description={ sprintf(
-							// eslint-disable-next-line max-len
 							// translators: %1$s expands to the post type plural, e.g. posts. %2$s expands to "Yoast SEO".
 							__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %1$s in the %2$s sidebar or metabox.", "wordpress-seo" ),
 							labelLower,
@@ -265,8 +272,10 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							name={ `wpseo_titles.schema-page-type-${ name }` }
 							id={ `input-wpseo_titles-schema-page-type-${ name }` }
 							label={ __( "Page type", "wordpress-seo" ) }
-							options={ pageTypes }
+							options={ shouldDisablePageTypeSelect ? pageTypes.filter( ( { value } ) => value === "ItemPage" ) : pageTypes }
+							disabled={ shouldDisablePageTypeSelect }
 							className="yst-max-w-sm"
+							description={ shouldDisablePageTypeSelect ? disabledPageTypeSelectorDescription : null }
 						/>
 						{ hasSchemaArticleType && (
 							<div>
@@ -311,7 +320,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								name={ `wpseo_titles.page-analyse-extra-${ name }` }
 								id={ `input-wpseo_titles-page-analyse-extra-${ name }` }
 								label={ __( "Add custom fields to page analysis", "wordpress-seo" ) }
-								labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+								labelSuffix={ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
 								description={ <>
 									{ customFieldsDescription }
 									<br />

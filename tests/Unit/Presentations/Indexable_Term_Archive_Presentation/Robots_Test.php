@@ -14,12 +14,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Term_Archive_Presentation
  */
-class Robots_Test extends TestCase {
+final class Robots_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -31,6 +33,8 @@ class Robots_Test extends TestCase {
 	 * Tests the generate_robots with default settings.
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots() {
 		$this->instance
@@ -64,6 +68,8 @@ class Robots_Test extends TestCase {
 	 * Tests whether generate_robots sets noindex when a taxonomy is set to not be indexed.
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_taxonomy_not_indexable() {
 		$this->instance
@@ -95,6 +101,8 @@ class Robots_Test extends TestCase {
 	 * queried term is.
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_taxonomy_not_indexable_term_indexable() {
 		$this->instance
@@ -131,6 +139,8 @@ class Robots_Test extends TestCase {
 	 * queried term is not.
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_taxonomy_indexable_term_not_indexable() {
 		$this->instance
@@ -163,6 +173,8 @@ class Robots_Test extends TestCase {
 	 * Tests whether generate_robots sets noindex when multiple terms are being queried.
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_multi_terms_page() {
 		$this->current_page
@@ -185,6 +197,8 @@ class Robots_Test extends TestCase {
 
 	/**
 	 * Setup default WP_Query_Wrapper.
+	 *
+	 * @return void
 	 */
 	private function setup_wp_query_wrapper() {
 		$wp_query = Mockery::mock( WP_Query::class );

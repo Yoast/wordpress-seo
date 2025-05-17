@@ -15,14 +15,14 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 *
 	 * @var string
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_unindexed_term_link_count';
+	public const UNINDEXED_COUNT_TRANSIENT = 'wpseo_unindexed_term_link_count';
 
 	/**
 	 * The transient cache key for limited counts.
 	 *
 	 * @var string
 	 */
-	const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
+	public const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
 
 	/**
 	 * The post type helper.
@@ -52,6 +52,10 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	protected function get_objects() {
 		$query = $this->get_select_query( $this->get_limit() );
 
+		if ( $query === '' ) {
+			return [];
+		}
+
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$terms = $this->wpdb->get_results( $query );
 
@@ -74,8 +78,13 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 */
 	protected function get_count_query() {
 		$public_taxonomies = $this->taxonomy_helper->get_indexable_taxonomies();
-		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
-		$indexable_table   = Model::get_table_name( 'Indexable' );
+
+		if ( empty( $public_taxonomies ) ) {
+			return '';
+		}
+
+		$placeholders    = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
+		$indexable_table = Model::get_table_name( 'Indexable' );
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
 		return $this->wpdb->prepare(
@@ -101,6 +110,10 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 */
 	protected function get_select_query( $limit = false ) {
 		$public_taxonomies = $this->taxonomy_helper->get_indexable_taxonomies();
+
+		if ( empty( $public_taxonomies ) ) {
+			return '';
+		}
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$replacements    = $public_taxonomies;

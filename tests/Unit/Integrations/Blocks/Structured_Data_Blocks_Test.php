@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Blocks;
 
-use Mockery;
 use Brain\Monkey;
-use Yoast\WP\SEO\Integrations\Blocks\Structured_Data_Blocks;
+use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Integrations\Blocks\Structured_Data_Blocks;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Structured_Data_Blocks_Test extends TestCase {
+final class Structured_Data_Blocks_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.
@@ -41,6 +41,8 @@ class Structured_Data_Blocks_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -60,9 +62,11 @@ class Structured_Data_Blocks_Test extends TestCase {
 	 * Tests __construct method.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Structured_Data_Blocks::class,
 			new Structured_Data_Blocks(
 				$this->asset_manager,
@@ -76,7 +80,7 @@ class Structured_Data_Blocks_Test extends TestCase {
 	 *
 	 * @return array[]
 	 */
-	public function how_to_block_provider() {
+	public static function how_to_block_provider() {
 		return [
 			[
 				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>',
@@ -152,10 +156,12 @@ class Structured_Data_Blocks_Test extends TestCase {
 	 * @covers       ::present_duration_text
 	 * @dataProvider how_to_block_provider
 	 *
-	 * @param string $expected The expected content.
+	 * @param string $expected   The expected content.
 	 * @param array  $attributes The block attributes.
-	 * @param string $content The post content.
-	 * @param string $message The error message if the assert fails.
+	 * @param string $content    The post content.
+	 * @param string $message    The error message if the assert fails.
+	 *
+	 * @return void
 	 */
 	public function test_present_duration_text( $expected, $attributes, $content, $message ) {
 		$this->assertSame(
@@ -173,14 +179,14 @@ class Structured_Data_Blocks_Test extends TestCase {
 	 *
 	 * @return array[]
 	 */
-	public function how_to_images_provider() {
+	public static function how_to_images_provider() {
 		return [
 			[
-				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>' .
-				'<ol class="schema-how-to-steps"><li class="schema-how-to-step" id="how-to-step-1688388022851">' .
-				'<strong class="schema-how-to-step-name">Step 1</strong> <p class="schema-how-to-step-text">Do this step</p>' .
-				'</li><li class="schema-how-to-step" id="how-to-step-1688636978021"><strong class="schema-how-to-step-name">' .
-				'Step 2</strong> <p class="schema-how-to-step-text">Do those steps</p> </li></ol>',
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>'
+				. '<ol class="schema-how-to-steps"><li class="schema-how-to-step" id="how-to-step-1688388022851">'
+				. '<strong class="schema-how-to-step-name">Step 1</strong> <p class="schema-how-to-step-text">Do this step</p>'
+				. '</li><li class="schema-how-to-step" id="how-to-step-1688636978021"><strong class="schema-how-to-step-name">'
+				. 'Step 2</strong> <p class="schema-how-to-step-text">Do those steps</p> </li></ol>',
 				[
 					'durationText'        => 'The amount of time it will take:',
 					'defaultDurationText' => 'Time needed:',
@@ -196,11 +202,11 @@ class Structured_Data_Blocks_Test extends TestCase {
 						],
 					],
 				],
-				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>' .
-				'<ol class="schema-how-to-steps"><li class="schema-how-to-step" id="how-to-step-1688388022851">' .
-				'<strong class="schema-how-to-step-name">Step 1</strong> <p class="schema-how-to-step-text">Do this step</p>' .
-				'</li><li class="schema-how-to-step" id="how-to-step-1688636978021"><strong class="schema-how-to-step-name">' .
-				'Step 2</strong> <p class="schema-how-to-step-text">Do those steps</p> </li></ol>',
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">The amount of time it will take:&nbsp;</span>2 hours and 20 minutes</p>'
+				. '<ol class="schema-how-to-steps"><li class="schema-how-to-step" id="how-to-step-1688388022851">'
+				. '<strong class="schema-how-to-step-name">Step 1</strong> <p class="schema-how-to-step-text">Do this step</p>'
+				. '</li><li class="schema-how-to-step" id="how-to-step-1688636978021"><strong class="schema-how-to-step-name">'
+				. 'Step 2</strong> <p class="schema-how-to-step-text">Do those steps</p> </li></ol>',
 				'A test case for when there is no image in the block',
 			],
 		];
@@ -212,10 +218,12 @@ class Structured_Data_Blocks_Test extends TestCase {
 	 * @covers       ::optimize_how_to_images
 	 * @dataProvider how_to_images_provider
 	 *
-	 * @param string $expected The expected content.
+	 * @param string $expected   The expected content.
 	 * @param array  $attributes The block attributes.
-	 * @param string $content The post content.
-	 * @param string $message The error message if the assert fails.
+	 * @param string $content    The post content.
+	 * @param string $message    The error message if the assert fails.
+	 *
+	 * @return void
 	 */
 	public function test_optimize_how_to_images( $expected, $attributes, $content, $message ) {
 		Monkey\Functions\expect( 'register_shutdown_function' )

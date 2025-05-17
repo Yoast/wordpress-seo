@@ -3,8 +3,6 @@ import * as constants from "./analysis/constants";
 import getContentLocale from "./analysis/getContentLocale";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getL10nObject from "./analysis/getL10nObject";
-import isZapierConnected from "./analysis/isZapierConnected";
-import isZapierIntegrationActive from "./analysis/isZapierIntegrationActive";
 import * as refreshAnalysis from "./analysis/refreshAnalysis";
 import KeywordInput from "./components/contentAnalysis/KeywordInputComponent";
 import * as mapResults from "./components/contentAnalysis/mapResults";
@@ -25,8 +23,7 @@ import SEMrushRelatedKeyphrases from "./containers/SEMrushRelatedKeyphrases";
 import WincherSEOPerformance from "./containers/WincherSEOPerformance";
 import * as ajaxHelper from "./helpers/ajaxHelper";
 import createWatcher from "./helpers/create-watcher";
-import createInterpolateElement from "./helpers/createInterpolateElement";
-import * as i18n from "./helpers/i18n";
+import { setTextdomainL10n, safeCreateInterpolateElement } from "./helpers/i18n";
 import isBlockEditor from "./helpers/isBlockEditor";
 import * as replacementVariableHelpers from "./helpers/replacementVariableHelpers";
 import { update as updateAdminBar } from "./ui/adminBar";
@@ -39,8 +36,6 @@ window.yoast.editorModules = {
 		getL10nObject,
 		getContentLocale,
 		getIndicatorForScore,
-		isZapierConnected,
-		isZapierIntegrationActive,
 		constants,
 		refreshAnalysis,
 	},
@@ -80,10 +75,13 @@ window.yoast.editorModules = {
 	},
 	helpers: {
 		ajaxHelper,
-		createInterpolateElement,
+		// To support the legacy code, we need to use the old function name.
+		createInterpolateElement: safeCreateInterpolateElement,
 		createWatcher,
 		isBlockEditor,
-		i18n,
+		i18n: {
+			setTextdomainL10n,
+		},
 		replacementVariableHelpers,
 		publishBox: {
 			updateScore,

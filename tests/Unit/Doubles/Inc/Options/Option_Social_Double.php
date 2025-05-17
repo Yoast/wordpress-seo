@@ -7,7 +7,7 @@ use WPSEO_Option_Social;
 /**
  * Test Helper Class.
  */
-class Option_Social_Double extends WPSEO_Option_Social {
+final class Option_Social_Double extends WPSEO_Option_Social {
 
 	/**
 	 * Adds all the actions and filters for the option.

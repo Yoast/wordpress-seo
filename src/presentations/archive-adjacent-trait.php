@@ -29,6 +29,8 @@ trait Archive_Adjacent {
 	 * @codeCoverageIgnore
 	 *
 	 * @param Pagination_Helper $pagination The pagination helper.
+	 *
+	 * @return void
 	 */
 	public function set_archive_adjacent_helpers( Pagination_Helper $pagination ) {
 		$this->pagination = $pagination;

@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\Current_Page_Trait
  */
-class Current_Page_Trait_Test extends TestCase {
+final class Current_Page_Trait_Test extends TestCase {
 
 	/**
 	 * Holds the test instance.
@@ -57,7 +57,7 @@ class Current_Page_Trait_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function is_on_installation_page_get_data() {
+	public static function is_on_installation_page_get_data() {
 		return [
 			'no page'                   => [
 				'page'     => '',

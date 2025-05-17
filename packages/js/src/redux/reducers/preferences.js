@@ -1,14 +1,12 @@
 import { isUndefined, get } from "lodash";
+import { getIsAiFeatureEnabled } from "../selectors/preferences";
 import isContentAnalysisActive from "../../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
 import isInclusiveLanguageAnalysisActive from "../../analysis/isInclusiveLanguageAnalysisActive";
 import isCornerstoneActive from "../../analysis/isCornerstoneContentActive";
 import isWordFormRecognitionActive from "../../analysis/isWordFormRecognitionActive";
 import isSEMrushIntegrationActive from "../../analysis/isSEMrushIntegrationActive";
-import isZapierIntegrationActive from "../../analysis/isZapierIntegrationActive";
-import isZapierConnected from "../../analysis/isZapierConnected";
 import isWincherIntegrationActive from "../../analysis/isWincherIntegrationActive";
-import isWordProofIntegrationActive from "../../analysis/isWordProofIntegrationActive";
 
 /**
  * Gets the default state.
@@ -25,7 +23,7 @@ function getDefaultState() {
 		isWordFormRecognitionActive: isUndefined( window.wpseoPremiumMetaboxData ) && isWordFormRecognitionActive(),
 		isCornerstoneActive: isCornerstoneActive(),
 		isBreadcrumbsDisabled: ! ! window.wpseoAdminL10n.isBreadcrumbsDisabled,
-		isPrivateBlog: ! ! window.wpseoAdminL10n.isPrivateBlog,
+		isPrivateBlog: ! ! window.wpseoScriptData.isPrivateBlog,
 		isSEMrushIntegrationActive: isSEMrushIntegrationActive(),
 		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ),
 		displayAdvancedTab: displayAdvancedTab,
@@ -33,12 +31,15 @@ function getDefaultState() {
 		displaySchemaSettingsFooter: window.wpseoScriptData.metabox.schema.displayFooter,
 		useOpenGraphData: window.wpseoScriptData.metabox.showSocial.facebook,
 		useTwitterData: window.wpseoScriptData.metabox.showSocial.twitter,
-		isZapierIntegrationActive: isZapierIntegrationActive(),
-		isZapierConnected: isZapierConnected(),
 		isWincherIntegrationActive: isWincherIntegrationActive(),
-		isWordProofIntegrationActive: isWordProofIntegrationActive(),
 		isInsightsEnabled: get( window, "wpseoScriptData.metabox.isInsightsEnabled", false ),
-		isNewsEnabled: ! ! window.wpseoAdminL10n.news_seo_is_active,
+		isNewsEnabled: get( window, "wpseoScriptData.metabox.isNewsSeoActive", false ),
+		// The check for AI feature is deprecated, used as fallback. Should be removed once we stop supporting older versions of premium.
+		isAiFeatureActive: getIsAiFeatureEnabled(),
+		isWooCommerceSeoActive: get( window, "wpseoScriptData.metabox.isWooCommerceSeoActive", false ),
+		isWooCommerceActive: get( window, "wpseoScriptData.metabox.isWooCommerceActive", false ),
+		isRtl: get( window, "wpseoScriptData.metabox.isRtl", false ),
+		userLocale: get( window, "wpseoScriptData.metabox.userLocale", "en-US" ),
 	};
 }
 

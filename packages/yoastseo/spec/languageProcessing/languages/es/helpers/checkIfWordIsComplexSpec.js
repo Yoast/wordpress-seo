@@ -8,12 +8,10 @@ describe( "a test checking if the word is complex in Spanish",  function() {
 		expect( checkIfWordIsComplex( wordComplexityConfig, "original", premiumData ) ).toEqual( false );
 	} );
 
-	// eslint-disable-next-line max-len
 	it( "returns plural word form as non-complex if its singular form is found in the list when the singular word form ends with a consonant", function() {
 		expect( checkIfWordIsComplex( wordComplexityConfig, "originales", premiumData ) ).toEqual( false );
 	} );
 
-	// eslint-disable-next-line max-len
 	it( "returns plural word form as non-complex if its singular form is found in the list when the singular word form ends with a vowel", function() {
 		expect( checkIfWordIsComplex( wordComplexityConfig, "parecidos", premiumData ) ).toEqual( false );
 	} );

@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Installation_Success_Integration_Test extends TestCase {
+final class Installation_Success_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -42,15 +42,21 @@ class Installation_Success_Integration_Test extends TestCase {
 
 	/**
 	 * Set up the fixtures for the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
 
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 		$this->product_helper = Mockery::mock( Product_Helper::class );
-		$this->instance       = Mockery::mock(
+
+		$this->instance = Mockery::mock(
 			Installation_Success_Integration::class,
-			[ $this->options_helper, $this->product_helper ]
+			[
+				$this->options_helper,
+				$this->product_helper,
+			]
 		)->makePartial();
 	}
 
@@ -58,9 +64,11 @@ class Installation_Success_Integration_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Admin_Conditional::class,
 			],
@@ -72,14 +80,16 @@ class Installation_Success_Integration_Test extends TestCase {
 	 * Tests if the required dependencies are set right.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Options_Helper::class,
 			$this->getPropertyValue( $this->instance, 'options_helper' )
 		);
 
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Product_Helper::class,
 			$this->getPropertyValue( $this->instance, 'product_helper' )
 		);
@@ -89,6 +99,8 @@ class Installation_Success_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -128,6 +140,8 @@ class Installation_Success_Integration_Test extends TestCase {
 	 * Tests the successful redirection.
 	 *
 	 * @covers ::maybe_redirect
+	 *
+	 * @return void
 	 */
 	public function test_maybe_redirect_successful() {
 		$this->options_helper
@@ -178,6 +192,8 @@ class Installation_Success_Integration_Test extends TestCase {
 	 * Tests that the redirection does not occur when it's already happened.
 	 *
 	 * @covers ::maybe_redirect
+	 *
+	 * @return void
 	 */
 	public function test_maybe_redirect_already_happened() {
 		$this->options_helper
@@ -195,6 +211,8 @@ class Installation_Success_Integration_Test extends TestCase {
 	 * Tests that the redirection does not occur when it is not a first time install.
 	 *
 	 * @covers ::maybe_redirect
+	 *
+	 * @return void
 	 */
 	public function test_maybe_redirect_not_first_time_install() {
 		$this->options_helper
@@ -221,6 +239,8 @@ class Installation_Success_Integration_Test extends TestCase {
 	 * Tests that the redirection does not occur when free it is activated through premium.
 	 *
 	 * @covers ::maybe_redirect
+	 *
+	 * @return void
 	 */
 	public function test_maybe_redirect_premium_active() {
 		$this->options_helper
@@ -255,6 +275,8 @@ class Installation_Success_Integration_Test extends TestCase {
 	 * Tests that the redirection does not occur when in a bulk activation.
 	 *
 	 * @covers ::maybe_redirect
+	 *
+	 * @return void
 	 */
 	public function test_maybe_redirect_bulk_activation() {
 		$this->options_helper
@@ -287,6 +309,8 @@ class Installation_Success_Integration_Test extends TestCase {
 	 * Tests that the redirection does not occur when in the Network admin.
 	 *
 	 * @covers ::maybe_redirect
+	 *
+	 * @return void
 	 */
 	public function test_maybe_redirect_network_admin() {
 		$this->options_helper
@@ -326,6 +350,8 @@ class Installation_Success_Integration_Test extends TestCase {
 	 * Tests that the redirection does not occur when free is Network Activated.
 	 *
 	 * @covers ::maybe_redirect
+	 *
+	 * @return void
 	 */
 	public function test_maybe_redirect_network_active() {
 		$this->options_helper
@@ -368,6 +394,8 @@ class Installation_Success_Integration_Test extends TestCase {
 	 * Tests the addition of a submenu page.
 	 *
 	 * @covers ::add_submenu_page
+	 *
+	 * @return void
 	 */
 	public function test_add_submenu_page() {
 		Monkey\Functions\expect( '__' )

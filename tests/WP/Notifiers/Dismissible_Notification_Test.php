@@ -11,12 +11,14 @@ use Yoast_Notification_Center;
  *
  * @group notifiers
  */
-class Dismissible_Notification_Test extends TestCase {
+final class Dismissible_Notification_Test extends TestCase {
 
 	/**
 	 * Tests the listen method when required value is not present in the request URL.
 	 *
 	 * @covers WPSEO_Dismissible_Notification::listen
+	 *
+	 * @return void
 	 */
 	public function test_listen_when_notification_is_not_dismissed() {
 		$handler = $this
@@ -27,7 +29,7 @@ class Dismissible_Notification_Test extends TestCase {
 		$handler
 			->expects( $this->once() )
 			->method( 'get_listener_value' )
-			->will( $this->returnValue( null ) );
+			->willReturn( null );
 
 		$handler->listen();
 	}
@@ -36,6 +38,8 @@ class Dismissible_Notification_Test extends TestCase {
 	 * Tests the listener when required value is present in requested URL.
 	 *
 	 * @covers WPSEO_Dismissible_Notification::listen
+	 *
+	 * @return void
 	 */
 	public function test_listen_when_notification_will_be_dismissed() {
 		$handler = $this
@@ -46,7 +50,7 @@ class Dismissible_Notification_Test extends TestCase {
 		$handler
 			->expects( $this->once() )
 			->method( 'get_listener_value' )
-			->will( $this->returnValue( '' ) );
+			->willReturn( '' );
 
 		$handler
 			->expects( $this->once() )
@@ -59,6 +63,8 @@ class Dismissible_Notification_Test extends TestCase {
 	 * Tests the handler when the situation is applicable for showing it.
 	 *
 	 * @covers WPSEO_Dismissible_Notification::handle
+	 *
+	 * @return void
 	 */
 	public function test_handle_where_situation_is_applicable() {
 		$notification_center = $this
@@ -79,7 +85,7 @@ class Dismissible_Notification_Test extends TestCase {
 		$handler
 			->expects( $this->once() )
 			->method( 'is_applicable' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$handler->handle( $notification_center );
 	}
@@ -88,6 +94,8 @@ class Dismissible_Notification_Test extends TestCase {
 	 * Tests the handler when the situation is not applicable for showing it.
 	 *
 	 * @covers WPSEO_Dismissible_Notification::handle
+	 *
+	 * @return void
 	 */
 	public function test_handle_where_situation_is_not_applicable() {
 		$notification_center = $this
@@ -108,7 +116,7 @@ class Dismissible_Notification_Test extends TestCase {
 		$handler
 			->expects( $this->once() )
 			->method( 'is_applicable' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$handler->handle( $notification_center );
 	}
@@ -117,6 +125,8 @@ class Dismissible_Notification_Test extends TestCase {
 	 * Tests the dismissal method.
 	 *
 	 * @covers WPSEO_Dismissible_Notification::dismiss
+	 *
+	 * @return void
 	 */
 	public function test_dismiss() {
 		$handler = $this
@@ -139,6 +149,8 @@ class Dismissible_Notification_Test extends TestCase {
 	 * Tests is_applicable when notices has been dismissed.
 	 *
 	 * @covers WPSEO_Dismissible_Notification::is_applicable
+	 *
+	 * @return void
 	 */
 	public function test_is_applicable_with_dismissed_notice() {
 		$instance = $this
@@ -149,7 +161,7 @@ class Dismissible_Notification_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'is_notice_dismissed' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$this->assertFalse( $instance->is_applicable() );
 	}
@@ -158,6 +170,8 @@ class Dismissible_Notification_Test extends TestCase {
 	 * Tests is_applicable when notices has not been dismissed.
 	 *
 	 * @covers WPSEO_Dismissible_Notification::is_applicable
+	 *
+	 * @return void
 	 */
 	public function test_is_applicable_with_non_dismissed_notice() {
 		$instance = $this
@@ -168,7 +182,7 @@ class Dismissible_Notification_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'is_notice_dismissed' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$this->assertTrue( $instance->is_applicable() );
 	}

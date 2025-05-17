@@ -8,12 +8,14 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class File_Size_Exception_Test extends TestCase {
+final class File_Size_Exception_Test extends TestCase {
 
 	/**
 	 * Tests that the externally hosted error message is as expected.
 	 *
 	 * @covers WPSEO_File_Size_Exception::externally_hosted
+	 *
+	 * @return void
 	 */
 	public function test_externally_hosted_exception() {
 		$expected_exception = WPSEO_File_Size_Exception::externally_hosted( 'https://external.im/age.jpg' );
@@ -28,6 +30,8 @@ class File_Size_Exception_Test extends TestCase {
 	 * Tests that the unknown exception error message is as expected.
 	 *
 	 * @covers WPSEO_File_Size_Exception::unknown_error
+	 *
+	 * @return void
 	 */
 	public function test_unknown_error() {
 		$expected_exception = WPSEO_File_Size_Exception::unknown_error( 'image.jpg' );

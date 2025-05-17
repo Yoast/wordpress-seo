@@ -1,4 +1,5 @@
 import { singleWords as transitionWords } from "./transitionWords.js";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
 
 /**
  * Returns an object with exceptions for the prominent words researcher
@@ -7,57 +8,43 @@ import { singleWords as transitionWords } from "./transitionWords.js";
 
 const articles = [ "le", "la", "les", "un", "une", "des", "aux", "du", "au", "d'un", "d'une", "l'un", "l'une" ];
 
-const cardinalNumerals = [
-	"deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze",
+const cardinalNumerals = [ "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze",
 	"quinze", "seize", "dix-sept", "dix-huit", "dix-neuf", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix",
-	"quatre-vingt", "quatre-vingt-dix", "septante", "huitante", "octante", "nonante", "cent", "mille", "million", "milliard",
-];
+	"quatre-vingt", "quatre-vingt-dix", "septante", "huitante", "octante", "nonante", "cent", "mille", "million", "milliard" ];
 
 // 'premier' and 'première' are not included because of their secondary meanings ('prime minister', '[movie] premiere')
-const ordinalNumerals = [
-	"second", "secondes", "deuxième", "deuxièmes", "troisième", "troisièmes", "quatrième", "quatrièmes", "cinquième",
+const ordinalNumerals = [ "second", "secondes", "deuxième", "deuxièmes", "troisième", "troisièmes", "quatrième", "quatrièmes", "cinquième",
 	"cinquièmes", "sixième", "sixièmes", "septième", "septièmes", "huitième", "huitièmes", "neuvième", "neuvièmes",
 	"dixième", "dixièmes", "onzième", "onzièmes", "douzième", "douzièmes", "treizième", "treizièmes", "quatorzième",
 	"quatorzièmes", "quinzième", "quinzièmes", "seizième", "seizièmes", "dix-septième", "dix-septièmes", "dix-huitième",
-	"dix-huitièmes", "dix-neuvième", "dix-neuvièmes", "vingtième", "vingtièmes",
-];
+	"dix-huitièmes", "dix-neuvième", "dix-neuvièmes", "vingtième", "vingtièmes" ];
 
-const personalPronounsNominative = [
-	"je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles", "qu'il", "qu'elle",
-	"qu'ils", "qu'elles", "qu'on", "d'elle", "d'elles",
-];
+const personalPronounsNominative = [ "je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles", "qu'il", "qu'elle",
+	"qu'ils", "qu'elles", "qu'on", "d'elle", "d'elles" ];
 
 const personalPronounsStressed = [ "moi", "toi", "lui", "soi", "eux", "d'eux", "qu'eux" ];
 
 // Le, la, les are already included in the articles list.
 const personalPronounsAccusative = [ "me", "te" ];
 
-const demonstrativePronouns = [
-	"celui", "celle", "ceux", "celles", "ce", "celui-ci", "celui-là", "celle-ci", "celle-là", "ceux-ci",
-	"ceux-là", "celles-ci", "celles-là", "ceci", "cela", "ça", "cette", "cet", "ces",
-];
+const demonstrativePronouns = [ "celui", "celle", "ceux", "celles", "ce", "celui-ci", "celui-là", "celle-ci", "celle-là", "ceux-ci",
+	"ceux-là", "celles-ci", "celles-là", "ceci", "cela", "ça", "cette", "cet", "ces" ];
 
 const possessivePronouns = [ "mon", "ton", "son", "ma", "ta", "sa", "mes", "tes", "ses", "notre", "votre", "leur", "nos", "vos", "leurs" ];
 
-const quantifiers = [
-	"beaucoup", "peu", "quelque", "quelques", "tous", "tout", "toute", "toutes", "plusieurs", "plein", "chaque",
-	"suffisant", "suffisante", "suffisantes", "suffisants", "faible", "moins", "tant", "plus", "divers", "diverse", "diverses",
-];
+const quantifiers = [ "beaucoup", "peu", "quelque", "quelques", "tous", "tout", "toute", "toutes", "plusieurs", "plein", "chaque",
+	"suffisant", "suffisante", "suffisantes", "suffisants", "faible", "moins", "tant", "plus", "divers", "diverse", "diverses" ];
 
 // The remaining reflexive personal pronouns are already included in other pronoun lists.
 const reflexivePronouns = [ "se" ];
 
-const indefinitePronouns = [
-	"aucun", "aucune", "autre", "autres", "d'autres", "certain", "certaine", "certaines", "certains",
+const indefinitePronouns = [ "aucun", "aucune", "autre", "autres", "d'autres", "certain", "certaine", "certaines", "certains",
 	"chacun", "chacune", "même", "mêmes", "quelqu'un", "quelqu'une", "quelques'uns", "quelques'unes", "autrui", "nul",
 	"personne", "quiconque", "rien", "d'aucunes", "d'aucuns", "nuls", "nules", "l'autre", "tel", "telle",
-	"tels", "telles",
-];
+	"tels", "telles" ];
 
-const relativePronouns = [
-	"qui", "que", "lequel", "laquelle", "auquel", "auxquels", "auxquelles", "duquel", "desquels", "desquelles", "dont", "où",
-	"quoi",
-];
+const relativePronouns = [ "qui", "que", "lequel", "laquelle", "auquel", "auxquels", "auxquelles", "duquel", "desquels", "desquelles", "dont",
+	"où", "quoi" ];
 
 const interrogativeProAdverbs = [ "combien", "comment", "pourquoi", "d'où" ];
 
@@ -68,8 +55,7 @@ const pronominalAdverbs = [ "y", "n'y" ];
 const locativeAdverbs = [ "là", "ici", "d'ici", "voici" ];
 
 // 'Vins' is not included because it also means 'wines'.
-const otherAuxiliaries = [
-	"a", "a-t-elle", "a-t-il", "a-t-on", "ai", "ai-je", "aie", "as", "as-tu", "aura", "aurai", "auraient", "aurais", "aurait",
+const otherAuxiliaries = [ "a", "a-t-elle", "a-t-il", "a-t-on", "ai", "ai-je", "aie", "as", "as-tu", "aura", "aurai", "auraient", "aurais", "aurait",
 	"auras", "aurez", "auriez", "aurons", "auront", "avaient", "avais", "avait", "avez", "avez-vous", "aviez", "avions", "avons", "avons-nous",
 	"ayez", "ayons", "eu", "eûmes", "eurent", "eus", "eut", "eûtes", "j'ai", "j'aurai", "j'avais", "j'eus", "ont", "ont-elles", "ont-ils", "vais",
 	"vas", "va", "allons", "allez", "vont", "vais-je", "vas-tu", "va-t-il", "va-t-elle", "va-t-on", "allons-nous", "allez-vous", "vont-elles",
@@ -129,12 +115,10 @@ Not filtered because of primary meaning: 'grâce à' ('grace'), 'en face' ('face
 'hors' for 'hors de', 'quant' for 'quant à'. ‘travers’ is part of 'à travers.'
  */
 
-const prepositions = [
-	"à", "après", "d'après", "au-delà", "au-dessous", "au-dessus", "avant", "avec", "concernant",
+const prepositions = [ "à", "après", "d'après", "au-delà", "au-dessous", "au-dessus", "avant", "avec", "concernant",
 	"chez", "contre", "dans", "de", "depuis", "derrière", "dès", "devant", "durant", "en", "entre", "envers", "environ",
 	"hormis", "hors", "jusque", "jusqu'à", "jusqu'au", "jusqu'aux", "loin", "moyennant", "outre", "par", "parmi",
-	"pendant", "pour", "près", "quant", "sans", "sous", "sur", "travers", "vers", "voilà",
-];
+	"pendant", "pour", "près", "quant", "sans", "sous", "sur", "travers", "vers", "voilà" ];
 
 const coordinatingConjunctions = [ "et", "ni", "or", "ou" ];
 
@@ -161,8 +145,7 @@ const subordinatingConjunctions = [ "afin", "autant", "comme", "d'autant", "d'ic
  'souvenir' ('to remember'), 'témoigner' ('to witness') – only VS forms (due to their more general nature)
  */
 
-const interviewVerbs = [
-	"dit", "disent", "dit-il", "dit-elle", "disent-ils", "disent-elles", "disait", "disait-il", "disait-elle", "disaient-ils",
+const interviewVerbs = [ "dit", "disent", "dit-il", "dit-elle", "disent-ils", "disent-elles", "disait", "disait-il", "disait-elle", "disaient-ils",
 	"disaient-elles", "dirent", "demande", "demandent", "demande-t-il", "demande-t-elle", "demandent-ils", "demandent-elles", "demandait",
 	"demandaient", "demandait-il", "demandait-elle", "demandaient-ils", "demandaient-elles", "demanda", "demanda-t-il", "demanda-t-elle",
 	"demandé", "pense", "pensent", "pense-t-il", "pense-t-elle", "pensent-ils", "pensent-elles", "pensait", "pensaient", "pensait-il",
@@ -176,35 +159,28 @@ const interviewVerbs = [
 	"rétorque-t-il", "rétorque-t-elle", "rétorqué", "souligne", "souligne-t-il", "souligne-t-elle", "souligné", "affirme-t-il", "affirme-t-elle",
 	"ajoute-t-il", "ajoute-t-elle", "analyse-t-il", "analyse-t-elle", "avance-t-il", "avance-t-elle", "écrit-il", "écrit-elle", "indique-t-il",
 	"indique-t-elle", "poursuit-il", "poursuit-elle", "précise-t-il", "précise-t-elle", "résume-t-il", "résume-t-elle", "souvient-il",
-	"souvient-elle", "témoigne-t-il", "témoigne-t-elle",
-];
+	"souvient-elle", "témoigne-t-il", "témoigne-t-elle" ];
 
-const interviewVerbsInfinitive = [
-	"dire", "penser", "demander", "concéder", "continuer", "confier", "déclamer", "déclarer", "déplorer", "expliquer",
+const interviewVerbsInfinitive = [ "dire", "penser", "demander", "concéder", "continuer", "confier", "déclamer", "déclarer", "déplorer", "expliquer",
 	"lancer", "narrer", "raconter", "rappeler", "réagir", "répondre", "rétorquer", "souligner", "affirmer", "ajouter", "analyser", "avancer",
-	"écrire", "indiquer", "poursuivre", "préciser", "résumer", "témoigner",
-];
+	"écrire", "indiquer", "poursuivre", "préciser", "résumer", "témoigner" ];
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
-const additionalTransitionWords = [
-	"encore", "éternellement", "immédiatement", "compris", "comprenant", "inclus", "naturellement", "particulièrement",
-	"notablement", "actuellement", "maintenant", "ordinairement", "généralement", "habituellement", "d'habitude", "vraiment",
+const additionalTransitionWords = [ "encore", "éternellement", "immédiatement", "compris", "comprenant", "inclus", "naturellement",
+	"particulièrement", "notablement", "actuellement", "maintenant", "ordinairement", "généralement", "habituellement", "d'habitude", "vraiment",
 	"finalement", "uniquement", "peut-être", "initialement", "déjà", "c.-à-d", "souvent", "fréquemment", "régulièrement", "simplement",
 	"éventuellement", "quelquefois", "parfois", "probable", "plausible", "jamais", "toujours", "incidemment", "accidentellement", "récemment",
-	"dernièrement", "relativement", "clairement", "évidemment", "apparemment", "pourvu",
-];
+	"dernièrement", "relativement", "clairement", "évidemment", "apparemment", "pourvu" ];
 
 const intensifiers = [ "assez", "trop", "tellement", "presque", "très", "absolument", "extrêmement", "quasi", "quasiment", "fort" ];
 
 // These verbs convey little meaning.
-const delexicalizedVerbs = [
-	"fais", "fait", "faisons", "faites", "font", "fais-je",
+const delexicalizedVerbs = [ "fais", "fait", "faisons", "faites", "font", "fais-je",
 	"fait-il", "fait-elle", "fait-on", "faisons-nous", "faites-vous", "font-ils", "font-elles", "fis", "fit", "fîmes", "fîtes", "firent", "faisais",
 	"faisait", "faisions", "faisiez", "faisaient", "ferai", "feras", "fera", "ferons", "ferez", "feront", "veux", "veut", "voulons", "voulez",
 	"veulent", "voulus", "voulut", "voulûmes", "voulûtes", "voulurent", "voulais", "voulait", "voulions", "vouliez", "voulaient", "voudrai",
 	"voudras", "voudra", "voudrons", "voudrez", "voudront", "voulu", "veux-je", "veux-tu", "veut-il", "veut-elle", "veut-on", "voulons-nous",
-	"voulez-vous", "veulent-ils", "veulent-elles", "voudrais", "voudrait", "voudrions", "voudriez", "voudraient", "voulant",
-];
+	"voulez-vous", "veulent-ils", "veulent-elles", "voudrais", "voudrait", "voudrions", "voudriez", "voudraient", "voulant" ];
 
 const delexicalizedVerbsInfinitive = [ "faire", "vouloir" ];
 
@@ -213,8 +189,7 @@ const delexicalizedVerbsInfinitive = [ "faire", "vouloir" ];
  'Dernier' is also included in generalAdjectivesAdverbsPreceding because it can be used both before and after a noun,
  and it should be filtered out either way.
  */
-const generalAdjectivesAdverbs = [
-	"antérieur", "antérieures", "antérieurs", "antérieure", "précédent", "précédents", "précédente",
+const generalAdjectivesAdverbs = [ "antérieur", "antérieures", "antérieurs", "antérieure", "précédent", "précédents", "précédente",
 	"précédentes", "facile", "faciles", "simple", "simples", "vite", "vites", "vitesse", "vitesses", "difficile", "difficiles",
 	"propre", "propres", "long", "longe", "longs", "longes", "longue", "longues", "bas", "basse", "basses", "ordinaire", "ordinaires",
 	"bref", "brefs", "brève", "brèves", "sûr", "sûrs", "sûre", "sûres", "sure", "sures", "surs", "habituel", "habituels", "habituelle",
@@ -223,41 +198,30 @@ const generalAdjectivesAdverbs = [
 	"directement", "légèrement", "dernier", "derniers", "dernière", "dernières", "différent", "différents",
 	"différente", "différentes", "similaire", "similaires", "pareil", "pareils", "pareille", "pareilles", "largement",
 	"mal", "super", "bien", "pire", "pires", "suivants", "suivante", "suivantes", "prochain", "prochaine", "prochains",
-	"prochaines", "proche", "proches", "fur",
-];
+	"prochaines", "proche", "proches", "fur" ];
 
 /*
  'Dernier' is also included in generalAdjectivesAdverbs because it can be used both before and after a noun,
  and it should be filtered out either way.
  */
-const generalAdjectivesAdverbsPreceding = [
-	"nouveau", "nouvel", "nouvelle", "nouveaux", "nouvelles", "vieux", "vieil",
+const generalAdjectivesAdverbsPreceding = [ "nouveau", "nouvel", "nouvelle", "nouveaux", "nouvelles", "vieux", "vieil",
 	"vieille", "vieilles", "beau", "bel", "belle", "belles", "bon", "bons", "bonne", "bonnes", "grand", "grande",
 	"grands", "grandes", "haut", "hauts", "haute", "hautes", "petit", "petite", "petits", "petites", "meilleur",
 	"meilleurs", "meilleure", "meilleures", "joli", "jolis", "jolie", "jolies", "gros", "grosse", "grosses", "mauvais",
-	"mauvaise", "mauvaises", "dernier", "derniers", "dernière", "dernières",
-];
+	"mauvaise", "mauvaises", "dernier", "derniers", "dernière", "dernières" ];
 
-const interjections = [
-	"ah", "ha", "oh", "ho", "bis", "plouf", "vlan", "ciel", "pouf", "paf", "crac", "hurrah",
-	"allo", "stop", "bravo", "ô", "eh", "hé", "aïe", "oef", "ahi", "fi", "zest", "hem", "holà", "chut",
-];
+const interjections = [ "ah", "ha", "oh", "ho", "bis", "plouf", "vlan", "ciel", "pouf", "paf", "crac", "hurrah",
+	"allo", "stop", "bravo", "ô", "eh", "hé", "aïe", "oef", "ahi", "fi", "zest", "hem", "holà", "chut" ];
 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
-const recipeWords = [
-	"mg", "g", "kg", "ml", "dl", "cl", "l", "grammes", "gram", "once", "onces", "oz", "lbs", "càc", "cc", "càd", "càs", "càt",
-	"cd", "cs", "ct",
-];
+const recipeWords = [ "mg", "g", "kg", "ml", "dl", "cl", "l", "grammes", "gram", "once", "onces", "oz", "lbs", "càc", "cc", "càd", "càs", "càt",
+	"cd", "cs", "ct" ];
 
-const timeWords = [
-	"minute", "minutes", "heure", "heures", "journée", "journées", "semaine", "semaines", "mois", "année",
-	"années", "aujourd'hui", "demain", "hier", "après-demain", "avant-hier",
-];
+const timeWords = [ "minute", "minutes", "heure", "heures", "journée", "journées", "semaine", "semaines", "mois", "année",
+	"années", "aujourd'hui", "demain", "hier", "après-demain", "avant-hier" ];
 
-const vagueNouns = [
-	"chose", "choses", "façon", "façons", "pièce", "pièces", "truc", "trucs", "fois", "cas", "aspect", "aspects", "objet",
-	"objets", "idée", "idées", "thème", "thèmes", "sujet", "sujets", "personnes", "manière", "manières", "sorte", "sortes",
-];
+const vagueNouns = [ "chose", "choses", "façon", "façons", "pièce", "pièces", "truc", "trucs", "fois", "cas", "aspect", "aspects", "objet",
+	"objets", "idée", "idées", "thème", "thèmes", "sujet", "sujets", "personnes", "manière", "manières", "sorte", "sortes" ];
 
 const miscellaneous = [ "ne", "oui", "d'accord", "amen", "euro", "euros", "etc" ];
 
@@ -267,21 +231,26 @@ const titlesFollowing = [ "jr", "sr" ];
 
 
 // These word categories are filtered at the ending of word combinations.
-export const filteredAtEnding = [].concat( ordinalNumerals, otherAuxiliariesInfinitive, delexicalizedVerbsInfinitive, copulaInfinitive,
-	interviewVerbsInfinitive, generalAdjectivesAdverbsPreceding );
+export const filteredAtEnding = transformWordsWithHyphens( [].concat( ordinalNumerals, otherAuxiliariesInfinitive, delexicalizedVerbsInfinitive,
+	copulaInfinitive, interviewVerbsInfinitive, generalAdjectivesAdverbsPreceding ) );
 
 // These word categories are filtered at the beginning of word combinations.
-export const filteredAtBeginning = generalAdjectivesAdverbs;
+export const filteredAtBeginning = transformWordsWithHyphens( generalAdjectivesAdverbs );
 
 // These word categories are filtered at the beginning and ending of word combinations.
-export const filteredAtBeginningAndEnding = [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
-	quantifiers, possessivePronouns );
+export const filteredAtBeginningAndEnding = transformWordsWithHyphens( [].concat( articles, prepositions, coordinatingConjunctions,
+	demonstrativePronouns, intensifiers, quantifiers, possessivePronouns ) );
 
 // These word categories are filtered everywhere within word combinations.
-export const filteredAnywhere = [].concat( transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsStressed,
-	reflexivePronouns, interjections, cardinalNumerals, copula, interviewVerbs, otherAuxiliaries, delexicalizedVerbs,
+export const filteredAnywhere = transformWordsWithHyphens( [].concat( transitionWords, personalPronounsNominative, personalPronounsAccusative,
+	personalPronounsStressed, reflexivePronouns, interjections, cardinalNumerals, copula, interviewVerbs, otherAuxiliaries, delexicalizedVerbs,
 	indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeAdjectives, relativePronouns,
-	locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns );
+	locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns ) );
+
+/* For `cannotDirectlyPrecedePassiveParticiple` and `cannotBeBetweenPassiveAuxiliaryAndParticiple`,
+ we don't transform the hyphenated words from the list. This is because by transforming them using `transformWordsWithHyphens`,
+ we could cause inaccuracy in detecting French passive voice.
+ */
 
 // These word categories cannot directly precede a passive participle.
 export const cannotDirectlyPrecedePassiveParticiple = [].concat( articles, prepositions, personalPronounsStressed,
@@ -292,13 +261,14 @@ export const cannotDirectlyPrecedePassiveParticiple = [].concat( articles, prepo
 export const cannotBeBetweenPassiveAuxiliaryAndParticiple = [].concat( otherAuxiliaries, otherAuxiliariesInfinitive );
 
 // This export contains all of the above words.
-export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
-	personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,
-	pronominalAdverbs, locativeAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, interrogativeAdjectives, copula, copulaInfinitive,
-	prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
-	transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections,
+export const all = transformWordsWithHyphens( [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns,
+	possessivePronouns, reflexivePronouns, personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers,
+	indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive,
+	interrogativeAdjectives, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
+	subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords,
+	intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections,
 	generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords,
-	titlesPreceding, titlesFollowing, personalPronounsStressed );
+	titlesPreceding, titlesFollowing, personalPronounsStressed ) );
 
 export default {
 	filteredAtEnding,

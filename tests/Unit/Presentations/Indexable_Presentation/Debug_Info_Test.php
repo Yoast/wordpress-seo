@@ -11,12 +11,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presentations
  */
-class Debug_Info_Test extends TestCase {
+final class Debug_Info_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -28,6 +30,8 @@ class Debug_Info_Test extends TestCase {
 	 * Tests the debug info method.
 	 *
 	 * @covers ::__debugInfo
+	 *
+	 * @return void
 	 */
 	public function test_debug_info() {
 		$this->instance->model   = 'indexable';

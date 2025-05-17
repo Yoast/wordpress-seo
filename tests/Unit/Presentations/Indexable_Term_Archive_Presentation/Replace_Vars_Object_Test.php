@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presentations
  */
-class Replace_Vars_Object_Test extends TestCase {
+final class Replace_Vars_Object_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -31,6 +33,8 @@ class Replace_Vars_Object_Test extends TestCase {
 	 * Tests whether the term is returned.
 	 *
 	 * @covers ::generate_source
+	 *
+	 * @return void
 	 */
 	public function test_generate_source() {
 		Monkey\Functions\expect( 'get_term' )

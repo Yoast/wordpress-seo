@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Get_Request_Conditional
  */
-class Get_Request_Conditional_Test extends TestCase {
+final class Get_Request_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the GET request conditional under test.
@@ -24,6 +24,8 @@ class Get_Request_Conditional_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ class Get_Request_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met on a GET request.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_on_get_request() {
 		$_SERVER['REQUEST_METHOD'] = 'GET';
@@ -48,6 +52,8 @@ class Get_Request_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met on a POST request.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_on_post_request() {
 		$_SERVER['REQUEST_METHOD'] = 'POST';
@@ -61,6 +67,8 @@ class Get_Request_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when method is not set in server vars.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_on_method_unset() {
 		unset( $_SERVER['REQUEST_METHOD'] );

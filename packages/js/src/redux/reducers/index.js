@@ -1,5 +1,7 @@
 import insights from "../../insights/redux/reducer";
 import {
+	ADMIN_URL_NAME,
+	adminUrlReducer,
 	LINK_PARAMS_NAME,
 	linkParamsReducer,
 	PLUGIN_URL_NAME,
@@ -10,10 +12,11 @@ import {
 import analysis from "../reducers/contentAnalysis";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
+import AIButton from "./AIButton";
 import analysisData from "./analysisData";
 import checklist from "./checklist";
-import currentPromotions from "./currentPromotions";
 import isCornerstone from "./cornerstoneContent";
+import currentPromotions from "./currentPromotions";
 import dismissedAlerts from "./dismissedAlerts";
 import editorContext from "./editorContext";
 import editorData from "./editorData";
@@ -40,7 +43,9 @@ import WincherSEOPerformance from "./WincherSEOPerformance";
 
 export default {
 	activeMarker,
+	[ ADMIN_URL_NAME ]: adminUrlReducer,
 	advancedSettings,
+	AIButton,
 	analysis,
 	analysisData,
 	checklist,

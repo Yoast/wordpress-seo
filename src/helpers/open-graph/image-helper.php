@@ -40,11 +40,16 @@ class Image_Helper {
 	/**
 	 * Determines whether the passed URL is considered valid.
 	 *
-	 * @param array $image The image array.
+	 * @deprecated 22.4
+	 * @codeCoverageIgnore
+	 *
+	 * @param array<array<string, string|int>> $image The image array.
 	 *
 	 * @return bool Whether or not the URL is a valid image.
 	 */
 	public function is_image_url_valid( array $image ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 22.4' );
+
 		if ( empty( $image['url'] ) || ! \is_string( $image['url'] ) ) {
 			return false;
 		}
@@ -55,9 +60,8 @@ class Image_Helper {
 		/**
 		 * Filter: 'wpseo_opengraph_is_valid_image_url' - Allows extra validation for an image url.
 		 *
-		 * @api bool - Current validation result.
-		 *
-		 * @param string $url The image url to validate.
+		 * @param bool   $is_valid Current validation result.
+		 * @param string $url      The image url to validate.
 		 */
 		return (bool) \apply_filters( 'wpseo_opengraph_is_valid_image_url', $is_valid, $image['url'] );
 	}
@@ -80,7 +84,7 @@ class Image_Helper {
 		 * can be used to add an image size that needs to be taken into consideration
 		 * within our own logic.
 		 *
-		 * @api string|false $size Size string.
+		 * @param string|false $size Size string.
 		 */
 		return \apply_filters( 'wpseo_opengraph_image_size', null );
 	}
@@ -90,7 +94,7 @@ class Image_Helper {
 	 *
 	 * @param int $attachment_id The attachment id.
 	 *
-	 * @return array|false The image data when found, `false` when not.
+	 * @return array<string, string|int>|false The image data when found, `false` when not.
 	 */
 	public function get_image_by_id( $attachment_id ) {
 		if ( ! $this->image->is_valid_attachment( $attachment_id ) ) {

@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\User_Allowed_Trait
  */
-class User_Allowed_Trait_Test extends TestCase {
+final class User_Allowed_Trait_Test extends TestCase {
 
 	/**
 	 * Holds the test instance.
@@ -62,7 +62,7 @@ class User_Allowed_Trait_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function is_user_allowed_get_data() {
+	public static function is_user_allowed_get_data() {
 		return [
 			'no capabilities'                                => [
 				'capabilities'     => [],

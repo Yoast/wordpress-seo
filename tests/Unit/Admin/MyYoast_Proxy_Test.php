@@ -14,12 +14,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_MyYoast_Proxy
  */
-class MyYoast_Proxy_Test extends TestCase {
+final class MyYoast_Proxy_Test extends TestCase {
 
 	/**
 	 * Tests determine the proxy options for the research webworker file.
 	 *
 	 * @covers ::determine_proxy_options
+	 *
+	 * @return void
 	 */
 	public function test_determine_proxy_options_for_the_research_webworker_file() {
 		/**
@@ -34,11 +36,11 @@ class MyYoast_Proxy_Test extends TestCase {
 
 		$instance->expects( $this->once() )
 			->method( 'get_proxy_file' )
-			->will( $this->returnValue( 'research-webworker' ) );
+			->willReturn( 'research-webworker' );
 
 		$instance->expects( $this->once() )
 				->method( 'get_plugin_version' )
-				->will( $this->returnValue( '1.0' ) );
+				->willReturn( '1.0' );
 
 		$expected = [
 			'content_type' => 'text/javascript; charset=UTF-8',
@@ -52,6 +54,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * Test get_plugin_version.
 	 *
 	 * @covers ::get_plugin_version
+	 *
+	 * @return void
 	 */
 	public function test_get_plugin_version() {
 		$instance               = new MyYoast_Proxy_Double();
@@ -63,6 +67,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * Test get_plugin_version when plugin_version is not set.
 	 *
 	 * @covers ::get_plugin_version
+	 *
+	 * @return void
 	 */
 	public function test_get_plugin_version_not_set() {
 		$instance               = new MyYoast_Proxy_Double();
@@ -74,6 +80,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * Test get_plugin_version when plugin_version includes slashes.
 	 *
 	 * @covers ::get_plugin_version
+	 *
+	 * @return void
 	 */
 	public function test_get_plugin_version_with_slashes() {
 		$instance               = new MyYoast_Proxy_Double();
@@ -85,6 +93,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * Test get_proxy_file.
 	 *
 	 * @covers ::get_proxy_file
+	 *
+	 * @return void
 	 */
 	public function test_get_proxy_file() {
 		$instance     = new MyYoast_Proxy_Double();
@@ -96,6 +106,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * Test get_proxy_file when file is not set.
 	 *
 	 * @covers ::get_proxy_file
+	 *
+	 * @return void
 	 */
 	public function test_get_proxy_file_not_set() {
 		$instance     = new MyYoast_Proxy_Double();
@@ -107,6 +119,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * Test is_proxy_page.
 	 *
 	 * @covers ::is_proxy_page
+	 *
+	 * @return void
 	 */
 	public function test_is_proxy_page() {
 		$instance     = new MyYoast_Proxy_Double();
@@ -118,6 +132,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * Test is_proxy_page when page is not set.
 	 *
 	 * @covers ::is_proxy_page
+	 *
+	 * @return void
 	 */
 	public function test_is_proxy_page_not_set() {
 		$instance     = new MyYoast_Proxy_Double();
@@ -129,6 +145,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * Test is_proxy_page when page is not equal to the proxy page.
 	 *
 	 * @covers ::is_proxy_page
+	 *
+	 * @return void
 	 */
 	public function test_is_proxy_page_wrong_page() {
 		$instance     = new MyYoast_Proxy_Double();
@@ -141,6 +159,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	 *
 	 * @covers ::render_proxy_page
 	 * @covers ::determine_proxy_options
+	 *
+	 * @return void
 	 */
 	public function test_render_proxy_page_for_an_unknown_file() {
 		/**
@@ -155,7 +175,7 @@ class MyYoast_Proxy_Test extends TestCase {
 
 		$instance->expects( $this->once() )
 				->method( 'get_proxy_file' )
-				->will( $this->returnValue( 'unknown-file' ) );
+				->willReturn( 'unknown-file' );
 
 		$instance->expects( $this->never() )
 				->method( 'get_plugin_version' );
@@ -163,7 +183,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'set_header' )
-			->with( $this->equalTo( 'HTTP/1.0 501 Requested file not implemented' ) );
+			->with( 'HTTP/1.0 501 Requested file not implemented' );
 
 		$instance->render_proxy_page();
 	}
@@ -172,6 +192,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * Tests rendering of the proxy page for the research webworker file.
 	 *
 	 * @covers ::render_proxy_page
+	 *
+	 * @return void
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file() {
 		/**
@@ -187,12 +209,12 @@ class MyYoast_Proxy_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_proxy_file' )
-			->will( $this->returnValue( 'research-webworker' ) );
+			->willReturn( 'research-webworker' );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_plugin_version' )
-			->will( $this->returnValue( '1.0' ) );
+			->willReturn( '1.0' );
 
 		$instance
 			->expects( $this->exactly( 2 ) )
@@ -216,6 +238,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * Tests rendering of the proxy page for the research webworker where the file errored.
 	 *
 	 * @covers ::render_proxy_page
+	 *
+	 * @return void
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file_errored_and_wordpress_not_found() {
 		Monkey\Functions\expect( 'wp_remote_get' )
@@ -241,12 +265,12 @@ class MyYoast_Proxy_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_proxy_file' )
-			->will( $this->returnValue( 'research-webworker' ) );
+			->willReturn( 'research-webworker' );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_plugin_version' )
-			->will( $this->returnValue( '1.0' ) );
+			->willReturn( '1.0' );
 
 		$instance
 			->expects( $this->exactly( 5 ) )

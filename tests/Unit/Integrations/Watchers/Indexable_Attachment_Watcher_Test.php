@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Attachment_Cleanup_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Attachment_Watcher;
@@ -23,7 +24,7 @@ use Yoast_Notification_Center;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Attachment_Watcher
  */
-class Indexable_Attachment_Watcher_Test extends TestCase {
+final class Indexable_Attachment_Watcher_Test extends TestCase {
 
 	/**
 	 * The indexing helper.
@@ -47,6 +48,13 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	protected $notification_center;
 
 	/**
+	 * The indexable helper mock.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * The Indexable_Attachment_Watcher instance.
 	 *
 	 * @var Indexable_Attachment_Watcher
@@ -55,6 +63,8 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -62,11 +72,13 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 		$this->indexing_helper     = Mockery::mock( Indexing_Helper::class );
 		$this->attachment_cleanup  = Mockery::mock( Attachment_Cleanup_Helper::class );
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
+		$this->indexable_helper    = Mockery::mock( Indexable_Helper::class );
 
 		$this->instance = new Indexable_Attachment_Watcher(
 			$this->indexing_helper,
 			$this->attachment_cleanup,
-			$this->notification_center
+			$this->notification_center,
+			$this->indexable_helper
 		);
 	}
 
@@ -74,6 +86,8 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	 * Tests the get_conditionals method.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertSame( [ Migrations_Conditional::class ], Indexable_Attachment_Watcher::get_conditionals() );
@@ -83,6 +97,8 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	 * Tests the register_hooks method.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 
@@ -94,9 +110,9 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	/**
 	 * Data provider for test_check_option.
 	 *
-	 * @return array
+	 * @return array<string, array<string, int|array<string, string|bool>|null>>
 	 */
-	public function check_option_provider() {
+	public static function check_option_provider() {
 		return [
 			'Old and new values are not arrays' => [
 				'old_value'                => 1,
@@ -197,6 +213,8 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	 * @param int   $attachment_cleanup_times Number of times attachment_cleanup should be called.
 	 * @param mixed $wp_next_scheduled        Value of wp_next_scheduled.
 	 * @param int   $schedule_event_times     Number of times schedule_event should be called.
+	 *
+	 * @return void
 	 */
 	public function test_check_option( $old_value, $new_value, $delete_transient_times, $set_reason_times, $attachment_cleanup_times, $wp_next_scheduled, $schedule_event_times ) {
 
@@ -232,6 +250,16 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 			->times( $attachment_cleanup_times )
 			->andReturn( $wp_next_scheduled );
 
+		if ( $wp_next_scheduled ) {
+			$this->indexable_helper->expects( 'should_index_indexables' )
+				->times( 1 )
+				->andReturnTrue();
+		}
+		else {
+			$this->indexable_helper->expects( 'should_index_indexables' )
+				->times( $schedule_event_times )
+				->andReturnTrue();
+		}
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->with( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK )
 			->times( $schedule_event_times );

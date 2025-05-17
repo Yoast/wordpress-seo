@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Services\Health_Check\Reports_Trait;
 /**
  * Used for testing the implementation of Reports_Trait.
  */
-class Reports_Trait_Double {
+final class Reports_Trait_Double {
 
 	use Reports_Trait;
 

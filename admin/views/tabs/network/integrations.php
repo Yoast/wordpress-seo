@@ -22,7 +22,7 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 	<h2><?php esc_html_e( 'Integrations', 'wordpress-seo' ); ?></h2>
 	<div class="yoast-measure">
 		<?php
-		echo sprintf(
+		printf(
 		/* translators: %1$s expands to Yoast SEO */
 			esc_html__( 'This tab allows you to selectively disable %1$s integrations with third-party products for all sites in the network. By default all integrations are enabled, which allows site admins to choose for themselves if they want to toggle an integration on or off for their site. When you disable an integration here, site admins will not be able to use that integration at all.', 'wordpress-seo' ),
 			'Yoast SEO'

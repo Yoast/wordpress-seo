@@ -1,6 +1,7 @@
 import { PhotographIcon } from "@heroicons/react/outline";
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { Button, Link } from "@yoast/ui-library";
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
@@ -50,7 +51,7 @@ export default function ImageSelect( {
 			return (
 				<div className="yst-text-center">
 					<Spinner size="10" color="gray-400" className="yst-inline-block" />
-					<p className="yst-mt-3">{ __( "Uploading image...", "wordpress-seo" ) }</p>
+					<p className="yst-mt-3">{ __( "Uploading image…", "wordpress-seo" ) }</p>
 				</div>
 			);
 		} else if ( url ) {
@@ -75,25 +76,27 @@ export default function ImageSelect( {
 				{ renderPreview() }
 			</button>
 			<div>
-				<button
-					type="button"
+				<Button
 					id={ url ? id + "__replace-image" : id + "__select-image" }
-					className="yst-button yst-button yst-button--secondary yst-mr-2"
+					variant="secondary"
+					className="yst-me-2"
 					onClick={ onSelectImageClick }
 					data-hiive-event-name={ url ? "clicked_replace_image" : "clicked_select_image" }
 				>
 					{ url ? __( "Replace image", "wordpress-seo" ) : __( "Select image", "wordpress-seo" ) }
-				</button>
+				</Button>
 				{ url && (
-					<button
+					<Link
+						id={ `${ id }__remove-image` }
+						as="button"
 						type="button"
-						id={ id + "__remove-image" }
-						className="yst-button--remove"
+						variant="error"
 						onClick={ onRemoveImageClick }
+						className="yst-px-3 yst-py-2 yst-rounded-md"
 						data-hiive-event-name="clicked_remove_image"
 					>
 						{ __( "Remove image", "wordpress-seo" ) }
-					</button>
+					</Link>
 				) }
 			</div>
 			{ status === "error" && <p className="yst-mt-2 yst-text-sm yst-text-red-600">{ error }</p> }

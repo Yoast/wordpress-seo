@@ -1,7 +1,7 @@
 import findAllInTree from "../../../src/parse/traverse/findAllInTree";
 import build from "../../../src/parse/build/build";
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
-import Factory from "../../specHelpers/factory";
+import Factory from "../../../src/helpers/factory";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 import Paper from "../../../src/values/Paper";
 

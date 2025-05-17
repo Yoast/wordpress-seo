@@ -19,6 +19,8 @@ class ExpandIndexableColumnLengths extends Migration {
 
 	/**
 	 * Migration up.
+	 *
+	 * @return void
 	 */
 	public function up() {
 		$this->change_column( $this->get_table_name(), 'title', 'text', [ 'null' => true ] );
@@ -30,6 +32,8 @@ class ExpandIndexableColumnLengths extends Migration {
 
 	/**
 	 * Migration down.
+	 *
+	 * @return void
 	 */
 	public function down() {
 		$attr_limit_191 = [

@@ -33,8 +33,7 @@ class Type_Presenter extends Abstract_Indexable_Tag_Presenter {
 		/**
 		 * Filter: 'wpseo_opengraph_type' - Allow changing the opengraph type.
 		 *
-		 * @api string $type The type.
-		 *
+		 * @param string                 $type         The type.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		return (string) \apply_filters( 'wpseo_opengraph_type', $this->presentation->open_graph_type, $this->presentation );

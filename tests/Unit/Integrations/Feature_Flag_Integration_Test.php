@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Feature_Flag_Integration_Test extends TestCase {
+final class Feature_Flag_Integration_Test extends TestCase {
 
 	/**
 	 * The instance under test.
@@ -43,6 +43,8 @@ class Feature_Flag_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -61,6 +63,8 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		self::assertInstanceOf(
@@ -80,6 +84,8 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * Tests whether the integration is loaded when the right conditionals are met.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		self::assertEquals( [ Admin_Conditional::class ], Feature_Flag_Integration::get_conditionals() );
@@ -89,6 +95,8 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * Tests the registration of the appropriate hooks needed for the integration to work.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -102,6 +110,8 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * @covers ::add_feature_flags
 	 * @covers ::get_enabled_features
 	 * @covers ::filter_enabled_features
+	 *
+	 * @return void
 	 */
 	public function test_add_feature_flags() {
 		$expected_enabled_feature_flags = [ 'ADDON_INSTALLATION' ];
@@ -140,6 +150,8 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * @covers ::add_feature_flags
 	 * @covers ::get_enabled_features
 	 * @covers ::filter_enabled_features
+	 *
+	 * @return void
 	 */
 	public function test_add_feature_flags_not_met() {
 		$expected_enabled_feature_flags = [ 'FEATURE_1' ];
@@ -185,6 +197,8 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * @covers ::add_feature_flags
 	 * @covers ::get_enabled_features
 	 * @covers ::filter_enabled_features
+	 *
+	 * @return void
 	 */
 	public function test_add_feature_flags_filter() {
 		$currently_enabled_feature_flags = [ 'FEATURE_1' ];
@@ -232,6 +246,8 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * @covers ::add_feature_flags
 	 * @covers ::get_enabled_features
 	 * @covers ::filter_enabled_features
+	 *
+	 * @return void
 	 */
 	public function test_add_feature_flags_filter_removes_flags() {
 		$currently_enabled_feature_flags = [ 'FEATURE_1' ];
@@ -279,6 +295,8 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * @covers ::add_feature_flags
 	 * @covers ::get_enabled_features
 	 * @covers ::filter_enabled_features
+	 *
+	 * @return void
 	 */
 	public function test_add_feature_flags_filter_invalid_array() {
 		$currently_enabled_feature_flags = [ 'FEATURE_1' ];
@@ -326,6 +344,8 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * @covers ::add_feature_flags
 	 * @covers ::get_enabled_features
 	 * @covers ::filter_enabled_features
+	 *
+	 * @return void
 	 */
 	public function test_add_feature_flags_non_available() {
 		$expected_enabled_feature_flags = [];

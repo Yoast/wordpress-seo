@@ -6,8 +6,9 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Not_Admin_Ajax_Conditional;
-use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Woocommerce_Beta_Editor_Watcher;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Notification_Center;
@@ -20,7 +21,7 @@ use Yoast_Notification_Center;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Woocommerce_Beta_Editor_Watcher
  */
-class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
+final class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 
 	/**
 	 * Yoast_Notification_Center mock.
@@ -44,6 +45,13 @@ class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 	protected $short_link_helper;
 
 	/**
+	 * The short link helper.
+	 *
+	 * @var Mockery\MockInterface|WooCommerce_Conditional
+	 */
+	protected $woocommerce_conditional;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Woocommerce_Beta_Editor_Watcher
@@ -52,20 +60,23 @@ class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
 		$this->stubTranslationFunctions();
 
-		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
-		$this->notification_helper = Mockery::mock( Notification_Helper::class );
-		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );
-
+		$this->notification_center     = Mockery::mock( Yoast_Notification_Center::class );
+		$this->notification_helper     = Mockery::mock( Notification_Helper::class );
+		$this->short_link_helper       = Mockery::mock( Short_Link_Helper::class );
+		$this->woocommerce_conditional = Mockery::mock( WooCommerce_Conditional::class );
 
 		$this->instance = new Woocommerce_Beta_Editor_Watcher(
 			$this->notification_center,
 			$this->notification_helper,
-			$this->short_link_helper
+			$this->short_link_helper,
+			$this->woocommerce_conditional
 		);
 	}
 
@@ -73,6 +84,8 @@ class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		self::assertInstanceOf(
@@ -93,6 +106,8 @@ class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 	 * Tests that the integration is loaded under the right conditions.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		self::assertEquals( [ Admin_Conditional::class, Not_Admin_Ajax_Conditional::class ], Woocommerce_Beta_Editor_Watcher::get_conditionals() );
@@ -102,6 +117,8 @@ class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 	 * Tests registering the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -110,9 +127,11 @@ class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the admin_init callback when woocommerce_beta_editor is diabled.
+	 * Tests the admin_init callback when woocommerce_beta_editor is disabled.
 	 *
 	 * @covers ::manage_woocommerce_beta_editor_notification
+	 *
+	 * @return void
 	 */
 	public function test_manage_woocommerce_beta_editor_disable() {
 
@@ -133,6 +152,8 @@ class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 	 * Tests the admin_init callback when woocommerce_beta_editor is enabled with active notification.
 	 *
 	 * @covers ::manage_woocommerce_beta_editor_notification
+	 *
+	 * @return void
 	 */
 	public function test_manage_woocommerce_beta_editor_notification_active_and_enable() {
 
@@ -140,6 +161,11 @@ class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 			->once()
 			->with( 'woocommerce_feature_product_block_editor_enabled' )
 			->andReturn( 'yes' );
+
+		$this->woocommerce_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
 
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
@@ -151,10 +177,43 @@ class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the admin_init callback when woocommerce_beta_editor is enabled with active notification, but WooCommerce is not enabled.
+	 *
+	 * @covers ::manage_woocommerce_beta_editor_notification
+	 *
+	 * @return void
+	 */
+	public function test_manage_woocommerce_beta_editor_notification_active_and_enable_but_woo_inactive() {
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'woocommerce_feature_product_block_editor_enabled' )
+			->andReturn( 'yes' );
+
+		$this->woocommerce_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( false );
+
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->never();
+
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->once()
+			->with( 'wpseo-woocommerce-beta-editor-warning' );
+
+		$this->instance->manage_woocommerce_beta_editor_notification();
+	}
+
+	/**
 	 * Tests the admin_init callback when woocommerce_beta_editor is enabled with no active notification.
 	 *
 	 * @covers ::manage_woocommerce_beta_editor_notification
 	 * @covers ::notification
+	 *
+	 * @return void
 	 */
 	public function test_manage_woocommerce_beta_editor_notification_not_active_and_enable() {
 
@@ -162,6 +221,11 @@ class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 			->once()
 			->with( 'woocommerce_feature_product_block_editor_enabled' )
 			->andReturn( 'yes' );
+
+		$this->woocommerce_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
 
 		$this->notification_center
 			->expects( 'get_notification_by_id' )

@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Attachment_Cleanup_Helper
  */
-class Attachment_Cleanup_Helper_Test extends TestCase {
+final class Attachment_Cleanup_Helper_Test extends TestCase {
 
 	/**
 	 * The instance under test.
@@ -32,6 +32,8 @@ class Attachment_Cleanup_Helper_Test extends TestCase {
 
 	/**
 	 * Set up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -51,6 +53,8 @@ class Attachment_Cleanup_Helper_Test extends TestCase {
 	 * Tests the remove_attachment_indexables method.
 	 *
 	 * @covers ::remove_attachment_indexables
+	 *
+	 * @return void
 	 */
 	public function test_remove_attachment_indexables() {
 		$this->wpdb->shouldReceive( 'query' )
@@ -64,6 +68,8 @@ class Attachment_Cleanup_Helper_Test extends TestCase {
 	 * Tests the clean_attachment_links_from_target_indexable_ids method.
 	 *
 	 * @covers ::clean_attachment_links_from_target_indexable_ids
+	 *
+	 * @return void
 	 */
 	public function test_clean_attachment_links_from_target_indexable_ids() {
 		$this->wpdb->shouldReceive( 'query' )

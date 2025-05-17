@@ -20,7 +20,7 @@ use Yoast_Notification_Center;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Gutenberg_Compatibility_Notification_Test extends TestCase {
+final class Gutenberg_Compatibility_Notification_Test extends TestCase {
 
 	/**
 	 * Holds the admin user mock instance.
@@ -52,6 +52,8 @@ class Gutenberg_Compatibility_Notification_Test extends TestCase {
 
 	/**
 	 * Set up the mocked dependencies.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -77,6 +79,8 @@ class Gutenberg_Compatibility_Notification_Test extends TestCase {
 	 * @param bool $installed        The return value of WPSEO_Gutenberg_Compatibility::is_installed.
 	 * @param bool $fully_compatible The return value of WPSEO_Gutenberg_Compatibility::is_fully_compatible.
 	 * @param bool $filter_value     The return value of the 'yoast_display_gutenberg_compat_notification' filter.
+	 *
+	 * @return void
 	 */
 	public function test_manage_notification_remove_notification( $installed, $fully_compatible, $filter_value ) {
 
@@ -106,7 +110,7 @@ class Gutenberg_Compatibility_Notification_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_manage_notification_remove_notification() {
+	public static function data_provider_manage_notification_remove_notification() {
 		return [
 			'filter is false'  => [
 				'installed'        => true,
@@ -130,6 +134,8 @@ class Gutenberg_Compatibility_Notification_Test extends TestCase {
 	 * Tests the condition that adds the Gutenberg compatibility notification.
 	 *
 	 * @covers WPSEO_Gutenberg_Compatibility::get_installed_version
+	 *
+	 * @return void
 	 */
 	public function test_manage_notification_gutenberg_show_notification() {
 		$this->gutenberg_compatibility_mock->allows(

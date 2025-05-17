@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional
  */
-class Estimated_Reading_Time_Conditional_Test extends TestCase {
+final class Estimated_Reading_Time_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the Post_Conditional instance.
@@ -34,6 +34,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -49,6 +51,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when we are saving for Elementor.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_ajax_elementor_save() {
 		// We are in an Ajax request.
@@ -63,6 +67,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests is_met when the action is null.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_ajax_elementor_save_action_null() {
 		// We are in an Ajax request.
@@ -82,6 +88,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests is_met when the action is not a string.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_ajax_elementor_save_action_not_a_string() {
 		// We are in an Ajax request.
@@ -101,6 +109,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when we are not on a post, and also not in an Elementor save.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_not_post_not_elementor_save() {
 		// We are in an Ajax request.
@@ -121,6 +131,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when we are not on a post, and also not in an Elementor save.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_post_is_attachment() {
 		// We are not in an Ajax request.
@@ -146,6 +158,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests is_met when post is null.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_post_is_null() {
 		// We are not in an Ajax request.
@@ -166,6 +180,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests is_met when post is not a string.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_post_is_not_string() {
 		// We are not in an Ajax request.
@@ -186,6 +202,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests is_met when post can not be converted to an integer.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_post_can_not_be_converted_to_int() {
 		// We are not in an Ajax request.
@@ -206,6 +224,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when we are not on a post, and also not in an Elementor save.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_post() {
 		// We are not in an Ajax request.

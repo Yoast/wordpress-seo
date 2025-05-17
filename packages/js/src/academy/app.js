@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import { ExternalLinkIcon, LockOpenIcon } from "@heroicons/react/outline";
 import { ArrowSmRightIcon } from "@heroicons/react/solid";
 import { useMemo } from "@wordpress/element";
@@ -47,6 +46,16 @@ const App = () => {
 	const svgAriaProps = useSvgAria();
 
 	const courses = useMemo( () => ( [
+		{
+			id: "ai_for_seo",
+			title: "AI for SEO",
+			description: __( "Join the Yoast team to learn how to harness the power of AI to revolutionize your SEO approach. Gain a competitive edge, future-proof your keyword strategies, and soar to the top of search rankings – all designed to empower busy small business owners.", "wordpress-seo" ),
+			image: `${ pluginUrl }/images/academy/ai_for_seo_icon_my_yoast.png`,
+			startLink: addQueryArgs( "https://yoa.st/ai-for-seo-start", linkParams ),
+			upsellLink: addQueryArgs( "https://yoa.st/ai-for-seo-unlock", linkParams ),
+			dependencies: { PREMIUM: isPremium },
+			hasTrial: true,
+		},
 		{
 			id: "seo_for_beginners",
 			title: "SEO for beginners",
@@ -201,7 +210,7 @@ const App = () => {
 
 	return (
 		<div className="yst-p-4 min-[783px]:yst-p-8 yst-mb-8 xl:yst-mb-0">
-			<Paper as="main">
+			<Paper as="main" className="yst-max-w-page">
 				<header className="yst-p-8 yst-border-b yst-border-slate-200">
 					<div className="yst-max-w-screen-sm">
 						<Title>{ __( "Academy", "wordpress-seo" ) }</Title>
@@ -257,7 +266,7 @@ const App = () => {
 									/>
 
 									{ shouldShowPremiumBadge( course.dependencies, isPremium ) && (
-										<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+										<div className="yst-absolute yst-top-2 yst-end-2 yst-flex yst-gap-1.5">
 											<Badge size="small" variant="upsell">{ __( "Premium", "wordpress-seo" ) }</Badge>
 										</div>
 									) }
@@ -281,7 +290,7 @@ const App = () => {
 													__( "(Opens in a new browser tab)", "wordpress-seo" )
 												}
 											</span>
-											<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
+											<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ms-1 yst-icon-rtl" />
 										</Link> }
 								</Card.Content>
 								<Card.Footer>
@@ -299,7 +308,7 @@ const App = () => {
 													rel="noopener"
 													{ ...premiumUpsellConfig }
 												>
-													<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
+													<LockOpenIcon className="yst-w-5 yst-h-5 yst--ms-1 yst-shrink-0" { ...svgAriaProps } />
 													{ sprintf(
 														/* translators: %1$s expands to Premium. */
 														__( "Unlock with %1$s", "wordpress-seo" ),
@@ -321,7 +330,7 @@ const App = () => {
 													rel="noopener"
 												>
 													{ __( "Start the course", "wordpress-seo" ) }
-													<ExternalLinkIcon className="yst--mr-1 yst-ml-1 yst-h-5 yst-w-5 yst-text-white" />
+													<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-white rtl:yst-rotate-[270deg]" />
 												</Button>
 											)
 										}

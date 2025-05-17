@@ -41,7 +41,6 @@ describe( "Counts the occurences of a word in a string", function() {
 		expect( wordMatch( "Yoast's analyzer", "Yoast’s", "en_US" ).matches ).toEqual( [ "Yoast's" ] );
 	} );
 
-	// eslint-disable-next-line max-statements
 	it( "should match special characters", function() {
 		expect( wordMatch( "a string with diacritics äöüß oompaloomp", "äöüß oompaloomp", "de_DE" ).count ).toBe( 1 );
 		expect( wordMatch( "a string with diacritics äöüß oompaloomp", "äöüß oompaloomp", "de_DE" ).matches ).toEqual( [ "äöüß oompaloomp" ] );

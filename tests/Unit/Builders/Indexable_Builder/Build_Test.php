@@ -17,10 +17,12 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-class Build_Test extends Abstract_Indexable_Builder_TestCase {
+final class Build_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
 	 * Sets up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -34,6 +36,8 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	 * @covers ::ensure_indexable
 	 * @covers ::maybe_build_author_indexable
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 
@@ -43,7 +47,7 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 
 		$this->expect_maybe_build_author_indexable();
 
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $this->indexable );
 
 		$this->assertSame( $this->indexable, $this->instance->build( $this->indexable ) );
 	}
@@ -55,6 +59,8 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	 * @covers ::ensure_indexable
 	 * $covers ::deep_copy_indexable
 	 * @covers ::maybe_build_author_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_with_post_attachment() {
 
@@ -72,8 +78,7 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 
 		$this->expect_maybe_build_author_indexable();
 
-		// Saving is outside the scope of this test.
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $this->indexable );
 
 		$result = $this->instance->build( $this->indexable );
 
@@ -87,6 +92,8 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	 * @covers ::ensure_indexable
 	 * @covers ::deep_copy_indexable
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_with_term_given() {
 		$this->indexable->object_type = 'term';
@@ -104,7 +111,7 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 			->once()
 			->with( $this->indexable );
 
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $this->indexable );
 
 		$this->assertSame( $this->indexable, $this->instance->build( $this->indexable ) );
 	}
@@ -114,6 +121,8 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	 *
 	 * @covers ::build
 	 * @covers ::deep_copy_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_for_id_and_type_with_term_exception() {
 		$this->indexable->object_type = 'term';
@@ -135,7 +144,8 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	 *
 	 * @covers ::build
 	 * @covers ::deep_copy_indexable
-	 * @covers ::save_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_with_fake_indexable() {
 		$this->indexable->object_type = 'term';
@@ -159,7 +169,7 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 				}
 			);
 
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $this->indexable );
 
 		$result = $this->instance->build( $this->indexable );
 
@@ -173,13 +183,15 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	 *
 	 * @covers ::build
 	 * @covers ::deep_copy_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_for_id_and_type_with_unknown_type_given() {
 		$this->indexable->object_type = 'this type should not be processed';
 
 		$this->expect_deep_copy_indexable( $this->indexable );
 
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $this->indexable );
 
 		$this->assertSame( $this->indexable, $this->instance->build( $this->indexable ) );
 	}
@@ -188,6 +200,8 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	 * Tests whether an indexable is not being built when the object id is invalid (0).
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_not_being_built_if_object_id_is_invalid() {
 
@@ -203,6 +217,8 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	 *
 	 * @covers ::build_for_id_and_type
 	 * @covers ::ensure_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_for_id_and_type_with_post_given_and_no_indexable_build() {
 		$empty_indexable = Mockery::mock( Indexable_Mock::class );
@@ -241,12 +257,13 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 				}
 			);
 
-		$this->expect_save_indexable_skip();
-
-		$result = $this->instance->build( false, $defaults );
-
 		$expected_indexable              = clone $empty_indexable;
 		$expected_indexable->post_status = 'unindexed';
+		$expected_indexable->version     = 2;
+
+		$this->expect_save_indexable( $expected_indexable );
+
+		$result = $this->instance->build( false, $defaults );
 		$this->assertEquals( $empty_indexable, $result );
 	}
 
@@ -255,6 +272,8 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	 *
 	 * @covers ::build_for_id_and_type
 	 * @covers ::ensure_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_with_post_and_indexable_given_and_no_indexable_build() {
 
@@ -285,12 +304,12 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 				}
 			);
 
-		$this->expect_save_indexable_skip();
-
-		$result = $this->instance->build( $this->indexable );
-
 		$expected_indexable              = clone $this->indexable;
 		$expected_indexable->post_status = 'unindexed';
+
+		$this->expect_save_indexable( $expected_indexable );
+
+		$result = $this->instance->build( $this->indexable );
 		$this->assertEquals( $expected_indexable, $result );
 	}
 
@@ -298,6 +317,8 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	 * Partial expectation for build method when switch case is post and no exceptions are thrown.
 	 *
 	 * @param Indexable_Mock $indexable The indexable to expect.
+	 *
+	 * @return void
 	 */
 	public function expect_build_switch_case_post( $indexable ) {
 		$this->post_builder

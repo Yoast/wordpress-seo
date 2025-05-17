@@ -4,7 +4,6 @@ import { PropTypes } from "prop-types";
 import { Fragment } from "@wordpress/element";
 import { SimpleIntegration } from "./simple-integration";
 
-/* eslint-disable complexity */
 /**
  * Represents the Mastodon integration.
  *
@@ -38,7 +37,6 @@ export const MastodonIntegration = ( { integration, isActive } ) => {
 		</SimpleIntegration>
 	);
 };
-/* eslint-enable complexity */
 
 MastodonIntegration.propTypes = {
 	integration: PropTypes.shape( {

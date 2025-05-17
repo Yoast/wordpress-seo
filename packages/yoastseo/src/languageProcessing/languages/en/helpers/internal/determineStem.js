@@ -1,4 +1,4 @@
-import { isUndefined, flatten } from "lodash-es";
+import { isUndefined, flatten } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { buildFormRule, createRulesFromArrays } = languageProcessing;
 
@@ -35,18 +35,15 @@ export function findShortestAndAlphabeticallyFirst( array ) {
  * Checks if the input word occurs in the list of exceptions and if so returns the first form of the paradigm, which is
  * always the base.
  *
- * @param {string} word                 The word for which to determine its base.
- * @param {Array}  irregulars           An array of irregular nouns and adjectives.
+ * @param {string}		word		The word for which to determine its base.
+ * @param {string[]}	irregulars	An array of irregular nouns and adjectives.
  *
  * @returns {string|null} The base form of the irregular word; null if no irregular stem was found.
  */
 export function determineIrregularStem( word, irregulars ) {
-	for ( let i = 0; i < irregulars.length; i++ ) {
-		const paradigm = irregulars[ i ];
-		for ( let j = 0; j < paradigm.length; j++ ) {
-			if ( paradigm[ j ] === word ) {
-				return paradigm[ 0 ];
-			}
+	for ( const paradigm of irregulars ) {
+		if ( paradigm.includes( word ) ) {
+			return paradigm[ 0 ];
 		}
 	}
 	return null;
@@ -57,8 +54,8 @@ export function determineIrregularStem( word, irregulars ) {
  * of the paradigm, which is always the base. Contrary to nouns and adjectives, irregular verbs can have different prefixes
  * which are not included in the list of exceptions and have to be processed separately.
  *
- * @param {string}    word            The word for which to determine its base.
- * @param {Object}    verbMorphology  Regexes and irregulars for verb morphology, False if verb rules should not be applied.
+ * @param {string}	word            The word for which to determine its base.
+ * @param {Object}	verbMorphology  Regexes and irregulars for verb morphology, False if verb rules should not be applied.
  *
  * @returns {string|null} The base form of the irregular word; null if no irregular stem was found.
  */
@@ -107,8 +104,16 @@ export function determineRegularStem( word, morphologyData ) {
 
 	// Adjectival base.
 	const stopAdjectives = morphologyData.adjectives.stopAdjectives;
+	/*
+	 The following list of words are the stem of adjectives that have two syllables or more that receive -er and -est in their comparative and superlative forms, e.g 'shallow'.
+	 Please note that if the adjective ends in -y and -e, the ending is removed, e.g. 'acute' -> 'acut'.
+	 The list is not exhaustive and can be expanded if needed. Oxford dictionary was used to check if the forms indeed exist, e.g. "acuter".
+	 */
+	const multiSyllableAdjWithSuffixes = morphologyData.adjectives.multiSyllableAdjectives
+		? morphologyData.adjectives.multiSyllableAdjectives.list
+		: [];
 
-	const baseIfAdjective = getAdjectiveStem( word, regexAdjective, stopAdjectives ).base;
+	const baseIfAdjective = getAdjectiveStem( word, regexAdjective, stopAdjectives, multiSyllableAdjWithSuffixes ).base;
 	possibleRegularBases.push( baseIfAdjective );
 
 	return findShortestAndAlphabeticallyFirst( possibleRegularBases );

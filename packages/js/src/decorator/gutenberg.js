@@ -191,10 +191,10 @@ function fillAnnotationQueue( annotations ) {
 /**
  * Gets the annotations for a single block.
  *
- * @param { Object } block The block for which the annotations need to be determined.
- * @param { Mark[] } marks A list of Mark objects that could apply to the block.
+ * @param {Object} block The block for which the annotations need to be determined.
+ * @param {Mark[]} marks A list of Mark objects that could apply to the block.
  *
- * @returns { Object[] } All annotations that need to be placed on the block.
+ * @returns {[{startOffset: number, endOffset: number}]} All annotations that need to be placed on the block.
  */
 const getAnnotationsForABlock = ( block, marks ) => {
 	return flatMap(
@@ -223,11 +223,11 @@ const getAnnotationsForABlock = ( block, marks ) => {
  * @param {Object[]} blocks	An array of block objects (or innerBlock objects) from the gutenberg editor.
  * @param {Mark[]} marks	An array of Mark objects from the analysis result.
  *
- * @returns {Object[]} An array of annotation objects for all blocks.
+ * @returns {[{startOffset: number, endOffset: number}]} An array of annotation objects for all blocks.
  */
 export function getAnnotationsForBlocks( blocks, marks ) {
 	return flatMap( blocks, ( block ) => {
-		// If a block has innerblocks, get annotations for those blocks as well.
+		// If a block has inner blocks, get annotations for those blocks as well.
 		const innerBlockAnnotations = hasInnerBlocks( block ) ?  getAnnotationsForBlocks( block.innerBlocks, marks ) : [];
 		return getAnnotationsForABlock( block, marks ).concat( innerBlockAnnotations );
 	} );

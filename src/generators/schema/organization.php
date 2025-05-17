@@ -52,6 +52,12 @@ class Organization extends Abstract_Schema_Piece {
 			$organization['sameAs'] = $same_as;
 		}
 
+		if ( \is_array( $this->context->schema_page_type ) && \in_array( 'ProfilePage', $this->context->schema_page_type, true ) ) {
+			$organization['mainEntityOfPage'] = [
+				'@id' => $this->context->main_schema_id,
+			];
+		}
+
 		return $organization;
 	}
 
@@ -73,7 +79,7 @@ class Organization extends Abstract_Schema_Piece {
 		 * Filter: 'wpseo_schema_organization_social_profiles' - Allows filtering social profiles for the
 		 * represented organization.
 		 *
-		 * @api string[] $profiles
+		 * @param string[] $profiles
 		 */
 		$profiles = \apply_filters( 'wpseo_schema_organization_social_profiles', $profiles );
 

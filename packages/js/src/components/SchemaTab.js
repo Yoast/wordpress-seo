@@ -6,13 +6,15 @@ import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import WooCommerceUpsell from "./WooCommerceUpsell";
-import { get } from "lodash";
+import { useSelect } from "@wordpress/data";
 
 const NewsLandingPageLink = makeOutboundLink();
 
 const SchemaContainer = styled.div`
 	padding: 16px;
 `;
+
+const STORE = "yoast-seo/editor";
 
 /**
  * The NewsAlert upsell.
@@ -66,7 +68,10 @@ NewsAlert.propTypes = {
  * @returns {Object[]} A copy of the schema type options.
  */
 const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) => {
-	const schemaOption = schemaTypeOptions.find( option => option.value === defaultType );
+	const isProduct = useSelect( ( select ) => select( STORE ).getIsProduct(), [] );
+	const isWooSeoActive = useSelect( select => select( STORE ).getIsWooSeoActive(), [] );
+	const disablePageTypeSelect = isProduct && isWooSeoActive;
+	const schemaOption = disablePageTypeSelect ? { name: __( "Item Page", "wordpress-seo" ), value: "ItemPage" } : schemaTypeOptions.find( option => option.value === defaultType );
 	return [
 		{
 			name: sprintf(
@@ -100,14 +105,15 @@ const footerText = ( postTypeName ) => sprintf(
  * Interpolates the footerText string with an actual link component.
  *
  * @param {string} postTypeName  The name of the current post type.
+ * @param {string} href          The href for the link.
  *
  * @returns {string} A link to the Search Appearance settings.
  */
-const footerWithLink = ( postTypeName ) => interpolateComponents(
+const footerWithLink = ( postTypeName, href ) => interpolateComponents(
 	{
 		mixedString: footerText( postTypeName ),
 		// eslint-disable-next-line jsx-a11y/anchor-has-content
-		components: { link: <a href="/wp-admin/admin.php?page=wpseo_page_settings" target="_blank" /> },
+		components: { link: <a href={ href } target="_blank" rel="noreferrer" /> },
 	}
 );
 
@@ -149,6 +155,7 @@ function isNewsArticleType( selectedValue, defaultValue ) {
 	return false;
 }
 
+/* eslint-disable complexity */
 /**
  * Returns the content of the schema tab.
  *
@@ -159,10 +166,15 @@ function isNewsArticleType( selectedValue, defaultValue ) {
 const Content = ( props ) => {
 	const schemaPageTypeOptions = getSchemaTypeOptions( props.pageTypeOptions, props.defaultPageType, props.postTypeName );
 	const schemaArticleTypeOptions = getSchemaTypeOptions( props.articleTypeOptions, props.defaultArticleType, props.postTypeName );
-	const woocommerceUpsellLink = get( window, "wpseoScriptData.metabox.woocommerceUpsellSchemaLink", "" );
-	const woocommerceUpsell = get( window, "wpseoScriptData.woocommerceUpsell", "" );
+	const woocommerceUpsellLink = useSelect( select => select( STORE ).selectLink( "https://yoa.st/product-schema-metabox" ), [] );
+	const woocommerceUpsell = useSelect( ( select ) => select( STORE ).getIsWooSeoUpsell(), [] );
 	const [ focusedArticleType, setFocusedArticleType ] = useState( props.schemaArticleTypeSelected );
 	const woocommerceUpsellText = __( "Want your products stand out in search results with rich results like price, reviews and more?", "wordpress-seo" );
+	const isProduct = useSelect( ( select ) => select( STORE ).getIsProduct(), [] );
+	const isWooSeoActive = useSelect( select => select( STORE ).getIsWooSeoActive(), [] );
+	const settingsLink = useSelect( select => select( STORE ).selectAdminLink( "?page=wpseo_page_settings" ), [] );
+
+	const disablePageTypeSelect = isProduct && isWooSeoActive;
 
 	const handleOptionChange = useCallback(
 		( _, value ) => {
@@ -191,7 +203,8 @@ const Content = ( props ) => {
 				options={ schemaPageTypeOptions }
 				label={ __( "Page type", "wordpress-seo" ) }
 				onChange={ props.schemaPageTypeChange }
-				selected={ props.schemaPageTypeSelected }
+				selected={ disablePageTypeSelect ? "ItemPage" : props.schemaPageTypeSelected }
+				disabled={ disablePageTypeSelect }
 			/>
 			{ props.showArticleTypeInput && <Select
 				id={ join( [ "yoast-schema-article-type", props.location ] ) }
@@ -205,10 +218,18 @@ const Content = ( props ) => {
 				location={ props.location }
 				show={ ! props.isNewsEnabled && isNewsArticleType( focusedArticleType, props.defaultArticleType ) }
 			/>
-			{ props.displayFooter && <p>{ footerWithLink( props.postTypeName ) }</p> }
+			{ props.displayFooter && ! disablePageTypeSelect && <p>{ footerWithLink( props.postTypeName, settingsLink ) }</p> }
+			{ disablePageTypeSelect && <p>
+				{ sprintf(
+					/* translators: %1$s expands to Yoast WooCommerce SEO. */
+					__( "You have %1$s activated on your site, automatically setting the Page type for your products to 'Item Page'. As a result, the Page type selection is disabled.", "wordpress-seo" ),
+					"Yoast WooCommerce SEO"
+				) }
+			</p> }
 		</Fragment>
 	);
 };
+/* eslint-enable complexity */
 
 const schemaTypeOptionsPropType = PropTypes.arrayOf( PropTypes.shape( {
 	name: PropTypes.string,

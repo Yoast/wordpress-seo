@@ -24,10 +24,10 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Author_Builder
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder
  */
-class Indexable_Home_Page_Builder_Test extends TestCase {
+final class Indexable_Home_Page_Builder_Test extends TestCase {
 
 	/**
 	 * Indexable mock.
@@ -118,6 +118,8 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -195,6 +197,8 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 * Tests the formatting of the indexable data.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 		// Provide stubs.
@@ -240,6 +244,8 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 * Tests the formatting of the indexable data when no meta description for the homepage is set.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_with_fallback_description() {
 		// Provide stubs.
@@ -284,6 +290,8 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 	/**
 	 * Tests whether the open graph image meta data is correctly build and set on the Indexable.
+	 *
+	 * @return void
 	 */
 	public function test_build_open_graph_image_meta_data() {
 		$this->options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( 'home_meta_description' );

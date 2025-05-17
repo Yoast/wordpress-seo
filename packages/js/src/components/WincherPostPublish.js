@@ -39,7 +39,6 @@ export default function WincherPostPublish( props ) {
 
 			{ hasTrackedKeyphrases && <p>
 				{ __(
-					// eslint-disable-next-line max-len
 					"Tracking has already been enabled for one or more keyphrases of this page. Clicking the button below will enable tracking for all of its keyphrases.",
 					"wordpress-seo"
 				) }

@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Date_Archive_Presentation
  */
-class Rel_Next_Test extends TestCase {
+final class Rel_Next_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ class Rel_Next_Test extends TestCase {
 	 * Tests the situation where the rel adjacent is disabled.
 	 *
 	 * @covers ::generate_rel_next
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_next_is_disabled() {
 		$this->pagination
@@ -43,6 +47,8 @@ class Rel_Next_Test extends TestCase {
 	 * Tests the situation where the current page is the last page.
 	 *
 	 * @covers ::generate_rel_next
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_prev_is_last_page() {
 		$this->pagination
@@ -67,6 +73,8 @@ class Rel_Next_Test extends TestCase {
 	 * Tests the situation where the current page is not the last page.
 	 *
 	 * @covers ::generate_rel_next
+	 *
+	 * @return void
 	 */
 	public function test_generate_rel_prev_is_not_the_last_page() {
 		$this->instance->canonical = 'https://example.com/2019/11/page/5/';

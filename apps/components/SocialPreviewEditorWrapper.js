@@ -74,7 +74,7 @@ class SocialPreviewEditorWrapper extends React.Component {
 					socialPreviewLabel="Social share preview"
 				/>
 				<br />
-				<h2>Twitter</h2>
+				<h2>X</h2>
 				<button onClick={ () => this.toggleLarge( ! this.state.isLarge ) }>Toggle Large Summary Card</button>
 				<SocialPreviewEditor
 					title={ this.state.title }
@@ -87,13 +87,13 @@ class SocialPreviewEditorWrapper extends React.Component {
 					isLarge={ this.state.isLarge }
 					imageUrl={ this.state.image }
 					imageFallbackUrl=""
-					socialMediumName={ "Twitter" }
+					socialMediumName={ "X" }
 					// eslint-disable-next-line react/jsx-no-bind
 					onSelectImageClick={ () => this.setImage(
 						"https://www.yarrah.com/en/wp-content/uploads/sites/10/2019/01/Puppy-aanschaffen-header-800x600.png"
 					) }
 					isPremium={ true }
-					socialPreviewLabel="Twitter share preview"
+					socialPreviewLabel="X share preview"
 				/>
 			</Container>
 		);

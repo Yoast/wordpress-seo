@@ -1,5 +1,5 @@
 import doubleQuotes from "../sanitize/doubleQuotes";
-import { includes } from "lodash-es";
+import { includes } from "lodash";
 
 /**
  * Checks if the keyphrase is double-quoted.

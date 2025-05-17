@@ -21,12 +21,12 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Author_Builder
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Post_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Post_Builder
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
+final class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.
@@ -44,6 +44,8 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 	 * Tests the formatting of the indexable data.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 		$options_mock = Mockery::mock( Options_Helper::class );
@@ -112,6 +114,8 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 	 * Tests the formatting of the indexable data.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_not_indexed() {
 		Monkey\Functions\expect( 'get_post_type_archive_link' )->never();

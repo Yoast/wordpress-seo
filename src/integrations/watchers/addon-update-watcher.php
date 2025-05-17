@@ -17,14 +17,14 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 *
 	 * @var string
 	 */
-	const WPSEO_FREE_PLUGIN_ID = 'wordpress-seo/wp-seo.php';
+	public const WPSEO_FREE_PLUGIN_ID = 'wordpress-seo/wp-seo.php';
 
 	/**
 	 * A list of Yoast add-on identifiers.
 	 *
 	 * @var string[]
 	 */
-	const ADD_ON_PLUGIN_FILES = [
+	public const ADD_ON_PLUGIN_FILES = [
 		'wordpress-seo-premium/wp-seo-premium.php',
 		'wpseo-video/video-seo.php',
 		'wpseo-local/local-seo.php', // When installing Local through a released zip, the path is different from the path on a dev environment.
@@ -35,6 +35,8 @@ class Addon_Update_Watcher implements Integration_Interface {
 
 	/**
 	 * Registers the hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'add_site_option_auto_update_plugins', [ $this, 'call_toggle_auto_updates_with_empty_array' ], 10, 2 );
@@ -101,6 +103,8 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 *
 	 * @param string      $option The name of the option that is being created.
 	 * @param array|mixed $value  The new (and first) value of the option that is being created.
+	 *
+	 * @return void
 	 */
 	public function call_toggle_auto_updates_with_empty_array( $option, $value ) {
 		if ( $option !== 'auto_update_plugins' ) {
@@ -187,6 +191,8 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * Enables auto-updates for all addons.
 	 *
 	 * @param string[] $auto_updated_plugins The current list of auto-updated plugins.
+	 *
+	 * @return void
 	 */
 	protected function enable_auto_updates_for_addons( $auto_updated_plugins ) {
 		$plugins = \array_unique( \array_merge( $auto_updated_plugins, self::ADD_ON_PLUGIN_FILES ) );
@@ -197,6 +203,8 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * Disables auto-updates for all addons.
 	 *
 	 * @param string[] $auto_updated_plugins The current list of auto-updated plugins.
+	 *
+	 * @return void
 	 */
 	protected function disable_auto_updates_for_addons( $auto_updated_plugins ) {
 		$plugins = \array_values( \array_diff( $auto_updated_plugins, self::ADD_ON_PLUGIN_FILES ) );

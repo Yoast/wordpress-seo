@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group schema
  */
-class Schema_Presenter_Test extends TestCase {
+final class Schema_Presenter_Test extends TestCase {
 
 	/**
 	 * The Schema presenter instance.
@@ -34,6 +34,8 @@ class Schema_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -48,6 +50,8 @@ class Schema_Presenter_Test extends TestCase {
 	 * Tests presenting the Schema meta tag.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_happy_path() {
 		$this->presentation->schema = [ 'the_schema' ];
@@ -70,6 +74,8 @@ class Schema_Presenter_Test extends TestCase {
 	 * Tests presenting the Schema meta tag when the filter returns an empty array.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_filter_returns_empty_array() {
 		$this->presentation->schema = [ 'the_schema' ];
@@ -85,6 +91,8 @@ class Schema_Presenter_Test extends TestCase {
 	 * Tests presenting the Schema meta tag when the filter returns false.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_filter_returns_false() {
 		$this->presentation->schema = [ 'the_schema' ];
@@ -100,6 +108,8 @@ class Schema_Presenter_Test extends TestCase {
 	 * Tests presenting the Schema meta tag when the Schema is not an array.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_schema_not_an_array() {
 		$this->presentation->schema = 'the_schema';
@@ -118,6 +128,8 @@ class Schema_Presenter_Test extends TestCase {
 	 * Tests the retrieval of the raw value.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		$this->presentation->schema = [ 'the_schema' ];

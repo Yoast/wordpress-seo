@@ -1,5 +1,7 @@
 import Scheduler from "../../../src/worker/scheduler/Scheduler";
 
+jest.useRealTimers();
+
 describe( "Worker Scheduler", () => {
 	let scheduler;
 

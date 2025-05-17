@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Headless_Rest_Endpoints_Enabled_Conditional
  */
-class Headless_Rest_Endpoints_Enabled_Conditional_Test extends TestCase {
+final class Headless_Rest_Endpoints_Enabled_Conditional_Test extends TestCase {
 
 	/**
 	 * Represents the conditional to test.
@@ -32,6 +32,8 @@ class Headless_Rest_Endpoints_Enabled_Conditional_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -44,6 +46,8 @@ class Headless_Rest_Endpoints_Enabled_Conditional_Test extends TestCase {
 	 * Tests if the class attributes are set propertly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -56,6 +60,8 @@ class Headless_Rest_Endpoints_Enabled_Conditional_Test extends TestCase {
 	 * Tests that the conditional returns the correct option value.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_option_enabled_option() {
 		$this->options

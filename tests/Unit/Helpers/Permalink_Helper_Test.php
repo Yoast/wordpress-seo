@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group helpers
  */
-class Permalink_Helper_Test extends TestCase {
+final class Permalink_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the class to test.
@@ -26,6 +26,8 @@ class Permalink_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ class Permalink_Helper_Test extends TestCase {
 	 * Retrieves the permalink for a post indexable.
 	 *
 	 * @covers ::get_permalink_for_indexable
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink_for_post_indexable() {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
@@ -55,6 +59,8 @@ class Permalink_Helper_Test extends TestCase {
 	 * Retrieves the permalink for an attachment indexable.
 	 *
 	 * @covers ::get_permalink_for_indexable
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink_for_attachment_indexable() {
 		$indexable                  = Mockery::mock( Indexable_Mock::class );
@@ -74,6 +80,8 @@ class Permalink_Helper_Test extends TestCase {
 	 * Retrieves the permalink for a home page indexable.
 	 *
 	 * @covers ::get_permalink_for_indexable
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink_for_homepage_indexable() {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
@@ -92,6 +100,8 @@ class Permalink_Helper_Test extends TestCase {
 	 * Retrieves the permalink for a term indexable.
 	 *
 	 * @covers ::get_permalink_for_indexable
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink_for_term_indexable() {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
@@ -124,6 +134,8 @@ class Permalink_Helper_Test extends TestCase {
 	 * Retrieves the permalink for a term indexable and term not found.
 	 *
 	 * @covers ::get_permalink_for_indexable
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink_for_term_indexable_term_not_found() {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
@@ -143,6 +155,8 @@ class Permalink_Helper_Test extends TestCase {
 	 * Retrieves the permalink for a term indexable with term being wp_error.
 	 *
 	 * @covers ::get_permalink_for_indexable
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink_for_term_indexable_term_is_wp_error() {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
@@ -170,6 +184,8 @@ class Permalink_Helper_Test extends TestCase {
 	 * Retrieves the permalink for a search page indexable.
 	 *
 	 * @covers ::get_permalink_for_indexable
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink_for_search_page_indexable() {
 		$indexable                  = Mockery::mock( Indexable_Mock::class );
@@ -189,6 +205,8 @@ class Permalink_Helper_Test extends TestCase {
 	 * Retrieves the permalink for a search page indexable.
 	 *
 	 * @covers ::get_permalink_for_indexable
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink_for_post_type_archive_indexable() {
 		$indexable                  = Mockery::mock( Indexable_Mock::class );
@@ -209,6 +227,8 @@ class Permalink_Helper_Test extends TestCase {
 	 * Retrieves the permalink for a search page indexable.
 	 *
 	 * @covers ::get_permalink_for_indexable
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink_for_user_indexable() {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
@@ -229,6 +249,8 @@ class Permalink_Helper_Test extends TestCase {
 	 * Retrieves the permalink for a search page indexable.
 	 *
 	 * @covers ::get_permalink_for_indexable
+	 *
+	 * @return void
 	 */
 	public function test_get_permalink_for_unknown_type_indexable() {
 		$indexable              = Mockery::mock( Indexable_Mock::class );

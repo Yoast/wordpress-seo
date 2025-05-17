@@ -22,7 +22,7 @@ export const Modal = ( { children } ) => {
 			onClose={ handleClose }
 			initialFocus={ initialFocusRef }
 		>
-			<PureModal.Panel className="yst-max-w-lg yst-p-0 yst-bg-gradient-to-b yst-from-[#EDD2E1] yst-rounded-3xl">
+			<PureModal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl">
 				{ children }
 			</PureModal.Panel>
 		</PureModal>

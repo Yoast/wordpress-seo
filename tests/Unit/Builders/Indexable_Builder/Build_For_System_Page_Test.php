@@ -10,10 +10,12 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-class Build_For_System_Page_Test extends Abstract_Indexable_Builder_TestCase {
+final class Build_For_System_Page_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
 	 * Sets up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,7 +32,8 @@ class Build_For_System_Page_Test extends Abstract_Indexable_Builder_TestCase {
 	 * @covers ::build_for_system_page
 	 * @covers ::ensure_indexable
 	 * @covers ::build
-	 * @covers ::save_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_for_system_page() {
 
@@ -47,6 +50,8 @@ class Build_For_System_Page_Test extends Abstract_Indexable_Builder_TestCase {
 	 * Expectation for build method.
 	 *
 	 * @param array $defaults The defaults to expect.
+	 *
+	 * @return void
 	 */
 	public function expect_build( $defaults ) {
 
@@ -58,7 +63,6 @@ class Build_For_System_Page_Test extends Abstract_Indexable_Builder_TestCase {
 			->with( '404', $this->indexable )
 			->andReturn( $this->indexable );
 
-		// Saving is outside the scope of this test.
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $this->indexable );
 	}
 }

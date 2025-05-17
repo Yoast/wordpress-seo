@@ -1,10 +1,10 @@
 import { sprintf } from "@wordpress/i18n";
-import { isString } from "lodash-es";
+import { isString } from "lodash";
 
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 import addMark from "../../../markers/addMark";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import { getWords } from "../../../languageProcessing";
 
 import { includesConsecutiveWords } from "./helpers/includesConsecutiveWords";
@@ -31,12 +31,14 @@ export default class InclusiveLanguageAssessment {
 	 * 									and `%2$s` (and potentially further replacements) for the suggested alternative(s).
 	 * @param {string} config.learnMoreUrl The URL to an article explaining more about this specific assessment.
 	 * @param {function} [config.rule] A potential additional rule for targeting the non-inclusive phrases.
+	 * @param {string} [config.ruleDescription] A description of the rule.
 	 * @param {boolean} [config.caseSensitive=false] If the inclusive phrase is case-sensitive, defaults to `false`.
+	 * @param {string} [config.category] The category of the assessment.
 	 *
 	 * @returns {void}
 	 */
 	constructor( { identifier, nonInclusivePhrases, inclusiveAlternatives,
-					 score, feedbackFormat, learnMoreUrl, rule, caseSensitive, category } ) {
+		score, feedbackFormat, learnMoreUrl, rule, ruleDescription, caseSensitive, category } ) {
 		this.identifier = identifier;
 		this.nonInclusivePhrases = nonInclusivePhrases;
 		this.inclusiveAlternatives = inclusiveAlternatives;
@@ -48,6 +50,7 @@ export default class InclusiveLanguageAssessment {
 		this.learnMoreUrl = createAnchorOpeningTag( learnMoreUrl );
 
 		this.rule = rule || includesConsecutiveWords;
+		this.ruleDescription = ruleDescription;
 		this.caseSensitive = caseSensitive || false;
 		this.category = category;
 	}
@@ -70,12 +73,12 @@ export default class InclusiveLanguageAssessment {
 		this.foundPhrases = [];
 
 		sentences.forEach( sentence => {
-			let words = getWords( sentence, false );
+			let words = getWords( sentence, "\\s", false );
 			if ( ! this.caseSensitive ) {
 				words = words.map( word => word.toLocaleLowerCase() );
 			}
 
-			const foundPhrase = this.nonInclusivePhrases.find( phrase => this.rule( words, getWords( phrase, false ) ).length >= 1 );
+			const foundPhrase = this.nonInclusivePhrases.find( phrase => this.rule( words, getWords( phrase, "\\s", false ) ).length >= 1 );
 
 			if ( foundPhrase ) {
 				this.foundPhrases.push( {
@@ -99,6 +102,7 @@ export default class InclusiveLanguageAssessment {
 			"</a>"
 		);
 
+		// eslint-disable-next-line @wordpress/valid-sprintf -- The sprintf function is used to replace placeholders in the feedbackFormat variable.
 		const text = sprintf(
 			this.feedbackFormat,
 			this.foundPhrases[ 0 ].phrase,

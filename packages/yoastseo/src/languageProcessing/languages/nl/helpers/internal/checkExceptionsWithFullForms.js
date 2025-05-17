@@ -1,4 +1,4 @@
-import { flatten } from "lodash-es";
+import { flatten } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { flattenSortLength } = languageProcessing;
 
@@ -101,7 +101,7 @@ const checkExactMatchFullFormsList = function( word, exactMatchFullFormsList ) {
  *
  * @returns {string/null} The created word forms.
  */
-export default function( morphologyDataNL, word ) {
+export default function checkExceptionsWithFullForms( morphologyDataNL, word ) {
 	const exceptionListWithFullForms = morphologyDataNL.stemExceptions.stemmingExceptionStemsWithFullForms;
 
 	let stem = checkVerbFullFormsList( word, exceptionListWithFullForms.verbs, morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes );

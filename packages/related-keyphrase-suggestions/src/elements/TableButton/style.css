@@ -1,0 +1,55 @@
+@layer components {
+	.yst-root {
+
+        .yst-table-button {
+			@apply yst-gap-2;
+
+            &.yst-button--secondary {
+                .yst-button-icon {
+                    @apply yst-text-slate-400 yst-w-3 yst-h-3;
+                }
+            }
+    
+            &.yst-button--tertiary {
+                @apply yst-text-red-500 hover:yst-text-red-700;
+    
+                .yst-button-icon {
+                    @apply yst-w-3.5 yst-h-3.5;
+                }
+            }
+        }
+
+        .yst-success-message {
+            @apply 
+            yst-flex 
+            yst-items-center 
+            yst-justify-center 
+            yst-gap-1 
+            yst-text-slate-600 
+            yst-text-xs 
+            yst-px-3 
+            yst-py-1 
+            yst-leading-5
+            yst-transition 
+            yst-duration-300 
+            yst-ease-out;
+
+            .yst-success-icon {
+                @apply yst-w-4 yst-h-4;
+            }
+
+            &.yst-success-message-add {
+                .yst-success-icon {
+                    @apply yst-text-green-400;
+                }
+            }
+
+            &.yst-success-message-remove {
+                .yst-success-icon {
+                    @apply yst-text-red-500;
+                }
+            }
+
+        }
+    }
+}

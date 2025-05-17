@@ -7,8 +7,6 @@
  * @phpcs:disable Yoast.Files.FileName.InvalidFunctionsFileName
  * @phpcs:disable Yoast.Commenting.FileComment.MissingPackageTag
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
- * @phpcs:disable WordPress.Arrays.CommaAfterArrayItem.NoComma
- * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
  * @phpcs:disable Squiz.Commenting.FunctionComment.Missing
  * @phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -17,49 +15,40 @@
 /**
  * Holds the dependency injection container.
  *
- * @var \Symfony\Component\DependencyInjection\ContainerBuilder $container
+ * @var ContainerBuilder $container
  */
 
-use Yoast\WP\SEO\Actions\Indexables_Page_Action;
-use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
-use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
-use Yoast\WP\SEO\Conditionals\The_Events_Calendar_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Activated_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Flag_Conditional;
-use Yoast\WP\SEO\Generators\Schema\Third_Party\CoAuthor;
-use Yoast\WP\SEO\Generators\Schema\Third_Party\Events_Calendar_Schema;
-use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexables_Page_Integration;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Integration_Active_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Plugin_Inactive_Conditional;
+use Yoast\WP\SEO\Config\Wordproof_App_Config;
+use Yoast\WP\SEO\Config\Wordproof_Translations;
+use Yoast\WP\SEO\Helpers\Request_Helper;
+use Yoast\WP\SEO\Helpers\Wordproof_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Disable_Concatenate_Scripts_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Old_Premium_Integration;
-use Yoast\WP\SEO\Integrations\Admin\Social_Templates_Integration;
-use Yoast\WP\SEO\Integrations\Schema_Blocks;
-use Yoast\WP\SEO\Integrations\Third_Party\CoAuthors_Plus;
-use Yoast\WP\SEO\Integrations\Third_Party\The_Events_Calendar;
+use Yoast\WP\SEO\Integrations\Admin\Unsupported_PHP_Version_Notice;
+use Yoast\WP\SEO\Integrations\Duplicate_Post_Integration;
 use Yoast\WP\SEO\Integrations\Third_Party\Wincher;
+use Yoast\WP\SEO\Integrations\Third_Party\Wordproof;
 use Yoast\WP\SEO\Integrations\Third_Party\Wordproof_Integration_Toggle;
-use Yoast\WP\SEO\Routes\Indexables_Page_Route;
-use Yoast\WP\SEO\Schema_Templates\Assets\Icons;
+use Yoast\WP\SEO\Introductions\Application\Ai_Generate_Titles_And_Descriptions_Introduction_Upsell;
 
 $deprecated_classes = [
-	CoAuthors_Plus_Activated_Conditional::class => '19.12',
-	CoAuthors_Plus_Flag_Conditional::class      => '19.12',
-	CoAuthor::class                             => '19.12',
-	CoAuthors_Plus::class                       => '19.12',
-	The_Events_Calendar_Conditional::class      => '19.12',
-	Events_Calendar_Schema::class               => '19.12',
-	The_Events_Calendar::class                  => '19.12',
-	Social_Templates_Integration::class         => '20.3',
-	Indexables_Page_Integration::class          => '20.4',
-	Indexables_Page_Route::class                => '20.4',
-	Indexables_Page_Action::class               => '20.4',
-	Indexables_Page_Helper::class               => '20.4',
-	Indexables_Page_Conditional::class          => '20.4',
-	Schema_Blocks_Conditional::class            => '20.5',
-	Schema_Blocks::class                        => '20.5',
-	Icons::class                                => '20.5',
-	Old_Premium_Integration::class              => '20.10',
-	Wincher::class                              => '21.6',
-	Wordproof_Integration_Toggle::class         => '21.6',
+	Old_Premium_Integration::class                                 => '20.10',
+	Wincher::class                                                 => '21.6',
+	Wordproof_Integration_Toggle::class                            => '21.6',
+	Wordproof::class                                               => '22.10',
+	Wordproof_Integration_Active_Conditional::class                => '22.10',
+	Wordproof_Plugin_Inactive_Conditional::class                   => '22.10',
+	Wordproof_App_Config::class                                    => '22.10',
+	Wordproof_Translations::class                                  => '22.10',
+	Wordproof_Helper::class                                        => '22.10',
+	Ai_Generate_Titles_And_Descriptions_Introduction_Upsell::class => '23.2',
+	Disable_Concatenate_Scripts_Integration::class                 => '23.2',
+	Duplicate_Post_Integration::class                              => '23.4',
+	Request_Helper::class                                          => '23.6',
+	Unsupported_PHP_Version_Notice::class                          => '25.0',
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {

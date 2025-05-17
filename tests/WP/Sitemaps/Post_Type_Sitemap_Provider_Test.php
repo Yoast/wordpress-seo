@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\WP\Sitemaps;
 
 use WPSEO_Options;
 use WPSEO_Post_Type_Sitemap_Provider;
+use WPSEO_Sitemaps;
 use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Post_Type_Sitemap_Provider_Double;
 use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Sitemaps_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
@@ -12,9 +13,9 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  * Class Post_Type_Sitemap_Provider_Test.
  *
  * @group sitemaps
- * @coversDefaultClass \Yoast\WP\SEO\Models\SEO_Links\WPSEO_Post_Type_Sitemap_Provider
+ * @coversDefaultClass \WPSEO_Post_Type_Sitemap_Provider
  */
-class Post_Type_Sitemap_Provider_Test extends TestCase {
+final class Post_Type_Sitemap_Provider_Test extends TestCase {
 
 	/**
 	 * Sitemap Provider instance.
@@ -32,6 +33,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 
 	/**
 	 * Set up our double class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -43,6 +46,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * No entries in the post or page types should still generate an index entry.
 	 *
 	 * @covers ::get_index_links
+	 *
+	 * @return void
 	 */
 	public function test_get_index_links_no_entries() {
 		$index_links = self::$class_instance->get_index_links( 1 );
@@ -53,6 +58,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Multiple pages of a post-type should result in multiple index entries.
 	 *
 	 * @covers ::get_index_links
+	 *
+	 * @return void
 	 */
 	public function test_get_index_links_one_entry_paged() {
 
@@ -65,6 +72,7 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 		$this->factory->post->create();
 
 		$index_links = self::$class_instance->get_index_links( 1 );
+
 		$this->assertContains( 'http://example.org/post-sitemap.xml', $index_links[0] );
 		$this->assertContains( 'http://example.org/post-sitemap2.xml', $index_links[1] );
 	}
@@ -73,6 +81,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Multiple entries should be on the same sitemap if not over page limit.
 	 *
 	 * @covers ::get_index_links
+	 *
+	 * @return void
 	 */
 	public function test_get_index_links_multiple_entries_non_paged() {
 		$this->factory->post->create();
@@ -87,12 +97,14 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Makes sure the filtered out entries do not cause a sitemap index link to return a 404.
 	 *
 	 * @covers ::get_index_links
+	 *
+	 * @return void
 	 */
 	public function test_get_index_links_empty_bucket() {
 
-		$this->factory->post->create();
-		$this->excluded_posts = [ $this->factory->post->create() ]; // Remove this post.
-		$this->factory->post->create();
+		self::factory()->post->create( [ 'post_date' => '2024-01-01 00:00:01' ] );
+		$this->excluded_posts = [ self::factory()->post->create( [ 'post_date' => '2024-01-01 00:00:02' ] ) ]; // Remove this post.
+		self::factory()->post->create( [ 'post_date' => '2024-01-01 00:00:03' ] );
 
 		\add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'exclude_post' ] );
 		\add_filter( 'wpseo_sitemap_entries_per_page', [ $this, 'return_one' ] );
@@ -120,6 +132,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Makes sure invalid sitemap pages return no contents (404).
 	 *
 	 * @covers ::get_index_links
+	 *
+	 * @return void
 	 */
 	public function test_get_index_links_empty_sitemap() {
 		// Fetch the global sitemap.
@@ -140,6 +154,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Tests the sitemap links for the different homepage possibilities.
 	 *
 	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_get_sitemap_links() {
 		$sitemap_provider = new Post_Type_Sitemap_Provider_Double();
@@ -195,6 +211,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Tests the excluded posts with the usage of the filter.
 	 *
 	 * @covers ::get_excluded_posts
+	 *
+	 * @return void
 	 */
 	public function test_get_excluded_posts_with_set_filter() {
 		$sitemap_provider = new Post_Type_Sitemap_Provider_Double();
@@ -218,6 +236,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Tests the excluded posts with the usage of a filter that returns an invalid value.
 	 *
 	 * @covers ::get_excluded_posts
+	 *
+	 * @return void
 	 */
 	public function test_get_excluded_posts_with_set_filter_that_has_invalid_return_value() {
 		$sitemap_provider = new Post_Type_Sitemap_Provider_Double();
@@ -262,6 +282,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Tests if external URLs are not being included in the sitemap.
 	 *
 	 * @covers ::get_url
+	 *
+	 * @return void
 	 */
 	public function test_get_url() {
 		$current_home     = \get_option( 'home' );
@@ -287,6 +309,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Tests a regular post is added to the sitemap.
 	 *
 	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_regular_post() {
 		$this->factory->post->create();
@@ -299,6 +323,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Tests to make sure password protected posts are not in the sitemap.
 	 *
 	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_password_protected_post() {
 		// Create password protected post.
@@ -320,6 +346,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * Tests to make sure a regular attachment is include in the sitemap.
 	 *
 	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
 	 */
 	public function test_regular_attachment() {
 		// Enable attachments in the sitemap.
@@ -350,6 +378,8 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * @covers ::get_sitemap_links
 	 *
 	 * @link https://github.com/Yoast/wordpress-seo/issues/9194
+	 *
+	 * @return void
 	 */
 	public function test_password_protected_post_parent_attachment() {
 		// Enable attachments in the sitemap.
@@ -392,5 +422,50 @@ class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 */
 	public function return_one() {
 		return 1;
+	}
+
+	/**
+	 * Tests get_first_links;
+	 *
+	 * @covers ::get_first_links
+	 *
+	 * @return void
+	 */
+	public function test_get_first_links() {
+
+		$post_id = $this->factory->post->create(
+			[
+				'post_type'   => 'page',
+				'post_status' => 'publish',
+			]
+		);
+		\update_option( 'page_on_front', $post_id );
+
+		$image_path      = 'test.test/path/to/image.jpg';
+		$attachment_data = [
+			'guid'           => $image_path,
+			'post_mime_type' => 'image/jpeg',
+			'post_title'     => 'My Image',
+			'post_content'   => '',
+			'post_status'    => 'inherit',
+		];
+
+		// Create the attachment and get its ID.
+		$attachment_id = \wp_insert_attachment( $attachment_data, $image_path, $post_id );
+		\set_post_thumbnail( $post_id, $attachment_id );
+
+		$sitemap_provider = new Post_Type_Sitemap_Provider_Double();
+
+		$expected = [
+			[
+				'loc'    => \get_permalink( $post_id ),
+				'chf'    => 'daily',
+				'pri'    => 1,
+				'images' => [ [ 'src' => 'http://example.org/wp-content/uploads/test.test/path/to/image.jpg' ] ],
+				'mod'    => WPSEO_Sitemaps::get_last_modified_gmt( 'page' ),
+			],
+		];
+
+		$this->assertEquals( $expected, $sitemap_provider->get_first_links( 'page' ) );
 	}
 }

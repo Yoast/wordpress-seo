@@ -50,7 +50,7 @@ const AnalysisUpsell = ( props ) => {
 			<TextContainer>
 				{ sprintf(
 					/* translators: %s expands to Yoast SEO Premium */
-					__( "Did you know %s also analyzes the different word forms of your keyphrase, like plurals and past tenses?", "wordpress-seo" ),
+					__( "%s looks at more than just your main keyword. It analyzes different word forms, plurals, and past tenses. This helps your website perform even better in searches!", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				) }
 			</TextContainer>

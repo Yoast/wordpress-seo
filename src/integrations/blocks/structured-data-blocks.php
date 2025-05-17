@@ -55,19 +55,17 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
 	 * @param Image_Helper              $image_helper  The image helper.
 	 */
-	public function __construct(
-		WPSEO_Admin_Asset_Manager $asset_manager,
-		Image_Helper $image_helper
-	) {
+	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager, Image_Helper $image_helper ) {
 		$this->asset_manager = $asset_manager;
 		$this->image_helper  = $image_helper;
 	}
 
 	/**
 	 * Registers hooks for Structured Data Blocks with WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
 		$this->register_blocks();
 	}
 
@@ -77,84 +75,27 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_blocks() {
-		\register_block_type(
-			'yoast/faq-block',
-			[
-				'render_callback' => [ $this, 'optimize_faq_images' ],
-				'attributes'      => [
-					'className' => [
-						'default' => '',
-						'type'    => 'string',
-					],
-					'questions' => [
-						'type' => 'array',
-					],
-					'additionalListCssClasses' => [
-						'type' => 'string',
-					],
-				],
-			]
-		);
-		\register_block_type(
-			'yoast/how-to-block',
-			[
-				'render_callback' => [ $this, 'optimize_how_to_images' ],
-				'attributes'      => [
-					'hasDuration' => [
-						'type' => 'boolean',
-					],
-					'days' => [
-						'type' => 'string',
-					],
-					'hours' => [
-						'type' => 'string',
-					],
-					'minutes' => [
-						'type' => 'string',
-					],
-					'description' => [
-						'type'     => 'array',
-						'source'   => 'children',
-						'selector' => '.schema-how-to-description',
-					],
-					'jsonDescription' => [
-						'type' => 'string',
-					],
-					'steps' => [
-						'type' => 'array',
-					],
-					'additionalListCssClasses' => [
-						'type' => 'string',
-					],
-					'unorderedList' => [
-						'type' => 'boolean',
-					],
-					'durationText' => [
-						'type' => 'string',
-					],
-					'defaultDurationText' => [
-						'type' => 'string',
-					],
-				],
-			]
-		);
-	}
-
-	/**
-	 * Enqueue Gutenberg block assets for backend editor.
-	 */
-	public function enqueue_block_editor_assets() {
 		/**
 		 * Filter: 'wpseo_enable_structured_data_blocks' - Allows disabling Yoast's schema blocks entirely.
 		 *
-		 * @api bool If false, our structured data blocks won't show.
+		 * @param bool $enable If false, our structured data blocks won't show.
 		 */
 		if ( ! \apply_filters( 'wpseo_enable_structured_data_blocks', true ) ) {
 			return;
 		}
 
-		$this->asset_manager->enqueue_script( 'structured-data-blocks' );
-		$this->asset_manager->enqueue_style( 'structured-data-blocks' );
+		\register_block_type(
+			\WPSEO_PATH . 'blocks/structured-data-blocks/faq/block.json',
+			[
+				'render_callback' => [ $this, 'optimize_faq_images' ],
+			]
+		);
+		\register_block_type(
+			\WPSEO_PATH . 'blocks/structured-data-blocks/how-to/block.json',
+			[
+				'render_callback' => [ $this, 'optimize_how_to_images' ],
+			]
+		);
 	}
 
 	/**
@@ -178,8 +119,8 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * For example (in en-US): If 'days' is 1, it returns "1 day". If 'days' is 2, it returns "2 days".
 	 * If a number value is 0, we don't output the string.
 	 *
-	 * @param number $days Number of days.
-	 * @param number $hours Number of hours.
+	 * @param number $days    Number of days.
+	 * @param number $hours   Number of hours.
 	 * @param number $minutes Number of minutes.
 	 * @return array Array of pluralized durations.
 	 */
@@ -220,7 +161,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 		$hours           = ( $attributes['hours'] ?? 0 );
 		$minutes         = ( $attributes['minutes'] ?? 0 );
 		$elements        = $this->transform_duration_to_string( $days, $hours, $minutes );
-		$elements_length = count( $elements );
+		$elements_length = \count( $elements );
 
 		switch ( $elements_length ) {
 			case 1:
@@ -463,5 +404,19 @@ class Structured_Data_Blocks implements Integration_Interface {
 		else {
 			$this->used_caches[ $post_id ] = $images;
 		}
+	}
+
+	/* DEPRECATED METHODS */
+
+	/**
+	 * Enqueue Gutenberg block assets for backend editor.
+	 *
+	 * @deprecated 22.7
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function enqueue_block_editor_assets() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 22.7' );
 	}
 }

@@ -27,7 +27,7 @@ class Introductions_Seen_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const ROUTE_PREFIX = '/introductions/(?P<introduction_id>[\w-]+)/seen';
+	public const ROUTE_PREFIX = '/introductions/(?P<introduction_id>[\w-]+)/seen';
 
 	/**
 	 * Holds the introductions collector instance.

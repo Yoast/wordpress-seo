@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group twitter
  */
-class Twitter_Image_Test extends TestCase {
+final class Twitter_Image_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ class Twitter_Image_Test extends TestCase {
 	 * @param string $image_source   Twitter image source.
 	 * @param array  $image_generate Return value of twitter image generator.
 	 * @param string $expected       Expected value.
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_image( $image_source, $image_generate, $expected ) {
 		$this->indexable->twitter_image_source = $image_source;
@@ -60,6 +64,8 @@ class Twitter_Image_Test extends TestCase {
 	 * @param array  $image_generate   Return value of twitter image generator.
 	 * @param string $open_graph_image Return value of Open Graph image generator.
 	 * @param string $expected         Expected value.
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_image_with_open_graph_fallback( $image_source, $image_generate, $open_graph_image, $expected ) {
 		$this->indexable->twitter_image_source = $image_source;
@@ -84,7 +90,7 @@ class Twitter_Image_Test extends TestCase {
 	 *
 	 * @return array The data to provide.
 	 */
-	public function twitter_image_provider() {
+	public static function twitter_image_provider() {
 		return [
 			[
 				'image_source'    => 'set-by-user',
@@ -117,7 +123,7 @@ class Twitter_Image_Test extends TestCase {
 	 *
 	 * @return array The data to provide.
 	 */
-	public function twitter_image_open_graph_fallback_provider() {
+	public static function twitter_image_open_graph_fallback_provider() {
 		return [
 			[
 				'image_source'              => 'featured-image',

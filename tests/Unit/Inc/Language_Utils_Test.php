@@ -10,12 +10,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group language-utils
  */
-class Language_Utils_Test extends TestCase {
+final class Language_Utils_Test extends TestCase {
 
 	/**
 	 * Tests the get_language function with no argument.
 	 *
 	 * @covers WPSEO_Language_Utils::get_language
+	 *
+	 * @return void
 	 */
 	public function test_get_language_no_argument() {
 		$language = WPSEO_Language_Utils::get_language();
@@ -27,6 +29,8 @@ class Language_Utils_Test extends TestCase {
 	 * Tests the get_language with the en_GB argument.
 	 *
 	 * @covers WPSEO_Language_Utils::get_language
+	 *
+	 * @return void
 	 */
 	public function test_get_language_english() {
 		$language = WPSEO_Language_Utils::get_language( 'en_GB' );
@@ -38,6 +42,8 @@ class Language_Utils_Test extends TestCase {
 	 * Tests the get_language with other languages.
 	 *
 	 * @covers WPSEO_Language_Utils::get_language
+	 *
+	 * @return void
 	 */
 	public function test_get_language() {
 		$this->assertEquals( 'en', WPSEO_Language_Utils::get_language( '' ) );

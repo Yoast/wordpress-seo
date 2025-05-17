@@ -20,57 +20,49 @@ class First_Time_Configuration_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const CONFIGURATION_ROUTE = '/configuration';
+	public const CONFIGURATION_ROUTE = '/configuration';
 
 	/**
 	 * Represents a site representation route.
 	 *
 	 * @var string
 	 */
-	const SITE_REPRESENTATION_ROUTE = '/site_representation';
+	public const SITE_REPRESENTATION_ROUTE = '/site_representation';
 
 	/**
 	 * Represents a social profiles route.
 	 *
 	 * @var string
 	 */
-	const SOCIAL_PROFILES_ROUTE = '/social_profiles';
-
-	/**
-	 * Represents a person's social profiles route.
-	 *
-	 * @deprecated 20.2
-	 * @var string
-	 */
-	const PERSON_SOCIAL_PROFILES_ROUTE = '/person_social_profiles';
+	public const SOCIAL_PROFILES_ROUTE = '/social_profiles';
 
 	/**
 	 * Represents a route to enable/disable tracking.
 	 *
 	 * @var string
 	 */
-	const ENABLE_TRACKING_ROUTE = '/enable_tracking';
+	public const ENABLE_TRACKING_ROUTE = '/enable_tracking';
 
 	/**
 	 * Represents a route to check if current user has the correct capabilities to edit another user's profile.
 	 *
 	 * @var string
 	 */
-	const CHECK_CAPABILITY_ROUTE = '/check_capability';
+	public const CHECK_CAPABILITY_ROUTE = '/check_capability';
 
 	/**
 	 * Represents a route to save the first time configuration state.
 	 *
 	 * @var string
 	 */
-	const SAVE_CONFIGURATION_STATE_ROUTE = '/save_configuration_state';
+	public const SAVE_CONFIGURATION_STATE_ROUTE = '/save_configuration_state';
 
 	/**
 	 * Represents a route to save the first time configuration state.
 	 *
 	 * @var string
 	 */
-	const GET_CONFIGURATION_STATE_ROUTE = '/get_configuration_state';
+	public const GET_CONFIGURATION_STATE_ROUTE = '/get_configuration_state';
 
 	/**
 	 *  The first tinme configuration action.
@@ -84,9 +76,7 @@ class First_Time_Configuration_Route implements Route_Interface {
 	 *
 	 * @param First_Time_Configuration_Action $first_time_configuration_action The first-time configuration action.
 	 */
-	public function __construct(
-		First_Time_Configuration_Action $first_time_configuration_action
-	) {
+	public function __construct( First_Time_Configuration_Action $first_time_configuration_action ) {
 		$this->first_time_configuration_action = $first_time_configuration_action;
 	}
 
@@ -318,49 +308,5 @@ class First_Time_Configuration_Route implements Route_Interface {
 			->get_configuration_state();
 
 		return new WP_REST_Response( $data, $data->status );
-	}
-
-	/* DEPRECATED METHODS */
-
-	/**
-	 * Gets a person's social profiles values.
-	 *
-	 * @deprecated 20.2
-	 * @codeCoverageIgnore
-	 *
-	 * @param WP_REST_Request $request The request.
-	 *
-	 * @return WP_REST_Response
-	 */
-	public function get_person_social_profiles( WP_REST_Request $request ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 20.2' );
-
-		$data = $this
-			->first_time_configuration_action
-			->get_person_social_profiles( $request->get_param( 'user_id' ) );
-
-		return new WP_REST_Response( $data, $data->status );
-	}
-
-	/**
-	 * Sets a person's social profiles values.
-	 *
-	 * @deprecated 20.2
-	 * @codeCoverageIgnore
-	 *
-	 * @param WP_REST_Request $request The request.
-	 *
-	 * @return WP_REST_Response
-	 */
-	public function set_person_social_profiles( WP_REST_Request $request ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 20.2' );
-
-		$data = $this
-			->first_time_configuration_action
-			->set_person_social_profiles( $request->get_json_params() );
-
-		return new WP_REST_Response(
-			[ 'json' => $data ]
-		);
 	}
 }

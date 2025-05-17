@@ -1,5 +1,5 @@
 import { SCORES } from "./scores";
-import { potentiallyHarmfulUnless } from "./feedbackStrings";
+import { orangeUnlessSomeoneWants } from "./feedbackStrings/generalFeedbackStrings";
 
 const sexualOrientationAssessments = [
 	{
@@ -7,7 +7,7 @@ const sexualOrientationAssessments = [
 		nonInclusivePhrases: [ "homosexuals" ],
 		inclusiveAlternatives: "<i>gay people, queer people, lesbians, gay men, people in same-gender relationships</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnless, "Be as specific possible and use people's preferred labels if they are known." ].join( " " ),
+		feedbackFormat: [ orangeUnlessSomeoneWants, "Be as specific possible and use people's preferred labels if they are known." ].join( " " ),
 	},
 ];
 

@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import firstParagraph from "../../../src/languageProcessing/researches/findKeywordInFirstParagraph.js";
@@ -27,6 +26,107 @@ const paragraphWithExactParagraphMatchEN = "<p>" + sentenceWithExactMatchOfSomeK
 	sentenceWithSomeKeywordsEN + sentenceWithoutKeywordsEN + "/<p>";
 const paragraphWithoutMatchEN = "<p>" + sentenceWithoutKeywordsEN + sentenceWithoutKeywordsEN + sentenceWithoutKeywordsEN + "/<p>";
 
+describe( "a test for excluded elements", function() {
+	it( "should not recognize image captions as the introduction if it occurs at the beginning of the post (classic editor)", function() {
+		// The keyphrase is 'tortie cat', where it is added to the image caption. The first paragraph after the image doesn't contain the keyphrase.
+		// Hence, this test should return that the keyphrase was not found in the first paragraph.
+		const paper = new Paper( "\"[caption id=\"attachment_1205\" align=\"alignnone\" width=\"300\"]<img class=\"size-medium wp-image-1205\" src=\"https://basic.wordpress.test/wp-content/uploads/2024/05/cat-5579221_640-300x200.jpg\" alt=\"\" width=\"300\" height=\"200\" /> A great tortie cat.[/caption]<p> </p><p id=\"mntl-sc-block_18-0\" class=\"comp mntl-sc-block lifestyle-sc-block-html mntl-sc-block-html text-passage u-how-to-title-align\">In the early 2000's, researchers at the National Institutes of Health discovered that the genetic mutations that cause cats to have black coats may offer them some protection from diseases. In fact, the mutations affect the same genes that offer HIV resistance to some humans.</p>",
+			{ keyword: "tortie cat" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+		expect( firstParagraph( paper, researcher ).introduction.childNodes[ 0 ].value ).toEqual(
+			"In the early 2000's, researchers at the National Institutes of Health discovered that the genetic mutations that cause cats to have black coats may offer them some protection from diseases. In fact, the mutations affect the same genes that offer HIV resistance to some humans."
+		);
+	} );
+	it( "should not recognize image captions as the introduction if it occurs at the beginning of the post (block editor)", function() {
+		// The keyphrase is 'tortie cat', where it is added to the image caption. The first paragraph after the image doesn't contain the keyphrase.
+		// Hence, this test should return that the keyphrase was not found in the first paragraph.
+		const paper = new Paper( "<!-- wp:image {\"id\":1377,\"sizeSlug\":\"full\",\"linkDestination\":\"none\"} -->\n" +
+			"<figure class=\"wp-block-image size-full\"><img src=\"cat.png\" alt=\"\" class=\"wp-image-1377\"/><figcaption class=\"wp-element-caption\">A great tortie cat.</figcaption></figure>\n" +
+			"<!-- /wp:image -->\n" +
+			"\n" +
+			"<!-- wp:paragraph -->\n" +
+			"<p>Some other text.</p>\n" +
+			"<!-- /wp:paragraph -->",
+		{ keyword: "tortie cat" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+		expect( firstParagraph( paper, researcher ).introduction.childNodes[ 0 ].value ).toEqual( "Some other text." );
+	} );
+	it( "should not recognize image captions as the introduction if it occurs at the beginning of the post (block editor: classic block)", function() {
+		// The keyphrase is 'the highland cow Braunvieh', where it is added to the image caption. The first paragraph after the image doesn't contain the keyphrase.
+		// Hence, this test should return that the keyphrase was not found in the first paragraph.
+		const paper = new Paper( "<p>[caption id=\"attachment_1425\" align=\"alignnone\" width=\"300\"]<img class=\"size-medium wp-image-1425\"" +
+			" src=\"https://basic.wordpress.test\" alt=\"\" width=\"300\" height=\"213\"> Braunvieh: the highland cow[/caption]</p>" +
+			"\n<p>The <b>Braunvieh</b> (German, \"brown cattle\") or <b>Swiss Brown</b> is a breed or group of breeds of domestic cattle originating in Switzerland" +
+			" and distributed throughout the Alpine region.</p>",
+		{ keyword: "the highland cow Braunvieh" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+		expect( firstParagraph( paper, researcher ).introduction.sentences[ 0 ].text ).toEqual( "The Braunvieh (German, \"brown cattle\") or Swiss Brown is a breed or group of breeds of domestic cattle originating in Switzerland and distributed throughout the Alpine region." );
+	} );
+	it( "should not recognize gallery shortcode as the introduction if it occurs at the beginning of the post: classic editor", function() {
+		const paper = new Paper( "<p>[gallery ids=\"1425,1281\"]</p><p>The deadliest cat on <strong>Earth</strong> isn't a shaggy-maned lion, a sleek leopard or a stealthy tiger.</p>", { keyword: "the deadliest cat" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+		expect( firstParagraph( paper, researcher ).introduction.sentences[ 0 ].text ).toEqual( "The deadliest cat on Earth isn't a shaggy-maned lion, a sleek leopard or a stealthy tiger." );
+	} );
+	it( "should not recognize embed shortcode as the introduction if it occurs at the beginning of the post: classic editor", function() {
+		const paper = new Paper( "<p>[embed]https://youtube.com/shorts/FjhU7wtp4_c?si=YWJBva3N6VvNJnVy[/embed]</p><p>The deadliest cat on <strong>Earth</strong> isn't a shaggy-maned lion, a sleek leopard or a stealthy tiger.</p>", { keyword: "the deadliest cat" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+		expect( firstParagraph( paper, researcher ).introduction.sentences[ 0 ].text ).toEqual( "The deadliest cat on Earth isn't a shaggy-maned lion, a sleek leopard or a stealthy tiger." );
+	} );
+	it( "should not recognize playlist shortcode as the introduction if it occurs at the beginning of the post: classic editor", function() {
+		const paper = new Paper( "<p>[playlist type=\"video\" ids=\"1209,1208\"]</p><p>The deadliest cat on <strong>Earth</strong> isn't a shaggy-maned lion, a sleek leopard or a stealthy tiger.</p>", { keyword: "the deadliest cat" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+		expect( firstParagraph( paper, researcher ).introduction.sentences[ 0 ].text ).toEqual( "The deadliest cat on Earth isn't a shaggy-maned lion, a sleek leopard or a stealthy tiger." );
+	} );
+} );
+
 describe( "checks for the content words from the keyphrase in the first paragraph (English)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
 		const paper = new Paper( paragraphWithSentenceMatchEN, { keyword: keyphraseEN } );
@@ -34,7 +134,7 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -47,7 +147,7 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -60,7 +160,7 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -74,7 +174,7 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 		const researcher = new EnglishResearcher( paper );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -86,7 +186,7 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 		const researcher = new EnglishResearcher( paper );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -98,7 +198,7 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 		const researcher = new EnglishResearcher( paper );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -113,7 +213,7 @@ describe( "checks for the content words from a synonym phrase in the first parag
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "synonym",
@@ -126,7 +226,7 @@ describe( "checks for the content words from a synonym phrase in the first parag
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "synonym",
@@ -139,7 +239,7 @@ describe( "checks for the content words from a synonym phrase in the first parag
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -154,7 +254,7 @@ describe( "tests for edge cases", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -167,7 +267,7 @@ describe( "tests for edge cases", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -180,7 +280,7 @@ describe( "tests for edge cases", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -193,7 +293,7 @@ describe( "tests for edge cases", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -216,7 +316,7 @@ describe( "tests for edge cases", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -236,7 +336,7 @@ describe( "tests for edge cases", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -257,7 +357,7 @@ describe( "tests for edge cases", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -281,7 +381,7 @@ describe( "tests for edge cases", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -300,7 +400,7 @@ describe( "tests for edge cases", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -319,7 +419,7 @@ describe( "tests for edge cases", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -339,7 +439,7 @@ describe( "tests for edge cases", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -360,7 +460,7 @@ describe( "tests for edge cases", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -379,7 +479,7 @@ describe( "tests for edge cases", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -399,7 +499,7 @@ describe( "tests for edge cases", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -415,7 +515,7 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -428,7 +528,7 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 		const researcher = new EnglishResearcher( paper );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -443,7 +543,7 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 		const researcher = new EnglishResearcher( paper );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "synonym",
@@ -455,7 +555,7 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 		let researcher = new EnglishResearcher( paper );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual(
+		expect( firstParagraph( paper, researcher ) ).toMatchObject(
 			{
 				foundInOneSentence: true,
 				foundInParagraph: true,
@@ -467,7 +567,7 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 		researcher = new EnglishResearcher( paper );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -477,7 +577,7 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 		researcher = new EnglishResearcher( paper );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -487,7 +587,7 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 		researcher = new EnglishResearcher( paper );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -501,7 +601,7 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -514,7 +614,7 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -528,7 +628,7 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
+		expect( firstParagraph( paper, researcher ) ).toMatchObject( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "synonym",

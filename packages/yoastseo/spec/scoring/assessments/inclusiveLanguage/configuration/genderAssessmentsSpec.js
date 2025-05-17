@@ -2,7 +2,7 @@ import Paper from "../../../../../src/values/Paper";
 import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/genderAssessments";
-import Factory from "../../../../specHelpers/factory.js";
+import Factory from "../../../../../src/helpers/factory.js";
 import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 
 describe( "Tests for exclusionary and potentially exclusionary phrases", function() {
@@ -173,7 +173,7 @@ describe( "Tests for exclusionary and potentially exclusionary phrases", functio
 } );
 
 describe( "Tests for phrases that are exclusionary UNLESS there is a condition when they're acceptable", function() {
-	it( "targets  versions of the phrases 'men and women' and 'girls and boys'", () => {
+	it( "targets versions of the phrases 'men and women' and 'girls and boys'", () => {
 		const testData = [
 			{
 				identifier: "menAndWomen",
@@ -255,7 +255,7 @@ describe( "Tests for phrases that are exclusionary UNLESS there is a condition w
 		];
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "targets words 'firemen' and 'policemen'", () => {
+	it( "targets words 'firemen', 'policemen', and 'pregnant women'", () => {
 		const testData = [
 			{
 				identifier: "firemen",
@@ -272,6 +272,15 @@ describe( "Tests for phrases that are exclusionary UNLESS there is a condition w
 				expectedFeedback: "Be careful when using <i>policemen</i> as it can be exclusionary. " +
 					"Unless you are sure that the group you refer to only consists of men, use an alternative, " +
 					"such as <i>police officers</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "pregnant women",
+				text: "Pregnant women shouldn't be lifting heavy objects.",
+				expectedFeedback: "Be careful when using <i>pregnant women</i> as it can be exclusionary. " +
+					"Unless you are sure that the group you refer to only consists of women, use an alternative, " +
+					"such as <i>pregnant people</i>. " +
 					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
@@ -448,7 +457,7 @@ describe( "A test for Gender assessments", function() {
 	it( "should not target inclusive phrases", function() {
 		const mockPaper = new Paper( "Look at those firefighters! They're putting out the fire." );
 		const mockResearcher = Factory.buildMockResearcher( [ "Look at those firefighters!", "They're putting out the fire." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "firemen" )  );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "firemen" ) );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 

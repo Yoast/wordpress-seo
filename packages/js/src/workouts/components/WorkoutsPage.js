@@ -70,10 +70,10 @@ export default function WorkoutsPage( props ) {
 		if ( loading === true ) {
 			initWorkouts( workoutsSetting );
 			if ( window.location.hash && window.location.hash.length > 1 ) {
-				if ( window.location.hash.substr( 1 ) === "configuration" ) {
+				if ( window.location.hash.substring( 1 ) === "configuration" ) {
 					window.location.href = window.wpseoWorkoutsData.firstTimeConfigurationUrl;
 				} else {
-					openWorkout( window.location.hash.substr( 1 ) );
+					openWorkout( window.location.hash.substring( 1 ) );
 				}
 			}
 			return;
@@ -86,7 +86,7 @@ export default function WorkoutsPage( props ) {
 	/**
 	 * Generate slots based on the workout key, and sort by priority.
 	 */
-	 const slots = useMemo( () => {
+	const slots = useMemo( () => {
 		const slotIds = Object.keys( workouts );
 		const sortedWorkouts = sortBy( slotIds.map( id => {
 			return { ...workouts[ id ], id };
@@ -110,7 +110,6 @@ export default function WorkoutsPage( props ) {
 			</h1>
 			<p id="workouts-page-description">
 				{ __(
-					// eslint-disable-next-line max-len
 					"Getting your site in shape and keeping it SEO fit can be hard. We can help you get started! Take these step-by-step workouts, and you’ll be tackling some of the most fundamental SEO challenges!",
 					"wordpress-seo"
 				) }
@@ -119,7 +118,7 @@ export default function WorkoutsPage( props ) {
 				// translators: %1$s translates to a leftward pointing arrow ( ← )
 				sprintf( __( "%1$sBack to all workouts", "worpdress-seo" ), "← " )
 			}</Button> }
-			 <div className={ activeWorkout ? "" : "workflows__index" }>
+			<div className={ activeWorkout ? "" : "workflows__index" }>
 				{ slots }
 			</div>
 		</div>

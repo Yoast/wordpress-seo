@@ -61,6 +61,8 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 	 * Add capabilities to its own group in the Members plugin.
 	 *
 	 * @see members_register_cap_group()
+	 *
+	 * @return void
 	 */
 	public function action_members_register_cap_group() {
 		if ( ! function_exists( 'members_register_cap_group' ) ) {

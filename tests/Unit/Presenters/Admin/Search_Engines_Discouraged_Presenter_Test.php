@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Search_Engines_Discouraged_Presenter_Test extends TestCase {
+final class Search_Engines_Discouraged_Presenter_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -40,6 +40,8 @@ class Search_Engines_Discouraged_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get_message
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		Monkey\Functions\expect( 'admin_url' )

@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  */
-class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase {
+final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase {
 
 	/**
 	 * Tests the build in case of an image link and 'disable attachment` optionis false.
@@ -29,6 +29,8 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 	 * @covers ::enhance_link_from_indexable
 	 * @covers ::get_post_id
 	 * @covers ::update_related_indexables
+	 *
+	 * @return void
 	 */
 	public function test_build_create_internal_link() {
 
@@ -40,6 +42,9 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 
 		$model       = new SEO_Links_Mock();
 		$model->type = SEO_Links::TYPE_INTERNAL_IMAGE;
+
+		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
+		$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [ 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5' => 2 ] );
 
 		Functions\stubs(
 			[
@@ -102,6 +107,8 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 	 * @covers ::enhance_link_from_indexable
 	 * @covers ::get_post_id
 	 * @covers ::update_related_indexables
+	 *
+	 * @return void
 	 */
 	public function test_build_create_internal_link_disable_attachment_true_file_doesnt_exist() {
 
@@ -114,6 +121,9 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 		$model                 = new SEO_Links_Mock();
 		$model->type           = SEO_Links::TYPE_INTERNAL_IMAGE;
 		$model->target_post_id = 2;
+
+		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
+		$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [ 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5' => 2 ] );
 
 		// Executed in build->create_links->create_internal_link.
 		Functions\stubs(
@@ -147,12 +157,6 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 		// Executed in build->create_links->create_internal_link.
 		$this->expect_seo_links_repository_query_create( $indexable, $model );
 
-		// Executed in build->create_links->create_internal_link->WPSEO_Image_Utils::get_attachment_by_url.
-		Functions\expect( 'wp_get_upload_dir' )
-			->with( 'http://basic.wordpress.test/wp-content/uploads' )
-			->once()
-			->andReturn( [ 'baseurl' => 'http://basic.wordpress.test/wp-content/uploads' ] );
-
 		$this->expect_build_permalink( 'http://basic.wordpress.test' );
 
 		$this->options_helper
@@ -177,6 +181,8 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 	 * @covers ::enhance_link_from_indexable
 	 * @covers ::get_post_id
 	 * @covers ::update_related_indexables
+	 *
+	 * @return void
 	 */
 	public function test_build_create_internal_link_disable_attachment_true_file_exist() {
 
@@ -191,6 +197,9 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 		$model->target_post_id = 5;
 		$model->height         = null;
 		$model->width          = null;
+
+		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
+		$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [ 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5' => 2 ] );
 
 		// Executed in build->create_links->create_internal_link.
 		Functions\stubs(
@@ -240,6 +249,8 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 	 * @covers ::enhance_link_from_indexable
 	 * @covers ::get_post_id
 	 * @covers ::update_related_indexables
+	 *
+	 * @return void
 	 */
 	public function test_build_create_internal_link_disable_attachment_true_file_not_found() {
 
@@ -252,6 +263,9 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 		$model                 = new SEO_Links_Mock();
 		$model->type           = SEO_Links::TYPE_INTERNAL_IMAGE;
 		$model->target_post_id = 3;
+
+		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
+		$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [ 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5' => 2 ] );
 
 		Functions\stubs(
 			[
@@ -316,6 +330,8 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 	 * @covers ::enhance_link_from_indexable
 	 * @covers ::get_post_id
 	 * @covers ::update_related_indexables
+	 *
+	 * @return void
 	 */
 	public function test_build_create_internal_link_disable_attachment_true_get_attachment_by_url_not_empty() {
 
@@ -328,6 +344,9 @@ class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_TestCase
 		$model                 = new SEO_Links_Mock();
 		$model->type           = SEO_Links::TYPE_INTERNAL_IMAGE;
 		$model->target_post_id = 2;
+
+		$this->indexable_helper->expects( 'should_index_indexable' )->once()->andReturn( true );
+		$this->image_content_extractor->expects( 'gather_images' )->once()->andReturn( [ 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5' => 2 ] );
 
 		Functions\stubs(
 			[

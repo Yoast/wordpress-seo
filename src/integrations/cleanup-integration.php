@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use Closure;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 
 /**
@@ -13,17 +14,24 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * Identifier used to determine the current task.
 	 */
-	const CURRENT_TASK_OPTION = 'wpseo-cleanup-current-task';
+	public const CURRENT_TASK_OPTION = 'wpseo-cleanup-current-task';
 
 	/**
 	 * Identifier for the cron job.
 	 */
-	const CRON_HOOK = 'wpseo_cleanup_cron';
+	public const CRON_HOOK = 'wpseo_cleanup_cron';
 
 	/**
 	 * Identifier for starting the cleanup.
 	 */
-	const START_HOOK = 'wpseo_start_cleanup_indexables';
+	public const START_HOOK = 'wpseo_start_cleanup_indexables';
+
+	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
 
 	/**
 	 * The cleanup repository.
@@ -36,9 +44,14 @@ class Cleanup_Integration implements Integration_Interface {
 	 * The constructor.
 	 *
 	 * @param Indexable_Cleanup_Repository $cleanup_repository The cleanup repository.
+	 * @param Indexable_Helper             $indexable_helper   The indexable helper.
 	 */
-	public function __construct( Indexable_Cleanup_Repository $cleanup_repository ) {
+	public function __construct(
+		Indexable_Cleanup_Repository $cleanup_repository,
+		Indexable_Helper $indexable_helper
+	) {
 		$this->cleanup_repository = $cleanup_repository;
+		$this->indexable_helper   = $indexable_helper;
 	}
 
 	/**
@@ -57,7 +70,7 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array The array of conditionals.
+	 * @return array<string> The array of conditionals.
 	 */
 	public static function get_conditionals() {
 		return [];
@@ -70,6 +83,11 @@ class Cleanup_Integration implements Integration_Interface {
 	 */
 	public function run_cleanup() {
 		$this->reset_cleanup();
+
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			\wp_unschedule_hook( self::START_HOOK );
+			return;
+		}
 
 		$cleanups = $this->get_cleanup_tasks();
 		$limit    = $this->get_limit();
@@ -134,7 +152,7 @@ class Cleanup_Integration implements Integration_Interface {
 					return $this->cleanup_repository->clean_indexables_for_object_type_and_source_table( 'terms', 'term_id', 'term', $limit );
 				},
 			],
-			$this->get_additional_tasks(),
+			$this->get_additional_indexable_cleanups(),
 			[
 				/* These should always be the last ones to be called. */
 				'clean_orphaned_content_indexable_hierarchy' => function ( $limit ) {
@@ -147,24 +165,53 @@ class Cleanup_Integration implements Integration_Interface {
 					return $this->cleanup_repository->cleanup_orphaned_from_table( 'SEO_Links', 'target_indexable_id', $limit );
 				},
 
-			]
+			],
+			$this->get_additional_misc_cleanups()
 		);
 	}
 
 	/**
 	 * Gets additional tasks from the 'wpseo_cleanup_tasks' filter.
 	 *
-	 * @return Closure[] Associative array of cleanup functions.
+	 * @return Closure[] Associative array of indexable cleanup functions.
 	 */
-	private function get_additional_tasks() {
+	private function get_additional_indexable_cleanups() {
 
 		/**
-		 * Filter: Adds the possibility to add addition cleanup functions.
+		 * Filter: Adds the possibility to add additional indexable cleanup functions.
 		 *
-		 * @api array Associative array with unique keys. Value should be a cleanup function that receives a limit.
+		 * @param array $additional_tasks Associative array with unique keys. Value should be a cleanup function that receives a limit.
 		 */
 		$additional_tasks = \apply_filters( 'wpseo_cleanup_tasks', [] );
 
+		return $this->validate_additional_tasks( $additional_tasks );
+	}
+
+	/**
+	 * Gets additional tasks from the 'wpseo_misc_cleanup_tasks' filter.
+	 *
+	 * @return Closure[] Associative array of indexable cleanup functions.
+	 */
+	private function get_additional_misc_cleanups() {
+
+		/**
+		 * Filter: Adds the possibility to add additional non-indexable cleanup functions.
+		 *
+		 * @param array $additional_tasks Associative array with unique keys. Value should be a cleanup function that receives a limit.
+		 */
+		$additional_tasks = \apply_filters( 'wpseo_misc_cleanup_tasks', [] );
+
+		return $this->validate_additional_tasks( $additional_tasks );
+	}
+
+	/**
+	 * Validates the additional tasks.
+	 *
+	 * @param Closure[] $additional_tasks The additional tasks to validate.
+	 *
+	 * @return Closure[] The validated additional tasks.
+	 */
+	private function validate_additional_tasks( $additional_tasks ) {
 		if ( ! \is_array( $additional_tasks ) ) {
 			return [];
 		}
@@ -190,7 +237,7 @@ class Cleanup_Integration implements Integration_Interface {
 		/**
 		 * Filter: Adds the possibility to limit the number of items that are deleted from the database on cleanup.
 		 *
-		 * @api int $limit Maximum number of indexables to be cleaned up per query.
+		 * @param int $limit Maximum number of indexables to be cleaned up per query.
 		 */
 		$limit = \apply_filters( 'wpseo_cron_query_limit_size', 1000 );
 
@@ -214,14 +261,15 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * Starts the cleanup cron job.
 	 *
-	 * @param string $task_name The task name of the next cleanup task to run.
+	 * @param string $task_name     The task name of the next cleanup task to run.
+	 * @param int    $schedule_time The time in seconds to wait before running the first cron job. Default is 1 hour.
 	 *
 	 * @return void
 	 */
-	private function start_cron_job( $task_name ) {
+	public function start_cron_job( $task_name, $schedule_time = 3600 ) {
 		\update_option( self::CURRENT_TASK_OPTION, $task_name );
 		\wp_schedule_event(
-			( \time() + \HOUR_IN_SECONDS ),
+			( \time() + $schedule_time ),
 			'hourly',
 			self::CRON_HOOK
 		);
@@ -233,6 +281,12 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function run_cleanup_cron() {
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			$this->reset_cleanup();
+
+			return;
+		}
+
 		$current_task_name = \get_option( self::CURRENT_TASK_OPTION );
 
 		if ( $current_task_name === false ) {

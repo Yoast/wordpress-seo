@@ -1,6 +1,6 @@
 We distinguish four different alert variants:
 
-1. **Info (<mark style="background-color: #dbeafe;"><font color="#1e40af">Blue</font></mark>)**<br>
+1. **Info**<br>
   The info alert is used to:
      - inform users about a (changed) system state, an experience, or feature
      - give users an update on any ongoing process
@@ -11,7 +11,7 @@ We distinguish four different alert variants:
   > Example copy: *Our app will be undergoing maintenance on Friday, March 31st from 8 PM to 10 PM EST.*
 
 
-2. **Warning (<mark style="background-color: #fef3c7;"><font color="#92400e">Yellow</font></mark>)**<br>
+2. **Warning**<br>
   The warning alert is used to:
      - alert users about potential problems or issues that may arise if they proceed with a particular action
      - notify users of a potential security risk, or any other situation that requires attention and/or an action
@@ -22,7 +22,7 @@ We distinguish four different alert variants:
   > Example copy: *Proceeding with this action will permanently delete all data associated with your account. Are you sure you want to continue?*
 
 
-3. **Success (<mark style="background-color: #dcfce7;"><font color="#166534">Green</font></mark>)**<br>
+3. **Success**<br>
   The success alert is used to:
      - confirm that a particular action, task, or process has been completed successfully
      - provide users with positive feedback
@@ -32,7 +32,7 @@ We distinguish four different alert variants:
   > Example copy: *Your payment has been received. Thank you for your purchase!*
 
 
-4. **Error (<mark style="background-color: #fee2e2;"><font color="#991b1b">Red</font></mark>)**<br>
+4. **Error**<br>
   The error alert is used to:
      - indicate that an error occurs or has occurred (often while performing a particular action)
      - provide users with information about why the error occurred, what went wrong and how to fix it (or at least move forward)

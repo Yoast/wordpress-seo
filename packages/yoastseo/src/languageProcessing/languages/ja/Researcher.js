@@ -32,7 +32,7 @@ import textLengthResearch from "./customResearches/textLength";
 import findKeyphraseInSEOTitle from "./customResearches/findKeyphraseInSEOTitle";
 
 /**
- * The researches contains all the researches
+ * The researcher contains all the researches, helpers, data, and config.
  */
 export default class Researcher extends AbstractResearcher {
 	/**

@@ -1,4 +1,4 @@
-import { isFunction, isObject } from "lodash-es";
+import { isFunction, isObject } from "lodash";
 import { getLogger } from "loglevel";
 import wrapTryCatchAroundAction from "../../src/worker/wrapTryCatchAroundAction";
 
@@ -110,7 +110,6 @@ describe( "wrapTryAroundAction", function() {
 		// Mute the actual logs.
 		// eslint-disable-next-line no-console
 		console.debug = jest.fn();
-		// eslint-disable-next-line no-console
 		console.error = jest.fn();
 
 		wrapper().then( result => {
@@ -118,7 +117,6 @@ describe( "wrapTryAroundAction", function() {
 			expect( result.error ).toBe( "Error: Testing error!" );
 			// eslint-disable-next-line no-console
 			expect( console.debug ).toHaveBeenCalledTimes( 1 );
-			// eslint-disable-next-line no-console
 			expect( console.error ).toHaveBeenCalledTimes( 1 );
 
 			done();

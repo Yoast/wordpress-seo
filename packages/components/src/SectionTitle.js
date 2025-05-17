@@ -15,7 +15,7 @@ export const StyledTitleContainer = styled.span`
 
 export const StyledTitle = styled.span`
 	display: block;
-	white-space: nowrap;
+	line-height: 1.5; 
 	text-overflow: ellipsis;
 	overflow: hidden;
 	color: ${ colors.$color_headings };

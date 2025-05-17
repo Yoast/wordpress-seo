@@ -1,8 +1,12 @@
 {
   "name": "@yoast/search-metadata-previews",
-  "version": "2.24.1",
+  "version": "3.0.0-alpha.0",
   "private": false,
-  "main": "src/index.js",
+  "main": "build/index.js",
+  "files": [
+    "build",
+    "!*.map"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
@@ -11,54 +15,48 @@
   "author": "Team Yoast",
   "license": "GPL-3.0",
   "scripts": {
+    "build": "yarn clean && yarn build:js",
+    "build:js": "babel src --out-dir build",
+    "watch": "yarn build:js --watch",
+    "clean": "rm -rf build",
     "test": "jest",
-    "lint": "eslint . --max-warnings=7",
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc"
+    "lint": "eslint . --max-warnings=7"
   },
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^2.19.0",
-    "@yoast/helpers": "^0.16.0",
-    "@yoast/replacement-variable-editor": "^1.17.0",
-    "@yoast/style-guide": "^0.13.0",
+    "@yoast/components": "^3.0.0-alpha.2",
+    "@yoast/helpers": "^0.17.0-alpha.1",
+    "@yoast/replacement-variable-editor": "^2.0.0-alpha.0",
+    "@yoast/style-guide": "^0.14.0-alpha.0",
     "interpolate-components": "^1.1.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-transition-group": "^2.7.1",
     "styled-components": "^5.3.6",
-    "yoastseo": "^1.91.2"
+    "yoastseo": "^3.3.0"
   },
   "devDependencies": {
-    "@yoast/browserslist-config": "^1.2.2",
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/plugin-transform-react-jsx": "^7.17.3",
+    "@babel/preset-env": "^7.16.11",
+    "@testing-library/jest-dom": "^6.1.3",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@yoast/browserslist-config": "^1.2.4",
+    "@yoast/eslint-config": "^8.0.0",
+    "babel-plugin-styled-components": "^2.0.6",
     "browserslist": "^4.7.3",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
-    "jest-styled-components": "^7.0.3",
-    "react-test-renderer": "^16.14.0"
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0",
+    "jest-styled-components": "^7.0.3"
   },
   "peerDependencies": {
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0"
-  },
-  "jest": {
-    "testURL": "http://localhost",
-    "testRegex": ".*Test.js$",
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "transformIgnorePatterns": [
-      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
-    ],
-    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
-    "moduleNameMapper": {
-      "\\.css$": "<rootDir>/tests/CSSStub.js",
-      "^lodash-es$": "lodash",
-      "^lodash-es/(.*)$": "lodash/$1"
-    }
+    "@draft-js-plugins/mention": "^5.0.0",
+    "draft-js": "^0.11.7"
   },
   "publishConfig": {
     "access": "public"

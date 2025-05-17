@@ -278,6 +278,14 @@ describe( "Miscellaneous tests", () => {
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		expect( tree.findAll( child => child.name === "abbr" ) ).toHaveLength( 0 );
 	} );
+
+	it( "should filter out span elements and remove the implicit paragraph it's part of", () => {
+		const html = '<span class="elementor-title elementor-inline-editing" data-elementor-setting-key="title">My cat loves me.</span>';
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		const filteredTree = filterTree( tree, permanentFilters );
+		expect( filteredTree.findAll( child => [ "span", "p" ].includes( child.name ) ) ).toHaveLength( 0 );
+	} );
+
 	it( "should filter out the Elementor Yoast Breadcrumbs widget ", () => {
 		// When the HTML enters the paper, the Breadcrumbs widget doesn't include the div tag.
 		let html = "<p id=\"breadcrumbs\"><span><span><a href=\"https://basic.wordpress.test/\">Home</a></span></span></p><div " +

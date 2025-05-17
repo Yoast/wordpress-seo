@@ -7,7 +7,7 @@ use WPSEO_Admin_Bar_Menu;
 /**
  * Test Helper Class.
  */
-class Admin_Bar_Menu_Double extends WPSEO_Admin_Bar_Menu {
+final class Admin_Bar_Menu_Double extends WPSEO_Admin_Bar_Menu {
 
 	/**
 	 * Gets the focus keyword for a given post.

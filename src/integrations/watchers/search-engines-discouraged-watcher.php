@@ -14,8 +14,6 @@ use Yoast_Notification_Center;
 
 /**
  * Shows a notification for users who have access for robots disabled.
- *
- * @class Search_Engines_Discouraged_Watcher
  */
 class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 
@@ -24,7 +22,7 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	/**
 	 * The notification ID.
 	 */
-	const NOTIFICATION_ID = 'wpseo-search-engines-discouraged';
+	public const NOTIFICATION_ID = 'wpseo-search-engines-discouraged';
 
 	/**
 	 * The Yoast notification center.
@@ -102,6 +100,8 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'manage_search_engines_discouraged_notification' ] );
+
+		\add_action( 'update_option_blog_public', [ $this, 'restore_ignore_option' ] );
 
 		/*
 		 * The `admin_notices` hook fires on single site admin pages vs.
@@ -231,5 +231,16 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 				'priority'     => 1,
 			]
 		);
+	}
+
+	/**
+	 * Should restore the ignore option for the search engines discouraged notice.
+	 *
+	 * @return void
+	 */
+	public function restore_ignore_option() {
+		if ( ! $this->search_engines_are_discouraged() ) {
+			$this->options_helper->set( 'ignore_search_engines_discouraged_notice', false );
+		}
 	}
 }

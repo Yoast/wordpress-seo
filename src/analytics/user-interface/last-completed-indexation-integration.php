@@ -58,7 +58,10 @@ class Last_Completed_Indexation_Integration implements Integration_Interface {
 		if ( $count === 0 ) {
 			$no_index                    = $this->options_helper->get( 'last_known_no_unindexed', [] );
 			$no_index[ $indexable_name ] = \time();
+
+			\remove_action( 'update_option_wpseo', [ 'WPSEO_Utils', 'clear_cache' ] );
 			$this->options_helper->set( 'last_known_no_unindexed', $no_index );
+			\add_action( 'update_option_wpseo', [ 'WPSEO_Utils', 'clear_cache' ] );
 		}
 	}
 }

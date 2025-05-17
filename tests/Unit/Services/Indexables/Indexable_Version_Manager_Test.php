@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager
  */
-class Indexable_Version_Manager_Test extends TestCase {
+final class Indexable_Version_Manager_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -43,6 +43,8 @@ class Indexable_Version_Manager_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -55,6 +57,8 @@ class Indexable_Version_Manager_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		self::assertInstanceOf(
@@ -68,6 +72,8 @@ class Indexable_Version_Manager_Test extends TestCase {
 	 *
 	 * @covers ::needs_upgrade
 	 * @covers ::indexable_needs_upgrade
+	 *
+	 * @return void
 	 */
 	public function test_needs_upgrade_if_Indexable_version_too_low() {
 		// Arrange.
@@ -89,6 +95,8 @@ class Indexable_Version_Manager_Test extends TestCase {
 	 *
 	 * @covers ::needs_upgrade
 	 * @covers ::indexable_needs_upgrade
+	 *
+	 * @return void
 	 */
 	public function test_needs_upgrade_if_Indexable_version_same() {
 		// Arrange.
@@ -111,6 +119,8 @@ class Indexable_Version_Manager_Test extends TestCase {
 	 *
 	 * @covers ::needs_upgrade
 	 * @covers ::indexable_needs_upgrade
+	 *
+	 * @return void
 	 */
 	public function test_needs_upgrade_if_Indexable_version_higher() {
 		// Arrange.
@@ -132,6 +142,8 @@ class Indexable_Version_Manager_Test extends TestCase {
 	 *
 	 * @covers ::needs_upgrade
 	 * @covers ::indexable_needs_upgrade
+	 *
+	 * @return void
 	 */
 	public function test_needs_upgrade_if_Indexable_type_unknown() {
 		// Arrange.
@@ -151,6 +163,8 @@ class Indexable_Version_Manager_Test extends TestCase {
 	 *
 	 * @param string $obj_type The object type of the indexable under test.
 	 * @param int    $version  The current version of the indexable under test.
+	 *
+	 * @return void
 	 */
 	protected function setup_indexable( $obj_type = 'post', $version = 0 ) {
 		// Setup the Indexable mock and its ORM layer.

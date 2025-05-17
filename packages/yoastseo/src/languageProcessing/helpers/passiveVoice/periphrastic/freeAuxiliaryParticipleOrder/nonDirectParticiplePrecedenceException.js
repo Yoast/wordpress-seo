@@ -1,4 +1,4 @@
-import { uniq } from "lodash-es";
+import { uniq } from "lodash";
 
 import arrayToRegex from "../../../regex/createRegexFromArray.js";
 import getWordIndices from "../getIndicesWithRegex.js";

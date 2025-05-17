@@ -34,7 +34,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group generators
  * @group schema
  */
-class Schema_Generator_Test extends TestCase {
+final class Schema_Generator_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -101,6 +101,8 @@ class Schema_Generator_Test extends TestCase {
 
 	/**
 	 * Sets up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -183,6 +185,8 @@ class Schema_Generator_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::generate
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_no_graph() {
 		$this->instance
@@ -213,6 +217,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 * @covers ::finalize_graph
 	 * @covers ::remove_empty_breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_no_blocks() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
@@ -300,7 +306,11 @@ class Schema_Generator_Test extends TestCase {
 									'@type'       => 'EntryPoint',
 									'urlTemplate' => '?s={search_term_string}',
 								],
-								'query-input' => 'required name=search_term_string',
+								'query-input' => [
+									'@type'          => 'PropertyValueSpecification',
+									'valueRequired'  => true,
+									'valueName'      => 'search_term_string',
+								],
 							],
 						],
 						'inLanguage'      => 'English',
@@ -319,6 +329,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 * @covers ::finalize_graph
 	 * @covers ::remove_empty_breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_empty_breadcrumb() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
@@ -386,7 +398,11 @@ class Schema_Generator_Test extends TestCase {
 									'@type'       => 'EntryPoint',
 									'urlTemplate' => '?s={search_term_string}',
 								],
-								'query-input' => 'required name=search_term_string',
+								'query-input' => [
+									'@type'          => 'PropertyValueSpecification',
+									'valueRequired'  => true,
+									'valueName'      => 'search_term_string',
+								],
 							],
 						],
 						'inLanguage'      => 'English',
@@ -403,6 +419,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_blocks() {
 		$this->stubEscapeFunctions();
@@ -412,8 +430,8 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
-			'post_date_gmt'     => 'date',
-			'post_modified_gmt' => 'date',
+			'post_date_gmt'     => '2024-12-13 09:58:08',
+			'post_modified_gmt' => '2024-12-13 09:58:09',
 		];
 		$this->context->has_image                  = false;
 
@@ -430,9 +448,15 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->date
 			->expects( 'format' )
-			->twice()
-			->with( 'date' )
-			->andReturn( 'date' );
+			->once()
+			->with( '2024-12-13 09:58:08' )
+			->andReturn( '2024-12-13 09:58:08' );
+
+		$this->date
+			->expects( 'format' )
+			->once()
+			->with( '2024-12-13 09:58:09' )
+			->andReturn( '2024-12-13 09:58:09' );
 
 		Monkey\Functions\expect( 'is_search' )
 			->andReturn( false );
@@ -469,6 +493,8 @@ class Schema_Generator_Test extends TestCase {
 	 * Tests the generate method with having a yoast-schema block.
 	 *
 	 * @covers ::generate
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_yoast_schema_block() {
 		$this->stubEscapeFunctions();
@@ -554,7 +580,7 @@ class Schema_Generator_Test extends TestCase {
 			],
 		];
 
-		static::assertEquals( $expected, $this->instance->generate( $this->context ) );
+		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
 	}
 
 	/**
@@ -563,6 +589,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_generator_have_identifier() {
 		$this->stubEscapeFunctions();
@@ -596,6 +624,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_block_not_having_generated_output() {
 		$this->stubEscapeFunctions();
@@ -605,8 +635,8 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
-			'post_date_gmt'     => 'date',
-			'post_modified_gmt' => 'date',
+			'post_date_gmt'     => '2024-12-13 09:58:08',
+			'post_modified_gmt' => '2024-12-13 09:58:09',
 		];
 		$this->context->has_image                  = false;
 
@@ -623,9 +653,15 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->date
 			->expects( 'format' )
-			->twice()
-			->with( 'date' )
-			->andReturn( 'date' );
+			->once()
+			->with( '2024-12-13 09:58:08' )
+			->andReturn( '2024-12-13 09:58:08' );
+
+		$this->date
+			->expects( 'format' )
+			->once()
+			->with( '2024-12-13 09:58:09' )
+			->andReturn( '2024-12-13 09:58:09' );
 
 		Monkey\Functions\expect( 'is_search' )
 			->andReturn( false );
@@ -659,6 +695,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
 	 * @covers ::validate_type
+	 *
+	 * @return void
 	 */
 	public function test_validate_type_singular_array() {
 		$this->context->blocks = [];
@@ -668,8 +706,8 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
-			'post_date_gmt'     => 'date',
-			'post_modified_gmt' => 'date',
+			'post_date_gmt'     => '2024-12-13 09:58:08',
+			'post_modified_gmt' => '2024-12-13 09:58:09',
 		];
 		$this->context->has_image                  = false;
 
@@ -686,9 +724,15 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->date
 			->expects( 'format' )
-			->twice()
-			->with( 'date' )
-			->andReturn( 'date' );
+			->once()
+			->with( '2024-12-13 09:58:08' )
+			->andReturn( '2024-12-13 09:58:08' );
+
+		$this->date
+			->expects( 'format' )
+			->once()
+			->with( '2024-12-13 09:58:09' )
+			->andReturn( '2024-12-13 09:58:09' );
 
 		Monkey\Functions\expect( 'is_search' )
 			->andReturn( false );
@@ -717,7 +761,11 @@ class Schema_Generator_Test extends TestCase {
 								'@type'       => 'EntryPoint',
 								'urlTemplate' => '?s={search_term_string}',
 							],
-							'query-input' => 'required name=search_term_string',
+							'query-input' => [
+								'@type'          => 'PropertyValueSpecification',
+								'valueRequired'  => true,
+								'valueName'      => 'search_term_string',
+							],
 						],
 					],
 					'inLanguage'      => 'English',
@@ -741,7 +789,11 @@ class Schema_Generator_Test extends TestCase {
 							'@type'       => 'EntryPoint',
 							'urlTemplate' => '?s={search_term_string}',
 						],
-						'query-input' => 'required name=search_term_string',
+						'query-input' => [
+							'@type'          => 'PropertyValueSpecification',
+							'valueRequired'  => true,
+							'valueName'      => 'search_term_string',
+						],
 					],
 				],
 				'inLanguage'      => 'English',
@@ -757,6 +809,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
 	 * @covers ::validate_type
+	 *
+	 * @return void
 	 */
 	public function test_validate_type_unique_array() {
 		$this->context->blocks = [];
@@ -766,8 +820,8 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
-			'post_date_gmt'     => 'date',
-			'post_modified_gmt' => 'date',
+			'post_date_gmt'     => '2024-12-13 09:58:08',
+			'post_modified_gmt' => '2024-12-13 09:58:09',
 		];
 		$this->context->has_image                  = false;
 
@@ -784,9 +838,15 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->date
 			->expects( 'format' )
-			->twice()
-			->with( 'date' )
-			->andReturn( 'date' );
+			->once()
+			->with( '2024-12-13 09:58:08' )
+			->andReturn( '2024-12-13 09:58:08' );
+
+		$this->date
+			->expects( 'format' )
+			->once()
+			->with( '2024-12-13 09:58:09' )
+			->andReturn( '2024-12-13 09:58:09' );
 
 		Monkey\Functions\expect( 'is_search' )
 			->andReturn( false );
@@ -818,7 +878,11 @@ class Schema_Generator_Test extends TestCase {
 								'@type'       => 'EntryPoint',
 								'urlTemplate' => '?s={search_term_string}',
 							],
-							'query-input' => 'required name=search_term_string',
+							'query-input' => [
+								'@type'          => 'PropertyValueSpecification',
+								'valueRequired'  => true,
+								'valueName'      => 'search_term_string',
+							],
 						],
 					],
 					'inLanguage'      => 'English',
@@ -839,7 +903,11 @@ class Schema_Generator_Test extends TestCase {
 							'@type'       => 'EntryPoint',
 							'urlTemplate' => '?s={search_term_string}',
 						],
-						'query-input' => 'required name=search_term_string',
+						'query-input' => [
+							'@type'          => 'PropertyValueSpecification',
+							'valueRequired'  => true,
+							'valueName'      => 'search_term_string',
+						],
 					],
 				],
 				'inLanguage'      => 'English',
@@ -853,14 +921,16 @@ class Schema_Generator_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
+	 *
+	 * @return void
 	 */
 	public function test_get_graph_pieces_on_single_post_with_password_required() {
 		$this->context->alternate_site_name        = '';
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
-			'post_date_gmt'     => 'date',
-			'post_modified_gmt' => 'date',
+			'post_date_gmt'     => '2024-12-13 09:58:08',
+			'post_modified_gmt' => '2024-12-13 09:58:09',
 		];
 		$this->context->has_image                  = false;
 
@@ -871,9 +941,15 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->date
 			->expects( 'format' )
-			->twice()
-			->with( 'date' )
-			->andReturn( 'date' );
+			->once()
+			->with( '2024-12-13 09:58:08' )
+			->andReturn( '2024-12-13 09:58:08' );
+
+		$this->date
+			->expects( 'format' )
+			->once()
+			->with( '2024-12-13 09:58:09' )
+			->andReturn( '2024-12-13 09:58:09' );
 
 		Monkey\Functions\expect( 'is_search' )
 			->andReturn( false );
@@ -922,7 +998,11 @@ class Schema_Generator_Test extends TestCase {
 									'@type'       => 'EntryPoint',
 									'urlTemplate' => '?s={search_term_string}',
 								],
-								'query-input' => 'required name=search_term_string',
+								'query-input' => [
+									'@type'          => 'PropertyValueSpecification',
+									'valueRequired'  => true,
+									'valueName'      => 'search_term_string',
+								],
 							],
 						],
 						'inLanguage'      => 'English',
@@ -937,6 +1017,8 @@ class Schema_Generator_Test extends TestCase {
 	 * Tests filtering the WebPage schema for password-protected posts.
 	 *
 	 * @covers ::protected_webpage_schema
+	 *
+	 * @return void
 	 */
 	public function test_filtering_the_webpage_schema() {
 		$graph_piece = [
@@ -967,6 +1049,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
+	 *
+	 * @return void
 	 */
 	public function test_generate_with_search_page() {
 		$this->context->alternate_site_name        = '';
@@ -1031,13 +1115,90 @@ class Schema_Generator_Test extends TestCase {
 									'@type'       => 'EntryPoint',
 									'urlTemplate' => 'https://fake.url/?s={search_term_string}',
 								],
-								'query-input' => 'required name=search_term_string',
+								'query-input' => [
+									'@type'          => 'PropertyValueSpecification',
+									'valueRequired'  => true,
+									'valueName'      => 'search_term_string',
+								],
 							],
 						],
 						'inLanguage'      => 'English',
 					],
 				],
 			],
+			$this->instance->generate( $this->context )
+		);
+	}
+
+	/**
+	 * Tests with the generate with a post page that was published with schedule (aka, has a modified date earlier than a published date).
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::get_graph_pieces
+	 *
+	 * @return void
+	 */
+	public function test_get_graph_pieces_on_scheduled_post() {
+		$this->stubEscapeFunctions();
+		$this->current_page->expects( 'is_paged' )->andReturns( false );
+
+		$this->context->alternate_site_name        = '';
+		$this->context->indexable->object_type     = 'post';
+		$this->context->indexable->object_sub_type = 'post';
+		$this->context->post                       = (object) [
+			'post_date_gmt'     => '2024-12-13 09:58:08',
+			'post_modified_gmt' => '2024-12-13 09:58:07',
+		];
+		$this->context->has_image                  = false;
+
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->with( $this->context->post )
+			->andReturnFalse();
+
+		$this->article
+			->expects( 'is_author_supported' )
+			->twice()
+			->with( 'post' )
+			->andReturnFalse();
+
+		$this->date
+			->expects( 'format' )
+			->once()
+			->with( '2024-12-13 09:58:08' )
+			->andReturn( '2024-12-13 09:58:08' );
+
+		Monkey\Functions\expect( 'is_search' )
+			->andReturn( false );
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->andReturnTrue();
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->times( 3 )
+			->andReturnArg( 0 );
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
+
+		Monkey\Actions\expectDone( 'wpseo_pre_schema_block_type_yoast/faq-block' )
+			->with( $this->context->blocks['yoast/faq-block'], $this->context );
+
+		Monkey\Filters\expectApplied( 'wpseo_schema_needs_faq' )
+			->with( true );
+
+		$this->current_page->expects( 'is_home_static_page' )->andReturns( false );
+		$this->current_page->expects( 'is_home_posts_page' )->andReturns( false );
+
+		$expected_schema = $this->get_expected_schema();
+		unset( $expected_schema['@graph'][0]['dateModified'] );
+
+		$this->assertEquals(
+			$expected_schema,
 			$this->instance->generate( $this->context )
 		);
 	}
@@ -1074,8 +1235,8 @@ class Schema_Generator_Test extends TestCase {
 							'@id' => '#id-1',
 						],
 					],
-					'datePublished'   => 'date',
-					'dateModified'    => 'date',
+					'datePublished'   => '2024-12-13 09:58:08',
+					'dateModified'    => '2024-12-13 09:58:09',
 				],
 				[
 					'@type'           => 'WebSite',
@@ -1090,7 +1251,11 @@ class Schema_Generator_Test extends TestCase {
 								'@type'       => 'EntryPoint',
 								'urlTemplate' => '?s={search_term_string}',
 							],
-							'query-input' => 'required name=search_term_string',
+							'query-input' => [
+								'@type'          => 'PropertyValueSpecification',
+								'valueRequired'  => true,
+								'valueName'      => 'search_term_string',
+							],
 						],
 					],
 					'inLanguage'      => 'English',

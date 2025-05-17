@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * @group integrations
  * @group front-end
  */
-class Force_Rewrite_Title_Test extends TestCase {
+final class Force_Rewrite_Title_Test extends TestCase {
 
 	/**
 	 * The options helper.
@@ -43,6 +43,8 @@ class Force_Rewrite_Title_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -58,6 +60,8 @@ class Force_Rewrite_Title_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -70,6 +74,8 @@ class Force_Rewrite_Title_Test extends TestCase {
 	 * Tests flushing of the output buffer where the buffering isn't started yet.
 	 *
 	 * @covers ::flush_cache
+	 *
+	 * @return void
 	 */
 	public function test_flush_cache_where_buffering_is_not_started() {
 		$this->assertFalse( $this->instance->flush_cache() );
@@ -79,6 +85,8 @@ class Force_Rewrite_Title_Test extends TestCase {
 	 * Tests flushing of the output buffer with no debug markers set.
 	 *
 	 * @covers ::flush_cache
+	 *
+	 * @return void
 	 */
 	public function test_flush_cache_where_buffering_with_no_matched_debug_markers() {
 		$this->instance->force_rewrite_output_buffer();
@@ -99,6 +107,8 @@ class Force_Rewrite_Title_Test extends TestCase {
 	 * @covers ::flush_cache
 	 * @covers ::replace_titles_from_content
 	 * @covers ::replace_title
+	 *
+	 * @return void
 	 */
 	public function test_flush_cache_with_replacing_the_titles_before() {
 		$this->instance
@@ -141,6 +151,8 @@ class Force_Rewrite_Title_Test extends TestCase {
 	 * @covers ::flush_cache
 	 * @covers ::replace_titles_from_content
 	 * @covers ::replace_title
+	 *
+	 * @return void
 	 */
 	public function test_flush_cache_with_replacing_the_titles_after() {
 		$this->instance
@@ -183,6 +195,8 @@ class Force_Rewrite_Title_Test extends TestCase {
 	 * @covers ::flush_cache
 	 * @covers ::replace_titles_from_content
 	 * @covers ::replace_title
+	 *
+	 * @return void
 	 */
 	public function test_flush_cache_with_replacing_the_titles_everywhere() {
 		$this->instance
@@ -224,6 +238,8 @@ class Force_Rewrite_Title_Test extends TestCase {
 	 * Tests if the output buffering is started.
 	 *
 	 * @covers ::force_rewrite_output_buffer
+	 *
+	 * @return void
 	 */
 	public function test_force_rewrite_output_buffer() {
 		$this->instance

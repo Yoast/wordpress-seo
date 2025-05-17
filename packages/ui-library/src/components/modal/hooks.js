@@ -1,5 +1,5 @@
-import { createContext, useContext } from "@wordpress/element";
 import { noop } from "lodash";
+import { createContext, useContext } from "react";
 
 export const ModalContext = createContext( { isOpen: false, onClose: noop } );
 

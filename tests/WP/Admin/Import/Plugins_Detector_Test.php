@@ -8,12 +8,14 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test whether we can detect plugin data to import successfully.
  */
-class Plugins_Detector_Test extends TestCase {
+final class Plugins_Detector_Test extends TestCase {
 
 	/**
 	 * Test whether we can return properly when there's no plugin data.
 	 *
 	 * @covers WPSEO_Import_Plugins_Detector::detect
+	 *
+	 * @return void
 	 */
 	public function test_detect_no_data() {
 		$detector = new WPSEO_Import_Plugins_Detector();
@@ -26,6 +28,8 @@ class Plugins_Detector_Test extends TestCase {
 	 * Test whether we can detect a plugin's data.
 	 *
 	 * @covers WPSEO_Import_Plugins_Detector::detect
+	 *
+	 * @return void
 	 */
 	public function test_detect_with_data() {
 		$this->setup_post();

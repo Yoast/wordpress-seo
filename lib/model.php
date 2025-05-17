@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\Lib;
 
+use Exception;
 use JsonSerializable;
 use ReturnTypeWillChange;
 
@@ -22,14 +23,14 @@ class Model implements JsonSerializable {
 	 *
 	 * @var string
 	 */
-	const DEFAULT_ID_COLUMN = 'id';
+	public const DEFAULT_ID_COLUMN = 'id';
 
 	/**
 	 * Default foreign key suffix used by relationship methods.
 	 *
 	 * @var string
 	 */
-	const DEFAULT_FOREIGN_KEY_SUFFIX = '_id';
+	public const DEFAULT_FOREIGN_KEY_SUFFIX = '_id';
 
 	/**
 	 * Set a prefix for model names. This can be a namespace or any other
@@ -330,10 +331,10 @@ class Model implements JsonSerializable {
 	 *
 	 * @return ORM Instance of the ORM.
 	 *
-	 * @throws \Exception When ID of current model has a null value.
+	 * @throws Exception When ID of current model has a null value.
 	 */
 	protected function has_one_or_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null ) {
-		$base_table_name  = static::get_table_name_for_class( \get_class( $this ) );
+		$base_table_name  = static::get_table_name_for_class( static::class );
 		$foreign_key_name = static::build_foreign_key_name( $foreign_key_name, $base_table_name );
 
 		/*
@@ -362,7 +363,7 @@ class Model implements JsonSerializable {
 	 *
 	 * @return ORM Instance of the ORM.
 	 *
-	 * @throws \Exception  When ID of current model has a null value.
+	 * @throws Exception  When ID of current model has a null value.
 	 */
 	protected function has_one( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null ) {
 		return $this->has_one_or_many( $associated_class_name, $foreign_key_name, $foreign_key_name_in_current_models_table );
@@ -378,7 +379,7 @@ class Model implements JsonSerializable {
 	 *
 	 * @return ORM Instance of the ORM.
 	 *
-	 * @throws \Exception When ID has a null value.
+	 * @throws Exception When ID has a null value.
 	 */
 	protected function has_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null ) {
 		$this->set_table_name( $associated_class_name );
@@ -431,7 +432,7 @@ class Model implements JsonSerializable {
 	 * @return ORM Instance of the ORM.
 	 */
 	protected function has_many_through( $associated_class_name, $join_class_name = null, $key_to_base_table = null, $key_to_associated_table = null, $key_in_base_table = null, $key_in_associated_table = null ) {
-		$base_class_name = \get_class( $this );
+		$base_class_name = static::class;
 
 		/*
 		 * The class name of the join model, if not supplied, is formed by
@@ -689,7 +690,7 @@ class Model implements JsonSerializable {
 	 *
 	 * @return int The database ID of the models instance.
 	 *
-	 * @throws \Exception When the ID is a null value.
+	 * @throws Exception When the ID is a null value.
 	 */
 	public function id() {
 		return $this->orm->id();
@@ -722,7 +723,7 @@ class Model implements JsonSerializable {
 			return [];
 		}
 
-		$model = static::factory( \get_called_class() );
+		$model = static::factory( static::class );
 
 		return \call_user_func_array( [ $model, $method ], $arguments );
 	}

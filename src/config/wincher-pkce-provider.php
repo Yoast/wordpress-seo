@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Config;
 
+use Exception;
 use UnexpectedValueException;
 use YoastSEO_Vendor\GuzzleHttp\Exception\BadResponseException;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -27,7 +28,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	/**
 	 * The method to use.
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	protected $pkceMethod = null;
 
@@ -71,7 +72,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	 *
 	 * @return string
 	 *
-	 * @throws \Exception Throws exception if an invalid value is passed to random_bytes.
+	 * @throws Exception Throws exception if an invalid value is passed to random_bytes.
 	 */
 	protected function getRandomPkceCode( $length = 64 ) {
 		return \substr(
@@ -103,7 +104,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	 * @return array The authorization parameters
 	 *
 	 * @throws InvalidArgumentException Throws exception if an invalid PCKE method is passed in the options.
-	 * @throws \Exception               When something goes wrong with generating the PKCE code.
+	 * @throws Exception                When something goes wrong with generating the PKCE code.
 	 */
 	protected function getAuthorizationParameters( array $options ) {
 		if ( empty( $options['state'] ) ) {

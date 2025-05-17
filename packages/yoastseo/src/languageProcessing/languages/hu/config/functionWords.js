@@ -1,4 +1,5 @@
 import { singleWords as transitionWords } from "./transitionWords";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
 
 /**
  * Returns an object with function words.
@@ -22,7 +23,7 @@ const pronouns = [
 	"rajtam", "rám", "rólam", "te", "téged", "tiéd", "neked", "veled", "érted", "benned", "beléd", "belőled", "nálad", "hozzád",
 	"tőled", "rajtad", "rád", "rólad", "ő", "őt", "övé", "neki", "vele", "érte", "benne", "bele", "belé", "nála", "hozzá", "tőle",
 	"rajta", "rá", "róla", "mi", "minket", "mienk", "nekünk", "velünk", "értünk", "bennünk", "belénk", "nálunk", "hozzánk", "tőlünk",
-	"rajtunk", "ránk", "rólunk", "ti", "titeket", "tiétek", "nektek", "veletek", "értetek",  "bennetek", "belétek", "nálatok",
+	"rajtunk", "ránk", "rólunk", "ti", "titeket", "tiétek", "nektek", "veletek", "értetek", "bennetek", "belétek", "nálatok",
 	"hozzátok", "tőletek", "rajtatok", "rátok", "rólatok", "ők", "őket", "övék", "nekik", "velük", "értük", "bennük", "beléjük",
 	"náluk", "hozzájuk", "tőlük", "rajtuk", "rájuk", "róluk", "Ön", "Önt", "Öné", "Önnek", "Önnel", "Önért", "Önben", "Önbe",
 	// Formal pronouns.
@@ -275,9 +276,9 @@ const miscellaneous = [
 	"egyhatod", "egyheted", "egynyolcad", "egykilenced", "egytized", "század", "ezred" ];
 
 
-export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
+export const all = transformWordsWithHyphens( [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
 	quantifiers, reflexivePronouns, indefinitePronouns, postpositions, conjunctions, interviewVerbs,
 	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
-	timeWords, vagueNouns, miscellaneous, transitionWords );
+	timeWords, vagueNouns, miscellaneous, transitionWords ) );
 
 export default all;

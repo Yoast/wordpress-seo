@@ -4,7 +4,7 @@ const { createRegexFromArray, getClauses } = languageProcessing;
 import Clause from "../values/Clause";
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopwords from "../config/stopWords.js";
-import { includes } from "lodash-es";
+import { includes } from "lodash";
 import stripSpaces from "../../../helpers/sanitize/stripSpaces";
 import { getIndicesByWordList as getIndicesOfList } from "../../../helpers/word/indices";
 

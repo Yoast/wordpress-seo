@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass WPSEO_Import_AIOSEO_V4
  */
-class Import_AIOSEO_V4_Test extends TestCase {
+final class Import_AIOSEO_V4_Test extends TestCase {
 
 	/**
 	 * The instance under test.
@@ -23,6 +23,8 @@ class Import_AIOSEO_V4_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -37,6 +39,8 @@ class Import_AIOSEO_V4_Test extends TestCase {
 	 * @covers ::get_unique_custom_fields_or_taxonomies
 	 * @covers ::replace_custom_field_or_taxonomy_replace_vars
 	 * @covers ::get_meta_values_with_custom_field_or_taxonomy
+	 *
+	 * @return void
 	 */
 	public function test_meta_key_clone_replace() {
 		global $wpdb;
@@ -138,6 +142,8 @@ class Import_AIOSEO_V4_Test extends TestCase {
 	 * @covers ::get_unique_custom_fields_or_taxonomies
 	 * @covers ::replace_custom_field_or_taxonomy_replace_vars
 	 * @covers ::get_meta_values_with_custom_field_or_taxonomy
+	 *
+	 * @return void
 	 */
 	public function test_meta_key_clone_replace_no_custom_field_replace_vars() {
 		global $wpdb;
@@ -181,6 +187,8 @@ class Import_AIOSEO_V4_Test extends TestCase {
 	 * Set expectation for replacing the replace vars in the database.
 	 *
 	 * @param wpdb|Mockery\MockInterface $wpdb The (mocked) WordPress database object.
+	 *
+	 * @return void
 	 */
 	private function set_replace_vars_prepare_expectations( $wpdb ) {
 		$replace_vars = [

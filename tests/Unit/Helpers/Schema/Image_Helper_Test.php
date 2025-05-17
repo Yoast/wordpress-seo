@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Schema\Image_Helper
  */
-class Image_Helper_Test extends TestCase {
+final class Image_Helper_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -49,6 +49,8 @@ class Image_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -64,6 +66,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests generating the schema from url with a found attachment id.
 	 *
 	 * @covers ::generate_from_url
+	 *
+	 * @return void
 	 */
 	public function test_generate_from_url_with_found_attachment_id() {
 		$this->image
@@ -88,6 +92,8 @@ class Image_Helper_Test extends TestCase {
 	 * Tests generating the schema from url no found attachment id.
 	 *
 	 * @covers ::generate_from_url
+	 *
+	 * @return void
 	 */
 	public function test_generate_from_url_with_no_found_attachment_id() {
 		$this->image
@@ -115,6 +121,8 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::generate_object
 	 * @covers ::add_image_size
 	 * @covers ::add_caption
+	 *
+	 * @return void
 	 */
 	public function test_generate_from_attachment_id_with_caption_and_image_dimensions() {
 		$this->image
@@ -166,6 +174,8 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::generate_from_attachment_id
 	 * @covers ::generate_object
 	 * @covers ::add_caption
+	 *
+	 * @return void
 	 */
 	public function test_generate_from_attachment_id_with_caption_given() {
 		$this->image
@@ -212,6 +222,8 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::generate_object
 	 * @covers ::add_image_size
 	 * @covers ::add_caption
+	 *
+	 * @return void
 	 */
 	public function test_generate_from_attachment_id_with_no_caption_given() {
 		$this->image
@@ -269,6 +281,8 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::generate_object
 	 * @covers ::add_image_size
 	 * @covers ::add_caption
+	 *
+	 * @return void
 	 */
 	public function test_generate_from_attachment_id_with_no_caption_given_and_no_alternative() {
 		$this->image
@@ -318,6 +332,8 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::generate_object
 	 * @covers ::add_image_size
 	 * @covers ::add_caption
+	 *
+	 * @return void
 	 */
 	public function test_simple_image_object() {
 

@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Robots_Txt_Helper
  */
-class Robots_Txt_Helper_Test extends TestCase {
+final class Robots_Txt_Helper_Test extends TestCase {
 
 	/**
 	 * Holds the Robots_Txt_Helper.
@@ -36,6 +36,8 @@ class Robots_Txt_Helper_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertIsObject(
@@ -55,6 +57,8 @@ class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @param array $arguments The arguments to be passed to the function.
 	 * @param array $expected  The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_add_disallow( $arguments, $expected ) {
 		foreach ( $arguments as $argument ) {
@@ -69,7 +73,7 @@ class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @return array Data to use for test_add_disallow.
 	 */
-	public function add_disallow_dataprovider() {
+	public static function add_disallow_dataprovider() {
 		$single_disallow_rule                         = [
 			'arguments' => [
 				[ '*', '/admin.php' ],
@@ -140,6 +144,8 @@ class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @param array $arguments The arguments to be passed to the function.
 	 * @param array $expected  The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_add_allow( $arguments, $expected ) {
 		foreach ( $arguments as $argument ) {
@@ -154,7 +160,7 @@ class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @return array Data to use for test_add_allow.
 	 */
-	public function add_allow_dataprovider() {
+	public static function add_allow_dataprovider() {
 		$single_allow_rule                         = [
 			'arguments' => [
 				[ '*', '/admin.php' ],
@@ -225,6 +231,8 @@ class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @param array $sitemaps The sitemaps to be passed to the function.
 	 * @param array $expected The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_add_sitemap( $sitemaps, $expected ) {
 		foreach ( $sitemaps as $sitemap ) {
@@ -239,7 +247,7 @@ class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @return array Data to use for test_add_sitemap.
 	 */
-	public function add_sitemap_dataprovider() {
+	public static function add_sitemap_dataprovider() {
 		$single_sitemap    = [
 			'sitemaps' => [
 				'http://sitemap.com/sitemap_index.xml',

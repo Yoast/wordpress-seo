@@ -128,6 +128,8 @@ class Redirects implements Integration_Interface {
 
 	/**
 	 * When certain archives are disabled, this redirects those to the homepage.
+	 *
+	 * @return void
 	 */
 	public function archive_redirect() {
 		if ( $this->need_archive_redirect() ) {
@@ -137,6 +139,8 @@ class Redirects implements Integration_Interface {
 
 	/**
 	 * Based on the redirect meta value, this function determines whether it should redirect the current post / page.
+	 *
+	 * @return void
 	 */
 	public function page_redirect() {
 		if ( ! $this->current_page->is_simple_page() ) {
@@ -158,6 +162,8 @@ class Redirects implements Integration_Interface {
 
 	/**
 	 * If the option to disable attachment URLs is checked, this performs the redirect to the attachment.
+	 *
+	 * @return void
 	 */
 	public function attachment_redirect() {
 		if ( ! $this->current_page->is_attachment() ) {
@@ -210,10 +216,10 @@ class Redirects implements Integration_Interface {
 		/**
 		 * Allows the developer to change the target redirection URL for attachments.
 		 *
-		 * @api string $attachment_url The attachment URL for the queried object.
-		 * @api object $queried_object The queried object.
-		 *
 		 * @since 7.5.3
+		 *
+		 * @param string $attachment_url The attachment URL for the queried object.
+		 * @param object $queried_object The queried object.
 		 */
 		return \apply_filters(
 			'wpseo_attachment_redirect_url',
@@ -244,6 +250,8 @@ class Redirects implements Integration_Interface {
 
 	/**
 	 * Strips `cat=-1` from the URL and redirects to the resulting URL.
+	 *
+	 * @return void
 	 */
 	public function category_redirect() {
 		/**

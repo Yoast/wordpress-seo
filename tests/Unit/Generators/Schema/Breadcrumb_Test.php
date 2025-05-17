@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Breadcrumb
  */
-class Breadcrumb_Test extends TestCase {
+final class Breadcrumb_Test extends TestCase {
 
 	/**
 	 * Holds the breadcrumb instance.
@@ -60,6 +60,8 @@ class Breadcrumb_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -93,6 +95,8 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_broken
 	 * @covers ::create_breadcrumb
 	 * @covers ::format_last_breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_generate() {
 		$breadcrumb_data = [
@@ -154,6 +158,8 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_broken
 	 * @covers ::create_breadcrumb
 	 * @covers ::format_last_breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_generate_non_nested_static_front_page() {
 		$breadcrumb_data = [
@@ -199,6 +205,8 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_broken
 	 * @covers ::create_breadcrumb
 	 * @covers ::format_last_breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_generate_nested_static_front_page() {
 		$breadcrumb_data = [
@@ -249,6 +257,8 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_broken
 	 * @covers ::create_breadcrumb
 	 * @covers ::format_last_breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_do_not_generate_when_hide_in_schema_is_true() {
 		$breadcrumb_data = [
@@ -298,6 +308,8 @@ class Breadcrumb_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::is_broken
+	 *
+	 * @return void
 	 */
 	public function test_generate_break_on_broken_breadcrumbs() {
 		$breadcrumb_data = [
@@ -332,6 +344,8 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_broken
 	 * @covers ::create_breadcrumb
 	 * @covers ::format_last_breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_generate_when_page_is_paginated_through_is_paged() {
 		$breadcrumb_data = [
@@ -398,6 +412,8 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_broken
 	 * @covers ::create_breadcrumb
 	 * @covers ::format_last_breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_generate_when_page_is_paginated_through_number_of_pages() {
 		$breadcrumb_data = [
@@ -468,6 +484,8 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_broken
 	 * @covers ::create_breadcrumb
 	 * @covers ::format_last_breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_generate_fallbacks_for_url_on_empty_last_item() {
 		$breadcrumb_data = [
@@ -531,6 +549,8 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_broken
 	 * @covers ::create_breadcrumb
 	 * @covers ::format_last_breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_generate_fallbacks_for_text_on_empty_last_item() {
 		$breadcrumb_data = [
@@ -579,6 +599,8 @@ class Breadcrumb_Test extends TestCase {
 	 * Tests that breadcrumbs are not shown on error pages.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_not_needed_on_error_page() {
 		$this->meta_tags_context->indexable->object_type     = 'system-page';
@@ -590,6 +612,8 @@ class Breadcrumb_Test extends TestCase {
 	 * Tests that breadcrumbs are shown in all other cases.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_needed_default() {
 		$this->assertTrue( $this->instance->is_needed() );
@@ -603,6 +627,8 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_broken
 	 * @covers ::create_breadcrumb
 	 * @covers ::format_last_breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_generate_when_page_is_paginated_and_static_page() {
 		$breadcrumb_data = [

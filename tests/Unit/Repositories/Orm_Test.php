@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 use InvalidArgumentException;
 use Mockery;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Lib\Orm_Double;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Lib\Orm_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\Lib\ORM
  */
-class Orm_Test extends TestCase {
+final class Orm_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -25,6 +25,8 @@ class Orm_Test extends TestCase {
 
 	/**
 	 * Setup the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -36,6 +38,8 @@ class Orm_Test extends TestCase {
 	 * Test_insert_many_throws_on_invalid_argument.
 	 *
 	 * @covers ::insert_many
+	 *
+	 * @return void
 	 */
 	public function test_insert_many_throws_on_invalid_argument() {
 		// Arrange.
@@ -50,6 +54,8 @@ class Orm_Test extends TestCase {
 	 * Test_insert_many_early_return_for_empty_array.
 	 *
 	 * @covers ::insert_many
+	 *
+	 * @return void
 	 */
 	public function test_insert_many_early_return_for_empty_array() {
 		// Arrange.
@@ -66,6 +72,8 @@ class Orm_Test extends TestCase {
 	 * Test_insert_many_throws_on_not_new_model.
 	 *
 	 * @covers ::insert_many
+	 *
+	 * @return void
 	 */
 	public function test_insert_many_throws_on_not_new_model() {
 		// Arrange.

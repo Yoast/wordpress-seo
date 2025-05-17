@@ -4,12 +4,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
 use Mockery;
-use WP_HTML_Tag_Processor;
 use WP_Query;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
@@ -26,7 +24,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @group integrations
  */
-class Front_End_Integration_Test extends TestCase {
+final class Front_End_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.
@@ -48,13 +46,6 @@ class Front_End_Integration_Test extends TestCase {
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	private $options;
-
-	/**
-	 * Represents the request helper.
-	 *
-	 * @var Mockery\MockInterface|Request_Helper
-	 */
-	private $request;
 
 	/**
 	 * Represents the meta tags context memoizer.
@@ -86,6 +77,8 @@ class Front_End_Integration_Test extends TestCase {
 
 	/**
 	 * Method that runs before each test case.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -93,7 +86,6 @@ class Front_End_Integration_Test extends TestCase {
 		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
 		$this->container        = Mockery::mock( ContainerInterface::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
-		$this->request          = Mockery::mock( Request_Helper::class );
 
 		$this->instance = Mockery::mock(
 			Front_End_Integration::class,
@@ -101,7 +93,6 @@ class Front_End_Integration_Test extends TestCase {
 				$this->context_memoizer,
 				$this->container,
 				$this->options,
-				$this->request,
 				Mockery::mock( Helpers_Surface::class ),
 				Mockery::mock( WPSEO_Replace_Vars::class ),
 			]
@@ -119,6 +110,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -131,6 +124,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -146,6 +141,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * Tests calling wpseo_head and it's interaction with wp_query.
 	 *
 	 * @covers ::call_wpseo_head
+	 *
+	 * @return void
 	 */
 	public function test_call_wpseo_head() {
 		global $wp_query;
@@ -164,6 +161,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * Tests the present_head.
 	 *
 	 * @covers ::present_head
+	 *
+	 * @return void
 	 */
 	public function test_present_head() {
 		$this->context_memoizer
@@ -195,6 +194,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
+	 *
+	 * @return void
 	 */
 	public function test_get_presenters_for_singular_page() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
@@ -208,8 +209,7 @@ class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $this->context );
 
-		$this->request
-			->expects( 'is_rest_request' )
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
 			->once()
 			->andReturnFalse();
 
@@ -244,7 +244,7 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 		];
 
-		$callback = static function( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 
@@ -261,6 +261,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
+	 *
+	 * @return void
 	 */
 	public function test_get_presenters_for_static_home_page() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
@@ -274,8 +276,7 @@ class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $this->context );
 
-		$this->request
-			->expects( 'is_rest_request' )
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
 			->once()
 			->andReturnFalse();
 
@@ -314,7 +315,7 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 		];
 
-		$callback = static function( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 
@@ -331,6 +332,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
+	 *
+	 * @return void
 	 */
 	public function test_get_presenters_for_error_page() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
@@ -345,12 +348,11 @@ class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $this->context );
 
-		$this->request
-			->expects( 'is_rest_request' )
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
 			->once()
 			->andReturnFalse();
 
-		$callback = static function( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, $this->instance->get_presenters( 'Error_Page' ) );
@@ -378,6 +380,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
+	 *
+	 * @return void
 	 */
 	public function test_get_presenters_for_non_singular_page() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
@@ -402,12 +406,11 @@ class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $this->context );
 
-		$this->request
-			->expects( 'is_rest_request' )
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
 			->once()
 			->andReturnFalse();
 
-		$callback = static function( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Term_Archive' ) ) );
@@ -448,6 +451,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
+	 *
+	 * @return void
 	 */
 	public function test_get_presenters_for_theme_without_title_tag_and_force_rewrite_titles_disabled() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( false );
@@ -467,12 +472,11 @@ class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $this->context );
 
-		$this->request
-			->expects( 'is_rest_request' )
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
 			->once()
 			->andReturnFalse();
 
-		$callback = static function( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$actual   = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
@@ -499,6 +503,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
+	 *
+	 * @return void
 	 */
 	public function test_get_presenters_for_theme_on_rest_request() {
 
@@ -512,12 +518,11 @@ class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $this->context );
 
-		$this->request
-			->expects( 'is_rest_request' )
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
 			->once()
 			->andReturnTrue();
 
-		$callback = static function( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$actual   = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
@@ -546,6 +551,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
+	 *
+	 * @return void
 	 */
 	public function test_get_presenters_for_theme_without_title_tag_and_force_rewrite_titles_enabled() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( false );
@@ -565,12 +572,11 @@ class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $this->context );
 
-		$this->request
-			->expects( 'is_rest_request' )
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
 			->once()
 			->andReturnFalse();
 
-		$callback = static function( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
@@ -595,6 +601,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * Tests the filter robots presenter method without having the wp_robots function.
 	 *
 	 * @covers ::filter_robots_presenter
+	 *
+	 * @return void
 	 */
 	public function test_filter_robots_presenter_with_wp_robots_absent() {
 		$presenters = [
@@ -603,13 +611,15 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Robots_Presenter',
 		];
 
-		static::assertEquals( $presenters, $this->instance->filter_robots_presenter( $presenters ) );
+		$this->assertEquals( $presenters, $this->instance->filter_robots_presenter( $presenters ) );
 	}
 
 	/**
 	 * Tests the filter robots presenter without having the wp_robots attached to the wp_head action.
 	 *
 	 * @covers ::filter_robots_presenter
+	 *
+	 * @return void
 	 */
 	public function test_filter_robots_presenter_and_wp_robots_not_attached_to_wp_head_filter() {
 		Monkey\Functions\expect( 'wp_robots' )->never();
@@ -620,21 +630,22 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Robots_Presenter',
 		];
 
-		static::assertEquals( $presenters, $this->instance->filter_robots_presenter( $presenters ) );
+		$this->assertEquals( $presenters, $this->instance->filter_robots_presenter( $presenters ) );
 	}
 
 	/**
 	 * Tests the filter robots presenter with having wp_robots attached to the wp_head action.
 	 *
 	 * @covers ::filter_robots_presenter
+	 *
+	 * @return void
 	 */
 	public function test_filter_robots_presenter_and_wp_robots_to_wp_head_filter() {
 		Monkey\Functions\expect( 'wp_robots' )->never();
 
 		\add_action( 'wp_head', 'wp_robots' );
 
-		$this->request
-			->expects( 'is_rest_request' )
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
 			->once()
 			->andReturnFalse();
 
@@ -644,7 +655,7 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Robots_Presenter',
 		];
 
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				'Yoast\WP\SEO\Presenters\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
@@ -657,14 +668,15 @@ class Front_End_Integration_Test extends TestCase {
 	 * Tests the filter robots presenter with having wp_robots attached to the wp_head action.
 	 *
 	 * @covers ::filter_robots_presenter
+	 *
+	 * @return void
 	 */
 	public function test_rest_request_should_output_robots_presenter() {
 		Monkey\Functions\expect( 'wp_robots' )->never();
 
 		\add_action( 'wp_head', 'wp_robots' );
 
-		$this->request
-			->expects( 'is_rest_request' )
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )
 			->once()
 			->andReturnTrue();
 
@@ -674,7 +686,7 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Robots_Presenter',
 		];
 
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				'Yoast\WP\SEO\Presenters\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
@@ -688,6 +700,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * Tests the should_title_presenter_be_removed function.
 	 *
 	 * @covers ::should_title_presenter_be_removed
+	 *
+	 * @return void
 	 */
 	public function test_should_title_presenter_be_removed() {
 		Monkey\Functions\expect( 'get_theme_support' )
@@ -708,7 +722,7 @@ class Front_End_Integration_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function data_provider_query_loop_next_prev() {
+	public static function data_provider_query_loop_next_prev() {
 		return [
 			'Next link' => [
 				'html'       => '<a href="/?query-1-page=2">Next</a>',
@@ -730,9 +744,11 @@ class Front_End_Integration_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_query_loop_next_prev
 	 *
-	 * @param string $html HTML of the link.
+	 * @param string $html       HTML of the link.
 	 * @param string $block_name Block name.
-	 * @param string $variable Variable name.
+	 * @param string $variable   Variable name.
+	 *
+	 * @return void
 	 */
 	public function test_query_loop_links( $html, $block_name, $variable ) {
 
@@ -747,6 +763,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * Tests that wpseo_adjacent_rel_url is used when query loop is used without inheriting the query args.
 	 *
 	 * @covers ::query_loop_next_prev
+	 *
+	 * @return void
 	 */
 	public function test_query_loop_next_prev() {
 

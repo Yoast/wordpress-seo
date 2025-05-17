@@ -1,4 +1,4 @@
-import { forEach, isEmpty, map } from "lodash-es";
+import { forEach, isEmpty, map } from "lodash";
 
 import stripSpaces from "../../../sanitize/stripSpaces.js";
 
@@ -33,7 +33,7 @@ function splitOnStopWords( sentence, stopwords ) {
 		}
 		const startIndex = sentence.indexOf( stopword );
 		const endIndex = sentence.length;
-		sentence = stripSpaces( sentence.substr( startIndex, endIndex ) );
+		sentence = stripSpaces( sentence.substring( startIndex, endIndex ) );
 	} );
 
 	// Push the remainder of the sentence in the clauses array.

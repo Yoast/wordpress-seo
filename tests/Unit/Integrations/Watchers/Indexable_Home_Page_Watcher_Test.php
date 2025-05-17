@@ -6,6 +6,7 @@ use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Home_Page_Watcher;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -21,7 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Home_Page_Watcher
  * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_Home_Page_Watcher
  */
-class Indexable_Home_Page_Watcher_Test extends TestCase {
+final class Indexable_Home_Page_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the indexable repository.
@@ -29,6 +30,13 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
 	private $repository;
+
+	/**
+	 * Represents the indexable helper.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	private $indexable_helper;
 
 	/**
 	 * Represents the indexable builder.
@@ -46,19 +54,28 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->repository = Mockery::mock( Indexable_Repository::class );
-		$this->builder    = Mockery::mock( Indexable_Builder::class );
-		$this->instance   = new Indexable_Home_Page_Watcher( $this->repository, $this->builder );
+		$this->repository       = Mockery::mock( Indexable_Repository::class );
+		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
+		$this->builder          = Mockery::mock( Indexable_Builder::class );
+		$this->instance         = new Indexable_Home_Page_Watcher(
+			$this->repository,
+			$this->indexable_helper,
+			$this->builder
+		);
 	}
 
 	/**
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -72,6 +89,8 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -88,6 +107,8 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::check_option
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_update_wpseo_titles_value() {
 		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
@@ -119,6 +140,8 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::check_option
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_update_wpseo_titles_value_without_change() {
 		// No assertions made so this will fail if any method is called on our mocks.
@@ -131,6 +154,8 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::check_option
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_update_wpseo_social_value() {
 		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
@@ -162,6 +187,8 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::check_option
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_update_other_option() {
 		// No assertions made so this will fail if any method is called on our mocks.
@@ -173,6 +200,8 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_indexable_without_indexable() {
 		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
@@ -188,6 +217,11 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 			->once()
 			->with( false )
 			->andReturn( false );
+
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->andReturn( true );
 
 		$this->builder
 			->expects( 'build_for_home_page' )

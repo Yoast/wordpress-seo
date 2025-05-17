@@ -29,8 +29,9 @@ describe( "A Textarea component", () => {
 		renderer.render( <Textarea value={ 0 } /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `value` of type `number` supplied to `Textarea`, expected `string`." );
+		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
+		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
+		expect( console.error.mock.calls[ 0 ][ 2 ] ).toBe( "Invalid prop `value` of type `number` supplied to `Textarea`, expected `string`." );
 	} );
 
 	it( "generates a warning when a faulty onChange callback is passed", () => {
@@ -39,8 +40,9 @@ describe( "A Textarea component", () => {
 		renderer.render( <Textarea name="customTextarea" onChange={ 0 } /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `onChange` of type `number` supplied to `Textarea`, expected `function`." );
+		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
+		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
+		expect( console.error.mock.calls[ 0 ][ 2 ] ).toBe( "Invalid prop `onChange` of type `number` supplied to `Textarea`, expected `function`." );
 	} );
 
 	it( "receives focus when it's focus property is set", () => {

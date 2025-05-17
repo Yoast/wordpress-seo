@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Helpers\Import_Helper
  */
-class Import_Helper_Test extends TestCase {
+final class Import_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -26,6 +26,8 @@ class Import_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		$this->instance = new Import_Helper();
@@ -39,6 +41,8 @@ class Import_Helper_Test extends TestCase {
 	 *
 	 * @param array $unflattened_settings        An array of settings to be flattened.
 	 * @param array $expected_flattened_settings The expected flattened settings.
+	 *
+	 * @return void
 	 */
 	public function test_flatten_settings( $unflattened_settings, $expected_flattened_settings ) {
 		$flattened_settings = $this->instance->flatten_settings( $unflattened_settings );
@@ -51,7 +55,7 @@ class Import_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_flatten_settings() {
+	public static function provider_flatten_settings() {
 
 		$full_custom_archive_settings_to_import      = [
 			'book'  => [

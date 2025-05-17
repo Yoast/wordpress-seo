@@ -5,19 +5,19 @@ namespace Yoast\WP\SEO\Tests\WP\Content_Type_Visibility;
 use Mockery;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast_Notification_Center;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions;
 use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
+use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Watcher_Actions;
 use Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_Dismiss_New_Route;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\WP\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * Integration Test Class for Content_Type_Visibility_Dismiss_Notifications and Content_Type_Visibility_Dismiss_New_Route classes.
  *
  * @coversDefaultClass Yoast\WP\SEO\Content_Type_Visibility\User_Interface\Content_Type_Visibility_Dismiss_New_Route
  */
-class Dismiss_New_Route_Test extends TestCase {
+final class Dismiss_New_Route_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -75,13 +75,14 @@ class Dismiss_New_Route_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
-	public function setUp(): void {
-		parent::setUp();
-		global $wpdb;
+	public function set_up(): void {
+		parent::set_up();
+
 		$this->options             = new Options_Helper();
 		$this->notification_center = $this->get_notification_center();
-
 
 		$dismiss_notifications = new Content_Type_Visibility_Dismiss_Notifications( $this->options );
 		$this->instance        = new Content_Type_Visibility_Dismiss_New_Route( $dismiss_notifications );
@@ -122,7 +123,9 @@ class Dismiss_New_Route_Test extends TestCase {
 	 *
 	 * @param array  $new_post_types The new post types.
 	 * @param string $post_type_name The post type name.
-	 * @param string $message The message.
+	 * @param string $message        The message.
+	 *
+	 * @return void
 	 */
 	public function test_post_type_dismiss( $new_post_types, $post_type_name, $message ) {
 		$this->content_type_visibility_notifications->new_post_type( $new_post_types );
@@ -173,8 +176,10 @@ class Dismiss_New_Route_Test extends TestCase {
 	 * @dataProvider data_provider_taxonomy_dismiss
 	 *
 	 * @param array  $new_taxonomies The new post types.
-	 * @param string $taxonomy_name The post type name.
-	 * @param string $message The message.
+	 * @param string $taxonomy_name  The post type name.
+	 * @param string $message        The message.
+	 *
+	 * @return void
 	 */
 	public function test_taxonomy_dismiss( $new_taxonomies, $taxonomy_name, $message ) {
 		$this->content_type_visibility_notifications->new_taxonomy( $new_taxonomies );
@@ -201,6 +206,8 @@ class Dismiss_New_Route_Test extends TestCase {
 	 * Tests the taxonomy_dismiss method when is fails.
 	 *
 	 * @covers ::taxonomy_dismiss_callback
+	 *
+	 * @return void
 	 */
 	public function test_taxonomy_dismiss_fail() {
 		$new_taxonomies = [ 'books-category', 'movie-category' ];
@@ -223,7 +230,6 @@ class Dismiss_New_Route_Test extends TestCase {
 			->once()
 			->andReturn( [] );
 
-
 		$request                  = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/dismiss-taxonomy' );
 		$request['taxonomy_name'] = 'books-category';
 
@@ -242,11 +248,13 @@ class Dismiss_New_Route_Test extends TestCase {
 		);
 	}
 
-		/**
-		 * Tests the taxonomy_dismiss method when is fails.
-		 *
-		 * @covers ::post_type_dismiss_callback
-		 */
+	/**
+	 * Tests the taxonomy_dismiss method when is fails.
+	 *
+	 * @covers ::post_type_dismiss_callback
+	 *
+	 * @return void
+	 */
 	public function test_post_type_dismiss_fail() {
 		$new_post_types = [ 'book', 'movie' ];
 		$this->content_type_visibility_notifications->new_taxonomy( $new_post_types );
@@ -267,7 +275,6 @@ class Dismiss_New_Route_Test extends TestCase {
 			->with( 'new_post_types', [] )
 			->once()
 			->andReturn( $new_post_types );
-
 
 		$request                   = new WP_REST_Request( 'POST', '/wp-json/yoast/v1/needs-review/dismiss-post-type' );
 		$request['post_type_name'] = 'book';

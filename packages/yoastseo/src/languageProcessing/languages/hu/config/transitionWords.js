@@ -18,9 +18,8 @@ export const singleWords = [ "ahányszor", "ahelyett", "ahogy", "ahol", "ahonnan
 	"hiába", "miközben", "egyszersmind", "csakugyan", "különben", "mialatt", "mintegy", "miszerint", "nemde", "ugye", "vajon",
 	"semmint", "hacsak", "úgymint", "mintsem" ];
 
-export const multipleWords =  [ "a továbbiakban", "abba, hogy", "abban, hogy", "abból, hogy", "addig, amíg", "addig, hogy", "addig, míg",
-	"afelé, hogy",
-	"ahelyett, hogy", "ahhoz, hogy", "ahogy fent látható", "ahogy írtam", "ahogy megmutattam", "ahogy megjegyeztem", "akként, hogy",
+export const multipleWords = [ "a továbbiakban", "abba, hogy", "abban, hogy", "abból, hogy", "addig, amíg", "addig, hogy", "addig, míg",
+	"afelé, hogy", "ahelyett, hogy", "ahhoz, hogy", "ahogy fent látható", "ahogy írtam", "ahogy megmutattam", "ahogy megjegyeztem", "akként, hogy",
 	"akkorra, hogy", "amiatt, hogy", "amellett, hogy", "amint azt megjegyeztük", "amint csak", "amint láthatjuk", "anélkül, hogy",
 	"annak érdekében, hogy", "annak okáért", "annyi, hogy", "annyi, mint", "annyira, hogy", "annyira, mint", "arra, hogy",
 	"arról, hogy", "attól fogva, hogy", "attól, hogy", "avégett, hogy", "avégre, hogy", "az ellen, hogy", "az első dolog",

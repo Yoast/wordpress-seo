@@ -1,20 +1,21 @@
-import { map } from "lodash-es";
+import { map } from "lodash";
 import addWordBoundary from "../word/addWordboundary.js";
 import stripSpaces from "../sanitize/stripSpaces.js";
 import transliterate from "../transliterate/transliterate.js";
 import transliterateWP from "../transliterate/transliterateWPstyle.js";
 import { replaceTurkishIsMemoized } from "../transliterate/specialCharacterMappings";
+import { getLanguage } from "../../index";
 
 /**
  * Creates a regex from the keyword with included wordboundaries.
  *
  * @param {string} keyword  The keyword to create a regex from.
- * @param {string} locale   The locale.
+ * @param {string} language The language used to determine the word boundary.
  *
  * @returns {RegExp} Regular expression of the keyword with word boundaries.
  */
-const toRegex = function( keyword, locale ) {
-	keyword = addWordBoundary( keyword, false, "", locale );
+const toRegex = function( keyword, language ) {
+	keyword = addWordBoundary( keyword, false, "", language );
 	return new RegExp( keyword, "ig" );
 };
 
@@ -26,9 +27,10 @@ const toRegex = function( keyword, locale ) {
  * @returns {Array} All matches from the original as the transliterated text and keyword.
  */
 export default function( text, keyword, locale ) {
-	let keywordRegex = toRegex( keyword, locale );
+	const language = getLanguage( locale );
+	let keywordRegex = toRegex( keyword, language );
 
-	if ( locale === "tr_TR" ) {
+	if ( language === "tr" ) {
 		const turkishMappings = replaceTurkishIsMemoized( keyword );
 		keywordRegex = new RegExp( turkishMappings.map( x => addWordBoundary( x ) ).join( "|" ), "ig" );
 	}
@@ -37,14 +39,14 @@ export default function( text, keyword, locale ) {
 	text = text.replace( keywordRegex, "" );
 
 	const transliterateKeyword = transliterate( keyword, locale );
-	const transliterateKeywordRegex = toRegex( transliterateKeyword, locale );
+	const transliterateKeywordRegex = toRegex( transliterateKeyword, language );
 	const transliterateMatches = text.match( transliterateKeywordRegex ) || [];
 	let combinedArray = matches.concat( transliterateMatches );
 
 	const transliterateWPKeyword = transliterateWP( keyword, locale );
 
 	if ( ! ( transliterateWPKeyword === transliterateKeyword ) ) {
-		const transliterateWPKeywordRegex = toRegex( transliterateWPKeyword, locale );
+		const transliterateWPKeywordRegex = toRegex( transliterateWPKeyword, language );
 		const transliterateWPMatches = text.match( transliterateWPKeywordRegex ) || [];
 
 		combinedArray = combinedArray.concat( transliterateWPMatches );

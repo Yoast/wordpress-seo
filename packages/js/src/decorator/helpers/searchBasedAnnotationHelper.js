@@ -4,15 +4,15 @@ export const END_MARK = "</yoastmark>";
 const START_MARK_DOUBLE_QUOTED = "<yoastmark class=\"yoast-text-mark\">";
 
 /**
- * Returns the offsets of the <yoastmark> occurrences in the given mark.
+ * Returns the offsets of the `<yoastmark>` occurrences in the given marked sentence.
  * A helper for search-based highlighting.
  *
- * @param {string} marked The mark object to calculate offset for.
+ * @param {string} markedSentence The marked sentence to calculate the yoastmark offsets for.
  *
- * @returns {Array<{startOffset: number, endOffset: number}>} The start and end indices for this mark.
+ * @returns {[{startOffset: number, endOffset: number}]} The start and end indices for this sentence.
  */
-export function getYoastmarkOffsets( marked ) {
-	let startMarkIndex = marked.indexOf( START_MARK );
+export function getYoastmarkOffsets( markedSentence ) {
+	let startMarkIndex = markedSentence.indexOf( START_MARK );
 
 	// Checks if the start mark is single quoted.
 	// Note: if doesNotContainDoubleQuotedMark is true, this does necessary mean that the start mark is single quoted.
@@ -22,7 +22,7 @@ export function getYoastmarkOffsets( marked ) {
 
 	// If the start mark is not found, try the double-quoted version.
 	if ( ! doesNotContainDoubleQuotedMark ) {
-		startMarkIndex = marked.indexOf( START_MARK_DOUBLE_QUOTED );
+		startMarkIndex = markedSentence.indexOf( START_MARK_DOUBLE_QUOTED );
 	}
 
 	let endMarkIndex = null;
@@ -35,21 +35,25 @@ export function getYoastmarkOffsets( marked ) {
 	 * without the tags.
 	 */
 	while ( startMarkIndex >= 0 ) {
-		marked = doesNotContainDoubleQuotedMark ? marked.replace( START_MARK, "" ) : marked.replace( START_MARK_DOUBLE_QUOTED, "" );
+		markedSentence = doesNotContainDoubleQuotedMark
+			? markedSentence.replace( START_MARK, "" )
+			: markedSentence.replace( START_MARK_DOUBLE_QUOTED, "" );
 
-		endMarkIndex = marked.indexOf( END_MARK );
+		endMarkIndex = markedSentence.indexOf( END_MARK );
 
 		if ( endMarkIndex < startMarkIndex ) {
 			return [];
 		}
-		marked = marked.replace( END_MARK, "" );
+		markedSentence = markedSentence.replace( END_MARK, "" );
 
 		offsets.push( {
 			startOffset: startMarkIndex,
 			endOffset: endMarkIndex,
 		} );
 
-		startMarkIndex = doesNotContainDoubleQuotedMark ? marked.indexOf( START_MARK ) : marked.indexOf( START_MARK_DOUBLE_QUOTED );
+		startMarkIndex = doesNotContainDoubleQuotedMark
+			? markedSentence.indexOf( START_MARK )
+			: markedSentence.indexOf( START_MARK_DOUBLE_QUOTED );
 
 		endMarkIndex = null;
 	}
@@ -65,7 +69,7 @@ export function getYoastmarkOffsets( marked ) {
  * @param {string}  stringToFind  Text to search for.
  * @param {boolean} caseSensitive True if the search is case-sensitive.
  *
- * @returns {Array} All indices of the found occurrences.
+ * @returns {number[]} All indices of the found occurrences.
  */
 export function getIndicesOf( text, stringToFind, caseSensitive = true ) {
 	const indices = [];
@@ -96,7 +100,7 @@ export function getIndicesOf( text, stringToFind, caseSensitive = true ) {
  * @param {string} text The content of the block.
  * @param {Mark}   mark The mark to apply to the content.
  *
- * @returns {Array} The annotations to apply.
+ * @returns {[{startOffset: number, endOffset: number}]} The annotations to apply.
  */
 export function calculateAnnotationsForTextFormat( text, mark ) {
 	/*

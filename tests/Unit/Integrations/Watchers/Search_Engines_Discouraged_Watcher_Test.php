@@ -20,7 +20,7 @@ use Yoast_Notification_Center;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Search_Engines_Discouraged_Watcher
  */
-class Search_Engines_Discouraged_Watcher_Test extends TestCase {
+final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 
 	/**
 	 * Holds the admin user mock instance.
@@ -73,6 +73,8 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -99,6 +101,8 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		self::assertInstanceOf(
@@ -127,12 +131,15 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 * Tests registering the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
-		Monkey\Actions\expectAdded( 'admin_init' );
-		Monkey\Actions\expectAdded( 'admin_notices' );
-
 		$this->instance->register_hooks();
+
+		$this->assertNotFalse( \has_action( 'admin_init', [ $this->instance, 'manage_search_engines_discouraged_notification' ] ) );
+		$this->assertNotFalse( \has_action( 'admin_notices', [ $this->instance, 'maybe_show_search_engines_discouraged_notice' ] ) );
+		$this->assertNotFalse( \has_action( 'update_option_blog_public', [ $this->instance, 'restore_ignore_option' ] ) );
 	}
 
 	/**
@@ -171,6 +178,8 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 * @param string $current_page_file               The php file loaded for the current page.
 	 * @param string $current_yoast_page              The current Yoast admin page.
 	 * @param bool   $expect_called                   Whether the notice show function should have been called.
+	 *
+	 * @return void
 	 */
 	public function test_maybe_show_search_engines_discouraged_notice(
 		$blog_public_option_value,
@@ -223,9 +232,9 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	/**
 	 * Data provider for test_maybe_show_search_engines_discouraged_notice.
 	 *
-	 * @return array Data for test_maybe_show_search_engines_discouraged_notice.
+	 * @return array<string, array<string, string|bool>> Data for test_maybe_show_search_engines_discouraged_notice.
 	 */
-	public function maybe_show_search_engines_discouraged_notice_dataprovider() {
+	public static function maybe_show_search_engines_discouraged_notice_dataprovider() {
 		$should_show_notice             = [
 			'blog_public_option_value'        => '0',
 			'current_user_can_manage_options' => true,
@@ -313,6 +322,8 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 * @param bool   $remove_notification_called    Whether the remove notification function should be called.
 	 * @param bool   $maybe_add_notification_called Whether the add notification function should be called.
 	 * @param bool   $notification_should_be_added  Whether the notification should be added.
+	 *
+	 * @return void
 	 */
 	public function test_manage_search_engines_discouraged_notification( $blog_public_option_value, $ignore_notice, $notification_exists, $remove_notification_called, $maybe_add_notification_called, $notification_should_be_added ) {
 		Monkey\Functions\expect( 'get_option' )
@@ -365,9 +376,9 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	/**
 	 * Data provider for manage_search_engines_discouraged_notification.
 	 *
-	 * @return array data for manage_search_engines_discouraged_notification.
+	 * @return array<string, array<string, string|bool>> Data for manage_search_engines_discouraged_notification.
 	 */
-	public function manage_search_engines_discouraged_notification_dataprovider() {
+	public static function manage_search_engines_discouraged_notification_dataprovider() {
 		$should_add_notification        = [
 			'blog_public_option_value'      => '0',
 			'ignore_notice'                 => false,
@@ -424,5 +435,49 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 			'Notification does not exist'    => $notification_does_not_exist,
 			'Notification should be removed' => $notification_should_be_removed,
 		];
+	}
+
+	/**
+	 * Data provider for test_restore_ignore_option.
+	 *
+	 * @return array<string, array<string, string|int>> Data for test_restore_ignore_option.
+	 */
+	public static function data_provider_restore_ignore_option() {
+		return [
+			'should restore ignore_search_engines_discouraged_notice' => [
+				'blog_public'             => '1',
+				'set_ignore_option_times' => 1,
+			],
+			'should not restore ignore_search_engines_discouraged_notice' => [
+				'blog_public'             => '0',
+				'set_ignore_option_times' => 0,
+			],
+		];
+	}
+
+	/**
+	 * Tests restore_ignore_option.
+	 *
+	 * @covers ::restore_ignore_option
+	 *
+	 * @dataProvider data_provider_restore_ignore_option
+	 *
+	 * @param string $blog_public             The value of the blog_public option.
+	 * @param int    $set_ignore_option_times The number of times the ignore option should be set.
+	 *
+	 * @return void
+	 */
+	public function test_restore_ignore_option( $blog_public, $set_ignore_option_times ) {
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'blog_public' )
+			->once()
+			->andReturn( $blog_public );
+
+		$this->options_helper
+			->expects( 'set' )
+			->times( $set_ignore_option_times )
+			->with( 'ignore_search_engines_discouraged_notice', false );
+
+		$this->instance->restore_ignore_option();
 	}
 }

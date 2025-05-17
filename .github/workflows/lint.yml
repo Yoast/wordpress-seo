@@ -37,7 +37,7 @@ jobs:
       matrix:
         # Lint against the highest/lowest supported versions of each PHP major.
         # And also do a run against "nightly" (the current dev version of PHP).
-        php_version: ["7.2", "7.4", "8.0", "8.2", "8.3"]
+        php_version: ["7.4", "8.0", "8.2", "8.3"]
 
     name: "Lint: PHP ${{ matrix.php_version }}"
 
@@ -52,11 +52,11 @@ jobs:
       - name: Install PHP 7.x for generating the vendor_prefixed directory
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.2
+          php-version: 7.4
           coverage: none
 
       - name: Install Composer dependencies and generate vendor_prefixed directory
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
         with:
           # Bust the cache at least once a week - output format: YYYY-MM-DD.
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
@@ -73,6 +73,8 @@ jobs:
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           coverage: none
           tools: cs2pr
+        env:
+          update: true
 
       - name: Lint against parse errors
         run: composer lint -- --checkstyle | cs2pr

@@ -238,7 +238,7 @@ class Yoast_Feature_Toggles {
 		$out   = '<div id="yoast-seo-sitemaps-disabled-warning" style="display:none;">';
 		$alert = new Alert_Presenter(
 			/* translators: %1$s: expands to an opening anchor tag, %2$s: expands to a closing anchor tag */
-			\sprintf( esc_html__( 'Disabling Yoast SEO\'s XML sitemaps will not disable WordPress\' core sitemaps. In some cases, this %1$s may result in SEO errors on your site%2$s. These may be reported in Google Search Console and other tools.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/44z' ) . '">', '</a>' ),
+			sprintf( esc_html__( 'Disabling Yoast SEO\'s XML sitemaps will not disable WordPress\' core sitemaps. In some cases, this %1$s may result in SEO errors on your site%2$s. These may be reported in Google Search Console and other tools.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/44z' ) . '">', '</a>' ),
 			'warning'
 		);
 		$out .= $alert->present();

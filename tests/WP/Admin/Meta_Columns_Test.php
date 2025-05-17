@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Meta_Columns_Test extends TestCase {
+final class Meta_Columns_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -22,6 +22,8 @@ class Meta_Columns_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	public static function set_up_before_class() {
 		parent::set_up_before_class();
@@ -31,6 +33,8 @@ class Meta_Columns_Test extends TestCase {
 
 	/**
 	 * Test setup.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -43,7 +47,7 @@ class Meta_Columns_Test extends TestCase {
 	 *
 	 * @return array The SEO filters dataprovider.
 	 */
-	public function determine_seo_filters_dataprovider() {
+	public static function determine_seo_filters_dataprovider() {
 		return [
 			[
 				'bad',
@@ -82,11 +86,6 @@ class Meta_Columns_Test extends TestCase {
 				'na',
 				[
 					[
-						'key'     => '_yoast_wpseo_meta-robots-noindex',
-						'value'   => 'needs-a-value-anyway',
-						'compare' => 'NOT EXISTS',
-					],
-					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
 						'value'   => 'needs-a-value-anyway',
 						'compare' => 'NOT EXISTS',
@@ -122,16 +121,28 @@ class Meta_Columns_Test extends TestCase {
 	 *
 	 * @return array The readability filters dataprovider.
 	 */
-	public function determine_readability_filters_dataprovider() {
+	public static function determine_readability_filters_dataprovider() {
 		return [
 			[
 				'bad',
 				[
+					'relation' => 'OR',
 					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
 						'value'   => [ 1, 40 ],
 						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
+					],
+					[
+						[
+							'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+							'value'   => 'needs-a-value-anyway',
+							'compare' => 'NOT EXISTS',
+						],
+						[
+							'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
+							'compare' => 'EXISTS',
+						],
 					],
 				],
 			],
@@ -157,6 +168,30 @@ class Meta_Columns_Test extends TestCase {
 					],
 				],
 			],
+			[
+				'na',
+				[
+					[
+						'key'     => WPSEO_Meta::$meta_prefix . 'estimated-reading-time-minutes',
+						'value'   => 'needs-a-value-anyway',
+						'compare' => 'NOT EXISTS',
+					],
+					[
+						'relation' => 'OR',
+						[
+							'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+							'value'   => 1,
+							'type'    => 'numeric',
+							'compare' => '<',
+						],
+						[
+							'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+							'value'   => 'needs-a-value-anyway',
+							'compare' => 'NOT EXISTS',
+						],
+					],
+				],
+			],
 		];
 	}
 
@@ -165,7 +200,7 @@ class Meta_Columns_Test extends TestCase {
 	 *
 	 * @return array The Readability filters dataprovider.
 	 */
-	public function build_filter_query_dataprovider() {
+	public static function build_filter_query_dataprovider() {
 		return [
 			[
 				[],
@@ -282,6 +317,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Tests whether the column heading contains the score.
 	 *
 	 * @covers WPSEO_Meta_Columns::column_heading
+	 *
+	 * @return void
 	 */
 	public function test_column_heading_has_score() {
 		self::$class_instance->set_current_post_type( 'post' );
@@ -294,6 +331,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Tests whether the column heading contains the focus keyphrase.
 	 *
 	 * @covers WPSEO_Meta_Columns::column_heading
+	 *
+	 * @return void
 	 */
 	public function test_column_heading_has_focuskw() {
 		self::$class_instance->set_current_post_type( 'post' );
@@ -306,6 +345,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Tests whether the column heading contains the metadescription.
 	 *
 	 * @covers WPSEO_Meta_Columns::column_heading
+	 *
+	 * @return void
 	 */
 	public function test_column_heading_has_metadesc() {
 		self::$class_instance->set_current_post_type( 'post' );
@@ -318,6 +359,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Tests that column_hidden returns the columns to hide so that WordPress hides them.
 	 *
 	 * @covers WPSEO_Meta_Columns::column_hidden
+	 *
+	 * @return void
 	 */
 	public function test_column_hidden_HIDE_COLUMNS() {
 		$user = $this->getMockBuilder( WP_User::class )
@@ -326,7 +369,7 @@ class Meta_Columns_Test extends TestCase {
 		// Option may be filled if the user has not set it.
 		$user->expects( $this->any() )
 			->method( 'has_prop' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$expected = [ 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' ];
 		$received = self::$class_instance->column_hidden( [] );
@@ -340,6 +383,8 @@ class Meta_Columns_Test extends TestCase {
 	 * This is so the user can still set the columns they want to hide.
 	 *
 	 * @covers WPSEO_Meta_Columns::column_hidden
+	 *
+	 * @return void
 	 */
 	public function test_column_hidden_KEEP_OPTION() {
 		// Option shouldn't be touched if the user has set it already.
@@ -348,7 +393,7 @@ class Meta_Columns_Test extends TestCase {
 
 		$user->expects( $this->any() )
 			->method( 'has_prop' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$expected = [
 			'wpseo-title',
@@ -364,6 +409,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Tests if column_hidden can deal with non array values returned from WordPress.
 	 *
 	 * @covers WPSEO_Meta_Columns::column_hidden
+	 *
+	 * @return void
 	 */
 	public function test_column_hidden_UNEXPECTED_VALUE() {
 		$user = $this->getMockBuilder( WP_User::class )
@@ -371,7 +418,7 @@ class Meta_Columns_Test extends TestCase {
 
 		$user->expects( $this->any() )
 			->method( 'has_prop' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$expected = [ 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' ];
 
@@ -386,6 +433,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Tests the is_valid_filter function for a string.
 	 *
 	 * @covers WPSEO_Meta_Columns::is_valid_filter
+	 *
+	 * @return void
 	 */
 	public function test_is_valid_filter() {
 		$this->assertTrue( self::$class_instance->is_valid_filter( 'needs improvement' ) );
@@ -395,6 +444,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Tests the is_valid_filter function for invalid functions.
 	 *
 	 * @covers WPSEO_Meta_Columns::is_valid_filter
+	 *
+	 * @return void
 	 */
 	public function test_is_invalid_filter() {
 		$this->assertFalse( self::$class_instance->is_valid_filter( '' ) );
@@ -410,6 +461,8 @@ class Meta_Columns_Test extends TestCase {
 	 *
 	 * @param string $filter   SEO filter.
 	 * @param array  $expected The resulting SEO score filter.
+	 *
+	 * @return void
 	 */
 	public function test_determine_seo_filters( $filter, $expected ) {
 		$result = self::$class_instance->determine_seo_filters( $filter );
@@ -425,6 +478,8 @@ class Meta_Columns_Test extends TestCase {
 	 *
 	 * @param string $filter   The Readability filter to use to determine what further filter to apply.
 	 * @param array  $expected The Readability score filter.
+	 *
+	 * @return void
 	 */
 	public function test_determine_readability_filters( $filter, $expected ) {
 		$result = self::$class_instance->determine_readability_filters( $filter );
@@ -441,6 +496,8 @@ class Meta_Columns_Test extends TestCase {
 	 * @param array $vars     Array containing the variables that will be used in the meta query.
 	 * @param array $filters  Array containing the filters that we need to apply in the meta query.
 	 * @param array $expected Array containing the complete filter query.
+	 *
+	 * @return void
 	 */
 	public function test_build_filter_query( $vars, $filters, $expected ) {
 		$result = self::$class_instance->build_filter_query( $vars, $filters );
@@ -452,6 +509,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Tests whether the default indexing is being used.
 	 *
 	 * @covers WPSEO_Meta_Columns::uses_default_indexing
+	 *
+	 * @return void
 	 */
 	public function test_is_using_default_indexing() {
 		$post = $this->factory()->post->create_and_get( [] );
@@ -468,6 +527,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Tests whether the default indexing is not being used.
 	 *
 	 * @covers WPSEO_Meta_Columns::uses_default_indexing
+	 *
+	 * @return void
 	 */
 	public function test_is_not_using_default_indexing() {
 		$post = $this->factory()->post->create_and_get( [] );
@@ -484,6 +545,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Tests whether a hard set indexing value on a post, is considered indexable.
 	 *
 	 * @covers WPSEO_Meta_Columns::is_indexable
+	 *
+	 * @return void
 	 */
 	public function test_is_indexable_when_set_on_post() {
 		$post = $this->factory()->post->create_and_get( [] );
@@ -500,6 +563,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Tests whether a not hard set indexing value on a post, is considered indexable based on the default setting.
 	 *
 	 * @covers WPSEO_Meta_Columns::is_indexable
+	 *
+	 * @return void
 	 */
 	public function test_is_indexable_when_using_default() {
 		$post = $this->factory()->post->create_and_get( [ 'post_type' => 'post' ] );
@@ -517,6 +582,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Tests whether a not hard set indexing value on a post, is considered not indexable based on the default setting.
 	 *
 	 * @covers WPSEO_Meta_Columns::is_indexable
+	 *
+	 * @return void
 	 */
 	public function test_is_not_indexable_when_using_default() {
 		$post = $this->factory()->post->create_and_get( [ 'post_type' => 'post' ] );
@@ -534,6 +601,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Tests whether a malformed post object defaults to true.
 	 *
 	 * @covers WPSEO_Meta_Columns::is_indexable
+	 *
+	 * @return void
 	 */
 	public function test_is_indexable_when_using_malformed_post_object() {
 		$post         = '';
@@ -546,6 +615,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Test get_current_post_type function.
 	 *
 	 * @covers WPSEO_Meta_Columns::get_current_post_type
+	 *
+	 * @return void
 	 */
 	public function test_get_current_post_type() {
 		$_GET['post_type'] = 'test-post-type';
@@ -557,6 +628,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Test get_current_post_type function when the post type is not set.
 	 *
 	 * @covers WPSEO_Meta_Columns::get_current_post_type
+	 *
+	 * @return void
 	 */
 	public function test_get_current_post_type_not_set() {
 		self::$class_instance->set_current_post_type( null );
@@ -567,6 +640,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Test get_current_post_type function when the post type is set to something else than a string.
 	 *
 	 * @covers WPSEO_Meta_Columns::get_current_post_type
+	 *
+	 * @return void
 	 */
 	public function test_get_current_post_type_not_a_string() {
 		$_GET['post_type'] = 13;
@@ -578,6 +653,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Test get_current_seo_filter function.
 	 *
 	 * @covers WPSEO_Meta_Columns::get_current_seo_filter
+	 *
+	 * @return void
 	 */
 	public function test_get_current_seo_filter() {
 		$_GET['seo_filter'] = 'test-filter';
@@ -588,6 +665,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Test get_current_seo_filter function when the post type is not set.
 	 *
 	 * @covers WPSEO_Meta_Columns::get_current_seo_filter
+	 *
+	 * @return void
 	 */
 	public function test_get_current_seo_filter_not_set() {
 		$this->assertEquals( null, self::$class_instance->get_current_seo_filter() );
@@ -597,6 +676,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Test get_current_seo_filter function when the post type is set to something else than a string.
 	 *
 	 * @covers WPSEO_Meta_Columns::get_current_seo_filter
+	 *
+	 * @return void
 	 */
 	public function test_get_current_seo_filter_not_a_string() {
 		$_GET['seo_filter'] = 13;
@@ -607,6 +688,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Test get_current_readability_filter function.
 	 *
 	 * @covers WPSEO_Meta_Columns::get_current_readability_filter
+	 *
+	 * @return void
 	 */
 	public function test_get_current_readability_filter() {
 		$_GET['readability_filter'] = 'test-readability-filter';
@@ -617,6 +700,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Test get_current_readability_filter function when the post type is not set.
 	 *
 	 * @covers WPSEO_Meta_Columns::get_current_readability_filter
+	 *
+	 * @return void
 	 */
 	public function test_get_current_readability_filter_not_set() {
 		$this->assertEquals( null, self::$class_instance->get_current_readability_filter() );
@@ -626,6 +711,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Test get_current_readability_filter function when the post type is set to something else than a string.
 	 *
 	 * @covers WPSEO_Meta_Columns::get_current_readability_filter
+	 *
+	 * @return void
 	 */
 	public function test_get_current_readability_filter_not_a_string() {
 		$_GET['readability_filter'] = 13;
@@ -636,6 +723,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Test get_current_keyword_filter function.
 	 *
 	 * @covers WPSEO_Meta_Columns::get_current_keyword_filter
+	 *
+	 * @return void
 	 */
 	public function test_get_current_keyword_filter() {
 		$_GET['seo_kw_filter'] = 'test-kw-filter';
@@ -646,6 +735,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Test get_current_keyword_filter function when the post type is not set.
 	 *
 	 * @covers WPSEO_Meta_Columns::get_current_keyword_filter
+	 *
+	 * @return void
 	 */
 	public function test_get_current_keyword_filter_not_set() {
 		$this->assertEquals( null, self::$class_instance->get_current_keyword_filter() );
@@ -655,6 +746,8 @@ class Meta_Columns_Test extends TestCase {
 	 * Test get_current_keyword_filter function when the post type is set to something else than a string.
 	 *
 	 * @covers WPSEO_Meta_Columns::get_current_keyword_filter
+	 *
+	 * @return void
 	 */
 	public function test_get_current_keyword_filter_not_a_string() {
 		$_GET['seo_kw_filter'] = 13;

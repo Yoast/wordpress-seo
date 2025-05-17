@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group rel-next
  */
-class Rel_Next_Presenter_Test extends TestCase {
+final class Rel_Next_Presenter_Test extends TestCase {
 
 	/**
 	 * The rel next presenter instance.
@@ -27,6 +27,8 @@ class Rel_Next_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -41,6 +43,8 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_empty() {
 		$this->instance->presentation = new Indexable_Presentation();
@@ -60,6 +64,8 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_when_robots_is_noindex() {
 		$this->instance->presentation = new Indexable_Presentation();
@@ -76,6 +82,8 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_filter() {
 		$this->instance->presentation = new Indexable_Presentation();
@@ -101,6 +109,8 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$this->instance->presentation = new Indexable_Presentation();

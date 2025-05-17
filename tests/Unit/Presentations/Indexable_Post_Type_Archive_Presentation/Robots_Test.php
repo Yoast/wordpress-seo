@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Archive_Presentation
  */
-class Robots_Test extends TestCase {
+final class Robots_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ class Robots_Test extends TestCase {
 	 * Tests whether generate_robots calls the right functions of the robot helper.
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_dont_index_post_type() {
 		$this->indexable->object_id       = 1337;
@@ -52,6 +56,8 @@ class Robots_Test extends TestCase {
 	 * Tests whether generate_robots calls the right functions of the robot helper.
 	 *
 	 * @covers ::generate_robots
+	 *
+	 * @return void
 	 */
 	public function test_generate_robots_index_post_type() {
 		$this->indexable->object_id       = 1337;

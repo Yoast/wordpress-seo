@@ -20,13 +20,10 @@ const ContentAnalysisContainer = styled.div`
 const StyledCollapsible = styled( Collapsible )`
 	margin-bottom: 8px;
 
-	button:first-child svg {
-		margin: -2px 8px 0 -2px; // Compensate icon size set to 18px.
-	}
-
 	${ StyledIconsButton } {
 		padding: 8px 0;
-		color: ${ colors.$color_blue }
+		color: ${ colors.$color_blue };
+		margin: -2px 8px 0 -2px; // Compensate icon size set to 18px.
 	}
 `;
 
@@ -37,7 +34,7 @@ const StyledCollapsible = styled( Collapsible )`
  */
 class ContentAnalysis extends React.Component {
 	/**
-	 * Renders a Collapsible component with a liset of Analysis results.
+	 * Renders a Collapsible component with a list of Analysis results.
 	 *
 	 * @param {string} title        The title of the collapsible section.
 	 * @param {number} headingLevel Heading level: 1 for h1, 2 for h2, etc.
@@ -54,7 +51,7 @@ class ContentAnalysis extends React.Component {
 				prefixIconCollapsed={ { icon: "angle-down", color: colors.$color_grey_dark, size: "18px" } }
 				suffixIcon={ null }
 				suffixIconCollapsed={ null }
-				headingProps={ { level: headingLevel, fontSize: "13px", fontWeight: "bold" } }
+				headingProps={ { level: headingLevel, fontSize: "13px", fontWeight: "500", color: "#1e1e1e" } }
 			>
 				<AnalysisList
 					results={ results }
@@ -65,8 +62,11 @@ class ContentAnalysis extends React.Component {
 					markButtonFactory={ this.props.markButtonFactory }
 					onMarksButtonClick={ this.props.onMarkButtonClick }
 					onEditButtonClick={ this.props.onEditButtonClick }
+					renderAIOptimizeButton={ this.props.renderAIOptimizeButton }
 					isPremium={ this.props.isPremium }
 					onResultChange={ this.props.onResultChange }
+					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+					renderHighlightingUpsell={ this.props.renderHighlightingUpsell }
 				/>
 			</StyledCollapsible>
 		);
@@ -152,6 +152,9 @@ ContentAnalysis.propTypes = {
 		goodResults: PropTypes.string,
 	} ),
 	onResultChange: PropTypes.func,
+	shouldUpsellHighlighting: PropTypes.bool,
+	renderHighlightingUpsell: PropTypes.func,
+	renderAIOptimizeButton: PropTypes.func,
 };
 
 ContentAnalysis.defaultProps = {
@@ -172,6 +175,9 @@ ContentAnalysis.defaultProps = {
 	isPremium: false,
 	resultCategoryLabels: {},
 	onResultChange: () => {},
+	shouldUpsellHighlighting: false,
+	renderHighlightingUpsell: () => {},
+	renderAIOptimizeButton: () => {},
 };
 
 export default ContentAnalysis;

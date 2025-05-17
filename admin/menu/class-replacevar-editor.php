@@ -131,6 +131,8 @@ class WPSEO_Replacevar_Editor {
 	 *
 	 * @param array $arguments The arguments to validate.
 	 *
+	 * @return void
+	 *
 	 * @throws InvalidArgumentException Thrown when not all required arguments are present.
 	 */
 	protected function validate_arguments( array $arguments ) {

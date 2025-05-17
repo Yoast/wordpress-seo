@@ -22,9 +22,10 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Taxonomy_Settings_Importing_Action
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded, Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
+final class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -94,7 +95,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @var array
 	 */
-	protected $full_settings_to_import = [
+	protected static $full_settings_to_import = [
 		'category'      => [
 			'show'            => true,
 			'title'           => 'Category Title',
@@ -126,7 +127,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @var array
 	 */
-	protected $flattened_settings_to_import = [
+	protected static $flattened_settings_to_import = [
 		'/category/show'                                  => true,
 		'/category/title'                                 => 'Category Title',
 		'/category/metaDescription'                       => 'Category Desc',
@@ -143,6 +144,8 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -168,6 +171,8 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 * Tests the getting of the source option_name.
 	 *
 	 * @covers ::get_source_option_name
+	 *
+	 * @return void
 	 */
 	public function test_get_source_option_name() {
 		$source_option_name = $this->instance->get_source_option_name();
@@ -184,6 +189,8 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 * @param bool  $expected_unflattened The expected unflattened retrieved data.
 	 * @param bool  $expected             The expected retrieved data.
 	 * @param int   $times                The expected times we will look for the chunked unimported settings.
+	 *
+	 * @return void
 	 */
 	public function test_query( $query_results, $expected_unflattened, $expected, $times ) {
 		Monkey\Functions\expect( 'get_option' )
@@ -216,6 +223,8 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 * @param int    $times                  The times that we will import each setting, if any.
 	 * @param int    $transform_times        The times that we will transform each setting, if any.
 	 * @param int    $transform_robots_times The times that we will transform each robot setting, if any.
+	 *
+	 * @return void
 	 */
 	public function test_map( $setting, $setting_value, $times, $transform_times, $transform_robots_times ) {
 		$taxonomies = [
@@ -268,6 +277,8 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 * Tests composing the replacevar map.
 	 *
 	 * @covers ::index
+	 *
+	 * @return void
 	 */
 	public function test_composer_replacevar_map() {
 		Monkey\Functions\expect( 'apply_filters' )
@@ -343,6 +354,8 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 * Tests returning a setting map of the robot setting for one subset of taxonomies.
 	 *
 	 * @covers ::pluck_robot_setting_from_mapping
+	 *
+	 * @return void
 	 */
 	public function test_pluck_robot_setting_from_mapping() {
 		$taxonomies = [
@@ -374,6 +387,8 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @param array $aioseo_settings The AIOSEO settings.
 	 * @param bool  $expected_result The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_isset_settings_tab( $aioseo_settings, $expected_result ) {
 		$isset_settings_tab = $this->instance->isset_settings_tab( $aioseo_settings );
@@ -385,7 +400,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_isset_settings_tab() {
+	public static function provider_isset_settings_tab() {
 		$aioseo_settings_with_subsetting_set = [
 			'searchAppearance' => [
 				'taxonomies' => 'settings',
@@ -408,7 +423,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_map() {
+	public static function provider_map() {
 		return [
 			[ '/category/title', 'Category Title', 1, 1, 0 ],
 			[ '/category/metaDescription', 'Category Desc', 1, 1, 0 ],
@@ -428,10 +443,10 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_query() {
+	public static function provider_query() {
 		$full_settings = [
 			'searchAppearance' => [
-				'taxonomies'   => $this->full_settings_to_import,
+				'taxonomies'   => self::$full_settings_to_import,
 				'postypes'     => [
 					'post' => [
 						'title'           => 'title1',
@@ -441,10 +456,10 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 			],
 		];
 
-		$full_settings_expected = $this->flattened_settings_to_import;
+		$full_settings_expected = self::$flattened_settings_to_import;
 
 		return [
-			[ \json_encode( $full_settings ), $this->full_settings_to_import, $full_settings_expected, 1 ],
+			[ \json_encode( $full_settings ), self::$full_settings_to_import, $full_settings_expected, 1 ],
 		];
 	}
 }

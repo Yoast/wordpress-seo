@@ -1,5 +1,75 @@
 # Changelog
 
+## 4.2.0
+
+Enhancements:
+
+* Adds a `useKeydown` hook to handle the `keydown` event listener subscription. [#21870](https://github.com/Yoast/wordpress-seo/pull/21870)
+* Adds a `TooltipContainer` component to provide a11y functionality around the Tooltip element. [#21870](https://github.com/Yoast/wordpress-seo/pull/21870)
+* Adds a new `Table` property `variant` to support a `minimal` style. [#21951](https://github.com/Yoast/wordpress-seo/pull/21951)
+* Exposes the `Modal.Panel`' close button as `Modal.CloseButton` to support styling overrides via its `className` prop. [#21984](https://github.com/Yoast/wordpress-seo/pull/21984)
+* Improves the RTL support. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
+* Upgrades the Root reset styling to match the Tailwind v3.4.16 preflight style. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
+* Adds optional `onClear` to the Autocomplete to support detecting of the difference between a `null` value and the user clearing the value. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
+* Improves the RTL support in the Pagination component to always have the LTR direction. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
+
+Bugfixes:
+
+* Fixes a bug where the Autocomplete would have an empty trailing space after the input, which would especially show when using `nullable`. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
+* Fixes a bug where the Tooltip would be positioned wrong when using a RTL language. [#21870](https://github.com/Yoast/wordpress-seo/pull/21870)
+
+Other:
+
+* Fixes a bug in the storybook where the RTL styling would not affect the dialogs. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
+* Improves contrast of default text color in `Table.Cell`. [#21916](https://github.com/Yoast/wordpress-seo/pull/21916)
+
+## 4.1.0
+
+Enhancements:
+
+* Improves styling of Autocomplete disabled state. [#21321](https://github.com/Yoast/wordpress-seo/pull/21321)
+* Adds a `Toast` element. [#21407](https://github.com/Yoast/wordpress-seo/pull/21407)
+
+Bugfixes:
+
+* Removes the 100% height styling from the Autocomplete `.yst-autocomplete__button` class. [#21323](https://github.com/Yoast/wordpress-seo/pull/21323)
+
+## 4.0.0
+
+Enhancements:
+
+* Replaces peer dependency `@wordpress/element:^4.1.1` (containing `react:^17.0.2`) with `react:^18.2.0`. [#20944](https://github.com/Yoast/wordpress-seo/pull/20944)
+* Now compatible with the latest two stable versions of actively maintained browsers, through the usage of browserslist config. [#20944](https://github.com/Yoast/wordpress-seo/pull/20944)
+* Adds a new "extra-large" value for the `Button` property `size`, re-aligning the entire sizing scale. [#21121](https://github.com/Yoast/wordpress-seo/pull/21121)
+* Changes focus styles to use outline styling for anchors, buttons and inputs. [#21121](https://github.com/Yoast/wordpress-seo/pull/21121)
+* Changes border styles to use box-shadow styling for buttons and inputs. [#21121](https://github.com/Yoast/wordpress-seo/pull/21121)
+* Adds support for disabled styling in `Autocomplete` component. [#21129](https://github.com/Yoast/wordpress-seo/pull/21129)
+* Adds a `Tooltip` element.  [#21197](https://github.com/Yoast/wordpress-seo/pull/21197)
+* Adds `reset` as valid value of `type`, in the `Button` element. [#21309](https://github.com/Yoast/wordpress-seo/pull/21309)
+
+Bugfixes:
+
+* Fixes a bug where the `Textarea` element did not use the `cols` default. [#20944](https://github.com/Yoast/wordpress-seo/pull/20944)
+* Fixes a bug where the `TextInput` with type `date` would span 2 lines in Chrome, by removing our placeholder and icon overrides. [#21187](https://github.com/Yoast/wordpress-seo/pull/21187)
+* Fixes a bug where the background of the `Autocomplete` element would not be applied to the full width of the element. [#21173](https://github.com/Yoast/wordpress-seo/pull/21173)
+
+## 3.3.0
+
+Enhancements:
+
+* Adds support for readonly and disabled styling in `Textarea` component. [#21008](https://github.com/Yoast/wordpress-seo/pull/21008)
+* Adds styling and placeholder to date type of `TextInput` component. [#21008](https://github.com/Yoast/wordpress-seo/pull/21008)
+
+Bugfixes:
+
+* Adds missing button type to the Notifications' dismiss button. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
+* Adds missing button type to the SidebarNavigation MenuItem' button. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
+* Adds missing button type to the SidebarNavigation Mobile' open and close buttons. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
+* Adds missing button type to the Autocomplete' clear selection button. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
+* Adds missing button type to the TagInput' remove tag button. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
+* Fixes a bug where a longer text for the `selectLabel` value would cause alignment issues in the `FileInput` element. [#21054](https://github.com/Yoast/wordpress-seo/pull/21054)
+* Adds missing button type to the FileImport' abort button. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
+
 ## 3.2.1
 
 Bugfixes:

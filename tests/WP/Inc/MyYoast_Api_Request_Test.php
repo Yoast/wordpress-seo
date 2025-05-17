@@ -14,13 +14,15 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group MyYoast
  */
-class MyYoast_Api_Request_Test extends TestCase {
+final class MyYoast_Api_Request_Test extends TestCase {
 
 	/**
 	 * Tests firing the request (happy path).
 	 *
 	 * @covers WPSEO_MyYoast_Api_Request::fire
 	 * @covers WPSEO_MyYoast_Api_Request::get_response
+	 *
+	 * @return void
 	 */
 	public function test_fire() {
 		$instance = $this
@@ -32,12 +34,12 @@ class MyYoast_Api_Request_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'do_request' )
-			->will( $this->returnValue( 'raw_response' ) );
+			->willReturn( 'raw_response' );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'decode_response' )
-			->will( $this->returnValue( 'response' ) );
+			->willReturn( 'response' );
 
 		$this->assertTrue( $instance->fire() );
 		$this->assertEquals( 'response', $instance->get_response() );
@@ -48,6 +50,8 @@ class MyYoast_Api_Request_Test extends TestCase {
 	 *
 	 * @covers WPSEO_MyYoast_Api_Request::fire
 	 * @covers WPSEO_MyYoast_Api_Request::get_error_message
+	 *
+	 * @return void
 	 */
 	public function test_fire_with_bad_request_exception_being_thrown() {
 		$instance = $this
@@ -59,7 +63,7 @@ class MyYoast_Api_Request_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'do_request' )
-			->will( $this->throwException( new WPSEO_MyYoast_Bad_Request_Exception( 'Request went wrong' ) ) );
+			->willThrowException( new WPSEO_MyYoast_Bad_Request_Exception( 'Request went wrong' ) );
 
 		$instance
 			->expects( $this->never() )
@@ -75,6 +79,8 @@ class MyYoast_Api_Request_Test extends TestCase {
 	 *
 	 * @covers WPSEO_MyYoast_Api_Request::fire
 	 * @covers WPSEO_MyYoast_Api_Request::decode_response
+	 *
+	 * @return void
 	 */
 	public function test_decode_response() {
 		$instance = $this
@@ -90,7 +96,7 @@ class MyYoast_Api_Request_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'do_request' )
-			->will( $this->returnValue( WPSEO_Utils::format_json_encode( $response ) ) );
+			->willReturn( WPSEO_Utils::format_json_encode( $response ) );
 
 		$this->assertTrue( $instance->fire() );
 		$this->assertEquals( (object) $response, $this->getPropertyValue( $instance, 'response' ) );
@@ -102,6 +108,8 @@ class MyYoast_Api_Request_Test extends TestCase {
 	 *
 	 * @covers WPSEO_MyYoast_Api_Request::fire
 	 * @covers WPSEO_MyYoast_Api_Request::decode_response
+	 *
+	 * @return void
 	 */
 	public function test_decode_response_wrong_output() {
 		$instance = $this
@@ -113,7 +121,7 @@ class MyYoast_Api_Request_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'do_request' )
-			->will( $this->returnValue( 'raw_response' ) );
+			->willReturn( 'raw_response' );
 
 		$this->assertFalse( $instance->fire() );
 		$this->assertEquals( 'No JSON object was returned.', $this->getPropertyValue( $instance, 'error_message' ) );
@@ -123,6 +131,8 @@ class MyYoast_Api_Request_Test extends TestCase {
 	 * Tests the enriching of the request headers.
 	 *
 	 * @covers WPSEO_MyYoast_Api_Request::enrich_request_arguments
+	 *
+	 * @return void
 	 */
 	public function test_enrich_request_arguments() {
 		$instance = $this
@@ -134,23 +144,19 @@ class MyYoast_Api_Request_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_request_body' )
-			->will(
-				$this->returnValue(
-					[
-						'This is' => 'the request body',
-					]
-				)
+			->willReturn(
+				[
+					'This is' => 'the request body',
+				]
 			);
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_installed_addon_versions' )
-			->will(
-				$this->returnValue(
-					[
-						'yoast-seo-wordpress-premium' => '10.0',
-					]
-				)
+			->willReturn(
+				[
+					'yoast-seo-wordpress-premium' => '10.0',
+				]
 			);
 
 		$this->assertEquals(
@@ -170,6 +176,8 @@ class MyYoast_Api_Request_Test extends TestCase {
 	 * Tests the enriching of the request headers with empty request body.
 	 *
 	 * @covers WPSEO_MyYoast_Api_Request::enrich_request_arguments
+	 *
+	 * @return void
 	 */
 	public function test_enrich_request_arguments_with_empty_request_body() {
 		$instance = $this
@@ -181,17 +189,15 @@ class MyYoast_Api_Request_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_request_body' )
-			->will( $this->returnValue( [] ) );
+			->willReturn( [] );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_installed_addon_versions' )
-			->will(
-				$this->returnValue(
-					[
-						'yoast-seo-wordpress-premium' => '10.0',
-					]
-				)
+			->willReturn(
+				[
+					'yoast-seo-wordpress-premium' => '10.0',
+				]
 			);
 
 		$this->assertEquals(
@@ -210,6 +216,8 @@ class MyYoast_Api_Request_Test extends TestCase {
 	 * Unit test to make sure this is fixed: https://github.com/Yoast/wordpress-seo/issues/12560
 	 *
 	 * @covers WPSEO_MyYoast_Api_Request::do_request
+	 *
+	 * @return void
 	 */
 	public function test_exception_arguments() {
 		$this->expectException( WPSEO_MyYoast_Bad_Request_Exception::class );

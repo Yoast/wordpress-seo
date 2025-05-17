@@ -2,7 +2,7 @@
 
 import imageAltAttribute from "../helpers/image/getAltAttribute";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
-import { isEmpty } from "lodash-es";
+import { isEmpty } from "lodash";
 import getImagesInTree from "../helpers/image/getImagesInTree";
 
 /**

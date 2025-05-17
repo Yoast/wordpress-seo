@@ -1,8 +1,7 @@
-/* eslint-disable no-undefined */
-import { useCallback } from "@wordpress/element";
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
+import React, { useCallback } from "react";
 import Label from "../../elements/label";
 
 import Radio from "../../elements/radio";

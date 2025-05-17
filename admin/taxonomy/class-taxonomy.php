@@ -5,6 +5,7 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 
 /**
@@ -60,6 +61,8 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Add hooks late enough for taxonomy object to be available for checks.
+	 *
+	 * @return void
 	 */
 	public function admin_init() {
 
@@ -80,6 +83,8 @@ class WPSEO_Taxonomy {
 	 * Show the SEO inputs for term.
 	 *
 	 * @param stdClass|WP_Term $term Term to show the edit boxes for.
+	 *
+	 * @return void
 	 */
 	public function term_metabox( $term ) {
 		if ( WPSEO_Metabox::is_internet_explorer() ) {
@@ -121,6 +126,8 @@ class WPSEO_Taxonomy {
 	 * Queue assets for taxonomy screens.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @return void
 	 */
 	public function admin_enqueue_scripts() {
 
@@ -138,12 +145,12 @@ class WPSEO_Taxonomy {
 
 		if (
 			self::is_term_edit( $pagenow )
-			&& ! is_null( $tag_id )
+			&& $tag_id !== null
 		) {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
 			$asset_manager->enqueue_style( 'metabox-css' );
-			$asset_manager->enqueue_style( 'scoring' );
+			$asset_manager->enqueue_style( 'ai-generator' );
 			$asset_manager->enqueue_script( 'term-edit' );
 
 			/**
@@ -155,17 +162,16 @@ class WPSEO_Taxonomy {
 			$asset_manager->localize_script( 'term-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 
 			$script_data = [
-				'analysis'          => [
+				'analysis'              => [
 					'plugins' => [
 						'replaceVars' => [
-							'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
 							'replace_vars'             => $this->get_replace_vars(),
 							'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 							'scope'                    => $this->determine_scope(),
 						],
 						'shortcodes' => [
 							'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
-							'wpseo_filter_shortcodes_nonce' => \wp_create_nonce( 'wpseo-filter-shortcodes' ),
+							'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
 						],
 					],
 					'worker'  => [
@@ -175,23 +181,30 @@ class WPSEO_Taxonomy {
 						'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 					],
 				],
-				'media'             => [
-					// @todo replace this translation with JavaScript translations.
-					'choose_image' => __( 'Use Image', 'wordpress-seo' ),
-				],
-				'metabox'           => $this->localize_term_scraper_script( $tag_id ),
-				'userLanguageCode'  => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-				'isTerm'            => true,
-				'postId'            => $tag_id,
-				'usedKeywordsNonce' => \wp_create_nonce( 'wpseo-keyword-usage' ),
-				'linkParams'        => WPSEO_Shortlinker::get_query_params(),
+				'metabox'               => $this->localize_term_scraper_script( $tag_id ),
+				'isTerm'                => true,
+				'postId'                => $tag_id,
+				'termType'              => $this->get_taxonomy(),
+				'usedKeywordsNonce'     => wp_create_nonce( 'wpseo-keyword-usage' ),
 			];
+
+			/**
+			 * The website information repository.
+			 *
+			 * @var Website_Information_Repository $repo
+			 */
+			$repo             = YoastSEO()->classes->get( Website_Information_Repository::class );
+			$term_information = $repo->get_term_site_information();
+			$term_information->set_term( get_term_by( 'id', $tag_id, $this::get_taxonomy() ) );
+			$script_data = array_merge_recursive( $term_information->get_legacy_site_information(), $script_data );
+
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
 			$asset_manager->enqueue_user_language_script();
 		}
 
 		if ( self::is_term_overview( $pagenow ) ) {
 			$asset_manager->enqueue_script( 'edit-page' );
+			$asset_manager->enqueue_style( 'edit-page' );
 		}
 	}
 
@@ -201,6 +214,8 @@ class WPSEO_Taxonomy {
 	 * @param int    $term_id  ID of the term to save data for.
 	 * @param int    $tt_id    The taxonomy_term_id for the term.
 	 * @param string $taxonomy The taxonomy the term belongs to.
+	 *
+	 * @return void
 	 */
 	public function update_term( $term_id, $tt_id, $taxonomy ) {
 		// Bail if this is a multisite installation and the site has been switched.
@@ -213,8 +228,8 @@ class WPSEO_Taxonomy {
 		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: Nonce is already checked by WordPress before executing this action.
 			if ( isset( $_POST[ $key ] ) && is_string( $_POST[ $key ] ) ) {
-				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: $data is getting sanitized later.
-				$data                  = \wp_unslash( $_POST[ $key ] );
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: $data is getting sanitized later.
+				$data                  = wp_unslash( $_POST[ $key ] );
 				$new_meta_data[ $key ] = ( $key !== 'wpseo_canonical' ) ? WPSEO_Utils::sanitize_text_field( $data ) : WPSEO_Utils::sanitize_url( $data );
 			}
 
@@ -252,6 +267,8 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Allows post-kses-filtered HTML in term descriptions.
+	 *
+	 * @return void
 	 */
 	public function custom_category_descriptions_allow_html() {
 		remove_filter( 'term_description', 'wp_kses_data' );
@@ -262,6 +279,8 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Output the WordPress editor.
+	 *
+	 * @return void
 	 */
 	public function custom_category_description_editor() {
 		wp_editor( '', 'description' );
@@ -292,7 +311,6 @@ class WPSEO_Taxonomy {
 	 */
 	public function localize_replace_vars_script() {
 		return [
-			'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'             => $this->get_replace_vars(),
 			'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 			'scope'                    => $this->determine_scope(),
@@ -389,7 +407,7 @@ class WPSEO_Taxonomy {
 	private static function get_tag_id() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['tag_ID'] ) && is_string( $_GET['tag_ID'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are casting to an integer.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are casting to an integer.
 			$tag_id = (int) wp_unslash( $_GET['tag_ID'] );
 			if ( $tag_id > 0 ) {
 				return $tag_id;
@@ -401,7 +419,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Prepares the replace vars for localization.
 	 *
-	 * @return array The replacement variables.
+	 * @return array<string, string> The replacement variables.
 	 */
 	private function get_replace_vars() {
 		$term_id = $this::get_tag_id();
@@ -435,7 +453,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Prepares the recommended replace vars for localization.
 	 *
-	 * @return array The recommended replacement variables.
+	 * @return array<string> The recommended replacement variables.
 	 */
 	private function get_recommended_replace_vars() {
 		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
@@ -454,7 +472,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Returns an array with shortcode tags for all registered shortcodes.
 	 *
-	 * @return array
+	 * @return array<string> Array with shortcode tags.
 	 */
 	private function get_valid_shortcode_tags() {
 		$shortcode_tags = [];

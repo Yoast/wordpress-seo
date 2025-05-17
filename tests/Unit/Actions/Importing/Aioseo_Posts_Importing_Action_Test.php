@@ -30,9 +30,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action
- * @phpcs:disable Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
-class Aioseo_Posts_Importing_Action_Test extends TestCase {
+final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -148,6 +147,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -208,6 +209,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * Tests the getting of unimported AIOSEO data.
 	 *
 	 * @covers ::get_total_unindexed
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed() {
 		$this->aioseo_helper->expects( 'aioseo_exists' )
@@ -268,6 +271,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @param bool  $is_default             Whether the Yoast indexable has default values.
 	 * @param int   $check_if_default_times The times we expect to check if the Yoast indexable has default values.
 	 * @param int   $cursor_value           The value we expect to give to the cursor at the end of the process.
+	 *
+	 * @return void
 	 */
 	public function test_donot_map( $aioseo_indexables, $is_default, $check_if_default_times, $cursor_value ) {
 		if ( ! \defined( 'ARRAY_A' ) ) {
@@ -349,7 +354,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_donot_map() {
+	public static function provider_donot_map() {
 		$aioseo_indexable = [
 			'id'      => 123,
 			'post_id' => 234,
@@ -368,6 +373,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @covers ::url_import
 	 * @covers ::keyphrase_import
 	 * @covers ::social_image_url_import
+	 *
+	 * @return void
 	 */
 	public function test_map_with_empty_yoast_indexable() {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
@@ -546,6 +553,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @covers ::map
 	 * @covers ::url_import
 	 * @covers ::keyphrase_import
+	 *
+	 * @return void
 	 */
 	public function test_map_with_existing_yoast_indexable() {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
@@ -669,6 +678,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * Tests the mapping of indexable data when we have missing data from the AIOSEO indexable.
 	 *
 	 * @covers ::map
+	 *
+	 * @return void
 	 */
 	public function test_map_with_missing_aioseo_data() {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
@@ -726,6 +737,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @param mixed  $provider_result              The result the social images provider returns.
 	 * @param int    $get_default_times            The times we're getting the default url.
 	 * @param string $social_setting               The social settings we use to get the default url.
+	 *
+	 * @return void
 	 */
 	public function test_social_image_url_import( $aioseo_social_image_settings, $mapping, $expected_url, $sanitize_url_times, $provider_method, $provider_times, $provider_result, $get_default_times, $social_setting ) {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
@@ -758,7 +771,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_social_image_url_import() {
+	public static function provider_social_image_url_import() {
 		$open_graph_mapping = [
 			'yoast_name'                   => 'open_graph_image',
 			'social_image_import'          => true,

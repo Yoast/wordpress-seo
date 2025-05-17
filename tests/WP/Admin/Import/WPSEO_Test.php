@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test importing meta data from wpSEO.de.
  */
-class WPSEO_Test extends TestCase {
+final class WPSEO_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.
@@ -23,6 +23,8 @@ class WPSEO_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -34,6 +36,8 @@ class WPSEO_Test extends TestCase {
 	 * Tests the plugin name function.
 	 *
 	 * @covers WPSEO_Import_WPSEO::get_plugin_name
+	 *
+	 * @return void
 	 */
 	public function test_plugin_name() {
 		$this->assertEquals( 'wpSEO.de', $this->class_instance->get_plugin_name() );
@@ -43,6 +47,8 @@ class WPSEO_Test extends TestCase {
 	 * Tests whether this importer has been registered.
 	 *
 	 * @covers WPSEO_Plugin_Importers::get
+	 *
+	 * @return void
 	 */
 	public function test_importer_registered() {
 		$this->assertContains( WPSEO_Import_WPSEO::class, WPSEO_Plugin_Importers::get() );
@@ -53,6 +59,8 @@ class WPSEO_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_WPSEO::run_detect
 	 * @covers WPSEO_Import_WPSEO::detect
+	 *
+	 * @return void
 	 */
 	public function test_detect_no_data() {
 		$this->assertEquals( $this->status( 'detect', false ), $this->class_instance->run_detect() );
@@ -64,6 +72,8 @@ class WPSEO_Test extends TestCase {
 	 * @covers WPSEO_Import_WPSEO::__construct
 	 * @covers WPSEO_Import_WPSEO::run_detect
 	 * @covers WPSEO_Import_WPSEO::detect
+	 *
+	 * @return void
 	 */
 	public function test_detect() {
 		$this->setup_data();
@@ -74,6 +84,8 @@ class WPSEO_Test extends TestCase {
 	 * Tests whether we can return properly when there's nothing to import.
 	 *
 	 * @covers WPSEO_Import_WPSEO::run_import
+	 *
+	 * @return void
 	 */
 	public function test_import_no_data() {
 		$this->assertEquals( $this->status( 'import', false ), $this->class_instance->run_import() );
@@ -88,6 +100,8 @@ class WPSEO_Test extends TestCase {
 	 * @covers WPSEO_Import_WPSEO::import_post_robot
 	 * @covers WPSEO_Import_WPSEO::import_post_robots
 	 * @covers WPSEO_Import_WPSEO::get_robot_value
+	 *
+	 * @return void
 	 */
 	public function test_import() {
 		$post_id = $this->setup_data();
@@ -120,6 +134,8 @@ class WPSEO_Test extends TestCase {
 	 * @covers WPSEO_Import_WPSEO::import_taxonomy_description
 	 * @covers WPSEO_Import_WPSEO::meta_key_clone
 	 * @covers WPSEO_Import_WPSEO::meta_keys_clone
+	 *
+	 * @return void
 	 */
 	public function test_import_category() {
 		$this->create_category_metadata( 'test-category', 'Test-category description', 5 );
@@ -143,6 +159,8 @@ class WPSEO_Test extends TestCase {
 	 * @covers WPSEO_Import_WPSEO::import_post_robot
 	 * @covers WPSEO_Import_WPSEO::import_post_robots
 	 * @covers WPSEO_Import_WPSEO::get_robot_value
+	 *
+	 * @return void
 	 */
 	public function test_import_faulty_robots() {
 		$post_id = $this->setup_data();
@@ -157,6 +175,8 @@ class WPSEO_Test extends TestCase {
 	 * Tests whether we can properly return an error when there is no data to clean.
 	 *
 	 * @covers WPSEO_Import_WPSEO::run_cleanup
+	 *
+	 * @return void
 	 */
 	public function test_cleanup_no_data() {
 		$this->assertEquals( $this->status( 'cleanup', false ), $this->class_instance->run_cleanup() );
@@ -170,6 +190,8 @@ class WPSEO_Test extends TestCase {
 	 * @covers WPSEO_Import_WPSEO::cleanup_post_meta
 	 * @covers WPSEO_Import_WPSEO::cleanup_term_meta
 	 * @covers WPSEO_Import_WPSEO::delete_taxonomy_metas
+	 *
+	 * @return void
 	 */
 	public function test_cleanup() {
 		$post_id = $this->setup_data();

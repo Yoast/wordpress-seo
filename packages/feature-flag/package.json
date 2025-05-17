@@ -1,7 +1,10 @@
 {
   "name": "@yoast/feature-flag",
-  "version": "0.5.2",
-  "main": "src/index.js",
+  "version": "0.6.0-alpha.1",
+  "main": "build/index.js",
+  "files": [
+    "build/index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/yoast/javascript",
@@ -11,18 +14,22 @@
   "license": "GPL-3.0",
   "private": false,
   "scripts": {
-    "test": "jest --coverage",
-    "lint": "eslint ./src ./tests --max-warnings=0",
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
+    "build": "yarn clean && yarn build:js",
+    "build:js": "babel src --out-dir build",
+    "clean": "rm -rf build",
+    "test": "jest",
+    "lint": "eslint . --max-warnings=0"
   },
-  "devDependencies": {},
-  "jest": {
-    "testURL": "http://localhost",
-    "testRegex": ".*Test.js$",
-    "transformIgnorePatterns": [
-      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
-    ],
-    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/plugin-transform-react-jsx": "^7.17.3",
+    "@babel/preset-env": "^7.16.11",
+    "@yoast/browserslist-config": "^1.2.4",
+    "@yoast/eslint-config": "^8.0.0",
+    "babel-plugin-styled-components": "^2.0.6",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0"
   },
   "publishConfig": {
     "access": "public"

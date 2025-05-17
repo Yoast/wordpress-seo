@@ -1,6 +1,6 @@
-import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element";
+import { useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, FeatureUpsell, Radio, RadioGroup, TextField, ToggleField } from "@yoast/ui-library";
+import { Alert, Badge, FeatureUpsell, Radio, RadioGroup, TextField, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import { get, map } from "lodash";
 import {
@@ -15,6 +15,7 @@ import {
 } from "../components";
 import { withDisabledMessageSupport, withFormikDummySelectField } from "../hocs";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 const ToggleFieldWithDisabledMessageSupport = withDisabledMessageSupport( ToggleField );
 const FormikSelectPageWithDummy = withFormikDummySelectField( FormikPageSelectField );
@@ -36,7 +37,7 @@ const SiteBasics = () => {
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const { fetchPages } = useDispatchSettings();
 
-	const usageTrackingDescription = useMemo( () => createInterpolateElement(
+	const usageTrackingDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
 			__( "Usage tracking allows us to track some data about your site to improve our plugin. %1$sLearn more about which data we track and why%2$s.", "wordpress-seo" ),
@@ -49,7 +50,7 @@ const SiteBasics = () => {
 		}
 	), [] );
 
-	const sitePoliciesDescription = useMemo( () => createInterpolateElement(
+	const sitePoliciesDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
 			__( "Select the pages on your website which contain information about your organizational and publishing policies. Some of these might not apply to your site, and you can select the same page for multiple policies. %1$sLearn more about why setting your site policies is important%2$s.", "wordpress-seo" ),
@@ -61,7 +62,7 @@ const SiteBasics = () => {
 			a: <a id="link-site-policies" href={ sitePoliciesLink } target="_blank" rel="noopener" />,
 		}
 	), [ sitePoliciesLink ] );
-	const siteInfoDescription = useMemo( () => createInterpolateElement(
+	const siteInfoDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to an opening and closing emphasis tag. %3$s and %4$s expand to an opening and closing anchor tag. */
 			__( "Set the basic info for your website. You can use %1$stagline%2$s and %1$sseparator%2$s as %3$sreplacement variables%4$s when configuring the search appearance of your content.", "wordpress-seo" ),
@@ -79,7 +80,7 @@ const SiteBasics = () => {
 			/>,
 		}
 	), [] );
-	const canNotManageOptionsAlertText = useMemo( () => createInterpolateElement(
+	const canNotManageOptionsAlertText = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
 			__( "We're sorry, you're not allowed to edit the %1$swebsite name%2$s and %1$stagline%2$s.", "wordpress-seo" ),
@@ -88,7 +89,7 @@ const SiteBasics = () => {
 		),
 		{ em: <em /> }
 	), [] );
-	const siteImageRecommendedSize = useMemo( () => createInterpolateElement(
+	const siteImageRecommendedSize = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening strong tag.
@@ -104,7 +105,7 @@ const SiteBasics = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
-	const taglineDescription = useMemo( () => createInterpolateElement(
+	const taglineDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening anchor tag.
@@ -120,7 +121,7 @@ const SiteBasics = () => {
 		}
 	), [] );
 
-	const publishingPrinciplesDescription = useMemo( () => createInterpolateElement(
+	const publishingPrinciplesDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening italics tag.
@@ -134,13 +135,13 @@ const SiteBasics = () => {
 			i: <i />,
 		}
 	), [] );
-	const ownershipDescription = useMemo( () => createInterpolateElement(
+	const ownershipDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening italics tag.
 			 * %2$s expands to a closing italics tag.
 			 */
-			__( "Select a page which describes the ownership structure of your organization. It should include information about  %1$sfunding%2$s and %1$sgrants%2$s.", "wordpress-seo" ),
+			__( "Select a page which describes the ownership structure of your organization. It should include information about %1$sfunding%2$s and %1$sgrants%2$s.", "wordpress-seo" ),
 			"<i>",
 			"</i>"
 		),
@@ -149,7 +150,7 @@ const SiteBasics = () => {
 		}
 	), [] );
 
-	const actionableFeedbackDescription = useMemo( () => createInterpolateElement(
+	const actionableFeedbackDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening italics tag.
@@ -164,7 +165,7 @@ const SiteBasics = () => {
 		}
 	), [] );
 
-	const correctionsDescription = useMemo( () => createInterpolateElement(
+	const correctionsDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening italics tag.
@@ -179,7 +180,7 @@ const SiteBasics = () => {
 		}
 	), [] );
 
-	const ethicsDescription = useMemo( () => createInterpolateElement(
+	const ethicsDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening italics tag.
@@ -194,7 +195,7 @@ const SiteBasics = () => {
 		}
 	), [] );
 
-	const diversityDescription = useMemo( () => createInterpolateElement(
+	const diversityDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening italics tag.
@@ -208,7 +209,7 @@ const SiteBasics = () => {
 			i: <i />,
 		}
 	), [] );
-	const diversityStaffingDescription = useMemo( () => createInterpolateElement(
+	const diversityStaffingDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening italics tag.
@@ -346,7 +347,10 @@ const SiteBasics = () => {
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
 					<FieldsetLayout
-						title={ __( "Site policies", "wordpress-seo" ) }
+						title={ <>
+							{ __( "Site policies", "wordpress-seo" ) }
+							{ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
+						</> }
 						description={ sitePoliciesDescription }
 					>
 						<FeatureUpsell

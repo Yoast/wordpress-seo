@@ -32,10 +32,7 @@ class Pagination_Helper {
 	 * @param WP_Rewrite_Wrapper $wp_rewrite_wrapper The rewrite wrapper.
 	 * @param WP_Query_Wrapper   $wp_query_wrapper   The query wrapper.
 	 */
-	public function __construct(
-		WP_Rewrite_Wrapper $wp_rewrite_wrapper,
-		WP_Query_Wrapper $wp_query_wrapper
-	) {
+	public function __construct( WP_Rewrite_Wrapper $wp_rewrite_wrapper, WP_Query_Wrapper $wp_query_wrapper ) {
 		$this->wp_rewrite_wrapper = $wp_rewrite_wrapper;
 		$this->wp_query_wrapper   = $wp_query_wrapper;
 	}
@@ -49,7 +46,7 @@ class Pagination_Helper {
 		/**
 		 * Filter: 'wpseo_disable_adjacent_rel_links' - Allows disabling of Yoast adjacent links if this is being handled by other code.
 		 *
-		 * @api bool $links_generated Indicates if other code has handled adjacent links.
+		 * @param bool $links_generated Indicates if other code has handled adjacent links.
 		 */
 		return \apply_filters( 'wpseo_disable_adjacent_rel_links', false );
 	}
@@ -196,7 +193,7 @@ class Pagination_Helper {
 		$key_query_loop = $this->get_key_query_loop();
 
 		if ( $key_query_loop ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Recommended -- Validated in get_key_query_loop().
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Recommended -- Validated in get_key_query_loop().
 			$page_number = (int) $_GET[ $key_query_loop ];
 			if ( $page_number > 1 ) {
 				return $page_number;

@@ -42,7 +42,8 @@ describe( "TextArea", () => {
 		);
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `id` of type `boolean` supplied to `TextArea`, expected `string`." );
+		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
+		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
+		expect( console.error.mock.calls[ 0 ][ 2 ] ).toBe( "Invalid prop `id` of type `boolean` supplied to `TextArea`, expected `string`." );
 	} );
 } );

@@ -1,10 +1,12 @@
-import { useMemo } from "@wordpress/element";
 import { reduce, values } from "lodash";
+import { useMemo } from "react";
 
 /**
  * Creates ids and describedBy based on an ID and the given list of "props".
  *
  * This is a helper hook to create IDs and the `aria-describedby` for our form field components.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby
  *
  * @param {string} id The base ID.
  * @param {Object} list What IDs to create.

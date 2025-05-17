@@ -1,21 +1,13 @@
 <?php
+
 namespace Yoast\WP\SEO\Tests\WP\Builders;
 
-use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
-use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Built_Exception;
+use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Helpers\Image_Helper;
-use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Helpers\Post_Helper;
-use Yoast\WP\SEO\Helpers\String_Helper;
-use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
-use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
@@ -24,7 +16,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @coversDefaultClass Yoast\WP\SEO\Builders\Indexable_Term_Builder
  */
-class Indexable_Term_Builder_Test extends TestCase {
+final class Indexable_Term_Builder_Test extends TestCase {
 
 	/**
 	 * The instance.
@@ -49,9 +41,11 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
-	public function setUp(): void {
-		parent::setUp();
+	public function set_up(): void {
+		parent::set_up();
 
 		$post_id = self::factory()->post->create(
 			[
@@ -83,18 +77,18 @@ class Indexable_Term_Builder_Test extends TestCase {
 			],
 		];
 
-		update_option( 'wpseo_taxonomy_meta', $this->wpseo_taxonomy_meta );
+		\update_option( 'wpseo_taxonomy_meta', $this->wpseo_taxonomy_meta );
 
 		$this->instance = new Indexable_Term_Builder(
-			YoastSEO()->helpers->taxonomy,
-			YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
-			YoastSEO()->helpers->post
+			\YoastSEO()->helpers->taxonomy,
+			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
+			\YoastSEO()->helpers->post
 		);
 
 		$this->instance->set_social_image_helpers(
-			YoastSEO()->helpers->image,
-			YoastSEO()->helpers->open_graph->image,
-			YoastSEO()->helpers->twitter->image
+			\YoastSEO()->helpers->image,
+			\YoastSEO()->helpers->open_graph->image,
+			\YoastSEO()->helpers->twitter->image
 		);
 	}
 
@@ -102,6 +96,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests the build method's happy path.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 		$term = \get_term( $this->term_id );
@@ -130,6 +126,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests the build method when the term the indexable should be built for does not exist.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_term_not_found() {
 		$term_id = -1;
@@ -147,9 +145,11 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests the build method when the category of the term the indexable should be built is not indexable (i.e. it is not public).
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_category_not_indexable() {
-		register_taxonomy(
+		\register_taxonomy(
 			'test_tax',
 			'post',
 			[
@@ -178,6 +178,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * Tests the build method when the termpassed to the build function is invalid.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build_invalid_term() {
 		$term = '';

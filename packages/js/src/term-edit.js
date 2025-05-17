@@ -2,12 +2,12 @@ import domReady from "@wordpress/dom-ready";
 import jQuery from "jquery";
 import { noop } from "lodash";
 import initAdmin from "./initializers/admin";
-import initAdminMedia from "./initializers/admin-media";
 import initEditorStore from "./initializers/editor-store";
 import initTabs from "./initializers/metabox-tabs";
 import initTermScraper from "./initializers/term-scraper";
 import initializeInsights from "./insights/initializer";
 import { termsTmceId } from "./lib/tinymce";
+import initializeAiGenerator from "./ai-generator/initialize";
 
 domReady( () => {
 	// Backwards compatibility globals.
@@ -30,9 +30,9 @@ domReady( () => {
 	// Initialize the post scraper.
 	initTermScraper( jQuery, store, editorData );
 
-	// Initialize the media library for our social settings.
-	initAdminMedia( jQuery );
-
 	// Initialize the insights.
 	initializeInsights();
+
+	// Initialize the AI Generator upsell.
+	initializeAiGenerator();
 } );

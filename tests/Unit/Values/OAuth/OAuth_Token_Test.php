@@ -16,7 +16,7 @@ use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
  * @group values
  * @group oauth
  */
-class OAuth_Token_Test extends TestCase {
+final class OAuth_Token_Test extends TestCase {
 
 	/**
 	 * The created_at property.
@@ -27,6 +27,8 @@ class OAuth_Token_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -38,6 +40,8 @@ class OAuth_Token_Test extends TestCase {
 	 * Test creating a valid new instance.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_creating_new_instance() {
 		$instance = new OAuth_Token( '000000', '000001', 604800, false, $this->created_at );
@@ -49,6 +53,8 @@ class OAuth_Token_Test extends TestCase {
 	 * Test creating a new instance with an empty property.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_creating_new_instance_empty_access_token() {
 		$this->expectException( Empty_Property_Exception::class );
@@ -60,6 +66,8 @@ class OAuth_Token_Test extends TestCase {
 	 * Test creating a new instance with an empty property.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_creating_new_instance_empty_refresh_token() {
 		$this->expectException( Empty_Property_Exception::class );
@@ -71,6 +79,8 @@ class OAuth_Token_Test extends TestCase {
 	 * Test creating a new instance with an empty property.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_creating_new_instance_empty_expires() {
 		$this->expectException( Empty_Property_Exception::class );
@@ -82,6 +92,8 @@ class OAuth_Token_Test extends TestCase {
 	 * Test creating a new instance with an empty property.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_creating_new_instance_empty_has_expired() {
 		$this->expectException( Empty_Property_Exception::class );
@@ -93,6 +105,8 @@ class OAuth_Token_Test extends TestCase {
 	 * Test creating a new instance with an expired token.
 	 *
 	 * @covers ::has_expired
+	 *
+	 * @return void
 	 */
 	public function test_getters() {
 		$instance = new OAuth_Token( '000000', '000001', ( $this->created_at + 604800 ), false, $this->created_at );
@@ -109,6 +123,8 @@ class OAuth_Token_Test extends TestCase {
 	 * Test converting an instance to an array.
 	 *
 	 * @covers ::to_array
+	 *
+	 * @return void
 	 */
 	public function test_to_array() {
 		$instance = new OAuth_Token(
@@ -137,6 +153,8 @@ class OAuth_Token_Test extends TestCase {
 	 *
 	 * @covers ::from_response
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_from_response() {
 		$response = Mockery::mock( AccessTokenInterface::class );

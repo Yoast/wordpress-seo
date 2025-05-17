@@ -9,11 +9,9 @@ exports[`WordList renders correctly without items 1`] = `
       Wordlist
     </strong>
   </p>
-  
   <ol
     className="__list"
   />
-  
 </div>
 `;
 
@@ -26,7 +24,6 @@ exports[`WordList renders wordlist as list items 1`] = `
       Wordlist
     </strong>
   </p>
-  
   <ol
     className="__list"
   >
@@ -46,6 +43,5 @@ exports[`WordList renders wordlist as list items 1`] = `
       word3
     </li>
   </ol>
-  
 </div>
 `;

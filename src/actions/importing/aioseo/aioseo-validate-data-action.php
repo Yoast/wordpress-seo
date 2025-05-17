@@ -16,12 +16,12 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	/**
 	 * The plugin of the action.
 	 */
-	const PLUGIN = 'aioseo';
+	public const PLUGIN = 'aioseo';
 
 	/**
 	 * The type of the action.
 	 */
-	const TYPE = 'validate_data';
+	public const TYPE = 'validate_data';
 
 	/**
 	 * The WordPress database instance.
@@ -242,7 +242,7 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 		/**
 		 * Filter 'wpseo_aioseo_cleanup_limit' - Allow filtering the number of validations during each action pass.
 		 *
-		 * @api int The maximum number of validations.
+		 * @param int $limit The maximum number of validations.
 		 */
 		$limit = \apply_filters( 'wpseo_aioseo_validation_limit', 25 );
 

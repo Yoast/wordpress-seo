@@ -1,7 +1,7 @@
 /** @module stringProcessing/matchTextWithArray */
 
 import matchTextWithWord from "./matchTextWithWord";
-import { uniq as unique } from "lodash-es";
+import { uniq as unique } from "lodash";
 
 /**
  * Matches strings from an array against a given text.

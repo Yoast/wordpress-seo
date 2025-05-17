@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Wincher_Helper
  */
-class Wincher_Helper_Test extends TestCase {
+final class Wincher_Helper_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -51,6 +51,8 @@ class Wincher_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -65,6 +67,8 @@ class Wincher_Helper_Test extends TestCase {
 	 * Tests if given dependencies are set as expected.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf( Wincher_Helper::class, $this->instance );
@@ -78,6 +82,8 @@ class Wincher_Helper_Test extends TestCase {
 	 * Test return option.
 	 *
 	 * @covers ::is_active
+	 *
+	 * @return void
 	 */
 	public function test_is_active() {
 		Monkey\Functions\expect( 'current_user_can' )->andReturn( true );
@@ -91,6 +97,8 @@ class Wincher_Helper_Test extends TestCase {
 	 * Test return if conditionals are unmet.
 	 *
 	 * @covers ::is_active
+	 *
+	 * @return void
 	 */
 	public function test_is_active_unmet() {
 		Monkey\Functions\stubs(
@@ -106,6 +114,8 @@ class Wincher_Helper_Test extends TestCase {
 	 * Test return if capabilities are unmet.
 	 *
 	 * @covers ::is_active
+	 *
+	 * @return void
 	 */
 	public function test_is_active_unmet_capabilities() {
 		Monkey\Functions\expect( 'current_user_can' )->andReturn( false );
@@ -117,6 +127,8 @@ class Wincher_Helper_Test extends TestCase {
 	 * Tests retrieval of the login status.
 	 *
 	 * @covers ::login_status
+	 *
+	 * @return void
 	 */
 	public function test_login_status() {
 		$wincher_client = Mockery::mock( Wincher_Client::class );
@@ -132,6 +144,8 @@ class Wincher_Helper_Test extends TestCase {
 	 * Tests retrieval of the login status when the user is not logged in.
 	 *
 	 * @covers ::login_status
+	 *
+	 * @return void
 	 */
 	public function test_login_status_not_logged_in() {
 		$wincher_client = Mockery::mock( Wincher_Client::class );
@@ -148,6 +162,8 @@ class Wincher_Helper_Test extends TestCase {
 	 * thrown.
 	 *
 	 * @covers ::login_status
+	 *
+	 * @return void
 	 */
 	public function test_login_status_not_logged_in_on_authentication_exception() {
 		$wincher_client = Mockery::mock( Wincher_Client::class );
@@ -163,6 +179,8 @@ class Wincher_Helper_Test extends TestCase {
 	 * Tests retrieval of the login status when the user is not logged in when an empty token exception is thrown.
 	 *
 	 * @covers ::login_status
+	 *
+	 * @return void
 	 */
 	public function test_login_status_not_logged_in_on_empty_token_exception() {
 		$wincher_client = Mockery::mock( Wincher_Client::class );

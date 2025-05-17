@@ -21,9 +21,10 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo\Abstract_Aioseo_Settings_Importing_Action
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded, Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
+final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Represents the mock instance to test.
@@ -76,6 +77,8 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -96,6 +99,8 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 * Tests the getting of the source option_name.
 	 *
 	 * @covers ::get_source_option_name
+	 *
+	 * @return void
 	 */
 	public function test_get_source_option_name() {
 		$this->expectException( Exception::class );
@@ -112,6 +117,8 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 * @param array $query_results            The results from the query.
 	 * @param bool  $expected_finished        Whether the importing action is finished or not.
 	 * @param int   $expected_unindexed_count The count of the total unindexed data.
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed( $query_results, $expected_finished, $expected_unindexed_count ) {
 		$this->mock_instance->expects( 'query' )
@@ -135,6 +142,8 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 * @param array $query_results            The results from the query.
 	 * @param bool  $expected_finished        Whether the importing action is finished or not.
 	 * @param int   $expected_unindexed_count The limited count of the unindexed data.
+	 *
+	 * @return void
 	 */
 	public function test_get_limited_unindexed_count( $query_results, $expected_finished, $expected_unindexed_count ) {
 		$this->mock_instance->expects( 'query' )
@@ -159,6 +168,8 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 * @param array $query_results             The results from the query.
 	 * @param bool  $expected_finished         Whether the importing action is expected to be finished or not.
 	 * @param array $expected_created_settings The created settings that are expected to be returned.
+	 *
+	 * @return void
 	 */
 	public function test_index( $query_results, $expected_finished, $expected_created_settings ) {
 		$this->mock_instance->expects( 'get_limit' )
@@ -208,6 +219,8 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 * @param int    $limit           The maximum number of unimported objects to be returned.
 	 * @param string $cursor          The current cursor indicating where the import has been left off.
 	 * @param array  $expected        The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_unimported_chunk( $importable_data, $limit, $cursor, $expected ) {
 		$this->mock_instance->expects( 'get_cursor_id' )
@@ -241,6 +254,8 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 * @param string $setting         The name of the setting.
 	 * @param string $setting_value   The values of the setting.
 	 * @param array  $setting_mapping The mapping of the setting to Yoast formats.
+	 *
+	 * @return void
 	 */
 	public function test_import_single_setting( $setting, $setting_value, $setting_mapping ) {
 		$this->options->expects( 'get_default' )
@@ -265,7 +280,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_import_single_setting() {
+	public static function provider_import_single_setting() {
 		return [
 			[
 				'/separator',
@@ -291,7 +306,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_total_unindexed() {
+	public static function provider_get_total_unindexed() {
 		return [
 			[ [], true, 0 ],
 			[ [ 0 ], false, 1 ],
@@ -304,7 +319,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_limited_unindexed() {
+	public static function provider_get_limited_unindexed() {
 		return [
 			[ [], true, 0 ],
 			[ [ 0 ], false, 1 ],
@@ -317,7 +332,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_index() {
+	public static function provider_index() {
 		return [
 			[ [], true, [] ],
 			[
@@ -350,7 +365,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_unimported_chunk() {
+	public static function provider_get_unimported_chunk() {
 		$aioseo_settings = [
 			'post'       => [
 				'title'           => 'title1',

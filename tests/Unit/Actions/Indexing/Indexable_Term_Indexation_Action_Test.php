@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action
  */
-class Indexable_Term_Indexation_Action_Test extends TestCase {
+final class Indexable_Term_Indexation_Action_Test extends TestCase {
 
 	/**
 	 * The post type helper mock.
@@ -59,6 +59,8 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -91,6 +93,8 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
 	 * @covers ::get_count_query
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed() {
 		$expected_query = "
@@ -126,6 +130,8 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::get_limited_unindexed_count
 	 * @covers ::get_select_query
+	 *
+	 * @return void
 	 */
 	public function test_get_limited_unindexed_count() {
 		$limit          = 10;
@@ -169,6 +175,8 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed_cached() {
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms' )->andReturn( '10' );
@@ -181,6 +189,8 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed_failed_query() {
 		Functions\expect( 'get_transient' )
@@ -216,6 +226,8 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::index
 	 * @covers ::get_limit
+	 *
+	 * @return void
 	 */
 	public function test_index() {
 		$expected_query = "
@@ -258,6 +270,8 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::index
 	 * @covers ::get_limit
+	 *
+	 * @return void
 	 */
 	public function test_index_with_limit_filter_no_int() {
 		Filters\expectApplied( 'wpseo_term_indexation_limit' )->andReturn( 'not an integer' );
@@ -282,6 +296,8 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::index
 	 * @covers ::get_limit
+	 *
+	 * @return void
 	 */
 	public function test_index_no_indexables_created() {
 		$expected_query = "

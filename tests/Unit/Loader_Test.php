@@ -17,12 +17,14 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Loader
  */
-class Loader_Test extends TestCase {
+final class Loader_Test extends TestCase {
 
 	/**
 	 * Tests loading initializers before integrations.
 	 *
 	 * @covers ::load
+	 *
+	 * @return void
 	 */
 	public function test_loading_initializers_before_integrations() {
 		$loader_mock = Mockery::mock( Loader::class )->makePartial()
@@ -42,6 +44,8 @@ class Loader_Test extends TestCase {
 	 * Tests load_initializers with load_integrations set as a hook.
 	 *
 	 * @covers ::load
+	 *
+	 * @return void
 	 */
 	public function test_loading_integrations_set_as_hook() {
 		$loader_mock = Mockery::mock( Loader::class )->makePartial()
@@ -64,6 +68,8 @@ class Loader_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::register_integration
 	 * @covers ::load
+	 *
+	 * @return void
 	 */
 	public function test_loading_unconditional_integration() {
 		$integration_mock = Mockery::mock( Integration_Interface::class );
@@ -88,6 +94,8 @@ class Loader_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::register_integration
 	 * @covers ::load
+	 *
+	 * @return void
 	 */
 	public function test_loading_met_conditional_integration() {
 		$conditional_mock = Mockery::mock( Conditional::class );
@@ -116,6 +124,8 @@ class Loader_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::register_integration
 	 * @covers ::load
+	 *
+	 * @return void
 	 */
 	public function test_loading_unmet_conditional_integration() {
 		$conditional_mock = Mockery::mock( Conditional::class );
@@ -144,6 +154,8 @@ class Loader_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::register_integration
 	 * @covers ::load
+	 *
+	 * @return void
 	 */
 	public function test_loading_not_exisisting_conditional_integration() {
 		$integration_mock = Mockery::mock( Integration_Interface::class );
@@ -169,6 +181,8 @@ class Loader_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::register_initializer
 	 * @covers ::load
+	 *
+	 * @return void
 	 */
 	public function test_loading_unconditional_initializer() {
 		$initializer_mock = Mockery::mock( Initializer_Interface::class );
@@ -189,6 +203,8 @@ class Loader_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::register_initializer
 	 * @covers ::load
+	 *
+	 * @return void
 	 */
 	public function test_loading_met_conditional_initializer() {
 		$conditional_mock = Mockery::mock( Conditional::class );
@@ -213,6 +229,8 @@ class Loader_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::register_initializer
 	 * @covers ::load
+	 *
+	 * @return void
 	 */
 	public function test_loading_unmet_conditional_initializer() {
 		$conditional_mock = Mockery::mock( Conditional::class );
@@ -237,6 +255,8 @@ class Loader_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::register_initializer
 	 * @covers ::load
+	 *
+	 * @return void
 	 */
 	public function test_loading_not_exisisting_conditional_initializer() {
 		$initializer_mock = Mockery::mock( Initializer_Interface::class );

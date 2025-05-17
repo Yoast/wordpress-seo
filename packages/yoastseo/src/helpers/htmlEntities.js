@@ -18,6 +18,7 @@ const htmlEntities = new Map( [
 	[ "deg;", "°" ],
 	[ "asymp;", "≈" ],
 	[ "ne;", "≠" ],
+	[ "nbsp;", " " ],
 ] );
 
 // Regex to find all HTML entities.

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "@wordpress/element";
+import { useEffect, useRef } from "react";
 
 /**
  * @param {*} value The initial value.

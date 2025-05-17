@@ -595,6 +595,20 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	font-size: 1rem;
 }
 
+.yoast-sidebar__product .yoast-price-micro-copy {
+	font-weight: 300;
+	font-size: 12px;
+	text-align: center;
+	line-height: 20px;
+	margin-bottom: 16px;
+}
+
+.yoast-sidebar__product .yoast-upsell-hr {
+	border-color: #CD82AB;
+	border-top: 1px;
+	margin-bottom: 16px;
+}
+
 .yoast-sidebar__product .plugin-buy-button .yoast-button-upsell {
 	width: 100%;
 }

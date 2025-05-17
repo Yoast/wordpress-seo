@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group slack
  */
-class Enhanced_Data_Presenter_Test extends TestCase {
+final class Enhanced_Data_Presenter_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -36,11 +36,14 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 
 	/**
 	 * Setup of the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
 
 		$this->stubTranslationFunctions();
+		$this->stubEscapeFunctions();
 
 		$this->instance                       = new Enhanced_Data_Presenter();
 		$this->instance->presentation         = Mockery::mock( Indexable_Presentation::class );
@@ -54,6 +57,8 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$post_content = '';
@@ -88,6 +93,8 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_no_post() {
 		$post_content = '';
@@ -120,6 +127,8 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$post_content = '';

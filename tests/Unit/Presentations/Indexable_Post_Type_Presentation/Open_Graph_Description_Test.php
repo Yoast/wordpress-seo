@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group open-graph
  */
-class Open_Graph_Description_Test extends TestCase {
+final class Open_Graph_Description_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,6 +32,8 @@ class Open_Graph_Description_Test extends TestCase {
 	 * Tests the situation where the open_graph_description is retrieved.
 	 *
 	 * @covers ::generate_open_graph_description
+	 *
+	 * @return void
 	 */
 	public function test_with_open_graph_description() {
 		$this->indexable->open_graph_description = 'Open Graph description';
@@ -46,6 +50,8 @@ class Open_Graph_Description_Test extends TestCase {
 	 * Tests the situation where the value from the helper is used.
 	 *
 	 * @covers ::generate_open_graph_description
+	 *
+	 * @return void
 	 */
 	public function test_with_helper_fallback() {
 		$this->indexable->object_type     = 'post';
@@ -70,6 +76,8 @@ class Open_Graph_Description_Test extends TestCase {
 	 * Tests the situation where the fallback to meta_description is used.
 	 *
 	 * @covers ::generate_open_graph_description
+	 *
+	 * @return void
 	 */
 	public function test_with_meta_description() {
 		$this->indexable->object_type            = 'post';
@@ -95,6 +103,8 @@ class Open_Graph_Description_Test extends TestCase {
 	 * Tests the situation where the fallback to the excerpt is used.
 	 *
 	 * @covers ::generate_open_graph_description
+	 *
+	 * @return void
 	 */
 	public function test_with_excerpt_fallback() {
 		$this->indexable->object_type     = 'post';

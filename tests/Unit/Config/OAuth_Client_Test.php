@@ -26,7 +26,7 @@ use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Config\OAuth_Client
  */
-class OAuth_Client_Test extends TestCase {
+final class OAuth_Client_Test extends TestCase {
 
 	/**
 	 * The response object.
@@ -72,6 +72,8 @@ class OAuth_Client_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -86,6 +88,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->options_helper
@@ -125,6 +129,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly when a token is present.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct_with_existing_token() {
 		$this->time = \time();
@@ -178,6 +184,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests the scenario where requesting tokens is successful.
 	 *
 	 * @covers ::request_tokens
+	 *
+	 * @return void
 	 */
 	public function test_valid_request_tokens_when_no_token_is_available() {
 		$this->response->allows(
@@ -238,6 +246,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests the scenario where no code is passed along to the OAuth client.
 	 *
 	 * @covers ::request_tokens
+	 *
+	 * @return void
 	 */
 	public function test_invalid_request_tokens_when_no_code_is_set() {
 		$this->expectException( Authentication_Failed_Exception::class );
@@ -278,6 +288,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests the scenario where the token storing succeeds.
 	 *
 	 * @covers ::store_token
+	 *
+	 * @return void
 	 */
 	public function test_storing_token_success() {
 		$this->options_helper
@@ -333,6 +345,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests the scenario where the token storing fails.
 	 *
 	 * @covers ::store_token
+	 *
+	 * @return void
 	 */
 	public function test_storing_token_failure() {
 		$this->expectException( Failed_Storage_Exception::class );
@@ -389,6 +403,8 @@ class OAuth_Client_Test extends TestCase {
 	 *
 	 * @covers ::get
 	 * @covers ::do_request
+	 *
+	 * @return void
 	 */
 	public function test_get_request() {
 		$this->time = \time();
@@ -442,6 +458,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests the scenario where a post request is made.
 	 *
 	 * @covers ::post
+	 *
+	 * @return void
 	 */
 	public function test_post_request() {
 		$this->options_helper
@@ -479,6 +497,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests the scenario where a delete request is made.
 	 *
 	 * @covers ::delete
+	 *
+	 * @return void
 	 */
 	public function test_delete_request() {
 		$this->options_helper
@@ -510,6 +530,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests that the token is not set.
 	 *
 	 * @covers ::has_valid_tokens
+	 *
+	 * @return void
 	 */
 	public function test_has_no_valid_token_set() {
 		$this->time = \time();
@@ -546,6 +568,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests that the token is not set.
 	 *
 	 * @covers ::has_valid_tokens
+	 *
+	 * @return void
 	 */
 	public function test_has_no_token_set() {
 		$this->options_helper
@@ -571,6 +595,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests that the token is set.
 	 *
 	 * @covers ::has_valid_tokens
+	 *
+	 * @return void
 	 */
 	public function test_has_token_set() {
 		$this->time = \time();
@@ -610,6 +636,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests the retrieval of tokens when no token is set.
 	 *
 	 * @covers ::get_tokens
+	 *
+	 * @return void
 	 */
 	public function test_get_tokens_when_not_set() {
 		$this->options_helper
@@ -637,6 +665,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests the retrieval of tokens that are expired.
 	 *
 	 * @covers ::get_tokens
+	 *
+	 * @return void
 	 */
 	public function test_get_tokens_with_expired_token() {
 		$this->response->allows(
@@ -698,6 +728,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests the retrieval of tokens.
 	 *
 	 * @covers ::get_tokens
+	 *
+	 * @return void
 	 */
 	public function test_get_tokens() {
 		$this->time = \time();
@@ -733,6 +765,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests the refreshing of tokens.
 	 *
 	 * @covers ::refresh_tokens
+	 *
+	 * @return void
 	 */
 	public function test_refresh_tokens() {
 		$this->time = \time();
@@ -799,6 +833,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests the refreshing of tokens which fails.
 	 *
 	 * @covers ::refresh_tokens
+	 *
+	 * @return void
 	 */
 	public function test_refresh_tokens_fails() {
 		$this->expectException( Authentication_Failed_Exception::class );
@@ -863,6 +899,8 @@ class OAuth_Client_Test extends TestCase {
 	 * Tests the refreshing of tokens which fails with an invalid_grant message.
 	 *
 	 * @covers ::refresh_tokens
+	 *
+	 * @return void
 	 */
 	public function test_refresh_tokens_fails_with_invalid_grant() {
 		$this->expectException( Authentication_Failed_Exception::class );

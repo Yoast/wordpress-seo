@@ -13,12 +13,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group open-graph
  */
-class Open_Graph_URL_Test extends TestCase {
+final class Open_Graph_URL_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,6 +32,8 @@ class Open_Graph_URL_Test extends TestCase {
 	 * Tests the situation where the canonical is returned.
 	 *
 	 * @covers ::generate_open_graph_url
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_url_and_return_canonical() {
 		$this->indexable->canonical = 'http://example.com/canonical';
@@ -42,6 +46,8 @@ class Open_Graph_URL_Test extends TestCase {
 	 * Tests the situation where the canonical is returned.
 	 *
 	 * @covers ::generate_open_graph_url
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_url_fallback_to_permalink() {
 		$this->indexable->permalink = 'http://example.com/permalink';

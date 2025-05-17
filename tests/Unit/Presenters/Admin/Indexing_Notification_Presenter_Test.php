@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @covers \Yoast\WP\SEO\Presenters\Admin\Indexing_Notification_Presenter
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Indexing_Notification_Presenter
  */
-class Indexing_Notification_Presenter_Test extends TestCase {
+final class Indexing_Notification_Presenter_Test extends TestCase {
 
 	/**
 	 * The short link helper.
@@ -25,6 +25,8 @@ class Indexing_Notification_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -40,6 +42,8 @@ class Indexing_Notification_Presenter_Test extends TestCase {
 	 * to be indexed.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_few_indexables() {
 		Monkey\Functions\expect( 'get_admin_url' )
@@ -52,7 +56,7 @@ class Indexing_Notification_Presenter_Test extends TestCase {
 			''
 		);
 
-		$expected = '<p>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. </p><p>We estimate this will take less than a minute.</p><a class="button" href="https://example.org/wp-admin/admin.php?page=wpseo_tools">Start SEO data optimization</a>';
+		$expected = '<p>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. We estimate this will take less than a minute.</p><a class="button" href="https://example.org/wp-admin/admin.php?page=wpseo_tools">Start SEO data optimization</a>';
 		$actual   = $instance->present();
 
 		self::assertSame( $expected, $actual );
@@ -63,6 +67,8 @@ class Indexing_Notification_Presenter_Test extends TestCase {
 	 * to be indexed.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_some_indexables() {
 		Monkey\Functions\expect( 'get_admin_url' )
@@ -75,7 +81,7 @@ class Indexing_Notification_Presenter_Test extends TestCase {
 			''
 		);
 
-		$expected = '<p>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. </p><p>We estimate this will take a couple of minutes.</p><a class="button" href="https://example.org/wp-admin/admin.php?page=wpseo_tools">Start SEO data optimization</a>';
+		$expected = '<p>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. We estimate this will take a couple of minutes.</p><a class="button" href="https://example.org/wp-admin/admin.php?page=wpseo_tools">Start SEO data optimization</a>';
 		$actual   = $instance->present();
 
 		self::assertSame( $expected, $actual );
@@ -86,6 +92,8 @@ class Indexing_Notification_Presenter_Test extends TestCase {
 	 * to be indexed.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_many_indexables() {
 		$this->short_link_helper
@@ -106,7 +114,7 @@ class Indexing_Notification_Presenter_Test extends TestCase {
 			'A message to show in the notification.'
 		);
 
-		$expected = '<p>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. </p><p>We estimate this could take a long time, due to the size of your site. As an alternative to waiting, you could:<ul class="ul-disc"><li>Wait for a week or so, until Yoast SEO automatically processes most of your content in the background.</li><li><a href="https://yoa.st/3-w?some-query-arg=some-value" target="_blank">Run the indexation process on your server</a> using <a href="https://wp-cli.org/" target="_blank">WP CLI</a>.</li></ul></p><a class="button" href="https://example.org/wp-admin/admin.php?page=wpseo_tools">Start SEO data optimization</a>';
+		$expected = '<p>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. We estimate this could take a long time, due to the size of your site. As an alternative to waiting, you could:<ul class="ul-disc"><li>Wait for a week or so, until Yoast SEO automatically processes most of your content in the background.</li><li><a href="https://yoa.st/3-w?some-query-arg=some-value" target="_blank">Run the indexation process on your server</a> using <a href="https://wp-cli.org/" target="_blank">WP CLI</a>.</li></ul></p><a class="button" href="https://example.org/wp-admin/admin.php?page=wpseo_tools">Start SEO data optimization</a>';
 		$actual   = $instance->present();
 
 		self::assertSame( $expected, $actual );

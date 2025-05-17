@@ -3,8 +3,8 @@ import { CheckIcon, XIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import { useSvgAria } from "../../hooks";
-import { forwardRef } from "@wordpress/element";
 
 /**
  * @param {string} id ID.
@@ -80,7 +80,8 @@ const Toggle = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+Toggle.displayName = "Toggle";
+Toggle.propTypes = {
 	as: PropTypes.elementType,
 	id: PropTypes.string.isRequired,
 	checked: PropTypes.bool,
@@ -90,9 +91,6 @@ const propTypes = {
 	type: PropTypes.string,
 	className: PropTypes.string,
 };
-
-Toggle.propTypes = propTypes;
-
 Toggle.defaultProps = {
 	as: "button",
 	checked: false,
@@ -100,11 +98,5 @@ Toggle.defaultProps = {
 	type: "",
 	className: "",
 };
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Toggle { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Toggle.defaultProps;
-StoryComponent.displayName = "Toggle";
 
 export default Toggle;

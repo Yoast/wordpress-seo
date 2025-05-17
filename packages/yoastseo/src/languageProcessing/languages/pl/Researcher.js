@@ -14,7 +14,7 @@ import getClauses from "./helpers/getClauses";
 import getStemmer from "./helpers/getStemmer";
 
 /**
- * The researches contains all the researches
+ * The researcher contains all the researches, helpers, data, and config.
  */
 export default class Researcher extends AbstractResearcher {
 	/**

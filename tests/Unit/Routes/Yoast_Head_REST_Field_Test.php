@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group routes
  * @group indexables
  */
-class Yoast_Head_REST_Field_Test extends TestCase {
+final class Yoast_Head_REST_Field_Test extends TestCase {
 
 	/**
 	 * The post type helper.
@@ -59,6 +59,8 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -80,6 +82,8 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * Tests the get conditionals function.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals( [ Headless_Rest_Endpoints_Enabled_Conditional::class ], Yoast_Head_REST_Field::get_conditionals() );
@@ -89,6 +93,8 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -109,6 +115,8 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * Tests the register routes function.
 	 *
 	 * @covers ::register_routes
+	 *
+	 * @return void
 	 */
 	public function test_register_routes() {
 		$this->post_type_helper
@@ -177,6 +185,8 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * @param string $method The method to test.
 	 * @param array  $params The arguments to use.
 	 * @param mixed  $input  The input for the head_action.
+	 *
+	 * @return void
 	 */
 	public function test_adding_yoast_head( $method, $params, $input ) {
 		$this->head_action
@@ -202,6 +212,8 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * Tests adding the yoast_head property for the posts page.
 	 *
 	 * @covers ::for_post_type_archive
+	 *
+	 * @return void
 	 */
 	public function test_adding_yoast_head_to_posts_page() {
 		$this->head_action
@@ -218,6 +230,8 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * Tests adding the yoast_head property for the posts page.
 	 *
 	 * @covers ::for_post_type_archive
+	 *
+	 * @return void
 	 */
 	public function test_adding_yoast_head_to_post_type_without_archive() {
 		$this->post_type_helper->expects( 'has_archive' )->with( 'no-archive' )->andReturnFalse();
@@ -238,6 +252,8 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * @param string $method The method to test.
 	 * @param array  $params The arguments to use.
 	 * @param mixed  $input  The input for the head_action.
+	 *
+	 * @return void
 	 */
 	public function test_adding_yoast_head_with_404( $method, $params, $input ) {
 		$this->head_action
@@ -266,6 +282,8 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * Tests adding the yoast_head property for the posts page.
 	 *
 	 * @covers ::for_post_type_archive
+	 *
+	 * @return void
 	 */
 	public function test_adding_yoast_head_to_posts_page_with_404() {
 		$this->head_action
@@ -286,7 +304,7 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 *
 	 * @return array A mapping of methods and expected inputs.
 	 */
-	public function method_provider() {
+	public static function method_provider() {
 		return [
 			[
 				'for_post',

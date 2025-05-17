@@ -1,6 +1,6 @@
-import { forwardRef } from "@wordpress/element";
-import PropTypes from "prop-types";
 import classNames from "classnames";
+import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import ValidationIcon from "./validation-icon";
 
 const CLASSNAME_MAP = {
@@ -38,6 +38,7 @@ const ValidationInput = forwardRef( ( {
 	);
 } );
 
+ValidationInput.displayName = "ValidationInput";
 ValidationInput.propTypes = {
 	as: PropTypes.elementType.isRequired,
 	validation: PropTypes.shape( {
@@ -45,6 +46,10 @@ ValidationInput.propTypes = {
 		message: PropTypes.node,
 	} ),
 	className: PropTypes.string,
+};
+ValidationInput.defaultProps = {
+	validation: {},
+	className: "",
 };
 
 export default ValidationInput;

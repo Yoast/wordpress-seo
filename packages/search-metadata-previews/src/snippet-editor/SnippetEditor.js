@@ -165,30 +165,30 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Updates the state when the component receives new props.
 	 *
-	 * @param {Object} nextProps The new props.
+	 * @param {Object} prevProps The previous props.
 	 * @returns {void}
 	 */
-	componentWillReceiveProps( nextProps ) {
+	componentDidUpdate( prevProps ) {
 		// Only set a new state when the data is dirty.
-		if ( this.shallowCompareData( this.props, nextProps ) ) {
-			const data = this.mapDataToMeasurements( nextProps.data, nextProps.replacementVariables );
+		if ( this.shallowCompareData( this.props, prevProps ) ) {
+			const data = this.mapDataToMeasurements( this.props.data, this.props.replacementVariables );
 			this.setState(
 				{
 					// Here we use the filtered SEO title for the SEO title progress calculation.
 					titleLengthProgress: getTitleProgress( data.filteredSEOTitle ),
 					descriptionLengthProgress: getDescriptionProgress(
 						data.description,
-						nextProps.date,
-						nextProps.isCornerstone,
-						nextProps.isTaxonomy,
-						nextProps.locale ),
+						this.props.date,
+						this.props.isCornerstone,
+						this.props.isTaxonomy,
+						this.props.locale ),
 				}
 			);
 
 			/*
-			 * Make sure that any changes get reflected on the analysis data on the store (used in, among other things, the SEO analysis).
-			 * Including changes to the replacement vars (e.g. title, category, tags).
-			 */
+	 * Make sure that any changes get reflected on the analysis data on the store (used in, among other things, the SEO analysis).
+	 * Including changes to the replacement vars (e.g. title, category, tags).
+	 */
 			this.props.onChangeAnalysisData( data );
 		}
 	}
@@ -534,7 +534,6 @@ class SnippetEditor extends React.Component {
 		 * The SnippetPreview is not a build-in HTML element so this check is not
 		 * relevant.
 		 */
-		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return (
 			<ErrorBoundary>
 				<div>
@@ -577,7 +576,6 @@ class SnippetEditor extends React.Component {
 				</div>
 			</ErrorBoundary>
 		);
-		/* eslint-enable jsx-a11y/mouse-events-have-key-events */
 	}
 }
 

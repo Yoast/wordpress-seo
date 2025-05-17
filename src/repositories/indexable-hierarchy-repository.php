@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Repositories;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
@@ -20,14 +21,36 @@ class Indexable_Hierarchy_Repository {
 	protected $builder;
 
 	/**
+	 * Represents the indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * Sets the hierarchy builder.
 	 *
 	 * @required
 	 *
 	 * @param Indexable_Hierarchy_Builder $builder The indexable hierarchy builder.
+	 *
+	 * @return void
 	 */
 	public function set_builder( Indexable_Hierarchy_Builder $builder ) {
 		$this->builder = $builder;
+	}
+
+	/**
+	 * Sets the indexable helper.
+	 *
+	 * @required
+	 *
+	 * @param Indexable_Helper $indexable_helper The indexable helper.
+	 *
+	 * @return void
+	 */
+	public function set_helper( Indexable_Helper $indexable_helper ) {
+		$this->indexable_helper = $indexable_helper;
 	}
 
 	/**
@@ -51,6 +74,10 @@ class Indexable_Hierarchy_Repository {
 	 * @return bool Whether or not the ancestor was added successfully.
 	 */
 	public function add_ancestor( $indexable_id, $ancestor_id, $depth ) {
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			return false;
+		}
+
 		$hierarchy = $this->query()->create(
 			[
 				'indexable_id' => $indexable_id,

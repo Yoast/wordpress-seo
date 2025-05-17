@@ -12,10 +12,12 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group sitemaps
  */
-class Cache_Test extends TestCase {
+final class Cache_Test extends TestCase {
 
 	/**
 	 * Clean up.
+	 *
+	 * @return void
 	 */
 	public function tear_down() {
 		\remove_action( 'update_option', [ WPSEO_Sitemaps_Cache::class, 'clear_on_option_update' ] );
@@ -27,6 +29,8 @@ class Cache_Test extends TestCase {
 	 * Test sitemap cache not set.
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data
+	 *
+	 * @return void
 	 */
 	public function test_transient_not_set() {
 
@@ -42,6 +46,8 @@ class Cache_Test extends TestCase {
 	 * @covers WPSEO_Sitemaps_Cache::store_sitemap
 	 * @covers WPSEO_Sitemaps_Cache::get_sitemap
 	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data
+	 *
+	 * @return void
 	 */
 	public function test_transient_cache_data_object() {
 
@@ -79,6 +85,8 @@ class Cache_Test extends TestCase {
 	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data
 	 * @covers WPSEO_Sitemap_Cache_Data::set_sitemap
 	 * @covers WPSEO_Sitemap_Cache_Data::is_usable
+	 *
+	 * @return void
 	 */
 	public function test_transient_string_to_cache_data() {
 
@@ -105,6 +113,8 @@ class Cache_Test extends TestCase {
 	 * @covers WPSEO_Sitemap_Cache_Data::__unserialize
 	 * @covers WPSEO_Sitemap_Cache_Data::serialize
 	 * @covers WPSEO_Sitemap_Cache_Data::unserialize
+	 *
+	 * @return void
 	 */
 	public function test_retrieving_transient_stored_in_php_lt_74() {
 
@@ -152,6 +162,8 @@ class Cache_Test extends TestCase {
 	 * @covers WPSEO_Sitemap_Cache_Data::__unserialize
 	 * @covers WPSEO_Sitemap_Cache_Data::serialize
 	 * @covers WPSEO_Sitemap_Cache_Data::unserialize
+	 *
+	 * @return void
 	 */
 	public function test_retrieving_transient_stored_in_php_gte_74() {
 
@@ -195,6 +207,8 @@ class Cache_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::clear
 	 * @covers WPSEO_Sitemaps_Cache::clear_queued
+	 *
+	 * @return void
 	 */
 	public function test_clear() {
 
@@ -221,6 +235,8 @@ class Cache_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::clear
 	 * @covers WPSEO_Sitemaps_Cache::clear_queued
+	 *
+	 * @return void
 	 */
 	public function test_clear_type() {
 
@@ -248,6 +264,8 @@ class Cache_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::clear
 	 * @covers WPSEO_Sitemaps_Cache::clear_queued
+	 *
+	 * @return void
 	 */
 	public function test_clear_index_also_cleared() {
 
@@ -280,6 +298,8 @@ class Cache_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::clear
 	 * @covers WPSEO_Sitemaps_Cache::clear_queued
+	 *
+	 * @return void
 	 */
 	public function test_clear_type_isolation() {
 
@@ -311,6 +331,8 @@ class Cache_Test extends TestCase {
 	 * Make sure the hook is registered on registration.
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::__construct
+	 *
+	 * @return void
 	 */
 	public function test_register_clear_on_option_update() {
 
@@ -327,6 +349,8 @@ class Cache_Test extends TestCase {
 	 * Option update should clear cache for registered type.
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::clear_queued
+	 *
+	 * @return void
 	 */
 	public function test_clear_transient_cache() {
 
@@ -359,6 +383,8 @@ class Cache_Test extends TestCase {
 	 * Tests the attempt to clear the author sitemap for an unknown user, which should return false.
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::invalidate_author
+	 *
+	 * @return void
 	 */
 	public function test_clearing_author_sitemap_by_unknown_userid() {
 		$this->assertFalse( WPSEO_Sitemaps_Cache::invalidate_author( -1 ) );
@@ -368,6 +394,8 @@ class Cache_Test extends TestCase {
 	 * Tests the attempt to clear the author sitemap for a user with the proper roles, which should return true.
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::invalidate_author
+	 *
+	 * @return void
 	 */
 	public function test_clearing_author_sitemap_by_userid() {
 		$user_id = $this->factory->user->create(
@@ -381,6 +409,8 @@ class Cache_Test extends TestCase {
 	 * Tests the attempt to clear the author sitemap for a user with the subscriber role, which should return false.
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::invalidate_author
+	 *
+	 * @return void
 	 */
 	public function test_clearing_author_sitemap_by_userid_with_subscriber_role() {
 		$user_id = $this->factory->user->create(

@@ -39,10 +39,7 @@ class Post_Helper {
 	 * @param String_Helper    $string_helper    The string helper.
 	 * @param Post_Type_Helper $post_type_helper The string helper.
 	 */
-	public function __construct(
-		String_Helper $string_helper,
-		Post_Type_Helper $post_type_helper
-	) {
+	public function __construct( String_Helper $string_helper, Post_Type_Helper $post_type_helper ) {
 		$this->string    = $string_helper;
 		$this->post_type = $post_type_helper;
 	}
@@ -53,6 +50,8 @@ class Post_Helper {
 	 * @required
 	 *
 	 * @param Indexable_Repository $repository The indexable repository.
+	 *
+	 * @return void
 	 */
 	public function set_indexable_repository( Indexable_Repository $repository ) {
 		$this->repository = $repository;
@@ -219,7 +218,7 @@ class Post_Helper {
 		/**
 		 * Filter: 'wpseo_public_post_statuses' - List of public post statuses.
 		 *
-		 * @api array $post_statuses Post status list, defaults to array( 'publish' ).
+		 * @param array $post_statuses Post status list, defaults to array( 'publish' ).
 		 */
 		return \apply_filters( 'wpseo_public_post_statuses', [ 'publish' ] );
 	}

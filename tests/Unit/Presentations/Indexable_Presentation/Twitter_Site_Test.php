@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group twitter
  */
-class Twitter_Site_Test extends TestCase {
+final class Twitter_Site_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ class Twitter_Site_Test extends TestCase {
 	 * Tests the generation of the Twitter site for a company.
 	 *
 	 * @covers ::generate_twitter_site
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_site_for_a_company() {
 		$this->context->site_represents = 'company';
@@ -46,6 +50,8 @@ class Twitter_Site_Test extends TestCase {
 	 * Tests the generation of the Twitter site for a user.
 	 *
 	 * @covers ::generate_twitter_site
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_site_for_a_user() {
 		$this->context->site_represents = 'person';
@@ -64,6 +70,8 @@ class Twitter_Site_Test extends TestCase {
 	 * Tests the generation of the Twitter site for a user with no meta value set.
 	 *
 	 * @covers ::generate_twitter_site
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_site_for_a_user_with_no_meta_set() {
 		$this->context->site_represents = 'person';
@@ -88,6 +96,8 @@ class Twitter_Site_Test extends TestCase {
 	 * Tests the generation of the Twitter site for the default.
 	 *
 	 * @covers ::generate_twitter_site
+	 *
+	 * @return void
 	 */
 	public function test_generate_twitter_site_the_default_scenario() {
 		$this->options

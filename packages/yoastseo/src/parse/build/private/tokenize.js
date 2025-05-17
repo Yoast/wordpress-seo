@@ -38,10 +38,11 @@ function getSentences( node, languageProcessor ) {
 		// For example, "&amp;" was earlier converted into "#amp;" and is now converted into "&".
 		// We make this change in both the Sentence and the accompanying Tokens.
 		hashedHtmlEntities.forEach( ( character, hashedHtmlEntity ) => {
-			// We use split/join instead of replaceAll to support older browsers.
-			sentence.text = sentence.text.split( hashedHtmlEntity ).join( character );
+			// We use a global regex instead of replaceAll to support older browsers.
+			const hashedHtmlEntityRegex = new RegExp( hashedHtmlEntity, "g" );
+			sentence.text = sentence.text.replace( hashedHtmlEntityRegex, character );
 			sentence.tokens.map( token => {
-				token.text = token.text.split( hashedHtmlEntity ).join( character );
+				token.text = token.text.replace( hashedHtmlEntityRegex, character );
 				return token;
 			} );
 		} );

@@ -83,21 +83,9 @@ function wpseo_import_external_select( $name, $plugins ) {
 		 */
 		do_action( 'wpseo_import_other_plugins_internal' );
 
-		/**
-		 * Hook used to import other plugins.
-		 *
-		 * @deprecated 19.10 No replacement available.
-		 */
-		do_action_deprecated(
-			'wpseo_import_other_plugins',
-			[],
-			'19.10',
-			'',
-			'This action is going away with no replacement. If you want to add settings that interact with Yoast SEO, please create your own settings page.'
-		);
 		?>
 		<input type="submit" class="button button-primary" name="import_external"
-			value="<?php esc_attr_e( 'Import', 'wordpress-seo' ); ?>"/>
+			value="<?php esc_attr_e( 'Import', 'wordpress-seo' ); ?>" />
 	</form>
 </div>
 
@@ -112,10 +100,11 @@ function wpseo_import_external_select( $name, $plugins ) {
 	<h3><?php esc_html_e( 'Step 4: Go through the first time configuration', 'wordpress-seo' ); ?></h3>
 	<p>
 		<?php
+		$ftc_page = 'admin.php?page=wpseo_dashboard#/first-time-configuration';
 		printf(
 			/* translators: 1: Link start tag to the First time configuration tab in the General page, 2: Link closing tag. */
 			esc_html__( 'You should finish the %1$sfirst time configuration%2$s to make sure your SEO data has been optimized and you’ve set the essential Yoast SEO settings for your site.', 'wordpress-seo' ),
-			'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '">',
+			'<a href="' . esc_url( admin_url( $ftc_page ) ) . '">',
 			'</a>'
 		);
 		?>

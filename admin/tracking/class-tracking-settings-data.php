@@ -53,7 +53,6 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'youtube_url',
 		'wikipedia_url',
 		'semrush_tokens',
-		'zapier_api_key',
 		'wincher_tokens',
 		'wincher_website_id',
 		'least_readability_ignore_list',
@@ -187,8 +186,6 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'semrush_tokens',
 		'semrush_country_code',
 		'enable_enhanced_slack_sharing',
-		'zapier_integration_active',
-		'zapier_api_key',
 		'enable_metabox_insights',
 		'enable_link_suggestions',
 		'enable_index_now',
@@ -226,7 +223,6 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'search_cleanup_patterns',
 		'search_character_limit',
 		'redirect_search_pretty_urls',
-		'wordproof_integration_active',
 		'indexables_overview_state',
 		'deny_search_crawling',
 		'deny_wp_json_crawling',
@@ -235,6 +231,9 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'deny_google_extended_crawling',
 		'deny_gptbot_crawling',
 		'last_known_no_unindexed',
+		'site_kit_connected',
+		'site_kit_usage_tracking',
+		'google_site_kit_feature_enabled',
 	];
 
 	/**
@@ -246,7 +245,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		/**
 		 * Filter: 'wpseo_tracking_settings_include_list' - Allow filtering the settings included in tracking.
 		 *
-		 * @api string $include_list the list with included setting names.
+		 * @param string $include_list The list with included setting names.
 		 */
 		$this->include_list = apply_filters( 'wpseo_tracking_settings_include_list', $this->include_list );
 

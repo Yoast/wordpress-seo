@@ -184,7 +184,7 @@ exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
         ],
         "results": Array [
           Object {
-            "isThrow": false,
+            "type": "return",
             "value": undefined,
           },
         ],

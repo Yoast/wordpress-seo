@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Abstract_Presentation
  */
-class Abstract_Presentation_Test extends TestCase {
+final class Abstract_Presentation_Test extends TestCase {
 
 	/**
 	 * Holds the abstract presentation mock instance.
@@ -24,6 +24,8 @@ class Abstract_Presentation_Test extends TestCase {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ class Abstract_Presentation_Test extends TestCase {
 	 * Tests whether the`of`-method generates a model presentation.
 	 *
 	 * @covers ::of
+	 *
+	 * @return void
 	 */
 	public function test_of_generates_model_presentation() {
 		$data = [
@@ -52,6 +56,8 @@ class Abstract_Presentation_Test extends TestCase {
 	 * Tests whether the`of`-method throws an exception when called on a prototype.
 	 *
 	 * @covers ::of
+	 *
+	 * @return void
 	 */
 	public function test_of_throws_exception_on_prototype() {
 		$this->expectException( Exception::class );
@@ -73,6 +79,8 @@ class Abstract_Presentation_Test extends TestCase {
 	 * with no generator method.
 	 *
 	 * @covers ::__get
+	 *
+	 * @return void
 	 */
 	public function test_get_throws_exception_when_accessing_property_with_no_generator() {
 		$this->expectException( Exception::class );
@@ -89,6 +97,8 @@ class Abstract_Presentation_Test extends TestCase {
 	 * with no generator method.
 	 *
 	 * @covers ::__get
+	 *
+	 * @return void
 	 */
 	public function test_get_throws_exception_when_accessing_property_on_prototype() {
 		$this->expectException( Exception::class );
@@ -103,6 +113,8 @@ class Abstract_Presentation_Test extends TestCase {
 	 * Tests whether accessing a property calls its generator method.
 	 *
 	 * @covers ::__get
+	 *
+	 * @return void
 	 */
 	public function test_get_calls_generator_method() {
 		$this->instance

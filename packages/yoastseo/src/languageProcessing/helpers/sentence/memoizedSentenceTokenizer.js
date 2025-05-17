@@ -1,5 +1,5 @@
 import SentenceTokenizer from "./SentenceTokenizer";
-import { memoize } from "lodash-es";
+import { memoize } from "lodash";
 
 /**
  * Returns the sentences from a certain text.

@@ -1,7 +1,7 @@
 import { Dialog } from "@headlessui/react";
 import { MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
-import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
+import React, { useCallback } from "react";
 import { useNavigationContext } from "./index";
 
 /**
@@ -30,8 +30,9 @@ const Mobile = ( {
 			<div className="yst-mobile-navigation__dialog">
 				<div className="yst-fixed yst-inset-0 yst-bg-slate-600 yst-bg-opacity-75 yst-z-30" aria-hidden="true" />
 				<Dialog.Panel className="yst-relative yst-flex yst-flex-1 yst-flex-col yst-max-w-xs yst-w-full yst-z-40 yst-bg-slate-100">
-					<div className="yst-absolute yst-top-0 yst-right-0 yst--mr-14 yst-p-1">
+					<div className="yst-absolute yst-top-0 yst-end-0 yst--me-14 yst-p-1">
 						<button
+							type="button"
 							id={ closeButtonId }
 							className="yst-flex yst-h-12 yst-w-12 yst-items-center yst-justify-center yst-rounded-full focus:yst-outline-none yst-bg-slate-600 focus:yst-ring-2 focus:yst-ring-inset focus:yst-ring-primary-500"
 							onClick={ closeMobileMenu }
@@ -51,6 +52,7 @@ const Mobile = ( {
 		<div className="yst-mobile-navigation__top">
 			<div className="yst-flex yst-relative yst-flex-shrink-0 yst-h-16 yst-z-10 yst-bg-white yst-border-b yst-border-slate-200">
 				<button
+					type="button"
 					id={ openButtonId }
 					className="yst-px-4 yst-border-r yst-border-slate-200 yst-text-slate-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-inset focus:yst-ring-primary-500"
 					onClick={ openMobileMenu }

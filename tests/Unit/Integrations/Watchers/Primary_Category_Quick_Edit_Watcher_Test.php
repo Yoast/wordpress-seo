@@ -27,7 +27,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
  */
-class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
+final class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the options helper.
@@ -73,6 +73,8 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 
 	/**
 	 * Setup.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -96,6 +98,8 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		self::assertInstanceOf( Options_Helper::class, self::getPropertyValue( $this->instance, 'options_helper' ) );
@@ -106,6 +110,8 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 * Tests the registration of the hooks
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -117,6 +123,8 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 * Tests the retrieval of the conditionals
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		self::assertSame(
@@ -132,6 +140,8 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 * Tests the validation of the primary category where the post isn't found.
 	 *
 	 * @covers ::validate_primary_category
+	 *
+	 * @return void
 	 */
 	public function test_validate_primary_category_no_post_found() {
 		Monkey\Functions\expect( 'get_post' )
@@ -146,6 +156,8 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 * Tests the validation of the primary category where the post isn't found.
 	 *
 	 * @covers ::validate_primary_category
+	 *
+	 * @return void
 	 */
 	public function test_validate_primary_category_no_main_taxonomy_set() {
 		$post = (object) [
@@ -171,6 +183,8 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 * Tests the validation of the primary category where the post isn't found.
 	 *
 	 * @covers ::validate_primary_category
+	 *
+	 * @return void
 	 */
 	public function test_validate_primary_category_and_main_taxonomy_set_to_zero() {
 		$post = (object) [
@@ -196,6 +210,8 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 * Tests the validation of the primary category where the post isn't found.
 	 *
 	 * @covers ::validate_primary_category
+	 *
+	 * @return void
 	 */
 	public function test_validate_primary_category_and_main_taxonomy_is_not_the_saved_taxonomy() {
 		$post = (object) [
@@ -222,6 +238,8 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::validate_primary_category
 	 * @covers ::get_primary_term_id
+	 *
+	 * @return void
 	 */
 	public function test_validate_primary_category_and_primary_not_set() {
 		$post = (object) [
@@ -258,6 +276,8 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::validate_primary_category
 	 * @covers ::get_primary_term_id
+	 *
+	 * @return void
 	 */
 	public function test_validate_primary_category_and_primary_set_in_post_meta() {
 		$post = (object) [
@@ -294,6 +314,8 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::validate_primary_category
 	 * @covers ::get_primary_term_id
+	 *
+	 * @return void
 	 */
 	public function test_validate_primary_category_and_primary_set_in_repository() {
 		$post = (object) [
@@ -332,6 +354,8 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::validate_primary_category
 	 * @covers ::remove_primary_term
+	 *
+	 * @return void
 	 */
 	public function test_validate_primary_category_and_primary_removed_as_category() {
 		$post = (object) [

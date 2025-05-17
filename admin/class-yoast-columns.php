@@ -12,6 +12,8 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_action( 'load-edit.php', [ $this, 'add_help_tab' ] );
@@ -19,6 +21,8 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Adds the help tab to the help center for current screen.
+	 *
+	 * @return void
 	 */
 	public function add_help_tab() {
 		$link_columns_present = $this->display_links();

@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group opengraph
  */
-class Meta_Author_Presenter_Test extends TestCase {
+final class Meta_Author_Presenter_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -52,6 +52,8 @@ class Meta_Author_Presenter_Test extends TestCase {
 
 	/**
 	 * Setup of the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -84,6 +86,8 @@ class Meta_Author_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_and_filter_happy_path() {
 		$this->indexable_presentation->model                  = new Indexable_Mock();
@@ -115,6 +119,8 @@ class Meta_Author_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_and_filter_unhappy_path() {
 		$this->indexable_presentation->model                  = new Indexable_Mock();
@@ -140,6 +146,8 @@ class Meta_Author_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_and_filter_not_a_post() {
 		$this->indexable_presentation->model                  = new Indexable_Mock();
@@ -162,6 +170,8 @@ class Meta_Author_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_and_filter_with_class() {
 		$this->indexable_presentation->model                  = new Indexable_Mock();

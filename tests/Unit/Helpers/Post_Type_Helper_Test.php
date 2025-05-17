@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Post_Type_Helper
  */
-class Post_Type_Helper_Test extends TestCase {
+final class Post_Type_Helper_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -30,8 +30,8 @@ class Post_Type_Helper_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function setUp(): void {
-		parent::setUp();
+	protected function set_up(): void {
+		parent::set_up();
 		$options_helper = Mockery::mock( Options_Helper::class );
 		$this->instance = new Post_Type_Helper( $options_helper );
 	}
@@ -68,7 +68,7 @@ class Post_Type_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function post_type_archive_provider() {
+	public static function post_type_archive_provider() {
 		$book              = new stdClass();
 		$book->name        = 'books';
 		$book->has_archive = true;
@@ -112,7 +112,7 @@ class Post_Type_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function post_type_archive_object_provider() {
+	public static function post_type_archive_object_provider() {
 		$book              = new stdClass();
 		$book->name        = 'books';
 		$book->has_archive = true;

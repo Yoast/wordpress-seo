@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Generators\Schema\FAQ
  */
-class FAQ_Test extends TestCase {
+final class FAQ_Test extends TestCase {
 
 	/**
 	 * Holds the HTML helper.
@@ -42,6 +42,8 @@ class FAQ_Test extends TestCase {
 
 	/**
 	 * Setup the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -65,6 +67,8 @@ class FAQ_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::generate_question_block
 	 * @covers ::add_accepted_answer_property
+	 *
+	 * @return void
 	 */
 	public function test_generate() {
 		$this->stubEscapeFunctions();
@@ -154,6 +158,8 @@ class FAQ_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::generate_question_block
 	 * @covers ::add_accepted_answer_property
+	 *
+	 * @return void
 	 */
 	public function test_generate_does_not_output_questions_with_no_answer() {
 		$this->stubEscapeFunctions();
@@ -223,10 +229,44 @@ class FAQ_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that an empty attrs block does not block the schema generation.
+	 *
+	 * @covers ::generate
+	 *
+	 * @return void
+	 */
+	public function test_generate_empty_attrs() {
+		$this->stubEscapeFunctions();
+
+		$blocks = [
+			'yoast/faq-block' => [
+				[
+					'attrs' => [],
+				],
+			],
+		];
+
+		$meta_tags_context                 = new Meta_Tags_Context_Mock();
+		$meta_tags_context->blocks         = $blocks;
+		$meta_tags_context->main_schema_id = 'https://example.org/page/';
+		$meta_tags_context->canonical      = 'https://example.org/page/';
+
+		$this->instance->context = $meta_tags_context;
+
+		$expected = [];
+
+		$actual = $this->instance->generate();
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
 	 * Tests that no FAQ Schema pieces are needed when no
 	 * FAQ blocks are on the page.
 	 *
 	 * @covers ::is_needed
+	 *
+	 * @return void
 	 */
 	public function test_is_not_needed_when_no_faq_blocks() {
 		$meta_tags_context         = new Meta_Tags_Context_Mock();
@@ -242,6 +282,9 @@ class FAQ_Test extends TestCase {
 	 * on the page.
 	 *
 	 * @covers ::is_needed
+	 * @covers ::generate_ids
+	 *
+	 * @return void
 	 */
 	public function test_is_needed() {
 		$this->stubEscapeFunctions();

@@ -149,7 +149,7 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		/**
 		 * Filter: Adds the possibility to add extra recommended replacement variables.
 		 *
-		 * @api array $additional_replace_vars Empty array to add the replacevars to.
+		 * @param array $additional_replace_vars Empty array to add the replacevars to.
 		 */
 		$recommended_replace_vars = apply_filters( 'wpseo_recommended_replace_vars', $this->recommended_replace_vars );
 

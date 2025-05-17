@@ -18,7 +18,7 @@ import fleschReadingScore from "./helpers/calculateFleschReadingScore";
 import checkIfWordIsFunction from "./helpers/checkIfWordIsFunction";
 
 /**
- * The researcher contains all the researches.
+ * The researcher contains all the researches, helpers, data, and config.
  */
 export default class Researcher extends AbstractResearcher {
 	/**

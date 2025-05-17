@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Main_Image
  */
-class Main_Image_Test extends TestCase {
+final class Main_Image_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -58,6 +58,8 @@ class Main_Image_Test extends TestCase {
 
 	/**
 	 * Setup the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -85,6 +87,8 @@ class Main_Image_Test extends TestCase {
 	 * Tests that generate returns the main image schema based on its ID.
 	 *
 	 * @covers ::generate
+	 *
+	 * @return void
 	 */
 	public function test_generate_main_image_id() {
 		$this->meta_tags_context->canonical     = 'https://example.com/canonical';
@@ -115,6 +119,8 @@ class Main_Image_Test extends TestCase {
 	 * Tests that generate call generate from url without a featured image but with a content image.
 	 *
 	 * @covers ::generate
+	 *
+	 * @return void
 	 */
 	public function test_generate_from_url() {
 		$this->meta_tags_context->canonical      = 'https://example.com/canonical';
@@ -141,6 +147,8 @@ class Main_Image_Test extends TestCase {
 	 * Tests that generate returns false if no image available.
 	 *
 	 * @covers ::generate
+	 *
+	 * @return void
 	 */
 	public function test_generate_no_image() {
 		$this->meta_tags_context->canonical = 'https://example.com/canonical';

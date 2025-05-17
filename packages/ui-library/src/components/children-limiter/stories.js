@@ -1,7 +1,26 @@
-import { useCallback } from "@wordpress/element";
-import { map, range } from "lodash";
+import React from "react";
 import ChildrenLimiter from ".";
 import { Button } from "../../";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
+
+const renderButton = ( { show, toggle, ariaProps } ) => (
+	<Button className="yst-my-1.5" onClick={ toggle } { ...ariaProps }>
+		{ show ? "Less" : "More" }
+	</Button>
+);
+
+const Template = args => (
+	<ChildrenLimiter { ...args }>
+		{ [ ...Array( 10 ).keys() ].map( n => <p key={ n }>{ n }</p> ) }
+	</ChildrenLimiter>
+);
+
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+	},
+};
 
 export default {
 	title: "2) Components/Children limiter",
@@ -11,35 +30,15 @@ export default {
 			description: {
 				component: "A simple component to limit the amount of children rendered. Handy within menus.",
 			},
+			page: InteractiveDocsPage,
 		},
 	},
 	argTypes: {
-		children: { control: "text" },
+		children: { control: { disable: true } },
+		renderButton: { control: { disable: true } },
 	},
 	args: {
 		limit: 5,
-		children: map( range( 10 ), n => <p key={ n }>{ n }</p> ),
-	},
-};
-
-const Template = args => {
-	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
-		return <Button className="yst-my-1.5" onClick={ toggle } { ...ariaProps }>{ show ? "Less" : "More" }</Button>;
-	}, [] );
-
-	return <ChildrenLimiter { ...args } renderButton={ renderMoreOrLessButton } />;
-};
-
-export const Factory = Template.bind( {} );
-Factory.parameters = {
-	controls: { disable: false },
-	docs: {
-		transformSource: ( args ) => (
-			"const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {\n" +
-			"\treturn <Button className=\"yst-my-1.5\" onClick={ toggle } { ...ariaProps }>{ show ? \"Less\" : \"More\" }</Button>\n" +
-			"}, [] );\n" +
-			"\n" +
-			`return ${ args.replace( "renderButton={() => {}}", "renderButton={ renderMoreOrLessButton }" ) };`
-		),
+		renderButton,
 	},
 };

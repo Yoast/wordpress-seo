@@ -28,7 +28,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array
+	 * @return array<Migrations_Conditional>
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -37,8 +37,8 @@ class Option_Titles_Watcher implements Integration_Interface {
 	/**
 	 * Checks if one of the relevant options has been changed.
 	 *
-	 * @param array $old_value The old value of the option.
-	 * @param array $new_value The new value of the option.
+	 * @param array<string|int|bool> $old_value The old value of the option.
+	 * @param array<string|int|bool> $new_value The new value of the option.
 	 *
 	 * @return bool Whether or not the ancestors are removed.
 	 */
@@ -76,7 +76,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 	/**
 	 * Retrieves the relevant keys.
 	 *
-	 * @return array Array with the relevant keys.
+	 * @return array<string> Array with the relevant keys.
 	 */
 	protected function get_relevant_keys() {
 		$post_types = \get_post_types( [ 'public' => true ], 'names' );
@@ -95,7 +95,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 	/**
 	 * Removes the ancestors for given post types.
 	 *
-	 * @param array $post_types The post types to remove hierarchy for.
+	 * @param array<string> $post_types The post types to remove hierarchy for.
 	 *
 	 * @return bool True when delete query was successful.
 	 */
@@ -105,21 +105,23 @@ class Option_Titles_Watcher implements Integration_Interface {
 		}
 
 		$wpdb            = Wrapper::get_wpdb();
-		$total           = \count( $post_types );
 		$hierarchy_table = Model::get_table_name( 'Indexable_Hierarchy' );
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Delete query.
 		$result = $wpdb->query(
 			$wpdb->prepare(
 				"
-				DELETE FROM `$hierarchy_table`
+				DELETE FROM %i
 				WHERE indexable_id IN(
 					SELECT id
-					FROM `$indexable_table`
+					FROM %i
 					WHERE object_type = 'post'
-					AND object_sub_type IN( " . \implode( ', ', \array_fill( 0, $total, '%s' ) ) . ' )
+					AND object_sub_type IN( " . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ' )
 				)',
-				$post_types
+				$hierarchy_table,
+				$indexable_table,
+				...$post_types
 			)
 		);
 

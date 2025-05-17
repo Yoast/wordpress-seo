@@ -7,9 +7,12 @@ import { Button, Link } from "@yoast/ui-library";
 /**
  * Goes to the Dashboard tab by clicking the tab button.
  *
+ * @param {Event} event The event object.
+ *
  * @returns {void}
  */
-function goToSEODashboard() {
+function goToSEODashboard( event ) {
+	event.preventDefault();
 	window.location.href = "admin.php?page=wpseo_dashboard";
 }
 
@@ -23,7 +26,7 @@ export default function FinishStep() {
 
 	return (
 		<div className="yst-flex yst-flex-row yst-justify-between yst-items-center yst--mt-4">
-			<div className="yst-mr-6">
+			<div className="yst-me-6">
 				<p className="yst-text-sm yst-mb-4">
 					{
 						sprintf(
@@ -31,13 +34,14 @@ export default function FinishStep() {
 							__( "Great work! Thanks to the details you've provided, %1$s has enhanced your site for search engines, giving them a clearer picture of what your site is all about.", "wordpress-seo" ),
 							"Yoast"
 						)
-					 }
+					}
 				</p>
 				<p className="yst-text-sm yst-mb-6">
 					{ __( "If your goal is to increase your rankings, you need to work on your SEO regularly. That can be overwhelming, so let's tackle it one step at a time!", "wordpress-seo" ) }
 				</p>
 				<Button
 					as="a"
+					variant="primary"
 					id="button-webinar-seo-dashboard"
 					href={ webinarIntroFirstTimeConfigUrl }
 					target="_blank"
@@ -48,11 +52,12 @@ export default function FinishStep() {
 						__( "Learn how to increase your rankings with %1$s", "wordpress-seo" ),
 						"Yoast SEO"
 					) }
-					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl yst-ml-2" />
+					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl yst-ms-2" />
 				</Button>
 				<p className="yst-mt-4">
 					<Link
 						id="link-webinar-register"
+						href="#"
 						onClick={ goToSEODashboard }
 						data-hiive-event-name="clicked_seo_dashboard"
 					>

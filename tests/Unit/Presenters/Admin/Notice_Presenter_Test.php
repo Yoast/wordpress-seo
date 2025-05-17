@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group presenters
  */
-class Notice_Presenter_Test extends TestCase {
+final class Notice_Presenter_Test extends TestCase {
 
 	/**
 	 * Set up function stubs.
@@ -31,6 +31,8 @@ class Notice_Presenter_Test extends TestCase {
 	 * Test constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
@@ -52,6 +54,8 @@ class Notice_Presenter_Test extends TestCase {
 	 * Test the default Notice, without image and not dismissible.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_default_notice() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
@@ -62,10 +66,11 @@ class Notice_Presenter_Test extends TestCase {
 			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
-			. '<h2 class="notice-yoast__header-heading">title</h2>'
+			. '<h2 class="notice-yoast__header-heading yoast-notice-migrated-header">title</h2>'
 			. '</div>'
+			. '<div class="notice-yoast-content">'
 			. '<p>content</p>'
-			. '</div>'
+			. '</div></div>'
 			. '</div></div>';
 
 		Monkey\Functions\expect( 'esc_html' )->andReturn( 'title' );
@@ -78,6 +83,8 @@ class Notice_Presenter_Test extends TestCase {
 	 * Test when the Notice has an image.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_notice_with_image() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
@@ -88,10 +95,11 @@ class Notice_Presenter_Test extends TestCase {
 			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
-			. '<h2 class="notice-yoast__header-heading">title</h2>'
+			. '<h2 class="notice-yoast__header-heading yoast-notice-migrated-header">title</h2>'
 			. '</div>'
+			. '<div class="notice-yoast-content">'
 			. '<p>content</p>'
-			. '</div>'
+			. '</div></div>'
 			. '<img src="images/image.png" alt="" height="60" width="75"/>'
 			. '</div></div>';
 
@@ -106,6 +114,8 @@ class Notice_Presenter_Test extends TestCase {
 	 * Test when the Notice is dismissible.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_dismissble_notice() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
@@ -116,10 +126,11 @@ class Notice_Presenter_Test extends TestCase {
 			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
-			. '<h2 class="notice-yoast__header-heading">title</h2>'
+			. '<h2 class="notice-yoast__header-heading yoast-notice-migrated-header">title</h2>'
 			. '</div>'
+			. '<div class="notice-yoast-content">'
 			. '<p>content</p>'
-			. '</div>'
+			. '</div></div>'
 			. '</div></div>';
 
 		Monkey\Functions\expect( 'esc_html' )->andReturn( '' );
@@ -133,6 +144,8 @@ class Notice_Presenter_Test extends TestCase {
 	 * Test when the Notice is dismissible and has an image.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_dismissble_notice_with_image() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
@@ -143,10 +156,11 @@ class Notice_Presenter_Test extends TestCase {
 			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
-			. '<h2 class="notice-yoast__header-heading">title</h2>'
+			. '<h2 class="notice-yoast__header-heading yoast-notice-migrated-header">title</h2>'
 			. '</div>'
+			. '<div class="notice-yoast-content">'
 			. '<p>content</p>'
-			. '</div>'
+			. '</div></div>'
 			. '<img src="images/image.png" alt="" height="60" width="75"/>'
 			. '</div></div>';
 
@@ -161,6 +175,8 @@ class Notice_Presenter_Test extends TestCase {
 	 * Test when the Notice is dismissible and has an image and a button.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_dismissble_notice_with_image_and_button() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
@@ -173,11 +189,12 @@ class Notice_Presenter_Test extends TestCase {
 			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
-			. '<h2 class="notice-yoast__header-heading">title</h2>'
+			. '<h2 class="notice-yoast__header-heading yoast-notice-migrated-header">title</h2>'
 			. '</div>'
+			. '<div class="notice-yoast-content">'
 			. '<p>content</p>'
 			. '<p><a class="yoast-button yoast-button-upsell" href="https://yoa.st/somewhere">Some text</a></p>'
-			. '</div>'
+			. '</div></div>'
 			. '<img src="images/image.png" alt="" height="60" width="75"/>'
 			. '</div></div>';
 

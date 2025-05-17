@@ -49,25 +49,4 @@ class WPSEO_Language_Utils {
 
 		return $language;
 	}
-
-	/**
-	 * Returns the l10n array for the knowledge graph company info missing.
-	 *
-	 * @deprecated 20.3
-	 * @codeCoverageIgnore
-	 *
-	 * @return array The l10n array.
-	 */
-	public static function get_knowledge_graph_company_info_missing_l10n() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
-
-		return [
-			'URL'     => esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3r3' ) ),
-			/* translators: 1: expands to a link opening tag; 2: expands to a link closing tag */
-			'message' => esc_html__(
-				'A company name and logo need to be set for structured data to work properly. Since you haven’t set these yet, we are using the site name and logo as default values. %1$sLearn more about the importance of structured data.%2$s',
-				'wordpress-seo'
-			),
-		];
-	}
 }

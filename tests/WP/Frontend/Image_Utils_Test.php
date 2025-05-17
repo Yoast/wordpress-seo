@@ -14,6 +14,8 @@ final class Image_Utils_Test extends TestCase {
 	 * Tests getting the full image for an existing attachment.
 	 *
 	 * @covers \WPSEO_Image_Utils::get_image
+	 *
+	 * @return void
 	 */
 	public function test_get_full_image() {
 		$attachment = self::factory()->attachment->create();
@@ -46,6 +48,8 @@ final class Image_Utils_Test extends TestCase {
 	 * Tests getting a medium image.
 	 *
 	 * @covers \WPSEO_Image_Utils::get_image
+	 *
+	 * @return void
 	 */
 	public function test_get_medium_image() {
 		$attachment = self::factory()->attachment->create();
@@ -65,6 +69,8 @@ final class Image_Utils_Test extends TestCase {
 	 * Tests getting a non-existent medium image.
 	 *
 	 * @covers \WPSEO_Image_Utils::get_image
+	 *
+	 * @return void
 	 */
 	public function test_get_image_for_non_existent_medium_image() {
 		$this->assertFalse( WPSEO_Image_Utils::get_image( 0, 'medium' ) );
@@ -74,6 +80,8 @@ final class Image_Utils_Test extends TestCase {
 	 * Returns getting the image for an existing attachment.
 	 *
 	 * @covers \WPSEO_Image_Utils::get_image
+	 *
+	 * @return void
 	 */
 	public function test_get_image_for_unexisting_attachment() {
 		$this->assertFalse( WPSEO_Image_Utils::get_image( 0, 'full' ) );
@@ -90,6 +98,8 @@ final class Image_Utils_Test extends TestCase {
 	 * @param mixed  $expected      Expected value.
 	 * @param int    $attachment_id The attachment id.
 	 * @param string $message       Message to show when test fails.
+	 *
+	 * @return void
 	 */
 	public function test_get_data( $image, $expected, $attachment_id, $message ) {
 		$this->assertEquals(
@@ -110,6 +120,8 @@ final class Image_Utils_Test extends TestCase {
 	 * @param int    $height      Height of the image.
 	 * @param bool   $is_usable   If these dimensions are usable or not.
 	 * @param string $description Description for the data being tested.
+	 *
+	 * @return void
 	 */
 	public function test_get_usable_dimensions( $width, $height, $is_usable, $description = '' ) {
 		$expected = [];
@@ -146,7 +158,7 @@ final class Image_Utils_Test extends TestCase {
 	 *
 	 * @return array Data.
 	 */
-	public function data_get_usable_dimensions() {
+	public static function data_get_usable_dimensions() {
 		return [
 			[ 200, 200, true ],
 			[ 200, 199, false ],
@@ -172,6 +184,8 @@ final class Image_Utils_Test extends TestCase {
 	 * @param string $input    Data to use in execution.
 	 * @param string $expected Expected result.
 	 * @param string $message  Description of the tested data.
+	 *
+	 * @return void
 	 */
 	public function test_absolute_path( $input, $expected, $message = '' ) {
 		$result = WPSEO_Image_Utils::get_absolute_path( $input );
@@ -184,7 +198,7 @@ final class Image_Utils_Test extends TestCase {
 	 *
 	 * @return array Data.
 	 */
-	public function data_get_absolute_path() {
+	public static function data_get_absolute_path() {
 		$uploads = \wp_get_upload_dir();
 
 		return [
@@ -211,7 +225,7 @@ final class Image_Utils_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function get_data_provider() {
+	public static function get_data_provider() {
 		$attachment_id = self::factory()->attachment->create();
 		return [
 			[

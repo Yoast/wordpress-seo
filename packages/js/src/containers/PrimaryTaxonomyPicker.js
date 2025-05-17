@@ -17,6 +17,7 @@ export default compose( [
 		return {
 			selectedTermIds,
 			primaryTaxonomyId: yoastData.getPrimaryTaxonomyId( taxonomy.name ),
+			learnMoreLink: yoastData.selectLink( "https://yoa.st/primary-category-more" ),
 		};
 	} ),
 	withDispatch( dispatch => {

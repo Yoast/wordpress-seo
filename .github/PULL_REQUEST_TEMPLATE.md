@@ -36,7 +36,7 @@ This PR can be acceptance tested by following these steps:
 #### Relevant test scenarios
 * [ ] Changes should be tested with the browser console open
 * [ ] Changes should be tested on different posts/pages/taxonomies/custom post types/custom taxonomies
-* [ ] Changes should be tested on different editors (Block/Classic/Elementor/other)
+* [ ] Changes should be tested on different editors (Default Block/Gutenberg/Classic/Elementor/other)
 * [ ] Changes should be tested on different browsers
 * [ ] Changes should be tested on multisite
 <!--
@@ -78,7 +78,7 @@ This PR affects the following parts of the plugin, which may require extra testi
 
 ## Documentation
 
-* [ ] I have written documentation for this change.
+* [ ] I have written documentation for this change. For example, comments in the Relevant technical choices, comments in the code, documentation on Confluence / shared Google Drive / [Yoast developer portal](https://developer.yoast.com/), or other.
 
 ## Quality assurance
 

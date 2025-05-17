@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { useField } from "formik";
 import { debounce, find, isEmpty, map, values } from "lodash";
 import PropTypes from "prop-types";
-import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { ASYNC_ACTION_STATUS, FETCH_DELAY } from "../../shared-admin/constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 /**
@@ -30,10 +30,9 @@ PageSelectOptionsContent.propTypes = {
  * @param {Object} props The props object.
  * @param {string} props.name The field name.
  * @param {string} props.id The field id.
- * @param {string} props.className The className.
  * @returns {JSX.Element} The page select component.
  */
-const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
+const FormikPageSelectField = ( { name, id, ...props } ) => {
 	const siteBasicsPolicies = useSelectSettings( "selectPreference", [], "siteBasicsPolicies", {} );
 	const pages = useSelectSettings( "selectPagesWith", [ siteBasicsPolicies ], values( siteBasicsPolicies ) );
 	const { fetchPages } = useDispatchSettings();
@@ -51,7 +50,7 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 	const debouncedFetchPages = useCallback( debounce( async search => {
 		try {
 			setStatus( ASYNC_ACTION_STATUS.loading );
-			// eslint-disable-next-line camelcase
+
 			const response = await fetchPages( { search } );
 
 			setQueriedPageIds( map( response.payload, "id" ) );
@@ -64,7 +63,7 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 			setQueriedPageIds( [] );
 			setStatus( ASYNC_ACTION_STATUS.error );
 		}
-	}, 200 ), [ setQueriedPageIds, setStatus, fetchPages ] );
+	}, FETCH_DELAY ), [ setQueriedPageIds, setStatus, fetchPages ] );
 
 	const handleChange = useCallback( newValue => {
 		setTouched( true, false );
@@ -85,7 +84,6 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 			placeholder={ __( "None", "wordpress-seo" ) }
 			selectedLabel={ selectedPage?.name }
 			onQueryChange={ handleQueryChange }
-			className={ classNames( className, props.disabled && "yst-autocomplete--disabled" ) }
 			nullable={ true }
 			/* translators: Hidden accessibility text. */
 			clearButtonScreenReaderText={ __( "Clear selection", "wordpress-seo" ) }
@@ -118,7 +116,7 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 									<DocumentAddIcon
 										className="yst-w-5 yst-h-5 yst-text-slate-400 group-hover:yst-text-white"
 									/>
-									<span>{ __( "Add new page...", "wordpress-seo" ) }</span>
+									<span>{ __( "Add new page…", "wordpress-seo" ) }</span>
 								</a>
 							</li>
 						) }
@@ -127,7 +125,7 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 				{ status === ASYNC_ACTION_STATUS.loading && (
 					<PageSelectOptionsContent>
 						<Spinner variant="primary" />
-						{ __( "Searching pages...", "wordpress-seo" ) }
+						{ __( "Searching pages…", "wordpress-seo" ) }
 					</PageSelectOptionsContent>
 				) }
 				{ status === ASYNC_ACTION_STATUS.error && (
@@ -143,8 +141,6 @@ const FormikPageSelectField = ( { name, id, className = "", ...props } ) => {
 FormikPageSelectField.propTypes = {
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
-	className: PropTypes.string,
-	disabled: PropTypes.bool,
 };
 
 export default FormikPageSelectField;

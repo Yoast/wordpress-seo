@@ -1,4 +1,4 @@
-import { memoize, uniq } from "lodash-es";
+import { memoize, uniq } from "lodash";
 
 import getWords from "../word/getWords";
 import { normalizeSingle } from "../sanitize/quotes";
@@ -159,6 +159,30 @@ function computeProminentWords( words, abbreviations, stemmer, functionWords ) {
 }
 
 /**
+ * Compute hash for an array of words.
+ *
+ * @param {string[]} arr An array of words.
+ *
+ * @returns {number} A calculated hash.
+ */
+const computeHash = ( arr ) => {
+	let hash = 0;
+	if ( ! arr.length ) {
+		return hash;
+	}
+
+	for ( let i = 0; i < arr.length; i++ ) {
+		const item = arr[ i ];
+		for ( let j = 0; j < item.length; j++ ) {
+			// eslint-disable-next-line no-bitwise
+			hash = ( hash * 31 + item.charCodeAt( j ) ) | 0;
+		}
+	}
+
+	return hash;
+};
+
+/**
  * Caches prominent words depending on text words.
  * Only the words and abbreviations are used as the cache key as the stemmer and function words
  * are config and shouldn't change in the scope of one request.
@@ -172,8 +196,8 @@ function computeProminentWords( words, abbreviations, stemmer, functionWords ) {
  */
 const computeProminentWordsMemoized = memoize( ( words, abbreviations, stemmer, functionWords ) => {
 	return computeProminentWords( words, abbreviations, stemmer, functionWords );
-}, ( words, abbreviations ) => {
-	return words.join( "," ) + "," + abbreviations.join( "," );
+}, ( words, abbreviations,  stemmer, functionWords ) => {
+	return computeHash( words ) + "|" + computeHash( abbreviations ) + "|" + computeHash( functionWords );
 } );
 
 

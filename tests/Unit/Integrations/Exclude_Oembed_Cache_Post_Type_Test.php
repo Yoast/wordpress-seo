@@ -12,9 +12,10 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Exclude_Oembed_Cache_Post_Type
+ *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Exclude_Oembed_Cache_Post_Type_Test extends TestCase {
+final class Exclude_Oembed_Cache_Post_Type_Test extends TestCase {
 
 	/**
 	 * The instance under test.
@@ -25,6 +26,8 @@ class Exclude_Oembed_Cache_Post_Type_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -37,6 +40,8 @@ class Exclude_Oembed_Cache_Post_Type_Test extends TestCase {
 	 * database migrations have run.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		self::assertEquals( [ Migrations_Conditional::class ], Exclude_Oembed_Cache_Post_Type::get_conditionals() );
@@ -47,6 +52,8 @@ class Exclude_Oembed_Cache_Post_Type_Test extends TestCase {
 	 * from being indexed.
 	 *
 	 * @covers ::exclude_post_types
+	 *
+	 * @return void
 	 */
 	public function test_exclude_oembed_cache_post_type() {
 		$actual = $this->instance->exclude_post_types( [ 'other_excluded_post_type' ] );

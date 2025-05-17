@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Primary_Term_Test extends TestCase {
+final class Primary_Term_Test extends TestCase {
 
 	/**
 	 * Name of the taxonomy.
@@ -36,6 +36,8 @@ class Primary_Term_Test extends TestCase {
 	 * Return the correct primary term when primary term already exists.
 	 *
 	 * @covers WPSEO_Primary_Term::get_primary_term
+	 *
+	 * @return void
 	 */
 	public function test_get_primary_term_WHERE_primary_term_EXISTS() {
 		$class_instance = new Primary_Term_Double( $this->taxonomy_name, $this->post_id );
@@ -48,6 +50,8 @@ class Primary_Term_Test extends TestCase {
 	 * When there's no term for the post, return false.
 	 *
 	 * @covers WPSEO_Primary_Term::get_primary_term
+	 *
+	 * @return void
 	 */
 	public function test_get_primary_term_WHERE_primary_term_DOES_NOT_EXIST_AND_terms_ARE_EMPTY() {
 		$class_instance = new WPSEO_Primary_Term( $this->taxonomy_name, $this->post_id );
@@ -59,6 +63,8 @@ class Primary_Term_Test extends TestCase {
 	 * Return the term ID when there's no primary term set
 	 *
 	 * @covers WPSEO_Primary_Term::get_primary_term
+	 *
+	 * @return void
 	 */
 	public function test_get_primary_term_WHERE_primary_term_DOES_NOT_EXIST_AND_term_EXISTS() {
 		$post_id = $this->factory->post->create();
@@ -72,6 +78,8 @@ class Primary_Term_Test extends TestCase {
 	 * When there is more than one term, set the term with the lowest ID as primary term.
 	 *
 	 * @covers WPSEO_Primary_Term::get_primary_term
+	 *
+	 * @return void
 	 */
 	public function test_get_primary_term_WHERE_primary_term_DOES_NOT_EXIST_AND_terms_EXIST() {
 		\wp_insert_term( 'yoast', 'category' );
@@ -91,6 +99,8 @@ class Primary_Term_Test extends TestCase {
 	 * Test that set_primary_term succesfully updates the primary_term.
 	 *
 	 * @covers WPSEO_Primary_Term::set_primary_term
+	 *
+	 * @return void
 	 */
 	public function test_set_primary_term_UPDATES_post_meta() {
 		$class_instance = new WPSEO_Primary_Term( $this->taxonomy_name, $this->post_id );

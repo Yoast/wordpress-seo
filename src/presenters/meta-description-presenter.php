@@ -29,14 +29,14 @@ class Meta_Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 		}
 
 		if ( \current_user_can( 'wpseo_manage_options' ) ) {
-			return '<!-- ' .
-				\sprintf(
+			return '<!-- '
+				. \sprintf(
 					/* translators: %1$s resolves to Yoast SEO, %2$s resolves to the Settings submenu item. */
 					\esc_html__( 'Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [%1$s - %2$s] menu and set up a template.', 'wordpress-seo' ),
 					\esc_html__( 'Yoast SEO', 'wordpress-seo' ),
 					\esc_html__( 'Settings', 'wordpress-seo' )
-				) .
-				' -->';
+				)
+				. ' -->';
 		}
 
 		return '';
@@ -53,9 +53,8 @@ class Meta_Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 		/**
 		 * Filter: 'wpseo_metadesc' - Allow changing the Yoast SEO meta description sentence.
 		 *
-		 * @api string $meta_description The description sentence.
-		 *
-		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 * @param string                 $meta_description The description sentence.
+		 * @param Indexable_Presentation $presentation     The presentation of an indexable.
 		 */
 		$meta_description = \apply_filters( 'wpseo_metadesc', $meta_description, $this->presentation );
 		$meta_description = $this->helpers->string->strip_all_tags( \stripslashes( $meta_description ) );

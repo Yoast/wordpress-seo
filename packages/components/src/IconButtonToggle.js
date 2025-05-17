@@ -1,37 +1,11 @@
 import React from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
-
 /* Yoast dependencies */
-import { colors, rgba } from "@yoast/style-guide";
-
+import { colors } from "@yoast/style-guide";
 /* Internal dependencies */
 import SvgIcon from "./SvgIcon";
+import IconButtonBase from "./IconButtonBase";
 
-const IconButtonBase = styled.button`
-	box-sizing: border-box;
-	min-width: 32px;
-	display: inline-block;
-	border: 1px solid ${ colors.$color_button_border };
-	background-color: ${ props => props.pressed ? props.pressedBackground : props.unpressedBackground };
-	box-shadow: ${ props => props.pressed
-		? `inset 0 2px 0 ${ rgba( props.pressedBoxShadowColor, 0.7 ) }`
-		: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
-	border-radius: 3px;
-	cursor: pointer;
-	padding: 0;
-	height: ${ props => props.pressed ? "23px" : "24px" };
-
-	&:hover {
-		border-color: ${ props => props.hoverBorderColor };
-	}
-	&:disabled {
-		background-color: ${ props => props.unpressedBackground };
-		box-shadow: none;
-		border: none;
-		cursor: default;
-	}
-`;
 
 /**
  * Returns the ChangingIconButton component.

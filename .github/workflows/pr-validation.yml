@@ -1,0 +1,44 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, labeled, unlabeled, milestoned, demilestoned]
+
+jobs:
+  validate-pr:
+    name: Validate PR Labels & Milestone
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for changelog label
+        id: changelog-check
+        run: |
+          LABELS="${{ join(github.event.pull_request.labels.*.name, ' ') }}"
+          if [[ "$LABELS" != *"changelog:"* ]]; then
+            echo "❌ Missing required changelog label!"
+            echo "changelog_status=failed" >> "$GITHUB_ENV"
+          else
+            echo "✅ Changelog label found."
+            echo "changelog_status=success" >> "$GITHUB_ENV"
+          fi
+
+      - name: Check for milestone
+        id: milestone-check
+        run: |
+          if [[ -z "${{ github.event.pull_request.milestone }}" ]]; then
+            echo "❌ Missing milestone!"
+            echo "milestone_status=failed" >> "$GITHUB_ENV"
+          else
+            echo "✅ Milestone assigned."
+            echo "milestone_status=success" >> "$GITHUB_ENV"
+          fi
+
+      - name: Final Validation
+        # Only complain when the changelog label is missing for now.
+        run: |
+          if [[ "$changelog_status" == "failed" ]]; then
+            echo "❌ PR is missing a changelog label. Please add a changelog label before merging."
+            exit 1
+          else
+            echo "✅ PR validation passed."
+          fi
+ 

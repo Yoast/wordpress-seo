@@ -41,6 +41,8 @@ class Woocommerce_Permalinks implements Integration_Interface {
 	 * Registers the hooks.
 	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_filter( 'wpseo_post_types_reset_permalinks', [ $this, 'filter_product_from_post_types' ] );
@@ -65,6 +67,8 @@ class Woocommerce_Permalinks implements Integration_Interface {
 	 *
 	 * @param array $old_value The old value.
 	 * @param array $new_value The new value.
+	 *
+	 * @return void
 	 */
 	public function reset_woocommerce_permalinks( $old_value, $new_value ) {
 		$changed_options = \array_diff( $old_value, $new_value );

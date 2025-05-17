@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\Version_Trait
  */
-class Version_Trait_Test extends TestCase {
+final class Version_Trait_Test extends TestCase {
 
 	/**
 	 * Holds the test instance.
@@ -54,7 +54,7 @@ class Version_Trait_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function is_version_between_get_data() {
+	public static function is_version_between_get_data() {
 		return [
 			'minor version'     => [
 				'version'     => '21.0',

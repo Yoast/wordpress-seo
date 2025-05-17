@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action
  */
-class Abstract_Aioseo_Importing_Action_Test extends TestCase {
+final class Abstract_Aioseo_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Represents the mock instance to test.
@@ -73,6 +73,8 @@ class Abstract_Aioseo_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -93,6 +95,8 @@ class Abstract_Aioseo_Importing_Action_Test extends TestCase {
 	 * Tests the getting of the stored state of completedness.
 	 *
 	 * @covers ::get_completed
+	 *
+	 * @return void
 	 */
 	public function test_get_completed() {
 		$this->mock_instance->expects( 'get_cursor_id' )
@@ -116,6 +120,8 @@ class Abstract_Aioseo_Importing_Action_Test extends TestCase {
 	 * Tests the getting of the stored state of completedness when not completed.
 	 *
 	 * @covers ::get_completed
+	 *
+	 * @return void
 	 */
 	public function test_get_not_completed() {
 		$this->mock_instance->expects( 'get_cursor_id' )
@@ -139,6 +145,8 @@ class Abstract_Aioseo_Importing_Action_Test extends TestCase {
 	 * Tests the setting of the stored state of completedness.
 	 *
 	 * @covers ::get_completed
+	 *
+	 * @return void
 	 */
 	public function test_set_completed() {
 		$this->mock_instance->expects( 'get_cursor_id' )
@@ -164,6 +172,8 @@ class Abstract_Aioseo_Importing_Action_Test extends TestCase {
 	 * Tests the setting of the stored state of completedness when not completed.
 	 *
 	 * @covers ::get_completed
+	 *
+	 * @return void
 	 */
 	public function test_set_not_completed() {
 		$this->mock_instance->expects( 'get_cursor_id' )

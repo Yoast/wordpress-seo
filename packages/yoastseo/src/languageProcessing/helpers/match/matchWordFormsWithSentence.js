@@ -1,38 +1,41 @@
 import matchTextWithTransliteration from "./matchTextWithTransliteration";
-import getWordsForHTMLParser from "../word/getWordsForHTMLParser";
+import splitIntoTokens from "../word/splitIntoTokens";
 
 /**
  * Tokenizes the word form of the keyphrase for exact matching. This function gets the word form and tokenizes it.
  * This function assumes that if a keyphrase needs to be matched exactly, there will be only one word form.
  * This is the result of how the focus keyphrase is processed in buildTopicStems.js in the buildStems function.
  *
- * @param {(string[])} wordForms The word forms to tokenize.
+ * @param {(string[])}  wordForms 					The word forms to tokenize.
+ * @param {function}	customSplitIntoTokensHelper	A custom helper to split sentences into tokens.
  *
  * @returns {string[]} The tokenized word forms.
  */
-export const tokenizeKeyphraseFormsForExactMatching = ( wordForms ) => {
+export const tokenizeKeyphraseFormsForExactMatching = ( wordForms, customSplitIntoTokensHelper ) => {
 	// Tokenize word form of the keyphrase.
 	const wordFormText = wordForms[ 0 ];
-	return getWordsForHTMLParser( wordFormText );
+
+	return customSplitIntoTokensHelper ? customSplitIntoTokensHelper( wordFormText ) : splitIntoTokens( wordFormText );
 };
 
 /**
  * Gets the exact matches of the keyphrase.
  * Exact matching happens when the user puts the keyphrase in double quotes.
  *
- * @param {Sentence}	sentence	The sentence to match the word forms with.
- * @param {string[]}	wordForms	The word forms to match.
- * @param {string}		locale		The locale used in the analysis.
+ * @param {Sentence}	sentence					The sentence to match the word forms with.
+ * @param {string[]}	wordForms					The word forms to match.
+ * @param {string}		locale						The locale used in the analysis.
+ * @param {function}	customSplitIntoTokensHelper	A custom helper to split sentences into tokens.
  *
  * @returns {{count: number, matches: Token[]}} Object containing the number of the exact matches and the matched tokens.
  */
-const findExactMatchKeyphraseInSentence = ( sentence, wordForms, locale ) => {
+const findExactMatchKeyphraseInSentence = ( sentence, wordForms, locale, customSplitIntoTokensHelper ) => {
 	const result = {
 		count: 0,
 		matches: [],
 	};
 	// Tokenize word forms of the keyphrase.
-	const keyphraseTokens = tokenizeKeyphraseFormsForExactMatching( wordForms );
+	const keyphraseTokens = tokenizeKeyphraseFormsForExactMatching( wordForms, customSplitIntoTokensHelper );
 
 	const sentenceTokens = sentence.tokens;
 
@@ -135,25 +138,25 @@ const matchWordFormsInSentence = ( sentence, wordForms, locale, matchWordCustomH
 /**
  * Matches the word forms of a keyphrase with a sentence object from the html parser.
  *
- * @param {Sentence|string}	sentence	The sentence to match against the word forms of a keyphrase.
- * @param {string[]}	wordForms	The array of word forms of the keyphrase.
- * E.g. If the keyphrase is "key word", then (if premium is activated) this will be [ "key", "keys" ] OR [ "word", "words" ]
+ * @param {Sentence|string}	sentence					The sentence to match against the word forms of a keyphrase.
+ * @param {string[]}		wordForms					The array of word forms of the keyphrase.
+ * E.g. If the keyphrase is "key word", then (if Premium is activated) this will be [ "key", "keys" ] OR [ "word", "words" ]
  * The forms are retrieved higher up (among others in keywordCount.js) with researcher.getResearch( "morphology" ).
- *
- * @param {string}		locale					The locale used for transliteration.
- * @param {function}	matchWordCustomHelper	Custom function to match a word form with sentence.
- * @param {boolean}		useExactMatching		Whether to match the keyphrase forms exactly or not.
- * Exact match is used when the keyphrase is enclosed in double quotes.
+ * @param {string}			locale						The locale used for transliteration.
+ * @param {function}		matchWordCustomHelper		Custom function to match a word form with sentence.
+ * @param {boolean}			useExactMatching			Whether to match the keyphrase forms exactly or not.
+ * 														Exact match is used when the keyphrase is enclosed in double quotes.
+ * @param {function}		customSplitIntoTokensHelper	A custom helper to split sentences into tokens.
  *
  * @returns {{count: number, matches: (Token|string)[]}} Object containing the number of the matches and the matched tokens.
  */
-const matchWordFormsWithSentence = ( sentence, wordForms, locale, matchWordCustomHelper, useExactMatching = false ) => {
+const matchWordFormsWithSentence = ( sentence, wordForms, locale, matchWordCustomHelper, useExactMatching = false, customSplitIntoTokensHelper ) => {
 	/*
 	 * Only use `findExactMatchKeyphraseInSentence` when the custom helper is not available.
 	 * When the custom helper is available, the step for the exact matching happens in the helper.
 	 */
 	if ( useExactMatching && ! matchWordCustomHelper ) {
-		return findExactMatchKeyphraseInSentence( sentence, wordForms, locale );
+		return findExactMatchKeyphraseInSentence( sentence, wordForms, locale, customSplitIntoTokensHelper );
 	}
 	return matchWordFormsInSentence( sentence, wordForms, locale, matchWordCustomHelper );
 };

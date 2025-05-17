@@ -41,7 +41,7 @@ export const ResourceCard = ( { imageSrc, title, description, linkHref, linkText
 					__( "(Opens in a new browser tab)", "wordpress-seo" )
 				}
 			</span>
-			<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
+			<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ms-1 yst-icon-rtl" />
 		</Link>
 	</Card>
 );

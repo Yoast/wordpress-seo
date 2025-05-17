@@ -2,7 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Assessment from "../assessment";
-import { merge } from "lodash-es";
+import { merge } from "lodash";
 
 /**
  * Represents the assessment that checks whether there is enough text in the paper.

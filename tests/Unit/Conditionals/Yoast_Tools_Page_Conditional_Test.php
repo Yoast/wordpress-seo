@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional
  */
-class Yoast_Tools_Page_Conditional_Test extends TestCase {
+final class Yoast_Tools_Page_Conditional_Test extends TestCase {
 
 	/**
 	 * Holds the Yoast admin tools page conditional.
@@ -24,6 +24,8 @@ class Yoast_Tools_Page_Conditional_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ class Yoast_Tools_Page_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when on the Yoast admin tools page.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met_on_yoast_admin_tools_page() {
 		// We are on an admin page.
@@ -51,6 +55,8 @@ class Yoast_Tools_Page_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when on the Yoast admin dashboard page.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met_on_yoast_admin_dashboard_page() {
 		// We are on an admin page.
@@ -67,6 +73,8 @@ class Yoast_Tools_Page_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when on a frontend page.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met_on_frontend_page() {
 		// We are on the frontend.

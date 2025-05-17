@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use wpdb;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;

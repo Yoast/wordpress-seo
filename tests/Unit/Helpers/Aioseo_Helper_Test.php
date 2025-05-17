@@ -15,9 +15,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group helpers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Aioseo_Helper
- * @phpcs:disable Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
-class Aioseo_Helper_Test extends TestCase {
+final class Aioseo_Helper_Test extends TestCase {
 
 	/**
 	 * The instance under test.
@@ -42,6 +41,8 @@ class Aioseo_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the class under test and mock objects.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -60,6 +61,8 @@ class Aioseo_Helper_Test extends TestCase {
 	 * Tests retrieving the AIOSEO table name along with the db prefix.
 	 *
 	 * @covers ::get_table
+	 *
+	 * @return void
 	 */
 	public function test_get_table() {
 		$table = $this->instance->get_table();
@@ -75,6 +78,8 @@ class Aioseo_Helper_Test extends TestCase {
 	 *
 	 * @param bool $table_exists    Whether the AIOSEO table exists.
 	 * @param bool $expected_result The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_aioseo_exists( $table_exists, $expected_result ) {
 		$this->wpdb_helper->expects( 'table_exists' )
@@ -95,6 +100,8 @@ class Aioseo_Helper_Test extends TestCase {
 	 *
 	 * @param string $retrieved_option Whether the AIOSEO table exists.
 	 * @param array  $expected_result  The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_global_option( $retrieved_option, $expected_result ) {
 		Monkey\Functions\expect( 'get_option' )
@@ -112,7 +119,7 @@ class Aioseo_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_global_option() {
+	public static function provider_get_global_option() {
 		$retrieved_aioseo_options = [
 			'option1' => 'value1',
 			'option2' => 'value2',
@@ -128,7 +135,7 @@ class Aioseo_Helper_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_aioseo_exists() {
+	public static function provider_aioseo_exists() {
 		return [
 			[ false, false ],
 			[ true, true ],

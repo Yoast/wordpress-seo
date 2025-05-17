@@ -10,5 +10,5 @@ import { get } from "lodash";
 export default function isCornerstoneContentActive() {
 	const l10nObject = getL10nObject();
 
-	return get( l10nObject, "cornerstoneActive", 0 ) === 1;
+	return get( l10nObject, "cornerstoneActive", false ) === true;
 }

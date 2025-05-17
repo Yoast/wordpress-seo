@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## Future Release
+### Non user facing
+* Now published as a transpiled package.
+
 ## 1.18.0
 ### Enhancements
 * Adds a new prop `hasPremiumBadge` to the `ReplacementVariableEditor` to display the `PremiumBadge` component.

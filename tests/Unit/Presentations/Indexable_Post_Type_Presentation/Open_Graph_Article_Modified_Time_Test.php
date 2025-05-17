@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group open-graph
  */
-class Open_Graph_Article_Modified_Time_Test extends TestCase {
+final class Open_Graph_Article_Modified_Time_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -29,6 +31,8 @@ class Open_Graph_Article_Modified_Time_Test extends TestCase {
 	 * Tests that no modified time is returned if it is the same as the published time
 	 *
 	 * @covers ::generate_open_graph_article_modified_time
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_article_modified_time_same_as_published_time() {
 		$source = (object) [
@@ -45,6 +49,8 @@ class Open_Graph_Article_Modified_Time_Test extends TestCase {
 	 * Tests that the modified time is returned if it differs from the published time.
 	 *
 	 * @covers ::generate_open_graph_article_modified_time
+	 *
+	 * @return void
 	 */
 	public function test_generate_open_graph_article_modified_time_differs_from_published_time() {
 		$source = (object) [

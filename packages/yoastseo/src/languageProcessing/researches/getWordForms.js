@@ -1,7 +1,7 @@
 import { normalizeSingle } from "../helpers/sanitize/quotes";
 import { collectStems, StemOriginalPair } from "../helpers/morphology/buildTopicStems";
 
-import { escapeRegExp, uniq, flattenDeep } from "lodash-es";
+import { escapeRegExp, flattenDeep } from "lodash";
 import getAllWordsFromPaper from "../helpers/morphology/getAllWordsFromPaper";
 import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 
@@ -57,7 +57,7 @@ function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, creat
 	 * Return original and found or created forms.
 	 * Only return original if no matching forms were found in the text and no forms could be created.
 	 */
-	return uniq( forms );
+	return [ ... new Set( forms ) ];
 }
 
 /**
@@ -108,18 +108,19 @@ function constructTopicPhraseResult( topicPhrase, paperWordsGroupedByStems, crea
  * Gets all matching word forms for the keyphrase and synonyms. Stems are either collected from
  * the paper or, for specific languages, directly created.
  *
- * @param {string}          keyphrase               The keyphrase.
- * @param {string[]}        synonyms                The synonyms.
- * @param {string[]}        allWordsFromPaper       All words found in the paper.
- * @param {string[]}        functionWords           The function words for a given language (if available).
- * @param {Function|null}   stemmer                 A stemmer (if available).
- * @param {Function|null}   createBasicWordForms    A function to create basic word forms (if available).
+ * @param {string}          keyphrase               	The keyphrase.
+ * @param {string[]}        synonyms                	The synonyms.
+ * @param {string[]}        allWordsFromPaper       	All words found in the paper.
+ * @param {string[]}        functionWords           	The function words for a given language (if available).
+ * @param {Function|null}   stemmer                 	A stemmer (if available).
+ * @param {Function|null}   createBasicWordForms    	A function to create basic word forms (if available).
+ * @param {boolean}   		areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
 
  * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms, based on the forms
  * found in the text or created forms.
  */
-function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stemmer, createBasicWordForms ) {
-	const topicPhrases     = collectStems( keyphrase, synonyms, stemmer, functionWords );
+function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stemmer, createBasicWordForms, areHyphensWordBoundaries ) {
+	const topicPhrases     = collectStems( keyphrase, synonyms, stemmer, functionWords, areHyphensWordBoundaries );
 	const keyphraseStemmed = topicPhrases.keyphraseStems;
 	const synonymsStemmed  = topicPhrases.synonymsStems;
 
@@ -140,13 +141,13 @@ function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, st
 	}
 
 	// Get all stems from the keyphrase and synonyms.
-	const topicStemsFlat = uniq( extractStems( keyphraseStemmed, synonymsStemmed ) );
+	const topicStemsFlat = [ ... new Set( extractStems( keyphraseStemmed, synonymsStemmed ) ) ];
 
 	/*
 	 * Get all words from the paper text, title, meta description and slug.
 	 * Filter duplicates and function words.
 	 */
-	const paperWords = uniq( allWordsFromPaper.filter( word => ! functionWords.includes( word ) ) );
+	const paperWords = [ ... new Set( allWordsFromPaper.filter( word => ! functionWords.includes( word ) ) ) ];
 
 	// Add stems to words from the paper, filter out all forms that aren't in the keyphrase or synonyms and order alphabetically.
 	const paperWordsWithStems = paperWords
@@ -176,8 +177,8 @@ function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, st
 /**
  * Gets all matching word forms for the keyphrase and synonyms.
  *
- * @param {Paper}       paper       The paper.
- * @param {Researcher}  researcher  The researcher.
+ * @param {Paper}       paper       	The paper.
+ * @param {Researcher}  researcher  	The researcher.
  *
  * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms, based on the forms
  * found in the text or created forms.
@@ -187,9 +188,17 @@ export default function( paper, researcher ) {
 	const stemmer = researcher.getHelper( "getStemmer" )( researcher );
 	const createBasicWordForms = researcher.getHelper( "createBasicWordForms" );
 	const language = researcher.getConfig( "language" );
-	const allWordsFromPaper = getAllWordsFromPaper( paper ).map( word => word.toLocaleLowerCase( language ) );
+	/*
+	 * Whether we want to split words on hyphens depends on the language.
+	 * In all languages apart from Indonesian, we consider hyphens as word boundaries. But in Indonesian, hyphens are used
+	 * to form plural forms of nouns, e.g. 'buku' is the singular form for 'book' and 'buku-buku' is the plural form.
+	 * This is why we don't split words on hyphens in Indonesian and we consider 'buku-buku' as one word rather than two.
+	 */
+	const areHyphensWordBoundaries = researcher.getConfig( "areHyphensWordBoundaries" );
+
+	const allWordsFromPaper = getAllWordsFromPaper( paper, areHyphensWordBoundaries ).map( word => word.toLocaleLowerCase( language ) );
 	const keyphrase = paper.getKeyword().toLocaleLowerCase( language ).trim();
 	const synonyms = parseSynonyms( paper.getSynonyms().toLocaleLowerCase( language ).trim() );
 
-	return getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stemmer, createBasicWordForms );
+	return getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stemmer, createBasicWordForms, areHyphensWordBoundaries );
 }

@@ -27,6 +27,8 @@ abstract class TestCase extends YoastTestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();

@@ -9,12 +9,14 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Yoast_Form_Test extends TestCase {
+final class Yoast_Form_Test extends TestCase {
 
 	/**
 	 * Tests setting the form option with a valid option having a `WPSEO_Option` class.
 	 *
 	 * @covers Yoast_Form::set_option
+	 *
+	 * @return void
 	 */
 	public function test_properties_set_with_valid_option() {
 		$form = new Yoast_Form_Double();
@@ -30,6 +32,8 @@ class Yoast_Form_Test extends TestCase {
 	 * Tests setting the form option with an invalid option that does not have a `WPSEO_Option` class.
 	 *
 	 * @covers Yoast_Form::set_option
+	 *
+	 * @return void
 	 */
 	public function test_properties_set_with_invalid_option() {
 		$option_keys = [ 'key1', 'key2', 'key3' ];
@@ -46,6 +50,8 @@ class Yoast_Form_Test extends TestCase {
 	 * Tests whether a control is disabled with a valid option having a `WPSEO_Option` class.
 	 *
 	 * @covers Yoast_Form::is_control_disabled
+	 *
+	 * @return void
 	 */
 	public function test_is_control_disabled_with_valid_option() {
 		$form = new Yoast_Form_Double();
@@ -58,6 +64,8 @@ class Yoast_Form_Test extends TestCase {
 	 * Tests whether a control is disabled with an invalid option that does not have a `WPSEO_Option` class.
 	 *
 	 * @covers Yoast_Form::is_control_disabled
+	 *
+	 * @return void
 	 */
 	public function test_is_control_disabled_with_invalid_option() {
 		$form = new Yoast_Form_Double();

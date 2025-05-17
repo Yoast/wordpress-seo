@@ -1,4 +1,4 @@
-import { includes } from "lodash-es";
+import { includes } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { directPrecedenceException, values } = languageProcessing;
 const { Clause } = values;

@@ -2,7 +2,7 @@ import { __ } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
 import PropTypes from "prop-types";
 
-import PersistentDismissableNotification from "../containers/PersistentDismissableNotification";
+import ConnectedPersistentDismissableNotification from "../containers/PersistentDismissableNotification";
 import { ReactComponent as DefaultImage } from "../../../../images/succes_marieke_bubble_optm.svg";
 
 /**
@@ -21,7 +21,7 @@ const WebinarPromoNotification = ( {
 	const isPremium = useSelect( select => select( store ).getIsPremium() );
 
 	return isPremium ? null : (
-		<PersistentDismissableNotification
+		<ConnectedPersistentDismissableNotification
 			alertKey="webinar-promo-notification"
 			store={ store }
 			id="webinar-promo-notification"
@@ -34,7 +34,7 @@ const WebinarPromoNotification = ( {
 			&nbsp;<a href={ url } target="_blank" rel="noreferrer">
 				{ __( "Sign up today!", "wordpress-seo" ) }
 			</a>
-		</PersistentDismissableNotification>
+		</ConnectedPersistentDismissableNotification>
 	);
 };
 

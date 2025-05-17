@@ -81,6 +81,8 @@ class Wincher implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 *
 	 * @param Yoast_Feature_Toggle $integration The integration toggle class.
+	 *
+	 * @return void
 	 */
 	public function after_integration_toggle( $integration ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 21.6' );
@@ -93,6 +95,8 @@ class Wincher implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 *
 	 * @param Yoast_Feature_Toggle $integration The integration toggle class.
+	 *
+	 * @return void
 	 */
 	public function after_network_integration_toggle( $integration ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 21.6' );

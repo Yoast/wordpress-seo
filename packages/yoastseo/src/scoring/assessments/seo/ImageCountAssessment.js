@@ -1,10 +1,15 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { merge } from "lodash-es";
+import { merge } from "lodash";
 import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange";
 
 import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
+
+/**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
 
 /**
  * Represents the assessment that checks if the text has any images present, including videos in product pages.
@@ -15,8 +20,6 @@ export default class TextImagesAssessment extends Assessment {
 	 *
 	 * @param {object}  config      The configuration to use.
 	 * @param {boolean} countVideos Whether videos are also included in the assessment or not.
-	 *
-	 * @returns {void}
 	 */
 	constructor( config = {}, countVideos = false ) {
 		super();
@@ -58,20 +61,9 @@ export default class TextImagesAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has text.
-	 *
-	 * @param {Paper}       paper       The paper to use for the assessment.
-	 *
-	 * @returns {boolean} True when there is text.
-	 */
-	isApplicable( paper ) {
-		return paper.hasText();
-	}
-
-	/**
 	 * Calculate the result based on the availability of images in the text, including videos in product pages.
 	 *
-	 * @returns {Object} The calculated result.
+	 * @returns {{score: number, resultText: string}} The calculated result.
 	 */
 	calculateResult() {
 		// If "countVideos" is on, we include videos in the assessment
@@ -138,9 +130,7 @@ export default class TextImagesAssessment extends Assessment {
 						* %1$d expands to the number of images found in the text,
 						* %2$d expands to the recommended number of images in the text, */
 						_n(
-							// eslint-disable-next-line max-len
 							"%3$sImages and videos%5$s: Only %1$d image or video appears on this page. We recommend at least %2$d. %4$sAdd more relevant images or videos%5$s!",
-							// eslint-disable-next-line max-len
 							"%3$sImages and videos%5$s: Only %1$d images or videos appear on this page. We recommend at least %2$d. %4$sAdd more relevant images or videos%5$s!",
 							mediaCount,
 							"wordpress-seo"

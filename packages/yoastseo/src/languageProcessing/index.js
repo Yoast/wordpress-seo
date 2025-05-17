@@ -37,6 +37,7 @@ import { mergeListItems } from "./helpers/sanitize/mergeListItems";
 import { findWordFormsInString } from "./helpers/match/findKeywordFormsInString";
 import { collectMarkingsInSentence, markWordsInSentences } from "./helpers/word/markWordsInSentences";
 import * as helpers from "./helpers";
+import * as researches from "./researches";
 
 export {
 	AbstractResearcher,
@@ -81,4 +82,5 @@ export {
 	findWordFormsInString,
 	markWordsInSentences,
 	helpers,
+	researches,
 };

@@ -1,4 +1,5 @@
-import collectAnalysisData from "../src/analysis/collectAnalysisData";
+import { serialize } from "@wordpress/blocks";
+import collectAnalysisData, { mapGutenbergBlocks } from "../src/analysis/collectAnalysisData";
 import gutenbergBlocks from "./__test-data__/gutenbergBlocksTestData";
 
 const originalWindow = { ...window };
@@ -104,6 +105,30 @@ describe( "collectAnalysisData", () => {
 		expect( results._attributes.wpBlocks ).toEqual( gutenbergBlocks );
 	} );
 
+	it( "should not modify the original blocks array when filtering", () => {
+		const edit = mockEdit( "<p>some content</p>" );
+		const store = mockStore( storeData );
+		const customData = mockCustomAnalysisData();
+		const pluggable = mockPluggable();
+
+		const getFirstColumnBlocks = ( blocks ) => blocks
+			.find( block => block.name === "core/columns" ).innerBlocks
+			.find( block => block.name === "core/column" ).innerBlocks;
+		const invalidBlock = { isValid: false, innerBlocks: [], name: "core/paragraph" };
+
+		const firstColumnBlocks = getFirstColumnBlocks( gutenbergBlocks );
+		firstColumnBlocks.push( invalidBlock );
+		const blockEditorDataModule = mockBlockEditorDataModule( gutenbergBlocks );
+
+		// The original blocks array should contain the invalid block.
+		expect( getFirstColumnBlocks( gutenbergBlocks ) ).toContainEqual( invalidBlock );
+
+		// When collecting the analysis data, the invalid block should be removed from the results, but not from the original blocks array.
+		const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule );
+		expect( getFirstColumnBlocks( results._attributes.wpBlocks ) ).not.toContainEqual( invalidBlock );
+		expect( getFirstColumnBlocks( gutenbergBlocks ) ).toContainEqual( invalidBlock );
+	} );
+
 	it( "does not add wpBlocks if no blockEditorDataModule is added", () => {
 		const edit = mockEdit( "<p>some content</p>" );
 		const store = mockStore( storeData );
@@ -128,5 +153,49 @@ describe( "collectAnalysisData", () => {
 		collectAnalysisData( edit, store, customData, pluggable );
 
 		expect( pluggable._applyModifications ).not.toBeCalled();
+	} );
+} );
+
+jest.mock( "@wordpress/blocks", () => ( {
+	serialize: jest.fn(),
+} ) );
+
+describe( "mapGutenbergBlocks", () => {
+	it( "should return an empty array if input blocks array is empty", () => {
+		const blocks = [];
+		const result = mapGutenbergBlocks( blocks );
+		expect( result ).toEqual( [] );
+	} );
+
+	it( "should filter out invalid blocks", () => {
+		const blocks = [
+			{ isValid: true, innerBlocks: [] },
+			{ isValid: false, innerBlocks: [] },
+		];
+		const result = mapGutenbergBlocks( blocks );
+		expect( result ).toHaveLength( 1 );
+	} );
+
+	it( "should calculate blockLength for each block", () => {
+		const blocks = [
+			{ isValid: true, innerBlocks: [] },
+		];
+		const mockSerializedBlock = "serialized block";
+		serialize.mockImplementation( jest.fn().mockReturnValue( mockSerializedBlock ) );
+		const result = mapGutenbergBlocks( blocks );
+		expect( result[ 0 ].blockLength ).toEqual( mockSerializedBlock.length );
+	} );
+
+	it( "should recursively map inner blocks", () => {
+		const blocks = [
+			{
+				isValid: true,
+				innerBlocks: [
+					{ isValid: true, innerBlocks: [] },
+				],
+			},
+		];
+		const result = mapGutenbergBlocks( blocks );
+		expect( result[ 0 ].innerBlocks[ 0 ] ).toHaveProperty( "blockLength" );
 	} );
 } );

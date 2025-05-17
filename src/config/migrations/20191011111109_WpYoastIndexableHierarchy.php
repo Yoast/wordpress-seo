@@ -19,6 +19,8 @@ class WpYoastIndexableHierarchy extends Migration {
 
 	/**
 	 * Migration up.
+	 *
+	 * @return void
 	 */
 	public function up() {
 		$table_name = $this->get_table_name();
@@ -63,6 +65,8 @@ class WpYoastIndexableHierarchy extends Migration {
 
 	/**
 	 * Migration up.
+	 *
+	 * @return void
 	 */
 	public function down() {
 		$this->drop_table( $this->get_table_name() );

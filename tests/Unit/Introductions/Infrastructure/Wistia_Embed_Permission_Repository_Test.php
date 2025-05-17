@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Introductions\Infrastructure;
 
+use Exception;
 use Mockery;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
@@ -14,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository
  */
-class Wistia_Embed_Permission_Repository_Test extends TestCase {
+final class Wistia_Embed_Permission_Repository_Test extends TestCase {
 
 	/**
 	 * Holds the instance.
@@ -26,12 +27,14 @@ class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	/**
 	 * Holds the user helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\User_Helper
+	 * @var Mockery\MockInterface|User_Helper
 	 */
 	private $user_helper;
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -45,6 +48,8 @@ class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -60,10 +65,12 @@ class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 *
 	 * @dataProvider provide_get_value_for_user_test_data
 	 *
-	 * @param mixed   $meta     Value `get_meta` returns.
-	 * @param boolean $expected The expected value.
+	 * @param mixed $meta     Value `get_meta` returns.
+	 * @param bool  $expected The expected value.
 	 *
-	 * @throws \Exception Invalid User ID.
+	 * @return void
+	 *
+	 * @throws Exception Invalid User ID.
 	 */
 	public function test_get_value_for_user( $meta, $expected ) {
 		$user_id = 1;
@@ -80,7 +87,7 @@ class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provide_get_value_for_user_test_data() {
+	public static function provide_get_value_for_user_test_data() {
 		return [
 			'stored string 1'    => [
 				'meta'     => '1',
@@ -102,7 +109,9 @@ class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 *
 	 * @covers ::get_value_for_user
 	 *
-	 * @throws \Exception Invalid User ID.
+	 * @return void
+	 *
+	 * @throws Exception Invalid User ID.
 	 */
 	public function test_get_value_for_invalid_user_id() {
 		$user_id = 1;
@@ -128,7 +137,9 @@ class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 * @param bool|int $update_return   The return value for the update_meta call.
 	 * @param bool     $expected        The expected return value.
 	 *
-	 * @throws \Exception Invalid User ID.
+	 * @return void
+	 *
+	 * @throws Exception Invalid User ID.
 	 */
 	public function test_set_value_for_user( $input_value, $value_as_string, $update_return, $expected ) {
 		$user_id = 1;
@@ -145,7 +156,7 @@ class Wistia_Embed_Permission_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provide_set_value_for_user_test_data() {
+	public static function provide_set_value_for_user_test_data() {
 		return [
 			'true with new entry'          => [
 				'input_value'     => true,

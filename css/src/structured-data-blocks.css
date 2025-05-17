@@ -93,6 +93,12 @@
   text-align: right;
 }
 
+.schema-how-to-duration {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
 .schema-how-to-duration-flex-container {
   display: flex;
   align-items: center;

@@ -12,12 +12,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception
  */
-class Invalid_Term_Exception_Test extends TestCase {
+final class Invalid_Term_Exception_Test extends TestCase {
 
 	/**
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->stubTranslationFunctions();

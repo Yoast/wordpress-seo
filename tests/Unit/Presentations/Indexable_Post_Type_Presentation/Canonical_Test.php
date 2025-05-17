@@ -13,12 +13,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  * @group canonical
  */
-class Canonical_Test extends TestCase {
+final class Canonical_Test extends TestCase {
 
 	use Presentation_Instance_Builder;
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -30,6 +32,8 @@ class Canonical_Test extends TestCase {
 	 * Tests the situation where the canonical is given.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_with_canonical() {
 		$this->indexable->canonical = 'https://example.com/my-post/';
@@ -41,6 +45,8 @@ class Canonical_Test extends TestCase {
 	 * Tests the situation where no canonical is given, and it should fall back to the permalink.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_without_canonical() {
 		$this->indexable->object_id = 1337;
@@ -80,6 +86,8 @@ class Canonical_Test extends TestCase {
 	 * Tests a post with pagination.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_with_pagination() {
 		$this->indexable->object_id       = 1337;
@@ -125,6 +133,8 @@ class Canonical_Test extends TestCase {
 	 * Tests the situation where no canonical is given, and it should fall back to the permalink, and dynamic permalink are enabled.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_without_canonical_with_dynamic_permalinks() {
 		$this->indexable->object_id = 1337;
@@ -162,6 +172,8 @@ class Canonical_Test extends TestCase {
 	 * Tests a post with pagination and with dynamic permalink enabled.
 	 *
 	 * @covers ::generate_canonical
+	 *
+	 * @return void
 	 */
 	public function test_with_pagination_with_dynamic_permalinks() {
 		$this->indexable->object_id       = 1337;

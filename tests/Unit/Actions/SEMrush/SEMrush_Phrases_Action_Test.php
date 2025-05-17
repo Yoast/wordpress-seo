@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\SEMrush\SEMrush_Phrases_Action
  */
-class SEMrush_Phrases_Action_Test extends TestCase {
+final class SEMrush_Phrases_Action_Test extends TestCase {
 
 	/**
 	 * The class instance.
@@ -33,6 +33,8 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -45,6 +47,8 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -57,6 +61,8 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 	 * Tests getting related keyphrases via an API call to SEMrush.
 	 *
 	 * @covers ::get_related_keyphrases
+	 *
+	 * @return void
 	 */
 	public function test_get_related_keyphrases_from_api() {
 		$keyphrase    = 'seo';
@@ -71,7 +77,7 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 			'params' => [
 				'phrase'         => $keyphrase,
 				'database'       => $country_code,
-				'export_columns' => 'Ph,Nq,Td',
+				'export_columns' => 'Ph,Nq,Td,In,Kd',
 				'display_limit'  => 10,
 				'display_offset' => 0,
 				'display_sort'   => 'nq_desc',
@@ -112,6 +118,8 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 	 * Tests a valid related keyphrases retrieval from cache.
 	 *
 	 * @covers ::get_related_keyphrases
+	 *
+	 * @return void
 	 */
 	public function test_get_related_keyphrases_from_cache() {
 		$keyphrase = 'seo';
@@ -123,8 +131,8 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 			->andReturn(
 				[
 					'data'   => [
-						'column_names' => [],
-						'rows'         => [],
+						'columnNames' => [ 'Ph', 'Nq', 'Td', 'In', 'Kd' ],
+						'rows'        => [],
 					],
 					'status' => 200,
 				]
@@ -137,8 +145,8 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'results' => [
-					'column_names' => [],
-					'rows'         => [],
+					'columnNames' => [ 'Ph', 'Nq', 'Td', 'In', 'Kd' ],
+					'rows'        => [],
 				],
 				'status'  => 200,
 			],

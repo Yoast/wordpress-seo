@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Disable_Core_Sitemaps_Test extends TestCase {
+final class Disable_Core_Sitemaps_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.
@@ -41,6 +41,8 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -55,6 +57,8 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::initialize
+	 *
+	 * @return void
 	 */
 	public function test_initialize() {
 		$this->instance->initialize();
@@ -68,6 +72,8 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::maybe_disable_core_sitemaps
+	 *
+	 * @return void
 	 */
 	public function test_maybe_disable_core_sitemaps() {
 		$this->options->expects( 'get' )->with( 'enable_xml_sitemap' )->andReturn( true );
@@ -84,6 +90,8 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::maybe_disable_core_sitemaps
+	 *
+	 * @return void
 	 */
 	public function test_maybe_disable_core_sitemaps_without_sitemaps() {
 		$this->options->expects( 'get' )->with( 'enable_xml_sitemap' )->andReturn( false );
@@ -105,6 +113,8 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	 *
 	 * @param string $path     The request path.
 	 * @param string $redirect The expected redirect.
+	 *
+	 * @return void
 	 */
 	public function test_template_redirect( $path, $redirect ) {
 		$_SERVER['REQUEST_URI'] = $path;
@@ -128,7 +138,7 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function template_redirect_data() {
+	public static function template_redirect_data() {
 		return [
 			[ null, null ],
 			[ '/', null ],

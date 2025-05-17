@@ -29,6 +29,8 @@ class WPSEO_Option_Tabs_Formatter {
 	 * Outputs the option tabs.
 	 *
 	 * @param WPSEO_Option_Tabs $option_tabs Option Tabs to get tabs from.
+	 *
+	 * @return void
 	 */
 	public function run( WPSEO_Option_Tabs $option_tabs ) {
 
@@ -66,10 +68,9 @@ class WPSEO_Option_Tabs_Formatter {
 			 *
 			 * @internal For internal Yoast SEO use only.
 			 *
-			 * @api      string|null The content that should be displayed for this tab. Leave empty for default behaviour.
-			 *
-			 * @param WPSEO_Option_Tabs $option_tabs The registered option tabs.
-			 * @param WPSEO_Option_Tab  $tab         The tab that is being displayed.
+			 * @param string|null       $tab_contents The content that should be displayed for this tab. Leave empty for default behaviour.
+			 * @param WPSEO_Option_Tabs $option_tabs  The registered option tabs.
+			 * @param WPSEO_Option_Tab  $tab          The tab that is being displayed.
 			 */
 			$option_tab_content = apply_filters( 'wpseo_option_tab-' . $tab_filter_name, null, $option_tabs, $tab );
 			if ( ! empty( $option_tab_content ) ) {

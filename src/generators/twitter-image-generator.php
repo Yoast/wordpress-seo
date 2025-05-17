@@ -7,12 +7,19 @@ use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Values\Images;
+use Yoast\WP\SEO\Values\Twitter\Images;
 
 /**
  * Represents the generator class for the Twitter images.
  */
 class Twitter_Image_Generator implements Generator_Interface {
+
+	/**
+	 * The Twitter image helper.
+	 *
+	 * @var Twitter_Image_Helper
+	 */
+	protected $twitter_image;
 
 	/**
 	 * The image helper.
@@ -27,13 +34,6 @@ class Twitter_Image_Generator implements Generator_Interface {
 	 * @var Url_Helper
 	 */
 	protected $url;
-
-	/**
-	 * The Twitter image helper.
-	 *
-	 * @var Twitter_Image_Helper
-	 */
-	protected $twitter_image;
 
 	/**
 	 * Twitter_Image_Generator constructor.
@@ -55,7 +55,7 @@ class Twitter_Image_Generator implements Generator_Interface {
 	 *
 	 * @param Meta_Tags_Context $context The context.
 	 *
-	 * @return array The images.
+	 * @return array<array<string, string|int>> The images.
 	 */
 	public function generate( Meta_Tags_Context $context ) {
 		$image_container = $this->get_image_container();
@@ -70,6 +70,8 @@ class Twitter_Image_Generator implements Generator_Interface {
 	 *
 	 * @param Indexable $indexable       The indexable.
 	 * @param Images    $image_container The image container.
+	 *
+	 * @return void
 	 */
 	protected function add_from_indexable( Indexable $indexable, Images $image_container ) {
 		if ( $indexable->twitter_image_id ) {
@@ -92,6 +94,8 @@ class Twitter_Image_Generator implements Generator_Interface {
 	protected function get_image_container() {
 		$image_container             = new Images( $this->image, $this->url );
 		$image_container->image_size = $this->twitter_image->get_image_size();
+
+		$image_container->set_helpers( $this->twitter_image );
 
 		return $image_container;
 	}

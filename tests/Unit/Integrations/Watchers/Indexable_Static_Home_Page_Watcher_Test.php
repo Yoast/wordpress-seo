@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Static_Home_Page_Watcher
  */
-class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
+final class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 
 	/**
 	 * Indexable repository mock.
@@ -37,6 +37,8 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -49,6 +51,8 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -61,6 +65,8 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -73,6 +79,8 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::update_static_homepage_permalink
 	 * @covers ::update_permalink_for_page
+	 *
+	 * @return void
 	 */
 	public function test_update_page_on_front() {
 		Monkey\Functions\expect( 'get_permalink' )
@@ -124,6 +132,8 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::update_static_homepage_permalink
 	 * @covers ::update_permalink_for_page
+	 *
+	 * @return void
 	 */
 	public function test_update_page_on_front_to_0() {
 		Monkey\Functions\expect( 'get_permalink' )
@@ -154,6 +164,8 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 	 * Tests the routine with having the same value for the old and the new value.
 	 *
 	 * @covers ::update_static_homepage_permalink
+	 *
+	 * @return void
 	 */
 	public function test_update_page_on_front_no_value_change() {
 		$this->repository
@@ -167,6 +179,8 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 	 * Tests the routine with having the same value for the old and the new value.
 	 *
 	 * @covers ::update_static_homepage_permalink
+	 *
+	 * @return void
 	 */
 	public function test_update_page_on_front_with_no_indexable_found() {
 		$this->repository

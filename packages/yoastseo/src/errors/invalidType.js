@@ -1,19 +1,14 @@
-import "error-polyfill";
-import util from "util";
-
 /**
- * Throws an invalid type error
- *
- * @param {string} message The message to show when the error is thrown
- *
- * @returns {void}
+ * The InvalidTypeError is thrown when an invalid type is passed as an argument.
  */
-function InvalidTypeError( message ) {
-	Error.captureStackTrace( this, this.constructor );
-	this.name = this.constructor.name;
-	this.message = message;
+export default class InvalidTypeError extends Error {
+	/**
+	 * Constructs an InvalidTypeError.
+	 * @param {string} message The message to show when the error is thrown.
+	 * @constructor
+	 */
+	constructor( message )  {
+		super( message );
+		this.name = "InvalidTypeError";
+	}
 }
-
-util.inherits( InvalidTypeError, Error );
-
-export default InvalidTypeError;

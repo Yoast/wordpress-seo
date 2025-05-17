@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional
  */
-class Non_Multisite_Conditional_Test extends TestCase {
+final class Non_Multisite_Conditional_Test extends TestCase {
 
 	/**
 	 * The schema blocks feature flag conditional.
@@ -24,6 +24,8 @@ class Non_Multisite_Conditional_Test extends TestCase {
 
 	/**
 	 * Does the setup for testing.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -34,6 +36,8 @@ class Non_Multisite_Conditional_Test extends TestCase {
 	 * Tests whether the conditional is not met when we are in a multisite setup.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_not_met() {
 		Monkey\Functions\stubs(
@@ -48,6 +52,8 @@ class Non_Multisite_Conditional_Test extends TestCase {
 	 * Tests whether the conditional is met when we are not in a multisite setup.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @return void
 	 */
 	public function test_is_met() {
 		Monkey\Functions\stubs(

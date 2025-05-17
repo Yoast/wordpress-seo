@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Models\Indexable;
 /**
  * Class Indexable_Post_Builder_Double.
  */
-class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
+final class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 
 	/**
 	 * Determines the value of is_public.
@@ -72,7 +72,7 @@ class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 	 * @param string $post_type The post type.
 	 * @param int    $post_id   The post ID.
 	 *
-	 * @return false|string|WP_Error The permalink.
+	 * @return WP_Error|string|false The permalink.
 	 */
 	public function get_permalink( $post_type, $post_id ) {
 		return parent::get_permalink( $post_type, $post_id );

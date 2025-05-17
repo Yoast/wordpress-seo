@@ -8,9 +8,10 @@ export const singleWords = [ "fakat", "halbuki", "hatta", "üstelik", "ancak", "
 	"genelde", "dolayısıyla", "gelgelelim", "aslında", "doğrusu", "mamafih", "binaenaleyh", "evvelce", "önceden", "şöylelikle", "örneğin", "mesela",
 	"nitekim", "mademki", "şimdi", "halihazırda", "i̇laveten", "aynen", "nazaran", "nedeniyle", "yüzünden", "umumiyetle", "ekseriye", "amacıyla",
 	"gayesiyle", "velhasıl", "ezcümle", "özetlersek", "etraflıca", "tafsilatlı", "genişçe", "bilfiil", "filhakika", "evvela", "i̇lkin", "en önce",
-	"birincisi", "i̇kincisi", "üçüncüsü", "sonuncusu", "tıpkı", "topyekun", "hem", "ne", "kah", "ister", "ya", "gerek", "ha" ];
+	"birincisi", "i̇kincisi", "üçüncüsü", "sonuncusu", "tıpkı", "topyekun", "hem", "kah", "ister", "ya", "gerekse", "sayesinde", "sebebiyle",
+	"üzere", "göre", "uyarınca", "halen", "gerçekten", "madem", "yoksa" ];
 
-export const multipleWords =  [ "o halde", "bundan böyle", "demek ki", "ne yazık ki", "görüldüğü gibi", "i̇lk olarak", "son olarak", "ne var ki",
+export const multipleWords = [ "o halde", "bundan böyle", "demek ki", "ne yazık ki", "görüldüğü gibi", "i̇lk olarak", "son olarak", "ne var ki",
 	"buna rağmen", "yine de", "başka bir deyişle", "açıklamak gerekirse", "özetlemek gerekirse", "kısaca söylemek gerekirse", "görüldüğü gibi",
 	"ve bunun gibi", "halbu ki", "buna göre", "ona göre", "ek olarak", "her ne kadar", "velev ki", "olmakla beraber", "bile olsa", "i̇le beaber",
 	"i̇le birlikte", "her şeye rağmen", "bütün yanlarıyla", "bütün yönleriyle", "ele alacak olursak", "baştan sona", "diğer bir", "başka bir",
@@ -34,7 +35,7 @@ export const multipleWords =  [ "o halde", "bundan böyle", "demek ki", "ne yaz�
 	"sözün özü", "en nihayetinde", "uzun uzadıya", "her iki durumda da", "özü itibariyle", "amacı ile", "olması için", "başka bir ifadeyle",
 	"diğer bir deyişle", "i̇lk önce", "bir yandan", "bir taraftan", "hatırlatmak gerekirse", "bu bağlamda", "gel gelelim", "her şey hesaba katılırsa",
 	"bütüne bakıldığında", "belirtildiği gibi", "bir başka ifadeyle", "lafı toparlamak gerekirse", "bu düşünceyle", "bu maksatla", "bu doğrultuda",
-	"bu niyetle", "hem de", "ne de", "ya da", "gerekse de" ];
+	"bu niyetle", "ne de", "ya da", "aksi durumda", "bu durum", "olup olmadığı", "diğer yandan", "öte yandan", "ne olursa olsun" ];
 
 export const allWords = singleWords.concat( multipleWords );
 

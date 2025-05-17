@@ -29,7 +29,7 @@ class Container_Registry {
 		self::$containers[ $name ] = $container;
 	}
 
-    // phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
 
 	/**
 	 * Get an instance from a specific container.
@@ -53,7 +53,7 @@ class Container_Registry {
 		return self::$containers[ $name ]->get( $id, $invalid_behaviour );
 	}
 
-    // phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
+	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
 
 	/**
 	 * Attempts to find a given service ID in all registered containers.

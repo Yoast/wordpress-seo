@@ -1,9 +1,15 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { isEmpty, merge } from "lodash-es";
+import { isEmpty, merge } from "lodash";
 
 import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
+
+/**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../languageProcessing/researches/getLinkStatistics").LinkStatistics} LinkStatistics
+ * @typedef {import("../../../values/").Paper } Paper
+ */
 
 /**
  * Assessment for calculating the outbound links in the text.
@@ -13,8 +19,6 @@ export default class OutboundLinksAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
-	 *
-	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
@@ -53,22 +57,11 @@ export default class OutboundLinksAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether paper has text.
-	 *
-	 * @param {Paper}       paper       The paper to use for the assessment.
-	 *
-	 * @returns {boolean} True when there is text.
-	 */
-	isApplicable( paper ) {
-		return paper.hasText();
-	}
-
-	/**
 	 * Returns a score based on the linkStatistics object.
 	 *
-	 * @param {object} linkStatistics The object with all link statistics.
+	 * @param {LinkStatistics} linkStatistics The object with all link statistics.
 	 *
-	 * @returns {number|null} The calculated score.
+	 * @returns {number} The calculated score.
 	 */
 	calculateScore( linkStatistics ) {
 		if ( linkStatistics.externalTotal === 0 ) {
@@ -87,13 +80,13 @@ export default class OutboundLinksAssessment extends Assessment {
 			return this._config.scores.allFollowed;
 		}
 
-		return null;
+		return 0;
 	}
 
 	/**
 	 * Translates the score to a message the user can understand.
 	 *
-	 * @param {Object}  linkStatistics  The object with all link statistics.
+	 * @param {LinkStatistics}  linkStatistics  The object with all link statistics.
 	 *
 	 * @returns {string} The translated string.
 	 */

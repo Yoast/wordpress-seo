@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SidebarCollapsible is closed 1`] = `
+<div>
+  <div
+    class="yoast components-panel__body "
+  >
+    <h2
+      class="components-panel__body-title"
+    >
+      <button
+        class="components-button components-panel__body-toggle"
+        type="button"
+      >
+        <span
+          class="yoast-icon-span"
+        />
+        <span
+          class="yoast-title-container"
+        >
+          <div
+            class="yoast-title"
+          >
+            Test title
+          </div>
+          <div
+            class="yoast-subtitle"
+          />
+        </span>
+        <span
+          aria-hidden="true"
+          class="yoast-chevron"
+        />
+      </button>
+    </h2>
+  </div>
+</div>
+`;
+
+exports[`SidebarCollapsible is opened 1`] = `
+<div>
+  <div
+    class="yoast components-panel__body is-opened"
+  >
+    <h2
+      class="components-panel__body-title"
+    >
+      <button
+        class="components-button components-panel__body-toggle"
+        type="button"
+      >
+        <span
+          class="yoast-icon-span"
+        />
+        <span
+          class="yoast-title-container"
+        >
+          <div
+            class="yoast-title"
+          >
+            Test title
+          </div>
+          <div
+            class="yoast-subtitle"
+          />
+        </span>
+        <span
+          aria-hidden="true"
+          class="yoast-chevron"
+        />
+      </button>
+    </h2>
+    <div
+      id="inner-div"
+    >
+      Test children
+    </div>
+  </div>
+</div>
+`;

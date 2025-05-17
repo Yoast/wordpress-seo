@@ -3,16 +3,16 @@ import { PluginIntegration } from "./plugin-integration";
 import { ReactComponent as SSPLogo } from "../../images/ssp-logo.svg";
 import { ReactComponent as TECLogo } from "../../images/tec-logo.svg";
 import { ReactComponent as RecipeMakerLogo } from "../../images/wp-recipe-maker-logo.svg";
-import { ReactComponent as WoocommerceSeoLogo } from "../../images/woocommerce-seo-logo.svg";
+import { ReactComponent as WoocommerceSeoLogo } from "../../images/woo-yoast-logo.svg";
 import { ReactComponent as EDDLogo } from "../../images/edd-logo.svg";
-import { createInterpolateElement } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { WoocommerceIntegration } from "./woocommerce-integration";
 
 const integrations = [
 	{
 		name: "The Events Calendar",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: bold close tag. */
 				__( "Get %1$srich results for your events%2$s in Google search", "wordpress-seo" ),
@@ -38,7 +38,7 @@ const integrations = [
 	},
 	{
 		name: "Seriously Simple Podcasting",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: bold close tag. */
 				__( "Get %1$srich results for your podcast%2$s in Google search", "wordpress-seo" ),
@@ -58,13 +58,13 @@ const integrations = [
 			"Yoast SEO"
 		),
 		isPremium: false,
-		isNew: true,
+		isNew: false,
 		isMultisiteAvailable: true,
 		logo: SSPLogo,
 	},
 	{
 		name: "Easy Digital Downloads",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: bold close tag. */
 				__( "Get %1$srich results for your digital products%2$s in Google search", "wordpress-seo" ),
@@ -85,13 +85,13 @@ const integrations = [
 			"Yoast SEO"
 		),
 		isPremium: true,
-		isNew: true,
+		isNew: false,
 		isMultisiteAvailable: true,
 		logo: EDDLogo,
 	},
 	{
 		name: "WP Recipe Maker",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: bold close tag. */
 				__( "Get %1$srich results for your recipes%2$s in Google search", "wordpress-seo" ),
@@ -111,14 +111,14 @@ const integrations = [
 			"Yoast SEO"
 		),
 		isPremium: false,
-		isNew: true,
+		isNew: false,
 		isMultisiteAvailable: true,
 		logo: RecipeMakerLogo,
 	},
 ];
 const wooIntegration = {
 	name: "WooCommerce",
-	claim: createInterpolateElement(
+	claim: safeCreateInterpolateElement(
 		sprintf(
 			/* translators: 1: bold open tag; 2: bold close tag. */
 			__( "Get %1$srich product results%2$s in Google search", "wordpress-seo" ),

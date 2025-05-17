@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\SEMrush\SEMrush_Login_Action
  */
-class SEMrush_Login_Action_Test extends TestCase {
+final class SEMrush_Login_Action_Test extends TestCase {
 
 	/**
 	 * The instance.
@@ -35,6 +35,8 @@ class SEMrush_Login_Action_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -47,6 +49,8 @@ class SEMrush_Login_Action_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -59,6 +63,8 @@ class SEMrush_Login_Action_Test extends TestCase {
 	 * Tests a valid authentication with SEMrush.
 	 *
 	 * @covers ::authenticate
+	 *
+	 * @return void
 	 */
 	public function test_valid_authentication() {
 		$token_data = [
@@ -103,6 +109,8 @@ class SEMrush_Login_Action_Test extends TestCase {
 	 * Tests an invalid authentication with SEMrush.
 	 *
 	 * @covers ::authenticate
+	 *
+	 * @return void
 	 */
 	public function test_invalid_authentication() {
 		// Expected returned class by client.

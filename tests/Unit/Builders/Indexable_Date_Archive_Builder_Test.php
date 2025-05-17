@@ -20,12 +20,14 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Date_Archive_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Date_Archive_Builder
  */
-class Indexable_Date_Archive_Builder_Test extends TestCase {
+final class Indexable_Date_Archive_Builder_Test extends TestCase {
 
 	/**
 	 * Tests the formatting of the indexable data.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 		$options_mock = Mockery::mock( Options_Helper::class );

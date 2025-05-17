@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash-es";
+import { isEmpty } from "lodash";
 import { findWordFormsInString } from "../../../helpers/match/findKeywordFormsInString";
 import wordMatch from "../../../helpers/match/matchTextWithArray";
 import processExactMatchRequest from "../../../helpers/match/processExactMatchRequest";
@@ -22,7 +22,7 @@ function adjustPosition( title, position ) {
 	}
 
 	// Retrieve the SEO title words before the keyphrase.
-	let titleBeforeKeyword = title.substr( 0, position );
+	let titleBeforeKeyword = title.substring( 0, position );
 	titleBeforeKeyword = getWords( titleBeforeKeyword );
 	// Retrieve the non-function words.
 	titleBeforeKeyword = titleBeforeKeyword.filter( word => ! functionWords.includes( word ) );

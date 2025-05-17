@@ -10,7 +10,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Class Main_Double.
  */
-class Main_Double extends Main {
+final class Main_Double extends Main {
 
 	/**
 	 * Loads the DI container.

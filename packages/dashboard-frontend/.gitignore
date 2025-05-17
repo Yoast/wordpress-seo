@@ -1,0 +1,12 @@
+# Editor
+.vscode
+.idea
+# Dependencies
+node_modules/
+# Artifacts
+build/
+# Coverage
+coverage/
+# Storybook
+storybook-static/
+*storybook.log

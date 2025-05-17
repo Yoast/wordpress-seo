@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Robots_Helper
  */
-class Robots_Helper_Test extends TestCase {
+final class Robots_Helper_Test extends TestCase {
 
 	/**
 	 * Represents the robots helper.
@@ -42,6 +42,8 @@ class Robots_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -56,6 +58,8 @@ class Robots_Helper_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -72,6 +76,8 @@ class Robots_Helper_Test extends TestCase {
 	 * Tests that the indexable returns true when `is_robots_noindex` is false.
 	 *
 	 * @covers ::is_indexable
+	 *
+	 * @return void
 	 */
 	public function test_is_indexable_true() {
 		$indexable                    = Mockery::mock( Indexable_Mock::class );
@@ -84,6 +90,8 @@ class Robots_Helper_Test extends TestCase {
 	 * Tests that the indexable returns false when `is_robots_noindex` is true.
 	 *
 	 * @covers ::is_indexable
+	 *
+	 * @return void
 	 */
 	public function test_is_indexable_false() {
 		$indexable                    = Mockery::mock( Indexable_Mock::class );
@@ -96,6 +104,8 @@ class Robots_Helper_Test extends TestCase {
 	 * Tests that the post type setting is checked when the indexable does not have an override.
 	 *
 	 * @covers ::is_indexable
+	 *
+	 * @return void
 	 */
 	public function test_is_indexable_post_type() {
 		$indexable                    = Mockery::mock( Indexable_Mock::class );
@@ -112,6 +122,8 @@ class Robots_Helper_Test extends TestCase {
 	 * Tests that the taxonomy setting is checked when the indexable does not have an override.
 	 *
 	 * @covers ::is_indexable
+	 *
+	 * @return void
 	 */
 	public function test_is_indexable_taxonomy() {
 		$indexable                    = Mockery::mock( Indexable_Mock::class );
@@ -128,6 +140,8 @@ class Robots_Helper_Test extends TestCase {
 	 * Tests setting 'index' to 'noindex' when 'index' is set to 'index'.
 	 *
 	 * @covers ::set_robots_no_index
+	 *
+	 * @return void
 	 */
 	public function test_set_robots_no_index() {
 		$this->assertEquals(
@@ -148,6 +162,8 @@ class Robots_Helper_Test extends TestCase {
 	 * Tests setting 'index' to 'noindex' when a string is passed instead of an array.
 	 *
 	 * @covers ::set_robots_no_index
+	 *
+	 * @return void
 	 */
 	public function test_set_robots_no_index_string_given() {
 		Monkey\Functions\expect( '_deprecated_argument' )

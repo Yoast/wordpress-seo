@@ -101,9 +101,8 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the Yoast SEO breadcrumbs class.
 		 *
+		 * @param string                 $output       The HTML output.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
-		 *
-		 * @api string $output The HTML output.
 		 */
 		return \apply_filters( 'wpseo_breadcrumb_output', $output, $this->presentation );
 	}
@@ -138,8 +137,13 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			// If it's not the last element and we have a url.
 			$link      .= '<' . $this->get_element() . '>';
 			$title_attr = isset( $breadcrumb['title'] ) ? ' title="' . \esc_attr( $breadcrumb['title'] ) . '"' : '';
-			$link      .= '<a href="' . \esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
-			$link      .= '</' . $this->get_element() . '>';
+			$link      .= '<a';
+
+			if ( $this->should_link_target_blank() ) {
+				$link .= ' target="_blank"';
+			}
+			$link .= ' href="' . \esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
+			$link .= '</' . $this->get_element() . '>';
 		}
 		elseif ( $index === ( $total - 1 ) ) {
 			// If it's the last element.
@@ -158,9 +162,8 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_breadcrumb_single_link' - Allow changing of each link being put out by the Yoast SEO breadcrumbs class.
 		 *
-		 * @param array $link The link array.
-		 *
-		 * @api string $link_output The output string.
+		 * @param string $link_output The output string.
+		 * @param array  $link        The breadcrumb link array.
 		 */
 		return \apply_filters( 'wpseo_breadcrumb_single_link', $link, $breadcrumb );
 	}
@@ -175,7 +178,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			/**
 			 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the Yoast SEO breadcrumbs wrapper element.
 			 *
-			 * @api string $unsigned ID to add to the wrapper element.
+			 * @param string $unsigned ID to add to the wrapper element.
 			 */
 			$this->id = \apply_filters( 'wpseo_breadcrumb_output_id', '' );
 			if ( ! \is_string( $this->id ) ) {
@@ -200,7 +203,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			/**
 			 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the Yoast SEO breadcrumbs wrapper element.
 			 *
-			 * @api string $unsigned Class to add to the wrapper element.
+			 * @param string $unsigned Class to add to the wrapper element.
 			 */
 			$this->class = \apply_filters( 'wpseo_breadcrumb_output_class', '' );
 			if ( ! \is_string( $this->class ) ) {
@@ -257,5 +260,22 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		return $this->element;
+	}
+
+	/**
+	 * This is needed because when the editor is loaded in an Iframe the link needs to open in a different browser window.
+	 * We don't want this behaviour in the front-end and the way to check this is to check if the block is rendered in a REST request with the `context` set as 'edit'. Thus being in the editor.
+	 *
+	 * @return bool returns if the breadcrumb should be opened in another window.
+	 */
+	private function should_link_target_blank(): bool {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['context'] ) && \is_string( $_GET['context'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only strictly comparing.
+			if ( \wp_unslash( $_GET['context'] ) === 'edit' ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

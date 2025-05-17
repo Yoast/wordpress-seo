@@ -28,7 +28,7 @@ describe( "checks for keyword doubles", function() {
 		expect( plugin.scoreAssessment( { id: 1, count: 2 }, paper ).score ).toBe( 1 );
 		expect( plugin.scoreAssessment( { id: 1, count: 2, postTypeToDisplay: "Paper" }, paper ).text ).toBe( "<a href='https://yoa.st/33x' " +
 			"target='_blank'>Previously used keyphrase</a>: You've used this keyphrase <a href='http://search?keyword&post_type=Paper' " +
-			"target='_blank'> multiple times before</a>. <a href='https://yoa.st/33y' target='_blank'>" +
+			"target='_blank'>multiple times before</a>. <a href='https://yoa.st/33y' target='_blank'>" +
 			"Do not use your keyphrase more than once</a>." );
 
 		expect( plugin.scoreAssessment( { id: 0, count: 0 }, paper ).score ).toBe( 9 );
@@ -41,8 +41,16 @@ describe( "checks for keyword doubles", function() {
 		const plugin = new PreviouslyUsedKeywords( app, args );
 		expect( plugin.scoreAssessment( { id: 1, count: 2, postTypeToDisplay: "post" }, paper ).text ).toBe( "<a href='https://yoa.st/33x' " +
 			"target='_blank'>Previously used keyphrase</a>: You've used this keyphrase " +
-			"<a href='http://search?keyword%2Fbla&post_type=post' target='_blank'> multiple times before</a>. " +
+			"<a href='http://search?keyword%2Fbla&post_type=post' target='_blank'>multiple times before</a>. " +
 			"<a href='https://yoa.st/33y' target='_blank'>Do not use your keyphrase more than once</a>." );
+	} );
+
+	it( "returns feedback when there is no keyphrase", function() {
+		const paper = new Paper( "text", { keyword: "" } );
+		const plugin = new PreviouslyUsedKeywords( app, args );
+		expect( plugin.scoreAssessment( {}, paper ).text ).toBe( "<a href='https://yoa.st/33x' " +
+			"target='_blank'>Previously used keyphrase</a>: No focus keyphrase was set for this page. " +
+			"<a href='https://yoa.st/33y' target='_blank'>Please add a focus keyphrase you haven't used before on other content</a>." );
 	} );
 } );
 
@@ -87,7 +95,7 @@ describe( "previously used keyphrase when postTypeToDisplay is defined and count
 
 	it( "correctly creates feedback when postTypeToDisplay is defined", () => {
 		expect( result.text ).toEqual( "<a href='https://yoa.st/33x' target='_blank'>Previously used keyphrase</a>: " +
-			"You've used this keyphrase <a href='http://search?keyword&post_type=Post' target='_blank'> multiple times before</a>. " +
+			"You've used this keyphrase <a href='http://search?keyword&post_type=Post' target='_blank'>multiple times before</a>. " +
 			"<a href='https://yoa.st/33y' target='_blank'>Do not use your keyphrase more than once</a>." );
 	} );
 } );
@@ -138,9 +146,8 @@ describe( "previously used keyphrase when postTypeToDisplay is defined and count
 
 describe( "Test previouslyUsedKeywords when app is undefined", () => {
 	it( "should throw an error if app is undefined", () => {
-		// eslint-disable-next-line no-undefined
 		expect( () => {
-			// eslint-disable-next-line no-new,no-undefined
+			// eslint-disable-next-line no-undefined
 			new PreviouslyUsedKeywords( undefined, {} );
 		} ).toThrow( MissingArgumentError );
 	} );

@@ -1,11 +1,12 @@
-/* eslint-disable capitalized-comments */
 import { keywordCountInSlug as slugKeyword, keywordCountInUrl as urlKeyword } from "../../../src/languageProcessing/researches/keywordCountInUrl.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
+import IndonesianResearcher from "../../../src/languageProcessing/languages/id/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 
 const morphologyData = getMorphologyData( "en" );
+const morphologyDataID = getMorphologyData( "id" );
 
 describe( "test to check slug for keyword", function() {
 	it( "returns simple matches", function() {
@@ -193,25 +194,33 @@ describe( "test to check slug for keyword", function() {
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
-	it( "works with dash within the keyword in the slug", function() {
+	it( "works with a mix of underscores and hyphens as word boundary in the slug", function() {
+		const paper = new Paper( "", { slug: "cats-and_dogs", keyword: "cats and dogs" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
+	} );
+
+	it( "works with a hyphen within the keyword in the slug", function() {
 		const paper = new Paper( "", { slug: "buku-buku", keyword: "buku-buku" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
-	it( "works with dash within the keyword in the slug", function() {
+	it( "works with multiple hyphens within the keyword in the slug", function() {
 		const paper = new Paper( "", { slug: "on-the-go", keyword: "on-the-go" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
 	} );
 
-	it( "works with dash within the keyword in the slug", function() {
+	it( "works with a hyphen in one of the words within the keyword", function() {
 		const paper = new Paper( "", { slug: "two-room-apartment", keyword: "two-room apartment" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
-		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
+		// 'Two' is a function word, that's why the keyphrase length is 2.
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
 	it( "morphology works for hyphenated keyphrases", function() {
@@ -222,18 +231,84 @@ describe( "test to check slug for keyword", function() {
 	} );
 
 	it( "morphology works for hyphenated keyphrases with function words", function() {
-		const paper = new Paper( "", { slug: "two-year-old", keyword: "two-year-olds" } );
+		const paper = new Paper( "", { slug: "husband-to-be", keyword: "husbands-to-be" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		// 'To' and 'be' are function words, that's why the keyphrase length is 1.
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+	} );
+
+	it( "morphology works for partially hyphenated keyphrases with function words", function() {
+		const paper = new Paper( "", { slug: "gift-for-mother-in-law", keyword: "gifts for mothers-in-law" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		// 'For' and 'in' are function words, that's why the keyphrase length is 3.
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
 	} );
 
-	// Does not work yet.
+	/*
+	 * This is an edge case that does not work because 'olds' is not recognized as a form of 'old' (which makes sense),
+	 * even though 'two-year-olds' is a valid form of 'two-year-old'.
+	 */
 	xit( "morphology works for partially hyphenated keyphrases", function() {
 		const paper = new Paper( "", { slug: "how-to-entertain-two-year-old", keyword: "how to entertain two-year-olds" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 6, percentWordMatches: 100 } );
+	} );
+
+	it( "works with a reduplicated keyphrase in Indonesian", function() {
+		const paper = new Paper( "", { slug: "buku-buku", keyword: "buku-buku" } );
+		const researcher = new IndonesianResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
+	} );
+
+	it( "works for reduplicated keyphrase in Indonesian when there's more words in the slug", function() {
+		const paper = new Paper( "", { slug: "buku-buku-dan-kucing", keyword: "buku-buku" } );
+		const researcher = new IndonesianResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
+	} );
+
+	it( "works with different forms of a reduplicated keyphrase", function() {
+		const paper = new Paper( "", { slug: "buku", keyword: "buku-buku" } );
+		const researcher = new IndonesianResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
+	} );
+
+	it( "works with different forms of a reduplicated keyphrase (with an additional suffix)", function() {
+		const paper = new Paper( "", { slug: "buku", keyword: "buku-bukunya" } );
+		const researcher = new IndonesianResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
+	} );
+
+	it( "works with a hyphenated keyphrase that's not a reduplication in Indonesian", function() {
+		const paper = new Paper( "", { slug: "kupu-kupu", keyword: "kupu-kupu" } );
+		const researcher = new IndonesianResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
+	} );
+
+	it( "works with different forms of a hyphenated keyphrase in Indonesian that's not a reduplication", function() {
+		const paper = new Paper( "", { slug: "pontang-panting", keyword: "berpontang-panting" } );
+		const researcher = new IndonesianResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
+	} );
+
+	/*
+	 * 	Cases where one part of a hyphenated form is not a valid form on its own (in this case, "ngayuh") are not matched.
+	 *  So in this case, the result for percentWordMatches that we get is 50.
+	 */
+	xit( "works with different forms of a reduplicated keyphrase in Indonesian, with one word form containing a hyphen" +
+		" and the other one not.", function() {
+		const paper = new Paper( "", { slug: "kayuh", keyword: "mengayuh-ngayuh" } );
+		const researcher = new IndonesianResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 } );
 

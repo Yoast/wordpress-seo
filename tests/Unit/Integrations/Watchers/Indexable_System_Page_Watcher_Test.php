@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_System_Page_Watcher
  * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_System_Page_Watcher
  */
-class Indexable_System_Page_Watcher_Test extends TestCase {
+final class Indexable_System_Page_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the indexable repository.
@@ -45,6 +45,8 @@ class Indexable_System_Page_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -58,6 +60,8 @@ class Indexable_System_Page_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -71,6 +75,8 @@ class Indexable_System_Page_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -83,6 +89,8 @@ class Indexable_System_Page_Watcher_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::check_option
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_update_wpseo_titles_value() {
 		$indexable_mock = Mockery::mock( Indexable::class );
@@ -108,6 +116,8 @@ class Indexable_System_Page_Watcher_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::check_option
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_update_wpseo_titles_value_without_change() {
 		// No assertions made so this will fail if any method is called on our mocks.
@@ -130,6 +140,8 @@ class Indexable_System_Page_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_indexable_without_indexable() {
 		$indexable_mock = Mockery::mock( Indexable::class );

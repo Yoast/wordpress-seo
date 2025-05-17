@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexing_Complete_Action
  */
-class Indexing_Complete_Action_Test extends TestCase {
+final class Indexing_Complete_Action_Test extends TestCase {
 
 	/**
 	 * The indexing complete action under test.
@@ -33,6 +33,8 @@ class Indexing_Complete_Action_Test extends TestCase {
 
 	/**
 	 * Runs the setup.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -45,6 +47,8 @@ class Indexing_Complete_Action_Test extends TestCase {
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		self::assertInstanceOf(
@@ -57,6 +61,8 @@ class Indexing_Complete_Action_Test extends TestCase {
 	 * Tests the `complete` method.
 	 *
 	 * @covers ::complete
+	 *
+	 * @return void
 	 */
 	public function test_complete_method() {
 		$this->indexing

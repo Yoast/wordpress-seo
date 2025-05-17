@@ -1,28 +1,6 @@
 // See https://github.com/sindresorhus/grunt-shell
 module.exports = function( grunt ) {
 	/**
-	 * Gets the bash command to get make pot files for this package.
-	 *
-	 * @returns {string} The bash command to get make pot files for this package.
-	 */
-	function makePotCommand() {
-		var files;
-
-		files = [ "src/**/*.js" ];
-		files = grunt.file.expand( files );
-
-		return "xgettext" +
-			" --default-domain=<%= shell.makepot.textdomain %>" +
-			" -o <%= shell.makepot.potFile %>" +
-			" --package-version=<%= pkg.version %> --package-name=<%= pkg.name %>" +
-			" --force-po" +
-			" --from-code=UTF-8" +
-			" --add-comments=\"translators: \"" +
-			" --add-comments=\"Translators: \"" +
-			" " + files.join( " " );
-	}
-
-	/**
 	 * Gets the bash command to get the current branch of the repository.
 	 *
 	 * @returns {string} The bash command to get the current branch of the repository.
@@ -57,9 +35,9 @@ module.exports = function( grunt ) {
 	}
 
 	/**
-	 * Gets the bash command to checkout the correct branch on the premium-configuration directory.
+	 * Gets the bash command to check out the correct branch on the premium-configuration directory.
 	 *
-	 * @returns {string} The bash command to checkout the correct branch on the premium-configuration directory.
+	 * @returns {string} The bash command to check out the correct branch on the premium-configuration directory.
 	 */
 	function checkoutPremiumConfigurationCommand() {
 		const commands = [];
@@ -105,15 +83,9 @@ module.exports = function( grunt ) {
 	}
 
 	return {
-		makepot: {
-			potFile: "languages/yoast-seo.pot",
-			textdomain: "js-text-analysis",
-			command: makePotCommand,
-		},
 		"get-current-branch": {
 			command: getCurrentBranchCommand,
 			options: {
-				// eslint-disable-next-line handle-callback-err
 				callback: function( err, stdout, stderr, cb ) {
 					grunt.config.set( "currentBranch", stdout );
 

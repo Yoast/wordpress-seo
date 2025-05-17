@@ -11,7 +11,7 @@ use Yoast_Notification;
  *
  * @covers Yoast_Notification
  */
-class Yoast_Notification_Test extends TestCase {
+final class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test capability filters get set.
@@ -29,6 +29,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Create user with proper caps.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -41,6 +43,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * No ID is not persistent.
+	 *
+	 * @return void
 	 */
 	public function test_not_persistent() {
 		$subject = new Yoast_Notification( 'message', [] );
@@ -49,6 +53,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test defaults.
+	 *
+	 * @return void
 	 */
 	public function test_set_defaults() {
 		$subject = new Yoast_Notification( 'message', [] );
@@ -74,6 +80,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Verify invalid options.
+	 *
+	 * @return void
 	 */
 	public function test_verify_priority_boundary() {
 		$options = [
@@ -87,6 +95,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test nonce when set.
+	 *
+	 * @return void
 	 */
 	public function test_nonce() {
 		$subject = new Yoast_Notification( 'message', [ 'nonce' => 'nonce' ] );
@@ -95,6 +105,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test nonce when not set as option.
+	 *
+	 * @return void
 	 */
 	public function test_nonce_not_set() {
 		$subject = new Yoast_Notification( 'message', [ 'id' => 'id' ] );
@@ -104,6 +116,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test type is set to default and retrievable.
+	 *
+	 * @return void
 	 */
 	public function test_type() {
 		$subject = new Yoast_Notification( 'message', [] );
@@ -114,6 +128,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test type custom value.
+	 *
+	 * @return void
 	 */
 	public function test_type_custom() {
 		$subject = new Yoast_Notification( 'message', [ 'type' => 'bla' ] );
@@ -122,6 +138,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test setting and retrieving JSON.
+	 *
+	 * @return void
 	 */
 	public function test_json() {
 		$data = [ 'bla' ];
@@ -135,6 +153,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test retrieval of dismissal key.
+	 *
+	 * @return void
 	 */
 	public function test_get_dismissal_key() {
 		$subject = new Yoast_Notification( 'message', [ 'dismissal_key' => 'dis' ] );
@@ -143,6 +163,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test retrieval of dismissal key when not set.
+	 *
+	 * @return void
 	 */
 	public function test_get_dismissal_key_not_set() {
 		$subject = new Yoast_Notification( 'message', [ 'id' => 'id' ] );
@@ -151,6 +173,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Non-persistent Notifications should always be displayed.
+	 *
+	 * @return void
 	 */
 	public function test_not_persistent_always_show() {
 		$subject = new Yoast_Notification( 'message', [] );
@@ -164,6 +188,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test any without matches.
+	 *
+	 * @return void
 	 */
 	public function test_match_any_pass() {
 
@@ -182,7 +208,6 @@ class Yoast_Notification_Test extends TestCase {
 			]
 		);
 
-
 		$this->assertTrue( $subject->display_for_current_user() );
 
 		$this->remove_cap( 'bla' );
@@ -190,6 +215,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test any without matches.
+	 *
+	 * @return void
 	 */
 	public function test_match_any_fail() {
 
@@ -213,6 +240,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test any without matches.
+	 *
+	 * @return void
 	 */
 	public function test_match_all_pass() {
 
@@ -239,6 +268,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Test any without matches.
+	 *
+	 * @return void
 	 */
 	public function test_match_all_fail() {
 
@@ -276,6 +307,8 @@ class Yoast_Notification_Test extends TestCase {
 
 	/**
 	 * Invalid filter return value.
+	 *
+	 * @return void
 	 */
 	public function test_invalid_filter_return_values() {
 		$subject = new Yoast_Notification(
@@ -303,6 +336,8 @@ class Yoast_Notification_Test extends TestCase {
 	 * Wrapper for WP_User::add_cap().
 	 *
 	 * @param string $capability Capability to add.
+	 *
+	 * @return void
 	 */
 	private function add_cap( $capability ) {
 		$me = \wp_get_current_user();
@@ -315,6 +350,8 @@ class Yoast_Notification_Test extends TestCase {
 	 * Wrapper for WP_User::remove_cap().
 	 *
 	 * @param string $capability Capability to remove.
+	 *
+	 * @return void
 	 */
 	private function remove_cap( $capability ) {
 		$me = \wp_get_current_user();

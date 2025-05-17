@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Not_Admin_Ajax_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -29,7 +30,7 @@ use Yoast_Notification_Center;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
+final class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 
 	/**
 	 * Holds the Options_Helper instance.
@@ -60,6 +61,13 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	private $notification_center;
 
 	/**
+	 * The indexable helper mock.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Represents the instance to test.
 	 *
 	 * @var Indexable_Post_Type_Change_Watcher
@@ -68,6 +76,8 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -76,12 +86,14 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 		$this->indexing_helper     = Mockery::mock( Indexing_Helper::class );
 		$this->post_type_helper    = Mockery::mock( Post_Type_Helper::class );
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
+		$this->indexable_helper    = Mockery::mock( Indexable_Helper::class );
 
 		$this->instance = new Indexable_Post_Type_Change_Watcher(
 			$this->options,
 			$this->indexing_helper,
 			$this->post_type_helper,
-			$this->notification_center
+			$this->notification_center,
+			$this->indexable_helper
 		);
 	}
 
@@ -89,6 +101,8 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -106,6 +120,8 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -119,16 +135,24 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::check_post_types_public_availability
 	 *
-	 * @param bool  $is_json_request              Whether it's a JSON request.
-	 * @param array $public_post_types            The public post types.
-	 * @param int   $get_public_post_types_times  The times we get the public post types.
-	 * @param array $last_known_public_post_types The last known public post types.
-	 * @param int   $set_public_post_types_times  The times we get the last known public post types.
-	 * @param int   $delete_transient_times       The times we delete the transients.
-	 * @param int   $schedule_cleanup_times       The times we schedule the cleanup.
+	 * @param bool          $is_json_request              Whether it's a JSON request.
+	 * @param array<string> $public_post_types            The public post types.
+	 * @param int           $get_public_post_types_times  The times we get the public post types.
+	 * @param array<string> $last_known_public_post_types The last known public post types.
+	 * @param int           $set_public_post_types_times  The times we get the last known public post types.
+	 * @param int           $delete_transient_times       The times we delete the transients.
+	 * @param int           $schedule_cleanup_times       The times we schedule the cleanup.
+	 *
+	 * @return void
 	 */
 	public function test_check_post_types_public_availability(
-		$is_json_request, $public_post_types, $get_public_post_types_times, $last_known_public_post_types, $set_public_post_types_times, $delete_transient_times, $schedule_cleanup_times
+		$is_json_request,
+		$public_post_types,
+		$get_public_post_types_times,
+		$last_known_public_post_types,
+		$set_public_post_types_times,
+		$delete_transient_times,
+		$schedule_cleanup_times
 	) {
 		Functions\expect( 'wp_is_json_request' )
 			->once()
@@ -177,15 +201,17 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 		Functions\expect( 'do_action' )
 			->times( $delete_transient_times );
 
+		$this->indexable_helper->expects( 'should_index_indexables' )->times( $schedule_cleanup_times )->andReturnTrue();
+
 		$this->instance->check_post_types_public_availability();
 	}
 
 	/**
 	 * Data provider for test_check_post_types_public_availability().
 	 *
-	 * @return array
+	 * @return array<string, array<string, int|bool|array<int|string, string>>> The data.
 	 */
-	public function provider_check_post_types_public_availability() {
+	public static function provider_check_post_types_public_availability() {
 
 		return [
 			'When it is ajax request' => [

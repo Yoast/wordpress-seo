@@ -9,13 +9,15 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Tests for our wrapper import class.
  */
-class Plugin_Test extends TestCase {
+final class Plugin_Test extends TestCase {
 
 	/**
 	 * Test message for detect without data.
 	 *
 	 * @covers WPSEO_Import_Plugin::__construct
 	 * @covers WPSEO_Import_Plugin::complete_msg
+	 *
+	 * @return void
 	 */
 	public function test_detect_no_data() {
 		$importer = new WPSEO_Import_Plugin( new WPSEO_Import_AIOSEO(), 'detect' );
@@ -29,6 +31,8 @@ class Plugin_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Plugin::__construct
 	 * @covers WPSEO_Import_Plugin::complete_msg
+	 *
+	 * @return void
 	 */
 	public function test_detect_with_data() {
 		$this->setup_post();
@@ -43,6 +47,8 @@ class Plugin_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Plugin::__construct
 	 * @covers WPSEO_Import_Plugin::complete_msg
+	 *
+	 * @return void
 	 */
 	public function test_import_no_data() {
 		$importer = new WPSEO_Import_Plugin( new WPSEO_Import_AIOSEO(), 'import' );
@@ -56,6 +62,8 @@ class Plugin_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Plugin::__construct
 	 * @covers WPSEO_Import_Plugin::complete_msg
+	 *
+	 * @return void
 	 */
 	public function test_import_with_data() {
 		$this->setup_post();
@@ -70,6 +78,8 @@ class Plugin_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Plugin::__construct
 	 * @covers WPSEO_Import_Plugin::complete_msg
+	 *
+	 * @return void
 	 */
 	public function test_cleanup_no_data() {
 		$importer = new WPSEO_Import_Plugin( new WPSEO_Import_AIOSEO(), 'cleanup' );
@@ -83,6 +93,8 @@ class Plugin_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_Plugin::__construct
 	 * @covers WPSEO_Import_Plugin::complete_msg
+	 *
+	 * @return void
 	 */
 	public function test_cleanup_with_data() {
 		$this->setup_post();

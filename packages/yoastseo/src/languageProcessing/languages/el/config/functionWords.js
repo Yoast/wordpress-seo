@@ -1,4 +1,5 @@
 import { singleWords as transitionWords } from "./transitionWords";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
 
 /**
  * Returns an array of Greek function words.
@@ -107,9 +108,9 @@ const vagueNouns = [ "πράγμα", "πράγματα", "υπόθεση", "πε
 
 const titles = [ "δεσποινίς", "καθηγητής", "διδάκτωρ", "κύριος", "κύριοι", "κυρίες", "καθηγ", "κυρία", "διδα", "καθ", "κος", "δρ", "κα" ];
 
-export const all = [].concat( articles, cardinalNumbers, otherNumbers, fractions, personalPronouns, demonstrativePronouns,
+export const all = transformWordsWithHyphens( [].concat( articles, cardinalNumbers, otherNumbers, fractions, personalPronouns, demonstrativePronouns,
 	interrogatives, interrogativeAdverbs, quantifiers, reflexivePronouns, possessivePronouns, indefinitePronouns,
 	prepositions, particles, conjuntions, interviewVerbs, intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs,
-	interjections, recipeWords, timeWords, vagueNouns, titles, transitionWords );
+	interjections, recipeWords, timeWords, vagueNouns, titles, transitionWords ) );
 
 export default all;

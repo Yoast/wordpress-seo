@@ -1,8 +1,9 @@
 /** @module analyses/findKeywordInFirstParagraph */
+import { inRange, isEmpty } from "lodash";
 
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
+import { createShortcodeTagsRegex } from "../helpers";
 
-import { isEmpty } from "lodash-es";
 
 /**
  * Checks if the introductory paragraph contains keyphrase or synonyms.
@@ -24,15 +25,37 @@ import { isEmpty } from "lodash-es";
  * the paragraph, whether a keyphrase or a synonym phrase was matched.
  */
 export default function( paper, researcher ) {
-	const firstParagraph = researcher.getResearch( "getParagraphs" )[ 0 ];
+	let paragraphs = researcher.getResearch( "getParagraphs" );
+	const tree = paper.getTree();
+	// Filter captions from non-Classic editors.
+	paragraphs = paragraphs.filter( paragraph => {
+		const parentNode = paragraph.getParentNode( tree );
+		return ! ( paragraph.isImplicit && parentNode && parentNode.name === "figcaption" );
+	} );
+	// Filter captions from classic block inside Block editor.
+	// Filter caption, gallery, embed and playlist shortcodes from Classic editor.
+	paragraphs = paragraphs.filter( paragraph => {
+		return ! ( paragraph.childNodes && paragraph.childNodes[ 0 ] &&
+			createShortcodeTagsRegex( [ "caption", "gallery", "embed", "playlist" ] ).test( paragraph.childNodes[ 0 ].value ) );
+	} );
+	const firstParagraph = paragraphs[ 0 ];
+
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const locale = paper.getLocale();
+	const startOffset = firstParagraph && firstParagraph.sourceCodeLocation.startOffset;
 
+	// Block editor-specific processing to retrieve the parent block of the introduction node.
+	const mappedBlocks = paper._attributes.wpBlocks;
+	const filteredIntroductionBlock = mappedBlocks && mappedBlocks.filter( block => inRange( startOffset, block.startOffset, block.endOffset ) )[ 0 ];
+	// In case of non-Block editor, we return the introduction's parent node.
+	const introductionParentNode = firstParagraph?.getParentNode( tree );
 	const result = {
 		foundInOneSentence: false,
 		foundInParagraph: false,
 		keyphraseOrSynonym: "",
+		introduction: firstParagraph,
+		parentBlock: filteredIntroductionBlock || introductionParentNode,
 	};
 
 	if ( isEmpty( firstParagraph ) ) {

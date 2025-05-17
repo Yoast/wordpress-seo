@@ -1,8 +1,8 @@
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../specHelpers/getResearcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
-import getWordComplexityConfig from "../specHelpers/getWordComplexityConfig";
-import getWordComplexityHelper from "../specHelpers/getWordComplexityHelper";
+import getWordComplexityConfig from "../../src/helpers/getWordComplexityConfig";
+import getWordComplexityHelper from "../../src/helpers/getWordComplexityHelper";
 import buildTree from "../specHelpers/parse/buildTree";
 
 // Import SEO assessments
@@ -45,7 +45,6 @@ import { getLanguagesWithWordComplexity } from "../../src/helpers";
 import testPapers from "./testTexts";
 
 testPapers.forEach( function( testPaper ) {
-	// eslint-disable-next-line max-statements
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
 		const locale = paper.getLocale();

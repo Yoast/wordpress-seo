@@ -15,6 +15,8 @@ final class Asset_SEO_Location_Test extends TestCase {
 	 * Tests the get_url function.
 	 *
 	 * @covers WPSEO_Admin_Asset_SEO_Location::get_url
+	 *
+	 * @return void
 	 */
 	public function test_get_url() {
 		$asset_args = [

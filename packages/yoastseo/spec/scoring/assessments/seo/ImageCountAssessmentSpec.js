@@ -1,6 +1,6 @@
 import ImageCountAssessment from "../../../../src/scoring/assessments/seo/ImageCountAssessment";
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
 
 const imageCountAssessment = new ImageCountAssessment();
 
@@ -176,16 +176,8 @@ describe( "An image count assessment, including videos in product pages", functi
 } );
 
 describe( "tests for the assessment applicability.", function() {
-	it( "returns false when the paper is empty.", function() {
+	it( "returns true even when the paper is empty.", function() {
 		const paper = new Paper( "" );
-		expect( imageCountAssessment.isApplicable( paper ) ).toBe( false );
-	} );
-
-	it( "returns true when the paper is not empty.", function() {
-		const paper = new Paper( "sample keyword", {
-			slug: "sample-with-keyword",
-			keyword: "kéyword",
-		} );
 		expect( imageCountAssessment.isApplicable( paper ) ).toBe( true );
 	} );
 } );

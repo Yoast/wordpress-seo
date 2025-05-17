@@ -3,6 +3,7 @@
  * @returns {Object} The object filled with exception arrays.
  */
 import { singleWords as transitionWords } from "./transitionWords";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
 
 const articles = [ "si", "sang", "kaum", "sri", "hang", "dang", "para" ];
 const cardinalNumerals = [ "nol", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan",
@@ -137,7 +138,7 @@ const vagueNouns = [ "cara", "barang", "masalah", "bagian", "bagian-bagian", "as
 	"tema", "hal", "perkara", "faktor", "faktor-faktor", "detil", "perbedaan", "adanya", "beginian", "rupanya", "diri" ];
 
 const miscellaneous = [ "tidak", "iya", "tak", "tentu", "ok", "oke", "amin", "dll", "maaf", "tolong", "mohon", "jangan", "sebagainya",
-	"hanya", "cuma", "jangankan", "janganlah", "tolonglah"  ];
+	"hanya", "cuma", "jangankan", "janganlah", "tolonglah" ];
 
 const titlesPreceding = [ "tuan", "nyonya", "nona", "bang", "pak", "bu", "bang", "kak", "prof", "gus", "ning", "kyai",
 	"ustad", "ustadzah", "nyai", "raden", "tengku" ];
@@ -147,7 +148,7 @@ const titlesPreceding = [ "tuan", "nyonya", "nona", "bang", "pak", "bu", "bang",
  *
  * @type {string[]} Word categories filtered at the end of word combinations.
  */
-export const filteredAtEnding = [].concat( otherParticles );
+export const filteredAtEnding = transformWordsWithHyphens( otherParticles );
 
 /**
  * These word categories are filtered at the beginning of word combinations.
@@ -155,37 +156,37 @@ export const filteredAtEnding = [].concat( otherParticles );
  * @type {string[]} Word categories filtered at the beginning of word combinations.
  */
 
-export const filteredAtBeginning = [].concat( ordinalNumerals, classifiers );
+export const filteredAtBeginning = transformWordsWithHyphens( [].concat( ordinalNumerals, classifiers ) );
 
 /**
  * These word categories are filtered at the beginning and end of word combinations.
  *
  * @type {string[]} Word categories filtered at the beginning and end of word combinations.
  */
-export const filteredAtBeginningAndEnding = [].concat( articles, coordinatingConjunctions, demonstrativePronouns, intensifiers,
-	possessivePronouns, pronounSubstitutes );
+export const filteredAtBeginningAndEnding = transformWordsWithHyphens( [].concat( articles, coordinatingConjunctions, demonstrativePronouns,
+	intensifiers, possessivePronouns, pronounSubstitutes ) );
 
 /**
  * These word categories are filtered everywhere within word combinations.
  *
  * @type {string[]} Word categories filtered anywhere within word combinations.
  */
-export const filteredAnywhere = [].concat( adverbialGenitives, personalPronounsNominative,
+export const filteredAnywhere = transformWordsWithHyphens( [].concat( adverbialGenitives, personalPronounsNominative,
 	reflexivePronouns, interjections, cardinalNumerals, auxiliaries, copula, interviewVerbs,
 	delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers,
 	interrogativePronouns, interrogativeAdverbs, otherAdverbs, miscellaneous, locativeAdverbs,
-	recipeWords, timeWords, vagueNouns, generalAdjectivesAndAdverbs, relativePronoun, prepositions, quantifiers, transitionWords );
+	recipeWords, timeWords, vagueNouns, generalAdjectivesAndAdverbs, relativePronoun, prepositions, quantifiers, transitionWords ) );
 
 /**
  * All Indonesian function words.
  *
  * @type {string[]} All Indonesian function words.
  */
-export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
-	personalPronounsNominative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeAdverbs,
-	locativeAdverbs, adverbialGenitives, auxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions,
+export const all = transformWordsWithHyphens( [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
+	reflexivePronouns, personalPronounsNominative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns,
+	interrogativeAdverbs, locativeAdverbs, adverbialGenitives, auxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions,
 	subordinatingConjunctions, interviewVerbs, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections,
-	generalAdjectivesAndAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, relativePronoun, transitionWords, timeWords );
+	generalAdjectivesAndAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, relativePronoun, transitionWords, timeWords ) );
 
 /**
  * Returns function words for Indonesian.

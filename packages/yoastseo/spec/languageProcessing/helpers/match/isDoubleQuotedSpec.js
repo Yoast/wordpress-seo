@@ -1,6 +1,6 @@
 import isDoubleQuoted from "../../../../src/languageProcessing/helpers/match/isDoubleQuoted";
 import doubleQuotes from "../../../../src/languageProcessing/helpers/sanitize/doubleQuotes";
-import sample from "lodash-es";
+import sample from "lodash";
 
 const testCases = [
 	{

@@ -25,8 +25,10 @@ describe( "ScreenReaderText", () => {
 		renderer.render( <ScreenReaderText><div /></ScreenReaderText> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `children` of type `object` supplied to `ScreenReaderText`, expected `string`." );
+		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
+		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
+		expect( console.error.mock.calls[ 0 ][ 2 ] )
+			.toBe( "Invalid prop `children` of type `object` supplied to `ScreenReaderText`, expected `string`." );
 	} );
 
 	it( "generates a warning when no children are passed in.", () => {
@@ -34,7 +36,9 @@ describe( "ScreenReaderText", () => {
 		renderer.render( <ScreenReaderText /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type" );
+		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
+		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
+		expect( console.error.mock.calls[ 0 ][ 2 ] )
+			.toBe( "The prop `children` is marked as required in `ScreenReaderText`, but its value is `undefined`." );
 	} );
 } );

@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group sitemaps
  */
-class Router_Test extends TestCase {
+final class Router_Test extends TestCase {
 
 	/**
 	 * Temporary home URL storage.
@@ -29,6 +29,8 @@ class Router_Test extends TestCase {
 
 	/**
 	 * Set up our class.
+	 *
+	 * @return void
 	 */
 	public static function set_up_before_class() {
 		parent::set_up_before_class();
@@ -39,6 +41,8 @@ class Router_Test extends TestCase {
 	 * Tests redirecting of the canonical.
 	 *
 	 * @covers WPSEO_Sitemaps_Router::redirect_canonical
+	 *
+	 * @return void
 	 */
 	public function test_redirect_canonical() {
 		global $wp_query;
@@ -64,6 +68,8 @@ class Router_Test extends TestCase {
 	 *
 	 * @param string $home_url The home URL to set.
 	 * @param string $expected The expected test result.
+	 *
+	 * @return void
 	 */
 	public function test_get_base_url( $home_url, $expected ) {
 		\update_option( 'home', $home_url );
@@ -73,9 +79,9 @@ class Router_Test extends TestCase {
 	/**
 	 * Provides data for the get base url test.
 	 *
-	 * @return array Test data to use.
+	 * @return array<array<string>> Test data to use.
 	 */
-	public function data_get_base_url() {
+	public static function data_get_base_url() {
 		return [
 			'Tests the base URL of the sitemap for an http home url' => [
 				'home_url' => 'http://example.org',
@@ -98,10 +104,12 @@ class Router_Test extends TestCase {
 	 * @covers       WPSEO_Sitemaps_Router::needs_sitemap_index_redirect
 	 * @dataProvider data_needs_sitemap_index_redirect
 	 *
-	 * @param array    $server_vars Associative array of `$_SERVER` vars to set.
-	 * @param string   $home_url    The home URL to set.
-	 * @param WP_Query $wp_query    WP_Query instance to set.
-	 * @param bool     $expected    The expected test result.
+	 * @param array<string> $server_vars Associative array of `$_SERVER` vars to set.
+	 * @param string        $home_url    The home URL to set.
+	 * @param WP_Query      $wp_query    WP_Query instance to set.
+	 * @param bool          $expected    The expected test result.
+	 *
+	 * @return void
 	 */
 	public function test_needs_sitemap_index_redirect( $server_vars, $home_url, $wp_query, $expected ) {
 		$server_orig   = $_SERVER;
@@ -150,9 +158,9 @@ class Router_Test extends TestCase {
 	 * [2] WP_Query: WP_Query instance to set.
 	 * [3] bool:     The expected test result.
 	 *
-	 * @return array The test data.
+	 * @return array<array<array<string>|string|WP_Query|bool>> The test data.
 	 */
-	public function data_needs_sitemap_index_redirect() {
+	public static function data_needs_sitemap_index_redirect() {
 		$server_vars_sets = [
 			[
 				'SERVER_NAME' => 'testsite.org',
@@ -210,6 +218,12 @@ class Router_Test extends TestCase {
 			}
 		}
 
+		$testdata["Should correctly interpret SERVER['HTTPS'] as true when set to 'On'"] = [
+			\array_merge( $testdata[1][0], [ 'HTTPS' => 'On' ] ),
+			$testdata[3][1],
+			$testdata[3][2],
+			$testdata[3][3],
+		];
 		return $testdata;
 	}
 }

@@ -105,7 +105,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		$term       = \get_term_by( 'term_taxonomy_id', (int) $term_taxonomy_id );
+		$term       = get_term_by( 'term_taxonomy_id', (int) $term_taxonomy_id );
 		$term_label = $this->get_taxonomy_label_for_term( $term->term_id );
 
 		/* translators: %1$s expands to the translated name of the term. */
@@ -145,7 +145,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 * @return bool Whether the term is viewable or not.
 	 */
 	protected function is_term_viewable( $term_taxonomy_id ) {
-		$term = \get_term_by( 'term_taxonomy_id', (int) $term_taxonomy_id );
+		$term = get_term_by( 'term_taxonomy_id', (int) $term_taxonomy_id );
 
 		if ( ! $term || is_wp_error( $term ) ) {
 			return false;
@@ -211,7 +211,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns the message around changed URLs.
 	 *
-	 * @param string $first_sentence The first sentence of the notification.
+	 * @param string $first_sentence  The first sentence of the notification.
 	 * @param string $second_sentence The second sentence of the notification.
 	 *
 	 * @return string The full notification.
@@ -225,7 +225,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			/* translators: %s expands to Yoast SEO Premium */
 			. ' ' . sprintf( __( 'With %s, you can easily create such redirects.', 'wordpress-seo' ), 'Yoast SEO Premium' )
 			. '</p>'
-			. '<p><a class="yoast-button-upsell" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">'
+			. '<p><a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">'
 			/* translators: %s expands to Yoast SEO Premium */
 			. sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' )
 			/* translators: Hidden accessibility text. */

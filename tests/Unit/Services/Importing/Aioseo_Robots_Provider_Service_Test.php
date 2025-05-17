@@ -14,9 +14,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service
- * @phpcs:disable Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
-class Aioseo_Robots_Provider_Service_Test extends TestCase {
+final class Aioseo_Robots_Provider_Service_Test extends TestCase {
 
 	/**
 	 * The AIOSEO helper.
@@ -49,6 +48,8 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	 * @param array  $aioseo_options  The AIOSEO settings.
 	 * @param string $setting         The setting we're working with.
 	 * @param bool   $expected_result The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_global_robot_settings( $aioseo_options, $setting, $expected_result ) {
 		$this->aioseo_helper->expects( 'get_global_option' )
@@ -68,6 +69,8 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	 * @param array $aioseo_options  The AIOSEO settings.
 	 * @param array $mapping         The mapping of the setting we're working with.
 	 * @param bool  $expected_result The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_subtype_robot_setting( $aioseo_options, $mapping, $expected_result ) {
 		Monkey\Functions\expect( 'get_option' )
@@ -84,7 +87,7 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_subtype_robot_setting() {
+	public static function provider_get_subtype_robot_setting() {
 		$mapping = [
 			'option_name' => 'aioseo_table',
 			'type'        => 'type',
@@ -131,7 +134,7 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_get_global_robot_settings() {
+	public static function provider_get_global_robot_settings() {
 		$empty_settings = '';
 
 		$default_global = [

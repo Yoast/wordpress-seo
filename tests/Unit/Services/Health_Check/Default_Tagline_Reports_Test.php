@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Reports
  */
-class Default_Tagline_Reports_Test extends TestCase {
+final class Default_Tagline_Reports_Test extends TestCase {
 
 	/**
 	 * The Default_Tagline_Reports instance to be tested.
@@ -39,6 +39,8 @@ class Default_Tagline_Reports_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -62,6 +64,8 @@ class Default_Tagline_Reports_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_success_result
+	 *
+	 * @return void
 	 */
 	public function test_creates_success_report_correctly() {
 		$expected = [ 'correct' ];
@@ -95,6 +99,8 @@ class Default_Tagline_Reports_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::get_has_default_tagline_result
 	 * @covers ::get_actions
+	 *
+	 * @return void
 	 */
 	public function test_creates_has_default_tagline_report_correctly() {
 		$expected = [ 'correct' ];

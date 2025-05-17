@@ -10,12 +10,14 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group OpenGraph
  */
-class Content_Images_Test extends TestCase {
+final class Content_Images_Test extends TestCase {
 
 	/**
 	 * Test getting the image from post content.
 	 *
 	 * @covers WPSEO_Content_Images::get_images_from_content
+	 *
+	 * @return void
 	 */
 	public function test_get_only_valid_images_from_content() {
 		$class_instance = new Content_Images_Double();

@@ -75,7 +75,7 @@ export const multipleWords = [ "a breve", "a causa", "a causa di", "a condizione
 	"in terza istanza", "in terzo luogo", "in totale", "in tutto", "in ugual maniera", "in ugual misura", "in ugual modo",
 	"in ultima analisi", "in ultima istanza", "in un altro caso", "in una parola", "in verità", "insieme a", "insieme con",
 	"invece che", "invece di", "la prima cosa da considerare", "la prima cosa da tenere a mente", "lo stesso",
-	"mentre potrebbe essere vero",  "motivo per cui", "motivo per il quale", "ne consegue che", "ne deriva che", "nei dettagli",
+	"mentre potrebbe essere vero", "motivo per cui", "motivo per il quale", "ne consegue che", "ne deriva che", "nei dettagli",
 	"nel caso", "nel caso che", "nel caso in cui", "nel complesso", "nel corso del", "nel corso di", "nel frattempo",
 	"nel lungo periodo", "nel mentre", "nell'eventualità che", "nella misura in cui", "nella speranza che", "nella stessa maniera",
 	"nella stessa misura", "nello specifico", "nello stesso modo", "nello stesso momento", "nello stesso stile", "non appena",

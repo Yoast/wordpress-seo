@@ -28,13 +28,14 @@ class Options_Helper {
 	/**
 	 * Sets a single field to the options.
 	 *
-	 * @param string $key   The key to set.
-	 * @param mixed  $value The value to set.
+	 * @param string $key          The key to set.
+	 * @param mixed  $value        The value to set.
+	 * @param string $option_group The lookup table which represents the option_group where the key is stored.
 	 *
 	 * @return mixed|null Returns value if found.
 	 */
-	public function set( $key, $value ) {
-		return WPSEO_Options::set( $key, $value );
+	public function set( $key, $value, $option_group = '' ) {
+		return WPSEO_Options::set( $key, $value, $option_group );
 	}
 
 	/**
@@ -76,7 +77,7 @@ class Options_Helper {
 		/**
 		 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s).
 		 *
-		 * @api string $replacement The current separator.
+		 * @param string $replacement The current separator.
 		 */
 		return \apply_filters( 'wpseo_replacements_filter_sep', $replacement );
 	}

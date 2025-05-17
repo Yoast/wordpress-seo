@@ -110,6 +110,8 @@ trait Presentation_Instance_Dependencies {
 	 * Helper function for setting helpers of the base indexable presentation.
 	 *
 	 * @param Indexable_Presentation $presentation_instance The indexable presentation instance.
+	 *
+	 * @return void
 	 */
 	protected function set_instance_dependencies( Indexable_Presentation $presentation_instance ) {
 		$this->options          = Mockery::mock( Options_Helper::class );

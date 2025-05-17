@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import React from "react";
 
 /**
  * Displays the current / total as text.
@@ -7,9 +8,9 @@ import PropTypes from "prop-types";
  * @returns {JSX.Element} The element.
  */
 const DisplayText = ( { current, total } ) => (
-	<div className="yst-pagination-display__text">
+	<bdo dir="ltr" className="yst-pagination-display__text">
 		<span className="yst-pagination-display__current-text">{ current }</span> / { total }
-	</div>
+	</bdo>
 );
 
 DisplayText.displayName = "Pagination.DisplayText";

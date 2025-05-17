@@ -15,24 +15,26 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository
  */
-class Introductions_Seen_Repository_Test extends TestCase {
+final class Introductions_Seen_Repository_Test extends TestCase {
 
 	/**
 	 * Holds the instance.
 	 *
-	 * @var \Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository
+	 * @var Introductions_Seen_Repository
 	 */
 	private $instance;
 
 	/**
 	 * Holds the user helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\User_Helper
+	 * @var Mockery\MockInterface|User_Helper
 	 */
 	private $user_helper;
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -46,6 +48,8 @@ class Introductions_Seen_Repository_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -61,8 +65,10 @@ class Introductions_Seen_Repository_Test extends TestCase {
 	 *
 	 * @dataProvider provide_get_all_introductions_test_data
 	 *
-	 * @param mixed   $meta     Value `get_meta` returns.
-	 * @param boolean $expected The expected value.
+	 * @param mixed $meta     Value `get_meta` returns.
+	 * @param bool  $expected The expected value.
+	 *
+	 * @return void
 	 *
 	 * @throws Invalid_User_Id_Exception Invalid User ID.
 	 */
@@ -81,7 +87,7 @@ class Introductions_Seen_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provide_get_all_introductions_test_data() {
+	public static function provide_get_all_introductions_test_data() {
 		return [
 			'nothing stored'    => [
 				'meta'     => '',
@@ -103,6 +109,8 @@ class Introductions_Seen_Repository_Test extends TestCase {
 	 *
 	 * @covers ::get_all_introductions
 	 *
+	 * @return void
+	 *
 	 * @throws Invalid_User_Id_Exception Invalid User ID.
 	 */
 	public function test_get_all_introductions_with_invalid_user_id() {
@@ -121,6 +129,8 @@ class Introductions_Seen_Repository_Test extends TestCase {
 	 * Tests setting the introductions calls update_meta().
 	 *
 	 * @covers ::set_all_introductions
+	 *
+	 * @return void
 	 */
 	public function test_set_all_introductions() {
 		$user_id       = 1;
@@ -144,6 +154,8 @@ class Introductions_Seen_Repository_Test extends TestCase {
 	 * @param mixed  $meta            The get_meta return value.
 	 * @param bool   $expected        The expected result.
 	 *
+	 * @return void
+	 *
 	 * @throws Invalid_User_Id_Exception Invalid User ID.
 	 */
 	public function test_is_introduction_seen( $introduction_id, $meta, $expected ) {
@@ -161,7 +173,7 @@ class Introductions_Seen_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provide_is_introduction_seen_test_data() {
+	public static function provide_is_introduction_seen_test_data() {
 		return [
 			'seen'             => [
 				'introduction_id' => 'foo',
@@ -213,6 +225,8 @@ class Introductions_Seen_Repository_Test extends TestCase {
 	 * @param mixed  $meta            The get_meta return value.
 	 * @param array  $expected_meta   The expected meta.
 	 *
+	 * @return void
+	 *
 	 * @throws Invalid_User_Id_Exception Invalid User ID.
 	 */
 	public function test_set_introduction( $introduction_id, $is_seen, $meta, $expected_meta ) {
@@ -234,7 +248,7 @@ class Introductions_Seen_Repository_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provide_set_introduction_test_data() {
+	public static function provide_set_introduction_test_data() {
 		return [
 			'seen'      => [
 				'introduction_id' => 'foo',

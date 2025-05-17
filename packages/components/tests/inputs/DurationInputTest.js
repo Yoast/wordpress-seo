@@ -1,7 +1,7 @@
 import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
 import DurationInput from "../../src/inputs/DurationInput";
-
+const noop = () => {};
 describe( "DurationInput", () => {
 	const renderer = new ReactShallowRenderer();
 	it( "should render with only required props", () => {
@@ -9,7 +9,7 @@ describe( "DurationInput", () => {
 			label="Duration"
 			duration={ 3661 }
 			id="very-nice-id"
-			onChange={ () => console.log( "test" ) }
+			onChange={ noop }
 		/> );
 
 		const result = renderer.getRenderOutput();
@@ -23,7 +23,7 @@ describe( "DurationInput", () => {
 				label="This is my label"
 				id="very-nice-id"
 				duration={ 3661 }
-				onChange={ () => console.log( "test" ) }
+				onChange={ noop }
 			/>
 		);
 

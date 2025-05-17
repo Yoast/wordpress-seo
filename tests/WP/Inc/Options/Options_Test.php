@@ -9,10 +9,12 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Options_Test extends TestCase {
+final class Options_Test extends TestCase {
 
 	/**
 	 * Set up the class which will be tested.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -24,6 +26,8 @@ class Options_Test extends TestCase {
 	 * associated with the options: wpseo and wpseo_titles.
 	 *
 	 * @covers WPSEO_Options::get_all
+	 *
+	 * @return void
 	 */
 	public function test_get_all_HAS_VALID_KEYS() {
 		$result = WPSEO_Options::get_all();
@@ -36,6 +40,8 @@ class Options_Test extends TestCase {
 	 * Test if the get_options() function returns an empty array if you pass an empty array.
 	 *
 	 * @covers WPSEO_Options::get_options
+	 *
+	 * @return void
 	 */
 	public function test_get_options_IS_EMPTY_with_empty_array() {
 		$result = WPSEO_Options::get_options( [] );
@@ -46,6 +52,8 @@ class Options_Test extends TestCase {
 	 * Test if the get_options() function returns an empty array if you pass non-existent options.
 	 *
 	 * @covers WPSEO_Options::get_options
+	 *
+	 * @return void
 	 */
 	public function test_get_options_IS_EMPTY_with_invalid_option_names() {
 		$result = WPSEO_Options::get_options( [ 'nonexistent_option_one', 'nonexistent_option_two' ] );
@@ -57,6 +65,8 @@ class Options_Test extends TestCase {
 	 * keys when entering an array with two valid option names.
 	 *
 	 * @covers WPSEO_Options::get_options
+	 *
+	 * @return void
 	 */
 	public function test_get_options_HAS_VALID_KEYS_with_valid_option_names() {
 		$result = WPSEO_Options::get_options( [ 'wpseo_social', 'wpseo_titles' ] );
@@ -67,6 +77,8 @@ class Options_Test extends TestCase {
 	 * Test if the get_option() function returns an empty array if you pass null.
 	 *
 	 * @covers WPSEO_Options::get_option
+	 *
+	 * @return void
 	 */
 	public function test_get_option_IS_EMPTY_with_null() {
 		$result = WPSEO_Options::get_option( null );
@@ -77,6 +89,8 @@ class Options_Test extends TestCase {
 	 * Test if the get_option() function returns an empty array if you pass an empty string.
 	 *
 	 * @covers WPSEO_Options::get_option
+	 *
+	 * @return void
 	 */
 	public function test_get_option_IS_EMPTY_with_empty_string() {
 		$result = WPSEO_Options::get_option( '' );
@@ -87,6 +101,8 @@ class Options_Test extends TestCase {
 	 * Test if the get_option() function returns an empty array if you pass an non-existent option.
 	 *
 	 * @covers WPSEO_Options::get_option
+	 *
+	 * @return void
 	 */
 	public function test_get_option_IS_EMPTY_with_invalid_option_name() {
 		$result = WPSEO_Options::get_option( 'nonexistent_option' );
@@ -98,6 +114,8 @@ class Options_Test extends TestCase {
 	 * keys when entering an array with a single valid option name.
 	 *
 	 * @covers WPSEO_Options::get_option
+	 *
+	 * @return void
 	 */
 	public function test_get_option_IS_VALID_with_valid_option_name() {
 		$result = WPSEO_Options::get_option( 'wpseo_titles' );
@@ -108,6 +126,8 @@ class Options_Test extends TestCase {
 	 * Tests if the get() function returns a valid result.
 	 *
 	 * @covers WPSEO_Options::get
+	 *
+	 * @return void
 	 */
 	public function test_get_returns_valid_result() {
 		$option                            = WPSEO_Options::get_option( 'wpseo' );
@@ -126,6 +146,8 @@ class Options_Test extends TestCase {
 	 * Tests if the get() function returns a valid result.
 	 *
 	 * @covers WPSEO_Options::get
+	 *
+	 * @return void
 	 */
 	public function test_get_returns_null_result() {
 		$result = WPSEO_Options::get( 'non_existent_value' );
@@ -136,6 +158,8 @@ class Options_Test extends TestCase {
 	 * Tests if the get() function returns a valid result.
 	 *
 	 * @covers WPSEO_Options::get
+	 *
+	 * @return void
 	 */
 	public function test_get_returns_default_result() {
 		$result = WPSEO_Options::get( 'non_existent_value', [] );
@@ -146,6 +170,8 @@ class Options_Test extends TestCase {
 	 * Tests if the get() function returns a valid result.
 	 *
 	 * @covers WPSEO_Options::get
+	 *
+	 * @return void
 	 */
 	public function test_set_works() {
 		$option_before                            = WPSEO_Options::get_option( 'wpseo' );
@@ -168,6 +194,8 @@ class Options_Test extends TestCase {
 	 * Tests if unique keys are used in all options.
 	 *
 	 * @covers WPSEO_Option::get_option
+	 *
+	 * @return void
 	 */
 	public function test_make_sure_keys_are_unique_over_options() {
 		$keys = [];
@@ -193,6 +221,8 @@ class Options_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Options::get
 	 * @covers WPSEO_Options::add_ms_option
+	 *
+	 * @return void
 	 */
 	public function test_ms_options_included_in_get_in_multisite() {
 		$this->skipWithoutMultisite();
@@ -222,6 +252,8 @@ class Options_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Options::get
 	 * @covers WPSEO_Options::add_ms_option
+	 *
+	 * @return void
 	 */
 	public function test_ms_options_excluded_in_get_non_multisite() {
 		$this->skipWithMultisite();

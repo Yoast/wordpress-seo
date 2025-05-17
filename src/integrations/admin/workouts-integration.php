@@ -128,6 +128,8 @@ class Workouts_Integration implements Integration_Interface {
 
 	/**
 	 * Enqueue the workouts app.
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
@@ -142,6 +144,7 @@ class Workouts_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_style( 'workouts' );
 
 		$workouts_option = $this->get_workouts_option();
+		$ftc_url         = \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#/first-time-configuration' ) );
 
 		$this->admin_asset_manager->enqueue_script( 'workouts' );
 		$this->admin_asset_manager->localize_script(
@@ -153,9 +156,8 @@ class Workouts_Integration implements Integration_Interface {
 				'pluginUrl'                 => \esc_url( \plugins_url( '', \WPSEO_FILE ) ),
 				'toolsPageUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
 				'usersPageUrl'              => \esc_url( \admin_url( 'users.php' ) ),
-				'firstTimeConfigurationUrl' => \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ),
+				'firstTimeConfigurationUrl' => $ftc_url,
 				'isPremium'                 => $this->product_helper->is_premium(),
-				'shouldUpdatePremium'       => $this->should_update_premium(),
 				'upsellText'                => $this->get_upsell_text(),
 				'upsellLink'                => $this->get_upsell_link(),
 			]
@@ -164,6 +166,8 @@ class Workouts_Integration implements Integration_Interface {
 
 	/**
 	 * Renders the target for the React to mount to.
+	 *
+	 * @return void
 	 */
 	public function render_target() {
 		if ( $this->should_update_premium() ) {

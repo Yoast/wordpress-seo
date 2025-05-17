@@ -15,10 +15,12 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
+final class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
 	 * Sets up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -47,7 +49,6 @@ class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder_TestC
 	 * @covers ::maybe_build_author_indexable
 	 * @covers ::build
 	 * @covers ::ensure_indexable
-	 * @covers ::save_indexable
 	 *
 	 * @return void
 	 */
@@ -77,7 +78,7 @@ class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder_TestC
 			->with( $author_indexable->object_id, $author_indexable )
 			->andReturn( $author_indexable );
 
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $author_indexable );
 
 		$this->instance->exposed_maybe_build_author_indexable( $author_id );
 	}
@@ -88,7 +89,6 @@ class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder_TestC
 	 * @covers ::maybe_build_author_indexable
 	 * @covers ::build
 	 * @covers ::ensure_indexable
-	 * @covers ::save_indexable
 	 * @covers ::deep_copy_indexable
 	 *
 	 * @return void
@@ -120,7 +120,7 @@ class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder_TestC
 			->with( $author_indexable->object_id, $author_indexable )
 			->andReturn( $author_indexable );
 
-		$this->expect_save_indexable_skip();
+		$this->expect_save_indexable( $author_indexable );
 
 		$this->instance->exposed_maybe_build_author_indexable( $author_id );
 	}

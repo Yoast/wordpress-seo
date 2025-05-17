@@ -59,7 +59,7 @@ function socialPreview( state = initialState, action ) {
 				id: null,
 				alt: "",
 			} };
-	  default:
+		default:
 			return state;
 	}
 }
@@ -80,7 +80,7 @@ function createNamedWrapperReducer( reducerFunction, platformName ) {
 			return initialState;
 		}
 		if ( platform !== platformName ) {
-			 return state;
+			return state;
 		}
 		return reducerFunction( state, action );
 	};

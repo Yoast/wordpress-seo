@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group helpers
  */
-class Home_Url_Helper_Test extends TestCase {
+final class Home_Url_Helper_Test extends TestCase {
 
 	/**
 	 * The instance to test.
@@ -24,6 +24,8 @@ class Home_Url_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -35,6 +37,8 @@ class Home_Url_Helper_Test extends TestCase {
 	 * Tests retrieval of the home url.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get() {
 		Monkey\Functions\expect( 'home_url' )
@@ -48,6 +52,8 @@ class Home_Url_Helper_Test extends TestCase {
 	 * Tests retrieval of the home url with the home url being cached.
 	 *
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_get_cached() {
 		Monkey\Functions\expect( 'home_url' )
@@ -60,6 +66,8 @@ class Home_Url_Helper_Test extends TestCase {
 	 * Tests retrieval of the parsed home url.
 	 *
 	 * @covers ::get_parsed
+	 *
+	 * @return void
 	 */
 	public function test_get_parsed() {
 		Monkey\Functions\expect( 'wp_parse_url' )
@@ -85,6 +93,8 @@ class Home_Url_Helper_Test extends TestCase {
 	 * Tests retrieval of the parsed url with the value begin cached.
 	 *
 	 * @covers ::get_parsed
+	 *
+	 * @return void
 	 */
 	public function test_get_parsed_cached() {
 		Monkey\Functions\expect( 'wp_parse_url' )

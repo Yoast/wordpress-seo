@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 use Brain\Monkey;
 use Mockery;
 use wpdb;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -17,7 +18,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Cleanup_Integration_Test extends TestCase {
+final class Cleanup_Integration_Test extends TestCase {
+
+	/**
+	 * The indexables helper.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	private $indexable_helper;
 
 	/**
 	 * Represents the instance we are testing.
@@ -42,14 +50,18 @@ class Cleanup_Integration_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
 
 		$this->indexable_repository = Mockery::mock( Indexable_Cleanup_Repository::class );
+		$this->indexable_helper     = Mockery::mock( Indexable_Helper::class );
 
 		$this->instance = new Cleanup_Integration(
-			$this->indexable_repository
+			$this->indexable_repository,
+			$this->indexable_helper
 		);
 
 		global $wpdb;
@@ -65,6 +77,8 @@ class Cleanup_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -77,9 +91,11 @@ class Cleanup_Integration_Test extends TestCase {
 	 * Tests that the class uses the right conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals( [], Cleanup_Integration::get_conditionals() );
+		$this->assertEquals( [], Cleanup_Integration::get_conditionals() );
 	}
 
 	/**
@@ -89,8 +105,14 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup() {
+		$this->indexable_helper->expects( 'should_index_indexables' )
+			->once()
+			->andReturnTrue();
+
 		Monkey\Functions\expect( 'delete_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION );
@@ -126,8 +148,13 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_db_query_failed() {
+		$this->indexable_helper->expects( 'should_index_indexables' )
+			->once()
+			->andReturnTrue();
 		Monkey\Functions\expect( 'delete_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION );
@@ -154,8 +181,13 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
 	 * @covers ::start_cron_job
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_starts_cron_job() {
+		$this->indexable_helper->expects( 'should_index_indexables' )
+			->once()
+			->andReturnTrue();
 		Monkey\Functions\expect( 'delete_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION );
@@ -191,8 +223,13 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
 	 * @covers ::start_cron_job
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_cron_next_task() {
+		$this->indexable_helper->expects( 'should_index_indexables' )
+			->once()
+			->andReturnTrue();
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
@@ -222,8 +259,13 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
 	 * @covers ::start_cron_job
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_cron_last_task() {
+		$this->indexable_helper->expects( 'should_index_indexables' )
+			->once()
+			->andReturnTrue();
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
@@ -254,8 +296,13 @@ class Cleanup_Integration_Test extends TestCase {
 	 *
 	 * @covers ::run_cleanup_cron
 	 * @covers ::get_cleanup_tasks
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_cron_no_tasks_left() {
+		$this->indexable_helper->expects( 'should_index_indexables' )
+			->once()
+			->andReturnTrue();
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
@@ -280,8 +327,13 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::run_cleanup_cron
 	 * @covers ::get_limit
 	 * @covers ::get_cleanup_tasks
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_cron_db_query_failed() {
+		$this->indexable_helper->expects( 'should_index_indexables' )
+			->once()
+			->andReturnTrue();
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
@@ -313,8 +365,14 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::run_cleanup_cron
 	 * @covers ::get_limit
 	 * @covers ::get_cleanup_tasks
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_cron_items_left() {
+		$this->indexable_helper->expects( 'should_index_indexables' )
+			->once()
+			->andReturnTrue();
+
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
@@ -338,8 +396,15 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::run_cleanup_cron
 	 * @covers ::get_limit
 	 * @covers ::get_cleanup_tasks
+	 *
+	 * @return void
 	 */
 	public function test_run_cleanup_invalid_query_limit_from_filter() {
+
+		$this->indexable_helper->expects( 'should_index_indexables' )
+			->once()
+			->andReturnTrue();
+
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
@@ -350,6 +415,39 @@ class Cleanup_Integration_Test extends TestCase {
 			->andReturn( null );
 
 		$this->indexable_repository->shouldReceive( 'clean_indexables_with_post_status' )->once()->andReturn( 50 );
+
+		$this->instance->run_cleanup_cron();
+	}
+
+	/**
+	 * Tests the run_cleanup_cron function.
+	 *
+	 * Specifically tests whether the query limit is
+	 *
+	 * @covers ::run_cleanup_cron
+	 * @covers ::get_limit
+	 * @covers ::get_cleanup_tasks
+	 *
+	 * @return void
+	 */
+	public function test_run_cleanup_indexables_disabled() {
+
+		$this->indexable_helper->expects( 'should_index_indexables' )
+			->once()
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'delete_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION );
+
+		Monkey\Functions\expect( 'wp_unschedule_hook' )
+			->once()
+			->with( Cleanup_Integration::CRON_HOOK );
+
+		Monkey\Functions\expect( 'get_option' )
+			->never()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
+			->andReturn( 'clean_indexables_by_post_status_auto-draft' );
 
 		$this->instance->run_cleanup_cron();
 	}

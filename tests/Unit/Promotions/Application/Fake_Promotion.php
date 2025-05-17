@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Promotions\Domain\Time_Interval;
 /**
  * Class representing a fake promotion.
  */
-class Fake_Promotion extends Abstract_Promotion implements Promotion_Interface {
+final class Fake_Promotion extends Abstract_Promotion implements Promotion_Interface {
 
 	/**
 	 * Class constructor.

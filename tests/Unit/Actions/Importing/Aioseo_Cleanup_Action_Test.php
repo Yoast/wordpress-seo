@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Cleanup_Action
  */
-class Aioseo_Cleanup_Action_Test extends TestCase {
+final class Aioseo_Cleanup_Action_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -49,6 +49,8 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -70,10 +72,12 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 	 * @dataProvider provider_get_unindexed
 	 * @covers ::get_total_unindexed
 	 *
-	 * @param bool  $table_exists        Whether the AIOSEO table exists.
-	 * @param array $completed_option    The persistent completed option.
-	 * @param int   $get_completed_times The times we're gonna get the persistent completed option.
-	 * @param int   $expected_result     The expected result.
+	 * @param bool                       $table_exists        Whether the AIOSEO table exists.
+	 * @param array<string, bool|string> $completed_option    The persistent completed option.
+	 * @param int                        $get_completed_times The times we're gonna get the persistent completed option.
+	 * @param int                        $expected_result     The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_total_unindexed( $table_exists, $completed_option, $get_completed_times, $expected_result ) {
 		$this->aioseo_helper->expects( 'aioseo_exists' )
@@ -98,6 +102,8 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 	 * @param array $completed_option    The persistent completed option.
 	 * @param int   $get_completed_times The times we're gonna get the persistent completed option.
 	 * @param int   $expected_result     The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_get_limited_unindexed_count( $table_exists, $completed_option, $get_completed_times, $expected_result ) {
 		$this->aioseo_helper->expects( 'aioseo_exists' )
@@ -121,12 +127,14 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 	 * @covers ::truncate_query
 	 * @covers ::get_postmeta_table
 	 *
-	 * @param array     $completed_option   The persistent completed option.
-	 * @param int       $query_times        The times we're gonna run the cleanup queries.
-	 * @param int       $set_complete_times The times we're gonna set the persistent completed option.
-	 * @param int|false $postmeta_cleanup   The result of the postmeta cleanup query.
-	 * @param bool      $truncate_cleanup   The result of the truncate query.
-	 * @param array     $expected_result    The expected result.
+	 * @param array<string, bool>     $completed_option   The persistent completed option.
+	 * @param int                     $query_times        The times we're gonna run the cleanup queries.
+	 * @param int                     $set_complete_times The times we're gonna set the persistent completed option.
+	 * @param int|false               $postmeta_cleanup   The result of the postmeta cleanup query.
+	 * @param bool                    $truncate_cleanup   The result of the truncate query.
+	 * @param array<string, int|bool> $expected_result    The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_index( $completed_option, $query_times, $set_complete_times, $postmeta_cleanup, $truncate_cleanup, $expected_result ) {
 		$this->options->expects( 'get' )
@@ -196,9 +204,9 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 	/**
 	 * Data provider for test_index().
 	 *
-	 * @return array
+	 * @return array<array<array<string, bool>|int|bool|string|array<string, int|bool>>>
 	 */
-	public function provider_index() {
+	public static function provider_index() {
 		$successful_result = [
 			'metadata_cleanup'   => 10,
 			'indexables_cleanup' => true,
@@ -213,9 +221,9 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 	/**
 	 * Data provider for test_get_total_unindexed() and test_get_limited_unindexed_count().
 	 *
-	 * @return array
+	 * @return array<array<bool|int|array<string, bool|string>>>
 	 */
-	public function provider_get_unindexed() {
+	public static function provider_get_unindexed() {
 		$completed                 = [
 			'aioseo_cleanup' => true,
 		];

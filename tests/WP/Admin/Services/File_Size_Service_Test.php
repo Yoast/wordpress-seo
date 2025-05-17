@@ -9,12 +9,14 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class File_Size_Service_Test extends TestCase {
+final class File_Size_Service_Test extends TestCase {
 
 	/**
 	 * Tests the retrieval of the file size for external hosted file.
 	 *
 	 * @covers WPSEO_File_Size_Service::get
+	 *
+	 * @return void
 	 */
 	public function test_get_for_externally_hosted_file() {
 		$request = new WP_REST_Request();
@@ -28,7 +30,7 @@ class File_Size_Service_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'is_externally_hosted' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$response = $instance->get( $request );
 
@@ -40,6 +42,8 @@ class File_Size_Service_Test extends TestCase {
 	 * Tests the retrieval of the file size when unknown error occurs.
 	 *
 	 * @covers WPSEO_File_Size_Service::get
+	 *
+	 * @return void
 	 */
 	public function test_get_with_unknown_failure() {
 		$instance = $this
@@ -50,12 +54,12 @@ class File_Size_Service_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_file_url' )
-			->will( $this->returnValue( 'unknown.file' ) );
+			->willReturn( 'unknown.file' );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'calculate_file_size' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$response = $instance->get( new WP_REST_Request() );
 
@@ -67,6 +71,8 @@ class File_Size_Service_Test extends TestCase {
 	 * Tests the retrieval of the file size is successful.
 	 *
 	 * @covers WPSEO_File_Size_Service::get
+	 *
+	 * @return void
 	 */
 	public function test_get_on_success() {
 		$instance = $this
@@ -77,12 +83,12 @@ class File_Size_Service_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_file_url' )
-			->will( $this->returnValue( 'local.file' ) );
+			->willReturn( 'local.file' );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_file_size' )
-			->will( $this->returnValue( 2048 ) );
+			->willReturn( 2048 );
 
 		$response = $instance->get( new WP_REST_Request() );
 
@@ -95,6 +101,8 @@ class File_Size_Service_Test extends TestCase {
 	 *
 	 * @covers WPSEO_File_Size_Service::get
 	 * @covers WPSEO_File_Size_Service::get_file_url
+	 *
+	 * @return void
 	 */
 	public function test_get_file_url_for_externally_hosted_file() {
 		$request = new WP_REST_Request();
@@ -108,7 +116,7 @@ class File_Size_Service_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'is_externally_hosted' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$response = $instance->get( $request );
 
@@ -121,6 +129,8 @@ class File_Size_Service_Test extends TestCase {
 	 *
 	 * @covers WPSEO_File_Size_Service::get
 	 * @covers WPSEO_File_Size_Service::get_file_url
+	 *
+	 * @return void
 	 */
 	public function test_get_file_url_for_local_file() {
 		$request = new WP_REST_Request();
@@ -134,12 +144,12 @@ class File_Size_Service_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'is_externally_hosted' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_file_size' )
-			->will( $this->returnValue( 2048 ) );
+			->willReturn( 2048 );
 
 		$response = $instance->get( $request );
 

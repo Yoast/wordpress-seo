@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_HomeUrl_Watcher
  */
-class Indexable_HomeUrl_Watcher_Test extends TestCase {
+final class Indexable_HomeUrl_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -53,6 +53,8 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 
 	/**
 	 * Does the setup.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -76,6 +78,8 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -88,6 +92,8 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -99,6 +105,8 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 	 * Tests resetting the permalinks.
 	 *
 	 * @covers ::reset_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_reset_permalinks() {
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( null, null, Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
@@ -119,6 +127,8 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 	 * Test forced flushing of permalinks.
 	 *
 	 * @covers ::force_reset_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_force_reset_permalinks() {
 		$this->instance
@@ -137,6 +147,8 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 	 * Test forced flushing of permalinks not executing.
 	 *
 	 * @covers ::force_reset_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_force_reset_permalinks_not_executing() {
 		$this->instance
@@ -151,6 +163,8 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 	 * Test that permalinks should be reset.
 	 *
 	 * @covers ::should_reset_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_should_reset_permalinks() {
 		Monkey\Functions\expect( 'get_home_url' )
@@ -170,6 +184,8 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 	 * Test that permalinks should not be reset.
 	 *
 	 * @covers ::should_reset_permalinks
+	 *
+	 * @return void
 	 */
 	public function test_shouldnt_reset_permalinks() {
 		Monkey\Functions\expect( 'get_home_url' )

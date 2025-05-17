@@ -1,7 +1,7 @@
 /* global wpseoAdminL10n */
 /* External components */
 import { withSelect } from "@wordpress/data";
-import { Fragment, createInterpolateElement } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { isNil } from "lodash";
 import PropTypes from "prop-types";
@@ -18,6 +18,7 @@ import HelpLink from "../HelpLink";
 import Portal from "../portals/Portal";
 import { Alert, SvgIcon } from "@yoast/components";
 import isMultilingualPluginActive from "../../analysis/isMultilingualPluginActive";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -65,6 +66,8 @@ const InclusiveLanguageAnalysis = ( props ) => {
 	 * @returns {JSX.Element} The results of the analysis.
 	 */
 	function renderResults() {
+		const highlightingUpsellLink = "shortlinks.upsell.sidebar.highlighting_inclusive_analysis";
+
 		return (
 			<Fragment>
 				<AnalysisHeader>
@@ -86,15 +89,17 @@ const InclusiveLanguageAnalysis = ( props ) => {
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ props.marksButtonStatus }
 					resultCategoryLabels={ {
-						problems: __( "Non-inclusive phrases", "wordpress-seo" ),
-						improvements: __( "Potentially non-inclusive phrases", "wordpress-seo" ),
+						problems: __( "Non-inclusive", "wordpress-seo" ),
+						improvements: __( "Potentially non-inclusive", "wordpress-seo" ),
 					} }
+					highlightingUpsellLink={ highlightingUpsellLink }
+					shouldUpsellHighlighting={ props.shouldUpsellHighlighting }
 				/>
 			</Fragment>
 		);
 	}
 
-	const goodJobFeedback = createInterpolateElement(
+	const goodJobFeedback = safeCreateInterpolateElement(
 		sprintf(
 			/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 			__( "%1$sInclusive language%2$s: We haven't detected any potentially non-inclusive phrases. Great work!", "wordpress-seo" ),
@@ -116,7 +121,6 @@ const InclusiveLanguageAnalysis = ( props ) => {
 	 */
 	function renderMultilingualPluginDetectedNotice() {
 		const notice = __(
-			// eslint-disable-next-line max-len
 			"We noticed that you are using a multilingual plugin. Please be aware that this analysis feedback is intended only for texts written in English.",
 			"wordpress-seo"
 		);
@@ -229,14 +233,15 @@ const InclusiveLanguageAnalysis = ( props ) => {
 InclusiveLanguageAnalysis.propTypes = {
 	results: PropTypes.array,
 	// `marksButtonStatus` is used, but not recognized by ESLint.
-	// eslint-disable-next-line react/no-unused-prop-types
 	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled", "hidden" ] ).isRequired,
 	overallScore: PropTypes.number,
+	shouldUpsellHighlighting: PropTypes.bool,
 };
 
 InclusiveLanguageAnalysis.defaultProps = {
 	results: [],
 	overallScore: null,
+	shouldUpsellHighlighting: false,
 };
 
 export default withSelect( select => {

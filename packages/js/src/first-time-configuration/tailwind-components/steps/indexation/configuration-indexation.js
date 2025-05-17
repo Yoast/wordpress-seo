@@ -10,27 +10,12 @@ import Alert from "../../base/alert";
  *
  * @param {Object}   props                       The props object.
  * @param {function} props.indexingStateCallback The function to call back on state updates.
- * @param {Boolean}  props.isEnabled             Whether the indexation component should be real or a dummy.
  * @param {string}   props.indexingState         The state of the indexation.
  * @param {Boolean}  props.isStepperFinished     Whether the stepper has been completed.
  *
  * @returns {WPElement} A wrapped Indexation for the first-time configuration.
  */
-export function ConfigurationIndexation( { indexingStateCallback, indexingState, isEnabled, isStepperFinished } ) {
-	if ( ! isEnabled ) {
-		if ( indexingState === "completed" ) {
-			return <Alert type="success">
-				{ __( "We've already successfully analyzed your site. You can move on to the next step.", "wordpress-seo" ) }
-			</Alert>;
-		}
-		return <button
-			className="yoast-button--secondary"
-			type="button"
-			disabled={ true }
-		>
-			{ __( "Start SEO data optimization", "wordpress-seo" ) }
-		</button>;
-	}
+export function ConfigurationIndexation( { indexingStateCallback, indexingState, isStepperFinished } ) {
 	return <Indexation
 		preIndexingActions={ window.yoast.indexing.preIndexingActions }
 		indexingActions={ window.yoast.indexing.indexingActions }
@@ -56,11 +41,9 @@ export function ConfigurationIndexation( { indexingStateCallback, indexingState,
 ConfigurationIndexation.propTypes = {
 	indexingStateCallback: PropTypes.func.isRequired,
 	indexingState: PropTypes.string.isRequired,
-	isEnabled: PropTypes.bool,
 	isStepperFinished: PropTypes.bool,
 };
 
 ConfigurationIndexation.defaultProps = {
-	isEnabled: true,
 	isStepperFinished: false,
 };

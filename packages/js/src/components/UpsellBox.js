@@ -1,6 +1,7 @@
 /* External dependencies */
 import { select } from "@wordpress/data";
-import { Component, Fragment, createInterpolateElement } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { makeOutboundLink } from "@yoast/helpers";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -95,10 +96,7 @@ class UpsellBox extends Component {
 			<StyledList role="list">
 				{ benefits.map( ( benefit, index ) => {
 					return <li key={ `upsell-benefit-${ index }` }>
-						{ createInterpolateElement(
-							benefit.replace( "<strong>", "{{strong}}" ).replace( "</strong>", "{{/strong}}" ),
-							{ strong: <strong /> }
-						) }
+						{ safeCreateInterpolateElement( benefit, { strong: <strong /> } ) }
 					</li>;
 				} ) }
 			</StyledList>
@@ -111,16 +109,15 @@ class UpsellBox extends Component {
 	 * @returns {wp.Element} The rendered UpsellBox component.
 	 */
 	render() {
-		const isBlackFriday = select( "yoast-seo/editor" ).isPromotionActive( "black-friday-2023-promotion" );
+		const isBlackFriday = select( "yoast-seo/editor" ).isPromotionActive( "black-friday-2024-promotion" );
 		const { defaultPrice } = this.state;
 		const newPrice = isBlackFriday ? "69.30" : null;
 		const price = newPrice ? newPrice : defaultPrice;
 		return (
 			<Fragment>
 				{ isBlackFriday &&
-				<div className="yst-flex yst-justify-between yst-items-center yst-text-lg yst-content-between yst-bg-black yst-text-amber-300 yst-h-9 yst-border-amber-300 yst-border-y yst-border-x-0 yst-border-solid yst-px-6">
-					<div>{ __( "BLACK FRIDAY", "wordpress-seo" ) }</div>
-					<div>{ __( "30% OFF", "wordpress-seo" ) }</div>
+				<div className="yst-flex  yst-items-center yst-text-lg yst-content-between yst-bg-black yst-text-amber-300 yst-h-9 yst-border-amber-300 yst-border-y yst-border-x-0 yst-border-solid yst-px-6">
+					<div className="yst-mx-auto">{ __( "30% OFF - BLACK FRIDAY", "wordpress-seo" ) }</div>
 				</div> }
 				<Container>
 					<Heading>{ this.props.title }</Heading>

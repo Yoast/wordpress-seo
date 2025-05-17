@@ -8,8 +8,10 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
  * Unit Test Class.
+ *
+ * @covers WPSEO_Term_Metabox_Formatter
  */
-class Term_Metabox_Formatter_Test extends TestCase {
+final class Term_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Holds the term instance.
@@ -27,6 +29,8 @@ class Term_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Creates a post to use in the tests.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -38,8 +42,7 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	/**
 	 * Test the formatter without a term, taxonomy and options.
 	 *
-	 * @covers WPSEO_Term_Metabox_Formatter::__construct
-	 * @covers WPSEO_Term_Metabox_Formatter::get_values
+	 * @return void
 	 */
 	public function test_no_taxonomy_no_term_and_no_options() {
 		$instance = new WPSEO_Term_Metabox_Formatter( null, null, [] );
@@ -53,14 +56,7 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	/**
 	 * Test the formatter when there is a taxonomy and term object and without any options.
 	 *
-	 * @covers WPSEO_Term_Metabox_Formatter::get_values
-	 * @covers WPSEO_Term_Metabox_Formatter::search_url
-	 * @covers WPSEO_Term_Metabox_Formatter::edit_url
-	 * @covers WPSEO_Term_Metabox_Formatter::base_url_for_js
-	 * @covers WPSEO_Term_Metabox_Formatter::get_focus_keyword_usage
-	 * @covers WPSEO_Term_Metabox_Formatter::get_title_template
-	 * @covers WPSEO_Term_Metabox_Formatter::get_metadesc_template
-	 * @covers WPSEO_Term_Metabox_Formatter::get_template
+	 * @return void
 	 */
 	public function test_with_taxonomy_and_term_and_without_options() {
 		WPSEO_Options::set( 'title-tax-' . $this->taxonomy->name, '' );
@@ -70,10 +66,6 @@ class Term_Metabox_Formatter_Test extends TestCase {
 
 		$result = $instance->get_values();
 
-		$this->assertEquals( $result['search_url'], \admin_url( 'edit-tags.php?taxonomy=' . $this->term->taxonomy . '&seo_kw_filter={keyword}' ) );
-		$this->assertEquals( $result['post_edit_url'], \admin_url( 'term.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
-
-		$this->assertEquals( \trailingslashit( \home_url( 'tag' ) ), $result['base_url'] );
 		$this->assertEquals( [ '' => [] ], $result['keyword_usage'] );
 		$this->assertEquals( '%%term_title%% Archives %%page%% %%sep%% %%sitename%%', $result['title_template'] );
 		$this->assertEquals( '', $result['metadesc_template'] );
@@ -82,9 +74,7 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	/**
 	 * Test the formatter when there is a taxonomy and term object and without any options.
 	 *
-	 * @covers WPSEO_Term_Metabox_Formatter::get_title_template
-	 * @covers WPSEO_Term_Metabox_Formatter::get_metadesc_template
-	 * @covers WPSEO_Term_Metabox_Formatter::get_template
+	 * @return void
 	 */
 	public function test_with_taxonomy_term_and_options() {
 		WPSEO_Options::set( 'title-tax-post_tag', 'This is a title' );
@@ -100,9 +90,7 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	/**
 	 * Test the formatter when there is a taxonomy and term object and without any options.
 	 *
-	 * @covers WPSEO_Term_Metabox_Formatter::get_title_template
-	 * @covers WPSEO_Term_Metabox_Formatter::get_metadesc_template
-	 * @covers WPSEO_Term_Metabox_Formatter::get_template
+	 * @return void
 	 */
 	public function test_with_taxonomy_term_and_options_with_title_option_missing() {
 		WPSEO_Options::set( 'title-tax-post_tag', '' );

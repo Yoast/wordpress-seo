@@ -1,0 +1,1 @@
+The modal component with icon, title and links.

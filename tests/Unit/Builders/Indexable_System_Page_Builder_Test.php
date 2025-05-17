@@ -20,12 +20,14 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_System_Page_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_System_Page_Builder
  */
-class Indexable_System_Page_Builder_Test extends TestCase {
+final class Indexable_System_Page_Builder_Test extends TestCase {
 
 	/**
 	 * Tests the formatting of the indexable data.
 	 *
 	 * @covers ::build
+	 *
+	 * @return void
 	 */
 	public function test_build() {
 		$options_mock = Mockery::mock( Options_Helper::class );

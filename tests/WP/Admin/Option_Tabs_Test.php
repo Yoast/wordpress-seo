@@ -10,12 +10,14 @@ use Yoast_Form;
 /**
  * Unit Test Class.
  */
-class Option_Tabs_Test extends TestCase {
+final class Option_Tabs_Test extends TestCase {
 
 	/**
 	 * Tests the retrieval of the base.
 	 *
 	 * @covers WPSEO_Option_Tabs::get_base
+	 *
+	 * @return void
 	 */
 	public function test_get_base() {
 		$option_tabs = new WPSEO_Option_Tabs( 'base' );
@@ -27,6 +29,8 @@ class Option_Tabs_Test extends TestCase {
 	 * Tests the addition of a new tab.
 	 *
 	 * @covers WPSEO_Option_Tabs::add_tab
+	 *
+	 * @return void
 	 */
 	public function test_add_tab() {
 		$option_tabs = new WPSEO_Option_Tabs( 'base' );
@@ -41,6 +45,8 @@ class Option_Tabs_Test extends TestCase {
 	 * Tests the retrieval of the tabs.
 	 *
 	 * @covers WPSEO_Option_Tabs::get_tabs
+	 *
+	 * @return void
 	 */
 	public function test_get_tabs() {
 		$option_tab  = new WPSEO_Option_Tab( 'name', 'label' );
@@ -54,6 +60,8 @@ class Option_Tabs_Test extends TestCase {
 	 * Tests if the given tab is active.
 	 *
 	 * @covers WPSEO_Option_Tabs::get_active_tab
+	 *
+	 * @return void
 	 */
 	public function test_is_active_tab() {
 		$option_tab  = new WPSEO_Option_Tab( 'name', 'label' );
@@ -67,6 +75,8 @@ class Option_Tabs_Test extends TestCase {
 	 * Tests of the given tab is not active.
 	 *
 	 * @covers WPSEO_Option_Tabs::is_active_tab
+	 *
+	 * @return void
 	 */
 	public function test_is_active_tab_not_active() {
 		$option_tab  = new WPSEO_Option_Tab( 'name', 'label' );
@@ -80,6 +90,8 @@ class Option_Tabs_Test extends TestCase {
 	 * Tests retrieval of an active tab without having any tabs.
 	 *
 	 * @covers WPSEO_Option_Tabs::is_active_tab
+	 *
+	 * @return void
 	 */
 	public function test_get_active_tab_without_any_active_tab_being_set() {
 		$option_tabs = new WPSEO_Option_Tabs( 'base' );
@@ -91,6 +103,8 @@ class Option_Tabs_Test extends TestCase {
 	 * Tests the retrieval of the active tab.
 	 *
 	 * @covers WPSEO_Option_Tabs::get_active_tab
+	 *
+	 * @return void
 	 */
 	public function test_get_active_tab() {
 		$option_tab  = new WPSEO_Option_Tab( 'name', 'label' );
@@ -104,6 +118,8 @@ class Option_Tabs_Test extends TestCase {
 	 * Tests the retrieval of the active tab without having any tabs.
 	 *
 	 * @covers WPSEO_Option_Tabs::get_active_tab
+	 *
+	 * @return void
 	 */
 	public function test_get_active_tab_WITH_nonexisting_tab_set_as_active() {
 		$option_tabs = new WPSEO_Option_Tabs( 'base', 'nonexisting' );
@@ -115,6 +131,8 @@ class Option_Tabs_Test extends TestCase {
 	 * Tests the retrieval of the active tab without having a active tab being set.
 	 *
 	 * @covers WPSEO_Option_Tabs::get_active_tab
+	 *
+	 * @return void
 	 */
 	public function test_get_active_tab_WITH_no_tab_set_as_active() {
 		$option_tabs = new WPSEO_Option_Tabs( 'base' );
@@ -126,6 +144,8 @@ class Option_Tabs_Test extends TestCase {
 	 * Tests the displaying of the tabs.
 	 *
 	 * @covers WPSEO_Option_Tabs::display
+	 *
+	 * @return void
 	 */
 	public function test_display() {
 		$option_tab  = new WPSEO_Option_Tab( 'name', 'label' );

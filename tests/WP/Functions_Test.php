@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\WP;
 /**
  * Unit Test Class.
  */
-class Functions_Test extends TestCase {
+final class Functions_Test extends TestCase {
 
 	/**
 	 * Tests whether wpseo_replace_vars correctly replaces replacevars.
@@ -94,7 +94,7 @@ class Functions_Test extends TestCase {
 	 *
 	 * @return Generator
 	 */
-	public function provide_excerpt_replace_var_data() {
+	public static function provide_excerpt_replace_var_data() {
 		yield 'Generates an empty excerpt without any post data' => [
 			'post_data' => null,
 			'locale'    => 'en',

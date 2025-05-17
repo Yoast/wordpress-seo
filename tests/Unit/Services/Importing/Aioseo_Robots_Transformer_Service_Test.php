@@ -14,9 +14,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service
- * @phpcs:disable Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
-class Aioseo_Robots_Transformer_Service_Test extends TestCase {
+final class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 
 	/**
 	 * Represents the mock instance to test.
@@ -53,6 +52,8 @@ class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 	 * @param int    $get_global_robot_settings_times The times the get_global_robot_settings() is called.
 	 * @param bool   $global_setting_value            What the get_global_robot_settings() returns.
 	 * @param bool   $expected_result                 The expected result.
+	 *
+	 * @return void
 	 */
 	public function test_transform_robot_setting( $aioseo_options, $setting_name, $setting_value, $mapping, $get_global_robot_settings_times, $global_setting_value, $expected_result ) {
 		Monkey\Functions\expect( 'get_option' )
@@ -74,7 +75,7 @@ class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_transform_robot_setting() {
+	public static function provider_transform_robot_setting() {
 		$mapping = [
 			'option_name' => 'aioseo_table',
 			'type'        => 'type',

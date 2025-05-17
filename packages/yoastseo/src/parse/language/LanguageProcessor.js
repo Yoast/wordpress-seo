@@ -1,6 +1,6 @@
 import Sentence from "../structure/Sentence";
 import Token from "../structure/Token";
-import getWordsForHTMLParser from "../../languageProcessing/helpers/word/getWordsForHTMLParser";
+import splitIntoTokens from "../../languageProcessing/helpers/word/splitIntoTokens";
 
 const whitespaceRegex = /^\s+$/;
 
@@ -8,7 +8,7 @@ const whitespaceRegex = /^\s+$/;
 /**
  * Contains language-specific logic for splitting a text into sentences and tokens.
  */
-class LanguageProcessor {
+export default class LanguageProcessor {
 	/**
 	 * Creates a new language processor.
 	 *
@@ -59,16 +59,15 @@ class LanguageProcessor {
 		// Retrieve sentence from sentence class
 		const sentenceText = sentence.text;
 
-		// If there is a custom getWords helper use its output for retrieving words/tokens.
+		// If there is a custom splitIntoTokens helper use its output for retrieving tokens.
 		const tokenTextsCustom = this.researcher.getHelper( "splitIntoTokensCustom" );
 		if ( tokenTextsCustom ) {
-			const tokensCustom = tokenTextsCustom( sentence );
+			const tokensCustom = tokenTextsCustom( sentenceText );
 			return tokensCustom.map( tokenText => new Token( tokenText ) );
 		}
 
-		const tokenTexts = getWordsForHTMLParser( sentenceText );
+		const tokenTexts = splitIntoTokens( sentenceText );
 
 		return tokenTexts.map( tokenText => new Token( tokenText ) );
 	}
 }
-export default LanguageProcessor;

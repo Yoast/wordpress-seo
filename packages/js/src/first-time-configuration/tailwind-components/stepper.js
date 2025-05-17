@@ -1,12 +1,12 @@
 import { Fragment, useCallback, useState, useEffect, useContext, createContext } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { Button } from "@yoast/ui-library";
 import AnimateHeight from "react-animate-height";
 import PropTypes from "prop-types";
 import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
 import StepHeader from "./step-header";
 import { FadeInAlert } from "../tailwind-components/base/alert";
 
-/* eslint-disable complexity */
 const {
 	slideDuration,
 	delayBeforeOpening,
@@ -26,9 +26,9 @@ const StepperContext = createContext();
 export function useStepperContext() {
 	const context = useContext( StepperContext );
 	if ( ! context ) {
-	  throw new Error(
+		throw new Error(
 			"Stepper compound components cannot be rendered outside the Stepper component"
-	  );
+		);
 	}
 	return context;
 }
@@ -64,13 +64,12 @@ function GoButton( { beforeGo, children, destination, ...restProps } ) {
 		}
 	}, [ goToDestination, beforeGo ] );
 
-	return <button
-		type="button"
+	return <Button
 		onClick={ goFunction }
 		{ ...restProps }
 	>
 		{ children }
-	</button>;
+	</Button>;
 }
 
 GoButton.propTypes = {
@@ -102,14 +101,14 @@ function EditButton( { children, ...restProps } ) {
 		setActiveStepIndex( stepIndex );
 	}, [ setActiveStepIndex, stepIndex ] );
 
-	return <button
-		type="button"
+	return <Button
 		onClick={ editFunction }
-		className="yst-button yst-button--secondary yst-button--small"
+		variant="secondary"
+		size="small"
 		{ ...restProps }
 	>
 		{ children }
-	</button>;
+	</Button>;
 }
 
 EditButton.propTypes = {
@@ -135,11 +134,11 @@ export function Step( { children } ) {
 		{ stepIndex !== lastStepIndex &&
 			<Fragment>
 				<div
-					className={ "yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-h-full yst-bg-slate-300 yst--bottom-6" }
+					className={ "yst--ms-px yst-absolute yst-start-4 yst-w-0.5 yst-h-full yst-bg-slate-300 yst--bottom-6" }
 					aria-hidden="true"
 				/>
 				<div
-					className={ `yst-h-12 yst-transition-transform ${ delayUntilStepFaded } yst-ease-linear ${ slideDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-scale-y-0" } yst-origin-top yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
+					className={ `yst-h-12 yst-transition-transform ${ delayUntilStepFaded } yst-ease-linear ${ slideDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-scale-y-0" } yst-origin-top yst--ms-px yst-absolute yst-start-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
 					aria-hidden="true"
 				/>
 			</Fragment>
@@ -166,8 +165,8 @@ export function StepError( { id, message, className } ) {
 		className={ className }
 	>
 		{
-			/* translators: %1$s expands to the error message returned by the server */
 			sprintf(
+				/* translators: %1$s expands to the error message returned by the server */
 				__(
 					"An error has occurred: %1$s",
 					"wordpress-seo"
@@ -223,7 +222,7 @@ function Content( { children } ) {
 				easing="ease-in-out"
 				duration={ slideDuration }
 			>
-				<div className={ `yst-transition-opacity ${ fadeDuration } yst-relative yst-ml-12 yst-mt-4 yst-pb-1 ${ isFaded ? "yst-opacity-0 yst-pointer-events-none" : "yst-opacity-100" }` }>
+				<div className={ `yst-transition-opacity ${ fadeDuration } yst-relative yst-ms-12 yst-mt-4 yst-pb-1 ${ isFaded ? "yst-opacity-0 yst-pointer-events-none" : "yst-opacity-100" }` }>
 					{ children }
 				</div>
 			</AnimateHeight>
@@ -274,4 +273,3 @@ Step.Error = StepError;
 Step.Header = StepHeader;
 Step.GoButton = GoButton;
 Step.EditButton = EditButton;
-/* eslint-enable complexity */

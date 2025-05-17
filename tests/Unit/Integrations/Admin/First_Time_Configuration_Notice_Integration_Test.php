@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class First_Time_Configuration_Notice_Integration_Test extends TestCase {
+final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 
 	/**
 	 * The options' helper.
@@ -44,7 +44,7 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	private $first_time_configuration_notice_helper;
 
 	/**
-	 * The the mock for a notice.
+	 * The mock for a notice.
 	 *
 	 * @var Yoast\WP\SEO\Presenters\Admin\Notice_Presenter
 	 */
@@ -59,6 +59,8 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -83,6 +85,8 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	 * Tests get_conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -95,6 +99,8 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 
@@ -112,7 +118,7 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	 *
 	 * @return array The data for the test.
 	 */
-	public function dismiss_first_time_configuration_notice_provider() {
+	public static function dismiss_first_time_configuration_notice_provider() {
 		return [
 			[
 				'check_ajax_referer'                   => true,
@@ -134,6 +140,8 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	 *
 	 * @param bool $check_ajax_referer                         The value for the check_ajax_referer function.
 	 * @param int  $dismiss_configuration_workout_notice_times The value for the dismiss_configuration_workout_notice option.
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_first_time_configuration_notice( $check_ajax_referer, $dismiss_configuration_workout_notice_times ) {
 
@@ -154,6 +162,8 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	 * Test should_display_first_time_configuration_notice.
 	 *
 	 * @covers ::should_display_first_time_configuration_notice
+	 *
+	 * @return void
 	 */
 	public function test_should_display_first_time_configuration_notice() {
 
@@ -169,33 +179,31 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	 *
 	 * @return array The data for the test.
 	 */
-	public function first_time_configuration_notice_provider() {
+	public static function first_time_configuration_notice_provider() {
 
 		// In case of change in js, make sure to match the tabs and line breaks for this test to pass (avoid 4 spaces as tab).
-		$default_message = '<div id="yoast-first-time-configuration-notice" class="notice notice-yoast yoast is-dismissible"><div class="notice-yoast__container"><div><div class="notice-yoast__header"><span class="yoast-icon"></span><h2 class="notice-yoast__header-heading">First-time SEO configuration</h2></div><p>Get started quickly with the <a href="">Yoast SEO First-time configuration</a> and configure Yoast SEO with the optimal SEO settings for your site!</p></div><img src="images/mirrored_fit_bubble_woman_1_optim.svg" alt="" height="60" width="75"/></div></div><script>
+		$default_message = '<div id="yoast-first-time-configuration-notice" class="notice notice-yoast yoast is-dismissible"><div class="notice-yoast__container"><div><div class="notice-yoast__header"><span class="yoast-icon"></span><h2 class="notice-yoast__header-heading yoast-notice-migrated-header">First-time SEO configuration</h2></div><div class="notice-yoast-content"><p>Get started quickly with the <a href="">Yoast SEO First-time configuration</a> and configure Yoast SEO with the optimal SEO settings for your site!</p></div></div><img src="images/mirrored_fit_bubble_woman_1_optim.svg" alt="" height="60" width="75"/></div></div><script>
 				jQuery( document ).ready( function() {
 					jQuery( "body" ).on( "click", "#yoast-first-time-configuration-notice .notice-dismiss", function() {
+						jQuery( "#yoast-first-time-configuration-notice" ).hide();
 						const data = {
 							"action": "dismiss_first_time_configuration_notice",
 							"nonce": "123456"
 						};
-						jQuery.post( ajaxurl, data, function( response ) {
-							jQuery( this ).parent( "#yoast-first-time-configuration-notice" ).hide();
-						});
+						jQuery.post( ajaxurl, data, function( response ) {});
 					} );
 				} );
 				</script>';
 
-		$alternate_message = '<div id="yoast-first-time-configuration-notice" class="notice notice-yoast yoast is-dismissible"><div class="notice-yoast__container"><div><div class="notice-yoast__header"><span class="yoast-icon"></span><h2 class="notice-yoast__header-heading">First-time SEO configuration</h2></div><p>We noticed that you haven\'t fully configured Yoast SEO yet. Optimize your SEO settings even further by using our improved <a href=""> First-time configuration</a>.</p></div><img src="images/mirrored_fit_bubble_woman_1_optim.svg" alt="" height="60" width="75"/></div></div><script>
+		$alternate_message = '<div id="yoast-first-time-configuration-notice" class="notice notice-yoast yoast is-dismissible"><div class="notice-yoast__container"><div><div class="notice-yoast__header"><span class="yoast-icon"></span><h2 class="notice-yoast__header-heading yoast-notice-migrated-header">First-time SEO configuration</h2></div><div class="notice-yoast-content"><p>We noticed that you haven\'t fully configured Yoast SEO yet. Optimize your SEO settings even further by using our improved <a href=""> First-time configuration</a>.</p></div></div><img src="images/mirrored_fit_bubble_woman_1_optim.svg" alt="" height="60" width="75"/></div></div><script>
 				jQuery( document ).ready( function() {
 					jQuery( "body" ).on( "click", "#yoast-first-time-configuration-notice .notice-dismiss", function() {
+						jQuery( "#yoast-first-time-configuration-notice" ).hide();
 						const data = {
 							"action": "dismiss_first_time_configuration_notice",
 							"nonce": "123456"
 						};
-						jQuery.post( ajaxurl, data, function( response ) {
-							jQuery( this ).parent( "#yoast-first-time-configuration-notice" ).hide();
-						});
+						jQuery.post( ajaxurl, data, function( response ) {});
 					} );
 				} );
 				</script>';
@@ -220,6 +228,8 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	 * @dataProvider first_time_configuration_notice_provider
 	 * @param bool   $should_show_alternate_message Indicate what message to render.
 	 * @param string $message                       The string that will be rendered.
+	 *
+	 * @return void
 	 */
 	public function test_first_time_configuration_notice( $should_show_alternate_message, $message ) {
 		$this->expect_should_display_first_time_configuration_notice( true );
@@ -241,7 +251,7 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'self_admin_url' )
 			->once()
-			->with( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' );
+			->with( 'admin.php?page=wpseo_dashboard#/first-time-configuration' );
 
 		$this->expect_notice_presenter();
 
@@ -284,6 +294,8 @@ class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	 * Tests first_time_configuration_notice when it is aborted.
 	 *
 	 * @covers ::first_time_configuration_notice
+	 *
+	 * @return void
 	 */
 	public function test_first_time_configuration_notice_aborted() {
 		$this->expect_should_display_first_time_configuration_notice( false );

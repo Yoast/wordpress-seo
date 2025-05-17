@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  */
-class Cron_Integration_Test extends TestCase {
+final class Cron_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
@@ -36,6 +36,8 @@ class Cron_Integration_Test extends TestCase {
 
 	/**
 	 * Set up the fixtures for the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -48,9 +50,11 @@ class Cron_Integration_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
-		static::assertEquals(
+		$this->assertEquals(
 			[
 				Admin_Conditional::class,
 			],
@@ -62,9 +66,11 @@ class Cron_Integration_Test extends TestCase {
 	 * Tests if the required dependencies are set right.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			Date_Helper::class,
 			$this->getPropertyValue( $this->instance, 'date_helper' )
 		);
@@ -74,6 +80,8 @@ class Cron_Integration_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->date_helper

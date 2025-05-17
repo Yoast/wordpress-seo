@@ -15,34 +15,38 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * Convenience function to JSON encode and echo results and then die.
  *
  * @param array $results Results array for encoding.
+ *
+ * @return void
  */
 function wpseo_ajax_json_echo_die( $results ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe.
 	echo WPSEO_Utils::format_json_encode( $results );
-	die();
+	exit();
 }
 
 /**
  * Function used from AJAX calls, takes it variables from $_POST, dies on exit.
+ *
+ * @return void
  */
 function wpseo_set_option() {
 	if ( ! current_user_can( 'manage_options' ) ) {
-		die( '-1' );
+		exit( '-1' );
 	}
 
 	check_ajax_referer( 'wpseo-setoption' );
 
 	if ( ! isset( $_POST['option'] ) || ! is_string( $_POST['option'] ) ) {
-		die( '-1' );
+		exit( '-1' );
 	}
 
 	$option = sanitize_text_field( wp_unslash( $_POST['option'] ) );
 	if ( $option !== 'page_comments' ) {
-		die( '-1' );
+		exit( '-1' );
 	}
 
 	update_option( $option, 0 );
-	die( '1' );
+	exit( '1' );
 }
 
 add_action( 'wp_ajax_wpseo_set_option', 'wpseo_set_option' );
@@ -54,28 +58,32 @@ add_action( 'wp_ajax_yoast_dismiss_notification', [ 'Yoast_Notification_Center',
 
 /**
  * Function used to remove the admin notices for several purposes, dies on exit.
+ *
+ * @return void
  */
 function wpseo_set_ignore() {
 	if ( ! current_user_can( 'manage_options' ) ) {
-		die( '-1' );
+		exit( '-1' );
 	}
 
 	check_ajax_referer( 'wpseo-ignore' );
 
 	if ( ! isset( $_POST['option'] ) || ! is_string( $_POST['option'] ) ) {
-		die( '-1' );
+		exit( '-1' );
 	}
 
 	$ignore_key = sanitize_text_field( wp_unslash( $_POST['option'] ) );
 	WPSEO_Options::set( 'ignore_' . $ignore_key, true );
 
-	die( '1' );
+	exit( '1' );
 }
 
 add_action( 'wp_ajax_wpseo_set_ignore', 'wpseo_set_ignore' );
 
 /**
  * Save an individual SEO title from the Bulk Editor.
+ *
+ * @return void
  */
 function wpseo_save_title() {
 	wpseo_save_what( 'title' );
@@ -85,6 +93,8 @@ add_action( 'wp_ajax_wpseo_save_title', 'wpseo_save_title' );
 
 /**
  * Save an individual meta description from the Bulk Editor.
+ *
+ * @return void
  */
 function wpseo_save_description() {
 	wpseo_save_what( 'metadesc' );
@@ -96,12 +106,14 @@ add_action( 'wp_ajax_wpseo_save_metadesc', 'wpseo_save_description' );
  * Save titles & descriptions.
  *
  * @param string $what Type of item to save (title, description).
+ *
+ * @return void
  */
 function wpseo_save_what( $what ) {
 	check_ajax_referer( 'wpseo-bulk-editor' );
 
 	if ( ! isset( $_POST['new_value'], $_POST['wpseo_post_id'], $_POST['existing_value'] ) || ! is_string( $_POST['new_value'] ) || ! is_string( $_POST['existing_value'] ) ) {
-		die( '-1' );
+		exit( '-1' );
 	}
 
 	$new = sanitize_text_field( wp_unslash( $_POST['new_value'] ) );
@@ -110,7 +122,7 @@ function wpseo_save_what( $what ) {
 	$original = sanitize_text_field( wp_unslash( $_POST['existing_value'] ) );
 
 	if ( $post_id === 0 ) {
-		die( '-1' );
+		exit( '-1' );
 	}
 
 	$results = wpseo_upsert_new( $what, $post_id, $new, $original );
@@ -206,6 +218,8 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 
 /**
  * Save all titles sent from the Bulk Editor.
+ *
+ * @return void
  */
 function wpseo_save_all_titles() {
 	wpseo_save_all( 'title' );
@@ -215,6 +229,8 @@ add_action( 'wp_ajax_wpseo_save_all_titles', 'wpseo_save_all_titles' );
 
 /**
  * Save all description sent from the Bulk Editor.
+ *
+ * @return void
  */
 function wpseo_save_all_descriptions() {
 	wpseo_save_all( 'metadesc' );
@@ -226,6 +242,8 @@ add_action( 'wp_ajax_wpseo_save_all_descriptions', 'wpseo_save_all_descriptions'
  * Utility function to save values.
  *
  * @param string $what Type of item so save.
+ *
+ * @return void
  */
 function wpseo_save_all( $what ) {
 	check_ajax_referer( 'wpseo-bulk-editor' );
@@ -264,35 +282,30 @@ function wpseo_upsert_new( $what, $post_id, $new_value, $original ) {
 
 /**
  * Retrieves the post ids where the keyword is used before as well as the types of those posts.
+ *
+ * @return void
  */
 function ajax_get_keyword_usage_and_post_types() {
 	check_ajax_referer( 'wpseo-keyword-usage-and-post-types', 'nonce' );
 
 	if ( ! isset( $_POST['post_id'], $_POST['keyword'] ) || ! is_string( $_POST['keyword'] ) ) {
-		die( '-1' );
+		exit( '-1' );
 	}
 
 	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We are casting to an integer.
 	$post_id = (int) wp_unslash( $_POST['post_id'] );
 
 	if ( $post_id === 0 || ! current_user_can( 'edit_post', $post_id ) ) {
-		die( '-1' );
+		exit( '-1' );
 	}
 
 	$keyword = sanitize_text_field( wp_unslash( $_POST['keyword'] ) );
 
 	$post_ids = WPSEO_Meta::keyword_usage( $keyword, $post_id );
 
-	if ( ! empty( $post_ids ) ) {
-		$post_types = WPSEO_Meta::post_types_for_ids( $post_ids );
-	}
-	else {
-		$post_types = [];
-	}
-
 	$return_object = [
 		'keyword_usage' => $post_ids,
-		'post_types'    => $post_types,
+		'post_types'    => WPSEO_Meta::post_types_for_ids( $post_ids ),
 	];
 
 	wp_die(
@@ -306,6 +319,8 @@ add_action( 'wp_ajax_get_focus_keyword_usage_and_post_types', 'ajax_get_keyword_
 
 /**
  * Retrieves the keyword for the keyword doubles of the termpages.
+ *
+ * @return void
  */
 function ajax_get_term_keyword_usage() {
 	check_ajax_referer( 'wpseo-keyword-usage', 'nonce' );
@@ -370,20 +385,22 @@ new WPSEO_Taxonomy_Columns();
 
 /**
  * Retrieves the keyword for the keyword doubles.
+ *
+ * @return void
  */
 function ajax_get_keyword_usage() {
 	_deprecated_function( __METHOD__, 'WPSEO 20.4' );
 	check_ajax_referer( 'wpseo-keyword-usage', 'nonce' );
 
 	if ( ! isset( $_POST['post_id'], $_POST['keyword'] ) || ! is_string( $_POST['keyword'] ) ) {
-		die( '-1' );
+		exit( '-1' );
 	}
 
 	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We are casting to an integer.
 	$post_id = (int) wp_unslash( $_POST['post_id'] );
 
 	if ( $post_id === 0 || ! current_user_can( 'edit_post', $post_id ) ) {
-		die( '-1' );
+		exit( '-1' );
 	}
 
 	$keyword = sanitize_text_field( wp_unslash( $_POST['keyword'] ) );

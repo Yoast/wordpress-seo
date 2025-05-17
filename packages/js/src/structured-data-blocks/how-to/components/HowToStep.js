@@ -7,7 +7,6 @@ import { Component } from "@wordpress/element";
 import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
 
-const RichTextWithAppendedSpace = appendSpace( RichText );
 const RichTextContentWithAppendedSpace = appendSpace( RichText.Content );
 
 /**
@@ -323,7 +322,7 @@ export default class HowToStep extends Component {
 						: ( index + 1 ) + "."
 					}
 				</span>
-				<RichTextWithAppendedSpace
+				<RichText
 					identifier={ `${ id }-name` }
 					className="schema-how-to-step-name"
 					tagName="p"
@@ -336,7 +335,7 @@ export default class HowToStep extends Component {
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					allowedFormats={ [ "core/italic", "core/strikethrough", "core/link", "core/annotation" ] }
 				/>
-				<RichTextWithAppendedSpace
+				<RichText
 					identifier={ `${ id }-text` }
 					className="schema-how-to-step-text"
 					tagName="p"

@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\Introductions_Collector
  */
-class Introductions_Collector_Test extends TestCase {
+final class Introductions_Collector_Test extends TestCase {
 
 	/**
 	 * Tests the constructor and filter.
@@ -58,7 +58,7 @@ class Introductions_Collector_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function collector_get_data() {
+	public static function collector_get_data() {
 		$introductions = [
 			'test1' => new Introduction_Mock( 'test1', 1, true ),
 			'test2' => new Introduction_Mock( 'test2', 2, true ),
@@ -259,7 +259,7 @@ class Introductions_Collector_Test extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function collector_is_available_introduction_data() {
+	public static function collector_is_available_introduction_data() {
 		$introductions = [
 			'test1' => new Introduction_Mock( 'test1', 1, true ),
 			'test2' => new Introduction_Mock( 'test2', 2, true ),

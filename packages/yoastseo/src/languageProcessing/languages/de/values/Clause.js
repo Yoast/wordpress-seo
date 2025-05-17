@@ -1,4 +1,4 @@
-import { includes, map } from "lodash-es";
+import { includes, map } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { indices, values } = languageProcessing;
 const { getIndicesByWord, getIndicesByWordList } = indices;

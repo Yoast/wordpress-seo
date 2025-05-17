@@ -7,7 +7,7 @@ use WPSEO_Sitemaps_Renderer;
 /**
  * Test Helper Class.
  */
-class Sitemaps_Renderer_Double extends WPSEO_Sitemaps_Renderer {
+final class Sitemaps_Renderer_Double extends WPSEO_Sitemaps_Renderer {
 
 	/**
 	 * Returns the XSL URL.

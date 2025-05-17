@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Models\Indexable_Extension;
 /**
  * Class Indexable_Double.
  */
-class Indexable_Double extends Indexable_Model {
+final class Indexable_Double extends Indexable_Model {
 
 	/**
 	 * Holds the return value for has_one. Making it possible to mock that.

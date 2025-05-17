@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group front-end
  */
-class Redirects_Test extends TestCase {
+final class Redirects_Test extends TestCase {
 
 	/**
 	 * The test instance.
@@ -67,6 +67,8 @@ class Redirects_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -85,6 +87,8 @@ class Redirects_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -97,6 +101,8 @@ class Redirects_Test extends TestCase {
 	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -112,6 +118,8 @@ class Redirects_Test extends TestCase {
 	 * Tests the archive redirect when archives are 'enabled'.
 	 *
 	 * @covers ::archive_redirect
+	 *
+	 * @return void
 	 */
 	public function test_archive_redirect_with_no_redirect_done() {
 		$this->instance
@@ -130,6 +138,8 @@ class Redirects_Test extends TestCase {
 	 * Tests the archive redirect when one of the archives is disabled.
 	 *
 	 * @covers ::archive_redirect
+	 *
+	 * @return void
 	 */
 	public function test_archive_redirect_with_redirect_done() {
 		$this->instance
@@ -149,6 +159,8 @@ class Redirects_Test extends TestCase {
 	 * Tests the page redirect for a non-simple page.
 	 *
 	 * @covers ::page_redirect
+	 *
+	 * @return void
 	 */
 	public function test_page_redirect_for_a_non_simple_page() {
 		$this->current_page
@@ -166,6 +178,8 @@ class Redirects_Test extends TestCase {
 	 * Tests the page redirect for a simple page, but has an invalid post object.
 	 *
 	 * @covers ::page_redirect
+	 *
+	 * @return void
 	 */
 	public function test_page_redirect_for_a_simple_page_with_no_post_object() {
 		Monkey\Functions\expect( 'get_post' )->once()->andReturn( false );
@@ -185,6 +199,8 @@ class Redirects_Test extends TestCase {
 	 * Tests the page redirect for a simple page that doesn't have a redirect value set.
 	 *
 	 * @covers ::page_redirect
+	 *
+	 * @return void
 	 */
 	public function test_page_redirect_for_a_simple_page_with_no_redirect_for_post() {
 		Monkey\Functions\expect( 'get_post' )
@@ -211,6 +227,8 @@ class Redirects_Test extends TestCase {
 	 * Tests the page redirect for a simple page that has redirect value set.
 	 *
 	 * @covers ::page_redirect
+	 *
+	 * @return void
 	 */
 	public function test_page_redirect_for_a_simple_page_with_redirect_for_post() {
 		Monkey\Functions\expect( 'get_post' )
@@ -239,6 +257,8 @@ class Redirects_Test extends TestCase {
 	 * Tests the attachment redirect on a non-attachment page.
 	 *
 	 * @covers ::attachment_redirect
+	 *
+	 * @return void
 	 */
 	public function test_attachment_redirect_for_a_non_attachment_page() {
 		$this->current_page
@@ -256,6 +276,8 @@ class Redirects_Test extends TestCase {
 	 * Tests the attachment redirect on an attachment page but with attachments disabled.
 	 *
 	 * @covers ::attachment_redirect
+	 *
+	 * @return void
 	 */
 	public function test_attachment_redirect_for_an_attachment_page_with_attachments_disabled() {
 		$this->current_page
@@ -279,6 +301,8 @@ class Redirects_Test extends TestCase {
 	 * Tests the attachment redirect on an attachment page but with attachments disabled.
 	 *
 	 * @covers ::attachment_redirect
+	 *
+	 * @return void
 	 */
 	public function test_attachment_redirect_for_an_attachment_page_with_no_attachment_url_found() {
 		$this->current_page
@@ -307,6 +331,8 @@ class Redirects_Test extends TestCase {
 	 * Tests the attachment redirect, happy path.
 	 *
 	 * @covers ::attachment_redirect
+	 *
+	 * @return void
 	 */
 	public function test_attachment_redirect() {
 		$this->current_page
@@ -337,6 +363,8 @@ class Redirects_Test extends TestCase {
 	 * Tests no redirect when GET parameter is not set.
 	 *
 	 * @covers ::category_redirect
+	 *
+	 * @return void
 	 */
 	public function test_attachment_redirect_no_get() {
 		$this->redirect
@@ -349,6 +377,8 @@ class Redirects_Test extends TestCase {
 	 * Tests if there is a redirect when GET parameter is set.
 	 *
 	 * @covers ::category_redirect
+	 *
+	 * @return void
 	 */
 	public function test_attachment_redirect_with_get() {
 		$_GET['cat'] = '-1';

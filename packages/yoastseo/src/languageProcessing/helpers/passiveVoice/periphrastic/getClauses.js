@@ -5,7 +5,7 @@ import getWordIndices from "./getIndicesWithRegex.js";
 import includesIndex from "../../word/includesIndex";
 import followsIndex from "../../word/followsIndex";
 
-import { forEach, isUndefined, map } from "lodash-es";
+import { forEach, isUndefined, map } from "lodash";
 
 /**
  * Gets stop characters to determine sentence breakers.
@@ -205,7 +205,7 @@ const getClauses = function( sentence, options ) {
 		}
 
 		// Cut the sentence from the current index to the endIndex (start of next breaker, of end of sentence).
-		const clause = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
+		const clause = stripSpaces( sentence.substring( indices[ i ].index, endIndex ) );
 
 		const auxiliaryMatches = getAuxiliaryMatches( clause, options.regexes );
 		// If a clause doesn't have an auxiliary, we don't need it, so it can be filtered out.

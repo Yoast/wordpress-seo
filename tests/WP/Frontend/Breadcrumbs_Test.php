@@ -8,12 +8,14 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Unit Test Class.
  */
-class Breadcrumbs_Test extends TestCase {
+final class Breadcrumbs_Test extends TestCase {
 
 	/**
 	 * Placeholder test to prevent PHPUnit from throwing errors.
 	 *
 	 * @covers WPSEO_Breadcrumbs::breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_breadcrumb_before() {
 
@@ -29,6 +31,8 @@ class Breadcrumbs_Test extends TestCase {
 	 * Placeholder test to prevent PHPUnit from throwing errors.
 	 *
 	 * @covers WPSEO_Breadcrumbs::breadcrumb
+	 *
+	 * @return void
 	 */
 	public function test_breadcrumb_after() {
 

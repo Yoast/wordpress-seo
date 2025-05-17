@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Meta_Watcher
  */
-class Indexable_Post_Meta_Watcher_Test extends TestCase {
+final class Indexable_Post_Meta_Watcher_Test extends TestCase {
 
 	/**
 	 * The post watcher.
@@ -36,6 +36,8 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 
 	/**
 	 * Initializes the test mocks.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -47,6 +49,8 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -60,6 +64,8 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -82,6 +88,8 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::add_post_id
 	 * @covers ::update_indexables
+	 *
+	 * @return void
 	 */
 	public function test_adding_yoast_meta_key() {
 		$this->post_watcher->expects( 'build_indexable' )->once()->with( 1 );
@@ -95,6 +103,8 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::add_post_id
 	 * @covers ::update_indexables
+	 *
+	 * @return void
 	 */
 	public function test_adding_non_yoast_meta_key() {
 		$this->post_watcher->expects( 'build_indexable' )->never();
@@ -108,6 +118,8 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::add_post_id
 	 * @covers ::update_indexables
+	 *
+	 * @return void
 	 */
 	public function test_adding_multiple_yoast_meta_key() {
 		$this->post_watcher->expects( 'build_indexable' )->once()->with( 1 );
@@ -122,6 +134,8 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::add_post_id
 	 * @covers ::update_indexables
+	 *
+	 * @return void
 	 */
 	public function test_adding_and_removing_yoast_meta_key() {
 		$this->post_watcher->expects( 'build_indexable' )->never();
@@ -137,6 +151,8 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::add_post_id
 	 * @covers ::update_indexables
+	 *
+	 * @return void
 	 */
 	public function test_adding_yoast_meta_key_and_removing_other_post() {
 		$this->post_watcher->expects( 'build_indexable' )->once()->with( 1 );

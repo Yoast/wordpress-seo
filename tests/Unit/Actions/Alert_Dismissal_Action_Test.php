@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Alert_Dismissal_Action
  */
-class Alert_Dismissal_Action_Test extends TestCase {
+final class Alert_Dismissal_Action_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.
@@ -34,6 +34,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -46,6 +48,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
@@ -61,6 +65,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_alert() {
 		$this->user
@@ -100,6 +106,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_alert_not_allowed() {
 		$this->user
@@ -130,6 +138,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_alert_already_dismissed() {
 		$this->user
@@ -162,6 +172,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_alert_wrong_dismissed_alerts() {
 		$this->user
@@ -191,6 +203,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * Tests dismissing an alert - retrieving the current user ID goes wrong.
 	 *
 	 * @covers ::dismiss
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_alert_wrong_current_user_id() {
 		$this->user
@@ -216,6 +230,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_dismiss_alert_update_failure() {
 		$this->user
@@ -250,6 +266,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_reset_alert() {
 		$this->user
@@ -306,6 +324,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_reset_alert_not_allowed() {
 		$this->user
@@ -340,6 +360,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_reset_alert_last_remaining() {
 		$this->user
@@ -377,6 +399,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_reset_alert_last_remaining_delete_failure() {
 		$this->user
@@ -414,6 +438,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_reset_alert_non_dismissed_alert() {
 		$this->user
@@ -450,6 +476,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_reset_alert_no_dismissed_alerts() {
 		$this->user
@@ -486,6 +514,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_reset_alert_wrong_dismissed_alerts() {
 		$this->user
@@ -519,6 +549,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * Tests resetting an alert - retrieving the current user ID goes wrong.
 	 *
 	 * @covers ::reset
+	 *
+	 * @return void
 	 */
 	public function test_reset_alert_wrong_current_user_id() {
 		$this->user
@@ -548,6 +580,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_reset_alert_update_failure() {
 		$this->user
@@ -599,6 +633,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_is_dismissed_true() {
 		$this->user
@@ -627,6 +663,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_is_dismissed_false() {
 		$this->user
@@ -655,6 +693,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_is_dismissed_not_allowed() {
 		$this->user
@@ -681,6 +721,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_is_dismissed_wrong_dismissed_alerts() {
 		$this->user
@@ -707,6 +749,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::is_dismissed
 	 * @covers ::get_dismissed_alerts
+	 *
+	 * @return void
 	 */
 	public function test_is_dismissed_wrong_current_user_id() {
 		$this->user
@@ -727,6 +771,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * @covers ::get_dismissed_alerts
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_get_dismissed_alerts_empty_array() {
 		$this->user
@@ -753,6 +799,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::all_dismissed
 	 * @covers ::get_dismissed_alerts
+	 *
+	 * @return void
 	 */
 	public function test_all_dismissed() {
 		$this->user
@@ -773,6 +821,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * Tests that all dismissed returns false when there is no current user.
 	 *
 	 * @covers ::all_dismissed
+	 *
+	 * @return void
 	 */
 	public function test_all_dismissed_no_current_user() {
 		$this->user
@@ -792,6 +842,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::all_dismissed
 	 * @covers ::get_dismissed_alerts
+	 *
+	 * @return void
 	 */
 	public function test_all_dismissed_get_dismissed_false() {
 		$this->user
@@ -813,6 +865,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::all_dismissed
 	 * @covers ::get_dismissed_alerts
+	 *
+	 * @return void
 	 */
 	public function test_all_dismissed_no_dismissed_alerts() {
 		$this->user
@@ -834,6 +888,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_get_allowed_array_check() {
 		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
@@ -849,6 +905,8 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::is_allowed
 	 * @covers ::get_allowed_dismissable_alerts
+	 *
+	 * @return void
 	 */
 	public function test_get_allowed_string_check() {
 		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )

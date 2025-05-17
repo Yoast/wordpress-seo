@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Values\Images;
  *
  * @group values
  */
-class Images_Test extends TestCase {
+final class Images_Test extends TestCase {
 
 	/**
 	 * Represents the image helper.
@@ -40,6 +40,8 @@ class Images_Test extends TestCase {
 
 	/**
 	 * Setup the tests.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -53,6 +55,8 @@ class Images_Test extends TestCase {
 	 * Tests adding an image.
 	 *
 	 * @covers ::add_image
+	 *
+	 * @return void
 	 */
 	public function test_add_image() {
 		$this->url
@@ -78,6 +82,8 @@ class Images_Test extends TestCase {
 	 * Tests adding an image with string given as value.
 	 *
 	 * @covers ::add_image
+	 *
+	 * @return void
 	 */
 	public function test_add_image_with_string_given() {
 		$this->url
@@ -105,6 +111,8 @@ class Images_Test extends TestCase {
 	 * @covers ::add_image
 	 * @covers ::has_images
 	 * @covers ::get_images
+	 *
+	 * @return void
 	 */
 	public function test_add_image_with_boolean_given() {
 		$this->instance->add_image( false );
@@ -119,6 +127,8 @@ class Images_Test extends TestCase {
 	 * @covers ::add_image
 	 * @covers ::has_images
 	 * @covers ::get_images
+	 *
+	 * @return void
 	 */
 	public function test_add_image_that_is_added_before() {
 		$this->url
@@ -151,6 +161,8 @@ class Images_Test extends TestCase {
 	 * Tests adding an image by url with empty url given as value.
 	 *
 	 * @covers ::add_image_by_url
+	 *
+	 * @return void
 	 */
 	public function test_add_image_by_url_with_empty_url_given() {
 		$this->assertNull( $this->instance->add_image_by_url( false ) );
@@ -160,6 +172,8 @@ class Images_Test extends TestCase {
 	 * Tests adding an image by url with url given as value.
 	 *
 	 * @covers ::add_image_by_url
+	 *
+	 * @return void
 	 */
 	public function test_add_image_by_url() {
 		$this->image
@@ -185,6 +199,8 @@ class Images_Test extends TestCase {
 	 * Tests adding an image by url with empty url given as value.
 	 *
 	 * @covers ::add_image_by_url
+	 *
+	 * @return void
 	 */
 	public function test_add_image_by_url_with_no_attachment_found() {
 		$this->assertEquals( null, $this->instance->add_image_by_url( '' ) );
@@ -195,6 +211,8 @@ class Images_Test extends TestCase {
 	 *
 	 * @covers ::add_image_by_url
 	 * @covers ::add_image
+	 *
+	 * @return void
 	 */
 	public function test_add_image_by_url_with_no_image_id() {
 		$this->url
@@ -220,6 +238,8 @@ class Images_Test extends TestCase {
 	 * Test adding an image by id.
 	 *
 	 * @covers ::add_image_by_id
+	 *
+	 * @return void
 	 */
 	public function test_add_image_by_id() {
 		$this->image
@@ -249,6 +269,8 @@ class Images_Test extends TestCase {
 	 * Test adding an image by id with no image being found.
 	 *
 	 * @covers ::add_image_by_id
+	 *
+	 * @return void
 	 */
 	public function test_add_image_by_id_no_image_found() {
 		$this->image

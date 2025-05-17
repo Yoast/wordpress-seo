@@ -28,7 +28,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group front-end
  * @group woocommerce
  */
-class WooCommerce_Test extends TestCase {
+final class WooCommerce_Test extends TestCase {
 
 	/**
 	 * The test instance.
@@ -95,6 +95,8 @@ class WooCommerce_Test extends TestCase {
 
 	/**
 	 * Sets an instance for test purposes.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -123,6 +125,8 @@ class WooCommerce_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -135,6 +139,8 @@ class WooCommerce_Test extends TestCase {
 	 * Tests if the constructor sets the right properties.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_constructor() {
 		$instance = new WooCommerce(
@@ -160,6 +166,8 @@ class WooCommerce_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -173,6 +181,8 @@ class WooCommerce_Test extends TestCase {
 	 * Tests the add shop to breadcrumbs function.
 	 *
 	 * @covers ::add_shop_to_breadcrumbs
+	 *
+	 * @return void
 	 */
 	public function test_add_shop_to_breadcrumbs() {
 		$indexables = [
@@ -197,6 +207,8 @@ class WooCommerce_Test extends TestCase {
 	 * Tests the add shop to breadcrumbs function when finding no indexable for the shop page.
 	 *
 	 * @covers ::add_shop_to_breadcrumbs
+	 *
+	 * @return void
 	 */
 	public function test_add_shop_to_breadcrumbs_no_indexable_shop_page() {
 		$indexables = [
@@ -219,6 +231,8 @@ class WooCommerce_Test extends TestCase {
 	 * Tests the situation where the page isn't a shop page.
 	 *
 	 * @covers ::get_page_id
+	 *
+	 * @return void
 	 */
 	public function test_get_page_id_for_non_shop_page() {
 		$this->woocommerce_helper->expects( 'is_shop_page' )
@@ -232,6 +246,8 @@ class WooCommerce_Test extends TestCase {
 	 * Tests the situation where the WooCommerce function doesn't exist (for some reason).
 	 *
 	 * @covers ::get_page_id
+	 *
+	 * @return void
 	 */
 	public function test_get_page_id_when_woocommerce_function_does_not_exist() {
 		// Sets the stubs.
@@ -249,6 +265,8 @@ class WooCommerce_Test extends TestCase {
 	 * Tests the happy path where we have a page id.
 	 *
 	 * @covers ::get_page_id
+	 *
+	 * @return void
 	 */
 	public function test_get_page_id() {
 		$this->woocommerce_helper->expects( 'is_shop_page' )
@@ -275,6 +293,8 @@ class WooCommerce_Test extends TestCase {
 	 * @param bool     $is_shop_page   Whether or not the current page is a shop page.
 	 * @param int|bool $shop_page_id   What the current shop page ID is, false if none.
 	 * @param bool     $is_archive     Whether or not the current page is an archive.
+	 *
+	 * @return void
 	 */
 	public function test_title( $expected, $model_value, $template_value, $is_shop_page, $shop_page_id, $is_archive ) {
 		if ( $is_shop_page !== null ) {
@@ -318,6 +338,8 @@ class WooCommerce_Test extends TestCase {
 	 * @param bool     $is_shop_page   Whether or not the current page is a shop page.
 	 * @param int|bool $shop_page_id   What the current shop page ID is, false if none.
 	 * @param bool     $is_archive     Whether or not the current page is an archive.
+	 *
+	 * @return void
 	 */
 	public function test_description( $expected, $model_value, $template_value, $is_shop_page, $shop_page_id, $is_archive ) {
 		if ( $is_shop_page !== null ) {
@@ -353,7 +375,7 @@ class WooCommerce_Test extends TestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function meta_value_provider() {
+	public static function meta_value_provider() {
 		return [
 			'has_model_value' => [
 				'expected'       => 'This is a value',
@@ -411,6 +433,8 @@ class WooCommerce_Test extends TestCase {
 	 *
 	 * @covers ::title
 	 * @covers ::get_product_template
+	 *
+	 * @return void
 	 */
 	public function test_title_by_using_the_product_archive_template() {
 		$this->woocommerce_helper->expects( 'is_shop_page' )
@@ -446,6 +470,8 @@ class WooCommerce_Test extends TestCase {
 	 *
 	 * @covers ::description
 	 * @covers ::get_product_template
+	 *
+	 * @return void
 	 */
 	public function test_description_by_using_the_product_archive_template() {
 		$this->woocommerce_helper->expects( 'is_shop_page' )
@@ -480,6 +506,8 @@ class WooCommerce_Test extends TestCase {
 	 * Tests the canonical url for a paginated shop page.
 	 *
 	 * @covers ::canonical
+	 *
+	 * @return void
 	 */
 	public function test_canonical_on_paginated_shop_page() {
 		$presentation = Mockery::mock( Indexable_Presentation_Mock::class );
@@ -507,6 +535,8 @@ class WooCommerce_Test extends TestCase {
 	 * Tests the canonical url for a paginated shop page.
 	 *
 	 * @covers ::canonical
+	 *
+	 * @return void
 	 */
 	public function test_canonical_on_non_paginated_shop_page() {
 		$presentation = Mockery::mock( Indexable_Presentation_Mock::class );
@@ -530,6 +560,8 @@ class WooCommerce_Test extends TestCase {
 	 * Tests the canonical url for a paginated shop page.
 	 *
 	 * @covers ::canonical
+	 *
+	 * @return void
 	 */
 	public function test_canonical_on_non_shop_page() {
 		$presentation = Mockery::mock( Indexable_Presentation_Mock::class );
@@ -547,6 +579,8 @@ class WooCommerce_Test extends TestCase {
 	 * Tests the canonical url for a paginated shop page.
 	 *
 	 * @covers ::canonical
+	 *
+	 * @return void
 	 */
 	public function test_canonical_on_invalid_permalink() {
 		$presentation = Mockery::mock( Indexable_Presentation_Mock::class );

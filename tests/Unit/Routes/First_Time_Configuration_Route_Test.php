@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group routes
  * @group workout
  */
-class First_Time_Configuration_Route_Test extends TestCase {
+final class First_Time_Configuration_Route_Test extends TestCase {
 
 	/**
 	 * Represents the action.
@@ -35,6 +35,8 @@ class First_Time_Configuration_Route_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -47,6 +49,8 @@ class First_Time_Configuration_Route_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -59,6 +63,8 @@ class First_Time_Configuration_Route_Test extends TestCase {
 	 * Tests the registration of the routes.
 	 *
 	 * @covers ::register_routes
+	 *
+	 * @return void
 	 */
 	public function test_register_routes() {
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -195,6 +201,8 @@ class First_Time_Configuration_Route_Test extends TestCase {
 	 * Tests the can_manage_options method.
 	 *
 	 * @covers ::can_manage_options
+	 *
+	 * @return void
 	 */
 	public function test_can_manage_options() {
 		Monkey\Functions\expect( 'current_user_can' )
@@ -214,6 +222,8 @@ class First_Time_Configuration_Route_Test extends TestCase {
 	 *
 	 * @param bool   $can_edit The result of the check_capability call.
 	 * @param object $expected The expected result object.
+	 *
+	 * @return void
 	 */
 	public function test_can_edit_user( $can_edit, $expected ) {
 		$request = Mockery::mock( WP_REST_Request::class );
@@ -238,7 +248,7 @@ class First_Time_Configuration_Route_Test extends TestCase {
 	 *
 	 * @return array Data for can_edit_user function.
 	 */
-	public function can_edit_user_provider() {
+	public static function can_edit_user_provider() {
 		$success = [
 			'can_edit' => (object) [
 				'success' => true,
@@ -265,6 +275,8 @@ class First_Time_Configuration_Route_Test extends TestCase {
 	 * Tests the can_edit_other_posts method.
 	 *
 	 * @covers ::can_edit_other_posts
+	 *
+	 * @return void
 	 */
 	public function test_can_edit_other_posts() {
 		Monkey\Functions\expect( 'current_user_can' )

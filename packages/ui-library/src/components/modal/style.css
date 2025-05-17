@@ -33,7 +33,7 @@
 		}
 
 		.yst-modal__close {
-			@apply yst-block yst-absolute yst-top-4 yst-right-4;
+			@apply yst-block yst-absolute yst-top-4 yst-end-4;
 		}
 
 		.yst-modal__close-button {

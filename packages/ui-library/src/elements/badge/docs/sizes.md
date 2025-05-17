@@ -9,4 +9,4 @@ The default badge size is typically used in the top right corner of a card or in
 3. **Small**<br>
 The small badge size is typically used in combination with small labels or in smaller spaces, such as sidebar menus.
 
-<font size="2">_**Note:** When choosing a badge size for a particular situation other than those previously mentioned, it's important to consider the context, hierarchy, proximity, screen size and resolution. The goal should be to choose a size that is appropriate for the information being conveyed, while also maintaining visual balance in the user interface._</font>
+_**Note:** When choosing a badge size for a particular situation other than those previously mentioned, it's important to consider the context, hierarchy, proximity, screen size and resolution. The goal should be to choose a size that is appropriate for the information being conveyed, while also maintaining visual balance in the user interface._

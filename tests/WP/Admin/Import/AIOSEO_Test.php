@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Test importing meta data from AIOSEO.
  */
-class AIOSEO_Test extends TestCase {
+final class AIOSEO_Test extends TestCase {
 
 	/**
 	 * Holds the class instance.
@@ -23,6 +23,8 @@ class AIOSEO_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
@@ -34,6 +36,8 @@ class AIOSEO_Test extends TestCase {
 	 * Tests the plugin name function.
 	 *
 	 * @covers WPSEO_Import_AIOSEO::get_plugin_name
+	 *
+	 * @return void
 	 */
 	public function test_plugin_name() {
 		$this->assertEquals( 'All In One SEO Pack', $this->class_instance->get_plugin_name() );
@@ -43,6 +47,8 @@ class AIOSEO_Test extends TestCase {
 	 * Tests whether this importer has been registered.
 	 *
 	 * @covers WPSEO_Plugin_Importers::get
+	 *
+	 * @return void
 	 */
 	public function test_importer_registered() {
 		$this->assertContains( WPSEO_Import_AIOSEO::class, WPSEO_Plugin_Importers::get() );
@@ -54,6 +60,8 @@ class AIOSEO_Test extends TestCase {
 	 * @covers WPSEO_Import_AIOSEO::__construct
 	 * @covers WPSEO_Import_AIOSEO::run_detect
 	 * @covers WPSEO_Import_AIOSEO::detect
+	 *
+	 * @return void
 	 */
 	public function test_detect_without_data() {
 		$this->assertEquals( $this->status( 'detect', false ), $this->class_instance->run_detect() );
@@ -64,6 +72,8 @@ class AIOSEO_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_AIOSEO::run_detect
 	 * @covers WPSEO_Import_AIOSEO::detect
+	 *
+	 * @return void
 	 */
 	public function test_detect_with_data() {
 		$this->setup_post();
@@ -74,6 +84,8 @@ class AIOSEO_Test extends TestCase {
 	 * Tests whether we can return properly when there's nothing to import.
 	 *
 	 * @covers WPSEO_Import_AIOSEO::run_import
+	 *
+	 * @return void
 	 */
 	public function test_import_without_data() {
 		$result = $this->class_instance->run_import();
@@ -90,6 +102,8 @@ class AIOSEO_Test extends TestCase {
 	 * @covers WPSEO_Import_AIOSEO::meta_key_clone
 	 * @covers WPSEO_Import_AIOSEO::meta_key_clone_replace
 	 * @covers WPSEO_Import_AIOSEO::meta_keys_clone
+	 *
+	 * @return void
 	 */
 	public function test_import_with_data() {
 		$post_id = $this->setup_post();
@@ -120,6 +134,8 @@ class AIOSEO_Test extends TestCase {
 	 * @covers WPSEO_Import_AIOSEO::meta_key_clone_replace
 	 * @covers WPSEO_Import_AIOSEO::run_import
 	 * @covers WPSEO_Import_AIOSEO::set_missing_db_rights_status
+	 *
+	 * @return void
 	 */
 	public function test_import_without_rights_to_temp_table() {
 		$class_instance = new WPSEO_Import_AIOSEO();
@@ -133,7 +149,7 @@ class AIOSEO_Test extends TestCase {
 			->getMock();
 		$wpdb->expects( $this->any() )
 			->method( 'query' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 		$result          = $class_instance->run_import();
 		$expected_result = $this->status( 'import', false );
 		$expected_result->set_msg( 'The Yoast SEO importer functionality uses temporary database tables. It seems your WordPress install does not have the capability to do this, please consult your hosting provider.' );
@@ -154,6 +170,8 @@ class AIOSEO_Test extends TestCase {
 	 * @covers WPSEO_Import_AIOSEO::maybe_save_post_meta
 	 * @covers WPSEO_Import_AIOSEO::import_opengraph
 	 * @covers WPSEO_Import_AIOSEO::import_post_opengraph
+	 *
+	 * @return void
 	 */
 	public function test_import_without_overwriting_data() {
 		$post_id = $this->setup_post( true );
@@ -179,6 +197,8 @@ class AIOSEO_Test extends TestCase {
 	 * Tests whether we can properly return an error when there is no data to clean.
 	 *
 	 * @covers WPSEO_Import_AIOSEO::run_cleanup
+	 *
+	 * @return void
 	 */
 	public function test_cleanup_without_data() {
 		$result = $this->class_instance->run_cleanup();
@@ -190,6 +210,8 @@ class AIOSEO_Test extends TestCase {
 	 *
 	 * @covers WPSEO_Import_AIOSEO::run_cleanup
 	 * @covers WPSEO_Import_AIOSEO::cleanup
+	 *
+	 * @return void
 	 */
 	public function test_cleanup() {
 		$post_id = $this->setup_post();
@@ -210,6 +232,8 @@ class AIOSEO_Test extends TestCase {
 	 * @covers WPSEO_Import_AIOSEO::run_cleanup
 	 * @covers WPSEO_Import_AIOSEO::cleanup
 	 * @covers WPSEO_Import_AIOSEO::cleanup_error_msg
+	 *
+	 * @return void
 	 */
 	public function test_cleanup_gone_bad() {
 		$class_instance = new WPSEO_Import_AIOSEO();
@@ -223,7 +247,7 @@ class AIOSEO_Test extends TestCase {
 			->getMock();
 		$wpdb->expects( $this->any() )
 			->method( 'query' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$result          = $class_instance->run_cleanup();
 		$expected_result = $this->status( 'cleanup', false );

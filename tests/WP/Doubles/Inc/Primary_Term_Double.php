@@ -7,7 +7,7 @@ use WPSEO_Primary_Term;
 /**
  * Test Helper Class.
  */
-class Primary_Term_Double extends WPSEO_Primary_Term {
+final class Primary_Term_Double extends WPSEO_Primary_Term {
 
 	/**
 	 * Overwrite the get_terms method, because it uses a dependency.

@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher;
 use Yoast\WP\SEO\Models\Indexable;
@@ -23,7 +24,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher
  * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher
  */
-class Indexable_Term_Watcher_Test extends TestCase {
+final class Indexable_Term_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the indexable repository.
@@ -47,6 +48,13 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	protected $link_builder;
 
 	/**
+	 * Represents the indexable helper.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Represents the site helper.
 	 *
 	 * @var Mockery\MockInterface|Site_Helper
@@ -62,19 +70,23 @@ class Indexable_Term_Watcher_Test extends TestCase {
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->repository   = Mockery::mock( Indexable_Repository::class );
-		$this->builder      = Mockery::mock( Indexable_Builder::class );
-		$this->link_builder = Mockery::mock( Indexable_Link_Builder::class );
-		$this->site         = Mockery::mock( Site_Helper::class );
+		$this->repository       = Mockery::mock( Indexable_Repository::class );
+		$this->builder          = Mockery::mock( Indexable_Builder::class );
+		$this->link_builder     = Mockery::mock( Indexable_Link_Builder::class );
+		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
+		$this->site             = Mockery::mock( Site_Helper::class );
 
 		$this->instance = new Indexable_Term_Watcher(
 			$this->repository,
 			$this->builder,
 			$this->link_builder,
+			$this->indexable_helper,
 			$this->site
 		);
 	}
@@ -83,6 +95,8 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * Tests if the expected conditionals are in place.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -96,6 +110,8 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -108,6 +124,8 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * Tests if the indexable is being deleted.
 	 *
 	 * @covers ::delete_indexable
+	 *
+	 * @return void
 	 */
 	public function test_delete_indexable() {
 		$indexable_mock = Mockery::mock( Indexable::class );
@@ -126,6 +144,8 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * Tests if the indexable is being deleted.
 	 *
 	 * @covers ::delete_indexable
+	 *
+	 * @return void
 	 */
 	public function test_delete_indexable_does_not_exist() {
 		$this->repository
@@ -141,6 +161,8 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * Tests the build indexable function.
 	 *
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_indexable() {
 		Monkey\Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
@@ -193,8 +215,9 @@ class Indexable_Term_Watcher_Test extends TestCase {
 				'This is a term description, with a <a href="https://example.org/target">link</a>.'
 			);
 
-		$indexable
-			->expects( 'save' )
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->with( $indexable )
 			->once();
 
 		$this->instance->build_indexable( 1 );
@@ -204,6 +227,8 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * Tests the build indexable function.
 	 *
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_indexable_with_null_term() {
 		$this->site
@@ -222,6 +247,8 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * Tests the build indexable function.
 	 *
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_indexable_error_term() {
 		$this->site
@@ -247,6 +274,8 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * Tests the build indexable function.
 	 *
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_indexable_non_viewable_term() {
 		$this->site
@@ -277,6 +306,8 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * Tests the build indexable function on a multisite with a switch between the sites.
 	 *
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_indexable_on_multisite_with_a_site_switch() {
 		$this->site
@@ -295,6 +326,8 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * Tests the build indexable functionality.
 	 *
 	 * @covers ::build_indexable
+	 *
+	 * @return void
 	 */
 	public function test_build_does_not_exist() {
 		Monkey\Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
@@ -347,8 +380,9 @@ class Indexable_Term_Watcher_Test extends TestCase {
 				'This is a term description, with a <a href="https://example.org/target">link</a>.'
 			);
 
-		$indexable
-			->expects( 'save' )
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->with( $indexable )
 			->once();
 
 		$this->instance->build_indexable( 1 );

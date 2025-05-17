@@ -54,10 +54,8 @@ const expectedResults = {
 	},
 	textCompetingLinks: {
 		isApplicable: true,
-		score: 2,
-		resultText: "<a href='https://yoa.st/34l' target='_blank'>Link keyphrase</a>: " +
-			"You're linking to another page with the words you want this page to rank for. " +
-			"<a href='https://yoa.st/34m' target='_blank'>Don't do that</a>!",
+		score: 0,
+		resultText: "",
 	},
 	textLength: {
 		isApplicable: true,
@@ -112,7 +110,7 @@ const expectedResults = {
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: There are no paragraphs that are too long. Great job!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
@@ -140,11 +138,12 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
-			"There is enough variety in your sentences. That's great!",
+			"There are no repetitive sentence beginnings. That's great!",
 	},
 	imageKeyphrase: {
-		// This is not applicable to this paper since the text doesn't have any image in it.
-		isApplicable: false,
+		isApplicable: true,
+		score: 3,
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. <a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!",
 	},
 	imageCount: {
 		isApplicable: true,

@@ -9,12 +9,13 @@ import firstWordExceptions from "./config/firstWordExceptions";
 import sentenceLength from "./config/sentenceLength";
 
 // All helpers
-import createBasicWordForms from "./helpers/createBasicWordForms";
+import { createBasicWordForms } from "./helpers/createBasicWordForms";
 import getStemmer from "./helpers/getStemmer";
 import isPassiveSentence from "./helpers/isPassiveSentence";
+import { PREFIXED_FUNCTION_WORDS_REGEX } from "./config/prefixedFunctionWords";
 
 /**
- * The researches contains all the researches
+ * The researcher contains all the researches, helpers, data, and config.
  */
 export default class Researcher extends AbstractResearcher {
 	/**
@@ -37,6 +38,7 @@ export default class Researcher extends AbstractResearcher {
 			transitionWords,
 			twoPartTransitionWords,
 			sentenceLength,
+			prefixedFunctionWordsRegex: PREFIXED_FUNCTION_WORDS_REGEX,
 		} );
 
 		Object.assign( this.helpers, {

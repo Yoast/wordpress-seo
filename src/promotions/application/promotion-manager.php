@@ -21,7 +21,7 @@ class Promotion_Manager implements Promotion_Manager_Interface {
 	/**
 	 * Class constructor.
 	 *
-	 * @param Promotion_Interface ...$promotions list of promotions.
+	 * @param Promotion_Interface ...$promotions List of promotions.
 	 */
 	public function __construct( Promotion_Interface ...$promotions ) {
 		$this->promotions_list = $promotions;
@@ -34,7 +34,7 @@ class Promotion_Manager implements Promotion_Manager_Interface {
 	 *
 	 * @return bool Whether the promotion is effective.
 	 */
-	public function is( string $promotion_name ) : bool {
+	public function is( string $promotion_name ): bool {
 		$time = \time();
 
 		foreach ( $this->promotions_list as $promotion ) {
@@ -51,7 +51,7 @@ class Promotion_Manager implements Promotion_Manager_Interface {
 	 *
 	 * @return array<Abstract_Promotion> The list of promotions.
 	 */
-	public function get_promotions_list() : array {
+	public function get_promotions_list(): array {
 		return $this->promotions_list;
 	}
 
@@ -60,7 +60,7 @@ class Promotion_Manager implements Promotion_Manager_Interface {
 	 *
 	 * @return array<string> The list of promotions.
 	 */
-	public function get_current_promotions() : array {
+	public function get_current_promotions(): array {
 		$current_promotions = [];
 		$time               = \time();
 		foreach ( $this->promotions_list as $promotion ) {

@@ -32,56 +32,51 @@
 		.yst-validation-input--success {
 			.yst-validation-input__input {
 				@apply
-				yst-pr-10
-				yst-border-green-300
+				yst-pe-10
+				yst-ring-green-300
 				focus:yst-ring-green-500
-				focus:yst-border-green-500
-				focus-within:yst-ring-green-500
-				focus-within:yst-border-green-500;
+				focus-within:yst-ring-green-500;
 			}
 		}
 
 		.yst-validation-input--info {
 			.yst-validation-input__input {
 				@apply
-				yst-pr-10
-				yst-border-blue-300
+				yst-pe-10
+				yst-ring-blue-300
 				focus:yst-ring-blue-500
-				focus:yst-border-blue-500
-				focus-within:yst-ring-blue-500
-				focus-within:yst-border-blue-500;
+				focus-within:yst-ring-blue-500;
 			}
 		}
 
 		.yst-validation-input--warning {
 			.yst-validation-input__input {
 				@apply
-				yst-pr-10
-				yst-border-amber-300
+				yst-pe-10
+				yst-ring-amber-300
 				focus:yst-ring-amber-500
-				focus:yst-border-amber-500
-				focus-within:yst-ring-amber-500
-				focus-within:yst-border-amber-500;
+				focus-within:yst-ring-amber-500;
 			}
 		}
 
 		.yst-validation-input--error {
 			.yst-validation-input__input {
 				@apply
-				yst-pr-10
-				yst-border-red-300
+				yst-pe-10
+				yst-ring-red-300
 				focus:yst-ring-red-500
-				focus:yst-border-red-500
-				focus-within:yst-ring-red-500
-				focus-within:yst-border-red-500;
+				focus-within:yst-ring-red-500;
 			}
 		}
 
 		.yst-validation-input__input {
+			@apply
+			focus:yst-ring-2
+			focus-within:yst-ring-2;
 		}
 
 		.yst-validation-input__icon {
-			@apply yst-absolute yst-top-[0.6875rem] yst-right-2.5 yst-w-5 yst-h-5;
+			@apply yst-absolute yst-top-2.5 yst-end-2.5 yst-w-5 yst-h-5;
 		}
 
 		/* Validation message */

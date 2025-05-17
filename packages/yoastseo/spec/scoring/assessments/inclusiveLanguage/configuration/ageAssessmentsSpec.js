@@ -2,7 +2,7 @@ import Paper from "../../../../../src/values/Paper";
 import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import ageAssessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/ageAssessments";
-import Factory from "../../../../specHelpers/factory.js";
+import Factory from "../../../../../src/helpers/factory.js";
 import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 
 describe( "A test for Age assessments", function() {
@@ -11,11 +11,11 @@ describe( "A test for Age assessments", function() {
 			{
 				identifier: "agingDependants",
 				text: "This ad is aimed at aging dependants.",
-				expectedFeedback: "Avoid using <i>aging dependants</i> as it is potentially harmful. Consider using an alternative," +
+				expectedFeedback: "Be careful when using <i>aging dependants</i> as it is potentially harmful. Consider using an alternative," +
 					" such as <i>older people</i>, unless referring to someone who explicitly wants to be referred to with this term." +
 					" Or, if possible, be specific about the group you are referring to (e.g. <i>people older than 70</i>)." +
 					" <a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
+				expectedScore: 6,
 			},
 		];
 		testInclusiveLanguageAssessments( testData );

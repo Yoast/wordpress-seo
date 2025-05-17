@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import FieldGroup from "../field-group/FieldGroup";
 import Alert from "../Alert";
 
+/* eslint-disable complexity */
 /**
  * Renders ImageSelect component.
  *
@@ -15,12 +16,15 @@ import Alert from "../Alert";
 function ImageSelect( props ) {
 	const imageSelected = props.usingFallback === false && props.imageUrl !== "";
 	const previewImageUrl = props.imageUrl || props.defaultImageUrl || "";
-	const showWarnings = props.warnings.length > 0 && imageSelected;
-
-	let imageClassName = showWarnings ? "yoast-image-select__preview yoast-image-select__preview-has-warnings" : "yoast-image-select__preview";
+	const showWarnings = props.warnings.length > 0 && ( imageSelected || props.usingFallback );
+	const imageClassNames = [ "yoast-image-select__preview" ];
 	if ( previewImageUrl === "" ) {
-		imageClassName = "yoast-image-select__preview yoast-image-select__preview--no-preview";
+		imageClassNames.push( "yoast-image-select__preview--no-preview" );
 	}
+	if ( showWarnings ) {
+		imageClassNames.push( "yoast-image-select__preview-has-warnings" );
+	}
+
 
 	const imageSelectButtonsProps = {
 		imageSelected: imageSelected,
@@ -60,7 +64,7 @@ function ImageSelect( props ) {
 			>
 				{ props.hasPreview &&
 					<button
-						className={ imageClassName }
+						className={ imageClassNames.join( " " ) }
 						onClick={ props.onClick }
 						type="button"
 						disabled={ props.isDisabled }
@@ -85,6 +89,8 @@ function ImageSelect( props ) {
 		</div>
 	);
 }
+
+/* eslint-enable complexity */
 
 export default ImageSelect;
 

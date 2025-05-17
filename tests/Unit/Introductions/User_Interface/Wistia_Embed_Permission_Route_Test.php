@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Introductions\User_Interface\Wistia_Embed_Permission_Route
  */
-class Wistia_Embed_Permission_Route_Test extends TestCase {
+final class Wistia_Embed_Permission_Route_Test extends TestCase {
 
 	/**
 	 * Holds the instance.
@@ -32,19 +32,21 @@ class Wistia_Embed_Permission_Route_Test extends TestCase {
 	/**
 	 * Holds the user helper.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\User_Helper
+	 * @var Mockery\MockInterface|User_Helper
 	 */
 	private $user_helper;
 
 	/**
 	 * Holds the Wistia embed permissions repository.
 	 *
-	 * @var \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\User_Helper
+	 * @var Mockery\MockInterface|User_Helper
 	 */
 	private $wistia_embed_permission_repository;
 
 	/**
 	 * Sets up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -61,6 +63,8 @@ class Wistia_Embed_Permission_Route_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -77,6 +81,8 @@ class Wistia_Embed_Permission_Route_Test extends TestCase {
 	 * Tests the get_conditionals function.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals( [], Wistia_Embed_Permission_Route::get_conditionals() );
@@ -86,6 +92,8 @@ class Wistia_Embed_Permission_Route_Test extends TestCase {
 	 * Tests the registration of the routes.
 	 *
 	 * @covers ::register_routes
+	 *
+	 * @return void
 	 */
 	public function test_register_routes() {
 		Functions\expect( 'register_rest_route' )
@@ -121,6 +129,8 @@ class Wistia_Embed_Permission_Route_Test extends TestCase {
 	 * Tests that the capability that is tested for is `edit_posts`.
 	 *
 	 * @covers ::permission_edit_posts
+	 *
+	 * @return void
 	 */
 	public function test_permission_manage_options() {
 		Functions\expect( 'current_user_can' )->once()->with( 'edit_posts' )->andReturn( true );
@@ -132,6 +142,8 @@ class Wistia_Embed_Permission_Route_Test extends TestCase {
 	 * Tests the get_wistia_embed_permission route's happy path.
 	 *
 	 * @covers ::get_wistia_embed_permission
+	 *
+	 * @return void
 	 */
 	public function test_get_wistia_embed_permission() {
 		$user_id = 1;
@@ -164,6 +176,8 @@ class Wistia_Embed_Permission_Route_Test extends TestCase {
 	 * Tests the get_wistia_embed_permission route with error.
 	 *
 	 * @covers ::get_wistia_embed_permission
+	 *
+	 * @return void
 	 */
 	public function test_get_wistia_embed_permission_with_error() {
 		$user_id = -1;
@@ -184,6 +198,8 @@ class Wistia_Embed_Permission_Route_Test extends TestCase {
 	 * Tests the set_wistia_embed_permission route's happy path.
 	 *
 	 * @covers ::set_wistia_embed_permission
+	 *
+	 * @return void
 	 */
 	public function test_set_wistia_embed_permission() {
 		$user_id = 1;
@@ -223,6 +239,8 @@ class Wistia_Embed_Permission_Route_Test extends TestCase {
 	 * Tests the set_wistia_embed_permission route that failed.
 	 *
 	 * @covers ::set_wistia_embed_permission
+	 *
+	 * @return void
 	 */
 	public function test_set_wistia_embed_permission_failed() {
 		$user_id = 1;
@@ -262,6 +280,8 @@ class Wistia_Embed_Permission_Route_Test extends TestCase {
 	 * Tests the set_wistia_embed_permission route with error.
 	 *
 	 * @covers ::set_wistia_embed_permission
+	 *
+	 * @return void
 	 */
 	public function test_set_wistia_embed_permission_with_error() {
 		$user_id = -1;

@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presenters
  * @group open-graph
  */
-class Description_Presenter_Test extends TestCase {
+final class Description_Presenter_Test extends TestCase {
 
 	/**
 	 * The description presenter instance.
@@ -50,6 +50,8 @@ class Description_Presenter_Test extends TestCase {
 
 	/**
 	 * Sets up the test class.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -93,6 +95,8 @@ class Description_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct description.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present() {
 		$this->presentation->open_graph_description = 'My description';
@@ -109,6 +113,8 @@ class Description_Presenter_Test extends TestCase {
 	 * Tests the presenter with an empty description.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_empty_description() {
 		$this->presentation->open_graph_description = '';
@@ -124,6 +130,8 @@ class Description_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 *
+	 * @return void
 	 */
 	public function test_present_filter() {
 		$this->presentation->open_graph_description = 'My description';
@@ -144,6 +152,8 @@ class Description_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct description when the admin bar is showing a class is added.
 	 *
 	 * @covers ::present
+	 *
+	 * @return void
 	 */
 	public function test_present_with_class() {
 		$this->presentation->open_graph_description = 'My description';

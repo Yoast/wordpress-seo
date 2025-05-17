@@ -20,18 +20,6 @@ module.exports = function( grunt ) {
 	}
 
 	return {
-		webpack: {
-			command: "cross-env NODE_ENV=development yarn run wp-scripts build --config config/webpack/webpack.config.js",
-		},
-
-		"webpack-prod": {
-			command: "yarn run wp-scripts build --config config/webpack/webpack.config.js",
-		},
-
-		"webpack-watch": {
-			command: "yarn run wp-scripts start --config config/webpack/webpack.config.js",
-		},
-
 		"composer-install-production": {
 			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts",
 		},
@@ -60,18 +48,6 @@ module.exports = function( grunt ) {
 			command: "composer check-branch-cs",
 		},
 
-		"unlink-monorepo": {
-			command: "yarn unlink-monorepo",
-		},
-
-		"get-monorepo-versions": {
-			command: "yarn list --pattern 'yoastseo|yoast-components' --depth=0",
-		},
-
-		"build-ui-library": {
-			command: "cd packages/ui-library && yarn build && cd ../..",
-		},
-
 		"check-for-uncommitted-changes": {
 			// --porcelain gives the output in an easy-to-parse format for scripts.
 			command: "git status --porcelain",
@@ -87,12 +63,11 @@ module.exports = function( grunt ) {
 			},
 		},
 
-		"postcss-dev": {
-			command: "yarn build:css:dev",
+		yarn: {
+			command: ( ...args ) =>  `cross-env NODE_ENV=development yarn ${ args.join( ":" ) }`,
 		},
-		"postcss-release": {
-			command: "yarn build:css",
+		"yarn-prod": {
+			command: ( ...args ) =>  `cross-env NODE_ENV=production yarn ${ args.join( ":" ) }`,
 		},
 	};
-	/* eslint-enable require-jsdoc */
 };

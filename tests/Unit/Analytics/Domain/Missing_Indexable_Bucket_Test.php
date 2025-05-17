@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Bucket
  */
-class Missing_Indexable_Bucket_Test extends TestCase {
+final class Missing_Indexable_Bucket_Test extends TestCase {
 
 	/**
 	 * The sut.
@@ -27,8 +27,8 @@ class Missing_Indexable_Bucket_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function setUp(): void {
-		parent::setUp();
+	protected function set_up(): void {
+		parent::set_up();
 
 		$this->sut = new Missing_Indexable_Bucket();
 	}

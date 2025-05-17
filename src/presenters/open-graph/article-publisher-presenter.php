@@ -33,9 +33,8 @@ class Article_Publisher_Presenter extends Abstract_Indexable_Tag_Presenter {
 		/**
 		 * Filter: 'wpseo_og_article_publisher' - Allow developers to filter the article publisher's Facebook URL.
 		 *
-		 * @api bool|string $article_publisher The article publisher's Facebook URL, return false to disable.
-		 *
-		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 * @param bool|string            $article_publisher The article publisher's Facebook URL, return false to disable.
+		 * @param Indexable_Presentation $presentation      The presentation of an indexable.
 		 */
 		return \trim( \apply_filters( 'wpseo_og_article_publisher', $this->presentation->open_graph_article_publisher, $this->presentation ) );
 	}

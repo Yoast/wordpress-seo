@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Routes\Alert_Dismissal_Route
  */
-class Alert_Dismissal_Route_Test extends TestCase {
+final class Alert_Dismissal_Route_Test extends TestCase {
 
 	/**
 	 * Represents the alert dismissal action.
@@ -36,6 +36,8 @@ class Alert_Dismissal_Route_Test extends TestCase {
 
 	/**
 	 * Set up the test fixtures.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -49,6 +51,8 @@ class Alert_Dismissal_Route_Test extends TestCase {
 	 * Tests if the needed attributes are set correctly.
 	 *
 	 * @covers ::__construct
+	 *
+	 * @return void
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
@@ -61,6 +65,8 @@ class Alert_Dismissal_Route_Test extends TestCase {
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
@@ -73,6 +79,8 @@ class Alert_Dismissal_Route_Test extends TestCase {
 	 * Tests the registration of the routes.
 	 *
 	 * @covers ::register_routes
+	 *
+	 * @return void
 	 */
 	public function test_register_routes() {
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -100,6 +108,8 @@ class Alert_Dismissal_Route_Test extends TestCase {
 	 * Tests the dismiss route.
 	 *
 	 * @covers ::dismiss
+	 *
+	 * @return void
 	 */
 	public function test_dismiss() {
 		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
@@ -126,6 +136,8 @@ class Alert_Dismissal_Route_Test extends TestCase {
 	 * And passes along the returned value.
 	 *
 	 * @covers ::can_dismiss
+	 *
+	 * @return void
 	 */
 	public function test_can_dismiss() {
 		Monkey\Functions\expect( 'current_user_can' )

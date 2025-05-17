@@ -26,7 +26,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group context
  */
-class Meta_Tags_Context_Test extends TestCase {
+final class Meta_Tags_Context_Test extends TestCase {
 
 	/**
 	 * The options helper.
@@ -107,6 +107,8 @@ class Meta_Tags_Context_Test extends TestCase {
 
 	/**
 	 * Set up the test.
+	 *
+	 * @return void
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -145,6 +147,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * @param array        $indexable The indexable data.
 	 * @param string|array $expected  The expected value.
 	 * @param string       $message   Message to show when test fails.
+	 *
+	 * @return void
 	 */
 	public function test_generate_schema_page_type( array $indexable, $expected, $message ) {
 		$this->instance->indexable = (object) $indexable;
@@ -159,7 +163,7 @@ class Meta_Tags_Context_Test extends TestCase {
 	 *
 	 * @return array Test data to use.
 	 */
-	public function generate_schema_page_type_provider() {
+	public static function generate_schema_page_type_provider() {
 		return [
 			[
 				'indexable' => [
@@ -219,6 +223,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * Tests the page type for a page set as the post page.
 	 *
 	 * @covers ::generate_schema_page_type
+	 *
+	 * @return void
 	 */
 	public function test_generate_schema_page_type_with_page_for_posts() {
 		$this->instance->indexable = (object) [
@@ -240,6 +246,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * Tests the schema page type with an additional type.
 	 *
 	 * @covers ::generate_schema_page_type
+	 *
+	 * @return void
 	 */
 	public function test_generate_schema_page_type_with_additional_type() {
 		$this->instance->indexable = (object) [
@@ -261,6 +269,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * Tests the schema page type with an additional type through the site-wide default.
 	 *
 	 * @covers ::generate_schema_page_type
+	 *
+	 * @return void
 	 */
 	public function test_generate_schema_page_type_with_additional_type_site_wide_default() {
 		$this->instance->indexable = (object) [
@@ -288,6 +298,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * Tests the page type for a post.
 	 *
 	 * @covers ::generate_schema_page_type
+	 *
+	 * @return void
 	 */
 	public function test_generate_schema_page_for_a_post() {
 		$this->instance->indexable = (object) [
@@ -316,6 +328,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * @param array        $custom_article_types The custom article types.
 	 * @param string|array $expected             The expected value.
 	 * @param string       $message              Message to show when test fails.
+	 *
+	 * @return void
 	 */
 	public function test_generate_schema_article_type( array $indexable, array $options, array $custom_article_types, $expected, $message ) {
 		$this->instance->indexable = (object) $indexable;
@@ -344,7 +358,7 @@ class Meta_Tags_Context_Test extends TestCase {
 	 *
 	 * @return array Test data to use.
 	 */
-	public function generate_schema_article_type_provider() {
+	public static function generate_schema_article_type_provider() {
 		return [
 			[
 				'indexable'            => [
@@ -440,6 +454,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * Tests the generate site represents without representation.
 	 *
 	 * @covers ::generate_site_represents
+	 *
+	 * @return void
 	 */
 	public function test_generate_site_represents_without_representation() {
 		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturnFalse();
@@ -451,6 +467,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * Tests the generate site represents with a company without a name.
 	 *
 	 * @covers ::generate_site_represents
+	 *
+	 * @return void
 	 */
 	public function test_generate_site_represents_company_without_name() {
 		$this->instance->company_name = '';
@@ -464,6 +482,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * Tests the generate site represents with a company without a logo.
 	 *
 	 * @covers ::generate_site_represents
+	 *
+	 * @return void
 	 */
 	public function test_generate_site_represents_company_without_logo() {
 		$this->instance->company_name    = 'Company';
@@ -478,6 +498,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * Tests the generate site represents with a company with name and logo.
 	 *
 	 * @covers ::generate_site_represents
+	 *
+	 * @return void
 	 */
 	public function test_generate_site_represents_company_with_name_and_logo() {
 		$this->instance->company_name      = 'Company';
@@ -503,6 +525,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * Tests the generate site represents with a person without a user id.
 	 *
 	 * @covers ::generate_site_represents
+	 *
+	 * @return void
 	 */
 	public function test_generate_site_represents_person_without_user() {
 		$this->instance->site_user_id = 1;
@@ -518,6 +542,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * Tests the generate site represents with a person without a user id.
 	 *
 	 * @covers ::generate_site_represents
+	 *
+	 * @return void
 	 */
 	public function test_generate_site_represents_person() {
 		$this->instance->site_user_id = 1;
@@ -533,6 +559,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * Tests the debug info method.
 	 *
 	 * @covers ::__debugInfo
+	 *
+	 * @return void
 	 */
 	public function test_debug_info() {
 		$this->instance->indexable    = 'indexable';

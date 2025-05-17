@@ -1,0 +1,34 @@
+{
+  "scores": [
+    {
+      "name": "good",
+      "amount": 2,
+      "links": {
+        "view": "wp-admin/edit.php?post_status=publish&post_type=post&seo_filter=good"
+      }
+    },
+    {
+      "name": "ok",
+      "amount": 4,
+      "links": {
+        "view": "wp-admin/edit.php?post_status=publish&post_type=post&seo_filter=ok"
+      }
+    },
+    {
+      "name": "bad",
+      "amount": 3,
+      "links": {
+        "view": "wp-admin/edit.php?post_status=publish&post_type=post&seo_filter=bad"
+      }
+    },
+    {
+      "name": "notAnalyzed",
+      "amount": 3,
+      "links": {
+        "view": "wp-admin/edit.php?post_status=publish&post_type=post&seo_filter=na"
+      }
+    }
+  ],
+  "cacheUsed": false,
+  "queryTime": 0.00041222572326660156
+}

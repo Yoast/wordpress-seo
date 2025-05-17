@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\WooCommerce_Post_Edit
  */
-class WooCommerce_Post_Edit_Test extends TestCase {
+final class WooCommerce_Post_Edit_Test extends TestCase {
 
 	/**
 	 * The WooCommerce post edit integration under test.
@@ -40,6 +40,8 @@ class WooCommerce_Post_Edit_Test extends TestCase {
 	 * and the user is in the post editor.
 	 *
 	 * @covers ::get_conditionals
+	 *
+	 * @return void
 	 */
 	public function test_conditionals() {
 		$this->assertEquals(
@@ -52,6 +54,8 @@ class WooCommerce_Post_Edit_Test extends TestCase {
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
+	 *
+	 * @return void
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -71,6 +75,8 @@ class WooCommerce_Post_Edit_Test extends TestCase {
 	 * Tests that the meta description date is removed on products.
 	 *
 	 * @covers ::remove_meta_description_date
+	 *
+	 * @return void
 	 */
 	public function test_remove_meta_description_date_when_product() {
 		$original_values = [
@@ -95,6 +101,8 @@ class WooCommerce_Post_Edit_Test extends TestCase {
 	 * Tests that the meta description date is not removed for non-products.
 	 *
 	 * @covers ::remove_meta_description_date
+	 *
+	 * @return void
 	 */
 	public function test_do_not_remove_meta_description_date_when_not_a_product() {
 		$original_values = [

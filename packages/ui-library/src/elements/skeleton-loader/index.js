@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React from "react";
 
 /**
  * @param {string|JSX.Element} [as] Base component.

@@ -1,5 +1,42 @@
-import { useState } from "@wordpress/element";
+import { useArgs } from "@storybook/preview-api";
+import React, { useCallback } from "react";
 import Pagination from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
+
+const Template = ( args ) => {
+	const [ , updateArgs ] = useArgs();
+	const handleNavigate = useCallback( newCurrent => updateArgs( { current: newCurrent } ), [ updateArgs ] );
+
+	return <Pagination { ...args } onNavigate={ handleNavigate } />;
+};
+
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		current: 1,
+		total: 10,
+		screenReaderTextPrevious: "Previous",
+		screenReaderTextNext: "Next",
+	},
+};
+
+export const VariantText = {
+	render: Template.bind( {} ),
+	name: "Variant text",
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		current: 1,
+		total: 10,
+		screenReaderTextPrevious: "Previous",
+		screenReaderTextNext: "Next",
+		variant: "text",
+	},
+};
 
 export default {
 	title: "2) Components/Pagination",
@@ -13,36 +50,7 @@ export default {
 			description: {
 				component: "The Pagination component offers navigation controls for one or more pages.",
 			},
+			page: () => <InteractiveDocsPage stories={ [ VariantText ] } />,
 		},
 	},
-};
-
-export const Factory = ( args ) => {
-	const [ current, setCurrent ] = useState( args.current );
-	return <Pagination { ...args } current={ current } onNavigate={ setCurrent } />;
-};
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	current: 1,
-	total: 10,
-	screenReaderTextPrevious: "Previous",
-	screenReaderTextNext: "Next",
-};
-
-export const VariantText = ( args ) => {
-	const [ current, setCurrent ] = useState( args.current );
-	return <Pagination { ...args } current={ current } onNavigate={ setCurrent } />;
-};
-VariantText.storyName = "Variant text";
-VariantText.parameters = {
-	controls: { disable: false },
-};
-VariantText.args = {
-	current: 1,
-	total: 10,
-	screenReaderTextPrevious: "Previous",
-	screenReaderTextNext: "Next",
-	variant: "text",
 };

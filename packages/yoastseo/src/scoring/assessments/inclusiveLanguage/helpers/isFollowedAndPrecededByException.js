@@ -1,5 +1,5 @@
 import { isFollowedByException } from "./isFollowedByException";
-import { isNotPrecededByException } from "./isPrecededByException";
+import { isPrecededByException } from "./isPrecededByException";
 
 
 /**
@@ -19,7 +19,7 @@ import { isNotPrecededByException } from "./isPrecededByException";
 export function isFollowedAndPrecededByException( words, nonInclusivePhrase, precedingExceptions, followingExceptions ) {
 	return ( index ) => {
 		return ( isFollowedByException( words, nonInclusivePhrase, followingExceptions )( index ) &&
-			isNotPrecededByException( words, precedingExceptions )( index ) );
+			isPrecededByException( words, precedingExceptions )( index ) );
 	};
 }
 
