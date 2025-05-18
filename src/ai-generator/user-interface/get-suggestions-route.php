@@ -2,8 +2,11 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\AI_Generator\User_Interface;
 
+use RuntimeException;
 use WP_REST_Request;
 use WP_REST_Response;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Payment_Required_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Remote_Request_Exception;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;

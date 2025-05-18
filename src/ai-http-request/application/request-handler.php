@@ -11,6 +11,7 @@ use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Request_Timeout_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Service_Unavailable_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Unauthorized_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\WP_Request_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Request;
 use Yoast\WP\SEO\AI_Generator\Domain\Response;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\API_Client;
@@ -64,6 +65,7 @@ class Request_Handler {
 	 * @throws Service_Unavailable_Exception When the response code is 503.
 	 * @throws Too_Many_Requests_Exception When the response code is 429.
 	 * @throws Unauthorized_Exception When the response code is 401.
+	 * @throws WP_Request_Exception When the request fails for any other reason.
 	 */
 	public function handle( Request $request ): Response {
 			$api_response = $this->api_client->perform_request(
