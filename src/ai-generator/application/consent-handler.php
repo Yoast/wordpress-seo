@@ -28,19 +28,24 @@ class Consent_Handler {
 	}
 
 	/**
-	 * Handles consent revoked.
-	 *
-	 * By deleting the consent user metadata from the database.
-	 * And then throwing a Forbidden_Exception.
+	 * Handles consent revoked by deleting the consent user metadata from the database.
 	 *
 	 * @param int $user_id     The user ID.
-	 * @param int $status_code The status code. Defaults to 403.
 	 *
-	 * @return Forbidden_Exception The Forbidden_Exception.
+	 * return void
 	 */
-	public function handle_consent_revoked( int $user_id, int $status_code = 403 ): Forbidden_Exception {
+	public function revoke_consent( int $user_id ) {
 		$this->user_helper->delete_meta( $user_id, '_yoast_wpseo_ai_consent' );
+	}
 
-		return new Forbidden_Exception( 'CONSENT_REVOKED', $status_code );
+	/**
+	 * Handles consent granted by adding the consent user metadata to the database.
+	 *
+	 * @param int $user_id     The user ID.
+	 *
+	 * return void
+	 */
+	public function grant_consent( int $user_id ) {
+		$this->user_helper->update_meta( $user_id, '_yoast_wpseo_ai_consent', true );
 	}
 }

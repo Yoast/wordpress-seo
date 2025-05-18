@@ -176,7 +176,9 @@ class Token_Manager {
 		// Ensure the user has given consent.
 		if ( $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_consent', true ) !== '1' ) {
 			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
-			throw $this->consent_handler->handle_consent_revoked( $user->ID );
+			$this->consent_handler->revoke_consent( $user->ID );
+			throw new Forbidden_Exception( 'CONSENT_REVOKED', 403 );
+
 			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
@@ -270,6 +272,8 @@ class Token_Manager {
 	 *
 	 * @param WP_User $user The WP user.
 	 *
+	 * @return string The access token.
+	 *
 	 * @throws Bad_Request_Exception Bad_Request_Exception.
 	 * @throws Forbidden_Exception Forbidden_Exception.
 	 * @throws Internal_Server_Error_Exception Internal_Server_Error_Exception.
@@ -280,9 +284,8 @@ class Token_Manager {
 	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
 	 * @throws RuntimeException Unable to retrieve the access or refresh token.
-	 * @return string The access token.
 	 */
-	protected function get_or_request_access_token( WP_User $user ): string {
+	public function get_or_request_access_token( WP_User $user ): string {
 		$access_jwt = $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt', true );
 		if ( ! \is_string( $access_jwt ) || $access_jwt === '' ) {
 			$this->token_refresh( $user );
@@ -296,7 +299,8 @@ class Token_Manager {
 			} catch ( Forbidden_Exception $exception ) {
 				// Follow the API in the consent being revoked (Use case: user sent an e-mail to revoke?).
 				// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
-				throw $this->consent_handler->handle_consent_revoked( $user->ID, $exception->getCode() );
+				$this->consent_handler->revoke_consent( $user->ID );
+				throw new Forbidden_Exception( 'CONSENT_REVOKED', 403 );
 				// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			}
 			$access_jwt = $this->access_token_repository->get_token( $user->ID );
