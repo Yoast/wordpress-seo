@@ -53,7 +53,7 @@ class Response {
 	 * @param array<string> $missing_licenses The missing licenses.
 	 */
 	public function __construct( string $body, int $response_code, string $message, string $error_code = '', $missing_licenses = [] ) {
-		$this->body             = $body;
+		$this->body = $body;
 		$this->response_code    = $response_code;
 		$this->message          = $message;
 		$this->error_code       = $error_code;
