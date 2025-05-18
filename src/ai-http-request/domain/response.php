@@ -9,6 +9,13 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Domain;
 class Response {
 
 	/**
+	 * The response body.
+	 *
+	 * @var string
+	 */
+	private $body;
+
+	/**
 	 * The response code.
 	 *
 	 * @var int
@@ -39,16 +46,27 @@ class Response {
 	/**
 	 * Response constructor.
 	 *
+	 * @param string $body The response body.
 	 * @param int           $response_code    The response code.
 	 * @param string        $message          The response message.
 	 * @param string        $error_code       The error code.
 	 * @param array<string> $missing_licenses The missing licenses.
 	 */
-	public function __construct( int $response_code, string $message, string $error_code = '', $missing_licenses = [] ) {
+	public function __construct( string $body, int $response_code, string $message, string $error_code = '', $missing_licenses = [] ) {
+		$this->body = $body;
 		$this->response_code    = $response_code;
 		$this->message          = $message;
 		$this->error_code       = $error_code;
 		$this->missing_licenses = $missing_licenses;
+	}
+
+	/**
+	 * Gets the response body.
+	 *
+	 * @return string The response body.
+	 */
+	public function get_body() {
+		return $this->body;
 	}
 
 	/**
