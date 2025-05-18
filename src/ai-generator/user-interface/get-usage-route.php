@@ -4,7 +4,11 @@ namespace Yoast\WP\SEO\AI_Generator\User_Interface;
 
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Remote_Request_Exception;
+use Yoast\WP\SEO\AI_Generator\Application\Request_Handler;
+use Yoast\WP\SEO\AI_Generator\Application\Token_Manager;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Remote_Request_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\WP_Request_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Request;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -21,6 +25,20 @@ class Get_Usage_Route implements Route_Interface {
 	use No_Conditionals;
 
 	/**
+	 * The token manager instance.
+	 *
+	 * @var Token_Manager
+	 */
+	private $token_manager;
+
+	/**
+	 * The request handler instance.
+	 *
+	 * @var Request_Handler
+	 */
+	private $request_handler;
+
+		/**
 	 *  The namespace for this route.
 	 *
 	 * @var string
@@ -33,6 +51,17 @@ class Get_Usage_Route implements Route_Interface {
 	 * @var string
 	 */
 	public const ROUTE_PREFIX = '/ai_generator/get_usage';
+
+	/**
+	 * Class constructor.
+	 *
+	 * @param Token_Manager   $token_manager  The token manager instance.
+	 * @param Request_Handler $request_handler The request handler instance.
+	 */
+	public function __construct( Token_Manager $token_manager, Request_Handler $request_handler ) {
+		$this->token_manager  = $token_manager;
+		$this->request_handler = $request_handler;
+	}
 
 	/**
 	 * Registers routes with WordPress.
@@ -59,15 +88,15 @@ class Get_Usage_Route implements Route_Interface {
 	public function get_usage(): WP_REST_Response {
 		$user = \wp_get_current_user();
 		try {
-			$token           = $this->get_or_request_access_token( $user );
+			$token           = $this->token_manager->get_or_request_access_token( $user );
 			$request_headers = [
 				'Authorization' => "Bearer $token",
 			];
 
-			$response = $this->ai_generator_helper->request( '/usage/' . \gmdate( 'Y-m' ), [], $request_headers, false );
-			$data     = \json_decode( $response->body );
+			$response = $this->request_handler->handle( new Request( '/usage/' . \gmdate( 'Y-m' ), [], $request_headers, false ) );
+			$data     = \json_decode( $response->get_body() );
 
-		}  catch ( Remote_Request_Exception $e ) {
+		}  catch ( Remote_Request_Exception | WP_Request_Exception $e ) {
 			return new WP_REST_Response(
 				'Failed to get usage: ' . $e->getMessage(),
 				$e->getCode()
