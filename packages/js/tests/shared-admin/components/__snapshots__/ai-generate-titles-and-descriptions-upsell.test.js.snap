@@ -82,7 +82,7 @@ exports[`AiGenerateTitlesAndDescriptionsUpsell renders the component correctly f
       </div>
     </div>
     <div
-      class="yst-w-full yst-flex yst-mt-10"
+      class="yst-w-full yst-flex yst-mt-10 yst-flex-col"
     >
       <a
         class="yst-button yst-button--upsell yst-button--extra-large yst-grow"
@@ -113,6 +113,12 @@ exports[`AiGenerateTitlesAndDescriptionsUpsell renders the component correctly f
           (Opens in a new browser tab)
         </span>
       </a>
+      <button
+        class="yst-button yst-button--primary"
+        type="button"
+      >
+        Or try AI for free!
+      </button>
     </div>
     Custom bundle note
     <a
@@ -206,7 +212,7 @@ exports[`AiGenerateTitlesAndDescriptionsUpsell renders the component correctly f
       </div>
     </div>
     <div
-      class="yst-w-full yst-flex yst-mt-10"
+      class="yst-w-full yst-flex yst-mt-10 yst-flex-col"
     >
       <a
         class="yst-button yst-button--upsell yst-button--extra-large yst-grow"
@@ -237,6 +243,12 @@ exports[`AiGenerateTitlesAndDescriptionsUpsell renders the component correctly f
           (Opens in a new browser tab)
         </span>
       </a>
+      <button
+        class="yst-button yst-button--primary"
+        type="button"
+      >
+        Or try AI for free!
+      </button>
     </div>
     <a
       class="yst-button yst-button--tertiary yst-mt-4"
