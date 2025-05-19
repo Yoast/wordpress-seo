@@ -122,7 +122,7 @@ export const SubscriptionError = ( { invalidSubscriptions } ) => {
 	return (
 		<Fragment>
 			<Alert variant="error">
-				<span className="yst-block yst-font-medium">{ __( "Subscription required", "wordpress-seo-premium" ) }</span>
+				<span className="yst-block yst-font-medium">{ __( "Subscription required", "wordpress-seo" ) }</span>
 				<p className="yst-mt-2">
 					{ invalidSubscriptions.length === 1 && errorMessageNoPremiumOrWoo }
 					{ invalidSubscriptions.length > 1 && errorMessageNoPremiumAndWoo }
@@ -130,10 +130,10 @@ export const SubscriptionError = ( { invalidSubscriptions } ) => {
 			</Alert>
 			<div className="yst-mt-6 yst-mb-1 yst-flex yst-space-x-3 rtl:yst-space-x-reverse yst-place-content-end">
 				<Button variant="secondary" onClick={ onClose }>
-					{ __( "Close", "wordpress-seo-premium" ) }
+					{ __( "Close", "wordpress-seo" ) }
 				</Button>
 				<Button variant="primary" onClick={ handleRefresh }>
-					{ __( "Refresh page", "wordpress-seo-premium" ) }
+					{ __( "Refresh page", "wordpress-seo" ) }
 				</Button>
 			</div>
 		</Fragment>

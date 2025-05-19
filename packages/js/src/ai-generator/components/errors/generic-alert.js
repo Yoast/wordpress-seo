@@ -14,13 +14,13 @@ export const GenericAlert = () => {
 
 	return (
 		<Alert variant="error">
-			<span className="yst-block yst-font-medium">{ __( "Something went wrong", "wordpress-seo-premium" ) }</span>
+			<span className="yst-block yst-font-medium">{ __( "Something went wrong", "wordpress-seo" ) }</span>
 			<p className="yst-mt-2">
 				{ safeCreateInterpolateElement(
 					sprintf(
 						/* translators: %1$s and %3$s expand to an opening tag. %2$s and %4$s expand to a closing tag. */
 						__(
-							"Please try again later. If this issue persists, you can learn more about possible reasons for this error on our page about %1$scommon AI feature problems and errors%2$s. In case you need further help, please %3$scontact our support team%4$s.", "wordpress-seo-premium" ),
+							"Please try again later. If this issue persists, you can learn more about possible reasons for this error on our page about %1$scommon AI feature problems and errors%2$s. In case you need further help, please %3$scontact our support team%4$s.", "wordpress-seo" ),
 						"<a1>",
 						"</a1>",
 						"<a2>",

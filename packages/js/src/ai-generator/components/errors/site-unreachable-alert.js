@@ -14,7 +14,7 @@ export const SiteUnreachableAlert = () => {
 
 	return (
 		<Alert variant="error">
-			<span className="yst-block yst-font-medium">{ __( "Yoast AI cannot reach your site", "wordpress-seo-premium" ) }</span>
+			<span className="yst-block yst-font-medium">{ __( "Yoast AI cannot reach your site", "wordpress-seo" ) }</span>
 			<p className="yst-mt-2">
 				{ safeCreateInterpolateElement(
 					sprintf(

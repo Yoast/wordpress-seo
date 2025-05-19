@@ -13,7 +13,7 @@ export const RateLimitAlert = () => {
 
 	return (
 		<Alert variant="error">
-			<span className="yst-block yst-font-medium">{ __( "You've reached the Yoast AI rate limit", "wordpress-seo-premium" ) }</span>
+			<span className="yst-block yst-font-medium">{ __( "You've reached the Yoast AI rate limit", "wordpress-seo" ) }</span>
 			<p className="yst-mt-2">
 				{ safeCreateInterpolateElement(
 					sprintf(

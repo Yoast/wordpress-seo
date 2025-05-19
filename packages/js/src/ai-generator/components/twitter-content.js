@@ -14,7 +14,7 @@ export const TwitterContent = ( { title, description, showPreviewSkeleton } ) =>
 	<div>
 		<div className="yst-flex yst-mb-6">
 			<Label as="span" className="yst-flex-grow yst-cursor-default">
-				{ __( "X preview", "wordpress-seo-premium" ) }
+				{ __( "X preview", "wordpress-seo" ) }
 			</Label>
 		</div>
 		{ showPreviewSkeleton

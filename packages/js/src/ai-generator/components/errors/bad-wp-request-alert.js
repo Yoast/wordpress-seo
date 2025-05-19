@@ -14,12 +14,12 @@ export const BadWPRequestAlert = ( { errorMessage } ) => {
 
 	return (
 		<Alert variant="error">
-			<span className="yst-block yst-font-medium">{ __( "Something went wrong", "wordpress-seo-premium" ) }</span>
+			<span className="yst-block yst-font-medium">{ __( "Something went wrong", "wordpress-seo" ) }</span>
 			<p className="yst-mt-2">
 				{
 					sprintf(
 						/* translators: %s is the error response of the request. */
-						__( "The request came back with the following error: '%s'.", "wordpress-seo-premium" ),
+						__( "The request came back with the following error: '%s'.", "wordpress-seo" ),
 						errorMessage
 					)
 				}
@@ -28,7 +28,7 @@ export const BadWPRequestAlert = ( { errorMessage } ) => {
 				{ safeCreateInterpolateElement(
 					sprintf(
 						/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-						__( "Please try again later. If the issue persists, please %1$scontact our support team%2$s.", "wordpress-seo-premium" ),
+						__( "Please try again later. If the issue persists, please %1$scontact our support team%2$s.", "wordpress-seo" ),
 						"<a>",
 						"</a>"
 					),

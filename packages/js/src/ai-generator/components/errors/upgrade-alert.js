@@ -13,12 +13,12 @@ export const UpgradeAlert = () => {
 
 	return (
 		<Alert variant="error">
-			<span className="yst-block yst-font-medium">{ __( "Something went wrong", "wordpress-seo-premium" ) }</span>
+			<span className="yst-block yst-font-medium">{ __( "Something went wrong", "wordpress-seo" ) }</span>
 			<p className="yst-mt-2">
 				{ safeCreateInterpolateElement(
 					sprintf(
 						/* translators: %1$s expands to Yoast SEO Premium. %2$s expands to an opening link tag. %3$s expands to a closing link tag. */
-						__( "The version of %1$s is outdated. Please upgrade %1$s %2$shere%3$s!", "wordpress-seo-premium" ),
+						__( "The version of %1$s is outdated. Please upgrade %1$s %2$shere%3$s!", "wordpress-seo" ),
 						"Yoast SEO Premium",
 						"<a>",
 						"</a>"

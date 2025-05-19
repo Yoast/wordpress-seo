@@ -30,7 +30,7 @@ export const filterFocusKeyphraseErrors = ( errors, focusKeyphrase ) => {
 	}
 
 	if ( isConsideredEmpty( focusKeyphrase ) ) {
-		errors.push( __( "Please enter a valid focus keyphrase.", "wordpress-seo-premium" ) );
+		errors.push( __( "Please enter a valid focus keyphrase.", "wordpress-seo" ) );
 	}
 
 	return errors;

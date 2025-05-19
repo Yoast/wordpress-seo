@@ -22,7 +22,7 @@ export const SeoAnalysisInactiveError = () => {
 	return (
 		<>
 			<Alert variant="error">
-				<span className="yst-block yst-font-medium">{ __( "SEO analysis required", "wordpress-seo-premium" ) }</span>
+				<span className="yst-block yst-font-medium">{ __( "SEO analysis required", "wordpress-seo" ) }</span>
 				<p className="yst-mt-2">
 					{ safeCreateInterpolateElement(
 						sprintf(
@@ -49,10 +49,10 @@ export const SeoAnalysisInactiveError = () => {
 			</Alert>
 			<div className="yst-mt-6 yst-mb-1 yst-flex yst-space-x-3 rtl:yst-space-x-reverse yst-place-content-end">
 				<Button variant="secondary" onClick={ onClose }>
-					{ __( "Close", "wordpress-seo-premium" ) }
+					{ __( "Close", "wordpress-seo" ) }
 				</Button>
 				<Button className="yst-revoke-button" variant="primary" onClick={ handleRefresh }>
-					{ __( "Refresh page", "wordpress-seo-premium" ) }
+					{ __( "Refresh page", "wordpress-seo" ) }
 				</Button>
 			</div>
 		</>

@@ -29,10 +29,10 @@ export const WithActions = ( { children, onRetry } ) => {
 			{ children }
 			<div className="yst-mt-6 yst-mb-1 yst-flex yst-space-x-3 rtl:yst-space-x-reverse yst-place-content-end">
 				<Button variant="secondary" onClick={ onClose }>
-					{ __( "Close", "wordpress-seo-premium" ) }
+					{ __( "Close", "wordpress-seo" ) }
 				</Button>
 				<Button variant="primary" onClick={ onRetry }>
-					{ __( "Try again", "wordpress-seo-premium" ) }
+					{ __( "Try again", "wordpress-seo" ) }
 				</Button>
 			</div>
 		</Fragment>

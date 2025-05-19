@@ -19,7 +19,7 @@ export const PreviewModePicker = ( { idSuffix, mode, onChange, disabled } ) => {
 			<RadioGroup.Radio
 				id={ `yst-ai-mode__mobile__${ idSuffix }` }
 				name={ `yst-ai-mode__${ idSuffix }` }
-				label={ __( "Mobile result", "wordpress-seo-premium" ) }
+				label={ __( "Mobile result", "wordpress-seo" ) }
 				value={ PREVIEW_MODE.mobile }
 				checked={ mode === PREVIEW_MODE.mobile }
 				onChange={ handleChange }
@@ -28,7 +28,7 @@ export const PreviewModePicker = ( { idSuffix, mode, onChange, disabled } ) => {
 			<RadioGroup.Radio
 				id={ `yst-ai-mode__desktop__${ idSuffix }` }
 				name={ `yst-ai-mode__${ idSuffix }` }
-				label={ __( "Desktop result", "wordpress-seo-premium" ) }
+				label={ __( "Desktop result", "wordpress-seo" ) }
 				value={ PREVIEW_MODE.desktop }
 				checked={ mode === PREVIEW_MODE.desktop }
 				onChange={ handleChange }

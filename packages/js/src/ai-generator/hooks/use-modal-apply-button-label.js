@@ -20,7 +20,7 @@ export const useModalApplyButtonLabel = () => {
 		case EDIT_TYPE.title:
 			return sprintf(
 				/* translators: %s is the type of title. */
-				__( "Apply %s title", "wordpress-seo-premium" ),
+				__( "Apply %s title", "wordpress-seo" ),
 				previewLabel
 			);
 		case EDIT_TYPE.description:
@@ -29,7 +29,7 @@ export const useModalApplyButtonLabel = () => {
 			}
 			return sprintf(
 				/* translators: %s is the type of description. */
-				__( "Apply %s description", "wordpress-seo-premium" ),
+				__( "Apply %s description", "wordpress-seo" ),
 				previewLabel
 			);
 	}

@@ -30,7 +30,7 @@ export const SparksLimitNotification = ( { className = "", size = "" } ) => {
 			id="ai-sparks-limit"
 			variant="info"
 			size={ size }
-			dismissScreenReaderLabel={ __( "Got it!", "wordpress-seo-premium" ) }
+			dismissScreenReaderLabel={ __( "Got it!", "wordpress-seo" ) }
 			title={ sprintf(
 				/* translators: %s is the number of the sparks allowed. */
 				_n(
@@ -44,11 +44,11 @@ export const SparksLimitNotification = ( { className = "", size = "" } ) => {
 			className={ className }
 		>
 			<p>
-				{ __( "As long as this is a beta feature, you get unlimited sparks.", "wordpress-seo-premium" ) }
+				{ __( "As long as this is a beta feature, you get unlimited sparks.", "wordpress-seo" ) }
 			</p>
 			<div className="yst-mt-3 yst--me-8 yst-justify-end yst-flex">
 				<Button type="button" variant="primary" size="small" onClick={ handleDismiss }>
-					{ __( "Got it!", "wordpress-seo-premium" ) }
+					{ __( "Got it!", "wordpress-seo" ) }
 				</Button>
 			</div>
 		</Notifications.Notification>;
