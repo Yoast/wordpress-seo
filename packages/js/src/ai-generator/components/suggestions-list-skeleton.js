@@ -1,11 +1,19 @@
 import { SkeletonLoader } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 
+const DEFAULT_SUGGESTION_CLASSNAMES = [
+	[ "yst-h-3 yst-w-full", "yst-mt-2.5 yst-h-3 yst-w-9/12" ],
+	[ "yst-h-3 yst-w-full", "yst-mt-2.5 yst-h-3 yst-w-7/12" ],
+	[ "yst-h-3 yst-w-full", "yst-mt-2.5 yst-h-3 yst-w-10/12" ],
+	[ "yst-h-3 yst-w-full", "yst-mt-2.5 yst-h-3 yst-w-11/12" ],
+	[ "yst-h-3 yst-w-full", "yst-mt-2.5 yst-h-3 yst-w-8/12" ],
+];
+
 /**
- * @param {string[]} suggestionClassNames Extra classes for the Skeletons.
+ * @param {string[][]} [suggestionClassNames] Extra classes for the Skeletons.
  * @returns {JSX.Element} The element.
  */
-export const SuggestionsListSkeleton = ( { suggestionClassNames } ) => (
+export const SuggestionsListSkeleton = ( { suggestionClassNames = DEFAULT_SUGGESTION_CLASSNAMES } ) => (
 	<div className="yst-flex yst-flex-col yst--space-y-[1px]">
 		{ suggestionClassNames.map( ( suggestions, index ) => (
 			<div
@@ -27,13 +35,4 @@ export const SuggestionsListSkeleton = ( { suggestionClassNames } ) => (
 );
 SuggestionsListSkeleton.propTypes = {
 	suggestionClassNames: PropTypes.arrayOf( PropTypes.arrayOf( PropTypes.string ) ),
-};
-SuggestionsListSkeleton.defaultProps = {
-	suggestionClassNames: [
-		[ "yst-h-3 yst-w-full", "yst-mt-2.5 yst-h-3 yst-w-9/12" ],
-		[ "yst-h-3 yst-w-full", "yst-mt-2.5 yst-h-3 yst-w-7/12" ],
-		[ "yst-h-3 yst-w-full", "yst-mt-2.5 yst-h-3 yst-w-10/12" ],
-		[ "yst-h-3 yst-w-full", "yst-mt-2.5 yst-h-3 yst-w-11/12" ],
-		[ "yst-h-3 yst-w-full", "yst-mt-2.5 yst-h-3 yst-w-8/12" ],
-	],
 };

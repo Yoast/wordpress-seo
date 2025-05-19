@@ -18,13 +18,13 @@ const transformScoreToClass = ( score ) => {
 };
 
 /**
- * @param {string} [className] Extra className.
+ * @param {string} [className=""] Extra className.
  * @param {Number} progress The current progress.
  * @param {Number} max The maximum progress.
  * @param {Number} score The length assessment score; used to determine the color.
  * @returns {JSX.Element} The element.
  */
-export const LengthProgressBar = ( { className, progress, max, score } ) => {
+export const LengthProgressBar = ( { className = "", progress, max, score } ) => {
 	const colorClass = useMemo( () => transformScoreToClass( score ), [ score ] );
 
 	return (
@@ -42,8 +42,4 @@ LengthProgressBar.propTypes = {
 	progress: PropTypes.number.isRequired,
 	max: PropTypes.number.isRequired,
 	score: PropTypes.number.isRequired,
-};
-
-LengthProgressBar.defaultProps = {
-	className: "",
 };

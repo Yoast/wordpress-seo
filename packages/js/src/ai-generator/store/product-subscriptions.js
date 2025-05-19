@@ -15,7 +15,7 @@ const slice = createSlice( {
 export const getInitialProductSubscriptionsState = slice.getInitialState;
 
 export const productSubscriptionsSelectors = {
-	selectProductSubscriptions: state => get( state, PRODUCT_SUBSCRIPTIONS_NAME, false ),
+	selectProductSubscriptions: state => get( state, PRODUCT_SUBSCRIPTIONS_NAME, getInitialProductSubscriptionsState() ),
 	selectPremiumSubscription: state => get( state, `${ PRODUCT_SUBSCRIPTIONS_NAME }.premiumSubscription` ),
 	selectWooCommerceSubscription: state => get( state, `${ PRODUCT_SUBSCRIPTIONS_NAME }.wooCommerceSubscription` ),
 };

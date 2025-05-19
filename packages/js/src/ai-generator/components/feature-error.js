@@ -8,13 +8,13 @@ import { useTypeContext } from "../hooks";
 import { SeoAnalysisInactiveError, SubscriptionError } from "./errors";
 
 /**
- * @param {object} currentSubscriptions An object containing the information of product subscriptions validity status.
+ * @param {Object} currentSubscriptions An object containing the information of product subscriptions validity status.
  * @param {boolean} currentSubscriptions.premiumSubscription The validity status of Yoast SEO Premium subscription.
  * @param {boolean} currentSubscriptions.wooCommerceSubscription The validity status of Yoast WooCommerce SEO subscription.
- * @param {boolean} isSeoAnalysisActive Whether SEO analysis feature is active.
+ * @param {boolean} [isSeoAnalysisActive=true] Whether SEO analysis feature is active.
  * @returns { JSX.Element } The element.
  */
-export const FeatureError = ( { currentSubscriptions, isSeoAnalysisActive } ) => {
+export const FeatureError = ( { currentSubscriptions, isSeoAnalysisActive = true } ) => {
 	const { postType } = useTypeContext();
 	const isWooCommerceActive = useSelect( select => select( STORE_NAME_EDITOR ).getIsWooCommerceActive(), [] );
 	const missingWooSeo = useMemo( () => {
@@ -44,6 +44,6 @@ export const FeatureError = ( { currentSubscriptions, isSeoAnalysisActive } ) =>
 };
 
 FeatureError.propTypes = {
-	currentSubscriptions: PropTypes.object,
+	currentSubscriptions: PropTypes.object.isRequired,
 	isSeoAnalysisActive: PropTypes.bool,
 };
