@@ -80,7 +80,10 @@ const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editT
  */
 const initializeAiGenerator = () => {
 	registerStore( {
-		[ HAS_AI_GENERATOR_CONSENT_NAME ]: get( window, "wpseoAiGenerator.hasConsent", false ) === "1",
+		[ HAS_AI_GENERATOR_CONSENT_NAME ]: {
+			hasConsent: get( window, "wpseoAiGenerator.hasConsent", false ) === "1",
+			endpoint: "yoast/v1/ai_generator/consent",
+		},
 		[ PRODUCT_SUBSCRIPTIONS_NAME ]: get( window, "wpseoAiGenerator.productSubscriptions", {} ),
 	} );
 
