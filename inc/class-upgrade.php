@@ -9,7 +9,6 @@ use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher;
-use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
 
 /**
  * This code handles the option upgrades.
@@ -92,7 +91,6 @@ class WPSEO_Upgrade {
 			'20.7-RC0'   => 'upgrade_207',
 			'20.8-RC0'   => 'upgrade_208',
 			'22.6-RC0'   => 'upgrade_226',
-			'25.3-RC0'   => 'upgrade_253',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -1155,20 +1153,6 @@ class WPSEO_Upgrade {
 		if ( get_option( Cleanup_Integration::CURRENT_TASK_OPTION ) === false ) {
 			$cleanup_integration = YoastSEO()->classes->get( Cleanup_Integration::class );
 			$cleanup_integration->start_cron_job( 'clean_selected_empty_usermeta', DAY_IN_SECONDS );
-		}
-	}
-
-	/**
-	 * Performs the 25.3 upgrade routine.
-	 * Schedules the llms txt cron.
-	 *
-	 * @return void
-	 */
-	private function upgrade_253() {
-		$cron_scheduler      = YoastSEO()->classes->get( Llms_Txt_Cron_Scheduler::class );
-		$is_llms_txt_enabled = WPSEO_Options::get( 'enable_llms_txt' );
-		if ( $is_llms_txt_enabled ) {
-			$cron_scheduler->schedule_quick_llms_txt_population();
 		}
 	}
 
