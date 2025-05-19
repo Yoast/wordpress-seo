@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Llms_Txt\User_Interface;
 
-use Yoast\WP\SEO\Conditionals\Traits\Admin_Conditional_Trait;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Remove_File_Command_Handler;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
  */
 class Cleanup_Llms_Txt_On_Deactivation implements Integration_Interface {
 
-	use Admin_Conditional_Trait;
+	use No_Conditionals;
 
 	/**
 	 * The command handler.
@@ -43,7 +43,7 @@ class Cleanup_Llms_Txt_On_Deactivation implements Integration_Interface {
 	}
 
 	/**
-	 * Registers the scheduling of the cron to the activation action.
+	 * Registers the unscheduling of the cron to the deactivation action.
 	 *
 	 * @return void
 	 */
