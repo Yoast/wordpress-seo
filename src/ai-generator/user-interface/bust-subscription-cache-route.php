@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
- * Registers a route toget suggestions from the AI API
+ * Registers a route to bust the subscription cache.
  *
  * @makePublic
  *
@@ -38,8 +38,13 @@ class Bust_Subscription_Cache_Route implements Route_Interface {
 	 *
 	 * @var WPSEO_Addon_Manager
 	 */
-	private  $addon_manager;
+	private $addon_manager;
 
+	/**
+	 * Class constructor.
+	 *
+	 * @param WPSEO_Addon_Manager $addon_manager The addon manager instance.
+	 */
 	public function __construct( WPSEO_Addon_Manager $addon_manager ) {
 		$this->addon_manager = $addon_manager;
 	}
