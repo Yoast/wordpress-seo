@@ -37,8 +37,8 @@ const slice = createSlice( {
 export const getInitialUsageCount = slice.getInitialState;
 
 export const UsageCountSelectors = {
-	selectUsageCount: state => get( state, [ USAGE_COUNT_NAME, "currentUsageCount" ], 0 ),
-	selectLimit: state => get( state, [ USAGE_COUNT_NAME, "currentLimit" ], 100 ),
+	selectUsageCount: state => get( state, [ USAGE_COUNT_NAME, "currentUsageCount" ], slice.getInitialState().currentUsageCount ),
+	selectUsageCountLimit: state => get( state, [ USAGE_COUNT_NAME, "currentLimit" ], slice.getInitialState().limit ),
 };
 
 /**

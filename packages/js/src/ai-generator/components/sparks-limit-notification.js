@@ -14,7 +14,7 @@ import { Button, Notifications } from "@yoast/ui-library";
  */
 export const SparksLimitNotification = ( { className = "", size = "" } ) => {
 	const counts = useSelect( ( select ) => select( STORE_NAME_AI ).selectUsageCount(), [] );
-	const limit = useSelect( ( select ) => select( STORE_NAME_AI ).selectLimit(), [] );
+	const limit = useSelect( ( select ) => select( STORE_NAME_AI ).selectUsageCountLimit(), [] );
 	const [ showNotification, setShowNotification ] = useState( false );
 
 	useEffect( () => {

@@ -168,7 +168,7 @@ App.propTypes = {
 const MainModal = ( { isOpen, onClose, panelRef, closeButtonScreenReaderText, title, aiModalHelperLink, svgAriaProps, children } ) => {
 	const { counts, limit } = useSelect( ( select ) => ( {
 		counts: select( STORE_NAME_AI ).selectUsageCount(),
-		limit: select( STORE_NAME_AI ).selectLimit(),
+		limit: select( STORE_NAME_AI ).selectUsageCountLimit(),
 	} ), [] );
 
 	return (
