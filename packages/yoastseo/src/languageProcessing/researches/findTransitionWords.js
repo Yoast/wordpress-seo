@@ -94,7 +94,7 @@ export default function( paper, researcher ) {
 	const transitionWords = researcher.getConfig( "transitionWords" );
 	const twoPartTransitionWords = researcher.getConfig( "twoPartTransitionWords" );
 
-	const sentences = getSentencesFromTree( paper );
+	const sentences = getSentencesFromTree( paper.getTree() );
 	const sentenceResults = checkSentencesForTransitionWords( sentences, transitionWords, twoPartTransitionWords, matchTransitionWordsHelper );
 
 	return {

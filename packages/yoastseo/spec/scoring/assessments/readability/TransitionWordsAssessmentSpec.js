@@ -152,6 +152,7 @@ describe( "An assessment for checking the percentage of transition words in a Ja
 	it( "returns the score for a short Japanese text with a low percentage of sentences with transition words.", function() {
 		const mockPaper = new Paper( "ならば。" + shortTextJapanese );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -161,6 +162,7 @@ describe( "An assessment for checking the percentage of transition words in a Ja
 	it( "returns the score for a short Japanese text with no transition words.", function() {
 		const mockPaper = new Paper( shortTextJapanese );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -171,6 +173,7 @@ describe( "An assessment for checking the percentage of transition words in a Ja
 	it( "returns the score for a long Japanese text with no transition words.", function() {
 		const mockPaper = new Paper( longTextJapanese );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.getScore() ).toEqual( 3 );
