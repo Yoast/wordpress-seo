@@ -47,6 +47,6 @@ class Llms_Txt_Renderer {
 			$rendered_sections[] = $section->get_prefix() . $section_content . \PHP_EOL;
 		}
 
-		return \implode( \PHP_EOL, $rendered_sections );
+		return \wp_strip_all_tags( \implode( \PHP_EOL, $rendered_sections ) );
 	}
 }
