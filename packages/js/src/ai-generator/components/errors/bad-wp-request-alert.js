@@ -7,9 +7,10 @@ import { OutboundLink } from "../../../shared-admin/components";
 import { STORE_NAME_EDITOR } from "../../constants";
 
 /**
+ * @param {string} [errorMessage=""] The error message to display.
  * @returns {JSX.Element} The element.
  */
-export const BadWPRequestAlert = ( { errorMessage } ) => {
+export const BadWPRequestAlert = ( { errorMessage = "" } ) => {
 	const supportLink = useSelect( select => select( STORE_NAME_EDITOR ).selectAdminLink( "?page=wpseo_page_support" ), [] );
 
 	return (
@@ -43,8 +44,4 @@ export const BadWPRequestAlert = ( { errorMessage } ) => {
 
 BadWPRequestAlert.propTypes = {
 	errorMessage: PropTypes.string,
-};
-
-BadWPRequestAlert.defaultProps = {
-	errorMessage: "",
 };

@@ -46,13 +46,20 @@ WithActions.propTypes = {
 /**
  * @param {number} errorCode The error code.
  * @param {string} errorIdentifier The error identifier.
- * @param {string[]} invalidSubscriptions The array with names of products with an invalid subscription.
+ * @param {string[]} [invalidSubscriptions=[]] The array with names of products with an invalid subscription.
  * @param {boolean} [showActions=false] Whether to show actions.
- * @param {function} [onRetry] Called to retry.
- * @param {string} [errorMessage] The error message.
- * @returns { JSX.Element } The element.
+ * @param {function} [onRetry=noop] Called to retry.
+ * @param {string} [errorMessage=""] The error message.
+ * @returns {JSX.Element} The element.
  */
-export const SuggestionError = ( { errorCode, errorIdentifier, invalidSubscriptions, showActions, onRetry, errorMessage } ) => {
+export const SuggestionError = ( {
+	errorCode,
+	errorIdentifier,
+	invalidSubscriptions = [],
+	showActions = false,
+	onRetry = noop,
+	errorMessage = "",
+} ) => {
 	switch ( errorCode ) {
 		case 400:
 			switch ( errorIdentifier ) {
@@ -97,10 +104,4 @@ SuggestionError.propTypes = {
 	showActions: PropTypes.bool,
 	onRetry: PropTypes.func,
 	errorMessage: PropTypes.string,
-};
-SuggestionError.defaultProps = {
-	showActions: false,
-	onRetry: noop,
-	invalidSubscriptions: [],
-	errorMessage: "",
 };
