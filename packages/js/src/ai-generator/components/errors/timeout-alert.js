@@ -14,7 +14,7 @@ export const TimeoutAlert = () => {
 
 	return (
 		<Alert variant="error">
-			<span className="yst-block yst-font-medium">{ __( "Connection timeout", "wordpress-seo-premium" ) }</span>
+			<span className="yst-block yst-font-medium">{ __( "Connection timeout", "wordpress-seo" ) }</span>
 			<p className="yst-mt-2">
 				{ safeCreateInterpolateElement(
 					sprintf(

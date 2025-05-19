@@ -46,7 +46,7 @@ export const App = ( { onUseAi } ) => {
 	const isSeoAnalysisActive = useSelect( select => select( STORE_NAME_EDITOR ).getPreference( "isKeywordAnalysisActive", true ), [] );
 
 	/* translators: Hidden accessibility text. */
-	const closeButtonScreenReaderText = __( "Close modal", "wordpress-seo-premium" );
+	const closeButtonScreenReaderText = __( "Close modal", "wordpress-seo" );
 	const svgAriaProps = useSvgAria();
 	const [ panelHeight, setPanelHeight ] = useState( 0 );
 	const handlePanelMeasureChange = useCallback( entry => setPanelHeight( entry.borderBoxSize[ 0 ].blockSize ), [ setPanelHeight ] );
@@ -101,7 +101,7 @@ export const App = ( { onUseAi } ) => {
 				onClick={ handleUseAi }
 				disabled={ ! promptContentInitialized }
 			>
-				{ __( "Use AI", "wordpress-seo-premium" ) }
+				{ __( "Use AI", "wordpress-seo" ) }
 			</button>
 			{ isModalOpen && <Fragment>
 				<Modal
@@ -197,11 +197,11 @@ const MainModal = ( { isOpen, onClose, panelRef, closeButtonScreenReaderText, ti
 								target="_blank"
 								rel="noopener"
 								/* translators: Hidden accessibility text. */
-								aria-label={ __( "Learn more about AI (Opens in a new browser tab)", "wordpress-seo-premium" ) }
+								aria-label={ __( "Learn more about AI (Opens in a new browser tab)", "wordpress-seo" ) }
 							>
 								<QuestionMarkCircleIcon { ...svgAriaProps } className={ "yst-w-4 yst-h-4 yst-text-slate-500" } />
 							</Link>
-							<Badge variant="info">{ __( "Beta", "wordpress-seo-premium" ) }</Badge>
+							<Badge variant="info">{ __( "Beta", "wordpress-seo" ) }</Badge>
 						</div>
 						<hr className="yst-mt-6 yst--mx-6" />
 					</Modal.Container.Header>

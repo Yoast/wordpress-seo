@@ -20,7 +20,7 @@ export const useModalSuggestionsTitle = () => {
 		case EDIT_TYPE.title:
 			return sprintf(
 				/* translators: %s is the type of title. */
-				__( "Generated %s titles", "wordpress-seo-premium" ),
+				__( "Generated %s titles", "wordpress-seo" ),
 				previewLabel
 			);
 		case EDIT_TYPE.description:
@@ -29,7 +29,7 @@ export const useModalSuggestionsTitle = () => {
 			}
 			return sprintf(
 				/* translators: %s is the type of description. */
-				__( "Generated %s descriptions", "wordpress-seo-premium" ),
+				__( "Generated %s descriptions", "wordpress-seo" ),
 				previewLabel
 			);
 	}

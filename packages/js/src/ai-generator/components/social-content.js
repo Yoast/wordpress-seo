@@ -14,7 +14,7 @@ export const SocialContent = ( { title, description, showPreviewSkeleton } ) => 
 	<div>
 		<div className="yst-flex yst-mb-6">
 			<Label as="span" className="yst-flex-grow yst-cursor-default">
-				{ __( "Social preview", "wordpress-seo-premium" ) }
+				{ __( "Social preview", "wordpress-seo" ) }
 			</Label>
 		</div>
 		{ showPreviewSkeleton

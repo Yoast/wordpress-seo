@@ -77,7 +77,7 @@ export const AiConsent = ( {
 					<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
 						{ sprintf(
 						/* translators: %s expands to Yoast AI. */
-							__( "Grant consent for %s", "wordpress-seo-premium" ),
+							__( "Grant consent for %s", "wordpress-seo" ),
 							"Yoast AI"
 						) }
 					</h3>
@@ -137,7 +137,7 @@ export const AiConsent = ( {
 						disabled={ ! consent }
 						onClick={ handleGiveConsent }
 					>
-						{ __( "Grant consent", "wordpress-seo-premium" ) }
+						{ __( "Grant consent", "wordpress-seo" ) }
 					</Button>
 				</div>
 				<Button
@@ -146,7 +146,7 @@ export const AiConsent = ( {
 					variant="tertiary"
 					onClick={ onClose }
 				>
-					{ __( "Close", "wordpress-seo-premium" ) }
+					{ __( "Close", "wordpress-seo" ) }
 				</Button>
 			</div>
 		</>

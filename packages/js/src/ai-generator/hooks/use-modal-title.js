@@ -11,15 +11,15 @@ export const useModalTitle = () => {
 	switch ( previewType ) {
 		case PREVIEW_TYPE.social:
 			return editType === EDIT_TYPE.description
-				? __( "AI social description generator", "wordpress-seo-premium" )
-				: __( "AI social title generator", "wordpress-seo-premium" );
+				? __( "AI social description generator", "wordpress-seo" )
+				: __( "AI social title generator", "wordpress-seo" );
 		case PREVIEW_TYPE.twitter:
 			return editType === EDIT_TYPE.description
-				? __( "AI X description generator", "wordpress-seo-premium" )
-				: __( "AI X title generator", "wordpress-seo-premium" );
+				? __( "AI X description generator", "wordpress-seo" )
+				: __( "AI X title generator", "wordpress-seo" );
 		default:
 			return editType === EDIT_TYPE.description
-				? __( "AI description generator", "wordpress-seo-premium" )
-				: __( "AI title generator", "wordpress-seo-premium" );
+				? __( "AI description generator", "wordpress-seo" )
+				: __( "AI title generator", "wordpress-seo" );
 	}
 };

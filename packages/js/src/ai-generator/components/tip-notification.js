@@ -66,7 +66,7 @@ export const TipNotification = () => {
 		<Notifications.Notification
 			id="ai-generator-content-tip"
 			variant="info"
-			dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo-premium" ) }
+			dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) }
 		>
 			{ safeCreateInterpolateElement(
 				sprintf( tip, "<span>", "</span>" ),
@@ -76,10 +76,10 @@ export const TipNotification = () => {
 			) }
 			<div className="yst-flex yst-mt-3 yst--ms-3 yst-gap-1">
 				<Button type="button" variant="tertiary" onClick={ handleDismiss }>
-					{ __( "Don’t show again", "wordpress-seo-premium" ) }
+					{ __( "Don’t show again", "wordpress-seo" ) }
 				</Button>
 				<Button type="button" variant="tertiary" className="yst-text-slate-800" onClick={ setIgnoredTrue }>
-					{ __( "Dismiss", "wordpress-seo-premium" ) }
+					{ __( "Dismiss", "wordpress-seo" ) }
 				</Button>
 			</div>
 		</Notifications.Notification>
