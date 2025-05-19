@@ -38,8 +38,8 @@ class Link implements Item_Interface {
 	 * @return string
 	 */
 	public function render(): string {
-		$escaped_text   = str_replace( ['[', ']'], ['\\[', '\\]'], $this->text );
-		$escaped_anchor = str_replace( ['(', ')'], ['\\(', '\\)'], $this->anchor );
+		$escaped_text   = \str_replace( [ '[', ']' ], [ '\\[', '\\]' ], $this->text );
+		$escaped_anchor = \str_replace( [ '(', ')' ], [ '\\(', '\\)' ], $this->anchor );
 
 		return "[$escaped_text]($escaped_anchor)";
 	}
