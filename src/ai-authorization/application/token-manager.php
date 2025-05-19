@@ -4,20 +4,19 @@ namespace Yoast\WP\SEO\AI_Authorization\Application;
 
 use RuntimeException;
 use WP_User;
-use WPSEO_Utils;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Verification_Code_User_Meta_Repository;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Bad_Request_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Forbidden_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Internal_Server_Error_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Not_Found_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Payment_Required_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Request_Timeout_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Service_Unavailable_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Too_Many_Requests_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Unauthorized_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Request;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Forbidden_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Internal_Server_Error_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Not_Found_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Payment_Required_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Request_Timeout_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Service_Unavailable_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
@@ -69,6 +68,13 @@ class Token_Manager {
 	private $verification_code_repository;
 
 	/**
+	 * The URLs service.
+	 *
+	 * @var WordPress_URLs
+	 */
+	private $urls;
+
+	/**
 	 * The request handler.
 	 *
 	 * @var Request_Handler
@@ -85,6 +91,7 @@ class Token_Manager {
 	 * @param User_Helper                            $user_helper                  The user helper.
 	 * @param Request_Handler                        $request_handler              The request handler.
 	 * @param Verification_Code_User_Meta_Repository $verification_code_repository The verification code repository.
+	 * @param WordPress_URLs                         $urls                         The URLs service.
 	 */
 	public function __construct(
 		Access_Token_User_Meta_Repository $access_token_repository,
@@ -93,7 +100,8 @@ class Token_Manager {
 		Refresh_Token_User_Meta_Repository $refresh_token_repository,
 		User_Helper $user_helper,
 		Request_Handler $request_handler,
-		Verification_Code_User_Meta_Repository $verification_code_repository
+		Verification_Code_User_Meta_Repository $verification_code_repository,
+		WordPress_URLs $urls
 	) {
 		$this->access_token_repository      = $access_token_repository;
 		$this->code_verifier                = $code_verifier;
@@ -102,7 +110,10 @@ class Token_Manager {
 		$this->user_helper                  = $user_helper;
 		$this->request_handler              = $request_handler;
 		$this->verification_code_repository = $verification_code_repository;
+		$this->urls                         = $urls;
 	}
+
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
 
 	/**
 	 * Invalidates the access token.
@@ -189,11 +200,10 @@ class Token_Manager {
 		$request_body = [
 			'service'              => 'openai',
 			'code_challenge'       => \hash( 'sha256', $code_verifier->get_code() ),
-			'license_site_url'     => WPSEO_Utils::get_home_url(),
+			'license_site_url'     => $this->urls->get_license_url(),
 			'user_id'              => (string) $user->ID,
-			// @TODO these need to be changed once the routes are ported
-			'callback_url'         => \get_rest_url( null, 'yoast/v1/ai_generator/callback' ),
-			'refresh_callback_url' => \get_rest_url( null, 'yoast/v1/ai_generator/refresh_callback' ),
+			'callback_url'         => $this->urls->get_callback_url(),
+			'refresh_callback_url' => $this->urls->get_refresh_callback_url(),
 		];
 
 		$this->request_handler->handle( new Request( '/token/request', $request_body ) );
@@ -308,4 +318,6 @@ class Token_Manager {
 
 		return $access_jwt;
 	}
+
+	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
 }
