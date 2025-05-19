@@ -2,12 +2,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\AI_Generator\User_Interface\Authorization;
 
-use WP_REST_Request;
-use WP_REST_Response;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\Routes\Route_Interface;
-
 /**
  * Registers the callback route used in the authorization process.
  *
@@ -15,7 +9,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Callback_Route extends Abstract_Callback_Route  {
+class Refresh_Callback_Route extends Abstract_Callback_Route {
 	/**
 	 *  The prefix for this route.
 	 *

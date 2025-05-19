@@ -30,9 +30,9 @@ class Consent_Handler {
 	/**
 	 * Handles consent revoked by deleting the consent user metadata from the database.
 	 *
-	 * @param int $user_id     The user ID.
+	 * @param int $user_id The user ID.
 	 *
-	 * return void
+	 * @return void
 	 */
 	public function revoke_consent( int $user_id ) {
 		$this->user_helper->delete_meta( $user_id, '_yoast_wpseo_ai_consent' );
@@ -41,9 +41,9 @@ class Consent_Handler {
 	/**
 	 * Handles consent granted by adding the consent user metadata to the database.
 	 *
-	 * @param int $user_id     The user ID.
+	 * @param int $user_id The user ID.
 	 *
-	 * return void
+	 * @return void
 	 */
 	public function grant_consent( int $user_id ) {
 		$this->user_helper->update_meta( $user_id, '_yoast_wpseo_ai_consent', true );
