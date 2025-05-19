@@ -5,14 +5,15 @@ namespace Yoast\WP\SEO\AI_Generator\User_Interface;
 use RuntimeException;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Bad_Request_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Forbidden_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Internal_Server_Error_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Not_Found_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Payment_Required_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Request_Timeout_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Service_Unavailable_Exception;
-use Yoast\WP\SEO\AI_Generator\Application\Exceptions\Too_Many_Requests_Exception;
+use Yoast\WP\SEO\AI_Generator\Application\Consent_Handler;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Bad_Request_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Forbidden_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Internal_Server_Error_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Not_Found_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Payment_Required_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Request_Timeout_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Service_Unavailable_Exception;
+use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -42,6 +43,12 @@ class Consent_Route implements Route_Interface {
 	 */
 	public const ROUTE_PREFIX = '/ai_generator/consent';
 
+	/**
+	 * The consent handler instance.
+	 *
+	 * @var Consent_Handler
+	 */
+	private $consent_handler;
 	/**
 	 * Registers routes with WordPress.
 	 *
@@ -78,7 +85,7 @@ class Consent_Route implements Route_Interface {
 		$consent = \boolval( $request['consent'] );
 
 		try {
-			$this->ai_generator_action->consent( $user_id, $consent );
+			$this->consent_handler->handle( $user_id, $consent );
 		} catch ( Bad_Request_Exception | Forbidden_Exception | Internal_Server_Error_Exception | Not_Found_Exception | Payment_Required_Exception | Request_Timeout_Exception | Service_Unavailable_Exception | Too_Many_Requests_Exception | RuntimeException $e ) {
 			return new WP_REST_Response( ( $consent ) ? 'Failed to store consent.' : 'Failed to revoke consent.', 500 );
 		}
