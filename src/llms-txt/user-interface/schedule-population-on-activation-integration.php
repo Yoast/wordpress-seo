@@ -2,10 +2,9 @@
 
 namespace Yoast\WP\SEO\Llms_Txt\User_Interface;
 
-use Yoast\WP\SEO\Conditionals\Traits\Admin_Conditional_Trait;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Remove_File_Command_Handler;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
 
 
@@ -14,14 +13,7 @@ use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
  */
 class Schedule_Population_On_Activation_Integration implements Integration_Interface {
 
-	use Admin_Conditional_Trait;
-
-	/**
-	 * The command handler.
-	 *
-	 * @var Remove_File_Command_Handler $command_handler
-	 */
-	private $command_handler;
+	use No_Conditionals;
 
 	/**
 	 * The options helper.
@@ -40,18 +32,15 @@ class Schedule_Population_On_Activation_Integration implements Integration_Inter
 	/**
 	 * The constructor.
 	 *
-	 * @param Llms_Txt_Cron_Scheduler     $scheduler       The cron scheduler.
-	 * @param Options_Helper              $options_helper  The options helper.
-	 * @param Remove_File_Command_Handler $command_handler The command handler.
+	 * @param Llms_Txt_Cron_Scheduler $scheduler      The cron scheduler.
+	 * @param Options_Helper          $options_helper The options helper.
 	 */
 	public function __construct(
 		Llms_Txt_Cron_Scheduler $scheduler,
-		Options_Helper $options_helper,
-		Remove_File_Command_Handler $command_handler
+		Options_Helper $options_helper
 	) {
-		$this->scheduler       = $scheduler;
-		$this->options_helper  = $options_helper;
-		$this->command_handler = $command_handler;
+		$this->scheduler      = $scheduler;
+		$this->options_helper = $options_helper;
 	}
 
 	/**
@@ -71,10 +60,6 @@ class Schedule_Population_On_Activation_Integration implements Integration_Inter
 	public function schedule_llms_txt_population() {
 		if ( $this->options_helper->get( 'enable_llms_txt', false ) === true ) {
 			$this->scheduler->schedule_quick_llms_txt_population();
-		}
-		else {
-			$this->scheduler->unschedule_llms_txt_population();
-			$this->command_handler->handle();
 		}
 	}
 }

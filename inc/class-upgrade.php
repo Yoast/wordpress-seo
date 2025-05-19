@@ -9,7 +9,6 @@ use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher;
-use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Remove_File_Command_Handler;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
 
 /**
@@ -1167,14 +1166,9 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_253() {
 		$cron_scheduler      = YoastSEO()->classes->get( Llms_Txt_Cron_Scheduler::class );
-		$file_remove_handler = YoastSEO()->classes->get( Remove_File_Command_Handler::class );
 		$is_llms_txt_enabled = WPSEO_Options::get( 'enable_llms_txt' );
 		if ( $is_llms_txt_enabled ) {
 			$cron_scheduler->schedule_quick_llms_txt_population();
-		}
-		else {
-			$cron_scheduler->unschedule_llms_txt_population();
-			$file_remove_handler->handle();
 		}
 	}
 
