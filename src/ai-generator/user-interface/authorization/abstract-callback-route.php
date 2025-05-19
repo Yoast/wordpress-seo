@@ -8,7 +8,10 @@ use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
-abstract class Abstract_Callback_Route implements  Route_Interface {
+/**
+ * The base class for the callback routes.
+ */
+abstract class Abstract_Callback_Route implements Route_Interface {
 
 	use No_Conditionals;
 
@@ -40,5 +43,4 @@ abstract class Abstract_Callback_Route implements  Route_Interface {
 			]
 		);
 	}
-
 }

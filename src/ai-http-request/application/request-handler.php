@@ -49,6 +49,8 @@ class Request_Handler {
 		$this->response_parser = $response_parser;
 	}
 
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
+
 	/**
 	 * Executes the request to the API.
 	 *
@@ -100,6 +102,8 @@ class Request_Handler {
 			default:
 				throw new Bad_Request_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
 		}
-		// phpcs:enable
+		// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
 	}
+
+	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
 }

@@ -46,14 +46,14 @@ class Response {
 	/**
 	 * Response constructor.
 	 *
-	 * @param string $body The response body.
+	 * @param string        $body             The response body.
 	 * @param int           $response_code    The response code.
 	 * @param string        $message          The response message.
 	 * @param string        $error_code       The error code.
 	 * @param array<string> $missing_licenses The missing licenses.
 	 */
 	public function __construct( string $body, int $response_code, string $message, string $error_code = '', $missing_licenses = [] ) {
-		$this->body = $body;
+		$this->body             = $body;
 		$this->response_code    = $response_code;
 		$this->message          = $message;
 		$this->error_code       = $error_code;

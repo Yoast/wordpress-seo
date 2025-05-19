@@ -2,7 +2,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\AI_Generator\User_Interface;
 
-use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\AI_Generator\Application\Request_Handler;
 use Yoast\WP\SEO\AI_Generator\Application\Token_Manager;
@@ -24,6 +23,20 @@ class Get_Usage_Route implements Route_Interface {
 
 	use No_Conditionals;
 
+		/**
+		 *  The namespace for this route.
+		 *
+		 * @var string
+		 */
+	public const ROUTE_NAMESPACE = Main::API_V1_NAMESPACE;
+
+	/**
+	 *  The prefix for this route.
+	 *
+	 * @var string
+	 */
+	public const ROUTE_PREFIX = '/ai_generator/get_usage';
+
 	/**
 	 * The token manager instance.
 	 *
@@ -38,28 +51,14 @@ class Get_Usage_Route implements Route_Interface {
 	 */
 	private $request_handler;
 
-		/**
-	 *  The namespace for this route.
-	 *
-	 * @var string
-	 */
-	public const ROUTE_NAMESPACE = Main::API_V1_NAMESPACE;
-
-	/**
-	 *  The prefix for this route.
-	 *
-	 * @var string
-	 */
-	public const ROUTE_PREFIX = '/ai_generator/get_usage';
-
 	/**
 	 * Class constructor.
 	 *
-	 * @param Token_Manager   $token_manager  The token manager instance.
+	 * @param Token_Manager   $token_manager   The token manager instance.
 	 * @param Request_Handler $request_handler The request handler instance.
 	 */
 	public function __construct( Token_Manager $token_manager, Request_Handler $request_handler ) {
-		$this->token_manager  = $token_manager;
+		$this->token_manager   = $token_manager;
 		$this->request_handler = $request_handler;
 	}
 
