@@ -83,8 +83,6 @@ export default [
 			"react/jsx-no-bind": "warn",
 			"react/no-access-state-in-setstate": "warn",
 			"react/no-unused-prop-types": "warn",
-			"react/prop-types": "warn",
-			"react/require-default-props": "warn",
 			"no-prototype-builtins": "warn",
 		},
 	},
@@ -100,13 +98,6 @@ export default [
 		files: [ "tests/**" ],
 		rules: {
 			"no-undefined": "off",
-		},
-	},
-	// Ignore Proptypes in the dashboard.
-	{
-		files: [ "src/dashboard/**" ],
-		rules: {
-			"react/prop-types": "off",
 		},
 	},
 	{

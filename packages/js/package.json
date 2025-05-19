@@ -6,7 +6,7 @@
   "scripts": {
     "build": "cd ../.. && wp-scripts build --config config/webpack/webpack.config.js",
     "test": "jest",
-    "lint": "eslint . --max-warnings=61"
+    "lint": "eslint . --max-warnings=427"
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
@@ -82,7 +82,7 @@
     "@wordpress/dependency-extraction-webpack-plugin": "^2.8.0",
     "@yoast/babel-preset": "^1.1.2",
     "@yoast/browserslist-config": "^1.2.4",
-    "@yoast/eslint-config": "^8.0.0",
+    "@yoast/eslint-config": "^8.1.0",
     "@yoast/jest-preset": "^1.0.0",
     "babel-plugin-styled-components": "^2.0.6",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
