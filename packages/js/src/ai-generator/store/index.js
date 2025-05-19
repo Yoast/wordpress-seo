@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/named -- We use an incorrect WP data version locally.
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import {

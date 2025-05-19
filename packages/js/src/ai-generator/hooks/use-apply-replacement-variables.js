@@ -23,14 +23,24 @@ export const useApplyReplacementVariables = () => {
 	return useCallback(
 		/**
 		 * @param {string} content The content.
-		 * @param {string} [key="value"] The replacement variable key, used for replacing.
-		 * @param {Object} [overrides] Override a replacement variable "value" (or key). Keyed by replacement variable name.
-		 * @param {boolean} [applyPluggable] Whether to also apply replacement variables using pluggable.
-		 * @param {string} [editType] Whether a title or description. Needed when applying pluggable replacement variables.
-		 * @param {string} [contentType] Whether a post or term. Used for removing the string "Archives" for terms.
+		 * @param {Object} [options] The options.
+		 * @param {string} [options.key="value"] The replacement variable key, used for replacing.
+		 * @param {Object} [options.overrides] Override a replacement variable "value" (or key). Keyed by replacement variable name.
+		 * @param {boolean} [options.applyPluggable] Whether to also apply replacement variables using pluggable.
+		 * @param {string} [options.editType] Whether a title or description. Needed when applying pluggable replacement variables.
+		 * @param {string} [options.contentType] Whether a post or term. Used for removing the string "Archives" for terms.
 		 * @returns {string} The content with replacements.
 		 */
-		( content, { key = "value", overrides = {}, applyPluggable = true, editType = EDIT_TYPE.title, contentType = CONTENT_TYPE.post } = {} ) => {
+		( // eslint-disable-line complexity
+			content,
+			{
+				key = "value",
+				overrides = {},
+				applyPluggable = true,
+				editType = EDIT_TYPE.title,
+				contentType = CONTENT_TYPE.post,
+			} = {}
+		) => {
 			for ( const replacementVariable of replacementVariables ) {
 				content = content.replace(
 					new RegExp( "%%" + escapeRegExp( replacementVariable.name ) + "%%", "g" ),
