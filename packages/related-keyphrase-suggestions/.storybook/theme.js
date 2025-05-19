@@ -1,4 +1,3 @@
-/* eslint-disable import/named */
 import { create } from "@storybook/theming";
 import tailwindConfig from "../tailwind.config";
 

@@ -57,9 +57,12 @@ class Remove_File_Command_Handler {
 	 */
 	public function handle() {
 		if ( $this->permission_gate->is_managed_by_yoast_seo() ) {
-			$this->file_system_adapter->remove_file();
-			// Maybe move this to a class if we need to handle this option more often.
-			$this->options_helper->set( 'llms_txt_content_hash', '' );
+			$file_removed = $this->file_system_adapter->remove_file();
+
+			if ( $file_removed ) {
+				// Maybe move this to a class if we need to handle this option more often.
+				\update_option( 'wpseo_llms_txt_content_hash', '' );
+			}
 		}
 	}
 }

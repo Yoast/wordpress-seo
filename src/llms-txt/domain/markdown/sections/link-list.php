@@ -2,6 +2,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections;
 
+use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items\Link;
+
 /**
  * Represents a link list markdown section.
  */

@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Llms_Txt\Application\File\Commands;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builder;
+use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Markdown_Builder;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\File\WordPress_File_System_Adapter;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\File\WordPress_Llms_Txt_Permission_Gate;
 
@@ -68,10 +68,13 @@ class Populate_File_Command_Handler {
 	 */
 	public function handle() {
 		if ( $this->permission_gate->is_managed_by_yoast_seo() ) {
-			$content = $this->markdown_builder->render();
-			$this->file_system_adapter->set_file_content( $content );
-			// Maybe move this to a class if we need to handle this option more often.
-			$this->options_helper->set( 'llms_txt_content_hash', \md5( $content ) );
+			$content      = $this->markdown_builder->render();
+			$file_written = $this->file_system_adapter->set_file_content( $content );
+
+			if ( $file_written ) {
+				// Maybe move this to a class if we need to handle this option more often.
+				\update_option( 'wpseo_llms_txt_content_hash', \md5( $content ) );
+			}
 		}
 	}
 }

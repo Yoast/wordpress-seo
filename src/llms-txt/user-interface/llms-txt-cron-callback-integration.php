@@ -85,9 +85,14 @@ class Llms_Txt_Cron_Callback_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function populate_file(): void {
-		if ( \wp_doing_cron() && $this->options_helper->get( 'enable_llms_txt', true ) !== true ) {
+		if ( ! \wp_doing_cron() ) {
+			return;
+		}
+
+		if ( $this->options_helper->get( 'enable_llms_txt', false ) !== true ) {
 			$this->scheduler->unschedule_llms_txt_population();
 			$this->remove_file_command_handler->handle();
+
 			return;
 		}
 

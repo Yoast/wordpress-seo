@@ -5,9 +5,9 @@ namespace Yoast\WP\SEO\Llms_Txt\Domain\Markdown;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Section_Interface;
 
 /**
- * A bucket that contains markdown items.
+ * The renderer of the LLMs.txt file.
  */
-class Markdown_Bucket {
+class Llms_Txt_Renderer {
 
 	/**
 	 * The sections.

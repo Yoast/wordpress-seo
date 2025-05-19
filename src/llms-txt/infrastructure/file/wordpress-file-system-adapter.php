@@ -14,30 +14,37 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	 *
 	 * @param string $content The content to write into the file.
 	 *
-	 * @return void
+	 * @return bool True on success, false on failure.
 	 */
-	public function set_file_content( string $content ) {
+	public function set_file_content( string $content ): bool {
 		if ( $this->is_file_system_available() ) {
 			global $wp_filesystem;
-			$wp_filesystem->put_contents(
+			$result = $wp_filesystem->put_contents(
 				$this->get_llms_file_path(),
 				$content,
 				\FS_CHMOD_FILE
 			);
 
+			return $result;
 		}
+
+		return false;
 	}
 
 	/**
-	 * Removes the llms.txt from the filesystem if direct access is available.
+	 * Removes the llms.txt from the filesystem.
 	 *
-	 * @return void
+	 * @return bool True on success, false on failure.
 	 */
-	public function remove_file() {
+	public function remove_file(): bool {
 		if ( $this->is_file_system_available() ) {
 			global $wp_filesystem;
-			$wp_filesystem->delete( $this->get_llms_file_path() );
+			$result = $wp_filesystem->delete( $this->get_llms_file_path() );
+
+			return $result;
 		}
+
+		return false;
 	}
 
 	/**
@@ -56,11 +63,11 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	}
 
 	/**
-	 * Gets the contents of the current llms.txt file.
+	 * Checks if the llms.txt file exists.
 	 *
-	 * @return string The content of the file.
+	 * @return bool Whether the llms.txt file exists.
 	 */
-	public function file_exists(): string {
+	public function file_exists(): bool {
 		if ( $this->is_file_system_available() ) {
 			global $wp_filesystem;
 
@@ -75,7 +82,7 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	 *
 	 * @return bool If the file system is available.
 	 */
-	public function is_file_system_available(): bool {
+	private function is_file_system_available(): ?bool {
 		if ( ! \function_exists( 'WP_Filesystem' ) ) {
 			require_once \ABSPATH . 'wp-admin/includes/file.php';
 		}

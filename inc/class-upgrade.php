@@ -1168,7 +1168,7 @@ class WPSEO_Upgrade {
 		$cron_scheduler      = YoastSEO()->classes->get( Llms_Txt_Cron_Scheduler::class );
 		$is_llms_txt_enabled = WPSEO_Options::get( 'enable_llms_txt' );
 		if ( $is_llms_txt_enabled ) {
-			$cron_scheduler->schedule_llms_txt_population();
+			$cron_scheduler->schedule_quick_llms_txt_population();
 		}
 	}
 
