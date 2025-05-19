@@ -18,3 +18,4 @@ export { TwitterPreview } from "./twitter-preview";
 export { TwitterPreviewSkeleton } from "./twitter-preview-skeleton";
 export { TypeProvider } from "./type-provider";
 export { SparksLimitNotification } from "./sparks-limit-notification";
+export { FeatureError } from "./feature-error";
