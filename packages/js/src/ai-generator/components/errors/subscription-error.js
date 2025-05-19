@@ -9,7 +9,7 @@ import { OutboundLink } from "../../../shared-admin/components";
 import { STORE_NAME_EDITOR } from "../../constants";
 
 /**
- * @param {array} invalidSubscriptions The array with the names of products with invalid subscription.
+ * @param {string[]} [invalidSubscriptions=[]] The array with the names of products with invalid subscription.
  * @returns {JSX.Element} The element.
  */
 export const SubscriptionError = ( { invalidSubscriptions } ) => {
@@ -142,8 +142,4 @@ export const SubscriptionError = ( { invalidSubscriptions } ) => {
 
 SubscriptionError.propTypes = {
 	invalidSubscriptions: PropTypes.array,
-};
-
-SubscriptionError.defaultProps = {
-	invalidSubscriptions: [],
 };
