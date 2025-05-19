@@ -1,39 +1,38 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
 import { AiConsent } from "../../shared-admin/components";
+import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
 
 /**
- * @param {function} onStartGenerating Callback to signal the generating should start.
+ * @param {Function} onStartGenerating Callback to signal the generating should start.
  * @returns {JSX.Element} The element.
  */
 export const Introduction = ( { onStartGenerating } ) => {
-	const termsOfServiceLink = useSelect( select => select( STORE_NAME_EDITOR )
-		.selectLink( "https://yoa.st/ai-generator-terms-of-service" ), [] );
-	const privacyPolicyLink = useSelect( select => select( STORE_NAME_EDITOR )
-		.selectLink( "https://yoa.st/ai-generator-privacy-policy" ), [] );
-	const learnMoreLink = useSelect( select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-learn-more" ), [] );
-
-	const imageLink = useSelect( select => select( STORE_NAME_EDITOR ).selectImageLink( "ai-consent.png" ), [] );
+	const { termsOfServiceLink, privacyPolicyLink, learnMoreLink, imageLink, consentEndpoint } = useSelect(
+		select => ( {
+			termsOfServiceLink: select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-terms-of-service" ),
+			privacyPolicyLink: select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-privacy-policy" ),
+			learnMoreLink: select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-learn-more" ),
+			imageLink: select( STORE_NAME_EDITOR ).selectImageLink( "ai-consent.png" ),
+			consentEndpoint: select( STORE_NAME_AI ).selectAiGeneratorConsentEndpoint(),
+		} ),
+		[]
+	);
 
 	const { storeAiGeneratorConsent } = useDispatch( STORE_NAME_AI );
 	const onGiveConsent = useCallback( async() => {
-		await storeAiGeneratorConsent( true );
+		await storeAiGeneratorConsent( { consent: true, endpoint: consentEndpoint } );
 		onStartGenerating();
-	}, [ storeAiGeneratorConsent, onStartGenerating ] );
-
-	const props = {
-		learnMoreLink,
-		termsOfServiceLink,
-		privacyPolicyLink,
-		imageLink,
-		onGiveConsent,
-	};
+	}, [ storeAiGeneratorConsent, onStartGenerating, consentEndpoint ] );
 
 	return (
 		<AiConsent
-			{ ...props }
+			termsOfServiceLink={ termsOfServiceLink }
+			privacyPolicyLink={ privacyPolicyLink }
+			learnMoreLink={ learnMoreLink }
+			imageLink={ imageLink }
+			onGiveConsent={ onGiveConsent }
 		/>
 	);
 };
