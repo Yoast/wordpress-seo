@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { get } from "lodash";
 import apiFetch from "@wordpress/api-fetch";
+import { get } from "lodash";
 import { ASYNC_ACTION_NAMES } from "../../shared-admin/constants";
 
 export const USAGE_COUNT_NAME = "usageCount";
@@ -13,10 +13,14 @@ const slice = createSlice( {
 	initialState: {
 		currentUsageCount: 0,
 		currentLimit: 100,
+		endpoint: "yoast/v1/ai_generator/get_usage",
 	},
 	reducers: {
 		addUsageCount: ( state, { payload = 1 } ) => {
 			state.currentUsageCount = state.currentUsageCount + payload;
+		},
+		setUsageCountEndpoint: ( state, { payload } ) => {
+			state.endpoint = payload;
 		},
 	},
 	extraReducers: ( builder ) => {
@@ -39,19 +43,18 @@ export const getInitialUsageCount = slice.getInitialState;
 export const UsageCountSelectors = {
 	selectUsageCount: state => get( state, [ USAGE_COUNT_NAME, "currentUsageCount" ], slice.getInitialState().currentUsageCount ),
 	selectUsageCountLimit: state => get( state, [ USAGE_COUNT_NAME, "currentLimit" ], slice.getInitialState().limit ),
+	selectUsageCountEndpoint: state => get( state, [ USAGE_COUNT_NAME, "endpoint" ], slice.getInitialState().endpoint ),
 };
 
 /**
- *
+ * @param {string} endpoint The endpoint to fetch the usage count from.
  * @returns {Object} Success or error action object.
  */
-export function* fetchUsageCount() {
+export function* fetchUsageCount( { endpoint } ) {
 	yield{ type: `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }` };
 	try {
 		// Trigger the fetch users control flow.
-		const counts = yield{
-			type: FETCH_USAGE_COUNT_ACTION_NAME,
-		};
+		const counts = yield{ type: FETCH_USAGE_COUNT_ACTION_NAME, payload: endpoint };
 		return { type: `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, payload: counts };
 	} catch ( error ) {
 		return { type: `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
@@ -64,9 +67,9 @@ export const usageCountActions = {
 };
 
 export const usageCountControls = {
-	[ FETCH_USAGE_COUNT_ACTION_NAME ]: async() => apiFetch( {
+	[ FETCH_USAGE_COUNT_ACTION_NAME ]: async( { payload } ) => apiFetch( {
 		method: "POST",
-		path: "yoast/v1/ai_generator/get_usage",
+		path: payload,
 	} ),
 };
 
