@@ -1,14 +1,15 @@
 import { Fill } from "@wordpress/components";
-import { addFilter, addAction } from "@wordpress/hooks";
+import { select } from "@wordpress/data";
+import { addAction, addFilter } from "@wordpress/hooks";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { HAS_AI_GENERATOR_CONSENT_NAME } from "../shared-admin/store";
 import { App, TypeProvider } from "./components";
 import { POST_TYPE, PREVIEW_TYPE, STORE_NAME_EDITOR } from "./constants";
+import { filterFocusKeyphraseErrors, initializePromptContent, updateInteractedWithFeature } from "./initialize/index";
 import { registerStore } from "./store";
 import { PRODUCT_SUBSCRIPTIONS_NAME } from "./store/product-subscriptions";
-import { initializePromptContent, filterFocusKeyphraseErrors, updateInteractedWithFeature } from "./initialize/index";
-import { select } from "@wordpress/data";
+import { USAGE_COUNT_NAME } from "./store/usage-count";
 
 // Ignore these post types. Attachments will require a different prompt.
 const IGNORED_POST_TYPES = [ POST_TYPE.attachment ];
@@ -80,7 +81,13 @@ const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editT
  */
 const initializeAiGenerator = () => {
 	registerStore( {
-		[ HAS_AI_GENERATOR_CONSENT_NAME ]: get( window, "wpseoAiGenerator.hasConsent", false ) === "1",
+		[ HAS_AI_GENERATOR_CONSENT_NAME ]: {
+			hasConsent: get( window, "wpseoAiGenerator.hasConsent", false ) === "1",
+			endpoint: "yoast/v1/ai_generator/consent",
+		},
+		[ USAGE_COUNT_NAME ]: {
+			endpoint: "yoast/v1/ai_generator/get_usage",
+		},
 		[ PRODUCT_SUBSCRIPTIONS_NAME ]: get( window, "wpseoAiGenerator.productSubscriptions", {} ),
 	} );
 

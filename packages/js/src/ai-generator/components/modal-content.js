@@ -1,13 +1,13 @@
 /* eslint-disable complexity, max-statements */
-import CheckIcon from "@heroicons/react/outline/esm/CheckIcon";
-import RefreshIcon from "@heroicons/react/outline/esm/RefreshIcon";
-import { useDispatch } from "@wordpress/data";
+import { CheckIcon, RefreshIcon } from "@heroicons/react/outline";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { Fragment, useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, Button, Label, Modal, Notifications, Pagination, useModalContext, usePrevious } from "@yoast/ui-library";
 import { map, noop } from "lodash";
 import PropTypes from "prop-types";
 import { SparksLimitNotification, SuggestionError, SuggestionsList, SuggestionsListSkeleton, TipNotification } from ".";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import {
 	ASYNC_ACTION_STATUS,
 	EDIT_TYPE,
@@ -31,7 +31,6 @@ import {
 import { useModalApplyButtonLabel } from "../hooks/use-modal-apply-button-label";
 import { useModalSuggestionsTitle } from "../hooks/use-modal-suggestions-title";
 import { useSetTitleOrDescription } from "../hooks/use-set-title-or-description";
-import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /**
  * Aims to capture the text between badges.
@@ -58,6 +57,9 @@ export const ModalContent = ( { height } ) => {
 	const { suggestions, fetchSuggestions, setSelectedSuggestion } = useSuggestions();
 	const Preview = usePreviewContent();
 	const { addAppliedSuggestion, addUsageCount, fetchUsageCount } = useDispatch( STORE_NAME_AI );
+	const { usageCountEndpoint } = useSelect( ( select ) => ( {
+		usageCountEndpoint: select( STORE_NAME_AI ).selectUsageCountEndpoint(),
+	} ), [] );
 
 	// Used in an attempt to prevent the tip notification from moving too much when generating more suggestions.
 	const previousHeight = usePrevious( height );
@@ -167,11 +169,11 @@ export const ModalContent = ( { height } ) => {
 			fetchSuggestions().then( status => {
 				setInitialFetch( status );
 				if ( status === FETCH_RESPONSE_STATUS.success ) {
-					fetchUsageCount();
+					fetchUsageCount( { endpoint: usageCountEndpoint } );
 				}
 			} );
 		}
-	}, [ initialFetch, setInitialFetch, fetchSuggestions ] );
+	}, [ initialFetch, fetchSuggestions, usageCountEndpoint ] );
 
 	// Initial fetch gone wrong OR subscription error on any request.
 	if ( initialFetch === FETCH_RESPONSE_STATUS.error || ( suggestions.status === ASYNC_ACTION_STATUS.error && suggestions.error.code === 402 ) ) {
