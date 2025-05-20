@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections;
 
+use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Escaper;
 /**
  * Represents the description section.
  */
@@ -39,5 +40,16 @@ class Description implements Section_Interface {
 	 */
 	public function render(): string {
 		return $this->description;
+	}
+
+	/**
+	 * Escapes the markdown content.
+	 *
+	 * @param Markdown_Escaper $markdown_escaper The markdown escaper.
+	 *
+	 * @return void
+	 */
+	public function markdown_escape( Markdown_Escaper $markdown_escaper ): void {
+		$this->description = $markdown_escaper->markdown_content_escape( $this->description );
 	}
 }

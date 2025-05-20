@@ -2,6 +2,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections;
 
+use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Escaper;
+
 /**
  * Represents the title section.
  */
@@ -59,5 +61,17 @@ class Title implements Section_Interface {
 		}
 
 		return "$this->site_title: $this->site_tagline";
+	}
+
+	/**
+	 * Escapes the markdown content.
+	 *
+	 * @param Markdown_Escaper $markdown_escaper The markdown escaper.
+	 *
+	 * @return void
+	 */
+	public function markdown_escape( Markdown_Escaper $markdown_escaper ): void {
+		$this->site_title   = $markdown_escaper->markdown_content_escape( $this->site_title );
+		$this->site_tagline = $markdown_escaper->markdown_content_escape( $this->site_tagline );
 	}
 }
