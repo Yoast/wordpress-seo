@@ -143,7 +143,7 @@ class Person extends Abstract_Schema_Piece {
 		}
 
 		$data['name']     = $this->helpers->schema->html->smart_strip_tags( $user_data->display_name );
-		$data['pronouns'] = $this->helpers->schema->html->smart_strip_tags( get_the_author_meta( 'wpseo_pronouns', $user_id ) );
+		$data['pronouns'] = $this->helpers->schema->html->smart_strip_tags( \get_the_author_meta( 'wpseo_pronouns', $user_id ) );
 		$data             = $this->add_image( $data, $user_data, $add_hash );
 
 		if ( ! empty( $user_data->description ) ) {
