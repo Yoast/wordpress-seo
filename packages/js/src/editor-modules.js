@@ -46,12 +46,12 @@ window.yoast.editorModules = {
 			Introduction,
 			SuggestionError,
 			SparksLimitNotification,
-			FeatureError
+			FeatureError,
 		},
 		helpers: {
 			removesLocaleVariantSuffixes,
 			fetchSuggestions,
-		}
+		},
 	},
 	components: {
 		HelpLink,
