@@ -71,7 +71,7 @@ class Title implements Section_Interface {
 	 * @return void
 	 */
 	public function markdown_escape( Markdown_Escaper $markdown_escaper ): void {
-		$this->site_title   = \call_user_func( [ $markdown_escaper, 'markdown_content_escape' ], $this->site_title );
-		$this->site_tagline = \call_user_func( [ $markdown_escaper, 'markdown_content_escape' ], $this->site_tagline );
+		$this->site_title   = $markdown_escaper->markdown_content_escape( $this->site_title );
+		$this->site_tagline = $markdown_escaper->markdown_content_escape( $this->site_tagline );
 	}
 }

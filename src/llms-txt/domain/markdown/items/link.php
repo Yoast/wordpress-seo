@@ -51,7 +51,7 @@ class Link implements Item_Interface {
 	 * @return void
 	 */
 	public function markdown_escape( Markdown_Escaper $markdown_escaper ): void {
-		$this->text   = \call_user_func( [ $markdown_escaper, 'markdown_content_escape' ], $this->text );
-		$this->anchor = \call_user_func( [ $markdown_escaper, 'markdown_url_escape' ], $this->anchor );
+		$this->text   = $markdown_escaper->markdown_content_escape( $this->text );
+		$this->anchor = $markdown_escaper->markdown_url_escape( $this->anchor );
 	}
 }

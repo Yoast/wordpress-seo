@@ -81,7 +81,7 @@ class Link_List implements Section_Interface {
 	 * @return void
 	 */
 	public function markdown_escape( Markdown_Escaper $markdown_escaper ): void {
-		$this->type = \call_user_func( [ $markdown_escaper, 'markdown_content_escape' ], $this->type );
+		$this->type = $markdown_escaper->markdown_content_escape( $this->type );
 
 		foreach ( $this->links as $link ) {
 			$link->markdown_escape( $markdown_escaper );
