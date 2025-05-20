@@ -17,7 +17,7 @@ class Llms_Txt_Renderer {
 	private $sections;
 
 	/**
-	 * Adds a section to the bucket.
+	 * Adds a section.
 	 *
 	 * @param Section_Interface $section The section to add.
 	 *
@@ -25,6 +25,15 @@ class Llms_Txt_Renderer {
 	 */
 	public function add_section( Section_Interface $section ): void {
 		$this->sections[] = $section;
+	}
+
+	/**
+	 * Returns the sections.
+	 *
+	 * @return Section_Interface[]
+	 */
+	public function get_sections(): array {
+		return $this->sections;
 	}
 
 	/**
@@ -47,6 +56,6 @@ class Llms_Txt_Renderer {
 			$rendered_sections[] = $section->get_prefix() . $section_content . \PHP_EOL;
 		}
 
-		return \wp_strip_all_tags( \implode( \PHP_EOL, $rendered_sections ) );
+		return \implode( \PHP_EOL, $rendered_sections );
 	}
 }

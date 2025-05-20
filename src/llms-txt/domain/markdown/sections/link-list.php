@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections;
 
+use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Escaper;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items\Link;
 
 /**
@@ -70,5 +71,20 @@ class Link_List implements Section_Interface {
 		}
 
 		return $this->type . \PHP_EOL . \implode( \PHP_EOL, $rendered_links );
+	}
+
+	/**
+	 * Escapes the markdown content.
+	 *
+	 * @param Markdown_Escaper $markdown_escaper The markdown escaper.
+	 *
+	 * @return void
+	 */
+	public function markdown_escape( Markdown_Escaper $markdown_escaper ): void {
+		$this->type = \call_user_func( [ $markdown_escaper, 'markdown_content_escape' ], $this->type );
+
+		foreach ( $this->links as $link ) {
+			$link->markdown_escape( $markdown_escaper );
+		}
 	}
 }

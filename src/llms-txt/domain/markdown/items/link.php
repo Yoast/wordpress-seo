@@ -2,6 +2,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items;
 
+use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Escaper;
+
 /**
  * Represents a link markdown item.
  */
@@ -38,9 +40,18 @@ class Link implements Item_Interface {
 	 * @return string
 	 */
 	public function render(): string {
-		$escaped_text   = \str_replace( [ '[', ']' ], [ '\\[', '\\]' ], $this->text );
-		$escaped_anchor = \str_replace( [ '(', ')' ], [ '\\(', '\\)' ], $this->anchor );
+		return "[$this->text]($this->anchor)";
+	}
 
-		return "[$escaped_text]($escaped_anchor)";
+	/**
+	 * Escapes the markdown content.
+	 *
+	 * @param param Markdown_Escaper $markdown_escaper The markdown escaper.
+	 *
+	 * @return void
+	 */
+	public function markdown_escape( Markdown_Escaper $markdown_escaper ): void {
+		$this->text   = \call_user_func( [ $markdown_escaper, 'markdown_content_escape' ], $this->text );
+		$this->anchor = \call_user_func( [ $markdown_escaper, 'markdown_url_escape' ], $this->anchor );
 	}
 }
