@@ -35,6 +35,6 @@ class Markdown_Escaper {
 	public function markdown_url_escape( $url ) {
 		$escaped_url = \str_replace( [ ' ', '(', ')', '\\' ], [ '%20', '%28', '%29', '%5C' ], $url );
 
-		return \wp_strip_all_tags( $escaped_url );
+		return  $escaped_url;
 	}
 }
