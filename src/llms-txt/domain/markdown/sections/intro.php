@@ -61,16 +61,16 @@ class Intro implements Section_Interface {
 	 * @return string
 	 */
 	public function render(): string {
+		if ( \count( $this->intro_links ) === 0 ) {
+			return $this->intro_content;
+		}
+
 		$rendered_links = \array_map(
 			static function ( $link ) {
 				return $link->render();
 			},
 			$this->intro_links
 		);
-
-		if ( \count( $rendered_links ) === 0 ) {
-			return $this->intro_content;
-		}
 
 		$this->intro_content = \sprintf(
 			$this->intro_content,
