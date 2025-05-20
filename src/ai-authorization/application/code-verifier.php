@@ -8,7 +8,7 @@ use Yoast\WP\SEO\AI_Authorization\Infrastructure\Verification_Code_User_Meta_Rep
 use Yoast\WP\SEO\Helpers\Date_Helper;
 /**
  * Class Code_Verifier_Service
- * Handles the generation and validation of code verifiers for users.
+ * Handles the generation and validation of verification codes for users.
  */
 class Code_Verifier {
 	private const VALIDITY_IN_SECONDS = 300; // 5 minutes
@@ -21,30 +21,30 @@ class Code_Verifier {
 	private $date_helper;
 
 	/**
-	 * The code verifier repository.
+	 * The verification code repository.
 	 *
 	 * @var Verification_Code_User_Meta_Repository
 	 */
-	private $code_verifier_repository;
+	private $verification_code_repository;
 
 	/**
 	 * Code_Verifier_Service constructor.
 	 *
-	 * @param Date_Helper                            $date_helper              The date helper.
-	 * @param Verification_Code_User_Meta_Repository $code_verifier_repository The code verifier repository.
+	 * @param Date_Helper                            $date_helper                  The date helper.
+	 * @param Verification_Code_User_Meta_Repository $verification_code_repository The verification code repository.
 	 */
-	public function __construct( Date_Helper $date_helper, Verification_Code_User_Meta_Repository $code_verifier_repository ) {
-		$this->date_helper              = $date_helper;
-		$this->code_verifier_repository = $code_verifier_repository;
+	public function __construct( Date_Helper $date_helper, Verification_Code_User_Meta_Repository $verification_code_repository ) {
+		$this->date_helper                  = $date_helper;
+		$this->verification_code_repository = $verification_code_repository;
 	}
 
 	/**
-	 * Generate a code verifier for a user.
+	 * Generate a verification code for a user.
 	 *
 	 * @param int    $user_id    The user ID.
 	 * @param string $user_email The user email.
 	 *
-	 * @return Verification_Code The generated code verifier.
+	 * @return Verification_Code The generated verification code.
 	 */
 	public function generate( int $user_id, string $user_email ): Verification_Code {
 		$random_string = \substr( \str_shuffle( '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' ), 1, 10 );
@@ -55,22 +55,22 @@ class Code_Verifier {
 	}
 
 	/**
-	 * Validate the code verifier for a user.
+	 * Validate the verification code for a user.
 	 *
 	 * @param int $user_id The user ID.
 	 *
-	 * @return string The code verifier.
+	 * @return string The verification code.
 	 *
-	 * @throws RuntimeException If the code verifier is expired or invalid.
+	 * @throws RuntimeException If the verification code is expired or invalid.
 	 */
 	public function validate( int $user_id ): string {
-		$code_verifier = $this->code_verifier_repository->get_code_verifier( $user_id );
+		$verification_code = $this->verification_code_repository->get_verification_code( $user_id );
 
-		if ( $code_verifier === null || $code_verifier->is_expired( self::VALIDITY_IN_SECONDS ) ) {
-			$this->code_verifier_repository->delete_code_verifier( $user_id );
-			throw new RuntimeException( 'Code verifier has expired or is invalid.' );
+		if ( $verification_code === null || $verification_code->is_expired( self::VALIDITY_IN_SECONDS ) ) {
+			$this->verification_code_repository->delete_verification_code( $user_id );
+			throw new RuntimeException( 'Verification code has expired or is invalid.' );
 		}
 
-		return $code_verifier->get_code();
+		return $verification_code->get_code();
 	}
 }
