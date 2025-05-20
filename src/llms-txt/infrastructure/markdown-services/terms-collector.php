@@ -34,26 +34,26 @@ class Terms_Collector {
 	 * @return Link_List[] The content types in a link list.
 	 */
 	public function get_terms_lists(): array {
-		$taxonomies = $this->taxonomy_helper->get_indexable_taxonomies();
+		$taxonomies = $this->taxonomy_helper->get_indexable_taxonomy_objects();
 		$link_list  = [];
 
 		foreach ( $taxonomies as $taxonomy ) {
-			if ( $this->taxonomy_helper->is_indexable( $taxonomy ) === false ) {
+			if ( $this->taxonomy_helper->is_indexable( $taxonomy->name ) === false ) {
 				continue;
 			}
 
 			$terms = \get_categories(
 				[
-					'taxonomy' => $taxonomy,
+					'taxonomy' => $taxonomy->name,
 					'number'   => 5,
 					'orderby'  => 'count',
 					'order'    => 'DESC',
 				]
 			);
 
-			$term_links = new Link_List( $taxonomy, [] );
+			$term_links = new Link_List( $taxonomy->label, [] );
 			foreach ( $terms as $term ) {
-				$term_link = new Link( $term->name, \get_term_link( $term, $taxonomy ) );
+				$term_link = new Link( $term->name, \get_term_link( $term, $taxonomy->name ) );
 				$term_links->add_link( $term_link );
 			}
 
