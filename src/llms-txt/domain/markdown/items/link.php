@@ -8,6 +8,13 @@ namespace Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items;
 class Link implements Item_Interface {
 
 	/**
+	 * The description that is part of this link.
+	 *
+	 * @var string|null
+	 */
+	protected $description;
+
+	/**
 	 * The link text.
 	 *
 	 * @var string
@@ -24,12 +31,14 @@ class Link implements Item_Interface {
 	/**
 	 * Class constructor.
 	 *
-	 * @param string $text   The link text.
-	 * @param string $anchor The anchor text.
+	 * @param string      $text        The link text.
+	 * @param string      $anchor      The anchor text.
+	 * @param string|null $description The description.
 	 */
-	public function __construct( string $text, string $anchor ) {
-		$this->text   = $text;
-		$this->anchor = $anchor;
+	public function __construct( string $text, string $anchor, ?string $description = null ) {
+		$this->text    = $text;
+		$this->anchor  = $anchor;
+		$this->description = $description;
 	}
 
 	/**
@@ -38,6 +47,6 @@ class Link implements Item_Interface {
 	 * @return string
 	 */
 	public function render(): string {
-		return "[$this->text]($this->anchor)";
+		return "[$this->text]($this->anchor)" . ( $this->description !== null ) ? ": $this->description" : '';
 	}
 }
