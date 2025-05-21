@@ -6,6 +6,7 @@ use RuntimeException;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\AI_Generator\Application\Consent_Handler;
+use Yoast\WP\SEO\AI_Generator\Application\Token_Manager;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Bad_Request_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Internal_Server_Error_Exception;
@@ -49,6 +50,25 @@ class Consent_Route implements Route_Interface {
 	 * @var Consent_Handler
 	 */
 	private $consent_handler;
+
+	/**
+	 * The token manager instance.
+	 *
+	 * @var Token_Manager
+	 */
+	private $token_manager;
+
+	/**
+	 * Class constructor.
+	 *
+	 * @param Consent_Handler $consent_handler The consent handler.
+	 * @param Token_Manager   $token_manager   The token manager.
+	 */
+	public function __construct( Consent_Handler $consent_handler, Token_Manager $token_manager ) {
+		$this->consent_handler = $consent_handler;
+		$this->token_manager   = $token_manager;
+	}
+
 	/**
 	 * Registers routes with WordPress.
 	 *
@@ -85,12 +105,21 @@ class Consent_Route implements Route_Interface {
 		$consent = \boolval( $request['consent'] );
 
 		try {
-			$this->consent_handler->handle( $user_id, $consent );
+			if ( $consent ) {
+				// Store the consent at user level.
+				$this->consent_handler->grant_consent( $user_id );
+			}
+			else {
+				// Delete the consent at user level.
+				$this->consent_handler->revoke_consent( $user_id );
+				// Invalidate the token if the user revoked the consent.
+				$this->token_manager->token_invalidate( $user_id );
+			}
 		} catch ( Bad_Request_Exception | Forbidden_Exception | Internal_Server_Error_Exception | Not_Found_Exception | Payment_Required_Exception | Request_Timeout_Exception | Service_Unavailable_Exception | Too_Many_Requests_Exception | RuntimeException $e ) {
 			return new WP_REST_Response( ( $consent ) ? 'Failed to store consent.' : 'Failed to revoke consent.', 500 );
 		}
 
-		return new WP_REST_Response( ( $consent ) ? 'Consent successfully stored.' : 'Consent successfully revoked.' );
+			return new WP_REST_Response( ( $consent ) ? 'Consent successfully stored.' : 'Consent successfully revoked.' );
 	}
 
 	/**
