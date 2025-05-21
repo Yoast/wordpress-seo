@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 /**
  * WordPress dependencies
  */
