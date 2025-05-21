@@ -8,12 +8,13 @@ use WP_REST_Response;
 use Yoast\WP\SEO\AI_Generator\Application\Suggestions_Provider;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Payment_Required_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Remote_Request_Exception;
+use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
- * Registers a route toget suggestions from the AI API
+ * Registers a route to get suggestions from the AI API
  *
  * @makePublic
  *
@@ -22,6 +23,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 class Get_Suggestions_Route implements Route_Interface {
 
 	use No_Conditionals;
+	use Route_Permission_Trait;
 
 	/**
 	 *  The namespace for this route.
@@ -43,6 +45,15 @@ class Get_Suggestions_Route implements Route_Interface {
 	 * @var Suggestions_Provider
 	 */
 	private $suggestions_provider;
+
+	/**
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array<string> The conditionals.
+	 */
+	public static function get_conditionals() {
+		return [ AI_Conditional::class ];
+	}
 
 	/**
 	 * Class constructor.
@@ -150,21 +161,5 @@ class Get_Suggestions_Route implements Route_Interface {
 		}
 
 		return new WP_REST_Response( $data );
-	}
-
-	/**
-	 * Checks:
-	 * - if the user is logged
-	 * - if the user can edit posts
-	 *
-	 * @return bool Whether the user is logged in, can edit posts and the feature is active.
-	 */
-	public function check_permissions(): bool {
-		$user = \wp_get_current_user();
-		if ( $user === null || $user->ID < 1 ) {
-			return false;
-		}
-
-		return \user_can( $user, 'edit_posts' );
 	}
 }

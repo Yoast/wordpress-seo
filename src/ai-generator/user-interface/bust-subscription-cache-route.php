@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\AI_Generator\User_Interface;
 
 use WP_REST_Response;
 use WPSEO_Addon_Manager;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  */
 class Bust_Subscription_Cache_Route implements Route_Interface {
 
-	use No_Conditionals;
+	use Route_Permission_Trait;
 
 	/**
 	 *  The namespace for this route.
@@ -39,6 +39,15 @@ class Bust_Subscription_Cache_Route implements Route_Interface {
 	 * @var WPSEO_Addon_Manager
 	 */
 	private $addon_manager;
+
+	/**
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array<string> The conditionals.
+	 */
+	public static function get_conditionals() {
+		return [ AI_Conditional::class ];
+	}
 
 	/**
 	 * Class constructor.
@@ -76,21 +85,5 @@ class Bust_Subscription_Cache_Route implements Route_Interface {
 		$this->addon_manager->remove_site_information_transients();
 
 		return new WP_REST_Response( 'Subscription cache successfully busted.' );
-	}
-
-	/**
-	 * Checks:
-	 * - if the user is logged
-	 * - if the user can edit posts
-	 *
-	 * @return bool Whether the user is logged in, can edit posts and the feature is active.
-	 */
-	public function check_permissions(): bool {
-		$user = \wp_get_current_user();
-		if ( $user === null || $user->ID < 1 ) {
-			return false;
-		}
-
-		return \user_can( $user, 'edit_posts' );
 	}
 }

@@ -15,7 +15,7 @@ use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Payment_Required_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Request_Timeout_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Service_Unavailable_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Too_Many_Requests_Exception;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -28,7 +28,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  */
 class Consent_Route implements Route_Interface {
 
-	use No_Conditionals;
+	use Route_Permission_Trait;
 
 	/**
 	 *  The namespace for this route.
@@ -57,6 +57,15 @@ class Consent_Route implements Route_Interface {
 	 * @var Token_Manager
 	 */
 	private $token_manager;
+
+	/**
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array<string> The conditionals.
+	 */
+	public static function get_conditionals() {
+		return [ AI_Conditional::class ];
+	}
 
 	/**
 	 * Class constructor.
@@ -120,21 +129,5 @@ class Consent_Route implements Route_Interface {
 		}
 
 			return new WP_REST_Response( ( $consent ) ? 'Consent successfully stored.' : 'Consent successfully revoked.' );
-	}
-
-	/**
-	 * Checks:
-	 * - if the user is logged
-	 * - if the user can edit posts
-	 *
-	 * @return bool Whether the user is logged in, can edit posts and the feature is active.
-	 */
-	public function check_permissions(): bool {
-		$user = \wp_get_current_user();
-		if ( $user === null || $user->ID < 1 ) {
-			return false;
-		}
-
-		return \user_can( $user, 'edit_posts' );
 	}
 }

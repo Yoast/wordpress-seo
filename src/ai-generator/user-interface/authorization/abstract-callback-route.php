@@ -8,7 +8,7 @@ use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\Access_Token_User_Meta_Repository;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\Refresh_Token_User_Meta_Repository;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\Verification_Code_User_Meta_Repository;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\RuntimeException;
@@ -17,8 +17,6 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\RuntimeExcep
  * The base class for the callback routes.
  */
 abstract class Abstract_Callback_Route implements Route_Interface {
-
-	use No_Conditionals;
 
 	/**
 	 *  The namespace for this route.
@@ -47,6 +45,15 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 * @var Verification_Code_User_Meta_Repository
 	 */
 	private $verification_code_repository;
+
+	/**
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array<string> The conditionals.
+	 */
+	public static function get_conditionals() {
+		return [ AI_Conditional::class ];
+	}
 
 	/**
 	 * Callback_Route constructor.
