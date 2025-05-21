@@ -38,8 +38,8 @@ class Link implements Item_Interface {
 	 * @param string|null $description The description.
 	 */
 	public function __construct( string $text, string $anchor, ?string $description = null ) {
-		$this->text    = $text;
-		$this->anchor  = $anchor;
+		$this->text        = $text;
+		$this->anchor      = $anchor;
 		$this->description = $description;
 	}
 
@@ -60,7 +60,8 @@ class Link implements Item_Interface {
 	 * @return void
 	 */
 	public function markdown_escape( Markdown_Escaper $markdown_escaper ): void {
-		$this->text   = $markdown_escaper->markdown_content_escape( $this->text );
-		$this->anchor = $markdown_escaper->markdown_url_escape( $this->anchor );
+		$this->text        = $markdown_escaper->markdown_content_escape( $this->text );
+		$this->description = $markdown_escaper->markdown_content_escape( $this->description );
+		$this->anchor      = $markdown_escaper->markdown_url_escape( $this->anchor );
 	}
 }
