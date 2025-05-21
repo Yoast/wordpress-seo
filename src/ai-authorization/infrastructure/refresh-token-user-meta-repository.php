@@ -39,31 +39,27 @@ class Refresh_Token_User_Meta_Repository implements Token_User_Meta_Repository_I
 	 * @throws RuntimeException If the token is not found or invalid.
 	 */
 	public function get_token( int $user_id ): string {
-		$access_jwt = $this->user_helper->get_meta( $user_id, self::META_KEY, true );
-		if ( ! \is_string( $access_jwt ) || $access_jwt === '' ) {
-			throw new RuntimeException( 'Unable to retrieve the access token.' );
+		$refresh_jwt = $this->user_helper->get_meta( $user_id, self::META_KEY, true );
+		if ( ! \is_string( $refresh_jwt ) || $refresh_jwt === '' ) {
+			throw new RuntimeException( 'Unable to retrieve the refresh token.' );
 		}
 
-		return $access_jwt;
+		return $refresh_jwt;
 	}
 
 	/**
 	 * Store the token for a user.
 	 *
-	 * @param int    $user_id    The user ID.
-	 * @param string $value      The token value.
-	 * @param int    $expiration The expiration time.
+	 * @param int    $user_id The user ID.
+	 * @param string $value   The token value.
 	 *
 	 * @return void
 	 */
-	public function store_token( int $user_id, string $value, int $expiration ): void {
-		\update_user_meta(
+	public function store_token( int $user_id, string $value ): void {
+		$this->user_helper->update_meta(
 			$user_id,
 			self::META_KEY,
-			[
-				'value'      => $value,
-				'expiration' => $expiration,
-			]
+			$value
 		); }
 
 	/**
@@ -74,5 +70,6 @@ class Refresh_Token_User_Meta_Repository implements Token_User_Meta_Repository_I
 	 * @return void
 	 */
 	public function delete_token( int $user_id ): void {
-		\delete_user_meta( $user_id, self::META_KEY ); }
+		$this->user_helper->delete_meta( $user_id, self::META_KEY );
+	}
 }
