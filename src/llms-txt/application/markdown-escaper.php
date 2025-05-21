@@ -15,6 +15,9 @@ class Markdown_Escaper {
 	 * @return string The escaped markdown text.
 	 */
 	public function markdown_content_escape( $text ) {
+		// We have to decode the text first mostly because ampersands will be escaped below.
+		$text = \htmlspecialchars_decode( $text, \ENT_QUOTES );
+
 		// Define a regex pattern for all the special characters in markdown that we want to escape.
 		$pattern = '/[-#*+`._[\]()!&<>_{}|]/';
 
