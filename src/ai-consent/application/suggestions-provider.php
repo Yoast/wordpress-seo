@@ -15,6 +15,7 @@ use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Request;
 use Yoast\WP\SEO\AI_Generator\Domain\Response;
+use Yoast\WP\SEO\AI_Generator\Domain\Suggestion;
 use Yoast\WP\SEO\AI_Generator\Domain\Suggestions_Bucket;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
@@ -164,7 +165,7 @@ class Suggestions_Provider {
 			return $suggestions_bucket;
 		}
 		foreach ( $json->choices as $suggestion ) {
-			$suggestions_bucket->add_suggestion( $suggestion->text );
+			$suggestions_bucket->add_suggestion( new Suggestion( $suggestion->text ) );
 		}
 
 		return $suggestions_bucket;
