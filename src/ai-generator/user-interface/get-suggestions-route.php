@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\AI_Generator\User_Interface;
 use RuntimeException;
 use WP_REST_Request;
 use WP_REST_Response;
+use Yoast\WP\SEO\AI_Generator\Application\Suggestions_Provider;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Payment_Required_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Remote_Request_Exception;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
@@ -35,6 +36,22 @@ class Get_Suggestions_Route implements Route_Interface {
 	 * @var string
 	 */
 	public const ROUTE_PREFIX = '/ai_generator/get_suggestions';
+
+	/**
+	 * The suggestions provider instance.
+	 *
+	 * @var Suggestions_Provider
+	 */
+	private $suggestions_provider;
+
+	/**
+	 * Class constructor.
+	 *
+	 * @param Suggestions_Provider $suggestions_provider The suggestions provider instance.
+	 */
+	public function __construct( Suggestions_Provider $suggestions_provider ) {
+		$this->suggestions_provider = $suggestions_provider;
+	}
 
 	/**
 	 * Registers routes with WordPress.
@@ -115,7 +132,7 @@ class Get_Suggestions_Route implements Route_Interface {
 	public function get_suggestions( WP_REST_Request $request ): WP_REST_Response {
 		try {
 			$user = \wp_get_current_user();
-			$data = $this->ai_generator_action->get_suggestions( $user, $request['type'], $request['prompt_content'], $request['focus_keyphrase'], $request['language'], $request['platform'], $request['editor'] );
+			$data = $this->suggestions_provider->get_suggestions( $user, $request['type'], $request['prompt_content'], $request['focus_keyphrase'], $request['language'], $request['platform'], $request['editor'] );
 		} catch ( Remote_Request_Exception $e ) {
 			$message = [
 				'message'         => $e->getMessage(),
