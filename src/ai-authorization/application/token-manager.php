@@ -194,12 +194,12 @@ class Token_Manager {
 		}
 
 		// Generate a verification code and store it in the database.
-		$code_verifier = $this->code_verifier->generate( $user->ID, $user->user_email );
-		$this->verification_code_repository->store_code_verifier( $user->ID, $code_verifier->get_code(), $code_verifier->get_created_at() );
+		$verification_code = $this->code_verifier->generate( $user->ID, $user->user_email );
+		$this->verification_code_repository->store_verification_code( $user->ID, $verification_code->get_code(), $verification_code->get_created_at() );
 
 		$request_body = [
 			'service'              => 'openai',
-			'code_challenge'       => \hash( 'sha256', $code_verifier->get_code() ),
+			'code_challenge'       => \hash( 'sha256', $verification_code->get_code() ),
 			'license_site_url'     => $this->urls->get_license_url(),
 			'user_id'              => (string) $user->ID,
 			'callback_url'         => $this->urls->get_callback_url(),
@@ -238,7 +238,7 @@ class Token_Manager {
 
 		// Generate a verification code and store it in the database.
 		$verification_code = $this->code_verifier->generate( $user->ID, $user->user_email );
-		$this->verification_code_repository->store_code_verifier( $user->ID, $verification_code->get_code(), $verification_code->get_created_at() );
+		$this->verification_code_repository->store_verification_code( $user->ID, $verification_code->get_code(), $verification_code->get_created_at() );
 
 		$request_body    = [
 			'code_challenge' => \hash( 'sha256', $verification_code->get_code() ),
@@ -298,7 +298,7 @@ class Token_Manager {
 	public function get_or_request_access_token( WP_User $user ): string {
 		$access_jwt = $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt', true );
 		if ( ! \is_string( $access_jwt ) || $access_jwt === '' ) {
-			$this->token_refresh( $user );
+			$this->token_request( $user );
 			$access_jwt = $this->access_token_repository->get_token( $user->ID );
 		}
 		elseif ( $this->has_token_expired( $access_jwt ) ) {
