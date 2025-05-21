@@ -3,16 +3,27 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services;
 
+use WP_Post;
+use WP_Post_Type;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items\Link;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
 
 /**
  * The collector of content types.
  *
- * @TODO: This class could maybe be unified with Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types\Content_Types_Collector.
+ * @TODO: This class could maybe be unified with
+ *        Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types\Content_Types_Collector.
  */
 class Content_Types_Collector {
+
+	/**
+	 * The string helper.
+	 *
+	 * @var String_Helper
+	 */
+	protected $string_helper;
 
 	/**
 	 * The post type helper.
@@ -25,9 +36,11 @@ class Content_Types_Collector {
 	 * The constructor.
 	 *
 	 * @param Post_Type_Helper $post_type_helper The post type helper.
+	 * @param String_Helper    $string_helper    The string helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type_helper ) {
+	public function __construct( Post_Type_Helper $post_type_helper, String_Helper $string_helper ) {
 		$this->post_type_helper = $post_type_helper;
+		$this->string_helper    = $string_helper;
 	}
 
 	/**
@@ -48,7 +61,8 @@ class Content_Types_Collector {
 
 			$post_links = new Link_List( $post_type_object->label, [] );
 			foreach ( $posts as $post ) {
-				$post_link = new Link( $post->post_title, \get_permalink( $post->ID ) );
+				$excerpt   = $this->string_helper->strip_shortcode( ( \get_the_excerpt( $post ) ) );
+				$post_link = new Link( $post->post_title, \get_permalink( $post->ID ), $excerpt );
 				$post_links->add_link( $post_link );
 			}
 
@@ -66,23 +80,23 @@ class Content_Types_Collector {
 	 * @return WP_Post[] The posts that are relevant for the LLMs.txt.
 	 */
 	public function get_relevant_posts( $post_type_object ): array {
-			$args = [
-				'post_type'      => $post_type_object->name,
-				'posts_per_page' => 5,
-				'post_status'    => 'publish',
-				'orderby'        => 'modified',
-				'order'          => 'DESC',
-				'has_password'   => false,
+		$args = [
+			'post_type'      => $post_type_object->name,
+			'posts_per_page' => 5,
+			'post_status'    => 'publish',
+			'orderby'        => 'modified',
+			'order'          => 'DESC',
+			'has_password'   => false,
+		];
+
+		if ( $post_type_object->name === 'post' ) {
+			$args['date_query'] = [
+				[
+					'after' => '12 months ago',
+				],
 			];
+		}
 
-			if ( $post_type_object->name === 'post' ) {
-				$args['date_query'] = [
-					[
-						'after' => '12 months ago',
-					],
-				];
-			}
-
-			return \get_posts( $args );
+		return \get_posts( $args );
 	}
 }
