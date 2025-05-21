@@ -286,6 +286,7 @@ Release date: 2025-05-27
 #### Bugfixes
 
 * Fixes a bug in the retrieval of post categories titles where a non-existent term might be referenced. Props to [@bor0](https://github.com/bor0).
+* Fixes a bug where the Yoast introduction in the Elementor editor would not be positioned correctly when on Elementor version 3.30.0.
 
 #### Other
 
