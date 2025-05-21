@@ -22,7 +22,7 @@ class Intro implements Section_Interface {
 	 *
 	 * @var Link[]
 	 */
-	private $intro_links;
+	private $intro_links = [];
 
 	/**
 	 * Class constructor.
@@ -32,8 +32,11 @@ class Intro implements Section_Interface {
 	 */
 	public function __construct( string $intro_content, array $intro_links ) {
 		$this->intro_content = $intro_content;
-		$this->intro_links   = $intro_links;
+
+		foreach ( $intro_links as $link ) {
+			$this->add_link( $link );
 		}
+	}
 
 	/**
 	 * Returns the prefix of the intro section.

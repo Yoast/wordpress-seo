@@ -22,7 +22,7 @@ class Link_List implements Section_Interface {
 	 *
 	 * @var Link[]
 	 */
-	private $links;
+	private $links = [];
 
 	/**
 	 * Class constructor.
@@ -31,9 +31,12 @@ class Link_List implements Section_Interface {
 	 * @param Link[] $links The links.
 	 */
 	public function __construct( string $type, array $links ) {
-		$this->type  = $type;
-		$this->links = $links;
+		$this->type = $type;
+
+		foreach ( $links as $link ) {
+			$this->add_link( $link );
 		}
+	}
 
 	/**
 	 * Adds a link to the list.
