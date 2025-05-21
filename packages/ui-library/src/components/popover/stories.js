@@ -25,7 +25,7 @@ export const Factory = {
 	},
 	args: {
 		children: (
-			<Popover.Content id="popover-content">
+			<Popover.Content id="yst-popover-content">
 				Hey! I am the popover.
 			</Popover.Content>
 		),
@@ -52,12 +52,12 @@ export const WithMoreContent = {
 			<>
 				<div className="yst-flex yst-flex-col yst-gap-4">
 					<div className="yst-flex yst-justify-between">
-						<Popover.Title> The title </Popover.Title>
+						<Popover.Title id="yst-popover-title"> The title </Popover.Title>
 						<Popover.CloseButton screenReaderLabel="Dismiss" />
 					</div>
 					<div className="yst-self-start yst-flex-wrap">
 						<Popover.Content
-							id="popover-content"
+							id="yst-popover-content"
 						>
 							The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
 							Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer
@@ -100,7 +100,7 @@ export const ButtonWithAPopover = {
 		controls: { disable: false },
 	},
 	args: {
-		backdrop: true,
+		hasBackdrop: true,
 		children: (
 			<>
 				<div className="yst-flex yst-gap-4">
@@ -110,10 +110,10 @@ export const ButtonWithAPopover = {
 					</div>
 					<div className="yst-flex-1">
 						<div className="yst-mb-5 yst-flex yst-justify-start">
-							<Popover.Title> Popover title </Popover.Title>
+							<Popover.Title id="yst-popover-title"> Popover title </Popover.Title>
 						</div>
 						<Popover.Content
-							id="popover-content"
+							id="yst-popover-content"
 							className="yst-text-slate-700 yst-font-normal yst-text-left"
 						>
 							The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
@@ -142,7 +142,7 @@ export default {
 		isVisible: true,
 		setIsVisible: noop,
 		children: "",
-		backdrop: false,
+		hasBackdrop: false,
 	},
 	parameters: {
 		docs: {
