@@ -93,7 +93,7 @@ class Markdown_Builder {
 		}
 
 		foreach ( $this->llms_txt_renderer->get_sections() as $section ) {
-			$section->markdown_escape( $this->markdown_escaper );
+			$section->escape_markdown( $this->markdown_escaper );
 		}
 
 		return $this->llms_txt_renderer->render();

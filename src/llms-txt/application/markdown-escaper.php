@@ -14,7 +14,7 @@ class Markdown_Escaper {
 	 *
 	 * @return string The escaped markdown text.
 	 */
-	public function markdown_content_escape( $text ) {
+	public function escape_markdown_content( $text ) {
 		// We have to decode the text first mostly because ampersands will be escaped below.
 		$text = \htmlspecialchars_decode( $text, \ENT_QUOTES );
 
@@ -35,7 +35,7 @@ class Markdown_Escaper {
 	 *
 	 * @return string The escaped markdown URL.
 	 */
-	public function markdown_url_escape( $url ) {
+	public function escape_markdown_url( $url ) {
 		$escaped_url = \str_replace( [ ' ', '(', ')', '\\' ], [ '%20', '%28', '%29', '%5C' ], $url );
 
 		return $escaped_url;

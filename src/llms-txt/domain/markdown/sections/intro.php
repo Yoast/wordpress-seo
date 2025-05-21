@@ -33,7 +33,7 @@ class Intro implements Section_Interface {
 	public function __construct( string $intro_content, array $intro_links ) {
 		$this->intro_content = $intro_content;
 		$this->intro_links   = $intro_links;
-	}
+		}
 
 	/**
 	 * Returns the prefix of the intro section.
@@ -86,9 +86,9 @@ class Intro implements Section_Interface {
 	 *
 	 * @return void
 	 */
-	public function markdown_escape( Markdown_Escaper $markdown_escaper ): void {
+	public function escape_markdown( Markdown_Escaper $markdown_escaper ): void {
 		foreach ( $this->intro_links as $link ) {
-			$link->markdown_escape( $markdown_escaper );
+			$link->escape_markdown( $markdown_escaper );
 		}
 	}
 }

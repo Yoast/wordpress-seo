@@ -33,7 +33,7 @@ class Link_List implements Section_Interface {
 	public function __construct( string $type, array $links ) {
 		$this->type  = $type;
 		$this->links = $links;
-	}
+		}
 
 	/**
 	 * Adds a link to the list.
@@ -80,11 +80,11 @@ class Link_List implements Section_Interface {
 	 *
 	 * @return void
 	 */
-	public function markdown_escape( Markdown_Escaper $markdown_escaper ): void {
-		$this->type = $markdown_escaper->markdown_content_escape( $this->type );
+	public function escape_markdown( Markdown_Escaper $markdown_escaper ): void {
+		$this->type = $markdown_escaper->escape_markdown_content( $this->type );
 
 		foreach ( $this->links as $link ) {
-			$link->markdown_escape( $markdown_escaper );
+			$link->escape_markdown( $markdown_escaper );
 		}
 	}
 }
