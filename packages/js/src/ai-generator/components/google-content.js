@@ -41,8 +41,7 @@ export const GoogleContent = ( { title, description, status, titleForLength, sho
 			}
 			<div className="yst-pt-4">
 				<Label as="span" className="yst-flex-grow yst-cursor-default">
-					{ editType === EDIT_TYPE.title && __( "SEO title width", "wordpress-seo" ) }
-					{ editType === EDIT_TYPE.description && __( "Meta description length", "wordpress-seo" ) }
+					{ editType === EDIT_TYPE.title ? __( "SEO title width", "wordpress-seo" ) : __( "Meta description length", "wordpress-seo" ) }
 				</Label>
 				<LengthProgressBar
 					className="yst-mt-2"
