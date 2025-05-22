@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Llms_Txt\User_Interface\Health_Check;
 
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Services\Health_Check\Health_Check;
 
 /**
@@ -24,16 +25,29 @@ class File_Check extends Health_Check {
 	private $reports;
 
 	/**
+	 * The Options_Helper instance.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param  File_Runner  $runner  The object that implements the actual health check.
-	 * @param  File_Reports $reports The object that generates WordPress-friendly results.
+	 * @param  File_Runner    $runner         The object that implements the actual health check.
+	 * @param  File_Reports   $reports        The object that generates WordPress-friendly results.
+	 * @param  Options_Helper $options_helper The options helper.
 	 */
-	public function __construct( File_Runner $runner, File_Reports $reports ) {
-		$this->runner  = $runner;
-		$this->reports = $reports;
-		$this->reports->set_test_identifier( $this->get_test_identifier() );
+	public function __construct(
+		File_Runner $runner,
+		File_Reports $reports,
+		Options_Helper $options_helper
+	) {
+		$this->runner         = $runner;
+		$this->reports        = $reports;
+		$this->options_helper = $options_helper;
 
+		$this->reports->set_test_identifier( $this->get_test_identifier() );
 		$this->set_runner( $this->runner );
 	}
 
@@ -60,11 +74,11 @@ class File_Check extends Health_Check {
 	}
 
 	/**
-	 * Returns whether the health check should be excluded from the results.
+	 * Returns true when the llms.txt feature is disabled.
 	 *
-	 * @return false.
+	 * @return bool Whether the health check should be excluded from the results.
 	 */
 	public function is_excluded() {
-		return \get_option( 'wpseo_llms_txt_file_failure', 'does_not_exist' ) === 'does_not_exist';
+		return $this->options_helper->get( 'enable_llms_txt', false ) !== true;
 	}
 }
