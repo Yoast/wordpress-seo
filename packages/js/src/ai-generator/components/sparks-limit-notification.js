@@ -8,11 +8,11 @@ import { Button, Notifications } from "@yoast/ui-library";
 /**
  * The notification component when the user has reached the limit of the AI.
  *
- * @param {string} className The class name.
- * @param {string} size The size of the notification.
+ * @param {string} [className=""] The class name.
+ * @param {string} [size="default"] The size of the notification.
  * @returns {JSX.Element} The element.
  */
-export const SparksLimitNotification = ( { className = "", size = "" } ) => {
+export const SparksLimitNotification = ( { className = "", size = "default" } ) => {
 	const counts = useSelect( ( select ) => select( STORE_NAME_AI ).selectUsageCount(), [] );
 	const limit = useSelect( ( select ) => select( STORE_NAME_AI ).selectUsageCountLimit(), [] );
 	const [ showNotification, setShowNotification ] = useState( false );
