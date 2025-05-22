@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
 use Mockery;
+use Yoast\WP\SEO\Conditionals\Should_Index_Links_Conditional;
 use Yoast\WP\SEO\Services\Health_Check\Links_Table_Check;
 use Yoast\WP\SEO\Services\Health_Check\Links_Table_Reports;
 use Yoast\WP\SEO\Services\Health_Check\Links_Table_Runner;
@@ -39,6 +40,13 @@ final class Links_Table_Check_Test extends TestCase {
 	private $reports_mock;
 
 	/**
+	 * A mock of the Should_Index_Links_Conditional dependency.
+	 *
+	 * @var Should_Index_Links_Conditional
+	 */
+	private $should_index_links_conditional_mock;
+
+	/**
 	 * Set up the test fixtures.
 	 *
 	 * @return void
@@ -48,35 +56,13 @@ final class Links_Table_Check_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->runner_mock  = Mockery::mock( Links_Table_Runner::class );
-		$this->reports_mock = Mockery::mock( Links_Table_Reports::class );
+		$this->runner_mock                         = Mockery::mock( Links_Table_Runner::class );
+		$this->reports_mock                        = Mockery::mock( Links_Table_Reports::class );
+		$this->should_index_links_conditional_mock = Mockery::mock( Should_Index_Links_Conditional::class );
 		$this->reports_mock
 			->shouldReceive( 'set_test_identifier' )
 			->once();
-		$this->instance = new Links_Table_Check( $this->runner_mock, $this->reports_mock );
-	}
-
-	/**
-	 * Checks if the health check report is empty when the health check routine has exited early.
-	 *
-	 * @covers ::get_result
-	 * @covers ::__construct
-	 *
-	 * @return void
-	 */
-	public function test_early_exit_returns_empty_report() {
-		$expected = [];
-		$this->runner_mock
-			->shouldReceive( 'run' )
-			->once();
-		$this->runner_mock
-			->shouldReceive( 'should_run' )
-			->once()
-			->andReturn( false );
-
-		$actual = $this->instance->run_and_get_result();
-
-		$this->assertEquals( $expected, $actual );
+		$this->instance = new Links_Table_Check( $this->runner_mock, $this->reports_mock, $this->should_index_links_conditional_mock );
 	}
 
 	/**
@@ -92,10 +78,6 @@ final class Links_Table_Check_Test extends TestCase {
 		$this->runner_mock
 			->shouldReceive( 'run' )
 			->once();
-		$this->runner_mock
-			->shouldReceive( 'should_run' )
-			->once()
-			->andReturn( true );
 		$this->runner_mock
 			->shouldReceive( 'is_successful' )
 			->once()
@@ -123,10 +105,6 @@ final class Links_Table_Check_Test extends TestCase {
 		$this->runner_mock
 			->shouldReceive( 'run' )
 			->once();
-		$this->runner_mock
-			->shouldReceive( 'should_run' )
-			->once()
-			->andReturn( true );
 		$this->runner_mock
 			->shouldReceive( 'is_successful' )
 			->once()
