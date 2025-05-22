@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Llms_Txt\Infrastructure\File\WordPress_Llms_Txt_Permission_Gate
  * Handles the population of the llms.txt.
  */
 class Populate_File_Command_Handler {
-	
+
 	/**
 	 * The permission gate.
 	 *

@@ -60,7 +60,7 @@ class Page_Comments_Check extends Health_Check {
 	/**
 	 * Returns whether the health check should be excluded from the results.
 	 *
-	 * @return false.
+	 * @return bool false, because it's not excluded.
 	 */
 	public function is_excluded() {
 		return false;

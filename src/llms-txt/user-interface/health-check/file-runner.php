@@ -1,9 +1,9 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Llms_Txt\User_Interface\Health_Check;
 
-use Yoast\WP\SEO\Services\Health_Check\Runner_Interface;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Populate_File_Command_Handler;
+use Yoast\WP\SEO\Services\Health_Check\Runner_Interface;
 
 /**
  * Runs the File_Generation health check.
