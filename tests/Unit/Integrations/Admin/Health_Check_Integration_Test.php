@@ -139,6 +139,16 @@ final class Health_Check_Integration_Test extends TestCase {
 			->andReturn( 'test1' )
 			->once();
 
+		$this->health_check_mocks[0]
+			->shouldReceive( 'is_excluded' )
+			->andReturn( false )
+			->once();
+
+		$this->health_check_mocks[1]
+			->shouldReceive( 'is_excluded' )
+			->andReturn( false )
+			->once();
+
 		$actual = $this->instance->add_health_checks( $input );
 
 		$this->assertEquals( $expected, $actual );
