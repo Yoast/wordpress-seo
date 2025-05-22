@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\infrastructure;
+namespace Yoast\WP\SEO\AI_Generator\Infrastructure;
 
 use WPSEO_Utils;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\WP_Request_Exception;
