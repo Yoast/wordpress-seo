@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\infrastructure;
+namespace Yoast\WP\SEO\AI_Generator\Infrastructure;
 
 use WPSEO_Utils;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\WP_Request_Exception;
@@ -16,16 +16,7 @@ class API_Client {
 	 *
 	 * @var string
 	 */
-	private $base_url;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param string $base_url The base URL for the API.
-	 */
-	public function __construct( string $base_url ) {
-		$this->base_url = $base_url;
-	}
+	private $base_url = 'https://ai.yoa.st/api/v1';
 
 	/**
 	 * Performs a request to the API.
@@ -35,11 +26,11 @@ class API_Client {
 	 * @param array<string> $headers     The headers for the request.
 	 * @param bool          $is_post     Whether the request is a POST request.
 	 *
-	 * @return object The response from the API.
+	 * @return array<int|string|array<string>> The response from the API.
 	 *
 	 * @throws WP_Request_Exception When the wp_remote_post() returns an error.
 	 */
-	public function perform_request( string $action_path, $body, $headers, bool $is_post ): object {
+	public function perform_request( string $action_path, $body, $headers, bool $is_post ): array {
 		// Our API expects JSON.
 		// The request times out after 30 seconds.
 		$headers   = \array_merge( $headers, [ 'Content-Type' => 'application/json' ] );

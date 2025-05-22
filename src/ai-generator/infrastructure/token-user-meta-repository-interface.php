@@ -19,13 +19,12 @@ interface Token_User_Meta_Repository_Interface {
 	/**
 	 * Store the token for a user.
 	 *
-	 * @param int    $user_id    The user ID.
-	 * @param string $value      The token value.
-	 * @param int    $expiration The expiration time.
+	 * @param int    $user_id The user ID.
+	 * @param string $value   The token value.
 	 *
 	 * @return void
 	 */
-	public function store_token( int $user_id, string $value, int $expiration ): void;
+	public function store_token( int $user_id, string $value ): void;
 
 	/**
 	 * Delete the token for a user.
