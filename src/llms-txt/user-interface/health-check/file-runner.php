@@ -41,7 +41,7 @@ class File_Runner implements Runner_Interface {
 	 * @return void
 	 */
 	public function run() {
-		$this->generation_failure_reason = \get_option( 'wpseo_llms_txt_file_failure', '' );
+		$this->generation_failure_reason = \get_option( Populate_File_Command_Handler::GENERATION_FAILURE_OPTION, '' );
 	}
 
 	/**

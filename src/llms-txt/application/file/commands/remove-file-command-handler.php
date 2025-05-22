@@ -61,7 +61,7 @@ class Remove_File_Command_Handler {
 
 			if ( $file_removed ) {
 				// Maybe move this to a class if we need to handle this option more often.
-				\update_option( 'wpseo_llms_txt_content_hash', '' );
+				\update_option( Populate_File_Command_Handler::CONTENT_HASH_OPTION, '' );
 			}
 		}
 	}

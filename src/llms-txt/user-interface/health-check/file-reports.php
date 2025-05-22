@@ -51,7 +51,7 @@ class File_Reports {
 	 */
 	public function get_generation_failure_result( $reason ) {
 		switch ( $reason ) {
-			case 'generation_failed_not_managed_by_yoast_seo':
+			case 'not_managed_by_yoast_seo':
 				$title   = \__( 'Your llms.txt file couldn\'t be auto-generated', 'wordpress-seo' );
 				$message = \sprintf(
 					/* translators: 1,3,5: expand to opening paragraph tag, 2,4,6: expand to opening paragraph tag. */
@@ -64,7 +64,7 @@ class File_Reports {
 					'</p>'
 				);
 				break;
-			case 'generation_failed_filesystem_permissions':
+			case 'filesystem_permissions':
 				$title   = \__( 'Your llms.txt file couldn\'t be auto-generated', 'wordpress-seo' );
 				$message = \sprintf(
 					/* translators: 1,3: expand to opening paragraph tag, 2,4: expand to opening paragraph tag. */

@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\File;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Populate_File_Command_Handler;
 use Yoast\WP\SEO\Llms_Txt\Domain\File\Llms_Txt_Permission_Gate_Interface;
 
 /**
@@ -44,7 +45,7 @@ class WordPress_Llms_Txt_Permission_Gate implements Llms_Txt_Permission_Gate_Int
 	 * @return bool Checks if Yoast SEO manages the llms.txt.
 	 */
 	public function is_managed_by_yoast_seo(): bool {
-		$stored_hash = \get_option( 'wpseo_llms_txt_content_hash', '' );
+		$stored_hash = \get_option( Populate_File_Command_Handler::CONTENT_HASH_OPTION, '' );
 
 		// If the file does not exist yet, we always regenerate/create it.
 		if ( ! $this->file_system_adapter->file_exists() ) {
