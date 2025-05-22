@@ -1,33 +1,35 @@
 <?php
 
-namespace Yoast\WP\SEO\Services\Health_Check;
+namespace Yoast\WP\SEO\Llms_Txt\User_Interface\Health_Check;
+
+use Yoast\WP\SEO\Services\Health_Check\Health_Check;
 
 /**
- * Paasses when comments are set to be on a single page.
+ * Fails when the llms.txt file fails to be generated.
  */
-class Page_Comments_Check extends Health_Check {
+class File_Check extends Health_Check {
 
 	/**
 	 * Runs the health check.
 	 *
-	 * @var Page_Comments_Runner
+	 * @var File_Runner
 	 */
 	private $runner;
 
 	/**
 	 * Generates WordPress-friendly health check results.
 	 *
-	 * @var Page_Comments_Reports
+	 * @var File_Reports
 	 */
 	private $reports;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param  Page_Comments_Runner  $runner  The object that implements the actual health check.
-	 * @param  Page_Comments_Reports $reports The object that generates WordPress-friendly results.
+	 * @param  File_Runner  $runner  The object that implements the actual health check.
+	 * @param  File_Reports $reports The object that generates WordPress-friendly results.
 	 */
-	public function __construct( Page_Comments_Runner $runner, Page_Comments_Reports $reports ) {
+	public function __construct( File_Runner $runner, File_Reports $reports ) {
 		$this->runner  = $runner;
 		$this->reports = $reports;
 		$this->reports->set_test_identifier( $this->get_test_identifier() );
@@ -41,7 +43,7 @@ class Page_Comments_Check extends Health_Check {
 	 * @return string The human-readable label.
 	 */
 	public function get_test_label() {
-		return \__( 'Page comments', 'wordpress-seo' );
+		return \__( 'Your llms.txt file couldn\'t be auto-generated', 'wordpress-seo' );
 	}
 
 	/**
@@ -54,7 +56,7 @@ class Page_Comments_Check extends Health_Check {
 			return $this->reports->get_success_result();
 		}
 
-		return $this->reports->get_has_comments_on_multiple_pages_result();
+		return $this->reports->get_generation_failure_result( $this->runner->get_generation_failure_reason() );
 	}
 
 	/**
@@ -63,6 +65,6 @@ class Page_Comments_Check extends Health_Check {
 	 * @return false.
 	 */
 	public function is_excluded() {
-		return false;
+		return \get_option( 'wpseo_llms_txt_file_failure', 'does_not_exist' ) === 'does_not_exist';
 	}
 }

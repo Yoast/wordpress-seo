@@ -73,4 +73,11 @@ abstract class Health_Check {
 	 * @return string[] The array containing a WordPress site status report.
 	 */
 	abstract protected function get_result();
+
+	/**
+	 * Returns whether the health check should be excluded from the results.
+	 *
+	 * @return bool Whether the check should be excluded.
+	 */
+	abstract public function is_excluded();
 }

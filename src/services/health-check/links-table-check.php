@@ -60,4 +60,13 @@ class Links_Table_Check extends Health_Check {
 
 		return $this->reports->get_links_table_not_accessible_result();
 	}
+
+	/**
+	 * Returns whether the health check should be excluded from the results.
+	 *
+	 * @return false.
+	 */
+	public function is_excluded() {
+		return false;
+	}
 }

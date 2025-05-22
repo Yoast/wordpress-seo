@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Llms_Txt\Infrastructure\File\WordPress_Llms_Txt_Permission_Gate
  * Handles the population of the llms.txt.
  */
 class Populate_File_Command_Handler {
-
+	
 	/**
 	 * The permission gate.
 	 *
@@ -74,7 +74,14 @@ class Populate_File_Command_Handler {
 			if ( $file_written ) {
 				// Maybe move this to a class if we need to handle this option more often.
 				\update_option( 'wpseo_llms_txt_content_hash', \md5( $content ) );
+				\update_option( 'wpseo_llms_txt_file_failure', '' );
+				return;
 			}
+
+			\update_option( 'wpseo_llms_txt_file_failure', 'generation_failed_filesystem_permissions' );
+			return;
 		}
+
+		\update_option( 'wpseo_llms_txt_file_failure', 'generation_failed_not_managed_by_yoast_seo' );
 	}
 }

@@ -56,4 +56,13 @@ class Postname_Permalink_Check extends Health_Check {
 
 		return $this->reports->get_has_no_postname_in_permalink_result();
 	}
+
+	/**
+	 * Returns whether the health check should be excluded from the results.
+	 *
+	 * @return false.
+	 */
+	public function is_excluded() {
+		return false;
+	}
 }
