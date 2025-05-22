@@ -31,15 +31,6 @@ class Health_Check_Double extends Health_Check {
 	}
 
 	/**
-	 * Returns the name of health check implementation that the user can see.
-	 *
-	 * @return string A human-readable label for the health check.
-	 */
-	public function get_test_label() {
-		return '';
-	}
-
-	/**
 	 * Returns whether the health check should be excluded from the results.
 	 *
 	 * @return bool Whether the check should be excluded.

@@ -57,18 +57,6 @@ final class Links_Table_Check_Test extends TestCase {
 	}
 
 	/**
-	 * Checks if the label is a non-empty string.
-	 *
-	 * @covers ::get_test_label
-	 *
-	 * @return void
-	 */
-	public function test_label_returns_string() {
-		$actual = $this->instance->get_test_label();
-		$this->assertNotEmpty( $actual );
-	}
-
-	/**
 	 * Checks if the health check report is empty when the health check routine has exited early.
 	 *
 	 * @covers ::get_result

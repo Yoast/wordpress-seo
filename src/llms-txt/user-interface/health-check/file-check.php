@@ -52,15 +52,6 @@ class File_Check extends Health_Check {
 	}
 
 	/**
-	 * Returns a human-readable label for this health check.
-	 *
-	 * @return string The human-readable label.
-	 */
-	public function get_test_label() {
-		return \__( 'Your llms.txt file couldn\'t be auto-generated', 'wordpress-seo' );
-	}
-
-	/**
 	 * Returns the WordPress-friendly health check result.
 	 *
 	 * @return string[] The WordPress-friendly health check result.
