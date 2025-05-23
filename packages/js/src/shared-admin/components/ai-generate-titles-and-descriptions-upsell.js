@@ -6,6 +6,7 @@ import { Badge, Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { useCallback } from "@wordpress/element";
 import { OutboundLink, VideoFlow } from ".";
+import { GradientButton } from "@yoast/ai-frontend";
 
 /**
  * @param {string} learnMoreLink The learn more link.
@@ -124,7 +125,9 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 							}
 						</span>
 					</Button>
-					<Button onClick={ handleTryAi }>Or try AI for free!</Button>
+					<GradientButton onClick={ handleTryAi } className="yst-mt-2 yst-w-full yst-text-base yst-text-slate-800 yst-font-medium yst-h-11 hover:yst-bg-gradient-to-l hover:yst-from-[#E0E7FF] hover:yst-to-[#F3E5ED]">
+						{ __( "Try for free", "wordpress-seo" ) }
+					</GradientButton>
 				</div>
 				{ bundleNote }
 				<Button
