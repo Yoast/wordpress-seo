@@ -91,8 +91,6 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @returns {Object} Object with score and feedback text.
 	 */
 	calculateResult() {
-		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
-		const hasMarks = this._keyphraseDistribution.sentencesToHighlight.length > 0;
 		const {
 			good: goodResultText,
 			okay: okayResultText,
@@ -103,10 +101,13 @@ class KeyphraseDistributionAssessment extends Assessment {
 		if ( ! this._canAssess ) {
 			return {
 				score: this._config.scores.badNoKeyphraseOrText,
-				hasMarks: hasMarks,
+				hasMarks: false,
 				resultText: noKeyphraseOrTextResultText,
 			};
 		}
+
+		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
+		const hasMarks = this._keyphraseDistribution.sentencesToHighlight.length > 0;
 
 		if ( distributionScore > this._config.parameters.acceptableDistributionScore ) {
 			return {
@@ -155,7 +156,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 				good: "%1$sKeyphrase distribution%3$s: Good job!",
 				okay: "%1$sKeyphrase distribution%3$s: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
 				bad: "%1$sKeyphrase distribution%3$s: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
-				badNoKeyphraseOrText: "%1$sKeyphrase distribution%3$s: %2$sPlease add both a keyphrase and some text containing the keyphrase or its synonym%3$s.",
+				badNoKeyphraseOrText: "%1$sKeyphrase distribution%3$s: %2$sPlease add both a keyphrase and some text containing the keyphrase or its synonyms%3$s.",
 			};
 			return mapValues(
 				defaultResultTexts,
