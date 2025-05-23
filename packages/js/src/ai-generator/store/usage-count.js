@@ -12,7 +12,7 @@ const slice = createSlice( {
 	name: USAGE_COUNT_NAME,
 	initialState: {
 		currentUsageCount: 0,
-		currentLimit: 100,
+		currentLimit: 10,
 		endpoint: "yoast/v1/ai_generator/get_usage",
 	},
 	reducers: {
@@ -22,6 +22,9 @@ const slice = createSlice( {
 		setUsageCountEndpoint: ( state, { payload } ) => {
 			state.endpoint = payload;
 		},
+		setUsageCountLimit: ( state, { payload } ) => {
+			state.currentLimit = payload;
+		}
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, state => {
@@ -29,7 +32,7 @@ const slice = createSlice( {
 		} );
 		builder.addCase( `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state, action ) => {
 			state.currentUsageCount = get( action, "payload.totalUsed.license", 0 );
-			state.currentLimit = get( action, "payload.totalUsed.limit", 100 );
+			state.currentLimit = get( action, "payload.totalUsed.limit", 10 );
 		} );
 
 		builder.addCase( `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, state => {
