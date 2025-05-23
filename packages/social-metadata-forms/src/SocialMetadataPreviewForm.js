@@ -1,11 +1,12 @@
 import { __ } from "@wordpress/i18n";
+import { ImageSelect } from "@yoast/components";
 import { getDirectionalStyle, join } from "@yoast/helpers";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
-import { ImageSelect } from "@yoast/components";
 
 /**
  * Sets the color based on whether the caret is active or not (usually hovered).
@@ -29,8 +30,7 @@ const CaretContainer = styled.div`
 			max-height: 130px;
 		}
 	` };
-`
-;
+`;
 
 CaretContainer.propTypes = {
 	isPremium: PropTypes.bool,
@@ -75,34 +75,38 @@ Caret.defaultProps = {
 
 /**
  * Adds Caret to a component.
- * @param {React.Element} WithoutCaretComponent The component to add a Caret to.
+ * @param {React.ComponentType} WithoutCaretComponent The component to add a Caret to.
  *
- * @returns {React.Element} A component with added Caret.
+ * @returns {React.ComponentType} A component with added Caret.
  */
 export const withCaretStyle = ( WithoutCaretComponent ) => {
-	return function ComponentWithCaret( props ) {
-		// Define function props.
-		ComponentWithCaret.propTypes = {
-			isActive: PropTypes.bool.isRequired,
-			isHovered: PropTypes.bool.isRequired,
-			isPremium: PropTypes.bool,
-		};
-
-		// Destructure the props.
-		const {
-			isActive,
-			isHovered,
-			isPremium,
-			...withoutCaretProps
-		} = props;
-
+	/**
+	 * Adding a Caret around a component.
+	 *
+	 * @param {boolean} isActive Whether the component is active.
+	 * @param {boolean} isHovered Whether the component is hovered.
+	 * @param {boolean} [isPremium=false] Whether the component is premium.
+	 * @param {Object} [withoutCaretProps] The props for the component.
+	 *
+	 * @returns {JSX.Element} The component with a Caret.
+	 */
+	function ComponentWithCaret( { isActive, isHovered, isPremium = false, ...withoutCaretProps } ) {
 		return (
 			<CaretContainer isPremium={ isPremium }>
 				<Caret isActive={ isActive } isHovered={ isHovered } />
 				<WithoutCaretComponent { ...withoutCaretProps } />
 			</CaretContainer>
 		);
+	}
+
+	// Define function props.
+	ComponentWithCaret.propTypes = {
+		isActive: PropTypes.bool.isRequired,
+		isHovered: PropTypes.bool.isRequired,
+		isPremium: PropTypes.bool,
 	};
+
+	return ComponentWithCaret;
 };
 
 const ImageSelectWithCaret = withCaretStyle( ImageSelect );
@@ -328,7 +332,7 @@ SocialMetadataPreviewForm.defaultProps = {
 	imageWarnings: [],
 	hoveredField: "",
 	activeField: "",
-	onSelect: () => {},
+	onSelect: noop,
 	onReplacementVariableSearchChange: null,
 	imageUrl: "",
 	imageFallbackUrl: "",
@@ -336,8 +340,8 @@ SocialMetadataPreviewForm.defaultProps = {
 	titleInputPlaceholder: "",
 	descriptionInputPlaceholder: "",
 	isPremium: false,
-	setEditorRef: () => {},
-	onMouseHover: () => {},
+	setEditorRef: noop,
+	onMouseHover: noop,
 	idSuffix: "",
 };
 
