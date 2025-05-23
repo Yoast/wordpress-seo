@@ -32,8 +32,6 @@
 
 		.yst-popover__title {
 			@apply
-			yst-text-sm
-			yst-font-medium
 			yst-text-slate-800
 			rtl:yst-text-right;
 		}

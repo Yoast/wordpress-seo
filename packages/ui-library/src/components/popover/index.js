@@ -5,6 +5,7 @@ import React, { createContext, forwardRef, useCallback, useContext, Fragment } f
 import { Transition } from "@headlessui/react";
 import { noop } from "lodash";
 import { useSvgAria } from "../../hooks";
+import Title from "../../elements/title";
 
 const PopoverContext = createContext( { handleDismiss: noop } );
 
@@ -68,7 +69,7 @@ CloseButton.propTypes = {
 	className: PropTypes.string,
 };
 CloseButton.defaultProps = {
-	screenReaderLabel: "close",
+	screenReaderLabel: "Close popover",
 	// eslint-disable-next-line no-undefined
 	onClick: undefined,
 	className: "",
@@ -77,35 +78,33 @@ CloseButton.defaultProps = {
 };
 
 /**
- * @param {string} id The id of the title for accessibility.
- * @param {string} children The popover title.
- * @param {string} [className] The additional class name.
- * @param {string|JSX.Element} [as="h1"] Base component.
- * @param {Object} [props] Additional props.a
  * @returns {JSX.Element} The title.
+ * @param {string} id The id of the title for accessibility.
+ * @param {string} [className] The additional class name.
+ * @param {JSX.node} children The children.
+ * @param {Object} [props] Additional props.
  */
-const Title = ( {
-	id,
-	children,
+const PopoverTitle = ( {
+	id = "popover-title",
 	className,
-	as: Tag = "h1",
+	children,
 	...props
 } ) => {
-	return ( <Tag
+	return ( <Title
 		id={ id }
 		className={ classNames( "yst-popover__title", className ) }
+		size={ 5 }
 		{ ...props }
 	>
 		{ children }
-	</Tag> );
+	</Title> );
 };
 
-Title.displayName = "Popover.Title";
-Title.propTypes = {
+PopoverTitle.displayName = "Popover.Title";
+PopoverTitle.propTypes = {
 	id: PropTypes.string,
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
-	as: PropTypes.elementType,
 };
 
 /**
@@ -117,7 +116,7 @@ Title.propTypes = {
  */
 const Content = ( {
 	children,
-	id,
+	id = "popover-content",
 	as: Tag = "p",
 	className,
 } ) => {
@@ -239,7 +238,7 @@ Popover.displayName = "Popover";
 Popover.propTypes = {
 	as: PropTypes.elementType,
 	children: PropTypes.node.isRequired,
-	id: PropTypes.string.isRequired,
+	id: PropTypes.string,
 	role: PropTypes.string,
 	className: PropTypes.string,
 	isVisible: PropTypes.bool,
@@ -252,17 +251,18 @@ Popover.propTypes = {
 
 Popover.defaultProps = {
 	as: "div",
+	id: "",
 	role: "dialog",
 	isVisible: false,
 	setIsVisible: false,
 	position: "no-arrow",
 	hasBackdrop: false,
 	className: "",
-	labelledBy: "yst-popover-title",
-	describedBy: "yst-popover-content",
+	labelledBy: "popover-title",
+	describedBy: "popover-content",
 };
 
-Popover.Title = Title;
+Popover.Title = PopoverTitle;
 Popover.CloseButton = CloseButton;
 Popover.Content = Content;
 Popover.Backdrop = Backdrop;

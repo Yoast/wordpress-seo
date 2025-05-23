@@ -1,105 +1,103 @@
-import React, { useState } from "react";
+import React, { Fragment, useEffect, useCallback } from "react";
 import Popover, { usePopoverContext } from "./index";
 import { component } from "./docs";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import Button from "../../elements/button";
 import { noop } from "lodash";
 import { ValidationIcon } from "../../elements/validation";
+import { useArgs } from "@storybook/preview-api";
 
 const DismissButton = () => {
 	const { handleDismiss } = usePopoverContext();
 	return <Button type="button" variant="primary" onClick={ handleDismiss } className="yst-self-end">Got it!</Button>;
 };
 export const Factory = {
-	render: ( args ) => {
-		return (
-			<>
-				<div className="yst-relative">Element</div>
-				<Popover { ...args } id="yst-popover" />
-			</>
-
-		);
-	},
-	parameters: {
-		controls: { disable: true },
-	},
 	args: {
 		children: (
-			<Popover.Content id="yst-popover-content">
-				Hey! I am the popover.
-			</Popover.Content>
+			<Fragment>
+				<Popover.Title>The title</Popover.Title>
+				<Popover.Content>
+					Hey! I am the popover.
+				</Popover.Content>
+			</Fragment>
 		),
 	},
 };
 
 export const WithMoreContent = {
-	render: ( args ) => {
-		const [ isVisible, setIsVisible ] = useState( true );
-
-		return (
-			<>
-				{ isVisible && <Popover
-					{ ...args }
-					isVisible={ isVisible }
-					setIsVisible={ setIsVisible }
-					position={ args.position }
-				/> }
-			</>
-		);
-	},
 	args: {
 		children: (
-			<>
+			<Fragment>
 				<div className="yst-flex yst-flex-col yst-gap-4">
 					<div className="yst-flex yst-justify-between">
-						<Popover.Title id="yst-popover-title"> The title </Popover.Title>
+						<Popover.Title>The title</Popover.Title>
 						<Popover.CloseButton screenReaderLabel="Dismiss" />
 					</div>
 					<div className="yst-self-start yst-flex-wrap">
-						<Popover.Content
-							id="yst-popover-content"
-						>
+						<Popover.Content>
 							The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-							Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer
-							took a galley of type and scrambled it to make a type specimen book.
+							Lorem Ipsum has been the standard dummy text ever since the 1500s.
 						</Popover.Content>
 					</div>
 				</div>
-			</>
+			</Fragment>
 		),
 	},
-	parameters: {
-		controls: { disable: true },
-	},
+	decorators: [
+		( Story ) => {
+			const [ args, updateArgs ] = useArgs();
+			const setIsVisible = useCallback( ( isVisible ) => {
+				updateArgs( { isVisible } );
+			}, [ updateArgs ] );
+
+			useEffect( () => {
+				updateArgs( { setIsVisible } );
+			}, [ setIsVisible ] );
+
+			return <Story { ...args } setIsVisible={ setIsVisible } />;
+		},
+	],
 };
 
 export const ButtonWithAPopover = {
-	render: ( args ) => {
-		const [ isVisible, setIsVisible ] = useState( false );
+	decorators: [
+		( Story ) => {
+			const [ args, updateArgs ] = useArgs();
 
-		const handleClick = () => setIsVisible( ! isVisible );
+			const setIsVisible = useCallback( ( isVisible ) => {
+				updateArgs( { isVisible } );
+			}, [ updateArgs ] );
 
-		return (
-			<div className="yst-relative">
-				<button
-					/* eslint-disable-next-line react/jsx-no-bind */
-					onClick={ handleClick } className="yst-border yst-bg-primary-500 yst-p-2 yst-rounded-lg yst-text-white yst-font-semibold"
-				>
-					Toggle popover
-				</button>
-				<Popover
-					{ ...args }
-					isVisible={ isVisible }
-					setIsVisible={ setIsVisible }
-					position={ args.position || "top-right" }
-				/>
-			</div>
-		);
-	},
-	parameters: {
-		controls: { disable: false },
-	},
+			useEffect( () => {
+				updateArgs( { setIsVisible } );
+			}, [ setIsVisible ] );
+
+			const handleClick = () => setIsVisible( ! args.isVisible );
+
+			return (
+				<Fragment>
+					<button
+						// eslint-disable-next-line react/jsx-no-bind
+						onClick={ handleClick }
+						className="yst-border yst-bg-primary-500 yst-p-2 yst-rounded-lg yst-text-white yst-font-semibold"
+					>
+						Toggle popover
+					</button>
+					<Story { ...args } setIsVisible={ setIsVisible } />
+				</Fragment>
+			);
+		},
+	],
+	render: ( args ) => (
+		<Popover
+			{ ...args }
+			isVisible={ args.isVisible }
+			setIsVisible={ args.setIsVisible }
+			position={ args.position || "top-right" }
+		/>
+	),
 	args: {
+		isVisible: false,
 		hasBackdrop: true,
 		children: (
 			<>
@@ -110,10 +108,9 @@ export const ButtonWithAPopover = {
 					</div>
 					<div className="yst-flex-1">
 						<div className="yst-mb-5 yst-flex yst-justify-start">
-							<Popover.Title id="yst-popover-title"> Popover title </Popover.Title>
+							<Popover.Title> Popover title </Popover.Title>
 						</div>
 						<Popover.Content
-							id="yst-popover-content"
 							className="yst-text-slate-700 yst-font-normal yst-text-left"
 						>
 							The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
@@ -138,13 +135,16 @@ export default {
 		children: { control: "text" },
 	},
 	args: {
-		id: "yst-popover",
+		id: "popover",
 		isVisible: true,
 		setIsVisible: noop,
 		children: "",
 		hasBackdrop: false,
 	},
 	parameters: {
+		controls: {
+			disable: false,
+		},
 		docs: {
 			description: { component },
 			page: () => (
@@ -154,7 +154,7 @@ export default {
 	},
 	decorators: [
 		( Story ) => (
-			<div className="yst-min-h-96 yst-flex yst-justify-center yst-items-center">
+			<div className="yst-flex yst-justify-center yst-items-center yst-h-[30rem]">
 				<div className="yst-relative">
 					<Story />
 				</div>
