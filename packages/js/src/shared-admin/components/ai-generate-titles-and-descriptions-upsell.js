@@ -79,7 +79,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 						thumbnail={ thumbnail }
 						wistiaEmbedPermission={ wistiaEmbedPermission }
 					/>
-					<Badge className="yst-absolute yst-top-2 yst-end-4" variant="info">Beta</Badge>
+					<Badge className="yst-absolute yst--top-2 yst-end-4" variant="info">Beta</Badge>
 				</div>
 				<div className="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center">
 					<span className="yst-introduction-modal-uppercase yst-flex yst-gap-2 yst-items-center">
