@@ -1,8 +1,9 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-namespace Yoast\WP\SEO\Llms_Txt\User_Interface\Health_Check;
+namespace Yoast\WP\SEO\Llms_Txt\Application\Health_Check;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Llms_Txt\User_Interface\Health_Check\File_Reports;
 use Yoast\WP\SEO\Services\Health_Check\Health_Check;
 
 /**

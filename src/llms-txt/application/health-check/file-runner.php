@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-namespace Yoast\WP\SEO\Llms_Txt\User_Interface\Health_Check;
+namespace Yoast\WP\SEO\Llms_Txt\Application\Health_Check;
 
 use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Populate_File_Command_Handler;
 use Yoast\WP\SEO\Services\Health_Check\Runner_Interface;
@@ -16,24 +16,6 @@ class File_Runner implements Runner_Interface {
 	 * @var bool
 	 */
 	private $generation_failure_reason = '';
-
-	/**
-	 * The handler that populates the llms.txt file.
-	 *
-	 * @var Populate_File_Command_Handler
-	 */
-	private $populate_file_handler;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param  Populate_File_Command_Handler $populate_file_handler The handler that populates the llms.txt file.
-	 */
-	public function __construct(
-		Populate_File_Command_Handler $populate_file_handler
-	) {
-		$this->populate_file_handler = $populate_file_handler;
-	}
 
 	/**
 	 * Runs the health check.
