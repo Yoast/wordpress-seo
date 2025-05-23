@@ -2,11 +2,12 @@ import { LockOpenIcon } from "@heroicons/react/outline";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
-import { Badge, Button, useModalContext } from "@yoast/ui-library";
+import { Badge, Button, useModalContext, Alert } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { useCallback } from "@wordpress/element";
 import { OutboundLink, VideoFlow } from ".";
 import { GradientButton } from "@yoast/ai-frontend";
+import classNames from "classnames";
 
 /**
  * @param {string} learnMoreLink The learn more link.
@@ -20,6 +21,7 @@ import { GradientButton } from "@yoast/ai-frontend";
  * @param {string|JSX.Element} bundleNote The bundle note.
  * @param {string} ctbId The click to buy to register for this upsell instance.
  * @param {function} setTryAi The function to set the try AI state.
+ * @param {boolean} isLimitReached Whether the sparks limit is reached.
  * @returns {JSX.Element} The element.
  */
 export const AiGenerateTitlesAndDescriptionsUpsell = ( {
@@ -34,6 +36,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 	bundleNote,
 	ctbId,
 	setTryAi,
+	isLimitReached
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
@@ -104,7 +107,17 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 						}
 					</div>
 				</div>
-				<div className="yst-w-full yst-flex yst-mt-10 yst-flex-col">
+				{ isLimitReached && <Alert className="yst-my-4">
+						{ sprintf(
+							/* translators: %s is for Yoast SEO Premium. */
+							__( "Oh no! Its seems like you're out of free Sparks. Keep the momentum going, unlock unlimited sparks with %s!", "wordpress-seo" ),
+							"Yoast SEO Premium",
+						)}
+				</Alert> }
+				<div className={ classNames( 
+					"yst-w-full yst-flex yst-flex-col",
+					isLimitReached ? "yst-mt-0" : "yst-mt-10"
+				)}>
 					<Button
 						as="a"
 						className="yst-grow"
@@ -125,9 +138,9 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 							}
 						</span>
 					</Button>
-					<GradientButton onClick={ handleTryAi } className="yst-mt-2 yst-w-full yst-text-base yst-text-slate-800 yst-font-medium yst-h-11 hover:yst-bg-gradient-to-l hover:yst-from-[#E0E7FF] hover:yst-to-[#F3E5ED]">
+					{ ! isLimitReached && <GradientButton onClick={ handleTryAi } className="yst-mt-2 yst-w-full yst-text-base yst-text-slate-800 yst-font-medium yst-h-11 hover:yst-bg-gradient-to-l hover:yst-from-[#E0E7FF] hover:yst-to-[#F3E5ED]">
 						{ __( "Try for free", "wordpress-seo" ) }
-					</GradientButton>
+					</GradientButton> }
 				</div>
 				{ bundleNote }
 				<Button
@@ -168,7 +181,7 @@ AiGenerateTitlesAndDescriptionsUpsell.propTypes = {
 };
 
 AiGenerateTitlesAndDescriptionsUpsell.defaultProps = {
-	title: __( "Use AI to write your titles & meta descriptions!", "wordpress-seo" ),
+	title: __( "Use AI to generate your titles & descriptions!", "wordpress-seo" ),
 	upsellLabel: sprintf(
 		/* translators: %1$s expands to Yoast SEO Premium. */
 		__( "Unlock with %1$s", "wordpress-seo" ),
