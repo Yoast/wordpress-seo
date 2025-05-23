@@ -3,16 +3,29 @@ import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Badge, Button, useModalContext, Alert } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { useCallback } from "@wordpress/element";
 import { OutboundLink, VideoFlow } from ".";
 import { GradientButton } from "@yoast/ai-frontend";
 import classNames from "classnames";
 
 /**
+ * @typedef {Object} Thumbnail A thumbnail object.
+ * @property {string} src The thumbnail source.
+ * @property {string} width The thumbnail width.
+ * @property {string} height The thumbnail height.
+ */
+
+/**
+ * @typedef {Object} WistiaEmbedPermission The Wistia embed permission object.
+ * @property {boolean} value The value of the Wistia embed permission.
+ * @property {string} status The status of the Wistia embed permission.
+ * @property {function} set The function to set the Wistia embed permission.
+ */
+
+/**
  * @param {string} learnMoreLink The learn more link.
- * @param {Object} thumbnail The thumbnail: img props.
- * @param {Object} wistiaEmbedPermission The value, status and set for the Wistia embed permission.
+ * @param {Thumbnail} thumbnail The thumbnail: img props.
+ * @param {WistiaEmbedPermission} wistiaEmbedPermission The value, status and set for the Wistia embed permission.
  * @param {string} upsellLink The upsell link.
  * @param {boolean} isProductCopy Whether the upsell is for a product.
  * @param {string} title The title.
@@ -29,14 +42,18 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 	thumbnail,
 	wistiaEmbedPermission,
 	upsellLink,
-	isProductCopy,
-	title,
-	upsellLabel,
-	newToText,
-	bundleNote,
-	ctbId,
+	isProductCopy = false,
+	title = __( "Use AI to generate your titles & descriptions!", "wordpress-seo" ),
+	upsellLabel = sprintf(
+		/* translators: %1$s expands to Yoast SEO Premium. */
+		__( "Unlock with %1$s", "wordpress-seo" ),
+		"Yoast SEO Premium"
+	),
+	newToText = "Yoast SEO Premium",
+	bundleNote = "",
+	ctbId = "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 	setTryAi,
-	isLimitReached,
+	isLimitReached = false,
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
@@ -156,41 +173,4 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 			</div>
 		</>
 	);
-};
-AiGenerateTitlesAndDescriptionsUpsell.propTypes = {
-	learnMoreLink: PropTypes.string.isRequired,
-	upsellLink: PropTypes.string.isRequired,
-	thumbnail: PropTypes.shape( {
-		src: PropTypes.string.isRequired,
-		width: PropTypes.string,
-		height: PropTypes.string,
-	} ).isRequired,
-	wistiaEmbedPermission: PropTypes.shape( {
-		value: PropTypes.bool.isRequired,
-		status: PropTypes.string.isRequired,
-		set: PropTypes.func.isRequired,
-	} ).isRequired,
-	title: PropTypes.string,
-	upsellLabel: PropTypes.string,
-	newToText: PropTypes.string,
-	isProductCopy: PropTypes.bool,
-	bundleNote: PropTypes.oneOfType( [
-		PropTypes.string,
-		PropTypes.element,
-	] ),
-	ctbId: PropTypes.string,
-	setTryAi: PropTypes.func.isRequired,
-};
-
-AiGenerateTitlesAndDescriptionsUpsell.defaultProps = {
-	title: __( "Use AI to generate your titles & descriptions!", "wordpress-seo" ),
-	upsellLabel: sprintf(
-		/* translators: %1$s expands to Yoast SEO Premium. */
-		__( "Unlock with %1$s", "wordpress-seo" ),
-		"Yoast SEO Premium"
-	),
-	newToText: "Yoast SEO Premium",
-	isProductCopy: false,
-	bundleNote: "",
-	ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 };
