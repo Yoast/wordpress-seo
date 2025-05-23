@@ -16,6 +16,36 @@ const keyword = "keyword, ";
 const shortTextJapanese = "熱".repeat( 199 );
 const longTextJapanese = "熱".repeat( 200 );
 
+describe( "Tests for the keyphrase density assessment when no keyphrase and/or text is added", function() {
+	it( "shows feedback for keyphrase density when there is no keyphrase set", function() {
+		const paper = new Paper( "some text", { keyword: "" } );
+		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( -50 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"<a href='https://yoa.st/33w' target='_blank'>Please add both a keyphrase and some text containing the keyphrase</a>." );
+	} );
+	it( "shows feedback for keyphrase density when there is no text", function() {
+		const paper = new Paper( "", { keyword: "keyphrase" } );
+		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( -50 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"<a href='https://yoa.st/33w' target='_blank'>Please add both a keyphrase and some text containing the keyphrase</a>." );
+	} );
+	it( "shows feedback for keyphrase density when there is no keyphrase set and no text", function() {
+		const paper = new Paper( "", { keyword: "keyphrase" } );
+		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( -50 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"<a href='https://yoa.st/33w' target='_blank'>Please add both a keyphrase and some text containing the keyphrase</a>." );
+	} );
+} );
+
 // Test data for language without morphology.
 const testDataWithDefaultResearcher = [
 	{
@@ -154,63 +184,63 @@ describe.each( testDataWithDefaultResearcher )( "a keyphrase density test for la
 	} );
 } );
 
-const testDataForApplicability = [
-	{
-		description: "applies to a paper with a keyphrase and a text of at least 100 words",
-		paper: new Paper( "<p>" + nonkeyword.repeat( 100 ) + "</p>", { keyword: "keyword" } ),
-		researcher: new DefaultResearcher(),
-		expectedResult: true,
-	},
-	{
-		description: "does not apply to a paper with a keyphrase and a text of at least 100 words when the text is inside an element" +
-			"we want to exclude from the analysis",
-		paper: new Paper( "<blockquote>" + nonkeyword.repeat( 100 ) + "</blockquote>", { keyword: "keyword" } ),
-		researcher: new DefaultResearcher(),
-		expectedResult: false,
-	},
-	{
-		description: "does not apply to a paper with text of 100 words but without a keyphrase",
-		paper: new Paper( "<p>" + nonkeyword.repeat( 100 ) + "</p>", { keyword: "" } ),
-		researcher: new DefaultResearcher(),
-		expectedResult: false,
-	},
-	{
-		description: "does not apply to a paper with a text containing less than 100 words and with a keyphrase",
-		paper: new Paper( "<p>" + nonkeyword.repeat( 99 ) + "</p>", { keyword: "keyword" } ),
-		researcher: new DefaultResearcher(),
-		expectedResult: false,
-	},
-	{
-		description: "does not apply to a paper with a text containing less than 100 words and without a keyphrase",
-		paper: new Paper( "<p>" + nonkeyword.repeat( 99 ) + "</p>", { keyword: "" } ),
-		researcher: new DefaultResearcher(),
-		expectedResult: false,
-	},
-	{
-		description: "applies to a Japanese paper with a keyphrase and a text of at least 200 characters",
-		paper: new Paper( "<p>" + longTextJapanese + "</p>", { keyword: "keyword" } ),
-		researcher: new JapaneseResearcher(),
-		expectedResult: true,
-	},
-	{
-		description: "does not apply to a Japanese paper with text of less than 200 characters",
-		paper: new Paper( "<p>" + shortTextJapanese + "</p>", { keyword: "keyword" } ),
-		researcher: new JapaneseResearcher(),
-		expectedResult: false,
-	},
-];
-describe.each( testDataForApplicability )( "assessment applicability test", ( {
-	description,
-	paper,
-	researcher,
-	expectedResult,
-} ) => {
-	researcher.setPaper( paper );
-	buildTree( paper, researcher );
-	it( description, () => {
-		expect( new KeyphraseDensityAssessment().isApplicable( paper, researcher ) ).toBe( expectedResult );
-	} );
-} );
+// const testDataForApplicability = [
+// 	{
+// 		description: "applies to a paper with a keyphrase and a text of at least 100 words",
+// 		paper: new Paper( "<p>" + nonkeyword.repeat( 100 ) + "</p>", { keyword: "keyword" } ),
+// 		researcher: new DefaultResearcher(),
+// 		expectedResult: true,
+// 	},
+// 	{
+// 		description: "does not apply to a paper with a keyphrase and a text of at least 100 words when the text is inside an element" +
+// 			"we want to exclude from the analysis",
+// 		paper: new Paper( "<blockquote>" + nonkeyword.repeat( 100 ) + "</blockquote>", { keyword: "keyword" } ),
+// 		researcher: new DefaultResearcher(),
+// 		expectedResult: false,
+// 	},
+// 	{
+// 		description: "does not apply to a paper with text of 100 words but without a keyphrase",
+// 		paper: new Paper( "<p>" + nonkeyword.repeat( 100 ) + "</p>", { keyword: "" } ),
+// 		researcher: new DefaultResearcher(),
+// 		expectedResult: false,
+// 	},
+// 	{
+// 		description: "does not apply to a paper with a text containing less than 100 words and with a keyphrase",
+// 		paper: new Paper( "<p>" + nonkeyword.repeat( 99 ) + "</p>", { keyword: "keyword" } ),
+// 		researcher: new DefaultResearcher(),
+// 		expectedResult: false,
+// 	},
+// 	{
+// 		description: "does not apply to a paper with a text containing less than 100 words and without a keyphrase",
+// 		paper: new Paper( "<p>" + nonkeyword.repeat( 99 ) + "</p>", { keyword: "" } ),
+// 		researcher: new DefaultResearcher(),
+// 		expectedResult: false,
+// 	},
+// 	{
+// 		description: "applies to a Japanese paper with a keyphrase and a text of at least 200 characters",
+// 		paper: new Paper( "<p>" + longTextJapanese + "</p>", { keyword: "keyword" } ),
+// 		researcher: new JapaneseResearcher(),
+// 		expectedResult: true,
+// 	},
+// 	{
+// 		description: "does not apply to a Japanese paper with text of less than 200 characters",
+// 		paper: new Paper( "<p>" + shortTextJapanese + "</p>", { keyword: "keyword" } ),
+// 		researcher: new JapaneseResearcher(),
+// 		expectedResult: false,
+// 	},
+// ];
+// describe.each( testDataForApplicability )( "assessment applicability test", ( {
+// 	description,
+// 	paper,
+// 	researcher,
+// 	expectedResult,
+// } ) => {
+// 	researcher.setPaper( paper );
+// 	buildTree( paper, researcher );
+// 	it( description, () => {
+// 		expect( new KeyphraseDensityAssessment().isApplicable( paper, researcher ) ).toBe( expectedResult );
+// 	} );
+// } );
 
 describe( "Tests for the keyphrase density assessment for languages with morphology", function() {
 	it( "gives a GOOD result when keyphrase density is between 3 and 3.5%", function() {

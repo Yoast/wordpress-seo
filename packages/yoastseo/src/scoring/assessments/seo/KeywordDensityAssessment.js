@@ -34,6 +34,7 @@ class KeyphraseDensityAssessment extends Assessment {
 	 * @param {number} [config.scores.overMaximum] The score to return if there are too many instances of keyphrase in the text.
 	 * @param {number} [config.scores.correctDensity] The score to return if there is a good number of keyphrase instances in the text.
 	 * @param {number} [config.scores.underMinimum] The score to return if there is not enough keyphrase instances in the text.
+	 * @param {number} [config.scores.noKeyphraseOrText] The score to return if there is no text or no keyhprase set.
 	 *
 	 * @param {string} [config.url] The URL to the relevant KB article.
 	 *
@@ -60,7 +61,7 @@ class KeyphraseDensityAssessment extends Assessment {
 				overMaximum: -10,
 				correctDensity: 9,
 				underMinimum: 4,
-				noKeyphraseOrText: 1,
+				noKeyphraseOrText: -50,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33v" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33w" ),
@@ -110,8 +111,10 @@ class KeyphraseDensityAssessment extends Assessment {
 		this._canAssess = false;
 
 		if( paper.hasKeyword() && paper.hasText() ){
+			this._canAssess = true;
 			this._keyphraseDensity = researcher.getResearch( "getKeyphraseDensity" );
 		}
+
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
@@ -187,16 +190,17 @@ class KeyphraseDensityAssessment extends Assessment {
 	/**
 	 * Returns the score for the keyphrase density.
 	 *
-	 * @returns {Object} The object with calculated score and resultText.
+	 *
+	 * @returns {{score: number, resultText: string}} result object with a score and translation text.
 	 */
-	calculateResult() {
+	calculateResult( paper ) {
 		if ( ! this._canAssess ) {
 			return {
-				score: this._config.scores.bad,
+				score: this._config.scores.noKeyphraseOrText,
 				resultText: sprintf(
 					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
 					__(
-						"%1$sKeyphrase density%3$s: %2$sPlease add both a keyphrase and some text so that we can check keyphrase density%3$s.",
+						"%1$sKeyphrase density%3$s: %2$sPlease add both a keyphrase and some text containing the keyphrase%3$s.",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
