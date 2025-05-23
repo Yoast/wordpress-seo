@@ -13,6 +13,9 @@ use Yoast\WP\SEO\Llms_Txt\Infrastructure\File\WordPress_Llms_Txt_Permission_Gate
  */
 class Populate_File_Command_Handler {
 
+	public const CONTENT_HASH_OPTION       = 'wpseo_llms_txt_content_hash';
+	public const GENERATION_FAILURE_OPTION = 'wpseo_llms_txt_file_failure';
+
 	/**
 	 * The permission gate.
 	 *
@@ -73,8 +76,15 @@ class Populate_File_Command_Handler {
 
 			if ( $file_written ) {
 				// Maybe move this to a class if we need to handle this option more often.
-				\update_option( 'wpseo_llms_txt_content_hash', \md5( $content ) );
+				\update_option( self::CONTENT_HASH_OPTION, \md5( $content ) );
+				\delete_option( self::GENERATION_FAILURE_OPTION );
+				return;
 			}
+
+			\update_option( self::GENERATION_FAILURE_OPTION, 'filesystem_permissions' );
+			return;
 		}
+
+		\update_option( self::GENERATION_FAILURE_OPTION, 'not_managed_by_yoast_seo' );
 	}
 }

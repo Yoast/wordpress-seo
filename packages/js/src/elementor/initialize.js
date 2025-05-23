@@ -63,7 +63,7 @@ function initialize() {
 	initHighlightFocusKeyphraseForms( window.YoastSEO.analysis.worker.runResearch );
 
 	// Initialize the introduction.
-	if ( window.elementorFrontend.config.experimentalFeatures.editor_v2 ) {
+	if ( window.wpseoScriptData.isAlwaysIntroductionV2 === "1" || window.elementorFrontend.config.experimentalFeatures.editor_v2 ) {
 		initializeIntroductionEditorV2();
 	} else {
 		initializeIntroduction();

@@ -416,6 +416,7 @@ class Elementor implements Integration_Interface {
 			'isPost'                    => true,
 			'isBlockEditor'             => WP_Screen::get()->is_block_editor(),
 			'isElementorEditor'         => true,
+			'isAlwaysIntroductionV2'    => $this->is_elementor_version_compatible_with_introduction_v2(),
 			'postStatus'                => \get_post_status( $post_id ),
 			'postType'                  => \get_post_type( $post_id ),
 			'analysis'                  => [
@@ -438,6 +439,27 @@ class Elementor implements Integration_Interface {
 
 		$this->asset_manager->localize_script( 'elementor', 'wpseoScriptData', $script_data );
 		$this->asset_manager->enqueue_user_language_script();
+	}
+
+	/**
+	 * Checks whether the current Elementor version is compatible with our introduction v2.
+	 *
+	 * In version 3.30.0, Elementor removed the experimental flag for the editor v2.
+	 * Resulting in the editor v2 being the default.
+	 *
+	 * @return bool Whether the Elementor version is compatible with introduction v2.
+	 */
+	private function is_elementor_version_compatible_with_introduction_v2(): bool {
+		if ( ! \defined( 'ELEMENTOR_VERSION' ) ) {
+			return false;
+		}
+
+		// Take the semver version from their version string.
+		$matches = [];
+		$version = ( \preg_match( '/^([0-9]+.[0-9]+.[0-9]+)/', \ELEMENTOR_VERSION, $matches ) > 0 ) ? $matches[1] : \ELEMENTOR_VERSION;
+
+		// Check if the version is 3.30.0 or higher. This is where the editor v2 was taken out of the experimental into the default state.
+		return \version_compare( $version, '3.30.0', '>=' );
 	}
 
 	/**
