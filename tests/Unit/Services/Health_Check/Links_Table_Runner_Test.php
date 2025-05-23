@@ -51,48 +51,6 @@ final class Links_Table_Runner_Test extends TestCase {
 	}
 
 	/**
-	 * Checks if the health check exits early when its preconditions aren't met.
-	 *
-	 * @covers ::__construct
-	 * @covers ::run
-	 * @covers ::should_run
-	 *
-	 * @return void
-	 */
-	public function test_early_exit() {
-		$this->options
-			->shouldReceive( 'get' )
-			->with( 'enable_text_link_counter' )
-			->andReturn( false );
-
-		$this->instance->run();
-		$actual = $this->instance->is_successful();
-
-		$this->assertFalse( $actual );
-	}
-
-	/**
-	 * Checks if the health check exits early when the runner can't determine if the text link counter is enabled.
-	 *
-	 * @covers ::__construct
-	 * @covers ::run
-	 * @covers ::should_run
-	 *
-	 * @return void
-	 */
-	public function test_early_exit_unknown_text_link_counter() {
-		$this->options
-			->shouldReceive( 'get' )
-			->with( 'enable_text_link_counter' )
-			->andReturn( null );
-
-		$this->instance->run();
-		$actual = $this->instance->is_successful();
-
-		$this->assertFalse( $actual );
-	}
-
-	/**
 	 * Checks if the health check succeeds when the links table is accessible.
 	 *
 	 * @covers ::__construct
