@@ -134,7 +134,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 				<div
 					className={ classNames(
 						"yst-w-full yst-flex yst-flex-col",
-						isLimitReached ? "yst-mt-0" : "yst-mt-10"
+						isLimitReached ? "yst-mt-0" : "yst-mt-6"
 					) }
 				>
 					<Button
