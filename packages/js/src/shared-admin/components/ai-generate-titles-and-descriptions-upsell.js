@@ -36,7 +36,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 	bundleNote,
 	ctbId,
 	setTryAi,
-	isLimitReached
+	isLimitReached,
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
@@ -108,16 +108,18 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 					</div>
 				</div>
 				{ isLimitReached && <Alert className="yst-my-4">
-						{ sprintf(
-							/* translators: %s is for Yoast SEO Premium. */
-							__( "Oh no! Its seems like you're out of free Sparks. Keep the momentum going, unlock unlimited sparks with %s!", "wordpress-seo" ),
-							"Yoast SEO Premium",
-						)}
+					{ sprintf(
+						/* translators: %s is for Yoast SEO Premium. */
+						__( "Oh no! Its seems like you're out of free Sparks. Keep the momentum going, unlock unlimited sparks with %s!", "wordpress-seo" ),
+						"Yoast SEO Premium"
+					) }
 				</Alert> }
-				<div className={ classNames( 
-					"yst-w-full yst-flex yst-flex-col",
-					isLimitReached ? "yst-mt-0" : "yst-mt-10"
-				)}>
+				<div
+					className={ classNames(
+						"yst-w-full yst-flex yst-flex-col",
+						isLimitReached ? "yst-mt-0" : "yst-mt-10"
+					) }
+				>
 					<Button
 						as="a"
 						className="yst-grow"

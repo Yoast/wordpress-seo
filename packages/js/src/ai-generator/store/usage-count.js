@@ -24,7 +24,7 @@ const slice = createSlice( {
 		},
 		setUsageCountLimit: ( state, { payload } ) => {
 			state.currentLimit = payload;
-		}
+		},
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, state => {

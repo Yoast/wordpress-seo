@@ -73,6 +73,6 @@ global.HTMLCanvasElement.prototype.getContext = function( type ) {
 };
 
 // Add TextEncoder and TextDecoder from Node's util module for the GradientButton.
-const util = require('util');
+const util = require( "util" );
 global.TextEncoder = util.TextEncoder;
 global.TextDecoder = util.TextDecoder;
