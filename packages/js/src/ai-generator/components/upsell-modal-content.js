@@ -114,10 +114,10 @@ export const UpsellModalContent = ( { setTryAi } ) => {
 	const wistiaEmbedPermission = useMemo( () => ( { value, status, set } ), [ value, status, set ] );
 
 	const { counts, limit } = useSelect( ( select ) => ( {
-			counts: select( STORE_NAME_AI ).selectUsageCount(),
-			limit: select( STORE_NAME_AI ).selectUsageCountLimit(),
-		} ), [] );
-	
+		counts: select( STORE_NAME_AI ).selectUsageCount(),
+		limit: select( STORE_NAME_AI ).selectUsageCountLimit(),
+	} ), [] );
+
 	const isLimitReached = counts >= limit;
 
 	return (
