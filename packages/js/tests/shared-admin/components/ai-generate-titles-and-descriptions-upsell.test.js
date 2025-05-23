@@ -19,18 +19,21 @@ describe( "AiGenerateTitlesAndDescriptionsUpsell", () => {
 	};
 
 	it( "renders the component correctly for default props", () => {
-		const { container } = render( <AiGenerateTitlesAndDescriptionsUpsell { ...props } /> );
-		expect( container ).toMatchSnapshot();
+		const { getByText } = render( <AiGenerateTitlesAndDescriptionsUpsell { ...props } /> );
+		expect( getByText( "Use AI to generate your titles & descriptions!" ) ).toBeInTheDocument();
+		expect( getByText( "Yoast SEO Premium" ) ).toBeInTheDocument();
 	} );
 
 	it( "renders the component correctly for custom props", () => {
-		const { container } = render( <AiGenerateTitlesAndDescriptionsUpsell
+		const { getByText } = render( <AiGenerateTitlesAndDescriptionsUpsell
 			{ ...props }
 			title="Custom title"
-			newToText="Custon new to text"
+			newToText="Custom new to text"
 			bundleNote="Custom bundle note"
 			isProductCopy={ true }
 		/> );
-		expect( container ).toMatchSnapshot();
+		expect( getByText( "Custom title" ) ).toBeInTheDocument();
+		expect( getByText( "Custom new to text" ) ).toBeInTheDocument();
+		expect( getByText( "Custom bundle note" ) ).toBeInTheDocument();
 	} );
 } );
