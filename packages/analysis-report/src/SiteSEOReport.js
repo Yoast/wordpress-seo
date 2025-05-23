@@ -1,8 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-
 import { ScoreAssessments as SiteSEOReportAssessments, StackedProgressBar } from "@yoast/components";
+import PropTypes from "prop-types";
+import React from "react";
+import styled from "styled-components";
 
 /**
  * SeoAssessment container.
@@ -20,28 +19,36 @@ const SiteSEOReportText = styled.p`
 /**
  * The Dashboard Seo Assessment component.
  *
- * @param {object} props The component props.
+ * @param {string} [className="seo-assessment"] The class name to use.
+ * @param {string} [seoAssessmentText="SEO Assessment"] The text to show.
+ * @param {{html: string, value: number, color: string}[]|null} [seoAssessmentItems=null] The items to show in the assessment.
+ * @param {string} [barHeight="24px"] The height of the progress bar.
  *
  * @returns {ReactElement} The react component.
  */
-const SiteSEOReport = ( props ) => {
+const SiteSEOReport = ( {
+	className = "seo-assessment",
+	seoAssessmentText = "SEO Assessment",
+	seoAssessmentItems = null,
+	barHeight = "24px",
+} ) => {
 	return (
 		<SiteSEOReportContainer
-			className={ props.className }
+			className={ className }
 		>
 			<SiteSEOReportText
-				className={ `${ props.className }__text` }
+				className={ `${ className }__text` }
 			>
-				{ props.seoAssessmentText }
+				{ seoAssessmentText }
 			</SiteSEOReportText>
 			<StackedProgressBar
 				className="progress"
-				items={ props.seoAssessmentItems }
-				barHeight={ props.barHeight }
+				items={ seoAssessmentItems }
+				barHeight={ barHeight }
 			/>
 			<SiteSEOReportAssessments
 				className="assessments"
-				items={ props.seoAssessmentItems }
+				items={ seoAssessmentItems }
 			/>
 		</SiteSEOReportContainer>
 	);
@@ -58,13 +65,6 @@ SiteSEOReport.propTypes = {
 		} )
 	),
 	barHeight: PropTypes.string,
-};
-
-SiteSEOReport.defaultProps = {
-	className: "seo-assessment",
-	seoAssessmentText: "SEO Assessment",
-	seoAssessmentItems: null,
-	barHeight: "24px",
 };
 
 export default SiteSEOReport;
