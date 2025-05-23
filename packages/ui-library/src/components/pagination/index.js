@@ -16,26 +16,26 @@ const VARIANT = {
 };
 
 /**
- * @param {string} [className] Extra class.
+ * @param {string} [className=""] Extra class.
  * @param {number} current The current page. Start at 1.
  * @param {number} total The total pages.
- * @param {function} onNavigate Callback for requested page navigation.
- * @param {string} [variant] Display variant. Defaults to buttons. See const "VARIANT.display" for options.
- * @param {number} [maxPageButtons] For variant buttons: the maximum number of buttons to show.
- * @param {boolean} [disabled] Whether the buttons are disabled.
+ * @param {Function} onNavigate Callback for requested page navigation.
+ * @param {string} [variant="buttons"] Display variant. Defaults to buttons. See const "VARIANT.display" for options.
+ * @param {number} [maxPageButtons=6] For variant buttons: the maximum number of buttons to show.
+ * @param {boolean} [disabled=false] Whether the buttons are disabled.
  * @param {string} screenReaderTextPrevious The screen reader text for the previous button.
  * @param {string} screenReaderTextNext The screen reader text for the next button.
- * @param {Object} props Extra props.
+ * @param {...any} [props] Extra props.
  * @returns {JSX.Element} The element.
  */
 const Pagination = ( {
-	className,
+	className = "",
 	current,
 	total,
 	onNavigate,
-	variant,
-	maxPageButtons,
-	disabled,
+	variant = VARIANT.display.buttons,
+	maxPageButtons = 6,
+	disabled = false,
 	screenReaderTextPrevious,
 	screenReaderTextNext,
 	...props
@@ -78,12 +78,6 @@ Pagination.propTypes = {
 	disabled: PropTypes.bool,
 	screenReaderTextPrevious: PropTypes.string.isRequired,
 	screenReaderTextNext: PropTypes.string.isRequired,
-};
-Pagination.defaultProps = {
-	className: "",
-	variant: VARIANT.display.buttons,
-	maxPageButtons: 6,
-	disabled: false,
 };
 
 export default Pagination;

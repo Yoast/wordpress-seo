@@ -35,14 +35,14 @@ const statusIconTransitionProps = {
 
 /**
  * @param {string} status A valid file import status.
- * @returns {JSX.Element} Component that renders conditionally based on given file import status.
+ * @returns {React.ComponentType} Component that renders conditionally based on given file import status.
  */
 const createStatusConditionalRender = ( status ) => {
 	/**
-	 * @param {JSX.node} children The React children.
+	 * @param {React.ReactNode} [children=null] The React children.
 	 * @returns {JSX.Element} Component that renders conditionally based on given file import status.
 	 */
-	const HOC = ( { children } ) => {
+	const HOC = ( { children = null } ) => {
 		const { status: currentStatus } = useFileImportContext();
 		return (
 			<Transition

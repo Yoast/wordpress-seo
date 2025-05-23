@@ -7,7 +7,7 @@ import Button from "../../elements/button";
 import TextInput from "../../elements/text-input";
 import { useModalContext } from "./hooks";
 
-const Template = ( { isOpen: initialIsOpen, onClose: _, children, panelProps, ...props } ) => {
+const Template = ( { isOpen: initialIsOpen = false, onClose: _ = noop, children, panelProps = {}, ...props } ) => {
 	const [ isOpen, setIsOpen ] = useState( initialIsOpen );
 	const openModal = useCallback( () => setIsOpen( true ), [] );
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
