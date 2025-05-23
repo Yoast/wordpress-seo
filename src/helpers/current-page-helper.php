@@ -486,11 +486,26 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Retrieves the current post id.
+	 * Returns 0 if no post id is found.
+	 *
+	 * @return int The post id.
+	 */
+	public function get_current_post_id(): int {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are casting to an integer.
+		if ( isset( $_GET['post'] ) && \is_string( $_GET['post'] ) && (int) \wp_unslash( $_GET['post'] ) > 0 ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are casting to an integer, also this is a helper function.
+			return (int) \wp_unslash( $_GET['post'] );
+		}
+		return 0;
+	}
+
+	/**
 	 * Retrieves the current post type.
 	 *
 	 * @return string The post type.
 	 */
-	public function get_current_post_type() {
+	public function get_current_post_type(): string {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['post_type'] ) && \is_string( $_GET['post_type'] ) ) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
@@ -517,7 +532,7 @@ class Current_Page_Helper {
 	 *
 	 * @return string The taxonomy.
 	 */
-	public function get_current_taxonomy() {
+	public function get_current_taxonomy(): string {
 		if ( ! isset( $_SERVER['REQUEST_METHOD'] ) || ! \in_array( $_SERVER['REQUEST_METHOD'], [ 'GET', 'POST' ], true ) ) {
 			return '';
 		}
