@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\Infrastructure;
+namespace Yoast\WP\SEO\AI_Authorization\Infrastructure;
 
 use RuntimeException;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
- * Class Refresh_Token_Repository
- * Handles the storage and retrieval of refresh tokens for users.
+ * Class Access_Token_Repository
+ * Handles the storage and retrieval of access tokens for users.
  */
-class Refresh_Token_User_Meta_Repository implements Token_User_Meta_Repository_Interface {
+class Access_Token_User_Meta_Repository implements Token_User_Meta_Repository_Interface {
 
-	private const META_KEY = '_yoast_wpseo_ai_generator_refresh_jwt';
+	private const META_KEY = '_yoast_wpseo_ai_generator_access_jwt';
 
 	/**
 	 * The user helper.
@@ -21,7 +21,7 @@ class Refresh_Token_User_Meta_Repository implements Token_User_Meta_Repository_I
 	private $user_helper;
 
 	/**
-	 * Refresh_Token_Repository constructor.
+	 * Access_Token_Repository constructor.
 	 *
 	 * @param User_Helper $user_helper The user helper.
 	 */

@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\Infrastructure;
+namespace Yoast\WP\SEO\AI_Authorization\Infrastructure;
 
 use RuntimeException;
-use Yoast\WP\SEO\AI_Generator\Domain\Verification_Code;
+use Yoast\WP\SEO\AI_Authorization\Domain\Verification_Code;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 /**

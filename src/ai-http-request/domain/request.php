@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\Domain;
+namespace Yoast\WP\SEO\AI_HTTP_Request\Domain;
 
 /**
  * Class Request

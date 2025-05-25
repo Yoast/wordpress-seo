@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\Domain;
+namespace Yoast\WP\SEO\AI_Authorization\Domain;
 
 /**
  * Class Code_Verifier representing a challenge code and its creation time.

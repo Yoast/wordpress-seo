@@ -1,10 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\Application;
+namespace Yoast\WP\SEO\AI_Authorization\Application;
 
 use RuntimeException;
-use Yoast\WP\SEO\AI_Generator\Domain\Verification_Code;
-use Yoast\WP\SEO\AI_Generator\Infrastructure\Verification_Code_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\Domain\Verification_Code;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Verification_Code_User_Meta_Repository;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 /**
  * Class Code_Verifier_Service
