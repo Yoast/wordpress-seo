@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\AI_Consent\User_Interface;
 use RuntimeException;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI_Authorization\Application\Token_Manager;
+use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Internal_Server_Error_Exception;
@@ -27,9 +27,6 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Consent_Route implements Route_Interface {
-
-	use Route_Permission_Trait;
-
 	/**
 	 *  The namespace for this route.
 	 *
