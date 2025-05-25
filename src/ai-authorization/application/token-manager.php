@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\Application;
+namespace Yoast\WP\SEO\AI_Authorization\Application;
 
 use RuntimeException;
 use WP_User;
@@ -15,9 +15,9 @@ use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Service_Unavailable_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI_Generator\Domain\Request;
-use Yoast\WP\SEO\AI_Generator\Infrastructure\Access_Token_User_Meta_Repository;
-use Yoast\WP\SEO\AI_Generator\Infrastructure\Refresh_Token_User_Meta_Repository;
-use Yoast\WP\SEO\AI_Generator\Infrastructure\Verification_Code_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Verification_Code_User_Meta_Repository;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**

@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\AI_Generator\Application;
 
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Forbidden_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**

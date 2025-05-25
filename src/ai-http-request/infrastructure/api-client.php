@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\infrastructure;
+namespace Yoast\WP\SEO\AI_HTTP_Request\infrastructure;
 
 use WPSEO_Utils;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\WP_Request_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
 
 /**
  * Class API_Client

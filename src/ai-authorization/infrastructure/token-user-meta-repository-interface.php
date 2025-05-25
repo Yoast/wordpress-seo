@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\Infrastructure;
+namespace Yoast\WP\SEO\AI_Authorization\Infrastructure;
 
 /**
  * Interface Token_Repository_Interface

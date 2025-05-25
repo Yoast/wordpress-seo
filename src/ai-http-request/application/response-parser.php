@@ -1,5 +1,5 @@
 <?php
-namespace Yoast\WP\SEO\AI_Generator\Application;
+namespace Yoast\WP\SEO\AI_HTTP_Request\Application;
 
 use Yoast\WP\SEO\AI_Generator\Domain\Response;
 
