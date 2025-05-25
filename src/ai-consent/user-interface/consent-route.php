@@ -1,20 +1,20 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\AI_Generator\User_Interface;
+namespace Yoast\WP\SEO\AI_Consent\User_Interface;
 
 use RuntimeException;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\AI_Generator\Application\Consent_Handler;
-use Yoast\WP\SEO\AI_Generator\Application\Token_Manager;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Bad_Request_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Forbidden_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Internal_Server_Error_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Not_Found_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Payment_Required_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Request_Timeout_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Service_Unavailable_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Too_Many_Requests_Exception;
+use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
+use Yoast\WP\SEO\AI_Authorization\Application\Token_Manager;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Forbidden_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Internal_Server_Error_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Not_Found_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Payment_Required_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Request_Timeout_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Service_Unavailable_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -129,5 +129,21 @@ class Consent_Route implements Route_Interface {
 		}
 
 			return new WP_REST_Response( ( $consent ) ? 'Consent successfully stored.' : 'Consent successfully revoked.' );
+	}
+
+	/**
+	 * Checks:
+	 * - if the user is logged
+	 * - if the user can edit posts
+	 *
+	 * @return bool Whether the user is logged in, can edit posts and the feature is active.
+	 */
+	public function check_permissions(): bool {
+		$user = \wp_get_current_user();
+		if ( $user === null || $user->ID < 1 ) {
+			return false;
+		}
+
+		return \user_can( $user, 'edit_posts' );
 	}
 }

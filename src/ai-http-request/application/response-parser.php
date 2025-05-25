@@ -1,7 +1,7 @@
 <?php
 namespace Yoast\WP\SEO\AI_HTTP_Request\Application;
 
-use Yoast\WP\SEO\AI_Generator\Domain\Response;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 
 /**
  * Class ResponseParser
