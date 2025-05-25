@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\User_Interface;
+namespace Yoast\WP\SEO\AI_Consent\User_Interface;
 
 use Exception;
 use WPSEO_Addon_Manager;
