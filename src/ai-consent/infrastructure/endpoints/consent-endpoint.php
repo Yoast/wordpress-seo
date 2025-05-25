@@ -1,10 +1,10 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\AI_Generator\Infrastructure\Endpoints;
+namespace Yoast\WP\SEO\AI_Consent\Infrastructure\Endpoints;
 
 use Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Endpoint\Endpoint_Interface;
-use Yoast\WP\SEO\AI_Generator\User_Interface\Consent_Route;
+use Yoast\WP\SEO\AI_Consent\Domain\Endpoint\Endpoint_Interface;
+use Yoast\WP\SEO\AI_Consent\User_Interface\Consent_Route;
 
 /**
  * Represents the setup steps tracking endpoint.

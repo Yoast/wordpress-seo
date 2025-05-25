@@ -1,17 +1,17 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\AI_Generator\User_Interface\Authorization;
+namespace Yoast\WP\SEO\AI_Authorization\User_Interface;
 
+use RuntimeException;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Unauthorized_Exception;
-use Yoast\WP\SEO\AI_Generator\Infrastructure\Access_Token_User_Meta_Repository;
-use Yoast\WP\SEO\AI_Generator\Infrastructure\Refresh_Token_User_Meta_Repository;
-use Yoast\WP\SEO\AI_Generator\Infrastructure\Verification_Code_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Verification_Code_User_Meta_Repository;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
-use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\RuntimeException;
 
 /**
  * The base class for the callback routes.

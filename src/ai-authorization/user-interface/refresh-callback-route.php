@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\AI_Generator\User_Interface\Authorization;
+namespace Yoast\WP\SEO\AI_Authorization\User_Interface;
 
 /**
  * Registers the callback route used in the authorization process.

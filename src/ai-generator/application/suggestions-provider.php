@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\AI_Generator\Application;
 
 use RuntimeException;
 use WP_User;
+use Yoast\WP\SEO\AI_Generator\Domain\Suggestion;
+use Yoast\WP\SEO\AI_Generator\Domain\Suggestions_Bucket;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Internal_Server_Error_Exception;
@@ -15,8 +17,6 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Suggestion;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Suggestions_Bucket;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
