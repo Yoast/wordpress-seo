@@ -22,5 +22,5 @@ interface Item_Interface {
 	 *
 	 * @return void
 	 */
-	public function markdown_escape( Markdown_Escaper $markdown_escaper ): void;
+	public function escape_markdown( Markdown_Escaper $markdown_escaper ): void;
 }

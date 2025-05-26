@@ -426,10 +426,10 @@ const SiteFeatures = () => {
 								name="wpseo.enable_llms_txt"
 								cardId="card-wpseo-enable_llms_txt"
 								inputId="input-wpseo-enable_llms_txt"
-								imageSrc="/images/insights.png"
-								title={ __( "LLMs.txt", "wordpress-seo" ) }
+								imageSrc="/images/llms.png"
+								title={ __( "llms.txt", "wordpress-seo" ) }
 							>
-								<p>{ __( "Boost the visibility of your content in AI searches. Automatically create an llms.txt file that lists a selection of your site's content. This helps LLMs access and provide your site's information more easily.", "wordpress-seo" ) }</p>
+								<p>{ __( "Boost the visibility of your content in AI searches. Automatically generate an llms.txt file that lists a selection of your site's content. This helps LLMs access and provide your site's information more easily.", "wordpress-seo" ) }</p>
 								{ initialEnableLlmsTxt && enableLlmsTxt && <Button
 									as="a"
 									id="link-llms"
@@ -439,10 +439,10 @@ const SiteFeatures = () => {
 									rel="noopener"
 									className="yst-self-start"
 								>
-									{ __( "View the llms.txt", "wordpress-seo" ) }
+									{ __( "View the llms.txt file", "wordpress-seo" ) }
 									<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
 								</Button> }
-								<LearnMoreLink id="link-llms-txt" link="https://yoa.st/site-features-llmstxt-learn-more" ariaLabel={ __( "LLMs.txt", "wordpress-seo" ) } />
+								<LearnMoreLink id="link-llms-txt" link="https://yoa.st/site-features-llmstxt-learn-more" ariaLabel={ __( "llms.txt", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>
 					</fieldset>

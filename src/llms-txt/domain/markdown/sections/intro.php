@@ -22,7 +22,7 @@ class Intro implements Section_Interface {
 	 *
 	 * @var Link[]
 	 */
-	private $intro_links;
+	private $intro_links = [];
 
 	/**
 	 * Class constructor.
@@ -32,7 +32,10 @@ class Intro implements Section_Interface {
 	 */
 	public function __construct( string $intro_content, array $intro_links ) {
 		$this->intro_content = $intro_content;
-		$this->intro_links   = $intro_links;
+
+		foreach ( $intro_links as $link ) {
+			$this->add_link( $link );
+		}
 	}
 
 	/**
@@ -61,7 +64,11 @@ class Intro implements Section_Interface {
 	 * @return string
 	 */
 	public function render(): string {
-		$link_renders = \array_map(
+		if ( \count( $this->intro_links ) === 0 ) {
+			return $this->intro_content;
+		}
+
+		$rendered_links = \array_map(
 			static function ( $link ) {
 				return $link->render();
 			},
@@ -70,7 +77,7 @@ class Intro implements Section_Interface {
 
 		$this->intro_content = \sprintf(
 			$this->intro_content,
-			...$link_renders
+			...$rendered_links
 		);
 		return $this->intro_content;
 	}
@@ -82,9 +89,9 @@ class Intro implements Section_Interface {
 	 *
 	 * @return void
 	 */
-	public function markdown_escape( Markdown_Escaper $markdown_escaper ): void {
+	public function escape_markdown( Markdown_Escaper $markdown_escaper ): void {
 		foreach ( $this->intro_links as $link ) {
-			$link->markdown_escape( $markdown_escaper );
+			$link->escape_markdown( $markdown_escaper );
 		}
 	}
 }

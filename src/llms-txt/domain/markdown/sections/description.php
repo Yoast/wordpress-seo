@@ -49,7 +49,7 @@ class Description implements Section_Interface {
 	 *
 	 * @return void
 	 */
-	public function markdown_escape( Markdown_Escaper $markdown_escaper ): void {
-		$this->description = $markdown_escaper->markdown_content_escape( $this->description );
+	public function escape_markdown( Markdown_Escaper $markdown_escaper ): void {
+		$this->description = $markdown_escaper->escape_markdown_content( $this->description );
 	}
 }
