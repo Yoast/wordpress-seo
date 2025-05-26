@@ -3,11 +3,11 @@
 namespace Yoast\WP\SEO\AI_Generator\User_Interface;
 
 use WP_REST_Response;
-use Yoast\WP\SEO\AI_Generator\Application\Request_Handler;
-use Yoast\WP\SEO\AI_Generator\Application\Token_Manager;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\Remote_Request_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Exceptions\WP_Request_Exception;
-use Yoast\WP\SEO\AI_Generator\Domain\Request;
+use Yoast\WP\SEO\AI_Authorization\Application\Token_Manager;
+use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
