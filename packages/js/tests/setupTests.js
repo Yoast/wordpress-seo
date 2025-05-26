@@ -73,6 +73,7 @@ global.HTMLCanvasElement.prototype.getContext = function( type ) {
 	return null;
 };
 
-// Add TextEncoder and TextDecoder from Node's util module for the GradientButton.
+// When using the GradientButton from the ai-frontend: Jose needs the TextEncoder and TextDecoder global objects to be available. These are available in browsers, but not in Jest.
+// This is a workaround to make them available in Jest.
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
