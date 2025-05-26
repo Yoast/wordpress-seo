@@ -1,8 +1,114 @@
 import SubheadingsKeywordAssessment from "../../../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../../src/helpers/factory";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
+import buildTree from "../../../specHelpers/parse/buildTree";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
 
 const matchKeywordAssessment = new SubheadingsKeywordAssessment();
+
+describe( "Tests for the keyphrase in subheadings assessment when no keyphrase and/or text is added", function() {
+	it( "shows feedback for keyphrase in subheadings when there is a text but no keyphrase", function() {
+		const paper = new Paper( "some text", { keyword: "" } );
+		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
+		expect( assessment.getScore() ).toBe( -50 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase in subheading</a>: " +
+			"<a href='https://yoa.st/33w' target='_blank'>Please add both a keyphrase and some text to receive relevant feedback</a>." );
+	} );
+	it( "shows feedback for keyphrase in subheadings when there is no text", function() {
+		const paper = new Paper( "", { keyword: "keyword" } );
+		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
+		expect( assessment.getScore() ).toBe( -50 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"<a href='https://yoa.st/33w' target='_blank'>Please add both a keyphrase and some text containing the keyphrase</a>." );
+	} );
+	it( "shows feedback for keyphrase in subheadings when there is no keyphrase set and no text", function() {
+		const paper = new Paper( "", { keyword: "keyphrase" } );
+		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
+		expect( assessment.getScore() ).toBe( -50 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"<a href='https://yoa.st/33w' target='_blank'>Please add both a keyphrase and some text containing the keyphrase</a>." );
+	} );
+} );
+
+describe( "Tests for the keyphrase in subheadings assessment when no keyphrase and/or text is added", function() {
+	it( "shows feedback for keyphrase in subheadings when there is a text but no keyphrase", function() {
+		const paper = new Paper( "some text", { keyword: "" } );
+		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
+		expect( assessment.getScore() ).toBe( 1 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase in subheading</a>: " +
+			"<a href='https://yoa.st/33w' target='_blank'>Please add both a keyphrase and some text containing the keyphrase</a>." );
+	} );
+	it( "shows feedback for keyphrase in subheadings when there is no text", function() {
+		const paper = new Paper( "", { keyword: "keyword" } );
+		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
+		expect( assessment.getScore() ).toBe( 1 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"<a href='https://yoa.st/33w' target='_blank'>Please add both a keyphrase and some text containing the keyphrase</a>." );
+	} );
+	it( "shows feedback for keyphrase in subheadings when there is no keyphrase set and no text", function() {
+		const paper = new Paper( "", { keyword: "keyphrase" } );
+		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
+		expect( assessment.getScore() ).toBe( 1 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"<a href='https://yoa.st/33w' target='_blank'>Please add both a keyphrase and some text containing the keyphrase</a>." );
+	} );
+} );
+
+const shortText = "a ".repeat( 200 );
+const shortTextJapanese = "熱".repeat( 599 );
+const longTextJapanese = "熱".repeat( 601 );
+
+describe( "Tests for the keyphrase in subheadings assessment when there are no subheadings", function() {
+	it( "shows feedback for keyphrase in subheadings when there is a short text with no subheadings", function() {
+		const paper = new Paper( shortText, { keyword: "keyphrase" } );
+		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
+		expect( assessment.getScore() ).toBe( 1 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase in subheading</a>: " +
+			"<a href='https://yoa.st/33w' target='_blank'>You are not using any higher-level subheadings containing the keyphrase, but your text is short enough and probably doesn't need them</a>." );
+	} );
+	it( "shows feedback for keyphrase in subheadings when there is a long text with no subheadings", function() {
+		const paper = new Paper( "", { keyword: "keyword" } );
+		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
+		expect( assessment.getScore() ).toBe( 1 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"<a href='https://yoa.st/33w' target='_blank'>You are not using any higher-level subheadings containing the keyphrase or its synonyms. Fix that!</a>." );
+	} );
+	it( "shows correct feedback for keyphrase in subheadings when there is a Japanese short text with no subheadings", function() {
+		const paper = new Paper( shortTextJapanese, { keyword: "鳥" } );
+		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
+		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
+		expect( assessment.getScore() ).toBe( 1 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase in subheading</a>: " +
+			"<a href='https://yoa.st/33w' target='_blank'>You are not using any higher-level subheadings containing the keyphrase, but your text is short enough and probably doesn't need them</a>." );
+	} );
+	it( "shows feedback for keyphrase in subheadings when there is a long text with no subheadings", function() {
+		const paper = new Paper( longTextJapanese, { keyword: "鳥" } );
+		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
+		expect( assessment.getScore() ).toBe( 1 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"<a href='https://yoa.st/33w' target='_blank'>You are not using any higher-level subheadings containing the keyphrase or its synonyms. Fix that!</a>." );
+	} );
+} );
 
 describe( "An assessment for matching keywords in subheadings", () => {
 	it( "returns a bad score and appropriate feedback when none of the subheadings contain the keyphrase: no matches.", function() {
