@@ -90,24 +90,49 @@ const createMarkButton = ( {
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
 const AnalysisResult = ( { markButtonFactory, ...props } ) => {
+	const {
+		ariaLabelMarks,
+		ariaLabelEdit,
+		bulletColor,
+		buttonIdMarks,
+		buttonIdEdit,
+		editButtonClassName,
+		hasAIFixes,
+		hasBetaBadgeLabel,
+		hasEditButton,
+		hasMarksButton,
+		id,
+		isPremium,
+		marker,
+		marksButtonStatus,
+		marksButtonClassName,
+		onButtonClickMarks,
+		onButtonClickEdit,
+		onResultChange,
+		pressed,
+		renderHighlightingUpsell,
+		renderAIOptimizeButton,
+		shouldUpsellHighlighting,
+		suppressedText,
+		text,
+	} = props;
 	const [ isOpen, setIsOpen ] = useState( false );
 
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
 	const openModal = useCallback( () => setIsOpen( true ), [] );
 
 	markButtonFactory = markButtonFactory || createMarkButton;
-	const { id, marker, hasMarksButton } = props;
 
 	let marksButton = null;
 	if ( ! areMarkButtonsHidden( props ) ) {
 		marksButton = markButtonFactory(
 			{
-				onClick: props.shouldUpsellHighlighting ? openModal : props.onButtonClickMarks,
-				status: props.marksButtonStatus,
-				className: props.marksButtonClassName,
-				id: props.buttonIdMarks,
-				isPressed: props.pressed,
-				ariaLabel: props.ariaLabelMarks,
+				onClick: shouldUpsellHighlighting ? openModal : onButtonClickMarks,
+				status: marksButtonStatus,
+				className: marksButtonClassName,
+				id: buttonIdMarks,
+				isPressed: pressed,
+				ariaLabel: ariaLabelMarks,
 			}
 		);
 	}
@@ -119,34 +144,34 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 	 * c) the information whether there is an object to be marked for the current result.
 	 */
 	useEffect( () => {
-		props.onResultChange( id, marker, hasMarksButton );
+		onResultChange( id, marker, hasMarksButton );
 	}, [ id, marker, hasMarksButton ] );
 
 	return (
 		<AnalysisResultBase>
 			<ScoreIcon
 				icon="circle"
-				color={ props.bulletColor }
+				color={ bulletColor }
 				size="13px"
 			/>
-			<AnalysisResultText suppressedText={ props.suppressedText }>
-				{ props.hasBetaBadgeLabel && <BetaBadge /> }
-				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( props.text, ALLOWED_TAGS ) } } />
+			<AnalysisResultText suppressedText={ suppressedText }>
+				{ hasBetaBadgeLabel && <BetaBadge /> }
+				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( text, ALLOWED_TAGS ) } } />
 			</AnalysisResultText>
 			<ResultButtonsContainer>
 				{ marksButton }
-				{ props.renderHighlightingUpsell( isOpen, closeModal ) }
+				{ renderHighlightingUpsell( isOpen, closeModal ) }
 				{
-					props.hasEditButton && props.isPremium &&
+					hasEditButton && isPremium &&
 					<IconCTAEditButton
-						className={ props.editButtonClassName }
-						onClick={ props.onButtonClickEdit }
-						id={ props.buttonIdEdit }
+						className={ editButtonClassName }
+						onClick={ onButtonClickEdit }
+						id={ buttonIdEdit }
 						icon="edit"
-						ariaLabel={ props.ariaLabelEdit }
+						ariaLabel={ ariaLabelEdit }
 					/>
 				}
-				{ props.renderAIFixesButton( props.hasAIFixes, props.id ) }
+				{ renderAIOptimizeButton( hasAIFixes, id ) }
 			</ResultButtonsContainer>
 		</AnalysisResultBase>
 	);
@@ -181,7 +206,7 @@ AnalysisResult.propTypes = {
 	] ),
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
-	renderAIFixesButton: PropTypes.func,
+	renderAIOptimizeButton: PropTypes.func,
 };
 
 AnalysisResult.defaultProps = {
@@ -201,7 +226,7 @@ AnalysisResult.defaultProps = {
 	marker: noop,
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: noop,
-	renderAIFixesButton: noop,
+	renderAIOptimizeButton: noop,
 };
 
 export default AnalysisResult;

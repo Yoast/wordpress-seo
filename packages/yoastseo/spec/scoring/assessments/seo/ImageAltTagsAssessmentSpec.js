@@ -6,6 +6,48 @@ import Factory from "../../../../src/helpers/factory.js";
 const imageAltTagsAssessment = new ImageAltTagsAssessment();
 
 describe( "test to check if all images have alt tags", function() {
+	it( "shows the assessment when there is an image but no text and gives the correct feedback", function() {
+		const mockPaper = new Paper( "<img src='image.jpg' />" );
+		const result = imageAltTagsAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 1,
+			altTagCount: {
+				noAlt: 1,
+				withAlt: 0,
+			},
+		}, true ) );
+
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt attributes</a>: None of the images have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!" );
+	} );
+
+	it( "shows the assessment when the page is empty and gives the correct feedback", function() {
+		const mockPaper = new Paper( "" );
+		const result = imageAltTagsAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 0,
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 0,
+			},
+		}, true ) );
+
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt attributes</a>: This page does not have images with alt attributes. <a href='' target='_blank'>Add some</a>!" );
+	} );
+
+	it( "assesses a paper with text but no images found", () => {
+		const mockPaper = new Paper( "This is a test paper" );
+		const result = imageAltTagsAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 0,
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 0,
+			},
+		}, true ) );
+
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt attributes</a>: This page does not have images with alt attributes. <a href='' target='_blank'>Add some</a>!" );
+	} );
+
 	it( "assesses text with 4 images and none of them has alt tags", function() {
 		const mockPaper = new Paper( "sample" );
 
@@ -16,9 +58,8 @@ describe( "test to check if all images have alt tags", function() {
 				withAlt: 0,
 			},
 		}, true ) );
-
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt tags</a>: None of the images has alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!" );
+		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt attributes</a>: None of the images have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!" );
 	} );
 
 	it( "assesses text with 4 images and 1 of the doesn't have alt tags", function() {
@@ -28,12 +69,13 @@ describe( "test to check if all images have alt tags", function() {
 			imageCount: 4,
 			altTagCount: {
 				noAlt: 1,
+				noImagesBad: 1,
 				withAlt: 3,
 			},
 		}, true ) );
 
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt tags</a>: One image doesn't have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!" );
+		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt attributes</a>: One image doesn't have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!" );
 	} );
 
 	it( "assesses text with 4 images and 2 of the doesn't have alt tags", function() {
@@ -48,7 +90,7 @@ describe( "test to check if all images have alt tags", function() {
 		}, true ) );
 
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual(  "<a href='' target='_blank'>Image alt tags</a>: Some images don't have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!" );
+		expect( result.getText() ).toEqual(  "<a href='' target='_blank'>Image alt attributes</a>: Some images don't have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!" );
 	} );
 
 	it( "assesses a text with 4 images and all of them have alt attributes", function() {
@@ -63,33 +105,7 @@ describe( "test to check if all images have alt tags", function() {
 		}, true ) );
 
 		expect( result.getScore() ).toEqual( 9 );
-		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt tags</a>: All images have alt attributes. Good job!" );
-	} );
-} );
-
-describe( "tests for the assessment applicability.", function() {
-	it( "returns false when the paper is empty.", function() {
-		const paper = new Paper( "" );
-		expect( imageAltTagsAssessment.isApplicable( paper, Factory.buildMockResearcher( {
-			imageCount: 0,
-		}, true ) ) ).toBe( false );
-	} );
-
-	it( "returns false when the paper is not empty but there is no image present.", function() {
-		const paper = new Paper( "sample keyword", {
-			slug: "sample-with-keyword",
-			keyword: "kéyword",
-		} );
-		expect( imageAltTagsAssessment.isApplicable( paper, Factory.buildMockResearcher( {
-			imageCount: 0,
-		}, true ) ) ).toBe( false );
-	} );
-
-	it( "returns true when the paper is not empty and there is an image present.", function() {
-		const paper = new Paper( "These are just five words <img src='image.jpg' />" );
-		expect( imageAltTagsAssessment.isApplicable( paper, Factory.buildMockResearcher( {
-			imageCount: 1,
-		}, true ) ) ).toBe( true );
+		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt attributes</a>: All images have alt attributes. Good job!" );
 	} );
 } );
 
@@ -107,9 +123,10 @@ describe( "tests for retrieving the feedback strings.", function() {
 		}, true ) );
 
 		expect( assessment.getFeedbackStrings() ).toEqual( {
-			good: "<a href='' target='_blank'>Image alt tags</a>: All images have alt attributes. Good job!",
-			noneHasAltBad: "<a href='' target='_blank'>Image alt tags</a>: None of the images has alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!",
-			someHaveAltBad: "<a href='' target='_blank'>Image alt tags</a>: Some images don't have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!",
+			good: "<a href='' target='_blank'>Image alt attributes</a>: All images have alt attributes. Good job!",
+			noImagesBad: "<a href='' target='_blank'>Image alt attributes</a>: This page does not have images with alt attributes. <a href='' target='_blank'>Add some</a>!",
+			noneHasAltBad: "<a href='' target='_blank'>Image alt attributes</a>: None of the images have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!",
+			someHaveAltBad: "<a href='' target='_blank'>Image alt attributes</a>: Some images don't have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!",
 		} );
 	} );
 
@@ -122,23 +139,33 @@ describe( "tests for retrieving the feedback strings.", function() {
 		 * @param {number} numberOfImagesWithoutAlt The number of images without alt tags.
 		 * @param {number} totalNumberOfImages The total number of images found in the text.
 		 *
-		 * @returns {{noneHasAltBad: string, good: string, someHaveAltBad: string}} The object that contains the result texts as a translation string.
+		 * @returns {{good: string, noImagesBad: string, noneHasAltBad: string, someHaveAltBad: string}} The object that contains the result texts as a translation string.
 		 */
 		const getResultTexts = ( { urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag, numberOfImagesWithoutAlt, totalNumberOfImages } ) => {
 			return {
 				good: sprintf(
 					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
-						"%1$sImage alt tags%2$s: All images have alt attributes. Good job!",
+						"%1$sImage alt attributes%2$s: All images have alt attributes. Good job!",
 						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
 					"</a>"
 				),
+				noImagesBad: sprintf(
+					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					__(
+						"%1$sImage alt attributes%3$s: This page does not have images with alt attributes. %2$sAdd some%3$s!",
+						"this-is-a-test-domain"
+					),
+					urlTitleAnchorOpeningTag,
+					urlActionAnchorOpeningTag,
+					"</a>"
+				),
 				noneHasAltBad: sprintf(
 					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
-						"%1$sImage alt tags%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
+						"%1$sImage alt attributes%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
 						"this-is-a-test-domain"
 					),
 					urlTitleAnchorOpeningTag,
@@ -148,8 +175,8 @@ describe( "tests for retrieving the feedback strings.", function() {
 				someHaveAltBad: sprintf(
 					/* translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag, %1$d expands to the number of images without alt tags, %2$d expands to the number of images found in the text, */
 					_n(
-						"%3$sImage alt tags%5$s: %1$d image out of %2$d doesn't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
-						"%3$sImage alt tags%5$s: %1$d images out of %2$d don't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
+						"%3$sImage alt attributes%5$s: %1$d image out of %2$d doesn't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
+						"%3$sImage alt attributes%5$s: %1$d images out of %2$d don't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
 						numberOfImagesWithoutAlt,
 						"this-is-a-test-domain"
 					),
@@ -175,9 +202,10 @@ describe( "tests for retrieving the feedback strings.", function() {
 		}, true ) );
 
 		expect( assessment.getFeedbackStrings() ).toEqual( {
-			good: "<a href='' target='_blank'>Image alt tags</a>: All images have alt attributes. Good job!",
-			noneHasAltBad: "<a href='' target='_blank'>Image alt tags</a>: None of the images has alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!",
-			someHaveAltBad: "<a href='' target='_blank'>Image alt tags</a>: 0 images out of 4 don't have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!",
+			good: "<a href='' target='_blank'>Image alt attributes</a>: All images have alt attributes. Good job!",
+			noImagesBad: "<a href='' target='_blank'>Image alt attributes</a>: This page does not have images with alt attributes. <a href='' target='_blank'>Add some</a>!",
+			noneHasAltBad: "<a href='' target='_blank'>Image alt attributes</a>: None of the images has alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!",
+			someHaveAltBad: "<a href='' target='_blank'>Image alt attributes</a>: 0 images out of 4 don't have alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!",
 		} );
 	} );
 } );

@@ -1,6 +1,6 @@
 import { useSelect } from "@wordpress/data";
-import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import PropTypes from "prop-types";
 
@@ -19,7 +19,7 @@ export const BlackFridaySidebarChecklistPromotion = ( {
 	...props
 } ) => {
 	const linkParams = useSelect( select => select( store ).selectLinkParams(), [ store ] );
-	const body = createInterpolateElement(
+	const body = safeCreateInterpolateElement(
 		sprintf(
 		/* translators:  %1$s expands to Yoast, %2$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 			__( "The %1$s %2$sultimate Black Friday checklist%3$s helps you prepare in time, so you can boost your results during this sale.", "wordpress-seo" ),

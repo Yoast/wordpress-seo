@@ -13,23 +13,46 @@ import { Paper } from "yoastseo";
 import { ModalContent } from "./modal-content";
 import { getAllBlocks } from "../../helpers/getAllBlocks";
 import { LockClosedIcon } from "@heroicons/react/solid";
+import { isTextViewActive } from "../../lib/tinymce";
 
 /**
- * The AI Assessment Fixes button component.
- *
- * @param {string} id The assessment ID for which the AI fixes should be applied to.
- * @param {boolean} isPremium Whether the premium add-on is active.
- *
- * @returns {JSX.Element} The AI Assessment Fixes button.
+ * Returns the editor mode based on the editor type.
+ * @returns {string} The editor mode, either "visual" or "text".
  */
-const AIAssessmentFixesButton = ( { id, isPremium } ) => {
-	const aiFixesId = id + "AIFixes";
+const getEditorMode = () => {
+	const editorType = useSelect( ( select ) => select( "yoast-seo/editor" ).getEditorType(), [] );
+
+	if ( editorType === "blockEditor" ) {
+		return useSelect( ( select ) => select( "core/edit-post" ).getEditorMode(), [] );
+	} else if ( editorType === "classicEditor" ) {
+		return isTextViewActive() ? "text" : "visual";
+	}
+	return "";
+};
+
+/**
+ * The AI Optimize button component.
+ *
+ * @param {string} id The assessment ID which AI Optimize should be applied to.
+ * @param {boolean} isPremium Whether the Premium add-on is active.
+ *
+ * @returns {JSX.Element} The AI Optimize button.
+ */
+const AIOptimizeButton = ( { id, isPremium } ) => {
+	// The AI Optimize button ID is the same as the assessment ID, with "AIFixes" appended to it.
+	// We continue to use "AIFixes" in the ID to keep it consistent with the Premium implementation.
+	const aiOptimizeId = id + "AIFixes";
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const { activeMarker, editorMode, activeAIButtonId } = useSelect( ( select ) => ( {
+	const { activeMarker, activeAIButtonId, editorType, isWooSeoUpsellPost } = useSelect( ( select ) => ( {
 		activeMarker: select( "yoast-seo/editor" ).getActiveMarker(),
-		editorMode: select( "core/edit-post" ).getEditorMode(),
 		activeAIButtonId: select( "yoast-seo/editor" ).getActiveAIFixesButton(),
+		editorType: select( "yoast-seo/editor" ).getEditorType(),
+		isWooSeoUpsellPost: select( "yoast-seo/editor" ).getIsWooSeoUpsell(),
 	} ), [] );
+	const editorMode = getEditorMode();
+
+	const shouldShowUpsell = ! isPremium || isWooSeoUpsellPost;
+
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
@@ -38,13 +61,14 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	const htmlLabel = __( "Please switch to the visual editor to optimize with AI.", "wordpress-seo" );
 
 	// The button is pressed when the active AI button id is the same as the current button id.
-	const isButtonPressed = activeAIButtonId === aiFixesId;
+	const isButtonPressed = activeAIButtonId === aiOptimizeId;
 
 	// Enable the button when:
 	// (1) other AI buttons are not pressed.
 	// (2) the AI button is not disabled.
 	// (3) the editor is in visual mode.
 	// (4) all blocks are in visual mode.
+	// eslint-disable-next-line complexity
 	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
 		if ( activeAIButtonId !== null && ! isButtonPressed ) {
 			return {
@@ -54,10 +78,10 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		}
 
 		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
-		if ( Object.keys( disabledAIButtons ).includes( aiFixesId ) ) {
+		if ( Object.keys( disabledAIButtons ).includes( aiOptimizeId ) ) {
 			return {
 				isEnabled: false,
-				ariaLabel: disabledAIButtons[ aiFixesId ],
+				ariaLabel: disabledAIButtons[ aiOptimizeId ],
 			};
 		}
 
@@ -68,11 +92,18 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			};
 		}
 
-		const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
-		const allVisual = blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
+		if ( editorType === "blockEditor" ) {
+			const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
+			const allVisual = blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
+			return {
+				isEnabled: allVisual,
+				ariaLabel: allVisual ? defaultLabel : htmlLabel,
+			};
+		}
+
 		return {
-			isEnabled: allVisual,
-			ariaLabel: allVisual ? defaultLabel : htmlLabel,
+			isEnabled: true,
+			ariaLabel: defaultLabel,
 		};
 	}, [ isButtonPressed, activeAIButtonId, editorMode ] );
 
@@ -92,12 +123,12 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 		/* If the current pressed button ID is the same as the active AI button id,
 		we want to set the active AI button to null and enable back the highlighting button that was disabled
 		when the AI button was pressed the first time. Otherwise, update the active AI button ID. */
-		if ( aiFixesId === activeAIButtonId ) {
+		if ( aiOptimizeId === activeAIButtonId ) {
 			setActiveAIFixesButton( null );
 			// Enable the highlighting button when the AI button is not pressed.
 			setMarkerStatus( "enabled" );
 		} else {
-			setActiveAIFixesButton( aiFixesId );
+			setActiveAIFixesButton( aiOptimizeId );
 			/*
 			Disable the highlighting button when the AI button is pressed.
 			This is because clicking on the highlighting button will remove the AI suggestion from the editor.
@@ -109,11 +140,12 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	};
 
 	const handleClick = useCallback( () => {
-		if ( isPremium ) {
-			doAction( "yoast.ai.fixAssessments", aiFixesId );
+		// eslint-disable-next-line no-negated-condition -- Let's handle the happy path first.
+		if ( ! shouldShowUpsell ) {
+			doAction( "yoast.ai.fixAssessments", aiOptimizeId );
 			/* Only handle the pressed button state in Premium.
 			We don't want to change the background color of the button and other styling when it's pressed in Free.
-			This is because clicking on the button in Free will open the modal, and the button will not be in a pressed state. */
+			This is because clicking on the button in Free will open an upsell modal, and the button will not be in a pressed state. */
 			handlePressedButton();
 		} else {
 			setIsModalOpenTrue();
@@ -139,12 +171,12 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 			ariaLabel={ ariaLabel }
 			onPointerEnter={ handleMouseEnter }
 			onPointerLeave={ handleMouseLeave }
-			id={ aiFixesId }
+			id={ aiOptimizeId }
 			className={ `ai-button ${buttonClass}` }
 			pressed={ isButtonPressed }
 			disabled={ ! isEnabled }
 		>
-			{ ! isPremium && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
+			{ shouldShowUpsell && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
 			<SparklesIcon pressed={ isButtonPressed } />
 			{
 				isModalOpen && <Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
@@ -157,14 +189,14 @@ const AIAssessmentFixesButton = ( { id, isPremium } ) => {
 	);
 };
 
-AIAssessmentFixesButton.propTypes = {
+AIOptimizeButton.propTypes = {
 	id: PropTypes.string.isRequired,
 	isPremium: PropTypes.bool,
 };
 
-AIAssessmentFixesButton.defaultProps = {
+AIOptimizeButton.defaultProps = {
 	isPremium: false,
 };
 
-export default AIAssessmentFixesButton;
+export default AIOptimizeButton;
 

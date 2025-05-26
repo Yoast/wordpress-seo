@@ -1,10 +1,10 @@
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
-import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Paper, Title } from "@yoast/ui-library";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import { getPremiumBenefits } from "../../helpers/get-premium-benefits";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /**
  * @param {string} premiumLink The premium link.
@@ -34,7 +34,7 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-ps-[1em] yst-list-outside yst-text-slate-800 yst-mt-6">
 					{ getPremiumBenefits().map( ( benefit, index ) => (
 						<li key={ `upsell-benefit-${ index }` }>
-							{ createInterpolateElement( benefit, { strong: <span className="yst-font-semibold" /> } ) }
+							{ safeCreateInterpolateElement( benefit, { strong: <span className="yst-font-semibold" /> } ) }
 						</li>
 					) ) }
 				</ul>

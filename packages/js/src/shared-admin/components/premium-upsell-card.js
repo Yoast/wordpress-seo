@@ -1,7 +1,8 @@
 import { noop } from "lodash";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Button, Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { ReactComponent as StarHalf } from "../../../images/star-rating-half.svg";
@@ -18,7 +19,7 @@ import { ReactComponent as G2Logo } from "./g2-logo-white.svg";
  */
 export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive } ) => {
 	let info = useMemo( () => __( "Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support, and much, much more!", "wordpress-seo" ), [] );
-	let getPremium = createInterpolateElement(
+	let getPremium = safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
 			__( "%1$sGet%2$s %3$s", "wordpress-seo" ),
@@ -36,7 +37,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive } ) => {
 	if ( isBlackFriday ) {
 		info = useMemo( () => __( "If you were thinking about upgrading, now's the time! 30% OFF ends 3rd Dec 11am (CET)", "wordpress-seo" ), [] );
 
-		getPremium = createInterpolateElement(
+		getPremium = safeCreateInterpolateElement(
 			sprintf(
 				/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
 				__( "%1$sBuy%2$s %3$s", "wordpress-seo" ),

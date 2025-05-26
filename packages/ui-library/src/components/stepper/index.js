@@ -122,6 +122,13 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 		<StepperContext.Provider value={ { addStepRef, currentStep } }>
 			<div className={ classNames( className, "yst-stepper" ) } ref={ ref }>
 
+				<ProgressBar
+					style={ {
+						right: progressBarPosition.right,
+						left: progressBarPosition.left,
+					} }
+					progress={ getCurrentStepPercentage( progressBarPosition.stepsLengthPercentage, currentStep ) }
+				/>
 				{ children || steps.map( ( step, index ) => (
 					<Step
 						key={ `${ step.id }-step` }
@@ -131,14 +138,6 @@ export const Stepper = forwardRef( ( { children, currentStep = 0, className = ""
 						{ step.children }
 					</Step>
 				) ) }
-
-				<ProgressBar
-					style={ {
-						right: progressBarPosition.right,
-						left: progressBarPosition.left,
-					} }
-					progress={ getCurrentStepPercentage( progressBarPosition.stepsLengthPercentage, currentStep ) }
-				/>
 
 			</div>
 		</StepperContext.Provider>

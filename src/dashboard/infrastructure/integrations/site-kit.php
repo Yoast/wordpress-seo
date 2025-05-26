@@ -24,13 +24,6 @@ class Site_Kit {
 	protected $site_kit_feature_conditional;
 
 	/**
-	 * Variable to locally cache the setup completed value.
-	 *
-	 * @var bool $setup_completed
-	 */
-	private $setup_completed;
-
-	/**
 	 * The Site Kit consent repository.
 	 *
 	 * @var Site_Kit_Consent_Repository_Interface
@@ -57,8 +50,7 @@ class Site_Kit {
 	 * @var array<string, bool> $search_console_module
 	 */
 	private $search_console_module = [
-		'owner'    => null,
-		'can_view' => false,
+		'can_view' => null,
 	];
 
 	/**
@@ -67,8 +59,7 @@ class Site_Kit {
 	 * @var array<string, bool> $ga_module
 	 */
 	private $ga_module = [
-		'owner'     => null,
-		'can_view'  => false,
+		'can_view'  => null,
 		'connected' => null,
 	];
 
@@ -109,10 +100,6 @@ class Site_Kit {
 	 * @return bool If the Google site kit setup has been completed.
 	 */
 	private function is_setup_completed(): bool {
-		if ( $this->setup_completed !== null ) {
-			return $this->setup_completed;
-		}
-
 		return $this->site_kit_is_connected_call->is_setup_completed();
 	}
 
@@ -154,36 +141,19 @@ class Site_Kit {
 	 * @return bool If the entire onboarding has been completed.
 	 */
 	public function is_onboarded(): bool {
+		// @TODO: Consider replacing the `is_setup_completed()` check with a `can_read_data( $module )` check (and possibly rename the method to something more genric eg. is_ready() ).
 		return ( $this->is_site_kit_installed() && $this->is_setup_completed() && $this->is_connected() );
 	}
 
 	/**
-	 * Checks if current user is owner of the module.
+	 * Checks if current user can view dashboard data for a module
 	 *
-	 * @param array<string>|null $module_owner The module to check for owner.
-	 *
-	 * @return bool If current user is owner of the module.
-	 */
-	public function is_owner( ?array $module_owner ): bool {
-		$current_user = \wp_get_current_user();
-		if ( $module_owner !== null ) {
-			return (int) $module_owner['id'] === $current_user->ID;
-
-		}
-
-		return false;
-	}
-
-	/**
-	 * Checks is current user can view dashboard data, which can the owner who set it up,
-	 * or user with one of the shared roles.
-	 *
-	 * @param array<array|null> $module The module owner.
+	 * @param array<array|null> $module The module.
 	 *
 	 * @return bool If the user can read the data.
 	 */
 	private function can_read_data( array $module ): bool {
-		return $module['can_view'] || $this->is_owner( $module['owner'] );
+		return ( ! \is_null( $module['can_view'] ) ? $module['can_view'] : false );
 	}
 
 	/**
@@ -215,7 +185,7 @@ class Site_Kit {
 			'connectionStepsStatuses'  => [
 				'isInstalled'      => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
 				'isActive'         => $this->is_enabled(),
-				'isSetupCompleted' => $this->is_setup_completed(),
+				'isSetupCompleted' => $this->can_read_data( $this->search_console_module ) || $this->can_read_data( $this->ga_module ),
 				'isConsentGranted' => $this->is_connected(),
 			],
 			'isVersionSupported'       => \defined( 'GOOGLESITEKIT_VERSION' ) ? \version_compare( \GOOGLESITEKIT_VERSION, '1.148.0', '>=' ) : false,
@@ -249,27 +219,25 @@ class Site_Kit {
 
 		$modules_data        = ! empty( $preloaded[ $paths['modules'] ]['body'] ) ? $preloaded[ $paths['modules'] ]['body'] : [];
 		$modules_permissions = ! empty( $preloaded[ $paths['permissions'] ]['body'] ) ? $preloaded[ $paths['permissions'] ]['body'] : [];
-		$is_authenticated    = false;
-		if ( ! empty( $preloaded[ $paths['authentication'] ]['body']['authenticated'] ) ) {
-			$is_authenticated = $preloaded[ $paths['authentication'] ]['body']['authenticated'];
-		}
-		$this->setup_completed = $preloaded[ $paths['connection'] ]['body']['setupCompleted'];
+
+		$can_view_dashboard = ( $modules_permissions['googlesitekit_view_authenticated_dashboard'] ?? false );
 
 		foreach ( $modules_data as $module ) {
 			$slug = $module['slug'];
-			if ( $slug === 'analytics-4' ) {
-				$this->ga_module['owner']     = ( $module['owner'] ?? null );
-				$this->ga_module['connected'] = ( $module['connected'] ?? false );
-				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'] ) ) {
-					$this->ga_module['can_view'] = $is_authenticated || $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'];
-				}
-			}
-			if ( $slug === 'search-console' ) {
-				$this->search_console_module['owner'] = ( $module['owner'] ?? null );
+			// We have to also check if the module is recoverable, because if we rely on the module being shared, we have to make also sure the module owner is still connected.
+			$is_recoverable = ( $module['recoverable'] ?? null );
 
-				if ( isset( $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'] ) ) {
-					$this->search_console_module['can_view'] = $is_authenticated || $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'];
-				}
+			if ( $slug === 'analytics-4' ) {
+				$can_read_shared_module_data = ( $modules_permissions['googlesitekit_read_shared_module_data::["analytics-4"]'] ?? false );
+
+				$this->ga_module['can_view']  = $can_view_dashboard || ( $can_read_shared_module_data && ! $is_recoverable );
+				$this->ga_module['connected'] = ( $module['connected'] ?? false );
+			}
+
+			if ( $slug === 'search-console' ) {
+				$can_read_shared_module_data = ( $modules_permissions['googlesitekit_read_shared_module_data::["search-console"]'] ?? false );
+
+				$this->search_console_module['can_view'] = $can_view_dashboard || ( $can_read_shared_module_data && ! $is_recoverable );
 			}
 		}
 	}
@@ -284,10 +252,8 @@ class Site_Kit {
 		$rest_root = ( \class_exists( REST_Routes::class ) ) ? REST_Routes::REST_ROOT : '';
 
 		return [
-			'authentication' => '/' . $rest_root . '/core/user/data/authentication',
 			'permissions'    => '/' . $rest_root . '/core/user/data/permissions',
 			'modules'        => '/' . $rest_root . '/core/modules/data/list',
-			'connection'     => '/' . $rest_root . '/core/site/data/connection',
 		];
 	}
 

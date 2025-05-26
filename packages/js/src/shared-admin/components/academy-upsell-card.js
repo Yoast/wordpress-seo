@@ -1,4 +1,5 @@
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { useMemo } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { Link, Paper, Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
@@ -8,7 +9,7 @@ import PropTypes from "prop-types";
  * @returns {JSX.Element} The element.
  */
 export const AcademyUpsellCard = ( { link } ) => {
-	const academy = useMemo( () => createInterpolateElement(
+	const academy = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to "Yoast SEO" academy, which is a clickable link. */
 			__( "Want to learn SEO from Team Yoast? Check out our %1$s!", "wordpress-seo" ),

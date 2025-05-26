@@ -102,6 +102,7 @@ export default class AbstractResearcher {
 
 		this.config = {
 			areHyphensWordBoundaries: true,
+			centerClasses: [ "has-text-align-center" ],
 		};
 	}
 

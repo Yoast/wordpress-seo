@@ -9,8 +9,8 @@ describe( "a test for getting elements of too long center aligned text", functio
 			"</p><p class=\"has-text-align-center\">This is a short text.</p>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getLongCenterAlignedTexts( mockPaper ).length ).toEqual( 1 );
-		expect( getLongCenterAlignedTexts( mockPaper )[ 0 ].innerText() ).toEqual(
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher ).length ).toEqual( 1 );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher )[ 0 ].innerText() ).toEqual(
 			"This is a paragraph with a bit more than fifty characters." );
 	} );
 	it( "returns one object for each too long paragraph", function() {
@@ -18,10 +18,10 @@ describe( "a test for getting elements of too long center aligned text", functio
 			"</p><p class=\"has-text-align-center\">This is another paragraph with a bit more than fifty characters.</p>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getLongCenterAlignedTexts( mockPaper ).length ).toEqual( 2 );
-		expect( getLongCenterAlignedTexts( mockPaper )[ 0 ].innerText() ).toEqual(
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher ).length ).toEqual( 2 );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher )[ 0 ].innerText() ).toEqual(
 			"This is a paragraph with a bit more than fifty characters." );
-		expect( getLongCenterAlignedTexts( mockPaper )[ 1 ].innerText() ).toEqual(
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher )[ 1 ].innerText() ).toEqual(
 			"This is another paragraph with a bit more than fifty characters." );
 	} );
 	it( "returns the text and type of element if a too long heading with center aligned text is found", function() {
@@ -29,8 +29,8 @@ describe( "a test for getting elements of too long center aligned text", functio
 			"</h2><h2 class=\"has-text-align-center\">This is a short heading.</h2>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getLongCenterAlignedTexts( mockPaper ).length ).toEqual( 1 );
-		expect( getLongCenterAlignedTexts( mockPaper )[ 0 ].innerText() ).toEqual(
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher ).length ).toEqual( 1 );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher )[ 0 ].innerText() ).toEqual(
 			"This is a heading with a bit more than fifty characters." );
 	} );
 	it( "returns one object for each too long heading", function() {
@@ -38,10 +38,10 @@ describe( "a test for getting elements of too long center aligned text", functio
 			"</h3><h4 class=\"has-text-align-center\">This is another heading with a bit more than fifty characters.</h4>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getLongCenterAlignedTexts( mockPaper ).length ).toEqual( 2 );
-		expect( getLongCenterAlignedTexts( mockPaper )[ 0 ].innerText() ).toEqual(
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher ).length ).toEqual( 2 );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher )[ 0 ].innerText() ).toEqual(
 			"This is a heading with a bit more than fifty characters." );
-		expect( getLongCenterAlignedTexts( mockPaper )[ 1 ].innerText() ).toEqual(
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher )[ 1 ].innerText() ).toEqual(
 			"This is another heading with a bit more than fifty characters." );
 	} );
 	it( "returns the objects for both headings and paragraphs when both contain too long center aligned text", function() {
@@ -49,10 +49,10 @@ describe( "a test for getting elements of too long center aligned text", functio
 			"</h5><p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getLongCenterAlignedTexts( mockPaper ).length ).toEqual( 2 );
-		expect( getLongCenterAlignedTexts( mockPaper )[ 0 ].innerText() ).toEqual(
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher ).length ).toEqual( 2 );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher )[ 0 ].innerText() ).toEqual(
 			"This is a paragraph with a bit more than fifty characters." );
-		expect( getLongCenterAlignedTexts( mockPaper )[ 1 ].innerText() ).toEqual(
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher )[ 1 ].innerText() ).toEqual(
 			"This is a heading with a bit more than fifty characters." );
 	} );
 	it( "also detects the center-aligned elements if the class name is in single quotes", function() {
@@ -60,8 +60,8 @@ describe( "a test for getting elements of too long center aligned text", functio
 			"</p><p class='has-text-align-center'>This is a short text.</p>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getLongCenterAlignedTexts( mockPaper ).length ).toEqual( 1 );
-		expect( getLongCenterAlignedTexts( mockPaper )[ 0 ].innerText() ).toEqual(
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher ).length ).toEqual( 1 );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher )[ 0 ].innerText() ).toEqual(
 			"This is a paragraph with a bit more than fifty characters." );
 	} );
 	it( "also detects the center-aligned elements if there are multiple class names", function() {
@@ -70,38 +70,53 @@ describe( "a test for getting elements of too long center aligned text", functio
 			"</p><p class='has-text-align-center'>This is a short text.</p>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getLongCenterAlignedTexts( mockPaper ).length ).toEqual( 1 );
-		expect( getLongCenterAlignedTexts( mockPaper )[ 0 ].innerText() ).toEqual(
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher ).length ).toEqual( 1 );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher )[ 0 ].innerText() ).toEqual(
 			"This is a paragraph with a bit more than fifty characters." );
 	} );
 	it( "does not include html tags in the character count", function() {
 		const mockPaper = new Paper( "<p class=\"has-text-align-center\">This text is too long if you count html tags.</p>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [] );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher ) ).toEqual( [] );
 	} );
 	it( "returns an empty array if no long center aligned texts are found", function() {
 		const mockPaper = new Paper( "<p>Lorem ipsum</p><h3>heading</h3>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [] );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher ) ).toEqual( [] );
 	} );
 	it( "returns an empty array if a long center aligned text is found inside a blockquote", function() {
 		const mockPaper = new Paper( "<blockquote><p class=\"has-text-align-center\">Lorem ipsum</p></blockquote>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [] );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher ) ).toEqual( [] );
 	} );
 	it( "returns an empty array if an element with short center aligned text is found", function() {
 		const mockPaper = new Paper( "<p class=\"has-text-align-center\">Lorem ipsum</p><h4 class=\"has-text-align-center\">Lorem ipsum</h4>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [] );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher ) ).toEqual( [] );
 	} );
 	it( "returns an empty array if the element with center alignment is not a paragraph or a heading", function() {
 		const mockPaper = new Paper( "<ul class=\"has-text-align-center\"><li>List item</li></ul>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [] );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher ) ).toEqual( [] );
+	} );
+	it( "should also allow overriding the centering classes", function() {
+		const mockPaper = new Paper(
+			"<p class=\"some-other-class-a\">This is the a paragraph with a bit more than fifty characters.</p>" +
+			"<p class=\"some-other-class-b\">This is the b paragraph with a bit more than fifty characters.</p>" +
+			"<p class=\"some-other-class-c\">This is the c paragraph with a bit more than fifty characters.</p>"
+		);
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		mockResearcher.addConfig( "centerClasses", [ "some-other-class-a", "some-other-class-c" ] );
+		buildTree( mockPaper, mockResearcher );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher ).length ).toEqual( 2 );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher )[ 0 ].innerText() ).toEqual(
+			"This is the a paragraph with a bit more than fifty characters." );
+		expect( getLongCenterAlignedTexts( mockPaper, mockResearcher )[ 1 ].innerText() ).toEqual(
+			"This is the c paragraph with a bit more than fifty characters." );
 	} );
 } );

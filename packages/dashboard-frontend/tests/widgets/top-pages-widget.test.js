@@ -1,9 +1,9 @@
 import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
-import { forEach } from "lodash";
-import { SCORE_META } from "../../src/scores/score-meta";
-import { PlainMetricsDataFormatter } from "../../src/services/plain-metrics-data-formatter";
-import { createTopPageFormatter, TopPagesWidget } from "../../src/widgets/top-pages-widget";
 import { render, waitFor } from "@testing-library/react";
+import { forEach } from "lodash";
+import { PlainMetricsDataFormatter } from "../../src";
+import { SCORE_META } from "../../src/scores/score-meta";
+import { createTopPageFormatter, TopPagesWidget } from "../../src/widgets/top-pages-widget";
 import { MockDataProvider } from "../__mocks__/data-provider";
 import { MockRemoteDataProvider } from "../__mocks__/remote-data-provider";
 

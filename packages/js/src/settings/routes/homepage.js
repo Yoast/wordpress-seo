@@ -1,4 +1,5 @@
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { useMemo } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
@@ -20,7 +21,7 @@ const LatestPosts = () => {
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "homepage", "page" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "homepage", "page" );
 
-	const recommendedSize = useMemo( () => createInterpolateElement(
+	const recommendedSize = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening strong tag.

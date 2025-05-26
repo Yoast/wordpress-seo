@@ -32,6 +32,7 @@ export { default as FileImport } from "./components/file-import";
 export { default as Modal } from "./components/modal";
 export { default as Notifications, useNotificationsContext } from "./components/notifications";
 export { default as Pagination } from "./components/pagination";
+export { default as Popover, usePopoverContext } from "./components/popover";
 export { default as RadioGroup } from "./components/radio-group";
 export { default as Root } from "./components/root";
 export { default as SelectField } from "./components/select-field";

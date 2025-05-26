@@ -1,4 +1,4 @@
-import { createInterpolateElement } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "./i18n";
 
 /**
  * Capitalize the first letter of a string.
@@ -36,7 +36,7 @@ export function stripHTML( string ) {
  * @returns {WPElement} A Fragment with the text and a link.
  */
 export function addLinkToString( text, linkTo, id = "" ) {
-	return createInterpolateElement(
+	return safeCreateInterpolateElement(
 		text,
 		{
 			// eslint-disable-next-line jsx-a11y/anchor-has-content

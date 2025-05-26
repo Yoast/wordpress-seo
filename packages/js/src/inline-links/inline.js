@@ -18,7 +18,7 @@ import { applyFormat, create, insert, isCollapsed, useAnchor } from "@wordpress/
  */
 import { createLinkFormat, isValidHref } from "./utils";
 import HelpLink from "../components/HelpLink";
-import createInterpolateElement from "../helpers/createInterpolateElement";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { link as linkSettings } from "./edit-link";
 
 /**
@@ -275,7 +275,7 @@ function InlineLinkUI( {
 		</span>
 	</HelpLink>;
 
-	const noFollowLabel = createInterpolateElement(
+	const noFollowLabel = safeCreateInterpolateElement(
 		sprintf(
 			// translators: %1$s and %2$s are opening and closing code tags, %3$s is a help link.
 			__( "Search engines should ignore this link (mark as %1$snofollow%2$s)%3$s", "wordpress-seo" ),
@@ -289,7 +289,7 @@ function InlineLinkUI( {
 		}
 	);
 
-	const sponsoredLabel = createInterpolateElement(
+	const sponsoredLabel = safeCreateInterpolateElement(
 		sprintf(
 			// translators: %1$s and %2$s are opening and closing code tags, %3$s is a help link.
 			__( "This is a sponsored link or advert (mark as %1$ssponsored%2$s)%3$s", "wordpress-seo" ),

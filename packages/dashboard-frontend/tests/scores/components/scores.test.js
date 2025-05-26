@@ -1,9 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { fetchJson } from "../../../src/fetch/fetch-json";
-import { Scores } from "../../../src/scores/components/scores";
-import { DataProvider } from "../../../src/services/data-provider";
-import { RemoteDataProvider } from "../../../src/services/remote-data-provider";
 import { act, fireEvent, render, waitFor } from "@testing-library/react";
+import { DataProvider, fetchJson, RemoteDataProvider } from "../../../src";
+import { Scores } from "../../../src/scores/components/scores";
 import categories from "./__data__/categories.json";
 import contentTypes from "./__data__/content-types.json";
 import productCategories from "./__data__/product_cat.json";
@@ -17,7 +15,6 @@ jest.mock( "react-chartjs-2" );
 
 // Mock fetchJson, providing the data for the tests.
 jest.mock( "../../../src/fetch/fetch-json" );
-
 
 describe( "Scores", () => {
 	let dataProvider;

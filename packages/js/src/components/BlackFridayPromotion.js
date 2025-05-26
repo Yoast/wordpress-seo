@@ -1,6 +1,6 @@
 import { useSelect } from "@wordpress/data";
-import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import PropTypes from "prop-types";
 import { TimeConstrainedNotification } from "./TimeConstrainedNotification";
@@ -27,7 +27,7 @@ export const BlackFridayPromotion = ( {
 			__( "Now with 30%% OFF: %1$s", "wordpress-seo" ),
 			"Yoast SEO Premium"
 		)
-		: createInterpolateElement(
+		: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: %1$s expands to Yoast SEO Premium, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 				__( "Now with 30%% OFF: %1$s %2$sBuy now!%3$s", "wordpress-seo" ),

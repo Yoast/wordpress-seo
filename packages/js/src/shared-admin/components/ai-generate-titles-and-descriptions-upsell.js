@@ -1,7 +1,7 @@
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
-import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Badge, Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { OutboundLink, VideoFlow } from ".";
@@ -67,7 +67,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 					</h3>
 					<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
 						{ isProductCopy
-							? createInterpolateElement(
+							? safeCreateInterpolateElement(
 								sprintf(
 									/* translators: %1$s and %2$s are anchor tags; %3$s is the arrow icon. */
 									__(
@@ -80,7 +80,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 								),
 								learnMoreLinkStructure
 							)
-							: createInterpolateElement(
+							: safeCreateInterpolateElement(
 								sprintf(
 									/* translators: %1$s and %2$s are anchor tags; %3$s is the arrow icon. */
 									__(

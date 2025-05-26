@@ -243,11 +243,11 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	 * @return Parameters The request parameters with configured date range.
 	 */
 	public function set_date_range_parameters( Parameters $request_parameters ): Parameters {
-		$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$date = $this->get_base_date();
 		$date->modify( '-28 days' );
 		$start_date = $date->format( 'Y-m-d' );
 
-		$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$date = $this->get_base_date();
 		$date->modify( '-1 days' );
 		$end_date = $date->format( 'Y-m-d' );
 
@@ -265,7 +265,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	 * @return Parameters The request parameters with configured comparison date range.
 	 */
 	public function set_comparison_date_range_parameters( Parameters $request_parameters ): Parameters {
-		$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$date = $this->get_base_date();
 		$date->modify( '-29 days' );
 		$compare_end_date = $date->format( 'Y-m-d' );
 
@@ -276,6 +276,26 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 		$request_parameters->set_compare_end_date( $compare_end_date );
 
 		return $request_parameters;
+	}
+
+	/**
+	 * Gets the base date.
+	 *
+	 * @return DateTime The base date.
+	 */
+	private function get_base_date() {
+		/**
+		 * Filter: 'wpseo_custom_site_kit_base_date' - Allow the base date for Site Kit requests to be dynamically set.
+		 *
+		 * @param string $base_date The custom base date for Site Kit requests, defaults to 'now'.
+		 */
+		$base_date = \apply_filters( 'wpseo_custom_site_kit_base_date', 'now' );
+
+		try {
+			return new DateTime( $base_date, new DateTimeZone( 'UTC' ) );
+		} catch ( Exception $e ) {
+			return new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		}
 	}
 
 	/**

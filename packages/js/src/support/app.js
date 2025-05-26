@@ -1,7 +1,9 @@
 /* eslint-disable react/jsx-max-depth */
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { useSelect } from "@wordpress/data";
-import { createInterpolateElement, Fragment, useMemo } from "@wordpress/element";
+import { Fragment, useMemo } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
+
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Badge, Button, FeatureUpsell, Link, Paper, Title } from "@yoast/ui-library";
@@ -184,7 +186,7 @@ export const App = () => {
 								description={ (
 									<>
 										<span>{ __( "If you don't find the answers you're looking for and need personalized help, you can get 24/7 support from one of our support engineers.", "wordpress-seo" ) }</span>
-										<span className="yst-block yst-mt-4">{ createInterpolateElement(
+										<span className="yst-block yst-mt-4">{ safeCreateInterpolateElement(
 											sprintf(
 												/* translators: %1$s expands to an opening span tag, %2$s expands to a closing span tag. */
 												__( "%1$sSupport language:%2$s English", "wordpress-seo" ),

@@ -1,4 +1,5 @@
-import { createInterpolateElement, Fragment } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import SocialInputSection from "./social-input-section";
@@ -19,7 +20,7 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 		"If you select a Person to represent this site, we will use the social profiles from the selected user's profile page.",
 		"wordpress-seo"
 	);
-	const userSelectedText = createInterpolateElement(
+	const userSelectedText = safeCreateInterpolateElement(
 		sprintf(
 			// translators: %1$s is replaced by the selected person's username.
 			__(
@@ -32,7 +33,7 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 			b: <b />,
 		} );
 
-	const userCanEditText =	createInterpolateElement(
+	const userCanEditText =	safeCreateInterpolateElement(
 		sprintf(
 			// translators: %1$s and %2$s is replaced by a link to the selected person's profile page.
 			__(

@@ -15,13 +15,12 @@
 		}
 
 		.yst-step__circle {
-			@apply yst-bg-white 
-			yst-ring-slate-300 
+			@apply yst-bg-white
+			yst-ring-slate-300
 			yst-w-6
 			yst-h-6
 			yst-ring-2
 			yst-rounded-full
-			yst-z-10
 			yst-relative;
 		}
 
@@ -33,7 +32,7 @@
 			@apply yst-text-primary-500;
 
 			.yst-step__circle {
-				@apply 
+				@apply
 				yst-bg-white
 				yst-text-white
 				yst-ring-primary-500
@@ -46,7 +45,7 @@
 				@apply yst-transition-all yst-ease-in;
 			}
 		}
-		
+
 		.yst-step--complete {
 			@apply yst-text-slate-900;
 			.yst-step__circle {

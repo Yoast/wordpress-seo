@@ -62,7 +62,7 @@ class ContentAnalysis extends React.Component {
 					markButtonFactory={ this.props.markButtonFactory }
 					onMarksButtonClick={ this.props.onMarkButtonClick }
 					onEditButtonClick={ this.props.onEditButtonClick }
-					renderAIFixesButton={ this.props.renderAIFixesButton }
+					renderAIOptimizeButton={ this.props.renderAIOptimizeButton }
 					isPremium={ this.props.isPremium }
 					onResultChange={ this.props.onResultChange }
 					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
@@ -154,7 +154,7 @@ ContentAnalysis.propTypes = {
 	onResultChange: PropTypes.func,
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
-	renderAIFixesButton: PropTypes.func,
+	renderAIOptimizeButton: PropTypes.func,
 };
 
 ContentAnalysis.defaultProps = {
@@ -177,7 +177,7 @@ ContentAnalysis.defaultProps = {
 	onResultChange: () => {},
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: () => {},
-	renderAIFixesButton: () => {},
+	renderAIOptimizeButton: () => {},
 };
 
 export default ContentAnalysis;
