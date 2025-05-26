@@ -4,10 +4,10 @@ namespace Yoast\WP\SEO\AI_Generator\Application;
 
 use RuntimeException;
 use WP_User;
-use Yoast\WP\SEO\AI_Generator\Domain\Suggestion;
-use Yoast\WP\SEO\AI_Generator\Domain\Suggestions_Bucket;
 use Yoast\WP\SEO\AI_Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
+use Yoast\WP\SEO\AI_Generator\Domain\Suggestion;
+use Yoast\WP\SEO\AI_Generator\Domain\Suggestions_Bucket;
 use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Forbidden_Exception;
