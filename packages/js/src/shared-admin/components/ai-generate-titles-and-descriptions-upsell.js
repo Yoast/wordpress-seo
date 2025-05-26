@@ -157,7 +157,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 							}
 						</span>
 					</Button>
-					{ ! isLimitReached && <GradientButton onClick={ handleTryAi } className="yst-mt-2 yst-w-full yst-text-base yst-text-slate-800 yst-font-medium yst-h-11 hover:yst-bg-gradient-to-l hover:yst-from-[#E0E7FF] hover:yst-to-[#F3E5ED]">
+					{ ! isLimitReached && <GradientButton onClick={ handleTryAi } className="yst-mt-2 yst-w-full yst-text-base yst-text-slate-800 yst-font-medium yst-h-11 hover:yst-bg-gradient-to-l hover:yst-from-indigo-100 hover:yst-to-primary-100">
 						{ __( "Try for free", "wordpress-seo" ) }
 					</GradientButton> }
 				</div>
