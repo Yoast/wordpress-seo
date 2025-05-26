@@ -8,6 +8,8 @@ use Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Reposito
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Verification_Code_User_Meta_Repository;
 use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
+use Yoast\WP\SEO\AI_Generator\Infrastructure\WordPress_URLs;
+use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Internal_Server_Error_Exception;
