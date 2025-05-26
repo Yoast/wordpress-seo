@@ -137,7 +137,7 @@ export default class TextLengthAssessment extends Assessment {
 						"%1$s Good job!",
 						"wordpress-seo"
 					),
-					textContains,
+					textContains
 				);
 			},
 			slightlyBelow: ( useCharacter, textContains ) => {
