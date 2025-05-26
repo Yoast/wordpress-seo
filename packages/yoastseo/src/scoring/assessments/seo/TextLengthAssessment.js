@@ -2,7 +2,7 @@ import { __, _n, sprintf } from "@wordpress/i18n";
 import { inRange, merge } from "lodash";
 
 import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
@@ -32,10 +32,7 @@ export default class TextLengthAssessment extends Assessment {
 				farBelowMinimum: -10,
 				veryFarBelowMinimum: -20,
 			},
-			countTextIn: {
-				singular: __( "word", "wordpress-seo" ),
-				plural: __( "words", "wordpress-seo" ),
-			},
+			countCharacters: false,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34n" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34o" ),
 
@@ -56,19 +53,15 @@ export default class TextLengthAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher ) {
-		const wordCount = researcher.getResearch( "wordCountInText" );
+		const textLength = researcher.getResearch( "wordCountInText" );
 
-		if	( researcher.getConfig( "textLength" ) ) {
+		if ( researcher.getConfig( "textLength" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
 		}
 
-		const countTextInCharacters = researcher.getConfig( "countCharacters" );
-		if ( countTextInCharacters ) {
-			this._config.countTextIn.singular = __( "character", "wordpress-seo" );
-			this._config.countTextIn.plural = __( "characters", "wordpress-seo" );
-		}
+		this._config.countCharacters = !! researcher.getConfig( "countCharacters" );
 
-		const calculatedResult = this.calculateResult( wordCount.count );
+		const calculatedResult = this.calculateResult( textLength.count );
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedResult.score );
@@ -104,74 +97,167 @@ export default class TextLengthAssessment extends Assessment {
 	}
 
 	/**
+	 * Returns the feedback texts for the text length assessment.
+	 *
+	 * @returns {{firstSentence: (function(boolean, number): string), good: (function(string): string), slightlyBelow: (function(boolean, string): string), below: (function(boolean, string): string), farBelow: (function(boolean, string): string)}}
+	 */
+	getFeedbackTexts() {
+		return {
+			firstSentence: ( useCharacter, textLength ) => {
+				const wordFeedback = sprintf(
+					/* translators: %1$d expands to the number of words, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+					_n(
+						"%2$sText length%3$s: The text contains %1$d word.",
+						"%2$sText length%3$s: The text contains %1$d words.",
+						textLength,
+						"wordpress-seo"
+					),
+					textLength,
+					this._config.urlTitle,
+					"</a>"
+				);
+				const characterFeedback = sprintf(
+					/* translators: %1$d expands to the number of characters, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+					_n(
+						"%2$sText length%3$s: The text contains %1$d character.",
+						"%2$sText length%3$s: The text contains %1$d characters.",
+						textLength,
+						"wordpress-seo"
+					),
+					textLength,
+					this._config.urlTitle,
+					"</a>"
+				);
+				return useCharacter ? characterFeedback : wordFeedback;
+			},
+			good: ( textContains ) => {
+				return sprintf(
+					/* translators: %1$s expands to the sentence "The text contains X word(s)." */
+					__(
+						"%1$s Good job!",
+						"wordpress-seo"
+					),
+					textContains,
+				);
+			},
+			slightlyBelow: ( useCharacter, textContains ) => {
+				const wordFeedback = sprintf(
+					/* translators: %1$d expands to the number of words, %2$s expands to the sentence "The text contains X word(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s This is slightly below the recommended minimum of %1$d word. %3$sAdd more content%4$s.",
+						"%2$s This is slightly below the recommended minimum of %1$d words. %3$sAdd more content%4$s.",
+						this._config.recommendedMinimum,
+						"wordpress-seo"
+					),
+					this._config.recommendedMinimum,
+					textContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				const characterFeedback = sprintf(
+					/* translators: %1$d expands to the number of characters, %2$s expands to the sentence "The text contains X character(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s This is slightly below the recommended minimum of %1$d character. %3$sAdd more content%4$s.",
+						"%2$s This is slightly below the recommended minimum of %1$d characters. %3$sAdd more content%4$s.",
+						this._config.recommendedMinimum,
+						"wordpress-seo"
+					),
+					this._config.recommendedMinimum,
+					textContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				return useCharacter ? characterFeedback : wordFeedback;
+			},
+			below: ( useCharacter, textContains ) => {
+				const wordFeedback = sprintf(
+					/* translators: %1$d expands to the number of words, %2$s expands to the sentence "The text contains X word(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s This is below the recommended minimum of %1$d word. %3$sAdd more content%4$s.",
+						"%2$s This is below the recommended minimum of %1$d words. %3$sAdd more content%4$s.",
+						this._config.recommendedMinimum,
+						"wordpress-seo"
+					),
+					this._config.recommendedMinimum,
+					textContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				const characterFeedback = sprintf(
+					/* translators: %1$d expands to the number of characters, %2$s expands to the sentence "The text contains X character(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s This is below the recommended minimum of %1$d character. %3$sAdd more content%4$s.",
+						"%2$s This is below the recommended minimum of %1$d characters. %3$sAdd more content%4$s.",
+						this._config.recommendedMinimum,
+						"wordpress-seo"
+					),
+					this._config.recommendedMinimum,
+					textContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				return useCharacter ? characterFeedback : wordFeedback;
+			},
+			farBelow: ( useCharacter, textContains ) => {
+				const wordFeedback = sprintf(
+					/* translators: %1$d expands to the number of words, %2$s expands to the sentence "The text contains X word(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s This is far below the recommended minimum of %1$d word. %3$sAdd more content%4$s.",
+						"%2$s This is far below the recommended minimum of %1$d words. %3$sAdd more content%4$s.",
+						this._config.recommendedMinimum,
+						"wordpress-seo"
+					),
+					this._config.recommendedMinimum,
+					textContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				const characterFeedback = sprintf(
+					/* translators: %1$d expands to the number of characters, %2$s expands to the sentence "The text contains X character(s).", %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					_n(
+						"%2$s This is far below the recommended minimum of %1$d character. %3$sAdd more content%4$s.",
+						"%2$s This is far below the recommended minimum of %1$d characters. %3$sAdd more content%4$s.",
+						this._config.recommendedMinimum,
+						"wordpress-seo"
+					),
+					this._config.recommendedMinimum,
+					textContains,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				return useCharacter ? characterFeedback : wordFeedback;
+			},
+		};
+	}
+
+	/**
 	 * Returns the score and the appropriate feedback string based on the current word count
 	 * for taxonomies (in WordPress) and collections (in Shopify).
 	 *
-	 * @param {number} wordCount	The amount of words to be checked against.
+	 * @param {number} textLength	The amount of words to be checked against.
 	 * @returns {Object} The score and the feedback string.
 	 */
-	calculateTaxonomyResult( wordCount ) {
-		if ( wordCount >= this._config.recommendedMinimum ) {
+	calculateTaxonomyResult( textLength ) {
+		// Gets functions used to create feedback strings.
+		const feedbackTexts = this.getFeedbackTexts();
+		const firstSentence = feedbackTexts.firstSentence( this._config.countCharacters, textLength );
+
+		if ( textLength >= this._config.recommendedMinimum ) {
 			return {
 				score: this._config.scores.recommendedMinimum,
-				resultText: sprintf(
-					/* translators: %1$d expands to the number of words / characters in the text,
-					%2$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
-					%4$s expands to the word 'words' or 'characters'. */
-					__(
-						"%2$sText length%3$s: The text contains %1$d %4$s. Good job!",
-						"wordpress-seo"
-					),
-					wordCount,
-					this._config.urlTitle,
-					"</a>",
-					this._config.countTextIn.plural
-				),
+				resultText: feedbackTexts.good( firstSentence ),
 			};
 		}
-		if ( inRange( wordCount, this._config.slightlyBelowMinimum, this._config.recommendedMinimum ) ) {
+		if ( inRange( textLength, this._config.slightlyBelowMinimum, this._config.recommendedMinimum ) ) {
 			return {
 				score: this._config.scores.slightlyBelowMinimum,
-				resultText: sprintf(
-					/* translators: %1$d expands to the number of words / characters in the text,
-					%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
-					%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
-					%6$s expands to the word 'words' or 'characters'. */
-					__(
-						"%2$sText length%4$s: The text contains %1$d %6$s. This is slightly below the recommended minimum of %5$d %6$s. %3$sAdd more content%4$s.",
-						"wordpress-seo"
-					),
-					wordCount,
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>",
-					this._config.recommendedMinimum,
-					this._config.countTextIn.plural
-				),
+				resultText: feedbackTexts.slightlyBelow( this._config.countCharacters, firstSentence ),
 			};
 		}
-		if ( inRange( wordCount, this._config.veryFarBelowMinimum, this._config.slightlyBelowMinimum ) ) {
+		if ( inRange( textLength, this._config.veryFarBelowMinimum, this._config.slightlyBelowMinimum ) ) {
 			return {
 				score: this._config.scores.belowMinimum,
-				resultText: sprintf(
-					/* translators: %1$d expands to the number of words / characters in the text,
-							%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
-							%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
-							%6$s expands to the word 'word' or 'character', %7$s expands to the word 'words' or 'characters'. */
-					_n(
-						"%2$sText length%4$s: The text contains %1$d %6$s. This is below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s.",
-						"%2$sText length%4$s: The text contains %1$d %7$s. This is below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s.",
-						wordCount,
-						"wordpress-seo"
-					),
-					wordCount,
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>",
-					this._config.recommendedMinimum,
-					this._config.countTextIn.singular,
-					this._config.countTextIn.plural
-				),
+				resultText: feedbackTexts.below( this._config.countCharacters, firstSentence ),
 			};
 		}
 		return {
@@ -192,127 +278,57 @@ export default class TextLengthAssessment extends Assessment {
 	/**
 	 * Returns the score and the appropriate feedback string based on the current word count for every type of content.
 	 *
-	 * @param {number}  wordCount   The amount of words to be checked against.
+	 * @param {number}  textLength   The amount of words to be checked against.
 	 *
 	 * @returns {Object} The score and the feedback string.
 	 */
-	calculateResult( wordCount ) {
+	calculateResult( textLength ) {
 		const customContentTypes = [ "taxonomyAssessor", "collectionSEOAssessor", "collectionCornerstoneSEOAssessor" ];
 		if ( customContentTypes.includes( this._config.customContentType ) ) {
-			return this.calculateTaxonomyResult( wordCount );
+			return this.calculateTaxonomyResult( textLength );
 		}
-		if ( wordCount >= this._config.recommendedMinimum ) {
+
+		// Gets functions used to create feedback strings.
+		const feedbackTexts = this.getFeedbackTexts();
+		const firstSentence = feedbackTexts.firstSentence( this._config.countCharacters, textLength );
+
+		if ( textLength >= this._config.recommendedMinimum ) {
 			return {
 				score: this._config.scores.recommendedMinimum,
-				resultText: sprintf(
-					/* translators: %1$d expands to the number of words / characters in the text,
-					%2$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
-					%4$s expands to the word 'words' or 'characters'. */
-					__(
-						"%2$sText length%3$s: The text contains %1$d %4$s. Good job!",
-						"wordpress-seo"
-					),
-					wordCount,
-					this._config.urlTitle,
-					"</a>",
-					this._config.countTextIn.plural
-				),
+				resultText: feedbackTexts.good( firstSentence ),
 			};
 		}
 
-		if ( inRange( wordCount, 0, this._config.belowMinimum ) ) {
+		if ( inRange( textLength, 0, this._config.belowMinimum ) ) {
 			let badScore = this._config.scores.farBelowMinimum;
 
-			if ( inRange( wordCount, 0, this._config.veryFarBelowMinimum ) ) {
+			if ( inRange( textLength, 0, this._config.veryFarBelowMinimum ) ) {
 				badScore = this._config.scores.veryFarBelowMinimum;
 			}
 
 			return {
 				score: badScore,
-				resultText: sprintf(
-					/* translators: %1$d expands to the number of words / characters in the text,
-					%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
-					%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
-					%6$s expands to the word 'word' or 'character', %7$s expands to the word 'words' or 'characters'. */
-					_n(
-						"%2$sText length%4$s: The text contains %1$d %6$s. This is far below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s.",
-						"%2$sText length%4$s: The text contains %1$d %7$s. This is far below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s.",
-						wordCount,
-						"wordpress-seo"
-					),
-					wordCount,
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>",
-					this._config.recommendedMinimum,
-					this._config.countTextIn.singular,
-					this._config.countTextIn.plural
-				),
+				resultText: feedbackTexts.farBelow( this._config.countCharacters, firstSentence ),
 			};
 		}
 
-		if ( inRange( wordCount, this._config.slightlyBelowMinimum, this._config.recommendedMinimum ) ) {
+		if ( inRange( textLength, this._config.slightlyBelowMinimum, this._config.recommendedMinimum ) ) {
 			if ( this._config.cornerstoneContent === false ) {
 				return {
 					score: this._config.scores.slightlyBelowMinimum,
-					resultText: sprintf(
-						/* translators: %1$d expands to the number of words / characters in the text,
-						%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
-						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
-						%6$s expands to the word 'words' or 'characters'. */
-						__(
-							"%2$sText length%4$s: The text contains %1$d %6$s. This is slightly below the recommended minimum of %5$d %6$s. %3$sAdd a bit more copy%4$s.",
-							"wordpress-seo"
-						),
-						wordCount,
-						this._config.urlTitle,
-						this._config.urlCallToAction,
-						"</a>",
-						this._config.recommendedMinimum,
-						this._config.countTextIn.plural
-					),
+					resultText: feedbackTexts.slightlyBelow( this._config.countCharacters, firstSentence ),
 				};
 			}
 
 			return {
 				score: this._config.scores.slightlyBelowMinimum,
-				resultText: sprintf(
-					/* translators: %1$d expands to the number of words / characters in the text,
-						%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
-						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
-						%6$s expands to the word 'words' or 'characters'. */
-					__(
-						"%2$sText length%4$s: The text contains %1$d %6$s. This is below the recommended minimum of %5$d %6$s. %3$sAdd more content%4$s.",
-						"wordpress-seo"
-					),
-					wordCount,
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>",
-					this._config.recommendedMinimum,
-					this._config.countTextIn.plural
-				),
+				resultText: feedbackTexts.below( this._config.countCharacters, firstSentence ),
 			};
 		}
 
 		return {
 			score: this._config.scores.belowMinimum,
-			resultText: sprintf(
-				/* translators: %1$d expands to the number of words / characters in the text,
-						%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
-						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
-						%6$s expands to the word 'words' or 'characters'. */
-				__(
-					"%2$sText length%4$s: The text contains %1$d %6$s. This is below the recommended minimum of %5$d %6$s. %3$sAdd more content%4$s.",
-					"wordpress-seo"
-				),
-				wordCount,
-				this._config.urlTitle,
-				this._config.urlCallToAction,
-				"</a>",
-				this._config.recommendedMinimum,
-				this._config.countTextIn.plural
-			),
+			resultText: feedbackTexts.below( this._config.countCharacters, firstSentence ),
 		};
 	}
 }
