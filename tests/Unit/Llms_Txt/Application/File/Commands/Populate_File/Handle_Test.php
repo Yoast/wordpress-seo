@@ -1,107 +1,19 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Application\File\Commands;
+namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Application\File\Commands\Populate_File;
 
 use Brain\Monkey;
-use Mockery;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Populate_File_Command_Handler;
-use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Markdown_Builder;
-use Yoast\WP\SEO\Llms_Txt\Infrastructure\File\WordPress_File_System_Adapter;
-use Yoast\WP\SEO\Llms_Txt\Infrastructure\File\WordPress_Llms_Txt_Permission_Gate;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Tests the populate file command handler.
+ * Tests the handler.
  *
  * @group llms.txt
  *
- * @coversDefaultClass \Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Populate_File_Command_Handler
+ * @covers Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Populate_File_Command_Handler::handle
  *
  * @phpcs :disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Populate_File_Command_Handler_Test extends TestCase {
-
-	/**
-	 * The options helper mock.
-	 *
-	 * @var Options_Helper|Mockery\MockInterface
-	 */
-	private $options_helper;
-
-	/**
-	 * The file system adapter mock.
-	 *
-	 * @var WordPress_File_System_Adapter|Mockery\MockInterface
-	 */
-	private $file_system_adapter;
-
-	/**
-	 * The markdown builder mock.
-	 *
-	 * @var Markdown_Builder|Mockery\MockInterface
-	 */
-	private $markdown_builder;
-
-	/**
-	 * The permission gate mock.
-	 *
-	 * @var WordPress_Llms_Txt_Permission_Gate|Mockery\MockInterface
-	 */
-	private $permission_gate;
-
-	/**
-	 * The instance under test.
-	 *
-	 * @var Populate_File_Command_Handler
-	 */
-	private $instance;
-
-	/**
-	 * Sets up the test fixtures.
-	 *
-	 * @return void
-	 */
-	protected function setUp(): void {
-		parent::setUp();
-
-		$this->options_helper      = Mockery::mock( Options_Helper::class );
-		$this->file_system_adapter = Mockery::mock( WordPress_File_System_Adapter::class );
-		$this->markdown_builder    = Mockery::mock( Markdown_Builder::class );
-		$this->permission_gate     = Mockery::mock( WordPress_Llms_Txt_Permission_Gate::class );
-
-		$this->instance = new Populate_File_Command_Handler(
-			$this->options_helper,
-			$this->file_system_adapter,
-			$this->markdown_builder,
-			$this->permission_gate
-		);
-	}
-
-	/**
-	 * Tests the constructor.
-	 *
-	 * @covers ::__construct
-	 * @return void
-	 */
-	public function test_constructor() {
-		$this->assertInstanceOf(
-			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
-		);
-		$this->assertInstanceOf(
-			WordPress_File_System_Adapter::class,
-			$this->getPropertyValue( $this->instance, 'file_system_adapter' )
-		);
-		$this->assertInstanceOf(
-			Markdown_Builder::class,
-			$this->getPropertyValue( $this->instance, 'markdown_builder' )
-		);
-		$this->assertInstanceOf(
-			WordPress_Llms_Txt_Permission_Gate::class,
-			$this->getPropertyValue( $this->instance, 'permission_gate' )
-		);
-	}
+final class Handle_Test extends Abstract_Populate_File_Command_Handler_Test {
 
 	/**
 	 * Tests the handle execution by mocking expected behaviors and verifying interactions.
@@ -116,7 +28,6 @@ final class Populate_File_Command_Handler_Test extends TestCase {
 	 * @param int    $not_managed_by_yoast_failure_times The number of times the not managed by Yoast failure reason is supposed to be set.
 	 *
 	 * @return void
-	 * @covers ::handle
 	 * @dataProvider handle_data
 	 */
 	public function test_handle(
