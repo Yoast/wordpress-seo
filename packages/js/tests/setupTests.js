@@ -5,6 +5,7 @@ import "jest-styled-components";
 import "raf/polyfill";
 // eslint-disable-next-line no-restricted-imports -- We need to import React to set up the global React object.
 import React from "react";
+import { TextEncoder, TextDecoder } from "util";
 
 setLocaleData( {
 	"": {
@@ -73,6 +74,5 @@ global.HTMLCanvasElement.prototype.getContext = function( type ) {
 };
 
 // Add TextEncoder and TextDecoder from Node's util module for the GradientButton.
-const util = require( "util" );
-global.TextEncoder = util.TextEncoder;
-global.TextDecoder = util.TextDecoder;
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
