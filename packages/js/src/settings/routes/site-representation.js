@@ -2,8 +2,9 @@
 import { Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { createInterpolateElement, Fragment, useCallback } from "@wordpress/element";
+import { Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Alert, Badge, Button, FeatureUpsell, Link, Radio, RadioGroup, TextField, TextareaField } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
 import { isEmpty } from "lodash";
@@ -46,7 +47,7 @@ const SiteRepresentation = () => {
 	const mastodonPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-mastodon-integration" );
 	const mastodonUrlLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-mastodon" );
 	const businessInfoSettingsUrl = useSelectSettings( "selectPreference", [], "localSeoPageSettingUrl" );
-	let alertMessageIdentifiers = createInterpolateElement(
+	let alertMessageIdentifiers = safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands for Yoast Local SEO, %2$s and %3$s expands to a link tags. */
 			__( "You have %1$s activated on your site. You can provide your VAT ID and Tax ID in the %2$s‘Business info’ settings%3$s.", "wordpress-seo" ),
@@ -59,7 +60,7 @@ const SiteRepresentation = () => {
 			a: <a href={ businessInfoSettingsUrl } target="_blank" className="yst-underline yst-font-medium" />,
 		}
 	);
-	let alertMessagePhoneEmail = createInterpolateElement(
+	let alertMessagePhoneEmail = safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands for Yoast Local SEO, %2$s and %3$s expands to a link tags. */
 			__( "You have %1$s activated on your site. You can provide your email and phone in the %2$s‘Business info’ settings%3$s.", "wordpress-seo" ),
@@ -73,7 +74,7 @@ const SiteRepresentation = () => {
 		}
 	);
 	if ( businessInfoSettingsUrl.includes( "wpseo_locations" ) ) {
-		alertMessageIdentifiers = createInterpolateElement(
+		alertMessageIdentifiers = safeCreateInterpolateElement(
 			sprintf(
 				/* translators: %1$s expands for Yoast Local SEO, %2$s and %3$s expands to a link tags. */
 				__( "You have %1$s activated on your site, and you've configured your business for multiple locations. This allows you to provide your VAT ID and Tax ID for %2$seach specific location%3$s.", "wordpress-seo" ),
@@ -82,11 +83,11 @@ const SiteRepresentation = () => {
 				"</a>"
 			),
 			{
-			// eslint-disable-next-line
-			a: <a href={ businessInfoSettingsUrl } target="_blank" className="yst-underline yst-font-medium" />,
+				// eslint-disable-next-line
+				a: <a href={ businessInfoSettingsUrl } target="_blank" className="yst-underline yst-font-medium" />,
 			}
 		);
-		alertMessagePhoneEmail = createInterpolateElement(
+		alertMessagePhoneEmail = safeCreateInterpolateElement(
 			sprintf(
 				/* translators: %1$s expands for Yoast Local SEO, %2$s and %3$s expands to a link tags. */
 				__( "You have %1$s activated on your site, and you've configured your business for multiple locations. This allows you to provide your email and phone for %2$seach specific location%3$s.", "wordpress-seo" ),
@@ -207,7 +208,7 @@ const SiteRepresentation = () => {
 									id="wpseo_titles-company_logo"
 									label={ __( "Organization logo", "wordpress-seo" ) }
 									variant="square"
-									previewLabel={ createInterpolateElement(
+									previewLabel={ safeCreateInterpolateElement(
 										sprintf(
 											/* translators: %1$s expands to an opening strong tag.
 											   %2$s expands to a closing strong tag.
@@ -494,7 +495,7 @@ const SiteRepresentation = () => {
 								/>
 								{ ! isEmpty( personUser ) && (
 									<Alert id="alert-person-user-profile">
-										{ canEditUser && createInterpolateElement(
+										{ canEditUser && safeCreateInterpolateElement(
 											sprintf(
 												/* translators: %1$s and %2$s are replaced by opening and closing <span> tags.
 												   %3$s and %4$s are replaced by opening and closing <a> tags.
@@ -513,7 +514,7 @@ const SiteRepresentation = () => {
 													target="_blank" rel="noopener noreferrer"
 												/>,
 											} ) }
-										{ ! canEditUser && createInterpolateElement(
+										{ ! canEditUser && safeCreateInterpolateElement(
 											sprintf(
 												/* translators: %1$s and %2$s are replaced by opening and closing <span> tags.
 												   %3$s is replaced by the selected user display name. */
@@ -531,7 +532,7 @@ const SiteRepresentation = () => {
 									id="wpseo_titles-person_logo"
 									label={ __( "Personal logo or avatar", "wordpress-seo" ) }
 									variant="square"
-									previewLabel={ createInterpolateElement(
+									previewLabel={ safeCreateInterpolateElement(
 										sprintf(
 											/* translators: %1$s expands to an opening strong tag.
 											   %2$s expands to a closing strong tag.

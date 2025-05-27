@@ -1,8 +1,9 @@
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /**
  * @param {boolean} isEnabled Whether Open Graph is enabled.
@@ -14,7 +15,7 @@ const OpenGraphDisabledAlert = ( {
 	/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
 	text = __( "The %1$ssocial image%2$s, %1$ssocial title%2$s and %1$ssocial description%2$s require Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite features%4$s.", "wordpress-seo" ),
 } ) => {
-	const openGraphDisabledAlertText = useMemo( () => createInterpolateElement(
+	const openGraphDisabledAlertText = useMemo( () => safeCreateInterpolateElement(
 		sprintf( text, "<em>", "</em>", "<link>", "</link>" ),
 		{
 			em: <em />,

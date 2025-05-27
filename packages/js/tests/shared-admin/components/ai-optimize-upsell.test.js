@@ -1,7 +1,7 @@
 import { render } from "../../test-utils";
-import { AiFixAssessmentsUpsell } from "../../../src/shared-admin/components/ai-fix-assessments-upsell";
+import { AIOptimizeUpsell } from "../../../src/shared-admin/components";
 
-describe( "AiFixAssessmentsUpsell", () => {
+describe( "AiOptimizeUpsell", () => {
 	const props = {
 		learnMoreLink: "https://example.com/learn-more",
 		thumbnail: {
@@ -19,7 +19,7 @@ describe( "AiFixAssessmentsUpsell", () => {
 	};
 
 	it( "renders the component correctly", () => {
-		const { container } = render( <AiFixAssessmentsUpsell { ...props } /> );
+		const { container } = render( <AIOptimizeUpsell { ...props } /> );
 		expect( container ).toMatchSnapshot();
 	} );
 } );

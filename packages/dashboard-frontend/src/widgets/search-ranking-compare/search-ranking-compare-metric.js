@@ -4,7 +4,7 @@ import { Trend } from "../../components/trend";
 import { WidgetDataSources, WidgetTooltip } from "../../components/widget";
 
 /**
- * @param {ReactNode} children The children.
+ * @param {React.ReactNode} children The children.
  * @param {string} [className] The class name.
  * @returns {JSX.Element} The element.
  */
@@ -30,7 +30,7 @@ const SearchRankingCompareMetricLayout = ( { className, children } ) => (
 );
 
 /**
- * @param {ReactNode} children The children.
+ * @param {React.ReactNode} children The children.
  * @returns {JSX.Element} The element.
  */
 const SearchRankingCompareMetricValueLayout = ( { children } ) => (
@@ -42,7 +42,7 @@ const SearchRankingCompareMetricValueLayout = ( { children } ) => (
 /**
  * Represents the skeleton loader for an organic sessions compare metric component.
  * @param {string} [className] The class name.
- * @param {ReactNode} tooltipLocalizedContent The content of the tooltip.
+ * @param {React.ReactNode} tooltipLocalizedContent The content of the tooltip.
  * @param {object[]} dataSources The sources of the data in the widget.
  *
  * @returns {JSX.Element}
@@ -71,7 +71,7 @@ export const SearchRankingCompareMetricSkeletonLoader = ( { className, tooltipLo
  * @param {string} metricName The name of the metric.
  * @param {object} data The data of the metric.
  * @param {object[]} dataSources The sources of the data in the widget.
- * @param {ReactNode} tooltipLocalizedContent The content of the tooltip.
+ * @param {React.ReactNode} tooltipLocalizedContent The content of the tooltip.
  * @param {boolean} moreIsGood This determines is a positive result will show the green color.
  *
  * @returns {JSX.Element}

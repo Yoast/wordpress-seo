@@ -2,7 +2,8 @@
 import { CheckIcon } from "@heroicons/react/solid";
 import apiFetch from "@wordpress/api-fetch";
 import { useSelect } from "@wordpress/data";
-import { createInterpolateElement, useCallback, useState } from "@wordpress/element";
+import { useCallback, useState } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useToggleState } from "@yoast/ui-library";
 import PropTypes from "prop-types";
@@ -15,7 +16,7 @@ import { STEP_NAME, isUpdatePluginStatus } from "../dashboard/widgets/site-kit-s
 
 const integration = {
 	name: __( "Site Kit by Google", "wordpress-seo" ),
-	claim: createInterpolateElement(
+	claim: safeCreateInterpolateElement(
 		sprintf(
 			/* translators: 1: bold open tag; 2: bold close tag. */
 			__( "Get valuable insights with %1$sSite Kit by Google%2$s", "wordpress-seo" ),

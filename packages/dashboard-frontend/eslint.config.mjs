@@ -1,7 +1,8 @@
-import globals from "globals";
 import yoastConfig, { reactConfig } from "@yoast/eslint-config";
+import storybookConfig from "eslint-plugin-storybook";
+import globals from "globals";
 
-/** @type {import('eslint').Linter.Config[]} */
+/** @type {import("eslint").Linter.Config[]} */
 export default [
 	{ ignores: [ "build" ] },
 	...yoastConfig,
@@ -55,6 +56,26 @@ export default [
 		rules: {
 			"no-undefined": "off",
 		},
+	},
+	{
+		files: [ ".storybook/**" ],
+		...storybookConfig[ "flat/recommended" ],
+		languageOptions: {
+			globals: {
+				...globals.node,
+			},
+		},
+		settings: {
+			// Ignore certain Storybook packages to avoid import/named errors.
+			"import/ignore": [
+				"@storybook/manager-api",
+				"@storybook/theming",
+			],
+		},
+	},
+	{
+		files: [ "stories/**" ],
+		...storybookConfig[ "flat/recommended" ],
 	},
 	{
 		files: [ "*.config.*" ],
