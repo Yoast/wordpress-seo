@@ -6,9 +6,7 @@ import { get, map } from "lodash";
 import {
 	FieldsetLayout,
 	FormikMediaSelectField,
-	FormikValueChangeField,
 	FormikPageSelectField,
-	FormikWithErrorField,
 	FormLayout,
 	OpenGraphDisabledAlert,
 	RouteLayout,
@@ -16,6 +14,7 @@ import {
 import { withDisabledMessageSupport, withFormikDummySelectField } from "../hocs";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
+import { FormikValueChangeField, FormikWithErrorField } from "../../shared-admin/components/form";
 
 const ToggleFieldWithDisabledMessageSupport = withDisabledMessageSupport( ToggleField );
 const FormikSelectPageWithDummy = withFormikDummySelectField( FormikPageSelectField );

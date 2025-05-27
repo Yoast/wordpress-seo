@@ -13,7 +13,6 @@ import {
 	FormikMediaSelectField,
 	FormikReplacementVariableEditorField,
 	FormikTagField,
-	FormikValueChangeField,
 	FormLayout,
 	NewsSeoAlert,
 	OpenGraphDisabledAlert,
@@ -22,6 +21,7 @@ import {
 import { safeToLocaleLower } from "../../helpers";
 import { withFormikDummyField, withFormikDummyTagField } from "../../hocs";
 import { useSelectSettings, useDispatchSettings } from "../../hooks";
+import { FormikValueChangeField } from "../../../shared-admin/components/form";
 
 const FormikTagFieldWithDummy = withFormikDummyTagField( FormikTagField );
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
