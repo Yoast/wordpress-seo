@@ -2,7 +2,7 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { AiGenerateTitlesAndDescriptionsUpsell } from "../../shared-admin/components";
-import { STORE_NAME_EDITOR } from "../constants";
+import { STORE_NAME_EDITOR, STORE_NAME_AI } from "../constants";
 
 /**
  * The upsell props.
@@ -113,12 +113,20 @@ export const UpsellModalContent = ( { setTryAi } ) => {
 	const { setWistiaEmbedPermission: set } = useDispatch( STORE_NAME_EDITOR );
 	const wistiaEmbedPermission = useMemo( () => ( { value, status, set } ), [ value, status, set ] );
 
+	const { counts, limit } = useSelect( ( select ) => ( {
+		counts: select( STORE_NAME_AI ).selectUsageCount(),
+		limit: select( STORE_NAME_AI ).selectUsageCountLimit(),
+	} ), [] );
+
+	const isLimitReached = counts >= limit;
+
 	return (
 		<AiGenerateTitlesAndDescriptionsUpsell
 			learnMoreLink={ learnMoreLink }
 			thumbnail={ thumbnail }
 			wistiaEmbedPermission={ wistiaEmbedPermission }
 			setTryAi={ setTryAi }
+			isLimitReached={ isLimitReached }
 			{ ...upsellProps }
 		/>
 	);
