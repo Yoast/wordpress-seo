@@ -4,10 +4,10 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Application;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 
 /**
- * Class ResponseParser
+ * Class Response_Parser
  * Parses the response from the AI API and creates a Response object.
  */
-class Response_Parser {
+class Response_Parser implements Response_Parser_Interface {
 
 	/**
 	 * Parses the response from the API.
@@ -16,7 +16,7 @@ class Response_Parser {
 	 *
 	 * @return Response The parsed response.
 	 */
-	public function parse( array $response ): Response {
+	public function parse( $response ): Response {
 		$response_code    = ( \wp_remote_retrieve_response_code( $response ) !== '' ) ? \wp_remote_retrieve_response_code( $response ) : 0;
 		$response_message = \esc_html( \wp_remote_retrieve_response_message( $response ) );
 		$error_code       = '';
