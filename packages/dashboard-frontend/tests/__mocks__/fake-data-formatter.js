@@ -1,4 +1,4 @@
-import { DataFormatterInterface } from "../../src/services/data-formatter-interface";
+import { DataFormatterInterface } from "../../src";
 
 /**
  * Fake implementation of the data formatter interface.

@@ -22,7 +22,7 @@ export default class CornerstoneSEOAssessor extends SEOAssessor {
 			scores: { tooLong: 3, tooShort: 3 },
 		} ) );
 		this.addAssessment( "imageKeyphrase", new KeyphraseInImagesAssessment( {
-			scores: { withAltNonKeyword: 3, withAlt: 3, noAlt: 3 },
+			scores: { withAltNonKeyword: 3, noAlt: 3 },
 		} ) );
 		this.addAssessment( "textLength", new TextLengthAssessment( {
 			recommendedMinimum: 900,

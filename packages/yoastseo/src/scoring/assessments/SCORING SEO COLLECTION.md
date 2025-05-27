@@ -25,7 +25,7 @@ For information on how the assessments scoring system works, check out these exp
 ### Unavailable assessments
 - Keyphrase in subheadings
 - Competing links
-- Image keyphrase
+- Keyphrase in image alt attributes
 - Images
 - Previously used keyphrase
 - Title
