@@ -5,6 +5,7 @@ import "jest-styled-components";
 import "raf/polyfill";
 // eslint-disable-next-line no-restricted-imports -- We need to import React to set up the global React object.
 import React from "react";
+import { TextEncoder, TextDecoder } from "util";
 
 setLocaleData( {
 	"": {
@@ -71,3 +72,9 @@ global.HTMLCanvasElement.prototype.getContext = function( type ) {
 	}
 	return null;
 };
+
+// When using the GradientButton from the ai-frontend:
+// Jose needs the TextEncoder and TextDecoder global objects to be available. These are available in browsers, but not in Jest.
+// This is a workaround to make them available in Jest.
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
