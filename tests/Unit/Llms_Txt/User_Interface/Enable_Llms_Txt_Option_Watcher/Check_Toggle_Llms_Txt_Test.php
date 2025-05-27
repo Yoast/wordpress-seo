@@ -19,9 +19,9 @@ final class Check_Toggle_Llms_Txt_Test extends Abstract_Enable_Llms_Txt_Option_W
 	 *
 	 * @dataProvider check_toggle_llms_txt_data
 	 *
-	 * @param array $old_value     The old value.
-	 * @param array $new_value     The new value.
-	 * @param bool  $should_enable Whether the feature should be enabled.
+	 * @param array<bool> $old_value     The old value.
+	 * @param array<bool> $new_value     The new value.
+	 * @param bool        $should_enable Whether the feature should be enabled.
 	 *
 	 * @return void
 	 */
@@ -62,8 +62,8 @@ final class Check_Toggle_Llms_Txt_Test extends Abstract_Enable_Llms_Txt_Option_W
 	 *
 	 * @dataProvider check_toggle_llms_txt_no_change_data
 	 *
-	 * @param array $old_value The old value.
-	 * @param array $new_value The new value.
+	 * @param array<bool> $old_value The old value.
+	 * @param array<bool> $new_value The new value.
 	 *
 	 * @return void
 	 */
