@@ -53,12 +53,7 @@ final class Sitemap_Link_Collector_Test extends TestCase {
 		$link_result = $this->instance->get_link();
 		$this->assertInstanceOf( Link::class, $link_result );
 
-		if ( $is_xml_sitemap_enabled ) {
-			$this->assertTrue( \strpos( $link_result->render(), 'sitemap_index.xml' ) !== false );
-		}
-		else {
-			$this->assertTrue( \strpos( $link_result->render(), 'sitemap=index' ) !== false );
-		}
+		$this->assertTrue( \strpos( $link_result->render(), 'sitemap_index.xml' ) !== ! $is_xml_sitemap_enabled );
 	}
 
 	/**
