@@ -9,7 +9,9 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Class Access_Token_Repository
  * Handles the storage and retrieval of access tokens for users.
  */
-class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Repository_Interface {
+class Access_Token_User_Meta_Repository implements Token_User_Meta_Repository_Interface {
+
+	private const META_KEY = '_yoast_wpseo_ai_generator_access_jwt';
 
 	/**
 	 * The user helper.
