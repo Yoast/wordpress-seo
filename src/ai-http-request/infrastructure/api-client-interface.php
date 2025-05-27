@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\AI_HTTP_Request\Infrastructure;
 
 use Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
 
 /**
  * Interface for the API client.
@@ -18,9 +19,9 @@ interface API_Client_Interface {
 	 * @param array<string> $headers     The headers for the request.
 	 * @param bool          $is_post     Whether the request is a POST request.
 	 *
-	 * @throws Exception When the request fails for any reason.
+	 * @return array<int|string|array<string>> The response from the API.
 	 *
-	 * @return object The response from the API.
+	 * @throws WP_Request_Exception When the wp_remote_post() returns an error.
 	 */
-	public function perform_request( string $action_path, $body, $headers, bool $is_post ): object;
+	public function perform_request( string $action_path, $body, $headers, bool $is_post ): array;
 }
