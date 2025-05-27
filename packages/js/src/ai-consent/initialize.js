@@ -10,14 +10,14 @@ import { GrantConsent } from "./components/grant-consent";
 import { RevokeConsent } from "./components/revoke-consent";
 import { STORE_NAME_CONSENT_BUTTON } from "./constants";
 import { registerStore } from "./store";
+import { WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
 
 domReady( () => {
-	const WISTIA_EMBED_PERMISSION_NAME = get( window, "yoast.editorModules.sharedAdmin.store.WISTIA_EMBED_PERMISSION_NAME", "wistiaEmbedPermission" );
 	registerStore( {
-		[ HAS_AI_GENERATOR_CONSENT_NAME ]: get( window, "wpseoPremiumManageAiConsentButton.hasConsent", false ) === "1",
-		[ PLUGIN_URL_NAME ]: get( window, "wpseoPremiumManageAiConsentButton.pluginUrl", "" ),
+		[ HAS_AI_GENERATOR_CONSENT_NAME ]: get( window, "wpseoAiConsent.hasConsent", false ) === "1",
+		[ PLUGIN_URL_NAME ]: get( window, "wpseoAiConsent.pluginUrl", "" ),
 		[ WISTIA_EMBED_PERMISSION_NAME ]: {
-			value: get( window, "wpseoPremiumManageAiConsentButton.wistiaEmbedPermission", false ) === "1",
+			value: get( window, "wpseoAiConsent.wistiaEmbedPermission", false ) === "1",
 		},
 	} );
 
