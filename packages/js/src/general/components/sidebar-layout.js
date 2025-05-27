@@ -38,6 +38,11 @@ export const SidebarLayout = ( { contentClassName, children } ) => {
 	);
 };
 
+SidebarLayout.defaultProps = {
+	contentClassName: "",
+	children: null,
+};
+
 SidebarLayout.propTypes = {
 	contentClassName: PropTypes.string,
 	children: PropTypes.node,
