@@ -5,9 +5,10 @@ namespace Yoast\WP\SEO\AI_Authorization\Application;
 use RuntimeException;
 use WP_User;
 use WPSEO_Utils;
-use Yoast\WP\SEO\AI_Authorization\Infrastructure\Token_User_Meta_Repository_Interface;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Token_User_Meta_Repository_Interface;
 use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
+use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Internal_Server_Error_Exception;
@@ -18,7 +19,6 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Service_Unavailable_Exception
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
-use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
@@ -96,12 +96,12 @@ class Token_Manager {
 		Request_Handler $request_handler,
 		Code_Verifier_User_Meta_Repository $code_verifier_repository
 	) {
-		$this->access_token_repository      = $access_token_repository;
-		$this->code_verifier                = $code_verifier;
-		$this->consent_handler              = $consent_handler;
-		$this->refresh_token_repository     = $refresh_token_repository;
-		$this->user_helper                  = $user_helper;
-		$this->request_handler              = $request_handler;
+		$this->access_token_repository  = $access_token_repository;
+		$this->code_verifier            = $code_verifier;
+		$this->consent_handler          = $consent_handler;
+		$this->refresh_token_repository = $refresh_token_repository;
+		$this->user_helper              = $user_helper;
+		$this->request_handler          = $request_handler;
 		$this->code_verifier_repository = $code_verifier_repository;
 	}
 

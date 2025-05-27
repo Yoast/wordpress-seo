@@ -64,8 +64,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	 * @param int $user_id The user ID.
 	 *
 	 * @throws RuntimeException If the code verifier is not found or has expired.
-	 *@return Code_Verifier The verification code or null if not found.
-	 *
+	 * @return Code_Verifier The verification code or null if not found.
 	 */
 	public function get_code_verifier( int $user_id ): ?Code_Verifier {
 		$data = $this->user_helper->get_meta( $user_id, 'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id(), true );
