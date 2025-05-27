@@ -11,7 +11,6 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Request_Timeout_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Service_Unavailable_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
@@ -20,7 +19,7 @@ use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
  * Class Request_Handler
  * Handles the request to Yoast AI API.
  */
-class Request_Handler {
+class Request_Handler implements Request_Handler_Interface {
 
 	private const TIMEOUT = 60;
 
@@ -49,8 +48,6 @@ class Request_Handler {
 		$this->response_parser = $response_parser;
 	}
 
-	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
-
 	/**
 	 * Executes the request to the API.
 	 *
@@ -67,15 +64,14 @@ class Request_Handler {
 	 * @throws Service_Unavailable_Exception When the response code is 503.
 	 * @throws Too_Many_Requests_Exception When the response code is 429.
 	 * @throws Unauthorized_Exception When the response code is 401.
-	 * @throws WP_Request_Exception When the request fails for any other reason.
 	 */
 	public function handle( Request $request ): Response {
-				$api_response = $this->api_client->perform_request(
-					$request->get_action_path(),
-					$request->get_body(),
-					$request->get_headers(),
-					$request->is_post()
-				);
+			$api_response = $this->api_client->perform_request(
+				$request->get_action_path(),
+				$request->get_body(),
+				$request->get_headers(),
+				$request->is_post()
+			);
 
 		$response = $this->response_parser->parse( $api_response );
 
@@ -102,8 +98,6 @@ class Request_Handler {
 			default:
 				throw new Bad_Request_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
 		}
-		// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+		// phpcs:enable
 	}
-
-	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
 }
