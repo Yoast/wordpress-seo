@@ -27,7 +27,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Class Token_Manager
  * Handles the management of JWT tokens used in the authorization process.
  */
-class Token_Manager {
+class Token_Manager implements Token_Manager_Interface {
 
 	/**
 	 * The access token repository.
@@ -95,6 +95,7 @@ class Token_Manager {
 	 * @param User_Helper                                  $user_helper              The user helper.
 	 * @param Request_Handler                              $request_handler          The request handler.
 	 * @param Code_Verifier_User_Meta_Repository           $code_verifier_repository The code verifier repository.
+	 * @param WordPress_URLs                               $urls                     The URLs service.
 	 */
 	public function __construct(
 		Access_Token_User_Meta_Repository_Interface $access_token_repository,
