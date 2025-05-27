@@ -5,8 +5,9 @@ namespace Yoast\WP\SEO\AI_Authorization\Application;
 use RuntimeException;
 use WP_User;
 use WPSEO_Utils;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository_Interface;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
-use Yoast\WP\SEO\AI_Authorization\Infrastructure\Token_User_Meta_Repository_Interface;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository_Interface;
 use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\WordPress_URLs;
 use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
@@ -31,7 +32,7 @@ class Token_Manager {
 	/**
 	 * The access token repository.
 	 *
-	 * @var Token_User_Meta_Repository_Interface
+	 * @var Access_Token_User_Meta_Repository_Interface
 	 */
 	private $access_token_repository;
 
@@ -52,7 +53,7 @@ class Token_Manager {
 	/**
 	 * The refresh token repository.
 	 *
-	 * @var Token_User_Meta_Repository_Interface
+	 * @var Refresh_Token_User_Meta_Repository_Interface
 	 */
 	private $refresh_token_repository;
 
@@ -87,20 +88,20 @@ class Token_Manager {
 	/**
 	 * Token_Manager constructor.
 	 *
-	 * @param Token_User_Meta_Repository_Interface $access_token_repository  The access token repository.
-	 * @param Code_Verifier_Handler                $code_verifier            The code verifier service.
-	 * @param Consent_Handler                      $consent_handler          The consent handler.
-	 * @param Token_User_Meta_Repository_Interface $refresh_token_repository The refresh token repository.
-	 * @param User_Helper                          $user_helper              The user helper.
-	 * @param Request_Handler                      $request_handler          The request handler.
-	 * @param Code_Verifier_User_Meta_Repository   $code_verifier_repository The code verifier repository.
-	 * @param WordPress_URLs                       $urls                     The URLs service.
+	 * @param Access_Token_User_Meta_Repository_Interface  $access_token_repository  The access token repository.
+	 * @param Code_Verifier_Handler                        $code_verifier            The code verifier service.
+	 * @param Consent_Handler                              $consent_handler          The consent handler.
+	 * @param Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository The refresh token repository.
+	 * @param User_Helper                                  $user_helper              The user helper.
+	 * @param Request_Handler                              $request_handler          The request handler.
+	 * @param Code_Verifier_User_Meta_Repository           $code_verifier_repository The code verifier repository.
+	 * @param WordPress_URLs                               $urls                     The URLs service.
 	 */
 	public function __construct(
-		Token_User_Meta_Repository_Interface $access_token_repository,
+		Access_Token_User_Meta_Repository_Interface $access_token_repository,
 		Code_Verifier_Handler $code_verifier,
 		Consent_Handler $consent_handler,
-		Token_User_Meta_Repository_Interface $refresh_token_repository,
+		Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository,
 		User_Helper $user_helper,
 		Request_Handler $request_handler,
 		Code_Verifier_User_Meta_Repository $code_verifier_repository,
