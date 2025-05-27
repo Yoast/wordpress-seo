@@ -8,5 +8,5 @@ namespace Yoast\WP\SEO\AI_Authorization\Infrastructure;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 interface Refresh_Token_User_Meta_Repository_Interface extends Token_User_Meta_Repository_Interface {
-	const META_KEY = '_yoast_wpseo_ai_generator_refresh_jwt';
+	protected const META_KEY = '_yoast_wpseo_ai_generator_refresh_jwt';
 }
