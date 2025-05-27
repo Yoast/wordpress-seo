@@ -5,12 +5,11 @@ import { __ } from "@wordpress/i18n";
 import { Modal, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { get } from "lodash";
-import { HAS_AI_GENERATOR_CONSENT_NAME, PLUGIN_URL_NAME } from "../shared-admin/store";
+import { HAS_AI_GENERATOR_CONSENT_NAME, PLUGIN_URL_NAME, WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
 import { GrantConsent } from "./components/grant-consent";
 import { RevokeConsent } from "./components/revoke-consent";
 import { STORE_NAME_CONSENT_BUTTON } from "./constants";
 import { registerStore } from "./store";
-import { WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
 
 domReady( () => {
 	registerStore( {
