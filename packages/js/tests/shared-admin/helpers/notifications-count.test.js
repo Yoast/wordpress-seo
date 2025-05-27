@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { describe, expect, it } from "@jest/globals";
 import { updateNotificationsCount } from "../../../src/shared-admin/helpers";
 import { render } from "../../test-utils";

@@ -16,5 +16,3 @@ updates:
     labels:
       - "changelog: non-user-facing"
       - "yoast cs/qa"
-    reviewers:
-      - "jrfnl"
