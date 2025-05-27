@@ -274,6 +274,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 25.3 =
+
+Release date: 2025-06-10
+
+#### Enhancements
+
+* Introduces the llms.txt feature, which gives site owners the opportunity to automatically generate an llms.txt file. This file helps LLMs to better understand the site's content.
+
 = 25.2 =
 
 Release date: 2025-05-27
@@ -293,19 +301,6 @@ Yoast SEO 25.2 brings more enhancements and bugfixes. [Find more information abo
 #### Other
 
 * Excludes gallery, embed and playlist shortcodes from the _keyphrase in introduction_ analysis in Classic editor.
-
-= 25.1 =
-
-Release date: 2025-05-13
-
-Yoast SEO 25.1 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Adds more phrases regarding disability to the _inclusive language assessment_.
-* Improves the feedback for \"lame\" in the _inclusive language assessment_.
-* Makes the following SEO assessments available in the analysis by default, even when no content has been added: _keyphrase in introduction_, _keyphrase in meta description_, _keyphrase in SEO title_, _keyphrase in slug_ and _previously used keyphrase_.
-* Optimizes the function used to fetch post IDs which share the same focus keyphrase. Props to [dilipbheda](https://github.com/dilipbheda).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
