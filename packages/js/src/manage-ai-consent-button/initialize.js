@@ -11,12 +11,6 @@ import { RevokeConsent } from "./components/revoke-consent";
 import { STORE_NAME_CONSENT_BUTTON } from "./constants";
 import { registerStore } from "./store";
 
-// Yoast SEO free dependencies.
-const { setTextdomainL10n } = window.yoast.editorModules.helpers.i18n;
-
-// Register the Premium translations to the domain.
-setTextdomainL10n( "wordpress-seo-premium", "wpseoPremiumJSL10n" );
-
 domReady( () => {
 	const WISTIA_EMBED_PERMISSION_NAME = get( window, "yoast.editorModules.sharedAdmin.store.WISTIA_EMBED_PERMISSION_NAME", "wistiaEmbedPermission" );
 	registerStore( {
@@ -67,8 +61,8 @@ domReady( () => {
 					onClick={ handleClick }
 				>
 					{ hasConsent
-						? __( "Revoke consent", "wordpress-seo-premium" )
-						: __( "Grant consent", "wordpress-seo-premium" )
+						? __( "Revoke consent", "wordpress-seo" )
+						: __( "Grant consent", "wordpress-seo" )
 					}
 				</button>
 			</Fragment>
