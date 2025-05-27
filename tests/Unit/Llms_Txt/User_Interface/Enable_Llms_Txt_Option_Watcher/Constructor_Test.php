@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Remove_File_Command_Handler;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
 
 /**
- * Tests the contstructor.
+ * Tests the constructor.
  *
  * @group llms.txt
  *

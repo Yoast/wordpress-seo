@@ -15,8 +15,6 @@ final class Register_Hooks_Test extends Abstract_Enable_Llms_Txt_Option_Watcher_
 	/**
 	 * Tests the registration of the hooks.
 	 *
-	 * @covers Cleanup_Llms_Txt_On_Deactivation::register_hooks
-	 *
 	 * @return void
 	 */
 	public function test_register_hooks() {

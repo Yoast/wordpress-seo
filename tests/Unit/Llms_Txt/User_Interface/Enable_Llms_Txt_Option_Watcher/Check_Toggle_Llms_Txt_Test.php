@@ -10,7 +10,7 @@ use Generator;
  *
  * @group  llms.txt
  *
- * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\Enable_Llms_Txt_Option_Watcher::maybe_remove_llms_file
+ * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\Enable_Llms_Txt_Option_Watcher::check_toggle_llms_txt
  */
 final class Check_Toggle_Llms_Txt_Test extends Abstract_Enable_Llms_Txt_Option_Watcher_Test {
 

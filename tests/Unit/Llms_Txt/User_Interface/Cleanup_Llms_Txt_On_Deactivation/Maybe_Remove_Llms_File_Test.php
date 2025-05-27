@@ -15,8 +15,6 @@ final class Maybe_Remove_Llms_File_Test extends Abstract_Cleanup_Llms_Txt_On_Dea
 	/**
 	 * Tests the registration of the hooks.
 	 *
-	 * @covers Cleanup_Llms_Txt_On_Deactivation::maybe_remove_llms_file
-	 *
 	 * @return void
 	 */
 	public function test_maybe_remove_llms_file() {
