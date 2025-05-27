@@ -105,17 +105,9 @@ class Ai_Consent_Integration implements Integration_Interface {
 	 * @return array<string, string|bool>
 	 */
 	public function get_script_data(): array {
-		$user_id = $this->user_helper->get_current_user_id();
-
-		try {
-			$wistia_embed_permission = $this->wistia_embed_permission_repository->get_value_for_user( $user_id );
-		} catch ( Exception $e ) {
-			$wistia_embed_permission = 0;
-		}
 		return [
 			'hasConsent'            => $this->user_helper->get_meta( $this->user_helper->get_current_user_id(), '_yoast_wpseo_ai_consent', true ),
 			'pluginUrl'             => \plugins_url( '', \WPSEO_FILE ),
-			'wistiaEmbedPermission' => $wistia_embed_permission,
 		];
 	}
 
@@ -126,8 +118,8 @@ class Ai_Consent_Integration implements Integration_Interface {
 	 */
 	public function enqueue_assets() {
 		$this->asset_manager->enqueue_style( 'ai-generator' );
-		$this->asset_manager->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'manage-ai-consent-button', 'wpseoScriptData', $this->get_script_data() );
-		$this->asset_manager->enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'manage-ai-consent-button' );
+		$this->asset_manager->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'ai-consent', 'wpseoScriptData', $this->get_script_data() );
+		$this->asset_manager->enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'ai-consent' );
 	}
 
 	/**
