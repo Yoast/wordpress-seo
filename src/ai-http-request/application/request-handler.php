@@ -20,7 +20,7 @@ use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
  * Class Request_Handler
  * Handles the request to Yoast AI API.
  */
-class Request_Handler {
+class Request_Handler implements Request_Handler_Interface {
 
 	private const TIMEOUT = 60;
 
