@@ -3,7 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Application\Markdown_Escaper;
 
-use Mockery;
 use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Escaper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
