@@ -5,7 +5,6 @@ import {
 	getInitialHasAiGeneratorConsentState,
 	getInitialLinkParamsState,
 	getInitialPluginUrlState,
-	getInitialWistiaEmbedPermissionState,
 	HAS_AI_GENERATOR_CONSENT_NAME,
 	hasAiGeneratorConsentActions,
 	hasAiGeneratorConsentControls,
@@ -19,11 +18,6 @@ import {
 	pluginUrlActions,
 	pluginUrlReducer,
 	pluginUrlSelectors,
-	WISTIA_EMBED_PERMISSION_NAME,
-	wistiaEmbedPermissionActions,
-	wistiaEmbedPermissionControls,
-	wistiaEmbedPermissionReducer,
-	wistiaEmbedPermissionSelectors,
 } from "../../shared-admin/store";
 import { STORE_NAME_AI_CONSENT } from "../constants";
 
@@ -39,13 +33,11 @@ const createStore = ( initialState ) => {
 			...hasAiGeneratorConsentActions,
 			...pluginUrlActions,
 			...linkParamsActions,
-			...wistiaEmbedPermissionActions,
 		},
 		selectors: {
 			...hasAiGeneratorConsentSelectors,
 			...pluginUrlSelectors,
 			...linkParamsSelectors,
-			...wistiaEmbedPermissionSelectors,
 		},
 		initialState: merge(
 			{},
@@ -53,7 +45,6 @@ const createStore = ( initialState ) => {
 				[ HAS_AI_GENERATOR_CONSENT_NAME ]: getInitialHasAiGeneratorConsentState(),
 				[ PLUGIN_URL_NAME ]: getInitialPluginUrlState(),
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
-				[ WISTIA_EMBED_PERMISSION_NAME ]: getInitialWistiaEmbedPermissionState(),
 			},
 			initialState
 		),
@@ -61,11 +52,9 @@ const createStore = ( initialState ) => {
 			[ HAS_AI_GENERATOR_CONSENT_NAME ]: hasAiGeneratorConsentReducer,
 			[ PLUGIN_URL_NAME ]: pluginUrlReducer,
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
-			[ WISTIA_EMBED_PERMISSION_NAME ]: wistiaEmbedPermissionReducer,
 		} ),
 		controls: {
 			...hasAiGeneratorConsentControls,
-			...wistiaEmbedPermissionControls,
 		},
 	} );
 };
