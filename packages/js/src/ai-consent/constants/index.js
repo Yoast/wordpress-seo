@@ -1,1 +1,1 @@
-export const STORE_NAME_CONSENT_BUTTON = "yoast-seo/ai-consent";
+export const STORE_NAME_AI_CONSENT = "yoast-seo/ai-consent";

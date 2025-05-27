@@ -25,7 +25,7 @@ import {
 	wistiaEmbedPermissionReducer,
 	wistiaEmbedPermissionSelectors,
 } from "../../shared-admin/store";
-import { STORE_NAME_CONSENT_BUTTON } from "../constants";
+import { STORE_NAME_AI_CONSENT } from "../constants";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -34,7 +34,7 @@ import { STORE_NAME_CONSENT_BUTTON } from "../constants";
  * @returns {WPDataStore} The WP data store.
  */
 const createStore = ( initialState ) => {
-	return createReduxStore( STORE_NAME_CONSENT_BUTTON, {
+	return createReduxStore( STORE_NAME_AI_CONSENT, {
 		actions: {
 			...hasAiGeneratorConsentActions,
 			...pluginUrlActions,

@@ -8,7 +8,7 @@ import { get } from "lodash";
 import { HAS_AI_GENERATOR_CONSENT_NAME, PLUGIN_URL_NAME, WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
 import { GrantConsent } from "./components/grant-consent";
 import { RevokeConsent } from "./components/revoke-consent";
-import { STORE_NAME_CONSENT_BUTTON } from "./constants";
+import { STORE_NAME_AI_CONSENT } from "./constants";
 import { registerStore } from "./store";
 
 domReady( () => {
@@ -25,7 +25,7 @@ domReady( () => {
 	 * @returns {JSX.Element} The element.
 	 */
 	const App = () => {
-		const hasConsent = useSelect( select => select( STORE_NAME_CONSENT_BUTTON ).selectHasAiGeneratorConsent(), [] );
+		const hasConsent = useSelect( select => select( STORE_NAME_AI_CONSENT ).selectHasAiGeneratorConsent(), [] );
 		const [ isModalOpen, , , openModal, closeModal ] = useToggleState( false );
 		const focusElementRef = useRef( null );
 		const handleClick = useCallback( e => {
