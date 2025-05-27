@@ -7,7 +7,6 @@ jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn( select => select( () => ( {
 		selectLink: jest.fn( link => `https://yoa.st/${ link }` ),
 	} ) ) ),
-	registerStore: jest.fn(),
 } ) );
 
 jest.mock( "@wordpress/api-fetch", () => ( {

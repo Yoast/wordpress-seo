@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, describe, expect, it } from "@jest/globals";
+import { afterAll, beforeAll, describe, expect, it, jest } from "@jest/globals";
 import { createMemoryRouter, createRoutesFromElements, Outlet, Route, RouterProvider } from "react-router-dom";
 import { RouteErrorFallback } from "../../../src/general/components";
 import { render } from "../../test-utils";
@@ -7,8 +7,7 @@ const ERROR_MESSAGE = "Foo";
 const LINK = "https://yoa.st/general-error-support";
 
 jest.mock( "@wordpress/data", () => ( {
-	useSelect: jest.fn( () => LINK ),
-	registerStore: jest.fn(),
+	useSelect: () => LINK,
 } ) );
 
 /**
