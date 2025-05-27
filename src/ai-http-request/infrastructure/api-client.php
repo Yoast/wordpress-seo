@@ -76,7 +76,7 @@ class API_Client implements API_Client_Interface {
 	 *
 	 * @return int The timeout of the suggestion requests in seconds.
 	 */
-	private function get_request_timeout(): int {
+	public function get_request_timeout(): int {
 		/**
 		 * Filter: 'Yoast\WP\SEO\ai_suggestions_timeout' - Replaces the default timeout with a custom one, for testing purposes.
 		 *
