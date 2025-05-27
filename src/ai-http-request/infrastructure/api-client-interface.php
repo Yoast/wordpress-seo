@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_HTTP_Request\infrastructure;
+namespace Yoast\WP\SEO\AI_HTTP_Request\Infrastructure;
 
 use Exception;
 
