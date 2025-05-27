@@ -1,22 +1,24 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\User_Interface\Cleanup_Llms_Txt_On_Deactivation;
+namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\User_Interface\Enable_Llms_Txt_Option_Watcher;
 
 use Mockery;
+use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Populate_File_Command_Handler;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Remove_File_Command_Handler;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
 use Yoast\WP\SEO\Llms_Txt\User_Interface\Cleanup_Llms_Txt_On_Deactivation;
+use Yoast\WP\SEO\Llms_Txt\User_Interface\Enable_Llms_Txt_Option_Watcher;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Abstract class for the Cleanup_Llms_Txt_On_Deactivation tests.
+ * Abstract class for the Enable_Llms_Txt_Option_Watcher tests.
  *
  * @group llms.txt
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-abstract class Abstract_Cleanup_Llms_Txt_On_Deactivation_Test extends TestCase {
+abstract class Abstract_Enable_Llms_Txt_Option_Watcher_Test extends TestCase {
 
 	/**
 	 * The command handler mock.
@@ -33,6 +35,13 @@ abstract class Abstract_Cleanup_Llms_Txt_On_Deactivation_Test extends TestCase {
 	protected $cron_scheduler;
 
 	/**
+	 * The populate file command handler mock.
+	 *
+	 * @var Populate_File_Command_Handler|Mockery\MockInterface
+	 */
+	protected $populate_file_command_handler;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Cleanup_Llms_Txt_On_Deactivation
@@ -47,12 +56,14 @@ abstract class Abstract_Cleanup_Llms_Txt_On_Deactivation_Test extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->command_handler = Mockery::mock( Remove_File_Command_Handler::class );
-		$this->cron_scheduler  = Mockery::mock( Llms_Txt_Cron_Scheduler::class );
+		$this->cron_scheduler                = Mockery::mock( Llms_Txt_Cron_Scheduler::class );
+		$this->command_handler               = Mockery::mock( Remove_File_Command_Handler::class );
+		$this->populate_file_command_handler = Mockery::mock( Populate_File_Command_Handler::class );
 
-		$this->instance = new Cleanup_Llms_Txt_On_Deactivation(
+		$this->instance = new Enable_Llms_Txt_Option_Watcher(
+			$this->cron_scheduler,
 			$this->command_handler,
-			$this->cron_scheduler
+			$this->populate_file_command_handler
 		);
 	}
 }

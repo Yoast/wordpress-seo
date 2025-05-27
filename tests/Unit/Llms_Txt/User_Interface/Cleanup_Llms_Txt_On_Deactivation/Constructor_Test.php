@@ -1,5 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\User_Interface\Cleanup_Llms_Txt_On_Deactivation;
 
 use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Remove_File_Command_Handler;
