@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\AI_Consent\User_Interface;
 
-use Exception;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\User_Profile_Conditional;
