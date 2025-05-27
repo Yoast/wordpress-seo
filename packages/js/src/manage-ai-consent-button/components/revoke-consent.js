@@ -49,17 +49,17 @@ export const RevokeConsent = ( { onClose } ) => {
 					as="h3"
 					size="4"
 				>
-					{ __( "Revoke AI consent", "wordpress-seo-premium" ) }
+					{ __( "Revoke AI consent", "wordpress-seo" ) }
 				</Modal.Title>
 				{ error && <Alert
 					className="yst-mt-2"
 					variant="error"
 				>
-					{ __( "Something went wrong, please try again later.", "wordpress-seo-premium" ) }
+					{ __( "Something went wrong, please try again later.", "wordpress-seo" ) }
 				</Alert> }
 				<p className="yst-mt-2 yst-text-slate-600">
 					{   }
-					{ __( "By revoking your consent, you will no longer have access to Yoast AI features. Are you sure you want to revoke your consent?", "wordpress-seo-premium" ) }
+					{ __( "By revoking your consent, you will no longer have access to Yoast AI features. Are you sure you want to revoke your consent?", "wordpress-seo" ) }
 				</p>
 				<footer className="yst-mt-6 sm:yst-flex sm:yst-flex-row-reverse">
 					<Button
@@ -69,7 +69,7 @@ export const RevokeConsent = ( { onClose } ) => {
 						onClick={ handleRevokeConsent }
 					>
 						{
-							__( "Yes, revoke consent", "wordpress-seo-premium" )
+							__( "Yes, revoke consent", "wordpress-seo" )
 						}
 					</Button>
 					<Button
@@ -78,7 +78,7 @@ export const RevokeConsent = ( { onClose } ) => {
 						onClick={ onClose }
 					>
 						{
-							__( "Close", "wordpress-seo-premium" )
+							__( "Close", "wordpress-seo" )
 						}
 					</Button>
 				</footer>
