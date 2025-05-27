@@ -4,7 +4,7 @@ import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Alert, Button, Modal } from "@yoast/ui-library";
 
-import { STORE_NAME_CONSENT_BUTTON } from "../constants";
+import { STORE_NAME_AI_CONSENT } from "../constants";
 
 /**
  * The modal content for revoking consent to use the AI features.
@@ -14,7 +14,7 @@ import { STORE_NAME_CONSENT_BUTTON } from "../constants";
  * @returns {JSX.Element} The element.
  */
 export const RevokeConsent = ( { onClose } ) => {
-	const { storeAiGeneratorConsent } = useDispatch( STORE_NAME_CONSENT_BUTTON );
+	const { storeAiGeneratorConsent } = useDispatch( STORE_NAME_AI_CONSENT );
 
 	const [ isLoading, setIsLoading ] = useState( false );
 	const [ error, setError ] = useState( false );
