@@ -1,8 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\AI_Generator\User_Interface;
-
-use Yoast\WP\SEO\Integrations\Alerts\Abstract_Dismissable_Alert;
+namespace Yoast\WP\SEO\Integrations\Alerts;
 
 /**
  * Registers a dismissible alert.
