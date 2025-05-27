@@ -5,6 +5,12 @@ namespace Yoast\WP\SEO\AI_Authorization\Infrastructure;
 use RuntimeException;
 use Yoast\WP\SEO\AI_Authorization\Domain\Code_Verifier;
 
+// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+/**
+ * Interface for the Code Verifier User Meta Repository.
+ *
+ * This interface defines methods for managing code verifiers associated with users.
+ */
 interface Code_Verifier_User_Meta_Repository_Interface {
 
 	/**
@@ -13,8 +19,7 @@ interface Code_Verifier_User_Meta_Repository_Interface {
 	 * @param int $user_id The user ID.
 	 *
 	 * @throws RuntimeException If the code verifier is not found or has expired.
-	 *@return Code_Verifier The verification code or null if not found.
-	 *
+	 * @return Code_Verifier The verification code or null if not found.
 	 */
 	public function get_code_verifier( int $user_id ): ?Code_Verifier;
 
@@ -38,3 +43,4 @@ interface Code_Verifier_User_Meta_Repository_Interface {
 	 */
 	public function delete_code_verifier( int $user_id ): void;
 }
+//phpcs:enable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
