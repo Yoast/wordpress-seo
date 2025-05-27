@@ -9,7 +9,7 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
  * Class API_Client
  * Handles the API requests to the AI Generator API.
  */
-class API_Client {
+class API_Client implements API_Client_Interface {
 
 	/**
 	 * The base URL for the API.
@@ -76,7 +76,7 @@ class API_Client {
 	 *
 	 * @return int The timeout of the suggestion requests in seconds.
 	 */
-	public function get_request_timeout(): int {
+	private function get_request_timeout(): int {
 		/**
 		 * Filter: 'Yoast\WP\SEO\ai_suggestions_timeout' - Replaces the default timeout with a custom one, for testing purposes.
 		 *
