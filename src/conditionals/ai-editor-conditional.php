@@ -74,4 +74,3 @@ class AI_Editor_Conditional implements Conditional {
 		return false;
 	}
 }
-
