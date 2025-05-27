@@ -144,8 +144,7 @@ class Token_Manager {
 				)
 			);
 		} catch ( Unauthorized_Exception | Forbidden_Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Reason: Ignored on purpose.
-			// We do nothing in this case, we trust nonce verification and try to remove the user data anyway.
-			// I.e. we fallthrough to the same logic as if we got a 200 OK.
+			// If the credentials in our request were already invalid, our job is done and we continue to remove the tokens client-side. 
 		}
 
 		// Delete the stored JWT tokens.
