@@ -3,13 +3,13 @@
 namespace Yoast\WP\SEO\AI_Authorization\Infrastructure;
 
 use RuntimeException;
-use Yoast\WP\SEO\AI_Authorization\Domain\Verification_Code;
+use Yoast\WP\SEO\AI_Authorization\Domain\Code_Verifier;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 /**
  * Class Code_Verifier_Repository
  */
-class Verification_Code_User_Meta_Repository {
+class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repository_Interface {
 
 	private const CODE_VERIFIER_VALIDITY = 300; // 5 minutes
 
@@ -41,13 +41,13 @@ class Verification_Code_User_Meta_Repository {
 	/**
 	 * Store the verification code for a user.
 	 *
-	 * @param int    $user_id    The user ID.
 	 * @param string $code       The verification code.
+	 * @param int    $user_id    The user ID.
 	 * @param int    $created_at The time the code was created.
 	 *
 	 * @return void
 	 */
-	public function store_verification_code( int $user_id, string $code, int $created_at ): void {
+	public function store_code_verifier( string $code, int $user_id, int $created_at ): void {
 		$this->user_helper->update_meta(
 			$user_id,
 			'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id(),
@@ -63,11 +63,11 @@ class Verification_Code_User_Meta_Repository {
 	 *
 	 * @param int $user_id The user ID.
 	 *
-	 * @return Verification_Code The verification code or null if not found.
+	 * @throws RuntimeException If the code verifier is not found or has expired.
+	 *@return Code_Verifier The verification code or null if not found.
 	 *
-	 *  @throws RuntimeException If the code verifier is not found or has expired.
 	 */
-	public function get_verification_code( int $user_id ): ?Verification_Code {
+	public function get_code_verifier( int $user_id ): ?Code_Verifier {
 		$data = $this->user_helper->get_meta( $user_id, 'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id(), true );
 
 		if ( ! \is_array( $data ) || ! isset( $data['code'] ) || $data['code'] === '' ) {
@@ -75,11 +75,11 @@ class Verification_Code_User_Meta_Repository {
 		}
 
 		if ( ! isset( $data['created_at'] ) || $data['created_at'] < ( $this->date_helper->current_time() - self::CODE_VERIFIER_VALIDITY ) ) {
-			$this->delete_verification_code( $user_id );
+			$this->delete_code_verifier( $user_id );
 			throw new RuntimeException( 'Code verifier has expired.' );
 		}
 
-		return new Verification_Code( $data['code'], $data['created_at'] );
+		return new Code_Verifier( $data['code'], $data['created_at'] );
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Verification_Code_User_Meta_Repository {
 	 *
 	 * @return void
 	 */
-	public function delete_verification_code( int $user_id ): void {
+	public function delete_code_verifier( int $user_id ): void {
 		$this->user_helper->delete_meta( $user_id, 'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id() );
 	}
 }
