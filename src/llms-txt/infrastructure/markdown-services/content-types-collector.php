@@ -61,8 +61,7 @@ class Content_Types_Collector {
 
 			$post_links = new Link_List( $post_type_object->label, [] );
 			foreach ( $posts as $post ) {
-				$excerpt   = $this->string_helper->strip_shortcode( ( \get_the_excerpt( $post ) ) );
-				$post_link = new Link( $post->post_title, \get_permalink( $post->ID ), $excerpt );
+				$post_link = new Link( $post->post_title, \get_permalink( $post->ID ), $post->post_excerpt );
 				$post_links->add_link( $post_link );
 			}
 

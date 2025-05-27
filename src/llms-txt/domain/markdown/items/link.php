@@ -49,7 +49,8 @@ class Link implements Item_Interface {
 	 * @return string
 	 */
 	public function render(): string {
-		return "[$this->text]($this->anchor)" . ( $this->description !== null ) ? ": $this->description" : '';
+		$description = ( $this->description !== '' ) ? ": $this->description" : '';
+		return "[$this->text]($this->anchor)$description";
 	}
 
 	/**
