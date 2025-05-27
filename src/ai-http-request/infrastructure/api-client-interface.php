@@ -24,4 +24,11 @@ interface API_Client_Interface {
 	 * @throws WP_Request_Exception When the wp_remote_post() returns an error.
 	 */
 	public function perform_request( string $action_path, $body, $headers, bool $is_post ): array;
+
+	/**
+	 * Gets the timeout of the requests in seconds.
+	 *
+	 * @return int The timeout of the suggestion requests in seconds.
+	 */
+	public function get_request_timeout(): int;
 }
