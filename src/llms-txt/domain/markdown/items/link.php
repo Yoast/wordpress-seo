@@ -14,7 +14,7 @@ class Link implements Item_Interface {
 	 *
 	 * @var string|null
 	 */
-	protected $description;
+	private $description;
 
 	/**
 	 * The link text.
