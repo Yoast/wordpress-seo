@@ -53,7 +53,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	workouts: `${ sourceDirectory }/workouts.js`,
 	"frontend-inspector-resources": `${ sourceDirectory }/frontend-inspector-resources.js`,
 	"ai-generator": `${ sourceDirectory }/ai-generator/initialize.js`,
-	"manage-ai-consent-button": `${ sourceDirectory }/manage-ai-consent-button/initialize.js`,
+	"manage-ai-consent-button": `${ sourceDirectory }/ai-consent/initialize.js`,
 } );
 
 /**
