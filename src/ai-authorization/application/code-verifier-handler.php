@@ -3,14 +3,14 @@
 namespace Yoast\WP\SEO\AI_Authorization\Application;
 
 use RuntimeException;
-use Yoast\WP\SEO\AI_Authorization\Domain\Verification_Code;
-use Yoast\WP\SEO\AI_Authorization\Infrastructure\Verification_Code_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\Domain\Code_Verifier;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 /**
  * Class Code_Verifier_Service
  * Handles the generation and validation of code verifiers for users.
  */
-class Code_Verifier {
+class Code_Verifier_Handler {
 	private const VALIDITY_IN_SECONDS = 300; // 5 minutes
 
 	/**
@@ -23,17 +23,17 @@ class Code_Verifier {
 	/**
 	 * The code verifier repository.
 	 *
-	 * @var Verification_Code_User_Meta_Repository
+	 * @var Code_Verifier_User_Meta_Repository
 	 */
 	private $code_verifier_repository;
 
 	/**
 	 * Code_Verifier_Service constructor.
 	 *
-	 * @param Date_Helper                            $date_helper              The date helper.
-	 * @param Verification_Code_User_Meta_Repository $code_verifier_repository The code verifier repository.
+	 * @param Date_Helper                        $date_helper              The date helper.
+	 * @param Code_Verifier_User_Meta_Repository $code_verifier_repository The code verifier repository.
 	 */
-	public function __construct( Date_Helper $date_helper, Verification_Code_User_Meta_Repository $code_verifier_repository ) {
+	public function __construct( Date_Helper $date_helper, Code_Verifier_User_Meta_Repository $code_verifier_repository ) {
 		$this->date_helper              = $date_helper;
 		$this->code_verifier_repository = $code_verifier_repository;
 	}
@@ -44,14 +44,14 @@ class Code_Verifier {
 	 * @param int    $user_id    The user ID.
 	 * @param string $user_email The user email.
 	 *
-	 * @return Verification_Code The generated code verifier.
+	 * @return Code_Verifier The generated code verifier.
 	 */
-	public function generate( int $user_id, string $user_email ): Verification_Code {
+	public function generate( int $user_id, string $user_email ): Code_Verifier {
 		$random_string = \substr( \str_shuffle( '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' ), 1, 10 );
 		$code          = \hash( 'sha256', $user_email . $random_string );
 		$created_at    = $this->date_helper->current_time();
 
-		return new Verification_Code( $code, $created_at );
+		return new Code_Verifier( $code, $created_at );
 	}
 
 	/**
