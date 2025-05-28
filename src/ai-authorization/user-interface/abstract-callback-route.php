@@ -83,7 +83,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	public function callback( WP_REST_Request $request ): WP_REST_Response {
 		$user_id = $request['user_id'];
 		try {
-			$verification_code = $this->verification_code_repository->get_verification_code( $user_id );
+			$verification_code = $this->verification_code_repository->get_code_verifier( $user_id );
 
 			if ( $request['code_challenge'] !== \hash( 'sha256', $verification_code->get_code() ) ) {
 				throw new Unauthorized_Exception( 'Unauthorized' );
@@ -91,7 +91,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 
 			$this->access_token_repository->store_token( $user_id, $request['access_jwt'] );
 			$this->refresh_token_repository->store_token( $user_id, $request['refresh_jwt'] );
-			$this->verification_code_repository->delete_verification_code( $user_id );
+			$this->verification_code_repository->delete_code_verifier( $user_id );
 		} catch ( Unauthorized_Exception | RuntimeException $e ) {
 			return new WP_REST_Response( 'Unauthorized.', 401 );
 		}
