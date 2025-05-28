@@ -10,8 +10,8 @@ import { focusFocusKeyphraseInput, isConsideredEmpty } from "../helpers";
 import { useLocation, useMeasuredRef, useModalTitle, useTypeContext } from "../hooks";
 import { FeatureError } from "./feature-error";
 import { Introduction } from "./introduction";
-import { UpsellModalContent } from "./upsell-modal-content";
 import { ModalContent } from "./modal-content";
+import { UpsellModalContent } from "./upsell-modal-content";
 
 /**
  * Checks whether all required subscriptions are valid.
@@ -25,6 +25,64 @@ import { ModalContent } from "./modal-content";
  */
 
 /**
+ * Component abstracting the main modal.
+ *
+ * @param {boolean} isOpen Whether the modal is open.
+ * @param {func} onClose Callback for when the modal is closed.
+ * @param {func} panelRef The reference to the panel.
+ * @param {string} closeButtonScreenReaderText The screen reader text for the close button.
+ * @param {string} title The title of the modal.
+ * @param {string} aiModalHelperLink The link to the AI modal helper.
+ * @param {object} svgAriaProps The SVG aria properties.
+ * @param {JSX.Node} children The children of the modal.
+ *
+ * @returns {JSX.Element} The main modal.
+ */
+const MainModal = ( { isOpen, onClose, panelRef, closeButtonScreenReaderText, title, aiModalHelperLink, svgAriaProps, children } ) => (
+	<Modal
+		className="yst-ai-modal"
+		isOpen={ isOpen }
+		onClose={ onClose }
+	>
+		<Modal.Panel ref={ panelRef } className="yst-max-w-3xl yst-relative" closeButtonScreenReaderText={ closeButtonScreenReaderText }>
+			<Modal.Container>
+				<Modal.Container.Header>
+					<div className="yst-flex yst-items-center">
+						<span className="yst-logo-icon yst-h-5 yst-w-5" />
+						<Modal.Title className="yst-ms-3 yst-me-1.5" as="h1" size="2">{ title }</Modal.Title>
+						<Link
+							id="ai-modal-learn-more"
+							href={ aiModalHelperLink }
+							variant="primary"
+							className="yst-no-underline yst-me-2"
+							target="_blank"
+							rel="noopener"
+							/* translators: Hidden accessibility text. */
+							aria-label={ __( "Learn more about AI (Opens in a new browser tab)", "wordpress-seo" ) }
+						>
+							<QuestionMarkCircleIcon { ...svgAriaProps } className={ "yst-w-4 yst-h-4 yst-text-slate-500" } />
+						</Link>
+						<Badge variant="info">{ __( "Beta", "wordpress-seo" ) }</Badge>
+					</div>
+					<hr className="yst-mt-6 yst--mx-6" />
+				</Modal.Container.Header>
+				{ children }
+			</Modal.Container>
+		</Modal.Panel>
+	</Modal>
+);
+MainModal.propTypes = {
+	isOpen: PropTypes.bool.isRequired,
+	onClose: PropTypes.func.isRequired,
+	panelRef: PropTypes.func.isRequired,
+	closeButtonScreenReaderText: PropTypes.string.isRequired,
+	title: PropTypes.string.isRequired,
+	aiModalHelperLink: PropTypes.string.isRequired,
+	svgAriaProps: PropTypes.object.isRequired,
+	children: PropTypes.node.isRequired,
+};
+
+/**
  * @param {function} onUseAi Callback for when the user clicks on the use AI button.
  * @returns {JSX.Element} The element.
  */
@@ -34,16 +92,27 @@ export const App = ( { onUseAi } ) => {
 	const title = useModalTitle();
 	const [ isModalOpen, , , openModal, closeModal ] = useToggleState( false );
 	const focusElementRef = useRef( null );
-	const focusKeyphrase = useSelect( select => select( STORE_NAME_EDITOR ).getFocusKeyphrase(), [] );
-	const aiModalHelperLink = useSelect( select => select( STORE_NAME_EDITOR )
-		.selectLink( "https://yoa.st/ai-generator-help-button-modal" ), [] );
+	const {
+		focusKeyphrase,
+		isSeoAnalysisActive,
+		aiModalHelperLink,
+		hasConsent,
+		promptContentInitialized,
+		currentSubscriptions,
+		usageCount,
+		usageCountLimit,
+	} = useSelect( select => ( {
+		focusKeyphrase: select( STORE_NAME_EDITOR ).getFocusKeyphrase(),
+		isSeoAnalysisActive: select( STORE_NAME_EDITOR ).getPreference( "isKeywordAnalysisActive", true ),
+		aiModalHelperLink: select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-help-button-modal" ),
+		hasConsent: select( STORE_NAME_AI ).selectHasAiGeneratorConsent(),
+		promptContentInitialized: select( STORE_NAME_AI ).selectPromptContentInitialized(),
+		currentSubscriptions: select( STORE_NAME_AI ).selectProductSubscriptions(),
+		usageCount: select( STORE_NAME_AI ).selectUsageCount(),
+		usageCountLimit: select( STORE_NAME_AI ).selectUsageCountLimit(),
+	} ), [] );
 	const { closeEditorModal } = useDispatch( STORE_NAME_EDITOR );
-	const hasConsent = useSelect( select => select( STORE_NAME_AI ).selectHasAiGeneratorConsent(), [] );
 	const [ tryAi, setTryAi ] = useState( hasConsent );
-
-	const promptContentInitialized = useSelect( select => select( STORE_NAME_AI ).selectPromptContentInitialized(), [] );
-	const currentSubscriptions = useSelect( select => select( STORE_NAME_AI ).selectProductSubscriptions(), [] );
-	const isSeoAnalysisActive = useSelect( select => select( STORE_NAME_EDITOR ).getPreference( "isKeywordAnalysisActive", true ), [] );
 
 	/* translators: Hidden accessibility text. */
 	const closeButtonScreenReaderText = __( "Close modal", "wordpress-seo" );
@@ -133,6 +202,12 @@ export const App = ( { onUseAi } ) => {
 					{ ...MainModalCommonProps }
 					isOpen={ arePreconditionsMet && hasConsent }
 				>
+					<UsageCounter
+						limit={ usageCountLimit }
+						requests={ usageCount }
+						isSkeleton={ false }
+						className={ "yst-absolute yst-top-[-11px] yst-end-12 sm:yst-end-16" }
+					/>
 					<ModalContent height={ panelHeight } />
 				</MainModal>
 
@@ -148,77 +223,4 @@ export const App = ( { onUseAi } ) => {
 };
 App.propTypes = {
 	onUseAi: PropTypes.func.isRequired,
-};
-
-
-/**
- * Component abstracting the main modal.
- *
- * @param {boolean} isOpen Whether the modal is open.
- * @param {func} onClose Callback for when the modal is closed.
- * @param {func} panelRef The reference to the panel.
- * @param {string} closeButtonScreenReaderText The screen reader text for the close button.
- * @param {string} title The title of the modal.
- * @param {string} aiModalHelperLink The link to the AI modal helper.
- * @param {object} svgAriaProps The SVG aria properties.
- * @param {JSX.Node} children The children of the modal.
- *
- * @returns {JSX.Element} The main modal.
- */
-const MainModal = ( { isOpen, onClose, panelRef, closeButtonScreenReaderText, title, aiModalHelperLink, svgAriaProps, children } ) => {
-	const { counts, limit } = useSelect( ( select ) => ( {
-		counts: select( STORE_NAME_AI ).selectUsageCount(),
-		limit: select( STORE_NAME_AI ).selectUsageCountLimit(),
-	} ), [] );
-
-	return (
-		<Modal
-			className="yst-ai-modal"
-			isOpen={ isOpen }
-			onClose={ onClose }
-		>
-			<Modal.Panel ref={ panelRef } className="yst-max-w-3xl yst-relative" closeButtonScreenReaderText={ closeButtonScreenReaderText }>
-				<Modal.Container>
-					<Modal.Container.Header>
-						<UsageCounter
-							limit={ limit }
-							requests={ counts }
-							isSkeleton={ false }
-							className={ "yst-absolute yst-top-[-11px] yst-end-12 sm:yst-end-16" }
-						/>
-						<div className="yst-flex yst-items-center">
-							<span className="yst-logo-icon yst-h-5 yst-w-5" />
-							<Modal.Title className="yst-ms-3 yst-me-1.5" as="h1" size="2">{ title }</Modal.Title>
-							<Link
-								id="ai-modal-learn-more"
-								href={ aiModalHelperLink }
-								variant="primary"
-								className="yst-no-underline yst-me-2"
-								target="_blank"
-								rel="noopener"
-								/* translators: Hidden accessibility text. */
-								aria-label={ __( "Learn more about AI (Opens in a new browser tab)", "wordpress-seo" ) }
-							>
-								<QuestionMarkCircleIcon { ...svgAriaProps } className={ "yst-w-4 yst-h-4 yst-text-slate-500" } />
-							</Link>
-							<Badge variant="info">{ __( "Beta", "wordpress-seo" ) }</Badge>
-						</div>
-						<hr className="yst-mt-6 yst--mx-6" />
-					</Modal.Container.Header>
-					{ children }
-				</Modal.Container>
-			</Modal.Panel>
-		</Modal>
-	);
-};
-
-MainModal.propTypes = {
-	isOpen: PropTypes.bool.isRequired,
-	onClose: PropTypes.func.isRequired,
-	panelRef: PropTypes.func.isRequired,
-	closeButtonScreenReaderText: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
-	aiModalHelperLink: PropTypes.string.isRequired,
-	svgAriaProps: PropTypes.object.isRequired,
-	children: PropTypes.node.isRequired,
 };
