@@ -8,7 +8,7 @@ import React from "react";
  * @param {React.ReactNode} children The content.
  * @returns {React.ReactElement} The element.
  */
-const Header = ( { as: Component, className, children } ) => (
+const Header = ( { as: Component = "header", className = "", children } ) => (
 	<Component className={ classNames( "yst-paper__header", className ) }>
 		{ children }
 	</Component>
@@ -18,11 +18,6 @@ Header.propTypes = {
 	as: PropTypes.node,
 	className: PropTypes.string,
 	children: PropTypes.node.isRequired,
-};
-
-Header.defaultProps = {
-	as: "header",
-	className: "",
 };
 
 export default Header;
