@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services;
 
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items\Link;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
 
@@ -22,12 +23,23 @@ class Content_Types_Collector {
 	private $post_type_helper;
 
 	/**
+	 * The indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	private $indexable_repository;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Post_Type_Helper $post_type_helper The post type helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type_helper ) {
-		$this->post_type_helper = $post_type_helper;
+	public function __construct(
+		Post_Type_Helper $post_type_helper,
+		Indexable_Repository $indexable_repository
+	) {
+		$this->post_type_helper     = $post_type_helper;
+		$this->indexable_repository = $indexable_repository;
 	}
 
 	/**
@@ -44,8 +56,7 @@ class Content_Types_Collector {
 				continue;
 			}
 
-			$posts = $this->get_relevant_posts( $post_type_object );
-
+			$posts      = $this->get_posts( $post_type_object->name );
 			$post_links = new Link_List( $post_type_object->label, [] );
 			foreach ( $posts as $post ) {
 				$post_link = new Link( $post->post_title, \get_permalink( $post->ID ) );
@@ -65,10 +76,44 @@ class Content_Types_Collector {
 	 *
 	 * @return WP_Post[] The posts that are relevant for the LLMs.txt.
 	 */
-	public function get_relevant_posts( $post_type_object ): array {
+	public function get_posts( $post_type ): array {
+		$cornerstone_post_objects = $this->indexable_repository->get_cornerstone_per_post_type( $post_type, 5 );
+
+		$posts = [];
+		foreach ( $cornerstone_post_objects as $cornerstone_post_object ) {
+			$posts[ $cornerstone_post_object->object_id ] = \get_post( $cornerstone_post_object->object_id );
+		}
+
+		if ( \count( $posts ) >= 5 ) {
+			return $posts;
+		}
+		
+		$relevant_posts = $this->get_relevant_posts( $post_type, 5 );
+		foreach ( $relevant_posts as $post ) {
+			if ( isset( $posts[ $post->ID ] ) ) {
+				continue;
+			}
+			$posts[] = $post;
+			if ( \count( $posts ) >= 5 ) {
+				break;
+			}
+		}
+
+		return $posts;
+
+	}
+
+	/**
+	 * Gets the posts that are relevant for the LLMs.txt.
+	 *
+	 * @param string $post_type The post type.
+	 *
+	 * @return WP_Post[] The posts that are relevant for the LLMs.txt.
+	 */
+	public function get_relevant_posts( $post_type, $limit ): array {
 			$args = [
 				'post_type'      => $post_type_object->name,
-				'posts_per_page' => 5,
+				'posts_per_page' => $limit,
 				'post_status'    => 'publish',
 				'orderby'        => 'modified',
 				'order'          => 'DESC',
