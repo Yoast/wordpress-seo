@@ -162,8 +162,8 @@ class Ai_Generator_Integration implements Integration_Interface {
 	 */
 	public function enqueue_assets() {
 
-		$this->asset_manager->enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'ai-generator' );
-		$this->asset_manager->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'ai-generator', 'wpseoAiGenerator', $this->get_script_data() );
+		$this->asset_manager->enqueue_script( 'ai-generator' );
+		$this->asset_manager->localize_script( 'ai-generator', 'wpseoAiGenerator', $this->get_script_data() );
 		$this->asset_manager->enqueue_style( 'ai-generator' );
 	}
 
