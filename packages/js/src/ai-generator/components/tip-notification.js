@@ -7,7 +7,7 @@ import { CONTENT_TYPE, EDIT_TYPE, MIN_CHARACTERS_DEFAULT, MIN_CHARACTERS_IRREGUL
 import { isWooActiveAndProductPostType } from "../helpers/is-woo-active-and-product-post-type";
 import { useTypeContext } from "../hooks";
 
-const ALERT_KEY = "wpseo_premium_ai_generator";
+const ALERT_KEY = "ai_generator_tip_notification";
 
 /**
  * Returns the minimum content length in characters for the given post type and content type.
