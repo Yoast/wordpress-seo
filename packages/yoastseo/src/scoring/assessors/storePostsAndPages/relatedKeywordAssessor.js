@@ -39,13 +39,13 @@ export default class StorePostsAndPagesRelatedKeywordAssessor extends RelatedKey
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
 			} ),
-			new TextCompetingLinksAssessment( {
-				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify18" ),
-				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
-			} ),
 			new FunctionWordsInKeyphraseAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
+			} ),
+			new TextCompetingLinksAssessment( {
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify18" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
 			} ),
 			new ImageKeyphraseAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
