@@ -1,5 +1,8 @@
 import { punctuationRegexEnd, punctuationRegexStart } from "../sanitize/removePunctuation";
 import { hashedHtmlEntitiesRegexEnd, hashedHtmlEntitiesRegexStart } from "../../../helpers/htmlEntities";
+import abbreviations from "../../languages/en/config/abbreviations";
+
+const ABBREVIATIONS = abbreviations.map( abbreviation => abbreviation.toLocaleLowerCase() );
 
 /**
  * Removes punctuation from the beginning and end of a word token, and creates separate tokens from them.
@@ -24,7 +27,9 @@ const createPunctuationTokens = ( rawTokens ) => {
 		}
 		// Add all punctuation marks that occur after the last letter of the token to the posttokens array.
 		// Also, prevent matching with a hashed HTML entity at the end of the token.
-		while ( punctuationRegexEnd.test( token ) && ! hashedHtmlEntitiesRegexEnd.test( token ) ) {
+		while ( punctuationRegexEnd.test( token ) &&
+		! hashedHtmlEntitiesRegexEnd.test( token ) &&
+		! ABBREVIATIONS.includes( token.toLocaleLowerCase() ) ) {
 			// Using unshift here because we are iterating from the end of the string to the beginning,
 			// and we want to keep the order of the punctuation marks.
 			// Therefore, we add them to the start of the array.

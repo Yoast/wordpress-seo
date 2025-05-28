@@ -5,6 +5,7 @@ import TransitionWordsAssessment from "../../../../src/scoring/assessments/reada
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../../src/helpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
+import buildTree from "../../../specHelpers/parse/buildTree";
 
 const shortText = "a ".repeat( 199 );
 const longText = "a ".repeat( 201 );
@@ -109,6 +110,7 @@ describe( "An assessment for checking the percentage of transition words in the 
 			"However, a cat with the toy looks happier. She is given raw food. Seniors don't like it.<br></br>\n" +
 			"</p>" );
 		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
 		const result = new TransitionWordsAssessment().getResult( paper, researcher );
 
 		expect( result.getScore() ).toEqual( 9 );
@@ -150,6 +152,7 @@ describe( "An assessment for checking the percentage of transition words in a Ja
 	it( "returns the score for a short Japanese text with a low percentage of sentences with transition words.", function() {
 		const mockPaper = new Paper( "ならば。" + shortTextJapanese );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -159,6 +162,7 @@ describe( "An assessment for checking the percentage of transition words in a Ja
 	it( "returns the score for a short Japanese text with no transition words.", function() {
 		const mockPaper = new Paper( shortTextJapanese );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -169,6 +173,7 @@ describe( "An assessment for checking the percentage of transition words in a Ja
 	it( "returns the score for a long Japanese text with no transition words.", function() {
 		const mockPaper = new Paper( longTextJapanese );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, mockResearcher );
 
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -217,10 +222,11 @@ describe( "A test for marking sentences containing a transition word", function(
 			"However, a cat with the toy looks happier. She is given raw food. Seniors don't like it.<br></br>\n" +
 			"</p>" );
 		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
 		const expected = [
 			new Mark( {
-				original: "However, a cat with the toy looks happier.",
-				marked: "<yoastmark class='yoast-text-mark'>However, a cat with the toy looks happier.</yoastmark>" } ),
+				original: " However, a cat with the toy looks happier.",
+				marked: "<yoastmark class='yoast-text-mark'> However, a cat with the toy looks happier.</yoastmark>" } ),
 		];
 		expect( new TransitionWordsAssessment().getMarks( paper, researcher ) ).toEqual( expected );
 	} );
