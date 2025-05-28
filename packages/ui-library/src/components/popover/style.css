@@ -12,16 +12,16 @@
 
 		.yst-popover__close {
 			@apply
-			yst-flex-shrink-0
-			yst-flex
-			yst-self-start;
+			yst-block
+			yst-absolute
+			yst-top-4
+			yst-end-4;
 		}
 
 		.yst-popover__close-button {
 				@apply
-				yst-bg-transparent
+				yst-bg-white
 				yst-rounded-md
-				yst-inline-flex
 				yst-text-slate-400
 				hover:yst-text-slate-500
 				focus:yst-outline-none
@@ -63,12 +63,12 @@
 			@apply
 			yst--translate-x-1/2
 			yst-start-1/2
+			rtl:yst-translate-x-1/2
 		}
 
 		.yst-popover--right {
 			@apply
 			yst-translate-x-5
-			rtl:yst--translate-x-5
 			yst--translate-y-1/2
 			yst-top-1/2
 			yst-start-full
@@ -76,15 +76,23 @@
 			before:yst-block
 			before:yst-end-full
 			before:yst-top-1/2
-			before:yst-right-full
 			before:yst--translate-y-1/2
+			rtl:yst--translate-x-5
+			rtl:before:yst--start-full
+			rtl:before:yst-end-0
 			rtl:before:yst-translate-x-1/2;
 
 			&::before {
 				border-left: 14px solid transparent;
-				border-right: 14px solid #fff;
+				border-right: 14px solid white;
 				border-top: 14px solid transparent;
 				border-bottom: 14px solid transparent;
+
+				/* Arrow direction for RTL */
+				[dir='rtl'] & {
+					border-left: 14px solid white;
+					border-right: 14px solid transparent;
+				}
 			}
 		}
 
@@ -104,7 +112,7 @@
 
 			&::before {
 				border-right: 14px solid transparent;
-				border-top: 14px solid #fff;
+				border-top: 14px solid white;
 				border-left: 14px solid transparent;
 			}
 		}
@@ -125,7 +133,7 @@
 
 			&::before {
 				border-right: 14px solid transparent;
-				border-top: 14px solid #fff;
+				border-top: 14px solid white;
 				border-left: 14px solid transparent;
 			}
 		}
@@ -145,7 +153,7 @@
 
 			&::before {
 				border-right: 14px solid transparent;
-				border-top: 14px solid #fff;
+				border-top: 14px solid white;
 				border-left: 14px solid transparent;
 			}
 		}
@@ -157,21 +165,27 @@
 			yst--start-5
 			yst--translate-x-full
 			yst--translate-y-1/2
-			rtl:yst-start-full
-			rtl:yst--end-5
-			rtl:yst-translate-x-full
 			before:yst-content-['']
 			before:yst-start-full
 			before:yst-top-1/2
-			before:yst-right-full
 			before:yst--translate-y-1/2
-			rtl:before:yst-translate-x-1/2;
+			rtl:yst--end-full
+			rtl:yst-translate-x-full
+			rtl:before:yst--start-0
+			rtl:before:yst--end-full
+			rtl:before:yst--translate-x-1/2;
 
 			&::before {
 				border-right: 14px solid transparent;
 				border-top: 14px solid transparent;
 				border-bottom: 14px solid transparent;
-				border-left: 14px solid #fff;
+				border-left: 14px solid white;
+
+				/* Arrow direction for RTL */
+				[dir='rtl'] & {
+					border-right: 14px solid white;
+					border-left: 14px solid transparent;
+				}
 			}
 		}
 
@@ -184,12 +198,13 @@
 			before:yst-start-1/2
 			before:yst-bottom-full
 			before:yst--translate-x-1/2
-			rtl:before:yst-translate-x-1/2
-			before:yst-translate-y-0;
+			before:yst-translate-y-0
+			rtl:yst-translate-x-1/2
+			rtl:before:yst-translate-x-1/2;
 
 			&::before {
 				border-right: 14px solid transparent;
-				border-bottom: 14px solid #fff;
+				border-bottom: 14px solid white;
 				border-left: 14px solid transparent;
 			}
 		}
@@ -208,7 +223,7 @@
 
 			&::before {
 				border-right: 14px solid transparent;
-				border-bottom: 14px solid #fff;
+				border-bottom: 14px solid white;
 				border-left: 14px solid transparent;
 			}
 		}
@@ -227,7 +242,7 @@
 
 			&::before {
 				border-right: 14px solid transparent;
-				border-bottom: 14px solid #fff;
+				border-bottom: 14px solid white;
 				border-left: 14px solid transparent;
 			}
 		}

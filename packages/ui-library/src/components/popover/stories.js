@@ -14,12 +14,12 @@ const DismissButton = () => {
 export const Factory = {
 	args: {
 		children: (
-			<Fragment>
+			<>
 				<Popover.Title>The title</Popover.Title>
 				<Popover.Content>
 					Hey! I am the popover.
 				</Popover.Content>
-			</Fragment>
+			</>
 		),
 	},
 };
@@ -27,20 +27,18 @@ export const Factory = {
 export const WithMoreContent = {
 	args: {
 		children: (
-			<Fragment>
-				<div className="yst-flex yst-flex-col yst-gap-4">
-					<div className="yst-flex yst-justify-between">
-						<Popover.Title>The title</Popover.Title>
-						<Popover.CloseButton screenReaderLabel="Dismiss" />
-					</div>
-					<div className="yst-self-start yst-flex-wrap">
-						<Popover.Content>
-							The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-							Lorem Ipsum has been the standard dummy text ever since the 1500s.
-						</Popover.Content>
-					</div>
+			<div className="yst-flex yst-flex-col yst-gap-4">
+				<div className="yst-flex yst-justify-between">
+					<Popover.Title>The title</Popover.Title>
+					<Popover.CloseButton screenReaderLabel="Dismiss" />
 				</div>
-			</Fragment>
+				<div className="yst-self-start yst-flex-wrap">
+					<Popover.Content>
+						The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+						Lorem Ipsum has been the standard dummy text ever since the 1500s.
+					</Popover.Content>
+				</div>
+			</div>
 		),
 	},
 	decorators: [
@@ -75,7 +73,7 @@ export const ButtonWithAPopover = {
 			const handleClick = () => setIsVisible( ! args.isVisible );
 
 			return (
-				<Fragment>
+				<>
 					<button
 						// eslint-disable-next-line react/jsx-no-bind
 						onClick={ handleClick }
@@ -84,21 +82,14 @@ export const ButtonWithAPopover = {
 						Toggle popover
 					</button>
 					<Story { ...args } setIsVisible={ setIsVisible } />
-				</Fragment>
+				</>
 			);
 		},
 	],
-	render: ( args ) => (
-		<Popover
-			{ ...args }
-			isVisible={ args.isVisible }
-			setIsVisible={ args.setIsVisible }
-			position={ args.position || "top-right" }
-		/>
-	),
 	args: {
 		isVisible: false,
 		hasBackdrop: true,
+		position: "top-right",
 		children: (
 			<>
 				<div className="yst-flex yst-gap-4">
