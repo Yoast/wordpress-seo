@@ -105,6 +105,7 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 				(object) [
 					'ID'         => 1,
 					'post_title' => 'Post 1',
+					'post_excerpt' => '',
 				],
 			],
 			'get_permalink_times'         => 1,
@@ -155,14 +156,17 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 				(object) [
 					'ID'         => 1,
 					'post_title' => 'Post 1',
+					'post_excerpt' => 'Excerpt 1',
 				],
 				(object) [
 					'ID'         => 2,
 					'post_title' => 'Post 2',
+					'post_excerpt' => '',
 				],
 				(object) [
 					'ID'         => 3,
 					'post_title' => 'Page 3',
+					'post_excerpt' => '',
 				],
 			],
 			'get_permalink_times'         => 6,

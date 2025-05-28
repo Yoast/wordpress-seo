@@ -54,15 +54,16 @@ final class Render_Test extends TestCase {
 	 * @return Generator
 	 */
 	public static function render_data_provider() {
-		$link1 = new Link( 'Intro Link 1', 'https://example.com/intro1' );
+		$link1 = new Link( 'Intro Link 1', 'https://example.com/intro1', 'This is the first intro link.' );
 		$link2 = new Link( 'Intro Link 2', 'https://example.com/intro2' );
+		$link3 = new Link( 'Intro Link 3', 'https://example.com/intro3', '' );
 
 		yield 'List with a link' => [
 			'type'            => 'List type',
-			'links'           => [ $link1 ],
+			'links'           => [ $link3 ],
 			'expected_result' => '## List type'
 				. \PHP_EOL
-				. '- [Intro Link 1](https://example.com/intro1)'
+				. '- [Intro Link 3](https://example.com/intro3)'
 				. \PHP_EOL,
 		];
 		yield 'List with two links' => [
@@ -70,7 +71,7 @@ final class Render_Test extends TestCase {
 			'links'           => [ $link1, $link2 ],
 			'expected_result' => '## List type'
 				. \PHP_EOL
-				. '- [Intro Link 1](https://example.com/intro1)'
+				. '- [Intro Link 1](https://example.com/intro1): This is the first intro link.'
 				. \PHP_EOL
 				. '- [Intro Link 2](https://example.com/intro2)'
 				. \PHP_EOL,
