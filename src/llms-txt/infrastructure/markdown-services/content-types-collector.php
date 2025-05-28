@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services;
 use WP_Post;
 use WP_Post_Type;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items\Link;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
 
@@ -19,13 +18,6 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
 class Content_Types_Collector {
 
 	/**
-	 * The string helper.
-	 *
-	 * @var String_Helper
-	 */
-	protected $string_helper;
-
-	/**
 	 * The post type helper.
 	 *
 	 * @var Post_Type_Helper
@@ -36,11 +28,9 @@ class Content_Types_Collector {
 	 * The constructor.
 	 *
 	 * @param Post_Type_Helper $post_type_helper The post type helper.
-	 * @param String_Helper    $string_helper    The string helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type_helper, String_Helper $string_helper ) {
+	public function __construct( Post_Type_Helper $post_type_helper ) {
 		$this->post_type_helper = $post_type_helper;
-		$this->string_helper    = $string_helper;
 	}
 
 	/**
