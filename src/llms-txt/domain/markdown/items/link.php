@@ -33,11 +33,11 @@ class Link implements Item_Interface {
 	/**
 	 * Class constructor.
 	 *
-	 * @param string      $text        The link text.
-	 * @param string      $anchor      The anchor text.
-	 * @param string|null $description The description.
+	 * @param string $text        The link text.
+	 * @param string $anchor      The anchor text.
+	 * @param string $description The description.
 	 */
-	public function __construct( string $text, string $anchor, ?string $description = null ) {
+	public function __construct( string $text, string $anchor, string $description = '' ) {
 		$this->text        = $text;
 		$this->anchor      = $anchor;
 		$this->description = $description;
