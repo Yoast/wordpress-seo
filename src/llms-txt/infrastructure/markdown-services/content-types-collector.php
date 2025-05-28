@@ -3,6 +3,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services;
 
+use WP_Post;
+use WP_Post_Type;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items\Link;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
@@ -10,7 +12,8 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
 /**
  * The collector of content types.
  *
- * @TODO: This class could maybe be unified with Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types\Content_Types_Collector.
+ * @TODO: This class could maybe be unified with
+ *        Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types\Content_Types_Collector.
  */
 class Content_Types_Collector {
 
@@ -48,7 +51,7 @@ class Content_Types_Collector {
 
 			$post_links = new Link_List( $post_type_object->label, [] );
 			foreach ( $posts as $post ) {
-				$post_link = new Link( $post->post_title, \get_permalink( $post->ID ) );
+				$post_link = new Link( $post->post_title, \get_permalink( $post->ID ), $post->post_excerpt );
 				$post_links->add_link( $post_link );
 			}
 
@@ -66,23 +69,23 @@ class Content_Types_Collector {
 	 * @return WP_Post[] The posts that are relevant for the LLMs.txt.
 	 */
 	public function get_relevant_posts( $post_type_object ): array {
-			$args = [
-				'post_type'      => $post_type_object->name,
-				'posts_per_page' => 5,
-				'post_status'    => 'publish',
-				'orderby'        => 'modified',
-				'order'          => 'DESC',
-				'has_password'   => false,
+		$args = [
+			'post_type'      => $post_type_object->name,
+			'posts_per_page' => 5,
+			'post_status'    => 'publish',
+			'orderby'        => 'modified',
+			'order'          => 'DESC',
+			'has_password'   => false,
+		];
+
+		if ( $post_type_object->name === 'post' ) {
+			$args['date_query'] = [
+				[
+					'after' => '12 months ago',
+				],
 			];
+		}
 
-			if ( $post_type_object->name === 'post' ) {
-				$args['date_query'] = [
-					[
-						'after' => '12 months ago',
-					],
-				];
-			}
-
-			return \get_posts( $args );
+		return \get_posts( $args );
 	}
 }
