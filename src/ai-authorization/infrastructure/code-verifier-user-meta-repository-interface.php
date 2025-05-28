@@ -26,13 +26,13 @@ interface Code_Verifier_User_Meta_Repository_Interface {
 	/**
 	 * Store the verification code for a user.
 	 *
-	 * @param string $code       The verification code.
 	 * @param int    $user_id    The user ID.
+	 * @param string $code       The code verifier.
 	 * @param int    $created_at The time the code was created.
 	 *
 	 * @return void
 	 */
-	public function store_code_verifier( string $code, int $user_id, int $created_at ): void;
+	public function store_code_verifier( int $user_id, string $code, int $created_at ): void;
 
 	/**
 	 * Delete the verification code for a user.

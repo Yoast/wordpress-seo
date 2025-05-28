@@ -41,13 +41,13 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	/**
 	 * Store the verification code for a user.
 	 *
-	 * @param string $code       The verification code.
 	 * @param int    $user_id    The user ID.
+	 * @param string $code       The code verifier.
 	 * @param int    $created_at The time the code was created.
 	 *
 	 * @return void
 	 */
-	public function store_code_verifier( string $code, int $user_id, int $created_at ): void {
+	public function store_code_verifier( int $user_id, string $code, int $created_at ): void {
 		$this->user_helper->update_meta(
 			$user_id,
 			'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id(),

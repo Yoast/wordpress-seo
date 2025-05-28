@@ -33,7 +33,7 @@ class Response_Parser implements Response_Parser_Interface {
 			}
 		}
 
-		return new Response( $response_code, $response_message, $error_code, $missing_licenses );
+		return new Response( $response['body'], $response_code, $response_message, $error_code, $missing_licenses );
 	}
 
 	/**

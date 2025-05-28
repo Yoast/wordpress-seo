@@ -16,16 +16,7 @@ class API_Client implements API_Client_Interface {
 	 *
 	 * @var string
 	 */
-	private $base_url;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param string $base_url The base URL for the API.
-	 */
-	public function __construct( string $base_url ) {
-		$this->base_url = $base_url;
-	}
+	private $base_url = 'https://ai.yoa.st/api/v1';
 
 	/**
 	 * Performs a request to the API.

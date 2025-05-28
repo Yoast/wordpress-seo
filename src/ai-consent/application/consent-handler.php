@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\AI_Consent\Application;
 
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
@@ -28,19 +27,24 @@ class Consent_Handler implements Consent_Handler_Interface {
 	}
 
 	/**
-	 * Handles consent revoked.
+	 * Handles consent revoked by deleting the consent user metadata from the database.
 	 *
-	 * By deleting the consent user metadata from the database.
-	 * And then throwing a Forbidden_Exception.
+	 * @param int $user_id The user ID.
 	 *
-	 * @param int $user_id     The user ID.
-	 * @param int $status_code The status code. Defaults to 403.
-	 *
-	 * @return Forbidden_Exception The Forbidden_Exception.
+	 * @return void
 	 */
-	public function handle_consent_revoked( int $user_id, int $status_code = 403 ): Forbidden_Exception {
+	public function revoke_consent( int $user_id ) {
 		$this->user_helper->delete_meta( $user_id, '_yoast_wpseo_ai_consent' );
+	}
 
-		return new Forbidden_Exception( 'CONSENT_REVOKED', $status_code );
+	/**
+	 * Handles consent granted by adding the consent user metadata to the database.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return void
+	 */
+	public function grant_consent( int $user_id ) {
+		$this->user_helper->update_meta( $user_id, '_yoast_wpseo_ai_consent', true );
 	}
 }

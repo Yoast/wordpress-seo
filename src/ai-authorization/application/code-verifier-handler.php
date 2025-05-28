@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\Date_Helper;
  * Class Code_Verifier_Service
  * Handles the generation and validation of code verifiers for users.
  */
-class Code_Verifier_Handler {
+class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	private const VALIDITY_IN_SECONDS = 300; // 5 minutes
 
 	/**
@@ -41,12 +41,11 @@ class Code_Verifier_Handler {
 	/**
 	 * Generate a code verifier for a user.
 	 *
-	 * @param int    $user_id    The user ID.
 	 * @param string $user_email The user email.
 	 *
 	 * @return Code_Verifier The generated code verifier.
 	 */
-	public function generate( int $user_id, string $user_email ): Code_Verifier {
+	public function generate( string $user_email ): Code_Verifier {
 		$random_string = \substr( \str_shuffle( '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' ), 1, 10 );
 		$code          = \hash( 'sha256', $user_email . $random_string );
 		$created_at    = $this->date_helper->current_time();
