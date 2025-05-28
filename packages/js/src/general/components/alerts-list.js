@@ -17,7 +17,7 @@ import { STORE_NAME } from "../constants";
  *
  * @returns {JSX.Element} The alert item component.
  */
-const AlertItem = ( { id, nonce, dismissed, message } ) => {
+const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "" } ) => {
 	const { bulletClass = "" } = useContext( AlertsContext );
 	const { toggleAlertStatus } = useDispatch( STORE_NAME );
 	const Eye = dismissed ? EyeIcon : EyeOffIcon;
