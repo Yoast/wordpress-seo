@@ -13,3 +13,4 @@ export { useSuggestions } from "./use-suggestions";
 export { useTitleOrDescriptionLengthProgress } from "./use-title-or-description-length-progress";
 export { useTitleTemplate } from "./use-title-template";
 export { useTypeContext } from "./use-type-context";
+export { useUpsellProps } from "./use-upsell-props";
