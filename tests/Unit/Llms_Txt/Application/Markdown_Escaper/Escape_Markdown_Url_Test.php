@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Application\Markdown_Escaper;
 
 /**
- * Tests escape_markdown_url().
+ * Tests escape_markdown_url.
  *
  * @group llms.txt
  *
