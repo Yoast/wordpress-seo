@@ -7,12 +7,12 @@ import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 /**
  * Display the message for a request that has reached the limit.
  *
- * @param {String} [upsellLink] The upsell link.
+ * @param {string} [upsellLink=""] The upsell link.
  * @param {string} [className=""] The class name for the alert.
  *
- * @returns {React.Component} The message for limit reached.
+ * @returns {JSX.Element} The message for limit reached.
  */
-export const RequestLimitReached = ( { upsellLink, className = "" } ) => {
+export const RequestLimitReached = ( { upsellLink = "", className = "" } ) => {
 	return (
 		<Alert variant="warning" className={ className }>
 			<div className="yst-flex yst-flex-col yst-items-start">

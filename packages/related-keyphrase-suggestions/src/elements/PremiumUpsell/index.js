@@ -8,11 +8,11 @@ import { LockOpenIcon } from "@heroicons/react/outline";
  * The premium upsell component.
  *
  * @param {string} url The URL to the premium page.
- * @param {string} [className] The class name for the component.
+ * @param {string} [className=""] The class name for the component.
  *
  * @returns {JSX.Element} The premium upsell component.
  */
-export const PremiumUpsell = ( { url, className } ) => {
+export const PremiumUpsell = ( { url, className = "" } ) => {
 	return <div className={ className }>
 		<p>
 			{ sprintf(
