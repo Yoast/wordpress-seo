@@ -50,8 +50,8 @@ const expectedResults = {
 	},
 	textCompetingLinks: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/34l' target='_blank'>Competing links</a>: There are no links which use your keyphrase or synonym as their anchor text. Nice!",
 	},
 	textLength: {
 		isApplicable: true,

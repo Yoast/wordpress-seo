@@ -26,8 +26,8 @@ export default class RelatedKeywordAssessor extends Assessor {
 			new KeyphraseLength( { isRelatedKeyphrase: true } ),
 			new KeyphraseDensityAssessment(),
 			new MetaDescriptionKeyword(),
-			new TextCompetingLinks(),
 			new FunctionWordsInKeyphrase(),
+			new TextCompetingLinks(),
 			new ImageKeyphrase(),
 		];
 
