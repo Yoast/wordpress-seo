@@ -3,6 +3,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Application\Markdown_Escaper;
 
+use Generator;
+
 /**
  * Tests escape_markdown_content().
  *
@@ -34,7 +36,7 @@ final class Escape_Markdown_Content_Test extends Abstract_Markdown_Escaper_Test 
 	/**
 	 * Data provider for test_escape_markdown_content().
 	 *
-	 * @return array<string, array<string>>
+	 * @return Generator
 	 */
 	public function data_escape_markdown_content() {
 		yield 'Empty content' => [
