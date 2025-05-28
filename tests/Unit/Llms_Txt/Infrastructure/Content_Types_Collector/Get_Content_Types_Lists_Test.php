@@ -103,8 +103,8 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 			'get_posts_times'             => 1,
 			'posts'                       => [
 				(object) [
-					'ID'         => 1,
-					'post_title' => 'Post 1',
+					'ID'           => 1,
+					'post_title'   => 'Post 1',
 					'post_excerpt' => '',
 				],
 			],
@@ -154,18 +154,18 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 			'get_posts_times'             => 2,
 			'posts'                       => [
 				(object) [
-					'ID'         => 1,
-					'post_title' => 'Post 1',
+					'ID'           => 1,
+					'post_title'   => 'Post 1',
 					'post_excerpt' => 'Excerpt 1',
 				],
 				(object) [
-					'ID'         => 2,
-					'post_title' => 'Post 2',
+					'ID'           => 2,
+					'post_title'   => 'Post 2',
 					'post_excerpt' => '',
 				],
 				(object) [
-					'ID'         => 3,
-					'post_title' => 'Page 3',
+					'ID'           => 3,
+					'post_title'   => 'Page 3',
 					'post_excerpt' => '',
 				],
 			],
