@@ -58,7 +58,6 @@ export const RevokeConsent = ( { onClose } ) => {
 					{ __( "Something went wrong, please try again later.", "wordpress-seo" ) }
 				</Alert> }
 				<p className="yst-mt-2 yst-text-slate-600">
-					{   }
 					{ __( "By revoking your consent, you will no longer have access to Yoast AI features. Are you sure you want to revoke your consent?", "wordpress-seo" ) }
 				</p>
 				<footer className="yst-mt-6 sm:yst-flex sm:yst-flex-row-reverse">
