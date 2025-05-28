@@ -4,11 +4,11 @@
 namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Application\Markdown_Builders\Link_Lists_Builder;
 
 /**
- * Tests Build_Link_Lists_Test.
+ * Tests build_link_lists.
  *
  * @group llms.txt
  *
- * @covers  Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Link_Lists_Builder::Build_Link_Lists_Test
+ * @covers  Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Link_Lists_Builder::build_link_lists
  */
 final class Build_Link_Lists_Test extends Abstract_Link_Lists_Builder_Test {
 
