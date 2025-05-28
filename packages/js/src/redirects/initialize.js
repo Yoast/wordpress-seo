@@ -7,8 +7,7 @@ import { Formik } from "formik";
 import App from "./app";
 import { REDIRECT_TYPE_OPTIONS } from "./constants";
 import registerStore from "./store";
-import { createValidationSchema } from "./helpers/validation";
-import { handleSubmit } from "./helpers";
+import { handleSubmit, createValidationSchema } from "./helpers";
 
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-redirects" );
