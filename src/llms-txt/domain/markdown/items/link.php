@@ -12,7 +12,7 @@ class Link implements Item_Interface {
 	/**
 	 * The description that is part of this link.
 	 *
-	 * @var string|null
+	 * @var string
 	 */
 	private $description;
 
