@@ -25,3 +25,6 @@ export const ROUTES = {
 	regexRedirects: "/regex-redirects",
 	redirectMethod: "/redirect-method",
 };
+
+export const ASC = "asc";
+export const DESC = "desc";

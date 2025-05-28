@@ -79,6 +79,15 @@ body.seo_page_wpseo_redirects {
 			/* custom for redirects page and reset WP styles */
 			@apply yst-mt-3 yst-whitespace-normal yst-min-h-[unset] yst-mb-[unset] yst-align-[unset];
 		}
+		.yst-root .yst-table--minimal table  {
+			.yst-table-header {
+				@apply yst-font-medium yst-text-slate-800;
+			}
+
+			.yst-table-cell {
+				@apply yst-pt-4 yst-pb-4 yst-text-slate-500;
+			}
+		}
 	}
 
 	/* RTL */

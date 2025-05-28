@@ -3,6 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { SelectField, TextField } from "@yoast/ui-library";
 import {
 	FilterControls,
+	ListRedirects,
 	RouteLayout,
 } from "../components";
 import { useSelectRedirects } from "../hooks";
@@ -124,6 +125,7 @@ export const Redirects = () => {
 					<hr className="yst-my-8" />
 
 					<FilterControls />
+					<ListRedirects />
 				</div>
 			</FormLayout>
 		</RouteLayout>

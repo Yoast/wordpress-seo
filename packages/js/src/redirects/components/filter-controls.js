@@ -68,6 +68,7 @@ export const FilterControls = () => {
 					label={ __( "Redirect type", "wordpress-seo" ) }
 					value={ filterRedirectType }
 					onChange={ handleFilterRedirectTypeChange }
+					placeholder={ __( "Select…", "wordpress-seo" ) }
 				/>
 				<Button
 					variant="secondary"
