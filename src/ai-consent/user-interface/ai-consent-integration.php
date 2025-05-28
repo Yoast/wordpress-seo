@@ -2,10 +2,8 @@
 
 namespace Yoast\WP\SEO\AI_Consent\User_Interface;
 
-use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\User_Profile_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -40,15 +38,15 @@ class Ai_Consent_Integration implements Integration_Interface {
 	/**
 	 * Constructs the class.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager          $asset_manager                      The admin asset manager.
-	 * @param User_Helper                        $user_helper                        The user helper.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager The admin asset manager.
+	 * @param User_Helper               $user_helper   The user helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		User_Helper $user_helper
 	) {
-		$this->asset_manager                      = $asset_manager;
-		$this->user_helper                        = $user_helper;
+		$this->asset_manager = $asset_manager;
+		$this->user_helper   = $user_helper;
 	}
 
 	/**
