@@ -44,7 +44,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 *
 	 * @var Code_Verifier_User_Meta_Repository_Interface
 	 */
-	private $verification_code_repository;
+	private $code_verifier_repository;
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -60,12 +60,12 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 *
 	 * @param Access_Token_User_Meta_Repository_Interface  $access_token_repository      The access token repository instance.
 	 * @param Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository     The refresh token repository instance.
-	 * @param Code_Verifier_User_Meta_Repository_Interface $verification_code_repository The code verifier instance.
+	 * @param Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository The code verifier instance.
 	 */
-	public function __construct( Access_Token_User_Meta_Repository_Interface $access_token_repository, Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository, Code_Verifier_User_Meta_Repository_Interface $verification_code_repository ) {
+	public function __construct( Access_Token_User_Meta_Repository_Interface $access_token_repository, Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository, Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository ) {
 		$this->access_token_repository      = $access_token_repository;
 		$this->refresh_token_repository     = $refresh_token_repository;
-		$this->verification_code_repository = $verification_code_repository;
+		$this->code_verifier_repository = $code_verifier_repository;
 	}
 
 	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
@@ -83,15 +83,15 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	public function callback( WP_REST_Request $request ): WP_REST_Response {
 		$user_id = $request['user_id'];
 		try {
-			$verification_code = $this->verification_code_repository->get_verification_code( $user_id );
+			$code_verifier = $this->code_verifier_repository->get_code_verifier( $user_id );
 
-			if ( $request['code_challenge'] !== \hash( 'sha256', $verification_code->get_code() ) ) {
+			if ( $request['code_challenge'] !== \hash( 'sha256', $code_verifier->get_code() ) ) {
 				throw new Unauthorized_Exception( 'Unauthorized' );
 			}
 
 			$this->access_token_repository->store_token( $user_id, $request['access_jwt'] );
 			$this->refresh_token_repository->store_token( $user_id, $request['refresh_jwt'] );
-			$this->verification_code_repository->delete_verification_code( $user_id );
+			$this->code_verifier_repository->delete_code_verifier( $user_id );
 		} catch ( Unauthorized_Exception | RuntimeException $e ) {
 			return new WP_REST_Response( 'Unauthorized.', 401 );
 		}
@@ -99,7 +99,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[
 				'message'       => 'Tokens successfully stored.',
-				'code_verifier' => $verification_code->get_code(),
+				'code_verifier' => $code_verifier->get_code(),
 			]
 		);
 	}
