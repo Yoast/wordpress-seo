@@ -58,13 +58,13 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	/**
 	 * Callback_Route constructor.
 	 *
-	 * @param Access_Token_User_Meta_Repository_Interface  $access_token_repository      The access token repository instance.
-	 * @param Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository     The refresh token repository instance.
+	 * @param Access_Token_User_Meta_Repository_Interface  $access_token_repository  The access token repository instance.
+	 * @param Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository The refresh token repository instance.
 	 * @param Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository The code verifier instance.
 	 */
 	public function __construct( Access_Token_User_Meta_Repository_Interface $access_token_repository, Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository, Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository ) {
-		$this->access_token_repository      = $access_token_repository;
-		$this->refresh_token_repository     = $refresh_token_repository;
+		$this->access_token_repository  = $access_token_repository;
+		$this->refresh_token_repository = $refresh_token_repository;
 		$this->code_verifier_repository = $code_verifier_repository;
 	}
 
