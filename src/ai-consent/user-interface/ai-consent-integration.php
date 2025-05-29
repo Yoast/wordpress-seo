@@ -53,7 +53,7 @@ class Ai_Consent_Integration implements Integration_Interface {
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		User_Helper $user_helper,
-		Short_Link_Helper $short_link_helper,
+		Short_Link_Helper $short_link_helper
 	) {
 		$this->asset_manager     = $asset_manager;
 		$this->user_helper       = $user_helper;
