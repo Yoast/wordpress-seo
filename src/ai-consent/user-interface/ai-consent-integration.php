@@ -82,9 +82,9 @@ class Ai_Consent_Integration implements Integration_Interface {
 	 */
 	public function get_script_data(): array {
 		return [
-			'hasConsent'            => $this->user_helper->get_meta( $this->user_helper->get_current_user_id(), '_yoast_wpseo_ai_consent', true ),
-			'pluginUrl'             => \plugins_url( '', \WPSEO_FILE ),
-			'linkParams'            => $this->short_link_helper->get_query_params(),
+			'hasConsent' => $this->user_helper->get_meta( $this->user_helper->get_current_user_id(), '_yoast_wpseo_ai_consent', true ),
+			'pluginUrl'  => \plugins_url( '', \WPSEO_FILE ),
+			'linkParams' => $this->short_link_helper->get_query_params(),
 		];
 	}
 
