@@ -461,6 +461,26 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Returns all subpages with a given post_parent.
+	 *
+	 * @param int   $post_parent The post parent.
+	 * @param array $exclude_ids The id's to exclude.
+	 *
+	 * @return Indexable[] array of indexables.
+	 */
+	public function get_cornerstone_per_post_type( $post_type, $limit ) {
+		$query = $this->query()
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where( 'post_status', 'publish' )
+			->where( 'is_cornerstone', 1 )
+			->order_by_desc( 'object_last_modified' )
+			->limit( $limit );
+
+		return $query->find_many();
+	}
+
+	/**
 	 * Updates the incoming link count for an indexable without first fetching it.
 	 *
 	 * @param int $indexable_id The indexable id.
