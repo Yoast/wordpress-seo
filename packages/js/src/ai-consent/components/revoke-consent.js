@@ -1,5 +1,5 @@
 import ExclamationIcon from "@heroicons/react/outline/esm/ExclamationIcon";
-import { useDispatch } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Alert, Button, Modal } from "@yoast/ui-library";
@@ -15,6 +15,7 @@ import { STORE_NAME_AI_CONSENT } from "../constants";
  */
 export const RevokeConsent = ( { onClose } ) => {
 	const { storeAiGeneratorConsent } = useDispatch( STORE_NAME_AI_CONSENT );
+	const endpoint = useSelect( select => select( STORE_NAME_AI_CONSENT ).selectAiGeneratorConsentEndpoint(), [] );
 
 	const [ isLoading, setIsLoading ] = useState( false );
 	const [ error, setError ] = useState( false );
@@ -23,8 +24,10 @@ export const RevokeConsent = ( { onClose } ) => {
 		setError( false );
 		setIsLoading( true );
 
-		const response = await storeAiGeneratorConsent( false );
-		if ( response === false ) {
+
+		const response = await storeAiGeneratorConsent( false, endpoint );
+		console.log( "Revoke consent response", response );
+		if ( response.consent === false ) {
 			setError( true );
 			setIsLoading( false );
 			return;
@@ -32,7 +35,7 @@ export const RevokeConsent = ( { onClose } ) => {
 		onClose();
 
 		setIsLoading( false );
-	}, [ storeAiGeneratorConsent, setIsLoading, onClose ] );
+	}, [ storeAiGeneratorConsent, setIsLoading, onClose, endpoint ] );
 
 	return (
 		<div className="yst-flex yst-flex-row">
