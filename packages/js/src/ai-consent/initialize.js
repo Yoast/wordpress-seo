@@ -13,8 +13,8 @@ import { registerStore } from "./store";
 
 domReady( () => {
 	registerStore( {
-		[ HAS_AI_GENERATOR_CONSENT_NAME ]: get( window, "wpseoScriptData.hasConsent", false ) === "1",
-		[ PLUGIN_URL_NAME ]: get( window, "wpseoScriptData.pluginUrl", "" ),
+		[ HAS_AI_GENERATOR_CONSENT_NAME ]: get( window, "wpseoAiConsent.hasConsent", false ) === "1",
+		[ PLUGIN_URL_NAME ]: get( window, "wpseoAiConsent.pluginUrl", "" ),
 	} );
 
 	/**
