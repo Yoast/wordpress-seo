@@ -115,7 +115,7 @@ class Content_Types_Collector {
 	 */
 	public function get_relevant_posts( $post_type, $limit ): array {
 		$args = [
-			'post_type'      => $post_type_object->name,
+			'post_type'      => $post_type,
 			'posts_per_page' => $limit,
 			'post_status'    => 'publish',
 			'orderby'        => 'modified',
@@ -123,7 +123,7 @@ class Content_Types_Collector {
 			'has_password'   => false,
 		];
 
-		if ( $post_type_object->name === 'post' ) {
+		if ( $post_type === 'post' ) {
 			$args['date_query'] = [
 				[
 					'after' => '12 months ago',
