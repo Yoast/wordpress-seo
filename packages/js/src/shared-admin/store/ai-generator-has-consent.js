@@ -47,8 +47,8 @@ const slice = createSlice( {
 export const getInitialHasAiGeneratorConsentState = slice.getInitialState;
 
 export const hasAiGeneratorConsentSelectors = {
-	selectHasAiGeneratorConsent: state => get( state, "hasConsent", slice.getInitialState().hasConsent ),
-	selectAiGeneratorConsentEndpoint: state => get( state, "endpoint", slice.getInitialState().endpoint ),
+	selectHasAiGeneratorConsent: state => get( state, [ HAS_AI_GENERATOR_CONSENT_NAME, "hasConsent" ], slice.getInitialState().hasConsent ),
+	selectAiGeneratorConsentEndpoint: state => get( state,[ HAS_AI_GENERATOR_CONSENT_NAME, "endpoint" ], slice.getInitialState().endpoint ),
 };
 
 export const hasAiGeneratorConsentActions = {
