@@ -46,8 +46,9 @@ class Ai_Consent_Integration implements Integration_Interface {
 	/**
 	 * Constructs the class.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager The admin asset manager.
-	 * @param User_Helper               $user_helper   The user helper.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager     The admin asset manager.
+	 * @param User_Helper               $user_helper       The user helper.
+	 * @param Short_Link_Helper         $short_link_helper The short link helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,

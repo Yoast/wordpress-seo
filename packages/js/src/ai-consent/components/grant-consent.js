@@ -18,7 +18,7 @@ export const GrantConsent = ( { onStartGenerating } ) => {
 			privacyPolicyLink: storeSelect.selectLink( "https://yoa.st/ai-fix-assessments-privacy-policy" ),
 			learnMoreLink: storeSelect.selectLink( "https://yoa.st/ai-fix-assessments-consent-learn-more" ),
 			imageLink: storeSelect.selectImageLink( "ai-consent.png" ),
-			endpoint: storeSelect.selectAiGeneratorConsentEndpoint()
+			endpoint: storeSelect.selectAiGeneratorConsentEndpoint(),
 		};
 	}, [] );
 
