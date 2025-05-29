@@ -14,7 +14,7 @@ const STORE_AI_GENERATOR_CONSENT_ACTION_NAME = `${ HAS_AI_GENERATOR_CONSENT_NAME
  *
  * @returns {Generator<{type: string}>} The current action object.
  */
-function* storeAiGeneratorConsent( { consent, endpoint } ) {
+function* storeAiGeneratorConsent( consent, endpoint ) {
 	try {
 		// Trigger the control flow.
 		yield{ type: STORE_AI_GENERATOR_CONSENT_ACTION_NAME, payload: { consent, endpoint } };
@@ -35,6 +35,7 @@ const slice = createSlice( {
 	},
 	reducers: {
 		giveAiGeneratorConsent: ( state, { payload } ) => {
+			console.log( "giveAiGeneratorConsent", payload );
 			state.hasConsent = payload;
 		},
 		setAiGeneratorConsentEndpoint: ( state, { payload } ) => {
@@ -46,8 +47,8 @@ const slice = createSlice( {
 export const getInitialHasAiGeneratorConsentState = slice.getInitialState;
 
 export const hasAiGeneratorConsentSelectors = {
-	selectHasAiGeneratorConsent: state => get( state, [ HAS_AI_GENERATOR_CONSENT_NAME, "hasConsent" ], slice.getInitialState().hasConsent ),
-	selectAiGeneratorConsentEndpoint: state => get( state, [ HAS_AI_GENERATOR_CONSENT_NAME, "endpoint" ], slice.getInitialState().endpoint ),
+	selectHasAiGeneratorConsent: state => get( state, "hasConsent", slice.getInitialState().hasConsent ),
+	selectAiGeneratorConsentEndpoint: state => get( state, "endpoint", slice.getInitialState().endpoint ),
 };
 
 export const hasAiGeneratorConsentActions = {
